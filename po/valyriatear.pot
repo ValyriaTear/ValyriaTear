@@ -9,18 +9,18 @@
 #: map_names_tr.lua:44 map_names_tr.lua:49 map_names_tr.lua:67
 #: map_names_tr.lua:71 map_names_tr.lua:75 map_names_tr.lua:79
 #: map_names_tr.lua:83 map_names_tr.lua:103 map_names_tr.lua:107
-#: map_names_tr.lua:117 map_names_tr.lua:119 map_names_tr.lua:123
-#: map_names_tr.lua:127 map_names_tr.lua:131 map_names_tr.lua:143
-#: map_names_tr.lua:147 map_names_tr.lua:151 map_names_tr.lua:155
-#: map_names_tr.lua:159 map_names_tr.lua:161 map_names_tr.lua:179
-#: map_names_tr.lua:183 map_names_tr.lua:187 map_names_tr.lua:191
-#: map_names_tr.lua:195 map_names_tr.lua:215 map_names_tr.lua:219
+#: map_names_tr.lua:121 map_names_tr.lua:123 map_names_tr.lua:127
+#: map_names_tr.lua:131 map_names_tr.lua:135 map_names_tr.lua:147
+#: map_names_tr.lua:151 map_names_tr.lua:155 map_names_tr.lua:159
+#: map_names_tr.lua:163 map_names_tr.lua:165 map_names_tr.lua:183
+#: map_names_tr.lua:187 map_names_tr.lua:191 map_names_tr.lua:195
+#: map_names_tr.lua:199 map_names_tr.lua:219 map_names_tr.lua:223
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-06-25 01:09+0200\n"
+"POT-Creation-Date: 2013-08-02 07:56+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -29,871 +29,872 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ../src/common/global/global_effects.cpp:35
+#: ../src/common/global/global_effects.cpp:37
 msgid "Fire"
 msgstr ""
 
-#: ../src/common/global/global_effects.cpp:37
+#: ../src/common/global/global_effects.cpp:39
 msgid "Water"
 msgstr ""
 
-#: ../src/common/global/global_effects.cpp:39
+#: ../src/common/global/global_effects.cpp:41
 msgid "Volt"
 msgstr ""
 
-#: ../src/common/global/global_effects.cpp:41
+#: ../src/common/global/global_effects.cpp:43
 msgid "Earth"
 msgstr ""
 
-#: ../src/common/global/global_effects.cpp:43 ../dat/skills/magic.lua:417
+#: ../src/common/global/global_effects.cpp:45 ../dat/skills/magic.lua:417
 msgid "Life"
 msgstr ""
 
-#: ../src/common/global/global_effects.cpp:45 ../dat/skills/magic.lua:1077
+#: ../src/common/global/global_effects.cpp:47 ../dat/skills/magic.lua:1077
 msgid "Death"
 msgstr ""
 
-#: ../src/common/global/global_effects.cpp:47
+#: ../src/common/global/global_effects.cpp:49
 msgid "Neutral"
 msgstr ""
 
-#: ../src/common/global/global_effects.cpp:49
+#: ../src/common/global/global_effects.cpp:51
 msgid "Invalid Element"
 msgstr ""
 
-#: ../src/common/global/global_effects.cpp:72
+#: ../src/common/global/global_effects.cpp:74
 msgid "Invalid Status"
 msgstr ""
 
-#: ../src/common/global/global_utils.cpp:52
+#: ../src/common/global/global_utils.cpp:54
 msgid "Self — Point"
 msgstr ""
 
-#: ../src/common/global/global_utils.cpp:54
+#: ../src/common/global/global_utils.cpp:56
 msgid "Ally — Point"
 msgstr ""
 
-#: ../src/common/global/global_utils.cpp:56
+#: ../src/common/global/global_utils.cpp:58
 msgid "Foe — Point"
 msgstr ""
 
-#: ../src/common/global/global_utils.cpp:58
+#: ../src/common/global/global_utils.cpp:60
 msgid "Self"
 msgstr ""
 
-#: ../src/common/global/global_utils.cpp:61
+#: ../src/common/global/global_utils.cpp:63
 msgid "Ally"
 msgstr ""
 
-#: ../src/common/global/global_utils.cpp:63
+#: ../src/common/global/global_utils.cpp:65
 msgid "Foe"
 msgstr ""
 
-#: ../src/common/global/global_utils.cpp:65
-#: ../src/modes/battle/battle_command.cpp:1446
-#: ../src/modes/battle/battle_command.cpp:1474
-#: ../src/modes/battle/battle_utils.cpp:777
+#: ../src/common/global/global_utils.cpp:67
+#: ../src/modes/battle/battle_command.cpp:1448
+#: ../src/modes/battle/battle_command.cpp:1476
+#: ../src/modes/battle/battle_utils.cpp:778
 msgid "All Allies"
 msgstr ""
 
-#: ../src/common/global/global_utils.cpp:67
+#: ../src/common/global/global_utils.cpp:69
 msgid "All Foes"
 msgstr ""
 
-#: ../src/common/global/global_utils.cpp:69
+#: ../src/common/global/global_utils.cpp:71
 msgid "Invalid Target"
 msgstr ""
 
-#: ../src/modes/battle/battle_actions.cpp:316
+#: ../src/modes/battle/battle_actions.cpp:315
 msgid "Use: [error]"
 msgstr ""
 
-#: ../src/modes/battle/battle_actions.cpp:318
+#: ../src/modes/battle/battle_actions.cpp:317
 msgid "Use: "
 msgstr ""
 
-#: ../src/modes/battle/battle_actors.cpp:756
+#: ../src/modes/battle/battle_actors.cpp:763
 msgid "[Select Action]"
 msgstr ""
 
-#: ../src/modes/battle/battle_command.cpp:355
+#: ../src/modes/battle/battle_command.cpp:357
 msgid "Item<R>Type   ×"
 msgstr ""
 
-#: ../src/modes/battle/battle_command.cpp:655
+#: ../src/modes/battle/battle_command.cpp:657
 msgid "Skill<R>Type SP"
 msgstr ""
 
-#: ../src/modes/battle/battle_command.cpp:768
-#: ../src/modes/battle/battle_command.cpp:774
-#: ../src/modes/battle/battle_command.cpp:867
-#: ../src/modes/battle/battle_command.cpp:868
-#: ../src/modes/menu/menu_views.cpp:1534
+#: ../src/modes/battle/battle_command.cpp:770
+#: ../src/modes/battle/battle_command.cpp:776
+#: ../src/modes/battle/battle_command.cpp:869
+#: ../src/modes/battle/battle_command.cpp:870
+#: ../src/modes/menu/menu_views.cpp:1533
 msgid "Weapon"
 msgstr ""
 
-#: ../src/modes/battle/battle_command.cpp:769
-#: ../src/modes/battle/battle_command.cpp:775
+#: ../src/modes/battle/battle_command.cpp:771
+#: ../src/modes/battle/battle_command.cpp:777
 msgid "Magic"
 msgstr ""
 
-#: ../src/modes/battle/battle_command.cpp:771
-#: ../src/modes/battle/battle_command.cpp:777 ../src/modes/menu/menu.cpp:355
-#: ../src/modes/shop/shop.cpp:70
+#: ../src/modes/battle/battle_command.cpp:773
+#: ../src/modes/battle/battle_command.cpp:779 ../src/modes/menu/menu.cpp:354
+#: ../src/modes/shop/shop.cpp:67
 msgid "Items"
 msgstr ""
 
-#: ../src/modes/battle/battle_command.cpp:871
-#: ../src/modes/battle/battle_command.cpp:872
+#: ../src/modes/battle/battle_command.cpp:873
+#: ../src/modes/battle/battle_command.cpp:874
 msgid "Bare-hand"
 msgstr ""
 
-#: ../src/modes/battle/battle_command.cpp:1441
+#: ../src/modes/battle/battle_command.cpp:1443
 msgid "Select Target"
 msgstr ""
 
-#: ../src/modes/battle/battle_command.cpp:1448
-#: ../src/modes/battle/battle_command.cpp:1476
-#: ../src/modes/battle/battle_utils.cpp:779
+#: ../src/modes/battle/battle_command.cpp:1450
+#: ../src/modes/battle/battle_command.cpp:1478
+#: ../src/modes/battle/battle_utils.cpp:780
 msgid "All Enemies"
 msgstr ""
 
-#: ../src/modes/battle/battle_command.cpp:1488
+#: ../src/modes/battle/battle_command.cpp:1490
 msgid "Select Attack Point"
 msgstr ""
 
-#: ../src/modes/battle/battle_command.cpp:1510
+#: ../src/modes/battle/battle_command.cpp:1512
 msgid "Skill Points: "
 msgstr ""
 
-#: ../src/modes/battle/battle_command.cpp:1511
-#: ../src/modes/battle/battle_command.cpp:1518
+#: ../src/modes/battle/battle_command.cpp:1513
+#: ../src/modes/battle/battle_command.cpp:1520
 msgid "Target Type: "
 msgstr ""
 
-#: ../src/modes/battle/battle_command.cpp:1512
+#: ../src/modes/battle/battle_command.cpp:1514
 msgid "Prep Time: "
 msgstr ""
 
-#: ../src/modes/battle/battle_command.cpp:1513
+#: ../src/modes/battle/battle_command.cpp:1515
 msgid "Cool Time: "
 msgstr ""
 
-#: ../src/modes/battle/battle_command.cpp:1517
+#: ../src/modes/battle/battle_command.cpp:1519
 msgid "Quantity: "
 msgstr ""
 
-#: ../src/modes/battle/battle.cpp:108 ../dat/effects/status.lua:330
+#: ../src/modes/battle/battle.cpp:110 ../dat/effects/status.lua:330
 msgid "HP"
 msgstr ""
 
-#: ../src/modes/battle/battle.cpp:110 ../dat/effects/status.lua:398
+#: ../src/modes/battle/battle.cpp:112 ../dat/effects/status.lua:398
 msgid "SP"
 msgstr ""
 
-#: ../src/modes/battle/battle_finish.cpp:147
+#: ../src/modes/battle/battle_finish.cpp:148
 msgid "Retry"
 msgstr ""
 
-#: ../src/modes/battle/battle_finish.cpp:148
+#: ../src/modes/battle/battle_finish.cpp:149
 msgid "End"
 msgstr ""
 
-#: ../src/modes/battle/battle_finish.cpp:160 ../src/modes/boot/boot.cpp:739
+#: ../src/modes/battle/battle_finish.cpp:161 ../src/modes/boot/boot.cpp:738
 msgid "Yes"
 msgstr ""
 
-#: ../src/modes/battle/battle_finish.cpp:161 ../src/modes/boot/boot.cpp:741
+#: ../src/modes/battle/battle_finish.cpp:162 ../src/modes/boot/boot.cpp:740
 msgid "No"
 msgstr ""
 
-#: ../src/modes/battle/battle_finish.cpp:290
+#: ../src/modes/battle/battle_finish.cpp:291
 msgid "Start over from the beginning of this battle."
 msgstr ""
 
-#: ../src/modes/battle/battle_finish.cpp:293
+#: ../src/modes/battle/battle_finish.cpp:294
 msgid "Exit to main menu."
 msgstr ""
 
-#: ../src/modes/battle/battle_finish.cpp:302
+#: ../src/modes/battle/battle_finish.cpp:303
 msgid "Confirm: retry battle."
 msgstr ""
 
-#: ../src/modes/battle/battle_finish.cpp:305
+#: ../src/modes/battle/battle_finish.cpp:306
 msgid "Confirm: return to main menu."
 msgstr ""
 
-#: ../src/modes/battle/battle_finish.cpp:380
+#: ../src/modes/battle/battle_finish.cpp:381
 msgid "Items Found"
 msgstr ""
 
-#: ../src/modes/battle/battle_finish.cpp:543
+#: ../src/modes/battle/battle_finish.cpp:544
 msgid "XP Earned: "
 msgstr ""
 
-#: ../src/modes/battle/battle_finish.cpp:545
+#: ../src/modes/battle/battle_finish.cpp:546
 msgid "Drunes Found: "
 msgstr ""
 
-#: ../src/modes/battle/battle_finish.cpp:546
+#: ../src/modes/battle/battle_finish.cpp:547
 msgid "Total Drunes: "
 msgstr ""
 
-#: ../src/modes/battle/battle_finish.cpp:605
-#: ../src/modes/battle/battle_finish.cpp:806
+#: ../src/modes/battle/battle_finish.cpp:606
+#: ../src/modes/battle/battle_finish.cpp:807
 msgid "Level (Max): "
 msgstr ""
 
-#: ../src/modes/battle/battle_finish.cpp:609
-#: ../src/modes/battle/battle_finish.cpp:808
+#: ../src/modes/battle/battle_finish.cpp:610
+#: ../src/modes/battle/battle_finish.cpp:809
 msgid "Level: "
 msgstr ""
 
-#: ../src/modes/battle/battle_finish.cpp:611
-#: ../src/modes/battle/battle_finish.cpp:809
+#: ../src/modes/battle/battle_finish.cpp:612
+#: ../src/modes/battle/battle_finish.cpp:810
 msgid "XP left: "
 msgstr ""
 
-#: ../src/modes/battle/battle_finish.cpp:749
+#: ../src/modes/battle/battle_finish.cpp:750
 msgid "HP: +"
 msgstr ""
 
-#: ../src/modes/battle/battle_finish.cpp:755
+#: ../src/modes/battle/battle_finish.cpp:756
 msgid "SP: +"
 msgstr ""
 
-#: ../src/modes/battle/battle_finish.cpp:761
+#: ../src/modes/battle/battle_finish.cpp:762
 msgid "STR: +"
 msgstr ""
 
-#: ../src/modes/battle/battle_finish.cpp:767
+#: ../src/modes/battle/battle_finish.cpp:768
 msgid "VIG: +"
 msgstr ""
 
-#: ../src/modes/battle/battle_finish.cpp:773
+#: ../src/modes/battle/battle_finish.cpp:774
 msgid "FOR: +"
 msgstr ""
 
-#: ../src/modes/battle/battle_finish.cpp:779
+#: ../src/modes/battle/battle_finish.cpp:780
 msgid "PRO: +"
 msgstr ""
 
-#: ../src/modes/battle/battle_finish.cpp:785
+#: ../src/modes/battle/battle_finish.cpp:786
 msgid "AGI: +"
 msgstr ""
 
-#: ../src/modes/battle/battle_finish.cpp:791
+#: ../src/modes/battle/battle_finish.cpp:792
 msgid "EVA: +"
 msgstr ""
 
-#: ../src/modes/battle/battle_finish.cpp:799
+#: ../src/modes/battle/battle_finish.cpp:800
 msgid "New Skill Learned:\n"
 msgstr ""
 
-#: ../src/modes/battle/battle_finish.cpp:811
+#: ../src/modes/battle/battle_finish.cpp:812
 msgid " (+20%)"
 msgstr ""
 
-#: ../src/modes/battle/battle_finish.cpp:933
+#: ../src/modes/battle/battle_finish.cpp:934
 msgid "The heroes were victorious!"
 msgstr ""
 
-#: ../src/modes/battle/battle_finish.cpp:936
+#: ../src/modes/battle/battle_finish.cpp:937
 msgid "The heroes fell in battle..."
 msgstr ""
 
-#: ../src/modes/battle/battle_indicators.cpp:534
+#: ../src/modes/battle/battle_indicators.cpp:536
 msgid "Miss"
 msgstr ""
 
-#: ../src/modes/battle/battle_utils.cpp:772
+#: ../src/modes/battle/battle_utils.cpp:773
 msgid " — "
 msgstr ""
 
-#: ../src/modes/battle/battle_utils.cpp:782
+#: ../src/modes/battle/battle_utils.cpp:783
 msgid "[Invalid Target]"
 msgstr ""
 
-#: ../src/modes/boot/boot.cpp:459
+#: ../src/modes/boot/boot.cpp:458
 msgid "New Game"
 msgstr ""
 
-#: ../src/modes/boot/boot.cpp:460 ../src/modes/save/save_mode.cpp:94
+#: ../src/modes/boot/boot.cpp:459 ../src/modes/save/save_mode.cpp:96
 msgid "Load Game"
 msgstr ""
 
-#: ../src/modes/boot/boot.cpp:461
+#: ../src/modes/boot/boot.cpp:460
 msgid "Options"
 msgstr ""
 
-#: ../src/modes/boot/boot.cpp:466 ../src/modes/menu/menu_views.cpp:1190
+#: ../src/modes/boot/boot.cpp:465 ../src/modes/menu/menu_views.cpp:1189
 msgid "Battle"
 msgstr ""
 
-#: ../src/modes/boot/boot.cpp:467 ../src/modes/boot/boot.cpp:729
-#: ../src/modes/mode_help_window.cpp:247
+#: ../src/modes/boot/boot.cpp:466 ../src/modes/boot/boot.cpp:728
+#: ../src/modes/mode_help_window.cpp:248
 msgid "Menu"
 msgstr ""
 
-#: ../src/modes/boot/boot.cpp:468
+#: ../src/modes/boot/boot.cpp:467
 msgid "Shop"
 msgstr ""
 
-#: ../src/modes/boot/boot.cpp:472 ../src/modes/mode_help_window.cpp:152
-#: ../src/modes/mode_help_window.cpp:200 ../src/modes/mode_help_window.cpp:262
+#: ../src/modes/boot/boot.cpp:471 ../src/modes/mode_help_window.cpp:153
+#: ../src/modes/mode_help_window.cpp:201 ../src/modes/mode_help_window.cpp:263
 msgid "Quit"
 msgstr ""
 
-#: ../src/modes/boot/boot.cpp:500
+#: ../src/modes/boot/boot.cpp:499
 msgid "Video"
 msgstr ""
 
-#: ../src/modes/boot/boot.cpp:501
+#: ../src/modes/boot/boot.cpp:500
 msgid "Audio"
 msgstr ""
 
-#: ../src/modes/boot/boot.cpp:502
+#: ../src/modes/boot/boot.cpp:501
 msgid "Language"
 msgstr ""
 
-#: ../src/modes/boot/boot.cpp:503
+#: ../src/modes/boot/boot.cpp:502
 msgid "Key Settings"
 msgstr ""
 
-#: ../src/modes/boot/boot.cpp:504
+#: ../src/modes/boot/boot.cpp:503
 msgid "Joystick Settings"
 msgstr ""
 
-#: ../src/modes/boot/boot.cpp:523 ../src/modes/boot/boot.cpp:689
+#: ../src/modes/boot/boot.cpp:522 ../src/modes/boot/boot.cpp:688
 msgid "Resolution: "
 msgstr ""
 
-#: ../src/modes/boot/boot.cpp:525 ../src/modes/boot/boot.cpp:693
-#: ../src/modes/boot/boot.cpp:695
+#: ../src/modes/boot/boot.cpp:524 ../src/modes/boot/boot.cpp:692
+#: ../src/modes/boot/boot.cpp:694
 msgid "Window mode: "
 msgstr ""
 
-#: ../src/modes/boot/boot.cpp:526 ../src/modes/boot/boot.cpp:698
+#: ../src/modes/boot/boot.cpp:525 ../src/modes/boot/boot.cpp:697
 msgid "Brightness: "
 msgstr ""
 
-#: ../src/modes/boot/boot.cpp:527 ../src/modes/boot/boot.cpp:702
-#: ../src/modes/boot/boot.cpp:704
+#: ../src/modes/boot/boot.cpp:526 ../src/modes/boot/boot.cpp:701
+#: ../src/modes/boot/boot.cpp:703
 msgid "Map tiles: "
 msgstr ""
 
-#: ../src/modes/boot/boot.cpp:528 ../src/modes/boot/boot.cpp:707
+#: ../src/modes/boot/boot.cpp:527 ../src/modes/boot/boot.cpp:706
 msgid "UI Theme: "
 msgstr ""
 
-#: ../src/modes/boot/boot.cpp:547 ../src/modes/boot/boot.cpp:714
+#: ../src/modes/boot/boot.cpp:546 ../src/modes/boot/boot.cpp:713
 msgid "Sound Volume: "
 msgstr ""
 
-#: ../src/modes/boot/boot.cpp:548 ../src/modes/boot/boot.cpp:715
+#: ../src/modes/boot/boot.cpp:547 ../src/modes/boot/boot.cpp:714
 msgid "Music Volume: "
 msgstr ""
 
-#: ../src/modes/boot/boot.cpp:615
+#: ../src/modes/boot/boot.cpp:614
 msgid "Up: "
 msgstr ""
 
-#: ../src/modes/boot/boot.cpp:616
+#: ../src/modes/boot/boot.cpp:615
 msgid "Down: "
 msgstr ""
 
-#: ../src/modes/boot/boot.cpp:617
+#: ../src/modes/boot/boot.cpp:616
 msgid "Left: "
 msgstr ""
 
-#: ../src/modes/boot/boot.cpp:618
+#: ../src/modes/boot/boot.cpp:617
 msgid "Right: "
 msgstr ""
 
-#: ../src/modes/boot/boot.cpp:619
+#: ../src/modes/boot/boot.cpp:618
 msgid "Confirm: "
 msgstr ""
 
-#: ../src/modes/boot/boot.cpp:620
+#: ../src/modes/boot/boot.cpp:619
 msgid "Cancel: "
 msgstr ""
 
-#: ../src/modes/boot/boot.cpp:621
+#: ../src/modes/boot/boot.cpp:620
 msgid "Menu: "
 msgstr ""
 
-#: ../src/modes/boot/boot.cpp:622
+#: ../src/modes/boot/boot.cpp:621
 msgid "Pause: "
 msgstr ""
 
-#: ../src/modes/boot/boot.cpp:623 ../src/modes/boot/boot.cpp:653
+#: ../src/modes/boot/boot.cpp:622 ../src/modes/boot/boot.cpp:652
 msgid "Restore defaults"
 msgstr ""
 
-#: ../src/modes/boot/boot.cpp:693
+#: ../src/modes/boot/boot.cpp:692
 msgid "Fullscreen"
 msgstr ""
 
-#: ../src/modes/boot/boot.cpp:695
+#: ../src/modes/boot/boot.cpp:694
 msgid "Windowed"
 msgstr ""
 
-#: ../src/modes/boot/boot.cpp:702
+#: ../src/modes/boot/boot.cpp:701
 msgid "Smoothed"
 msgstr ""
 
-#: ../src/modes/boot/boot.cpp:704
+#: ../src/modes/boot/boot.cpp:703
 msgid "Normal"
 msgstr ""
 
-#: ../src/modes/boot/boot.cpp:723
+#: ../src/modes/boot/boot.cpp:722
 msgid "Move Up"
 msgstr ""
 
-#: ../src/modes/boot/boot.cpp:724
+#: ../src/modes/boot/boot.cpp:723
 msgid "Move Down"
 msgstr ""
 
-#: ../src/modes/boot/boot.cpp:725
+#: ../src/modes/boot/boot.cpp:724
 msgid "Move Left"
 msgstr ""
 
-#: ../src/modes/boot/boot.cpp:726
+#: ../src/modes/boot/boot.cpp:725
 msgid "Move Right"
 msgstr ""
 
-#: ../src/modes/boot/boot.cpp:727 ../src/modes/mode_help_window.cpp:146
-#: ../src/modes/mode_help_window.cpp:188 ../src/modes/mode_help_window.cpp:241
+#: ../src/modes/boot/boot.cpp:726 ../src/modes/mode_help_window.cpp:147
+#: ../src/modes/mode_help_window.cpp:189 ../src/modes/mode_help_window.cpp:242
 msgid "Confirm"
 msgstr ""
 
-#: ../src/modes/boot/boot.cpp:728 ../src/modes/mode_help_window.cpp:149
-#: ../src/modes/mode_help_window.cpp:191 ../src/modes/mode_help_window.cpp:244
-#: ../src/modes/pause.cpp:75 ../src/modes/save/save_mode.cpp:140
+#: ../src/modes/boot/boot.cpp:727 ../src/modes/mode_help_window.cpp:150
+#: ../src/modes/mode_help_window.cpp:192 ../src/modes/mode_help_window.cpp:245
+#: ../src/modes/pause.cpp:77 ../src/modes/save/save_mode.cpp:142
 msgid "Cancel"
 msgstr ""
 
-#: ../src/modes/boot/boot.cpp:730 ../src/modes/mode_help_window.cpp:197
-#: ../src/modes/mode_help_window.cpp:259
+#: ../src/modes/boot/boot.cpp:729 ../src/modes/mode_help_window.cpp:198
+#: ../src/modes/mode_help_window.cpp:260
 msgid "Pause"
 msgstr ""
 
-#: ../src/modes/boot/boot.cpp:739 ../src/modes/boot/boot.cpp:741
+#: ../src/modes/boot/boot.cpp:738 ../src/modes/boot/boot.cpp:740
 msgid "Input enabled: "
 msgstr ""
 
-#: ../src/modes/boot/boot.cpp:743
+#: ../src/modes/boot/boot.cpp:742
 msgid "X Axis"
 msgstr ""
 
-#: ../src/modes/boot/boot.cpp:744
+#: ../src/modes/boot/boot.cpp:743
 msgid "Y Axis"
 msgstr ""
 
-#: ../src/modes/boot/boot.cpp:745
+#: ../src/modes/boot/boot.cpp:744
 msgid "Threshold"
 msgstr ""
 
-#: ../src/modes/boot/boot.cpp:746
+#: ../src/modes/boot/boot.cpp:745
 msgid "Confirm: Button"
 msgstr ""
 
-#: ../src/modes/boot/boot.cpp:747
+#: ../src/modes/boot/boot.cpp:746
 msgid "Cancel: Button"
 msgstr ""
 
-#: ../src/modes/boot/boot.cpp:748
+#: ../src/modes/boot/boot.cpp:747
 msgid "Menu: Button"
 msgstr ""
 
-#: ../src/modes/boot/boot.cpp:749
+#: ../src/modes/boot/boot.cpp:748
 msgid "Pause: Button"
 msgstr ""
 
-#: ../src/modes/boot/boot.cpp:750
+#: ../src/modes/boot/boot.cpp:749
 msgid "Quit: Button"
 msgstr ""
 
-#: ../src/modes/boot/boot.cpp:1071
+#: ../src/modes/boot/boot.cpp:1073
 msgid "Please press a new joystick button."
 msgstr ""
 
-#: ../src/modes/boot/boot.cpp:1073
+#: ../src/modes/boot/boot.cpp:1075
 msgid "Please press a new key."
 msgstr ""
 
-#: ../src/modes/boot/boot.cpp:1075
+#: ../src/modes/boot/boot.cpp:1077
 msgid "Please move an axis."
 msgstr ""
 
-#: ../src/modes/map/map_treasure.cpp:81
+#: ../src/modes/map/map_treasure.cpp:82
 msgid "You obtain"
 msgstr ""
 
-#: ../src/modes/map/map_treasure.cpp:106
+#: ../src/modes/map/map_treasure.cpp:107
 msgid "Ok"
 msgstr ""
 
-#: ../src/modes/map/map_treasure.cpp:159 ../src/modes/map/map_treasure.cpp:327
+#: ../src/modes/map/map_treasure.cpp:160 ../src/modes/map/map_treasure.cpp:328
 msgid "Drunes"
 msgstr ""
 
-#: ../src/modes/menu/menu.cpp:233
+#: ../src/modes/menu/menu.cpp:232
 msgid "Inventory"
 msgstr ""
 
-#: ../src/modes/menu/menu.cpp:234
+#: ../src/modes/menu/menu.cpp:233
 msgid "Skills"
 msgstr ""
 
-#: ../src/modes/menu/menu.cpp:235
+#: ../src/modes/menu/menu.cpp:234
 msgid "Party"
 msgstr ""
 
-#: ../src/modes/menu/menu.cpp:236
+#: ../src/modes/menu/menu.cpp:235
 msgid "Quests"
 msgstr ""
 
-#: ../src/modes/menu/menu.cpp:237
+#: ../src/modes/menu/menu.cpp:236
 msgid "Map"
 msgstr ""
 
-#: ../src/modes/menu/menu.cpp:311
+#: ../src/modes/menu/menu.cpp:310
 msgid "Select to view Quest Log."
 msgstr ""
 
-#: ../src/modes/menu/menu.cpp:320
+#: ../src/modes/menu/menu.cpp:319
 msgid ""
 "Select to view current world map.\n"
 "Use left / right to cycle through locations.\n"
 "Press 'cancel' to return"
 msgstr ""
 
-#: ../src/modes/menu/menu.cpp:356
+#: ../src/modes/menu/menu.cpp:355
 msgid "Equip"
 msgstr ""
 
-#: ../src/modes/menu/menu.cpp:357
+#: ../src/modes/menu/menu.cpp:356
 msgid "Remove"
 msgstr ""
 
-#: ../src/modes/menu/menu.cpp:358 ../src/modes/menu/menu.cpp:437
-#: ../src/modes/menu/menu.cpp:502
+#: ../src/modes/menu/menu.cpp:357 ../src/modes/menu/menu.cpp:436
+#: ../src/modes/menu/menu.cpp:501
 msgid "Back"
 msgstr ""
 
-#: ../src/modes/menu/menu.cpp:436
+#: ../src/modes/menu/menu.cpp:435
 msgid "View/Reorder"
 msgstr ""
 
-#: ../src/modes/menu/menu.cpp:444
+#: ../src/modes/menu/menu.cpp:443
 msgid ""
 "View character Information.\n"
 "Select a character to change formation."
 msgstr ""
 
-#: ../src/modes/menu/menu.cpp:501
+#: ../src/modes/menu/menu.cpp:500
 msgid "Use"
 msgstr ""
 
-#: ../src/modes/menu/menu.cpp:776
+#: ../src/modes/menu/menu.cpp:775
 msgid "This item is a key item and can be neither consumed nor sold."
 msgstr ""
 
-#: ../src/modes/menu/menu.cpp:784
+#: ../src/modes/menu/menu.cpp:783
 msgid "This item is an elemental spirit and can be associated with equipment."
 msgstr ""
 
-#: ../src/modes/menu/menu.cpp:879 ../src/modes/shop/shop.cpp:210
+#: ../src/modes/menu/menu.cpp:878 ../src/modes/shop/shop.cpp:207
 msgid "Skills obtained:"
 msgstr ""
 
-#: ../src/modes/menu/menu.cpp:1083 ../src/modes/shop/shop.cpp:199
-#: ../src/modes/shop/shop.cpp:524
+#: ../src/modes/menu/menu.cpp:1082 ../src/modes/shop/shop.cpp:196
+#: ../src/modes/shop/shop.cpp:521
 msgid "ATK:"
 msgstr ""
 
-#: ../src/modes/menu/menu.cpp:1084 ../src/modes/shop/shop.cpp:201
-#: ../src/modes/shop/shop.cpp:525
+#: ../src/modes/menu/menu.cpp:1083 ../src/modes/shop/shop.cpp:198
+#: ../src/modes/shop/shop.cpp:522
 msgid "M.ATK:"
 msgstr ""
 
-#: ../src/modes/menu/menu.cpp:1087 ../src/modes/shop/shop.cpp:531
+#: ../src/modes/menu/menu.cpp:1086 ../src/modes/shop/shop.cpp:528
 msgid "DEF:"
 msgstr ""
 
-#: ../src/modes/menu/menu.cpp:1088 ../src/modes/shop/shop.cpp:532
+#: ../src/modes/menu/menu.cpp:1087 ../src/modes/shop/shop.cpp:529
 msgid "M.DEF:"
 msgstr ""
 
-#: ../src/modes/menu/menu_views.cpp:100 ../src/modes/save/save_mode.cpp:699
+#: ../src/modes/menu/menu_views.cpp:99 ../src/modes/save/save_mode.cpp:701
 msgid "Lv: "
 msgstr ""
 
-#: ../src/modes/menu/menu_views.cpp:104 ../src/modes/save/save_mode.cpp:703
+#: ../src/modes/menu/menu_views.cpp:103 ../src/modes/save/save_mode.cpp:705
 msgid "HP: "
 msgstr ""
 
-#: ../src/modes/menu/menu_views.cpp:109 ../src/modes/save/save_mode.cpp:708
+#: ../src/modes/menu/menu_views.cpp:108 ../src/modes/save/save_mode.cpp:710
 msgid "SP: "
 msgstr ""
 
-#: ../src/modes/menu/menu_views.cpp:114
+#: ../src/modes/menu/menu_views.cpp:113
 msgid "XP to Next: "
 msgstr ""
 
-#: ../src/modes/menu/menu_views.cpp:125
+#: ../src/modes/menu/menu_views.cpp:124
 msgid "Select an item to Equip or Use."
 msgstr ""
 
-#: ../src/modes/menu/menu_views.cpp:217 ../src/modes/menu/menu_views.cpp:1188
+#: ../src/modes/menu/menu_views.cpp:216 ../src/modes/menu/menu_views.cpp:1187
 msgid "All"
 msgstr ""
 
-#: ../src/modes/menu/menu_views.cpp:218
+#: ../src/modes/menu/menu_views.cpp:217
 msgid "Itm"
 msgstr ""
 
-#: ../src/modes/menu/menu_views.cpp:219
+#: ../src/modes/menu/menu_views.cpp:218
 msgid "Wpn"
 msgstr ""
 
-#: ../src/modes/menu/menu_views.cpp:220
+#: ../src/modes/menu/menu_views.cpp:219
 msgid "Hlm"
 msgstr ""
 
-#: ../src/modes/menu/menu_views.cpp:221
+#: ../src/modes/menu/menu_views.cpp:220
 msgid "Tor"
 msgstr ""
 
-#: ../src/modes/menu/menu_views.cpp:223 ../dat/actors/enemies.lua:637
-#: ../dat/actors/enemies.lua:757 ../dat/actors/enemies.lua:1193
+#: ../src/modes/menu/menu_views.cpp:222 ../dat/actors/enemies.lua:688
+#: ../dat/actors/enemies.lua:808 ../dat/actors/enemies.lua:1244
 msgid "Leg"
 msgstr ""
 
-#: ../src/modes/menu/menu_views.cpp:224
+#: ../src/modes/menu/menu_views.cpp:223
 msgid "Key"
 msgstr ""
 
-#: ../src/modes/menu/menu_views.cpp:573
+#: ../src/modes/menu/menu_views.cpp:572
 msgid "This character cannot equip this item."
 msgstr ""
 
-#: ../src/modes/menu/menu_views.cpp:574
+#: ../src/modes/menu/menu_views.cpp:573
 msgid "Select a character to use the item on."
 msgstr ""
 
-#: ../src/modes/menu/menu_views.cpp:815
+#: ../src/modes/menu/menu_views.cpp:814
 msgid "Attack / Defense:"
 msgstr ""
 
-#: ../src/modes/menu/menu_views.cpp:817
+#: ../src/modes/menu/menu_views.cpp:816
 msgid "Detailed defense:"
 msgstr ""
 
-#: ../src/modes/menu/menu_views.cpp:820
+#: ../src/modes/menu/menu_views.cpp:819
 msgid "Attack (ATK): "
 msgstr ""
 
-#: ../src/modes/menu/menu_views.cpp:821
+#: ../src/modes/menu/menu_views.cpp:820
 msgid "Magical Attack (M.ATK): "
 msgstr ""
 
-#: ../src/modes/menu/menu_views.cpp:822
+#: ../src/modes/menu/menu_views.cpp:821
 msgid "Defense (DEF): "
 msgstr ""
 
-#: ../src/modes/menu/menu_views.cpp:823
+#: ../src/modes/menu/menu_views.cpp:822
 msgid "Magical Defense (M.DEF): "
 msgstr ""
 
-#: ../src/modes/menu/menu_views.cpp:830
+#: ../src/modes/menu/menu_views.cpp:829
 msgid "Head: "
 msgstr ""
 
-#: ../src/modes/menu/menu_views.cpp:831
+#: ../src/modes/menu/menu_views.cpp:830
 msgid "Torso: "
 msgstr ""
 
-#: ../src/modes/menu/menu_views.cpp:832
+#: ../src/modes/menu/menu_views.cpp:831
 msgid "Arm: "
 msgstr ""
 
-#: ../src/modes/menu/menu_views.cpp:833
+#: ../src/modes/menu/menu_views.cpp:832
 msgid "Leg: "
 msgstr ""
 
-#: ../src/modes/menu/menu_views.cpp:848
+#: ../src/modes/menu/menu_views.cpp:847
 msgid "Select a character to change position with."
 msgstr ""
 
-#: ../src/modes/menu/menu_views.cpp:849
+#: ../src/modes/menu/menu_views.cpp:848
 msgid "Select a character to change formation."
 msgstr ""
 
-#: ../src/modes/menu/menu_views.cpp:937
+#: ../src/modes/menu/menu_views.cpp:936
 msgid "Experience Level: "
 msgstr ""
 
-#: ../src/modes/menu/menu_views.cpp:939
+#: ../src/modes/menu/menu_views.cpp:938
 msgid "Strength (STR): "
 msgstr ""
 
-#: ../src/modes/menu/menu_views.cpp:940
+#: ../src/modes/menu/menu_views.cpp:939
 msgid "Vigor (VIG): "
 msgstr ""
 
-#: ../src/modes/menu/menu_views.cpp:941
+#: ../src/modes/menu/menu_views.cpp:940
 msgid "Fortitude (FRT): "
 msgstr ""
 
-#: ../src/modes/menu/menu_views.cpp:942
+#: ../src/modes/menu/menu_views.cpp:941
 msgid "Protection (PRO): "
 msgstr ""
 
-#: ../src/modes/menu/menu_views.cpp:943
+#: ../src/modes/menu/menu_views.cpp:942
 msgid "Agility (AGI): "
 msgstr ""
 
-#: ../src/modes/menu/menu_views.cpp:944
+#: ../src/modes/menu/menu_views.cpp:943
 msgid "Evade (EVD): "
 msgstr ""
 
-#: ../src/modes/menu/menu_views.cpp:1189
+#: ../src/modes/menu/menu_views.cpp:1188
 msgid "Field"
 msgstr ""
 
-#: ../src/modes/menu/menu_views.cpp:1349
+#: ../src/modes/menu/menu_views.cpp:1348
 msgid "Weapon skill"
 msgstr ""
 
-#: ../src/modes/menu/menu_views.cpp:1351
+#: ../src/modes/menu/menu_views.cpp:1350
 msgid "Bare hands"
 msgstr ""
 
-#: ../src/modes/menu/menu_views.cpp:1354
+#: ../src/modes/menu/menu_views.cpp:1353
 msgid "Magic skill"
 msgstr ""
 
-#: ../src/modes/menu/menu_views.cpp:1360
+#: ../src/modes/menu/menu_views.cpp:1359
 msgid "Special skill"
 msgstr ""
 
-#: ../src/modes/menu/menu_views.cpp:1481
+#: ../src/modes/menu/menu_views.cpp:1480
 msgid " SP"
 msgstr ""
 
-#: ../src/modes/menu/menu_views.cpp:1536 ../dat/actors/characters.lua:61
+#: ../src/modes/menu/menu_views.cpp:1535 ../dat/actors/characters.lua:61
 #: ../dat/actors/characters.lua:200 ../dat/actors/characters.lua:335
 #: ../dat/actors/characters.lua:471 ../dat/actors/enemies.lua:91
 #: ../dat/actors/enemies.lua:149 ../dat/actors/enemies.lua:204
 #: ../dat/actors/enemies.lua:374 ../dat/actors/enemies.lua:434
 #: ../dat/actors/enemies.lua:488 ../dat/actors/enemies.lua:552
-#: ../dat/actors/enemies.lua:621 ../dat/actors/enemies.lua:686
-#: ../dat/actors/enemies.lua:741 ../dat/actors/enemies.lua:1121
-#: ../dat/actors/enemies.lua:1177 ../dat/actors/enemies.lua:1396
-#: ../dat/actors/enemies.lua:1453 ../dat/actors/enemies.lua:1510
-#: ../dat/actors/enemies.lua:1576 ../dat/actors/enemies.lua:1632
+#: ../dat/actors/enemies.lua:672 ../dat/actors/enemies.lua:737
+#: ../dat/actors/enemies.lua:792 ../dat/actors/enemies.lua:1172
+#: ../dat/actors/enemies.lua:1228 ../dat/actors/enemies.lua:1447
+#: ../dat/actors/enemies.lua:1504 ../dat/actors/enemies.lua:1561
+#: ../dat/actors/enemies.lua:1627 ../dat/actors/enemies.lua:1683
 msgid "Head"
 msgstr ""
 
-#: ../src/modes/menu/menu_views.cpp:1538 ../dat/actors/characters.lua:70
+#: ../src/modes/menu/menu_views.cpp:1537 ../dat/actors/characters.lua:70
 #: ../dat/actors/characters.lua:209 ../dat/actors/characters.lua:344
 #: ../dat/actors/characters.lua:480 ../dat/actors/enemies.lua:315
 #: ../dat/actors/enemies.lua:497 ../dat/actors/enemies.lua:561
-#: ../dat/actors/enemies.lua:813 ../dat/actors/enemies.lua:933
+#: ../dat/actors/enemies.lua:616 ../dat/actors/enemies.lua:864
+#: ../dat/actors/enemies.lua:984
 msgid "Torso"
 msgstr ""
 
-#: ../src/modes/menu/menu_views.cpp:1540 ../dat/actors/characters.lua:78
+#: ../src/modes/menu/menu_views.cpp:1539 ../dat/actors/characters.lua:78
 #: ../dat/actors/characters.lua:217 ../dat/actors/characters.lua:352
 #: ../dat/actors/characters.lua:488
 msgid "Arms"
 msgstr ""
 
-#: ../src/modes/menu/menu_views.cpp:1542 ../dat/actors/characters.lua:87
+#: ../src/modes/menu/menu_views.cpp:1541 ../dat/actors/characters.lua:87
 #: ../dat/actors/characters.lua:226 ../dat/actors/characters.lua:361
 #: ../dat/actors/characters.lua:497 ../dat/actors/enemies.lua:505
-#: ../dat/actors/enemies.lua:569 ../dat/actors/enemies.lua:1257
-#: ../dat/actors/enemies.lua:1534 ../dat/actors/enemies.lua:1648
+#: ../dat/actors/enemies.lua:569 ../dat/actors/enemies.lua:1308
+#: ../dat/actors/enemies.lua:1585 ../dat/actors/enemies.lua:1699
 msgid "Legs"
 msgstr ""
 
-#: ../src/modes/menu/menu_views.cpp:1918
+#: ../src/modes/menu/menu_views.cpp:1917
 msgid "No weapon"
 msgstr ""
 
-#: ../src/modes/menu/menu_views.cpp:1919
+#: ../src/modes/menu/menu_views.cpp:1918
 msgid "No head armor"
 msgstr ""
 
-#: ../src/modes/menu/menu_views.cpp:1920
+#: ../src/modes/menu/menu_views.cpp:1919
 msgid "No torso armor"
 msgstr ""
 
-#: ../src/modes/menu/menu_views.cpp:1921
+#: ../src/modes/menu/menu_views.cpp:1920
 msgid "No arms armor"
 msgstr ""
 
-#: ../src/modes/menu/menu_views.cpp:1922
+#: ../src/modes/menu/menu_views.cpp:1921
 msgid "No legs armor"
 msgstr ""
 
-#: ../src/modes/mode_help_window.cpp:115
+#: ../src/modes/mode_help_window.cpp:116
 #, c-format
 msgid "Press '%s' anytime to show/hide help."
 msgstr ""
 
-#: ../src/modes/mode_help_window.cpp:124
+#: ../src/modes/mode_help_window.cpp:125
 msgid "Welcome to Valyria Tear"
 msgstr ""
 
-#: ../src/modes/mode_help_window.cpp:130 ../src/modes/mode_help_window.cpp:166
-#: ../src/modes/mode_help_window.cpp:218
+#: ../src/modes/mode_help_window.cpp:131 ../src/modes/mode_help_window.cpp:167
+#: ../src/modes/mode_help_window.cpp:219
 msgid "Command"
 msgstr ""
 
-#: ../src/modes/mode_help_window.cpp:131 ../src/modes/mode_help_window.cpp:167
+#: ../src/modes/mode_help_window.cpp:132 ../src/modes/mode_help_window.cpp:168
 msgid "Current Key"
 msgstr ""
 
-#: ../src/modes/mode_help_window.cpp:132 ../src/modes/mode_help_window.cpp:168
+#: ../src/modes/mode_help_window.cpp:133 ../src/modes/mode_help_window.cpp:169
 msgid "Purpose"
 msgstr ""
 
-#: ../src/modes/mode_help_window.cpp:140 ../src/modes/mode_help_window.cpp:176
-#: ../src/modes/mode_help_window.cpp:235
+#: ../src/modes/mode_help_window.cpp:141 ../src/modes/mode_help_window.cpp:177
+#: ../src/modes/mode_help_window.cpp:236
 #: ../dat/help/in_game_move_and_interact_anim.lua:37
 msgid "Left"
 msgstr ""
 
-#: ../src/modes/mode_help_window.cpp:142
+#: ../src/modes/mode_help_window.cpp:143
 msgid "Move menu cursor to the left"
 msgstr ""
 
-#: ../src/modes/mode_help_window.cpp:143 ../src/modes/mode_help_window.cpp:179
-#: ../src/modes/mode_help_window.cpp:238
+#: ../src/modes/mode_help_window.cpp:144 ../src/modes/mode_help_window.cpp:180
+#: ../src/modes/mode_help_window.cpp:239
 #: ../dat/help/in_game_move_and_interact_anim.lua:38
 msgid "Right"
 msgstr ""
 
-#: ../src/modes/mode_help_window.cpp:145
+#: ../src/modes/mode_help_window.cpp:146
 msgid "Move menu cursor to the right"
 msgstr ""
 
-#: ../src/modes/mode_help_window.cpp:148
+#: ../src/modes/mode_help_window.cpp:149
 msgid "Confirm a menu command"
 msgstr ""
 
-#: ../src/modes/mode_help_window.cpp:151
+#: ../src/modes/mode_help_window.cpp:152
 msgid "Cancel a menu command"
 msgstr ""
 
-#: ../src/modes/mode_help_window.cpp:154 ../src/modes/mode_help_window.cpp:264
+#: ../src/modes/mode_help_window.cpp:155 ../src/modes/mode_help_window.cpp:265
 msgid "Quit the application"
 msgstr ""
 
-#: ../src/modes/mode_help_window.cpp:158
+#: ../src/modes/mode_help_window.cpp:159
 msgid ""
 "Shop mode\n"
 "\n"
@@ -901,367 +902,367 @@ msgid ""
 "Then go into the Confirm mode to complete the transaction."
 msgstr ""
 
-#: ../src/modes/mode_help_window.cpp:178
+#: ../src/modes/mode_help_window.cpp:179
 msgid "Remove an item from the buy/sell list"
 msgstr ""
 
-#: ../src/modes/mode_help_window.cpp:181
+#: ../src/modes/mode_help_window.cpp:182
 msgid "Add an item to the buy/sell list."
 msgstr ""
 
-#: ../src/modes/mode_help_window.cpp:182 ../src/modes/mode_help_window.cpp:229
+#: ../src/modes/mode_help_window.cpp:183 ../src/modes/mode_help_window.cpp:230
 #: ../dat/help/in_game_move_and_interact_anim.lua:39
 msgid "Up"
 msgstr ""
 
-#: ../src/modes/mode_help_window.cpp:184
+#: ../src/modes/mode_help_window.cpp:185
 msgid "Move up in the item list."
 msgstr ""
 
-#: ../src/modes/mode_help_window.cpp:185 ../src/modes/mode_help_window.cpp:232
+#: ../src/modes/mode_help_window.cpp:186 ../src/modes/mode_help_window.cpp:233
 #: ../dat/help/in_game_move_and_interact_anim.lua:40
 msgid "Down"
 msgstr ""
 
-#: ../src/modes/mode_help_window.cpp:187
+#: ../src/modes/mode_help_window.cpp:188
 msgid "Move down in the item list."
 msgstr ""
 
-#: ../src/modes/mode_help_window.cpp:190
+#: ../src/modes/mode_help_window.cpp:191
 msgid "Show details or confirm a transaction"
 msgstr ""
 
-#: ../src/modes/mode_help_window.cpp:193
+#: ../src/modes/mode_help_window.cpp:194
 msgid ""
 "Get out the Buy/Sell/Confirm mode,\n"
 "or quit the shop."
 msgstr ""
 
-#: ../src/modes/mode_help_window.cpp:199 ../src/modes/mode_help_window.cpp:261
+#: ../src/modes/mode_help_window.cpp:200 ../src/modes/mode_help_window.cpp:262
 msgid "Pauses the game"
 msgstr ""
 
-#: ../src/modes/mode_help_window.cpp:202
+#: ../src/modes/mode_help_window.cpp:203
 msgid "Close this window / Show the system menu"
 msgstr ""
 
-#: ../src/modes/mode_help_window.cpp:208
+#: ../src/modes/mode_help_window.cpp:209
 msgid "The table below lists the default game controls.\n"
 msgstr ""
 
-#: ../src/modes/mode_help_window.cpp:209
+#: ../src/modes/mode_help_window.cpp:210
 msgid "The control mappings can be changed in the options menu."
 msgstr ""
 
-#: ../src/modes/mode_help_window.cpp:219
+#: ../src/modes/mode_help_window.cpp:220
 msgid "Default Key"
 msgstr ""
 
-#: ../src/modes/mode_help_window.cpp:220
+#: ../src/modes/mode_help_window.cpp:221
 msgid "General Purpose"
 msgstr ""
 
-#: ../src/modes/mode_help_window.cpp:230
+#: ../src/modes/mode_help_window.cpp:231
 msgid "Up Arrow"
 msgstr ""
 
-#: ../src/modes/mode_help_window.cpp:231
+#: ../src/modes/mode_help_window.cpp:232
 msgid "Move position or cursor upwards"
 msgstr ""
 
-#: ../src/modes/mode_help_window.cpp:233
+#: ../src/modes/mode_help_window.cpp:234
 msgid "Down Arrow"
 msgstr ""
 
-#: ../src/modes/mode_help_window.cpp:234
+#: ../src/modes/mode_help_window.cpp:235
 msgid "Move position or cursor downwards"
 msgstr ""
 
-#: ../src/modes/mode_help_window.cpp:236
+#: ../src/modes/mode_help_window.cpp:237
 msgid "Left Arrow"
 msgstr ""
 
-#: ../src/modes/mode_help_window.cpp:237
+#: ../src/modes/mode_help_window.cpp:238
 msgid "Move position or cursor to the left"
 msgstr ""
 
-#: ../src/modes/mode_help_window.cpp:239
+#: ../src/modes/mode_help_window.cpp:240
 msgid "Right Arrow"
 msgstr ""
 
-#: ../src/modes/mode_help_window.cpp:240
+#: ../src/modes/mode_help_window.cpp:241
 msgid "Move position or cursor to the right"
 msgstr ""
 
-#: ../src/modes/mode_help_window.cpp:242
+#: ../src/modes/mode_help_window.cpp:243
 msgid "F"
 msgstr ""
 
-#: ../src/modes/mode_help_window.cpp:243
+#: ../src/modes/mode_help_window.cpp:244
 msgid "Confirm an action or menu command"
 msgstr ""
 
-#: ../src/modes/mode_help_window.cpp:245
+#: ../src/modes/mode_help_window.cpp:246
 msgid "D"
 msgstr ""
 
-#: ../src/modes/mode_help_window.cpp:246
+#: ../src/modes/mode_help_window.cpp:247
 msgid "Cancel an action or menu command"
 msgstr ""
 
-#: ../src/modes/mode_help_window.cpp:248
+#: ../src/modes/mode_help_window.cpp:249
 msgid "S"
 msgstr ""
 
-#: ../src/modes/mode_help_window.cpp:249
+#: ../src/modes/mode_help_window.cpp:250
 msgid "Display the character menu"
 msgstr ""
 
-#: ../src/modes/mode_help_window.cpp:250
+#: ../src/modes/mode_help_window.cpp:251
 msgid "Swap"
 msgstr ""
 
-#: ../src/modes/mode_help_window.cpp:251
+#: ../src/modes/mode_help_window.cpp:252
 msgid "A"
 msgstr ""
 
-#: ../src/modes/mode_help_window.cpp:252
+#: ../src/modes/mode_help_window.cpp:253
 msgid "Swaps active menu or character"
 msgstr ""
 
-#: ../src/modes/mode_help_window.cpp:253
+#: ../src/modes/mode_help_window.cpp:254
 msgid "Left Select"
 msgstr ""
 
-#: ../src/modes/mode_help_window.cpp:254
+#: ../src/modes/mode_help_window.cpp:255
 msgid "W"
 msgstr ""
 
-#: ../src/modes/mode_help_window.cpp:255
+#: ../src/modes/mode_help_window.cpp:256
 msgid "Select multiple or backward page scroll"
 msgstr ""
 
-#: ../src/modes/mode_help_window.cpp:256
+#: ../src/modes/mode_help_window.cpp:257
 msgid "Right Select"
 msgstr ""
 
-#: ../src/modes/mode_help_window.cpp:257
+#: ../src/modes/mode_help_window.cpp:258
 msgid "E"
 msgstr ""
 
-#: ../src/modes/mode_help_window.cpp:258
+#: ../src/modes/mode_help_window.cpp:259
 msgid "Select multiple or forward page scroll"
 msgstr ""
 
-#: ../src/modes/mode_help_window.cpp:260
+#: ../src/modes/mode_help_window.cpp:261
 msgid "Spacebar"
 msgstr ""
 
-#: ../src/modes/mode_help_window.cpp:263
+#: ../src/modes/mode_help_window.cpp:264
 msgid "Esc"
 msgstr ""
 
-#: ../src/modes/mode_help_window.cpp:267
+#: ../src/modes/mode_help_window.cpp:268
 msgid ""
 "There are additional commands available which can be found in the MANUAL "
 "file."
 msgstr ""
 
-#: ../src/modes/pause.cpp:61
+#: ../src/modes/pause.cpp:63
 msgid "Paused"
 msgstr ""
 
-#: ../src/modes/pause.cpp:73
+#: ../src/modes/pause.cpp:75
 msgid "Quit Game"
 msgstr ""
 
-#: ../src/modes/pause.cpp:74
+#: ../src/modes/pause.cpp:76
 msgid "Quit to Main Menu"
 msgstr ""
 
-#: ../src/modes/save/save_mode.cpp:92
+#: ../src/modes/save/save_mode.cpp:94
 msgid "Save Game"
 msgstr ""
 
-#: ../src/modes/save/save_mode.cpp:117
+#: ../src/modes/save/save_mode.cpp:119
 msgid "Slot 1"
 msgstr ""
 
-#: ../src/modes/save/save_mode.cpp:118
+#: ../src/modes/save/save_mode.cpp:120
 msgid "Slot 2"
 msgstr ""
 
-#: ../src/modes/save/save_mode.cpp:119
+#: ../src/modes/save/save_mode.cpp:121
 msgid "Slot 3"
 msgstr ""
 
-#: ../src/modes/save/save_mode.cpp:120
+#: ../src/modes/save/save_mode.cpp:122
 msgid "Slot 4"
 msgstr ""
 
-#: ../src/modes/save/save_mode.cpp:121
+#: ../src/modes/save/save_mode.cpp:123
 msgid "Slot 5"
 msgstr ""
 
-#: ../src/modes/save/save_mode.cpp:122
+#: ../src/modes/save/save_mode.cpp:124
 msgid "Slot 6"
 msgstr ""
 
-#: ../src/modes/save/save_mode.cpp:139
+#: ../src/modes/save/save_mode.cpp:141
 msgid "Confirm Save"
 msgstr ""
 
-#: ../src/modes/save/save_mode.cpp:148
+#: ../src/modes/save/save_mode.cpp:150
 msgid "Save successful!"
 msgstr ""
 
-#: ../src/modes/save/save_mode.cpp:155
+#: ../src/modes/save/save_mode.cpp:157
 msgid ""
 "Unable to save game!\n"
 "Save FAILED!"
 msgstr ""
 
-#: ../src/modes/save/save_mode.cpp:161
+#: ../src/modes/save/save_mode.cpp:163
 msgid "No valid saves found!"
 msgstr ""
 
-#: ../src/modes/save/save_mode.cpp:461
+#: ../src/modes/save/save_mode.cpp:463
 msgid "Invalid data!"
 msgstr ""
 
-#: ../src/modes/save/save_mode.cpp:463
+#: ../src/modes/save/save_mode.cpp:465
 msgid "No data"
 msgstr ""
 
-#: ../src/modes/shop/shop_buy.cpp:60 ../src/modes/shop/shop_sell.cpp:60
-#: ../src/modes/shop/shop_trade.cpp:57
+#: ../src/modes/shop/shop_buy.cpp:59 ../src/modes/shop/shop_sell.cpp:59
+#: ../src/modes/shop/shop_trade.cpp:56
 msgid "Category"
 msgstr ""
 
-#: ../src/modes/shop/shop_buy.cpp:63 ../src/modes/shop/shop_sell.cpp:63
-#: ../src/modes/shop/shop_trade.cpp:60
+#: ../src/modes/shop/shop_buy.cpp:62 ../src/modes/shop/shop_sell.cpp:62
+#: ../src/modes/shop/shop_trade.cpp:59
 msgid "Name"
 msgstr ""
 
-#: ../src/modes/shop/shop_buy.cpp:69 ../src/modes/shop/shop_sell.cpp:69
-#: ../src/modes/shop/shop_trade.cpp:66
+#: ../src/modes/shop/shop_buy.cpp:68 ../src/modes/shop/shop_sell.cpp:68
+#: ../src/modes/shop/shop_trade.cpp:65
 msgid "Price"
 msgstr ""
 
-#: ../src/modes/shop/shop_buy.cpp:70 ../src/modes/shop/shop_trade.cpp:67
+#: ../src/modes/shop/shop_buy.cpp:69 ../src/modes/shop/shop_trade.cpp:66
 msgid "Stock"
 msgstr ""
 
-#: ../src/modes/shop/shop_buy.cpp:71 ../src/modes/shop/shop_sell.cpp:70
-#: ../src/modes/shop/shop_trade.cpp:68
+#: ../src/modes/shop/shop_buy.cpp:70 ../src/modes/shop/shop_sell.cpp:69
+#: ../src/modes/shop/shop_trade.cpp:67
 msgid "Own"
 msgstr ""
 
-#: ../src/modes/shop/shop.cpp:71
+#: ../src/modes/shop/shop.cpp:68
 msgid "Weapons"
 msgstr ""
 
-#: ../src/modes/shop/shop.cpp:72
+#: ../src/modes/shop/shop.cpp:69
 msgid "Head Armor"
 msgstr ""
 
-#: ../src/modes/shop/shop.cpp:73
+#: ../src/modes/shop/shop.cpp:70
 msgid "Torso Armor"
 msgstr ""
 
-#: ../src/modes/shop/shop.cpp:74
+#: ../src/modes/shop/shop.cpp:71
 msgid "Arm Armor"
 msgstr ""
 
-#: ../src/modes/shop/shop.cpp:75
+#: ../src/modes/shop/shop.cpp:72
 msgid "Leg Armor"
 msgstr ""
 
-#: ../src/modes/shop/shop.cpp:76
+#: ../src/modes/shop/shop.cpp:73
 msgid "Spirits"
 msgstr ""
 
-#: ../src/modes/shop/shop.cpp:77
+#: ../src/modes/shop/shop.cpp:74
 msgid "Key Items"
 msgstr ""
 
-#: ../src/modes/shop/shop.cpp:78
+#: ../src/modes/shop/shop.cpp:75
 msgid "All Wares"
 msgstr ""
 
-#: ../src/modes/shop/shop.cpp:182
+#: ../src/modes/shop/shop.cpp:179
 msgid "Field Use:"
 msgstr ""
 
-#: ../src/modes/shop/shop.cpp:184
+#: ../src/modes/shop/shop.cpp:181
 msgid "Battle Use:"
 msgstr ""
 
-#: ../src/modes/shop/shop.cpp:186
+#: ../src/modes/shop/shop.cpp:183
 msgid "Target:"
 msgstr ""
 
-#: ../src/modes/shop/shop.cpp:207
+#: ../src/modes/shop/shop.cpp:204
 msgid "Conditions:"
 msgstr ""
 
-#: ../src/modes/shop/shop.cpp:717
+#: ../src/modes/shop/shop.cpp:714
 msgid "Buy count: x "
 msgstr ""
 
-#: ../src/modes/shop/shop.cpp:720
+#: ../src/modes/shop/shop.cpp:717
 msgid "Sell count: x "
 msgstr ""
 
-#: ../src/modes/shop/shop.cpp:723
+#: ../src/modes/shop/shop.cpp:720
 msgid "Trade count: x "
 msgstr ""
 
-#: ../src/modes/shop/shop.cpp:1017 ../src/modes/shop/shop.cpp:1172
+#: ../src/modes/shop/shop.cpp:1014 ../src/modes/shop/shop.cpp:1169
 msgid "Buy"
 msgstr ""
 
-#: ../src/modes/shop/shop.cpp:1018 ../src/modes/shop/shop.cpp:1173
+#: ../src/modes/shop/shop.cpp:1015 ../src/modes/shop/shop.cpp:1170
 msgid "Sell"
 msgstr ""
 
-#: ../src/modes/shop/shop.cpp:1019 ../src/modes/shop/shop.cpp:1174
+#: ../src/modes/shop/shop.cpp:1016 ../src/modes/shop/shop.cpp:1171
 msgid "Trade"
 msgstr ""
 
-#: ../src/modes/shop/shop.cpp:1175
+#: ../src/modes/shop/shop.cpp:1172
 msgid "Leave"
 msgstr ""
 
-#: ../src/modes/shop/shop.cpp:1592
+#: ../src/modes/shop/shop.cpp:1589
 msgid "Funds: "
 msgstr ""
 
-#: ../src/modes/shop/shop.cpp:1594
+#: ../src/modes/shop/shop.cpp:1591
 msgid "Purchases: "
 msgstr ""
 
-#: ../src/modes/shop/shop.cpp:1595 ../src/modes/shop/shop.cpp:1598
+#: ../src/modes/shop/shop.cpp:1592 ../src/modes/shop/shop.cpp:1595
 msgid "Total: "
 msgstr ""
 
-#: ../src/modes/shop/shop.cpp:1597
+#: ../src/modes/shop/shop.cpp:1594
 msgid "Sales: +"
 msgstr ""
 
-#: ../src/modes/shop/shop_root.cpp:56
+#: ../src/modes/shop/shop_root.cpp:54
 msgid "The Shop"
 msgstr ""
 
-#: ../src/modes/shop/shop_root.cpp:59
+#: ../src/modes/shop/shop_root.cpp:57
 msgid "Buy prices"
 msgstr ""
 
-#: ../src/modes/shop/shop_root.cpp:61
+#: ../src/modes/shop/shop_root.cpp:59
 msgid "Sell prices"
 msgstr ""
 
-#: ../src/modes/shop/shop_root.cpp:69
+#: ../src/modes/shop/shop_root.cpp:67
 msgid "\"Welcome! Take a look around.\""
 msgstr ""
 
@@ -1275,8 +1276,9 @@ msgstr ""
 msgid "Holy"
 msgstr ""
 
-#: ../dat/actors/characters.lua:153 ../dat/actors/map_sprites.lua:40
+#: ../dat/actors/characters.lua:153 ../dat/actors/map_sprites.lua:41
 #: ../dat/battles/tutorial_battle_dialogs.lua:63
+#: ../dat/maps/mt_elbrus/battle_with_dark_soldiers_script.lua:33
 msgid "Kalya"
 msgstr ""
 
@@ -1292,7 +1294,7 @@ msgstr ""
 msgid "Mist"
 msgstr ""
 
-#: ../dat/actors/characters.lua:426 ../dat/actors/map_sprites.lua:63
+#: ../dat/actors/characters.lua:426 ../dat/actors/map_sprites.lua:65
 msgid "Thanis"
 msgstr ""
 
@@ -1307,9 +1309,9 @@ msgstr ""
 #: ../dat/actors/enemies.lua:47 ../dat/actors/enemies.lua:158
 #: ../dat/actors/enemies.lua:213 ../dat/actors/enemies.lua:269
 #: ../dat/actors/enemies.lua:383 ../dat/actors/enemies.lua:443
-#: ../dat/actors/enemies.lua:877 ../dat/actors/enemies.lua:980
-#: ../dat/actors/enemies.lua:1027 ../dat/actors/enemies.lua:1074
-#: ../dat/actors/enemies.lua:1404
+#: ../dat/actors/enemies.lua:928 ../dat/actors/enemies.lua:1031
+#: ../dat/actors/enemies.lua:1078 ../dat/actors/enemies.lua:1125
+#: ../dat/actors/enemies.lua:1455
 msgid "Body"
 msgstr ""
 
@@ -1317,13 +1319,13 @@ msgstr ""
 msgid "Spider"
 msgstr ""
 
-#: ../dat/actors/enemies.lua:100 ../dat/actors/enemies.lua:629
-#: ../dat/actors/enemies.lua:1461
+#: ../dat/actors/enemies.lua:100 ../dat/actors/enemies.lua:680
+#: ../dat/actors/enemies.lua:1512
 msgid "Abdomen"
 msgstr ""
 
 #: ../dat/actors/enemies.lua:120 ../dat/actors/enemies.lua:345
-#: ../dat/actors/enemies.lua:405 ../dat/actors/map_sprites.lua:403
+#: ../dat/actors/enemies.lua:405 ../dat/actors/map_sprites.lua:405
 msgid "Fenrir"
 msgstr ""
 
@@ -1331,24 +1333,24 @@ msgstr ""
 msgid "Snake"
 msgstr ""
 
-#: ../dat/actors/enemies.lua:221 ../dat/actors/enemies.lua:694
-#: ../dat/actors/enemies.lua:1412 ../dat/actors/enemies.lua:1469
+#: ../dat/actors/enemies.lua:221 ../dat/actors/enemies.lua:745
+#: ../dat/actors/enemies.lua:1463 ../dat/actors/enemies.lua:1520
 msgid "Tail"
 msgstr ""
 
-#: ../dat/actors/enemies.lua:244 ../dat/actors/map_sprites.lua:361
+#: ../dat/actors/enemies.lua:244 ../dat/actors/map_sprites.lua:363
 msgid "Slime Mother"
 msgstr ""
 
-#: ../dat/actors/enemies.lua:290 ../dat/actors/map_sprites.lua:320
+#: ../dat/actors/enemies.lua:290 ../dat/actors/map_sprites.lua:322
 msgid "Bat"
 msgstr ""
 
-#: ../dat/actors/enemies.lua:323
+#: ../dat/actors/enemies.lua:323 ../dat/actors/enemies.lua:624
 msgid "Wing"
 msgstr ""
 
-#: ../dat/actors/enemies.lua:463 ../dat/actors/map_sprites.lua:418
+#: ../dat/actors/enemies.lua:463 ../dat/actors/map_sprites.lua:420
 msgid "Dark Soldier"
 msgstr ""
 
@@ -1356,195 +1358,200 @@ msgstr ""
 msgid "Lord Banesore"
 msgstr ""
 
-#: ../dat/actors/enemies.lua:600
+#: ../dat/actors/enemies.lua:591 ../dat/actors/map_sprites.lua:458
+msgid "Shroom"
+msgstr ""
+
+#: ../dat/actors/enemies.lua:654
 msgid "Scorpion"
 msgstr ""
 
-#: ../dat/actors/enemies.lua:665
+#: ../dat/actors/enemies.lua:716
 msgid "Dune Crawler"
 msgstr ""
 
-#: ../dat/actors/enemies.lua:720
+#: ../dat/actors/enemies.lua:771
 msgid "Skeleton"
 msgstr ""
 
-#: ../dat/actors/enemies.lua:749 ../dat/actors/enemies.lua:1129
-#: ../dat/actors/enemies.lua:1518 ../dat/actors/enemies.lua:1584
-#: ../dat/actors/enemies.lua:1640
+#: ../dat/actors/enemies.lua:800 ../dat/actors/enemies.lua:1180
+#: ../dat/actors/enemies.lua:1569 ../dat/actors/enemies.lua:1635
+#: ../dat/actors/enemies.lua:1691
 msgid "Chest"
 msgstr ""
 
-#: ../dat/actors/enemies.lua:784
+#: ../dat/actors/enemies.lua:835
 msgid "Stygian Lizard"
 msgstr ""
 
-#: ../dat/actors/enemies.lua:805
+#: ../dat/actors/enemies.lua:856
 msgid "Eye"
 msgstr ""
 
-#: ../dat/actors/enemies.lua:821 ../dat/actors/enemies.lua:885
+#: ../dat/actors/enemies.lua:872 ../dat/actors/enemies.lua:936
 msgid "Claw"
 msgstr ""
 
-#: ../dat/actors/enemies.lua:848
+#: ../dat/actors/enemies.lua:899
 msgid "Demonic Essence"
 msgstr ""
 
-#: ../dat/actors/enemies.lua:869
+#: ../dat/actors/enemies.lua:920
 msgid "Face"
 msgstr ""
 
-#: ../dat/actors/enemies.lua:912
+#: ../dat/actors/enemies.lua:963
 msgid "Yeti"
 msgstr ""
 
-#: ../dat/actors/enemies.lua:959
+#: ../dat/actors/enemies.lua:1010
 msgid "Red Slime"
 msgstr ""
 
-#: ../dat/actors/enemies.lua:1006
+#: ../dat/actors/enemies.lua:1057
 msgid "Thing"
 msgstr ""
 
-#: ../dat/actors/enemies.lua:1053
+#: ../dat/actors/enemies.lua:1104
 msgid "Mushroom Zombie"
 msgstr ""
 
-#: ../dat/actors/enemies.lua:1100
+#: ../dat/actors/enemies.lua:1151
 msgid "Rat"
 msgstr ""
 
-#: ../dat/actors/enemies.lua:1156
+#: ../dat/actors/enemies.lua:1207
 msgid "Scorpion Goliath"
 msgstr ""
 
-#: ../dat/actors/enemies.lua:1185
+#: ../dat/actors/enemies.lua:1236
 msgid "Pincer"
 msgstr ""
 
-#: ../dat/actors/enemies.lua:1220
+#: ../dat/actors/enemies.lua:1271
 msgid "Armored Beast"
 msgstr ""
 
-#: ../dat/actors/enemies.lua:1241
+#: ../dat/actors/enemies.lua:1292
 msgid "Mesosoma"
 msgstr ""
 
-#: ../dat/actors/enemies.lua:1249
+#: ../dat/actors/enemies.lua:1300
 msgid "Pincers"
 msgstr ""
 
-#: ../dat/actors/enemies.lua:1277
+#: ../dat/actors/enemies.lua:1328
 msgid "Daemarbora"
 msgstr ""
 
-#: ../dat/actors/enemies.lua:1298
+#: ../dat/actors/enemies.lua:1349
 msgid "Trunk"
 msgstr ""
 
-#: ../dat/actors/enemies.lua:1306
+#: ../dat/actors/enemies.lua:1357
 msgid "Branches"
 msgstr ""
 
-#: ../dat/actors/enemies.lua:1326
+#: ../dat/actors/enemies.lua:1377
 msgid "Aerocephal"
 msgstr ""
 
-#: ../dat/actors/enemies.lua:1347
+#: ../dat/actors/enemies.lua:1398
 msgid "Forehead"
 msgstr ""
 
-#: ../dat/actors/enemies.lua:1355
+#: ../dat/actors/enemies.lua:1406
 msgid "Orifice"
 msgstr ""
 
-#: ../dat/actors/enemies.lua:1375
+#: ../dat/actors/enemies.lua:1426
 msgid "Arcana Drake"
 msgstr ""
 
-#: ../dat/actors/enemies.lua:1432
+#: ../dat/actors/enemies.lua:1483
 msgid "Nagaruda"
 msgstr ""
 
-#: ../dat/actors/enemies.lua:1489
+#: ../dat/actors/enemies.lua:1540
 msgid "Deceleon"
 msgstr ""
 
-#: ../dat/actors/enemies.lua:1526 ../dat/actors/enemies.lua:1592
+#: ../dat/actors/enemies.lua:1577 ../dat/actors/enemies.lua:1643
 msgid "Arm"
 msgstr ""
 
-#: ../dat/actors/enemies.lua:1554
+#: ../dat/actors/enemies.lua:1605
 msgid "Aurum Drakueli"
 msgstr ""
 
-#: ../dat/actors/enemies.lua:1611
+#: ../dat/actors/enemies.lua:1662
 msgid "Kyle"
 msgstr ""
 
-#: ../dat/actors/map_sprites.lua:81
+#: ../dat/actors/map_sprites.lua:83
 msgid "Carson"
 msgstr ""
 
-#: ../dat/actors/map_sprites.lua:97
+#: ../dat/actors/map_sprites.lua:99
 msgid "Malta"
 msgstr ""
 
-#: ../dat/actors/map_sprites.lua:113
+#: ../dat/actors/map_sprites.lua:115
 msgid "Orlinn"
 msgstr ""
 
-#: ../dat/actors/map_sprites.lua:128
+#: ../dat/actors/map_sprites.lua:130
 #: ../dat/maps/layna_village/battle_with_banesore/battle_with_banesore_script.lua:53
 msgid "Herth"
 msgstr ""
 
-#: ../dat/actors/map_sprites.lua:147
+#: ../dat/actors/map_sprites.lua:149
 msgid "Olivia"
 msgstr ""
 
-#: ../dat/actors/map_sprites.lua:162
+#: ../dat/actors/map_sprites.lua:164
 msgid "Brymir"
 msgstr ""
 
-#: ../dat/actors/map_sprites.lua:177
+#: ../dat/actors/map_sprites.lua:179
 msgid "Martha"
 msgstr ""
 
-#: ../dat/actors/map_sprites.lua:192
+#: ../dat/actors/map_sprites.lua:194
 msgid "Sophia"
 msgstr ""
 
-#: ../dat/actors/map_sprites.lua:207
+#: ../dat/actors/map_sprites.lua:209
 #: ../dat/maps/layna_village/battle_with_banesore/battle_with_banesore_script.lua:54
 msgid "Lilly"
 msgstr ""
 
-#: ../dat/actors/map_sprites.lua:222
+#: ../dat/actors/map_sprites.lua:224
 msgid "Georges"
 msgstr ""
 
-#: ../dat/actors/map_sprites.lua:238
+#: ../dat/actors/map_sprites.lua:240
 msgid "Crystal"
 msgstr ""
 
-#: ../dat/actors/map_sprites.lua:254
+#: ../dat/actors/map_sprites.lua:256
+#: ../dat/maps/mt_elbrus/battle_with_dark_soldiers_script.lua:34
 msgid "Soldier"
 msgstr ""
 
-#: ../dat/actors/map_sprites.lua:272
+#: ../dat/actors/map_sprites.lua:274
 msgid "Chicken"
 msgstr ""
 
-#: ../dat/actors/map_sprites.lua:287
+#: ../dat/actors/map_sprites.lua:289
 msgid "Butterfly"
 msgstr ""
 
-#: ../dat/actors/map_sprites.lua:302
+#: ../dat/actors/map_sprites.lua:304
 msgid "Squirrel"
 msgstr ""
 
-#: ../dat/actors/map_sprites.lua:439
+#: ../dat/actors/map_sprites.lua:441
 msgid "Lord"
 msgstr ""
 
@@ -1555,7 +1562,7 @@ msgid ""
 msgstr ""
 
 #: ../dat/battles/tutorial_battle_dialogs.lua:72
-#: ../dat/battles/tutorial_battle_dialogs.lua:99 ../dat/config/quests.lua:82
+#: ../dat/battles/tutorial_battle_dialogs.lua:99
 #: ../dat/maps/layna_forest/layna_forest_cave1_2_script.lua:202
 #: ../dat/maps/layna_forest/layna_forest_wolf_cave_script.lua:210
 #: ../dat/maps/layna_village/battle_with_banesore/battle_with_banesore_script.lua:61
@@ -1565,6 +1572,10 @@ msgstr ""
 #: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:322
 #: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:453
 #: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:551
+#: ../dat/maps/mt_elbrus/mt_elbrus_cave1_script.lua:115
+#: ../dat/maps/mt_elbrus/mt_elbrus_cave1_script.lua:135
+#: ../dat/maps/mt_elbrus/mt_elbrus_cave1_script.lua:158
+#: ../dat/maps/mt_elbrus/mt_elbrus_cave1_script.lua:191
 msgid "..."
 msgstr ""
 
@@ -1677,12 +1688,13 @@ msgstr ""
 
 #: ../dat/config/quests.lua:22 ../dat/config/quests.lua:38
 #: ../dat/config/quests.lua:54 ../dat/config/quests.lua:70
-#: ../dat/config/quests.lua:86 ../dat/config/world_locations.lua:18
+#: ../dat/config/quests.lua:86 ../dat/config/quests.lua:102
+#: ../dat/config/world_locations.lua:18
 msgid "Village of Layna"
 msgstr ""
 
 #: ../dat/config/quests.lua:24 ../dat/config/quests.lua:72 map_names_tr.lua:51
-#: map_names_tr.lua:163
+#: map_names_tr.lua:167
 msgid "Bronann's home"
 msgstr ""
 
@@ -1707,7 +1719,7 @@ msgstr ""
 
 #: ../dat/config/quests.lua:40 ../dat/config/quests.lua:56
 #: ../dat/config/quests.lua:88 map_names_tr.lua:55 map_names_tr.lua:59
-#: map_names_tr.lua:167 map_names_tr.lua:171
+#: map_names_tr.lua:171 map_names_tr.lua:175
 msgid "Village center"
 msgstr ""
 
@@ -1760,6 +1772,35 @@ msgid ""
 "I can't let them down!"
 msgstr ""
 
+#: ../dat/config/quests.lua:82
+msgid ""
+"We finally retrieved Orlinn in the center of the forest. A mysterious wolf "
+"was protecting him, and we came just on time to prevent him from approaching "
+"a strange crystal..."
+msgstr ""
+
+#: ../dat/config/quests.lua:94
+msgid "We must escape from the soldiers..."
+msgstr ""
+
+#: ../dat/config/quests.lua:96
+msgid ""
+"After we came back to our village, Kalya was caught by strange soldiers. The "
+"country Lord himself provoked me in battle, and thanks to her, we escaped "
+"for now.\n"
+" \n"
+"But this isn't over, the soldiers are after us and we have to make our way "
+"through..."
+msgstr ""
+
+#: ../dat/config/quests.lua:98
+msgid "We managed to find a way up to the mountain top."
+msgstr ""
+
+#: ../dat/config/quests.lua:104
+msgid "Kalya's home basement"
+msgstr ""
+
 #: ../dat/config/restore_settings.lua:13 ../dat/config/settings.lua:11
 #: ../dat/config/themes.lua:14
 msgid "Royal Silk"
@@ -1771,10 +1812,14 @@ msgstr ""
 
 #: ../dat/config/world_locations.lua:29 map_names_tr.lua:18
 #: map_names_tr.lua:22 map_names_tr.lua:26 map_names_tr.lua:30
-#: map_names_tr.lua:34 map_names_tr.lua:38 map_names_tr.lua:133
-#: map_names_tr.lua:137 map_names_tr.lua:141 map_names_tr.lua:145
-#: map_names_tr.lua:149 map_names_tr.lua:153
+#: map_names_tr.lua:34 map_names_tr.lua:38 map_names_tr.lua:137
+#: map_names_tr.lua:141 map_names_tr.lua:145 map_names_tr.lua:149
+#: map_names_tr.lua:153 map_names_tr.lua:157
 msgid "Layna Forest"
+msgstr ""
+
+#: ../dat/config/world_locations.lua:40
+msgid "Mt Elbrus"
 msgstr ""
 
 #: ../dat/credits/episode1_credits.lua:35
@@ -1917,7 +1962,7 @@ msgstr ""
 #: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:149
 #: ../dat/maps/layna_forest/layna_forest_entrance_script.lua:154
 #: ../dat/maps/layna_forest/layna_forest_south_east_script.lua:132
-#: ../dat/maps/mt_elbrus/mt_elbrus_path1_script.lua:129
+#: ../dat/maps/mt_elbrus/mt_elbrus_path1_script.lua:142
 msgid "Your party feels better..."
 msgstr ""
 
@@ -3262,6 +3307,8 @@ msgid "You can go in there, Orlinn."
 msgstr ""
 
 #: ../dat/maps/layna_village/layna_village_kalya_house_path_at_night_script.lua:333
+#: ../dat/maps/mt_elbrus/mt_elbrus_cave1_script.lua:165
+#: ../dat/maps/mt_elbrus/mt_elbrus_cave1_script.lua:198
 msgid "Ok!"
 msgstr ""
 
@@ -3966,6 +4013,71 @@ msgstr ""
 
 #: ../dat/maps/layna_village/layna_village_south_entrance_script.lua:274
 msgid "But you'll never find me hiding on top of the cliffs!"
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/battle_with_dark_soldiers_script.lua:37
+msgid ""
+"You're spotted!! My comrades shall be here in no time. Surrender now or "
+"you'll be punished!!"
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/battle_with_dark_soldiers_script.lua:39
+msgid ""
+"Don't listen to him! We must get rid of him before reinforcement gets along "
+"or we're doomed!!"
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/battle_with_dark_soldiers_script.lua:50
+msgid "Time left:"
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_cave1_script.lua:156
+#: ../dat/maps/mt_elbrus/mt_elbrus_cave1_script.lua:189
+msgid "Shall we jump?"
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_cave1_script.lua:160
+#: ../dat/maps/mt_elbrus/mt_elbrus_cave1_script.lua:193
+msgid "Yes, let's go."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_cave1_script.lua:162
+#: ../dat/maps/mt_elbrus/mt_elbrus_cave1_script.lua:195
+msgid "Not now..."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_path1_script.lua:612
+msgid "Look!"
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_path1_script.lua:628
+msgid "Banesore's minions are already all over the place ..."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_path1_script.lua:630
+msgid ""
+"The dark soldiers as we call them are fanatics. They'll follow Banesore's "
+"orders even if it means death."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_path1_script.lua:632
+msgid ""
+"We don't know how he does that, but he can turn anybody into a servile "
+"subject."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_path1_script.lua:634
+msgid ""
+"Their strength is also increased by the transformation. That's why we call "
+"them the zombified army."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_path1_script.lua:636
+msgid "We must absolutely try to avoid them or they'll call reinforcement."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_path1_script.lua:638
+msgid "They are too strong. If they catch us, we're doomed."
 msgstr ""
 
 #: ../dat/maps/to_be_continued_anim.lua:31
@@ -5089,33 +5201,33 @@ msgstr ""
 msgid "Attacks an enemy with a chance of making Death catch its soul."
 msgstr ""
 
-#: ../src/modes/menu/menu_views.cpp:222
+#: ../src/modes/menu/menu_views.cpp:221
 msgid "Menu|Arm"
 msgstr ""
 
-#: ../src/modes/boot/boot.cpp:482
+#: ../src/modes/boot/boot.cpp:481
 #, c-format
 msgid "Press '%s' to get to know about the game keys."
 msgstr ""
 
-#: ../src/modes/map/map_treasure.cpp:329
+#: ../src/modes/map/map_treasure.cpp:330
 #, c-format
 msgid ""
 "With the additional %u drunes found in this treasure added, the party now "
 "holds a total of %u drunes."
 msgstr ""
 
-#: ../src/modes/shop/shop.cpp:694
+#: ../src/modes/shop/shop.cpp:691
 #, c-format
 msgid "Press %s to add items to buy and %s to remove items from your purchase."
 msgstr ""
 
-#: ../src/modes/shop/shop.cpp:697
+#: ../src/modes/shop/shop.cpp:694
 #, c-format
 msgid "Press %s to add items to sell and %s to remove items from your sale."
 msgstr ""
 
-#: ../src/modes/shop/shop.cpp:700
+#: ../src/modes/shop/shop.cpp:697
 #, c-format
 msgid "Press %s to add items to trade and %s to remove them."
 msgstr ""
@@ -5171,16 +5283,16 @@ msgid ""
 msgstr ""
 
 #: map_names_tr.lua:6 map_names_tr.lua:10 map_names_tr.lua:14
-#: map_names_tr.lua:42 map_names_tr.lua:121 map_names_tr.lua:125
-#: map_names_tr.lua:129 map_names_tr.lua:157
+#: map_names_tr.lua:42 map_names_tr.lua:125 map_names_tr.lua:129
+#: map_names_tr.lua:133 map_names_tr.lua:161
 msgid "Layna Forest Cave"
 msgstr ""
 
-#: map_names_tr.lua:20 map_names_tr.lua:135
+#: map_names_tr.lua:20 map_names_tr.lua:139
 msgid "???"
 msgstr ""
 
-#: map_names_tr.lua:24 map_names_tr.lua:139
+#: map_names_tr.lua:24 map_names_tr.lua:143
 msgid "Forest entrance"
 msgstr ""
 
@@ -5193,39 +5305,44 @@ msgstr ""
 #: map_names_tr.lua:77 map_names_tr.lua:81 map_names_tr.lua:85
 #: map_names_tr.lua:89 map_names_tr.lua:93 map_names_tr.lua:97
 #: map_names_tr.lua:101 map_names_tr.lua:105 map_names_tr.lua:109
-#: map_names_tr.lua:165 map_names_tr.lua:169 map_names_tr.lua:173
-#: map_names_tr.lua:177 map_names_tr.lua:181 map_names_tr.lua:185
-#: map_names_tr.lua:189 map_names_tr.lua:193 map_names_tr.lua:197
-#: map_names_tr.lua:201 map_names_tr.lua:205 map_names_tr.lua:209
-#: map_names_tr.lua:213 map_names_tr.lua:217 map_names_tr.lua:221
+#: map_names_tr.lua:169 map_names_tr.lua:173 map_names_tr.lua:177
+#: map_names_tr.lua:181 map_names_tr.lua:185 map_names_tr.lua:189
+#: map_names_tr.lua:193 map_names_tr.lua:197 map_names_tr.lua:201
+#: map_names_tr.lua:205 map_names_tr.lua:209 map_names_tr.lua:213
+#: map_names_tr.lua:217 map_names_tr.lua:221 map_names_tr.lua:225
 msgid "Mountain Village of Layna"
 msgstr ""
 
-#: map_names_tr.lua:63 map_names_tr.lua:175
+#: map_names_tr.lua:63 map_names_tr.lua:179
 msgid "Flora's Boutique"
 msgstr ""
 
-#: map_names_tr.lua:87 map_names_tr.lua:199
+#: map_names_tr.lua:87 map_names_tr.lua:203
 msgid "Basement"
 msgstr ""
 
-#: map_names_tr.lua:91 map_names_tr.lua:99 map_names_tr.lua:203
-#: map_names_tr.lua:211
+#: map_names_tr.lua:91 map_names_tr.lua:99 map_names_tr.lua:207
+#: map_names_tr.lua:215
 msgid "Riverbank"
 msgstr ""
 
-#: map_names_tr.lua:95 map_names_tr.lua:207
+#: map_names_tr.lua:95 map_names_tr.lua:211
 msgid "Lilly's house"
 msgstr ""
 
-#: map_names_tr.lua:111 map_names_tr.lua:223
+#: map_names_tr.lua:111 map_names_tr.lua:227
 msgid "Village entrance"
 msgstr ""
 
-#: map_names_tr.lua:113 map_names_tr.lua:225
+#: map_names_tr.lua:113 map_names_tr.lua:117 map_names_tr.lua:229
+#: map_names_tr.lua:233
 msgid "Mt. Elbrus"
 msgstr ""
 
-#: map_names_tr.lua:115 map_names_tr.lua:227
+#: map_names_tr.lua:115 map_names_tr.lua:231
+msgid "Elbrus Grotto"
+msgstr ""
+
+#: map_names_tr.lua:119 map_names_tr.lua:235
 msgid "Low Mountain"
 msgstr ""
