@@ -18,8 +18,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-08-02 07:56+0200\n"
-"PO-Revision-Date: 2013-08-03 11:17+0200\n"
+"POT-Creation-Date: 2013-08-04 19:37+0200\n"
+"PO-Revision-Date: 2013-08-04 20:26+0200\n"
 "Last-Translator: Adrián Chaves Fernández <adriyetichaves@gmail.com>\n"
 "Language-Team: Galician <kde-i18n-doc@kde.org>\n"
 "Language: gl\n"
@@ -384,7 +384,7 @@ msgstr "Teselas: "
 
 #: ../src/modes/boot/boot.cpp:527 ../src/modes/boot/boot.cpp:706
 msgid "UI Theme: "
-msgstr "Tema da interface: "
+msgstr "Tema: "
 
 #: ../src/modes/boot/boot.cpp:546 ../src/modes/boot/boot.cpp:713
 msgid "Sound Volume: "
@@ -1388,6 +1388,7 @@ msgid "Dark Soldier"
 msgstr "Soldado escuro"
 
 #: ../dat/actors/enemies.lua:526
+#: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:229
 msgid "Lord Banesore"
 msgstr "Señor Bansor"
 
@@ -1539,27 +1540,39 @@ msgid "Herth"
 msgstr "Erce"
 
 #: ../dat/actors/map_sprites.lua:149
+#: ../dat/maps/layna_village/layna_village_center_script.lua:206
+#: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:175
 msgid "Olivia"
 msgstr "Olivia"
 
 #: ../dat/actors/map_sprites.lua:164
+#: ../dat/maps/layna_village/layna_village_center_script.lua:157
+#: ../dat/maps/layna_village/layna_village_kalya_house_path_script.lua:100
+#: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:163
 msgid "Brymir"
 msgstr "Brimir"
 
 #: ../dat/actors/map_sprites.lua:179
+#: ../dat/maps/layna_village/layna_village_center_script.lua:166
+#: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:167
 msgid "Martha"
 msgstr "Marta"
 
 #: ../dat/actors/map_sprites.lua:194
+#: ../dat/maps/layna_village/layna_village_center_script.lua:175
 msgid "Sophia"
 msgstr "Sofía"
 
 #: ../dat/actors/map_sprites.lua:209
 #: ../dat/maps/layna_village/battle_with_banesore/battle_with_banesore_script.lua:54
+#: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:151
+#: ../dat/maps/layna_village/layna_village_riverbank_script.lua:107
 msgid "Lilly"
 msgstr "Lili"
 
 #: ../dat/actors/map_sprites.lua:224
+#: ../dat/maps/layna_village/layna_village_center_script.lua:200
+#: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:171
 msgid "Georges"
 msgstr "Xorxe"
 
@@ -1568,6 +1581,32 @@ msgid "Crystal"
 msgstr "Cristal"
 
 #: ../dat/actors/map_sprites.lua:256
+#: ../dat/maps/layna_village/layna_village_center_at_night_script.lua:123
+#: ../dat/maps/layna_village/layna_village_center_at_night_script.lua:127
+#: ../dat/maps/layna_village/layna_village_center_at_night_script.lua:131
+#: ../dat/maps/layna_village/layna_village_center_at_night_script.lua:135
+#: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:180
+#: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:183
+#: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:186
+#: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:189
+#: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:192
+#: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:195
+#: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:198
+#: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:201
+#: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:204
+#: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:207
+#: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:210
+#: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:213
+#: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:216
+#: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:219
+#: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:222
+#: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:225
+#: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:234
+#: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:237
+#: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:240
+#: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:243
+#: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:248
+#: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:262
 #: ../dat/maps/mt_elbrus/battle_with_dark_soldiers_script.lua:34
 msgid "Soldier"
 msgstr "Soldado"
@@ -1586,7 +1625,7 @@ msgstr "Esquío"
 
 #: ../dat/actors/map_sprites.lua:441
 msgid "Lord"
-msgstr "Señor"
+msgstr "Señor das terras"
 
 #: ../dat/battles/tutorial_battle_dialogs.lua:70
 msgid ""
@@ -1862,8 +1901,8 @@ msgid ""
 "a strange crystal..."
 msgstr ""
 "Por fin conseguimos rescatar a Orlin do corazón do bosque. Protexíao un "
-"misterioso lobo, e chegamos xusto a tempo de evitar que o rapaz se achegase a "
-"un estraño cristal…"
+"misterioso lobo, e chegamos xusto a tempo de evitar que o rapaz se achegase "
+"a un estraño cristal…"
 
 #: ../dat/config/quests.lua:94
 msgid "We must escape from the soldiers..."
@@ -1879,7 +1918,7 @@ msgid ""
 "through..."
 msgstr ""
 "Despois de que regresásemos á vila, Calia foi secuestrada por uns estraños "
-"soldados. O señor destas terras retoume a un duelo, e grazas a Calia "
+"soldados. O señor das nosas terras retoume a un duelo, e grazas a Calia "
 "conseguimos escapar e estamos a salvo de momento.\n"
 " \n"
 "Pero isto aínda non rematou, os soldados estannos a buscar e temos que "
@@ -2195,7 +2234,7 @@ msgstr "Para ti, pode que fosen décadas."
 
 #: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:576
 msgid "May you bring a happy end to this foolish destiny of ours."
-msgstr "Oxalá que lle deas un final feliz ou teu aciago destino."
+msgstr "Oxalá que lle deas un final feliz ao teu aciago destino."
 
 #: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:578
 msgid "We're all anxiously awaiting your return."
@@ -2211,7 +2250,7 @@ msgstr "Que significa todo isto?"
 
 #: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:590
 msgid "I shall come and make one with our only hope..."
-msgstr "Virei e unireime á nosa única esperanza…"
+msgstr "Unireime a ti, es a nosa única esperanza…"
 
 #: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:592
 msgid "What! No, Orlinn!"
@@ -2275,7 +2314,7 @@ msgstr "O que? Un momento, desta vez non fixen nada!"
 
 #: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:697
 msgid "... Oh? You didn't??"
-msgstr "Non?"
+msgstr "Que non que?"
 
 #: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:734
 msgid "When I'll catch you, I'll make you wish you weren't born!! Rahh!"
@@ -2501,7 +2540,7 @@ msgstr "Xa case estamos!"
 
 #: ../dat/maps/layna_forest/layna_forest_north_west_script.lua:1124
 msgid "Say Sister, do you think Herth will be angry with me for what happened?"
-msgstr "Calia, cres que Erce se anoxará comigo polo que ocorreu?"
+msgstr "Calia, cres que Erce se anoxará comigo?"
 
 #: ../dat/maps/layna_forest/layna_forest_north_west_script.lua:1126
 msgid ""
@@ -2857,8 +2896,8 @@ msgid ""
 "Weird, I can see no lights in there... I have a bad feeling about this, lets "
 "get back home..."
 msgstr ""
-"Que raro, non podo ver ningunha luz… Teño un mal presentimento, será mellor "
-"que volvamos a casa…"
+"Que raro, non hai ningunha luz… Teño un mal presentimento, será mellor "
+"que volva a casa…"
 
 #: ../dat/maps/layna_village/layna_village_center_at_night_script.lua:312
 #: ../dat/maps/layna_village/layna_village_center_script.lua:543
@@ -2888,7 +2927,7 @@ msgstr "Cala, rapaza!"
 
 #: ../dat/maps/layna_village/layna_village_center_at_night_script.lua:412
 msgid "Soldiers wearing black armors: the Lord's personal guards!"
-msgstr "Soldados con armadura negra… a garda persoal do señor!"
+msgstr "Soldados con armadura negra… a garda persoal do señor das terras!"
 
 #: ../dat/maps/layna_village/layna_village_center_at_night_script.lua:414
 msgid "Fortunately, they didn't see me or I would have been caught as well."
@@ -3366,6 +3405,11 @@ msgstr "Hi hi! (nunca me atopará detrás dos edificios!)"
 msgid "Heya bro! Wanna play with me?"
 msgstr "Que pasa, meu? Queres xogar comigo?"
 
+#: ../dat/maps/layna_village/layna_village_center_shop_script.lua:68
+#: ../dat/maps/layna_village/layna_village_center_shop_script.lua:73
+msgid "Flora"
+msgstr "Flora"
+
 #: ../dat/maps/layna_village/layna_village_center_shop_script.lua:164
 #: ../dat/maps/layna_village/layna_village_center_shop_script.lua:187
 #: ../dat/maps/layna_village/layna_village_center_shop_script.lua:208
@@ -3474,7 +3518,7 @@ msgstr "Debe haber soldados por todas partes, non imos conseguir escapar…"
 
 #: ../dat/maps/layna_village/layna_village_kalya_house_path_at_night_script.lua:329
 msgid "Stop worrying. We also have our little secrets..."
-msgstr "Deixa de preocuparte. Nós tamén temos os noso segredos…"
+msgstr "Deixa de preocuparte. Nós tamén temos os nosos segredos…"
 
 #: ../dat/maps/layna_village/layna_village_kalya_house_path_at_night_script.lua:331
 msgid "You can go in there, Orlinn."
@@ -3587,7 +3631,7 @@ msgid ""
 "Nobody told me what was happening. Herth and the Lord seemed to know each "
 "other... And now you..."
 msgstr ""
-"Ninguén se dignou a explicarme o que estaba a ocorrer. Erce e o señor "
+"Ninguén se dignou a explicarme o que está a pasar. Erce e o señor Bansor "
 "parecían coñecerse… E agora ti…"
 
 #: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:310
@@ -3664,8 +3708,8 @@ msgid ""
 "It should have been me... But I couldn't move. And now, I have to fix my "
 "mistake..."
 msgstr ""
-"Debín ser eu… Pero non podía mover o corpo. E agora tócame corrixir o meu "
-"erro…"
+"Debín ser eu… Pero quedei no sitio, paralizada, incapaz de mover un músculo. "
+"Agora tócame corrixir ese erro…"
 
 #: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:344
 msgid "How?"
@@ -3717,7 +3761,7 @@ msgstr "Orlin…"
 
 #: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:382
 msgid "Don't worry, sis. It's fine, we can tell him."
-msgstr "Non te preocupes, Calia. Podemos dicirllo."
+msgstr "Non te preocupes, Calia. Podemos contarllo."
 
 #: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:384
 msgid "I also left my parents behind..."
@@ -3814,7 +3858,7 @@ msgstr ""
 
 #: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:529
 msgid "It is 'Lord Banesore', you scum!"
-msgstr "É «Señor Bansor», escoura!"
+msgstr "É «señor Bansor», escoura!"
 
 #: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:531
 msgid ""
@@ -3950,7 +3994,7 @@ msgstr "Ti… Despois de todos estes anos…"
 
 #: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:684
 msgid "... Let everyone out of this. We don't have your 'crystal'..."
-msgstr "Deixa en paz á vila. Non temos o teu «cristal»…"
+msgstr "Deixa en paz a vila. Non temos o teu «cristal»…"
 
 #: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:686
 msgid "Of course, you have it. I can feel it within your flesh..."
@@ -4020,7 +4064,7 @@ msgstr ""
 
 #: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:804
 msgid "Yes, my Lord!"
-msgstr "Ás súas ordes!"
+msgstr "Ás súas ordes, señor!"
 
 #: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:806
 msgid "Why in hell ...?"
@@ -4294,8 +4338,8 @@ msgid ""
 "We don't know how he does that, but he can turn anybody into a servile "
 "subject."
 msgstr ""
-"Non sabemos como o fai, pero sabemos que pode transformar calquera persoa nun "
-"dos seus súbditos leais."
+"Non sabemos como o fai, pero sabemos que pode transformar calquera persoa "
+"nun dos seus súbditos leais."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_path1_script.lua:634
 msgid ""
