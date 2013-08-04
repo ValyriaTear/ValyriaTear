@@ -97,7 +97,7 @@ function _CreateNPCs()
     local dialogue = {}
     local event = {}
 
-    npc = CreateNPCSprite(Map, "Old Woman1", "Brymir", 7, 25);
+    npc = CreateNPCSprite(Map, "Old Woman1", vt_system.Translate("Brymir"), 7, 25);
     Map:AddGroundObject(npc);
     npc:SetDirection(vt_map.MapMode.SOUTH);
     dialogue = vt_map.SpriteDialogue("ep1_layna_village_granma_default");

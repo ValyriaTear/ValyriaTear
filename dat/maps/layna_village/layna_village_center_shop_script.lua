@@ -65,12 +65,12 @@ function _CreateCharacters()
 end
 
 function _CreateNPCs()
-    npc = CreateNPCSprite(Map, "Woman1", "Flora", 39, 20);
+    npc = CreateNPCSprite(Map, "Woman1", vt_system.Translate("Flora"), 39, 20);
     npc:SetDirection(vt_map.MapMode.SOUTH);
     Map:AddGroundObject(npc);
 
     -- The npc is too far away from the Hero so we make an invisible doppelgänger
-    flora = CreateNPCSprite(Map, "Woman1", "Flora", 39, 22);
+    flora = CreateNPCSprite(Map, "Woman1", vt_system.Translate("Flora"), 39, 22);
     Map:AddGroundObject(flora);
     flora:SetVisible(false);
     flora:SetCollisionMask(vt_map.MapMode.NO_COLLISION);

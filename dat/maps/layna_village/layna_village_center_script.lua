@@ -154,7 +154,7 @@ function _CreateNPCs()
     herth:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
     Map:AddGroundObject(herth);
 
-    npc = CreateNPCSprite(Map, "Old Woman1", "Brymir", 72, 64);
+    npc = CreateNPCSprite(Map, "Old Woman1", vt_system.Translate("Brymir"), 72, 64);
     Map:AddGroundObject(npc);
     npc:SetDirection(vt_map.MapMode.WEST);
     dialogue = vt_map.SpriteDialogue("ep1_layna_village_brymir_gossip");
@@ -163,7 +163,7 @@ function _CreateNPCs()
     DialogueManager:AddDialogue(dialogue);
     npc:AddDialogueReference(dialogue);
 
-    npc = CreateNPCSprite(Map, "Woman1", "Martha", 70, 64);
+    npc = CreateNPCSprite(Map, "Woman1", vt_system.Translate("Martha"), 70, 64);
     Map:AddGroundObject(npc);
     npc:SetDirection(vt_map.MapMode.EAST);
     dialogue = vt_map.SpriteDialogue("ep1_layna_village_martha_gossip");
@@ -172,7 +172,7 @@ function _CreateNPCs()
     DialogueManager:AddDialogue(dialogue);
     npc:AddDialogueReference(dialogue);
 
-    npc = CreateNPCSprite(Map, "Woman2", "Sophia", 22, 38);
+    npc = CreateNPCSprite(Map, "Woman2", vt_system.Translate("Sophia"), 22, 38);
     Map:AddGroundObject(npc);
     npc:SetDirection(vt_map.MapMode.SOUTH);
     if (GlobalManager:DoesEventExist("layna_south_entrance", "quest1_orlinn_hide_n_seek1_done") == true and
@@ -197,13 +197,13 @@ function _CreateNPCs()
         object:SetEventWhenTalking("Nekko says Meoww!");
     end;
 
-    georges = CreateNPCSprite(Map, "Man1", "Georges", 32, 76);
+    georges = CreateNPCSprite(Map, "Man1", vt_system.Translate("Georges"), 32, 76);
     Map:AddGroundObject(georges);
     georges:SetDirection(vt_map.MapMode.WEST);
     _UpdateGeorgesDialogue(georges);
 
     -- Olivia, guardian of the forest access
-    olivia = CreateNPCSprite(Map, "Girl1", "Olivia", 115, 34);
+    olivia = CreateNPCSprite(Map, "Girl1", vt_system.Translate("Olivia"), 115, 34);
     olivia:SetDirection(vt_map.MapMode.SOUTH);
     Map:AddGroundObject(olivia);
     _UpdateOliviaDialogue();

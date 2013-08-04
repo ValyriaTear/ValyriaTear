@@ -120,19 +120,19 @@ function _CreateNPCs()
     kalya:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
     Map:AddGroundObject(kalya);
 
-    soldier1 = CreateNPCSprite(Map, "Dark Soldier", "Soldier", 0, 0);
+    soldier1 = CreateNPCSprite(Map, "Dark Soldier", vt_system.Translate("Soldier"), 0, 0);
     soldier1:SetVisible(false);
     soldier1:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
     Map:AddGroundObject(soldier1);
-    soldier2 = CreateNPCSprite(Map, "Dark Soldier", "Soldier", 0, 0);
+    soldier2 = CreateNPCSprite(Map, "Dark Soldier", vt_system.Translate("Soldier"), 0, 0);
     soldier2:SetVisible(false);
     soldier2:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
     Map:AddGroundObject(soldier2);
-    soldier3 = CreateNPCSprite(Map, "Dark Soldier", "Soldier", 0, 0);
+    soldier3 = CreateNPCSprite(Map, "Dark Soldier", vt_system.Translate("Soldier"), 0, 0);
     soldier3:SetVisible(false);
     soldier3:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
     Map:AddGroundObject(soldier3);
-    soldier4 = CreateNPCSprite(Map, "Dark Soldier", "Soldier", 0, 0);
+    soldier4 = CreateNPCSprite(Map, "Dark Soldier", vt_system.Translate("Soldier"), 0, 0);
     soldier4:SetVisible(false);
     soldier4:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
     Map:AddGroundObject(soldier4);

@@ -148,7 +148,7 @@ function _CreateNPCs()
     kalya:SetDirection(vt_map.MapMode.EAST);
     Map:AddGroundObject(kalya);
 
-    lilly = CreateNPCSprite(Map, "Woman3", "Lilly", 95, 54);
+    lilly = CreateNPCSprite(Map, "Woman3", vt_system.Translate("Lilly"), 95, 54);
     lilly:SetDirection(vt_map.MapMode.EAST);
     Map:AddGroundObject(lilly);
 
@@ -160,92 +160,92 @@ function _CreateNPCs()
     malta:SetDirection(vt_map.MapMode.NORTH);
     Map:AddGroundObject(malta);
 
-    brymir = CreateNPCSprite(Map, "Old Woman1", "Brymir", 87, 61.5);
+    brymir = CreateNPCSprite(Map, "Old Woman1", vt_system.Translate("Brymir"), 87, 61.5);
     brymir:SetDirection(vt_map.MapMode.NORTH);
     Map:AddGroundObject(brymir);
 
-    martha = CreateNPCSprite(Map, "Woman1", "Martha", 89, 61);
+    martha = CreateNPCSprite(Map, "Woman1", vt_system.Translate("Martha"), 89, 61);
     martha:SetDirection(vt_map.MapMode.NORTH);
     Map:AddGroundObject(martha);
 
-    georges = CreateNPCSprite(Map, "Man1", "Georges", 105, 61.5);
+    georges = CreateNPCSprite(Map, "Man1", vt_system.Translate("Georges"), 105, 61.5);
     georges:SetDirection(vt_map.MapMode.NORTH);
     Map:AddGroundObject(georges);
 
-    olivia = CreateNPCSprite(Map, "Girl1", "Olivia", 107, 61);
+    olivia = CreateNPCSprite(Map, "Girl1", vt_system.Translate("Olivia"), 107, 61);
     olivia:SetDirection(vt_map.MapMode.NORTH);
     Map:AddGroundObject(olivia);
 
     -- Create the soldiers
-    soldier1 = CreateNPCSprite(Map, "Dark Soldier", "Soldier", 88, 59);
+    soldier1 = CreateNPCSprite(Map, "Dark Soldier", vt_system.Translate("Soldier"), 88, 59);
     soldier1:SetDirection(vt_map.MapMode.SOUTH);
     Map:AddGroundObject(soldier1);
-    soldier2 = CreateNPCSprite(Map, "Dark Soldier", "Soldier", 96, 59);
+    soldier2 = CreateNPCSprite(Map, "Dark Soldier", vt_system.Translate("Soldier"), 96, 59);
     soldier2:SetDirection(vt_map.MapMode.SOUTH);
     Map:AddGroundObject(soldier2);
-    soldier3 = CreateNPCSprite(Map, "Dark Soldier", "Soldier", 106, 59.5);
+    soldier3 = CreateNPCSprite(Map, "Dark Soldier", vt_system.Translate("Soldier"), 106, 59.5);
     soldier3:SetDirection(vt_map.MapMode.SOUTH);
     Map:AddGroundObject(soldier3);
-    soldier4 = CreateNPCSprite(Map, "Dark Soldier", "Soldier", 88, 55);
+    soldier4 = CreateNPCSprite(Map, "Dark Soldier", vt_system.Translate("Soldier"), 88, 55);
     soldier4:SetDirection(vt_map.MapMode.WEST);
     Map:AddGroundObject(soldier4);
-    soldier5 = CreateNPCSprite(Map, "Dark Soldier", "Soldier", 99, 59);
+    soldier5 = CreateNPCSprite(Map, "Dark Soldier", vt_system.Translate("Soldier"), 99, 59);
     soldier5:SetDirection(vt_map.MapMode.SOUTH);
     Map:AddGroundObject(soldier5);
-    soldier6 = CreateNPCSprite(Map, "Dark Soldier", "Soldier", 102.5, 59.2);
+    soldier6 = CreateNPCSprite(Map, "Dark Soldier", vt_system.Translate("Soldier"), 102.5, 59.2);
     soldier6:SetDirection(vt_map.MapMode.SOUTH);
     Map:AddGroundObject(soldier6);
-    soldier7 = CreateNPCSprite(Map, "Dark Soldier", "Soldier", 93, 59.3);
+    soldier7 = CreateNPCSprite(Map, "Dark Soldier", vt_system.Translate("Soldier"), 93, 59.3);
     soldier7:SetDirection(vt_map.MapMode.SOUTH);
     Map:AddGroundObject(soldier7);
-    soldier8 = CreateNPCSprite(Map, "Dark Soldier", "Soldier", 90.6, 59.6);
+    soldier8 = CreateNPCSprite(Map, "Dark Soldier", vt_system.Translate("Soldier"), 90.6, 59.6);
     soldier8:SetDirection(vt_map.MapMode.SOUTH);
     Map:AddGroundObject(soldier8);
-    soldier9 = CreateNPCSprite(Map, "Dark Soldier", "Soldier", 108, 57);
+    soldier9 = CreateNPCSprite(Map, "Dark Soldier", vt_system.Translate("Soldier"), 108, 57);
     soldier9:SetDirection(vt_map.MapMode.WEST);
     Map:AddGroundObject(soldier9);
-    soldier10 = CreateNPCSprite(Map, "Dark Soldier", "Soldier", 108, 54);
+    soldier10 = CreateNPCSprite(Map, "Dark Soldier", vt_system.Translate("Soldier"), 108, 54);
     soldier10:SetDirection(vt_map.MapMode.WEST);
     Map:AddGroundObject(soldier10);
-    soldier11 = CreateNPCSprite(Map, "Dark Soldier", "Soldier", 103, 50);
+    soldier11 = CreateNPCSprite(Map, "Dark Soldier", vt_system.Translate("Soldier"), 103, 50);
     soldier11:SetDirection(vt_map.MapMode.SOUTH);
     Map:AddGroundObject(soldier11);
-    soldier12 = CreateNPCSprite(Map, "Dark Soldier", "Soldier", 90, 50);
+    soldier12 = CreateNPCSprite(Map, "Dark Soldier", vt_system.Translate("Soldier"), 90, 50);
     soldier12:SetDirection(vt_map.MapMode.SOUTH);
     Map:AddGroundObject(soldier12);
-    soldier13 = CreateNPCSprite(Map, "Dark Soldier", "Soldier", 100, 48);
+    soldier13 = CreateNPCSprite(Map, "Dark Soldier", vt_system.Translate("Soldier"), 100, 48);
     soldier13:SetDirection(vt_map.MapMode.SOUTH);
     Map:AddGroundObject(soldier13);
-    soldier14 = CreateNPCSprite(Map, "Dark Soldier", "Soldier", 96, 48);
+    soldier14 = CreateNPCSprite(Map, "Dark Soldier", vt_system.Translate("Soldier"), 96, 48);
     soldier14:SetDirection(vt_map.MapMode.SOUTH);
     Map:AddGroundObject(soldier14);
-    soldier15 = CreateNPCSprite(Map, "Dark Soldier", "Soldier", 84, 53);
+    soldier15 = CreateNPCSprite(Map, "Dark Soldier", vt_system.Translate("Soldier"), 84, 53);
     soldier15:SetDirection(vt_map.MapMode.EAST);
     Map:AddGroundObject(soldier15);
-    soldier16 = CreateNPCSprite(Map, "Dark Soldier", "Soldier", 84, 57);
+    soldier16 = CreateNPCSprite(Map, "Dark Soldier", vt_system.Translate("Soldier"), 84, 57);
     soldier16:SetDirection(vt_map.MapMode.EAST);
     Map:AddGroundObject(soldier16);
 
-    lord = CreateNPCSprite(Map, "Lord", "Lord Banesore", 105, 54);
+    lord = CreateNPCSprite(Map, "Lord", vt_system.Translate("Lord Banesore"), 105, 54);
     lord:SetDirection(vt_map.MapMode.WEST);
     Map:AddGroundObject(lord);
 
     -- soldiers around kalya 77,55
-    soldier17 = CreateNPCSprite(Map, "Dark Soldier", "Soldier", 79, 55);
+    soldier17 = CreateNPCSprite(Map, "Dark Soldier", vt_system.Translate("Soldier"), 79, 55);
     soldier17:SetDirection(vt_map.MapMode.EAST);
     Map:AddGroundObject(soldier17);
-    soldier18 = CreateNPCSprite(Map, "Dark Soldier", "Soldier", 77, 53);
+    soldier18 = CreateNPCSprite(Map, "Dark Soldier", vt_system.Translate("Soldier"), 77, 53);
     soldier18:SetDirection(vt_map.MapMode.EAST);
     Map:AddGroundObject(soldier18);
-    soldier19 = CreateNPCSprite(Map, "Dark Soldier", "Soldier", 77, 57);
+    soldier19 = CreateNPCSprite(Map, "Dark Soldier", vt_system.Translate("Soldier"), 77, 57);
     soldier19:SetDirection(vt_map.MapMode.EAST);
     Map:AddGroundObject(soldier19);
-    soldier20 = CreateNPCSprite(Map, "Dark Soldier", "Soldier", 75, 55);
+    soldier20 = CreateNPCSprite(Map, "Dark Soldier", vt_system.Translate("Soldier"), 75, 55);
     soldier20:SetDirection(vt_map.MapMode.EAST);
     Map:AddGroundObject(soldier20);
 
     -- soldiers guarding the surroundings
-    soldier21 = CreateNPCSprite(Map, "Dark Soldier", "Soldier", 95, 21);
+    soldier21 = CreateNPCSprite(Map, "Dark Soldier", vt_system.Translate("Soldier"), 95, 21);
     soldier21:SetDirection(vt_map.MapMode.NORTH);
     Map:AddGroundObject(soldier21);
     event = vt_map.ChangeDirectionSpriteEvent("Soldier21 looks north", soldier21, vt_map.MapMode.NORTH);
@@ -259,7 +259,7 @@ function _CreateNPCs()
     EventManager:RegisterEvent(event);
     EventManager:StartEvent("Soldier21 goes east");
 
-    soldier22 = CreateNPCSprite(Map, "Dark Soldier", "Soldier", 83, 28);
+    soldier22 = CreateNPCSprite(Map, "Dark Soldier", vt_system.Translate("Soldier"), 83, 28);
     soldier22:SetDirection(vt_map.MapMode.WEST);
     Map:AddGroundObject(soldier22);
     event = vt_map.ChangeDirectionSpriteEvent("Soldier22 looks north", soldier22, vt_map.MapMode.NORTH);

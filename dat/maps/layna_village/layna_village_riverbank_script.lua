@@ -104,7 +104,7 @@ function _CreateNPCs()
     local dialogue = {}
     local event = {}
 
-    lilly = CreateNPCSprite(Map, "Woman3", "Lilly", 67, 40);
+    lilly = CreateNPCSprite(Map, "Woman3", vt_system.Translate("Lilly"), 67, 40);
     Map:AddGroundObject(lilly);
 
     object = CreateObject(Map, "Dog1", 66, 42);
