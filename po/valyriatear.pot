@@ -20,7 +20,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-08-02 07:56+0200\n"
+"POT-Creation-Date: 2013-08-04 19:37+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1355,6 +1355,7 @@ msgid "Dark Soldier"
 msgstr ""
 
 #: ../dat/actors/enemies.lua:526
+#: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:229
 msgid "Lord Banesore"
 msgstr ""
 
@@ -1506,27 +1507,39 @@ msgid "Herth"
 msgstr ""
 
 #: ../dat/actors/map_sprites.lua:149
+#: ../dat/maps/layna_village/layna_village_center_script.lua:206
+#: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:175
 msgid "Olivia"
 msgstr ""
 
 #: ../dat/actors/map_sprites.lua:164
+#: ../dat/maps/layna_village/layna_village_center_script.lua:157
+#: ../dat/maps/layna_village/layna_village_kalya_house_path_script.lua:100
+#: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:163
 msgid "Brymir"
 msgstr ""
 
 #: ../dat/actors/map_sprites.lua:179
+#: ../dat/maps/layna_village/layna_village_center_script.lua:166
+#: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:167
 msgid "Martha"
 msgstr ""
 
 #: ../dat/actors/map_sprites.lua:194
+#: ../dat/maps/layna_village/layna_village_center_script.lua:175
 msgid "Sophia"
 msgstr ""
 
 #: ../dat/actors/map_sprites.lua:209
 #: ../dat/maps/layna_village/battle_with_banesore/battle_with_banesore_script.lua:54
+#: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:151
+#: ../dat/maps/layna_village/layna_village_riverbank_script.lua:107
 msgid "Lilly"
 msgstr ""
 
 #: ../dat/actors/map_sprites.lua:224
+#: ../dat/maps/layna_village/layna_village_center_script.lua:200
+#: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:171
 msgid "Georges"
 msgstr ""
 
@@ -1535,6 +1548,32 @@ msgid "Crystal"
 msgstr ""
 
 #: ../dat/actors/map_sprites.lua:256
+#: ../dat/maps/layna_village/layna_village_center_at_night_script.lua:123
+#: ../dat/maps/layna_village/layna_village_center_at_night_script.lua:127
+#: ../dat/maps/layna_village/layna_village_center_at_night_script.lua:131
+#: ../dat/maps/layna_village/layna_village_center_at_night_script.lua:135
+#: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:180
+#: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:183
+#: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:186
+#: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:189
+#: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:192
+#: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:195
+#: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:198
+#: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:201
+#: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:204
+#: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:207
+#: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:210
+#: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:213
+#: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:216
+#: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:219
+#: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:222
+#: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:225
+#: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:234
+#: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:237
+#: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:240
+#: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:243
+#: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:248
+#: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:262
 #: ../dat/maps/mt_elbrus/battle_with_dark_soldiers_script.lua:34
 msgid "Soldier"
 msgstr ""
@@ -3200,6 +3239,11 @@ msgstr ""
 
 #: ../dat/maps/layna_village/layna_village_center_script.lua:1044
 msgid "Heya bro! Wanna play with me?"
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_center_shop_script.lua:68
+#: ../dat/maps/layna_village/layna_village_center_shop_script.lua:73
+msgid "Flora"
 msgstr ""
 
 #: ../dat/maps/layna_village/layna_village_center_shop_script.lua:164
