@@ -720,6 +720,9 @@ private:
     **/
     std::vector<std::vector<BattleEnemyInfo> > _enemy_parties;
 
+    //! \brief Tells whether pathfinding is used to compute the enemy movement.
+    bool _use_path;
+
     //! \brief Used to store the previous coordinates of the sprite during path movement,
     //! so as to set the proper direction of the sprite as it moves
     float _last_node_x_position, _last_node_y_position;
@@ -749,7 +752,7 @@ private:
     bool _SetDestination(float destination_x, float destination_y, uint32 max_cost = 20);
 
     //! \brief Set the actual sprite direction according to the current path node.
-    void _SetSpriteDirection();
+    void _SetSpritePathDirection();
 
     //! \brief Update the sprite direction according to the current path.
     void _UpdatePath();
@@ -757,9 +760,6 @@ private:
     //! \brief Set a path for the sprite being the next way point given.
     //! \return whether it failed.
     bool _SetPathToNextWayPoint();
-
-    //! \brief Set a random path for the enemy
-    void _SetRandomPath();
 
 }; // class EnemySprite : public MapSprite
 

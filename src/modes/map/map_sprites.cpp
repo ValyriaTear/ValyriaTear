@@ -1167,7 +1167,8 @@ EnemySprite::EnemySprite() :
     _time_before_new_destination(1200),
     _time_to_spawn(STANDARD_ENEMY_FIRST_SPAWN_TIME),
     _out_of_zone(false),
-    _is_boss(false)
+    _is_boss(false),
+    _use_path(false)
 {
     MapObject::_object_type = ENEMY_TYPE;
     moving = false;
@@ -1192,6 +1193,7 @@ void EnemySprite::Reset()
     _destination_y = 0.0f;
     _current_node_id = 0;
     _path.clear();
+    _use_path = false;
 
     // Reset the currently selected way point
     _current_way_point_id = 0;
@@ -1259,7 +1261,7 @@ void EnemySprite::Update()
             return;
 
         // Update the wait time until next path
-        if (!moving)
+        if (!_use_path || !moving)
             _time_elapsed += SystemManager->GetUpdateTime();
 
         // Test whether the monster has spotted its target.
@@ -1278,8 +1280,11 @@ void EnemySprite::Update()
         if(_zone && !_zone->IsInsideZone(GetXPosition(), GetYPosition())
                 && !can_get_out_of_zone) {
             if (_path.empty() && _time_elapsed >= _time_before_new_destination) {
-                if (!_SetPathToNextWayPoint())
-                    _SetRandomPath();
+                if (!_SetPathToNextWayPoint()) {
+                    // Fall back to simple movement mode.
+                    SetRandomDirection();
+                    moving = true;
+                }
                 _time_elapsed = 0;
             }
             // The sprite is now finding its way back into the zone
@@ -1295,14 +1300,17 @@ void EnemySprite::Update()
             if(MapMode::CurrentInstance()->AttackAllowed()
                     && (_zone == NULL || (can_get_out_of_zone || _zone->IsInsideZone(camera_x, camera_y)))) {
 
-                if (moving)
+                if (_use_path && moving)
                     _time_elapsed += SystemManager->GetUpdateTime();
 
                 // We set the destination to the character's position if it's not the case
                 if (_time_elapsed >= 600) {
                     // Avoid heavy paths here.
-                    if (!_SetDestination(camera_x, camera_y, 20))
-                        _SetRandomPath();
+                    if (!_SetDestination(camera_x, camera_y, 20)) {
+                        // Fall back to simple movement mode
+                        SetRandomDirection();
+                        moving = true;
+                    }
                     _time_elapsed = 0;
                 }
             }
@@ -1310,13 +1318,16 @@ void EnemySprite::Update()
             // If there is no path left, and the time to set a new destination has passed,
             // we set a new random destination.
             else if (_path.empty() && _time_elapsed >= _time_before_new_destination) {
-                if (!_SetPathToNextWayPoint())
-                    _SetRandomPath();
+                if (!_SetPathToNextWayPoint()) {
+                    // Fall back to simple movement mode
+                    SetRandomDirection();
+                    moving = true;
+                }
                 _time_elapsed = 0;
             }
         }
 
-        if (_path.empty()) {
+        if (_use_path && _path.empty()) {
             // The sprite is waiting for the next destination.
             moving = false;
             // We then reset the correct walk mask
@@ -1368,24 +1379,11 @@ void EnemySprite::AddWayPoint(float destination_x, float destination_y)
     _way_points.push_back(destination);
 }
 
-void EnemySprite::_SetRandomPath()
-{
-    float pos_x = 0.0f;
-    float pos_y = 0.0f;
-    if (_zone) {
-        _zone->RandomPosition(pos_x, pos_y);
-    }
-    else {
-        // set up a random position around the current point
-        pos_x = RandomFloat(GetXPosition() - 2.0f, GetXPosition() + 2.0f);
-        pos_y = RandomFloat(GetYPosition() - 2.0f, GetYPosition() + 2.0f);
-    }
-    _SetDestination(pos_x, pos_y, _zone ? 0 : 20); // Avoid heavy paths if no zones.
-    _time_elapsed = 0;
-}
-
 bool EnemySprite::_SetPathToNextWayPoint()
 {
+    //! Will be set to true if _SetDestination() is succeeding
+    _use_path = false;
+
     // There must be at least two way points to permit supporting those.
     if (_way_points.size() < 2)
         return false;
@@ -1401,7 +1399,7 @@ bool EnemySprite::_SetPathToNextWayPoint()
 
 void EnemySprite::_UpdatePath()
 {
-    if(_path.empty())
+    if(!_use_path || _path.empty())
         return;
 
     float sprite_position_x = GetXPosition();
@@ -1424,7 +1422,7 @@ void EnemySprite::_UpdatePath()
         _last_node_y_position = sprite_position_y;
     }
 
-    _SetSpriteDirection();
+    _SetSpritePathDirection();
 
     // End the path event
     if(vt_utils::IsFloatEqual(sprite_position_x, _destination_x, distance_moved)
@@ -1436,6 +1434,7 @@ void EnemySprite::_UpdatePath()
 bool EnemySprite::_SetDestination(float destination_x, float destination_y, uint32 max_cost)
 {
     _path.clear();
+    _use_path = false;
 
     uint32 dest_x = (uint32) destination_x;
     uint32 dest_y = (uint32) destination_y;
@@ -1469,11 +1468,15 @@ bool EnemySprite::_SetDestination(float destination_x, float destination_y, uint
     _current_node_y = _path[_current_node_id].y;
 
     moving = true;
+    _use_path = true;
     return true;
 }
 
-void EnemySprite::_SetSpriteDirection()
+void EnemySprite::_SetSpritePathDirection()
 {
+    if (!_use_path || _path.empty())
+        return;
+
     uint16 direction = 0;
 
     float sprite_position_x = GetXPosition();
