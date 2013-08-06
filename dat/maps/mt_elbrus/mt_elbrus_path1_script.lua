@@ -95,6 +95,9 @@ function _CreateCharacters()
     elseif (GlobalManager:GetPreviousLocation() == "from_grotto_exit4") then
         hero:SetDirection(vt_map.MapMode.SOUTH);
         hero:SetPosition(102.5, 22.0);
+    elseif (GlobalManager:GetPreviousLocation() == "from_path2") then
+        hero:SetDirection(vt_map.MapMode.EAST);
+        hero:SetPosition(4.0, 20.0);
     end
 
     Map:AddGroundObject(hero);
@@ -124,7 +127,7 @@ function _CreateObjects()
     local object = {}
     local npc = {}
 
-    Map:AddSavePoint(113, 56);
+    Map:AddSavePoint(114, 56);
 
     -- Load the spring heal effect.
     heal_effect = vt_map.ParticleObject("dat/effects/particles/heal_particle.lua", 0, 0);
@@ -565,6 +568,10 @@ function _CreateEvents()
                                        "dat/maps/mt_elbrus/mt_elbrus_cave1_script.lua", "from_entrance4");
     EventManager:RegisterEvent(event);
 
+    event = vt_map.MapTransitionEvent("to mountain path 2", "dat/maps/mt_elbrus/mt_elbrus_path2_map.lua",
+                                       "dat/maps/mt_elbrus/mt_elbrus_path2_script.lua", "from_path1");
+    EventManager:RegisterEvent(event);
+
     -- Heal point
     event = vt_map.ScriptedEvent("Heal event", "heal_party", "heal_done");
     EventManager:RegisterEvent(event);
@@ -660,6 +667,7 @@ local to_cave1_zone = {};
 local to_cave2_zone = {};
 local to_cave3_zone = {};
 local to_cave4_zone = {};
+local to_path2_zone = {};
 
 -- Create the different map zones triggering events
 function _CreateZones()
@@ -675,6 +683,9 @@ function _CreateZones()
     Map:AddZone(to_cave3_zone);
     to_cave4_zone = vt_map.CameraZone(100, 104, 19, 20);
     Map:AddZone(to_cave4_zone);
+
+    to_path2_zone = vt_map.CameraZone(0, 2, 16, 26);
+    Map:AddZone(to_path2_zone);
 end
 
 -- Check whether the active camera has entered a zone. To be called within Update()
@@ -696,6 +707,9 @@ function _CheckZones()
     elseif (to_cave4_zone:IsCameraEntering() == true) then
         hero:SetMoving(false);
         EventManager:StartEvent("to cave 4");
+    elseif (to_path2_zone:IsCameraEntering() == true) then
+        hero:SetMoving(false);
+        EventManager:StartEvent("to mountain path 2");
     end
 end
 
