@@ -401,6 +401,7 @@ map_functions = {
             hero:DisableCustomAnimation();
             -- Make him/her look south after the jump.
             hero:SetDirection(vt_map.MapMode.SOUTH);
+            AudioManager:PlaySound("snd/footstep_grass2.wav");
             return true;
         end
         local update_time = SystemManager:GetUpdateTime();
@@ -416,6 +417,7 @@ map_functions = {
             hero:DisableCustomAnimation();
             -- Make him/her look south after the jump.
             hero:SetDirection(vt_map.MapMode.SOUTH);
+            AudioManager:PlaySound("snd/footstep_grass2.wav");
             return true;
         end
         local update_time = SystemManager:GetUpdateTime();
