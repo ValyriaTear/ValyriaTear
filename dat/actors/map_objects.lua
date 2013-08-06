@@ -313,11 +313,19 @@ objects["Rock2"] = {
 }
 
 objects["Rock3"] = {
-   animation_filename = "img/sprites/map/objects/rock3.lua",
-   coll_half_width = 4.0,
-   coll_height = 6.0,
-   img_half_width = 4.0,
-   img_height = 6.0
+    animation_filename = "img/sprites/map/objects/rock3.lua",
+    coll_half_width = 4.0,
+    coll_height = 6.0,
+    img_half_width = 4.0,
+    img_height = 6.0
+}
+
+objects["Rolling Stone"] = {
+    animation_filename = "img/sprites/map/objects/rolling_stone.lua",
+    coll_half_width = 1.0,
+    coll_height = 2.0,
+    img_half_width = 1.0,
+    img_height = 2.0
 }
 
 objects["Sauce Pot1"] = {
