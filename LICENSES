@@ -794,6 +794,10 @@ img/sprites/map/triggers/stone_trigger1_off.lua                 GPLv2           
 img/sprites/map/triggers/stone_trigger1_off.png                 CC by SA 3.0             Adapted Circle 2D graphics from Daniel Cook (lostgarden.com)
 img/sprites/map/triggers/stone_trigger1_on.lua                  GPLv2                    Bertram
 img/sprites/map/triggers/stone_trigger1_on.png                  CC by SA 3.0             Adapted Circle 2D graphics from Daniel Cook (lostgarden.com)
+img/sprites/map/triggers/rolling_stone_trigger1_off.lua         GPLv2                    Bertram
+img/sprites/map/triggers/rolling_stone_trigger1_off.png         CC by SA 3.0             Adapted Circle 2D graphics from Daniel Cook (lostgarden.com)
+img/sprites/map/triggers/rolling_stone_trigger1_on.lua          GPLv2                    Bertram
+img/sprites/map/triggers/rolling_stone_trigger1_on.png          CC by SA 3.0             Adapted Circle 2D graphics from Daniel Cook (lostgarden.com)
 
 img/tilesets/ancient_ruins_interior.png                         CC by SA 3.0             Adapted Circle 2D graphics from Daniel Cook (lostgarden.com)
 img/tilesets/ancient_ruins_exterior.png                         CC by SA 3.0             Adapted Circle 2D graphics from Daniel Cook (lostgarden.com)
