@@ -187,6 +187,12 @@ public:
         return _object_type;
     }
 
+    /** \brief Tells whether the object is currently colliding with another object or a wall
+    *** \param pos_x The x position to test against a collision
+    *** \param pos_y The y position to test against a collision
+    **/
+    bool IsColliding(float pos_x, float pos_y);
+
     /** \brief Returns the collision rectangle for the current object
     **/
     MapRectangle GetCollisionRectangle() const;
@@ -934,7 +940,7 @@ public:
     COLLISION_TYPE GetCollisionFromObjectType(MapObject *obj) const;
 
     /** \brief Tells the collision type of a sprite when it is at the given position
-    *** \param sprite A pointer to the map sprite to check
+    *** \param object A pointer to the map object to check
     *** \param x The collision point on the x axis
     *** \param y The collision point on the y axis
     *** \param coll_obj A pointer to the MapObject that the sprite has collided with, if any
@@ -944,7 +950,7 @@ public:
     *** This method is invoked by a map sprite who wishes to check for its own collision.
     *** \See COLLISION_TYPE for more information.
     **/
-    COLLISION_TYPE DetectCollision(VirtualSprite *sprite, float x, float y,
+    COLLISION_TYPE DetectCollision(MapObject* object, float x, float y,
                                    MapObject **collision_object_ptr = NULL);
 
     /** \brief Finds a path from a sprite's current position to a destination

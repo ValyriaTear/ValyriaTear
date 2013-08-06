@@ -174,6 +174,12 @@ void MapObject::_DrawEmote()
     _emote_animation->Draw();
 }
 
+bool MapObject::IsColliding(float x, float y)
+{
+    ObjectSupervisor* obj_sup = MapMode::CurrentInstance()->GetObjectSupervisor();
+    return obj_sup->DetectCollision(this, x, y);
+}
+
 // ----------------------------------------------------------------------------
 // ---------- PhysicalObject Class Functions
 // ----------------------------------------------------------------------------
@@ -1299,16 +1305,16 @@ COLLISION_TYPE ObjectSupervisor::GetCollisionFromObjectType(MapObject *obj) cons
 
 
 
-COLLISION_TYPE ObjectSupervisor::DetectCollision(VirtualSprite *sprite,
-        float x_pos, float y_pos,
-        MapObject **collision_object_ptr)
+COLLISION_TYPE ObjectSupervisor::DetectCollision(MapObject* object,
+                                                 float x_pos, float y_pos,
+                                                 MapObject **collision_object_ptr)
 {
     // If the sprite has this property set it can not collide
-    if(!sprite)
+    if(!object)
         return NO_COLLISION;
 
     // Get the collision rectangle at the given position
-    MapRectangle sprite_rect = sprite->GetCollisionRectangle(x_pos, y_pos);
+    MapRectangle sprite_rect = object->GetCollisionRectangle(x_pos, y_pos);
 
     // Check if any part of the object's collision rectangle is outside of the map boundary
     if(sprite_rect.left < 0.0f || sprite_rect.right >= static_cast<float>(_num_grid_x_axis) ||
@@ -1318,12 +1324,12 @@ COLLISION_TYPE ObjectSupervisor::DetectCollision(VirtualSprite *sprite,
 
     // Check for the absence of collision checking after the map boundaries check,
     // So that no collision beings won't get out of the map.
-    if(sprite->collision_mask == NO_COLLISION)
+    if(object->collision_mask == NO_COLLISION)
         return NO_COLLISION;
 
     // Check if the object's collision rectangel overlaps with any unwalkable elements on the collision grid
     // Grid based collision is not done for objects in the sky layer
-    if(!sprite->sky_object && sprite->collision_mask & WALL_COLLISION) {
+    if(!object->sky_object && object->collision_mask & WALL_COLLISION) {
         // Determine if the object's collision rectangle overlaps any unwalkable tiles
         // Note that because the sprite's collision rectangle was previously determined to be within the map bounds,
         // the map grid tile indeces referenced in this loop are all valid entries and do not need to be checked for out-of-bounds conditions
@@ -1336,7 +1342,7 @@ COLLISION_TYPE ObjectSupervisor::DetectCollision(VirtualSprite *sprite,
         }
     }
 
-    std::vector<MapObject *>* objects = sprite->sky_object ?
+    std::vector<MapObject *>* objects = object->sky_object ?
                                         &_sky_objects : &_ground_objects;
 
     std::vector<vt_map::private_map::MapObject *>::const_iterator it, it_end;
@@ -1347,7 +1353,7 @@ COLLISION_TYPE ObjectSupervisor::DetectCollision(VirtualSprite *sprite,
             continue;
 
         // Object and sprite are the same
-        if(collision_object->object_id == sprite->object_id)
+        if(collision_object->object_id == object->object_id)
             continue;
 
         // If the two objects aren't colliding, try next.
@@ -1361,7 +1367,7 @@ COLLISION_TYPE ObjectSupervisor::DetectCollision(VirtualSprite *sprite,
         // When the collision mask is taking in account the collision type
         // we can return it. Otherwise, just ignore the sprite colliding.
         COLLISION_TYPE collision = GetCollisionFromObjectType(collision_object);
-        if(sprite->collision_mask & collision)
+        if(object->collision_mask & collision)
             return collision;
         else
             continue;
