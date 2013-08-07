@@ -261,16 +261,16 @@ function _CreateEvents()
 
     -- To the first cave
     event = vt_map.MapTransitionEvent("to cave 2-1", "dat/maps/mt_elbrus/mt_elbrus_cave2_map.lua",
-                                       "dat/maps/mt_elbrus/mt_elbrus_cave2_script.lua", "from_entrance1");
+                                       "dat/maps/mt_elbrus/mt_elbrus_cave2_script.lua", "from_elbrus_entrance2-1");
     EventManager:RegisterEvent(event);
     event = vt_map.MapTransitionEvent("to cave 2-2", "dat/maps/mt_elbrus/mt_elbrus_cave2_map.lua",
-                                       "dat/maps/mt_elbrus/mt_elbrus_cave2_script.lua", "from_entrance2");
+                                       "dat/maps/mt_elbrus/mt_elbrus_cave2_script.lua", "from_elbrus_entrance2-2");
     EventManager:RegisterEvent(event);
     event = vt_map.MapTransitionEvent("to cave 3-1", "dat/maps/mt_elbrus/mt_elbrus_cave3_map.lua",
-                                       "dat/maps/mt_elbrus/mt_elbrus_cave3_script.lua", "from_entrance1");
+                                       "dat/maps/mt_elbrus/mt_elbrus_cave3_script.lua", "from_elbrus_entrance3-1");
     EventManager:RegisterEvent(event);
     event = vt_map.MapTransitionEvent("to cave 3-2", "dat/maps/mt_elbrus/mt_elbrus_cave3_map.lua",
-                                       "dat/maps/mt_elbrus/mt_elbrus_cave3_script.lua", "from_entrance2");
+                                       "dat/maps/mt_elbrus/mt_elbrus_cave3_script.lua", "from_elbrus_entrance3-2");
     EventManager:RegisterEvent(event);
 
     event = vt_map.MapTransitionEvent("to mountain path 3", "dat/maps/mt_elbrus/mt_elbrus_path3_map.lua",
