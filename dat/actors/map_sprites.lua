@@ -133,6 +133,7 @@ sprites["Herth"] = {
     img_half_width = 1.0,
     img_height = 4.0,
     movement_speed = SLOW_SPEED,
+    face_portrait = "img/portraits/npcs/herth.png",
 
     -- using special animation files.
     standard_animations = {
@@ -197,6 +198,7 @@ sprites["Woman2"] = {
     img_half_width = 1.0,
     img_height = 4.0,
     movement_speed = NORMAL_SPEED,
+    face_portrait = "img/portraits/npcs/woman02.png",
 
     -- using special animation files.
     standard_animations = {
