@@ -410,8 +410,7 @@ map_functions = {
             AudioManager:PlaySound("snd/cave-in.ogg");
         else
             -- Play a click sound when a trigger is pushed
-            -- TODO Find a better sound
-            AudioManager:PlaySound("snd/confirm.wav");
+            AudioManager:PlaySound("snd/trigger_on.wav");
         end
     end
 }
