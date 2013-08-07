@@ -267,8 +267,7 @@ function _UpdateStoneMovement(stone_object, stone_direction)
 
         -- Check the collision
         if (stone_object:IsColliding(new_pos_x, new_pos_y) == true) then
-            -- TODO Find a suitable sound
-            --AudioManager:PlaySound("snd/stone_bump.wav");
+            AudioManager:PlaySound("snd/stone_bump.ogg");
             return true;
         end
 
