@@ -193,6 +193,11 @@ public:
     **/
     bool IsColliding(float pos_x, float pos_y);
 
+    /** \brief Tells whether the object is currently colliding with another object or a wall
+    *** \param object The other object to test against a collision
+    **/
+    bool IsCollidingWith(MapObject* other_object);
+
     /** \brief Returns the collision rectangle for the current object
     **/
     MapRectangle GetCollisionRectangle() const;

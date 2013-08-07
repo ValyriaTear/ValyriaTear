@@ -180,6 +180,25 @@ bool MapObject::IsColliding(float x, float y)
     return obj_sup->DetectCollision(this, x, y);
 }
 
+bool MapObject::IsCollidingWith(MapObject* other_object)
+{
+     if (!other_object)
+        return false;
+
+     if (collision_mask == NO_COLLISION)
+        return false;
+
+     if (other_object->collision_mask == NO_COLLISION)
+        return false;
+
+    MapRectangle other_rect = other_object->GetCollisionRectangle();
+
+    if (!MapRectangle::CheckIntersection(GetCollisionRectangle(), other_rect))
+        return false;
+
+    return collision_mask & other_object->collision_mask;
+}
+
 // ----------------------------------------------------------------------------
 // ---------- PhysicalObject Class Functions
 // ----------------------------------------------------------------------------
