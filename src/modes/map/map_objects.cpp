@@ -835,6 +835,9 @@ TriggerObject::TriggerObject(const std::string &trigger_name,
     _off_event = off_event_id;
     _on_event = on_event_id;
 
+    // By default, the player can step on it to toggle its state.
+    _triggerable_by_character = true;
+
     // Dissect the frames and create the closed, opening, and open animations
     vt_video::AnimatedImage off_anim, on_anim;
 
@@ -859,16 +862,19 @@ TriggerObject::TriggerObject(const std::string &trigger_name,
 void TriggerObject::Update() {
     PhysicalObject::Update();
 
-    // TODO: Permits other behaviour
+    // The trigger can't be toggle by the character, nothing will happen
+    if (!_triggerable_by_character)
+        return;
+
+    // TODO: Permit other behaviour
     if (_trigger_state)
         return;
 
     MapMode *map_mode = MapMode::CurrentInstance();
     if (!map_mode->IsCameraOnVirtualFocus()
             && MapRectangle::CheckIntersection(map_mode->GetCamera()->GetCollisionRectangle(), GetCollisionRectangle())) {
-        // This might need to be removed after thorough test
-        map_mode->GetCamera()->SetMoving(false);
 
+        map_mode->GetCamera()->SetMoving(false);
         SetState(true);
     }
 

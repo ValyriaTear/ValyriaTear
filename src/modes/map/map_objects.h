@@ -800,12 +800,20 @@ public:
     void ToggleState()
     { SetState(!_trigger_state); }
 
+    //! \brief Set whether the trigger can be toggled by the character.
+    void SetTriggerableByCharacter(bool triggerable)
+    { _triggerable_by_character = triggerable; }
+
 private:
     //! \brief The treasure object name
     std::string _trigger_name;
 
     //! The trigger state (false == off)
     bool _trigger_state;
+
+    //! \brief Tells whether the character can toggle the state by stepping on it.
+    //! If not, only events can do that. (true by default)
+    bool _triggerable_by_character;
 
     //! \brief Event triggered when the trigger is set to on.
     std::string _on_event;
