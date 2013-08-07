@@ -356,8 +356,7 @@ map_functions = {
             stone_direction1 = vt_map.MapMode.WEST;
         end
 
-        -- TODO Find a suitable sound
-        --AudioManager:PlaySound("snd/rolling.wav");
+        AudioManager:PlaySound("snd/stone_roll.wav");
     end,
 
     start_to_move_the_stone2 = function()
@@ -385,8 +384,7 @@ map_functions = {
             stone_direction2 = vt_map.MapMode.WEST;
         end
 
-        -- TODO Find a suitable sound
-        --AudioManager:PlaySound("snd/rolling.wav");
+        AudioManager:PlaySound("snd/stone_roll.wav");
     end,
 
     move_the_stone_update1 = function()
