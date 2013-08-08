@@ -60,6 +60,7 @@
 				<Option type="0" />
 				<Option compiler="gcc" />
 				<Compiler>
+					<Add option="-O3" />
 					<Add option="-W" />
 					<Add option="-DWIN32" />
 					<Add option="-DNDEBUG" />
@@ -74,6 +75,7 @@
 					<Add directory="valyriatear-win32-depends/include/vorbis" />
 				</Compiler>
 				<Linker>
+					<Add option="-s" />
 					<Add library="shell32" />
 					<Add library="user32" />
 					<Add library="mingw32" />
