@@ -2,7 +2,7 @@
 -- Author: roos, modifications by Bertram
 
 -- Example of use:
--- <mode>:GetParticleManager():AddParticleEffect("dat/effects/particles/rain.lua", 512.0, 384.0, false);
+-- <mode>:GetParticleManager():AddParticleEffect("dat/effects/particles/rain.lua", 512.0, 384.0);
 
 systems = {}
 
@@ -99,7 +99,7 @@ systems[0] =
         -- rotate according to the 3d direction of the particle.
         rotate_to_velocity = {
             -- stretch the particle according to its speed.
-            speed_scale = 0.005
+            speed_scale = 0.005,
             min_speed_scale = 1.0,
             max_speed_scale = 20.0
         }
