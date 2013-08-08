@@ -55,6 +55,11 @@ function Load(m)
     Map:GetEffectSupervisor():EnableAmbientOverlay("img/ambient/clouds.png", 5.0, 5.0, true);
     Map:GetScriptSupervisor():AddScript("dat/maps/common/at_night.lua");
 
+    -- Make the rain starts if needed
+    if (GlobalManager:GetEventValue("story", "mt_elbrus_weather_level") > 0) then
+        Map:GetParticleManager():AddParticleEffect("dat/effects/particles/rain.lua", 512.0, 384.0);
+    end
+
     -- Show the new location on map,
     GlobalManager:ShowWorldLocation("mt elbrus");
     GlobalManager:SetCurrentLocationId("mt elbrus");
@@ -545,8 +550,9 @@ end
 
 -- Special event references which destinations must be updated just before being called.
 local kalya_move_next_to_hero_event = {}
+local kalya_move_back_to_hero_event = {}
 local orlinn_move_next_to_hero_event = {}
-local move_back_to_hero_event = {}
+local orlinn_move_back_to_hero_event = {}
 
 -- Creates all events and sets up the entire event sequence chain
 function _CreateEvents()
