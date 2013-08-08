@@ -1484,6 +1484,13 @@ void AnimatedImage::Update(uint32 elapsed_time)
     if(_loops_finished)
         return;
 
+    // If the frame time is 0, it means the frame is a terminator and should be displayed 'forever'.
+    //N.B.: Early exit to avoid increasing the frame time counter when not needed.
+    if (_frames[_frame_index].frame_time == 0) {
+        _loops_finished = true;
+        return;
+    }
+
     // Get the amount of milliseconds that have pass since the last display
     uint32 ms_change = (elapsed_time == 0) ? vt_system::SystemManager->GetUpdateTime() : elapsed_time;
     _frame_counter += ms_change;
@@ -1495,6 +1502,8 @@ void AnimatedImage::Update(uint32 elapsed_time)
             _loops_finished = true;
             return;
         }
+
+        // Remove the time spent on the current frame before incrementing it.
         ms_change = _frame_counter - _frames[_frame_index].frame_time;
         _frame_index++;
         if(_frame_index >= _frames.size()) {
@@ -1503,11 +1512,13 @@ void AnimatedImage::Update(uint32 elapsed_time)
             if(_number_loops >= 0 && ++_loop_counter >= _number_loops) {
                 _loops_finished = true;
                 _frame_counter = 0;
-                _frame_index--;
+                _frame_index = _frames.size() - 1;
                 return;
             }
             _frame_index = 0;
         }
+        
+        // Add the time left already spent on the new frame.
         _frame_counter = ms_change;
     }
 } // void AnimatedImage::Update()
