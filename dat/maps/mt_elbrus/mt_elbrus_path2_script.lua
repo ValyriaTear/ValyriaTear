@@ -55,6 +55,13 @@ function Load(m)
     Map:GetEffectSupervisor():EnableAmbientOverlay("img/ambient/clouds.png", 5.0, 5.0, true);
     Map:GetScriptSupervisor():AddScript("dat/maps/common/at_night.lua");
 
+    -- Make the rain starts or the corresponding dialogue according the need
+    if (GlobalManager:GetEventValue("story", "mt_elbrus_weather_level") > 0) then
+        Map:GetParticleManager():AddParticleEffect("dat/effects/particles/rain.lua", 512.0, 384.0);
+    else
+        EventManager:StartEvent("Rain dialogue start", 200);
+    end
+
 end
 
 -- the map update function handles checks done on each game tick.
@@ -253,6 +260,12 @@ function _CreateEnemies()
 ]]--
 end
 
+-- Special event references which destinations must be updated just before being called.
+local kalya_move_next_to_hero_event = {}
+local kalya_move_back_to_hero_event = {}
+local orlinn_move_next_to_hero_event = {}
+local orlinn_move_back_to_hero_event = {}
+
 -- Creates all events and sets up the entire event sequence chain
 function _CreateEvents()
     local event = {};
@@ -287,6 +300,62 @@ function _CreateEvents()
     event = vt_map.ScriptedEvent("Heal event", "heal_party", "heal_done");
     EventManager:RegisterEvent(event);
 
+    -- sprite direction events
+    event = vt_map.ChangeDirectionSpriteEvent("Bronann looks north", hero, vt_map.MapMode.NORTH);
+    EventManager:RegisterEvent(event);
+    event = vt_map.ChangeDirectionSpriteEvent("Kalya looks north", kalya, vt_map.MapMode.NORTH);
+    EventManager:RegisterEvent(event);
+    event = vt_map.ChangeDirectionSpriteEvent("Kalya looks north", kalya, vt_map.MapMode.SOUTH);
+    EventManager:RegisterEvent(event);
+    event = vt_map.LookAtSpriteEvent("Kalya looks at Orlinn", kalya, orlinn);
+    EventManager:RegisterEvent(event);
+    event = vt_map.LookAtSpriteEvent("Orlinn looks at Kalya", orlinn, kalya);
+    EventManager:RegisterEvent(event);
+    event = vt_map.ChangeDirectionSpriteEvent("Kalya looks west", kalya, vt_map.MapMode.WEST);
+    EventManager:RegisterEvent(event);
+    event = vt_map.ChangeDirectionSpriteEvent("Orlinn looks north", orlinn, vt_map.MapMode.NORTH);
+    EventManager:RegisterEvent(event);
+
+    -- rain dialogue events
+    event = vt_map.ScriptedEvent("Rain dialogue start", "rain_dialogue_start", "");
+    event:AddEventLinkAtEnd("Kalya moves next to Bronann", 100);
+    event:AddEventLinkAtEnd("Orlinn moves next to Bronann", 100);
+    EventManager:RegisterEvent(event);
+
+    -- NOTE: The actual destination is set just before the actual start call
+    kalya_move_next_to_hero_event = vt_map.PathMoveSpriteEvent("Kalya moves next to Bronann", kalya, 0, 0, false);
+    kalya_move_next_to_hero_event:AddEventLinkAtEnd("Kalya looks north");
+    kalya_move_next_to_hero_event:AddEventLinkAtEnd("Bronann looks north");
+    kalya_move_next_to_hero_event:AddEventLinkAtEnd("Kalya talks about the rain");
+    EventManager:RegisterEvent(kalya_move_next_to_hero_event);
+    orlinn_move_next_to_hero_event = vt_map.PathMoveSpriteEvent("Orlinn moves next to Bronann", orlinn, 0, 0, false);
+    orlinn_move_next_to_hero_event:AddEventLinkAtEnd("Orlinn looks north");
+    EventManager:RegisterEvent(orlinn_move_next_to_hero_event);
+
+    dialogue = vt_map.SpriteDialogue();
+    text = vt_system.Translate("Dang! And now the rain...");
+    dialogue:AddLineEmote(text, kalya, "exclamation");
+    text = vt_system.Translate("The path seems to lead straight into the storm up there. It's definitely our lucky day...");
+    dialogue:AddLineEventEmote(text, kalya, "Kalya looks west", "Orlinn looks at Kalya", "thinking dots");
+    text = vt_system.Translate("Don't lose faith, Kalya. If we manage to escape them here, we'll be safe past the mountains.");
+    dialogue:AddLineEvent(text, orlinn, "Kalya looks at Orlinn", "Kalya looks south");
+    text = vt_system.Translate("If we can reach the great plains, we should indeed be out of troubles...");
+    dialogue:AddLineEventEmote(text, kalya, "Kalya looks west", "", "thinking dots");
+    DialogueManager:AddDialogue(dialogue);
+    event = vt_map.DialogueEvent("Kalya talks about the rain", dialogue);
+    event:AddEventLinkAtEnd("Orlinn goes back to party");
+    event:AddEventLinkAtEnd("Kalya goes back to party");
+    EventManager:RegisterEvent(event);
+
+    orlinn_move_back_to_hero_event = vt_map.PathMoveSpriteEvent("Orlinn goes back to party", orlinn, hero, false);
+    EventManager:RegisterEvent(orlinn_move_back_to_hero_event);
+
+    kalya_move_back_to_hero_event = vt_map.PathMoveSpriteEvent("Kalya goes back to party", kalya, hero, false);
+    kalya_move_back_to_hero_event:AddEventLinkAtEnd("End of rain dialogue");
+    EventManager:RegisterEvent(kalya_move_back_to_hero_event);
+
+    event = vt_map.ScriptedEvent("End of rain dialogue", "end_of_rain_dialogue", "");
+    EventManager:RegisterEvent(event);
 
 end
 
@@ -362,4 +431,42 @@ end
 
 map_functions = {
 
+    rain_dialogue_start = function()
+        -- Keep a reference of the correct sprite for the event end.
+        main_sprite_name = hero:GetSpriteName();
+
+        -- Make the hero be Bronann for the event.
+        hero:ReloadSprite("Bronann");
+
+        kalya:SetPosition(hero:GetXPosition(), hero:GetYPosition());
+        kalya:SetVisible(true);
+        orlinn:SetPosition(hero:GetXPosition(), hero:GetYPosition());
+        orlinn:SetVisible(true);
+        kalya:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
+        orlinn:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
+
+        kalya_move_next_to_hero_event:SetDestination(hero:GetXPosition(), hero:GetYPosition() - 2.0, false);
+        orlinn_move_next_to_hero_event:SetDestination(hero:GetXPosition() + 2.0, hero:GetYPosition() - 2.0, false);
+
+        Map:PushState(vt_map.MapMode.STATE_SCENE);
+
+        -- Actually start the rain
+        Map:GetParticleManager():AddParticleEffect("dat/effects/particles/rain.lua", 512.0, 384.0);
+    end,
+
+    end_of_rain_dialogue = function()
+        Map:PopState();
+        kalya:SetPosition(0, 0);
+        kalya:SetVisible(false);
+        kalya:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
+        orlinn:SetPosition(0, 0);
+        orlinn:SetVisible(false);
+        orlinn:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
+
+        -- Reload the hero back to default
+        hero:ReloadSprite(main_sprite_name);
+
+        -- Set event as done
+        GlobalManager:SetEventValue("story", "mt_elbrus_weather_level", 1);
+    end,
 }
