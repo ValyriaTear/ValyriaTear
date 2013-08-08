@@ -326,7 +326,7 @@ void BattleActor::RegisterMiss(bool was_attacked)
 {
     _indicator_supervisor->AddMissIndicator();
 
-    if(was_attacked && !IsEnemy())
+    if(was_attacked)
         ChangeSpriteAnimation("dodge");
 }
 
@@ -1031,14 +1031,17 @@ void BattleEnemy::ChangeState(ACTOR_STATE new_state)
 void BattleEnemy::ChangeSpriteAnimation(const std::string &alias)
 {
     _sprite_animation_alias = alias;
+    _animation_timer.Reset();
     // Default value used to create to left shifting
-    _animation_timer.Initialize(400);
+    _animation_timer.SetDuration(400);
     _animation_timer.Run();
 }
 
 void BattleEnemy::Update()
 {
     BattleActor::Update();
+
+    _animation_timer.Update();
 
     // Updates the sprites animations
     for (uint32 i = 0; i < _sprite_animations->size(); ++i)
@@ -1082,6 +1085,7 @@ void BattleEnemy::Update()
     // Reset the animations set below to idle once done
     else if(_animation_timer.IsFinished()) {
         ChangeSpriteAnimation("idle");
+        _x_location = _x_origin;
     } else if(_sprite_animation_alias == "dodge") {
         _x_location = _x_origin + 20.0f;
     }
