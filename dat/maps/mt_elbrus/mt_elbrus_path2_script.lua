@@ -29,6 +29,9 @@ local orlinn = {};
 -- Name of the main sprite. Used to reload the good one at the end of dialogue events.
 local main_sprite_name = "";
 
+-- Rainy ambient sound object, preloaded at map startup
+local rainy_sound = {};
+
 -- the main map loading code
 function Load(m)
 
@@ -55,9 +58,14 @@ function Load(m)
     Map:GetEffectSupervisor():EnableAmbientOverlay("img/ambient/clouds.png", 5.0, 5.0, true);
     Map:GetScriptSupervisor():AddScript("dat/maps/common/at_night.lua");
 
+    -- Preload the rainy sound as it may be triggered through an event after the load time.
+    rainy_sound = vt_map.SoundObject("mus/Ove Melaa - Rainy.ogg", 20.0, 16.0, 100.0);
+
     -- Make the rain starts or the corresponding dialogue according the need
     if (GlobalManager:GetEventValue("story", "mt_elbrus_weather_level") > 0) then
         Map:GetParticleManager():AddParticleEffect("dat/effects/particles/rain.lua", 512.0, 384.0);
+        -- Place an omni ambient sound at the center of the map to add a nice rainy effect.
+        Map:AddAmbientSoundObject(rainy_sound);
     else
         EventManager:StartEvent("Rain dialogue start", 200);
     end
@@ -468,5 +476,8 @@ map_functions = {
 
         -- Set event as done
         GlobalManager:SetEventValue("story", "mt_elbrus_weather_level", 1);
+
+        -- Place an omni ambient sound at the center of the map to add a nice rainy effect.
+        Map:AddAmbientSoundObject(rainy_sound);
     end,
 }

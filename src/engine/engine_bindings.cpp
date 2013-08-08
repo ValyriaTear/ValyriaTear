@@ -47,6 +47,7 @@ void BindEngineCode()
         luabind::module(vt_script::ScriptManager->GetGlobalState(), "vt_audio")
         [
             luabind::class_<AudioEngine>("GameAudio")
+            .def("LoadSound", &AudioEngine::LoadSound)
             .def("PlaySound", &AudioEngine::PlaySound)
             .def("PlayMusic", &AudioEngine::PlayMusic)
             .def("LoadMusic", &AudioEngine::LoadMusic)

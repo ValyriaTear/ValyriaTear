@@ -45,6 +45,9 @@ function Load(m)
 
     -- Add a mediumly dark overlay
     Map:GetEffectSupervisor():EnableAmbientOverlay("img/ambient/dark.png", 0.0, 0.0, false);
+
+    -- Preload that sound to avoid a glitch
+    AudioManager:LoadSound("snd/cave-in.ogg", Map);
 end
 
 -- the map update function handles checks done on each game tick.

@@ -58,6 +58,9 @@ function Load(m)
     -- Make the rain starts if needed
     if (GlobalManager:GetEventValue("story", "mt_elbrus_weather_level") > 0) then
         Map:GetParticleManager():AddParticleEffect("dat/effects/particles/rain.lua", 512.0, 384.0);
+        -- Place an omni ambient sound at the center of the map to add a nice rainy effect.
+        local rainy_sound = vt_map.SoundObject("mus/Ove Melaa - Rainy.ogg", 32.0, 24.0, 100.0);
+        Map:AddAmbientSoundObject(rainy_sound);
     end
 
     -- Show the new location on map,
