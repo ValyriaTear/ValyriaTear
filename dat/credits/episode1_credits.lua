@@ -45,7 +45,7 @@ function Initialize(map_instance)
         },
         [3] = {
             header = vt_system.Translate("Episode I - Additional Graphics"),
-            text = "Open Game Art\nRamtam\n(vectorgurl.com)\nPatrick Thompson\n(pkillustration.com)\nand many others"
+            text = "Open Game Art\nRamtam\n(vectorgurl.com)\nPatrick Thompson\n(pkillustration.com)\n"..vt_system.Translate("and many others")
         },
         [4] = {
             header = vt_system.Translate("Music"),
@@ -57,21 +57,25 @@ function Initialize(map_instance)
         },
         [6] = {
             header = vt_system.Translate("Additional programming\nand scripting"),
-            text = "Roots\nIkarusDowned\nCoderGreen"
+            text = "Roots\nIkarusDowned   CoderGreen\nAuthenticate   Logzero\nEndoalir"
         },
         [7] = {
+            header = vt_system.Translate("Ports"),
+            text = "Ablu\nSocapex\nIbara\nAMDmi3"
+        },
+        [8] = {
             header = vt_system.Translate("Translations"),
             text = "NaN (de)\nGallaecio (gl)\nBioHazardX (it)\nKnitter (pt_PT)\nBertram (fr)"
         },
-        [8] = {
+        [9] = {
             header = vt_system.Translate("Tester Team"),
             text = "Shirish\nKhyana\nSahaondra\nOmega\nPenPen"
         },
-        [9] = {
+        [10] = {
             header = "",
             text = vt_system.Translate("To Lilou and Léo...")
         },
-        [10] = {
+        [11] = {
             header = "",
             text = vt_system.Translate("Thanks to everyone\nwho made this possible!!")
         }
