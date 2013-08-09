@@ -594,21 +594,25 @@ map_functions = {
         soldier1:SetVisible(true);
         soldier1:SetPosition(43, 41);
         soldier1:SetCollisionMask(vt_map.MapMode.WALL_COLLISION);
+        soldier1:SetMovementSpeed(vt_map.MapMode.SLOW_SPEED);
         soldier1:SetDirection(vt_map.MapMode.SOUTH);
 
         soldier2:SetVisible(true);
         soldier2:SetPosition(39, 41);
         soldier2:SetCollisionMask(vt_map.MapMode.WALL_COLLISION);
+        soldier2:SetMovementSpeed(vt_map.MapMode.SLOW_SPEED);
         soldier2:SetDirection(vt_map.MapMode.SOUTH);
 
         soldier3:SetVisible(true);
         soldier3:SetPosition(41, 39);
         soldier3:SetCollisionMask(vt_map.MapMode.WALL_COLLISION);
+        soldier3:SetMovementSpeed(vt_map.MapMode.SLOW_SPEED);
         soldier3:SetDirection(vt_map.MapMode.SOUTH);
 
         soldier4:SetVisible(true);
         soldier4:SetPosition(41, 43);
         soldier4:SetCollisionMask(vt_map.MapMode.WALL_COLLISION);
+        soldier4:SetMovementSpeed(vt_map.MapMode.SLOW_SPEED);
         soldier4:SetDirection(vt_map.MapMode.SOUTH);
 
         -- Fade out the music
