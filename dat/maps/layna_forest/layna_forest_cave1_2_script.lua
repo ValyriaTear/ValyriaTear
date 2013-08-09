@@ -39,6 +39,7 @@ function Load(m)
     Effects = Map:GetEffectSupervisor();
 
     Map.unlimited_stamina = false;
+    Map:SetMinimapImage("dat/maps/layna_forest/minimaps/layna_forest_cave1_2_minimap.png");
 
     _CreateCharacters();
     _CreateObjects();

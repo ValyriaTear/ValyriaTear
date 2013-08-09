@@ -37,6 +37,7 @@ function Load(m)
     EventManager = Map.event_supervisor;
 
     Map.unlimited_stamina = false;
+    Map:SetMinimapImage("dat/maps/layna_forest/minimaps/layna_forest_wolf_cave_minimap.png");
 
     _CreateCharacters();
     _CreateObjects();

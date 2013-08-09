@@ -1,7 +1,7 @@
 Licenses
 ========
 
-Last update: 2013.08.08
+Last update: 2013.08.09
 
 This file is listing all the files licenses from the point of the fork
 from the Allacrost project.
@@ -28,6 +28,7 @@ art/kalya-attack.xcf                                            GPLv2 or CC by S
 art/kalya-idle.xcf                                              CC by SA 3.0             Bertram
 art/legend-cliffs.png                                           CC by 3.0                Daniel Cook (lostgarden.com)
 art/map_locations_borders.xcf                                   GPLv2                    Based on Allacrost Team work, adapted into a translucent XCF by Bertram.
+art/map_items.xcf                                               CC by SA 3.0, GPLv2      Bertram and Jetrel,              
 art/fenrir_patrick_thompson_ccbysa30.xcf                        CC by SA 3.0             Patrick Thompson (PK Illustration) - http://opengameart.org/content/fenrir-wolf-sprite-injuries
 art/item_template.png                                           CC by SA 3.0             Bertram
 art/lightning1.xcf                                              CC by SA 3.0             Bertram
@@ -97,6 +98,15 @@ dat/effects/particles/wind_circle.lua                           GPLv3           
 dat/effects/particles/wind_circle_outer_particles.lua           GPLv3                    Bertram
 
 dat/maps/*.lua                                                  GPLv2 or later           Bertram
+
+dat/maps/layna_forest/minimaps/layna_forest_cave1_1_minimap.png    CC by SA 3.0          Bertram
+dat/maps/layna_forest/minimaps/layna_forest_cave1_2_minimap.png    CC by SA 3.0          Bertram
+dat/maps/layna_forest/minimaps/layna_forest_entrance_minimap.png   CC by SA 3.0          Bertram
+dat/maps/layna_forest/minimaps/layna_forest_north_east_minimap.png CC by SA 3.0          Bertram
+dat/maps/layna_forest/minimaps/layna_forest_north_west_minimap.png CC by SA 3.0          Bertram
+dat/maps/layna_forest/minimaps/layna_forest_south_east_minimap.png CC by SA 3.0          Bertram
+dat/maps/layna_forest/minimaps/layna_forest_south_west_minimap.png CC by SA 3.0          Bertram
+dat/maps/layna_forest/minimaps/layna_forest_wolf_cave_minimap.png  CC by SA 3.0          Bertram
 
 dat/maps/layna_forest/wolfpain_necklace.png                     CC by SA 3.0             Bertram - adapted from Scrittl's work (OGA) - http://opengameart.org/content/armor-icons-32x32-px-painterly
 dat/maps/layna_forest/stone_sign.png                            CC by SA 3.0             Lilou (Valyria Tear)

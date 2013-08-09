@@ -31,7 +31,7 @@ function Load(m)
     EventManager = Map.event_supervisor;
 
     Map.unlimited_stamina = false;
-    Map:ShowMinimap(true);
+    Map:SetMinimapImage("dat/maps/layna_forest/minimaps/layna_forest_south_east_minimap.png");
 
     _CreateCharacters();
     _CreateObjects();
