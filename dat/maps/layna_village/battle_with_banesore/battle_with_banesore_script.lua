@@ -50,7 +50,7 @@ function Initialize(battle_instance)
     -- TODO: all of these custom speaker calls should be replaced with calls to AddCharacterSpeaker() later
     DialogueManager:AddCustomSpeaker(1000, vt_system.Translate("Bronann"), "img/portraits/bronann.png");
     DialogueManager:AddCustomSpeaker(1001, vt_system.Translate("Banesore"), "img/portraits/npcs/lord_banesore.png");
-    DialogueManager:AddCustomSpeaker(1002, vt_system.Translate("Herth"), "");
+    DialogueManager:AddCustomSpeaker(1002, vt_system.Translate("Herth"), "img/portraits/npcs/herth.png");
     DialogueManager:AddCustomSpeaker(1003, vt_system.Translate("Lilly"), "");
 
     dialogue = vt_battle.BattleDialogue(1);
