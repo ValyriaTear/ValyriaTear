@@ -118,6 +118,7 @@ sprites["Orlinn"] = {
     img_half_width = 1.0,
     img_height = 3.0,
     movement_speed = NORMAL_SPEED,
+    face_portrait = "img/portraits/npcs/orlinn.png",
 
     -- using special animation files.
     standard_animations = {
