@@ -252,7 +252,7 @@ function _CreateEvents()
     dialogue:AddLineEmote(text, bronann, "thinking dots");
     text = vt_system.Translate("By the way, where are we?");
     dialogue:AddLineEmote(text, bronann, "interrogation");
-    text = vt_system.Translate("In our basement. The other stairs there are leading to my room. This house is an ancient sanctuary, so it might explain you're feeling better...");
+    text = vt_system.Translate("In our basement. The other stairs there are leading to my room. This house is an ancient sanctuary, so it might explain why you're feeling better...");
     dialogue:AddLineEvent(text, kalya, "Kalya looks south", "Kalya looks east");
     text = vt_system.Translate("Orlinn. Go get the packings. We're leaving...");
     dialogue:AddLineEvent(text, kalya, "Kalya looks at Orlinn", "");
