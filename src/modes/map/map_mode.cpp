@@ -136,8 +136,8 @@ MapMode::MapMode(const std::string &data_filename, const std::string& script_fil
 
     // Once the minimap file has been set (in the load function),
     // we can create the minimap
-    if(!_CreateMinimap())
-        PRINT_WARNING << "Unable to create the minimap for " << _map_data_filename << std::endl;
+    if(_show_minimap)
+        _CreateMinimap();
 
     // Load miscellaneous map graphics
     _dialogue_icon.LoadFromAnimationScript("img/misc/dialogue_icon.lua");
@@ -317,11 +317,6 @@ void MapMode::Draw()
 
     VideoManager->SetStandardCoordSys();
     GetScriptSupervisor().DrawForeground();
-
-    //draw the collosion map as neccesary
-    if(_show_minimap && _minimap && (CurrentState() != STATE_SCENE)
-            && (CurrentState() != STATE_DIALOGUE))
-        _minimap->Draw();
 
     VideoManager->SetCoordSys(0.0f, SCREEN_GRID_X_LENGTH, SCREEN_GRID_Y_LENGTH, 0.0f);
     VideoManager->SetDrawFlags(VIDEO_X_CENTER, VIDEO_Y_BOTTOM, 0);
@@ -674,7 +669,7 @@ bool MapMode::_Load()
     return true;
 } // bool MapMode::_Load()
 
-bool MapMode::_CreateMinimap()
+void MapMode::_CreateMinimap()
 {
     if(_minimap) {
         delete _minimap;
@@ -682,7 +677,6 @@ bool MapMode::_CreateMinimap()
     }
 
     _minimap = new Minimap(_minimap_custom_image_file);
-    return true;
 }
 
 void MapMode::_UpdateExplore()
@@ -1109,6 +1103,11 @@ void MapMode::_DrawGUI()
             _DrawStaminaBar();
         }
     }
+
+    // Draw the minimap
+    if(_show_minimap && _minimap && (CurrentState() != STATE_SCENE)
+            && (CurrentState() != STATE_DIALOGUE))
+        _minimap->Draw();
 
     // Draw the stamina bar in the lower right corner
     if(!_unlimited_stamina && _intro_timer.IsFinished())

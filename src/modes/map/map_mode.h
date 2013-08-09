@@ -310,18 +310,27 @@ public:
 
     //! \brief toggles visibility of the minimap
     //! \param the new state of the minimap visibility
-    //! \return the previous state of visibility before changing
-    bool ShowMinimap(bool visibility) {
-        bool previous_visibility = _show_minimap;
+    void ShowMinimap(bool visibility) {
         _show_minimap = visibility;
-        return previous_visibility;
     }
 
     //! \brief Tells the system to load a custom minimap image.
     void SetMinimapImage(const std::string& filename) {
         _minimap_custom_image_file = filename;
+        // Force reloading the minimap at the end of map load time
+        if (_minimap) {
+            delete _minimap;
+            _minimap = NULL;
+        }
+
         // This also implies the minimap will be shown
         ShowMinimap(true);
+    }
+
+    //! \brief A function telling the engine the minimap should be reloaded if visible.
+    void ReloadMinimap() {
+        if (_show_minimap && !_minimap)
+            _CreateMinimap();
     }
 
     //@}
@@ -495,7 +504,7 @@ private:
     /** Triggers the minimap creation either by trying to load the minimap file given.
     *** Or by creating a minimap procedurally.
     **/
-    bool _CreateMinimap();
+    void _CreateMinimap();
 
     //! \brief A helper function to Update() that is called only when the map is in the explore state
     void _UpdateExplore();
