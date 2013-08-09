@@ -456,6 +456,11 @@ float VirtualSprite::CalculateDistanceMoved()
     if(direction & MOVING_DIAGONALLY)
         distance_moved *= 0.707f;
 
+    // We cap the distance moved when in case of low FPS to avoid letting certain
+    // sprites jump across blocking areas.
+    if (distance_moved > 1.0f)
+        distance_moved = 1.0f;
+
     return distance_moved;
 }
 

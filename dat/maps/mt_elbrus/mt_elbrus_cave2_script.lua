@@ -254,6 +254,12 @@ function _UpdateStoneMovement(stone_object, stone_direction)
         local update_time = SystemManager:GetUpdateTime();
         local movement_diff = 0.015 * update_time;
 
+        -- We cap the max movement distance to avoid making the ball go through obstacles
+        -- in case of low FPS
+        if (movement_diff > 1.0) then
+            movement_diff = 1.0;
+        end
+
         local new_pos_x = stone_object:GetXPosition();
         local new_pos_y = stone_object:GetYPosition();
 
