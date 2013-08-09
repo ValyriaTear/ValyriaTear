@@ -63,7 +63,7 @@ function Load(m)
 
     -- Make the rain starts or the corresponding dialogue according the need
     if (GlobalManager:GetEventValue("story", "mt_elbrus_weather_level") > 0) then
-        Map:GetParticleManager():AddParticleEffect("dat/effects/particles/rain.lua", 512.0, 384.0);
+        Map:GetParticleManager():AddParticleEffect("dat/effects/particles/rain.lua", 512.0, 768.0);
         -- Place an omni ambient sound at the center of the map to add a nice rainy effect.
         Map:AddAmbientSoundObject(rainy_sound);
     else
@@ -431,7 +431,7 @@ function _SetBattleEnvironment(enemy)
     enemy:SetBattleMusicTheme("mus/heroism-OGA-Edward-J-Blakeley.ogg");
     enemy:SetBattleBackground("img/backdrops/battle/mountain_background.png");
     enemy:AddBattleScript("dat/maps/common/at_night.lua");
-    -- TODO: add script showing the scenery.
+    enemy:AddBattleScript("dat/maps/mt_elbrus/mt_elbrus_script.lua");
 end
 
 -- Map Custom functions
@@ -459,7 +459,7 @@ map_functions = {
         Map:PushState(vt_map.MapMode.STATE_SCENE);
 
         -- Actually start the rain
-        Map:GetParticleManager():AddParticleEffect("dat/effects/particles/rain.lua", 512.0, 384.0);
+        Map:GetParticleManager():AddParticleEffect("dat/effects/particles/rain.lua", 512.0, 768.0);
     end,
 
     end_of_rain_dialogue = function()

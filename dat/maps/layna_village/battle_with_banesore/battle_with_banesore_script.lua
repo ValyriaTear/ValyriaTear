@@ -47,7 +47,6 @@ function Initialize(battle_instance)
     DialogueManager = Battle:GetDialogueSupervisor();
 
     -- Add all speakers for the dialogues to be added
-    -- TODO: all of these custom speaker calls should be replaced with calls to AddCharacterSpeaker() later
     DialogueManager:AddCustomSpeaker(1000, vt_system.Translate("Bronann"), "img/portraits/bronann.png");
     DialogueManager:AddCustomSpeaker(1001, vt_system.Translate("Banesore"), "img/portraits/npcs/lord_banesore.png");
     DialogueManager:AddCustomSpeaker(1002, vt_system.Translate("Herth"), "img/portraits/npcs/herth.png");

@@ -29,7 +29,6 @@ function Initialize(battle_instance)
     DialogueManager = Battle:GetDialogueSupervisor();
 
     -- Add all speakers for the dialogues to be added
-    -- TODO: all of these custom speaker calls should be replaced with calls to AddCharacterSpeaker() later
     DialogueManager:AddCustomSpeaker(1000, vt_system.Translate("Kalya"), "img/portraits/kalya.png");
     DialogueManager:AddCustomSpeaker(1001, vt_system.Translate("Soldier"), "img/portraits/npcs/dark_soldier.png");
 
@@ -50,6 +49,7 @@ function Initialize(battle_instance)
     time_left_header_text = vt_system.Translate("Time left:");
 
     dialogue1_done = false;
+
 end
 
 function Restart()

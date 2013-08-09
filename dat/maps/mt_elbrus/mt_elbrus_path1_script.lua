@@ -57,7 +57,7 @@ function Load(m)
 
     -- Make the rain starts if needed
     if (GlobalManager:GetEventValue("story", "mt_elbrus_weather_level") > 0) then
-        Map:GetParticleManager():AddParticleEffect("dat/effects/particles/rain.lua", 512.0, 384.0);
+        Map:GetParticleManager():AddParticleEffect("dat/effects/particles/rain.lua", 512.0, 768.0);
         -- Place an omni ambient sound at the center of the map to add a nice rainy effect.
         local rainy_sound = vt_map.SoundObject("mus/Ove Melaa - Rainy.ogg", 32.0, 24.0, 100.0);
         Map:AddAmbientSoundObject(rainy_sound);
@@ -440,6 +440,8 @@ function _CreateEnemies()
     _SetBattleEnvironment(dark_soldier1);
     -- Add special timer script
     dark_soldier1:AddBattleScript("dat/maps/mt_elbrus/battle_with_dark_soldiers_script.lua");
+    dark_soldier1:SetBoss(true);
+    dark_soldier1:SetBattleMusicTheme("mus/accion-OGA-djsaryon.ogg");
     dark_soldier1:NewEnemyParty();
     dark_soldier1:AddEnemy(9);
     roam_zone:AddEnemy(dark_soldier1, Map, 1);
@@ -456,6 +458,8 @@ function _CreateEnemies()
     _SetBattleEnvironment(enemy);
     -- Add special timer script
     enemy:AddBattleScript("dat/maps/mt_elbrus/battle_with_dark_soldiers_script.lua");
+    enemy:SetBoss(true);
+    enemy:SetBattleMusicTheme("mus/accion-OGA-djsaryon.ogg");
     enemy:NewEnemyParty();
     enemy:AddEnemy(9);
     roam_zone:AddEnemy(enemy, Map, 1);
@@ -473,6 +477,8 @@ function _CreateEnemies()
     _SetBattleEnvironment(enemy);
     -- Add special timer script
     enemy:AddBattleScript("dat/maps/mt_elbrus/battle_with_dark_soldiers_script.lua");
+    enemy:SetBoss(true);
+    enemy:SetBattleMusicTheme("mus/accion-OGA-djsaryon.ogg");
     enemy:NewEnemyParty();
     enemy:AddEnemy(9);
     roam_zone:AddEnemy(enemy, Map, 1);
@@ -490,6 +496,8 @@ function _CreateEnemies()
     _SetBattleEnvironment(enemy);
     -- Add special timer script
     enemy:AddBattleScript("dat/maps/mt_elbrus/battle_with_dark_soldiers_script.lua");
+    enemy:SetBoss(true);
+    enemy:SetBattleMusicTheme("mus/accion-OGA-djsaryon.ogg");
     enemy:NewEnemyParty();
     enemy:AddEnemy(9);
     roam_zone:AddEnemy(enemy, Map, 1);
@@ -500,11 +508,13 @@ function _CreateEnemies()
 
     -- Hint: left, right, top, bottom
     roam_zone = vt_map.EnemyZone(6, 19, 10, 24);
-    -- Dark soldier 4
+    -- Dark soldier 5
     enemy = CreateEnemySprite(Map, "Dark Soldier");
     _SetBattleEnvironment(enemy);
     -- Add special timer script
     enemy:AddBattleScript("dat/maps/mt_elbrus/battle_with_dark_soldiers_script.lua");
+    enemy:SetBoss(true);
+    enemy:SetBattleMusicTheme("mus/accion-OGA-djsaryon.ogg");
     enemy:NewEnemyParty();
     enemy:AddEnemy(9);
     roam_zone:AddEnemy(enemy, Map, 1);
@@ -728,7 +738,7 @@ function _SetBattleEnvironment(enemy)
     enemy:SetBattleMusicTheme("mus/heroism-OGA-Edward-J-Blakeley.ogg");
     enemy:SetBattleBackground("img/backdrops/battle/mountain_background.png");
     enemy:AddBattleScript("dat/maps/common/at_night.lua");
-    -- TODO: add script showing the scenery.
+    enemy:AddBattleScript("dat/maps/mt_elbrus/mt_elbrus_script.lua");
 end
 
 -- Map Custom functions

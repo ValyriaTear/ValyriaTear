@@ -2,7 +2,7 @@
 -- Author: roos, modifications by Bertram
 
 -- Example of use:
--- <mode>:GetParticleManager():AddParticleEffect("dat/effects/particles/rain.lua", 512.0, 384.0);
+-- <mode>:GetParticleManager():AddParticleEffect("dat/effects/particles/rain.lua", 512.0, 768.0);
 
 systems = {}
 
@@ -13,9 +13,9 @@ systems[0] =
     emitter =
     {
         x=-612,
-        y=-384,
+        y=-768,
         x2=512,
-        y2=-384,
+        y2=-768,
         center_x=0,
         center_y=0,
         x_variation=0,
