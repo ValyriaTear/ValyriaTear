@@ -49,8 +49,8 @@ armor[20001] = {
 }
 
 armor[20011] = {
-	name = vt_system.Translate("Standard Helmet"),
-	description = vt_system.Translate("Standard Karlate issued equipment. Battle worn but reliable head protection."),
+	name = vt_system.Translate("Old Helmet"),
+	description = vt_system.Translate("A battle worn helmet, still reliable for head protection."),
 	icon = "img/icons/armor/karlate_helmet.png",
 	physical_defense = 6,
 	magical_defense = 2,

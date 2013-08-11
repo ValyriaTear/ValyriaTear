@@ -1,7 +1,7 @@
 -- Set the namespace according to the map name.
 local ns = {};
 setmetatable(ns, {__index = _G});
-mt_elbrus_cave2_script = ns;
+mt_elbrus_cave3_script = ns;
 setfenv(1, ns);
 
 -- The map name, subname and location image
@@ -50,7 +50,6 @@ function Load(m)
     AudioManager:LoadSound("snd/cave-in.ogg", Map);
     AudioManager:LoadSound("snd/stone_roll.wav", Map);
     AudioManager:LoadSound("snd/stone_bump.ogg", Map);
-    AudioManager:LoadSound("snd/trigger_on.wav", Map);
 end
 
 -- the map update function handles checks done on each game tick.
@@ -65,13 +64,13 @@ end
 -- Character creation
 function _CreateCharacters()
     -- Default hero and position (entrance 1)
-    hero = CreateSprite(Map, "Bronann", 46, 45); -- exit/entrance 1
+    hero = CreateSprite(Map, "Bronann", 50, 15); -- exit/entrance 1
     hero:SetDirection(vt_map.MapMode.NORTH);
     hero:SetMovementSpeed(vt_map.MapMode.NORMAL_SPEED);
 
-    if (GlobalManager:GetPreviousLocation() == "from_elbrus_entrance2-2") then
+    if (GlobalManager:GetPreviousLocation() == "from_elbrus_entrance3-2") then
         hero:SetDirection(vt_map.MapMode.NORTH);
-        hero:SetPosition(45, 13);
+        hero:SetPosition(3, 21);
     end
 
     Map:AddGroundObject(hero);
@@ -92,6 +91,11 @@ function _SetEventBattleEnvironment(event)
 end
 
 local shroom1 = {};
+local shroom2 = {};
+local shroom3 = {};
+local shroom4 = {};
+local shroom5 = {};
+
 local rolling_stone1 = {};
 local rolling_stone2 = {};
 
@@ -102,7 +106,8 @@ local stone_trigger2 = {};
 -- Blocking rocks
 local blocking_rock1 = {};
 local blocking_rock2 = {};
-
+local blocking_rock3 = {};
+local blocking_rock4 = {};
 
 function _CreateObjects()
     local object = {}
@@ -113,23 +118,38 @@ function _CreateObjects()
 
     -- Add a halo showing the cave entrances
     -- exit 1
-    Map:AddHalo("img/misc/lights/torch_light_mask.lua", 46, 55,
+    Map:AddHalo("img/misc/lights/torch_light_mask.lua", 4.5, 29,
         vt_video.Color(0.3, 0.3, 0.46, 0.8));
     -- exit 2
-    Map:AddHalo("img/misc/lights/torch_light_mask.lua", 45, 21,
+    Map:AddHalo("img/misc/lights/torch_light_mask.lua", 54, 22,
         vt_video.Color(0.3, 0.3, 0.46, 0.8));
 
+    -- Treasure box
+    local chest = CreateTreasure(Map, "elbrus_cave3_chest1", "Wood_Chest1", 51, 38);
+    if (chest ~= nil) then
+        chest:AddObject(20011, 1); -- Medium healing potion
+        Map:AddGroundObject(chest);
+    end
+
     -- Stones
-    object = CreateObject(Map, "Rock1", 49.0, 30.3);
+    object = CreateObject(Map, "Rock1", 33.0, 26.0);
+    Map:AddGroundObject(object);
+    object = CreateObject(Map, "Rock1", 43.0, 28.0);
+    Map:AddGroundObject(object);
+    object = CreateObject(Map, "Rock1", 41.0, 32.0);
     Map:AddGroundObject(object);
 
-    blocking_rock1 = CreateObject(Map, "Rock2", 3, 10);
+    blocking_rock1 = CreateObject(Map, "Rock2", 37, 36);
     Map:AddGroundObject(blocking_rock1);
-    blocking_rock2 = CreateObject(Map, "Rock2", 5, 10);
+    blocking_rock2 = CreateObject(Map, "Rock2", 39, 36);
     Map:AddGroundObject(blocking_rock2);
+    blocking_rock3 = CreateObject(Map, "Rock2", 44, 40);
+    Map:AddGroundObject(blocking_rock3);
+    blocking_rock4 = CreateObject(Map, "Rock2", 44, 42);
+    Map:AddGroundObject(blocking_rock4);
 
     -- shroom 1
-    shroom1 = CreateSprite(Map, "Shroom", 15, 14);
+    shroom1 = CreateSprite(Map, "Shroom", 35, 24);
     shroom1:SetName("");
     shroom1:SetDirection(vt_map.MapMode.SOUTH);
     dialogue = vt_map.SpriteDialogue();
@@ -146,50 +166,128 @@ function _CreateObjects()
     event = vt_map.ScriptedSpriteEvent("Place Shroom 1 after fight", shroom1, "place_shroom_after_fight", "")
     EventManager:RegisterEvent(event);
 
-    stone_trigger1 = vt_map.TriggerObject("mt elbrus cave 2 trigger 1",
+    -- shroom 2
+    shroom2 = CreateSprite(Map, "Shroom", 37, 24);
+    shroom2:SetName("");
+    shroom2:SetDirection(vt_map.MapMode.SOUTH);
+    dialogue = vt_map.SpriteDialogue();
+    text = vt_system.Translate("...");
+    dialogue:AddLineEvent(text, shroom2, "", "Fight with Shroom 2");
+    DialogueManager:AddDialogue(dialogue);
+    shroom2:AddDialogueReference(dialogue);
+    Map:AddGroundObject(shroom2);
+    event = vt_map.BattleEncounterEvent("Fight with Shroom 2");
+    event:AddEnemy(11, 512, 384); -- one shroom
+    _SetEventBattleEnvironment(event);
+    event:AddEventLinkAtEnd("Place Shroom 2 after fight", 100);
+    EventManager:RegisterEvent(event);
+    event = vt_map.ScriptedSpriteEvent("Place Shroom 2 after fight", shroom2, "place_shroom_after_fight", "")
+    EventManager:RegisterEvent(event);
+
+    -- shroom 3
+    shroom3 = CreateSprite(Map, "Shroom", 39, 24);
+    shroom3:SetName("");
+    shroom3:SetDirection(vt_map.MapMode.SOUTH);
+    dialogue = vt_map.SpriteDialogue();
+    text = vt_system.Translate("...");
+    dialogue:AddLineEvent(text, shroom3, "", "Fight with Shroom 3");
+    DialogueManager:AddDialogue(dialogue);
+    shroom3:AddDialogueReference(dialogue);
+    Map:AddGroundObject(shroom3);
+    event = vt_map.BattleEncounterEvent("Fight with Shroom 3");
+    event:AddEnemy(11, 512, 384); -- one shroom
+    _SetEventBattleEnvironment(event);
+    event:AddEventLinkAtEnd("Place Shroom 3 after fight", 100);
+    EventManager:RegisterEvent(event);
+    event = vt_map.ScriptedSpriteEvent("Place Shroom 3 after fight", shroom3, "place_shroom_after_fight", "")
+    EventManager:RegisterEvent(event);
+
+    -- shroom 4
+    shroom4 = CreateSprite(Map, "Shroom", 35, 32);
+    shroom4:SetName("");
+    shroom4:SetDirection(vt_map.MapMode.SOUTH);
+    dialogue = vt_map.SpriteDialogue();
+    text = vt_system.Translate("...");
+    dialogue:AddLineEvent(text, shroom4, "", "Fight with Shroom 4");
+    DialogueManager:AddDialogue(dialogue);
+    shroom4:AddDialogueReference(dialogue);
+    Map:AddGroundObject(shroom4);
+    event = vt_map.BattleEncounterEvent("Fight with Shroom 4");
+    event:AddEnemy(11, 512, 384); -- one shroom
+    _SetEventBattleEnvironment(event);
+    event:AddEventLinkAtEnd("Place Shroom 4 after fight", 100);
+    EventManager:RegisterEvent(event);
+    event = vt_map.ScriptedSpriteEvent("Place Shroom 4 after fight", shroom4, "place_shroom_after_fight", "")
+    EventManager:RegisterEvent(event);
+
+    -- shroom 5
+    shroom5 = CreateSprite(Map, "Shroom", 39, 30);
+    shroom5:SetName("");
+    shroom5:SetDirection(vt_map.MapMode.SOUTH);
+    dialogue = vt_map.SpriteDialogue();
+    text = vt_system.Translate("...");
+    dialogue:AddLineEvent(text, shroom5, "", "Fight with Shroom 5");
+    DialogueManager:AddDialogue(dialogue);
+    shroom5:AddDialogueReference(dialogue);
+    Map:AddGroundObject(shroom5);
+    event = vt_map.BattleEncounterEvent("Fight with Shroom 5");
+    event:AddEnemy(11, 512, 384); -- one shroom
+    _SetEventBattleEnvironment(event);
+    event:AddEventLinkAtEnd("Place Shroom 5 after fight", 100);
+    EventManager:RegisterEvent(event);
+    event = vt_map.ScriptedSpriteEvent("Place Shroom 5 after fight", shroom5, "place_shroom_after_fight", "")
+    EventManager:RegisterEvent(event);
+
+    stone_trigger1 = vt_map.TriggerObject("mt elbrus cave 3 trigger 1",
                              "img/sprites/map/triggers/rolling_stone_trigger1_off.lua",
                              "img/sprites/map/triggers/rolling_stone_trigger1_on.lua",
                              "",
-                             "Check triggers");
+                             "Check trigger1");
     stone_trigger1:SetObjectID(Map.object_supervisor:GenerateObjectID());
-    stone_trigger1:SetPosition(49, 28);
+    stone_trigger1:SetPosition(33, 32);
     stone_trigger1:SetTriggerableByCharacter(false); -- Only an event can trigger it
     Map:AddFlatGroundObject(stone_trigger1);
 
-    stone_trigger2 = vt_map.TriggerObject("mt elbrus cave 2 trigger 2",
+    event = vt_map.ScriptedEvent("Check trigger1", "check_trigger1", "")
+    EventManager:RegisterEvent(event);
+
+    stone_trigger2 = vt_map.TriggerObject("mt elbrus cave 3 trigger 2",
                              "img/sprites/map/triggers/rolling_stone_trigger1_off.lua",
                              "img/sprites/map/triggers/rolling_stone_trigger1_on.lua",
                              "",
-                             "Check triggers");
+                             "Check trigger2");
     stone_trigger2:SetObjectID(Map.object_supervisor:GenerateObjectID());
-    stone_trigger2:SetPosition(21, 16);
+    stone_trigger2:SetPosition(41, 20);
     stone_trigger2:SetTriggerableByCharacter(false); -- Only an event can trigger it
     Map:AddFlatGroundObject(stone_trigger2);
 
-    event = vt_map.ScriptedEvent("Check triggers", "check_triggers", "")
+    event = vt_map.ScriptedEvent("Check trigger2", "check_trigger2", "")
     EventManager:RegisterEvent(event);
 
     -- Check the trigger states at load time (but without sound)
-    if (stone_trigger1:GetState() == true and stone_trigger2:GetState() == true) then
+    if (stone_trigger1:GetState() == true) then
         -- Free the way
         blocking_rock1:SetVisible(false);
         blocking_rock1:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
         blocking_rock2:SetVisible(false);
         blocking_rock2:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
-    elseif (stone_trigger1:GetState() == false or stone_trigger2:GetState() == false) then
-        -- If at least one trigger is not triggered, reset both to the 'not triggered' state
-        stone_trigger1:SetState(false);
-        stone_trigger2:SetState(false);
+    end
+    if (stone_trigger2:GetState() == true) then
+        -- Free the way
+        blocking_rock3:SetVisible(false);
+        blocking_rock3:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
+        blocking_rock4:SetVisible(false);
+        blocking_rock4:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
     end
 
-    rolling_stone1 = CreateObject(Map, "Rolling Stone", 41, 26);
+    rolling_stone1 = CreateObject(Map, "Rolling Stone", 37, 26);
     Map:AddGroundObject(rolling_stone1);
     rolling_stone1:SetEventWhenTalking("Push the rolling stone 1");
 
     event = vt_map.ScriptedEvent("Push the rolling stone 1", "start_to_move_the_stone1", "move_the_stone_update1")
     EventManager:RegisterEvent(event);
 
-    rolling_stone2 = CreateObject(Map, "Rolling Stone", 42, 33);
+    rolling_stone2 = CreateObject(Map, "Rolling Stone", 35, 30);
     Map:AddGroundObject(rolling_stone2);
     rolling_stone2:SetEventWhenTalking("Push the rolling stone 2");
 
@@ -203,36 +301,36 @@ function _CreateEvents()
     local dialogue = {};
     local text = {};
 
-    event = vt_map.MapTransitionEvent("to exit 2-1", "dat/maps/mt_elbrus/mt_elbrus_path2_map.lua",
-                                       "dat/maps/mt_elbrus/mt_elbrus_path2_script.lua", "from_grotto2_1_exit");
+    event = vt_map.MapTransitionEvent("to exit 3-1", "dat/maps/mt_elbrus/mt_elbrus_path2_map.lua",
+                                       "dat/maps/mt_elbrus/mt_elbrus_path2_script.lua", "from_grotto3_1_exit");
     EventManager:RegisterEvent(event);
 
-    event = vt_map.MapTransitionEvent("to exit 2-2", "dat/maps/mt_elbrus/mt_elbrus_path2_map.lua",
-                                       "dat/maps/mt_elbrus/mt_elbrus_path2_script.lua", "from_grotto2_2_exit");
+    event = vt_map.MapTransitionEvent("to exit 3-2", "dat/maps/mt_elbrus/mt_elbrus_path2_map.lua",
+                                       "dat/maps/mt_elbrus/mt_elbrus_path2_script.lua", "from_grotto3_2_exit");
     EventManager:RegisterEvent(event);
 end
 
 -- zones
-local exit2_1_zone = {};
-local exit2_2_zone = {};
+local exit3_1_zone = {};
+local exit3_2_zone = {};
 
 -- Create the different map zones triggering events
 function _CreateZones()
     -- N.B.: left, right, top, bottom
-    exit2_1_zone = vt_map.CameraZone(42, 50, 46, 48);
-    Map:AddZone(exit2_1_zone);
-    exit2_2_zone = vt_map.CameraZone(42, 48, 14, 16);
-    Map:AddZone(exit2_2_zone);
+    exit3_1_zone = vt_map.CameraZone(46, 58, 16, 18);
+    Map:AddZone(exit3_1_zone);
+    exit3_2_zone = vt_map.CameraZone(0, 8, 22, 24);
+    Map:AddZone(exit3_2_zone);
 end
 
 -- Check whether the active camera has entered a zone. To be called within Update()
 function _CheckZones()
-    if (exit2_1_zone:IsCameraEntering() == true) then
+    if (exit3_1_zone:IsCameraEntering() == true) then
         hero:SetMoving(false);
-        EventManager:StartEvent("to exit 2-1");
-    elseif (exit2_2_zone:IsCameraEntering() == true) then
+        EventManager:StartEvent("to exit 3-1");
+    elseif (exit3_2_zone:IsCameraEntering() == true) then
         hero:SetMoving(false);
-        EventManager:StartEvent("to exit 2-2");
+        EventManager:StartEvent("to exit 3-2");
     end
 end
 
@@ -407,19 +505,26 @@ map_functions = {
         return _UpdateStoneMovement(rolling_stone2, stone_direction2)
     end,
 
-    -- Check whether both triggers are activated and then free the way.
-    check_triggers = function()
-        if (stone_trigger1:GetState() == true
-                and stone_trigger2:GetState() == true) then
+    -- Check whether triggers are activated and then free the way accordingly.
+    check_trigger1 = function()
+        if (stone_trigger1:GetState() == true) then
             -- Free the way
             blocking_rock1:SetVisible(false);
             blocking_rock1:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
             blocking_rock2:SetVisible(false);
             blocking_rock2:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
             AudioManager:PlaySound("snd/cave-in.ogg");
-        else
-            -- Play a click sound when a trigger is pushed
-            AudioManager:PlaySound("snd/trigger_on.wav");
         end
-    end
+    end,
+
+    check_trigger2 = function()
+        if (stone_trigger2:GetState() == true) then
+            -- Free the way
+            blocking_rock3:SetVisible(false);
+            blocking_rock3:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
+            blocking_rock4:SetVisible(false);
+            blocking_rock4:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
+            AudioManager:PlaySound("snd/cave-in.ogg");
+        end
+    end,
 }
