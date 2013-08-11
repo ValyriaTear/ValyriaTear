@@ -121,7 +121,7 @@ function _CreateObjects()
     Map:AddHalo("img/misc/lights/torch_light_mask.lua", 4.5, 29,
         vt_video.Color(0.3, 0.3, 0.46, 0.8));
     -- exit 2
-    Map:AddHalo("img/misc/lights/torch_light_mask.lua", 54, 22,
+    Map:AddHalo("img/misc/lights/torch_light_mask.lua", 52, 22,
         vt_video.Color(0.3, 0.3, 0.46, 0.8));
 
     -- Treasure box

@@ -134,6 +134,8 @@ local heal_effect = {};
 function _CreateObjects()
     local object = {}
     local npc = {}
+    local dialogue = {}
+    local text = {}
 
     Map:AddSavePoint(114, 56);
 

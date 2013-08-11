@@ -129,11 +129,36 @@ function _CreateCharacters()
     Map:AddGroundObject(orlinn);
 end
 
+-- The heal particle effect map object
+local heal_effect = {};
+
 function _CreateObjects()
     local object = {}
     local npc = {}
+    local dialogue = {}
+    local text = {}
 
     Map:AddSavePoint(67, 37);
+
+    -- Load the spring heal effect.
+    heal_effect = vt_map.ParticleObject("dat/effects/particles/heal_particle.lua", 0, 0);
+    heal_effect:SetObjectID(Map.object_supervisor:GenerateObjectID());
+    heal_effect:Stop(); -- Don't run it until the character heals itself
+    Map:AddGroundObject(heal_effect);
+
+    -- Heal point
+    npc = CreateSprite(Map, "Butterfly", 37, 27);
+    npc:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
+    npc:SetVisible(false);
+    npc:SetName(""); -- Unset the speaker name
+    Map:AddGroundObject(npc);
+    dialogue = vt_map.SpriteDialogue();
+    text = vt_system.Translate("Your party feels better...");
+    dialogue:AddLineEvent(text, npc, "Heal event", "");
+    DialogueManager:AddDialogue(dialogue);
+    npc:AddDialogueReference(dialogue);
+    npc = CreateObject(Map, "Layna Statue", 37, 27);
+    Map:AddGroundObject(npc);
 
     -- Treasure box
     local chest = CreateTreasure(Map, "elbrus_path2_chest1", "Wood_Chest1", 7, 7);
@@ -185,8 +210,25 @@ function _CreateObjects()
         { "Tree Big2", 59, 51 },
         { "Tree Small1", 62.5, 8.5 },
 
+        { "Tree Big2", 27, 32 },
+        { "Tree Big2", 30, 30 },
+        { "Tree Big2", 28, 27 },
+        { "Tree Big2", 31, 25 },
+        { "Tree Big2", 34, 22 },
+        { "Tree Big2", 37, 18 },
+        { "Tree Big2", 40, 16 },
+
+        { "Tree Small1", 22.7, 47 },
+        { "Tree Small2", 31, 45 },
+
         { "Rock2", 74, 27 },
         { "Rock1", 76, 28 },
+        { "Rock1", 37, 19.5 },
+
+        { "Rock2", 40, 24 },
+        { "Rock2", 34, 24 },
+        { "Rock2", 34, 29 },
+        { "Rock2", 40, 29 },
 
     }
 
@@ -214,6 +256,8 @@ function _CreateObjects()
         { "Grass Clump1", 64, 9 },
         { "Grass Clump1", 71, 25 },
         { "Grass Clump1", 63, 53 },
+        { "Grass Clump1", 31, 46 },
+        { "Grass Clump1", 37.5, 28 },
 
 
     }
@@ -437,7 +481,40 @@ end
 -- Map Custom functions
 -- Used through scripted events
 
+-- Effect time used when applying the heal light effect
+local heal_effect_time = 0;
+local heal_color = vt_video.Color(0.0, 0.0, 1.0, 1.0);
+
 map_functions = {
+
+    heal_party = function()
+        hero:SetMoving(false);
+        -- Should be sufficient to heal anybody
+        GlobalManager:GetActiveParty():AddHitPoints(10000);
+        GlobalManager:GetActiveParty():AddSkillPoints(10000);
+        Map:SetStamina(10000);
+        AudioManager:PlaySound("snd/heal_spell.wav");
+        heal_effect:SetPosition(hero:GetXPosition(), hero:GetYPosition());
+        heal_effect:Start();
+        heal_effect_time = 0;
+    end,
+
+    heal_done = function()
+        heal_effect_time = heal_effect_time + SystemManager:GetUpdateTime();
+
+        if (heal_effect_time < 300.0) then
+            heal_color:SetAlpha(heal_effect_time / 300.0 / 3.0);
+            Map:GetEffectSupervisor():EnableLightingOverlay(heal_color);
+            return false;
+        end
+
+        if (heal_effect_time < 1000.0) then
+            heal_color:SetAlpha(((1000.0 - heal_effect_time) / 700.0) / 3.0);
+            Map:GetEffectSupervisor():EnableLightingOverlay(heal_color);
+            return false;
+        end
+        return true;
+    end,
 
     rain_dialogue_start = function()
         -- Keep a reference of the correct sprite for the event end.
