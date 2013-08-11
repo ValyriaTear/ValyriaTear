@@ -418,16 +418,16 @@ map_functions = {
         -- Determine the hero position relative to the shroom
         if (hero_y > shroom_y + 0.3) then
             -- the hero is below, the shroom is pushed upward.
-            shroom_new_y = shroom_new_y - 2.1;
+            shroom_new_y = shroom_new_y - 2.0;
         elseif (hero_y < shroom_y - 1.5) then
             -- the hero is above, the shroom is pushed downward.
-            shroom_new_y = shroom_new_y + 2.2;
+            shroom_new_y = shroom_new_y + 2.0;
         elseif (hero_x < shroom_x - 1.2) then
             -- the hero is on the left, the shroom is pushed to the right.
-            shroom_new_x = shroom_new_x + 2.1;
+            shroom_new_x = shroom_new_x + 2.0;
         elseif (hero_x > shroom_x + 1.2) then
             -- the hero is on the right, the shroom is pushed to the left.
-            shroom_new_x = shroom_new_x - 2.1;
+            shroom_new_x = shroom_new_x - 2.0;
         end
 
         -- Only place the shroom when nothing is in the way.
