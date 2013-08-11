@@ -4,6 +4,7 @@ tileset.image = "img/tilesets/desert_cave_ground.png"
 tileset.num_tile_cols = 16
 tileset.num_tile_rows = 16
 
+--[[
 tileset.autotiling = {}
 tileset.autotiling[0] = "CaveDirt"
 tileset.autotiling[1] = "CaveDirt"
@@ -28,6 +29,7 @@ tileset.autotiling[41] = "CaveFloor"
 tileset.autotiling[42] = "CaveFloor"
 tileset.autotiling[43] = "CaveFloor"
 tileset.autotiling[44] = "CaveFloor"
+]]--
 
 -- The general walkability of the tiles in the tileset. Zero indicates walkable. One tile has four walkable quadrants listed as: NW corner, NE corner, SW corner, SE corner.
 tileset.walkability = {}

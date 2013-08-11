@@ -4,6 +4,7 @@ tileset.image = "img/tilesets/desert_ground.png"
 tileset.num_tile_cols = 16
 tileset.num_tile_rows = 16
 
+--[[
 tileset.autotiling = {}
 tileset.autotiling[0] = "TameSand"
 tileset.autotiling[1] = "TameSand"
@@ -52,6 +53,8 @@ tileset.autotiling[118] = "YellowPebbles"
 tileset.autotiling[119] = "YellowPebbles"
 tileset.autotiling[120] = "YellowPebbles"
 tileset.autotiling[123] = "WildSand"
+
+]]--
 
 -- The general walkability of the tiles in the tileset. Zero indicates walkable. One tile has four walkable quadrants listed as: NW corner, NE corner, SW corner, SE corner.
 tileset.walkability = {}
