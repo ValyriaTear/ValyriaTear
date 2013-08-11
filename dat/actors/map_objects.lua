@@ -322,8 +322,8 @@ objects["Rock3"] = {
 
 objects["Rolling Stone"] = {
     animation_filename = "img/sprites/map/objects/rolling_stone.lua",
-    coll_half_width = 1.0,
-    coll_height = 2.0,
+    coll_half_width = 0.9,
+    coll_height = 1.8,
     img_half_width = 1.0,
     img_height = 2.0
 }
