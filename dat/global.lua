@@ -20,8 +20,7 @@ SYLVE    = 4;
 THANIS   = 8;
 
 -- level cap
--- Set to lvl 15 as there is only one dungeon.
-GlobalManager:SetMaxExperienceLevel(15);
+GlobalManager:SetMaxExperienceLevel(30);
 
 function NewGame()
     -- Prepare the new game data
