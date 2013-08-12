@@ -38,8 +38,7 @@ GNU Gettext - (libiconv, libintl)
 lua (5.1.x - 5.2.x) - (liblua)
 Luabind 0.9.1 (Provided as a static library)
 libz
-libjpeg (6.2 to 8)
-libpng (1.2 to 1.5)
+libpng (1.2 to 1.6)
 Ogg/Vorbis - (libogg, libvorbis, libvorbisenc, libvorbisfile)
 OpenAL
 OpenGL and GLU

@@ -343,7 +343,7 @@ bool TextureController::_SaveTempTextures()
             ImageMemory buffer;
             buffer.CopyFromImage(image);
             std::string path = GetUserDataPath();
-            if(buffer.SaveImage(path + image->filename + ".png", true) == false) {
+            if(buffer.SaveImage(path + image->filename + ".png") == false) {
                 success = false;
                 IF_PRINT_WARNING(VIDEO_DEBUG) << "call to ImageMemory::SaveImage() failed" << std::endl;
             }

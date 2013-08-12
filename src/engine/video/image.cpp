@@ -198,39 +198,35 @@ void ImageDescriptor::SetVertexColors(const Color &tl, const Color &tr, const Co
         _unichrome_vertices = false;
 }
 
-
-
-void ImageDescriptor::GetImageInfo(const std::string &filename, uint32 &rows, uint32 &cols, uint32 &bpp) throw(Exception)
+bool ImageDescriptor::GetImageInfo(const std::string &filename, uint32 &rows, uint32 &cols, uint32 &bpp)
 {
-    // Isolate the file extension
-    size_t ext_position = filename.rfind('.');
+    // Init with invalid data to ease early returns,
+    rows = 0;
+    cols = 0;
+    bpp = 0;
 
-    if(ext_position == std::string::npos) {
-        throw Exception("could not decipher file extension for filename: " + filename, __FILE__, __LINE__, __FUNCTION__);
+    SDL_Surface *surf = IMG_Load(filename.c_str());
+
+    if (!surf) {
+        PRINT_ERROR << "Couldn't load image " << filename << ": " << IMG_GetError() << std::endl;
+        return false;
     }
 
-    std::string extension = std::string(filename, ext_position, filename.length() - ext_position);
-
-    if(extension == ".png")
-        _GetPngImageInfo(filename, rows, cols, bpp);
-    else if(extension == ".jpg")
-        _GetJpgImageInfo(filename, rows, cols, bpp);
-    else
-        throw Exception("unsupported image file extension \"" + extension + "\" for filename: " + filename, __FILE__, __LINE__, __FUNCTION__);
+    rows = surf->h;
+    cols = surf->w;
+    bpp  = surf->format->BitsPerPixel * 8;
+    SDL_FreeSurface(surf);
+ 
+    return true;
 }
-
-
 
 bool ImageDescriptor::LoadMultiImageFromElementSize(std::vector<StillImage>& images, const std::string &filename,
         const uint32 elem_width, const uint32 elem_height)
 {
     // First retrieve the dimensions of the multi image (in pixels)
     uint32 img_height, img_width, bpp;
-    try {
-        GetImageInfo(filename, img_height, img_width, bpp);
-    } catch(const Exception &e) {
-        IF_PRINT_WARNING(VIDEO_DEBUG)
-                << e.ToString() << std::endl;
+    if (!GetImageInfo(filename, img_height, img_width, bpp)) {
+        PRINT_WARNING << "Couldn't load image file info: " << filename << std::endl;
         return false;
     }
 
@@ -272,11 +268,8 @@ bool ImageDescriptor::LoadMultiImageFromElementGrid(std::vector<StillImage>& ima
     }
     // First retrieve the dimensions of the multi image (in pixels)
     uint32 img_height, img_width, bpp;
-    try {
-        GetImageInfo(filename, img_height, img_width, bpp);
-    } catch(const Exception &e) {
-        IF_PRINT_WARNING(VIDEO_DEBUG)
-                << e.ToString() << std::endl;
+    if (!GetImageInfo(filename, img_height, img_width, bpp)) {
+        PRINT_WARNING << "Couldn't load image file info: " << filename << std::endl;
         return false;
     }
 
@@ -341,7 +334,6 @@ bool ImageDescriptor::SaveMultiImage(const std::vector<StillImage *>& images, co
     }
 
     // Isolate the filename's extension and determine the type of image file we're saving
-    bool is_png_image;
     size_t ext_position = filename.rfind('.');
     if(ext_position == std::string::npos) {
         IF_PRINT_WARNING(VIDEO_DEBUG) << "failed to decipher file extension for filename: " << filename << std::endl;
@@ -350,11 +342,7 @@ bool ImageDescriptor::SaveMultiImage(const std::vector<StillImage *>& images, co
 
     std::string extension = std::string(filename, ext_position, filename.length() - ext_position);
 
-    if(extension == ".png")
-        is_png_image = true;
-    else if(extension == ".jpg")
-        is_png_image = false;
-    else {
+    if(extension != ".png") {
         IF_PRINT_WARNING(VIDEO_DEBUG) << "unsupported file extension: \"" << extension << "\" for filename: " << filename << std::endl;
         return false;
     }
@@ -437,7 +425,7 @@ bool ImageDescriptor::SaveMultiImage(const std::vector<StillImage *>& images, co
 
     // save.pixels now contains all the image data we wish to save, so write it out to the new image file
     bool success = true;
-    success = save.SaveImage(filename, is_png_image);
+    success = save.SaveImage(filename);
     free(save.pixels);
     free(texture.pixels);
 
@@ -639,107 +627,6 @@ void ImageDescriptor::_DrawTexture(const Color *draw_color) const
     // Use a vertex array to draw all of the vertices
     glDrawArrays(GL_QUADS, 0, 4);
 } // void ImageDescriptor::_DrawTexture(const Color* color_array) const
-
-
-
-void ImageDescriptor::_GetPngImageInfo(const std::string &filename, uint32 &rows, uint32 &cols, uint32 &bpp) throw(Exception)
-{
-    // first, we start by reading from the file
-    FILE *fp = fopen(filename.c_str(), "rb");
-
-    if(fp == NULL) {
-        throw Exception("failed to open file: " + filename, __FILE__, __LINE__, __FUNCTION__);
-    }
-
-    // check the signature - make sure it is actually a PNG! otherwise BAD THINGS would happen
-    uint8 test_buffer[8];
-
-    fread(test_buffer, 1, 8, fp);
-    if(png_sig_cmp(test_buffer, 0, 8)) {
-        fclose(fp);
-        throw Exception("png_sig_cmp() failed for file: " + filename, __FILE__, __LINE__, __FUNCTION__);
-    }
-
-    // open up our PNG file
-    png_structp png_ptr = png_create_read_struct(PNG_LIBPNG_VER_STRING, (png_voidp)NULL, NULL, NULL);
-
-    if(png_ptr == NULL) {
-        fclose(fp);
-        return;
-    }
-
-    // grab the info structure
-    png_infop info_ptr = png_create_info_struct(png_ptr);
-
-    if(!info_ptr) {
-        png_destroy_read_struct(&png_ptr, NULL, (png_infopp)NULL);
-        fclose(fp);
-        throw Exception("png_create_info_struct() returned NULL for file: " + filename, __FILE__, __LINE__, __FUNCTION__);
-    }
-
-    // error checking
-    if(setjmp(png_jmpbuf(png_ptr))) {
-        png_destroy_read_struct(&png_ptr, NULL, (png_infopp)NULL);
-        fclose(fp);
-        throw Exception("setjmp returned non-zero value for file: " + filename, __FILE__, __LINE__, __FUNCTION__);
-    }
-
-    // open up the IO stuff and read the PNG
-    png_init_io(png_ptr, fp);
-    png_set_sig_bytes(png_ptr, 8);
-    png_read_png(png_ptr, info_ptr, PNG_TRANSFORM_STRIP_16 | PNG_TRANSFORM_PACKING | PNG_TRANSFORM_EXPAND, NULL);
-
-    // grab the relevant data...
-#if PNG_LIBPNG_VER_SONUM >= 15
-    cols = png_get_image_width(png_ptr, info_ptr);
-    rows = png_get_image_height(png_ptr, info_ptr);
-    bpp = png_get_bit_depth(png_ptr, info_ptr) * 8;
-#else
-    cols = info_ptr->width;
-    rows = info_ptr->height;
-    bpp = info_ptr->channels * 8;
-#endif
-
-    // and clean up.
-    png_destroy_read_struct(&png_ptr, &info_ptr, (png_infopp)NULL);
-    fclose(fp);
-} // void ImageDescriptor::_GetPngImageInfo(const std::string& filename, uint32& rows, uint32& cols, uint32& bpp)
-
-
-
-void ImageDescriptor::_GetJpgImageInfo(const std::string &filename, uint32 &rows, uint32 &cols, uint32 &bpp) throw(Exception)
-{
-    // open up the file (with C IO)
-    FILE *fp = fopen(filename.c_str(), "rb");
-
-    if(fp == NULL) {
-        throw Exception("failed to open file: " + filename, __FILE__, __LINE__, __FUNCTION__);
-    }
-
-    // do our magical setup: create a jpeg decompressor and the relevant error stuff
-    jpeg_decompress_struct cinfo;
-    jpeg_error_mgr jerr;
-
-    cinfo.err = jpeg_std_error(&jerr);
-    jpeg_create_decompress(&cinfo);
-
-    // tell jpeg where to look for the data...
-    jpeg_stdio_src(&cinfo, fp);
-    // and read the header
-    jpeg_read_header(&cinfo, TRUE);
-
-    // grab the relevant information from the header...
-    cols = cinfo.output_width;
-    rows = cinfo.output_height;
-    bpp = cinfo.output_components;
-
-    // clean up
-    jpeg_destroy_decompress(&cinfo);
-
-    fclose(fp);
-} // void ImageDescriptor::_GetJpgImageInfo(const std::string& filename, uint32& rows, uint32& cols, uint32& bpp)
-
-
 
 bool ImageDescriptor::_LoadMultiImage(std::vector<StillImage>& images, const std::string &filename,
                                       const uint32 grid_rows, const uint32 grid_cols)
@@ -1060,7 +947,6 @@ bool StillImage::Save(const std::string &filename) const
 
     // Isolate the file extension
     size_t ext_position = filename.rfind('.');
-    bool is_png_image;
 
     if(ext_position == std::string::npos) {
         IF_PRINT_WARNING(VIDEO_DEBUG) << "could not decipher file extension for file: " << filename << std::endl;
@@ -1069,18 +955,14 @@ bool StillImage::Save(const std::string &filename) const
 
     std::string extension = std::string(filename, ext_position, filename.length() - ext_position);
 
-    if(extension == ".png")
-        is_png_image = true;
-    else if(extension == ".jpg")
-        is_png_image = false;
-    else {
+    if(extension != ".png") {
         IF_PRINT_WARNING(VIDEO_DEBUG) << "unsupported file extension \"" << extension << "\" for file: " << filename << std::endl;
         return false;
     }
 
     ImageMemory buffer;
     buffer.CopyFromImage(_image_texture);
-    return buffer.SaveImage(filename, is_png_image);
+    return buffer.SaveImage(filename);
 } // bool StillImage::Save(const string& filename)
 
 
@@ -1517,7 +1399,7 @@ void AnimatedImage::Update(uint32 elapsed_time)
             }
             _frame_index = 0;
         }
-        
+
         // Add the time left already spent on the new frame.
         _frame_counter = ms_change;
     }

@@ -146,26 +146,91 @@ bool ImageMemory::LoadImage(const std::string &filename)
     return true;
 }
 
-
-
-bool ImageMemory::SaveImage(const std::string &filename, bool png_image)
+bool ImageMemory::SaveImage(const std::string &filename)
 {
     if(pixels == NULL) {
         IF_PRINT_WARNING(VIDEO_DEBUG) << "pixels member was NULL upon function invocation for file: " << filename << std::endl;
         return false;
     }
 
-    if(png_image) {
-        return _SavePngImage(filename);
-    } else {
-        // JPG images don't have alpha information, so we must convert the data to RGB format first
-        if(rgb_format == false)
-            RGBAToRGB();
-        return _SaveJpgImage(filename);
+    // open up the file for writing
+    FILE *fp = fopen(filename.c_str(), "wb");
+
+    if(fp == NULL) {
+        IF_PRINT_WARNING(VIDEO_DEBUG) << "could not open file: " << filename << std::endl;
+        return false;
     }
-}
+
+    // grab a write structure
+    png_structp png_ptr = png_create_write_struct(PNG_LIBPNG_VER_STRING, (png_voidp)NULL, NULL, NULL);
+
+    if(!png_ptr) {
+        IF_PRINT_WARNING(VIDEO_DEBUG) << "png_create_write_struct() failed for file: " << filename << std::endl;
+        fclose(fp);
+        return false;
+    }
+
+    // and a place to store the metadata
+    png_infop info_ptr = png_create_info_struct(png_ptr);
+
+    if(!info_ptr) {
+        IF_PRINT_WARNING(VIDEO_DEBUG) << "png_create_info_struct() failed for file: " << filename << std::endl;
+        png_destroy_write_struct(&png_ptr, (png_infopp)NULL);
+        fclose(fp);
+        return false;
+    }
+
+    // prepare for error handling!
+    if(setjmp(png_jmpbuf(png_ptr))) {
+        IF_PRINT_WARNING(VIDEO_DEBUG) << "setjmp returned non-zero for file: " << filename << std::endl;
+        png_destroy_write_struct(&png_ptr, (png_infopp)NULL);
+        fclose(fp);
+        return false;
+    }
+
+    // tell it where to look
+    png_init_io(png_ptr, fp);
+
+    // write the header
+    int32 color_type = rgb_format ? PNG_COLOR_TYPE_RGB : PNG_COLOR_TYPE_RGBA;
+    png_set_IHDR(png_ptr, info_ptr, width, height, 8, color_type,
+                 PNG_INTERLACE_NONE, PNG_COMPRESSION_TYPE_DEFAULT, PNG_FILTER_TYPE_DEFAULT);
 
 
+    png_write_info(png_ptr, info_ptr);
+
+    png_set_packing(png_ptr);
+
+    // get the row array from our data
+    png_bytep *row_pointers = new png_bytep[height];
+    if(!row_pointers) {
+        IF_PRINT_WARNING(VIDEO_DEBUG) << "Couldn't allocate png row_pointers for: " << filename << std::endl;
+        png_destroy_write_struct(&png_ptr, (png_infopp)NULL);
+        fclose(fp);
+        return false;
+    }
+
+    int32 bytes_per_row = rgb_format ? width * 3 : width * 4;
+    for(uint32 i = 0; i < height; ++i) {
+        row_pointers[i] = (png_bytep)pixels + bytes_per_row * i;
+    }
+
+    // tell it what the rows are
+    png_set_rows(png_ptr, info_ptr, row_pointers);
+    // and write the PNG
+    png_write_png(png_ptr, info_ptr, PNG_TRANSFORM_IDENTITY, NULL);
+    png_write_image(png_ptr, row_pointers);
+    // clean up
+    png_write_end(png_ptr, info_ptr);
+
+    fclose(fp);
+
+    // free the memory
+    delete[] row_pointers;
+    png_destroy_write_struct(&png_ptr, (png_infopp)NULL);
+
+    return true;
+} // bool ImageMemory::SaveImage(const std::string& filename)
 
 void ImageMemory::ConvertToGrayscale()
 {
@@ -280,133 +345,6 @@ void ImageMemory::CopyFromImage(BaseTexture *img)
         pixels = img_pixels;
     }
 }
-
-
-bool ImageMemory::_SavePngImage(const std::string &filename) const
-{
-    // open up the file for writing
-    FILE *fp = fopen(filename.c_str(), "wb");
-
-    if(fp == NULL) {
-        IF_PRINT_WARNING(VIDEO_DEBUG) << "could not open file: " << filename << std::endl;
-        return false;
-    }
-
-    // aah, RGB data! We can only handle RGBA at the moment
-    if(rgb_format == true) {
-        IF_PRINT_WARNING(VIDEO_DEBUG) << "attempting to save RGB format image data as a RGBA format PNG image" << std::endl;
-    }
-
-    // grab a write structure
-    png_structp png_ptr = png_create_write_struct(PNG_LIBPNG_VER_STRING, (png_voidp)NULL, NULL, NULL);
-
-    if(!png_ptr) {
-        IF_PRINT_WARNING(VIDEO_DEBUG) << "png_create_write_struct() failed for file: " << filename << std::endl;
-        fclose(fp);
-        return false;
-    }
-
-    // and a place to store the metadata
-    png_infop info_ptr = png_create_info_struct(png_ptr);
-
-    if(!info_ptr) {
-        IF_PRINT_WARNING(VIDEO_DEBUG) << "png_create_info_struct() failed for file: " << filename << std::endl;
-        png_destroy_write_struct(&png_ptr, NULL);
-        fclose(fp);
-        return false;
-    }
-
-    // prepare for error handling!
-    if(setjmp(png_jmpbuf(png_ptr))) {
-        IF_PRINT_WARNING(VIDEO_DEBUG) << "setjmp returned non-zero for file: " << filename << std::endl;
-        png_destroy_write_struct(&png_ptr, &info_ptr);
-        fclose(fp);
-        return false;
-    }
-
-    // tell it where to look
-    png_init_io(png_ptr, fp);
-
-    // write the header
-    png_set_IHDR(png_ptr, info_ptr, width, height, 8, PNG_COLOR_TYPE_RGB_ALPHA,
-                 PNG_INTERLACE_NONE, PNG_COMPRESSION_TYPE_DEFAULT, PNG_FILTER_TYPE_DEFAULT);
-
-    // get the row array from our data
-    png_byte **row_pointers = new png_byte*[height];
-    int32 bytes_per_row = width * 4;
-    for(uint32 i = 0; i < height; ++i) {
-        row_pointers[i] = (png_byte *)pixels + bytes_per_row * i;
-    }
-
-    // tell it what the rows are
-    png_set_rows(png_ptr, info_ptr, row_pointers);
-    // and write the PNG
-    png_write_png(png_ptr, info_ptr, PNG_TRANSFORM_IDENTITY, NULL);
-    png_write_image(png_ptr, row_pointers);
-    // clean up
-    png_write_end(png_ptr, info_ptr);
-    png_destroy_write_struct(&png_ptr, &info_ptr);
-
-    // free the memory we ate
-    delete[] row_pointers;
-
-    // peace and love for all
-    return true;
-} // bool ImageMemory::_SavePngImage(const std::string& filename) const
-
-
-
-bool ImageMemory::_SaveJpgImage(const std::string &filename) const
-{
-    FILE *fp = fopen(filename.c_str(), "wb");
-    if(fp == NULL) {
-        IF_PRINT_WARNING(VIDEO_DEBUG) << "could not open file: " << filename << std::endl;
-        return false;
-    }
-
-    // we don't support RGBA because JPEGs don't support alpha
-    if(rgb_format == false) {
-        IF_PRINT_WARNING(VIDEO_DEBUG) << "attempting to save non-RGB format pixel data as a RGB format JPG image" << std::endl;
-    }
-
-    // compression object and error handling
-    jpeg_compress_struct cinfo;
-    jpeg_error_mgr jerr;
-
-    cinfo.err = jpeg_std_error(&jerr);
-    jpeg_create_compress(&cinfo);
-
-    // tell libjpeg how we do things in this town
-    cinfo.in_color_space = JCS_RGB;
-    cinfo.image_width = width;
-    cinfo.image_height = height;
-    cinfo.input_components = 3;
-
-    // everything else can be default
-    jpeg_set_defaults(&cinfo);
-    // tell it where to look
-    jpeg_stdio_dest(&cinfo, fp);
-    // compress it
-    jpeg_start_compress(&cinfo, TRUE);
-
-    JSAMPROW row_pointer; // A pointer to a single row
-    uint32 row_stride = width * 3; // The physical row width in the buffer (RGB)
-
-    // Note that the lines have to be stored from top to bottom
-    while(cinfo.next_scanline < cinfo.image_height) {
-        row_pointer = (uint8 *)pixels + cinfo.next_scanline * row_stride;
-        jpeg_write_scanlines(&cinfo, &row_pointer, 1);
-    }
-
-    // compression is DONE, we are HAPPY
-    // now finish it and clean up
-    jpeg_finish_compress(&cinfo);
-    jpeg_destroy_compress(&cinfo);
-
-    fclose(fp);
-
-    return true;
-} // bool ImageMemory::_SaveJpgImage(const std::string& file_name) const
 
 // -----------------------------------------------------------------------------
 // BaseTexture class

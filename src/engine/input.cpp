@@ -309,7 +309,7 @@ void InputEngine::_KeyEventHandler(SDL_KeyboardEvent &key_event)
                 static uint32 i = 1;
                 std::string path = "";
                 while(true) {
-                    path = vt_utils::GetUserDataPath() + "screenshot_" + NumberToString<uint32>(i) + ".jpg";
+                    path = vt_utils::GetUserDataPath() + "screenshot_" + NumberToString<uint32>(i) + ".png";
                     if(!DoesFileExist(path))
                         break;
                     i++;

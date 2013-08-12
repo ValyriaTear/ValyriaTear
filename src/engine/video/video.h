@@ -22,7 +22,7 @@
 *** by the map editor GUI as a QT widget.
 ***
 *** \note This code uses the OpenGL library for graphics rendering.
-*** \note This code uses the libpng and libjpeg libraries for loading images.
+*** \note This code uses the SDL_Image library to load images.
 *** \note This code uses the SDL_ttf 2.0 library for font rendering.
 *** ***************************************************************************/
 
@@ -664,9 +664,9 @@ public:
     void DrawRectangleOutline(float x1, float y1, float x2, float y2, float width, const Color &color);
 
     /** \brief Takes a screenshot and saves the image to a file
-    *** \param filename The name of the file, if any, to save the screenshot as. Default is "screenshot.jpg"
+    *** \param filename The name of the file, if any, to save the screenshot as. Default is "screenshot.png"
     **/
-    void MakeScreenshot(const std::string &filename = "screenshot.jpg");
+    void MakeScreenshot(const std::string &filename = "screenshot.png");
 
     /** \brief toggles debug information display.
     *** currently used for debugging game modes, and more especially the map mode.

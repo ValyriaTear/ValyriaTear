@@ -45,7 +45,6 @@
 					<Add library="Opengl32" />
 					<Add library="glu32" />
 					<Add library="libpng" />
-					<Add library="libjpeg" />
 					<Add library="Lua51" />
 					<Add library="libintl" />
 					<Add library="libiconv2" />
@@ -88,7 +87,6 @@
 					<Add library="Opengl32" />
 					<Add library="glu32" />
 					<Add library="libpng" />
-					<Add library="libjpeg" />
 					<Add library="Lua51" />
 					<Add library="libintl" />
 					<Add library="libiconv2" />
@@ -124,7 +122,6 @@
 					<Add library="SDL_ttf" />
 					<Add library="vorbisfile" />
 					<Add library="openal" />
-					<Add library="jpeg" />
 					<Add library="png" />
 					<Add library="GLU" />
 					<Add library="GL" />
@@ -166,7 +163,6 @@
 					<Add library="SDL_ttf" />
 					<Add library="vorbisfile" />
 					<Add library="openal" />
-					<Add library="jpeg" />
 					<Add library="png" />
 					<Add library="GLU" />
 					<Add library="GL" />

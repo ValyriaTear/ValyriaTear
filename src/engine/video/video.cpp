@@ -1029,7 +1029,7 @@ void VideoEngine::MakeScreenshot(const std::string &filename)
     buffer.pixels = buffer_temp;
     buffer_temp = temp;
 
-    buffer.SaveImage(filename, false);
+    buffer.SaveImage(filename);
 
     free(buffer_temp);
     free(buffer.pixels);

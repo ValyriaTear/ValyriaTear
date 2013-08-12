@@ -199,13 +199,13 @@ public:
     **/
     //@{
     /** \brief Retrieves various properties about an image file
-    *** \param filename The name of the image file (.png or .jpg) to retrieve the properties of
+    *** \param filename The name of the image file (SDL_Image compatible) to retrieve the properties of
     *** \param rows The number of rows of pixels in the image
     *** \param cols The number of columns of pixels in the image
     *** \param bpp The number of bits per pixel of the image
-    *** \throw Exception If any of the properties are not retrieved successfully
+    *** \returns whether the info were successfully obtained.
     **/
-    static void GetImageInfo(const std::string &filename, uint32 &rows, uint32 &cols, uint32 &bpp) throw(vt_utils::Exception);
+    static bool GetImageInfo(const std::string &filename, uint32 &rows, uint32 &cols, uint32 &bpp);
 
     /** \brief Loads a multi image into a vector of StillImage objects
     *** \param images Reference to the vector of StillImages to be loaded with elements from the multi image
@@ -316,24 +316,6 @@ protected:
     void _DrawTexture(const Color *draw_color) const;
 
 private:
-    /** \brief Retrieves various properties about a PNG image file
-    *** \param filename The name of the PNG image file to retrieve the properties of
-    *** \param rows The number of rows of pixels in the image
-    *** \param cols The number of columns of pixels in the image
-    *** \param bpp The number of bits per pixel of the image
-    *** \throw Exception If any of the properties are not retrieved successfully
-    **/
-    static void _GetPngImageInfo(const std::string &filename, uint32 &rows, uint32 &cols, uint32 &bpp) throw(vt_utils::Exception);
-
-    /** \brief Retrieves various properties about a JPG image file
-    *** \param filename The name of the JPG image file to retrieve the properties of
-    *** \param rows The number of rows of pixels in the image
-    *** \param cols The number of columns of pixels in the image
-    *** \param bpp The number of bits per pixel of the image
-    *** \throw Exception If any of the properties are not retrieved successfully
-    **/
-    static void _GetJpgImageInfo(const std::string &filename, uint32 &rows, uint32 &cols, uint32 &bpp) throw(vt_utils::Exception);
-
     /** \brief A helper function to the public LoadMultiImage* calls
     *** \param images Reference to the vector of StillImages to be loaded
     *** \param filename The name of the multi image file to read
@@ -372,7 +354,7 @@ public:
     void Clear();
 
     /** \brief Loads a single image file to be represented by the class object
-    *** \param filename The filename of the image to load (should have a .png or .jpg extension)
+    *** \param filename The filename of the image to load (should have a SDL_image compatible extension)
     *** \return True if the image was successfully loaded and is now represented by this object
     ***
     *** \note Invoking this function will clear all image elements currently used by this class.
@@ -396,7 +378,7 @@ public:
     void Draw(const Color &draw_color) const;
 
     /** \brief Saves the image to a file
-    *** \param filename The filename of the image to save (should have a .png or .jpg extension)
+    *** \param filename The filename of the image to save (must have a .png extension)
     *** \return True if the image was successfully saved to a file
     ***
     *** \note The image being saved should contain only one image element. Support for saving of
@@ -576,7 +558,7 @@ public:
     void Clear();
 
     /** \brief Loads an AnimatedImage by opening a multi image file
-    *** \param filename The name of the file to load, which should end in a .png or .jpg extension
+    *** \param filename The name of the image file to load.
     *** \param timings A vector reference which holds the timing information for each animation frame
     *** \param frame_width The width (in pixels) of each frame in the multi image file
     *** \param frame_height The height (in pixels) of each frame in the multi image file
@@ -590,7 +572,7 @@ public:
     bool LoadFromFrameSize(const std::string &filename, const std::vector<uint32>& timings, const uint32 frame_width, const uint32 frame_height, const uint32 trim = 0);
 
     /** \brief Loads an AnimatedImage from a multi image file
-    *** \param filename The name of the file to load, which should end in a .png or .jpg extension
+    *** \param filename The name of the image file to load.
     *** \param timings A vector reference which holds the timing information for each animation frame
     *** \param frame_rows The number of rows of frame images in the image file
     *** \param frame_cols The number of columns of frame images in the image file
@@ -632,7 +614,7 @@ public:
     void Draw(const Color &draw_color) const;
 
     /** \brief Saves all frame images into a single file (a multi image file)
-    *** \param filename The filename of the image to save (should have a .png or .jpg extension)
+    *** \param filename The filename of the image to save (must have a .png extension)
     *** \param grid_rows The number of grid rows to save in the multi image
     *** \param grid_cols The number of grid columns to save in the multi image
     *** \return True if all frames were successfully saved to a file

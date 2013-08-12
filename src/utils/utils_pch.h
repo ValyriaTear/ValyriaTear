@@ -137,9 +137,6 @@ extern "C" {
 #endif
 
 #include <png.h>
-extern "C" {
-#include <jpeglib.h>
-}
 
 // We include SDL_config.h, which compensates for non ISO C99 compilers.
 // SDL_config.h defines the int??_t types for non ISO C99 compilers,
