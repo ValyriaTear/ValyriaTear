@@ -175,7 +175,7 @@ function _CreateObjects()
         { "Tree Big2", 57, 64.8 },
         { "Tree Small2", 49, 66 },
         { "Tree Big2", 27.5, 65 },
-        { "Tree Big2", 17, 12 },
+        { "Tree Big2", 15, 12 },
         { "Tree Big2", 45, 64 },
         { "Tree Big2", 40, 60 },
         { "Tree Big2", 32, 63 },
@@ -217,6 +217,18 @@ function _CreateObjects()
         { "Tree Big2", 34, 22 },
         { "Tree Big2", 37, 18 },
         { "Tree Big2", 40, 16 },
+        { "Tree Big2", 50, 20 },
+        { "Tree Big2", 13, 40 },
+        { "Tree Big2", 41, 18.5 },
+        { "Tree Big2", 26, 22 },
+        { "Tree Big2", 17, 19 },
+        { "Tree Big2", 35, 13 },
+        { "Tree Big2", 30, 7 },
+        { "Tree Big2", 25, 25.5 },
+        { "Tree Big2", 46, 37 },
+        { "Tree Big2", 52, 30 },
+        { "Tree Big2", 49, 35 },
+        { "Tree Big2", 43, 42 },
 
         { "Tree Small1", 22.7, 47 },
         { "Tree Small2", 31, 45 },
@@ -258,6 +270,7 @@ function _CreateObjects()
         { "Grass Clump1", 63, 53 },
         { "Grass Clump1", 31, 46 },
         { "Grass Clump1", 37.5, 28 },
+        { "Grass Clump1", 46, 15 },
 
 
     }

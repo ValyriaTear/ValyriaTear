@@ -70,7 +70,7 @@ function _CreateCharacters()
 
     if (GlobalManager:GetPreviousLocation() == "from_elbrus_entrance3-2") then
         hero:SetDirection(vt_map.MapMode.NORTH);
-        hero:SetPosition(3, 21);
+        hero:SetPosition(4, 20);
     end
 
     Map:AddGroundObject(hero);
@@ -149,93 +149,68 @@ function _CreateObjects()
     Map:AddGroundObject(blocking_rock4);
 
     -- shroom 1
-    shroom1 = CreateSprite(Map, "Shroom", 35, 24);
-    shroom1:SetName("");
-    shroom1:SetDirection(vt_map.MapMode.SOUTH);
-    dialogue = vt_map.SpriteDialogue();
-    text = vt_system.Translate("...");
-    dialogue:AddLineEvent(text, shroom1, "", "Fight with Shroom 1");
-    DialogueManager:AddDialogue(dialogue);
-    shroom1:AddDialogueReference(dialogue);
+    shroom1 = CreateObject(Map, "Shroom", 35, 24);
+    shroom1:AddAnimation("img/sprites/map/enemies/spiky_mushroom_dead.lua");
+    shroom1:SetEventWhenTalking("Fight with Shroom 1");
     Map:AddGroundObject(shroom1);
     event = vt_map.BattleEncounterEvent("Fight with Shroom 1");
     event:AddEnemy(11, 512, 384); -- one shroom
     _SetEventBattleEnvironment(event);
     event:AddEventLinkAtEnd("Place Shroom 1 after fight", 100);
     EventManager:RegisterEvent(event);
-    event = vt_map.ScriptedSpriteEvent("Place Shroom 1 after fight", shroom1, "place_shroom_after_fight", "")
+    event = vt_map.ScriptedEvent("Place Shroom 1 after fight", "place_shroom1_after_fight", "")
     EventManager:RegisterEvent(event);
 
     -- shroom 2
-    shroom2 = CreateSprite(Map, "Shroom", 37, 24);
-    shroom2:SetName("");
-    shroom2:SetDirection(vt_map.MapMode.SOUTH);
-    dialogue = vt_map.SpriteDialogue();
-    text = vt_system.Translate("...");
-    dialogue:AddLineEvent(text, shroom2, "", "Fight with Shroom 2");
-    DialogueManager:AddDialogue(dialogue);
-    shroom2:AddDialogueReference(dialogue);
+    shroom2 = CreateObject(Map, "Shroom", 37, 24);
+    shroom2:AddAnimation("img/sprites/map/enemies/spiky_mushroom_dead.lua");
+    shroom2:SetEventWhenTalking("Fight with Shroom 2");
     Map:AddGroundObject(shroom2);
     event = vt_map.BattleEncounterEvent("Fight with Shroom 2");
     event:AddEnemy(11, 512, 384); -- one shroom
     _SetEventBattleEnvironment(event);
     event:AddEventLinkAtEnd("Place Shroom 2 after fight", 100);
     EventManager:RegisterEvent(event);
-    event = vt_map.ScriptedSpriteEvent("Place Shroom 2 after fight", shroom2, "place_shroom_after_fight", "")
+    event = vt_map.ScriptedEvent("Place Shroom 2 after fight", "place_shroom2_after_fight", "")
     EventManager:RegisterEvent(event);
 
     -- shroom 3
-    shroom3 = CreateSprite(Map, "Shroom", 39, 24);
-    shroom3:SetName("");
-    shroom3:SetDirection(vt_map.MapMode.SOUTH);
-    dialogue = vt_map.SpriteDialogue();
-    text = vt_system.Translate("...");
-    dialogue:AddLineEvent(text, shroom3, "", "Fight with Shroom 3");
-    DialogueManager:AddDialogue(dialogue);
-    shroom3:AddDialogueReference(dialogue);
+    shroom3 = CreateObject(Map, "Shroom", 39, 24);
+    shroom3:AddAnimation("img/sprites/map/enemies/spiky_mushroom_dead.lua");
+    shroom3:SetEventWhenTalking("Fight with Shroom 3");
     Map:AddGroundObject(shroom3);
     event = vt_map.BattleEncounterEvent("Fight with Shroom 3");
     event:AddEnemy(11, 512, 384); -- one shroom
     _SetEventBattleEnvironment(event);
     event:AddEventLinkAtEnd("Place Shroom 3 after fight", 100);
     EventManager:RegisterEvent(event);
-    event = vt_map.ScriptedSpriteEvent("Place Shroom 3 after fight", shroom3, "place_shroom_after_fight", "")
+    event = vt_map.ScriptedEvent("Place Shroom 3 after fight", "place_shroom3_after_fight", "")
     EventManager:RegisterEvent(event);
 
     -- shroom 4
-    shroom4 = CreateSprite(Map, "Shroom", 35, 32);
-    shroom4:SetName("");
-    shroom4:SetDirection(vt_map.MapMode.SOUTH);
-    dialogue = vt_map.SpriteDialogue();
-    text = vt_system.Translate("...");
-    dialogue:AddLineEvent(text, shroom4, "", "Fight with Shroom 4");
-    DialogueManager:AddDialogue(dialogue);
-    shroom4:AddDialogueReference(dialogue);
+    shroom4 = CreateObject(Map, "Shroom", 35, 32);
+    shroom4:AddAnimation("img/sprites/map/enemies/spiky_mushroom_dead.lua");
+    shroom4:SetEventWhenTalking("Fight with Shroom 4");
     Map:AddGroundObject(shroom4);
     event = vt_map.BattleEncounterEvent("Fight with Shroom 4");
     event:AddEnemy(11, 512, 384); -- one shroom
     _SetEventBattleEnvironment(event);
     event:AddEventLinkAtEnd("Place Shroom 4 after fight", 100);
     EventManager:RegisterEvent(event);
-    event = vt_map.ScriptedSpriteEvent("Place Shroom 4 after fight", shroom4, "place_shroom_after_fight", "")
+    event = vt_map.ScriptedEvent("Place Shroom 4 after fight", "place_shroom4_after_fight", "")
     EventManager:RegisterEvent(event);
 
     -- shroom 5
-    shroom5 = CreateSprite(Map, "Shroom", 39, 30);
-    shroom5:SetName("");
-    shroom5:SetDirection(vt_map.MapMode.SOUTH);
-    dialogue = vt_map.SpriteDialogue();
-    text = vt_system.Translate("...");
-    dialogue:AddLineEvent(text, shroom5, "", "Fight with Shroom 5");
-    DialogueManager:AddDialogue(dialogue);
-    shroom5:AddDialogueReference(dialogue);
+    shroom5 = CreateObject(Map, "Shroom", 39, 30);
+    shroom5:AddAnimation("img/sprites/map/enemies/spiky_mushroom_dead.lua");
+    shroom5:SetEventWhenTalking("Fight with Shroom 5");
     Map:AddGroundObject(shroom5);
     event = vt_map.BattleEncounterEvent("Fight with Shroom 5");
     event:AddEnemy(11, 512, 384); -- one shroom
     _SetEventBattleEnvironment(event);
     event:AddEventLinkAtEnd("Place Shroom 5 after fight", 100);
     EventManager:RegisterEvent(event);
-    event = vt_map.ScriptedSpriteEvent("Place Shroom 5 after fight", shroom5, "place_shroom_after_fight", "")
+    event = vt_map.ScriptedEvent("Place Shroom 5 after fight", "place_shroom5_after_fight", "")
     EventManager:RegisterEvent(event);
 
     stone_trigger1 = vt_map.TriggerObject("mt elbrus cave 3 trigger 1",
@@ -317,9 +292,9 @@ local exit3_2_zone = {};
 -- Create the different map zones triggering events
 function _CreateZones()
     -- N.B.: left, right, top, bottom
-    exit3_1_zone = vt_map.CameraZone(46, 58, 16, 18);
+    exit3_1_zone = vt_map.CameraZone(46, 58, 17, 19);
     Map:AddZone(exit3_1_zone);
-    exit3_2_zone = vt_map.CameraZone(0, 8, 22, 24);
+    exit3_2_zone = vt_map.CameraZone(0, 8, 21, 23);
     Map:AddZone(exit3_2_zone);
 end
 
@@ -391,20 +366,7 @@ end
 -- Map Custom functions
 -- Used through scripted events
 
-local stone_direction1 = vt_map.MapMode.EAST;
-local stone_direction2 = vt_map.MapMode.EAST;
-
-map_functions = {
-
-    add_scene_state = function()
-        Map:PushState(vt_map.MapMode.STATE_SCENE);
-    end,
-
-    remove_scene_state = function()
-        Map:PopState();
-    end,
-
-    place_shroom_after_fight = function(shroom)
+function _PlaceShroomObjectAfterFight(shroom)
         local hero_x = hero:GetXPosition();
         local hero_y = hero:GetYPosition();
 
@@ -436,9 +398,38 @@ map_functions = {
         end
 
         -- Place the shroom
-        shroom:SetCustomAnimation("mushroom_ko", 0); -- 0 means forever
+        shroom:SetCurrentAnimation(1); -- The second animation id aka dead in this case
         -- Remove its dialogue (preventing a new fight)
-        shroom:ClearDialogueReferences();
+        shroom:ClearEventWhenTalking();
+end
+
+local stone_direction1 = vt_map.MapMode.EAST;
+local stone_direction2 = vt_map.MapMode.EAST;
+
+map_functions = {
+
+    add_scene_state = function()
+        Map:PushState(vt_map.MapMode.STATE_SCENE);
+    end,
+
+    remove_scene_state = function()
+        Map:PopState();
+    end,
+
+    place_shroom1_after_fight = function()
+        _PlaceShroomObjectAfterFight(shroom1)
+    end,
+    place_shroom2_after_fight = function()
+        _PlaceShroomObjectAfterFight(shroom2)
+    end,
+    place_shroom3_after_fight = function()
+        _PlaceShroomObjectAfterFight(shroom3)
+    end,
+    place_shroom4_after_fight = function()
+        _PlaceShroomObjectAfterFight(shroom4)
+    end,
+    place_shroom5_after_fight = function()
+        _PlaceShroomObjectAfterFight(shroom5)
     end,
 
     start_to_move_the_stone1 = function()

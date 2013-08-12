@@ -129,21 +129,16 @@ function _CreateObjects()
     Map:AddGroundObject(blocking_rock2);
 
     -- shroom 1
-    shroom1 = CreateSprite(Map, "Shroom", 15, 14);
-    shroom1:SetName("");
-    shroom1:SetDirection(vt_map.MapMode.SOUTH);
-    dialogue = vt_map.SpriteDialogue();
-    text = vt_system.Translate("...");
-    dialogue:AddLineEvent(text, shroom1, "", "Fight with Shroom 1");
-    DialogueManager:AddDialogue(dialogue);
-    shroom1:AddDialogueReference(dialogue);
+    shroom1 = CreateObject(Map, "Shroom", 15, 14);
+    shroom1:AddAnimation("img/sprites/map/enemies/spiky_mushroom_dead.lua");
+    shroom1:SetEventWhenTalking("Fight with Shroom 1");
     Map:AddGroundObject(shroom1);
     event = vt_map.BattleEncounterEvent("Fight with Shroom 1");
     event:AddEnemy(11, 512, 384); -- one shroom
     _SetEventBattleEnvironment(event);
     event:AddEventLinkAtEnd("Place Shroom 1 after fight", 100);
     EventManager:RegisterEvent(event);
-    event = vt_map.ScriptedSpriteEvent("Place Shroom 1 after fight", shroom1, "place_shroom_after_fight", "")
+    event = vt_map.ScriptedEvent("Place Shroom 1 after fight", "place_shroom1_after_fight", "")
     EventManager:RegisterEvent(event);
 
     stone_trigger1 = vt_map.TriggerObject("mt elbrus cave 2 trigger 1",
@@ -221,7 +216,7 @@ function _CreateZones()
     -- N.B.: left, right, top, bottom
     exit2_1_zone = vt_map.CameraZone(42, 50, 46, 48);
     Map:AddZone(exit2_1_zone);
-    exit2_2_zone = vt_map.CameraZone(42, 48, 14, 16);
+    exit2_2_zone = vt_map.CameraZone(42, 48, 15, 17);
     Map:AddZone(exit2_2_zone);
 end
 
@@ -293,20 +288,7 @@ end
 -- Map Custom functions
 -- Used through scripted events
 
-local stone_direction1 = vt_map.MapMode.EAST;
-local stone_direction2 = vt_map.MapMode.EAST;
-
-map_functions = {
-
-    add_scene_state = function()
-        Map:PushState(vt_map.MapMode.STATE_SCENE);
-    end,
-
-    remove_scene_state = function()
-        Map:PopState();
-    end,
-
-    place_shroom_after_fight = function(shroom)
+function _PlaceShroomObjectAfterFight(shroom)
         local hero_x = hero:GetXPosition();
         local hero_y = hero:GetYPosition();
 
@@ -320,16 +302,16 @@ map_functions = {
         -- Determine the hero position relative to the shroom
         if (hero_y > shroom_y + 0.3) then
             -- the hero is below, the shroom is pushed upward.
-            shroom_new_y = shroom_new_y - 2.1;
+            shroom_new_y = shroom_new_y - 2.0;
         elseif (hero_y < shroom_y - 1.5) then
             -- the hero is above, the shroom is pushed downward.
-            shroom_new_y = shroom_new_y + 2.2;
+            shroom_new_y = shroom_new_y + 2.0;
         elseif (hero_x < shroom_x - 1.2) then
             -- the hero is on the left, the shroom is pushed to the right.
-            shroom_new_x = shroom_new_x + 2.1;
+            shroom_new_x = shroom_new_x + 2.0;
         elseif (hero_x > shroom_x + 1.2) then
             -- the hero is on the right, the shroom is pushed to the left.
-            shroom_new_x = shroom_new_x - 2.1;
+            shroom_new_x = shroom_new_x - 2.0;
         end
 
         -- Only place the shroom when nothing is in the way.
@@ -338,9 +320,26 @@ map_functions = {
         end
 
         -- Place the shroom
-        shroom:SetCustomAnimation("mushroom_ko", 0); -- 0 means forever
+        shroom:SetCurrentAnimation(1); -- The second animation id aka dead in this case
         -- Remove its dialogue (preventing a new fight)
-        shroom:ClearDialogueReferences();
+        shroom:ClearEventWhenTalking();
+end
+
+local stone_direction1 = vt_map.MapMode.EAST;
+local stone_direction2 = vt_map.MapMode.EAST;
+
+map_functions = {
+
+    add_scene_state = function()
+        Map:PushState(vt_map.MapMode.STATE_SCENE);
+    end,
+
+    remove_scene_state = function()
+        Map:PopState();
+    end,
+
+    place_shroom1_after_fight = function()
+        _PlaceShroomObjectAfterFight(shroom1);
     end,
 
     start_to_move_the_stone1 = function()
