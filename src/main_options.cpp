@@ -149,7 +149,7 @@ void PrintUsage()
     std::cout
             << "usage: "APPSHORTNAME" [options]" << std::endl
             << "  --check/-c        :: checks all files for integrity" << std::endl
-            << "  --debug/-d <args> :: enables debug statements in specifed sections of the" << std::endl
+            << "  --debug/-d <args> :: enables debug statements in specified sections of the" << std::endl
             << "                       program, where <args> can be:" << std::endl
             << "                       all, audio, battle, boot, data, global, input," << std::endl
             << "                       map, mode_manager, pause, quit, scene, system" << std::endl
