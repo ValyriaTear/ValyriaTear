@@ -481,7 +481,7 @@ public:
     /** \brief Returns a pointer to an event group of the specified name
     *** \param group_name The name of the event group to retreive
     *** \return A pointer to the GlobalEventGroup that represents the event group, or NULL if no event group
-    *** of the specifed name was found
+    *** of the specified name was found
     ***
     *** You can use this method to invoke the public methods of the GlobalEventGroup class. For example, if
     *** we wanted to add a new event "cave_collapse" with a value of 1 to the group event "cave_map", we
