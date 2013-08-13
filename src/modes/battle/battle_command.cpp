@@ -829,7 +829,7 @@ void CommandSupervisor::ConstructMenus()
 void CommandSupervisor::Initialize(BattleCharacter *character)
 {
     if(character == NULL) {
-        IF_PRINT_WARNING(BATTLE_DEBUG) << "function recieved NULL pointer argument" << std::endl;
+        IF_PRINT_WARNING(BATTLE_DEBUG) << "function received NULL pointer argument" << std::endl;
         _state = COMMAND_STATE_INVALID;
         return;
     }
