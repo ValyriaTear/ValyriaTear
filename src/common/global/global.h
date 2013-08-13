@@ -1200,7 +1200,7 @@ private:
 
     /** \brief Helper function called by LoadGlobalScripts() that (re)loads each world location from the script into the world location entry map
     *** \param file Path to the file to world locations script
-    *** \return true if succesfully loaded
+    *** \return true if successfully loaded
     **/
     bool _LoadWorldLocationsScript(const std::string &world_locations_filename);
 
