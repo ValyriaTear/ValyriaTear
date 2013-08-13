@@ -318,7 +318,7 @@ img/icons/magic/meteor.png                                      CC by SA 3.0    
 img/icons/magic/moon.png                                        CC by SA 3.0             Bertram, the moon part is based on Bart's work (OGA) - http://opengameart.org/content/moon-overlay-texture
 img/icons/magic/petrify.png                                     CC by 3.0                qubodup (OGA) - http://opengameart.org/content/sandstone-ornament-256px
 img/icons/magic/phoenix_call.png                                CC by SA 3.0             J. W. Bjerk (eleazzaar) (OGA) -- www.jwbjerk.com/art  - http://opengameart.org/content/painterly-spell-icons
-img/icons/magic/poison.png                                      GPLv2                    Icon by Bertram, Skull by Modanung (The Mana World) - www.themanaworld.orgimg/icons/magic/rage.png
+img/icons/magic/poison.png                                      GPLv2+                   Icon by Bertram, Skull by Modanung (The Mana World) - www.themanaworld.orgimg/icons/magic/rage.png
 img/icons/magic/rock_fall.png                                   CC by SA 3.0             J. W. Bjerk (eleazzaar) (OGA) -- www.jwbjerk.com/art  - http://opengameart.org/content/painterly-spell-icons
 img/icons/magic/regen.png                                       CC by SA 3.0             Bertram
 img/icons/magic/shield.png                                      CC by SA 3.0             J. W. Bjerk (eleazzaar) (OGA) -- www.jwbjerk.com/art  - http://opengameart.org/content/painterly-spell-icons
@@ -651,11 +651,11 @@ img/sprites/map/enemies/naga_walk.png                           GPLv2+          
 img/sprites/map/enemies/scorpion_walk.png                       GPLv2+                   Allacrost
 img/sprites/map/enemies/slime_walk.png                          GPLv2+                   Allacrost
 img/sprites/map/enemies/snake_walk.png                          GPLv2+                   Allacrost
-img/sprites/map/enemies/wolf_spritesheet.png                    GPLv2                    The Mana World
+img/sprites/map/enemies/wolf_spritesheet.png                    GPLv2+                   The Mana World
 img/sprites/map/enemies/spider_idle.lua                         GPLv2+                   Bertram
-img/sprites/map/enemies/spider_spritesheet.png                  GPLv2                    The Mana World + Made it brown (Bertram)
+img/sprites/map/enemies/spider_spritesheet.png                  GPLv2+                   The Mana World + Made it brown (Bertram)
 img/sprites/map/enemies/spider_walk.lua                         GPLv2+                   Bertram
-img/sprites/map/enemies/spiky_mushroom.png                      GPLv2                    Yuuki - The Mana World - http://www.themanaworld.org
+img/sprites/map/enemies/spiky_mushroom.png                      GPLv2+                   Yuuki - The Mana World - http://www.themanaworld.org
 img/sprites/map/enemies/spiky_mushroom_dead.lua                 GPLv2+                   Bertram
 img/sprites/map/enemies/spiky_mushroom_idle.lua                 GPLv2+                   Bertram
 img/sprites/map/enemies/spiky_mushroom_walk.lua                 GPLv2+                   Bertram
@@ -723,7 +723,7 @@ img/sprites/map/objects/chair2.png                              GPLv2+          
 img/sprites/map/objects/clock1.lua                              GPLv2+                   Bertram
 img/sprites/map/objects/clock1.png                              GPLv2+                   Allacrost
 img/sprites/map/objects/dog1.lua                                GPLv2+                   Bertram
-img/sprites/map/objects/dog1.png                                GPLv2                    Nami97 (The Mana World - http://forums.themanaworld.org/viewtopic.php?f=8&t=16156)
+img/sprites/map/objects/dog1.png                                GPLv2+                   Nami97 (The Mana World - http://forums.themanaworld.org/viewtopic.php?f=8&t=16156)
 img/sprites/map/objects/flower_pot1.lua                         GPLv2+                   Bertram
 img/sprites/map/objects/flower_pot1.png                         GPLv2+                   Allacrost
 img/sprites/map/objects/flower_pot2.lua                         GPLv2+                   Bertram
@@ -798,9 +798,9 @@ img/sprites/map/objects/wooden_table_big.png                    GPLv2+          
 img/sprites/map/objects/wooden_table_small.lua                  GPLv2+                   Bertram
 img/sprites/map/objects/wooden_table_small.png                  GPLv2+                   Allacrost
 
-img/sprites/map/scening/butterfly_spritesheet.png               GPLv2                    The Mana World
+img/sprites/map/scening/butterfly_spritesheet.png               GPLv2+                   The Mana World
 img/sprites/map/scening/chicken_spritesheet.png                 CC-By-SA 3.0             Daniel Eddeland <-> Daneeklu (OGA)
-img/sprites/map/scening/squirrel_spritesheet.png                GPLv2                    The Mana World
+img/sprites/map/scening/squirrel_spritesheet.png                GPLv2+                   The Mana World
 
 img/sprites/map/treasures/chest1.png                            GPLv2+                   Allacrost
 img/sprites/map/treasures/chest1_closed.lua                     GPLv2+                   Bertram
