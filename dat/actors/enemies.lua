@@ -473,14 +473,14 @@ enemies[9] = {
     base_stats = {
         hit_points = 300,
         skill_points = 30,
-        strength = 80,
+        strength = 60,
         vigor = 28,
-        fortitude = 87,
+        fortitude = 60,
         protection = 35,
         agility = 38,
         evade = 5.0,
-        experience_points = 96,
-        drunes = 63
+        experience_points = 89,
+        drunes = 58
     },
 
     attack_points = {
@@ -597,7 +597,7 @@ enemies[11] = {
         [HURT_MEDIUM] = "img/sprites/battle/enemies/shroom_0.lua",
         [HURT_HEAVILY] = "img/sprites/battle/enemies/shroom_0.lua"
     },
--- TODO: Balance this
+
     base_stats = {
         hit_points = 75,
         skill_points = 10,
@@ -607,8 +607,8 @@ enemies[11] = {
         protection = 8,
         agility = 35,
         evade = 6.0,
-        experience_points = 32,
-        drunes = 15
+        experience_points = 31,
+        drunes = 14
     },
 
     attack_points = {
