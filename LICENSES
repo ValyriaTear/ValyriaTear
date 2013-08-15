@@ -371,11 +371,11 @@ img/menus/locations/mt_elbrus.png                               GPLv2           
 
 img/misc/dialog_icon.lua                                        GPLv2+                   Bertram
 
-img/misc/editor-tools/document-new.png                          GPLv2                    Tiled (Bjorn lindeijer - mapeditor.org)
-img/misc/editor-tools/edit-delete.png                           GPLv2                    Tiled (Bjorn lindeijer - mapeditor.org)
-img/misc/editor-tools/eye.png                                   GPLv2                    Tiled (Bjorn lindeijer - mapeditor.org)
-img/misc/editor-tools/go-down.png                               GPLv2                    Tiled (Bjorn lindeijer - mapeditor.org)
-img/misc/editor-tools/go-up.png                                 GPLv2                    Tiled (Bjorn lindeijer - mapeditor.org)
+img/misc/editor-tools/document-new.png                          GPLv2+                   Tiled (Bjorn lindeijer - mapeditor.org)
+img/misc/editor-tools/edit-delete.png                           GPLv2+                   Tiled (Bjorn lindeijer - mapeditor.org)
+img/misc/editor-tools/eye.png                                   GPLv2+                   Tiled (Bjorn lindeijer - mapeditor.org)
+img/misc/editor-tools/go-down.png                               GPLv2+                   Tiled (Bjorn lindeijer - mapeditor.org)
+img/misc/editor-tools/go-up.png                                 GPLv2+                   Tiled (Bjorn lindeijer - mapeditor.org)
 
 img/misc/lights/left_window_light.png                           CC by SA 3.0             Bertram
 img/misc/lights/right_window_light.png                          CC by SA 3.0             Bertram
