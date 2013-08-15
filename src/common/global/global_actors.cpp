@@ -790,7 +790,7 @@ GlobalCharacter::GlobalCharacter(uint32 id, bool initial) :
         _attack_points.push_back(new GlobalAttackPoint(this));
         char_script.OpenTable(i);
         if(_attack_points[i]->LoadData(char_script) == false) {
-            IF_PRINT_WARNING(GLOBAL_DEBUG) << "failed to succesfully load data for attack point: " << i << std::endl;
+            IF_PRINT_WARNING(GLOBAL_DEBUG) << "failed to successfully load data for attack point: " << i << std::endl;
         }
         char_script.CloseTable();
     }

@@ -208,7 +208,7 @@ public:
     *** \param filename The name of the file that contains the new audio data (should have a .wav or .ogg file extension)
     *** \param load_type The type of loading to perform (default == AUDIO_LOAD_STATIC)
     *** \param stream_buffer_size If the loading type is streaming, the buffer size to use (default == DEFAULT_BUFFER_SIZE)
-    *** \return True if the audio was succesfully loaded, false if there was an error
+    *** \return True if the audio was successfully loaded, false if there was an error
     ***
     *** The action taken by this function depends on the load type selected. For static sounds, a single OpenAL buffer is
     *** filled. For streaming, the file/memory is prepared.
