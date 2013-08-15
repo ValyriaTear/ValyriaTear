@@ -1,7 +1,7 @@
 Licenses
 ========
 
-Last update: 2013.08.09
+Last update: 2013.08.15
 
 This file is listing all the files licenses from the point of the fork
 from the Allacrost project.
@@ -333,8 +333,9 @@ img/icons/magic/whirlwind.png                                   CC by SA 3.0    
 img/icons/magic/wind_circle.png                                 CC by SA 3.0             J. W. Bjerk (eleazzaar) (OGA) -- www.jwbjerk.com/art  - http://opengameart.org/content/painterly-spell-icons
 
 img/logos/valyria_logo_black.png                                GPLv2+                   Bertram (using the scriptina font which is CC0, see DaFont.com)
-img/logos/program_icon.bmp                                      GPLv2+                   Bertram (using the scriptina font which is CC0, see DaFont.com)
+img/logos/program_icon.png                                      GPLv2+                   Bertram (using the scriptina font which is CC0, see DaFont.com)
 img/logos/program_icon.ico                                      GPLv2+                   Bertram (using the scriptina font which is CC0, see DaFont.com)
+img/logos/program_icon_48x48.png                                GPLv2+                   Bertram (using the scriptina font which is CC0, see DaFont.com)
 
 img/menus/clock.png                                             CC by 3.0                richtaur (OGA) - http://opengameart.org/content/bombada
 img/menus/dialogue_nameplate.png                                GPLv2+                   Allacrost + Modifications by Bertram
