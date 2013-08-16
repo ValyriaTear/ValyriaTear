@@ -107,6 +107,12 @@ function _CreateCharacters()
     elseif (GlobalManager:GetPreviousLocation() == "from_grotto3_2_exit") then
         hero:SetDirection(vt_map.MapMode.SOUTH);
         hero:SetPosition(24.0, 10.5);
+    elseif (GlobalManager:GetPreviousLocation() == "from_path3") then
+        hero:SetDirection(vt_map.MapMode.SOUTH);
+        hero:SetPosition(36.0, 4.0);
+    elseif (GlobalManager:GetPreviousLocation() == "from_path3_chest") then
+        hero:SetDirection(vt_map.MapMode.SOUTH);
+        hero:SetPosition(5.0, 4.0);
     end
 
     Map:AddGroundObject(hero);
@@ -230,6 +236,11 @@ function _CreateObjects()
         { "Tree Big2", 49, 35 },
         { "Tree Big2", 43, 42 },
 
+        { "Tree Big2", 1, 9 },
+        { "Tree Big2", 4, 15 },
+        { "Tree Small1", 2, 12 },
+        { "Tree Big2", 7, 23 },
+
         { "Tree Small1", 22.7, 47 },
         { "Tree Small2", 31, 45 },
 
@@ -257,7 +268,7 @@ function _CreateObjects()
         { "Grass Clump1", 27, 55 },
         { "Grass Clump1", 29, 55.3 },
         { "Grass Clump1", 75.5, 15 },
-        { "Grass Clump1", 72, 13 },
+        { "Grass Clump1", 70, 13 },
         { "Grass Clump1", 76, 51 },
         { "Grass Clump1", 56, 59 },
         { "Grass Clump1", 25, 60 },
@@ -288,26 +299,8 @@ end
 function _CreateEnemies()
     local enemy = {};
     local roam_zone = {};
---[[
     -- Hint: left, right, top, bottom
-    roam_zone = vt_map.EnemyZone(28, 47, 22, 38);
-    -- Dark soldier 3
-    enemy = CreateEnemySprite(Map, "Dark Soldier");
-    _SetBattleEnvironment(enemy);
-    -- Add special timer script
-    enemy:AddBattleScript("dat/maps/mt_elbrus/battle_with_dark_soldiers_script.lua");
-    enemy:NewEnemyParty();
-    enemy:AddEnemy(9);
-    roam_zone:AddEnemy(enemy, Map, 1);
-    roam_zone:SetSpawnsLeft(1); -- This monster shall spawn only one time.
-    enemy:AddWayPoint(29, 23);
-    enemy:AddWayPoint(46, 23);
-    enemy:AddWayPoint(46, 37);
-    enemy:AddWayPoint(29, 37);
-    Map:AddZone(roam_zone);
-
-    -- Hint: left, right, top, bottom
-    roam_zone = vt_map.EnemyZone(10, 21, 86, 92);
+    roam_zone = vt_map.EnemyZone(54, 62, 52, 60);
     -- Some bats
     enemy = CreateEnemySprite(Map, "bat");
     _SetBattleEnvironment(enemy);
@@ -322,7 +315,7 @@ function _CreateEnemies()
     enemy:AddEnemy(6);
     roam_zone:AddEnemy(enemy, Map, 1);
     Map:AddZone(roam_zone);
-]]--
+
 end
 
 -- Special event references which destinations must be updated just before being called.
@@ -352,10 +345,10 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
 
     event = vt_map.MapTransitionEvent("to mountain path 3", "dat/maps/mt_elbrus/mt_elbrus_path3_map.lua",
-                                       "dat/maps/mt_elbrus/mt_elbrus_path2_script.lua", "from_path2");
+                                       "dat/maps/mt_elbrus/mt_elbrus_path3_script.lua", "from_path2");
     EventManager:RegisterEvent(event);
     event = vt_map.MapTransitionEvent("to mountain path 3bis", "dat/maps/mt_elbrus/mt_elbrus_path3_map.lua",
-                                       "dat/maps/mt_elbrus/mt_elbrus_path2_script.lua", "from_path2_chest");
+                                       "dat/maps/mt_elbrus/mt_elbrus_path3_script.lua", "from_path2_chest");
     EventManager:RegisterEvent(event);
     event = vt_map.MapTransitionEvent("to mountain path 1", "dat/maps/mt_elbrus/mt_elbrus_path1_map.lua",
                                        "dat/maps/mt_elbrus/mt_elbrus_path1_script.lua", "from_path2");
@@ -425,11 +418,10 @@ function _CreateEvents()
 end
 
 -- zones
-local see_first_guard_zone = {};
 local to_cave2_1_zone = {};
 local to_cave2_2_zone = {};
 local to_cave3_1_zone = {};
-local to_cave3__2zone = {};
+local to_cave3_2zone = {};
 local to_path1_zone = {};
 local to_path3_zone = {};
 local to_path3_bis_zone = {};
@@ -451,7 +443,7 @@ function _CreateZones()
     Map:AddZone(to_path1_zone);
     to_path3_zone = vt_map.CameraZone(29, 48, 0, 2);
     Map:AddZone(to_path3_zone);
-    to_path3_bis_zone = vt_map.CameraZone(0, 8, 0, 2);
+    to_path3_bis_zone = vt_map.CameraZone(0, 9, 0, 2);
     Map:AddZone(to_path3_bis_zone);
 
 end
