@@ -409,12 +409,14 @@ private:
     private_audio::AudioSource *_AcquireAudioSource();
 
     /** \brief A helper function to LoadSound and LoadMusic that takes care of the messy details of cache managment
-    *** \param audio A pointer to a newly created, unitialized AudioDescriptor object to load into the cache
     *** \param filename The filename of the audio to load
-    *** \return True if the audio was successfully added to the cache, false if it was not.
-    *** \note If this function returns false, you should delete the pointer that you passed to it.
+    *** \param is_music Tells whether the audio member to load is some music or sound object.
+    *** \param The potential game mode "owning" the sound, permitting the engine to later free the sound
+    *** if no more game modes own it.
+    *** \return True if the audio was successfully loaded and added to the audio cache, false if it was not.
     **/
-    bool _LoadAudio(AudioDescriptor *audio, const std::string &filename);
+    bool _LoadAudio(const std::string &filename, bool is_music, vt_mode_manager::GameMode *gm = NULL);
+
 }; // class AudioEngine : public vt_utils::Singleton<AudioEngine>
 
 } // namespace vt_audio

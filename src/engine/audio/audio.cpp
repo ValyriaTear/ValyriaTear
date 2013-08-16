@@ -372,53 +372,12 @@ void AudioEngine::SetListenerOrientation(const float orientation[3])
 
 bool AudioEngine::LoadSound(const std::string &filename, vt_mode_manager::GameMode *gm)
 {
-    if(!DoesFileExist(filename))
-        return false;
-
-    SoundDescriptor *new_sound = new SoundDescriptor();
-
-    // Add potential ownership of the sound descriptor
-    if(gm)
-        new_sound->AddOwner(gm);
-
-    if(!_LoadAudio(new_sound, filename)) {
-        delete new_sound;
-
-        // When the sound is used by multiple modes, simply add the ownership there.
-        std::map<std::string, private_audio::AudioCacheElement>::iterator it = _audio_cache.find(filename);
-        if(it != _audio_cache.end()) {
-            it->second.audio->AddOwner(gm);
-            return true;
-        }
-
-        return false;
-    }
-
-    return true;
+    return _LoadAudio(filename, false, gm);
 }
 
 bool AudioEngine::LoadMusic(const std::string &filename, vt_mode_manager::GameMode *gm)
 {
-    MusicDescriptor *new_music = new MusicDescriptor();
-
-    // Add potential ownership of the sound descriptor
-    if(gm)
-        new_music->AddOwner(gm);
-
-    if(!_LoadAudio(new_music, filename)) {
-        delete new_music;
-
-        // When the music is used by multiple modes, simply add the ownership there.
-        std::map<std::string, private_audio::AudioCacheElement>::iterator it = _audio_cache.find(filename);
-        if(it != _audio_cache.end()) {
-            it->second.audio->AddOwner(gm);
-            return true;
-        }
-
-        return false;
-    }
-
-    return true;
+    return _LoadAudio(filename, true, gm);
 }
 
 void AudioEngine::PlaySound(const std::string &filename)
@@ -655,21 +614,36 @@ private_audio::AudioSource *AudioEngine::_AcquireAudioSource()
 
 
 
-bool AudioEngine::_LoadAudio(AudioDescriptor *audio, const std::string &filename)
+bool AudioEngine::_LoadAudio(const std::string &filename, bool is_music, vt_mode_manager::GameMode *gm)
 {
+    if(!DoesFileExist(filename))
+        return false;
+
     std::map<std::string, private_audio::AudioCacheElement>::iterator it = _audio_cache.find(filename);
     if(it != _audio_cache.end()) {
-        it->second.audio->AddOwners(*audio->GetOwners());
-        // Once the owners have been copied, we don't need the given descriptor anymore.
-        delete audio;
+
+        if (gm)
+            it->second.audio->AddOwner(gm);
+
         // Return a success since basically everything will keep on working as expected.
         return true;
     }
+
+    // Creates the new audio object and adds its potential game mode owner.
+    AudioDescriptor *audio = NULL;
+    if (is_music)
+        audio = new MusicDescriptor();
+    else
+        audio = new SoundDescriptor();
+
+    if (gm)
+        audio->AddOwner(gm);
 
     // (1) If the cache is not full, try loading the audio and adding it in
     if(_audio_cache.size() < _max_cache_size) {
         if(audio->LoadAudio(filename) == false) {
             IF_PRINT_WARNING(AUDIO_DEBUG) << "could not add new audio file into cache because load operation failed: " << filename << std::endl;
+            delete audio;
             return false;
         }
 
@@ -688,6 +662,7 @@ bool AudioEngine::_LoadAudio(AudioDescriptor *audio, const std::string &filename
 
     if(lru_element == _audio_cache.end()) {
         IF_PRINT_WARNING(AUDIO_DEBUG) << "failed to remove element from cache because no piece of audio was in the stopped state" << std::endl;
+        delete audio;
         return false;
     }
 
@@ -702,6 +677,7 @@ bool AudioEngine::_LoadAudio(AudioDescriptor *audio, const std::string &filename
 
     if(audio->LoadAudio(filename) == false) {
         IF_PRINT_WARNING(AUDIO_DEBUG) << "could not add new audio file into cache because load operation failed: " << filename << std::endl;
+        delete audio;
         return false;
     }
 
