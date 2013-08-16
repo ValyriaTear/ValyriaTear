@@ -421,7 +421,7 @@ end
 local to_cave2_1_zone = {};
 local to_cave2_2_zone = {};
 local to_cave3_1_zone = {};
-local to_cave3_2zone = {};
+local to_cave3_2_zone = {};
 local to_path1_zone = {};
 local to_path3_zone = {};
 local to_path3_bis_zone = {};
