@@ -655,7 +655,10 @@ void BattleCharacter::Update()
     } else if(_sprite_animation_alias == "run") {
         // no need to do anything
     } else if(_sprite_animation_alias == "run_after_victory") {
-        // no need to do anything
+        // Returns now as the battle is ending to prevent the animation
+        // timer to reset a potential previous battle animation
+        // if finishing while the heroes are running.
+        return;
     } else if(_sprite_animation_alias == "dying") {
         // no need to do anything, the change state will handle it
     } else if(_sprite_animation_alias == "poor") {
