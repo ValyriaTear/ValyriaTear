@@ -117,7 +117,7 @@ skills[2] = {
         local target_actor = target:GetActor();
 
         if (vt_battle.CalculateStandardEvasion(target) == false) then
-            target_actor:RegisterDamage(vt_battle.CalculatePhysicalDamageMultiplier(user, target, 1.75), target);
+            target_actor:RegisterDamage(vt_battle.CalculatePhysicalDamageMultiplier(user, target, 1.30), target);
             AudioManager:PlaySound("snd/swordslice1.wav");
         else
             target_actor:RegisterMiss(true);
