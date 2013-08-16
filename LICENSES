@@ -154,6 +154,7 @@ dat/tilesets/autotiling.lua                                     GPLv2+          
 dat/tilesets/desert_cave.lua                                    GPLv2+                   Allacrost
 dat/tilesets/desert_ground.lua                                  GPLv2+                   Allacrost
 dat/tilesets/castle_exterior_01.lua                             GPLv2+                   Allacrost
+dat/tilesets/castle_exterior_02.lua                             GPLv2+                   Bertram
 dat/tilesets/desert_cave_walls.lua                              GPLv2+                   Allacrost
 dat/tilesets/mountain_house_exterior2.lua                       GPLv2+                   Allacrost
 dat/tilesets/harrvah_house_exterior.lua                         GPLv2+                   Allacrost
@@ -845,6 +846,7 @@ img/tilesets/desert_ground.png                                  GPLv2+          
 img/tilesets/harrvah_house_exterior.png                         GPLv2+                   Allacrost
 img/tilesets/desert_cave.png                                    GPLv2+                   Allacrost
 img/tilesets/castle_exterior_01.png                             GPLv2+                   Allacrost
+img/tilesets/castle_exterior_02.png                             CC by 3.0                Zabin, Hyptosis, and Daniel Cook (OGA)  - http://opengameart.org/content/castle-tiles-for-rpgs
 
 mus/accion-OGA-djsaryon.ogg                                     CC by SA 3.0 or GPLv2/3  djsaryon (OGA) - http://opengameart.org/content/battle-midi
 mus/awareness_el_corleo.ogg                                     CC by SA 3.0             Eliot Corley - el-corleo (OGA) - http://opengameart.org/content/awareness

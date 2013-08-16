@@ -141,7 +141,7 @@ function _CreateObjects()
     Map:AddGroundObject(heal_effect);
 
     -- Heal point
-    npc = CreateSprite(Map, "Butterfly", 37, 27);
+    npc = CreateSprite(Map, "Butterfly", 60, 70);
     npc:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
     npc:SetVisible(false);
     npc:SetName(""); -- Unset the speaker name
@@ -151,17 +151,10 @@ function _CreateObjects()
     dialogue:AddLineEvent(text, npc, "Heal event", "");
     DialogueManager:AddDialogue(dialogue);
     npc:AddDialogueReference(dialogue);
-    npc = CreateObject(Map, "Layna Statue", 37, 27);
+    npc = CreateObject(Map, "Layna Statue", 60, 70);
     Map:AddGroundObject(npc);
 
     --[[
-    -- Treasure box
-    local chest = CreateTreasure(Map, "elbrus_path2_chest1", "Wood_Chest1", 7, 7);
-    if (chest ~= nil) then
-        chest:AddObject(2, 1); -- Medium healing potion
-        Map:AddGroundObject(chest);
-    end
-
     -- Objects array
     local map_objects = {
 
