@@ -17,9 +17,18 @@ IF (UNIX AND USE_SYSTEM_LUABIND)
     MESSAGE(STATUS "Using system luabind")
 ENDIF()
 
+# Set the release mode if not told otherwise
+IF(NOT CMAKE_BUILD_TYPE)
+    MESSAGE(STATUS "Release build type")
+    SET(CMAKE_BUILD_TYPE "Release")
+ENDIF()
+
 IF (CMAKE_COMPILER_IS_GNUCXX)
     # Help getting compilation warnings
     SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra")
+    IF (USE_PCH_COMPILATION)
+        SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Winvalid-pch")
+    ENDIF()
     IF (WIN32)
         # This includes enough debug information to get something useful
         # from Dr. Mingw while keeping binary size down. Almost useless
@@ -74,7 +83,7 @@ IF (CMAKE_BUILD_TYPE)
             SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -pg")
         ENDIF()
 
-        MESSAGE(STATUS "Set Debug build type")
+        MESSAGE(STATUS "Debug build type")
     ENDIF()
 ENDIF()
 
@@ -427,6 +436,33 @@ IF (WIN32)
 ENDIF ()
 
 SET (PROGRAMS valyriatear)
+
+# Adds pch compilation support for gcc using cmake
+IF (CMAKE_COMPILER_IS_GNUCXX AND USE_PCH_COMPILATION)
+    MACRO (ADD_PCH_RULE  _header_filename _src_list)
+        SET(_gch_filename "${_header_filename}.gch")
+        LIST(APPEND ${_src_list} ${_gch_filename})
+        SET (_args ${CMAKE_CXX_FLAGS} ${FLAGS})
+
+        IF (CMAKE_BUILD_TYPE_TOLOWER MATCHES release)
+            # Adds the release cxx compile flags
+            SET (_args ${CMAKE_CXX_FLAGS_RELEASE})
+        ENDIF()
+
+        LIST(APPEND _args -c ${_header_filename} -o ${_gch_filename})
+        GET_DIRECTORY_PROPERTY(DIRINC INCLUDE_DIRECTORIES)
+        foreach (_inc ${DIRINC})
+            LIST(APPEND _args " -I" ${_inc})
+        endforeach(_inc ${DIRINC})
+        SEPARATE_ARGUMENTS(_args)
+        add_custom_command(OUTPUT ${_gch_filename}
+            COMMAND rm -f ${_gch_filename}
+            COMMAND ${CMAKE_CXX_COMPILER} ${_args}
+                    DEPENDS ${_header_filename})
+    ENDMACRO(ADD_PCH_RULE _header_filename _src_list)
+
+    ADD_PCH_RULE(utils/utils_pch.h SRCS_COMMON)
+ENDIF()
 
 # Don't add the luabind static lib files if requested.
 IF (UNIX AND USE_SYSTEM_LUABIND)

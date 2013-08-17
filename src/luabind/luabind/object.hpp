@@ -416,9 +416,11 @@ LUABIND_BINARY_OP_DEF(<, LUA_OPLT)
       // TODO: Why is it non-const?
       void push(lua_State* interpreter)
       {
-          assert(interpreter == m_interpreter);
-          lua_pushvalue(m_interpreter, m_key_index);
-          AccessPolicy::get(m_interpreter, m_table_index);
+          if (interpreter) {
+              assert(interpreter == m_interpreter);
+              lua_pushvalue(m_interpreter, m_key_index);
+              AccessPolicy::get(m_interpreter, m_table_index);
+          }
       }
 
   private:
@@ -901,13 +903,15 @@ struct value_wrapper_traits<argument>
 template<class Next>
 inline void adl::index_proxy<Next>::push(lua_State* interpreter)
 {
-    assert(interpreter == m_interpreter);
+    if (interpreter) {
+        assert(interpreter == m_interpreter);
 
-    value_wrapper_traits<Next>::unwrap(m_interpreter, m_next);
+        value_wrapper_traits<Next>::unwrap(m_interpreter, m_next);
 
-    lua_pushvalue(m_interpreter, m_key_index);
-    lua_gettable(m_interpreter, -2);
-    lua_remove(m_interpreter, -2);
+        lua_pushvalue(m_interpreter, m_key_index);
+        lua_gettable(m_interpreter, -2);
+        lua_remove(m_interpreter, -2);
+    }
 }
 
 template<class Next>
