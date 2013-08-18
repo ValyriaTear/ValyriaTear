@@ -461,7 +461,7 @@ IF (CMAKE_COMPILER_IS_GNUCXX AND USE_PCH_COMPILATION)
                     DEPENDS ${_header_filename})
     ENDMACRO(ADD_PCH_RULE _header_filename _src_list)
 
-    ADD_PCH_RULE(utils/utils_pch.h SRCS_COMMON)
+    ADD_PCH_RULE(${CMAKE_CURRENT_SOURCE_DIR}/utils/utils_pch.h SRCS_COMMON)
 ENDIF()
 
 # Don't add the luabind static lib files if requested.
