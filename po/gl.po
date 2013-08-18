@@ -7,19 +7,19 @@
 #: map_names_tr.lua:44 map_names_tr.lua:49 map_names_tr.lua:67
 #: map_names_tr.lua:71 map_names_tr.lua:75 map_names_tr.lua:79
 #: map_names_tr.lua:83 map_names_tr.lua:103 map_names_tr.lua:107
-#: map_names_tr.lua:121 map_names_tr.lua:123 map_names_tr.lua:127
-#: map_names_tr.lua:131 map_names_tr.lua:135 map_names_tr.lua:147
-#: map_names_tr.lua:151 map_names_tr.lua:155 map_names_tr.lua:159
-#: map_names_tr.lua:163 map_names_tr.lua:165 map_names_tr.lua:183
-#: map_names_tr.lua:187 map_names_tr.lua:191 map_names_tr.lua:195
-#: map_names_tr.lua:199 map_names_tr.lua:219 map_names_tr.lua:223
+#: map_names_tr.lua:137 map_names_tr.lua:139 map_names_tr.lua:143
+#: map_names_tr.lua:147 map_names_tr.lua:151 map_names_tr.lua:163
+#: map_names_tr.lua:167 map_names_tr.lua:171 map_names_tr.lua:175
+#: map_names_tr.lua:179 map_names_tr.lua:181 map_names_tr.lua:199
+#: map_names_tr.lua:203 map_names_tr.lua:207 map_names_tr.lua:211
+#: map_names_tr.lua:215 map_names_tr.lua:235 map_names_tr.lua:239
 # Adrián Chaves Fernández <adriyetichaves@gmail.com>, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-08-04 19:37+0200\n"
-"PO-Revision-Date: 2013-08-04 20:26+0200\n"
+"POT-Creation-Date: 2013-08-18 10:08+0200\n"
+"PO-Revision-Date: 2013-08-18 10:14+0200\n"
 "Last-Translator: Adrián Chaves Fernández <adriyetichaves@gmail.com>\n"
 "Language-Team: Galician <kde-i18n-doc@kde.org>\n"
 "Language: gl\n"
@@ -112,7 +112,7 @@ msgstr "Usar: (erro)"
 msgid "Use: "
 msgstr "Usar: "
 
-#: ../src/modes/battle/battle_actors.cpp:763
+#: ../src/modes/battle/battle_actors.cpp:766
 msgid "[Select Action]"
 msgstr "(escoller unha acción)"
 
@@ -789,8 +789,8 @@ msgid " SP"
 msgstr " H"
 
 #: ../src/modes/menu/menu_views.cpp:1535 ../dat/actors/characters.lua:61
-#: ../dat/actors/characters.lua:200 ../dat/actors/characters.lua:335
-#: ../dat/actors/characters.lua:471 ../dat/actors/enemies.lua:91
+#: ../dat/actors/characters.lua:274 ../dat/actors/characters.lua:482
+#: ../dat/actors/characters.lua:618 ../dat/actors/enemies.lua:91
 #: ../dat/actors/enemies.lua:149 ../dat/actors/enemies.lua:204
 #: ../dat/actors/enemies.lua:374 ../dat/actors/enemies.lua:434
 #: ../dat/actors/enemies.lua:488 ../dat/actors/enemies.lua:552
@@ -803,8 +803,8 @@ msgid "Head"
 msgstr "Cabeza"
 
 #: ../src/modes/menu/menu_views.cpp:1537 ../dat/actors/characters.lua:70
-#: ../dat/actors/characters.lua:209 ../dat/actors/characters.lua:344
-#: ../dat/actors/characters.lua:480 ../dat/actors/enemies.lua:315
+#: ../dat/actors/characters.lua:283 ../dat/actors/characters.lua:491
+#: ../dat/actors/characters.lua:627 ../dat/actors/enemies.lua:315
 #: ../dat/actors/enemies.lua:497 ../dat/actors/enemies.lua:561
 #: ../dat/actors/enemies.lua:616 ../dat/actors/enemies.lua:864
 #: ../dat/actors/enemies.lua:984
@@ -812,14 +812,14 @@ msgid "Torso"
 msgstr "Torso"
 
 #: ../src/modes/menu/menu_views.cpp:1539 ../dat/actors/characters.lua:78
-#: ../dat/actors/characters.lua:217 ../dat/actors/characters.lua:352
-#: ../dat/actors/characters.lua:488
+#: ../dat/actors/characters.lua:291 ../dat/actors/characters.lua:499
+#: ../dat/actors/characters.lua:635
 msgid "Arms"
 msgstr "Brazos"
 
 #: ../src/modes/menu/menu_views.cpp:1541 ../dat/actors/characters.lua:87
-#: ../dat/actors/characters.lua:226 ../dat/actors/characters.lua:361
-#: ../dat/actors/characters.lua:497 ../dat/actors/enemies.lua:505
+#: ../dat/actors/characters.lua:300 ../dat/actors/characters.lua:508
+#: ../dat/actors/characters.lua:644 ../dat/actors/enemies.lua:505
 #: ../dat/actors/enemies.lua:569 ../dat/actors/enemies.lua:1308
 #: ../dat/actors/enemies.lua:1585 ../dat/actors/enemies.lua:1699
 msgid "Legs"
@@ -1300,8 +1300,8 @@ msgid "\"Welcome! Take a look around.\""
 msgstr "«Ola! Bota unha ollada.»"
 
 #: ../dat/actors/characters.lua:13 ../dat/actors/map_sprites.lua:11
-#: ../dat/battles/tutorial_battle_dialogs.lua:62
-#: ../dat/maps/layna_village/battle_with_banesore/battle_with_banesore_script.lua:51
+#: ../dat/battles/tutorial_battle_dialogs.lua:61
+#: ../dat/maps/layna_village/battle_with_banesore/battle_with_banesore_script.lua:50
 msgid "Bronann"
 msgstr "Bronan"
 
@@ -1309,29 +1309,29 @@ msgstr "Bronan"
 msgid "Holy"
 msgstr "Sagrado"
 
-#: ../dat/actors/characters.lua:153 ../dat/actors/map_sprites.lua:41
-#: ../dat/battles/tutorial_battle_dialogs.lua:63
-#: ../dat/maps/mt_elbrus/battle_with_dark_soldiers_script.lua:33
+#: ../dat/actors/characters.lua:227 ../dat/actors/map_sprites.lua:41
+#: ../dat/battles/tutorial_battle_dialogs.lua:62
+#: ../dat/maps/mt_elbrus/battle_with_dark_soldiers_script.lua:32
 msgid "Kalya"
 msgstr "Calia"
 
-#: ../dat/actors/characters.lua:159
+#: ../dat/actors/characters.lua:233
 msgid "Invocation"
 msgstr "Invocación"
 
-#: ../dat/actors/characters.lua:291
+#: ../dat/actors/characters.lua:438
 msgid "Sylve"
 msgstr "Silvia"
 
-#: ../dat/actors/characters.lua:297
+#: ../dat/actors/characters.lua:444
 msgid "Mist"
 msgstr "Místico"
 
-#: ../dat/actors/characters.lua:426 ../dat/actors/map_sprites.lua:65
+#: ../dat/actors/characters.lua:573 ../dat/actors/map_sprites.lua:65
 msgid "Thanis"
 msgstr "Dani"
 
-#: ../dat/actors/characters.lua:432
+#: ../dat/actors/characters.lua:579
 msgid "Acheron"
 msgstr "Aqueronte"
 
@@ -1358,7 +1358,7 @@ msgid "Abdomen"
 msgstr "Abdome"
 
 #: ../dat/actors/enemies.lua:120 ../dat/actors/enemies.lua:345
-#: ../dat/actors/enemies.lua:405 ../dat/actors/map_sprites.lua:405
+#: ../dat/actors/enemies.lua:405 ../dat/actors/map_sprites.lua:408
 msgid "Fenrir"
 msgstr "Fenrir"
 
@@ -1371,11 +1371,11 @@ msgstr "Serpe"
 msgid "Tail"
 msgstr "Rabo"
 
-#: ../dat/actors/enemies.lua:244 ../dat/actors/map_sprites.lua:363
+#: ../dat/actors/enemies.lua:244 ../dat/actors/map_sprites.lua:366
 msgid "Slime Mother"
 msgstr "Nai baballa"
 
-#: ../dat/actors/enemies.lua:290 ../dat/actors/map_sprites.lua:322
+#: ../dat/actors/enemies.lua:290 ../dat/actors/map_sprites.lua:325
 msgid "Bat"
 msgstr "Morcego"
 
@@ -1383,7 +1383,7 @@ msgstr "Morcego"
 msgid "Wing"
 msgstr "Ala"
 
-#: ../dat/actors/enemies.lua:463 ../dat/actors/map_sprites.lua:420
+#: ../dat/actors/enemies.lua:463 ../dat/actors/map_sprites.lua:423
 msgid "Dark Soldier"
 msgstr "Soldado escuro"
 
@@ -1392,7 +1392,7 @@ msgstr "Soldado escuro"
 msgid "Lord Banesore"
 msgstr "Señor Bansor"
 
-#: ../dat/actors/enemies.lua:591 ../dat/actors/map_sprites.lua:458
+#: ../dat/actors/enemies.lua:591 ../dat/actors/map_sprites.lua:461
 msgid "Shroom"
 msgstr "Cogomelo alucinóxeno"
 
@@ -1534,53 +1534,53 @@ msgstr "Malta"
 msgid "Orlinn"
 msgstr "Orlin"
 
-#: ../dat/actors/map_sprites.lua:130
-#: ../dat/maps/layna_village/battle_with_banesore/battle_with_banesore_script.lua:53
+#: ../dat/actors/map_sprites.lua:131
+#: ../dat/maps/layna_village/battle_with_banesore/battle_with_banesore_script.lua:52
 msgid "Herth"
 msgstr "Erce"
 
-#: ../dat/actors/map_sprites.lua:149
+#: ../dat/actors/map_sprites.lua:151
 #: ../dat/maps/layna_village/layna_village_center_script.lua:206
 #: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:175
 msgid "Olivia"
 msgstr "Olivia"
 
-#: ../dat/actors/map_sprites.lua:164
+#: ../dat/actors/map_sprites.lua:166
 #: ../dat/maps/layna_village/layna_village_center_script.lua:157
 #: ../dat/maps/layna_village/layna_village_kalya_house_path_script.lua:100
 #: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:163
 msgid "Brymir"
 msgstr "Brimir"
 
-#: ../dat/actors/map_sprites.lua:179
+#: ../dat/actors/map_sprites.lua:181
 #: ../dat/maps/layna_village/layna_village_center_script.lua:166
 #: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:167
 msgid "Martha"
 msgstr "Marta"
 
-#: ../dat/actors/map_sprites.lua:194
+#: ../dat/actors/map_sprites.lua:196
 #: ../dat/maps/layna_village/layna_village_center_script.lua:175
 msgid "Sophia"
 msgstr "Sofía"
 
-#: ../dat/actors/map_sprites.lua:209
-#: ../dat/maps/layna_village/battle_with_banesore/battle_with_banesore_script.lua:54
+#: ../dat/actors/map_sprites.lua:212
+#: ../dat/maps/layna_village/battle_with_banesore/battle_with_banesore_script.lua:53
 #: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:151
 #: ../dat/maps/layna_village/layna_village_riverbank_script.lua:107
 msgid "Lilly"
 msgstr "Lili"
 
-#: ../dat/actors/map_sprites.lua:224
+#: ../dat/actors/map_sprites.lua:227
 #: ../dat/maps/layna_village/layna_village_center_script.lua:200
 #: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:171
 msgid "Georges"
 msgstr "Xorxe"
 
-#: ../dat/actors/map_sprites.lua:240
+#: ../dat/actors/map_sprites.lua:243
 msgid "Crystal"
 msgstr "Cristal"
 
-#: ../dat/actors/map_sprites.lua:256
+#: ../dat/actors/map_sprites.lua:259
 #: ../dat/maps/layna_village/layna_village_center_at_night_script.lua:123
 #: ../dat/maps/layna_village/layna_village_center_at_night_script.lua:127
 #: ../dat/maps/layna_village/layna_village_center_at_night_script.lua:131
@@ -1607,27 +1607,27 @@ msgstr "Cristal"
 #: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:243
 #: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:248
 #: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:262
-#: ../dat/maps/mt_elbrus/battle_with_dark_soldiers_script.lua:34
+#: ../dat/maps/mt_elbrus/battle_with_dark_soldiers_script.lua:33
 msgid "Soldier"
 msgstr "Soldado"
 
-#: ../dat/actors/map_sprites.lua:274
+#: ../dat/actors/map_sprites.lua:277
 msgid "Chicken"
 msgstr "Polo"
 
-#: ../dat/actors/map_sprites.lua:289
+#: ../dat/actors/map_sprites.lua:292
 msgid "Butterfly"
 msgstr "Bolboreta"
 
-#: ../dat/actors/map_sprites.lua:304
+#: ../dat/actors/map_sprites.lua:307
 msgid "Squirrel"
 msgstr "Esquío"
 
-#: ../dat/actors/map_sprites.lua:441
+#: ../dat/actors/map_sprites.lua:444
 msgid "Lord"
 msgstr "Señor das terras"
 
-#: ../dat/battles/tutorial_battle_dialogs.lua:70
+#: ../dat/battles/tutorial_battle_dialogs.lua:69
 msgid ""
 "Woah, I wouldn't have expected enemies so close to the village. Bronann, do "
 "you need a quick reminder about the basics in battles?"
@@ -1635,11 +1635,11 @@ msgstr ""
 "Ala, non esperaba que nos atopásemos con inimigos tan preto da vila. Bronan, "
 "necesitas un recordatorio rápido das nocións básicas de combate?"
 
-#: ../dat/battles/tutorial_battle_dialogs.lua:72
-#: ../dat/battles/tutorial_battle_dialogs.lua:99
-#: ../dat/maps/layna_forest/layna_forest_cave1_2_script.lua:202
-#: ../dat/maps/layna_forest/layna_forest_wolf_cave_script.lua:210
-#: ../dat/maps/layna_village/battle_with_banesore/battle_with_banesore_script.lua:61
+#: ../dat/battles/tutorial_battle_dialogs.lua:71
+#: ../dat/battles/tutorial_battle_dialogs.lua:98
+#: ../dat/maps/layna_forest/layna_forest_cave1_2_script.lua:203
+#: ../dat/maps/layna_forest/layna_forest_wolf_cave_script.lua:211
+#: ../dat/maps/layna_village/battle_with_banesore/battle_with_banesore_script.lua:60
 #: ../dat/maps/layna_village/layna_village_bronanns_home_script.lua:305
 #: ../dat/maps/layna_village/layna_village_center_script.lua:502
 #: ../dat/maps/layna_village/layna_village_center_script.lua:1006
@@ -1653,19 +1653,19 @@ msgstr ""
 msgid "..."
 msgstr "…"
 
-#: ../dat/battles/tutorial_battle_dialogs.lua:74
+#: ../dat/battles/tutorial_battle_dialogs.lua:73
 msgid "Ask about battle basics."
 msgstr "Preguntar sobre tácticas de combate."
 
-#: ../dat/battles/tutorial_battle_dialogs.lua:76
+#: ../dat/battles/tutorial_battle_dialogs.lua:75
 msgid "Ask nothing. I know how to fight."
 msgstr "Non preguntar. Sei como loitar."
 
-#: ../dat/battles/tutorial_battle_dialogs.lua:79
+#: ../dat/battles/tutorial_battle_dialogs.lua:78
 msgid "Er, I could use a refresher on the fundamentals of combat."
 msgstr "Isto… Non estaría de máis que me refrescases un pouco a memoria nisto."
 
-#: ../dat/battles/tutorial_battle_dialogs.lua:81
+#: ../dat/battles/tutorial_battle_dialogs.lua:80
 msgid ""
 "Here you can find the Hit Points (HP) and Skill Points (SP) of all the ally "
 "party. Don't let our HP reach 0 or we're doomed!"
@@ -1673,7 +1673,7 @@ msgstr ""
 "Aquí están os puntos de vida (V) e de habilidade (H) de todas as unidades do "
 "noso grupo. Non deixes que a vida chegue a 0 ou estamos acabados."
 
-#: ../dat/battles/tutorial_battle_dialogs.lua:83
+#: ../dat/battles/tutorial_battle_dialogs.lua:82
 msgid ""
 "In battles, our stamina icons and the ones of our enemy are going up the "
 "Stamina Bar. The more Agility you have, the quickest you'll reach the upper "
@@ -1683,7 +1683,7 @@ msgstr ""
 "barra de recuperación. Canta máis axilidade teñas, antes chegarás á parte "
 "superior."
 
-#: ../dat/battles/tutorial_battle_dialogs.lua:85
+#: ../dat/battles/tutorial_battle_dialogs.lua:84
 msgid ""
 "Once one of us has reached the action level, you can select an action for "
 "the one concerned. Don't panic, the battle is then paused and you've got all "
@@ -1693,7 +1693,7 @@ msgstr ""
 "para el. Non te asustes, nese momento detense o combate e tes todo o tempo "
 "do mundo para decidir que facer."
 
-#: ../dat/battles/tutorial_battle_dialogs.lua:87
+#: ../dat/battles/tutorial_battle_dialogs.lua:86
 msgid ""
 "There are several action types: The basic one 'Weapon', and later 'Magic' "
 "skills. Last but not least, you'll also be able to use our 'Items'. Simply "
@@ -1704,7 +1704,7 @@ msgstr ""
 "usar «Obxectos». Non tes máis que elixir unha acción e un obxectivo para "
 "activar a acción."
 
-#: ../dat/battles/tutorial_battle_dialogs.lua:89
+#: ../dat/battles/tutorial_battle_dialogs.lua:88
 msgid ""
 "The icon will the reach the top of the Stamina Bar before being triggering "
 "it. It's called the 'preparation time'. The stronger is the skill, the "
@@ -1715,7 +1715,7 @@ msgstr ""
 "preparación». Canto máis forte sexa a habilidade, máis tempo será necesario "
 "para preparala."
 
-#: ../dat/battles/tutorial_battle_dialogs.lua:91
+#: ../dat/battles/tutorial_battle_dialogs.lua:90
 msgid ""
 "By the way, you're not forced to wait for your icon to reach the action "
 "level before acting. The two little arrows here can be triggered, using your "
@@ -1725,7 +1725,7 @@ msgstr ""
 "para actuar. Podes usar dúas cabezas de frecha, premendo ↑ ou ↓, para "
 "seleccionar con antelación a acción para ti ou para min."
 
-#: ../dat/battles/tutorial_battle_dialogs.lua:93
+#: ../dat/battles/tutorial_battle_dialogs.lua:92
 msgid ""
 "As long as the little arrows there are visible, you can change the selected "
 "action."
@@ -1733,35 +1733,35 @@ msgstr ""
 "Mentres as cabezas de frecha estean visíbeis poderás cambiar a acción "
 "seleccionada."
 
-#: ../dat/battles/tutorial_battle_dialogs.lua:95
+#: ../dat/battles/tutorial_battle_dialogs.lua:94
 msgid "Don't forget you can press '"
 msgstr "Non esquezas que podes premer «"
 
-#: ../dat/battles/tutorial_battle_dialogs.lua:95
+#: ../dat/battles/tutorial_battle_dialogs.lua:94
 msgid "' if you need more details."
 msgstr "» se necesitas máis información."
 
-#: ../dat/battles/tutorial_battle_dialogs.lua:97
+#: ../dat/battles/tutorial_battle_dialogs.lua:96
 msgid "Shall I repeat?"
 msgstr "Necesitas que cho repita?"
 
-#: ../dat/battles/tutorial_battle_dialogs.lua:101
+#: ../dat/battles/tutorial_battle_dialogs.lua:100
 msgid "Yes, please!"
 msgstr "Si, por favor."
 
-#: ../dat/battles/tutorial_battle_dialogs.lua:103
+#: ../dat/battles/tutorial_battle_dialogs.lua:102
 msgid "No, it's alright!"
 msgstr "Non, xa o entendín."
 
-#: ../dat/battles/tutorial_battle_dialogs.lua:107
+#: ../dat/battles/tutorial_battle_dialogs.lua:106
 msgid "Don't worry Kalya, I have not forgotten my training."
 msgstr "Non te preocupes, Calia, non esquecín o adestramento."
 
-#: ../dat/battles/tutorial_battle_dialogs.lua:110
+#: ../dat/battles/tutorial_battle_dialogs.lua:109
 msgid "Thanks Kalya, I'm prepared now."
 msgstr "Grazas, Calia, xa estou listo."
 
-#: ../dat/battles/tutorial_battle_dialogs.lua:113
+#: ../dat/battles/tutorial_battle_dialogs.lua:112
 msgid "Good. Now let us quickly dispatch this minor threat."
 msgstr "Ben. Agora apresurémonos a acabar coa ameaza."
 
@@ -1793,7 +1793,7 @@ msgid "Village of Layna"
 msgstr "Vila de Laina"
 
 #: ../dat/config/quests.lua:24 ../dat/config/quests.lua:72 map_names_tr.lua:51
-#: map_names_tr.lua:167
+#: map_names_tr.lua:183
 msgid "Bronann's home"
 msgstr "Casa de Bronan"
 
@@ -1825,7 +1825,7 @@ msgstr ""
 
 #: ../dat/config/quests.lua:40 ../dat/config/quests.lua:56
 #: ../dat/config/quests.lua:88 map_names_tr.lua:55 map_names_tr.lua:59
-#: map_names_tr.lua:171 map_names_tr.lua:175
+#: map_names_tr.lua:187 map_names_tr.lua:191
 msgid "Village center"
 msgstr "Centro da vila"
 
@@ -1943,9 +1943,9 @@ msgstr "Torba negra"
 
 #: ../dat/config/world_locations.lua:29 map_names_tr.lua:18
 #: map_names_tr.lua:22 map_names_tr.lua:26 map_names_tr.lua:30
-#: map_names_tr.lua:34 map_names_tr.lua:38 map_names_tr.lua:137
-#: map_names_tr.lua:141 map_names_tr.lua:145 map_names_tr.lua:149
-#: map_names_tr.lua:153 map_names_tr.lua:157
+#: map_names_tr.lua:34 map_names_tr.lua:38 map_names_tr.lua:153
+#: map_names_tr.lua:157 map_names_tr.lua:161 map_names_tr.lua:165
+#: map_names_tr.lua:169 map_names_tr.lua:173
 msgid "Layna Forest"
 msgstr "Bosque de Laina"
 
@@ -1969,6 +1969,10 @@ msgstr "Episodio I — Imaxes"
 msgid "Episode I - Additional Graphics"
 msgstr "Episodio I — Imaxes adicionais"
 
+#: ../dat/credits/episode1_credits.lua:48
+msgid "and many others"
+msgstr "E moitos outros"
+
 #: ../dat/credits/episode1_credits.lua:51
 msgid "Music"
 msgstr "Música"
@@ -1984,18 +1988,22 @@ msgid ""
 msgstr "Programación e mapas adicionais"
 
 #: ../dat/credits/episode1_credits.lua:63
+msgid "Ports"
+msgstr "Adaptacións de código"
+
+#: ../dat/credits/episode1_credits.lua:67
 msgid "Translations"
 msgstr "Tradución"
 
-#: ../dat/credits/episode1_credits.lua:67
+#: ../dat/credits/episode1_credits.lua:71
 msgid "Tester Team"
 msgstr "Probas"
 
-#: ../dat/credits/episode1_credits.lua:72
+#: ../dat/credits/episode1_credits.lua:76
 msgid "To Lilou and Léo..."
 msgstr "Adicado a Lilou e Léo…"
 
-#: ../dat/credits/episode1_credits.lua:76
+#: ../dat/credits/episode1_credits.lua:80
 msgid ""
 "Thanks to everyone\n"
 "who made this possible!!"
@@ -2095,7 +2103,9 @@ msgstr "Ordes do xogo:"
 #: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:149
 #: ../dat/maps/layna_forest/layna_forest_entrance_script.lua:154
 #: ../dat/maps/layna_forest/layna_forest_south_east_script.lua:132
-#: ../dat/maps/mt_elbrus/mt_elbrus_path1_script.lua:142
+#: ../dat/maps/mt_elbrus/mt_elbrus_path1_script.lua:155
+#: ../dat/maps/mt_elbrus/mt_elbrus_path2_script.lua:162
+#: ../dat/maps/mt_elbrus/mt_elbrus_path3_script.lua:150
 msgid "Your party feels better..."
 msgstr "O grupo síntese mellor…"
 
@@ -2129,50 +2139,50 @@ msgstr ""
 "Escoitaches iso? Parece que algo caeu por fóra da cova. Esperemos que non "
 "sexa nada malo."
 
-#: ../dat/maps/layna_forest/layna_forest_cave1_2_script.lua:163
+#: ../dat/maps/layna_forest/layna_forest_cave1_2_script.lua:164
 msgid "Stone sign"
 msgstr "Sinal de pedra"
 
-#: ../dat/maps/layna_forest/layna_forest_cave1_2_script.lua:195
+#: ../dat/maps/layna_forest/layna_forest_cave1_2_script.lua:196
 msgid "Only the last one standing shall pass ..."
 msgstr "Só o último en pé pasará…"
 
-#: ../dat/maps/layna_forest/layna_forest_cave1_2_script.lua:265
+#: ../dat/maps/layna_forest/layna_forest_cave1_2_script.lua:266
 msgid "'Only the last one standing shall pass.' ..."
 msgstr "«Só o último en pé pasará»…"
 
-#: ../dat/maps/layna_forest/layna_forest_cave1_2_script.lua:267
+#: ../dat/maps/layna_forest/layna_forest_cave1_2_script.lua:268
 msgid "You are able to decipher this writing, Kalya?"
 msgstr "Saber les estas escrituras?"
 
-#: ../dat/maps/layna_forest/layna_forest_cave1_2_script.lua:269
+#: ../dat/maps/layna_forest/layna_forest_cave1_2_script.lua:270
 msgid "Somehow... I don't know why, but yes ..."
 msgstr "Non me preguntes como… non o sei. Pero si, entendo o que din…"
 
-#: ../dat/maps/layna_forest/layna_forest_cave1_2_script.lua:271
+#: ../dat/maps/layna_forest/layna_forest_cave1_2_script.lua:272
 msgid "Still, I don't know what it means, though."
 msgstr ""
 "Aínda sabendo o que din, non acabo de entender o que queren dicir. Que "
 "significa?"
 
-#: ../dat/maps/layna_forest/layna_forest_cave1_2_script.lua:273
+#: ../dat/maps/layna_forest/layna_forest_cave1_2_script.lua:274
 msgid "Let's look around. We might find out."
 msgstr "Botemos unha ollada pola zona. Pode que o descubramos."
 
-#: ../dat/maps/layna_forest/layna_forest_cave1_2_script.lua:292
+#: ../dat/maps/layna_forest/layna_forest_cave1_2_script.lua:293
 msgid "... Something heavy seems to have fallen nearby."
 msgstr "Soa como se algo moi pesado acabase de caer preto de aquí."
 
-#: ../dat/maps/layna_forest/layna_forest_cave1_2_script.lua:313
+#: ../dat/maps/layna_forest/layna_forest_cave1_2_script.lua:314
 msgid "... Look!"
 msgstr "Mira para aí!"
 
-#: ../dat/maps/layna_forest/layna_forest_cave1_2_script.lua:331
+#: ../dat/maps/layna_forest/layna_forest_cave1_2_script.lua:332
 msgid "I can feel fresh air and some light coming from around this rock."
 msgstr ""
 "Hai aire fresco arredor desta rocha, e pode verse luz entrar polos buratos."
 
-#: ../dat/maps/layna_forest/layna_forest_cave1_2_script.lua:333
+#: ../dat/maps/layna_forest/layna_forest_cave1_2_script.lua:334
 msgid ""
 "There are signs engraved on this rock, too. This sounds like some kind of "
 "mechanism my family used long ago..."
@@ -2180,11 +2190,11 @@ msgstr ""
 "Nesta rocha tamén hai símbolos gravados. Parece unha especie de mecanismo "
 "que a miña familia empregou hai moito tempo…"
 
-#: ../dat/maps/layna_forest/layna_forest_cave1_2_script.lua:335
+#: ../dat/maps/layna_forest/layna_forest_cave1_2_script.lua:336
 msgid "Your family? Long ago? ..."
 msgstr "A túa familia? Hai moito tempo?"
 
-#: ../dat/maps/layna_forest/layna_forest_cave1_2_script.lua:337
+#: ../dat/maps/layna_forest/layna_forest_cave1_2_script.lua:338
 msgid ""
 "Err... Nevermind that, we must find a way to make this move. Let's look "
 "around."
@@ -2595,142 +2605,142 @@ msgstr ""
 "Mira para a herba. Parece que ás serpes lles gusta moito. Coidado con elas, "
 "o veleno pode deixarche durmido."
 
-#: ../dat/maps/layna_forest/layna_forest_wolf_cave_script.lua:175
+#: ../dat/maps/layna_forest/layna_forest_wolf_cave_script.lua:176
 msgid "(Bronann looks on the ground ...)"
 msgstr "(Bronan mira para o chan)"
 
-#: ../dat/maps/layna_forest/layna_forest_wolf_cave_script.lua:208
+#: ../dat/maps/layna_forest/layna_forest_wolf_cave_script.lua:209
 msgid "This water looks weird. Shall we drink it anyway?"
 msgstr "A auga ten un aspecto estraño. Será potábel?"
 
-#: ../dat/maps/layna_forest/layna_forest_wolf_cave_script.lua:212
+#: ../dat/maps/layna_forest/layna_forest_wolf_cave_script.lua:213
 msgid "Yes, I'm so thirsty."
 msgstr "Dáme igual, eu estou que morro coa sede."
 
-#: ../dat/maps/layna_forest/layna_forest_wolf_cave_script.lua:214
+#: ../dat/maps/layna_forest/layna_forest_wolf_cave_script.lua:215
 msgid "No way, we'd get sick."
 msgstr "Nin se che pase pola cabeza, que aínda nos ha sentar mal."
 
-#: ../dat/maps/layna_forest/layna_forest_wolf_cave_script.lua:217
+#: ../dat/maps/layna_forest/layna_forest_wolf_cave_script.lua:218
 msgid "The party drinks the water and feels... still right?"
 msgstr "O grupo bebe a auga e síntese… ben. De momento?"
 
-#: ../dat/maps/layna_forest/layna_forest_wolf_cave_script.lua:220
+#: ../dat/maps/layna_forest/layna_forest_wolf_cave_script.lua:221
 msgid "The party won't drink it."
 msgstr "O grupo decide non beber a auga."
 
-#: ../dat/maps/layna_forest/layna_forest_wolf_cave_script.lua:287
+#: ../dat/maps/layna_forest/layna_forest_wolf_cave_script.lua:288
 msgid "Yiek, it's stinking in here."
 msgstr "Mi ma, como fede."
 
-#: ../dat/maps/layna_forest/layna_forest_wolf_cave_script.lua:289
+#: ../dat/maps/layna_forest/layna_forest_wolf_cave_script.lua:290
 msgid "Look at all those bones. We should be careful."
 msgstr "Mira, ósos. Máis nos vale andar con tino."
 
-#: ../dat/maps/layna_forest/layna_forest_wolf_cave_script.lua:291
+#: ../dat/maps/layna_forest/layna_forest_wolf_cave_script.lua:292
 msgid "I hope Orlinn is going well."
 msgstr "Espero que Orlin estea ben."
 
-#: ../dat/maps/layna_forest/layna_forest_wolf_cave_script.lua:329
+#: ../dat/maps/layna_forest/layna_forest_wolf_cave_script.lua:330
 msgid "What a lovely necklace! I'll take it."
 msgstr "Que colgante tan bonito! Para min."
 
-#: ../dat/maps/layna_forest/layna_forest_wolf_cave_script.lua:331
+#: ../dat/maps/layna_forest/layna_forest_wolf_cave_script.lua:332
 msgid ""
 "Kalya ... We're in the middle of a cave and you're only thinking about "
 "wearing jewels."
 msgstr "Estamos no medio dunha cova e ti a poñer xoias? O que hai que ver…"
 
-#: ../dat/maps/layna_forest/layna_forest_wolf_cave_script.lua:333
+#: ../dat/maps/layna_forest/layna_forest_wolf_cave_script.lua:334
 msgid "It suits me better than it would for you, don't be jealous."
 msgstr "Non sexas celoso, a ti non te quedaría tan ben como a min."
 
-#: ../dat/maps/layna_forest/layna_forest_wolf_cave_script.lua:335
+#: ../dat/maps/layna_forest/layna_forest_wolf_cave_script.lua:336
 msgid "Kalya! You'd better be careful!"
 msgstr "Calia, anda con ollo!"
 
-#: ../dat/maps/layna_forest/layna_forest_wolf_cave_script.lua:337
+#: ../dat/maps/layna_forest/layna_forest_wolf_cave_script.lua:338
 msgid "Don't even start, this one is all mine."
 msgstr "Nin se che pase pola cabeza, o colgante é para min."
 
-#: ../dat/maps/layna_forest/layna_forest_wolf_cave_script.lua:339
+#: ../dat/maps/layna_forest/layna_forest_wolf_cave_script.lua:340
 msgid "Not the necklace, the Fenrir!"
 msgstr "Non falo do colgante, falo do fenrir!"
 
-#: ../dat/maps/layna_forest/layna_forest_wolf_cave_script.lua:341
+#: ../dat/maps/layna_forest/layna_forest_wolf_cave_script.lua:342
 msgid "You can't be serious, we would have heard it come."
 msgstr "Estarás de broma, non? Se houbese un fenrir por aquí escoitariámolo."
 
-#: ../dat/maps/layna_forest/layna_forest_wolf_cave_script.lua:353
+#: ../dat/maps/layna_forest/layna_forest_wolf_cave_script.lua:354
 msgid "Ah well, finally you were serious, weren't you?"
 msgstr "Vale, xa vexo que ía en serio…"
 
-#: ../dat/maps/layna_forest/layna_forest_wolf_cave_script.lua:383
+#: ../dat/maps/layna_forest/layna_forest_wolf_cave_script.lua:384
 msgid ""
 "It ran away again. I'm glad we survived. Let's get out of here before he "
 "comes back."
 msgstr ""
 "Volveu escapar, pero polo menos sobrevivimos. Marchemos antes de que volva."
 
-#: ../dat/maps/layna_village/battle_with_banesore/battle_with_banesore_script.lua:52
+#: ../dat/maps/layna_village/battle_with_banesore/battle_with_banesore_script.lua:51
 msgid "Banesore"
 msgstr "Bansor"
 
-#: ../dat/maps/layna_village/battle_with_banesore/battle_with_banesore_script.lua:57
+#: ../dat/maps/layna_village/battle_with_banesore/battle_with_banesore_script.lua:56
 msgid "So... Do you think you can hurt me?"
 msgstr "Que? Pensas que podes comigo?"
 
-#: ../dat/maps/layna_village/battle_with_banesore/battle_with_banesore_script.lua:59
+#: ../dat/maps/layna_village/battle_with_banesore/battle_with_banesore_script.lua:58
 msgid "You? A child with an old wooden stick?"
 msgstr "Ti? Un rapaz cun vello pau de madeira?"
 
-#: ../dat/maps/layna_village/battle_with_banesore/battle_with_banesore_script.lua:66
+#: ../dat/maps/layna_village/battle_with_banesore/battle_with_banesore_script.lua:65
 msgid "You're stronger than I thought but still ... So weak!"
 msgstr ""
 "Es máis forte do que pensaba… Pero segues sendo unha miñoca fronte a min!"
 
-#: ../dat/maps/layna_village/battle_with_banesore/battle_with_banesore_script.lua:71
+#: ../dat/maps/layna_village/battle_with_banesore/battle_with_banesore_script.lua:70
 msgid "Argh! It hurts!"
 msgstr "Ai! Doe!"
 
-#: ../dat/maps/layna_village/battle_with_banesore/battle_with_banesore_script.lua:73
+#: ../dat/maps/layna_village/battle_with_banesore/battle_with_banesore_script.lua:72
 msgid "Yes! I can feel it come closer to the surface!"
 msgstr "Si! Podo sentilo achegándose á superficie!"
 
-#: ../dat/maps/layna_village/battle_with_banesore/battle_with_banesore_script.lua:75
+#: ../dat/maps/layna_village/battle_with_banesore/battle_with_banesore_script.lua:74
 msgid "Let your fear grow, young boy!"
 msgstr "Prepárate para o que te espera, rapaz!"
 
-#: ../dat/maps/layna_village/battle_with_banesore/battle_with_banesore_script.lua:77
+#: ../dat/maps/layna_village/battle_with_banesore/battle_with_banesore_script.lua:76
 msgid "Don't listen to him, Bronann!"
 msgstr "Ignórao, Bronan!"
 
-#: ../dat/maps/layna_village/battle_with_banesore/battle_with_banesore_script.lua:82
+#: ../dat/maps/layna_village/battle_with_banesore/battle_with_banesore_script.lua:81
 msgid "I will... try."
 msgstr "Eh… intentareino."
 
-#: ../dat/maps/layna_village/battle_with_banesore/battle_with_banesore_script.lua:84
+#: ../dat/maps/layna_village/battle_with_banesore/battle_with_banesore_script.lua:83
 msgid "Hmph. Leave that man to me, soldiers!"
 msgstr "Hmm… Ese deixádemo a min, soldados!"
 
-#: ../dat/maps/layna_village/battle_with_banesore/battle_with_banesore_script.lua:86
+#: ../dat/maps/layna_village/battle_with_banesore/battle_with_banesore_script.lua:85
 msgid "So... You seem to remind me, Banesore?"
 msgstr "Que? Lémbrasme, Bansor?"
 
-#: ../dat/maps/layna_village/battle_with_banesore/battle_with_banesore_script.lua:88
+#: ../dat/maps/layna_village/battle_with_banesore/battle_with_banesore_script.lua:87
 msgid "I do, old man..."
 msgstr "Por suposto, vello…"
 
-#: ../dat/maps/layna_village/battle_with_banesore/battle_with_banesore_script.lua:90
+#: ../dat/maps/layna_village/battle_with_banesore/battle_with_banesore_script.lua:89
 msgid "Then, you know your zombified soldiers are no match to me..."
 msgstr ""
 "Entón serás consciente de que os teus soldados zombis non son rival para min…"
 
-#: ../dat/maps/layna_village/battle_with_banesore/battle_with_banesore_script.lua:92
+#: ../dat/maps/layna_village/battle_with_banesore/battle_with_banesore_script.lua:91
 msgid "Argh! My chest is burning!!"
 msgstr "Ah! Árdeme o peito!"
 
-#: ../dat/maps/layna_village/battle_with_banesore/battle_with_banesore_script.lua:98
+#: ../dat/maps/layna_village/battle_with_banesore/battle_with_banesore_script.lua:97
 msgid "Hold on Bronann!"
 msgstr "Aguanta, Bronan!"
 
@@ -2896,8 +2906,8 @@ msgid ""
 "Weird, I can see no lights in there... I have a bad feeling about this, lets "
 "get back home..."
 msgstr ""
-"Que raro, non hai ningunha luz… Teño un mal presentimento, será mellor "
-"que volva a casa…"
+"Que raro, non hai ningunha luz… Teño un mal presentimento, será mellor que "
+"volva a casa…"
 
 #: ../dat/maps/layna_village/layna_village_center_at_night_script.lua:312
 #: ../dat/maps/layna_village/layna_village_center_script.lua:543
@@ -3576,7 +3586,7 @@ msgstr "Por certo… onde estamos?"
 #: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:255
 msgid ""
 "In our basement. The other stairs there are leading to my room. This house "
-"is an ancient sanctuary, so it might explain you're feeling better..."
+"is an ancient sanctuary, so it might explain why you're feeling better..."
 msgstr ""
 "No noso soto. Esas outras escaleiras levan directamente ao meu cuarto. Esta "
 "casa é un vello santuario; debe ser por iso que te sentes mellor…"
@@ -4282,7 +4292,7 @@ msgstr "Ei! Vaia susto que me deches."
 msgid "But you'll never find me hiding on top of the cliffs!"
 msgstr "Pero non me atoparás se agocho nos altos!"
 
-#: ../dat/maps/mt_elbrus/battle_with_dark_soldiers_script.lua:37
+#: ../dat/maps/mt_elbrus/battle_with_dark_soldiers_script.lua:36
 msgid ""
 "You're spotted!! My comrades shall be here in no time. Surrender now or "
 "you'll be punished!!"
@@ -4290,7 +4300,7 @@ msgstr ""
 "Atopeivos! Os meus camaradas non han tardar en chegar. Rendédevos se non "
 "queredes ser castigados!"
 
-#: ../dat/maps/mt_elbrus/battle_with_dark_soldiers_script.lua:39
+#: ../dat/maps/mt_elbrus/battle_with_dark_soldiers_script.lua:38
 msgid ""
 "Don't listen to him! We must get rid of him before reinforcement gets along "
 "or we're doomed!!"
@@ -4298,7 +4308,7 @@ msgstr ""
 "Non lle fagades caso! Temos que librarnos del antes de que cheguen reforzos, "
 "ou estaremos acabados!"
 
-#: ../dat/maps/mt_elbrus/battle_with_dark_soldiers_script.lua:50
+#: ../dat/maps/mt_elbrus/battle_with_dark_soldiers_script.lua:49
 msgid "Time left:"
 msgstr "Tempo restante:"
 
@@ -4317,15 +4327,15 @@ msgstr "Saltamos."
 msgid "Not now..."
 msgstr "Agora non…"
 
-#: ../dat/maps/mt_elbrus/mt_elbrus_path1_script.lua:612
+#: ../dat/maps/mt_elbrus/mt_elbrus_path1_script.lua:640
 msgid "Look!"
 msgstr "Mirade!"
 
-#: ../dat/maps/mt_elbrus/mt_elbrus_path1_script.lua:628
+#: ../dat/maps/mt_elbrus/mt_elbrus_path1_script.lua:656
 msgid "Banesore's minions are already all over the place ..."
 msgstr "Os secuaces de Bansor están por todas partes…"
 
-#: ../dat/maps/mt_elbrus/mt_elbrus_path1_script.lua:630
+#: ../dat/maps/mt_elbrus/mt_elbrus_path1_script.lua:658
 msgid ""
 "The dark soldiers as we call them are fanatics. They'll follow Banesore's "
 "orders even if it means death."
@@ -4333,7 +4343,7 @@ msgstr ""
 "Os soldados escuros —así é como os chamamos— son fanáticos. Cumpren as ordes "
 "de Bansor aínda que a súa vida lles vaia niso."
 
-#: ../dat/maps/mt_elbrus/mt_elbrus_path1_script.lua:632
+#: ../dat/maps/mt_elbrus/mt_elbrus_path1_script.lua:660
 msgid ""
 "We don't know how he does that, but he can turn anybody into a servile "
 "subject."
@@ -4341,7 +4351,7 @@ msgstr ""
 "Non sabemos como o fai, pero sabemos que pode transformar calquera persoa "
 "nun dos seus súbditos leais."
 
-#: ../dat/maps/mt_elbrus/mt_elbrus_path1_script.lua:634
+#: ../dat/maps/mt_elbrus/mt_elbrus_path1_script.lua:662
 msgid ""
 "Their strength is also increased by the transformation. That's why we call "
 "them the zombified army."
@@ -4349,13 +4359,40 @@ msgstr ""
 "E a transformación leva consigo un aumento da forza do individuo. É por iso "
 "que os chamamos o «exército de zombis»."
 
-#: ../dat/maps/mt_elbrus/mt_elbrus_path1_script.lua:636
+#: ../dat/maps/mt_elbrus/mt_elbrus_path1_script.lua:664
 msgid "We must absolutely try to avoid them or they'll call reinforcement."
 msgstr "Temos que tratar de evitalos como sexa, ou pedirán reforzos."
 
-#: ../dat/maps/mt_elbrus/mt_elbrus_path1_script.lua:638
+#: ../dat/maps/mt_elbrus/mt_elbrus_path1_script.lua:666
 msgid "They are too strong. If they catch us, we're doomed."
 msgstr "Son demasiado fortes. Se nos collen, estamos perdidos."
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_path2_script.lua:394
+msgid "Dang! And now the rain..."
+msgstr "E para colmo agora ponse a chover…"
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_path2_script.lua:396
+msgid ""
+"The path seems to lead straight into the storm up there. It's definitely our "
+"lucky day..."
+msgstr ""
+"O camiño parece levar directamente á tormenta. Definitivamente este é o noso "
+"día de sorte…"
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_path2_script.lua:398
+msgid ""
+"Don't lose faith, Kalya. If we manage to escape them here, we'll be safe "
+"past the mountains."
+msgstr ""
+"Non desesperes, Calia. Se conseguimos escapar deles e atravesamos as "
+"montañas, estaremos a salvo."
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_path2_script.lua:400
+msgid ""
+"If we can reach the great plains, we should indeed be out of troubles..."
+msgstr ""
+"Se conseguimos chegar ás grandes chairas, deberiamos estar completamente a "
+"salvo…"
 
 #: ../dat/maps/to_be_continued_anim.lua:31
 msgid "To be continued..."
@@ -4415,15 +4452,12 @@ msgid "An old and finely done piece of jewelery."
 msgstr "Unha pinza do pelo antiga e refinada."
 
 #: ../dat/objects/head_armor.lua:52
-msgid "Standard Helmet"
-msgstr "Helmo estándar"
+msgid "Old Helmet"
+msgstr "Helmo vello"
 
 #: ../dat/objects/head_armor.lua:53
-msgid ""
-"Standard Karlate issued equipment. Battle worn but reliable head protection."
-msgstr ""
-"Equipamento estándar de Carlate para protexer a cabeza. Está usado, pero "
-"aguanta ben."
+msgid "A battle worn helmet, still reliable for head protection."
+msgstr "Un helmo usado en batalla, aínda serve para protexer a cabeza."
 
 #: ../dat/objects/head_armor.lua:63
 msgid "Cobalt Helm"
@@ -5611,16 +5645,16 @@ msgstr ""
 "poderás seleccionar a espada e facer dela a túa arma principal. Entendido?"
 
 #: map_names_tr.lua:6 map_names_tr.lua:10 map_names_tr.lua:14
-#: map_names_tr.lua:42 map_names_tr.lua:125 map_names_tr.lua:129
-#: map_names_tr.lua:133 map_names_tr.lua:161
+#: map_names_tr.lua:42 map_names_tr.lua:141 map_names_tr.lua:145
+#: map_names_tr.lua:149 map_names_tr.lua:177
 msgid "Layna Forest Cave"
 msgstr "Cova do Bosque de Laina"
 
-#: map_names_tr.lua:20 map_names_tr.lua:139
+#: map_names_tr.lua:20 map_names_tr.lua:155
 msgid "???"
 msgstr "(descoñecido)"
 
-#: map_names_tr.lua:24 map_names_tr.lua:143
+#: map_names_tr.lua:24 map_names_tr.lua:159
 msgid "Forest entrance"
 msgstr "Entrada do bosque"
 
@@ -5633,47 +5667,65 @@ msgstr " "
 #: map_names_tr.lua:77 map_names_tr.lua:81 map_names_tr.lua:85
 #: map_names_tr.lua:89 map_names_tr.lua:93 map_names_tr.lua:97
 #: map_names_tr.lua:101 map_names_tr.lua:105 map_names_tr.lua:109
-#: map_names_tr.lua:169 map_names_tr.lua:173 map_names_tr.lua:177
-#: map_names_tr.lua:181 map_names_tr.lua:185 map_names_tr.lua:189
-#: map_names_tr.lua:193 map_names_tr.lua:197 map_names_tr.lua:201
-#: map_names_tr.lua:205 map_names_tr.lua:209 map_names_tr.lua:213
-#: map_names_tr.lua:217 map_names_tr.lua:221 map_names_tr.lua:225
+#: map_names_tr.lua:185 map_names_tr.lua:189 map_names_tr.lua:193
+#: map_names_tr.lua:197 map_names_tr.lua:201 map_names_tr.lua:205
+#: map_names_tr.lua:209 map_names_tr.lua:213 map_names_tr.lua:217
+#: map_names_tr.lua:221 map_names_tr.lua:225 map_names_tr.lua:229
+#: map_names_tr.lua:233 map_names_tr.lua:237 map_names_tr.lua:241
 msgid "Mountain Village of Layna"
 msgstr "Vila de montaña de Laina"
 
-#: map_names_tr.lua:63 map_names_tr.lua:179
+#: map_names_tr.lua:63 map_names_tr.lua:195
 msgid "Flora's Boutique"
 msgstr "Tenda de Flora"
 
-#: map_names_tr.lua:87 map_names_tr.lua:203
+#: map_names_tr.lua:87 map_names_tr.lua:219
 msgid "Basement"
 msgstr "Soto"
 
-#: map_names_tr.lua:91 map_names_tr.lua:99 map_names_tr.lua:207
-#: map_names_tr.lua:215
+#: map_names_tr.lua:91 map_names_tr.lua:99 map_names_tr.lua:223
+#: map_names_tr.lua:231
 msgid "Riverbank"
 msgstr "Beira do río"
 
-#: map_names_tr.lua:95 map_names_tr.lua:211
+#: map_names_tr.lua:95 map_names_tr.lua:227
 msgid "Lilly's house"
 msgstr "Casa de Lili"
 
-#: map_names_tr.lua:111 map_names_tr.lua:227
+#: map_names_tr.lua:111 map_names_tr.lua:243
 msgid "Village entrance"
 msgstr "Entrada da vila"
 
-#: map_names_tr.lua:113 map_names_tr.lua:117 map_names_tr.lua:229
-#: map_names_tr.lua:233
+#: map_names_tr.lua:113 map_names_tr.lua:117 map_names_tr.lua:121
+#: map_names_tr.lua:125 map_names_tr.lua:129 map_names_tr.lua:133
+#: map_names_tr.lua:245 map_names_tr.lua:249 map_names_tr.lua:253
+#: map_names_tr.lua:257 map_names_tr.lua:261 map_names_tr.lua:265
 msgid "Mt. Elbrus"
 msgstr "Monte Elbrus"
 
-#: map_names_tr.lua:115 map_names_tr.lua:231
+#: map_names_tr.lua:115 map_names_tr.lua:119 map_names_tr.lua:123
+#: map_names_tr.lua:247 map_names_tr.lua:251 map_names_tr.lua:255
 msgid "Elbrus Grotto"
 msgstr "Gruta do Elbrus"
 
-#: map_names_tr.lua:119 map_names_tr.lua:235
+#: map_names_tr.lua:127 map_names_tr.lua:131 map_names_tr.lua:259
+#: map_names_tr.lua:263
 msgid "Low Mountain"
 msgstr "Montaña baixa"
+
+#: map_names_tr.lua:135 map_names_tr.lua:267
+msgid "Old Cemetery"
+msgstr "Cemiterio vello"
+
+#~ msgid "Standard Helmet"
+#~ msgstr "Helmo estándar"
+
+#~ msgid ""
+#~ "Standard Karlate issued equipment. Battle worn but reliable head "
+#~ "protection."
+#~ msgstr ""
+#~ "Equipamento estándar de Carlate para protexer a cabeza. Está usado, pero "
+#~ "aguanta ben."
 
 #~ msgid "Window mode:"
 #~ msgstr "Modo:"
