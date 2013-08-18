@@ -408,7 +408,7 @@ function _CreateEvents()
 
     event = vt_map.AnimateSpriteEvent("Bronann is sad", bronann, "hero_stance", 2000);
     EventManager:RegisterEvent(event);
-    event = vt_map.AnimateSpriteEvent("Bronann is frightnened", bronann, "frightened", 0);
+    event = vt_map.AnimateSpriteEvent("Bronann is frightnened", bronann, "frightened", -1);
     EventManager:RegisterEvent(event);
     event = vt_map.AnimateSpriteEvent("Bronann searches", bronann, "searching", 0);
     EventManager:RegisterEvent(event);
