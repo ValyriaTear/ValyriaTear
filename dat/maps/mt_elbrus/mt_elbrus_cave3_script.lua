@@ -151,8 +151,10 @@ function _CreateObjects()
     -- shroom 1
     shroom1 = CreateObject(Map, "Shroom", 35, 24);
     shroom1:AddAnimation("img/sprites/map/enemies/spiky_mushroom_dead.lua");
-    shroom1:SetEventWhenTalking("Fight with Shroom 1");
+    shroom1:SetEventWhenTalking("Check hero position for Shroom 1");
     Map:AddGroundObject(shroom1);
+    event = vt_map.IfEvent("Check hero position for Shroom 1", "check_diagonal_shroom1", "Fight with Shroom 1", "");
+    EventManager:RegisterEvent(event);
     event = vt_map.BattleEncounterEvent("Fight with Shroom 1");
     event:AddEnemy(11, 512, 384); -- one shroom
     _SetEventBattleEnvironment(event);
@@ -164,8 +166,10 @@ function _CreateObjects()
     -- shroom 2
     shroom2 = CreateObject(Map, "Shroom", 37, 24);
     shroom2:AddAnimation("img/sprites/map/enemies/spiky_mushroom_dead.lua");
-    shroom2:SetEventWhenTalking("Fight with Shroom 2");
+    shroom2:SetEventWhenTalking("Check hero position for Shroom 2");
     Map:AddGroundObject(shroom2);
+    event = vt_map.IfEvent("Check hero position for Shroom 2", "check_diagonal_shroom2", "Fight with Shroom 2", "");
+    EventManager:RegisterEvent(event);
     event = vt_map.BattleEncounterEvent("Fight with Shroom 2");
     event:AddEnemy(11, 512, 384); -- one shroom
     _SetEventBattleEnvironment(event);
@@ -177,8 +181,10 @@ function _CreateObjects()
     -- shroom 3
     shroom3 = CreateObject(Map, "Shroom", 39, 24);
     shroom3:AddAnimation("img/sprites/map/enemies/spiky_mushroom_dead.lua");
-    shroom3:SetEventWhenTalking("Fight with Shroom 3");
+    shroom3:SetEventWhenTalking("Check hero position for Shroom 3");
     Map:AddGroundObject(shroom3);
+    event = vt_map.IfEvent("Check hero position for Shroom 3", "check_diagonal_shroom3", "Fight with Shroom 3", "");
+    EventManager:RegisterEvent(event);
     event = vt_map.BattleEncounterEvent("Fight with Shroom 3");
     event:AddEnemy(11, 512, 384); -- one shroom
     _SetEventBattleEnvironment(event);
@@ -190,8 +196,10 @@ function _CreateObjects()
     -- shroom 4
     shroom4 = CreateObject(Map, "Shroom", 35, 32);
     shroom4:AddAnimation("img/sprites/map/enemies/spiky_mushroom_dead.lua");
-    shroom4:SetEventWhenTalking("Fight with Shroom 4");
+    shroom4:SetEventWhenTalking("Check hero position for Shroom 4");
     Map:AddGroundObject(shroom4);
+    event = vt_map.IfEvent("Check hero position for Shroom 4", "check_diagonal_shroom4", "Fight with Shroom 4", "");
+    EventManager:RegisterEvent(event);
     event = vt_map.BattleEncounterEvent("Fight with Shroom 4");
     event:AddEnemy(11, 512, 384); -- one shroom
     _SetEventBattleEnvironment(event);
@@ -203,8 +211,10 @@ function _CreateObjects()
     -- shroom 5
     shroom5 = CreateObject(Map, "Shroom", 39, 30);
     shroom5:AddAnimation("img/sprites/map/enemies/spiky_mushroom_dead.lua");
-    shroom5:SetEventWhenTalking("Fight with Shroom 5");
+    shroom5:SetEventWhenTalking("Check hero position for Shroom 5");
     Map:AddGroundObject(shroom5);
+    event = vt_map.IfEvent("Check hero position for Shroom 5", "check_diagonal_shroom5", "Fight with Shroom 5", "");
+    EventManager:RegisterEvent(event);
     event = vt_map.BattleEncounterEvent("Fight with Shroom 5");
     event:AddEnemy(11, 512, 384); -- one shroom
     _SetEventBattleEnvironment(event);
@@ -257,15 +267,18 @@ function _CreateObjects()
 
     rolling_stone1 = CreateObject(Map, "Rolling Stone", 37, 26);
     Map:AddGroundObject(rolling_stone1);
-    rolling_stone1:SetEventWhenTalking("Push the rolling stone 1");
+    rolling_stone1:SetEventWhenTalking("Check hero position for rolling stone 1");
+    event = vt_map.IfEvent("Check hero position for rolling stone 1", "check_diagonal_stone1", "Push the rolling stone 1", "");
+    EventManager:RegisterEvent(event);
 
     event = vt_map.ScriptedEvent("Push the rolling stone 1", "start_to_move_the_stone1", "move_the_stone_update1")
     EventManager:RegisterEvent(event);
 
     rolling_stone2 = CreateObject(Map, "Rolling Stone", 35, 30);
     Map:AddGroundObject(rolling_stone2);
-    rolling_stone2:SetEventWhenTalking("Push the rolling stone 2");
-
+    rolling_stone2:SetEventWhenTalking("Check hero position for rolling stone 2");
+    event = vt_map.IfEvent("Check hero position for rolling stone 2", "check_diagonal_stone2", "Push the rolling stone 2", "");
+    EventManager:RegisterEvent(event);
     event = vt_map.ScriptedEvent("Push the rolling stone 2", "start_to_move_the_stone2", "move_the_stone_update2")
     EventManager:RegisterEvent(event);
 end
@@ -363,45 +376,69 @@ function _UpdateStoneMovement(stone_object, stone_direction)
 
 end
 
--- Map Custom functions
--- Used through scripted events
+function _CheckForDiagonals(target)
+    -- Check for diagonals. If the player is in diagonal,
+    -- whe shouldn't trigger the event at all, as only straight relative position
+    -- to the target sprite will work correctly.
+    -- (Here used only for shrooms and stones)
+
+    local hero_x = hero:GetXPosition();
+    local hero_y = hero:GetYPosition();
+
+    local target_x = target:GetXPosition();
+    local target_y = target:GetYPosition();
+
+    -- bottom-left
+    if (hero_y > target_y + 0.3 and hero_x < target_x - 1.2) then return false; end
+    -- bottom-right
+    if (hero_y > target_y + 0.3 and hero_x > target_x + 1.2) then return false; end
+    -- top-left
+    if (hero_y < target_y - 1.5 and hero_x < target_x - 1.2) then return false; end
+    -- top-right
+    if (hero_y < target_y - 1.5 and hero_x > target_x + 1.2) then return false; end
+
+    return true;
+end
 
 function _PlaceShroomObjectAfterFight(shroom)
-        local hero_x = hero:GetXPosition();
-        local hero_y = hero:GetYPosition();
+    local hero_x = hero:GetXPosition();
+    local hero_y = hero:GetYPosition();
 
-        local shroom_x = shroom:GetXPosition();
-        local shroom_y = shroom:GetYPosition();
+    local shroom_x = shroom:GetXPosition();
+    local shroom_y = shroom:GetYPosition();
 
-        -- New position of the shroom
-        local shroom_new_x = shroom_x;
-        local shroom_new_y = shroom_y;
+    -- New position of the shroom
+    local shroom_new_x = shroom_x;
+    local shroom_new_y = shroom_y;
 
-        -- Determine the hero position relative to the shroom
-        if (hero_y > shroom_y + 0.3) then
-            -- the hero is below, the shroom is pushed upward.
-            shroom_new_y = shroom_new_y - 2.0;
-        elseif (hero_y < shroom_y - 1.5) then
-            -- the hero is above, the shroom is pushed downward.
-            shroom_new_y = shroom_new_y + 2.0;
-        elseif (hero_x < shroom_x - 1.2) then
-            -- the hero is on the left, the shroom is pushed to the right.
-            shroom_new_x = shroom_new_x + 2.0;
-        elseif (hero_x > shroom_x + 1.2) then
-            -- the hero is on the right, the shroom is pushed to the left.
-            shroom_new_x = shroom_new_x - 2.0;
-        end
+    -- Determine the hero position relative to the shroom
+    if (hero_y > shroom_y + 0.3) then
+        -- the hero is below, the shroom is pushed upward.
+        shroom_new_y = shroom_new_y - 2.0;
+    elseif (hero_y < shroom_y - 1.5) then
+        -- the hero is above, the shroom is pushed downward.
+        shroom_new_y = shroom_new_y + 2.0;
+    elseif (hero_x < shroom_x - 1.2) then
+        -- the hero is on the left, the shroom is pushed to the right.
+        shroom_new_x = shroom_new_x + 2.0;
+    elseif (hero_x > shroom_x + 1.2) then
+        -- the hero is on the right, the shroom is pushed to the left.
+        shroom_new_x = shroom_new_x - 2.0;
+    end
 
-        -- Only place the shroom when nothing is in the way.
-        if (shroom:IsColliding(shroom_new_x, shroom_new_y) == false) then
-            shroom:SetPosition(shroom_new_x, shroom_new_y);
-        end
+    -- Only place the shroom when nothing is in the way.
+    if (shroom:IsColliding(shroom_new_x, shroom_new_y) == false) then
+        shroom:SetPosition(shroom_new_x, shroom_new_y);
+    end
 
-        -- Place the shroom
-        shroom:SetCurrentAnimation(1); -- The second animation id aka dead in this case
-        -- Remove its dialogue (preventing a new fight)
-        shroom:ClearEventWhenTalking();
+    -- Place the shroom
+    shroom:SetCurrentAnimation(1); -- The second animation id aka dead in this case
+    -- Remove its dialogue (preventing a new fight)
+    shroom:ClearEventWhenTalking();
 end
+
+-- Map Custom functions
+-- Used through scripted events
 
 local stone_direction1 = vt_map.MapMode.EAST;
 local stone_direction2 = vt_map.MapMode.EAST;
@@ -414,6 +451,26 @@ map_functions = {
 
     remove_scene_state = function()
         Map:PopState();
+    end,
+
+    check_diagonal_shroom1 = function()
+        return _CheckForDiagonals(shroom1);
+    end,
+
+    check_diagonal_shroom2 = function()
+        return _CheckForDiagonals(shroom2);
+    end,
+
+    check_diagonal_shroom3 = function()
+        return _CheckForDiagonals(shroom3);
+    end,
+
+    check_diagonal_shroom4 = function()
+        return _CheckForDiagonals(shroom4);
+    end,
+
+    check_diagonal_shroom5 = function()
+        return _CheckForDiagonals(shroom5);
     end,
 
     place_shroom1_after_fight = function()
@@ -430,6 +487,14 @@ map_functions = {
     end,
     place_shroom5_after_fight = function()
         _PlaceShroomObjectAfterFight(shroom5)
+    end,
+
+    check_diagonal_stone1 = function()
+        return _CheckForDiagonals(rolling_stone1);
+    end,
+
+    check_diagonal_stone2 = function()
+        return _CheckForDiagonals(rolling_stone2);
     end,
 
     start_to_move_the_stone1 = function()

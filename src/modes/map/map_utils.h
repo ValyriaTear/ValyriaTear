@@ -210,7 +210,8 @@ enum EVENT_TYPE {
     ANIMATE_SPRITE_EVENT            = 12,
     TREASURE_EVENT                  = 13,
     LOOK_AT_SPRITE_EVENT            = 14,
-    TOTAL_EVENT                     = 15
+    IF_EVENT                        = 15,
+    TOTAL_EVENT                     = 16
 };
 
 //! \brief Defines the different states the dialogue can be in.

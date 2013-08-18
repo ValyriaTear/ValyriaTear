@@ -264,6 +264,57 @@ void BattleEncounterEvent::_Start()
 }
 
 // -----------------------------------------------------------------------------
+// ---------- IfEvent Class Methods
+// -----------------------------------------------------------------------------
+
+IfEvent::IfEvent(const std::string& event_id, const std::string& check_function,
+                 const std::string& on_true_event, const std::string& on_false_event) :
+    MapEvent(event_id, IF_EVENT)
+{
+    ReadScriptDescriptor &map_script = MapMode::CurrentInstance()->GetMapScript();
+    if (!MapMode::CurrentInstance()->OpenMapTablespace(true))
+        return;
+    if (!map_script.OpenTable("map_functions"))
+        return;
+
+    if(!check_function.empty())
+        _check_function = map_script.ReadFunctionPointer(check_function);
+
+    map_script.CloseTable(); // map_functions
+    map_script.CloseTable(); // tablespace
+
+    _true_event_id = on_true_event;
+    _false_event_id = on_false_event;
+}
+
+
+void IfEvent::_Start()
+{
+    if(!_check_function.is_valid())
+        return;
+
+    EventSupervisor* events = MapMode::CurrentInstance()->GetEventSupervisor();
+
+    try {
+        // We had a timer of 100ms her to avoid launching an event within an event
+        // for the sake of the engine loop. That time is unnoticeable, anyway.
+        if (ScriptCallFunction<bool>(_check_function)
+            && !_true_event_id.empty() && !events->IsEventActive(_true_event_id)) {
+            events->StartEvent(_true_event_id, 100);
+        }
+        else if (!_false_event_id.empty() && !events->IsEventActive(_false_event_id)) {
+            events->StartEvent(_false_event_id, 100);
+        }
+    } catch(const luabind::error &e) {
+        PRINT_ERROR << "Error while loading IFEvent check function." << std::endl;
+        ScriptManager->HandleLuaError(e);
+    } catch(const luabind::cast_failed &e) {
+        PRINT_ERROR << "Error while loading IFEvent check function." << std::endl;
+        ScriptManager->HandleCastError(e);
+    }
+}
+
+// -----------------------------------------------------------------------------
 // ---------- ScriptedEvent Class Methods
 // -----------------------------------------------------------------------------
 
@@ -291,17 +342,36 @@ ScriptedEvent::ScriptedEvent(const std::string &event_id,
 
 void ScriptedEvent::_Start()
 {
-    if(_start_function.is_valid())
+    if(!_start_function.is_valid())
+        return;
+
+    try {
         ScriptCallFunction<void>(_start_function);
+    } catch(const luabind::error &e) {
+        PRINT_ERROR << "Error while loading ScriptedEvent start function" << std::endl;
+        ScriptManager->HandleLuaError(e);
+    } catch(const luabind::cast_failed &e) {
+        PRINT_ERROR << "Error while loading ScriptedEvent start function" << std::endl;
+        ScriptManager->HandleCastError(e);
+    }
 }
 
 
 bool ScriptedEvent::_Update()
 {
-    if(_update_function.is_valid())
-        return ScriptCallFunction<bool>(_update_function);
-    else
+    if(!_update_function.is_valid())
         return true;
+
+    try {
+        return ScriptCallFunction<bool>(_update_function);
+    } catch(const luabind::error &e) {
+        PRINT_ERROR << "Error while loading ScriptedEvent update function" << std::endl;
+        ScriptManager->HandleLuaError(e);
+    } catch(const luabind::cast_failed &e) {
+        PRINT_ERROR << "Error while loading ScriptedEvent update function" << std::endl;
+        ScriptManager->HandleCastError(e);
+    }
+    return true;
 }
 
 // -----------------------------------------------------------------------------
@@ -926,8 +996,7 @@ void EventSupervisor::StartEvent(const std::string &event_id)
 {
     MapEvent *event = GetEvent(event_id);
     if(event == NULL) {
-        IF_PRINT_WARNING(MAP_DEBUG) << "no event with this ID existed: "
-                                    << event_id << std::endl;
+        PRINT_WARNING << "no event with this ID existed: " << event_id << std::endl;
         return;
     }
 
@@ -940,8 +1009,7 @@ void EventSupervisor::StartEvent(const std::string &event_id, uint32 launch_time
 {
     MapEvent *event = GetEvent(event_id);
     if(event == NULL) {
-        IF_PRINT_WARNING(MAP_DEBUG) << "no event with this ID existed: "
-                                    << event_id << std::endl;
+        PRINT_WARNING << "no event with this ID existed: " << event_id << std::endl;
         return;
     }
 

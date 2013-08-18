@@ -477,6 +477,40 @@ protected:
     }
 }; // class BattleEncounterEvent : public MapEvent
 
+/** ****************************************************************************
+*** \brief An event thats starts an event or another based on a check function.
+*** ***************************************************************************/
+class IfEvent : public MapEvent
+{
+public:
+    /** \param event_id The ID of this event
+    *** \param check_function the map file's function to call to make the check requested
+    *** \param on_true_event the map to call when the check function returns true
+    *** \param on_false_event the map to call when the check function returns false
+    ***
+    *** \note An empty value for either the true or false event id arguments
+    *** will result in no event in this case
+    **/
+    IfEvent(const std::string& event_id, const std::string& check_function,
+            const std::string& on_true_event, const std::string& on_false_event);
+
+    ~IfEvent()
+    {}
+
+protected:
+    //! \brief A pointer to the Lua function that starts the event
+    ScriptObject _check_function;
+
+    std::string _true_event_id;
+    std::string _false_event_id;
+
+    //! \brief Calls the Lua _start_function, if one was defined
+    void _Start();
+
+    //! \brief Calls the Lua _update_function. If no update function was defined, does nothing and returns true
+    bool _Update()
+    { return true; }
+}; // class IfEvent : public MapEvent
 
 /** ****************************************************************************
 *** \brief An event with its _Start and _Update functions implemented in Lua.

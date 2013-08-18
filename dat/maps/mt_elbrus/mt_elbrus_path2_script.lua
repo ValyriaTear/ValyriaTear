@@ -363,7 +363,7 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
     event = vt_map.ChangeDirectionSpriteEvent("Kalya looks north", kalya, vt_map.MapMode.NORTH);
     EventManager:RegisterEvent(event);
-    event = vt_map.ChangeDirectionSpriteEvent("Kalya looks north", kalya, vt_map.MapMode.SOUTH);
+    event = vt_map.ChangeDirectionSpriteEvent("Kalya looks south", kalya, vt_map.MapMode.SOUTH);
     EventManager:RegisterEvent(event);
     event = vt_map.LookAtSpriteEvent("Kalya looks at Orlinn", kalya, orlinn);
     EventManager:RegisterEvent(event);

@@ -478,6 +478,12 @@ void BindModeCode()
 
         luabind::module(vt_script::ScriptManager->GetGlobalState(), "vt_map")
         [
+            luabind::class_<IfEvent, MapEvent>("IfEvent")
+            .def(luabind::constructor<std::string, std::string, std::string, std::string>())
+        ];
+
+        luabind::module(vt_script::ScriptManager->GetGlobalState(), "vt_map")
+        [
             luabind::class_<ScriptedEvent, MapEvent>("ScriptedEvent")
             .def(luabind::constructor<std::string, std::string, std::string>())
         ];
