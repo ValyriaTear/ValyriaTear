@@ -1,6 +1,6 @@
 local ns = {}
 setmetatable(ns, {__index = _G})
-mt_elbrus_script = ns;
+rain_in_battles_script = ns;
 setfenv(1, ns);
 
 local Battle = {};
@@ -13,12 +13,8 @@ function Initialize(battle_instance)
     Script = Battle:GetScriptSupervisor();
 
     -- Make the rain starts if needed
-    if (GlobalManager:GetEventValue("story", "mt_elbrus_weather_level") > 0) then
-        Battle:TriggerBattleParticleEffect("dat/effects/particles/rain.lua", 512.0, 768.0);
-
-        ripples_id = Script:AddAnimation("img/effects/ripples.lua", 256.0, 153.6); -- 256.0 * 0.6
-    end
-
+    Battle:TriggerBattleParticleEffect("dat/effects/particles/rain.lua", 512.0, 768.0);
+    ripples_id = Script:AddAnimation("img/effects/ripples.lua", 256.0, 153.6); -- 256.0 * 0.6
 end
 
 --function Restart()

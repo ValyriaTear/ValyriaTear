@@ -62,6 +62,9 @@ function Load(m)
         local rainy_sound = vt_map.SoundObject("mus/Ove Melaa - Rainy.ogg", 32.0, 24.0, 100.0);
         Map:AddAmbientSoundObject(rainy_sound);
     end
+    if (GlobalManager:GetEventValue("story", "mt_elbrus_weather_level") > 1) then
+        Map:GetScriptSupervisor():AddScript("dat/maps/common/soft_lightnings_script.lua");
+    end
 
     -- Show the new location on map,
     GlobalManager:ShowWorldLocation("mt elbrus");
@@ -740,7 +743,13 @@ function _SetBattleEnvironment(enemy)
     enemy:SetBattleMusicTheme("mus/heroism-OGA-Edward-J-Blakeley.ogg");
     enemy:SetBattleBackground("img/backdrops/battle/mountain_background.png");
     enemy:AddBattleScript("dat/maps/common/at_night.lua");
-    enemy:AddBattleScript("dat/maps/mt_elbrus/mt_elbrus_script.lua");
+
+    if (GlobalManager:GetEventValue("story", "mt_elbrus_weather_level") > 0) then
+        enemy:AddBattleScript("dat/maps/common/rain_in_battles_script.lua");
+    end
+    if (GlobalManager:GetEventValue("story", "mt_elbrus_weather_level") > 1) then
+        enemy:AddBattleScript("dat/maps/common/soft_lightnings_script.lua");
+    end
 end
 
 -- Map Custom functions

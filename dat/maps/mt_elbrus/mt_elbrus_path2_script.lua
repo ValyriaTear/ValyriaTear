@@ -29,9 +29,6 @@ local orlinn = {};
 -- Name of the main sprite. Used to reload the good one at the end of dialogue events.
 local main_sprite_name = "";
 
--- Rainy ambient sound object, preloaded at map startup
-local rainy_sound = {};
-
 -- the main map loading code
 function Load(m)
 
@@ -58,16 +55,19 @@ function Load(m)
     Map:GetEffectSupervisor():EnableAmbientOverlay("img/ambient/clouds.png", 5.0, 5.0, true);
     Map:GetScriptSupervisor():AddScript("dat/maps/common/at_night.lua");
 
-    -- Preload the rainy sound as it may be triggered through an event after the load time.
-    rainy_sound = vt_map.SoundObject("mus/Ove Melaa - Rainy.ogg", 20.0, 16.0, 100.0);
-
     -- Make the rain starts or the corresponding dialogue according the need
     if (GlobalManager:GetEventValue("story", "mt_elbrus_weather_level") > 0) then
         Map:GetParticleManager():AddParticleEffect("dat/effects/particles/rain.lua", 512.0, 768.0);
         -- Place an omni ambient sound at the center of the map to add a nice rainy effect.
+        local rainy_sound = vt_map.SoundObject("mus/Ove Melaa - Rainy.ogg", 20.0, 16.0, 100.0);
         Map:AddAmbientSoundObject(rainy_sound);
     else
         EventManager:StartEvent("Rain dialogue start", 200);
+    end
+
+    -- Enables thunder if it started.
+    if (GlobalManager:GetEventValue("story", "mt_elbrus_weather_level") > 1) then
+        Map:GetScriptSupervisor():AddScript("dat/maps/common/soft_lightnings_script.lua");
     end
 
 end
@@ -480,7 +480,11 @@ function _SetBattleEnvironment(enemy)
     enemy:SetBattleMusicTheme("mus/heroism-OGA-Edward-J-Blakeley.ogg");
     enemy:SetBattleBackground("img/backdrops/battle/mountain_background.png");
     enemy:AddBattleScript("dat/maps/common/at_night.lua");
-    enemy:AddBattleScript("dat/maps/mt_elbrus/mt_elbrus_script.lua");
+    -- Adds the rain right away as its starting on the first entrance in this map.
+    enemy:AddBattleScript("dat/maps/common/rain_in_battles_script.lua");
+    if (GlobalManager:GetEventValue("story", "mt_elbrus_weather_level") > 1) then
+        enemy:AddBattleScript("dat/maps/common/soft_lightnings_script.lua");
+    end
 end
 
 -- Map Custom functions
@@ -560,6 +564,7 @@ map_functions = {
         GlobalManager:SetEventValue("story", "mt_elbrus_weather_level", 1);
 
         -- Place an omni ambient sound at the center of the map to add a nice rainy effect.
+        local rainy_sound = vt_map.SoundObject("mus/Ove Melaa - Rainy.ogg", 20.0, 16.0, 100.0);
         Map:AddAmbientSoundObject(rainy_sound);
     end,
 }
