@@ -275,7 +275,7 @@ tileset.walkability[15][9] = { 0, 0, 0, 0 }
 tileset.walkability[15][10] = { 0, 0, 0, 0 }
 tileset.walkability[15][11] = { 0, 0, 0, 0 }
 tileset.walkability[15][12] = { 0, 0, 0, 0 }
-tileset.walkability[15][13] = { 0, 0, 0, 0 }
-tileset.walkability[15][14] = { 0, 0, 0, 0 }
+tileset.walkability[15][13] = { 0, 1, 0, 1 }
+tileset.walkability[15][14] = { 1, 0, 1, 0 }
 tileset.walkability[15][15] = { 0, 0, 0, 0 }
 

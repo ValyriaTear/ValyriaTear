@@ -232,6 +232,22 @@ objects["Flower Pot2"] = {
     img_height = 1.75
 }
 
+objects["Gate1 closed"] = {
+    animation_filename = "img/sprites/map/objects/gate1_closed.lua",
+    coll_half_width = 2.0,
+    coll_height = 1.0,
+    img_half_width = 2.0,
+    img_height = 6.0
+}
+
+objects["Gate1 open"] = {
+    animation_filename = "img/sprites/map/objects/gate1_open.lua",
+    coll_half_width = 2.0,
+    coll_height = 1.0,
+    img_half_width = 2.0,
+    img_height = 2.0
+}
+
 objects["Grass Clump1"] = {
     animation_filename = "img/sprites/map/objects/grass_clump1.lua",
     coll_half_width = 2.2,
@@ -350,6 +366,14 @@ objects["Stone Sign1"] = {
    coll_height = 2.18,
    img_half_width = 1.03,
    img_height = 2.18
+}
+
+objects["Stele1"] = {
+   animation_filename = "img/sprites/map/objects/stele1.lua",
+   coll_half_width = 1.0,
+   coll_height = 2.18,
+   img_half_width = 1.06,
+   img_height = 4.0
 }
 
 objects["Table1"] = {

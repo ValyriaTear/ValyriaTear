@@ -1,7 +1,7 @@
 Licenses
 ========
 
-Last update: 2013.08.17
+Last update: 2013.08.22
 
 This file is listing all the files licenses from the point of the fork
 from the Allacrost project.
@@ -732,10 +732,14 @@ img/sprites/map/objects/flower_pot1.lua                         GPLv2+          
 img/sprites/map/objects/flower_pot1.png                         GPLv2+                   Allacrost
 img/sprites/map/objects/flower_pot2.lua                         GPLv2+                   Bertram
 img/sprites/map/objects/flower_pot2.png                         GPLv2+                   Allacrost
+img/sprites/map/objects/gate1_closed.lua                        GPLv2+                   Bertram
+img/sprites/map/objects/gate1_closed.png                        CC by 3.0                Zabin, Hyptosis, and Daniel Cook (OGA) - http://opengameart.org/content/castle-tiles-for-rpgs
+img/sprites/map/objects/gate1_open.lua                          GPLv2+                   Bertram
+img/sprites/map/objects/gate1_open.png                          CC by 3.0                Zabin, Hyptosis, and Daniel Cook (OGA)  - http://opengameart.org/content/castle-tiles-for-rpgs
 img/sprites/map/objects/grass_clump1.lua                        GPLv2+                   Bertram
 img/sprites/map/objects/grass_clump1.png                        CC by SA 3.0             Len + Zabin (OGA) From the mountain_landscape tileset.
 img/sprites/map/objects/layna_statue.lua                        GPLv3                    Bertram
-img/sprites/map/objects/layna_statue.png                        
+img/sprites/map/objects/layna_statue.png
 img/sprites/map/objects/locker.lua                              GPLv2+                   Bertram
 img/sprites/map/objects/locker.png                              GPLv2+                   Allacrost
 img/sprites/map/objects/paper_feather.lua                       GPLv2+                   Bertram
@@ -750,6 +754,8 @@ img/sprites/map/objects/rock3.lua                               GPLv2+          
 img/sprites/map/objects/rock3.png                               CC by 3.0                Daniel Cook
 img/sprites/map/objects/rolling_stone.lua                       GPLv3                    Bertram
 img/sprites/map/objects/rolling_stone.png                       CC by 3.0                Bertram
+img/sprites/map/objects/stele1.lua                              GPLv2+                   Bertram
+img/sprites/map/objects/stele1.png                              CC by SA 3.0             Adapted Circle 2D graphics from Daniel Cook (lostgarden.com)
 img/sprites/map/objects/stone_sign1.lua                         GPLv2+                   Bertram
 img/sprites/map/objects/stone_sign1.png                         CC by 3.0                Daniel Cook + Small edit from Bertram
 img/sprites/map/objects/shroom1.lua                             GPLv2+                   Bertram

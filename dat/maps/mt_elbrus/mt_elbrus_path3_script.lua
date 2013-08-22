@@ -83,7 +83,7 @@ end
 -- Character creation
 function _CreateCharacters()
     -- Default hero and position (from mountain path 2)
-    hero = CreateSprite(Map, "Bronann", 70, 90);
+    hero = CreateSprite(Map, "Bronann", 63, 92.5);
     hero:SetDirection(vt_map.MapMode.NORTH);
     hero:SetMovementSpeed(vt_map.MapMode.NORMAL_SPEED);
     --hero:SetCollisionMask(vt_map.MapMode.NO_COLLISION); -- dev
@@ -128,6 +128,19 @@ end
 -- The heal particle effect map object
 local heal_effect = {};
 
+local north_gate_closed = {}
+local south_gate1_closed = {}
+local south_gate2_closed = {}
+local south_gate3_closed = {}
+local north_gate_open = {}
+local south_gate1_open = {}
+local south_gate2_open = {}
+local south_gate3_open = {}
+local west_gate_stone1 = {}
+local west_gate_stone2 = {}
+local west_gate_stone3 = {}
+local west_gate_stone4 = {}
+
 function _CreateObjects()
     local object = {}
     local npc = {}
@@ -156,20 +169,152 @@ function _CreateObjects()
     npc = CreateObject(Map, "Layna Statue", 60, 70);
     Map:AddGroundObject(npc);
 
-    --[[
+    -- Cemetery gates
+    north_gate_closed = CreateObject(Map, "Gate1 closed", 51, 16);
+    Map:AddGroundObject(north_gate_closed);
+    north_gate_open = CreateObject(Map, "Gate1 open", 51, 12);
+    north_gate_open:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
+    north_gate_open:SetVisible(false);
+    north_gate_open:SetDrawOnSecondPass(true); -- Above the character
+    Map:AddGroundObject(north_gate_open);
+
+    -- The south gate is open at the beginning of the map.
+    south_gate1_closed = CreateObject(Map, "Gate1 closed", 0, 0); -- 63, 68
+    Map:AddGroundObject(south_gate1_closed);
+    south_gate2_closed = CreateObject(Map, "Gate1 closed", 0, 0); -- 67, 68
+    Map:AddGroundObject(south_gate2_closed);
+    south_gate3_closed = CreateObject(Map, "Gate1 closed", 0, 0); -- 71, 68
+    Map:AddGroundObject(south_gate3_closed);
+
+    south_gate1_open = CreateObject(Map, "Gate1 open", 63, 64);
+    south_gate1_open:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
+    south_gate1_open:SetDrawOnSecondPass(true); -- Above the character
+    Map:AddGroundObject(south_gate1_open);
+    south_gate2_open = CreateObject(Map, "Gate1 open", 67, 64);
+    south_gate2_open:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
+    south_gate2_open:SetDrawOnSecondPass(true); -- Above the character
+    Map:AddGroundObject(south_gate2_open);
+    south_gate3_open = CreateObject(Map, "Gate1 open", 71, 64);
+    south_gate3_open:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
+    south_gate3_open:SetDrawOnSecondPass(true); -- Above the character
+    Map:AddGroundObject(south_gate3_open);
+
+    west_gate_stone1 = CreateObject(Map, "Rock2", 41, 18);
+    Map:AddGroundObject(west_gate_stone1);
+    west_gate_stone2 = CreateObject(Map, "Rock2", 41, 20);
+    Map:AddGroundObject(west_gate_stone2);
+    west_gate_stone3 = CreateObject(Map, "Rock2", 41, 22);
+    Map:AddGroundObject(west_gate_stone3);
+    west_gate_stone4 = CreateObject(Map, "Rock2", 41, 24);
+    Map:AddGroundObject(west_gate_stone4);
+
     -- Objects array
     local map_objects = {
 
-        { "Tree Big2", 73, 50 },
-        { "Tree Big1", 61, 62 },
+        { "Tree Big2", 91, 87 },
+        { "Tree Big1", 90, 75 },
+        { "Tree Big2", 77, 72 },
+        { "Tree Big2", 80, 77 },
+        { "Tree Big2", 83, 85 },
 
-        { "Tree Small1", 22.7, 47 },
-        { "Tree Small2", 31, 45 },
+        { "Tree Small1", 67, 78 },
+        { "Tree Big2", 60, 90 },
+
+        { "Tree Big2", 50, 80 },
+        { "Tree Big2", 55, 74.5 },
+        { "Tree Big2", 42, 75 },
+        { "Tree Big2", 38, 43 },
+
+        { "Tree Tiny1", 74, 74 },
+        { "Tree Tiny2", 74, 77 },
+        { "Tree Tiny3", 74, 80 },
+        { "Tree Tiny4", 74, 83 },
+        { "Tree Tiny3", 74, 87 },
+        { "Tree Tiny3", 74, 90 },
+        { "Tree Tiny2", 73, 93 },
+
+        { "Tree Tiny4", 55, 90 },
+        { "Tree Tiny2", 57, 87 },
+        { "Tree Tiny3", 59, 76 },
+        { "Tree Tiny1", 59, 73 },
 
 
-        { "Rock1", 37, 19.5 },
-        { "Rock2", 40, 29 },
+        { "Rock2", 73, 75 },
+        { "Rock2", 73, 78 },
+        { "Rock2", 73, 81 },
+        { "Rock2", 73, 88 },
+        { "Rock2", 72, 91 },
 
+        { "Rock1", 54, 91 },
+        { "Rock2", 57, 88 },
+        { "Rock2", 58, 85 },
+        { "Rock2", 60, 74 },
+
+        { "Rock1", 78, 89 },
+        { "Rock1", 84, 86 },
+        { "Rock1", 81, 70 },
+        { "Rock1", 49, 86 },
+        { "Rock1", 44, 78 },
+        { "Rock1", 53, 70 },
+        { "Rock1", 10, 48 },
+        { "Rock1", 15, 54 },
+        { "Rock1", 9, 65 },
+        { "Rock1", 23, 63 },
+        { "Rock1", 33, 54 },
+        { "Rock1", 5, 35 },
+        { "Rock1", 2, 37 },
+
+        -- blocking east cemetery exit
+        { "Rock2", 93, 32 },
+        { "Rock2", 93, 34 },
+        { "Rock2", 93, 36 },
+        { "Rock2", 93, 38 },
+        { "Rock2", 93, 40 },
+        { "Rock2", 95, 32 },
+        { "Rock2", 95, 34 },
+        { "Rock2", 95, 36 },
+        { "Rock2", 95, 38 },
+        { "Rock2", 95, 40 },
+
+        { "Rock2", 59, 19 },
+        { "Rock2", 77, 19 },
+        { "Rock2", 71, 12 },
+        { "Rock2", 79, 12 },
+
+        -- The steles
+        { "Stele1", 50, 52 },
+        { "Stele1", 54, 52 },
+        { "Stele1", 58, 52 },
+        { "Stele1", 62, 52 },
+        { "Stele1", 50, 44 },
+        { "Stele1", 54, 44 },
+        { "Stele1", 58, 44 },
+        { "Stele1", 62, 44 },
+        { "Stele1", 50, 36 },
+        { "Stele1", 54, 36 },
+        { "Stele1", 58, 36 },
+        { "Stele1", 62, 36 },
+        { "Stele1", 50, 28 },
+        { "Stele1", 54, 28 },
+        { "Stele1", 58, 28 },
+        { "Stele1", 62, 28 },
+
+        { "Stele1", 74, 28 },
+        { "Stele1", 78, 28 },
+        { "Stele1", 82, 28 },
+        { "Stele1", 86, 28 },
+        { "Stele1", 74, 36 },
+        { "Stele1", 78, 36 },
+        { "Stele1", 82, 36 },
+        { "Stele1", 86, 36 },
+        { "Stele1", 74, 44 },
+        { "Stele1", 78, 44 },
+        { "Stele1", 82, 44 },
+        { "Stele1", 86, 44 },
+        { "Stele1", 74, 52 },
+        { "Stele1", 78, 52 },
+        { "Stele1", 82, 52 },
+        { "Stele1", 86, 52 },
     }
 
     -- Loads the trees according to the array
@@ -182,7 +327,29 @@ function _CreateObjects()
     -- grass array
     local map_grass = {
         --  right border
-        { "Grass Clump1", 27, 55 },
+        { "Grass Clump1", 59.5, 71 },
+        { "Grass Clump1", 91, 76 },
+        { "Grass Clump1", 42, 69 },
+        { "Grass Clump1", 95, 69.2 },
+        { "Grass Clump1", 85, 87 },
+        { "Grass Clump1", 73, 69 },
+        { "Grass Clump1", 70, 76 },
+        { "Grass Clump1", 64, 72 },
+        { "Grass Clump1", 63, 86 },
+        { "Grass Clump1", 53, 87.5 },
+        { "Grass Clump1", 40, 71.5 },
+        { "Grass Clump1", 37, 53 },
+        { "Grass Clump1", 31, 52 },
+        { "Grass Clump1", 52, 73 },
+        { "Grass Clump1", 28, 43 },
+        { "Grass Clump1", 15.5, 37 },
+        { "Grass Clump1", 9, 38 },
+        { "Grass Clump1", 11, 49 },
+        { "Grass Clump1", 14, 56 },
+        { "Grass Clump1", 5.5, 81 },
+        { "Grass Clump1", 13, 78 },
+        { "Grass Clump1", 86, 11 },
+        { "Grass Clump1", 89, 11.2 },
 
     }
 
@@ -193,7 +360,7 @@ function _CreateObjects()
         object:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
         Map:AddGroundObject(object);
     end
-]]--
+
 end
 
 function _CreateEnemies()
@@ -237,10 +404,10 @@ function _CreateEnemies()
 end
 
 -- Special event references which destinations must be updated just before being called.
-local kalya_move_next_to_hero_event = {}
-local kalya_move_back_to_hero_event = {}
-local orlinn_move_next_to_hero_event = {}
-local orlinn_move_back_to_hero_event = {}
+local kalya_move_next_to_hero_event1 = {}
+local kalya_move_back_to_hero_event1 = {}
+local orlinn_move_next_to_hero_event1 = {}
+local orlinn_move_back_to_hero_event1 = {}
 
 -- Creates all events and sets up the entire event sequence chain
 function _CreateEvents()
@@ -267,23 +434,76 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
     event = vt_map.ChangeDirectionSpriteEvent("Kalya looks north", kalya, vt_map.MapMode.NORTH);
     EventManager:RegisterEvent(event);
-    event = vt_map.ChangeDirectionSpriteEvent("Kalya looks north", kalya, vt_map.MapMode.SOUTH);
-    EventManager:RegisterEvent(event);
-    event = vt_map.LookAtSpriteEvent("Kalya looks at Orlinn", kalya, orlinn);
-    EventManager:RegisterEvent(event);
-    event = vt_map.LookAtSpriteEvent("Orlinn looks at Kalya", orlinn, kalya);
+    event = vt_map.ChangeDirectionSpriteEvent("Kalya looks south", kalya, vt_map.MapMode.SOUTH);
     EventManager:RegisterEvent(event);
     event = vt_map.ChangeDirectionSpriteEvent("Kalya looks west", kalya, vt_map.MapMode.WEST);
     EventManager:RegisterEvent(event);
     event = vt_map.ChangeDirectionSpriteEvent("Orlinn looks north", orlinn, vt_map.MapMode.NORTH);
     EventManager:RegisterEvent(event);
+    event = vt_map.LookAtSpriteEvent("Kalya looks at Bronann", kalya, hero);
+    EventManager:RegisterEvent(event);
+    event = vt_map.LookAtSpriteEvent("Orlinn looks at Kalya", orlinn, kalya);
+    EventManager:RegisterEvent(event);
 
+    event = vt_map.ScriptedEvent("Set scene state for dialogue about cemetery entrance", "cemetery_dialogue_set_scene_state", "");
+    event:AddEventLinkAtEnd("The hero moves to a good watch point");
+    EventManager:RegisterEvent(event);
+
+    event = vt_map.PathMoveSpriteEvent("The hero moves to a good watch point", hero, 67, 73, false);
+    event:AddEventLinkAtEnd("Kalya tells about the cemetery");
+    EventManager:RegisterEvent(event);
+
+    event = vt_map.ScriptedEvent("Kalya tells about the cemetery", "kalya_cemetery_dialogue_start", "");
+    event:AddEventLinkAtEnd("Kalya moves next to Bronann1", 100);
+    event:AddEventLinkAtEnd("Orlinn moves next to Bronann1", 100);
+    EventManager:RegisterEvent(event);
+
+    -- NOTE: The actual destination is set just before the actual start call
+    kalya_move_next_to_hero_event1 = vt_map.PathMoveSpriteEvent("Kalya moves next to Bronann1", kalya, 0, 0, false);
+    kalya_move_next_to_hero_event1:AddEventLinkAtEnd("Kalya looks north");
+    kalya_move_next_to_hero_event1:AddEventLinkAtEnd("Bronann looks north");
+    kalya_move_next_to_hero_event1:AddEventLinkAtEnd("Kalya talks about the cemetery");
+    EventManager:RegisterEvent(kalya_move_next_to_hero_event1);
+    orlinn_move_next_to_hero_event1 = vt_map.PathMoveSpriteEvent("Orlinn moves next to Bronann1", orlinn, 0, 0, false);
+    orlinn_move_next_to_hero_event1:AddEventLinkAtEnd("Orlinn looks north");
+    EventManager:RegisterEvent(orlinn_move_next_to_hero_event1);
+
+    dialogue = vt_map.SpriteDialogue();
+    text = vt_system.Translate("This place is the village old cemetery, when the former villagers lived in Layna...");
+    dialogue:AddLine(text, kalya);
+    text = vt_system.Translate("The former villagers? What do you mean?");
+    dialogue:AddLineEmote(text, hero, "exclamation");
+    text = vt_system.Translate("Well, the Layna Village was abandoned a long time ago, before your parents and all the others came living there... Your mother never told you that?");
+    dialogue:AddLineEventEmote(text, kalya, "Kalya looks at Bronann", "", "thinking dots");
+    text = vt_system.Translate("I've never been further alone before... This place gives me the chill...");
+    dialogue:AddLineEvent(text, kalya, "Kalya looks north", "");
+    text = vt_system.Translate("Yiek!");
+    dialogue:AddLine(text, orlinn);
+    text = vt_system.Translate("Anyway, once the cemetery is behind us, we should be out of trouble!");
+    dialogue:AddLine(text, kalya);
+    DialogueManager:AddDialogue(dialogue);
+    event = vt_map.DialogueEvent("Kalya talks about the cemetery", dialogue);
+    event:AddEventLinkAtEnd("Orlinn goes back to party");
+    event:AddEventLinkAtEnd("Kalya goes back to party");
+    EventManager:RegisterEvent(event);
+
+    orlinn_move_back_to_hero_event1 = vt_map.PathMoveSpriteEvent("Orlinn goes back to party", orlinn, hero, false);
+    EventManager:RegisterEvent(orlinn_move_back_to_hero_event1);
+
+    kalya_move_back_to_hero_event1 = vt_map.PathMoveSpriteEvent("Kalya goes back to party", kalya, hero, false);
+    kalya_move_back_to_hero_event1:AddEventLinkAtEnd("End of dialogue about the cemetery");
+    EventManager:RegisterEvent(kalya_move_back_to_hero_event1);
+
+    event = vt_map.ScriptedEvent("End of dialogue about the cemetery", "end_of_dialogue_about_cemetery", "");
+    EventManager:RegisterEvent(event);
 end
 
 -- zones
 local to_path4_zone = {};
 local to_path2_zone = {};
 local to_path2_bis_zone = {};
+
+local cemetery_entrance_dialogue_zone = {};
 
 -- Create the different map zones triggering events
 function _CreateZones()
@@ -295,6 +515,10 @@ function _CreateZones()
     Map:AddZone(to_path2_zone);
     to_path2_bis_zone = vt_map.CameraZone(1, 23, 94, 96);
     Map:AddZone(to_path2_bis_zone);
+
+    -- event zones
+    cemetery_entrance_dialogue_zone = vt_map.CameraZone(61, 74, 71, 73);
+    Map:AddZone(cemetery_entrance_dialogue_zone);
 
 end
 
@@ -309,6 +533,11 @@ function _CheckZones()
     elseif (to_path2_bis_zone:IsCameraEntering() == true) then
         hero:SetMoving(false);
         EventManager:StartEvent("to mountain path 2bis");
+    elseif (cemetery_entrance_dialogue_zone:IsCameraEntering() == true and Map:CurrentState() ~= vt_map.MapMode.STATE_SCENE) then
+        if (GlobalManager:GetEventValue("story", "mt_elbrus_kalya_cemetery_entrance_dialogue") == 0) then
+            hero:SetMoving(false);
+            EventManager:StartEvent("Set scene state for dialogue about cemetery entrance");
+        end
     end
 end
 
@@ -363,5 +592,43 @@ map_functions = {
             return false;
         end
         return true;
+    end,
+
+    cemetery_dialogue_set_scene_state = function()
+        Map:PushState(vt_map.MapMode.STATE_SCENE);
+    end,
+
+    kalya_cemetery_dialogue_start = function()
+        -- Keep a reference of the correct sprite for the event end.
+        main_sprite_name = hero:GetSpriteName();
+
+        -- Make the hero be Bronann for the event.
+        hero:ReloadSprite("Bronann");
+
+        kalya:SetPosition(hero:GetXPosition(), hero:GetYPosition());
+        kalya:SetVisible(true);
+        orlinn:SetPosition(hero:GetXPosition(), hero:GetYPosition());
+        orlinn:SetVisible(true);
+        kalya:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
+        orlinn:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
+
+        kalya_move_next_to_hero_event1:SetDestination(hero:GetXPosition() + 2.0, hero:GetYPosition(), false);
+        orlinn_move_next_to_hero_event1:SetDestination(hero:GetXPosition() - 2.0, hero:GetYPosition(), false);
+    end,
+
+    end_of_dialogue_about_cemetery = function()
+        Map:PopState();
+        kalya:SetPosition(0, 0);
+        kalya:SetVisible(false);
+        kalya:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
+        orlinn:SetPosition(0, 0);
+        orlinn:SetVisible(false);
+        orlinn:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
+
+        -- Reload the hero back to default
+        hero:ReloadSprite(main_sprite_name);
+
+        -- Set event as done
+        GlobalManager:SetEventValue("story", "mt_elbrus_kalya_cemetery_entrance_dialogue", 1);
     end,
 }
