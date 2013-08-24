@@ -142,11 +142,19 @@ local west_gate_stone2 = {}
 local west_gate_stone3 = {}
 local west_gate_stone4 = {}
 
+local harlequin1 = {}
+local harlequin2 = {}
+local harlequin3 = {}
+local harlequin_focus = {}
+
+local harlequin_beaten_time = 0;
+
 function _CreateObjects()
     local object = {}
     local npc = {}
     local dialogue = {}
     local text = {}
+    local event = {}
 
     Map:AddSavePoint(85, 81);
 
@@ -209,6 +217,38 @@ function _CreateObjects()
     west_gate_stone4 = CreateObject(Map, "Rock2", 41, 24);
     Map:AddGroundObject(west_gate_stone4);
 
+    harlequin1 = CreateObject(Map, "Harlequin", 0, 0);
+    harlequin1:SetEventWhenTalking("Fake Harlequin battle");
+    Map:AddGroundObject(harlequin1);
+    harlequin2 = CreateObject(Map, "Harlequin", 0, 0);
+    harlequin2:SetEventWhenTalking("Fake Harlequin battle");
+    Map:AddGroundObject(harlequin2);
+    harlequin3 = CreateObject(Map, "Harlequin", 0, 0);
+    harlequin3:SetEventWhenTalking("Fake Harlequin battle");
+    Map:AddGroundObject(harlequin3);
+    -- Harlequin must be beaten third times before being actually fighteable
+    harlequin_beaten_time = 0;
+
+    event = vt_map.BattleEncounterEvent("Fake Harlequin battle");
+    event:AddEnemy(13, 512, 484); -- Harlequin
+    event:AddEnemy(12, 470, 384); -- Eyeballs
+    event:AddEnemy(12, 380, 500); -- Eyeballs
+    event:AddEnemy(12, 650, 484); -- Eyeballs
+    event:AddEnemy(12, 570, 584); -- Eyeballs
+    event:AddEnemy(12, 450, 624); -- Eyeballs
+    _SetEventBattleEnvironment(event);
+    event:AddEventLinkAtEnd("Increase Harlequin beaten time");
+    EventManager:RegisterEvent(event);
+    event = vt_map.ScriptedEvent("Increase Harlequin beaten time", "increase_harlequin_beaten_time", "");
+    EventManager:RegisterEvent(event);
+
+    --harlequin virtual focus
+    harlequin_focus = CreateSprite(Map, "Butterfly", 68, 24);
+    harlequin_focus:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
+    harlequin_focus:SetVisible(false);
+    harlequin_focus:SetName(vt_system.Translate("Harlequin")); -- Set the corresponding name
+    Map:AddGroundObject(harlequin_focus);
+
     -- Objects array
     local map_objects = {
 
@@ -229,8 +269,6 @@ function _CreateObjects()
         { "Tree Tiny1", 74, 74 },
         { "Tree Tiny2", 74, 77 },
         { "Tree Tiny3", 74, 80 },
-        { "Tree Tiny4", 74, 83 },
-        { "Tree Tiny3", 74, 87 },
         { "Tree Tiny3", 74, 90 },
         { "Tree Tiny2", 73, 93 },
 
@@ -373,6 +411,8 @@ function _CloseSouthGate()
     south_gate1_open:SetVisible(false);
     south_gate2_open:SetVisible(false);
     south_gate3_open:SetVisible(false);
+
+    --TODO: Add gate closing sound
 end
 
 -- A function opening the north cemetery gate
@@ -462,6 +502,8 @@ function _CreateEvents()
     -- sprite direction events
     event = vt_map.ChangeDirectionSpriteEvent("Bronann looks north", hero, vt_map.MapMode.NORTH);
     EventManager:RegisterEvent(event);
+    event = vt_map.ChangeDirectionSpriteEvent("Bronann looks south", hero, vt_map.MapMode.SOUTH);
+    EventManager:RegisterEvent(event);
     event = vt_map.ChangeDirectionSpriteEvent("Kalya looks north", kalya, vt_map.MapMode.NORTH);
     EventManager:RegisterEvent(event);
     event = vt_map.ChangeDirectionSpriteEvent("Kalya looks south", kalya, vt_map.MapMode.SOUTH);
@@ -475,7 +517,8 @@ function _CreateEvents()
     event = vt_map.LookAtSpriteEvent("Orlinn looks at Kalya", orlinn, kalya);
     EventManager:RegisterEvent(event);
 
-    event = vt_map.ScriptedEvent("Set scene state for dialogue about cemetery entrance", "cemetery_dialogue_set_scene_state", "");
+    -- cemetery entrance scene
+    event = vt_map.ScriptedEvent("Set scene state for dialogue about cemetery entrance", "set_scene_state", "");
     event:AddEventLinkAtEnd("The hero moves to a good watch point");
     EventManager:RegisterEvent(event);
 
@@ -526,6 +569,66 @@ function _CreateEvents()
 
     event = vt_map.ScriptedEvent("End of dialogue about the cemetery", "end_of_dialogue_about_cemetery", "");
     EventManager:RegisterEvent(event);
+
+    -- trapped event!
+    event = vt_map.ScriptedEvent("Prepare trapped event", "set_scene_state", "");
+    event:AddEventLinkAtEnd("The hero notices about the gate");
+    EventManager:RegisterEvent(event);
+
+    dialogue = vt_map.SpriteDialogue();
+    text = vt_system.Translate("Oh no! the gate!");
+    dialogue:AddLineEventEmote(text, hero, "Bronann looks south", "", "exclamation");
+    DialogueManager:AddDialogue(dialogue);
+    event = vt_map.DialogueEvent("The hero notices about the gate", dialogue);
+    event:AddEventLinkAtEnd("The hero rushes to the gate");
+    EventManager:RegisterEvent(event);
+
+    event = vt_map.PathMoveSpriteEvent("The hero rushes to the gate", hero, 67, 66.5, true);
+    event:AddEventLinkAtEnd("The hero is trapped");
+    EventManager:RegisterEvent(event);
+
+    dialogue = vt_map.SpriteDialogue();
+    text = vt_system.Translate("We're trapped!");
+    dialogue:AddLine(text, hero);
+    DialogueManager:AddDialogue(dialogue);
+    event = vt_map.DialogueEvent("The hero is trapped", dialogue);
+    event:AddEventLinkAtEnd("Harlequin talks to the hero");
+    EventManager:RegisterEvent(event);
+
+    dialogue = vt_map.SpriteDialogue();
+    text = vt_system.Translate("You're mine now!");
+    dialogue:AddLine(text, harlequin_focus);
+    DialogueManager:AddDialogue(dialogue);
+    event = vt_map.DialogueEvent("Harlequin talks to the hero", dialogue);
+    event:AddEventLinkAtEnd("The hero is surprised");
+    EventManager:RegisterEvent(event);
+
+    event = vt_map.ScriptedEvent("The hero is surprised", "hero_exclamation", "");
+    event:AddEventLinkAtEnd("Bronann looks north");
+    event:AddEventLinkAtEnd("Set the focus on Harlequin");
+    EventManager:RegisterEvent(event);
+
+    event = vt_map.ScriptedEvent("Set the focus on Harlequin", "set_focus_on_harlequin", "set_focus_update");
+    event:AddEventLinkAtEnd("Harlequin talks to the hero 2");
+    EventManager:RegisterEvent(event);
+
+    dialogue = vt_map.SpriteDialogue();
+    text = vt_system.Translate("I shall bring your spirits to the master.");
+    dialogue:AddLine(text, harlequin_focus);
+    text = vt_system.Translate("But let's play together first, shall we?");
+    dialogue:AddLine(text, harlequin_focus);
+    DialogueManager:AddDialogue(dialogue);
+    event = vt_map.DialogueEvent("Harlequin talks to the hero 2", dialogue);
+    event:AddEventLinkAtEnd("Set the focus back on hero");
+    EventManager:RegisterEvent(event);
+
+    event = vt_map.ScriptedEvent("Set the focus back on hero", "set_focus_on_hero", "set_focus_update");
+    event:AddEventLinkAtEnd("End of trapped Dialogue");
+    EventManager:RegisterEvent(event);
+
+    event = vt_map.ScriptedEvent("End of trapped Dialogue", "end_of_trap_dialogue", "");
+    event:AddEventLinkAtEnd("Make the Harlequin move");
+    EventManager:RegisterEvent(event);
 end
 
 -- zones
@@ -575,11 +678,8 @@ function _CheckZones()
     elseif (cemetery_gates_closed_zone:IsCameraEntering() == true and Map:CurrentState() ~= vt_map.MapMode.STATE_SCENE) then
         if (GlobalManager:GetEventValue("story", "mt_elbrus_cemetery_south_gate_closed") == 0) then
             hero:SetMoving(false);
-            -- TODO: Add the full event
             _CloseSouthGate();
-            _CreateEnemies();
-            GlobalManager:SetEventValue("story", "mt_elbrus_cemetery_south_gate_closed", 1);
-            --EventManager:StartEvent("Set scene state for dialogue about cemetery entrance");
+            EventManager:StartEvent("Prepare trapped event");
         end
     end
 
@@ -597,6 +697,18 @@ function _SetBattleEnvironment(enemy)
     end
     if (GlobalManager:GetEventValue("story", "mt_elbrus_weather_level") > 1) then
         enemy:AddBattleScript("dat/maps/common/soft_lightnings_script.lua");
+    end
+end
+function _SetEventBattleEnvironment(event)
+    event:SetMusic("mus/heroism-OGA-Edward-J-Blakeley.ogg");
+    event:SetBackground("img/backdrops/battle/mountain_background.png");
+    event:AddScript("dat/maps/common/at_night.lua");
+
+    if (GlobalManager:GetEventValue("story", "mt_elbrus_weather_level") > 0) then
+        event:AddScript("dat/maps/common/rain_in_battles_script.lua");
+    end
+    if (GlobalManager:GetEventValue("story", "mt_elbrus_weather_level") > 1) then
+        event:AddScript("dat/maps/common/soft_lightnings_script.lua");
     end
 end
 
@@ -638,7 +750,7 @@ map_functions = {
         return true;
     end,
 
-    cemetery_dialogue_set_scene_state = function()
+    set_scene_state = function()
         Map:PushState(vt_map.MapMode.STATE_SCENE);
     end,
 
@@ -674,5 +786,42 @@ map_functions = {
 
         -- Set event as done
         GlobalManager:SetEventValue("story", "mt_elbrus_kalya_cemetery_entrance_dialogue", 1);
+    end,
+
+    hero_exclamation = function()
+        hero:Emote("exclamation", hero:GetDirection());
+    end,
+
+    set_focus_on_harlequin = function()
+        Map:SetCamera(harlequin_focus, 2000);
+        harlequin1:SetPosition(68, 24);
+        harlequin1:SetVisible(true);
+    end,
+    set_focus_update = function()
+        if (Map:IsCameraMoving() == true) then
+            return false;
+        end
+        return true;
+    end,
+
+    set_focus_on_hero = function()
+        Map:SetCamera(hero, 2000);
+    end,
+
+    end_of_trap_dialogue = function()
+        Map:PopState();
+        _CreateEnemies();
+
+        -- TODO: Make the harlequins teleport each X seconds
+        harlequin1:SetPosition(52, 21);
+        harlequin2:SetPosition(85, 18);
+        harlequin3:SetPosition(56, 38);
+
+        -- Set event as done
+        GlobalManager:SetEventValue("story", "mt_elbrus_cemetery_south_gate_closed", 1);
+    end,
+
+    increase_harlequin_beaten_time = function()
+        harlequin_beaten_time = harlequin_beaten_time + 1;
     end,
 }

@@ -264,6 +264,14 @@ objects["Green Pepper1"] = {
     img_height = 2.0
 }
 
+objects["Harlequin"] = {
+    animation_filename = "img/sprites/map/objects/harlequin.lua",
+    coll_half_width = 2.3,
+    coll_height = 2.0,
+    img_half_width = 2.46,
+    img_height = 5.8
+}
+
 objects["Knife1"] = {
     animation_filename = "img/sprites/map/objects/knife1.lua",
     coll_half_width = 1.0,

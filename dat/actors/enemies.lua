@@ -658,6 +658,50 @@ enemies[12] = {
 
     attack_points = {
         [1] = {
+            name = vt_system.Translate("Eye"),
+            x_position = 0,
+            y_position = 95,
+            fortitude_modifier = 0.2,
+            protection_modifier = 0.0,
+            evade_modifier = 0.1
+        },
+    },
+
+    skills = {
+        1007  -- HP drain
+    },
+
+    drop_objects = {
+        { 1, 0.15 },  -- Minor Healing Potion
+    }
+}
+
+enemies[13] = {
+    name = vt_system.Translate("Harlequin I"),
+    stamina_icon = "img/icons/actors/enemies/harlequin.png",
+
+    battle_animations = {
+        [HURT_NONE] = "img/sprites/battle/enemies/harlequin_0.lua",
+        [HURT_SLIGHTLY] = "img/sprites/battle/enemies/harlequin_0.lua",
+        [HURT_MEDIUM] = "img/sprites/battle/enemies/harlequin_0.lua",
+        [HURT_HEAVILY] = "img/sprites/battle/enemies/harlequin_0.lua"
+    },
+    -- TODO: balance
+    base_stats = {
+        hit_points = 75,
+        skill_points = 10,
+        strength = 22,
+        vigor = 20,
+        fortitude = 10,
+        protection = 8,
+        agility = 35,
+        evade = 6.0,
+        experience_points = 31,
+        drunes = 14
+    },
+
+    attack_points = {
+        [1] = {
             name = vt_system.Translate("Torso"),
             x_position = 0,
             y_position = 95,
