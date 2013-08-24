@@ -1171,6 +1171,7 @@ EnemySprite::EnemySprite() :
     _aggro_range(8.0f),
     _time_before_new_destination(1200),
     _time_to_spawn(STANDARD_ENEMY_FIRST_SPAWN_TIME),
+    _time_to_respawn(STANDARD_ENEMY_SPAWN_TIME),
     _out_of_zone(false),
     _is_boss(false),
     _use_path(false)
@@ -1234,8 +1235,8 @@ void EnemySprite::ChangeStateHostile()
     _state = HOSTILE;
     collision_mask = WALL_COLLISION | CHARACTER_COLLISION;
     _color.SetAlpha(1.0);
-    // The next spawn time will be longer than the first one.
-    _time_to_spawn = STANDARD_ENEMY_SPAWN_TIME;
+    // Set the next spawn time, usually longer than the first one.
+    _time_to_spawn = _time_to_respawn;
 }
 
 void EnemySprite::Update()

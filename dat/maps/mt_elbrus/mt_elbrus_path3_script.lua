@@ -41,7 +41,8 @@ function Load(m)
 
     _CreateCharacters();
     _CreateObjects();
-    _CreateEnemies();
+    -- Called after the gates are closed
+    --_CreateEnemies();
 
     -- Set the camera focus on hero
     Map:SetCamera(hero);
@@ -363,44 +364,73 @@ function _CreateObjects()
 
 end
 
+-- A function closing the south cemetery gate
+function _CloseSouthGate()
+    south_gate1_closed:SetPosition(63, 68);
+    south_gate2_closed:SetPosition(67, 68);
+    south_gate3_closed:SetPosition(71, 68);
+
+    south_gate1_open:SetVisible(false);
+    south_gate2_open:SetVisible(false);
+    south_gate3_open:SetVisible(false);
+end
+
+-- A function opening the north cemetery gate
+function _OpenNorthGate()
+
+end
+
 function _CreateEnemies()
     local enemy = {};
     local roam_zone = {};
---[[
+
     -- Hint: left, right, top, bottom
-    roam_zone = vt_map.EnemyZone(28, 47, 22, 38);
-    -- Dark soldier 3
-    enemy = CreateEnemySprite(Map, "Dark Soldier");
+    roam_zone = vt_map.EnemyZone(65, 68, 32, 36);
+    -- Some bats
+    enemy = CreateEnemySprite(Map, "Eyeball");
     _SetBattleEnvironment(enemy);
-    -- Add special timer script
-    enemy:AddBattleScript("dat/maps/mt_elbrus/battle_with_dark_soldiers_script.lua");
+    -- Adds a quicker respawn time
+    enemy:SetTimeToRespawn(3000)
     enemy:NewEnemyParty();
-    enemy:AddEnemy(9);
-    roam_zone:AddEnemy(enemy, Map, 1);
-    roam_zone:SetSpawnsLeft(1); -- This monster shall spawn only one time.
-    enemy:AddWayPoint(29, 23);
-    enemy:AddWayPoint(46, 23);
-    enemy:AddWayPoint(46, 37);
-    enemy:AddWayPoint(29, 37);
+    enemy:AddEnemy(12);
+    enemy:AddEnemy(12);
+    enemy:AddEnemy(12);
+    enemy:AddEnemy(12);
+    enemy:AddEnemy(12);
+    roam_zone:AddEnemy(enemy, Map, 2);
     Map:AddZone(roam_zone);
 
     -- Hint: left, right, top, bottom
-    roam_zone = vt_map.EnemyZone(10, 21, 86, 92);
+    roam_zone = vt_map.EnemyZone(45, 48, 32, 36);
     -- Some bats
-    enemy = CreateEnemySprite(Map, "bat");
+    enemy = CreateEnemySprite(Map, "Eyeball");
     _SetBattleEnvironment(enemy);
+    -- Adds a quicker respawn time
+    enemy:SetTimeToRespawn(3000)
     enemy:NewEnemyParty();
-    enemy:AddEnemy(6);
-    enemy:AddEnemy(6);
-    enemy:AddEnemy(6);
-    enemy:NewEnemyParty();
-    enemy:AddEnemy(6);
-    enemy:AddEnemy(4);
-    enemy:AddEnemy(4);
-    enemy:AddEnemy(6);
-    roam_zone:AddEnemy(enemy, Map, 1);
+    enemy:AddEnemy(12);
+    enemy:AddEnemy(12);
+    enemy:AddEnemy(12);
+    enemy:AddEnemy(12);
+    enemy:AddEnemy(12);
+    roam_zone:AddEnemy(enemy, Map, 2);
     Map:AddZone(roam_zone);
-]]--
+
+    -- Hint: left, right, top, bottom
+    roam_zone = vt_map.EnemyZone(87, 90, 32, 36);
+    -- Some bats
+    enemy = CreateEnemySprite(Map, "Eyeball");
+    _SetBattleEnvironment(enemy);
+    -- Adds a quicker respawn time
+    enemy:SetTimeToRespawn(3000)
+    enemy:NewEnemyParty();
+    enemy:AddEnemy(12);
+    enemy:AddEnemy(12);
+    enemy:AddEnemy(12);
+    enemy:AddEnemy(12);
+    enemy:AddEnemy(12);
+    roam_zone:AddEnemy(enemy, Map, 2);
+    Map:AddZone(roam_zone);
 end
 
 -- Special event references which destinations must be updated just before being called.
@@ -504,6 +534,7 @@ local to_path2_zone = {};
 local to_path2_bis_zone = {};
 
 local cemetery_entrance_dialogue_zone = {};
+local cemetery_gates_closed_zone = {};
 
 -- Create the different map zones triggering events
 function _CreateZones()
@@ -519,6 +550,9 @@ function _CreateZones()
     -- event zones
     cemetery_entrance_dialogue_zone = vt_map.CameraZone(61, 74, 71, 73);
     Map:AddZone(cemetery_entrance_dialogue_zone);
+    -- cemetery gates closed
+    cemetery_gates_closed_zone = vt_map.CameraZone(44, 92, 52, 54);
+    Map:AddZone(cemetery_gates_closed_zone);
 
 end
 
@@ -538,7 +572,17 @@ function _CheckZones()
             hero:SetMoving(false);
             EventManager:StartEvent("Set scene state for dialogue about cemetery entrance");
         end
+    elseif (cemetery_gates_closed_zone:IsCameraEntering() == true and Map:CurrentState() ~= vt_map.MapMode.STATE_SCENE) then
+        if (GlobalManager:GetEventValue("story", "mt_elbrus_cemetery_south_gate_closed") == 0) then
+            hero:SetMoving(false);
+            -- TODO: Add the full event
+            _CloseSouthGate();
+            _CreateEnemies();
+            GlobalManager:SetEventValue("story", "mt_elbrus_cemetery_south_gate_closed", 1);
+            --EventManager:StartEvent("Set scene state for dialogue about cemetery entrance");
+        end
     end
+
 end
 
 -- Sets common battle environment settings for enemy sprites

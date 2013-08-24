@@ -478,6 +478,22 @@ sprites["Shroom"] = {
     }
 }
 
+sprites["Eyeball"] = {
+    name = vt_system.Translate("Eyeball"),
+    coll_half_width = 0.9,
+    coll_height = 1.9,
+    img_half_width = 1.25,
+    img_height = 2.6,
+    movement_speed = ENEMY_SPEED,
+    --face_portrait = "",
+
+    -- using special animation files.
+    standard_animations = {
+        idle = "img/sprites/map/enemies/eyeball_idle.lua",
+        walk = "img/sprites/map/enemies/eyeball_walk.lua"
+    },
+}
+
 
 
 function CreateSprite(Map, name, x, y)

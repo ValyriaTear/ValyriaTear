@@ -639,8 +639,8 @@ public:
         _time_before_new_destination = time;
     }
 
-    void SetTimeToSpawn(uint32 time) {
-        _time_to_spawn = time;
+    void SetTimeToRespawn(uint32 time) {
+        _time_to_respawn = time;
     }
 
     void SetBoss(bool is_boss) {
@@ -697,8 +697,11 @@ private:
     //! \brief Tells the time the sprite is waiting before going to a new destination.
     uint32 _time_before_new_destination;
 
-    //! \brief Tells the time in milliseconds the sprite will use to respawn. This will set up the fade in speed.
+    //! \brief Tells the actual time in milliseconds the sprite will use to respawn. This will set up the fade in speed.
     uint32 _time_to_spawn;
+
+    // the default time used to respawn (Set to STANDARD_ENEMY_SPAWN_TIME by default)
+    uint32 _time_to_respawn;
 
     //! \brief Indicates if the enemy is outside of its zone. If it is, it won't change direction until it gets back in.
     bool _out_of_zone;
