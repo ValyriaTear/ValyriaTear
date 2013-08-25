@@ -73,12 +73,19 @@ function Load(m)
         Map:GetScriptSupervisor():AddScript("dat/maps/common/soft_lightnings_script.lua");
     end
 
+    -- Preload special sounds
+    AudioManager:LoadSound("snd/crystal_chime.wav", Map);
+    AudioManager:LoadSound("snd/opening_sword_unsheathe.wav", Map);
+    AudioManager:LoadMusic("mus/Welcome to Com-Mecha-Mattew_Pablo_OGA.ogg", Map);
+
 end
 
 -- the map update function handles checks done on each game tick.
 function Update()
     -- Check whether the character is in one of the zones
     _CheckZones();
+    -- Check the first half battle part
+    _CheckHarlequinsStatus()
 end
 
 -- Character creation
@@ -87,7 +94,6 @@ function _CreateCharacters()
     hero = CreateSprite(Map, "Bronann", 63, 92.5);
     hero:SetDirection(vt_map.MapMode.NORTH);
     hero:SetMovementSpeed(vt_map.MapMode.NORMAL_SPEED);
-    --hero:SetCollisionMask(vt_map.MapMode.NO_COLLISION); -- dev
 
     -- Load previous save point data
     local x_position = GlobalManager:GetSaveLocationX();
@@ -218,16 +224,26 @@ function _CreateObjects()
     Map:AddGroundObject(west_gate_stone4);
 
     harlequin1 = CreateObject(Map, "Harlequin", 0, 0);
-    harlequin1:SetEventWhenTalking("Fake Harlequin battle");
+    harlequin1:SetEventWhenTalking("Make Harlequin1 disappear");
     Map:AddGroundObject(harlequin1);
     harlequin2 = CreateObject(Map, "Harlequin", 0, 0);
-    harlequin2:SetEventWhenTalking("Fake Harlequin battle");
+    harlequin2:SetEventWhenTalking("Make Harlequin2 disappear");
     Map:AddGroundObject(harlequin2);
     harlequin3 = CreateObject(Map, "Harlequin", 0, 0);
-    harlequin3:SetEventWhenTalking("Fake Harlequin battle");
+    harlequin3:SetEventWhenTalking("Make Harlequin3 disappear");
     Map:AddGroundObject(harlequin3);
     -- Harlequin must be beaten third times before being actually fighteable
     harlequin_beaten_time = 0;
+
+    event = vt_map.ScriptedEvent("Make Harlequin1 disappear", "make_harlequin1_disappear", "");
+    event:AddEventLinkAtEnd("Fake Harlequin battle");
+    EventManager:RegisterEvent(event);
+    event = vt_map.ScriptedEvent("Make Harlequin2 disappear", "make_harlequin2_disappear", "");
+    event:AddEventLinkAtEnd("Fake Harlequin battle");
+    EventManager:RegisterEvent(event);
+    event = vt_map.ScriptedEvent("Make Harlequin3 disappear", "make_harlequin3_disappear", "");
+    event:AddEventLinkAtEnd("Fake Harlequin battle");
+    EventManager:RegisterEvent(event);
 
     event = vt_map.BattleEncounterEvent("Fake Harlequin battle");
     event:AddEnemy(13, 512, 484); -- Harlequin
@@ -412,7 +428,7 @@ function _CloseSouthGate()
     south_gate2_open:SetVisible(false);
     south_gate3_open:SetVisible(false);
 
-    --TODO: Add gate closing sound
+    AudioManager:PlaySound("snd/opening_sword_unsheathe.wav");
 end
 
 -- A function opening the north cemetery gate
@@ -438,6 +454,7 @@ function _CreateEnemies()
     enemy:AddEnemy(12);
     enemy:AddEnemy(12);
     roam_zone:AddEnemy(enemy, Map, 2);
+    roam_zone:SetSpawnsLeft(2); -- This monster shall spawn only two times.
     Map:AddZone(roam_zone);
 
     -- Hint: left, right, top, bottom
@@ -454,6 +471,7 @@ function _CreateEnemies()
     enemy:AddEnemy(12);
     enemy:AddEnemy(12);
     roam_zone:AddEnemy(enemy, Map, 2);
+    roam_zone:SetSpawnsLeft(2); -- This monster shall spawn only two times.
     Map:AddZone(roam_zone);
 
     -- Hint: left, right, top, bottom
@@ -470,6 +488,7 @@ function _CreateEnemies()
     enemy:AddEnemy(12);
     enemy:AddEnemy(12);
     roam_zone:AddEnemy(enemy, Map, 2);
+    roam_zone:SetSpawnsLeft(2); -- This monster shall spawn only two times.
     Map:AddZone(roam_zone);
 end
 
@@ -613,7 +632,7 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
 
     dialogue = vt_map.SpriteDialogue();
-    text = vt_system.Translate("I shall bring your spirits to the master.");
+    text = vt_system.Translate("I shall bring your spirits to the Master.");
     dialogue:AddLine(text, harlequin_focus);
     text = vt_system.Translate("But let's play together first, shall we?");
     dialogue:AddLine(text, harlequin_focus);
@@ -627,7 +646,48 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
 
     event = vt_map.ScriptedEvent("End of trapped Dialogue", "end_of_trap_dialogue", "");
-    event:AddEventLinkAtEnd("Make the Harlequin move");
+    event:AddEventLinkAtEnd("Make the Harlequins move", 5000);
+    EventManager:RegisterEvent(event);
+
+    event = vt_map.ScriptedEvent("Make the Harlequins move", "make_harlequins_move", "");
+    event:AddEventLinkAtEnd("Make the Harlequins move", 5000);
+    EventManager:RegisterEvent(event);
+
+    event = vt_map.ScriptedEvent("Harlequin is fed up!", "place_harlequin_for_pre_boss_battle", "");
+    event:AddEventLinkAtEnd("Harlequin talks to the hero 3");
+    EventManager:RegisterEvent(event);
+
+    dialogue = vt_map.SpriteDialogue();
+    text = vt_system.Translate("Enough of this game. Give me your souls...");
+    dialogue:AddLineEvent(text, harlequin_focus, "Bronann looks north", "");
+    DialogueManager:AddDialogue(dialogue);
+    event = vt_map.DialogueEvent("Harlequin talks to the hero 3", dialogue);
+    event:AddEventLinkAtEnd("True Harlequin battle");
+    EventManager:RegisterEvent(event);
+
+    event = vt_map.BattleEncounterEvent("True Harlequin battle");
+    event:AddEnemy(13, 512, 484); -- Harlequin
+    event:AddEnemy(12, 470, 384); -- Eyeballs
+    event:AddEnemy(12, 380, 500); -- Eyeballs
+    event:AddEnemy(12, 650, 484); -- Eyeballs
+    event:AddEnemy(12, 570, 584); -- Eyeballs
+    event:AddEnemy(12, 450, 624); -- Eyeballs
+    _SetEventBattleEnvironment(event);
+    event:SetMusic("mus/accion-OGA-djsaryon.ogg"); --boss music
+    event:AddEventLinkAtEnd("Harlequin talks to the hero 4");
+    EventManager:RegisterEvent(event);
+
+    dialogue = vt_map.SpriteDialogue();
+    text = vt_system.Translate("How could I lose against... children...");
+    dialogue:AddLineEvent(text, harlequin_focus, "Bronann looks north", "");
+    text = vt_system.Translate("We'll see each other again, Chosen One...");
+    dialogue:AddLine(text, harlequin_focus);
+    DialogueManager:AddDialogue(dialogue);
+    event = vt_map.DialogueEvent("Harlequin talks to the hero 4", dialogue);
+    event:AddEventLinkAtEnd("Ends Harlequin battle");
+    EventManager:RegisterEvent(event);
+
+    event = vt_map.ScriptedEvent("Ends Harlequin battle", "ends_harlequin_battle", "");
     EventManager:RegisterEvent(event);
 end
 
@@ -688,7 +748,7 @@ end
 -- Sets common battle environment settings for enemy sprites
 function _SetBattleEnvironment(enemy)
     -- default values
-    enemy:SetBattleMusicTheme("mus/heroism-OGA-Edward-J-Blakeley.ogg");
+    enemy:SetBattleMusicTheme("mus/Welcome to Com-Mecha-Mattew_Pablo_OGA.ogg");
     enemy:SetBattleBackground("img/backdrops/battle/mountain_background.png");
     enemy:AddBattleScript("dat/maps/common/at_night.lua");
 
@@ -699,8 +759,9 @@ function _SetBattleEnvironment(enemy)
         enemy:AddBattleScript("dat/maps/common/soft_lightnings_script.lua");
     end
 end
+-- The environment for Harlequin's battles
 function _SetEventBattleEnvironment(event)
-    event:SetMusic("mus/heroism-OGA-Edward-J-Blakeley.ogg");
+    event:SetMusic("mus/Welcome to Com-Mecha-Mattew_Pablo_OGA.ogg");
     event:SetBackground("img/backdrops/battle/mountain_background.png");
     event:AddScript("dat/maps/common/at_night.lua");
 
@@ -709,6 +770,31 @@ function _SetEventBattleEnvironment(event)
     end
     if (GlobalManager:GetEventValue("story", "mt_elbrus_weather_level") > 1) then
         event:AddScript("dat/maps/common/soft_lightnings_script.lua");
+    end
+end
+
+function _MakeHarlequinMove(harlequin)
+    if (harlequin:IsVisible() == true) then
+        local new_x = math.random(46.0, 89.0);
+        local new_y = math.random(22.0, 55.0);
+        harlequin:SetPosition(new_x, new_y);
+    end
+end
+
+-- Check whether the three harlequin were beaten and then start the mini-boss ending.
+function _CheckHarlequinsStatus()
+    if (harlequin_beaten_time < 3) then
+        return;
+    end
+
+    if (harlequin1:IsVisible() == false and harlequin2:IsVisible() == false and harlequin3:IsVisible() == false) then
+        harlequin_beaten_time = 0;
+        -- Stop the first part event
+        EventManager:TerminateEvents("Make the Harlequins move", false)
+
+        hero:SetMoving(false);
+        Map:PushState(vt_map.MapMode.STATE_SCENE);
+        EventManager:StartEvent("Harlequin is fed up!", 1000);
     end
 end
 
@@ -790,10 +876,11 @@ map_functions = {
 
     hero_exclamation = function()
         hero:Emote("exclamation", hero:GetDirection());
+        AudioManager:FadeOutAllMusic(1000);
     end,
 
     set_focus_on_harlequin = function()
-        Map:SetCamera(harlequin_focus, 2000);
+        Map:SetCamera(harlequin_focus, 1200);
         harlequin1:SetPosition(68, 24);
         harlequin1:SetVisible(true);
     end,
@@ -805,14 +892,14 @@ map_functions = {
     end,
 
     set_focus_on_hero = function()
-        Map:SetCamera(hero, 2000);
+        Map:SetCamera(hero, 1500);
+        AudioManager:PlayMusic("mus/Welcome to Com-Mecha-Mattew_Pablo_OGA.ogg");
     end,
 
     end_of_trap_dialogue = function()
         Map:PopState();
         _CreateEnemies();
 
-        -- TODO: Make the harlequins teleport each X seconds
         harlequin1:SetPosition(52, 21);
         harlequin2:SetPosition(85, 18);
         harlequin3:SetPosition(56, 38);
@@ -821,7 +908,35 @@ map_functions = {
         GlobalManager:SetEventValue("story", "mt_elbrus_cemetery_south_gate_closed", 1);
     end,
 
+    make_harlequin1_disappear = function()
+        harlequin1:SetPosition(0, 0);
+        harlequin1:SetVisible(false);
+        harlequin1:ClearEventWhenTalking();
+    end,
+    make_harlequin2_disappear = function()
+        harlequin2:SetPosition(0, 0);
+        harlequin2:SetVisible(false);
+        harlequin2:ClearEventWhenTalking();
+    end,
+    make_harlequin3_disappear = function()
+        harlequin3:SetPosition(0, 0);
+        harlequin3:SetVisible(false);
+        harlequin3:ClearEventWhenTalking();
+    end,
+
     increase_harlequin_beaten_time = function()
         harlequin_beaten_time = harlequin_beaten_time + 1;
+    end,
+
+    make_harlequins_move = function()
+        _MakeHarlequinMove(harlequin1)
+        _MakeHarlequinMove(harlequin2)
+        _MakeHarlequinMove(harlequin3)
+        AudioManager:PlaySound("snd/crystal_chime.wav");
+    end,
+
+    place_harlequin_for_pre_boss_battle = function()
+        harlequin1:SetVisible(true);
+        harlequin1:SetPosition(hero:GetXPosition(), hero:GetYPosition() - 3.0);
     end,
 }

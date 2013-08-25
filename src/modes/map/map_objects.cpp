@@ -1596,9 +1596,9 @@ void ObjectSupervisor::ReloadVisiblePartyMember()
 
 void ObjectSupervisor::SetAllEnemyStatesToDead()
 {
-    for(std::map<uint16, MapObject *>::iterator i = _all_objects.begin(); i != _all_objects.end(); ++i) {
-        if (i->second->GetObjectType() == ENEMY_TYPE) {
-            EnemySprite* enemy = dynamic_cast<EnemySprite*>(i->second);
+    for(std::map<uint16, MapObject *>::iterator it = _all_objects.begin(); it != _all_objects.end(); ++it) {
+        if (it->second->GetObjectType() == ENEMY_TYPE) {
+            EnemySprite* enemy = dynamic_cast<EnemySprite*>(it->second);
             enemy->ChangeStateDead();
         }
     }
