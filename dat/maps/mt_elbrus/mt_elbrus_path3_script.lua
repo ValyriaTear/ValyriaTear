@@ -29,6 +29,13 @@ local orlinn = {};
 -- Name of the main sprite. Used to reload the good one at the end of dialogue events.
 local main_sprite_name = "";
 
+local harlequin_battle_done = false;
+
+-- Soldiers
+local soldier1 = {};
+local soldier2 = {};
+local soldier3 = {};
+
 -- the main map loading code
 function Load(m)
 
@@ -56,9 +63,6 @@ function Load(m)
     Map:GetEffectSupervisor():EnableAmbientOverlay("img/ambient/clouds.png", 5.0, 5.0, true);
     Map:GetScriptSupervisor():AddScript("dat/maps/common/at_night.lua");
 
-    -- Preload the rainy sound as it may be triggered through an event after the load time.
-
-
     -- Enables thunder
     GlobalManager:SetEventValue("story", "mt_elbrus_weather_level", 2)
 
@@ -78,6 +82,15 @@ function Load(m)
     AudioManager:LoadSound("snd/opening_sword_unsheathe.wav", Map);
     AudioManager:LoadMusic("mus/Welcome to Com-Mecha-Mattew_Pablo_OGA.ogg", Map);
 
+    -- Check the map state according to the story state
+    harlequin_battle_done = false;
+    if (GlobalManager:GetEventValue("story", "mt_elbrus_cemetery_fight_done") == 1) then
+        -- Open the north gate, close the south ones. (but no sound)
+        _CloseSouthGate();
+        _OpenNorthGate();
+        harlequin_battle_done = true;
+    end
+
 end
 
 -- the map update function handles checks done on each game tick.
@@ -85,7 +98,9 @@ function Update()
     -- Check whether the character is in one of the zones
     _CheckZones();
     -- Check the first half battle part
-    _CheckHarlequinsStatus()
+    if (harlequin_battle_done == false) then
+        _CheckHarlequinsStatus()
+    end
 end
 
 -- Character creation
@@ -130,6 +145,19 @@ function _CreateCharacters()
     orlinn:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
     orlinn:SetVisible(false);
     Map:AddGroundObject(orlinn);
+
+    soldier1 = CreateNPCSprite(Map, "Dark Soldier", vt_system.Translate("Soldier"), 0, 0);
+    soldier1:SetVisible(false);
+    soldier1:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
+    Map:AddGroundObject(soldier1);
+    soldier2 = CreateNPCSprite(Map, "Dark Soldier", vt_system.Translate("Soldier"), 0, 0);
+    soldier2:SetVisible(false);
+    soldier2:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
+    Map:AddGroundObject(soldier2);
+    soldier3 = CreateNPCSprite(Map, "Dark Soldier", vt_system.Translate("Soldier"), 0, 0);
+    soldier3:SetVisible(false);
+    soldier3:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
+    Map:AddGroundObject(soldier3);
 end
 
 -- The heal particle effect map object
@@ -427,21 +455,25 @@ function _CloseSouthGate()
     south_gate1_open:SetVisible(false);
     south_gate2_open:SetVisible(false);
     south_gate3_open:SetVisible(false);
-
-    AudioManager:PlaySound("snd/opening_sword_unsheathe.wav");
 end
 
 -- A function opening the north cemetery gate
 function _OpenNorthGate()
-
+    north_gate_open:SetVisible(true);
+    north_gate_closed:SetPosition(0, 0);
 end
+
+-- Enemy zones later disabled
+local enemy_zone1 = {}
+local enemy_zone2 = {}
+local enemy_zone3 = {}
 
 function _CreateEnemies()
     local enemy = {};
     local roam_zone = {};
 
     -- Hint: left, right, top, bottom
-    roam_zone = vt_map.EnemyZone(65, 68, 32, 36);
+    enemy_zone1 = vt_map.EnemyZone(65, 68, 32, 36);
     -- Some bats
     enemy = CreateEnemySprite(Map, "Eyeball");
     _SetBattleEnvironment(enemy);
@@ -453,12 +485,12 @@ function _CreateEnemies()
     enemy:AddEnemy(12);
     enemy:AddEnemy(12);
     enemy:AddEnemy(12);
-    roam_zone:AddEnemy(enemy, Map, 2);
-    roam_zone:SetSpawnsLeft(2); -- This monster shall spawn only two times.
-    Map:AddZone(roam_zone);
+    enemy_zone1:AddEnemy(enemy, Map, 2);
+    enemy_zone1:SetSpawnsLeft(2); -- This monster shall spawn only two times.
+    Map:AddZone(enemy_zone1);
 
     -- Hint: left, right, top, bottom
-    roam_zone = vt_map.EnemyZone(45, 48, 32, 36);
+    enemy_zone2 = vt_map.EnemyZone(45, 48, 32, 36);
     -- Some bats
     enemy = CreateEnemySprite(Map, "Eyeball");
     _SetBattleEnvironment(enemy);
@@ -470,12 +502,12 @@ function _CreateEnemies()
     enemy:AddEnemy(12);
     enemy:AddEnemy(12);
     enemy:AddEnemy(12);
-    roam_zone:AddEnemy(enemy, Map, 2);
-    roam_zone:SetSpawnsLeft(2); -- This monster shall spawn only two times.
-    Map:AddZone(roam_zone);
+    enemy_zone2:AddEnemy(enemy, Map, 2);
+    enemy_zone2:SetSpawnsLeft(2); -- This monster shall spawn only two times.
+    Map:AddZone(enemy_zone2);
 
     -- Hint: left, right, top, bottom
-    roam_zone = vt_map.EnemyZone(87, 90, 32, 36);
+    enemy_zone3 = vt_map.EnemyZone(87, 90, 32, 36);
     -- Some bats
     enemy = CreateEnemySprite(Map, "Eyeball");
     _SetBattleEnvironment(enemy);
@@ -487,9 +519,9 @@ function _CreateEnemies()
     enemy:AddEnemy(12);
     enemy:AddEnemy(12);
     enemy:AddEnemy(12);
-    roam_zone:AddEnemy(enemy, Map, 2);
-    roam_zone:SetSpawnsLeft(2); -- This monster shall spawn only two times.
-    Map:AddZone(roam_zone);
+    enemy_zone3:AddEnemy(enemy, Map, 2);
+    enemy_zone3:SetSpawnsLeft(2); -- This monster shall spawn only two times.
+    Map:AddZone(enemy_zone3);
 end
 
 -- Special event references which destinations must be updated just before being called.
@@ -497,6 +529,11 @@ local kalya_move_next_to_hero_event1 = {}
 local kalya_move_back_to_hero_event1 = {}
 local orlinn_move_next_to_hero_event1 = {}
 local orlinn_move_back_to_hero_event1 = {}
+
+local kalya_move_next_to_hero_event2 = {}
+local kalya_move_back_to_hero_event2 = {}
+local orlinn_move_next_to_hero_event2 = {}
+local orlinn_move_back_to_hero_event2 = {}
 
 -- Creates all events and sets up the entire event sequence chain
 function _CreateEvents()
@@ -561,7 +598,7 @@ function _CreateEvents()
     EventManager:RegisterEvent(orlinn_move_next_to_hero_event1);
 
     dialogue = vt_map.SpriteDialogue();
-    text = vt_system.Translate("This place is the village old cemetery, when the former villagers lived in Layna...");
+    text = vt_system.Translate("This place is the village old cemetery, used when the former villagers lived in Layna...");
     dialogue:AddLine(text, kalya);
     text = vt_system.Translate("The former villagers? What do you mean?");
     dialogue:AddLineEmote(text, hero, "exclamation");
@@ -589,7 +626,103 @@ function _CreateEvents()
     event = vt_map.ScriptedEvent("End of dialogue about the cemetery", "end_of_dialogue_about_cemetery", "");
     EventManager:RegisterEvent(event);
 
+    -- West gate dialogue
+    -- ------------------
+    event = vt_map.ScriptedEvent("Set scene state for dialogue about west gate", "set_scene_state", "");
+    event:AddEventLinkAtEnd("The hero notices the soldiers");
+    EventManager:RegisterEvent(event);
+
+    dialogue = vt_map.SpriteDialogue();
+    text = vt_system.Translate("Isn't that soldiers up there?");
+    dialogue:AddLineEventEmote(text, hero, "Bronann looks north", "", "exclamation");
+    DialogueManager:AddDialogue(dialogue);
+    event = vt_map.DialogueEvent("The hero notices the soldiers", dialogue);
+    event:AddEventLinkAtEnd("West gate - The hero moves to a good watch point");
+    EventManager:RegisterEvent(event);
+
+    event = vt_map.PathMoveSpriteEvent("West gate - The hero moves to a good watch point", hero, 16, 40, true);
+    event:AddEventLinkAtEnd("Kalya tells about the soldiers");
+    EventManager:RegisterEvent(event);
+
+    event = vt_map.ScriptedEvent("Kalya tells about the soldiers", "kalya_west_gate_dialogue_start", "");
+    event:AddEventLinkAtEnd("Kalya moves next to Bronann2", 100);
+    event:AddEventLinkAtEnd("Orlinn moves next to Bronann2", 100);
+    EventManager:RegisterEvent(event);
+
+    -- NOTE: The actual destination is set just before the actual start call
+    kalya_move_next_to_hero_event2 = vt_map.PathMoveSpriteEvent("Kalya moves next to Bronann2", kalya, 0, 0, false);
+    kalya_move_next_to_hero_event2:AddEventLinkAtEnd("Kalya looks north");
+    kalya_move_next_to_hero_event2:AddEventLinkAtEnd("Bronann looks north");
+    kalya_move_next_to_hero_event2:AddEventLinkAtEnd("Set focus on soldiers");
+    EventManager:RegisterEvent(kalya_move_next_to_hero_event2);
+    orlinn_move_next_to_hero_event2 = vt_map.PathMoveSpriteEvent("Orlinn moves next to Bronann2", orlinn, 0, 0, false);
+    orlinn_move_next_to_hero_event2:AddEventLinkAtEnd("Orlinn looks north");
+    EventManager:RegisterEvent(orlinn_move_next_to_hero_event2);
+
+    event = vt_map.ScriptedEvent("Set focus on soldiers", "set_focus_on_soldiers", "set_focus_update");
+    event:AddEventLinkAtEnd("Soldiers dialogue");
+    EventManager:RegisterEvent(event);
+
+    dialogue = vt_map.SpriteDialogue();
+    text = vt_system.Translate("The west gates are condemned, as the Lord commanded.");
+    dialogue:AddLine(text, soldier1);
+    text = vt_system.Translate("Fine. Let's go back and wait for them.");
+    dialogue:AddLine(text, soldier3);
+    DialogueManager:AddDialogue(dialogue);
+    event = vt_map.DialogueEvent("Soldiers dialogue", dialogue);
+    event:AddEventLinkAtEnd("Soldier1 moves out of map", 300);
+    event:AddEventLinkAtEnd("Soldier2 moves out of map", 300);
+    event:AddEventLinkAtEnd("Soldier3 moves out of map");
+    event:AddEventLinkAtEnd("West gate - Set focus on hero", 400);
+    EventManager:RegisterEvent(event);
+
+    event = vt_map.PathMoveSpriteEvent("Soldier1 moves out of map", soldier1, 1, 25, false);
+    event:AddEventLinkAtEnd("Make soldier1 disappear");
+    EventManager:RegisterEvent(event);
+    event = vt_map.PathMoveSpriteEvent("Soldier2 moves out of map", soldier2, 1, 26, false);
+    event:AddEventLinkAtEnd("Make soldier2 disappear");
+    EventManager:RegisterEvent(event);
+    event = vt_map.PathMoveSpriteEvent("Soldier3 moves out of map", soldier3, 1, 27, false);
+    event:AddEventLinkAtEnd("Make soldier3 disappear");
+    EventManager:RegisterEvent(event);
+
+    event = vt_map.ScriptedSpriteEvent("Make soldier1 disappear", soldier1, "make_object_disappear", "");
+    EventManager:RegisterEvent(event);
+    event = vt_map.ScriptedSpriteEvent("Make soldier2 disappear", soldier2, "make_object_disappear", "");
+    EventManager:RegisterEvent(event);
+    event = vt_map.ScriptedSpriteEvent("Make soldier3 disappear", soldier3, "make_object_disappear", "");
+    EventManager:RegisterEvent(event);
+
+    event = vt_map.ScriptedEvent("West gate - Set focus on hero", "set_focus_back_on_hero", "set_focus_update");
+    event:AddEventLinkAtEnd("Dialogue about the west gate");
+    EventManager:RegisterEvent(event);
+
+    dialogue = vt_map.SpriteDialogue();
+    text = vt_system.Translate("The gate to the great plains...");
+    dialogue:AddLineEmote(text, kalya, "sweat drop");
+    text = vt_system.Translate("Have we got any other way to leave this place?");
+    dialogue:AddLine(text, hero);
+    text = vt_system.Translate("Only one left... The mountain top...");
+    dialogue:AddLineEmote(text, kalya, "thinking dots");
+    DialogueManager:AddDialogue(dialogue);
+    event = vt_map.DialogueEvent("Dialogue about the west gate", dialogue);
+    event:AddEventLinkAtEnd("Orlinn goes back to party 2");
+    event:AddEventLinkAtEnd("Kalya goes back to party 2");
+    EventManager:RegisterEvent(event);
+
+    orlinn_move_back_to_hero_event2 = vt_map.PathMoveSpriteEvent("Orlinn goes back to party 2", orlinn, hero, false);
+    EventManager:RegisterEvent(orlinn_move_back_to_hero_event2);
+
+    kalya_move_back_to_hero_event2 = vt_map.PathMoveSpriteEvent("Kalya goes back to party 2", kalya, hero, false);
+    kalya_move_back_to_hero_event2:AddEventLinkAtEnd("End of dialogue about west gate");
+    EventManager:RegisterEvent(kalya_move_back_to_hero_event2);
+
+    event = vt_map.ScriptedEvent("End of dialogue about west gate", "end_of_dialogue_about_west_gate", "");
+    EventManager:RegisterEvent(event);
+
+
     -- trapped event!
+    -- --------------
     event = vt_map.ScriptedEvent("Prepare trapped event", "set_scene_state", "");
     event:AddEventLinkAtEnd("The hero notices about the gate");
     EventManager:RegisterEvent(event);
@@ -636,6 +769,8 @@ function _CreateEvents()
     dialogue:AddLine(text, harlequin_focus);
     text = vt_system.Translate("But let's play together first, shall we?");
     dialogue:AddLine(text, harlequin_focus);
+    text = vt_system.Translate("Now catch me... if you can.");
+    dialogue:AddLine(text, harlequin_focus);
     DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Harlequin talks to the hero 2", dialogue);
     event:AddEventLinkAtEnd("Set the focus back on hero");
@@ -646,11 +781,15 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
 
     event = vt_map.ScriptedEvent("End of trapped Dialogue", "end_of_trap_dialogue", "");
-    event:AddEventLinkAtEnd("Make the Harlequins move", 5000);
+    event:AddEventLinkAtEnd("Make the Harlequins move");
     EventManager:RegisterEvent(event);
 
-    event = vt_map.ScriptedEvent("Make the Harlequins move", "make_harlequins_move", "");
-    event:AddEventLinkAtEnd("Make the Harlequins move", 5000);
+    event = vt_map.ScriptedEvent("Make the Harlequins move", "make_harlequins_move", "make_harlequins_move_update");
+    event:AddEventLinkAtEnd("Make the Harlequins teleport");
+    EventManager:RegisterEvent(event);
+
+    event = vt_map.ScriptedEvent("Make the Harlequins teleport", "make_harlequins_teleport", "");
+    event:AddEventLinkAtEnd("Make the Harlequins move");
     EventManager:RegisterEvent(event);
 
     event = vt_map.ScriptedEvent("Harlequin is fed up!", "place_harlequin_for_pre_boss_battle", "");
@@ -658,7 +797,7 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
 
     dialogue = vt_map.SpriteDialogue();
-    text = vt_system.Translate("Enough of this game. Give me your souls...");
+    text = vt_system.Translate("Enough of this shallow game. Give me your souls now!...");
     dialogue:AddLineEvent(text, harlequin_focus, "Bronann looks north", "");
     DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Harlequin talks to the hero 3", dialogue);
@@ -666,7 +805,8 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
 
     event = vt_map.BattleEncounterEvent("True Harlequin battle");
-    event:AddEnemy(13, 512, 484); -- Harlequin
+    event:SetBoss(true);
+    event:AddEnemy(14, 512, 484); -- Harlequin
     event:AddEnemy(12, 470, 384); -- Eyeballs
     event:AddEnemy(12, 380, 500); -- Eyeballs
     event:AddEnemy(12, 650, 484); -- Eyeballs
@@ -678,7 +818,7 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
 
     dialogue = vt_map.SpriteDialogue();
-    text = vt_system.Translate("How could I lose against... children...");
+    text = vt_system.Translate("How could I be hurt by... children...");
     dialogue:AddLineEvent(text, harlequin_focus, "Bronann looks north", "");
     text = vt_system.Translate("We'll see each other again, Chosen One...");
     dialogue:AddLine(text, harlequin_focus);
@@ -687,7 +827,11 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("Ends Harlequin battle");
     EventManager:RegisterEvent(event);
 
-    event = vt_map.ScriptedEvent("Ends Harlequin battle", "ends_harlequin_battle", "");
+    event = vt_map.ScriptedEvent("Ends Harlequin battle", "ends_harlequin_battle1", "");
+    event:AddEventLinkAtEnd("Ends Harlequin battle 2", 1200);
+    EventManager:RegisterEvent(event);
+    -- Adds a bit of time before opening the gate so that action sounds don't get mixed.
+    event = vt_map.ScriptedEvent("Ends Harlequin battle 2", "ends_harlequin_battle2", "");
     EventManager:RegisterEvent(event);
 end
 
@@ -697,6 +841,7 @@ local to_path2_zone = {};
 local to_path2_bis_zone = {};
 
 local cemetery_entrance_dialogue_zone = {};
+local cemetery_west_gate_dialogue_zone = {};
 local cemetery_gates_closed_zone = {};
 
 -- Create the different map zones triggering events
@@ -713,6 +858,8 @@ function _CreateZones()
     -- event zones
     cemetery_entrance_dialogue_zone = vt_map.CameraZone(61, 74, 71, 73);
     Map:AddZone(cemetery_entrance_dialogue_zone);
+    cemetery_west_gate_dialogue_zone = vt_map.CameraZone(7, 31, 46, 48);
+    Map:AddZone(cemetery_west_gate_dialogue_zone);
     -- cemetery gates closed
     cemetery_gates_closed_zone = vt_map.CameraZone(44, 92, 52, 54);
     Map:AddZone(cemetery_gates_closed_zone);
@@ -735,10 +882,16 @@ function _CheckZones()
             hero:SetMoving(false);
             EventManager:StartEvent("Set scene state for dialogue about cemetery entrance");
         end
+    elseif (cemetery_west_gate_dialogue_zone:IsCameraEntering() == true and Map:CurrentState() ~= vt_map.MapMode.STATE_SCENE) then
+        if (GlobalManager:GetEventValue("story", "mt_elbrus_kalya_west_gate_dialogue") == 0) then
+            hero:SetMoving(false);
+            EventManager:StartEvent("Set scene state for dialogue about west gate");
+        end
     elseif (cemetery_gates_closed_zone:IsCameraEntering() == true and Map:CurrentState() ~= vt_map.MapMode.STATE_SCENE) then
-        if (GlobalManager:GetEventValue("story", "mt_elbrus_cemetery_south_gate_closed") == 0) then
+        if (harlequin_battle_done == false and GlobalManager:GetEventValue("story", "mt_elbrus_cemetery_south_gate_closed") == 0) then
             hero:SetMoving(false);
             _CloseSouthGate();
+            AudioManager:PlaySound("snd/opening_sword_unsheathe.wav");
             EventManager:StartEvent("Prepare trapped event");
         end
     end
@@ -773,7 +926,7 @@ function _SetEventBattleEnvironment(event)
     end
 end
 
-function _MakeHarlequinMove(harlequin)
+function _MakeHarlequinTeleport(harlequin)
     if (harlequin:IsVisible() == true) then
         local new_x = math.random(46.0, 89.0);
         local new_y = math.random(22.0, 55.0);
@@ -792,10 +945,27 @@ function _CheckHarlequinsStatus()
         -- Stop the first part event
         EventManager:TerminateEvents("Make the Harlequins move", false)
 
+        -- Remove the other monsters
+        Map.object_supervisor:SetAllEnemyStatesToDead();
+        enemy_zone1:SetEnabled(false);
+        enemy_zone2:SetEnabled(false);
+        enemy_zone3:SetEnabled(false);
+
         hero:SetMoving(false);
         Map:PushState(vt_map.MapMode.STATE_SCENE);
         EventManager:StartEvent("Harlequin is fed up!", 1000);
     end
+end
+
+function _GetRandomDirectionDiff()
+    local factor = 0;
+    if (math.random(0, 1) == 1) then
+        factor = 1.0;
+    else
+        factor = -1.0;
+    end
+
+    return ((factor * math.random(7, 12)) / 1000.0)
 end
 
 -- Map Custom functions
@@ -804,6 +974,15 @@ end
 -- Effect time used when applying the heal light effect
 local heal_effect_time = 0;
 local heal_color = vt_video.Color(0.0, 0.0, 1.0, 1.0);
+
+-- local members used to make the harlequins move
+local h1_x_direction = 0.0;
+local h1_y_direction = 0.0;
+local h2_x_direction = 0.0;
+local h2_y_direction = 0.0;
+local h3_x_direction = 0.0;
+local h3_y_direction = 0.0;
+local total_time = 0;
 
 map_functions = {
 
@@ -874,6 +1053,65 @@ map_functions = {
         GlobalManager:SetEventValue("story", "mt_elbrus_kalya_cemetery_entrance_dialogue", 1);
     end,
 
+    kalya_west_gate_dialogue_start = function()
+        -- Keep a reference of the correct sprite for the event end.
+        main_sprite_name = hero:GetSpriteName();
+
+        -- Make the hero be Bronann for the event.
+        hero:ReloadSprite("Bronann");
+
+        kalya:SetPosition(hero:GetXPosition(), hero:GetYPosition());
+        kalya:SetVisible(true);
+        orlinn:SetPosition(hero:GetXPosition(), hero:GetYPosition());
+        orlinn:SetVisible(true);
+        kalya:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
+        orlinn:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
+
+        kalya_move_next_to_hero_event2:SetDestination(hero:GetXPosition() + 2.0, hero:GetYPosition(), false);
+        orlinn_move_next_to_hero_event2:SetDestination(hero:GetXPosition() - 2.0, hero:GetYPosition(), false);
+
+        -- Place the soldiers
+        soldier1:SetPosition(16, 25);
+        soldier1:SetDirection(vt_map.MapMode.WEST)
+        soldier1:SetVisible(true);
+        soldier2:SetPosition(16, 27);
+        soldier2:SetDirection(vt_map.MapMode.WEST)
+        soldier2:SetVisible(true);
+        soldier3:SetPosition(14, 26);
+        soldier3:SetDirection(vt_map.MapMode.EAST)
+        soldier3:SetVisible(true);
+    end,
+
+    set_focus_on_soldiers = function()
+        Map:SetCamera(soldier1, 1200);
+    end,
+
+    make_object_disappear = function(object)
+        object:SetVisible(false);
+    end,
+
+    set_focus_back_on_hero = function()
+        Map:SetCamera(hero, 1500);
+    end,
+
+    end_of_dialogue_about_west_gate = function()
+        Map:PopState();
+        kalya:SetPosition(0, 0);
+        kalya:SetVisible(false);
+        kalya:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
+        orlinn:SetPosition(0, 0);
+        orlinn:SetVisible(false);
+        orlinn:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
+
+        -- Reload the hero back to default
+        hero:ReloadSprite(main_sprite_name);
+
+        -- Set event as done
+        GlobalManager:SetEventValue("story", "mt_elbrus_kalya_west_gate_dialogue", 1);
+    end,
+
+    -- Trapped scripted events functions
+    -- ---------------------------------
     hero_exclamation = function()
         hero:Emote("exclamation", hero:GetDirection());
         AudioManager:FadeOutAllMusic(1000);
@@ -902,7 +1140,7 @@ map_functions = {
 
         harlequin1:SetPosition(52, 21);
         harlequin2:SetPosition(85, 18);
-        harlequin3:SetPosition(56, 38);
+        harlequin3:SetPosition(66, 21);
 
         -- Set event as done
         GlobalManager:SetEventValue("story", "mt_elbrus_cemetery_south_gate_closed", 1);
@@ -912,16 +1150,22 @@ map_functions = {
         harlequin1:SetPosition(0, 0);
         harlequin1:SetVisible(false);
         harlequin1:ClearEventWhenTalking();
+        -- Empty the character stamina
+        Map:SetStamina(0);
     end,
     make_harlequin2_disappear = function()
         harlequin2:SetPosition(0, 0);
         harlequin2:SetVisible(false);
         harlequin2:ClearEventWhenTalking();
+        -- Empty the character stamina
+        Map:SetStamina(0);
     end,
     make_harlequin3_disappear = function()
         harlequin3:SetPosition(0, 0);
         harlequin3:SetVisible(false);
         harlequin3:ClearEventWhenTalking();
+        -- Empty the character stamina
+        Map:SetStamina(0);
     end,
 
     increase_harlequin_beaten_time = function()
@@ -929,14 +1173,103 @@ map_functions = {
     end,
 
     make_harlequins_move = function()
-        _MakeHarlequinMove(harlequin1)
-        _MakeHarlequinMove(harlequin2)
-        _MakeHarlequinMove(harlequin3)
+
+        h1_x_direction = _GetRandomDirectionDiff()
+        h1_y_direction = _GetRandomDirectionDiff()
+        h2_x_direction = _GetRandomDirectionDiff()
+        h2_y_direction = _GetRandomDirectionDiff()
+        h3_x_direction = _GetRandomDirectionDiff()
+        h3_y_direction = _GetRandomDirectionDiff()
+        total_time = 0;
+    end,
+
+    make_harlequins_move_update = function()
+        local update_time = SystemManager:GetUpdateTime();
+        total_time = total_time + update_time;
+
+        -- harlequin 1
+        -- -----------
+        if (harlequin1:IsVisible() == true) then
+            local movement_diff_x = h1_x_direction * update_time;
+            if (movement_diff_x > 1.0) then movement_diff_x = 1.0 end;
+
+            local movement_diff_y = h1_y_direction * update_time;
+            if (movement_diff_y > 1.0) then movement_diff_y = 1.0 end;
+
+            harlequin1:SetPosition(harlequin1:GetXPosition() + movement_diff_x, harlequin1:GetYPosition() + movement_diff_y);
+
+            -- Change the direction on borders
+            if (harlequin1:GetXPosition() > 89.0) then h1_x_direction = -math.abs(h1_x_direction) end;
+            if (harlequin1:GetXPosition() < 46.0) then h1_x_direction = math.abs(h1_x_direction) end;
+            if (harlequin1:GetYPosition() > 55.0) then h1_y_direction = -math.abs(h1_y_direction) end;
+            if (harlequin1:GetYPosition() < 22.0) then h1_y_direction = math.abs(h1_y_direction) end;
+        end
+
+        -- harlequin 2
+        -- -----------
+        if (harlequin2:IsVisible() == true) then
+            movement_diff_x = h2_x_direction * update_time;
+            if (movement_diff_x > 1.0) then movement_diff_x = 1.0 end;
+
+            movement_diff_y = h2_y_direction * update_time;
+            if (movement_diff_y > 1.0) then movement_diff_y = 1.0 end;
+
+            harlequin2:SetPosition(harlequin2:GetXPosition() + movement_diff_x, harlequin2:GetYPosition() + movement_diff_y);
+
+            -- Change the direction on borders
+            if (harlequin2:GetXPosition() > 89.0) then h2_x_direction = -math.abs(h2_x_direction) end;
+            if (harlequin2:GetXPosition() < 46.0) then h2_x_direction = math.abs(h2_x_direction) end;
+            if (harlequin2:GetYPosition() > 55.0) then h2_y_direction = -math.abs(h2_y_direction) end;
+            if (harlequin2:GetYPosition() < 22.0) then h2_y_direction = math.abs(h2_y_direction) end;
+        end
+
+        -- harlequin 3
+        -- -----------
+        if (harlequin3:IsVisible() == true) then
+            movement_diff_x = h3_x_direction * update_time;
+            if (movement_diff_x > 1.0) then movement_diff_x = 1.0 end;
+
+            movement_diff_y = h3_y_direction * update_time;
+            if (movement_diff_y > 1.0) then movement_diff_y = 1.0 end;
+
+            harlequin3:SetPosition(harlequin3:GetXPosition() + movement_diff_x, harlequin3:GetYPosition() + movement_diff_y);
+
+            -- Change the direction on borders
+            if (harlequin3:GetXPosition() > 89.0) then h3_x_direction = -math.abs(h3_x_direction) end;
+            if (harlequin3:GetXPosition() < 46.0) then h3_x_direction = math.abs(h3_x_direction) end;
+            if (harlequin3:GetYPosition() > 55.0) then h3_y_direction = -math.abs(h3_y_direction) end;
+            if (harlequin3:GetYPosition() < 22.0) then h3_y_direction = math.abs(h3_y_direction) end;
+        end
+
+        -- Stop the movement after 5 secs.
+        if (total_time >= 5000) then return true end
+        return false;
+    end,
+
+    make_harlequins_teleport = function()
+        _MakeHarlequinTeleport(harlequin1)
+        _MakeHarlequinTeleport(harlequin2)
+        _MakeHarlequinTeleport(harlequin3)
         AudioManager:PlaySound("snd/crystal_chime.wav");
     end,
 
     place_harlequin_for_pre_boss_battle = function()
         harlequin1:SetVisible(true);
         harlequin1:SetPosition(hero:GetXPosition(), hero:GetYPosition() - 3.0);
+    end,
+
+    ends_harlequin_battle1 = function()
+        -- Harlequin disappears
+        AudioManager:PlaySound("snd/crystal_chime.wav");
+        harlequin1:SetVisible(false);
+        harlequin1:SetPosition(0, 0);
+    end,
+
+    ends_harlequin_battle2 = function()
+        _OpenNorthGate();
+        AudioManager:PlaySound("snd/opening_sword_unsheathe.wav");
+        Map:PopState();
+        GlobalManager:SetEventValue("story", "mt_elbrus_cemetery_fight_done", 1);
+        harlequin_battle_done = true;
     end,
 }
