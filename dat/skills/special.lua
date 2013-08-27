@@ -187,8 +187,8 @@ skills[20017] = {
 --------------------------------------------------------------------------------
 
 skills[21001] = {
-    name = vt_system.Translate("Slime Spawn"),
-    description = vt_system.Translate("Creates a slime."),
+    name = "Slime Spawn",
+    description = "Creates a slime.",
     sp_required = 0,
     warmup_time = 1400,
     cooldown_time = 750,
@@ -200,4 +200,51 @@ skills[21001] = {
         local Battle = ModeManager:GetTop();
         Battle:AddEnemy(1, x_position, y_position);
     end
+}
+
+skills[21002] = {
+    --name = vt_system.Translate("Dark Wish"),
+    --description = vt_system.Translate("Revives an ally, restoring all his/her HP and SP."),
+    sp_required = 10,
+    warmup_time = 3000,
+    cooldown_time = 1750,
+    warmup_action_name = "magic_prepare",
+    action_name = "magic_cast",
+    target_type = vt_global.GameGlobal.GLOBAL_TARGET_ALLY_EVEN_DEAD,
+
+    BattleExecute = function(user, target)
+        local target_actor = target:GetActor();
+        if (target_actor:GetHitPoints() <= 0) then
+            target_actor:RegisterRevive(1000);
+            target_actor:RegisterHealing(100, false);
+        end
+    end,
+}
+
+skills[21003] = {
+   name = "Harlequin HP/MP Drain",
+   sp_required = 0,
+   warmup_time = 900,
+   cooldown_time = 0,
+   target_type = vt_global.GameGlobal.GLOBAL_TARGET_FOE_POINT,
+
+   BattleExecute = function(user, target)
+       local target_actor = target:GetActor();
+
+       if (vt_battle.CalculateStandardEvasion(target) == false) then
+           local hp_drain = vt_battle.CalculatePhysicalDamageAdder(user, target, 8);
+           target_actor:RegisterDamage(hp_drain, target);
+           -- If the damage dealt was 1, don't recover any HP from the attack
+           if (hp_drain > 1) then
+               user:RegisterHealing(hp_drain / 2, true);
+           end
+      if ((hp_drain / 3) >= 1) then
+       target_actor:RegisterSPDamage(hp_drain / 3);
+       user:RegisterHealing(hp_drain / 3, false);
+      end
+           AudioManager:PlaySound("snd/crystal_chime.wav");
+       else
+           target_actor:RegisterMiss(true);
+       end
+   end
 }

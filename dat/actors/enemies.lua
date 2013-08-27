@@ -677,7 +677,7 @@ enemies[12] = {
 }
 
 enemies[13] = {
-    name = vt_system.Translate("Harlequin I"),
+    name = vt_system.Translate("Harlequin?"),
     stamina_icon = "img/icons/actors/enemies/harlequin.png",
 
     battle_animations = {
@@ -689,7 +689,7 @@ enemies[13] = {
     -- TODO: balance
     base_stats = {
         hit_points = 75,
-        skill_points = 10,
+        skill_points = 10, -- TODO: Give it enough SP for the spells
         strength = 22,
         vigor = 20,
         fortitude = 10,
@@ -712,12 +712,58 @@ enemies[13] = {
     },
 
     skills = {
-        1007  -- HP drain
+        21003,  -- HP/MP Drain
+        10002, -- First Aid
+        10007, -- Magical poison
     },
 
     drop_objects = {
         { 1, 0.15 },  -- Minor Healing Potion
     }
+}
+
+-- Harlequin first shape - but a little angrier
+enemies[14] = {
+    name = vt_system.Translate("Harlequin"),
+    stamina_icon = "img/icons/actors/enemies/harlequin.png",
+
+    battle_animations = {
+        [HURT_NONE] = "img/sprites/battle/enemies/harlequin_0.lua",
+        [HURT_SLIGHTLY] = "img/sprites/battle/enemies/harlequin_0.lua",
+        [HURT_MEDIUM] = "img/sprites/battle/enemies/harlequin_0.lua",
+        [HURT_HEAVILY] = "img/sprites/battle/enemies/harlequin_0.lua"
+    },
+    -- TODO: balance
+    base_stats = {
+        hit_points = 75,
+        skill_points = 10, -- TODO: Give it enough SP for the spells
+        strength = 22,
+        vigor = 20,
+        fortitude = 10,
+        protection = 8,
+        agility = 35,
+        evade = 6.0,
+        experience_points = 31,
+        drunes = 14
+    },
+
+    attack_points = {
+        [1] = {
+            name = vt_system.Translate("Torso"),
+            x_position = 0,
+            y_position = 95,
+            fortitude_modifier = 0.2,
+            protection_modifier = 0.0,
+            evade_modifier = 0.1
+        },
+    },
+
+    skills = {
+        21003,  -- HP/MP Drain
+        10004, -- Holy Veil ATK+M.ATK on all
+        10007, -- Magical poison
+        21002, -- Dark Wish (Revives an ally)
+     },
 }
 
 -- ======== Unbalanced ========
