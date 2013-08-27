@@ -742,7 +742,7 @@ protected:
     //! A default sequence is played one of those is invalid.
     ScriptObject _death_update;
     ScriptObject _death_init;
-    // This function permits to draw something along with the Batleenemy Sprite
+    //! This function permits to draw something along with the Battle enemy sprite
     ScriptObject _death_draw_on_sprite;
 
     //! \brief Loads the potential death animation scripted functions.

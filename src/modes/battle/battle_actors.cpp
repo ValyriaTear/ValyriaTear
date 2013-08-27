@@ -1167,25 +1167,33 @@ void BattleEnemy::DrawStaminaIcon(const vt_video::Color &color) const
     }
 }
 
-// TODO: No party target will work, this will have to be addressed eventually.
-// The use of a skill on dead enemies is not supported either.
 void BattleEnemy::_DecideAction()
 {
-    const std::vector<GlobalSkill*>& enemy_skills = _global_actor->GetSkills();
-    if(enemy_skills.empty()) {
+    const std::vector<GlobalSkill *>& enemy_skills = _global_actor->GetSkills();
+    std::vector<GlobalSkill *> usable_skills;
+    std::vector<GlobalSkill*>::const_iterator skill_it = enemy_skills.begin();
+    while(skill_it != enemy_skills.end()) {
+        if((*skill_it)->IsExecutableInBattle() && (*skill_it)->GetSPRequired() <= GetSkillPoints())
+            usable_skills.push_back(*skill_it);
+        ++skill_it;
+    }
+
+    if(usable_skills.empty()) {
         IF_PRINT_WARNING(BATTLE_DEBUG) << "enemy had no usable skills" << std::endl;
         ChangeState(ACTOR_STATE_IDLE);
         return;
     }
 
-    // Obtain the living characters
-    std::deque<BattleActor *> alive_characters = BattleMode::CurrentInstance()->GetCharacterParty();
-    std::deque<BattleActor *>::iterator actor_iterator = alive_characters.begin();
-    while(actor_iterator != alive_characters.end()) {
-        if(!(*actor_iterator)->IsAlive())
-            actor_iterator = alive_characters.erase(actor_iterator);
-        else
-            ++actor_iterator;
+    BattleMode* BM = BattleMode::CurrentInstance();
+    const std::deque<BattleActor *> characters = BM->GetCharacterParty();
+    const std::deque<BattleActor *> enemies = BM->GetEnemyParty();
+
+    std::deque<BattleActor *> alive_characters;
+    std::deque<BattleActor *>::const_iterator it = characters.begin();
+    while(it != characters.end()) {
+        if((*it)->IsAlive())
+            alive_characters.push_back(*it);
+        ++it;
     }
     if(alive_characters.empty()) {
         ChangeState(ACTOR_STATE_IDLE);
@@ -1193,13 +1201,12 @@ void BattleEnemy::_DecideAction()
     }
 
     // and the living enemies
-    std::deque<BattleActor *> alive_enemies = BattleMode::CurrentInstance()->GetEnemyParty();
-    actor_iterator = alive_enemies.begin();
-    while(actor_iterator != alive_enemies.end()) {
-        if(!(*actor_iterator)->IsAlive())
-            actor_iterator = alive_enemies.erase(actor_iterator);
-        else
-            ++actor_iterator;
+    std::deque<BattleActor *> alive_enemies;
+    it = enemies.begin();
+    while(it != enemies.end()) {
+        if((*it)->IsAlive())
+            alive_enemies.push_back(*it);
+        ++it;
     }
 
     if(alive_enemies.empty()) {
@@ -1215,9 +1222,9 @@ void BattleEnemy::_DecideAction()
 
     // Select a random skill to use
     uint32 skill_index = 0;
-    if(enemy_skills.size() > 1)
-        skill_index = RandomBoundedInteger(0, enemy_skills.size() - 1);
-    GlobalSkill *skill = enemy_skills.at(skill_index);
+    if(usable_skills.size() > 1)
+        skill_index = RandomBoundedInteger(0, usable_skills.size() - 1);
+    GlobalSkill *skill = usable_skills.at(skill_index);
 
     // Select the target
     GLOBAL_TARGET target_type = skill->GetTargetType();
@@ -1236,15 +1243,24 @@ void BattleEnemy::_DecideAction()
         break;
     case GLOBAL_TARGET_ALLY_POINT:
     case GLOBAL_TARGET_ALLY:
-    case GLOBAL_TARGET_ALLY_EVEN_DEAD:
-        // Select a random living enemy, selecting a dead enemy ally is unsupported at the moment.
+        // Select a random living enemy
         if(alive_enemies.size() == 1)
             actor_target = alive_enemies[0];
         else
             actor_target = alive_enemies[RandomBoundedInteger(0, alive_enemies.size() - 1)];
         break;
-    case GLOBAL_TARGET_ALL_FOES: // TODO: Add support for this
-    case GLOBAL_TARGET_ALL_ALLIES: // TODO: Add support for this
+    case GLOBAL_TARGET_ALLY_EVEN_DEAD:
+        // Select a random ally, living or not
+        if(enemies.size() == 1)
+            actor_target = enemies[0];
+        else
+            actor_target = enemies[RandomBoundedInteger(0, enemies.size() - 1)];
+        break;
+        break;
+    case GLOBAL_TARGET_ALL_FOES:
+    case GLOBAL_TARGET_ALL_ALLIES:
+        // Nothing to do here, the party deques are ready
+        break;
     default:
         PRINT_WARNING << "Unsupported enemy skill type found." << std::endl;
         ChangeState(ACTOR_STATE_IDLE);
@@ -1252,7 +1268,7 @@ void BattleEnemy::_DecideAction()
         break;
     }
 
-    // Potentially select the target point and finsh targeting
+    // Potentially select the target point and finish targeting
     switch(target_type) {
     case GLOBAL_TARGET_SELF_POINT:
     case GLOBAL_TARGET_FOE_POINT:
@@ -1275,9 +1291,12 @@ void BattleEnemy::_DecideAction()
     case GLOBAL_TARGET_ALLY_EVEN_DEAD:
         target.SetActorTarget(target_type, actor_target);
         break;
-
-    case GLOBAL_TARGET_ALL_FOES: // TODO: Add support for this
-    case GLOBAL_TARGET_ALL_ALLIES: // TODO: Add support for this
+    case GLOBAL_TARGET_ALL_FOES: // Supported at script level
+        target.SetPartyTarget(target_type, &BM->GetCharacterParty());
+        break;
+    case GLOBAL_TARGET_ALL_ALLIES: // Supported at script level
+        target.SetPartyTarget(target_type, &BM->GetEnemyParty());
+        break;
     default:
         PRINT_WARNING << "Unsupported enemy skill type found." << std::endl;
         ChangeState(ACTOR_STATE_IDLE);

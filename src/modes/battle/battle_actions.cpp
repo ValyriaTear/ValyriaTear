@@ -131,15 +131,8 @@ bool SkillAction::Initialize()
         return false;
 
     // Ensure that the skill will affect a valid target
-    if(!_target.IsValid()) {
-        // TEMP: party targets should always be valid and attack points never disappear, so only the actor needs to be changed
-// 		if (IsTargetPoint(_target.GetType()) == true)
-// 			_target.SelectNextPoint();
-// 		else if (IsTargetActor(_target.GetType()) == true)
-
-        // TEMP: this should only be done if the skill has no custom checking for valid targets
+    if(!_target.IsValid())
         _target.SelectNextActor(_actor);
-    }
 
     if(IsScripted())
         _InitAnimationScript();
@@ -153,29 +146,6 @@ bool SkillAction::Execute()
 
     if(!_skill->ExecuteBattleFunction(_actor, _target))
         return false;
-
-// 	if (_target->GetType() == GLOBAL_TARGET_PARTY) {
-    // TODO: loop through _target.GetParty() and apply the function
-// 		if (_target->IsEnemy()) {
-// 			BattleEnemy* enemy;
-// 			//Loop through all enemies and apply the item
-// 			for (uint32 i = 0; i < BattleMode::CurrentInstance()->GetNumberOfEnemies(); i++) {
-// 				enemy = BattleMode::CurrentInstance()->GetEnemyActorAt(i);
-// 				ScriptCallFunction<void>(*script_function, enemy, _source);
-// 			}
-// 		}
-// 		else { // Target is a character
-// 			BattleCharacter* character;
-// 			//Loop through all party members and apply
-// 			for (uint32 i = 0; i < BattleMode::CurrentInstance()->GetNumberOfCharacters(); i++) {
-// 				character = BattleMode::CurrentInstance()->GetPlayerCharacterAt(i);
-// 				ScriptCallFunction<void>(*script_function, character, _source);
-// 			}
-// 		}
-// 	}
-// 	else {
-//
-// 	}
 
     _actor->SubtractSkillPoints(_skill->GetSPRequired());
     return true;
