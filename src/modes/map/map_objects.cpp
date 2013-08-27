@@ -964,6 +964,9 @@ ObjectSupervisor::~ObjectSupervisor()
     for(uint32 i = 0; i < _lights.size(); ++i) {
         delete(_lights[i]);
     }
+    for(uint32 i = 0; i < _zones.size(); ++i) {
+        delete(_zones[i]);
+    }
     delete(_virtual_focus);
 }
 

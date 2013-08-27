@@ -1127,6 +1127,7 @@ private:
 
     //! \brief Ambient sound objects, that plays a sound with a volume according
     //! to the distance with the camera.
+    //! \note sound objects are not registered in _all_objects.
     std::vector<SoundObject *> _sound_objects;
 
     //! \brief Containers for all of the map source of light, quite similar as the ground objects container.
