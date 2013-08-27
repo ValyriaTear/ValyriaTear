@@ -165,10 +165,11 @@ void CameraZone::Update()
 
 EnemyZone::EnemyZone() :
     MapZone(),
+    _enabled(true),
     _roaming_restrained(true),
     _agression_roaming_restrained(false),
     _active_enemies(0),
-    _spawns_left(-1), // Inifite spawns permitted.
+    _spawns_left(-1), // Infinite spawns permitted.
     _spawn_timer(STANDARD_ENEMY_FIRST_SPAWN_TIME),
     _dead_timer(STANDARD_ENEMY_DEAD_TIME),
     _spawn_zone(NULL)
@@ -182,10 +183,11 @@ EnemyZone::EnemyZone() :
 EnemyZone::EnemyZone(uint16 left_col, uint16 right_col,
                      uint16 top_row, uint16 bottom_row):
     MapZone(left_col, right_col, top_row, bottom_row),
+    _enabled(true),
     _roaming_restrained(true),
     _agression_roaming_restrained(false),
     _active_enemies(0),
-    _spawns_left(-1), // Inifite spawns permitted.
+    _spawns_left(-1), // Infinite spawns permitted.
     _spawn_timer(STANDARD_ENEMY_FIRST_SPAWN_TIME),
     _dead_timer(STANDARD_ENEMY_DEAD_TIME),
     _spawn_zone(NULL)
@@ -197,6 +199,7 @@ EnemyZone::EnemyZone(uint16 left_col, uint16 right_col,
 EnemyZone::EnemyZone(const EnemyZone &copy) :
     MapZone(copy)
 {
+    _enabled = copy._enabled;
     _roaming_restrained = copy._roaming_restrained;
     _agression_roaming_restrained = copy._agression_roaming_restrained;
     _spawns_left = copy._spawns_left;
@@ -219,6 +222,7 @@ EnemyZone &EnemyZone::operator=(const EnemyZone &copy)
         return *this;
 
     MapZone::operator=(copy);
+    _enabled = copy._enabled;
     _roaming_restrained = copy._roaming_restrained;
     _agression_roaming_restrained = copy._agression_roaming_restrained;
     _spawns_left = copy._spawns_left;
@@ -316,6 +320,10 @@ void EnemyZone::Update()
     // potentially take a noticable amount of time to complete
     const int8 SPAWN_RETRIES = 50;
 
+    // Don't update when the zone is disabled.
+    if (!_enabled)
+        return;
+
     // Test whether a respawn is still permitted
     if (_spawns_left == 0)
         return;
@@ -402,6 +410,10 @@ void EnemyZone::Update()
 
 void EnemyZone::Draw()
 {
+    // Don't draw when the zone is disabled.
+    if (!_enabled)
+        return;
+
     // Verify each section of the zone and check if the position is within the section bounds.
     for(std::vector<ZoneSection>::const_iterator it = _sections.begin(); it != _sections.end(); ++it) {
         if(_ShouldDraw(*it)) {

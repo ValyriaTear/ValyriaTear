@@ -70,7 +70,7 @@ public:
 *** ***************************************************************************/
 class MapZone
 {
-    // This friend declaration is necessary because EnemyZone, although it dervies from MapZone, also keeps a pointer
+    // This friend declaration is necessary because EnemyZone, although it derives from MapZone, also keeps a pointer
     // to a MapZone object and needs to access the protected members and methods of this object pointer.
     friend class EnemyZone;
 
@@ -236,6 +236,11 @@ public:
 
     EnemyZone &operator=(const EnemyZone &copy);
 
+    //! \brief Enables/disables the enemy zone.
+    void SetEnabled(bool is_enabled) {
+        _enabled = is_enabled;
+    }
+
     /** \brief Adds a new enemy sprite to the zone
     *** \param enemy A pointer to the EnemySprite object instance to add
     *** \param map A pointer to the MapMode instance to add the EnemySprite to
@@ -322,6 +327,9 @@ public:
     //@}
 
 private:
+    //! \brief Tells whether the zone is activated.
+    bool _enabled;
+
     //! \brief If true, enemies of this zone are not allowed
     //! to roam outside of the zone boundaries
     bool _roaming_restrained;
