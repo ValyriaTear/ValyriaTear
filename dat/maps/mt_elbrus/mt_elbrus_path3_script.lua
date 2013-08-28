@@ -91,6 +91,9 @@ function Load(m)
         harlequin_battle_done = true;
     end
 
+    -- TEMP: To be continued script
+    Map:GetScriptSupervisor():AddScript("dat/maps/to_be_continued_anim.lua");
+
 end
 
 -- the map update function handles checks done on each game tick.
@@ -546,9 +549,13 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
     event = vt_map.MapTransitionEvent("to mountain path 2bis", "dat/maps/mt_elbrus/mt_elbrus_path2_map.lua",
                                        "dat/maps/mt_elbrus/mt_elbrus_path2_script.lua", "from_path3_chest");
-    EventManager:RegisterEvent(event);
-    event = vt_map.MapTransitionEvent("to mountain path 4", "dat/maps/mt_elbrus/mt_elbrus_path4_map.lua",
-                                       "dat/maps/mt_elbrus/mt_elbrus_path4_script.lua", "from_path3");
+    --EventManager:RegisterEvent(event);
+    --event = vt_map.MapTransitionEvent("to mountain path 4", "dat/maps/mt_elbrus/mt_elbrus_path4_map.lua",
+    --                                   "dat/maps/mt_elbrus/mt_elbrus_path4_script.lua", "from_path3");
+    --EventManager:RegisterEvent(event);
+
+    -- NOTE temp event until what's next is done
+    event = vt_map.ScriptedEvent("to be continued", "to_be_continued", "");
     EventManager:RegisterEvent(event);
 
     -- Heal point
@@ -870,7 +877,8 @@ end
 function _CheckZones()
     if (to_path4_zone:IsCameraEntering() == true) then
         hero:SetMoving(false);
-        EventManager:StartEvent("to mountain path 4");
+        --EventManager:StartEvent("to mountain path 4");
+        EventManager:StartEvent("to be continued");
     elseif (to_path2_zone:IsCameraEntering() == true) then
         hero:SetMoving(false);
         EventManager:StartEvent("to mountain path 2");
@@ -1272,4 +1280,10 @@ map_functions = {
         GlobalManager:SetEventValue("story", "mt_elbrus_cemetery_fight_done", 1);
         harlequin_battle_done = true;
     end,
+
+    to_be_continued = function()
+        Map:PushState(vt_map.MapMode.STATE_SCENE);
+        hero:SetMoving(false);
+        GlobalManager:SetEventValue("game", "to_be_continued", 1);
+    end
 }

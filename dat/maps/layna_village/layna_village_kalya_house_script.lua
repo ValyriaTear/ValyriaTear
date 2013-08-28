@@ -52,9 +52,6 @@ function Load(m)
     -- Preloads the sad music
     AudioManager:LoadMusic("mus/sad_moment.ogg", Map);
 
-    -- To be continued script
-    Map:GetScriptSupervisor():AddScript("dat/maps/to_be_continued_anim.lua");
-
     -- If the scene hasn't happened, start it
     if (GlobalManager:GetEventValue("story", "kalya_basement_scene") == 0) then
         Map:PushState(vt_map.MapMode.STATE_SCENE);
@@ -454,10 +451,6 @@ function _CreateEvents()
     dialogue:AddLine(text, orlinn);
     DialogueManager:AddDialogue(dialogue);
     orlinn:AddDialogueReference(dialogue);
-
-    -- NOTE temp event until what's next is done
-    event = vt_map.ScriptedEvent("to be continued", "to_be_continued", "");
-    EventManager:RegisterEvent(event);
 end
 
 -- zones
@@ -492,8 +485,7 @@ function _CheckZones()
         EventManager:StartEvent("Can't go upstairs");
     elseif (to_mt_elbrus_zone:IsCameraEntering() == true) then
         bronann:SetMoving(false);
-        --EventManager:StartEvent("to Mt Elbrus");
-        EventManager:StartEvent("to be continued");
+        EventManager:StartEvent("to Mt Elbrus");
     end
 end
 
@@ -549,10 +541,4 @@ map_functions = {
         GlobalManager:SetEventValue("story", "kalya_basement_scene", 1);
         GlobalManager:AddQuestLog("flee_from_the_dark_soldiers");
     end,
-
-    to_be_continued = function()
-        Map:PushState(vt_map.MapMode.STATE_SCENE);
-        bronann:SetMoving(false);
-        GlobalManager:SetEventValue("game", "to_be_continued", 1);
-    end
 }
