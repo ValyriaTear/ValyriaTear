@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Valyria Tear\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-08-28 02:21+0200\n"
-"PO-Revision-Date: 2013-08-28 02:32+0100\n"
+"PO-Revision-Date: 2013-08-28 21:14+0100\n"
 "Last-Translator: Yohann Ferreira <yohann.ferreira@orange.fr>\n"
 "Language-Team: French\n"
 "Language: fr\n"
@@ -4542,7 +4542,7 @@ msgstr "Tu es à moi maintenant !"
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_path3_script.lua:775
 msgid "I shall bring your spirits to the Master."
-msgstr "J'apporterai vos esprits encore chauds au Maître."
+msgstr "J'apporterai vos âmes au Maître."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_path3_script.lua:777
 msgid "But let's play together first, shall we?"
