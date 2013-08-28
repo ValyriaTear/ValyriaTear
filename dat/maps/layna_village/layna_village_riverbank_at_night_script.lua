@@ -573,7 +573,6 @@ function _CreateEvents()
 
     event = vt_map.PathMoveSpriteEvent("Carson protects Malta", carson, 95.0, 60.5, false);
     event:AddEventLinkAtEnd("Carson looks north");
-    event:AddEventLinkAtEnd("Carson defies the Lord");
     EventManager:RegisterEvent(event);
 
     event = vt_map.ChangeDirectionSpriteEvent("Carson looks north", carson, vt_map.MapMode.NORTH);
