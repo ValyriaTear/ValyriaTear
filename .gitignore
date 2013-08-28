@@ -6,6 +6,7 @@ CPackConfig.cmake
 CPackSourceConfig.cmake
 cmake_install.cmake
 install_manifest.txt
+CMakeLists.txt.user
 
 # files created during build
 *.o
@@ -13,24 +14,26 @@ install_manifest.txt
 *.mo
 po/translatable-files
 po/*/
-src/allacrost
-src/allacrost-editor
 src/valyriatear
 src/vt-editor
 gmon.out
+
 
 # files created during Windows build
 .objs
 *.dll
 *.exe
-allacrost.depend
-allacrost.layout
 valyriatear.depend
+ValyriaTear.depend
 valyriatear.layout
+ValyriaTear.layout
 README.txt
 
+# The precompiled header file
+# with gcc/mingw compilation
+src/utils/utils_pch.h.gch
+
 # files created by Qt Creator
-allacrost.creator.user*
 valyriatear.creator.user*
 
 # files created by gtags
