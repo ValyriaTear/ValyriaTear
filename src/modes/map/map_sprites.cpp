@@ -1309,6 +1309,13 @@ void EnemySprite::Update()
             // the NULL check MUST come before the rest or a null pointer exception could happen if no zone is registered
             if(MapMode::CurrentInstance()->AttackAllowed()
                     && (_zone == NULL || (can_get_out_of_zone || _zone->IsInsideZone(camera_x, camera_y)))) {
+                if (!_path.empty()) {
+                    // We cancel any previous path
+                    _path.clear();
+                    // We set the correct mask before moving normally
+                    collision_mask = WALL_COLLISION | CHARACTER_COLLISION;
+                    _use_path = false;
+                }
 
                 // We set the direction to the character's position if it's not the case
                 if(xdelta > -0.5 && xdelta < 0.5 && ydelta < 0)
