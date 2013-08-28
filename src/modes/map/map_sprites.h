@@ -700,7 +700,7 @@ private:
     //! \brief Tells the actual time in milliseconds the sprite will use to respawn. This will set up the fade in speed.
     uint32 _time_to_spawn;
 
-    // the default time used to respawn (Set to STANDARD_ENEMY_SPAWN_TIME by default)
+    //! \brief the default time used to respawn (Set to STANDARD_ENEMY_SPAWN_TIME by default)
     uint32 _time_to_respawn;
 
     //! \brief Indicates if the enemy is outside of its zone. If it is, it won't change direction until it gets back in.
