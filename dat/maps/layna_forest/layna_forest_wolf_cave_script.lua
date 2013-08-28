@@ -228,6 +228,9 @@ function _CreateObjects()
     heal_effect:SetObjectID(Map.object_supervisor:GenerateObjectID());
     heal_effect:Stop(); -- Don't run it until the character heals itself
     Map:AddGroundObject(heal_effect);
+    
+    object = vt_map.SoundObject("snd/fountain_small.ogg", 53.0, 8.0, 8.0);
+    Map:AddAmbientSoundObject(object);
 end
 
 -- Special event references which destinations must be updated just before being called.
