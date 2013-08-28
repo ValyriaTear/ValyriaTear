@@ -1259,11 +1259,13 @@ void EnemySprite::Update()
         float camera_x = camera->GetXPosition();
         float camera_y = camera->GetYPosition();
 
-        float xdelta = fabs(GetXPosition() - camera_x);
-        float ydelta = fabs(GetYPosition() - camera_y);
+        float xdelta = GetXPosition() - camera_x;
+        float ydelta = GetYPosition() - camera_y;
+        float abs_xdelta = fabs(xdelta);
+        float abs_ydelta = fabs(ydelta);
 
         // Don't update enemies that are too far away...
-        if (xdelta > SCREEN_GRID_X_LENGTH || ydelta > SCREEN_GRID_Y_LENGTH)
+        if (abs_xdelta > SCREEN_GRID_X_LENGTH || abs_ydelta > SCREEN_GRID_Y_LENGTH)
             return;
 
         // Update the wait time until next path
@@ -1272,7 +1274,7 @@ void EnemySprite::Update()
 
         // Test whether the monster has spotted its target.
         bool player_in_aggro_range = false;
-        if(xdelta <= _aggro_range && ydelta <= _aggro_range)
+        if(abs_xdelta <= _aggro_range && abs_ydelta <= _aggro_range)
             player_in_aggro_range = true;
 
         // check whether the monster has the right to get out of the roaming zone
@@ -1286,15 +1288,17 @@ void EnemySprite::Update()
         if(_zone && !_zone->IsInsideZone(GetXPosition(), GetYPosition())
                 && !can_get_out_of_zone) {
             if (_path.empty() && _time_elapsed >= _time_before_new_destination) {
-                if (!_SetPathToNextWayPoint()) {
+                if (!_SetPathToNextWayPoint() && !_out_of_zone) {
                     // Fall back to simple movement mode.
-                    SetRandomDirection();
+                    // N.B.: This isn't perfect but it would involve pathfinding otherwise
+                    SetDirection(CalculateOppositeDirection(GetDirection()));
                     moving = true;
+
+                    // The sprite is now finding its way back into the zone
+                    _out_of_zone = true;
                 }
                 _time_elapsed = 0;
             }
-            // The sprite is now finding its way back into the zone
-            _out_of_zone = true;
         }
         // Otherwise, determine the direction that the sprite should move if the camera is within the sprite's aggression range
         else {
@@ -1306,19 +1310,25 @@ void EnemySprite::Update()
             if(MapMode::CurrentInstance()->AttackAllowed()
                     && (_zone == NULL || (can_get_out_of_zone || _zone->IsInsideZone(camera_x, camera_y)))) {
 
-                if (_use_path && moving)
-                    _time_elapsed += SystemManager->GetUpdateTime();
+                // We set the direction to the character's position if it's not the case
+                if(xdelta > -0.5 && xdelta < 0.5 && ydelta < 0)
+                    SetDirection(SOUTH);
+                else if(xdelta > -0.5 && xdelta < 0.5 && ydelta > 0)
+                    SetDirection(NORTH);
+                else if(ydelta > -0.5 && ydelta < 0.5 && xdelta > 0)
+                    SetDirection(WEST);
+                else if(ydelta > -0.5 && ydelta < 0.5 && xdelta < 0)
+                    SetDirection(EAST);
+                else if(xdelta < 0 && ydelta < 0)
+                    SetDirection(MOVING_SOUTHEAST);
+                else if(xdelta < 0 && ydelta > 0)
+                    SetDirection(MOVING_NORTHEAST);
+                else if(xdelta > 0 && ydelta < 0)
+                    SetDirection(MOVING_SOUTHWEST);
+                else
+                    SetDirection(MOVING_NORTHWEST);
+                moving = true;
 
-                // We set the destination to the character's position if it's not the case
-                if (_time_elapsed >= 600) {
-                    // Avoid heavy paths here.
-                    if (!_SetDestination(camera_x, camera_y, 20)) {
-                        // Fall back to simple movement mode
-                        SetRandomDirection();
-                        moving = true;
-                    }
-                    _time_elapsed = 0;
-                }
             }
             // If the sprite is not within the aggression range, pick a random destination to move
             // If there is no path left, and the time to set a new destination has passed,
