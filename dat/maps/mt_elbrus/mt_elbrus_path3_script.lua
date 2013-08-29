@@ -549,7 +549,7 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
     event = vt_map.MapTransitionEvent("to mountain path 2bis", "dat/maps/mt_elbrus/mt_elbrus_path2_map.lua",
                                        "dat/maps/mt_elbrus/mt_elbrus_path2_script.lua", "from_path3_chest");
-    --EventManager:RegisterEvent(event);
+    EventManager:RegisterEvent(event);
     --event = vt_map.MapTransitionEvent("to mountain path 4", "dat/maps/mt_elbrus/mt_elbrus_path4_map.lua",
     --                                   "dat/maps/mt_elbrus/mt_elbrus_path4_script.lua", "from_path3");
     --EventManager:RegisterEvent(event);
