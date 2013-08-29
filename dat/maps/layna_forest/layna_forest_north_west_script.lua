@@ -1057,9 +1057,6 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("Kalya looks at Bronann");
     EventManager:RegisterEvent(event);
 
-    event = vt_map.ScriptedSpriteEvent("orlinn:SetCollision(NONE)", orlinn, "Sprite_Collision_off", "");
-    EventManager:RegisterEvent(event);
-
     dialogue = vt_map.SpriteDialogue();
     text = vt_system.Translate("Quick! Let's follow him.");
     dialogue:AddLine(text, kalya_sprite);
