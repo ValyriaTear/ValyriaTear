@@ -175,14 +175,14 @@ SaveMode::SaveMode(bool save_mode, uint32 x_position, uint32 y_position) :
     _time_textbox.SetTextStyle(TextStyle("title22"));
     _time_textbox.SetAlignment(VIDEO_X_CENTER, VIDEO_Y_CENTER);
     _time_textbox.SetTextAlignment(VIDEO_X_LEFT, VIDEO_Y_CENTER);
-    _time_textbox.SetDisplayText(" ");
+    _time_textbox.ClearText();
 
     _drunes_textbox.SetPosition(600.0f, 613.0f);
     _drunes_textbox.SetDimensions(250.0f, 26.0f);
     _drunes_textbox.SetTextStyle(TextStyle("title22"));
     _drunes_textbox.SetAlignment(VIDEO_X_CENTER, VIDEO_Y_CENTER);
     _drunes_textbox.SetTextAlignment(VIDEO_X_LEFT, VIDEO_Y_CENTER);
-    _drunes_textbox.SetDisplayText(" ");
+    _drunes_textbox.ClearText();
 
     _clock_icon = vt_global::GlobalManager->Media().GetClockIcon();
     _clock_icon->SetWidthKeepRatio(30.0f);
@@ -395,13 +395,16 @@ void SaveMode::DrawPostEffects()
         if (!_location_image.GetFilename().empty())
             _location_image.Draw(Color(1.0f, 1.0f, 1.0f, 0.4f));
 
+        _map_name_textbox.Draw();
+
+        if (_time_textbox.IsEmpty() || _drunes_textbox.IsEmpty())
+            break;
+
         VideoManager->MoveRelative(15.0f, -35.0f);
         _clock_icon->Draw();
+        _time_textbox.Draw();
         VideoManager->MoveRelative(0.0f, 30.0f);
         _drunes_icon->Draw();
-
-        _map_name_textbox.Draw();
-        _time_textbox.Draw();
         _drunes_textbox.Draw();
         break;
     case SAVE_MODE_CONFIRMING_SAVE:
@@ -463,8 +466,8 @@ void SaveMode::_ClearSaveData(bool selected_file_exists)
         _map_name_textbox.SetDisplayText(UTranslate("Invalid data!"));
     else
         _map_name_textbox.SetDisplayText(UTranslate("No data"));
-    _time_textbox.SetDisplayText(" ");
-    _drunes_textbox.SetDisplayText(" ");
+    _time_textbox.ClearText();
+    _drunes_textbox.ClearText();
     _location_image.Clear();
     for (uint32 i = 0; i < 4; ++i)
         _character_window[i].SetCharacter(NULL);
