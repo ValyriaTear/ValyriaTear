@@ -539,7 +539,7 @@ function _CreateEvents()
     text = vt_system.Translate("Bronann, you should go with her.");
     dialogue:AddLineEventEmote(text, carson, "", "Quest2: Kalya looks at Carson", "thinking dots");
     text = vt_system.Translate("What?!?");
-    dialogue:AddLineEventEmote(text, kalya, "", "Quest2: Kalya looks at Herth", "exclamation");
+    dialogue:AddLineEmote(text, kalya, "exclamation");
     text = vt_system.Translate("Huh?");
     dialogue:AddLineEvent(text, bronann, "","Bronann is frightnened");
     text = vt_system.Translate("Carson is right, Kalya. Bronann shall go with you.");
@@ -551,7 +551,7 @@ function _CreateEvents()
     text = vt_system.Translate("He won't slow you down, believe me. Right, Bronann?");
     dialogue:AddLineEvent(text, carson, "", "Quest2: Carson looks at Bronann");
     text = vt_system.Translate("But father!");
-    dialogue:AddLineEvent(text, kalya, "", "Quest2: Kalya looks at Herth");
+    dialogue:AddLine(text, kalya);
     text = vt_system.Translate("Carson is right, Kalya. Bronann shall go with you. It's... it's an order.");
     dialogue:AddLineEmote(text, herth, "thinking dots");
     DialogueManager:AddDialogue(dialogue);
