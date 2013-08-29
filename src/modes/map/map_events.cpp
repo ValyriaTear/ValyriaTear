@@ -982,8 +982,10 @@ void EventSupervisor::RegisterEvent(MapEvent *new_event)
     }
 
     if(GetEvent(new_event->_event_id) != NULL) {
-        IF_PRINT_WARNING(MAP_DEBUG) << "event with this ID already existed: "
-                                    << new_event->_event_id << std::endl;
+        PRINT_WARNING << "The event with this ID already existed: '"
+                      << new_event->_event_id
+                      << "' in map script: "
+                      << MapMode::CurrentInstance()->GetMapScriptFilename() << std::endl;
         return;
     }
 
@@ -996,7 +998,9 @@ void EventSupervisor::StartEvent(const std::string &event_id)
 {
     MapEvent *event = GetEvent(event_id);
     if(event == NULL) {
-        PRINT_WARNING << "no event with this ID existed: " << event_id << std::endl;
+        PRINT_WARNING << "No event with this ID existed: '" << event_id
+            << "' in map script: "
+            << MapMode::CurrentInstance()->GetMapScriptFilename() << std::endl;
         return;
     }
 
@@ -1009,7 +1013,9 @@ void EventSupervisor::StartEvent(const std::string &event_id, uint32 launch_time
 {
     MapEvent *event = GetEvent(event_id);
     if(event == NULL) {
-        PRINT_WARNING << "no event with this ID existed: " << event_id << std::endl;
+        PRINT_WARNING << "No event with this ID existed: '" << event_id
+            << "' in map script: "
+            << MapMode::CurrentInstance()->GetMapScriptFilename() << std::endl;
         return;
     }
 
@@ -1046,16 +1052,20 @@ void EventSupervisor::StartEvent(MapEvent *event)
 
     // Never ever do that when updating events.
     if(_is_updating) {
-        PRINT_WARNING << "Tried to start the event: " << event->GetEventID()
-                      << " within an update function. The StartEvent() call will be ignored. Fix your scripts!" << std::endl;
+        PRINT_WARNING << "Tried to start the event: '" << event->GetEventID()
+                      << "' within an update function. The StartEvent() call will be ignored. "
+                      << std::endl << " You should fix the map script: "
+                      << MapMode::CurrentInstance()->GetMapScriptFilename() << std::endl;
         return;
     }
 
     for(std::vector<MapEvent *>::iterator it = _active_events.begin(); it != _active_events.end(); ++it) {
         if((*it) == event) {
-            PRINT_WARNING << "The event: " << event->GetEventID()
-                          << " is already active and can be active only once at a time. "
-                          "The StartEvent() call will be ignored. Fix your script!" << std::endl;
+            PRINT_WARNING << "The event: '" << event->GetEventID()
+                          << "' is already active and can be active only once at a time. "
+                          << "The StartEvent() call will be ignored."
+                          << std::endl << " You should fix the map script: "
+                          << MapMode::CurrentInstance()->GetMapScriptFilename() << std::endl;
             return;
         }
     }
@@ -1071,8 +1081,10 @@ void EventSupervisor::PauseEvents(const std::string &event_id)
 {
     // Never ever do that when updating events.
     if(_is_updating) {
-        PRINT_WARNING << "Tried to pause the event: " << event_id
-                      << " within an update function. The PauseEvents() call will be ignored. Fix your scripts!" << std::endl;
+        PRINT_WARNING << "Tried to pause the event: '" << event_id
+                      << "' within an update function. The PauseEvents() call will be ignored."
+                      << std::endl << " You should fix the map script: "
+                      << MapMode::CurrentInstance()->GetMapScriptFilename() << std::endl;
         return;
     }
 
@@ -1109,7 +1121,9 @@ void EventSupervisor::PauseAllEvents(VirtualSprite *sprite)
     // Never ever do that when updating events.
     if(_is_updating) {
         PRINT_WARNING << "Tried to pause all events for sprite: " << sprite->GetObjectID()
-                      << " within an update function. The PauseAllEvents() call will be ignored. Fix your script!" << std::endl;
+                      << " within an update function. The PauseAllEvents() call will be ignored."
+                      << std::endl << " You should fix the map script: "
+                      << MapMode::CurrentInstance()->GetMapScriptFilename() << std::endl;
         return;
     }
 
@@ -1143,8 +1157,10 @@ void EventSupervisor::ResumeEvents(const std::string &event_id)
 {
     // Never ever do that when updating events.
     if(_is_updating) {
-        PRINT_WARNING << "Tried to resume event: " << event_id
-                      << " within an update function. The ResumeEvents() call will be ignored. Fix your script!" << std::endl;
+        PRINT_WARNING << "Tried to resume event: '" << event_id
+                      << "' within an update function. The ResumeEvents() call will be ignored."
+                      << std::endl << " You should fix the map script: "
+                      << MapMode::CurrentInstance()->GetMapScriptFilename() << std::endl;
         return;
     }
 
@@ -1181,7 +1197,9 @@ void EventSupervisor::ResumeAllEvents(VirtualSprite *sprite)
     // Never ever do that when updating events.
     if(_is_updating) {
         PRINT_WARNING << "Tried to resume all events for sprite: " << sprite->GetObjectID()
-                      << " within an update function. The TerminateAllEvents() call will be ignored. Fix your script!" << std::endl;
+                      << " within an update function. The TerminateAllEvents() call will be ignored."
+                      << std::endl << " You should fix the map script: "
+                      << MapMode::CurrentInstance()->GetMapScriptFilename() << std::endl;
         return;
     }
 
@@ -1217,8 +1235,10 @@ void EventSupervisor::TerminateEvents(const std::string &event_id, bool trigger_
 
     // Never ever do that when updating events.
     if(_is_updating) {
-        PRINT_WARNING << "Tried to terminate the event: " << event_id
-                      << " within an update function. The TerminateEvents() call will be ignored. Fix your script!" << std::endl;
+        PRINT_WARNING << "Tried to terminate the event: '" << event_id
+                      << "' within an update function. The TerminateEvents() call will be ignored."
+                      << std::endl << " You should fix the map script: "
+                      << MapMode::CurrentInstance()->GetMapScriptFilename() << std::endl;
         return;
     }
 
@@ -1299,8 +1319,10 @@ void EventSupervisor::TerminateEvents(MapEvent *event, bool trigger_event_links)
 
     // Never ever do that when updating events.
     if(_is_updating) {
-        PRINT_WARNING << "Tried to terminate the event: " << event->GetEventID()
-                      << " within an update function. The TerminateEvents() call will be ignored. Fix your script!" << std::endl;
+        PRINT_WARNING << "Tried to terminate the event: '" << event->GetEventID()
+                      << "' within an update function. The TerminateEvents() call will be ignored."
+                      << std::endl << " You should fix the map script: "
+                      << MapMode::CurrentInstance()->GetMapScriptFilename() << std::endl;
         return;
     }
 
@@ -1318,7 +1340,9 @@ void EventSupervisor::TerminateAllEvents(VirtualSprite *sprite)
     // Never ever do that when updating events.
     if(_is_updating) {
         PRINT_WARNING << "Tried to terminate all events for sprite: " << sprite->GetObjectID()
-                      << " within an update function. The TerminateAllEvents() call will be ignored. Fix your script!" << std::endl;
+                      << " within an update function. The TerminateAllEvents() call will be ignored."
+                      << std::endl << " You should fix the map script: "
+                      << MapMode::CurrentInstance()->GetMapScriptFilename() << std::endl;
         return;
     }
 
@@ -1468,8 +1492,11 @@ void EventSupervisor::_ExamineEventLinks(MapEvent *parent_event, bool event_star
         else {
             MapEvent *child = GetEvent(link.child_event_id);
             if(child == NULL) {
-                IF_PRINT_WARNING(MAP_DEBUG) << "can not launch child event, no event with this ID existed: "
-                                            << link.child_event_id << std::endl;
+                PRINT_WARNING << "Couldn't launch child event, no event with this ID existed: '"
+                              << link.child_event_id << "' from parent event ID: '"
+                              << parent_event->GetEventID()
+                              << "' in map script: "
+                              << MapMode::CurrentInstance()->GetMapScriptFilename() << std::endl;
                 continue;
             } else {
                 _active_delayed_events.push_back(std::make_pair(static_cast<int32>(link.launch_timer), child));
