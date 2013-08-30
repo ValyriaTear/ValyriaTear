@@ -218,7 +218,7 @@ skills[10007] = {
     BattleExecute = function(user, target)
         local target_actor = target:GetActor();
         if (target_actor:IsAlive() == true) then
-            local effect_duration = user:GetProtection() * 2000;
+            local effect_duration = user:GetProtection() * 5000;
             if (effect_duration < 10000) then effect_duration = 10000 end
             target_actor:RegisterStatusChange(vt_global.GameGlobal.GLOBAL_STATUS_SP,
                                             vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_MODERATE,
@@ -292,8 +292,24 @@ skills[10011] = {
     target_type = vt_global.GameGlobal.GLOBAL_TARGET_ALL_FOES,
 
     BattleExecute = function(user, target)
-        local target_actor = target:GetActor();
-        --TODO
+        local index = 0;
+        local effect_duration = user:GetVigor() * 3000;
+        while true do
+            local target_actor = target:GetPartyActor(index);
+            if (target_actor == nil) then
+                break;
+            end
+            if (target_actor:IsAlive() == true) then
+                target_actor:RegisterStatusChange(vt_global.GameGlobal.GLOBAL_STATUS_FORTITUDE,
+                            vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_MODERATE,
+                            effect_duration);
+                target_actor:RegisterStatusChange(vt_global.GameGlobal.GLOBAL_STATUS_PROTECTION,
+                            vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_MODERATE,
+                            effect_duration);
+            end
+            index = index + 1;
+        end
+        -- TODO: Give it to the party
     end,
 }
 

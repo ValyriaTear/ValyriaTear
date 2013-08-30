@@ -607,7 +607,7 @@ enemies[11] = {
         protection = 8,
         agility = 35,
         evade = 6.0,
-        experience_points = 31,
+        experience_points = 32,
         drunes = 14
     },
 
@@ -642,18 +642,18 @@ enemies[12] = {
         [HURT_MEDIUM] = "img/sprites/battle/enemies/eyeball_0.lua",
         [HURT_HEAVILY] = "img/sprites/battle/enemies/eyeball_0.lua"
     },
-    -- TODO: balance
+
     base_stats = {
         hit_points = 75,
         skill_points = 10,
-        strength = 22,
+        strength = 25,
         vigor = 20,
-        fortitude = 10,
+        fortitude = 15,
         protection = 8,
         agility = 35,
-        evade = 6.0,
-        experience_points = 31,
-        drunes = 14
+        evade = 5.0,
+        experience_points = 30,
+        drunes = 15
     },
 
     attack_points = {
@@ -672,7 +672,6 @@ enemies[12] = {
     },
 
     drop_objects = {
-        { 1, 0.15 },  -- Minor Healing Potion
     }
 }
 
@@ -686,18 +685,18 @@ enemies[13] = {
         [HURT_MEDIUM] = "img/sprites/battle/enemies/harlequin_0.lua",
         [HURT_HEAVILY] = "img/sprites/battle/enemies/harlequin_0.lua"
     },
-    -- TODO: balance
+
     base_stats = {
-        hit_points = 75,
-        skill_points = 10, -- TODO: Give it enough SP for the spells
-        strength = 22,
-        vigor = 20,
-        fortitude = 10,
-        protection = 8,
-        agility = 35,
-        evade = 6.0,
-        experience_points = 31,
-        drunes = 14
+        hit_points = 150,
+        skill_points = 150,
+        strength = 42,
+        vigor = 35,
+        fortitude = 25,
+        protection = 25,
+        agility = 30,
+        evade = 5.0,
+        experience_points = 55,
+        drunes = 30
     },
 
     attack_points = {
@@ -713,7 +712,6 @@ enemies[13] = {
 
     skills = {
         21003,  -- HP/MP Drain
-        10002, -- First Aid
         10007, -- Magical poison
     },
 
@@ -733,18 +731,18 @@ enemies[14] = {
         [HURT_MEDIUM] = "img/sprites/battle/enemies/harlequin_0.lua",
         [HURT_HEAVILY] = "img/sprites/battle/enemies/harlequin_0.lua"
     },
-    -- TODO: balance
+
     base_stats = {
-        hit_points = 75,
-        skill_points = 10, -- TODO: Give it enough SP for the spells
-        strength = 22,
-        vigor = 20,
-        fortitude = 10,
-        protection = 8,
+        hit_points = 300,
+        skill_points = 450,
+        strength = 46,
+        vigor = 45,
+        fortitude = 30,
+        protection = 30,
         agility = 35,
-        evade = 6.0,
-        experience_points = 31,
-        drunes = 14
+        evade = 5.0,
+        experience_points = 90,
+        drunes = 54
     },
 
     attack_points = {
@@ -759,11 +757,16 @@ enemies[14] = {
     },
 
     skills = {
-        21003,  -- HP/MP Drain
-        10004, -- Holy Veil ATK+M.ATK on all
+        21003, -- HP/MP Drain
+        10004, -- Holy Veil - ATK+M.ATK on all
+        10011, -- War God - DEF + DEF-M on all
         10007, -- Magical poison
         21002, -- Dark Wish (Revives an ally)
      },
+
+    drop_objects = {
+        { 3002, 1.0 },  -- Iron Ore
+    }
 }
 
 -- ======== Unbalanced ========
