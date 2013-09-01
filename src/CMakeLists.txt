@@ -446,7 +446,7 @@ IF (CMAKE_COMPILER_IS_GNUCXX AND USE_PCH_COMPILATION)
 
         IF (CMAKE_BUILD_TYPE_TOLOWER MATCHES release)
             # Adds the release cxx compile flags
-            SET (_args ${CMAKE_CXX_FLAGS_RELEASE})
+            LIST(APPEND _args ${CMAKE_CXX_FLAGS_RELEASE})
         ENDIF()
 
         LIST(APPEND _args -c ${_header_filename} -o ${_gch_filename})
