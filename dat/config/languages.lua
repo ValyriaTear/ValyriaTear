@@ -9,6 +9,6 @@ languages[2] = { "Deutsch", "de" }
 languages[3] = { "Français", "fr" }
 languages[4] = { "Galego", "gl" }
 languages[5] = { "Italiano", "it" }
-languages[6] = { "Português", "pt_PT" }
+--languages[6] = { "Português", "pt_PT" }
 --languages[x] = { "Español", "es" }
 --languages[x] = { "Português do Brasil", "pt_BR" }
