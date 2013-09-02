@@ -138,29 +138,29 @@ void InputEngine::DeinitializeJoysticks()
 bool InputEngine::RestoreDefaultKeys()
 {
     // Load the settings file
-    std::string in_filename = GetSettingsFilename();
-    ReadScriptDescriptor settings_file;
-    if(!settings_file.OpenFile(in_filename)) {
+    std::string in_filename = "dat/config/restore_settings.lua";
+    ReadScriptDescriptor restore_settings_file;
+    if(!restore_settings_file.OpenFile(in_filename)) {
         PRINT_ERROR << "INPUT ERROR: failed to open data file for reading: "
                     << in_filename << std::endl;
         return false;
     }
 
     // Load all default keys from the table
-    settings_file.OpenTable("settings");
-    settings_file.OpenTable("key_defaults");
-    _key.up           = static_cast<SDLKey>(settings_file.ReadInt("up"));
-    _key.down         = static_cast<SDLKey>(settings_file.ReadInt("down"));
-    _key.left         = static_cast<SDLKey>(settings_file.ReadInt("left"));
-    _key.right        = static_cast<SDLKey>(settings_file.ReadInt("right"));
-    _key.confirm      = static_cast<SDLKey>(settings_file.ReadInt("confirm"));
-    _key.cancel       = static_cast<SDLKey>(settings_file.ReadInt("cancel"));
-    _key.menu         = static_cast<SDLKey>(settings_file.ReadInt("menu"));
-    _key.pause        = static_cast<SDLKey>(settings_file.ReadInt("pause"));
-    settings_file.CloseTable();
-    settings_file.CloseTable();
+    restore_settings_file.OpenTable("settings_defaults");
+    restore_settings_file.OpenTable("key_defaults");
+    _key.up           = static_cast<SDLKey>(restore_settings_file.ReadInt("up"));
+    _key.down         = static_cast<SDLKey>(restore_settings_file.ReadInt("down"));
+    _key.left         = static_cast<SDLKey>(restore_settings_file.ReadInt("left"));
+    _key.right        = static_cast<SDLKey>(restore_settings_file.ReadInt("right"));
+    _key.confirm      = static_cast<SDLKey>(restore_settings_file.ReadInt("confirm"));
+    _key.cancel       = static_cast<SDLKey>(restore_settings_file.ReadInt("cancel"));
+    _key.menu         = static_cast<SDLKey>(restore_settings_file.ReadInt("menu"));
+    _key.pause        = static_cast<SDLKey>(restore_settings_file.ReadInt("pause"));
+    restore_settings_file.CloseTable();
+    restore_settings_file.CloseTable();
 
-    settings_file.CloseFile();
+    restore_settings_file.CloseFile();
 
     return true;
 }
@@ -170,26 +170,26 @@ bool InputEngine::RestoreDefaultKeys()
 bool InputEngine::RestoreDefaultJoyButtons()
 {
     // Load the settings file
-    std::string in_filename = GetSettingsFilename();
-    ReadScriptDescriptor settings_file;
-    if(settings_file.OpenFile(in_filename) == false) {
+    std::string in_filename = "dat/config/restore_settings.lua";
+    ReadScriptDescriptor restore_settings_file;
+    if(!restore_settings_file.OpenFile(in_filename)) {
         PRINT_ERROR << "INPUT ERROR: failed to open data file for reading: "
                     << in_filename << std::endl;
         return false;
     }
 
     // Load all default buttons from the table
-    settings_file.OpenTable("settings");
-    settings_file.OpenTable("joystick_defaults");
-    _joystick.confirm      = static_cast<uint8>(settings_file.ReadInt("confirm"));
-    _joystick.cancel       = static_cast<uint8>(settings_file.ReadInt("cancel"));
-    _joystick.menu         = static_cast<uint8>(settings_file.ReadInt("menu"));
-    _joystick.pause        = static_cast<uint8>(settings_file.ReadInt("pause"));
-    _joystick.quit         = static_cast<uint8>(settings_file.ReadInt("quit"));
-    settings_file.CloseTable();
-    settings_file.CloseTable();
+    restore_settings_file.OpenTable("settings_defaults");
+    restore_settings_file.OpenTable("joystick_defaults");
+    _joystick.confirm      = static_cast<uint8>(restore_settings_file.ReadInt("confirm"));
+    _joystick.cancel       = static_cast<uint8>(restore_settings_file.ReadInt("cancel"));
+    _joystick.menu         = static_cast<uint8>(restore_settings_file.ReadInt("menu"));
+    _joystick.pause        = static_cast<uint8>(restore_settings_file.ReadInt("pause"));
+    _joystick.quit         = static_cast<uint8>(restore_settings_file.ReadInt("quit"));
+    restore_settings_file.CloseTable();
+    restore_settings_file.CloseTable();
 
-    settings_file.CloseFile();
+    restore_settings_file.CloseFile();
 
     return true;
 }
