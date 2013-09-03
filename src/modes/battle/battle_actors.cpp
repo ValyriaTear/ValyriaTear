@@ -317,7 +317,8 @@ void BattleActor::RegisterRevive(uint32 amount)
     _indicator_supervisor->AddHealingIndicator(amount, true);
 
     // Reset the stamina icon position and battle state time to the minimum
-    SetIdleStateTime(MIN_IDLE_WAIT_TIME);
+    float battle_time_factor = BattleMode::CurrentInstance()->GetBattleTypeTimeFactor();
+    SetIdleStateTime(MIN_IDLE_WAIT_TIME / (battle_time_factor > 0.0f ? battle_time_factor : 1.0f));
 
     ChangeState(ACTOR_STATE_REVIVE);
 }
@@ -1001,6 +1002,10 @@ void BattleEnemy::ChangeState(ACTOR_STATE new_state)
         _state_timer.Initialize(400); // Default monster action time
         _state_timer.Run();
         break;
+    case ACTOR_STATE_REVIVE:
+        _state_timer.Initialize(2000);
+        _state_timer.Run();
+        break;
     case ACTOR_STATE_DYING:
         // Trigger the death sequence if it is valid
         if (_death_init.is_valid()) {
@@ -1085,8 +1090,12 @@ void BattleEnemy::Update()
             _sprite_alpha = 1.0f - _state_timer.PercentComplete();
         }
     }
-    // Reset the animations set below to idle once done
+    else if (_state == ACTOR_STATE_REVIVE) {
+        // Fade the enemy in.
+        _sprite_alpha = _state_timer.PercentComplete();
+    }
     else if(_animation_timer.IsFinished()) {
+        // Reset the animations set below to idle once done
         ChangeSpriteAnimation("idle");
         _x_location = _x_origin;
     } else if(_sprite_animation_alias == "dodge") {
