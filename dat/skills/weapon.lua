@@ -69,7 +69,7 @@ end
 
 -- All attack skills definitions are stored in this table
 if (skills == nil) then
-	skills = {}
+    skills = {}
 end
 
 --------------------------------------------------------------------------------

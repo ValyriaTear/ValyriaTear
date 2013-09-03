@@ -277,7 +277,7 @@ function _CreateObjects()
     EventManager:RegisterEvent(event);
 
     event = vt_map.BattleEncounterEvent("Fake Harlequin battle");
-    event:AddEnemy(13, 512, 484); -- Harlequin
+    event:AddEnemy(13, 512, 484); -- Harlequin?
     event:AddEnemy(12, 470, 384); -- Eyeballs
     event:AddEnemy(12, 380, 500); -- Eyeballs
     event:AddEnemy(12, 650, 484); -- Eyeballs
