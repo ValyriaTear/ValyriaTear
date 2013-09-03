@@ -329,7 +329,7 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_EVADE] = {
 status_effects[vt_global.GameGlobal.GLOBAL_STATUS_HP] = {
     name = vt_system.Translate("HP"),
     default_duration = 30000,
-    -- Regens the character only every 9 seconds
+    -- Applies on character only every 9 seconds
     update_every = 9000,
 
     -- Battle status effects related functions
@@ -397,7 +397,7 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_HP] = {
 status_effects[vt_global.GameGlobal.GLOBAL_STATUS_SP] = {
     name = vt_system.Translate("SP"),
     default_duration = 30000,
-    -- Regens the character only every 9 seconds
+    -- Applies on character only every 9 seconds
     update_every = 9000,
 
     -- Battle status effects related functions
@@ -411,21 +411,41 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_SP] = {
 
         if (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_LESSER) then
             battle_actor:RegisterHealing(1, false);
+            return
         elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_MODERATE) then
             battle_actor:RegisterHealing(2, false);
+            return
         elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_GREATER) then
             battle_actor:RegisterHealing(4, false);
+            return
         elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_EXTREME) then
             battle_actor:RegisterHealing(8, false);
-        elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_LESSER) then
-            battle_actor:RegisterSPDamage(1);
-        elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_MODERATE) then
-            battle_actor:RegisterSPDamage(2);
-        elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_GREATER) then
-            battle_actor:RegisterSPDamage(4);
-        elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_EXTREME) then
-            battle_actor:RegisterSPDamage(8);
+            return
         end
+
+        -- Don't remove skill points when there aren't anymore
+        if (battle_actor:GetSkillPoints() == 0) then
+            return
+        end
+
+        if (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_LESSER) then
+            battle_actor:RegisterSPDamage(1);
+            return
+        end
+
+        local sp_damage = 2;
+        if (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_MODERATE) then
+            -- sp damage already equal to 2.
+        elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_GREATER) then
+            sp_damage = 4
+        elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_EXTREME) then
+            sp_damage = 8
+        end
+
+        if (battle_actor:GetSkillPoints() < sp_damage) then
+            sp_damage = battle_actor:GetSkillPoints();
+        end
+        battle_actor:RegisterSPDamage(sp_damage);
     end,
 
     BattleUpdatePassive = function(battle_actor, intensity)

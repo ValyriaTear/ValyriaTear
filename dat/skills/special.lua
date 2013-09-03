@@ -37,7 +37,7 @@
 
 -- All special skills definitions are stored in this table
 if (skills == nil) then
-	skills = {}
+    skills = {}
 end
 
 
@@ -206,8 +206,8 @@ skills[21002] = {
     --name = vt_system.Translate("Dark Wish"),
     --description = vt_system.Translate("Revives an ally, restoring all his/her HP and SP."),
     sp_required = 10,
-    warmup_time = 3000,
-    cooldown_time = 1750,
+    warmup_time = 1400,
+    cooldown_time = 1400,
     warmup_action_name = "magic_prepare",
     action_name = "magic_cast",
     target_type = vt_global.GameGlobal.GLOBAL_TARGET_ALLY_EVEN_DEAD,
@@ -222,29 +222,32 @@ skills[21002] = {
 }
 
 skills[21003] = {
-   name = "Harlequin HP/MP Drain",
-   sp_required = 0,
-   warmup_time = 900,
-   cooldown_time = 0,
-   target_type = vt_global.GameGlobal.GLOBAL_TARGET_FOE_POINT,
+    name = "Harlequin HP/MP Drain",
+    sp_required = 0,
+    warmup_time = 900,
+    cooldown_time = 300,
+    target_type = vt_global.GameGlobal.GLOBAL_TARGET_FOE_POINT,
 
-   BattleExecute = function(user, target)
-       local target_actor = target:GetActor();
-
-       if (vt_battle.CalculateStandardEvasion(target) == false) then
-           local hp_drain = vt_battle.CalculatePhysicalDamageAdder(user, target, 8);
-           target_actor:RegisterDamage(hp_drain, target);
-           -- If the damage dealt was 1, don't recover any HP from the attack
-           if (hp_drain > 1) then
-               user:RegisterHealing(hp_drain / 2, true);
-           end
-      if ((hp_drain / 3) >= 1) then
-       target_actor:RegisterSPDamage(hp_drain / 3);
-       user:RegisterHealing(hp_drain / 3, false);
-      end
-           AudioManager:PlaySound("snd/crystal_chime.wav");
-       else
-           target_actor:RegisterMiss(true);
-       end
-   end
+    BattleExecute = function(user, target)
+        if (vt_battle.CalculateStandardEvasion(target) == false) then
+            local target_actor = target:GetActor();
+            local hp_drain = vt_battle.CalculatePhysicalDamageAdder(user, target, 8);
+            target_actor:RegisterDamage(hp_drain, target);
+            -- If the damage dealt was 1, don't recover any HP from the attack
+            if (hp_drain > 1) then
+                user:RegisterHealing(hp_drain / 2, true);
+            end
+            if (target_actor:GetSkillPoints() > 0 and (hp_drain / 3) >= 1) then
+                local sp_damage = hp_drain / 3;
+                if (target_actor:GetSkillPoints() < sp_damage) then
+                    sp_damage = target_actor:GetSkillPoints();
+                end
+                target_actor:RegisterSPDamage(sp_damage);
+                user:RegisterHealing(sp_damage, false);
+            end
+            AudioManager:PlaySound("snd/crystal_chime.wav");
+        else
+            target_actor:RegisterMiss(true);
+        end
+    end
 }
