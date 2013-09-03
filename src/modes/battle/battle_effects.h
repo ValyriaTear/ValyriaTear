@@ -251,10 +251,17 @@ public:
         return (_status_effects[status] != NULL);
     }
 
-    /** \brief Reurns true if the opposite status to that of the argument is active
-    *** \param status The type of opposite status to check for
+    /** \brief Returns the intensity level of the current status effect, or neutral.
+    *** \param status The type of status effect to check for
     **/
-    bool IsOppositeStatusActive(vt_global::GLOBAL_STATUS status);
+    vt_global::GLOBAL_INTENSITY GetActiveStatusIntensity(vt_global::GLOBAL_STATUS status) {
+        if (_status_effects[status]) {
+            return _status_effects[status]->GetIntensity();
+        }
+        else {
+            return vt_global::GLOBAL_INTENSITY_NEUTRAL;
+        }
+    }
 
     /** \brief Immediately removes all active status effects from the actor
     *** \note This function is typically used in the case of an actor's death. Because it returns no value, indicator icons

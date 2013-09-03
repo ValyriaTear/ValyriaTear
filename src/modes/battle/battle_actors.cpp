@@ -336,6 +336,11 @@ void BattleActor::RegisterStatusChange(GLOBAL_STATUS status, GLOBAL_INTENSITY in
     _effects_supervisor->ChangeStatus(status, intensity, duration);
 }
 
+vt_global::GLOBAL_INTENSITY BattleActor::GetActiveStatusEffectIntensity(vt_global::GLOBAL_STATUS status)
+{
+    return _effects_supervisor->GetActiveStatusIntensity(status);
+}
+
 void BattleActor::Update()
 {
     // Don't update the state timer when the battle tells is to pause

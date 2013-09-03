@@ -349,6 +349,10 @@ public:
     void RegisterStatusChange(vt_global::GLOBAL_STATUS status, vt_global::GLOBAL_INTENSITY intensity,
                               uint32 duration = 0);
 
+    //! \brief Tells the intensity of the active status effect currently applied on the character,
+    //! or GLOBAL_STATUS_NEUTRAL if there is no such effect.
+    vt_global::GLOBAL_INTENSITY GetActiveStatusEffectIntensity(vt_global::GLOBAL_STATUS status);
+
     /** Returns the reference of the indicators supervisor.
     *** It is sometimes used by the effect supervisor to trigger status effects and elemental effects display.
     **/
