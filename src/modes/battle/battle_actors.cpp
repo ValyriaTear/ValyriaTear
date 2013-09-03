@@ -483,6 +483,105 @@ void BattleActor::SetAction(BattleAction *action)
     _action = action;
 }
 
+void BattleActor::SetAction(uint32 skill_id, BattleActor* target_actor)
+{
+    const std::vector<GlobalSkill *>& enemy_skills = _global_actor->GetSkills();
+
+    GlobalSkill* skill = NULL;
+
+    for (uint32 i = 0; i < enemy_skills.size(); ++i) {
+        if (enemy_skills[i]->GetID() == skill_id && enemy_skills[i]->IsExecutableInBattle()) {
+            skill = enemy_skills[i];
+            break;
+        }
+    }
+
+    if (!skill) {
+        PRINT_WARNING << "The enemy has got no usable skill with ID: " << skill_id
+            << ". Its battle action failed." << std::endl;
+        ChangeState(ACTOR_STATE_IDLE);
+        return;
+    }
+
+    if (skill->GetSPRequired() > GetSkillPoints()) {
+        PRINT_WARNING << "The skill cost of this skill: " << skill_id
+            << " was too high. The battle action failed" << std::endl;
+        ChangeState(ACTOR_STATE_IDLE);
+        return;
+    }
+
+    BattleTarget target;
+    GLOBAL_TARGET target_type = skill->GetTargetType();
+    bool party_target = false;
+    BattleMode* BM = BattleMode::CurrentInstance();
+
+    switch(target_type) {
+    case GLOBAL_TARGET_ALL_FOES: // Supported at script level
+        if (IsEnemy())
+            target.SetPartyTarget(target_type, &BM->GetCharacterParty());
+        else
+            target.SetPartyTarget(target_type, &BM->GetEnemyParty());
+        party_target = true;
+        break;
+    case GLOBAL_TARGET_ALL_ALLIES: // Supported at script level
+        if (IsEnemy())
+            target.SetPartyTarget(target_type, &BM->GetEnemyParty());
+        else
+            target.SetPartyTarget(target_type, &BM->GetCharacterParty());
+
+        party_target = true;
+        break;
+    default:
+        break;
+    }
+
+    if (party_target) {
+        SetAction(new SkillAction(this, target, skill));
+        ChangeState(ACTOR_STATE_WARM_UP);
+        return;
+    }
+
+    if (target_type == GLOBAL_TARGET_SELF || target_type == GLOBAL_TARGET_SELF_POINT)
+        target_actor = this;
+
+    // now dealing with single target based skills.
+    if (!target_actor) {
+        PRINT_WARNING << "The enemy has got no target set with a single target skill: " << skill_id
+            << ". Its battle action failed." << std::endl;
+            ChangeState(ACTOR_STATE_IDLE);
+            return;
+    }
+
+    switch(target_type) {
+    case GLOBAL_TARGET_SELF_POINT:
+    case GLOBAL_TARGET_FOE_POINT:
+    case GLOBAL_TARGET_ALLY_POINT: {
+        // Select a random attack point on the target
+        uint32 num_points = target_actor->GetAttackPoints().size();
+        uint32 point_target = 0;
+        if(num_points == 1)
+            point_target = 0;
+        else
+            point_target = RandomBoundedInteger(0, num_points - 1);
+
+        target.SetPointTarget(target_type, point_target, target_actor);
+        break;
+    }
+
+    case GLOBAL_TARGET_FOE:
+    case GLOBAL_TARGET_SELF:
+    case GLOBAL_TARGET_ALLY:
+    case GLOBAL_TARGET_ALLY_EVEN_DEAD:
+        target.SetActorTarget(target_type, target_actor);
+        break;
+    default:
+        break;
+    }
+
+    SetAction(new SkillAction(this, target, skill));
+    ChangeState(ACTOR_STATE_WARM_UP);
+}
+
 void BattleActor::SetAgility(uint32 agility)
 {
     GlobalActor::SetAgility(agility);
@@ -952,9 +1051,35 @@ BattleEnemy::BattleEnemy(GlobalEnemy *enemy) :
     _sprite_animation_alias("idle"),
     _sprite_alpha(1.0f)
 {
+    _LoadAIScript();
     _LoadDeathAnimationScript();
 
     _sprite_animations = _global_enemy->GetBattleAnimations();
+}
+
+void BattleEnemy::_LoadAIScript()
+{
+    std::string filename = _global_enemy->GetBattleAIScriptFilename();
+
+    if (filename.empty())
+        return;
+
+    std::string tablespace = ScriptEngine::GetTableSpace(filename);
+    ScriptManager->DropGlobalTable(tablespace);
+
+    ReadScriptDescriptor ai_script;
+    if(!ai_script.OpenFile(filename))
+        return;
+
+    if(ai_script.OpenTablespace().empty()) {
+        PRINT_ERROR << "The enemy battle AI script file: " << filename
+                    << "has got no valid namespace" << std::endl;
+        ai_script.CloseFile();
+        return;
+    }
+
+    _ai_script = ai_script.ReadFunctionPointer("DecideAction");
+    ai_script.CloseFile();
 }
 
 void BattleEnemy::_LoadDeathAnimationScript()
@@ -1000,9 +1125,24 @@ void BattleEnemy::ChangeState(ACTOR_STATE new_state)
     BattleActor::ChangeState(new_state);
 
     switch(_state) {
-    case ACTOR_STATE_COMMAND:
-        _DecideAction();
+    case ACTOR_STATE_COMMAND: {
+        if (_ai_script.is_valid()) {
+            try {
+                ScriptCallFunction<void>(_ai_script, BattleMode::CurrentInstance(), this);
+            } catch(const luabind::error &e) {
+                PRINT_ERROR << "Error while triggering DecideAction() function of enemy id: " << _global_actor->GetID() << std::endl;
+                ScriptManager->HandleLuaError(e);
+            } catch(const luabind::cast_failed &e) {
+                PRINT_ERROR << "Error while triggering DecideAction() function of enemy id: " << _global_actor->GetID() << std::endl;
+                ScriptManager->HandleCastError(e);
+            }
+        }
+        else {
+            // Hardcoded fallback behaviour
+            _DecideAction();
+        }
         break;
+    }
     case ACTOR_STATE_ACTING:
         _state_timer.Initialize(400); // Default monster action time
         _state_timer.Run();
