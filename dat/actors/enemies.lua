@@ -756,6 +756,10 @@ enemies[14] = {
         },
     },
 
+    scripts = {
+        battle_ai = "dat/battles/enemies_ai/harlequin_ai.lua",
+    },
+
     skills = {
         21003, -- HP/MP Drain
         10004, -- Holy Veil - ATK+M.ATK on all

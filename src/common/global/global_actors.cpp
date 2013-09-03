@@ -1444,6 +1444,7 @@ GlobalEnemy::GlobalEnemy(uint32 id) :
     // Loads enemy battle animation scripts
     if (enemy_data.OpenTable("scripts")) {
         _death_script_filename = enemy_data.ReadString("death");
+        _ai_script_filename = enemy_data.ReadString("battle_ai");
         enemy_data.CloseTable();
     }
 

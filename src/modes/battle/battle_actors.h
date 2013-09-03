@@ -407,6 +407,15 @@ public:
     **/
     void SetAction(BattleAction *action);
 
+    //! \brief Convenience wrapper for all targets type skills
+    //! This one useful for self target-type skills, and all allies/enemies target-type skills.
+    void SetAction(uint32 skill_id) {
+        SetAction(skill_id, NULL);
+    }
+
+    //! \brief Convenience wrapper for single target type skills
+    void SetAction(uint32 skill_id, BattleActor* target_actor);
+    
     //! \brief Resets actor stats to their original values
     //@{
     void ResetHitPoints() {
@@ -748,6 +757,12 @@ protected:
     ScriptObject _death_init;
     //! This function permits to draw something along with the Battle enemy sprite
     ScriptObject _death_draw_on_sprite;
+
+    //! \brief The battle AI script
+    ScriptObject _ai_script;
+
+    //! \brief Loads the potential battle AI scripted function.
+    void _LoadAIScript();
 
     //! \brief Loads the potential death animation scripted functions.
     void _LoadDeathAnimationScript();

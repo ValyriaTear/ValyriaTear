@@ -697,6 +697,8 @@ void BindModeCode()
             .def("SetAmmoPosition", &BattleActor::SetAmmoPosition)
             .def("GetAmmo", &BattleActor::GetAmmo)
             .def("GetState", &BattleActor::GetState)
+            .def("SetAction", (void(BattleActor:: *)(uint32))&BattleActor::SetAction)
+            .def("SetAction", (void(BattleActor:: *)(uint32, BattleActor *))&BattleActor::SetAction)
         ];
 
         luabind::module(vt_script::ScriptManager->GetGlobalState(), "vt_battle")

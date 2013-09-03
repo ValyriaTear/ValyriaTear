@@ -1304,6 +1304,10 @@ public:
     const std::string& GetDeathScriptFilename() const {
         return _death_script_filename;
     }
+
+    const std::string& GetBattleAIScriptFilename() const {
+        return _ai_script_filename;
+    }
     //@}
 
 protected:
@@ -1341,6 +1345,9 @@ protected:
 
     //! \brief Stores the animation script filename used when the enemy dies.
     std::string _death_script_filename;
+
+    //! \brief Stores the battle AI script filename used when the enemy is fighting.
+    std::string _ai_script_filename;
 }; // class GlobalEnemy : public GlobalActor
 
 

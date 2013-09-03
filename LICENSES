@@ -1,7 +1,7 @@
 Licenses
 ========
 
-Last update: 2013.08.24
+Last update: 2013.09.03
 
 This file is listing all the files licenses from the point of the fork
 from the Allacrost project.
@@ -68,6 +68,8 @@ dat/battles/enemies_animations/death_light_2.png                CC by SA 3.0    
 dat/battles/enemies_animations/death_light_3.png                CC by SA 3.0             Bertram
 dat/battles/enemies_animations/fenrir_death.lua                 GPLv2+                   Bertram
 dat/battles/enemies_animations/fenrir_flee.lua                  GPLv2+                   Bertram
+
+dat/battles/enemies_ai/harlequin_ai.lua                         GPLv2+                   Bertram
 
 dat/config/boot.lua                                             GPLv2+                   Bertram (Completely redone it.)
 dat/config/debug_menu.lua                                       GPLv2+                   Bertram (Completely redone it.)
