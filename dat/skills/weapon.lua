@@ -35,7 +35,6 @@ function trigger_potential_stun(user, target)
     local chance = (vt_utils.RandomFloat() * 100.0);
     --print( chance.. "/".. 50.0 + chance_modifier);
     if (chance > (50.0 + chance_modifier)) then
-        target_actor:RegisterMiss(true);
         return;
     end
 
@@ -55,7 +54,6 @@ function trigger_potential_attack_lowering(user, target)
     local chance = (vt_utils.RandomFloat() * 100.0);
     --print( chance.. "/".. 50.0 + chance_modifier);
     if (chance > (50.0 + chance_modifier)) then
-        target_actor:RegisterMiss(true);
         return;
     end
 
