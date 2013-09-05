@@ -8,7 +8,11 @@ This code is licensed under the GNU GPL. It is free software and you may
 modify it and/or redistribute it under the terms of this license.
 See http://www.gnu.org/copyleft/gpl.html for details.
 
-Valyria Tear is an attempt at creating a small J-RPG using an upgraded HoA engine (See http://www.allacrost.org/).
+Valyria Tear is an open-source single-player medieval-fantasy 2D J-RPG based on an extended Hero of Allacrost engine (See http://www.allacrost.org/) and inspired by classic console RPGs.
+The player incarnates Bronann, a young boy forced to take part into the struggle for the possession of a mysterious crystal.
+This powerful artifact will lead him to discover the actual threat set upon his world, but also courage and love.
+
+The game has all the features you can expect from JRPG classics: entertaining story development, colourful map exploration, active side-view battles, character management, puzzles... It is also translated in several languages.
 
 Development blog: http://valyriatear.blogspot.com
 
@@ -67,5 +71,4 @@ Got to Project->Build options, and add the flags in the #defines tab, i.e.:
 DEBUG_MENU
 
 Note that the editor can't be built using C::B. Use Qt-Creator and the MapEditor.pro file for that.
-Be sure also to read the instructions within that file, as RTTI support must be enabled, and unicode disabled
-in the compile flags.
+Be sure also to read the instructions within that file, as RTTI support must be enabled, and unicode disabled in the compile flags.
