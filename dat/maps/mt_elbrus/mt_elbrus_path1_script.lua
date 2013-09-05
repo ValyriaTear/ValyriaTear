@@ -542,8 +542,8 @@ function _CreateEnemies()
     enemy:NewEnemyParty();
     enemy:AddEnemy(6);
     enemy:AddEnemy(4);
-    enemy:AddEnemy(4);
     enemy:AddEnemy(6);
+    enemy:AddEnemy(4);
     roam_zone:AddEnemy(enemy, Map, 1);
     Map:AddZone(roam_zone);
 
@@ -559,8 +559,8 @@ function _CreateEnemies()
     enemy:NewEnemyParty();
     enemy:AddEnemy(6);
     enemy:AddEnemy(4);
-    enemy:AddEnemy(4);
     enemy:AddEnemy(6);
+    enemy:AddEnemy(4);
     roam_zone:AddEnemy(enemy, Map, 1);
     Map:AddZone(roam_zone);
 
