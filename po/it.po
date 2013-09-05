@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: it\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-08-28 02:21+0200\n"
-"PO-Revision-Date: 2013-08-28 13:14+0100\n"
+"PO-Revision-Date: 2013-09-05 15:04+0100\n"
 "Last-Translator: BioHazardX <dhamp90@aol.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1923,16 +1923,16 @@ msgstr "Siamo riusciti a trovare una strada che porta in cima della montagna."
 
 #: ../dat/config/quests.lua:104
 msgid "Kalya's home basement"
-msgstr "Seminterrato nella casa di Kalya"
+msgstr "Seminterrato della casa di Kalya"
 
 #: ../dat/config/restore_settings.lua:13 ../dat/config/settings.lua:11
 #: ../dat/config/themes.lua:14
 msgid "Royal Silk"
-msgstr "Seta reale"
+msgstr "Royal Silk"
 
 #: ../dat/config/themes.lua:21
 msgid "Black Sleet"
-msgstr "Nevicata nera"
+msgstr "Black Sleet"
 
 #: ../dat/config/world_locations.lua:29 map_names_tr.lua:18
 #: map_names_tr.lua:22 map_names_tr.lua:26 map_names_tr.lua:30
@@ -2234,7 +2234,7 @@ msgstr "Per voi, passeranno decenni."
 
 #: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:576
 msgid "May you bring a happy end to this foolish destiny of ours."
-msgstr "Che voi portiate un lieto fine al nostro folle destino."
+msgstr "Che voi possiate portare un lieto fine al nostro folle destino."
 
 #: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:578
 msgid "We're all anxiously awaiting your return."
@@ -2307,7 +2307,7 @@ msgstr "Non preoccuparti, sto bene. Err, quale cristallo? Quale...lupo?"
 #: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:693
 msgid "... You won't be fine for long after I'm done with you!!"
 msgstr ""
-"...Non starai meglio per molto tempo dopo che avrò fatto i conti con te!! "
+"...Non starai meglio per molto dopo che avrò finito di fare i conti con te!! "
 
 #: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:695
 msgid "... Huh? Wait, I didn't do anything this time!!"
@@ -2319,7 +2319,7 @@ msgstr "...Oh? Davvero??"
 
 #: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:734
 msgid "When I'll catch you, I'll make you wish you weren't born!! Rahh!"
-msgstr "Quando ti catturo, ti farò pentire di essere nato! Arrgh!"
+msgstr "Se ti catturo, ti farò pentire di essere nato! Arrgh!"
 
 #: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:736
 #: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:740
@@ -2345,7 +2345,7 @@ msgstr ""
 
 #: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:748
 msgid "I still really feel dizzy but I'll be ok..."
-msgstr "Ho ancora le vertigini ma sto bene lo stesso..."
+msgstr "Ho ancora le vertigini ma va bene lo stesso..."
 
 #: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:750
 msgid ""
@@ -2393,7 +2393,8 @@ msgstr ""
 #: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:783
 msgid "You know you won't get away with this, when you'll see Herth..."
 msgstr ""
-"Sai che non sarà possibile andarsene con questo, quando vedrai Herth..."
+"Sai bene che non puoi raccontare questa scusa, fino a quando non vedrai "
+"Herth..."
 
 #: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:785
 msgid "I swear it's the truth!"
@@ -2568,7 +2569,7 @@ msgstr "Kalya, ...err..."
 
 #: ../dat/maps/layna_forest/layna_forest_north_west_script.lua:1146
 msgid "What is it, Bronann?"
-msgstr "Che cos'è, Bronann."
+msgstr "Cosa c'è, Bronann?"
 
 #: ../dat/maps/layna_forest/layna_forest_north_west_script.lua:1148
 msgid "Hmm... Nevermind."
@@ -2692,7 +2693,7 @@ msgstr "Banesore"
 
 #: ../dat/maps/layna_village/battle_with_banesore/battle_with_banesore_script.lua:56
 msgid "So... Do you think you can hurt me?"
-msgstr "Così, credi di potermi fare del male?"
+msgstr "Così, credi di sconfiggermi?"
 
 #: ../dat/maps/layna_village/battle_with_banesore/battle_with_banesore_script.lua:58
 msgid "You? A child with an old wooden stick?"
@@ -2745,7 +2746,7 @@ msgstr "Argh! Il mio torace sta bruciando!!"
 
 #: ../dat/maps/layna_village/battle_with_banesore/battle_with_banesore_script.lua:97
 msgid "Hold on Bronann!"
-msgstr "Reggiti, Bronann!"
+msgstr "Resisti, Bronann!"
 
 #: ../dat/maps/layna_village/layna_village_bronanns_home_first_floor_script.lua:187
 msgid ""
@@ -2867,7 +2868,7 @@ msgstr "Lo spero davvero..."
 
 #: ../dat/maps/layna_village/layna_village_bronanns_home_script.lua:473
 msgid "Promise me you'll be careful, Bronann, ok?."
-msgstr "Bronann, mi prometti di stare più attento d'ora in poi, ok?"
+msgstr "Bronann, prometti di stare più attento d'ora in poi, ok?"
 
 #: ../dat/maps/layna_village/layna_village_bronanns_home_script.lua:483
 msgid "Sigh... got it, mom!"
@@ -2899,15 +2900,15 @@ msgstr "Non andare troppo lontano, avrò bisogno del tuo aiuto molto presto!"
 
 #: ../dat/maps/layna_village/layna_village_center_at_night_script.lua:267
 msgid "Back home, finally..."
-msgstr "A casa, finalmente..."
+msgstr "Siamo a casa, finalmente..."
 
 #: ../dat/maps/layna_village/layna_village_center_at_night_script.lua:269
 msgid ""
 "I'll go and get Herth. Your parents must be worried, you should get back "
 "home and we'll meet there."
 msgstr ""
-"Vado a prendere Herth. I tuoi genitori devono essere in pensiero, farai "
-"meglio a tornare a casa e poi ci vedremo nuovamente lì."
+"Vado a prendere Herth. Farai meglio a tornare a casa, i tuoi genitori "
+"saranno in pensiero. Verrò a farti visita."
 
 #: ../dat/maps/layna_village/layna_village_center_at_night_script.lua:286
 msgid "I should really get back home..."
@@ -3539,7 +3540,7 @@ msgstr "Bronann!!!"
 
 #: ../dat/maps/layna_village/layna_village_kalya_house_path_at_night_script.lua:291
 msgid "Bronann!!! Hold on! We're almost there..."
-msgstr "Bronann!!! Reggiti! Ci siamo quasi..."
+msgstr "Bronann!!! Non mollare! Ci siamo quasi..."
 
 #: ../dat/maps/layna_village/layna_village_kalya_house_path_at_night_script.lua:293
 msgid "I ... can't. My body ... Argh!"
@@ -3571,7 +3572,7 @@ msgstr "Smettila di preoccuparti. Anche noi nascondiamo dei piccoli segreti..."
 
 #: ../dat/maps/layna_village/layna_village_kalya_house_path_at_night_script.lua:331
 msgid "You can go in there, Orlinn."
-msgstr "Puoi andare di là, Orlinn."
+msgstr "Prosegui, Orlinn."
 
 #: ../dat/maps/layna_village/layna_village_kalya_house_path_at_night_script.lua:333
 #: ../dat/maps/mt_elbrus/mt_elbrus_cave1_script.lua:165
@@ -3581,7 +3582,7 @@ msgstr "Ok!"
 
 #: ../dat/maps/layna_village/layna_village_kalya_house_path_at_night_script.lua:335
 msgid "See?"
-msgstr "Vedi?"
+msgstr "Visto?"
 
 #: ../dat/maps/layna_village/layna_village_kalya_house_path_at_night_script.lua:337
 msgid ""
@@ -3634,7 +3635,7 @@ msgid ""
 "In our basement. The other stairs there are leading to my room. This house "
 "is an ancient sanctuary, so it might explain why you're feeling better..."
 msgstr ""
-"Nel nostro seminterrato. Le altre scale ci stanno portando in camera mia. "
+"Nel nostro seminterrato. Le altre scale che vedi portano in camera mia. "
 "Questa casa è un santuario antico, e questo potrebbe spiegare il fatto di "
 "sentirti meglio..."
 
@@ -3687,12 +3688,12 @@ msgid ""
 "Nobody told me what was happening. Herth and the Lord seemed to know each "
 "other... And now you..."
 msgstr ""
-"Nessuno mi ha detto cosa stava succedendo. Herth e il lord sembravano che si "
+"Nessuno mi ha detto cosa stava succedendo. Herth e il Lord sembravano che si "
 "conoscessero... E ora tu..."
 
 #: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:307
 msgid "You seem so calm, ready and prepared..."
-msgstr "Sembri tranquillo, pronto e ben preparato..."
+msgstr "E tu sembri così tranquilla, pronta e già preparata..."
 
 #: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:311
 msgid "Enough! You hid things to me. You're a liar, like everyone else!"
@@ -3755,7 +3756,7 @@ msgstr "Il cristallo mi ha scelto? Ma sono solo..."
 
 #: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:337
 msgid "... someone brave enough to jump between my brother and it..."
-msgstr "..qualcuno abbastanza coraggioso da salvare mio fratello..."
+msgstr "..una persona abbastanza coraggiosa da salvare mio fratello..."
 
 #: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:339
 msgid ""
@@ -3767,7 +3768,7 @@ msgstr ""
 
 #: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:341
 msgid "How?"
-msgstr "Come?"
+msgstr "E come?"
 
 #: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:343
 msgid "I..."
@@ -3791,8 +3792,7 @@ msgid ""
 "everything needed and prepare yourself..."
 msgstr ""
 "Non potremo tornare di nuovo qui una volta fuori. Quindi, non esitare a "
-"prendere tutto il necessario e stai pronto a combattere in qualsiasi "
-"momento..."
+"prendere tutto il necessario e stai pronto a combattere..."
 
 #: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:371
 msgid ""
@@ -3804,7 +3804,7 @@ msgstr ""
 
 #: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:373
 msgid "That's because he's not our father..."
-msgstr "Questo perché non è mio padre..."
+msgstr "Questo perché non è nostro padre..."
 
 #: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:375
 msgid "Our parents have been killed a long time ago..."
@@ -3849,7 +3849,7 @@ msgstr "Non possiamo tornare indietro..."
 
 #: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:436
 msgid "It's my room upstairs. Don't even think about it!"
-msgstr "C'è la mia stanza al piano di sopra. Non ci avevo pensato!"
+msgstr "C'è la mia stanza al piano di sopra. Non pensarci nemmeno!"
 
 #: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:429
 msgid "I can't go back now..."
@@ -3860,12 +3860,14 @@ msgid ""
 "Guards keeping the surroundings... I need to come closer and see what's "
 "happening."
 msgstr ""
-"Le guardie sorvegliano i dintorni... dovrei avvicinarmi e vedere cosa "
-"succede."
+"Le guardie sorvegliano i dintorni... dovrò avvicinarmi meglio per vedere "
+"cosa sta succedendo."
 
 #: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:448
 msgid "I should be able to sneak through when they're not watching..."
-msgstr "Dovrei sgattaiolare nel momento in cui smettono di sorvegliare..."
+msgstr ""
+"Dovrei sgattaiolare nello stesso momento in cui sono girati a guardare "
+"nell'altra parte..."
 
 #: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:472
 msgid "Who's there?"
@@ -3973,7 +3975,7 @@ msgstr ""
 
 #: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:553
 msgid "Ah? So he must be close..."
-msgstr "Ah? Così deve essere molto vicino..."
+msgstr "Ah? Così deve trovarsi molto vicino..."
 
 #: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:555
 msgid "What? No!"
@@ -4001,7 +4003,7 @@ msgstr "...purtroppo lei sarà la prossima."
 
 #: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:594
 msgid "You filthy demon!"
-msgstr "Non siete altro che un demonio immondo!"
+msgstr "Non sei altro che un demonio immondo!"
 
 #: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:596
 msgid "It's fine, I'll come..."
@@ -4096,8 +4098,8 @@ msgstr "Kalya! Ora!!"
 msgid ""
 "You won't get him, Banesore! It seems we were smarter than you, this time..."
 msgstr ""
-"Non lo avrete, Banesore! Sembra che siamo stati più intelligenti di te, "
-"questa volta..."
+"Non lo avrete, Banesore! Sembra che siamo stati più furbi di te, questa "
+"volta..."
 
 #: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:793
 msgid "Ah ah ah... But this is exactly what I wanted."
@@ -4184,7 +4186,7 @@ msgstr "Non voglio sentire! Vieni via, ora!"
 
 #: ../dat/maps/layna_village/layna_village_riverbank_script.lua:349
 msgid "Don't blame him, Kalya. Actually, it was..."
-msgstr "Non incolparlo, Kalya. Veramente c'è stato..."
+msgstr "Non incolparlo, Kalya. Veramente, lui non ha..."
 
 #: ../dat/maps/layna_village/layna_village_riverbank_script.lua:351
 msgid "I don't think I was talking to you, now was I?"
@@ -4425,7 +4427,7 @@ msgstr "Dobbiamo assolutamente evitarli o chiameranno altri rinforzi."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_path1_script.lua:669
 msgid "They are too strong. If they catch us, we're doomed."
-msgstr "Sono stroppo forti. Se ci prendono, saremmo condannati."
+msgstr "Sono troppo forti. Se ci prendono, per noi sarà la fine."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_path2_script.lua:394
 msgid "Dang! And now the rain..."
@@ -4436,8 +4438,8 @@ msgid ""
 "The path seems to lead straight into the storm up there. It's definitely our "
 "lucky day..."
 msgstr ""
-"Il percorso sembra portare dritto lassù in mezzo alla tempesta. Senza dubbio "
-"questo è il nostro giorno fortunato..."
+"Il percorso sembra portare dritto lassù dalla parte della tempesta. Senza "
+"dubbio questo è il nostro giorno fortunato..."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_path2_script.lua:398
 msgid ""
@@ -4459,8 +4461,8 @@ msgid ""
 "This place is the village old cemetery, used when the former villagers lived "
 "in Layna..."
 msgstr ""
-"Questo luogo è il vecchio cimitero del villaggio, che veniva usato quando "
-"gli antichi abitanti vivevano a Layna..."
+"Questo luogo è il vecchio cimitero del villaggio, il quale veniva usato "
+"quando gli antichi abitanti vivevano a Layna..."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_path3_script.lua:610
 msgid "The former villagers? What do you mean?"
@@ -4479,7 +4481,7 @@ msgstr ""
 msgid ""
 "I've never been further alone before... This place gives me the chill..."
 msgstr ""
-"Non mi sono mai allontanato fin così tanto da solo...questo luogo mi dà i "
+"Non mi sono mai allontanata fin così tanto da sola...questo luogo mi dà i "
 "brividi..."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_path3_script.lua:616
@@ -4488,8 +4490,7 @@ msgstr "Yiek!"
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_path3_script.lua:618
 msgid "Anyway, once the cemetery is behind us, we should be out of trouble!"
-msgstr ""
-"Ad ogni modo, una volta superato il cimitero, dovremmo essere fuori dai guai!"
+msgstr "Ad ogni modo, una volta superato il cimitero, saremmo fuori dai guai!"
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_path3_script.lua:643
 msgid "Isn't that soldiers up there?"
@@ -4526,7 +4527,7 @@ msgstr "Siamo in trappola!"
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_path3_script.lua:758
 msgid "You're mine now!"
-msgstr "Adesso sei mio!"
+msgstr "Adesso siete miei!"
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_path3_script.lua:775
 msgid "I shall bring your spirits to the Master."
@@ -4534,11 +4535,11 @@ msgstr "Porterò i vostri spiriti al Maestro."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_path3_script.lua:777
 msgid "But let's play together first, shall we?"
-msgstr "Ma prima giochiamo insieme, che ne dite?"
+msgstr "Ma prima, che ne dite di giocare insieme?"
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_path3_script.lua:779
 msgid "Now catch me... if you can."
-msgstr "Ora acciuffatemi, se ci riuscite."
+msgstr "Ora acciuffatemi...se ci riuscite."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_path3_script.lua:807
 msgid "Enough of this shallow game. Give me your souls now!..."
@@ -4546,7 +4547,7 @@ msgstr "Basta con questo gioco futile. Datemi le vostre anime, ora!..."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_path3_script.lua:828
 msgid "How could I be hurt by... children..."
-msgstr "Come mai potrei essere stato ferito da dei...bambini..."
+msgstr "Come ho potuto farmi ferire da dei...bambini..."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_path3_script.lua:830
 msgid "We'll see each other again, Chosen One..."
@@ -4673,7 +4674,7 @@ msgstr "Recupera un'altissima quantità di punti vita all'alleato."
 
 #: ../dat/objects/items.lua:185
 msgid "Small Moon Juice Potion"
-msgstr "Pozione al succo di luna minore"
+msgstr "Succo di luna minore"
 
 #: ../dat/objects/items.lua:186
 msgid "Restores a small amount of skill points to an ally."
@@ -4681,7 +4682,7 @@ msgstr "Recupera una piccola quantità di punti abilità all'alleato."
 
 #: ../dat/objects/items.lua:204
 msgid "Medium Moon Juice Potion"
-msgstr "Pozione al succo di luna media"
+msgstr "Succo di luna media"
 
 #: ../dat/objects/items.lua:205
 msgid "Restores a reasonable amount of skill points to an ally."
@@ -4689,7 +4690,7 @@ msgstr "Recupera una decente quantità di punti abilità all'alleato."
 
 #: ../dat/objects/items.lua:223
 msgid "Moon Juice Potion"
-msgstr "Pozione al succo di luna"
+msgstr "Succo di luna"
 
 #: ../dat/objects/items.lua:224
 msgid "Restores a large amount of skill points to an ally."
@@ -4697,7 +4698,7 @@ msgstr "Recupera un'abbondante quantità di punti abilità all'alleato."
 
 #: ../dat/objects/items.lua:242
 msgid "Mega Moon Juice Potion"
-msgstr "Mega-pozione al succo di luna "
+msgstr "Mega-succo di luna "
 
 #: ../dat/objects/items.lua:243
 msgid "Restores a very high amount of skill points to an ally."
