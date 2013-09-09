@@ -346,8 +346,7 @@ void BattleActor::RegisterRevive(uint32 amount)
     _indicator_supervisor->AddHealingIndicator(amount, true);
 
     // Reset the stamina icon position and battle state time to the minimum
-    float battle_time_factor = BattleMode::CurrentInstance()->GetBattleTypeTimeFactor();
-    SetIdleStateTime(MIN_IDLE_WAIT_TIME / (battle_time_factor > 0.0f ? battle_time_factor : 1.0f));
+    BattleMode::CurrentInstance()->SetActorIdleStateTime(this);
 
     ChangeState(ACTOR_STATE_REVIVE);
 }
