@@ -523,6 +523,9 @@ private:
 
     //! \brief Draws the map layer tile and collision grid.
     void _DrawDebugGrid();
+
+    //! \brief Restores the music state on ::Reset() calls.
+    void _ResetMusicState();
 }; // class MapMode
 
 } // namespace vt_map;
