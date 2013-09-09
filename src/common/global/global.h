@@ -647,7 +647,7 @@ public:
         //if you want to remove an id, call HideWorldLocation
         if(location_id.empty())
             return;
-        // check to make sure this location isn't already visable
+        // check to make sure this location isn't already visible
         if(std::find(_viewable_world_locations.begin(),
                      _viewable_world_locations.end(),
                      location_id) == _viewable_world_locations.end())
