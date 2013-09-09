@@ -1279,16 +1279,24 @@ void GameGlobal::_SaveWorldMap(vt_script::WriteScriptDescriptor &file)
         return;
     }
 
+    // Write the 'worldmap' table
+    file.WriteLine("worldmap = {");
+
     //write the world map filename
-    file.WriteLine("world_map = \"" + GetWorldMapFilename() + "\",");
+    file.WriteLine("\tworld_map_file = \"" + GetWorldMapFilename() + "\",");
     file.InsertNewLine();
 
     //write the viewable locations
-    file.WriteLine("viewable_locations = {");
+    file.WriteLine("\tviewable_locations = {");
     for(uint32 i = 0; i < _viewable_world_locations.size(); ++i)
-        file.WriteLine("\t\"" + _viewable_world_locations[i]+"\",");
-    file.WriteLine("}");
+        file.WriteLine("\t\t\"" + _viewable_world_locations[i]+"\",");
+    file.WriteLine("\t},");
+    file.InsertNewLine();
 
+    file.WriteLine("\tcurrent_location = \"" + GetCurrentLocationId() + "\"");
+
+    file.WriteLine("}"); // close the main table
+    file.InsertNewLine();
 }
 
 void GameGlobal::_LoadInventory(ReadScriptDescriptor &file, const std::string &category_name)
@@ -1522,13 +1530,32 @@ void GameGlobal::_LoadWorldMap(vt_script::ReadScriptDescriptor &file)
         IF_PRINT_WARNING(GLOBAL_DEBUG) << "the file provided in the function argument was not open" << std::endl;
         return;
     }
-    std::string world_map = file.ReadString("world_map");
+
+    if (!file.OpenTable("worldmap")) {
+        // DEPRECATED! Old World map format. Removed in one release...
+        std::string world_map = file.ReadString("world_map");
+        SetWorldMap(world_map);
+
+        std::vector<std::string> location_ids;
+        file.ReadStringVector("viewable_locations", location_ids);
+        for(uint32 i = 0; i < location_ids.size(); ++i)
+            ShowWorldLocation(location_ids[i]);
+        return;
+    }
+
+    std::string world_map = file.ReadString("world_map_file");
     SetWorldMap(world_map);
 
     std::vector<std::string> location_ids;
     file.ReadStringVector("viewable_locations", location_ids);
     for(uint32 i = 0; i < location_ids.size(); ++i)
         ShowWorldLocation(location_ids[i]);
+
+    std::string current_location = file.ReadString("current_location");
+    if (!current_location.empty())
+        SetCurrentLocationId(current_location);
+
+    file.CloseTable(); // worldmap
 }
 
 bool GameGlobal::_LoadWorldLocationsScript(const std::string &world_locations_filename)
