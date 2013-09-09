@@ -192,27 +192,7 @@ void MapMode::Reset()
     GlobalManager->SetMap(_map_data_filename, _map_script_filename,
                           _map_image.GetFilename(), _map_hud_name);
 
-    // Only replace a different previous music.
-    MusicDescriptor *music = AudioManager->RetrieveMusic(_music_filename);
-    MusicDescriptor *active_music = AudioManager->GetActiveMusic();
-    // Stop the current music if it's not the right one.
-    if (active_music && music != active_music)
-        active_music->FadeOut(500);
-
-    if(music && music->GetState() != _audio_state) {
-        if (_audio_state == AUDIO_STATE_PLAYING || _audio_state == AUDIO_STATE_FADE_IN) {
-            // In case the music volume was modified, we fade it back in smoothly
-            if(music->GetVolume() < 1.0f)
-                music->FadeIn(1000);
-            else
-                music->Play();
-        }
-        // Stopped or unloaded, in any case, no sound
-        else {
-            if (music && music->GetState() == AUDIO_STATE_PLAYING)
-                music->FadeOut(1000);
-        }
-    }
+    _ResetMusicState();
 
     _intro_timer.Run();
 
@@ -227,7 +207,39 @@ void MapMode::Reset()
         _object_supervisor->ReloadVisiblePartyMember();
 }
 
+void MapMode::_ResetMusicState()
+{
+    MusicDescriptor *music = AudioManager->RetrieveMusic(_music_filename);
+    MusicDescriptor *active_music = AudioManager->GetActiveMusic();
+    // Stop the current music if it's not the right one.
+    if (active_music && music != active_music)
+        active_music->FadeOut(500);
 
+    // If there is no map music or the music is already in the correct state, don't do anything.
+    if (!music || music->GetState() == _audio_state)
+        return;
+
+    switch(_audio_state) {
+    case AUDIO_STATE_FADE_IN:
+    case AUDIO_STATE_PLAYING:
+    default:
+        // TODO: Seek the music point to not restart it from the beginning.
+        // music->SeekSecond(_audio_time_offset);
+        // In case the music volume was modified, we fade it back in smoothly
+        if(music->GetVolume() < 1.0f)
+            music->FadeIn(1000);
+        else
+            music->Play();
+        break;
+    case AUDIO_STATE_UNLOADED:
+    case AUDIO_STATE_FADE_OUT:
+    case AUDIO_STATE_PAUSED:
+    case AUDIO_STATE_STOPPED:
+        if (music->GetState() == AUDIO_STATE_PLAYING || music->GetState() == AUDIO_STATE_FADE_IN)
+            music->FadeOut(1000);
+        break;
+    }
+}
 
 void MapMode::Update()
 {
