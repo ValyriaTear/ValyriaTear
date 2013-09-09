@@ -43,21 +43,21 @@ status_effects.GetStatModifier = function(intensity)
         if (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEUTRAL) then
             attribute_modifier = 1;
         elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_LESSER) then
-            attribute_modifer = 1.2;
+            attribute_modifer = 1.1;
         elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_MODERATE) then
-            attribute_modifier = 1.4;
+            attribute_modifier = 1.2;
         elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_GREATER) then
-            attribute_modifier = 1.6;
+            attribute_modifier = 1.3;
         elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_EXTREME) then
-            attribute_modifier = 1.8;
+            attribute_modifier = 1.4;
         elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_LESSER) then
-            attribute_modifier = 0.8;
+            attribute_modifier = 0.9;
         elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_MODERATE) then
-            attribute_modifier = 0.6;
+            attribute_modifier = 0.8;
         elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_GREATER) then
-            attribute_modifier = 0.4;
+            attribute_modifier = 0.7;
         elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_EXTREME) then
-            attribute_modifier = 0.2;
+            attribute_modifier = 0.6;
         else
             print("Lua warning: status effect had an invalid intensity value: " .. intensity);
         end
