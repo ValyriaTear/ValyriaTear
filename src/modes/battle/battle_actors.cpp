@@ -99,6 +99,35 @@ BattleActor::BattleActor(GlobalActor *actor) :
         IF_PRINT_WARNING(BATTLE_DEBUG) << "constructor received NULL argument" << std::endl;
         return;
     }
+
+    _InitStats();
+}
+
+void BattleActor::_InitStats()
+{
+    _strength.SetBase(_global_actor->GetStrength());
+    SetStrengthModifier(1.0f);
+
+    _vigor.SetBase(_global_actor->GetVigor());
+    SetVigorModifier(1.0f);
+
+    _fortitude.SetBase(_global_actor->GetFortitude());
+    SetFortitudeModifier(1.0f);
+
+    _protection.SetBase(_global_actor->GetProtection());
+    SetProtectionModifier(1.0f);
+
+    _agility.SetBase(_global_actor->GetAgility());
+    SetAgilityModifier(1.0f);
+
+    _evade.SetBase(_global_actor->GetEvade());
+    SetEvadeModifier(1.0f);
+
+    // debug
+    //std::cout << "Name: " << MakeStandardString(_global_actor->GetName()) << std::endl;
+    //std::cout << "strength base: " << _strength.GetBase() << "should be equal to global actor total strength: " << _global_actor->GetStrength() << std::endl;
+    //std::cout << "strength mod (should be 1.0f): " << _strength.GetModifier() << ", global actor strength mod (independant): " << _global_actor->GetStrengthModifier() << std::endl;
+    //std::cout << "strength value: " << GetStrength() << std::endl << std::endl;
 }
 
 BattleActor::~BattleActor()

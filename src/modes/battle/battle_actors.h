@@ -436,22 +436,27 @@ public:
 
     void ResetStrength() {
         SetStrength(_global_actor->GetStrength());
+        SetStrengthModifier(1.0f);
     }
 
     void ResetVigor() {
         SetVigor(_global_actor->GetVigor());
+        SetVigorModifier(1.0f);
     }
 
     void ResetFortitude() {
         SetFortitude(_global_actor->GetFortitude());
+        SetFortitudeModifier(1.0f);
     }
 
     void ResetProtection() {
         SetProtection(_global_actor->GetProtection());
+        SetProtectionModifier(1.0f);
     }
 
     void ResetAgility() {
         SetAgility(_global_actor->GetAgility());
+        SetAgilityModifier(1.0f);
     }
 
     //! SetAgility() overloading the GlobalActor one, to permit updating the idle State timer also.
@@ -462,6 +467,7 @@ public:
 
     void ResetEvade() {
         SetEvade(_global_actor->GetEvade());
+        SetEvadeModifier(1.0f);
     }
     //@}
 
@@ -556,6 +562,15 @@ protected:
 
     //! \brief Updates the Stamina Icon position.
     void _UpdateStaminaIconPosition();
+
+    //! \brief Initializes the Battle Actor stats values.
+    //! The global actor final stats are used as base for the battle actors.
+    //! This means that the final strength value of the global actor is the base value
+    //! of the battle actor.
+    //! This way, equipment modifiers aren't touched in battles, but battle modifiers
+    //! are applied on top of the global actor values and properly reset to the global
+    //! (and equipment values) when the battle effects disappear.
+    void _InitStats();
 }; // class BattleActor
 
 
