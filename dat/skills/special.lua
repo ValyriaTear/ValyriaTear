@@ -229,8 +229,8 @@ skills[21003] = {
     target_type = vt_global.GameGlobal.GLOBAL_TARGET_FOE_POINT,
 
     BattleExecute = function(user, target)
+        local target_actor = target:GetActor();
         if (vt_battle.CalculateStandardEvasion(target) == false) then
-            local target_actor = target:GetActor();
             local hp_drain = vt_battle.CalculatePhysicalDamageAdder(user, target, 8);
             target_actor:RegisterDamage(hp_drain, target);
             -- If the damage dealt was 1, don't recover any HP from the attack
