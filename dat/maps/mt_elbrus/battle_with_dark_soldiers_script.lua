@@ -42,10 +42,10 @@ function Initialize(battle_instance)
     -- Construct a timer so we can start the dialogue a couple seconds after the battle begins
     start_timer = vt_system.SystemTimer(100, 0);
 
-    -- 2 minutes before spawning more soldiers...
-    timer_before_soldiers = vt_system.SystemTimer(120000, 0);
+    -- 3 minutes before spawning more soldiers...
+    timer_before_soldiers = vt_system.SystemTimer(180000, 0);
     timer_before_soldiers:EnableManualUpdate();
-    time_left_text = "2:00";
+    time_left_text = "3:00";
     time_left_header_text = vt_system.Translate("Time left:");
 
     dialogue1_done = false;
