@@ -228,7 +228,7 @@ function _CreateObjects()
     heal_effect:SetObjectID(Map.object_supervisor:GenerateObjectID());
     heal_effect:Stop(); -- Don't run it until the character heals itself
     Map:AddGroundObject(heal_effect);
-    
+
     object = vt_map.SoundObject("snd/fountain_small.ogg", 53.0, 8.0, 8.0);
     Map:AddAmbientSoundObject(object);
 end
@@ -389,10 +389,10 @@ function _CreateEvents()
     DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Kalya talks after the battle", dialogue);
     event:AddEventLinkAtEnd("kalya_sprite:SetCollision(NONE)");
-    event:AddEventLinkAtEnd("Set Camera back to Bronann");
+    event:AddEventLinkAtEnd("Set Camera back to Bronann2");
     EventManager:RegisterEvent(event);
 
-    event = vt_map.ScriptedSpriteEvent("Set Camera back to Bronann", hero, "SetCamera", "");
+    event = vt_map.ScriptedSpriteEvent("Set Camera back to Bronann2", hero, "SetCamera", "");
     event:AddEventLinkAtEnd("end of necklace dialogue");
     event:AddEventLinkAtEnd("necklace event: kalya goes back to party");
     EventManager:RegisterEvent(event);
