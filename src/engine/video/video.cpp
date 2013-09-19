@@ -420,8 +420,12 @@ bool VideoEngine::ApplySettings()
     else
         SDL_SetWindowDisplayMode(_sdl_window, &dsp_mode);
 
-    if (VideoManager->IsFullscreen())
-        SDL_SetWindowFullscreen(_sdl_window, SDL_WINDOW_FULLSCREEN);
+    if (VideoManager->IsFullscreen()) {
+        if (_screen_width >= 1024)
+            SDL_SetWindowFullscreen(_sdl_window, SDL_WINDOW_FULLSCREEN_DESKTOP);
+        else
+            SDL_SetWindowFullscreen(_sdl_window, SDL_WINDOW_FULLSCREEN);
+    }
     else
         SDL_SetWindowFullscreen(_sdl_window, 0);
 
