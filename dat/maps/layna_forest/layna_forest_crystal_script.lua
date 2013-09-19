@@ -554,7 +554,7 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
 
     dialogue = vt_map.SpriteDialogue();
-    text = vt_system.Translate("Gosh!! By all heavens, what is this?");
+    text = vt_system.Translate("Gosh!! By all heavens, is this? ...");
     dialogue:AddLineEmote(text, kalya_sprite, "sweat drop");
     text = vt_system.Translate("A crystal stone?!?");
     dialogue:AddLineEmote(text, hero, "exclamation");
@@ -574,11 +574,11 @@ function _CreateEvents()
     text = vt_system.Translate("For you, it might have been decades.");
     dialogue:AddLineTimedEvent(text, crystal, 5000, "crystal voice sound 3", ""); -- TODO: add voice sounds
     text = vt_system.Translate("May you bring a happy end to this foolish destiny of ours.");
-    dialogue:AddLineTimedEvent(text, crystal, 5000, "crystal voice sound 2", ""); -- TODO: add voice sounds
+    dialogue:AddLineTimedEvent(text, crystal, 5000, "crystal voice sound 4", ""); -- TODO: add voice sounds
     text = vt_system.Translate("We're all anxiously awaiting your return.");
-    dialogue:AddLineTimedEvent(text, crystal, 5000, "crystal voice sound 3", ""); -- TODO: add voice sounds
+    dialogue:AddLineTimedEvent(text, crystal, 5000, "crystal voice sound 5", ""); -- TODO: add voice sounds
     text = vt_system.Translate("Now, come. And make one with our holy hope.");
-    dialogue:AddLineTimedEvent(text, crystal, 5000, "crystal voice sound 2", ""); -- TODO: add voice sounds
+    dialogue:AddLineTimedEvent(text, crystal, 5000, "crystal voice sound 6", ""); -- TODO: add voice sounds
     DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("crystal dialogue part", dialogue);
     event:AddEventLinkAtEnd("fourth dialogue part");
