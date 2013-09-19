@@ -254,9 +254,9 @@ std::vector<std::string> ListDirectory(const std::string &dir_name, const std::s
 
 bool DeleteFile(const std::string &filename)
 {
-    if(DoesFileExist(filename.c_str())) {
+    if(DoesFileExist(filename)) {
         remove(filename.c_str());
-        if(!DoesFileExist(filename.c_str()))
+        if(!DoesFileExist(filename))
             return true;
     }
     return false;

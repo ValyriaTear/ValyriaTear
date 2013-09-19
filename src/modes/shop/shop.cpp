@@ -554,8 +554,6 @@ void ShopObjectViewer::_SetEquipmentData()
     // For each character, determine if they already have the selection equipped or determine the change in pricing
     std::vector<GlobalCharacter *>* party = GlobalManager->GetOrderedCharacters();
     GlobalCharacter *character = NULL;
-    GlobalWeapon *equipped_weapon = NULL;
-    GlobalArmor *equipped_armor = NULL;
     int32 phys_diff = 0, mag_diff = 0; // Holds the difference in attack power from equipped weapon/armor to selected weapon/armor
 
     // NOTE: In this block of code, entries to the _phys_change_text and _mag_change_text members are only modified if that information is to be
@@ -565,7 +563,7 @@ void ShopObjectViewer::_SetEquipmentData()
     if(selected_weapon != NULL) {
         for(uint32 i = 0; i < party->size(); ++i) {
             character = party->at(i);
-            equipped_weapon = character->GetWeaponEquipped();
+            GlobalWeapon* equipped_weapon = character->GetWeaponEquipped();
 
             // Initially assume that the character does not have this weapon equipped
             _character_equipped[i] = false;
@@ -604,7 +602,7 @@ void ShopObjectViewer::_SetEquipmentData()
     } else { // (selected_armor != NULL)
         for(uint32 i = 0; i < party->size(); ++i) {
             character = party->at(i);
-            equipped_armor = character->GetArmorEquipped(armor_index);
+            GlobalArmor* equipped_armor = character->GetArmorEquipped(armor_index);
 
             // Initially assume that the character does not have this armor equipped
             _character_equipped[i] = false;
@@ -781,12 +779,11 @@ void ShopObjectViewer::_SetStatusIcons(const std::vector<std::pair<GLOBAL_STATUS
 
 void ShopObjectViewer::_DrawItem()
 {
-    float move_offset = 0.0f; // Used to save image widths in determining relative movement
     VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_CENTER, 0);
 
     VideoManager->MoveRelative(80.0f, -15.0f);
     _field_use_header.Draw();
-    move_offset = _field_use_header.GetWidth() + 5.0f; // 5.0f is a small buffer space between text and graphic
+    float move_offset = _field_use_header.GetWidth() + 5.0f; // 5.0f is a small buffer space between text and graphic
     VideoManager->MoveRelative(move_offset, 0.0f);
     if(_map_usable) {
         _check_icon->Draw();
@@ -1146,17 +1143,17 @@ void ShopMode::_UpdateAvailableShopOptions()
 
     // Test the available categories
     //Switch back to buy
-    if(_available_buy.size() > 0)
+    if(!_available_buy.empty())
         _action_options.EnableOption(0, true);
     else
         _action_options.EnableOption(0, false);
 
-    if(_available_sell.size() > 0)
+    if(!_available_sell.empty())
         _action_options.EnableOption(1, true);
     else
         _action_options.EnableOption(1, false);
 
-    if(_available_trade.size() > 0)
+    if(!_available_trade.empty())
         _action_options.EnableOption(2, true);
     else {
         _action_options.EnableOption(2, false);

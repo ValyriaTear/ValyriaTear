@@ -38,7 +38,6 @@ namespace private_audio
 ////////////////////////////////////////////////////////////////////////////////
 
 AudioInput::AudioInput() :
-    _filename(""),
     _samples_per_second(0),
     _bits_per_sample(0),
     _number_channels(0),

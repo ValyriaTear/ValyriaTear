@@ -41,6 +41,10 @@ EffectSupervisor::EffectSupervisor()
     _info.overlay.y_speed = 0;
     _info.overlay.x_shift = 0;
     _info.overlay.y_shift = 0;
+
+    // Shake members
+    _x_shake = 0.0f;
+    _y_shake = 0.0f;
 }
 
 
@@ -252,8 +256,8 @@ void EffectSupervisor::_UpdateShake(uint32 frame_time)
     const uint32 TIME_BETWEEN_SHAKE_UPDATES = 50;
 
     if(_shake_forces.empty()) {
-        _x_shake = 0;
-        _y_shake = 0;
+        _x_shake = 0.0f;
+        _y_shake = 0.0f;
         return;
     }
 

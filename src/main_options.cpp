@@ -176,7 +176,6 @@ bool PrintSystemInformation()
     printf("SDL version (compiled):  %d.%d.%d\n", SDL_MAJOR_VERSION, SDL_MINOR_VERSION, SDL_PATCHLEVEL);
     printf("SDL version (linked):    %d.%d.%d\n", SDL_Linked_Version()->major, SDL_Linked_Version()->minor, SDL_Linked_Version()->patch);
 
-    SDL_Joystick *js_test;
     int32 js_num = SDL_NumJoysticks();
     printf("Number of joysticks found:  %d\n", js_num);
 
@@ -184,7 +183,7 @@ bool PrintSystemInformation()
     for(int32 i = 0; i < js_num; i++) {
         printf("  Joystick #%d\n", i);
         printf("    Joystick Name: %s\n", SDL_JoystickName(i));
-        js_test = SDL_JoystickOpen(i);
+        SDL_Joystick* js_test = SDL_JoystickOpen(i);
         if(js_test == NULL)
             printf("    ERROR: SDL was unable to open joystick #%d!\n", i);
         else {

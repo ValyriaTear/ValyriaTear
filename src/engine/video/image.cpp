@@ -424,8 +424,7 @@ bool ImageDescriptor::SaveMultiImage(const std::vector<StillImage *>& images, co
     } // for (uint32 x = 0; x < grid_rows; x++)
 
     // save.pixels now contains all the image data we wish to save, so write it out to the new image file
-    bool success = true;
-    success = save.SaveImage(filename);
+    bool success = save.SaveImage(filename);
     free(save.pixels);
     free(texture.pixels);
 

@@ -195,8 +195,7 @@ uint32 CalculatePhysicalDamageAdder(BattleActor *attacker, BattleTarget *target,
         return static_cast<uint32>(RandomBoundedInteger(1, 5));
 
     // Holds the absolute standard deviation used in the GaussianRandomValue function
-    float abs_std_dev = 0.0f;
-    abs_std_dev = static_cast<float>(total_dmg) * std_dev;
+    float abs_std_dev = static_cast<float>(total_dmg) * std_dev;
     total_dmg = GaussianRandomValue(total_dmg, abs_std_dev, false);
 
     // If the total damage came to a value less than or equal to zero after the gaussian randomization,
@@ -266,9 +265,8 @@ uint32 CalculatePhysicalDamageMultiplier(BattleActor *attacker, BattleTarget *ta
         return static_cast<uint32>(RandomBoundedInteger(1, 5));
 
     // Holds the absolute standard deviation used in the GaussianRandomValue function
-    float abs_std_dev = 0.0f;
     // A value of "0.075f" means the standard deviation should be 7.5% of the mean (the total damage)
-    abs_std_dev = static_cast<float>(total_dmg) * std_dev;
+    float abs_std_dev = static_cast<float>(total_dmg) * std_dev;
     total_dmg = GaussianRandomValue(total_dmg, abs_std_dev, false);
 
     // If the total damage came to a value less than or equal to zero after the gaussian randomization,
@@ -342,8 +340,7 @@ uint32 CalculateMagicalDamageAdder(BattleActor *attacker, BattleTarget *target,
         return static_cast<uint32>(RandomBoundedInteger(1, 5));
 
     // Holds the absolute standard deviation used in the GaussianRandomValue function
-    float abs_std_dev = 0.0f;
-    abs_std_dev = static_cast<float>(total_dmg) * std_dev;
+    float abs_std_dev = static_cast<float>(total_dmg) * std_dev;
     total_dmg = GaussianRandomValue(total_dmg, abs_std_dev, false);
 
     // If the total damage came to a value less than or equal to zero after the gaussian randomization,
@@ -410,9 +407,8 @@ uint32 CalculateMagicalDamageMultiplier(BattleActor *attacker, BattleTarget *tar
         return static_cast<uint32>(RandomBoundedInteger(1, 5));
 
     // Holds the absolute standard deviation used in the GaussianRandomValue function
-    float abs_std_dev = 0.0f;
     // A value of "0.075f" means the standard deviation should be 7.5% of the mean (the total damage)
-    abs_std_dev = static_cast<float>(total_dmg) * std_dev;
+    float abs_std_dev = static_cast<float>(total_dmg) * std_dev;
     total_dmg = GaussianRandomValue(total_dmg, abs_std_dev, false);
 
     // If the total damage came to a value less than or equal to zero after the gaussian randomization,

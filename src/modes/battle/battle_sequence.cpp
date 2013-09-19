@@ -326,32 +326,6 @@ void SequenceSupervisor::_DrawGUI()
     VideoManager->Move(0.0f, VIDEO_STANDARD_RES_HEIGHT +  _gui_position_offset);
     _battle->GetMedia().bottom_menu_image.Draw();
 
-    // Determine the draw order of stamina icons for all living actors
-    // A container to hold all actors that should have their stamina icons drawn
-    std::vector<BattleActor *> live_actors;
-
-    for(uint32 i = 0; i < _battle->_character_actors.size(); i++) {
-        if(_battle->_character_actors[i]->IsAlive())
-            live_actors.push_back(_battle->_character_actors[i]);
-    }
-    for(uint32 i = 0; i < _battle->_enemy_actors.size(); i++) {
-        if(_battle->_enemy_actors[i]->IsAlive())
-            live_actors.push_back(_battle->_enemy_actors[i]);
-    }
-
-    std::vector<float> draw_positions(live_actors.size(), 0.0f);
-    for(uint32 i = 0; i < live_actors.size(); i++) {
-        switch(live_actors[i]->GetState()) {
-        case ACTOR_STATE_IDLE:
-            draw_positions[i] = STAMINA_LOCATION_BOTTOM + (STAMINA_LOCATION_COMMAND - STAMINA_LOCATION_BOTTOM) *
-                                live_actors[i]->GetStateTimer().PercentComplete();
-            break;
-        default:
-            draw_positions[i] = STAMINA_LOCATION_BOTTOM - 50.0f;
-            break;
-        }
-    }
-
     // Draw the stamina bar
     VideoManager->SetDrawFlags(VIDEO_X_CENTER, VIDEO_Y_BOTTOM, 0);
     VideoManager->Move(STAMINA_BAR_POSITION_X + _gui_position_offset, STAMINA_BAR_POSITION_Y);

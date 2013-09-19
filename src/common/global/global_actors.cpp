@@ -184,14 +184,14 @@ GlobalActor::~GlobalActor()
 
 
 
-GlobalActor::GlobalActor(const GlobalActor &copy)
+GlobalActor::GlobalActor(const GlobalActor &copy):
+    _map_sprite_name(copy._map_sprite_name),
+    _portrait(copy._portrait),
+    _full_portrait(copy._full_portrait),
+    _stamina_icon(copy._stamina_icon)
 {
     _id = copy._id;
     _name = copy._name;
-    _map_sprite_name = copy._map_sprite_name;
-    _portrait = copy._portrait;
-    _full_portrait = copy._full_portrait;
-    _stamina_icon = copy._stamina_icon;
     _experience_points = copy._experience_points;
     _hit_points = copy._hit_points;
     _max_hit_points = copy._max_hit_points;
@@ -1373,7 +1373,6 @@ GlobalEnemy::GlobalEnemy(uint32 id) :
     _id = id;
 
     // Use the id member to determine the name of the data file that the enemy is defined in
-    std::string file_ext;
     std::string filename;
 
     if(_id == 0)
@@ -1398,8 +1397,8 @@ GlobalEnemy::GlobalEnemy(uint32 id) :
     // Attempt to load the animations for each harm levels
     _battle_animations.assign(GLOBAL_ENEMY_HURT_TOTAL, AnimatedImage());
     if (enemy_data.OpenTable("battle_animations" )) {
+
         std::vector<uint32> animations_id;
-        std::vector<std::string> animations;
         enemy_data.ReadTableKeys(animations_id);
         for (uint32 i = 0; i < animations_id.size(); ++i) {
             uint32 anim_id = animations_id[i];

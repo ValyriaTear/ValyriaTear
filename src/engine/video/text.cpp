@@ -975,7 +975,6 @@ bool TextSupervisor::_RenderText(vt_utils::ustring &string, TextStyle &style, Im
 
     static const SDL_Color white_color = { 0xFF, 0xFF, 0xFF, 0xFF };
 
-    SDL_Surface *initial = NULL;
     SDL_Surface *intermediary = NULL;
 
     // Width and height of each line of text
@@ -1039,7 +1038,7 @@ bool TextSupervisor::_RenderText(vt_utils::ustring &string, TextStyle &style, Im
         FontGlyph *glyphinfo = (*fp->glyph_cache)[*char_ptr];
 
         // Render the glyph
-        initial = TTF_RenderGlyph_Blended(font, *char_ptr, white_color);
+        SDL_Surface* initial = TTF_RenderGlyph_Blended(font, *char_ptr, white_color);
         if(initial == NULL) {
             IF_PRINT_WARNING(VIDEO_DEBUG) << "call to TTF_RenderGlyph_Blended() failed" << std::endl;
             return false;

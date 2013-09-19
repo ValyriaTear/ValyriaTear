@@ -744,11 +744,10 @@ PartyWindow::PartyWindow() :
     // Get party size for iteration
     uint32 partysize = GlobalManager->GetActiveParty()->GetPartySize();
     StillImage portrait;
-    GlobalCharacter *ch;
 
     // Set up the full body portrait
     for(uint32 i = 0; i < partysize; i++) {
-        ch = GlobalManager->GetActiveParty()->GetCharacterAtIndex(i);
+        GlobalCharacter* ch = GlobalManager->GetActiveParty()->GetCharacterAtIndex(i);
         _full_portraits.push_back(ch->GetFullPortrait());
     }
 

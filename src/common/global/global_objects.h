@@ -65,6 +65,7 @@ class GlobalObject
 public:
     GlobalObject() :
         _id(0),
+        _is_key_item(false),
         _count(0),
         _price(0),
         _trade_price(0)

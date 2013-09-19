@@ -66,7 +66,8 @@ int32 GaussianRandomValue(int32 mean, float std_dev, bool positive_value)
 
     // Make sure that the standard deviation is positive
     if(std_dev < 0) {
-        std::cerr << "UTILS WARNING: negative value for standard deviation argument in function GaussianValue" << std::endl;
+        PRINT_WARNING << "UTILS WARNING: negative value (" << std_dev << ") for standard deviation argument in function GaussianValue," << std::endl
+        << "Using the absolute value." << std::endl;
         std_dev = -1.0f * std_dev;
     }
 

@@ -262,8 +262,8 @@ void TextBox::SetDisplayText(const ustring &text)
 
 void TextBox::_ReformatText()
 {
-    // (1): Go through the text ustring and determine where the newline characters can be found, examining one line at a time and adding it to the _text vector.
-    size_t newline_pos;
+    // Go through the text ustring and determine where the newline characters can be found,
+    // examining one line at a time and adding it to the _text vector.
     size_t startline_pos = 0;
     const size_t temp_length = _text_save.length();
     _text.clear();
@@ -278,7 +278,7 @@ void TextBox::_ReformatText()
 
     while(startline_pos < temp_length)
     {
-        newline_pos = _text_save.find(NEWLINE_CHARACTER,startline_pos);
+        size_t newline_pos = _text_save.find(NEWLINE_CHARACTER,startline_pos);
         // If the end of the string has been reached, add the new line and exit
         if(newline_pos == ustring::npos) {
             _AddLine(_text_save.substr(startline_pos, temp_length - startline_pos));

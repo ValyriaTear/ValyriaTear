@@ -460,11 +460,10 @@ void SystemEngine::UpdateTimers()
 #ifndef EDITOR_BUILD
 void SystemEngine::ExamineSystemTimers()
 {
-    GameMode *active_mode = ModeManager->GetTop();
-    GameMode *timer_mode = NULL;
+    GameMode* active_mode = ModeManager->GetTop();
 
     for(std::set<SystemTimer *>::iterator i = _auto_system_timers.begin(); i != _auto_system_timers.end(); i++) {
-        timer_mode = (*i)->GetModeOwner();
+        GameMode* timer_mode = (*i)->GetModeOwner();
         if(timer_mode == NULL)
             continue;
 

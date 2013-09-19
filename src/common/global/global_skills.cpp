@@ -114,23 +114,23 @@ GlobalSkill::GlobalSkill(uint32 id) :
     }
 } // GlobalSkill::GlobalSkill()
 
-GlobalSkill::GlobalSkill(const GlobalSkill &copy)
+GlobalSkill::GlobalSkill(const GlobalSkill &copy):
+    _icon_filename(copy._icon_filename),
+    _action_name(copy._action_name),
+    _animation_scripts(copy._animation_scripts)
 {
     _name = copy._name;
     _description = copy._description;
-    _icon_filename = copy._icon_filename;
     _id = copy._id;
     _type = copy._type;
     _sp_required = copy._sp_required;
     _warmup_time = copy._warmup_time;
     _cooldown_time = copy._cooldown_time;
-    _action_name = copy._action_name;
     _target_type = copy._target_type;
 
     // Make copies of valid ScriptObject function pointers
     _battle_execute_function = copy._battle_execute_function;
     _field_execute_function = copy._field_execute_function;
-    _animation_scripts = copy._animation_scripts;
 }
 
 

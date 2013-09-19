@@ -185,8 +185,14 @@ class OggFile : public AudioInput
 {
 public:
     OggFile(const std::string &file_name) :
-        AudioInput(), _read_buffer_position(0), _read_buffer_size(0),
-        _initialized(false) {
+        AudioInput(),
+        _read_buffer_position(0),
+        _read_buffer_size(0),
+        _initialized(false)
+    {
+        // Fill the buffer with 0
+        memset(_read_buffer, 0, 4096);
+
         _filename = file_name;
     }
 

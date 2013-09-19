@@ -527,6 +527,14 @@ bool SaveMode::_PreviewGame(uint32 id)
         map_script_filename = map_common_name + "_script.lua";
     }
 
+    // Check whether the map data file is available
+    if (map_data_filename.empty() || !vt_utils::DoesFileExist(map_data_filename)) {
+        file.CloseTable(); // save_game1
+        file.CloseFile();
+        _ClearSaveData(true);
+        return false;
+    }
+
     // Used to store temp data to populate text boxes
     int32 hours = file.ReadInt("play_hours");
     int32 minutes = file.ReadInt("play_minutes");

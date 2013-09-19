@@ -442,12 +442,11 @@ void FinishVictoryAssistant::Initialize()
 
     // Collect the XP, drunes, and dropped objects for each defeated enemy
     std::deque<BattleEnemy *>& all_enemies = BattleMode::CurrentInstance()->GetEnemyActors();
-    GlobalEnemy *enemy;
     std::vector<GlobalObject *> objects;
     std::map<GlobalObject *, int32>::iterator iter;
 
     for(uint32 i = 0; i < all_enemies.size(); ++i) {
-        enemy = all_enemies[i]->GetGlobalEnemy();
+        GlobalEnemy* enemy = all_enemies[i]->GetGlobalEnemy();
         _xp_earned += enemy->GetExperiencePoints();
         _drunes_dropped += enemy->GetDrunesDropped();
         enemy->DetermineDroppedObjects(objects);

@@ -146,10 +146,9 @@ void VirtualSprite::_SetNextPosition()
 
     // Handle collision with the first object encountered
     MapObject *collision_object = NULL;
-    COLLISION_TYPE collision_type = NO_COLLISION;
     MapMode *map = MapMode::CurrentInstance();
     ObjectSupervisor *object_supervisor = map->GetObjectSupervisor();
-    collision_type = object_supervisor->DetectCollision(this, next_pos_x,
+    COLLISION_TYPE collision_type = object_supervisor->DetectCollision(this, next_pos_x,
                      next_pos_y,
                      &collision_object);
     // Try to fall back to straight direction
@@ -1084,10 +1083,8 @@ void MapSprite::UpdateDialogueStatus()
     _has_available_dialogue = false;
     _has_unseen_dialogue = false;
 
-    SpriteDialogue *dialogue = NULL;
-
     for(uint32 i = 0; i < _dialogue_references.size(); i++) {
-        dialogue = MapMode::CurrentInstance()->GetDialogueSupervisor()->GetDialogue(_dialogue_references[i]);
+        SpriteDialogue* dialogue = MapMode::CurrentInstance()->GetDialogueSupervisor()->GetDialogue(_dialogue_references[i]);
         if(!dialogue) {
             PRINT_WARNING << "sprite: " << object_id << " is referencing unknown dialogue: "
                           << _dialogue_references[i] << std::endl;

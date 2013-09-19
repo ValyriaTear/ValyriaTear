@@ -202,13 +202,12 @@ void BuyInterface::Reinitialize()
     }
 
     // Populate the object_data containers
-    // Used to temporarily hold a pointer to a valid shop object
-    ShopObject *obj = NULL;
+    
     // Pointer to the container of all objects that are bought/sold/traded in the shop
     std::map<uint32, ShopObject *>* buy_objects = ShopMode::CurrentInstance()->GetAvailableBuy();
 
     for(std::map<uint32, ShopObject *>::iterator it = buy_objects->begin(); it != buy_objects->end(); ++it) {
-        obj = it->second;
+        ShopObject* obj = it->second;
         switch(obj->GetObject()->GetObjectType()) {
         case GLOBAL_OBJECT_ITEM:
             object_data[type_index[0]].push_back(obj);
@@ -495,9 +494,8 @@ void BuyListDisplay::ReconstructList()
     _identify_list.ClearOptions();
     _property_list.ClearOptions();
 
-    ShopObject *obj = NULL;
     for(uint32 i = 0; i < _objects.size(); i++) {
-        obj = _objects[i];
+        ShopObject* obj = _objects[i];
         // Add an entry with the icon image of the object (scaled down by 4x to 30x30 pixels) followed by the object name
         _identify_list.AddOption(MakeUnicodeString("<" + obj->GetObject()->GetIconImage().GetFilename() + "><30>")
                                  + obj->GetObject()->GetName());

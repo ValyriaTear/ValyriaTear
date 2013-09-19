@@ -251,10 +251,9 @@ public:
         _x(other._x),
         _y(other._y),
         _location_name(other._location_name),
-        _world_map_location_id(other._world_map_location_id)
-    {
-        _image = other._image;
-    }
+        _world_map_location_id(other._world_map_location_id),
+        _image(other._image)
+    {}
 
     WorldMapLocation &operator=(const WorldMapLocation &other)
     {
@@ -268,7 +267,7 @@ public:
         return *this;
     }
 
-    ~WorldMapLocation(){
+    ~WorldMapLocation() {
         _image.Clear();
     }
 
