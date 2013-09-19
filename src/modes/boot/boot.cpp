@@ -1303,47 +1303,47 @@ void BootMode::_RedefinePauseKey()
     _ShowMessageWindow(false);
 }
 
-void BootMode::_SetUpKey(const SDLKey &key)
+void BootMode::_SetUpKey(const SDL_Keycode &key)
 {
     InputManager->SetUpKey(key);
 }
 
-void BootMode::_SetDownKey(const SDLKey &key)
+void BootMode::_SetDownKey(const SDL_Keycode &key)
 {
     InputManager->SetDownKey(key);
 }
 
-void BootMode::_SetLeftKey(const SDLKey &key)
+void BootMode::_SetLeftKey(const SDL_Keycode &key)
 {
     InputManager->SetLeftKey(key);
 }
 
-void BootMode::_SetRightKey(const SDLKey &key)
+void BootMode::_SetRightKey(const SDL_Keycode &key)
 {
     InputManager->SetRightKey(key);
 }
 
-void BootMode::_SetConfirmKey(const SDLKey &key)
+void BootMode::_SetConfirmKey(const SDL_Keycode &key)
 {
     InputManager->SetConfirmKey(key);
 }
 
-void BootMode::_SetCancelKey(const SDLKey &key)
+void BootMode::_SetCancelKey(const SDL_Keycode &key)
 {
     InputManager->SetCancelKey(key);
 }
 
-void BootMode::_SetMenuKey(const SDLKey &key)
+void BootMode::_SetMenuKey(const SDL_Keycode &key)
 {
     InputManager->SetMenuKey(key);
 }
 
-void BootMode::_SetMinimapKey(const SDLKey &key)
+void BootMode::_SetMinimapKey(const SDL_Keycode &key)
 {
     InputManager->SetMinimapKey(key);
 }
 
-void BootMode::_SetPauseKey(const SDLKey &key)
+void BootMode::_SetPauseKey(const SDL_Keycode &key)
 {
     InputManager->SetPauseKey(key);
 }

@@ -127,7 +127,7 @@ public:
         sdl_color.r = static_cast<uint8>(_colors[0] * 0xFF);
         sdl_color.g = static_cast<uint8>(_colors[1] * 0xFF);
         sdl_color.b = static_cast<uint8>(_colors[2] * 0xFF);
-        sdl_color.unused = static_cast<uint8>(_colors[3] * 0xFF);
+        sdl_color.a = static_cast<uint8>(_colors[3] * 0xFF);
         return sdl_color;
     }
 

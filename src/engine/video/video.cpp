@@ -70,6 +70,7 @@ void RotatePoint(float &x, float &y, float angle)
 //-----------------------------------------------------------------------------
 
 VideoEngine::VideoEngine():
+    _sdl_window(NULL),
     _fps_display(false),
     _fps_sum(0),
     _current_sample(0),
@@ -207,24 +208,6 @@ VideoEngine::~VideoEngine()
     TextureManager->SingletonDestroy();
 }
 
-bool VideoEngine::SingletonInitialize()
-{
-    // check to see if the singleton is already initialized
-    if(_initialized)
-        return true;
-
-    if(SDL_InitSubSystem(SDL_INIT_VIDEO) < 0) {
-        PRINT_ERROR << "SDL video initialization failed" << std::endl;
-        return false;
-    }
-
-
-
-    return true;
-} // bool VideoEngine::SingletonInitialize()
-
-
-
 bool VideoEngine::FinalizeInitialization()
 {
     // Create instances of the various sub-systems
@@ -253,31 +236,6 @@ bool VideoEngine::FinalizeInitialization()
 
     _initialized = true;
     return true;
-}
-
-
-
-void VideoEngine::SetInitialResolution(int32 width, int32 height)
-{
-    // Get the current system color depth and resolution
-    const SDL_VideoInfo *video_info(0);
-    video_info = SDL_GetVideoInfo();
-
-    if(video_info) {
-        // Set the resolution to be the highest possible (lower than the user one)
-        if(video_info->current_w >= width && video_info->current_h >= height) {
-            SetResolution(width, height);
-        } else if(video_info->current_w >= 1024 && video_info->current_h >= 768) {
-            SetResolution(1024, 768);
-        } else if(video_info->current_w >= 800 && video_info->current_h >= 600) {
-            SetResolution(800, 600);
-        } else {
-            SetResolution(640, 480);
-        }
-    } else {
-        // Default resoltion if we could not retrieve the resolution of the user
-        SetResolution(width, height);
-    }
 }
 
 //-----------------------------------------------------------------------------
@@ -417,56 +375,18 @@ void VideoEngine::GetPixelSize(float &x, float &y)
 
 bool VideoEngine::ApplySettings()
 {
-    // Losing GL context, so unload images first
+    if (!_sdl_window) {
+        PRINT_WARNING << "Invalid SDL_Window instance. Can't apply video settings." << std::endl;
+        return false;
+    }
+
+    // Potentially losing GL context, so unload images first
+    // TODO: Still needed?
     if(!TextureManager || !TextureManager->UnloadTextures())
         IF_PRINT_WARNING(VIDEO_DEBUG) << "failed to delete OpenGL textures during a context change" << std::endl;
 
-    int32 flags = SDL_OPENGL;
-
-    if(_temp_fullscreen)
-        flags |= SDL_FULLSCREEN;
-
-    SDL_GL_SetAttribute(SDL_GL_RED_SIZE, 8);
-    SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE, 8);
-    SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE, 8);
-    SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 16);
-    SDL_GL_SetAttribute(SDL_GL_ALPHA_SIZE, 8);
-    SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
-    SDL_GL_SetAttribute(SDL_GL_MULTISAMPLEBUFFERS, 2);
-    SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, 4);
-    SDL_GL_SetAttribute(SDL_GL_SWAP_CONTROL, 1);
-
-    if(SDL_SetVideoMode(_temp_width, _temp_height, 0, flags) == false) {
-        // RGB values of 1 for each and 8 for depth seemed to be sufficient.
-        // 565 and 16 here because it works with them on this computer.
-        // NOTE from prophile: this ought to be changed to 5558
-        SDL_GL_SetAttribute(SDL_GL_RED_SIZE, 5);
-        SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE, 6);
-        SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE, 5);
-        SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 16);
-        SDL_GL_SetAttribute(SDL_GL_ALPHA_SIZE, 0);
-        SDL_GL_SetAttribute(SDL_GL_MULTISAMPLEBUFFERS, 0);
-        SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, 0);
-        SDL_GL_SetAttribute(SDL_GL_SWAP_CONTROL, 1);
-
-        if(SDL_SetVideoMode(_temp_width, _temp_height, 0, flags) == false) {
-            IF_PRINT_WARNING(VIDEO_DEBUG) << "SDL_SetVideoMode() failed with error: " << SDL_GetError() << std::endl;
-
-            _temp_fullscreen = _fullscreen;
-            _temp_width = _screen_width;
-            _temp_height = _screen_height;
-
-            _UpdateViewportMetrics();
-
-            // Test to see if we already had a valid video mode
-            if(TextureManager && _screen_width > 0)
-                TextureManager->ReloadTextures();
-
-            return false;
-        }
-    }
-
-    // Clear GL state, after SDL_SetVideoMode() for OSX compatibility
+    // Clear GL state, for OSX compatibility
+    // TODO: Is that still true?
     DisableBlending();
     DisableTexture2D();
     DisableAlphaTest();
@@ -484,6 +404,26 @@ bool VideoEngine::ApplySettings()
     _fullscreen = _temp_fullscreen;
 
     _UpdateViewportMetrics();
+
+    // Apply new settings
+    SDL_DisplayMode dsp_mode;
+    SDL_DisplayMode closest_mode;
+
+    dsp_mode.w = _screen_width;
+    dsp_mode.h = _screen_height;
+    dsp_mode.refresh_rate = 0; // Any
+    dsp_mode.driverdata = 0; // not concerned
+    dsp_mode.format = 0; // Any
+
+    if (SDL_GetClosestDisplayMode(0, &dsp_mode, &closest_mode) != NULL)
+        SDL_SetWindowDisplayMode(_sdl_window, &closest_mode);
+    else
+        SDL_SetWindowDisplayMode(_sdl_window, &dsp_mode);
+
+    if (VideoManager->IsFullscreen())
+        SDL_SetWindowFullscreen(_sdl_window, SDL_WINDOW_FULLSCREEN);
+    else
+        SDL_SetWindowFullscreen(_sdl_window, 0);
 
     if(TextureManager)
         TextureManager->ReloadTextures();
@@ -1002,8 +942,7 @@ void VideoEngine::SetBrightness(float value)
         _brightness_value = 0.0f;
     }
 
-    // Note: To replace with: SDL_SetWindowBrightness() in SDL 2
-    SDL_SetGamma(_brightness_value, _brightness_value, _brightness_value);
+    SDL_SetWindowBrightness(_sdl_window, _brightness_value);
 }
 
 

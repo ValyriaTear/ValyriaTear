@@ -26,29 +26,39 @@
 					<Add directory="valyriatear-win32-depends/include" />
 					<Add directory="valyriatear-win32-depends/include/AL" />
 					<Add directory="valyriatear-win32-depends/include/boost" />
-					<Add directory="valyriatear-win32-depends/include/libpng12" />
 					<Add directory="valyriatear-win32-depends/include/lua5.1" />
 					<Add directory="valyriatear-win32-depends/include/ogg" />
-					<Add directory="valyriatear-win32-depends/include/SDL" />
+					<Add directory="valyriatear-win32-depends/include/SDL2" />
 					<Add directory="valyriatear-win32-depends/include/vorbis" />
 				</Compiler>
 				<Linker>
 					<Add library="shell32" />
 					<Add library="user32" />
 					<Add library="mingw32" />
-					<Add library="SDLMain" />
-					<Add library="SDL" />
-					<Add library="SDL_TTF" />
+					<Add library="SDL2main" />
+					<Add library="SDL2" />
+					<Add library="SDL2_TTF" />
+					<Add library="gdi32" />
+					<Add library="winmm" />
+					<Add library="dxguid" />
 					<Add library="OpenAL32" />
 					<Add library="ogg" />
 					<Add library="vorbis" />
 					<Add library="Opengl32" />
 					<Add library="glu32" />
-					<Add library="libpng" />
+					<Add library="libpng15" />
 					<Add library="Lua51" />
 					<Add library="libintl" />
 					<Add library="libiconv2" />
-					<Add library="SDL_image" />
+					<Add library="SDL2_image" />
+					<Add library="m" />
+					<Add library="imm32" />
+					<Add library="ole32" />
+					<Add library="oleaut32" />
+					<Add library="version" />
+					<Add library="uuid" />
+					<Add library="dinput8" />
+					<Add library="dxerr8" />
 					<Add directory="valyriatear-win32-depends/lib" />
 				</Linker>
 			</Target>
@@ -67,30 +77,40 @@
 					<Add directory="valyriatear-win32-depends/include" />
 					<Add directory="valyriatear-win32-depends/include/AL" />
 					<Add directory="valyriatear-win32-depends/include/boost" />
-					<Add directory="valyriatear-win32-depends/include/libpng12" />
 					<Add directory="valyriatear-win32-depends/include/lua5.1" />
 					<Add directory="valyriatear-win32-depends/include/ogg" />
-					<Add directory="valyriatear-win32-depends/include/SDL" />
+					<Add directory="valyriatear-win32-depends/include/SDL2" />
 					<Add directory="valyriatear-win32-depends/include/vorbis" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
-					<Add library="shell32" />
-					<Add library="user32" />
-					<Add library="mingw32" />
-					<Add library="SDLMain" />
-					<Add library="SDL" />
-					<Add library="SDL_TTF" />
-					<Add library="OpenAL32" />
-					<Add library="ogg" />
-					<Add library="vorbis" />
-					<Add library="Opengl32" />
-					<Add library="glu32" />
-					<Add library="libpng" />
-					<Add library="Lua51" />
-					<Add library="libintl" />
-					<Add library="libiconv2" />
-					<Add library="SDL_image" />
+                                        <Add library="shell32" />
+                                        <Add library="user32" /> 
+                                        <Add library="mingw32" />
+                                        <Add library="SDL2main" />
+                                        <Add library="SDL2" />
+                                        <Add library="SDL2_TTF" />
+                                        <Add library="gdi32" />
+                                        <Add library="winmm" />
+                                        <Add library="dxguid" />
+                                        <Add library="OpenAL32" />
+                                        <Add library="ogg" />
+                                        <Add library="vorbis" />
+                                        <Add library="Opengl32" />
+                                        <Add library="glu32" />
+                                        <Add library="libpng15" />
+                                        <Add library="Lua51" />
+                                        <Add library="libintl" />
+                                        <Add library="libiconv2" />
+                                        <Add library="SDL2_image" />
+                                        <Add library="m" />
+                                        <Add library="imm32" />
+                                        <Add library="ole32" />
+                                        <Add library="oleaut32" />
+                                        <Add library="version" />
+                                        <Add library="uuid" />
+                                        <Add library="dinput8" />
+                                        <Add library="dxerr8" />
 					<Add directory="valyriatear-win32-depends/lib" />
 				</Linker>
 			</Target>
@@ -114,12 +134,12 @@
 					<Add directory="/usr/include/lua5.1" />
 					<Add directory="/usr/include/luabind" />
 					<Add directory="/usr/include/GL" />
-					<Add directory="/usr/include/SDL" />
+					<Add directory="/usr/include/SDL2" />
 				</Compiler>
 				<Linker>
 					<Add option="`sdl-config --libs`" />
 					<Add library="lua5.1" />
-					<Add library="SDL_ttf" />
+					<Add library="SDL2_ttf" />
 					<Add library="vorbisfile" />
 					<Add library="openal" />
 					<Add library="png" />
@@ -155,12 +175,12 @@
 					<Add directory="/usr/include/lua5.1" />
 					<Add directory="/usr/include/luabind" />
 					<Add directory="/usr/include/GL" />
-					<Add directory="/usr/include/SDL" />
+					<Add directory="/usr/include/SDL2" />
 				</Compiler>
 				<Linker>
 					<Add option="`sdl-config --libs`" />
 					<Add library="lua5.1" />
-					<Add library="SDL_ttf" />
+					<Add library="SDL2_ttf" />
 					<Add library="vorbisfile" />
 					<Add library="openal" />
 					<Add library="png" />

@@ -15,10 +15,10 @@ settings_defaults.audio_defaults.music_vol = 70
 settings_defaults.audio_defaults.sound_vol = 80
 
 settings_defaults.key_defaults = {}
-settings_defaults.key_defaults.up = 273
-settings_defaults.key_defaults.down = 274
-settings_defaults.key_defaults.left = 276
-settings_defaults.key_defaults.right = 275
+settings_defaults.key_defaults.up = 1073741906
+settings_defaults.key_defaults.down = 1073741905
+settings_defaults.key_defaults.left = 1073741904
+settings_defaults.key_defaults.right = 1073741903
 settings_defaults.key_defaults.confirm = 102
 settings_defaults.key_defaults.cancel = 100
 settings_defaults.key_defaults.menu = 115

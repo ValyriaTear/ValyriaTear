@@ -15,10 +15,10 @@ settings.audio_settings.music_vol = 70
 settings.audio_settings.sound_vol = 80
 
 settings.key_settings = {}
-settings.key_settings.up = 273
-settings.key_settings.down = 274
-settings.key_settings.left = 276
-settings.key_settings.right = 275
+settings.key_settings.up = 1073741906
+settings.key_settings.down = 1073741905
+settings.key_settings.left = 1073741904
+settings.key_settings.right = 1073741903
 settings.key_settings.confirm = 102
 settings.key_settings.cancel = 100
 settings.key_settings.menu = 115

@@ -178,8 +178,8 @@ vt_video::StillImage Minimap::_CreateProcedurally()
         r.x += _box_x_length;
     }
 
-    //flush the SDL surface. This forces any pending writes onto the surface to complete
-    SDL_UpdateRect(temp_surface, 0, 0, 0, 0);
+    //TEST: flush the SDL surface. This forces any pending writes onto the surface to complete
+    //SDL_UpdateRect(temp_surface, 0, 0, 0, 0);
 
     if (!temp_surface) {
         MapMode::CurrentInstance()->ShowMinimap(false);

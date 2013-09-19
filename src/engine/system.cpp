@@ -537,7 +537,7 @@ template <class T> Thread *SystemEngine::SpawnThread(void (T::*func)(), T *mycla
     // gen may be overwritten prematurely if this function, SpawnThread, gets
     // called a second time before SpawnThread_Intermediate calls myclass->*func
     // This will result in a segfault.
-    thread = SDL_CreateThread(gen.SpawnThread_Intermediate, &gen);
+    thread = SDL_CreateThread(gen.SpawnThread_Intermediate, &gen, NULL);
     if(thread == NULL) {
         PRINT_ERROR << "Unable to create thread: " << SDL_GetError() << std::endl;
         return NULL;

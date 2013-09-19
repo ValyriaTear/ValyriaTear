@@ -166,15 +166,15 @@ bool InputEngine::RestoreDefaultKeys()
     // Load all default keys from the table
     restore_settings_file.OpenTable("settings_defaults");
     restore_settings_file.OpenTable("key_defaults");
-    _key.up           = static_cast<SDLKey>(restore_settings_file.ReadInt("up"));
-    _key.down         = static_cast<SDLKey>(restore_settings_file.ReadInt("down"));
-    _key.left         = static_cast<SDLKey>(restore_settings_file.ReadInt("left"));
-    _key.right        = static_cast<SDLKey>(restore_settings_file.ReadInt("right"));
-    _key.confirm      = static_cast<SDLKey>(restore_settings_file.ReadInt("confirm"));
-    _key.cancel       = static_cast<SDLKey>(restore_settings_file.ReadInt("cancel"));
-    _key.menu         = static_cast<SDLKey>(restore_settings_file.ReadInt("menu"));
-    _key.minimap      = static_cast<SDLKey>(restore_settings_file.ReadInt("minimap"));
-    _key.pause        = static_cast<SDLKey>(restore_settings_file.ReadInt("pause"));
+    _key.up           = static_cast<SDL_Keycode>(restore_settings_file.ReadInt("up"));
+    _key.down         = static_cast<SDL_Keycode>(restore_settings_file.ReadInt("down"));
+    _key.left         = static_cast<SDL_Keycode>(restore_settings_file.ReadInt("left"));
+    _key.right        = static_cast<SDL_Keycode>(restore_settings_file.ReadInt("right"));
+    _key.confirm      = static_cast<SDL_Keycode>(restore_settings_file.ReadInt("confirm"));
+    _key.cancel       = static_cast<SDL_Keycode>(restore_settings_file.ReadInt("cancel"));
+    _key.menu         = static_cast<SDL_Keycode>(restore_settings_file.ReadInt("menu"));
+    _key.minimap      = static_cast<SDL_Keycode>(restore_settings_file.ReadInt("minimap"));
+    _key.pause        = static_cast<SDL_Keycode>(restore_settings_file.ReadInt("pause"));
     restore_settings_file.CloseTable();
     restore_settings_file.CloseTable();
 
@@ -267,39 +267,7 @@ void InputEngine::EventHandler()
             _quit_press = true;
             break;
         }
-        // Check if the window was iconified/minimized or restored
-        else if(event.type == SDL_ACTIVEEVENT) {
-            // TEMP: pausing the game on a context switch between another application proved to
-            // be rather annoying. The code which did this is commented out below. I think it would
-            // be better if instead the application yielded for a certain amount of time when the
-            // application looses context.
-
-// 			if (event.active.state & SDL_APPACTIVE) {
-// 				if (event.active.gain == 0) { // Window was iconified/minimized
-// 					// Check if the game is in pause mode. Otherwise the player might put pause on,
-// 					// minimize the window and then the pause is off.
-// 					if (ModeManager->GetGameType() != MODE_MANAGER_PAUSE_MODE) {
-// 						TogglePause();
-// 					}
-// 				}
-// 				else if (ModeManager->GetGameType() == MODE_MANAGER_PAUSE_MODE) { // Window was restored
-// 					TogglePause();
-// 				}
-// 			}
-// 			else if (event.active.state & SDL_APPINPUTFOCUS) {
-// 				if (event.active.gain == 0) { // Window lost keyboard focus (another application was made active)
-// 					// Check if the game is in pause mode. Otherwise the player might put pause on,
-// 					// minimize the window and then the pause is off.
-// 					if (ModeManager->GetGameType() != MODE_MANAGER_PAUSE_MODE) {
-// 						TogglePause();
-// 					}
-// 				}
-// 				else if (ModeManager->GetGameType() == MODE_MANAGER_PAUSE_MODE) { // Window gain keyboard focus (not sure)
-// 					TogglePause();
-// 				}
-// 			}
-            break;
-        } else if(event.type == SDL_KEYUP || event.type == SDL_KEYDOWN) {
+        else if(event.type == SDL_KEYUP || event.type == SDL_KEYDOWN) {
             _KeyEventHandler(event.key);
         } else {
             _JoystickEventHandler(event);
@@ -625,7 +593,7 @@ void InputEngine::_JoystickEventHandler(SDL_Event &js_event)
 
 
 // Sets a new key over an older one. If the same key is used elsewhere, the older one is removed
-void InputEngine::_SetNewKey(SDLKey &old_key, SDLKey new_key)
+void InputEngine::_SetNewKey(SDL_Keycode &old_key, SDL_Keycode new_key)
 {
     // Don't permit system keys (Quit and help)
     if(new_key == SDLK_ESCAPE || new_key == SDLK_F1)
@@ -678,7 +646,7 @@ void InputEngine::_SetNewKey(SDLKey &old_key, SDLKey new_key)
     }
 
     old_key = new_key; // Otherwise simply overwrite the old value
-} // end InputEngine::_SetNewKey(SDLKey & old_key, SDLKey new_key)
+} // end InputEngine::_SetNewKey(SDL_Keycode & old_key, SDL_Keycode new_key)
 
 
 // Sets a new joystick button over an older one. If the same button is used elsewhere, the older one is removed
