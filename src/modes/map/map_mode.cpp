@@ -998,6 +998,10 @@ void MapMode::_DrawStaminaBar(const vt_video::Color &blending)
     const Color dark_orange(0.737f, 0.5f, 0.196f, 1.0f);
     const Color dark_red(0.737f, 0.0f, 0.125f, 1.0f);
 
+    // Don't draw anything when running is disabled.
+    if (_running_disabled)
+        return;
+
     float fill_size = static_cast<float>(_run_stamina) / 10000.0f;
 
     VideoManager->PushState();
