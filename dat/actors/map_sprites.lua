@@ -37,6 +37,23 @@ sprites["Bronann"] = {
     }
 }
 
+-- Overworld sprite
+sprites["Mini_Bronann"] = {
+    name = vt_system.Translate("Bronann"),
+    coll_half_width = 0.47,
+    coll_height = 0.5,
+    img_half_width = 0.5,
+    img_height = 2.0,
+    movement_speed = NORMAL_SPEED,
+    face_portrait = "img/portraits/bronann.png",
+
+    -- using special animation files.
+    standard_animations = {
+        idle = "img/sprites/map/characters/bronann_idle_overworld_unarmed.lua",
+        walk = "img/sprites/map/characters/bronann_walk_overworld_unarmed.lua"
+    },
+}
+
 sprites["Kalya"] = {
     name = vt_system.Translate("Kalya"),
     coll_half_width = 0.95,

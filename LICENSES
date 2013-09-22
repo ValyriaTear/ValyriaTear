@@ -171,12 +171,16 @@ dat/tilesets/desert_cave_walls2.lua                             GPLv2+          
 dat/tilesets/mountain_house_exterior.lua                        GPLv2+                   Allacrost
 dat/tilesets/desert_cave_ground.lua                             GPLv2+                   Allacrost
 dat/tilesets/desert_cave_water.lua                              GPLv2+                   Allacrost
+dat/tilesets/overworld2_tileset.lua                             GPLv2+                   Bertram
+dat/tilesets/overworld_tileset.lua                              GPLv2+                   Bertram
 
 img/*.lua (including subfolders)                                GPLv2+                   Bertram
 
 img/ambient/dark.png                                            CC0                      Bertram
 img/ambient/fog.png                                             GPLv2+                   Bertram
 img/ambient/sandstorm.png                                       GPLv2+                   The Mana World Team + Bertram
+img/ambient/clouds.png                                          GPLv2+                   The Mana World Team + Bertram
+img/ambient/clouds_overworld.png                                GPLv2+                   The Mana World Team + Bertram
 
 img/backdrops/cave_background.png                               CC0                      Ecrivain (OGA)
 
@@ -651,6 +655,8 @@ img/tilesets/harrvah_house_exterior.png                         GPLv2+          
 img/tilesets/desert_cave.png                                    GPLv2+                   Allacrost
 img/tilesets/castle_exterior_01.png                             GPLv2+                   Allacrost
 img/tilesets/castle_exterior_02.png                             CC by 3.0                Zabin, Hyptosis, and Daniel Cook (OGA)  - http://opengameart.org/content/castle-tiles-for-rpgs
+img/tilesets/overworld2_tileset.png                             CC by SA 3.0, GPLv3      Various (See attributions there: http://opengameart.org/content/lpc-terrain-repack)
+img/tilesets/overworld_tileset.png                              CC by 3.0                MrBeast (OGA) - http://opengameart.org/content/worldmapoverworld-tileset
 
 mus/accion-OGA-djsaryon.ogg                                     CC by SA 3.0 or GPLv2/3  djsaryon (OGA) - http://opengameart.org/content/battle-midi
 mus/awareness_el_corleo.ogg                                     CC by SA 3.0             Eliot Corley - el-corleo (OGA) - http://opengameart.org/content/awareness
@@ -668,6 +674,7 @@ mus/shrine-OGA-yd.ogg                                           (CC0)           
 mus/Welcome to Com-Mecha-Mattew_Pablo_OGA.ogg                   CC by 3.0                Mathew Pablo (OGA) - http://opengameart.org/content/theme-of-com-mecha
 mus/Zander Noriega - School of Quirks.ogg                       CC by SA 3.0             Zander Noriega (OGA) - http://opengameart.org/content/school-of-quirks
 mus/the_recon_mission.ogg                                       CC by 3.0                Zander Noriega (OGA) - http://opengameart.org/content/the-recon-mission
+mus/overworld_present.ogg                                       CC by 3.0                HorrorPen (OGA) - http://opengameart.org/content/gray-trip
 
 snd/campfire.ogg                                                CC0                      Loop made by Bertram out of: http://www.freesound.org/people/Spandau/sounds/40699/
 snd/cloth_sound.wav                                             CC by 3.0 or GPLv2/3     artisticdude (OGA)
