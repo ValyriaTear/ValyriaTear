@@ -509,7 +509,7 @@ void TextImage::_Regenerate()
 
 // When TextSupervisor is created, the
 TextSupervisor::TextSupervisor() :
-    _default_style("", Color(), VIDEO_TEXT_SHADOW_INVALID, 0, 0)
+    _default_style(std::string(), Color(), VIDEO_TEXT_SHADOW_INVALID, 0, 0)
 {}
 
 
@@ -517,22 +517,8 @@ TextSupervisor::TextSupervisor() :
 TextSupervisor::~TextSupervisor()
 {
     // Remove all loaded fonts and cached glyphs, then shutdown the SDL_ttf library
-    for(std::map<std::string, FontProperties *>::iterator i = _font_map.begin(); i != _font_map.end(); i++) {
-        FontProperties *fp = i->second;
-
-        if(fp->ttf_font)
-            TTF_CloseFont(fp->ttf_font);
-
-        if(fp->glyph_cache) {
-            std::vector<vt_video::FontGlyph *>::const_iterator it_end = fp->glyph_cache->end();
-            for(std::vector<FontGlyph *>::iterator j = fp->glyph_cache->begin(); j != it_end; ++j) {
-                delete *j;
-            }
-            delete fp->glyph_cache;
-        }
-
-        delete fp;
-    }
+    for(std::map<std::string, FontProperties *>::iterator it = _font_map.begin(); it != _font_map.end(); ++it)
+        delete it->second;
 
     TTF_Quit();
 }
@@ -589,12 +575,17 @@ bool TextSupervisor::LoadFont(const std::string &filename, const std::string &fo
 
 void TextSupervisor::FreeFont(const std::string &font_name)
 {
-    if(_font_map.find(font_name) == _font_map.end()) {
+    std::map<std::string, FontProperties*>::iterator it = _font_map.find(font_name);
+    if(it == _font_map.end()) {
         IF_PRINT_WARNING(VIDEO_DEBUG) << "argument font name was invalid: " << font_name << std::endl;
         return;
     }
 
-    // TODO: implement the rest of this function
+    // Free the font and remove it from the font cache
+    delete it->second;
+
+    // Remove the data from the map once freed.
+    _font_map.erase(it);
 }
 
 

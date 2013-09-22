@@ -64,6 +64,18 @@ enum TEXT_SHADOW_STYLE {
 class FontGlyph
 {
 public:
+    FontGlyph():
+        texture(0),
+        width(0),
+        height(0),
+        min_x(0),
+        min_y(0),
+        max_x(0.0f),
+        max_y(0.0f),
+        advance(0),
+        top_y(0)
+    {}
+
     //! \brief The index of the GL texture for this glyph.
     GLuint texture;
 
@@ -90,6 +102,31 @@ public:
 class FontProperties
 {
 public:
+    FontProperties():
+        height(0),
+        line_skip(0),
+        ascent(0),
+        descent(0),
+        ttf_font(NULL),
+        glyph_cache(NULL)
+    {}
+
+    ~FontProperties()
+    {
+        // Free the font.
+        if(ttf_font)
+            TTF_CloseFont(ttf_font);
+
+        // Clears the glyph cache and delete it
+        if(glyph_cache) {
+            std::vector<vt_video::FontGlyph *>::const_iterator it_end = glyph_cache->end();
+            for(std::vector<FontGlyph *>::iterator j = glyph_cache->begin(); j != it_end; ++j) {
+                delete *j;
+            }
+            delete glyph_cache;
+        }
+    }
+
     //! \brief The maximum height of all of the glyphs for this font.
     int32 height;
 
