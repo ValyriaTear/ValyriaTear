@@ -565,20 +565,33 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("crystal dialogue part");
     EventManager:RegisterEvent(event);
 
+    event = vt_map.SoundEvent("crystal voice sound 1", "dat/maps/layna_forest/crystal_appearance/crystal-sentence1.ogg")
+    EventManager:RegisterEvent(event);
+    event = vt_map.SoundEvent("crystal voice sound 2", "dat/maps/layna_forest/crystal_appearance/crystal-sentence2.ogg")
+    EventManager:RegisterEvent(event);
+    event = vt_map.SoundEvent("crystal voice sound 3", "dat/maps/layna_forest/crystal_appearance/crystal-sentence3.ogg")
+    EventManager:RegisterEvent(event);
+    event = vt_map.SoundEvent("crystal voice sound 4", "dat/maps/layna_forest/crystal_appearance/crystal-sentence4.ogg")
+    EventManager:RegisterEvent(event);
+    event = vt_map.SoundEvent("crystal voice sound 5", "dat/maps/layna_forest/crystal_appearance/crystal-sentence5.ogg")
+    EventManager:RegisterEvent(event);
+    event = vt_map.SoundEvent("crystal voice sound 6", "dat/maps/layna_forest/crystal_appearance/crystal-sentence6.ogg")
+    EventManager:RegisterEvent(event);
+
     dialogue = vt_map.SpriteDialogue();
     dialogue:SetInputBlocked(true);
     text = vt_system.Translate("Dear chosen one, the time has finally come.");
-    dialogue:AddLineTimedEvent(text, crystal, 5000, "crystal voice sound 1", ""); -- TODO: add voice sounds
+    dialogue:AddLineTimedEvent(text, crystal, 5000, "crystal voice sound 1", "");
     text = vt_system.Translate("For us, it will take an instant.");
-    dialogue:AddLineTimedEvent(text, crystal, 5000, "crystal voice sound 2", ""); -- TODO: add voice sounds
+    dialogue:AddLineTimedEvent(text, crystal, 5000, "crystal voice sound 2", "");
     text = vt_system.Translate("For you, it might have been decades.");
-    dialogue:AddLineTimedEvent(text, crystal, 5000, "crystal voice sound 3", ""); -- TODO: add voice sounds
+    dialogue:AddLineTimedEvent(text, crystal, 5000, "crystal voice sound 3", "");
     text = vt_system.Translate("May you bring a happy end to this foolish destiny of ours.");
-    dialogue:AddLineTimedEvent(text, crystal, 5000, "crystal voice sound 2", ""); -- TODO: add voice sounds
+    dialogue:AddLineTimedEvent(text, crystal, 6000, "crystal voice sound 4", "");
     text = vt_system.Translate("We're all anxiously awaiting your return.");
-    dialogue:AddLineTimedEvent(text, crystal, 5000, "crystal voice sound 3", ""); -- TODO: add voice sounds
+    dialogue:AddLineTimedEvent(text, crystal, 5000, "crystal voice sound 5", "");
     text = vt_system.Translate("Now, come. And make one with our holy hope.");
-    dialogue:AddLineTimedEvent(text, crystal, 5000, "crystal voice sound 2", ""); -- TODO: add voice sounds
+    dialogue:AddLineTimedEvent(text, crystal, 5000, "crystal voice sound 6", "");
     DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("crystal dialogue part", dialogue);
     event:AddEventLinkAtEnd("fourth dialogue part");
