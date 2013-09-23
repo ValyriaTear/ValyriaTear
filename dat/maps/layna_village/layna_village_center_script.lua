@@ -1049,9 +1049,12 @@ function _UpdateOrlinnAndKalyaState()
 
     -- Default behaviour
     EventManager:TerminateAllEvents(orlinn);
-    event = vt_map.RandomMoveSpriteEvent("Orlinn random move", orlinn, 4000, 2000);
-    event:AddEventLinkAtEnd("Orlinn random move", 3000); -- Loop on itself
-    EventManager:RegisterEvent(event);
+    -- Add the default event if it doesn't exist
+    if (EventManager:DoesEventExist("Orlinn random move") == false) then
+        event = vt_map.RandomMoveSpriteEvent("Orlinn random move", orlinn, 4000, 2000);
+        event:AddEventLinkAtEnd("Orlinn random move", 3000); -- Loop on itself
+        EventManager:RegisterEvent(event);
+    end
     EventManager:StartEvent("Orlinn random move");
 end
 

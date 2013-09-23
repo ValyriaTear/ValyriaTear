@@ -1139,6 +1139,9 @@ public:
     **/
     MapEvent *GetEvent(const std::string &event_id) const;
 
+    bool DoesEventExist(const std::string &event_id) const
+    { return !(GetEvent(event_id) == NULL); }
+
 private:
     //! \brief A container for all map events, where the event's ID serves as the key to the std::map
     std::map<std::string, MapEvent *> _all_events;
