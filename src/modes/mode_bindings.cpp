@@ -445,6 +445,7 @@ void BindModeCode()
             .def("HasActiveEvent", &EventSupervisor::HasActiveEvent)
             .def("HasActiveDelayedEvent", &EventSupervisor::HasActiveDelayedEvent)
             .def("GetEvent", &EventSupervisor::GetEvent)
+            .def("DoesEventExist", &EventSupervisor::DoesEventExist)
         ];
 
         luabind::module(vt_script::ScriptManager->GetGlobalState(), "vt_map")
