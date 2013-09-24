@@ -609,8 +609,8 @@ skills[1007] = {
 skills[1008] = {
     name = "Fenrir Attack",
     sp_required = 0,
-    warmup_time = 1400,
-    cooldown_time = 0,
+    warmup_time = 1200,
+    cooldown_time = 300,
     target_type = vt_global.GameGlobal.GLOBAL_TARGET_FOE_POINT,
 
     BattleExecute = function(user, target)
@@ -621,6 +621,33 @@ skills[1008] = {
             AudioManager:PlaySound("snd/growl1_IFartInUrGeneralDirection_freesound.wav");
         else
             target_actor:RegisterMiss(true);
+        end
+    end
+}
+
+skills[1009] = {
+    name = "Fenrir Multiple Attack",
+    sp_required = 1,
+    warmup_time = 1600,
+    cooldown_time = 500,
+    target_type = vt_global.GameGlobal.GLOBAL_TARGET_ALL_FOES,
+
+    BattleExecute = function(user, target)
+        local index = 0;
+        while true do
+            local target_actor = target:GetPartyActor(index);
+            if (target_actor == nil) then
+                break;
+            end
+
+            if (vt_battle.CalculateStandardEvasion(target_actor) == false) then
+                target_actor:RegisterDamage(vt_battle.CalculatePhysicalDamageAdder(user, target_actor, 25));
+                AudioManager:PlaySound("snd/growl1_IFartInUrGeneralDirection_freesound.wav");
+            else
+                target_actor:RegisterMiss(true);
+            end
+
+            index = index + 1;
         end
     end
 }
