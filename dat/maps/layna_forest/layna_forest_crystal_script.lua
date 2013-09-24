@@ -587,7 +587,7 @@ function _CreateEvents()
     text = vt_system.Translate("For you, it might have been decades.");
     dialogue:AddLineTimedEvent(text, crystal, 5000, "crystal voice sound 3", "");
     text = vt_system.Translate("May you bring a happy end to this foolish destiny of ours.");
-    dialogue:AddLineTimedEvent(text, crystal, 6000, "crystal voice sound 4", "");
+    dialogue:AddLineTimedEvent(text, crystal, 6800, "crystal voice sound 4", "");
     text = vt_system.Translate("We're all anxiously awaiting your return.");
     dialogue:AddLineTimedEvent(text, crystal, 5000, "crystal voice sound 5", "");
     text = vt_system.Translate("Now, come. And make one with our holy hope.");
