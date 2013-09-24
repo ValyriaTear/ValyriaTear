@@ -147,6 +147,8 @@ enum COMMAND_STATE {
 *** \return True if the target evasion was successful
 **/
 bool CalculateStandardEvasion(BattleTarget *target);
+// Same but for a precise actor.
+bool CalculateStandardEvasion(BattleActor *target_actor);
 
 /** \brief Determines if a target has evaded an attack or other action, utilizing an addition modifier
 *** \param target A pointer to the target to calculate evasion for
@@ -159,6 +161,8 @@ bool CalculateStandardEvasion(BattleTarget *target);
 *** successful or not.
 **/
 bool CalculateStandardEvasionAdder(BattleTarget *target, float add_eva);
+// Same but for a precise actor.
+bool CalculateStandardEvasionAdder(BattleActor *target_actor, float add_eva);
 
 /** \brief Determines if a target has evaded an attack or other action, utilizing a multiplication modifier
 *** \param target A pointer to the target to calculate evasion for
@@ -172,6 +176,8 @@ bool CalculateStandardEvasionAdder(BattleTarget *target, float add_eva);
 *** be printed and the absolute value of the multiplier will be used.
 **/
 bool CalculateStandardEvasionMultiplier(BattleTarget *target, float mul_eva);
+// Same but for a precise actor.
+bool CalculateStandardEvasionMultiplier(BattleActor *target_actor, float add_eva);
 
 /** \brief Determines the amount of damage caused with a physical attack
 *** \param attacker A pointer to the attacker who is causing the damage
@@ -184,6 +190,8 @@ bool CalculateStandardEvasionMultiplier(BattleTarget *target, float mul_eva);
 *** If the amount of damage calculates out to zero, a small random non-zero value will be returned instead.
 **/
 uint32 CalculatePhysicalDamage(BattleActor *attacker, BattleTarget *target);
+// Same but for a precise actor.
+uint32 CalculatePhysicalDamage(BattleActor *attacker, BattleActor *target_actor);
 
 /** \brief Determines the amount of damage caused with a physical attack
 *** \param attacker A pointer to the attacker who is causing the damage
@@ -196,6 +204,8 @@ uint32 CalculatePhysicalDamage(BattleActor *attacker, BattleTarget *target);
 *** points.
 **/
 uint32 CalculatePhysicalDamage(BattleActor *attacker, BattleTarget *target, float std_dev);
+// Same but for a precise actor.
+uint32 CalculatePhysicalDamage(BattleActor *attacker, BattleActor *target_actor, float std_dev);
 
 /** \brief Determines the amount of damage caused with a physical attack, utilizing an addition modifier
 *** \param attacker A pointer to the attacker who is causing the damage
@@ -207,6 +217,8 @@ uint32 CalculatePhysicalDamage(BattleActor *attacker, BattleTarget *target, floa
 *** and cause the damage dealt to drop to zero, so be cautious when setting this argument to a negative value.
 **/
 uint32 CalculatePhysicalDamageAdder(BattleActor *attacker, BattleTarget *target, int32 add_atk);
+// Same but for a precise actor.
+uint32 CalculatePhysicalDamageAdder(BattleActor *attacker, BattleActor *target_actor, int32 add_atk);
 
 /** \brief Determines the amount of damage caused with a physical attack, utilizing an addition modifier
 *** \param attacker A pointer to the attacker who is causing the damage
@@ -216,6 +228,8 @@ uint32 CalculatePhysicalDamageAdder(BattleActor *attacker, BattleTarget *target,
 *** \return The amount of damage dealt, which will always be a non-zero value unless there was an error
 **/
 uint32 CalculatePhysicalDamageAdder(BattleActor *attacker, BattleTarget *target, int32 add_atk, float std_dev);
+// Same but for a precise actor.
+uint32 CalculatePhysicalDamageAdder(BattleActor *attacker, BattleActor *target_actor, int32 add_atk, float std_dev);
 
 /** \brief Determines the amount of damage caused with a physical attack, utilizing a mulitplication modifier
 *** \param attacker A pointer to the attacker who is causing the damage
@@ -230,6 +244,8 @@ uint32 CalculatePhysicalDamageAdder(BattleActor *attacker, BattleTarget *target,
 *** a warning will be printed.
 **/
 uint32 CalculatePhysicalDamageMultiplier(BattleActor *attacker, BattleTarget *target, float mul_phys);
+// Same but for a precise actor.
+uint32 CalculatePhysicalDamageMultiplier(BattleActor *attacker, BattleActor *target_actor, float mul_phys);
 
 /** \brief Determines the amount of damage caused with a physical attack, utilizing a multiplication modifier
 *** \param attacker A pointer to the attacker who is causing the damage
@@ -241,6 +257,8 @@ uint32 CalculatePhysicalDamageMultiplier(BattleActor *attacker, BattleTarget *ta
 *** This function signature allows the additional option of setting the standard deviation in the gaussian random value calculation.
 **/
 uint32 CalculatePhysicalDamageMultiplier(BattleActor *attacker, BattleTarget *target, float mul_atk, float std_dev);
+// Same but for a precise actor.
+uint32 CalculatePhysicalDamageMultiplier(BattleActor *attacker, BattleActor *target_actor, float mul_atk, float std_dev);
 
 /** \brief Determines the amount of damage caused with a magical attack
 *** \param attacker A pointer to the attacker who is causing the damage
@@ -254,6 +272,8 @@ uint32 CalculatePhysicalDamageMultiplier(BattleActor *attacker, BattleTarget *ta
 *** If the amount of damage calculates out to zero, a small random non-zero value will be returned instead.
 **/
 uint32 CalculateMagicalDamage(BattleActor *attacker, BattleTarget *target, vt_global::GLOBAL_ELEMENTAL element);
+// Same but for a precise actor.
+uint32 CalculateMagicalDamage(BattleActor *attacker, BattleActor *target_actor, vt_global::GLOBAL_ELEMENTAL element);
 
 /** \brief Determines the amount of damage caused with a magical attack
 *** \param attacker A pointer to the attacker who is causing the damage
@@ -267,6 +287,8 @@ uint32 CalculateMagicalDamage(BattleActor *attacker, BattleTarget *target, vt_gl
 *** points.
 **/
 uint32 CalculateMagicalDamage(BattleActor *attacker, BattleTarget *target, vt_global::GLOBAL_ELEMENTAL element, float std_dev);
+// Same but for a precise actor.
+uint32 CalculateMagicalDamage(BattleActor *attacker, BattleActor *target_actor, vt_global::GLOBAL_ELEMENTAL element, float std_dev);
 
 /** \brief Determines the amount of damage caused with a magical attack, utilizing an addition modifier
 *** \param attacker A pointer to the attacker who is causing the damage
@@ -279,6 +301,8 @@ uint32 CalculateMagicalDamage(BattleActor *attacker, BattleTarget *target, vt_gl
 *** and cause the damage dealt to drop to zero, so be cautious when setting this argument to a negative value.
 **/
 uint32 CalculateMagicalDamageAdder(BattleActor *attacker, BattleTarget *target, vt_global::GLOBAL_ELEMENTAL element, int32 add_atk);
+// Same but for a precise actor.
+uint32 CalculateMagicalDamageAdder(BattleActor *attacker, BattleActor *target_actor, vt_global::GLOBAL_ELEMENTAL element, int32 add_atk);
 
 /** \brief Determines the amount of damage caused with a magical attack, utilizing an addition modifier
 *** \param attacker A pointer to the attacker who is causing the damage
@@ -289,6 +313,9 @@ uint32 CalculateMagicalDamageAdder(BattleActor *attacker, BattleTarget *target, 
 *** \return The amount of damage dealt, which will always be a non-zero value unless there was an error
 **/
 uint32 CalculateMagicalDamageAdder(BattleActor *attacker, BattleTarget *target,
+                                   vt_global::GLOBAL_ELEMENTAL element, int32 add_atk, float std_dev);
+// Same but for a precise actor.
+uint32 CalculateMagicalDamageAdder(BattleActor *attacker, BattleActor *target_actor,
                                    vt_global::GLOBAL_ELEMENTAL element, int32 add_atk, float std_dev);
 
 /** \brief Determines the amount of damage caused with a magical attack, utilizing a multiplication modifier
@@ -306,6 +333,9 @@ uint32 CalculateMagicalDamageAdder(BattleActor *attacker, BattleTarget *target,
 **/
 uint32 CalculateMagicalDamageMultiplier(BattleActor *attacker, BattleTarget *target,
                                         vt_global::GLOBAL_ELEMENTAL element, float mul_atk);
+// Same but for a precise actor.
+uint32 CalculateMagicalDamageMultiplier(BattleActor *attacker, BattleActor *target_actor,
+                                        vt_global::GLOBAL_ELEMENTAL element, float mul_atk);
 
 /** \brief Determines the amount of damage caused with a magical attack, utilizing a multiplication modifier
 *** \param attacker A pointer to the attacker who is causing the damage
@@ -318,6 +348,9 @@ uint32 CalculateMagicalDamageMultiplier(BattleActor *attacker, BattleTarget *tar
 *** This function signature allows the additional option of setting the standard deviation in the gaussian random value calculation.
 **/
 uint32 CalculateMagicalDamageMultiplier(BattleActor *attacker, BattleTarget *target,
+                                        vt_global::GLOBAL_ELEMENTAL element, float mul_atk, float std_dev);
+// Same but for a precise actor.
+uint32 CalculateMagicalDamageMultiplier(BattleActor *attacker, BattleActor *target_actor,
                                         vt_global::GLOBAL_ELEMENTAL element, float mul_atk, float std_dev);
 //@}
 

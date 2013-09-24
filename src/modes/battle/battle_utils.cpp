@@ -49,7 +49,10 @@ bool CalculateStandardEvasion(BattleTarget *target)
     return CalculateStandardEvasionAdder(target, 0.0f);
 }
 
-
+bool CalculateStandardEvasion(BattleActor *target_actor)
+{
+    return CalculateStandardEvasionAdder(target_actor, 0.0f);
+}
 
 bool CalculateStandardEvasionAdder(BattleTarget *target, float add_eva)
 {
@@ -86,7 +89,27 @@ bool CalculateStandardEvasionAdder(BattleTarget *target, float add_eva)
         return false;
 } // bool CalculateStandardEvasionAdder(BattleTarget* target, float add_evade)
 
+bool CalculateStandardEvasionAdder(BattleActor *target_actor, float add_eva)
+{
+    if (!target_actor) {
+        IF_PRINT_WARNING(BATTLE_DEBUG) << "Invalid target actor" << std::endl;
+        return false;
+    }
 
+    float evasion = target_actor->GetAverageEvadeRating();
+    evasion += add_eva;
+
+    // Check for absolute hit/miss conditions
+    if(evasion <= 0.0f)
+        return false;
+    else if(evasion >= 100.0f)
+        return true;
+
+    if(RandomFloat(0.0f, 100.0f) <= evasion)
+        return true;
+    else
+        return false;
+}
 
 bool CalculateStandardEvasionMultiplier(BattleTarget *target, float mul_eva)
 {
@@ -128,6 +151,33 @@ bool CalculateStandardEvasionMultiplier(BattleTarget *target, float mul_eva)
         return true;
 } // bool CalculateStandardEvasionMultiplier(BattleTarget* target, float mul_evade)
 
+bool CalculateStandardEvasionMultiplier(BattleActor *target_actor, float mul_eva)
+{
+    if (!target_actor) {
+        IF_PRINT_WARNING(BATTLE_DEBUG) << "Invalid target actor" << std::endl;
+        return false;
+    }
+
+    if(mul_eva < 0.0f) {
+        IF_PRINT_WARNING(BATTLE_DEBUG) << "function received negative multiplier argument: " << mul_eva << std::endl;
+        mul_eva = fabs(mul_eva);
+    }
+
+    // Find the base evasion and apply the multiplier
+    float evasion = target_actor->GetAverageEvadeRating();
+    evasion = evasion * mul_eva;
+
+    // Check for absolute hit/miss conditions
+    if(evasion <= 0.0f)
+        return false;
+    else if(evasion >= 100.0f)
+        return true;
+
+    if(RandomFloat(0.0f, 100.0f) > evasion)
+        return false;
+    else
+        return true;
+}
 
 
 uint32 CalculatePhysicalDamage(BattleActor *attacker, BattleTarget *target)
@@ -135,21 +185,30 @@ uint32 CalculatePhysicalDamage(BattleActor *attacker, BattleTarget *target)
     return CalculatePhysicalDamageAdder(attacker, target, 0, 0.10f);
 }
 
-
+uint32 CalculatePhysicalDamage(BattleActor *attacker, BattleActor *target_actor)
+{
+    return CalculatePhysicalDamageAdder(attacker, target_actor, 0, 0.10f);
+}
 
 uint32 CalculatePhysicalDamage(BattleActor *attacker, BattleTarget *target, float std_dev)
 {
     return CalculatePhysicalDamageAdder(attacker, target, 0, std_dev);
 }
 
-
+uint32 CalculatePhysicalDamage(BattleActor *attacker, BattleActor *target_actor, float std_dev)
+{
+    return CalculatePhysicalDamageAdder(attacker, target_actor, 0, std_dev);
+}
 
 uint32 CalculatePhysicalDamageAdder(BattleActor *attacker, BattleTarget *target, int32 add_atk)
 {
     return CalculatePhysicalDamageAdder(attacker, target, add_atk, 0.10f);
 }
 
-
+uint32 CalculatePhysicalDamageAdder(BattleActor *attacker, BattleActor *target_actor, int32 add_atk)
+{
+    return CalculatePhysicalDamageAdder(attacker, target_actor, add_atk, 0.10f);
+}
 
 uint32 CalculatePhysicalDamageAdder(BattleActor *attacker, BattleTarget *target, int32 add_atk, float std_dev)
 {
@@ -206,14 +265,57 @@ uint32 CalculatePhysicalDamageAdder(BattleActor *attacker, BattleTarget *target,
     return static_cast<uint32>(total_dmg);
 } // uint32 CalculatePhysicalDamageAdder(BattleActor* attacker, BattleTarget* target, int32 add_atk, float std_dev)
 
+uint32 CalculatePhysicalDamageAdder(BattleActor *attacker, BattleActor *target_actor, int32 add_atk, float std_dev)
+{
+    if(attacker == NULL) {
+        IF_PRINT_WARNING(BATTLE_DEBUG) << "function received NULL attacker argument" << std::endl;
+        return 0;
+    }
+    if(!target_actor) {
+        IF_PRINT_WARNING(BATTLE_DEBUG) << "Invalid target battle actor" << std::endl;
+        return 0;
+    }
+    if(std_dev < 0.0f) {
+        IF_PRINT_WARNING(BATTLE_DEBUG) << "function received negative standard deviation argument: " << std_dev << std::endl;
+        std_dev = fabs(std_dev);
+    }
 
+    // Holds the total physical attack of the attacker and modifier
+    int32 total_phys_atk = attacker->GetTotalPhysicalAttack() + add_atk;
+    if(total_phys_atk < 0)
+        total_phys_atk = 0;
+
+    // Holds the total physical defense of the target
+    int32 total_phys_def = target_actor->GetAverageDefense();
+
+    // Holds the total damage dealt
+    int32 total_dmg = total_phys_atk - total_phys_def;
+
+    // If the total damage is zero, fall back to causing a small non-zero damage value
+    if(total_dmg <= 0)
+        return static_cast<uint32>(RandomBoundedInteger(1, 5));
+
+    // Holds the absolute standard deviation used in the GaussianRandomValue function
+    float abs_std_dev = static_cast<float>(total_dmg) * std_dev;
+    total_dmg = GaussianRandomValue(total_dmg, abs_std_dev, false);
+
+    // If the total damage came to a value less than or equal to zero after the gaussian randomization,
+    // fall back to returning a small non-zero damage value
+    if(total_dmg <= 0)
+        return static_cast<uint32>(RandomBoundedInteger(1, 5));
+
+    return static_cast<uint32>(total_dmg);
+}
 
 uint32 CalculatePhysicalDamageMultiplier(BattleActor *attacker, BattleTarget *target, float mul_atk)
 {
     return CalculatePhysicalDamageMultiplier(attacker, target, mul_atk, 0.10f);
 }
 
-
+uint32 CalculatePhysicalDamageMultiplier(BattleActor *attacker, BattleActor *target_actor, float mul_atk)
+{
+    return CalculatePhysicalDamageMultiplier(attacker, target_actor, mul_atk, 0.10f);
+}
 
 uint32 CalculatePhysicalDamageMultiplier(BattleActor *attacker, BattleTarget *target, float mul_atk, float std_dev)
 {
@@ -277,9 +379,65 @@ uint32 CalculatePhysicalDamageMultiplier(BattleActor *attacker, BattleTarget *ta
     return static_cast<uint32>(total_dmg);
 } // uint32 CalculatePhysicalDamageMultiplier(BattleActor* attacker, BattleTarget* target, float mul_phys, float std_dev)
 
+uint32 CalculatePhysicalDamageMultiplier(BattleActor *attacker, BattleActor *target_actor, float mul_atk, float std_dev)
+{
+    if(attacker == NULL) {
+        IF_PRINT_WARNING(BATTLE_DEBUG) << "function received NULL attacker argument" << std::endl;
+        return 0;
+    }
+    if(!target_actor) {
+        IF_PRINT_WARNING(BATTLE_DEBUG) << "Invalid target battle actor" << std::endl;
+        return 0;
+    }
+    if(mul_atk < 0.0f) {
+        IF_PRINT_WARNING(BATTLE_DEBUG) << "function received negative multiplier arument: " << mul_atk << std::endl;
+        mul_atk = fabs(mul_atk);
+    }
+    if(std_dev < 0.0f) {
+        IF_PRINT_WARNING(BATTLE_DEBUG) << "function received negative standard deviation argument: " << std_dev << std::endl;
+        std_dev = fabs(std_dev);
+    }
+
+    // Retrieve the total physical attack of the attacker and apply the modifier
+    int32 total_phys_atk = attacker->GetTotalPhysicalAttack();
+    total_phys_atk = static_cast<int32>(static_cast<float>(total_phys_atk) * mul_atk);
+
+    if(total_phys_atk < 0)
+        total_phys_atk = 0;
+
+    // Holds the total physical defense of the target
+    int32 total_phys_def = target_actor->GetAverageDefense();
+
+    // Holds the total damage dealt
+    int32 total_dmg = total_phys_atk - total_phys_def;
+
+    // If the total damage is zero, fall back to causing a small non-zero damage value
+    if(total_dmg <= 0)
+        return static_cast<uint32>(RandomBoundedInteger(1, 5));
+
+    // Holds the absolute standard deviation used in the GaussianRandomValue function
+    // A value of "0.075f" means the standard deviation should be 7.5% of the mean (the total damage)
+    float abs_std_dev = static_cast<float>(total_dmg) * std_dev;
+    total_dmg = GaussianRandomValue(total_dmg, abs_std_dev, false);
+
+    // If the total damage came to a value less than or equal to zero after the gaussian randomization,
+    // fall back to returning a small non-zero damage value
+    if(total_dmg <= 0)
+        return static_cast<uint32>(RandomBoundedInteger(1, 5));
+
+    return static_cast<uint32>(total_dmg);
+}
+
+
+// Magical damages
 uint32 CalculateMagicalDamage(BattleActor *attacker, BattleTarget *target, GLOBAL_ELEMENTAL element)
 {
     return CalculateMagicalDamageAdder(attacker, target, element, 0, 0.10f);
+}
+
+uint32 CalculateMagicalDamage(BattleActor *attacker, BattleActor *target_actor, GLOBAL_ELEMENTAL element)
+{
+    return CalculateMagicalDamageAdder(attacker, target_actor, element, 0, 0.10f);
 }
 
 uint32 CalculateMagicalDamage(BattleActor *attacker, BattleTarget *target, GLOBAL_ELEMENTAL element, float std_dev)
@@ -287,11 +445,20 @@ uint32 CalculateMagicalDamage(BattleActor *attacker, BattleTarget *target, GLOBA
     return CalculateMagicalDamageAdder(attacker, target, element, 0, std_dev);
 }
 
+uint32 CalculateMagicalDamage(BattleActor *attacker, BattleActor *target_actor, GLOBAL_ELEMENTAL element, float std_dev)
+{
+    return CalculateMagicalDamageAdder(attacker, target_actor, element, 0, std_dev);
+}
+
 uint32 CalculateMagicalDamageAdder(BattleActor *attacker, BattleTarget *target, GLOBAL_ELEMENTAL element, int32 add_atk)
 {
     return CalculateMagicalDamageAdder(attacker, target, element, add_atk, 0.10f);
 }
 
+uint32 CalculateMagicalDamageAdder(BattleActor *attacker, BattleActor *target_actor, GLOBAL_ELEMENTAL element, int32 add_atk)
+{
+    return CalculateMagicalDamageAdder(attacker, target_actor, element, add_atk, 0.10f);
+}
 
 uint32 CalculateMagicalDamageAdder(BattleActor *attacker, BattleTarget *target,
                                    GLOBAL_ELEMENTAL element, int32 add_atk, float std_dev)
@@ -349,12 +516,64 @@ uint32 CalculateMagicalDamageAdder(BattleActor *attacker, BattleTarget *target,
         return static_cast<uint32>(RandomBoundedInteger(1, 5));
 
     return static_cast<uint32>(total_dmg);
-} // uint32 CalculateMagicalDamageAdder(BattleActor* attacker, BattleTarget* target, int32 add_atk, float std_dev)
+}
+
+uint32 CalculateMagicalDamageAdder(BattleActor *attacker, BattleActor *target_actor,
+                                   GLOBAL_ELEMENTAL element, int32 add_atk, float std_dev)
+{
+    if(attacker == NULL) {
+        IF_PRINT_WARNING(BATTLE_DEBUG) << "function received NULL attacker argument" << std::endl;
+        return 0;
+    }
+    if(target_actor == NULL) {
+        IF_PRINT_WARNING(BATTLE_DEBUG) << "Invalid target battle actor" << std::endl;
+        return 0;
+    }
+    if(std_dev < 0.0f) {
+        IF_PRINT_WARNING(BATTLE_DEBUG) << "function received negative standard deviation argument: " << std_dev << std::endl;
+        std_dev = fabs(std_dev);
+    }
+
+    // Holds the total physical attack of the attacker and modifier
+    int32 total_mag_atk = attacker->GetTotalMagicalAttack(element) + add_atk;
+    if(total_mag_atk < 0)
+        total_mag_atk = 0;
+
+    // Holds the total physical defense of the target
+    int32 total_mag_def = target_actor->GetAverageMagicalDefense(element);
+
+    // Holds the total damage dealt
+    int32 total_dmg = total_mag_atk - total_mag_def;
+    if(total_dmg < 0)
+        total_dmg = 0;
+
+    // If the total damage is zero, fall back to causing a small non-zero damage value
+    if(total_dmg <= 0)
+        return static_cast<uint32>(RandomBoundedInteger(1, 5));
+
+    // Holds the absolute standard deviation used in the GaussianRandomValue function
+    float abs_std_dev = static_cast<float>(total_dmg) * std_dev;
+    total_dmg = GaussianRandomValue(total_dmg, abs_std_dev, false);
+
+    // If the total damage came to a value less than or equal to zero after the gaussian randomization,
+    // fall back to returning a small non-zero damage value
+    if(total_dmg <= 0)
+        return static_cast<uint32>(RandomBoundedInteger(1, 5));
+
+    return static_cast<uint32>(total_dmg);
+}
+
 
 uint32 CalculateMagicalDamageMultiplier(BattleActor *attacker, BattleTarget *target,
                                         GLOBAL_ELEMENTAL element, float mul_atk)
 {
     return CalculateMagicalDamageMultiplier(attacker, target, element, mul_atk, 0.10f);
+}
+
+uint32 CalculateMagicalDamageMultiplier(BattleActor *attacker, BattleActor *target_actor,
+                                        GLOBAL_ELEMENTAL element, float mul_atk)
+{
+    return CalculateMagicalDamageMultiplier(attacker, target_actor, element, mul_atk, 0.10f);
 }
 
 uint32 CalculateMagicalDamageMultiplier(BattleActor *attacker, BattleTarget *target,
@@ -417,7 +636,57 @@ uint32 CalculateMagicalDamageMultiplier(BattleActor *attacker, BattleTarget *tar
         return static_cast<uint32>(RandomBoundedInteger(1, 5));
 
     return static_cast<uint32>(total_dmg);
-} // uint32 CalculateMagicalDamageMultiplier(BattleActor* attacker, BattleTarget* target, float mul_phys, float std_dev)
+}
+
+uint32 CalculateMagicalDamageMultiplier(BattleActor *attacker, BattleActor *target_actor,
+                                        GLOBAL_ELEMENTAL element, float mul_atk, float std_dev)
+{
+    if(attacker == NULL) {
+        IF_PRINT_WARNING(BATTLE_DEBUG) << "function received NULL attacker argument" << std::endl;
+        return 0;
+    }
+    if(target_actor == NULL) {
+        IF_PRINT_WARNING(BATTLE_DEBUG) << "Invalid target battle actor" << std::endl;
+        return 0;
+    }
+    if(mul_atk < 0.0f) {
+        IF_PRINT_WARNING(BATTLE_DEBUG) << "function received negative multiplier arument: " << mul_atk << std::endl;
+        mul_atk = fabs(mul_atk);
+    }
+    if(std_dev < 0.0f) {
+        IF_PRINT_WARNING(BATTLE_DEBUG) << "function received negative standard deviation argument: " << std_dev << std::endl;
+        std_dev = fabs(std_dev);
+    }
+
+    // Retrieve the total physical attack of the attacker and apply the modifier
+    int32 total_mag_atk = static_cast<int32>(static_cast<float>(attacker->GetTotalMagicalAttack(element)) * mul_atk);
+
+    if(total_mag_atk < 0)
+        total_mag_atk = 0;
+
+    // Holds the total physical defense of the target
+    int32 total_mag_def = target_actor->GetAverageMagicalDefense(element);
+
+    // Holds the total damage dealt
+    int32 total_dmg = total_mag_atk - total_mag_def;
+
+    // If the total damage is zero, fall back to causing a small non-zero damage value
+    if(total_dmg <= 0)
+        return static_cast<uint32>(RandomBoundedInteger(1, 5));
+
+    // Holds the absolute standard deviation used in the GaussianRandomValue function
+    // A value of "0.075f" means the standard deviation should be 7.5% of the mean (the total damage)
+    float abs_std_dev = static_cast<float>(total_dmg) * std_dev;
+    total_dmg = GaussianRandomValue(total_dmg, abs_std_dev, false);
+
+    // If the total damage came to a value less than or equal to zero after the gaussian randomization,
+    // fall back to returning a small non-zero damage value
+    if(total_dmg <= 0)
+        return static_cast<uint32>(RandomBoundedInteger(1, 5));
+
+    return static_cast<uint32>(total_dmg);
+}
+
 
 ////////////////////////////////////////////////////////////////////////////////
 // BattleTarget class

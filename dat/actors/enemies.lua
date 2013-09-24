@@ -450,7 +450,8 @@ enemies[8] = {
     },
 
     skills = {
-        1008
+        1008,
+        1009
     },
 
     drop_objects = {
