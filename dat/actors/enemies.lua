@@ -422,10 +422,10 @@ enemies[8] = {
         strength = 27,
         vigor = 14,
         fortitude = 10,
-        protection = 6,
+        protection = 20,
         agility = 40,
         evade = 4.0,
-        experience_points = 142,
+        experience_points = 143,
         drunes = 100
     },
 
