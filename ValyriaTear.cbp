@@ -54,7 +54,7 @@
 			</Target>
 			<Target title="Release Win32">
 				<Option platforms="Windows;" />
-				<Option output="ValyriaTearWin" prefix_auto="1" extension_auto="1" />
+				<Option output="ValyriaTear" prefix_auto="1" extension_auto="1" />
 				<Option object_output="ValyriaTear-Release" />
 				<Option type="0" />
 				<Option compiler="gcc" />
