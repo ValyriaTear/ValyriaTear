@@ -20,6 +20,7 @@
 #include "modes/map/map_sprites.h"
 
 #include "engine/video/video.h"
+#include "engine/video/transform2d.h"
 #include "common/gui/menu_window.h"
 
 // Used for the collision to XPM dev function
@@ -229,9 +230,8 @@ void Minimap::Draw()
     // Set the new coordinates to match our viewport
     VideoManager->SetStandardCoordSys();
     // Draw the background in the current viewport and coordinate space
-    VideoManager->Move(minimap_pos_x, minimap_pos_y);
     VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_TOP, 0);
-    _background.Draw(resultant_opacity);
+    _background.Draw(Transform2D(minimap_pos_x, minimap_pos_y), resultant_opacity);
     // Assign the viewport to be "inside" the above area
     VideoManager->SetViewport(_viewport_x, _viewport_y, _viewport_width, _viewport_height);
     // Scale and translate the orthographic projection such that it "centers" on our calculated positions
@@ -240,12 +240,10 @@ void Minimap::Draw()
     float x_location = _current_position_x * _box_x_length - _location_marker.GetWidth() / 2.0f;
     float y_location = _current_position_y * _box_y_length - _location_marker.GetHeight()/ 2.0f;
 
-    VideoManager->Move(0, 0);
     // Adjust the current opacity for the map scale
-    _minimap_image.Draw(resultant_opacity);
+    _minimap_image.Draw(Transform2D(0, 0), resultant_opacity);
 
-    VideoManager->Move(x_location, y_location);
-    _location_marker.Draw(resultant_opacity);
+    _location_marker.Draw(Transform2D(x_location, y_location), resultant_opacity);
 
     VideoManager->PopState();
 

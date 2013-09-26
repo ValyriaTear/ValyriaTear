@@ -20,6 +20,7 @@
 
 #include "engine/system.h"
 #include "engine/video/video.h"
+#include "engine/video/transform2d.h"
 
 #include "common/global/global.h"
 
@@ -118,18 +119,6 @@ void IndicatorElement::Start()
         break;
     }
 }
-
-
-void IndicatorElement::Draw()
-{
-    VideoManager->SetDrawFlags(VIDEO_X_RIGHT, VIDEO_Y_BOTTOM, VIDEO_BLEND, 0);
-    // Sets the cursor position to just below the bottom center location of the sprite
-    VideoManager->Move(_x_absolute_position, _y_absolute_position);
-
-    // Takes in account the indicator current position.
-    VideoManager->MoveRelative(_x_position, -_y_position);
-}
-
 
 void IndicatorElement::Update()
 {
@@ -233,12 +222,16 @@ IndicatorText::IndicatorText(BattleActor *actor, const std::string &text, const 
 
 void IndicatorText::Draw()
 {
-    IndicatorElement::Draw();
+    VideoManager->SetDrawFlags(VIDEO_X_RIGHT, VIDEO_Y_BOTTOM, VIDEO_BLEND, 0);
+
+    const float x = _x_absolute_position + _x_position;
+    const float y = _y_absolute_position - _y_position;
+    const Transform2D transform(x, y);
 
     if(_ComputeDrawAlpha())
-        _text_image.Draw(_alpha_color);
+        _text_image.Draw(transform, _alpha_color);
     else
-        _text_image.Draw();
+        _text_image.Draw(transform, Color::white);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -267,12 +260,16 @@ IndicatorImage::IndicatorImage(BattleActor *actor, const StillImage &image,
 
 void IndicatorImage::Draw()
 {
-    IndicatorElement::Draw();
+    VideoManager->SetDrawFlags(VIDEO_X_RIGHT, VIDEO_Y_BOTTOM, VIDEO_BLEND, 0);
+
+    const float x = _x_absolute_position + _x_position;
+    const float y = _y_absolute_position - _y_position;
+    const Transform2D transform(x, y);
 
     if(_ComputeDrawAlpha())
-        _image.Draw(_alpha_color);
+        _image.Draw(transform, _alpha_color);
     else
-        _image.Draw();
+        _image.Draw(transform, Color::white);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -308,33 +305,37 @@ IndicatorBlendedImage::IndicatorBlendedImage(BattleActor *actor,
 
 void IndicatorBlendedImage::Draw()
 {
-    IndicatorElement::Draw();
+    VideoManager->SetDrawFlags(VIDEO_X_RIGHT, VIDEO_Y_BOTTOM, VIDEO_BLEND, 0);
+
+    const float x = _x_absolute_position + _x_position;
+    const float y = _y_absolute_position - _y_position;
+    const Transform2D transform(x, y);
 
     // Case 1: Initial fade in of first image
     if(_timer.GetTimeExpired() <= INDICATOR_FADEIN_TIME) {
         _ComputeDrawAlpha();
-        _first_image.Draw(_alpha_color);
+        _first_image.Draw(transform, _alpha_color);
     }
     // Case 2: Opaque draw of first image
     else if(_timer.GetTimeExpired() <= INDICATOR_TIME / 4) {
-        _first_image.Draw();
+        _first_image.Draw(transform, Color::white);
     }
     // Case 3: Blended draw of first and second images
     else if(_timer.GetTimeExpired() <= INDICATOR_TIME / 2) {
         _alpha_color.SetAlpha(static_cast<float>((INDICATOR_TIME / 2) - _timer.GetTimeExpired())
                               / static_cast<float>(1000));
         _second_alpha_color.SetAlpha(1.0f - _alpha_color.GetAlpha());
-        _first_image.Draw(_alpha_color);
-        _second_image.Draw(_second_alpha_color);
+        _first_image.Draw(transform, _alpha_color);
+        _second_image.Draw(transform, _second_alpha_color);
     }
     // Case 4: Opaque draw of second image
     else if(_timer.GetTimeExpired() <= INDICATOR_TIME / 3 * 2) {
-        _second_image.Draw();
+        _second_image.Draw(transform, Color::white);
     }
     // Case 5: Final fade out of second image
     else { // <= end
         _ComputeDrawAlpha();
-        _second_image.Draw(_alpha_color);
+        _second_image.Draw(transform, _alpha_color);
     }
 }
 

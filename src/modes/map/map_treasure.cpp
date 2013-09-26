@@ -25,6 +25,7 @@
 
 #include "engine/input.h"
 #include "engine/video/video.h"
+#include "engine/video/transform2d.h"
 
 #include "common/global/global.h"
 
@@ -242,28 +243,28 @@ void TreasureSupervisor::Draw()
     }
     _list_window.Draw();
     VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_CENTER, 0);
-    VideoManager->Move(152.0f, 495.0f);
-    _window_title.Draw();
+    Transform2D transform(152.0f, 495.0f);
+    _window_title.Draw(transform, Color::white);
 
     if(_selection == DETAIL_SELECTED) {
         VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_TOP, 0);
         // Move to the upper left corner and draw the object icon
         if(_selection_icon) {
-            VideoManager->Move(150.0f, 535.0f);
-            _selection_icon->Draw();
+            transform = Transform2D(150.0f, 535.0f);
+            _selection_icon->Draw(transform, Color::white);
             if (_is_key_item) {
                 StillImage* key_icon = GlobalManager->Media().GetKeyItemIcon();
-                VideoManager->MoveRelative(_selection_icon->GetWidth() - key_icon->GetWidth() - 3.0f,
-                                           _selection_icon->GetHeight() - key_icon->GetHeight() - 3.0f);
-                key_icon->Draw();
-                VideoManager->MoveRelative(-_selection_icon->GetWidth() + key_icon->GetWidth() + 3.0f,
-                                           -_selection_icon->GetHeight() + key_icon->GetHeight() + 3.0f);
+                transform.Translate(_selection_icon->GetWidth() - key_icon->GetWidth() - 3.0f,
+                                    _selection_icon->GetHeight() - key_icon->GetHeight() - 3.0f);
+                key_icon->Draw(transform, Color::white);
+                transform.Translate(-_selection_icon->GetWidth() + key_icon->GetWidth() + 3.0f,
+                                    -_selection_icon->GetHeight() + key_icon->GetHeight() + 3.0f);
             }
         }
 
         // Draw the name of the selected object to the right of the icon
-        VideoManager->MoveRelative(80.0f, 20.0f);
-        _selection_name.Draw();
+        transform.Translate(80.0f, 20.0f);
+        _selection_name.Draw(transform, Color::white);
 
         _detail_textbox.Draw();
     } else {

@@ -29,6 +29,7 @@
 
 #include "engine/audio/audio.h"
 #include "engine/video/video.h"
+#include "engine/video/transform2d.h"
 #include "engine/input.h"
 #include "engine/system.h"
 
@@ -288,34 +289,35 @@ void ShopObjectViewer::Draw()
 
     // Set the initial draw cursor position to the top left corner of the proper window
     VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_CENTER, 0);
+    Transform2D transform;
     if(_view_mode == SHOP_VIEW_MODE_LIST) {
-        VideoManager->Move(135.0f, 580.0f);
+        transform.Translate(135.0f, 580.0f);
     } else if(_view_mode == SHOP_VIEW_MODE_INFO) {
-        VideoManager->Move(135.0f, 200.0f);
+        transform.Translate(135.0f, 200.0f);
     } else { // An unknown/unsupported view mode is active, so draw nothing
         return;
     }
 
     // Object's name and icon are drawn in the same position for all objects
-    _object_name.Draw();
-    VideoManager->MoveRelative(0.0f, 55.0f);
+    _object_name.Draw(transform, Color::white);
+    transform.Translate(0.0f, 55.0f);
     GlobalObject* object = _selected_object->GetObject();
-    object->GetIconImage().Draw();
+    object->GetIconImage().Draw(transform, Color::white);
     if (object->IsKeyItem()) {
-        VideoManager->MoveRelative(32.0f, 15.0f);
-        _key_item_icon->Draw();
-        VideoManager->MoveRelative(-32.0f, -15.0f);
+        transform.Translate(32.0f, 15.0f);
+        _key_item_icon->Draw(transform, Color::white);
+        transform.Translate(-32.0f, -15.0f);
     }
 
     switch(_object_type) {
     case SHOP_OBJECT_ITEM:
-        _DrawItem();
+        _DrawItem(transform);
         break;
     case SHOP_OBJECT_EQUIPMENT:
-        _DrawEquipment();
+        _DrawEquipment(transform);
         break;
     case SHOP_OBJECT_SPIRIT:
-        _DrawSpirit();
+        _DrawSpirit(transform);
         break;
     default: // unknown/unsupported object type, draw no further information
         break;
@@ -327,8 +329,7 @@ void ShopObjectViewer::Draw()
         _hint_text.Draw();
         _count_text.Draw();
         if(ShopMode::CurrentInstance()->GetState() == SHOP_STATE_TRADE) {
-            VideoManager->Move(580.0f, 275.0f);
-            _conditions_title.Draw();
+            _conditions_title.Draw(Transform2D(580.0f, 275.0f), Color::white);
 
             _conditions_name.Draw();
             _conditions_number.Draw();
@@ -777,35 +778,36 @@ void ShopObjectViewer::_SetStatusIcons(const std::vector<std::pair<GLOBAL_STATUS
     }
 }
 
-void ShopObjectViewer::_DrawItem()
+void ShopObjectViewer::_DrawItem(const Transform2D &transform)
 {
     VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_CENTER, 0);
 
-    VideoManager->MoveRelative(80.0f, -15.0f);
-    _field_use_header.Draw();
+    Transform2D transform_local(transform);
+    transform_local.Translate(80.0f, -15.0f);
+    _field_use_header.Draw(transform_local, Color::white);
     float move_offset = _field_use_header.GetWidth() + 5.0f; // 5.0f is a small buffer space between text and graphic
-    VideoManager->MoveRelative(move_offset, 0.0f);
+    transform_local.Translate(move_offset, 0.0f);
     if(_map_usable) {
-        _check_icon->Draw();
+        _check_icon->Draw(transform_local, Color::white);
     } else {
-        _x_icon->Draw();
+        _x_icon->Draw(transform_local, Color::white);
     }
 
-    VideoManager->MoveRelative(175.0f - move_offset, 0.0f);
-    _battle_use_header.Draw();
+    transform_local.Translate(175.0f - move_offset, 0.0f);
+    _battle_use_header.Draw(transform_local, Color::white);;
     move_offset = _battle_use_header.GetWidth() + 5.0f;
-    VideoManager->MoveRelative(move_offset, 0.0f);
+    transform_local.Translate(move_offset, 0.0f);
     if(_battle_usable) {
-        _check_icon->Draw();
+        _check_icon->Draw(transform_local, Color::white);
     } else {
-        _x_icon->Draw();
+        _x_icon->Draw(transform_local, Color::white);
     }
 
-    VideoManager->MoveRelative(175.0f - move_offset, 0.0f);
-    _target_type_header.Draw();
+    transform_local.Translate(175.0f - move_offset, 0.0f);
+    _target_type_header.Draw(transform_local, Color::white);
     move_offset = _target_type_header.GetWidth() + 5.0f;
-    VideoManager->MoveRelative(move_offset, 0.0f);
-    _target_type_text[_target_type_index].Draw();
+    transform_local.Translate(move_offset, 0.0f);
+    _target_type_text[_target_type_index].Draw(transform_local, Color::white);
 
     _description_text.Draw();
     _hint_text.Draw();
@@ -814,110 +816,114 @@ void ShopObjectViewer::_DrawItem()
 
 
 
-void ShopObjectViewer::_DrawEquipment()
+void ShopObjectViewer::_DrawEquipment(const Transform2D &transform)
 {
-    VideoManager->MoveRelative(70.0f, -15.0f);
-    if (_is_weapon)
-        _atk_icon->Draw();
-    else
-        _def_icon->Draw();
-    VideoManager->MoveRelative(25.0f, 0.0f);
-    _phys_header.Draw();
+    Transform2D transform_local(transform);
 
-    VideoManager->MoveRelative(-25.0f, 30.0f);
+    transform_local.Translate(70.0f, -15.0f);
     if (_is_weapon)
-        _matk_icon->Draw();
+        _atk_icon->Draw(transform_local, Color::white);
     else
-        _mdef_icon->Draw();
-    VideoManager->MoveRelative(25.0f, 0.0f);
-    _mag_header.Draw();
+        _def_icon->Draw(transform_local, Color::white);
+
+    transform_local.Translate(25.0f, 0.0f);
+    _phys_header.Draw(transform_local, Color::white);
+
+    transform_local.Translate(-25.0f, 30.0f);
+    if (_is_weapon)
+        _matk_icon->Draw(transform_local, Color::white);
+    else
+        _mdef_icon->Draw(transform_local, Color::white);
+
+    transform_local.Translate(25.0f, 0.0f);
+    _mag_header.Draw(transform_local, Color::white);
 
     VideoManager->SetDrawFlags(VIDEO_X_RIGHT, 0);
-    VideoManager->MoveRelative(110.0f, -30.0f);
-    _phys_rating.Draw();
-    VideoManager->MoveRelative(0.0f, 30.0f);
-    _mag_rating.Draw();
+    transform_local.Translate(110.0f, -30.0f);
+    _phys_rating.Draw(transform_local, Color::white);
+
+    transform_local.Translate(0.0f, 30.0f);
+    _mag_rating.Draw(transform_local, Color::white);
 
     VideoManager->SetDrawFlags(VIDEO_X_LEFT, 0);
-    VideoManager->MoveRelative(20.0f, 0.0f);
+    transform_local.Translate(20.0f, 0.0f);
     float j = 0;
     for (uint32 i = 0; i < _spirit_number; ++i) {
-        _spirit_slot_icon->Draw();
+        _spirit_slot_icon->Draw(transform_local, Color::white);
         if (i % 2 == 0) {
-            VideoManager->MoveRelative(15.0f , 0.0f);
+            transform_local.Translate(15.0f , 0.0f);
             j -= 15.0f;
         }
         else {
-            VideoManager->MoveRelative(25.0f , 0.0f);
+            transform_local.Translate(25.0f , 0.0f);
             j -= 25.0f;
         }
     }
-    VideoManager->MoveRelative(j, -65.0f);
+    transform_local.Translate(j, -65.0f);
 
     // Draw status effects icons
     uint32 element_size = _status_icons.size() > 9 ? 9 : _status_icons.size();
-    VideoManager->MoveRelative((18.0f * element_size), 0.0f);
+    transform_local.Translate((18.0f * element_size), 0.0f);
     for(uint32 i = 0; i < element_size; ++i) {
-        _status_icons[i]->Draw();
-        VideoManager->MoveRelative(-18.0f, 0.0f);
+        _status_icons[i]->Draw(transform_local, Color::white);
+        transform_local.Translate(-18.0f, 0.0f);
     }
-    VideoManager->MoveRelative(0.0f, 20.0f);
+    transform_local.Translate(0.0f, 20.0f);
     if (_status_icons.size() > 9) {
         element_size = _status_icons.size();
-        VideoManager->MoveRelative((18.0f * (element_size - 9)), 0.0f);
+        transform_local.Translate((18.0f * (element_size - 9)), 0.0f);
         for(uint32 i = 9; i < element_size; ++i) {
-            _status_icons[i]->Draw();
-            VideoManager->MoveRelative(-18.0f, 0.0f);
+            _status_icons[i]->Draw(transform_local, Color::white);
+            transform_local.Translate(-18.0f, 0.0f);
         }
     }
 
     // Split character and skills display depending on the current view
     if(_view_mode == SHOP_VIEW_MODE_LIST) {
         // In list view mode, draw the sprites to the right of the icons
-        VideoManager->MoveRelative(210.0f, -30.0f);
+        transform_local.Translate(210.0f, -30.0f);
     }
     else if(ShopMode::CurrentInstance()->GetState() == SHOP_STATE_TRADE) {
         // In info view mode, draw on the left side
-        VideoManager->Move(150.0f, 295.0f);
+        transform_local = Transform2D(150.0f, 295.0f);
     }
     else {
         // In info view mode, draw the sprites centered on the screen
         // in a row below the other equipment data
-        VideoManager->Move(312.0f, 295.0f);
         float x_offset = -20.0f * _character_sprites.size();
-        VideoManager->MoveRelative(x_offset, 0.0f);
+        transform_local = Transform2D(312.0f + x_offset, 295.0f);
     }
 
     // Draws earned skills
     element_size = _equip_skills.size();
     if (element_size > 0)
-        _equip_skills_header.Draw();
-    VideoManager->MoveRelative(10.0f, 20.0f);
+        _equip_skills_header.Draw(transform_local, Color::white);
+    transform_local.Translate(10.0f, 20.0f);
     for (uint32 i = 0; i < element_size; ++i) {
-        _equip_skills[i].Draw();
-        VideoManager->MoveRelative(-20.0f, 0.0f);
-        _equip_skill_icons[i].Draw();
-        VideoManager->MoveRelative(20.0f, 20.0f);
+        _equip_skills[i].Draw(transform_local, Color::white);
+        transform_local.Translate(-20.0f, 0.0f);
+        _equip_skill_icons[i].Draw(transform_local, Color::white);
+        transform_local.Translate(20.0f, 20.0f);
     }
 
     // Prepare the characters position
     if (_view_mode != SHOP_VIEW_MODE_LIST && ShopMode::CurrentInstance()->GetState() != SHOP_STATE_TRADE)
-        VideoManager->MoveRelative(250.0f, (-20.0f * element_size) - 20.0f);
+        transform_local.Translate(250.0f, (-20.0f * element_size) - 20.0f);
     else
-        VideoManager->MoveRelative(170.0f, (-20.0f * element_size) - 20.0f);
+        transform_local.Translate(170.0f, (-20.0f * element_size) - 20.0f);
 
     // Character ATK/DEF icons
-    VideoManager->MoveRelative(-45.0f, 78.0f);
+    transform_local.Translate(-45.0f, 78.0f);
     if (_is_weapon)
-        _atk_icon->Draw();
+        _atk_icon->Draw(transform_local, Color::white);
     else
-        _def_icon->Draw();
-    VideoManager->MoveRelative(0.0f, 18.0f);
+        _def_icon->Draw(transform_local, Color::white);
+    transform_local.Translate(0.0f, 18.0f);
     if (_is_weapon)
-        _matk_icon->Draw();
+        _matk_icon->Draw(transform_local, Color::white);
     else
-        _mdef_icon->Draw();
-    VideoManager->MoveRelative(45.0f, -96.0f);
+        _mdef_icon->Draw(transform_local, Color::white);
+    transform_local.Translate(45.0f, -96.0f);
 
     // Draws character
     VideoManager->SetDrawFlags(VIDEO_X_CENTER, VIDEO_Y_TOP, 0);
@@ -928,28 +934,28 @@ void ShopObjectViewer::_DrawEquipment()
         max_characters = 4;
 
     for(uint32 i = 0; i < max_characters; ++i) {
-        _character_sprites[i]->Draw();
+        _character_sprites[i]->Draw(transform_local, Color::white);
 
         // Case 1: Draw the equip icon below the character sprite
         if(_character_equipped[i]) {
-            VideoManager->MoveRelative(0.0f, 78.0f);
-            _equip_icon->Draw();
-            VideoManager->MoveRelative(0.0f, -78.0f);
+            transform_local.Translate(0.0f, 78.0f);
+            _equip_icon->Draw(transform_local, Color::white);
+            transform_local.Translate(0.0f, -78.0f);
         }
         // Case 2: Draw the phys/mag change text below the sprite
         else if(!_character_sprites[i]->IsGrayScale()) {
-            VideoManager->MoveRelative(0.0f, 65.0f);
-            _phys_change_text[i].Draw();
-            VideoManager->MoveRelative(0.0f, 20.0f);
-            _mag_change_text[i].Draw();
-            VideoManager->MoveRelative(0.0f, -85.0f);
+            transform_local.Translate(0.0f, 65.0f);
+            _phys_change_text[i].Draw(transform_local, Color::white);
+            transform_local.Translate(0.0f, 20.0f);
+            _mag_change_text[i].Draw(transform_local, Color::white);
+            transform_local.Translate(0.0f, -85.0f);
         }
         // Case 3: Nothing needs to be drawn below the sprite
-        VideoManager->MoveRelative(40.0f, 0.0f);
+        transform_local.Translate(40.0f, 0.0f);
     }
 } // void ShopObjectViewer::_DrawEquipment()
 
-void ShopObjectViewer::_DrawSpirit()
+void ShopObjectViewer::_DrawSpirit(const Transform2D &/*transform*/)
 {
     // TODO: implement when GlobalSpirit class is ready for use
 }
@@ -1266,8 +1272,7 @@ void ShopMode::Draw()
     VideoManager->SetCoordSys(0.0f, static_cast<float>(VideoManager->GetScreenWidth()),
                               static_cast<float>(VideoManager->GetScreenHeight()), 0.0f);
     VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_TOP, VIDEO_BLEND, 0);
-    VideoManager->Move(0.0f, 0.0f);
-    _screen_backdrop.Draw();
+    _screen_backdrop.Draw(Transform2D(), Color::white);
 
     // Draw all menu windows
     // Restore the standard shop coordinate system before drawing the shop windows
@@ -1277,27 +1282,26 @@ void ShopMode::Draw()
     _middle_window.Draw(); // Drawn last because the middle window has the middle upper and lower window borders attached
 
     VideoManager->SetDrawFlags(VIDEO_X_CENTER, VIDEO_Y_CENTER, 0);
-    VideoManager->Move(512.0f, 111.0f);
+    const Transform2D transform(512.0f, 111.0f);
     switch(_state) {
     case SHOP_STATE_ROOT:
         _action_options.Draw();
         break;
     case SHOP_STATE_BUY:
-        _action_titles[0].Draw();
+        _action_titles[0].Draw(transform, Color::white);
         break;
     case SHOP_STATE_SELL:
-        _action_titles[1].Draw();
+        _action_titles[1].Draw(transform, Color::white);
         break;
     case SHOP_STATE_TRADE:
-        _action_titles[2].Draw();
+        _action_titles[2].Draw(transform, Color::white);
         break;
     default:
         IF_PRINT_WARNING(SHOP_DEBUG) << "invalid shop state: " << _state << std::endl;
         break;
     }
 
-    // Note that X and Y are centered at that moment, explaining the relative coordinates used below.
-    VideoManager->DrawLine(-315.0f, 20.0f, 315.0f, 20.0f, 1.0f, Color::white);
+    VideoManager->DrawLine(197.0f, 131.0f, 827.0f, 131.0f, 1.0f, Color::white);
 
     _finance_table.Draw();
 

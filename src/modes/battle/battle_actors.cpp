@@ -29,6 +29,7 @@
 
 #include "engine/input.h"
 #include "engine/script/script.h"
+#include "engine/video/transform2d.h"
 
 using namespace vt_utils;
 using namespace vt_audio;
@@ -69,10 +70,11 @@ void BattleAmmo::DrawSprite()
     if(!_shown)
         return;
 
-    VideoManager->Move(GetXLocation(), GetYLocation());
-    _ammo_image.Draw(Color(0.0f, 0.0f, 0.0f, 0.6f));
-    VideoManager->MoveRelative(0.0f, -_flying_height);
-    _ammo_image.Draw();
+    Transform2D transform(GetXLocation(), GetYLocation());
+    _ammo_image.Draw(transform, Color(0.0f, 0.0f, 0.0f, 0.6f));
+
+    transform.Translate(0.0f, -_flying_height);
+    _ammo_image.Draw(transform, Color::white);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -480,13 +482,13 @@ void BattleActor::DrawStaminaIcon(const vt_video::Color &color) const
     if(!IsAlive())
         return;
 
-    VideoManager->Move(_x_stamina_location, _y_stamina_location);
+    Transform2D transform(_x_stamina_location, _y_stamina_location);
     // Make the stamina icon fade away when dying
     if(_state == ACTOR_STATE_DYING)
-        _stamina_icon.Draw(Color(color.GetRed(), color.GetGreen(),
+        _stamina_icon.Draw(transform, Color(color.GetRed(), color.GetGreen(),
                                  color.GetBlue(), color.GetAlpha() - _state_timer.PercentComplete()));
     else
-        _stamina_icon.Draw(color);
+        _stamina_icon.Draw(transform, color);
 }
 
 void BattleActor::SetAction(BattleAction *action)
@@ -846,9 +848,9 @@ void BattleCharacter::Update()
 
 void BattleCharacter::DrawSprite()
 {
-    VideoManager->Move(_x_location, _y_location);
-    _current_sprite_animation->Draw();
-    _current_weapon_animation.Draw();
+    Transform2D transform(_x_location, _y_location);
+    _current_sprite_animation->Draw(transform, Color::white);
+    _current_weapon_animation.Draw(transform, Color::white);
 
     BattleMode *BM = BattleMode::CurrentInstance();
 
@@ -858,8 +860,8 @@ void BattleCharacter::DrawSprite()
 
     if(_is_stunned && (_state == ACTOR_STATE_COMMAND || _state == ACTOR_STATE_IDLE ||
                        _state == ACTOR_STATE_WARM_UP || _state == ACTOR_STATE_COOL_DOWN)) {
-        VideoManager->MoveRelative(0, -GetSpriteHeight());
-        BM->GetMedia().GetStunnedIcon().Draw();
+        transform.Translate(0, -GetSpriteHeight());
+        BM->GetMedia().GetStunnedIcon().Draw(transform, Color::white);
     }
 } // void BattleCharacter::DrawSprite()
 
@@ -912,31 +914,31 @@ void BattleCharacter::ChangeActionText()
 void BattleCharacter::DrawPortrait()
 {
     VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_BOTTOM, VIDEO_BLEND, 0);
-    VideoManager->Move(48.0f, 759.0f);
+    Transform2D transform(48.0f, 759.0f);
 
     std::vector<StillImage>& portrait_frames = *(_global_character->GetBattlePortraits());
     float hp_percent =  static_cast<float>(GetHitPoints()) / static_cast<float>(GetMaxHitPoints());
 
     if(GetHitPoints() == GetMaxHitPoints()) {
-        portrait_frames[0].Draw();
+        portrait_frames[0].Draw(transform, Color::white);
     } else if(GetHitPoints() == 0) {
-        portrait_frames[4].Draw();
+        portrait_frames[4].Draw(transform, Color::white);
     } else if(hp_percent > 0.75f) {
-        portrait_frames[0].Draw();
+        portrait_frames[0].Draw(transform, Color::white);
         float alpha = 1.0f - ((hp_percent - 0.75f) * 4.0f);
-        portrait_frames[1].Draw(Color(1.0f, 1.0f, 1.0f, alpha));
+        portrait_frames[1].Draw(transform, Color(1.0f, 1.0f, 1.0f, alpha));
     } else if(hp_percent > 0.50f) {
-        portrait_frames[1].Draw();
+        portrait_frames[1].Draw(transform, Color::white);
         float alpha = 1.0f - ((hp_percent - 0.50f) * 4.0f);
-        portrait_frames[2].Draw(Color(1.0f, 1.0f, 1.0f, alpha));
+        portrait_frames[2].Draw(transform, Color(1.0f, 1.0f, 1.0f, alpha));
     } else if(hp_percent > 0.25f) {
-        portrait_frames[2].Draw();
+        portrait_frames[2].Draw(transform, Color::white);
         float alpha = 1.0f - ((hp_percent - 0.25f) * 4.0f);
-        portrait_frames[3].Draw(Color(1.0f, 1.0f, 1.0f, alpha));
+        portrait_frames[3].Draw(transform, Color(1.0f, 1.0f, 1.0f, alpha));
     } else { // (hp_precent > 0.0f)
-        portrait_frames[3].Draw();
+        portrait_frames[3].Draw(transform, Color::white);
         float alpha = 1.0f - (hp_percent * 4.0f);
-        portrait_frames[4].Draw(Color(1.0f, 1.0f, 1.0f, alpha));
+        portrait_frames[4].Draw(transform, Color(1.0f, 1.0f, 1.0f, alpha));
     }
 }
 
@@ -970,20 +972,19 @@ void BattleCharacter::DrawStatus(uint32 order, BattleCharacter* character_comman
 
     // Draw the character's name
     VideoManager->SetDrawFlags(VIDEO_X_RIGHT, VIDEO_Y_BOTTOM, VIDEO_BLEND, 0);
-    VideoManager->Move(280.0f, 686.0f + y_offset);
-    _name_text.Draw();
+    Transform2D transform(280.0f, 686.0f + y_offset);
+    _name_text.Draw(transform, Color::white);
 
     if (!character_command) {
         // Draw each characters active status effect.
         VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_BOTTOM, VIDEO_BLEND, 0);
-        VideoManager->MoveRelative(-273.0f, 0.0f);
-        _effects_supervisor->Draw();
+        transform.Translate(-273.0f, 0.0f);
+        _effects_supervisor->Draw(transform);
     } else if (this == character_command) {
         // Draw the active character status effect at bottom.
         // Draw each characters active status effect.
         VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_BOTTOM, VIDEO_BLEND, 0);
-        VideoManager->Move(7.0f, 688.0f);
-        _effects_supervisor->DrawVertical();
+        _effects_supervisor->DrawVertical(Transform2D(7.0f, 688.0f));
     }
 
     // draw the status, HP and SP bars (bars are 90 pixels wide and 6 pixels high)
@@ -992,37 +993,35 @@ void BattleCharacter::DrawStatus(uint32 order, BattleCharacter* character_comman
 
     // Draw HP bar in green
     bar_size = static_cast<float>(90 * GetHitPoints()) / static_cast<float>(GetMaxHitPoints());
-    VideoManager->Move(312.0f, 678.0f + y_offset);
 
     if(GetHitPoints() > 0) {
         if (bar_size < 90.0f / 4.0f)
-            VideoManager->DrawRectangle(bar_size, 6, Color::orange);
+            VideoManager->DrawRectangle(312.0f, 678.0f + y_offset, bar_size, 6, Color::orange);
         else
-            VideoManager->DrawRectangle(bar_size, 6, green_hp);
+            VideoManager->DrawRectangle(312.0f, 678.0f + y_offset, bar_size, 6, green_hp);
     }
 
     // Draw SP bar in blue
     bar_size = static_cast<float>(90 * GetSkillPoints()) / static_cast<float>(GetMaxSkillPoints());
-    VideoManager->Move(424.0f, 678.0f + y_offset);
 
     if(GetSkillPoints() > 0)
-        VideoManager->DrawRectangle(bar_size, 6, blue_sp);
+        VideoManager->DrawRectangle(424.0f, 678.0f + y_offset, bar_size, 6, blue_sp);
 
     // Draw the cover image over the top of the bar
     VideoManager->SetDrawFlags(VIDEO_BLEND, 0);
-    VideoManager->Move(290.0f, 684.0f + y_offset);
-    BattleMode::CurrentInstance()->GetMedia().character_HP_text.Draw();
-    VideoManager->MoveRelative(114.0f, 0.0f);
-    BattleMode::CurrentInstance()->GetMedia().character_SP_text.Draw();
+    transform = Transform2D(290.0f, 684.0f + y_offset);
+    BattleMode::CurrentInstance()->GetMedia().character_HP_text.Draw(transform, Color::white);
+    transform.Translate(114.0f, 0.0f);
+    BattleMode::CurrentInstance()->GetMedia().character_SP_text.Draw(transform, Color::white);
 
     VideoManager->SetDrawFlags(VIDEO_X_CENTER, 0);
     // Draw the character's current health on top of the middle of the HP bar
-    VideoManager->Move(355.0f, 680.0f + y_offset);
-    _hit_points_text.Draw();
+    transform = Transform2D(355.0f, 680.0f + y_offset);
+    _hit_points_text.Draw(transform, Color::white);
 
     // Draw the character's current skill points on top of the middle of the SP bar
-    VideoManager->MoveRelative(114.0f, 0.0f);
-    _skill_points_text.Draw();
+    transform.Translate(114.0f, 0.0f);
+    _skill_points_text.Draw(transform, Color::white);
 
     // TODO: The SetText calls below should not be done here. They should be made whenever the character's HP/SP
     // is modified. This re-renders the text every frame regardless of whether or not the HP/SP changed so its
@@ -1046,7 +1045,7 @@ void BattleCharacter::DrawStatus(uint32 order, BattleCharacter* character_comman
     VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_CENTER, VIDEO_BLEND, 0);
 
     // Move to the position wher command button icons are drawn
-    VideoManager->Move(545.0f, 673.0f + y_offset);
+    transform = Transform2D(545.0f, 673.0f + y_offset);
 
     // If this character can be issued a command, draw the appropriate command button to indicate this. The type of button drawn depends on
     // whether or not the character already has an action set. Characters that can not be issued a command have no button drawn
@@ -1057,16 +1056,16 @@ void BattleCharacter::DrawStatus(uint32 order, BattleCharacter* character_comman
         else
             button_index = 6;
         button_index += order;
-        BattleMode::CurrentInstance()->GetMedia().GetCharacterActionButton(button_index)->Draw();
+        BattleMode::CurrentInstance()->GetMedia().GetCharacterActionButton(button_index)->Draw(transform, Color::white);
     }
 
     // Draw the action text
-    VideoManager->MoveRelative(40.0f, 0.0f);
-    _action_selection_text.Draw();
+    transform.Translate(40.0f, 0.0f);
+    _action_selection_text.Draw(transform, Color::white);
 
     // Draw the target text
-    VideoManager->MoveRelative(225.0f, 0.0f);
-    _target_selection_text.Draw();
+    transform.Translate(225.0f, 0.0f);
+    _target_selection_text.Draw(transform, Color::white);
 } // void BattleCharacter::DrawStatus()
 
 // /////////////////////////////////////////////////////////////////////////////
@@ -1299,10 +1298,10 @@ void BattleEnemy::DrawSprite()
 
     float hp_percent = static_cast<float>(GetHitPoints()) / static_cast<float>(GetMaxHitPoints());
 
-    VideoManager->Move(_x_location, _y_location);
+    Transform2D transform(_x_location, _y_location);
     // Alpha will range from 1.0 to 0.0 in the following calculations
     if(_state == ACTOR_STATE_DYING) {
-        _sprite_animations->at(GLOBAL_ENEMY_HURT_HEAVILY).Draw(Color(1.0f, 1.0f, 1.0f, _sprite_alpha));
+        _sprite_animations->at(GLOBAL_ENEMY_HURT_HEAVILY).Draw(transform, Color(1.0f, 1.0f, 1.0f, _sprite_alpha));
 
         try {
             if (_death_draw_on_sprite.is_valid())
@@ -1316,20 +1315,20 @@ void BattleEnemy::DrawSprite()
         }
 
     } else if(GetHitPoints() == GetMaxHitPoints()) {
-        _sprite_animations->at(GLOBAL_ENEMY_HURT_NONE).Draw();
+        _sprite_animations->at(GLOBAL_ENEMY_HURT_NONE).Draw(transform, Color::white);
     } else if(hp_percent > 0.75f) {
-        _sprite_animations->at(GLOBAL_ENEMY_HURT_NONE).Draw();
+        _sprite_animations->at(GLOBAL_ENEMY_HURT_NONE).Draw(transform, Color::white);
     } else if(hp_percent >  0.5f) {
-        _sprite_animations->at(GLOBAL_ENEMY_HURT_SLIGHTLY).Draw();
+        _sprite_animations->at(GLOBAL_ENEMY_HURT_SLIGHTLY).Draw(transform, Color::white);
     } else if(hp_percent >  0.25f) {
-        _sprite_animations->at(GLOBAL_ENEMY_HURT_MEDIUM).Draw();
+        _sprite_animations->at(GLOBAL_ENEMY_HURT_MEDIUM).Draw(transform, Color::white);
     } else { // (hp_precent > 0.0f)
-        _sprite_animations->at(GLOBAL_ENEMY_HURT_HEAVILY).Draw();
+        _sprite_animations->at(GLOBAL_ENEMY_HURT_HEAVILY).Draw(transform, Color::white);
     }
 
     if(_is_stunned && (_state == ACTOR_STATE_IDLE || _state == ACTOR_STATE_WARM_UP || _state == ACTOR_STATE_COOL_DOWN)) {
-        VideoManager->MoveRelative(0, -GetSpriteHeight());
-        BattleMode::CurrentInstance()->GetMedia().GetStunnedIcon().Draw();
+        transform.Translate(0, -GetSpriteHeight());
+        BattleMode::CurrentInstance()->GetMedia().GetStunnedIcon().Draw(transform, Color::white);
     }
 } // void BattleEnemy::DrawSprite()
 
@@ -1338,14 +1337,13 @@ void BattleEnemy::DrawStaminaIcon(const vt_video::Color &color) const
     if(!IsAlive())
         return;
 
-    VideoManager->Move(_x_stamina_location, _y_stamina_location);
+    Transform2D transform(_x_stamina_location, _y_stamina_location);
     // Make the stamina icon fade away when dying, use the enemy sprite alpha
     if(_state == ACTOR_STATE_DYING) {
-        _stamina_icon.Draw(Color(color.GetRed(), color.GetGreen(),
-                                 color.GetBlue(), _sprite_alpha));
-    }
-    else {
-        _stamina_icon.Draw(color);
+        _stamina_icon.Draw(transform, Color(color.GetRed(), color.GetGreen(),
+                                            color.GetBlue(), _sprite_alpha));
+    } else {
+        _stamina_icon.Draw(transform, color);
     }
 }
 

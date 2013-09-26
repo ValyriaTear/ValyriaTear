@@ -19,6 +19,7 @@
 #include "option.h"
 
 #include "engine/video/video.h"
+#include "engine/video/transform2d.h"
 
 #include "utils/utils_strings.h"
 
@@ -263,34 +264,30 @@ void OptionBox::Draw()
 
     if(_draw_vertical_arrows) {
         VideoManager->SetDrawFlags(VIDEO_X_RIGHT, VIDEO_Y_BOTTOM, VIDEO_BLEND, 0);
-        VideoManager->Move(right, top);
         if(_grey_up_arrow)
-            arrows->at(4).Draw();
+            arrows->at(4).Draw(Transform2D(right, top), Color::white);
         else
-            arrows->at(0).Draw();
+            arrows->at(0).Draw(Transform2D(right, top), Color::white);
 
         VideoManager->SetDrawFlags(VIDEO_X_RIGHT, VIDEO_Y_TOP, VIDEO_BLEND, 0);
-        VideoManager->Move(right, bottom);
         if(_grey_down_arrow)
-            arrows->at(5).Draw();
+            arrows->at(5).Draw(Transform2D(right, bottom), Color::white);
         else
-            arrows->at(1).Draw();
+            arrows->at(1).Draw(Transform2D(right, bottom), Color::white);
     }
 
     if(_draw_horizontal_arrows) {
         VideoManager->SetDrawFlags(VIDEO_X_RIGHT, VIDEO_Y_BOTTOM, VIDEO_BLEND, 0);
-        VideoManager->Move(left, bottom);
         if(_grey_left_arrow)
-            arrows->at(7).Draw();
+            arrows->at(7).Draw(Transform2D(left, bottom), Color::white);
         else
-            arrows->at(3).Draw();
+            arrows->at(3).Draw(Transform2D(left, bottom), Color::white);
 
         VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_BOTTOM, VIDEO_BLEND, 0);
-        VideoManager->Move(right, bottom);
         if(_grey_right_arrow)
-            arrows->at(6).Draw();
+            arrows->at(6).Draw(Transform2D(right, bottom), Color::white);
         else
-            arrows->at(2).Draw();
+            arrows->at(2).Draw(Transform2D(right, bottom), Color::white);
     }
 
     VideoManager->SetDrawFlags(_xalign, _yalign, VIDEO_BLEND, 0);
@@ -1101,8 +1098,6 @@ void OptionBox::_SetupAlignment(int32 xalign, int32 yalign, const OptionCellBoun
         y = bounds.y_bottom;
         break;
     }
-
-    VideoManager->Move(x, y);
 } // void OptionBox::_SetupAlignment(int32 xalign, int32 yalign, const OptionCellBounds& bounds, float& x, float& y)
 
 
@@ -1146,6 +1141,7 @@ void OptionBox::_DrawOption(const Option &op, const OptionCellBounds &bounds, fl
     CoordSys &cs = VideoManager->_current_context.coordinate_system;
 
     _SetupAlignment(xalign, yalign, bounds, x, y);
+    Transform2D transform(x, y);
 
     // Iterate through all option elements in the current option
     for(int32 element = 0; element < static_cast<int32>(op.elements.size()); element++) {
@@ -1153,23 +1149,26 @@ void OptionBox::_DrawOption(const Option &op, const OptionCellBounds &bounds, fl
         case VIDEO_OPTION_ELEMENT_LEFT_ALIGN: {
             xalign = VIDEO_X_LEFT;
             _SetupAlignment(xalign, _option_yalign, bounds, x, y);
+            transform = Transform2D(x, y);
             break;
         }
         case VIDEO_OPTION_ELEMENT_CENTER_ALIGN: {
             xalign = VIDEO_X_CENTER;
             _SetupAlignment(xalign, _option_yalign, bounds, x, y);
+            transform = Transform2D(x, y);
             break;
         }
         case VIDEO_OPTION_ELEMENT_RIGHT_ALIGN: {
             xalign = VIDEO_X_RIGHT;
             _SetupAlignment(xalign, _option_yalign, bounds, x, y);
+            transform = Transform2D(x, y);
             break;
         }
         case VIDEO_OPTION_ELEMENT_IMAGE: {
             if(op.disabled)
-                op.image->Draw(Color::gray);
+                op.image->Draw(transform, Color::gray);
             else
-                op.image->Draw(Color::white);
+                op.image->Draw(transform, Color::white);
 
             float width = op.image->GetWidth();
             float edge = x - bounds.x_left; // edge value for VIDEO_X_LEFT
@@ -1183,7 +1182,7 @@ void OptionBox::_DrawOption(const Option &op, const OptionCellBounds &bounds, fl
         }
         case VIDEO_OPTION_ELEMENT_POSITION: {
             x = bounds.x_left + op.elements[element].value * cs.GetHorizontalDirection();
-            VideoManager->Move(x, y);
+            transform = Transform2D(x, y);
             break;
         }
         case VIDEO_OPTION_ELEMENT_TEXT: {
@@ -1204,10 +1203,10 @@ void OptionBox::_DrawOption(const Option &op, const OptionCellBounds &bounds, fl
                 if(op.disabled) {
                     Color saved = _text_style.color;
                     _text_style.color = Color::gray;
-                    TextManager->Draw(text, _text_style);
+                    TextManager->Draw(text, transform, _text_style);
                     _text_style.color = saved;
                 } else {
-                    TextManager->Draw(text, _text_style);
+                    TextManager->Draw(text, transform, _text_style);
                 }
             }
 
@@ -1245,7 +1244,9 @@ void OptionBox::_DrawCursor(const OptionCellBounds &bounds, float scroll_offset,
 
     _SetupAlignment(VIDEO_X_LEFT, _option_yalign, bounds, x, y);
     VideoManager->SetDrawFlags(VIDEO_BLEND, 0);
-    VideoManager->MoveRelative(left_edge + _cursor_xoffset, _cursor_yoffset + cursor_offset);
+
+    Transform2D transform(x, y);
+    transform.Translate(left_edge + _cursor_xoffset, _cursor_yoffset + cursor_offset);
 
     StillImage *default_cursor = VideoManager->GetDefaultCursor();
 
@@ -1253,9 +1254,9 @@ void OptionBox::_DrawCursor(const OptionCellBounds &bounds, float scroll_offset,
         IF_PRINT_WARNING(VIDEO_DEBUG) << "invalid (NULL) cursor image" << std::endl;
 
     if(darken == false)
-        default_cursor->Draw();
+        default_cursor->Draw(transform, Color::white);
     else
-        default_cursor->Draw(Color(1.0f, 1.0f, 1.0f, 0.5f));
+        default_cursor->Draw(transform, Color(1.0f, 1.0f, 1.0f, 0.5f));
 } // void OptionBox::_DrawCursor(const OptionCellBounds &bounds, float scroll_offset, float left_edge, bool darken)
 
 
@@ -1268,7 +1269,6 @@ void OptionBox::_DEBUG_DrawOutline()
     float top = _height;
 
     // Draw the outline of the option box area
-    VideoManager->Move(0.0f, 0.0f);
     CalculateAlignedRect(left, right, bottom, top);
     VideoManager->DrawRectangleOutline(left, right, bottom, top, 3, alpha_black);
     VideoManager->DrawRectangleOutline(left, right, bottom, top, 1, alpha_white);

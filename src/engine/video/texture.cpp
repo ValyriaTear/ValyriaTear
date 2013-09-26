@@ -19,6 +19,7 @@
 #include "texture.h"
 
 #include "video.h"
+#include "transform2d.h"
 
 using namespace vt_utils;
 
@@ -172,8 +173,8 @@ void TexSheet::Smooth(bool flag)
 
 void TexSheet::DEBUG_Draw() const
 {
-    // The vertex coordinate array to use (assumes glScale() has been appropriately set)
-    static const float vertex_coords[] = {
+    // The vertex coordinate array to use
+    float vertex_coords[] = {
         1.0f, 1.0f, // Lower right
         0.0f, 1.0f, // Lower left
         0.0f, 0.0f, // Upper left
@@ -181,12 +182,17 @@ void TexSheet::DEBUG_Draw() const
     };
 
     // The texture coordinate array to use (specifies the coordinates encompassing the entire texture)
-    static const float texture_coords[] = {
+    float texture_coords[] = {
         0.0f, 1.0f, // Upper right
         1.0f, 1.0f, // Lower right
         1.0f, 0.0f, // Lower left
         0.0f, 0.0f, // Upper left
     };
+
+    Transform2D transform;
+    transform.Translate(0.0f, 368.0f);
+    transform.Scale(width / 2.0f, height / 2.0f);
+    transform.Apply(vertex_coords, vertex_coords, 4, 2 * sizeof(float));
 
     // Enable texturing and bind the texture
     VideoManager->DisableBlending();

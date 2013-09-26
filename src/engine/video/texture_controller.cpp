@@ -21,6 +21,7 @@
 
 #include "engine/mode_manager.h"
 #include "engine/video/video.h"
+#include "engine/video/transform2d.h"
 
 using namespace vt_utils;
 using namespace vt_video::private_video;
@@ -222,26 +223,20 @@ void TextureController::DEBUG_ShowTexSheet()
     VideoManager->SetDrawFlags(VIDEO_NO_BLEND, VIDEO_X_LEFT, VIDEO_Y_BOTTOM, 0);
     VideoManager->SetStandardCoordSys();
 
-    VideoManager->PushMatrix();
-    VideoManager->Move(0.0f, 368.0f);
-    VideoManager->Scale(sheet->width / 2.0f, sheet->height / 2.0f);
-
     sheet->DEBUG_Draw();
-
-    VideoManager->PopMatrix();
 
     char buf[200];
 
-    VideoManager->Move(20, 60);
-    TextManager->Draw("Current Texture sheet:");
+    Transform2D transform(20, 60);
+    TextManager->Draw("Current Texture sheet:", transform);
 
     sprintf(buf, "  Sheet:   %d", debug_current_sheet);
-    VideoManager->MoveRelative(0, 20);
-    TextManager->Draw(buf);
+    transform.Translate(0, 20);
+    TextManager->Draw(buf, transform);
 
-    VideoManager->MoveRelative(0, 20);
     sprintf(buf, "  Size:    %dx%d", sheet->width, sheet->height);
-    TextManager->Draw(buf);
+    transform.Translate(0, 20);
+    TextManager->Draw(buf, transform);
 
     if(sheet->type == VIDEO_TEXSHEET_32x32)
         sprintf(buf, "  Type:    32x32");
@@ -254,16 +249,16 @@ void TextureController::DEBUG_ShowTexSheet()
     else
         sprintf(buf, "  Type:    Unknown");
 
-    VideoManager->MoveRelative(0, 20);
-    TextManager->Draw(buf);
+    transform.Translate(0, 20);
+    TextManager->Draw(buf, transform);
 
     sprintf(buf, "  Static:  %d", sheet->is_static);
-    VideoManager->MoveRelative(0, 20);
-    TextManager->Draw(buf);
+    transform.Translate(0, 20);
+    TextManager->Draw(buf, transform);
 
     sprintf(buf, "  TexID:   %d", sheet->tex_id);
-    VideoManager->MoveRelative(0, 20);
-    TextManager->Draw(buf);
+    transform.Translate(0, 20);
+    TextManager->Draw(buf, transform);
 
     VideoManager->PopState();
 } // void TextureController::DEBUG_ShowTexSheet()

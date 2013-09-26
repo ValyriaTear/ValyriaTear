@@ -317,6 +317,7 @@
 		<Unit filename="src/engine/video/texture.h" />
 		<Unit filename="src/engine/video/texture_controller.cpp" />
 		<Unit filename="src/engine/video/texture_controller.h" />
+		<Unit filename="src/engine/video/transform2d.h" />
 		<Unit filename="src/engine/video/video.cpp" />
 		<Unit filename="src/engine/video/video.h" />
 		<Unit filename="src/luabind/luabind/adopt_policy.hpp" />

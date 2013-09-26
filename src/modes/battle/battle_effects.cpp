@@ -21,6 +21,7 @@
 #include "engine/script/script.h"
 #include "engine/system.h"
 #include "engine/video/video.h"
+#include "engine/video/transform2d.h"
 
 #include "common/global/global.h"
 
@@ -350,25 +351,26 @@ void EffectsSupervisor::Update()
     _UpdatePassive();
 }
 
-void EffectsSupervisor::Draw()
+void EffectsSupervisor::Draw(const Transform2D &transform)
 {
     // Draw in reverse to not overlap the arrow symbol
-    VideoManager->MoveRelative(6.0f * 16.0f, 0.0f);
-
+    Transform2D transform_local(transform);
+    transform_local.Translate(6.0f * 16.0f, 0.0f);
     for(std::vector<ActiveBattleStatusEffect *>::iterator it = _status_effects.begin(); it != _status_effects.end(); ++it) {
         if(*it) {
-            (*it)->GetIconImage()->Draw();
-            VideoManager->MoveRelative(-16.0f, 0.0f);
+            (*it)->GetIconImage()->Draw(transform_local, Color::white);
+            transform_local.Translate(-16.0f, 0.0f);
         }
     }
 }
 
-void EffectsSupervisor::DrawVertical()
+void EffectsSupervisor::DrawVertical(const vt_video::Transform2D &transform)
 {
+    Transform2D transform_local(transform);  // sergej
     for(std::vector<ActiveBattleStatusEffect *>::reverse_iterator it = _status_effects.rbegin(); it != _status_effects.rend(); ++it) {
         if(*it) {
-            (*it)->GetIconImage()->Draw();
-            VideoManager->MoveRelative(0.0f, 16.0f);
+            (*it)->GetIconImage()->Draw(transform_local, Color::white);
+            transform_local.Translate(0.0f, 16.0f);
         }
     }
 }

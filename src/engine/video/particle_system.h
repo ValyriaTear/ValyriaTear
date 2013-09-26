@@ -297,9 +297,11 @@ public:
 
     /*!
      *  \brief draws the system
+     * \param x is particle system horizontal draw offset
+     * \param y is particle system vertical draw offset
      * \return success/failure
      */
-    bool Draw();
+    bool Draw(const float x, const float y);
 
     /*!
      *  \brief updates the system

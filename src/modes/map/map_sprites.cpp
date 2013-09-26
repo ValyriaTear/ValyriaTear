@@ -23,6 +23,8 @@
 #include "modes/battle/battle.h"
 #include "common/global/global.h"
 
+#include "engine/video/transform2d.h"
+
 #include "utils/utils_random.h"
 #include "utils/utils_files.h"
 
@@ -970,13 +972,13 @@ void MapSprite::Update()
     was_moved = moved_position;
 } // void MapSprite::Update()
 
-void MapSprite::_DrawDebugInfo()
+void MapSprite::_DrawDebugInfo(float x, float y)
 {
     // Draw collision rectangle if the debug view is on.
-    float x, y = 0.0f;
-    VideoManager->GetDrawPosition(x, y);
     MapRectangle rect = GetCollisionRectangle(x, y);
-    VideoManager->DrawRectangle(rect.right - rect.left, rect.bottom - rect.top, Color(0.0f, 0.0f, 1.0f, 0.6f));
+    const float w = rect.right - rect.left;
+    const float h = rect.bottom - rect.top;
+    VideoManager->DrawRectangle(x, y, w, h, Color(0.0f, 0.0f, 1.0f, 0.6f));
 
     // Show a potential active path
     if(control_event && control_event->GetEventType() == PATH_MOVE_SPRITE_EVENT) {
@@ -985,11 +987,9 @@ void MapSprite::_DrawDebugInfo()
             Path path = path_event->GetPath();
             MapMode *map = MapMode::CurrentInstance();
             for(uint32 i = 0; i < path.size(); ++i) {
-                float x_pos = path[i].x - map->GetMapFrame().screen_edges.left;
-                float y_pos = path[i].y - map->GetMapFrame().screen_edges.top;
-                VideoManager->Move(x_pos, y_pos);
-
-                VideoManager->DrawRectangle(0.2, 0.2f, Color(0.0f, 1.0f, 1.0f, 0.6f));
+                const float x_pos = path[i].x - map->GetMapFrame().screen_edges.left;
+                const float y_pos = path[i].y - map->GetMapFrame().screen_edges.top;
+                VideoManager->DrawRectangle(x_pos, y_pos, 0.2, 0.2f, Color(0.0f, 1.0f, 1.0f, 0.6f));
             }
         }
     }
@@ -997,18 +997,23 @@ void MapSprite::_DrawDebugInfo()
 
 void MapSprite::Draw()
 {
-    if(!MapObject::ShouldDraw())
+    if(!MapObject::_ShouldDraw())
         return;
 
-    if(_custom_animation_on && _current_custom_animation)
-        _current_custom_animation->Draw();
-    else
-        _animation->at(_current_anim_direction).Draw();
+    float x, y;
+    MapObject::_GetDrawPosition(x, y);
+    const Transform2D transform(x, y);
 
-    MapObject::_DrawEmote();
+    if(_custom_animation_on && _current_custom_animation) {
+        _current_custom_animation->Draw(transform, Color::white);
+    } else {
+        _animation->at(_current_anim_direction).Draw(transform, Color::white);
+    }
+
+    MapObject::_DrawEmote(transform);
 
     if(VideoManager->DebugInfoOn())
-        _DrawDebugInfo();
+        _DrawDebugInfo(x, y);
 }
 
 void MapSprite::DrawDialog()
@@ -1016,7 +1021,7 @@ void MapSprite::DrawDialog()
     // Update the alpha of the dialogue icon according to it's distance from the player sprite
     const float DIALOGUE_ICON_VISIBLE_RANGE = 10.0f;
 
-    if(!MapObject::ShouldDraw())
+    if(!MapObject::_ShouldDraw())
         return;
 
     MapMode *map_mode = MapMode::CurrentInstance();
@@ -1037,8 +1042,9 @@ void MapSprite::DrawDialog()
         icon_alpha = 0.0f;
     icon_color.SetAlpha(icon_alpha);
 
-    VideoManager->MoveRelative(0, -GetImgHeight());
-    map_mode->GetDialogueIcon().Draw(icon_color);
+    float x, y;
+    MapObject::_GetDrawPosition(x, y);
+    map_mode->GetDialogueIcon().Draw(Transform2D(x, y - GetImgHeight()), icon_color);
 }
 
 void MapSprite::AddDialogueReference(uint32 dialogue_id)
@@ -1368,19 +1374,21 @@ void EnemySprite::Update()
 void EnemySprite::Draw()
 {
     // Otherwise, only draw it if it is not in the DEAD state
-    if (!MapObject::ShouldDraw() || _state == DEAD)
+    if (!MapObject::_ShouldDraw() || _state == DEAD)
         return;
 
-    _animation->at(_current_anim_direction).Draw(_color);
+    float x, y;
+    MapObject::_GetDrawPosition(x, y);
+    _animation->at(_current_anim_direction).Draw(Transform2D(x, y), _color);
 
     // Draw collision rectangle if the debug view is on.
     if (!VideoManager->DebugInfoOn())
         return;
 
-    float x, y = 0.0f;
-    VideoManager->GetDrawPosition(x, y);
     MapRectangle rect = GetCollisionRectangle(x, y);
-    VideoManager->DrawRectangle(rect.right - rect.left, rect.bottom - rect.top, Color(1.0f, 0.0f, 0.0f, 0.6f));
+    const float w = rect.right - rect.left;
+    const float h = rect.bottom - rect.top;
+    VideoManager->DrawRectangle(x, y, w, h, Color(1.0f, 0.0f, 0.0f, 0.6f));
 }
 
 void EnemySprite::AddWayPoint(float destination_x, float destination_y)

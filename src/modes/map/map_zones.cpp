@@ -75,9 +75,11 @@ void MapZone::Draw()
     // Verify each section of the zone and check if the position is within the section bounds.
     for(std::vector<ZoneSection>::const_iterator it = _sections.begin(); it != _sections.end(); ++it) {
         if(_ShouldDraw(*it)) {
-            vt_video::VideoManager->DrawRectangle(it->right_col - it->left_col,
-                                                   it->bottom_row - it->top_row,
-                                                   vt_video::Color(1.0f, 0.6f, 0.0f, 0.6f));
+            float x, y;
+            _GetDrawPosition(*it, x, y);
+            const float w = it->right_col - it->left_col;
+            const float h = it->bottom_row - it->top_row;
+            vt_video::VideoManager->DrawRectangle(x, y, w, h, vt_video::Color(1.0f, 0.6f, 0.0f, 0.6f));
         }
     }
 }
@@ -92,9 +94,9 @@ void MapZone::RandomPosition(float &x, float &y)
     y = (float)RandomBoundedInteger(_sections[i].top_row, _sections[i].bottom_row);
 }
 
-bool MapZone::_ShouldDraw(const ZoneSection &section)
+bool MapZone::_ShouldDraw(const ZoneSection &section) const
 {
-    MapMode *map = MapMode::CurrentInstance();
+    const MapMode *map = MapMode::CurrentInstance();
 
     MapRectangle rect;
     rect.top = section.top_row;
@@ -106,6 +108,13 @@ bool MapZone::_ShouldDraw(const ZoneSection &section)
     if(!MapRectangle::CheckIntersection(rect, map->GetMapFrame().screen_edges))
         return false;
 
+    return true;
+}
+
+void MapZone::_GetDrawPosition(const ZoneSection &section, float &x, float &y) const
+{
+    const MapMode *map = MapMode::CurrentInstance();
+
     // Determine the center position coordinates for the camera
     float x_pos, y_pos; // Holds the final X, Y coordinates of the camera
     float x_pixel_length, y_pixel_length; // The X and Y length values that coorespond to a single pixel in the current coodinate system
@@ -115,8 +124,8 @@ bool MapZone::_ShouldDraw(const ZoneSection &section)
     // TODO: the call to GetPixelSize() will return the same result every time so long as the coordinate system did not change. If we never
     // change the coordinate system in map mode, then this should be done only once and the calculated values should be saved for re-use.
     // However, we've discussed the possiblity of adding a zoom feature to maps, in which case we need to continually re-calculate the pixel size
-    x_pos = rect.left + (rect.right - rect.left) / 2;
-    y_pos = rect.top + (rect.bottom - rect.top);
+    x_pos = section.left_col + (section.right_col - section.left_col) / 2;
+    y_pos = section.top_row + (section.bottom_row - section.top_row);
     vt_video::VideoManager->GetPixelSize(x_pixel_length, y_pixel_length);
     rounded_x_offset = FloorToFloatMultiple(GetFloatFraction(x_pos), x_pixel_length);
     rounded_y_offset = FloorToFloatMultiple(GetFloatFraction(y_pos), y_pixel_length);
@@ -124,9 +133,8 @@ bool MapZone::_ShouldDraw(const ZoneSection &section)
     y_pos = static_cast<float>(GetFloatInteger(y_pos)) + rounded_y_offset;
 
     // Move the drawing cursor to the appropriate coordinates for this sprite
-    vt_video::VideoManager->Move(x_pos - map->GetMapFrame().screen_edges.left,
-                                  y_pos - map->GetMapFrame().screen_edges.top);
-    return true;
+    x = x_pos - map->GetMapFrame().screen_edges.left;
+    y = y_pos - map->GetMapFrame().screen_edges.top;
 }
 
 // -----------------------------------------------------------------------------
@@ -417,9 +425,11 @@ void EnemyZone::Draw()
     // Verify each section of the zone and check if the position is within the section bounds.
     for(std::vector<ZoneSection>::const_iterator it = _sections.begin(); it != _sections.end(); ++it) {
         if(_ShouldDraw(*it)) {
-            vt_video::VideoManager->DrawRectangle(it->right_col - it->left_col,
-                                                   it->bottom_row - it->top_row,
-                                                   vt_video::Color(0.0f, 0.0f, 0.0f, 0.5f));
+            float x, y;
+            _GetDrawPosition(*it, x, y);
+            const float w = it->right_col - it->left_col;
+            const float h = it->bottom_row - it->top_row;
+            vt_video::VideoManager->DrawRectangle(x, y, w, h, vt_video::Color(0.0f, 0.0f, 0.0f, 0.5f));
         }
     }
 }

@@ -17,6 +17,7 @@
 
 #include "utils/utils_pch.h"
 #include "engine/video/video.h"
+#include "engine/video/transform2d.h"
 
 #include "engine/script/script_read.h"
 
@@ -90,8 +91,6 @@ VideoEngine::VideoEngine():
     _screen_width(0),
     _screen_height(0),
     _fullscreen(false),
-    _x_cursor(0),
-    _y_cursor(0),
     _debug_info(false),
     _x_shake(0),
     _y_shake(0),
@@ -172,8 +171,8 @@ void VideoEngine::DrawFPS()
     char fps_text[16];
     sprintf(fps_text, "FPS: %d", avg_fps);
 
-    Move(930.0f, 720.0f); // Upper right hand corner of the screen
-    Text()->Draw(fps_text, TextStyle("text20", Color::white));
+    // Upper right hand corner of the screen
+    Text()->Draw(fps_text, Transform2D(930.0f, 720.0f), TextStyle("text20", Color::white));
 
 } // void GUISystem::_DrawFPS(uint32 frame_time)
 
@@ -734,39 +733,10 @@ ScreenRect VideoEngine::CalculateScreenRect(float left, float right, float botto
 // VideoEngine class - Transformation methods
 //-----------------------------------------------------------------------------
 
-void VideoEngine::Move(float x, float y)
-{
-    glLoadIdentity();
-    glTranslatef(x, y, 0);
-    _x_cursor = x;
-    _y_cursor = y;
-}
 
-
-
-void VideoEngine::MoveRelative(float x, float y)
-{
-    glTranslatef(x, y, 0);
-    _x_cursor += x;
-    _y_cursor += y;
-}
-
-void VideoEngine::PushMatrix()
-{
-    glPushMatrix();
-}
-
-void VideoEngine::PopMatrix()
-{
-    glPopMatrix();
-}
 
 void VideoEngine::PushState()
 {
-    // Push current modelview transformation
-    glMatrixMode(GL_MODELVIEW);
-    PushMatrix();
-
     _context_stack.push(_current_context);
 }
 
@@ -785,7 +755,6 @@ void VideoEngine::PopState()
 
     // Restore the modelview transformation
     glMatrixMode(GL_MODELVIEW);
-    PopMatrix();
     glViewport(_current_context.viewport.left, _current_context.viewport.top, _current_context.viewport.width, _current_context.viewport.height);
 
     if(_current_context.scissoring_enabled) {
@@ -798,16 +767,6 @@ void VideoEngine::PopState()
     } else {
         DisableScissoring();
     }
-}
-
-void VideoEngine::Rotate(float angle)
-{
-    glRotatef(angle, 0, 0, 1);
-}
-
-void VideoEngine::Scale(float x, float y)
-{
-    glScalef(x, y, 1.0f);
 }
 
 void VideoEngine::SetTransform(float matrix[16])
@@ -951,10 +910,9 @@ StillImage VideoEngine::CreateImage(ImageMemory *raw_image, const std::string &i
 
 void VideoEngine::DrawText(const ustring &text, float x, float y, const Color &c)
 {
-    Move(x, y);
     TextStyle text_style = Text()->GetDefaultStyle();
     text_style.color = c;
-    Text()->Draw(text, text_style);
+    Text()->Draw(text, Transform2D(x, y), text_style);
 }
 
 // Avoid a useless dependency on the mode manager for the editor build
@@ -1138,10 +1096,6 @@ void VideoEngine::DrawLine(float x1, float y1, float x2, float y2, float width, 
 
 void VideoEngine::DrawGrid(float x, float y, float x_step, float y_step, const Color &c)
 {
-    PushState();
-
-    Move(0, 0);
-
     float x_max = _current_context.coordinate_system.GetRight();
     float y_max = _current_context.coordinate_system.GetBottom();
 
@@ -1166,17 +1120,15 @@ void VideoEngine::DrawGrid(float x, float y, float x_step, float y_step, const C
     EnableVertexArray();
     glVertexPointer(2, GL_FLOAT, 0, &(vertices[0]));
     glDrawArrays(GL_LINES, 0, num_vertices);
-
-    PopState();
 }
 
-void VideoEngine::DrawRectangle(float width, float height, const Color &color)
+void VideoEngine::DrawRectangle(float x, float y, float width, float height, const Color &color)
 {
     _rectangle_image._width = width;
     _rectangle_image._height = height;
     _rectangle_image._color[0] = color;
 
-    _rectangle_image.Draw(color);
+    _rectangle_image.Draw(Transform2D(x, y), color);
 }
 
 void VideoEngine::DrawRectangleOutline(float left, float right, float bottom, float top, float width, const Color &color)
@@ -1187,11 +1139,11 @@ void VideoEngine::DrawRectangleOutline(float left, float right, float bottom, fl
     DrawLine(right, bottom, right, top, width, color);
 }
 
-void VideoEngine::DrawHalo(const ImageDescriptor &id, const Color &color)
+void VideoEngine::DrawHalo(const ImageDescriptor &id, const Transform2D &transform, const Color &color)
 {
     char old_blend_mode = _current_context.blend;
     _current_context.blend = VIDEO_BLEND_ADD;
-    id.Draw(color);
+    id.Draw(transform, color);
     _current_context.blend = old_blend_mode;
 }
 

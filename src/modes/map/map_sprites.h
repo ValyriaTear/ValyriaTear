@@ -496,7 +496,7 @@ protected:
     //@}
 
     //! \brief Draws debug information, used for pathfinding mostly.
-    void _DrawDebugInfo();
+    void _DrawDebugInfo(float x, float y);
 }; // class MapSprite : public VirtualSprite
 
 //! \brief Data used to load an place enemies on battle grounds

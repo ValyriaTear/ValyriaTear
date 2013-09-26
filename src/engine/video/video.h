@@ -423,66 +423,19 @@ public:
 
     // ----------  Transformation methods
 
-    /** \brief Gets the location of the draw cursor
-    * \param x stores x position of the cursor
-    * \param y stores y position of the cursor
-    */
-    void GetDrawPosition(float &x, float &y) const {
-        x = _x_cursor;
-        y = _y_cursor;
-    }
-
-    /** \brief Moves the draw cursor position to (x,y)
-    *** \param x The x coordinate to move the draw cursor to
-    *** \param y The y coordinate to move the draw cursor to
-    **/
-    void Move(float x, float y);
-
-    /** \brief Moves the draw position relative to its current location by (x, y)
-    *** \param x How far to move the draw cursor in the x direction
-    *** \param y How far to move the draw cursor in the y direction
-    **/
-    void MoveRelative(float x, float y);
-
-    /** \brief Saves the current modelview transformation on to the stack
-    *** What this means is that it save the combined result of all transformation
-    *** calls (Move/MoveRelative/Scale/Rotate)
-    **/
-    void PushMatrix();
-
-    //! \brief Pops the modelview transformation from the stack
-    void PopMatrix();
-
     /** \brief Saves relevant state of the video engine on to an internal stack
     *** The contents saved include the modelview transformation and the current
-    *** video engine context.
-    ***
-    *** \note This is a very expensive function call. If you only need to push
-    *** the current transformation, you should use PushMatrix() and PopMatrix().
+    *** video engine context. This is a very expensive function call.
     ***
     *** \note The size of the stack is small (around 32 entries), so you should
     *** try and limit the maximum number of pushed state entries so that this
-    *** limit is not exceeded
+    *** limit is not exceeded.
     **/
     void PushState();
 
     //! \brief Restores the most recently pushed video engine state
     void PopState();
 
-    /** \brief Rotates images counterclockwise by the specified number of radians
-    *** \param angle How many radians to perform the rotation by
-    *** \note You should understand how transformation matrices work in OpenGL
-    *** prior to using this function.
-    **/
-    void Rotate(float angle);
-
-    /** \brief Scales all subsequent image drawing calls in the horizontal and vertical direction
-    *** \param x The amount of horizontal scaling to perform (0.5 for half, 1.0 for normal, 2.0 for double, etc)
-    *** \param y The amount of vertical scaling to perform (0.5 for half, 1.0 for normal, 2.0 for double, etc)
-    *** \note You should understand how transformation matrices work in OpenGL
-    *** prior to using this function.
-    **/
-    void Scale(float x, float y);
 
     /** \brief Sets the OpenGL transform to the contents of 4x4 matrix
     *** \param matrix A pointer to an array of 16 float values that form a 4x4 transformation matrix
@@ -556,9 +509,10 @@ public:
     /** \brief draws a halo at the current draw cursor position
      *
      *  \param id    image descriptor for the halo image
+     *  \param transform 2D transform applied to halo
      *  \param color color of halo
      */
-    void DrawHalo(const ImageDescriptor &id, const Color &color = Color::white);
+    void DrawHalo(const ImageDescriptor &id, const Transform2D &transform, const Color &color);
 
     //-- Fading ---------------------------------------------------------------
 
@@ -646,11 +600,13 @@ public:
     *** Draws a solid rectangle of a given color. For that, the lower-left corner
     *** of the rectangle has to be specified, and also its size. The parameters depends
     *** on the current Coordinate System.
+    *** \param x The x coordinate of the rectangle
+    *** \param y The y coordinate of the rectangle
     *** \param width Width of the rectangle.
     *** \param height Height of the rectangle.
     *** \param color Color to paint the rectangle.
     **/
-    void DrawRectangle(float width, float height, const Color &color);
+    void DrawRectangle(float x, float y, float width, float height, const Color &color);
 
     /** \brief Draws an outline of a rectangle that is not filled in
     *** \param left The x coordinate corresponding to the left side of the rectangle
@@ -771,9 +727,6 @@ private:
 
     //! \brief True if the game is currently running fullscreen
     bool _fullscreen;
-
-    //! \brief The x and y coordinates of the current draw cursor position
-    float _x_cursor, _y_cursor;
 
     //! \brief Contains information about the current video engine's context, such as draw flags, the coordinate system, etc.
     private_video::Context _current_context;

@@ -27,6 +27,11 @@
 
 #include "modes/battle/battle_actors.h"
 
+namespace vt_video
+{
+    class Transform2D;
+}
+
 namespace vt_battle
 {
 
@@ -239,10 +244,15 @@ public:
     //! \brief Updates the timers and state of any effects
     void Update();
 
-    //! \brief Draws the element and status effect icons to the bottom status menu
-    void Draw();
-    //! \brief Draws the same active effects but vertically
-    void DrawVertical();
+    /** \brief Draws the element and status effect icons to the bottom status menu
+    *** \param transform 2D transform applied to the icons
+    **/
+    void Draw(const vt_video::Transform2D &transform);
+
+    /** \brief Draws the same active effects but vertically
+    *** \param transform 2D transform applied to the icons
+    **/
+    void DrawVertical(const vt_video::Transform2D &transform);
 
     /** \brief Returns true if the requested status is active on the managed actor
     *** \param status The type of status effect to check for

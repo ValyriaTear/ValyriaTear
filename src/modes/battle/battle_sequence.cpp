@@ -22,6 +22,7 @@
 #include "engine/mode_manager.h"
 #include "engine/system.h"
 #include "engine/video/video.h"
+#include "engine/video/transform2d.h"
 
 #include "modes/battle/battle.h"
 #include "modes/battle/battle_actors.h"
@@ -323,13 +324,15 @@ void SequenceSupervisor::_DrawGUI()
     // Draw all images that compose the bottom menu area
     // Draw the static image for the lower menu
     VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_BOTTOM, VIDEO_BLEND, 0);
-    VideoManager->Move(0.0f, VIDEO_STANDARD_RES_HEIGHT +  _gui_position_offset);
-    _battle->GetMedia().bottom_menu_image.Draw();
+    float x = 0.0f;
+    float y = VIDEO_STANDARD_RES_HEIGHT +  _gui_position_offset;
+    _battle->GetMedia().bottom_menu_image.Draw(Transform2D(x, y), Color::white);
 
     // Draw the stamina bar
     VideoManager->SetDrawFlags(VIDEO_X_CENTER, VIDEO_Y_BOTTOM, 0);
-    VideoManager->Move(STAMINA_BAR_POSITION_X + _gui_position_offset, STAMINA_BAR_POSITION_Y);
-    _battle->GetMedia().stamina_meter.Draw();
+    x = STAMINA_BAR_POSITION_X + _gui_position_offset;
+    y = STAMINA_BAR_POSITION_Y;
+    _battle->GetMedia().stamina_meter.Draw(Transform2D(x, y), Color::white);
 } // void SequenceSupervisor::_DrawGUI()
 
 } // namespace private_battle

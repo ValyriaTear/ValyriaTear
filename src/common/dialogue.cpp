@@ -22,6 +22,7 @@
 #include "common/gui/gui.h"
 
 #include "engine/video/video.h"
+#include "engine/video/transform2d.h"
 
 using namespace vt_system;
 using namespace vt_utils;
@@ -247,37 +248,38 @@ void CommonDialogueWindow::Draw()
     VideoManager->SetStandardCoordSys();
     VideoManager->SetDrawFlags(VIDEO_X_CENTER, VIDEO_Y_BOTTOM, VIDEO_BLEND, 0);
 
-    VideoManager->Move(_pos_x, _pos_y);
-    _parchment_image.Draw();
+    Color color(Color::white);
+    Transform2D transform;
 
-    VideoManager->MoveRelative(-370.0f, -45.0f);
+    transform.Translate(_pos_x, _pos_y);
+    _parchment_image.Draw(transform, color);
+
+    transform.Translate(-370.0f, -45.0f);
     if(_portrait_image)
-        _portrait_image->Draw();
+        _portrait_image->Draw(transform, color);
 
     if (!_name_text.GetString().empty()) {
-        VideoManager->MoveRelative(0.0f, 30.0f);
-        _nameplate_image.Draw();
+        transform.Translate(0.0f, 30.0f);
+        _nameplate_image.Draw(transform, color);
 
-        VideoManager->MoveRelative(0.0f, -6.0f);
-        _name_text.Draw();
+        transform.Translate(0.0f, -6.0f);
+        _name_text.Draw(transform, color);
     }
     else {
-        VideoManager->MoveRelative(0.0f, 24.0f);
+        transform.Translate(0.0f, 24.0f);
     }
 
-    VideoManager->MoveRelative(0.0f, 5.0f);
     _blink_time += SystemManager->GetUpdateTime();
     if(_blink_time > 500) {
         _blink_time -= 500;
         _blink_state = _blink_state ? false : true;
     }
 
+    transform.Translate(830.0f, 5.0f);
     if(_indicator_symbol == COMMON_DIALOGUE_NEXT_INDICATOR && _blink_state) {
-        VideoManager->MoveRelative(830.0f, 0.0f);
-        _next_line_image.Draw();
+        _next_line_image.Draw(transform, color);
     } else if(_indicator_symbol == COMMON_DIALOGUE_LAST_INDICATOR && _blink_state) {
-        VideoManager->MoveRelative(830.0f, 0.0f);
-        _last_line_image.Draw();
+        _last_line_image.Draw(transform, color);
     }
 
     _display_textbox.Draw();

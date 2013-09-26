@@ -20,6 +20,7 @@
 #include "engine/script/script_read.h"
 #include "engine/audio/audio.h"
 #include "engine/video/video.h"
+#include "engine/video/transform2d.h"
 
 #include "utils/utils_random.h"
 
@@ -142,8 +143,7 @@ void EffectSupervisor::DrawEffects()
         float height = _ambient_overlay_img.GetHeight();
         for(float x = _info.overlay.x_shift; x <= VIDEO_STANDARD_RES_WIDTH; x = x + width) {
             for(float y = _info.overlay.y_shift; y <= VIDEO_STANDARD_RES_HEIGHT; y = y + height) {
-                VideoManager->Move(x, y);
-                _ambient_overlay_img.Draw();
+                _ambient_overlay_img.Draw(Transform2D(x, y), Color::white);
             }
         }
         VideoManager->PopState();
@@ -155,8 +155,7 @@ void EffectSupervisor::DrawEffects()
         VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_BOTTOM, 0);
         // We use a margin to avoid making the shake effects show unlit parts
         VideoManager->SetCoordSys(0.1f, 0.9f, 0.1f, 0.9f);
-        VideoManager->Move(0.0f, 0.0f);
-        _light_overlay_img.Draw();
+        _light_overlay_img.Draw(Transform2D(), Color::white);
         VideoManager->PopState();
     }
 }

@@ -22,6 +22,7 @@
 #include "shop_utils.h"
 
 #include "engine/video/video.h"
+#include "engine/video/transform2d.h"
 
 #include "common/global/global.h"
 
@@ -374,25 +375,23 @@ void ObjectCategoryDisplay::Draw()
     VideoManager->SetDrawFlags(VIDEO_X_CENTER, VIDEO_Y_CENTER, 0);
 
     if(_view_mode == SHOP_VIEW_MODE_LIST) {
-        VideoManager->Move(200.0f, 358.0f);
-
+        Transform2D transform(200.0f, 358.0f);
         if(_transition_timer.IsRunning() == true) {
             // Alpha ranges from 0.0f at timer start to 1.0f at end
             float alpha = static_cast<float>(_transition_timer.GetTimeExpired()) / static_cast<float>(TRANSITION_TIME_ICON);
-
             if(_last_icon != NULL)
-                _last_icon->Draw(Color(1.0f, 1.0f, 1.0f, 1.0f - alpha));
+                _last_icon->Draw(transform, Color(1.0f, 1.0f, 1.0f, 1.0f - alpha));
             if(_current_icon != NULL)
-                _current_icon->Draw(Color(1.0f, 1.0f, 1.0f, alpha));
+                _current_icon->Draw(transform, Color(1.0f, 1.0f, 1.0f, alpha));
         } else if(_current_icon != NULL) {
-            _current_icon->Draw();
+            _current_icon->Draw(transform, Color::white);
         }
         _name_textbox.Draw();
     } else if((_view_mode == SHOP_VIEW_MODE_INFO) && (_selected_object != NULL)) {
-        VideoManager->Move(200.0f, 603.0f);
-        _object_icon->Draw();
-        VideoManager->MoveRelative(0.0f, 45.0f);
-        _name_text.Draw();
+        Transform2D transform(200.0f, 603.0f);
+        _object_icon->Draw(transform, Color::white);
+        transform.Translate(0.0f, 45.0f);
+        _name_text.Draw(transform, Color::white);
     }
 }
 

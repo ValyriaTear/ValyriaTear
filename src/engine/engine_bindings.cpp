@@ -268,10 +268,6 @@ void BindEngineCode()
             .def("DrawText", (void (VideoEngine:: *)(const vt_utils::ustring &, float, float, const Color &)) &VideoEngine::DrawText)
             .def("DrawText", (void (VideoEngine:: *)(const std::string &, float, float, const Color &)) &VideoEngine::DrawText)
 
-            // Draw cursor commands
-            .def("Move", &VideoEngine::Move)
-            .def("Rotate", &VideoEngine::Rotate)
-
             // Namespace constants
             .enum_("constants") [
                 // Video context drawing constants
