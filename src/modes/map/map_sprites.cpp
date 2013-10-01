@@ -228,16 +228,11 @@ void VirtualSprite::_SetNextPosition()
             EnemySprite *enemy = reinterpret_cast<EnemySprite *>(collision_object);
 
             if(enemy && enemy->IsHostile() && map->AttackAllowed()) {
-                 // Check if the map is exiting. If so, we don't want to start a battle
-                 // NOTE: This case may need to be addressed in the future as it just checks if
-                 // the current state is "scene", which may be used in more cases than just exiting a map
-                 if (MapMode::CurrentInstance()->CurrentState() == STATE_SCENE) {
-                     return;
-                 }
-                 else {
+                 // Check whether the player is actually playing. If not, we don't want to start a battle.
+                 if (MapMode::CurrentInstance()->CurrentState() == STATE_EXPLORE)
                      _StartBattleEncounter(enemy);
-                     return;
-                 }
+
+                 return;
             }
         }
 
@@ -260,16 +255,11 @@ void VirtualSprite::_SetNextPosition()
             EnemySprite *enemy = reinterpret_cast<EnemySprite *>(this);
 
             if(enemy && enemy->IsHostile() && map->AttackAllowed()) {
-                 // Check if the map is exiting. If so, we don't want to start a battle
-                 // NOTE: This case may need to be addressed in the future as it just checks if
-                 // the current state is "scene", which may be used in more cases than just exiting a map
-                 if (MapMode::CurrentInstance()->CurrentState() == STATE_SCENE) {
-                     return;
-                 }
-                 else {
+                 // Check whether the player is actually playing. If not, we don't want to start a battle.
+                 if (MapMode::CurrentInstance()->CurrentState() == STATE_EXPLORE)
                      _StartBattleEncounter(enemy);
-                     return;
-                 }
+
+                 return;
             }
         }
 
