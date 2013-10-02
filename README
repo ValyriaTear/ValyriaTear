@@ -37,7 +37,7 @@ Game directories included and used are:
 dat/ img/ mus/ snd/ src/ po/
 
 Library dependencies (you will need the following in order to compile and run the game):
-Boost headers (Tested from 1.48 to 1.50) (make sure that the boost headers used to compile Luabind are the same version used to compile Valyria Tear)
+Boost headers (Tested from 1.42 to 1.50) (make sure that the boost headers used to compile Luabind are the same version used to compile Valyria Tear)
 GNU Gettext - (libiconv, libintl)
 lua (5.1.x - 5.2.x) - (liblua)
 Luabind 0.9.1 (Provided as a static library)
