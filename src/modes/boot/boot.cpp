@@ -555,49 +555,16 @@ void BootMode::_SetupAudioOptionsMenu()
 
 void BootMode::_SetupLanguageOptionsMenu()
 {
-    _language_options_menu.SetPosition(512.0f, 468.0f);
+    _language_options_menu.SetPosition(442.0f, 468.0f);
     _language_options_menu.SetTextStyle(TextStyle("title22"));
-    _language_options_menu.SetAlignment(VIDEO_X_CENTER, VIDEO_Y_CENTER);
-    _language_options_menu.SetOptionAlignment(VIDEO_X_CENTER, VIDEO_Y_CENTER);
+    _language_options_menu.SetAlignment(VIDEO_X_LEFT, VIDEO_Y_CENTER);
+    _language_options_menu.SetOptionAlignment(VIDEO_X_LEFT, VIDEO_Y_CENTER);
     _language_options_menu.SetSelectMode(VIDEO_SELECT_SINGLE);
     _language_options_menu.SetVerticalWrapMode(VIDEO_WRAP_MODE_STRAIGHT);
     _language_options_menu.SetCursorOffset(-50.0f, -28.0f);
     _language_options_menu.SetSkipDisabled(true);
 
-
-    // Get the list of languages from the Lua file.
-    ReadScriptDescriptor read_data;
-    if(!read_data.OpenFile(_LANGUAGE_FILE)) {
-        PRINT_ERROR << "Failed to load language file: " << _LANGUAGE_FILE << std::endl;
-        PRINT_ERROR << "The language list will be empty." << std::endl;
-        return;
-    }
-
-    read_data.OpenTable("languages");
-    uint32 table_size = read_data.GetTableSize();
-
-    // Set up the dimensions of the window according to how many languages are available.
-    _language_options_menu.SetDimensions(300.0f, 200.0f, 1, table_size, 1, (table_size > 8 ? 8 : table_size));
-
-    _po_files.clear();
-    for(uint32 i = 1; i <= table_size; i++) {
-        read_data.OpenTable(i);
-        _po_files.push_back(read_data.ReadString(2));
-        _language_options_menu.AddOption(MakeUnicodeString(read_data.ReadString(1)),
-                                         &BootMode::_OnLanguageSelect);
-
-#ifdef DISABLE_TRANSLATIONS
-        // If translations are disabled, only admit the first entry (English)
-        if (i > 1)
-            _language_options_menu.EnableOption(i - 1, false);
-#endif
-        read_data.CloseTable();
-    }
-
-    read_data.CloseTable();
-    if(read_data.IsErrorDetected())
-        PRINT_ERROR << "Error occurred while loading language list: " << read_data.GetErrorMessages() << std::endl;
-    read_data.CloseFile();
+    _RefreshLanguageOptions();
 }
 
 
@@ -709,7 +676,50 @@ void BootMode::_RefreshVideoOptions()
     _video_options_menu.SetOptionText(4, UTranslate("UI Theme: ") + GUIManager->GetDefaultMenuSkinName());
 }
 
+void BootMode::_RefreshLanguageOptions()
+{
+    // Get the list of languages from the Lua file.
+    ReadScriptDescriptor read_data;
+    if(!read_data.OpenFile(_LANGUAGE_FILE)) {
+        PRINT_ERROR << "Failed to load language file: " << _LANGUAGE_FILE << std::endl
+                    << "The language list will be empty." << std::endl;
+        return;
+    }
 
+    read_data.OpenTable("languages");
+    uint32 table_size = read_data.GetTableSize();
+
+    // Set up the dimensions of the window according to how many languages are available.
+    _language_options_menu.ClearOptions();
+    _language_options_menu.SetDimensions(300.0f, 200.0f, 1, table_size, 1, (table_size > 8 ? 8 : table_size));
+
+    _po_files.clear();
+    std::string current_language = vt_system::SystemManager->GetLanguage();
+    for(uint32 i = 1; i <= table_size; ++i) {
+        read_data.OpenTable(i);
+        _po_files.push_back(read_data.ReadString(2));
+        _language_options_menu.AddOption(ustring(), &BootMode::_OnLanguageSelect);
+        if (_po_files[i - 1] == current_language) {
+            _language_options_menu.AddOptionElementImage(i - 1, "img/menus/star.png");
+            _language_options_menu.SetSelection(i - 1);
+        }
+        _language_options_menu.AddOptionElementPosition(i - 1, 32);
+        _language_options_menu.AddOptionElementText(i - 1, MakeUnicodeString(read_data.ReadString(1)));
+
+#ifdef DISABLE_TRANSLATIONS
+        // If translations are disabled, only admit the first entry (English)
+        if (i > 1)
+            _language_options_menu.EnableOption(i - 1, false);
+        _language_options_menu.SetSelection(0);
+#endif
+        read_data.CloseTable();
+    }
+
+    read_data.CloseTable();
+    if(read_data.IsErrorDetected())
+        PRINT_ERROR << "Error occurred while loading language list: " << read_data.GetErrorMessages() << std::endl;
+    read_data.CloseFile();
+}
 
 void BootMode::_RefreshAudioOptions()
 {
@@ -837,6 +847,8 @@ void BootMode::_OnLanguageOptions()
 {
     // Switch the current menu
     _active_menu = &_language_options_menu;
+
+    _RefreshLanguageOptions();
 }
 
 
@@ -994,6 +1006,8 @@ void BootMode::_OnLanguageSelect()
 
     // Reloads the global scripts to update their inner translatable strings
     GlobalManager->ReloadGlobalScripts();
+
+    _RefreshLanguageOptions();
 }
 
 

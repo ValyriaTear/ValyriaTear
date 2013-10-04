@@ -224,6 +224,7 @@ private:
     //@{
     void _RefreshVideoOptions();
     void _RefreshAudioOptions();
+    void _RefreshLanguageOptions();
     void _RefreshKeySettings();
     void _RefreshJoySettings();
     //@}
