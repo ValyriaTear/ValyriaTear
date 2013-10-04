@@ -340,8 +340,8 @@ sprites["Squirrel"] = {
 -- ---------
 sprites["bat"] = {
     name = vt_system.Translate("Bat"),
-    coll_half_width = 1.0,
-    coll_height = 2.0,
+    coll_half_width = 0.6,
+    coll_height = 1.6,
     img_half_width = 1.0,
     img_height = 2.0,
     movement_speed = ENEMY_SPEED,
