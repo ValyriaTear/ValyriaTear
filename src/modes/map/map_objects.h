@@ -1034,10 +1034,10 @@ public:
     //! \param x x location on collision grid
     //! \param y y location on collision grid
     //! \return whether the location would be a "wall" for the party or not
-    bool IsStaticCollision(uint32 x, uint32 y);
+    bool IsStaticCollision(float x, float y);
 
     //! \brief checks if the location on the grid has a simple map collision. This is different from
-    //! IsStaticCollision, int hat it DOES NOT check static objects, but only the collision value for the map
+    //! IsStaticCollision, in that it DOES NOT check static objects, but only the collision value for the map
     bool IsMapCollision(uint32 x, uint32 y)
     { return (_collision_grid[y][x] > 0); }
 

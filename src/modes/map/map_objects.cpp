@@ -1638,11 +1638,13 @@ void ObjectSupervisor::DrawCollisionArea(const MapFrame *frame)
     } // y
 }
 
-bool ObjectSupervisor::IsStaticCollision(uint32 x, uint32 y)
+bool ObjectSupervisor::IsStaticCollision(float x, float y)
 {
+    if (!IsWithinMapBounds(x, y))
+        return true;
 
     //if the map's collision context is set to 1, we can return since we know there is a collision
-    if(IsMapCollision(x, y))
+    if (IsMapCollision(static_cast<uint32>(x), static_cast<uint32>(y)))
         return true;
 
     std::vector<vt_map::private_map::MapObject *>::const_iterator it, it_end;
@@ -1659,8 +1661,8 @@ bool ObjectSupervisor::IsStaticCollision(uint32 x, uint32 y)
         //get the rect. if the x and y fields are within the rect, we have a collision here
         MapRectangle rect = collision_object->GetCollisionRectangle();
         //we know x and y are inside the map. So, just test then as a box vs point test
-        if(rect.top <= y && y <= rect.bottom &&
-           rect.left <= x && x <= rect.right)
+        if(rect.top < y && y < rect.bottom &&
+           rect.left < x && x < rect.right)
            return true;
     }
 

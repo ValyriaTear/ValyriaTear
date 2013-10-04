@@ -114,6 +114,98 @@ void VirtualSprite::Update()
     _SetNextPosition();
 } // void VirtualSprite::Update()
 
+bool VirtualSprite::_HandleWallEdges(float& next_pos_x, float& next_pos_y, float distance_moved,
+                                     MapObject* collision_object)
+{
+    // First we don't deal with sprites edges when it's not a physical sprite
+    if (collision_object && collision_object->GetObjectType() != PHYSICAL_TYPE)
+        return false;
+
+    // Handles soft edges for straight directions
+    // Set a walk-around direction when the straight one is blocking the sprite,
+    // and when the sprite is on the corner of the obstacle.
+    bool on_edge = false;
+    float edge_next_pos_x = 0.0f;
+    float edge_next_pos_y = 0.0f;
+
+    ObjectSupervisor *object_supervisor = MapMode::CurrentInstance()->GetObjectSupervisor();
+
+    if(direction & NORTH) {
+        // Test both the north-east and north west cases
+        if(!object_supervisor->IsStaticCollision(position.x + coll_half_width,
+                                                 position.y - coll_height - distance_moved)) {
+            edge_next_pos_x = position.x + distance_moved;
+            edge_next_pos_y = position.y;
+            on_edge = true;
+        }
+        else if (!object_supervisor->IsStaticCollision(position.x - coll_half_width,
+                                                       position.y - coll_height - distance_moved)) {
+            edge_next_pos_x = position.x - distance_moved;
+            edge_next_pos_y = position.y;
+            on_edge = true;
+        }
+    }
+    else if(direction & SOUTH) {
+        // Test both the south-east and south west cases
+        if(!object_supervisor->IsStaticCollision(position.x + coll_half_width,
+                                                 position.y + distance_moved)) {
+            edge_next_pos_x = position.x + distance_moved;
+            edge_next_pos_y = position.y;
+            on_edge = true;
+        }
+        else if (!object_supervisor->IsStaticCollision(position.x - coll_half_width,
+                                                       position.y + distance_moved)) {
+            edge_next_pos_x = position.x - distance_moved;
+            edge_next_pos_y = position.y;
+            on_edge = true;
+        }
+    }
+    else if(direction & EAST) {
+        // Test both the north-east and south-east cases
+        if(!object_supervisor->IsStaticCollision(position.x + coll_half_width + distance_moved,
+                                                 position.y - coll_height)) {
+            edge_next_pos_x = position.x;
+            edge_next_pos_y = position.y - distance_moved;
+            on_edge = true;
+        }
+        else if (!object_supervisor->IsStaticCollision(position.x + coll_half_width + distance_moved,
+                                                       position.y)) {
+            edge_next_pos_x = position.x;
+            edge_next_pos_y = position.y + distance_moved;
+            on_edge = true;
+        }
+    }
+    else if(direction & WEST) {
+        // Test both the north-west and south-west cases
+        if(!object_supervisor->IsStaticCollision(position.x - coll_half_width - distance_moved,
+                                                 position.y - coll_height)) {
+            edge_next_pos_x = position.x;
+            edge_next_pos_y = position.y - distance_moved;
+            on_edge = true;
+        }
+        else if (!object_supervisor->IsStaticCollision(position.x - coll_half_width - distance_moved,
+                                                       position.y)) {
+            edge_next_pos_x = position.x;
+            edge_next_pos_y = position.y + distance_moved;
+            on_edge = true;
+        }
+    }
+
+    // If no edge is found, we don't do anything.
+    if (!on_edge)
+        return false;
+
+    // Final check of the new position chosen
+    if (object_supervisor->DetectCollision(this, edge_next_pos_x, edge_next_pos_y, &collision_object) != NO_COLLISION)
+        return false;
+
+    // Set the new position once all the tests passed.
+    next_pos_x = edge_next_pos_x;
+    next_pos_y = edge_next_pos_y;
+
+    return true;
+}
+
 void VirtualSprite::_SetNextPosition()
 {
 
@@ -190,13 +282,26 @@ void VirtualSprite::_SetNextPosition()
     default:
         break;
     case WALL_COLLISION:
-        // When the sprite is controlled by the camera, let the player handle the position correction.
-        if(this == map->GetCamera())
-            return;
-
         // When being blocked and moving diagonally, the npc is stuck.
         if(moving_diagonally)
             return;
+
+        // Don't consider physical objects with an event to avoid sliding on their edges,
+        // making them harder to "talk with".
+        if (collision_object && this == map->GetCamera()) {
+            PhysicalObject *phs = reinterpret_cast<PhysicalObject *>(collision_object);
+            if(phs && !phs->GetEventIdWhenTalking().empty())
+                return;
+        }
+
+        // Fix the direction and destination to walk-around obstacles
+        if (_HandleWallEdges(next_pos_x, next_pos_y, distance_moved, collision_object))
+            break;
+        // We don't do any other checks for the player sprite.
+        else if (this == map->GetCamera())
+            return;
+
+        // NPC sprites:
 
         // When it's a true wall, try against the collision grid
         if(!collision_object) {

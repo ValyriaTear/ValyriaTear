@@ -205,6 +205,12 @@ protected:
     **/
     void _StartBattleEncounter(EnemySprite *enemy);
 
+    /** \brief Handles position corrections when the sprite is on the edge of
+    *** physical obstacles. (NPC sprites, treasure, ... aren't considered here for playability purpose)
+    **/
+    bool _HandleWallEdges(float& next_pos_x, float& next_pos_y, float distance_moved,
+                          MapObject* collision_object);
+
     /** \name Saved state attributes
     *** These attributes are used to save and restore the state of a VirtualSprite
     **/
