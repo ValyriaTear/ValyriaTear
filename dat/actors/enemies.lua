@@ -534,6 +534,10 @@ enemies[10] = {
         [HURT_HEAVILY] = "img/sprites/battle/enemies/lord_banesore_0.lua"
     },
 
+    scripts = {
+        battle_ai = "dat/battles/enemies_ai/banesore_layna_village_ai.lua",
+    },
+
     -- Special, unwinnable battle with no reward
     base_stats = {
         hit_points = 999999,
