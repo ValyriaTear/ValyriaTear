@@ -293,7 +293,7 @@ function _CreateObjects()
     harlequin_focus = CreateSprite(Map, "Butterfly", 68, 24);
     harlequin_focus:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
     harlequin_focus:SetVisible(false);
-    harlequin_focus:SetName(vt_system.Translate("Harlequin")); -- Set the corresponding name
+    harlequin_focus:SetName(vt_system.Translate("???")); -- At first, the characters don't know his name.
     Map:AddGroundObject(harlequin_focus);
 
     -- Objects array
@@ -767,13 +767,16 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("Set the focus on Harlequin");
     EventManager:RegisterEvent(event);
 
+    event = vt_map.ScriptedEvent("Set Harlequin actual name", "set_harlequin_name", "");
+    EventManager:RegisterEvent(event);
+
     event = vt_map.ScriptedEvent("Set the focus on Harlequin", "set_focus_on_harlequin", "set_focus_update");
     event:AddEventLinkAtEnd("Harlequin talks to the hero 2");
     EventManager:RegisterEvent(event);
 
     dialogue = vt_map.SpriteDialogue();
-    text = vt_system.Translate("I shall bring your spirits to the Master.");
-    dialogue:AddLine(text, harlequin_focus);
+    text = vt_system.Translate("I shall bring your spirits to the Master. You can't stand a chance in front of the Great Harlequin...");
+    dialogue:AddLineEvent(text, harlequin_focus, "", "Set Harlequin actual name");
     text = vt_system.Translate("But let's play together first, shall we?");
     dialogue:AddLine(text, harlequin_focus);
     text = vt_system.Translate("Now catch me... if you can.");
@@ -1140,6 +1143,10 @@ map_functions = {
     set_focus_on_hero = function()
         Map:SetCamera(hero, 1500);
         AudioManager:PlayMusic("mus/Welcome to Com-Mecha-Mattew_Pablo_OGA.ogg");
+    end,
+
+    set_harlequin_name = function()
+        harlequin_focus:SetName(vt_system.Translate("Harlequin"));
     end,
 
     end_of_trap_dialogue = function()
