@@ -26,6 +26,7 @@ local lilly_id = -1;
 local herth_walking_id = -1;
 
 local lilly_charge_time = 0;
+local lilly_reaction_time = 2000;
 
 local herth_x_position = 0.0;
 local bronann = {};
@@ -110,6 +111,9 @@ function Initialize(battle_instance)
 
     -- Add a charge time at the end of which lilly can help Bronann
     lilly_charge_time = 10000;
+    -- Time Lilly waits before actually healing Bronann
+    -- (to avoid triggering the Heal in the middle of Banesore's attack)
+    lilly_reaction_time = 2000;
 
     -- Set Herth's starting x position
     herth_x_position = 0.0;
@@ -200,19 +204,20 @@ function Update()
 
         if (lilly_charge_time > 0) then
            lilly_charge_time = lilly_charge_time - time_expired;
+        elseif (lilly_reaction_time > 0 and bronann:GetHitPoints() <= 50) then
+            lilly_reaction_time = lilly_reaction_time - time_expired;
         end
     end
 
     -- Lilly discretly helps Bronann:
     -- - When Bronann's HP are low and at least a few seconds have passed
     -- - And the dialogue with Herth isn't done.
-    if (dialogue3_done == false and lilly_charge_time <= 0) then
-        if (bronann:GetHitPoints() <= 50) then
-            DialogueManager:BeginDialogue(5);
-            Battle:SetSceneMode(true);
-            lilly_charge_time = 10000;
-            lilly_heals_bronann();
-        end
+    if (dialogue3_done == false and lilly_reaction_time <= 0) then
+        DialogueManager:BeginDialogue(5);
+        Battle:SetSceneMode(true);
+        lilly_charge_time = 10000;
+        lilly_reaction_time = 2000;
+        lilly_heals_bronann();
     end
 
     if (dialogue1_done == false) then
