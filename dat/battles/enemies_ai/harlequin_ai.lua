@@ -64,7 +64,7 @@ local dark_wish_done = false;
 
 -- The battle_actor parameter is the enemy thinking, useful to exclude itself from other opponents.
 function DecideAction(battle_instance, battle_actor)
-    Battle = battle_instance;
+    local Battle = battle_instance;
 
     local nb_enemies = Battle:GetNumberOfEnemies();
     local nb_heroes = Battle:GetNumberOfCharacters();
