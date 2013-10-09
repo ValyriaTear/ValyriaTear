@@ -1388,8 +1388,18 @@ void EnemySprite::Update()
 
                     // The sprite is now finding its way back into the zone
                     _out_of_zone = true;
+                    _time_elapsed = 0;
                 }
-                _time_elapsed = 0;
+                else if (_time_elapsed >= _time_before_new_destination) {
+                    // If still returning to home, we enable a random directions again
+                    // to prevent blocking the enemy sprite in a corner.
+                    if (!_SetPathToNextWayPoint()) {
+                        // Fall back to simple movement mode
+                        SetRandomDirection();
+                        moving = true;
+                        _time_elapsed = 0;
+                    }
+                }
             }
         }
         // Otherwise, determine the direction that the sprite should move if the camera is within the sprite's aggression range
@@ -1397,7 +1407,7 @@ void EnemySprite::Update()
             _out_of_zone = false;
 
             // Enemies will only get aggressive if the camera is inside the zone, or the zone is non-restrictive
-            // The order of comparaisons here is important,
+            // The order of comparisons here is important,
             // the NULL check MUST come before the rest or a null pointer exception could happen if no zone is registered
             if(MapMode::CurrentInstance()->AttackAllowed()
                     && (_zone == NULL || (can_get_out_of_zone || _zone->IsInsideZone(camera_x, camera_y)))) {
