@@ -262,6 +262,14 @@ public:
     void SetRestoreState(bool restore) {
         _restore_state = restore;
     }
+
+    void SetEventAtDialogueEnd(const std::string& event_id) {
+        _event_after_dialogue_end = event_id;
+    }
+
+    const std::string& GetEventAtDialogueEnd() const {
+        return _event_after_dialogue_end;
+    }
     //@}
 
 private:
@@ -272,6 +280,8 @@ private:
     bool _restore_state;
 
     //! \brief The event name for this dialogue that is stored in the saved game file, if not empty.
+    //! This permit the engine to know whether the player already saw a dialogue event when leaving the map
+    //! and coming back.
     std::string _event_name;
 
     //! \brief Tells whether the dialogue has been seen by the player.
@@ -288,6 +298,10 @@ private:
 
     //! \brief the emote to play on the speaker sprite before starting the line (and if possible).
     std::vector<std::string> _emote_events;
+
+    //! \brief The optional event id to trigger after dialogue's end.
+    //! This is handly to trigger other scene events after a dialogue.
+    std::string _event_after_dialogue_end;
 }; // class SpriteDialogue : public vt_common::CommonDialogue
 
 

@@ -419,10 +419,12 @@ void DialogueSupervisor::EndDialogue()
     // We only want to call the RestoreState function *once* for each speaker, so first we have to construct a list of pointers
     // for all speakers without duplication (i.e. the case where a speaker spoke more than one line of dialogue).
 
+    MapMode *map_mode = MapMode::CurrentInstance();
+
     // Get a unique set of all sprites that participated in the dialogue
     std::set<MapSprite *> speakers;
     for(uint32 i = 0; i < _current_dialogue->GetLineCount(); i++) {
-        speakers.insert(dynamic_cast<MapSprite *>(MapMode::CurrentInstance()->GetObjectSupervisor()->GetObject(_current_dialogue->GetLineSpeaker(i))));
+        speakers.insert(dynamic_cast<MapSprite *>(map_mode->GetObjectSupervisor()->GetObject(_current_dialogue->GetLineSpeaker(i))));
     }
 
     for(std::set<MapSprite *>::iterator i = speakers.begin(); i != speakers.end(); i++) {
@@ -438,9 +440,17 @@ void DialogueSupervisor::EndDialogue()
         }
     }
 
+    map_mode->PopState();
+
+    std::string event_id = _current_dialogue->GetEventAtDialogueEnd();
+    if (!event_id.empty()) {
+        // Trigger the event after popping the map state, permitting
+        // to set a scene state afterward, for instance.
+        map_mode->GetEventSupervisor()->StartEvent(event_id);
+    }
+
     _current_dialogue = NULL;
     _current_options = NULL;
-    MapMode::CurrentInstance()->PopState();
 }
 
 SpriteDialogue *DialogueSupervisor::GetDialogue(uint32 dialogue_id)

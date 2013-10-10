@@ -428,6 +428,9 @@ void BindModeCode()
             .def("Validate", &SpriteDialogue::Validate)
             .def("SetInputBlocked", &SpriteDialogue::SetInputBlocked)
             .def("SetRestoreState", &SpriteDialogue::SetRestoreState)
+
+            .def("SetEventAtDialogueEnd", &SpriteDialogue::SetEventAtDialogueEnd)
+            .def("GetEventAtDialogueEnd", &SpriteDialogue::GetEventAtDialogueEnd)
         ];
 
         luabind::module(vt_script::ScriptManager->GetGlobalState(), "vt_map")
