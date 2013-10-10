@@ -86,12 +86,33 @@ function _CreateCharacters()
     Map:AddGroundObject(bronann);
 end
 
+local chicken3 = {}
+
 function _CreateNPCs()
     local npc = {}
     local text = {}
     local dialogue = {}
     local event = {}
 
+    -- Adds a chicken that can be taken by Bronann and given back to Grandma.
+    if (GlobalManager:GetEventValue("game", "layna_village_chicken3_found") == 0) then
+        chicken3 = CreateSprite(Map, "Chicken", 55, 23);
+        Map:AddGroundObject(chicken3);
+        event = vt_map.RandomMoveSpriteEvent("Chicken3 random move", chicken3, 1000, 1000);
+        event:AddEventLinkAtEnd("Chicken3 random move", 4500); -- Loop on itself
+        EventManager:RegisterEvent(event);
+        EventManager:StartEvent("Chicken3 random move");
+
+        dialogue = vt_map.SpriteDialogue();
+        text = vt_system.Translate("One of Grandma's chicken... I should bring it back.");
+        dialogue:AddLine(text, bronann);
+        dialogue:SetEventAtDialogueEnd("Make bronann take the chicken 3");
+        DialogueManager:AddDialogue(dialogue);
+        chicken3:AddDialogueReference(dialogue);
+
+        event = vt_map.ScriptedEvent("Make bronann take the chicken 3", "bronann_takes_chicken3", "fadeoutin_update");
+        EventManager:RegisterEvent(event);
+    end
 end
 
 function _CreateObjects()
@@ -229,8 +250,49 @@ function _CheckZones()
     end
 end
 
+-- Effect time used when fade out and in
+local fade_effect_time = 0;
+local fade_color = vt_video.Color(0.0, 0.0, 0.0, 1.0);
+local chicken3_taken = false;
 
 -- Map Custom functions
 map_functions = {
+    bronann_takes_chicken3 = function()
+        chicken3_taken = false;
+        fade_effect_time = 0;
+        chicken3:SetMoving(false);
+        EventManager:TerminateAllEvents(chicken3);
+        bronann:SetMoving(false);
+        Map:PushState(vt_map.MapMode.STATE_SCENE);
+    end,
 
+    fadeoutin_update = function()
+        fade_effect_time = fade_effect_time + SystemManager:GetUpdateTime();
+
+        if (fade_effect_time < 300.0) then
+            fade_color:SetAlpha(fade_effect_time / 300.0);
+            Map:GetEffectSupervisor():EnableLightingOverlay(fade_color);
+            return false;
+        elseif (fade_effect_time >= 300.0 and fade_effect_time < 1300.0) then
+            -- do nothing
+            return false;
+        elseif (fade_effect_time < 2000.0) then
+            -- actually remove the chicken
+            if (chicken3_taken == false) then
+                chicken3:SetVisible(false);
+                chicken3:SetPosition(0, 0);
+                GlobalManager:SetEventValue("game", "layna_village_chicken3_found", 1)
+                -- Set the quest start dialogue as done if not already, so a possible later
+                -- dialogue with grandma sounds more logical
+                GlobalManager:SetEventValue("game", "layna_village_chicken_dialogue_done", 1);
+                chicken3_taken = true;
+            end
+            fade_color:SetAlpha((2000.0 - fade_effect_time) / 700.0);
+            Map:GetEffectSupervisor():EnableLightingOverlay(fade_color);
+            return false;
+        end
+        -- Free Bronann's movement
+        Map:PopState();
+        return true;
+    end,
 }

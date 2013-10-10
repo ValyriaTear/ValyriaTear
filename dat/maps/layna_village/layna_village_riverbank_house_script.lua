@@ -60,10 +60,34 @@ function _CreateCharacters()
     Map:AddGroundObject(bronann);
 end
 
-function _CreateObjects()
-    object = {}
+local chicken1 = {}
 
-    -- Bronann's room
+function _CreateObjects()
+    local object = {}
+    local event = {}
+    local dialogue = {}
+    local text = {}
+
+    -- Adds a chicken that can be taken by Bronann and given back to Grandma.
+    if (GlobalManager:GetEventValue("game", "layna_village_chicken1_found") == 0) then
+        chicken1 = CreateSprite(Map, "Chicken", 25, 25);
+        Map:AddGroundObject(chicken1);
+        event = vt_map.RandomMoveSpriteEvent("Chicken1 random move", chicken1, 1000, 1000);
+        event:AddEventLinkAtEnd("Chicken1 random move", 4500); -- Loop on itself
+        EventManager:RegisterEvent(event);
+        EventManager:StartEvent("Chicken1 random move");
+
+        dialogue = vt_map.SpriteDialogue();
+        text = vt_system.Translate("One of Grandma's chicken... I should bring it back.");
+        dialogue:AddLine(text, bronann);
+        dialogue:SetEventAtDialogueEnd("Make bronann take the chicken 1");
+        DialogueManager:AddDialogue(dialogue);
+        chicken1:AddDialogueReference(dialogue);
+
+        event = vt_map.ScriptedEvent("Make bronann take the chicken 1", "bronann_takes_chicken1", "fadeoutin_update");
+        EventManager:RegisterEvent(event);
+    end
+
     object = CreateObject(Map, "Bed1", 42, 27);
     if (object ~= nil) then Map:AddGroundObject(object) end;
     object = CreateObject(Map, "Box1", 23, 18);
@@ -151,6 +175,50 @@ end
 
 -- Map Custom functions
 -- Used through scripted events
+
+-- Effect time used when fade out and in
+local fade_effect_time = 0;
+local fade_color = vt_video.Color(0.0, 0.0, 0.0, 1.0);
+local chicken1_taken = false;
+
 map_functions = {
 
+    bronann_takes_chicken1 = function()
+        chicken1_taken = false;
+        fade_effect_time = 0;
+        chicken1:SetMoving(false);
+        EventManager:TerminateAllEvents(chicken1);
+        Map:PushState(vt_map.MapMode.STATE_SCENE);
+        bronann:SetMoving(false);
+    end,
+
+    fadeoutin_update = function()
+        fade_effect_time = fade_effect_time + SystemManager:GetUpdateTime();
+
+        if (fade_effect_time < 300.0) then
+            fade_color:SetAlpha(fade_effect_time / 300.0);
+            Map:GetEffectSupervisor():EnableLightingOverlay(fade_color);
+            return false;
+        elseif (fade_effect_time >= 300.0 and fade_effect_time < 1300.0) then
+            -- do nothing
+            return false;
+        elseif (fade_effect_time < 2000.0) then
+            -- actually remove the chicken
+            if (chicken1_taken == false) then
+                chicken1:SetVisible(false);
+                chicken1:SetPosition(0, 0);
+                GlobalManager:SetEventValue("game", "layna_village_chicken1_found", 1)
+                -- Set the quest start dialogue as done if not already, so a possible later
+                -- dialogue with grandma sounds more logical
+                GlobalManager:SetEventValue("game", "layna_village_chicken_dialogue_done", 1);
+                chicken1_taken = true;
+            end
+            fade_color:SetAlpha((2000.0 - fade_effect_time) / 700.0);
+            Map:GetEffectSupervisor():EnableLightingOverlay(fade_color);
+            return false;
+        end
+        -- Free Bronann's movement
+        Map:PopState();
+        return true;
+    end,
 }
