@@ -248,10 +248,10 @@ bool ImageDescriptor::LoadMultiImageFromElementSize(std::vector<StillImage>& ima
 
     // If the width or height of the StillImages in the images vector were not specified (set to the default 0.0f),
     // then set those sizes to the element width and height arguments (which are in number of pixels)
-    for(std::vector<StillImage>::iterator i = images.begin(); i < images.end(); i++) {
-        if(IsFloatEqual(i->_height, 0.0f) == true)
+    for(std::vector<StillImage>::iterator i = images.begin(); i < images.end(); ++i) {
+        if(IsFloatEqual(i->_height, 0.0f))
             i->_height = static_cast<float>(elem_height);
-        if(IsFloatEqual(i->_width, 0.0f) == true)
+        if(IsFloatEqual(i->_width, 0.0f))
             i->_width = static_cast<float>(elem_width);
     }
 
@@ -289,10 +289,10 @@ bool ImageDescriptor::LoadMultiImageFromElementGrid(std::vector<StillImage>& ima
     // then set those sizes to the element width and height arguments (which are in number of pixels)
     float elem_width = static_cast<float>(img_width) / static_cast<float>(grid_cols);
     float elem_height = static_cast<float>(img_height) / static_cast<float>(grid_rows);
-    for(std::vector<StillImage>::iterator i = images.begin(); i < images.end(); i++) {
-        if(IsFloatEqual(i->_height, 0.0f) == true)
+    for(std::vector<StillImage>::iterator i = images.begin(); i < images.end(); ++i) {
+        if(IsFloatEqual(i->_height, 0.0f))
             i->_height = static_cast<float>(elem_height);
-        if(IsFloatEqual(i->_width, 0.0f) == true)
+        if(IsFloatEqual(i->_width, 0.0f))
             i->_width = static_cast<float>(elem_width);
     }
 
@@ -1598,7 +1598,7 @@ void CompositeImage::SetWidth(float width)
         return;
     }
 
-    for(std::vector<ImageElement>::iterator i = _elements.begin(); i < _elements.end(); i++) {
+    for(std::vector<ImageElement>::iterator i = _elements.begin(); i < _elements.end(); ++i) {
         if(IsFloatEqual(i->image.GetWidth(), 0.0f) == false)
             i->image.SetWidth(width * (_width / i->image.GetWidth()));
     }
@@ -1629,7 +1629,7 @@ void CompositeImage::SetHeight(float height)
         return;
     }
 
-    for(std::vector<ImageElement>::iterator i = _elements.begin(); i < _elements.end(); i++) {
+    for(std::vector<ImageElement>::iterator i = _elements.begin(); i < _elements.end(); ++i) {
         if(IsFloatEqual(i->image.GetHeight(), 0.0f) == false)
             i->image.SetHeight(height * (_height / i->image.GetHeight()));
     }
@@ -1642,7 +1642,7 @@ void CompositeImage::SetColor(const Color &color)
 {
     ImageDescriptor::SetColor(color);
 
-    for(uint32 i = 0; i < _elements.size(); i++) {
+    for(uint32 i = 0; i < _elements.size(); ++i) {
         _elements[i].image.SetColor(color);
     }
 }

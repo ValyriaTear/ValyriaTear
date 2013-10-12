@@ -335,7 +335,7 @@ void OptionBox::SetDimensions(float width, float height, uint8 num_cols, uint8 n
 void OptionBox::SetOptions(const std::vector<ustring>& option_text)
 {
     ClearOptions();
-    for(std::vector<ustring>::const_iterator i = option_text.begin(); i != option_text.end(); i++) {
+    for(std::vector<ustring>::const_iterator i = option_text.begin(); i != option_text.end(); ++i) {
         const ustring &str = *i;
         Option option;
 
@@ -1275,7 +1275,7 @@ void OptionBox::_DEBUG_DrawOutline()
 
     // Draw outline for inner cell rows
     float cell_row = top;
-    for(int32 i = 1; i < _number_cell_rows; i++) {
+    for(int32 i = 1; i < _number_cell_rows; ++i) {
         cell_row += _cell_height;
         VideoManager->DrawLine(left, cell_row, right, cell_row, 3, alpha_black);
         VideoManager->DrawLine(left, cell_row, right, cell_row, 1, alpha_white);
@@ -1283,7 +1283,7 @@ void OptionBox::_DEBUG_DrawOutline()
 
     // Draw outline for inner cell columns
     float cell_col = left;
-    for(int32 i = 1; i < _number_cell_columns; i++) {
+    for(int32 i = 1; i < _number_cell_columns; ++i) {
         cell_col += _cell_width;
         VideoManager->DrawLine(cell_col, bottom, cell_col, top, 3, alpha_black);
         VideoManager->DrawLine(cell_col, bottom, cell_col, top, 1, alpha_white);

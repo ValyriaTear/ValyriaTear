@@ -984,7 +984,7 @@ SoundDescriptor::SoundDescriptor() :
 SoundDescriptor::~SoundDescriptor()
 {
     for(std::vector<SoundDescriptor *>::iterator i = AudioManager->_registered_sounds.begin();
-            i != AudioManager->_registered_sounds.end(); i++) {
+            i != AudioManager->_registered_sounds.end(); ++i) {
         if(*i == this) {
             AudioManager->_registered_sounds.erase(i);
             return;
@@ -1040,7 +1040,7 @@ MusicDescriptor::~MusicDescriptor()
     }
 
     for(std::vector<MusicDescriptor *>::iterator i = AudioManager->_registered_music.begin();
-            i != AudioManager->_registered_music.end(); i++) {
+            i != AudioManager->_registered_music.end(); ++i) {
         if(*i == this) {
             AudioManager->_registered_music.erase(i);
             return;

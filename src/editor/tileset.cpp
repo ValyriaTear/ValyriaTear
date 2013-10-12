@@ -43,7 +43,7 @@ Tileset::Tileset() :
 Tileset::~Tileset()
 {
     for(std::vector<vt_video::StillImage>::iterator it = tiles.begin();
-            it != tiles.end(); it++)
+            it != tiles.end(); ++it)
         (*it).Clear();
     tiles.clear();
 } // Tileset destructor
@@ -93,7 +93,7 @@ bool Tileset::New(const QString &img_filename, bool one_image)
     } else {
         tiles.clear();
         tiles.resize(256);
-        for(uint32 i = 0; i < 256; i++)
+        for(uint32 i = 0; i < 256; ++i)
             tiles[i].SetDimensions(1.0f, 1.0f);
         if(ImageDescriptor::LoadMultiImageFromElementGrid(tiles,
                 img_filename.toStdString(), 16, 16) == false) {
@@ -105,8 +105,8 @@ bool Tileset::New(const QString &img_filename, bool one_image)
 
     // Initialize the rest of the tileset data
     std::vector<int32> blank_entry(4, 0);
-    for(uint32 i = 0; i < 16; i++)
-        for(uint32 j = 0; j < 16; j++)
+    for(uint32 i = 0; i < 16; ++i)
+        for(uint32 j = 0; j < 16; ++j)
             walkability.insert(std::make_pair(i * 16 + j, blank_entry));
 
     autotileability.clear();
@@ -158,7 +158,7 @@ bool Tileset::Load(const QString &def_filename, bool one_image)
     } else {
         tiles.clear();
         tiles.resize(256);
-        for(uint32 i = 0; i < 256; i++)
+        for(uint32 i = 0; i < 256; ++i)
             tiles[i].SetDimensions(1.0f, 1.0f);
         if(ImageDescriptor::LoadMultiImageFromElementGrid(tiles,
                 _tileset_image_filename.toStdString(), 16, 16) == false)
@@ -173,7 +173,7 @@ bool Tileset::Load(const QString &def_filename, bool one_image)
         read_data.OpenTable("autotiling");
 
         read_data.ReadTableKeys(keys);
-        for(uint32 i = 0; i < table_size; i++)
+        for(uint32 i = 0; i < table_size; ++i)
             autotileability[keys[i]] = read_data.ReadString(keys[i]);
         read_data.CloseTable();
     } // make sure table exists first
@@ -183,7 +183,7 @@ bool Tileset::Load(const QString &def_filename, bool one_image)
         std::vector<int32> vect;  // used to read in vectors from the data file
         read_data.OpenTable("walkability");
 
-        for(int32 i = 0; i < 16; i++) {
+        for(int32 i = 0; i < 16; ++i) {
             read_data.OpenTable(i);
             // Make sure that at least one row exists
             if(read_data.IsErrorDetected() == true) {
@@ -194,7 +194,7 @@ bool Tileset::Load(const QString &def_filename, bool one_image)
                 return false;
             }
 
-            for(int32 j = 0; j < 16; j++) {
+            for(int32 j = 0; j < 16; ++j) {
                 read_data.ReadIntVector(j, vect);
                 if(read_data.IsErrorDetected() == false)
                     walkability[i * 16 + j] = vect;
@@ -210,7 +210,7 @@ bool Tileset::Load(const QString &def_filename, bool one_image)
         uint32 table_size = read_data.GetTableSize("animated_tiles");
         read_data.OpenTable("animated_tiles");
 
-        for(uint32 i = 1; i <= table_size; i++) {
+        for(uint32 i = 1; i <= table_size; ++i) {
             _animated_tiles.push_back(std::vector<AnimatedTileData>());
             std::vector<AnimatedTileData>& tiles = _animated_tiles.back();
             // Calculate loop end: an animated tile is comprised of a tile id
@@ -257,7 +257,7 @@ bool Tileset::Save()
     if(autotileability.empty() == false) {
         write_data.BeginTable("autotiling");
         for(std::map<int, std::string>::iterator it = autotileability.begin();
-                it != autotileability.end(); it++)
+                it != autotileability.end(); ++it)
             write_data.WriteString((*it).first, (*it).second);
         write_data.EndTable();
         write_data.InsertNewLine();
@@ -280,8 +280,8 @@ bool Tileset::Save()
         write_data.WriteComment("The animated tiles table has one row per animated tile, with each entry in a row indicating which tile in the tileset is the next part of the animation, followed by the time in ms that the tile will be displayed for.");
         write_data.BeginTable("animated_tiles");
         std::vector<uint32> vect;
-        for(uint32 anim_tile = 0; anim_tile < _animated_tiles.size(); anim_tile++) {
-            for(uint32 i = 0; i < _animated_tiles[anim_tile].size(); i++) {
+        for(uint32 anim_tile = 0; anim_tile < _animated_tiles.size(); ++anim_tile) {
+            for(uint32 i = 0; i < _animated_tiles[anim_tile].size(); ++i) {
                 vect.push_back(_animated_tiles[anim_tile][i].tile_id);
                 vect.push_back(_animated_tiles[anim_tile][i].time);
             } // iterate through all tiles in one animated tile

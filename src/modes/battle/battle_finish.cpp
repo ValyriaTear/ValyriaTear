@@ -396,12 +396,12 @@ FinishVictoryAssistant::~FinishVictoryAssistant()
     _header_window.Destroy();
     _spoils_window.Destroy();
 
-    for(uint32 i = 0; i < _number_character_windows_created; i++) {
+    for(uint32 i = 0; i < _number_character_windows_created; ++i) {
         _character_window[i].Destroy();
     }
 
     // Add all the objects that were dropped by enemies to the party's inventory
-    for(std::map<GlobalObject *, int32>::iterator i = _objects_dropped.begin(); i != _objects_dropped.end(); i++) {
+    for(std::map<GlobalObject *, int32>::iterator i = _objects_dropped.begin(); i != _objects_dropped.end(); ++i) {
         GlobalManager->AddToInventory(i->first->GetID(), i->second);
     }
 
@@ -458,7 +458,7 @@ void FinishVictoryAssistant::Initialize()
             iter = _objects_dropped.begin();
             while(iter != _objects_dropped.end()) {
                 if(iter->first->GetID() == objects[j]->GetID()) break;
-                iter++;
+                ++iter;
             }
 
             if(iter != _objects_dropped.end()) {
@@ -627,14 +627,14 @@ void FinishVictoryAssistant::_CreateCharacterGUIObjects()
 
 void FinishVictoryAssistant::_CreateObjectList()
 {
-    for(std::map<vt_global::GlobalObject *, int32>::iterator i = _objects_dropped.begin(); i != _objects_dropped.end(); i++) {
+    for(std::map<vt_global::GlobalObject *, int32>::iterator i = _objects_dropped.begin(); i != _objects_dropped.end(); ++i) {
         GlobalObject *obj = i->first;
         _object_list.AddOption(MakeUnicodeString("<" + obj->GetIconImage().GetFilename() + "><30>")
                                + obj->GetName() + MakeUnicodeString("<R>x" + NumberToString(i->second)));
     }
 
     // Resize all icon images so that they are the same height as the text
-    for(uint32 i = 0; i < _object_list.GetNumberOptions(); i++) {
+    for(uint32 i = 0; i < _object_list.GetNumberOptions(); ++i) {
         _object_list.GetEmbeddedImage(i)->SetDimensions(30.0f, 30.0f);
     }
 }
@@ -645,7 +645,7 @@ void FinishVictoryAssistant::_SetCharacterStatus()
 {
     std::deque<BattleCharacter *>& battle_characters = BattleMode::CurrentInstance()->GetCharacterActors();
 
-    for(std::deque<BattleCharacter *>::iterator i = battle_characters.begin(); i != battle_characters.end(); i++) {
+    for(std::deque<BattleCharacter *>::iterator i = battle_characters.begin(); i != battle_characters.end(); ++i) {
         GlobalCharacter *character = (*i)->GetGlobalCharacter();
 
         // Put back the current HP / SP onto the global characters.

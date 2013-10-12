@@ -431,12 +431,12 @@ void SystemEngine::RemoveAutoTimer(SystemTimer *timer)
 
 void SystemEngine::UpdateTimers()
 {
-    // ----- (1): Update the update game timer
+    // Update the update game timer
     uint32 tmp = _last_update;
     _last_update = SDL_GetTicks();
     _update_time = _last_update - tmp;
 
-    // ----- (2): Update the game play timer
+    // Update the game play timer
     _milliseconds_played += _update_time;
     if(_milliseconds_played >= 1000) {
         _seconds_played += _milliseconds_played / 1000;
@@ -451,8 +451,8 @@ void SystemEngine::UpdateTimers()
         }
     }
 
-    // ----- (3): Update all SystemTimer objects
-    for(std::set<SystemTimer *>::iterator i = _auto_system_timers.begin(); i != _auto_system_timers.end(); i++)
+    // Update all SystemTimer objects
+    for(std::set<SystemTimer *>::iterator i = _auto_system_timers.begin(); i != _auto_system_timers.end(); ++i)
         (*i)->_AutoUpdate();
 }
 
@@ -462,7 +462,7 @@ void SystemEngine::ExamineSystemTimers()
 {
     GameMode* active_mode = ModeManager->GetTop();
 
-    for(std::set<SystemTimer *>::iterator i = _auto_system_timers.begin(); i != _auto_system_timers.end(); i++) {
+    for(std::set<SystemTimer *>::iterator i = _auto_system_timers.begin(); i != _auto_system_timers.end(); ++i) {
         GameMode* timer_mode = (*i)->GetModeOwner();
         if(timer_mode == NULL)
             continue;

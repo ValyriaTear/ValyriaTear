@@ -55,7 +55,7 @@ TextureController::~TextureController()
     }
 
     IF_PRINT_DEBUG(VIDEO_DEBUG) << "Deleting all remaining texture sheets, a total of: " << _tex_sheets.size() << std::endl;
-    for(std::vector<TexSheet *>::iterator i = _tex_sheets.begin(); i != _tex_sheets.end(); i++) {
+    for(std::vector<TexSheet *>::iterator i = _tex_sheets.begin(); i != _tex_sheets.end(); ++i) {
         delete *i;
     }
 }
@@ -116,7 +116,7 @@ bool TextureController::UnloadTextures()
             success = false;
         }
 
-        i++;
+        ++i;
     }
 
     // Clear all font caches
@@ -161,7 +161,7 @@ bool TextureController::ReloadTextures()
             success = false;
         }
 
-        i++;
+        ++i;
     }
 
     _DeleteTempTextures();
@@ -334,7 +334,7 @@ bool TextureController::_SaveTempTextures()
 {
     bool success = true;
 
-    for(std::map<std::string, ImageTexture *>::iterator i = _images.begin(); i != _images.end(); i++) {
+    for(std::map<std::string, ImageTexture *>::iterator i = _images.begin(); i != _images.end(); ++i) {
         ImageTexture *image = i->second;
 
         // Check that this is a temporary texture and if so, save it to disk as a .png file
@@ -417,7 +417,7 @@ void TextureController::_RemoveSheet(TexSheet *sheet)
             _tex_sheets.erase(i);
             return;
         }
-        i++;
+        ++i;
     }
 
     IF_PRINT_WARNING(VIDEO_DEBUG) << "could not find texture sheet to delete" << std::endl;
@@ -499,7 +499,7 @@ bool TextureController::_ReloadImagesToSheet(TexSheet *sheet)
     std::map<std::string, std::pair<ImageMemory, ImageMemory> > multi_image_info;
 
     bool success = true;
-    for(std::map<std::string, ImageTexture *>::iterator i = _images.begin(); i != _images.end(); i++) {
+    for(std::map<std::string, ImageTexture *>::iterator i = _images.begin(); i != _images.end(); ++i) {
         // Only operate on images which belong to the requested TexSheet
         if(i->second->texture_sheet != sheet) {
             continue;
@@ -609,7 +609,7 @@ bool TextureController::_ReloadImagesToSheet(TexSheet *sheet)
     }
 
     // Regenerate all font textures
-    for(std::set<TextTexture *>::iterator i = _text_images.begin(); i != _text_images.end(); i++) {
+    for(std::set<TextTexture *>::iterator i = _text_images.begin(); i != _text_images.end(); ++i) {
         if((*i)->texture_sheet == sheet) {
             if((*i)->Reload() == false) {
                 IF_PRINT_WARNING(VIDEO_DEBUG) << "failed to reload a TextTexture" << std::endl;

@@ -127,7 +127,7 @@ Grid::Grid(QWidget *parent, const QString &name, uint32 width, uint32 height) :
 Grid::~Grid()
 {
     for(std::vector<Tileset *>::iterator it = tilesets.begin();
-            it != tilesets.end(); it++)
+            it != tilesets.end(); ++it)
         delete *it;
     VideoManager->SingletonDestroy();
 } // Grid destructor
@@ -527,7 +527,7 @@ void Grid::InsertRow(uint32 /*tile_index_y*/)
     	uint32 row = tile_index / _width;
 
     	// Insert the row throughout all contexts
-    	for (uint32 i = 0; i < static_cast<uint32>(context_names.size()); i++)
+    	for (uint32 i = 0; i < static_cast<uint32>(context_names.size()); ++i)
     	{
     		_ground_layers[0][i].insert(_ground_layers[0][i].begin()   + row * _width, _width, -1);
     		_fringe_layers[0][i].insert(_fringe_layers[0][i].begin() + row * _width, _width, -1);
@@ -550,7 +550,7 @@ void Grid::InsertCol(uint32 /*tile_index_x*/)
     uint32 col = tile_index % _width;
 
     // Insert the column throughout all contexts
-    for (uint32 i = 0; i < static_cast<uint32>(context_names.size()); i++)
+    for (uint32 i = 0; i < static_cast<uint32>(context_names.size()); ++i)
     {
     	// Iterate through all rows in each tile layer
     	vector<int32>::iterator it = _ground_layers[0][i].begin() + col;
@@ -594,7 +594,7 @@ void Grid::DeleteRow(uint32 /*tile_index_y*/)
     uint32 row = tile_index / _width;
 
     // Delete the row throughout each context
-    for (uint32 i = 0; i < static_cast<uint32>(context_names.size()); i++)
+    for (uint32 i = 0; i < static_cast<uint32>(context_names.size()); ++i)
     {
     	_lower_layer[i].erase(_lower_layer[i].begin()   + row * _width,
     	                      _lower_layer[i].begin()   + row * _width + _width);
@@ -623,7 +623,7 @@ void Grid::DeleteCol(uint32 /*tile_index_x*/)
     uint32 col = tile_index % _width;
 
     // Delete the column throughout each contexts
-    for (uint32 i = 0; i < static_cast<uint32>(context_names.size()); i++)
+    for (uint32 i = 0; i < static_cast<uint32>(context_names.size()); ++i)
     {
     	// Iterate through all rows in each tile layer
     	vector<int32>::iterator it = _lower_layer[i].begin() + col;

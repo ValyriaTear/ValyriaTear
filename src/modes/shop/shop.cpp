@@ -1453,11 +1453,11 @@ void ShopMode::RemoveObjectFromTradeList(ShopObject *object)
 
 void ShopMode::ClearOrder()
 {
-    for(std::map<uint32, ShopObject *>::iterator i = _buy_list.begin(); i != _buy_list.end(); i++)
+    for(std::map<uint32, ShopObject *>::iterator i = _buy_list.begin(); i != _buy_list.end(); ++i)
         i->second->ResetBuyCount();
-    for(std::map<uint32, ShopObject *>::iterator i = _sell_list.begin(); i != _sell_list.end(); i++)
+    for(std::map<uint32, ShopObject *>::iterator i = _sell_list.begin(); i != _sell_list.end(); ++i)
         i->second->ResetSellCount();
-    for(std::map<uint32, ShopObject *>::iterator i = _trade_list.begin(); i != _trade_list.end(); i++)
+    for(std::map<uint32, ShopObject *>::iterator i = _trade_list.begin(); i != _trade_list.end(); ++i)
         i->second->ResetTradeCount();
 
     _buy_list.clear();

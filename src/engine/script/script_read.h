@@ -643,7 +643,7 @@ template <class T> void ReadScriptDescriptor::_ReadDataVectorHelper(std::vector<
     }
 
     // Iterate through all the items of the table and place it in the vector
-    for(luabind::iterator it(o); it != private_script::TABLE_END; it++) {
+    for(luabind::iterator it(o); it != private_script::TABLE_END; ++it) {
         try {
             vect.push_back(luabind::object_cast<T>((*it)));
         } catch(...) {
@@ -670,7 +670,7 @@ template <class T> void ReadScriptDescriptor::_ReadTableKeys(std::vector<T>& key
         return;
     }
 
-    for(luabind::iterator i(table); i != private_script::TABLE_END; i++) {
+    for(luabind::iterator i(table); i != private_script::TABLE_END; ++i) {
         try {
             keys.push_back(luabind::object_cast<T>(i.key()));
         } catch(...) {

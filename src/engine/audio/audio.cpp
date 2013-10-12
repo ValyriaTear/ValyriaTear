@@ -134,7 +134,7 @@ bool AudioEngine::SingletonInitialize()
 
     // Create as many sources as possible (we fix an upper bound of MAX_DEFAULT_AUDIO_SOURCES)
     ALuint source;
-    for(uint16 i = 0; i < _max_sources; i++) {
+    for(uint16 i = 0; i < _max_sources; ++i) {
         alGenSources(1, &source);
         if(CheckALError() == true) {
             _max_sources = i;
@@ -158,13 +158,13 @@ AudioEngine::~AudioEngine()
         return;
 
     // Delete all entries in the sound cache
-    for(std::map<std::string, private_audio::AudioCacheElement>::iterator i = _audio_cache.begin(); i != _audio_cache.end(); i++) {
+    for(std::map<std::string, private_audio::AudioCacheElement>::iterator i = _audio_cache.begin(); i != _audio_cache.end(); ++i) {
         delete i->second.audio;
     }
     _audio_cache.clear();
 
     // Delete all audio sources
-    for(std::vector<AudioSource *>::iterator i = _audio_sources.begin(); i != _audio_sources.end(); i++) {
+    for(std::vector<AudioSource *>::iterator i = _audio_sources.begin(); i != _audio_sources.end(); ++i) {
         delete(*i);
     }
     _audio_sources.clear();
@@ -216,7 +216,7 @@ void AudioEngine::Update()
     if(!AUDIO_ENABLE)
         return;
 
-    for(std::vector<AudioSource *>::iterator i = _audio_sources.begin(); i != _audio_sources.end(); i++) {
+    for(std::vector<AudioSource *>::iterator i = _audio_sources.begin(); i != _audio_sources.end(); ++i) {
         if((*i)->owner) {
             (*i)->owner->_Update();
         }
@@ -235,7 +235,7 @@ void AudioEngine::SetSoundVolume(float volume)
         _sound_volume = volume;
     }
 
-    for(std::vector<SoundDescriptor *>::iterator i = _registered_sounds.begin(); i != _registered_sounds.end(); i++) {
+    for(std::vector<SoundDescriptor *>::iterator i = _registered_sounds.begin(); i != _registered_sounds.end(); ++i) {
         if((*i)->_source != NULL) {
             alSourcef((*i)->_source->source, AL_GAIN, _sound_volume * (*i)->GetVolume());
         }
@@ -254,7 +254,7 @@ void AudioEngine::SetMusicVolume(float volume)
         _music_volume = volume;
     }
 
-    for(std::vector<MusicDescriptor *>::iterator i = _registered_music.begin(); i != _registered_music.end(); i++) {
+    for(std::vector<MusicDescriptor *>::iterator i = _registered_music.begin(); i != _registered_music.end(); ++i) {
         if((*i)->_source != NULL) {
             alSourcef((*i)->_source->source, AL_GAIN, _music_volume * (*i)->GetVolume());
         }
@@ -264,7 +264,7 @@ void AudioEngine::SetMusicVolume(float volume)
 void AudioEngine::PauseAllSounds()
 {
     for(std::vector<SoundDescriptor *>::iterator i = _registered_sounds.begin();
-            i != _registered_sounds.end(); i++) {
+            i != _registered_sounds.end(); ++i) {
         (*i)->Pause();
     }
 }
@@ -272,7 +272,7 @@ void AudioEngine::PauseAllSounds()
 void AudioEngine::ResumeAllSounds()
 {
     for(std::vector<SoundDescriptor *>::iterator i = _registered_sounds.begin();
-            i != _registered_sounds.end(); i++) {
+            i != _registered_sounds.end(); ++i) {
         (*i)->Resume();
     }
 }
@@ -280,7 +280,7 @@ void AudioEngine::ResumeAllSounds()
 void AudioEngine::StopAllSounds()
 {
     for(std::vector<SoundDescriptor *>::iterator i = _registered_sounds.begin();
-            i != _registered_sounds.end(); i++) {
+            i != _registered_sounds.end(); ++i) {
         (*i)->Stop();
     }
 }
@@ -288,7 +288,7 @@ void AudioEngine::StopAllSounds()
 void AudioEngine::RewindAllSounds()
 {
     for(std::vector<SoundDescriptor *>::iterator i = _registered_sounds.begin();
-            i != _registered_sounds.end(); i++) {
+            i != _registered_sounds.end(); ++i) {
         (*i)->Rewind();
     }
 }
@@ -296,7 +296,7 @@ void AudioEngine::RewindAllSounds()
 void AudioEngine::PauseAllMusic()
 {
     for(std::vector<MusicDescriptor *>::iterator i = _registered_music.begin();
-            i != _registered_music.end(); i++) {
+            i != _registered_music.end(); ++i) {
         (*i)->Pause();
     }
 }
@@ -304,7 +304,7 @@ void AudioEngine::PauseAllMusic()
 void AudioEngine::ResumeAllMusic()
 {
     for(std::vector<MusicDescriptor *>::iterator i = _registered_music.begin();
-            i != _registered_music.end(); i++) {
+            i != _registered_music.end(); ++i) {
         (*i)->Resume();
     }
 }
@@ -312,7 +312,7 @@ void AudioEngine::ResumeAllMusic()
 void AudioEngine::StopAllMusic()
 {
     for(std::vector<MusicDescriptor *>::iterator i = _registered_music.begin();
-            i != _registered_music.end(); i++) {
+            i != _registered_music.end(); ++i) {
         (*i)->Stop();
     }
 }
@@ -320,7 +320,7 @@ void AudioEngine::StopAllMusic()
 void AudioEngine::RewindAllMusic()
 {
     for(std::vector<MusicDescriptor *>::iterator i = _registered_music.begin();
-            i != _registered_music.end(); i++) {
+            i != _registered_music.end(); ++i) {
         (*i)->Rewind();
     }
 }
@@ -591,14 +591,14 @@ void AudioEngine::DEBUG_PrintInfo()
 private_audio::AudioSource *AudioEngine::_AcquireAudioSource()
 {
     // (1) Find and return the first source that does not have an owner
-    for(std::vector<AudioSource *>::iterator i = _audio_sources.begin(); i != _audio_sources.end(); i++) {
+    for(std::vector<AudioSource *>::iterator i = _audio_sources.begin(); i != _audio_sources.end(); ++i) {
         if((*i)->owner == NULL) {
             return *i;
         }
     }
 
     // (2) If all sources are owned, find one that is in the initial or stopped state and change its ownership
-    for(std::vector<AudioSource *>::iterator i = _audio_sources.begin(); i != _audio_sources.end(); i++) {
+    for(std::vector<AudioSource *>::iterator i = _audio_sources.begin(); i != _audio_sources.end(); ++i) {
         ALint state;
         alGetSourcei((*i)->source, AL_SOURCE_STATE, &state);
         if(state == AL_INITIAL || state == AL_STOPPED) {
@@ -653,7 +653,7 @@ bool AudioEngine::_LoadAudio(const std::string &filename, bool is_music, vt_mode
 
     // (2) The cache is full, so find an element to remove. First make sure that at least one piece of audio is stopped
     std::map<std::string, AudioCacheElement>::iterator lru_element = _audio_cache.end();
-    for(std::map<std::string, AudioCacheElement>::iterator i = _audio_cache.begin(); i != _audio_cache.end(); i++) {
+    for(std::map<std::string, AudioCacheElement>::iterator i = _audio_cache.begin(); i != _audio_cache.end(); ++i) {
         if(i->second.audio->GetState() == AUDIO_STATE_STOPPED) {
             lru_element = i;
             break;
@@ -666,7 +666,7 @@ bool AudioEngine::_LoadAudio(const std::string &filename, bool is_music, vt_mode
         return false;
     }
 
-    for(std::map<std::string, AudioCacheElement>::iterator i = _audio_cache.begin(); i != _audio_cache.end(); i++) {
+    for(std::map<std::string, AudioCacheElement>::iterator i = _audio_cache.begin(); i != _audio_cache.end(); ++i) {
         if(i->second.audio->GetState() == AUDIO_STATE_STOPPED && i->second.last_update_time < lru_element->second.last_update_time) {
             lru_element = i;
         }

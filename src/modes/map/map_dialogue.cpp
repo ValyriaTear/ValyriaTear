@@ -265,7 +265,7 @@ bool SpriteDialogue::Validate()
     }
 
     // Check that all sprites and events referrenced by the dialogue exist
-    for(std::set<uint32>::iterator i = sprite_ids.begin(); i != sprite_ids.end(); i++) {
+    for(std::set<uint32>::iterator i = sprite_ids.begin(); i != sprite_ids.end(); ++i) {
         if(MapMode::CurrentInstance()->GetObjectSupervisor()->GetSprite(*i) == NULL) {
             IF_PRINT_WARNING(MAP_DEBUG) << "Validation failed for dialogue #" << _dialogue_id
                                         << ": dialogue referenced invalid sprite with id: " << *i << std::endl;
@@ -273,7 +273,7 @@ bool SpriteDialogue::Validate()
         }
     }
 
-    for(std::set<std::string>::iterator i = event_ids.begin(); i != event_ids.end(); i++) {
+    for(std::set<std::string>::iterator i = event_ids.begin(); i != event_ids.end(); ++i) {
         if(!(*i).empty()) {
             if(MapMode::CurrentInstance()->GetEventSupervisor()->GetEvent(*i) == NULL) {
                 IF_PRINT_WARNING(MAP_DEBUG) << "Validation failed for dialogue #" << _dialogue_id
@@ -333,7 +333,7 @@ DialogueSupervisor::~DialogueSupervisor()
     _current_options = NULL;
 
     // Delete all dialogues
-    for(std::map<uint32, SpriteDialogue *>::iterator i = _dialogues.begin(); i != _dialogues.end(); i++) {
+    for(std::map<uint32, SpriteDialogue *>::iterator i = _dialogues.begin(); i != _dialogues.end(); ++i) {
         delete i->second;
     }
     _dialogues.clear();
@@ -423,11 +423,11 @@ void DialogueSupervisor::EndDialogue()
 
     // Get a unique set of all sprites that participated in the dialogue
     std::set<MapSprite *> speakers;
-    for(uint32 i = 0; i < _current_dialogue->GetLineCount(); i++) {
+    for(uint32 i = 0; i < _current_dialogue->GetLineCount(); ++i) {
         speakers.insert(dynamic_cast<MapSprite *>(map_mode->GetObjectSupervisor()->GetObject(_current_dialogue->GetLineSpeaker(i))));
     }
 
-    for(std::set<MapSprite *>::iterator i = speakers.begin(); i != speakers.end(); i++) {
+    for(std::set<MapSprite *>::iterator i = speakers.begin(); i != speakers.end(); ++i) {
         if(!(*i))
             continue;
         // Each sprite needs to know that this dialogue completed so that they can update their data accordingly

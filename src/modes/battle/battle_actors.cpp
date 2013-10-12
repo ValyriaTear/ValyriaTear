@@ -283,7 +283,7 @@ void BattleActor::RegisterDamage(uint32 amount, BattleTarget *target)
             IF_PRINT_WARNING(BATTLE_DEBUG) << "target argument contained an invalid point index: " << target->GetPoint() << std::endl;
         } else {
             std::vector<std::pair<GLOBAL_STATUS, float> > status_effects = damaged_point->GetStatusEffects();
-            for(std::vector<std::pair<GLOBAL_STATUS, float> >::const_iterator i = status_effects.begin(); i != status_effects.end(); i++) {
+            for(std::vector<std::pair<GLOBAL_STATUS, float> >::const_iterator i = status_effects.begin(); i != status_effects.end(); ++i) {
                 if(RandomFloat(0.0f, 100.0f) <= i->second) {
                     RegisterStatusChange(i->first, GLOBAL_INTENSITY_NEG_LESSER);
                 }

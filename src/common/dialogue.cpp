@@ -302,7 +302,7 @@ CommonDialogueSupervisor::CommonDialogueSupervisor() :
 CommonDialogueSupervisor::~CommonDialogueSupervisor()
 {
     // Delete all dialogues
-    for(std::map<uint32, CommonDialogue *>::iterator i = _dialogues.begin(); i != _dialogues.end(); i++) {
+    for(std::map<uint32, CommonDialogue *>::iterator i = _dialogues.begin(); i != _dialogues.end(); ++i) {
         delete i->second;
     }
     _dialogues.clear();

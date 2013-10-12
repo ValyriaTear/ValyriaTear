@@ -206,7 +206,7 @@ GUISystem::~GUISystem()
     if(_menu_windows.empty() == false) {
         IF_PRINT_WARNING(VIDEO_DEBUG) << "there were undestroyed MenuWindows in GUISystem destructor" << std::endl;
         std::map<uint32, MenuWindow *> window_copies = _menu_windows;
-        for(std::map<uint32, MenuWindow *>::iterator i = window_copies.begin(); i != window_copies.end(); i++) {
+        for(std::map<uint32, MenuWindow *>::iterator i = window_copies.begin(); i != window_copies.end(); ++i) {
             i->second->Destroy();
         }
         window_copies.clear();

@@ -88,12 +88,12 @@ bool BattleDialogue::Validate()
 
     // Construct containers that hold all unique sprite and event ids for this dialogue
     std::set<uint32> speaker_ids;
-    for(uint32 i = 0; i < _line_count; i++) {
+    for(uint32 i = 0; i < _line_count; ++i) {
         speaker_ids.insert(_speakers[i]);
     }
 
     // Check that all sprites and events referrenced by the dialogue exist
-    for(std::set<uint32>::iterator i = speaker_ids.begin(); i != speaker_ids.end(); i++) {
+    for(std::set<uint32>::iterator i = speaker_ids.begin(); i != speaker_ids.end(); ++i) {
         if(BattleMode::CurrentInstance()->GetDialogueSupervisor()->GetSpeaker(*i) == NULL) {
             IF_PRINT_WARNING(BATTLE_DEBUG) << "Validation failed for dialogue #" << _dialogue_id
                                            << ": dialogue referenced invalid speaker with id: " << *i << std::endl;
@@ -124,7 +124,7 @@ DialogueSupervisor::DialogueSupervisor() :
 DialogueSupervisor::~DialogueSupervisor()
 {
     // Delete all dialogues
-    for(std::map<uint32, BattleDialogue *>::iterator i = _dialogues.begin(); i != _dialogues.end(); i++) {
+    for(std::map<uint32, BattleDialogue *>::iterator i = _dialogues.begin(); i != _dialogues.end(); ++i) {
         delete i->second;
     }
     _dialogues.clear();
