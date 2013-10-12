@@ -70,6 +70,7 @@ LAYER_TYPE &operator++(LAYER_TYPE &value, int /*dummy*/)
 
 Grid::Grid(QWidget *parent, const QString &name, uint32 width, uint32 height) :
     QGLWidget(parent),
+    _ed_scrollarea(NULL),
     _file_name(name),
     _height(height),
     _width(width),
@@ -218,11 +219,6 @@ bool Grid::LoadMap()
                              QString(tr("No 'layers' table found.")));
         return false;
     }
-
-    // Will keep each tile line data
-    std::vector<int32> row_vect;
-    // Stores the layers available indeces
-    std::vector<int32> keys_vect;
 
     // Read the map tile layer data
     read_data.OpenTable("layers");
@@ -709,7 +705,6 @@ void Grid::paintGL()
 {
     int32 x, y;                  // tile array loop index
     int layer_index;
-    std::vector<int32>::iterator it;      // used to iterate through tile arrays
     int tileset_index;               // index into the tileset_names vector
     int tile_index;                  // ranges from 0-255
     int left_tile;

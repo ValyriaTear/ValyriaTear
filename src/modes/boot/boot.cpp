@@ -1242,28 +1242,6 @@ bool BootMode::_SaveSettingsFile(const std::string &filename)
 // ***** BootMode input configuration methods
 // ****************************************************************************
 
-SDLKey BootMode::_WaitKeyPress()
-{
-    SDL_Event event;
-    while(SDL_WaitEvent(&event)) {
-        if(event.type == SDL_KEYDOWN)
-            break;
-    }
-
-    return event.key.keysym.sym;
-}
-
-uint8 BootMode::_WaitJoyPress()
-{
-    SDL_Event event;
-    while(SDL_WaitEvent(&event)) {
-        if(event.type == SDL_JOYBUTTONDOWN)
-            break;
-    }
-
-    return event.jbutton.button;
-}
-
 void BootMode::_RedefineUpKey()
 {
     _key_setting_function = &BootMode::_SetUpKey;

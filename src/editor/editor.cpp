@@ -676,14 +676,14 @@ void Editor::_TileLayerFill()
 
 void Editor::_TileLayerClear()
 {
-    std::vector<std::vector<int32> >::iterator it;    // used to iterate over an entire layer
+    /*std::vector<std::vector<int32> >::iterator it;    // used to iterate over an entire layer
     std::vector<std::vector<int32> >& current_layer = _ed_scrollarea->GetCurrentLayer();
 
     // Record the information for undo/redo operations.
     std::vector<std::vector<int32> > previous = current_layer;
     //std::vector<std::vector<int32> > modified(current_layer.size(), -1);
     std::vector<std::vector<int32> > indeces(current_layer.size());
-    /*	for (int32 i = 0; i < static_cast<int32>(current_layer.size()); i++)
+    	for (int32 i = 0; i < static_cast<int32>(current_layer.size()); i++)
     		indeces[i] = i;
 
     	// Clear the layer.
@@ -1741,8 +1741,6 @@ bool EditorScrollArea::contentsMouseMoveEvent(QMouseEvent *evt)
 
 bool EditorScrollArea::contentsMouseReleaseEvent(QMouseEvent *evt)
 {
-    std::vector<int32>::iterator it;    // used to iterate over an entire layer
-
     // get reference to Editor so we can access the undo stack
     Editor *editor = static_cast<Editor *>(topLevelWidget());
 
@@ -2423,16 +2421,13 @@ TRANSITION_PATTERN_TYPE EditorScrollArea::_CheckForTransitionPattern(const std::
 
 LayerCommand::LayerCommand(std::vector<QPoint> indeces, std::vector<int32> previous, std::vector<int32> modified,
                            uint32 layer_id, Editor *editor, const QString &text, QUndoCommand *parent) :
-    QUndoCommand(text, parent)
-{
-    _tile_indeces = indeces;
-    _previous_tiles = previous;
-    _modified_tiles = modified;
-    _edited_layer_id = layer_id;
-    _editor = editor;
-}
-
-
+    QUndoCommand(text, parent),
+    _tile_indeces(indeces),
+    _previous_tiles(previous),
+    _modified_tiles(modified),
+    _edited_layer_id(layer_id),
+    _editor(editor)
+{}
 
 void LayerCommand::undo()
 {

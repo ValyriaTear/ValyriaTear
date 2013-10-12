@@ -347,7 +347,7 @@ uint32 OggFile::Read(uint8 *buffer, uint32 size, bool &end)
 } // uint32 OggFile::Read(uint8* buffer, uint32 size, bool& end)
 
 
-
+#ifdef _WIN32
 int OggFile::_FileSeekWrapper(FILE *file, ogg_int64_t off, int whence)
 {
     if(file == NULL) {
@@ -357,6 +357,7 @@ int OggFile::_FileSeekWrapper(FILE *file, ogg_int64_t off, int whence)
         return fseek(file, static_cast<long>(off), whence);
     }
 }
+#endif
 
 ////////////////////////////////////////////////////////////////////////////////
 // AudioMemory class methods

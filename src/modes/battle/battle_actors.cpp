@@ -1438,7 +1438,6 @@ void BattleEnemy::_DecideAction()
         else
             actor_target = enemies[RandomBoundedInteger(0, enemies.size() - 1)];
         break;
-        break;
     case GLOBAL_TARGET_ALL_FOES:
     case GLOBAL_TARGET_ALL_ALLIES:
         // Nothing to do here, the party deques are ready

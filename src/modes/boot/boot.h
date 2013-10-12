@@ -325,16 +325,6 @@ private:
 
     // ---------- Input configuration methods
 
-    /** \brief Waits indefinitely until the player presses any key
-    *** \return The SDL key symbol of the key which was pressed
-    **/
-    SDLKey _WaitKeyPress();
-
-    /** \brief Waits indefinitely until the player presses any joystick button
-    *** \return The SDL integer ID of the joystick button which was pressed
-    **/
-    uint8 _WaitJoyPress();
-
     //! \brief Redefines a key command to be mapped to another key
     //@{
     void _RedefineUpKey();

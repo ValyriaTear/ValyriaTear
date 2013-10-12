@@ -224,6 +224,7 @@ private:
     //! It is used to know whether they can be deallocated.
     bool _initialized;
 
+#ifdef _WIN32
     /** \brief A wrapper function for file seek operations
     *** \param ffile A pointer to the FILE struct which represents the input stream
     *** \param off The number of bytes to offset from the stream's origin
@@ -235,6 +236,7 @@ private:
     *** since it is a wrapper to a C function which expects those types.
     */
     static int _FileSeekWrapper(FILE *file, ogg_int64_t off, int whence);
+#endif
 }; // class OggFile : public AudioInput
 
 
