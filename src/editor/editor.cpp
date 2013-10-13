@@ -19,14 +19,12 @@
 #include "editor.h"
 
 #include "utils/utils_random.h"
-#include "engine/video/video.h"
 
 #include <QTableWidgetItem>
 #include <QScrollBar>
 
 using namespace vt_utils;
 using namespace vt_script;
-using namespace vt_video;
 
 namespace vt_editor
 {
@@ -105,8 +103,6 @@ Editor::~Editor()
     delete _ed_splitter;
 
     delete _undo_stack;
-
-    VideoEngine::SingletonDestroy();
 
     // Close the global script.
     _global_script.CloseFile();
@@ -669,7 +665,7 @@ void Editor::_TileLayerFill()
 
     // Draw the changes.
     _ed_scrollarea->_map->SetChanged(true);
-    _ed_scrollarea->_map->updateGL();
+    _ed_scrollarea->_map->update();
 } // void Editor::_TileLayerFill()
 
 
@@ -700,7 +696,7 @@ void Editor::_TileLayerClear()
     */
     // Draw the changes.
     _ed_scrollarea->_map->SetChanged(true);
-    _ed_scrollarea->_map->updateGL();
+    _ed_scrollarea->_map->update();
 }
 
 
@@ -876,7 +872,7 @@ void Editor::_MapMoveLayerUp()
 
     // Show the changes done.
     _UpdateLayersView();
-    _ed_scrollarea->_map->updateGL();
+    _ed_scrollarea->_map->update();
 
     // Set the layer selection to follow the current layer
     _SetSelectedLayer(layer_id - 1);
@@ -919,7 +915,7 @@ void Editor::_MapMoveLayerDown()
 
     // Show the changes done.
     _UpdateLayersView();
-    _ed_scrollarea->_map->updateGL();
+    _ed_scrollarea->_map->update();
 
     // Set the layer selection to follow the current layer
     _SetSelectedLayer(layer_id + 1);
@@ -1228,7 +1224,7 @@ void Editor::_ToggleLayerVisibility()
     layer.visible = !layer.visible;
 
     // Show the change
-    _ed_scrollarea->_map->updateGL();
+    _ed_scrollarea->_map->update();
 
     // Update the item icon
     if(layer.visible)
@@ -1491,7 +1487,7 @@ EditorScrollArea::EditorScrollArea(QWidget *parent, int width, int height) :
     // Create a new map.
     _map = new Grid(viewport(), tr("Untitled"), width, height);
     _map->_ed_scrollarea = this;
-    setWidget(_map);
+    setWidget((QWidget*)_map->_graphics_view);
 
     // Create menu actions related to the Context menu.
     _insert_row_action = new QAction("Insert row", this);
@@ -1528,7 +1524,7 @@ EditorScrollArea::~EditorScrollArea()
 
 void EditorScrollArea::Resize(int width, int height)
 {
-    _map->resize(width * TILE_WIDTH, height * TILE_HEIGHT);
+    _map->resizeScene(width * TILE_WIDTH, height * TILE_HEIGHT);
     _map->SetHeight(height);
     _map->SetWidth(width);
 }
@@ -1637,7 +1633,7 @@ bool EditorScrollArea::contentsMousePressEvent(QMouseEvent *evt)
     } // switch on tile editing mode
 
     // Draw the changes.
-    _map->updateGL();
+    _map->update();
     return true;
 } // void EditorScrollView::contentsMousePressEvent(QMouseEvent* evt)
 
@@ -1733,7 +1729,7 @@ bool EditorScrollArea::contentsMouseMoveEvent(QMouseEvent *evt)
     editor->statusBar()->showMessage(position);
 
     // Draw the changes.
-    _map->updateGL();
+    _map->update();
     return true;
 } // void EditorScrollView::contentsMouseMoveEvent(QMouseEvent *evt)
 
@@ -1867,7 +1863,7 @@ bool EditorScrollArea::contentsMouseReleaseEvent(QMouseEvent *evt)
         _moving = false;
 
     // Draw the changes.
-    _map->updateGL();
+    _map->update();
     return true;
 } // void EditorScrollView::contentsMouseReleaseEvent(QMouseEvent *evt)
 
@@ -2436,7 +2432,7 @@ void LayerCommand::undo()
         _editor->_ed_scrollarea->_map->GetLayers()[_edited_layer_id].tiles[_tile_indeces[i].y()][_tile_indeces[i].x()] = _previous_tiles[i];
     }
 
-    _editor->_ed_scrollarea->_map->updateGL();
+    _editor->_ed_scrollarea->_map->update();
 }
 
 
@@ -2447,7 +2443,7 @@ void LayerCommand::redo()
     for(int32 i = 0; i < static_cast<int32>(_tile_indeces.size()); i++) {
         _editor->_ed_scrollarea->_map->GetLayers()[_edited_layer_id].tiles[_tile_indeces[i].y()][_tile_indeces[i].x()] = _modified_tiles[i];
     }
-    _editor->_ed_scrollarea->_map->updateGL();
+    _editor->_ed_scrollarea->_map->update();
 }
 
 } // namespace vt_editor

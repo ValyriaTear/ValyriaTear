@@ -26,9 +26,9 @@
 #include "engine/video/video.h"
 
 #include <QScrollBar>
+#include <QGraphicsView>
 
 using namespace vt_script;
-using namespace vt_video;
 
 namespace vt_editor
 {
@@ -69,7 +69,7 @@ LAYER_TYPE &operator++(LAYER_TYPE &value, int /*dummy*/)
 
 
 Grid::Grid(QWidget *parent, const QString &name, uint32 width, uint32 height) :
-    QGLWidget(parent),
+    QGraphicsScene(parent),
     _ed_scrollarea(NULL),
     _file_name(name),
     _height(height),
@@ -79,8 +79,7 @@ Grid::Grid(QWidget *parent, const QString &name, uint32 width, uint32 height) :
     _grid_on(true),
     _select_on(false)
 {
-    resize(_width * TILE_WIDTH, _height * TILE_HEIGHT);
-    setMouseTracking(true);
+    setSceneRect(0, 0, _width * TILE_WIDTH, _height * TILE_HEIGHT);
 
     // Initialize layers with -1 to indicate that no tile/object/etc. is
     // present at this location
@@ -121,6 +120,13 @@ Grid::Grid(QWidget *parent, const QString &name, uint32 width, uint32 height) :
             _tile_layers[3].tiles[y][x] = -1;
         }
     }
+
+    // Creates the graphic view
+    _graphics_view = new QGraphicsView(this);
+    _graphics_view->setRenderHints(QPainter::Antialiasing);
+    _graphics_view->setBackgroundBrush(QBrush(Qt::black));
+    _graphics_view->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    _graphics_view->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 } // Grid constructor
 
 
@@ -129,7 +135,8 @@ Grid::~Grid()
     for(std::vector<Tileset *>::iterator it = tilesets.begin();
             it != tilesets.end(); ++it)
         delete *it;
-    VideoManager->SingletonDestroy();
+
+    delete _graphics_view;
 } // Grid destructor
 
 
@@ -159,14 +166,14 @@ bool Grid::LoadMap()
     // Open the map file for reading
     if(!read_data.OpenFile(_file_name.toStdString())) {
         read_data.CloseFile();
-        QMessageBox::warning(this, message_box_title,
+        QMessageBox::warning(_graphics_view, message_box_title,
                              QString("Could not open file %1 for reading.").arg(_file_name));
         return false;
     }
 
     if(!read_data.DoesTableExist("map_data")) {
         read_data.CloseFile();
-        QMessageBox::warning(this, message_box_title,
+        QMessageBox::warning(_graphics_view, message_box_title,
                              QString("File did not contain the main map table: 'map_data'"));
         return false;
     }
@@ -182,7 +189,7 @@ bool Grid::LoadMap()
 
     if(read_data.IsErrorDetected()) {
         read_data.CloseFile();
-        QMessageBox::warning(this, message_box_title,
+        QMessageBox::warning(_graphics_view, message_box_title,
                              QString("Data read failure occurred for global map variables. Error messages:\n%1").
                              arg(QString::fromStdString(read_data.GetErrorMessages())));
         return false;
@@ -190,7 +197,7 @@ bool Grid::LoadMap()
 
     // Resize the widget to match the width and height of the map we are in the
     // process of loading
-    resize(_width * TILE_WIDTH, _height * TILE_HEIGHT);
+    setSceneRect(0, 0, _width * TILE_WIDTH, _height * TILE_HEIGHT);
 
     // Create selection layer
     _select_layer.resize(_height);
@@ -215,7 +222,7 @@ bool Grid::LoadMap()
     // FileOpen via creation of the TilesetTable(s)
     if(!read_data.DoesTableExist("layers")) {
         read_data.CloseFile();
-        QMessageBox::warning(this, message_box_title,
+        QMessageBox::warning(_graphics_view, message_box_title,
                              QString(tr("No 'layers' table found.")));
         return false;
     }
@@ -237,7 +244,7 @@ bool Grid::LoadMap()
 
         if(layer_type == INVALID_LAYER) {
             read_data.CloseFile();
-            QMessageBox::warning(this, message_box_title,
+            QMessageBox::warning(_graphics_view, message_box_title,
                                  QString(tr("Ignoring unexisting layer type: %i in file: %s").arg(
                                              (int32)layer_type).arg(read_data.GetFilename().c_str())));
             return false;
@@ -254,7 +261,7 @@ bool Grid::LoadMap()
         // Parse layers[layer_id].tiles[y]
         for(uint32 y = 0; y < _height; ++y) {
             if(!read_data.DoesTableExist(y)) {
-                QMessageBox::warning(this, message_box_title,
+                QMessageBox::warning(_graphics_view, message_box_title,
                                      QString(tr("Missing layers[%i][%i] in file: %s")
                                              .arg(layer_id).arg(y).arg(read_data.GetFilename().c_str())));
                 read_data.CloseFile();
@@ -268,7 +275,7 @@ bool Grid::LoadMap()
 
             if(vect.size() != _width) {
                 read_data.CloseFile();
-                QMessageBox::warning(this, message_box_title,
+                QMessageBox::warning(_graphics_view, message_box_title,
                                      QString(tr("Invalid line size of layers[%i][%i] in file: %s")
                                              .arg(layer_id).arg(y).arg(read_data.GetFilename().c_str())));
                 return false;
@@ -289,7 +296,7 @@ bool Grid::LoadMap()
 
     if(read_data.IsErrorDetected()) {
         read_data.CloseFile();
-        QMessageBox::warning(this, message_box_title,
+        QMessageBox::warning(_graphics_view, message_box_title,
                              QString("Data read failure occurred for tile layer tables. Error messages:\n%1").
                              arg(QString::fromStdString(read_data.GetErrorMessages())));
         return false;
@@ -305,7 +312,7 @@ void Grid::SaveMap()
     WriteScriptDescriptor write_data;
 
     if(!write_data.OpenFile(_file_name.toStdString())) {
-        QMessageBox::warning(this, "Saving File...", QString("ERROR: could not open %1 for writing!").arg(_file_name));
+        QMessageBox::warning(_graphics_view, "Saving File...", QString("ERROR: could not open %1 for writing!").arg(_file_name));
         return;
     }
 
@@ -682,27 +689,11 @@ std::vector<QTreeWidgetItem *> Grid::getLayerItems()
 // Grid class -- protected functions
 ////////////////////////////////////////////////////////////////////////////////
 
-void Grid::initializeGL()
+void Grid::drawForeground(QPainter *painter)
 {
-    // Destroy the video engine
-    VideoManager->SingletonDestroy();
-    // Recreate the video engine's singleton
-    VideoManager = VideoEngine::SingletonCreate();
-    VideoManager->SetTarget(VIDEO_TARGET_QT_WIDGET);
+    //render();
 
-    VideoManager->SingletonInitialize();
-
-    VideoManager->ApplySettings();
-    VideoManager->FinalizeInitialization();
-    VideoManager->ToggleFPS();
-
-    // Don't use smooth map tiles. This is easing map making.
-    VideoManager->SetPixelArtSmoothed(false);
-} // Grid::initializeGL()
-
-
-void Grid::paintGL()
-{
+    /*
     int32 x, y;                  // tile array loop index
     int layer_index;
     int tileset_index;               // index into the tileset_names vector
@@ -796,13 +787,15 @@ void Grid::paintGL()
     // If grid is toggled on, draw it
     if(_grid_on)
         VideoManager->DrawGrid(0.0f, 0.0f, 1.0f, 1.0f, Color::black);
+    */
 } // void Grid::paintGL()
 
 
-void Grid::resizeGL(int w, int h)
+void Grid::resizeScene(int w, int h)
 {
-    VideoManager->SetResolution(w, h);
-    VideoManager->ApplySettings();
+    setSceneRect(0, 0, w, h);
+    //VideoManager->SetResolution(w, h);
+    //VideoManager->ApplySettings();
 } // Grid::resizeGL(...)
 
 } // namespace vt_editor

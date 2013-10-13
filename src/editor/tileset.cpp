@@ -24,9 +24,12 @@
 
 #include <QHeaderView>
 #include <QFile>
+#include <QImage>
 
-using namespace vt_video;
 using namespace vt_script;
+
+const uint32 num_rows = 16;
+const uint32 num_cols = 16;
 
 namespace vt_editor
 {
@@ -42,9 +45,6 @@ Tileset::Tileset() :
 
 Tileset::~Tileset()
 {
-    for(std::vector<vt_video::StillImage>::iterator it = tiles.begin();
-            it != tiles.end(); ++it)
-        (*it).Clear();
     tiles.clear();
 } // Tileset destructor
 
@@ -75,31 +75,43 @@ bool Tileset::New(const QString &img_filename, bool one_image)
     if (QFile::exists(_tileset_definition_filename)) {
         _tileset_definition_filename.clear();
         _tileset_name.clear();
+        qDebug("Failed to create tileset, it already exists: %s",
+                _tileset_definition_filename.toStdString().c_str());
         return false;
     }
 
     _tileset_image_filename = "img/tilesets/" + _tileset_name + img_filename.mid(img_filename.length() - 4, 4);
 
     // Prepare the tile vector and load the tileset image
-    if(one_image == true) {
-        tiles.clear();
-        tiles.resize(1);
-        tiles[0].SetDimensions(16.0f, 16.0f);
-        if(tiles[0].Load(img_filename.toStdString(), 16, 16) == false) {
-            qDebug("Failed to load tileset image: %s",
-                   img_filename.toStdString().c_str());
-            return false;
-        }
-    } else {
-        tiles.clear();
-        tiles.resize(256);
-        for(uint32 i = 0; i < 256; ++i)
-            tiles[i].SetDimensions(1.0f, 1.0f);
-        if(ImageDescriptor::LoadMultiImageFromElementGrid(tiles,
-                img_filename.toStdString(), 16, 16) == false) {
-            qDebug("Failed to load tileset image: %s",
-                   img_filename.toStdString().c_str());
-            return false;
+    tiles.clear();
+    tiles.resize(256);
+
+    QRect rectangle;
+    QImage entire_tileset;
+    if (!entire_tileset.load(_tileset_image_filename, "png")) {
+        qDebug("Failed to load tileset image: %s",
+                _tileset_image_filename.toStdString().c_str());
+        return false;
+    }
+
+    if (one_image) {
+        tiles[0].convertFromImage(entire_tileset);
+    }
+    else {
+
+        for(uint32 row = 0; row < num_rows; ++row) {
+            for(uint32 col = 0; col < num_cols; ++col) {
+                rectangle.setRect(col * TILE_WIDTH, row * TILE_HEIGHT, TILE_WIDTH,
+                                TILE_HEIGHT);
+                QImage tile = entire_tileset.copy(rectangle);
+                if(!tile.isNull()) {
+                    // linearize the tile index
+                    uint32 i = num_rows * col + row;
+                    tiles[i].convertFromImage(tile);
+                } else {
+                    qDebug("Image loading error!");
+                }
+            }
         }
     }
 
@@ -149,20 +161,36 @@ bool Tileset::Load(const QString &def_filename, bool one_image)
     _tileset_image_filename = QString::fromStdString(read_data.ReadString("image"));
 
     // Prepare the tile vector and load the tileset image
-    if(one_image == true) {
-        tiles.clear();
-        tiles.resize(1);
-        tiles[0].SetDimensions(16.0f, 16.0f);
-        if (!tiles[0].Load(_tileset_image_filename.toStdString(), 16, 16))
-            return false;
-    } else {
-        tiles.clear();
-        tiles.resize(256);
-        for(uint32 i = 0; i < 256; ++i)
-            tiles[i].SetDimensions(1.0f, 1.0f);
-        if(ImageDescriptor::LoadMultiImageFromElementGrid(tiles,
-                _tileset_image_filename.toStdString(), 16, 16) == false)
-            return false;
+    tiles.clear();
+    tiles.resize(256);
+
+    QRect rectangle;
+    QImage entire_tileset;
+    if (!entire_tileset.load(_tileset_image_filename, "png")) {
+        qDebug("Failed to load tileset image: %s",
+                _tileset_image_filename.toStdString().c_str());
+        return false;
+    }
+
+    if (one_image) {
+        tiles[0].convertFromImage(entire_tileset);
+    }
+    else {
+
+        for(uint32 row = 0; row < num_rows; ++row) {
+            for(uint32 col = 0; col < num_cols; ++col) {
+                rectangle.setRect(col * TILE_WIDTH, row * TILE_HEIGHT, TILE_WIDTH,
+                                TILE_HEIGHT);
+                QImage tile = entire_tileset.copy(rectangle);
+                if(!tile.isNull()) {
+                    // linearize the tile index
+                    uint32 i = num_rows * col + row;
+                    tiles[i].convertFromImage(tile);
+                } else {
+                    qDebug("Image loading error!");
+                }
+            }
+        }
     }
 
     // Read in autotiling information.
@@ -308,9 +336,6 @@ bool Tileset::Save()
 ///////////////////////////////////////////////////////////////////////////////
 // TilesetTable class -- all functions
 ///////////////////////////////////////////////////////////////////////////////
-
-const uint32 num_rows = 16;
-const uint32 num_cols = 16;
 
 TilesetTable::TilesetTable() :
     Tileset()

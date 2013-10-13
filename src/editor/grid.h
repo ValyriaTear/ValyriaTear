@@ -18,7 +18,7 @@
 #ifndef __GRID_HEADER__
 #define __GRID_HEADER__
 
-#include <QGLWidget>
+#include <QGraphicsScene>
 #include <QStringList>
 #include <QMessageBox>
 #include <QTreeWidgetItem>
@@ -99,7 +99,7 @@ std::string getTypeFromLayer(const LAYER_TYPE &type);
 *** operation. It is the responsibility of the user of this widget to call
 *** SetInitialized(true), which will enable this class' drawing operation.
 *** **************************************************************************/
-class Grid : public QGLWidget
+class Grid : public QGraphicsScene
 {
     Q_OBJECT     // macro needed to use QT's slots and signals
 
@@ -158,11 +158,11 @@ public:
 
     void SetGridOn(bool value)   {
         _grid_on   = value;
-        updateGL();
+        //updateGL();
     }
     void SetSelectOn(bool value) {
         _select_on = value;
-        updateGL();
+        //updateGL();
     }
     //@}
 
@@ -216,6 +216,9 @@ public:
     // Be sure to set the parent of the items returned, and add them in the corresponding Qt widget.
     std::vector<QTreeWidgetItem *> getLayerItems();
 
+    //! \brief Performs a resize operation of the OpenGL widget when appropriate.
+    void resizeScene(int w, int h);
+
     //! \brief List of the tileset definition files being used.
     QStringList tileset_def_names;
 
@@ -225,15 +228,13 @@ public:
     //! \brief Pointer to scrollArea
     EditorScrollArea *_ed_scrollarea;
 
+    // Pointer to the graphic view class, used to display the graphics widgets.
+    QGraphicsView* _graphics_view;
+
 protected:
-    //! \brief Sets up the rendering context of the OpenGL portion of the editor.
-    void initializeGL();
 
     //! \brief Paints the entire map with the video engine.
-    void paintGL();
-
-    //! \brief Performs a resize operation of the OpenGL widget when appropriate.
-    void resizeGL(int w, int h);
+    void drawForeground(QPainter* painter);
 
 private:
     // Computes the next layer id to put for the givent layer type,

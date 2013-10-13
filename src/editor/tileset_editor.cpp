@@ -18,10 +18,13 @@
 #include "utils/utils_pch.h"
 #include "tileset_editor.h"
 
-#include "engine/video/video.h"
+#include <QGraphicsView>
+#include <boost/concept_check.hpp>
+
+#include <QGraphicsPixmapItem>
+#include <QGraphicsSceneMouseEvent>
 
 using namespace vt_script;
-using namespace vt_video;
 
 namespace vt_editor
 {
@@ -37,90 +40,79 @@ TilesetDisplay::TilesetDisplay():
 {
     tileset = new Tileset();
     // Red color with 50% transparency
-    _red_square.SetColor(Color(1.0f, 0.0f, 0.0f, 0.5f));
-    _red_square.SetDimensions(0.5f, 0.5f);
+    _red_square = QPixmap(16, 16);
+    _red_square.fill(QColor(255, 0, 0, 125));
 
-    setMouseTracking(true);
+    setSceneRect(0, 0, 512, 512);
+    graphic_view = new QGraphicsView(this);
+    graphic_view->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    graphic_view->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    graphic_view->setFixedSize(512, 512);
 }
-
-
 
 TilesetDisplay::~TilesetDisplay()
 {
     delete tileset;
-    VideoManager->SingletonDestroy();
+    delete graphic_view;
 }
 
-
-
-void TilesetDisplay::initializeGL()
+void TilesetDisplay::updateScene()
 {
-    // Destroy and recreate the video engine
-    // NOTE: This is actually a very bad practice to do. We have to figure out an alternative.
-    VideoManager->SingletonDestroy();
-    VideoManager = VideoEngine::SingletonCreate();
-    VideoManager->SetTarget(VIDEO_TARGET_QT_WIDGET);
+    if (!tileset->IsInitialized())
+        return;
 
-    VideoManager->SingletonInitialize();
+    clear();
+    setSceneRect(0, 0, 512, 512);
+    setBackgroundBrush(QBrush(Qt::gray));
 
-    VideoManager->ApplySettings();
-    VideoManager->FinalizeInitialization();
-}
+    // Draw the tileset
+    addPixmap(tileset->tiles[0]);
 
+    // Draw transparent red over the unwalkable tile quadrants
+    for(uint32 i = 0; i < 16; ++i) {
+        for(uint32 j = 0; j < 16; ++j) {
 
+            if(tileset->walkability[i * 16 + j][0] != 0) {
+                addPixmap(_red_square)->setPos(j * 32, i * 32);
+            }
 
-void TilesetDisplay::paintGL()
-{
-    VideoManager->SetCoordSys(0.0f, VideoManager->GetScreenWidth() / TILE_WIDTH,
-                              VideoManager->GetScreenHeight() / TILE_HEIGHT, 0.0f);
-    VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_TOP, VIDEO_BLEND, 0);
-    VideoManager->Clear(Color::blue);
-    VideoManager->Move(0, 0);
+            if(tileset->walkability[i * 16 + j][1] != 0) {
+                addPixmap(_red_square)->setPos(j * 32 + 16, i * 32);
+            }
 
-    if(tileset->IsInitialized() == true) {
-        // Draw the tileset as a single image
-        tileset->tiles[0].Draw();
+            if(tileset->walkability[i * 16 + j][2] != 0) {
+                addPixmap(_red_square)->setPos(j * 32, i * 32 + 16);
+            }
 
-        // Draw transparent red over the unwalkable tile quadrants
-        for(uint32 i = 0; i < 16; i++) {
-            for(uint32 j = 0; j < 16; j++) {
-                VideoManager->Move(j, i);
-
-                if(tileset->walkability[i * 16 + j][0] != 0) {
-                    _red_square.Draw();
-                }
-
-                VideoManager->MoveRelative(0.5f, 0.0f);
-                if(tileset->walkability[i * 16 + j][1] != 0) {
-                    _red_square.Draw();
-                }
-
-                VideoManager->MoveRelative(-0.5f, 0.5f);
-                if(tileset->walkability[i * 16 + j][2] != 0) {
-                    _red_square.Draw();
-                }
-
-                VideoManager->MoveRelative(0.5f, 0.0f);
-                if(tileset->walkability[i * 16 + j][3] != 0) {
-                    _red_square.Draw();
-                }
+            if(tileset->walkability[i * 16 + j][3] != 0) {
+                addPixmap(_red_square)->setPos(j * 32 + 16, i * 32 + 16);
             }
         }
     }
 
     // Draws the grid that visually seperates each tile in the tileset image
-    VideoManager->DrawGrid(0.0f, 0.0f, 0.5f, 0.5f, Color::black);
+    _DrawGrid();
+
+    update();
 }
 
-
-
-void TilesetDisplay::resizeGL(int /*w*/, int /*h*/)
+void TilesetDisplay::_DrawGrid()
 {
-    VideoManager->SetResolution(512, 512);
-    VideoManager->ApplySettings();
+    for(uint32 y = 0; y < 512; y+=16) {
+        for(uint32 x = 0; x < 512; x+=16) {
+            addLine(x, 0, x, 512, QPen(Qt::DashLine));
+            addLine(0, y, 512, y, QPen(Qt::DashLine));
+        }
+    }
 }
 
-void TilesetDisplay::mousePressEvent(QMouseEvent *evt)
+void TilesetDisplay::resizeScene(int /*w*/, int /*h*/)
+{
+    setSceneRect(0, 0, 512, 512);
+    updateScene();
+}
+
+void TilesetDisplay::mousePressEvent(QGraphicsSceneMouseEvent *evt)
 {
     if (evt->button() == Qt::LeftButton) {
         // Keeps in memory whether the user is adding or removing red squares
@@ -131,7 +123,7 @@ void TilesetDisplay::mousePressEvent(QMouseEvent *evt)
     }
 }
 
-void TilesetDisplay::mouseReleaseEvent(QMouseEvent *evt)
+void TilesetDisplay::mouseReleaseEvent(QGraphicsSceneMouseEvent *evt)
 {
     if (evt->button() == Qt::LeftButton) {
         // Reset the last position to permit drawing again
@@ -140,38 +132,38 @@ void TilesetDisplay::mouseReleaseEvent(QMouseEvent *evt)
     }
 }
 
-void TilesetDisplay::mouseMoveEvent(QMouseEvent *evt)
+void TilesetDisplay::mouseMoveEvent(QGraphicsSceneMouseEvent *evt)
 {
     // Don't deal with the event if the left button isn't included.
     if (evt->buttons() ^= Qt::LeftButton)
         return;
 
+    QPointF pos = evt->scenePos();
     // Don't process clicks outside of the tileset image
-    if((evt->x() < 0) || (evt->y() < 0) || evt->x() >= 512 || evt->y() >= 512)
+    if((pos.x() < 0) || (pos.y() < 0) || pos.x() >= 512 || pos.y() >= 512)
         return;
 
     // Prevent spamming the mouse move event.
-    if (_last_x == (evt->x() / 16) && _last_y == (evt->y() / 16))
+    if (_last_x == (pos.x() / 16) && _last_y == (pos.y() / 16))
         return;
 
-    _last_x = evt->x() / 16;
-    _last_y = evt->y() / 16;
+    _last_x = pos.x() / 16;
+    _last_y = pos.y() / 16;
 
     _UpdateTiles(evt);
-
-    updateGL();
 } // contentsMousePressEvent(...)
 
-void TilesetDisplay::_UpdateTiles(QMouseEvent *evt)
+void TilesetDisplay::_UpdateTiles(QGraphicsSceneMouseEvent *evt)
 {
     if (!tileset->IsInitialized())
         return;
 
+    QPointF pos = evt->scenePos();
     // Determine which tile the user clicked
-    int32 tile_x = evt->x() / 32;
-    int32 x_offset = evt->x() % 32;
-    int32 tile_y = evt->y() / 32;
-    int32 y_offset = evt->y() % 32;
+    int32 tile_x = pos.x() / 32;
+    int32 x_offset = ((int32)pos.x()) % 32;
+    int32 tile_y = pos.y() / 32;
+    int32 y_offset = ((int32)pos.y()) % 32;
 
     int32 tile_index = 0;
 
@@ -186,18 +178,21 @@ void TilesetDisplay::_UpdateTiles(QMouseEvent *evt)
         tile_index = 3;
 
     tileset->walkability[tile_y * 16 + tile_x][tile_index] = _is_adding_collision;
+
+    updateScene();
 }
 
-bool TilesetDisplay::_GetTileCollisionValue(QMouseEvent *evt)
+bool TilesetDisplay::_GetTileCollisionValue(QGraphicsSceneMouseEvent *evt)
 {
     if (!tileset->IsInitialized())
         return false;
 
+    QPointF pos = evt->scenePos();
     // Determine which tile the user clicked
-    int32 tile_x = evt->x() / 32;
-    int32 x_offset = evt->x() % 32;
-    int32 tile_y = evt->y() / 32;
-    int32 y_offset = evt->y() % 32;
+    int32 tile_x = pos.x() / 32;
+    int32 x_offset = ((int32)pos.x()) % 32;
+    int32 tile_y = pos.y() / 32;
+    int32 y_offset = ((int32)pos.y()) % 32;
 
     if((x_offset < 16) && (y_offset < 16)) // Upper left quadrant (index 0)
         return tileset->walkability[tile_y * 16 + tile_x][0];
@@ -228,11 +223,12 @@ TilesetEditor::TilesetEditor(QWidget *parent)
     _exit_pbut = new QPushButton(tr("Exit"), this);
     _exit_pbut->setDefault(true);
 
-    // Create the window
+    // Create the tileset view
     _tset_display = new TilesetDisplay;
-    _tset_display->resize(512, 512);
-    _tset_display->setFixedWidth(512);
-    _tset_display->setFixedHeight(512);
+    _tset_display->setSceneRect(0, 0, 512, 512);
+    _tset_display->setBackgroundBrush(QBrush(Qt::black));
+    _tset_display->graphic_view->setMinimumSize(512, 512);
+    setMinimumSize(600, 600);
 
     // connect button signals
     connect(_new_pbut, SIGNAL(clicked()), this, SLOT(_NewFile()));
@@ -246,7 +242,7 @@ TilesetEditor::TilesetEditor(QWidget *parent)
     _dia_layout->addWidget(_open_pbut, 1, 1);
     _dia_layout->addWidget(_save_pbut, 2, 1);
     _dia_layout->addWidget(_exit_pbut, 3, 1);
-    _dia_layout->addWidget(_tset_display, 0, 0, 3, 1);
+    _dia_layout->addWidget(_tset_display->graphic_view, 0, 0, 3, 1);
 }
 
 
@@ -272,11 +268,16 @@ void TilesetEditor::_NewFile()
     if (filename.isEmpty())
         return;
 
-    if(_tset_display->tileset->New(filename, true) == false)
+    if (!_tset_display->tileset->New(filename, true)) {
         QMessageBox::warning(this, tr("Map Editor"),
                                 tr("Failed to create new tileset."));
+    }
 
-    _tset_display->updateGL();
+    // Set the background image
+    _tset_display->addPixmap(_tset_display->tileset->tiles[0]);
+
+    // Refreshes the scene
+    _tset_display->updateScene();
 }
 
 
@@ -290,11 +291,13 @@ void TilesetEditor::_OpenFile()
     if (file_name.isEmpty())
         return;
 
-    if(_tset_display->tileset->Load(file_name, true) == false)
+    if (!_tset_display->tileset->Load(file_name, true)) {
         QMessageBox::warning(this, tr("Map Editor"),
                                 tr("Failed to load existing tileset."));
+    }
 
-    _tset_display->updateGL();
+    // Refreshes the scene
+    _tset_display->updateScene();
 }
 
 

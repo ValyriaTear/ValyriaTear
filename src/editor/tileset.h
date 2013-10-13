@@ -124,9 +124,10 @@ public:
     **/
     bool Save();
 
-    //! \brief Contains the StillImage tiles of the tileset, used in grid.cpp.
-    // FIXME Turn this into a QT object, so that one can remove the editor dependency upon the videomanager
-    std::vector<vt_video::StillImage> tiles;
+    //! \brief Contains the QPixmap tiles of the tileset, used in grid.cpp.
+    //! \note The QPixmap class is optimized to show pictures on screen,
+    //! but QImage is used at load times at it is better in it.
+    std::vector<QPixmap> tiles;
 
     //! \brief Contains walkability information for each tile.
     std::map<int, std::vector<int32> > walkability;
