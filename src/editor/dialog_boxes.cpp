@@ -94,8 +94,8 @@ MapPropertiesDialog::MapPropertiesDialog
         // Get a reference to the Editor
         Editor *editor = static_cast<Editor *>(parent);
 
-        _height_sbox->setValue(editor->_ed_scrollarea->_map->GetHeight());
-        _width_sbox->setValue(editor->_ed_scrollarea->_map->GetWidth());
+        _height_sbox->setValue(editor->_grid->GetHeight());
+        _width_sbox->setValue(editor->_grid->GetWidth());
     }
 
     // Add all of the aforementioned widgets into a nice-looking grid layout

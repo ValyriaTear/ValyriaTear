@@ -106,7 +106,7 @@ bool Tileset::New(const QString &img_filename, bool one_image)
                 QImage tile = entire_tileset.copy(rectangle);
                 if(!tile.isNull()) {
                     // linearize the tile index
-                    uint32 i = num_rows * col + row;
+                    uint32 i = num_rows * row + col;
                     tiles[i].convertFromImage(tile);
                 } else {
                     qDebug("Image loading error!");
@@ -184,7 +184,7 @@ bool Tileset::Load(const QString &def_filename, bool one_image)
                 QImage tile = entire_tileset.copy(rectangle);
                 if(!tile.isNull()) {
                     // linearize the tile index
-                    uint32 i = num_rows * col + row;
+                    uint32 i = num_rows * row + col;
                     tiles[i].convertFromImage(tile);
                 } else {
                     qDebug("Image loading error!");
