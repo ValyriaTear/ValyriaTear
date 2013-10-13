@@ -27,6 +27,7 @@
 
 #include <QScrollBar>
 #include <QGraphicsView>
+#include <QGraphicsPixmapItem>
 
 using namespace vt_script;
 
@@ -127,6 +128,8 @@ Grid::Grid(QWidget *parent, const QString &name, uint32 width, uint32 height) :
     _graphics_view->setBackgroundBrush(QBrush(Qt::black));
     _graphics_view->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     _graphics_view->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+
+    UpdateScene();
 } // Grid constructor
 
 
@@ -303,6 +306,8 @@ bool Grid::LoadMap()
     }
 
     read_data.CloseFile();
+
+    UpdateScene();
 
     return true;
 } // Grid::LoadMap()
@@ -506,6 +511,8 @@ void Grid::AddLayer(const LayerInfo &layer_info)
 
     // Once done, we can swap the data, replacing the layers with the one inserted.
     _tile_layers.swap(new_layers);
+
+    UpdateScene();
 }
 
 void Grid::DeleteLayer(uint32 layer_id)
@@ -523,6 +530,8 @@ void Grid::DeleteLayer(uint32 layer_id)
         }
         ++layer;
     }
+
+    UpdateScene();
 }
 
 void Grid::InsertRow(uint32 /*tile_index_y*/)
@@ -689,28 +698,26 @@ std::vector<QTreeWidgetItem *> Grid::getLayerItems()
 // Grid class -- protected functions
 ////////////////////////////////////////////////////////////////////////////////
 
-void Grid::drawForeground(QPainter *painter)
+void Grid::UpdateScene()
 {
-    //render();
-
-    /*
-    int32 x, y;                  // tile array loop index
-    int layer_index;
-    int tileset_index;               // index into the tileset_names vector
-    int tile_index;                  // ranges from 0-255
-    int left_tile;
-    int right_tile;
-    int top_tile;
-    int bottom_tile;
-
     if(_initialized == false)
         return;
 
+    int32 x, y;                  // tile array loop index
+    int32 layer_index;
+    int32 tileset_index;               // index into the tileset_names vector
+    int32 tile_index;                  // ranges from 0-255
+    int32 left_tile;
+    int32 right_tile;
+    int32 top_tile;
+    int32 bottom_tile;
+
     // Setup drawing parameters
-    VideoManager->SetCoordSys(0.0f, VideoManager->GetScreenWidth() / TILE_WIDTH,
-                              VideoManager->GetScreenHeight() / TILE_HEIGHT, 0.0f);
-    VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_TOP, VIDEO_BLEND, 0);
-    VideoManager->Clear(Color::black);
+    //VideoManager->SetCoordSys(0.0f, VideoManager->GetScreenWidth() / TILE_WIDTH,
+                              //VideoManager->GetScreenHeight() / TILE_HEIGHT, 0.0f);
+    clear();
+    setSceneRect(0, 0, _width * TILE_WIDTH, _height * TILE_HEIGHT);
+    setBackgroundBrush(QBrush(Qt::gray));
 
     // Setup drawing bounds so only visible tiles are drawn. These bounds are
     // valid for all layers.
@@ -724,10 +731,11 @@ void Grid::drawForeground(QPainter *painter)
     bottom_tile = (bottom_tile < (int32)_height) ? bottom_tile : _height - 1;
 
     // Start drawing from the top left
-    VideoManager->Move(left_tile, top_tile);
-
     x = left_tile;
     y = top_tile;
+
+    uint32 draw_coord_x = left_tile;
+    uint32 draw_coord_y = top_tile;
     while(y <= bottom_tile) {
         for(uint32 layer_id = 0; layer_id < _tile_layers.size(); ++layer_id) {
             // Don't draw the layer if it's not visible
@@ -743,21 +751,23 @@ void Grid::drawForeground(QPainter *painter)
                     tile_index = layer_index;
                 else
                     tile_index = layer_index % (tileset_index * 256);
-                tilesets[tileset_index]->tiles[tile_index].Draw();
+                addPixmap(tilesets[tileset_index]->tiles[tile_index])->setPos(draw_coord_x, draw_coord_y);
             } // a tile exists to draw
 
         }
 
         if(x == right_tile) {
             x = left_tile;
-            y++;
-            VideoManager->MoveRelative(-(right_tile - left_tile), 1.0f);
+            ++y;
+            draw_coord_x = -(right_tile - left_tile);
+            draw_coord_y = 1;
         } else {
-            x++;
-            VideoManager->MoveRelative(1.0f, 0.0f);
+            ++x;
+            draw_coord_x = 1;
+            draw_coord_y = 0;
         }
     }
-
+/*
     // Draw selection rectangle if this mode is active
     if(_select_on) {
         Color blue_selection(0.0f, 0.0f, 255.0f, 0.5f);
@@ -783,19 +793,27 @@ void Grid::drawForeground(QPainter *painter)
             }
         } // iterate through selection layer
     } // selection rectangle must be viewable
-
+*/
     // If grid is toggled on, draw it
     if(_grid_on)
-        VideoManager->DrawGrid(0.0f, 0.0f, 1.0f, 1.0f, Color::black);
-    */
-} // void Grid::paintGL()
+        _DrawGrid();
+    
+} // void Grid::UpdateScene()
 
+void Grid::_DrawGrid()
+{
+    for (uint32 y = 0; y < _height; y+=32) {
+        for (uint32 x = 0; x < _height; x+=32) {
+            addLine(0, y, _width, y, QPen(Qt::DotLine));
+            addLine(x, 0, x, _height, QPen(Qt::DotLine));
+        }
+    }
+}
 
 void Grid::resizeScene(int w, int h)
 {
     setSceneRect(0, 0, w, h);
-    //VideoManager->SetResolution(w, h);
-    //VideoManager->ApplySettings();
-} // Grid::resizeGL(...)
+    UpdateScene();
+} // Grid::resizeScene(...)
 
 } // namespace vt_editor

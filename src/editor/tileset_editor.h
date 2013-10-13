@@ -60,7 +60,7 @@ public:
     QGraphicsView *graphic_view;
 
     // Refreshes the whole image and red rectangles
-    void updateScene();
+    void UpdateScene();
 protected:
     void resizeScene(int w, int h);
 

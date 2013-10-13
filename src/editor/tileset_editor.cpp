@@ -56,7 +56,7 @@ TilesetDisplay::~TilesetDisplay()
     delete graphic_view;
 }
 
-void TilesetDisplay::updateScene()
+void TilesetDisplay::UpdateScene()
 {
     if (!tileset->IsInitialized())
         return;
@@ -109,7 +109,7 @@ void TilesetDisplay::_DrawGrid()
 void TilesetDisplay::resizeScene(int /*w*/, int /*h*/)
 {
     setSceneRect(0, 0, 512, 512);
-    updateScene();
+    UpdateScene();
 }
 
 void TilesetDisplay::mousePressEvent(QGraphicsSceneMouseEvent *evt)
@@ -179,7 +179,7 @@ void TilesetDisplay::_UpdateTiles(QGraphicsSceneMouseEvent *evt)
 
     tileset->walkability[tile_y * 16 + tile_x][tile_index] = _is_adding_collision;
 
-    updateScene();
+    UpdateScene();
 }
 
 bool TilesetDisplay::_GetTileCollisionValue(QGraphicsSceneMouseEvent *evt)
@@ -277,7 +277,7 @@ void TilesetEditor::_NewFile()
     _tset_display->addPixmap(_tset_display->tileset->tiles[0]);
 
     // Refreshes the scene
-    _tset_display->updateScene();
+    _tset_display->UpdateScene();
 }
 
 
@@ -297,7 +297,7 @@ void TilesetEditor::_OpenFile()
     }
 
     // Refreshes the scene
-    _tset_display->updateScene();
+    _tset_display->UpdateScene();
 }
 
 

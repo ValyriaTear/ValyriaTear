@@ -158,11 +158,11 @@ public:
 
     void SetGridOn(bool value)   {
         _grid_on   = value;
-        //updateGL();
+        UpdateScene();
     }
     void SetSelectOn(bool value) {
         _select_on = value;
-        //updateGL();
+        UpdateScene();
     }
     //@}
 
@@ -231,10 +231,8 @@ public:
     // Pointer to the graphic view class, used to display the graphics widgets.
     QGraphicsView* _graphics_view;
 
-protected:
-
     //! \brief Paints the entire map with the video engine.
-    void drawForeground(QPainter* painter);
+    void UpdateScene();
 
 private:
     // Computes the next layer id to put for the givent layer type,
@@ -267,7 +265,10 @@ private:
     *** is concerned.
     **/
     std::vector<std::vector<int32> > _select_layer;
-}; // class Grid : public QGLWidget
+    
+    // Draw the tile grid (actually adds the line to the graphics scene)
+    void _DrawGrid();
+}; // class Grid : public QGraphicsScene
 
 } // namespace vt_editor
 

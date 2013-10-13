@@ -22,6 +22,7 @@
 
 #include <QTableWidgetItem>
 #include <QScrollBar>
+#include <QGraphicsView>
 
 using namespace vt_utils;
 using namespace vt_script;
@@ -359,6 +360,7 @@ void Editor::_FileNew()
 
     _ed_scrollarea->_map->SetInitialized(true);
     _ed_scrollarea->resize(new_map->GetWidth() * TILE_WIDTH, new_map->GetHeight() * TILE_HEIGHT);
+    _ed_scrollarea->_map->UpdateScene();
 
     // Set the splitters sizes
     QList<int> sizes;
@@ -495,6 +497,7 @@ void Editor::_FileOpen()
     _ed_scrollarea->_map->SetInitialized(true);
     _ed_scrollarea->resize(_ed_scrollarea->_map->GetWidth(),
                             _ed_scrollarea->_map->GetHeight());
+    _ed_scrollarea->_map->UpdateScene();
 
     // Set the splitters sizes
     QList<int> sizes;
@@ -1487,7 +1490,7 @@ EditorScrollArea::EditorScrollArea(QWidget *parent, int width, int height) :
     // Create a new map.
     _map = new Grid(viewport(), tr("Untitled"), width, height);
     _map->_ed_scrollarea = this;
-    setWidget((QWidget*)_map->_graphics_view);
+    setWidget(_map->_graphics_view);
 
     // Create menu actions related to the Context menu.
     _insert_row_action = new QAction("Insert row", this);
@@ -1633,7 +1636,7 @@ bool EditorScrollArea::contentsMousePressEvent(QMouseEvent *evt)
     } // switch on tile editing mode
 
     // Draw the changes.
-    _map->update();
+    _map->UpdateScene();
     return true;
 } // void EditorScrollView::contentsMousePressEvent(QMouseEvent* evt)
 
@@ -1729,7 +1732,7 @@ bool EditorScrollArea::contentsMouseMoveEvent(QMouseEvent *evt)
     editor->statusBar()->showMessage(position);
 
     // Draw the changes.
-    _map->update();
+    _map->UpdateScene();
     return true;
 } // void EditorScrollView::contentsMouseMoveEvent(QMouseEvent *evt)
 
@@ -1863,7 +1866,7 @@ bool EditorScrollArea::contentsMouseReleaseEvent(QMouseEvent *evt)
         _moving = false;
 
     // Draw the changes.
-    _map->update();
+    _map->UpdateScene();
     return true;
 } // void EditorScrollView::contentsMouseReleaseEvent(QMouseEvent *evt)
 
