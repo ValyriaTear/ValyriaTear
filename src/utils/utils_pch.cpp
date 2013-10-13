@@ -19,3 +19,8 @@
 
 #include "utils/utils_pch.h"
 
+namespace vt_utils {
+
+bool UTILS_DEBUG = false;
+
+} // namespace utils

@@ -26,8 +26,6 @@
 namespace vt_utils
 {
 
-bool UTILS_DEBUG = false;
-
 std::string Upcase(std::string text)
 {
     std::transform(text.begin(), text.end(), text.begin(), ::toupper);
