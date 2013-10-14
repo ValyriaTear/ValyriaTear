@@ -1,7 +1,7 @@
 Licenses
 ========
 
-Last update: 2013.10.09
+Last update: 2013.10.14
 
 This file is listing all the files licenses from the point of the fork
 from the Allacrost project.
@@ -184,6 +184,7 @@ img/ambient/clouds.png                                          GPLv2+          
 img/ambient/clouds_overworld.png                                GPLv2+                   The Mana World Team + Bertram
 
 img/backdrops/cave_background.png                               CC0                      Ecrivain (OGA)
+img/backdrops/cliff_background.png                              CC by SA 3.0             Sindwiller (OGA) - http://opengameart.org/content/generic-rock-texture
 
 img/backdrops/battle/forest_background.png                      CC by SA 3.0             Tamara Ramsay vectorgurl.com - Ramtam (OGA) - http://opengameart.org/content/forest-background-art
 img/backdrops/battle/forest_background_evening.png              CC by SA 3.0             Tamara Ramsay vectorgurl.com - Ramtam (OGA) - http://opengameart.org/content/forest-background-art
