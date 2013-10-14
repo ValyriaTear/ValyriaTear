@@ -895,32 +895,28 @@ void BootMode::_OnResolution()
 
 void BootMode::_OnResolution640x480()
 {
-    if(VideoManager->GetScreenWidth() != 640 && VideoManager->GetScreenHeight() != 480)
-        _ChangeResolution(640, 480);
+    _ChangeResolution(640, 480);
 }
 
 
 
 void BootMode::_OnResolution800x600()
 {
-    if(VideoManager->GetScreenWidth() != 800 && VideoManager->GetScreenHeight() != 600)
-        _ChangeResolution(800, 600);
+    _ChangeResolution(800, 600);
 }
 
 
 
 void BootMode::_OnResolution1024x768()
 {
-    if(VideoManager->GetScreenWidth() != 1024 && VideoManager->GetScreenHeight() != 768)
-        _ChangeResolution(1024, 768);
+    _ChangeResolution(1024, 768);
 }
 
 
 
 void BootMode::_OnResolution1280x1024()
 {
-    if(VideoManager->GetScreenWidth() != 1280 && VideoManager->GetScreenHeight() != 1024)
-        _ChangeResolution(1280, 1024);
+    _ChangeResolution(1280, 1024);
 }
 
 
@@ -1100,12 +1096,19 @@ void BootMode::_ShowMessageWindow(WAIT_FOR wait)
     _message_window.Show();
 }
 
-void BootMode::_ChangeResolution(int32 width, int32 height)
+bool BootMode::_ChangeResolution(int32 width, int32 height)
 {
+    if (VideoManager->GetScreenWidth() == width &&
+            VideoManager->GetScreenHeight() == height)
+        return false;
+
     VideoManager->SetResolution(width, height);
-    VideoManager->ApplySettings();
+    if (!VideoManager->ApplySettings())
+        return false;
+
     _RefreshVideoOptions();
     _has_modified_settings = true;
+    return true;
 }
 
 void BootMode::_ReloadGUIDefaultSkin()

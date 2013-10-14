@@ -313,8 +313,9 @@ private:
     /** \brief Changes the screen resolution, applies the new settings, and refreshes the video options
     *** \param width The width of the new resolution in pixels
     *** \param height The height of the new resolution in pixels
+    *** \return whether the resolution was applied.
     **/
-    void _ChangeResolution(int32 width, int32 height);
+    bool _ChangeResolution(int32 width, int32 height);
 
     /** \brief Saves the settings to a file specified by the user
     *** \param filename the name of the file for the settings to be saved to, if a blank string is
