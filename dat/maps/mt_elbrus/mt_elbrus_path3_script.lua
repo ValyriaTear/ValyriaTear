@@ -157,7 +157,7 @@ function _CreateCharacters()
     soldier2:SetVisible(false);
     soldier2:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
     Map:AddGroundObject(soldier2);
-    soldier3 = CreateNPCSprite(Map, "Dark Soldier", vt_system.Translate("Soldier"), 0, 0);
+    soldier3 = CreateNPCSprite(Map, "Dark Soldier on horse", vt_system.Translate("Soldier"), 0, 0);
     soldier3:SetVisible(false);
     soldier3:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
     Map:AddGroundObject(soldier3);
@@ -550,9 +550,9 @@ function _CreateEvents()
     event = vt_map.MapTransitionEvent("to mountain path 2bis", "dat/maps/mt_elbrus/mt_elbrus_path2_map.lua",
                                        "dat/maps/mt_elbrus/mt_elbrus_path2_script.lua", "from_path3_chest");
     EventManager:RegisterEvent(event);
-    --event = vt_map.MapTransitionEvent("to mountain path 4", "dat/maps/mt_elbrus/mt_elbrus_path4_map.lua",
-    --                                   "dat/maps/mt_elbrus/mt_elbrus_path4_script.lua", "from_path3");
-    --EventManager:RegisterEvent(event);
+    event = vt_map.MapTransitionEvent("to mountain path 4", "dat/maps/mt_elbrus/mt_elbrus_path4_map.lua",
+                                       "dat/maps/mt_elbrus/mt_elbrus_path4_script.lua", "from_path3");
+    EventManager:RegisterEvent(event);
 
     -- NOTE temp event until what's next is done
     event = vt_map.ScriptedEvent("to be continued", "to_be_continued", "");
@@ -686,10 +686,10 @@ function _CreateEvents()
     event = vt_map.PathMoveSpriteEvent("Soldier1 moves out of map", soldier1, 1, 25, false);
     event:AddEventLinkAtEnd("Make soldier1 disappear");
     EventManager:RegisterEvent(event);
-    event = vt_map.PathMoveSpriteEvent("Soldier2 moves out of map", soldier2, 1, 26, false);
+    event = vt_map.PathMoveSpriteEvent("Soldier2 moves out of map", soldier2, 1, 27, false);
     event:AddEventLinkAtEnd("Make soldier2 disappear");
     EventManager:RegisterEvent(event);
-    event = vt_map.PathMoveSpriteEvent("Soldier3 moves out of map", soldier3, 1, 27, false);
+    event = vt_map.PathMoveSpriteEvent("Soldier3 moves out of map", soldier3, 3, 26, false);
     event:AddEventLinkAtEnd("Make soldier3 disappear");
     EventManager:RegisterEvent(event);
 
@@ -1082,10 +1082,10 @@ map_functions = {
         orlinn_move_next_to_hero_event2:SetDestination(hero:GetXPosition() - 2.0, hero:GetYPosition(), false);
 
         -- Place the soldiers
-        soldier1:SetPosition(16, 25);
+        soldier1:SetPosition(19, 25);
         soldier1:SetDirection(vt_map.MapMode.WEST)
         soldier1:SetVisible(true);
-        soldier2:SetPosition(16, 27);
+        soldier2:SetPosition(19, 27);
         soldier2:SetDirection(vt_map.MapMode.WEST)
         soldier2:SetVisible(true);
         soldier3:SetPosition(14, 26);
@@ -1102,7 +1102,7 @@ map_functions = {
     end,
 
     set_focus_back_on_hero = function()
-        Map:SetCamera(hero, 1500);
+        Map:SetCamera(hero, 1000);
     end,
 
     end_of_dialogue_about_west_gate = function()

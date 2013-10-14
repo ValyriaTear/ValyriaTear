@@ -511,6 +511,21 @@ sprites["Eyeball"] = {
     },
 }
 
+sprites["Dark Soldier on horse"] = {
+    name = vt_system.Translate("Dark Soldier"),
+    coll_half_width = 3.0,
+    coll_height = 3.2,
+    img_half_width = 3.0,
+    img_height = 6.0,
+    movement_speed = ENEMY_SPEED,
+    face_portrait = "img/portraits/npcs/dark_soldier.png",
+
+    -- using special animation files.
+    standard_animations = {
+        idle = "img/sprites/map/npcs/soldier_on_horse_idle.lua",
+        walk = "img/sprites/map/npcs/soldier_on_horse_walk.lua"
+    }
+}
 
 
 function CreateSprite(Map, name, x, y)
