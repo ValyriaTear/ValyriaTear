@@ -41,6 +41,9 @@ EffectSupervisor::EffectSupervisor()
     _info.overlay.y_speed = 0;
     _info.overlay.x_shift = 0;
     _info.overlay.y_shift = 0;
+    _info.overlay.x_parallax = 0.0f;
+    _info.overlay.y_parallax = 0.0f;
+    _info.overlay.is_parallax = false;
 
     // Shake members
     _x_shake = 0.0f;
@@ -95,12 +98,16 @@ void EffectSupervisor::Update(uint32 frame_time)
 
 void EffectSupervisor::_UpdateAmbientOverlay(uint32 frame_time)
 {
-    if(!_info.overlay.active)
+    if(!_info.overlay.active) {
+        // Just reset the parallax values in this case
+        // As they are also used for other parallax effects.
+        _info.overlay.x_parallax = 0.0f;
+        _info.overlay.y_parallax = 0.0f;
         return;
+    }
 
     // Update the shifting
     float elapsed_ms = static_cast<float>(frame_time);
-    //static_cast<float>(vt_system::SystemManager->GetUpdateTime());
     _info.overlay.x_shift += elapsed_ms / 1000 * _info.overlay.x_speed;
     _info.overlay.y_shift += elapsed_ms / 1000 * _info.overlay.y_speed;
 
