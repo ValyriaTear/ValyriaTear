@@ -391,9 +391,7 @@ public:
     *** When this is done, all system timers that are owned by the active game mode are resumed, all timers with
     *** a different owner are paused, and all timers with no owner are ignored.
     **/
-#ifndef EDITOR_BUILD
     void ExamineSystemTimers();
-#endif
 
     /** \brief Retrieves the amount of time that the game should be updated by for time-based movement.
     *** \return The number of milliseconds that have transpired since the last update.

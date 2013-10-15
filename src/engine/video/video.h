@@ -592,13 +592,10 @@ public:
     }
 
     //-- Screen shaking -------------------------------------------------------
-// Avoid a useless dependency on the mode manager for the editor build
-#ifndef EDITOR_BUILD
     //! \brief Returns true if the screen is shaking
     //! \note The function acts as a wrapper for the current game mode effect supervisor
     //! and check for active shaking
     bool IsScreenShaking();
-#endif
 
     //-- Miscellaneous --------------------------------------------------------
 

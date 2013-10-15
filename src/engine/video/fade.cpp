@@ -20,9 +20,7 @@
 
 #include "video.h"
 
-#ifndef EDITOR_BUILD
-#   include "engine/mode_manager.h"
-#endif
+#include "engine/mode_manager.h"
 
 using namespace vt_utils;
 using namespace vt_mode_manager;
@@ -87,12 +85,11 @@ void ScreenFader::Update(uint32 time)
 {
     if(!_is_fading)
         return;
-    // TODO: Remove the video manager need from the editor build
-#ifndef EDITOR_BUILD // Avoid a useless dependency on the mode manager for the editor build
+
     // Don't update fading while in pause
     if(ModeManager->GetGameType() == MODE_MANAGER_PAUSE_MODE)
         return;
-#endif
+
     // Check for fading finish condition
     if(_current_time >= _end_time) {
         _current_color = _final_color;

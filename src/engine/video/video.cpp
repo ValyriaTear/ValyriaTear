@@ -24,10 +24,7 @@
 
 #include "utils/utils_strings.h"
 
-// Avoid a useless dependency on the mode manager for the editor build
-#ifndef EDITOR_BUILD
-#   include "engine/mode_manager.h"
-#endif
+#include "engine/mode_manager.h"
 
 using namespace vt_utils;
 using namespace vt_video::private_video;
@@ -957,8 +954,6 @@ void VideoEngine::DrawText(const ustring &text, float x, float y, const Color &c
     Text()->Draw(text, text_style);
 }
 
-// Avoid a useless dependency on the mode manager for the editor build
-#ifndef EDITOR_BUILD
 bool VideoEngine::IsScreenShaking()
 {
     vt_mode_manager::GameMode *gm = vt_mode_manager::ModeManager->GetTop();
@@ -974,7 +969,6 @@ bool VideoEngine::IsScreenShaking()
     effects.GetShakingOffsets(_x_shake, _y_shake);
     return true;
 }
-#endif
 
 void VideoEngine::SetGamma(float value)
 {

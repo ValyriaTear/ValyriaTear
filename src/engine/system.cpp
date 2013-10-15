@@ -23,9 +23,7 @@
 
 #include "utils/utils_strings.h"
 
-#ifndef EDITOR_BUILD
-#   include "mode_manager.h"
-#endif
+#include "mode_manager.h"
 
 using namespace vt_utils;
 using namespace vt_script;
@@ -457,7 +455,6 @@ void SystemEngine::UpdateTimers()
 }
 
 // Avoid a useless dependency on the mode manager for the editor build
-#ifndef EDITOR_BUILD
 void SystemEngine::ExamineSystemTimers()
 {
     GameMode* active_mode = ModeManager->GetTop();
@@ -473,7 +470,6 @@ void SystemEngine::ExamineSystemTimers()
             (*i)->Pause();
     }
 }
-#endif
 
 void SystemEngine::WaitForThread(Thread *thread)
 {

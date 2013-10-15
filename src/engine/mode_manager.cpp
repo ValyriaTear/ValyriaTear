@@ -313,7 +313,6 @@ void ModeEngine::Update()
         // Reset the fade out member
         _fade_out_finished = false;
 
-#ifndef EDITOR_BUILD // Needed when building using QT-Creator
         // We can now fade in, or not
         VideoManager->_TransitionalFadeIn(_fade_in ? FADE_IN_OUT_TIME : 0);
 
@@ -322,7 +321,6 @@ void ModeEngine::Update()
 
         // Re-initialize the game update timer so that the new active game mode does not begin with any update time to process
         SystemManager->InitializeUpdateTimer();
-#endif
     } // if (_state_change == true)
 
     // Call the Update function on the top stack mode (the active game mode)
