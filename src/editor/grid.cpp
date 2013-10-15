@@ -30,6 +30,8 @@
 #include <QScrollBar>
 #include <QGraphicsView>
 #include <QGraphicsPixmapItem>
+#include <QGraphicsSceneMouseEvent>
+#include <QGraphicsSceneContextMenuEvent>
 
 using namespace vt_script;
 
@@ -133,6 +135,7 @@ Grid::Grid(QWidget *parent, const QString &name, uint32 width, uint32 height) :
     _graphics_view->setRenderHints(QPainter::Antialiasing);
     _graphics_view->setBackgroundBrush(QBrush(Qt::black));
     _graphics_view->setScene(this);
+    _graphics_view->setMouseTracking(true);
 
     UpdateScene();
 
@@ -834,53 +837,20 @@ void Grid::Resize(int w, int h)
     UpdateScene();
 } // Grid::Resize(...)
 
-bool Grid::event(QEvent *evt)
-{
-    // Recreate a mouse move event in case of simple hovering
-    if(evt->type() == QEvent::HoverMove) {
-        QHoverEvent *hover_event = dynamic_cast<QHoverEvent *>(evt);
-        QMouseEvent *mouse_event = new QMouseEvent(QEvent::MouseMove,
-                hover_event->pos(),
-                Qt::NoButton,
-                Qt::MouseButtons(),
-                Qt::KeyboardModifiers());
-        return contentsMouseMoveEvent(mouse_event);
-    }
-
-    QMouseEvent *mouse_event = dynamic_cast<QMouseEvent *>(evt);
-    if(mouse_event) {
-        switch(mouse_event->type()) {
-        default:
-            break;
-        case QEvent::MouseButtonPress:
-            return contentsMousePressEvent(mouse_event);
-            break;
-        case QEvent::MouseButtonRelease:
-            return contentsMouseReleaseEvent(mouse_event);
-            break;
-        case QEvent::MouseMove:
-            return contentsMouseMoveEvent(mouse_event);
-            break;
-        }
-    }
-
-    return QGraphicsScene::event(evt);
-}
-
-bool Grid::contentsMousePressEvent(QMouseEvent *evt)
+void Grid::mousePressEvent(QGraphicsSceneMouseEvent *evt)
 {
     // get reference to Editor
     Editor *editor = static_cast<Editor *>(_graphics_view->topLevelWidget());
 
     // Takes in account the current scrolling
-    int32 x = evt->x() + _graphics_view->horizontalScrollBar()->value();
-    int32 y = evt->y() + _graphics_view->verticalScrollBar()->value();
+    int32 x = evt->scenePos().x();
+    int32 y = evt->scenePos().y();
 
     // don't draw outside the map
     if((y / TILE_HEIGHT) >= static_cast<uint32>(GetHeight()) ||
             (x / TILE_WIDTH)  >= static_cast<uint32>(GetWidth()) ||
             x < 0 || y < 0)
-        return true;
+        return;
 
     SetChanged(true);
 
@@ -927,26 +897,25 @@ bool Grid::contentsMousePressEvent(QMouseEvent *evt)
 
     // Draw the changes.
     UpdateScene();
-    return true;
-} // void EditorScrollView::contentsMousePressEvent(QMouseEvent* evt)
+    return;
+} // void Grid::mousePressEvent(QGraphicsSceneMouseEvent *evt)
 
 
-
-bool Grid::contentsMouseMoveEvent(QMouseEvent *evt)
+void Grid::mouseMoveEvent(QGraphicsSceneMouseEvent *evt)
 {
     // get reference to Editor
     Editor *editor = static_cast<Editor *>(_graphics_view->topLevelWidget());
 
     // Takes in account the current scrolling
-    int32 x = evt->x() + _graphics_view->horizontalScrollBar()->value();
-    int32 y = evt->y() + _graphics_view->verticalScrollBar()->value();
+    int32 x = evt->scenePos().x();
+    int32 y = evt->scenePos().y();
 
     // don't draw outside the map
     if((y / TILE_HEIGHT) >= static_cast<uint32>(GetHeight()) ||
             (x / TILE_WIDTH)  >= static_cast<uint32>(GetWidth()) ||
             x < 0 || y < 0) {
         editor->statusBar()->clearMessage();
-        return true;
+        return;
     }
 
     int32 index_x = x / TILE_WIDTH;
@@ -1023,19 +992,19 @@ bool Grid::contentsMouseMoveEvent(QMouseEvent *evt)
 
     // Draw the changes.
     UpdateScene();
-    return true;
-} // void EditorScrollView::contentsMouseMoveEvent(QMouseEvent *evt)
+    return;
+} // void Grid::mouseMoveEvent(QGraphicsSceneMouseEvent *evt)
 
 
 
-bool Grid::contentsMouseReleaseEvent(QMouseEvent *evt)
+void Grid::mouseReleaseEvent(QGraphicsSceneMouseEvent *evt)
 {
     // get reference to Editor so we can access the undo stack
     Editor *editor = static_cast<Editor *>(_graphics_view->topLevelWidget());
 
     // Takes in account the current scrolling
-    int32 mouse_x = evt->x() + _graphics_view->horizontalScrollBar()->value();
-    int32 mouse_y = evt->y() + _graphics_view->verticalScrollBar()->value();
+    int32 mouse_x = evt->scenePos().x();
+    int32 mouse_y = evt->scenePos().y();
 
     switch(_tile_mode) {
     case PAINT_TILE: { // wrap up painting tiles
@@ -1157,21 +1126,25 @@ bool Grid::contentsMouseReleaseEvent(QMouseEvent *evt)
 
     // Draw the changes.
     UpdateScene();
-    return true;
-} // void EditorScrollView::contentsMouseReleaseEvent(QMouseEvent *evt)
+    return;
+} // void Grid::mouseReleaseEvent(QGraphicsSceneMouseEvent *evt)
 
 
 
-void Grid::contentsContextMenuEvent(QContextMenuEvent *evt)
+void Grid::contextMenuEvent(QGraphicsSceneContextMenuEvent *evt)
 {
+    // Takes in account the current scrolling
+    int32 mouse_x = evt->scenePos().x();
+    int32 mouse_y = evt->scenePos().y();
+
     // Don't popup a menu outside the map.
-    if((evt->y() / TILE_HEIGHT) >= static_cast<uint32>(GetHeight()) ||
-            (evt->x() / TILE_WIDTH)  >= static_cast<uint32>(GetWidth()) ||
-            evt->x() < 0 || evt->y() < 0)
+    if ((mouse_y / TILE_HEIGHT) >= static_cast<uint32>(GetHeight()) ||
+            (mouse_x / TILE_WIDTH)  >= static_cast<uint32>(GetWidth()) ||
+            mouse_x < 0 || mouse_y < 0)
         return;
 
-    _tile_index_x = evt->x() / TILE_WIDTH;
-    _tile_index_y = evt->y() / TILE_HEIGHT;
+    _tile_index_x = mouse_x / TILE_WIDTH;
+    _tile_index_y = mouse_y / TILE_HEIGHT;
     _context_menu->exec(QCursor::pos());
     (static_cast<Editor *>(_graphics_view->topLevelWidget()))->statusBar()->clearMessage();
 }
