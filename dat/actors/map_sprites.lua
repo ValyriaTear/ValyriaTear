@@ -33,7 +33,8 @@ sprites["Bronann"] = {
         sleeping = "img/sprites/map/characters/bronann_dead.lua",
         kneeling = "img/sprites/map/characters/bronann_kneeling.lua",
         kneeling_left = "img/sprites/map/characters/bronann_kneeling_left.lua",
-        jump_south = "img/sprites/map/characters/bronann_jump_south.lua"
+        jump_south = "img/sprites/map/characters/bronann_jump_south.lua",
+        attack_south = "img/sprites/map/characters/bronann_attack_south.lua"
     }
 }
 
