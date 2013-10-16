@@ -307,7 +307,6 @@ private:
     // Draw the tile grid (actually adds the line to the graphics scene)
     void _DrawGrid();
 
-    // Ex-Scroll area
     //! Gets currently edited layer
     std::vector<std::vector<int32> >& GetCurrentLayer();
 

@@ -312,7 +312,6 @@ void Editor::_FileNew()
     if(_grid)
         delete _grid;
     _grid = new Grid(_ed_splitter, tr("Untitled"), new_map->GetWidth(), new_map->GetHeight());
-    _grid->Resize(new_map->GetWidth() * TILE_WIDTH, new_map->GetHeight() * TILE_HEIGHT);
     // Set default edit mode
     _grid->_layer_id = 0;
     _grid->_tile_mode  = PAINT_TILE;
@@ -365,9 +364,6 @@ void Editor::_FileNew()
     } // iterate through all possible tilesets
     new_map_progress->setValue(checked_items);
 
-    _grid->SetInitialized(true);
-    _grid->UpdateScene();
-
     // Set the splitters sizes
     QList<int> sizes;
     sizes << 600 << 200;
@@ -410,6 +406,19 @@ void Editor::_FileNew()
     sky->setText(2, tr("Sky"));
     sky->setText(3, tr("sky"));
 
+    // Adds the corresponding layers in the grid class memory
+    std::vector<Layer> layers = _grid->GetLayers();
+    for (uint32 i = 0; i < 4; ++i) {
+        Layer layer;
+        layer.layer_type = i < 3 ? GROUND_LAYER : SKY_LAYER;
+        QString name = tr("Background %1").arg(i + 1);
+        layer.name = name.toStdString();
+        layer.Resize(new_map->GetWidth(), new_map->GetHeight());
+        layer.Fill(-1); // Make the layer empty
+
+        layers.push_back(layer);
+    }
+
     _ed_layer_view->adjustSize();
     // Fix a bug in the width computation of the icon
     _ed_layer_view->setColumnWidth(1, 20);
@@ -423,6 +432,9 @@ void Editor::_FileNew()
     delete new_map_progress;
 
     delete new_map;
+
+    _grid->SetInitialized(true);
+    _grid->UpdateScene();
 
     statusBar()->showMessage(tr("New map created"), 5000);
 } // void Editor::_FileNew()
