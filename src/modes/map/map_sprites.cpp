@@ -128,19 +128,26 @@ bool VirtualSprite::_HandleWallEdges(float& next_pos_x, float& next_pos_y, float
     float edge_next_pos_x = 0.0f;
     float edge_next_pos_y = 0.0f;
 
+    // Cap the actual distance moved when on an edge to a sane value according to the following checks.
+    // Without this cap, the distance moved is too high when running and/or with a high walk
+    // speed and can cause glitches.
+    float edge_distance_moved = distance_moved;
+    if (edge_distance_moved > 0.09f)
+        edge_distance_moved = 0.09f;
+
     ObjectSupervisor *object_supervisor = MapMode::CurrentInstance()->GetObjectSupervisor();
 
     if(direction & NORTH) {
         // Test both the north-east and north west cases
         if(!object_supervisor->IsStaticCollision(position.x + coll_half_width,
                                                  position.y - coll_height - distance_moved)) {
-            edge_next_pos_x = position.x + distance_moved;
+            edge_next_pos_x = position.x + edge_distance_moved;
             edge_next_pos_y = position.y;
             on_edge = true;
         }
         else if (!object_supervisor->IsStaticCollision(position.x - coll_half_width,
                                                        position.y - coll_height - distance_moved)) {
-            edge_next_pos_x = position.x - distance_moved;
+            edge_next_pos_x = position.x - edge_distance_moved;
             edge_next_pos_y = position.y;
             on_edge = true;
         }
@@ -149,13 +156,13 @@ bool VirtualSprite::_HandleWallEdges(float& next_pos_x, float& next_pos_y, float
         // Test both the south-east and south west cases
         if(!object_supervisor->IsStaticCollision(position.x + coll_half_width,
                                                  position.y + distance_moved)) {
-            edge_next_pos_x = position.x + distance_moved;
+            edge_next_pos_x = position.x + edge_distance_moved;
             edge_next_pos_y = position.y;
             on_edge = true;
         }
         else if (!object_supervisor->IsStaticCollision(position.x - coll_half_width,
                                                        position.y + distance_moved)) {
-            edge_next_pos_x = position.x - distance_moved;
+            edge_next_pos_x = position.x - edge_distance_moved;
             edge_next_pos_y = position.y;
             on_edge = true;
         }
@@ -165,13 +172,13 @@ bool VirtualSprite::_HandleWallEdges(float& next_pos_x, float& next_pos_y, float
         if(!object_supervisor->IsStaticCollision(position.x + coll_half_width + distance_moved,
                                                  position.y - coll_height)) {
             edge_next_pos_x = position.x;
-            edge_next_pos_y = position.y - distance_moved;
+            edge_next_pos_y = position.y - edge_distance_moved;
             on_edge = true;
         }
         else if (!object_supervisor->IsStaticCollision(position.x + coll_half_width + distance_moved,
                                                        position.y)) {
             edge_next_pos_x = position.x;
-            edge_next_pos_y = position.y + distance_moved;
+            edge_next_pos_y = position.y + edge_distance_moved;
             on_edge = true;
         }
     }
@@ -180,13 +187,13 @@ bool VirtualSprite::_HandleWallEdges(float& next_pos_x, float& next_pos_y, float
         if(!object_supervisor->IsStaticCollision(position.x - coll_half_width - distance_moved,
                                                  position.y - coll_height)) {
             edge_next_pos_x = position.x;
-            edge_next_pos_y = position.y - distance_moved;
+            edge_next_pos_y = position.y - edge_distance_moved;
             on_edge = true;
         }
         else if (!object_supervisor->IsStaticCollision(position.x - coll_half_width - distance_moved,
                                                        position.y)) {
             edge_next_pos_x = position.x;
-            edge_next_pos_y = position.y + distance_moved;
+            edge_next_pos_y = position.y + edge_distance_moved;
             on_edge = true;
         }
     }
