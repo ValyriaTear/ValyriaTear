@@ -121,20 +121,6 @@ enum VIDEO_DRAW_FLAGS {
     VIDEO_DRAW_FLAGS_TOTAL = 14
 };
 
-
-//! \brief Specifies the target window environement where the video engine will run
-enum VIDEO_TARGET {
-    VIDEO_TARGET_INVALID = -1,
-
-    //! Represents a SDL window
-    VIDEO_TARGET_SDL_WINDOW = 0,
-
-    //! Represents a QT widget
-    VIDEO_TARGET_QT_WIDGET  = 1,
-
-    VIDEO_TARGET_TOTAL = 2
-};
-
 //! \brief The standard screen resolution
 const float	VIDEO_STANDARD_RES_WIDTH  = 1024.0f;
 const float	VIDEO_STANDARD_RES_HEIGHT = 768.0f;
@@ -191,15 +177,6 @@ public:
     //@}
 
     // ---------- General methods
-
-    /** \brief Sets the target window environment where the video engine will be used
-    *** \param target The window target, which can be VIDEO_TARGET_SDL_WINDOW or VIDEO_TARGET_QT_WIDGET
-    *** \note The video engien's default target is a SDL window, so if that's what you desire then this
-    *** function does not need to be called.
-    *** \note You must set the target before calling the SingletonInitialize() function. Any invocations
-    *** of the SetTarget function after SingletonInitialize has been called will result in no effect.
-    **/
-    void SetTarget(VIDEO_TARGET target);
 
     /** \brief Sets one to multiple flags which control drawing orientation (flip, align, blending, etc). Simply pass
     *** \param first_flag The first (and possibly only) draw flag to set
@@ -759,9 +736,6 @@ private:
     bool _gl_color_array_is_activated;
     //! \brief Holds whether the GL_VERTEX_ARRAY state is activated. Used to optimize the drawing logic
     bool _gl_texture_coord_array_is_activated;
-
-    //! \brief The type of window target that the video manager will operate on (SDL window or QT widget)
-    VIDEO_TARGET _target;
 
     //! \brief The width and height of the current screen, in pixels
     int32  _screen_width, _screen_height;

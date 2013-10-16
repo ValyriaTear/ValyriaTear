@@ -83,7 +83,6 @@ VideoEngine::VideoEngine():
     _gl_vertex_array_is_activated(false),
     _gl_color_array_is_activated(false),
     _gl_texture_coord_array_is_activated(false),
-    _target(VIDEO_TARGET_SDL_WINDOW),
     _screen_width(0),
     _screen_height(0),
     _fullscreen(false),
@@ -264,18 +263,6 @@ void VideoEngine::SetInitialResolution(int32 width, int32 height)
 // VideoEngine class - General methods
 //-----------------------------------------------------------------------------
 
-void VideoEngine::SetTarget(VIDEO_TARGET target)
-{
-    if(target <= VIDEO_TARGET_INVALID || target >= VIDEO_TARGET_TOTAL) {
-        IF_PRINT_WARNING(VIDEO_DEBUG) << "tried to set video engine to an invalid target: " << target << std::endl;
-        return;
-    }
-
-    _target = target;
-}
-
-
-
 void VideoEngine::SetDrawFlags(int32 first_flag, ...)
 {
     int32 flag = first_flag;
@@ -415,88 +402,75 @@ void VideoEngine::GetPixelSize(float &x, float &y)
 
 bool VideoEngine::ApplySettings()
 {
-    if(_target == VIDEO_TARGET_SDL_WINDOW) {
-        // Losing GL context, so unload images first
-        if(TextureManager && TextureManager->UnloadTextures() == false) {
-            IF_PRINT_WARNING(VIDEO_DEBUG) << "failed to delete OpenGL textures during a context change" << std::endl;
-        }
+    // Losing GL context, so unload images first
+    if(TextureManager && TextureManager->UnloadTextures() == false) {
+        IF_PRINT_WARNING(VIDEO_DEBUG) << "failed to delete OpenGL textures during a context change" << std::endl;
+    }
 
-        int32 flags = SDL_OPENGL;
+    int32 flags = SDL_OPENGL;
 
-        if(_temp_fullscreen == true) {
-            flags |= SDL_FULLSCREEN;
-        }
+    if(_temp_fullscreen == true) {
+        flags |= SDL_FULLSCREEN;
+    }
 
-        SDL_GL_SetAttribute(SDL_GL_RED_SIZE, 8);
-        SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE, 8);
-        SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE, 8);
+    SDL_GL_SetAttribute(SDL_GL_RED_SIZE, 8);
+    SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE, 8);
+    SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE, 8);
+    SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 16);
+    SDL_GL_SetAttribute(SDL_GL_ALPHA_SIZE, 8);
+    SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
+    SDL_GL_SetAttribute(SDL_GL_MULTISAMPLEBUFFERS, 2);
+    SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, 4);
+    SDL_GL_SetAttribute(SDL_GL_SWAP_CONTROL, 1);
+
+    if(SDL_SetVideoMode(_temp_width, _temp_height, 0, flags) == false) {
+        // RGB values of 1 for each and 8 for depth seemed to be sufficient.
+        // 565 and 16 here because it works with them on this computer.
+        // NOTE from prophile: this ought to be changed to 5558
+        SDL_GL_SetAttribute(SDL_GL_RED_SIZE, 5);
+        SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE, 6);
+        SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE, 5);
         SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 16);
-        SDL_GL_SetAttribute(SDL_GL_ALPHA_SIZE, 8);
-        SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
-        SDL_GL_SetAttribute(SDL_GL_MULTISAMPLEBUFFERS, 2);
-        SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, 4);
+        SDL_GL_SetAttribute(SDL_GL_ALPHA_SIZE, 0);
+        SDL_GL_SetAttribute(SDL_GL_MULTISAMPLEBUFFERS, 0);
+        SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, 0);
         SDL_GL_SetAttribute(SDL_GL_SWAP_CONTROL, 1);
 
         if(SDL_SetVideoMode(_temp_width, _temp_height, 0, flags) == false) {
-            // RGB values of 1 for each and 8 for depth seemed to be sufficient.
-            // 565 and 16 here because it works with them on this computer.
-            // NOTE from prophile: this ought to be changed to 5558
-            SDL_GL_SetAttribute(SDL_GL_RED_SIZE, 5);
-            SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE, 6);
-            SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE, 5);
-            SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 16);
-            SDL_GL_SetAttribute(SDL_GL_ALPHA_SIZE, 0);
-            SDL_GL_SetAttribute(SDL_GL_MULTISAMPLEBUFFERS, 0);
-            SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, 0);
-            SDL_GL_SetAttribute(SDL_GL_SWAP_CONTROL, 1);
+            IF_PRINT_WARNING(VIDEO_DEBUG) << "SDL_SetVideoMode() failed with error: " << SDL_GetError() << std::endl;
 
-            if(SDL_SetVideoMode(_temp_width, _temp_height, 0, flags) == false) {
-                IF_PRINT_WARNING(VIDEO_DEBUG) << "SDL_SetVideoMode() failed with error: " << SDL_GetError() << std::endl;
+            _temp_fullscreen = _fullscreen;
+            _temp_width = _screen_width;
+            _temp_height = _screen_height;
 
-                _temp_fullscreen = _fullscreen;
-                _temp_width = _screen_width;
-                _temp_height = _screen_height;
-
-                if(TextureManager && _screen_width > 0) {  // Test to see if we already had a valid video mode
-                    TextureManager->ReloadTextures();
-                }
-                return false;
+            if(TextureManager && _screen_width > 0) {  // Test to see if we already had a valid video mode
+                TextureManager->ReloadTextures();
             }
+            return false;
         }
-
-        // Clear GL state, after SDL_SetVideoMode() for OSX compatibility
-        DisableBlending();
-        DisableTexture2D();
-        DisableAlphaTest();
-        DisableStencilTest();
-        DisableScissoring();
-        DisableVertexArray();
-        DisableColorArray();
-        DisableTextureCoordArray();
-
-        // Turn off writing to the depth buffer
-        glDepthMask(GL_FALSE);
-
-        _screen_width = _temp_width;
-        _screen_height = _temp_height;
-        _fullscreen = _temp_fullscreen;
-
-        if(TextureManager)
-            TextureManager->ReloadTextures();
-
-        return true;
-    } // if (_target == VIDEO_TARGET_SDL_WINDOW)
-
-    // Used by the editor, which uses QT4
-    else if(_target == VIDEO_TARGET_QT_WIDGET) {
-        _screen_width = _temp_width;
-        _screen_height = _temp_height;
-        _fullscreen = _temp_fullscreen;
-
-        return true;
     }
 
-    return false;
+    // Clear GL state, after SDL_SetVideoMode() for OSX compatibility
+    DisableBlending();
+    DisableTexture2D();
+    DisableAlphaTest();
+    DisableStencilTest();
+    DisableScissoring();
+    DisableVertexArray();
+    DisableColorArray();
+    DisableTextureCoordArray();
+
+    // Turn off writing to the depth buffer
+    glDepthMask(GL_FALSE);
+
+    _screen_width = _temp_width;
+    _screen_height = _temp_height;
+    _fullscreen = _temp_fullscreen;
+
+    if(TextureManager)
+        TextureManager->ReloadTextures();
+
+    return true;
 } // bool VideoEngine::ApplySettings()
 
 //-----------------------------------------------------------------------------
