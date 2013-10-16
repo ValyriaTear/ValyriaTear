@@ -1,7 +1,7 @@
 Licenses
 ========
 
-Last update: 2013.10.14
+Last update: 2013.10.15
 
 This file is listing all the files licenses from the point of the fork
 from the Allacrost project.
@@ -178,7 +178,8 @@ dat/tilesets/overworld_tileset.lua                              GPLv2+          
 img/*.lua (including subfolders)                                GPLv2+                   Bertram
 
 img/ambient/dark.png                                            CC0                      Bertram
-img/ambient/fog.png                                             GPLv2+                   Bertram
+img/ambient/fog.png                                             CC by SA 3.0             Bertram
+img/ambient/snow_fog.png                                        CC by SA 3.0             Bertram
 img/ambient/sandstorm.png                                       GPLv2+                   The Mana World Team + Bertram
 img/ambient/clouds.png                                          GPLv2+                   The Mana World Team + Bertram
 img/ambient/clouds_overworld.png                                GPLv2+                   The Mana World Team + Bertram
@@ -575,6 +576,9 @@ img/sprites/map/objects/bush1.png                               CC by SA 3.0    
 img/sprites/map/objects/bush2.png                               CC by SA 3.0             Zabin (OGA) + Variation from Bertram
 img/sprites/map/objects/bush3.png                               CC by SA 3.0             Zabin (OGA) + Variation from Bertram
 img/sprites/map/objects/bush4.png                               CC by SA 3.0             Zabin (OGA) + Variation from Bertram
+img/sprites/map/objects/bridge_down.png                         CC by SA 3.0             Xenodora (OGA) - http://opengameart.org/content/lpc-style-wood-bridges-and-steel-flooring
+img/sprites/map/objects/bridge_middle.png                       CC by SA 3.0             Xenodora (OGA) - http://opengameart.org/content/lpc-style-wood-bridges-and-steel-flooring
+img/sprites/map/objects/bridge_up.png                           CC by SA 3.0             Xenodora (OGA) - http://opengameart.org/content/lpc-style-wood-bridges-and-steel-flooring
 img/sprites/map/objects/cat1.png                                CC By SA 3.0             Strawheart (OGA)  http://mtsids.com/
 img/sprites/map/objects/campfire.png                            CC by SA 3.0             Jetrel + Zabin (OGA) - http://opengameart.org/content/camp-fire-animation-for-rpgs-finished
 img/sprites/map/objects/chair1.png                              GPLv2+                   Allacrost
@@ -643,7 +647,7 @@ img/tilesets/harrvah_house_interior.png                         GPLv2           
 img/tilesets/mountain_house_interior.png                        GPLv2                    Allacrost + From Jetrel's mockups + Bertram
 img/tilesets/mountain_house_exterior2.png                       CC by SA 3.0             Allacrost + adapted other Circle 2D graphics from Daniel Cook (lostgarden.com)
 img/tilesets/mountain_landscape.png                             CC by 3.0                Daniel Cook + Jetrel's mockups + Bertram + Zabin (OGA) modification and additions + Saphy (themanaworld.com) high grass
-img/tilesets/village_exterior.png                               CC by SA 3.0             C. Nilsson for the top-left three flowers (OGA), Guido Bos (OGA) for the other flowers, Daniel Eddeland (OGA) for everything else, except for the horizontal bridge that I (Bertram) made based upon his style.
+img/tilesets/village_exterior.png                               CC by SA 3.0             C. Nilsson for the top-left three flowers (OGA), Guido Bos (OGA) for the other flowers, Daniel Eddeland (OGA) for everything else, except for the horizontal bridge that I (Bertram) made based upon his style, Xenodora did the wood bridges - http://opengameart.org/content/lpc-style-wood-bridges-and-steel-flooring
 img/tilesets/water_tileset.png                                  GPLv2+/3                 From C. Nilsson for the water lilies with transparent background (OGA/CC by SA 3.0 or GPLv3) + LPC Team for the water lights (OGA/CC by SA 3.0 or GPLv3), Leonard Pabin (Len) (The Mana World) GPLv2 for the stones, the water original tiles, and the water lili with a dark blue background + Bertram's small variations - see here: http://opengameart.org/lpc-art-entries
 img/tilesets/wood_tileset.png                                   CC by SA 3.0             Daniel Cook + Jetrel's mockups + Bertram additions + Zabin (OGA) additions.
 img/tilesets/snow_tileset.png                                   CC by SA 3.0             Daniel Cook + Jetrel's mockups + Zabin (OGA) + snow tree and ground from Yd (OGA)

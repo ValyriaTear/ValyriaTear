@@ -64,6 +64,30 @@ objects["Bread1"] = {
     img_height = 2.0
 }
 
+objects["Bridge1_up"] = {
+    animation_filename = "img/sprites/map/objects/bridge_up.lua",
+    coll_half_width = 2.0,
+    coll_height = 2.0,
+    img_half_width = 2.0,
+    img_height = 2.0
+}
+
+objects["Bridge1_middle"] = {
+    animation_filename = "img/sprites/map/objects/bridge_middle.lua",
+    coll_half_width = 2.0,
+    coll_height = 2.0,
+    img_half_width = 2.0,
+    img_height = 2.0
+}
+
+objects["Bridge1_down"] = {
+    animation_filename = "img/sprites/map/objects/bridge_down.lua",
+    coll_half_width = 2.0,
+    coll_height = 2.0,
+    img_half_width = 2.0,
+    img_height = 2.0
+}
+
 objects["Bush1"] = {
     animation_filename = "img/sprites/map/objects/bush1.lua",
     coll_half_width = 1.9,

@@ -40,7 +40,7 @@ function Load(m)
     Map.unlimited_stamina = false;
 
     _CreateCharacters();
-    --_CreateObjects();
+    _CreateObjects();
     --_CreateEnemies();
 
     -- Set the camera focus on hero
@@ -51,8 +51,7 @@ function Load(m)
     _CreateEvents();
     _CreateZones();
 
-    -- TODO: Add snowy fog overlay
-    --Map:GetEffectSupervisor():EnableAmbientOverlay("img/ambient/clouds.png", 5.0, 5.0, true);
+    Map:GetEffectSupervisor():EnableAmbientOverlay("img/ambient/snow_fog.png", 30.0, 10.0, true);
     Map:GetScriptSupervisor():AddScript("dat/maps/common/at_night.lua");
 
     -- Snowing
@@ -116,37 +115,12 @@ function _CreateCharacters()
     Map:AddGroundObject(orlinn);
 end
 
--- The heal particle effect map object
-local heal_effect = {};
-
 function _CreateObjects()
     local object = {}
     local npc = {}
     local dialogue = {}
     local text = {}
     local event = {}
-
-    Map:AddSavePoint(85, 81);
-
-    -- Load the spring heal effect.
-    heal_effect = vt_map.ParticleObject("dat/effects/particles/heal_particle.lua", 0, 0);
-    heal_effect:SetObjectID(Map.object_supervisor:GenerateObjectID());
-    heal_effect:Stop(); -- Don't run it until the character heals itself
-    Map:AddGroundObject(heal_effect);
-
-    -- Heal point
-    npc = CreateSprite(Map, "Butterfly", 60, 70);
-    npc:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
-    npc:SetVisible(false);
-    npc:SetName(""); -- Unset the speaker name
-    Map:AddGroundObject(npc);
-    dialogue = vt_map.SpriteDialogue();
-    text = vt_system.Translate("Your party feels better...");
-    dialogue:AddLineEvent(text, npc, "Heal event", "");
-    DialogueManager:AddDialogue(dialogue);
-    npc:AddDialogueReference(dialogue);
-    npc = CreateObject(Map, "Layna Statue", 60, 70);
-    Map:AddGroundObject(npc);
 
 
     -- Objects array
@@ -164,6 +138,37 @@ function _CreateObjects()
         Map:AddGroundObject(object);
     end
 
+    -- Create the bridge
+    object = CreateObject(Map, "Bridge1_down", 36.5, 39);
+    Map:AddFlatGroundObject(object);
+    object = CreateObject(Map, "Bridge1_middle", 36.5, 37);
+    Map:AddFlatGroundObject(object);
+    object = CreateObject(Map, "Bridge1_middle", 36.5, 35);
+    Map:AddFlatGroundObject(object);
+    object = CreateObject(Map, "Bridge1_middle", 36.5, 33);
+    Map:AddFlatGroundObject(object);
+    object = CreateObject(Map, "Bridge1_middle", 36.5, 31);
+    Map:AddFlatGroundObject(object);
+    object = CreateObject(Map, "Bridge1_middle", 36.5, 29);
+    Map:AddFlatGroundObject(object);
+    object = CreateObject(Map, "Bridge1_middle", 36.5, 27);
+    Map:AddFlatGroundObject(object);
+    object = CreateObject(Map, "Bridge1_middle", 36.5, 25);
+    Map:AddFlatGroundObject(object);
+    object = CreateObject(Map, "Bridge1_middle", 36.5, 23);
+    Map:AddFlatGroundObject(object);
+    object = CreateObject(Map, "Bridge1_middle", 36.5, 21);
+    Map:AddFlatGroundObject(object);
+    object = CreateObject(Map, "Bridge1_middle", 36.5, 19);
+    Map:AddFlatGroundObject(object);
+    object = CreateObject(Map, "Bridge1_middle", 36.5, 17);
+    Map:AddFlatGroundObject(object);
+    object = CreateObject(Map, "Bridge1_middle", 36.5, 15);
+    Map:AddFlatGroundObject(object);
+    object = CreateObject(Map, "Bridge1_middle", 36.5, 13);
+    Map:AddFlatGroundObject(object);
+    object = CreateObject(Map, "Bridge1_up", 36.5, 11);
+    Map:AddFlatGroundObject(object);
 end
 
 function _CreateEnemies()
@@ -266,41 +271,8 @@ end
 
 -- Map Custom functions
 -- Used through scripted events
-
--- Effect time used when applying the heal light effect
-local heal_effect_time = 0;
-local heal_color = vt_video.Color(0.0, 0.0, 1.0, 1.0);
-
 map_functions = {
 
-    heal_party = function()
-        hero:SetMoving(false);
-        -- Should be sufficient to heal anybody
-        GlobalManager:GetActiveParty():AddHitPoints(10000);
-        GlobalManager:GetActiveParty():AddSkillPoints(10000);
-        Map:SetStamina(10000);
-        AudioManager:PlaySound("snd/heal_spell.wav");
-        heal_effect:SetPosition(hero:GetXPosition(), hero:GetYPosition());
-        heal_effect:Start();
-        heal_effect_time = 0;
-    end,
-
-    heal_done = function()
-        heal_effect_time = heal_effect_time + SystemManager:GetUpdateTime();
-
-        if (heal_effect_time < 300.0) then
-            heal_color:SetAlpha(heal_effect_time / 300.0 / 3.0);
-            Map:GetEffectSupervisor():EnableLightingOverlay(heal_color);
-            return false;
-        end
-
-        if (heal_effect_time < 1000.0) then
-            heal_color:SetAlpha(((1000.0 - heal_effect_time) / 700.0) / 3.0);
-            Map:GetEffectSupervisor():EnableLightingOverlay(heal_color);
-            return false;
-        end
-        return true;
-    end,
 
     set_scene_state = function()
         Map:PushState(vt_map.MapMode.STATE_SCENE);
