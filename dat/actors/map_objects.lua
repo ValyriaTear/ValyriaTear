@@ -352,6 +352,14 @@ objects["Rock1"] = {
     img_height = 1.93
 }
 
+objects["Rock1 snow"] = {
+    animation_filename = "img/sprites/map/objects/rock1_snow.lua",
+    coll_half_width = 1.0,
+    coll_height = 1.64,
+    img_half_width = 1.0,
+    img_height = 2.0
+}
+
 objects["Rock2"] = {
     animation_filename = "img/sprites/map/objects/rock2.lua",
     coll_half_width = 0.9,
@@ -456,12 +464,36 @@ objects["Tree Big1"] = {
     img_height = 8.0
 }
 
+objects["Tree Big1 snow"] = {
+    animation_filename = "img/sprites/map/objects/tree_big1_snow.lua",
+    coll_half_width = 3.0,
+    coll_height = 4.0,
+    img_half_width = 3.0,
+    img_height = 8.0
+}
+
 objects["Tree Big2"] = {
     animation_filename = "img/sprites/map/objects/tree_big2.lua",
     coll_half_width = 2.0,
     coll_height = 3.4,
     img_half_width = 2.0,
     img_height = 6.8
+}
+
+objects["Tree Big2 snow"] = {
+    animation_filename = "img/sprites/map/objects/tree_big2_snow.lua",
+    coll_half_width = 2.0,
+    coll_height = 3.5,
+    img_half_width = 2.0,
+    img_height = 7.06
+}
+
+objects["Tree Big2 snow2"] = {
+    animation_filename = "img/sprites/map/objects/tree_big2_snow2.lua",
+    coll_half_width = 2.0,
+    coll_height = 3.5,
+    img_half_width = 2.0,
+    img_height = 7.0
 }
 
 objects["Tree Little1"] = {
@@ -504,8 +536,24 @@ objects["Tree Small1"] = {
     img_height = 4.87
 }
 
+objects["Tree Small1 snow"] = {
+    animation_filename = "img/sprites/map/objects/tree_small1_snow.lua",
+    coll_half_width = 1.93,
+    coll_height = 2.43,
+    img_half_width = 1.93,
+    img_height = 5.125
+}
+
 objects["Tree Small2"] = {
     animation_filename = "img/sprites/map/objects/tree_small2.lua",
+    coll_half_width = 3.0,
+    coll_height = 3.0,
+    img_half_width = 3.0,
+    img_height = 6.0
+}
+
+objects["Tree Small2 snow"] = {
+    animation_filename = "img/sprites/map/objects/tree_small2_snow.lua",
     coll_half_width = 3.0,
     coll_height = 3.0,
     img_half_width = 3.0,
@@ -606,6 +654,22 @@ objects["Well"] = {
     coll_height = 3.20,
     img_half_width = 2.43,
     img_height = 4.56
+}
+
+objects["Wood sign"] = {
+    animation_filename = "img/sprites/map/objects/wood_sign.lua",
+    coll_half_width = 1.0,
+    coll_height = 2.5,
+    img_half_width = 1.0,
+    img_height = 3.18
+}
+
+objects["Wood sign snow"] = {
+    animation_filename = "img/sprites/map/objects/wood_sign_snow.lua",
+    coll_half_width = 1.0,
+    coll_height = 2.5,
+    img_half_width = 1.0,
+    img_height = 3.62
 }
 
 objects["Wooden Sword1"] = {
