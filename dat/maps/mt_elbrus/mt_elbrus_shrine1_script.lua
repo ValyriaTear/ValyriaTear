@@ -11,7 +11,7 @@ map_subname = "Underpass"
 
 -- The music file used as default background music on this map.
 -- Other musics will have to handled through scripting.
-music_filename = ""
+music_filename = "mus/mountain_shrine.ogg"
 
 -- c++ objects instances
 local Map = {};
