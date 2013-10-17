@@ -24,7 +24,7 @@ function Initialize(map_instance)
     if (Map.camera:GetYPosition() >= 70) then
     offset_y = 0;
     elseif (Map.camera:GetYPosition() <= 10) then
-        offset_y = -(1024 - 768);
+        offset_y = 1024 - 768;
     end
 end
 

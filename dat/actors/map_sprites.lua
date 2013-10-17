@@ -34,7 +34,8 @@ sprites["Bronann"] = {
         kneeling = "img/sprites/map/characters/bronann_kneeling.lua",
         kneeling_left = "img/sprites/map/characters/bronann_kneeling_left.lua",
         jump_south = "img/sprites/map/characters/bronann_jump_south.lua",
-        attack_south = "img/sprites/map/characters/bronann_attack_south.lua"
+        attack_south = "img/sprites/map/characters/bronann_attack_south.lua",
+        laughing = "img/sprites/map/characters/bronann_laughing_unarmed.lua"
     }
 }
 
@@ -75,7 +76,8 @@ sprites["Kalya"] = {
     custom_animations = {
         kneeling = "img/sprites/map/characters/kalya_kneeling.lua",
         struggling = "img/sprites/map/characters/kalya_struggling.lua",
-        jump_south = "img/sprites/map/characters/kalya_jump_south.lua"
+        jump_south = "img/sprites/map/characters/kalya_jump_south.lua",
+        laughing = "img/sprites/map/characters/kalya_laughing.lua"
     }
 }
 
@@ -142,6 +144,11 @@ sprites["Orlinn"] = {
     standard_animations = {
         idle = "img/sprites/map/npcs/story/orlinn_idle.lua",
         walk = "img/sprites/map/npcs/story/orlinn_walk.lua"
+    },
+
+    -- using standard (one direction only) animation files.
+    custom_animations = {
+        laughing = "img/sprites/map/npcs/story/orlinn_laughing.lua",
     }
 }
 

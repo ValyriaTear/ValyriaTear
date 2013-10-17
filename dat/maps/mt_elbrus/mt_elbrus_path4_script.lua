@@ -11,7 +11,7 @@ map_subname = "Mountain bridge"
 
 -- The music file used as default background music on this map.
 -- Other musics will have to handled through scripting.
-music_filename = "mus/awareness_el_corleo.ogg"
+music_filename = "snd/wind.ogg"
 
 -- c++ objects instances
 local Map = {};
@@ -33,6 +33,11 @@ local main_sprite_name = "";
 local soldier1 = {};
 local soldier2 = {};
 local soldier3 = {};
+
+-- An actual array of objects
+local bridge_middle_parts = {}
+
+local blocking_bridge = {}
 
 -- the main map loading code
 function Load(m)
@@ -70,6 +75,20 @@ function Load(m)
         hero:SetMoving(false);
         EventManager:StartEvent("Snowing Dialogue", 1000);
     end
+
+    -- If the bridge has fallen, hide it and block the way
+    if (GlobalManager:GetEventValue("story", "mt_elbrus_bridge_cut_event") == 1) then
+        -- Hide the bridge's parts
+        for i, my_object in ipairs(bridge_middle_parts) do
+            my_object:SetPosition(0, 0);
+            my_object:SetVisible(false);
+        end
+        blocking_bridge:SetCollisionMask(vt_map.MapMode.WALL_COLLISION);
+    end
+
+    -- Preloads certain sounds
+    AudioManager:LoadSound("snd/sword_swipe.wav", Map);
+    AudioManager:LoadSound("snd/footstep_grass2.wav", Map);
 end
 
 -- the map update function handles checks done on each game tick.
@@ -97,9 +116,9 @@ function _CreateCharacters()
     elseif (GlobalManager:GetPreviousLocation() == "from_path3") then
         hero:SetDirection(vt_map.MapMode.NORTH);
         hero:SetPosition(10.0, 90.0);
-    elseif (GlobalManager:GetPreviousLocation() == "from_mountain_grotto_entrance") then
+    elseif (GlobalManager:GetPreviousLocation() == "from_shrine_entrance") then
         hero:SetDirection(vt_map.MapMode.SOUTH);
-        hero:SetPosition(50.0, 10.0);
+        hero:SetPosition(40.0, 7.0);
     end
 
     Map:AddGroundObject(hero);
@@ -135,9 +154,6 @@ function _CreateCharacters()
     Map:AddGroundObject(soldier3);
 end
 
--- An actual array of objects
-local bridge_middle_parts = {}
-
 function _CreateObjects()
     local object = {}
     local npc = {}
@@ -145,12 +161,18 @@ function _CreateObjects()
     local text = {}
     local event = {}
 
--- Treasure box
+    -- Treasure box
     local chest = CreateTreasure(Map, "elbrus_path4_chest1", "Wood_Chest1", 9, 62);
     if (chest ~= nil) then
         chest:AddObject(1001, 1); -- Minor Elixir, in case something went wrong during the Harlequin battle
         Map:AddGroundObject(chest);
     end
+
+    -- Bridge blocker
+    blocking_bridge = CreateObject(Map, "Rock1", 36.5, 13);
+    blocking_bridge:SetVisible(false);
+    blocking_bridge:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
+    Map:AddGroundObject(blocking_bridge);
 
     -- Objects array
     local map_objects = {
@@ -244,6 +266,16 @@ function _CreateEvents()
     event = vt_map.ChangeDirectionSpriteEvent("Kalya looks south", kalya, vt_map.MapMode.SOUTH);
     EventManager:RegisterEvent(event);
     event = vt_map.LookAtSpriteEvent("Orlinn looks at Kalya", orlinn, kalya);
+    EventManager:RegisterEvent(event);
+    event = vt_map.LookAtSpriteEvent("Bronann looks at Kalya", hero, kalya);
+    EventManager:RegisterEvent(event);
+
+    -- cant't go back event
+    dialogue = vt_map.SpriteDialogue();
+    text = vt_system.Translate("We can't go back now...");
+    dialogue:AddLine(text, hero);
+    DialogueManager:AddDialogue(dialogue);
+    event = vt_map.DialogueEvent("Can't go back dialogue", dialogue);
     EventManager:RegisterEvent(event);
 
     -- Snowing! event
@@ -386,7 +418,7 @@ function _CreateEvents()
     dialogue = vt_map.SpriteDialogue();
     text = vt_system.Translate("Bronann!");
     dialogue:AddLineEmote(text, kalya, "exclamation");
-    text = vt_system.Translate("Let's cut those ropes!");
+    text = vt_system.Translate("I'll cut those ropes!");
     dialogue:AddLine(text, hero);
     DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Dialogue about cutting bridge", dialogue);
@@ -397,8 +429,16 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("The hero cuts the bridge's ropes");
     EventManager:RegisterEvent(event);
 
-    event = vt_map.AnimateSpriteEvent("The hero cuts the bridge's ropes", hero, "attack_south", -1); -- default time: (375ms)
+    event = vt_map.AnimateSpriteEvent("The hero cuts the bridge's ropes", hero, "attack_south", -1); -- -1 = default time: (375ms)
+    event:AddEventLinkAtEnd("Sword sound");
+    event:AddEventLinkAtEnd("Bridge starting to fall sound", 300);
     event:AddEventLinkAtEnd("The bridge falls apart");
+    EventManager:RegisterEvent(event);
+
+    event = vt_map.SoundEvent("Sword sound", "snd/sword_swipe.wav");
+    EventManager:RegisterEvent(event);
+
+    event = vt_map.SoundEvent("Bridge starting to fall sound", "snd/footstep_grass2.wav");
     EventManager:RegisterEvent(event);
 
     event = vt_map.ScriptedEvent("The bridge falls apart", "init_bridge_break", "bridge_break_update")
@@ -410,23 +450,121 @@ function _CreateEvents()
     dialogue:AddLineEmote(text, kalya, "sweat drop");
     DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("The party relaxes", dialogue);
-    --event:AddEventLinkAtEnd("Set focus on soldiers2");
+    event:AddEventLinkAtEnd("Set focus on soldiers2");
     EventManager:RegisterEvent(event);
 
-    --event:AddEventLinkAtEnd("End of dialogue about snow");
+    event = vt_map.ScriptedEvent("Set focus on soldiers2", "set_focus_on_soldiers", "set_focus_update")
+    event:AddEventLinkAtEnd("The soldiers threaten the party");
+    EventManager:RegisterEvent(event);
+
+    event = vt_map.LookAtSpriteEvent("Soldier2 looks at Soldier1", soldier2, soldier1);
+    EventManager:RegisterEvent(event);
+
+    dialogue = vt_map.SpriteDialogue();
+    text = vt_system.Translate("Damn!!");
+    dialogue:AddLine(text, soldier1);
+    text = vt_system.Translate("The Master won't be happy with this...");
+    dialogue:AddLineEvent(text, soldier2, "Soldier2 looks at Soldier1", "");
+    text = vt_system.Translate("You won't get away so easily... We will catch you sooner or later...");
+    dialogue:AddLineEmote(text, soldier1, "sweat drop");
+    DialogueManager:AddDialogue(dialogue);
+    event = vt_map.DialogueEvent("The soldiers threaten the party", dialogue);
+    event:AddEventLinkAtEnd("Set focus on Bronann2");
+    EventManager:RegisterEvent(event);
+
+    event = vt_map.ScriptedEvent("Set focus on Bronann2", "set_focus_on_bronann", "set_focus_update")
+    event:AddEventLinkAtEnd("The party relaxes 2");
+    event:AddEventLinkAtEnd("The hero laughs");
+    event:AddEventLinkAtEnd("Kalya laughs");
+    event:AddEventLinkAtEnd("Orlinn laughs");
+    EventManager:RegisterEvent(event);
+
+    event = vt_map.AnimateSpriteEvent("The hero laughs", hero, "laughing", 0); -- 0 = infinite time.
+    EventManager:RegisterEvent(event);
+    event = vt_map.AnimateSpriteEvent("Kalya laughs", kalya, "laughing", 0); -- infinite time.
+    EventManager:RegisterEvent(event);
+    event = vt_map.AnimateSpriteEvent("Orlinn laughs", orlinn, "laughing", 0); -- infinite time.
+    EventManager:RegisterEvent(event);
+
+    dialogue = vt_map.SpriteDialogue();
+    text = vt_system.Translate("Hurray! Those idiots will have a hard time catching us now!");
+    dialogue:AddLine(text, orlinn);
+    text = vt_system.Translate("Indeed! They've been had!");
+    dialogue:AddLine(text, hero);
+    text = vt_system.Translate("Who are the little brats now, eh?");
+    dialogue:AddLine(text, kalya);
+    DialogueManager:AddDialogue(dialogue);
+    event = vt_map.DialogueEvent("The party relaxes 2", dialogue);
+    event:AddEventLinkAtEnd("Set focus on soldiers3");
+    EventManager:RegisterEvent(event);
+
+    event = vt_map.ScriptedEvent("Set focus on soldiers3", "set_focus_on_soldiers", "set_focus_update")
+    event:AddEventLinkAtEnd("The soldiers retreat");
+    EventManager:RegisterEvent(event);
+
+    event = vt_map.ScriptedEvent("The party stops laughing", "stop_party_animation", "")
+    EventManager:RegisterEvent(event);
+
+    dialogue = vt_map.SpriteDialogue();
+    text = vt_system.Translate("Let's go back and tell the others...");
+    dialogue:AddLine(text, soldier1);
+    text = vt_system.Translate("Yes, Sir...");
+    dialogue:AddLineEvent(text, soldier2, "Soldier2 looks at Soldier1", "");
+    DialogueManager:AddDialogue(dialogue);
+    event = vt_map.DialogueEvent("The soldiers retreat", dialogue);
+    event:AddEventLinkAtEnd("The party stops laughing");
+    event:AddEventLinkAtEnd("Set focus on Bronann3");
+    event:AddEventLinkAtEnd("Soldier1 goes back");
+    event:AddEventLinkAtEnd("Soldier2 goes back");
+    event:AddEventLinkAtEnd("Soldier3 goes back");
+    EventManager:RegisterEvent(event);
+
+    event = vt_map.PathMoveSpriteEvent("Soldier1 goes back", soldier1, 41.5, 68, false);
+    EventManager:RegisterEvent(event);
+    event = vt_map.PathMoveSpriteEvent("Soldier2 goes back", soldier2, 45.5, 73, false);
+    EventManager:RegisterEvent(event);
+    event = vt_map.PathMoveSpriteEvent("Soldier3 goes back", soldier3, 51.5, 72, false);
+    EventManager:RegisterEvent(event);
+
+    event = vt_map.ScriptedEvent("Set focus on Bronann3", "set_focus_on_bronann_slow", "set_focus_update")
+    event:AddEventLinkAtEnd("The party wonders what to do");
+    EventManager:RegisterEvent(event);
+
+    dialogue = vt_map.SpriteDialogue();
+    text = vt_system.Translate("They're gone... We should move on before they actually find a way to cross the gap.");
+    dialogue:AddLineEvent(text, kalya, "Bronann looks at Kalya", "");
+    DialogueManager:AddDialogue(dialogue);
+    event = vt_map.DialogueEvent("The party wonders what to do", dialogue);
+    event:AddEventLinkAtEnd("Orlinn goes back to party2");
+    event:AddEventLinkAtEnd("Kalya goes back to party2");
+    EventManager:RegisterEvent(event);
+
+    orlinn_move_back_to_hero_event2 = vt_map.PathMoveSpriteEvent("Orlinn goes back to party2", orlinn, hero, false);
+    EventManager:RegisterEvent(orlinn_move_back_to_hero_event2);
+
+    kalya_move_back_to_hero_event2 = vt_map.PathMoveSpriteEvent("Kalya goes back to party2", kalya, hero, false);
+    kalya_move_back_to_hero_event2:AddEventLinkAtEnd("End of cutting the bridge Event");
+    EventManager:RegisterEvent(kalya_move_back_to_hero_event2);
+
+    event = vt_map.ScriptedEvent("End of cutting the bridge Event", "cut_the_bridge_event_end", "");
+    EventManager:RegisterEvent(event);
 end
 
 -- zones
 local to_shrine_zone = {};
 local bridge_south_zone = {};
 local bridge_middle_zone = {};
+local to_path3_zone = {};
 
 -- Create the different map zones triggering events
 function _CreateZones()
 
     -- N.B.: left, right, top, bottom
-    to_shrine_zone = vt_map.CameraZone(40, 55, 0, 2);
+    to_shrine_zone = vt_map.CameraZone(39, 41, 3, 5);
     Map:AddZone(to_shrine_zone);
+    to_path3_zone = vt_map.CameraZone(48, 64, 78, 80);
+    Map:AddZone(to_path3_zone);
+
     bridge_south_zone = vt_map.CameraZone(33, 39, 39, 41);
     Map:AddZone(bridge_south_zone);
     bridge_middle_zone = vt_map.CameraZone(33, 39, 24, 26);
@@ -439,16 +577,18 @@ function _CheckZones()
     if (to_shrine_zone:IsCameraEntering() == true) then
         hero:SetMoving(false);
         EventManager:StartEvent("to mountain shrine entrance");
-    elseif (bridge_south_zone:IsCameraEntering() == true and Map:CurrentState() ~= vt_map.MapMode.STATE_SCENE) then
+    elseif (bridge_south_zone:IsCameraEntering() == true and Map:CurrentState() == vt_map.MapMode.STATE_EXPLORE) then
         if (GlobalManager:GetEventValue("story", "mt_elbrus_bridge_dialogue") ~= 1) then
             EventManager:StartEvent("Afraid of the bridge Dialogue");
         end
-    elseif (bridge_middle_zone:IsCameraEntering() == true and Map:CurrentState() ~= vt_map.MapMode.STATE_SCENE) then
+    elseif (bridge_middle_zone:IsCameraEntering() == true and Map:CurrentState() == vt_map.MapMode.STATE_EXPLORE) then
         if (GlobalManager:GetEventValue("story", "mt_elbrus_bridge_cut_event") ~= 1) then
             EventManager:StartEvent("Cut the bridge Event");
         end
+    elseif (to_path3_zone:IsCameraEntering() == true and Map:CurrentState() == vt_map.MapMode.STATE_EXPLORE) then
+        hero:SetMoving(false);
+        EventManager:StartEvent("Can't go back dialogue");
     end
-
 end
 
 local bridge_parts_time = 0;
@@ -529,6 +669,9 @@ map_functions = {
     set_focus_on_bronann = function()
         Map:SetCamera(hero, 1000);
     end,
+    set_focus_on_bronann_slow = function()
+        Map:SetCamera(hero, 2000);
+    end,
 
     set_focus_update = function()
         if (Map:IsCameraMoving() == true) then
@@ -594,7 +737,7 @@ map_functions = {
             end
         end
 
-        if (total_bridge_time > 3000) then
+        if (total_bridge_time > 2500) then
             -- Hide the bridge's parts
             for i, my_object in ipairs(bridge_middle_parts) do
                 my_object:SetPosition(0, 0);
@@ -606,5 +749,31 @@ map_functions = {
         else
             return false;
         end
+    end,
+
+    stop_party_animation = function(sprite)
+        -- Stops the laughing animation in that particular case
+        EventManager:TerminateAllEvents(hero);
+        EventManager:TerminateAllEvents(kalya);
+        EventManager:TerminateAllEvents(orlinn);
+    end,
+
+    cut_the_bridge_event_end = function()
+        Map:PopState();
+        kalya:SetPosition(0, 0);
+        kalya:SetVisible(false);
+        kalya:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
+        orlinn:SetPosition(0, 0);
+        orlinn:SetVisible(false);
+        orlinn:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
+
+        -- Reload the hero back to default
+        hero:ReloadSprite(main_sprite_name);
+
+        -- Actually block the player's bridge access.
+        blocking_bridge:SetCollisionMask(vt_map.MapMode.WALL_COLLISION);
+
+        -- Set event as done
+        GlobalManager:SetEventValue("story", "mt_elbrus_bridge_cut_event", 1);
     end,
 }
