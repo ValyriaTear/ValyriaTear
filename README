@@ -24,7 +24,7 @@ You'll then be able to play by typing: 'src/valyriatear'
 Windows:
 A Code::Blocks project file is also provided when compiling under Windows.
 In that case, you might need the dependencies and headers files that can be downloaded at:
-https://dl.dropbox.com/s/et9x2e73r6etbta/valyriatear-win32-depends-2012.08.30.zip?dl=1
+http://sourceforge.net/projects/valyriatear/files/win32-depends/valyriatear-win32-depends-sdl1.2-2012.08.30.zip/download
 
 To build on Windows with Visual Studio 2012, do this:
 1.) git clone https://github.com/authenticate/ValyriaTear-VS2012-Dependencies.git
