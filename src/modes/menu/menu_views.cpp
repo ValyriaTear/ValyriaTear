@@ -192,7 +192,7 @@ void InventoryWindow::_InitCharSelect()
     _char_select.SetDimensions(360.0f, 432.0f, 1, 4, 1, 4);
     _char_select.SetCursorOffset(-50.0f, -6.0f);
     _char_select.SetTextStyle(TextStyle("text20"));
-    _char_select.SetHorizontalWrapMode(VIDEO_WRAP_MODE_SHIFTED);
+    _char_select.SetHorizontalWrapMode(VIDEO_WRAP_MODE_STRAIGHT);
     _char_select.SetVerticalWrapMode(VIDEO_WRAP_MODE_STRAIGHT);
     _char_select.SetOptionAlignment(VIDEO_X_LEFT, VIDEO_Y_CENTER);
 
@@ -217,7 +217,7 @@ void InventoryWindow::_InitCategory()
     _item_categories.SetTextStyle(TextStyle("text20"));
 
     _item_categories.SetCursorOffset(-52.0f, -20.0f);
-    _item_categories.SetHorizontalWrapMode(VIDEO_WRAP_MODE_SHIFTED);
+    _item_categories.SetHorizontalWrapMode(VIDEO_WRAP_MODE_STRAIGHT);
     _item_categories.SetVerticalWrapMode(VIDEO_WRAP_MODE_STRAIGHT);
     _item_categories.SetOptionAlignment(VIDEO_X_CENTER, VIDEO_Y_CENTER);
 
@@ -791,7 +791,7 @@ void PartyWindow::_InitCharSelect()
     _char_select.SetDimensions(360.0f, 432.0f, 1, 4, 1, 4);
     _char_select.SetCursorOffset(-50.0f, -6.0f);
     _char_select.SetTextStyle(TextStyle("text20"));
-    _char_select.SetHorizontalWrapMode(VIDEO_WRAP_MODE_SHIFTED);
+    _char_select.SetHorizontalWrapMode(VIDEO_WRAP_MODE_STRAIGHT);
     _char_select.SetVerticalWrapMode(VIDEO_WRAP_MODE_STRAIGHT);
     _char_select.SetOptionAlignment(VIDEO_X_LEFT, VIDEO_Y_CENTER);
 
@@ -799,7 +799,7 @@ void PartyWindow::_InitCharSelect()
     _second_char_select.SetDimensions(360.0f, 432.0f, 1, 4, 1, 4);
     _second_char_select.SetCursorOffset(-50.0f, -6.0f);
     _second_char_select.SetTextStyle(TextStyle("text20"));
-    _second_char_select.SetHorizontalWrapMode(VIDEO_WRAP_MODE_SHIFTED);
+    _second_char_select.SetHorizontalWrapMode(VIDEO_WRAP_MODE_STRAIGHT);
     _second_char_select.SetVerticalWrapMode(VIDEO_WRAP_MODE_STRAIGHT);
     _second_char_select.SetOptionAlignment(VIDEO_X_LEFT, VIDEO_Y_CENTER);
 
@@ -1163,7 +1163,7 @@ void SkillsWindow::_InitCharSelect()
     _char_select.SetDimensions(360.0f, 432.0f, 1, 4, 1, 4);
     _char_select.SetCursorOffset(-50.0f, -6.0f);
     _char_select.SetTextStyle(TextStyle("text20"));
-    _char_select.SetHorizontalWrapMode(VIDEO_WRAP_MODE_SHIFTED);
+    _char_select.SetHorizontalWrapMode(VIDEO_WRAP_MODE_STRAIGHT);
     _char_select.SetVerticalWrapMode(VIDEO_WRAP_MODE_STRAIGHT);
     _char_select.SetOptionAlignment(VIDEO_X_LEFT, VIDEO_Y_CENTER);
 
@@ -1187,7 +1187,7 @@ void SkillsWindow::_InitSkillsCategories()
     _skills_categories.SetDimensions(448.0f, 30.0f, SKILL_CATEGORY_SIZE, 1, SKILL_CATEGORY_SIZE, 1);
     _skills_categories.SetTextStyle(TextStyle("text20"));
     _skills_categories.SetCursorOffset(-52.0f, -20.0f);
-    _skills_categories.SetHorizontalWrapMode(VIDEO_WRAP_MODE_SHIFTED);
+    _skills_categories.SetHorizontalWrapMode(VIDEO_WRAP_MODE_STRAIGHT);
     _skills_categories.SetVerticalWrapMode(VIDEO_WRAP_MODE_STRAIGHT);
     _skills_categories.SetOptionAlignment(VIDEO_X_CENTER, VIDEO_Y_CENTER);
 
@@ -1580,7 +1580,7 @@ void EquipWindow::_InitEquipmentList()
     _equip_list.SetTextStyle(TextStyle("text20"));
 
     _equip_list.SetCursorOffset(-52.0f, -20.0f);
-    _equip_list.SetHorizontalWrapMode(VIDEO_WRAP_MODE_SHIFTED);
+    _equip_list.SetHorizontalWrapMode(VIDEO_WRAP_MODE_STRAIGHT);
     _equip_list.SetVerticalWrapMode(VIDEO_WRAP_MODE_STRAIGHT);
     _equip_list.SetOptionAlignment(VIDEO_X_LEFT, VIDEO_Y_CENTER);
     // Update the equipment list
@@ -1604,7 +1604,7 @@ void EquipWindow::_InitCharSelect()
     _char_select.SetDimensions(360.0f, 432.0f, 1, 4, 1, 4);
     _char_select.SetCursorOffset(-50.0f, -6.0f);
     _char_select.SetTextStyle(TextStyle("text20"));
-    _char_select.SetHorizontalWrapMode(VIDEO_WRAP_MODE_SHIFTED);
+    _char_select.SetHorizontalWrapMode(VIDEO_WRAP_MODE_STRAIGHT);
     _char_select.SetVerticalWrapMode(VIDEO_WRAP_MODE_STRAIGHT);
     _char_select.SetOptionAlignment(VIDEO_X_LEFT, VIDEO_Y_CENTER);
 
@@ -1632,7 +1632,7 @@ void EquipWindow::_InitEquipmentSelect()
     _equip_select.SetTextStyle(TextStyle("text20"));
 
     _equip_select.SetCursorOffset(-132.0f, -20.0f);
-    _equip_select.SetHorizontalWrapMode(VIDEO_WRAP_MODE_SHIFTED);
+    _equip_select.SetHorizontalWrapMode(VIDEO_WRAP_MODE_STRAIGHT);
     _equip_select.SetVerticalWrapMode(VIDEO_WRAP_MODE_STRAIGHT);
     _equip_select.SetOptionAlignment(VIDEO_X_LEFT, VIDEO_Y_CENTER);
 
