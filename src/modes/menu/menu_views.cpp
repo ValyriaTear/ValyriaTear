@@ -121,7 +121,10 @@ void CharacterWindow::Draw()
 // InventoryWindow Class
 ////////////////////////////////////////////////////////////////////////////////
 
-static const ustring inventory_help_message = UTranslate("Select an item to Equip or Use.");
+//! help message
+static ustring inventory_help_message;
+static ustring cannot_equip;
+static ustring item_use;
 
 InventoryWindow::InventoryWindow() :
     _active_box(ITEM_ACTIVE_NONE),
@@ -145,6 +148,12 @@ InventoryWindow::InventoryWindow() :
     _description.SetTextStyle(TextStyle("text20"));
     _description.SetDisplayMode(VIDEO_TEXT_INSTANT);
     _description.SetTextAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
+
+    // We update it here to permit reloading it in case the language has changed
+    // since the game start.
+    inventory_help_message = UTranslate("Select an item to Equip or Use.");
+    cannot_equip = UTranslate("This character cannot equip this item.");
+    item_use = UTranslate("Select a character to use the item on.");
 
 } // void InventoryWindow::InventoryWindow
 
@@ -568,9 +577,6 @@ void InventoryWindow::_UpdateSelection()
             break;
     }
 
-    // Prepare the equipment help message
-    const static ustring cannot_equip = UTranslate("This character cannot equip this item.");
-    const static ustring item_use = UTranslate("Select a character to use the item on.");
     if (_is_equipment && !_can_equip)
         MenuMode::CurrentInstance()->_help_information.SetDisplayText(cannot_equip);
     else // standard items
@@ -736,6 +742,9 @@ void InventoryWindow::_DrawBottomInfo()
 // PartyWindow Class
 ////////////////////////////////////////////////////////////////////////////////
 
+static ustring change_position_message;
+static ustring change_formation_message;
+
 PartyWindow::PartyWindow() :
     _char_select_active(FORM_ACTIVE_NONE),
     _focused_def_icon(NULL),
@@ -750,6 +759,10 @@ PartyWindow::PartyWindow() :
         GlobalCharacter* ch = GlobalManager->GetActiveParty()->GetCharacterAtIndex(i);
         _full_portraits.push_back(ch->GetFullPortrait());
     }
+
+    // We set them here in case the language has changed since the game start
+    change_position_message = UTranslate("Select a character to change position with.");
+    change_formation_message = UTranslate("Select a character to change formation.");
 
     // Init char select option box
     _InitCharSelect();
@@ -843,9 +856,6 @@ void PartyWindow::_InitCharSelect()
 // Updates the status window
 void PartyWindow::Update()
 {
-    static const ustring change_position_message = UTranslate("Select a character to change position with.");
-    static const ustring change_formation_message = UTranslate("Select a character to change formation.");
-
     GlobalMedia& media = GlobalManager->Media();
 
     // Points to the active option box

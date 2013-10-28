@@ -220,6 +220,10 @@ void AbstractMenuState::_OnCancel()
         _menu_mode->_current_menu_state = _from_state;
 }
 
+//! Menu messages
+static ustring world_map_window_message;
+static ustring quest_view_message;
+
 MainMenuState::MainMenuState(MenuMode *menu_mode):
     AbstractMenuState("Main Menu", menu_mode)
 {
@@ -246,6 +250,11 @@ MainMenuState::MainMenuState(MenuMode *menu_mode):
 
     if (GlobalManager->GetWorldMapFilename().empty())
         _options.EnableOption(4, false);
+
+    // We set them here in case the language has changed since the game start.
+    world_map_window_message = UTranslate("Select to view current world map.\n"
+                                          "Use left / right to cycle through locations.\nPress 'cancel' to return");
+    quest_view_message = UTranslate("Select to view Quest Log.");
 }
 
 AbstractMenuState* MainMenuState::GetTransitionState(uint32 selection)
@@ -291,7 +300,6 @@ void MainMenuState::_OnUpdateState()
 
 void MainMenuState::_OnDrawMainWindow()
 {
-
     uint32 draw_window = _options.GetSelection();
 
     // Draw the chosen window
@@ -307,7 +315,6 @@ void MainMenuState::_OnDrawMainWindow()
             break;
         }
         case MAIN_OPTIONS_QUESTS: {
-            static const ustring quest_view_message = UTranslate("Select to view Quest Log.");
             _menu_mode->_bottom_window.Draw();
             _menu_mode->_help_information.SetDisplayText(quest_view_message);
             _menu_mode->_help_information.Draw();
@@ -316,11 +323,10 @@ void MainMenuState::_OnDrawMainWindow()
         }
         case MAIN_OPTIONS_WORLDMAP:
         {
-            static const ustring world_map_window_message = UTranslate("Select to view current world map.\nUse left / right to cycle through locations.\nPress 'cancel' to return");
             _menu_mode->_bottom_window.Draw();
             _menu_mode->_help_information.SetDisplayText(world_map_window_message);
             _menu_mode->_help_information.Draw();
-            // actual drawing of thebottom window will occur upon transition
+            // Actual drawing of the bottom window will occur upon transition
             // to the world map state
             _menu_mode->_world_map_window.Draw();
             break;
