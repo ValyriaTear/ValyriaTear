@@ -13,6 +13,7 @@ fonts = {
     ["title24"] = {font = "img/fonts/LinLibertine_aBS.ttf", size = 22},
     ["title28"] = {font = "img/fonts/LinLibertine_aBS.ttf", size = 24},
 
+    ["text14"] = {font = "img/fonts/LinBiolinum_RBah.ttf", size = 14},
     ["text18"] = {font = "img/fonts/LinBiolinum_RBah.ttf", size = 16},
     ["text20"] = {font = "img/fonts/LinBiolinum_RBah.ttf", size = 18},
     ["text22"] = {font = "img/fonts/LinBiolinum_RBah.ttf", size = 20},

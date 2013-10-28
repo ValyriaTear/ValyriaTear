@@ -572,9 +572,9 @@ void FinishVictoryAssistant::_CreateCharacterGUIObjects()
     // Construct GUI objects that will fill each character window
     for(uint32 i = 0; i < _characters_number; ++i) {
         _growth_list[i].SetOwner(&_character_window[i]);
-        _growth_list[i].SetPosition(350.0f, 15.0f);
-        _growth_list[i].SetDimensions(180.0f, 70.0f, 4, 4, 4, 4);
-        _growth_list[i].SetTextStyle(TextStyle("text20", Color::white, VIDEO_TEXT_SHADOW_DARK));
+        _growth_list[i].SetPosition(340.0f, 15.0f);
+        _growth_list[i].SetDimensions(200.0f, 70.0f, 4, 4, 4, 4);
+        _growth_list[i].SetTextStyle(TextStyle("text14", Color::white, VIDEO_TEXT_SHADOW_DARK));
         _growth_list[i].SetAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
         _growth_list[i].SetOptionAlignment(VIDEO_X_RIGHT, VIDEO_Y_CENTER);
         _growth_list[i].SetCursorState(VIDEO_CURSOR_STATE_HIDDEN);

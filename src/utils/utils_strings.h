@@ -63,6 +63,16 @@ std::string NumberToString(const T t)
     return text.str();
 }
 
+//! Specialization for a float type
+//! declared as inline to avoid linker errors.
+template <>
+inline std::string NumberToString<float>(const float t)
+{
+    std::ostringstream text("");
+    text << t;
+    return text.str();
+}
+
 /** \brief Determines if a string is a valid numeric string
 *** \param text The string to check
 *** \return A std::string containing the parameter in string form

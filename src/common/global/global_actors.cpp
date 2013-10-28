@@ -567,8 +567,7 @@ void GlobalActor::SubtractAgility(uint32 amount)
 
 void GlobalActor::AddEvade(float amount)
 {
-    float new_base = _evade.GetBase() + amount;
-    _evade.SetBase(new_base > 1.0f ? 1.0f : new_base);
+    _evade.SetBase(_evade.GetBase() + amount);
     _CalculateEvadeRatings();
 }
 
