@@ -536,7 +536,7 @@ void InputEngine::_JoystickEventHandler(SDL_Event &js_event)
             _down_state = false;
         }
 
-        if (js_event.jhat.value & SDL_HAT_CENTERED) {
+        if (js_event.jhat.value == SDL_HAT_CENTERED) {
             _any_key_press = false;
             _right_state = false;
             _left_state = false;
