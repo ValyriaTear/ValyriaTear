@@ -496,6 +496,7 @@ void InputEngine::_JoystickEventHandler(SDL_Event &js_event)
             if(!_left_state) {
                 _left_state = true;
                 _left_press = true;
+                _any_key_press = true;
             }
             _right_state = false;
         }
@@ -507,6 +508,7 @@ void InputEngine::_JoystickEventHandler(SDL_Event &js_event)
             if(!_right_state) {
                 _right_state = true;
                 _right_press = true;
+                _any_key_press = true;
             }
             _left_state = false;
         }
@@ -518,6 +520,7 @@ void InputEngine::_JoystickEventHandler(SDL_Event &js_event)
             if(!_up_state) {
                 _up_state = true;
                 _up_press = true;
+                _any_key_press = true;
             }
             _down_state = false;
         }
@@ -529,6 +532,7 @@ void InputEngine::_JoystickEventHandler(SDL_Event &js_event)
             if(!_down_state) {
                 _down_state = true;
                 _down_press = true;
+                _any_key_press = true;
             }
             _up_state = false;
         }
