@@ -22,6 +22,7 @@
 #include "engine/input.h"
 #include "engine/system.h"
 #include "engine/video/video.h"
+#include "engine/video/transform2d.h"
 
 #include "modes/battle/battle.h"
 #include "modes/battle/battle_actions.h"
@@ -1379,13 +1380,13 @@ void CommandSupervisor::_DrawAction()
 
     // Draw the corresponding category icon and text to the left side of the window
     VideoManager->SetDrawFlags(VIDEO_X_CENTER, VIDEO_Y_CENTER, 0);
-    VideoManager->Move(570.0f, 693.0);
+    Transform2D transform(570.0f, 693.0);
     if (_category_options.GetEmbeddedImage(category_index))
-        _category_options.GetEmbeddedImage(category_index)->Draw();
+        _category_options.GetEmbeddedImage(category_index)->Draw(transform, Color::white);
     else
-        _category_icons[category_index].Draw();
-    VideoManager->MoveRelative(0.0f, 35.0f);
-    _category_text[category_index].Draw();
+        _category_icons[category_index].Draw(transform, Color::white);
+    transform.Translate(0.0f, 35.0f);
+    _category_text[category_index].Draw(transform, Color::white);
 
     // Draw the header and list for either the skills or items to the right side of the window
     if(_IsSkillCategorySelected()) {
@@ -1400,10 +1401,8 @@ void CommandSupervisor::_DrawAction()
 void CommandSupervisor::_DrawActorTarget()
 {
     VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_BOTTOM, VIDEO_BLEND, 0);
-    VideoManager->Move(560.0f, 658.0f);
-    _window_header.Draw();
-    VideoManager->Move(560.0f, 683.0f);
-    _window_text.Draw();
+    _window_header.Draw(Transform2D(560.0f, 658.0f), Color::white);
+    _window_text.Draw(Transform2D(560.0f, 683.0f), Color::white);
 
 // 	_target_options.Draw();
     // TODO: draw relevant status/elemental icons
@@ -1414,10 +1413,8 @@ void CommandSupervisor::_DrawActorTarget()
 void CommandSupervisor::_DrawAttackPointTarget()
 {
     VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_BOTTOM, VIDEO_BLEND, 0);
-    VideoManager->Move(560.0f, 658.0f);
-    _window_header.Draw();
-    VideoManager->Move(560.0f, 683.0f);
-// 	_window_text.Draw();
+    _window_header.Draw(Transform2D(560.0f, 658.0f), Color::white);
+// 	_window_text.Draw(Transform2D(560.0f, 683.0f), Color::white);
 
     _target_options.Draw();
     // TODO: draw relevant status/elemental icons
@@ -1428,10 +1425,8 @@ void CommandSupervisor::_DrawAttackPointTarget()
 void CommandSupervisor::_DrawInformation()
 {
     VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_BOTTOM, VIDEO_BLEND, 0);
-    VideoManager->Move(560.0f, 658.0f);
-    _window_header.Draw();
-    VideoManager->Move(560.0f, 683.0f);
-    _window_text.Draw();
+    _window_header.Draw(Transform2D(560.0f, 658.0f), Color::white);
+    _window_text.Draw(Transform2D(560.0f, 683.0f), Color::white);
 
     // TODO: draw relevant status/elemental icons
 }

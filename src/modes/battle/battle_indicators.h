@@ -81,10 +81,8 @@ public:
     //! \brief Returns a floating point value that represents the height of the element drawn
     virtual float ElementHeight() const = 0;
 
-    /** \brief Draws the indicator information to the screen.
-    *** This function will automatically place the cursor at the actor location.
-    **/
-    virtual void Draw();
+    //! \brief Draws the indicator information to the screen.
+    virtual void Draw() = 0;
 
     //! \brief Returns true when the indicator element has expired and should be removed
     bool IsExpired() const {

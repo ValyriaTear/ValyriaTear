@@ -14,9 +14,11 @@
 *** ***************************************************************************/
 
 #include "utils/utils_pch.h"
-#include "engine/script_supervisor.h"
 
+#include "engine/script_supervisor.h"
 #include "engine/mode_manager.h"
+
+#include "engine/video/transform2d.h"
 
 using namespace vt_video;
 using namespace vt_script;
@@ -143,8 +145,7 @@ void ScriptSupervisor::DrawAnimation(int32 id, float x, float y, const Color& co
     if(id < 0 || id > static_cast<int32>(_script_animations.size()) - 1)
         return;
 
-    VideoManager->Move(x, y);
-    _script_animations[id].Draw(color);
+    _script_animations[id].Draw(Transform2D(x, y), color);
 }
 
 int32 ScriptSupervisor::AddImage(const std::string &filename, float width,
@@ -172,8 +173,7 @@ void ScriptSupervisor::DrawImage(int32 id, float x, float y, const Color &color)
     if(id < 0 || id > static_cast<int32>(_script_images.size()) - 1)
         return;
 
-    VideoManager->Move(x, y);
-    _script_images[id].Draw(color);
+    _script_images[id].Draw(Transform2D(x, y), color);
 }
 
 void ScriptSupervisor::DrawRotatedImage(int32 id, float x, float y, const Color &color, float angle)
@@ -181,7 +181,8 @@ void ScriptSupervisor::DrawRotatedImage(int32 id, float x, float y, const Color 
     if(id < 0 || id > static_cast<int32>(_script_images.size()) - 1)
         return;
 
-    VideoManager->Move(x, y);
-    VideoManager->Rotate(angle);
-    _script_images[id].Draw(color);
+    Transform2D transform;
+    transform.Translate(x, y);
+    transform.Rotate(angle);
+    _script_images[id].Draw(transform, color);
 }

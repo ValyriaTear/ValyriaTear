@@ -19,6 +19,7 @@
 #include "fade.h"
 
 #include "video.h"
+#include "transform2d.h"
 
 #include "engine/mode_manager.h"
 
@@ -122,8 +123,7 @@ void ScreenFader::Draw()
     VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_TOP, 0);
     // We add a margin in case of screen shaking to avoid unlit parts.
     VideoManager->SetCoordSys(0.1f, 0.9f, 0.9f, 0.1f);
-    VideoManager->Move(0.0f, 0.0f);
-    _fade_overlay_img.Draw();
+    _fade_overlay_img.Draw(Transform2D(), Color::white);
     VideoManager->PopState();
 }
 

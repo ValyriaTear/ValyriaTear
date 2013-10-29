@@ -26,6 +26,7 @@
 #include "text.h"
 
 #include "video.h"
+#include "transform2d.h"
 
 using namespace vt_utils;
 using namespace vt_video::private_video;
@@ -256,23 +257,18 @@ void TextElement::Clear()
 }
 
 
-void TextElement::Draw() const
-{
-    Draw(Color::white);
-}
 
-
-void TextElement::Draw(const Color &draw_color) const
+void TextElement::Draw(const Transform2D &transform, const Color &draw_color) const
 {
     // Don't draw anything if this image is completely transparent (invisible)
     if(IsFloatEqual(draw_color[3], 0.0f))
         return;
 
-    VideoManager->PushMatrix();
-    _DrawOrientation();
+    Transform2D transform_local(transform);
+    _DrawOrientation(transform_local);
 
     if(draw_color == Color::white) {
-        _DrawTexture(_color);
+        _DrawTexture(transform_local, _color);
     } else {
         Color modulated_colors[4];
         modulated_colors[0] = _color[0] * draw_color;
@@ -280,10 +276,8 @@ void TextElement::Draw(const Color &draw_color) const
         modulated_colors[2] = _color[2] * draw_color;
         modulated_colors[3] = _color[3] * draw_color;
 
-        _DrawTexture(modulated_colors);
+        _DrawTexture(transform_local, modulated_colors);
     }
-
-    VideoManager->PopMatrix();
 } // void TextElement::Draw(const Color& draw_color) const
 
 
@@ -401,30 +395,19 @@ void TextImage::Clear()
 
 
 
-void TextImage::Draw() const
-{
-    VideoManager->PushMatrix();
-    for(uint32 i = 0; i < _text_sections.size(); ++i) {
-        _text_sections[i]->Draw();
-        VideoManager->MoveRelative(0.0f, TextManager->GetFontProperties(_style.font)->line_skip * -VideoManager->_current_context.coordinate_system.GetVerticalDirection());
-    }
-    VideoManager->PopMatrix();
-}
-
-
-
-void TextImage::Draw(const Color &draw_color) const
+void TextImage::Draw(const Transform2D &transform, const Color &draw_color) const
 {
     // Don't draw anything if this image is completely transparent (invisible)
     if(IsFloatEqual(draw_color[3], 0.0f))
         return;
 
-    VideoManager->PushMatrix();
+    Transform2D transform_local(transform);
     for(uint32 i = 0; i < _text_sections.size(); ++i) {
-        _text_sections[i]->Draw(draw_color);
-        VideoManager->MoveRelative(0.0f, TextManager->GetFontProperties(_style.font)->line_skip * -VideoManager->_current_context.coordinate_system.GetVerticalDirection());
+        _text_sections[i]->Draw(transform_local, draw_color);
+        float dx = 0.0f;
+        float dy = TextManager->GetFontProperties(_style.font)->line_skip * -VideoManager->_current_context.coordinate_system.GetVerticalDirection();
+        transform_local.Translate(dx, dy);
     }
-    VideoManager->PopMatrix();
 }
 
 
@@ -602,7 +585,7 @@ FontProperties *TextSupervisor::GetFontProperties(const std::string &font_name)
 
 
 
-void TextSupervisor::Draw(const ustring &text, const TextStyle &style)
+void TextSupervisor::Draw(const ustring &text, const Transform2D &transform, const TextStyle &style)
 {
     if(text.empty()) {
         IF_PRINT_WARNING(VIDEO_DEBUG) << "empty string was passed to function" << std::endl;
@@ -616,6 +599,8 @@ void TextSupervisor::Draw(const ustring &text, const TextStyle &style)
 
     FontProperties *fp = _font_map[style.font];
     VideoManager->PushState();
+
+    Transform2D transform_local(transform);
 
     // Break the string into lines and render the shadow and text for each line
     uint16 buffer[2048];
@@ -635,27 +620,23 @@ void TextSupervisor::Draw(const ustring &text, const TextStyle &style)
 
         // If this line is empty, skip on to the next one
         if(buffer[0] == 0) {
-            VideoManager->MoveRelative(0, -fp->line_skip * VideoManager->_current_context.coordinate_system.GetVerticalDirection());
+            transform_local.Translate(0, -fp->line_skip * VideoManager->_current_context.coordinate_system.GetVerticalDirection());
             continue;
         }
 
-        // Save the draw cursor position before drawing this text
-        VideoManager->PushMatrix();
-
         // If text shadows are enabled, draw the shadow first
         if(style.shadow_style != VIDEO_TEXT_SHADOW_NONE) {
-            VideoManager->PushMatrix();
             const float dx = VideoManager->_current_context.coordinate_system.GetHorizontalDirection() * style.shadow_offset_x;
             const float dy = VideoManager->_current_context.coordinate_system.GetVerticalDirection() * style.shadow_offset_y;
-            VideoManager->MoveRelative(dx, dy);
-            _DrawTextHelper(buffer, fp, _GetTextShadowColor(style));
-            VideoManager->PopMatrix();
+            Transform2D transform_shadow(transform_local);
+            transform_shadow.Translate(dx, dy);
+            _DrawTextHelper(buffer, fp, transform_shadow, _GetTextShadowColor(style));
         }
 
         // Now draw the text itself, restore the position of the draw cursor, and move the draw cursor one line down
-        _DrawTextHelper(buffer, fp, style.color);
-        VideoManager->PopMatrix();
-        VideoManager->MoveRelative(0, -fp->line_skip * VideoManager->_current_context.coordinate_system.GetVerticalDirection());
+        _DrawTextHelper(buffer, fp, transform_local, style.color);
+
+        transform_local.Translate(0, -fp->line_skip * VideoManager->_current_context.coordinate_system.GetVerticalDirection());
 
     } while(last_line < text.length());
 
@@ -857,7 +838,7 @@ void TextSupervisor::_CacheGlyphs(const uint16 *text, FontProperties *fp)
 
 
 
-void TextSupervisor::_DrawTextHelper(const uint16 *const text, FontProperties *fp, Color text_color)
+void TextSupervisor::_DrawTextHelper(const uint16 *const text, FontProperties *fp, const Transform2D &transform, Color text_color)
 {
     if(*text == 0) {
         IF_PRINT_WARNING(VIDEO_DEBUG) << "invalid argument, empty string" << std::endl;
@@ -879,7 +860,7 @@ void TextSupervisor::_DrawTextHelper(const uint16 *const text, FontProperties *f
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     VideoManager->EnableTexture2D();
 
-    VideoManager->PushMatrix();
+    Transform2D transform_local(transform);
 
     int font_width, font_height;
     if(TTF_SizeUNICODE(fp->ttf_font, text, &font_width, &font_height) != 0) {
@@ -890,35 +871,28 @@ void TextSupervisor::_DrawTextHelper(const uint16 *const text, FontProperties *f
     float xoff = ((VideoManager->_current_context.x_align + 1) * font_width) * 0.5f * -cs.GetHorizontalDirection();
     float yoff = ((VideoManager->_current_context.y_align + 1) * font_height) * 0.5f * -cs.GetVerticalDirection();
 
-    VideoManager->MoveRelative(xoff, yoff);
+    transform_local.Translate(xoff, yoff);
 
     VideoManager->EnableVertexArray();
     VideoManager->EnableTextureCoordArray();
 
-    GLint vertices[8];
+    GLfloat vertices[8];
     GLfloat tex_coords[8];
-    glVertexPointer(2, GL_INT, 0, vertices);
+    glVertexPointer(2, GL_FLOAT, 0, vertices);
     glTexCoordPointer(2, GL_FLOAT, 0, tex_coords);
 
     // Iterate through each character in the string and render the character glyphs one at a time
-    int xpos = 0;
+    float xpos = 0;
     for(const uint16 *glyph = text; *glyph != 0; ++glyph) {
         FontGlyph *glyph_info = (*fp->glyph_cache)[*glyph];
 
-        int x_hi = glyph_info->width;
-        int y_hi = glyph_info->height;
-        if(cs.GetHorizontalDirection() < 0.0f)
-            x_hi = -x_hi;
-        if(cs.GetVerticalDirection() < 0.0f)
-            y_hi = -y_hi;
+        float x_hi = glyph_info->width * cs.GetHorizontalDirection();
+        float y_hi = glyph_info->height * cs.GetVerticalDirection();
+        float min_x = glyph_info->min_x * cs.GetHorizontalDirection() + xpos;
+        float min_y = glyph_info->min_y * cs.GetVerticalDirection();
 
-        int min_x, min_y;
-        min_x = glyph_info->min_x * static_cast<int>(cs.GetHorizontalDirection()) + xpos;
-        min_y = glyph_info->min_y * static_cast<int>(cs.GetVerticalDirection());
-
-        float tx, ty;
-        tx = glyph_info->max_x;
-        ty = glyph_info->max_y;
+        float tx = glyph_info->max_x;
+        float ty = glyph_info->max_y;
 
         TextureManager->_BindTexture(glyph_info->texture);
         if(VideoManager->CheckGLError()) {
@@ -943,13 +917,13 @@ void TextSupervisor::_DrawTextHelper(const uint16 *const text, FontProperties *f
         tex_coords[6] = 0.0f;
         tex_coords[7] = 0.0f;
 
+        transform_local.Apply(vertices, vertices, 4, 2 * sizeof(float));
+
         glColor4fv((GLfloat *)&text_color);
         glDrawArrays(GL_QUADS, 0, 4);
 
         xpos += glyph_info->advance;
     } // for (const uint16* glyph = text; *glyph != 0; glyph++)
-
-    VideoManager->PopMatrix();
 } // void TextSupervisor::_DrawTextHelper(const uint16* const text, FontProperties* fp, Color color)
 
 

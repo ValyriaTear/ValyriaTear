@@ -31,6 +31,7 @@ typedef struct _TTF_Font TTF_Font;
 namespace vt_video
 {
 
+class Transform2D;
 class TextSupervisor;
 
 //! \brief The singleton pointer for the instance of the text supervisor
@@ -265,9 +266,11 @@ public:
 
     void Clear();
 
-    void Draw() const;
-
-    void Draw(const Color &draw_color) const;
+    /** \brief Draws a color modulated version of the text to the display buffer
+    *** \param transform The location and orientation, scale of the object
+    *** \param draw_color The color to modulate the object by
+    **/
+    void Draw(const Transform2D &transform, const Color &draw_color) const;
 
     void EnableGrayScale()
     {}
@@ -338,13 +341,11 @@ public:
     //! \brief Clears the image by resetting its properties
     void Clear();
 
-    //! \brief Draws the rendered text to the screen
-    void Draw() const;
-
-    /** \brief Draws the rendered text to the screen with a color modulation
+    /** \brief Draws the rendered text to the screen
+    *** \param transform The 2D transform to be applied to the text
     *** \param draw_color The color to modulate the text by
     **/
-    void Draw(const Color &draw_color) const;
+    void Draw(const Transform2D &transform, const Color &draw_color) const;
 
     //! \brief Dervied from ImageDescriptor, this method is not used by TextImage
     void EnableGrayScale()
@@ -508,30 +509,33 @@ public:
     //@{
     /** \brief Renders and draws a unicode string of text to the screen in the default text style
     *** \param text The text string to draw in unicode format
+    *** \param transform The 2D transform to be applied to the text
     **/
-    void Draw(const vt_utils::ustring &text) {
-        Draw(text, _default_style);
+    void Draw(const vt_utils::ustring &text, const Transform2D &transform) {
+        Draw(text, transform, _default_style);
     }
 
     /** \brief Renders and draws a string of text to the screen in a desired text style
     *** \param text The text string to draw in unicode format
+    *** \param transform The 2D transform to be applied to the text
     *** \param style A reference to the TextStyle to use for drawing the string
     **/
-    void Draw(const vt_utils::ustring &text, const TextStyle &style);
+    void Draw(const vt_utils::ustring &text, const Transform2D &transform, const TextStyle &style);
 
     /** \brief Renders and draws a standard string of text to the screen in the default text style
     *** \param text The text string to draw in standard format
+    *** \param transform The 2D transform to be applied to the text
     **/
-    void Draw(const std::string &text) {
-        Draw(vt_utils::MakeUnicodeString(text));
+    void Draw(const std::string &text, const Transform2D &transform) {
+        Draw(vt_utils::MakeUnicodeString(text), transform);
     }
 
     /** \brief Renders and draws a standard string of text to the screen in a desired text style
     *** \param text The text string to draw in standard format
     *** \param style A reference to the TextStyle to use for drawing the string
     **/
-    void Draw(const std::string &text, const TextStyle &style) {
-        Draw(vt_utils::MakeUnicodeString(text), style);
+    void Draw(const std::string &text, const Transform2D &transform, const TextStyle &style) {
+        Draw(vt_utils::MakeUnicodeString(text), transform, style);
     }
 
     /** \brief Calculates what the width would be for a unicode string of text if it were rendered
@@ -590,12 +594,13 @@ private:
     /** \brief Draws text to the screen using OpenGL commands
     *** \param text A pointer to a unicode string holding the text to draw
     *** \param fp A pointer to the properties of the font to use in drawing the text
+    *** \param transform The 2D transform to be applied to the text
     *** \param text_color The color to render the text in
     ***
     *** This class assists the public Draw methods. This method is intended for drawing only
     *** a single line of text in a single color (it does not account for shadows).
     **/
-    void _DrawTextHelper(const uint16 *text, FontProperties *fp, Color text_color);
+    void _DrawTextHelper(const uint16 *text, FontProperties *fp, const Transform2D &transform, const Color text_color);
 
     /** \brief Renders a unicode string with a given TextStyle to a pixel array
     *** \param string The unicdoe string to render

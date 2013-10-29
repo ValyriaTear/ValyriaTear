@@ -128,8 +128,11 @@ protected:
     //! \brief The rectangular sections which compose the map zone
     std::vector<ZoneSection> _sections;
 
-    //! \brief Tells whether a section is on screen and place the drawing cursor in that case.
-    bool _ShouldDraw(const ZoneSection &section);
+    //! \brief Tells whether a section is on screen.
+    bool _ShouldDraw(const ZoneSection &section) const;
+
+    //! \brief Calculate drawing position for this sprite.
+    void _GetDrawPosition(const ZoneSection &section, float &x, float &y) const;
 }; // class MapZone
 
 

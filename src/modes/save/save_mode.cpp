@@ -21,6 +21,7 @@
 #include "common/global/global.h"
 #include "engine/audio/audio.h"
 #include "engine/video/video.h"
+#include "engine/video/transform2d.h"
 #include "engine/input.h"
 #include "modes/boot/boot.h"
 #include "modes/map/map_mode.h"
@@ -368,8 +369,7 @@ void SaveMode::DrawPostEffects()
     float width = _screen_capture.GetWidth();
     float height = _screen_capture.GetHeight();
     VideoManager->SetCoordSys(0, width, 0, height);
-    VideoManager->Move(0.0f, 0.0f);
-    _screen_capture.Draw(_dim_color);
+    _screen_capture.Draw(Transform2D(), _dim_color);
 
     // Re-set the coordinate system for everything else
     VideoManager->SetStandardCoordSys();
@@ -382,7 +382,7 @@ void SaveMode::DrawPostEffects()
 
     switch(_current_state) {
     case SAVE_MODE_SAVING:
-    case SAVE_MODE_LOADING:
+    case SAVE_MODE_LOADING: { // delimit transform object scope
         _left_window.Draw(); // draw a panel on the left for the file list
         if(_file_list.GetSelection() > -1) {
             for(uint32 i = 0; i < 4; i++) {
@@ -391,21 +391,23 @@ void SaveMode::DrawPostEffects()
         }
         _file_list.Draw();
 
-        VideoManager->Move(420.0f, 638.0f);
+        Transform2D transform(420.0f, 638.0f);
         if (!_location_image.GetFilename().empty())
-            _location_image.Draw(Color(1.0f, 1.0f, 1.0f, 0.4f));
+            _location_image.Draw(transform, Color(1.0f, 1.0f, 1.0f, 0.4f));
 
         _map_name_textbox.Draw();
 
         if (_time_textbox.IsEmpty() || _drunes_textbox.IsEmpty())
             break;
 
-        VideoManager->MoveRelative(15.0f, -35.0f);
-        _clock_icon->Draw();
+        transform.Translate(15.0f, -35.0f);
+        _clock_icon->Draw(transform, Color::white);
         _time_textbox.Draw();
-        VideoManager->MoveRelative(0.0f, 30.0f);
-        _drunes_icon->Draw();
+        transform.Translate(0.0f, 30.0f);
+        _drunes_icon->Draw(transform, Color::white);
+
         _drunes_textbox.Draw();
+        }
         break;
     case SAVE_MODE_CONFIRMING_SAVE:
         _confirm_save_optionbox.Draw();
@@ -700,26 +702,26 @@ void SmallCharacterWindow::Draw()
     y -= 5;
 
     //Draw character portrait
-    VideoManager->Move(x + 50, y + 110);
-    _portrait.Draw();
+    Transform2D transform(x + 50, y + 110);
+    _portrait.Draw(transform, Color::white);
 
     // Write character name
-    VideoManager->MoveRelative(125, -75);
-    VideoManager->Text()->Draw(_character->GetName(), TextStyle("title22"));
+    transform.Translate(125, -75);
+    VideoManager->Text()->Draw(_character->GetName(), transform, TextStyle("title22"));
 
     // Level
-    VideoManager->MoveRelative(0, 20);
-    VideoManager->Text()->Draw(UTranslate("Lv: ") + MakeUnicodeString(NumberToString(_character->GetExperienceLevel())), TextStyle("text20"));
+    transform.Translate(0, 20);
+    VideoManager->Text()->Draw(UTranslate("Lv: ") + MakeUnicodeString(NumberToString(_character->GetExperienceLevel())), transform, TextStyle("text20"));
 
     // HP
-    VideoManager->MoveRelative(0, 20);
+    transform.Translate(0, 20);
     VideoManager->Text()->Draw(UTranslate("HP: ") + MakeUnicodeString(NumberToString(_character->GetHitPoints()) +
-                               " / " + NumberToString(_character->GetMaxHitPoints())), TextStyle("text20"));
+                               " / " + NumberToString(_character->GetMaxHitPoints())), transform, TextStyle("text20"));
 
     // SP
-    VideoManager->MoveRelative(0, 20);
+    transform.Translate(0, 20);
     VideoManager->Text()->Draw(UTranslate("SP: ") + MakeUnicodeString(NumberToString(_character->GetSkillPoints()) +
-                               " / " + NumberToString(_character->GetMaxSkillPoints())), TextStyle("text20"));
+                               " / " + NumberToString(_character->GetMaxSkillPoints())), transform, TextStyle("text20"));
 
     return;
 }

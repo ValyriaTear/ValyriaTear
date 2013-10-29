@@ -24,6 +24,7 @@
 #include "engine/input.h"
 #include "engine/script/script_write.h"
 #include "engine/system.h"
+#include "engine/video/transform2d.h"
 
 #include "modes/map/map_mode.h"
 #include "modes/mode_help_window.h"
@@ -391,23 +392,18 @@ void BootMode::DrawPostEffects()
 
     if(_boot_state == BOOT_STATE_MENU) {
         if (!_first_run) {
-            VideoManager->Move(0.0f, 640.0f);
-            _menu_bar.Draw(Color(1.0f, 1.0f, 1.0f, _menu_bar_alpha));
+            _menu_bar.Draw(Transform2D(0.0f, 640.0f), Color(1.0f, 1.0f, 1.0f, _menu_bar_alpha));
         }
 
         VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_BOTTOM, 0);
-        VideoManager->Move(322.0f, 745.0f);
-        _f1_help_text.Draw(Color(1.0f, 1.0f, 1.0f, _help_text_alpha));
-
-        VideoManager->Move(10.0f, 758.0f);
-        _version_text.Draw();
+        _f1_help_text.Draw(Transform2D(322.0f, 745.0f), Color(1.0f, 1.0f, 1.0f, _help_text_alpha));
+        _version_text.Draw(Transform2D(10.0f, 758.0f), Color::white);
 
         _options_window.Draw();
         if(_active_menu)
             _active_menu->Draw();
 
         VideoManager->SetDrawFlags(VIDEO_X_RIGHT, VIDEO_Y_BOTTOM, 0);
-        VideoManager->Move(0.0f, 0.0f);
         _message_window.Draw();
     }
     VideoManager->PopState();

@@ -23,6 +23,7 @@
 #include "engine/input.h"
 #include "engine/system.h"
 #include "engine/video/video.h"
+#include "engine/video/transform2d.h"
 
 #include "modes/battle/battle.h"
 #include "modes/battle/battle_actions.h"
@@ -887,8 +888,10 @@ void FinishVictoryAssistant::_UpdateSpoils()
 void FinishVictoryAssistant::_DrawGrowth(uint32 index)
 {
     VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_TOP, 0);
-    VideoManager->Move(CHAR_WINDOW_XPOS - (CHAR_WINDOW_WIDTH / 2) + 20.0f, (CHAR_WINDOW_YPOS + 17.0f) + (CHAR_WINDOW_HEIGHT * index));
-    _character_portraits[index].Draw();
+
+    float x = CHAR_WINDOW_XPOS - CHAR_WINDOW_WIDTH / 2 + 20.0f;
+    float y = CHAR_WINDOW_YPOS + 17.0f + CHAR_WINDOW_HEIGHT * index;
+    _character_portraits[index].Draw(Transform2D(x, y), Color::white);
 
     _level_text[index].Draw();
     _xp_text[index].Draw();

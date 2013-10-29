@@ -20,6 +20,7 @@
 
 #include "engine/audio/audio.h"
 #include "engine/video/video.h"
+#include "engine/video/transform2d.h"
 #include "engine/input.h"
 #include "engine/mode_manager.h"
 #include "engine/system.h"
@@ -160,21 +161,22 @@ void RootInterface::Update()
 void RootInterface::Draw()
 {
     VideoManager->SetDrawFlags(VIDEO_X_CENTER, VIDEO_Y_TOP, 0);
+    Transform2D transform;
 
     // Middle window: draw shop's name at the top
-    VideoManager->Move(512.0f, 188.0f);
-    _shop_name.Draw();
+    transform.Translate(512.0f, 188.0f);
+    _shop_name.Draw(transform, Color::white);
 
     // Middle window: below the shop name draw the pricing text and rating image
-    VideoManager->MoveRelative(-140.0f, 60.0f);
-    _buy_price_text.Draw();
-    VideoManager->MoveRelative(280.0f, 0.0f);
-    _sell_price_text.Draw();
+    transform.Translate(-140.0f, 60.0f);
+    _buy_price_text.Draw(transform, Color::white);
+    transform.Translate(280.0f, 0.0f);
+    _sell_price_text.Draw(transform, Color::white);
 
-    VideoManager->MoveRelative(-280.0f, 40.0f);
-    _buy_price_rating.Draw();
-    VideoManager->MoveRelative(280.0f, 0.0f);
-    _sell_price_rating.Draw();
+    transform.Translate(-280.0f, 40.0f);
+    _buy_price_rating.Draw(transform, Color::white);
+    transform.Translate(280.0f, 0.0f);
+    _sell_price_rating.Draw(transform, Color::white);
 
     // Bottom window: draw the greeting text
     _greeting_text.Draw();

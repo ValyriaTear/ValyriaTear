@@ -20,6 +20,7 @@
 
 #include "engine/audio/audio.h"
 #include "engine/video/video.h"
+#include "engine/video/transform2d.h"
 #include "engine/input.h"
 #include "engine/system.h"
 #include "modes/boot/boot.h"
@@ -183,14 +184,11 @@ void PauseMode::DrawPostEffects()
 {
     // Set the coordinate system for the background and draw
     VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_BOTTOM, 0);
-    VideoManager->Move(0.0f, VIDEO_STANDARD_RES_HEIGHT);
-    _screen_capture.Draw(_dim_color);
+    _screen_capture.Draw(Transform2D(0.0f, VIDEO_STANDARD_RES_HEIGHT), _dim_color);
 
     VideoManager->SetDrawFlags(VIDEO_X_CENTER, VIDEO_Y_CENTER, 0);
-    VideoManager->Move(512.0f, 384.0f);
-
     if(!_quit_state) {
-        _paused_text.Draw();
+        _paused_text.Draw(Transform2D(512.0f, 384.0f), Color::white);
     } else {
         _quit_options.Draw();
     }

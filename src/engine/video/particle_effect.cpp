@@ -405,20 +405,14 @@ bool ParticleEffect::Draw()
 {
     bool success = true;
 
-    // move to the effect's location
-    VideoManager->Move(_x, _y);
-
     std::vector<ParticleSystem>::iterator iSystem = _systems.begin();
 
     while(iSystem != _systems.end()) {
-        VideoManager->PushMatrix();
-        if(!(*iSystem).Draw()) {
+        if(!(*iSystem).Draw(_x, _y)) {
             success = false;
             IF_PRINT_WARNING(VIDEO_DEBUG)
                     << "Failed to draw system!" << std::endl;
         }
-
-        VideoManager->PopMatrix();
         ++iSystem;
     }
 

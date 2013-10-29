@@ -19,6 +19,7 @@
 #include "image.h"
 
 #include "video.h"
+#include "transform2d.h"
 #include "engine/script/script_read.h"
 #include "engine/system.h"
 
@@ -479,7 +480,7 @@ void ImageDescriptor::_RemoveTextureReference()
 
 
 
-void ImageDescriptor::_DrawOrientation() const
+void ImageDescriptor::_DrawOrientation(Transform2D &transform) const
 {
     Context &current_context = VideoManager->_current_context;
 
@@ -488,7 +489,7 @@ void ImageDescriptor::_DrawOrientation() const
     float x_align_offset = ((current_context.x_align + 1) * _width) * 0.5f * -current_context.coordinate_system.GetHorizontalDirection();
     float y_align_offset = ((current_context.y_align + 1) * _height) * 0.5f * -current_context.coordinate_system.GetVerticalDirection();
 
-    VideoManager->MoveRelative(x_align_offset, y_align_offset);
+    transform.Translate(x_align_offset, y_align_offset);
 
     // x/y draw offsets, which are a function of the flip draw flags, screen shaking, and the orientation of the current coordinate system
     float x_off = 0.0f, y_off = 0.0f;
@@ -508,32 +509,28 @@ void ImageDescriptor::_DrawOrientation() const
         y_off += y_shake;
     }
 
-    VideoManager->MoveRelative(x_off * current_context.coordinate_system.GetHorizontalDirection(), y_off * current_context.coordinate_system.GetVerticalDirection());
+    transform.Translate(x_off * current_context.coordinate_system.GetHorizontalDirection(), y_off * current_context.coordinate_system.GetVerticalDirection());
 
     // x/y scale degrees
-    float x_scale = _width;
-    float y_scale = _height;
-
-    if(current_context.coordinate_system.GetHorizontalDirection() < 0.0f)
-        x_scale = -x_scale;
-    if(current_context.coordinate_system.GetVerticalDirection() < 0.0f)
-        y_scale = -y_scale;
-    VideoManager->Scale(x_scale, y_scale);
+    float x_scale = _width * current_context.coordinate_system.GetHorizontalDirection();
+    float y_scale = _height * current_context.coordinate_system.GetVerticalDirection();
+    transform.Scale(x_scale, y_scale);
 }
 
 
 
-void ImageDescriptor::_DrawTexture(const Color *draw_color) const
+void ImageDescriptor::_DrawTexture(const Transform2D &transform, const Color *draw_color) const
 {
     // Array of the four vertexes defined on the 2D plane for glDrawArrays()
-    // This is no longer const, because when tiling the background for the menu's
-    // sometimes you need to draw part of a texture
     float vert_coords[] = {
         _u1, _v1,
         _u2, _v1,
         _u2, _v2,
         _u1, _v2,
     };
+
+    // Apply transform the four quad verts
+    transform.Apply(vert_coords, vert_coords, 4, 2 * sizeof(float));
 
     // If no color array was passed, use the image's own vertex colors
     if(!draw_color)
@@ -896,28 +893,21 @@ bool StillImage::Load(const std::string &filename)
 
 
 
-void StillImage::Draw() const
-{
-    Draw(Color::white);
-}
-
-
-
-void StillImage::Draw(const Color &draw_color) const
+void StillImage::Draw(const Transform2D &transform, const Color &draw_color) const
 {
     // Don't draw anything if this image is completely transparent (invisible)
     if(IsFloatEqual(draw_color[3], 0.0f))
         return;
 
-    VideoManager->PushMatrix();
+    Transform2D transform_local(transform);
     if (_x_offset != 0.0f || _y_offset != 0.0f)
-        VideoManager->MoveRelative(_x_offset, _y_offset);
+        transform_local.Translate(_x_offset, _y_offset);
 
-    _DrawOrientation();
+    _DrawOrientation(transform_local);
 
     // Used to determine if the image color should be modulated by any degree due to screen fading effects
     if(draw_color == Color::white) {
-        _DrawTexture(_color);
+        _DrawTexture(transform_local, _color);
     }
     else {
         // The color of each vertex point.
@@ -927,12 +917,9 @@ void StillImage::Draw(const Color &draw_color) const
         modulated_colors[2] = _color[2] * draw_color;
         modulated_colors[3] = _color[3] * draw_color;
 
-        _DrawTexture(modulated_colors);
+        _DrawTexture(transform_local, modulated_colors);
     }
-
-    VideoManager->PopMatrix();
-} // void StillImage::Draw(const Color& draw_color) const
-
+}
 
 
 bool StillImage::Save(const std::string &filename) const
@@ -1285,26 +1272,15 @@ bool AnimatedImage::LoadFromFrameGrid(const std::string &filename, const std::ve
 
 
 
-void AnimatedImage::Draw() const
+
+void AnimatedImage::Draw(const Transform2D &transform, const Color &draw_color) const
 {
     if(_frames.empty()) {
         IF_PRINT_WARNING(VIDEO_DEBUG) << "no frames were loaded into the AnimatedImage object" << std::endl;
         return;
     }
 
-    _frames[_frame_index].image.Draw();
-}
-
-
-
-void AnimatedImage::Draw(const Color &draw_color) const
-{
-    if(_frames.empty()) {
-        IF_PRINT_WARNING(VIDEO_DEBUG) << "no frames were loaded into the AnimatedImage object" << std::endl;
-        return;
-    }
-
-    _frames[_frame_index].image.Draw(draw_color);
+    _frames[_frame_index].image.Draw(transform, draw_color);
 }
 
 
@@ -1498,13 +1474,8 @@ void CompositeImage::Clear()
 }
 
 
-void CompositeImage::Draw() const
-{
-    Draw(Color::white);
-}
 
-
-void CompositeImage::Draw(const Color &draw_color) const
+void CompositeImage::Draw(const Transform2D &transform, const Color &draw_color) const
 {
     // Don't draw anything if this image is completely transparent (invisible)
     if(IsFloatEqual(draw_color[3], 0.0f))
@@ -1520,10 +1491,8 @@ void CompositeImage::Draw(const Color &draw_color) const
     float y_align_offset = ((VideoManager->_current_context.y_align + 1) * _height) * 0.5f * -
                            coord_sys.GetVerticalDirection();
 
-    // Save the draw cursor position as we move to draw each element
-    VideoManager->PushMatrix();
-
-    VideoManager->MoveRelative(x_align_offset, y_align_offset);
+    Transform2D transform_local(transform);
+    transform_local.Translate(x_align_offset, y_align_offset);
 
     for(uint32 i = 0; i < _elements.size(); ++i) {
         float x_off, y_off;
@@ -1543,33 +1512,25 @@ void CompositeImage::Draw(const Color &draw_color) const
         x_off += x_shake;
         y_off += y_shake;
 
-        VideoManager->PushMatrix();
-        VideoManager->MoveRelative(x_off * coord_sys.GetHorizontalDirection(),
-                                   y_off * coord_sys.GetVerticalDirection());
+        Transform2D transform_elem(transform_local);
+        transform_elem.Translate(x_off * coord_sys.GetHorizontalDirection(),
+                                 y_off * coord_sys.GetVerticalDirection());
 
-        float x_scale = _elements[i].image.GetWidth();
-        float y_scale = _elements[i].image.GetHeight();
-
-        if(coord_sys.GetHorizontalDirection() < 0.0f)
-            x_scale = -x_scale;
-        if(coord_sys.GetVerticalDirection() < 0.0f)
-            y_scale = -y_scale;
-
-        glScalef(x_scale, y_scale, 1.0f);
+        float x_scale = _elements[i].image.GetWidth() * coord_sys.GetHorizontalDirection();
+        float y_scale = _elements[i].image.GetHeight() * coord_sys.GetVerticalDirection();
+        transform_elem.Scale(x_scale, y_scale);
 
         if(draw_color == Color::white)
-            _elements[i].image._DrawTexture(_color);
+            _elements[i].image._DrawTexture(transform_elem, _color);
         else {
             Color modulated_colors[4];
             modulated_colors[0] = _color[0] * draw_color;
             modulated_colors[1] = _color[1] * draw_color;
             modulated_colors[2] = _color[2] * draw_color;
             modulated_colors[3] = _color[3] * draw_color;
-            _elements[i].image._DrawTexture(modulated_colors);
+            _elements[i].image._DrawTexture(transform_elem, modulated_colors);
         }
-        VideoManager->PopMatrix();
     }
-    VideoManager->PopMatrix();
 } // void CompositeImage::Draw(const Color& draw_color) const
 
 

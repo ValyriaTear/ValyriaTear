@@ -394,7 +394,17 @@ public:
     void DrawIndicators() const;
 
     //! \brief Draws the stamina icon - default implementation
-    virtual void DrawStaminaIcon(const vt_video::Color &color = vt_video::Color::white) const;
+    virtual void DrawStaminaIcon(const vt_video::Color &color) const;
+
+    //! \brief Get x coordinate of current stamina icon
+    float GetStaminaXLocation() const {
+        return _x_stamina_location;
+    }
+
+    //! \brief Get y coordinate of current stamina icon
+    float GetStaminaYLocation() const {
+        return _y_stamina_location;
+    }
 
     /** \brief Sets the action that the actor should execute next
     *** \param action A pointer to the action that the actor should execute
@@ -750,7 +760,7 @@ public:
     }
 
     //! \brief See BattleActor::DrawStaminaIcon()
-    void DrawStaminaIcon(const vt_video::Color &color = vt_video::Color::white) const;
+    void DrawStaminaIcon(const vt_video::Color &color) const;
 
 protected:
     //! \brief A pointer to the global enemy object which the battle enemy represents

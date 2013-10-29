@@ -32,6 +32,10 @@ namespace vt_defs {
 void BindModeCode();
 }
 
+namespace vt_video {
+class Transform2D;
+}
+
 namespace vt_map
 {
 
@@ -170,16 +174,6 @@ public:
     *** to determine if the object should be drawn at all.
     **/
     virtual void Draw() = 0;
-
-    /** \brief Determines if an object should be drawn to the screen.
-    *** \return True if the object should be drawn.
-    *** \note This function also moves the draw cursor to the proper position if the object should be drawn
-    ***
-    *** This method performs the common drawing operations of identifying whether or not the object
-    *** is visible on the screen and moving the drawing cursor to its location. The children classes
-    *** of this class may choose to make use of it (or not).
-    **/
-    bool ShouldDraw();
     //@}
 
     //! \brief Retrieves the object type identifier
@@ -357,8 +351,19 @@ protected:
     //! \brief Takes care of updating the emote animation and state.
     void _UpdateEmote();
 
-    //! \brief Takes care of drawing the emote animation.
-    void _DrawEmote();
+    /** \brief Takes care of drawing the emote animation.
+    *** \param transform 2D transform applied to the emote
+    **/
+    void _DrawEmote(const vt_video::Transform2D &transform);
+
+    /** \brief Determines if an object is visible, should be drawn to the screen.
+    *** \return True if the object should be drawn.
+    **/
+    bool _ShouldDraw() const;
+
+    //! \brief Calculates the position of the object to be drawn at.
+    void _GetDrawPosition(float &x, float &y) const;
+
 }; // class MapObject
 
 
@@ -573,7 +578,8 @@ public:
     Light(const std::string &main_flare_filename,
           const std::string &secondary_flare_filename,
           float x, float y,
-          const vt_video::Color &main_color, const vt_video::Color &secondary_color);
+          const vt_video::Color &main_color,
+          const vt_video::Color &secondary_color);
 
     ~Light()
     {}

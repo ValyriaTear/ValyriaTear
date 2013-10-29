@@ -19,7 +19,7 @@
 #include "engine/video/particle_manager.h"
 
 #include "engine/video/video.h"
-
+#include "engine/video/transform2d.h"
 #include "engine/video/particle_effect.h"
 
 using namespace vt_script;
@@ -51,8 +51,7 @@ void ParticleManager::_DEBUG_ShowParticleStats()
     char text[50];
     sprintf(text, "Particles: %d", GetNumParticles());
 
-    VideoManager->Move(896.0f, 690.0f);
-    TextManager->Draw(text);
+    TextManager->Draw(text, Transform2D(896.0f, 690.0f));
 }
 
 bool ParticleManager::Draw()

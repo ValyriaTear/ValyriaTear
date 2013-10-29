@@ -22,6 +22,7 @@
 
 #include "modes/menu/menu.h"
 
+#include "engine/video/transform2d.h"
 #include "engine/audio/audio.h"
 #include "engine/input.h"
 #include "engine/system.h"
@@ -86,32 +87,34 @@ void CharacterWindow::Draw()
 
     GlobalCharacter *character = GlobalManager->GetCharacter(_char_id);
 
+    Transform2D transform;
+
     //Draw character portrait
-    VideoManager->Move(x + 12, y + 8);
-    _portrait.Draw();
+    transform.Translate(x + 12, y + 8);
+    _portrait.Draw(transform, Color::white);
 
     // Write character name
-    VideoManager->MoveRelative(150, -5);
-    VideoManager->Text()->Draw(character->GetName(), TextStyle("title22"));
+    transform.Translate(150, -5);
+    VideoManager->Text()->Draw(character->GetName(), transform, TextStyle("title22"));
 
     // Level
-    VideoManager->MoveRelative(0, 19);
-    VideoManager->Text()->Draw(UTranslate("Lv: ") + MakeUnicodeString(NumberToString(character->GetExperienceLevel())), TextStyle("text20"));
+    transform.Translate(0, 19);
+    VideoManager->Text()->Draw(UTranslate("Lv: ") + MakeUnicodeString(NumberToString(character->GetExperienceLevel())), transform, TextStyle("text20"));
 
     // HP
-    VideoManager->MoveRelative(0, 19);
+    transform.Translate(0, 19);
     VideoManager->Text()->Draw(UTranslate("HP: ") + MakeUnicodeString(NumberToString(character->GetHitPoints()) +
-                               " / " + NumberToString(character->GetMaxHitPoints())), TextStyle("text20"));
+                               " / " + NumberToString(character->GetMaxHitPoints())), transform, TextStyle("text20"));
 
     // SP
-    VideoManager->MoveRelative(0, 19);
+    transform.Translate(0, 19);
     VideoManager->Text()->Draw(UTranslate("SP: ") + MakeUnicodeString(NumberToString(character->GetSkillPoints()) +
-                               " / " + NumberToString(character->GetMaxSkillPoints())), TextStyle("text20"));
+                               " / " + NumberToString(character->GetMaxSkillPoints())), transform, TextStyle("text20"));
 
     // XP to level up
-    VideoManager->MoveRelative(0, 19);
+    transform.Translate(0, 19);
     VideoManager->Text()->Draw(UTranslate("XP to Next: ") +
-                               MakeUnicodeString(NumberToString(character->GetExperienceForNextLevel())), TextStyle("text20"));
+                               MakeUnicodeString(NumberToString(character->GetExperienceForNextLevel())), transform, TextStyle("text20"));
 
     return;
 }
@@ -176,7 +179,7 @@ void InventoryWindow::_InitInventoryItems()
         _object = _item_objects[ _inventory_items.GetSelection() ];
         _object_type = _object->GetObjectType();
     }
-    VideoManager->MoveRelative(-65, 20);
+
     // Initially hide the cursor
     _inventory_items.SetCursorState(VIDEO_CURSOR_STATE_HIDDEN);
 }
@@ -691,9 +694,7 @@ void InventoryWindow::_DrawSpecialItemDescription(vt_video::StillImage* special_
 {
     int32 key_pos_x = 100 + _object->GetIconImage().GetWidth() - special_image->GetWidth() - 3;
     int32 key_pos_y = 600 + _object->GetIconImage().GetHeight() - special_image->GetHeight() - 3;
-    VideoManager->Move(key_pos_x, key_pos_y);
-    special_image->Draw();
-    VideoManager->Move(185, 600);
+    special_image->Draw(Transform2D(key_pos_x, key_pos_y), Color::white);
     description.Draw();
 }
 
@@ -706,7 +707,6 @@ void InventoryWindow::_DrawBottomInfo()
     MenuMode* menu = MenuMode::CurrentInstance();
 
     VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_BOTTOM, 0);
-    VideoManager->Move(150, 580);
 
     if(_active_box == ITEM_ACTIVE_CATEGORY) {
         menu->_bottom_window.Draw();
@@ -716,10 +716,12 @@ void InventoryWindow::_DrawBottomInfo()
         menu->_bottom_window.Draw();
 
         VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_CENTER, 0);
-        VideoManager->Move(100, 600);
-        _object->GetIconImage().Draw();
-        VideoManager->MoveRelative(65, -15);
-        VideoManager->Text()->Draw(_object->GetName());
+        Transform2D transform(100, 600);
+        _object->GetIconImage().Draw(transform, Color::white);
+
+        transform.Translate(65, -15);
+        VideoManager->Text()->Draw(_object->GetName(), transform);
+
         VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_BOTTOM, 0);
         _description.Draw();
 
@@ -1025,36 +1027,43 @@ void PartyWindow::UpdateStatus()
 
 void PartyWindow::_DrawBottomEquipmentInfo()
 {
-    VideoManager->Move(110.0f, 560.0f);
-    _average_text.Draw();
-    VideoManager->MoveRelative(-10.0f, 25.0f);
-    _average_atk_def_text.Draw();
-    VideoManager->MoveRelative(230.0f, 3.0f);
-    _average_atk_def_icons.Draw();
-    VideoManager->MoveRelative(25.0f, -3.0f);
-    _average_atk_def_numbers.Draw();
+    Transform2D transform(110.0f, 560.0f);
+    _average_text.Draw(transform, Color::white);
 
-    VideoManager->MoveRelative(40.0f, 0.0f);
-    _weapon_icon.Draw();
+    transform.Translate(-10.0f, 25.0f);
+    _average_atk_def_text.Draw(transform, Color::white);
 
-    VideoManager->MoveRelative(125.0f, -25.0f);
-    _focused_text.Draw();
-    VideoManager->MoveRelative(-10.0f, 25.0f);
-    _focused_def_text.Draw();
-    VideoManager->MoveRelative(80.0f, 20.0f);
-    _focused_def_category_icons.Draw();
-    VideoManager->MoveRelative(25.0f, 0.0f);
+    transform.Translate(230.0f, 3.0f);
+    _average_atk_def_icons.Draw(transform, Color::white);
+
+    transform.Translate(25.0f, -3.0f);
+    _average_atk_def_numbers.Draw(transform, Color::white);
+
+    transform.Translate(40.0f, 0.0f);
+    _weapon_icon.Draw(transform, Color::white);
+
+    transform.Translate(125.0f, -25.0f);
+    _focused_text.Draw(transform, Color::white);
+
+    transform.Translate(-10.0f, 25.0f);
+    _focused_def_text.Draw(transform, Color::white);
+
+    transform.Translate(80.0f, 20.0f);
+    _focused_def_category_icons.Draw(transform, Color::white);
+
+    transform.Translate(25.0f, 0.0f);
     for (uint32 i = 0; i < 4; ++i) {
-         _focused_def_armor_icons[i].Draw();
-         VideoManager->MoveRelative(0.0f, 20.0f);
+        _focused_def_armor_icons[i].Draw(transform, Color::white);
+        transform.Translate(0.0f, 20.0f);
     }
-    VideoManager->MoveRelative(50.0f, -100.0f);
-    _focused_def_icon->Draw();
-    _focused_def_numbers.Draw();
 
-    VideoManager->MoveRelative(50.0f, 0.0f);
-    _focused_mdef_icon->Draw();
-    _focused_mdef_numbers.Draw();
+    transform.Translate(50.0f, -100.0f);
+    _focused_def_icon->Draw(transform, Color::white);
+    _focused_def_numbers.Draw(transform, Color::white);
+
+    transform.Translate(50.0f, 0.0f);
+    _focused_mdef_icon->Draw(transform, Color::white);
+    _focused_mdef_numbers.Draw(transform, Color::white);
 }
 
 // Draws the party window
@@ -1064,22 +1073,22 @@ void PartyWindow::Draw()
     _char_select.Draw();
     _second_char_select.Draw();
 
+    //Draw character full body portrait
     VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_TOP, VIDEO_BLEND, 0);
 
-     //Draw character full body portrait
-    VideoManager->Move(440.0f, 130.0f);
-    _full_portraits[_char_select.GetSelection()].Draw();
+    _full_portraits[_char_select.GetSelection()].Draw(Transform2D(440.0f, 130.0f), Color::white);
 
-    VideoManager->Move(660.0f, 130.0f);
-    _character_status_text.Draw();
-    VideoManager->MoveRelative(200.0f, 0.0f);
-    _character_status_numbers.Draw();
-    VideoManager->MoveRelative(-25.0f, 67.0f);
-    _character_status_icons.Draw();
+    Transform2D transform(660.0f, 130.0f);
+    _character_status_text.Draw(transform, Color::white);
+
+    transform.Translate(200.0f, 0.0f);
+    _character_status_numbers.Draw(transform, Color::white);
+
+    transform.Translate(-25.0f, 67.0f);
+    _character_status_icons.Draw(transform, Color::white);
 
     if (GetActiveState() != FORM_ACTIVE_NONE) {
-        VideoManager->Move(450.0f, 500.0f);
-        _help_text.Draw();
+        _help_text.Draw(Transform2D(450.0f, 500.0f), Color::white);
         // Draw equipment info
         _DrawBottomEquipmentInfo();
     }
@@ -2029,23 +2038,23 @@ void EquipWindow::Draw()
 
     if(_active_box == EQUIP_ACTIVE_LIST) {
         _equip_list.Draw();
-        VideoManager->Move(660.0f, 135.0f);
+        const Transform2D transform(660.0f, 135.0f);
         VideoManager->SetDrawFlags(VIDEO_X_CENTER, VIDEO_Y_CENTER, 0);
         switch(_equip_select.GetSelection()) {
         case EQUIP_WEAPON:
-            _weapon_label.Draw();
+            _weapon_label.Draw(transform, Color::white);
             break;
         case EQUIP_HEAD:
-            _head_label.Draw();
+            _head_label.Draw(transform, Color::white);
             break;
         case EQUIP_TORSO:
-            _torso_label.Draw();
+            _torso_label.Draw(transform, Color::white);
             break;
         case EQUIP_ARMS:
-            _arms_label.Draw();
+            _arms_label.Draw(transform, Color::white);
             break;
         case EQUIP_LEGS:
-            _legs_label.Draw();
+            _legs_label.Draw(transform, Color::white);
             break;
         }
     }
@@ -2054,22 +2063,26 @@ void EquipWindow::Draw()
         _equip_select.Draw();
 
         VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_TOP, 0);
-        VideoManager->Move(450.0f, 170.0f);
-        _weapon_label.Draw();
-        VideoManager->MoveRelative(0.0f, 70.0f);
-        _head_label.Draw();
-        VideoManager->MoveRelative(0.0f, 70.0f);
-        _torso_label.Draw();
-        VideoManager->MoveRelative(0.0f, 70.0f);
-        _arms_label.Draw();
-        VideoManager->MoveRelative(0.0f, 70.0f);
-        _legs_label.Draw();
+        Transform2D transform(450.0f, 170.0f);
 
-        VideoManager->MoveRelative(150.0f, -370.0f);
+        _weapon_label.Draw(transform, Color::white);
 
+        transform.Translate(0.0f, 70.0f);
+        _head_label.Draw(transform, Color::white);
+
+        transform.Translate(0.0f, 70.0f);
+        _torso_label.Draw(transform, Color::white);
+
+        transform.Translate(0.0f, 70.0f);
+        _arms_label.Draw(transform, Color::white);
+
+        transform.Translate(0.0f, 70.0f);
+        _legs_label.Draw(transform, Color::white);
+
+        transform.Translate(150.0f, -370.0f);
         for(uint32 i = 0; i < _equip_images.size(); ++i) {
-            VideoManager->MoveRelative(0.0f, 70.0f);
-            _equip_images[i].Draw();
+            transform.Translate(0.0f, 70.0f);
+            _equip_images[i].Draw(transform, Color::white);
         }
     }
 
@@ -2299,16 +2312,14 @@ void QuestWindow::DrawBottom()
     if(_location_image != NULL && _location_image->GetFilename().empty() == false) {
         VideoManager->SetDrawFlags(VIDEO_X_RIGHT, VIDEO_Y_BOTTOM, 0);
         VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_BOTTOM, 0);
-        VideoManager->Move(102, 685);
-        _location_image->Draw();
+        _location_image->Draw(Transform2D(102, 685), Color::white);
     }
 
     //check location subimage and draw
     if(_location_subimage != NULL && _location_subimage->GetFilename().empty() == false) {
         VideoManager->SetDrawFlags(VIDEO_X_RIGHT, VIDEO_Y_BOTTOM, 0);
         VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_BOTTOM, 0);
-        VideoManager->Move(500, 685);
-        _location_subimage->Draw();
+        _location_subimage->Draw(Transform2D(500, 685), Color::white);
     }
 }
 
@@ -2373,9 +2384,10 @@ void WorldMapWindow::Draw()
         return;
     float window_position_x, window_position_y;
     GetPosition(window_position_x, window_position_y);
-    VideoManager->Move(window_position_x + _current_image_x_offset, window_position_y + _current_image_y_offset);
 
-    _current_world_map->Draw();
+    const float x = window_position_x + _current_image_x_offset;
+    const float y = window_position_y + _current_image_y_offset;
+    _current_world_map->Draw(Transform2D(x, y), Color::white);
 
     //draw the dots and currently selected location if active
     if(IsActive())
@@ -2400,8 +2412,9 @@ void WorldMapWindow::_DrawViewableLocations(float window_position_x, float windo
             continue;
         }
         //draw the location marker
-        VideoManager->Move(window_position_x + _current_image_x_offset + location->_x, window_position_y + _current_image_y_offset + location->_y);
-        _location_marker.Draw();
+        const float x = window_position_x + _current_image_x_offset + location->_x;
+        const float y = window_position_y + _current_image_y_offset + location->_y;
+        _location_marker.Draw(Transform2D(x, y), Color::white);
 
         //draw the pointer
         if(i == _location_pointer_index)
@@ -2410,11 +2423,10 @@ void WorldMapWindow::_DrawViewableLocations(float window_position_x, float windo
             //of the location marker
             static const float minor_offset_x = 2.0f;
             static const float minor_offset_y = -8.0f;
-            VideoManager->Move(window_position_x + _current_image_x_offset + location->_x + minor_offset_x,
-                               window_position_y + _current_image_y_offset + location->_y - _location_pointer.GetHeight() + minor_offset_y);
-            _location_pointer.Draw();
+            const float x = window_position_x + _current_image_x_offset + location->_x + minor_offset_x;
+            const float y = window_position_y + _current_image_y_offset + location->_y - _location_pointer.GetHeight() + minor_offset_y;
+            _location_pointer.Draw(Transform2D(x, y), Color::white);
         }
-
     }
 }
 

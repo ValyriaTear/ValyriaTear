@@ -25,6 +25,7 @@
 #include "common/global/global.h"
 
 #include "engine/video/particle_effect.h"
+#include "engine/video/transform2d.h"
 #include "engine/audio/audio.h"
 
 #include "utils/utils_random.h"
@@ -64,37 +65,30 @@ MapObject::MapObject() :
     _emote_time(0)
 {}
 
-bool MapObject::ShouldDraw()
+bool MapObject::IsColliding(float x, float y)
 {
-    if(!visible)
+    ObjectSupervisor* obj_sup = MapMode::CurrentInstance()->GetObjectSupervisor();
+    return obj_sup->DetectCollision(this, x, y);
+}
+
+bool MapObject::IsCollidingWith(MapObject* other_object)
+{
+     if (!other_object)
         return false;
 
-    MapMode *map = MapMode::CurrentInstance();
-
-    // Determine if the sprite is off-screen and if so, don't draw it.
-    if(!MapRectangle::CheckIntersection(GetImageRectangle(), map->GetMapFrame().screen_edges))
+     if (collision_mask == NO_COLLISION)
         return false;
 
-    // Determine the center position coordinates for the camera
-    float x_pos, y_pos; // Holds the final X, Y coordinates of the camera
-    float x_pixel_length, y_pixel_length; // The X and Y length values that coorespond to a single pixel in the current coodinate system
-    float rounded_x_offset, rounded_y_offset; // The X and Y position offsets of the object, rounded to perfectly align on a pixel boundary
+     if (other_object->collision_mask == NO_COLLISION)
+        return false;
 
+    MapRectangle other_rect = other_object->GetCollisionRectangle();
 
-    // TODO: the call to GetPixelSize() will return the same result every time so long as the coordinate system did not change. If we never
-    // change the coordinate system in map mode, then this should be done only once and the calculated values should be saved for re-use.
-    // However, we've discussed the possiblity of adding a zoom feature to maps, in which case we need to continually re-calculate the pixel size
-    VideoManager->GetPixelSize(x_pixel_length, y_pixel_length);
-    rounded_x_offset = FloorToFloatMultiple(GetFloatFraction(GetXPosition()), x_pixel_length);
-    rounded_y_offset = FloorToFloatMultiple(GetFloatFraction(GetYPosition()), y_pixel_length);
-    x_pos = static_cast<float>(GetFloatInteger(GetXPosition())) + rounded_x_offset;
-    y_pos = static_cast<float>(GetFloatInteger(GetYPosition())) + rounded_y_offset;
+    if (!MapRectangle::CheckIntersection(GetCollisionRectangle(), other_rect))
+        return false;
 
-    // ---------- Move the drawing cursor to the appropriate coordinates for this sprite
-    VideoManager->Move(x_pos - map->GetMapFrame().screen_edges.left,
-                       y_pos - map->GetMapFrame().screen_edges.top);
-    return true;
-} // bool MapObject::ShouldDraw()
+    return collision_mask & other_object->collision_mask;
+}
 
 MapRectangle MapObject::GetCollisionRectangle() const
 {
@@ -164,40 +158,54 @@ void MapObject::_UpdateEmote()
     _emote_animation->Update();
 }
 
-void MapObject::_DrawEmote()
+void MapObject::_DrawEmote(const Transform2D &transform)
 {
     if(!_emote_animation)
         return;
 
     // Move the emote to the sprite head top, where the offset should applied from.
-    VideoManager->MoveRelative(_emote_offset_x, -img_height + _emote_offset_y);
-    _emote_animation->Draw();
+    Transform2D transform_local(transform);
+    transform_local.Translate(_emote_offset_x, -img_height + _emote_offset_y);
+    _emote_animation->Draw(transform_local, Color::white);
 }
 
-bool MapObject::IsColliding(float x, float y)
+bool MapObject::_ShouldDraw() const
 {
-    ObjectSupervisor* obj_sup = MapMode::CurrentInstance()->GetObjectSupervisor();
-    return obj_sup->DetectCollision(this, x, y);
+    if(!visible)
+        return false;
+
+    const MapMode *map = MapMode::CurrentInstance();
+
+    // Determine if the sprite is off-screen and if so, don't draw it.
+    if(!MapRectangle::CheckIntersection(GetImageRectangle(), map->GetMapFrame().screen_edges))
+        return false;
+
+    return true;
 }
 
-bool MapObject::IsCollidingWith(MapObject* other_object)
+void MapObject::_GetDrawPosition(float &x, float &y) const
 {
-     if (!other_object)
-        return false;
+    const MapMode *map = MapMode::CurrentInstance();
 
-     if (collision_mask == NO_COLLISION)
-        return false;
+    // Determine the center position coordinates for the camera
+    float x_pos, y_pos; // Holds the final X, Y coordinates of the camera
+    float x_pixel_length, y_pixel_length; // The X and Y length values that coorespond to a single pixel in the current coodinate system
+    float rounded_x_offset, rounded_y_offset; // The X and Y position offsets of the object, rounded to perfectly align on a pixel boundary
 
-     if (other_object->collision_mask == NO_COLLISION)
-        return false;
 
-    MapRectangle other_rect = other_object->GetCollisionRectangle();
+    // TODO: the call to GetPixelSize() will return the same result every time so long as the coordinate system did not change. If we never
+    // change the coordinate system in map mode, then this should be done only once and the calculated values should be saved for re-use.
+    // However, we've discussed the possiblity of adding a zoom feature to maps, in which case we need to continually re-calculate the pixel size
+    VideoManager->GetPixelSize(x_pixel_length, y_pixel_length);
+    rounded_x_offset = FloorToFloatMultiple(GetFloatFraction(GetXPosition()), x_pixel_length);
+    rounded_y_offset = FloorToFloatMultiple(GetFloatFraction(GetYPosition()), y_pixel_length);
+    x_pos = static_cast<float>(GetFloatInteger(GetXPosition())) + rounded_x_offset;
+    y_pos = static_cast<float>(GetFloatInteger(GetYPosition())) + rounded_y_offset;
 
-    if (!MapRectangle::CheckIntersection(GetCollisionRectangle(), other_rect))
-        return false;
-
-    return collision_mask & other_object->collision_mask;
+    x = x_pos - map->GetMapFrame().screen_edges.left;
+    y = y_pos - map->GetMapFrame().screen_edges.top;
 }
+
 
 // ----------------------------------------------------------------------------
 // ---------- PhysicalObject Class Functions
@@ -222,15 +230,17 @@ void PhysicalObject::Update()
 
 void PhysicalObject::Draw()
 {
-    if(!animations.empty() && MapObject::ShouldDraw()) {
-        animations[current_animation].Draw();
+    if(!animations.empty() && MapObject::_ShouldDraw()) {
+        float x, y;
+        MapObject::_GetDrawPosition(x, y);
+        animations[current_animation].Draw(Transform2D(x, y), Color::white);
 
         // Draw collision rectangle if the debug view is on.
         if(VideoManager->DebugInfoOn()) {
-            float x, y = 0.0f;
-            VideoManager->GetDrawPosition(x, y);
             MapRectangle rect = GetCollisionRectangle(x, y);
-            VideoManager->DrawRectangle(rect.right - rect.left, rect.bottom - rect.top, Color(0.0f, 1.0f, 0.0f, 0.6f));
+            const float w = rect.right - rect.left;
+            const float h = rect.bottom - rect.top;
+            VideoManager->DrawRectangle(x, y, w, h, Color(0.0f, 1.0f, 0.0f, 0.6f));
         }
     }
 }
@@ -327,21 +337,22 @@ void ParticleObject::Draw()
     if(!_particle_effect)
         return;
 
-    if(MapObject::ShouldDraw()) {
-        float standard_pos_x, standard_pos_y;
-        VideoManager->GetDrawPosition(standard_pos_x, standard_pos_y);
+    if(MapObject::_ShouldDraw()) {
+        float x, y;
+        MapObject::_GetDrawPosition(x, y);
         VideoManager->SetStandardCoordSys();
-        _particle_effect->Move(standard_pos_x / SCREEN_GRID_X_LENGTH * VIDEO_STANDARD_RES_WIDTH,
-                               standard_pos_y / SCREEN_GRID_Y_LENGTH * VIDEO_STANDARD_RES_HEIGHT);
+        _particle_effect->Move(x / SCREEN_GRID_X_LENGTH * VIDEO_STANDARD_RES_WIDTH,
+                               y / SCREEN_GRID_Y_LENGTH * VIDEO_STANDARD_RES_HEIGHT);
         _particle_effect->Draw();
         // Reset the map mode coord sys afterward.
         VideoManager->SetCoordSys(0.0f, SCREEN_GRID_X_LENGTH, SCREEN_GRID_Y_LENGTH, 0.0f);
 
         // Draw collision rectangle if the debug view is on.
         if(VideoManager->DebugInfoOn()) {
-            VideoManager->Move(standard_pos_x, standard_pos_y);
             MapRectangle rect = GetImageRectangle();
-            VideoManager->DrawRectangle(rect.right - rect.left, rect.bottom - rect.top, Color(0.0f, 1.0f, 1.0f, 0.6f));
+            const float w = rect.right - rect.left;
+            const float h = rect.bottom - rect.top;
+            VideoManager->DrawRectangle(x, y, w, h, Color(0.0f, 1.0f, 1.0f, 0.6f));
         }
     }
 }
@@ -407,9 +418,13 @@ void SavePoint::Draw()
     if(!_animations)
         return;
 
-    if(MapObject::ShouldDraw()) {
-        for(uint32 i = 0; i < _animations->size(); ++i)
-            _animations->at(i).Draw();
+    if(MapObject::_ShouldDraw()) {
+        float x, y;
+        MapObject::_GetDrawPosition(x, y);
+        const Transform2D transform(x, y);
+        for(uint32 i = 0; i < _animations->size(); ++i) {
+            _animations->at(i).Draw(transform, Color::white);
+        }
     }
 }
 
@@ -461,14 +476,19 @@ void Halo::Update()
 
 void Halo::Draw()
 {
-    if(MapObject::ShouldDraw() && _animation.GetCurrentFrame())
-        VideoManager->DrawHalo(*_animation.GetCurrentFrame(), _color);
+    if(MapObject::_ShouldDraw() && _animation.GetCurrentFrame()) {
+        float x, y;
+        MapObject::_GetDrawPosition(x, y);
+        VideoManager->DrawHalo(*_animation.GetCurrentFrame(), Transform2D(x, y), _color);
+    }
 }
 
 // Light objects
 Light::Light(const std::string &main_flare_filename,
              const std::string &secondary_flare_filename,
-             float x, float y, const Color &main_color, const Color &secondary_color):
+             float x, float y,
+             const Color &main_color,
+             const Color &secondary_color):
     MapObject()
 {
     _main_color = main_color;
@@ -572,16 +592,16 @@ void Light::Update()
 
 void Light::Draw()
 {
-    if(MapObject::ShouldDraw()
-            && _main_animation.GetCurrentFrame()) {
+    if(MapObject::_ShouldDraw() && _main_animation.GetCurrentFrame()) {
         MapMode *mm = MapMode::CurrentInstance();
         if(!mm)
             return;
         const MapFrame &frame = mm->GetMapFrame();
 
+        float x, y;
+        MapObject::_GetDrawPosition(x, y);
         VideoManager->SetDrawFlags(VIDEO_X_CENTER, VIDEO_Y_CENTER, 0);
-
-        VideoManager->DrawHalo(*_main_animation.GetCurrentFrame(), _main_color_alpha);
+        VideoManager->DrawHalo(*_main_animation.GetCurrentFrame(), Transform2D(x, y), _main_color_alpha);
 
         if(!_secondary_animation.GetCurrentFrame()) {
             VideoManager->SetDrawFlags(VIDEO_X_CENTER, VIDEO_Y_BOTTOM, 0);
@@ -590,27 +610,35 @@ void Light::Draw()
 
         float next_pos_x = position.x - _distance / _distance_factor_1;
         float next_pos_y = _a * next_pos_x + _b;
-        VideoManager->Move(next_pos_x - frame.screen_edges.left,
-                           next_pos_y - frame.screen_edges.top);
-        VideoManager->DrawHalo(*_secondary_animation.GetCurrentFrame(), _secondary_color_alpha);
+        next_pos_x -= frame.screen_edges.left;
+        next_pos_y -= frame.screen_edges.top;
+        VideoManager->DrawHalo(*_secondary_animation.GetCurrentFrame(),
+                               Transform2D(next_pos_x, next_pos_y),
+                               _secondary_color_alpha);
 
         next_pos_x = position.x - _distance / _distance_factor_2;
         next_pos_y = _a * next_pos_x + _b;
-        VideoManager->Move(next_pos_x - frame.screen_edges.left,
-                           next_pos_y - frame.screen_edges.top);
-        VideoManager->DrawHalo(*_secondary_animation.GetCurrentFrame(), _secondary_color_alpha);
+        next_pos_x -= frame.screen_edges.left;
+        next_pos_y -= frame.screen_edges.top;
+        VideoManager->DrawHalo(*_secondary_animation.GetCurrentFrame(),
+                               Transform2D(next_pos_x, next_pos_y),
+                               _secondary_color_alpha);
 
         next_pos_x = position.x + _distance / _distance_factor_3;
         next_pos_y = _a * next_pos_x + _b;
-        VideoManager->Move(next_pos_x - frame.screen_edges.left,
-                           next_pos_y - frame.screen_edges.top);
-        VideoManager->DrawHalo(*_secondary_animation.GetCurrentFrame(), _secondary_color_alpha);
+        next_pos_x -= frame.screen_edges.left;
+        next_pos_y -= frame.screen_edges.top;
+        VideoManager->DrawHalo(*_secondary_animation.GetCurrentFrame(),
+                               Transform2D(next_pos_x, next_pos_y),
+                               _secondary_color_alpha);
 
         next_pos_x = position.x + _distance / _distance_factor_4;
         next_pos_y = _a * next_pos_x + _b;
-        VideoManager->Move(next_pos_x - frame.screen_edges.left,
-                           next_pos_y - frame.screen_edges.top);
-        VideoManager->DrawHalo(*_secondary_animation.GetCurrentFrame(), _secondary_color_alpha);
+        next_pos_x -= frame.screen_edges.left;
+        next_pos_y -= frame.screen_edges.top;
+        VideoManager->DrawHalo(*_secondary_animation.GetCurrentFrame(),
+                               Transform2D(next_pos_x, next_pos_y),
+                               _secondary_color_alpha);
 
         VideoManager->SetDrawFlags(VIDEO_X_CENTER, VIDEO_Y_BOTTOM, 0);
     }
@@ -1123,10 +1151,9 @@ void ObjectSupervisor::DrawLights()
 
 void ObjectSupervisor::DrawDialogIcons()
 {
-    MapSprite *mapSprite;
     for(uint32 i = 0; i < _ground_objects.size(); i++) {
         if(_ground_objects[i]->GetObjectType() == SPRITE_TYPE) {
-            mapSprite = static_cast<MapSprite *>(_ground_objects[i]);
+            MapSprite *mapSprite = static_cast<MapSprite *>(_ground_objects[i]);
             mapSprite->DrawDialog();
         }
     }
@@ -1621,20 +1648,21 @@ bool ObjectSupervisor::IsWithinMapBounds(VirtualSprite *sprite) const
 
 void ObjectSupervisor::DrawCollisionArea(const MapFrame *frame)
 {
-    VideoManager->Move(frame->tile_x_offset - 0.5f, frame->tile_y_offset - 1.0f);
-
+    float posx = frame->tile_x_offset - 0.5f;
+    float posy = frame->tile_y_offset - 1.0f;
     for(uint32 y = static_cast<uint32>(frame->tile_y_start * 2);
             y < static_cast<uint32>((frame->tile_y_start + frame->num_draw_y_axis) * 2); ++y) {
         for(uint32 x = static_cast<uint32>(frame->tile_x_start * 2);
                 x < static_cast<uint32>((frame->tile_x_start + frame->num_draw_x_axis) * 2); ++x) {
 
             // Draw the collision rectangle
-            if(_collision_grid[y][x] > 0)
-                VideoManager->DrawRectangle(1.0f, 1.0f, Color(1.0f, 0.0f, 0.0f, 0.6f));
-
-            VideoManager->MoveRelative(1.0f, 0.0f);
+            if(_collision_grid[y][x] > 0) {
+                VideoManager->DrawRectangle(posx, posy, 1.0f, 1.0f, Color(1.0f, 0.0f, 0.0f, 0.6f));
+            }
+            posx += 1.0f;
         } // x
-        VideoManager->MoveRelative(-static_cast<float>(frame->num_draw_x_axis * 2), 1.0f);
+        posx -= static_cast<float>(frame->num_draw_x_axis * 2);
+        posy += 1.0f;
     } // y
 }
 

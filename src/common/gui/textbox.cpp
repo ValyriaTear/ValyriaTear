@@ -20,6 +20,7 @@
 
 #include "common/gui/menu_window.h"
 #include "engine/video/video.h"
+#include "engine/video/transform2d.h"
 
 using namespace vt_utils;
 using namespace vt_video;
@@ -122,9 +123,6 @@ void TextBox::Draw()
     }
     */
 
-    // Set the draw cursor, draw flags, and draw the text
-    VideoManager->Move(0.0f, _text_ypos);
-    VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_TOP, VIDEO_BLEND, 0);
     _DrawTextLines(_text_xpos, _text_ypos, _scissor_rect);
 
     if(GUIManager->DEBUG_DrawOutlines())
@@ -460,6 +458,10 @@ bool TextBox::_IsBreakableChar(uint16 character)
 
 void TextBox::_DrawTextLines(float text_x, float text_y, ScreenRect scissor_rect)
 {
+    Transform2D transform(0.0f, text_y);
+
+    VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_TOP, VIDEO_BLEND, 0);
+
     int32 num_chars_drawn = 0;
 
     // Calculate the fraction of the text to display
@@ -476,13 +478,13 @@ void TextBox::_DrawTextLines(float text_x, float text_y, ScreenRect scissor_rect
         int32 x_align = VideoManager->_ConvertXAlign(_text_xalign);
         float x_offset = text_x + ((x_align + 1) * line_width) * 0.5f * VideoManager->_current_context.coordinate_system.GetHorizontalDirection();
 
-        VideoManager->MoveRelative(x_offset, 0.0f);
+        transform.Translate(x_offset, 0.0f);
 
         int32 line_size = static_cast<int32>(_text[line].size());
 
         // (2): Draw the text depending on the display mode and whether or not the gradual display is finished
         if(_finished || _mode == VIDEO_TEXT_INSTANT) {
-            TextManager->Draw(_text[line], _text_style);
+            TextManager->Draw(_text[line], transform, _text_style);
         }
         else if(_mode == VIDEO_TEXT_CHAR) {
             // Determine which character is currently being rendered
@@ -490,14 +492,14 @@ void TextBox::_DrawTextLines(float text_x, float text_y, ScreenRect scissor_rect
 
             // If the current character to draw is after this line, render the entire line
             if(num_chars_drawn + line_size < cur_char) {
-                TextManager->Draw(_text[line], _text_style);
+                TextManager->Draw(_text[line], transform, _text_style);
             }
             // The current character to draw is on this line: figure out which characters on this line should be drawn
             else {
                 int32 num_completed_chars = cur_char - num_chars_drawn;
                 if(num_completed_chars > 0) {
                     ustring substring = _text[line].substr(0, num_completed_chars);
-                    TextManager->Draw(substring);
+                    TextManager->Draw(substring, transform);
                 }
             }
         } // else if (_mode == VIDEO_TEXT_CHAR)
@@ -510,7 +512,7 @@ void TextBox::_DrawTextLines(float text_x, float text_y, ScreenRect scissor_rect
 
             // If the current character to draw is after this line, draw the whole line
             if(num_chars_drawn + line_size <= cur_char) {
-                TextManager->Draw(_text[line], _text_style);
+                TextManager->Draw(_text[line], transform, _text_style);
             }
             // The current character is on this line: draw any previous characters on this line as well as the current character
             else {
@@ -523,15 +525,15 @@ void TextBox::_DrawTextLines(float text_x, float text_y, ScreenRect scissor_rect
                     // Draw any fully completed characters at full opacity
                     if(num_completed_chars > 0) {
                         substring = _text[line].substr(0, num_completed_chars);
-                        TextManager->Draw(substring, _text_style);
+                        TextManager->Draw(substring, transform, _text_style);
                     }
 
                     // Draw the current character that is being faded in at the appropriate alpha level
                     Color old_color = _text_style.color;
                     _text_style.color[3] *= cur_percent;
 
-                    VideoManager->MoveRelative(static_cast<float>(TextManager->CalculateTextWidth(_text_style.font, substring)), 0.0f);
-                    TextManager->Draw(_text[line].substr(num_completed_chars, 1), _text_style);
+                    transform.Translate(static_cast<float>(TextManager->CalculateTextWidth(_text_style.font, substring)), 0.0f);
+                    TextManager->Draw(_text[line].substr(num_completed_chars, 1), transform, _text_style);
                     _text_style.color = old_color;
                 }
             }
@@ -545,14 +547,14 @@ void TextBox::_DrawTextLines(float text_x, float text_y, ScreenRect scissor_rect
 
             // If this line comes before the line being rendered, simply draw the line and be done with it
             if(line < lines) {
-                TextManager->Draw(_text[line], _text_style);
+                TextManager->Draw(_text[line], transform, _text_style);
             }
             // Otherwise if this is the line being rendered, determine the amount of alpha for the line being faded in and draw it
             else if(line == lines) {
                 Color old_color = _text_style.color;
                 _text_style.color[3] *= cur_percent;
 
-                TextManager->Draw(_text[line], _text_style);
+                TextManager->Draw(_text[line], transform, _text_style);
                 _text_style.color = old_color;
             }
         } // else if (_mode == VIDEO_TEXT_FADELINE)
@@ -566,7 +568,7 @@ void TextBox::_DrawTextLines(float text_x, float text_y, ScreenRect scissor_rect
 
             // If the current character comes after this line, simply render the entire line
             if(num_chars_drawn + line_size <= cur_char) {
-                TextManager->Draw(_text[line], _text_style);
+                TextManager->Draw(_text[line], transform, _text_style);
             }
             // If the line contains the current character, draw all previous characters as well as the current one
             else if(num_completed_chars >= 0) {
@@ -575,7 +577,7 @@ void TextBox::_DrawTextLines(float text_x, float text_y, ScreenRect scissor_rect
                 // If there are already completed characters on this line, draw them in full
                 if(num_completed_chars > 0) {
                     substring = _text[line].substr(0, num_completed_chars);
-                    TextManager->Draw(substring, _text_style);
+                    TextManager->Draw(substring, transform, _text_style);
                 }
 
                 // Now draw the current character from the line, partially scissored according to the amount that is complete
@@ -599,7 +601,7 @@ void TextBox::_DrawTextLines(float text_x, float text_y, ScreenRect scissor_rect
 
                 // Multiply the width by percentage done to determine the scissoring dimensions
                 char_w = static_cast<int32>(cur_percent * char_w);
-                VideoManager->MoveRelative(VideoManager->_current_context.coordinate_system.GetHorizontalDirection()
+                transform.Translate(VideoManager->_current_context.coordinate_system.GetHorizontalDirection()
                                            * TextManager->CalculateTextWidth(_text_style.font, substring), 0.0f);
 
                 // Construct the scissor rectangle using the character dimensions and draw the revealing character
@@ -608,7 +610,7 @@ void TextBox::_DrawTextLines(float text_x, float text_y, ScreenRect scissor_rect
                 scissor_rect.Intersect(char_scissor_rect);
                 VideoManager->EnableScissoring();
                 VideoManager->SetScissorRect(scissor_rect);
-                TextManager->Draw(cur_char_string, _text_style);
+                TextManager->Draw(cur_char_string, transform, _text_style);
                 VideoManager->PopState();
             }
             // In the else case, the current character is before the line, so we don't draw anything for this line at all
@@ -616,7 +618,7 @@ void TextBox::_DrawTextLines(float text_x, float text_y, ScreenRect scissor_rect
 
         else {
             // Invalid display mode: just render the text instantly
-            TextManager->Draw(_text[line]);
+            TextManager->Draw(_text[line], transform);
             IF_PRINT_WARNING(VIDEO_DEBUG) << "an unknown/unsupported text display mode was active: " << _mode << std::endl;
         }
 
@@ -624,7 +626,7 @@ void TextBox::_DrawTextLines(float text_x, float text_y, ScreenRect scissor_rect
         num_chars_drawn += line_size;
 // 		VideoManager->MoveRelative(-xOffset, _font_properties.line_skip * -cs._vertical_direction);
         text_y += _font_properties->line_skip * -VideoManager->_current_context.coordinate_system.GetVerticalDirection();
-        VideoManager->Move(0.0f, text_y);
+        transform = Transform2D(0.0f, text_y);
     } // for (int32 line = 0; line < static_cast<int32>(_text.size()); ++line)
 } // void TextBox::_DrawLines(float text_x, float text_y, ScreenRect scissor_rect)
 
@@ -639,7 +641,6 @@ void TextBox::_DEBUG_DrawOutline()
     float top    = _height;
 
     // Draw the outline of the textbox
-    VideoManager->Move(0.0f, 0.0f);
     CalculateAlignedRect(left, right, bottom, top);
     VideoManager->DrawRectangleOutline(left, right, bottom, top, 3, alpha_black);
     VideoManager->DrawRectangleOutline(left, right, bottom, top, 1, alpha_white);

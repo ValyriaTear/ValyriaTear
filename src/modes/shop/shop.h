@@ -305,14 +305,20 @@ private:
     **/
     void _SetStatusIcons(const std::vector<std::pair<vt_global::GLOBAL_STATUS, vt_global::GLOBAL_INTENSITY> >& status_effects);
 
-    //! \brief Helper function that draws information specific to items
-    void _DrawItem();
+    /** \brief Helper function that draws information specific to items
+    *** \param transform 2D transform applied to the items
+    **/
+    void _DrawItem(const vt_video::Transform2D &transform);
 
-    //! \brief Helper function that draws information specific to equipment
-    void _DrawEquipment();
+    /** \brief Helper function that draws information specific to equipment
+    *** \param transform 2D transform applied to the equipment
+    **/
+    void _DrawEquipment(const vt_video::Transform2D &transform);
 
-    //! \brief Helper function that draws information specific to spirits
-    void _DrawSpirit();
+    /** \brief Helper function that draws information specific to spirits
+    *** \param transform 2D transform applied to the spirits
+    **/
+    void _DrawSpirit(const vt_video::Transform2D &transform);
 }; // class ShopObjectViewer
 
 } // namespace private_shop

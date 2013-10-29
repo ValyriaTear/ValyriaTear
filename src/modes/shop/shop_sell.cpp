@@ -28,6 +28,7 @@
 #include "engine/input.h"
 #include "engine/system.h"
 #include "engine/video/video.h"
+#include "engine/video/transform2d.h"
 
 #include "common/global/global.h"
 
@@ -373,12 +374,12 @@ void SellInterface::Draw()
 {
     if(_view_mode == SHOP_VIEW_MODE_LIST) {
         VideoManager->SetDrawFlags(VIDEO_X_CENTER, VIDEO_Y_BOTTOM, 0);
-        VideoManager->Move(200.0f, 210.0f);
-        _category_header.Draw();
+        Transform2D transform(200.0f, 210.0f);
+        _category_header.Draw(transform, Color::white);
 
         VideoManager->SetDrawFlags(VIDEO_X_LEFT, 0);
-        VideoManager->MoveRelative(95.0f, 0.0f);
-        _name_header.Draw();
+        transform.Translate(95.0f, 0.0f);
+        _name_header.Draw(transform, Color::white);
 
         _properties_header.Draw();
 
@@ -386,14 +387,14 @@ void SellInterface::Draw()
         _list_displays[_current_category]->Draw();
     } else if(_view_mode == SHOP_VIEW_MODE_INFO) {
         VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_BOTTOM, 0);
-        VideoManager->Move(295.0f, 593.0f);
-        _name_header.Draw();
+        Transform2D transform(295.0f, 593.0f);
+        _name_header.Draw(transform, Color::white);
         _properties_header.Draw();
 
-        VideoManager->MoveRelative(0.0f, 50.0f);
-        _selected_icon.Draw();
-        VideoManager->MoveRelative(30.0f, 0.0f);
-        _selected_name.Draw();
+        transform.Translate(0.0f, 50.0f);
+        _selected_icon.Draw(transform, Color::white);
+        transform.Translate(30.0f, 0.0f);
+        _selected_name.Draw(transform, Color::white);
         _selected_properties.Draw();
 
         _category_display.Draw();

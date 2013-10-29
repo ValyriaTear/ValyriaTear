@@ -26,6 +26,7 @@
 #include "engine/mode_manager.h"
 #include "engine/script/script.h"
 #include "engine/video/video.h"
+#include "engine/video/transform2d.h"
 
 #include "modes/pause.h"
 
@@ -969,8 +970,7 @@ uint32 BattleMode::_NumberCharactersAlive() const
 void BattleMode::_DrawBackgroundGraphics()
 {
     VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_BOTTOM, VIDEO_NO_BLEND, 0);
-    VideoManager->Move(0.0f, 768.0f);
-    _battle_media.background_image.Draw();
+    _battle_media.background_image.Draw(Transform2D(0.0f, 768.0f), Color::white);
 
     VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_TOP, VIDEO_BLEND, 0);
     VideoManager->SetStandardCoordSys();
@@ -1009,15 +1009,15 @@ void BattleMode::_DrawSprites()
     if(draw_actor_selection == true) {
         VideoManager->SetDrawFlags(VIDEO_X_CENTER, VIDEO_Y_BOTTOM, VIDEO_BLEND, 0);
         if(actor_target != NULL) {
-            VideoManager->Move(actor_target->GetXLocation(), actor_target->GetYLocation());
-            VideoManager->MoveRelative(0.0f, 20.0f);
-            _battle_media.actor_selection_image.Draw();
+            float x = actor_target->GetXLocation();
+            float y = actor_target->GetYLocation() + 20.0f;
+            _battle_media.actor_selection_image.Draw(Transform2D(x, y), Color::white);
         } else if(IsTargetParty(target.GetType()) == true) {
             std::deque<BattleActor *>& party_target = *(target.GetParty());
             for(uint32 i = 0; i < party_target.size(); i++) {
-                VideoManager->Move(party_target[i]->GetXLocation(),  party_target[i]->GetYLocation());
-                VideoManager->MoveRelative(0.0f, 20.0f);
-                _battle_media.actor_selection_image.Draw();
+                float x = actor_target->GetXLocation();
+                float y = actor_target->GetYLocation() + 20.0f;
+                _battle_media.actor_selection_image.Draw(Transform2D(x, y), Color::white);
             }
             actor_target = NULL;
             // TODO: add support for drawing graphic under multiple actors if the target is a party
@@ -1035,9 +1035,9 @@ void BattleMode::_DrawSprites()
         uint32 point = target.GetPoint();
 
         VideoManager->SetDrawFlags(VIDEO_X_CENTER, VIDEO_Y_CENTER, VIDEO_BLEND, 0);
-        VideoManager->Move(actor_target->GetXLocation(), actor_target->GetYLocation());
-        VideoManager->MoveRelative(actor_target->GetAttackPoint(point)->GetXPosition(), -actor_target->GetAttackPoint(point)->GetYPosition());
-        _battle_media.attack_point_indicator.Draw();
+        float x = actor_target->GetXLocation() + actor_target->GetAttackPoint(point)->GetXPosition();
+        float y = actor_target->GetYLocation() - actor_target->GetAttackPoint(point)->GetYPosition();
+        _battle_media.attack_point_indicator.Draw(Transform2D(x, y), Color::white);
     }
 } // void BattleMode::_DrawSprites()
 
@@ -1071,8 +1071,7 @@ void BattleMode::_DrawBottomMenu()
 {
     // Draw the static image for the lower menu
     VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_BOTTOM, VIDEO_BLEND, 0);
-    VideoManager->Move(0.0f, 768.0f);
-    _battle_media.bottom_menu_image.Draw();
+    _battle_media.bottom_menu_image.Draw(Transform2D(0.0f, 768.0f), Color::white);
 
     if(_state != BATTLE_STATE_DEFEAT && _state != BATTLE_STATE_VICTORY) {
         // If the player is selecting a command for a particular character,
@@ -1086,11 +1085,13 @@ void BattleMode::_DrawBottomMenu()
         // these characters needs a command selected as soon as possible
         for(uint32 i = 0; i < _character_actors.size(); ++i) {
             if(_character_actors[i] == _command_supervisor->GetCommandCharacter()) {
-                VideoManager->Move(148.0f, 683.0f + (25.0f * i));
-                _battle_media.character_selected_highlight.Draw();
+                float x = 148.0f;
+                float y = 683.0f + (25.0f * i);
+                _battle_media.character_selected_highlight.Draw(Transform2D(x, y), Color::white);
             } else if(_character_actors[i]->GetState() == ACTOR_STATE_COMMAND) {
-                VideoManager->Move(148.0f, 683.0f + (25.0f * i));
-                _battle_media.character_command_highlight.Draw();
+                float x = 148.0f;
+                float y = 683.0f + (25.0f * i);
+                _battle_media.character_command_highlight.Draw(Transform2D(x, y), Color::white);
             }
         }
     }
@@ -1135,8 +1136,8 @@ void BattleMode::_DrawStaminaBar()
 
     // Draw the stamina bar
     VideoManager->SetDrawFlags(VIDEO_X_CENTER, VIDEO_Y_BOTTOM, 0);
-    VideoManager->Move(STAMINA_BAR_POSITION_X, STAMINA_BAR_POSITION_Y); // 1010
-    _battle_media.stamina_meter.Draw();
+    Transform2D transform(STAMINA_BAR_POSITION_X, STAMINA_BAR_POSITION_Y); // 1010
+    _battle_media.stamina_meter.Draw(transform, Color::white);
 
     // Draw all stamina icons in order along with the selector graphic
     VideoManager->SetDrawFlags(VIDEO_X_CENTER, VIDEO_Y_CENTER, 0);
@@ -1151,8 +1152,11 @@ void BattleMode::_DrawStaminaBar()
             continue;
 
         // Draw selections
-        if((is_party_selected && !is_party_enemy) || _character_actors[i] == selected_actor)
-            _battle_media.stamina_icon_selected.Draw();
+        if((is_party_selected && !is_party_enemy) || _character_actors[i] == selected_actor) {
+            float x = _character_actors[i]->GetStaminaXLocation();
+            float y = _character_actors[i]->GetStaminaYLocation();
+            _battle_media.stamina_icon_selected.Draw(Transform2D(x, y), Color::white);
+        }
     }
 
     for(uint32 i = 0; i < _enemy_actors.size(); ++i) {
@@ -1165,8 +1169,11 @@ void BattleMode::_DrawStaminaBar()
             continue;
 
         // Draw selections
-        if((is_party_selected && is_party_enemy) || _enemy_actors[i] == selected_actor)
-            _battle_media.stamina_icon_selected.Draw();
+        if((is_party_selected && is_party_enemy) || _enemy_actors[i] == selected_actor) {
+            float x = _enemy_actors[i]->GetStaminaXLocation();
+            float y = _enemy_actors[i]->GetStaminaYLocation();
+            _battle_media.stamina_icon_selected.Draw(Transform2D(x, y), Color::white);
+        }
     }
 } // void BattleMode::_DrawStaminaBar()
 
@@ -1235,16 +1242,11 @@ void TransitionToBattleMode::Draw()
     // Draw the battle transition effect
     VideoManager->SetStandardCoordSys();
     VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_TOP, VIDEO_BLEND, 0);
-    VideoManager->Move(0.0f, 0.0f);
-    _screen_capture.Draw();
-    VideoManager->Move(_position, _position);
-    _screen_capture.Draw(Color(1.0f, 1.0f, 1.0f, 0.3f));
-    VideoManager->Move(-_position, _position);
-    _screen_capture.Draw(Color(1.0f, 1.0f, 1.0f, 0.3f));
-    VideoManager->Move(-_position, -_position);
-    _screen_capture.Draw(Color(1.0f, 1.0f, 1.0f, 0.3f));
-    VideoManager->Move(_position, -_position);
-    _screen_capture.Draw(Color(1.0f, 1.0f, 1.0f, 0.3f));
+    _screen_capture.Draw(Transform2D(0.0f, 0.0f), Color::white);
+    _screen_capture.Draw(Transform2D( _position,  _position), Color(1.0f, 1.0f, 1.0f, 0.3f));
+    _screen_capture.Draw(Transform2D(-_position,  _position), Color(1.0f, 1.0f, 1.0f, 0.3f));
+    _screen_capture.Draw(Transform2D(-_position, -_position), Color(1.0f, 1.0f, 1.0f, 0.3f));
+    _screen_capture.Draw(Transform2D( _position, -_position), Color(1.0f, 1.0f, 1.0f, 0.3f));
 }
 
 void TransitionToBattleMode::Reset()

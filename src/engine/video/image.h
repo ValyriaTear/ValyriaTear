@@ -60,6 +60,7 @@ class ParticleSystem;
 namespace vt_video
 {
 
+class Transform2D;
 class StillImage;
 
 /** ****************************************************************************
@@ -105,16 +106,11 @@ public:
     //! \brief Clears all data retained by the object (color, width, height, etc.)
     virtual void Clear() = 0;
 
-    /** \brief Draws the image to the display buffer
-    *** The location and orientation of the drawn image is dependent upon the current cursor position
-    *** and context (draw flags) set in the VideoEngine class.
-    **/
-    virtual void Draw() const = 0;
-
-    /** \brief Draws a color modulated version of the image to the display buffer
+    /** \brief Draws image to the display buffer
+    *** \param transform The 2D transform to be applied to the image
     *** \param draw_color The color to modulate the image by
     **/
-    virtual void Draw(const Color &draw_color) const = 0;
+    virtual void Draw(const Transform2D &transform, const Color &draw_color) const = 0;
 
     //! \name Class Member Access Functions
     //@{
@@ -294,26 +290,22 @@ protected:
     **/
     void _RemoveTextureReference();
 
-    /** \brief A draw helper function which adjusts the draw orientation (translation and scaling)
-    ***
-    *** \note This method modifies the draw cursor position and does not restore it before finishing. Therefore
-    *** under most circumstances, you will want to call VideoManager->PushState()/PopState(), or
-    *** PushMatrix()/PopMatrix() before and after calling this function. The latter is preferred due to the
-    *** lower cost of the call, but some circumstances may require using the former when more state information
-    *** needs to be retained.
+    /** \brief A draw helper function which adjusts the draw orientation
+    *** \param transform Draw orientation 2D transform (translation and scaling).
     **/
-    void _DrawOrientation() const;
+    void _DrawOrientation(Transform2D & transform) const;
 
     /** \brief Draws the OpenGL texture referred to by the object on the screen
     *** \param draw_color A non-NULL pointer to an array of four valid Color objects
+    *** \param transform 2D transform to be applied to the texture
     ***
     *** This method is typically a helper method to other draw calls in some way. It assumes that
-    *** all of the appropriate transformation, scaling, and other image property opertaions have been
-    *** completed prior to the calling of this function. The draw_color argument is usually nothing
+    *** all image property opertaions have been completed prior to the calling of this function.
+    *** The draw_color argument is usually nothing
     *** more than a pointer to the _color member of this very class, but in certain cases like during
     *** a screen fade these colors may differ.
     **/
-    void _DrawTexture(const Color *draw_color) const;
+    void _DrawTexture(const Transform2D &transform, const Color *draw_color) const;
 
 private:
     /** \brief A helper function to the public LoadMultiImage* calls
@@ -369,13 +361,11 @@ public:
         return Load(filename);
     }
 
-    //! \brief Draws the image to the screen
-    void Draw() const;
-
-    /** \brief Draws a color-modulated version of the image
+    /** \brief Draws the image to the screen
+    *** \param transform The 2D transform applied to the image
     *** \param draw_color The color to modulate the image by
     **/
-    void Draw(const Color &draw_color) const;
+    void Draw(const Transform2D &transform, const Color &draw_color) const;
 
     /** \brief Saves the image to a file
     *** \param filename The filename of the image to save (must have a .png extension)
@@ -605,13 +595,11 @@ public:
      */
     bool LoadFromAnimationScript(const std::string &filename);
 
-    //! \brief Draws the current frame image to the screen
-    void Draw() const;
-
-    /** \brief Draws the current frame image which is modulated by a color
+    /** \brief Draws the current frame image
+    *** \param transform The 2D transform to be applied to the image
     *** \param draw_color The color to modulate the image by
     **/
-    void Draw(const Color &draw_color) const;
+    void Draw(const Transform2D &transform, const Color &draw_color) const;
 
     /** \brief Saves all frame images into a single file (a multi image file)
     *** \param filename The filename of the image to save (must have a .png extension)
@@ -867,16 +855,11 @@ public:
     //! \brief Removes all image elements held by this class
     void Clear();
 
-    /** \brief Draws the image to the display buffer
-    *** The location and orientation of the drawn image is dependent upon the current cursor position
-    *** and context (draw flags) set in the VideoEngine class.
-    **/
-    void Draw() const;
-
     /** \brief Draws a color modulated version of the image to the display buffer
+    *** \param transform The location and orientation, scale of the image
     *** \param draw_color The color to modulate the image by
     **/
-    void Draw(const Color &draw_color) const;
+    void Draw(const Transform2D &transform, const Color &draw_color) const;
 
     /** \brief Sets the static member for all future element images
     *** \param is_static Flag indicating whether the image will be static or not

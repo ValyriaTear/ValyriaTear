@@ -21,6 +21,7 @@
 #include "modes/map/map_mode.h"
 
 #include "engine/video/video.h"
+#include "engine/video/transform2d.h"
 
 using namespace vt_utils;
 using namespace vt_script;
@@ -345,17 +346,17 @@ void TileSupervisor::DrawLayers(const MapFrame *frame, const LAYER_TYPE &layer_t
         // because the video engine will display the map tiles using their
         // top left coordinates to avoid a position computation flaw when specifying the tile
         // coordinates from the bottom center point, as the engine does for everything else.
-        VideoManager->Move(frame->tile_x_offset - 1.0f, frame->tile_y_offset - 2.0f);
-
+        Transform2D transform;
+        transform.Translate(frame->tile_x_offset - 1.0f, frame->tile_y_offset - 2.0f);
         for(uint32 y = static_cast<uint32>(frame->tile_y_start); y < y_end; ++y) {
             for(uint32 x = static_cast<uint32>(frame->tile_x_start); x < x_end; ++x) {
                 // Draw a tile image if it exists at this location
                 if(layer.tiles[y][x] >= 0)
-                    _tile_images[ layer.tiles[y][x] ]->Draw();
+                    _tile_images[layer.tiles[y][x]]->Draw(transform, Color::white);
 
-                VideoManager->MoveRelative(2.0f, 0.0f);
+                transform.Translate(2.0f, 0.0f);
             } // x
-            VideoManager->MoveRelative(-static_cast<float>(frame->num_draw_x_axis * 2), 2.0f);
+            transform.Translate(-static_cast<float>(frame->num_draw_x_axis * 2), 2.0f);
         } // y
     } // layer_id
     // Restore the previous draw flags

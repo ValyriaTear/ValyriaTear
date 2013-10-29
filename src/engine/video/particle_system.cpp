@@ -67,7 +67,7 @@ bool ParticleSystem::_Create(ParticleSystemDef *sys_def)
     return true;
 }
 
-bool ParticleSystem::Draw()
+bool ParticleSystem::Draw(const float x, const float y)
 {
     if(!_alive || !_system_def->enabled || _age < _system_def->emitter._start_time)
         return true;
@@ -226,6 +226,15 @@ bool ParticleSystem::Draw()
             _particle_vertices[v]._x = _particles[j].x - scaled_width_half;
             _particle_vertices[v]._y = _particles[j].y + scaled_height_half;
             ++v;
+        }
+    }
+
+    // apply position offset
+    if (x != 0 || y != 0)
+    {
+        for(int32 j = 0; j < _num_particles * 4; ++j) {
+            _particle_vertices[j]._x += x;
+            _particle_vertices[j]._y += y;
         }
     }
 

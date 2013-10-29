@@ -19,6 +19,7 @@
 #include "modes/mode_help_window.h"
 
 #include "engine/video/video.h"
+#include "engine/video/transform2d.h"
 #include "engine/input.h"
 #include "engine/mode_manager.h"
 
@@ -75,16 +76,16 @@ void HelpWindow::Draw()
     }
 
     // Draw the window contents, starting from the top and moving downward
-    VideoManager->Move(512.0f, 93.0f);
-    _text_header.Draw();
+    _text_header.Draw(Transform2D(512.0f, 93.0f), Color::white);
 
     _key_table_header.Draw();
     _key_table.Draw();
 
-    VideoManager->Move(512.0f, 618.0f);
-    _text_additional.Draw();
-    VideoManager->MoveRelative(0.0f, 30.0f);
-    _text_continue.Draw();
+    Transform2D transform(512.0f, 618.0f);
+    _text_additional.Draw(transform, Color::white);
+
+    transform.Translate(0.0f, 30.0f);
+    _text_continue.Draw(transform, Color::white);
 
     VideoManager->PopState();
 }

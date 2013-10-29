@@ -23,6 +23,7 @@
 #include "engine/system.h"
 #include "engine/input.h"
 #include "engine/audio/audio.h"
+#include "engine/video/transform2d.h"
 #include "modes/pause.h"
 
 #include "engine/mode_manager.h"
@@ -152,19 +153,12 @@ void AbstractMenuState::Draw()
     int32 width = VideoManager->GetScreenWidth();
     int32 height = VideoManager->GetScreenHeight();
     VideoManager->SetCoordSys(0.0f, static_cast<float>(width), 0.0f, static_cast<float>(height));
-
     VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_BOTTOM, 0);
-
-    VideoManager->Move(0.0f, 0.0f);
-    _menu_mode->_saved_screen.Draw();
+    _menu_mode->_saved_screen.Draw(Transform2D(0, 0), Color::white);
 
     // Restore the Coordinate system (that one is menu mode coodinate system)
     VideoManager->SetStandardCoordSys();
     VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_TOP, VIDEO_BLEND, 0);
-
-    // Move to the top left corner
-    VideoManager->Move(0.0f, 0.0f);
-
     _menu_mode->_main_options_window.Draw();
 
     // do instance specific main window rendering
@@ -189,7 +183,7 @@ void AbstractMenuState::_DrawBottomMenu()
     _menu_mode->_bottom_window.Draw();
 
     VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_BOTTOM, 0);
-    VideoManager->Move(150.0f, 580.0f);
+
     // Display Location
     _menu_mode->_locale_name.Draw();
 
@@ -199,16 +193,18 @@ void AbstractMenuState::_DrawBottomMenu()
     // Display the current funds that the party has
     _menu_mode->_drunes_text.Draw();
 
-    VideoManager->MoveRelative(-50.0f, 60.0f);
-    _menu_mode->_clock_icon->Draw();
-    VideoManager->MoveRelative(0.0f, 30.0f);
-    _menu_mode->_drunes_icon->Draw();
+    Transform2D transform(150.0f, 580.0f);
+
+    transform.Translate(-50.0f, 60.0f);
+    _menu_mode->_clock_icon->Draw(transform, Color::white);
+
+    transform.Translate(0.0f, 30.0f);
+    _menu_mode->_drunes_icon->Draw(transform, Color::white);
 
     if(!_menu_mode->_locale_graphic.GetFilename().empty()) {
         VideoManager->SetDrawFlags(VIDEO_X_RIGHT, VIDEO_Y_BOTTOM, 0);
         VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_BOTTOM, 0);
-        VideoManager->Move(390.0f, 685.0f);
-        _menu_mode->_locale_graphic.Draw();
+        _menu_mode->_locale_graphic.Draw(Transform2D(390.0f, 685.0f), Color::white);
     }
 }
 
@@ -472,7 +468,6 @@ void PartyState::_DrawBottomMenu()
     _menu_mode->_bottom_window.Draw();
 
     VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_BOTTOM, 0);
-    VideoManager->Move(150, 580);
 
     // show a helpful message
     if(!_IsActive())
@@ -553,8 +548,8 @@ void SkillsState::_DrawBottomMenu()
     _menu_mode->_bottom_window.Draw();
 
     VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_TOP, 0);
-    VideoManager->Move(90, 580);
-    _menu_mode->_skills_window._skill_icon.Draw();
+
+    _menu_mode->_skills_window._skill_icon.Draw(Transform2D(90, 580), Color::white);
 
     _menu_mode->_skills_window._description.Draw();
 }
@@ -664,15 +659,14 @@ void WorldMapState::_DrawBottomMenu()
     if(_IsActive())
     {
         VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_BOTTOM, 0);
-        VideoManager->Move(150, 580);
+
         // Display Location
         _location_text.Draw();
         if(_location_image != NULL && !_location_image->GetFilename().empty())
         {
             VideoManager->SetDrawFlags(VIDEO_X_RIGHT, VIDEO_Y_BOTTOM, 0);
             VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_BOTTOM, 0);
-            VideoManager->Move(390, 685);
-            _location_image->Draw();
+            _location_image->Draw(Transform2D(390, 685), Color::white);
         }
 
     }
@@ -1180,95 +1174,95 @@ void MenuMode::DrawEquipmentInfo()
         return;
 
     VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_TOP, 0);
-    VideoManager->Move(100.0f, 560.0f);
-    _object_name.Draw();
+    Transform2D transform(100.0f, 560.0f);
+    _object_name.Draw(transform, Color::white);
 
-    VideoManager->MoveRelative(0.0f, 30.0f);
+    transform.Translate(0.0f, 30.0f);
     const StillImage& obj_icon = _object->GetIconImage();
-    obj_icon.Draw();
+    obj_icon.Draw(transform, Color::white);
 
     // Key item/spirit part
     if (_object->IsKeyItem()) {
         int32 key_pos_x = obj_icon.GetWidth() - _key_item_icon->GetWidth() - 3;
         int32 key_pos_y = obj_icon.GetHeight() - _key_item_icon->GetHeight() - 3;
-        VideoManager->MoveRelative(key_pos_x, key_pos_y);
-        _key_item_icon->Draw();
-        VideoManager->MoveRelative(-key_pos_x, -key_pos_y);
+        transform.Translate(key_pos_x, key_pos_y);
+        _key_item_icon->Draw(transform, Color::white);
+        transform.Translate(-key_pos_x, -key_pos_y);
     }
 
     // Draw weapon stats
-    VideoManager->MoveRelative(70.0f, 0.0f);
+    transform.Translate(70.0f, 0.0f);
     if (_is_weapon)
-        _atk_icon->Draw();
+        _atk_icon->Draw(transform, Color::white);
     else
-        _def_icon->Draw();
-    VideoManager->MoveRelative(25.0f, 0.0f);
-    _phys_header.Draw();
+        _def_icon->Draw(transform, Color::white);
+    transform.Translate(25.0f, 0.0f);
+    _phys_header.Draw(transform, Color::white);
 
-    VideoManager->MoveRelative(-25.0f, 30.0f);
+    transform.Translate(-25.0f, 30.0f);
     if (_is_weapon)
-        _matk_icon->Draw();
+        _matk_icon->Draw(transform, Color::white);
     else
-        _mdef_icon->Draw();
-    VideoManager->MoveRelative(25.0f, 0.0f);
-    _mag_header.Draw();
+        _mdef_icon->Draw(transform, Color::white);
+    transform.Translate(25.0f, 0.0f);
+    _mag_header.Draw(transform, Color::white);
 
     VideoManager->SetDrawFlags(VIDEO_X_RIGHT, 0);
-    VideoManager->MoveRelative(110.0f, -30.0f);
-    _phys_stat.Draw();
-    VideoManager->MoveRelative(0.0f, 30.0f);
-    _mag_stat.Draw();
+    transform.Translate(110.0f, -30.0f);
+    _phys_stat.Draw(transform, Color::white);
+    transform.Translate(0.0f, 30.0f);
+    _mag_stat.Draw(transform, Color::white);
 
     // Draw diff with current weapon stat, if any
-    VideoManager->MoveRelative(50.0f, -30.0f);
-    _phys_stat_diff.Draw(_phys_diff_color);
-    VideoManager->MoveRelative(0.0f, 30.0f);
-    _mag_stat_diff.Draw(_mag_diff_color);
+    transform.Translate(50.0f, -30.0f);
+    _phys_stat_diff.Draw(transform, _phys_diff_color);
+    transform.Translate(0.0f, 30.0f);
+    _mag_stat_diff.Draw(transform, _mag_diff_color);
 
     VideoManager->SetDrawFlags(VIDEO_X_LEFT, 0);
-    VideoManager->MoveRelative(20.0f, 0.0f);
+    transform.Translate(20.0f, 0.0f);
     float j = 0;
     for (uint32 i = 0; i < _spirit_number; ++i) {
-        _spirit_icon->Draw();
+        _spirit_icon->Draw(transform, Color::white);
         if (i % 2 == 0) {
-            VideoManager->MoveRelative(15.0f , 0.0f);
+            transform.Translate(15.0f , 0.0f);
             j -= 15.0f;
         }
         else {
-            VideoManager->MoveRelative(25.0f , 0.0f);
+            transform.Translate(25.0f , 0.0f);
             j -= 25.0f;
         }
     }
-    VideoManager->MoveRelative(j, -55.0f);
+    transform.Translate(j, -55.0f);
 
     // Draw status effects icons
     uint32 element_size = _status_icons.size() > 9 ? 9 : _status_icons.size();
-    VideoManager->MoveRelative((18.0f * element_size), 0.0f);
+    transform.Translate((18.0f * element_size), 0.0f);
     for(uint32 i = 0; i < element_size; ++i) {
-        _status_icons[i]->Draw();
-        VideoManager->MoveRelative(-18.0f, 0.0f);
+        _status_icons[i]->Draw(transform, Color::white);
+        transform.Translate(-18.0f, 0.0f);
     }
-    VideoManager->MoveRelative(0.0f, 20.0f);
+    transform.Translate(0.0f, 20.0f);
     if (_status_icons.size() > 9) {
         element_size = _status_icons.size();
-        VideoManager->MoveRelative((18.0f * (element_size - 9)), 0.0f);
+        transform.Translate((18.0f * (element_size - 9)), 0.0f);
         for(uint32 i = 9; i < element_size; ++i) {
-            _status_icons[i]->Draw();
-            VideoManager->MoveRelative(-18.0f, 0.0f);
+            _status_icons[i]->Draw(transform, Color::white);
+            transform.Translate(-18.0f, 0.0f);
         }
     }
 
     // Draw possible equipment skills
-    VideoManager->MoveRelative(250.0f, -20.0f);
+    transform.Translate(250.0f, -20.0f);
     element_size = _equip_skills.size();
     if (element_size > 0)
-        _equip_skills_header.Draw();
-    VideoManager->MoveRelative(10.0f, 20.0f);
+        _equip_skills_header.Draw(transform, Color::white);
+    transform.Translate(10.0f, 20.0f);
     for (uint32 i = 0; i < element_size; ++i) {
-        _equip_skills[i].Draw();
-        VideoManager->MoveRelative(-20.0f, 5.0f);
-        _equip_skill_icons[i].Draw();
-        VideoManager->MoveRelative(20.0f, 15.0f);
+        _equip_skills[i].Draw(transform, Color::white);
+        transform.Translate(-20.0f, 5.0f);
+        _equip_skill_icons[i].Draw(transform, Color::white);
+        transform.Translate(20.0f, 15.0f);
     }
 }
 

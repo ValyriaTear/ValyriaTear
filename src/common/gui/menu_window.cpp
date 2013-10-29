@@ -19,6 +19,7 @@
 #include "menu_window.h"
 
 #include "engine/video/video.h"
+#include "engine/video/transform2d.h"
 
 using namespace vt_utils;
 using namespace vt_video;
@@ -200,8 +201,7 @@ void MenuWindow::Draw(const Color& color)
         VideoManager->SetScissorRect(rect);
     }
 
-    VideoManager->Move(_x_position, _y_position);
-    _menu_image.Draw(color);
+    _menu_image.Draw(Transform2D(_x_position, _y_position), color);
 
     if(GUIManager->DEBUG_DrawOutlines() == true) {
         _DEBUG_DrawOutline();

@@ -29,6 +29,7 @@
 #include "modes/boot/boot.h"
 #include "modes/save/save_mode.h"
 
+#include "engine/video/transform2d.h"
 #include "engine/audio/audio.h"
 #include "engine/input.h"
 
@@ -1009,18 +1010,14 @@ void MapMode::_DrawStaminaBar(const vt_video::Color &blending)
     VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_BOTTOM, VIDEO_BLEND, 0);
 
     // Draw the background image
-    VideoManager->Move(780, 747);
-    _stamina_bar_background.Draw(blending);
+    _stamina_bar_background.Draw(Transform2D(780, 747), blending);
 
     // Only do this if the bar is at least 4 pixels long
     if((200 * fill_size) >= 4) {
-        VideoManager->Move(801, 739);
-        VideoManager->DrawRectangle((200 * fill_size) - 2, 1, darkish_green * blending);
-
-        VideoManager->Move(801, 738);
-        VideoManager->DrawRectangle(1, 2, medium_green * blending);
-        VideoManager->Move(800 + (fill_size * 200 - 2), 738); // Automatically reposition to be at moving endcap
-        VideoManager->DrawRectangle(1, 2, medium_green * blending);
+        VideoManager->DrawRectangle(801, 739, (200 * fill_size) - 2, 1, darkish_green * blending);
+        VideoManager->DrawRectangle(801, 738, 1, 2, medium_green * blending);
+        // Automatically reposition to be at moving endcap
+        VideoManager->DrawRectangle(800 + (fill_size * 200 - 2), 738, 1, 2, medium_green * blending);
     }
 
     // the bar color depending on its size
@@ -1032,13 +1029,11 @@ void MapMode::_DrawStaminaBar(const vt_video::Color &blending)
     else
         bar_color = dark_red;
 
-    VideoManager->Move(800, 736);
-    VideoManager->DrawRectangle(200 * fill_size, 5, bar_color * blending);
+    VideoManager->DrawRectangle(800, 736, 200 * fill_size, 5, bar_color * blending);
 
     // Only do this if the bar is at least 6 pixels long
     if((200 * fill_size) >= 6) {
-        VideoManager->Move(802, 733);
-        VideoManager->DrawRectangle((200 * fill_size) - 4, 1, bright_yellow * blending);
+        VideoManager->DrawRectangle(802, 733, (200 * fill_size) - 4, 1, bright_yellow * blending);
     }
 
     // Draw the rest only when the color is green
@@ -1048,28 +1043,22 @@ void MapMode::_DrawStaminaBar(const vt_video::Color &blending)
     }
 
     // Draw the base color of the bar
-    VideoManager->Move(800, 740);
-    VideoManager->DrawRectangle(200 * fill_size, 10, olive_green * blending);
+    VideoManager->DrawRectangle(800, 740, 200 * fill_size, 10, olive_green * blending);
 
     // Shade the bar with a faux lighting effect
-    VideoManager->Move(800, 739);
-    VideoManager->DrawRectangle(200 * fill_size, 2, dark_green * blending);
-    VideoManager->Move(800, 737);
-    VideoManager->DrawRectangle(200 * fill_size, 7, darkish_green * blending);
+    VideoManager->DrawRectangle(800, 739, 200 * fill_size, 2, dark_green * blending);
+    VideoManager->DrawRectangle(800, 737, 200 * fill_size, 7, darkish_green * blending);
 
     // Only do this if the bar is at least 4 pixels long
     if((200 * fill_size) >= 4) {
-        VideoManager->Move(801, 735);
-        VideoManager->DrawRectangle(1, 1, lighter_green * blending);
-        VideoManager->Move(800 + (fill_size * 200 - 2), 735); // automatically reposition to be at moving endcap
-        VideoManager->DrawRectangle(1, 1, lighter_green * blending);
-        VideoManager->Move(800, 734);
-        VideoManager->DrawRectangle(200 * fill_size, 2, lighter_green * blending);
+        VideoManager->DrawRectangle(801, 735, 1, 1, lighter_green * blending);
+        // automatically reposition to be at moving endcap
+        VideoManager->DrawRectangle(800 + (fill_size * 200 - 2), 735, 1, 1, lighter_green * blending);
+        VideoManager->DrawRectangle(800, 734, 200 * fill_size, 2, lighter_green * blending);
     }
 
     if(_unlimited_stamina) {  // Draw the infinity symbol over the stamina bar
-        VideoManager->Move(780, 747);
-        _stamina_bar_infinite_overlay.Draw(blending);
+        _stamina_bar_infinite_overlay.Draw(Transform2D(780, 747), blending);
     }
     VideoManager->PopState();
 }
@@ -1092,11 +1081,11 @@ void MapMode::_DrawGUI()
             VideoManager->PushState();
             VideoManager->SetStandardCoordSys();
             VideoManager->SetDrawFlags(VIDEO_X_CENTER, VIDEO_Y_CENTER, 0);
-            VideoManager->Move(512.0f, 100.0f);
-            _map_image.Draw(blend);
+            Transform2D transform(512.0f, 100.0f);
+            _map_image.Draw(transform, blend);
             float shifting = (((float)time) - 2000.0f) / 100.0f;
-            VideoManager->MoveRelative(0.0f + shifting, -80.0f);
-            VideoManager->Text()->Draw(_map_hud_name, TextStyle("map_title", blend, VIDEO_TEXT_SHADOW_DARK));
+            transform.Translate(0.0f + shifting, -80.0f);
+            VideoManager->Text()->Draw(_map_hud_name, transform, TextStyle("map_title", blend, VIDEO_TEXT_SHADOW_DARK));
             VideoManager->PopState();
         }
 
@@ -1104,9 +1093,9 @@ void MapMode::_DrawGUI()
         VideoManager->PushState();
         VideoManager->SetStandardCoordSys();
         VideoManager->SetDrawFlags(VIDEO_X_CENTER, VIDEO_Y_CENTER, 0);
-        (GlobalManager->ShouldDisplayHudNameOnMapIntro() && !_map_hud_name.empty()) ?
-        VideoManager->Move(512.0f, 170.0f) : VideoManager->Move(512.0f, 20.0f);
-        VideoManager->Text()->Draw(_map_hud_subname, TextStyle("title24", blend, VIDEO_TEXT_SHADOW_DARK));
+        const float x = 512.0f;
+        const float y = (GlobalManager->ShouldDisplayHudNameOnMapIntro() && !_map_hud_name.empty()) ? 20.0f : 170.0f;
+        VideoManager->Text()->Draw(_map_hud_subname, Transform2D(x, y), TextStyle("title24", blend, VIDEO_TEXT_SHADOW_DARK));
         VideoManager->PopState();
 
         // Draw the unlimited stamina bar with a fade out
@@ -1145,8 +1134,7 @@ void MapMode::_DrawGUI()
     float y_pos = cam->GetYPosition();
     std::ostringstream coord_txt;
     coord_txt << "Camera position: " << x_pos << ", " << y_pos;
-    VideoManager->Move(10.0f, 10.0f);
-    VideoManager->Text()->Draw(coord_txt.str(), TextStyle("title22", Color::white, VIDEO_TEXT_SHADOW_DARK));
+    VideoManager->Text()->Draw(coord_txt.str(), Transform2D(10.0f, 10.0f), TextStyle("title22", Color::white, VIDEO_TEXT_SHADOW_DARK));
     VideoManager->PopState();
 } // void MapMode::_DrawGUI()
 

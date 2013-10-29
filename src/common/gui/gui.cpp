@@ -120,7 +120,6 @@ void GUIElement::_DEBUG_DrawOutline()
     float bottom = 0.0f;
     float top = _height;
 
-    VideoManager->Move(0.0f, 0.0f);
     CalculateAlignedRect(left, right, bottom, top);
     VideoManager->DrawRectangleOutline(left, right, bottom, top, 3, alpha_black);
     VideoManager->DrawRectangleOutline(left, right, bottom, top, 1, alpha_white);
@@ -180,7 +179,6 @@ void GUIControl::_DEBUG_DrawOutline()
     float bottom = 0.0f;
     float top = _height;
 
-    VideoManager->Move(0.0f, 0.0f);
     CalculateAlignedRect(left, right, bottom, top);
     VideoManager->DrawRectangleOutline(left, right, bottom, top, 3, alpha_black);
     VideoManager->DrawRectangleOutline(left, right, bottom, top, 1, alpha_white);
