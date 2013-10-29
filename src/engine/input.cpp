@@ -432,7 +432,9 @@ void InputEngine::_KeyEventHandler(SDL_KeyboardEvent &key_event)
 // Handles all joystick events for the game
 void InputEngine::_JoystickEventHandler(SDL_Event &js_event)
 {
+
     if(js_event.type == SDL_JOYAXISMOTION) {
+
         // This is a hack to prevent certain misbehaving joysticks
         // from bothering the input with ghost axis motion
         if (js_event.jaxis.axis >= 10)
@@ -488,6 +490,61 @@ void InputEngine::_JoystickEventHandler(SDL_Event &js_event)
         }
     } // if (js_event.type == SDL_JOYAXISMOTION)
 
+    else if(js_event.type == SDL_JOYHATMOTION) {
+
+        if(js_event.jhat.value & SDL_HAT_LEFT) {
+            if(!_left_state) {
+                _left_state = true;
+                _left_press = true;
+            }
+            _right_state = false;
+        }
+        else {
+            _left_state = false;
+        }
+
+        if(js_event.jhat.value & SDL_HAT_RIGHT) {
+            if(!_right_state) {
+                _right_state = true;
+                _right_press = true;
+            }
+            _left_state = false;
+        }
+        else {
+            _right_state = false;
+        }
+
+        if(js_event.jhat.value & SDL_HAT_UP) {
+            if(!_up_state) {
+                _up_state = true;
+                _up_press = true;
+            }
+            _down_state = false;
+        }
+        else {
+            _up_state = false;
+        }
+
+        if(js_event.jhat.value & SDL_HAT_DOWN) {
+            if(!_down_state) {
+                _down_state = true;
+                _down_press = true;
+            }
+            _up_state = false;
+        }
+        else {
+            _down_state = false;
+        }
+
+        if (js_event.jhat.value & SDL_HAT_CENTERED) {
+            _any_key_press = false;
+            _right_state = false;
+            _left_state = false;
+            _up_state = false;
+            _down_state = false;
+        }
+    } // if (js_event.type == SDL_JOYHATMOTION)
+
     else if(js_event.type == SDL_JOYBUTTONDOWN) {
 
         _any_key_press = true;
@@ -532,7 +589,7 @@ void InputEngine::_JoystickEventHandler(SDL_Event &js_event)
         }
     } // else if (js_event.type == JOYBUTTONUP)
 
-    // NOTE: SDL_JOYBALLMOTION and SDL_JOYHATMOTION are ignored for now. Should we process them?
+    // NOTE: SDL_JOYBALLMOTION is ignored for now.
 } // void InputEngine::_JoystickEventHandler(SDL_Event& js_event)
 
 
