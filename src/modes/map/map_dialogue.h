@@ -445,6 +445,7 @@ public:
         return _line_counter;
     }
 
+    //! NOTE: Must start at 1, since 0 is a speakerless dialogue.
     uint32 GenerateDialogueID() const {
         return _dialogues.empty() ? 1 : _dialogues.rbegin()->first + 1;
     }

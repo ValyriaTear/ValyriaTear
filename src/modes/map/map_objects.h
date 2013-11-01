@@ -849,6 +849,7 @@ public:
     ~ObjectSupervisor();
 
     //! \brief Returns a unique ID integer for an object to use
+    //! Every object Id must be > 0 since 0 is reserved for speakerless dialogues.
     uint16 GenerateObjectID() {
         return ++_last_id;
     }

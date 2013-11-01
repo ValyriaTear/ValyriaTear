@@ -925,7 +925,7 @@ void TriggerObject::SetState(bool state)
 ObjectSupervisor::ObjectSupervisor() :
     _num_grid_x_axis(0),
     _num_grid_y_axis(0),
-    _last_id(1000),
+    _last_id(1000), //! Every object Id must be > 0 since 0 is reserved for speakerless dialogues.
     _visible_party_member(0)
 {
     _virtual_focus = new VirtualSprite();

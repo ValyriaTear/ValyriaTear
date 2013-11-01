@@ -59,8 +59,8 @@ end
 
 -- Character creation
 function _CreateCharacters()
-    -- Default hero and position (from mountain path 3)
-    hero = CreateSprite(Map, "Bronann", 55, 77);
+    -- Default hero and position (from mountain path 4)
+    hero = CreateSprite(Map, "Bronann", 29, 44.5);
     hero:SetDirection(vt_map.MapMode.NORTH);
     hero:SetMovementSpeed(vt_map.MapMode.NORMAL_SPEED);
 
@@ -73,9 +73,6 @@ function _CreateCharacters()
         -- Make the character look at us in that case
         hero:SetDirection(vt_map.MapMode.SOUTH);
         hero:SetPosition(x_position, y_position);
-    elseif (GlobalManager:GetPreviousLocation() == "from_path4") then
-        hero:SetDirection(vt_map.MapMode.NORTH);
-        hero:SetPosition(29.0, 44.5);
     elseif (GlobalManager:GetPreviousLocation() == "from_shrine_entrance") then
         hero:SetDirection(vt_map.MapMode.SOUTH);
         hero:SetPosition(50.0, 10.0);
@@ -123,18 +120,9 @@ function _CreateObjects()
     object:SetEventWhenTalking("Heal dialogue");
     Map:AddGroundObject(object);
 
-    -- Adds a nameless speaker
-    -- TODO: Add support for -1 nameless speaker out of the box.
-    -- And remove this.
-    npc = CreateSprite(Map, "Butterfly", 0, 0);
-    npc:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
-    npc:SetVisible(false);
-    npc:SetName(""); -- Unset the speaker name
-    Map:AddGroundObject(npc);
-
     dialogue = vt_map.SpriteDialogue();
     text = vt_system.Translate("Your party feels better...");
-    dialogue:AddLineEvent(text, npc, "Heal event", "");
+    dialogue:AddLineEvent(text, 0, "Heal event", ""); -- 0 means no portrait and no name
     DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Heal dialogue", dialogue);
     EventManager:RegisterEvent(event);
