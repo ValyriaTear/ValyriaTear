@@ -202,6 +202,7 @@ void BindCommonCode()
                         luabind::value("GLOBAL_TARGET_SELF", GLOBAL_TARGET_SELF),
                         luabind::value("GLOBAL_TARGET_ALLY", GLOBAL_TARGET_ALLY),
                         luabind::value("GLOBAL_TARGET_ALLY_EVEN_DEAD", GLOBAL_TARGET_ALLY_EVEN_DEAD),
+                        luabind::value("GLOBAL_TARGET_DEAD_ALLY", GLOBAL_TARGET_DEAD_ALLY),
                         luabind::value("GLOBAL_TARGET_FOE", GLOBAL_TARGET_FOE),
                         luabind::value("GLOBAL_TARGET_ALL_ALLIES", GLOBAL_TARGET_ALL_ALLIES),
                         luabind::value("GLOBAL_TARGET_ALL_FOES", GLOBAL_TARGET_ALL_FOES),

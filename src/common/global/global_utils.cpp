@@ -60,6 +60,7 @@ std::string GetTargetText(GLOBAL_TARGET target)
         return Translate("Self");
     case GLOBAL_TARGET_ALLY:
     case GLOBAL_TARGET_ALLY_EVEN_DEAD:
+    case GLOBAL_TARGET_DEAD_ALLY:
         return Translate("Ally");
     case GLOBAL_TARGET_FOE:
         return Translate("Foe");
@@ -72,8 +73,6 @@ std::string GetTargetText(GLOBAL_TARGET target)
     }
 }
 
-
-
 bool IsTargetPoint(GLOBAL_TARGET target)
 {
     if((target == GLOBAL_TARGET_SELF_POINT) || (target == GLOBAL_TARGET_ALLY_POINT) || (target == GLOBAL_TARGET_FOE_POINT))
@@ -82,18 +81,21 @@ bool IsTargetPoint(GLOBAL_TARGET target)
         return false;
 }
 
-
-
 bool IsTargetActor(GLOBAL_TARGET target)
 {
-    if((target == GLOBAL_TARGET_SELF) || (target == GLOBAL_TARGET_ALLY) || (target == GLOBAL_TARGET_FOE)
-            || (target == GLOBAL_TARGET_ALLY_EVEN_DEAD))
+    switch(target) {
+    case GLOBAL_TARGET_SELF:
+    case GLOBAL_TARGET_ALLY:
+    case GLOBAL_TARGET_ALLY_EVEN_DEAD:
+    case GLOBAL_TARGET_DEAD_ALLY:
+    case GLOBAL_TARGET_FOE:
         return true;
-    else
-        return false;
+    default:
+        break;
+    }
+
+    return false;
 }
-
-
 
 bool IsTargetParty(GLOBAL_TARGET target)
 {
@@ -102,8 +104,6 @@ bool IsTargetParty(GLOBAL_TARGET target)
     else
         return false;
 }
-
-
 
 bool IsTargetSelf(GLOBAL_TARGET target)
 {
@@ -117,11 +117,18 @@ bool IsTargetSelf(GLOBAL_TARGET target)
 
 bool IsTargetAlly(GLOBAL_TARGET target)
 {
-    if((target == GLOBAL_TARGET_ALLY_POINT) || (target == GLOBAL_TARGET_ALLY) || (target == GLOBAL_TARGET_ALL_ALLIES)
-            || (target == GLOBAL_TARGET_ALLY_EVEN_DEAD))
+    switch(target) {
+    case GLOBAL_TARGET_SELF:
+    case GLOBAL_TARGET_ALLY:
+    case GLOBAL_TARGET_ALLY_EVEN_DEAD:
+    case GLOBAL_TARGET_DEAD_ALLY:
+    case GLOBAL_TARGET_ALLY_POINT:
+    case GLOBAL_TARGET_ALL_ALLIES:
         return true;
-    else
-        return false;
+    default:
+        break;
+    }
+    return false;
 }
 
 

@@ -289,6 +289,7 @@ void CharacterCommandSettings::SaveLastTarget(BattleTarget &target)
     case GLOBAL_TARGET_ALLY_POINT:
     case GLOBAL_TARGET_ALLY:
     case GLOBAL_TARGET_ALLY_EVEN_DEAD:
+    case GLOBAL_TARGET_DEAD_ALLY:
         _last_character_target = target;
         break;
     case GLOBAL_TARGET_FOE_POINT:
@@ -321,7 +322,7 @@ void CharacterCommandSettings::SetLastSelfTarget(BattleTarget &target)
 void CharacterCommandSettings::SetLastCharacterTarget(BattleTarget &target)
 {
     if((target.GetType() != GLOBAL_TARGET_ALLY_POINT) && (target.GetType() != GLOBAL_TARGET_ALLY)
-            && (target.GetType() != GLOBAL_TARGET_ALLY_EVEN_DEAD)) {
+            && (target.GetType() != GLOBAL_TARGET_ALLY_EVEN_DEAD) && (target.GetType() != GLOBAL_TARGET_DEAD_ALLY)) {
         IF_PRINT_WARNING(BATTLE_DEBUG) << "target argument was an invalid type: " << target.GetType() << std::endl;
         return;
     }
@@ -1069,7 +1070,8 @@ bool CommandSupervisor::_SetInitialTarget()
         IF_PRINT_WARNING(BATTLE_DEBUG) << "no conditions met for invalid target type: " << target_type << std::endl;
     }
 
-    bool permit_dead_targets = (_selected_target.GetType() == GLOBAL_TARGET_ALLY_EVEN_DEAD);
+    bool permit_dead_targets = ((_selected_target.GetType() == GLOBAL_TARGET_ALLY_EVEN_DEAD)
+                                || (_selected_target.GetType() == GLOBAL_TARGET_DEAD_ALLY));
 
     // Otherwise if the last target is no longer valid, select the next valid target
     if(!_selected_target.IsValid(permit_dead_targets)) {
@@ -1293,7 +1295,8 @@ void CommandSupervisor::_UpdateActorTarget()
             _target_options.InputUp();
 
         bool direction = InputManager->DownPress();
-        bool permit_dead_targets = (_selected_target.GetType() == GLOBAL_TARGET_ALLY_EVEN_DEAD);
+        bool permit_dead_targets = ((_selected_target.GetType() == GLOBAL_TARGET_ALLY_EVEN_DEAD)
+                                || (_selected_target.GetType() == GLOBAL_TARGET_DEAD_ALLY));
 
         if((IsTargetActor(_selected_target.GetType()) == true) || (IsTargetPoint(_selected_target.GetType()) == true)) {
             _selected_target.SelectNextActor(GetCommandCharacter(), direction, true, permit_dead_targets);

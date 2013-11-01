@@ -169,6 +169,7 @@ StillImage *BattleMedia::GetTargetTypeIcon(vt_global::GLOBAL_TARGET target_type)
         return &_target_type_icons[3];
     case GLOBAL_TARGET_ALLY:
     case GLOBAL_TARGET_ALLY_EVEN_DEAD:
+    case GLOBAL_TARGET_DEAD_ALLY:
         return &_target_type_icons[4];
     case GLOBAL_TARGET_FOE:
         return &_target_type_icons[5];

@@ -727,7 +727,7 @@ bool BattleTarget::SetInitialTarget(BattleActor *user, GLOBAL_TARGET type)
     // Determine what party the initial target will exist in
     std::deque<BattleActor *>* target_party;
     if((type == GLOBAL_TARGET_ALLY_POINT) || (type == GLOBAL_TARGET_ALLY) || (type == GLOBAL_TARGET_ALL_ALLIES)
-            || (type == GLOBAL_TARGET_ALLY_EVEN_DEAD)) {
+            || (type == GLOBAL_TARGET_ALLY_EVEN_DEAD) || (type == GLOBAL_TARGET_DEAD_ALLY)) {
         if(user->IsEnemy() == false)
             target_party = &BattleMode::CurrentInstance()->GetCharacterParty();
         else
@@ -747,6 +747,7 @@ bool BattleTarget::SetInitialTarget(BattleActor *user, GLOBAL_TARGET type)
     case GLOBAL_TARGET_SELF:
     case GLOBAL_TARGET_ALLY_POINT:
     case GLOBAL_TARGET_ALLY:
+    case GLOBAL_TARGET_DEAD_ALLY:
         _actor = user;
         break;
     case GLOBAL_TARGET_ALLY_EVEN_DEAD:
@@ -949,7 +950,7 @@ bool BattleTarget::SelectNextActor(BattleActor *user, bool direction, bool valid
     if((_type == GLOBAL_TARGET_SELF_POINT) || (_type == GLOBAL_TARGET_SELF)) {
         return false; // Self type targets do not have multiple actors to select from
     } else if((_type == GLOBAL_TARGET_ALLY_POINT) || (_type == GLOBAL_TARGET_ALLY)
-              || (_type == GLOBAL_TARGET_ALLY_EVEN_DEAD)) {
+              || (_type == GLOBAL_TARGET_ALLY_EVEN_DEAD) || (_type == GLOBAL_TARGET_DEAD_ALLY)) {
         if(user->IsEnemy() == false)
             target_party = &BattleMode::CurrentInstance()->GetCharacterParty();
         else
@@ -1034,18 +1035,28 @@ BattleActor *BattleTarget::GetPartyActor(uint32 index)
 
 ustring BattleTarget::GetName()
 {
-    if((_type == GLOBAL_TARGET_SELF_POINT) || (_type == GLOBAL_TARGET_ALLY_POINT) || (_type == GLOBAL_TARGET_FOE_POINT)) {
+    switch(_type) {
+    default:
+        return UTranslate("[Invalid Target]");
+
+    case GLOBAL_TARGET_SELF_POINT:
+    case GLOBAL_TARGET_ALLY_POINT:
+    case GLOBAL_TARGET_FOE_POINT:
         return (_actor->GetName() + UTranslate(" — ") + (_actor->GetAttackPoints()).at(_point)->GetName());
-    } else if((_type == GLOBAL_TARGET_SELF) || (_type == GLOBAL_TARGET_ALLY) || (_type == GLOBAL_TARGET_FOE)
-              || (_type == GLOBAL_TARGET_ALLY_EVEN_DEAD)) {
+
+    case GLOBAL_TARGET_SELF:
+    case GLOBAL_TARGET_ALLY:
+    case GLOBAL_TARGET_ALLY_EVEN_DEAD:
+    case GLOBAL_TARGET_DEAD_ALLY:
+    case GLOBAL_TARGET_FOE:
         return _actor->GetName();
-    } else if(_type == GLOBAL_TARGET_ALL_ALLIES) {
+
+    case GLOBAL_TARGET_ALL_ALLIES:
         return UTranslate("All Allies");
-    } else if(_type == GLOBAL_TARGET_ALL_FOES) {
+
+    case GLOBAL_TARGET_ALL_FOES:
         return UTranslate("All Enemies");
     }
-
-    return UTranslate("[Invalid Target]");
 }
 
 ////////////////////////////////////////////////////////////////////////////////

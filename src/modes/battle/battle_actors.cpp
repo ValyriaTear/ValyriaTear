@@ -600,6 +600,7 @@ void BattleActor::SetAction(uint32 skill_id, BattleActor* target_actor)
     case GLOBAL_TARGET_SELF:
     case GLOBAL_TARGET_ALLY:
     case GLOBAL_TARGET_ALLY_EVEN_DEAD:
+    case GLOBAL_TARGET_DEAD_ALLY:
         target.SetActorTarget(target_type, target_actor);
         break;
     default:
@@ -1382,12 +1383,15 @@ void BattleEnemy::_DecideAction()
         return;
     }
 
-    // and the living enemies
+    // and the enemies depending on their state
     std::deque<BattleActor *> alive_enemies;
+    std::deque<BattleActor *> dead_enemies;
     it = enemies.begin();
     while(it != enemies.end()) {
         if((*it)->IsAlive())
             alive_enemies.push_back(*it);
+        else
+            dead_enemies.push_back(*it);
         ++it;
     }
 
@@ -1438,6 +1442,19 @@ void BattleEnemy::_DecideAction()
         else
             actor_target = enemies[RandomBoundedInteger(0, enemies.size() - 1)];
         break;
+    case GLOBAL_TARGET_DEAD_ALLY:
+        if (dead_enemies.empty()) {
+            // Abort the skill since there is no valid targets.
+            ChangeState(ACTOR_STATE_IDLE);
+            return;
+        }
+
+        // Select a random ally, living or not
+        if(dead_enemies.size() == 1)
+            actor_target = dead_enemies[0];
+        else
+            actor_target = dead_enemies[RandomBoundedInteger(0, dead_enemies.size() - 1)];
+        break;
     case GLOBAL_TARGET_ALL_FOES:
     case GLOBAL_TARGET_ALL_ALLIES:
         // Nothing to do here, the party deques are ready
@@ -1470,6 +1487,7 @@ void BattleEnemy::_DecideAction()
     case GLOBAL_TARGET_SELF:
     case GLOBAL_TARGET_ALLY:
     case GLOBAL_TARGET_ALLY_EVEN_DEAD:
+    case GLOBAL_TARGET_DEAD_ALLY:
         target.SetActorTarget(target_type, actor_target);
         break;
     case GLOBAL_TARGET_ALL_FOES: // Supported at script level
