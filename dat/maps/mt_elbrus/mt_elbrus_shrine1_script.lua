@@ -127,6 +127,10 @@ function _CreateObjects()
     event = vt_map.DialogueEvent("Heal dialogue", dialogue);
     EventManager:RegisterEvent(event);
 
+
+    object = vt_map.ParticleObject("dat/maps/mt_elbrus/particles_snow_south_entrance.lua", 29, 48);
+    object:SetObjectID(Map.object_supervisor:GenerateObjectID());
+    Map:AddGroundObject(object);
 end
 
 -- Creates all events and sets up the entire event sequence chain
