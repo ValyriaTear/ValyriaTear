@@ -58,6 +58,7 @@ public:
     SDLKey confirm;
     SDLKey cancel;
     SDLKey menu;
+    SDLKey minimap;
     SDLKey pause;
     //@}
 }; // class KeyState
@@ -90,6 +91,7 @@ public:
     uint8 confirm;
     uint8 cancel;
     uint8 menu;
+    uint8 minimap;
     uint8 pause;
     uint8 quit;
     //@}
@@ -126,9 +128,7 @@ public:
 *** - confirm      :: Confirms a menu selection or command
 *** - cancel       :: Cancels a menu selection or command
 *** - menu         :: Opens up a menu
-*** - swap         :: Used for swapping selected items or characters
-*** - left_select  :: Selecting multiple items or friendlys
-*** - right_select :: Selecting multiple items or foes
+*** - minimap      :: Used to toggle the minimap view when there is one.
 *** - pause        :: Pauses the game
 ***
 *** There are also other events and meta-key combination events that are handled within
@@ -193,7 +193,6 @@ private:
     bool _right_state;
     bool _confirm_state;
     bool _cancel_state;
-    bool _menu_state;
     //@}
 
     /** \name  Input Press Members
@@ -207,6 +206,7 @@ private:
     bool _confirm_press;
     bool _cancel_press;
     bool _menu_press;
+    bool _minimap_press;
     bool _pause_press;
     bool _quit_press;
     bool _help_press;
@@ -223,14 +223,7 @@ private:
     bool _confirm_release;
     bool _cancel_release;
     bool _menu_release;
-    //@}
-
-    /** \name  First Joystick Axis Motion
-    *** \brief Retains whether a joystick axis event has already occured or not
-    **/
-    //@{
-    bool _joyaxis_x_first;
-    bool _joyaxis_y_first;
+    bool _minimap_release;
     //@}
 
     /** \brief Most recent SDL event
@@ -339,10 +332,6 @@ public:
     bool CancelState() const {
         return _cancel_state;
     }
-
-    bool MenuState() const {
-        return _menu_state;
-    }
     //@}
 
     /** \name Input press member access functions
@@ -375,6 +364,10 @@ public:
 
     bool MenuPress() const {
         return _menu_press;
+    }
+
+    bool MinimapPress() const {
+        return _minimap_press;
     }
 
     bool PausePress() const {
@@ -421,6 +414,10 @@ public:
     bool MenuRelease() const {
         return _menu_release;
     }
+
+    bool MinimapRelease() const {
+        return _minimap_release;
+    }
     //@}
 
     /** \name Key name access functions
@@ -453,6 +450,10 @@ public:
 
     std::string GetMenuKeyName() const {
         return vt_utils::UpcaseFirst(SDL_GetKeyName(_key.menu));
+    }
+
+    std::string GetMinimapKeyName() const {
+        return vt_utils::UpcaseFirst(SDL_GetKeyName(_key.minimap));
     }
 
     std::string GetPauseKeyName() const {
@@ -508,6 +509,10 @@ public:
         return _joystick.menu;
     }
 
+    int32 GetMinimapJoy() const {
+        return _joystick.minimap;
+    }
+
     int32 GetPauseJoy() const {
         return _joystick.pause;
     }
@@ -518,7 +523,7 @@ public:
     //@}
 
     /** \name Key re-mapping functions
-    *** \paramkey New key for the action
+    *** \param key New key for the action
     **/
     //@{
     void SetUpKey(const SDLKey &key) {
@@ -547,6 +552,10 @@ public:
 
     void SetMenuKey(const SDLKey &key) {
         _SetNewKey(_key.menu, key);
+    }
+
+    void SetMinimapKey(const SDLKey &key) {
+        _SetNewKey(_key.minimap, key);
     }
 
     void SetPauseKey(const SDLKey &key) {
@@ -579,6 +588,10 @@ public:
 
     void SetMenuJoy(uint8 button) {
         _SetNewJoyButton(_joystick.menu, button);
+    }
+
+    void SetMinimapJoy(uint8 button) {
+        _SetNewJoyButton(_joystick.minimap, button);
     }
 
     void SetPauseJoy(uint8 button) {
@@ -632,6 +645,10 @@ public:
 
     int32 GetMenuKey() const {
         return _key.menu;
+    }
+
+    int32 GetMinimapKey() const {
+        return _key.minimap;
     }
 
     int32 GetPauseKey() const {

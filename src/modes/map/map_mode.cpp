@@ -255,6 +255,10 @@ void MapMode::Update()
     } else if(InputManager->PausePress()) {
         ModeManager->Push(new PauseMode(false));
         return;
+    } else if(InputManager->MinimapPress()) {
+        //! Toggles the minimap view as requested by the user.
+        GlobalManager->ShowMinimap(!GlobalManager->ShouldShowMinimap());
+        return;
     }
 
     _dialogue_icon.Update();
@@ -311,8 +315,8 @@ void MapMode::Update()
     _event_supervisor->Update();
 
     //update collision camera
-    if(_show_minimap && _minimap && (CurrentState() != STATE_SCENE)
-            && (CurrentState() != STATE_DIALOGUE))
+    if (_show_minimap && _minimap && (CurrentState() == STATE_EXPLORE)
+            && GlobalManager->ShouldShowMinimap())
         _minimap->Update(_camera, _gui_alpha);
 
     GameMode::Update();
@@ -1121,8 +1125,8 @@ void MapMode::_DrawGUI()
     }
 
     // Draw the minimap
-    if(_show_minimap && _minimap && (CurrentState() != STATE_SCENE)
-            && (CurrentState() != STATE_DIALOGUE))
+    if(_show_minimap && _minimap && (CurrentState() == STATE_EXPLORE)
+            && GlobalManager->ShouldShowMinimap())
         _minimap->Draw();
 
     // Draw the stamina bar in the lower right corner

@@ -22,6 +22,7 @@ settings.key_settings.right = 275
 settings.key_settings.confirm = 102
 settings.key_settings.cancel = 100
 settings.key_settings.menu = 115
+settings.key_settings.minimap = 99
 settings.key_settings.pause = 32
 
 settings.joystick_settings = {}
@@ -32,6 +33,7 @@ settings.joystick_settings.threshold = 8192
 settings.joystick_settings.confirm = 0
 settings.joystick_settings.cancel = 1
 settings.joystick_settings.menu = 2
+settings.joystick_settings.minimap = 3
 settings.joystick_settings.pause = 6
 settings.joystick_settings.quit = 7
 

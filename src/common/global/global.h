@@ -719,6 +719,15 @@ public:
         return !_same_map_hud_name_as_previous;
     }
 
+    //! Tells whether the map mode minimap should be shown, if any.
+    bool ShouldShowMinimap() const {
+        return _show_minimap;
+    }
+
+    void ShowMinimap(bool show) {
+        _show_minimap = show;
+    }
+
     //! \brief Executes function NewGame() from global script
     void NewGame();
 
@@ -1093,6 +1102,9 @@ private:
 
     //! \brief a map of the quest string ids to their info
     std::map<std::string, QuestLogInfo> _quest_log_info;
+
+    //! \brief Stores whether the map mode minimap should be shown.
+    bool _show_minimap;
 
     // ----- Global media files
     //! \brief member storing all the common media files.

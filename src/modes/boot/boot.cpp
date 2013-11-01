@@ -572,8 +572,8 @@ void BootMode::_SetupKeySettingsMenu()
 {
     _key_settings_menu.ClearOptions();
     _key_settings_menu.SetPosition(512.0f, 468.0f);
-    _key_settings_menu.SetDimensions(250.0f, 500.0f, 1, 8, 1, 8);
-    _key_settings_menu.SetTextStyle(TextStyle("title22"));
+    _key_settings_menu.SetDimensions(250.0f, 500.0f, 1, 10, 1, 10);
+    _key_settings_menu.SetTextStyle(TextStyle("title20"));
     _key_settings_menu.SetAlignment(VIDEO_X_CENTER, VIDEO_Y_CENTER);
     _key_settings_menu.SetOptionAlignment(VIDEO_X_LEFT, VIDEO_Y_CENTER);
     _key_settings_menu.SetSelectMode(VIDEO_SELECT_SINGLE);
@@ -588,6 +588,7 @@ void BootMode::_SetupKeySettingsMenu()
     _key_settings_menu.AddOption(UTranslate("Confirm: "), &BootMode::_RedefineConfirmKey);
     _key_settings_menu.AddOption(UTranslate("Cancel: "), &BootMode::_RedefineCancelKey);
     _key_settings_menu.AddOption(UTranslate("Menu: "), &BootMode::_RedefineMenuKey);
+    _key_settings_menu.AddOption(UTranslate("Toggle Map: "), &BootMode::_RedefineMinimapKey);
     _key_settings_menu.AddOption(UTranslate("Pause: "), &BootMode::_RedefinePauseKey);
     _key_settings_menu.AddOption(UTranslate("Restore defaults"), &BootMode::_OnRestoreDefaultKeys);
 }
@@ -597,7 +598,8 @@ void BootMode::_SetupJoySettingsMenu()
 {
     _joy_settings_menu.ClearOptions();
     _joy_settings_menu.SetPosition(512.0f, 468.0f);
-    _joy_settings_menu.SetDimensions(250.0f, 500.0f, 1, 9, 1, 9);
+    _joy_settings_menu.SetDimensions(250.0f, 500.0f, 1, 11, 1, 11);
+    _joy_settings_menu.SetTextStyle(TextStyle("title20"));
     _joy_settings_menu.SetTextStyle(TextStyle("title22"));
     _joy_settings_menu.SetAlignment(VIDEO_X_CENTER, VIDEO_Y_CENTER);
     _joy_settings_menu.SetOptionAlignment(VIDEO_X_LEFT, VIDEO_Y_CENTER);
@@ -616,6 +618,7 @@ void BootMode::_SetupJoySettingsMenu()
     _joy_settings_menu.AddOption(dummy, &BootMode::_RedefineConfirmJoy);
     _joy_settings_menu.AddOption(dummy, &BootMode::_RedefineCancelJoy);
     _joy_settings_menu.AddOption(dummy, &BootMode::_RedefineMenuJoy);
+    _joy_settings_menu.AddOption(dummy, &BootMode::_RedefineMinimapJoy);
     _joy_settings_menu.AddOption(dummy, &BootMode::_RedefinePauseJoy);
     _joy_settings_menu.AddOption(dummy, &BootMode::_RedefineQuitJoy);
 
@@ -739,7 +742,8 @@ void BootMode::_RefreshKeySettings()
     _key_settings_menu.SetOptionText(4, UTranslate("Confirm") + MakeUnicodeString("<r>") + UTranslate(InputManager->GetConfirmKeyName()));
     _key_settings_menu.SetOptionText(5, UTranslate("Cancel") + MakeUnicodeString("<r>") + UTranslate(InputManager->GetCancelKeyName()));
     _key_settings_menu.SetOptionText(6, UTranslate("Menu") + MakeUnicodeString("<r>") + UTranslate(InputManager->GetMenuKeyName()));
-    _key_settings_menu.SetOptionText(7, UTranslate("Pause") + MakeUnicodeString("<r>") + UTranslate(InputManager->GetPauseKeyName()));
+    _key_settings_menu.SetOptionText(7, UTranslate("Toggle Map") + MakeUnicodeString("<r>") + UTranslate(InputManager->GetMinimapKeyName()));
+    _key_settings_menu.SetOptionText(8, UTranslate("Pause") + MakeUnicodeString("<r>") + UTranslate(InputManager->GetPauseKeyName()));
 }
 
 
@@ -758,6 +762,7 @@ void BootMode::_RefreshJoySettings()
     _joy_settings_menu.SetOptionText(i++, UTranslate("Confirm: Button") + MakeUnicodeString("<r>" + NumberToString(InputManager->GetConfirmJoy())));
     _joy_settings_menu.SetOptionText(i++, UTranslate("Cancel: Button") + MakeUnicodeString("<r>" + NumberToString(InputManager->GetCancelJoy())));
     _joy_settings_menu.SetOptionText(i++, UTranslate("Menu: Button") + MakeUnicodeString("<r>" + NumberToString(InputManager->GetMenuJoy())));
+    _joy_settings_menu.SetOptionText(i++, UTranslate("Map: Button") + MakeUnicodeString("<r>" + NumberToString(InputManager->GetMinimapJoy())));
     _joy_settings_menu.SetOptionText(i++, UTranslate("Pause: Button") + MakeUnicodeString("<r>" + NumberToString(InputManager->GetPauseJoy())));
     _joy_settings_menu.SetOptionText(i++, UTranslate("Quit: Button") + MakeUnicodeString("<r>" + NumberToString(InputManager->GetQuitJoy())));
 }
@@ -1209,6 +1214,7 @@ bool BootMode::_SaveSettingsFile(const std::string &filename)
     settings_lua.WriteInt("confirm", InputManager->GetConfirmKey());
     settings_lua.WriteInt("cancel", InputManager->GetCancelKey());
     settings_lua.WriteInt("menu", InputManager->GetMenuKey());
+    settings_lua.WriteInt("minimap", InputManager->GetMinimapKey());
     settings_lua.WriteInt("pause", InputManager->GetPauseKey());
     settings_lua.EndTable(); // key_settings
 
@@ -1226,6 +1232,7 @@ bool BootMode::_SaveSettingsFile(const std::string &filename)
     settings_lua.WriteInt("confirm", InputManager->GetConfirmJoy());
     settings_lua.WriteInt("cancel", InputManager->GetCancelJoy());
     settings_lua.WriteInt("menu", InputManager->GetMenuJoy());
+    settings_lua.WriteInt("minimap", InputManager->GetMinimapJoy());
     settings_lua.WriteInt("pause", InputManager->GetPauseJoy());
     settings_lua.WriteInt("quit", InputManager->GetQuitJoy());
     settings_lua.EndTable(); // joystick_settings
@@ -1287,6 +1294,12 @@ void BootMode::_RedefineMenuKey()
     _ShowMessageWindow(false);
 }
 
+void BootMode::_RedefineMinimapKey()
+{
+    _key_setting_function = &BootMode::_SetMinimapKey;
+    _ShowMessageWindow(false);
+}
+
 void BootMode::_RedefinePauseKey()
 {
     _key_setting_function = &BootMode::_SetPauseKey;
@@ -1328,6 +1341,11 @@ void BootMode::_SetMenuKey(const SDLKey &key)
     InputManager->SetMenuKey(key);
 }
 
+void BootMode::_SetMinimapKey(const SDLKey &key)
+{
+    InputManager->SetMinimapKey(key);
+}
+
 void BootMode::_SetPauseKey(const SDLKey &key)
 {
     InputManager->SetPauseKey(key);
@@ -1362,6 +1380,12 @@ void BootMode::_RedefineCancelJoy()
 void BootMode::_RedefineMenuJoy()
 {
     _joy_setting_function = &BootMode::_SetMenuJoy;
+    _ShowMessageWindow(true);
+}
+
+void BootMode::_RedefineMinimapJoy()
+{
+    _joy_setting_function = &BootMode::_SetMinimapJoy;
     _ShowMessageWindow(true);
 }
 
@@ -1400,6 +1424,11 @@ void BootMode::_SetCancelJoy(uint8 button)
 void BootMode::_SetMenuJoy(uint8 button)
 {
     InputManager->SetMenuJoy(button);
+}
+
+void BootMode::_SetMinimapJoy(uint8 button)
+{
+    InputManager->SetMinimapJoy(button);
 }
 
 void BootMode::_SetPauseJoy(uint8 button)

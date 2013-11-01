@@ -67,17 +67,16 @@ InputEngine::InputEngine()
     _cancel_state         = false;
     _cancel_press         = false;
     _cancel_release       = false;
-    _menu_state           = false;
     _menu_press           = false;
     _menu_release         = false;
+    _minimap_press        = false;
+    _minimap_release      = false;
 
     _pause_press          = false;
     _quit_press           = false;
     _help_press           = false;
 
     _joysticks_enabled    = true;
-    _joyaxis_x_first      = true;
-    _joyaxis_y_first      = true;
     _joystick.js          = NULL;
     _joystick.x_axis      = 0;
     _joystick.y_axis      = 1;
@@ -156,6 +155,7 @@ bool InputEngine::RestoreDefaultKeys()
     _key.confirm      = static_cast<SDLKey>(restore_settings_file.ReadInt("confirm"));
     _key.cancel       = static_cast<SDLKey>(restore_settings_file.ReadInt("cancel"));
     _key.menu         = static_cast<SDLKey>(restore_settings_file.ReadInt("menu"));
+    _key.minimap      = static_cast<SDLKey>(restore_settings_file.ReadInt("minimap"));
     _key.pause        = static_cast<SDLKey>(restore_settings_file.ReadInt("pause"));
     restore_settings_file.CloseTable();
     restore_settings_file.CloseTable();
@@ -184,6 +184,7 @@ bool InputEngine::RestoreDefaultJoyButtons()
     _joystick.confirm      = static_cast<uint8>(restore_settings_file.ReadInt("confirm"));
     _joystick.cancel       = static_cast<uint8>(restore_settings_file.ReadInt("cancel"));
     _joystick.menu         = static_cast<uint8>(restore_settings_file.ReadInt("menu"));
+    _joystick.minimap      = static_cast<uint8>(restore_settings_file.ReadInt("minimap"));
     _joystick.pause        = static_cast<uint8>(restore_settings_file.ReadInt("pause"));
     _joystick.quit         = static_cast<uint8>(restore_settings_file.ReadInt("quit"));
     restore_settings_file.CloseTable();
@@ -232,6 +233,8 @@ void InputEngine::EventHandler()
     _cancel_release       = false;
     _menu_press           = false;
     _menu_release         = false;
+    _minimap_press        = false;
+    _minimap_release      = false;
 
     _pause_press = false;
     _quit_press = false;
@@ -374,8 +377,10 @@ void InputEngine::_KeyEventHandler(SDL_KeyboardEvent &key_event)
             _cancel_press = true;
             return;
         } else if(key_event.keysym.sym == _key.menu) {
-            _menu_state = true;
             _menu_press = true;
+            return;
+        } else if(key_event.keysym.sym == _key.minimap) {
+            _minimap_press = true;
             return;
         } else if(key_event.keysym.sym == _key.pause) {
             _pause_press = true;
@@ -422,8 +427,10 @@ void InputEngine::_KeyEventHandler(SDL_KeyboardEvent &key_event)
             _cancel_release = true;
             return;
         } else if(key_event.keysym.sym == _key.menu) {
-            _menu_state = false;
             _menu_release = true;
+            return;
+        } else if(key_event.keysym.sym == _key.minimap) {
+            _minimap_release = true;
             return;
         }
     }
@@ -562,8 +569,10 @@ void InputEngine::_JoystickEventHandler(SDL_Event &js_event)
             _cancel_press = true;
             return;
         } else if(js_event.jbutton.button == _joystick.menu) {
-            _menu_state = true;
             _menu_press = true;
+            return;
+        } else if(js_event.jbutton.button == _joystick.minimap) {
+            _minimap_press = true;
             return;
         } else if(js_event.jbutton.button == _joystick.pause) {
             _pause_press = true;
@@ -587,8 +596,10 @@ void InputEngine::_JoystickEventHandler(SDL_Event &js_event)
             _cancel_release = true;
             return;
         } else if(js_event.jbutton.button == _joystick.menu) {
-            _menu_state = false;
             _menu_release = true;
+            return;
+        } else if(js_event.jbutton.button == _joystick.minimap) {
+            _minimap_release = true;
             return;
         }
     } // else if (js_event.type == JOYBUTTONUP)
@@ -639,6 +650,11 @@ void InputEngine::_SetNewKey(SDLKey &old_key, SDLKey new_key)
         old_key = new_key;
         return;
     }
+    if(_key.minimap == new_key) {  // minimap key used already
+        _key.minimap = old_key;
+        old_key = new_key;
+        return;
+    }
     if(_key.pause == new_key) {  // pause key used already
         _key.pause = old_key;
         old_key = new_key;
@@ -664,6 +680,11 @@ void InputEngine::_SetNewJoyButton(uint8 &old_button, uint8 new_button)
     }
     if(_joystick.menu == new_button) {  // menu button used already
         _joystick.menu = old_button;
+        old_button = new_button;
+        return;
+    }
+    if(_joystick.minimap == new_button) {  // minimap button used already
+        _joystick.minimap = old_button;
         old_button = new_button;
         return;
     }

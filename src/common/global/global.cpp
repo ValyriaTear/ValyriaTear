@@ -84,7 +84,8 @@ GameGlobal::GameGlobal() :
     _y_save_map_position(0),
     _world_map_image(NULL),
     _same_map_hud_name_as_previous(false),
-    _quest_log_count(0)
+    _quest_log_count(0),
+    _show_minimap(true)
 {
     IF_PRINT_DEBUG(GLOBAL_DEBUG) << "GameGlobal constructor invoked" << std::endl;
 }
@@ -263,6 +264,9 @@ void GameGlobal::ClearAllData()
 
     // Clear out the time played, in case of a new game
     SystemManager->SetPlayTime(0, 0, 0);
+
+    // Show the minimap by default when available
+    _show_minimap = true;
 } // void GameGlobal::ClearAllData()
 
 ////////////////////////////////////////////////////////////////////////////////

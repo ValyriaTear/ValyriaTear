@@ -138,6 +138,7 @@ bool LoadSettings()
     InputManager->SetConfirmKey(static_cast<SDLKey>(settings.ReadInt("confirm")));
     InputManager->SetCancelKey(static_cast<SDLKey>(settings.ReadInt("cancel")));
     InputManager->SetMenuKey(static_cast<SDLKey>(settings.ReadInt("menu")));
+    InputManager->SetMinimapKey(static_cast<SDLKey>(settings.ReadInt("minimap")));
     InputManager->SetPauseKey(static_cast<SDLKey>(settings.ReadInt("pause")));
     settings.CloseTable(); // key_settings
 
@@ -154,6 +155,7 @@ bool LoadSettings()
     InputManager->SetConfirmJoy(static_cast<uint8>(settings.ReadInt("confirm")));
     InputManager->SetCancelJoy(static_cast<uint8>(settings.ReadInt("cancel")));
     InputManager->SetMenuJoy(static_cast<uint8>(settings.ReadInt("menu")));
+    InputManager->SetMinimapJoy(static_cast<uint8>(settings.ReadInt("minimap")));
     InputManager->SetPauseJoy(static_cast<uint8>(settings.ReadInt("pause")));
 
     InputManager->SetQuitJoy(static_cast<uint8>(settings.ReadInt("quit")));

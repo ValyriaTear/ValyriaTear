@@ -335,6 +335,7 @@ private:
     void _RedefineConfirmKey();
     void _RedefineCancelKey();
     void _RedefineMenuKey();
+    void _RedefineMinimapKey();
     void _RedefinePauseKey();
     //@}
 
@@ -350,6 +351,7 @@ private:
     void _SetConfirmKey(const SDLKey &key);
     void _SetCancelKey(const SDLKey &key);
     void _SetMenuKey(const SDLKey &key);
+    void _SetMinimapKey(const SDLKey &key);
     void _SetPauseKey(const SDLKey &key);
     //@}
 
@@ -360,6 +362,7 @@ private:
     void _RedefineConfirmJoy();
     void _RedefineCancelJoy();
     void _RedefineMenuJoy();
+    void _RedefineMinimapJoy();
     void _RedefinePauseJoy();
     void _RedefineQuitJoy();
     //@}
@@ -375,6 +378,7 @@ private:
     void _SetConfirmJoy(uint8 button);
     void _SetCancelJoy(uint8 button);
     void _SetMenuJoy(uint8 button);
+    void _SetMinimapJoy(uint8 button);
     void _SetPauseJoy(uint8 button);
     void _SetQuitJoy(uint8 button);
     //@}
