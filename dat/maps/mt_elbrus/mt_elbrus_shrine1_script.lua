@@ -49,6 +49,9 @@ function Load(m)
 
     _CreateEvents();
     _CreateZones();
+
+    -- Add a mediumly dark overlay
+    Map:GetEffectSupervisor():EnableAmbientOverlay("img/ambient/dark.png", 0.0, 0.0, false);
 end
 
 -- the map update function handles checks done on each game tick.
@@ -127,9 +130,15 @@ function _CreateObjects()
     event = vt_map.DialogueEvent("Heal dialogue", dialogue);
     EventManager:RegisterEvent(event);
 
-
+    -- Snow effect at shrine entrance
     object = vt_map.ParticleObject("dat/maps/mt_elbrus/particles_snow_south_entrance.lua", 29, 48);
     object:SetObjectID(Map.object_supervisor:GenerateObjectID());
+    Map:AddGroundObject(object);
+    Map:AddHalo("img/misc/lights/torch_light_mask.lua", 29, 55,
+        vt_video.Color(1.0, 1.0, 1.0, 0.8));
+
+    -- Adds the north gate
+    object = CreateObject(Map, "Door1_big", 42, 4);
     Map:AddGroundObject(object);
 end
 

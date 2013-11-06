@@ -71,9 +71,8 @@ function Load(m)
 
     -- Start the dialogue about snow and the bridge if not done
     if (GlobalManager:GetEventValue("story", "mt_elbrus_snowing_dialogue") ~= 1) then
-        Map:PushState(vt_map.MapMode.STATE_SCENE);
         hero:SetMoving(false);
-        EventManager:StartEvent("Snowing Dialogue", 1000);
+        EventManager:StartEvent("Snowing Dialogue", 200);
     end
 
     -- If the bridge has fallen, hide it and block the way
@@ -602,6 +601,7 @@ local bridge_parts_position_y = {}
 map_functions = {
 
     snowing_dialogue_start = function()
+        Map:PushState(vt_map.MapMode.STATE_SCENE);
         -- Keep a reference of the correct sprite for the event end.
         main_sprite_name = hero:GetSpriteName();
 

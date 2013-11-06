@@ -192,6 +192,14 @@ objects["Dog1"] = {
     img_height = 2.6
 }
 
+objects["Door1_big"] = {
+    animation_filename = "img/sprites/map/objects/door_big1.lua",
+    coll_half_width = 2.0,
+    coll_height = 8.125,
+    img_half_width = 2.0,
+    img_height = 8.125
+}
+
 objects["Fence1 horizontal"] = {
     animation_filename = "img/sprites/map/objects/fence1-horizontal.lua",
     coll_half_width = 1.0,
