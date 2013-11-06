@@ -31,6 +31,10 @@
 #include <QGraphicsSceneMouseEvent>
 #include <QGraphicsSceneContextMenuEvent>
 
+#ifndef QT_NO_OPENGL
+#include <QGLWidget>
+#endif
+
 using namespace vt_script;
 
 namespace vt_editor
@@ -133,7 +137,23 @@ Grid::Grid(QWidget *parent, const QString &name, uint32 width, uint32 height) :
     _graphics_view->setRenderHints(QPainter::Antialiasing);
     _graphics_view->setBackgroundBrush(QBrush(Qt::black));
     _graphics_view->setScene(this);
+
+    // If OpenGL is supported, let's use it.
+#ifndef QT_NO_OPENGL
+    if (QGLFormat::hasOpenGL() && !qobject_cast<QGLWidget*>(_graphics_view->viewport())) {
+        QGLFormat format = QGLFormat::defaultFormat();
+        format.setDepth(false); // No depth buffer needed for 2D surfaces
+        format.setSampleBuffers(true); // Enable anti-aliasing
+        _graphics_view->setViewport(new QGLWidget(format));
+    } else {
+        // Helps with rendering when not using OpenGL
+        _graphics_view->setOptimizationFlags(QGraphicsView::DontAdjustForAntialiasing);
+    }
+#endif
+
     _graphics_view->setMouseTracking(true);
+    // Helps when resizing
+    _graphics_view->viewport()->setAttribute(Qt::WA_StaticContents);
 
     UpdateScene();
 
