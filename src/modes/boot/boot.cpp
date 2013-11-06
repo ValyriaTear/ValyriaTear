@@ -527,7 +527,11 @@ void BootMode::_SetupVideoOptionsMenu()
     _video_options_menu.AddOption(UTranslate("Brightness: "), NULL, NULL, NULL, &BootMode::_OnBrightnessLeft, &BootMode::_OnBrightnessRight);
     _video_options_menu.AddOption(UTranslate("UI Theme: "), &BootMode::_OnUIThemeRight, NULL, NULL, &BootMode::_OnUIThemeLeft, &BootMode::_OnUIThemeRight);
 
-    _video_options_menu.SetSelection(0);
+    // Don't select the resolution option when in fullscreen as it can't be changed anyway.
+    if (VideoManager->IsFullscreen())
+        _video_options_menu.SetSelection(1);
+    else
+        _video_options_menu.SetSelection(0);
 }
 
 
@@ -668,10 +672,16 @@ void BootMode::_RefreshVideoOptions()
     _video_options_menu.SetOptionText(0, UTranslate("Resolution: ") + MakeUnicodeString(resolution.str()));
 
     // Update text on current video mode
-    if(VideoManager->IsFullscreen())
+    if(VideoManager->IsFullscreen()) {
         _video_options_menu.SetOptionText(1, UTranslate("Window mode: ") + UTranslate("Fullscreen"));
-    else
+        // In this case, let's disable the resolution option since it's the desktop one
+        _video_options_menu.EnableOption(0, false);
+    }
+    else {
         _video_options_menu.SetOptionText(1, UTranslate("Window mode: ") + UTranslate("Windowed"));
+        // In this case, let's enable the resolution option in case it was disabled
+        _video_options_menu.EnableOption(0, true);
+    }
 
     // Update brightness
     float curr_brightness = VideoManager->GetBrightness();
