@@ -1,7 +1,7 @@
 Licenses
 ========
 
-Last update: 2013.10.17
+Last update: 2013.11.06
 
 This file is listing all the files licenses from the point of the fork
 from the Allacrost project.
@@ -174,6 +174,7 @@ dat/tilesets/desert_cave_ground.lua                             GPLv2+          
 dat/tilesets/desert_cave_water.lua                              GPLv2+                   Allacrost
 dat/tilesets/overworld2_tileset.lua                             GPLv2+                   Bertram
 dat/tilesets/overworld_tileset.lua                              GPLv2+                   Bertram
+dat/tilesets/shrine_tileset.lua                                 GPLv2+                   Bertram
 
 img/*.lua (including subfolders)                                GPLv2+                   Bertram
 
