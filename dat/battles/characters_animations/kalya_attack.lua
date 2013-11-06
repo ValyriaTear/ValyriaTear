@@ -70,19 +70,24 @@ function Initialize(_character, _target, _skill)
     damage_triggered = false;
 
     distance_moved_x = SystemManager:GetUpdateTime() / vt_map.MapMode.NORMAL_SPEED * 210.0;
+    local x_diff = enemy_pos_x - arrow_pos_x;
     local y_diff = arrow_pos_y - enemy_pos_y;
     if (y_diff == 0.0) then
         a_coeff = 0.0;
         distance_moved_y = 0.0;
+    elseif (x_diff == 0.0) then
+        a_coeff = 0.0;
+        distance_moved_y = distance_moved_x;
+        distance_moved_x = 0.0;
     else
-        a_coeff = (enemy_pos_x - arrow_pos_x) / (arrow_pos_y - enemy_pos_y);
+        a_coeff =  y_diff / x_diff;
         if (a_coeff < 0) then a_coeff = -a_coeff; end
-        distance_moved_y = (1/a_coeff) * distance_moved_x;
+        distance_moved_y = a_coeff * distance_moved_x;
     end
 
     --print("distance x: ", enemy_pos_x - character_pos_x)
     --print("distance y: ", character_pos_y - enemy_pos_y)
-    --print (distance_moved_x, 1/a_coeff, distance_moved_y);
+    --print (distance_moved_x, a_coeff, distance_moved_y);
 end
 
 
@@ -90,7 +95,17 @@ function Update()
     -- The update time can vary, so update the distance on each update as well.
     distance_moved_x = SystemManager:GetUpdateTime() / vt_map.MapMode.NORMAL_SPEED * 210.0;
     if (a_coeff ~= 0.0) then
-        distance_moved_y = (1/a_coeff) * distance_moved_x;
+        distance_moved_y = a_coeff * distance_moved_x;
+    end
+
+    -- Make the speed the same whatever the angle between the character and the enemy is.
+    -- We deal only with a coefficients > 1.0 for simplification purpose.
+    if (a_coeff > 1.0 and distance_moved_x ~= 0.0 and distance_moved_y ~= 0.0) then
+        distance_moved_x = distance_moved_x * (distance_moved_x / distance_moved_y);
+        if (a_coeff ~= 0.0) then
+            distance_moved_y = a_coeff * distance_moved_x;
+        end
+        --print ("new_ratio: ", a_coeff, distance_moved_x / distance_moved_y)
     end
 
     -- Update the arrow flying height according to the distance
@@ -116,7 +131,7 @@ function Update()
         if (attack_time > 750.0) then
             character:ChangeSpriteAnimation("idle")
             attack_step = 2;
-	    character:SetShowAmmo(true);
+            character:SetShowAmmo(true);
         end
     end
 
@@ -154,7 +169,7 @@ function Update()
             -- Remove the skill points at the end of the third attack
             character:SubtractSkillPoints(skill:GetSPRequired());
             damage_triggered = true;
-	    character:SetShowAmmo(false);
+            character:SetShowAmmo(false);
         end
         attack_step = 4
     end

@@ -58,12 +58,17 @@ function Initialize(_character, _target, _skill)
     damage_triggered = false;
 
     distance_moved_x = SystemManager:GetUpdateTime() / vt_map.MapMode.NORMAL_SPEED * 170.0;
+    local x_diff = enemy_pos_x - character_pos_x;
     local y_diff = character_pos_y - enemy_pos_y;
     if (y_diff == 0.0) then
         a_coeff = 0.0;
         distance_moved_y = 0.0;
+    elseif (x_diff == 0.0) then
+        a_coeff = 0.0;
+        distance_moved_y = distance_moved_x;
+        distance_moved_x = 0.0;
     else
-        a_coeff = (character_pos_y - enemy_pos_y) / (enemy_pos_x - character_pos_x);
+        a_coeff = y_diff / x_diff;
         if (a_coeff < 0) then a_coeff = -a_coeff; end
         distance_moved_y = a_coeff * distance_moved_x;
     end
