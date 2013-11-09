@@ -14,6 +14,7 @@ local character = {};
 local target = {};
 local target_actor = {};
 local skill = {};
+local Battle = {};
 
 local character_pos_x = 0.0;
 local character_pos_y = 0.0;
@@ -31,6 +32,9 @@ local attack_time = 0.0;
 local damage_triggered1 = false;
 local damage_triggered2 = false;
 local damage_triggered3 = false;
+
+-- Used to trigger dust
+local move_time = 0
 
 -- character, the BattleActor attacking (here Bronann)
 -- target, the BattleEnemy target
@@ -78,6 +82,9 @@ function Initialize(_character, _target, _skill)
     --print("distance x: ", enemy_pos_x - character_pos_x - 64.0)
     --print("distance y: ", character_pos_y - enemy_pos_y)
     --print (distance_moved_x, a_coeff, distance_moved_y);
+
+    Battle = ModeManager:GetTop();
+    move_time = 0;
 end
 
 
@@ -101,10 +108,18 @@ function Update()
     -- Start to run towards the enemy
     if (attack_step == 0) then
         character:ChangeSpriteAnimation("run")
+        move_time = 0;
         attack_step = 1
     end
     -- Make the player move till it reaches the enemy
     if (attack_step == 1) then
+        -- Adds some dust every 15ms
+        move_time = move_time + SystemManager:GetUpdateTime();
+        if (move_time > 15) then
+            Battle:TriggerBattleParticleEffect("dat/effects/particles/dust.lua", character_pos_x, character_pos_y);
+            move_time = 0
+        end
+
         if (character_pos_x > enemy_pos_x - 64.0) then
             character_pos_x = character_pos_x - distance_moved_x;
             if character_pos_x < enemy_pos_x - 64.0 then character_pos_x = enemy_pos_x - 64.0 end
@@ -165,6 +180,7 @@ function Update()
         if (attack_time > 375.0) then
             if (damage_triggered3 == true) then
                 character:ChangeSpriteAnimation("run_left");
+                move_time = 0;
                 attack_step = 5;
             else
                 attack_step = 2;
@@ -174,6 +190,13 @@ function Update()
 
     -- triggers skill
     if (attack_step == 5) then
+        -- Adds some dust every 15ms
+        move_time = move_time + SystemManager:GetUpdateTime();
+        if (move_time > 15) then
+            Battle:TriggerBattleParticleEffect("dat/effects/particles/dust.lua", character_pos_x, character_pos_y);
+            move_time = 0
+        end
+
         -- Make the character jump back to its place
         if (character_pos_x > character:GetXOrigin()) then
             character_pos_x = character_pos_x - distance_moved_x;

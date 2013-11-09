@@ -1,4 +1,3 @@
--- Filename: thanis_attack.lua
 -- This file is scripting Bronann's attack animation, called by attack skills.
 -- The initialize() function is called once, followed by calls to the update function.
 -- When the update function returns true, the attack is finished.
@@ -6,7 +5,7 @@
 -- Set the namespace
 local ns = {};
 setmetatable(ns, {__index = _G});
-thanis_attack = ns;
+bronann_attack_forward_thrust = ns;
 setfenv(1, ns);
 
 -- local references
@@ -14,7 +13,6 @@ local character = {};
 local target = {};
 local target_actor = {};
 local skill = {};
-local Battle = {};
 
 local character_pos_x = 0.0;
 local character_pos_y = 0.0;
@@ -31,10 +29,17 @@ local attack_time = 0.0;
 
 local damage_triggered = false;
 
+local Battle = {}
+local sword_slash = {}
+local slash_effect_time = 0
+local slash_effect_started = false
+
 -- Used to trigger dust
 local move_time = 0
+-- Used to set up the Forward thrust counter force
+local forward_thrust_counter_force = 0.0;
 
--- character, the BattleActor attacking
+-- character, the BattleActor attacking (here Bronann)
 -- target, the BattleEnemy target
 -- The skill id used on target
 function Initialize(_character, _target, _skill)
@@ -53,7 +58,7 @@ function Initialize(_character, _target, _skill)
     character_pos_x = character:GetXLocation();
     character_pos_y = character:GetYLocation();
 
-    enemy_pos_x = target_actor:GetXLocation();
+    enemy_pos_x = target_actor:GetXLocation() - (character:GetSpriteWidth() / 2.0);
     enemy_pos_y = target_actor:GetYLocation();
 
     attack_step = 0;
@@ -61,8 +66,8 @@ function Initialize(_character, _target, _skill)
 
     damage_triggered = false;
 
-    distance_moved_x = SystemManager:GetUpdateTime() / vt_map.MapMode.NORMAL_SPEED * 110.0;
-    local x_diff = enemy_pos_x - character_pos_x - 64.0;
+    distance_moved_x = SystemManager:GetUpdateTime() / vt_map.MapMode.NORMAL_SPEED * 170.0;
+    local x_diff = enemy_pos_x - character_pos_x;
     local y_diff = character_pos_y - enemy_pos_y;
     if (y_diff == 0.0) then
         a_coeff = 0.0;
@@ -77,18 +82,23 @@ function Initialize(_character, _target, _skill)
         distance_moved_y = a_coeff * distance_moved_x;
     end
 
-    --print("distance x: ", enemy_pos_x - character_pos_x - 64.0)
+    --print("distance x: ", enemy_pos_x - character_pos_x)
     --print("distance y: ", character_pos_y - enemy_pos_y)
     --print (distance_moved_x, a_coeff, distance_moved_y);
 
     Battle = ModeManager:GetTop();
+    -- A sword slash animation
+    sword_slash = Battle:CreateBattleAnimation("img/sprites/battle/effects/sword_slash.lua");
+    slash_effect_time = 0;
+    slash_effect_started = false;
     move_time = 0;
+    forward_thrust_counter_force = 0;
 end
 
 
 function Update()
     -- The update time can vary, so update the distance on each update as well.
-    distance_moved_x = SystemManager:GetUpdateTime() / vt_map.MapMode.NORMAL_SPEED * 110.0;
+    distance_moved_x = SystemManager:GetUpdateTime() / vt_map.MapMode.NORMAL_SPEED * 170.0;
     if (a_coeff ~= 0.0) then
         distance_moved_y = a_coeff * distance_moved_x;
     end
@@ -105,8 +115,9 @@ function Update()
 
     -- Start to run towards the enemy
     if (attack_step == 0) then
-        character:ChangeSpriteAnimation("run")
-        move_time = 0;
+        character:ChangeSpriteAnimation("jump_forward")
+        move_time = 0
+
         attack_step = 1
     end
     -- Make the player move till it reaches the enemy
@@ -118,13 +129,13 @@ function Update()
             move_time = 0
         end
 
-        if (character_pos_x > enemy_pos_x - 64.0) then
+        if (character_pos_x > enemy_pos_x) then
             character_pos_x = character_pos_x - distance_moved_x;
-            if character_pos_x < enemy_pos_x - 64.0 then character_pos_x = enemy_pos_x - 64.0 end
+            if character_pos_x < enemy_pos_x then character_pos_x = enemy_pos_x end
         end
-        if (character_pos_x < enemy_pos_x - 64.0) then
+        if (character_pos_x < enemy_pos_x) then
             character_pos_x = character_pos_x + distance_moved_x;
-            if character_pos_x > enemy_pos_x - 64.0 then character_pos_x = enemy_pos_x - 64.0 end
+            if character_pos_x > enemy_pos_x then character_pos_x = enemy_pos_x end
         end
         if (character_pos_y > enemy_pos_y) then
             character_pos_y = character_pos_y - distance_moved_y;
@@ -139,32 +150,63 @@ function Update()
         character:SetYLocation(character_pos_y);
 
         -- Attack when reaching the enemy
-        if (character_pos_x >= enemy_pos_x - 64.0 and character_pos_y == enemy_pos_y) then
+        if (character_pos_x >= enemy_pos_x and character_pos_y == enemy_pos_y) then
             attack_step = 2;
         end
     end
 
     -- triggers the attack animation
     if (attack_step == 2) then
-        character:ChangeSpriteAnimation("attack")
+        character:ChangeSpriteAnimation("attack_forward_thrust")
+
+        -- Init the slash effect life time
+        slash_effect_time = 0;
+        slash_effect_started = false;
+
         attack_step = 3;
     end
 
-    -- Wait it to finish
+    -- Wait for it to finish
     if (attack_step == 3) then
         attack_time = attack_time + SystemManager:GetUpdateTime();
+
+        if (attack_time > 410) then
+            slash_effect_time = slash_effect_time + SystemManager:GetUpdateTime();
+            if (slash_effect_started == false) then
+                slash_effect_started = true
+
+                sword_slash:SetXLocation(target_actor:GetXLocation());
+                sword_slash:SetYLocation(target_actor:GetYLocation() + 2.0);
+                sword_slash:SetVisible(true);
+                sword_slash:Reset();
+            end
+        end
+
+        if (slash_effect_time > 75 * 4) then -- 300, 410 + 300 = 710 (< 730).
+            sword_slash:SetVisible(false);
+            sword_slash:Remove();
+        end
+
         -- Triggers the damage in the middle of the attack animation
-        if (damage_triggered == false and attack_time > 225.0) then
+        if (damage_triggered == false and attack_time > 505.0) then
             skill:ExecuteBattleFunction(character, target);
             -- Remove the skill points at the end of the third attack
             character:SubtractSkillPoints(skill:GetSPRequired());
             damage_triggered = true;
         end
 
-        if (attack_time > 375.0) then
-            character:ChangeSpriteAnimation("run_left")
-            move_time = 0;
+        -- Makes the character go through the enemy for the second blow.
+        if (attack_time > 390) then
+            character_pos_x = character_pos_x + distance_moved_x - forward_thrust_counter_force;
+            character:SetXLocation(character_pos_x);
+            forward_thrust_counter_force = forward_thrust_counter_force + 1;
+        end
+
+        if (attack_time > 730.0) then
+            character:ChangeSpriteAnimation("jump_backward")
             attack_step = 4;
+
+            move_time = 0;
         end
     end
 

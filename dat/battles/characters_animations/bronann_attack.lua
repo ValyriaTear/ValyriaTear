@@ -30,6 +30,14 @@ local attack_time = 0.0;
 
 local damage_triggered = false;
 
+local Battle = {}
+local sword_slash = {}
+local slash_effect_time = 0
+local slash_effect_started = false
+
+-- Used to trigger dust
+local move_time = 0
+
 -- character, the BattleActor attacking (here Bronann)
 -- target, the BattleEnemy target
 -- The skill id used on target
@@ -76,6 +84,13 @@ function Initialize(_character, _target, _skill)
     --print("distance x: ", enemy_pos_x - character_pos_x)
     --print("distance y: ", character_pos_y - enemy_pos_y)
     --print (distance_moved_x, a_coeff, distance_moved_y);
+
+    Battle = ModeManager:GetTop();
+    -- A sword slash animation
+    sword_slash = Battle:CreateBattleAnimation("img/sprites/battle/effects/sword_slash.lua");
+    slash_effect_time = 0;
+    slash_effect_started = false;
+    move_time = 0;
 end
 
 
@@ -99,10 +114,19 @@ function Update()
     -- Start to run towards the enemy
     if (attack_step == 0) then
         character:ChangeSpriteAnimation("jump_forward")
+        move_time = 0
+
         attack_step = 1
     end
     -- Make the player move till it reaches the enemy
     if (attack_step == 1) then
+        -- Adds some dust every 15ms
+        move_time = move_time + SystemManager:GetUpdateTime();
+        if (move_time > 15) then
+            Battle:TriggerBattleParticleEffect("dat/effects/particles/dust.lua", character_pos_x, character_pos_y);
+            move_time = 0
+        end
+
         if (character_pos_x > enemy_pos_x) then
             character_pos_x = character_pos_x - distance_moved_x;
             if character_pos_x < enemy_pos_x then character_pos_x = enemy_pos_x end
@@ -132,12 +156,35 @@ function Update()
     -- triggers the attack animation
     if (attack_step == 2) then
         character:ChangeSpriteAnimation("attack")
+
+        -- Init the slash effect life time
+        slash_effect_time = 0;
+        slash_effect_started = false;
+
         attack_step = 3;
     end
 
-    -- Wait it to finish
+    -- Wait for it to finish
     if (attack_step == 3) then
         attack_time = attack_time + SystemManager:GetUpdateTime();
+
+        if (attack_time > 410) then
+            slash_effect_time = slash_effect_time + SystemManager:GetUpdateTime();
+            if (slash_effect_started == false) then
+                slash_effect_started = true
+
+                sword_slash:SetXLocation(target_actor:GetXLocation());
+                sword_slash:SetYLocation(target_actor:GetYLocation() + 2.0);
+                sword_slash:SetVisible(true);
+                sword_slash:Reset();
+            end
+        end
+
+        if (slash_effect_time > 75 * 4) then -- 300, 410 + 300 = 710 (< 730).
+            sword_slash:SetVisible(false);
+            sword_slash:Remove();
+        end
+
         -- Triggers the damage in the middle of the attack animation
         if (damage_triggered == false and attack_time > 505.0) then
             skill:ExecuteBattleFunction(character, target);
@@ -149,11 +196,20 @@ function Update()
         if (attack_time > 730.0) then
             character:ChangeSpriteAnimation("jump_backward")
             attack_step = 4;
+
+            move_time = 0;
         end
     end
 
     -- triggers skill
     if (attack_step == 4) then
+        -- Adds some dust every 15ms
+        move_time = move_time + SystemManager:GetUpdateTime();
+        if (move_time > 15) then
+            Battle:TriggerBattleParticleEffect("dat/effects/particles/dust.lua", character_pos_x, character_pos_y);
+            move_time = 0
+        end
+
         -- Make the character jump back to its place
         if (character_pos_x > character:GetXOrigin()) then
             character_pos_x = character_pos_x - distance_moved_x;

@@ -1,7 +1,7 @@
 Licenses
 ========
 
-Last update: 2013.11.06
+Last update: 2013.11.09
 
 This file is listing all the files licenses from the point of the fork
 from the Allacrost project.
@@ -58,6 +58,7 @@ dat/battles/desert_cave_battle_anim.lua                         GPLv2+          
 dat/battles/tutorial_battle_dialogs.lua                         GPLv2+                   Allacrost + Bertram
 
 dat/battles/characters_animations/bronann_attack.lua            GPLv2+                   Bertram
+dat/battles/characters_animations/bronann_attack_forward_thrust.lua  GPLv2+              Bertram
 dat/battles/characters_animations/bronann_punch.lua             GPLv2+                   Bertram
 dat/battles/characters_animations/kalya_attack.lua              GPLv2+                   Bertram
 dat/battles/characters_animations/kalya_throw_stone.lua         GPLv2+                   Bertram
@@ -93,6 +94,7 @@ dat/effects/particles/rain.lua                                  GPLv2+          
 dat/effects/particles/snow.lua                                  GPLv2+                   roos + Bertram modifications
 dat/effects/particles/blue_firework.lua                         GPLv2+                   roos + Bertram modifications
 dat/effects/particles/crystal_appearance.lua                    GPLv2+                   roos + Bertram modifications
+dat/effects/particles/dust.lua                                  GPLv2+                   roos + Bertram modifications
 dat/effects/particles/shield.lua                                GPLv2+                   Bertram
 dat/effects/particles/shield_big_sprites.lua                    GPLv2+                   Bertram
 dat/effects/particles/explosion.lua                             GPLv2+                   roos + Bertram modifications
@@ -217,6 +219,7 @@ img/backgrops/boot/fog.png                                      GPLv2+          
 img/backgrops/boot/satellite.png                                GPLv2                    Len (OGA) + Bertram
 img/backgrops/boot/satellite_shadow.png                         GPLv2+                   Bertram
 
+img/effects/dust.png                                            GPLv3 / CC by SA 3.0     Bertram
 img/effects/explosion.png                                       GPLv2+                   Roos
 img/effects/fire.png                                            GPLv2+                   Roos
 img/effects/flame1.png                                          GPLv2+                   Roos
@@ -502,6 +505,8 @@ img/sprites/battle/characters/others/soldier_attack.png         GPLv2+          
 img/sprites/battle/characters/others/soldier_idle.png           GPLv2+                   Allacrost + Bertram
 img/sprites/battle/characters/others/soldier_run.png            GPLv2+                   Allacrost + Bertram
 img/sprites/battle/characters/others/soldier_victory.png        GPLv2+                   Allacrost + Bertram
+
+img/sprites/battle/effects/sword_slash.png                      GPLv3 / CC by SA 3.0     Bertram
 
 img/sprites/battle/enemies/big_slime.png                        GPLv2+                   Bertram (based on the slime sprite)
 img/sprites/battle/enemies/dark_soldier.png                     GPLv3                    Kirill777 (OGA) - http://opengameart.org/content/soldier-0

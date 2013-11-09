@@ -15,12 +15,12 @@ animation = {
     -- The frames duration in milliseconds
     frames = {
         [0] = { id = 0, duration = 75 },
-        [1] = { id = 1, duration = 75 },
-        [2] = { id = 2, duration = 75 },
-        [3] = { id = 3, duration = 200 },
-        [4] = { id = 4, duration = 40 },
-        [5] = { id = 5, duration = 40 },
-        [6] = { id = 6, duration = 75 },
-        [7] = { id = 7, duration = 0 } -- 0 means forever
+        [1] = { id = 5, duration = 40 },
+        [2] = { id = 6, duration = 75 },
+        [3] = { id = 7, duration = 200 },
+        [4] = { id = 1, duration = 40 },
+        [5] = { id = 2, duration = 40 },
+        [6] = { id = 3, duration = 40 },
+        [7] = { id = 4, duration = 0 }, -- 0 means forever
     }
 }

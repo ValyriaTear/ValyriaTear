@@ -24,6 +24,7 @@ characters[BRONANN] = {
         run = "img/sprites/battle/characters/bronann/bronann_run.lua",
         run_after_victory = "img/sprites/battle/characters/bronann/bronann_run_after_victory.lua",
         attack = "img/sprites/battle/characters/bronann/bronann_attack.lua",
+        attack_forward_thrust = "img/sprites/battle/characters/bronann/bronann_attack_forward_thrust.lua",
         dodge = "img/sprites/battle/characters/bronann/bronann_dodge.lua",
         victory = "img/sprites/battle/characters/bronann/bronann_victory.lua",
         hurt = "img/sprites/battle/characters/bronann/bronann_hurt.lua",

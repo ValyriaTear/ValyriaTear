@@ -125,7 +125,7 @@ skills[2] = {
     end,
 
     animation_scripts = {
-        [BRONANN] = "dat/battles/characters_animations/bronann_attack.lua",
+        [BRONANN] = "dat/battles/characters_animations/bronann_attack_forward_thrust.lua",
         [THANIS] = "dat/battles/characters_animations/thanis_attack.lua"
     }
 }
