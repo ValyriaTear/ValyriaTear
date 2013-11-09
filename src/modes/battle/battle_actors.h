@@ -89,7 +89,16 @@ public:
     }
 
     virtual void DrawSprite()
-    {};
+    {}
+
+    //! Tells whether the object can be removed from memory.
+    //! \note: Only visual effects are throwable once used.
+    virtual bool CanBeRemoved() const {
+        return false;
+    }
+
+    virtual void Update()
+    {}
 
 protected:
     //! \brief The "home" coordinates for the actor's default location on the battle field
@@ -104,7 +113,7 @@ protected:
 class BattleParticleEffect : public BattleObject
 {
 public:
-    BattleParticleEffect(const std::string &effect_filename);
+    BattleParticleEffect(const std::string& effect_filename);
 
     //! Used to be drawn at the right time by the battle mode.
     void DrawSprite();
@@ -114,9 +123,9 @@ public:
         return _effect.Start();
     }
 
-    //! \Tells whether the effect is still alive.
-    bool IsAlive() const {
-        return _effect.IsAlive();
+    //! Tells whether the effect can be removed from memory.
+    bool CanBeRemoved() const {
+        return !_effect.IsAlive();
     }
 
     void Update() {
@@ -126,6 +135,59 @@ public:
 protected:
     //! The particle effect class used internally
     vt_mode_manager::ParticleEffect _effect;
+};
+
+//! \brief A class representing animated images used as battle objects:
+//! used also for spell effects, attack effects, ...
+class BattleAnimation : public BattleObject
+{
+public:
+    BattleAnimation(const std::string& animation_filename);
+
+    //! Used to be drawn at the right time by the battle mode.
+    void DrawSprite();
+
+
+    void Update() {
+        _animation.Update();
+    }
+
+    //! Permits to restart the animation.
+    void Reset() {
+        _animation.ResetAnimation();
+    }
+
+    void SetVisible(bool show) {
+        _visible = show;
+    }
+
+    bool IsVisible() const {
+        return _visible;
+    }
+
+    //! Tells whether the effect can be scheduled for removal from memory.
+    bool CanBeRemoved() const {
+        return _can_be_removed;
+    }
+
+    void Remove() {
+        _can_be_removed = true;
+    }
+
+    //! Get the animatedImage for deeper manipulations.
+    vt_video::AnimatedImage& GetAnimatedImage() {
+        return _animation;
+    }
+
+protected:
+    //! The particle effect class used internally
+    vt_video::AnimatedImage _animation;
+
+    //! Set whether the animation is drawn.
+    bool _visible;
+
+    //! Set whether the animation can be removed from memory (now useless).
+    bool _can_be_removed;
 };
 
 //! \brief The battle ammo class is made to represent an ammo image on the battle ground.
@@ -415,7 +477,7 @@ public:
 
     //! \brief Convenience wrapper for single target type skills
     void SetAction(uint32 skill_id, BattleActor* target_actor);
-    
+
     //! \brief Resets actor stats to their original values
     //@{
     void ResetHitPoints() {

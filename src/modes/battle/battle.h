@@ -46,6 +46,7 @@ class BattleCharacter;
 class BattleEnemy;
 class BattleObject;
 class BattleParticleEffect;
+class BattleAnimation;
 class CommandSupervisor;
 class DialogueSupervisor;
 class FinishSupervisor;
@@ -444,7 +445,19 @@ public:
     //! \param The effect filename is the particle effect definition file.
     //! \param x the x coordinates of the particle effect in pixels.
     //! \param y the y coordinates of the particle effect in pixels.
-    void TriggerBattleParticleEffect(const std::string &effect_filename, uint32 x, uint32 y);
+    void TriggerBattleParticleEffect(const std::string& effect_filename, uint32 x, uint32 y);
+
+    //! \brief Creates a battle animation object.
+    //! Those objects are also drawn sorted by their Y coordinate value.
+    //! Note that at the animation is created invisible at coordinate (0,0)
+    //! and that you must call SetVisible(true) and move it somewhere visible
+    //! for it to be shown.
+    //! Once you don't need it anymore, you can throw it by calling Remove()
+    //! and the animation will be freed from memory on the next Battle update.
+    //!
+    //! \param The animation filename is the animation definition file.
+    //! \return the animation object for scripted manipulation purpose.
+    private_battle::BattleAnimation* CreateBattleAnimation(const std::string& animation_filename);
     //@}
 
 private:
@@ -506,11 +519,11 @@ private:
     //! as the number of enemies might have changed.
     std::deque<private_battle::BattleEnemyInfo> _initial_enemy_actors_info;
 
-    /** \brief The particle effects container.
-    *** It will permit to draw particle effect in the right order, and will get rid of the dead particle effects,
-    *** at update time.
+    /** \brief The effects container.
+    *** It will permit to draw particle effects and animations in the right order,
+    *** and will get rid of the "dead" useless effects at update time.
     **/
-    std::vector<private_battle::BattleParticleEffect *> _battle_particle_effects;
+    std::vector<private_battle::BattleObject *> _battle_effects;
 
     /** \brief A FIFO queue of all actors that are ready to perform an action
     *** When an actor has completed the wait time for their warm-up state, they enter the ready state and are

@@ -62,6 +62,26 @@ void BattleParticleEffect::DrawSprite()
     _effect.Draw();
 }
 
+// Battle animation class
+BattleAnimation::BattleAnimation(const std::string& animation_filename):
+    BattleObject(),
+    _visible(true),
+    _can_be_removed(false)
+{
+    if(!_animation.LoadFromAnimationScript(animation_filename))
+        PRINT_WARNING << "Invalid battle animation file requested: "
+                      << animation_filename << std::endl;
+}
+
+void BattleAnimation::DrawSprite()
+{
+    if(!IsVisible() || CanBeRemoved())
+        return;
+
+    VideoManager->Move(GetXLocation(), GetYLocation());
+    _animation.Draw();
+}
+
 // BattleAmmo class
 void BattleAmmo::DrawSprite()
 {

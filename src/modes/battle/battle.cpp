@@ -352,16 +352,16 @@ void BattleMode::Update()
         _battle_objects.push_back(_enemy_actors[i]);
     }
 
-    // Add particle effects
-    for(std::vector<BattleParticleEffect *>::iterator it = _battle_particle_effects.begin();
-            it != _battle_particle_effects.end();) {
-        if((*it)->IsAlive()) {
+    // Add effects (particles and animations)
+    for(std::vector<BattleObject *>::iterator it = _battle_effects.begin();
+            it != _battle_effects.end();) {
+        if((*it)->CanBeRemoved()) {
+            delete (*it);
+            it = _battle_effects.erase(it);
+        } else {
             (*it)->Update();
             _battle_objects.push_back(*it);
             ++it;
-        } else {
-            delete (*it);
-            it = _battle_particle_effects.erase(it);
         }
     }
 
@@ -868,7 +868,18 @@ void BattleMode::TriggerBattleParticleEffect(const std::string &effect_filename,
 
     effect->Start();
 
-    _battle_particle_effects.push_back(effect);
+    _battle_effects.push_back(effect);
+}
+
+private_battle::BattleAnimation* BattleMode::CreateBattleAnimation(const std::string& animation_filename)
+{
+    BattleAnimation* animation = new BattleAnimation(animation_filename);
+
+    // Set it invisible until an event make it usable
+    animation->SetVisible(false);
+
+    _battle_effects.push_back(animation);
+    return animation;
 }
 
 void BattleMode::_DetermineActorLocations()

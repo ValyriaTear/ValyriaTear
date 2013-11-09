@@ -646,6 +646,7 @@ void BindModeCode()
             .def("GetBattleType", &BattleMode::GetBattleType)
             .def("SetBattleType", &BattleMode::SetBattleType)
             .def("TriggerBattleParticleEffect", &BattleMode::TriggerBattleParticleEffect)
+            .def("CreateBattleAnimation", &BattleMode::CreateBattleAnimation)
 
             // Namespace constants
             .enum_("constants") [
@@ -687,6 +688,35 @@ void BindModeCode()
 
         luabind::module(vt_script::ScriptManager->GetGlobalState(), "vt_battle")
         [
+            luabind::class_<BattleObject>("BattleObject")
+            .def("GetXOrigin", &BattleObject::GetXOrigin)
+            .def("GetYOrigin", &BattleObject::GetYOrigin)
+            .def("GetXLocation", &BattleObject::GetXLocation)
+            .def("GetYLocation", &BattleObject::GetYLocation)
+            .def("SetXLocation", &BattleObject::SetXLocation)
+            .def("SetYLocation", &BattleObject::SetYLocation)
+        ];
+
+        luabind::module(vt_script::ScriptManager->GetGlobalState(), "vt_battle")
+        [
+            luabind::class_<BattleAnimation, BattleObject>("BattleAnimation")
+
+            .def("Reset", &BattleAnimation::Reset)
+            .def("SetVisible", &BattleAnimation::SetVisible)
+            .def("GetAnimatedImage", &BattleAnimation::GetAnimatedImage)
+            .def("Remove", &BattleAnimation::Remove)
+        ];
+
+        luabind::module(vt_script::ScriptManager->GetGlobalState(), "vt_battle")
+        [
+            luabind::class_<BattleAmmo, BattleObject>("BattleAmmo")
+
+            .def("LoadAmmoAnimatedImage", &BattleAmmo::LoadAmmoAnimatedImage)
+            .def("SetFlyingHeight", &BattleAmmo::SetFlyingHeight)
+        ];
+
+        luabind::module(vt_script::ScriptManager->GetGlobalState(), "vt_battle")
+        [
             luabind::class_<BattleActor, vt_global::GlobalActor>("BattleActor")
             .def("ChangeSpriteAnimation", &BattleActor::ChangeSpriteAnimation)
             .def("RegisterDamage", (void(BattleActor:: *)(uint32)) &BattleActor::RegisterDamage)
@@ -724,14 +754,6 @@ void BindModeCode()
             .def("GetState", &BattleActor::GetState)
             .def("SetAction", (void(BattleActor:: *)(uint32))&BattleActor::SetAction)
             .def("SetAction", (void(BattleActor:: *)(uint32, BattleActor *))&BattleActor::SetAction)
-        ];
-
-        luabind::module(vt_script::ScriptManager->GetGlobalState(), "vt_battle")
-        [
-            luabind::class_<BattleAmmo, BattleActor>("BattleAmmo")
-
-            .def("LoadAmmoAnimatedImage", &BattleAmmo::LoadAmmoAnimatedImage)
-            .def("SetFlyingHeight", &BattleAmmo::SetFlyingHeight)
         ];
 
         luabind::module(vt_script::ScriptManager->GetGlobalState(), "vt_battle")
