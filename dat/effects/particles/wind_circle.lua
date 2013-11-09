@@ -80,8 +80,6 @@ systems[0] =
         16
     },
 
-    rotate = {},
-
     blend_mode = 13,
     system_lifetime = 4.0,
     particle_lifetime = 4.0,
