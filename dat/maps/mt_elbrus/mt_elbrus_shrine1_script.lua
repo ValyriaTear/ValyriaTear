@@ -52,6 +52,12 @@ function Load(m)
 
     -- Add a mediumly dark overlay
     Map:GetEffectSupervisor():EnableAmbientOverlay("img/ambient/dark.png", 0.0, 0.0, false);
+
+    -- Start the dialogue about snow and the bridge if not done
+    if (GlobalManager:GetEventValue("story", "mt_elbrus_shrine_entrance_event") ~= 1) then
+        hero:SetMoving(false);
+        EventManager:StartEvent("Shrine entrance event start", 200);
+    end
 end
 
 -- the map update function handles checks done on each game tick.
@@ -142,6 +148,12 @@ function _CreateObjects()
     Map:AddGroundObject(object);
 end
 
+-- Special event references which destinations must be updated just before being called.
+local kalya_move_next_to_hero_event1 = {}
+local kalya_move_back_to_hero_event1 = {}
+local orlinn_move_next_to_hero_event1 = {}
+local orlinn_move_back_to_hero_event1 = {}
+
 -- Creates all events and sets up the entire event sequence chain
 function _CreateEvents()
     local event = {};
@@ -157,6 +169,128 @@ function _CreateEvents()
 
     -- Heal point
     event = vt_map.ScriptedEvent("Heal event", "heal_party", "heal_done");
+    EventManager:RegisterEvent(event);
+
+    -- Generic events
+    event = vt_map.ChangeDirectionSpriteEvent("Orlinn looks north", orlinn, vt_map.MapMode.NORTH);
+    EventManager:RegisterEvent(event);
+    event = vt_map.ChangeDirectionSpriteEvent("Orlinn looks west", orlinn, vt_map.MapMode.WEST);
+    EventManager:RegisterEvent(event);
+    event = vt_map.ChangeDirectionSpriteEvent("Bronann looks north", hero, vt_map.MapMode.NORTH);
+    EventManager:RegisterEvent(event);
+    event = vt_map.ChangeDirectionSpriteEvent("Kalya looks north", kalya, vt_map.MapMode.NORTH);
+    EventManager:RegisterEvent(event);
+    event = vt_map.ChangeDirectionSpriteEvent("Kalya looks west", kalya, vt_map.MapMode.WEST);
+    EventManager:RegisterEvent(event);
+    event = vt_map.LookAtSpriteEvent("Kalya looks at Bronann", kalya, hero);
+    EventManager:RegisterEvent(event);
+    event = vt_map.LookAtSpriteEvent("Kalya looks at Orlinn", kalya, orlinn);
+    EventManager:RegisterEvent(event);
+    event = vt_map.LookAtSpriteEvent("Bronann looks at Kalya", hero, kalya);
+    EventManager:RegisterEvent(event);
+    event = vt_map.LookAtSpriteEvent("Orlinn looks at Kalya", orlinn, kalya);
+    EventManager:RegisterEvent(event);
+
+    -- entrance in the map event
+    event = vt_map.ScriptedEvent("Shrine entrance event start", "shrine_entrance_event_start", "");
+    event:AddEventLinkAtEnd("Kalya moves next to Bronann1", 100);
+    event:AddEventLinkAtEnd("Orlinn moves next to Bronann1", 100);
+    EventManager:RegisterEvent(event);
+
+    -- NOTE: The actual destination is set just before the actual start call
+    kalya_move_next_to_hero_event1 = vt_map.PathMoveSpriteEvent("Kalya moves next to Bronann1", kalya, 0, 0, false);
+    kalya_move_next_to_hero_event1:AddEventLinkAtEnd("Kalya looks at Bronann");
+    kalya_move_next_to_hero_event1:AddEventLinkAtEnd("Bronann looks at Kalya");
+    kalya_move_next_to_hero_event1:AddEventLinkAtEnd("Dialogue about the passage to Estoria", 500);
+    EventManager:RegisterEvent(kalya_move_next_to_hero_event1);
+    orlinn_move_next_to_hero_event1 = vt_map.PathMoveSpriteEvent("Orlinn moves next to Bronann1", orlinn, 0, 0, false);
+    orlinn_move_next_to_hero_event1:AddEventLinkAtEnd("Orlinn moves near the passway");
+    EventManager:RegisterEvent(orlinn_move_next_to_hero_event1);
+
+    -- Orlinn move near the passway
+    event = vt_map.PathMoveSpriteEvent("Orlinn moves near the passway", orlinn, 29, 33, false);
+    event:AddEventLinkAtEnd("Orlinn looks west");
+    EventManager:RegisterEvent(event);
+
+    dialogue = vt_map.SpriteDialogue();
+    text = vt_system.Translate("... You'll see: there's plenty of thing I need to show you there. Plus, it's a safe place.");
+    dialogue:AddLine(text, kalya);
+    text = vt_system.Translate("Err... Sis?");
+    dialogue:AddLineEventEmote(text, orlinn, "Orlinn looks at Kalya", "", "sweat drop");
+    text = vt_system.Translate("Our Elder will also be able to help us. And you'll get more explanation than I could ever...");
+    dialogue:AddLine(text, kalya);
+    text = vt_system.Translate("Sis!");
+    dialogue:AddLineEvent(text, orlinn, "Orlinn looks at Kalya", "");
+    text = vt_system.Translate("... One second, Orlinn. I try to...");
+    dialogue:AddLineEvent(text, kalya, "Kalya looks north", "Kalya looks at Bronann");
+    text = vt_system.Translate("But Kalya, look at the passageway!");
+    dialogue:AddLineEmote(text, orlinn, "exclamation");
+    text = vt_system.Translate("What about the...");
+    dialogue:AddLineEvent(text, kalya, "Kalya looks north", "");
+    text = vt_system.Translate("NO!");
+    dialogue:AddLineEmote(text, kalya, "exclamation");
+    DialogueManager:AddDialogue(dialogue);
+    event = vt_map.DialogueEvent("Dialogue about the passage to Estoria", dialogue);
+    event:AddEventLinkAtEnd("Kalya runs to the blocked passage");
+    event:AddEventLinkAtEnd("Bronann looks north");
+    EventManager:RegisterEvent(event);
+
+    event = vt_map.PathMoveSpriteEvent("Kalya runs to the blocked passage", kalya, 27, 34, true);
+    event:AddEventLinkAtEnd("Kalya looks west");
+    event:AddEventLinkAtEnd("Dialogue about the passage to Estoria 2");
+    EventManager:RegisterEvent(event);
+
+    dialogue = vt_map.SpriteDialogue();
+    text = vt_system.Translate("... No, it can't be...");
+    dialogue:AddLineEmote(text, kalya, "sweat drop");
+    text = vt_system.Translate("After all we've been through, this...");
+    dialogue:AddLineEvent(text, kalya, "Kalya looks north", "");
+    DialogueManager:AddDialogue(dialogue);
+    event = vt_map.DialogueEvent("Dialogue about the passage to Estoria 2", dialogue);
+    event:AddEventLinkAtEnd("Bronann goes near both");
+    EventManager:RegisterEvent(event);
+
+    event = vt_map.PathMoveSpriteEvent("Bronann goes near both", hero, 28, 36, false);
+    event:AddEventLinkAtEnd("Bronann looks north");
+    event:AddEventLinkAtEnd("Dialogue about the passage to Estoria 3");
+    EventManager:RegisterEvent(event);
+
+    event = vt_map.AnimateSpriteEvent("Orlinn laughs", orlinn, "laughing", 0); -- infinite time.
+    EventManager:RegisterEvent(event);
+
+    dialogue = vt_map.SpriteDialogue();
+    text = vt_system.Translate("... Calm down Kalya, there must be a way to go through this somehow...");
+    dialogue:AddLineEmote(text, hero, "sweat drop");
+    text = vt_system.Translate("Unfortunately... Yes, there is one...");
+    dialogue:AddLineEvent(text, kalya, "Kalya looks west", "");
+    text = vt_system.Translate("We'll have to enter the ancient shrine...");
+    dialogue:AddLineEvent(text, kalya, "Kalya looks north", "");
+    text = vt_system.Translate("Wouldn't have we flown all by ourselves, I would swear Banesore's army pushed us here on purpose...");
+    dialogue:AddLine(text, kalya);
+    text = vt_system.Translate("... What's with this 'ancient shrine'?");
+    dialogue:AddLineEmote(text, hero, "thinking dots");
+    text = vt_system.Translate("Some says it is haunted... And it was sealed a long time ago, long before I was ever born.");
+    dialogue:AddLineEvent(text, kalya, "Kalya looks at Bronann", "");
+    text = vt_system.Translate("Indeed, It must be a long time ago...");
+    dialogue:AddLineEventEmote(text, orlinn, "", "Orlinn laughs", "thinking dots");
+    text = vt_system.Translate("Orlinn!");
+    dialogue:AddLineEventEmote(text, kalya, "Kalya looks at Orlinn", "", "exclamation");
+    text = vt_system.Translate("Anyway, we might even not be able to enter there at all. But you're right, let's have a look around first. Who knows?");
+    dialogue:AddLineEvent(text, kalya, "Kalya looks at Bronann", "");
+    DialogueManager:AddDialogue(dialogue);
+    event = vt_map.DialogueEvent("Dialogue about the passage to Estoria 3", dialogue);
+    event:AddEventLinkAtEnd("Orlinn goes back to party");
+    event:AddEventLinkAtEnd("Kalya goes back to party");
+    EventManager:RegisterEvent(event);
+
+    orlinn_move_back_to_hero_event1 = vt_map.PathMoveSpriteEvent("Orlinn goes back to party", orlinn, hero, false);
+    orlinn_move_back_to_hero_event1:AddEventLinkAtEnd("Shrine entrance event end");
+    EventManager:RegisterEvent(orlinn_move_back_to_hero_event1);
+
+    kalya_move_back_to_hero_event1 = vt_map.PathMoveSpriteEvent("Kalya goes back to party", kalya, hero, false);
+    EventManager:RegisterEvent(kalya_move_back_to_hero_event1);
+
+    event = vt_map.ScriptedEvent("Shrine entrance event end", "shrine_entrance_event_end", "");
     EventManager:RegisterEvent(event);
 end
 
@@ -221,5 +355,40 @@ map_functions = {
             return false;
         end
         return true;
+    end,
+
+    shrine_entrance_event_start = function()
+        Map:PushState(vt_map.MapMode.STATE_SCENE);
+        -- Keep a reference of the correct sprite for the event end.
+        main_sprite_name = hero:GetSpriteName();
+
+        -- Make the hero be Bronann for the event.
+        hero:ReloadSprite("Bronann");
+
+        kalya:SetPosition(hero:GetXPosition(), hero:GetYPosition());
+        kalya:SetVisible(true);
+        orlinn:SetPosition(hero:GetXPosition(), hero:GetYPosition());
+        orlinn:SetVisible(true);
+        kalya:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
+        orlinn:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
+
+        kalya_move_next_to_hero_event1:SetDestination(hero:GetXPosition() + 2.0, hero:GetYPosition(), false);
+        orlinn_move_next_to_hero_event1:SetDestination(hero:GetXPosition() - 2.0, hero:GetYPosition(), false);
+    end,
+
+    shrine_entrance_event_end = function()
+        Map:PopState();
+        kalya:SetPosition(0, 0);
+        kalya:SetVisible(false);
+        kalya:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
+        orlinn:SetPosition(0, 0);
+        orlinn:SetVisible(false);
+        orlinn:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
+
+        -- Reload the hero back to default
+        hero:ReloadSprite(main_sprite_name);
+
+        -- Set event as done
+        GlobalManager:SetEventValue("story", "mt_elbrus_shrine_entrance_event", 1);
     end,
 }
