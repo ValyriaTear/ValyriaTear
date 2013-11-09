@@ -63,7 +63,7 @@ doc/SOURCE/html/*
 
 # files created by qmake
 *.cxx
-
+*.cxx_parameters
 
 #map editor
 Map_Editor.layout
