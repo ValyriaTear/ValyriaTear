@@ -22,7 +22,6 @@
 #define __OPTION_HEADER__
 
 #include "common/gui/gui.h"
-#include "engine/video/image.h"
 #include "engine/video/text.h"
 #include "engine/system.h"
 
@@ -216,8 +215,8 @@ public:
     //! \brief The elements that this option is composed of
     std::vector<OptionElement> elements;
 
-    //! \brief Contains all pieces of text for this option
-    std::vector<vt_utils::ustring> text;
+    //! \brief Contains all pieces of text for this option (as pre-rendered images)
+    std::vector<vt_video::TextImage> text;
 
     //! \brief Contains all images used for this option
     vt_video::StillImage *image;
@@ -453,10 +452,10 @@ public:
         _cursor_yoffset = y;
     }
 
-    /** \brief Sets the text style to use for this textbox.
+    /** \brief Sets the text style to use for this option box.
     *** \param style The style intended \see #TextStyle
     **/
-    void SetTextStyle(const vt_video::TextStyle &style);
+    void SetTextStyle(const vt_video::TextStyle& style);
 
     /** \brief Sets the state of the cursor icon
     *** \param state The cursor state to set

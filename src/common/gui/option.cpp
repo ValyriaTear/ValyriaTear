@@ -399,7 +399,9 @@ void OptionBox::AddOptionElementText(uint32 option_index, const ustring &text)
 
     new_element.type = VIDEO_OPTION_ELEMENT_TEXT;
     new_element.value = static_cast<int32>(this_option.text.size());
-    this_option.text.push_back(text);
+
+    TextImage text_image(text, _text_style);
+    this_option.text.push_back(text_image);
     this_option.elements.push_back(new_element);
 }
 
@@ -780,6 +782,13 @@ void OptionBox::SetTextStyle(const TextStyle &style)
 
     _text_style = style;
     _initialized = IsInitialized(_initialization_errors);
+
+    // Update any existing TextImage texts with new font style
+    for (uint32 i = 0; i < _options.size(); ++i) {
+        for (uint32 j = 0; j < _options[i].text.size(); ++j) {
+            _options[i].text[j].SetStyle(style);
+        }
+    }
 }
 
 
@@ -895,10 +904,12 @@ bool OptionBox::_ConstructOption(const ustring &format_string, Option &op)
             size_t tag_begin = tmp.find(OPEN_TAG);
 
             if(tag_begin == ustring::npos) {  // There are no more tags remaining, so extract the entire string
-                op.text.push_back(tmp);
+                TextImage text_image(tmp, _text_style);
+                op.text.push_back(text_image);
                 tmp.clear();
             } else { // Another tag remains to be processed, so extract the text substring
-                op.text.push_back(tmp.substr(0, tag_begin));
+                TextImage text_image(tmp.substr(0, tag_begin), _text_style);
+                op.text.push_back(text_image);
                 tmp = tmp.substr(tag_begin, tmp.length() - tag_begin);
             }
         }
@@ -1148,7 +1159,7 @@ void OptionBox::_DrawOption(const Option &op, const OptionCellBounds &bounds, fl
     _SetupAlignment(xalign, yalign, bounds, x, y);
 
     // Iterate through all option elements in the current option
-    for(int32 element = 0; element < static_cast<int32>(op.elements.size()); element++) {
+    for(int32 element = 0; element < static_cast<int32>(op.elements.size()); ++element) {
         switch(op.elements[element].type) {
         case VIDEO_OPTION_ELEMENT_LEFT_ALIGN: {
             xalign = VIDEO_X_LEFT;
@@ -1190,8 +1201,7 @@ void OptionBox::_DrawOption(const Option &op, const OptionCellBounds &bounds, fl
             int32 text_index = op.elements[element].value;
 
             if(text_index >= 0 && text_index < static_cast<int32>(op.text.size())) {
-                const ustring &text = op.text[text_index];
-                float width = static_cast<float>(VideoManager->Text()->CalculateTextWidth(_text_style.font, text));
+                float width = op.text[text_index].GetWidth();
                 float edge = x - bounds.x_left; // edge value for VIDEO_X_LEFT
 
                 if(xalign == VIDEO_X_CENTER)
@@ -1201,14 +1211,11 @@ void OptionBox::_DrawOption(const Option &op, const OptionCellBounds &bounds, fl
 
                 if(edge < left_edge)
                     left_edge = edge;
-                if(op.disabled) {
-                    Color saved = _text_style.color;
-                    _text_style.color = Color::gray;
-                    TextManager->Draw(text, _text_style);
-                    _text_style.color = saved;
-                } else {
-                    TextManager->Draw(text, _text_style);
-                }
+
+                if(op.disabled)
+                    op.text[text_index].Draw(Color::gray);
+                else
+                    op.text[text_index].Draw();
             }
 
             break;

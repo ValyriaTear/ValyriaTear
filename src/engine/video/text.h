@@ -395,6 +395,10 @@ public:
 
     //! \brief Sets the text contained
     void SetText(const vt_utils::ustring &text) {
+        // Don't do anything if it's the same text
+        if (_string == text)
+            return;
+
         _string = text;
         _Regenerate();
     }

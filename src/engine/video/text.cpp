@@ -519,7 +519,7 @@ void TextImage::_Regenerate()
         }
         // Otherwise, create a new TextTexture to be managed by the new element
         else {
-// 			PRINT_DEBUG << **line_iter << std::endl;
+            // PRINT_DEBUG << **line_iter << std::endl;
             TextTexture *texture = new TextTexture(*line_iter, _style);
             if(texture->Regenerate() == false) {
                 IF_PRINT_WARNING(VIDEO_DEBUG) << "call to TextTexture::_Regenerate() failed" << std::endl;
