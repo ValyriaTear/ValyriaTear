@@ -320,10 +320,10 @@ public:
     TextImage();
 
     //! \brief Constructs rendered string of specified ustring
-    TextImage(const vt_utils::ustring &string, TextStyle style = TextStyle());
+    TextImage(const vt_utils::ustring& text, const TextStyle& style = TextStyle());
 
     //! \brief Constructs rendered string of specified std::string
-    TextImage(const std::string &string, TextStyle style = TextStyle());
+    TextImage(const std::string& text, const TextStyle& style = TextStyle());
 
     //! \brief Destructs TextImage, lowering reference counts on all contained timages.
     ~TextImage() {
@@ -394,21 +394,30 @@ public:
     }
 
     //! \brief Sets the text contained
-    void SetText(const vt_utils::ustring &string) {
-        _string = string;
+    void SetText(const vt_utils::ustring &text) {
+        _string = text;
+        _Regenerate();
+    }
+
+    void SetText(const vt_utils::ustring &text, const TextStyle& text_style) {
+        _string = text;
+        _style = text_style;
         _Regenerate();
     }
 
     //! \brief Sets the text (std::string version)
-    void SetText(const std::string &string) {
-        SetText(vt_utils::MakeUnicodeString(string));
-        _Regenerate();
+    void SetText(const std::string &text) {
+        SetText(vt_utils::MakeUnicodeString(text));
     }
 
     //! \brief Sets the texts style - regenerating text if present.
-    void SetStyle(TextStyle style) {
+    void SetStyle(const TextStyle& style) {
         _style = style;
         _Regenerate();
+    }
+
+    void SetText(const std::string &text, const TextStyle& text_style) {
+        SetText(vt_utils::MakeUnicodeString(text), text_style);
     }
 
     //! \name Class Member Access Functions
@@ -419,6 +428,10 @@ public:
 
     TextStyle GetStyle() const {
         return _style;
+    }
+
+    virtual float GetWidth() const {
+        return _width;
     }
     //@}
 
@@ -574,12 +587,6 @@ private:
     std::map<std::string, FontProperties *> _font_map;
 
     // ---------- Private methods
-
-    /** \brief Retrieves the color for a shadow based on the current text color and a shadow style
-    *** \param style The text style that would be used to generate the shadow for the text
-    *** \return The color of the shadow
-    **/
-    Color _GetTextShadowColor(const TextStyle &style) const;
 
     /** \brief Caches glyph information and textures for rendering
     *** \param text A pointer to the unicode string holding the characters (glyphs) to cache

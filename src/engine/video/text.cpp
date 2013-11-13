@@ -37,6 +37,45 @@ namespace vt_video
 
 TextSupervisor *TextManager = NULL;
 
+/** \brief Retrieves the color for a shadow based on the current text color and a shadow style
+*** \param style The text style that would be used to generate the shadow for the text
+*** \return The color of the shadow
+**/
+static Color GetTextShadowColor(const TextStyle& style)
+{
+    Color shadow_color;
+
+    if(style.shadow_style == VIDEO_TEXT_SHADOW_NONE)
+        return shadow_color;
+
+    switch(style.shadow_style) {
+    case VIDEO_TEXT_SHADOW_DARK:
+        shadow_color = Color::black;
+        shadow_color[3] = style.color[3] * 0.5f;
+        break;
+    case VIDEO_TEXT_SHADOW_LIGHT:
+        shadow_color = Color::white;
+        shadow_color[3] = style.color[3] * 0.5f;
+        break;
+    case VIDEO_TEXT_SHADOW_BLACK:
+        shadow_color = Color::black;
+        shadow_color[3] = style.color[3];
+        break;
+    case VIDEO_TEXT_SHADOW_COLOR:
+        shadow_color = style.color;
+        shadow_color[3] = style.color[3] * 0.5f;
+        break;
+    case VIDEO_TEXT_SHADOW_INVCOLOR:
+        shadow_color = Color(1.0f - style.color[0], 1.0f - style.color[1], 1.0f - style.color[2], style.color[3] * 0.5f);
+        break;
+    default:
+        IF_PRINT_WARNING(VIDEO_DEBUG) << "unknown text shadow style: " << style.shadow_style << std::endl;
+        break;
+    }
+
+    return shadow_color;
+}
+
 // -----------------------------------------------------------------------------
 // TextStyle class
 // -----------------------------------------------------------------------------
@@ -331,9 +370,9 @@ TextImage::TextImage() :
 
 
 
-TextImage::TextImage(const ustring &string, TextStyle style) :
+TextImage::TextImage(const ustring& text, const TextStyle& style) :
     ImageDescriptor(),
-    _string(string),
+    _string(text),
     _style(style)
 {
     _Regenerate();
@@ -341,9 +380,9 @@ TextImage::TextImage(const ustring &string, TextStyle style) :
 
 
 
-TextImage::TextImage(const std::string &string, TextStyle style) :
+TextImage::TextImage(const std::string& text, const TextStyle& style) :
     ImageDescriptor(),
-    _string(MakeUnicodeString(string)),
+    _string(MakeUnicodeString(text)),
     _style(style)
 {
     _Regenerate();
@@ -403,17 +442,10 @@ void TextImage::Clear()
 
 void TextImage::Draw() const
 {
-    VideoManager->PushMatrix();
-    for(uint32 i = 0; i < _text_sections.size(); ++i) {
-        _text_sections[i]->Draw();
-        VideoManager->MoveRelative(0.0f, TextManager->GetFontProperties(_style.font)->line_skip * -VideoManager->_current_context.coordinate_system.GetVerticalDirection());
-    }
-    VideoManager->PopMatrix();
+    Draw(Color::white);
 }
 
-
-
-void TextImage::Draw(const Color &draw_color) const
+void TextImage::Draw(const Color& draw_color) const
 {
     // Don't draw anything if this image is completely transparent (invisible)
     if(IsFloatEqual(draw_color[3], 0.0f))
@@ -421,7 +453,14 @@ void TextImage::Draw(const Color &draw_color) const
 
     VideoManager->PushMatrix();
     for(uint32 i = 0; i < _text_sections.size(); ++i) {
-        _text_sections[i]->Draw(draw_color);
+        if (_style.shadow_style != VIDEO_TEXT_SHADOW_NONE) {
+            const float dx = VideoManager->_current_context.coordinate_system.GetHorizontalDirection() * _style.shadow_offset_x;
+            const float dy = VideoManager->_current_context.coordinate_system.GetVerticalDirection() * _style.shadow_offset_y;
+            VideoManager->MoveRelative(dx, dy);
+            _text_sections[i]->Draw(draw_color * GetTextShadowColor(_style));
+            VideoManager->MoveRelative(-dx, -dy);
+        }
+        _text_sections[i]->Draw(draw_color * _style.color);
         VideoManager->MoveRelative(0.0f, TextManager->GetFontProperties(_style.font)->line_skip * -VideoManager->_current_context.coordinate_system.GetVerticalDirection());
     }
     VideoManager->PopMatrix();
@@ -436,14 +475,13 @@ void TextImage::_Regenerate()
 
     _width = 0;
     _height = 0;
-    for(uint32 i = 0; i < _text_sections.size(); i++) {
+    for(uint32 i = 0; i < _text_sections.size(); ++i)
         delete _text_sections[i];
-    }
+
     _text_sections.clear();
 
-    if(_string.empty()) {
+    if(_string.empty())
         return;
-    }
 
     FontProperties *fp = TextManager->GetFontProperties(_style.font);
     if(TextManager->IsFontValid(_style.font) == false || fp == NULL) {
@@ -648,7 +686,7 @@ void TextSupervisor::Draw(const ustring &text, const TextStyle &style)
             const float dx = VideoManager->_current_context.coordinate_system.GetHorizontalDirection() * style.shadow_offset_x;
             const float dy = VideoManager->_current_context.coordinate_system.GetVerticalDirection() * style.shadow_offset_y;
             VideoManager->MoveRelative(dx, dy);
-            _DrawTextHelper(buffer, fp, _GetTextShadowColor(style));
+            _DrawTextHelper(buffer, fp, GetTextShadowColor(style));
             VideoManager->PopMatrix();
         }
 
@@ -698,64 +736,21 @@ int32 TextSupervisor::CalculateTextWidth(const std::string &font_name, const std
     return width;
 }
 
-
-
-Color TextSupervisor::_GetTextShadowColor(const TextStyle &style) const
-{
-    Color shadow_color;
-
-    if(style.shadow_style == VIDEO_TEXT_SHADOW_NONE) {
-        return shadow_color;
-    }
-
-    switch(style.shadow_style) {
-    case VIDEO_TEXT_SHADOW_DARK:
-        shadow_color = Color::black;
-        shadow_color[3] = style.color[3] * 0.5f;
-        break;
-    case VIDEO_TEXT_SHADOW_LIGHT:
-        shadow_color = Color::white;
-        shadow_color[3] = style.color[3] * 0.5f;
-        break;
-    case VIDEO_TEXT_SHADOW_BLACK:
-        shadow_color = Color::black;
-        shadow_color[3] = style.color[3];
-        break;
-    case VIDEO_TEXT_SHADOW_COLOR:
-        shadow_color = style.color;
-        shadow_color[3] = style.color[3] * 0.5f;
-        break;
-    case VIDEO_TEXT_SHADOW_INVCOLOR:
-        shadow_color = Color(1.0f - style.color[0], 1.0f - style.color[1], 1.0f - style.color[2], style.color[3] * 0.5f);
-        break;
-    default:
-        IF_PRINT_WARNING(VIDEO_DEBUG) << "unknown text shadow style: " << style.shadow_style << std::endl;
-        break;
-    }
-
-    return shadow_color;
-}
-
-
-
 void TextSupervisor::_CacheGlyphs(const uint16 *text, FontProperties *fp)
 {
-    if(fp == NULL) {
-        IF_PRINT_WARNING(VIDEO_DEBUG) << "FontProperties argument was null" << std::endl;
+    if(fp == NULL || fp->ttf_font == NULL) {
+        IF_PRINT_WARNING(VIDEO_DEBUG) << "FontProperties argument was invalid" << std::endl;
         return;
     }
 
     // Empty string means there are no glyphs to cache
-    if(*text == 0) {
+    if(*text == 0)
         return;
-    }
 
-    static const SDL_Color glyph_color = { 0xFF, 0xFF, 0xFF, 0xFF }; // Opaque white color
-    static const uint16 fall_back_glyph = '?'; // If we can't cache a particular glyph, we fall back to this one
+    // If we can't cache a particular glyph, we fall back to this one
+    static const uint16 fall_back_glyph = '?';
 
     TTF_Font *font = fp->ttf_font;
-    SDL_Surface *initial = NULL;
-    SDL_Surface *intermediary = NULL;
     int32 w, h;
     GLuint texture;
 
@@ -773,20 +768,27 @@ void TextSupervisor::_CacheGlyphs(const uint16 *text, FontProperties *fp)
             continue;
 
         // Attempt to create the initial SDL_Surface that contains the rendered glyph
-        initial = TTF_RenderGlyph_Blended(font, character, glyph_color);
+        // We render it white so that color effects are applied correctly on it.
+        static const SDL_Color white_color = { 0xFF, 0xFF, 0xFF, 0xFF };
+        SDL_Surface* initial = TTF_RenderGlyph_Blended(font, character, white_color);
         if(initial == NULL) {
             IF_PRINT_WARNING(VIDEO_DEBUG) << "call to TTF_RenderGlyph_Blended() failed, resorting to fall back glyph: '?'" << std::endl;
-            initial = TTF_RenderGlyph_Blended(font, fall_back_glyph, glyph_color);
+            initial = TTF_RenderGlyph_Blended(font, fall_back_glyph, white_color);
             if(initial == NULL) {
                 IF_PRINT_WARNING(VIDEO_DEBUG) << "call to TTF_RenderGlyph_Blended() failed for fall back glyph, aborting glyph caching" << std::endl;
                 return;
             }
         }
 
+        // Before blitting on a alpha surface, we need to disable blending onthe source surface,
+        // or the alpha property of the source image will be ignored on the dest image.
+        // Note: Will be replaced by SDL_SetSurfaceBlendMode(initial, SDL_BLENDMODE_NONE); in SDL 2.0
+        SDL_SetAlpha(initial, 0, 255);
+
         w = RoundUpPow2(initial->w + 1);
         h = RoundUpPow2(initial->h + 1);
 
-        intermediary = SDL_CreateRGBSurface(0, w, h, 32, RMASK, GMASK, BMASK, AMASK);
+        SDL_Surface* intermediary = SDL_CreateRGBSurface(0, w, h, 32, RMASK, GMASK, BMASK, AMASK);
         if(intermediary == NULL) {
             SDL_FreeSurface(initial);
             IF_PRINT_WARNING(VIDEO_DEBUG) << "call to SDL_CreateRGBSurface() failed" << std::endl;
@@ -806,14 +808,6 @@ void TextSupervisor::_CacheGlyphs(const uint16 *text, FontProperties *fp)
 
 
         SDL_LockSurface(intermediary);
-
-        uint32 num_bytes = w * h * 4;
-        for(uint32 j = 0; j < num_bytes; j += 4) {
-            (static_cast<uint8 *>(intermediary->pixels))[j + 3] = (static_cast<uint8 *>(intermediary->pixels))[j + 2];
-            (static_cast<uint8 *>(intermediary->pixels))[j + 0] = 0xff;
-            (static_cast<uint8 *>(intermediary->pixels))[j + 1] = 0xff;
-            (static_cast<uint8 *>(intermediary->pixels))[j + 2] = 0xff;
-        }
 
         glTexImage2D(GL_TEXTURE_2D, 0, 4, w, h, 0, GL_RGBA, GL_UNSIGNED_BYTE, intermediary->pixels);
         SDL_UnlockSurface(intermediary);
@@ -964,10 +958,6 @@ bool TextSupervisor::_RenderText(vt_utils::ustring &string, TextStyle &style, Im
         return false;
     }
 
-    static const SDL_Color white_color = { 0xFF, 0xFF, 0xFF, 0xFF };
-
-    SDL_Surface *intermediary = NULL;
-
     // Width and height of each line of text
     int32 line_w, line_h;
     // Minimum Y value of the line
@@ -997,7 +987,7 @@ bool TextSupervisor::_RenderText(vt_utils::ustring &string, TextStyle &style, Im
     min_y -= 1;
 
     // Check if the first character starts left of pixel 0, and set
-// 	char_ptr = string.c_str();
+    // char_ptr = string.c_str();
     if(*char_ptr) {
         FontGlyph *first_glyphinfo = (*fp->glyph_cache)[*char_ptr];
         if(first_glyphinfo->min_x < 0)
@@ -1013,28 +1003,35 @@ bool TextSupervisor::_RenderText(vt_utils::ustring &string, TextStyle &style, Im
     line_w -= line_start_x;
     line_h -= min_y;
 
-    // Allocate enough memory for the entire text surface to reside on
-    uint8 *intermed_buf = static_cast<uint8 *>(calloc(line_w * line_h, 4));
-    intermediary = SDL_CreateRGBSurfaceFrom(intermed_buf, line_w, line_h, 32, line_w * 4, RMASK, GMASK, BMASK, AMASK);
+    // Creates an alpha surface for the given text
+    SDL_Surface* intermediary = SDL_CreateRGBSurface(SDL_SWSURFACE | SDL_SRCALPHA, line_w, line_h, 32, RMASK, GMASK, BMASK, AMASK);
     if(intermediary == NULL) {
-        IF_PRINT_WARNING(VIDEO_DEBUG) << "call to SDL_CreateRGBSurfaceFrom() failed" << std::endl;
+        IF_PRINT_WARNING(VIDEO_DEBUG) << "call to SDL_CreateRGBSurface() failed" << std::endl;
         return false;
     }
 
     // Go through the string and render each glyph one by one
-    SDL_Rect surf_target;
     int32 xpos = -line_start_x;
     int32 ypos = -min_y;
     for(char_ptr = string.c_str(); *char_ptr != '\0'; ++char_ptr) {
         FontGlyph *glyphinfo = (*fp->glyph_cache)[*char_ptr];
 
-        // Render the glyph
+        // Render the glyph in white, the text style color will be used at draw time only,
+        // to permit proper shadows colors.
+        static const SDL_Color white_color = { 0xFF, 0xFF, 0xFF, 0xFF };
         SDL_Surface* initial = TTF_RenderGlyph_Blended(font, *char_ptr, white_color);
         if(initial == NULL) {
+            SDL_FreeSurface(intermediary);
             IF_PRINT_WARNING(VIDEO_DEBUG) << "call to TTF_RenderGlyph_Blended() failed" << std::endl;
             return false;
         }
 
+        // Before blitting on a alpha surface, we need to disable blending onthe source surface,
+        // or the alpha property of the source image will be ignored on the dest image.
+        // Note: Will be replaced by SDL_SetSurfaceBlendMode(initial, SDL_BLENDMODE_NONE); in SDL 2.0
+        SDL_SetAlpha(initial, 0, 255);
+
+        SDL_Rect surf_target;
         surf_target.x = xpos + glyphinfo->min_x;
         surf_target.y = ypos + glyphinfo->top_y;
 
@@ -1042,7 +1039,6 @@ bool TextSupervisor::_RenderText(vt_utils::ustring &string, TextStyle &style, Im
         if(SDL_BlitSurface(initial, NULL, intermediary, &surf_target) < 0) {
             SDL_FreeSurface(initial);
             SDL_FreeSurface(intermediary);
-            free(intermed_buf);
             IF_PRINT_WARNING(VIDEO_DEBUG) << "call to SDL_BlitSurface() failed, SDL error: " << SDL_GetError() << std::endl;
             return false;
         }
@@ -1052,23 +1048,17 @@ bool TextSupervisor::_RenderText(vt_utils::ustring &string, TextStyle &style, Im
 
     SDL_LockSurface(intermediary);
 
-    uint8 color_mult[] = {
-        static_cast<uint8>(style.color[0] * 0xFF),
-        static_cast<uint8>(style.color[1] * 0xFF),
-        static_cast<uint8>(style.color[2] * 0xFF)
-    };
-
     uint32 num_bytes = intermediary->w * intermediary->h * 4;
+    buffer.pixels = static_cast<uint8 *>(calloc(line_w * line_h, 4));
     for(uint32 j = 0; j < num_bytes; j += 4) {
-        ((uint8 *)intermediary->pixels)[j + 3] = ((uint8 *)intermediary->pixels)[j + 2];
-        ((uint8 *)intermediary->pixels)[j + 0] = color_mult[0];
-        ((uint8 *)intermediary->pixels)[j + 1] = color_mult[1];
-        ((uint8 *)intermediary->pixels)[j + 2] = color_mult[2];
+        ((uint8 *)buffer.pixels)[j + 0] = ((uint8 *)intermediary->pixels)[j + 0]; // r
+        ((uint8 *)buffer.pixels)[j + 1] = ((uint8 *)intermediary->pixels)[j + 1]; // g
+        ((uint8 *)buffer.pixels)[j + 2] = ((uint8 *)intermediary->pixels)[j + 2]; // b
+        ((uint8 *)buffer.pixels)[j + 3] = ((uint8 *)intermediary->pixels)[j + 3]; // alpha
     }
 
     buffer.width = line_w;
     buffer.height = line_h;
-    buffer.pixels = intermed_buf;
 
     SDL_UnlockSurface(intermediary);
     SDL_FreeSurface(intermediary);
