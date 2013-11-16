@@ -42,7 +42,7 @@ extern ScriptEngine *ScriptManager;
 extern bool SCRIPT_DEBUG;
 
 /** \name Script File Access Modes
-*** \brief Used to indicate with what priveledges a file is to be opened with.
+*** \brief Used to indicate with what privileges a file is to be opened with.
 **/
 enum SCRIPT_ACCESS_MODE {
     SCRIPT_CLOSED  = 0,
