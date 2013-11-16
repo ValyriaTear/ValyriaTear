@@ -57,7 +57,6 @@ enum TEXT_SHADOW_STYLE {
     VIDEO_TEXT_SHADOW_TOTAL = 6
 };
 
-
 /** ****************************************************************************
 *** \brief A structure to hold properties about a particular font glyph
 *** ***************************************************************************/
@@ -156,7 +155,13 @@ class TextStyle
 {
 public:
     //! \brief No-arg constructor will set all members to the same value as the current default text style
-    TextStyle();
+    //! Special empty Textstyle to permit a default initialization in the TextSupervisor.
+    TextStyle():
+        shadow_style(VIDEO_TEXT_SHADOW_NONE),
+        shadow_offset_x(0),
+        shadow_offset_y(0),
+        _font_property(NULL)
+    {}
 
     //! \brief Constructor requiring a font name only
     TextStyle(const std::string &fnt);
@@ -195,6 +200,18 @@ public:
 
     //! \brief The x and y offsets of the shadow
     int32 shadow_offset_x, shadow_offset_y;
+
+    //! \brief Returns the font property pointer value.
+    //! (But not the member itself)
+    FontProperties* GetFontProperties() const {
+        return _font_property;
+    }
+
+private:
+
+    //! \brief A pointer to the FontProperty object
+    //! This acts as reference cache, but it shouldn't be deleted here!
+    FontProperties* _font_property;
 }; // class TextStyle
 
 namespace private_video
@@ -396,15 +413,15 @@ public:
     //! \brief Sets the text contained
     void SetText(const vt_utils::ustring &text) {
         // Don't do anything if it's the same text
-        if (_string == text)
+        if (_text == text)
             return;
 
-        _string = text;
+        _text = text;
         _Regenerate();
     }
 
     void SetText(const vt_utils::ustring &text, const TextStyle& text_style) {
-        _string = text;
+        _text = text;
         _style = text_style;
         _Regenerate();
     }
@@ -424,10 +441,14 @@ public:
         SetText(vt_utils::MakeUnicodeString(text), text_style);
     }
 
+    void SetWordWrapWidth(uint32 width) {
+        _max_width = width;
+    }
+
     //! \name Class Member Access Functions
     //@{
     vt_utils::ustring GetString() const {
-        return _string;
+        return _text;
     }
 
     TextStyle GetStyle() const {
@@ -437,14 +458,21 @@ public:
     virtual float GetWidth() const {
         return _width;
     }
+
+    uint32 GetWordWrapWidth() const {
+        return _max_width;
+    }
     //@}
 
 private:
     //! \brief The unicode string of the text to render
-    vt_utils::ustring _string;
+    vt_utils::ustring _text;
 
     //! \brief The style to render the text in
     TextStyle _style;
+
+    //! \brief The text max width, used for word wrapping
+    uint32 _max_width;
 
     //! \brief The TextTexture elements representing rendered text portions, usually lines.
     std::vector<private_video::TextElement *> _text_sections;
@@ -476,11 +504,12 @@ class TextSupervisor : public vt_utils::Singleton<TextSupervisor>
     friend class TextureController;
     friend class private_video::TextTexture;
     friend class TextImage;
+    friend class TextStyle;
 
 public:
     ~TextSupervisor();
 
-    /** \brief Initialzies the SDL_ttf library and loads a debug_font
+    /** \brief Initializes the SDL_ttf library and loads a debug_font
     *** \return True if all initializations were successful, or false if there was an error
     **/
     bool SingletonInitialize();
@@ -505,20 +534,6 @@ public:
     *** font (in TextStyle objects, or elswhere)
     **/
     void FreeFont(const std::string &font_name);
-
-    /** \brief Returns true if a font of a certain reference name exists
-    *** \param font_name The reference name of the font to check
-    *** \return True if font name is valid, false if it is not.
-    **/
-    bool IsFontValid(const std::string &font_name) {
-        return (_font_map.find(font_name) != _font_map.end());
-    }
-
-    /** \brief Get the font properties for a loaded font
-    *** \param font_name The name reference of the loaded font
-    *** \return A pointer to the FontProperties object with the requested data, or NULL if the properties could not be fetched
-    **/
-    FontProperties *GetFontProperties(const std::string &font_name);
     //@}
 
     //! \name Text methods
@@ -552,18 +567,24 @@ public:
     }
 
     /** \brief Calculates what the width would be for a unicode string of text if it were rendered
-    *** \param font_name The reference name of the font to use for the calculation
+    *** \param ttf_font The True Type SDL font object
     *** \param text The text string in unicode format
     *** \return The width of the text as it would be rendered, or -1 if there was an error
     **/
-    int32 CalculateTextWidth(const std::string &font_name, const vt_utils::ustring &text);
+    int32 CalculateTextWidth(TTF_Font* ttf_font, const vt_utils::ustring& text);
 
     /** \brief Calculates what the width would be for a standard string of text if it were rendered
-    *** \param font_name The reference name of the font to use for the calculation
+    *** \param ttf_font The True Type SDL font object
     *** \param text The text string in standard format
     *** \return The width of the text as it would be rendered, or -1 if there was an error
     **/
-    int32 CalculateTextWidth(const std::string &font_name, const std::string &text);
+    int32 CalculateTextWidth(TTF_Font* ttf_font, const std::string& text);
+
+    /** \brief Returns the text as a vector of lines which text width is inferior or equal to the given pixel max width.
+    *** \param text The ustring text
+    *** \param ttf_font The True Type SDL font object
+    **/
+    std::vector<vt_utils::ustring> WrapText(const vt_utils::ustring& text, TTF_Font* ttf_font, uint32 max_width);
     //@}
 
     //! \name Class member access methods
@@ -572,7 +593,7 @@ public:
         return _default_style;
     }
 
-    void SetDefaultStyle(TextStyle style) {
+    void SetDefaultStyle(const TextStyle& style) {
         _default_style = style;
     }
     //@}
@@ -615,6 +636,20 @@ private:
     *** \return True if the string was rendered successfully, or false if it was not
     **/
     bool _RenderText(vt_utils::ustring &string, TextStyle &style, private_video::ImageMemory &buffer);
+
+    /** \brief Returns true if a font of a certain reference name exists
+    *** \param font_name The reference name of the font to check
+    *** \return True if font name is valid, false if it is not.
+    **/
+    bool _IsFontValid(const std::string& font_name) {
+        return (_font_map.find(font_name) != _font_map.end());
+    }
+
+    /** \brief Get the font properties for a loaded font
+    *** \param font_name The name reference of the loaded font
+    *** \return A pointer to the FontProperties object with the requested data, or NULL if the properties could not be fetched
+    **/
+    FontProperties* _GetFontProperties(const std::string& font_name);
 }; // class TextSupervisor : public vt_utils::Singleton
 
 }  // namespace vt_video

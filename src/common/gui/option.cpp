@@ -168,10 +168,8 @@ void OptionBox::Update(uint32 frame_time)
 void OptionBox::Draw()
 {
     // Do nothing if the option box is not properly initialized
-    if(!IsInitialized(_initialization_errors)) {
-        PRINT_ERROR << "ERROR: Could not draw OptionBox" << std::endl;
+    if(!IsInitialized(_initialization_errors))
         return;
-    }
 
     VideoManager->PushState();
     VideoManager->SetDrawFlags(_xalign, _yalign, VIDEO_BLEND, 0);
@@ -569,6 +567,9 @@ StillImage *OptionBox::GetEmbeddedImage(uint32 index) const
 
 bool OptionBox::IsInitialized(std::string &error_messages)
 {
+    if (_initialized)
+        return true;
+
     std::ostringstream s;
     error_messages.clear();
 
@@ -775,7 +776,7 @@ void OptionBox::InputRight()
 
 void OptionBox::SetTextStyle(const TextStyle &style)
 {
-    if(TextManager->GetFontProperties(style.font) == NULL) {
+    if(style.GetFontProperties() == NULL) {
         IF_PRINT_WARNING(VIDEO_DEBUG) << "text style references an invalid font name: " << style.font << std::endl;
         return;
     }

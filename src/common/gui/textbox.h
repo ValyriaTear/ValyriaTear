@@ -33,9 +33,6 @@ namespace vt_gui
 namespace private_gui
 {
 
-//! \brief The unicode version of the newline character, used for string parsing
-const uint16 NEWLINE_CHARACTER = static_cast<uint16>('\n');
-
 //! \brief Assume this many characters per line of text when calculating display speed for textboxes
 const uint32 CHARS_PER_LINE = 30;
 
@@ -239,9 +236,6 @@ private:
     //! \brief The text style for this textbox
     vt_video::TextStyle _text_style;
 
-    //! \brief A pointer to the structure containing properties of the current font such as its height, etc.
-    vt_video::FontProperties *_font_properties;
-
     //! \brief The display mode for the text (one character at a time, fading in, instant, etc.).
     TEXT_DISPLAY_MODE _mode;
 
@@ -260,21 +254,6 @@ private:
     // Holds the actual x and y position where the text should be drawn
     float _text_xpos;
     float _text_ypos;
-
-    /** \brief Returns true if the given unicode character can be interrupted for a word wrap.
-    *** \param character The character you wish to check.
-    *** \return True if character can be wrapped, false if it can not.
-    *** For example in English, you can do a word wrap wherever there is a space (code 0x20).
-    *** Other languages might have space characters corresponding to other unicode values.
-    **/
-    bool _IsBreakableChar(uint16 character);
-
-    /** \brief Adds a new line of text to the _text vector.
-    *** \param line The unicode text string to add as a new line
-    *** If the line is too long to fit in the width of the textbox, it will automatically
-    *** be split into multiple lines through word wrapping.
-    **/
-    void _AddLine(const vt_utils::ustring &line);
 
     /** \brief Draws the textbox text, taking the display mode into account.
     *** \param text_x The x value to use, depending on the alignment.
