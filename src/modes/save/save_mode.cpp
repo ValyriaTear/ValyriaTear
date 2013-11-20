@@ -159,7 +159,7 @@ SaveMode::SaveMode(bool save_mode, uint32 x_position, uint32 y_position) :
     _no_valid_saves_message.SetDisplayText(UTranslate("No valid saves found!"));
 
     // Initialize the save preview text boxes
-    _map_name_textbox.SetPosition(600.0f, 553.0f);
+    _map_name_textbox.SetPosition(600.0f, 558.0f);
     _map_name_textbox.SetDimensions(300.0f, 26.0f);
     _map_name_textbox.SetTextStyle(TextStyle("title22"));
     _map_name_textbox.SetAlignment(VIDEO_X_CENTER, VIDEO_Y_CENTER);

@@ -997,7 +997,7 @@ ShopMode::ShopMode() :
 
     // Create the list of shop actions
     _action_options.SetOwner(&_top_window);
-    _action_options.SetPosition(80.0f, 6.0f);
+    _action_options.SetPosition(80.0f, 10.0f);
     _action_options.SetDimensions(640.0f, 30.0f, 3, 1, 3, 1);
     _action_options.SetOptionAlignment(VIDEO_X_CENTER, VIDEO_Y_TOP);
     _action_options.SetTextStyle(TextStyle("title28"));

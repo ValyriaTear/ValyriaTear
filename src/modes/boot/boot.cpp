@@ -395,7 +395,7 @@ void BootMode::DrawPostEffects()
         }
 
         VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_BOTTOM, 0);
-        VideoManager->Move(322.0f, 745.0f);
+        VideoManager->Move(322.0f, 730.0f);
         _f1_help_text.Draw(Color(1.0f, 1.0f, 1.0f, _help_text_alpha));
 
         VideoManager->Move(10.0f, 758.0f);
