@@ -191,7 +191,7 @@ public:
     }
 
     const vt_utils::ustring &GetMapHudName() const {
-        return _map_hud_name;
+        return _map_hud_name.GetString();
     }
 
     uint32 GetStamina(){
@@ -363,11 +363,9 @@ private:
     //! \brief The map's script unique name as it is used to identify a Lua namespace table
     std::string _map_script_tablespace;
 
-    //! \brief The name of the map, as it will be read by the player in the game.
-    vt_utils::ustring _map_hud_name;
-
-    //! \brief The map sub-part hud name. Shown in every cases.
-    vt_utils::ustring _map_hud_subname;
+    //! \brief The TextImages used to render the map hud names and subnames
+    vt_video::TextImage _map_hud_name;
+    vt_video::TextImage _map_hud_subname;
 
     /** \brief The interface to the file which contains all the map's stored data and subroutines.
     *** This class generally performs a large amount of communication with this script continuously.

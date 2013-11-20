@@ -190,7 +190,7 @@ void MapMode::Reset()
 
     // Make the map location known globally to other code that may need to know this information
     GlobalManager->SetMap(_map_data_filename, _map_script_filename,
-                          _map_image.GetFilename(), _map_hud_name);
+                          _map_image.GetFilename(), _map_hud_name.GetString());
 
     _ResetMusicState();
 
@@ -631,9 +631,11 @@ bool MapMode::_Load()
     // Test for empty strings to never trigger the default gettext msg string
     // which contains translation info.
     std::string map_hud_name = _map_script.ReadString("map_name");
-    _map_hud_name = map_hud_name.empty() ? ustring() : UTranslate(map_hud_name);
+    _map_hud_name.SetText(map_hud_name.empty() ? ustring() : UTranslate(map_hud_name),
+                          TextStyle("map_title"));
     std::string map_hud_subname = _map_script.ReadString("map_subname");
-    _map_hud_subname = map_hud_subname.empty() ? ustring() : UTranslate(map_hud_subname);
+    _map_hud_subname.SetText(map_hud_subname.empty() ? ustring() : UTranslate(map_hud_subname),
+                             TextStyle("title24"));
 
     std::string map_image_filename = _map_script.ReadString("map_image_filename");
     if(!map_image_filename.empty() && !_map_image.Load(map_image_filename))
@@ -1100,7 +1102,7 @@ void MapMode::_DrawGUI()
             _map_image.Draw(blend);
             float shifting = (((float)time) - 2000.0f) / 100.0f;
             VideoManager->MoveRelative(0.0f + shifting, -80.0f);
-            VideoManager->Text()->Draw(_map_hud_name, TextStyle("map_title", blend, VIDEO_TEXT_SHADOW_DARK));
+            _map_hud_name.Draw(blend);
             VideoManager->PopState();
         }
 
@@ -1108,9 +1110,9 @@ void MapMode::_DrawGUI()
         VideoManager->PushState();
         VideoManager->SetStandardCoordSys();
         VideoManager->SetDrawFlags(VIDEO_X_CENTER, VIDEO_Y_CENTER, 0);
-        (GlobalManager->ShouldDisplayHudNameOnMapIntro() && !_map_hud_name.empty()) ?
+        (GlobalManager->ShouldDisplayHudNameOnMapIntro() && !_map_hud_name.GetString().empty()) ?
         VideoManager->Move(512.0f, 170.0f) : VideoManager->Move(512.0f, 20.0f);
-        VideoManager->Text()->Draw(_map_hud_subname, TextStyle("title24", blend, VIDEO_TEXT_SHADOW_DARK));
+        _map_hud_subname.Draw(blend);
         VideoManager->PopState();
 
         // Draw the unlimited stamina bar with a fade out
@@ -1150,7 +1152,7 @@ void MapMode::_DrawGUI()
     std::ostringstream coord_txt;
     coord_txt << "Camera position: " << x_pos << ", " << y_pos;
     VideoManager->Move(10.0f, 10.0f);
-    VideoManager->Text()->Draw(coord_txt.str(), TextStyle("title22", Color::white, VIDEO_TEXT_SHADOW_DARK));
+    TextManager->Draw(coord_txt.str(), TextStyle("title22", Color::white, VIDEO_TEXT_SHADOW_DARK));
     VideoManager->PopState();
 } // void MapMode::_DrawGUI()
 

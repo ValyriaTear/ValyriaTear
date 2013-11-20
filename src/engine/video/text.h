@@ -447,7 +447,7 @@ public:
 
     //! \name Class Member Access Functions
     //@{
-    vt_utils::ustring GetString() const {
+    const vt_utils::ustring& GetString() const {
         return _text;
     }
 
