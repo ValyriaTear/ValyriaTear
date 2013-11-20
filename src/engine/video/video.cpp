@@ -169,7 +169,7 @@ void VideoEngine::DrawFPS()
     sprintf(fps_text, "FPS: %d", avg_fps);
 
     Move(930.0f, 720.0f); // Upper right hand corner of the screen
-    Text()->Draw(fps_text, TextStyle("text20", Color::white));
+    TextManager->Draw(fps_text, TextStyle("text20", Color::white));
 
 } // void GUISystem::_DrawFPS(uint32 frame_time)
 
@@ -923,9 +923,9 @@ StillImage VideoEngine::CreateImage(ImageMemory *raw_image, const std::string &i
 void VideoEngine::DrawText(const ustring &text, float x, float y, const Color &c)
 {
     Move(x, y);
-    TextStyle text_style = Text()->GetDefaultStyle();
+    TextStyle text_style = TextManager->GetDefaultStyle();
     text_style.color = c;
-    Text()->Draw(text, text_style);
+    TextManager->Draw(text, text_style);
 }
 
 bool VideoEngine::IsScreenShaking()
@@ -1161,11 +1161,6 @@ void VideoEngine::DrawHalo(const ImageDescriptor &id, const Color &color)
     _current_context.blend = VIDEO_BLEND_ADD;
     id.Draw(color);
     _current_context.blend = old_blend_mode;
-}
-
-TextureController* VideoEngine::Textures()
-{
-    return TextureManager;
 }
 
 }  // namespace vt_video

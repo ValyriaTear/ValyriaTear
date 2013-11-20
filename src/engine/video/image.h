@@ -105,16 +105,10 @@ public:
     //! \brief Clears all data retained by the object (color, width, height, etc.)
     virtual void Clear() = 0;
 
-    /** \brief Draws the image to the display buffer
-    *** The location and orientation of the drawn image is dependent upon the current cursor position
-    *** and context (draw flags) set in the VideoEngine class.
-    **/
-    virtual void Draw() const = 0;
-
     /** \brief Draws a color modulated version of the image to the display buffer
     *** \param draw_color The color to modulate the image by
     **/
-    virtual void Draw(const Color &draw_color) const = 0;
+    virtual void Draw(const Color& draw_color = vt_video::Color::white) const = 0;
 
     //! \name Class Member Access Functions
     //@{
@@ -369,13 +363,10 @@ public:
         return Load(filename);
     }
 
-    //! \brief Draws the image to the screen
-    void Draw() const;
-
     /** \brief Draws a color-modulated version of the image
     *** \param draw_color The color to modulate the image by
     **/
-    void Draw(const Color &draw_color) const;
+    void Draw(const Color& draw_color = vt_video::Color::white) const;
 
     /** \brief Saves the image to a file
     *** \param filename The filename of the image to save (must have a .png extension)
@@ -605,13 +596,10 @@ public:
      */
     bool LoadFromAnimationScript(const std::string &filename);
 
-    //! \brief Draws the current frame image to the screen
-    void Draw() const;
-
     /** \brief Draws the current frame image which is modulated by a color
     *** \param draw_color The color to modulate the image by
     **/
-    void Draw(const Color &draw_color) const;
+    void Draw(const Color& draw_color = vt_video::Color::white) const;
 
     /** \brief Saves all frame images into a single file (a multi image file)
     *** \param filename The filename of the image to save (must have a .png extension)

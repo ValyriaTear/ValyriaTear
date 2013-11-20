@@ -355,13 +355,10 @@ public:
     //! \brief Clears the image by resetting its properties
     void Clear();
 
-    //! \brief Draws the rendered text to the screen
-    void Draw() const;
-
     /** \brief Draws the rendered text to the screen with a color modulation
     *** \param draw_color The color to modulate the text by
     **/
-    void Draw(const Color &draw_color) const;
+    void Draw(const Color &draw_color = vt_video::Color::white) const;
 
     //! \brief Dervied from ImageDescriptor, this method is not used by TextImage
     void EnableGrayScale()

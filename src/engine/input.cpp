@@ -331,7 +331,7 @@ void InputEngine::_KeyEventHandler(SDL_KeyboardEvent &key_event)
                 return;
             } else if(key_event.keysym.sym == SDLK_t) {
                 // Display and cycle through the texture sheets
-                VideoManager->Textures()->DEBUG_NextTexSheet();
+                TextureManager->DEBUG_NextTexSheet();
                 return;
             }
 #endif

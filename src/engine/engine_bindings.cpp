@@ -262,6 +262,47 @@ void BindEngineCode()
             .def("SetAlpha", &Color::SetAlpha)
             .def("SetColor", (void(Color::*)(float, float, float, float))&Color::SetColor),
 
+            luabind::class_<ImageDescriptor>("ImageDescriptor")
+            .def("GetWidth", &ImageDescriptor::GetWidth)
+            .def("GetHeight", &ImageDescriptor::GetHeight),
+
+            luabind::class_<StillImage, ImageDescriptor>("StillImage")
+            .def("Clear", &StillImage::Clear)
+            .def("Draw", (void(StillImage::*)(const vt_video::Color&)) &StillImage::Draw)
+            .def("SetWidth", &StillImage::SetWidth)
+            .def("SetHeight", &StillImage::SetHeight)
+            .def("SetWidthKeepRatio", &StillImage::SetWidthKeepRatio)
+            .def("SetHeightKeepRatio", &StillImage::SetHeightKeepRatio)
+            .def("SetDimensions", &StillImage::SetDimensions)
+            .def("SetXDrawOffset", &StillImage::SetXDrawOffset)
+            .def("SetYDrawOffset", &StillImage::SetYDrawOffset)
+            .def("SetDrawOffsets", &StillImage::SetDrawOffsets),
+
+            luabind::class_<AnimatedImage, ImageDescriptor>("AnimatedImage")
+            .def("Clear", &AnimatedImage::Clear)
+            .def("Draw", (void(AnimatedImage::*)(const Color&))&AnimatedImage::Draw)
+            .def("Update", (void(AnimatedImage::*)())&AnimatedImage::Update)
+            .def("Update", (void(AnimatedImage::*)(uint32))&AnimatedImage::Update)
+            .def("ResetAnimation", &AnimatedImage::ResetAnimation)
+            .def("GetAnimationLength", &AnimatedImage::GetAnimationLength)
+            .def("SetWidth", &AnimatedImage::SetWidth)
+            .def("SetHeight", &AnimatedImage::SetHeight)
+            .def("SetDimensions", &AnimatedImage::SetDimensions),
+
+            luabind::class_<TextImage, ImageDescriptor>("TextImage")
+            .def("Clear", &TextImage::Clear)
+            .def("Draw", (void(TextImage::*)(const Color&))&TextImage::Draw)
+            .def("SetWidth", &TextImage::SetWidth)
+            .def("SetHeight", &TextImage::SetHeight)
+            .def("SetDimensions", &TextImage::SetDimensions)
+            .def("SetText", (void(TextImage::*)(const std::string&))&TextImage::SetText)
+            .def("SetText", (void(TextImage::*)(const std::string&, const TextStyle&))&TextImage::SetText)
+            .def("SetText", (void(TextImage::*)(const vt_utils::ustring&))&TextImage::SetText)
+            .def("SetText", (void(TextImage::*)(const vt_utils::ustring&, const TextStyle&))&TextImage::SetText)
+            .def("SetStyle", &TextImage::SetStyle)
+            .def("SetWordWrapWidth", &TextImage::SetWordWrapWidth)
+            .def("GetWordWrapWidth", &TextImage::GetWordWrapWidth),
+
             luabind::class_<VideoEngine>("GameVideo")
             .def("FadeScreen", &VideoEngine::FadeScreen)
             .def("IsFading", &VideoEngine::IsFading)

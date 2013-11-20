@@ -384,7 +384,9 @@ void TextElement::SetTexture(TextTexture *texture)
 TextImage::TextImage() :
     ImageDescriptor(),
     _max_width(1024)
-{}
+{
+    _style = TextManager->GetDefaultStyle();
+}
 
 
 
@@ -458,11 +460,6 @@ void TextImage::Clear()
     // with the same constraints.
 }
 
-void TextImage::Draw() const
-{
-    Draw(Color::white);
-}
-
 void TextImage::Draw(const Color& draw_color) const
 {
     // Don't draw anything if this image is completely transparent (invisible)
@@ -488,8 +485,8 @@ void TextImage::Draw(const Color& draw_color) const
 
 void TextImage::_Regenerate()
 {
-    _width = 0;
-    _height = 0;
+    _width = 0.0f;
+    _height = 0.0f;
     for(uint32 i = 0; i < _text_sections.size(); ++i)
         delete _text_sections[i];
 

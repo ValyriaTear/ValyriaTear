@@ -216,7 +216,7 @@ bool ImageDescriptor::GetImageInfo(const std::string &filename, uint32 &rows, ui
     cols = surf->w;
     bpp  = surf->format->BitsPerPixel * 8;
     SDL_FreeSurface(surf);
- 
+
     return true;
 }
 
@@ -773,8 +773,6 @@ StillImage::StillImage(const bool grayscale) :
     _grayscale = grayscale;
 }
 
-
-
 StillImage::~StillImage()
 {
     Clear();
@@ -893,15 +891,6 @@ bool StillImage::Load(const std::string &filename)
     img_data.pixels = NULL;
     return true;
 } // bool StillImage::Load(const string& filename)
-
-
-
-void StillImage::Draw() const
-{
-    Draw(Color::white);
-}
-
-
 
 void StillImage::Draw(const Color &draw_color) const
 {
@@ -1282,19 +1271,6 @@ bool AnimatedImage::LoadFromFrameGrid(const std::string &filename, const std::ve
 
     return true;
 } // bool AnimatedImage::LoadFromFrameGrid(...)
-
-
-
-void AnimatedImage::Draw() const
-{
-    if(_frames.empty()) {
-        IF_PRINT_WARNING(VIDEO_DEBUG) << "no frames were loaded into the AnimatedImage object" << std::endl;
-        return;
-    }
-
-    _frames[_frame_index].image.Draw();
-}
-
 
 
 void AnimatedImage::Draw(const Color &draw_color) const
