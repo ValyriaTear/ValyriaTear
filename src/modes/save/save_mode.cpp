@@ -665,12 +665,28 @@ void SmallCharacterWindow::SetCharacter(GlobalCharacter *character)
     delete _character;
     _character = character;
 
-    if(character) {
-        _portrait = character->GetPortrait();
-        // Only size up valid portraits
-        if(!_portrait.GetFilename().empty())
-            _portrait.SetDimensions(100.0f, 100.0f);
+    if(!_character || _character->GetID() == vt_global::GLOBAL_CHARACTER_INVALID) {
+        _character_name.Clear();
+        _character_data.Clear();
+        return;
     }
+
+    _portrait = character->GetPortrait();
+    // Only size up valid portraits
+    if(!_portrait.GetFilename().empty())
+        _portrait.SetDimensions(100.0f, 100.0f);
+
+    // the characters' name is already translated.
+    _character_name.SetText(_character->GetName(), TextStyle("title22"));
+
+    // And the rest of the data
+    ustring char_data = UTranslate("Lv: ") + MakeUnicodeString(NumberToString(_character->GetExperienceLevel()) + "\n");
+    char_data += UTranslate("HP: ") + MakeUnicodeString(NumberToString(_character->GetHitPoints()) +
+                               " / " + NumberToString(_character->GetMaxHitPoints()) + "\n");
+    char_data += UTranslate("SP: ") + MakeUnicodeString(NumberToString(_character->GetSkillPoints()) +
+                               " / " + NumberToString(_character->GetMaxSkillPoints()) + "\n");
+
+    _character_data.SetText(char_data, TextStyle("text20"));
 } // void SmallCharacterWindow::SetCharacter(GlobalCharacter *character)
 
 
@@ -681,17 +697,9 @@ void SmallCharacterWindow::Draw()
     // Call parent Draw method, if failed pass on fail result
     MenuWindow::Draw();
 
-    // check to see if this window is an actual character
-    if(_character == NULL)
-        return;
-
-    if(_character->GetID() == vt_global::GLOBAL_CHARACTER_INVALID)
-        return;
-
     // Get the window metrics
-    float x, y, w, h;
+    float x, y;
     GetPosition(x, y);
-    GetDimensions(w, h);
     // Adjust the current position to make it look better
     y -= 5;
 
@@ -700,24 +708,12 @@ void SmallCharacterWindow::Draw()
     _portrait.Draw();
 
     // Write character name
-    VideoManager->MoveRelative(125, -75);
-    VideoManager->Text()->Draw(_character->GetName(), TextStyle("title22"));
+    VideoManager->MoveRelative(125, -70);
+    _character_name.Draw();
 
-    // Level
+    // Level, HP, SP
     VideoManager->MoveRelative(0, 20);
-    VideoManager->Text()->Draw(UTranslate("Lv: ") + MakeUnicodeString(NumberToString(_character->GetExperienceLevel())), TextStyle("text20"));
-
-    // HP
-    VideoManager->MoveRelative(0, 20);
-    VideoManager->Text()->Draw(UTranslate("HP: ") + MakeUnicodeString(NumberToString(_character->GetHitPoints()) +
-                               " / " + NumberToString(_character->GetMaxHitPoints())), TextStyle("text20"));
-
-    // SP
-    VideoManager->MoveRelative(0, 20);
-    VideoManager->Text()->Draw(UTranslate("SP: ") + MakeUnicodeString(NumberToString(_character->GetSkillPoints()) +
-                               " / " + NumberToString(_character->GetMaxSkillPoints())), TextStyle("text20"));
-
-    return;
+    _character_data.Draw();
 }
 
 } // namespace vt_save
