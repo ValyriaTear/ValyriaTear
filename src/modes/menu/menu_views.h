@@ -197,9 +197,6 @@ public:
     void Draw();
 
 private:
-    //! Used for char portraits in bottom menu
-    std::vector<vt_video::StillImage> _portraits;
-
     //! Used for the current dungeon
     vt_video::StillImage _location_graphic;
 
@@ -217,6 +214,9 @@ private:
 
     //! TextBox that holds the selected object's description
     vt_gui::TextBox _description;
+
+    //! Used to render the current object name.
+    vt_video::TextImage _object_name;
 
     //! Vector of GlobalObjects that corresponds to _inventory_items
     std::vector< vt_global::GlobalObject * > _item_objects;

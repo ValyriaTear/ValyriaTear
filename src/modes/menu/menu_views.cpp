@@ -52,14 +52,14 @@ CharacterWindow::CharacterWindow() : _char_id(GLOBAL_CHARACTER_INVALID)
 
 void CharacterWindow::SetCharacter(GlobalCharacter *character)
 {
-    _char_id = character->GetID();
-
-    if(!character || _char_id == vt_global::GLOBAL_CHARACTER_INVALID) {
+    if(!character || character->GetID() == vt_global::GLOBAL_CHARACTER_INVALID) {
         _character_name.Clear();
         _character_data.Clear();
         _portrait = StillImage();
         return;
     }
+
+    _char_id = character->GetID();
 
     _portrait = character->GetPortrait();
     // Only size up valid portraits
@@ -536,6 +536,7 @@ void InventoryWindow::_UpdateSelection()
 
     _object = _item_objects[ _inventory_items.GetSelection() ];
     _object_type = _object->GetObjectType();
+    _object_name.SetText(_object->GetName(), TextStyle("title22"));
 
     if (_active_box == ITEM_ACTIVE_CHAR)
         _character = GlobalManager->GetActiveParty()->GetCharacterAtIndex(_char_select.GetSelection());
@@ -711,7 +712,7 @@ void InventoryWindow::_DrawBottomInfo()
         VideoManager->Move(100, 600);
         _object->GetIconImage().Draw();
         VideoManager->MoveRelative(65, -15);
-        VideoManager->Text()->Draw(_object->GetName());
+        _object_name.Draw();
         VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_BOTTOM, 0);
         _description.Draw();
 
