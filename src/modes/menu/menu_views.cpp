@@ -54,12 +54,30 @@ void CharacterWindow::SetCharacter(GlobalCharacter *character)
 {
     _char_id = character->GetID();
 
-    if(character) {
-        _portrait = character->GetPortrait();
-        // Only size up valid portraits
-        if(!_portrait.GetFilename().empty())
-            _portrait.SetDimensions(100.0f, 100.0f);
+    if(!character || _char_id == vt_global::GLOBAL_CHARACTER_INVALID) {
+        _character_name.Clear();
+        _character_data.Clear();
+        _portrait = StillImage();
+        return;
     }
+
+    _portrait = character->GetPortrait();
+    // Only size up valid portraits
+    if(!_portrait.GetFilename().empty())
+        _portrait.SetDimensions(100.0f, 100.0f);
+
+    // the characters' name is already translated.
+    _character_name.SetText(character->GetName(), TextStyle("title22"));
+
+    // And the rest of the data
+    ustring char_data = UTranslate("Lv: ") + MakeUnicodeString(NumberToString(character->GetExperienceLevel()) + "\n");
+    char_data += UTranslate("HP: ") + MakeUnicodeString(NumberToString(character->GetHitPoints()) +
+                               " / " + NumberToString(character->GetMaxHitPoints()) + "\n");
+    char_data += UTranslate("SP: ") + MakeUnicodeString(NumberToString(character->GetSkillPoints()) +
+                               " / " + NumberToString(character->GetMaxSkillPoints()) + "\n");
+    char_data += UTranslate("XP to Next: ") + MakeUnicodeString(NumberToString(character->GetExperienceForNextLevel()));
+
+    _character_data.SetText(char_data, TextStyle("text20"));
 } // void CharacterWindow::SetCharacter(GlobalCharacter *character)
 
 
@@ -70,21 +88,13 @@ void CharacterWindow::Draw()
     // Call parent Draw method, if failed pass on fail result
     MenuWindow::Draw();
 
-    // check to see if this window is an actual character
-    if(_char_id == vt_global::GLOBAL_CHARACTER_INVALID)
-        // no more to do here
-        return;
-
     VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_TOP, 0);
 
     // Get the window metrics
-    float x, y, w, h;
+    float x, y;
     GetPosition(x, y);
-    GetDimensions(w, h);
     // Adjust the current position to make it look better
     y += 5;
-
-    GlobalCharacter *character = GlobalManager->GetCharacter(_char_id);
 
     //Draw character portrait
     VideoManager->Move(x + 12, y + 8);
@@ -92,28 +102,11 @@ void CharacterWindow::Draw()
 
     // Write character name
     VideoManager->MoveRelative(150, -5);
-    VideoManager->Text()->Draw(character->GetName(), TextStyle("title22"));
+    _character_name.Draw();
 
-    // Level
+    // Level, HP, SP, XP to Next Lvl
     VideoManager->MoveRelative(0, 19);
-    VideoManager->Text()->Draw(UTranslate("Lv: ") + MakeUnicodeString(NumberToString(character->GetExperienceLevel())), TextStyle("text20"));
-
-    // HP
-    VideoManager->MoveRelative(0, 19);
-    VideoManager->Text()->Draw(UTranslate("HP: ") + MakeUnicodeString(NumberToString(character->GetHitPoints()) +
-                               " / " + NumberToString(character->GetMaxHitPoints())), TextStyle("text20"));
-
-    // SP
-    VideoManager->MoveRelative(0, 19);
-    VideoManager->Text()->Draw(UTranslate("SP: ") + MakeUnicodeString(NumberToString(character->GetSkillPoints()) +
-                               " / " + NumberToString(character->GetMaxSkillPoints())), TextStyle("text20"));
-
-    // XP to level up
-    VideoManager->MoveRelative(0, 19);
-    VideoManager->Text()->Draw(UTranslate("XP to Next: ") +
-                               MakeUnicodeString(NumberToString(character->GetExperienceForNextLevel())), TextStyle("text20"));
-
-    return;
+    _character_data.Draw();
 }
 
 

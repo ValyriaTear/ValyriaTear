@@ -668,6 +668,7 @@ void SmallCharacterWindow::SetCharacter(GlobalCharacter *character)
     if(!_character || _character->GetID() == vt_global::GLOBAL_CHARACTER_INVALID) {
         _character_name.Clear();
         _character_data.Clear();
+        _portrait = StillImage();
         return;
     }
 
@@ -684,7 +685,7 @@ void SmallCharacterWindow::SetCharacter(GlobalCharacter *character)
     char_data += UTranslate("HP: ") + MakeUnicodeString(NumberToString(_character->GetHitPoints()) +
                                " / " + NumberToString(_character->GetMaxHitPoints()) + "\n");
     char_data += UTranslate("SP: ") + MakeUnicodeString(NumberToString(_character->GetSkillPoints()) +
-                               " / " + NumberToString(_character->GetMaxSkillPoints()) + "\n");
+                               " / " + NumberToString(_character->GetMaxSkillPoints()));
 
     _character_data.SetText(char_data, TextStyle("text20"));
 } // void SmallCharacterWindow::SetCharacter(GlobalCharacter *character)
