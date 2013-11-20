@@ -261,7 +261,7 @@ static void LoadFonts(const std::string &font_script_filename)
         std::string font_file = font_script.ReadString("font");
         uint32 font_size = font_script.ReadInt("size");
 
-        if(!VideoManager->Text()->LoadFont(font_file, style_names[i], font_size)) {
+        if(!vt_video::TextManager->LoadFont(font_file, style_names[i], font_size)) {
             // Check whether the default font is invalid
             if(font_default == style_names[i]) {
                 font_script.CloseAllTables();
@@ -281,7 +281,7 @@ static void LoadFonts(const std::string &font_script_filename)
     font_script.CloseFile();
 
     // Setup the default font
-    VideoManager->Text()->SetDefaultStyle(TextStyle(font_default, Color::white,
+    vt_video::TextManager->SetDefaultStyle(TextStyle(font_default, Color::white,
                                           VIDEO_TEXT_SHADOW_BLACK, 1, -2));
 }
 
