@@ -179,8 +179,8 @@ public:
     }
 
     //! \brief Returns the text currently being displayed by the textbox.
-    void GetText(std::vector<vt_utils::ustring>& text) const {
-        text = _text;
+    vt_utils::ustring GetText() const {
+        return (_mode == VIDEO_TEXT_INSTANT) ? _text_image.GetString() : _text_save;
     }
 
     /** \brief Returns true if this textbox is finished with its gradual display of text
@@ -193,23 +193,8 @@ public:
 
     //! \brief Returns true if this text box contains no text empty.
     bool IsEmpty() const {
-        return _text.empty();
+        return (_mode == VIDEO_TEXT_INSTANT) ? _text_image.GetString().empty() : _text.empty();
     }
-
-    /** \brief Checks all class members to see if all members have been set to valid values.
-    *** \param errors A reference to a string to be filled if any errors are found.
-    *** \return True if object is initialized, or false if it is not.
-    *** This is used to make sure that the text box's settings are valid before doing any
-    *** drawing or update operations. If it detects any problems, it generates a string of errors
-    *** and returns it by reference so they can be displayed.
-    **/
-    bool IsInitialized(std::string &errors);
-
-    /** \brief Returns the height of the text when it's rendered with the current font
-    *** \return The height of text rendered in current font
-    *** \note This is a low-level function so it doesn't check if the current font is valid or not
-    **/
-    int32 CalculateTextHeight();
 
 private:
     //! \brief The display speed of the text, in characters per second.
@@ -265,6 +250,12 @@ private:
     /** \brief Reformats text for size/font.
     **/
     void _ReformatText();
+
+    /** \brief Returns the height of the text when it's rendered with the current font
+    *** \return The height of text rendered in current font
+    *** \note This is a low-level function so it doesn't check if the current font is valid or not
+    **/
+    float _CalculateTextHeight();
 
     /** \brief Draws an outline of the element boundaries
     *** \note This function also draws an outline for each line of text in addition to the textbox

@@ -85,14 +85,6 @@ public:
     **/
     virtual void Update(uint32 frame_time) = 0;
 
-    /** \brief Does a self-check on all its members to see if all its members have been set to valid values.
-    *** \param errors - A reference to a string to be filled with error messages if any errors are found.
-    *** \return True if everything is initialized correctly, false otherwise.
-    *** This is used internally to make sure we have a valid object before doing any complicated operations.
-    *** If it detects any problems, it generates a list of errors and returns it by reference so they can be displayed.
-    **/
-    virtual bool IsInitialized(std::string &errors) = 0;
-
     /** \brief Sets the width and height of the element
     *** \param w The width to set for the element
     *** \param h The height to set for the element
@@ -169,13 +161,6 @@ protected:
 
     //! \brief The dimensions of the GUI element in pixels.
     float _width, _height;
-
-    //! \brief Used to determine if the object is in a valid state.
-    //! \note This member is set after every change to any of the object's settings.
-    bool  _initialized;
-
-    //! \brief Contains the errors that need to be resolved if the object is in an invalid state (not ready for rendering).
-    std::string _initialization_errors;
 
     //! \brief Draws an outline of the element boundaries
     virtual void _DEBUG_DrawOutline();
@@ -406,12 +391,12 @@ private:
     **/
     std::map<std::string, private_gui::MenuSkin> _menu_skins;
 
-    /** \brief A map containing all of the actively created MenuWindow objects
-    *** The integer key is the MenuWindow's ID number. This primary purpose of this map is to coordinate menu windows
+    /** \brief A vector containing all of the actively created MenuWindow objects
+    *** The primary purpose of this member is to coordinate menu windows
     *** with menu skins. A menu skin can not be deleted when a menu window is still using that skin, and menu windows
     *** must be re-drawn when the properties of a menu skin that it uses changes.
     **/
-    std::map<uint32, MenuWindow *> _menu_windows;
+    std::vector <MenuWindow *> _menu_windows;
 
     //! \brief The id of the user menu skin.
     std::string _user_menu_skin;
@@ -421,9 +406,6 @@ private:
     *** If the default menu skin is deleted by the user, an alternative default skin will automatically be set.
     **/
     vt_gui::private_gui::MenuSkin *_default_skin;
-
-    //! \brief The next ID to assign to a MenuWindow when one is created
-    uint32 _next_window_id;
 
     /** \brief Draws an outline of the boundary for all GUI elements drawn to the screen when true
     *** The VideoEngine class contains the method that modifies this variable.
@@ -441,15 +423,6 @@ private:
     //! \brief Returns a pointer to the default menu skin
     private_gui::MenuSkin *_GetDefaultMenuSkin() const {
         return _default_skin;
-    }
-
-    /** \brief Returns the next available MenuWindow ID for a MenuWindow to use
-    *** \return The ID number for the MenuWindow to use
-    *** This method should only need to be called from the MenuWindow constructor.
-    **/
-    uint32 _GetNextMenuWindowID() {
-        _next_window_id++;
-        return (_next_window_id - 1);
     }
 
     /** \brief Adds a newly created MenuWindow into the map of existing windows

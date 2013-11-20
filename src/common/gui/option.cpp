@@ -100,7 +100,6 @@ void Option::Clear()
 
 OptionBox::OptionBox() :
     GUIControl(),
-    _initialized(false),
     _number_rows(1),
     _number_columns(1),
     _number_cell_rows(1),
@@ -119,8 +118,6 @@ OptionBox::OptionBox() :
     _scroll_offset(0.0f),
     _option_xalign(VIDEO_X_LEFT),
     _option_yalign(VIDEO_Y_CENTER),
-    _scissoring(false),
-    _scissoring_owner(false),
     _draw_horizontal_arrows(false),
     _draw_vertical_arrows(false),
     _grey_up_arrow(false),
@@ -137,7 +134,6 @@ OptionBox::OptionBox() :
     _horizontal_arrows_position(H_POSITION_BOTTOM),
     _vertical_arrows_position(V_POSITION_RIGHT)
 {
-    // TEMP
     _width = 1.0f;
     _height = 1.0f;
 }
@@ -146,19 +142,20 @@ void OptionBox::Update(uint32 frame_time)
 {
     _event = 0; // Clear all events
 
-    if(_scrolling) {
-        _scroll_time += frame_time;
+    if(!_scrolling)
+        return;
 
-        if(_scroll_time > VIDEO_OPTION_SCROLL_TIME) {
-            _scroll_time = 0;
-            _scrolling = false;
-            _scroll_offset = 0.0f;
-        } else {
-            // [phuedx] Calculate the _scroll_offset independant of the coordinate system
-            _scroll_offset = (_scroll_time / static_cast<float>(VIDEO_OPTION_SCROLL_TIME)) * _cell_height;
-            if(_scroll_direction == -1) {   // Up
-                _scroll_offset = _cell_height - _scroll_offset;
-            }
+    _scroll_time += frame_time;
+
+    if(_scroll_time > VIDEO_OPTION_SCROLL_TIME) {
+        _scroll_time = 0;
+        _scrolling = false;
+        _scroll_offset = 0.0f;
+    } else {
+        // Computes the _scroll_offset independently from the coordinate system
+        _scroll_offset = (_scroll_time / static_cast<float>(VIDEO_OPTION_SCROLL_TIME)) * _cell_height;
+        if(_scroll_direction == -1) {   // Up
+            _scroll_offset = _cell_height - _scroll_offset;
         }
     }
 }
@@ -167,10 +164,6 @@ void OptionBox::Update(uint32 frame_time)
 
 void OptionBox::Draw()
 {
-    // Do nothing if the option box is not properly initialized
-    if(!IsInitialized(_initialization_errors))
-        return;
-
     VideoManager->PushState();
     VideoManager->SetDrawFlags(_xalign, _yalign, VIDEO_BLEND, 0);
     VideoManager->DisableScissoring();
@@ -563,56 +556,6 @@ StillImage *OptionBox::GetEmbeddedImage(uint32 index) const
     return _options[index].image;
 }
 
-
-
-bool OptionBox::IsInitialized(std::string &error_messages)
-{
-    if (_initialized)
-        return true;
-
-    std::ostringstream s;
-    error_messages.clear();
-
-    if(_width <= 0.0f)
-        s << "* Invalid width (" << _width << ")" << std::endl;
-
-    if(_height <= 0.0f)
-        s << "* Invalid height (" << _height << ")" << std::endl;
-
-    if(_number_rows <= 0)
-        s << "* Invalid number of rows (" << _number_rows << ")" << std::endl;
-
-    if(_number_columns <= 0)
-        s << "* Invalid number of columns (" << _number_columns << ")" << std::endl;
-
-    if(_cell_width <= 0.0f && _number_columns > 1)
-        s << "* Invalid horizontal spacing (" << _cell_width << ")" << std::endl;
-
-    if(_cell_height <= 0.0f && _number_rows > 1)
-        s << "* Invalid vertical spacing (" << _cell_height << ")" << std::endl;
-
-    if(_option_xalign < VIDEO_X_LEFT || _option_xalign > VIDEO_X_RIGHT)
-        s << "* Invalid x align (" << _option_xalign << ")" << std::endl;
-
-    if(_option_yalign < VIDEO_Y_TOP || _option_yalign > VIDEO_Y_BOTTOM)
-        s << "* Invalid y align (" << _option_yalign << ")" << std::endl;
-
-    if(_text_style.font.empty())
-        s << "* Invalid font (none has been set)" << std::endl;
-
-    if(_selection_mode <= VIDEO_SELECT_INVALID || _selection_mode >= VIDEO_SELECT_TOTAL)
-        s << "* Invalid selection mode (" << _selection_mode << ")" << std::endl;
-
-    error_messages = s.str();
-
-    if(error_messages.empty())
-        _initialized = true;
-    else
-        _initialized = false;
-
-    return _initialized;
-}
-
 // -----------------------------------------------------------------------------
 // Input Handling Methods
 // -----------------------------------------------------------------------------
@@ -782,7 +725,6 @@ void OptionBox::SetTextStyle(const TextStyle &style)
     }
 
     _text_style = style;
-    _initialized = IsInitialized(_initialization_errors);
 
     // Update any existing TextImage texts with new font style
     for (uint32 i = 0; i < _options.size(); ++i) {

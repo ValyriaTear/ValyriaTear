@@ -365,14 +365,7 @@ public:
     **/
     vt_video::StillImage *GetEmbeddedImage(uint32 index) const;
 
-    /** \brief Used to determine whether the option box is initialized and ready for use
-    *** \param error_messages Used to report the list of reasons why the option box is not initialized
-    *** \return True if the option box is initialized, false if it is not
-    **/
-    bool IsInitialized(std::string &error_messages);
-
-    /**
-    *** \brief resets the viewing selection to the top-most option.
+    /** \brief resets the viewing selection to the top-most option.
     *** this essentially forces the draw top and draw left to be set to zero
     *** \note This call must be called INDEPENDENTLY of ClearOptions() or SetOptions(), etc.
     *** because every frame, it is possible that we "reset" the actual options via a ClearOptions() / SetOptions() call,
@@ -403,7 +396,6 @@ public:
     void SetOptionAlignment(int32 xalign, int32 yalign) {
         _option_xalign = xalign;
         _option_yalign = yalign;
-        _initialized = IsInitialized(_initialization_errors);
     }
 
     /** \brief Sets the option selection mode (single or double confirm)
@@ -411,7 +403,6 @@ public:
     **/
     void SetSelectMode(SelectMode mode) {
         _selection_mode = mode;
-        _initialized = IsInitialized(_initialization_errors);
     }
 
     /** \brief Sets the behavior for vertical wrapping of the cursor
@@ -510,19 +501,7 @@ public:
     }
     //@}
 
-    /** \brief Used to enable scissoring of the option box
-    *** \param enable Set to true to enable, or false to disable
-    *** \param owner Set to true to scissor to the _owner's size, or false to scissor to the box's size
-    **/
-    void Scissoring(bool enable, bool owner) {
-        _scissoring = enable;
-        _scissoring_owner = owner;
-    }
-
 private:
-    //! \brief When set to true, indicates that the option box is initialized and ready to be used
-    bool _initialized;
-
     //! \name Option Property Members
     //@{
     /** \brief The vector containing all of the options
@@ -573,12 +552,6 @@ private:
 
     //! \brief The vertical alignment type for option cell contents
     int32 _option_yalign;
-
-    //! \brief True if scissoring is enabled
-    bool _scissoring;
-
-    //! \brief True if scissoring should be applied according to the owner window, false for the box's size
-    bool _scissoring_owner;
 
     //! \brief When true the scroll arrows for the horizontal and vertical directions will be drawn
     bool _draw_horizontal_arrows, _draw_vertical_arrows;

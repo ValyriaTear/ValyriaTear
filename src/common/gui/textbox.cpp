@@ -46,10 +46,10 @@ TextBox::TextBox() :
     _text_xpos(0.0f),
     _text_ypos(0.0f)
 {
-    _initialized = false;
+    _width = 0.0f;
+    _height = 0.0f;
+    _text_style = TextManager->GetDefaultStyle();
 }
-
-
 
 TextBox::TextBox(float x, float y, float width, float height, const TEXT_DISPLAY_MODE &mode) :
     _display_speed(0.0f),
@@ -68,7 +68,6 @@ TextBox::TextBox(float x, float y, float width, float height, const TEXT_DISPLAY
     _height = height;
     _text_style = TextManager->GetDefaultStyle();
     SetPosition(x, y);
-    _initialized = false;
 }
 
 
@@ -78,12 +77,16 @@ void TextBox::ClearText()
     _text.clear();
     _num_chars = 0;
     _text_save.clear();
+    _text_image.Clear();
 }
 
 
 
 void TextBox::Update(uint32 time)
 {
+    if (_finished)
+        return;
+
     _current_time += time;
 
     if(_text.empty() == false && _current_time > _end_time)
@@ -94,13 +97,8 @@ void TextBox::Update(uint32 time)
 
 void TextBox::Draw()
 {
-    if(_text.empty())
+    if(_mode != VIDEO_TEXT_INSTANT && _text.empty())
         return;
-
-    if(_initialized == false) {
-        IF_PRINT_WARNING(VIDEO_DEBUG) << "function failed because the textbox was not initialized:\n" << _initialization_errors << std::endl;
-        return;
-    }
 
     // Don't draw text window if parent window is hidden
     if(_owner && _owner->GetState() == VIDEO_MENU_STATE_HIDDEN)
@@ -110,23 +108,17 @@ void TextBox::Draw()
 
     VideoManager->SetDrawFlags(_xalign, _yalign, VIDEO_BLEND, 0);
 
-    /*
-    // TODO: this block of code (scissoring for textboxes) does not work properly
-
-    if (_owner) {
-    	rect.Intersect(_owner->GetScissorRect());
-    }
-    rect.Intersect(VideoManager->GetScissorRect());
-    VideoManager->EnableScissoring(_owner || VideoManager->IsScissoringEnabled());
-    if (VideoManager->IsScissoringEnabled()) {
-    	VideoManager->SetScissorRect(_scissor_rect);
-    }
-    */
-
     // Set the draw cursor, draw flags, and draw the text
-    VideoManager->Move(0.0f, _text_ypos);
-    VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_TOP, VIDEO_BLEND, 0);
-    _DrawTextLines(_text_xpos, _text_ypos, _scissor_rect);
+    if (_mode == VIDEO_TEXT_INSTANT) {
+        VideoManager->Move(_text_xpos, _text_ypos);
+        VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_TOP, VIDEO_BLEND, 0);
+        _text_image.Draw();
+    }
+    else {
+        VideoManager->Move(0.0f, _text_ypos);
+        VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_TOP, VIDEO_BLEND, 0);
+        _DrawTextLines(_text_xpos, _text_ypos, _scissor_rect);
+    }
 
     if(GUIManager->DEBUG_DrawOutlines())
         _DEBUG_DrawOutline();
@@ -172,8 +164,9 @@ void TextBox::SetTextStyle(const TextStyle &style)
     }
 
     _text_style = style;
+    _text_image.SetStyle(style);
+
     _ReformatText();
-    _initialized = true;
 }
 
 
@@ -213,11 +206,6 @@ void TextBox::SetDisplayText(const std::string &text)
 
 void TextBox::SetDisplayText(const ustring &text)
 {
-    if(_initialized == false) {
-        IF_PRINT_WARNING(VIDEO_DEBUG) << "function failed because the textbox was not initialized:\n" << _initialization_errors << std::endl;
-        return;
-    }
-
     // If the text hasn't changed, don't recompute the textbox.
     if (_text_save == text)
         return;
@@ -228,12 +216,14 @@ void TextBox::SetDisplayText(const ustring &text)
     // Reset the timer since new text has been set
     _current_time = 0;
 
-    // (3): Determine how much time the text will take to display depending on the display mode, speed, and size of the text
+    // Determine how much time the text will take to display depending on the display mode, speed, and size of the text
     _finished = false;
     switch(_mode) {
+    default:
+        _mode = VIDEO_TEXT_INSTANT;
     case VIDEO_TEXT_INSTANT:
         _end_time = 0;
-        // (4): Set finished to true only if the display mode is VIDEO_TEXT_INSTANT
+        // Set finished to true only if the display mode is VIDEO_TEXT_INSTANT
         _finished = true;
         break;
 
@@ -248,11 +238,6 @@ void TextBox::SetDisplayText(const ustring &text)
     case VIDEO_TEXT_FADELINE:   // Displays one line at a time
         // Instead of _num_chars in the other calculation, we use number of lines times CHARS_PER_LINE
         _end_time = static_cast<int32>(1000.0f * (_text.size() * CHARS_PER_LINE) / _display_speed);
-        break;
-
-    default:
-        _end_time = 0;
-        IF_PRINT_WARNING(VIDEO_DEBUG) << "unknown display mode was active: " << _mode << std::endl;
         break;
     };
 
@@ -275,21 +260,27 @@ void TextBox::_ReformatText()
         return;
     }
 
-    // Get the wrapped text lines
-    _text = TextManager->WrapText(_text_save, fp->ttf_font, _width);
-
-    // Compute the number of chars
-    const size_t temp_length = _text_save.length();
-    size_t startline_pos = 0;
-    uint32 new_lines = 0;
-    while(startline_pos < temp_length) {
-        size_t newline_pos = _text_save.find(NEWLINE_CHARACTER, startline_pos);
-        if(newline_pos == ustring::npos)
-            break;
-        ++new_lines;
-        startline_pos = newline_pos + 1;
+    if (_mode == VIDEO_TEXT_INSTANT) {
+        _text_image.SetWordWrapWidth(_width);
+        _text_image.SetText(_text_save);
     }
-    _num_chars = _text_save.length() - new_lines;
+    else {
+        // Get the wrapped text lines
+        _text = TextManager->WrapText(_text_save, fp->ttf_font, _width);
+
+        // Compute the number of chars
+        const size_t temp_length = _text_save.length();
+        size_t startline_pos = 0;
+        uint32 new_lines = 0;
+        while(startline_pos < temp_length) {
+            size_t newline_pos = _text_save.find(NEWLINE_CHARACTER, startline_pos);
+            if(newline_pos == ustring::npos)
+                break;
+            ++new_lines;
+            startline_pos = newline_pos + 1;
+        }
+        _num_chars = _text_save.length() - new_lines;
+    }
 
     // Update the scissor cache
     // Stores the positions of the four sides of the rectangle
@@ -320,7 +311,7 @@ void TextBox::_ReformatText()
     _scissor_rect.Set(x, y, w, h);
 
     // Update the text height
-    _text_height = static_cast<float>(CalculateTextHeight());
+    _text_height = _CalculateTextHeight();
     // Calculate the height of the text and check it against the height of the textbox.
     if(_text_height > _height) {
         IF_PRINT_WARNING(VIDEO_DEBUG) << "tried to display text of height (" << _text_height
@@ -346,38 +337,16 @@ void TextBox::_ReformatText()
     }
 } // void TextBox::_ReformatText()
 
-
-
-bool TextBox::IsInitialized(std::string &errors)
+float TextBox::_CalculateTextHeight()
 {
-    errors.clear();
-    std::ostringstream stream;
+    if (_mode == VIDEO_TEXT_INSTANT)
+        return _text_image.GetHeight();
 
-
-    // Check font
-    if(_text_style.GetFontProperties() == NULL)
-        stream << "* Invalid font: " << _text_style.font << std::endl;
-
-    errors = stream.str();
-
-    if(errors.empty()) {
-        _initialized = true;
-    } else {
-        _initialized = false;
-    }
-
-    return _initialized;
-} // bool TextBox::IsInitialized(string& errors)
-
-
-
-int32 TextBox::CalculateTextHeight()
-{
     if(_text.empty())
         return 0;
 
     FontProperties* fp = _text_style.GetFontProperties();
-    return fp->height + fp->line_skip * (static_cast<uint32>(_text.size()) - 1);
+    return static_cast<float>(fp->height + fp->line_skip * (static_cast<float>(_text.size()) - 1));
 }
 
 

@@ -72,17 +72,14 @@ SaveMode::SaveMode(bool save_mode, uint32 x_position, uint32 y_position) :
 
     _window.Create(600.0f, 500.0f);
     _window.SetPosition(212.0f, 138.0f);
-    _window.SetDisplayMode(VIDEO_MENU_EXPAND_FROM_CENTER);
     _window.Hide();
 
     _left_window.Create(150.0f, 500.0f);
     _left_window.SetPosition(212.0f, 138.0f);
-    _left_window.SetDisplayMode(VIDEO_MENU_EXPAND_FROM_CENTER);
     _left_window.Show();
 
     _title_window.Create(600.0f, 50.0f);
     _title_window.SetPosition(212.0f, 88.0f);
-    _title_window.SetDisplayMode(VIDEO_MENU_EXPAND_FROM_CENTER);
     _title_window.Show();
 
     // Initialize the save successful message box
@@ -97,7 +94,6 @@ SaveMode::SaveMode(bool save_mode, uint32 x_position, uint32 y_position) :
 
     for(uint32 i = 0; i < 4; ++i) {
         _character_window[i].Create(450.0f, 100.0f);
-        _character_window[i].SetDisplayMode(VIDEO_MENU_EXPAND_FROM_CENTER);
         _character_window[i].Show();
     }
 

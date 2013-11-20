@@ -119,7 +119,6 @@ BootMode::BootMode() :
 
     _options_window.Create(300.0f, 550.0f);
     _options_window.SetPosition(360.0f, 188.0f);
-    _options_window.SetDisplayMode(VIDEO_MENU_INSTANT);
     _options_window.Hide();
 
     // Setup all boot menu options and properties
@@ -1121,7 +1120,6 @@ void BootMode::_ReloadGUIDefaultSkin()
     _options_window.Destroy();
     _options_window.Create(300.0f, 550.0f);
     _options_window.SetPosition(360.0f, 188.0f);
-    _options_window.SetDisplayMode(VIDEO_MENU_INSTANT);
     _options_window.Show();
 
     // Setup all boot menu options and properties

@@ -167,7 +167,6 @@ void InventoryWindow::_InitInventoryItems()
     _inventory_items.SetCursorOffset(-52.0f, -20.0f);
     _inventory_items.SetVerticalWrapMode(VIDEO_WRAP_MODE_STRAIGHT);
     _inventory_items.SetOptionAlignment(VIDEO_X_LEFT, VIDEO_Y_CENTER);
-    _inventory_items.Scissoring(true, false);
 
     // Update the item text
     _UpdateItemText();

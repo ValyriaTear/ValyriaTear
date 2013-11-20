@@ -89,12 +89,10 @@ TreasureSupervisor::TreasureSupervisor() :
     _action_window.Create(768.0f, 64.0f, ~VIDEO_MENU_EDGE_BOTTOM);
     _action_window.SetPosition(512.0f, 460.0f);
     _action_window.SetAlignment(VIDEO_X_CENTER, VIDEO_Y_TOP);
-    _action_window.SetDisplayMode(VIDEO_MENU_INSTANT);
 
     _list_window.Create(768.0f, 236.0f);
     _list_window.SetPosition(512.0f, 516.0f);
     _list_window.SetAlignment(VIDEO_X_CENTER, VIDEO_Y_TOP);
-    _list_window.SetDisplayMode(VIDEO_MENU_INSTANT);
 
     _action_options.SetPosition(30.0f, 18.0f);
     _action_options.SetDimensions(726.0f, 32.0f, 1, 1, 1, 1);

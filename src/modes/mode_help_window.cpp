@@ -41,7 +41,6 @@ HelpWindow::HelpWindow() :
     _window.Create(880.0f, 640.0f);
     _window.SetPosition(512.0f, 384.0f);
     _window.SetAlignment(VIDEO_X_CENTER, VIDEO_Y_CENTER);
-    _window.SetDisplayMode(VIDEO_MENU_INSTANT);
 
     _key_table_header.SetOwner(&_window);
     _key_table.SetOwner(&_window);

@@ -47,8 +47,7 @@ GUIElement::GUIElement() :
     _x_position(0.0f),
     _y_position(0.0f),
     _width(0.0f),
-    _height(0.0f),
-    _initialized(false)
+    _height(0.0f)
 {}
 
 void GUIElement::SetDimensions(float w, float h)
@@ -135,42 +134,43 @@ void GUIControl::CalculateAlignedRect(float &left, float &right, float &bottom, 
     GUIElement::CalculateAlignedRect(left, right, bottom, top);
 
     // calculate the position offsets due to the owner window
-    if(_owner) {
-        // first, calculate the owner menu's rectangle
-        float menu_left, menu_right, menu_bottom, menu_top;
-        float menu_height, menu_width;
+    if(!_owner)
+        return;
 
-        _owner->GetDimensions(menu_width, menu_height);
-        menu_left = 0.0f;
-        menu_right = menu_width;
-        menu_bottom = 0.0f;
-        menu_top = menu_height;
-        VideoManager->PushState();
+    // first, calculate the owner menu's rectangle
+    float menu_left, menu_right, menu_bottom, menu_top;
+    float menu_height, menu_width;
 
-        int32 xalign, yalign;
-        _owner->GetAlignment(xalign, yalign);
+    _owner->GetDimensions(menu_width, menu_height);
+    menu_left = 0.0f;
+    menu_right = menu_width;
+    menu_bottom = 0.0f;
+    menu_top = menu_height;
+    VideoManager->PushState();
 
-        VideoManager->SetDrawFlags(xalign, yalign, 0);
-        _owner->CalculateAlignedRect(menu_left, menu_right, menu_bottom, menu_top);
-        VideoManager->PopState();
+    int32 xalign, yalign;
+    _owner->GetAlignment(xalign, yalign);
 
-        // now, depending on the alignment of the control, add an offset
-        if(menu_left < menu_right) {
-            left += menu_left;
-            right += menu_left;
-        } else {
-            left += menu_right;
-            right += menu_right;
-        }
+    VideoManager->SetDrawFlags(xalign, yalign, 0);
+    _owner->CalculateAlignedRect(menu_left, menu_right, menu_bottom, menu_top);
+    VideoManager->PopState();
 
-        if(menu_top < menu_bottom) {
-            top += menu_top;
-            bottom += menu_top;
-        } else {
-            top += menu_bottom;
-            bottom += menu_bottom;
-        }
-    } // if (_owner)
+    // now, depending on the alignment of the control, add an offset
+    if(menu_left < menu_right) {
+        left += menu_left;
+        right += menu_left;
+    } else {
+        left += menu_right;
+        right += menu_right;
+    }
+
+    if(menu_top < menu_bottom) {
+        top += menu_top;
+        bottom += menu_top;
+    } else {
+        top += menu_bottom;
+        bottom += menu_bottom;
+    }
 }
 
 void GUIControl::_DEBUG_DrawOutline()
@@ -203,13 +203,12 @@ GUISystem::GUISystem():
 GUISystem::~GUISystem()
 {
     // Determine if any MenuWindows have not yet been deleted, and delete them if they exist
-    if(_menu_windows.empty() == false) {
+    if(!_menu_windows.empty()) {
         IF_PRINT_WARNING(VIDEO_DEBUG) << "there were undestroyed MenuWindows in GUISystem destructor" << std::endl;
-        std::map<uint32, MenuWindow *> window_copies = _menu_windows;
-        for(std::map<uint32, MenuWindow *>::iterator i = window_copies.begin(); i != window_copies.end(); ++i) {
-            i->second->Destroy();
-        }
-        window_copies.clear();
+        for(uint32 i = 0; i < _menu_windows.size(); ++i)
+            _menu_windows[i]->Destroy();
+
+        _menu_windows.clear();
     }
 
     // Delete all menu skins which are still active
@@ -406,7 +405,7 @@ void GUISystem::SetNextDefaultMenuSkin()
 void GUISystem::SetPreviousDefaultMenuSkin()
 {
     if (_menu_skins.empty() || !_default_skin)
-        return; 
+        return;
 
     std::vector<std::string> names;
     std::string current_name;
@@ -478,9 +477,8 @@ void GUISystem::DeleteMenuSkin(const std::string &skin_id)
 
     MenuSkin *dead_skin = &_menu_skins[skin_id];
 
-    std::map<uint32, MenuWindow *>::iterator i = _menu_windows.begin();
-    while(i != _menu_windows.end()) {
-        if(dead_skin == i->second->_skin) {
+    for (uint32 i = 0; i < _menu_windows.size(); ++i) {
+        if(dead_skin == _menu_windows[i]->_skin) {
             IF_PRINT_WARNING(VIDEO_DEBUG) << "the MenuSkin \"" << skin_id << "\" was not deleted because a MenuWindow object was found to be using it" << std::endl;
             return;
         }
@@ -537,24 +535,22 @@ private_gui::MenuSkin *GUISystem::_GetMenuSkin(const std::string &skin_name)
 
 void GUISystem::_AddMenuWindow(MenuWindow *new_window)
 {
-    if(_menu_windows.find(new_window->_id) != _menu_windows.end()) {
-        IF_PRINT_WARNING(VIDEO_DEBUG) << "failed because there already existed a window with the same ID" << std::endl;
-        return;
-    }
-    _menu_windows.insert(std::make_pair(new_window->_id, new_window));
+    _menu_windows.push_back(new_window);
 }
 
 
 
 void GUISystem::_RemoveMenuWindow(MenuWindow *old_window)
 {
-    std::map<uint32, MenuWindow *>::iterator it = _menu_windows.find(old_window->_id);
-
-    if(it != _menu_windows.end()) {
-        _menu_windows.erase(it);
-    } else {
-        IF_PRINT_WARNING(VIDEO_DEBUG) << "did not find a corresponding entry in the menu windows map" << std::endl;
+    std::vector<MenuWindow*>::iterator it = _menu_windows.begin();
+    for (; it != _menu_windows.end(); ++it) {
+        if ((*it) == old_window) {
+            _menu_windows.erase(it);
+            return;
+        }
     }
+
+    IF_PRINT_WARNING(VIDEO_DEBUG) << "did not find a corresponding entry in the menu windows map" << std::endl;
 }
 
 } // namespace vt_gui
