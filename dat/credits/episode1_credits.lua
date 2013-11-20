@@ -13,9 +13,6 @@ setfenv(1, ns);
 local open_game_art_logo_id = 0;
 local allacrost_logo_id = 0;
 
-local current_text_header = "";
-local current_text = "";
-
 local credit_map = {}
 local credit_id = 0;
 local credit_time = 0;
@@ -32,52 +29,54 @@ function Initialize(map_instance)
 
     credit_map = {
         [0] = {
-            header = vt_system.Translate("Based on the engine"),
-            text = ""
+            header = Script:CreateText(vt_system.Translate("Based on the engine"), vt_video.TextStyle("text22")),
+            text = Script:CreateText("", vt_video.TextStyle("text22"))
         },
         [1] = {
-            header = vt_system.Translate("Story"),
-            text = "Bertram\nLilou"
+            header = Script:CreateText(vt_system.Translate("Story"), vt_video.TextStyle("text22")),
+            text = Script:CreateText("Bertram\nLilou", vt_video.TextStyle("text22")),
         },
         [2] = {
-            header = vt_system.Translate("Episode I - Main Graphics"),
-            text = "Daniel Cook\nZabin\nSafir-Kreuz\nJetrel"
+            header = Script:CreateText(vt_system.Translate("Episode I - Main Graphics"), vt_video.TextStyle("text22")),
+            text = Script:CreateText("Daniel Cook\nZabin\nSafir-Kreuz\nJetrel", vt_video.TextStyle("text22")),
         },
         [3] = {
-            header = vt_system.Translate("Episode I - Additional Graphics"),
-            text = "Open Game Art\nRamtam\n(vectorgurl.com)\nPatrick Thompson\n(pkillustration.com)\n"..vt_system.Translate("and many others")
+            header = Script:CreateText(vt_system.Translate("Episode I - Additional Graphics"), vt_video.TextStyle("text22")),
+            text = Script:CreateText("Open Game Art\nRamtam\n(vectorgurl.com)\nPatrick Thompson\n(pkillustration.com)\n"..vt_system.Translate("and many others"),
+                                     vt_video.TextStyle("text22")),
         },
         [4] = {
-            header = vt_system.Translate("Music"),
-            text = "Mathew Pablo\n(matthewpablo.com)\nZander Noriega (OGA)\nKoertes (OGA)\nHorrorPen (OGA)"
+            header = Script:CreateText(vt_system.Translate("Music"), vt_video.TextStyle("text22")),
+            text = Script:CreateText("Mathew Pablo\n(matthewpablo.com)\nZander Noriega (OGA)\nKoertes (OGA)\nHorrorPen (OGA)",
+                                     vt_video.TextStyle("text22")),
         },
         [5] = {
-            header = vt_system.Translate("Programming, Scripting, Maps"),
-            text = "Bertram"
+            header = Script:CreateText(vt_system.Translate("Programming, Scripting, Maps"), vt_video.TextStyle("text22")),
+            text = Script:CreateText("Bertram", vt_video.TextStyle("text22"))
         },
         [6] = {
-            header = vt_system.Translate("Additional programming\nand scripting"),
-            text = "Roots\nIkarusDowned   CoderGreen\nAuthenticate   Logzero\nEndoalir"
+            header = Script:CreateText(vt_system.Translate("Additional programming\nand scripting"), vt_video.TextStyle("text22")),
+            text = Script:CreateText("Roots\nIkarusDowned   CoderGreen\nAuthenticate   Logzero\nEndoalir", vt_video.TextStyle("text22"))
         },
         [7] = {
-            header = vt_system.Translate("Ports"),
-            text = "Ablu\nSocapex\nIbara\nAMDmi3"
+            header = Script:CreateText(vt_system.Translate("Ports"), vt_video.TextStyle("text22")),
+            text = Script:CreateText("Ablu\nSocapex\nIbara\nAMDmi3", vt_video.TextStyle("text22"))
         },
         [8] = {
-            header = vt_system.Translate("Translations"),
-            text = "NaN (de)\nGallaecio (gl)\nBioHazardX (it)\nKnitter (pt_PT)\nBertram (fr)"
+            header = Script:CreateText(vt_system.Translate("Translations"), vt_video.TextStyle("text22")),
+            text = Script:CreateText("NaN (de)\nGallaecio (gl)\nBioHazardX (it)\nKnitter (pt_PT)\nBertram (fr)", vt_video.TextStyle("text22"))
         },
         [9] = {
-            header = vt_system.Translate("Tester Team"),
-            text = "Shirish\nKhyana\nSahaondra\nOmega\nPenPen"
+            header = Script:CreateText(vt_system.Translate("Tester Team"), vt_video.TextStyle("text22")),
+            text = Script:CreateText("Shirish\nKhyana\nSahaondra\nOmega\nPenPen", vt_video.TextStyle("text22"))
         },
         [10] = {
-            header = "",
-            text = vt_system.Translate("To Lilou and Léo...")
+            header = Script:CreateText("", vt_video.TextStyle("text22")),
+            text = Script:CreateText(vt_system.Translate("To Lilou and Léo..."), vt_video.TextStyle("text22"))
         },
         [11] = {
-            header = "",
-            text = vt_system.Translate("Thanks to everyone\nwho made this possible!!")
+            header = Script:CreateText("", vt_video.TextStyle("text22")),
+            text = Script:CreateText(vt_system.Translate("Thanks to everyone\nwho made this possible!!"), vt_video.TextStyle("text22"))
         }
     }
 
@@ -167,8 +166,10 @@ function DrawPostEffects()
 
     header_color:SetAlpha(1.0 * text_alpha);
     text_color:SetAlpha(0.9 * text_alpha);
-    VideoManager:DrawText(credit_map[credit_id].header, 870.0, 600.0, header_color);
-    VideoManager:DrawText(credit_map[credit_id].text, 870.0, 648.0, text_color);
+    VideoManager:Move(870.0, 600.0);
+    credit_map[credit_id].header:Draw(header_color);
+    VideoManager:Move(870.0, 648.0);
+    credit_map[credit_id].text:Draw(text_color);
 
     -- Custom images in honor of those who helped :)
     logo_color:SetAlpha(0.8 * text_alpha);
