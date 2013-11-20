@@ -17,7 +17,7 @@
 #define __SCRIPT_SUPERVISOR_HEADER__
 
 #include "engine/script/script_read.h"
-#include "engine/video/video.h" // only needed for vt_video::VIDEO_DRAW_FLAGS
+#include "engine/video/video.h"
 
 namespace vt_video {
 enum VIDEO_DRAW_FLAGS;
@@ -33,8 +33,7 @@ public:
     ScriptSupervisor()
     {}
 
-    ~ScriptSupervisor()
-    {}
+    ~ScriptSupervisor();
 
     /** \brief Sets the name of the script to execute during the game mode
     *** \param filename The filename of the Lua script to load
@@ -98,11 +97,21 @@ public:
     void DrawAnimation(int32 id, float x, float y);
     void DrawAnimation(int32 id, float x, float y, const vt_video::Color &color);
 
-    /** \brief Loads a custom images, to be drawn through scripting
+    /** \brief Loads a custom image, to be drawn through scripting
     *** \param filename The filename of the new background image to load
     *** \return id the id used to invoke the animation through scripted draw calls.
     **/
     int32 AddImage(const std::string &filename, float width, float height);
+
+    /** \brief Loads a custom TextImage, to be drawn by calling :Draw(Color&)
+    *** \param text The text to display.
+    *** \param style The TextStyle to use.
+    *** \return The TextImage reference to use.
+    **/
+    vt_video::TextImage* CreateText(const vt_utils::ustring& text, const vt_video::TextStyle& style);
+    vt_video::TextImage* CreateText(const std::string& text, const vt_video::TextStyle& style) {
+        return CreateText(vt_utils::MakeUnicodeString(text), style);
+    }
 
     /** \brief Draws a custom image.
     *** \param custom image id, obtained through AddCustomImage()
@@ -119,6 +128,8 @@ public:
     void SetDrawFlag(vt_video::VIDEO_DRAW_FLAGS draw_flag);
 
 private:
+    //! \brief Contains a collection of custom created images, usable to be drawn through scripting.
+    std::vector<vt_video::TextImage*> _text_images;
 
     //! \brief Contains a collection of custom loaded images, usable to be drawn through scripting.
     std::vector<vt_video::StillImage> _script_images;

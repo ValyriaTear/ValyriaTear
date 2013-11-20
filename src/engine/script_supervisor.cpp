@@ -21,6 +21,13 @@
 using namespace vt_video;
 using namespace vt_script;
 
+ScriptSupervisor::~ScriptSupervisor()
+{
+    // Free the created text images before destruction.
+    for(uint32 i = 0; i < _text_images.size(); ++i)
+        delete _text_images[i];
+}
+
 void ScriptSupervisor::Initialize(vt_mode_manager::GameMode *gm)
 {
     // Open every possible scene script files registered and process them.
@@ -184,4 +191,11 @@ void ScriptSupervisor::DrawRotatedImage(int32 id, float x, float y, const Color 
     VideoManager->Move(x, y);
     VideoManager->Rotate(angle);
     _script_images[id].Draw(color);
+}
+
+TextImage* ScriptSupervisor::CreateText(const vt_utils::ustring& text, const vt_video::TextStyle& style)
+{
+    vt_video::TextImage* text_image = new vt_video::TextImage(text, style);
+    _text_images.push_back(text_image);
+    return text_image;
 }

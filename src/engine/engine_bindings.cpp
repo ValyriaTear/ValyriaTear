@@ -101,6 +101,8 @@ void BindEngineCode()
             .def("DrawRotatedImage", &ScriptSupervisor::DrawRotatedImage)
             .def("DrawAnimation", (void(ScriptSupervisor:: *)(int32, float, float))&ScriptSupervisor::DrawAnimation)
             .def("DrawAnimation", (void(ScriptSupervisor:: *)(int32, float, float, const vt_video::Color&))&ScriptSupervisor::DrawAnimation)
+            .def("CreateText", (vt_video::TextImage*(ScriptSupervisor:: *)(const std::string&, const vt_video::TextStyle&))&ScriptSupervisor::CreateText)
+            .def("CreateText", (vt_video::TextImage*(ScriptSupervisor:: *)(const vt_utils::ustring&, const vt_video::TextStyle&))&ScriptSupervisor::CreateText)
             .def("SetDrawFlag", &ScriptSupervisor::SetDrawFlag)
         ];
 
@@ -302,6 +304,9 @@ void BindEngineCode()
             .def("SetStyle", &TextImage::SetStyle)
             .def("SetWordWrapWidth", &TextImage::SetWordWrapWidth)
             .def("GetWordWrapWidth", &TextImage::GetWordWrapWidth),
+
+            luabind::class_<TextStyle>("TextStyle")
+            .def(luabind::constructor<const std::string&>()),
 
             luabind::class_<VideoEngine>("GameVideo")
             .def("FadeScreen", &VideoEngine::FadeScreen)
