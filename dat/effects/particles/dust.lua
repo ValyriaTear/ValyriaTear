@@ -34,8 +34,8 @@ systems[0] =
     keyframes =
     {
         {  -- keyframe 1
-            size_x = 0.9,
-            size_y = 0.9,
+            size_x = 1.9,
+            size_y = 1.9,
             color = {0.4, 0.4, 0.4, 0.2},
             rotation_speed = 1,
             size_variation_x = 0,
@@ -46,8 +46,8 @@ systems[0] =
         },
 
         {  -- keyframe 2
-            size_x = 0.8,
-            size_y = 0.8,
+            size_x = 1.8,
+            size_y = 1.8,
             color={0.3, 0.3, 0.3, 0.0},
             rotation_speed = 1,
             size_variation_x = 0,

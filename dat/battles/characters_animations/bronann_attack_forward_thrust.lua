@@ -116,19 +116,12 @@ function Update()
     -- Start to run towards the enemy
     if (attack_step == 0) then
         character:ChangeSpriteAnimation("jump_forward")
-        move_time = 0
+        Battle:TriggerBattleParticleEffect("dat/effects/particles/dust.lua", character_pos_x, character_pos_y);
 
         attack_step = 1
     end
     -- Make the player move till it reaches the enemy
     if (attack_step == 1) then
-        -- Adds some dust every 15ms
-        move_time = move_time + SystemManager:GetUpdateTime();
-        if (move_time > 15) then
-            Battle:TriggerBattleParticleEffect("dat/effects/particles/dust.lua", character_pos_x, character_pos_y);
-            move_time = 0
-        end
-
         if (character_pos_x > enemy_pos_x) then
             character_pos_x = character_pos_x - distance_moved_x;
             if character_pos_x < enemy_pos_x then character_pos_x = enemy_pos_x end
@@ -157,11 +150,14 @@ function Update()
 
     -- triggers the attack animation
     if (attack_step == 2) then
+        Battle:TriggerBattleParticleEffect("dat/effects/particles/dust.lua", character_pos_x, character_pos_y);
         character:ChangeSpriteAnimation("attack_forward_thrust")
 
         -- Init the slash effect life time
         slash_effect_time = 0;
         slash_effect_started = false;
+
+        move_time = 0;
 
         attack_step = 3;
     end
@@ -200,25 +196,24 @@ function Update()
             character_pos_x = character_pos_x + distance_moved_x - forward_thrust_counter_force;
             character:SetXLocation(character_pos_x);
             forward_thrust_counter_force = forward_thrust_counter_force + 1;
+
+            -- Adds some dust every 15ms
+            move_time = move_time + SystemManager:GetUpdateTime();
+            if (move_time > 15) then
+                Battle:TriggerBattleParticleEffect("dat/effects/particles/dust.lua", character_pos_x, character_pos_y);
+                move_time = 0
+            end
         end
 
         if (attack_time > 730.0) then
             character:ChangeSpriteAnimation("jump_backward")
+            Battle:TriggerBattleParticleEffect("dat/effects/particles/dust.lua", character_pos_x, character_pos_y);
             attack_step = 4;
-
-            move_time = 0;
         end
     end
 
     -- triggers skill
     if (attack_step == 4) then
-        -- Adds some dust every 15ms
-        move_time = move_time + SystemManager:GetUpdateTime();
-        if (move_time > 15) then
-            Battle:TriggerBattleParticleEffect("dat/effects/particles/dust.lua", character_pos_x, character_pos_y);
-            move_time = 0
-        end
-
         -- Make the character jump back to its place
         if (character_pos_x > character:GetXOrigin()) then
             character_pos_x = character_pos_x - distance_moved_x;
@@ -248,6 +243,7 @@ function Update()
 
     if (attack_step == 5) then
         character:ChangeSpriteAnimation("idle")
+        Battle:TriggerBattleParticleEffect("dat/effects/particles/dust.lua", character_pos_x, character_pos_y);
         return true;
     end
     return false;
