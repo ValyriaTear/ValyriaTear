@@ -59,10 +59,8 @@ enum TEXT_DISPLAY_MODE {
 
 /** ****************************************************************************
 *** \brief Class for representing an invisible box for rendering text to.
-*** Although the video engine has an easy-to-use DrawText() function, for any
-*** non-trivial text display, the TextBox class must be used. This class provides
-*** a few things which aren't handled by DrawText(), namely word wrapping, and
-*** "gradual display", such as drawing one character at a time or fading each line
+*** This class provides word wrapping, and "gradual display",
+*** such as drawing one character at a time or fading each line
 *** of text in individually.
 ***
 *** \note The alignment flags affect the textbox as a whole, but not the actual text

@@ -312,8 +312,6 @@ void BindEngineCode()
             .def("FadeScreen", &VideoEngine::FadeScreen)
             .def("IsFading", &VideoEngine::IsFading)
             .def("FadeIn", &VideoEngine::FadeIn)
-            .def("DrawText", (void (VideoEngine:: *)(const vt_utils::ustring &, float, float, const Color &)) &VideoEngine::DrawText)
-            .def("DrawText", (void (VideoEngine:: *)(const std::string &, float, float, const Color &)) &VideoEngine::DrawText)
 
             // Draw cursor commands
             .def("Move", &VideoEngine::Move)

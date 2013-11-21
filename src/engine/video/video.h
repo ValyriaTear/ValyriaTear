@@ -493,18 +493,6 @@ public:
     **/
     StillImage CreateImage(private_video::ImageMemory *raw_image, const std::string &image_name, bool delete_on_exist = true) throw(vt_utils::Exception);
 
-    /** \brief Helper to draw some text at the given position.
-     *
-     * \param x x coordinate to start grid at
-     * \param y y coordinate to start grid at
-     * \param c color of the text
-     * \DEPRECATED!!
-     */
-    void DrawText(const std::string &text, float x, float y, const Color &c) {
-        DrawText(vt_utils::MakeUnicodeString(text), x, y, c);
-    }
-    void DrawText(const vt_utils::ustring &text, float x, float y, const Color &c);
-
     //-- Overlays: Lighting, Lightning  -----------------------------------------------------
 
     /** \brief draws a halo at the current draw cursor position

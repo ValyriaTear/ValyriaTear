@@ -45,8 +45,8 @@ function Initialize(battle_instance)
     -- 3 minutes before spawning more soldiers...
     timer_before_soldiers = vt_system.SystemTimer(180000, 0);
     timer_before_soldiers:EnableManualUpdate();
-    time_left_text = "3:00";
-    time_left_header_text = vt_system.Translate("Time left:");
+    time_left_text = Script:CreateText("3:00", vt_video.TextStyle("text22"));
+    time_left_header_text = Script:CreateText(vt_system.Translate("Time left:"), vt_video.TextStyle("text22"));
 
     dialogue1_done = false;
 
@@ -119,9 +119,9 @@ function _UpdateTimer()
     seconds_text = math.floor(seconds_text / 1000); -- Keep only the two first digits.
 
     if (seconds_text < 10) then
-        time_left_text = minutes_text .. ":0" .. seconds_text;
+        time_left_text:SetText(minutes_text .. ":0" .. seconds_text);
     else
-        time_left_text = minutes_text .. ":" .. seconds_text;
+        time_left_text:SetText(minutes_text .. ":" .. seconds_text);
     end
 
     -- Update the color according to the time left
@@ -171,7 +171,9 @@ end
 function DrawPostEffects()
     if (dialogue1_done == true) then
         -- Draw timer
-        VideoManager:DrawText(time_left_header_text, 80.0, 80.0, header_color);
-        VideoManager:DrawText(time_left_text, 100.0, 100.0, text_color);
+        VideoManager:Move(80.0, 80.0);
+        time_left_header_text:Draw(header_color);
+        VideoManager:Move(100.0, 100.0);
+        time_left_text:Draw(text_color);
     end
 end

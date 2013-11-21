@@ -920,14 +920,6 @@ StillImage VideoEngine::CreateImage(ImageMemory *raw_image, const std::string &i
     return still_image;
 }
 
-void VideoEngine::DrawText(const ustring &text, float x, float y, const Color &c)
-{
-    Move(x, y);
-    TextStyle text_style = TextManager->GetDefaultStyle();
-    text_style.color = c;
-    TextManager->Draw(text, text_style);
-}
-
 bool VideoEngine::IsScreenShaking()
 {
     vt_mode_manager::GameMode *gm = vt_mode_manager::ModeManager->GetTop();
