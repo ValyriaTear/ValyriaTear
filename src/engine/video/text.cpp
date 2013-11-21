@@ -41,71 +41,34 @@ TextSupervisor *TextManager = NULL;
 const uint16 NEW_LINE = '\n';
 const uint16 SPACE_CHAR = 0x20;
 
-/** \brief Retrieves the color for a shadow based on the current text color and a shadow style
-*** \param style The text style that would be used to generate the shadow for the text
-*** \return The color of the shadow
-**/
-static Color GetTextShadowColor(const TextStyle& style)
-{
-    Color shadow_color;
-
-    if(style.shadow_style == VIDEO_TEXT_SHADOW_NONE)
-        return shadow_color;
-
-    switch(style.shadow_style) {
-    case VIDEO_TEXT_SHADOW_DARK:
-        shadow_color = Color::black;
-        shadow_color[3] = style.color[3] * 0.5f;
-        break;
-    case VIDEO_TEXT_SHADOW_LIGHT:
-        shadow_color = Color::white;
-        shadow_color[3] = style.color[3] * 0.5f;
-        break;
-    case VIDEO_TEXT_SHADOW_BLACK:
-        shadow_color = Color::black;
-        shadow_color[3] = style.color[3];
-        break;
-    case VIDEO_TEXT_SHADOW_COLOR:
-        shadow_color = style.color;
-        shadow_color[3] = style.color[3] * 0.5f;
-        break;
-    case VIDEO_TEXT_SHADOW_INVCOLOR:
-        shadow_color = Color(1.0f - style.color[0], 1.0f - style.color[1], 1.0f - style.color[2], style.color[3] * 0.5f);
-        break;
-    default:
-        IF_PRINT_WARNING(VIDEO_DEBUG) << "unknown text shadow style: " << style.shadow_style << std::endl;
-        break;
-    }
-
-    return shadow_color;
-}
-
 // -----------------------------------------------------------------------------
 // TextStyle class
 // -----------------------------------------------------------------------------
 
-TextStyle::TextStyle(const std::string &fnt)
+TextStyle::TextStyle(const std::string& font)
 {
     const TextStyle& default_style = TextManager->GetDefaultStyle();
-    font = fnt;
-    color = default_style.color;
-    shadow_style = default_style.shadow_style;
-    shadow_offset_x = default_style.shadow_offset_x;
-    shadow_offset_y = default_style.shadow_offset_y;
-    _font_property = TextManager->_GetFontProperties(font);
+    _font = font;
+    _color = default_style.GetColor();
+    _shadow_style = default_style.GetShadowStyle();
+    _shadow_offset_x = default_style.GetShadowOffsetX();
+    _shadow_offset_y = default_style.GetShadowOffsetY();
+    _font_property = TextManager->_GetFontProperties(_font);
+    _UpdateTextShadowColor();
 }
 
 
 
-TextStyle::TextStyle(const Color &c)
+TextStyle::TextStyle(const Color& color)
 {
     const TextStyle& default_style = TextManager->GetDefaultStyle();
-    font = default_style.font;
-    color = c;
-    shadow_style = default_style.shadow_style;
-    shadow_offset_x = default_style.shadow_offset_x;
-    shadow_offset_y = default_style.shadow_offset_y;
-    _font_property = TextManager->_GetFontProperties(font);
+    _font = default_style.GetFontName();
+    _color = color;
+    _shadow_style = default_style.GetShadowStyle();
+    _shadow_offset_x = default_style.GetShadowOffsetX();
+    _shadow_offset_y = default_style.GetShadowOffsetY();
+    _font_property = TextManager->_GetFontProperties(_font);
+    _UpdateTextShadowColor();
 }
 
 
@@ -113,82 +76,117 @@ TextStyle::TextStyle(const Color &c)
 TextStyle::TextStyle(TEXT_SHADOW_STYLE style)
 {
     const TextStyle& default_style = TextManager->GetDefaultStyle();
-    font = default_style.font;
-    color = default_style.color;
-    shadow_style = style;
-    shadow_offset_x = default_style.shadow_offset_x;
-    shadow_offset_y = default_style.shadow_offset_y;
-    _font_property = TextManager->_GetFontProperties(font);
+    _font = default_style.GetFontName();
+    _color = default_style.GetColor();
+    _shadow_style = style;
+    _shadow_offset_x = default_style.GetShadowOffsetX();
+    _shadow_offset_y = default_style.GetShadowOffsetY();
+    _font_property = TextManager->_GetFontProperties(_font);
+    _UpdateTextShadowColor();
 }
 
 
 
-TextStyle::TextStyle(const std::string &fnt, const Color &c)
+TextStyle::TextStyle(const std::string& font, const Color& color)
 {
     const TextStyle& default_style = TextManager->GetDefaultStyle();
-    font = fnt;
-    color = c;
-    shadow_style = default_style.shadow_style;
-    shadow_offset_x = default_style.shadow_offset_x;
-    shadow_offset_y = default_style.shadow_offset_y;
-    _font_property = TextManager->_GetFontProperties(font);
+    _font = font;
+    _color = color;
+    _shadow_style = default_style.GetShadowStyle();
+    _shadow_offset_x = default_style.GetShadowOffsetX();
+    _shadow_offset_y = default_style.GetShadowOffsetY();
+    _font_property = TextManager->_GetFontProperties(_font);
+    _UpdateTextShadowColor();
 }
 
 
 
-TextStyle::TextStyle(const std::string &fnt, TEXT_SHADOW_STYLE style)
+TextStyle::TextStyle(const std::string& font, TEXT_SHADOW_STYLE style)
 {
     const TextStyle& default_style = TextManager->GetDefaultStyle();
-    font = fnt;
-    color = default_style.color;
-    shadow_style = style;
-    shadow_offset_x = default_style.shadow_offset_x;
-    shadow_offset_y = default_style.shadow_offset_y;
-    _font_property = TextManager->_GetFontProperties(font);
+    _font = font;
+    _color = default_style.GetColor();
+    _shadow_style = style;
+    _shadow_offset_x = default_style.GetShadowOffsetX();
+    _shadow_offset_y = default_style.GetShadowOffsetY();
+    _font_property = TextManager->_GetFontProperties(_font);
+    _UpdateTextShadowColor();
 }
 
 
 
-TextStyle::TextStyle(const Color &c, TEXT_SHADOW_STYLE style)
+TextStyle::TextStyle(const Color& color, TEXT_SHADOW_STYLE style)
 {
     const TextStyle& default_style = TextManager->GetDefaultStyle();
-    font = default_style.font;
-    color = c;
-    shadow_style = style;
-    shadow_offset_x = default_style.shadow_offset_x;
-    shadow_offset_y = default_style.shadow_offset_y;
-    _font_property = TextManager->_GetFontProperties(font);
+    _font = default_style.GetFontName();
+    _color = color;
+    _shadow_style = style;
+    _shadow_offset_x = default_style.GetShadowOffsetX();
+    _shadow_offset_y = default_style.GetShadowOffsetY();
+    _font_property = TextManager->_GetFontProperties(_font);
+    _UpdateTextShadowColor();
 }
 
 
 
-TextStyle::TextStyle(const std::string &fnt, const Color &c, TEXT_SHADOW_STYLE style)
+TextStyle::TextStyle(const std::string& font, const Color& color, TEXT_SHADOW_STYLE style)
 {
     const TextStyle& default_style = TextManager->GetDefaultStyle();
-    font = fnt;
-    color = c;
-    shadow_style = style;
-    shadow_offset_x = default_style.shadow_offset_x;
-    shadow_offset_y = default_style.shadow_offset_y;
-    _font_property = TextManager->_GetFontProperties(font);
+    _font = font;
+    _color = color;
+    _shadow_style = style;
+    _shadow_offset_x = default_style.GetShadowOffsetX();
+    _shadow_offset_y = default_style.GetShadowOffsetY();
+    _font_property = TextManager->_GetFontProperties(_font);
+    _UpdateTextShadowColor();
 }
 
 
 
-TextStyle::TextStyle(const std::string &fnt, const Color &c, TEXT_SHADOW_STYLE style, int32 shadow_x, int32 shadow_y)
+TextStyle::TextStyle(const std::string& font, const Color& color, TEXT_SHADOW_STYLE style, int32 shadow_x, int32 shadow_y)
 {
-    font = fnt;
-    color = c;
-    shadow_style = style;
-    shadow_offset_x = shadow_x;
-    shadow_offset_y = shadow_y;
-    _font_property = TextManager->_GetFontProperties(font);
+    _font = font;
+    _color = color;
+    _shadow_style = style;
+    _shadow_offset_x = shadow_x;
+    _shadow_offset_y = shadow_y;
+    _font_property = TextManager->_GetFontProperties(_font);
+    _UpdateTextShadowColor();
 }
 
 void TextStyle::SetFont(const std::string& font)
 {
-    this->font = font;
+    _font = font;
     _font_property = TextManager->_GetFontProperties(font);
+}
+
+void TextStyle::_UpdateTextShadowColor()
+{
+    switch(_shadow_style) {
+    default:
+    case VIDEO_TEXT_SHADOW_NONE:
+        _shadow_color = Color::clear;
+        break;
+    case VIDEO_TEXT_SHADOW_DARK:
+        _shadow_color = Color::black;
+        _shadow_color[3] = _color[3] * 0.5f;
+        break;
+    case VIDEO_TEXT_SHADOW_LIGHT:
+        _shadow_color = Color::white;
+        _shadow_color[3] = _color[3] * 0.5f;
+        break;
+    case VIDEO_TEXT_SHADOW_BLACK:
+        _shadow_color = Color::black;
+        _shadow_color[3] = _color[3];
+        break;
+    case VIDEO_TEXT_SHADOW_COLOR:
+        _shadow_color = _color;
+        _shadow_color[3] = _color[3] * 0.5f;
+        break;
+    case VIDEO_TEXT_SHADOW_INVCOLOR:
+        _shadow_color = Color(1.0f - _color[0], 1.0f - _color[1], 1.0f - _color[2], _color[3] * 0.5f);
+        break;
+    }
 }
 
 namespace private_video
@@ -474,14 +472,14 @@ void TextImage::Draw(const Color& draw_color) const
 
     VideoManager->PushMatrix();
     for(uint32 i = 0; i < _text_sections.size(); ++i) {
-        if (_style.shadow_style != VIDEO_TEXT_SHADOW_NONE) {
-            const float dx = VideoManager->_current_context.coordinate_system.GetHorizontalDirection() * _style.shadow_offset_x;
-            const float dy = VideoManager->_current_context.coordinate_system.GetVerticalDirection() * _style.shadow_offset_y;
+        if (_style.GetShadowStyle() != VIDEO_TEXT_SHADOW_NONE) {
+            const float dx = VideoManager->_current_context.coordinate_system.GetHorizontalDirection() * _style.GetShadowOffsetX();
+            const float dy = VideoManager->_current_context.coordinate_system.GetVerticalDirection() * _style.GetShadowOffsetY();
             VideoManager->MoveRelative(dx, dy);
-            _text_sections[i]->Draw(draw_color * GetTextShadowColor(_style));
+            _text_sections[i]->Draw(draw_color * _style.GetShadowColor());
             VideoManager->MoveRelative(-dx, -dy);
         }
-        _text_sections[i]->Draw(draw_color * _style.color);
+        _text_sections[i]->Draw(draw_color * _style.GetColor());
         VideoManager->MoveRelative(0.0f, _style.GetFontProperties()->line_skip * -VideoManager->_current_context.coordinate_system.GetVerticalDirection());
     }
     VideoManager->PopMatrix();
@@ -649,7 +647,7 @@ void TextSupervisor::Draw(const ustring &text, const TextStyle &style)
 
     FontProperties *fp = style.GetFontProperties();
     if(fp == NULL || fp->ttf_font == NULL) {
-        IF_PRINT_WARNING(VIDEO_DEBUG) << "failed because font was invalid: " << style.font << std::endl;
+        IF_PRINT_WARNING(VIDEO_DEBUG) << "failed because font was invalid: " << style.GetFontName() << std::endl;
         return;
     }
 
@@ -657,13 +655,12 @@ void TextSupervisor::Draw(const ustring &text, const TextStyle &style)
 
     // Break the string into lines and render the shadow and text for each line
     uint16 buffer[2048];
-    const uint16 NEWLINE = '\n';
     size_t last_line = 0;
     do {
         // Find the next new line character in the string and save the line
         size_t next_line;
         for(next_line = last_line; next_line < text.length(); next_line++) {
-            if(text[next_line] == NEWLINE)
+            if(text[next_line] == NEW_LINE)
                 break;
 
             buffer[next_line - last_line] = text[next_line];
@@ -681,17 +678,17 @@ void TextSupervisor::Draw(const ustring &text, const TextStyle &style)
         VideoManager->PushMatrix();
 
         // If text shadows are enabled, draw the shadow first
-        if(style.shadow_style != VIDEO_TEXT_SHADOW_NONE) {
+        if(style.GetShadowStyle() != VIDEO_TEXT_SHADOW_NONE) {
             VideoManager->PushMatrix();
-            const float dx = VideoManager->_current_context.coordinate_system.GetHorizontalDirection() * style.shadow_offset_x;
-            const float dy = VideoManager->_current_context.coordinate_system.GetVerticalDirection() * style.shadow_offset_y;
+            const float dx = VideoManager->_current_context.coordinate_system.GetHorizontalDirection() * style.GetShadowOffsetX();
+            const float dy = VideoManager->_current_context.coordinate_system.GetVerticalDirection() * style.GetShadowOffsetY();
             VideoManager->MoveRelative(dx, dy);
-            _DrawTextHelper(buffer, fp, GetTextShadowColor(style));
+            _DrawTextHelper(buffer, fp, style.GetShadowColor());
             VideoManager->PopMatrix();
         }
 
         // Now draw the text itself, restore the position of the draw cursor, and move the draw cursor one line down
-        _DrawTextHelper(buffer, fp, style.color);
+        _DrawTextHelper(buffer, fp, style.GetColor());
         VideoManager->PopMatrix();
         VideoManager->MoveRelative(0, -fp->line_skip * VideoManager->_current_context.coordinate_system.GetVerticalDirection());
 
@@ -1063,11 +1060,11 @@ void TextSupervisor::_DrawTextHelper(const uint16 *const text, FontProperties *f
 
 bool TextSupervisor::_RenderText(vt_utils::ustring &string, TextStyle &style, ImageMemory &buffer)
 {
-    FontProperties *fp = _font_map[style.font];
+    FontProperties *fp = style.GetFontProperties();
     TTF_Font *font = fp->ttf_font;
 
-    if(font == NULL) {
-        IF_PRINT_WARNING(VIDEO_DEBUG) << "font of TextStyle argument '" << style.font << "' was invalid" << std::endl;
+    if(fp == NULL || font == NULL) {
+        IF_PRINT_WARNING(VIDEO_DEBUG) << "The TextStyle argument using font:'" << style.GetFontName() << "' was invalid" << std::endl;
         return false;
     }
 

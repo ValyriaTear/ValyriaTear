@@ -457,18 +457,16 @@ void IndicatorSupervisor::AddDamageIndicator(uint32 amount, bool is_sp_damage)
 
     float damage_percent = static_cast<float>(amount) / static_cast<float>(_actor->GetMaxHitPoints());
     if(damage_percent < 0.10f) {
-        style.color = is_sp_damage ? low_blue : low_red;
-        style.shadow_style = VIDEO_TEXT_SHADOW_BLACK;
+        style.SetColor(is_sp_damage ? low_blue : low_red);
     } else if(damage_percent < 0.20f) {
-        style.color = is_sp_damage ? mid_blue : mid_red;
-        style.shadow_style = VIDEO_TEXT_SHADOW_BLACK;
+        style.SetColor(is_sp_damage ? mid_blue : mid_red);
     } else if(damage_percent < 0.30f) {
-        style.color = is_sp_damage ? high_blue : high_red;
-        style.shadow_style = VIDEO_TEXT_SHADOW_BLACK;
+        style.SetColor(is_sp_damage ? high_blue : high_red);
     } else { // (damage_percent >= 0.30f)
-        style.color = is_sp_damage ? Color::blue : Color::red;
-        style.shadow_style = VIDEO_TEXT_SHADOW_BLACK;
+        style.SetColor(is_sp_damage ? Color::blue : Color::red);
     }
+    style.SetShadowStyle(VIDEO_TEXT_SHADOW_BLACK);
+    style.SetShadowOffsets(1, -2);
 
     // Set the text size depending on the amount of pure damage.
     std::string font;
@@ -515,22 +513,20 @@ void IndicatorSupervisor::AddHealingIndicator(uint32 amount, bool hit_points)
     float healing_percent = static_cast<float>(amount / _actor->GetMaxHitPoints());
     if(healing_percent < 0.10f) {
         font = "text24";
-        style.color = hit_points ? low_green : low_blue;
-        style.shadow_style = VIDEO_TEXT_SHADOW_BLACK;
+        style.SetColor(hit_points ? low_green : low_blue);
     } else if(healing_percent < 0.20f) {
         font = "text24";
-        style.color = hit_points ? mid_green : mid_blue;
-        style.shadow_style = VIDEO_TEXT_SHADOW_BLACK;
+        style.SetColor(hit_points ? mid_green : mid_blue);
     } else if(healing_percent < 0.30f) {
-        font = "text24";
-        style.color = hit_points ? high_green : high_blue;
-        style.shadow_style = VIDEO_TEXT_SHADOW_BLACK;
+        font = "text26";
+        style.SetColor(hit_points ? high_green : high_blue);
     } else { // (healing_percent >= 0.30f)
-        font = "text24";
-        style.color = hit_points ? Color::green : Color::blue;
-        style.shadow_style = VIDEO_TEXT_SHADOW_BLACK;
+        font = "text26";
+        style.SetColor(hit_points ? Color::green : Color::blue);
     }
     style.SetFont(font);
+    style.SetShadowStyle(VIDEO_TEXT_SHADOW_BLACK);
+    style.SetShadowOffsets(1, -2);
 
     _wait_queue.push_back(new IndicatorText(_actor, text, style, HEALING_INDICATOR));
 }

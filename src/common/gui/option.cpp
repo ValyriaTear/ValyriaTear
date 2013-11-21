@@ -720,7 +720,7 @@ void OptionBox::InputRight()
 void OptionBox::SetTextStyle(const TextStyle &style)
 {
     if(style.GetFontProperties() == NULL) {
-        IF_PRINT_WARNING(VIDEO_DEBUG) << "text style references an invalid font name: " << style.font << std::endl;
+        IF_PRINT_WARNING(VIDEO_DEBUG) << "text style references an invalid font name: " << style.GetFontName() << std::endl;
         return;
     }
 

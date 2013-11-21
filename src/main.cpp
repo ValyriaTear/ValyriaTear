@@ -365,18 +365,18 @@ static void LoadGUIThemes(const std::string& theme_script_filename)
         // Activate the default theme.
         GUIManager->SetDefaultMenuSkin(default_theme_id);
     } else {
-        PRINT_ERROR << "No default or user settings UI theme found.  Exitting." << std::endl;
+        PRINT_ERROR << "No default or user settings UI theme found. Exiting." << std::endl;
         exit(EXIT_FAILURE);
     }
 }
 
 /** \brief Initializes all engine components and makes other preparations for the game to start
-*** \return True if the game engine was initialized successfully, false if an unrecoverable error occured
+*** \return True if the game engine was initialized successfully, false if an unrecoverable error occurred
 **/
 void InitializeEngine() throw(Exception)
 {
     // use display #0 unless already specified
-    // behavior of fullscreen mode is eratic without this value set
+    // behavior of fullscreen mode is erratic without this value set
 #ifndef _WIN32
     setenv("SDL_VIDEO_FULLSCREEN_DISPLAY", "0", 0);
 #else

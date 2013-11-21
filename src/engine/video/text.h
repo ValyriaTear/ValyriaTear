@@ -155,68 +155,110 @@ class TextStyle
 {
 public:
     //! \brief No-arg constructor will set all members to the same value as the current default text style
-    //! Special empty Textstyle to permit a default initialization in the TextSupervisor.
+    //! Special empty TextStyle to permit a default initialization in the TextSupervisor.
     TextStyle():
-        shadow_style(VIDEO_TEXT_SHADOW_NONE),
-        shadow_offset_x(0),
-        shadow_offset_y(0),
+        _shadow_style(VIDEO_TEXT_SHADOW_NONE),
+        _shadow_offset_x(0),
+        _shadow_offset_y(0),
         _font_property(NULL)
     {}
 
     //! \brief Constructor requiring a font name only
-    TextStyle(const std::string &fnt);
+    TextStyle(const std::string& font);
 
     //! \brief Constructor requiring a text color only
-    TextStyle(const Color &c);
+    TextStyle(const Color& color);
 
     //! \brief Constructor requiring a shadow style only
     TextStyle(TEXT_SHADOW_STYLE style);
 
     //! \brief Constructor requiring a font name and text color
-    TextStyle(const std::string &fnt, const Color &c);
+    TextStyle(const std::string& font, const Color& color);
 
     //! \brief Constructor requiring a font name and shadow style
-    TextStyle(const std::string &fnt, TEXT_SHADOW_STYLE style);
+    TextStyle(const std::string& font, TEXT_SHADOW_STYLE style);
 
     //! \brief Constructor requiring a text color and shadow style
-    TextStyle(const Color &c, TEXT_SHADOW_STYLE style);
+    TextStyle(const Color& color, TEXT_SHADOW_STYLE style);
 
     //! \brief Constructor requiring a font name, color, and shadow style
-    TextStyle(const std::string &fnt, const Color &c, TEXT_SHADOW_STYLE style);
+    TextStyle(const std::string& font, const Color& color, TEXT_SHADOW_STYLE style);
 
     //! \brief Full constructor requiring initialization data arguments for all class members
-    TextStyle(const std::string &fnt, const Color &c, TEXT_SHADOW_STYLE style, int32 shadow_x, int32 shadow_y);
-
-    // ---------- Public members
+    TextStyle(const std::string& font, const Color& color, TEXT_SHADOW_STYLE style, int32 shadow_x, int32 shadow_y);
 
     //! Sets the font name and updates the font properties.
     void SetFont(const std::string& font);
 
-    //! TODO: Makes this private and use accessors/mutators!!
+    //! Sets the font name and updates the font properties.
+    void SetColor(const Color& color) {
+        _color = color;
+        _UpdateTextShadowColor();
+    }
 
-    //! \brief The string font name
-    std::string font;
+    //! Sets the shadow style
+    void SetShadowStyle(TEXT_SHADOW_STYLE shadow_style) {
+        _shadow_style = shadow_style;
+        _UpdateTextShadowColor();
+    }
 
-    //! \brief The color of the text
-    Color color;
-
-    //! \brief The enum representing the shadow style
-    TEXT_SHADOW_STYLE shadow_style;
-
-    //! \brief The x and y offsets of the shadow
-    int32 shadow_offset_x, shadow_offset_y;
+    //! Sets the shadow offsets from the given text.
+    void SetShadowOffsets(int32 xoffset, int32 yoffset) {
+        _shadow_offset_x = xoffset;
+        _shadow_offset_y = yoffset;
+    }
 
     //! \brief Returns the font property pointer value.
-    //! (But not the member itself)
     FontProperties* GetFontProperties() const {
         return _font_property;
     }
 
+    const std::string& GetFontName() const {
+        return _font;
+    }
+
+    const Color& GetColor() const {
+        return _color;
+    }
+
+    const Color& GetShadowColor() const {
+        return _shadow_color;
+    }
+
+    TEXT_SHADOW_STYLE GetShadowStyle() const {
+        return _shadow_style;
+    }
+
+    int32 GetShadowOffsetX() const {
+        return _shadow_offset_x;
+    }
+
+    int32 GetShadowOffsetY() const {
+        return _shadow_offset_y;
+    }
+
 private:
+    //! \brief The string font name
+    std::string _font;
+
+    //! \brief The color of the text
+    Color _color;
+
+    //! \brief The enum representing the shadow style
+    TEXT_SHADOW_STYLE _shadow_style;
+    //! \brief The shadow color corresponding to the current color and shadow style.
+    Color _shadow_color;
+
+    //! \brief The x and y offsets of the shadow
+    int32 _shadow_offset_x;
+    int32 _shadow_offset_y;
 
     //! \brief A pointer to the FontProperty object
-    //! This acts as reference cache, but it shouldn't be deleted here!
+    //! This acts as reference cache, thus it must not be deleted here!
     FontProperties* _font_property;
+
+    //! \brief Updates the shadow color to correspond to the current color and shadow style.
+    void _UpdateTextShadowColor();
 }; // class TextStyle
 
 namespace private_video
@@ -543,7 +585,7 @@ public:
     /** \brief Renders and draws a unicode string of text to the screen in the default text style
     *** \param text The text string to draw in unicode format
     **/
-    void Draw(const vt_utils::ustring &text) {
+    inline void Draw(const vt_utils::ustring &text) {
         Draw(text, _default_style);
     }
 
@@ -556,7 +598,7 @@ public:
     /** \brief Renders and draws a standard string of text to the screen in the default text style
     *** \param text The text string to draw in standard format
     **/
-    void Draw(const std::string &text) {
+    inline void Draw(const std::string &text) {
         Draw(vt_utils::MakeUnicodeString(text));
     }
 
@@ -564,7 +606,7 @@ public:
     *** \param text The text string to draw in standard format
     *** \param style A reference to the TextStyle to use for drawing the string
     **/
-    void Draw(const std::string &text, const TextStyle &style) {
+    inline void Draw(const std::string &text, const TextStyle &style) {
         Draw(vt_utils::MakeUnicodeString(text), style);
     }
 

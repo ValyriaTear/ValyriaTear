@@ -159,7 +159,7 @@ void TextBox::SetTextAlignment(int32 xalign, int32 yalign)
 void TextBox::SetTextStyle(const TextStyle &style)
 {
     if(style.GetFontProperties() == NULL) {
-        IF_PRINT_WARNING(VIDEO_DEBUG) << "function failed because it was passed an invalid font name: " << style.font << std::endl;
+        IF_PRINT_WARNING(VIDEO_DEBUG) << "Function failed because it was passed an invalid font name: " << style.GetFontName() << std::endl;
         return;
     }
 
@@ -423,12 +423,14 @@ void TextBox::_DrawTextLines(float text_x, float text_y, ScreenRect scissor_rect
                     }
 
                     // Draw the current character that is being faded in at the appropriate alpha level
-                    Color old_color = _text_style.color;
-                    _text_style.color[3] *= cur_percent;
+                    Color saved_color = _text_style.GetColor();
+                    Color current_color = saved_color;
+                    current_color[3] *= cur_percent;
+                    _text_style.SetColor(current_color);
 
                     VideoManager->MoveRelative(static_cast<float>(TextManager->CalculateTextWidth(ttf_font, substring)), 0.0f);
                     TextManager->Draw(_text[line].substr(num_completed_chars, 1), _text_style);
-                    _text_style.color = old_color;
+                    _text_style.SetColor(saved_color);
                 }
             }
         } // else if (_mode == VIDEO_TEXT_FADECHAR)
@@ -445,11 +447,13 @@ void TextBox::_DrawTextLines(float text_x, float text_y, ScreenRect scissor_rect
             }
             // Otherwise if this is the line being rendered, determine the amount of alpha for the line being faded in and draw it
             else if(line == lines) {
-                Color old_color = _text_style.color;
-                _text_style.color[3] *= cur_percent;
+                Color saved_color = _text_style.GetColor();
+                Color current_color = saved_color;
+                current_color[3] *= cur_percent;
+                _text_style.SetColor(current_color);
 
                 TextManager->Draw(_text[line], _text_style);
-                _text_style.color = old_color;
+                _text_style.SetColor(saved_color);
             }
         } // else if (_mode == VIDEO_TEXT_FADELINE)
 
