@@ -208,6 +208,24 @@ function Update()
         if (attack_time > 730.0) then
             character:ChangeSpriteAnimation("jump_backward")
             Battle:TriggerBattleParticleEffect("dat/effects/particles/dust.lua", character_pos_x, character_pos_y);
+
+            -- Recompute the a coefficient using the character origin position as the angle has changed.
+            distance_moved_x = SystemManager:GetUpdateTime() / vt_map.MapMode.NORMAL_SPEED * 170.0;
+            local x_diff = character:GetXLocation() - character:GetXOrigin();
+            local y_diff = character:GetYOrigin() - character:GetYLocation();
+            if (y_diff == 0.0) then
+                a_coeff = 0.0;
+                distance_moved_y = 0.0;
+            elseif (x_diff == 0.0) then
+                a_coeff = 0.0;
+                distance_moved_y = distance_moved_x;
+                distance_moved_x = 0.0;
+            else
+                a_coeff = y_diff / x_diff;
+                if (a_coeff < 0) then a_coeff = -a_coeff; end
+                distance_moved_y = a_coeff * distance_moved_x;
+            end
+
             attack_step = 4;
         end
     end
