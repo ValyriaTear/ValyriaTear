@@ -185,6 +185,12 @@ TextStyle::TextStyle(const std::string &fnt, const Color &c, TEXT_SHADOW_STYLE s
     _font_property = TextManager->_GetFontProperties(font);
 }
 
+void TextStyle::SetFont(const std::string& font)
+{
+    this->font = font;
+    _font_property = TextManager->_GetFontProperties(font);
+}
+
 namespace private_video
 {
 

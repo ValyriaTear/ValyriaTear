@@ -471,19 +471,21 @@ void IndicatorSupervisor::AddDamageIndicator(uint32 amount, bool is_sp_damage)
     }
 
     // Set the text size depending on the amount of pure damage.
+    std::string font;
     if(amount < 50) {
-        style.font = "text24"; // text24
+        font = "text24"; // text24
     } else if(amount < 100) {
-        style.font = "text24.2";
+        font = "text24.2";
     } else if(amount < 250) {
-        style.font = "text26";
+        font = "text26";
     } else if(amount < 500) {
-        style.font = "text28";
+        font = "text28";
     } else if(amount < 1000) {
-        style.font = "text36";
+        font = "text36";
     } else {
-        style.font = "text48";
+        font = "text48";
     }
+    style.SetFont(font);
 
     _wait_queue.push_back(new IndicatorText(_actor, text, style, DAMAGE_INDICATOR));
 }
@@ -509,24 +511,26 @@ void IndicatorSupervisor::AddHealingIndicator(uint32 amount, bool hit_points)
     TextStyle style;
 
     // Use different colors/shades of green/blue for different degrees of healing
+    std::string font;
     float healing_percent = static_cast<float>(amount / _actor->GetMaxHitPoints());
     if(healing_percent < 0.10f) {
-        style.font = "text24";
+        font = "text24";
         style.color = hit_points ? low_green : low_blue;
         style.shadow_style = VIDEO_TEXT_SHADOW_BLACK;
     } else if(healing_percent < 0.20f) {
-        style.font = "text24";
+        font = "text24";
         style.color = hit_points ? mid_green : mid_blue;
         style.shadow_style = VIDEO_TEXT_SHADOW_BLACK;
     } else if(healing_percent < 0.30f) {
-        style.font = "text24";
+        font = "text24";
         style.color = hit_points ? high_green : high_blue;
         style.shadow_style = VIDEO_TEXT_SHADOW_BLACK;
     } else { // (healing_percent >= 0.30f)
-        style.font = "text24";
+        font = "text24";
         style.color = hit_points ? Color::green : Color::blue;
         style.shadow_style = VIDEO_TEXT_SHADOW_BLACK;
     }
+    style.SetFont(font);
 
     _wait_queue.push_back(new IndicatorText(_actor, text, style, HEALING_INDICATOR));
 }

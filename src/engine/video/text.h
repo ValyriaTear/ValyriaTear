@@ -189,6 +189,11 @@ public:
 
     // ---------- Public members
 
+    //! Sets the font name and updates the font properties.
+    void SetFont(const std::string& font);
+
+    //! TODO: Makes this private and use accessors/mutators!!
+
     //! \brief The string font name
     std::string font;
 
