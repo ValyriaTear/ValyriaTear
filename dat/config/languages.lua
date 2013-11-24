@@ -6,10 +6,10 @@
 languages = {}
 languages[1] = { "English", "en@quot" } -- The default language (used when translations are disabled/broken)
 languages[2] = { "Deutsch", "de" }
-languages[3] = { "Français", "fr" }
-languages[4] = { "Galego", "gl" }
-languages[5] = { "Italiano", "it" }
-languages[6] = { "Português", "pt_PT" }
-languages[7] = { "Pусский", "ru" }
---languages[x] = { "Español", "es" }
+languages[3] = { "Español", "es" }
+languages[4] = { "Français", "fr" }
+languages[5] = { "Galego", "gl" }
+languages[6] = { "Italiano", "it" }
+languages[7] = { "Português", "pt_PT" }
+languages[8] = { "Pусский", "ru" }
 --languages[x] = { "Português do Brasil", "pt_BR" }
