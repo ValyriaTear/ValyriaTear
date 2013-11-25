@@ -82,6 +82,12 @@ InputEngine::InputEngine()
     _joystick.y_axis      = 1;
     _joystick.threshold   = 8192;
     _joystick.joy_index   = 0; // the first joystick
+
+    // Init hat booleans
+    _hat_up_state = false;
+    _hat_down_state = false;
+    _hat_left_state = false;
+    _hat_right_state = false;
 }
 
 
@@ -101,6 +107,12 @@ void InputEngine::InitializeJoysticks()
     // Don't init joystick if settings told to disable them.
     if (!_joysticks_enabled)
         return;
+
+    // Init hat booleans
+    _hat_up_state = false;
+    _hat_down_state = false;
+    _hat_left_state = false;
+    _hat_right_state = false;
 
     // Initialize the SDL joystick subsystem
     if(SDL_InitSubSystem(SDL_INIT_JOYSTICK) != 0) {
@@ -131,6 +143,12 @@ void InputEngine::DeinitializeJoysticks()
 
     SDL_JoystickEventState(SDL_IGNORE);
     SDL_QuitSubSystem(SDL_INIT_JOYSTICK);
+
+    // Reset hat booleans
+    _hat_up_state = false;
+    _hat_down_state = false;
+    _hat_left_state = false;
+    _hat_right_state = false;
 }
 
 // Loads the default key settings from the lua file and sets them back
@@ -239,6 +257,8 @@ void InputEngine::EventHandler()
     _pause_press = false;
     _quit_press = false;
     _help_press = false;
+
+    // NOTE: We don't reinit the D-Pad/hat values on purpose here.
 
     // Loops until there are no remaining events to process
     while(SDL_PollEvent(&event)) {
@@ -500,59 +520,55 @@ void InputEngine::_JoystickEventHandler(SDL_Event &js_event)
     else if(js_event.type == SDL_JOYHATMOTION) {
 
         if(js_event.jhat.value & SDL_HAT_LEFT) {
-            if(!_left_state) {
-                _left_state = true;
+            if(!_hat_left_state) {
+                _hat_left_state = true;
                 _left_press = true;
                 _any_key_press = true;
             }
-            _right_state = false;
         }
         else {
-            _left_state = false;
+            _hat_left_state = false;
         }
 
         if(js_event.jhat.value & SDL_HAT_RIGHT) {
-            if(!_right_state) {
-                _right_state = true;
+            if(!_hat_right_state) {
+                _hat_right_state = true;
                 _right_press = true;
                 _any_key_press = true;
             }
-            _left_state = false;
         }
         else {
-            _right_state = false;
+            _hat_right_state = false;
         }
 
         if(js_event.jhat.value & SDL_HAT_UP) {
-            if(!_up_state) {
-                _up_state = true;
+            if(!_hat_up_state) {
+                _hat_up_state = true;
                 _up_press = true;
                 _any_key_press = true;
             }
-            _down_state = false;
         }
         else {
-            _up_state = false;
+            _hat_up_state = false;
         }
 
         if(js_event.jhat.value & SDL_HAT_DOWN) {
-            if(!_down_state) {
-                _down_state = true;
+            if(!_hat_down_state) {
+                _hat_down_state = true;
                 _down_press = true;
                 _any_key_press = true;
             }
-            _up_state = false;
         }
         else {
-            _down_state = false;
+            _hat_down_state = false;
         }
 
         if (js_event.jhat.value == SDL_HAT_CENTERED) {
             _any_key_press = false;
-            _right_state = false;
-            _left_state = false;
-            _up_state = false;
-            _down_state = false;
+            _hat_right_state = false;
+            _hat_left_state = false;
+            _hat_up_state = false;
+            _hat_down_state = false;
         }
     } // if (js_event.type == SDL_JOYHATMOTION)
 

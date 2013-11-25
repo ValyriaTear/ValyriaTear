@@ -226,6 +226,16 @@ private:
     bool _minimap_release;
     //@}
 
+    /** \name  D-Pad/ Hat Input State Members
+    *** \brief Retain whether an input key/button is currently being held down
+    **/
+    //@{
+    bool _hat_up_state;
+    bool _hat_down_state;
+    bool _hat_left_state;
+    bool _hat_right_state;
+    //@}
+
     /** \brief Most recent SDL event
      **/
     SDL_Event _event;
@@ -310,19 +320,19 @@ public:
     **/
     //@{
     bool UpState() const {
-        return _up_state;
+        return _up_state || _hat_up_state;
     }
 
     bool DownState() const {
-        return _down_state;
+        return _down_state || _hat_down_state;
     }
 
     bool LeftState() const {
-        return _left_state;
+        return _left_state || _hat_left_state;
     }
 
     bool RightState() const {
-        return _right_state;
+        return _right_state || _hat_right_state;
     }
 
     bool ConfirmState() const {
