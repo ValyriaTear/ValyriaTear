@@ -37,9 +37,8 @@
 
 -- All item definitions are stored in this table
 if (items == nil) then
-	items = {}
+    items = {}
 end
-
 
 --------------------------------------------------------------------------------
 -- IDs 1 - 1,000 are reserved for healing potions
@@ -69,32 +68,32 @@ function field_healing_potion(target, hit_points)
 end
 
 items[1] = {
-	name = vt_system.Translate("Minor Healing Potion"),
-	description = vt_system.Translate("Restores a small amount of hit points to an ally."),
-	icon = "img/icons/items/potion_green_small.png",
-	target_type = vt_global.GameGlobal.GLOBAL_TARGET_ALLY,
-	standard_price = 30,
-	warmup_time = 1000,
-	cooldown_time = 700,
+    name = vt_system.Translate("Minor Healing Potion"),
+    description = vt_system.Translate("Restores a small amount of hit points to an ally."),
+    icon = "img/icons/items/potion_green_small.png",
+    target_type = vt_global.GameGlobal.GLOBAL_TARGET_ALLY,
+    standard_price = 30,
+    warmup_time = 1000,
+    cooldown_time = 700,
 
-	BattleUse = function(user, target)
-		target_actor = target:GetActor();
-		return battle_healing_potion(target_actor, 60);
-	end,
+    BattleUse = function(user, target)
+        local target_actor = target:GetActor();
+        return battle_healing_potion(target_actor, 60);
+    end,
 
-	FieldUse = function(target)
-		return field_healing_potion(target, 75);
-	end
+    FieldUse = function(target)
+        return field_healing_potion(target, 75);
+    end
 }
 
 items[2] = {
-	name = vt_system.Translate("Medium Healing Potion"),
-	description = vt_system.Translate("Restores a reasonable amount of hit points to an ally."),
-	icon = "img/icons/items/potion_green_medium.png",
-	target_type = vt_global.GameGlobal.GLOBAL_TARGET_ALLY,
-	standard_price = 200,
-	warmup_time = 1200,
-	cooldown_time = 900,
+    name = vt_system.Translate("Medium Healing Potion"),
+    description = vt_system.Translate("Restores a reasonable amount of hit points to an ally."),
+    icon = "img/icons/items/potion_green_medium.png",
+    target_type = vt_global.GameGlobal.GLOBAL_TARGET_ALLY,
+    standard_price = 200,
+    warmup_time = 1200,
+    cooldown_time = 900,
 
     -- Can be traded against 3 Minor healing potions and 60 drunes
     trade_conditions = {
@@ -102,24 +101,24 @@ items[2] = {
         [1] = 3
     },
 
-	BattleUse = function(user, target)
-		target_actor = target:GetActor();
-		return battle_healing_potion(target_actor, 150);
-	end,
+    BattleUse = function(user, target)
+        local target_actor = target:GetActor();
+        return battle_healing_potion(target_actor, 150);
+    end,
 
-	FieldUse = function(target)
-		return field_healing_potion(target, 200);
-	end
+    FieldUse = function(target)
+        return field_healing_potion(target, 200);
+    end
 }
 
 items[3] = {
-	name = vt_system.Translate("Healing Potion"),
-	description = vt_system.Translate("Restores a large amount of hit points to an ally."),
-	icon = "img/icons/items/potion_green_large.png",
-	target_type = vt_global.GameGlobal.GLOBAL_TARGET_ALLY,
-	standard_price = 900,
-	warmup_time = 1200,
-	cooldown_time = 900,
+    name = vt_system.Translate("Healing Potion"),
+    description = vt_system.Translate("Restores a large amount of hit points to an ally."),
+    icon = "img/icons/items/potion_green_large.png",
+    target_type = vt_global.GameGlobal.GLOBAL_TARGET_ALLY,
+    standard_price = 900,
+    warmup_time = 1200,
+    cooldown_time = 900,
 
     -- Can be traded against 4 Medium healing potions and 60 drunes
     trade_conditions = {
@@ -127,33 +126,33 @@ items[3] = {
         [2] = 4
     },
 
-	BattleUse = function(user, target)
-		target_actor = target:GetActor();
-		return battle_healing_potion(target_actor, 500);
-	end,
+    BattleUse = function(user, target)
+        local target_actor = target:GetActor();
+        return battle_healing_potion(target_actor, 500);
+    end,
 
-	FieldUse = function(target)
-		return field_healing_potion(target, 620);
-	end
+    FieldUse = function(target)
+        return field_healing_potion(target, 620);
+    end
 }
 
 items[4] = {
-	name = vt_system.Translate("Mega Healing Potion"),
-	description = vt_system.Translate("Restores a very high amount of hit points to an ally."),
-	icon = "img/icons/items/potion_green_large.png",
-	target_type = vt_global.GameGlobal.GLOBAL_TARGET_ALLY,
-	standard_price = 5000,
-	warmup_time = 1200,
-	cooldown_time = 1200,
+    name = vt_system.Translate("Mega Healing Potion"),
+    description = vt_system.Translate("Restores a very high amount of hit points to an ally."),
+    icon = "img/icons/items/potion_green_large.png",
+    target_type = vt_global.GameGlobal.GLOBAL_TARGET_ALLY,
+    standard_price = 5000,
+    warmup_time = 1200,
+    cooldown_time = 1200,
 
-	BattleUse = function(user, target)
-		target_actor = target:GetActor();
-		return battle_healing_potion(target_actor, 9000);
-	end,
+    BattleUse = function(user, target)
+        local target_actor = target:GetActor();
+        return battle_healing_potion(target_actor, 9000);
+    end,
 
-	FieldUse = function(target)
-		return field_healing_potion(target, 12000);
-	end
+    FieldUse = function(target)
+        return field_healing_potion(target, 12000);
+    end
 }
 
 -- Moon juices : Skill points
@@ -182,79 +181,79 @@ end
 
 
 items[11] = {
-	name = vt_system.Translate("Small Moon Juice Potion"),
-	description = vt_system.Translate("Restores a small amount of skill points to an ally."),
-	icon = "img/icons/items/potion_blue_small.png",
-	target_type = vt_global.GameGlobal.GLOBAL_TARGET_ALLY,
-	standard_price = 90,
-	use_warmup_time = 1000,
-	cooldown_time = 1200,
+    name = vt_system.Translate("Small Moon Juice Potion"),
+    description = vt_system.Translate("Restores a small amount of skill points to an ally."),
+    icon = "img/icons/items/potion_blue_small.png",
+    target_type = vt_global.GameGlobal.GLOBAL_TARGET_ALLY,
+    standard_price = 90,
+    use_warmup_time = 1000,
+    cooldown_time = 1200,
 
     BattleUse = function(user, target)
-		target_actor = target:GetActor();
-		return battle_skill_potion(target_actor, 40);
-	end,
+        local target_actor = target:GetActor();
+        return battle_skill_potion(target_actor, 40);
+    end,
 
-	FieldUse = function(target)
-		return field_skill_potion(target, 45);
-	end
+    FieldUse = function(target)
+        return field_skill_potion(target, 45);
+    end
 }
 
 items[12] = {
-	name = vt_system.Translate("Medium Moon Juice Potion"),
-	description = vt_system.Translate("Restores a reasonable amount of skill points to an ally."),
-	icon = "img/icons/items/potion_blue_medium.png",
-	target_type = vt_global.GameGlobal.GLOBAL_TARGET_ALLY,
-	standard_price = 380,
-	use_warmup_time = 1000,
-	cooldown_time = 1200,
+    name = vt_system.Translate("Medium Moon Juice Potion"),
+    description = vt_system.Translate("Restores a reasonable amount of skill points to an ally."),
+    icon = "img/icons/items/potion_blue_medium.png",
+    target_type = vt_global.GameGlobal.GLOBAL_TARGET_ALLY,
+    standard_price = 380,
+    use_warmup_time = 1000,
+    cooldown_time = 1200,
 
     BattleUse = function(user, target)
-		target_actor = target:GetActor();
-		return battle_skill_potion(target_actor, 150);
-	end,
+        local target_actor = target:GetActor();
+        return battle_skill_potion(target_actor, 150);
+    end,
 
-	FieldUse = function(target)
-		return field_skill_potion(target, 200);
-	end
+    FieldUse = function(target)
+        return field_skill_potion(target, 200);
+    end
 }
 
 items[13] = {
-	name = vt_system.Translate("Moon Juice Potion"),
-	description = vt_system.Translate("Restores a large amount of skill points to an ally."),
-	icon = "img/icons/items/potion_blue_large.png",
-	target_type = vt_global.GameGlobal.GLOBAL_TARGET_ALLY,
-	standard_price = 1300,
-	use_warmup_time = 1000,
-	cooldown_time = 1200,
+    name = vt_system.Translate("Moon Juice Potion"),
+    description = vt_system.Translate("Restores a large amount of skill points to an ally."),
+    icon = "img/icons/items/potion_blue_large.png",
+    target_type = vt_global.GameGlobal.GLOBAL_TARGET_ALLY,
+    standard_price = 1300,
+    use_warmup_time = 1000,
+    cooldown_time = 1200,
 
     BattleUse = function(user, target)
-		target_actor = target:GetActor();
-		return battle_skill_potion(target_actor, 300);
-	end,
+        local target_actor = target:GetActor();
+        return battle_skill_potion(target_actor, 300);
+    end,
 
-	FieldUse = function(target)
-		return field_skill_potion(target, 420);
-	end
+    FieldUse = function(target)
+        return field_skill_potion(target, 420);
+    end
 }
 
 items[13] = {
-	name = vt_system.Translate("Mega Moon Juice Potion"),
-	description = vt_system.Translate("Restores a very high amount of skill points to an ally."),
-	icon = "img/icons/items/potion_blue_huge.png",
-	target_type = vt_global.GameGlobal.GLOBAL_TARGET_ALLY,
-	standard_price = 6100,
-	use_warmup_time = 1200,
-	cooldown_time = 1300,
+    name = vt_system.Translate("Mega Moon Juice Potion"),
+    description = vt_system.Translate("Restores a very high amount of skill points to an ally."),
+    icon = "img/icons/items/potion_blue_huge.png",
+    target_type = vt_global.GameGlobal.GLOBAL_TARGET_ALLY,
+    standard_price = 6100,
+    use_warmup_time = 1200,
+    cooldown_time = 1300,
 
     BattleUse = function(user, target)
-		target_actor = target:GetActor();
-		return battle_skill_potion(target_actor, 999);
-	end,
+        local target_actor = target:GetActor();
+        return battle_skill_potion(target_actor, 999);
+    end,
 
-	FieldUse = function(target)
-		return field_skill_potion(target, 1200);
-	end
+    FieldUse = function(target)
+        return field_skill_potion(target, 1200);
+    end
 }
 
 --------------------------------------------------------------------------------
@@ -278,16 +277,16 @@ decrement_negative_effects = function(target_actor, intensity)
 end
 
 items[1001] = {
-	name = vt_system.Translate("Minor Elixir"),
-	description = vt_system.Translate("Revive a character, or improve the character status when it is sane or reduces ailing status effects by a limited degree."),
-	icon = "img/icons/items/potion_red_small.png",
-	target_type = vt_global.GameGlobal.GLOBAL_TARGET_ALLY_EVEN_DEAD,
-	standard_price = 50,
-	use_warmup_time = 1200,
-	cooldown_time = 1800,
+    name = vt_system.Translate("Minor Elixir"),
+    description = vt_system.Translate("Revive a character, or improve the character status when it is sane or reduces ailing status effects by a limited degree."),
+    icon = "img/icons/items/potion_red_small.png",
+    target_type = vt_global.GameGlobal.GLOBAL_TARGET_ALLY_EVEN_DEAD,
+    standard_price = 50,
+    use_warmup_time = 1200,
+    cooldown_time = 1800,
 
     BattleUse = function(user, target)
-        target_actor = target:GetActor();
+        local target_actor = target:GetActor();
         -- Decrement all base stats active negative status effects slightly
         if (target_actor:GetHitPoints() > 0) then
             -- Decrement any active negative base stats status effects when alive
@@ -313,16 +312,16 @@ items[1001] = {
 }
 
 items[1003] = {
-	name = vt_system.Translate("Elixir"),
-	description = vt_system.Translate("Revive a character with half of its Hit Points, or reduces almost all its ailing status effects if the potion is drunk when alive."),
-	icon = "img/icons/items/potion_red_large.png",
-	target_type = vt_global.GameGlobal.GLOBAL_TARGET_ALLY_EVEN_DEAD,
-	standard_price = 1200,
-	use_warmup_time = 1600,
-	cooldown_time = 2100,
+    name = vt_system.Translate("Elixir"),
+    description = vt_system.Translate("Revive a character with half of its Hit Points, or reduces almost all its ailing status effects if the potion is drunk when alive."),
+    icon = "img/icons/items/potion_red_large.png",
+    target_type = vt_global.GameGlobal.GLOBAL_TARGET_ALLY_EVEN_DEAD,
+    standard_price = 1200,
+    use_warmup_time = 1600,
+    cooldown_time = 2100,
 
     BattleUse = function(user, target)
-        target_actor = target:GetActor();
+        local target_actor = target:GetActor();
         if (target_actor:GetHitPoints() > 0) then
             -- Decrement any active negative base stats status effects when alive
             return decrement_negative_effects(target_actor, vt_global.GameGlobal.GLOBAL_INTENSITY_POS_MODERATE);
