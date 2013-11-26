@@ -413,14 +413,14 @@ void InventoryWindow::Update()
                                     _active_box = ITEM_ACTIVE_LIST;
                                     _char_select.SetCursorState(VIDEO_CURSOR_STATE_HIDDEN);
                                     _char_select.ResetViewableOption();
-                                    //set the item select to by lightened
+                                    // Show the selected item
                                     _inventory_items.SetCursorState(VIDEO_CURSOR_STATE_VISIBLE);
+                                    // We also update the Characters stats as the item might have some effects there.
+                                    MenuMode::CurrentInstance()->ReloadCharacterWindows();
                                     delete item;
                                 }
                             } // if GLOBAL_TARGET_PARTY
                             else { // Use on a single character only
-
-
                                 // If the item use failed, we readd it to inventory.
                                 if(!ScriptCallFunction<bool>(script_function, _character))
                                     GlobalManager->AddToInventory(item);
@@ -429,11 +429,12 @@ void InventoryWindow::Update()
                                     _active_box = ITEM_ACTIVE_LIST;
                                     _char_select.SetCursorState(VIDEO_CURSOR_STATE_HIDDEN);
                                     _char_select.ResetViewableOption();
-                                    //set the item select to by lightened
+                                    // Show the selected item
                                     _inventory_items.SetCursorState(VIDEO_CURSOR_STATE_VISIBLE);
+                                    // We also update the Characters stats as the item might have some effects there.
+                                    MenuMode::CurrentInstance()->ReloadCharacterWindows();
                                     delete item;
                                 }
-
                             }
                         }
                         break;

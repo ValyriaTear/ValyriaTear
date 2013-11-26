@@ -805,6 +805,23 @@ MenuMode::MenuMode() :
     _drunes_icon->SetWidthKeepRatio(30.0f);
 
     //////////// Setup the menu windows
+    // Width of each character window is 360 px.
+    // Each char window will have an additional 16 px for the left border
+    // The 4th (last) char window will have another 16 px for the right border
+    // Height of the char window is 98 px.
+    // The bottom window in the main view is 192 px high, and the full width which will be 216 * 4 + 16
+    _character_window0.Create(360, 98, ~VIDEO_MENU_EDGE_BOTTOM, VIDEO_MENU_EDGE_BOTTOM);
+    _character_window0.SetPosition(static_cast<float>(win_start_x), static_cast<float>(win_start_y + 10));
+
+    _character_window1.Create(360, 98, ~VIDEO_MENU_EDGE_BOTTOM, VIDEO_MENU_EDGE_BOTTOM | VIDEO_MENU_EDGE_TOP);
+    _character_window1.SetPosition(static_cast<float>(win_start_x), static_cast<float>(win_start_y + 118));
+
+    _character_window2.Create(360, 98, ~VIDEO_MENU_EDGE_BOTTOM, VIDEO_MENU_EDGE_BOTTOM | VIDEO_MENU_EDGE_TOP);
+    _character_window2.SetPosition(static_cast<float>(win_start_x), static_cast<float>(win_start_y + 226));
+
+    _character_window3.Create(360, 98, ~VIDEO_MENU_EDGE_BOTTOM, VIDEO_MENU_EDGE_TOP | VIDEO_MENU_EDGE_BOTTOM);
+    _character_window3.SetPosition(static_cast<float>(win_start_x), static_cast<float>(win_start_y + 334));
+
     // The character windows
     ReloadCharacterWindows();
 
@@ -964,8 +981,6 @@ void MenuMode::UpdateEquipmentInfo(GlobalCharacter *character, GlobalObject *obj
     // Only update when necessary
     if ((_object == object) && (_character == character) && (_equip_view_type == view_type))
         return;
-    if (view_type == EQUIP_VIEW_NONE)
-        return;
 
     _object = object;
     _character = character;
@@ -985,7 +1000,10 @@ void MenuMode::UpdateEquipmentInfo(GlobalCharacter *character, GlobalObject *obj
         _mag_stat.Clear();
     }
 
-    // Don't show any diff when there no slected character,
+    if (view_type == EQUIP_VIEW_NONE)
+        return;
+
+    // Don't show any diff when there no selected character,
     // or not showing equip/unequip diffs.
     if (!_character || view_type == EQUIP_VIEW_CHAR) {
         _phys_stat_diff.Clear();
@@ -1292,23 +1310,6 @@ void MenuMode::ReloadCharacterWindows()
         ModeManager->Pop();
         break;
     }
-
-    // Width of each character window is 360 px.
-    // Each char window will have an additional 16 px for the left border
-    // The 4th (last) char window will have another 16 px for the right border
-    // Height of the char window is 98 px.
-    // The bottom window in the main view is 192 px high, and the full width which will be 216 * 4 + 16
-    _character_window0.Create(360, 98, ~VIDEO_MENU_EDGE_BOTTOM, VIDEO_MENU_EDGE_BOTTOM);
-    _character_window0.SetPosition(static_cast<float>(win_start_x), static_cast<float>(win_start_y + 10));
-
-    _character_window1.Create(360, 98, ~VIDEO_MENU_EDGE_BOTTOM, VIDEO_MENU_EDGE_BOTTOM | VIDEO_MENU_EDGE_TOP);
-    _character_window1.SetPosition(static_cast<float>(win_start_x), static_cast<float>(win_start_y + 118));
-
-    _character_window2.Create(360, 98, ~VIDEO_MENU_EDGE_BOTTOM, VIDEO_MENU_EDGE_BOTTOM | VIDEO_MENU_EDGE_TOP);
-    _character_window2.SetPosition(static_cast<float>(win_start_x), static_cast<float>(win_start_y + 226));
-
-    _character_window3.Create(360, 98, ~VIDEO_MENU_EDGE_BOTTOM, VIDEO_MENU_EDGE_TOP | VIDEO_MENU_EDGE_BOTTOM);
-    _character_window3.SetPosition(static_cast<float>(win_start_x), static_cast<float>(win_start_y + 334));
 }
 
 } // namespace vt_menu

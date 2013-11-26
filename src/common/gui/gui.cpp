@@ -535,6 +535,13 @@ private_gui::MenuSkin *GUISystem::_GetMenuSkin(const std::string &skin_name)
 
 void GUISystem::_AddMenuWindow(MenuWindow *new_window)
 {
+    // Check first whether the window is already registered.
+    std::vector<MenuWindow*>::iterator it = _menu_windows.begin();
+    for (; it != _menu_windows.end(); ++it) {
+        if ((*it) == new_window)
+            return;
+    }
+
     _menu_windows.push_back(new_window);
 }
 
