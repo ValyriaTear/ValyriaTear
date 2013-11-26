@@ -821,6 +821,16 @@ public:
         return &_ordered_characters;
     }
 
+    // Returns the character party position
+    uint32 GetPartyPosition(GlobalCharacter* character) {
+        for (uint32 i = 0; i < _ordered_characters.size(); ++i) {
+            if (_ordered_characters[i] == character)
+                return i;
+        }
+        // Default case
+        return 0;
+    }
+
     GlobalParty *GetActiveParty() {
         return &_active_party;
     }

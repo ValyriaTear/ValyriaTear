@@ -974,6 +974,9 @@ void MenuMode::Update()
 
     _current_menu_state->Update();
 
+    // Update the overall game mode
+    GameMode::Update();
+
 } // void MenuMode::Update()
 
 void MenuMode::UpdateEquipmentInfo(GlobalCharacter *character, GlobalObject *object, EQUIP_VIEW view_type)
