@@ -892,8 +892,7 @@ void TextSupervisor::_CacheGlyphs(const uint16 *text, FontProperties *fp)
 
         // Before blitting on a alpha surface, we need to disable blending on the source surface,
         // or the alpha property of the source image will be ignored on the dest image.
-        // Note: Will be replaced by SDL_SetSurfaceBlendMode(initial, SDL_BLENDMODE_NONE); in SDL 2.0
-        SDL_SetAlpha(initial, 0, 255);
+        SDL_SetSurfaceBlendMode(initial, SDL_BLENDMODE_NONE);
 
         w = RoundUpPow2(initial->w + 1);
         h = RoundUpPow2(initial->h + 1);
@@ -1114,7 +1113,7 @@ bool TextSupervisor::_RenderText(vt_utils::ustring &string, TextStyle &style, Im
     line_h -= min_y;
 
     // Creates an alpha surface for the given text
-    SDL_Surface* intermediary = SDL_CreateRGBSurface(SDL_SWSURFACE | SDL_SRCALPHA, line_w, line_h, 32, RMASK, GMASK, BMASK, AMASK);
+    SDL_Surface* intermediary = SDL_CreateRGBSurface(SDL_SWSURFACE, line_w, line_h, 32, RMASK, GMASK, BMASK, AMASK);
     if(intermediary == NULL) {
         IF_PRINT_WARNING(VIDEO_DEBUG) << "call to SDL_CreateRGBSurface() failed" << std::endl;
         return false;
@@ -1138,8 +1137,7 @@ bool TextSupervisor::_RenderText(vt_utils::ustring &string, TextStyle &style, Im
 
         // Before blitting on a alpha surface, we need to disable blending on the source surface,
         // or the alpha property of the source image will be ignored on the dest image.
-        // Note: Will be replaced by SDL_SetSurfaceBlendMode(initial, SDL_BLENDMODE_NONE); in SDL 2.0
-        SDL_SetAlpha(initial, 0, 255);
+        SDL_SetSurfaceBlendMode(initial, SDL_BLENDMODE_NONE);
 
         SDL_Rect surf_target;
         surf_target.x = xpos + glyphinfo->min_x;
