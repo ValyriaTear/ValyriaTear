@@ -1930,15 +1930,16 @@ void EquipWindow::_UpdateEquipList()
 
 void EquipWindow::_UpdateSelectedObject()
 {
-    // Don't show anything when there is no item selected
-    if (_active_box == EQUIP_ACTIVE_CHAR || _active_box == EQUIP_ACTIVE_NONE) {
-        _object = NULL;
-        return;
-    }
-
     // Only updates when some input is handled.
     if (!InputManager->AnyKeyPress())
         return;
+
+    // Don't show anything when there is no item selected
+    if (_active_box == EQUIP_ACTIVE_CHAR || _active_box == EQUIP_ACTIVE_NONE) {
+        _object = NULL;
+        MenuMode::CurrentInstance()->UpdateEquipmentInfo(_character, _object, EQUIP_VIEW_NONE);
+        return;
+    }
 
     // We're listing the character's equipment.
     // Let's use the character object.
