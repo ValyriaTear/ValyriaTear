@@ -10,8 +10,8 @@ setmetatable(ns, {__index = _G})
 episode1_credits = ns;
 setfenv(1, ns);
 
-local open_game_art_logo_id = 0;
-local allacrost_logo_id = 0;
+local open_game_art_logo = {};
+local allacrost_logo = {};
 
 local credit_map = {}
 local credit_id = 0;
@@ -24,8 +24,10 @@ function Initialize(map_instance)
 
     Script = Map:GetScriptSupervisor();
 
-    allacrost_logo_id = Script:AddImage("img/logos/hoa_garland_logo.png", 206.0, 100.0);
-    open_game_art_logo_id = Script:AddImage("img/logos/oga.png", 160.0, 80.0);
+    allacrost_logo = Script:CreateImage("img/logos/hoa_garland_logo.png");
+    allacrost_logo:SetDimensions(206.0, 100.0);
+    open_game_art_logo = Script:CreateImage("img/logos/oga.png");
+    open_game_art_logo:SetDimensions(160.0, 80.0);
 
     credit_map = {
         [0] = {
@@ -174,9 +176,11 @@ function DrawPostEffects()
     -- Custom images in honor of those who helped :)
     logo_color:SetAlpha(0.8 * text_alpha);
     if (credit_id == 0) then
-        Script:DrawImage(allacrost_logo_id, 870.0, 720.0, logo_color);
+        VideoManager:Move(870.0, 720.0);
+        allacrost_logo:Draw(logo_color);
     elseif (credit_id == 3) then
-        Script:DrawImage(open_game_art_logo_id, 690.0, 710.0, logo_color);
+        VideoManager:Move(690.0, 710.0);
+        open_game_art_logo:Draw(logo_color);
     end
 
 end

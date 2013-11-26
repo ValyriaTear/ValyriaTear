@@ -6,7 +6,7 @@ setfenv(1, ns);
 local Battle = {};
 local Script = {};
 
-local lightning_id = -1;
+local lightning = {};
 local total_time = 0;
 local lightning_sound_triggered = false;
 local lightning_alpha = 0.3;
@@ -15,7 +15,8 @@ function Initialize(battle_instance)
     Battle = battle_instance;
     Script = Battle:GetScriptSupervisor();
 
-    lightning_id = Script:AddImage("", 1024.0, 768.0);
+    lightning = Script:CreateImage("");
+    lightning:SetDimensions(1024.0, 768.0);
 
     AudioManager:LoadSound("snd/thunder.wav", Map);
 
@@ -60,5 +61,6 @@ function DrawForeground()
     end
 
     lightning_color:SetAlpha(lightning_alpha);
-    Script:DrawImage(lightning_id, 0.0, 0.0, lightning_color);
+    VideoManager:Move(0.0, 0.0);
+    lightning:Draw(lightning_color);
 end

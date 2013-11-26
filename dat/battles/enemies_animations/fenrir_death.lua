@@ -17,9 +17,9 @@ local Battle = {};
 local Script = {};
 local Effects = {};
 
-local light1_id = 0;
-local light2_id = 0;
-local light3_id = 0;
+local light1_image = 0;
+local light2_image = 0;
+local light3_image = 0;
 
 local lightning_1_triggered = false;
 local lightning_1_stopped = false;
@@ -57,9 +57,9 @@ function Initialize(battle, _enemy)
     death_particles_triggered = false;
     rumble_triggered = false;
 
-    light1_id = Script:AddImage("dat/battles/enemies_animations/death_light_1.png", 640, 400);
-    light2_id = Script:AddImage("dat/battles/enemies_animations/death_light_2.png", 640, 400);
-    light3_id = Script:AddImage("dat/battles/enemies_animations/death_light_3.png", 640, 400);
+    light1_image = Script:CreateImage("dat/battles/enemies_animations/death_light_1.png");
+    light2_image = Script:CreateImage("dat/battles/enemies_animations/death_light_2.png");
+    light3_image = Script:CreateImage("dat/battles/enemies_animations/death_light_3.png");
 
     -- Fade out the battle music to make the event more dramatic
     AudioManager:FadeOutAllMusic(2000);
@@ -157,14 +157,17 @@ local light3_color = vt_video.Color(1.0, 1.0, 1.0, 1.0);
 function DrawOnSprite()
     if (elapsed_time < 7800) then
         light1_color:SetAlpha(0.5 * elapsed_time / 4000.0);
-        Script:DrawImage(light2_id, enemy_pos_x, enemy_pos_y + 30, light1_color);
+        VideoManager:Move(enemy_pos_x, enemy_pos_y + 30);
+        light2_image:Draw(light1_color);
     end
     if (elapsed_time >= 3000 and elapsed_time < 7800) then
         light2_color:SetAlpha(0.5 * (elapsed_time - 3000.0) / (7800.0 - 3000.0));
-        Script:DrawImage(light1_id, enemy_pos_x, enemy_pos_y + 30, light2_color);
+        VideoManager:Move(enemy_pos_x, enemy_pos_y + 30);
+        light1_image:Draw(light2_color);
     end
     if (elapsed_time >= 7800 and elapsed_time < 10000) then
         light3_color:SetAlpha(0.5 - 0.5 * ((elapsed_time - 8000.0) / (9000.0 - 8000.0)));
-        Script:DrawImage(light3_id, enemy_pos_x, enemy_pos_y + 30, light3_color);
+        VideoManager:Move(enemy_pos_x, enemy_pos_y + 30);
+        light3_image:Draw(light3_color);
     end
 end

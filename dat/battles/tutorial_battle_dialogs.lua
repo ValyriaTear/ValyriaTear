@@ -7,8 +7,8 @@ setmetatable(ns, {__index = _G})
 tutorial_battle_dialogs = ns;
 setfenv(1, ns);
 
-local hand1_image_id = 0;
-local hand2_image_id = 0;
+local hand1_image = {};
+local hand2_image = {};
 -- hand coordinates
 local hand1_origin_x = 0.0;
 local hand1_origin_y = 0.0;
@@ -52,8 +52,10 @@ function Initialize(battle_instance)
     end
 
     -- Load the hand cursors
-    hand1_image_id = Script:AddImage("img/menus/hand.png", 47.0, 26.0);
-    hand2_image_id = Script:AddImage("img/menus/hand_down.png", 26.0, 47.0);
+    hand1_image = Script:CreateImage("img/menus/hand.png");
+    hand1_image:SetDimensions(47.0, 26.0);
+    hand2_image = Script:CreateImage("img/menus/hand_down.png");
+    hand2_image:SetDimensions(26.0, 47.0);
 
     DialogueManager = Battle:GetDialogueSupervisor();
 
@@ -249,9 +251,11 @@ function DrawPostEffects()
 
     -- Draw the hands
     if (hand1_visible == true) then
-        Script:DrawImage(hand1_image_id, hand1_bouncing_x, hand1_origin_y, white_color);
+        VideoManager:Move(hand1_bouncing_x, hand1_origin_y);
+        hand1_image:Draw(white_color);
     end
     if (hand2_visible == true) then
-        Script:DrawImage(hand2_image_id, hand2_origin_x, hand2_bouncing_y, white_color);
+        VideoManager:Move(hand2_origin_x, hand2_bouncing_y);
+        hand2_image:Draw(white_color);
     end
 end

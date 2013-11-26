@@ -4,7 +4,7 @@ at_night = ns;
 setfenv(1, ns);
 
 local Script = {};
-local night_layer_id = {};
+local night_layer = {};
 
 -- TODO: Add support for multiple light layers, and get rid of this script.
 
@@ -13,7 +13,8 @@ function Initialize(battle_instance)
     Script = battle_instance:GetScriptSupervisor();
 
     -- Load a white empty image
-    night_layer_id = Script:AddImage("", 1024.0, 768.0);
+    night_layer = Script:CreateImage("");
+    night_layer:SetDimensions(1024.0, 768.0);
 end
 
 local night_color = vt_video.Color(0.0, 0.0, 0.24, 0.6);
@@ -22,5 +23,6 @@ function DrawForeground()
     -- Useful for the map mode
     Script:SetDrawFlag(vt_video.GameVideo.VIDEO_X_LEFT);
     Script:SetDrawFlag(vt_video.GameVideo.VIDEO_Y_TOP);
-    Script:DrawImage(night_layer_id, 0.0, 0.0, night_color);
+    VideoManager:Move(0.0, 0.0);
+    night_layer:Draw(night_color);
 end

@@ -4,7 +4,7 @@ after_crystal_twilight = ns;
 setfenv(1, ns);
 
 local Script = {};
-local light_layer_id = {};
+local light_layer = {};
 
 local twilight_step = 0;
 
@@ -120,7 +120,8 @@ function Initialize(battle_instance)
     Script = battle_instance:GetScriptSupervisor();
 
     -- Load a white empty image
-    light_layer_id = Script:AddImage("", 1024.0, 768.0);
+    light_layer = Script:CreateImage("");
+    light_layer:SetDimensions(1024.0, 768.0);
 
     _ResetTwilightValues();
 end
@@ -202,5 +203,6 @@ function DrawForeground()
     Script:SetDrawFlag(vt_video.GameVideo.VIDEO_X_LEFT);
     Script:SetDrawFlag(vt_video.GameVideo.VIDEO_Y_TOP);
     twilight_color:SetColor(twilight_red, twilight_green, twilight_blue, twilight_alpha);
-    Script:DrawImage(light_layer_id, 0.0, 0.0, twilight_color);
+    VideoManager:Move(0.0, 0.0);
+    light_layer:Draw(twilight_color);
 end

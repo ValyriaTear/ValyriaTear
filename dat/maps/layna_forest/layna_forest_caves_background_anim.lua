@@ -6,8 +6,8 @@ layna_forest_caves_background_anim = ns;
 setfenv(1, ns);
 
 -- Animated image members
-local fog_id = -1;
-local background_id = -1;
+local fog = {};
+local background = {};
 
 -- Other fog related members
 local fog_x_position = 300.0;
@@ -26,12 +26,14 @@ function Initialize(map_instance)
     Script = Map:GetScriptSupervisor();
     Effects = Map:GetEffectSupervisor();
     -- Load the creatures animated background
-    background_id = Script:AddImage("img/backdrops/cave_background.png", 1024.0, 768.0);
+    background = Script:CreateImage("img/backdrops/cave_background.png");
+    background:SetDimensions(1024.0, 768.0);
 
     -- Construct a timer used to display the fog with a custom alpha value and position
     fog_timer = vt_system.SystemTimer(fog_time_length, 0);
     -- Load a fog image used later to be displayed dynamically on the battle ground
-    fog_id = Script:AddImage("img/ambient/fog.png", 320.0, 256.0);
+    fog = Script:CreateImage("img/ambient/fog.png");
+    fog:SetDimensions(320.0, 256.0);
 
     fog_timer:Run();
 end
@@ -74,8 +76,8 @@ local white_color = vt_video.Color(1.0, 1.0, 1.0, 1.0);
 
 function DrawBackground()
     -- Draw background animation
-    Script:DrawImage(background_id, 512.0, 768.0, white_color);
-
+    VideoManager:Move(512.0, 768.0);
+    background:Draw(white_color);
 end
 
 local fog_color = vt_video.Color(1.0, 1.0, 1.0, 1.0);
@@ -83,7 +85,6 @@ local fog_color = vt_video.Color(1.0, 1.0, 1.0, 1.0);
 function DrawForeground()
     -- Draw a random fog effect
     fog_color:SetAlpha(fog_alpha);
-    Script:DrawImage(fog_id, fog_x_position,
-                     fog_y_position,
-                     fog_color);
+    VideoManager:Move(fog_x_position, fog_y_position);
+    fog:Draw(fog_color);
 end

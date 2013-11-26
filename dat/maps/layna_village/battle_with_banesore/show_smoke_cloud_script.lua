@@ -3,7 +3,7 @@ setmetatable(ns, {__index = _G})
 show_smoke_cloud_script = ns;
 setfenv(1, ns);
 
-local smoke_cloud_id = 0;
+local smoke_cloud = {};
 local display_time = 0;
 local flash_alpha = 0.0;
 local cloud_alpha = 0.0;
@@ -20,7 +20,8 @@ function Initialize(map_instance)
     Script = Map:GetScriptSupervisor();
     Effects = Map:GetEffectSupervisor();
 
-    smoke_cloud_id = Script:AddImage("img/backdrops/boot/cloudfield.png", 496.0, 240.0);
+    smoke_cloud = Script:CreateImage("img/backdrops/boot/cloudfield.png");
+    smoke_cloud:SetDimensions(496.0, 240.0);
 
     flash_alpha = 0.0;
     cloud_alpha = 0.0;
@@ -93,7 +94,10 @@ function DrawForeground()
     end
 
     cloud_color:SetAlpha(cloud_alpha);
-    Script:DrawImage(smoke_cloud_id, 452.0 + display_time * 0.05, 424.0, cloud_color);
-    Script:DrawImage(smoke_cloud_id, 452.0, 424.0 + display_time * 0.05, cloud_color);
-    Script:DrawImage(smoke_cloud_id, 452.0 - display_time * 0.05, 424.0 - display_time * 0.02, cloud_color);
+    VideoManager:Move(452.0 + display_time * 0.05, 424.0);
+    smoke_cloud:Draw(cloud_color);
+    VideoManager:Move(452.0, 424.0 + display_time * 0.05);
+    smoke_cloud:Draw(cloud_color);
+    VideoManager:Move(452.0 - display_time * 0.05, 424.0 - display_time * 0.02);
+    smoke_cloud:Draw(cloud_color);
 end

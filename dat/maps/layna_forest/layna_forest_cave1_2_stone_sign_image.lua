@@ -10,7 +10,7 @@ setmetatable(ns, {__index = _G})
 layna_forest_cave1_2_stone_sign_image = ns;
 setfenv(1, ns);
 
-local stone_sign_id = 0;
+local stone_sign = {};
 local display_time = 0;
 
 -- c++ objects instances
@@ -21,7 +21,8 @@ function Initialize(map_instance)
     Map = map_instance;
 
     Script = Map:GetScriptSupervisor();
-    stone_sign_id = Script:AddImage("dat/maps/layna_forest/stone_sign.png", 512.0, 256.0);
+    stone_sign = Script:CreateImage("dat/maps/layna_forest/stone_sign.png");
+    stone_sign:SetDimensions(512.0, 256.0);
 end
 
 function Update()
@@ -50,6 +51,8 @@ function Update()
 
 end
 
+local stone_sign_color = vt_video.Color(1.0, 1.0, 1.0, 0.9);
+
 function DrawPostEffects()
     -- Only show the image if requested by the events
     if (GlobalManager:DoesEventExist("story", "layna_forest_cave1_2_show_sign_image") == false) then
@@ -72,5 +75,7 @@ function DrawPostEffects()
         return;
     end
 
-    Script:DrawImage(stone_sign_id, 512, 384.0, vt_video.Color(1.0, 1.0, 1.0, 0.9 * text_alpha));
+    stone_sign_color:SetAlpha(0.9 * text_alpha);
+    VideoManager:Move(512.0, 384.0);
+    stone_sign:Draw(stone_sign_color);
 end

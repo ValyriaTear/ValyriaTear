@@ -3,8 +3,8 @@ setmetatable(ns, {__index = _G})
 show_crystals_script = ns;
 setfenv(1, ns);
 
-local crystal_id = -1;
-local black_layer_id = -1;
+local crystal = {};
+local black_layer = {};
 local display_time = 0;
 
 local camera_x_position = 0.0;
@@ -27,8 +27,10 @@ function Initialize(map_instance)
 
     Script = Map:GetScriptSupervisor();
 
-    crystal_id = Script:AddImage("img/sprites/map/npcs/crystal_spritesheet.png", 19.0, 37.0);
-    black_layer_id = Script:AddImage("", 1024.0, 768.0);
+    crystal = Script:CreateImage("img/sprites/map/npcs/crystal_spritesheet.png");
+    crystal:SetDimensions(19.0, 37.0);
+    black_layer = Script:CreateImage("");
+    black_layer:SetDimensions(1024.0, 768.0);
 
     camera_x_position = 512.0;
     camera_y_position = 384.0 - 40.0;
@@ -112,12 +114,15 @@ function DrawPostEffects()
     -- black layer
     -- Current alignment: X_CENTER, Y_BOTTOM
     black_layer_color:SetAlpha(0.9 * crystal1_alpha);
-    Script:DrawImage(black_layer_id, 512.0, 768.0, black_layer_color);
+    VideoManager:Move(512.0, 768.0);
+    black_layer:Draw(black_layer_color);
 
     -- White
     white_crystal_color:SetAlpha(0.7 * crystal1_alpha);
-    Script:DrawImage(crystal_id, camera_x_position, camera_y_position + math.sin(0.003 * display_time + 0.785) * 3, white_crystal_color);
+    VideoManager:Move(camera_x_position, camera_y_position + math.sin(0.003 * display_time + 0.785) * 3);
+    crystal:Draw(white_crystal_color);
     -- red one
     red_crystal_color:SetAlpha(0.7 * crystal2_alpha);
-    Script:DrawImage(crystal_id, lord_x_position, lord_y_position + math.sin(0.003 * display_time + 3.14) * 3, red_crystal_color);
+    VideoManager:Move(lord_x_position, lord_y_position + math.sin(0.003 * display_time + 3.14) * 3);
+    crystal:Draw(red_crystal_color);
 end

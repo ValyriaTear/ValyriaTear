@@ -17,13 +17,13 @@ local dialogue3_done = false;
 local dialogue4_done = false;
 local battle_exit_done = false;
 
-local fire1_id = -1;
-local fire1_1_id = -1;
-local fire1_2_id = -1;
+local fire1 = {};
+local fire1_1 = {};
+local fire1_2 = {};
 
-local soldier_id = -1;
-local lilly_id = -1;
-local herth_walking_id = -1;
+local soldier = {};
+local lilly = {};
+local herth_walking = nil; -- starting value
 
 local lilly_charge_time = 0;
 local lilly_reaction_time = 2000;
@@ -35,12 +35,17 @@ function Initialize(battle_instance)
     Battle = battle_instance;
     Script = Battle:GetScriptSupervisor();
 
-    fire1_id = Script:AddAnimation("img/sprites/map/objects/campfire.lua", 128.0, 128.0);
-    fire1_1_id = Script:AddAnimation("img/misc/lights/torch_light_mask2.lua", 340.0, 340.0);
-    fire1_2_id = Script:AddImage("img/misc/lights/sun_flare_light.png", 154.0, 161.0);
+    fire1 = Script:CreateAnimation("img/sprites/map/objects/campfire.lua");
+    fire1:SetDimensions(128.0, 128.0);
+    fire1_1 = Script:CreateAnimation("img/misc/lights/torch_light_mask2.lua");
+    fire1_1:SetDimensions(340.0, 340.0);
+    fire1_2 = Script:CreateImage("img/misc/lights/sun_flare_light.png");
+    fire1_2:SetDimensions(154.0, 161.0);
 
-    soldier_id = Script:AddAnimation("dat/maps/layna_village/battle_with_banesore/battle_dark_soldier_idle_down.lua", 150.0, 150.0);
-    lilly_id = Script:AddAnimation("dat/maps/layna_village/battle_with_banesore/battle_lilly_idle_down.lua", 70.0, 140.0);
+    soldier = Script:CreateAnimation("dat/maps/layna_village/battle_with_banesore/battle_dark_soldier_idle_down.lua");
+    soldier:SetDimensions(150.0, 150.0);
+    lilly = Script:CreateAnimation("dat/maps/layna_village/battle_with_banesore/battle_lilly_idle_down.lua");
+    lilly:SetDimensions(70.0, 140.0);
 
     local text = {};
     local dialogue = {};
@@ -150,6 +155,15 @@ function Update()
     -- get time expired
     local time_expired = SystemManager:GetUpdateTime();
 
+    -- Update the animations
+    if (herth_walking ~= nil) then
+        herth_walking:Update(time_expired);
+    end
+    lilly:Update(time_expired);
+    soldier:Update(time_expired);
+    fire1:Update(time_expired);
+    fire1_1:Update(time_expired);
+
     -- Wait until the initial battle sequence ends to begin running the dialogue start timer
     if ((start_timer:IsInitial() == true) and (Battle:GetState() ~= vt_battle.BattleMode.BATTLE_STATE_INITIAL)) then
         start_timer:Run();
@@ -162,9 +176,10 @@ function Update()
 
     -- Update herth position until he is in place
     if (dialogue3_done == true and DialogueManager:IsDialogueActive() == false) then
-        if (herth_walking_id == -1) then
+        if (herth_walking == nil) then
             -- Load and start Herth animation only after the dialogue 3.
-            herth_walking_id = Script:AddAnimation("dat/maps/layna_village/battle_with_banesore/herth_walking.lua", 70.0, 140.0);
+            herth_walking = Script:CreateAnimation("dat/maps/layna_village/battle_with_banesore/herth_walking.lua");
+            herth_walking:SetDimensions(70.0, 140.0);
         end
         if (herth_x_position <= 175.0) then
             herth_x_position = herth_x_position + time_expired * 0.7;
@@ -253,27 +268,38 @@ end
 
 local light_mask1_color = vt_video.Color(0.85, 0.32, 0.0, 0.7);
 local light_mask2_color = vt_video.Color(0.99, 1.0, 0.27, 0.5);
+local white_color = vt_video.Color(1.0, 1.0, 1.0, 1.0);
 
 function DrawBackground()
     Script:SetDrawFlag(vt_video.GameVideo.VIDEO_BLEND);
 
-    Script:DrawAnimation(soldier_id, 130.0, 280.0);
-    Script:DrawAnimation(lilly_id, 75.0, 250.0);
+    VideoManager:Move(130.0, 280.0);
+    soldier:Draw(white_color);
+    VideoManager:Move(75.0, 250.0);
+    lilly:Draw(white_color);
 
-    Script:DrawAnimation(soldier_id, 300.0, 290.0);
-    Script:DrawAnimation(soldier_id, 495.0, 330.0);
+    VideoManager:Move(300.0, 290.0);
+    soldier:Draw(white_color);
+    VideoManager:Move(495.0, 330.0);
+    soldier:Draw(white_color);
 
-    Script:DrawAnimation(soldier_id, 795.0, 250.0);
+    VideoManager:Move(795.0, 250.0);
+    soldier:Draw(white_color);
 
-    Script:DrawAnimation(fire1_id, 235.0, 340.0);
+    VideoManager:Move(235.0, 340.0);
+    fire1:Draw(white_color);
+
     Script:SetDrawFlag(vt_video.GameVideo.VIDEO_BLEND_ADD);
-    Script:DrawAnimation(fire1_1_id, 115.0, 270.0, light_mask1_color);
-    Script:DrawImage(fire1_2_id, 220.0, 350.0, light_mask2_color);
+    VideoManager:Move(115.0, 270.0);
+    fire1_1:Draw(light_mask1_color);
+    VideoManager:Move(220.0, 350.0);
+    fire1_2:Draw(light_mask2_color);
 end
 
 function DrawForeground()
-    if (dialogue3_done == true) then
-        Script:DrawAnimation(herth_walking_id, herth_x_position, 450.0);
+    if (dialogue3_done == true and herth_walking ~= nil) then
+        VideoManager:Move(herth_x_position, 450.0);
+        herth_walking:Draw(white_color);
     end
 end
 

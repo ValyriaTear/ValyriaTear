@@ -4,7 +4,7 @@ mt_elbrus_background_anim = ns;
 setfenv(1, ns);
 
 -- Animated image members
-local background_id = -1;
+local background = {};
 
 -- Scrolling offsets
 local offset_y = 0;
@@ -19,7 +19,8 @@ function Initialize(map_instance)
     Script = Map:GetScriptSupervisor();
     Effects = Map:GetEffectSupervisor();
     -- Load the creatures animated background
-    background_id = Script:AddImage("img/backdrops/cliff_background.png", 1024.0, 1024.0);
+    background = Script:CreateImage("img/backdrops/cliff_background.png");
+    background:SetDimensions(1024.0, 1024.0);
 
     if (Map.camera:GetYPosition() >= 70) then
     offset_y = 0;
@@ -40,7 +41,7 @@ local white_color = vt_video.Color(1.0, 1.0, 1.0, 1.0);
 
 function DrawBackground()
     -- Draw background animation
-    Script:DrawImage(background_id, 512.0, 768.0 + offset_y, white_color);
-
+    VideoManager:Move(512.0, 768.0 + offset_y);
+    background:Draw(white_color);
 end
 

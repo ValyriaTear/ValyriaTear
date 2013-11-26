@@ -38,7 +38,7 @@ public:
     /** \brief Sets the name of the script to execute during the game mode
     *** \param filename The filename of the Lua script to load
     **/
-    void AddScript(const std::string &filename) {
+    void AddScript(const std::string& filename) {
         if(!filename.empty()) _script_filenames.push_back(filename);
     }
 
@@ -80,28 +80,19 @@ public:
     **/
     void DrawPostEffects();
 
+    /** \brief Loads a custom image, to be drawn through scripting
+    *** \param filename The filename of the new image to load
+    *** \return The image pointer.
+    *** \note the object life cycle is handled by the engine, not the script.
+    **/
+    vt_video::StillImage* CreateImage(const std::string& filename);
 
     /** \brief Loads a custom lua animation files, to be drawn through scripting
-    *** \param filename The filename of the new background image to load
-    *** \param width, height The animation image dimensions.
+    *** \param filename The filename of the new animated image to load
     *** \return id the id used to invoke the animation through scripted draw calls.
+    *** \note the object life cycle is handled by the engine, not the script.
     **/
-    int32 AddAnimation(const std::string &filename);
-    int32 AddAnimation(const std::string &filename, float width, float height);
-
-    /** \brief Draws a custom animation.
-    *** \param custom image id, obtained through AddCustomAnimation()
-    *** \param position screen position to draw at.
-    *** \param color to blend the image at.
-    **/
-    void DrawAnimation(int32 id, float x, float y);
-    void DrawAnimation(int32 id, float x, float y, const vt_video::Color &color);
-
-    /** \brief Loads a custom image, to be drawn through scripting
-    *** \param filename The filename of the new background image to load
-    *** \return id the id used to invoke the animation through scripted draw calls.
-    **/
-    int32 AddImage(const std::string &filename, float width, float height);
+    vt_video::AnimatedImage* CreateAnimation(const std::string& filename);
 
     /** \brief Loads a custom TextImage, to be drawn by calling :Draw(Color&)
     *** \param text The text to display.
@@ -113,29 +104,18 @@ public:
         return CreateText(vt_utils::MakeUnicodeString(text), style);
     }
 
-    /** \brief Draws a custom image.
-    *** \param custom image id, obtained through AddCustomImage()
-    *** \param position screen position to draw at.
-    *** \param color to blend the image at.
-    **/
-    void DrawImage(int32 id, float x, float y);
-    void DrawImage(int32 id, float x, float y, const vt_video::Color &color);
-
-    //! \brief Same than @DrawImage but with a given rotation.
-    void DrawRotatedImage(int32 id, float x, float y, const vt_video::Color &color, float angle);
-
     //! \brief Used to permit changing a draw flag at boot time. Use with caution.
     void SetDrawFlag(vt_video::VIDEO_DRAW_FLAGS draw_flag);
 
 private:
-    //! \brief Contains a collection of custom created images, usable to be drawn through scripting.
+    //! \brief Contains a collection of custom created images
     std::vector<vt_video::TextImage*> _text_images;
 
-    //! \brief Contains a collection of custom loaded images, usable to be drawn through scripting.
-    std::vector<vt_video::StillImage> _script_images;
+    //! \brief Contains a collection of custom created images
+    std::vector<vt_video::StillImage*> _still_images;
 
-    //! \brief Contains a collection of custom loaded animations, usable to be drawn through scripting.
-    std::vector<vt_video::AnimatedImage> _script_animations;
+    //! \brief Contains a collection of custom created animations
+    std::vector<vt_video::AnimatedImage*> _animated_images;
 
     //! \name Script data
     //@{

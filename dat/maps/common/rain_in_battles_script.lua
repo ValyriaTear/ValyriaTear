@@ -6,7 +6,7 @@ setfenv(1, ns);
 local Battle = {};
 local Script = {};
 
-local ripples_id = -1;
+local ripples = {};
 
 function Initialize(battle_instance)
     Battle = battle_instance;
@@ -14,7 +14,8 @@ function Initialize(battle_instance)
 
     -- Make the rain starts if needed
     Battle:TriggerBattleParticleEffect("dat/effects/particles/rain.lua", 512.0, 768.0);
-    ripples_id = Script:AddAnimation("img/effects/ripples.lua", 256.0, 153.6); -- 256.0 * 0.6
+    ripples = Script:CreateAnimation("img/effects/ripples.lua");
+    ripples:SetDimensions(256.0, 153.6); -- 256.0 * 0.6
 end
 
 --function Restart()
@@ -22,16 +23,22 @@ end
 --end
 
 
---function Update()
+function Update()
+    ripples:Update();
+end
 
---end
+local white_color = vt_video.Color(1.0, 1.0, 1.0, 1.0);
 
 function DrawBackground()
-    if (ripples_id > -1) then
-        Script:DrawAnimation(ripples_id, 235.0, 340.0);
-        Script:DrawAnimation(ripples_id, 235.0, 596.0);
-        Script:DrawAnimation(ripples_id, 491.0, 340.0);
-        Script:DrawAnimation(ripples_id, 491.0, 596.0);
+    if (ripples ~= nil) then
+        VideoManager:Move(235.0, 340.0);
+        ripples:Draw(white_color);
+        VideoManager:Move(235.0, 596.0);
+        ripples:Draw(white_color);
+        VideoManager:Move(491.0, 340.0);
+        ripples:Draw(white_color);
+        VideoManager:Move(491.0, 596.0);
+        ripples:Draw(white_color);
     end
 
 end

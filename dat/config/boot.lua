@@ -13,16 +13,16 @@ local Script = {};
 local animation_timer = {};
 local boot_state = {};
 
-local bckgrnd_id = {};
-local logo_id = {};
-local cloud_field_id = {};
-local mist_id = {};
-local fog_id = {};
-local crystal_id = {};
-local crystal_shadow_id = {};
-local satellite_id = {};
-local satellite_shadow_id = {};
-local flare_id = {};
+local background_image = {};
+local logo_image = {};
+local cloud_image = {};
+local mist_image = {};
+local fog_image = {};
+local crystal_image = {};
+local crystal_shadow_image = {};
+local satellite_image = {};
+local satellite_shadow_image = {};
+local flare_image = {};
 
 -- Init all the needed variables
 function Initialize(boot_instance)
@@ -32,16 +32,22 @@ function Initialize(boot_instance)
     boot_state = Boot:GetState();
 
     -- Load the necessary files
-    bckgrnd_id = Script:AddImage("img/backdrops/boot/background.png", 1024, 768);
-    logo_id = Script:AddImage("img/logos/valyria_logo_black.png", 630, 318);
-    cloud_field_id = Script:AddImage("img/backdrops/boot/cloudfield.png", 248, 120);
-    mist_id = Script:AddImage("img/backdrops/boot/cloudy_mist.png", 1024, 768);
-    fog_id = Script:AddImage("img/backdrops/boot/fog.png", 1024, 768);
-    crystal_id = Script:AddImage("img/backdrops/boot/crystal.png", 140, 220);
-    crystal_shadow_id = Script:AddImage("img/backdrops/boot/crystal_shadow.png", 192, 168);
-    satellite_id = Script:AddImage("img/backdrops/boot/satellite.png", 34, 34);
-    satellite_shadow_id = Script:AddImage("img/backdrops/boot/satellite_shadow.png", 48, 32);
-    flare_id = Script:AddImage("img/backdrops/boot/flare.png", 256, 256);
+    background_image = Script:CreateImage("img/backdrops/boot/background.png");
+    background_image:SetDimensions(1024.0, 768.0);
+    logo_image = Script:CreateImage("img/logos/valyria_logo_black.png");
+    cloud_image = Script:CreateImage("img/backdrops/boot/cloudfield.png");
+    mist_image = Script:CreateImage("img/backdrops/boot/cloudy_mist.png");
+    mist_image:SetDimensions(1024.0, 768.0);
+    fog_image = Script:CreateImage("img/backdrops/boot/fog.png");
+    fog_image:SetDimensions(1024.0, 768.0);
+    crystal_image = Script:CreateImage("img/backdrops/boot/crystal.png");
+    crystal_shadow_image = Script:CreateImage("img/backdrops/boot/crystal_shadow.png");
+    crystal_shadow_image:SetDimensions(192.0, 168.0);
+    satellite_image = Script:CreateImage("img/backdrops/boot/satellite.png");
+    satellite_image:SetDimensions(34.0, 34.0);
+    satellite_shadow_image = Script:CreateImage("img/backdrops/boot/satellite_shadow.png");
+    satellite_shadow_image:SetDimensions(48.0, 32.0);
+    flare_image = Script:CreateImage("img/backdrops/boot/flare.png");
 
     -- Init the timer
     animation_timer = vt_system.SystemTimer(7000, 0);
@@ -252,9 +258,8 @@ local cloud_color = vt_video.Color(1.0, 1.0, 1.0, 1.0);
 function DrawCloudFieldLine(x_positions, y_position)
 
     for _,v in pairs(x_positions) do
-        Script:DrawImage(cloud_field_id,
-            v, y_position,
-            cloud_color);
+        VideoManager:Move(v, y_position);
+        cloud_image:Draw(cloud_color);
     end
 end
 
@@ -263,7 +268,8 @@ local background_color = vt_video.Color(1.0, 1.0, 1.0, 1.0);
 function DrawBackground()
     -- The background image
     background_color:SetAlpha(bckgrnd_alpha);
-    Script:DrawImage(bckgrnd_id, 0.0, 0.0, background_color);
+    VideoManager:Move(0.0, 0.0);
+    background_image:Draw(background_color);
 
     -- The passing clouds
     cloud_color:SetAlpha(0.6 * bckgrnd_alpha);
@@ -286,84 +292,71 @@ function DrawPostEffects()
     -- front mist + fog
     mist_color:SetAlpha(bckgrnd_alpha * 0.6);
     fog_color:SetAlpha(bckgrnd_alpha * 0.8);
-    Script:DrawImage(mist_id, 0.0, 0.0, mist_color);
-    Script:DrawImage(fog_id, 0.0, 0.0, fog_color);
+    VideoManager:Move(0.0, 0.0);
+    mist_image:Draw(mist_color);
+    fog_image:Draw(fog_color);
 
     sat_shadow_color:SetAlpha(bckgrnd_alpha * 0.3);
     sat_color:SetAlpha(bckgrnd_alpha * 0.7);
 
     -- satellite behind
     if (sat1_behind) then
-        Script:DrawImage(satellite_shadow_id,
-            640.0 + sat1_decay + (sat1_x_position / 2.0), 438.0 + (sat1_x_position / 3.0),
-            sat_shadow_color);
+        VideoManager:Move(640.0 + sat1_decay + (sat1_x_position / 2.0), 438.0 + (sat1_x_position / 3.0));
+        satellite_shadow_image:Draw(sat_shadow_color);
 
-        Script:DrawImage(satellite_id,
-            448.0 + sat1_x_position, 368.0 - sat1_decay,
-            sat_color);
+        VideoManager:Move(448.0 + sat1_x_position, 368.0 - sat1_decay);
+        satellite_image:Draw(sat_color);
     end
     if (sat2_behind) then
-        Script:DrawImage(satellite_shadow_id,
-            640.0 + sat2_decay + (sat2_x_position / 2.0), 438.0 + (sat2_x_position / 3.0),
-            sat_shadow_color);
+        VideoManager:Move(640.0 + sat2_decay + (sat2_x_position / 2.0), 438.0 + (sat2_x_position / 3.0));
+        satellite_shadow_image:Draw(sat_shadow_color);
 
-        Script:DrawImage(satellite_id,
-            448.0 + sat2_x_position, 368.0 - sat2_decay,
-            sat_color);
+        VideoManager:Move(448.0 + sat2_x_position, 368.0 - sat2_decay);
+        satellite_image:Draw(sat_color);
     end
     if (sat3_behind) then
-        Script:DrawImage(satellite_shadow_id,
-            640.0 + sat3_decay + (sat3_x_position / 2.0), 438.0 + (sat3_x_position / 3.0),
-            sat_shadow_color);
+        VideoManager:Move(640.0 + sat3_decay + (sat3_x_position / 2.0), 438.0 + (sat3_x_position / 3.0));
+        satellite_shadow_image:Draw(sat_shadow_color);
 
-        Script:DrawImage(satellite_id,
-            448.0 + sat3_x_position, 368.0 - sat3_decay,
-            sat_color);
+        VideoManager:Move(448.0 + sat3_x_position, 368.0 - sat3_decay);
+        satellite_image:Draw(sat_color);
     end
 
     -- Crystal
-    Script:DrawImage(crystal_shadow_id,
-        498.0 + crystal_decay, 438.0,
-        sat_shadow_color);
+    VideoManager:Move(498.0 + crystal_decay, 438.0);
+    crystal_shadow_image:Draw(sat_shadow_color);
 
-    Script:DrawImage(crystal_id,
-        448.0, 368.0 - crystal_decay,
-        sat_color);
+    VideoManager:Move(448.0, 368.0 - crystal_decay);
+    crystal_image:Draw(sat_color);
 
-    Script:DrawImage(flare_id,
-        384.0, 328.0 - crystal_decay,
-        mist_color);
+    VideoManager:Move(384.0, 328.0 - crystal_decay);
+    flare_image:Draw(mist_color);
 
     -- satellite in front
     if (sat1_behind == false) then
-        Script:DrawImage(satellite_shadow_id,
-            640.0 + sat1_decay + (sat1_x_position / 2.0), 438.0 + (sat1_x_position / 3.0),
-            sat_shadow_color);
+        VideoManager:Move(640.0 + sat1_decay + (sat1_x_position / 2.0), 438.0 + (sat1_x_position / 3.0));
+        satellite_shadow_image:Draw(sat_shadow_color);
 
-        Script:DrawImage(satellite_id,
-            448.0 + sat1_x_position, 368.0 - sat1_decay,
-            sat_color);
+        VideoManager:Move(448.0 + sat1_x_position, 368.0 - sat1_decay);
+        satellite_image:Draw(sat_color);
     end
     if (sat2_behind == false) then
-        Script:DrawImage(satellite_shadow_id,
-            640.0 + sat2_decay + (sat2_x_position / 2.0), 438.0 + (sat2_x_position / 3.0),
-            sat_shadow_color);
+        VideoManager:Move(640.0 + sat2_decay + (sat2_x_position / 2.0), 438.0 + (sat2_x_position / 3.0));
+        satellite_shadow_image:Draw(sat_shadow_color);
 
-        Script:DrawImage(satellite_id,
-            448.0 + sat2_x_position, 368.0 - sat2_decay,
-            sat_color);
+        VideoManager:Move(448.0 + sat2_x_position, 368.0 - sat2_decay);
+        satellite_image:Draw(sat_color);
     end
     if (sat3_behind == false) then
-        Script:DrawImage(satellite_shadow_id,
-            640.0 + sat3_decay + (sat3_x_position / 2.0), 438.0 + (sat3_x_position / 3.0),
-            sat_shadow_color);
+        VideoManager:Move(640.0 + sat3_decay + (sat3_x_position / 2.0), 438.0 + (sat3_x_position / 3.0));
+        satellite_shadow_image:Draw(sat_shadow_color);
 
-        Script:DrawImage(satellite_id,
-            448.0 + sat3_x_position, 368.0 - sat3_decay,
-            sat_color);
+        VideoManager:Move(448.0 + sat3_x_position, 368.0 - sat3_decay);
+        satellite_image:Draw(sat_color);
     end
 
     -- Logo
     logo_color:SetAlpha(logo_alpha);
-    Script:DrawImage(logo_id, 198.0, 18.0, logo_color);
+    VideoManager:Move(198.0, 18.0);
+    logo_image:Draw(logo_color);
 end

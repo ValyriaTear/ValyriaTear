@@ -10,11 +10,11 @@ setmetatable(ns, {__index = _G})
 layna_forest_crystal_appearance_anim = ns;
 setfenv(1, ns);
 
-local crystal_shadow_id = 0;
-local lightning1_id = 0;
-local lightning2_id = 0;
-local lightning3_id = 0;
-local vortex_id = 0;
+local crystal_shadow = {};
+local lightning1 = {};
+local lightning2 = {};
+local lightning3 = {};
+local vortex = {};
 local vortex_effect = {};
 
 local display_time = 0;
@@ -48,12 +48,12 @@ local lightning9_pos_x = 0.0;
 local lightning9_pos_y = 0.0;
 
 -- random ids for the last lightnings
-local lightning4_id = 0;
-local lightning5_id = 0;
-local lightning6_id = 0;
-local lightning7_id = 0;
-local lightning8_id = 0;
-local lightning9_id = 0;
+local lightning4 = {};
+local lightning5 = {};
+local lightning6 = {};
+local lightning7 = {};
+local lightning8 = {};
+local lightning9 = {};
 
 local vortex_angle = 0.0;
 
@@ -79,18 +79,23 @@ function Initialize(map_instance)
     Script = Map:GetScriptSupervisor();
     Effects = Map:GetEffectSupervisor();
 
-    crystal_shadow_id = Script:AddImage("dat/maps/layna_forest/crystal_appearance/crystal_shadow.png", 20.0, 31.0);
+    crystal_shadow = Script:CreateImage("dat/maps/layna_forest/crystal_appearance/crystal_shadow.png");
+    crystal_shadow:SetDimensions(20.0, 31.0);
 
-    lightning1_id = Script:AddImage("dat/maps/layna_forest/crystal_appearance/blue_lightning1.png", 248.0, 400.0);
-    lightning2_id = Script:AddImage("dat/maps/layna_forest/crystal_appearance/blue_lightning2.png", 118.0, 400.0);
-    lightning3_id = Script:AddImage("dat/maps/layna_forest/crystal_appearance/blue_lightning3.png", 171.0, 400.0);
+    lightning1 = Script:CreateImage("dat/maps/layna_forest/crystal_appearance/blue_lightning1.png");
+    lightning1:SetDimensions(248.0, 400.0);
+    lightning2 = Script:CreateImage("dat/maps/layna_forest/crystal_appearance/blue_lightning2.png");
+    lightning2:SetDimensions(118.0, 400.0);
+    lightning3 = Script:CreateImage("dat/maps/layna_forest/crystal_appearance/blue_lightning3.png");
+    lightning3:SetDimensions(171.0, 400.0);
 
-    vortex_id = Script:AddImage("dat/maps/layna_forest/crystal_appearance/vortex.png", 430.0, 210.0);
+    vortex = Script:CreateImage("dat/maps/layna_forest/crystal_appearance/vortex.png");
+    vortex:SetDimensions(430.0, 210.0);
 
     -- Load the spring heal effect.
     vortex_effect = vt_map.ParticleObject("dat/effects/particles/crystal_appearance.lua",
                                             crystal_position_x, crystal_position_y);
-	vortex_effect:SetObjectID(Map.object_supervisor:GenerateObjectID());
+    vortex_effect:SetObjectID(Map.object_supervisor:GenerateObjectID());
     vortex_effect:Stop(); -- Don't run it until the whole animation starts
     Map:AddSkyObject(vortex_effect);
 
@@ -159,14 +164,14 @@ function _GetRandomLightningYPlacement()
     return pos_y + (math.random() * 100.0) - 50.0;
 end
 
-function _GetRandomLightningId()
+function _GetRandomLightning()
     local lightning_chosen_id = math.random(1, 3);
     if (lightning_chosen_id == 1) then
-        return lightning1_id;
+        return lightning1;
     elseif (lightning_chosen_id == 2) then
-        return lightning2_id;
+        return lightning2;
     end
-    return lightning3_id;
+    return lightning3;
 end
 
 local white_color = vt_video.Color(1.0, 1.0, 1.0, 1.0);
@@ -180,7 +185,8 @@ function _DrawLightnings()
             lightning1_triggered = true;
             AudioManager:PlaySound("snd/lightning.wav");
         end
-        Script:DrawImage(lightning1_id, pos_x + 42.0, pos_y - 2.0, white_color);
+        VideoManager:Move(pos_x + 42.0, pos_y - 2.0);
+        lightning1:Draw(white_color);
     end
 
     if (lightning_time >= 3000 and lightning_time <= 3300) then
@@ -190,7 +196,8 @@ function _DrawLightnings()
             lightning2_pos_x = _GetRandomLightningXPlacement();
             lightning2_pos_y = _GetRandomLightningYPlacement();
         end
-        Script:DrawImage(lightning2_id, lightning2_pos_x, lightning2_pos_y, white_color);
+        VideoManager:Move(lightning2_pos_x, lightning2_pos_y);
+        lightning2:Draw(white_color);
     end
 
     if (lightning_time >= 3500 and lightning_time <= 3800) then
@@ -200,7 +207,8 @@ function _DrawLightnings()
             lightning3_pos_x = _GetRandomLightningXPlacement();
             lightning3_pos_y = _GetRandomLightningYPlacement();
         end
-        Script:DrawImage(lightning3_id, lightning3_pos_x, lightning3_pos_y, white_color);
+        VideoManager:Move(lightning3_pos_x, lightning3_pos_y);
+        lightning3:Draw(white_color);
     end
 
     if (lightning_time >= 4000 and lightning_time <= 4300) then
@@ -209,9 +217,10 @@ function _DrawLightnings()
             AudioManager:PlaySound("snd/thunder.wav");
             lightning4_pos_x = _GetRandomLightningXPlacement();
             lightning4_pos_y = _GetRandomLightningYPlacement();
-            lightning4_id = _GetRandomLightningId();
+            lightning4 = _GetRandomLightning();
         end
-        Script:DrawImage(lightning4_id, lightning4_pos_x, lightning4_pos_y, white_color);
+        VideoManager:Move(lightning4_pos_x, lightning4_pos_y);
+        lightning4:Draw(white_color);
     end
 
     if (lightning_time >= 4200 and lightning_time <= 4500) then
@@ -220,9 +229,10 @@ function _DrawLightnings()
             AudioManager:PlaySound("snd/lightning.wav");
             lightning5_pos_x = _GetRandomLightningXPlacement();
             lightning5_pos_y = _GetRandomLightningYPlacement();
-            lightning5_id = _GetRandomLightningId();
+            lightning5 = _GetRandomLightning();
         end
-        Script:DrawImage(lightning5_id, lightning5_pos_x, lightning5_pos_y, white_color);
+        VideoManager:Move(lightning5_pos_x, lightning5_pos_y);
+        lightning5:Draw(white_color);
     end
 
     if (lightning_time >= 4400 and lightning_time <= 4700) then
@@ -231,9 +241,10 @@ function _DrawLightnings()
             AudioManager:PlaySound("snd/lightning.wav");
             lightning6_pos_x = _GetRandomLightningXPlacement();
             lightning6_pos_y = _GetRandomLightningYPlacement();
-            lightning6_id = _GetRandomLightningId();
+            lightning6 = _GetRandomLightning();
         end
-        Script:DrawImage(lightning6_id, lightning6_pos_x, lightning6_pos_y, white_color);
+        VideoManager:Move(lightning6_pos_x, lightning6_pos_y);
+        lightning6:Draw(white_color);
     end
 
     if (lightning_time >= 4800 and lightning_time <= 5200) then
@@ -242,9 +253,10 @@ function _DrawLightnings()
             AudioManager:PlaySound("snd/thunder.wav");
             lightning7_pos_x = _GetRandomLightningXPlacement();
             lightning7_pos_y = _GetRandomLightningYPlacement();
-            lightning7_id = _GetRandomLightningId();
+            lightning7 = _GetRandomLightning();
         end
-        Script:DrawImage(lightning7_id, lightning7_pos_x, lightning7_pos_y, white_color);
+        VideoManager:Move(lightning7_pos_x, lightning7_pos_y);
+        lightning7:Draw(white_color);
     end
 
     if (lightning_time >= 5000 and lightning_time <= 5300) then
@@ -253,9 +265,10 @@ function _DrawLightnings()
             AudioManager:PlaySound("snd/lightning.wav");
             lightning8_pos_x = _GetRandomLightningXPlacement();
             lightning8_pos_y = _GetRandomLightningYPlacement();
-            lightning8_id = _GetRandomLightningId();
+            lightning8 = _GetRandomLightning();
         end
-        Script:DrawImage(lightning8_id, lightning8_pos_x, lightning8_pos_y, white_color);
+        VideoManager:Move(lightning8_pos_x, lightning8_pos_y);
+        lightning8:Draw(white_color);
     end
 
     if (lightning_time >= 5200 and lightning_time <= 5400) then
@@ -264,9 +277,10 @@ function _DrawLightnings()
             AudioManager:PlaySound("snd/thunder.wav");
             lightning9_pos_x = _GetRandomLightningXPlacement();
             lightning9_pos_y = _GetRandomLightningYPlacement();
-            lightning9_id = _GetRandomLightningId();
+            lightning9 = _GetRandomLightning();
         end
-        Script:DrawImage(lightning9_id, lightning9_pos_x, lightning9_pos_y, white_color);
+        VideoManager:Move(lightning9_pos_x, lightning9_pos_y);
+        lightning9:Draw(white_color);
     elseif (lightning_time > 5400) then
         -- loop the last lightnings until the effect is gone
         lightning_time = 4000;
@@ -325,9 +339,12 @@ function DrawPostEffects()
         Script:SetDrawFlag(vt_video.GameVideo.VIDEO_Y_CENTER);
         vortex_color:SetAlpha(vortex_alpha);
         crystal_color:SetAlpha(crystal_alpha);
-        Script:DrawRotatedImage(vortex_id, pos_x, pos_y - 20.0, vortex_color, vortex_angle);
+        VideoManager:Move(pos_x, pos_y - 20.0);
+        VideoManager:Rotate(vortex_angle);
+        vortex:Draw(vortex_color);
         Script:SetDrawFlag(vt_video.GameVideo.VIDEO_Y_BOTTOM);
-        Script:DrawImage(crystal_shadow_id, pos_x, pos_y - 4.0, crystal_color);
+        VideoManager:Move(pos_x, pos_y - 4.0);
+        crystal_shadow:Draw(crystal_color);
     elseif (display_time > 5000 and display_time <= 6500) then
         vortex_alpha = 0.2;
         crystal_alpha = 1.0;
@@ -335,9 +352,12 @@ function DrawPostEffects()
         Script:SetDrawFlag(vt_video.GameVideo.VIDEO_Y_CENTER);
         vortex_color:SetAlpha(vortex_alpha);
         crystal_color:SetAlpha(crystal_alpha);
-        Script:DrawRotatedImage(vortex_id, pos_x, pos_y - 20.0, vortex_color, vortex_angle);
+        VideoManager:Move(pos_x, pos_y - 20.0);
+        VideoManager:Rotate(vortex_angle);
+        vortex:Draw(vortex_color);
         Script:SetDrawFlag(vt_video.GameVideo.VIDEO_Y_BOTTOM);
-        Script:DrawImage(crystal_shadow_id, pos_x, pos_y - 4.0, crystal_color);
+        VideoManager:Move(pos_x, pos_y - 4.0);
+        crystal_shadow:Draw(crystal_color);
     elseif (display_time > 6500 and display_time <= 10600) then
         vortex_alpha = 0.2 - 0.2 * (display_time - 6500) / (10600 - 6500);
         crystal_alpha = 1.0 - (display_time - 6500) / (10600 - 6500);
@@ -345,9 +365,12 @@ function DrawPostEffects()
         crystal_color:SetAlpha(crystal_alpha);
         Script:SetDrawFlag(vt_video.GameVideo.VIDEO_X_CENTER);
         Script:SetDrawFlag(vt_video.GameVideo.VIDEO_Y_CENTER);
-        Script:DrawRotatedImage(vortex_id, pos_x, pos_y - 20.0, vortex_color, vortex_angle);
+        VideoManager:Move(pos_x, pos_y - 20.0);
+        VideoManager:Rotate(vortex_angle);
+        vortex:Draw(vortex_color);
         Script:SetDrawFlag(vt_video.GameVideo.VIDEO_Y_BOTTOM);
-        Script:DrawImage(crystal_shadow_id, pos_x, pos_y - 4.0, crystal_color);
+        VideoManager:Move(pos_x, pos_y - 4.0);
+        crystal_shadow:Draw(crystal_color);
     elseif (vortex_alpha > 0.0 and display_time > 10600) then
         vortex_alpha = 0.0;
         crystal_alpha = 0.0;

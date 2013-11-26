@@ -93,14 +93,8 @@ void BindEngineCode()
         [
             luabind::class_<ScriptSupervisor>("ScriptSupervisor")
             .def("AddScript", &ScriptSupervisor::AddScript)
-            .def("AddAnimation", (int32(ScriptSupervisor:: *)(const std::string&))&ScriptSupervisor::AddAnimation)
-            .def("AddAnimation", (int32(ScriptSupervisor:: *)(const std::string&, float, float))&ScriptSupervisor::AddAnimation)
-            .def("AddImage", &ScriptSupervisor::AddImage)
-            .def("DrawImage", (void(ScriptSupervisor:: *)(int32, float, float, const vt_video::Color&))&ScriptSupervisor::DrawImage)
-            .def("DrawImage", (void(ScriptSupervisor:: *)(int32, float, float))&ScriptSupervisor::DrawImage)
-            .def("DrawRotatedImage", &ScriptSupervisor::DrawRotatedImage)
-            .def("DrawAnimation", (void(ScriptSupervisor:: *)(int32, float, float))&ScriptSupervisor::DrawAnimation)
-            .def("DrawAnimation", (void(ScriptSupervisor:: *)(int32, float, float, const vt_video::Color&))&ScriptSupervisor::DrawAnimation)
+            .def("CreateImage", &ScriptSupervisor::CreateImage)
+            .def("CreateAnimation", &ScriptSupervisor::CreateAnimation)
             .def("CreateText", (vt_video::TextImage*(ScriptSupervisor:: *)(const std::string&, const vt_video::TextStyle&))&ScriptSupervisor::CreateText)
             .def("CreateText", (vt_video::TextImage*(ScriptSupervisor:: *)(const vt_utils::ustring&, const vt_video::TextStyle&))&ScriptSupervisor::CreateText)
             .def("SetDrawFlag", &ScriptSupervisor::SetDrawFlag)
@@ -315,6 +309,7 @@ void BindEngineCode()
 
             // Draw cursor commands
             .def("Move", &VideoEngine::Move)
+            .def("MoveRelative", &VideoEngine::MoveRelative)
             .def("Rotate", &VideoEngine::Rotate)
 
             // Namespace constants
