@@ -9,7 +9,7 @@ setmetatable(ns, {__index = _G})
 to_be_continued_anim = ns;
 setfenv(1, ns);
 
-local dark_overlay_id = -1;
+local dark_overlay = {};
 
 local to_be_continued_text = {};
 
@@ -24,7 +24,8 @@ function Initialize(map_instance)
     Script = Map:GetScriptSupervisor();
     Effects = Map:GetEffectSupervisor();
 
-    dark_overlay_id = Script:AddImage("img/ambient/black.png", 1024.0, 768.0);
+    dark_overlay = Script:CreateImage("img/ambient/black.png");
+    dark_overlay:SetDimensions(1024.0, 768.0);
 
     display_time = 0;
 
@@ -67,7 +68,8 @@ function DrawPostEffects()
         overlay_alpha = display_time / 2500;
         text_color:SetAlpha(overlay_alpha);
     end
-    Script:DrawImage(dark_overlay_id, 512.0, 768.0, text_color);
+    VideoManager:Move(512.0, 768.0);
+    dark_overlay:Draw(text_color);
 
     VideoManager:Move(612.0, 448.0);
     to_be_continued_text:Draw(text_color);
