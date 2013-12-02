@@ -79,6 +79,7 @@ void GameMode::Update()
     _script_supervisor.Update();
     _effect_supervisor.Update(frame_time);
     _particle_manager.Update(frame_time);
+    _indicator_supervisor.Update();
 }
 
 
@@ -109,6 +110,11 @@ ParticleManager& GameMode::GetParticleManager()
 ScriptSupervisor& GameMode::GetScriptSupervisor()
 {
     return _script_supervisor;
+}
+
+IndicatorSupervisor& GameMode::GetIndicatorSupervisor()
+{
+    return _indicator_supervisor;
 }
 
 // ****************************************************************************

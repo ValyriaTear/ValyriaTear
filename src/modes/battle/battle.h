@@ -628,9 +628,6 @@ private:
 
     //! \brief Draws the stamina bar and the icons of the actors of both parties
     void _DrawStaminaBar();
-
-    //! \brief Draws indicator text and graphics for each actor on the field
-    void _DrawIndicators();
     //@}
 }; // class BattleMode : public vt_mode_manager::GameMode
 

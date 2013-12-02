@@ -318,6 +318,8 @@ engine/mode_manager.h
 engine/mode_manager.cpp
 engine/script_supervisor.h
 engine/script_supervisor.cpp
+engine/indicator_supervisor.h
+engine/indicator_supervisor.cpp
 engine/system.cpp
 engine/system.h
 engine/video/video.h
@@ -363,14 +365,12 @@ modes/mode_help_window.cpp
 modes/battle/battle_effects.cpp
 modes/battle/battle_sequence.h
 modes/battle/battle_actors.cpp
-modes/battle/battle_indicators.h
 modes/battle/battle_actors.h
 modes/battle/battle_command.h
 modes/battle/battle_dialogue.cpp
 modes/battle/battle_actions.h
 modes/battle/battle.h
 modes/battle/battle_utils.h
-modes/battle/battle_indicators.cpp
 modes/battle/battle_finish.h
 modes/battle/battle_actions.cpp
 modes/battle/battle_utils.cpp

@@ -21,6 +21,7 @@
 #include "effect_supervisor.h"
 #include "engine/video/particle_manager.h"
 #include "engine/script_supervisor.h"
+#include "engine/indicator_supervisor.h"
 
 //! All calls to the mode management code are wrapped inside this namespace
 namespace vt_mode_manager
@@ -109,13 +110,16 @@ public:
     virtual void Deactivate();
 
     //! \brief Returns the effect supervisor.
-    EffectSupervisor &GetEffectSupervisor();
+    EffectSupervisor& GetEffectSupervisor();
 
     //! \brief Returns the particle manager.
-    ParticleManager &GetParticleManager();
+    ParticleManager& GetParticleManager();
 
     //! \brief Returns the script supervisor.
-    ScriptSupervisor &GetScriptSupervisor();
+    ScriptSupervisor& GetScriptSupervisor();
+
+    //! \brief Returns the indicator supervisor.
+    IndicatorSupervisor& GetIndicatorSupervisor();
 
 private:
     //! \brief Handles all the custom scripted animation for the given mode.
@@ -126,6 +130,9 @@ private:
 
     //! \brief The particle manager instance, handles the work of managing particle effects
     ParticleManager _particle_manager;
+
+    //! \brief The indicator supervisor instance, handles the work of displaying indication with eye-candy.
+    IndicatorSupervisor _indicator_supervisor;
 }; // class GameMode
 
 

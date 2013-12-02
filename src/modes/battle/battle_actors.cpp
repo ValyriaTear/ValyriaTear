@@ -24,7 +24,6 @@
 #include "modes/battle/battle_actions.h"
 #include "modes/battle/battle_command.h"
 #include "modes/battle/battle_effects.h"
-#include "modes/battle/battle_indicators.h"
 #include "modes/battle/battle_utils.h"
 
 #include "engine/input.h"
@@ -112,8 +111,7 @@ BattleActor::BattleActor(GlobalActor *actor) :
     _animation_timer(0),
     _x_stamina_location(0.0f),
     _y_stamina_location(0.0f),
-    _effects_supervisor(new EffectsSupervisor(this)),
-    _indicator_supervisor(new IndicatorSupervisor(this))
+    _effects_supervisor(new EffectsSupervisor(this))
 {
     if(actor == NULL) {
         IF_PRINT_WARNING(BATTLE_DEBUG) << "constructor received NULL argument" << std::endl;
@@ -159,7 +157,6 @@ BattleActor::~BattleActor()
     }
 
     delete _effects_supervisor;
-    delete _indicator_supervisor;
 }
 
 void BattleActor::ResetActor()
@@ -236,7 +233,7 @@ void BattleActor::ChangeState(ACTOR_STATE new_state)
     }
     case ACTOR_STATE_DYING:
         ChangeSpriteAnimation("dying");
-        // Note that the state timer is initiliazed in Battle Character
+        // Note that the state timer is initialized in Battle Character
         // or In BattleEnemy
 
         // Make the battle engine aware of the actor death
@@ -267,7 +264,11 @@ void BattleActor::RegisterDamage(uint32 amount, BattleTarget *target)
     }
 
     SubtractHitPoints(amount);
-    _indicator_supervisor->AddDamageIndicator(amount, false);
+
+    // Set the indicator parameters
+    BattleMode* BM = BattleMode::CurrentInstance();
+    vt_mode_manager::IndicatorSupervisor& indicator = BM->GetIndicatorSupervisor();
+    indicator.AddDamageIndicator(GetXLocation(), GetYLocation(), amount, _GetDamageTextStyle(amount, false));
 
     if(GetHitPoints() == 0) {
         ChangeState(ACTOR_STATE_DYING);
@@ -290,7 +291,7 @@ void BattleActor::RegisterDamage(uint32 amount, BattleTarget *target)
 
     // Make the stun effect disappear faster depending on the battle type,
     // to not advantage the attacker.
-    hurt_time /= BattleMode::CurrentInstance()->GetBattleTypeTimeFactor();
+    hurt_time /= BM->GetBattleTypeTimeFactor();
 
     // Run a shake effect for the same time.
     _hurt_timer.Initialize(hurt_time);
@@ -312,6 +313,51 @@ void BattleActor::RegisterDamage(uint32 amount, BattleTarget *target)
     }
 }
 
+vt_video::TextStyle BattleActor::_GetDamageTextStyle(uint32 amount, bool is_sp_damage)
+{
+    const Color low_red(1.0f, 0.75f, 0.0f, 1.0f);
+    const Color mid_red(1.0f, 0.50f, 0.0f, 1.0f);
+    const Color high_red(1.0f, 0.25f, 0.0f, 1.0f);
+
+    const Color low_blue(0.0f, 0.75f, 1.0f, 1.0f);
+    const Color mid_blue(0.0f, 0.50f, 1.0f, 1.0f);
+    const Color high_blue(0.0f, 0.25f, 1.0f, 1.0f);
+
+    TextStyle style;
+
+    float damage_percent = static_cast<float>(amount) / static_cast<float>(GetMaxHitPoints());
+    if(damage_percent < 0.10f) {
+        style.SetColor(is_sp_damage ? low_blue : low_red);
+    } else if(damage_percent < 0.20f) {
+        style.SetColor(is_sp_damage ? mid_blue : mid_red);
+    } else if(damage_percent < 0.30f) {
+        style.SetColor(is_sp_damage ? high_blue : high_red);
+    } else { // (damage_percent >= 0.30f)
+        style.SetColor(is_sp_damage ? Color::blue : Color::red);
+    }
+    style.SetShadowStyle(VIDEO_TEXT_SHADOW_BLACK);
+    style.SetShadowOffsets(1, -2);
+
+    // Set the text size depending on the amount of pure damage.
+    std::string font;
+    if(amount < 50) {
+        font = "text24"; // text24
+    } else if(amount < 100) {
+        font = "text24.2";
+    } else if(amount < 250) {
+        font = "text26";
+    } else if(amount < 500) {
+        font = "text28";
+    } else if(amount < 1000) {
+        font = "text36";
+    } else {
+        font = "text48";
+    }
+    style.SetFont(font);
+
+    return style;
+}
+
 void BattleActor::RegisterSPDamage(uint32 amount)
 {
     if(amount == 0) {
@@ -326,7 +372,11 @@ void BattleActor::RegisterSPDamage(uint32 amount)
     }
 
     SubtractSkillPoints(amount);
-    _indicator_supervisor->AddDamageIndicator(amount, true);
+
+    // Set the indicator parameters
+    BattleMode* BM = BattleMode::CurrentInstance();
+    vt_mode_manager::IndicatorSupervisor& indicator = BM->GetIndicatorSupervisor();
+    indicator.AddDamageIndicator(GetXLocation(), GetYLocation(), amount, _GetDamageTextStyle(amount, true));
 }
 
 void BattleActor::RegisterHealing(uint32 amount, bool hit_points)
@@ -346,7 +396,12 @@ void BattleActor::RegisterHealing(uint32 amount, bool hit_points)
         AddHitPoints(amount);
     else
         AddSkillPoints(amount);
-    _indicator_supervisor->AddHealingIndicator(amount, hit_points);
+
+    // Set the indicator parameters
+    float y_pos = GetYLocation() - (GetSpriteHeight() / 3 * 2);
+    BattleMode* BM = BattleMode::CurrentInstance();
+    vt_mode_manager::IndicatorSupervisor& indicator = BM->GetIndicatorSupervisor();
+    indicator.AddHealingIndicator(GetXLocation(), y_pos, amount, _GetHealingTextStyle(amount, hit_points));
 }
 
 void BattleActor::RegisterRevive(uint32 amount)
@@ -363,17 +418,62 @@ void BattleActor::RegisterRevive(uint32 amount)
     }
 
     AddHitPoints(amount);
-    _indicator_supervisor->AddHealingIndicator(amount, true);
+
+    // Set the indicator parameters
+    float y_pos = GetYLocation() - (GetSpriteHeight() / 3 * 2);
+    BattleMode* BM = BattleMode::CurrentInstance();
+    vt_mode_manager::IndicatorSupervisor& indicator = BM->GetIndicatorSupervisor();
+    indicator.AddHealingIndicator(GetXLocation(), y_pos, amount, _GetHealingTextStyle(amount, true));
 
     // Reset the stamina icon position and battle state time to the minimum
-    BattleMode::CurrentInstance()->SetActorIdleStateTime(this);
+    BM->SetActorIdleStateTime(this);
 
     ChangeState(ACTOR_STATE_REVIVE);
 }
 
+vt_video::TextStyle BattleActor::_GetHealingTextStyle(uint32 amount, bool is_hp)
+{
+    const Color low_green(0.0f, 1.0f, 0.60f, 1.0f);
+    const Color mid_green(0.0f, 1.0f, 0.30f, 1.0f);
+    const Color high_green(0.0f, 1.0f, 0.15f, 1.0f);
+
+    const Color low_blue(0.0f, 0.60f, 1.0f, 1.0f);
+    const Color mid_blue(0.0f, 0.30f, 1.0f, 1.0f);
+    const Color high_blue(0.0f, 0.15f, 1.0f, 1.0f);
+
+    TextStyle style;
+    std::string text = NumberToString(amount);
+
+    // Use different colors/shades of green/blue for different degrees of healing
+    std::string font;
+    float healing_percent = static_cast<float>(amount / GetMaxHitPoints());
+    if(healing_percent < 0.10f) {
+        font = "text24";
+        style.SetColor(is_hp ? low_green : low_blue);
+    } else if(healing_percent < 0.20f) {
+        font = "text24";
+        style.SetColor(is_hp ? mid_green : mid_blue);
+    } else if(healing_percent < 0.30f) {
+        font = "text26";
+        style.SetColor(is_hp ? high_green : high_blue);
+    } else { // (healing_percent >= 0.30f)
+        font = "text26";
+        style.SetColor(is_hp ? Color::green : Color::blue);
+    }
+    style.SetFont(font);
+    style.SetShadowStyle(VIDEO_TEXT_SHADOW_BLACK);
+    style.SetShadowOffsets(1, -2);
+
+    return style;
+}
+
 void BattleActor::RegisterMiss(bool was_attacked)
 {
-    _indicator_supervisor->AddMissIndicator();
+    // Set the indicator parameters
+    float y_pos = GetYLocation() - (GetSpriteHeight() / 2);
+    BattleMode* BM = BattleMode::CurrentInstance();
+    vt_mode_manager::IndicatorSupervisor& indicator = BM->GetIndicatorSupervisor();
+    indicator.AddMissIndicator(GetXLocation(), y_pos);
 
     if(was_attacked)
         ChangeSpriteAnimation("dodge");
@@ -418,8 +518,6 @@ void BattleActor::Update()
     _hurt_timer.Update();
 
     _UpdateStaminaIconPosition();
-
-    _indicator_supervisor->Update();
 
     if (_state_timer.IsFinished()) {
         if (_state == ACTOR_STATE_IDLE) {
@@ -488,11 +586,6 @@ void BattleActor::_UpdateStaminaIconPosition()
 
     _x_stamina_location = x_pos;
     _y_stamina_location = y_pos;
-}
-
-void BattleActor::DrawIndicators() const
-{
-    _indicator_supervisor->Draw();
 }
 
 void BattleActor::DrawStaminaIcon(const vt_video::Color &color) const
@@ -783,8 +876,10 @@ void BattleCharacter::Update()
     _current_sprite_animation->Update();
     _current_weapon_animation.Update();
 
+    BattleMode* BM = BattleMode::CurrentInstance();
+
     // In scene mode, only the animations are updated
-    if (BattleMode::CurrentInstance()->IsInSceneMode())
+    if (BM->IsInSceneMode())
         return;
 
     // Update potential scripted Battle action without hardcoded logic in that case
@@ -797,7 +892,7 @@ void BattleCharacter::Update()
 
     // Only set the origin when actor are in normal battle mode,
     // Otherwise the battle sequence manager will take care of them.
-    if(BattleMode::CurrentInstance()->GetState() == BATTLE_STATE_NORMAL) {
+    if(BM->GetState() == BATTLE_STATE_NORMAL) {
         _x_location = _x_origin;
         _y_location = _y_origin;
     }
@@ -858,7 +953,11 @@ void BattleCharacter::Update()
         // If it was an item action, show the item used.
         if(_action->IsItemAction()) {
             ItemAction *item_action = static_cast<ItemAction *>(_action);
-            _indicator_supervisor->AddItemIndicator(item_action->GetItem()->GetItem());
+
+            // Creates an item indicator
+            float y_pos = GetYLocation() - GetSpriteHeight();
+            vt_mode_manager::IndicatorSupervisor& indicator = BM->GetIndicatorSupervisor();
+            indicator.AddItemIndicator(GetXLocation(), y_pos, item_action->GetItem()->GetItem());
         }
 
         ChangeState(ACTOR_STATE_COOL_DOWN);

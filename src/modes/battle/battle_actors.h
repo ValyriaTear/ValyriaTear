@@ -38,7 +38,6 @@ namespace private_battle
 
 class BattleAction;
 class EffectsSupervisor;
-class IndicatorSupervisor;
 
 /** ****************************************************************************
 *** \brief An abstract class for representing an object in the battle
@@ -415,13 +414,6 @@ public:
     //! or GLOBAL_STATUS_NEUTRAL if there is no such effect.
     vt_global::GLOBAL_INTENSITY GetActiveStatusEffectIntensity(vt_global::GLOBAL_STATUS status);
 
-    /** Returns the reference of the indicators supervisor.
-    *** It is sometimes used by the effect supervisor to trigger status effects and elemental effects display.
-    **/
-    IndicatorSupervisor *GetIndicatorSupervisor() {
-        return _indicator_supervisor;
-    }
-
     /** \brief Increases or decreases the current skill points of the actor
     *** \param amount The number of skill points to increase or decrease
     ***
@@ -451,9 +443,6 @@ public:
     *** but not any battle state.
     **/
     virtual void Update();
-
-    //! \brief Draws all active indicator text and graphics for the actor
-    void DrawIndicators() const;
 
     //! \brief Draws the stamina icon - default implementation
     virtual void DrawStaminaIcon(const vt_video::Color &color = vt_video::Color::white) const;
@@ -619,9 +608,6 @@ protected:
     //! \brief An assistant class to the actor that manages all the actor's status and elemental effects
     EffectsSupervisor *_effects_supervisor;
 
-    //! \brief An assistant class to the actor that manages all the actor's indicator text and graphics
-    IndicatorSupervisor *_indicator_supervisor;
-
     //! \brief Updates the Stamina Icon position.
     void _UpdateStaminaIconPosition();
 
@@ -633,6 +619,10 @@ protected:
     //! are applied on top of the global actor values and properly reset to the global
     //! (and equipment values) when the battle effects disappear.
     void _InitStats();
+
+    //! Returns the text style corresponding to the damage/healing type and amount
+    vt_video::TextStyle _GetDamageTextStyle(uint32 amount, bool is_sp_damage);
+    vt_video::TextStyle _GetHealingTextStyle(uint32 amount, bool is_hp);
 }; // class BattleActor
 
 

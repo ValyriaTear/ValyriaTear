@@ -275,6 +275,8 @@
 		<Unit filename="src/engine/effect_supervisor.cpp" />
 		<Unit filename="src/engine/effect_supervisor.h" />
 		<Unit filename="src/engine/engine_bindings.cpp" />
+		<Unit filename="src/engine/indicator_supervisor.cpp" />
+		<Unit filename="src/engine/indicator_supervisor.h" />
 		<Unit filename="src/engine/input.cpp" />
 		<Unit filename="src/engine/input.h" />
 		<Unit filename="src/engine/mode_manager.cpp" />
@@ -433,8 +435,6 @@
 		<Unit filename="src/modes/battle/battle_effects.h" />
 		<Unit filename="src/modes/battle/battle_finish.cpp" />
 		<Unit filename="src/modes/battle/battle_finish.h" />
-		<Unit filename="src/modes/battle/battle_indicators.cpp" />
-		<Unit filename="src/modes/battle/battle_indicators.h" />
 		<Unit filename="src/modes/battle/battle_sequence.cpp" />
 		<Unit filename="src/modes/battle/battle_sequence.h" />
 		<Unit filename="src/modes/battle/battle_utils.cpp" />

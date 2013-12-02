@@ -26,7 +26,6 @@
 
 #include "modes/battle/battle.h"
 #include "modes/battle/battle_actors.h"
-#include "modes/battle/battle_indicators.h"
 #include "modes/battle/battle_utils.h"
 
 using namespace vt_utils;
@@ -427,6 +426,11 @@ bool EffectsSupervisor::ChangeStatus(GLOBAL_STATUS status, GLOBAL_INTENSITY inte
         previous_intensity = active_effect->GetIntensity();
     }
 
+    BattleMode* BM = BattleMode::CurrentInstance();
+    vt_mode_manager::IndicatorSupervisor& indicator = BM->GetIndicatorSupervisor();
+    float x_pos = _actor->GetXLocation();
+    float y_pos = _actor->GetYLocation() - (_actor->GetSpriteHeight() / 3 * 2);
+
     // Perform status changes according to the previously determined information
     if(active_effect) {
         if (increase_intensity)
@@ -442,14 +446,14 @@ bool EffectsSupervisor::ChangeStatus(GLOBAL_STATUS status, GLOBAL_INTENSITY inte
             active_effect = NULL;
         }
 
-        _actor->GetIndicatorSupervisor()->AddStatusIndicator(status, previous_intensity, new_intensity);
+        indicator.AddStatusIndicator(x_pos, y_pos, status, previous_intensity, new_intensity);
         return true;
     }
     else {
         _CreateNewStatus(status, intensity, duration);
         new_intensity = intensity;
 
-        _actor->GetIndicatorSupervisor()->AddStatusIndicator(status, previous_intensity, new_intensity);
+        indicator.AddStatusIndicator(x_pos, y_pos, status, previous_intensity, new_intensity);
     }
 
     return false;

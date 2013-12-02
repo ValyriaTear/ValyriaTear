@@ -9,7 +9,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 /** ****************************************************************************
-*** \file    battle_indicators.h
+*** \file    indicator_supervisor.h
 *** \author  Tyler Olsen, roots@allacrost.org
 *** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Header file for battle indicator displays.
@@ -20,17 +20,14 @@
 *** damage, healing, and elemental or status effects.
 *** ***************************************************************************/
 
-#ifndef __BATTLE_INDICATORS_HEADER__
-#define __BATTLE_INDICATORS_HEADER__
+#ifndef __INDICATOR_SUPERVISOR_HEADER__
+#define __INDICATOR_SUPERVISOR_HEADER__
 
 #include "engine/video/text.h"
 
 #include "modes/battle/battle_utils.h"
 
-namespace vt_battle
-{
-
-namespace private_battle
+namespace vt_mode_manager
 {
 
 /** \brief the indicator types.
@@ -39,35 +36,27 @@ namespace private_battle
 enum INDICATOR_TYPE {
     DAMAGE_INDICATOR = 0,
     HEALING_INDICATOR = 1,
-    MISS_INDICATOR = 2,
+    TEXT_INDICATOR = 2,
     POSITIVE_STATUS_EFFECT_INDICATOR = 3,
     NEGATIVE_STATUS_EFFECT_INDICATOR = 4,
     ITEM_INDICATOR = 5
 };
 
 /** ****************************************************************************
-*** \brief An abstract class for displaying information about a change in an actor's state
+*** \brief An abstract class for displaying information
 ***
-*** Indicators are text or graphics that appear next to actor sprites in battle.
+*** Indicators are text or graphics that appear in a game mode.
 *** They typically represent changes to the actor such as numeric text representing
 *** damage or healing, icons representing status effects, etc. The standard draw
 *** sequence for elements comes in three stages to make the indicators presence and
 *** disappearance more natural.
-***
-*** -# An initial transparent fade in of element over a short period of time
-*** -# Element draw at full opacity
-*** -# Finishing with a brief transparent fade out of the element
-***
-*** \note Indicators are drawn at different orientations for different actors. For
-*** example, indicator elements and draw to the left of character actors and to
-*** the right for enemy actors.
 *** ***************************************************************************/
 class IndicatorElement
 {
 public:
-    //! \param actor A valid pointer to the actor object this indicator
+    //! \param x_position, y_position The indicator base position on screen.
     //! \param indicator_type tells the indicator use in game.
-    IndicatorElement(BattleActor *actor, INDICATOR_TYPE indicator_type);
+    IndicatorElement(float x_position, float y_position, INDICATOR_TYPE indicator_type);
 
     virtual ~IndicatorElement()
     {}
@@ -81,10 +70,9 @@ public:
     //! \brief Returns a floating point value that represents the height of the element drawn
     virtual float ElementHeight() const = 0;
 
-    /** \brief Draws the indicator information to the screen.
-    *** This function will automatically place the cursor at the actor location.
-    **/
-    virtual void Draw();
+    //! \brief Draws the indicator information to the screen.
+    virtual void Draw()
+    {}
 
     //! \brief Returns true when the indicator element has expired and should be removed
     bool IsExpired() const {
@@ -96,30 +84,24 @@ public:
         return _timer.GetTimeExpired() > 0;
     }
 
-    //! \name Class member accessor methods
-    //@{
-    const BattleActor *GetActor() const {
-        return _actor;
-    }
-
-    const vt_system::SystemTimer &GetTimer() const {
+    const vt_system::SystemTimer& GetTimer() const {
         return _timer;
     }
 
     float GetXOrigin() const {
-        return _x_absolute_position;
+        return _x_origin_position;
     }
 
     float GetYOrigin() const {
-        return _y_absolute_position;
+        return _y_origin_position;
     }
 
     void SetXOrigin(float x) {
-        _x_absolute_position = x;
+        _x_origin_position = x;
     }
 
     void SetYOrigin(float y) {
-        _y_absolute_position = y;
+        _y_origin_position = y;
     }
 
     INDICATOR_TYPE GetType() const {
@@ -128,9 +110,6 @@ public:
     //@}
 
 protected:
-    //! \brief The actor that the indicator element will be displayed for
-    BattleActor *_actor;
-
     //! \brief Used to monitor the display progress
     vt_system::SystemTimer _timer;
 
@@ -143,17 +122,17 @@ protected:
     //! \brief Represent the force currently applied on the effects per second on the y axis.
     float _y_force;
 
-    //! \brief Represent the current x position of the effect, relative to its actor coordinates.
-    float _x_position;
+    //! \brief Represent the origin x position of the effect.
+    float _x_origin_position;
 
-    //! \brief Represent the current y position of the effect, relative to its actor coordinates.
-    float _y_position;
+    //! \brief Represent the origin y position of the effect.
+    float _y_origin_position;
 
-    //! \brief Represent the absolute (or starting) x position of the effect.
-    float _x_absolute_position;
+    //! \brief Represent the current x position of the effect, relative to its base coordinates.
+    float _x_relative_position;
 
-    //! \brief Represent the absolute (or starting) y position of the effect.
-    float _y_absolute_position;
+    //! \brief Represent the current y position of the effect, relative to its base coordinates.
+    float _y_relative_position;
 
     /** \brief the indicator type.
     *** According to the indicator type, the draw position computation won't be the same
@@ -176,7 +155,7 @@ protected:
 
 
 /** ****************************************************************************
-*** \brief Displays an item of text next to an actor
+*** \brief Displays an item of text
 ***
 *** Text indicators are normally used to display numeric text representing the
 *** amount of damage dealt to the actor or the amount of healing performed. Another
@@ -189,12 +168,13 @@ protected:
 class IndicatorText : public IndicatorElement
 {
 public:
-    /** \param actor A valid pointer to the actor object
+    /** \param x_position, y_position The indicator base position on screen.
     *** \param text The text to use to render the text image
     *** \param style The style to use to render the text image
     *** \param indicator_type tells the indicator use in game.
     **/
-    IndicatorText(BattleActor *actor, const std::string &text, const vt_video::TextStyle &style,
+    IndicatorText(float x_position, float y_position,
+                  const std::string &text, const vt_video::TextStyle &style,
                   INDICATOR_TYPE indicator_type);
 
     ~IndicatorText()
@@ -216,7 +196,7 @@ protected:
 
 
 /** ****************************************************************************
-*** \brief Displays an image next to an actor
+*** \brief Displays an image indicator
 ***
 *** This indicator displays a single image and is typically used for illustrating
 *** elemental and status effects.
@@ -224,18 +204,18 @@ protected:
 class IndicatorImage : public IndicatorElement
 {
 public:
-    /** \param actor A valid pointer to the actor object this indicator
+    /** \param x_position, y_position The indicator base position on screen.
     *** \param filename The name of the image file to load
     *** \param indicator_type tells the indicator use in game.
     **/
-    IndicatorImage(BattleActor *actor, const std::string &filename,
+    IndicatorImage(float x_position, float y_position, const std::string &filename,
                    INDICATOR_TYPE indicator_type);
 
     /** \param actor A valid pointer to the actor object this indicator
     *** \param image A const reference to the loaded image object to display
     *** \param indicator_type tells the indicator use in game.
     **/
-    IndicatorImage(BattleActor *actor, const vt_video::StillImage &image,
+    IndicatorImage(float x_position, float y_position, const vt_video::StillImage &image,
                    INDICATOR_TYPE indicator_type);
 
     ~IndicatorImage()
@@ -250,7 +230,7 @@ public:
     void Draw();
 
     //! \brief Returns a reference to the image use
-    vt_video::StillImage &GetImage() {
+    vt_video::StillImage& GetImage() {
         return _image;
     }
 
@@ -262,7 +242,7 @@ protected:
 
 
 /** ****************************************************************************
-*** \brief Displays two images blended together next to an actor
+*** \brief Displays two images blended together
 ***
 *** This indicator is similar to the IndicatorImage class in that it displays
 *** an image. The difference is that it uses two images that blend together to
@@ -281,21 +261,21 @@ protected:
 class IndicatorBlendedImage : public IndicatorElement
 {
 public:
-    /** \param actor A valid pointer to the actor object this indicator
+    /** \param x_position, y_position The indicator base position on screen.
     *** \param first_filename The name of the first image file to load
     *** \param second_filename The name of the second image file to load
     *** \param indicator_type tells the indicator use in game.
     **/
-    IndicatorBlendedImage(BattleActor *actor, const std::string &first_filename,
+    IndicatorBlendedImage(float x_position, float y_position, const std::string &first_filename,
                           const std::string &second_filename,
                           INDICATOR_TYPE indicator_type);
 
-    /** \param actor A valid pointer to the actor object this indicator
+    /** \param x_position, y_position The indicator base position on screen.
     *** \param first_image A const reference to the first loaded image to display
     *** \param second_image A const reference to the second loaded image to display
     *** \param indicator_type tells the indicator use in game.
     **/
-    IndicatorBlendedImage(BattleActor *actor, const vt_video::StillImage &first_image,
+    IndicatorBlendedImage(float x_position, float y_position, const vt_video::StillImage &first_image,
                           const vt_video::StillImage &second_image,
                           INDICATOR_TYPE indicator_type);
 
@@ -311,12 +291,12 @@ public:
     void Draw();
 
     //! \brief Returns a reference to the first image
-    vt_video::StillImage &GetFirstImage() {
+    vt_video::StillImage& GetFirstImage() {
         return _first_image;
     }
 
     //! \brief Returns a reference to the second image
-    vt_video::StillImage &GetSecondImage() {
+    vt_video::StillImage& GetSecondImage() {
         return _second_image;
     }
 
@@ -329,7 +309,7 @@ protected:
     vt_video::StillImage _second_image;
 
     /** \brief A modulation color used to modify the alpha (transparency) of the second image
-    *** \note This is only used when both the first and second images are beind drawn blended
+    *** \note This is only used when both the first and second images are being drawn blended
     *** together. The first image will use the inherited _alpha_color member in this case.
     *** _alpha_color is also used for both the standard element fade in and fade out effects.
     **/
@@ -338,7 +318,7 @@ protected:
 
 
 /** ****************************************************************************
-*** \brief Manages all indicator elements for an actor
+*** \brief Manages all indicator display and update
 ***
 *** Text indicators are normally used to display numeric text representing the
 *** amount of damage dealt to the actor or the amount of healing performed. Another
@@ -351,8 +331,8 @@ protected:
 class IndicatorSupervisor
 {
 public:
-    //! \param actor A valid pointer to the actor object that this class is responsible for
-    IndicatorSupervisor(BattleActor *actor);
+    IndicatorSupervisor()
+    {}
 
     ~IndicatorSupervisor();
 
@@ -364,28 +344,29 @@ public:
 
     /** \brief Creates indicator text representing a numeric amount of damage dealt
     *** \param amount The amount of damage to display, in hit points. Should be non-zero.
-    *** \param is_sp_damage Tells whether what's removed is hp or sp.
+    *** \param style The text style the damage should be shown with (font + color + shadow)
     ***
     *** This function will not actually cause any damage to come to the actor (that is, the actor's
     *** hit points are not modified by this function). The degree of damage relative to the character's
     *** maximum hit points determines the color and size of the text rendered.
     **/
-    void AddDamageIndicator(uint32 amount, bool is_sp_damage);
+    void AddDamageIndicator(float x_position, float y_position,
+                            uint32 amount, const vt_video::TextStyle& style);
 
     /** \brief Creates indicator text representing a numeric amount of healing dealt
     *** \param amount The amount of healing to display, in points. Should be non-zero.
-    *** \param hit_points whether the healing is speaking about Hit Points or Skill Points.
+    *** \param style The text style the damage should be shown with (font + color + shadow)
     ***
     *** This function will not actually cause any healing to come to the actor (that is, the actor's
     *** hit points are not modified by this function). The degree of healing relative to the character's
     *** maximum hit points determines the color and size of the text rendered.
     **/
-    void AddHealingIndicator(uint32 amount, bool hit_points = true);
+    void AddHealingIndicator(float x_position, float y_position, uint32 amount, const vt_video::TextStyle& style);
 
     /** \brief Creates indicator text showing a miss on the actor
     *** Miss text is always drawn with the same style in a small font with white text
     **/
-    void AddMissIndicator();
+    void AddMissIndicator(float x_position, float y_position);
 
     /** \brief Creates an indicator that illustrates a change in an actor's status
     *** \param status The type of the status effect
@@ -398,15 +379,14 @@ public:
     *** example, when the timer for the status effect is reset. If the status and intensity arguments are equal,
     *** only a single icon image will be used in the indicator.
     **/
-    void AddStatusIndicator(vt_global::GLOBAL_STATUS status, vt_global::GLOBAL_INTENSITY old_intensity,
+    void AddStatusIndicator(float x_position, float y_position,
+                            vt_global::GLOBAL_STATUS status, vt_global::GLOBAL_INTENSITY old_intensity,
                             vt_global::GLOBAL_INTENSITY new_intensity);
 
     //! \brief Creates indicator with item image above the character
-    void AddItemIndicator(const vt_global::GlobalItem &item);
+    void AddItemIndicator(float x_position, float y_position,
+                          const vt_global::GlobalItem& item);
 private:
-    //! \brief A pointer to the actor that this class supervises indicator elements for
-    BattleActor *_actor;
-
     //! \brief A FIFO queue container of elements that are waiting to be started and added to the active elements container
     std::deque<IndicatorElement *> _wait_queue;
 
@@ -415,12 +395,10 @@ private:
 
     //! Check the waiting queue and fix potential overlaps depending on the element position and type.
     //! \param element the Indicator Element which is about to be added.
-    //! \return whether there were overlappiong elements whose positions were fixed.
+    //! \return whether there were overlapping elements whose positions were fixed.
     bool _FixPotentialIndicatorOverlapping(IndicatorElement *element);
 }; // class IndicatorSupervisor
 
-} // namespace private_battle
+} // namespace vt_mode_manager
 
-} // namespace vt_battle
-
-#endif // __BATTLE_INDICATORS_HEADER__
+#endif // __INDICATOR_SUPERVISOR_HEADER__

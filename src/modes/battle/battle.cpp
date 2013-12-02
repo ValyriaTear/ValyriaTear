@@ -1062,7 +1062,7 @@ void BattleMode::_DrawGUI()
 
     // Don't draw battle actor indicators at battle ends
     if(_state != BATTLE_STATE_VICTORY && _state != BATTLE_STATE_DEFEAT)
-        _DrawIndicators();
+        GetIndicatorSupervisor().Draw();
 
     if(_command_supervisor->GetState() != COMMAND_STATE_INVALID) {
         // Do not draw the command selection GUI if the battle is in scene mode
@@ -1181,21 +1181,6 @@ void BattleMode::_DrawStaminaBar()
             _battle_media.stamina_icon_selected.Draw();
     }
 } // void BattleMode::_DrawStaminaBar()
-
-
-
-void BattleMode::_DrawIndicators()
-{
-    // Draw all character sprites
-    for(uint32 i = 0; i < _character_actors.size(); ++i) {
-        _character_actors[i]->DrawIndicators();
-    }
-
-    // Draw all enemy sprites
-    for(uint32 i = 0; i < _enemy_actors.size(); ++i) {
-        _enemy_actors[i]->DrawIndicators();
-    }
-}
 
 
 // Available encounter sounds
