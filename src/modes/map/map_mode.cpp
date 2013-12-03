@@ -1097,7 +1097,7 @@ void MapMode::_DrawGUI()
         if(GlobalManager->ShouldDisplayHudNameOnMapIntro()) {
             VideoManager->PushState();
             VideoManager->SetStandardCoordSys();
-            VideoManager->SetDrawFlags(VIDEO_X_CENTER, VIDEO_Y_CENTER, 0);
+            VideoManager->SetDrawFlags(VIDEO_X_CENTER, VIDEO_Y_CENTER, VIDEO_BLEND, 0);
             VideoManager->Move(512.0f, 100.0f);
             _map_image.Draw(blend);
             float shifting = (((float)time) - 2000.0f) / 100.0f;
@@ -1109,7 +1109,7 @@ void MapMode::_DrawGUI()
         // Show the map subname when there is one
         VideoManager->PushState();
         VideoManager->SetStandardCoordSys();
-        VideoManager->SetDrawFlags(VIDEO_X_CENTER, VIDEO_Y_CENTER, 0);
+        VideoManager->SetDrawFlags(VIDEO_X_CENTER, VIDEO_Y_CENTER, VIDEO_BLEND, 0);
         (GlobalManager->ShouldDisplayHudNameOnMapIntro() && !_map_hud_name.GetString().empty()) ?
         VideoManager->Move(512.0f, 170.0f) : VideoManager->Move(512.0f, 20.0f);
         _map_hud_subname.Draw(blend);
@@ -1145,7 +1145,7 @@ void MapMode::_DrawGUI()
 
     VideoManager->PushState();
     VideoManager->SetStandardCoordSys();
-    VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_CENTER, 0);
+    VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_CENTER, VIDEO_BLEND, 0);
 
     float x_pos = cam->GetXPosition();
     float y_pos = cam->GetYPosition();
