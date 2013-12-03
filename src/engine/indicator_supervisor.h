@@ -143,14 +143,12 @@ protected:
     void _UpdateDrawPosition();
 
     /** \brief Calculates the standard alpha (transparency) value for drawing the element
-    *** \return True if the alpha value is 1.0f and thus the indicator should be drawn with no alpha applied
-    ***
     *** Calling this function will set the alpha value of the _alpha_color member. Indicator elements
     *** generally fade in and fade out to make their appearance more seamless on the battle field.
     *** Alpha gradually increases from 0.0f to 1.0f in the first stage, remains at 1.0f for a majority
     *** of the time, then gradually decreases back to 0.0f as the display finishes.
     **/
-    bool _ComputeDrawAlpha();
+    void _ComputeDrawAlpha();
 }; // class IndicatorElement
 
 

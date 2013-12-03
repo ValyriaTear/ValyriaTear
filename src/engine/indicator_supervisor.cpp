@@ -75,6 +75,7 @@ void IndicatorElement::Update()
 {
     _timer.Update();
     _UpdateDrawPosition();
+    _ComputeDrawAlpha();
 }
 
 void IndicatorElement::_UpdateDrawPosition()
@@ -130,28 +131,23 @@ void IndicatorElement::_UpdateDrawPosition()
     }
 }
 
-
-
-bool IndicatorElement::_ComputeDrawAlpha()
+void IndicatorElement::_ComputeDrawAlpha()
 {
     // Timer is not running nor paused so indicator should not be drawn
     if((_timer.GetState() == vt_system::SYSTEM_TIMER_RUNNING) && (_timer.GetState() == vt_system::SYSTEM_TIMER_PAUSED)) {
         _alpha_color.SetAlpha(0.0f);
-        return true;
     }
     // Timer is in beginning stage and indicator graphic is fading in
     else if(_timer.GetTimeExpired() < INDICATOR_FADEIN_TIME) {
         _alpha_color.SetAlpha(static_cast<float>(_timer.GetTimeExpired()) / static_cast<float>(INDICATOR_FADEIN_TIME));
-        return true;
     }
     // Timer is in final stage and indicator graphic is fading out
     else if(_timer.TimeLeft() < INDICATOR_FADEOUT_TIME) {
         _alpha_color.SetAlpha(static_cast<float>(_timer.TimeLeft()) / static_cast<float>(INDICATOR_FADEOUT_TIME));
-        return true;
     }
     // Timer is in middle stage and indicator graphic should be drawn with no transparency
     else {
-        return false;
+        _alpha_color.SetAlpha(1.0f);
     }
 }
 
@@ -173,10 +169,7 @@ void IndicatorText::Draw()
     VideoManager->SetDrawFlags(VIDEO_X_RIGHT, VIDEO_Y_BOTTOM, VIDEO_BLEND, 0);
     VideoManager->Move(_x_origin_position + _x_relative_position, _y_origin_position - _y_relative_position);
 
-    if(_ComputeDrawAlpha())
-        _text_image.Draw(_alpha_color);
-    else
-        _text_image.Draw();
+    _text_image.Draw(_alpha_color);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -208,10 +201,7 @@ void IndicatorImage::Draw()
     VideoManager->SetDrawFlags(VIDEO_X_RIGHT, VIDEO_Y_BOTTOM, VIDEO_BLEND, 0);
     VideoManager->Move(_x_origin_position + _x_relative_position, _y_origin_position - _y_relative_position);
 
-    if(_ComputeDrawAlpha())
-        _image.Draw(_alpha_color);
-    else
-        _image.Draw();
+    _image.Draw(_alpha_color);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -257,7 +247,6 @@ void IndicatorBlendedImage::Draw()
 
     // Initial fade in of first image
     if(_timer.GetTimeExpired() <= INDICATOR_FADEIN_TIME) {
-        _ComputeDrawAlpha();
         _first_image.Draw(_alpha_color);
     }
     // Opaque draw of first image
@@ -278,7 +267,6 @@ void IndicatorBlendedImage::Draw()
     }
     // Final fade out of second image
     else { // <= end
-        _ComputeDrawAlpha();
         _second_image.Draw(_alpha_color);
     }
 }
