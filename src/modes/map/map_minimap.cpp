@@ -90,10 +90,10 @@ Minimap::Minimap(const std::string& minimap_image_filename) :
     _location_marker.SetHeight(_box_y_length * 5);
     _location_marker.SetFrameIndex(0);
 
-    float ratio_x = vt_video::VideoManager->GetScreenWidth() / 800.0f;
-    float ratio_y = vt_video::VideoManager->GetScreenHeight() / 600.0f;
-    _viewport_x = 610.0f * ratio_x;
-    _viewport_y = 42.0f * ratio_y;
+    float ratio_x = vt_video::VideoManager->GetViewportWidth() / 800.0f;
+    float ratio_y = vt_video::VideoManager->GetViewportHeight() / 600.0f;
+    _viewport_x = (610.0f * ratio_x) + vt_video::VideoManager->GetViewportXOffset();
+    _viewport_y = (42.0f * ratio_y) + vt_video::VideoManager->GetViewportYOffset();
     _viewport_width = 175.0f * ratio_x;
     _viewport_height = 128.0f * ratio_y;
 }

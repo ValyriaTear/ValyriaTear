@@ -140,7 +140,7 @@ bool TexSheet::CopyScreenRect(int32 x, int32 y, const ScreenRect &screen_rect)
         x, // x offset within tex sheet
         y, // y offset within tex sheet
         screen_rect.left, // left starting pixel of the screen to copy
-        screen_rect.top - screen_rect.height, // bottom starting pixel of the screen to copy
+        screen_rect.top, // top starting pixel of the screen to copy
         screen_rect.width, // width in pixels of image
         screen_rect.height // height in pixels of image
     );

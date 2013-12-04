@@ -627,7 +627,7 @@ void BootMode::_SetupJoySettingsMenu()
 void BootMode::_SetupResolutionMenu()
 {
     _resolution_menu.SetPosition(512.0f, 468.0f);
-    _resolution_menu.SetDimensions(300.0f, 200.0f, 1, 4, 1, 4);
+    _resolution_menu.SetDimensions(300.0f, 200.0f, 1, 7, 1, 7);
     _resolution_menu.SetTextStyle(TextStyle("title22"));
     _resolution_menu.SetAlignment(VIDEO_X_CENTER, VIDEO_Y_CENTER);
     _resolution_menu.SetOptionAlignment(VIDEO_X_CENTER, VIDEO_Y_CENTER);
@@ -640,6 +640,9 @@ void BootMode::_SetupResolutionMenu()
     _resolution_menu.AddOption(MakeUnicodeString("800 x 600"), &BootMode::_OnResolution800x600);
     _resolution_menu.AddOption(MakeUnicodeString("1024 x 768"), &BootMode::_OnResolution1024x768);
     _resolution_menu.AddOption(MakeUnicodeString("1280 x 1024"), &BootMode::_OnResolution1280x1024);
+    _resolution_menu.AddOption(MakeUnicodeString("1366 x 768"), &BootMode::_OnResolution1366x768);
+    _resolution_menu.AddOption(MakeUnicodeString("1440 x 900"), &BootMode::_OnResolution1440x900);
+    _resolution_menu.AddOption(MakeUnicodeString("1600 x 900"), &BootMode::_OnResolution1600x900);
 
     if(VideoManager->GetScreenWidth() == 640)
         _resolution_menu.SetSelection(0);
@@ -649,6 +652,12 @@ void BootMode::_SetupResolutionMenu()
         _resolution_menu.SetSelection(2);
     else if(VideoManager->GetScreenWidth() == 1280)
         _resolution_menu.SetSelection(3);
+    else if(VideoManager->GetScreenWidth() == 1366)
+        _resolution_menu.SetSelection(4);
+    else if(VideoManager->GetScreenWidth() == 1440)
+        _resolution_menu.SetSelection(5);
+    else if(VideoManager->GetScreenWidth() == 1600)
+        _resolution_menu.SetSelection(6);
 }
 
 void BootMode::_RefreshVideoOptions()
@@ -878,35 +887,40 @@ void BootMode::_OnResolution()
     _active_menu = &_resolution_menu;
 }
 
-
-
 void BootMode::_OnResolution640x480()
 {
     _ChangeResolution(640, 480);
 }
-
-
 
 void BootMode::_OnResolution800x600()
 {
     _ChangeResolution(800, 600);
 }
 
-
-
 void BootMode::_OnResolution1024x768()
 {
     _ChangeResolution(1024, 768);
 }
-
-
 
 void BootMode::_OnResolution1280x1024()
 {
     _ChangeResolution(1280, 1024);
 }
 
+void BootMode::_OnResolution1366x768()
+{
+    _ChangeResolution(1366, 768);
+}
 
+void BootMode::_OnResolution1440x900()
+{
+    _ChangeResolution(1440, 900);
+}
+
+void BootMode::_OnResolution1600x900()
+{
+    _ChangeResolution(1600, 900);
+}
 
 void BootMode::_OnBrightnessLeft()
 {

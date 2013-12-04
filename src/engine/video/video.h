@@ -231,6 +231,20 @@ public:
         return _screen_height;
     }
 
+    //! \brief Returns the viewport current offsets/width/height
+    int32 GetViewportXOffset() const {
+        return _viewport_x_offset;
+    }
+    int32 GetViewportYOffset() const {
+        return _viewport_y_offset;
+    }
+    int32 GetViewportWidth() const {
+        return _viewport_width;
+    }
+    int32 GetViewportHeight() const {
+        return _viewport_height;
+    }
+
     bool IsInitialized() const {
         return _initialized;
     }
@@ -702,8 +716,16 @@ private:
     //! \brief Holds whether the GL_VERTEX_ARRAY state is activated. Used to optimize the drawing logic
     bool _gl_texture_coord_array_is_activated;
 
-    //! \brief The width and height of the current screen, in pixels
-    int32  _screen_width, _screen_height;
+    //! \brief The x/y offsets, width and height of the current viewport (the drawn part), in pixels
+    //! \note the viewport is different from the screen size when in non-4:3 modes.
+    int32 _viewport_x_offset;
+    int32 _viewport_y_offset;
+    int32 _viewport_width;
+    int32 _viewport_height;
+
+    //! \brief The width and height of the current screen (window), in pixels
+    int32 _screen_width;
+    int32 _screen_height;
 
     //! \brief True if the game is currently running fullscreen
     bool _fullscreen;
@@ -784,6 +806,10 @@ private:
     * \return the converted value
     */
     int32 _ScreenCoordY(float y);
+
+    //! \brief Updates the viewport metrics according to the current screen width/height.
+    //! \note it also centers the viewport when the resolution isn't a 4:3 one.
+    void _UpdateViewportMetrics();
 }; // class VideoEngine : public vt_utils::Singleton<VideoEngine>
 
 }  // namespace vt_video

@@ -149,8 +149,8 @@ void AbstractMenuState::Draw()
     static const Color grayed(0.35f, 0.35f, 0.35f, 1.0f);
     // Draw the saved screen background
     // For that, set the system coordinates to the size of the window (same with the save-screen)
-    int32 width = VideoManager->GetScreenWidth();
-    int32 height = VideoManager->GetScreenHeight();
+    int32 width = VideoManager->GetViewportWidth();
+    int32 height = VideoManager->GetViewportHeight();
     VideoManager->SetCoordSys(0.0f, static_cast<float>(width), 0.0f, static_cast<float>(height));
 
     VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_BOTTOM, 0);
@@ -158,7 +158,7 @@ void AbstractMenuState::Draw()
     VideoManager->Move(0.0f, 0.0f);
     _menu_mode->_saved_screen.Draw();
 
-    // Restore the Coordinate system (that one is menu mode coodinate system)
+    // Restore the Coordinate system (that one is menu mode coordinate system)
     VideoManager->SetStandardCoordSys();
     VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_TOP, VIDEO_BLEND, 0);
 

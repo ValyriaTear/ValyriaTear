@@ -263,6 +263,9 @@ private:
     void _OnResolution800x600();
     void _OnResolution1024x768();
     void _OnResolution1280x1024();
+    void _OnResolution1366x768();
+    void _OnResolution1440x900();
+    void _OnResolution1600x900();
     void _OnBrightnessLeft();
     void _OnBrightnessRight();
     void _OnUIThemeLeft();

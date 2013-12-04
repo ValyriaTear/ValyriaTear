@@ -83,6 +83,10 @@ VideoEngine::VideoEngine():
     _gl_vertex_array_is_activated(false),
     _gl_color_array_is_activated(false),
     _gl_texture_coord_array_is_activated(false),
+    _viewport_x_offset(0),
+    _viewport_y_offset(0),
+    _viewport_width(0),
+    _viewport_height(0),
     _screen_width(0),
     _screen_height(0),
     _fullscreen(false),
@@ -105,7 +109,7 @@ VideoEngine::VideoEngine():
     _current_context.y_flip = 0;
     _current_context.coordinate_system = CoordSys(0.0f, VIDEO_STANDARD_RES_WIDTH,
                                          0.0f, VIDEO_STANDARD_RES_HEIGHT);
-    _current_context.viewport = ScreenRect(0, 0, 100, 100);
+    _current_context.viewport = ScreenRect(0, 0, VIDEO_STANDARD_RES_WIDTH, VIDEO_STANDARD_RES_HEIGHT);
     _current_context.scissor_rectangle = ScreenRect(0, 0, VIDEO_STANDARD_RES_WIDTH,
                                          VIDEO_STANDARD_RES_HEIGHT);
     _current_context.scissoring_enabled = false;
@@ -334,10 +338,10 @@ void VideoEngine::Clear()
 
 
 
-void VideoEngine::Clear(const Color &c)
+void VideoEngine::Clear(const Color& c)
 {
-    _current_context.viewport = ScreenRect(0, 0, _screen_width, _screen_height);
-    glViewport(0, 0, _screen_width, _screen_height);
+    _current_context.viewport = ScreenRect(_viewport_x_offset, _viewport_y_offset, _viewport_width, _viewport_height);
+    glViewport(_viewport_x_offset, _viewport_y_offset, _viewport_width, _viewport_height);
     glClearColor(c[0], c[1], c[2], c[3]);
     glClear(GL_COLOR_BUFFER_BIT);
 
@@ -394,8 +398,8 @@ const std::string VideoEngine::CreateGLErrorString()
 
 void VideoEngine::GetPixelSize(float &x, float &y)
 {
-    x = fabs(_current_context.coordinate_system.GetRight() - _current_context.coordinate_system.GetLeft()) / _screen_width;
-    y = fabs(_current_context.coordinate_system.GetTop() - _current_context.coordinate_system.GetBottom()) / _screen_height;
+    x = fabs(_current_context.coordinate_system.GetRight() - _current_context.coordinate_system.GetLeft()) / _viewport_width;
+    y = fabs(_current_context.coordinate_system.GetTop() - _current_context.coordinate_system.GetBottom()) / _viewport_height;
 }
 
 
@@ -403,15 +407,13 @@ void VideoEngine::GetPixelSize(float &x, float &y)
 bool VideoEngine::ApplySettings()
 {
     // Losing GL context, so unload images first
-    if(TextureManager && TextureManager->UnloadTextures() == false) {
+    if(!TextureManager || !TextureManager->UnloadTextures())
         IF_PRINT_WARNING(VIDEO_DEBUG) << "failed to delete OpenGL textures during a context change" << std::endl;
-    }
 
     int32 flags = SDL_OPENGL;
 
-    if(_temp_fullscreen == true) {
+    if(_temp_fullscreen)
         flags |= SDL_FULLSCREEN;
-    }
 
     SDL_GL_SetAttribute(SDL_GL_RED_SIZE, 8);
     SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE, 8);
@@ -443,9 +445,12 @@ bool VideoEngine::ApplySettings()
             _temp_width = _screen_width;
             _temp_height = _screen_height;
 
-            if(TextureManager && _screen_width > 0) {  // Test to see if we already had a valid video mode
+            _UpdateViewportMetrics();
+
+            // Test to see if we already had a valid video mode
+            if(TextureManager && _screen_width > 0)
                 TextureManager->ReloadTextures();
-            }
+
             return false;
         }
     }
@@ -467,11 +472,45 @@ bool VideoEngine::ApplySettings()
     _screen_height = _temp_height;
     _fullscreen = _temp_fullscreen;
 
+    _UpdateViewportMetrics();
+
     if(TextureManager)
         TextureManager->ReloadTextures();
 
     return true;
 } // bool VideoEngine::ApplySettings()
+
+void VideoEngine::_UpdateViewportMetrics()
+{
+    // Test the desired resolution and adds the necessary offsets if it's not a 4:3 one
+    float width = _screen_width;
+    float height = _screen_height;
+    float scr_ratio = height > 0.2f ? width / height : 1.33f;
+    if (vt_utils::IsFloatEqual(scr_ratio, 1.33f, 0.2f)) { // 1.33f == 4:3
+        // 4:3: No offsets
+        _viewport_x_offset = 0;
+        _viewport_y_offset = 0;
+        _viewport_width = _screen_width;
+        _viewport_height = _screen_height;
+        return;
+    }
+
+    // Handle non 4:3 cases
+    if (width >= height) {
+        float ideal_width = height / 3.0f * 4.0f;
+        _viewport_width = ideal_width;
+        _viewport_height = _screen_height;
+        _viewport_x_offset = (int32)((width - ideal_width) / 2.0f);
+        _viewport_y_offset = 0;
+    }
+    else {
+        float ideal_height = width / 3.0f * 4.0f;
+        _viewport_height = ideal_height;
+        _viewport_width = _screen_width;
+        _viewport_x_offset = 0;
+        _viewport_y_offset = (int32)((height - ideal_height) / 2.0f);
+    }
+}
 
 //-----------------------------------------------------------------------------
 // VideoEngine class - Coordinate system and viewport methods
@@ -512,7 +551,12 @@ void VideoEngine::SetViewport(float x, float y, float width, float height)
             << " at " << width << ":" << height << std::endl;
         return;
     }
-    glViewport((GLint) x, (GLint)y, (GLsizei)width, (GLsizei)height);
+
+    _viewport_x_offset = x;
+    _viewport_y_offset = y;
+    _viewport_width = width;
+    _viewport_height = height;
+    glViewport(_viewport_x_offset, _viewport_y_offset, _viewport_width, _viewport_height);
 }
 
 void VideoEngine::EnableScissoring()
@@ -817,7 +861,7 @@ StillImage VideoEngine::CaptureScreen() throw(Exception)
     screen_image.SetDimensions((float)viewport_dimensions[2], (float)viewport_dimensions[3]);
 
     // Set up the screen rectangle to copy
-    ScreenRect screen_rect(0, viewport_dimensions[3], viewport_dimensions[2], viewport_dimensions[3]);
+    ScreenRect screen_rect(viewport_dimensions[0], viewport_dimensions[1], viewport_dimensions[2], viewport_dimensions[3]);
 
     // Create a new ImageTexture with a unique filename for this newly captured screen
     ImageTexture *new_image = new ImageTexture("capture_screen" + NumberToString(capture_id), "<T>", viewport_dimensions[2], viewport_dimensions[3]);
@@ -968,8 +1012,9 @@ void VideoEngine::MakeScreenshot(const std::string &filename)
     buffer.pixels = malloc(buffer.width * buffer.height * 3);
     buffer.rgb_format = true;
 
-    // Read pixel data
-    glReadPixels(0, 0, buffer.width, buffer.height, GL_RGB, GL_UNSIGNED_BYTE, buffer.pixels);
+    // Read the viewport pixel data
+    glReadPixels(viewport_dimensions[0], viewport_dimensions[1],
+                 buffer.width, buffer.height, GL_RGB, GL_UNSIGNED_BYTE, buffer.pixels);
 
     if(CheckGLError() == true) {
         IF_PRINT_WARNING(VIDEO_DEBUG) << "an OpenGL error occured: " << CreateGLErrorString() << std::endl;
@@ -1055,7 +1100,7 @@ int32 VideoEngine::_ScreenCoordX(float x)
         percent = (x - _current_context.coordinate_system.GetRight()) /
                   (_current_context.coordinate_system.GetLeft() - _current_context.coordinate_system.GetRight());
 
-    return static_cast<int32>(percent * static_cast<float>(_screen_width));
+    return static_cast<int32>(percent * static_cast<float>(_viewport_width));
 }
 
 
@@ -1070,7 +1115,7 @@ int32 VideoEngine::_ScreenCoordY(float y)
         percent = (y - _current_context.coordinate_system.GetBottom()) /
                   (_current_context.coordinate_system.GetTop() - _current_context.coordinate_system.GetBottom());
 
-    return static_cast<int32>(percent * static_cast<float>(_screen_height));
+    return static_cast<int32>(percent * static_cast<float>(_viewport_height));
 }
 
 void VideoEngine::DrawLine(float x1, float y1, float x2, float y2, float width, const Color &color)
