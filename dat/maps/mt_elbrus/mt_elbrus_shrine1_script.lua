@@ -213,7 +213,7 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
 
     dialogue = vt_map.SpriteDialogue();
-    text = vt_system.Translate("... You'll see: there's plenty of thing I need to show you there. Plus, it's a safe place.");
+    text = vt_system.Translate("... You'll see: there's plenty of things I need to show you there. Plus, it's a safe place.");
     dialogue:AddLine(text, kalya);
     text = vt_system.Translate("Err... Sis?");
     dialogue:AddLineEventEmote(text, orlinn, "Orlinn looks at Kalya", "", "sweat drop");
@@ -269,7 +269,7 @@ function _CreateEvents()
     dialogue:AddLine(text, kalya);
     text = vt_system.Translate("... What's with this 'ancient shrine'?");
     dialogue:AddLineEmote(text, hero, "thinking dots");
-    text = vt_system.Translate("Some says it is haunted... And it was sealed a long time ago, long before I was ever born.");
+    text = vt_system.Translate("Some say it is haunted... And it was sealed a long time ago, long before I was even born.");
     dialogue:AddLineEvent(text, kalya, "Kalya looks at Bronann", "");
     text = vt_system.Translate("Indeed, It must be a long time ago...");
     dialogue:AddLineEventEmote(text, orlinn, "", "Orlinn laughs", "thinking dots");
