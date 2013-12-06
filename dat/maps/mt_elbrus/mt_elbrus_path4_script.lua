@@ -295,7 +295,7 @@ function _CreateEvents()
     dialogue = vt_map.SpriteDialogue();
     text = vt_system.Translate("We made it...");
     dialogue:AddLineEmote(text, kalya, "sweat drop");
-    text = vt_system.Translate("Brr... It's quite cold up there.");
+    text = vt_system.Translate("Brr... It's quite cold up here.");
     dialogue:AddLineEmote(text, hero, "exclamation");
     text = vt_system.Translate("The bridge is a few feet away. Let's reach the mountain pass before the frost kills us.");
     dialogue:AddLineEmote(text, kalya, "exclamation");
