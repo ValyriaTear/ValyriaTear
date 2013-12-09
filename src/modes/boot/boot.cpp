@@ -674,7 +674,8 @@ void BootMode::_RefreshVideoOptions()
         _video_options_menu.SetOptionText(1, UTranslate("Window mode: ") + UTranslate("Windowed"));
 
     // Update brightness
-    _video_options_menu.SetOptionText(2, UTranslate("Brightness: ") + MakeUnicodeString(NumberToString(VideoManager->GetGamma() * 50.0f + 0.5f) + " %"));
+    uint32 brightness = IsFloatEqual(VideoManager->GetGamma() * 50.0f, 0.0f) ? 0 : (uint32)(VideoManager->GetGamma() * 50.0f + 0.5f);
+    _video_options_menu.SetOptionText(2, UTranslate("Brightness: ") + MakeUnicodeString(NumberToString(brightness) + " %"));
 
     // Update the UI theme.
     _video_options_menu.SetOptionText(3, UTranslate("UI Theme: ") + GUIManager->GetDefaultMenuSkinName());
