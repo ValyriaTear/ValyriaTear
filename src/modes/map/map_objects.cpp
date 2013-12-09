@@ -222,17 +222,19 @@ void PhysicalObject::Update()
 
 void PhysicalObject::Draw()
 {
-    if(!animations.empty() && MapObject::ShouldDraw()) {
-        animations[current_animation].Draw();
+    if(animations.empty() || !MapObject::ShouldDraw())
+        return;
 
-        // Draw collision rectangle if the debug view is on.
-        if(VideoManager->DebugInfoOn()) {
-            float x, y = 0.0f;
-            VideoManager->GetDrawPosition(x, y);
-            MapRectangle rect = GetCollisionRectangle(x, y);
-            VideoManager->DrawRectangle(rect.right - rect.left, rect.bottom - rect.top, Color(0.0f, 1.0f, 0.0f, 0.6f));
-        }
-    }
+    animations[current_animation].Draw();
+
+    // Draw collision rectangle if the debug view is on.
+    if(!VideoManager->DebugInfoOn())
+        return;
+
+    float x, y = 0.0f;
+    VideoManager->GetDrawPosition(x, y);
+    MapRectangle rect = GetCollisionRectangle(x, y);
+    VideoManager->DrawRectangle(rect.right - rect.left, rect.bottom - rect.top, Color(0.0f, 1.0f, 0.0f, 0.6f));
 }
 
 int32 PhysicalObject::AddAnimation(const std::string &animation_filename)
@@ -315,35 +317,33 @@ bool ParticleObject::Start()
 
 void ParticleObject::Update()
 {
-    if(!_particle_effect)
+    if(!_particle_effect || !updatable)
         return;
 
-    if(updatable)
-        _particle_effect->Update();
+    _particle_effect->Update();
 }
 
 void ParticleObject::Draw()
 {
-    if(!_particle_effect)
+    if(!_particle_effect || !MapObject::ShouldDraw())
         return;
 
-    if(MapObject::ShouldDraw()) {
-        float standard_pos_x, standard_pos_y;
-        VideoManager->GetDrawPosition(standard_pos_x, standard_pos_y);
-        VideoManager->SetStandardCoordSys();
-        _particle_effect->Move(standard_pos_x / SCREEN_GRID_X_LENGTH * VIDEO_STANDARD_RES_WIDTH,
-                               standard_pos_y / SCREEN_GRID_Y_LENGTH * VIDEO_STANDARD_RES_HEIGHT);
-        _particle_effect->Draw();
-        // Reset the map mode coord sys afterward.
-        VideoManager->SetCoordSys(0.0f, SCREEN_GRID_X_LENGTH, SCREEN_GRID_Y_LENGTH, 0.0f);
+    float standard_pos_x, standard_pos_y;
+    VideoManager->GetDrawPosition(standard_pos_x, standard_pos_y);
+    VideoManager->SetStandardCoordSys();
+    _particle_effect->Move(standard_pos_x / SCREEN_GRID_X_LENGTH * VIDEO_STANDARD_RES_WIDTH,
+                           standard_pos_y / SCREEN_GRID_Y_LENGTH * VIDEO_STANDARD_RES_HEIGHT);
+    _particle_effect->Draw();
+    // Reset the map mode coord sys afterward.
+    VideoManager->SetCoordSys(0.0f, SCREEN_GRID_X_LENGTH, SCREEN_GRID_Y_LENGTH, 0.0f);
 
-        // Draw collision rectangle if the debug view is on.
-        if(VideoManager->DebugInfoOn()) {
-            VideoManager->Move(standard_pos_x, standard_pos_y);
-            MapRectangle rect = GetImageRectangle();
-            VideoManager->DrawRectangle(rect.right - rect.left, rect.bottom - rect.top, Color(0.0f, 1.0f, 1.0f, 0.6f));
-        }
-    }
+    // Draw collision rectangle if the debug view is on.
+    if(!VideoManager->DebugInfoOn())
+        return;
+
+    VideoManager->Move(standard_pos_x, standard_pos_y);
+    MapRectangle rect = GetImageRectangle();
+    VideoManager->DrawRectangle(rect.right - rect.left, rect.bottom - rect.top, Color(0.0f, 1.0f, 1.0f, 0.6f));
 }
 
 // Save points
@@ -392,25 +392,21 @@ SavePoint::SavePoint(float x, float y):
 
 void SavePoint::Update()
 {
-    if(!_animations)
+    if(!_animations || !updatable)
         return;
 
-    if(updatable) {
-        for(uint32 i = 0; i < _animations->size(); ++i)
-            _animations->at(i).Update();
-    }
+    for(uint32 i = 0; i < _animations->size(); ++i)
+        _animations->at(i).Update();
 }
 
 
 void SavePoint::Draw()
 {
-    if(!_animations)
+    if(!_animations || !MapObject::ShouldDraw())
         return;
 
-    if(MapObject::ShouldDraw()) {
-        for(uint32 i = 0; i < _animations->size(); ++i)
-            _animations->at(i).Draw();
-    }
+    for(uint32 i = 0; i < _animations->size(); ++i)
+        _animations->at(i).Draw();
 }
 
 void SavePoint::SetActive(bool active)
@@ -443,13 +439,14 @@ Halo::Halo(const std::string &filename, float x, float y, const Color &color):
     _object_type = HALO_TYPE;
     collision_mask = NO_COLLISION;
 
-    if(_animation.LoadFromAnimationScript(filename)) {
-        MapMode::ScaleToMapCoords(_animation);
+    if(!_animation.LoadFromAnimationScript(filename))
+        return;
 
-        // Setup the image collision for the display update
-        SetImgHalfWidth(_animation.GetWidth() / 2.0f);
-        SetImgHeight(_animation.GetHeight());
-    }
+    MapMode::ScaleToMapCoords(_animation);
+
+    // Setup the image collision for the display update
+    SetImgHalfWidth(_animation.GetWidth() / 2.0f);
+    SetImgHeight(_animation.GetHeight());
 }
 
 void Halo::Update()
@@ -563,57 +560,58 @@ void Light::_UpdateLightAngle()
 
 void Light::Update()
 {
-    if(updatable) {
-        _main_animation.Update();
-        _secondary_animation.Update();
-        _UpdateLightAngle();
-    }
+    if(!updatable)
+        return;
+
+    _main_animation.Update();
+    _secondary_animation.Update();
+    _UpdateLightAngle();
 }
 
 void Light::Draw()
 {
-    if(MapObject::ShouldDraw()
-            && _main_animation.GetCurrentFrame()) {
-        MapMode *mm = MapMode::CurrentInstance();
-        if(!mm)
-            return;
-        const MapFrame &frame = mm->GetMapFrame();
+    if(!MapObject::ShouldDraw() || !_main_animation.GetCurrentFrame())
+        return;
 
-        VideoManager->SetDrawFlags(VIDEO_X_CENTER, VIDEO_Y_CENTER, 0);
+    MapMode *mm = MapMode::CurrentInstance();
+    if(!mm)
+        return;
+    const MapFrame &frame = mm->GetMapFrame();
 
-        VideoManager->DrawHalo(*_main_animation.GetCurrentFrame(), _main_color_alpha);
+    VideoManager->SetDrawFlags(VIDEO_X_CENTER, VIDEO_Y_CENTER, 0);
 
-        if(!_secondary_animation.GetCurrentFrame()) {
-            VideoManager->SetDrawFlags(VIDEO_X_CENTER, VIDEO_Y_BOTTOM, 0);
-            return;
-        }
+    VideoManager->DrawHalo(*_main_animation.GetCurrentFrame(), _main_color_alpha);
 
-        float next_pos_x = position.x - _distance / _distance_factor_1;
-        float next_pos_y = _a * next_pos_x + _b;
-        VideoManager->Move(next_pos_x - frame.screen_edges.left,
-                           next_pos_y - frame.screen_edges.top);
-        VideoManager->DrawHalo(*_secondary_animation.GetCurrentFrame(), _secondary_color_alpha);
-
-        next_pos_x = position.x - _distance / _distance_factor_2;
-        next_pos_y = _a * next_pos_x + _b;
-        VideoManager->Move(next_pos_x - frame.screen_edges.left,
-                           next_pos_y - frame.screen_edges.top);
-        VideoManager->DrawHalo(*_secondary_animation.GetCurrentFrame(), _secondary_color_alpha);
-
-        next_pos_x = position.x + _distance / _distance_factor_3;
-        next_pos_y = _a * next_pos_x + _b;
-        VideoManager->Move(next_pos_x - frame.screen_edges.left,
-                           next_pos_y - frame.screen_edges.top);
-        VideoManager->DrawHalo(*_secondary_animation.GetCurrentFrame(), _secondary_color_alpha);
-
-        next_pos_x = position.x + _distance / _distance_factor_4;
-        next_pos_y = _a * next_pos_x + _b;
-        VideoManager->Move(next_pos_x - frame.screen_edges.left,
-                           next_pos_y - frame.screen_edges.top);
-        VideoManager->DrawHalo(*_secondary_animation.GetCurrentFrame(), _secondary_color_alpha);
-
+    if(!_secondary_animation.GetCurrentFrame()) {
         VideoManager->SetDrawFlags(VIDEO_X_CENTER, VIDEO_Y_BOTTOM, 0);
+        return;
     }
+
+    float next_pos_x = position.x - _distance / _distance_factor_1;
+    float next_pos_y = _a * next_pos_x + _b;
+    VideoManager->Move(next_pos_x - frame.screen_edges.left,
+                       next_pos_y - frame.screen_edges.top);
+    VideoManager->DrawHalo(*_secondary_animation.GetCurrentFrame(), _secondary_color_alpha);
+
+    next_pos_x = position.x - _distance / _distance_factor_2;
+    next_pos_y = _a * next_pos_x + _b;
+    VideoManager->Move(next_pos_x - frame.screen_edges.left,
+                       next_pos_y - frame.screen_edges.top);
+    VideoManager->DrawHalo(*_secondary_animation.GetCurrentFrame(), _secondary_color_alpha);
+
+    next_pos_x = position.x + _distance / _distance_factor_3;
+    next_pos_y = _a * next_pos_x + _b;
+    VideoManager->Move(next_pos_x - frame.screen_edges.left,
+                       next_pos_y - frame.screen_edges.top);
+    VideoManager->DrawHalo(*_secondary_animation.GetCurrentFrame(), _secondary_color_alpha);
+
+    next_pos_x = position.x + _distance / _distance_factor_4;
+    next_pos_y = _a * next_pos_x + _b;
+    VideoManager->Move(next_pos_x - frame.screen_edges.left,
+                       next_pos_y - frame.screen_edges.top);
+    VideoManager->DrawHalo(*_secondary_animation.GetCurrentFrame(), _secondary_color_alpha);
+
+    VideoManager->SetDrawFlags(VIDEO_X_CENTER, VIDEO_Y_BOTTOM, 0);
 }
 
 SoundObject::SoundObject(const std::string &sound_filename, float x, float y, float strength):
@@ -621,14 +619,16 @@ SoundObject::SoundObject(const std::string &sound_filename, float x, float y, fl
 {
     MapObject::_object_type = SOUND_TYPE;
 
-    if (!_sound.LoadAudio(sound_filename)) {
+    if (_sound.LoadAudio(sound_filename)) {
+        // Tells the engine the sound can be unloaded if no other mode is using it
+        // once the current map mode is destroyed
+        _sound.AddOwner(MapMode::CurrentInstance());
+    }
+    else {
         PRINT_WARNING << "Couldn't load environmental sound file: "
             << sound_filename << std::endl;
     }
 
-    // Tells the engine the sound can be unloaded if no other mode is using
-    // when the current map mode will be destructed
-    _sound.AddOwner(MapMode::CurrentInstance());
     _sound.SetLooping(true);
     _sound.SetVolume(0.0f);
     _sound.Stop();
@@ -653,7 +653,7 @@ void SoundObject::Update()
 
     // Update the volume only every 100ms
     _time_remaining -= (int32)vt_system::SystemManager->GetUpdateTime();
-    if (_time_remaining > 0.0f)
+    if (_time_remaining > 0)
         return;
     _time_remaining = 100;
 
