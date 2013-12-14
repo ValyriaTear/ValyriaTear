@@ -470,6 +470,9 @@ private:
     //! \brief Image which underlays the stamina bar for running
     vt_video::StillImage _stamina_bar_background;
 
+    //! \brief The stamina bar representing the current stamina
+    vt_video::StillImage _stamina_bar;
+
     //! \brief Image which overlays the stamina bar to show that the player has unlimited running
     vt_video::StillImage _stamina_bar_infinite_overlay;
 

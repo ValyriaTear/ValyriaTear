@@ -1,7 +1,7 @@
 Licenses
 ========
 
-Last update: 2013.11.09
+Last update: 2013.12.14
 
 This file is listing all the files licenses from the point of the fork
 from the Allacrost project.
@@ -388,6 +388,20 @@ img/menus/worldmaps/layna_region.png                            CC by SA 3.0    
 img/menus/locations/layna_forest.png                            CC by SA 3.0             Tamara Ramsay vectorgurl.com - Ramtam (OGA) + Bertram's modifications.
 img/menus/locations/mt_elbrus.png                               GPLv2                    JAP (OGA)
 
+img/misc/stamina_bar_infinite_overlay.png                       GPLv2                    Allacrost
+img/misc/dialogue_icon.png                                      GPLv2                    Allacrost
+img/misc/category_icons.png                                     GPLv2                    Allacrost
+img/misc/stamina_bar_background.png                             GPLv2                    Allacrost
+img/misc/stamina_bar_map.png                                    CC by SA 3.0             Bertram
+
+img/misc/editor-tools/stock-tool-rect-select-22.png             GPLv2                    Allacrost
+img/misc/editor-tools/arrow-left.png                            GPLv2                    Allacrost
+img/misc/editor-tools/stock-tool-arrow.png                      GPLv2                    Allacrost
+img/misc/editor-tools/stock-tool-pencil-22.png                  GPLv2                    Allacrost
+img/misc/editor-tools/stock-tool-color-picker-22.png            GPLv2                    Allacrost
+img/misc/editor-tools/arrow-right.png                           GPLv2                    Allacrost
+img/misc/editor-tools/stock-tool-eraser-22.png                  GPLv2                    Allacrost
+img/misc/editor-tools/stock-tool-bucket-fill-22.png             GPLv2                    Allacrost
 img/misc/editor-tools/document-new.png                          GPLv2+                   Tiled (Bjorn lindeijer - mapeditor.org)
 img/misc/editor-tools/edit-delete.png                           GPLv2+                   Tiled (Bjorn lindeijer - mapeditor.org)
 img/misc/editor-tools/eye.png                                   GPLv2+                   Tiled (Bjorn lindeijer - mapeditor.org)
@@ -811,22 +825,6 @@ Files:
 ./img/sprites/battle/enemies/rat.png
 
 ./img/logos/main_logo_sword.png
-
-./img/misc/chest1.png
-./img/misc/stamina_bar_infinite_overlay.png
-./img/misc/dialogue_icon.png
-./img/misc/category_icons.png
-./img/misc/stamina_bar_background.png
-./img/misc/skeleton_corpse.png
-./img/misc/editor-tools
-./img/misc/editor-tools/stock-tool-rect-select-22.png
-./img/misc/editor-tools/arrow-left.png
-./img/misc/editor-tools/stock-tool-arrow.png
-./img/misc/editor-tools/stock-tool-pencil-22.png
-./img/misc/editor-tools/stock-tool-color-picker-22.png
-./img/misc/editor-tools/arrow-right.png
-./img/misc/editor-tools/stock-tool-eraser-22.png
-./img/misc/editor-tools/stock-tool-bucket-fill-22.png
 
 ./img/menus/locations/mountain_village.png
 ./img/menus/locations/blank.png

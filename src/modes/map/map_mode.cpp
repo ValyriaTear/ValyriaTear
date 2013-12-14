@@ -146,6 +146,9 @@ MapMode::MapMode(const std::string &data_filename, const std::string& script_fil
     if(!_stamina_bar_background.Load("img/misc/stamina_bar_background.png", 227, 24))
         IF_PRINT_WARNING(MAP_DEBUG) << "failed to load the the stamina bar background image" << std::endl;
 
+    if(!_stamina_bar.Load("img/misc/stamina_bar_map.png", 200, 9))
+        IF_PRINT_WARNING(MAP_DEBUG) << "failed to load the the stamina bar image" << std::endl;
+
     if(!_stamina_bar_infinite_overlay.Load("img/misc/stamina_bar_infinite_overlay.png", 227, 24))
         IF_PRINT_WARNING(MAP_DEBUG) << "failed to load the the stamina bar infinite overlay image" << std::endl;
 
@@ -1011,21 +1014,13 @@ void MapMode::_DrawMapLayers()
 
 void MapMode::_DrawStaminaBar(const vt_video::Color &blending)
 {
-    const Color olive_green(0.0196f, 0.207f, 0.0196f, 1.0f);
-    const Color lighter_green(0.419f, 0.894f, 0.0f, 1.0f);
-    const Color light_green(0.0196f, 0.207f, 0.0196f, 1.0f);
-    const Color medium_green(0.0509f, 0.556f, 0.0509f, 1.0f);
-    const Color darkish_green(0.352f, 0.4f, 0.352f, 1.0f);
-    const Color dark_green(0.0196f, 0.207f, 0.0196f, 1.0f);
-    const Color bright_yellow(0.937f, 1.0f, 0.725f, 1.0f);
-    const Color dark_orange(0.737f, 0.5f, 0.196f, 1.0f);
-    const Color dark_red(0.737f, 0.0f, 0.125f, 1.0f);
-
     // Don't draw anything when running is disabled.
-    if (_running_disabled)
+    if (_running_disabled || blending.GetAlpha() == 0.0f)
         return;
 
+    // It's the width of the stamina bar image to hide in pixels
     float fill_size = static_cast<float>(_run_stamina) / 10000.0f;
+    fill_size = (1.0f - fill_size) * 200;
 
     VideoManager->PushState();
     VideoManager->SetStandardCoordSys();
@@ -1035,64 +1030,18 @@ void MapMode::_DrawStaminaBar(const vt_video::Color &blending)
     VideoManager->Move(780, 747);
     _stamina_bar_background.Draw(blending);
 
-    // Only do this if the bar is at least 4 pixels long
-    if((200 * fill_size) >= 4) {
-        VideoManager->Move(801, 739);
-        VideoManager->DrawRectangle((200 * fill_size) - 2, 1, darkish_green * blending);
-
-        VideoManager->Move(801, 738);
-        VideoManager->DrawRectangle(1, 2, medium_green * blending);
-        VideoManager->Move(800 + (fill_size * 200 - 2), 738); // Automatically reposition to be at moving endcap
-        VideoManager->DrawRectangle(1, 2, medium_green * blending);
-    }
-
-    // the bar color depending on its size
-    Color bar_color;
-    if((200 * fill_size) > 75)
-        bar_color = medium_green;
-    else if((200 * fill_size) > 30)
-        bar_color = dark_orange;
-    else
-        bar_color = dark_red;
-
-    VideoManager->Move(800, 736);
-    VideoManager->DrawRectangle(200 * fill_size, 5, bar_color * blending);
-
-    // Only do this if the bar is at least 6 pixels long
-    if((200 * fill_size) >= 6) {
-        VideoManager->Move(802, 733);
-        VideoManager->DrawRectangle((200 * fill_size) - 4, 1, bright_yellow * blending);
-    }
-
-    // Draw the rest only when the color is green
-    if(bar_color != medium_green) {
-        VideoManager->PopState();
-        return;
-    }
-
-    // Draw the base color of the bar
-    VideoManager->Move(800, 740);
-    VideoManager->DrawRectangle(200 * fill_size, 10, olive_green * blending);
-
-    // Shade the bar with a faux lighting effect
-    VideoManager->Move(800, 739);
-    VideoManager->DrawRectangle(200 * fill_size, 2, dark_green * blending);
-    VideoManager->Move(800, 737);
-    VideoManager->DrawRectangle(200 * fill_size, 7, darkish_green * blending);
-
-    // Only do this if the bar is at least 4 pixels long
-    if((200 * fill_size) >= 4) {
-        VideoManager->Move(801, 735);
-        VideoManager->DrawRectangle(1, 1, lighter_green * blending);
-        VideoManager->Move(800 + (fill_size * 200 - 2), 735); // automatically reposition to be at moving endcap
-        VideoManager->DrawRectangle(1, 1, lighter_green * blending);
-        VideoManager->Move(800, 734);
-        VideoManager->DrawRectangle(200 * fill_size, 2, lighter_green * blending);
-    }
+    // Draw the stamina bar
+    VideoManager->Move(801, 739);
+    _stamina_bar.Draw(blending);
 
     if(_unlimited_stamina) {  // Draw the infinity symbol over the stamina bar
         VideoManager->Move(780, 747);
         _stamina_bar_infinite_overlay.Draw(blending);
+    }
+    else if(fill_size >= 2) {
+        // Only do this if the part to hide is at least 2 pixels long
+        VideoManager->Move(1001 - fill_size, 739);
+        VideoManager->DrawRectangle(fill_size, 9, Color::black * blending);
     }
     VideoManager->PopState();
 }
