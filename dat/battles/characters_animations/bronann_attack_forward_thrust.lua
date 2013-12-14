@@ -195,7 +195,7 @@ function Update()
         if (attack_time > 390) then
             character_pos_x = character_pos_x + distance_moved_x - forward_thrust_counter_force;
             character:SetXLocation(character_pos_x);
-            forward_thrust_counter_force = forward_thrust_counter_force + 1;
+            forward_thrust_counter_force = forward_thrust_counter_force + 2;
 
             -- Adds some dust every 15ms
             move_time = move_time + SystemManager:GetUpdateTime();
