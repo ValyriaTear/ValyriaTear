@@ -546,17 +546,16 @@ public:
 
     //-- Miscellaneous --------------------------------------------------------
 
-    /** \brief Sets a new gamma value using SDL_SetGamma()
-     *
-     *  \param value        Gamma value of 1.0f is the default value
-     */
-    void SetGamma(float value);
+    /** \brief Sets a new brightness value
+    *** \param value Brightness value [0.0f - 2.0f]. 1.0f is the default value
+    **/
+    void SetBrightness(float value);
 
-    /** \brief Returns the gamma value
-     * \return the gamma value
-     */
-    float GetGamma() const {
-        return _gamma_value;
+    /** \brief Returns the current brightness value [0.0f - 2.0f]
+    *** \return the brightness value
+    **/
+    float GetBrightness() const {
+        return _brightness_value;
     }
 
     /** \brief Draws a colored line between two points
@@ -740,8 +739,8 @@ private:
     //! Y offset to shake the screen by (if any)
     float _y_shake;
 
-    //! Current gamma value
-    float _gamma_value;
+    //! Current brightness value between 0.0f and 2.0f. 1.0f is the original brightness value.
+    float _brightness_value;
 
     // changing the video settings does not actually do anything until
     // you call ApplySettings(). Up til that point, store them in temp

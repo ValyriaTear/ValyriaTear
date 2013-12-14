@@ -96,7 +96,7 @@ VideoEngine::VideoEngine():
     _debug_info(false),
     _x_shake(0),
     _y_shake(0),
-    _gamma_value(1.0f),
+    _brightness_value(1.0f),
     _temp_fullscreen(false),
     _temp_width(0),
     _temp_height(0),
@@ -991,20 +991,19 @@ bool VideoEngine::IsScreenShaking()
     return true;
 }
 
-void VideoEngine::SetGamma(float value)
+void VideoEngine::SetBrightness(float value)
 {
-    _gamma_value = value;
+    _brightness_value = value;
 
-    // Limit min/max gamma
-    if(_gamma_value > 2.0f) {
-        IF_PRINT_WARNING(VIDEO_DEBUG) << "tried to set gamma over 2.0f" << std::endl;
-        _gamma_value = 2.0f;
-    } else if(_gamma_value < 0.0f) {
-        IF_PRINT_WARNING(VIDEO_DEBUG) << "tried to set gamma below 0.0f" << std::endl;
-        _gamma_value = 0.0f;
+    // Limit min/max brightness
+    if(_brightness_value > 2.0f) {
+        _brightness_value = 2.0f;
+    } else if(_brightness_value < 0.0f) {
+        _brightness_value = 0.0f;
     }
 
-    SDL_SetGamma(_gamma_value, _gamma_value, _gamma_value);
+    // Note: To replace with: SDL_SetWindowBrightness() in SDL 2
+    SDL_SetGamma(_brightness_value, _brightness_value, _brightness_value);
 }
 
 
