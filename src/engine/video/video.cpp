@@ -93,6 +93,8 @@ VideoEngine::VideoEngine():
     _fullscreen(false),
     _x_cursor(0),
     _y_cursor(0),
+    _x_pixel_length(1.0f),
+    _y_pixel_length(1.0f),
     _debug_info(false),
     _x_shake(0),
     _y_shake(0),
@@ -409,11 +411,15 @@ const std::string VideoEngine::CreateGLErrorString()
 
 void VideoEngine::GetPixelSize(float &x, float &y)
 {
-    x = fabs(_current_context.coordinate_system.GetRight() - _current_context.coordinate_system.GetLeft()) / _viewport_width;
-    y = fabs(_current_context.coordinate_system.GetTop() - _current_context.coordinate_system.GetBottom()) / _viewport_height;
+    x = _x_pixel_length;
+    y = _y_pixel_length;
 }
 
-
+void VideoEngine::_UpdatePixelSize()
+{
+    _x_pixel_length = fabs(_current_context.coordinate_system.GetRight() - _current_context.coordinate_system.GetLeft()) / _viewport_width;
+    _y_pixel_length = fabs(_current_context.coordinate_system.GetTop() - _current_context.coordinate_system.GetBottom()) / _viewport_height;
+}
 
 bool VideoEngine::ApplySettings()
 {
@@ -521,6 +527,9 @@ void VideoEngine::_UpdateViewportMetrics()
         _viewport_x_offset = 0;
         _viewport_y_offset = (int32)((height - ideal_height) / 2.0f);
     }
+
+    // the viewport has changed, so we update pixel length
+    _UpdatePixelSize();
 }
 
 //-----------------------------------------------------------------------------
@@ -538,6 +547,9 @@ void VideoEngine::SetCoordSys(const CoordSys &coordinate_system)
 
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
+
+    // the coordsys has changed, so we update pixel length
+    _UpdatePixelSize();
 }
 
 void VideoEngine::GetCurrentViewport(float &x, float &y, float &width, float &height)
@@ -820,6 +832,9 @@ void VideoEngine::PopState()
     } else {
         DisableScissoring();
     }
+
+    // the viewport & context have changed, so we update pixel length
+    _UpdatePixelSize();
 }
 
 void VideoEngine::Rotate(float angle)
