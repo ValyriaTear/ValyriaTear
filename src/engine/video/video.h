@@ -725,11 +725,6 @@ private:
     //! \brief Contains information about the current video engine's context, such as draw flags, the coordinate system, etc.
     private_video::Context _current_context;
 
-    // The X and Y length values that coorespond to a single pixel in the current coodinate system.
-    // This is used by the map mode for better rendering.
-    float _x_pixel_length;
-    float _y_pixel_length;
-
     //! \brief Manages the current screen fading effect when fading is activated
     private_video::ScreenFader _screen_fader;
 
@@ -804,9 +799,6 @@ private:
     //! \brief Updates the viewport metrics according to the current screen width/height.
     //! \note it also centers the viewport when the resolution isn't a 4:3 one.
     void _UpdateViewportMetrics();
-
-    //! \brief Updates the pixel length according to the current viewport/context.
-    void _UpdatePixelSize();
 
     // Debug info
     //! \brief Updates the FPS counter.
