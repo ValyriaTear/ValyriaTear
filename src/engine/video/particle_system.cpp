@@ -67,10 +67,10 @@ bool ParticleSystem::_Create(ParticleSystemDef *sys_def)
     return true;
 }
 
-bool ParticleSystem::Draw()
+void ParticleSystem::Draw()
 {
     if(!_alive || !_system_def->enabled || _age < _system_def->emitter._start_time)
-        return true;
+        return;
 
     // set blending parameters
     if(_system_def->blend_mode == VIDEO_NO_BLEND) {
@@ -339,24 +339,22 @@ bool ParticleSystem::Draw()
 
         glDrawArrays(GL_QUADS, 0, _num_particles * 4);
     }
-
-    return true;
 }
 
 //-----------------------------------------------------------------------------
 // Update: updates particle positions and properties, and emits/kills particles
 //-----------------------------------------------------------------------------
 
-bool ParticleSystem::Update(float frame_time, const EffectParameters &params)
+void ParticleSystem::Update(float frame_time, const EffectParameters &params)
 {
     if(!_alive || !_system_def->enabled)
-        return true;
+        return;
 
     _age += frame_time;
 
     if(_age < _system_def->emitter._start_time) {
         _last_update_time = _age;
-        return true;
+        return;
     }
 
     _animation.Update();
@@ -408,7 +406,6 @@ bool ParticleSystem::Update(float frame_time, const EffectParameters &params)
         _alive = false;
 
     _last_update_time = _age;
-    return true;
 }
 
 void ParticleSystem::_Destroy()

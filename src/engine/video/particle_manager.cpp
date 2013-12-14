@@ -55,39 +55,30 @@ void ParticleManager::_DEBUG_ShowParticleStats()
     TextManager->Draw(text);
 }
 
-bool ParticleManager::Draw()
+void ParticleManager::Draw() const
 {
     VideoManager->PushState();
     VideoManager->SetStandardCoordSys();
     VideoManager->DisableScissoring();
 
-    std::vector<ParticleEffect *>::iterator it = _active_effects.begin();
+    std::vector<ParticleEffect *>::const_iterator it = _active_effects.begin();
 
     glClearStencil(0);
     glClear(GL_STENCIL_BUFFER_BIT);
 
-    bool success = true;
-
     while(it != _active_effects.end()) {
-        if(!(*it)->Draw()) {
-            success = false;
-            IF_PRINT_WARNING(VIDEO_DEBUG)
-                    << "Effect failed to draw!" << std::endl;
-        }
+        (*it)->Draw();
         ++it;
     }
 
     VideoManager->PopState();
-    return success;
 }
 
-bool ParticleManager::Update(int32 frame_time)
+void ParticleManager::Update(int32 frame_time)
 {
     float frame_time_seconds = static_cast<float>(frame_time) / 1000.0f;
 
     std::vector<ParticleEffect *>::iterator it = _active_effects.begin();
-
-    bool success = true;
 
     _num_particles = 0;
 
@@ -95,18 +86,11 @@ bool ParticleManager::Update(int32 frame_time)
         if(!(*it)->IsAlive()) {
             it = _active_effects.erase(it);
         } else {
-            if(!(*it)->Update(frame_time_seconds)) {
-                success = false;
-                IF_PRINT_WARNING(VIDEO_DEBUG)
-                        << "Effect failed to update!" << std::endl;
-            }
-
+            (*it)->Update(frame_time_seconds);
             _num_particles += (*it)->GetNumParticles();
             ++it;
         }
     }
-
-    return success;
 }
 
 void ParticleManager::StopAll(bool kill_immediate)

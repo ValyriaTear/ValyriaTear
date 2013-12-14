@@ -401,48 +401,35 @@ bool ParticleEffect::LoadEffect(const std::string &filename)
     return true;
 }
 
-bool ParticleEffect::Draw()
+void ParticleEffect::Draw()
 {
-    bool success = true;
-
     // move to the effect's location
     VideoManager->Move(_x, _y);
 
     std::vector<ParticleSystem>::iterator iSystem = _systems.begin();
 
     while(iSystem != _systems.end()) {
-        VideoManager->PushMatrix();
-        if(!(*iSystem).Draw()) {
-            success = false;
-            IF_PRINT_WARNING(VIDEO_DEBUG)
-                    << "Failed to draw system!" << std::endl;
-        }
-
-        VideoManager->PopMatrix();
+        (*iSystem).Draw();
         ++iSystem;
     }
 
     VideoManager->DisableAlphaTest();
     VideoManager->DisableStencilTest();
     glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
-
-    return success;
 }
 
-bool ParticleEffect::Update()
+void ParticleEffect::Update()
 {
-    return Update(static_cast<float>(vt_system::SystemManager->GetUpdateTime()) / 1000.0f);
+    Update(static_cast<float>(vt_system::SystemManager->GetUpdateTime()) / 1000.0f);
 }
 
-bool ParticleEffect::Update(float frame_time)
+void ParticleEffect::Update(float frame_time)
 {
     _age += frame_time;
     _num_particles = 0;
 
     if(!_alive)
-        return true;
-
-    bool success = true;
+        return;
 
     vt_mode_manager::EffectParameters effect_parameters;
     effect_parameters.orientation = _orientation;
@@ -461,18 +448,12 @@ bool ParticleEffect::Update(float frame_time)
             if(_systems.empty())
                 _alive = false;
         } else {
-            if(!(*iSystem).Update(frame_time, effect_parameters)) {
-                success = false;
-                IF_PRINT_WARNING(VIDEO_DEBUG)
-                        << "Failed to update system!" << std::endl;
-            }
+            (*iSystem).Update(frame_time, effect_parameters);
 
             _num_particles += (*iSystem).GetNumParticles();
             ++iSystem;
         }
     }
-
-    return success;
 }
 
 

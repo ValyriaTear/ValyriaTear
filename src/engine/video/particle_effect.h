@@ -220,19 +220,15 @@ public:
         return _loaded;
     }
 
-    /*!
-     * \brief draws the effect.
-     * \return success/failure
-     */
-    bool Draw();
+    //! \brief draws the effect.
+    void Draw();
 
     /*!
      * \brief updates the effect.
      * \param the new frame time
-     * \return success/failure
      */
-    bool Update(float frame_time);
-    bool Update();
+    void Update(float frame_time);
+    void Update();
 private:
     /*!
      * \brief destroys the effect. This is private so that only the ParticleManager class
