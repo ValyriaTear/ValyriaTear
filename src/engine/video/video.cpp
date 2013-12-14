@@ -538,10 +538,6 @@ void VideoEngine::SetCoordSys(const CoordSys &coordinate_system)
 
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
-    // This small translation is supposed to help with pixel-perfect 2D rendering in OpenGL.
-    // Reference: http://www.opengl.org/resources/faq/technical/transformations.htm#tran0030
-    // Changed to 32/1024 or 24/768 since it's the size of one pixel for the map mode.
-    glTranslatef(0.03125, 0.03125, 0);
 }
 
 void VideoEngine::GetCurrentViewport(float &x, float &y, float &width, float &height)
