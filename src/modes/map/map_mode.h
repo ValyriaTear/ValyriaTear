@@ -412,6 +412,9 @@ private:
     //! \brief A pointer to the map sprite that the map camera will focus on
     private_map::VirtualSprite *_camera;
 
+    //! \brief the camera position debug text
+    vt_video::TextImage _debug_camera_position;
+
     //! \brief The way in x-direction, the camera will move
     float _delta_x;
 

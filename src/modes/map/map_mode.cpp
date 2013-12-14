@@ -151,6 +151,9 @@ MapMode::MapMode(const std::string &data_filename, const std::string& script_fil
 
     // Init the script component.
     GetScriptSupervisor().Initialize(this);
+
+    //! Init the camera position text style
+    _debug_camera_position.SetStyle(TextStyle("title22", Color::white, VIDEO_TEXT_SHADOW_DARK));
 }
 
 
@@ -320,6 +323,20 @@ void MapMode::Update()
         _minimap->Update(_camera, _gui_alpha);
 
     GameMode::Update();
+
+    // Updates the debug info if needed
+    if(!VideoManager->DebugInfoOn())
+        return;
+
+    // Camera map coordinates
+    VirtualSprite *cam = GetCamera();
+    if(!cam)
+        return;
+    float x_pos = cam->GetXPosition();
+    float y_pos = cam->GetYPosition();
+    std::ostringstream coord_txt;
+    coord_txt << "Camera position: " << x_pos << ", " << y_pos;
+    _debug_camera_position.SetText(coord_txt.str());
 } // void MapMode::Update()
 
 void MapMode::Draw()
@@ -1138,21 +1155,12 @@ void MapMode::_DrawGUI()
     // Draw the debug info
     if(!VideoManager->DebugInfoOn())
         return;
-    // Camera map coordinates
-    VirtualSprite *cam = GetCamera();
-    if(!cam)
-        return;
 
     VideoManager->PushState();
     VideoManager->SetStandardCoordSys();
     VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_CENTER, VIDEO_BLEND, 0);
-
-    float x_pos = cam->GetXPosition();
-    float y_pos = cam->GetYPosition();
-    std::ostringstream coord_txt;
-    coord_txt << "Camera position: " << x_pos << ", " << y_pos;
     VideoManager->Move(10.0f, 10.0f);
-    TextManager->Draw(coord_txt.str(), TextStyle("title22", Color::white, VIDEO_TEXT_SHADOW_DARK));
+    _debug_camera_position.Draw();
     VideoManager->PopState();
 } // void MapMode::_DrawGUI()
 
