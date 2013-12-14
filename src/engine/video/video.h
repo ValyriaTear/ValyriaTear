@@ -69,17 +69,8 @@ extern VideoEngine *VideoManager;
 //! \brief Determines whether the code in the vt_video namespace should print
 extern bool VIDEO_DEBUG;
 
-namespace private_video
-{
 //! \brief The number of FPS samples to retain across frames
 const uint32 FPS_SAMPLES = 250;
-
-//! \brief Maximum milliseconds that the current frame time and our averaged frame time must vary before we begin trying to catch up
-const uint32 MAX_FTIME_DIFF = 5;
-
-//! \brief The number of samples to take if we need to play catchup with the current FPS
-const uint32 FPS_CATCHUP = 20;
-}
 
 //! \brief Draw flags to control x and y alignment, flipping, and texture blending.
 enum VIDEO_DRAW_FLAGS {
@@ -365,7 +356,7 @@ public:
     void DisableTextureCoordArray();
 
     /** \brief Enables the scissoring effect in the video engine
-    *** Scisorring is where you can specify a rectangle of the screen which is affected
+    *** Scissoring is where you can specify a rectangle of the screen which is affected
     *** by rendering operations (and hence, specify what area is not affected). Make sure
     *** to disable scissoring as soon as you're done using the effect, or all subsequent
     *** draw calls will get messed up.
@@ -649,11 +640,7 @@ public:
      */
     TextStyle GetTextStyle();
 
-    //! \brief Updates the FPS counter and draws the current average FPS to the screen.
-    void DrawFPS();
-
-    /** \brief toggles the FPS display
-     */
+    //! \brief toggles the FPS display
     void ToggleFPS() {
         _fps_display = !_fps_display;
     }
@@ -678,7 +665,7 @@ private:
     bool _fps_display;
 
     //! \brief A circular array of FPS samples used for calculating average FPS
-    uint32 _fps_samples[private_video::FPS_SAMPLES];
+    uint32 _fps_samples[FPS_SAMPLES];
 
     /** \brief Keeps track of the sum of FPS values over the last VIDEO_FPS_SAMPLES frames
     *** This is used to simplify the calculation of average frames per second.
@@ -694,6 +681,9 @@ private:
     *** been displayed.
     **/
     uint32 _number_samples;
+
+    //! The FPS text
+    TextImage* _FPS_textimage;
 
     //! \brief Holds the most recently fetched OpenGL error code
     GLenum _gl_error_code;
@@ -810,6 +800,12 @@ private:
     //! \brief Updates the viewport metrics according to the current screen width/height.
     //! \note it also centers the viewport when the resolution isn't a 4:3 one.
     void _UpdateViewportMetrics();
+
+    // Debug info
+    //! \brief Updates the FPS counter.
+    void _UpdateFPS();
+    //! \brief Draws the current average FPS to the screen.
+    void _DrawFPS();
 }; // class VideoEngine : public vt_utils::Singleton<VideoEngine>
 
 }  // namespace vt_video

@@ -74,6 +74,7 @@ VideoEngine::VideoEngine():
     _fps_sum(0),
     _current_sample(0),
     _number_samples(0),
+    _FPS_textimage(NULL),
     _gl_error_code(GL_NO_ERROR),
     _gl_blend_is_active(false),
     _gl_texture_2d_is_active(false),
@@ -119,19 +120,29 @@ VideoEngine::VideoEngine():
 }
 
 
-void VideoEngine::DrawFPS()
+
+void VideoEngine::_UpdateFPS()
 {
     if(!_fps_display)
         return;
 
+    // We only create the text image when needed, to permit getting the text style correctly.
+    if (!_FPS_textimage)
+        _FPS_textimage = new TextImage("FPS: ", TextStyle("text20", Color::white));
+
+    //! \brief Maximum milliseconds that the current frame time and our averaged frame time must vary
+    //! before we begin trying to catch up
+    const uint32 MAX_FTIME_DIFF = 5;
+
+    //! \brief The number of samples to take if we need to play catchup with the current FPS
+    const uint32 FPS_CATCHUP = 20;
+
     uint32 frame_time = vt_system::SystemManager->GetUpdateTime();
-    SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_BOTTOM, VIDEO_X_NOFLIP, VIDEO_Y_NOFLIP, VIDEO_BLEND, 0);
 
     // Calculate the FPS for the current frame
     uint32 current_fps = 1000;
-    if(frame_time) {
+    if(frame_time)
         current_fps /= frame_time;
-    }
 
     // The number of times to insert the current FPS sample into the fps_samples array
     uint32 number_insertions;
@@ -169,14 +180,21 @@ void VideoEngine::DrawFPS()
     uint32 avg_fps = _fps_sum / FPS_SAMPLES;
 
     // The text to display to the screen
-    char fps_text[16];
-    sprintf(fps_text, "FPS: %d", avg_fps);
+    _FPS_textimage->SetText("FPS: " + NumberToString(avg_fps));
+}
 
-    Move(930.0f, 720.0f); // Upper right hand corner of the screen
-    TextManager->Draw(fps_text, TextStyle("text20", Color::white));
+void VideoEngine::_DrawFPS()
+{
+    if(!_fps_display || !_FPS_textimage)
+        return;
 
-} // void GUISystem::_DrawFPS(uint32 frame_time)
-
+    PushState();
+    SetStandardCoordSys();
+    SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_BOTTOM, VIDEO_X_NOFLIP, VIDEO_Y_NOFLIP, VIDEO_BLEND, 0);
+    Move(930.0f, 40.0f); // Upper right hand corner of the screen
+    _FPS_textimage->Draw();
+    PopState();
+} // void GUISystem::_DrawFPS()
 
 VideoEngine::~VideoEngine()
 {
@@ -184,11 +202,10 @@ VideoEngine::~VideoEngine()
 
     _default_menu_cursor.Clear();
     _rectangle_image.Clear();
+    delete _FPS_textimage;
 
     TextureManager->SingletonDestroy();
 }
-
-
 
 bool VideoEngine::SingletonInitialize()
 {
@@ -228,7 +245,7 @@ bool VideoEngine::FinalizeInitialization()
     // Prepare the screen for rendering
     Clear();
 
-    // TEMP: this is a hack and should be removed when we can support procedural images
+    // Empty image used to draw colored rectangles.
     if(_rectangle_image.Load("") == false) {
         PRINT_ERROR << "_rectangle_image could not be created" << std::endl;
         return false;
@@ -354,24 +371,18 @@ void VideoEngine::Update()
     uint32 frame_time = vt_system::SystemManager->GetUpdateTime();
 
     _screen_fader.Update(frame_time);
+
+    if (_fps_display)
+        _UpdateFPS();
 }
 
 void VideoEngine::DrawDebugInfo()
 {
-    if(TextureManager->debug_current_sheet < 0 && !_fps_display)
-        return;
-
-    PushState();
-
-    // Restore possible previous coords changes
-    SetCoordSys(0.0f, VIDEO_STANDARD_RES_WIDTH, 0.0f, VIDEO_STANDARD_RES_HEIGHT);
-
     if(TextureManager->debug_current_sheet >= 0)
         TextureManager->DEBUG_ShowTexSheet();
 
-    // Draw FPS Counter If We Need To
-    DrawFPS();
-    PopState();
+    if (_fps_display)
+        _DrawFPS();
 } // void VideoEngine::Draw()
 
 bool VideoEngine::CheckGLError() {
