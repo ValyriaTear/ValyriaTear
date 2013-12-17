@@ -76,6 +76,9 @@ function Load(m)
         shrine_entrance_sign:SetVisible(true);
         _show_flames();
     end
+
+    -- Preload sounds
+    AudioManager:LoadSound("snd/heartbeat_slow.wav", Map);
 end
 
 -- the map update function handles checks done on each game tick.
@@ -609,6 +612,7 @@ map_functions = {
 
     hurt_effect_start = function()
         hurt_effect_time = 0;
+        AudioManager:PlaySound("snd/heartbeat_slow.wav");
     end,
 
     hurt_effect_update = function()
