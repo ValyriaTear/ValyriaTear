@@ -824,49 +824,39 @@ void MapMode::_UpdateExplore()
 
 void MapMode::_UpdateMapFrame()
 {
-    // Reinit map corner check members
-    _camera_x_in_map_corner = false;
-    _camera_y_in_map_corner = false;
-
     // Determine the center position coordinates for the camera
-    float camera_x, camera_y; // Holds the final X, Y coordinates of the camera
-    float x_pixel_length, y_pixel_length; // The X and Y length values that coorespond to a single pixel in the current coodinate system
-    float rounded_x_offset, rounded_y_offset; // The X and Y position offsets of the camera, rounded to perfectly align on a pixel boundary
+    // Holds the final X, Y coordinates of the camera
+    float camera_x = _camera->GetXPosition();
+    float camera_y = _camera->GetYPosition();
 
-    uint16 current_x, current_y; // Actual position of the view, either the camera sprite or a point on the camera movement path
-    float current_offset_x, current_offset_y; // Actual offset for the view
-
-    // TODO: the call to GetPixelSize() will return the same result every time so long as the coordinate system did not change. If we never
-    // change the coordinate system in map mode, then this should be done only once and the calculated values should be saved for re-use.
-    // However, we've discussed the possiblity of adding a zoom feature to maps, in which case we need to continually re-calculate the pixel size
-    VideoManager->GetPixelSize(x_pixel_length, y_pixel_length);
-
-    float path_x, path_y = 0.0f;
-    if(!_camera_timer.IsRunning()) {
-        path_x = _camera->GetXPosition();
-        path_y = _camera->GetYPosition();
-    } else {
-        path_x = _camera->GetXPosition() + (1 - _camera_timer.PercentComplete()) * _delta_x;
-        path_y = _camera->GetYPosition() + (1 - _camera_timer.PercentComplete()) * _delta_y;
+    if(_camera_timer.IsRunning()) {
+        camera_x += (1.0f - _camera_timer.PercentComplete()) * _delta_x;
+        camera_y += (1.0f - _camera_timer.PercentComplete()) * _delta_y;
     }
 
-    current_x = GetFloatInteger(path_x);
-    current_y = GetFloatInteger(path_y);
-    current_offset_x = GetFloatFraction(path_x);
-    current_offset_y = GetFloatFraction(path_y);
+    // Actual position of the view, either the camera sprite or a point on the camera movement path
+    uint16 current_x = GetFloatInteger(camera_x);
+    uint16 current_y = GetFloatInteger(camera_y);
 
-    rounded_x_offset = FloorToFloatMultiple(current_offset_x, x_pixel_length);
-    rounded_y_offset = FloorToFloatMultiple(current_offset_y, y_pixel_length);
-    camera_x = static_cast<float>(current_x) + rounded_x_offset;
-    camera_y = static_cast<float>(current_y) + rounded_y_offset;
+    // NOTE: Would the map mode coordinate system be able to dynamically change, allow this to be recomputed,
+    // and used as the multiple of the current camera tile offset, instead of PIXEL_LENGTH.
+    //float pixel_length_x, pixel_length_y;
+    //VideoManager->GetPixelSize(pixel_length_x, pixel_length_y);
+    // NOTE: Until then, we'll hardcode the never-changing resulting value of 0.04f for performance purpose.
+    const float PIXEL_LENGTH = 0.04f;
 
-    // Calculate all four screen edges and determine
+    // NOTE: The offset is corrected based on the map coord sys pixel size, to avoid glitches on tiles with transparent parts
+    // and black edges. The size of the edge would have a variable size and look like vibrating when scrolling
+    // without this fix.
+    float current_offset_x = vt_utils::FloorToFloatMultiple(GetFloatFraction(camera_x), PIXEL_LENGTH);
+    float current_offset_y = vt_utils::FloorToFloatMultiple(GetFloatFraction(camera_y), PIXEL_LENGTH);
+
     // Determine the draw coordinates of the top left corner using the camera's current position
-    _map_frame.tile_x_offset = 1.0f - rounded_x_offset;
+    _map_frame.tile_x_offset = 1.0f - current_offset_x;
     if(IsOddNumber(current_x))
         _map_frame.tile_x_offset -= 1.0f;
 
-    _map_frame.tile_y_offset = 2.0f - rounded_y_offset;
+    _map_frame.tile_y_offset = 2.0f - current_offset_y;
     if(IsOddNumber(current_y))
         _map_frame.tile_y_offset -= 1.0f;
 
@@ -883,6 +873,10 @@ void MapMode::_UpdateMapFrame()
 
     // Usually the map centers on the camera's position, but when the camera becomes too close to
     // the edges of the map, we need to modify the drawing properties of the frame.
+
+    // Reinit map corner check members
+    _camera_x_in_map_corner = false;
+    _camera_y_in_map_corner = false;
 
     // Camera exceeds the left boundary of the map
     if(_map_frame.tile_x_start < 0) {
@@ -950,25 +944,22 @@ void MapMode::_UpdateMapFrame()
     }
 
     // Comment this out to print out map draw debugging info about once a second
-// 	static int loops = 0;
-// 	if (loops == 0) {
-// 		printf("--- MAP DRAW INFO ---\n");
-// 		printf("Pixel Size:        [%f, %f]\n", x_pixel_length, y_pixel_length);
-// 		printf("Rounded offsets:   [%f, %f]\n", rounded_x_offset, rounded_y_offset);
-// 		printf("Starting row, col: [%d, %d]\n", _map_frame.starting_row, _map_frame.starting_col);
-// 		printf("# draw rows, cols: [%d, %d]\n", _map_frame.num_draw_rows, _map_frame.num_draw_cols);
-// 		printf("Camera position:   [%f, %f]\n", camera_x, camera_y);
-// 		printf("Tile draw start:   [%f, %f]\n", _map_frame.tile_x_start, _map_frame.tile_y_start);
-// 		printf("Edges (T,B,L,R):   [%f, %f, %f, %f]\n", _map_frame.screen_edges.top, _map_frame.screen_edges.bottom,
-// 			_map_frame.screen_edges.left, _map_frame.screen_edges.right);
-// 	}
+//  static int loops = 0;
+//  if (loops == 0) {
+//      printf("--- MAP DRAW INFO ---\n");
+//      printf("Rounded offsets:   [%f, %f]\n", current_offset_x, current_offset_y);
+//      printf("Starting row, col: [%d, %d]\n", _map_frame.starting_row, _map_frame.starting_col);
+//      printf("# draw rows, cols: [%d, %d]\n", _map_frame.num_draw_rows, _map_frame.num_draw_cols);
+//      printf("Camera position:   [%f, %f]\n", camera_x, camera_y);
+//      printf("Tile draw start:   [%f, %f]\n", _map_frame.tile_x_start, _map_frame.tile_y_start);
+//      printf("Edges (T,B,L,R):   [%f, %f, %f, %f]\n", _map_frame.screen_edges.top, _map_frame.screen_edges.bottom,
+//          _map_frame.screen_edges.left, _map_frame.screen_edges.right);
+//  }
 //
-// 	if (loops >= 60) {
-// 		loops = 0;
-// 	}
-// 	else {
-// 		loops++;
-// 	}
+//  if (loops >= 60)
+//      loops = 0;
+//  else
+//      ++loops;
 } // void MapMode::_UpdateMapFrame()
 
 

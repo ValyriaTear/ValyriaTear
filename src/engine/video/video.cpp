@@ -1124,7 +1124,7 @@ int32 VideoEngine::_ScreenCoordY(float y)
     return static_cast<int32>(percent * static_cast<float>(_viewport_height));
 }
 
-void VideoEngine::DrawLine(float x1, float y1, float x2, float y2, float width, const Color &color)
+void VideoEngine::DrawLine(float x1, float y1, float x2, float y2, float width, const Color& color)
 {
     GLfloat vert_coords[] = {
         x1, y1,
@@ -1135,15 +1135,14 @@ void VideoEngine::DrawLine(float x1, float y1, float x2, float y2, float width, 
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); // Normal blending
     glPushAttrib(GL_LINE_WIDTH);
 
-    float pixel_width, pixel_height;
-    GetPixelSize(pixel_width, pixel_height);
-    glLineWidth(width * pixel_height);
+    glLineWidth(width);
     EnableVertexArray();
     DisableColorArray();
     DisableTextureCoordArray();
     glColor4fv((GLfloat *)color.GetColors());
     glVertexPointer(2, GL_FLOAT, 0, vert_coords);
     glDrawArrays(GL_LINES, 0, 2);
+
     glPopAttrib(); // GL_LINE_WIDTH
 }
 

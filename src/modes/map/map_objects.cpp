@@ -75,24 +75,13 @@ bool MapObject::ShouldDraw()
     if(!MapRectangle::CheckIntersection(GetImageRectangle(), map->GetMapFrame().screen_edges))
         return false;
 
-    // Determine the center position coordinates for the camera
-    float x_pos, y_pos; // Holds the final X, Y coordinates of the camera
-    float x_pixel_length, y_pixel_length; // The X and Y length values that coorespond to a single pixel in the current coodinate system
-    float rounded_x_offset, rounded_y_offset; // The X and Y position offsets of the object, rounded to perfectly align on a pixel boundary
+    // Move the drawing cursor to the appropriate coordinates for this sprite
+    // NOTE: We round the value to a multiple of the current pixel size.
+    // See MapMode::_UpdateMapFrame() for a better explanation.
+    const float PIXEL_LENGTH = 0.04f;
+    VideoManager->Move(FloorToFloatMultiple(GetXPosition() - map->GetMapFrame().screen_edges.left, PIXEL_LENGTH),
+                       FloorToFloatMultiple(GetYPosition() - map->GetMapFrame().screen_edges.top, PIXEL_LENGTH));
 
-
-    // TODO: the call to GetPixelSize() will return the same result every time so long as the coordinate system did not change. If we never
-    // change the coordinate system in map mode, then this should be done only once and the calculated values should be saved for re-use.
-    // However, we've discussed the possiblity of adding a zoom feature to maps, in which case we need to continually re-calculate the pixel size
-    VideoManager->GetPixelSize(x_pixel_length, y_pixel_length);
-    rounded_x_offset = FloorToFloatMultiple(GetFloatFraction(GetXPosition()), x_pixel_length);
-    rounded_y_offset = FloorToFloatMultiple(GetFloatFraction(GetYPosition()), y_pixel_length);
-    x_pos = static_cast<float>(GetFloatInteger(GetXPosition())) + rounded_x_offset;
-    y_pos = static_cast<float>(GetFloatInteger(GetYPosition())) + rounded_y_offset;
-
-    // ---------- Move the drawing cursor to the appropriate coordinates for this sprite
-    VideoManager->Move(x_pos - map->GetMapFrame().screen_edges.left,
-                       y_pos - map->GetMapFrame().screen_edges.top);
     return true;
 } // bool MapObject::ShouldDraw()
 
