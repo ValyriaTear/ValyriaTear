@@ -11,7 +11,7 @@ map_subname = "Underpass"
 
 -- The music file used as default background music on this map.
 -- Other musics will have to handled through scripting.
-music_filename = "mus/mountain_shrine.ogg"
+music_filename = "mus/icy_wind.ogg"
 
 -- c++ objects instances
 local Map = {};
@@ -374,7 +374,7 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
 
     dialogue = vt_map.SpriteDialogue();
-    text = vt_system.Translate("My chest, it hurts!!");
+    text = vt_system.Translate("Oh, my chest, it hurts!!");
     dialogue:AddLineEventEmote(text, hero, "", "Bronann kneels", "exclamation");
     text = vt_system.Translate("The Crystal! ... Orlinn! Let's stand back!");
     dialogue:AddLineEmote(text, kalya, "exclamation");
@@ -397,7 +397,7 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
 
     dialogue = vt_map.SpriteDialogue();
-    text = vt_system.Translate("That sign... It is the sign of the Ancients... Bronann! Are you alright?");
+    text = vt_system.Translate("That sign... It is the sign of the Ancients! ... Bronann! Are you alright?");
     dialogue:AddLineEmote(text, kalya, "exclamation");
     DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Dialogue after crystals appearance", dialogue);
@@ -411,15 +411,17 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
 
     dialogue = vt_map.SpriteDialogue();
-    text = vt_system.Translate("I'm fine... The pain faded away...");
+    text = vt_system.Translate("I'm fine... I guess... The pain faded away...");
     dialogue:AddLineEvent(text, hero, "Bronann looks south", "");
+    text = vt_system.Translate("Thanks god...");
+    dialogue:AddLineEmote(text, kalya, "sweat drop");
     text = vt_system.Translate("Well, the door is open now...");
     dialogue:AddLineEmote(text, kalya, "thinking dots");
     text = vt_system.Translate("Yiek! Do you really want to go there??");
     dialogue:AddLineEmote(text, orlinn, "sweat drop");
-    text = vt_system.Translate("I believe we don't really have a choice...");
+    text = vt_system.Translate("I believe we don't really have a choice... Somehow this place... called me.");
     dialogue:AddLineEventEmote(text, hero, "Bronann looks north", "", "thinking dots");
-    text = vt_system.Translate("Let's stick together and we'll be fine as always, right?");
+    text = vt_system.Translate("Anyway, let's stick together and we'll be fine as always, right?");
     dialogue:AddLineEvent(text, kalya, "Kalya looks at Orlinn", "");
     text = vt_system.Translate("Woah, I have a bad feeling about all this now...");
     dialogue:AddLineEvent(text, orlinn, "Orlinn looks at Kalya", "");
