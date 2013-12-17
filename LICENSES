@@ -1,7 +1,7 @@
 Licenses
 ========
 
-Last update: 2013.12.14
+Last update: 2013.12.17
 
 This file is listing all the files licenses from the point of the fork
 from the Allacrost project.
@@ -101,6 +101,7 @@ dat/effects/particles/explosion.lua                             GPLv2+          
 dat/effects/particles/boss_death_particle.lua                   GPLv2+                   roos + Bertram modifications
 dat/effects/particles/fire.lua                                  GPLv2+                   roos + Bertram modifications
 dat/effects/particles/fire_spell.lua                            GPLv2+                   roos + Bertram modifications
+dat/effects/particles/fire_spiral.lua                           GPLv2+                   roos + Bertram modifications
 dat/effects/particles/heal_particle.lua                         GPLv2+                   Bertram
 dat/effects/particles/wave_spell.lua                            GPLv2+                   Bertram
 dat/effects/particles/earth_circle.lua                          GPLv3                    Bertram
@@ -140,6 +141,8 @@ dat/maps/layna_forest/crystal_appearance/crystal-sentence6.ogg  CC by SA 3.0    
 dat/maps/layna_forest/minimaps/layna_forest_cave1_1_minimap.png CC by SA 3.0             Bertram
 
 dat/maps/layna_village/kalya_house_fake_wall.png                GPLv2+                   Bertram, based on Jetrel harrvah tileset.
+
+dat/maps/mt_elbrus/ancient_sign_big_bright.png                  CC by SA 3.0             Bertram
 
 dat/objects/arm_armor.lua                                       GPLv2+                   Allacrost + Bertram
 dat/objects/head_armor.lua                                      GPLv2+                   Allacrost + Bertram
@@ -589,6 +592,7 @@ img/sprites/map/npcs/story/carson_walk.png                      GPLv2+          
 img/sprites/map/npcs/story/malta_walk.png                       GPLv2+                   Allacrost
 img/sprites/map/npcs/story/orlinn_laughing.png                  GPLv2+                   Allacrost + Bertram
 
+img/sprites/map/objects/ancient_sign.png                        CC by SA 3.0             Bertram
 img/sprites/map/objects/barrel1.png                             GPLv2+                   Allacrost
 img/sprites/map/objects/bed1.png                                GPLv2+                   Allacrost
 img/sprites/map/objects/bed2.png                                GPLv2                    Allacrost + Lilou
@@ -611,6 +615,7 @@ img/sprites/map/objects/chair2.png                              GPLv2+          
 img/sprites/map/objects/clock1.png                              GPLv2+                   Allacrost
 img/sprites/map/objects/dog1.png                                GPLv2+                   Nami97 (The Mana World - http://forums.themanaworld.org/viewtopic.php?f=8&t=16156)
 img/sprites/map/objects/door_big1.png                           GPLv3, CC by SA 3.0      Daniel Armstrong (HughSpectrum) (OGA), rearranged in 2x ratio by Bertram - http://opengameart.org/content/lpc-animated-castle-doors
+img/sprites/map/objects/flame1.png                              GPLv3, CC by 3.0         Sharm, William. Thompsonj (OGA) - http://opengameart.org/content/lpc-flames
 img/sprites/map/objects/flower_pot1.png                         GPLv2+                   Allacrost
 img/sprites/map/objects/flower_pot2.png                         GPLv2+                   Allacrost
 img/sprites/map/objects/gate1_closed.png                        CC by 3.0                Zabin, Hyptosis, and Daniel Cook (OGA) - http://opengameart.org/content/castle-tiles-for-rpgs

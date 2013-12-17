@@ -1,5 +1,13 @@
 objects = {}
 
+objects["Ancient_Sign1"] = {
+    animation_filename = "img/sprites/map/objects/ancient_sign.lua",
+    coll_half_width = 2.0,
+    coll_height = 6.0,
+    img_half_width = 2.0,
+    img_height = 6.0
+}
+
 objects["Barrel1"] = {
     animation_filename = "img/sprites/map/objects/barrel1.lua",
     coll_half_width = 0.78,
@@ -246,6 +254,14 @@ objects["Fence1 l bottom right"] = {
     coll_height = 1.2,
     img_half_width = 1.0,
     img_height = 2.0
+}
+
+objects["Flame1"] = {
+    animation_filename = "img/sprites/map/objects/flame1.lua",
+    coll_half_width = 0.5,
+    coll_height = 1.5,
+    img_half_width = 0.5,
+    img_height = 1.5
 }
 
 objects["Flower Pot1"] = {

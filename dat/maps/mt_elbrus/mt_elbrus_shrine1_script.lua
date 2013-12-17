@@ -18,6 +18,7 @@ local Map = {};
 local ObjectManager = {};
 local DialogueManager = {};
 local EventManager = {};
+local Script = {};
 
 -- the main character handler
 local hero = {};
@@ -29,6 +30,13 @@ local orlinn = {};
 -- Name of the main sprite. Used to reload the good one at the end of dialogue events.
 local main_sprite_name = "";
 
+-- Objects used during the door opening scene
+local shrine_entrance_door = {};
+local shrine_entrance_sign = {};
+
+local shrine_flame1 = {};
+local shrine_flame2 = {};
+
 -- the main map loading code
 function Load(m)
 
@@ -36,6 +44,7 @@ function Load(m)
     ObjectManager = Map.object_supervisor;
     DialogueManager = Map.dialogue_supervisor;
     EventManager = Map.event_supervisor;
+    Script = Map:GetScriptSupervisor();
 
     Map.unlimited_stamina = false;
 
@@ -53,10 +62,19 @@ function Load(m)
     -- Add a mediumly dark overlay
     Map:GetEffectSupervisor():EnableAmbientOverlay("img/ambient/dark.png", 0.0, 0.0, false);
 
+    -- Event Scripts
+    Script:AddScript("dat/maps/mt_elbrus/shrine_entrance_show_crystal_script.lua");
+
     -- Start the dialogue about snow and the bridge if not done
     if (GlobalManager:GetEventValue("story", "mt_elbrus_shrine_entrance_event") ~= 1) then
         hero:SetMoving(false);
         EventManager:StartEvent("Shrine entrance event start", 200);
+    end
+
+    if (GlobalManager:GetEventValue("story", "mt_elbrus_shrine_door_opening_event") == 1) then
+        _open_shrine_door();
+        shrine_entrance_sign:SetVisible(true);
+        _show_flames();
     end
 end
 
@@ -144,8 +162,21 @@ function _CreateObjects()
         vt_video.Color(1.0, 1.0, 1.0, 0.8));
 
     -- Adds the north gate
-    object = CreateObject(Map, "Door1_big", 42, 4);
-    Map:AddGroundObject(object);
+    shrine_entrance_door = CreateObject(Map, "Door1_big", 42, 4);
+    Map:AddGroundObject(shrine_entrance_door);
+
+    -- Adds a hidden sign, show just before the opening of the door
+    shrine_entrance_sign = CreateObject(Map, "Ancient_Sign1", 42, 10);
+    Map:AddFlatGroundObject(shrine_entrance_sign);
+    shrine_entrance_sign:SetVisible(false);
+
+    -- Flames that are burning after the opening of the shrine.
+    shrine_flame1 = CreateObject(Map, "Flame1", 33, 9.1);
+    Map:AddGroundObject(shrine_flame1);
+    shrine_flame2 = CreateObject(Map, "Flame1", 51, 9.1);
+    Map:AddGroundObject(shrine_flame2);
+    shrine_flame1:SetVisible(false);
+    shrine_flame2:SetVisible(false);
 end
 
 -- Special event references which destinations must be updated just before being called.
@@ -153,6 +184,10 @@ local kalya_move_next_to_hero_event1 = {}
 local kalya_move_back_to_hero_event1 = {}
 local orlinn_move_next_to_hero_event1 = {}
 local orlinn_move_back_to_hero_event1 = {}
+local kalya_move_next_to_hero_event2 = {}
+local kalya_move_back_to_hero_event2 = {}
+local orlinn_move_next_to_hero_event2 = {}
+local orlinn_move_back_to_hero_event2 = {}
 
 -- Creates all events and sets up the entire event sequence chain
 function _CreateEvents()
@@ -178,6 +213,8 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
     event = vt_map.ChangeDirectionSpriteEvent("Bronann looks north", hero, vt_map.MapMode.NORTH);
     EventManager:RegisterEvent(event);
+    event = vt_map.ChangeDirectionSpriteEvent("Bronann looks south", hero, vt_map.MapMode.SOUTH);
+    EventManager:RegisterEvent(event);
     event = vt_map.ChangeDirectionSpriteEvent("Kalya looks north", kalya, vt_map.MapMode.NORTH);
     EventManager:RegisterEvent(event);
     event = vt_map.ChangeDirectionSpriteEvent("Kalya looks west", kalya, vt_map.MapMode.WEST);
@@ -189,6 +226,8 @@ function _CreateEvents()
     event = vt_map.LookAtSpriteEvent("Bronann looks at Kalya", hero, kalya);
     EventManager:RegisterEvent(event);
     event = vt_map.LookAtSpriteEvent("Orlinn looks at Kalya", orlinn, kalya);
+    EventManager:RegisterEvent(event);
+    event = vt_map.LookAtSpriteEvent("Orlinn looks at Bronann", orlinn, hero);
     EventManager:RegisterEvent(event);
 
     -- entrance in the map event
@@ -208,7 +247,7 @@ function _CreateEvents()
     EventManager:RegisterEvent(orlinn_move_next_to_hero_event1);
 
     -- Orlinn move near the passway
-    event = vt_map.PathMoveSpriteEvent("Orlinn moves near the passway", orlinn, 29, 33, false);
+    event = vt_map.PathMoveSpriteEvent("Orlinn moves near the passway", orlinn, 29, 33, true);
     event:AddEventLinkAtEnd("Orlinn looks west");
     EventManager:RegisterEvent(event);
 
@@ -242,7 +281,7 @@ function _CreateEvents()
 
     dialogue = vt_map.SpriteDialogue();
     text = vt_system.Translate("... No, it can't be...");
-    dialogue:AddLineEmote(text, kalya, "sweat drop");
+    dialogue:AddLineEventEmote(text, kalya, "Orlinn looks at Kalya", "", "sweat drop");
     text = vt_system.Translate("After all we've been through, this...");
     dialogue:AddLineEvent(text, kalya, "Kalya looks north", "");
     DialogueManager:AddDialogue(dialogue);
@@ -292,21 +331,132 @@ function _CreateEvents()
 
     event = vt_map.ScriptedEvent("Shrine entrance event end", "shrine_entrance_event_end", "");
     EventManager:RegisterEvent(event);
+
+    -- Event where Bronann opens the shrine's door...
+    event = vt_map.ScriptedEvent("Shrine door opening event start", "shrine_door_opening_event_start", "");
+    event:AddEventLinkAtEnd("Bronann moves in the middle of platform");
+    EventManager:RegisterEvent(event);
+
+    event = vt_map.PathMoveSpriteEvent("Bronann moves in the middle of platform", hero, 42.0, 8.0, false);
+    event:AddEventLinkAtEnd("Bronann looks north");
+    event:AddEventLinkAtEnd("Shrine door opening event actual start");
+    EventManager:RegisterEvent(event);
+
+    event = vt_map.ScriptedEvent("Shrine door opening event actual start", "shrine_door_opening_event_start2", "");
+    event:AddEventLinkAtEnd("Kalya moves next to Bronann2", 100);
+    event:AddEventLinkAtEnd("Orlinn moves next to Bronann2", 100);
+    EventManager:RegisterEvent(event);
+
+    -- NOTE: The actual destination is set just before the actual start call
+    kalya_move_next_to_hero_event2 = vt_map.PathMoveSpriteEvent("Kalya moves next to Bronann2", kalya, 0, 0, false);
+    kalya_move_next_to_hero_event2:AddEventLinkAtEnd("Kalya looks north");
+    EventManager:RegisterEvent(kalya_move_next_to_hero_event2);
+    orlinn_move_next_to_hero_event2 = vt_map.PathMoveSpriteEvent("Orlinn moves next to Bronann2", orlinn, 0, 0, false);
+    orlinn_move_next_to_hero_event2:AddEventLinkAtEnd("Orlinn looks north");
+    orlinn_move_next_to_hero_event2:AddEventLinkAtEnd("Dialogue before opening the door", 500);
+    EventManager:RegisterEvent(orlinn_move_next_to_hero_event2);
+
+    event = vt_map.AnimateSpriteEvent("Bronann kneels", hero, "kneeling", 0); -- 0 means forever
+    EventManager:RegisterEvent(event);
+
+    dialogue = vt_map.SpriteDialogue();
+    text = vt_system.Translate("Here we are, looking at this huge, wonderful and yet creepy door...");
+    dialogue:AddLineEmote(text, kalya, "thinking dots");
+    text = vt_system.Translate("It's not like I actually would want to open it, but how are we going to");
+    dialogue:AddLineEventEmote(text, kalya, "Kalya looks at Bronann", "Orlinn looks at Bronann", "sweat drop");
+    DialogueManager:AddDialogue(dialogue);
+    event = vt_map.DialogueEvent("Dialogue before opening the door", dialogue);
+    event:AddEventLinkAtEnd("Show hurt effect");
+    EventManager:RegisterEvent(event);
+
+    event = vt_map.ScriptedEvent("Show hurt effect", "hurt_effect_start", "hurt_effect_update")
+    event:AddEventLinkAtEnd("Dialogue before opening the door2");
+    EventManager:RegisterEvent(event);
+
+    dialogue = vt_map.SpriteDialogue();
+    text = vt_system.Translate("My chest, it hurts!!");
+    dialogue:AddLineEventEmote(text, hero, "", "Bronann kneels", "exclamation");
+    text = vt_system.Translate("The Crystal! ... Orlinn! Let's stand back!");
+    dialogue:AddLineEmote(text, kalya, "exclamation");
+    DialogueManager:AddDialogue(dialogue);
+    event = vt_map.DialogueEvent("Dialogue before opening the door2", dialogue);
+    event:AddEventLinkAtEnd("Orlinn rushes down the stairs");
+    event:AddEventLinkAtEnd("Kalya rushes down the stairs");
+    EventManager:RegisterEvent(event);
+
+    event = vt_map.PathMoveSpriteEvent("Kalya rushes down the stairs", kalya, 43.0, 16.0, true);
+    event:AddEventLinkAtEnd("Kalya looks north");
+    EventManager:RegisterEvent(event);
+    event = vt_map.PathMoveSpriteEvent("Orlinn rushes down the stairs", orlinn, 41.0, 16.0, true);
+    event:AddEventLinkAtEnd("Orlinn looks north");
+    event:AddEventLinkAtEnd("The crystal opens the door");
+    EventManager:RegisterEvent(event);
+
+    event = vt_map.ScriptedEvent("The crystal opens the door", "show_crystal", "show_crystal_update");
+    event:AddEventLinkAtEnd("Dialogue after crystals appearance");
+    EventManager:RegisterEvent(event);
+
+    dialogue = vt_map.SpriteDialogue();
+    text = vt_system.Translate("That sign... It is the sign of the Ancients... Bronann! Are you alright?");
+    dialogue:AddLineEmote(text, kalya, "exclamation");
+    DialogueManager:AddDialogue(dialogue);
+    event = vt_map.DialogueEvent("Dialogue after crystals appearance", dialogue);
+    event:AddEventLinkAtEnd("Bronann looks south");
+    event:AddEventLinkAtEnd("Bronann gets up", 800);
+    EventManager:RegisterEvent(event);
+
+    -- Simply stop the custom animation
+    event = vt_map.ScriptedSpriteEvent("Bronann gets up", hero, "Terminate_all_events", "");
+    event:AddEventLinkAtEnd("Dialogue after crystals appearance2", 400);
+    EventManager:RegisterEvent(event);
+
+    dialogue = vt_map.SpriteDialogue();
+    text = vt_system.Translate("I'm fine... The pain faded away...");
+    dialogue:AddLineEvent(text, hero, "Bronann looks south", "");
+    text = vt_system.Translate("Well, the door is open now...");
+    dialogue:AddLineEmote(text, kalya, "thinking dots");
+    text = vt_system.Translate("Yiek! Do you really want to go there??");
+    dialogue:AddLineEmote(text, orlinn, "sweat drop");
+    text = vt_system.Translate("I believe we don't really have a choice...");
+    dialogue:AddLineEventEmote(text, hero, "Bronann looks north", "", "thinking dots");
+    text = vt_system.Translate("Let's stick together and we'll be fine as always, right?");
+    dialogue:AddLineEvent(text, kalya, "Kalya looks at Orlinn", "");
+    text = vt_system.Translate("Woah, I have a bad feeling about all this now...");
+    dialogue:AddLineEvent(text, orlinn, "Orlinn looks at Kalya", "");
+    DialogueManager:AddDialogue(dialogue);
+    event = vt_map.DialogueEvent("Dialogue after crystals appearance2", dialogue);
+    event:AddEventLinkAtEnd("Orlinn goes back to party2");
+    event:AddEventLinkAtEnd("Kalya goes back to party2");
+    EventManager:RegisterEvent(event);
+
+    orlinn_move_back_to_hero_event2 = vt_map.PathMoveSpriteEvent("Orlinn goes back to party2", orlinn, hero, false);
+    orlinn_move_back_to_hero_event2:AddEventLinkAtEnd("Shrine door opening event end");
+    EventManager:RegisterEvent(orlinn_move_back_to_hero_event2);
+
+    kalya_move_back_to_hero_event2 = vt_map.PathMoveSpriteEvent("Kalya goes back to party2", kalya, hero, false);
+    EventManager:RegisterEvent(kalya_move_back_to_hero_event2);
+
+    event = vt_map.ScriptedEvent("Shrine door opening event end", "shrine_door_opening_event_end", "");
+    EventManager:RegisterEvent(event);
 end
 
 -- zones
 local to_shrine_zone = {};
 local to_mountain_bridge_zone = {};
+local shrine_door_opening_zone = {};
 
 -- Create the different map zones triggering events
 function _CreateZones()
 
     -- N.B.: left, right, top, bottom
-    to_shrine_zone = vt_map.CameraZone(38, 46, 0, 2);
+    to_shrine_zone = vt_map.CameraZone(40, 44, 2, 4);
     Map:AddZone(to_shrine_zone);
 
     to_mountain_bridge_zone = vt_map.CameraZone(26, 32, 46, 48);
     Map:AddZone(to_mountain_bridge_zone);
+
+    shrine_door_opening_zone = vt_map.CameraZone(40, 44, 8, 10);
+    Map:AddZone(shrine_door_opening_zone);
 end
 
 -- Check whether the active camera has entered a zone. To be called within Update()
@@ -317,13 +467,54 @@ function _CheckZones()
     elseif (to_mountain_bridge_zone:IsCameraEntering() == true) then
         hero:SetMoving(false);
         EventManager:StartEvent("to mountain bridge");
+    elseif (shrine_door_opening_zone:IsCameraEntering() == true and Map:CurrentState() == vt_map.MapMode.STATE_EXPLORE) then
+        if (GlobalManager:GetEventValue("story", "mt_elbrus_shrine_door_opening_event") == 0) then
+            hero:SetMoving(false);
+            EventManager:StartEvent("Shrine door opening event start");
+        end
     end
 
+end
+
+-- Opens the shrine door
+function _open_shrine_door()
+    -- Permit the entrance into the shrine...
+    shrine_entrance_door:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
+    -- Makes the door open
+    local opening_anim_id = shrine_entrance_door:AddAnimation("img/sprites/map/objects/door_big1_opening.lua");
+    shrine_entrance_door:SetCurrentAnimation(opening_anim_id);
+end
+
+function _show_flames()
+    object = vt_map.SoundObject("snd/campfire.ogg", 33.0, 9.1, 5.0);
+    if (object ~= nil) then Map:AddAmbientSoundObject(object) end;
+    object = vt_map.SoundObject("snd/campfire.ogg", 51.0, 9.1, 5.0);
+    if (object ~= nil) then Map:AddAmbientSoundObject(object) end;
+
+    Map:AddHalo("img/misc/lights/torch_light_mask2.lua", 33.0, 9.1 + 3.0,
+        vt_video.Color(0.85, 0.32, 0.0, 0.6));
+    Map:AddHalo("img/misc/lights/sun_flare_light_main.lua", 33.0, 9.1 + 1.0,
+        vt_video.Color(0.99, 1.0, 0.27, 0.2));
+    Map:AddHalo("img/misc/lights/torch_light_mask2.lua", 51.0, 9.1 + 3.0,
+        vt_video.Color(0.85, 0.32, 0.0, 0.6));
+    Map:AddHalo("img/misc/lights/sun_flare_light_main.lua", 51.0, 9.1 + 1.0,
+        vt_video.Color(0.99, 1.0, 0.27, 0.2));
+
+    shrine_flame1:SetVisible(true);
+    shrine_flame2:SetVisible(true);
 end
 
 -- Effect time used when applying the heal light effect
 local heal_effect_time = 0;
 local heal_color = vt_video.Color(0.0, 0.0, 1.0, 1.0);
+
+-- Shown when Bronnan feels bad.
+local hurt_effect_time = 0;
+local hurt_color = vt_video.Color(1.0, 0.0, 0.0, 1.0);
+
+-- Used in the crystal appearance scene.
+local crystal_appearance_time = 0;
+local ancient_sign_visible = false;
 
 -- Map Custom functions
 -- Used through scripted events
@@ -390,5 +581,91 @@ map_functions = {
 
         -- Set event as done
         GlobalManager:SetEventValue("story", "mt_elbrus_shrine_entrance_event", 1);
+    end,
+
+    shrine_door_opening_event_start = function()
+        Map:PushState(vt_map.MapMode.STATE_SCENE);
+    end,
+
+    shrine_door_opening_event_start2 = function()
+        -- Keep a reference of the correct sprite for the event end.
+        main_sprite_name = hero:GetSpriteName();
+
+        -- Make the hero be Bronann for the event.
+        hero:ReloadSprite("Bronann");
+
+        kalya:SetPosition(hero:GetXPosition(), hero:GetYPosition());
+        kalya:SetVisible(true);
+        orlinn:SetPosition(hero:GetXPosition(), hero:GetYPosition());
+        orlinn:SetVisible(true);
+        kalya:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
+        orlinn:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
+
+        kalya_move_next_to_hero_event2:SetDestination(hero:GetXPosition() + 2.0, hero:GetYPosition(), false);
+        orlinn_move_next_to_hero_event2:SetDestination(hero:GetXPosition() - 2.0, hero:GetYPosition(), false);
+    end,
+
+    hurt_effect_start = function()
+        hurt_effect_time = 0;
+    end,
+
+    hurt_effect_update = function()
+        hurt_effect_time = hurt_effect_time + SystemManager:GetUpdateTime();
+
+        if (hurt_effect_time < 300.0) then
+            hurt_color:SetAlpha(hurt_effect_time / 300.0 / 3.0);
+            Map:GetEffectSupervisor():EnableLightingOverlay(hurt_color);
+            return false;
+        end
+
+        if (hurt_effect_time < 600.0) then
+            hurt_color:SetAlpha(((600.0 - hurt_effect_time) / 300.0) / 3.0);
+            Map:GetEffectSupervisor():EnableLightingOverlay(hurt_color);
+            return false;
+        end
+        return true;
+    end,
+
+    show_crystal = function()
+        -- Triggers the crystal appearance
+        GlobalManager:SetEventValue("scripts_events", "shrine_entrance_show_crystal", 1)
+        crystal_appearance_time = 0;
+        ancient_sign_visible = false;
+    end,
+
+    show_crystal_update = function()
+        -- Show the ancient sign on ground.
+        if (ancient_sign_visible == false) then
+            crystal_appearance_time = crystal_appearance_time + SystemManager:GetUpdateTime();
+            if (crystal_appearance_time >= 10000) then
+                shrine_entrance_sign:SetVisible(true);
+                ancient_sign_visible = true;
+            end
+        end
+        if (GlobalManager:GetEventValue("scripts_events", "shrine_entrance_show_crystal") == 0) then
+            -- TODO: Play here a big door opening sound
+            _open_shrine_door();
+            -- Show a slight fire spiral effect.
+            Map:GetParticleManager():AddParticleEffect("dat/effects/particles/fire_spiral.lua", 512.0, 284.0);
+            _show_flames();
+            return true;
+        end
+        return false;
+    end,
+
+    shrine_door_opening_event_end = function()
+        Map:PopState();
+        kalya:SetPosition(0, 0);
+        kalya:SetVisible(false);
+        kalya:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
+        orlinn:SetPosition(0, 0);
+        orlinn:SetVisible(false);
+        orlinn:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
+
+        -- Reload the hero back to default
+        hero:ReloadSprite(main_sprite_name);
+
+        -- Set event as done
+        GlobalManager:SetEventValue("story", "mt_elbrus_shrine_door_opening_event", 1);
     end,
 }
