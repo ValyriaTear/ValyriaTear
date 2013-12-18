@@ -79,6 +79,7 @@ function Load(m)
 
     -- Preload sounds
     AudioManager:LoadSound("snd/heartbeat_slow.wav", Map);
+    AudioManager:LoadSound("snd/ancient_invocation.wav", Map);
 end
 
 -- the map update function handles checks done on each game tick.
@@ -646,6 +647,7 @@ map_functions = {
             if (crystal_appearance_time >= 10000) then
                 shrine_entrance_sign:SetVisible(true);
                 ancient_sign_visible = true;
+                AudioManager:PlaySound("snd/ancient_invocation.wav");
             end
         end
         if (GlobalManager:GetEventValue("scripts_events", "shrine_entrance_show_crystal") == 0) then
