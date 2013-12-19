@@ -80,6 +80,7 @@ function Load(m)
     -- Preload sounds
     AudioManager:LoadSound("snd/heartbeat_slow.wav", Map);
     AudioManager:LoadSound("snd/ancient_invocation.wav", Map);
+    AudioManager:LoadSound("snd/cave-in.ogg", Map);
 end
 
 -- the map update function handles checks done on each game tick.
@@ -379,7 +380,7 @@ function _CreateEvents()
 
     dialogue = vt_map.SpriteDialogue();
     text = vt_system.Translate("Oh, my chest, it hurts!!");
-    dialogue:AddLineEventEmote(text, hero, "", "Bronann kneels", "exclamation");
+    dialogue:AddLineEventEmote(text, hero, "Bronann looks south", "Bronann kneels", "exclamation");
     text = vt_system.Translate("The Crystal! ... Orlinn! Let's stand back!");
     dialogue:AddLineEmote(text, kalya, "exclamation");
     DialogueManager:AddDialogue(dialogue);
@@ -392,6 +393,9 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("Kalya looks north");
     EventManager:RegisterEvent(event);
     event = vt_map.PathMoveSpriteEvent("Orlinn rushes down the stairs", orlinn, 41.0, 16.0, true);
+    event:AddEventLinkAtEnd("Orlinn goes behind Kalya");
+    EventManager:RegisterEvent(event);
+    event = vt_map.PathMoveSpriteEvent("Orlinn goes behind Kalya", orlinn, 42.6, 17.0, true);
     event:AddEventLinkAtEnd("Orlinn looks north");
     event:AddEventLinkAtEnd("The crystal opens the door");
     EventManager:RegisterEvent(event);
@@ -405,19 +409,18 @@ function _CreateEvents()
     dialogue:AddLineEmote(text, kalya, "exclamation");
     DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Dialogue after crystals appearance", dialogue);
-    event:AddEventLinkAtEnd("Bronann looks south");
-    event:AddEventLinkAtEnd("Bronann gets up", 800);
+    event:AddEventLinkAtEnd("Bronann gets up", 1200);
     EventManager:RegisterEvent(event);
 
     -- Simply stop the custom animation
     event = vt_map.ScriptedSpriteEvent("Bronann gets up", hero, "Terminate_all_events", "");
-    event:AddEventLinkAtEnd("Dialogue after crystals appearance2", 400);
+    event:AddEventLinkAtEnd("Dialogue after crystals appearance2", 1000);
     EventManager:RegisterEvent(event);
 
     dialogue = vt_map.SpriteDialogue();
-    text = vt_system.Translate("I'm fine... I guess... The pain faded away...");
+    text = vt_system.Translate("... I'm fine... I guess... The pain faded away...");
     dialogue:AddLineEvent(text, hero, "Bronann looks south", "");
-    text = vt_system.Translate("Thanks god...");
+    text = vt_system.Translate("Thanks goddess...");
     dialogue:AddLineEmote(text, kalya, "sweat drop");
     text = vt_system.Translate("Well, the door is open now...");
     dialogue:AddLineEmote(text, kalya, "thinking dots");
@@ -427,7 +430,7 @@ function _CreateEvents()
     dialogue:AddLineEventEmote(text, hero, "Bronann looks north", "", "thinking dots");
     text = vt_system.Translate("Anyway, let's stick together and we'll be fine as always, right?");
     dialogue:AddLineEvent(text, kalya, "Kalya looks at Orlinn", "");
-    text = vt_system.Translate("Woah, I have a bad feeling about all this now...");
+    text = vt_system.Translate("... I have a bad feeling about all this now...");
     dialogue:AddLineEvent(text, orlinn, "Orlinn looks at Kalya", "");
     DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Dialogue after crystals appearance2", dialogue);
@@ -644,14 +647,15 @@ map_functions = {
         -- Show the ancient sign on ground.
         if (ancient_sign_visible == false) then
             crystal_appearance_time = crystal_appearance_time + SystemManager:GetUpdateTime();
-            if (crystal_appearance_time >= 10000) then
+            if (crystal_appearance_time >= 8000) then
                 shrine_entrance_sign:SetVisible(true);
                 ancient_sign_visible = true;
                 AudioManager:PlaySound("snd/ancient_invocation.wav");
             end
         end
         if (GlobalManager:GetEventValue("scripts_events", "shrine_entrance_show_crystal") == 0) then
-            -- TODO: Play here a big door opening sound
+            Map:GetEffectSupervisor():ShakeScreen(0.4, 2200, vt_mode_manager.EffectSupervisor.SHAKE_FALLOFF_GRADUAL);
+            AudioManager:PlaySound("snd/cave-in.ogg");
             _open_shrine_door();
             -- Show a slight fire spiral effect.
             Map:GetParticleManager():AddParticleEffect("dat/effects/particles/fire_spiral.lua", 512.0, 284.0);
