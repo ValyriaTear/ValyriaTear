@@ -821,6 +821,9 @@ skills[10127] = {
 
     BattleExecute = function(user, target)
         local target_actor = target:GetActor();
+        local Battle = ModeManager:GetTop();
+        Battle:TriggerBattleParticleEffect("dat/effects/particles/stun_star.lua", target_actor:GetXLocation(), target_actor:GetYLocation());
+        -- TODO: The rest ...
     end,
 }
 

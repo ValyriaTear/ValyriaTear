@@ -1,7 +1,7 @@
 Licenses
 ========
 
-Last update: 2013.12.17
+Last update: 2013.12.20
 
 This file is listing all the files licenses from the point of the fork
 from the Allacrost project.
@@ -110,6 +110,7 @@ dat/effects/particles/water_circle.lua                          GPLv3           
 dat/effects/particles/water_circle_outer_particles.lua          GPLv3                    Bertram
 dat/effects/particles/wind_circle.lua                           GPLv3                    Bertram
 dat/effects/particles/wind_circle_outer_particles.lua           GPLv3                    Bertram
+dat/effects/particles/stun_star.lua                             GPLv3                    Bertram
 
 dat/maps/*.lua (including subfolders)                           GPLv2+                   Bertram
 
@@ -238,6 +239,7 @@ img/effects/right_arrow.png                                     CC by 3.0       
 img/effects/ripples.lua                                         GPLv3                    Bertram
 img/effects/ripples.png                                         CC0                      zookeeper (OGA) - http://opengameart.org/content/seamless-animated-raindrop-ripples-texture
 img/effects/shield.png                                          GPLv2+                   Allacrost
+img/effects/star.png                                            CC0                      (Ecrivain) (OGA) - http://opengameart.org/content/star
 img/effects/wave.png                                            CC by SA 3.0             Bertram
 img/effects/earth_circle.png                                    CC0                      (MrBeast) (OGA) - http://opengameart.org/content/73-patterns
 img/effects/water_circle.png                                    CC0                      (MrBeast) (OGA) - http://opengameart.org/content/73-patterns
