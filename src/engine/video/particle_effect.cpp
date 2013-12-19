@@ -130,8 +130,7 @@ bool ParticleEffect::_LoadEffectDef(const std::string &particle_file)
 
         sys_def.emitter._omnidirectional = particle_script.ReadBool("omnidirectional");
         sys_def.emitter._orientation = particle_script.ReadFloat("orientation");
-        sys_def.emitter._outer_cone = particle_script.ReadFloat("outer_cone");
-        sys_def.emitter._inner_cone = particle_script.ReadFloat("inner_cone");
+        sys_def.emitter._angle_variation = particle_script.ReadFloat("angle_variation");
         sys_def.emitter._initial_speed = particle_script.ReadFloat("initial_speed");
         sys_def.emitter._initial_speed_variation = particle_script.ReadFloat("initial_speed_variation");
         sys_def.emitter._emission_rate = particle_script.ReadFloat("emission_rate");

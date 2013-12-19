@@ -757,13 +757,16 @@ void ParticleSystem::_RespawnParticle(int32 i, const EffectParameters &params)
     }
 
     // figure out the orientation
-
     float angle = 0.0f;
 
     if(emitter._omnidirectional) {
         angle = RandomFloat(0.0f, UTILS_2PI);
-    } else if(emitter._inner_cone == 0.0f && emitter._outer_cone == 0.0f) {
+    }
+    else {
         angle = emitter._orientation + params.orientation;
+
+        if(!IsFloatEqual(emitter._angle_variation, 0.0f))
+            angle += RandomFloat(-emitter._angle_variation, emitter._angle_variation);
     }
 
     _particles[i].velocity_x = speed * cosf(angle);

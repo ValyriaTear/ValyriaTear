@@ -102,8 +102,7 @@ public:
         _shape(EMITTER_SHAPE_INVALID),
         _omnidirectional(false),
         _orientation(0.0f),
-        _outer_cone(0.0f),
-        _inner_cone(0.0f),
+        _angle_variation(0.0f),
         _initial_speed(0.0f),
         _initial_speed_variation(0.0f),
         _emission_rate(0.0f),
@@ -146,13 +145,9 @@ public:
     //! right, PI/2 is up, PI is left, 3PI/2 is down, etc.
     float _orientation;
 
-    //! outer cone angle, used to create some "spread" in the particle emissions. Set this
+    //! angle variation, used to create some "spread" in the particle emissions. Set this
     //! to zero if you want all particles to be emitted in exactly the same direction
-    float _outer_cone;
-
-    //! inner cone angle, used to create some "spread" in the particle emissions. Set this
-    //! to zero if you want all particles to be emitted in exactly the same direction
-    float _inner_cone;
+    float _angle_variation;
 
     //! initial speed for particles. The unit is pixels. So, with a coordinate system which
     //! is 1024x768, a particle going from left to right with a speed of 512 pixels/sec could
