@@ -540,6 +540,24 @@ img/sprites/battle/enemies/fenrir.png                           CC by SA 3.0    
 img/sprites/battle/enemies/eyeball.png                          CC by SA 3.0 or GPLv3    Redshrike (OGA) - http://opengameart.org/content/lpc-in-battle-rpg-sprites
 img/sprites/battle/enemies/shroom.png                           CC by SA 3.0             Blarumyrran (OGA), redone on higher res by Bertram - http://opengameart.org/content/blarumyrrans-publicdomain-wesnoth-sprites
 img/sprites/battle/enemies/lord_banesore.png                    CC by SA 3.0             Based on killyoverdrive (OGA) - http://opengameart.org/content/blue-knight-templar-transparent-background + image by Bertram
+img/sprites/battle/enemies/spider.png                           GPLv2+                   Allacrost
+img/sprites/battle/enemies/skeleton.png                         GPLv2+                   Allacrost
+img/sprites/battle/enemies/scorpion.png                         GPLv2+                   Allacrost
+img/sprites/battle/enemies/scorpion_goliath.png                 GPLv2+                   Allacrost
+img/sprites/battle/enemies/snake.png                            GPLv2+                   Allacrost
+img/sprites/battle/enemies/deceleon.png                         GPLv2+                   Allacrost
+img/sprites/battle/enemies/bat.png                              GPLv2+                   Allacrost
+img/sprites/battle/enemies/aerocephal.png                       GPLv2+                   Allacrost
+img/sprites/battle/enemies/daemarbora.png                       GPLv2+                   Allacrost
+img/sprites/battle/enemies/green_slime.png                      GPLv2+                   Allacrost
+img/sprites/battle/enemies/demonic_essence.png                  GPLv2+                   Allacrost
+img/sprites/battle/enemies/dune_crawler.png                     GPLv2+                   Allacrost
+img/sprites/battle/enemies/nagaruda.png                         GPLv2+                   Allacrost
+img/sprites/battle/enemies/arcana_drake.png                     GPLv2+                   Allacrost
+img/sprites/battle/enemies/aurum-drakueli.png                   GPLv2+                   Allacrost
+img/sprites/battle/enemies/stygian_lizard.png                   GPLv2+                   Allacrost
+img/sprites/battle/enemies/rat.png                              GPLv2+                   Allacrost
+img/sprites/battle/enemies/beetle.png                           CC by SA 3.0 / GPLv3     Redshrike (OGA) - http://opengameart.org/content/lpc-in-battle-rpg-sprites
 
 img/sprites/map/characters/bronann_bed_animation.png            CC by SA 3.0             Jetrel (OGA) for the bed and Bronann's head, Bertram for the frames.
 img/sprites/map/characters/bronann_frightened.png               GPLv2+                   Allacrost
@@ -573,6 +591,7 @@ img/sprites/map/enemies/spider_spritesheet.png                  GPLv2+          
 img/sprites/map/enemies/spiky_mushroom.png                      GPLv2+                   Yuuki - The Mana World - http://www.themanaworld.org
 img/sprites/map/enemies/fenrir_spritesheet.png                  GPLv2+                   Bertram - adapted from the wolf spritesheet
 img/sprites/map/enemies/lord_spritesheet.png                    CC by SA 3.0             Bertram, adapted from Redshrike (OGA) - http://opengameart.org/content/dark-soldier-for-valyria-tear
+img/sprites/map/enemies/beetle_spritesheet.png                  CC by SA 3.0 / GPLv2     Redshrike (OGA) - http://opengameart.org/content/lpc-beetle
 
 img/sprites/map/npcs/crystal_spritesheet.png                    CC by SA 3.0             Len + Modifications by Bertram
 img/sprites/map/npcs/mak_hound.png                              GPLv2+                   Allacrost
@@ -814,25 +833,6 @@ Files:
 ./snd/cancel.wav
 ./snd/female_scream.ogg
 ./snd/swordslice3.wav
-
-./img/sprites/battle/enemies/spider.png
-./img/sprites/battle/enemies/skeleton.png
-./img/sprites/battle/enemies/scorpion.png
-./img/sprites/battle/enemies/scorpion_goliath.png
-./img/sprites/battle/enemies/snake.png
-./img/sprites/battle/enemies/deceleon.png
-./img/sprites/battle/enemies/bat.png
-./img/sprites/battle/enemies/aerocephal.png
-./img/sprites/battle/enemies/daemarbora.png
-./img/sprites/battle/enemies/green_slime.png
-./img/sprites/battle/enemies/demonic_essence.png
-./img/sprites/battle/enemies/kyle.png
-./img/sprites/battle/enemies/dune_crawler.png
-./img/sprites/battle/enemies/nagaruda.png
-./img/sprites/battle/enemies/arcana_drake.png
-./img/sprites/battle/enemies/aurum-drakueli.png
-./img/sprites/battle/enemies/stygian_lizard.png
-./img/sprites/battle/enemies/rat.png
 
 ./img/logos/main_logo_sword.png
 
