@@ -83,7 +83,7 @@ dat/config/restore_settings.lua                                 GPLv2+          
 dat/config/settings.lua                                         GPLv2+                   Bertram
 dat/config/languages.lua                                        GPLv2+                   Bertram
 
-dat/credits/old_credits.lua                                     GPLv2+                   Allacrost
+dat/credits/end_credits.lua                                     GPLv2+                   Bertram
 dat/credits/episode1_credits.lua                                GPLv2+                   Bertram
 
 dat/effects/lightning.lua                                       GPLv2+                   Bertram
