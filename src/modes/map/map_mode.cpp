@@ -90,10 +90,6 @@ MapMode::MapMode(const std::string &data_filename, const std::string& script_fil
 
     // Load the save point animation files.
     AnimatedImage anim;
-    anim.LoadFromAnimationScript("img/misc/save_point/save_point4.lua");
-    active_save_point_animations.push_back(anim);
-
-    anim.Clear();
     anim.LoadFromAnimationScript("img/misc/save_point/save_point3.lua");
     active_save_point_animations.push_back(anim);
 
