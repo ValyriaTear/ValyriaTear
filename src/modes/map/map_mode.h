@@ -468,13 +468,16 @@ private:
     vt_video::AnimatedImage _dialogue_icon;
 
     //! \brief Image which underlays the stamina bar for running
-    vt_video::StillImage _stamina_bar_background;
+    //! \note This pointer is a reference handled by the GlobalMedia class, don't delete it!
+    vt_video::StillImage* _stamina_bar_background;
 
     //! \brief The stamina bar representing the current stamina
-    vt_video::StillImage _stamina_bar;
+    //! \note This pointer is a reference handled by the GlobalMedia class, don't delete it!
+    vt_video::StillImage* _stamina_bar;
 
     //! \brief Image which overlays the stamina bar to show that the player has unlimited running
-    vt_video::StillImage _stamina_bar_infinite_overlay;
+    //! \note This pointer is a reference handled by the GlobalMedia class, don't delete it!
+    vt_video::StillImage* _stamina_bar_infinite_overlay;
 
     // ----- Members : Containers -----
     /** \brief A container for the various foes which may appear on this map

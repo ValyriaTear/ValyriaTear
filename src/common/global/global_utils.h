@@ -360,6 +360,18 @@ public:
         return &_bottom_menu_image;
     }
 
+    vt_video::StillImage* GetStaminaBarBackgroundImage() {
+        return &_stamina_bar_background;
+    }
+
+    vt_video::StillImage* GetStaminaBarImage() {
+        return &_stamina_bar;
+    }
+
+    vt_video::StillImage* GetStaminaInfiniteImage() {
+        return &_stamina_bar_infinite_overlay;
+    }
+
     std::vector<vt_video::StillImage>* GetAllItemCategoryIcons() {
         return &_all_category_icons;
     }
@@ -417,6 +429,15 @@ private:
 
     //! \brief The clock icon
     vt_video::StillImage _clock_icon;
+
+    //! \brief Image which underlays the stamina bar for running
+    vt_video::StillImage _stamina_bar_background;
+
+    //! \brief The stamina bar representing the current stamina
+    vt_video::StillImage _stamina_bar;
+
+    //! \brief Image which overlays the stamina bar to show that the player has unlimited running
+    vt_video::StillImage _stamina_bar_infinite_overlay;
 
     //! \brief Retains all icon images that represent the game's status effects
     std::vector<vt_video::StillImage> _status_icons;

@@ -272,6 +272,15 @@ void GlobalMedia::Initialize()
     if (!_clock_icon.Load("img/menus/clock.png"))
         PRINT_WARNING << "Failed to load clock icon image" << std::endl;
 
+    if(!_stamina_bar_background.Load("img/misc/stamina_bar_background.png", 227, 24))
+        PRINT_WARNING << "Failed to load the the stamina bar background image" << std::endl;
+
+    if(!_stamina_bar.Load("img/misc/stamina_bar_map.png", 200, 9))
+        PRINT_WARNING << "Failed to load the the stamina bar image" << std::endl;
+
+    if(!_stamina_bar_infinite_overlay.Load("img/misc/stamina_bar_infinite_overlay.png", 227, 24))
+        PRINT_WARNING << "Failed to load the the stamina bar infinite overlay image" << std::endl;
+
     if(!vt_video::ImageDescriptor::LoadMultiImageFromElementSize(_status_icons, "img/icons/effects/status.png", 25, 25))
         PRINT_WARNING << "Failed to load status icon images" << std::endl;
 

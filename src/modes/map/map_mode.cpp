@@ -88,6 +88,10 @@ MapMode::MapMode(const std::string &data_filename, const std::string& script_fil
     ResetState();
     PushState(STATE_EXPLORE);
 
+    // Load miscellaneous map graphics
+    _dialogue_icon.LoadFromAnimationScript("img/misc/dialogue_icon.lua");
+    ScaleToMapCoords(_dialogue_icon);
+
     // Load the save point animation files.
     AnimatedImage anim;
     anim.LoadFromAnimationScript("img/misc/save_point/save_point3.lua");
@@ -105,7 +109,7 @@ MapMode::MapMode(const std::string &data_filename, const std::string& script_fil
     anim.LoadFromAnimationScript("img/misc/save_point/save_point2.lua");
     inactive_save_point_animations.push_back(anim);
 
-    // Transform the animation size to correspond to the map coodinates system.
+    // Transform the animation size to correspond to the map coordinates system.
     for(uint32 i = 0; i < active_save_point_animations.size(); ++i)
         ScaleToMapCoords(active_save_point_animations[i]);
 
@@ -135,18 +139,10 @@ MapMode::MapMode(const std::string &data_filename, const std::string& script_fil
     if(_show_minimap)
         _CreateMinimap();
 
-    // Load miscellaneous map graphics
-    _dialogue_icon.LoadFromAnimationScript("img/misc/dialogue_icon.lua");
-    ScaleToMapCoords(_dialogue_icon);
-
-    if(!_stamina_bar_background.Load("img/misc/stamina_bar_background.png", 227, 24))
-        IF_PRINT_WARNING(MAP_DEBUG) << "failed to load the the stamina bar background image" << std::endl;
-
-    if(!_stamina_bar.Load("img/misc/stamina_bar_map.png", 200, 9))
-        IF_PRINT_WARNING(MAP_DEBUG) << "failed to load the the stamina bar image" << std::endl;
-
-    if(!_stamina_bar_infinite_overlay.Load("img/misc/stamina_bar_infinite_overlay.png", 227, 24))
-        IF_PRINT_WARNING(MAP_DEBUG) << "failed to load the the stamina bar infinite overlay image" << std::endl;
+    GlobalMedia& media = GlobalManager->Media();
+    _stamina_bar_background = media.GetStaminaBarBackgroundImage();
+    _stamina_bar = media.GetStaminaBarImage();
+    _stamina_bar_infinite_overlay = media.GetStaminaInfiniteImage();
 
     // Init the script component.
     GetScriptSupervisor().Initialize(this);
@@ -1015,15 +1011,15 @@ void MapMode::_DrawStaminaBar(const vt_video::Color &blending)
 
     // Draw the background image
     VideoManager->Move(780, 747);
-    _stamina_bar_background.Draw(blending);
+    _stamina_bar_background->Draw(blending);
 
     // Draw the stamina bar
     VideoManager->Move(801, 739);
-    _stamina_bar.Draw(blending);
+    _stamina_bar->Draw(blending);
 
     if(_unlimited_stamina) {  // Draw the infinity symbol over the stamina bar
         VideoManager->Move(780, 747);
-        _stamina_bar_infinite_overlay.Draw(blending);
+        _stamina_bar_infinite_overlay->Draw(blending);
     }
     else if(fill_size >= 2) {
         // Only do this if the part to hide is at least 2 pixels long
