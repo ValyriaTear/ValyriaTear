@@ -1,8 +1,8 @@
 ------------------------------------------------------------------------------[[
--- Filename: episode1_end_credits.lua
+-- Filename: end_credits.lua
 --
--- Description: Contains the credits seen at episode I end.
--- It shall be moved from an episode end to another until reaching the game end.
+-- Description: Contains the credits seen at game ending.
+-- It shall be moved from an episode end to another until reaching the actual game end.
 ------------------------------------------------------------------------------]]
 
 local ns = {}
@@ -13,7 +13,7 @@ setfenv(1, ns);
 local credit_map = {}
 local credit_id = 0;
 local credit_time = 0;
-local text_alpha = 1.0;
+local credit_alpha = 1.0;
 
 local dark_overlay = {};
 local overlay_time = 0;
@@ -25,311 +25,911 @@ function Initialize(map_instance)
 
     credit_map = {
         [0] = {
-            image = nil,
-            header = Script:CreateText(vt_system.Translate("Thanks for playing!!"), vt_video.TextStyle("text28")),
-            header_position_x = 512.0,
-            header_position_y = 384.0,
-            header_color = vt_video.Color(1.0, 1.0, 1.0, 1.0),
-            text = Script:CreateText(vt_system.Translate("(To be continued ...)"), vt_video.TextStyle("text22")),
-            text_position_x = 670.0,
-            text_position_y = 548.0,
-            text_color = vt_video.Color(1.0, 1.0, 1.0, 1.0),
+            images = nil,
+            texts = {
+                [0] = {
+                    text = Script:CreateText(vt_system.Translate("Thanks for playing!!"), vt_video.TextStyle("text28")),
+                    text_position_x = 512.0,
+                    text_position_y = 384.0,
+                    text_color = vt_video.Color(1.0, 1.0, 1.0, 1.0),
+                },
+            },
         },
         [1] = {
-            image = Script:CreateImage("img/logos/valyria_logo_black.png"),
-            image_dimension_x = 630.0,
-            image_dimension_y = 318.0,
-            image_position_x = 500.0,
-            image_position_y = 500.0,
-            header = nil,
-            text = Script:CreateText(vt_system.Translate("Episode I"), vt_video.TextStyle("text28")),
-            text_position_x = 670.0,
-            text_position_y = 548.0,
-            text_color = vt_video.Color(1.0, 1.0, 1.0, 1.0),
+            images = {
+                [0] = {
+                    image = Script:CreateImage("img/logos/valyria_logo_black.png"),
+                    image_dimension_x = 630.0,
+                    image_dimension_y = 318.0,
+                    image_position_x = 500.0,
+                    image_position_y = 360.0,
+                },
+            },
+            texts = {
+                [0] = {
+                    text = Script:CreateText(vt_system.Translate("Episode I"), vt_video.TextStyle("text28")),
+                    text_position_x = 670.0,
+                    text_position_y = 408.0,
+                    text_color = vt_video.Color(1.0, 1.0, 1.0, 1.0),
+                },
+            },
         },
         [2] = {
-            image = nil,
-            header = Script:CreateText(vt_system.Translate("Story"), vt_video.TextStyle("text28")),
-            header_position_x = 512.0,
-            header_position_y = 200.0,
-            header_color = vt_video.Color(1.0, 0.8, 0.7, 1.0),
-            text = Script:CreateText("Bertram\n\nLilou", vt_video.TextStyle("text24")),
-            text_position_x = 512.0,
-            text_position_y = 300.0,
-            text_color = vt_video.Color(1.0, 1.0, 1.0, 1.0),
+            images = {
+                [0] = {
+                    image = Script:CreateAnimation("img/sprites/map/objects/paper_feather.lua"),
+                    image_dimension_x = 60.0,
+                    image_dimension_y = 56.0,
+                    image_position_x = 400.0,
+                    image_position_y = 300.0,
+                },
+            },
+            texts = {
+                [0] = {
+                    text = Script:CreateText(vt_system.Translate("Story"), vt_video.TextStyle("text28")),
+                    text_position_x = 512.0,
+                    text_position_y = 200.0,
+                    text_color = vt_video.Color(1.0, 0.8, 0.7, 1.0),
+                },
+                [1] = {
+                    text = Script:CreateText("Bertram\n\nLilou", vt_video.TextStyle("text24")),
+                    text_position_x = 512.0,
+                    text_position_y = 300.0,
+                    text_color = vt_video.Color(1.0, 1.0, 1.0, 1.0),
+                },
+            },
         },
         [3] = {
-            image = nil,
-            header = Script:CreateText(vt_system.Translate("Lead Programming, Scripting, Maps"), vt_video.TextStyle("text28")),
-            header_position_x = 512.0,
-            header_position_y = 200.0,
-            header_color = vt_video.Color(1.0, 0.8, 0.7, 1.0),
-            text = Script:CreateText("Bertram", vt_video.TextStyle("text24")),
-            text_position_x = 512.0,
-            text_position_y = 300.0,
-            text_color = vt_video.Color(1.0, 1.0, 1.0, 1.0),
+            images = {
+                [0] = {
+                    image = Script:CreateAnimation("img/sprites/map/objects/dog1.lua"),
+                    image_dimension_x = 76.0,
+                    image_dimension_y = 84.0,
+                    image_position_x = 620.0,
+                    image_position_y = 300.0,
+                },
+            },
+            texts = {
+                [0] = {
+                    text = Script:CreateText(vt_system.Translate("Lead Programming, Scripting, Maps"), vt_video.TextStyle("text28")),
+                    text_position_x = 512.0,
+                    text_position_y = 200.0,
+                    text_color = vt_video.Color(1.0, 0.8, 0.7, 1.0),
+                },
+                [1] = {
+                    text = Script:CreateText("Bertram", vt_video.TextStyle("text24")),
+                    text_position_x = 512.0,
+                    text_position_y = 300.0,
+                    text_color = vt_video.Color(1.0, 1.0, 1.0, 1.0),
+                },
+            },
         },
         [4] = {
-            image = Script:CreateImage("img/portraits/kalya_full.png"),
-            image_dimension_x = 182.0,
-            image_dimension_y = 350.0,
-            image_position_x = 200.0,
-            image_position_y = 620.0,
-            header = Script:CreateText(vt_system.Translate("Additional programming and scripting"), vt_video.TextStyle("text28")),
-            header_position_x = 510.0,
-            header_position_y = 200.0,
-            header_color = vt_video.Color(1.0, 0.8, 0.7, 1.0),
-            text = Script:CreateText("Roots\n\nIkarusDowned\n\nCoderGreen\n\nAuthenticate\n\nLogzero\n\nEndoalir", vt_video.TextStyle("text24")),
-            text_position_x = 512.0,
-            text_position_y = 300.0,
-            text_color = vt_video.Color(1.0, 1.0, 1.0, 1.0),
+            images = {
+                [0] = {
+                    image = Script:CreateImage("img/portraits/kalya_full.png"),
+                    image_dimension_x = 182.0,
+                    image_dimension_y = 350.0,
+                    image_position_x = 300.0,
+                    image_position_y = 580.0,
+                },
+            },
+            texts = {
+                [0] = {
+                    text = Script:CreateText(vt_system.Translate("Additional programming and scripting"), vt_video.TextStyle("text28")),
+                    text_position_x = 510.0,
+                    text_position_y = 200.0,
+                    text_color = vt_video.Color(1.0, 0.8, 0.7, 1.0),
+                },
+                [1] = {
+                    text = Script:CreateText("Roots\n\nIkarusDowned\n\nCoderGreen\n\nAuthenticate\n\nLogzero\n\nEndoalir", vt_video.TextStyle("text24")),
+                    text_position_x = 512.0,
+                    text_position_y = 300.0,
+                    text_color = vt_video.Color(1.0, 1.0, 1.0, 1.0),
+                },
+                [2] = {
+                    text = Script:CreateText("Balancing, ...\n\nQuest log, Minimap support, ...\n\nShop Trade mode support, ...\n\nUI theme change menu support, ...\n\nGL code improvement, ...\n\nMultiple screen fix, ...", vt_video.TextStyle("text24")),
+                    text_position_x = 642.0,
+                    text_position_y = 324.0,
+                    text_color = vt_video.Color(0.7, 0.7, 0.7, 1.0),
+                },
+            },
         },
         [5] = {
-            image = nil,
-            header = Script:CreateText(vt_system.Translate("Episode I - Graphics"), vt_video.TextStyle("text28")),
-            header_position_x = 512.0,
-            header_position_y = 200.0,
-            header_color = vt_video.Color(1.0, 0.8, 0.7, 1.0),
-            text = Script:CreateText("Daniel Cook\n\nZabin\n\nSafir-Kreuz\n\nJetrel\n\nOpen Game Art\n\nRamtam\n(vectorgurl.com)\n\nPatrick Thompson\n(pkillustration.com)\n"
-                                    .."(WIP)", vt_video.TextStyle("text24")),
-            text_position_x = 512.0,
-            text_position_y = 300.0,
-            text_color = vt_video.Color(1.0, 1.0, 1.0, 1.0),
+            images = {
+                [0] = {
+                    image = Script:CreateAnimation("img/sprites/battle/enemies/fenrir_0.lua"),
+                    image_dimension_x = 560.0,
+                    image_dimension_y = 406.0,
+                    image_position_x = 300.0,
+                    image_position_y = 350.0,
+                },
+                [1] = {
+                    image = Script:CreateImage("img/logos/oga.png"),
+                    image_dimension_x = 160.0,
+                    image_dimension_y = 80.0,
+                    image_position_x = 300.0,
+                    image_position_y = 700.0,
+                },
+                [2] = {
+                    image = Script:CreateAnimation("img/sprites/map/characters/bronann_frightened_unarmed_fixed.lua"),
+                    image_dimension_x = 64.0,
+                    image_dimension_y = 128.0,
+                    image_position_x = 880.0,
+                    image_position_y = 500.0,
+                },
+            },
+            texts = {
+                [0] = {
+                    text = Script:CreateText(vt_system.Translate("Graphics"), vt_video.TextStyle("text28")),
+                    text_position_x = 512.0,
+                    text_position_y = 200.0,
+                    text_color = vt_video.Color(1.0, 0.8, 0.7, 1.0),
+                },
+                [1] = {
+                    text = Script:CreateText("Daniel Cook\n\nZabin\n\nSafir-Kreuz\n\nJetrel\n\nRamtam\n(vectorgurl.com)\n\nPatrick Thompson\n(pkillustration.com)\n\n"
+                                            .."Open Game Art (OGA)", vt_video.TextStyle("text24")),
+                    text_position_x = 512.0,
+                    text_position_y = 300.0,
+                    text_color = vt_video.Color(1.0, 1.0, 1.0, 1.0),
+                },
+                [2] = {
+                    text = Script:CreateText("Village tileset, ...\n\nCemetery tileset, ...\n\nHeroes portraits, ...\n\nHeroes sprites, Cave tilesets, ...\n\n\nForest battle backgrounds, ...\n\n\nThe Fenrir"
+                                            .."\n\nA lot of various things", vt_video.TextStyle("text24")),
+                    text_position_x = 642.0,
+                    text_position_y = 324.0,
+                    text_color = vt_video.Color(0.7, 0.7, 0.7, 1.0),
+                },
+            },
         },
         [6] = {
-            image = nil,
-            header = Script:CreateText(vt_system.Translate("Music"), vt_video.TextStyle("text28")),
-            header_position_x = 512.0,
-            header_position_y = 200.0,
-            header_color = vt_video.Color(1.0, 0.8, 0.7, 1.0),
-            text = Script:CreateText("Mathew Pablo\n(matthewpablo.com)\n\nZander Noriega (OGA)\n\nKoertes (OGA)\n\nHorrorPen (OGA)",
-                                     vt_video.TextStyle("text24")),
-            text_position_x = 512.0,
-            text_position_y = 300.0,
-            text_color = vt_video.Color(1.0, 1.0, 1.0, 1.0),
+            images = {
+                [0] = {
+                    image = Script:CreateAnimation("img/sprites/map/objects/layna_statue.lua"),
+                    image_dimension_x = 60.0,
+                    image_dimension_y = 170.0,
+                    image_position_x = 300.0,
+                    image_position_y = 250.0,
+                },
+                [1] = {
+                    image = Script:CreateAnimation("img/sprites/battle/enemies/harlequin_0.lua"),
+                    image_dimension_x = 79.0 * 2,
+                    image_dimension_y = 94.0 * 2,
+                    image_position_x = 200.0,
+                    image_position_y = 420.0,
+                },
+            },
+            texts = {
+                [0] = {
+                    text = Script:CreateText(vt_system.Translate("Graphics"), vt_video.TextStyle("text28")),
+                    text_position_x = 512.0,
+                    text_position_y = 200.0,
+                    text_color = vt_video.Color(1.0, 0.8, 0.7, 1.0),
+                },
+                [1] = {
+                    text = Script:CreateText("Redshrike (OGA)\n\neleazzar (OGA)\n\nBertram\n\nLilou\n\nRavenmore (OGA)\n\nKirill777 (OGA)\n\nAnthony44 (OGA)\n\nJAP (OGA)\n\nEcrivain (OGA)\n\nkillyoverdrive (OGA)",
+                                             vt_video.TextStyle("text20")),
+                    text_position_x = 292.0,
+                    text_position_y = 300.0,
+                    text_color = vt_video.Color(1.0, 1.0, 1.0, 1.0),
+                },
+                [2] = {
+                    text = Script:CreateText("qubodup (OGA)\n\nJordan Trudgett\njordan.trudgett.com\nOsmic (OGA)\n\nDelfos (OGA)\n\nLen (OGA)\n\nDaniel Eddeland (OGA)\n\nBart (OGA)\n\nSindwiller (OGA)\n\nhc (OGA)\n\nzookeeper (OGA)\n\nMrBeast (OGA)",
+                                             vt_video.TextStyle("text20")),
+                    text_position_x = 512.0,
+                    text_position_y = 300.0,
+                    text_color = vt_video.Color(1.0, 1.0, 1.0, 1.0),
+                },
+                [3] = {
+                    text = Script:CreateText("Sunburn (OGA)\n\nBlarumyrran (OGA)\n\nrichtaur (OGA)\n\nLamoot (OGA\n\nXenodora (OGA)\n\nThe Mana World (TMW)\n\nYuuki (TMW)\n\nPhilipp H. Poll\n\nTempest in the Aether\n\nUnknown Horizons",
+                                             vt_video.TextStyle("text20")),
+                    text_position_x = 732.0,
+                    text_position_y = 300.0,
+                    text_color = vt_video.Color(1.0, 1.0, 1.0, 1.0),
+                },
+            },
         },
         [7] = {
-            image = nil,
-            header = Script:CreateText(vt_system.Translate("Ports"), vt_video.TextStyle("text28")),
-            header_position_x = 512.0,
-            header_position_y = 200.0,
-            header_color = vt_video.Color(1.0, 0.8, 0.7, 1.0),
-            text = Script:CreateText("Ablu\n\nSocapex\n\nIbara\n\nAMDmi3", vt_video.TextStyle("text24")),
-            text_position_x = 512.0,
-            text_position_y = 300.0,
-            text_color = vt_video.Color(1.0, 1.0, 1.0, 1.0),
+            images = {
+                [0] = {
+                    image = Script:CreateAnimation("img/sprites/map/objects/cat1.lua"),
+                    image_dimension_x = 22.0 * 2,
+                    image_dimension_y = 25.0 * 2,
+                    image_position_x = 400.0,
+                    image_position_y = 220.0,
+                },
+                [1] = {
+                    image = Script:CreateAnimation("img/sprites/map/objects/campfire.lua"),
+                    image_dimension_x = 320.0 / 5 * 2,
+                    image_dimension_y = 64.0 * 2,
+                    image_position_x = 800.0,
+                    image_position_y = 650.0,
+                },
+            },
+            texts = {
+                [0] = {
+                    text = Script:CreateText(vt_system.Translate("Music"), vt_video.TextStyle("text28")),
+                    text_position_x = 512.0,
+                    text_position_y = 200.0,
+                    text_color = vt_video.Color(1.0, 0.8, 0.7, 1.0),
+                },
+                [1] = {
+                    text = Script:CreateText("Mathew Pablo\n(matthewpablo.com)\n\nZander Noriega (OGA)\n\nHorrorPen (OGA)\n\n"
+                                             .."djsaryon (OGA)\n\nEdward J. Blakeley (OGA)\n\nKoertes (OGA)\n\nMumu (OGA)\n\nyd (OGA)",
+                                             vt_video.TextStyle("text24")),
+                    text_position_x = 512.0,
+                    text_position_y = 300.0,
+                    text_color = vt_video.Color(1.0, 1.0, 1.0, 1.0),
+                },
+                [2] = {
+                    text = Script:CreateText("\nMain theme, Village music, ...\n\nBanesore's battle, ...\n\nLayna Forest music, ...\n\n"
+                                             .."Boss Music\n\nBattle music\n\nBirds' song\n\nBattle lost music\n\nLayna cave music", vt_video.TextStyle("text24")),
+                    text_position_x = 642.0,
+                    text_position_y = 324.0,
+                    text_color = vt_video.Color(0.7, 0.7, 0.7, 1.0),
+                },
+            },
         },
         [8] = {
-            image = nil,
-            header = Script:CreateText(vt_system.Translate("Translations"), vt_video.TextStyle("text28")),
-            header_position_x = 512.0,
-            header_position_y = 200.0,
-            header_color = vt_video.Color(1.0, 0.8, 0.7, 1.0),
-            text = Script:CreateText("NaN (de)\n\nGallaecio (gl)\n\nBioHazardX (it)\n\nKnitter (pt_PT)\n\nBertram (fr)", vt_video.TextStyle("text24")),
-            text_position_x = 512.0,
-            text_position_y = 300.0,
-            text_color = vt_video.Color(1.0, 1.0, 1.0, 1.0),
+            images = {
+                [0] = {
+                    image = Script:CreateAnimation("img/sprites/map/characters/kalya_laughing.lua"),
+                    image_dimension_x = 64.0,
+                    image_dimension_y = 128.0,
+                    image_position_x = 800.0,
+                    image_position_y = 380.0,
+                },
+            },
+            texts = {
+                [0] = {
+                    text = Script:CreateText(vt_system.Translate("Music"), vt_video.TextStyle("text28")),
+                    text_position_x = 512.0,
+                    text_position_y = 200.0,
+                    text_color = vt_video.Color(1.0, 0.8, 0.7, 1.0),
+                },
+                [1] = {
+                    text = Script:CreateText("lasercheese (OGA)\n\nEliot Corley (el-corleo) (OGA)\n\nTom Peter (OGA)\n\n",
+                                             vt_video.TextStyle("text24")),
+                    text_position_x = 512.0,
+                    text_position_y = 300.0,
+                    text_color = vt_video.Color(1.0, 1.0, 1.0, 1.0),
+                },
+                [2] = {
+                    text = Script:CreateText("Sad theme\n\nMountain music\n\nMountain Shrine music", vt_video.TextStyle("text24")),
+                    text_position_x = 642.0,
+                    text_position_y = 324.0,
+                    text_color = vt_video.Color(0.7, 0.7, 0.7, 1.0),
+                },
+            },
         },
         [9] = {
-            image = nil,
-            header = Script:CreateText(vt_system.Translate("Tester Team"), vt_video.TextStyle("text28")),
-            header_position_x = 512.0,
-            header_position_y = 200.0,
-            header_color = vt_video.Color(1.0, 0.8, 0.7, 1.0),
-            text = Script:CreateText("Shirish\n\nKhyana\n\nSahaondra\n\nOmega\n\nPenPen", vt_video.TextStyle("text24")),
-            text_position_x = 512.0,
-            text_position_y = 300.0,
-            text_color = vt_video.Color(1.0, 1.0, 1.0, 1.0),
+            images = {
+                [0] = {
+                    image = Script:CreateAnimation("img/sprites/map/characters/bronann_hero_stance_unarmed.lua"),
+                    image_dimension_x = 96.0 / 3 * 2,
+                    image_dimension_y = 64.0 * 2,
+                    image_position_x = 200.0,
+                    image_position_y = 280.0,
+                },
+            },
+            texts = {
+                [0] = {
+                    text = Script:CreateText(vt_system.Translate("Sounds"), vt_video.TextStyle("text28")),
+                    text_position_x = 512.0,
+                    text_position_y = 200.0,
+                    text_color = vt_video.Color(1.0, 0.8, 0.7, 1.0),
+                },
+                [1] = {
+                    text = Script:CreateText("qubodup (OGA)\n\nBart (OGA)\n\nBertram\n\nMichel Bardari (OGA)\n\nartisticdude (OGA)\n\n"..
+                                             "Blender Foundation\napricot.blender.org",
+                                             vt_video.TextStyle("text20")),
+                    text_position_x = 312.0,
+                    text_position_y = 300.0,
+                    text_color = vt_video.Color(1.0, 1.0, 1.0, 1.0),
+                },
+                [2] = {
+                    text = Script:CreateText("lendrick (freesound)\n\nSpandau (freesound)\n\nTheGertz (freesound)\n\nEcrivain(OGA)\n\nBrandon Morris (OGA)\n\nIndependent.nu (OGA)",
+                                             vt_video.TextStyle("text20")),
+                    text_position_x = 512.0,
+                    text_position_y = 300.0,
+                    text_color = vt_video.Color(1.0, 1.0, 1.0, 1.0),
+                },
+                [3] = {
+                    text = Script:CreateText("DoKashiteru (OGA)\n\nNick Bowler (OGA)\n\nkddekadenz (OGA)\n\nremaxim (OGA)\n\nj1987\n\nOveMelaa (OGA)",
+                                             vt_video.TextStyle("text20")),
+                    text_position_x = 712.0,
+                    text_position_y = 300.0,
+                    text_color = vt_video.Color(1.0, 1.0, 1.0, 1.0),
+                },
+            },
         },
         [10] = {
-            image = nil,
-            header = Script:CreateText(vt_system.Translate("Valyria Tear was forked from Hero of Allacrost in 2011"), vt_video.TextStyle("text28")),
-            header_position_x = 512.0,
-            header_position_y = 384.0,
-            header_color = vt_video.Color(1.0, 0.8, 0.7, 1.0),
-            text = nil,
+            images = {
+                [0] = {
+                    image = Script:CreateAnimation("img/sprites/map/characters/bronann_bed_animation.lua"),
+                    image_dimension_x = 168.0 / 3 * 2,
+                    image_dimension_y = 273.0 /3 * 2,
+                    image_position_x = 820.0,
+                    image_position_y = 580.0,
+                },
+            },
+            texts = {
+                [0] = {
+                    text = Script:CreateText(vt_system.Translate("Ports"), vt_video.TextStyle("text28")),
+                    text_position_x = 512.0,
+                    text_position_y = 200.0,
+                    text_color = vt_video.Color(1.0, 0.8, 0.7, 1.0),
+                },
+                [1] = {
+                    text = Script:CreateText("Ablu\n\nSocapex\n\nIbara\n\nAMDmi3\n\nMCMic", vt_video.TextStyle("text24")),
+                    text_position_x = 312.0,
+                    text_position_y = 300.0,
+                    text_color = vt_video.Color(1.0, 1.0, 1.0, 1.0),
+                },
+                [2] = {
+                    text = Script:CreateText("Fedora\n\nOSX\n\nOpenBSD\n\nFreeBSD\n\nArchLinux", vt_video.TextStyle("text24")),
+                    text_position_x = 382.0,
+                    text_position_y = 324.0,
+                    text_color = vt_video.Color(0.7, 0.7, 0.7, 1.0),
+                },
+                [3] = {
+                    text = Script:CreateText("hasufell\n\nakien-Mageia\n\nAapoRantalainen\n\nptitSeb\n\nEric Anholt", vt_video.TextStyle("text24")),
+                    text_position_x = 612.0,
+                    text_position_y = 300.0,
+                    text_color = vt_video.Color(1.0, 1.0, 1.0, 1.0),
+                },
+                [4] = {
+                    text = Script:CreateText("Gentoo\n\nMageia\n\nMaemo\n\nOpen Pandora\n\nDebian", vt_video.TextStyle("text24")),
+                    text_position_x = 682.0,
+                    text_position_y = 324.0,
+                    text_color = vt_video.Color(0.7, 0.7, 0.7, 1.0),
+                },
+            },
         },
         [11] = {
-            image = nil,
-            header = Script:CreateText(vt_system.Translate("Allacrost Development Team (2004-2011)\n\nFounder and Lead Designer"), vt_video.TextStyle("text28")),
-            header_position_x = 512.0,
-            header_position_y = 200.0,
-            header_color = vt_video.Color(1.0, 0.8, 0.7, 1.0),
-            text = Script:CreateText("Tyler Olsen (Roots)", vt_video.TextStyle("text24")),
-            text_position_x = 512.0,
-            text_position_y = 300.0,
-            text_color = vt_video.Color(1.0, 1.0, 1.0, 1.0),
+            images = {
+                [0] = {
+                    image = Script:CreateImage("img/sprites/map/characters/bronann_hurt_west.png"),
+                    image_dimension_x = 128.0,
+                    image_dimension_y = 128.0,
+                    image_position_x = 220.0,
+                    image_position_y = 500.0,
+                },
+            },
+            texts = {
+                [0] = {
+                    text = Script:CreateText(vt_system.Translate("Translations"), vt_video.TextStyle("text28")),
+                    text_position_x = 512.0,
+                    text_position_y = 200.0,
+                    text_color = vt_video.Color(1.0, 0.8, 0.7, 1.0),
+                },
+                [1] = {
+                    text = Script:CreateText("Bertram\n\nGallaecio\n\nNaN\n\nBioHazardX\n\nKnitter\n\ndimproject\n\njahalic", vt_video.TextStyle("text24")),
+                    text_position_x = 512.0,
+                    text_position_y = 300.0,
+                    text_color = vt_video.Color(1.0, 1.0, 1.0, 1.0),
+                },
+                [2] = {
+                    text = Script:CreateText("French (fr)\n\nGallician (gl)\n\nGerman (de)\n\nItalian (it)\n\nPortuguese (pt_PT)\n\nRussian (ru)\n\nSpanish (es)", vt_video.TextStyle("text24")),
+                    text_position_x = 642.0,
+                    text_position_y = 324.0,
+                    text_color = vt_video.Color(0.7, 0.7, 0.7, 1.0),
+                },
+            },
         },
         [12] = {
-            image = nil,
-            header = Script:CreateText(vt_system.Translate("Allacrost Project Leads/Administrators"), vt_video.TextStyle("text28")),
-            header_position_x = 512.0,
-            header_position_y = 200.0,
-            header_color = vt_video.Color(1.0, 0.8, 0.7, 1.0),
-            text = Script:CreateText("Tyler Olsen (Roots)\n\nJacob Rudolph (rujasu)\n\nPhilip Vorsilak (gorzuate)", vt_video.TextStyle("text24")),
-            text_position_x = 512.0,
-            text_position_y = 300.0,
-            text_color = vt_video.Color(1.0, 1.0, 1.0, 1.0),
+            images = {
+                [0] = {
+                    image = Script:CreateAnimation("img/sprites/battle/characters/kalya/kalya_victory.lua"),
+                    image_dimension_x = 256.0 / 4 * 2,
+                    image_dimension_y = 64.0 * 2,
+                    image_position_x = 650.0,
+                    image_position_y = 320.0,
+                },
+            },
+            texts = {
+                [0] = {
+                    text = Script:CreateText(vt_system.Translate("Testers"), vt_video.TextStyle("text28")),
+                    text_position_x = 512.0,
+                    text_position_y = 200.0,
+                    text_color = vt_video.Color(1.0, 0.8, 0.7, 1.0),
+                },
+                [1] = {
+                    text = Script:CreateText("Shirish\n\nKhyana\n\nSahaondra\n\nOmega\n\nPenPen", vt_video.TextStyle("text24")),
+                    text_position_x = 512.0,
+                    text_position_y = 300.0,
+                    text_color = vt_video.Color(1.0, 1.0, 1.0, 1.0),
+                },
+            },
         },
         [13] = {
-            image = nil,
-            header = Script:CreateText(vt_system.Translate("Allacrost Programming Team (2004-2011)"), vt_video.TextStyle("text28")),
-            header_position_x = 512.0,
-            header_position_y = 200.0,
-            header_color = vt_video.Color(1.0, 0.8, 0.7, 1.0),
-            text = Script:CreateText("Andy Gardner (ChopperDave) - battle code, menu code\n\n" ..
-                                     "Baris Soner Usakli (Black Knight) - game editor\n\n" ..
-                                     "Daniel Steuernol (Steu) - game engine\n\n" ..
-                                     "Guillaume Anctil (Drakkoon) - map code\n\n" ..
-                                     "Jacob Rudolph (rujasu) - various game modes, content scripting\n\n" ..
-                                     "Lindsay Roberts (Linds) - video engine\n\n" ..
-                                     "Moises Ferrer Serra (byaku) - video engine, audio engine\n\n" ..
-                                     "Philip Vorsilak (gorzuate) - game editor\n\n" ..
-                                     "Tyler Olsen (Roots) - programming lead, game engine, map code", vt_video.TextStyle("text24")),
-            text_position_x = 512.0,
-            text_position_y = 300.0,
-            text_color = vt_video.Color(1.0, 1.0, 1.0, 1.0),
+            images = nil,
+            texts = {
+                [0] = {
+                    text = Script:CreateText(vt_system.Translate("And you..."), vt_video.TextStyle("text28")),
+                    text_position_x = 512.0,
+                    text_position_y = 384.0,
+                    text_color = vt_video.Color(1.0, 1.0, 1.0, 1.0),
+                },
+            },
         },
         [14] = {
-            image = nil,
-            header = Script:CreateText(vt_system.Translate("Allacrost Programming Team"), vt_video.TextStyle("text28")),
-            header_position_x = 512.0,
-            header_position_y = 200.0,
-            header_color = vt_video.Color(1.0, 0.8, 0.7, 1.0),
-            text = Script:CreateText("Viljami Korhonen (MindFlayer) - boot code, battle code\n\n" ..
-                                     "Wouter Lindenhof (ElonNarai) - game editor\n\n" ..
-                                     "Aaron Smith (Etherstar) - audio engine\n\n" ..
-                                     "Alastair Lynn (prophile) - various code, Mac OS X maintenance\n\n" ..
-                                     "Brandon Barnes (Winter Knight) - game engine, game modes, Windows build scripts\n\n" ..
-                                     "Corey Hoffstein (visage) - battle code\n\n" ..
-                                     "Dale Ma (eguitarz) - map editor\n\n" ..
-                                     "DongHa Lee (MoOshiCow) - internationalization\n\n" ..
-                                     "Farooq Mela (CamelJockey) - video engine\n\n", vt_video.TextStyle("text24")),
-            text_position_x = 512.0,
-            text_position_y = 300.0,
-            text_color = vt_video.Color(1.0, 1.0, 1.0, 1.0),
+            images = {
+                [0] = {
+                    image = Script:CreateImage("img/logos/hoa_garland_logo.png"),
+                    image_dimension_x = 412.0,
+                    image_dimension_y = 200.0,
+                    image_position_x = 512.0,
+                    image_position_y = 330.0,
+                },
+            },
+            texts = {
+                [0] = {
+                    text = Script:CreateText(vt_system.Translate("Valyria Tear was forked from Hero of Allacrost in 2011"), vt_video.TextStyle("text28")),
+                    text_position_x = 512.0,
+                    text_position_y = 384.0,
+                    text_color = vt_video.Color(1.0, 0.8, 0.7, 1.0),
+                },
+            },
         },
         [15] = {
-            image = nil,
-            header = Script:CreateText(vt_system.Translate("Allacrost Programming Team"), vt_video.TextStyle("text28")),
-            header_position_x = 512.0,
-            header_position_y = 200.0,
-            header_color = vt_video.Color(1.0, 0.8, 0.7, 1.0),
-            text = Script:CreateText("Kevin Martin (kev82) - video engine, game engine\n\n" ..
-                                     "Nick Weihs (nickw) - video engine\n\n" ..
-                                     "Raj Sharma (roos) - video engine\n\n" ..
-                                     "Vladimir Mitrovic (snipe714) - scripting engine\n\n" ..
-                                     "(densuke) - various code\n\n" ..
-                                     "Andreas Pawlak (nemesis) - various code\n", vt_video.TextStyle("text24")),
-            text_position_x = 512.0,
-            text_position_y = 300.0,
-            text_color = vt_video.Color(1.0, 1.0, 1.0, 1.0),
+            images = {
+                [0] = {
+                    image = Script:CreateImage("img/logos/main_logo_sword.png"),
+                    image_dimension_x = 130.0,
+                    image_dimension_y = 282.0,
+                    image_position_x = 212.0,
+                    image_position_y = 600.0,
+                },
+            },
+            texts = {
+                [0] = {
+                    text = Script:CreateText(vt_system.Translate("Allacrost Development Team (2004-2011)\n\nFounder and Lead Designer"), vt_video.TextStyle("text28")),
+                    text_position_x = 512.0,
+                    text_position_y = 200.0,
+                    text_color = vt_video.Color(1.0, 0.8, 0.7, 1.0),
+                },
+                [1] = {
+                    text = Script:CreateText("Tyler Olsen (Roots)", vt_video.TextStyle("text24")),
+                    text_position_x = 512.0,
+                    text_position_y = 300.0,
+                    text_color = vt_video.Color(1.0, 1.0, 1.0, 1.0),
+                },
+            },
         },
         [16] = {
-            image = nil,
-            header = Script:CreateText(vt_system.Translate("Allacrost Artwork Team (2004-2011)"), vt_video.TextStyle("text28")),
-            header_position_x = 512.0,
-            header_position_y = 200.0,
-            header_color = vt_video.Color(1.0, 0.8, 0.7, 1.0),
-            text = Script:CreateText("Brett Steele (Safir-Kreuz) - map sprites, battle sprites, character portraits, location graphics\n\n" ..
-                                     "Joe Raucci (Sylon) - battle sprites, old GUI artwork\n\n" ..
-                                     "Josiah Tobin (Josiah Tobin) - map tiles\n\n" ..
-                                     "Matthew James (nunvuru) - website graphics, GUI artwork, game logos\n\n" ..
-                                     "Richard Kettering (Jetryl) - map tiles, map sprites, inventory icons, artwork coordination", vt_video.TextStyle("text24")),
-            text_position_x = 512.0,
-            text_position_y = 300.0,
-            text_color = vt_video.Color(1.0, 1.0, 1.0, 1.0),
+            images = {
+                [0] = {
+                    image = Script:CreateImage("img/logos/main_logo_sword.png"),
+                    image_dimension_x = 130.0,
+                    image_dimension_y = 282.0,
+                    image_position_x = 212.0,
+                    image_position_y = 600.0,
+                },
+            },
+            texts = {
+                [0] = {
+                    text = Script:CreateText(vt_system.Translate("Allacrost Project Leads/Administrators"), vt_video.TextStyle("text28")),
+                    text_position_x = 512.0,
+                    text_position_y = 200.0,
+                    text_color = vt_video.Color(1.0, 0.8, 0.7, 1.0),
+                },
+                [1] = {
+                    text = Script:CreateText("Tyler Olsen (Roots)\n\nJacob Rudolph (rujasu)\n\nPhilip Vorsilak (gorzuate)", vt_video.TextStyle("text24")),
+                    text_position_x = 512.0,
+                    text_position_y = 300.0,
+                    text_color = vt_video.Color(1.0, 1.0, 1.0, 1.0),
+                },
+            },
         },
         [17] = {
-            image = nil,
-            header = Script:CreateText(vt_system.Translate("Allacrost Artwork Team"), vt_video.TextStyle("text28")),
-            header_position_x = 512.0,
-            header_position_y = 200.0,
-            header_color = vt_video.Color(1.0, 0.8, 0.7, 1.0),
-            text = Script:CreateText("Adam Black (indigoshift) - concept art\n\n" ..
-                                     "Blake Heatly (KaelisEbonrai) - inventory icons\n\n" ..
-                                     "Chris Hopp (fydo) - map sprite animations\n\n" ..
-                                     "Chris Luspo (Venndetta1) - concept art\n\n" ..
-                                     "Francisco Munoz (fmunoz) - inventory icons\n\n" ..
-                                     "Jason Frailey (Valdroni) - concept art, map sprites\n\n" ..
-                                     "Jerimiah Short (BigPapaN0z) - map tiles\n\n" ..
-                                     "John W. Bjerk (eleazar) - map tiles\n\n" ..
-                                     "Jon Williams (Jonatron) - map sprites", vt_video.TextStyle("text24")),
-            text_position_x = 512.0,
-            text_position_y = 300.0,
-            text_color = vt_video.Color(1.0, 1.0, 1.0, 1.0),
+            images = {
+                [0] = {
+                    image = Script:CreateImage("img/logos/main_logo_sword.png"),
+                    image_dimension_x = 130.0,
+                    image_dimension_y = 282.0,
+                    image_position_x = 212.0,
+                    image_position_y = 600.0,
+                },
+            },
+            texts = {
+                [0] = {
+                    text = Script:CreateText(vt_system.Translate("Allacrost Programming Team (2004-2011)"), vt_video.TextStyle("text28")),
+                    text_position_x = 512.0,
+                    text_position_y = 200.0,
+                    text_color = vt_video.Color(1.0, 0.8, 0.7, 1.0),
+                },
+                [1] = {
+                    text = Script:CreateText("Andy Gardner (ChopperDave)\n\n" ..
+                                             "Baris Soner Usakli (Black Knight)\n\n" ..
+                                             "Daniel Steuernol (Steu)\n\n" ..
+                                             "Guillaume Anctil (Drakkoon)\n\n" ..
+                                             "Jacob Rudolph (rujasu)\n\n" ..
+                                             "Lindsay Roberts (Linds)\n\n" ..
+                                             "Moises Ferrer Serra (byaku)\n\n" ..
+                                             "Philip Vorsilak (gorzuate)\n\n" ..
+                                             "Tyler Olsen (Roots)", vt_video.TextStyle("text24")),
+                    text_position_x = 512.0,
+                    text_position_y = 300.0,
+                    text_color = vt_video.Color(1.0, 1.0, 1.0, 1.0),
+                },
+                [2] = {
+                    text = Script:CreateText("Battle code, Menu code\n\n" ..
+                                             "Game editor\n\n" ..
+                                             "Game engine\n\n" ..
+                                             "Map code\n\n" ..
+                                             "Various game modes, content scripting\n\n" ..
+                                             "Video engine\n\n" ..
+                                             "Video engine, Audio engine\n\n" ..
+                                             "Game editor\n\n" ..
+                                             "Programming lead, Game engine, Map code", vt_video.TextStyle("text24")),
+                    text_position_x = 642.0,
+                    text_position_y = 324.0,
+                    text_color = vt_video.Color(0.7, 0.7, 0.7, 1.0),
+                },
+            },
         },
         [18] = {
-            image = nil,
-            header = Script:CreateText(vt_system.Translate("Allacrost Artwork Team"), vt_video.TextStyle("text28")),
-            header_position_x = 512.0,
-            header_position_y = 200.0,
-            header_color = vt_video.Color(1.0, 0.8, 0.7, 1.0),
-            text = Script:CreateText("Herbert Glaser (hollowgrind) - map sprite animations\n\n" ..
-                                     "Mark Goodenough (RangerM) - map sprite animations, map tiles\n\n" ..
-                                     "Max Humber (zomby138) - concept art, title screen image\n\n" ..
-                                     "Nathan Christie (Adarias) - concept art, map sprites, map tiles\n\n" ..
-                                     "Peter Geinitz (wayfarer) - Concept art, map sprites\n\n" ..
-                                     "Richard Marks (DeveloperX) - map tiles\n\n", vt_video.TextStyle("text24")),
-            text_position_x = 512.0,
-            text_position_y = 300.0,
-            text_color = vt_video.Color(1.0, 1.0, 1.0, 1.0),
+            images = {
+                [0] = {
+                    image = Script:CreateImage("img/logos/main_logo_sword.png"),
+                    image_dimension_x = 130.0,
+                    image_dimension_y = 282.0,
+                    image_position_x = 212.0,
+                    image_position_y = 600.0,
+                },
+            },
+            texts = {
+                [0] = {
+                    text = Script:CreateText(vt_system.Translate("Allacrost Programming Team"), vt_video.TextStyle("text28")),
+                    text_position_x = 512.0,
+                    text_position_y = 200.0,
+                    text_color = vt_video.Color(1.0, 0.8, 0.7, 1.0),
+                },
+                [1] = {
+                    text = Script:CreateText("Viljami Korhonen (MindFlayer)\n\n" ..
+                                             "Wouter Lindenhof (ElonNarai)\n\n" ..
+                                             "Aaron Smith (Etherstar)\n\n" ..
+                                             "Alastair Lynn (prophile)\n\n" ..
+                                             "Brandon Barnes (Winter Knight)\n\n" ..
+                                             "Corey Hoffstein (visage)\n\n" ..
+                                             "Dale Ma (eguitarz)\n\n" ..
+                                             "DongHa Lee (MoOshiCow)\n\n" ..
+                                             "Farooq Mela (CamelJockey)", vt_video.TextStyle("text24")),
+                    text_position_x = 512.0,
+                    text_position_y = 300.0,
+                    text_color = vt_video.Color(1.0, 1.0, 1.0, 1.0),
+                },
+                [2] = {
+                    text = Script:CreateText("Boot code, Battle code\n\n" ..
+                                             "Game editor\n\n" ..
+                                             "Audio engine\n\n" ..
+                                             "Various code, Mac OS X maintenance\n\n" ..
+                                             "Game engine, Game modes, Windows build scripts\n\n" ..
+                                             "Battle code\n\n" ..
+                                             "Map editor\n\n" ..
+                                             "Internationalization\n\n" ..
+                                             "Video engine", vt_video.TextStyle("text24")),
+                    text_position_x = 642.0,
+                    text_position_y = 324.0,
+                    text_color = vt_video.Color(0.7, 0.7, 0.7, 1.0),
+                },
+            },
         },
         [19] = {
-            image = nil,
-            header = Script:CreateText(vt_system.Translate("Allacrost Artwork Team"), vt_video.TextStyle("text28")),
-            header_position_x = 512.0,
-            header_position_y = 200.0,
-            header_color = vt_video.Color(1.0, 0.8, 0.7, 1.0),
-            text = Script:CreateText("Tyler Olsen (Roots) - various art\n\n" ..
-                                     "Tyler Stroud (gloomcover) - map tiles\n\n" ..
-                                     "Vicki Beinhart (Namakoro) - enemy sprites\n\n" ..
-                                     "Victoria Smith (alenacat) - map sprites, map tiles\n\n" ..
-                                     "(Jarks) - map tiles, inventory icons\n\n" ..
-                                     "(Psiweapon) - map tiles, battle sprites", vt_video.TextStyle("text24")),
-            text_position_x = 512.0,
-            text_position_y = 300.0,
-            text_color = vt_video.Color(1.0, 1.0, 1.0, 1.0),
+            images = {
+                [0] = {
+                    image = Script:CreateImage("img/logos/main_logo_sword.png"),
+                    image_dimension_x = 130.0,
+                    image_dimension_y = 282.0,
+                    image_position_x = 212.0,
+                    image_position_y = 600.0,
+                },
+            },
+            texts = {
+                [0] = {
+                    text = Script:CreateText(vt_system.Translate("Allacrost Programming Team"), vt_video.TextStyle("text28")),
+                    text_position_x = 512.0,
+                    text_position_y = 200.0,
+                    text_color = vt_video.Color(1.0, 0.8, 0.7, 1.0),
+                },
+                [1] = {
+                    text = Script:CreateText("Kevin Martin (kev82)\n\n" ..
+                                             "Nick Weihs (nickw)\n\n" ..
+                                             "Raj Sharma (roos)\n\n" ..
+                                             "Vladimir Mitrovic (snipe714)\n\n" ..
+                                             "(densuke)\n\n" ..
+                                             "Andreas Pawlak (nemesis)", vt_video.TextStyle("text24")),
+                    text_position_x = 512.0,
+                    text_position_y = 300.0,
+                    text_color = vt_video.Color(1.0, 1.0, 1.0, 1.0),
+                },
+                [2] = {
+                    text = Script:CreateText("Video engine, Game engine\n\n" ..
+                                             "Video engine\n\n" ..
+                                             "Video engine\n\n" ..
+                                             "Scripting engine\n\n" ..
+                                             "Various code\n\n" ..
+                                             "Various code", vt_video.TextStyle("text24")),
+                    text_position_x = 642.0,
+                    text_position_y = 324.0,
+                    text_color = vt_video.Color(0.7, 0.7, 0.7, 1.0),
+                },
+            },
         },
         [20] = {
-            image = nil,
-            header = Script:CreateText(vt_system.Translate("Allacrost Music and Sound Team (2004-2011)"), vt_video.TextStyle("text28")),
-            header_position_x = 512.0,
-            header_position_y = 200.0,
-            header_color = vt_video.Color(1.0, 0.8, 0.7, 1.0),
-            text = Script:CreateText("Jamie Bremaneson (Jam) - sound composer\n\n" ..
-                                     "Joe Rouse (Loodwig) - soundtrack composer\n\n" ..
-                                     "Ryan Reilly (Rain) - music and sound lead, soundtrack composer\n\n" ..
-                                     "Samuel Justice (sam_justice) - sound composer\n\n" ..
-                                     "Zhe Zhou (shizeet) - sound composer\n\n" ..
-                                     "Jean Malary (hamiko) - sound mixer\n\n" ..
-                                     "Matt Dexter (Star Pilot) - soundtrack composer", vt_video.TextStyle("text24")),
-            text_position_x = 512.0,
-            text_position_y = 300.0,
-            text_color = vt_video.Color(1.0, 1.0, 1.0, 1.0),
+            images = {
+                [0] = {
+                    image = Script:CreateImage("img/logos/main_logo_sword.png"),
+                    image_dimension_x = 130.0,
+                    image_dimension_y = 282.0,
+                    image_position_x = 212.0,
+                    image_position_y = 600.0,
+                },
+            },
+            texts = {
+                [0] = {
+                    text = Script:CreateText(vt_system.Translate("Allacrost Artwork Team (2004-2011)"), vt_video.TextStyle("text28")),
+                    text_position_x = 512.0,
+                    text_position_y = 200.0,
+                    text_color = vt_video.Color(1.0, 0.8, 0.7, 1.0),
+                },
+                [1] = {
+                    text = Script:CreateText("Brett Steele (Safir-Kreuz)\n\n" ..
+                                             "Joe Raucci (Sylon)\n\n" ..
+                                             "Josiah Tobin (Josiah Tobin)\n\n" ..
+                                             "Matthew James (nunvuru)\n\n" ..
+                                             "Richard Kettering (Jetryl)", vt_video.TextStyle("text24")),
+                    text_position_x = 512.0,
+                    text_position_y = 300.0,
+                    text_color = vt_video.Color(1.0, 1.0, 1.0, 1.0),
+                },
+                [2] = {
+                    text = Script:CreateText("Map sprites, Battle sprites, Character portraits, Location graphics\n\n" ..
+                                             "Battle sprites, old Allacrost GUI artwork\n\n" ..
+                                             "Map tiles\n\n" ..
+                                             "Allacrost website graphics, GUI artwork, Game logos\n\n" ..
+                                             "Map tiles, map sprites, Inventory icons, Allacrost artwork coordination", vt_video.TextStyle("text24")),
+                    text_position_x = 642.0,
+                    text_position_y = 324.0,
+                    text_color = vt_video.Color(0.7, 0.7, 0.7, 1.0),
+                },
+            },
         },
         [21] = {
-            image = nil,
-            header = Script:CreateText(vt_system.Translate("Allacrost Special Thanks"), vt_video.TextStyle("text28")),
-            header_position_x = 512.0,
-            header_position_y = 200.0,
-            header_color = vt_video.Color(1.0, 0.8, 0.7, 1.0),
-            text = Script:CreateText("Daniel Cook (Danc) - Map Tiles\n\n" ..
-                                     "The Battle for Wesnoth Development Team - Inventory Icons\n\n" ..
-                                     "(neoriceisgood) - map monster sprites\n\n" ..
-                                     "(Melchior)\n\n" ..
-                                     "(Egan1)", vt_video.TextStyle("text24")),
-            text_position_x = 512.0,
-            text_position_y = 300.0,
-            text_color = vt_video.Color(1.0, 1.0, 1.0, 1.0),
+            images = {
+                [0] = {
+                    image = Script:CreateImage("img/logos/main_logo_sword.png"),
+                    image_dimension_x = 130.0,
+                    image_dimension_y = 282.0,
+                    image_position_x = 212.0,
+                    image_position_y = 600.0,
+                },
+            },
+            texts = {
+                [0] = {
+                    text = Script:CreateText(vt_system.Translate("Allacrost Artwork Team"), vt_video.TextStyle("text28")),
+                    text_position_x = 512.0,
+                    text_position_y = 200.0,
+                    text_color = vt_video.Color(1.0, 0.8, 0.7, 1.0),
+                },
+                [1] = {
+                    text = Script:CreateText("Adam Black (indigoshift)\n\n" ..
+                                             "Blake Heatly (KaelisEbonrai)\n\n" ..
+                                             "Chris Hopp (fydo)\n\n" ..
+                                             "Chris Luspo (Venndetta1)\n\n" ..
+                                             "Francisco Munoz (fmunoz)\n\n" ..
+                                             "Jason Frailey (Valdroni)\n\n" ..
+                                             "Jerimiah Short (BigPapaN0z)\n\n" ..
+                                             "John W. Bjerk (eleazar)\n\n" ..
+                                             "Jon Williams (Jonatron)", vt_video.TextStyle("text24")),
+                    text_position_x = 512.0,
+                    text_position_y = 300.0,
+                    text_color = vt_video.Color(1.0, 1.0, 1.0, 1.0),
+                },
+                [2] = {
+                    text = Script:CreateText("Concept art\n\n" ..
+                                             "Inventory icons\n\n" ..
+                                             "Map sprite animations\n\n" ..
+                                             "Concept art\n\n" ..
+                                             "Inventory icons\n\n" ..
+                                             "Concept art, Map sprites\n\n" ..
+                                             "Map tiles\n\n" ..
+                                             "Map tiles\n\n" ..
+                                             "Map sprites", vt_video.TextStyle("text24")),
+                    text_position_x = 642.0,
+                    text_position_y = 324.0,
+                    text_color = vt_video.Color(0.7, 0.7, 0.7, 1.0),
+                },
+            },
         },
         [22] = {
-            image = nil,
-            header = nil,
-            text = Script:CreateText(vt_system.Translate("And you..."), vt_video.TextStyle("text28")),
-            text_position_x = 512.0,
-            text_position_y = 384.0,
-            text_color = vt_video.Color(1.0, 1.0, 1.0, 1.0),
+            images = {
+                [0] = {
+                    image = Script:CreateImage("img/logos/main_logo_sword.png"),
+                    image_dimension_x = 130.0,
+                    image_dimension_y = 282.0,
+                    image_position_x = 212.0,
+                    image_position_y = 600.0,
+                },
+            },
+            texts = {
+                [0] = {
+                    text = Script:CreateText(vt_system.Translate("Allacrost Artwork Team"), vt_video.TextStyle("text28")),
+                    text_position_x = 512.0,
+                    text_position_y = 200.0,
+                    text_color = vt_video.Color(1.0, 0.8, 0.7, 1.0),
+                },
+                [1] = {
+                    text = Script:CreateText("Herbert Glaser (hollowgrind)\n\n" ..
+                                             "Mark Goodenough (RangerM)\n\n" ..
+                                             "Max Humber (zomby138)\n\n" ..
+                                             "Nathan Christie (Adarias)\n\n" ..
+                                             "Peter Geinitz (wayfarer)\n\n" ..
+                                             "Richard Marks (DeveloperX)\n\n", vt_video.TextStyle("text24")),
+                    text_position_x = 512.0,
+                    text_position_y = 300.0,
+                    text_color = vt_video.Color(1.0, 1.0, 1.0, 1.0),
+                },
+                [2] = {
+                    text = Script:CreateText("Map sprite animations\n\n" ..
+                                             "Map sprite animations, Map tiles\n\n" ..
+                                             "Concept art, Allacrost title screen image\n\n" ..
+                                             "Concept art, Map sprites, Map tiles\n\n" ..
+                                             "Concept art, Map sprites\n\n" ..
+                                             "Map tiles\n\n", vt_video.TextStyle("text24")),
+                    text_position_x = 642.0,
+                    text_position_y = 324.0,
+                    text_color = vt_video.Color(0.7, 0.7, 0.7, 1.0),
+                },
+            },
+        },
+        [23] = {
+            images = {
+                [0] = {
+                    image = Script:CreateImage("img/logos/main_logo_sword.png"),
+                    image_dimension_x = 130.0,
+                    image_dimension_y = 282.0,
+                    image_position_x = 212.0,
+                    image_position_y = 600.0,
+                },
+            },
+            texts = {
+                [0] = {
+                    text = Script:CreateText(vt_system.Translate("Allacrost Artwork Team"), vt_video.TextStyle("text28")),
+                    text_position_x = 512.0,
+                    text_position_y = 200.0,
+                    text_color = vt_video.Color(1.0, 0.8, 0.7, 1.0),
+                },
+                [1] = {
+                    text = Script:CreateText("Tyler Olsen (Roots)\n\n" ..
+                                             "Tyler Stroud (gloomcover)\n\n" ..
+                                             "Vicki Beinhart (Namakoro)\n\n" ..
+                                             "Victoria Smith (alenacat)\n\n" ..
+                                             "(Jarks)\n\n" ..
+                                             "(Psiweapon)", vt_video.TextStyle("text24")),
+                    text_position_x = 512.0,
+                    text_position_y = 300.0,
+                    text_color = vt_video.Color(1.0, 1.0, 1.0, 1.0),
+                },
+                [2] = {
+                    text = Script:CreateText("Various art\n\n" ..
+                                             "Map tiles\n\n" ..
+                                             "Enemy sprites\n\n" ..
+                                             "Map sprites, Map tiles\n\n" ..
+                                             "Map tiles, Inventory icons\n\n" ..
+                                             "Map tiles, Battle sprites", vt_video.TextStyle("text24")),
+                    text_position_x = 642.0,
+                    text_position_y = 324.0,
+                    text_color = vt_video.Color(0.7, 0.7, 0.7, 1.0),
+                },
+            },
+        },
+        [24] = {
+            images = {
+                [0] = {
+                    image = Script:CreateImage("img/logos/main_logo_sword.png"),
+                    image_dimension_x = 130.0,
+                    image_dimension_y = 282.0,
+                    image_position_x = 212.0,
+                    image_position_y = 600.0,
+                },
+            },
+            texts = {
+                [0] = {
+                    text = Script:CreateText(vt_system.Translate("Allacrost Music and Sound Team (2004-2011)"), vt_video.TextStyle("text28")),
+                    text_position_x = 512.0,
+                    text_position_y = 200.0,
+                    text_color = vt_video.Color(1.0, 0.8, 0.7, 1.0),
+                },
+                [1] = {
+                text = Script:CreateText("Jamie Bremaneson (Jam)\n\n" ..
+                                         "Joe Rouse (Loodwig)\n\n" ..
+                                         "Ryan Reilly (Rain)\n\n" ..
+                                         "Samuel Justice (sam_justice)\n\n" ..
+                                         "Zhe Zhou (shizeet)\n\n" ..
+                                         "Jean Malary (hamiko)\n\n" ..
+                                         "Matt Dexter (Star Pilot)", vt_video.TextStyle("text24")),
+                        text_position_x = 512.0,
+                        text_position_y = 300.0,
+                        text_color = vt_video.Color(1.0, 1.0, 1.0, 1.0),
+                },
+                [2] = {
+                text = Script:CreateText("Sound composer\n\n" ..
+                                         "Soundtrack composer\n\n" ..
+                                         "Music and sound lead, Soundtrack composer\n\n" ..
+                                         "Sound composer\n\n" ..
+                                         "Sound composer\n\n" ..
+                                         "Sound mixer\n\n" ..
+                                         "Soundtrack composer", vt_video.TextStyle("text24")),
+                    text_position_x = 642.0,
+                    text_position_y = 324.0,
+                    text_color = vt_video.Color(0.7, 0.7, 0.7, 1.0),
+                },
+            },
+        },
+        [25] = {
+            images = {
+                [0] = {
+                    image = Script:CreateImage("img/logos/main_logo_sword.png"),
+                    image_dimension_x = 130.0,
+                    image_dimension_y = 282.0,
+                    image_position_x = 212.0,
+                    image_position_y = 600.0,
+                },
+            },
+            texts = {
+                [0] = {
+                    text = Script:CreateText(vt_system.Translate("Allacrost Special Thanks"), vt_video.TextStyle("text28")),
+                    text_position_x = 512.0,
+                    text_position_y = 200.0,
+                    text_color = vt_video.Color(1.0, 0.8, 0.7, 1.0),
+                },
+                [1] = {
+                        text = Script:CreateText("Daniel Cook (Danc)\n\n" ..
+                                                 "The Battle for Wesnoth Development Team\n\n" ..
+                                                 "(neoriceisgood)\n\n" ..
+                                                 "(Melchior)\n\n" ..
+                                                 "(Egan1)", vt_video.TextStyle("text24")),
+                        text_position_x = 512.0,
+                        text_position_y = 300.0,
+                        text_color = vt_video.Color(1.0, 1.0, 1.0, 1.0),
+                },
+                [2] = {
+                    text = Script:CreateText("Map Tiles\n\n" ..
+                                             "Inventory Icons\n\n" ..
+                                             "Map monster sprites", vt_video.TextStyle("text24")),
+                    text_position_x = 642.0,
+                    text_position_y = 324.0,
+                    text_color = vt_video.Color(0.7, 0.7, 0.7, 1.0),
+                },
+            },
+        },
+        [26] = {
+            images = {
+                [0] = {
+                    image = Script:CreateImage("img/backdrops/boot/crystal.png"),
+                    image_dimension_x = 140.0,
+                    image_dimension_y = 220.0,
+                    image_position_x = 512.0,
+                    image_position_y = 400.0,
+                },
+                [1] = {
+                    image = Script:CreateImage("img/backdrops/boot/flare.png"),
+                    image_dimension_x = 256.0,
+                    image_dimension_y = 256.0,
+                    image_position_x = 512.0,
+                    image_position_y = 400.0,
+                },
+            },
+            texts = {
+                [0] = {
+                    text = Script:CreateText(vt_system.Translate("To be continued..."), vt_video.TextStyle("text28")),
+                    text_position_x = 512.0,
+                    text_position_y = 584.0,
+                    text_color = vt_video.Color(1.0, 1.0, 1.0, 1.0),
+                },
+            },
         },
     }
 
@@ -340,6 +940,16 @@ function Initialize(map_instance)
     dark_overlay = Script:CreateImage("img/ambient/black.png");
     dark_overlay:SetDimensions(1024.0, 768.0);
     overlay_time = 0;
+
+    -- Set the requested dimensions of the first image
+    if (credit_map[credit_id] ~= nil and credit_map[credit_id].images ~= nil) then
+        for id, _ in pairs(credit_map[credit_id].images) do
+            local _images = credit_map[credit_id].images[id];
+            if (_images.image ~= nil) then
+                _images.image:SetDimensions(_images.image_dimension_x, _images.image_dimension_y);
+            end
+        end
+    end
 end
 
 function Update()
@@ -365,20 +975,38 @@ function Update()
         credit_time = 0
 
         credit_id = credit_id + 1;
-        if (credit_map[credit_id] ~= nil and credit_map[credit_id].image ~= nil) then
-            credit_map[credit_id].image:SetDimensions(credit_map[credit_id].image_dimension_x, credit_map[credit_id].image_dimension_y);
+        -- Set the requested dimensions of each images once.
+        if (credit_map[credit_id] ~= nil and credit_map[credit_id].images ~= nil) then
+            for id, _ in pairs(credit_map[credit_id].images) do
+                local _images = credit_map[credit_id].images[id];
+                if (_images.image ~= nil) then
+                    _images.image:SetDimensions(_images.image_dimension_x, _images.image_dimension_y);
+                end
+            end
         end
 
     end
 
+    -- Updates potential animations
+    if (credit_map[credit_id] ~= nil and credit_map[credit_id].images ~= nil) then
+        for id, _ in pairs(credit_map[credit_id].images) do
+            local _images = credit_map[credit_id].images[id];
+            if (_images.image ~= nil) then
+                -- TODO: Implement this
+                --_images.image:Update();
+            end
+        end
+    end
+
+    -- Update the current credit display time.
     if (credit_time >= 0
             and credit_time <= 1000) then
-        text_alpha = credit_time / 1000;
+        credit_alpha = credit_time / 1000;
     elseif (credit_time > 6000
             and credit_time <= 7000) then
-        text_alpha = 1.0 - (credit_time - 6000) / (7000 - 6000);
+        credit_alpha = 1.0 - (credit_time - 6000) / (7000 - 6000);
     elseif (credit_time > 7000) then
-        text_alpha = 0.0;
+        credit_alpha = 0.0;
     end
 
 end
@@ -404,24 +1032,29 @@ function DrawPostEffects()
         return;
     end
 
-    -- Display potential images
-    if (credit_map[credit_id].image ~= nil) then
-        image_color:SetAlpha(0.8 * text_alpha);
-        VideoManager:Move(credit_map[credit_id].image_position_x, credit_map[credit_id].image_position_y);
-        credit_map[credit_id].image:Draw(image_color);
+    -- Images
+    if (credit_map[credit_id].images ~= nil) then
+        -- For each image
+        for id, _ in pairs(credit_map[credit_id].images) do
+            local _images = credit_map[credit_id].images[id];
+            if (_images.image ~= nil) then
+                image_color:SetAlpha(0.8 * credit_alpha);
+                VideoManager:Move(_images.image_position_x, _images.image_position_y);
+                _images.image:Draw(image_color);
+            end
+        end -- for
     end
-
-    -- Header
-    if (credit_map[credit_id].header ~= nil) then
-        credit_map[credit_id].header_color:SetAlpha(1.0 * text_alpha);
-        VideoManager:Move(credit_map[credit_id].header_position_x, credit_map[credit_id].header_position_y);
-        credit_map[credit_id].header:Draw(credit_map[credit_id].header_color);
-    end
-    -- Text
-    if (credit_map[credit_id].text ~= nil) then
-        credit_map[credit_id].text_color:SetAlpha(0.9 * text_alpha);
-        VideoManager:Move(credit_map[credit_id].text_position_x, credit_map[credit_id].text_position_y);
-        credit_map[credit_id].text:Draw(credit_map[credit_id].text_color);
+    -- Texts
+    if (credit_map[credit_id].texts ~= nil) then
+        -- For each piece of text
+        for id, _ in pairs(credit_map[credit_id].texts) do
+            local _texts = credit_map[credit_id].texts[id];
+            if (_texts.text ~= nil) then
+                _texts.text_color:SetAlpha(0.9 * credit_alpha);
+                VideoManager:Move(_texts.text_position_x, _texts.text_position_y);
+                _texts.text:Draw(_texts.text_color);
+            end
+        end -- for
     end
 
 end
