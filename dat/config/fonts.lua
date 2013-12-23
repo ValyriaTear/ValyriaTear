@@ -25,6 +25,7 @@ fonts = {
     ["text48"] = {font = "img/fonts/LinBiolinum_RBah.ttf", size = 48},
 
      -- Map title font
+    -- TODO: Add support to load a custom font per language, and use LinBiolinum_RBah.ttf for Russian here.
     ["map_title"] = {font = "img/fonts/Berenika-Oblique.ttf", size = 30}
 }
 
