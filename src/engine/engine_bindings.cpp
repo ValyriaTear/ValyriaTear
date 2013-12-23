@@ -260,7 +260,8 @@ void BindEngineCode()
 
             luabind::class_<ImageDescriptor>("ImageDescriptor")
             .def("GetWidth", &ImageDescriptor::GetWidth)
-            .def("GetHeight", &ImageDescriptor::GetHeight),
+            .def("GetHeight", &ImageDescriptor::GetHeight)
+            .def("Update", &ImageDescriptor::Update),
 
             luabind::class_<StillImage, ImageDescriptor>("StillImage")
             .def("Clear", &StillImage::Clear)

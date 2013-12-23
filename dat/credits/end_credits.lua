@@ -128,7 +128,7 @@ function Initialize(map_instance)
                     text_color = vt_video.Color(1.0, 1.0, 1.0, 1.0),
                 },
                 [2] = {
-                    text = Script:CreateText("Balancing, ...\n\nQuest log, Minimap support, ...\n\nShop Trade mode support, ...\n\nUI theme change menu support, ...\n\nGL code improvement, ...\n\nMultiple screen fix, ...", vt_video.TextStyle("text24")),
+                    text = Script:CreateText(vt_system.Translate("Balancing, ...\n\nQuest log, Minimap support, ...\n\nShop Trade mode support, ...\n\nUI theme change menu support, ...\n\nGL code improvement, ...\n\nMultiple screen fix, ..."), vt_video.TextStyle("text24")),
                     text_position_x = 642.0,
                     text_position_y = 324.0,
                     text_color = vt_video.Color(0.7, 0.7, 0.7, 1.0),
@@ -174,8 +174,7 @@ function Initialize(map_instance)
                     text_color = vt_video.Color(1.0, 1.0, 1.0, 1.0),
                 },
                 [2] = {
-                    text = Script:CreateText("Village tileset, ...\n\nCemetery tileset, ...\n\nHeroes portraits, ...\n\nHeroes sprites, Cave tilesets, ...\n\n\nForest battle backgrounds, ...\n\n\nThe Fenrir"
-                                            .."\n\nA lot of various things", vt_video.TextStyle("text24")),
+                    text = Script:CreateText(vt_system.Translate("Village tileset, ...\n\nCemetery tileset, ...\n\nHeroes portraits, ...\n\nHeroes sprites, Cave tilesets, ...\n\n\nForest battle backgrounds, ...\n\n\nThe Fenrir\n\nA lot of various things"), vt_video.TextStyle("text24")),
                     text_position_x = 642.0,
                     text_position_y = 324.0,
                     text_color = vt_video.Color(0.7, 0.7, 0.7, 1.0),
@@ -195,7 +194,7 @@ function Initialize(map_instance)
                     image = Script:CreateAnimation("img/sprites/battle/enemies/harlequin_0.lua"),
                     image_dimension_x = 79.0 * 2,
                     image_dimension_y = 94.0 * 2,
-                    image_position_x = 200.0,
+                    image_position_x = 170.0,
                     image_position_y = 420.0,
                 },
             },
@@ -262,8 +261,7 @@ function Initialize(map_instance)
                     text_color = vt_video.Color(1.0, 1.0, 1.0, 1.0),
                 },
                 [2] = {
-                    text = Script:CreateText("\nMain theme, Village music, ...\n\nBanesore's battle, ...\n\nLayna Forest music, ...\n\n"
-                                             .."Boss Music\n\nBattle music\n\nBirds' song\n\nBattle lost music\n\nLayna cave music", vt_video.TextStyle("text24")),
+                    text = Script:CreateText(vt_system.Translate("\nMain theme, Village music, ...\n\nBanesore's battle, ...\n\nLayna Forest music, ...\n\nBoss Music\n\nBattle music\n\nBirds' song\n\nBattle lost music\n\nLayna cave music"), vt_video.TextStyle("text24")),
                     text_position_x = 642.0,
                     text_position_y = 324.0,
                     text_color = vt_video.Color(0.7, 0.7, 0.7, 1.0),
@@ -295,7 +293,7 @@ function Initialize(map_instance)
                     text_color = vt_video.Color(1.0, 1.0, 1.0, 1.0),
                 },
                 [2] = {
-                    text = Script:CreateText("Sad theme\n\nMountain music\n\nMountain Shrine music", vt_video.TextStyle("text24")),
+                    text = Script:CreateText(vt_system.Translate("Sad theme\n\nMountain music\n\nMountain Shrine music"), vt_video.TextStyle("text24")),
                     text_position_x = 642.0,
                     text_position_y = 324.0,
                     text_color = vt_video.Color(0.7, 0.7, 0.7, 1.0),
@@ -410,7 +408,7 @@ function Initialize(map_instance)
                     text_color = vt_video.Color(1.0, 1.0, 1.0, 1.0),
                 },
                 [2] = {
-                    text = Script:CreateText("French (fr)\n\nGallician (gl)\n\nGerman (de)\n\nItalian (it)\n\nPortuguese (pt_PT)\n\nRussian (ru)\n\nSpanish (es)", vt_video.TextStyle("text24")),
+                    text = Script:CreateText(vt_system.Translate("French (fr)\n\nGallician (gl)\n\nGerman (de)\n\nItalian (it)\n\nPortuguese (pt_PT)\n\nRussian (ru)\n\nSpanish (es)"), vt_video.TextStyle("text24")),
                     text_position_x = 642.0,
                     text_position_y = 324.0,
                     text_color = vt_video.Color(0.7, 0.7, 0.7, 1.0),
@@ -554,15 +552,8 @@ function Initialize(map_instance)
                     text_color = vt_video.Color(1.0, 1.0, 1.0, 1.0),
                 },
                 [2] = {
-                    text = Script:CreateText("Battle code, Menu code\n\n" ..
-                                             "Game editor\n\n" ..
-                                             "Game engine\n\n" ..
-                                             "Map code\n\n" ..
-                                             "Various game modes, content scripting\n\n" ..
-                                             "Video engine\n\n" ..
-                                             "Video engine, Audio engine\n\n" ..
-                                             "Game editor\n\n" ..
-                                             "Programming lead, Game engine, Map code", vt_video.TextStyle("text24")),
+                    text = Script:CreateText(vt_system.Translate("Battle code, Menu code\n\nGame editor\n\nGame engine\n\nMap code\n\nVarious game modes, content scripting\n\nVideo engine\n\nVideo engine, Audio engine\n\nGame editor\n\nProgramming lead, Game engine, Map code"),
+                                             vt_video.TextStyle("text24")),
                     text_position_x = 642.0,
                     text_position_y = 324.0,
                     text_color = vt_video.Color(0.7, 0.7, 0.7, 1.0),
@@ -601,15 +592,8 @@ function Initialize(map_instance)
                     text_color = vt_video.Color(1.0, 1.0, 1.0, 1.0),
                 },
                 [2] = {
-                    text = Script:CreateText("Boot code, Battle code\n\n" ..
-                                             "Game editor\n\n" ..
-                                             "Audio engine\n\n" ..
-                                             "Various code, Mac OS X maintenance\n\n" ..
-                                             "Game engine, Game modes, Windows build scripts\n\n" ..
-                                             "Battle code\n\n" ..
-                                             "Map editor\n\n" ..
-                                             "Internationalization\n\n" ..
-                                             "Video engine", vt_video.TextStyle("text24")),
+                    text = Script:CreateText(vt_system.Translate("Boot code, Battle code\n\nGame editor\n\nAudio engine\n\nVarious code, Mac OS X maintenance\n\nGame engine, Game modes, Windows build scripts\n\nBattle code\n\nMap editor\n\nInternationalization\n\nVideo engine"),
+                                             vt_video.TextStyle("text24")),
                     text_position_x = 642.0,
                     text_position_y = 324.0,
                     text_color = vt_video.Color(0.7, 0.7, 0.7, 1.0),
@@ -645,12 +629,8 @@ function Initialize(map_instance)
                     text_color = vt_video.Color(1.0, 1.0, 1.0, 1.0),
                 },
                 [2] = {
-                    text = Script:CreateText("Video engine, Game engine\n\n" ..
-                                             "Video engine\n\n" ..
-                                             "Video engine\n\n" ..
-                                             "Scripting engine\n\n" ..
-                                             "Various code\n\n" ..
-                                             "Various code", vt_video.TextStyle("text24")),
+                    text = Script:CreateText(vt_system.Translate("Video engine, Game engine\n\nVideo engine\n\nVideo engine\n\nScripting engine\n\nVarious code\n\nVarious code"),
+                                             vt_video.TextStyle("text24")),
                     text_position_x = 642.0,
                     text_position_y = 324.0,
                     text_color = vt_video.Color(0.7, 0.7, 0.7, 1.0),
@@ -685,11 +665,8 @@ function Initialize(map_instance)
                     text_color = vt_video.Color(1.0, 1.0, 1.0, 1.0),
                 },
                 [2] = {
-                    text = Script:CreateText("Map sprites, Battle sprites, Character portraits, Location graphics\n\n" ..
-                                             "Battle sprites, old Allacrost GUI artwork\n\n" ..
-                                             "Map tiles\n\n" ..
-                                             "Allacrost website graphics, GUI artwork, Game logos\n\n" ..
-                                             "Map tiles, map sprites, Inventory icons, Allacrost artwork coordination", vt_video.TextStyle("text24")),
+                    text = Script:CreateText(vt_system.Translate("Map sprites, Battle sprites, Character portraits, Location graphics\n\nBattle sprites, old Allacrost GUI artwork\n\nMap tiles\n\nAllacrost website graphics, GUI artwork, Game logos\n\nMap tiles, map sprites, Inventory icons, Allacrost artwork coordination"),
+                                             vt_video.TextStyle("text24")),
                     text_position_x = 642.0,
                     text_position_y = 324.0,
                     text_color = vt_video.Color(0.7, 0.7, 0.7, 1.0),
@@ -728,15 +705,8 @@ function Initialize(map_instance)
                     text_color = vt_video.Color(1.0, 1.0, 1.0, 1.0),
                 },
                 [2] = {
-                    text = Script:CreateText("Concept art\n\n" ..
-                                             "Inventory icons\n\n" ..
-                                             "Map sprite animations\n\n" ..
-                                             "Concept art\n\n" ..
-                                             "Inventory icons\n\n" ..
-                                             "Concept art, Map sprites\n\n" ..
-                                             "Map tiles\n\n" ..
-                                             "Map tiles\n\n" ..
-                                             "Map sprites", vt_video.TextStyle("text24")),
+                    text = Script:CreateText(vt_system.Translate("Concept art\n\nInventory icons\n\nMap sprite animations\n\nConcept art\n\nInventory icons\n\nConcept art, Map sprites\n\nMap tiles\n\nMap tiles\n\nMap sprites"),
+                                             vt_video.TextStyle("text24")),
                     text_position_x = 642.0,
                     text_position_y = 324.0,
                     text_color = vt_video.Color(0.7, 0.7, 0.7, 1.0),
@@ -772,12 +742,8 @@ function Initialize(map_instance)
                     text_color = vt_video.Color(1.0, 1.0, 1.0, 1.0),
                 },
                 [2] = {
-                    text = Script:CreateText("Map sprite animations\n\n" ..
-                                             "Map sprite animations, Map tiles\n\n" ..
-                                             "Concept art, Allacrost title screen image\n\n" ..
-                                             "Concept art, Map sprites, Map tiles\n\n" ..
-                                             "Concept art, Map sprites\n\n" ..
-                                             "Map tiles\n\n", vt_video.TextStyle("text24")),
+                    text = Script:CreateText(vt_system.Translate("Map sprite animations\n\nMap sprite animations, Map tiles\n\nConcept art, Allacrost title screen image\n\nConcept art, Map sprites, Map tiles\n\nConcept art, Map sprites\n\nMap tiles"),
+                                             vt_video.TextStyle("text24")),
                     text_position_x = 642.0,
                     text_position_y = 324.0,
                     text_color = vt_video.Color(0.7, 0.7, 0.7, 1.0),
@@ -813,12 +779,8 @@ function Initialize(map_instance)
                     text_color = vt_video.Color(1.0, 1.0, 1.0, 1.0),
                 },
                 [2] = {
-                    text = Script:CreateText("Various art\n\n" ..
-                                             "Map tiles\n\n" ..
-                                             "Enemy sprites\n\n" ..
-                                             "Map sprites, Map tiles\n\n" ..
-                                             "Map tiles, Inventory icons\n\n" ..
-                                             "Map tiles, Battle sprites", vt_video.TextStyle("text24")),
+                    text = Script:CreateText(vt_system.Translate("Various art\n\nMap tiles\n\nEnemy sprites\n\nMap sprites, Map tiles\n\nMap tiles, Inventory icons\n\nMap tiles, Battle sprites"),
+                                             vt_video.TextStyle("text24")),
                     text_position_x = 642.0,
                     text_position_y = 324.0,
                     text_color = vt_video.Color(0.7, 0.7, 0.7, 1.0),
@@ -855,13 +817,8 @@ function Initialize(map_instance)
                         text_color = vt_video.Color(1.0, 1.0, 1.0, 1.0),
                 },
                 [2] = {
-                text = Script:CreateText("Sound composer\n\n" ..
-                                         "Soundtrack composer\n\n" ..
-                                         "Music and sound lead, Soundtrack composer\n\n" ..
-                                         "Sound composer\n\n" ..
-                                         "Sound composer\n\n" ..
-                                         "Sound mixer\n\n" ..
-                                         "Soundtrack composer", vt_video.TextStyle("text24")),
+                    text = Script:CreateText(vt_system.Translate("Sound composer\n\nSoundtrack composer\n\nMusic and sound lead, Soundtrack composer\n\nSound composer\n\nSound composer\n\nSound mixer\n\nSoundtrack composer"),
+                                             vt_video.TextStyle("text24")),
                     text_position_x = 642.0,
                     text_position_y = 324.0,
                     text_color = vt_video.Color(0.7, 0.7, 0.7, 1.0),
@@ -896,9 +853,8 @@ function Initialize(map_instance)
                         text_color = vt_video.Color(1.0, 1.0, 1.0, 1.0),
                 },
                 [2] = {
-                    text = Script:CreateText("Map Tiles\n\n" ..
-                                             "Inventory Icons\n\n" ..
-                                             "Map monster sprites", vt_video.TextStyle("text24")),
+                    text = Script:CreateText(vt_system.Translate("Map Tiles\n\nInventory Icons\n\nMap monster sprites"),
+                                             vt_video.TextStyle("text24")),
                     text_position_x = 642.0,
                     text_position_y = 324.0,
                     text_color = vt_video.Color(0.7, 0.7, 0.7, 1.0),
@@ -992,8 +948,7 @@ function Update()
         for id, _ in pairs(credit_map[credit_id].images) do
             local _images = credit_map[credit_id].images[id];
             if (_images.image ~= nil) then
-                -- TODO: Implement this
-                --_images.image:Update();
+                _images.image:Update();
             end
         end
     end

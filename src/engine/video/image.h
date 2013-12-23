@@ -122,6 +122,10 @@ public:
         return _height;
     }
 
+    //! \brief Empty update function permitting better abstraction between StillImage and AnimatedImage.
+    virtual void Update()
+    {}
+
     //! \brief Set whether the image should be drawn smoothed.
     void Smooth(bool smooth) {
         _smooth = smooth;
