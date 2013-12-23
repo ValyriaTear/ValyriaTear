@@ -237,48 +237,94 @@ static void LoadFonts(const std::string &font_script_filename)
         exit(EXIT_FAILURE);
     }
 
-    std::string font_default = font_script.ReadString("font_default");
-    if(font_default.empty()) {
-        PRINT_ERROR << "No default font defined in: " << font_script_filename
-                    << std::endl;
-        font_script.CloseFile();
-        exit(EXIT_FAILURE);
-    }
-
-    std::vector<std::string> style_names;
-    font_script.ReadTableKeys("fonts", style_names);
-    if(style_names.empty()) {
-        PRINT_ERROR << "No text styles defined in the 'fonts' table of file: "
+    std::vector<std::string> locale_names;
+    font_script.ReadTableKeys("fonts", locale_names);
+    if(locale_names.empty() || !font_script.OpenTable("fonts")) {
+        PRINT_ERROR << "No local array defined in the 'fonts' table of file: "
                     << font_script_filename << std::endl;
         font_script.CloseFile();
         exit(EXIT_FAILURE);
     }
 
-    font_script.OpenTable("fonts");
-    for(uint32 i = 0; i < style_names.size(); ++i) {
-        font_script.OpenTable(style_names[i]); // Text style
+    std::string font_default = font_script.ReadString("font_default_style");
+    if(font_default.empty()) {
+        PRINT_ERROR << "No default font style defined in: " << font_script_filename
+                    << std::endl;
+        font_script.CloseFile();
+        exit(EXIT_FAILURE);
+    }
 
-        std::string font_file = font_script.ReadString("font");
-        uint32 font_size = font_script.ReadInt("size");
+    // search also for a 'default' array.
+    bool default_locale_array_found = false;
 
-        if(!vt_video::TextManager->LoadFont(font_file, style_names[i], font_size)) {
-            // Check whether the default font is invalid
-            if(font_default == style_names[i]) {
-                font_script.CloseAllTables();
-                font_script.CloseFile();
-                PRINT_ERROR << "The default font '" << font_default
-                            << "' couldn't be loaded in file: " << font_script_filename
-                            << std::endl;
-                exit(EXIT_FAILURE);
-                return; // Superfluous but for readability.
-            }
+    for(uint32 j = 0; j < locale_names.size(); ++j) {
+        std::string locale = locale_names[j];
+
+        if (!strcasecmp(locale.c_str(), "default"))
+            default_locale_array_found = true;
+
+        // For now, we load only the default array
+        // TODO: Load the rest and handle it.
+        if (!default_locale_array_found)
+            continue;
+
+        // Don't read what is not a table.
+        if (locale == "default_font_style")
+            continue;
+
+        std::vector<std::string> style_names;
+        font_script.ReadTableKeys(locale, style_names);
+        if(style_names.empty()) {
+            PRINT_ERROR << "No text styles defined in the table '"<< locale << "' of file: "
+                        << font_script_filename << std::endl;
+            font_script.CloseFile();
+            exit(EXIT_FAILURE);
         }
 
-        font_script.CloseTable(); // Text style
+        if (!font_script.OpenTable(locale)) // locale
+            continue;
+
+        for(uint32 i = 0; i < style_names.size(); ++i) {
+
+            if (!font_script.OpenTable(style_names[i])) // Text style
+                continue;
+
+            std::string font_file = font_script.ReadString("font");
+            uint32 font_size = font_script.ReadInt("size");
+
+            if(!vt_video::TextManager->LoadFont(font_file, style_names[i], font_size)) {
+                // Check whether the default font is invalid
+                if(font_default == style_names[i]) {
+                    font_script.CloseAllTables();
+                    font_script.CloseFile();
+                    PRINT_ERROR << "The default font '" << font_default
+                                << "' couldn't be loaded in file: " << font_script_filename
+                                << std::endl;
+                    exit(EXIT_FAILURE);
+                    return; // Superfluous but for readability.
+                }
+            }
+
+            font_script.CloseTable(); // Text style
+        } // load each TextStyle
+
+        font_script.CloseTable(); // locale
+
+        // For now, we load only the default array
+        // TODO: Load the rest and handle it.
+        if (default_locale_array_found)
+            break;
     }
     font_script.CloseTable(); // fonts
 
     font_script.CloseFile();
+
+    // Test whether we found the default array
+    if (!default_locale_array_found) {
+        PRINT_ERROR << "No 'default' local array found in file: " << font_script_filename
+                    << std::endl;
+        exit(EXIT_FAILURE);
+    }
 
     // Setup the default font
     vt_video::TextManager->SetDefaultStyle(TextStyle(font_default, Color::white,
