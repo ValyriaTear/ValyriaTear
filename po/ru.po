@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Valyria Tear\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-09-19 02:21+0200\n"
-"PO-Revision-Date: 2013-11-03 03:03+0400\n"
+"PO-Revision-Date: 2013-12-21 21:59+0400\n"
 "Last-Translator: Dmitry Dubrov <dimprogpro@hotmail.ru>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -1760,15 +1760,15 @@ msgid ""
 msgstr ""
 "Маме необходимо кое-что для обеда!\n"
 " \n"
-"Флора может иметь это в своём магазине. Сперва мне следовало бы пойти и "
+"Возможно это есть в магазине Флоры. Сперва мне следовало бы пойти и "
 "посмотреть там."
 
 #: ../dat/config/quests.lua:18
 msgid ""
 "Finally, I found some... Lilly had what I seeked in her house all the time."
 msgstr ""
-"Наконец, я нашёл некоторое количество... Лили имела в своём доме всё время "
-"то, что я искал."
+"Наконец, я нашёл немного... Лили имела в своём доме всё время то, что я "
+"искал."
 
 #: ../dat/config/quests.lua:22 ../dat/config/quests.lua:38
 #: ../dat/config/quests.lua:54 ../dat/config/quests.lua:70
@@ -1794,7 +1794,7 @@ msgid ""
 "He spoke about losing it near a tree but also told me people in the village "
 "might know more..."
 msgstr ""
-"Чтобы узнать кому Джордж отдал оставшуюся ячменую муку, Мне нужно вернуть "
+"Чтобы узнать кому Джордж отдал оставшуюся ячменую муку, мне нужно вернуть "
 "ему потерянное перо.\n"
 " \n"
 "Он говорил о потере вблизи дерева, но таже сказал мне о том, что люди в "
@@ -1805,8 +1805,8 @@ msgid ""
 "Orlinn had the pen and I ran after him all the morning long to get it back. "
 "I hope he won't have any problems with Kalya..."
 msgstr ""
-"У Орлина было перо и я гонялся за ним всё целое утро, чтобы получить перо "
-"назад. Я надеюсь, что он не будет иметь каких-нибудь проблем с Кэлией..."
+"У Орлина было перо и я гонялся за ним целое утро, чтобы получить перо назад. "
+"Я надеюсь, что он не будет иметь каких-нибудь проблем с Кэлией..."
 
 #: ../dat/config/quests.lua:40 ../dat/config/quests.lua:56
 #: ../dat/config/quests.lua:88 map_names_tr.lua:55 map_names_tr.lua:59
@@ -1832,7 +1832,7 @@ msgid ""
 "I ran after him all the morning long but now I've got the pen. Time to bring "
 "it back to Georges..."
 msgstr ""
-"Я бегал за ним всё утро, но сейчас я получил перо. Пора принести это назад "
+"Я бегал за ним целое утро, но сейчас я достал перо. Пора принести его назад "
 "Джорджу..."
 
 #: ../dat/config/quests.lua:62
@@ -1873,8 +1873,8 @@ msgid ""
 " \n"
 "I can't let them down!"
 msgstr ""
-"Увидев этот странный свет, Орлин просто убежал в лес. Он просто ребёнок, "
-"даже если и быстр!\n"
+"После встречи с этим странным светом, Орлин просто убежал в лес. Он просто "
+"ребёнок, даже если и быстр!\n"
 " \n"
 "Мой отец попросил меня пойти туда с Кэлией и вернуть его обратно здоровым и "
 "невредимым.\n"
@@ -1887,8 +1887,8 @@ msgid ""
 "was protecting him, and we came just on time to prevent him from approaching "
 "a strange crystal..."
 msgstr ""
-"Мы, наконец, возвратили Орлина в центр леса. Таинственный волк защищал его и "
-"мы пришли как раз  вовремя, чтобы помешать ему приблизиться к странному "
+"Мы, наконец, нашли Орлина в центре леса. Таинственный волк защищал его и мы "
+"пришли как раз  вовремя, чтобы помешать ему приблизиться к странному "
 "кристаллу..."
 
 #: ../dat/config/quests.lua:94
@@ -1905,8 +1905,8 @@ msgid ""
 "through..."
 msgstr ""
 "Когда мы вернулись в нашу деревню, Кэлиа была поймана странными воинами. "
-"Лорд деревни сам спровоцировал меня на бой и спасибо моей сестре, мы пока "
-"что сбежали.\n"
+"Лорд деревни сам спровоцировал меня на бой и спасибо Кэлии, мы пока что "
+"сбежали.\n"
 " \n"
 "Но это не всё, воины позади нас и мы должны пройти через..."
 
@@ -1995,7 +1995,7 @@ msgid ""
 "Thanks to everyone\n"
 "who made this possible!!"
 msgstr ""
-"Спасибо каждому\n"
+"Спасибо всем\n"
 "кто сделал это возможным!!"
 
 #: ../dat/effects/status.lua:69
@@ -2152,7 +2152,7 @@ msgstr "Давайте осмотримся. Мы может что-нибудь
 
 #: ../dat/maps/layna_forest/layna_forest_cave1_2_script.lua:293
 msgid "... Something heavy seems to have fallen nearby."
-msgstr "... Кажется недалеко что-то тяжелое упало."
+msgstr "... Кажется недалеко что-то крупное разрушилось."
 
 #: ../dat/maps/layna_forest/layna_forest_cave1_2_script.lua:314
 msgid "... Look!"
@@ -2186,7 +2186,7 @@ msgstr "Орлин!!"
 
 #: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:495
 msgid "I can feel it, sis'. It's coming!"
-msgstr "Я могу чувствовать это, сестра. Это приближается!"
+msgstr "Я чувствую это, сестра. Она приближается!"
 
 #: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:497
 msgid "Orlinn, stop!"
@@ -2202,7 +2202,7 @@ msgstr "О боже! Всем небесам, это? ..."
 
 #: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:559
 msgid "A crystal stone?!?"
-msgstr "Камень кристалл?!?"
+msgstr "Хрустальный камень?!?"
 
 #: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:561
 msgid "This is her. I heard her voice calling..."
@@ -2230,7 +2230,7 @@ msgstr "Мы все с нетерпением ожидаем твоего воз
 
 #: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:580
 msgid "Now, come. And make one with our holy hope."
-msgstr "Сейчас, приди. И создай одно с нашей священной надеждой."
+msgstr "Сейчас, подойди. И сделай одно с нашей священной надеждой."
 
 #: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:588
 msgid "What does all of this mean?"
@@ -2238,7 +2238,7 @@ msgstr "Что всё это значит?"
 
 #: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:590
 msgid "I shall come and make one with our only hope..."
-msgstr "Я приду и сделаю одно с нашей надеждой..."
+msgstr "Я подойду и сделаю одно с нашей единственной надеждой..."
 
 #: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:592
 msgid "What! No, Orlinn!"
@@ -2282,7 +2282,7 @@ msgstr "Бронан! С тобой всё в порядке?"
 
 #: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:687
 msgid "I... I guess so. ..."
-msgstr "Я... Я думаю так. ..."
+msgstr "Я... Я думаю да. ..."
 
 #: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:689
 msgid "... The wolf! The crystal! Orlinn! Are you ok?? ..."
@@ -2294,15 +2294,15 @@ msgstr "Не беспокойся, я в порядке. Э, какой крис
 
 #: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:693
 msgid "... You won't be fine for long after I'm done with you!!"
-msgstr "... Тебе потом долго будет плохо после того, что я сделаю с тобой!!"
+msgstr "... Тебе долго будет плохо после того, что я сделаю с тобой!!"
 
 #: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:695
 msgid "... Huh? Wait, I didn't do anything this time!!"
-msgstr "...Что? Подожди, я не сделал всё в этот раз!! "
+msgstr "... А? Подожди, я ничего не делал в этот раз!!"
 
 #: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:697
 msgid "... Oh? You didn't??"
-msgstr "...О? Ты не сделал??"
+msgstr "... О? Ты не делал??"
 
 #: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:734
 msgid "When I'll catch you, I'll make you wish you weren't born!! Rahh!"
@@ -2319,7 +2319,7 @@ msgstr "Подойди сюда, сейчас же!!!"
 
 #: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:742
 msgid "(Sigh)... I should have stayed home today..."
-msgstr "(Вздох)...Мне следовало бы остаться дома сегодня..."
+msgstr "(Вздох)... Мне следовало бы остаться дома сегодня..."
 
 #: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:744
 msgid "... Ouch, why is my head hurting so much? ..."
@@ -2340,8 +2340,8 @@ msgid ""
 "I'm relieved Orlinn is fine, too. And speaking of that: Orlinn! Stop running "
 "and come here, right away!"
 msgstr ""
-"Я тоже изящно освобожу Орлина. И скажу такое: Орлин! Прекрати убегать и "
-"подойди сюда, сейчас же!"
+"Мне легче, с Орлином тоже всё в порядке. И скажу так: Орлин! Прекрати "
+"убегать и подойди сюда, сейчас же!"
 
 #: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:769
 msgid "Owww... Alright."
@@ -2352,7 +2352,7 @@ msgid ""
 "Now, Orlinn. Tell us: Why on earth did you go into the forest alone, and how "
 "did you just get there so quickly?"
 msgstr ""
-"Теперь, Орлин. Скажи нам: Почему ты вошёл в лес один и как ты только что "
+"Теперь, Орлин. Скажи нам: Почему ты вошёл в лес один и как ты именно "
 "забрался туда так быстро?"
 
 #: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:773
@@ -2361,11 +2361,11 @@ msgstr "Я не знаю..."
 
 #: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:775
 msgid "Why was that giant wolf protecting you?"
-msgstr "Почему этот гигантский волк защищает тебя?"
+msgstr "Почему тот гигантский волк защищал тебя?"
 
 #: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:777
 msgid "What was that crystal? Why did you want to make one with it?"
-msgstr "Какой это был кристалл? Почему ты хочешь совершить одно с этим?"
+msgstr "Что за кристалл был? Почему ты хочешь сделать одно с этим?"
 
 #: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:779
 msgid "I... I... I sincerely don't know... I swear! I was like... dreaming..."
@@ -2378,7 +2378,7 @@ msgstr "Я просто помню голос в моей голове, гово
 
 #: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:783
 msgid "You know you won't get away with this, when you'll see Herth..."
-msgstr "Ты знаешь, что ты не удерёшь с этим, когда ты увидишь Герца..."
+msgstr "Ты знаешь, что ты не уйдёшь с этим, когда увидишь Герца..."
 
 #: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:785
 msgid "I swear it's the truth!"
@@ -2386,7 +2386,7 @@ msgstr "Я клянусь, что это правда!"
 
 #: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:787
 msgid "Making one with the crystal, huh?"
-msgstr "Создать одно с кристаллом, а?"
+msgstr "Делать одно с кристаллом, а?"
 
 #: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:789
 msgid ""
@@ -2520,7 +2520,7 @@ msgstr "Правильно!"
 
 #: ../dat/maps/layna_forest/layna_forest_north_west_script.lua:1088
 msgid "Great! The tremor has just opened a path."
-msgstr "Отлично! Просто дрожь открытого пути."
+msgstr "Отлично! Легкое землетрясение как раз открыло нам путь."
 
 #: ../dat/maps/layna_forest/layna_forest_north_west_script.lua:1090
 msgid "We can easily return to the village from there."
@@ -2533,13 +2533,13 @@ msgstr "Мы почти там!"
 #: ../dat/maps/layna_forest/layna_forest_north_west_script.lua:1121
 msgid "Say Sister, do you think Herth will be angry with me for what happened?"
 msgstr ""
-"Скажи сестра, ты думаешь, Герц будет сердитый со мной за то, что случилось?"
+"Скажи сестра, ты думаешь, Герц будет сердиться на меня за то, что случилось?"
 
 #: ../dat/maps/layna_forest/layna_forest_north_west_script.lua:1123
 msgid ""
 "I don't think so, Orlinn. We both know you didn't do it on purpose, right?"
 msgstr ""
-"Я так не думаю, Орлин. Мы оба знаем, что ты не сделаешь это нарочно, я прав?"
+"Я так не думаю, Орлин. Мы оба знаем, что ты не делал это нарочно, я права?"
 
 #: ../dat/maps/layna_forest/layna_forest_north_west_script.lua:1125
 msgid "Ok..."
@@ -2547,11 +2547,11 @@ msgstr "Хорошо..."
 
 #: ../dat/maps/layna_forest/layna_forest_north_west_script.lua:1141
 msgid "Kalya, ... Err ..."
-msgstr "Кэлиа, ... э ..."
+msgstr "Кэлиа, ... Эээ ..."
 
 #: ../dat/maps/layna_forest/layna_forest_north_west_script.lua:1143
 msgid "What is it, Bronann?"
-msgstr "Что это, Бронан?"
+msgstr "Что, Бронан?"
 
 #: ../dat/maps/layna_forest/layna_forest_north_west_script.lua:1145
 msgid "Hmm... Nevermind."
@@ -2559,11 +2559,11 @@ msgstr "Хм... Неважно."
 
 #: ../dat/maps/layna_forest/layna_forest_north_west_script.lua:1147
 msgid "Don't worry too much, Bronann, Herth will be able to help you."
-msgstr "Не беспокойся так, Бронан, Герц способен помочь тебе."
+msgstr "Не беспокойся так, Бронан, Герц может помочь тебе."
 
 #: ../dat/maps/layna_forest/layna_forest_north_west_script.lua:1149
 msgid "Me? But ..."
-msgstr "Я? Но ..."
+msgstr "Мне? Но ..."
 
 #: ../dat/maps/layna_forest/layna_forest_north_west_script.lua:1151
 msgid "Thanks ..."
@@ -2595,11 +2595,11 @@ msgstr "(Бронан смотрит на землю ...)"
 
 #: ../dat/maps/layna_forest/layna_forest_wolf_cave_script.lua:209
 msgid "This water looks weird. Shall we drink it anyway?"
-msgstr "Эта вода смотрится очень странно. Мы выпьем всё равно её?"
+msgstr "Эта вода смотрится очень странно. Мы выпьем её всё равно?"
 
 #: ../dat/maps/layna_forest/layna_forest_wolf_cave_script.lua:213
 msgid "Yes, I'm so thirsty."
-msgstr "Да, я так хочу."
+msgstr "Да, я так хочу пить."
 
 #: ../dat/maps/layna_forest/layna_forest_wolf_cave_script.lua:215
 msgid "No way, we'd get sick."
@@ -2619,7 +2619,7 @@ msgstr "Ёик, как воняет здесь."
 
 #: ../dat/maps/layna_forest/layna_forest_wolf_cave_script.lua:293
 msgid "Look at all those bones. We should be careful."
-msgstr "Посмотри на эти все кости. Нам следовало бы быть осторожными."
+msgstr "Посмотри на все эти кости. Нам следовало бы быть осторожными."
 
 #: ../dat/maps/layna_forest/layna_forest_wolf_cave_script.lua:295
 msgid "I hope Orlinn is going well."
@@ -2638,19 +2638,19 @@ msgstr ""
 
 #: ../dat/maps/layna_forest/layna_forest_wolf_cave_script.lua:337
 msgid "It suits me better than it would for you, don't be jealous."
-msgstr "Это лучше подходит мне, чем для тебя бы, не завидуй."
+msgstr "Это лучше подходит мне, чем тебе бы, не завидуй."
 
 #: ../dat/maps/layna_forest/layna_forest_wolf_cave_script.lua:339
 msgid "Kalya! You'd better be careful!"
-msgstr "Кэлиа! Тебе лучше быть осторожной!"
+msgstr "Кэлиа! Ты лучше была бы осторожной!"
 
 #: ../dat/maps/layna_forest/layna_forest_wolf_cave_script.lua:341
 msgid "Don't even start, this one is all mine."
-msgstr "Даже не начинай, он весь мой."
+msgstr "Даже не начинай, оно моё."
 
 #: ../dat/maps/layna_forest/layna_forest_wolf_cave_script.lua:343
 msgid "Not the necklace, the Fenrir!"
-msgstr "Нет ожерелья, Фенрир!"
+msgstr "Не ожерелье, Фенрир!"
 
 #: ../dat/maps/layna_forest/layna_forest_wolf_cave_script.lua:345
 msgid "You can't be serious, we would have heard it come."
@@ -2674,7 +2674,7 @@ msgstr "Бэйнсор"
 
 #: ../dat/maps/layna_village/battle_with_banesore/battle_with_banesore_script.lua:56
 msgid "So... Do you think you can hurt me?"
-msgstr "Так... Ты думаешь, что ты сможешь причинить боль мне?"
+msgstr "Так... Ты думаешь, что ты сможешь причинить мне боль?"
 
 #: ../dat/maps/layna_village/battle_with_banesore/battle_with_banesore_script.lua:58
 msgid "You? A child with an old wooden stick?"
@@ -2690,7 +2690,7 @@ msgstr "Ай! Это больно!"
 
 #: ../dat/maps/layna_village/battle_with_banesore/battle_with_banesore_script.lua:72
 msgid "Yes! I can feel it come closer to the surface!"
-msgstr "Да! Я чувствую, что это придёт ближе к поверхности!"
+msgstr "Да! Я чувствую, что это выходит наружу!"
 
 #: ../dat/maps/layna_village/battle_with_banesore/battle_with_banesore_script.lua:74
 msgid "Let your fear grow, young boy!"
@@ -2710,11 +2710,11 @@ msgstr "Хм. Оставте этого смельчака мне, воины!"
 
 #: ../dat/maps/layna_village/battle_with_banesore/battle_with_banesore_script.lua:85
 msgid "So... You seem to remind me, Banesore?"
-msgstr "Так... Кажется, ты напомнил мне, Бэйнсор?"
+msgstr "Так... Ты, кажется, напомнил мне, Бэйнсор?"
 
 #: ../dat/maps/layna_village/battle_with_banesore/battle_with_banesore_script.lua:87
 msgid "I do, old man..."
-msgstr "Я сделаю, старик..."
+msgstr "Да, старик..."
 
 #: ../dat/maps/layna_village/battle_with_banesore/battle_with_banesore_script.lua:89
 msgid "Then, you know your zombified soldiers are no match to me..."
@@ -2885,12 +2885,12 @@ msgid ""
 "I'll go and get Herth. Your parents must be worried, you should get back "
 "home and we'll meet there."
 msgstr ""
-"Я пойду и найду Герца. Ваши родители должно быть беспокоятся, вам следовало "
+"Я пойду и найду Герца. Твои родители должно быть беспокоятся, тебе следовало "
 "бы вернуться домой и мы там встретимся."
 
 #: ../dat/maps/layna_village/layna_village_center_at_night_script.lua:286
 msgid "I should really get back home..."
-msgstr "Я действительно следовало бы вернуться домой..."
+msgstr "Мне действительно следовало бы вернуться домой..."
 
 #: ../dat/maps/layna_village/layna_village_center_at_night_script.lua:294
 msgid ""
@@ -2920,7 +2920,7 @@ msgstr "Кэлиа?!"
 
 #: ../dat/maps/layna_village/layna_village_center_at_night_script.lua:344
 msgid "Lay off me, you cheap low-grade filthy jerks..."
-msgstr "Увольте меня, вы дешёвые, низкосортные, грязные тупицы..."
+msgstr "Отстаньте от меня, вы дешёвые, низкосортные, грязные тупицы..."
 
 #: ../dat/maps/layna_village/layna_village_center_at_night_script.lua:346
 msgid "Do keep quiet little brat!"
@@ -3297,13 +3297,13 @@ msgid ""
 "You see, I lost my beloved pen. Was it near a tree or next to the waving "
 "child of the mountain snow?"
 msgstr ""
-"Ты видешь, я потерял моё любимое перо. Было это возле дерева или рядом с "
-"озорным ребёнком где горный снег?"
+"Пойми, я потерял моё любимое перо. Было это возле дерева или рядом с озорным "
+"ребёнком где горный снег?"
 
 #: ../dat/maps/layna_village/layna_village_center_script.lua:926
 #: ../dat/maps/layna_village/layna_village_center_script.lua:957
 msgid "Shall you find it, I would be extremely obliged to you!"
-msgstr "Ты должен найти это, я чрезвычайно буду тебе обязан!"
+msgstr "Если найдёшь это, я чрезвычайно буду тебе благодарен!"
 
 #: ../dat/maps/layna_village/layna_village_center_script.lua:928
 #: ../dat/maps/layna_village/layna_village_center_script.lua:959
@@ -3354,16 +3354,15 @@ msgstr ""
 msgid ""
 "Georges, I simply wanted to ask you whether you had some barley meal left!"
 msgstr ""
-"Джордж, я просто хотел спросить, осталось ли у тебя некоторое количество "
-"ячменой муки!"
+"Джордж, я просто хотел спросить, осталось ли у тебя немного ячменой муки!"
 
 #: ../dat/maps/layna_village/layna_village_center_script.lua:951
 msgid ""
 "Ah, I see. Well unfortunately, I'm so sad about a recent loss that, I can't "
 "find the right words with which to tell you."
 msgstr ""
-"Ах, я вижу. Ну, к сожалению я в такой печали насчет недавней потери, я не "
-"могу подобрать правильные слова, чтобы сказать тебе."
+"Ах, я вижу. Ну, к сожалению я в такой печали насчёт недавней потери, я даже "
+"не могу подобрать правильные слова, чтобы сказать тебе."
 
 #: ../dat/maps/layna_village/layna_village_center_script.lua:969
 msgid ""
@@ -3509,7 +3508,7 @@ msgstr "Бронан!!!"
 
 #: ../dat/maps/layna_village/layna_village_kalya_house_path_at_night_script.lua:291
 msgid "Bronann!!! Hold on! We're almost there..."
-msgstr "Бронан!!! Постой! Мы почти там..."
+msgstr "Бронан!!! Держись! Мы почти там..."
 
 #: ../dat/maps/layna_village/layna_village_kalya_house_path_at_night_script.lua:293
 msgid "I ... can't. My body ... Argh!"
@@ -3537,7 +3536,7 @@ msgstr "Должно быть воины повсюду, мы никогда н�
 
 #: ../dat/maps/layna_village/layna_village_kalya_house_path_at_night_script.lua:329
 msgid "Stop worrying. We also have our little secrets..."
-msgstr "Прекрати беспокоиться. Мы также имеем свои секреты..."
+msgstr "Прекрати беспокоиться. Мы тоже имеем свои маленькие секреты..."
 
 #: ../dat/maps/layna_village/layna_village_kalya_house_path_at_night_script.lua:331
 msgid "You can go in there, Orlinn."
@@ -3559,11 +3558,11 @@ msgid ""
 "path..."
 msgstr ""
 "...Я сейчас понял почему бабушка фактически никогда не видела тебя "
-"использующего 'нормальную' тропинку... "
+"использующей 'обычную' тропинку..."
 
 #: ../dat/maps/layna_village/layna_village_kalya_house_path_at_night_script.lua:339
 msgid "Now come..."
-msgstr "Теперь подойди..."
+msgstr "Теперь пошли..."
 
 #: ../dat/maps/layna_village/layna_village_kalya_house_path_script.lua:104
 msgid ""
@@ -3591,7 +3590,7 @@ msgstr "Бронан, как ты себя чувствуешь?"
 
 #: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:248
 msgid "Better... Somehow, the pain faded away the second I entered here..."
-msgstr "Лучше...Почему-то, боль исчезла через секунду как я вошёл сюда..."
+msgstr "Лучше... Почему-то, боль исчезла через секунду как я вошёл сюда..."
 
 #: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:250
 msgid "By the way, where are we?"
@@ -3602,13 +3601,13 @@ msgid ""
 "In our basement. The other stairs there are leading to my room. This house "
 "is an ancient sanctuary, so it might explain why you're feeling better..."
 msgstr ""
-"В нашем подвале. Другая там лестница ведёт в мою комнату. Этот дом является "
+"В нашем подвале. Другая лестница там ведёт в мою комнату. Этот дом является "
 "древним святилищем, только так можно объяснить почему ты чувствуешь себя "
 "лучше..."
 
 #: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:254
 msgid "Orlinn. Go get the packings. We're leaving..."
-msgstr "Орлин. Иди и принеси упаковки. Мы уходим..."
+msgstr "Орлин. Иди и принеси вещи. Мы уходим..."
 
 #: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:256
 msgid "... Ok..."
@@ -3616,13 +3615,13 @@ msgstr "... Ладно..."
 
 #: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:289
 msgid "We're leaving the village now..."
-msgstr "Мы сейчас покинули деревню..."
+msgstr "Мы сейчас покинем деревню..."
 
 #: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:291
 msgid "I feel dizzy... So much things happened in so little time..."
 msgstr ""
 "Я чувствую головокружение... Столько вещей случилось в течение такого "
-"короткого периода времени..."
+"короткого промежутка времени..."
 
 #: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:293
 msgid ""
@@ -3658,15 +3657,15 @@ msgid ""
 "other... And now you..."
 msgstr ""
 "Никто не говорил мне, что случилось. Герц и лорд, кажется, знают друг "
-"друга... И теперь ты..."
+"друга... А теперь ты..."
 
 #: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:307
 msgid "You seem so calm, ready and prepared..."
-msgstr "Ты видимо такой спокойный, готовый и подготовленный..."
+msgstr "Ты видимо такая спокойная, готовая и подготовленная..."
 
 #: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:311
 msgid "Enough! You hid things to me. You're a liar, like everyone else!"
-msgstr "Достаточно! Ты спрятал факты от меня. Ты лгун, как другие!"
+msgstr "Довольно! Ты спрятала факты от меня. Ты лгунья, как другие!"
 
 #: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:313
 msgid "Bronann, you'll get everything explained in time, I..."
@@ -3674,7 +3673,7 @@ msgstr "Бронан, ты получишь все объяснения вовр
 
 #: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:315
 msgid "No! I want the truth now, or I won't come!"
-msgstr "Нет! Я хочу сейчас правду или я не приду!"
+msgstr "Нет! Я хочу сейчас правду или я не пойду!"
 
 #: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:317
 msgid "... Fine."
@@ -3682,7 +3681,7 @@ msgstr "...Хорошо."
 
 #: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:321
 msgid "I knew the crystal would appear..."
-msgstr "Я знал, что кристалл появится..."
+msgstr "Я знала, что кристалл появится..."
 
 #: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:323
 msgid "What?"
@@ -3690,7 +3689,7 @@ msgstr "Что?"
 
 #: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:325
 msgid "But I didn't know who it would choose."
-msgstr "Но я не знаю, кто бы это выбрал."
+msgstr "Но я не знала, кого бы он выбрал."
 
 #: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:327
 msgid "Herth prepared me... All my entire life... For this very day..."
@@ -3709,7 +3708,7 @@ msgid ""
 "He did think I would be the one. But it seems he was wrong, and that now my "
 "duty is to look after you..."
 msgstr ""
-"Он думал, что я был бы один. Но, кажется, он не прав и что теперь моим "
+"Он думал, что я была бы одна. Но, кажется, он не прав и что теперь моим "
 "долгом является присматривать за тобой..."
 
 #: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:333
@@ -3729,7 +3728,7 @@ msgid ""
 "It should have been me... But I couldn't move. And now, I have to fix my "
 "mistake..."
 msgstr ""
-"Это мне следовало бы иметь... Но я не могу двигаться. А сейчас, я должен "
+"Мне следовало сделать это... Но я не смогла двинуться. А сейчас, я должна "
 "исправить мою ошибку..."
 
 #: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:341
@@ -3757,7 +3756,7 @@ msgid ""
 "We won't be able to come back here once out. So, feel free to pick up "
 "everything needed and prepare yourself..."
 msgstr ""
-"Мы не будем способны однажды появится здесь снова. Итак, разрешаю собрать "
+"Мы не сможем однажды появится здесь снова. Итак, разрешаю тебе собрать "
 "нужное и подготовить себя..."
 
 #: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:371
@@ -3785,7 +3784,7 @@ msgstr "Не беспокойся, сестра. Это нормально, мы
 
 #: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:381
 msgid "I also left my parents behind..."
-msgstr "Я также оставил моих родителей позади..."
+msgstr "Я тоже оставил моих родителей там..."
 
 #: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:383
 msgid ""
@@ -3814,7 +3813,7 @@ msgstr "Мы сейчас не можем возвратится..."
 
 #: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:436
 msgid "It's my room upstairs. Don't even think about it!"
-msgstr "Это моя комната наверху. Даже не думай об этом!"
+msgstr "Там наверху моя комната. Даже не думай об этом!"
 
 #: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:429
 msgid "I can't go back now..."
@@ -3829,13 +3828,11 @@ msgstr ""
 
 #: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:448
 msgid "I should be able to sneak through when they're not watching..."
-msgstr ""
-"Мне следовало бы иметь способность свободно подкрасться, когда они не "
-"наблюдают..."
+msgstr "Мне следовало бы попробовать подкрасться, когда они не наблюдают..."
 
 #: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:472
 msgid "Who's there?"
-msgstr "Кто там?"
+msgstr "Кто здесь?"
 
 #: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:501
 msgid "(Whispering) Kalya!"
@@ -3862,32 +3859,32 @@ msgid ""
 "(Kalya was brought here by those weirdos. They are helding everyone captive. "
 "Lilly is discussing with that big guy. He gives me the chill.)"
 msgstr ""
-"(Кэлию привели сюда эти чудаки. Они удерживают каждого пленного. Лили что-то "
+"(Кэлию привели сюда эти чудаки. Они удерживают пленных. Лили что-то "
 "обсуждает с этим большим парнем. Он вызывает у меня дрожь.)"
 
 #: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:513
 msgid "(Let's have a look..)"
-msgstr "(Давайте посмотрим...)"
+msgstr "(Давай посмотрим...)"
 
 #: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:527
 msgid ""
 "I already told you again, and again, Banesore, I don't know anything about "
 "such a Crystal."
 msgstr ""
-"Я уже говорил тебе снова и снова, Бэйнсор, я не знаю ничего о таком "
+"Я уже говорила тебе неоднократно, Бэйнсор, я не знаю ничего о таком "
 "кристалле."
 
 #: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:529
 msgid "It is 'Lord Banesore', you scum!"
-msgstr "Это 'Лорд Бэйнсор', ты подлец!"
+msgstr "Это 'Лорд Бэйнсор', ты мерзавка!"
 
 #: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:531
 msgid ""
 "So much to lose and still looking at me in the eyes... I admire such a "
 "courageous heart, my dear one."
 msgstr ""
-"Так много терять и всё же смотришь на меня в глаза... Я восхищаюсь таким "
-"храбрым сердцем, дорогой мой."
+"Рискуя всем, и всё ещё смотришь мне в глаза... Я восхищаюсь таким храбрым "
+"сердцем, дорогая моя."
 
 #: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:533
 msgid "Therefore, I'm inclined to ask the questions one last time:"
@@ -3910,32 +3907,32 @@ msgid ""
 "Your very soul is slowly but surely opening. I can feel your sorrow and "
 "doubts grow now."
 msgstr ""
-"Твоя настоящая душа медленно, но, несомненно, открывается. Я теперь могу "
-"почувствовать твоё растущее горе и сомнения."
+"Твоя душа медленно, но, несомненно, открывается. Я теперь могу чувствовать "
+"твоё растущее горе и сомнения."
 
 #: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:543
 msgid "Fight it, Lilly! Focus!"
-msgstr "Сражаемся с этим, Лили! Сосредоточься!"
+msgstr "Сражайся с этим, Лили! Сосредоточься!"
 
 #: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:545
 msgid "Keep quiet, you old daft rat!"
-msgstr "Замолчи, ты старый и глупый доносчик!"
+msgstr "Замолчи, ты старый и глупый провокатор!"
 
 #: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:547
 msgid "Oh! My apologize, it seems you said the truth about the Crystal..."
-msgstr "О! Извиняюсь, кажется, ты сказал правду о кристалле..."
+msgstr "О! Мои извинения, кажется, ты сказала правду о кристалле..."
 
 #: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:549
 msgid ""
 "The fact you didn't mention anything about the boy is leading me to think "
 "you know him."
 msgstr ""
-"Факт в том, что ты не упоминал что-нибудь о мальчике управляющий мной, чтобы "
+"Факт в том, что ты не упомянула что-нибудь о мальчике, что заставляет меня "
 "подумать, что ты знаешь его."
 
 #: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:553
 msgid "Ah? So he must be close..."
-msgstr "А? Так он должен быть ближе..."
+msgstr "А? Так он должно быть близко..."
 
 #: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:555
 msgid "What? No!"
@@ -3943,11 +3940,11 @@ msgstr "Что? Нет!"
 
 #: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:557
 msgid "Oh, I'm getting it. This is her mother. Bring her here, and kill her!"
-msgstr "О, я добился этого. Это её мама. Приведи её сюда и убей её!"
+msgstr "О, я добился своего. Это её мама. Приведи её сюда и убей её!"
 
 #: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:586
 msgid "Let her out of this! You can have me instead."
-msgstr "Оставте её! Ты можешь получить меня взамен."
+msgstr "Оставте её! Ты можешь взять меня взамен."
 
 #: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:588
 msgid "So, here we have a gentleman! I'll start with you, then..."
@@ -3967,7 +3964,7 @@ msgstr "Ты мерзкий демон!"
 
 #: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:596
 msgid "It's fine, I'll come..."
-msgstr "Прекрасно. Я приду..."
+msgstr "Хорошо. Я иду..."
 
 #: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:598
 msgid "No!"
@@ -3999,11 +3996,11 @@ msgstr "Освободи путь, Лили. Мне нужно поговори�
 
 #: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:665
 msgid "Let's have a talk, Bronann!"
-msgstr "Давайте поговорим, Бронан!"
+msgstr "Давай поговорим, Бронан!"
 
 #: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:667
 msgid "I don't have any other choice, Lilly..."
-msgstr "Я не имею никакого другого выбора, Лили..."
+msgstr "У меня нет другого выбора, Лили..."
 
 #: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:669
 msgid "Bronann..."
@@ -4015,11 +4012,11 @@ msgstr "Ты... После всех этих лет..."
 
 #: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:683
 msgid "... Let everyone out of this. We don't have your 'crystal'..."
-msgstr "...И никого не спрашивай. Мы не имеем ваш 'кристалл'..."
+msgstr "...И никого не спрашивай. У нас нет вашего 'кристалла'..."
 
 #: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:685
 msgid "Of course, you have it. I can feel it within your flesh..."
-msgstr "Конечно, ты имеешь это. Я могу чувствовать это внутри твоей плоти..."
+msgstr "Конечно, он с тобой. Я могу чувствовать это внутри твоей плоти..."
 
 #: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:687
 msgid "So, the crystal is in me??"
@@ -4038,12 +4035,12 @@ msgid ""
 "Do you need some kind of motivation? If so, let me handle this with my "
 "greatest pleasure!"
 msgstr ""
-"Тебе нужна какая-нибудь мотивация? Если так, позволь мне держать это с "
+"Тебе нужна какая-нибудь мотивация? Если так, позволь мне добиться этого с "
 "превеликим удовольствием!"
 
 #: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:695
 msgid "Let's fight!"
-msgstr "Давайте сражаться!"
+msgstr "Давай сражаться!"
 
 #: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:745
 msgid "Ah, there it is... Finally!"
@@ -4256,8 +4253,8 @@ msgid ""
 "Ah hah! I just wanted to see your reaction. I still have some. Let me go "
 "grab it and bring it back to you."
 msgstr ""
-"Ах, ха! Я только хотела увидеть твою реакцию. У меня всё ещё есть она. "
-"Позволь мне пойти, взять её и принести тебе."
+"Ага! Я только хотела увидеть твою реакцию. У меня всё ещё есть она. Позволь "
+"мне пойти, взять её и принести тебе."
 
 #: ../dat/maps/layna_village/layna_village_riverbank_script.lua:629
 msgid "You'll never get me!"
@@ -4493,7 +4490,7 @@ msgstr "Теперь поймай меня... если ты можешь."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_path3_script.lua:807
 msgid "Enough of this shallow game. Give me your souls now!..."
-msgstr "Достаточно этой мелкий игры. Теперь отдайте мне свои души!..."
+msgstr "Довольно этой мелкий игры. Теперь отдайте мне свои души!..."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_path3_script.lua:828
 msgid "How could I be hurt by... children..."
@@ -5193,7 +5190,7 @@ msgstr "Ярость"
 msgid ""
 "Enrages an ally, increasing its Attack and Speed, but reducing its Defence."
 msgstr ""
-"Приводить в ярость союзника, увеличивая атаку и скорость, но уменьшая защиту."
+"Приводит в ярость союзника, увеличивая атаку и скорость, но уменьшая защиту."
 
 #: ../dat/skills/magic.lua:491
 msgid "Rock Fall"
@@ -5556,7 +5553,7 @@ msgstr "Образцовый манёвр, наносящий эффективн
 
 #: ../dat/skills/weapon.lua:106
 msgid "Forward Thrust"
-msgstr "Колющий удар"
+msgstr "Удар вперёд"
 
 #: ../dat/skills/weapon.lua:107
 msgid "A quicker and more powerful blow than the standard sword slash."
