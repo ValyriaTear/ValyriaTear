@@ -33,7 +33,6 @@ fonts = {
         ["map_title"] = {font = "img/fonts/Berenika-Oblique.ttf", size = 30}
     },
 
-    -- TODO: Add support for this below:
     -- Fonts loaded for the 'ru' locale (Russian)
     ["ru"] = {
         -- Text style internal name = { "font file path", font size }

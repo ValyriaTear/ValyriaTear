@@ -31,6 +31,8 @@ typedef struct _TTF_Font TTF_Font;
 namespace vt_video
 {
 
+const std::string _LANGUAGE_FILE = "dat/config/languages.lua";
+
 class TextSupervisor;
 
 //! \brief The singleton pointer for the instance of the text supervisor
@@ -107,11 +109,19 @@ public:
         ascent(0),
         descent(0),
         ttf_font(NULL),
+        font_size(0),
         glyph_cache(NULL)
     {}
 
     ~FontProperties()
     {
+        ClearFont();
+    }
+
+    //! \brief Clears out a font object plus its glyph cache.
+    //! Useful when changing a TextStyle font without deleting
+    //! the font properties object.
+    void ClearFont() {
         // Free the font.
         if(ttf_font)
             TTF_CloseFont(ttf_font);
@@ -137,6 +147,12 @@ public:
 
     //! \brief A pointer to SDL_TTF's font structure.
     TTF_Font *ttf_font;
+
+    //! \brief Used to know the font currently used.
+    std::string font_filename;
+
+    //! \brief Used to know  the font size currently used
+    uint32 font_size;
 
     //! \brief A pointer to a cache which holds all of the glyphs used in this font.
     std::vector<FontGlyph *>* glyph_cache;
@@ -553,31 +569,16 @@ class TextSupervisor : public vt_utils::Singleton<TextSupervisor>
 public:
     ~TextSupervisor();
 
-    /** \brief Initializes the SDL_ttf library and loads a debug_font
+    /** \brief Initializes the SDL_ttf library
     *** \return True if all initializations were successful, or false if there was an error
     **/
     bool SingletonInitialize();
 
-    //! \name Font manipulation methods
-    //@{
-    /** \brief Loads a font file from disk with a specific size and name
-    *** \param font_filename The filename of the font file to load
-    *** \param font_name The name which to refer to the font after it is loaded
-    *** \param size The point size to set the font after it is loaded
-    *** \return True if the font was successfully loaded, or false if there was an error
+    /** \brief Loads or reloads font needed by the given locale (ex: fr, it, ru, ...)
+    *** using the font script filename: "dat/config/fonts.lua"
+    *** \return false in case of an error.
     **/
-    bool LoadFont(const std::string &filename, const std::string &font_name, uint32 size);
-
-    /** \brief Removes a loaded font from memory and frees up associated resources
-    *** \param font_name The reference name of the font to unload
-    ***
-    *** If the argument name is invalid (i.e. no font with that reference name exists), this method will do
-    *** nothing more than print out a warning message if running in debug mode.
-    ***
-    *** \todo Implement this function. Its not available yet because of potential problems with lingering references to the
-    *** font (in TextStyle objects, or elswhere)
-    **/
-    void FreeFont(const std::string &font_name);
+    bool LoadFonts(const std::string& locale_name);
     //@}
 
     //! \name Text methods
@@ -656,6 +657,25 @@ private:
     std::map<std::string, FontProperties *> _font_map;
 
     // ---------- Private methods
+
+    /** \brief Loads or Reloads a font file from disk with a specific size and name
+    *** \param Text style name The name which to refer to the text style after it is loaded
+    *** \param font_filename The filename of the TTF font filename to load
+    *** \param size The point size to set the font after it is loaded
+    *** \return True if the font was successfully loaded, or false if there was an error
+    **/
+    bool _LoadFont(const std::string& textstyle_name, const std::string& font_filename, uint32 size);
+
+    /** \brief Removes a loaded font from memory and frees up associated resources
+    *** \param font_name The reference name of the font to unload
+    ***
+    *** If the argument name is invalid (i.e. no font with that reference name exists), this method will do
+    *** nothing more than print out a warning message if running in debug mode.
+    ***
+    *** \todo Implement this function. Its not available yet because of potential problems with lingering references to the
+    *** font (in TextStyle objects, or elswhere)
+    **/
+    void _FreeFont(const std::string &font_name);
 
     /** \brief Caches glyph information and textures for rendering
     *** \param text A pointer to the unicode string holding the characters (glyphs) to cache

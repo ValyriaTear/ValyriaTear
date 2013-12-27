@@ -994,7 +994,12 @@ void BootMode::_OnMusicRight()
 
 void BootMode::_OnLanguageSelect()
 {
-    SystemManager->SetLanguage(_po_files[_language_options_menu.GetSelection()]);
+    std::string language = _po_files[_language_options_menu.GetSelection()];
+    SystemManager->SetLanguage(language);
+
+    // Reloads the needed fonts according to the newly selected language.
+    TextManager->LoadFonts(language);
+
     _has_modified_settings = true;
 
     // Reloads the theme names before the menus
