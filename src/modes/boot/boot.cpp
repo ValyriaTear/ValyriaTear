@@ -626,38 +626,54 @@ void BootMode::_SetupJoySettingsMenu()
 
 void BootMode::_SetupResolutionMenu()
 {
-    _resolution_menu.SetPosition(512.0f, 468.0f);
+    _resolution_menu.SetPosition(442.0f, 468.0f);
     _resolution_menu.SetDimensions(300.0f, 200.0f, 1, 7, 1, 7);
     _resolution_menu.SetTextStyle(TextStyle("title22"));
-    _resolution_menu.SetAlignment(VIDEO_X_CENTER, VIDEO_Y_CENTER);
-    _resolution_menu.SetOptionAlignment(VIDEO_X_CENTER, VIDEO_Y_CENTER);
+    _resolution_menu.SetAlignment(VIDEO_X_LEFT, VIDEO_Y_CENTER);
+    _resolution_menu.SetOptionAlignment(VIDEO_X_LEFT, VIDEO_Y_CENTER);
     _resolution_menu.SetSelectMode(VIDEO_SELECT_SINGLE);
     _resolution_menu.SetVerticalWrapMode(VIDEO_WRAP_MODE_STRAIGHT);
     _resolution_menu.SetCursorOffset(-50.0f, -28.0f);
     _resolution_menu.SetSkipDisabled(true);
 
-    _resolution_menu.AddOption(MakeUnicodeString("640 x 480"), &BootMode::_OnResolution640x480);
-    _resolution_menu.AddOption(MakeUnicodeString("800 x 600"), &BootMode::_OnResolution800x600);
-    _resolution_menu.AddOption(MakeUnicodeString("1024 x 768"), &BootMode::_OnResolution1024x768);
-    _resolution_menu.AddOption(MakeUnicodeString("1280 x 1024"), &BootMode::_OnResolution1280x1024);
-    _resolution_menu.AddOption(MakeUnicodeString("1366 x 768"), &BootMode::_OnResolution1366x768);
-    _resolution_menu.AddOption(MakeUnicodeString("1440 x 900"), &BootMode::_OnResolution1440x900);
-    _resolution_menu.AddOption(MakeUnicodeString("1600 x 900"), &BootMode::_OnResolution1600x900);
-
+    uint32 res_index = 0;
     if(VideoManager->GetScreenWidth() == 640)
-        _resolution_menu.SetSelection(0);
+        res_index = 0;
     else if(VideoManager->GetScreenWidth() == 800)
-        _resolution_menu.SetSelection(1);
+        res_index = 1;
     else if(VideoManager->GetScreenWidth() == 1024)
-        _resolution_menu.SetSelection(2);
+        res_index = 2;
     else if(VideoManager->GetScreenWidth() == 1280)
-        _resolution_menu.SetSelection(3);
+        res_index = 3;
     else if(VideoManager->GetScreenWidth() == 1366)
-        _resolution_menu.SetSelection(4);
+        res_index = 4;
     else if(VideoManager->GetScreenWidth() == 1440)
-        _resolution_menu.SetSelection(5);
+        res_index = 5;
     else if(VideoManager->GetScreenWidth() == 1600)
-        _resolution_menu.SetSelection(6);
+        res_index = 6;
+
+    // NOTE: Once on SDL2, append and sort the supported resolutions as well.
+    std::vector<std::string> res_list;
+    res_list.push_back("640 x 480");
+    res_list.push_back("800 x 600");
+    res_list.push_back("1024 x 768");
+    res_list.push_back("1280 x 1024");
+    res_list.push_back("1366 x 768");
+    res_list.push_back("1440 x 900");
+    res_list.push_back("1600 x 900");
+
+    _resolution_menu.ClearOptions();
+
+    for (uint32 i = 0; i < res_list.size(); ++i) {
+        _resolution_menu.AddOption(ustring(), &BootMode::_OnResolutionConfirm);
+        // Show the current selection
+        if (res_index == i) {
+            _resolution_menu.AddOptionElementImage(i, "img/menus/star.png");
+            _resolution_menu.SetSelection(i);
+        }
+        _resolution_menu.AddOptionElementPosition(i, 32);
+        _resolution_menu.AddOptionElementText(i, MakeUnicodeString(res_list[i]));
+    }
 }
 
 void BootMode::_RefreshVideoOptions()
@@ -901,39 +917,32 @@ void BootMode::_OnResolution()
     _active_menu = &_resolution_menu;
 }
 
-void BootMode::_OnResolution640x480()
+void BootMode::_OnResolutionConfirm()
 {
-    _ChangeResolution(640, 480);
-}
-
-void BootMode::_OnResolution800x600()
-{
-    _ChangeResolution(800, 600);
-}
-
-void BootMode::_OnResolution1024x768()
-{
-    _ChangeResolution(1024, 768);
-}
-
-void BootMode::_OnResolution1280x1024()
-{
-    _ChangeResolution(1280, 1024);
-}
-
-void BootMode::_OnResolution1366x768()
-{
-    _ChangeResolution(1366, 768);
-}
-
-void BootMode::_OnResolution1440x900()
-{
-    _ChangeResolution(1440, 900);
-}
-
-void BootMode::_OnResolution1600x900()
-{
-    _ChangeResolution(1600, 900);
+    switch (_resolution_menu.GetSelection()) {
+    case 0:
+        _ChangeResolution(640, 480);
+        break;
+    default:
+    case 1:
+        _ChangeResolution(800, 600);
+        break;
+    case 2:
+        _ChangeResolution(1024, 768);
+        break;
+    case 3:
+        _ChangeResolution(1280, 1024);
+        break;
+    case 4:
+        _ChangeResolution(1366, 768);
+        break;
+    case 5:
+        _ChangeResolution(1440, 900);
+        break;
+    case 6:
+        _ChangeResolution(1600, 900);
+        break;
+    }
 }
 
 void BootMode::_OnBrightnessLeft()
@@ -1127,12 +1136,14 @@ bool BootMode::_ChangeResolution(int32 width, int32 height)
         return false;
 
     VideoManager->SetResolution(width, height);
-    if (!VideoManager->ApplySettings())
-        return false;
+
+    bool ret_value = VideoManager->ApplySettings();
+    if (ret_value)
+        _has_modified_settings = true;
 
     _RefreshVideoOptions();
-    _has_modified_settings = true;
-    return true;
+    _SetupResolutionMenu();
+    return ret_value;
 }
 
 void BootMode::_ReloadGUIDefaultSkin()
