@@ -445,8 +445,12 @@ public:
 
     /** \brief Sets the language that the game should use.
     *** \param lang A two-character string representing the language to execute the game in
+    *** \return whether the corresponding language file could be found.
     **/
-    void SetLanguage(const std::string& lang);
+    bool SetLanguage(const std::string& lang);
+
+    //! \brief Tells whether a language is available.
+    bool IsLanguageAvailable(const std::string& lang);
 
     /** \brief Determines whether the user is done with the game.
     *** \return False if the user would like to exit the game.

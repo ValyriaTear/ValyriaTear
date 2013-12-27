@@ -22,6 +22,7 @@
 #include "engine/script/script.h"
 
 #include "utils/utils_strings.h"
+#include "utils/utils_files.h"
 
 #include "mode_manager.h"
 
@@ -305,7 +306,8 @@ SystemEngine::SystemEngine()
     IF_PRINT_DEBUG(SYSTEM_DEBUG) << "constructor invoked" << std::endl;
 
     _not_done = true;
-    SetLanguage("en@quot"); //Default language is English
+    SetLanguage("en@quot"); // Default language is English
+    _language = "en@quot"; // In case no files were found.
 }
 
 
@@ -316,7 +318,7 @@ SystemEngine::~SystemEngine()
 }
 
 
-void Reinitl10n()
+std::string _Reinitl10n()
 {
     // Initialize the gettext library
     setlocale(LC_ALL, "");
@@ -333,7 +335,7 @@ void Reinitl10n()
 #elif (defined(__linux__) || defined(__FreeBSD__)) && !defined(RELEASE_BUILD)
     // Look for translation files in LOCALEDIR only if they are not available in the
     // current directory.
-    if(std::ifstream("po/en@quot/LC_MESSAGES/"APPSHORTNAME".mo") == NULL) {
+    if(!vt_utils::DoesFileExist("po/en@quot/LC_MESSAGES/"APPSHORTNAME".mo")) {
         bind_text_domain_path = LOCALEDIR;
     } else {
         char buffer[PATH_MAX];
@@ -349,12 +351,37 @@ void Reinitl10n()
     bind_textdomain_codeset(APPSHORTNAME, "UTF-8");
     textdomain(APPSHORTNAME);
 #endif
+    return bind_text_domain_path;
 }
 
-
-void SystemEngine::SetLanguage(const std::string& lang)
+bool SystemEngine::IsLanguageAvailable(const std::string& lang)
 {
-    Reinitl10n();
+    // Construct the corresponding mo filename path.
+    std::string mo_filename = _Reinitl10n();
+    mo_filename.append("/");
+    mo_filename.append(lang);
+    mo_filename.append("/LC_MESSAGES/"APPSHORTNAME".mo");
+
+    // Note: English is always available as it's the default language
+    if (lang == "en@quot")
+        return true;
+
+    // Test whether the file is existing.
+    if (!vt_utils::DoesFileExist(mo_filename)) {
+        PRINT_WARNING << "Couldn't locate gettext .mo file: '" << mo_filename << "'." << std::endl
+            << "The " << lang << " translation will be disabled." << std::endl;
+        return false;
+    }
+    return true;
+}
+
+bool SystemEngine::SetLanguage(const std::string& lang)
+{
+    // Test whether the file is existing.
+    // The function called also reinit the i10n paths
+    // so we don't have to do it here.
+    if (!IsLanguageAvailable(lang))
+        return false;
 
     _language = lang;
     setlocale(LC_MESSAGES, _language.c_str());
@@ -369,6 +396,7 @@ void SystemEngine::SetLanguage(const std::string& lang)
     setenv("LANGUAGE", _language.c_str(), 1);
     setenv("LANG", _language.c_str(), 1);
 #endif
+    return true;
 }
 
 

@@ -686,13 +686,13 @@ void BootMode::_RefreshLanguageOptions()
 {
     // Get the list of languages from the Lua file.
     ReadScriptDescriptor read_data;
-    if(!read_data.OpenFile(_LANGUAGE_FILE)) {
+    if(!read_data.OpenFile(_LANGUAGE_FILE) || !read_data.OpenTable("languages")) {
         PRINT_ERROR << "Failed to load language file: " << _LANGUAGE_FILE << std::endl
                     << "The language list will be empty." << std::endl;
+        read_data.CloseFile();
         return;
     }
 
-    read_data.OpenTable("languages");
     uint32 table_size = read_data.GetTableSize();
 
     // Set up the dimensions of the window according to how many languages are available.
@@ -704,13 +704,25 @@ void BootMode::_RefreshLanguageOptions()
     for(uint32 i = 1; i <= table_size; ++i) {
         read_data.OpenTable(i);
         _po_files.push_back(read_data.ReadString(2));
+
+        std::string lang = _po_files[i - 1];
         _language_options_menu.AddOption(ustring(), &BootMode::_OnLanguageSelect);
-        if (_po_files[i - 1] == current_language) {
+        if (lang == current_language) {
             _language_options_menu.AddOptionElementImage(i - 1, "img/menus/star.png");
             _language_options_menu.SetSelection(i - 1);
         }
         _language_options_menu.AddOptionElementPosition(i - 1, 32);
         _language_options_menu.AddOptionElementText(i - 1, MakeUnicodeString(read_data.ReadString(1)));
+
+        // Test the current language availability
+        if (!vt_system::SystemManager->IsLanguageAvailable(lang)) {
+            // NOTE: English is always available.
+            if (i > 1)
+                _language_options_menu.EnableOption(i - 1, false);
+            // We also reset the current selection when the current language is unavailable.
+            if (lang == current_language)
+                _language_options_menu.SetSelection(0);
+        }
 
 #ifdef DISABLE_TRANSLATIONS
         // If translations are disabled, only admit the first entry (English)
@@ -995,9 +1007,13 @@ void BootMode::_OnMusicRight()
 void BootMode::_OnLanguageSelect()
 {
     std::string language = _po_files[_language_options_menu.GetSelection()];
-    SystemManager->SetLanguage(language);
+    // Reset the language in case changing failed.
+    if (!SystemManager->SetLanguage(language)) {
+        _RefreshLanguageOptions();
+        return;
+    }
 
-    // Reloads the needed fonts according to the newly selected language.
+    // Reload the font according to the newly selected language.
     TextManager->LoadFonts(language);
 
     _has_modified_settings = true;
