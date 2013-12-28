@@ -46,7 +46,7 @@ function Load(m)
     EventManager = Map.event_supervisor;
     Script = Map:GetScriptSupervisor();
 
-    Map.unlimited_stamina = false;
+    Map.unlimited_stamina = true;
 
     _CreateCharacters();
     _CreateObjects();
@@ -243,13 +243,20 @@ function _CreateEvents()
 
     -- NOTE: The actual destination is set just before the actual start call
     kalya_move_next_to_hero_event1 = vt_map.PathMoveSpriteEvent("Kalya moves next to Bronann1", kalya, 0, 0, false);
-    kalya_move_next_to_hero_event1:AddEventLinkAtEnd("Kalya looks at Bronann");
-    kalya_move_next_to_hero_event1:AddEventLinkAtEnd("Bronann looks at Kalya");
-    kalya_move_next_to_hero_event1:AddEventLinkAtEnd("Dialogue about the passage to Estoria", 500);
+    kalya_move_next_to_hero_event1:AddEventLinkAtEnd("Kalya moves a bit");
+    kalya_move_next_to_hero_event1:AddEventLinkAtEnd("Bronann moves a bit");
     EventManager:RegisterEvent(kalya_move_next_to_hero_event1);
     orlinn_move_next_to_hero_event1 = vt_map.PathMoveSpriteEvent("Orlinn moves next to Bronann1", orlinn, 0, 0, false);
     orlinn_move_next_to_hero_event1:AddEventLinkAtEnd("Orlinn moves near the passway");
     EventManager:RegisterEvent(orlinn_move_next_to_hero_event1);
+
+    event = vt_map.PathMoveSpriteEvent("Kalya moves a bit", kalya, 31, 39, false);
+    event:AddEventLinkAtEnd("Kalya looks at Bronann");
+    event:AddEventLinkAtEnd("Dialogue about the passage to Estoria", 500);
+    EventManager:RegisterEvent(event);
+    event = vt_map.PathMoveSpriteEvent("Bronann moves a bit", hero, 29, 39, false);
+    event:AddEventLinkAtEnd("Bronann looks at Kalya");
+    EventManager:RegisterEvent(event);
 
     -- Orlinn move near the passway
     event = vt_map.PathMoveSpriteEvent("Orlinn moves near the passway", orlinn, 29, 33, true);
