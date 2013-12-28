@@ -804,32 +804,7 @@ void Grid::UpdateScene()
             addPixmap(_blue_square)->setPos(x * TILE_WIDTH, y * TILE_HEIGHT);
         }
     }
-/*
-    // Draw selection rectangle if this mode is active
-    if(_select_on) {
 
-        // Start drawing from the top left
-        VideoManager->Move(left_tile, top_tile);
-
-        x = left_tile;
-        y = top_tile;
-        while(y <= bottom_tile) {
-            layer_index = _select_layer[y][x];
-            // Draw tile if one exists at this location
-            if(layer_index != -1)
-                VideoManager->DrawRectangle(1.0f, 1.0f, blue_selection);
-
-            if(x == right_tile) {
-                x = left_tile;
-                y++;
-                VideoManager->MoveRelative(-(right_tile - left_tile), 1.0f);
-            } else {
-                x++;
-                VideoManager->MoveRelative(1.0f, 0.0f);
-            }
-        } // iterate through selection layer
-    } // selection rectangle must be viewable
-*/
     // If grid is toggled on, draw it
     if(_grid_on)
         _DrawGrid();
@@ -887,9 +862,10 @@ void Grid::mousePressEvent(QGraphicsSceneMouseEvent *evt)
 
     switch(_tile_mode) {
     case PAINT_TILE: { // start painting tiles
-        if(evt->button() == Qt::LeftButton && editor->_select_on == false)
+        if(evt->button() == Qt::LeftButton && editor->_select_on == false) {
             _PaintTile(_tile_index_x, _tile_index_y);
-
+            UpdateScene();
+        }
         break;
     } // edit mode PAINT_TILE
 
@@ -903,8 +879,10 @@ void Grid::mousePressEvent(QGraphicsSceneMouseEvent *evt)
     } // edit mode MOVE_TILE
 
     case DELETE_TILE: { // start deleting tiles
-        if(evt->button() == Qt::LeftButton && editor->_select_on == false)
+        if(evt->button() == Qt::LeftButton && editor->_select_on == false) {
             _DeleteTile(_tile_index_x, _tile_index_y);
+            UpdateScene();
+        }
         break;
     } // edit mode DELETE_TILE
 
@@ -912,10 +890,6 @@ void Grid::mousePressEvent(QGraphicsSceneMouseEvent *evt)
         QMessageBox::warning(_graphics_view, "Tile editing mode",
                              "ERROR: Invalid tile editing mode!");
     } // switch on tile editing mode
-
-    // Draw the changes.
-    UpdateScene();
-    return;
 } // void Grid::mousePressEvent(QGraphicsSceneMouseEvent *evt)
 
 
@@ -972,20 +946,24 @@ void Grid::mouseMoveEvent(QGraphicsSceneMouseEvent *evt)
 
         switch(_tile_mode) {
         case PAINT_TILE: { // continue painting tiles
-            if(evt->buttons() == Qt::LeftButton && editor->_select_on == false)
+            if(evt->buttons() == Qt::LeftButton && editor->_select_on == false) {
                 _PaintTile(_tile_index_x, _tile_index_y);
-
+                UpdateScene();
+            }
             break;
         } // edit mode PAINT_TILE
 
         case MOVE_TILE: { // continue moving a tile
+            if (_moving)
+                UpdateScene();
             break;
         } // edit mode MOVE_TILE
 
         case DELETE_TILE: { // continue deleting tiles
-            if(evt->buttons() == Qt::LeftButton && editor->_select_on == false)
+            if(evt->buttons() == Qt::LeftButton && editor->_select_on == false) {
                 _DeleteTile(_tile_index_x, _tile_index_y);
-
+                UpdateScene();
+            }
             break;
         } // edit mode DELETE_TILE
 
@@ -1007,10 +985,6 @@ void Grid::mouseMoveEvent(QGraphicsSceneMouseEvent *evt)
     position.append(QString(" / Sprites: (x: %1  y: %2)").arg(x * 2 / static_cast<float>(TILE_WIDTH), 0, 'f', 1).arg(
                         y * 2 / static_cast<float>(TILE_HEIGHT), 0, 'f', 1));
     editor->statusBar()->showMessage(position);
-
-    // Draw the changes.
-    UpdateScene();
-    return;
 } // void Grid::mouseMoveEvent(QGraphicsSceneMouseEvent *evt)
 
 
@@ -1034,9 +1008,9 @@ void Grid::mouseReleaseEvent(QGraphicsSceneMouseEvent *evt)
                     // have the same size.
                     if(select_layer[y][x] != -1)
                         _PaintTile(x, y);
-
                 } // x
             } // y
+            UpdateScene();
         } // only if painting a bunch of tiles
 
         // Push command onto the undo stack.
@@ -1099,6 +1073,8 @@ void Grid::mouseReleaseEvent(QGraphicsSceneMouseEvent *evt)
             _tile_indeces.clear();
             _previous_tiles.clear();
             _modified_tiles.clear();
+
+            UpdateScene();
         } // moving tiles and not selecting them
 
         break;
@@ -1115,6 +1091,7 @@ void Grid::mouseReleaseEvent(QGraphicsSceneMouseEvent *evt)
                         _DeleteTile(x, y);
                 } // x
             } // y
+            UpdateScene();
         } // only if deleting a bunch of tiles
 
         // Push command onto undo stack.
@@ -1135,6 +1112,7 @@ void Grid::mouseReleaseEvent(QGraphicsSceneMouseEvent *evt)
     // Clear the selection layer.
     if((_tile_mode != MOVE_TILE || _moving == true) && editor->_select_on == true) {
         ClearSelectionLayer();
+        UpdateScene();
     } // clears when not moving tiles or when moving tiles and not selecting them
 
     if(editor->_select_on == true && _moving == false && _tile_mode == MOVE_TILE)
@@ -1142,9 +1120,6 @@ void Grid::mouseReleaseEvent(QGraphicsSceneMouseEvent *evt)
     else
         _moving = false;
 
-    // Draw the changes.
-    UpdateScene();
-    return;
 } // void Grid::mouseReleaseEvent(QGraphicsSceneMouseEvent *evt)
 
 
