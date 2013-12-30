@@ -105,9 +105,9 @@ function _CreateCharacters()
         -- Make the character look at us in that case
         hero:SetDirection(vt_map.MapMode.SOUTH);
         hero:SetPosition(x_position, y_position);
-    elseif (GlobalManager:GetPreviousLocation() == "from_shrine_entrance") then
+    elseif (GlobalManager:GetPreviousLocation() == "from_shrine_main_room") then
         hero:SetDirection(vt_map.MapMode.SOUTH);
-        hero:SetPosition(50.0, 10.0);
+        hero:SetPosition(42.0, 9.0);
     end
 
     Map:AddGroundObject(hero);
@@ -372,7 +372,7 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
 
     dialogue = vt_map.SpriteDialogue();
-    text = vt_system.Translate("Here we are, looking at this huge, wonderful and yet creepy door...");
+    text = vt_system.Translate("Here we are, looking at this huge, wonderful and yet creepy door... I don't like this...");
     dialogue:AddLineEmote(text, kalya, "thinking dots");
     text = vt_system.Translate("It's not like I actually would want to open it, but how are we going to");
     dialogue:AddLineEventEmote(text, kalya, "Kalya looks at Bronann", "Orlinn looks at Bronann", "sweat drop");
@@ -502,7 +502,7 @@ function _open_shrine_door()
 end
 
 function _show_flames()
-    object = vt_map.SoundObject("snd/campfire.ogg", 33.0, 9.1, 5.0);
+    local object = vt_map.SoundObject("snd/campfire.ogg", 33.0, 9.1, 5.0);
     if (object ~= nil) then Map:AddAmbientSoundObject(object) end;
     object = vt_map.SoundObject("snd/campfire.ogg", 51.0, 9.1, 5.0);
     if (object ~= nil) then Map:AddAmbientSoundObject(object) end;
