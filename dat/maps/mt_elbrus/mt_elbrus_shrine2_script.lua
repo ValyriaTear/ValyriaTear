@@ -142,15 +142,15 @@ function _CreateEnemies()
     -- Hint: left, right, top, bottom
     roam_zone = vt_map.EnemyZone(6, 19, 10, 49);
 
-    enemy = CreateEnemySprite(Map, "slime");
+    enemy = CreateEnemySprite(Map, "Beetle");
     _SetBattleEnvironment(enemy);
     enemy:NewEnemyParty();
-    enemy:AddEnemy(1);
-    enemy:AddEnemy(1);
-    enemy:AddEnemy(1);
+    enemy:AddEnemy(15);
+    enemy:AddEnemy(15);
+    enemy:AddEnemy(16, 612, 384);
     enemy:NewEnemyParty();
-    enemy:AddEnemy(1);
-    enemy:AddEnemy(2);
+    enemy:AddEnemy(15);
+    enemy:AddEnemy(17);
     roam_zone:AddEnemy(enemy, Map, 2);
     Map:AddZone(roam_zone);
 end
