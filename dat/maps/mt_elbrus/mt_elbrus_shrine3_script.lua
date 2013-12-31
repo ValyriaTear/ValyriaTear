@@ -6,7 +6,7 @@ setfenv(1, ns);
 
 -- The map name, subname and location image
 map_name = "Mt. Elbrus Shrine"
-map_image_filename = ""
+map_image_filename = "img/menus/locations/mountain_shrine.png"
 map_subname = ""
 
 -- The music file used as default background music on this map.
@@ -99,7 +99,7 @@ function _add_flame(x, y)
 
     object = CreateObject(Map, "Flame1", x, y);
     Map:AddGroundObject(object);
-    
+
     Map:AddHalo("img/misc/lights/torch_light_mask2.lua", x, y + 3.0,
         vt_video.Color(0.85, 0.32, 0.0, 0.6));
     Map:AddHalo("img/misc/lights/sun_flare_light_main.lua", x, y + 1.0,

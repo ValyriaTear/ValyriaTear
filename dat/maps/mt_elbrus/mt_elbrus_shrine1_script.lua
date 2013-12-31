@@ -59,8 +59,10 @@ function Load(m)
     _CreateEvents();
     _CreateZones();
 
-    -- Add a mediumly dark overlay
-    Map:GetEffectSupervisor():EnableAmbientOverlay("img/ambient/dark.png", 0.0, 0.0, false);
+    -- Add a mediumly dark overlay when necessary
+    if (GlobalManager:GetEventValue("story", "mountain_shrine_entrance_light_done") == 0) then
+        Map:GetEffectSupervisor():EnableAmbientOverlay("img/ambient/dark.png", 0.0, 0.0, false);
+    end
 
     -- Event Scripts
     Script:AddScript("dat/maps/mt_elbrus/shrine_entrance_show_crystal_script.lua");
@@ -182,6 +184,21 @@ function _CreateObjects()
     Map:AddGroundObject(shrine_flame2);
     shrine_flame1:SetVisible(false);
     shrine_flame2:SetVisible(false);
+
+    -- When the lighting has improved, show the source of it.
+    if (GlobalManager:GetEventValue("story", "mountain_shrine_entrance_light_done") == 1) then
+        Map:AddHalo("img/misc/lights/torch_light_mask.lua", 42, 8, vt_video.Color(1.0, 1.0, 1.0, 0.6));
+        -- Adds a door horizon...
+        object = vt_map.PhysicalObject();
+        object:SetObjectID(Map.object_supervisor:GenerateObjectID());
+        object:SetPosition(42, 0.8);
+        object:SetCollHalfWidth(0.5);
+        object:SetCollHeight(1.0);
+        object:SetImgHalfWidth(0.5);
+        object:SetImgHeight(1.0);
+        object:AddStillFrame("dat/maps/mt_elbrus/shrine_entrance_light.png");
+        Map:AddFlatGroundObject(object);
+    end
 end
 
 -- Special event references which destinations must be updated just before being called.
