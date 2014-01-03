@@ -23,7 +23,7 @@ local Script = {};
 -- the main character handler
 local hero = {};
 
--- Forest dialogue secondary hero
+-- Dialogue secondary hero
 local kalya = {};
 local orlinn = {};
 
@@ -82,6 +82,12 @@ function _CreateCharacters()
     elseif (GlobalManager:GetPreviousLocation() == "from_shrine_trap_room") then
         hero:SetDirection(vt_map.MapMode.WEST);
         hero:SetPosition(58.0, 60.0);
+    elseif (GlobalManager:GetPreviousLocation() == "from_shrine_enigma_room") then
+        hero:SetDirection(vt_map.MapMode.EAST);
+        hero:SetPosition(4.0, 60.0);
+    elseif (GlobalManager:GetPreviousLocation() == "from_shrine_first_floor") then
+        hero:SetDirection(vt_map.MapMode.SOUTH);
+        hero:SetPosition(14.0, 6.0);
     end
 
     Map:AddGroundObject(hero);
@@ -176,6 +182,12 @@ function _CreateEvents()
     event = vt_map.MapTransitionEvent("to mountain shrine trap room", "dat/maps/mt_elbrus/mt_elbrus_shrine3_map.lua",
                                        "dat/maps/mt_elbrus/mt_elbrus_shrine3_script.lua", "from_shrine_main_room");
     EventManager:RegisterEvent(event);
+    event = vt_map.MapTransitionEvent("to mountain shrine enigma room", "dat/maps/mt_elbrus/mt_elbrus_shrine4_map.lua",
+                                       "dat/maps/mt_elbrus/mt_elbrus_shrine4_script.lua", "from_shrine_main_room");
+    EventManager:RegisterEvent(event);
+    event = vt_map.MapTransitionEvent("to mountain shrine first floor", "dat/maps/mt_elbrus/mt_elbrus_shrine5_map.lua",
+                                       "dat/maps/mt_elbrus/mt_elbrus_shrine5_script.lua", "from_shrine_main_room");
+    EventManager:RegisterEvent(event);
 
     -- Improve lighting at first entrance
     event = vt_map.ScriptedEvent("Amplify lights", "amplify_light_start", "amplify_light_update");
@@ -186,6 +198,7 @@ end
 -- zones
 local to_shrine_entrance_zone = {};
 local to_shrine_trap_room_zone = {};
+local to_shrine_enigma_room_zone = {};
 
 -- Create the different map zones triggering events
 function _CreateZones()
@@ -197,6 +210,12 @@ function _CreateZones()
     to_shrine_trap_room_zone = vt_map.CameraZone(62, 64, 56, 62);
     Map:AddZone(to_shrine_trap_room_zone);
 
+    to_shrine_enigma_room_zone = vt_map.CameraZone(0, 2, 56, 62);
+    Map:AddZone(to_shrine_enigma_room_zone);
+
+    to_shrine_first_floor_zone = vt_map.CameraZone(12, 16, 0, 2);
+    Map:AddZone(to_shrine_first_floor_zone);
+
 end
 
 -- Check whether the active camera has entered a zone. To be called within Update()
@@ -207,6 +226,12 @@ function _CheckZones()
     elseif (to_shrine_trap_room_zone:IsCameraEntering() == true) then
         hero:SetMoving(false);
         EventManager:StartEvent("to mountain shrine trap room");
+    elseif (to_shrine_enigma_room_zone:IsCameraEntering() == true) then
+        hero:SetMoving(false);
+        EventManager:StartEvent("to mountain shrine enigma room");
+    elseif (to_shrine_first_floor_zone:IsCameraEntering() == true) then
+        hero:SetMoving(false);
+        EventManager:StartEvent("to mountain shrine first floor");
     end
 end
 

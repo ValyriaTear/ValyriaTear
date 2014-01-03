@@ -1,7 +1,7 @@
 -- Set the namespace according to the map name.
 local ns = {};
 setmetatable(ns, {__index = _G});
-mt_elbrus_shrine3_script = ns;
+mt_elbrus_shrine4_script = ns;
 setfenv(1, ns);
 
 -- The map name, subname and location image
@@ -22,6 +22,9 @@ local Script = {};
 
 -- the main character handler
 local hero = {};
+
+-- Forest dialogue secondary hero
+local orlinn = {};
 
 -- Name of the main sprite. Used to reload the good one at the end of dialogue events.
 local main_sprite_name = "";
@@ -62,17 +65,18 @@ end
 -- Character creation
 function _CreateCharacters()
     -- Default hero and position (from shrine main room)
-    hero = CreateSprite(Map, "Bronann", 3.5, 35.5);
-    hero:SetDirection(vt_map.MapMode.EAST);
+    hero = CreateSprite(Map, "Bronann", 60.0, 34.0);
+    hero:SetDirection(vt_map.MapMode.WEST);
     hero:SetMovementSpeed(vt_map.MapMode.NORMAL_SPEED);
-
-    -- Load previous save point data
-    if (GlobalManager:GetPreviousLocation() == "from_shrine_treasure_room") then
-        hero:SetDirection(vt_map.MapMode.SOUTH);
-        hero:SetPosition(10.0, 10.0);
-    end
-
     Map:AddGroundObject(hero);
+
+    orlinn = CreateSprite(Map, "Orlinn",
+                          hero:GetXPosition(), hero:GetYPosition());
+    orlinn:SetDirection(vt_map.MapMode.EAST);
+    orlinn:SetMovementSpeed(vt_map.MapMode.NORMAL_SPEED);
+    orlinn:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
+    orlinn:SetVisible(false);
+    Map:AddGroundObject(orlinn);
 end
 
 function _CreateObjects()
@@ -82,9 +86,7 @@ function _CreateObjects()
     local text = {}
     local event = {}
 
-    _add_flame(11.5, 6);
-    _add_flame(27.5, 6);
-    _add_flame(1.5, 31);
+    _add_flame(61.5, 29);
 end
 
 function _add_flame(x, y)
@@ -109,11 +111,7 @@ function _CreateEvents()
     local text = {};
 
     event = vt_map.MapTransitionEvent("to mountain shrine main room", "dat/maps/mt_elbrus/mt_elbrus_shrine2_map.lua",
-                                       "dat/maps/mt_elbrus/mt_elbrus_shrine2_script.lua", "from_shrine_trap_room");
-    EventManager:RegisterEvent(event);
-
-    event = vt_map.MapTransitionEvent("to mountain shrine treasure room", "dat/maps/mt_elbrus/mt_elbrus_shrineX_map.lua",
-                                       "dat/maps/mt_elbrus/mt_elbrus_shrineX_script.lua", "from_shrine_trap_room");
+                                       "dat/maps/mt_elbrus/mt_elbrus_shrine2_script.lua", "from_shrine_enigma_room");
     EventManager:RegisterEvent(event);
 
 end
@@ -126,11 +124,8 @@ local to_shrine_treasure_room_zone = {};
 function _CreateZones()
 
     -- N.B.: left, right, top, bottom
-    to_shrine_main_room_zone = vt_map.CameraZone(0, 2, 34, 38);
+    to_shrine_main_room_zone = vt_map.CameraZone(62, 64, 32, 36);
     Map:AddZone(to_shrine_main_room_zone);
-
-    to_shrine_treasure_room_zone = vt_map.CameraZone(18, 20, 9, 10);
-    Map:AddZone(to_shrine_treasure_room_zone);
 
 end
 
@@ -139,9 +134,6 @@ function _CheckZones()
     if (to_shrine_main_room_zone:IsCameraEntering() == true) then
         hero:SetMoving(false);
         EventManager:StartEvent("to mountain shrine main room");
-    elseif (to_shrine_treasure_room_zone:IsCameraEntering() == true) then
-        hero:SetMoving(false);
-        EventManager:StartEvent("to mountain shrine treasure room");
     end
 
 end
