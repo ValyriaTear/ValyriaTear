@@ -613,15 +613,15 @@ void Grid::InsertRow(uint32 tile_index_y)
         Layer& layer = (*it);
 
         // We do it naively so it's more portable...
-        std::vector< std::vector<int32> >::iterator layer_it = layer.tiles.begin();
-        uint32 i = 0; // the row index
-        for (; layer_it != layer.tiles.end(); ++layer_it) {
+        std::vector< std::vector<int32> >::iterator tile_y_it = layer.tiles.begin();
+        uint32 y = 0; // the row index
+        for (; tile_y_it != layer.tiles.end(); ++tile_y_it) {
             // If the wanted index is found we can delete and break.
-            if (i == tile_index_y) {
-                layer.tiles.insert(layer_it, row);
+            if (y == tile_index_y) {
+                layer.tiles.insert(tile_y_it, row);
                 break;
             }
-            ++i;
+            ++y;
         }
     }
 
@@ -689,15 +689,15 @@ void Grid::DeleteRow(uint32 tile_index_y)
         Layer& layer = (*it);
 
         // We do it naively so it's more portable...
-        std::vector< std::vector<int32> >::iterator layer_it = layer.tiles.begin();
-        uint32 i = 0; // the row index
-        for (; layer_it != layer.tiles.end(); ++layer_it) {
+        std::vector< std::vector<int32> >::iterator tile_y_it = layer.tiles.begin();
+        uint32 y = 0; // the row index
+        for (; tile_y_it != layer.tiles.end(); ++tile_y_it) {
             // If the wanted index is found we can delete and break.
-            if (i == tile_index_y) {
-                layer.tiles.erase(layer_it);
+            if (y == tile_index_y) {
+                layer.tiles.erase(tile_y_it);
                 break;
             }
-            ++i;
+            ++y;
         }
     }
 
@@ -707,47 +707,39 @@ void Grid::DeleteRow(uint32 tile_index_y)
 } // Grid::DeleteRow(...)
 
 
-void Grid::DeleteCol(uint32 /*tile_index_x*/)
+void Grid::DeleteCol(uint32 tile_index_x)
 {
-    /*
-    // See bugs #153 & 154 as to why this function is not implemented for Windows
-    // TODO: Check that tile_index is within acceptable bounds
-    // TODO: Check that deleting this column does not cause map width to fall below
-    //       minimum allowed value
+    // Check that tile_index is within acceptable bounds
+    if (tile_index_x >= _width)
+        return;
 
-    #if !defined(WIN32)
-    uint32 col = tile_index % _width;
+    // Check that deleting this column does not cause map width to fall below
+    // minimum allowed value
+    if (_width - 1 < 16)
+        return;
 
-    // Delete the column throughout each contexts
-    for (uint32 i = 0; i < static_cast<uint32>(context_names.size()); ++i)
-    {
-    	// Iterate through all rows in each tile layer
-    	vector<int32>::iterator it = _lower_layer[i].begin() + col;
-    	for (uint32 row = 0; row < _height; row++)
-    	{
-    		it  = _lower_layer[i].erase(it);
-    		it += _width - 1;
-    	} // iterate through the rows of the lower layer
+    std::vector<Layer>::iterator it = _tile_layers.begin();
+    std::vector<Layer>::iterator it_end = _tile_layers.end();
+    for(; it != it_end; ++it) {
+        Layer& layer = (*it);
 
-    	it = _middle_layer[i].begin() + col;
-    	for (uint32 row = 0; row < _height; row++)
-    	{
-    		it  = _middle_layer[i].erase(it);
-    		it += _width - 1;
-    	} // iterate through the rows of the middle layer
+        // We do it naively so it's more portable...
+        for (uint32 y = 0; y < layer.tiles.size(); ++y) {
+            std::vector<int32>::iterator tile_x_it = layer.tiles[y].begin();
+            uint32 x = 0; // the column index
+            for (; tile_x_it != layer.tiles[y].end(); ++tile_x_it) {
+                // If the wanted index is found we can delete and break.
+                if (x == tile_index_x) {
+                    layer.tiles[y].erase(tile_x_it);
+                    break;
+                }
+                ++x;
+            }
+        } // for each rows
+    }
 
-    	it = _upper_layer[i].begin() + col;
-    	for (uint32 row = 0; row < _height; row++)
-    	{
-    		it  = _upper_layer[i].erase(it);
-    		it += _width - 1;
-    	} // iterate through the rows of the upper layer
-    } // iterate through all contexts
-
-    _width--;
-    resize(_width * TILE_WIDTH, _height * TILE_HEIGHT);
-    #endif
-    */
+    // Updates every related map members.
+    Resize(_width - 1, _height);
 } // Grid::DeleteCol(...)
 
 std::vector<QTreeWidgetItem *> Grid::getLayerItems()
