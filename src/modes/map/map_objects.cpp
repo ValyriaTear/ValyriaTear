@@ -243,7 +243,8 @@ int32 PhysicalObject::AddAnimation(const std::string &animation_filename)
 int32 PhysicalObject::AddStillFrame(const std::string &image_filename)
 {
     AnimatedImage new_animation;
-    if(!new_animation.AddFrame(image_filename, 100000)) {
+    // Adds a frame with a zero length: Making it last forever
+    if (!new_animation.AddFrame(image_filename, 0)) {
         PRINT_WARNING << "Could not add a still frame because the image filename was invalid: "
                       << image_filename << std::endl;
         return -1;
