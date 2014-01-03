@@ -630,45 +630,35 @@ void Grid::InsertRow(uint32 tile_index_y)
 } // Grid::InsertRow(...)
 
 
-void Grid::InsertCol(uint32 /*tile_index_x*/)
+void Grid::InsertCol(uint32 tile_index_x)
 {
-    /*
-    // See bugs #153 & 154 as to why this function is not implemented for Windows
-    // TODO: Check that tile_index is within acceptable bounds
+    // Check that tile_index is within acceptable bounds
+    if (tile_index_x >= _width)
+        return;
 
-    #if !defined(WIN32)
-    uint32 col = tile_index % _width;
 
-    // Insert the column throughout all contexts
-    for (uint32 i = 0; i < static_cast<uint32>(context_names.size()); ++i)
-    {
-    	// Iterate through all rows in each tile layer
-    	vector<int32>::iterator it = _ground_layers[0][i].begin() + col;
-    	for (uint32 row = 0; row < _height; row++)
-    	{
-    		it  = _ground_layers[0][i].insert(it, -1);
-    		it += _width + 1;
-    	} // iterate through the rows of the lower layer
+    std::vector<Layer>::iterator it = _tile_layers.begin();
+    std::vector<Layer>::iterator it_end = _tile_layers.end();
+    for(; it != it_end; ++it) {
+        Layer& layer = (*it);
 
-    	it = _fringe_layers[0][i].begin() + col;
-    	for (uint32 row = 0; row < _height; row++)
-    	{
-    		it  = _fringe_layers[0][i].insert(it, -1);
-    		it += _width + 1;
-    	} // iterate through the rows of the middle layer
+        // We do it naively so it's more portable...
+        for (uint32 y = 0; y < layer.tiles.size(); ++y) {
+            std::vector<int32>::iterator tile_x_it = layer.tiles[y].begin();
+            uint32 x = 0; // the column index
+            for (; tile_x_it != layer.tiles[y].end(); ++tile_x_it) {
+                // If the wanted index is found we can delete and break.
+                if (x == tile_index_x) {
+                    layer.tiles[y].insert(tile_x_it, -1); // Insert an empty tile.
+                    break;
+                }
+                ++x;
+            }
+        } // for each rows
+    }
 
-    	it = _sky_layers[0][i].begin() + col;
-    	for (uint32 row = 0; row < _height; row++)
-    	{
-    		it  = _sky_layers[0][i].insert(it, -1);
-    		it += _width + 1;
-    	} // iterate through the rows of the upper layer
-    } // iterate through all contexts
-
-    _width++;
-    resize(_width * TILE_WIDTH, _height * TILE_HEIGHT);
-    #endif
-    */
+    // Updates every related map members.
+    Resize(_width + 1, _height);
 } // Grid::InsertCol(...)
 
 
