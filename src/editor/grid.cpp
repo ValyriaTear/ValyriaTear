@@ -597,25 +597,36 @@ void Grid::DeleteLayer(uint32 layer_id)
     UpdateScene();
 }
 
-void Grid::InsertRow(uint32 /*tile_index_y*/)
+void Grid::InsertRow(uint32 tile_index_y)
 {
-// See bugs #153 & 154 as to why this function is not implemented for Windows
-// TODO: Check that tile_index is within acceptable bounds
-    /*
-    #if !defined(WIN32)
-    	uint32 row = tile_index / _width;
+    // Check that tile_index is within acceptable bounds
+    if (tile_index_y >= _height)
+        return;
 
-    	// Insert the row throughout all contexts
-    	for (uint32 i = 0; i < static_cast<uint32>(context_names.size()); ++i)
-    	{
-    		_ground_layers[0][i].insert(_ground_layers[0][i].begin()   + row * _width, _width, -1);
-    		_fringe_layers[0][i].insert(_fringe_layers[0][i].begin() + row * _width, _width, -1);
-    		_sky_layers[0][i].insert(_sky_layers[0][i].begin()   + row * _width, _width, -1);
-    	} // iterate through all contexts
+    // Prepare an empty row (filled with -1.)
+    std::vector<int32> row;
+    row.resize(_width, -1);
 
-    	_height++;
-    	resize(_width * TILE_WIDTH, _height * TILE_HEIGHT);
-    #endif*/
+    std::vector<Layer>::iterator it = _tile_layers.begin();
+    std::vector<Layer>::iterator it_end = _tile_layers.end();
+    for(; it != it_end; ++it) {
+        Layer& layer = (*it);
+
+        // We do it naively so it's more portable...
+        std::vector< std::vector<int32> >::iterator layer_it = layer.tiles.begin();
+        uint32 i = 0; // the row index
+        for (; layer_it != layer.tiles.end(); ++layer_it) {
+            // If the wanted index is found we can delete and break.
+            if (i == tile_index_y) {
+                layer.tiles.insert(layer_it, row);
+                break;
+            }
+            ++i;
+        }
+    }
+
+    // Updates every related map members.
+    Resize(_width, _height + 1);
 } // Grid::InsertRow(...)
 
 
@@ -661,32 +672,38 @@ void Grid::InsertCol(uint32 /*tile_index_x*/)
 } // Grid::InsertCol(...)
 
 
-void Grid::DeleteRow(uint32 /*tile_index_y*/)
+void Grid::DeleteRow(uint32 tile_index_y)
 {
-    /*
-    // See bugs #153 & 154 as to why this function is not implemented for Windows
-    // TODO: Check that tile_index is within acceptable bounds
-    // TODO: Check that deleting this row does not cause map height to fall below
-    //       minimum allowed value
+    // Check that tile_index is within acceptable bounds
+    if (tile_index_y >= _height)
+        return;
 
-    #if !defined(WIN32)
-    uint32 row = tile_index / _width;
+    // Check that deleting this row does not cause map height to fall below
+    // minimum allowed value
+    if (_height - 1 < 12)
+        return;
 
-    // Delete the row throughout each context
-    for (uint32 i = 0; i < static_cast<uint32>(context_names.size()); ++i)
-    {
-    	_lower_layer[i].erase(_lower_layer[i].begin()   + row * _width,
-    	                      _lower_layer[i].begin()   + row * _width + _width);
-    	_middle_layer[i].erase(_middle_layer[i].begin() + row * _width,
-    	                       _middle_layer[i].begin() + row * _width + _width);
-    	_upper_layer[i].erase(_upper_layer[i].begin()   + row * _width,
-    	                      _upper_layer[i].begin()   + row * _width + _width);
-    } // iterate through all contexts
+    std::vector<Layer>::iterator it = _tile_layers.begin();
+    std::vector<Layer>::iterator it_end = _tile_layers.end();
+    for(; it != it_end; ++it) {
+        Layer& layer = (*it);
 
-    _height--;
-    resize(_width * TILE_WIDTH, _height * TILE_HEIGHT);
-    #endif
-    */
+        // We do it naively so it's more portable...
+        std::vector< std::vector<int32> >::iterator layer_it = layer.tiles.begin();
+        uint32 i = 0; // the row index
+        for (; layer_it != layer.tiles.end(); ++layer_it) {
+            // If the wanted index is found we can delete and break.
+            if (i == tile_index_y) {
+                layer.tiles.erase(layer_it);
+                break;
+            }
+            ++i;
+        }
+    }
+
+    // Updates every related map members.
+    Resize(_width, _height - 1);
+
 } // Grid::DeleteRow(...)
 
 
