@@ -35,14 +35,14 @@ MapPropertiesDialog::MapPropertiesDialog
     // Set up the height spinbox
     _height_label = new QLabel("Height (in tiles):", this);
     _height_sbox  = new QSpinBox(this);
-    _height_sbox->setMinimum(24);
-    _height_sbox->setMaximum(1000);
+    _height_sbox->setMinimum(12);
+    _height_sbox->setMaximum(100);
 
     // Set up the width spinbox
     _width_label = new QLabel(" Width (in tiles):", this);
     _width_sbox  = new QSpinBox(this);
-    _width_sbox->setMinimum(32);
-    _width_sbox->setMaximum(1000);
+    _width_sbox->setMinimum(16);
+    _width_sbox->setMaximum(100);
 
     // Set up the cancel and okay push buttons
     _cancel_pbut = new QPushButton("Cancel", this);
