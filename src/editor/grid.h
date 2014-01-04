@@ -28,6 +28,10 @@
 namespace vt_editor
 {
 
+//! \brief The map tile minimum width and height
+const uint32 map_min_width = 16;
+const uint32 map_min_height = 12;
+
 //! \brief Represents different types of transition patterns for autotileable tiles.
 enum TRANSITION_PATTERN_TYPE {
     INVALID_PATTERN     = -1,

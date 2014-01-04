@@ -670,7 +670,7 @@ void Grid::DeleteRow(uint32 tile_index_y)
 
     // Check that deleting this row does not cause map height to fall below
     // minimum allowed value
-    if (_height - 1 < 12)
+    if (_height - 1 < map_min_height)
         return;
 
     std::vector<Layer>::iterator it = _tile_layers.begin();
@@ -705,7 +705,7 @@ void Grid::DeleteCol(uint32 tile_index_x)
 
     // Check that deleting this column does not cause map width to fall below
     // minimum allowed value
-    if (_width - 1 < 16)
+    if (_width - 1 < map_min_width)
         return;
 
     std::vector<Layer>::iterator it = _tile_layers.begin();
