@@ -86,7 +86,7 @@ function _CreateObjects()
     local text = {}
     local event = {}
 
-    _add_flame(7.5, 7);
+    _add_flame(5.5, 7);
 end
 
 function _add_flame(x, y)
