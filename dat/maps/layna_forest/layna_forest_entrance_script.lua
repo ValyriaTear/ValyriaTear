@@ -52,7 +52,7 @@ function Load(m)
     _CreateZones();
 
     -- Add clouds overlay
-    Map:GetEffectSupervisor():EnableAmbientOverlay("img/ambient/clouds.png", 5.0, 5.0, true);
+    Map:GetEffectSupervisor():EnableAmbientOverlay("img/ambient/clouds.png", 5.0, -5.0, true);
 
     -- Trigger the save point and spring speech event once
     if (GlobalManager:DoesEventExist("story", "kalya_save_points_n_spring_speech_done") == false) then

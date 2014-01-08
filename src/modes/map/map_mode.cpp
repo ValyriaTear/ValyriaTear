@@ -932,7 +932,7 @@ void MapMode::_UpdateMapFrame()
                            / SCREEN_GRID_Y_LENGTH * VIDEO_STANDARD_RES_HEIGHT :
                            0.0f;
 
-        GetEffectSupervisor().AddParallax(x_parallax, -y_parallax);
+        GetEffectSupervisor().AddParallax(x_parallax, y_parallax);
     }
 
     // Comment this out to print out map draw debugging info about once a second

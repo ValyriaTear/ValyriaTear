@@ -42,7 +42,7 @@ function Load(m)
     _CreateEvents();
 
     -- Add clouds overlay
-    Map:GetEffectSupervisor():EnableAmbientOverlay("img/ambient/clouds.png", 5.0, 5.0, true);
+    Map:GetEffectSupervisor():EnableAmbientOverlay("img/ambient/clouds.png", 5.0, -5.0, true);
 
     -- Put last to get a proper night effect
     Map:GetScriptSupervisor():AddScript("dat/maps/common/at_night.lua");

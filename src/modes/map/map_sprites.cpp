@@ -399,7 +399,7 @@ void VirtualSprite::_SetNextPosition()
                            (GetXPosition() - next_pos_x) / SCREEN_GRID_X_LENGTH * VIDEO_STANDARD_RES_WIDTH :
                            0.0f;
         float y_parallax = !map->IsCameraYAxisInMapCorner() ?
-                           (next_pos_y - GetYPosition()) / SCREEN_GRID_Y_LENGTH * VIDEO_STANDARD_RES_HEIGHT :
+                           (GetYPosition() - next_pos_y) / SCREEN_GRID_Y_LENGTH * VIDEO_STANDARD_RES_HEIGHT :
                            0.0f;
 
         map->GetEffectSupervisor().AddParallax(x_parallax, y_parallax);
