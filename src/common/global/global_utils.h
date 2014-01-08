@@ -224,6 +224,94 @@ enum GLOBAL_INTENSITY {
     GLOBAL_INTENSITY_TOTAL         =  5
 };
 
+/** \name Active Status effect data
+*** \brief Stores the data to load/save a currently active status effect, due to wounds, traps, ....
+***
+*** It is used to store the current status effects applied on global characters.
+*** and update/display their effects in the menu and map modes.
+**/
+class ActiveStatusEffect {
+public:
+    // Default constructor - Invalid status effect
+    ActiveStatusEffect():
+        _status_effect(GLOBAL_STATUS_INVALID),
+        _intensity(GLOBAL_INTENSITY_INVALID),
+        _effect_time(0),
+        _elapsed_time(0)
+    {}
+
+    ActiveStatusEffect(GLOBAL_STATUS status_effect, GLOBAL_INTENSITY intensity):
+        _status_effect(status_effect),
+        _intensity(intensity),
+        _effect_time(30000), // default time
+        _elapsed_time(0)
+    {}
+
+    ActiveStatusEffect(GLOBAL_STATUS status_effect, GLOBAL_INTENSITY intensity, uint32 effect_time):
+        _status_effect(status_effect),
+        _intensity(intensity),
+        _effect_time(effect_time),
+        _elapsed_time(0)
+    {}
+
+    ActiveStatusEffect(GLOBAL_STATUS status_effect, GLOBAL_INTENSITY intensity,
+                       uint32 effect_time, uint32 elapsed_time):
+        _status_effect(status_effect),
+        _intensity(intensity),
+        _effect_time(effect_time),
+        _elapsed_time(elapsed_time)
+    {}
+
+    void SetEffect(GLOBAL_STATUS status_effect) {
+        _status_effect = status_effect;
+    }
+
+    void SetIntensity(GLOBAL_INTENSITY intensity) {
+        _intensity = intensity;
+    }
+
+    void SetEffectTime(uint32 effect_time) {
+        _effect_time = effect_time;
+    }
+
+    void SetElapsedTime(uint32 elapsed_time) {
+        _elapsed_time = elapsed_time;
+    }
+
+    GLOBAL_STATUS GetEffect() const {
+        return _status_effect;
+    }
+
+    GLOBAL_INTENSITY GetIntensity() const {
+        return _intensity;
+    }
+
+    uint32 GetEffectTime() const {
+        return _effect_time;
+    }
+
+    uint32 GetElapsedTime() const {
+        return _elapsed_time;
+    }
+
+private:
+    //! The active status effect type.
+    GLOBAL_STATUS _status_effect;
+
+    //! The active status effect current intensity.
+    GLOBAL_INTENSITY _intensity;
+
+    //! The active status effect current intensity total time of appliance
+    //! in milliseconds.
+    //! Once the time has passed, the intensity goes one step toward the neutral
+    //! intensity and its total time of appliance is halved.
+    uint32 _effect_time;
+
+    //! The active status effect current intensity time of appliance
+    //! already elapsed in milliseconds.
+    uint32 _elapsed_time;
+};
+
 /** \name Skill Types
 *** \brief Enum values used to identify the type of a skill.
 **/

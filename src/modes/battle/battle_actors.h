@@ -638,8 +638,7 @@ class BattleCharacter : public BattleActor
 public:
     BattleCharacter(vt_global::GlobalCharacter *character);
 
-    ~BattleCharacter()
-    {}
+    ~BattleCharacter();
 
     bool IsEnemy() const {
         return false;

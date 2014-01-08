@@ -867,6 +867,9 @@ GlobalCharacter::GlobalCharacter(uint32 id, bool initial) :
     _equipment_status_effects.resize(GLOBAL_STATUS_TOTAL, GLOBAL_INTENSITY_NEUTRAL);
     _UpdateEquipmentStatusEffects();
 
+    // Init the active status effects data
+    ResetActiveStatusEffects();
+
     _CalculateAttackRatings();
     _CalculateDefenseRatings();
     _CalculateEvadeRatings();

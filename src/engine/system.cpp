@@ -122,8 +122,6 @@ SystemTimer::SystemTimer() :
     _times_completed(0)
 {}
 
-
-
 SystemTimer::SystemTimer(uint32 duration, int32 loops) :
     _state(SYSTEM_TIMER_INITIAL),
     _auto_update(false),
@@ -134,16 +132,12 @@ SystemTimer::SystemTimer(uint32 duration, int32 loops) :
     _times_completed(0)
 {}
 
-
-
 SystemTimer::~SystemTimer()
 {
     if(_auto_update == true) {
         SystemManager->RemoveAutoTimer(this);
     }
 }
-
-
 
 void SystemTimer::Initialize(uint32 duration, int32 number_loops)
 {
@@ -153,8 +147,6 @@ void SystemTimer::Initialize(uint32 duration, int32 number_loops)
     _time_expired = 0;
     _times_completed = 0;
 }
-
-
 
 void SystemTimer::EnableAutoUpdate(GameMode *owner)
 {
@@ -168,8 +160,6 @@ void SystemTimer::EnableAutoUpdate(GameMode *owner)
     SystemManager->AddAutoTimer(this);
 }
 
-
-
 void SystemTimer::EnableManualUpdate()
 {
     if(_auto_update == false) {
@@ -182,14 +172,10 @@ void SystemTimer::EnableManualUpdate()
     _mode_owner = NULL;
 }
 
-
-
 void SystemTimer::Update()
 {
     Update(SystemManager->GetUpdateTime());
 }
-
-
 
 void SystemTimer::Update(uint32 time)
 {
@@ -221,8 +207,6 @@ float SystemTimer::PercentComplete() const
     }
 }
 
-
-
 void SystemTimer::SetDuration(uint32 duration)
 {
     if(IsInitial() == false) {
@@ -233,7 +217,13 @@ void SystemTimer::SetDuration(uint32 duration)
     _duration = duration;
 }
 
-
+void SystemTimer::SetTimeExpired(uint32 time_expired)
+{
+    if (time_expired <= _duration)
+        _time_expired = time_expired;
+    else
+        _time_expired = _duration;
+}
 
 void SystemTimer::SetNumberLoops(int32 loops)
 {
@@ -245,8 +235,6 @@ void SystemTimer::SetNumberLoops(int32 loops)
     _number_loops = loops;
 }
 
-
-
 void SystemTimer::SetModeOwner(vt_mode_manager::GameMode *owner)
 {
     if(IsInitial() == false) {
@@ -256,8 +244,6 @@ void SystemTimer::SetModeOwner(vt_mode_manager::GameMode *owner)
 
     _mode_owner = owner;
 }
-
-
 
 void SystemTimer::_AutoUpdate()
 {
@@ -271,8 +257,6 @@ void SystemTimer::_AutoUpdate()
 
     _UpdateTimer(SystemManager->GetUpdateTime());
 }
-
-
 
 void SystemTimer::_UpdateTimer(uint32 time)
 {

@@ -791,6 +791,28 @@ BattleCharacter::BattleCharacter(GlobalCharacter *character) :
         GLOBAL_STATUS status_effect = (GLOBAL_STATUS) i;
         _effects_supervisor->AddPassiveStatusEffect(status_effect, intensity);
     }
+
+    // Apply currently active status effects
+    const std::vector<ActiveStatusEffect>& active_effects = character->GetActiveStatusEffects();
+    for(std::vector<ActiveStatusEffect>::const_iterator it = active_effects.begin();
+            it != active_effects.end(); ++it) {
+        ActiveStatusEffect effect = (*it);
+        _effects_supervisor->ChangeStatus(effect.GetEffect(), effect.GetIntensity(),
+                                          effect.GetEffectTime(), effect.GetElapsedTime());
+    }
+}
+
+BattleCharacter::~BattleCharacter()
+{
+    // If the character finished the battle alive, we set the active
+    // status effects on its global alter ego.
+    // TODO: Activate this once the menu mode and map modes can handle those.
+    /*
+    if (IsAlive())
+        _effects_supervisor->SetActiveStatusEffects(_global_character);
+    else // Otherwise, we just reset those.
+        _global_character->ResetActiveStatusEffects();
+    */
 }
 
 void BattleCharacter::ResetActor()

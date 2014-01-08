@@ -254,6 +254,9 @@ public:
     //@{
     void SetDuration(uint32 duration);
 
+    //! \brief Forces the timer to be at a given elapsed time.
+    void SetTimeExpired(uint32 time_expired);
+
     void SetNumberLoops(int32 loops);
 
     void SetModeOwner(vt_mode_manager::GameMode *owner);

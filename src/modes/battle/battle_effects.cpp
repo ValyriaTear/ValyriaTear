@@ -215,16 +215,35 @@ EffectsSupervisor::EffectsSupervisor(BattleActor *actor) :
     _status_effects.resize(GLOBAL_STATUS_TOTAL, NULL);
 
     if(!actor)
-        IF_PRINT_WARNING(BATTLE_DEBUG) << "contructor received NULL actor argument" << std::endl;
+        PRINT_WARNING << "Invalid BattleActor* when initializing the Battle status effects supervisor." << std::endl;
 }
 
 EffectsSupervisor::~EffectsSupervisor()
 {
     for(std::vector<ActiveBattleStatusEffect *>::iterator it = _status_effects.begin();
             it != _status_effects.end(); ++it) {
-        delete(*it);
+        delete (*it);
     }
     _status_effects.clear();
+}
+
+void EffectsSupervisor::SetActiveStatusEffects(GlobalCharacter* character)
+{
+    if (!character)
+        return;
+
+    character->ResetActiveStatusEffects();
+    for(std::vector<ActiveBattleStatusEffect *>::iterator it = _status_effects.begin();
+            it != _status_effects.end(); ++it) {
+        ActiveBattleStatusEffect* effect = (*it);
+        if (!effect)
+            continue;
+
+        // Copy the active status effect state
+        SystemTimer* timer = effect->GetTimer();
+        character->SetActiveStatusEffect(effect->GetType(), effect->GetIntensity(),
+                                         timer->GetDuration(), timer->GetTimeExpired());
+    }
 }
 
 void EffectsSupervisor::_UpdatePassive()
@@ -379,7 +398,8 @@ void EffectsSupervisor::RemoveAllActiveStatusEffects()
     }
 }
 
-bool EffectsSupervisor::ChangeStatus(GLOBAL_STATUS status, GLOBAL_INTENSITY intensity, uint32 duration)
+bool EffectsSupervisor::ChangeStatus(GLOBAL_STATUS status, GLOBAL_INTENSITY intensity,
+                                     uint32 duration, uint32 elapsed_time)
 {
     if((status <= GLOBAL_STATUS_INVALID) || (status >= GLOBAL_STATUS_TOTAL)) {
         IF_PRINT_WARNING(BATTLE_DEBUG) << "function received invalid status argument: " << status << std::endl;
@@ -397,7 +417,7 @@ bool EffectsSupervisor::ChangeStatus(GLOBAL_STATUS status, GLOBAL_INTENSITY inte
         return false;
     }
 
-    // Holds the unsigned amount of change in intensity in either a positive or negative dgree
+    // Holds the unsigned amount of change in intensity in either a positive or negative degree
     uint8 intensity_change = abs(static_cast<int8>(intensity));
 
     // Determine if this status (or its opposite) is already active on the actor
@@ -450,7 +470,7 @@ bool EffectsSupervisor::ChangeStatus(GLOBAL_STATUS status, GLOBAL_INTENSITY inte
         return true;
     }
     else {
-        _CreateNewStatus(status, intensity, duration);
+        _CreateNewStatus(status, intensity, duration, elapsed_time);
         new_intensity = intensity;
 
         indicator.AddStatusIndicator(x_pos, y_pos, status, previous_intensity, new_intensity);
@@ -466,7 +486,7 @@ void EffectsSupervisor::AddPassiveStatusEffect(vt_global::GLOBAL_STATUS status_e
 }
 
 void EffectsSupervisor::_CreateNewStatus(GLOBAL_STATUS status, GLOBAL_INTENSITY intensity,
-        uint32 duration)
+                                         uint32 duration, uint32 elapsed_time)
 {
     if((status <= GLOBAL_STATUS_INVALID) || (status >= GLOBAL_STATUS_TOTAL)) {
         IF_PRINT_WARNING(BATTLE_DEBUG) << "function received invalid status argument: " << status << std::endl;
@@ -483,6 +503,11 @@ void EffectsSupervisor::_CreateNewStatus(GLOBAL_STATUS status, GLOBAL_INTENSITY 
         _RemoveStatus(_status_effects[status]);
 
     ActiveBattleStatusEffect *new_effect = new ActiveBattleStatusEffect(status, intensity, _actor, duration);
+
+    // If there is already some elapsed time, we restore it
+    if (elapsed_time > 0 && elapsed_time <= duration)
+        new_effect->GetTimer()->SetTimeExpired(elapsed_time);
+
     _status_effects[status] = new_effect;
 
     if (!new_effect->GetApplyFunction().is_valid()) {

@@ -275,6 +275,9 @@ public:
     *** \param status The status effect type to change
     *** \param intensity The amount of intensity to increase or decrease the status effect by
     *** \param duration A potential custom effect duration (in milliseconds)
+    *** \param elapsed_time The time already elapsed of the effect (in milliseconds).
+    *** It must be <= to the duration or it will be ignored. This parameter is useful to resume active status effects
+    *** activated in other game modes.
     *** \return True if a change in status took place
     ***
     *** Primary function for performing status changes on an actor. Depending upon the current state of the actor and
@@ -283,15 +286,17 @@ public:
     *** opposite type (e.g., strength gain status versus strength depletion status) and change the state of both effects
     *** accordingly. So, for example, a single call to this function could remove an old effect -and- add a new effect, if
     *** the effect to be added has an opposite effect that is currently active.
-    ***
-    *** \note To be absolutely certain that a particular status effect is removed from the actor regardless of its current
-    *** intensity, use the value GLOBAL_INTENSITY_NEG_EXTREME for the intensity argument.
     **/
-    bool ChangeStatus(vt_global::GLOBAL_STATUS status, vt_global::GLOBAL_INTENSITY intensity, uint32 duration = 0);
+    bool ChangeStatus(vt_global::GLOBAL_STATUS status, vt_global::GLOBAL_INTENSITY intensity,
+                      uint32 duration = 0, uint32 elapsed_time = 0);
 
     //! \brief Adds a passive (neverending) status effect and only updates it,
     //! calling the respective UpdatePassive() script function.
     void AddPassiveStatusEffect(vt_global::GLOBAL_STATUS status_effect, vt_global::GLOBAL_INTENSITY intensity);
+
+    //! \brief Copy the Active status effects back to the given global Character
+    //! thus they can remain after the effect supervisor deletion for other game modes.
+    void SetActiveStatusEffects(vt_global::GlobalCharacter* character);
 
 private:
     //! \brief A pointer to the actor that this class supervises effects for
@@ -310,13 +315,16 @@ private:
     *** \param status The type of the status to create
     *** \param intensity The intensity level that the effect should be initialized at
     *** \param duration The potential custom effect duration in milliseconds.
+    *** \param elapsed_time The time already elapsed of the effect (in milliseconds).
+    *** It must be <= to the duration or it will be ignored. This parameter is useful to resume active status effects
+    *** activated in other game modes.
     ***
     *** \note This method does not check if the requested status effect already exists or not in the map of active effects.
     *** Do not call this method unless you are certain that the given status is not already active on the actor, otherwise
     *** memory leaks and other problems may arise.
     **/
     void _CreateNewStatus(vt_global::GLOBAL_STATUS status, vt_global::GLOBAL_INTENSITY intensity,
-                          uint32 duration = 0);
+                          uint32 duration = 0, uint32 elapsed_time = 0);
 
     /** \brief Removes an existing status effect from the actor
     *** \param status_effect A pointer to the status effect to be removed

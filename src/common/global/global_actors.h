@@ -986,6 +986,23 @@ public:
         return _equipment_status_effects;
     }
 
+    //! Gets the currently active status effects on the global actor.
+    const std::vector<ActiveStatusEffect>& GetActiveStatusEffects() const {
+        return _active_status_effects;
+    }
+
+    //! Reset all the active status effects on the global actor.
+    void ResetActiveStatusEffects() {
+        _active_status_effects.clear();
+        _active_status_effects.resize(GLOBAL_STATUS_TOTAL, ActiveStatusEffect());
+    }
+
+    //! Sets a newly active status effect on the global actor.
+    void SetActiveStatusEffect(GLOBAL_STATUS status_effect, GLOBAL_INTENSITY intensity,
+                               uint32 duration, uint32 elapsed_time) {
+        _active_status_effects[status_effect] = ActiveStatusEffect(status_effect, intensity, duration, elapsed_time);
+    }
+
     uint32 GetHitPointsGrowth() const {
         return _hit_points_growth;
     }
@@ -1142,6 +1159,15 @@ protected:
     *** applied on the character stats by calling the corresponding status effect function.
     **/
     std::vector<GLOBAL_INTENSITY> _equipment_status_effects;
+
+    /** \brief Active status effects currently applied on the character.
+    *** Active status effects are effects not applied through equipment, but rather through
+    *** battle wounds, dungeon trap, potions from the menu, ...
+    *** The given status effect vector is used to store active status effect data and pass it
+    *** between game modes. Each mode is then responsible for properly updating, displaying and applying it.
+    *** The vector is initialized with the size of GLOBAL_STATUS_TOTAL with empty status effects.
+    **/
+    std::vector<ActiveStatusEffect> _active_status_effects;
 
     /** \brief Equips a new armor on the character
     *** \param armor The piece of armor to equip
