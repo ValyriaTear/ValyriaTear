@@ -147,6 +147,12 @@ void GameGlobal::_CloseGlobalScripts() {
     _status_effects_script.CloseTable();
     _status_effects_script.CloseFile();
 
+    _characters_script.CloseTable();
+    _characters_script.CloseFile();
+
+    _enemies_script.CloseTable();
+    _enemies_script.CloseFile();
+
     _map_sprites_script.CloseFile();
     _map_objects_script.CloseFile();
     _map_treasures_script.CloseFile();
@@ -192,6 +198,12 @@ bool GameGlobal::_LoadGlobalScripts()
         return false;
 
     if(!_status_effects_script.OpenFile("dat/effects/status.lua") || !_status_effects_script.OpenTable("status_effects"))
+        return false;
+
+    if(!_characters_script.OpenFile("dat/actors/characters.lua") || !_characters_script.OpenTable("characters"))
+        return false;
+
+    if(!_enemies_script.OpenFile("dat/actors/enemies.lua") || !_enemies_script.OpenTable("enemies"))
         return false;
 
     if(!_map_sprites_script.OpenFile("dat/actors/map_sprites.lua") || !_map_sprites_script.OpenTable("sprites"))

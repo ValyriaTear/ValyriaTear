@@ -915,6 +915,14 @@ public:
         return _status_effects_script;
     }
 
+    vt_script::ReadScriptDescriptor &GetCharactersScript() {
+        return _characters_script;
+    }
+
+    vt_script::ReadScriptDescriptor &GetEnemiesScript() {
+        return _enemies_script;
+    }
+
     vt_script::ReadScriptDescriptor &GetMapSpriteScript() {
         return _map_sprites_script;
     }
@@ -1069,6 +1077,12 @@ private:
 
     //! \brief Contains functional definitions for all status effects
     vt_script::ReadScriptDescriptor _status_effects_script;
+
+    //! \brief Contains data and functional definitions for characters
+    vt_script::ReadScriptDescriptor _characters_script;
+
+    //! \brief Contains data and functional definitions for enemies
+    vt_script::ReadScriptDescriptor _enemies_script;
 
     //! \brief Contains data and functional definitions for sprites seen in game maps
     vt_script::ReadScriptDescriptor _map_sprites_script;
