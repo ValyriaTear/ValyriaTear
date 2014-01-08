@@ -1499,6 +1499,9 @@ GlobalEnemy::GlobalEnemy(uint32 id) :
                       << std::endl << enemy_data.GetErrorMessages() << std::endl;
     }
 
+    // stats and skills.
+    _Initialize();
+
     _CalculateAttackRatings();
     _CalculateDefenseRatings();
     _CalculateEvadeRatings();
@@ -1533,23 +1536,17 @@ bool GlobalEnemy::AddSkill(uint32 skill_id)
 
 
 
-void GlobalEnemy::Initialize()
+void GlobalEnemy::_Initialize()
 {
-    if(_skills.empty() == false) { // Indicates that the enemy has already been initialized
-        IF_PRINT_WARNING(GLOBAL_DEBUG) << "function was invoked for an already initialized enemy: " << _id << std::endl;
-        return;
-    }
-
     // Add all new skills that should be available at the current experience level
-    for(uint32 i = 0; i < _skill_set.size(); ++i) {
+    _skills.clear();
+    for(uint32 i = 0; i < _skill_set.size(); ++i)
         AddSkill(_skill_set[i]);
-    }
 
-    if(_skills.empty()) {
-        IF_PRINT_WARNING(GLOBAL_DEBUG) << "no skills were added for the enemy: " << _id << std::endl;
-    }
+    if(_skills.empty())
+        PRINT_WARNING << "No skills were added for the enemy: " << _id << std::endl;
 
-    // Randomize the stats by using a guassian random variable
+    // Randomize the stats by using a Gaussian random variable
     if(_no_stat_randomization == false) {
         // Use the base stats as the means and a standard deviation of 10% of the mean
         _max_hit_points = GaussianRandomValue(_max_hit_points, _max_hit_points / 10.0f);

@@ -468,6 +468,20 @@ void GameGlobal::SwapCharactersByIndex(uint32 first_index, uint32 second_index)
     _active_party.SwapCharactersByIndex(first_index, second_index);
 }
 
+bool GameGlobal::DoesEnemyExist(uint32 enemy_id)
+{
+    if(enemy_id == 0)
+        return false;
+
+    ReadScriptDescriptor& enemy_data = GetEnemiesScript();
+
+    if (!enemy_data.OpenTable(enemy_id))
+        return false;
+
+    enemy_data.CloseTable(); // enemy_id
+    return true;
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // GameGlobal class - Inventory Functions
 ////////////////////////////////////////////////////////////////////////////////

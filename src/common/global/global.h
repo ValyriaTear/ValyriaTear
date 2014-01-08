@@ -366,6 +366,9 @@ public:
         if(_characters.find(id) != _characters.end()) return true;
         else return false;
     }
+
+    //! \brief Tells whether an enemy id is existing in the enemy data.
+    bool DoesEnemyExist(uint32 enemy_id);
     //@}
 
     //! \name Inventory Methods

@@ -746,7 +746,7 @@ protected:
 class BattleEnemy : public BattleActor
 {
 public:
-    BattleEnemy(vt_global::GlobalEnemy *enemy);
+    BattleEnemy(uint32 enemy_id);
 
     ~BattleEnemy();
 

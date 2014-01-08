@@ -1249,18 +1249,6 @@ public:
     virtual ~GlobalEnemy()
     {}
 
-    /** \brief Initializes the enemy and prepares it for battle
-    ***
-    *** This function sets the enemy's experience level, modifies its stats using Guassian
-    *** random values, and constructs the skills that the enemy is capable of using. Call this
-    *** function once only, because after the enemy has skills enabled it will not be able to
-    *** re-initialize. If you need to initialize the enemy once more, you'll have to create a
-    *** brand new GlobalEnemy object and initialize that instead.
-    ***
-    *** \note Certain enemies will skip the stat modification step.
-    **/
-    void Initialize();
-
     /** \brief Enables the enemy to be able to use a specific skill
     *** \param skill_id The integer ID of the skill to add to the enemy
     *** \returns whether the skill was added successfully.
@@ -1348,6 +1336,15 @@ protected:
 
     //! \brief Stores the battle AI script filename used when the enemy is fighting.
     std::string _ai_script_filename;
+
+    /** \brief Initializes the enemy stats and skills
+    ***
+    *** This function sets the enemy's experience level, modifies its stats using Gaussian
+    *** random values, and constructs the skills that the enemy is capable of using.
+    ***
+    *** \note Certain enemies can skip the stat randomization step.
+    **/
+    void _Initialize();
 }; // class GlobalEnemy : public GlobalActor
 
 

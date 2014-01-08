@@ -1193,16 +1193,26 @@ void BattleCharacter::DrawStatus(uint32 order, BattleCharacter* character_comman
 // BattleEnemy class
 // /////////////////////////////////////////////////////////////////////////////
 
-BattleEnemy::BattleEnemy(GlobalEnemy *enemy) :
-    BattleActor(enemy),
-    _global_enemy(enemy),
+BattleEnemy::BattleEnemy(uint32 enemy_id) :
+    BattleActor(new vt_global::GlobalEnemy(enemy_id)),
     _sprite_animation_alias("idle"),
     _sprite_alpha(1.0f)
 {
+    _global_enemy = static_cast<GlobalEnemy*>(_global_actor);
+
     _LoadAIScript();
     _LoadDeathAnimationScript();
 
     _sprite_animations = _global_enemy->GetBattleAnimations();
+}
+
+BattleEnemy::~BattleEnemy()
+{
+    // If the actor is an enemy, we can delete it as only the characters
+    // will be needed to remain between battles.
+    // NOTE: We don't delete the _global_actor pointer as it is an alias
+    // of this one.
+    delete _global_enemy;
 }
 
 void BattleEnemy::_LoadAIScript()
@@ -1256,11 +1266,6 @@ void BattleEnemy::_LoadDeathAnimationScript()
     _death_update = death_script.ReadFunctionPointer("Update");
     _death_draw_on_sprite = death_script.ReadFunctionPointer("DrawOnSprite");
     death_script.CloseFile();
-}
-
-BattleEnemy::~BattleEnemy()
-{
-    delete _global_actor;
 }
 
 void BattleEnemy::ResetActor()

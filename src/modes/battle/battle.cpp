@@ -525,18 +525,14 @@ void BattleMode::DrawPostEffects()
 
 void BattleMode::AddEnemy(uint32 new_enemy_id, float position_x, float position_y)
 {
-    GlobalEnemy *new_enemy = new vt_global::GlobalEnemy(new_enemy_id);
-
-    // Don't add the enemy if its id was invalidated
-    if(new_enemy->GetID() == 0) {
-        PRINT_WARNING << "attempted to add a new enemy with an invalid id: "
-            << new_enemy->GetID() << std::endl;
-        delete new_enemy;
+    // Check for the enemy data validity
+    if (!vt_global::GlobalManager->DoesEnemyExist(new_enemy_id)) {
+        PRINT_WARNING << "Attempted to add a new enemy with an invalid id: "
+                      << new_enemy_id << std::endl;
         return;
     }
 
-    new_enemy->Initialize();
-    BattleEnemy *new_battle_enemy = new BattleEnemy(new_enemy);
+    BattleEnemy* new_battle_enemy = new BattleEnemy(new_enemy_id);
 
     // Compute a position when needed.
     if (position_x == 0.0f && position_y == 0.0f) {
