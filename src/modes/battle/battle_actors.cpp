@@ -543,7 +543,7 @@ void BattleActor::_UpdateStaminaIconPosition()
     float x_pos = _x_stamina_location;
     float y_pos = _y_stamina_location;
 
-    if(IsValid()) {
+    if(CanFight()) {
         if(IsEnemy())
             x_pos = STAMINA_BAR_POSITION_X + 25.0f;
         else

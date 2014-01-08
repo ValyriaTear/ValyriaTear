@@ -756,13 +756,14 @@ void BattleMode::_Initialize()
 
     // Construct all character battle actors from the active party, as well as the menus that populate the command supervisor
     GlobalParty *active_party = GlobalManager->GetActiveParty();
-    if(active_party->GetPartySize() == 0) {
-        IF_PRINT_WARNING(BATTLE_DEBUG) << "no characters in the active party, exiting battle" << std::endl;
+    uint32 party_size = active_party->GetPartySize();
+    if(party_size == 0) {
+        IF_PRINT_WARNING(BATTLE_DEBUG) << "No characters in the active party, exiting battle" << std::endl;
         ModeManager->Pop();
         return;
     }
 
-    for(uint32 i = 0; i < active_party->GetPartySize(); i++) {
+    for(uint32 i = 0; i < party_size; ++i) {
         BattleCharacter *new_actor = new BattleCharacter(active_party->GetCharacterAtIndex(i));
         _character_actors.push_back(new_actor);
         _character_party.push_back(new_actor);
@@ -958,9 +959,8 @@ uint32 BattleMode::_NumberValidEnemies() const
 {
     uint32 enemy_count = 0;
     for(uint32 i = 0; i < _enemy_actors.size(); ++i) {
-        if(_enemy_actors[i]->IsValid()) {
+        if(_enemy_actors[i]->CanFight())
             ++enemy_count;
-        }
     }
     return enemy_count;
 }
@@ -970,9 +970,8 @@ uint32 BattleMode::_NumberCharactersAlive() const
 {
     uint32 character_count = 0;
     for(uint32 i = 0; i < _character_actors.size(); ++i) {
-        if(_character_actors[i]->IsAlive()) {
+        if(_character_actors[i]->IsAlive())
             ++character_count;
-        }
     }
     return character_count;
 }

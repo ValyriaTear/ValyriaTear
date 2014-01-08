@@ -294,7 +294,7 @@ public:
     }
 
     //! \brief Returns true if the actor can still fight.
-    bool IsValid() const {
+    bool CanFight() const {
         return (_state != ACTOR_STATE_DYING && IsAlive());
     }
 
