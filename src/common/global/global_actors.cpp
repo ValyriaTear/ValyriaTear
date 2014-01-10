@@ -1266,12 +1266,7 @@ void GlobalCharacter::AcknowledgeGrowth() {
     ++_experience_level;
 
     // Retrieve the growth data for the new experience level and check for any additional growth
-    std::string filename = "dat/actors/characters.lua";
-    ReadScriptDescriptor character_script;
-    if(!character_script.OpenFile(filename)) {
-        IF_PRINT_WARNING(GLOBAL_DEBUG) << "failed to open character data file: " << filename << std::endl;
-        return;
-    }
+    ReadScriptDescriptor& character_script = GlobalManager->GetCharactersScript();
 
     // Clear the growth members before filling their data
     _hit_points_growth = 0;
@@ -1327,10 +1322,7 @@ void GlobalCharacter::AcknowledgeGrowth() {
         AddAgility(_agility_growth);
     if(!IsFloatEqual(_evade_growth, 0.0f))
         AddEvade(_evade_growth);
-
-    character_script.CloseFile();
-    return;
-} // bool GlobalCharacter::AcknowledgeGrowth()
+} // void GlobalCharacter::AcknowledgeGrowth()
 
 void GlobalCharacter::_CalculateAttackRatings()
 {
