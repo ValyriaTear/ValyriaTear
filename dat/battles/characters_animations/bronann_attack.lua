@@ -171,9 +171,12 @@ function Update()
             end
         end
 
-        if (slash_effect_time > 75 * 4) then -- 300, 410 + 300 = 710 (< 730).
+        if (sword_slash ~= nil and slash_effect_time > 75 * 4) then -- 300, 410 + 300 = 710 (< 730).
             sword_slash:SetVisible(false);
             sword_slash:Remove();
+	        -- The Remove() call will make the engine delete the object, so we set it to nil
+	        -- to avoid using it again.
+	        sword_slash = nil;
         end
 
         -- Triggers the damage in the middle of the attack animation
