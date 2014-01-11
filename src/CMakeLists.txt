@@ -19,16 +19,14 @@ ENDIF()
 
 # Set the release mode if not told otherwise
 IF(NOT CMAKE_BUILD_TYPE)
-    MESSAGE(STATUS "Release build type")
     SET(CMAKE_BUILD_TYPE "Release")
 ENDIF()
+
+MESSAGE(STATUS "Build type: ${CMAKE_BUILD_TYPE}")
 
 IF (CMAKE_COMPILER_IS_GNUCXX)
     # Help getting compilation warnings
     SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra")
-    IF (USE_PCH_COMPILATION)
-        SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Winvalid-pch")
-    ENDIF()
     IF (WIN32)
         # This includes enough debug information to get something useful
         # from Dr. Mingw while keeping binary size down. Almost useless
@@ -82,8 +80,6 @@ IF (CMAKE_BUILD_TYPE)
             # Help getting debug info
             SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -pg")
         ENDIF()
-
-        MESSAGE(STATUS "Debug build type")
     ENDIF()
 ENDIF()
 
@@ -461,7 +457,7 @@ IF (CMAKE_COMPILER_IS_GNUCXX AND USE_PCH_COMPILATION)
                     DEPENDS ${_header_filename})
     ENDMACRO(ADD_PCH_RULE _header_filename _src_list)
 
-    ADD_PCH_RULE(${CMAKE_CURRENT_SOURCE_DIR}/utils/utils_pch.h SRCS_COMMON)
+    ADD_PCH_RULE(${CMAKE_CURRENT_SOURCE_DIR}/utils/utils_pch.h SRCS)
 ENDIF()
 
 # Don't add the luabind static lib files if requested.
@@ -529,12 +525,16 @@ IF (CMAKE_SYSTEM_NAME STREQUAL SunOS)
     SET_TARGET_PROPERTIES(valyriatear PROPERTIES LINK_FLAGS "-L/usr/local/lib")
 ENDIF()
 
-SET_TARGET_PROPERTIES(valyriatear PROPERTIES COMPILE_FLAGS "${FLAGS}")
-
+# Adds invalid pch compilation warning for the game.
+IF (CMAKE_COMPILER_IS_GNUCXX AND USE_PCH_COMPILATION)
+    SET_TARGET_PROPERTIES(valyriatear PROPERTIES COMPILE_FLAGS "${FLAGS}  -Winvalid-pch")
+ELSE()
+    SET_TARGET_PROPERTIES(valyriatear PROPERTIES COMPILE_FLAGS "${FLAGS}")
+ENDIF()
 
 # Editor part
 IF (EDITOR_SUPPORT)
-    MESSAGE(STATUS "Set Editor build on")
+    MESSAGE(STATUS "Editor build on")
     FIND_PACKAGE(Qt4 REQUIRED)
     INCLUDE_DIRECTORIES(
     ${QT_QTOPENGL_INCLUDE_DIR}
