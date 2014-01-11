@@ -759,8 +759,6 @@ BattleCharacter::BattleCharacter(GlobalCharacter *character) :
 
     _action_selection_text.SetStyle(TextStyle("text20"));
     _action_selection_text.SetText("");
-    _target_selection_text.SetStyle(TextStyle("text20"));
-    _target_selection_text.SetText("");
 
     // Init the battle animation pointers
     _current_sprite_animation = _global_character->RetrieveBattleAnimation(_sprite_animation_alias);
@@ -1034,21 +1032,34 @@ void BattleCharacter::ChangeSpriteAnimation(const std::string &alias)
 
 void BattleCharacter::ChangeActionText()
 {
-    // If the character has no action selected to be used, clear both action and target text
-    if(_action == NULL) {
-        // If the character is able to have an action selected, notify the player
-        if((_state == ACTOR_STATE_IDLE) || (_state == ACTOR_STATE_COMMAND)) {
-            _action_selection_text.SetText(Translate("[Select Action]"));
-        } else {
-            _action_selection_text.SetText("");
+    if(_action) {
+        ustring action_text = _action->GetName() + MakeUnicodeString(" -> ") + _action->GetTarget().GetName();
+        _action_selection_text.SetText(action_text);
+        if (_action->GetIconFilename().empty()) {
+            _action_selection_icon.Clear();
         }
-        _target_selection_text.SetText("");
+        else {
+            // Determine the weapon icon according to the current skill
+            std::string icon_file = _action->GetIconFilename();
+            if (icon_file == "weapon") { // Alias used to trigger the loading of the weapon icon.
+                GlobalWeapon* char_wpn = GetGlobalCharacter()->GetWeaponEquipped();
+                icon_file = char_wpn ?
+                            char_wpn->GetIconImage().GetFilename() :
+                            "img/icons/weapons/fist-human.png";
+            }
+            _action_selection_icon.Clear();
+            _action_selection_icon.Load(icon_file, 24, 24);
+        }
+        return;
     }
 
-    else {
-        _action_selection_text.SetText(_action->GetName());
-        _target_selection_text.SetText(_action->GetTarget().GetName());
-    }
+    // If the character is able to have an action selected, notify the player
+    if((_state == ACTOR_STATE_IDLE) || (_state == ACTOR_STATE_COMMAND))
+        _action_selection_text.SetText(Translate("[Select Action]"));
+    else
+        _action_selection_text.Clear();
+
+    _action_selection_icon.Clear();
 }
 
 void BattleCharacter::DrawPortrait()
@@ -1202,13 +1213,12 @@ void BattleCharacter::DrawStatus(uint32 order, BattleCharacter* character_comman
         BattleMode::CurrentInstance()->GetMedia().GetCharacterActionButton(button_index)->Draw();
     }
 
-    // Draw the action text
+    // Draw the action icon and text
     VideoManager->MoveRelative(40.0f, 0.0f);
+    _action_selection_icon.Draw();
+    VideoManager->MoveRelative(28.0f, 0.0f);
     _action_selection_text.Draw();
 
-    // Draw the target text
-    VideoManager->MoveRelative(225.0f, 0.0f);
-    _target_selection_text.Draw();
 } // void BattleCharacter::DrawStatus()
 
 // /////////////////////////////////////////////////////////////////////////////

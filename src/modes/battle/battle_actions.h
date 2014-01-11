@@ -89,6 +89,9 @@ public:
     //! \brief Returns the name of the action that the player would read
     virtual vt_utils::ustring GetName() const = 0;
 
+    //! \brief Returns the icon filename of the action that the player would need
+    virtual std::string GetIconFilename() const = 0;
+
     //! \brief Returns the number of milliseconds that the owner actor must wait in the warm up state
     virtual uint32 GetWarmUpTime() const = 0;
 
@@ -171,6 +174,8 @@ public:
 
     vt_utils::ustring GetName() const;
 
+    std::string GetIconFilename() const;
+
     uint32 GetWarmUpTime() const;
 
     uint32 GetCoolDownTime() const;
@@ -226,6 +231,8 @@ public:
     void Cancel();
 
     vt_utils::ustring GetName() const;
+
+    std::string GetIconFilename() const;
 
     uint32 GetWarmUpTime() const;
 

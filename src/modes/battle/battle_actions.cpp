@@ -179,6 +179,22 @@ ustring SkillAction::GetName() const
         return _skill->GetName();
 }
 
+std::string SkillAction::GetIconFilename() const
+{
+    if (!_skill)
+        return std::string();
+
+    switch (_skill->GetType()) {
+    default:
+        break;
+    case vt_global::GLOBAL_SKILL_WEAPON:
+        return std::string("weapon"); // alias used to know the weapon icon needs to used.
+    case GLOBAL_SKILL_BARE_HANDS:
+        return std::string("img/icons/weapons/fist-human.png");
+    }
+    return _skill->GetIconFilename();
+}
+
 std::string SkillAction::GetWarmupActionName() const
 {
     if(_skill == NULL)
@@ -281,10 +297,16 @@ void ItemAction::Cancel()
 
 ustring ItemAction::GetName() const
 {
-    if(_item == NULL)
-        return UTranslate("Use: [error]");
-    else
-        return (UTranslate("Use: ") + (_item->GetItem()).GetName());
+    if(_item)
+        return _item->GetItem().GetName();
+    return UTranslate("[error]");
+}
+
+std::string ItemAction::GetIconFilename() const
+{
+    if(_item)
+        return _item->GetItem().GetIconImage().GetFilename();
+    return std::string();
 }
 
 uint32 ItemAction::GetWarmUpTime() const

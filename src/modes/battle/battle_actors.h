@@ -732,8 +732,8 @@ protected:
     //! \brief Rendered text of the character's currently selected action
     vt_video::TextImage _action_selection_text;
 
-    //! \brief Rendered text of the character's currently selected target
-    vt_video::TextImage _target_selection_text;
+    //! \brief Rendered icon of the character's currently selected action
+    vt_video::StillImage _action_selection_icon;
 }; // class BattleCharacter
 
 
