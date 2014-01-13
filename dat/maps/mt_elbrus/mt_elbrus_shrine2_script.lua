@@ -163,11 +163,9 @@ end
 
 -- Sets common battle environment settings for enemy sprites
 function _SetBattleEnvironment(enemy)
-    -- default values
     enemy:SetBattleMusicTheme("mus/heroism-OGA-Edward-J-Blakeley.ogg");
     enemy:SetBattleBackground("img/backdrops/battle/mountain_shrine.png");
-    -- TODO: add some animations there.
-    --enemy:AddBattleScript("dat/battles/tutorial_battle_dialogs.lua");
+    enemy:AddBattleScript("dat/battles/mountain_shrine_battle_anim.lua");
 end
 
 -- Creates all events and sets up the entire event sequence chain

@@ -1,7 +1,7 @@
 Licenses
 ========
 
-Last update: 2014.01.07
+Last update: 2014.01.13
 
 This file is listing all the files licenses from the point of the fork
 from the Allacrost project.
@@ -55,6 +55,7 @@ dat/actors/map_objects.lua                                      GPLv2+          
 dat/actors/map_sprites.lua                                      GPLv2+                   Allacrost + Bertram (Was map_sprites_stock.lua)
 
 dat/battles/desert_cave_battle_anim.lua                         GPLv2+                   Bertram
+dat/battles/mountain_shrine_battle_anim.lua                     GPLv2+                   Bertram
 dat/battles/tutorial_battle_dialogs.lua                         GPLv2+                   Allacrost + Bertram
 
 dat/battles/characters_animations/bronann_attack.lua            GPLv2+                   Bertram
