@@ -464,7 +464,7 @@ function _CreateEvents()
     EventManager:RegisterEvent(move_next_to_hero_event);
 
     dialogue = vt_map.SpriteDialogue();
-    text = vt_system.Translate("I didn't know that there was a cave here. It's kind of creepy...", "Let's hurry and find Orlinn.");
+    text = vt_system.Translate("I didn't know that there was a cave here. It's kind of creepy... Let's hurry and find Orlinn.");
     dialogue:AddLineEventEmote(text, kalya_sprite, "Bronann looks at Kalya", "Kalya looks at Bronann", "exclamation");
     text = vt_system.Translate("It seems Orlinn was able to go through those platforms... somehow.");
     dialogue:AddLine(text, kalya_sprite);

@@ -15,7 +15,7 @@ quests = {
         -- Description
         vt_system.Translate("Mom needs some for dinner!\n \nFlora might have some in her shop -- I should go and have a look there first."),
         -- Completion Description
-        vt_system.Translate("Finally, I found some... Lilly had what I sought in her house all the time."),
+        vt_system.Translate("Finally, I found some... Lilly had what I sought in her house the whole time."),
         -- Group and event for the quest to be complete.
         "story", "quest1_barley_meal_done",
         -- Location name and banner image filename
