@@ -1768,7 +1768,7 @@ msgstr ""
 
 #: ../dat/config/quests.lua:34
 msgid ""
-"Orlinn had the pen; I ran after him all the morning to get it back. "
+"Orlinn had the pen; I ran after him all morning to get it back. "
 "I hope he won't have any problems with Kalya..."
 msgstr ""
 
@@ -1784,14 +1784,14 @@ msgstr ""
 
 #: ../dat/config/quests.lua:48
 msgid ""
-"Orlinn has the pen I need to back to George! The only problem now is to "
+"Orlinn has the pen I need to return to George! The only problem now is to "
 "find where he's hiding. Hmm, it shouldn't take long..."
 msgstr ""
 
 #: ../dat/config/quests.lua:50
 msgid ""
-"I ran after him all the morning but now I have the pen. Time to bring "
-"it back to George..."
+"After chasing him around the village all morning, I finally have the pen."
+"Time to bring it back to George..."
 msgstr ""
 
 #: ../dat/config/quests.lua:62
@@ -1805,7 +1805,7 @@ msgid ""
 "The entrance has been shut with stones, and now they won't even let me go "
 "and breathe in the only place I could still go before?!?\n"
 " \n"
-"Whatever... I need a sword just in case and I'll get there alone!"
+"Whatever... I need a sword just in case... and I'll get there alone!"
 msgstr ""
 
 #: ../dat/config/quests.lua:66
@@ -1840,7 +1840,7 @@ msgstr ""
 
 #: ../dat/config/quests.lua:96
 msgid ""
-"After we came back to our village, Kalya was caught by strange soldiers. The "
+"After we came back to the village, Kalya was caught by strange soldiers. The "
 "country Lord himself provoked me in battle, and thanks to her, we escaped "
 "for now.\n"
 " \n"
@@ -1873,7 +1873,7 @@ msgid "Layna Forest"
 msgstr ""
 
 #: ../dat/config/world_locations.lua:40
-msgid "Mt Elbrus"
+msgid "Mt. Elbrus"
 msgstr ""
 
 #: ../dat/credits/episode1_credits.lua:35
@@ -2031,7 +2031,8 @@ msgid "Your party feels better..."
 msgstr ""
 
 #: ../dat/maps/layna_forest/layna_forest_cave1_1_script.lua:467
-msgid "What a creepy place. I didn't know this place existed ..."
+msgid "I didn't know that there was a cave here. It's kind of creepy..."
+"Let's hurry and find Orlinn."
 msgstr ""
 
 #: ../dat/maps/layna_forest/layna_forest_cave1_1_script.lua:469
@@ -2071,7 +2072,7 @@ msgid "Are you able to decipher this writing, Kalya?"
 msgstr ""
 
 #: ../dat/maps/layna_forest/layna_forest_cave1_2_script.lua:270
-msgid "Somehow... I don't know why, but yes ..."
+msgid "Somehow... I'm not sure how I am able to, but I can read it."
 msgstr ""
 
 #: ../dat/maps/layna_forest/layna_forest_cave1_2_script.lua:272
@@ -2091,7 +2092,8 @@ msgid "... Look!"
 msgstr ""
 
 #: ../dat/maps/layna_forest/layna_forest_cave1_2_script.lua:332
-msgid "I can feel fresh air and see some light coming from around this rock."
+msgid "I can feel a breeze and see light escaping into the cave"
+"around this rock. Orlinn must have gone through here."
 msgstr ""
 
 #: ../dat/maps/layna_forest/layna_forest_cave1_2_script.lua:334
@@ -2256,7 +2258,7 @@ msgid "... Ouch, why is my head hurting so much? ..."
 msgstr ""
 
 #: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:746
-msgid "Are you ok? We should get back to the village so Lilly can examine you..."
+msgid "Are you ok? We should head back to the village so Lilly can examine you..."
 msgstr ""
 
 #: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:748
@@ -2571,7 +2573,7 @@ msgstr ""
 
 #: ../dat/maps/layna_forest/layna_forest_wolf_cave_script.lua:387
 msgid ""
-"It ran away again... I'm glad we survived... Let's get out of here before he "
+"It ran away again... I'm glad we survived... Let's get out of here before it "
 "comes back."
 msgstr ""
 
@@ -2588,7 +2590,8 @@ msgid "You? A child with an old wooden stick? Pffha!"
 msgstr ""
 
 #: ../dat/maps/layna_village/battle_with_banesore/battle_with_banesore_script.lua:65
-msgid "You're stronger than I thought... but still ... so weak!"
+msgid "You're stronger than I thought... but still ... you are "
+"too weak to challenge me!"
 msgstr ""
 
 #: ../dat/maps/layna_village/battle_with_banesore/battle_with_banesore_script.lua:70
@@ -2810,7 +2813,7 @@ msgid "Kalya?!"
 msgstr ""
 
 #: ../dat/maps/layna_village/layna_village_center_at_night_script.lua:344
-msgid "Let go of me, you cheap low-grade filthy jerks..."
+msgid "Let go of me, cheap low-grade filthy jerks..."
 msgstr ""
 
 #: ../dat/maps/layna_village/layna_village_center_at_night_script.lua:346
@@ -2818,7 +2821,7 @@ msgid "If you do not hold your tongue, I will cut it off and feed it to the dogs
 msgstr ""
 
 #: ../dat/maps/layna_village/layna_village_center_at_night_script.lua:412
-msgid "Soldiers wearing black armors: the Lord's personal guards!"
+msgid "Soldiers wearing black armor: the Lord's personal guards!"
 msgstr ""
 
 #: ../dat/maps/layna_village/layna_village_center_at_night_script.lua:414
@@ -3053,7 +3056,7 @@ msgstr ""
 
 #: ../dat/maps/layna_village/layna_village_center_script.lua:705
 msgid ""
-"First of all, before going there, you might need a better equipment. Go and "
+"First of all, before going there, you might need better equipment. Go and "
 "see Flora first, ok?"
 msgstr ""
 
@@ -3200,12 +3203,12 @@ msgstr ""
 
 #: ../dat/maps/layna_village/layna_village_center_script.lua:949
 msgid ""
-"George, I simply wanted to ask you whether you had some barley meal left!"
+"George, I simply wanted to ask whether or not you had some barley meal left!"
 msgstr ""
 
 #: ../dat/maps/layna_village/layna_village_center_script.lua:951
 msgid ""
-"Ah, I see. Well unfortunately, I'm so sad about a recent loss that, I can't "
+"Ah, I see. Well unfortunately, I'm so sad about a recent loss that I can't "
 "find the right words with which to tell you."
 msgstr ""
 
@@ -3237,7 +3240,7 @@ msgid "You'll never find it!"
 msgstr ""
 
 #: ../dat/maps/layna_village/layna_village_center_script.lua:1025
-msgid "Huh? Wait! Are you talking about Georges' lost pen?"
+msgid "Huh? Wait! Are you talking about George's lost pen?"
 msgstr ""
 
 #: ../dat/maps/layna_village/layna_village_center_script.lua:1027
@@ -3525,7 +3528,7 @@ msgstr ""
 #: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:331
 msgid ""
 "He thought that I would be the one to be chosen. However, it seems he was "
-"wrong. Now my duty is to look after you..."
+"wrong. Now it seems that my duty is to look after you..."
 msgstr ""
 
 #: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:333
@@ -3685,8 +3688,8 @@ msgstr ""
 
 #: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:531
 msgid ""
-"You have so much to lose yet you are still looking at me in the eyes... "
-"I admire such a courageous heart, my dear one."
+"Even when confronted by someone who can wipe out everything you hold dear "
+"you dare to stare it in the eyes. I admire such a courageous heart, my dear one."
 msgstr ""
 
 #: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:533
