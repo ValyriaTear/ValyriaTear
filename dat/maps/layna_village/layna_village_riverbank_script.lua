@@ -340,7 +340,7 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
 
     dialogue = vt_map.SpriteDialogue();
-    text = vt_system.Translate("Orlinn! How many times did I tell you not to bother other people?");
+    text = vt_system.Translate("Orlinn! How many times have I told you not to bother other people?");
     dialogue:AddLine(text, kalya);
     text = vt_system.Translate("But sis! I...");
     dialogue:AddLineEmote(text, orlinn, "sweat drop");
@@ -486,7 +486,7 @@ function _CreateEvents()
     dialogue = vt_map.SpriteDialogue();
     text = vt_system.Translate("Thanks, Lilly.");
     dialogue:AddLine(text, bronann);
-    text = vt_system.Translate("We're having a shortage of food lately. And I've been taking... special measures to make sure that everyone has enough food.");
+    text = vt_system.Translate("We've been having a shortage of food lately. I've been taking... special measures... to ensure that everyone has enough food.");
     dialogue:AddLine(text, lilly);
     text = vt_system.Translate("Try to enjoy this day, Bronann.");
     dialogue:AddLine(text, lilly);

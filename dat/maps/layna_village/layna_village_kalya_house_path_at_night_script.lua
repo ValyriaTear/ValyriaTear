@@ -326,7 +326,7 @@ function _CreateEvents()
     dialogue = vt_map.SpriteDialogue();
     text = vt_system.Translate("There must be soldiers everywere, we're never gonna make it...");
     dialogue:AddLine(text, bronann);
-    text = vt_system.Translate("Stop worrying. We also have our little secrets...");
+    text = vt_system.Translate("This town has many secrets only known to a few...");
     dialogue:AddLineEvent(text, kalya, "", "Kalya looks at Orlinn");
     text = vt_system.Translate("You can go in there, Orlinn.");
     dialogue:AddLine(text, kalya);
@@ -334,7 +334,7 @@ function _CreateEvents()
     dialogue:AddLineEvent(text, orlinn, "", "Orlinn goes into the secret passage");
     text = vt_system.Translate("See?");
     dialogue:AddLineEvent(text, kalya, "Kalya looks east", "");
-    text = vt_system.Translate("... I understand now why Grandma actually never saw you using the 'normal' path...");
+    text = vt_system.Translate("... I understand why Grandma actually never saw you using the 'normal' path...");
     dialogue:AddLineEmote(text, bronann, "thinking dots");
     text = vt_system.Translate("Now come...");
     dialogue:AddLine(text, kalya);

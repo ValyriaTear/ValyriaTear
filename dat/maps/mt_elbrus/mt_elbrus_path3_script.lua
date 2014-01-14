@@ -605,11 +605,11 @@ function _CreateEvents()
     EventManager:RegisterEvent(orlinn_move_next_to_hero_event1);
 
     dialogue = vt_map.SpriteDialogue();
-    text = vt_system.Translate("This place is the village old cemetery, used when the former villagers lived in Layna...");
+    text = vt_system.Translate("This place is the village's old cemetery -- used when the former villagers lived in Layna...");
     dialogue:AddLine(text, kalya);
     text = vt_system.Translate("The former villagers? What do you mean?");
     dialogue:AddLineEmote(text, hero, "exclamation");
-    text = vt_system.Translate("Well, the Layna Village was abandoned a long time ago, before your parents and all the others came living there... Your mother never told you that?");
+    text = vt_system.Translate("Well, Layna Village was abandoned a long time ago, before your parents and all the others settled here... Your mother never told you that?");
     dialogue:AddLineEventEmote(text, kalya, "Kalya looks at Bronann", "", "thinking dots");
     text = vt_system.Translate("I've never been further alone before... This place gives me the chill...");
     dialogue:AddLineEvent(text, kalya, "Kalya looks north", "");
@@ -775,7 +775,7 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
 
     dialogue = vt_map.SpriteDialogue();
-    text = vt_system.Translate("I shall bring your spirits to the Master. You can't stand a chance in front of the Great Harlequin...");
+    text = vt_system.Translate("I shall bring your souls to the Master. You don't stand a chance against the Great Harlequin...");
     dialogue:AddLineEvent(text, harlequin_focus, "", "Set Harlequin actual name");
     text = vt_system.Translate("But let's play together first, shall we?");
     dialogue:AddLine(text, harlequin_focus);

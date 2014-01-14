@@ -163,9 +163,9 @@ function _UpdateFloraDialogue()
         dialogue = vt_map.SpriteDialogue();
         text = vt_system.Translate("Hi Bronann! What can I do for you?");
         dialogue:AddLine(text, flora);
-        text = vt_system.Translate("Hi Flora! Err, could you lend me one of your training swords? I'd like to practise a bit.");
+        text = vt_system.Translate("Hi Flora! Err, could you lend me one of your training swords? I'd like to practice a bit.");
         dialogue:AddLine(text, bronann);
-        text = vt_system.Translate("Ah! Sure, as soon as your father will stop lending his sword to you to practise with him. Are you sure everything is alright?");
+        text = vt_system.Translate("Ah! Sure, as soon as your father will stop lending his sword to you to practice with him. Are you sure everything is alright?");
         dialogue:AddLine(text, flora);
         text = vt_system.Translate("Err, nevermind...");
         dialogue:AddLineEventEmote(text, bronann, "", "Quest2: Talked to Flora", "sweat drop");

@@ -37,7 +37,7 @@ world_locations = {
         -- Y location
         "70",
         -- location name
-        vt_system.Translate("Mt Elbrus"),
+        vt_system.Translate("Mt. Elbrus"),
         -- banner filename,
         "img/menus/locations/mt_elbrus.png"
     },
