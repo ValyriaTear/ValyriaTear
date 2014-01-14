@@ -528,7 +528,7 @@ function _CreateEvents()
     dialogue:AddLine(text, lilly);
     text = vt_system.Translate("It is 'Lord Banesore', you scum!");
     dialogue:AddLine(text, soldier1);
-    text = vt_system.Translate("Even when confronted by someone who can wipe out everything you hold dear, you dare to stare it in the eyes? I admire such a courageous heart, my dear one.");
+    text = vt_system.Translate("Even when confronted by someone who can wipe out everything you hold dear, you dare to stare me in the eyes? I admire such a courageous heart, my dear one.");
     dialogue:AddLine(text, lord);
     text = vt_system.Translate("Therefore, I'm inclined to ask the questions one last time:");
     dialogue:AddLine(text, lord);

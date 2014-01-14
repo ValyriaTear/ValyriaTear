@@ -61,7 +61,7 @@ function Initialize(battle_instance)
     dialogue = vt_battle.BattleDialogue(1);
     text = vt_system.Translate("So... You think you can hurt me?");
     dialogue:AddLine(text, 1001);
-    text = vt_system.Translate("You? A child with an old wooden stick? Bahahahaa");
+    text = vt_system.Translate("You? A child with an old wooden stick?");
     dialogue:AddLine(text, 1001);
     text = vt_system.Translate("...");
     dialogue:AddLine(text, 1000);

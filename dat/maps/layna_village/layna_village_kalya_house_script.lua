@@ -328,7 +328,7 @@ function _CreateEvents()
     dialogue:AddLine(text, kalya);
     text = vt_system.Translate("He trained me, taught me magic, and told me that the crystal would appear one day...");
     dialogue:AddLine(text, kalya);
-    text = vt_system.Translate("He thought that I would be the one to be chosen by the crystal. However, it seems he was wrong. Now it seems that my duty is to look after you...");
+    text = vt_system.Translate("He thought that I would be the one to be chosen by the crystal. However, it seems he was wrong. Currently, it is my duty is to look after you...");
     dialogue:AddLineEvent(text, kalya, "Kalya looks west", "");
     text = vt_system.Translate("You must believe me Bronann...");
     dialogue:AddLineEvent(text, kalya, "Kalya looks south", "");
