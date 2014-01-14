@@ -496,11 +496,11 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
 
     dialogue = vt_map.SpriteDialogue();
-    text = vt_system.Translate("Can you also see this strange circle surrounded by light?");
+    text = vt_system.Translate("Do you also see this strange circle surrounded by light?");
     dialogue:AddLineEventEmote(text, kalya_sprite, "Kalya looks at Bronann", "", "exclamation");
     text = vt_system.Translate("When I'm standing near you, I can.");
     dialogue:AddLineEventEmote(text, hero, "Bronann looks at Kalya", "", "thinking dots");
-    text = vt_system.Translate("Strange... it sounds familiar to me. Like... A safe place to be.");
+    text = vt_system.Translate("Strange... it feels familiar to me. Like... A safe place to be.");
     dialogue:AddLineEvent(text, kalya_sprite, "Kalya looks at the save point", "");
     text = vt_system.Translate("I feel like I can go in there...");
     dialogue:AddLine(text, kalya_sprite);
@@ -541,13 +541,13 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
 
     dialogue = vt_map.SpriteDialogue();
-    text = vt_system.Translate("Oh, I almost forgot, have you seen up here? There is a Layna spring! We can heal our wounds there.");
+    text = vt_system.Translate("Oh, I almost forgot, have you seen one of these before? This is a Layna spring! Drinking from here heals both your mind and body.");
     dialogue:AddLineEventEmote(text, kalya_sprite, "Kalya looks at the spring", "", "exclamation");
     text = vt_system.VTranslate("Just stand in front of the goddess statue below the spring and push '%s'.", InputManager:GetConfirmKeyName());
     dialogue:AddLine(text, kalya_sprite);
     text = vt_system.Translate("Ok, thanks.");
     dialogue:AddLine(text, hero);
-    text = vt_system.Translate("... What are you waiting for? Come.");
+    text = vt_system.Translate("... What are you waiting for? Come here.");
     dialogue:AddLineEventEmote(text, kalya_sprite, "Kalya looks at Bronann", "", "thinking dots");
     text = vt_system.Translate("Huh? I... I'm coming.");
     dialogue:AddLineEmote(text, hero, "sweat drop");
@@ -561,9 +561,9 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
 
     dialogue = vt_map.SpriteDialogue();
-    text = vt_system.Translate("You're right. This place makes me feel good.");
+    text = vt_system.Translate("You're right. This place makes me feel better.");
     dialogue:AddLineEventEmote(text, hero, "Bronann looks at Kalya", "", "thinking dots");
-    text = vt_system.Translate("See? Now let's find my brother before he gets hurt.");
+    text = vt_system.Translate("See? Now, let's find my brother before he gets hurt.");
     dialogue:AddLine(text, kalya_sprite);
     DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Kalya talks about the save point - part 4", dialogue);

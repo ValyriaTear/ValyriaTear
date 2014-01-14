@@ -658,11 +658,11 @@ function _CreateEvents()
     dialogue = vt_map.SpriteDialogue();
     text = vt_system.Translate("Banesore's minions are already all over the place ...");
     dialogue:AddLineEvent(text, kalya, "Kalya looks at Bronann", "Bronann looks at Kalya");
-    text = vt_system.Translate("The dark soldiers as we call them are fanatics. They'll follow Banesore's orders even if it means death.");
+    text = vt_system.Translate("The dark soldiers, as we call them, are fanatics. They'll follow Banesore's orders even if it means death.");
     dialogue:AddLine(text, kalya);
-    text = vt_system.Translate("We don't know how he does that, but he can turn anybody into a servile subject.");
+    text = vt_system.Translate("We don't know how he does it, but he can turn anybody into a servile subject.");
     dialogue:AddLine(text, kalya);
-    text = vt_system.Translate("Their strength is also increased by the transformation. That's why we call them the zombified army.");
+    text = vt_system.Translate("Their strength is increased by the transformation. That's why we call them the zombified army.");
     dialogue:AddLine(text, kalya);
     text = vt_system.Translate("We must absolutely try to avoid them or they'll call reinforcement.");
     dialogue:AddLineEvent(text, kalya, "Kalya looks west", "");

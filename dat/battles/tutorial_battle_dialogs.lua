@@ -68,7 +68,7 @@ function Initialize(battle_instance)
     -- of battle, before any action can be taken. The player is presented with several options that they can read to get more information on
     -- the battle system. One of the options that the player may select from will finish the dialogue, allow the battle to resume.
     main_dialogue = vt_battle.BattleDialogue(1);
-        text = vt_system.Translate("Woah, I wouldn't have expected enemies so close to the village. Bronann, do you need a quick reminder about the basics in battles?");
+        text = vt_system.Translate("Woah, I wouldn't have expected monsters so close to the village. Bronann, do you need a quick reminder about the basics in battles?");
         main_dialogue:AddLine(text, 1002);
         text = vt_system.Translate("...");
         main_dialogue:AddLine(text, 1000);
@@ -111,7 +111,7 @@ function Initialize(battle_instance)
         text = vt_system.Translate("Thanks Kalya, I'm prepared now.");
         main_dialogue:AddLine(text, 1000);
         -- [Line 25] Final line of dialogue
-        text = vt_system.Translate("Good. Now let us quickly dispatch this minor threat.");
+        text = vt_system.Translate("Good. Let us quickly dispatch this minor threat.");
         main_dialogue:AddLine(text, 1002);
     DialogueManager:AddDialogue(main_dialogue);
 

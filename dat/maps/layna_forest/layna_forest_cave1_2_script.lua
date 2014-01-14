@@ -267,11 +267,11 @@ function _CreateEvents()
     dialogue:AddLineEventEmote(text, kalya_sprite, "", "Bronann looks at Kalya", "thinking dots");
     text = vt_system.Translate("You are able to decipher this writing, Kalya?");
     dialogue:AddLineEmote(text, hero, "thinking dots");
-    text = vt_system.Translate("Somehow... I don't know why, but yes ...");
+    text = vt_system.Translate("Somehow... I'm not sure how I am able to, but I can read it.");
     dialogue:AddLineEvent(text, kalya_sprite, "Kalya looks at Bronann", "Bronann looks north");
-    text = vt_system.Translate("Still, I don't know what it means, though.");
+    text = vt_system.Translate("However, I don't know what it means.");
     dialogue:AddLineEmote(text, hero, "thinking dots");
-    text = vt_system.Translate("Let's look around. We might find out.");
+    text = vt_system.Translate("Let's look around; we might find out.");
     dialogue:AddLine(text, kalya_sprite);
     DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Kalya reads the scripture", dialogue);
@@ -329,9 +329,9 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
 
     dialogue = vt_map.SpriteDialogue();
-    text = vt_system.Translate("I can feel fresh air and some light coming from around this rock.");
+    text = vt_system.Translate("I can feel a breeze and see light light escaping into the cave around this rock. Orlinn must have gone through here.");
     dialogue:AddLine(text, kalya_sprite);
-    text = vt_system.Translate("There are signs engraved on this rock, too. This sounds like some kind of mechanism my family used long ago...");
+    text = vt_system.Translate("There are signs engraved on this rock, too. This looks like some kind of mechanism my family used long ago...");
     dialogue:AddLineEvent(text, kalya_sprite, "Kalya looks at Bronann", "");
     text = vt_system.Translate("Your family? Long ago? ...");
     dialogue:AddLineEmote(text, hero, "interrogation");

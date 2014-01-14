@@ -59,40 +59,40 @@ function Initialize(battle_instance)
     DialogueManager:AddCustomSpeaker(1003, vt_system.Translate("Lilly"), "");
 
     dialogue = vt_battle.BattleDialogue(1);
-    text = vt_system.Translate("So... Do you think you can hurt me?");
+    text = vt_system.Translate("So... You think you can hurt me?");
     dialogue:AddLine(text, 1001);
-    text = vt_system.Translate("You? A child with an old wooden stick?");
+    text = vt_system.Translate("You? A child with an old wooden stick? Bahahahaa");
     dialogue:AddLine(text, 1001);
     text = vt_system.Translate("...");
     dialogue:AddLine(text, 1000);
     DialogueManager:AddDialogue(dialogue);
 
     dialogue = vt_battle.BattleDialogue(2);
-    text = vt_system.Translate("You're stronger than I thought but still ... So weak!");
+    text = vt_system.Translate("You're stronger than I thought... but still ... You are too weak to challenge me!");
     dialogue:AddLine(text, 1001);
     DialogueManager:AddDialogue(dialogue);
 
     dialogue = vt_battle.BattleDialogue(3);
     text = vt_system.Translate("Argh! It hurts!");
     dialogue:AddLine(text, 1000);
-    text = vt_system.Translate("Yes! I can feel it come closer to the surface!");
+    text = vt_system.Translate("Yes! I can feel it coming closer to the surface!");
     dialogue:AddLine(text, 1001);
     text = vt_system.Translate("Let your fear grow, young boy!");
     dialogue:AddLine(text, 1001);
-    text = vt_system.Translate("Don't listen to him, Bronann!");
+    text = vt_system.Translate("Bronann, don't listen to him!");
     dialogue:AddLine(text, 1002);
     DialogueManager:AddDialogue(dialogue);
 
     dialogue = vt_battle.BattleDialogue(4);
     text = vt_system.Translate("I will... try.");
     dialogue:AddLine(text, 1000);
-    text = vt_system.Translate("Hmph. Leave that man to me, soldiers!");
+    text = vt_system.Translate("Hmph. Soldiers, leave that man to me!");
     dialogue:AddLine(text, 1001);
-    text = vt_system.Translate("So... You seem to remind me, Banesore?");
+    text = vt_system.Translate("So... you must be Banesore...");
     dialogue:AddLine(text, 1002);
-    text = vt_system.Translate("I do, old man...");
+    text = vt_system.Translate("I am, old man...");
     dialogue:AddLine(text, 1001);
-    text = vt_system.Translate("Then, you know your zombified soldiers are no match to me...");
+    text = vt_system.Translate("Then, you should understand that your zombified soldiers are of no match to me...");
     dialogue:AddLine(text, 1002);
     text = vt_system.Translate("Argh! My chest is burning!!");
     dialogue:AddLine(text, 1000);
@@ -114,7 +114,7 @@ function Initialize(battle_instance)
     dialogue4_done = false;
     battle_exit_done = false;
 
-    -- Add a charge time at the end of which lilly can help Bronann
+    -- Add a charge time at the end of which Lilly can help Bronann
     lilly_charge_time = 10000;
     -- Time Lilly waits before actually healing Bronann
     -- (to avoid triggering the Heal in the middle of Banesore's attack)
