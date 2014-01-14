@@ -808,6 +808,14 @@ void Grid::UpdateScene()
     if(_grid_on)
         _DrawGrid();
 
+    // Draw the borders of the map.
+    QPen pen;
+    pen.setColor(Qt::red);
+    addLine(0, 0, _width * TILE_WIDTH, 0, pen);
+    addLine(0, _height * TILE_HEIGHT, _width * TILE_WIDTH, _height * TILE_HEIGHT, pen);
+    addLine(0, 0, 0, _height * TILE_HEIGHT, pen);
+    addLine(_width * TILE_WIDTH, 0, _width * TILE_WIDTH, _height * TILE_HEIGHT, pen);
+
 } // void Grid::UpdateScene()
 
 void Grid::_DrawGrid()
