@@ -4188,7 +4188,7 @@ msgstr ""
 #: ../dat/maps/mt_elbrus/mt_elbrus_path3_script.lua:612
 msgid ""
 "Well, Layna Village was abandoned a long time ago, before your parents "
-"and all the others came living there... Your mother never told you that?"
+"and all the others settled here... Your mother never told you that?"
 msgstr ""
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_path3_script.lua:614
