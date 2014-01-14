@@ -1762,7 +1762,7 @@ msgid ""
 "In order to know who George gave the rest of his barley meal to, I need to get "
 "back his lost pen.\n"
 " \n"
-"He spoke about losing it near a tree; he also told me that people in the village "
+"He said he lost it near a tree; he also told me that people in the village "
 "might know more..."
 msgstr ""
 
@@ -3863,7 +3863,7 @@ msgstr ""
 
 #: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:797
 msgid ""
-"After all, I simply wanted to make sure that boy would reach the Mt. Elbrus, "
+"After all, I simply wanted to make sure that boy would reach Mt. Elbrus, "
 "safe and sound."
 msgstr ""
 
@@ -4174,7 +4174,7 @@ msgstr ""
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_path3_script.lua:608
 msgid ""
-"This place is an old cemetery, used when the former villagers lived "
+"This place is an old cemetary, used when the former villagers lived "
 "in Layna..."
 msgstr ""
 
@@ -5528,5 +5528,5 @@ msgid "Low Mountain"
 msgstr ""
 
 #: map_names_tr.lua:135 map_names_tr.lua:267
-msgid "Old Cemetery"
+msgid "Old Cemetary"
 msgstr ""
