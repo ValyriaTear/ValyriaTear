@@ -402,13 +402,13 @@ function Initialize(map_instance)
                     text_color = vt_video.Color(1.0, 0.8, 0.7, 1.0),
                 },
                 [1] = {
-                    text = Script:CreateText("Bertram\n\nGallaecio\n\nNaN\n\nBioHazardX\n\nKnitter\n\ndimproject\n\njahalic", vt_video.TextStyle("text24")),
+                    text = Script:CreateText("mmstick, Astralchaos\n\nBertram\n\nGallaecio\n\nNaN\n\nBioHazardX\n\nKnitter\n\ndimproject\n\njahalic", vt_video.TextStyle("text24")),
                     text_position_x = 512.0,
                     text_position_y = 300.0,
                     text_color = vt_video.Color(1.0, 1.0, 1.0, 1.0),
                 },
                 [2] = {
-                    text = Script:CreateText(vt_system.Translate("French (fr)\n\nGallician (gl)\n\nGerman (de)\n\nItalian (it)\n\nPortuguese (pt_PT)\n\nRussian (ru)\n\nSpanish (es)"), vt_video.TextStyle("text24")),
+                    text = Script:CreateText(vt_system.Translate("English text review\n\nFrench (fr)\n\nGallician (gl)\n\nGerman (de)\n\nItalian (it)\n\nPortuguese (pt_PT)\n\nRussian (ru)\n\nSpanish (es)"), vt_video.TextStyle("text24")),
                     text_position_x = 642.0,
                     text_position_y = 324.0,
                     text_color = vt_video.Color(0.7, 0.7, 0.7, 1.0),
