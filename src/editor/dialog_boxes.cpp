@@ -69,6 +69,11 @@ MapPropertiesDialog::MapPropertiesDialog
     // skip over the present and parent working directories ("." and "..")
     // Also add the dat/tilesets path.
     for(uint32 i = 2; i < tileset_dir.count(); i++) {
+        // Exclude the autotiling.lua file as it's no tileset.
+        // TODO: Move files and handle this better...
+        if (tileset_dir[i] == QString("autotiling.lua"))
+            continue;
+
         QString tileset_definition_file = "dat/tilesets/" + tileset_dir[i];
         tilesets.append(new QTreeWidgetItem((QTreeWidget *)0,
                                             QStringList(tileset_definition_file)));
