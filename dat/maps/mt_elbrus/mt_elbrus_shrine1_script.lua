@@ -526,12 +526,12 @@ function _show_flames()
 
     Map:AddHalo("img/misc/lights/torch_light_mask2.lua", 33.0, 9.1 + 3.0,
         vt_video.Color(0.85, 0.32, 0.0, 0.6));
-    Map:AddHalo("img/misc/lights/sun_flare_light_main.lua", 33.0, 9.1 + 1.0,
-        vt_video.Color(0.99, 1.0, 0.27, 0.2));
+    Map:AddHalo("img/misc/lights/sun_flare_light_main.lua", 33.0, 9.1 + 2.0,
+        vt_video.Color(0.99, 1.0, 0.27, 0.1));
     Map:AddHalo("img/misc/lights/torch_light_mask2.lua", 51.0, 9.1 + 3.0,
         vt_video.Color(0.85, 0.32, 0.0, 0.6));
-    Map:AddHalo("img/misc/lights/sun_flare_light_main.lua", 51.0, 9.1 + 1.0,
-        vt_video.Color(0.99, 1.0, 0.27, 0.2));
+    Map:AddHalo("img/misc/lights/sun_flare_light_main.lua", 51.0, 9.1 + 2.0,
+        vt_video.Color(0.99, 1.0, 0.27, 0.1));
 
     shrine_flame1:SetVisible(true);
     shrine_flame2:SetVisible(true);

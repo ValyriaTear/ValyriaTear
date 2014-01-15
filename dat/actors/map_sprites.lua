@@ -537,8 +537,8 @@ sprites["Dark Soldier on horse"] = {
 
 sprites["Beetle"] = {
     name = vt_system.Translate("Beetle"),
-    coll_half_width = 0.9,
-    coll_height = 1.9,
+    coll_half_width = 0.6,
+    coll_height = 1.2,
     img_half_width = 1.25,
     img_height = 2.6,
     movement_speed = ENEMY_SPEED,

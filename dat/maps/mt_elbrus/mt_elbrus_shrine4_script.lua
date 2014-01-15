@@ -100,8 +100,8 @@ function _add_flame(x, y)
 
     Map:AddHalo("img/misc/lights/torch_light_mask2.lua", x, y + 3.0,
         vt_video.Color(0.85, 0.32, 0.0, 0.6));
-    Map:AddHalo("img/misc/lights/sun_flare_light_main.lua", x, y + 1.0,
-        vt_video.Color(0.99, 1.0, 0.27, 0.2));
+    Map:AddHalo("img/misc/lights/sun_flare_light_main.lua", x, y + 2.0,
+        vt_video.Color(0.99, 1.0, 0.27, 0.1));
 end
 
 -- Creates all events and sets up the entire event sequence chain
@@ -132,7 +132,7 @@ end
 -- Check whether the active camera has entered a zone. To be called within Update()
 function _CheckZones()
     if (to_shrine_main_room_zone:IsCameraEntering() == true) then
-        hero:SetMoving(false);
+        hero:SetDirection(vt_map.MapMode.EAST);
         EventManager:StartEvent("to mountain shrine main room");
     end
 

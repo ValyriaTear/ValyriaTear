@@ -70,6 +70,17 @@ function _CreateCharacters()
     hero:SetMovementSpeed(vt_map.MapMode.NORMAL_SPEED);
     Map:AddGroundObject(hero);
 
+    if (GlobalManager:GetPreviousLocation() == "from_shrine_first_floor_SW_left_door") then
+        hero:SetPosition(16, 36);
+        hero:SetDirection(vt_map.MapMode.NORTH);
+    elseif (GlobalManager:GetPreviousLocation() == "from_shrine_first_floor_SW_right_door") then
+        hero:SetPosition(28, 36);
+        hero:SetDirection(vt_map.MapMode.NORTH);
+    elseif (GlobalManager:GetPreviousLocation() == "from_shrine_first_floor_NE_room") then
+        hero:SetPosition(44, 10);
+        hero:SetDirection(vt_map.MapMode.WEST);
+    end
+
     orlinn = CreateSprite(Map, "Orlinn",
                           hero:GetXPosition(), hero:GetYPosition());
     orlinn:SetDirection(vt_map.MapMode.EAST);
@@ -86,7 +97,8 @@ function _CreateObjects()
     local text = {}
     local event = {}
 
-    _add_flame(5.5, 7);
+    _add_flame(13.5, 7);
+    _add_flame(43.5, 6);
 end
 
 function _add_flame(x, y)
@@ -100,8 +112,8 @@ function _add_flame(x, y)
 
     Map:AddHalo("img/misc/lights/torch_light_mask2.lua", x, y + 3.0,
         vt_video.Color(0.85, 0.32, 0.0, 0.6));
-    Map:AddHalo("img/misc/lights/sun_flare_light_main.lua", x, y + 1.0,
-        vt_video.Color(0.99, 1.0, 0.27, 0.2));
+    Map:AddHalo("img/misc/lights/sun_flare_light_main.lua", x, y + 2.0,
+        vt_video.Color(0.99, 1.0, 0.27, 0.1));
 end
 
 -- Creates all events and sets up the entire event sequence chain
@@ -114,26 +126,67 @@ function _CreateEvents()
                                        "dat/maps/mt_elbrus/mt_elbrus_shrine2_script.lua", "from_shrine_first_floor");
     EventManager:RegisterEvent(event);
 
+    event = vt_map.MapTransitionEvent("to mountain shrine 2nd floor", "dat/maps/mt_elbrus/mt_elbrus_shrine9_map.lua",
+                                       "dat/maps/mt_elbrus/mt_elbrus_shrine9_script.lua", "from_shrine_first_floor");
+    EventManager:RegisterEvent(event);
+
+    event = vt_map.MapTransitionEvent("to mountain shrine 1st floor SW room - left door", "dat/maps/mt_elbrus/mt_elbrus_shrine6_map.lua",
+                                       "dat/maps/mt_elbrus/mt_elbrus_shrine6_script.lua", "from_shrine_first_floor_NW_left_door");
+    EventManager:RegisterEvent(event);
+    event = vt_map.MapTransitionEvent("to mountain shrine 1st floor SW room - right door", "dat/maps/mt_elbrus/mt_elbrus_shrine6_map.lua",
+                                       "dat/maps/mt_elbrus/mt_elbrus_shrine6_script.lua", "from_shrine_first_floor_NW_right_door");
+    EventManager:RegisterEvent(event);
+    event = vt_map.MapTransitionEvent("to mountain shrine 1st floor NE room", "dat/maps/mt_elbrus/mt_elbrus_shrine8_map.lua",
+                                       "dat/maps/mt_elbrus/mt_elbrus_shrine8_script.lua", "from_shrine_first_floor_NW_room");
+    EventManager:RegisterEvent(event);
+
 end
 
 -- zones
 local to_shrine_main_room_zone = {};
-local to_shrine_treasure_room_zone = {};
+local to_shrine_2nd_floor_room_zone = {};
+local to_shrine_SW_left_door_room_zone = {};
+local to_shrine_SW_right_door_room_zone = {};
+local to_shrine_NE_room_zone = {};
 
 -- Create the different map zones triggering events
 function _CreateZones()
 
     -- N.B.: left, right, top, bottom
-    to_shrine_main_room_zone = vt_map.CameraZone(8, 12, 10, 11);
+    to_shrine_main_room_zone = vt_map.CameraZone(6, 10, 9, 11);
     Map:AddZone(to_shrine_main_room_zone);
+
+    to_shrine_2nd_floor_room_zone = vt_map.CameraZone(18, 22, 9, 10);
+    Map:AddZone(to_shrine_2nd_floor_room_zone);
+
+    to_shrine_SW_left_door_room_zone = vt_map.CameraZone(14, 18, 38, 40);
+    Map:AddZone(to_shrine_SW_left_door_room_zone);
+
+    to_shrine_SW_right_door_room_zone = vt_map.CameraZone(26, 30, 38, 40);
+    Map:AddZone(to_shrine_SW_right_door_room_zone);
+
+    to_shrine_NE_room_zone = vt_map.CameraZone(46, 48, 8, 12);
+    Map:AddZone(to_shrine_NE_room_zone);
 
 end
 
 -- Check whether the active camera has entered a zone. To be called within Update()
 function _CheckZones()
     if (to_shrine_main_room_zone:IsCameraEntering() == true) then
-        hero:SetMoving(false);
+        hero:SetDirection(vt_map.MapMode.NORTH);
         EventManager:StartEvent("to mountain shrine main room");
+    elseif (to_shrine_2nd_floor_room_zone:IsCameraEntering() == true) then
+        --hero:SetDirection(vt_map.MapMode.NORTH);
+        --EventManager:StartEvent("to mountain shrine 2nd floor");
+    elseif (to_shrine_SW_left_door_room_zone:IsCameraEntering() == true) then
+        hero:SetDirection(vt_map.MapMode.SOUTH);
+        EventManager:StartEvent("to mountain shrine 1st floor SW room - left door");
+    elseif (to_shrine_SW_right_door_room_zone:IsCameraEntering() == true) then
+        hero:SetDirection(vt_map.MapMode.SOUTH);
+        EventManager:StartEvent("to mountain shrine 1st floor SW room - right door");
+    elseif (to_shrine_NE_room_zone:IsCameraEntering() == true) then
+        hero:SetDirection(vt_map.MapMode.EAST);
+        EventManager:StartEvent("to mountain shrine 1st floor NE room");
     end
 
 end

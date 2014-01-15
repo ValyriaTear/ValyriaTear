@@ -137,8 +137,8 @@ function _add_flame(x, y)
 
     Map:AddHalo("img/misc/lights/torch_light_mask2.lua", x, y + 3.0,
         vt_video.Color(0.85, 0.32, 0.0, 0.6));
-    Map:AddHalo("img/misc/lights/sun_flare_light_main.lua", x, y + 1.0,
-        vt_video.Color(0.99, 1.0, 0.27, 0.2));
+    Map:AddHalo("img/misc/lights/sun_flare_light_main.lua", x, y + 2.0,
+        vt_video.Color(0.99, 1.0, 0.27, 0.1));
 end
 
 function _CreateEnemies()
@@ -219,16 +219,16 @@ end
 -- Check whether the active camera has entered a zone. To be called within Update()
 function _CheckZones()
     if (to_shrine_entrance_zone:IsCameraEntering() == true) then
-        hero:SetMoving(false);
+        hero:SetDirection(vt_map.MapMode.SOUTH);
         EventManager:StartEvent("to mountain shrine entrance");
     elseif (to_shrine_trap_room_zone:IsCameraEntering() == true) then
-        hero:SetMoving(false);
+        hero:SetDirection(vt_map.MapMode.EAST);
         EventManager:StartEvent("to mountain shrine trap room");
     elseif (to_shrine_enigma_room_zone:IsCameraEntering() == true) then
-        hero:SetMoving(false);
+        hero:SetDirection(vt_map.MapMode.WEST);
         EventManager:StartEvent("to mountain shrine enigma room");
     elseif (to_shrine_first_floor_zone:IsCameraEntering() == true) then
-        hero:SetMoving(false);
+        hero:SetDirection(vt_map.MapMode.NORTH);
         EventManager:StartEvent("to mountain shrine first floor");
     end
 end
