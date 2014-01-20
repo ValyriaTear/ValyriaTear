@@ -1,7 +1,7 @@
 Licenses
 ========
 
-Last update: 2014.01.13
+Last update: 2014.01.17
 
 This file is listing all the files licenses from the point of the fork
 from the Allacrost project.
@@ -584,21 +584,23 @@ img/sprites/map/characters/bronann_laughing_unarmed.png         GPLv2+          
 img/sprites/map/characters/kalya_laughing.png                   GPLv2+                   Allacrost + Bertram
 
 img/sprites/map/enemies/bat_spritesheet.png                     CC by SA 3.0             From the Liberated Pixel Cup Bat enemy - http://lpc.opengameart.org/ (OGA)
+img/sprites/map/enemies/beetle_spritesheet.png                  CC by SA 3.0 / GPLv2     Redshrike (OGA) - http://opengameart.org/content/lpc-beetle
 img/sprites/map/enemies/big_slime_spritesheet.png               CC by SA 3.0             From the Liberated Pixel Cup Slime enemy - http://lpc.opengameart.org/ (OGA)
 img/sprites/map/enemies/dark_soldier01_spritesheet.png          CC by SA 3.0             Redshrike (OGA) - http://opengameart.org/content/dark-soldier-for-valyria-tear
 img/sprites/map/enemies/dark_soldier_ko.png                     CC by SA 3.0             Bertram, based on: Redshrike (OGA) - http://opengameart.org/content/dark-soldier-for-valyria-tear
 img/sprites/map/enemies/eyeball_spritesheet.png                 CC by SA 3.0             From the Liberated Pixel Cup Eyeball enemy - http://lpc.opengameart.org/ (OGA)
+img/sprites/map/enemies/fenrir_spritesheet.png                  GPLv2+                   Bertram - adapted from the wolf spritesheet
 img/sprites/map/enemies/gigas_walk.png                          GPLv2+                   Allacrost
+img/sprites/map/enemies/lord_spritesheet.png                    CC by SA 3.0             Bertram, adapted from Redshrike (OGA) - http://opengameart.org/content/dark-soldier-for-valyria-tear
 img/sprites/map/enemies/naga_walk.png                           GPLv2+                   Allacrost
 img/sprites/map/enemies/scorpion_walk.png                       GPLv2+                   Allacrost
+img/sprites/map/enemies/skeleton_spritesheet.png                CC by SA 3.0 / GPLv2     FotherJ (TMW) - https://github.com/themanaworld/tmwa-client-data/blob/master/graphics/sprites/monsters/skeleton.png
 img/sprites/map/enemies/slime_walk.png                          GPLv2+                   Allacrost
 img/sprites/map/enemies/snake_walk.png                          GPLv2+                   Allacrost
-img/sprites/map/enemies/wolf_spritesheet.png                    GPLv2+                   The Mana World
 img/sprites/map/enemies/spider_spritesheet.png                  GPLv2+                   The Mana World + Made it brown (Bertram)
 img/sprites/map/enemies/spiky_mushroom.png                      GPLv2+                   Yuuki - The Mana World - http://www.themanaworld.org
-img/sprites/map/enemies/fenrir_spritesheet.png                  GPLv2+                   Bertram - adapted from the wolf spritesheet
-img/sprites/map/enemies/lord_spritesheet.png                    CC by SA 3.0             Bertram, adapted from Redshrike (OGA) - http://opengameart.org/content/dark-soldier-for-valyria-tear
-img/sprites/map/enemies/beetle_spritesheet.png                  CC by SA 3.0 / GPLv2     Redshrike (OGA) - http://opengameart.org/content/lpc-beetle
+img/sprites/map/enemies/wolf_spritesheet.png                    GPLv2+                   The Mana World
+img/sprites/map/enemies/yeti_spritesheet.png                    GPLv2                    Modanung, Pateame (TMW) - https://github.com/themanaworld/tmwa-client-data/blob/master/graphics/sprites/monsters/moggun.png
 
 img/sprites/map/npcs/crystal_spritesheet.png                    CC by SA 3.0             Len + Modifications by Bertram
 img/sprites/map/npcs/mak_hound.png                              GPLv2+                   Allacrost
