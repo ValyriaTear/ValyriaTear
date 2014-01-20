@@ -1,7 +1,7 @@
 Licenses
 ========
 
-Last update: 2014.01.17
+Last update: 2014.01.20
 
 This file is listing all the files licenses from the point of the fork
 from the Allacrost project.
@@ -11,7 +11,7 @@ http://www.allacrost.org
 
 'OGA' stands for: Open Game Art - http://opengameart.org
 'dA' stands for: Deviant Art - http://deviantart.com
-'The Mana World' is referring to: http://themanaworld.org
+'The Mana World' or 'TMW' is referring to: http://themanaworld.org
 
 GPLv2+ or GPLv3+ refer to assets under the standard license with the
 "or any later version" text.  "GPLv2" markings are for assets where it
@@ -699,6 +699,8 @@ img/sprites/map/scening/chicken_spritesheet.png                 CC-By-SA 3.0    
 img/sprites/map/scening/squirrel_spritesheet.png                GPLv2+                   The Mana World
 
 img/sprites/map/treasures/chest1.png                            GPLv2+                   Allacrost
+img/sprites/map/treasures/chest2.png                            CC by SA 3.0             Allacrost + From Jetrel's mockups + Bertram + adapted other Circle 2D graphics from Daniel Cook (lostgarden.com)
+img/sprites/map/treasures/chest3.png                            CC by SA 3.0             Allacrost + From Jetrel's mockups + Bertram + adapted other Circle 2D graphics from Daniel Cook (lostgarden.com)
 img/sprites/map/treasures/locker1.png                           GPLv2+                   Allacrost + Bertram
 
 img/sprites/map/triggers/stone_trigger1_off.png                 CC by SA 3.0             Adapted Circle 2D graphics from Daniel Cook (lostgarden.com)

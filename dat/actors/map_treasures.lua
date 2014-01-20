@@ -2,7 +2,7 @@ treasures = {}
 
 treasures["Vase1"] = {
     closed_animation_filename = "img/sprites/map/objects/vase1.lua",
-    opening_animation_filename = "", -- no opening sequence
+    opening_animation_filename = "img/sprites/map/objects/vase1.lua",
     opened_animation_filename = "img/sprites/map/objects/vase1.lua",
     coll_half_width = 0.75,
     coll_height = 1.2,
@@ -16,8 +16,28 @@ treasures["Wood_Chest1"] = {
     opened_animation_filename = "img/sprites/map/treasures/chest1_open.lua",
     coll_half_width = 0.6,
     coll_height = 1.0,
-    img_half_width =1.0,
+    img_half_width = 1.0,
     img_height = 2.0
+}
+
+treasures["Wood_Chest2"] = {
+    closed_animation_filename = "img/sprites/map/treasures/chest2_closed.lua",
+    opening_animation_filename = "img/sprites/map/treasures/chest2_open.lua",
+    opened_animation_filename = "img/sprites/map/treasures/chest2_open.lua",
+    coll_half_width = 0.6,
+    coll_height = 1.0,
+    img_half_width = 1.0,
+    img_height = 3.125
+}
+
+treasures["Wood_Chest3"] = {
+    closed_animation_filename = "img/sprites/map/treasures/chest3_closed.lua",
+    opening_animation_filename = "img/sprites/map/treasures/chest3_open.lua",
+    opened_animation_filename = "img/sprites/map/treasures/chest3_open.lua",
+    coll_half_width = 0.6,
+    coll_height = 1.0,
+    img_half_width = 1.0,
+    img_height = 3.125
 }
 
 treasures["Locker_Chest1"] = {
@@ -26,7 +46,7 @@ treasures["Locker_Chest1"] = {
     opened_animation_filename = "img/sprites/map/treasures/locker1_open.lua",
     coll_half_width = 0.93,
     coll_height = 1.0,
-    img_half_width =0.93,
+    img_half_width = 0.93,
     img_height = 1.81
 }
 
