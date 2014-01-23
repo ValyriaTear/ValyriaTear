@@ -12,7 +12,7 @@ function _GetHeroWithMostSP(battle_instance)
     local nb_heroes = battle_instance:GetNumberOfCharacters();
     while id < nb_heroes do
         local hero = battle_instance:GetCharacterActor(id);
-        if (hero ~= nil and hero:CanFight() == true)
+        if (hero ~= nil and hero:CanFight() == true) then
             if (hero:GetSkillPoints() > most_sp) then
                 most_sp = hero:GetSkillPoints();
                 id_most_sp = id;
@@ -36,7 +36,7 @@ function _GetHeroWithLessHP(battle_instance)
     local nb_heroes = battle_instance:GetNumberOfCharacters();
     while id < nb_heroes do
         local hero = battle_instance:GetCharacterActor(id);
-        if (hero ~= nil and hero:CanFight() == true)
+        if (hero ~= nil and hero:CanFight() == true) then
             if (hero:GetHitPoints() < less_hp) then
                 less_hp = hero:GetHitPoints();
                 id_less_hp = id;
