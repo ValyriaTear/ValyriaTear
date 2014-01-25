@@ -101,8 +101,14 @@
 #include <cstring>
 #include <deque>
 #include <fstream>
-#include <iconv.h>
 #include <iostream>
+
+#ifdef __APPLE__
+// OSX offers _libiconv, macports offers _iconv
+#include "../../Xcode/libs/include/iconv.h"
+#else
+#include <iconv.h>
+#endif
 
 #ifndef DISABLE_TRANSLATIONS
 #ifndef EDITOR_BUILD
