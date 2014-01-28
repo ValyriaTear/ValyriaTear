@@ -49,8 +49,7 @@ CharacterWindow::CharacterWindow() : _char_id(GLOBAL_CHARACTER_INVALID)
 {
 }
 
-
-void CharacterWindow::SetCharacter(GlobalCharacter *character)
+void CharacterWindow::SetCharacter(GlobalCharacter* character)
 {
     if(!character || character->GetID() == vt_global::GLOBAL_CHARACTER_INVALID) {
         _character_name.Clear();
@@ -78,9 +77,9 @@ void CharacterWindow::SetCharacter(GlobalCharacter *character)
     char_data += UTranslate("XP to Next: ") + MakeUnicodeString(NumberToString(character->GetExperienceForNextLevel()));
 
     _character_data.SetText(char_data, TextStyle("text20"));
+
+    _UpdateActiveStatusEffects(character);
 } // void CharacterWindow::SetCharacter(GlobalCharacter *character)
-
-
 
 // Draw the window to the screen
 void CharacterWindow::Draw()
@@ -107,8 +106,36 @@ void CharacterWindow::Draw()
     // Level, HP, SP, XP to Next Lvl
     VideoManager->MoveRelative(0, 19);
     _character_data.Draw();
+
+    // Active status effects
+    VideoManager->MoveRelative(-40, -19);
+    for (uint32 i = 0; i < _active_status_effects.size(); ++i) {
+        if (_active_status_effects[i])
+            _active_status_effects[i]->Draw();
+        VideoManager->MoveRelative(0, 15);
+    }
 }
 
+void CharacterWindow::_UpdateActiveStatusEffects(vt_global::GlobalCharacter* character)
+{
+    _active_status_effects.clear();
+    if (!character)
+        return;
+
+    GlobalMedia& media = GlobalManager->Media();
+
+    const std::vector<ActiveStatusEffect> effects = character->GetActiveStatusEffects();
+    // We only add the first 6 status effects for display purpose.
+    for (uint32 i = 0; i < effects.size() && i < 6; ++i) {
+        GLOBAL_STATUS status = effects[i].GetEffect();
+        GLOBAL_INTENSITY intensity = effects[i].GetIntensity();
+        if (status != GLOBAL_STATUS_INVALID && intensity != GLOBAL_INTENSITY_NEUTRAL) {
+            StillImage* image = media.GetStatusIcon(status, intensity);
+            if (image)
+                _active_status_effects.push_back(image);
+        }
+    }
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 // InventoryWindow Class

@@ -133,7 +133,7 @@ public:
     /** \brief Set the character for this window
     *** \param character the character to associate with this window
     **/
-    void SetCharacter(vt_global::GlobalCharacter *character);
+    void SetCharacter(vt_global::GlobalCharacter* character);
 
     /** \brief render this window to the screen
     *** \return success/failure
@@ -150,6 +150,15 @@ private:
     //! The text along with the character portrait
     vt_video::TextImage _character_name;
     vt_video::TextImage _character_data;
+
+    //! The character active status effects images.
+    //! Do not delete them, as they are handled by the GlobalMedia class.
+    std::vector<vt_video::StillImage*> _active_status_effects;
+
+    /** Refreshes the active status effects images vector content.
+    *** \param character the character to check status effects for.
+    **/
+    void _UpdateActiveStatusEffects(vt_global::GlobalCharacter* character);
 }; // class CharacterWindow : public vt_video::MenuWindow
 
 
