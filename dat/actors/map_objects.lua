@@ -96,6 +96,14 @@ objects["Bridge1_down"] = {
     img_height = 2.0
 }
 
+objects["Bubble"] = {
+    animation_filename = "img/sprites/map/objects/bubble.lua",
+    coll_half_width = 0.5,
+    coll_height = 1.0,
+    img_half_width = 0.5,
+    img_height = 1.0
+}
+
 objects["Bush1"] = {
     animation_filename = "img/sprites/map/objects/bush1.lua",
     coll_half_width = 1.9,
@@ -129,7 +137,7 @@ objects["Bush4"] = {
 }
 
 objects["Campfire1"] = {
-    animation_filename = "img/sprites/map/objects/campfire.lua",
+    animation_filename = "img/sprites/map/objects/campfire1.lua",
     coll_half_width = 1.0,
     coll_height = 1.6,
     img_half_width = 2.0,
@@ -140,6 +148,22 @@ objects["Candle1"] = {
     animation_filename = "img/sprites/map/objects/candle1.lua",
     coll_half_width = 1.0,
     coll_height = 1.8,
+    img_half_width = 1.0,
+    img_height = 2.0
+}
+
+objects["Candle Holder1"] = {
+    animation_filename = "img/sprites/map/objects/candle_holder1.lua",
+    coll_half_width = 0.8,
+    coll_height = 1.8,
+    img_half_width = 0.84,
+    img_height = 3.06
+}
+
+objects["Candle Holder2"] = {
+    animation_filename = "img/sprites/map/objects/candle_holder2.lua",
+    coll_half_width = 0.9,
+    coll_height = 1.6,
     img_half_width = 1.0,
     img_height = 2.0
 }
@@ -264,6 +288,14 @@ objects["Flame1"] = {
     img_height = 1.5
 }
 
+objects["Flame Pot1"] = {
+    animation_filename = "img/sprites/map/objects/flame_pot1.lua",
+    coll_half_width = 0.6,
+    coll_height = 1.3,
+    img_half_width = 1.0,
+    img_height = 2.0
+}
+
 objects["Flower Pot1"] = {
     animation_filename = "img/sprites/map/objects/flower_pot1.lua",
     coll_half_width = 0.59,
@@ -318,6 +350,14 @@ objects["Harlequin"] = {
     coll_height = 2.0,
     img_half_width = 2.46,
     img_height = 5.8
+}
+
+objects["Jar1"] = {
+    animation_filename = "img/sprites/map/objects/jar1.lua",
+    coll_half_width = 0.5,
+    coll_height = 1.2,
+    img_half_width = 0.625,
+    img_height = 1.68
 }
 
 objects["Knife1"] = {
@@ -670,6 +710,30 @@ objects["Vase1"] = {
     coll_height = 1.2,
     img_half_width = 0.75,
     img_height = 1.5
+}
+
+objects["Vase2"] = {
+    animation_filename = "img/sprites/map/objects/vase2.lua",
+    coll_half_width = 0.75,
+    coll_height = 1.3,
+    img_half_width = 0.81,
+    img_height = 2.5
+}
+
+objects["Vase3"] = {
+    animation_filename = "img/sprites/map/objects/vase3.lua",
+    coll_half_width = 0.6,
+    coll_height = 1.1,
+    img_half_width = 0.68,
+    img_height = 1.68
+}
+
+objects["Vase4"] = {
+    animation_filename = "img/sprites/map/objects/vase4.lua",
+    coll_half_width = 0.5,
+    coll_height = 1.1,
+    img_half_width = 0.59,
+    img_height = 2.0
 }
 
 objects["Well"] = {

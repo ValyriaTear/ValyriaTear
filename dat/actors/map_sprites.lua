@@ -551,6 +551,22 @@ sprites["Beetle"] = {
     },
 }
 
+sprites["Skeleton"] = {
+    name = vt_system.Translate("Skeleton"),
+    coll_half_width = 0.6,
+    coll_height = 1.2,
+    img_half_width = 1.25,
+    img_height = 2.6,
+    movement_speed = ENEMY_SPEED,
+    --face_portrait = "",
+
+    -- using special animation files.
+    standard_animations = {
+        idle = "img/sprites/map/enemies/skeleton_idle.lua",
+        walk = "img/sprites/map/enemies/skeleton_walk.lua"
+    },
+}
+
 function CreateSprite(Map, name, x, y)
     if (sprites[name] == nil) then
         print("Error: No object named: "..name.." found!!");

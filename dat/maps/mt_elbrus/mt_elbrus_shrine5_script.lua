@@ -99,6 +99,11 @@ function _CreateObjects()
 
     _add_flame(13.5, 7);
     _add_flame(43.5, 6);
+
+    object = CreateObject(Map, "Candle Holder1", 16, 11);
+    Map:AddGroundObject(object);
+    object = CreateObject(Map, "Candle Holder1", 24, 11);
+    Map:AddGroundObject(object);
 end
 
 function _add_flame(x, y)

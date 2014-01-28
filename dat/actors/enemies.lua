@@ -964,6 +964,67 @@ enemies[18] = {
     }
 }
 
+enemies[19] = {
+    name = vt_system.Translate("Skeleton"),
+    stamina_icon = "img/icons/actors/enemies/skeleton.png",
+
+    battle_animations = {
+        [HURT_NONE] = "img/sprites/battle/enemies/skeleton_0.lua",
+        [HURT_SLIGHTLY] = "img/sprites/battle/enemies/skeleton_1.lua",
+        [HURT_MEDIUM] = "img/sprites/battle/enemies/skeleton_2.lua",
+        [HURT_HEAVILY] = "img/sprites/battle/enemies/skeleton_3.lua"
+    },
+
+    base_stats = {
+        hit_points = 124,
+        skill_points = 10,
+        strength = 15,
+        vigor = 0,
+        fortitude = 14,
+        protection = 4,
+        agility = 13,
+        evade = 2.0,
+        experience_points = 5,
+        drunes = 18
+    },
+
+    attack_points = {
+        [1] = {
+            name = vt_system.Translate("Head"),
+            x_position = -23,
+            y_position = 108,
+            fortitude_modifier = 0.0,
+            protection_modifier = 0.0,
+            evade_modifier = 0.0
+        },
+        [2] = {
+            name = vt_system.Translate("Chest"),
+            x_position = -12,
+            y_position = 82,
+            fortitude_modifier = 0.0,
+            protection_modifier = 0.0,
+            evade_modifier = 0.0
+        },
+        [3] = {
+            name = vt_system.Translate("Leg"),
+            x_position = -26,
+            y_position = 56,
+            fortitude_modifier = 0.0,
+            protection_modifier = 0.0,
+            evade_modifier = 0.0,
+            status_effects = { [vt_global.GameGlobal.GLOBAL_STATUS_AGILITY] = 20.0 }
+        }
+    },
+
+    skills = {
+        1006
+    },
+
+    drop_objects = {
+        { 1, 0.15 } -- Minor Healing Potion
+    }
+}
+
 -- Traits -----------------------------------------------------------------------
 -- HSP: low HP, low SP
 -- ATK: med phys, zero meta
@@ -1026,13 +1087,6 @@ enemies[59] = {
     }
 }
 
--- Traits -----------------------------------------------------------------------
--- HSP: ??? HP, ??? SP
--- ATK: ??? phys, ??? meta
--- DEF: ??? phys, ??? meta
--- SPD: ??? agi, ??? eva
--- XPD: ??? XP, ??? drunes
---------------------------------------------------------------------------------
 enemies[60] = {
     name = vt_system.Translate("Dune Crawler"),
     stamina_icon = "img/icons/actors/enemies/dune_crawler.png",
@@ -1078,70 +1132,6 @@ enemies[60] = {
 
     drop_objects = {
 
-    }
-}
-
--- Traits -----------------------------------------------------------------------
--- HSP: med HP, med SP
--- ATK: high phys, zero meta
--- DEF: high phys, low meta
--- SPD: low agi, low eva
--- XPD: med XP, med drunes
---------------------------------------------------------------------------------
-enemies[61] = {
-    name = vt_system.Translate("Skeleton"),
-    stamina_icon = "img/icons/actors/enemies/skeleton.png",
-    battle_sprites = "img/sprites/battle/enemies/skeleton.png",
-    sprite_width = 64,
-    sprite_height = 128,
-
-    base_stats = {
-        hit_points = 124,
-        skill_points = 10,
-        strength = 15,
-        vigor = 0,
-        fortitude = 14,
-        protection = 4,
-        agility = 13,
-        evade = 2.0,
-        experience_points = 5,
-        drunes = 18
-    },
-
-    attack_points = {
-        [1] = {
-            name = vt_system.Translate("Head"),
-            x_position = -23,
-            y_position = 108,
-            fortitude_modifier = 0.0,
-            protection_modifier = 0.0,
-            evade_modifier = 0.0
-        },
-        [2] = {
-            name = vt_system.Translate("Chest"),
-            x_position = -12,
-            y_position = 82,
-            fortitude_modifier = 0.0,
-            protection_modifier = 0.0,
-            evade_modifier = 0.0
-        },
-        [3] = {
-            name = vt_system.Translate("Leg"),
-            x_position = -26,
-            y_position = 56,
-            fortitude_modifier = 0.0,
-            protection_modifier = 0.0,
-            evade_modifier = 0.0,
-            status_effects = { [vt_global.GameGlobal.GLOBAL_STATUS_AGILITY] = 20.0 }
-        }
-    },
-
-    skills = {
-        1006
-    },
-
-    drop_objects = {
-        { 1, 0.15 } -- Minor Healing Potion
     }
 }
 

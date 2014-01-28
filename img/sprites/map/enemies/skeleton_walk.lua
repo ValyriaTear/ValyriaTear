@@ -14,8 +14,8 @@ sprite_animation = {
     image_filename = "img/sprites/map/enemies/skeleton_spritesheet.png",
     -- The number of rows and columns of images, will be used to compute
     -- the images width and height, and also the frames number (row x col)
-    rows = 7,
-    columns = 4,
+    rows = 4,
+    columns = 7,
     -- The actual frame size
     --frame_width = 77 / 1.5,
     --frame_height = 76 / 1.5,

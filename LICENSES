@@ -1,7 +1,7 @@
 Licenses
 ========
 
-Last update: 2014.01.20
+Last update: 2014.01.28
 
 This file is listing all the files licenses from the point of the fork
 from the Allacrost project.
@@ -94,6 +94,7 @@ dat/effects/status.lua                                          GPLv2+          
 dat/effects/particles/rain.lua                                  GPLv2+                   roos + Bertram modifications
 dat/effects/particles/snow.lua                                  GPLv2+                   roos + Bertram modifications
 dat/effects/particles/blue_firework.lua                         GPLv2+                   roos + Bertram modifications
+dat/effects/particles/bubble_steam.lua                          GPLv2+                   roos + Bertram modifications
 dat/effects/particles/crystal_appearance.lua                    GPLv2+                   roos + Bertram modifications
 dat/effects/particles/dust.lua                                  GPLv2+                   roos + Bertram modifications
 dat/effects/particles/shield.lua                                GPLv2+                   Bertram
@@ -146,6 +147,7 @@ dat/maps/layna_village/kalya_house_fake_wall.png                GPLv2+          
 
 dat/maps/mt_elbrus/ancient_sign_big_bright.png                  CC by SA 3.0             Bertram
 dat/maps/mt_elbrus/shrine_entrance_light.png                    CC by SA 3.0             Bertram
+dat/maps/mt_elbrus/fake_wall.png                                CC by SA 3.0, GPLv3      Guido Bos + adaptation from Bertram - http://opengameart.org/content/3rd-entry-some-old-castle-stuff
 
 dat/objects/arm_armor.lua                                       GPLv2+                   Allacrost + Bertram
 dat/objects/head_armor.lua                                      GPLv2+                   Allacrost + Bertram
@@ -629,6 +631,7 @@ img/sprites/map/objects/bed2.png                                GPLv2           
 img/sprites/map/objects/bench1.png                              GPLv2+                   Allacrost
 img/sprites/map/objects/bench2.png                              GPLv2+                   Allacrost
 img/sprites/map/objects/box1.png                                GPLv2+                   Allacrost
+img/sprites/map/objects/bubble.png                              CC by SA 3.0             Julien (OGA) - http://opengameart.org/content/large-bubble-and-some-bubbles-going-out-of-a-ground
 img/sprites/map/objects/bush1.png                               CC by SA 3.0             Zabin (OGA)
 img/sprites/map/objects/bush2.png                               CC by SA 3.0             Zabin (OGA) + Variation from Bertram
 img/sprites/map/objects/bush3.png                               CC by SA 3.0             Zabin (OGA) + Variation from Bertram

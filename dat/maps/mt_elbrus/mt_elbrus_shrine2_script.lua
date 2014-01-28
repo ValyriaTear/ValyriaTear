@@ -23,8 +23,8 @@ local Script = {};
 -- the main character handler
 local hero = {};
 
--- Dialogue secondary hero
-local kalya = {};
+-- Dialogue secondary heroes
+local bronann = {};
 local orlinn = {};
 
 -- Name of the main sprite. Used to reload the good one at the end of dialogue events.
@@ -43,7 +43,6 @@ function Load(m)
 
     _CreateCharacters();
     _CreateObjects();
-    _CreateEnemies();
 
     -- Set the camera focus on hero
     Map:SetCamera(hero);
@@ -93,13 +92,13 @@ function _CreateCharacters()
     Map:AddGroundObject(hero);
 
     -- Create secondary characters
-    kalya = CreateSprite(Map, "Kalya",
+    bronann = CreateSprite(Map, "Bronann",
                          hero:GetXPosition(), hero:GetYPosition());
-    kalya:SetDirection(vt_map.MapMode.EAST);
-    kalya:SetMovementSpeed(vt_map.MapMode.NORMAL_SPEED);
-    kalya:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
-    kalya:SetVisible(false);
-    Map:AddGroundObject(kalya);
+    bronann:SetDirection(vt_map.MapMode.EAST);
+    bronann:SetMovementSpeed(vt_map.MapMode.NORMAL_SPEED);
+    bronann:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
+    bronann:SetVisible(false);
+    Map:AddGroundObject(bronann);
 
     orlinn = CreateSprite(Map, "Orlinn",
                           hero:GetXPosition(), hero:GetYPosition());
@@ -110,6 +109,9 @@ function _CreateCharacters()
     Map:AddGroundObject(orlinn);
 end
 
+-- The parchment object, used as first event.
+local parchment1 = {}
+
 function _CreateObjects()
     local object = {}
     local npc = {}
@@ -117,13 +119,137 @@ function _CreateObjects()
     local text = {}
     local event = {}
 
+    -- TODO: Add items in there... A regen potion and strength booster.
+    object = CreateTreasure(Map, "Elbrus_Shrine_entrance1", "Jar1", 59, 16);
+    Map:AddGroundObject(object);
+    object = CreateTreasure(Map, "Elbrus_Shrine_entrance2", "Jar1", 20, 46.6);
+    Map:AddGroundObject(object);
+
     Map:AddHalo("img/misc/lights/torch_light_mask.lua", 33.5, 90,
         vt_video.Color(1.0, 1.0, 1.0, 0.8));
 
-    _add_flame(1.5, 53);
-    _add_flame(63.5, 53);
     _add_flame(19.5, 2);
     _add_flame(9.5, 2);
+
+    object = CreateObject(Map, "Flame Pot1", 40, 40.6);
+    object:RandomizeCurrentAnimationFrame();
+    Map:AddGroundObject(object);
+    object = CreateObject(Map, "Flame Pot1", 42, 36.6);
+    object:RandomizeCurrentAnimationFrame();
+    Map:AddGroundObject(object);
+    object = CreateObject(Map, "Flame Pot1", 26, 40.6);
+    object:RandomizeCurrentAnimationFrame();
+    Map:AddGroundObject(object);
+    object = CreateObject(Map, "Flame Pot1", 24, 36.6);
+    object:RandomizeCurrentAnimationFrame();
+    Map:AddGroundObject(object);
+
+    object = CreateObject(Map, "Flame Pot1", 22, 20.6);
+    object:RandomizeCurrentAnimationFrame();
+    Map:AddGroundObject(object);
+    object = CreateObject(Map, "Flame Pot1", 22, 16.6);
+    object:RandomizeCurrentAnimationFrame();
+    Map:AddGroundObject(object);
+    object = CreateObject(Map, "Flame Pot1", 22, 12.6);
+    object:RandomizeCurrentAnimationFrame();
+    Map:AddGroundObject(object);
+    object = CreateObject(Map, "Flame Pot1", 22, 8.6);
+    object:RandomizeCurrentAnimationFrame();
+    Map:AddGroundObject(object);
+    object = CreateObject(Map, "Flame Pot1", 20, 6.6);
+    object:RandomizeCurrentAnimationFrame();
+    Map:AddGroundObject(object);
+
+    object = CreateObject(Map, "Vase2", 38, 42);
+    Map:AddGroundObject(object);
+    object = CreateObject(Map, "Vase4", 28, 43);
+    Map:AddGroundObject(object);
+
+    object = CreateObject(Map, "Vase3", 44, 32.6);
+    Map:AddGroundObject(object);
+    object = CreateObject(Map, "Vase3", 43.9, 30.6);
+    Map:AddGroundObject(object);
+    object = CreateObject(Map, "Vase3", 44.1, 28.6);
+    Map:AddGroundObject(object);
+
+    object = CreateObject(Map, "Jar1", 30, 40.6);
+    Map:AddGroundObject(object);
+    object = CreateObject(Map, "Jar1", 36, 40.6);
+    Map:AddGroundObject(object);
+
+    object = CreateObject(Map, "Vase2", 22, 32.6);
+    Map:AddGroundObject(object);
+    object = CreateObject(Map, "Jar1", 21.9, 30.6);
+    Map:AddGroundObject(object);
+    object = CreateObject(Map, "Jar1", 22.1, 28.6);
+    Map:AddGroundObject(object);
+
+    object = CreateObject(Map, "Jar1", 20, 58.6);
+    Map:AddGroundObject(object);
+    object = CreateObject(Map, "Jar1", 46, 45);
+    Map:AddGroundObject(object);
+    object = CreateObject(Map, "Jar1", 46, 51.6);
+    Map:AddGroundObject(object);
+
+    _add_bubble(30, 30);
+    _add_bubble(35, 35);
+    _add_bubble(42, 20);
+    _add_bubble(28, 12);
+    _add_bubble(32, 18);
+    _add_bubble(55, 17);
+
+    -- Add the first parchment
+    parchment1 = CreateObject(Map, "Parchment", 33.0, 40.6);
+    Map:AddGroundObject(parchment1);
+    -- Adds a dialogue about the parchment content.
+    if (GlobalManager:GetEventValue("story", "mountain_shrine_parchment1_done") == 0) then
+        parchment1:SetEventWhenTalking("Parchment 1 event");
+    else
+        -- A smaller event summarizing the dialogue
+        parchment1:SetEventWhenTalking("Parchment 1 event small");
+        -- Adds enemies in this case
+        _CreateEnemies();
+    end
+
+    -- Create the fake walls out of the objects catalog as they are used once,
+    -- Left secret passage
+    if (GlobalManager:GetEventValue("story", "mountain_shrine_hidden_path1_done") == 0) then
+        object = vt_map.PhysicalObject();
+        object:SetPosition(2.0, 62.0);
+        object:SetObjectID(Map.object_supervisor:GenerateObjectID());
+        object:SetCollHalfWidth(2.0);
+        object:SetCollHeight(12.0);
+        object:SetImgHalfWidth(2.0);
+        object:SetImgHeight(12.0);
+        object:AddStillFrame("dat/maps/mt_elbrus/fake_wall.png");
+        Map:AddGroundObject(object);
+    else
+        _add_flame(1.5, 53);
+    end
+
+    -- Right one
+    if (GlobalManager:GetEventValue("story", "mountain_shrine_hidden_path2_done") == 0) then
+        object = vt_map.PhysicalObject();
+        object:SetPosition(62.0, 62.0);
+        object:SetObjectID(Map.object_supervisor:GenerateObjectID());
+        object:SetCollHalfWidth(2.0);
+        object:SetCollHeight(12.0);
+        object:SetImgHalfWidth(2.0);
+        object:SetImgHeight(12.0);
+        object:AddStillFrame("dat/maps/mt_elbrus/fake_wall.png");
+        Map:AddGroundObject(object);
+    else
+        _add_flame(63.5, 53);
+    end
+end
+
+function _add_bubble(x, y)
+    local object = CreateObject(Map, "Bubble", x, y);
+    object:RandomizeCurrentAnimationFrame();
+    Map:AddGroundObject(object);
+    object = vt_map.ParticleObject("dat/effects/particles/bubble_steam.lua", x, y);
+    object:SetObjectID(Map.object_supervisor:GenerateObjectID());
+    Map:AddGroundObject(object);
 end
 
 function _add_flame(x, y)
@@ -148,15 +274,12 @@ function _CreateEnemies()
     -- Hint: left, right, top, bottom
     roam_zone = vt_map.EnemyZone(6, 19, 10, 49);
 
-    enemy = CreateEnemySprite(Map, "Beetle");
+    enemy = CreateEnemySprite(Map, "Skeleton");
     _SetBattleEnvironment(enemy);
     enemy:NewEnemyParty();
-    enemy:AddEnemy(15);
-    enemy:AddEnemy(15);
-    enemy:AddEnemy(16, 612, 384);
-    enemy:NewEnemyParty();
-    enemy:AddEnemy(15);
-    enemy:AddEnemy(17);
+    enemy:AddEnemy(19);
+    enemy:AddEnemy(19);
+    enemy:AddEnemy(19);
     roam_zone:AddEnemy(enemy, Map, 2);
     Map:AddZone(roam_zone);
 end
@@ -167,6 +290,12 @@ function _SetBattleEnvironment(enemy)
     enemy:SetBattleBackground("img/backdrops/battle/mountain_shrine.png");
     enemy:AddBattleScript("dat/battles/mountain_shrine_battle_anim.lua");
 end
+
+-- Special events
+local bronann_move_next_to_hero_event = {}
+local orlinn_move_next_to_hero_event = {}
+local bronann_move_back_to_hero_event = {}
+local orlinn_move_back_to_hero_event = {}
 
 -- Creates all events and sets up the entire event sequence chain
 function _CreateEvents()
@@ -187,10 +316,102 @@ function _CreateEvents()
                                        "dat/maps/mt_elbrus/mt_elbrus_shrine5_script.lua", "from_shrine_main_room");
     EventManager:RegisterEvent(event);
 
+    -- Generic events
+    event = vt_map.ChangeDirectionSpriteEvent("Bronann looks north", bronann, vt_map.MapMode.NORTH);
+    EventManager:RegisterEvent(event);
+    event = vt_map.ChangeDirectionSpriteEvent("Kalya looks north", hero, vt_map.MapMode.NORTH);
+    EventManager:RegisterEvent(event);
+    event = vt_map.ChangeDirectionSpriteEvent("Orlinn looks north", orlinn, vt_map.MapMode.NORTH);
+    EventManager:RegisterEvent(event);
+
+    event = vt_map.LookAtSpriteEvent("Bronann looks at Kalya", bronann, hero);
+    EventManager:RegisterEvent(event);
+    event = vt_map.LookAtSpriteEvent("Orlinn looks at Kalya", orlinn, hero);
+    EventManager:RegisterEvent(event);
+    event = vt_map.LookAtSpriteEvent("Kalya looks at Orlinn", hero, orlinn);
+    EventManager:RegisterEvent(event);
+    event = vt_map.LookAtSpriteEvent("Kalya looks at Bronann", hero, bronann);
+    EventManager:RegisterEvent(event);
+
     -- Improve lighting at first entrance
     event = vt_map.ScriptedEvent("Amplify lights", "amplify_light_start", "amplify_light_update");
     EventManager:RegisterEvent(event);
 
+    -- Event when reading the shrine first parchment.
+    event = vt_map.ScriptedEvent("Parchment 1 event", "parchment1_event_start", "");
+    event:AddEventLinkAtEnd("Bronann moves next to Kalya");
+    event:AddEventLinkAtEnd("Orlinn moves next to Kalya");
+    EventManager:RegisterEvent(event);
+
+    -- NOTE: The actual destination is set just before the actual start call
+    bronann_move_next_to_hero_event = vt_map.PathMoveSpriteEvent("Bronann moves next to Kalya", bronann, 0, 0, false);
+    bronann_move_next_to_hero_event:AddEventLinkAtEnd("Bronann looks north");
+    bronann_move_next_to_hero_event:AddEventLinkAtEnd("Kalya reads the parchment 1");
+    EventManager:RegisterEvent(bronann_move_next_to_hero_event);
+    orlinn_move_next_to_hero_event = vt_map.PathMoveSpriteEvent("Orlinn moves next to Kalya", orlinn, 0, 0, false);
+    orlinn_move_next_to_hero_event:AddEventLinkAtEnd("Orlinn looks north");
+    EventManager:RegisterEvent(orlinn_move_next_to_hero_event);
+
+    dialogue = vt_map.SpriteDialogue();
+    text = vt_system.Translate("... It seems somebody left a note here on purpose...");
+    dialogue:AddLine(text, hero);
+    text = vt_system.Translate("You mean, in the middle of those scary bones?");
+    dialogue:AddLineEventEmote(text, orlinn, "Orlinn looks at Kalya", "", "sweat drop");
+    text = vt_system.Translate("Let me see...");
+    dialogue:AddLine(text, hero);
+    text = vt_system.Translate("'To whoever will read this:'");
+    dialogue:AddLineEvent(text, hero, "Bronann looks at Kalya", "");
+    text = vt_system.Translate("'Battles have been waging all over the place and the Ancient have now forsaken me into oblivion when they sealed the Goddess Shrine.'");
+    dialogue:AddLine(text, hero);
+    text = vt_system.Translate("'All my comrades have perished in battles and I am the last unfortunate one left.'");
+    dialogue:AddLine(text, hero);
+    text = vt_system.Translate("'My name is Shawn, and I do believe my time is running out in this life as there is neither food nor water in here ...'");
+    dialogue:AddLine(text, hero);
+    text = vt_system.Translate("Poor guy... He must have died from starvation.");
+    dialogue:AddLineEmote(text, bronann, "exclamation");
+    text = vt_system.Translate("'... But I will attempt one last time to escape from here and I'm leaving this note in case you'd need to do the same.'");
+    dialogue:AddLine(text, hero);
+    text = vt_system.Translate("'The only way to escape this hellish place is to reach the highest floor and activate the waterfall. At least that's what they said.'");
+    dialogue:AddLine(text, hero);
+    text = vt_system.Translate("What are we waiting for, let's go!");
+    dialogue:AddLineEmote(text, orlinn, "exclamation");
+    text = vt_system.Translate("Wait Orlinn! That's not over...");
+    dialogue:AddLineEvent(text, hero, "Kalya looks at Orlinn", "Kalya looks north");
+    text = vt_system.Translate("'... But be warned for the very scent exuding from the dark waters itself is a trap!'");
+    dialogue:AddLine(text, hero);
+    text = vt_system.Translate("'The entire Shrine has been turned into a murderous area and you'll have to fight your way through, just as I will now...'");
+    dialogue:AddLine(text, hero);
+    text = vt_system.Translate("That's it...");
+    dialogue:AddLineEventEmote(text, hero, "Kalya looks at Bronann", "", "thinking dots");
+    text = vt_system.Translate("Let's find out how to activate that waterfall, then.");
+    dialogue:AddLine(text, bronann);
+    text = vt_system.Translate("Yes, and let's do it quickly...");
+    dialogue:AddLine(text, hero);
+    DialogueManager:AddDialogue(dialogue);
+    event = vt_map.DialogueEvent("Kalya reads the parchment 1", dialogue);
+    event:AddEventLinkAtEnd("Orlinn goes back to party");
+    event:AddEventLinkAtEnd("Bronann goes back to party");
+    EventManager:RegisterEvent(event);
+
+    orlinn_move_back_to_hero_event = vt_map.PathMoveSpriteEvent("Orlinn goes back to party", orlinn, hero, false);
+    orlinn_move_back_to_hero_event:AddEventLinkAtEnd("Parchment 1 event end");
+    EventManager:RegisterEvent(orlinn_move_back_to_hero_event);
+
+    bronann_move_back_to_hero_event = vt_map.PathMoveSpriteEvent("Bronann goes back to party", bronann, hero, false);
+    EventManager:RegisterEvent(bronann_move_back_to_hero_event);
+
+    event = vt_map.ScriptedEvent("Parchment 1 event end", "parchment1_event_end", "");
+    EventManager:RegisterEvent(event);
+
+    -- A small event, summarizing the whole one
+    dialogue = vt_map.SpriteDialogue();
+    text = vt_system.Translate("Somebody left a note on purpose here. According to it, we need to find out a way to trigger the waterfall from the highest floor.");
+    dialogue:AddLine(text, hero);
+    text = vt_system.Translate("But let's be careful, as it also said this place is dangerous, and the dark waters a trap somehow...");
+    dialogue:AddLine(text, hero);
+    DialogueManager:AddDialogue(dialogue);
+    event = vt_map.DialogueEvent("Parchment 1 event small", dialogue);
+    EventManager:RegisterEvent(event);
 end
 
 -- zones
@@ -254,5 +475,46 @@ map_functions = {
         light_color:SetAlpha(light_alpha);
         Map:GetEffectSupervisor():EnableLightingOverlay(light_color);
         return false;
+    end,
+
+    parchment1_event_start = function()
+        Map:PushState(vt_map.MapMode.STATE_SCENE);
+        -- Keep a reference of the correct sprite for the event end.
+        main_sprite_name = hero:GetSpriteName();
+
+        -- Make the hero be Kalya for the event.
+        hero:ReloadSprite("Kalya");
+
+        bronann:SetPosition(hero:GetXPosition(), hero:GetYPosition());
+        bronann:SetVisible(true);
+        orlinn:SetPosition(hero:GetXPosition(), hero:GetYPosition());
+        orlinn:SetVisible(true);
+        bronann:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
+        bronann:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
+
+        hero:SetDirection(vt_map.MapMode.NORTH);
+
+        bronann_move_next_to_hero_event:SetDestination(hero:GetXPosition() + 2.0, hero:GetYPosition(), false);
+        orlinn_move_next_to_hero_event:SetDestination(hero:GetXPosition() - 2.0, hero:GetYPosition(), false);
+    end,
+
+    parchment1_event_end = function()
+        Map:PopState();
+        bronann:SetPosition(0, 0);
+        bronann:SetVisible(false);
+        bronann:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
+        orlinn:SetPosition(0, 0);
+        orlinn:SetVisible(false);
+        orlinn:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
+
+        -- Reload the hero back to default
+        hero:ReloadSprite(main_sprite_name);
+
+        -- Set event as done
+        GlobalManager:SetEventValue("story", "mountain_shrine_parchment1_done", 1);
+        -- Now adds the enemies
+        _CreateEnemies();
+        -- Set a smaller event now the full dialogue has been run
+        parchment1:SetEventWhenTalking("Parchment 1 event small");
     end,
 }

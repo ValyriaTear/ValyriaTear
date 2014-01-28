@@ -74,7 +74,7 @@ function Load(m)
     end
 
     if (GlobalManager:GetEventValue("story", "mt_elbrus_shrine_door_opening_event") == 1) then
-        _open_shrine_door();
+        _set_shrine_door_open();
         shrine_entrance_sign:SetVisible(true);
         _show_flames();
     end
@@ -184,6 +184,8 @@ function _CreateObjects()
     Map:AddGroundObject(shrine_flame2);
     shrine_flame1:SetVisible(false);
     shrine_flame2:SetVisible(false);
+    shrine_flame1:RandomizeCurrentAnimationFrame();
+    shrine_flame2:RandomizeCurrentAnimationFrame();
 
     -- When the lighting has improved, show the source of it.
     if (GlobalManager:GetEventValue("story", "mountain_shrine_entrance_light_done") == 1) then
@@ -516,6 +518,15 @@ function _open_shrine_door()
     -- Makes the door open
     local opening_anim_id = shrine_entrance_door:AddAnimation("img/sprites/map/objects/door_big1_opening.lua");
     shrine_entrance_door:SetCurrentAnimation(opening_anim_id);
+end
+
+-- Set the shrine door as opened
+function _set_shrine_door_open()
+    -- Permit the entrance into the shrine...
+    shrine_entrance_door:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
+    -- Makes the door open
+    local open_anim_id = shrine_entrance_door:AddAnimation("img/sprites/map/objects/door_big1_open.lua");
+    shrine_entrance_door:SetCurrentAnimation(open_anim_id);
 end
 
 function _show_flames()
