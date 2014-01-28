@@ -32,11 +32,11 @@ float RandomFloat();
 /** \brief Creates a random float value between a and b.
 *** \param a The lower bound value
 *** \param b The upper bound value
-*** \return A random float with a value bewen a and b
+*** \return A random float with a value between a and b
 **/
 float RandomFloat(float a, float b);
 
-/** \brief Returns a random interger value uniformally distributed between two inclusive bounds
+/** \brief Returns a random interger value uniformly distributed between two inclusive bounds
 *** \param lower_bound The lower inclusive bound
 *** \param upper_bound The upper inclusive bound
 *** \return An integer between [lower_bound, upper_bound]
@@ -53,7 +53,7 @@ int32 RandomBoundedInteger(int32 lower_bound, int32 upper_bound);
 ***
 *** This function computes a random number based on a Gaussian Distribution Curve. This number will be between
 *** mean - range and mean + range if range is greater than zero, otherwise it will return a true, unbounded
-*** guassian random value. If positive_value is set to true, this function will only return a number that is
+*** Gaussian random value. If positive_value is set to true, this function will only return a number that is
 *** zero or positive.
 ***
 *** Mean is (obviously) the mean, and the range represents the value for 3 standard deviations from the mean.
