@@ -193,7 +193,7 @@ bool MapObject::IsCollidingWith(MapObject* other_object)
 // ----------------------------------------------------------------------------
 
 PhysicalObject::PhysicalObject() :
-    current_animation(0)
+    _current_animation_id(0)
 {
     MapObject::_object_type = PHYSICAL_TYPE;
 }
@@ -206,7 +206,7 @@ PhysicalObject::~PhysicalObject()
 void PhysicalObject::Update()
 {
     if(!animations.empty() && updatable)
-        animations[current_animation].Update();
+        animations[_current_animation_id].Update();
 }
 
 void PhysicalObject::Draw()
@@ -214,7 +214,7 @@ void PhysicalObject::Draw()
     if(animations.empty() || !MapObject::ShouldDraw())
         return;
 
-    animations[current_animation].Draw();
+    animations[_current_animation_id].Draw();
 
     // Draw collision rectangle if the debug view is on.
     if(!VideoManager->DebugInfoOn())
@@ -258,8 +258,8 @@ int32 PhysicalObject::AddStillFrame(const std::string &image_filename)
 void PhysicalObject::SetCurrentAnimation(uint32 animation_id)
 {
     if(animation_id < animations.size()) {
-        animations[current_animation].SetTimeProgress(0);
-        current_animation = animation_id;
+        animations[_current_animation_id].SetTimeProgress(0);
+        _current_animation_id = animation_id;
     }
 }
 
@@ -755,10 +755,10 @@ void TreasureObject::Update()
 {
     PhysicalObject::Update();
 
-    if((current_animation == TREASURE_OPENING_ANIM) && (animations[TREASURE_OPENING_ANIM].IsLoopsFinished()))
+    if ((GetCurrentAnimationId() == TREASURE_OPENING_ANIM) && (animations[TREASURE_OPENING_ANIM].IsLoopsFinished()))
         SetCurrentAnimation(TREASURE_OPEN_ANIM);
 
-    if (!_is_opening || current_animation != TREASURE_OPEN_ANIM)
+    if (!_is_opening || GetCurrentAnimationId() != TREASURE_OPEN_ANIM)
         return;
 
     // Once opened, we handle potential events and the display of the treasure supervisor

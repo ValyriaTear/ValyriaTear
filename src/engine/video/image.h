@@ -770,6 +770,12 @@ public:
         _frame_counter = 0;
     }
 
+    /** \brief Sets a random frame index to the animation.
+    *** \note This permits to avoid seeing the exact same animation shapes
+    *** when adding the same animation multiple times on screen.
+    **/
+    void RandomizeAnimationFrame();
+
     /** \brief Sets the number of milliseconds that the current frame has been shown for.
     *** \param time The time to set the frame counter
     *** \note This does not set the frame timer for the current frame

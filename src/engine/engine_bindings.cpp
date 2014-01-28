@@ -282,6 +282,7 @@ void BindEngineCode()
             .def("Update", (void(AnimatedImage::*)(uint32))&AnimatedImage::Update)
             .def("ResetAnimation", &AnimatedImage::ResetAnimation)
             .def("GetAnimationLength", &AnimatedImage::GetAnimationLength)
+            .def("RandomizeAnimationFrame", &AnimatedImage::RandomizeAnimationFrame)
             .def("SetWidth", &AnimatedImage::SetWidth)
             .def("SetHeight", &AnimatedImage::SetHeight)
             .def("SetDimensions", &AnimatedImage::SetDimensions),

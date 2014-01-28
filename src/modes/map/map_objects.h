@@ -390,11 +390,6 @@ public:
 
     ~PhysicalObject();
 
-    /** \brief The index to the animations vector that contains the current image to display
-    *** When modifying this member, take care not to exceed the bounds of the animations vector
-    **/
-    uint8 current_animation;
-
     /** \brief A vector containing all the object's animations.
     *** These need not be actual animations. If you just want a still image, add only a single
     *** frame to the animation. Usually only need a single still image or animation will be
@@ -424,18 +419,22 @@ public:
     **/
     int32 AddStillFrame(const std::string &image_filename);
 
-    void AddAnimation(vt_video::AnimatedImage new_img) {
+    void AddAnimation(const vt_video::AnimatedImage& new_img) {
         animations.push_back(new_img);
     }
 
     void SetCurrentAnimation(uint32 animation_id);
 
     void SetAnimationProgress(uint32 progress) {
-        animations[current_animation].SetTimeProgress(progress);
+        animations[_current_animation_id].SetTimeProgress(progress);
     }
 
-    uint32 GetCurrentAnimation() const {
-        return current_animation;
+    uint32 GetCurrentAnimationId() const {
+        return _current_animation_id;
+    }
+
+    void RandomizeCurrentAnimationFrame() {
+        animations[_current_animation_id].RandomizeAnimationFrame();
     }
 
     /** \brief Adds an event triggered when talking to a physical object
@@ -458,6 +457,11 @@ public:
     //@}
 
 private:
+    /** \brief The index to the animations vector that contains the current image to display
+    *** When modifying this member, take care not to exceed the bounds of the animations vector
+    **/
+    uint32 _current_animation_id;
+
     //! \brief The event id triggered when talking to the sprite.
     std::string _event_when_talking;
 }; // class PhysicalObject : public MapObject

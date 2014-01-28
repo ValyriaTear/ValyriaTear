@@ -24,6 +24,7 @@
 
 #include "utils/utils_strings.h"
 #include "utils/utils_files.h"
+#include "utils/utils_random.h"
 
 using namespace vt_utils;
 using namespace vt_video::private_video;
@@ -1441,8 +1442,6 @@ void AnimatedImage::SetDimensions(float width, float height)
     }
 }
 
-
-
 void AnimatedImage::SetColor(const Color &color)
 {
     ImageDescriptor::SetColor(color);
@@ -1452,8 +1451,6 @@ void AnimatedImage::SetColor(const Color &color)
     }
 }
 
-
-
 void AnimatedImage::SetVertexColors(const Color &tl, const Color &tr, const Color &bl, const Color &br)
 {
     ImageDescriptor::SetVertexColors(tl, tr, bl, br);
@@ -1461,6 +1458,17 @@ void AnimatedImage::SetVertexColors(const Color &tl, const Color &tr, const Colo
     for(uint32 i = 0; i < _frames.size(); i++) {
         _frames[i].image.SetVertexColors(tl, tr, bl, br);
     }
+}
+
+void AnimatedImage::RandomizeAnimationFrame() {
+
+    uint32 nb_frames = _frames.size();
+    if (nb_frames <= 1)
+        return;
+
+    uint32 index = vt_utils::RandomBoundedInteger(0, nb_frames - 1);
+    _frame_index = index;
+    _frame_counter = 0;
 }
 
 // -----------------------------------------------------------------------------
