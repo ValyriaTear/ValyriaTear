@@ -5,8 +5,9 @@ layna_village_bronanns_home_first_floor_script = ns;
 setfenv(1, ns);
 
 -- The map name and location image
-map_name = " "
+map_name = "Where it all began..."
 map_image_filename = ""
+map_subname = ""
 
 -- The music file used as default background music on this map.
 -- Other musics will have to handled through scripting.
@@ -64,6 +65,8 @@ function Load(m)
 
     -- Permits the display of basic game commands
     Map:GetScriptSupervisor():AddScript("dat/help/in_game_move_and_interact_anim.lua");
+
+    Map:AddSavePoint(34, 35);
 end
 
 -- the map update function handles checks done on each game tick.
@@ -208,16 +211,34 @@ function _CreateEvents()
     event = vt_map.MapTransitionEvent("exit floor", "dat/maps/layna_village/layna_village_bronanns_home_map.lua",
                                        "dat/maps/layna_village/layna_village_bronanns_home_script.lua", "From Bronann's first floor");
     EventManager:RegisterEvent(event);
+
+    -- Adds a small dialogue describing the save point use.
+    dialogue = vt_map.SpriteDialogue();
+    text = vt_system.VTranslate("This circle is a save point. Here, you can save your game by pushing %s.", InputManager:GetConfirmKeyName());
+    dialogue:AddLine(text, 0); -- nameless speaker
+    text = vt_system.Translate("You can come back here and save as many times as you want.");
+    dialogue:AddLine(text, 0); -- nameless speaker
+    DialogueManager:AddDialogue(dialogue);
+    event = vt_map.DialogueEvent("Save point dialogue", dialogue);
+    event:AddEventLinkAtEnd("Disable save point dialogue");
+    EventManager:RegisterEvent(event);
+
+    event = vt_map.ScriptedEvent("Disable save point dialogue", "save_point_dialogue_done", "");
+    EventManager:RegisterEvent(event);
 end
 
 -- zones
 local room_exit_zone = {};
+local save_point_zone = {};
 
 -- Create the different map zones triggering events
 function _CreateZones()
     -- N.B.: left, right, top, bottom
     room_exit_zone = vt_map.CameraZone(38, 39, 16, 19);
     Map:AddZone(room_exit_zone);
+
+    save_point_zone = vt_map.CameraZone(32, 36, 31, 35);
+    Map:AddZone(save_point_zone);
 end
 
 -- Check whether the active camera has entered a zone. To be called within Update()
@@ -228,6 +249,11 @@ function _CheckZones()
 
         -- Disable the game commands display
         GlobalManager:SetEventValue("game", "show_move_interact_info", 0);
+    elseif (save_point_zone:IsCameraEntering() == true) then
+        if (GlobalManager:GetEventValue("story", "save_point_dialogue_done") == 0) then
+            bronann:SetMoving(false);
+            EventManager:StartEvent("Save point dialogue");
+        end
     end
 end
 
@@ -286,5 +312,9 @@ map_functions = {
 
         -- Trigger the basic commands so that player knows what to do.
         GlobalManager:SetEventValue("game", "show_move_interact_info", 1);
+    end,
+
+    save_point_dialogue_done = function()
+        GlobalManager:SetEventValue("story", "save_point_dialogue_done", 1);
     end
 }
