@@ -402,7 +402,7 @@ function Initialize(map_instance)
                     text_color = vt_video.Color(1.0, 0.8, 0.7, 1.0),
                 },
                 [1] = {
-                    text = Script:CreateText("mmstick, Astralchaos\n\nBertram\n\nGallaecio\n\nNaN\n\nBioHazardX\n\nKnitter\n\ndimproject\n\njahalic", vt_video.TextStyle("text24")),
+                    text = Script:CreateText("mmstick, Astralchaos, Ibara\n\nBertram\n\nGallaecio\n\nNaN\n\nBioHazardX\n\nKnitter\n\ndimproject\n\njahalic", vt_video.TextStyle("text24")),
                     text_position_x = 512.0,
                     text_position_y = 300.0,
                     text_color = vt_video.Color(1.0, 1.0, 1.0, 1.0),
