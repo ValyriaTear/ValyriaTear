@@ -417,7 +417,7 @@ items[3008] = {
 --------------------------------------------------------------------------------
 items[70001] = {
     name = vt_system.Translate("Pen"),
-    description = vt_system.Translate("George's pen, presumably used to write poetry."),
+    description = vt_system.Translate("Georges's pen, presumably used to write poetry."),
     icon = "img/icons/items/key_items/ink.png",
     standard_price = 0,
     key_item = true

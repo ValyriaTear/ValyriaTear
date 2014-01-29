@@ -33,9 +33,9 @@ function Initialize(battle_instance)
     DialogueManager:AddCustomSpeaker(1001, vt_system.Translate("Soldier"), "img/portraits/npcs/dark_soldier.png");
 
     dialogue = vt_battle.BattleDialogue(1);
-    text = vt_system.Translate("I have found you!! My comrades shall be here in no time. Surrender now or you'll be punished!!");
+    text = vt_system.Translate("I found you!! My comrades shall be here in no time. Surrender now or you'll be punished!!");
     dialogue:AddLine(text, 1001);
-    text = vt_system.Translate("Don't listen to him! We must get rid of him before reinforcement arrive or we're doomed!!");
+    text = vt_system.Translate("Don't listen to him! We must get rid of him before reinforcements arrive or we're doomed!!");
     dialogue:AddLine(text, 1000);
     DialogueManager:AddDialogue(dialogue);
 

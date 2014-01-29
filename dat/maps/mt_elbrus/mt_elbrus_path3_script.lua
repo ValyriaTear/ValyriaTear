@@ -605,7 +605,7 @@ function _CreateEvents()
     EventManager:RegisterEvent(orlinn_move_next_to_hero_event1);
 
     dialogue = vt_map.SpriteDialogue();
-    text = vt_system.Translate("This place is the village's old cemetery -- used when the former villagers lived in Layna...");
+    text = vt_system.Translate("This place is the village's old cemetery, used when the former villagers lived in Layna...");
     dialogue:AddLine(text, kalya);
     text = vt_system.Translate("The former villagers? What do you mean?");
     dialogue:AddLineEmote(text, hero, "exclamation");

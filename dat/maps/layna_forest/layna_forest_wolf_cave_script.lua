@@ -212,7 +212,7 @@ function _CreateObjects()
     dialogue:AddLine(text, npc);
     text = vt_system.Translate("Yes, I'm so thirsty.");
     dialogue:AddOption(text, 2);
-    text = vt_system.Translate("No way, we might get sick.");
+    text = vt_system.Translate("No way, we'd get sick.");
     dialogue:AddOption(text, 3);
     -- [Line 2] Drink it
     text = vt_system.Translate("The party drinks the water and feels... alright?");

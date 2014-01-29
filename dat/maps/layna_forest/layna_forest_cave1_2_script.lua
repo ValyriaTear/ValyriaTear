@@ -271,7 +271,7 @@ function _CreateEvents()
     dialogue:AddLineEvent(text, kalya_sprite, "Kalya looks at Bronann", "Bronann looks north");
     text = vt_system.Translate("However, I don't know what it means.");
     dialogue:AddLineEmote(text, hero, "thinking dots");
-    text = vt_system.Translate("Let's look around; we might find out.");
+    text = vt_system.Translate("Let's look around. we might find out.");
     dialogue:AddLine(text, kalya_sprite);
     DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Kalya reads the scripture", dialogue);
@@ -329,7 +329,7 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
 
     dialogue = vt_map.SpriteDialogue();
-    text = vt_system.Translate("I can feel a breeze and see light light escaping into the cave around this rock. Orlinn must have gone through here.");
+    text = vt_system.Translate("I can feel a breeze and see light escaping into the cave around this rock. Orlinn must have gone through here.");
     dialogue:AddLine(text, kalya_sprite);
     text = vt_system.Translate("There are signs engraved on this rock, too. This looks like some kind of mechanism my family used long ago...");
     dialogue:AddLineEvent(text, kalya_sprite, "Kalya looks at Bronann", "");

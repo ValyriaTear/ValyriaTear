@@ -326,7 +326,7 @@ function _CreateEvents()
     dialogue = vt_map.SpriteDialogue();
     text = vt_system.Translate("There must be soldiers everywere, we're never gonna make it...");
     dialogue:AddLine(text, bronann);
-    text = vt_system.Translate("This town has many secrets only known to a few...");
+    text = vt_system.Translate("This town has many secrets...");
     dialogue:AddLineEvent(text, kalya, "", "Kalya looks at Orlinn");
     text = vt_system.Translate("You can go in there, Orlinn.");
     dialogue:AddLine(text, kalya);

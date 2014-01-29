@@ -13,7 +13,7 @@ quests = {
         -- Title
         vt_system.Translate("Get Some Barley Meal"),
         -- Description
-        vt_system.Translate("Mom needs some for dinner!\n \nFlora might have some in her shop -- I should go and have a look there first."),
+        vt_system.Translate("Mom needs some for dinner!\n \nFlora might have some in her shop. I should go and have a look there first."),
         -- Completion Description
         vt_system.Translate("Finally, I found some... Lilly had what I sought in her house the whole time."),
         -- Group and event for the quest to be complete.
@@ -27,11 +27,11 @@ quests = {
     -- Quest id
     ["find_pen"] = {
         -- Title
-        vt_system.Translate("Find Georges' pen"),
+        vt_system.Translate("Find Georges's pen"),
         -- Description
-        vt_system.Translate("In order to know who George gave the rest of his barley meal to, I need to get back his lost pen.\n \nHe said he lost it near a tree; he also told me that people in the village might know more..."),
+        vt_system.Translate("In order to know who Georges gave the rest of his barley meal to, I need to get back his lost pen.\n \nHe said he lost it near a tree; he also told me that people in the village might know more..."),
         -- Completion Description
-        vt_system.Translate("Orlinn had the pen; I ran after him all morning to get it back. I hope he won't have any problems with Kalya..."),
+        vt_system.Translate("Orlinn had the pen and I ran after him all morning to get it back. I hope he won't have any problems with Kalya..."),
         -- Group and event for the quest to be complete.
         "layna_center", "quest1_pen_given_done",
         -- Location name and banner image filename
@@ -47,7 +47,7 @@ quests = {
         -- Description
         vt_system.Translate("Orlinn has got the pen I need to back to Georges! The only problem now is to find where he's hiding. Hmm, it shouldn't take long..."),
         -- Completion Description
-        vt_system.Translate("After chasing him around the village all morning, I finally have the pen. Time to bring it back to George..."),
+        vt_system.Translate("After chasing him around the village all morning, I finally have the pen. Time to bring it back to Georges..."),
         -- Group and event for the quest to be complete.
         "layna_riverbank", "quest1_orlinn_hide_n_seek3_done",
         -- Location name and banner image filename
@@ -93,7 +93,7 @@ quests = {
         -- Title
         vt_system.Translate("We must escape from the soldiers..."),
         -- Description
-        vt_system.Translate("After we came back to the village, Kalya was caught by strange soldiers. The country Lord himself provoked me in battle, and thanks to her, we escaped for now.\n \nBut this isn't over, the soldiers are after us and we have to make our way through..."),
+        vt_system.Translate("After we returned to the village, Kalya was caught by strange soldiers. The country Lord himself provoked me in battle, and thanks to her, we escaped for now.\n \nBut this isn't over, the soldiers are after us and we have to make our way through..."),
         -- Completion Description
         vt_system.Translate("We managed to find a way up to the mountain top."),
         -- Group and event for the quest to be complete.

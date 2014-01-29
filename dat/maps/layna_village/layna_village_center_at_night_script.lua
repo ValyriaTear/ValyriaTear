@@ -266,7 +266,7 @@ function _CreateEvents()
     dialogue = vt_map.SpriteDialogue();
     text = vt_system.Translate("Back home, finally...");
     dialogue:AddLine(text, kalya);
-    text = vt_system.Translate("I'll go and get Herth. Your parents must be worried... you should go to your house -- we'll meet there.");
+    text = vt_system.Translate("I'll go and get Herth. Your parents must be worried... Go home... We'll meet there.");
     dialogue:AddLineEvent(text, kalya, "Kalya looks at Bronann", "");
     DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Kalya tells Bronann she'll fetch Herth", dialogue);

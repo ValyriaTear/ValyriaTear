@@ -558,7 +558,7 @@ function _CreateEvents()
     dialogue:AddLineEmote(text, kalya_sprite, "sweat drop");
     text = vt_system.Translate("A crystal stone?!?");
     dialogue:AddLineEmote(text, hero, "exclamation");
-    text = vt_system.Translate("This is her; I heard her voice calling...");
+    text = vt_system.Translate("This is her. I heard her voice calling...");
     dialogue:AddLine(text, orlinn);
     DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("third dialogue part", dialogue);
@@ -760,7 +760,7 @@ function _CreateEvents()
     dialogue:AddLineEvent(text, kalya_sprite, "Kalya comes back next to Bronann", "");
     text = vt_system.Translate("I still feel really dizzy but I'll be ok...");
     dialogue:AddLine(text, hero);
-    text = vt_system.Translate("I'm relieved that Orlinn is fine as well... Speaking of that: Orlinn! Stop running and come here -- right now!");
+    text = vt_system.Translate("I'm relieved that Orlinn is fine as well... Speaking of that: Orlinn! Stop running and come here right now!");
     dialogue:AddLine(text, kalya_sprite);
     DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Bronann sighs and think", dialogue);

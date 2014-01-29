@@ -905,9 +905,9 @@ function _UpdateGeorgesDialogue()
         dialogue:AddLine(text, bronann);
         text = vt_system.Translate("You're the nicest person I know, Bronann. I will tell everyone how brave you...");
         dialogue:AddLine(text, georges);
-        text = vt_system.Translate("(Sigh)... George!");
+        text = vt_system.Translate("(Sigh)... Georges!");
         dialogue:AddLine(text, bronann);
-        text = vt_system.Translate("Ok, ok. Just having a bit of spirit, young man.");
+        text = vt_system.Translate("Ok ok. Just having a bit of spirit, young man.");
         dialogue:AddLine(text, georges);
         text = vt_system.Translate("Actually, I bought the barley meal for Lilly.");
         dialogue:AddLine(text, georges);
@@ -946,7 +946,7 @@ function _UpdateGeorgesDialogue()
         dialogue:AddLine(text, bronann);
         text = vt_system.Translate("... The incredible and amazing. I could even say, the stunning feel of it in the wind...");
         dialogue:AddLine(text, georges);
-        text = vt_system.Translate("George, I simply wanted to ask you whether or not you had any barley meal left!");
+        text = vt_system.Translate("Georges, I simply wanted to ask you whether or not you had any barley meal left!");
         dialogue:AddLineEmote(text, bronann, "sweat drop");
         text = vt_system.Translate("Ah, I see. Well unfortunately, I'm so sad about a recent loss that I can't find the right words with which to tell you.");
         dialogue:AddLine(text, georges);
@@ -1022,7 +1022,7 @@ function _UpdateOrlinnAndKalyaState()
         dialogue:AddLineEmote(text, bronann, "interrogation");
         text = vt_system.Translate("You'll never find it!");
         dialogue:AddLine(text, orlinn);
-        text = vt_system.Translate("Huh? Wait! Are you talking about George's lost pen?");
+        text = vt_system.Translate("Huh? Wait! Are you talking about Georges's lost pen?");
         dialogue:AddLineEmote(text, bronann, "exclamation");
         text = vt_system.Translate("Hee hee hee! Yes!");
         dialogue:AddLine(text, orlinn);

@@ -508,7 +508,7 @@ function _CreateEvents()
     dialogue:AddLineEvent(text, bronann, "Bronann is frightened by Orlinn", "");
     text = vt_system.Translate("(I thought you saw me.)");
     dialogue:AddLine(text, orlinn);
-    text = vt_system.Translate("(Kalya was brought here by those weirdos. They are helding everyone captive. Lilly is talking with that big guy. He gives me the chill.)");
+    text = vt_system.Translate("(Kalya was brought here by those weirdos. They are helding everyone captive. Lilly is talking with that big guy. He gives me the chills.)");
     dialogue:AddLine(text, orlinn);
     text = vt_system.Translate("(Let's have a look..)");
     dialogue:AddLine(text, bronann);
@@ -524,7 +524,7 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
 
     dialogue = vt_map.SpriteDialogue();
-    text = vt_system.Translate("I already told you again, and again, Banesore, I don't know anything about such a crystal.");
+    text = vt_system.Translate("I already told you, again and again, Banesore, I don't know anything about such a crystal.");
     dialogue:AddLine(text, lilly);
     text = vt_system.Translate("It is 'Lord Banesore', you scum!");
     dialogue:AddLine(text, soldier1);
@@ -546,7 +546,7 @@ function _CreateEvents()
     dialogue:AddLine(text, soldier1);
     text = vt_system.Translate("Oh! My apologies, it seems you weren't lying...");
     dialogue:AddLine(text, lord);
-    text = vt_system.Translate("The fact you didn't mention anything about the boy is leading me to believe that you know him.");
+    text = vt_system.Translate("The fact you didn't mention anything about the boy leads me to believe that you know him.");
     dialogue:AddLine(text, lord);
     text = vt_system.Translate("...");
     dialogue:AddLine(text, lilly);
@@ -684,7 +684,7 @@ function _CreateEvents()
     dialogue:AddLine(text, bronann);
     text = vt_system.Translate("Of course you have it. I can sense it within your flesh...");
     dialogue:AddLine(text, lord);
-    text = vt_system.Translate("So, the crystal is inside of me??");
+    text = vt_system.Translate("So, the crystal is inside me??");
     dialogue:AddLineEmote(text, bronann, "exclamation");
     text = vt_system.Translate("Now, show it to me...");
     dialogue:AddLine(text, lord);

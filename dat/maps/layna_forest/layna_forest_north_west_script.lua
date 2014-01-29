@@ -1037,9 +1037,9 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
 
     dialogue = vt_map.SpriteDialogue();
-    text = vt_system.Translate("Orlinn, stop it... RIGHT NOW!!");
+    text = vt_system.Translate("Orlinn, stop it RIGHT NOW!!");
     dialogue:AddLineEmote(text, kalya_sprite, "exclamation");
-    text = vt_system.Translate("I can't sis.... I can feel it... calling me...");
+    text = vt_system.Translate("I can't sis... I can feel it... calling me...");
     dialogue:AddLine(text, orlinn);
     DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Kalya tries to discuss with Orlinn", dialogue);
@@ -1085,7 +1085,7 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
 
     dialogue = vt_map.SpriteDialogue();
-    text = vt_system.Translate("Great! The tremor seems to have opened a path back to the village.");
+    text = vt_system.Translate("Great! The tremor has opened a path back to the village!");
     dialogue:AddLine(text, hero);
     text = vt_system.Translate("Now we can get back to the village quicker.");
     dialogue:AddLine(text, hero);
@@ -1118,9 +1118,9 @@ function _CreateEvents()
     dialogue = vt_map.SpriteDialogue();
     text = vt_system.Translate("We're almost there!");
     dialogue:AddLine(text, orlinn);
-    text = vt_system.Translate("Say Sis', do you think Herth will be angry at me for what happened?");
+    text = vt_system.Translate("Say sis, do you think Herth will be angry at me for what happened?");
     dialogue:AddLineEventEmote(text, orlinn, "Orlinn looks at Kalya", "", "sweat drop");
-    text = vt_system.Translate("I don't think so, Orlinn. We both know that you didn't do it on purpose, right?");
+    text = vt_system.Translate("I don't think so, Orlinn. We both know you didn't do it on purpose, right?");
     dialogue:AddLine(text, kalya_sprite);
     text = vt_system.Translate("Ok...");
     dialogue:AddLine(text, orlinn);

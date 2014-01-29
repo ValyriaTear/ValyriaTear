@@ -290,7 +290,7 @@ function _CreateEvents()
     dialogue:AddLine(text, kalya);
     text = vt_system.Translate("I feel dizzy... So many things have happened in such little time...");
     dialogue:AddLineEventEmote(text, bronann, "Bronann looks at Kalya", "", "sweat drop");
-    text = vt_system.Translate("The soldiers may be here within a few minutes. We'll leave to the north and cross the north-west plain up to...");
+    text = vt_system.Translate("The soldiers will be here any minute. We'll leave to the north and cross the north-west plain up to...");
     dialogue:AddLine(text, kalya);
     text = vt_system.Translate("No.");
     dialogue:AddLineEvent(text, bronann, "FadeOutAllMusic", "");
@@ -326,9 +326,9 @@ function _CreateEvents()
     dialogue:AddLineEvent(text, kalya, "Kalya looks east", "");
     text = vt_system.Translate("Herth prepared me... all my life... for this very day...");
     dialogue:AddLine(text, kalya);
-    text = vt_system.Translate("He trained me, taught me magic, and told me that the crystal would appear one day...");
+    text = vt_system.Translate("He trained me, taught me magic, and told me the crystal would appear one day...");
     dialogue:AddLine(text, kalya);
-    text = vt_system.Translate("He thought that I would be the one to be chosen by the crystal. However, it seems he was wrong. Currently, it is my duty is to look after you...");
+    text = vt_system.Translate("He thought that I would be the one to be chosen by the crystal. However, it seems he was wrong. Now, I am to look after you...");
     dialogue:AddLineEvent(text, kalya, "Kalya looks west", "");
     text = vt_system.Translate("You must believe me Bronann...");
     dialogue:AddLineEvent(text, kalya, "Kalya looks south", "");
