@@ -108,8 +108,31 @@ void CharacterWindow::Draw()
     _character_data.Draw();
 
     // Active status effects
-    VideoManager->MoveRelative(-40, -19);
-    for (uint32 i = 0; i < _active_status_effects.size(); ++i) {
+    VideoManager->MoveRelative(-30, -17);
+    uint32 nb_effects = _active_status_effects.size();
+    for (uint32 i = 0; i < nb_effects && i < 6; ++i) {
+        if (_active_status_effects[i])
+            _active_status_effects[i]->Draw();
+        VideoManager->MoveRelative(0, 15);
+    }
+
+    if (nb_effects < 6)
+        return;
+
+    // Show a second column when there are more than 6 active status effects
+    VideoManager->MoveRelative(-15, -6 * 15);
+    for (uint32 i = 6; i < nb_effects && i < 12; ++i) {
+        if (_active_status_effects[i])
+            _active_status_effects[i]->Draw();
+        VideoManager->MoveRelative(0, 15);
+    }
+
+    if (nb_effects < 12)
+        return;
+
+    // Show a third column when there are more than 12 active status effects (max 15)
+    VideoManager->MoveRelative(-15, -6 * 15);
+    for (uint32 i = 12; i < nb_effects; ++i) {
         if (_active_status_effects[i])
             _active_status_effects[i]->Draw();
         VideoManager->MoveRelative(0, 15);
@@ -125,8 +148,7 @@ void CharacterWindow::_UpdateActiveStatusEffects(vt_global::GlobalCharacter* cha
     GlobalMedia& media = GlobalManager->Media();
 
     const std::vector<ActiveStatusEffect> effects = character->GetActiveStatusEffects();
-    // We only add the first 6 status effects for display purpose.
-    for (uint32 i = 0; i < effects.size() && i < 6; ++i) {
+    for (uint32 i = 0; i < effects.size(); ++i) {
         GLOBAL_STATUS status = effects[i].GetEffect();
         GLOBAL_INTENSITY intensity = effects[i].GetIntensity();
         if (status != GLOBAL_STATUS_INVALID && intensity != GLOBAL_INTENSITY_NEUTRAL) {
