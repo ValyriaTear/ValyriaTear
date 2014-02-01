@@ -393,7 +393,7 @@ function _CreateEvents()
     dialogue = vt_map.SpriteDialogue();
     text = vt_system.Translate("Here we are, looking at this huge, wonderful and yet creepy door... I don't like this...");
     dialogue:AddLineEmote(text, kalya, "thinking dots");
-    text = vt_system.Translate("It's not like I actually would want to open it, but how are we going to");
+    text = vt_system.Translate("It's not like I actually would want to open it, but how are we going to?");
     dialogue:AddLineEventEmote(text, kalya, "Kalya looks at Bronann", "Orlinn looks at Bronann", "sweat drop");
     DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Dialogue before opening the door", dialogue);

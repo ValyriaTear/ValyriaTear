@@ -271,7 +271,7 @@ function _CreateEvents()
     dialogue:AddLineEvent(text, kalya_sprite, "Kalya looks at Bronann", "Bronann looks north");
     text = vt_system.Translate("However, I don't know what it means.");
     dialogue:AddLineEmote(text, hero, "thinking dots");
-    text = vt_system.Translate("Let's look around. we might find out.");
+    text = vt_system.Translate("Let's look around. We might find out.");
     dialogue:AddLine(text, kalya_sprite);
     DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Kalya reads the scripture", dialogue);
