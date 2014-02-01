@@ -407,7 +407,7 @@ function _CreateEvents()
     dialogue = vt_map.SpriteDialogue();
     text = vt_system.Translate("Somebody left a note on purpose here. According to it, we need to find out a way to trigger the waterfall from the highest floor.");
     dialogue:AddLine(text, hero);
-    text = vt_system.Translate("But let's be careful, as it also said this place is dangerous, and the dark waters a trap somehow...");
+    text = vt_system.Translate("But let's be careful, as it also said this place is dangerous, and the dark waters are a trap somehow...");
     dialogue:AddLine(text, hero);
     DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Parchment 1 event small", dialogue);
