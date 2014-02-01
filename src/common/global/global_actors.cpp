@@ -1324,6 +1324,36 @@ void GlobalCharacter::AcknowledgeGrowth() {
         AddEvade(_evade_growth);
 } // void GlobalCharacter::AcknowledgeGrowth()
 
+void GlobalCharacter::ApplyActiveStatusEffect(GLOBAL_STATUS status_effect,
+                                              GLOBAL_INTENSITY intensity,
+                                              uint32 duration)
+{
+    if (status_effect == GLOBAL_STATUS_INVALID || status_effect == GLOBAL_STATUS_TOTAL)
+        return;
+
+    if (intensity == GLOBAL_INTENSITY_INVALID || intensity == GLOBAL_INTENSITY_NEUTRAL)
+        return;
+
+    // Get the reference of the corresponding active effect.
+    ActiveStatusEffect& effect = _active_status_effects[status_effect];
+    // If there are no previously applied status effect, we set a new one.
+    if (effect.GetIntensity() == GLOBAL_INTENSITY_INVALID
+            || effect.GetIntensity() == GLOBAL_INTENSITY_NEUTRAL) {
+        SetActiveStatusEffect(status_effect, intensity, duration, 0);
+        return;
+    }
+
+    // If a previous one was active, we must take in account the previous effect intensity
+    int32 new_intensity = intensity + effect.GetIntensity();
+    // We also check bounds
+    if (new_intensity >= GLOBAL_INTENSITY_TOTAL)
+        new_intensity = GLOBAL_INTENSITY_POS_EXTREME;
+    else if (new_intensity <= GLOBAL_INTENSITY_INVALID)
+        new_intensity = GLOBAL_INTENSITY_NEG_EXTREME;
+
+    SetActiveStatusEffect(status_effect, (GLOBAL_INTENSITY)new_intensity, duration, 0);
+}
+
 void GlobalCharacter::_CalculateAttackRatings()
 {
     _total_physical_attack = _strength.GetValue();

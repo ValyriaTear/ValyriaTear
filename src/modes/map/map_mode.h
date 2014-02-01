@@ -34,6 +34,7 @@
 
 #include "map_utils.h"
 #include "map_minimap.h"
+#include "map_status_effects.h"
 
 #include "engine/audio/audio_descriptor.h"
 
@@ -254,7 +255,7 @@ public:
 
     void SetCamera(private_map::VirtualSprite *sprite, uint32 duration);
 
-    void MoveVirtualFocus(float loc_x, float loc_y);;
+    void MoveVirtualFocus(float loc_x, float loc_y);
 
     void MoveVirtualFocus(float loc_x, float loc_y, uint32 duration);
 
@@ -339,7 +340,7 @@ private:
     // ----- Members : Names and Identifiers -----
 
     /** \brief A reference to the current instance of MapMode
-    *** This is used by other map clases to be able to refer to the map that they exist in.
+    *** This is used by other map classes to be able to refer to the map that they exist in.
     **/
     static MapMode *_current_instance;
 
@@ -502,6 +503,9 @@ private:
 
     //! \brief Stores the potential custom minimap image filename
     std::string _minimap_custom_image_file;
+
+    //! \brief The character party status effects supervisor
+    private_map::MapStatusEffectsSupervisor _status_effect_supervisor;
 
     // ----- Methods -----
 

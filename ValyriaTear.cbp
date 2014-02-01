@@ -455,6 +455,8 @@
 		<Unit filename="src/modes/map/map_objects.h" />
 		<Unit filename="src/modes/map/map_sprites.cpp" />
 		<Unit filename="src/modes/map/map_sprites.h" />
+		<Unit filename="src/modes/map/map_status_effects.cpp" />
+		<Unit filename="src/modes/map/map_status_effects.h" />
 		<Unit filename="src/modes/map/map_tiles.cpp" />
 		<Unit filename="src/modes/map/map_tiles.h" />
 		<Unit filename="src/modes/map/map_treasure.cpp" />

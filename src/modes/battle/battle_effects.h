@@ -166,7 +166,6 @@ public:
     /** \param type The status type that this class object should represent
     *** \param intensity The intensity of the status
     *** \param actor A pointer to the actor affected by the status
-    *** \param duration The effect duration, a default value is used when none is given.
     **/
     PassiveBattleStatusEffect(vt_global::GLOBAL_STATUS type, vt_global::GLOBAL_INTENSITY intensity,
                               BattleActor *actor);
@@ -218,15 +217,6 @@ private:
 *** calls to the Lua script functions (Apply/Update/Remove) for each status effect at
 *** the appropriate time. The class also contains a draw function which will display
 *** icons for all the active status effects of an actor to the screen.
-***
-*** \todo The Draw function probably should be renamed to something more specific
-*** and should check whether or not the actor is a character. Its intended to be
-*** used only for character actors to draw on the bottom menu. There should also
-*** probably be another draw function for drawing the status of an actor to the
-*** command window.
-***
-*** \todo Elemental effects are not yet implemented or supported by this class.
-*** They should be added when elemental effects in battle are ready to be used.
 *** ***************************************************************************/
 class EffectsSupervisor
 {

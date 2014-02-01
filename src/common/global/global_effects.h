@@ -106,6 +106,19 @@ public:
         return _use_update_timer;
     }
 
+    //! \brief Sets the effect as invalid
+    void Disable() {
+        _type = GLOBAL_STATUS_INVALID;
+        _intensity = GLOBAL_INTENSITY_NEUTRAL;
+    }
+
+    //! \brief Checks whether the effect is active (and valid).
+    bool IsActive() const {
+        return !(_type == GLOBAL_STATUS_INVALID || _type == GLOBAL_STATUS_TOTAL
+            || _intensity == GLOBAL_INTENSITY_NEUTRAL || _intensity == GLOBAL_INTENSITY_INVALID
+            || _intensity == GLOBAL_INTENSITY_TOTAL);
+    }
+
 protected:
     //! \brief The type of status that the object represents
     GLOBAL_STATUS _type;

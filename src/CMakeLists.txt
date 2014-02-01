@@ -402,6 +402,8 @@ modes/map/map_zones.cpp
 modes/map/map_objects.h
 modes/map/map_minimap.cpp
 modes/map/map_minimap.h
+modes/map/map_status_effects.cpp
+modes/map/map_status_effects.h
 modes/menu/menu.h
 modes/menu/menu.cpp
 modes/menu/menu_views.cpp

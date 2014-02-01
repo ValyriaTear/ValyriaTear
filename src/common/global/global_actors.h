@@ -997,11 +997,15 @@ public:
         _active_status_effects.resize(GLOBAL_STATUS_TOTAL, ActiveStatusEffect());
     }
 
-    //! Sets a newly active status effect on the global actor.
+    //! Sets the given active status effect state on the global actor.
     void SetActiveStatusEffect(GLOBAL_STATUS status_effect, GLOBAL_INTENSITY intensity,
                                uint32 duration, uint32 elapsed_time) {
         _active_status_effects[status_effect] = ActiveStatusEffect(status_effect, intensity, duration, elapsed_time);
     }
+
+    //! Sets a newly active status effect on the global actor, but taking in account a possible previous active one.
+    void ApplyActiveStatusEffect(GLOBAL_STATUS status_effect, GLOBAL_INTENSITY intensity,
+                                 uint32 duration);
 
     uint32 GetHitPointsGrowth() const {
         return _hit_points_growth;

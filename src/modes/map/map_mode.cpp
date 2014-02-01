@@ -173,12 +173,21 @@ void MapMode::Deactivate()
     _music_filename = active_music ? active_music->GetFilename() : std::string();
     _audio_state = active_music ? active_music->GetState() : AUDIO_STATE_UNLOADED;
 
+    // Store the status effects state
+    // First stores the currently applied active status effects on characters.
+    // This way, they'll properly be taken in account in the menu mode or battle mode.
+    _status_effect_supervisor.SaveActiveStatusEffects();
+
     _activated = false;
 }
 
 void MapMode::Reset()
 {
     _current_instance = this;
+
+    // Reload the active and inactive status effects if necessary
+    if (!_activated)
+        _status_effect_supervisor.LoadStatusEffects();
 
     _activated = true;
 
@@ -717,6 +726,9 @@ void MapMode::_UpdateExplore()
         ModeManager->Push(MM);
         return;
     }
+
+    // Only update the status effect supervisor in Exploration mode
+    _status_effect_supervisor.Update();
 
     // Update the running state of the camera object. Check if the character is running and if so,
     // update the stamina value if the operation is permitted
