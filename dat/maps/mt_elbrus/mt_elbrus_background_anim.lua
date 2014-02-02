@@ -33,7 +33,7 @@ end
 function Update()
 
     -- TODO: Get the map height from the map class
-    offset_y = offset_y - Effects:GetCameraYMovement() * 80 / 700
+    offset_y = offset_y + Effects:GetCameraYMovement() * 80 / 700
 
 end
 
