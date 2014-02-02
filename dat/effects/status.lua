@@ -106,6 +106,22 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_STRENGTH] = {
     RemovePassive = function(global_actor)
         global_actor:SetStrengthModifier(1.0);
     end,
+
+    MapUpdatePassive = function(global_character, intensity)
+        -- Nothing to do here
+    end,
+
+    MapApply = function(map_effect)
+        -- Nothing to do here
+    end,
+
+    MapUpdate = function(map_effect)
+        -- Nothing to do here
+    end,
+
+    MapRemove = function(map_effect)
+        -- Nothing to do here
+    end
 }
 
 status_effects[vt_global.GameGlobal.GLOBAL_STATUS_VIGOR] = {
@@ -149,6 +165,22 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_VIGOR] = {
     RemovePassive = function(global_actor)
         global_actor:SetVigorModifier(1.0);
     end,
+
+    MapUpdatePassive = function(global_character, intensity)
+        -- Nothing to do here
+    end,
+
+    MapApply = function(map_effect)
+        -- Nothing to do here
+    end,
+
+    MapUpdate = function(map_effect)
+        -- Nothing to do here
+    end,
+
+    MapRemove = function(map_effect)
+        -- Nothing to do here
+    end
 }
 
 status_effects[vt_global.GameGlobal.GLOBAL_STATUS_FORTITUDE] = {
@@ -192,6 +224,22 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_FORTITUDE] = {
     RemovePassive = function(global_actor)
         global_actor:SetFortitudeModifier(1.0);
     end,
+
+    MapUpdatePassive = function(global_character, intensity)
+        -- Nothing to do here
+    end,
+
+    MapApply = function(map_effect)
+        -- Nothing to do here
+    end,
+
+    MapUpdate = function(map_effect)
+        -- Nothing to do here
+    end,
+
+    MapRemove = function(map_effect)
+        -- Nothing to do here
+    end
 }
 
 status_effects[vt_global.GameGlobal.GLOBAL_STATUS_PROTECTION] = {
@@ -235,6 +283,22 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_PROTECTION] = {
     RemovePassive = function(global_actor)
         global_actor:SetProtectionModifier(1.0);
     end,
+
+    MapUpdatePassive = function(global_character, intensity)
+        -- Nothing to do here
+    end,
+
+    MapApply = function(map_effect)
+        -- Nothing to do here
+    end,
+
+    MapUpdate = function(map_effect)
+        -- Nothing to do here
+    end,
+
+    MapRemove = function(map_effect)
+        -- Nothing to do here
+    end
 }
 
 status_effects[vt_global.GameGlobal.GLOBAL_STATUS_AGILITY] = {
@@ -281,6 +345,22 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_AGILITY] = {
     RemovePassive = function(global_actor)
         global_actor:SetAgilityModifier(1.0);
     end,
+
+    MapUpdatePassive = function(global_character, intensity)
+        -- Nothing to do here
+    end,
+
+    MapApply = function(map_effect)
+        -- Nothing to do here
+    end,
+
+    MapUpdate = function(map_effect)
+        -- Nothing to do here
+    end,
+
+    MapRemove = function(map_effect)
+        -- Nothing to do here
+    end
 }
 
 status_effects[vt_global.GameGlobal.GLOBAL_STATUS_EVADE] = {
@@ -324,6 +404,22 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_EVADE] = {
     RemovePassive = function(global_actor)
         global_actor:SetEvadeModifier(1.0);
     end,
+
+    MapUpdatePassive = function(global_character, intensity)
+        -- Nothing to do here
+    end,
+
+    MapApply = function(map_effect)
+        -- Nothing to do here
+    end,
+
+    MapUpdate = function(map_effect)
+        -- Nothing to do here
+    end,
+
+    MapRemove = function(map_effect)
+        -- Nothing to do here
+    end
 }
 
 status_effects[vt_global.GameGlobal.GLOBAL_STATUS_HP] = {
@@ -392,6 +488,22 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_HP] = {
     RemovePassive = function(global_actor)
         -- Nothing to do.
     end,
+
+    MapUpdatePassive = function(global_character, intensity)
+        -- TODO: Heal/Hurt
+    end,
+
+    MapApply = function(map_effect)
+        -- Nothing to do here
+    end,
+
+    MapUpdate = function(map_effect)
+        -- Nothing to do here
+    end,
+
+    MapRemove = function(map_effect)
+        -- Nothing to do here
+    end
 }
 
 status_effects[vt_global.GameGlobal.GLOBAL_STATUS_SP] = {
@@ -480,6 +592,22 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_SP] = {
     RemovePassive = function(global_actor)
         -- Nothing to do.
     end,
+
+    MapUpdatePassive = function(global_character, intensity)
+        -- TODO: Heal/Hurt
+    end,
+
+    MapApply = function(map_effect)
+        -- Nothing to do here
+    end,
+
+    MapUpdate = function(map_effect)
+        -- Nothing to do here
+    end,
+
+    MapRemove = function(map_effect)
+        -- Nothing to do here
+    end
 }
 
 status_effects[vt_global.GameGlobal.GLOBAL_STATUS_PARALYSIS] = {
@@ -520,6 +648,22 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_PARALYSIS] = {
     RemovePassive = function(global_actor)
         -- Nothing to do.
     end,
+
+    MapUpdatePassive = function(global_character, intensity)
+        -- Nothing to do here
+    end,
+
+    MapApply = function(map_effect)
+        -- Nothing to do here
+    end,
+
+    MapUpdate = function(map_effect)
+        -- Nothing to do here
+    end,
+
+    MapRemove = function(map_effect)
+        -- Nothing to do here
+    end
 }
 
 -- Elemental status effects
@@ -563,6 +707,22 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_FIRE] = {
     RemovePassive = function(global_actor)
         global_actor:SetElementalModifier(vt_global.GameGlobal.GLOBAL_ELEMENTAL_FIRE, 1.0);
     end,
+
+    MapUpdatePassive = function(global_character, intensity)
+        -- Nothing to do here
+    end,
+
+    MapApply = function(map_effect)
+        -- Nothing to do here
+    end,
+
+    MapUpdate = function(map_effect)
+        -- Nothing to do here
+    end,
+
+    MapRemove = function(map_effect)
+        -- Nothing to do here
+    end
 }
 
 -- Water
@@ -606,6 +766,22 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_WATER] = {
     RemovePassive = function(global_actor)
         global_actor:SetElementalModifier(vt_global.GameGlobal.GLOBAL_ELEMENTAL_WATER, 1.0);
     end,
+
+    MapUpdatePassive = function(global_character, intensity)
+        -- Nothing to do here
+    end,
+
+    MapApply = function(map_effect)
+        -- Nothing to do here
+    end,
+
+    MapUpdate = function(map_effect)
+        -- Nothing to do here
+    end,
+
+    MapRemove = function(map_effect)
+        -- Nothing to do here
+    end
 }
 
 status_effects[vt_global.GameGlobal.GLOBAL_STATUS_VOLT] = {
@@ -648,6 +824,22 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_VOLT] = {
     RemovePassive = function(global_actor)
         global_actor:SetElementalModifier(vt_global.GameGlobal.GLOBAL_ELEMENTAL_VOLT, 1.0);
     end,
+
+    MapUpdatePassive = function(global_character, intensity)
+        -- Nothing to do here
+    end,
+
+    MapApply = function(map_effect)
+        -- Nothing to do here
+    end,
+
+    MapUpdate = function(map_effect)
+        -- Nothing to do here
+    end,
+
+    MapRemove = function(map_effect)
+        -- Nothing to do here
+    end
 }
 
 status_effects[vt_global.GameGlobal.GLOBAL_STATUS_EARTH] = {
@@ -690,6 +882,22 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_EARTH] = {
     RemovePassive = function(global_actor)
         global_actor:SetElementalModifier(vt_global.GameGlobal.GLOBAL_ELEMENTAL_EARTH, 1.0);
     end,
+
+    MapUpdatePassive = function(global_character, intensity)
+        -- Nothing to do here
+    end,
+
+    MapApply = function(map_effect)
+        -- Nothing to do here
+    end,
+
+    MapUpdate = function(map_effect)
+        -- Nothing to do here
+    end,
+
+    MapRemove = function(map_effect)
+        -- Nothing to do here
+    end
 }
 
 status_effects[vt_global.GameGlobal.GLOBAL_STATUS_LIFE] = {
@@ -732,6 +940,22 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_LIFE] = {
     RemovePassive = function(global_actor)
         global_actor:SetElementalModifier(vt_global.GameGlobal.GLOBAL_ELEMENTAL_LIFE, 1.0);
     end,
+
+    MapUpdatePassive = function(global_character, intensity)
+        -- Nothing to do here
+    end,
+
+    MapApply = function(map_effect)
+        -- Nothing to do here
+    end,
+
+    MapUpdate = function(map_effect)
+        -- Nothing to do here
+    end,
+
+    MapRemove = function(map_effect)
+        -- Nothing to do here
+    end
 }
 
 status_effects[vt_global.GameGlobal.GLOBAL_STATUS_DEATH] = {
@@ -774,6 +998,22 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_DEATH] = {
     RemovePassive = function(global_actor)
         global_actor:SetElementalModifier(vt_global.GameGlobal.GLOBAL_ELEMENTAL_DEATH, 1.0);
     end,
+
+    MapUpdatePassive = function(global_character, intensity)
+        -- Nothing to do here
+    end,
+
+    MapApply = function(map_effect)
+        -- Nothing to do here
+    end,
+
+    MapUpdate = function(map_effect)
+        -- Nothing to do here
+    end,
+
+    MapRemove = function(map_effect)
+        -- Nothing to do here
+    end
 }
 
 -- Neutral (default magical strength)
@@ -817,4 +1057,20 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_NEUTRAL] = {
     RemovePassive = function(global_actor)
         global_actor:SetElementalModifier(vt_global.GameGlobal.GLOBAL_ELEMENTAL_NEUTRAL, 1.0);
     end,
+
+    MapUpdatePassive = function(global_character, intensity)
+        -- Nothing to do here
+    end,
+
+    MapApply = function(map_effect)
+        -- Nothing to do here
+    end,
+
+    MapUpdate = function(map_effect)
+        -- Nothing to do here
+    end,
+
+    MapRemove = function(map_effect)
+        -- Nothing to do here
+    end
 }

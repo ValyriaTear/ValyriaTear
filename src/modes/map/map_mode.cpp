@@ -1087,6 +1087,13 @@ void MapMode::_DrawGUI()
         }
     }
 
+    // Draw status indications
+    VideoManager->PushState();
+    VideoManager->SetStandardCoordSys();
+    // Draw flags are set by the supervisor
+    GetIndicatorSupervisor().Draw();
+    VideoManager->PopState();
+
     // Draw the minimap
     if(_show_minimap && _minimap && (CurrentState() == STATE_EXPLORE)
             && GlobalManager->ShouldShowMinimap())

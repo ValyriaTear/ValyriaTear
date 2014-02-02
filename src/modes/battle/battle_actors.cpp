@@ -804,13 +804,10 @@ BattleCharacter::~BattleCharacter()
 {
     // If the character finished the battle alive, we set the active
     // status effects on its global alter ego.
-    // TODO: Activate this once the menu mode and map modes can handle those.
-    /*
     if (IsAlive())
         _effects_supervisor->SetActiveStatusEffects(_global_character);
     else // Otherwise, we just reset those.
         _global_character->ResetActiveStatusEffects();
-    */
 }
 
 void BattleCharacter::ResetActor()

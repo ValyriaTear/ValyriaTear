@@ -264,7 +264,7 @@ items[13] = {
 -- IDs 1,001 - 2,000 are reserved for status potions
 --------------------------------------------------------------------------------
 
-decrement_negative_effects = function(target_actor, intensity)
+_battle_apply_elixir_status_effects = function(target_actor, intensity)
     if (target_actor:IsAlive() == true) then
         -- decrement all the basic negative effects, or put positive effects depending on the intensity
         target_actor:RegisterStatusChange(vt_global.GameGlobal.GLOBAL_STATUS_STRENGTH, intensity, 30000);
@@ -280,9 +280,24 @@ decrement_negative_effects = function(target_actor, intensity)
     end
 end
 
+_field_apply_elixir_status_effects = function(global_character, intensity)
+    if (global_character:IsAlive() == true) then
+        -- decrement all the basic negative effects, or put positive effects depending on the intensity
+        global_character:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_STRENGTH, intensity, 30000);
+        global_character:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_VIGOR, intensity, 30000);
+        global_character:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_FORTITUDE, intensity, 30000);
+        global_character:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_PROTECTION, intensity, 30000);
+        global_character:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_EVADE, intensity, 30000);
+        AudioManager:PlaySound("snd/potion_drink.wav");
+        return true;
+    else
+        return false;
+    end
+end
+
 items[1001] = {
     name = vt_system.Translate("Minor Elixir"),
-    description = vt_system.Translate("Revive a character, or improve the character status when it is sane or reduces ailing status effects by a limited degree."),
+    description = vt_system.Translate("Revive a character, or improve the character status when he/she is alive by a limited degree."),
     icon = "img/icons/items/potion_red_small.png",
     target_type = vt_global.GameGlobal.GLOBAL_TARGET_ALLY_EVEN_DEAD,
     standard_price = 50,
@@ -294,22 +309,23 @@ items[1001] = {
         -- Decrement all base stats active negative status effects slightly
         if (target_actor:GetHitPoints() > 0) then
             -- Decrement any active negative base stats status effects when alive
-            return decrement_negative_effects(target_actor, vt_global.GameGlobal.GLOBAL_INTENSITY_POS_LESSER);
+            return _battle_apply_elixir_status_effects(target_actor, vt_global.GameGlobal.GLOBAL_INTENSITY_POS_LESSER);
         else
             -- When dead, revive the character
             target_actor:RegisterRevive(1);
+            AudioManager:PlaySound("snd/potion_drink.wav");
         end
         return true;
     end,
 
     FieldUse = function(target)
         if (target:GetHitPoints() > 0) then
-            -- TODO: decrement any active negative status effects when alive, like poison, or paralysis, but not the base stats effects
-            -- which are valid only in battles.
-            return false;
+            -- increment active base stats status effects when alive.
+            return _field_apply_elixir_status_effects(target, vt_global.GameGlobal.GLOBAL_INTENSITY_POS_LESSER);
         else
             -- When dead, revive the character
             target:SetHitPoints(1);
+            AudioManager:PlaySound("snd/potion_drink.wav");
         end
         return true;
     end
@@ -317,7 +333,7 @@ items[1001] = {
 
 items[1003] = {
     name = vt_system.Translate("Elixir"),
-    description = vt_system.Translate("Revive a character with half of its Hit Points, or reduces almost all its ailing status effects if the potion is drunk when alive."),
+    description = vt_system.Translate("Revive a character with half of its Hit Points, or reasonably improve the character status when he/she is alive."),
     icon = "img/icons/items/potion_red_large.png",
     target_type = vt_global.GameGlobal.GLOBAL_TARGET_ALLY_EVEN_DEAD,
     standard_price = 1200,
@@ -328,7 +344,7 @@ items[1003] = {
         local target_actor = target:GetActor();
         if (target_actor:GetHitPoints() > 0) then
             -- Decrement any active negative base stats status effects when alive
-            return decrement_negative_effects(target_actor, vt_global.GameGlobal.GLOBAL_INTENSITY_POS_MODERATE);
+            return _battle_apply_elixir_status_effects(target_actor, vt_global.GameGlobal.GLOBAL_INTENSITY_POS_MODERATE);
         else
             -- When dead, revive the character
             target_actor:RegisterRevive(target_actor:GetMaxHitPoints() / 2.0);
@@ -338,9 +354,8 @@ items[1003] = {
 
     FieldUse = function(target)
         if (target:GetHitPoints() > 0) then
-        -- TODO: decrement any active negative status effects when alive, like poison, or paralysis, but not the base stats effects
-            -- which are valid only in battles.
-            return false;
+            -- increment active base stats status effects when alive.
+            return _field_apply_elixir_status_effects(target, vt_global.GameGlobal.GLOBAL_INTENSITY_POS_MODERATE);
         else
             -- When dead, revive the character
             target:SetHitPoints(target_actor:GetMaxHitPoints() / 2.0);

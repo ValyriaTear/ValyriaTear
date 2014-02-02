@@ -385,7 +385,7 @@ void MapStatusEffectsSupervisor::Update()
             if (effect.GetUpdateFunction().is_valid()) {
 
                 try {
-                    ScriptCallFunction<void>(effect.GetUpdateFunction(), effect.GetAffectedCharacter());
+                    ScriptCallFunction<void>(effect.GetUpdateFunction(), effect);
                 } catch(const luabind::error& e) {
                     PRINT_ERROR << "Error while loading status effect Update function" << std::endl;
                     vt_script::ScriptManager->HandleLuaError(e);
@@ -423,7 +423,6 @@ void MapStatusEffectsSupervisor::Update()
 void MapStatusEffectsSupervisor::Draw()
 {
     // TODO: Potentially Adds support to display effects on the character
-    /*
     // DEBUG
     vt_video::VideoManager->Move(50.0f + 6.0f * 16.0f, 480.0f);
 
@@ -434,7 +433,6 @@ void MapStatusEffectsSupervisor::Draw()
             vt_video::VideoManager->MoveRelative(-16.0f, 0.0f);
         }
     }
-    */
 }
 
 bool MapStatusEffectsSupervisor::ChangeStatus(ActiveMapStatusEffect& active_effect,
@@ -461,12 +459,12 @@ bool MapStatusEffectsSupervisor::ChangeStatus(ActiveMapStatusEffect& active_effe
     // Set the previous status and intensity return values to match the active effect, if one was found to exist
     previous_intensity = active_effect.GetIntensity();
 
-    // Display the status effect change on the "camera" sprite
+    // Set the coordinates of the status effect change on the "camera" sprite
     MapMode* MM = MapMode::CurrentInstance();
     vt_mode_manager::IndicatorSupervisor& indicator = MM->GetIndicatorSupervisor();
     VirtualSprite* camera = MM->GetCamera();
-    float x_pos = camera->GetXPosition();
-    float y_pos = camera->GetYPosition() - camera->GetImgHeight();
+    float x_pos = MM->GetScreenXCoordinate(camera->GetXPosition());
+    float y_pos = MM->GetScreenYCoordinate(camera->GetYPosition()) - (camera->GetImgHeight() * 16);
 
     // Perform status changes according to the previously determined information
     if(active_effect.IsActive()) {
@@ -541,7 +539,7 @@ void MapStatusEffectsSupervisor::_RemoveActiveStatusEffect(ActiveMapStatusEffect
     // Remove the status effect from the active effects list if it registered there.
     if (status_effect.GetRemoveFunction().is_valid()) {
         try {
-            ScriptCallFunction<void>(status_effect.GetRemoveFunction(), status_effect.GetAffectedCharacter());
+            ScriptCallFunction<void>(status_effect.GetRemoveFunction(), status_effect);
         } catch(const luabind::error& e) {
             PRINT_ERROR << "Error while loading status effect Remove function" << std::endl;
             vt_script::ScriptManager->HandleLuaError(e);

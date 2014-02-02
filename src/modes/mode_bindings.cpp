@@ -574,6 +574,13 @@ void BindModeCode()
             .def("AddEvent", &TreasureEvent::AddEvent)
         ];
 
+        luabind::module(vt_script::ScriptManager->GetGlobalState(), "vt_map")
+        [
+            luabind::class_<ActiveMapStatusEffect, vt_global::GlobalStatusEffect>("ActiveMapStatusEffect")
+            .def("GetAffectedCharacter", &ActiveMapStatusEffect::GetAffectedCharacter)
+            .def("HasIntensityChanged", &ActiveMapStatusEffect::HasIntensityChanged)
+        ];
+
     } // End using map mode namespaces
 
 
