@@ -55,6 +55,7 @@ void CharacterWindow::SetCharacter(GlobalCharacter* character)
         _character_name.Clear();
         _character_data.Clear();
         _portrait = StillImage();
+        _UpdateActiveStatusEffects(NULL);
         return;
     }
 
