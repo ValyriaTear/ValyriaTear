@@ -206,6 +206,59 @@ private:
     vt_video::StillImage* _icon_image;
 }; // class PassiveMapStatusEffect : public vt_global::GlobalStatusEffect
 
+/** ****************************************************************************
+*** \brief A class used to display the character portrait whenever an active
+*** status effect is displaying changes. The portrait is displayed next to the
+*** status effect visuals so the player can visually link the two.
+*** ***************************************************************************/
+class CharacterIndication
+{
+public:
+    CharacterIndication(vt_global::GlobalCharacter* character, float x_position, float y_position);
+
+    ~CharacterIndication()
+    {}
+
+    //! Make the portrait fade in/out
+    void FadeIn(uint32 display_time) {
+        _fade_in = true;
+        _fade_out = false;
+        // We overwrite the time to display the effect
+        _display_time = display_time;
+    }
+
+    void FadeOut() {
+        _fade_in = false;
+        _fade_out = true;
+    }
+
+    void Update();
+
+    void Draw();
+
+    vt_global::GlobalCharacter* GetCharacter()
+    { return _global_character; }
+private:
+    //! \brief The portrait position
+    float _x_position;
+    float _y_position;
+
+    //! \brief The image alpha
+    float _image_alpha;
+
+    //! \brief Used to make the portrait fade in/out.
+    bool _fade_in;
+    bool _fade_out;
+
+    //! \brief The time the portrait should be displayed.
+    int32 _display_time;
+
+    //! \brief The corresponding global character
+    vt_global::GlobalCharacter* _global_character;
+
+    //! \brief The character portrait (own instance with custom dimensions)
+    vt_video::StillImage _portrait;
+};
 
 /** ****************************************************************************
 *** \brief Manages all elemental and status elements for the global party
@@ -262,6 +315,10 @@ private:
     //! Those status effects can never be canceled. They are simply updated.
     std::vector<PassiveMapStatusEffect> _equipment_status_effects;
 
+    //! \brief The character portraits display on the bottom of the screen used
+    //! to visually link on what character a status effect change happens.
+    std::vector<CharacterIndication> _characters_portraits;
+
     /** \brief Creates a new status effect and applies it to the actor
     *** \param status The type of the status to create
     *** \param intensity The intensity level that the effect should be initialized at
@@ -296,6 +353,12 @@ private:
     //! \brief Copy the Active status effects back to the given global Character
     //! thus they can remain after the status effect supervisor deletion for other game modes.
     void _SetActiveStatusEffects(vt_global::GlobalCharacter* character);
+
+    //! \brief Check whether certain portraits should appear for a brief period of time.
+    //! If the function is called several times, the portrait will simply keep on appearing
+    //! for the latest desired duration
+    void _MakeCharacterPortraitAppear(vt_global::GlobalCharacter* character, uint32 time);
+
 }; // class MapStatusEffectsSupervisor
 
 } // namespace private_map

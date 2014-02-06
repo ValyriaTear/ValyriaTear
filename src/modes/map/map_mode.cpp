@@ -1090,7 +1090,9 @@ void MapMode::_DrawGUI()
     // Draw status indications
     VideoManager->PushState();
     VideoManager->SetStandardCoordSys();
-    // Draw flags are set by the supervisor
+    // Draws character portrait when effects changes are triggered.
+    _status_effect_supervisor.Draw();
+    // Draws the effect visuals themselves.
     GetIndicatorSupervisor().Draw();
     VideoManager->PopState();
 

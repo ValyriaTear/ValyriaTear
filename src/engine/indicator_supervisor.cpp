@@ -312,7 +312,7 @@ void IndicatorSupervisor::Update()
     while(!_wait_queue.empty()) {
 
         // Update the element position if it is overlapping another one.
-        _wait_queue.front()->Start(); // Setup the indcator's coords
+        _wait_queue.front()->Start(); // Setup the indicator's coords
         while(_FixPotentialIndicatorOverlapping(_wait_queue.front()))
             {}
 
