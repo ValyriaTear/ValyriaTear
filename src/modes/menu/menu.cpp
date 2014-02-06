@@ -930,6 +930,10 @@ MenuMode::~MenuMode()
 void MenuMode::Reset()
 {
     _current_instance = this;
+
+    // Reload characters information,
+    // as active status effects may have changed.
+    ReloadCharacterWindows();
 }
 
 void MenuMode::UpdateTimeAndDrunes()
