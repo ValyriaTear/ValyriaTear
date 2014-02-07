@@ -403,6 +403,7 @@ void VirtualSprite::_SetNextPosition()
                            0.0f;
 
         map->GetEffectSupervisor().AddParallax(x_parallax, y_parallax);
+        map->GetIndicatorSupervisor().AddParallax(x_parallax, y_parallax);
     }
 
     // Make the sprite advance at the end

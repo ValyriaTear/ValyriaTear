@@ -147,6 +147,13 @@ void BindEngineCode()
 
         luabind::module(vt_script::ScriptManager->GetGlobalState(), "vt_mode_manager")
         [
+            luabind::class_<IndicatorSupervisor>("IndicatorSupervisor")
+            .def("AddDamageIndicator", &IndicatorSupervisor::AddDamageIndicator)
+            .def("AddHealingIndicator", &IndicatorSupervisor::AddHealingIndicator)
+        ];
+
+        luabind::module(vt_script::ScriptManager->GetGlobalState(), "vt_mode_manager")
+        [
             luabind::class_<GameMode>("GameMode")
             .def("GetScriptSupervisor", &GameMode::GetScriptSupervisor)
             .def("GetEffectSupervisor", &GameMode::GetEffectSupervisor)
@@ -302,7 +309,8 @@ void BindEngineCode()
             .def("GetWordWrapWidth", &TextImage::GetWordWrapWidth),
 
             luabind::class_<TextStyle>("TextStyle")
-            .def(luabind::constructor<const std::string&>()),
+            .def(luabind::constructor<const std::string&>())
+            .def(luabind::constructor<const std::string&, const Color&>()),
 
             luabind::class_<VideoEngine>("GameVideo")
             .def("FadeScreen", &VideoEngine::FadeScreen)

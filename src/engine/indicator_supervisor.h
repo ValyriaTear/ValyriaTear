@@ -104,6 +104,15 @@ public:
         _y_origin_position = y;
     }
 
+    bool UseParallax() const {
+        return _use_parallax;
+    }
+
+    //! \brief Tells whether the indicator will make use of the camera movement.
+    void SetUseParallax(bool use_parallax) {
+        _use_parallax = use_parallax;
+    }
+
     INDICATOR_TYPE GetType() const {
         return _indicator_type;
     }
@@ -133,6 +142,10 @@ protected:
 
     //! \brief Represent the current y position of the effect, relative to its base coordinates.
     float _y_relative_position;
+
+    //! \brief Permits to apply parallax effects on the indicator.
+    //! This is useful when the indicator tries to simulate the camera movement.
+    bool _use_parallax;
 
     /** \brief the indicator type.
     *** According to the indicator type, the draw position computation won't be the same
@@ -343,23 +356,27 @@ public:
     /** \brief Creates indicator text representing a numeric amount of damage dealt
     *** \param amount The amount of damage to display, in hit points. Should be non-zero.
     *** \param style The text style the damage should be shown with (font + color + shadow)
+    *** \param use_parallax Whether the indicator will follow the camera movement.
     ***
     *** This function will not actually cause any damage to come to the actor (that is, the actor's
     *** hit points are not modified by this function). The degree of damage relative to the character's
     *** maximum hit points determines the color and size of the text rendered.
     **/
     void AddDamageIndicator(float x_position, float y_position,
-                            uint32 amount, const vt_video::TextStyle& style);
+                            uint32 amount, const vt_video::TextStyle& style,
+                            bool use_parallax = false);
 
     /** \brief Creates indicator text representing a numeric amount of healing dealt
     *** \param amount The amount of healing to display, in points. Should be non-zero.
     *** \param style The text style the damage should be shown with (font + color + shadow)
+    *** \param use_parallax Whether the indicator will follow the camera movement.
     ***
     *** This function will not actually cause any healing to come to the actor (that is, the actor's
     *** hit points are not modified by this function). The degree of healing relative to the character's
     *** maximum hit points determines the color and size of the text rendered.
     **/
-    void AddHealingIndicator(float x_position, float y_position, uint32 amount, const vt_video::TextStyle& style);
+    void AddHealingIndicator(float x_position, float y_position, uint32 amount,
+                             const vt_video::TextStyle& style, bool use_parallax = false);
 
     /** \brief Creates indicator text showing a miss on the actor
     *** Miss text is always drawn with the same style in a small font with white text
@@ -384,6 +401,9 @@ public:
     //! \brief Creates indicator with item image above the character
     void AddItemIndicator(float x_position, float y_position,
                           const vt_global::GlobalItem& item);
+
+    //! \brief Adds a parallax effect to damage and healing indicators, permitting to simulate the camera offset movement.
+    void AddParallax(float x_parallax, float y_parallax);
 private:
     //! \brief A FIFO queue container of elements that are waiting to be started and added to the active elements container
     std::deque<IndicatorElement *> _wait_queue;

@@ -945,6 +945,7 @@ void MapMode::_UpdateMapFrame()
                            0.0f;
 
         GetEffectSupervisor().AddParallax(x_parallax, y_parallax);
+        GetIndicatorSupervisor().AddParallax(x_parallax, y_parallax);
     }
 
     // Comment this out to print out map draw debugging info about once a second
