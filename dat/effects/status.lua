@@ -440,23 +440,40 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_HP] = {
 
     -- Generic function for updates on the battle mode
     _ApplyHPEffectOnBattleActor = function(battle_actor, intensity)
+        -- Don't remove/regen hit points on dead targets
+        if (battle_actor:IsAlive() == false) then
+            return;
+        end
+
         if (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_LESSER) then
-            global_actor:RegisterHealing(1, true);
+            battle_actor:RegisterHealing(1, true);
+            return
         elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_MODERATE) then
             battle_actor:RegisterHealing(2, true);
+            return
         elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_GREATER) then
             battle_actor:RegisterHealing(4, true);
+            return
         elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_EXTREME) then
             battle_actor:RegisterHealing(8, true);
-        elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_LESSER) then
-            battle_actor:RegisterDamage(2);
-        elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_MODERATE) then
-            battle_actor:RegisterDamage(4);
-        elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_GREATER) then
-            battle_actor:RegisterDamage(8);
-        elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_EXTREME) then
-            battle_actor:RegisterDamage(16);
+            return
         end
+
+        local hp_damage = 2;
+        if (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_LESSER) then
+            -- hp damage already equal to 2.
+        elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_MODERATE) then
+            hp_damage = 4
+        elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_GREATER) then
+            hp_damage = 8
+        elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_EXTREME) then
+            hp_damage = 16
+        end
+
+        if (battle_actor:GetHitPoints() < hp_damage) then
+            hp_damage = battle_actor:GetHitPoints();
+        end
+        battle_actor:RegisterDamage(hp_damage);
     end,
 
     BattleUpdate = function(battle_effect)
@@ -567,6 +584,11 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_SP] = {
 
     -- Generic function for updates on the battle mode
     _ApplySPEffectOnBattleActor = function(battle_actor, intensity)
+        -- Don't remove hit/regen skill points on dead targets
+        if (battle_actor:IsAlive() == false) then
+            return;
+        end
+
         if (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_LESSER) then
             battle_actor:RegisterHealing(1, false);
             return
@@ -632,6 +654,10 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_SP] = {
 
     -- Generic function for updates on the map mode
     _ApplySPEffectOnCharacter = function(global_character, intensity)
+        -- Dead characters can neither regen nor take SP damages.
+        if (global_character:GetSkillPoints() == 0) then
+            return;
+        end
 
         local sp_change = 0;
         if (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_LESSER) then
