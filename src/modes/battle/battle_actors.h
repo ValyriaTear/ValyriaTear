@@ -407,8 +407,11 @@ public:
     *** If the desired effect does yield a change in status, this function will prepare an indicator image
     *** to be displayed representing the change in status.
     **/
-    void RegisterStatusChange(vt_global::GLOBAL_STATUS status, vt_global::GLOBAL_INTENSITY intensity,
-                              uint32 duration = 0);
+    void ApplyActiveStatusEffect(vt_global::GLOBAL_STATUS status, vt_global::GLOBAL_INTENSITY intensity,
+                                 uint32 duration = 0);
+
+    //! \brief Removes the given status effect, calling the according BattleRemove() script function.
+    void RemoveActiveStatusEffect(vt_global::GLOBAL_STATUS status_effect);
 
     //! \brief Tells the intensity of the active status effect currently applied on the character,
     //! or GLOBAL_STATUS_NEUTRAL if there is no such effect.

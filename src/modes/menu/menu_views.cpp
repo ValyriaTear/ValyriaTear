@@ -1298,22 +1298,43 @@ void SkillsWindow::Update()
         // Handle skill application
         if(event == VIDEO_OPTION_CONFIRM) {
             GlobalSkill *skill = _GetCurrentSkill();
-            GlobalCharacter *target = GlobalManager->GetActiveParty()->GetCharacterAtIndex(_char_select.GetSelection());
-            GlobalCharacter *instigator = GlobalManager->GetActiveParty()->GetCharacterAtIndex(_char_skillset);
+            GlobalCharacter* user = GlobalManager->GetActiveParty()->GetCharacterAtIndex(_char_skillset);
+            GlobalCharacter* target = GlobalManager->GetActiveParty()->GetCharacterAtIndex(_char_select.GetSelection());
 
             const ScriptObject &script_function = skill->GetFieldExecuteFunction();
 
             if(!script_function.is_valid()) {
-                IF_PRINT_WARNING(MENU_DEBUG) << "selected skill may not be executed in menus" << std::endl;
+                media.PlaySound("cancel");
                 break;
             }
-            if(skill->GetSPRequired() > instigator->GetSkillPoints()) {
-                IF_PRINT_WARNING(MENU_DEBUG) << "did not have enough skill points to execute skill " << std::endl;
+            if(skill->GetSPRequired() > user->GetSkillPoints()) {
+                media.PlaySound("cancel");
                 break;
             }
-            ScriptCallFunction<void>(script_function, target, instigator);
-            instigator->SubtractSkillPoints(skill->GetSPRequired());
-            media.PlaySound("confirm");
+
+            bool success = false;
+            try {
+                success = ScriptCallFunction<bool>(script_function, user, target);
+            } catch(const luabind::error& e) {
+                PRINT_ERROR << "Error while loading FieldExecute() function" << std::endl;
+                vt_script::ScriptManager->HandleLuaError(e);
+                break;
+            } catch(const luabind::cast_failed& e) {
+                PRINT_ERROR << "Error while loading FieldExecute() function" << std::endl;
+                vt_script::ScriptManager->HandleCastError(e);
+                break;
+            }
+
+            if (success) {
+                user->SubtractSkillPoints(skill->GetSPRequired());
+                // We also update the Characters stats as the item might have some effects there.
+                MenuMode::CurrentInstance()->ReloadCharacterWindows();
+                media.PlaySound("confirm");
+            }
+            else {
+                media.PlaySound("cancel");
+            }
+
         } else if(event == VIDEO_OPTION_CANCEL) {
             _active_box = SKILL_ACTIVE_LIST;
             _skills_list.SetCursorState(VIDEO_CURSOR_STATE_VISIBLE);

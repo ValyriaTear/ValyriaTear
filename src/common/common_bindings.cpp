@@ -313,6 +313,7 @@ void BindCommonCode()
             .def("AddSkill", (bool(GlobalCharacter:: *)(uint32)) &GlobalCharacter::AddSkill)
             .def("AddNewSkillLearned", &GlobalCharacter::AddNewSkillLearned)
             .def("ApplyActiveStatusEffect", &GlobalCharacter::ApplyActiveStatusEffect)
+            .def("RemoveActiveStatusEffect", &GlobalCharacter::RemoveActiveStatusEffect)
         ];
 
         luabind::module(vt_script::ScriptManager->GetGlobalState(), "vt_global")

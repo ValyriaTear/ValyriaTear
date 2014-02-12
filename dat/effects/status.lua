@@ -75,13 +75,13 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_STRENGTH] = {
     default_duration = 30000,
 
     -- Battle status effects related functions
-    BattleApply = function(battle_effect)
-        status_effects[vt_global.GameGlobal.GLOBAL_STATUS_STRENGTH]._ModifyAttribute(battle_effect);
+    BattleApply = function(battle_actor, battle_effect)
+        status_effects[vt_global.GameGlobal.GLOBAL_STATUS_STRENGTH]._ModifyAttribute(battle_actor, battle_effect);
     end,
 
-    BattleUpdate = function(battle_effect)
+    BattleUpdate = function(battle_actor, battle_effect)
         if (battle_effect:HasIntensityChanged() == true) then
-            status_effects[vt_global.GameGlobal.GLOBAL_STATUS_STRENGTH]._ModifyAttribute(battle_effect);
+            status_effects[vt_global.GameGlobal.GLOBAL_STATUS_STRENGTH]._ModifyAttribute(battle_actor, battle_effect);
         end
     end,
 
@@ -89,13 +89,11 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_STRENGTH] = {
         -- Nothing to do
     end,
 
-    BattleRemove = function(battle_effect)
-        local battle_actor = battle_effect:GetAffectedActor();
+    BattleRemove = function(battle_actor, battle_effect)
         battle_actor:SetStrengthModifier(1.0);
     end,
 
-    _ModifyAttribute = function(battle_effect)
-        local battle_actor = battle_effect:GetAffectedActor();
+    _ModifyAttribute = function(battle_actor, battle_effect)
         local intensity = battle_effect:GetIntensity();
 
         local attribute_modifier = status_effects.GetStatModifier(intensity);
@@ -134,13 +132,13 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_VIGOR] = {
     default_duration = 30000,
 
     -- Battle status effects related functions
-    BattleApply = function(battle_effect)
-        status_effects[vt_global.GameGlobal.GLOBAL_STATUS_VIGOR]._ModifyAttribute(battle_effect);
+    BattleApply = function(battle_actor, battle_effect)
+        status_effects[vt_global.GameGlobal.GLOBAL_STATUS_VIGOR]._ModifyAttribute(battle_actor, battle_effect);
     end,
 
-    BattleUpdate = function(battle_effect)
+    BattleUpdate = function(battle_actor, battle_effect)
         if (battle_effect:HasIntensityChanged() == true) then
-            status_effects[vt_global.GameGlobal.GLOBAL_STATUS_VIGOR]._ModifyAttribute(battle_effect);
+            status_effects[vt_global.GameGlobal.GLOBAL_STATUS_VIGOR]._ModifyAttribute(battle_actor, battle_effect);
         end
     end,
 
@@ -148,13 +146,11 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_VIGOR] = {
         -- Nothing to do
     end,
 
-    BattleRemove = function(battle_effect)
-        local battle_actor = battle_effect:GetAffectedActor();
+    BattleRemove = function(battle_actor, battle_effect)
         battle_actor:SetVigorModifier(1.0);
     end,
 
-    _ModifyAttribute = function(battle_effect)
-        local battle_actor = battle_effect:GetAffectedActor();
+    _ModifyAttribute = function(battle_actor, battle_effect)
         local intensity = battle_effect:GetIntensity();
 
         local attribute_modifier = status_effects.GetStatModifier(intensity);
@@ -193,13 +189,13 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_FORTITUDE] = {
     default_duration = 30000,
 
     -- Battle status effects related functions
-    BattleApply = function(battle_effect)
-        status_effects[vt_global.GameGlobal.GLOBAL_STATUS_FORTITUDE]._ModifyAttribute(battle_effect);
+    BattleApply = function(battle_actor, battle_effect)
+        status_effects[vt_global.GameGlobal.GLOBAL_STATUS_FORTITUDE]._ModifyAttribute(battle_actor, battle_effect);
     end,
 
-    BattleUpdate = function(battle_effect)
+    BattleUpdate = function(battle_actor, battle_effect)
         if (battle_effect:HasIntensityChanged() == true) then
-            status_effects[vt_global.GameGlobal.GLOBAL_STATUS_FORTITUDE]._ModifyAttribute(battle_effect);
+            status_effects[vt_global.GameGlobal.GLOBAL_STATUS_FORTITUDE]._ModifyAttribute(battle_actor, battle_effect);
         end
     end,
 
@@ -207,13 +203,11 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_FORTITUDE] = {
         -- Nothing to do
     end,
 
-    BattleRemove = function(battle_effect)
-        local battle_actor = battle_effect:GetAffectedActor();
+    BattleRemove = function(battle_actor, battle_effect)
         battle_actor:SetFortitudeModifier(1.0);
     end,
 
-    _ModifyAttribute = function(battle_effect)
-        local battle_actor = battle_effect:GetAffectedActor();
+    _ModifyAttribute = function(battle_actor, battle_effect)
         local intensity = battle_effect:GetIntensity();
 
         local attribute_modifier = status_effects.GetStatModifier(intensity);
@@ -252,13 +246,13 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_PROTECTION] = {
     default_duration = 30000,
 
     -- Battle status effects related functions
-    BattleApply = function(battle_effect)
-        status_effects[vt_global.GameGlobal.GLOBAL_STATUS_PROTECTION]._ModifyAttribute(battle_effect);
+    BattleApply = function(battle_actor, battle_effect)
+        status_effects[vt_global.GameGlobal.GLOBAL_STATUS_PROTECTION]._ModifyAttribute(battle_actor, battle_effect);
     end,
 
-    BattleUpdate = function(battle_effect)
+    BattleUpdate = function(battle_actor, battle_effect)
         if (battle_effect:HasIntensityChanged() == true) then
-            status_effects[vt_global.GameGlobal.GLOBAL_STATUS_PROTECTION]._ModifyAttribute(battle_effect);
+            status_effects[vt_global.GameGlobal.GLOBAL_STATUS_PROTECTION]._ModifyAttribute(battle_actor, battle_effect);
         end
     end,
 
@@ -266,13 +260,11 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_PROTECTION] = {
         -- Nothing to do
     end,
 
-    BattleRemove = function(battle_effect)
-        local battle_actor = battle_effect:GetAffectedActor();
+    BattleRemove = function(battle_actor, battle_effect)
         battle_actor:SetProtectionModifier(1.0);
     end,
 
-    _ModifyAttribute = function(battle_effect)
-        local battle_actor = battle_effect:GetAffectedActor();
+    _ModifyAttribute = function(battle_actor, battle_effect)
         local intensity = battle_effect:GetIntensity();
 
         local attribute_modifier = status_effects.GetStatModifier(intensity);
@@ -311,13 +303,13 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_AGILITY] = {
     default_duration = 30000,
 
     -- Battle status effects related functions
-    BattleApply = function(battle_effect)
-        status_effects[vt_global.GameGlobal.GLOBAL_STATUS_AGILITY]._ModifyAttribute(battle_effect);
+    BattleApply = function(battle_actor, battle_effect)
+        status_effects[vt_global.GameGlobal.GLOBAL_STATUS_AGILITY]._ModifyAttribute(battle_actor, battle_effect);
     end,
 
-    BattleUpdate = function(battle_effect)
+    BattleUpdate = function(battle_actor, battle_effect)
         if (battle_effect:HasIntensityChanged() == true) then
-            status_effects[vt_global.GameGlobal.GLOBAL_STATUS_AGILITY]._ModifyAttribute(battle_effect);
+            status_effects[vt_global.GameGlobal.GLOBAL_STATUS_AGILITY]._ModifyAttribute(battle_actor, battle_effect);
         end
     end,
 
@@ -326,15 +318,12 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_AGILITY] = {
     end,
 
     -- Note: This modifies the actor's idle state wait time accordingly.
-    BattleRemove = function(battle_effect)
-        local battle_actor = battle_effect:GetAffectedActor();
+    BattleRemove = function(battle_actor, battle_effect)
         battle_actor:SetAgilityModifier(1.0);
     end,
 
-    _ModifyAttribute = function(battle_effect)
-        local battle_actor = battle_effect:GetAffectedActor();
+    _ModifyAttribute = function(battle_actor, battle_effect)
         local intensity = battle_effect:GetIntensity();
-
         local attribute_modifier = status_effects.GetStatModifier(intensity);
 
         -- Note: This modifies the actor's idle state wait time accordingly.
@@ -373,13 +362,13 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_EVADE] = {
     default_duration = 30000,
 
     -- Battle status effects related functions
-    BattleApply = function(battle_effect)
-        status_effects[vt_global.GameGlobal.GLOBAL_STATUS_EVADE]._ModifyAttribute(battle_effect);
+    BattleApply = function(battle_actor, battle_effect)
+        status_effects[vt_global.GameGlobal.GLOBAL_STATUS_EVADE]._ModifyAttribute(battle_actor, battle_effect);
     end,
 
-    BattleUpdate = function(battle_effect)
+    BattleUpdate = function(battle_actor, battle_effect)
         if (battle_effect:HasIntensityChanged() == true) then
-            status_effects[vt_global.GameGlobal.GLOBAL_STATUS_EVADE]._ModifyAttribute(battle_effect);
+            status_effects[vt_global.GameGlobal.GLOBAL_STATUS_EVADE]._ModifyAttribute(battle_actor, battle_effect);
         end
     end,
 
@@ -387,13 +376,11 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_EVADE] = {
         -- Nothing to do
     end,
 
-    BattleRemove = function(battle_effect)
-        local battle_actor = battle_effect:GetAffectedActor();
+    BattleRemove = function(battle_actor, battle_effect)
         battle_actor:SetEvadeModifier(1.0);
     end,
 
-    _ModifyAttribute = function(battle_effect)
-        local battle_actor = battle_effect:GetAffectedActor();
+    _ModifyAttribute = function(battle_actor, battle_effect)
         local intensity = battle_effect:GetIntensity();
 
         local attribute_modifier = status_effects.GetStatModifier(intensity);
@@ -434,7 +421,7 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_HP] = {
     update_every = 9000,
 
     -- Battle status effects related functions
-    BattleApply = function(battle_effect)
+    BattleApply = function(battle_actor, battle_effect)
         -- Nothing to do.
     end,
 
@@ -476,8 +463,7 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_HP] = {
         battle_actor:RegisterDamage(hp_damage);
     end,
 
-    BattleUpdate = function(battle_effect)
-        local battle_actor = battle_effect:GetAffectedActor();
+    BattleUpdate = function(battle_actor, battle_effect)
         local intensity = battle_effect:GetIntensity();
 
         status_effects[vt_global.GameGlobal.GLOBAL_STATUS_HP]._ApplyHPEffectOnBattleActor(battle_actor, intensity);
@@ -487,7 +473,7 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_HP] = {
         status_effects[vt_global.GameGlobal.GLOBAL_STATUS_HP]._ApplyHPEffectOnBattleActor(battle_actor, intensity);
     end,
 
-    BattleRemove = function(battle_effect)
+    BattleRemove = function(battle_actor, battle_effect)
         -- Nothing to do.
     end,
 
@@ -578,7 +564,7 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_SP] = {
     update_every = 9000,
 
     -- Battle status effects related functions
-    BattleApply = function(battle_effect)
+    BattleApply = function(battle_actor, battle_effect)
         -- Nothing to do.
     end,
 
@@ -628,8 +614,7 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_SP] = {
         battle_actor:RegisterSPDamage(sp_damage);
     end,
 
-    BattleUpdate = function(battle_effect)
-        local battle_actor = battle_effect:GetAffectedActor();
+    BattleUpdate = function(battle_actor, battle_effect)
         local intensity = battle_effect:GetIntensity();
 
         status_effects[vt_global.GameGlobal.GLOBAL_STATUS_SP]._ApplySPEffectOnBattleActor(battle_actor, intensity);
@@ -639,7 +624,7 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_SP] = {
         status_effects[vt_global.GameGlobal.GLOBAL_STATUS_SP]._ApplySPEffectOnBattleActor(battle_actor, intensity);
     end,
 
-    BattleRemove = function(battle_effect)
+    BattleRemove = function(battle_actor, battle_effect)
         -- Nothing to do.
     end,
 
@@ -727,15 +712,14 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_PARALYSIS] = {
     default_duration = 10000,
 
     -- Battle status effects related functions
-    BattleApply = function(battle_effect)
+    BattleApply = function(battle_actor, battle_effect)
         -- Let's stun only when the effect is negative
         if (battle_effect:GetIntensity() < vt_global.GameGlobal.GLOBAL_INTENSITY_NEUTRAL) then
-            local battle_actor = battle_effect:GetAffectedActor();
             battle_actor:SetStunned(true);
         end
     end,
 
-    BattleUpdate = function(battle_effect)
+    BattleUpdate = function(battle_actor, battle_effect)
         -- Nothing needs to be updated for this effect
     end,
 
@@ -747,8 +731,7 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_PARALYSIS] = {
         end
     end,
 
-    BattleRemove = function(battle_effect)
-        local battle_actor = battle_effect:GetAffectedActor();
+    BattleRemove = function(battle_actor, battle_effect)
         battle_actor:SetStunned(false);
     end,
 
@@ -784,13 +767,13 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_FIRE] = {
     default_duration = 30000,
 
     -- Battle status effects related functions
-    BattleApply = function(battle_effect)
-        status_effects[vt_global.GameGlobal.GLOBAL_STATUS_FIRE]._ModifyAttribute(battle_effect);
+    BattleApply = function(battle_actor, battle_effect)
+        status_effects[vt_global.GameGlobal.GLOBAL_STATUS_FIRE]._ModifyAttribute(battle_actor, battle_effect);
     end,
 
-    BattleUpdate = function(battle_effect)
+    BattleUpdate = function(battle_actor, battle_effect)
         if (battle_effect:HasIntensityChanged() == true) then
-            status_effects[vt_global.GameGlobal.GLOBAL_STATUS_FIRE]._ModifyAttribute(battle_effect);
+            status_effects[vt_global.GameGlobal.GLOBAL_STATUS_FIRE]._ModifyAttribute(battle_actor, battle_effect);
         end
     end,
 
@@ -798,14 +781,12 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_FIRE] = {
         -- Nothing to do
     end,
 
-    BattleRemove = function(battle_effect)
-        battle_effect:GetAffectedActor():SetElementalModifier(vt_global.GameGlobal.GLOBAL_ELEMENTAL_FIRE, 1.0);
+    BattleRemove = function(battle_actor, battle_effect)
+        battle_actor:SetElementalModifier(vt_global.GameGlobal.GLOBAL_ELEMENTAL_FIRE, 1.0);
     end,
 
-    _ModifyAttribute = function(battle_effect)
-        local battle_actor = battle_effect:GetAffectedActor();
+    _ModifyAttribute = function(battle_actor, battle_effect)
         local intensity = battle_effect:GetIntensity();
-
         local attribute_modifier = status_effects.GetStatModifier(intensity);
         battle_actor:SetElementalModifier(vt_global.GameGlobal.GLOBAL_ELEMENTAL_FIRE, attribute_modifier);
     end,
@@ -843,13 +824,13 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_WATER] = {
     default_duration = 30000,
 
     -- Battle status effects related functions
-    BattleApply = function(battle_effect)
-        status_effects[vt_global.GameGlobal.GLOBAL_STATUS_WATER]._ModifyAttribute(battle_effect);
+    BattleApply = function(battle_actor, battle_effect)
+        status_effects[vt_global.GameGlobal.GLOBAL_STATUS_WATER]._ModifyAttribute(battle_actor, battle_effect);
     end,
 
-    BattleUpdate = function(battle_effect)
+    BattleUpdate = function(battle_actor, battle_effect)
         if (battle_effect:HasIntensityChanged() == true) then
-            status_effects[vt_global.GameGlobal.GLOBAL_STATUS_WATER]._ModifyAttribute(battle_effect);
+            status_effects[vt_global.GameGlobal.GLOBAL_STATUS_WATER]._ModifyAttribute(battle_actor, battle_effect);
         end
     end,
 
@@ -857,12 +838,11 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_WATER] = {
         -- Nothing to do
     end,
 
-    BattleRemove = function(battle_effect)
-        battle_effect:GetAffectedActor():SetElementalModifier(vt_global.GameGlobal.GLOBAL_ELEMENTAL_WATER, 1.0);
+    BattleRemove = function(battle_actor, battle_effect)
+        battle_actor:SetElementalModifier(vt_global.GameGlobal.GLOBAL_ELEMENTAL_WATER, 1.0);
     end,
 
-    _ModifyAttribute = function(battle_effect)
-        local battle_actor = battle_effect:GetAffectedActor();
+    _ModifyAttribute = function(battle_actor, battle_effect)
         local intensity = battle_effect:GetIntensity();
 
         local attribute_modifier = status_effects.GetStatModifier(intensity);
@@ -901,13 +881,13 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_VOLT] = {
     default_duration = 30000,
 
     -- Battle status effects related functions
-    BattleApply = function(battle_effect)
-        status_effects[vt_global.GameGlobal.GLOBAL_STATUS_VOLT]._ModifyAttribute(battle_effect);
+    BattleApply = function(battle_actor, battle_effect)
+        status_effects[vt_global.GameGlobal.GLOBAL_STATUS_VOLT]._ModifyAttribute(battle_actor, battle_effect);
     end,
 
-    BattleUpdate = function(battle_effect)
+    BattleUpdate = function(battle_actor, battle_effect)
         if (battle_effect:HasIntensityChanged() == true) then
-            status_effects[vt_global.GameGlobal.GLOBAL_STATUS_VOLT]._ModifyAttribute(battle_effect);
+            status_effects[vt_global.GameGlobal.GLOBAL_STATUS_VOLT]._ModifyAttribute(battle_actor, battle_effect);
         end
     end,
 
@@ -915,14 +895,12 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_VOLT] = {
         -- Nothing to do
     end,
 
-    BattleRemove = function(battle_effect)
-        battle_effect:GetAffectedActor():SetElementalModifier(vt_global.GameGlobal.GLOBAL_ELEMENTAL_VOLT, 1.0);
+    BattleRemove = function(battle_actor, battle_effect)
+        battle_actor:SetElementalModifier(vt_global.GameGlobal.GLOBAL_ELEMENTAL_VOLT, 1.0);
     end,
 
-    _ModifyAttribute = function(battle_effect)
-        local battle_actor = battle_effect:GetAffectedActor();
+    _ModifyAttribute = function(battle_actor, battle_effect)
         local intensity = battle_effect:GetIntensity();
-
         local attribute_modifier = status_effects.GetStatModifier(intensity);
         battle_actor:SetElementalModifier(vt_global.GameGlobal.GLOBAL_ELEMENTAL_VOLT, attribute_modifier);
     end,
@@ -959,13 +937,13 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_EARTH] = {
     default_duration = 30000,
 
     -- Battle status effects related functions
-    BattleApply = function(battle_effect)
-        status_effects[vt_global.GameGlobal.GLOBAL_STATUS_EARTH]._ModifyAttribute(battle_effect);
+    BattleApply = function(battle_actor, battle_effect)
+        status_effects[vt_global.GameGlobal.GLOBAL_STATUS_EARTH]._ModifyAttribute(battle_actor, battle_effect);
     end,
 
-    BattleUpdate = function(battle_effect)
+    BattleUpdate = function(battle_actor, battle_effect)
         if (battle_effect:HasIntensityChanged() == true) then
-            status_effects[vt_global.GameGlobal.GLOBAL_STATUS_EARTH]._ModifyAttribute(battle_effect);
+            status_effects[vt_global.GameGlobal.GLOBAL_STATUS_EARTH]._ModifyAttribute(battle_actor, battle_effect);
         end
     end,
 
@@ -973,14 +951,12 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_EARTH] = {
         -- Nothing to do
     end,
 
-    BattleRemove = function(battle_effect)
-        battle_effect:GetAffectedActor():SetElementalModifier(vt_global.GameGlobal.GLOBAL_ELEMENTAL_EARTH, 1.0);
+    BattleRemove = function(battle_actor, battle_effect)
+        battle_actor:SetElementalModifier(vt_global.GameGlobal.GLOBAL_ELEMENTAL_EARTH, 1.0);
     end,
 
-    _ModifyAttribute = function(battle_effect)
-        local battle_actor = battle_effect:GetAffectedActor();
+    _ModifyAttribute = function(battle_actor, battle_effect)
         local intensity = battle_effect:GetIntensity();
-
         local attribute_modifier = status_effects.GetStatModifier(intensity);
         battle_actor:SetElementalModifier(vt_global.GameGlobal.GLOBAL_ELEMENTAL_EARTH, attribute_modifier);
     end,
@@ -1017,13 +993,13 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_LIFE] = {
     default_duration = 30000,
 
     -- Battle status effects related functions
-    BattleApply = function(battle_effect)
-        status_effects[vt_global.GameGlobal.GLOBAL_STATUS_LIFE]._ModifyAttribute(battle_effect);
+    BattleApply = function(battle_actor, battle_effect)
+        status_effects[vt_global.GameGlobal.GLOBAL_STATUS_LIFE]._ModifyAttribute(battle_actor, battle_effect);
     end,
 
-    BattleUpdate = function(battle_effect)
+    BattleUpdate = function(battle_actor, battle_effect)
         if (battle_effect:HasIntensityChanged() == true) then
-            status_effects[vt_global.GameGlobal.GLOBAL_STATUS_LIFE]._ModifyAttribute(battle_effect);
+            status_effects[vt_global.GameGlobal.GLOBAL_STATUS_LIFE]._ModifyAttribute(battle_actor, battle_effect);
         end
     end,
 
@@ -1031,14 +1007,12 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_LIFE] = {
         -- Nothing to do
     end,
 
-    BattleRemove = function(battle_effect)
-        battle_effect:GetAffectedActor():SetElementalModifier(vt_global.GameGlobal.GLOBAL_ELEMENTAL_LIFE, 1.0);
+    BattleRemove = function(battle_actor, battle_effect)
+        battle_actor:SetElementalModifier(vt_global.GameGlobal.GLOBAL_ELEMENTAL_LIFE, 1.0);
     end,
 
-    _ModifyAttribute = function(battle_effect)
-        local battle_actor = battle_effect:GetAffectedActor();
+    _ModifyAttribute = function(battle_actor, battle_effect)
         local intensity = battle_effect:GetIntensity();
-
         local attribute_modifier = status_effects.GetStatModifier(intensity);
         battle_actor:SetElementalModifier(vt_global.GameGlobal.GLOBAL_ELEMENTAL_LIFE, attribute_modifier);
     end,
@@ -1075,13 +1049,13 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_DEATH] = {
     default_duration = 30000,
 
     -- Battle status effects related functions
-    BattleApply = function(battle_effect)
-        status_effects[vt_global.GameGlobal.GLOBAL_STATUS_DEATH]._ModifyAttribute(battle_effect);
+    BattleApply = function(battle_actor, battle_effect)
+        status_effects[vt_global.GameGlobal.GLOBAL_STATUS_DEATH]._ModifyAttribute(battle_actor, battle_effect);
     end,
 
-    BattleUpdate = function(battle_effect)
+    BattleUpdate = function(battle_actor, battle_effect)
         if (battle_effect:HasIntensityChanged() == true) then
-            status_effects[vt_global.GameGlobal.GLOBAL_STATUS_DEATH]._ModifyAttribute(battle_effect);
+            status_effects[vt_global.GameGlobal.GLOBAL_STATUS_DEATH]._ModifyAttribute(battle_actor, battle_effect);
         end
     end,
 
@@ -1089,14 +1063,12 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_DEATH] = {
         -- Nothing to do
     end,
 
-    BattleRemove = function(battle_effect)
-        battle_effect:GetAffectedActor():SetElementalModifier(vt_global.GameGlobal.GLOBAL_ELEMENTAL_DEATH, 1.0);
+    BattleRemove = function(battle_actor, battle_effect)
+        battle_actor:SetElementalModifier(vt_global.GameGlobal.GLOBAL_ELEMENTAL_DEATH, 1.0);
     end,
 
-    _ModifyAttribute = function(battle_effect)
-        local battle_actor = battle_effect:GetAffectedActor();
+    _ModifyAttribute = function(battle_actor, battle_effect)
         local intensity = battle_effect:GetIntensity();
-
         local attribute_modifier = status_effects.GetStatModifier(intensity);
         battle_actor:SetElementalModifier(vt_global.GameGlobal.GLOBAL_ELEMENTAL_DEATH, attribute_modifier);
     end,
@@ -1134,13 +1106,13 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_NEUTRAL] = {
     default_duration = 30000,
 
     -- Battle status effects related functions
-    BattleApply = function(battle_effect)
-        status_effects[vt_global.GameGlobal.GLOBAL_STATUS_NEUTRAL]._ModifyAttribute(battle_effect);
+    BattleApply = function(battle_actor, battle_effect)
+        status_effects[vt_global.GameGlobal.GLOBAL_STATUS_NEUTRAL]._ModifyAttribute(battle_actor, battle_effect);
     end,
 
-    BattleUpdate = function(battle_effect)
+    BattleUpdate = function(battle_actor, battle_effect)
         if (battle_effect:HasIntensityChanged() == true) then
-            status_effects[vt_global.GameGlobal.GLOBAL_STATUS_NEUTRAL]._ModifyAttribute(battle_effect);
+            status_effects[vt_global.GameGlobal.GLOBAL_STATUS_NEUTRAL]._ModifyAttribute(battle_actor, battle_effect);
         end
     end,
 
@@ -1148,14 +1120,12 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_NEUTRAL] = {
         -- Nothing to do
     end,
 
-    BattleRemove = function(battle_effect)
-        battle_effect:GetAffectedActor():SetElementalModifier(vt_global.GameGlobal.GLOBAL_ELEMENTAL_NEUTRAL, 1.0);
+    BattleRemove = function(battle_actor, battle_effect)
+        battle_actor:SetElementalModifier(vt_global.GameGlobal.GLOBAL_ELEMENTAL_NEUTRAL, 1.0);
     end,
 
-    _ModifyAttribute = function(battle_effect)
-        local battle_actor = battle_effect:GetAffectedActor();
+    _ModifyAttribute = function(battle_actor, battle_effect)
         local intensity = battle_effect:GetIntensity();
-
         local attribute_modifier = status_effects.GetStatModifier(intensity);
         battle_actor:SetElementalModifier(vt_global.GameGlobal.GLOBAL_ELEMENTAL_NEUTRAL, attribute_modifier);
     end,

@@ -267,12 +267,12 @@ items[13] = {
 _battle_apply_elixir_status_effects = function(target_actor, intensity)
     if (target_actor:IsAlive() == true) then
         -- decrement all the basic negative effects, or put positive effects depending on the intensity
-        target_actor:RegisterStatusChange(vt_global.GameGlobal.GLOBAL_STATUS_STRENGTH, intensity, 30000);
-        target_actor:RegisterStatusChange(vt_global.GameGlobal.GLOBAL_STATUS_VIGOR, intensity, 30000);
-        target_actor:RegisterStatusChange(vt_global.GameGlobal.GLOBAL_STATUS_FORTITUDE, intensity, 30000);
-        target_actor:RegisterStatusChange(vt_global.GameGlobal.GLOBAL_STATUS_PROTECTION, intensity, 30000);
-        target_actor:RegisterStatusChange(vt_global.GameGlobal.GLOBAL_STATUS_AGILITY, intensity, 30000);
-        target_actor:RegisterStatusChange(vt_global.GameGlobal.GLOBAL_STATUS_EVADE, intensity, 30000);
+        target_actor:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_STRENGTH, intensity, 30000);
+        target_actor:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_VIGOR, intensity, 30000);
+        target_actor:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_FORTITUDE, intensity, 30000);
+        target_actor:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_PROTECTION, intensity, 30000);
+        target_actor:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_AGILITY, intensity, 30000);
+        target_actor:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_EVADE, intensity, 30000);
         AudioManager:PlaySound("snd/potion_drink.wav");
         return true;
     else

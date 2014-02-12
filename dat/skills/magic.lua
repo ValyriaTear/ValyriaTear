@@ -57,9 +57,9 @@ skills[10001] = {
         local target_actor = target:GetActor();
         local effect_duration = user:GetProtection() * 2000;
         if (effect_duration < 10000) then effect_duration = 10000 end
-        target_actor:RegisterStatusChange(vt_global.GameGlobal.GLOBAL_STATUS_FORTITUDE,
-                                          vt_global.GameGlobal.GLOBAL_INTENSITY_POS_MODERATE,
-                                          effect_duration);
+        target_actor:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_FORTITUDE,
+                                             vt_global.GameGlobal.GLOBAL_INTENSITY_POS_MODERATE,
+                                             effect_duration);
         local Battle = ModeManager:GetTop();
         if (target_actor:GetSpriteHeight() > 250.0) then
             -- Big sprite version
@@ -70,6 +70,25 @@ skills[10001] = {
                     target_actor:GetXLocation(), target_actor:GetYLocation() + 5);
         end
         AudioManager:PlaySound("snd/defence1_spell.ogg");
+    end,
+
+    FieldExecute = function(user, target) -- GlobalCharacter*
+        if (target:IsAlive() == false) then
+            return false;
+        end
+
+        local effect_duration = user:GetProtection() * 2000;
+        if (effect_duration < 10000) then effect_duration = 10000 end
+        target:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_FORTITUDE,
+                                       vt_global.GameGlobal.GLOBAL_INTENSITY_POS_MODERATE,
+                                       effect_duration);
+
+        AudioManager:PlaySound("snd/defence1_spell.ogg");
+        -- Trigger a particle effect on the menu character
+        local y_pos = 218.0 + GlobalManager:GetPartyPosition(target) * 118.0;
+        local menu_mode = ModeManager:GetTop();
+        menu_mode:GetParticleManager():AddParticleEffect("dat/effects/particles/shield.lua", 145.0, y_pos);
+        return true;
     end
 }
 
@@ -86,6 +105,10 @@ skills[10002] = {
 
     BattleExecute = function(user, target)
         local target_actor = target:GetActor();
+        if (target_actor:IsAlive() == false) then
+            return false;
+        end
+
         local hit_points = (user:GetVigor() * 3) +  vt_utils.RandomBoundedInteger(0, 15);
         target_actor:RegisterHealing(hit_points, true);
         AudioManager:PlaySound("snd/heal_spell.wav");
@@ -94,9 +117,18 @@ skills[10002] = {
                 target_actor:GetXLocation(), target_actor:GetYLocation() + 5);
     end,
 
-    FieldExecute = function(target, instigator)
-        target:AddHitPoints((instigator:GetVigor() * 5) + vt_utils.RandomBoundedInteger(0, 30));
+    FieldExecute = function(user, target)
+        if (target:IsAlive() == false) then
+            return false;
+        end
+        -- Don't heal characters with max HP.
+        if (target:GetHitPoints() == target:GetMaxHitPoints()) then
+            return false;
+        end
+
+        target:AddHitPoints((user:GetVigor() * 5) + vt_utils.RandomBoundedInteger(0, 30));
         AudioManager:PlaySound("snd/heal_spell.wav");
+        return true;
     end
 }
 
@@ -119,9 +151,9 @@ skills[10003] = {
             if (target_actor == nil) then
                 break;
             end
-            target_actor:RegisterStatusChange(vt_global.GameGlobal.GLOBAL_STATUS_STRENGTH,
-                        vt_global.GameGlobal.GLOBAL_INTENSITY_POS_LESSER,
-                        effect_duration);
+            target_actor:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_STRENGTH,
+                                                 vt_global.GameGlobal.GLOBAL_INTENSITY_POS_LESSER,
+                                                 effect_duration);
             index = index + 1;
         end
     end,
@@ -147,12 +179,12 @@ skills[10004] = {
                 break;
             end
             if (target_actor:IsAlive() == true) then
-                target_actor:RegisterStatusChange(vt_global.GameGlobal.GLOBAL_STATUS_STRENGTH,
-                            vt_global.GameGlobal.GLOBAL_INTENSITY_POS_MODERATE,
-                            effect_duration);
-                target_actor:RegisterStatusChange(vt_global.GameGlobal.GLOBAL_STATUS_VIGOR,
-                            vt_global.GameGlobal.GLOBAL_INTENSITY_POS_MODERATE,
-                            effect_duration);
+                target_actor:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_STRENGTH,
+                                                     vt_global.GameGlobal.GLOBAL_INTENSITY_POS_MODERATE,
+                                                     effect_duration);
+                target_actor:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_VIGOR,
+                                                     vt_global.GameGlobal.GLOBAL_INTENSITY_POS_MODERATE,
+                                                     effect_duration);
             end
             index = index + 1;
         end
@@ -220,9 +252,9 @@ skills[10007] = {
         if (target_actor:IsAlive() == true) then
             local effect_duration = user:GetProtection() * 5000;
             if (effect_duration < 10000) then effect_duration = 10000 end
-            target_actor:RegisterStatusChange(vt_global.GameGlobal.GLOBAL_STATUS_SP,
-                                            vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_MODERATE,
-                                            effect_duration);
+            target_actor:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_SP,
+                                                 vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_MODERATE,
+                                                 effect_duration);
             --local Battle = ModeManager:GetTop();
             --AudioManager:PlaySound("snd/defence1_spell.ogg");
         end
@@ -300,12 +332,12 @@ skills[10011] = {
                 break;
             end
             if (target_actor:IsAlive() == true) then
-                target_actor:RegisterStatusChange(vt_global.GameGlobal.GLOBAL_STATUS_FORTITUDE,
-                            vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_MODERATE,
-                            effect_duration);
-                target_actor:RegisterStatusChange(vt_global.GameGlobal.GLOBAL_STATUS_PROTECTION,
-                            vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_MODERATE,
-                            effect_duration);
+                target_actor:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_FORTITUDE,
+                                                     vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_MODERATE,
+                                                     effect_duration);
+                target_actor:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_PROTECTION,
+                                                     vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_MODERATE,
+                                                     effect_duration);
             end
             index = index + 1;
         end
@@ -528,9 +560,9 @@ skills[10111] = {
         local target_actor = target:GetActor();
         -- TODO : Balance this
         local effect_duration = user:GetVigor() * 3000;
-        target_actor:RegisterStatusChange(vt_global.GameGlobal.GLOBAL_STATUS_EARTH,
-                    vt_global.GameGlobal.GLOBAL_INTENSITY_POS_MODERATE,
-                    effect_duration);
+        target_actor:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_EARTH,
+                                             vt_global.GameGlobal.GLOBAL_INTENSITY_POS_MODERATE,
+                                             effect_duration);
         -- trigger the effect slightly *above* the sprite to make it appear *below* it from the player's point of view.
         local Battle = ModeManager:GetTop();
         Battle:TriggerBattleParticleEffect("dat/effects/particles/earth_circle.lua",
@@ -802,9 +834,9 @@ skills[10126] = {
         -- TODO : Balance this
         local effect_duration = user:GetVigor() * 3000;
 
-        target_actor:RegisterStatusChange(vt_global.GameGlobal.GLOBAL_STATUS_HP,
-                    vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_MODERATE,
-                    effect_duration);
+        target_actor:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_HP,
+                                             vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_MODERATE,
+                                             effect_duration);
     end,
 }
 
@@ -942,9 +974,9 @@ skills[10133] = {
         -- TODO : Balance this
         local effect_duration = user:GetVigor() * 3000;
 
-        target_actor:RegisterStatusChange(vt_global.GameGlobal.GLOBAL_STATUS_HP,
-                    vt_global.GameGlobal.GLOBAL_INTENSITY_POS_MODERATE,
-                    effect_duration);
+        target_actor:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_HP,
+                                             vt_global.GameGlobal.GLOBAL_INTENSITY_POS_MODERATE,
+                                             effect_duration);
     end,
 }
 

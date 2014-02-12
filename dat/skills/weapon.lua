@@ -41,9 +41,9 @@ function trigger_potential_stun(user, target)
     -- Compute an effect duration time based on the characters' stats
     local effect_duration = (user:GetVigor() - target_actor:GetProtection()) * 2000;
     if (effect_duration < 15000) then effect_duration = 15000; end
-    target_actor:RegisterStatusChange(vt_global.GameGlobal.GLOBAL_STATUS_PARALYSIS,
-                                      vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_LESSER,
-                                      effect_duration);
+    target_actor:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_PARALYSIS,
+                                         vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_LESSER,
+                                         effect_duration);
     local Battle = ModeManager:GetTop();
     Battle:TriggerBattleParticleEffect("dat/effects/particles/stun_star.lua", target_actor:GetXLocation(), target_actor:GetYLocation());
 end
@@ -62,9 +62,9 @@ function trigger_potential_attack_lowering(user, target)
     -- Compute an effect duration time based on the characters' stats
     local effect_duration = (user:GetVigor() - target_actor:GetProtection()) * 2000;
     if (effect_duration < 15000) then effect_duration = 15000; end
-    target_actor:RegisterStatusChange(vt_global.GameGlobal.GLOBAL_STATUS_STRENGTH,
-                                      vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_MODERATE,
-                                      effect_duration);
+    target_actor:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_STRENGTH,
+                                         vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_MODERATE,
+                                         effect_duration);
 end
 
 -- All attack skills definitions are stored in this table
@@ -180,9 +180,9 @@ skills[4] = {
         if (vt_battle.CalculateStandardEvasionAdder(target, 8.5) == false) then
             local effect_duration = user:GetVigor() * 2000;
             if (effect_duration < 15000) then effect_duration = 15000 end
-            target_actor:RegisterStatusChange(vt_global.GameGlobal.GLOBAL_STATUS_AGILITY,
-                                            vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_GREATER,
-                                            effect_duration);
+            target_actor:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_AGILITY,
+                                                 vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_GREATER,
+                                                 effect_duration);
 
             target_actor:RegisterDamage(vt_battle.CalculatePhysicalDamageAdder(user, target, 20), target);
             AudioManager:PlaySound("snd/swordslice2.wav");
@@ -240,9 +240,9 @@ skills[6] = {
         if (vt_battle.CalculateStandardEvasionAdder(target, 8.5) == false) then
             local effect_duration = user:GetVigor() * 2000;
             if (effect_duration < 15000) then effect_duration = 15000 end
-            target_actor:RegisterStatusChange(vt_global.GameGlobal.GLOBAL_STATUS_AGILITY,
-                                            vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_GREATER,
-                                            effect_duration);
+            target_actor:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_AGILITY,
+                                                 vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_GREATER,
+                                                 effect_duration);
 
             target_actor:RegisterDamage(vt_battle.CalculatePhysicalDamageAdder(user, target, 20), target);
             AudioManager:PlaySound("snd/swordslice2.wav");
@@ -552,9 +552,9 @@ skills[1005] = {
         if (vt_battle.CalculateStandardEvasion(target) == false) then
             local effect_duration = user:GetVigor() * 2000;
             if (effect_duration < 15000) then effect_duration = 15000 end
-            target_actor:RegisterStatusChange(vt_global.GameGlobal.GLOBAL_STATUS_AGILITY,
-                                                vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_LESSER,
-                                                effect_duration);
+            target_actor:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_AGILITY,
+                                                 vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_LESSER,
+                                                 effect_duration);
 
             -- The damages are applied after the potential effects, so that a potential target death handles the effect removal properly
             target_actor:RegisterDamage(vt_battle.CalculatePhysicalDamageAdder(user, target, 6), target);

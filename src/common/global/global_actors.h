@@ -1007,6 +1007,17 @@ public:
     void ApplyActiveStatusEffect(GLOBAL_STATUS status_effect, GLOBAL_INTENSITY intensity,
                                  uint32 duration);
 
+    //! \brief Tells the intensity of the active status effect currently applied on the character.
+    vt_global::GLOBAL_INTENSITY GetActiveStatusEffectIntensity(vt_global::GLOBAL_STATUS status_effect) const {
+        return _active_status_effects[status_effect].GetIntensity();
+    }
+
+    //! \brief Removes the given status effect.
+    //! \note No scripted function is called.
+    void RemoveActiveStatusEffect(GLOBAL_STATUS status_effect) {
+        _active_status_effects[status_effect] = ActiveStatusEffect();
+    }
+
     uint32 GetHitPointsGrowth() const {
         return _hit_points_growth;
     }

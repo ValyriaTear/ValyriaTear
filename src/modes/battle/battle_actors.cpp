@@ -306,7 +306,7 @@ void BattleActor::RegisterDamage(uint32 amount, BattleTarget *target)
             std::vector<std::pair<GLOBAL_STATUS, float> > status_effects = damaged_point->GetStatusEffects();
             for(std::vector<std::pair<GLOBAL_STATUS, float> >::const_iterator i = status_effects.begin(); i != status_effects.end(); ++i) {
                 if(RandomFloat(0.0f, 100.0f) <= i->second) {
-                    RegisterStatusChange(i->first, GLOBAL_INTENSITY_NEG_LESSER);
+                    ApplyActiveStatusEffect(i->first, GLOBAL_INTENSITY_NEG_LESSER);
                 }
             }
         }
@@ -479,14 +479,19 @@ void BattleActor::RegisterMiss(bool was_attacked)
         ChangeSpriteAnimation("dodge");
 }
 
-void BattleActor::RegisterStatusChange(GLOBAL_STATUS status, GLOBAL_INTENSITY intensity, uint32 duration)
+void BattleActor::ApplyActiveStatusEffect(GLOBAL_STATUS status, GLOBAL_INTENSITY intensity, uint32 duration)
 {
-    _effects_supervisor->ChangeStatus(status, intensity, duration);
+    _effects_supervisor->ChangeActiveStatusEffect(status, intensity, duration);
 }
 
 vt_global::GLOBAL_INTENSITY BattleActor::GetActiveStatusEffectIntensity(vt_global::GLOBAL_STATUS status)
 {
     return _effects_supervisor->GetActiveStatusIntensity(status);
+}
+
+void BattleActor::RemoveActiveStatusEffect(GLOBAL_STATUS status_effect)
+{
+    _effects_supervisor->RemoveActiveStatusEffect(status_effect);
 }
 
 void BattleActor::Update()
@@ -794,9 +799,9 @@ BattleCharacter::BattleCharacter(GlobalCharacter *character) :
     const std::vector<ActiveStatusEffect>& active_effects = character->GetActiveStatusEffects();
     for(std::vector<ActiveStatusEffect>::const_iterator it = active_effects.begin();
             it != active_effects.end(); ++it) {
-        ActiveStatusEffect effect = (*it);
-        _effects_supervisor->ChangeStatus(effect.GetEffect(), effect.GetIntensity(),
-                                          effect.GetEffectTime(), effect.GetElapsedTime());
+        const ActiveStatusEffect& effect = (*it);
+        _effects_supervisor->ChangeActiveStatusEffect(effect.GetEffect(), effect.GetIntensity(),
+                                                      effect.GetEffectTime(), effect.GetElapsedTime());
     }
 }
 
