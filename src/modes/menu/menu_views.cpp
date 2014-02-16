@@ -1344,11 +1344,11 @@ void SkillsWindow::Update()
             } catch(const luabind::error& e) {
                 PRINT_ERROR << "Error while loading FieldExecute() function" << std::endl;
                 vt_script::ScriptManager->HandleLuaError(e);
-                break;
+                success = false;
             } catch(const luabind::cast_failed& e) {
                 PRINT_ERROR << "Error while loading FieldExecute() function" << std::endl;
                 vt_script::ScriptManager->HandleCastError(e);
-                break;
+                success = false;
             }
 
             if (success) {
