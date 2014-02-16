@@ -455,8 +455,21 @@ void InventoryWindow::Update()
                             if(IsTargetParty(item->GetTargetType())) {
                                 GlobalParty *ch_party = GlobalManager->GetActiveParty();
 
+                                bool success = false;
+                                try {
+                                    success = ScriptCallFunction<bool>(script_function, ch_party);
+                                } catch(const luabind::error& e) {
+                                    PRINT_ERROR << "Error while loading FieldUse() function" << std::endl;
+                                    vt_script::ScriptManager->HandleLuaError(e);
+                                    success = false;
+                                } catch(const luabind::cast_failed& e) {
+                                    PRINT_ERROR << "Error while loading FieldUse() function" << std::endl;
+                                    vt_script::ScriptManager->HandleCastError(e);
+                                    success = false;
+                                }
+
                                 // If the item use failed, we readd it to inventory.
-                                if(!ScriptCallFunction<bool>(script_function, ch_party))
+                                if(!success)
                                     GlobalManager->AddToInventory(item);
                                 else // delete the item instance when succeeded. Also, return back a level to the item selection list
                                 {
@@ -471,8 +484,21 @@ void InventoryWindow::Update()
                                 }
                             } // if GLOBAL_TARGET_PARTY
                             else { // Use on a single character only
+                                bool success = false;
+                                try {
+                                    success = ScriptCallFunction<bool>(script_function, _character);
+                                } catch(const luabind::error& e) {
+                                    PRINT_ERROR << "Error while loading FieldUse() function" << std::endl;
+                                    vt_script::ScriptManager->HandleLuaError(e);
+                                    success = false;
+                                } catch(const luabind::cast_failed& e) {
+                                    PRINT_ERROR << "Error while loading FieldUse() function" << std::endl;
+                                    vt_script::ScriptManager->HandleCastError(e);
+                                    success = false;
+                                }
+
                                 // If the item use failed, we readd it to inventory.
-                                if(!ScriptCallFunction<bool>(script_function, _character))
+                                if(!success)
                                     GlobalManager->AddToInventory(item);
                                 else // delete the item instance when succeeded. Also, return back a level to the item selection list
                                 {
