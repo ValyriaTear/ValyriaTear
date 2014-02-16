@@ -286,7 +286,10 @@ public:
     void SaveActiveStatusEffects();
 
     //! \brief Updates the timers and state of every effects for every living characters.
-    void Update();
+    void UpdateEffects();
+
+    //! \brief Updates the portraits animations.
+    void UpdatePortraits();
 
     //! \brief Draws the element and status effect icons to the bottom of the screen
     //! and on which characters they apply to.

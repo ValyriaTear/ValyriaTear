@@ -327,6 +327,8 @@ void MapMode::Update()
         _minimap->Update(_camera, _gui_alpha);
 
     GameMode::Update();
+    // Updates portraits along with other visuals.
+    _status_effect_supervisor.UpdatePortraits();
 
     // Updates the debug info if needed
     if(!VideoManager->DebugInfoOn())
@@ -728,7 +730,7 @@ void MapMode::_UpdateExplore()
     }
 
     // Only update the status effect supervisor in Exploration mode
-    _status_effect_supervisor.Update();
+    _status_effect_supervisor.UpdateEffects();
 
     // Update the running state of the camera object. Check if the character is running and if so,
     // update the stamina value if the operation is permitted

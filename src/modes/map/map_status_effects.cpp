@@ -402,7 +402,7 @@ void MapStatusEffectsSupervisor::_UpdatePassive()
     }
 }
 
-void MapStatusEffectsSupervisor::Update()
+void MapStatusEffectsSupervisor::UpdateEffects()
 {
     // Update the timers and state for all active status effects
     std::vector<ActiveMapStatusEffect>::iterator it = _active_status_effects.begin();
@@ -493,7 +493,10 @@ void MapStatusEffectsSupervisor::Update()
     }
 
     _UpdatePassive();
+}
 
+void MapStatusEffectsSupervisor::UpdatePortraits()
+{
     // Update portrait indicators
     for (uint32 i = 0; i < _characters_portraits.size(); ++i)
         _characters_portraits[i].Update();
