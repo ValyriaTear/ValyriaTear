@@ -235,7 +235,7 @@ public:
     // Default constructor - Invalid status effect
     ActiveStatusEffect():
         _status_effect(GLOBAL_STATUS_INVALID),
-        _intensity(GLOBAL_INTENSITY_INVALID),
+        _intensity(GLOBAL_INTENSITY_NEUTRAL),
         _effect_time(0),
         _elapsed_time(0)
     {}
@@ -292,6 +292,19 @@ public:
 
     uint32 GetElapsedTime() const {
         return _elapsed_time;
+    }
+
+    //! \brief Sets the effect as invalid
+    void Disable() {
+        _status_effect = GLOBAL_STATUS_INVALID;
+        _intensity = GLOBAL_INTENSITY_NEUTRAL;
+    }
+
+    //! \brief Checks whether the effect is active (and valid).
+    bool IsActive() const {
+        return !(_status_effect == GLOBAL_STATUS_INVALID || _status_effect == GLOBAL_STATUS_TOTAL
+            || _intensity == GLOBAL_INTENSITY_NEUTRAL || _intensity == GLOBAL_INTENSITY_INVALID
+            || _intensity == GLOBAL_INTENSITY_TOTAL);
     }
 
 private:

@@ -1,7 +1,7 @@
 Licenses
 ========
 
-Last update: 2014.01.28
+Last update: 2014.02.16
 
 This file is listing all the files licenses from the point of the fork
 from the Allacrost project.
@@ -301,6 +301,7 @@ img/icons/effects/templates.png                                 GPLv2+          
 
 img/icons/items/key_items/barley_meal_bag.png                   CC by SA 3.0             From Daniel Eddeland (OGA) from http://opengameart.org/content/lpc-farming-tilesets-magic-animations-and-ui-elements
 img/icons/items/key_items/necklace_wolfpain.png                 CC by SA 3.0             Adapted from Scrittl (OGA) - http://opengameart.org/content/armor-icons-32x32-px-painterly
+img/icons/items/candy.png                                       CC0                      (lumimae) - http://opengameart.org/content/candy-pack-1
 img/icons/items/copper_ore.png                                  CC by 3.0                Bertram, adapted from Hyptosis's work (OGA) - http://opengameart.org/content/lots-of-free-2d-tiles-and-sprites-by-hyptosis
 img/icons/items/iron_ore.png                                    CC by 3.0                Bertram, adapted from Hyptosis's work (OGA) - http://opengameart.org/content/lots-of-free-2d-tiles-and-sprites-by-hyptosis
 img/icons/items/anthozium_ore.png                               CC by 3.0                Bertram, adapted from Hyptosis's work (OGA) - http://opengameart.org/content/lots-of-free-2d-tiles-and-sprites-by-hyptosis
@@ -308,6 +309,7 @@ img/icons/items/auridium_ore.png                                CC by 3.0       
 img/icons/items/borium_ore.png                                  CC by 3.0                Bertram, adapted from Hyptosis's work (OGA) - http://opengameart.org/content/lots-of-free-2d-tiles-and-sprites-by-hyptosis
 img/icons/items/titanium_ore.png                                CC by 3.0                Bertram, adapted from Hyptosis's work (OGA) - http://opengameart.org/content/lots-of-free-2d-tiles-and-sprites-by-hyptosis
 img/icons/items/evanium_ore.png                                 CC by 3.0                Bertram, adapted from Hyptosis's work (OGA) - http://opengameart.org/content/lots-of-free-2d-tiles-and-sprites-by-hyptosis
+img/icons/items/lotus.png                                       CC by SA 3.0             Tommy Brunn - http://opengameart.org/content/rose-and-lotus-on-paper
 img/icons/items/phoenix_feather.png                             CC by 3.0                Bertram, adapted from Scrittl's work (OGA) - http://opengameart.org/content/phoenix-feather
 img/icons/items/ardoris.png                                     CC by SA 3.0             J. W. Bjerk (eleazzaar) (OGA) -- www.jwbjerk.com/art  - http://opengameart.org/content/painterly-spell-icons
 img/icons/items/demona.png                                      CC by SA 3.0             J. W. Bjerk (eleazzaar) (OGA) -- www.jwbjerk.com/art  - http://opengameart.org/content/painterly-spell-icons

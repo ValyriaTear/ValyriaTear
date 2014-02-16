@@ -158,6 +158,7 @@ void BindEngineCode()
             .def("GetScriptSupervisor", &GameMode::GetScriptSupervisor)
             .def("GetEffectSupervisor", &GameMode::GetEffectSupervisor)
             .def("GetParticleManager", &GameMode::GetParticleManager)
+            .def("GetIndicatorSupervisor", &GameMode::GetIndicatorSupervisor)
         ];
 
         luabind::module(vt_script::ScriptManager->GetGlobalState(), "vt_mode_manager")

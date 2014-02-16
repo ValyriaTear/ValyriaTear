@@ -241,7 +241,7 @@ items[13] = {
     end
 }
 
-items[13] = {
+items[14] = {
     name = vt_system.Translate("Mega Moon Juice Potion"),
     description = vt_system.Translate("Restores a very high amount of skill points to an ally."),
     icon = "img/icons/items/potion_blue_huge.png",
@@ -260,8 +260,92 @@ items[13] = {
     end
 }
 
+items[15] = {
+    name = vt_system.Translate("Lotus Petal"),
+    description = vt_system.Translate("Cures moderate poisons from an ally"),
+    icon = "img/icons/items/lotus.png",
+    target_type = vt_global.GameGlobal.GLOBAL_TARGET_ALLY,
+    standard_price = 100,
+    use_warmup_time = 1200,
+    cooldown_time = 1300,
+
+    BattleUse = function(user, target)
+        local target_actor = target:GetActor();
+        if (target_actor:IsAlive() == false) then
+            return false;
+        end
+
+        local intensity = target_actor:GetActiveStatusEffectIntensity(vt_global.GameGlobal.GLOBAL_STATUS_HP);
+        -- Can't heal somebody not poisoned
+        if (intensity >= vt_global.GameGlobal.GLOBAL_INTENSITY_NEUTRAL) then
+            return false;
+        elseif (intensity <= vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_GREATER) then
+            -- Removes a bit of a bigger poison.
+            target_actor:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_HP,
+                                                 vt_global.GameGlobal.GLOBAL_INTENSITY_POS_MODERATE, 30000);
+        else
+            target_actor:RemoveActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_HP);
+        end
+
+        return true;
+    end,
+
+    FieldUse = function(global_character)
+        if (global_character:IsAlive() == false) then
+            return false;
+        end
+
+        local intensity = global_character:GetActiveStatusEffectIntensity(vt_global.GameGlobal.GLOBAL_STATUS_HP);
+        -- Can't heal somebody not poisoned
+        if (intensity >= vt_global.GameGlobal.GLOBAL_INTENSITY_NEUTRAL) then
+            return false;
+        elseif (intensity <= vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_GREATER) then
+            -- Removes a bit of a bigger poison.
+            global_character:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_HP,
+                                                     vt_global.GameGlobal.GLOBAL_INTENSITY_POS_MODERATE,
+                                                     30000);
+        else
+            global_character:RemoveActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_HP);
+        end
+
+        return true;
+    end
+}
+
+items[16] = {
+    name = vt_system.Translate("Candy"),
+    description = vt_system.Translate("Makes an ally's health regenerate moderately."),
+    icon = "img/icons/items/candy.png",
+    target_type = vt_global.GameGlobal.GLOBAL_TARGET_ALLY,
+    standard_price = 1300,
+    use_warmup_time = 1200,
+    cooldown_time = 1300,
+
+    BattleUse = function(user, target)
+        local target_actor = target:GetActor();
+        if (target_actor:IsAlive() == false) then
+            return false;
+        end
+
+        target_actor:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_HP,
+                                             vt_global.GameGlobal.GLOBAL_INTENSITY_POS_MODERATE, 30000);
+        return true;
+    end,
+
+    FieldUse = function(global_character)
+        if (global_character:IsAlive() == false) then
+            return false;
+        end
+
+        global_character:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_HP,
+                                                 vt_global.GameGlobal.GLOBAL_INTENSITY_POS_MODERATE,
+                                                 30000);
+        return true;
+    end
+}
+
 --------------------------------------------------------------------------------
--- IDs 1,001 - 2,000 are reserved for status potions
+-- IDs 1,001 - 2,000 are reserved for status improvement potions
 --------------------------------------------------------------------------------
 
 _battle_apply_elixir_status_effects = function(target_actor, intensity)
@@ -287,6 +371,7 @@ _field_apply_elixir_status_effects = function(global_character, intensity)
         global_character:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_VIGOR, intensity, 30000);
         global_character:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_FORTITUDE, intensity, 30000);
         global_character:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_PROTECTION, intensity, 30000);
+        global_character:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_AGILITY, intensity, 30000);
         global_character:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_EVADE, intensity, 30000);
         AudioManager:PlaySound("snd/potion_drink.wav");
         return true;
