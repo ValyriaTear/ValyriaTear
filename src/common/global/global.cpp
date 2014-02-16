@@ -1232,6 +1232,24 @@ void GameGlobal::_SaveCharacter(WriteScriptDescriptor &file, GlobalCharacter *ch
             file.WriteLine(", ", false);
         file.WriteLine(NumberToString(skill_id), false);
     }
+    file.WriteLine("\n\t\t},");
+
+    // Writes active status effects at the time of the save
+    file.InsertNewLine();
+    file.WriteLine("\t\tactive_status_effects = {");
+    const std::vector<ActiveStatusEffect>& status_effects = character->GetActiveStatusEffects();
+    for(uint32 i = 0; i < status_effects.size(); ++i) {
+        const ActiveStatusEffect& effect = status_effects.at(i);
+        if (!effect.IsActive())
+            continue;
+
+        std::string effect_str = "\t\t\t[" + NumberToString((int32)effect.GetEffect()) + "] = { ";
+        effect_str += "intensity = " + NumberToString((int32)effect.GetIntensity()) + ", ";
+        effect_str += "duration = " + NumberToString((int32)effect.GetEffectTime()) + ", ";
+        effect_str += "elapsed_time = " + NumberToString((int32)effect.GetElapsedTime()) + "},";
+
+        file.WriteLine(effect_str);
+    }
     file.WriteLine("\n\t\t}");
 
     if(last)
@@ -1488,6 +1506,45 @@ void GameGlobal::_LoadCharacter(ReadScriptDescriptor &file, uint32 id)
     file.ReadUIntVector("support_skills", skill_ids);
     for(uint32 i = 0; i < skill_ids.size(); ++i) {
         character->AddSkill(skill_ids[i]);
+    }
+
+    // Read the character's active status effects data
+    character->ResetActiveStatusEffects();
+    std::vector<int32> status_effects_ids;
+    file.ReadTableKeys("active_status_effects", status_effects_ids);
+
+    if (file.OpenTable("active_status_effects")) {
+
+        for(uint32 i = 0; i < status_effects_ids.size(); ++i) {
+            int32 status_effect = status_effects_ids[i];
+
+            if (!file.OpenTable(status_effect))
+                continue;
+
+            // Check the status effect validity
+            if (status_effect <= (int32)GLOBAL_STATUS_INVALID || status_effect >= (int32)GLOBAL_STATUS_TOTAL) {
+                file.CloseTable(); // status_effect
+                continue;
+            }
+
+            // Check the status intensity validity
+            int32 intensity = file.ReadInt("intensity");
+            if (intensity <= GLOBAL_INTENSITY_INVALID || intensity >= GLOBAL_INTENSITY_TOTAL) {
+                file.CloseTable(); // status_effect
+                continue;
+            }
+
+            uint32 duration = file.ReadInt("duration");
+            uint32 elapsed_time = file.ReadInt("elapsed_time");
+
+            character->SetActiveStatusEffect((GLOBAL_STATUS)status_effect,
+                                             (GLOBAL_INTENSITY)intensity,
+                                             duration, elapsed_time);
+
+            file.CloseTable(); // status_effect
+        }
+
+        file.CloseTable(); // active_status_effects
     }
 
     file.CloseTable(); // character id
