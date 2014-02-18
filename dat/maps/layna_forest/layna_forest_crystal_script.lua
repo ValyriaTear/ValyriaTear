@@ -133,6 +133,12 @@ function _CreateObjects()
     -- save point
     Map:AddSavePoint(58, 87);
 
+    local chest1 = CreateTreasure(Map, "layna_forest_crystal_chest", "Wood_Chest1", 16, 38);
+    if (chest1 ~= nil) then
+        chest1:AddObject(15, 1); -- Lotus Petal
+        Map:AddGroundObject(chest1);
+    end
+
     -- Load the spring heal effect.
     heal_effect = vt_map.ParticleObject("dat/effects/particles/heal_particle.lua", 0, 0);
 	heal_effect:SetObjectID(Map.object_supervisor:GenerateObjectID());
