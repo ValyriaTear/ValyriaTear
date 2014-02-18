@@ -460,7 +460,7 @@ public:
     **/
     //@{
     /** \brief Sets the name of the store that should be displayed to the player
-    *** \param greeting The name of the shop
+    *** \param name The name of the shop
     *** \note This method will only work if it is called before the shop is initialized. Calling it afterwards will
     *** result in no operation and a warning message
     **/
@@ -472,6 +472,11 @@ public:
     *** result in no operation and a warning message
     **/
     void SetGreetingText(const vt_utils::ustring& greeting);
+
+    //! \brief Sets whether the player can sell item in this shop.
+    void SetSellModeEnabled(bool enable_sell_mode) {
+        _sell_mode_enabled = enable_sell_mode;
+    }
 
     /** \brief Sets the buy and sell price levels for the shop
     *** \param buy_level The price level to set for wares that the player would buy from the shop
@@ -501,11 +506,17 @@ public:
     void AddTrade(uint32 object_id, uint32 stock);
     //@}
 
-
-    //TODO add comment here
+    /** \brief Deletes an object from the shop sell list
+    *** \param object_id The id number of the object to remove
+    ***
+    *** This function should be used in only one specific case. This case is when the player buys all instances
+    *** of one object type.
+    *** Trying to remove an object that the shop sells to the player or trying to remove an object
+    *** that still remains in the shop's inventory will result in a warning message and the object will not be removed.
+    **/
     void RemoveObjectToBuy(uint32 object_id);
 
-    /** \brief Deletes an object from the shop
+    /** \brief Deletes an object from the shop sell list
     *** \param object_id The id number of the object to remove
     ***
     *** This function should be used in only one specific case. This case is when the player owns this object and
@@ -606,6 +617,9 @@ private:
     *** is NULL when no shop is active
     **/
     static ShopMode *_current_instance;
+
+    //! \brief Tells whether the sell mode is enabled in this shop, thus whether the player can sell items.
+    bool _sell_mode_enabled;
 
     //! \brief Set to true only after the shop has been initialized and is ready to be used by the player
     bool _initialized;

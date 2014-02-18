@@ -118,6 +118,9 @@ function _UpdateSophiaDialogue()
 
     -- Shopping event
     event = vt_map.ShopEvent("Trade with Sophia");
+    event:SetShopName(vt_system.UTranslate("Sophia's items"));
+    event:SetGreetingText(vt_system.UTranslate("Don't forget my trade offers!"));
+    event:SetSellModeEnabled(false); -- prevents selling items there.
     event:AddObject(1, 10); -- minor potion
     event:AddObject(11, 10); -- minor moon juice
     event:AddObject(1001, 10); -- minor elixir
@@ -574,7 +577,7 @@ function _CreateEvents()
     orlinn_move_next_to_hero_event3:AddEventLinkAtEnd("Orlinn looks south");
     orlinn_move_next_to_hero_event3:AddEventLinkAtEnd("Everyone is suprised", 500);
     EventManager:RegisterEvent(orlinn_move_next_to_hero_event3);
-    
+
     event = vt_map.ScriptedEvent("Everyone is suprised", "everyone_exclamation", "");
     event:AddEventLinkAtEnd("Sophia Dialogue 1");
     EventManager:RegisterEvent(event);

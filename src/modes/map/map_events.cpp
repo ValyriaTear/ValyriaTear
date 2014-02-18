@@ -111,6 +111,14 @@ void ShopEvent::_Start()
     for(std::set<std::pair<uint32, uint32> >::iterator it = _trades.begin(); it != _trades.end(); ++it)
         shop->AddTrade((*it).first, (*it).second);
 
+    // Adds optional custom shop name and greetings text
+    if (!_shop_name.empty())
+        shop->SetShopName(_shop_name);
+    if (!_greeting_text.empty())
+        shop->SetGreetingText(_greeting_text);
+
+    // Sets the shop options.
+    shop->SetSellModeEnabled(_enable_sell_mode);
     shop->SetPriceLevels(_buy_level, _sell_level);
     ModeManager->Push(shop);
 }

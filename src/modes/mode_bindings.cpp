@@ -560,6 +560,9 @@ void BindModeCode()
         [
             luabind::class_<ShopEvent, MapEvent>("ShopEvent")
             .def(luabind::constructor<std::string>())
+            .def("SetShopName", &ShopEvent::SetShopName)
+            .def("SetGreetingText", &ShopEvent::SetGreetingText)
+            .def("SetSellModeEnabled", &ShopEvent::SetSellModeEnabled)
             .def("AddObject", &ShopEvent::AddObject)
             .def("AddTrade", &ShopEvent::AddTrade)
             .def("SetPriceLevels", &ShopEvent::SetPriceLevels)
@@ -865,9 +868,12 @@ void BindModeCode()
         [
             luabind::class_<ShopMode, vt_mode_manager::GameMode>("ShopMode")
             .def(luabind::constructor<>())
+            .def("SetShopName", &ShopMode::SetShopName)
+            .def("SetGreetingText", &ShopMode::SetGreetingText)
             .def("AddObject", &ShopMode::AddObject)
             .def("AddTrade", &ShopMode::AddTrade)
             .def("SetPriceLevels", &ShopMode::SetPriceLevels)
+            .def("SetSellModeEnabled", &ShopMode::SetSellModeEnabled)
 
             .enum_("constants") [
                 // Price levels

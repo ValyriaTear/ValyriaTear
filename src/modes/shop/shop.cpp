@@ -962,6 +962,7 @@ void ShopObjectViewer::_DrawSpirit()
 // *****************************************************************************
 
 ShopMode::ShopMode() :
+    _sell_mode_enabled(true),
     _initialized(false),
     _state(SHOP_STATE_ROOT),
     _buy_price_level(SHOP_PRICE_STANDARD),
@@ -1109,6 +1110,10 @@ void ShopMode::_UpdateAvailableObjectsToSell()
 {
     // Reinit the data
     _available_sell.clear();
+
+    // If sell mode is disabled, we can return now.
+    if (!_sell_mode_enabled)
+        return;
 
     std::map<uint32, GlobalObject *>* inventory = GlobalManager->GetInventory();
     for(std::map<uint32, GlobalObject *>::iterator it = inventory->begin(); it != inventory->end(); ++it) {
