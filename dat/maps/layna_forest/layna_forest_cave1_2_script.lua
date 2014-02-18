@@ -114,6 +114,7 @@ function _CreateObjects()
     local chest1 = CreateTreasure(Map, "layna_forest_cave1_2_chest", "Wood_Chest1", 116, 38);
     if (chest1 ~= nil) then
         chest1:SetDrunes(50);
+        chest1:AddObject(16, 1); -- Candy
         Map:AddGroundObject(chest1);
     end
 
