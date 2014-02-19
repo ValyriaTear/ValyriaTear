@@ -293,6 +293,7 @@ local kalya_move_next_to_hero_event3 = {}
 local kalya_move_back_to_hero_event3 = {}
 local orlinn_move_next_to_hero_event3 = {}
 local orlinn_move_back_to_hero_event3 = {}
+local sophia_move_next_to_hero_event = {}
 
 -- Creates all events and sets up the entire event sequence chain
 function _CreateEvents()
@@ -590,9 +591,10 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("Sophia moves near the heroes");
     EventManager:RegisterEvent(event);
 
-    event = vt_map.PathMoveSpriteEvent("Sophia moves near the heroes", sophia, 42.0, 11.0, false);
-    event:AddEventLinkAtEnd("Sophia Dialogue 2");
-    EventManager:RegisterEvent(event);
+    -- NOTE: The actual destination is set just before the actual start call
+    sophia_move_next_to_hero_event = vt_map.PathMoveSpriteEvent("Sophia moves near the heroes", sophia, 0.0, 0.0, false);
+    sophia_move_next_to_hero_event:AddEventLinkAtEnd("Sophia Dialogue 2");
+    EventManager:RegisterEvent(sophia_move_next_to_hero_event);
 
     dialogue = vt_map.SpriteDialogue();
     text = vt_system.Translate("Thanks Goddess! You're all safe and sound... I was worried sick!");
@@ -607,10 +609,14 @@ function _CreateEvents()
     dialogue:AddLineEmote(text, kalya, "thinking dots");
     text = vt_system.Translate("Well, it's a long story... But in short, I was out of the village when they caught everyone.");
     dialogue:AddLineEventEmote(text, sophia, "Sophia looks west", "Sophia looks north", "sweat drop");
+    text = vt_system.Translate("Do you know how are the others doing? Are my parents fine?");
+    dialogue:AddLineEmote(text, hero, "exclamation");
+    text = vt_system.Translate("Unfortunately no. I left them behind...");
+    dialogue:AddLine(text, sophia);
     text = vt_system.Translate("When I saw you leaving the village to the sanctuary, I decided to follow you.");
-    dialogue:AddLineEventEmote(text, sophia, "Sophia looks west", "Sophia looks north", "sweat drop");
-    text = vt_system.Translate("But the time I reached your place, you were all gone... Until I found out where you were heading.");
-    dialogue:AddLineEmote(text, sophia, "sweat drop");
+    dialogue:AddLineEvent(text, sophia, "Sophia looks west", "Sophia looks north");
+    text = vt_system.Translate("But the time I reached the place, you three were gone... And I had to found out where you were heading.");
+    dialogue:AddLine(text, sophia);
     text = vt_system.Translate("But the bridge, how did you cross?");
     dialogue:AddLineEmote(text, kalya, "thinking dots");
     text = vt_system.Translate("Using my rope and my ninja skills, of course, eh.");
@@ -630,9 +636,15 @@ function _CreateEvents()
     text = vt_system.Translate("What?! You mean you all knew about the crystal?");
     dialogue:AddLineEmote(text, hero, "exclamation");
     text = vt_system.Translate("We weren't exactly knowing what would happen, Bronann. But we knew you three had a special burden to carry one day... Herth told us this...");
-    dialogue:AddLineEventEmote(text, sophia,  "Sophia looks west", "Sophia looks north", "sweat drop");
-    text = vt_system.Translate("Listen, I feel bad about what happened, and I can help you as a magical force is preventing me from entering the Shrine... But maybe?");
-    dialogue:AddLineEmote(text, sophia, "sweat drop");
+    dialogue:AddLineEventEmote(text, sophia, "Sophia looks west", "Sophia looks north", "sweat drop");
+    text = vt_system.Translate("Listen kids, I feel bad about what happened, and I can't help you as a magical force is preventing me from entering the Shrine...");
+    dialogue:AddLine(text, sophia);
+    text = vt_system.Translate("But then, you're stuck here, too, right?");
+    dialogue:AddLineEmote(text, hero, "exclamation");
+    text = vt_system.Translate("Me? Not at all. I don't need bridges to cross a moutain.");
+    dialogue:AddLineEmote(text, sophia, "interrogation");
+    text = vt_system.Translate("... But maybe?");
+    dialogue:AddLineEmote(text, sophia, "thinking dots");
     text = vt_system.Translate("Maybe?");
     dialogue:AddLine(text, kalya);
     text = vt_system.Translate("Maybe I could sell you a few things to help you find a way to open a path in there?");
@@ -641,11 +653,15 @@ function _CreateEvents()
     dialogue:AddLineEmote(text, kalya, "sweat drop");
     text = vt_system.Translate("Yes, it's a great privilege as I usually don't do such things for children. I'll stay here as long as you'll be stuck, isn't this quite honest?");
     dialogue:AddLine(text, sophia);
+    text = vt_system.Translate("But, and you'll let us deal with this place, alone??");
+    dialogue:AddLineEmote(text, hero, "exclamation");
+    text = vt_system.Translate("This place is part of your burden. Herth was right. You managed to come here all by yourselves, after all...");
+    dialogue:AddLine(text, sophia);
     text = vt_system.Translate("I guess it's better than nothing... But Orlinn, you stay with us.");
     dialogue:AddLineEventEmote(text, kalya, "Orlinn looks at Kalya", "Orlinn looks south", "thinking dots");
     text = vt_system.Translate("Thanks anyway, Sophia.");
     dialogue:AddLine(text, hero);
-    text = vt_system.Translate("You're welcome!");
+    text = vt_system.Translate("You're welcome, my Dear!");
     dialogue:AddLine(text, sophia);
 
     DialogueManager:AddDialogue(dialogue);
@@ -931,6 +947,8 @@ map_functions = {
 
         kalya_move_next_to_hero_event3:SetDestination(hero:GetXPosition() - 2.0, hero:GetYPosition(), false);
         orlinn_move_next_to_hero_event3:SetDestination(hero:GetXPosition() + 2.0, hero:GetYPosition(), false);
+
+        sophia_move_next_to_hero_event:SetDestination(hero:GetXPosition(), hero:GetYPosition() + 3.0, false);
     end,
 
     everyone_exclamation = function()
