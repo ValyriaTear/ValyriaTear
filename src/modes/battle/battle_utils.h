@@ -119,9 +119,7 @@ enum COMMAND_STATE {
     COMMAND_STATE_ACTOR           = 2,
     //! Player is selecting the point target to execute the action on
     COMMAND_STATE_POINT           = 3,
-    //! Player is viewing information about the selected action
-    COMMAND_STATE_INFORMATION     = 4,
-    COMMAND_STATE_TOTAL           = 5
+    COMMAND_STATE_TOTAL           = 4
 };
 
 

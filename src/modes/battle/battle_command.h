@@ -219,32 +219,11 @@ public:
     **/
     bool IsSelectedItemAvailable() const;
 
-    /** \brief Returns the index of the item currently selected in the item list
-    *** If the selection is invalid (because the list is empty) or the item could not be found,
-    *** the value 0xFFFFFFFF will be returned.
-    **/
-    uint32 GetItemIndex() const;
-
-    /** \brief Returns a pointer to the item at the selected index
-    *** \param item_index The index of the item to retrieve
-    *** \return A pointer to the item, or NULL if the item_index argument was out-of-range
-    **/
-    BattleItem *GetItem(uint32 item_index) {
-        if(item_index >= _items.size()) return NULL;
-        else return &(_items[item_index]);
-    }
-
     //! \brief Updates the item list and processes user input
     void UpdateList();
 
-    //! \brief Updates the item information and processses user input
-    void UpdateInformation();
-
     //! \brief Draws the item header and list
     void DrawList();
-
-    //! \brief Draws information about the selected item
-    void DrawInformation();
 
     /** \brief Modifies the character party's global inventory to match the counts of the items in this class
     *** This should be called only after the battle has finished. There is no need to modify the party's
@@ -252,39 +231,27 @@ public:
     **/
     void CommitChangesToInventory();
 
-    //! \brief Reset the item list content, used at battle restart
+    //! \brief Reset the item list content, used to get inventory items at battle (re)starts.
     void ResetItemList();
 
-    //! \brief Retuns the number of items that will be displayed in the list
+    //! \brief Returns the number of items that will be displayed in the list
     uint32 GetNumberListOptions() const {
         return _item_list.GetNumberOptions();
     }
 
-    /** \brief Refreshes a single entry in the _item_list
-    *** \param entry An index to the element of the OptionBox to refresh
-    ***
-    *** This method is called whenever the available count for a given item is changed. However if
-    *** the count is changing between a zero and non-zero value, this method is not used because the
-    *** entire list needs to be reconstructed in this case.
-    **/
-    void RefreshEntry(uint32 entry);
-
 private:
-    /** \brief Container for all available items
-    *** The order of the items in this container is the same as the order that the items would appear in
-    *** the inventory list of menu mode. The size of the container does not change, even when the available
+    /** \brief Container for all available items at battle start
+    *** The size of the container does not change, even when the available
     *** count of a specific item becomes zero.
+    *** This list only updates the battle Items count and is used to change the global inventory,
+    *** when a battle is won.
     **/
-    std::vector<BattleItem> _items;
+    std::vector<BattleItem> _battle_items;
 
-    /** \brief A mapping of each element in the _items vector to its position in the item list
-    *** This container is necessary because the _item_list option box does not always have the same number
-    *** of options as there are elements in the _items vector, since some items may be used up during the
-    *** battle. This container is the same size as the _items vector and the elements it stores are a
-    *** mapping to the index representing each item in the _item_list. If _item_list does not contain an
-    *** entry for a particular item, a negative value will be stored for that item in this container.
+    /** \brief A sub-list of BattleItem pointing on _battle_items members that are still considered valid
+    *** and thus added to the item menu list.
     **/
-    std::vector<int32> _item_mappings;
+    std::vector<BattleItem*> _menu_items;
 
     //! \brief A single line of header text for the item list option box
     vt_gui::OptionBox _item_header;
@@ -337,14 +304,8 @@ public:
     //! \brief Updates the skill list and processes user input
     void UpdateList();
 
-    //! \brief Updates the skill information and processses user input
-    void UpdateInformation();
-
     //! \brief Draws the skill header and list
     void DrawList();
-
-    //! \brief Draws information about the selected skill
-    void DrawInformation();
 
 private:
     //! \brief A pointer to the vector of skills corresponding to the options in _skill_list
@@ -374,9 +335,7 @@ private:
 *** -# The player selects an action for the character, which may be to execute a skill or use an item
 *** -# The player selects a target for the action, finalizing the command
 ***
-*** The player may backtrack through this flow of events and change their previous selections. There
-*** also exists an optional state where the player can view information about a selected skill or item
-*** during the action selection process.
+*** The player may backtrack through this flow of events and change their previous selections.
 ***
 *** This class also enables cursor memory on a per-character basis. It does this by retaining an instance
 *** of CharacterCommandSettings for each character. These objects retain all the previous selections
@@ -489,7 +448,7 @@ private:
     //! \brief Contains the text that represent each action category
     std::vector<vt_video::TextImage> _category_text;
 
-    //! \brief The window where all command information and GUI displays are drawn
+    //! \brief The window where all actions are drawn
     vt_gui::MenuWindow _command_window;
 
     //! \brief Header text
@@ -497,6 +456,15 @@ private:
 
     //! \brief Rendered text that contains information about the currently selected target
     vt_video::TextImage _window_text;
+
+    //! \brief The window where all information about the currently selected action is drawn
+    vt_gui::MenuWindow _info_window;
+
+    //! \brief Info text header
+    vt_video::TextImage _info_header;
+
+    //! \brief Info text text
+    vt_video::TextImage _info_text;
 
     /** \brief The option box that lists the types of actions that a character may take in battle
     *** Typically this list includes "attack", "defend", "support", and "item". More types may appear
@@ -509,6 +477,9 @@ private:
     *** This option box is used for the selection of both actors and attack points.
     **/
     vt_gui::OptionBox _target_options;
+
+    //! \brief Stores whether the information window should be shown
+    bool _show_information;
 
     // ---------- Private methods
 
@@ -557,8 +528,8 @@ private:
     //! \brief Updates state when the player is selecting an attack point target
     void _UpdateAttackPointTarget();
 
-    //! \brief Updates state when the player is viewing information about an action
-    void _UpdateInformation();
+    //! \brief Updates current skill/item information data
+    void _UpdateActionInformation();
 
     //! \brief Draws visible contents to the screen when the player is selecting an action category
     void _DrawCategory();
@@ -573,16 +544,13 @@ private:
     void _DrawAttackPointTarget();
 
     //! \brief Draws visible contents to the screen when the player is viewing information about an action
-    void _DrawInformation();
+    void _DrawActionInformation();
 
     //! \brief Sets the text for _window_header and _window_text to represent information about the selected target
     void _CreateActorTargetText();
 
     //! \brief Sets the text for _window_header and _window_text to represent information about the selected target
     void _CreateAttackPointTargetText();
-
-    //! \brief Sets the text for _window_header and _window_text to represent information about the selected skill or item
-    void _CreateInformationText();
 
     //! \brief Finalizes the player's command of the character by creating the appropriate action
     void _FinalizeCommand();
