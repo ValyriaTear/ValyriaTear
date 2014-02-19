@@ -212,6 +212,7 @@ void BootMode::Update()
 
     // On first app run, show the language menu and apply language on any key press.
     if (_first_run && _active_menu == &_language_options_menu) {
+        SDL_Event ev = InputManager->GetMostRecentEvent();
         _active_menu->Update();
         if (InputManager->UpPress()) {
             _active_menu->InputUp();
@@ -219,7 +220,11 @@ void BootMode::Update()
         else if (InputManager->DownPress()) {
             _active_menu->InputDown();
         }
-        else if (InputManager->AnyKeyPress()) {
+        else if (InputManager->LeftPress() || InputManager->RightPress()) {
+            // Do nothing in this case
+        }
+        else if ((InputManager->AnyKeyPress() && ev.type == SDL_KEYDOWN)
+                || InputManager->ConfirmPress()) {
             // Set the language
             _active_menu->InputConfirm();
             // Go directly back to the main menu when first selecting the language.
@@ -317,7 +322,11 @@ void BootMode::Update()
 
     // Only quit when we are at the main menu level
     if(_active_menu == &_main_menu && InputManager->QuitPress()) {
-        SystemManager->ExitGame();
+        // Don't quit the game when using the joystick,
+        // as it is confusing for the user.
+        SDL_Event ev = InputManager->GetMostRecentEvent();
+        if (ev.type == SDL_KEYDOWN)
+            SystemManager->ExitGame();
         return;
     }
 
