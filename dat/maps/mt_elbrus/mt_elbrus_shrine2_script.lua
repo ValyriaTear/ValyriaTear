@@ -112,6 +112,11 @@ end
 -- The parchment object, used as first event.
 local parchment1 = {}
 
+-- Skeletons preventing the heroes from going upstairs.
+local skeleton1 = {};
+local skeleton2 = {};
+local skeleton3 = {};
+
 function _CreateObjects()
     local object = {}
     local npc = {}
@@ -207,7 +212,30 @@ function _CreateObjects()
     else
         -- A smaller event summarizing the dialogue
         parchment1:SetEventWhenTalking("Parchment 1 event small");
-        -- Adds enemies in this case
+    end
+
+    -- The skeleton triggering the access to upstairs and the arrival of enemies.
+    skeleton1 = CreateSprite(Map, "Skeleton", 13, 5);
+    skeleton2 = CreateSprite(Map, "Skeleton", 15, 5);
+    skeleton3 = CreateSprite(Map, "Skeleton", 14, 7);
+    skeleton1:SetDirection(vt_map.MapMode.SOUTH);
+    skeleton2:SetDirection(vt_map.MapMode.SOUTH);
+    skeleton3:SetDirection(vt_map.MapMode.SOUTH);
+    skeleton1:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
+    skeleton2:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
+    skeleton3:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
+    Map:AddGroundObject(skeleton1);
+    Map:AddGroundObject(skeleton2);
+    Map:AddGroundObject(skeleton3);
+    -- Adds a dialogue about the parchment content.
+    if (GlobalManager:GetEventValue("story", "mountain_shrine_skeleton_event_done") == 1) then
+        skeleton1:SetPosition(0, 0);
+        skeleton1:SetVisible(false);
+        skeleton2:SetPosition(0, 0);
+        skeleton2:SetVisible(false);
+        skeleton3:SetPosition(0, 0);
+        skeleton3:SetVisible(false);
+        -- Just adds enemies in this case
         _CreateEnemies();
     end
 
@@ -289,6 +317,11 @@ function _SetBattleEnvironment(enemy)
     enemy:SetBattleMusicTheme("mus/heroism-OGA-Edward-J-Blakeley.ogg");
     enemy:SetBattleBackground("img/backdrops/battle/mountain_shrine.png");
     enemy:AddBattleScript("dat/battles/mountain_shrine_battle_anim.lua");
+end
+function _SetEventBattleEnvironment(event)
+    event:SetMusic("mus/heroism-OGA-Edward-J-Blakeley.ogg");
+    event:SetBackground("img/backdrops/battle/mountain_shrine.png");
+    event:AddScript("dat/battles/mountain_shrine_battle_anim.lua");
 end
 
 -- Special events
@@ -412,12 +445,59 @@ function _CreateEvents()
     DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Parchment 1 event small", dialogue);
     EventManager:RegisterEvent(event);
+
+    -- The event when skeletons wake up
+    event = vt_map.ScriptedEvent("Skeleton event start", "skeleton_event_start", "");
+    event:AddEventLinkAtEnd("Skeleton dialogue");
+    EventManager:RegisterEvent(event);
+
+    dialogue = vt_map.SpriteDialogue();
+    text = vt_system.Translate("What is this? ... Skeletons?!");
+    dialogue:AddLineEmote(text, hero, "exclamation");
+    DialogueManager:AddDialogue(dialogue);
+    event = vt_map.DialogueEvent("Skeleton dialogue", dialogue);
+    event:AddEventLinkAtEnd("Skeleton1 goes to hero");
+    event:AddEventLinkAtEnd("Skeleton2 goes to hero");
+    event:AddEventLinkAtEnd("Skeleton3 goes to hero");
+    EventManager:RegisterEvent(event);
+
+    event = vt_map.PathMoveSpriteEvent("Skeleton1 goes to hero", skeleton1, hero, true);
+    event:AddEventLinkAtEnd("Skeleton battle");
+    EventManager:RegisterEvent(event);
+    event = vt_map.PathMoveSpriteEvent("Skeleton2 goes to hero", skeleton2, hero, true);
+    EventManager:RegisterEvent(event);
+    event = vt_map.PathMoveSpriteEvent("Skeleton3 goes to hero", skeleton3, hero, true);
+    EventManager:RegisterEvent(event);
+
+    event = vt_map.BattleEncounterEvent("Skeleton battle");
+    event:AddEnemy(19); -- three skeletons
+    event:AddEnemy(19);
+    event:AddEnemy(19);
+    _SetEventBattleEnvironment(event);
+    event:AddEventLinkAtEnd("Make skeletons invisible");
+    EventManager:RegisterEvent(event);
+
+    event = vt_map.ScriptedEvent("Make skeletons invisible", "make_skeleton_invisible", "");
+    event:AddEventLinkAtEnd("Skeleton dialogue 2");
+    EventManager:RegisterEvent(event);
+
+    dialogue = vt_map.SpriteDialogue();
+    text = vt_system.Translate("Phew...");
+    dialogue:AddLineEmote(text, hero, "exclamation");
+    DialogueManager:AddDialogue(dialogue);
+    event = vt_map.DialogueEvent("Skeleton dialogue 2", dialogue);
+    event:AddEventLinkAtEnd("Skeleton event end");
+    EventManager:RegisterEvent(event);
+
+    event = vt_map.ScriptedEvent("Skeleton event end", "skeleton_event_end", "");
+    EventManager:RegisterEvent(event);
 end
 
 -- zones
 local to_shrine_entrance_zone = {};
 local to_shrine_trap_room_zone = {};
 local to_shrine_enigma_room_zone = {};
+local shrine_skeleton_trap_zone = {};
 
 -- Create the different map zones triggering events
 function _CreateZones()
@@ -435,6 +515,8 @@ function _CreateZones()
     to_shrine_first_floor_zone = vt_map.CameraZone(12, 16, 0, 2);
     Map:AddZone(to_shrine_first_floor_zone);
 
+    shrine_skeleton_trap_zone = vt_map.CameraZone(4, 24, 10, 12);
+    Map:AddZone(shrine_skeleton_trap_zone);
 end
 
 -- Check whether the active camera has entered a zone. To be called within Update()
@@ -451,6 +533,10 @@ function _CheckZones()
     elseif (to_shrine_first_floor_zone:IsCameraEntering() == true) then
         hero:SetDirection(vt_map.MapMode.NORTH);
         EventManager:StartEvent("to mountain shrine first floor");
+    elseif (shrine_skeleton_trap_zone:IsCameraEntering() == true and Map:CurrentState() == vt_map.MapMode.STATE_EXPLORE) then
+        if (GlobalManager:GetEventValue("story", "mountain_shrine_skeleton_event_done") == 0) then
+            EventManager:StartEvent("Skeleton event start");
+        end
     end
 end
 
@@ -512,9 +598,29 @@ map_functions = {
 
         -- Set event as done
         GlobalManager:SetEventValue("story", "mountain_shrine_parchment1_done", 1);
-        -- Now adds the enemies
-        _CreateEnemies();
+
         -- Set a smaller event now the full dialogue has been run
         parchment1:SetEventWhenTalking("Parchment 1 event small");
+    end,
+
+    skeleton_event_start = function()
+        Map:PushState(vt_map.MapMode.STATE_SCENE);
+        hero:SetMoving(false);
+    end,
+
+    make_skeleton_invisible = function()
+        skeleton1:SetPosition(0, 0);
+        skeleton1:SetVisible(false);
+        skeleton2:SetPosition(0, 0);
+        skeleton2:SetVisible(false);
+        skeleton3:SetPosition(0, 0);
+        skeleton3:SetVisible(false);
+    end,
+
+    skeleton_event_end = function()
+        GlobalManager:SetEventValue("story", "mountain_shrine_skeleton_event_done", 1);
+        Map:PopState();
+        -- Now adds the enemies
+        _CreateEnemies();
     end,
 }
