@@ -42,6 +42,7 @@ function Load(m)
 
     _CreateCharacters();
     _CreateObjects();
+    --_CreateEnemies();
 
     -- Set the camera focus on hero
     Map:SetCamera(hero);
@@ -60,6 +61,8 @@ end
 function Update()
     -- Check whether the character is in one of the zones
     _CheckZones();
+    -- Check wether the monsters have been defeated
+    --_CheckMonstersStates();
 end
 
 -- Character creation
@@ -90,6 +93,19 @@ function _CreateCharacters()
     Map:AddGroundObject(orlinn);
 end
 
+-- Triggers
+local stone_trigger1 = {};
+local stone_trigger2 = {};
+
+-- Flames preventing from getting through
+local flame1_trigger1 = {};
+local flame2_trigger1 = {};
+local flame1_trigger2 = {};
+local flame2_trigger2 = {};
+
+-- The grid preventing from going to the second floor.
+local second_floor_gate = {};
+
 function _CreateObjects()
     local object = {}
     local npc = {}
@@ -104,6 +120,49 @@ function _CreateObjects()
     Map:AddGroundObject(object);
     object = CreateObject(Map, "Candle Holder1", 24, 11);
     Map:AddGroundObject(object);
+
+    -- The two stone trigger will open the gate to the second floor
+    stone_trigger1 = vt_map.TriggerObject("mt elbrus shrine 5 trigger 1",
+                             "img/sprites/map/triggers/rolling_stone_trigger1_off.lua",
+                             "img/sprites/map/triggers/rolling_stone_trigger1_on.lua",
+                             "",
+                             "Check triggers");
+    stone_trigger1:SetObjectID(Map.object_supervisor:GenerateObjectID());
+    stone_trigger1:SetPosition(29, 18);
+    stone_trigger1:SetTriggerableByCharacter(false); -- Only an event can trigger it
+    Map:AddFlatGroundObject(stone_trigger1);
+
+    stone_trigger2 = vt_map.TriggerObject("mt elbrus shrine 5 trigger 2",
+                             "img/sprites/map/triggers/rolling_stone_trigger1_off.lua",
+                             "img/sprites/map/triggers/rolling_stone_trigger1_on.lua",
+                             "",
+                             "Check triggers");
+    stone_trigger2:SetObjectID(Map.object_supervisor:GenerateObjectID());
+    stone_trigger2:SetPosition(43, 20);
+    stone_trigger2:SetTriggerableByCharacter(false); -- Only an event can trigger it
+    Map:AddFlatGroundObject(stone_trigger2);
+
+    event = vt_map.ScriptedEvent("Check triggers", "check_triggers", "")
+    EventManager:RegisterEvent(event);
+
+    -- Add flames preventing from using the doors
+    -- Left door: Unlocked by beating monsters
+    flame1_trigger1 = CreateObject(Map, "Flame Pot1", 15, 38);
+    Map:AddGroundObject(flame1_trigger1);
+    flame2_trigger1 = CreateObject(Map, "Flame Pot1", 17, 38);
+    Map:AddGroundObject(flame2_trigger1);
+
+    -- Right door: Using a switch
+    flame1_trigger2 = CreateObject(Map, "Flame Pot1", 27, 38);
+    Map:AddGroundObject(flame1_trigger2);
+    flame2_trigger2 = CreateObject(Map, "Flame Pot1", 29, 38);
+    Map:AddGroundObject(flame2_trigger2);
+
+    second_floor_gate = CreateObject(Map, "Gate1 closed", 20, 10);
+    Map:AddGroundObject(second_floor_gate);
+
+    event = vt_map.ScriptedEvent("Open Gate", "open_gate_animated_start", "open_gate_animated_update")
+    EventManager:RegisterEvent(event);
 end
 
 function _add_flame(x, y)
@@ -145,6 +204,66 @@ function _CreateEvents()
                                        "dat/maps/mt_elbrus/mt_elbrus_shrine8_script.lua", "from_shrine_first_floor_NW_room");
     EventManager:RegisterEvent(event);
 
+end
+
+-- Sets common battle environment settings for enemy sprites
+function _SetBattleEnvironment(enemy)
+    enemy:SetBattleMusicTheme("mus/heroism-OGA-Edward-J-Blakeley.ogg");
+    enemy:SetBattleBackground("img/backdrops/battle/mountain_shrine.png");
+    enemy:AddBattleScript("dat/battles/mountain_shrine_battle_anim.lua");
+end
+
+-- Enemies to defeat before opening the south-west passage
+local roam_zone = {};
+local monsters_defeated = false;
+
+function _CreateEnemies()
+    local enemy = {};
+
+    if (GlobalManager:GetEventValue("story", "mountain_shrine_1st_NW_monsters_defeated") == 1) then
+        monsters_defeated = true;
+        return;
+    end
+
+    -- Monsters that can only be beaten once
+    -- Hint: left, right, top, bottom
+    roam_zone = vt_map.EnemyZone(26, 30, 43, 50);
+    if (monsters_defeated == false) then
+        enemy = CreateEnemySprite(Map, "Skeleton");
+        _SetBattleEnvironment(enemy);
+        enemy:NewEnemyParty();
+        enemy:AddEnemy(19);
+        enemy:AddEnemy(19);
+        enemy:AddEnemy(19);
+        enemy:AddEnemy(18);
+        enemy:NewEnemyParty();
+        enemy:AddEnemy(18);
+        enemy:AddEnemy(19);
+        enemy:AddEnemy(17);
+        enemy:AddEnemy(18);
+        roam_zone:AddEnemy(enemy, Map, 2);
+        roam_zone:SetSpawnsLeft(2); -- These monsters shall spawn only one time.
+    end
+    Map:AddZone(roam_zone);
+end
+
+-- check whether all the monsters dies, to open the door
+function _CheckMonstersStates()
+    if (monsters_defeated == true) then
+        return
+    end
+
+    if (roam_zone1:GetSpawnsLeft() == 0) then
+        monsters_defeated = true;
+    end
+
+
+    -- Open the south left passage
+    hero:SetMoving(false);
+    -- Trigger the dialogue event about the shaking...
+    EventManager:StartEvent("Open south west passage");
+
+    GlobalManager:SetEventValue("story", "mountain_shrine_1st_NW_monsters_defeated", 1);
 end
 
 -- zones
@@ -196,8 +315,51 @@ function _CheckZones()
 
 end
 
+local gate_y_position = 10.0;
+
 -- Map Custom functions
 -- Used through scripted events
 map_functions = {
+    -- Check whether both triggers are activated and then free the way.
+    check_triggers = function()
+        if (stone_trigger1:GetState() == true
+                and stone_trigger2:GetState() == true) then
+            -- Free the way
+            EventManager:StartEvent("Open Gate", 100);
+        else
+            -- Play a click sound when a trigger is pushed
+            AudioManager:PlaySound("snd/trigger_on.wav");
+        end
+    end,
 
+    -- A function making the gate slide up with a noise and removing its collision
+    open_gate_animated_start = function()
+        gate_y_position = 10.0;
+        second_floor_gate:SetPosition(20.0, 10.0);
+        second_floor_gate:SetDrawOnSecondPass(false);
+        second_floor_gate:SetCollisionMask(vt_map.MapMode.ALL_COLLISION);
+        -- Opening gate sound
+        AudioManager:PlaySound("snd/opening_sword_unsheathe.wav");
+    end,
+
+    open_gate_animated_update = function()
+        local update_time = SystemManager:GetUpdateTime();
+        local movement_diff = 0.015 * update_time;
+        gate_y_position = gate_y_position - movement_diff;
+        second_floor_gate:SetPosition(20.0, gate_y_position);
+
+        if (gate_y_position <= 7.0) then
+            map_functions.set_gate_opened();
+            return true;
+        end
+        return false;
+        
+    end,
+
+    -- Set the gate directly to the open state
+    set_gate_opened = function()
+        second_floor_gate:SetPosition(20.0, 7.0);
+        second_floor_gate:SetDrawOnSecondPass(true);
+        second_floor_gate:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
+    end,
 }
