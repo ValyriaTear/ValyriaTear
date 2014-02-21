@@ -30,9 +30,6 @@ using namespace vt_video;
 namespace vt_mode_manager
 {
 
-//! \brief The total amount of time (in milliseconds) that the display sequence lasts for indicator elements
-const uint32 INDICATOR_TIME = 3000;
-
 //! \brief The amount of time (in milliseconds) that indicator elements fade at the beginning of the display sequence
 const uint32 INDICATOR_FADEIN_TIME = 500;
 

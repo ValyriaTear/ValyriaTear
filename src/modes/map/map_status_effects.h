@@ -300,18 +300,26 @@ public:
     *** \param intensity The amount of intensity to increase or decrease the status effect by
     *** \param duration A potential custom effect duration (in milliseconds)
     *** \param elapsed_time The time already elapsed of the effect (in milliseconds).
+    *** \param display_change Whether the change must be notified to the player.
     *** It must be <= to the duration or it will be ignored. This parameter is useful to resume active status effects
     *** activated in other game modes.
     *** \return True if a change in status took place
     **/
-    bool ChangeStatus(ActiveMapStatusEffect& active_effect,
-                      vt_global::GLOBAL_INTENSITY intensity,
-                      uint32 duration = 0, uint32 elapsed_time = 0);
+    bool ChangeActiveStatusEffect(ActiveMapStatusEffect& active_effect,
+                                  vt_global::GLOBAL_INTENSITY intensity,
+                                  uint32 duration = 0, uint32 elapsed_time = 0, bool display_change = true);
+
+    //! \brief The same function but searching and/or creating the effect when necessary
+    //! before applying it.
+    bool ChangeActiveStatusEffect(vt_global::GlobalCharacter* character,
+                                  vt_global::GLOBAL_STATUS status_type,
+                                  vt_global::GLOBAL_INTENSITY intensity,
+                                  uint32 duration = 0, uint32 elapsed_time = 0, bool display_change = true);
 
 private:
     //! \brief Contains all possible status effects.
     //! The vector is initialized with the size of all possible status effects slots.
-    //! Inactive status effect are set to GLOBAL_STATUS_INVALID and removed in the Update() loop.
+    //! Inactive status effect are set to GLOBAL_STATUS_INVALID and removed in the UpdateEffects() loop.
     std::vector<ActiveMapStatusEffect> _active_status_effects;
 
     //! \brief Passive (from equipment) status effects.
@@ -361,6 +369,10 @@ private:
     //! If the function is called several times, the portrait will simply keep on appearing
     //! for the latest desired duration
     void _MakeCharacterPortraitAppear(vt_global::GlobalCharacter* character, uint32 time);
+
+    //! \brief Gives where the effect should be displayed (on bottom of the screen)
+    //! according to the character it is applied on.
+    float _GetEffectAnimationXPosition(vt_global::GlobalCharacter* character);
 
 }; // class MapStatusEffectsSupervisor
 

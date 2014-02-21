@@ -51,6 +51,9 @@ using namespace vt_map::private_map;
 namespace vt_map
 {
 
+//! The stamina maximum value.
+const uint32 STAMINA_FULL = 10000;
+
 // Initialize static class variables
 MapMode *MapMode::_current_instance = NULL;
 
@@ -58,7 +61,7 @@ MapMode *MapMode::_current_instance = NULL;
 // ********** MapMode Public Class Methods
 // ****************************************************************************
 
-MapMode::MapMode(const std::string &data_filename, const std::string& script_filename) :
+MapMode::MapMode(const std::string& data_filename, const std::string& script_filename) :
     GameMode(),
     _activated(false),
     _map_data_filename(data_filename),
@@ -77,7 +80,7 @@ MapMode::MapMode(const std::string &data_filename, const std::string& script_fil
     _running_disabled(false),
     _unlimited_stamina(false),
     _show_gui(true),
-    _run_stamina(10000),
+    _run_stamina(STAMINA_FULL),
     _gui_alpha(0.0f),
     _minimap(NULL),
     _show_minimap(false)
@@ -567,6 +570,27 @@ bool MapMode::IsCameraOnVirtualFocus()
 bool MapMode::AttackAllowed()
 {
     return (CurrentState() == STATE_EXPLORE && !IsCameraOnVirtualFocus());
+}
+
+void MapMode::ApplyPotentialStaminaMalus()
+{
+    if (_run_stamina > STAMINA_FULL / 3)
+        return;
+
+    GLOBAL_INTENSITY intensity = GLOBAL_INTENSITY_NEG_LESSER;
+    if (_run_stamina < STAMINA_FULL / 4)
+        intensity = GLOBAL_INTENSITY_NEG_MODERATE;
+    else if (_run_stamina < STAMINA_FULL / 6)
+        intensity = GLOBAL_INTENSITY_NEG_GREATER;
+    else if (_run_stamina < STAMINA_FULL / 8)
+        intensity = GLOBAL_INTENSITY_NEG_EXTREME;
+
+    std::vector<GlobalCharacter*>* characters = GlobalManager->GetOrderedCharacters();
+    // We only apply the effect on characters that will be present in battle
+    for (uint32 i = 0; i < characters->size() && i < GLOBAL_MAX_PARTY_SIZE; ++i) {
+        _status_effect_supervisor.ChangeActiveStatusEffect(characters->at(i), GLOBAL_STATUS_AGILITY,
+                                                            intensity, STAMINA_FULL * 2, 0, false);
+    }
 }
 
 float MapMode::GetScreenXCoordinate(float tile_position_x) const

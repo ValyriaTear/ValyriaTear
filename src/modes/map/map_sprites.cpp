@@ -628,6 +628,9 @@ void VirtualSprite::RestoreState()
 
 void VirtualSprite::_StartBattleEncounter(EnemySprite *enemy)
 {
+    // Check the current map stamina and apply a malus on agility when it is low
+    MapMode* MM = MapMode::CurrentInstance();
+    MM->ApplyPotentialStaminaMalus();
 
     // Start a map-to-battle transition animation sequence
     BattleMode *BM = new BattleMode();
@@ -660,7 +663,7 @@ void VirtualSprite::_StartBattleEncounter(EnemySprite *enemy)
 
     // Make all enemy sprites disappear after creating the transition mode so that the player
     // can't be cornerned and forced into multiple battles in succession.
-    MapMode::CurrentInstance()->GetObjectSupervisor()->SetAllEnemyStatesToDead();
+    MM->GetObjectSupervisor()->SetAllEnemyStatesToDead();
 
     ModeManager->Push(TM);
 }

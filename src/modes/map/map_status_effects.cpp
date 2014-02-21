@@ -30,6 +30,15 @@ namespace vt_map
 namespace private_map
 {
 
+//! \brief Gives the X effect position from the given index
+float _GetEffectXPositionFromCharacterIndex(uint32 index)
+{
+    return 90.0f + (float)(index * 130);
+}
+
+//! \brief Where on screen (on y-axis) the active status effects icon should be displayed
+const float EFFECTS_Y_POS = 750.0f;
+
 ////////////////////////////////////////////////////////////////////////////////
 // PassiveMapStatusEffect class
 ////////////////////////////////////////////////////////////////////////////////
@@ -272,14 +281,6 @@ MapStatusEffectsSupervisor::~MapStatusEffectsSupervisor()
     SaveActiveStatusEffects();
 }
 
-//! \brief This small function give the x coordinate to show the effect at
-//! According to the character party position
-static float _GiveXPosFromCharacterIndex(uint32 index)
-{
-    return 90.0f + (float)(index * 130);
-}
-const float EFFECTS_Y_POS = 750.0f;
-
 void MapStatusEffectsSupervisor::LoadStatusEffects()
 {
     // First, wipe out every old data
@@ -299,7 +300,7 @@ void MapStatusEffectsSupervisor::LoadStatusEffects()
             continue;
 
         // Loads or reloads the Character portraits positions (in case the party order has changed)
-        float x_pos = _GiveXPosFromCharacterIndex(i);
+        float x_pos = _GetEffectXPositionFromCharacterIndex(i);
         _characters_portraits.push_back(CharacterIndication(character, x_pos, EFFECTS_Y_POS));
 
         // passive effects
@@ -442,10 +443,10 @@ void MapStatusEffectsSupervisor::UpdateEffects()
             effect_timer->SetDuration(duration < 1000 ? 1000 : duration);
 
             if (effect.GetIntensity() > GLOBAL_INTENSITY_NEUTRAL) {
-                ChangeStatus(effect, GLOBAL_INTENSITY_NEG_LESSER, duration);
+                ChangeActiveStatusEffect(effect, GLOBAL_INTENSITY_NEG_LESSER, duration);
             }
             else {
-                ChangeStatus(effect, GLOBAL_INTENSITY_POS_LESSER, duration);
+                ChangeActiveStatusEffect(effect, GLOBAL_INTENSITY_POS_LESSER, duration);
             }
         }
 
@@ -509,9 +510,49 @@ void MapStatusEffectsSupervisor::Draw()
         _characters_portraits[i].Draw();
 }
 
-bool MapStatusEffectsSupervisor::ChangeStatus(ActiveMapStatusEffect& active_effect,
-                                              GLOBAL_INTENSITY intensity,
-                                              uint32 duration, uint32 elapsed_time)
+bool MapStatusEffectsSupervisor::ChangeActiveStatusEffect(GlobalCharacter* character,
+                                                          vt_global::GLOBAL_STATUS status_type,
+                                                          vt_global::GLOBAL_INTENSITY intensity,
+                                                          uint32 duration, uint32 elapsed_time,
+                                                          bool display_change)
+{
+    if (!character)
+        return false;
+
+    if (intensity == GLOBAL_INTENSITY_NEUTRAL
+            || intensity <= GLOBAL_INTENSITY_INVALID
+            || intensity >= GLOBAL_INTENSITY_TOTAL)
+        return false;
+
+    for (uint32 i = 0; i < _active_status_effects.size(); ++i) {
+        ActiveMapStatusEffect& active_effect = _active_status_effects[i];
+
+        if (active_effect.GetType() != status_type)
+            continue;
+        if (active_effect.GetAffectedCharacter() != character)
+            continue;
+
+        // If the effect is found, we apply the new change on it.
+        return ChangeActiveStatusEffect(active_effect, intensity, duration, elapsed_time, display_change);
+    }
+
+    // Add a new status effect
+    _AddActiveStatusEffect(character, status_type, intensity, duration);
+
+    if (!display_change)
+        return true;
+
+    vt_mode_manager::IndicatorSupervisor& indicator = MapMode::CurrentInstance()->GetIndicatorSupervisor();
+    indicator.AddStatusIndicator(_GetEffectAnimationXPosition(character), EFFECTS_Y_POS,
+                                 status_type, GLOBAL_INTENSITY_NEUTRAL, intensity);
+    _MakeCharacterPortraitAppear(character, vt_mode_manager::INDICATOR_TIME); // default time in milliseconds
+    return true;
+}
+
+bool MapStatusEffectsSupervisor::ChangeActiveStatusEffect(ActiveMapStatusEffect& active_effect,
+                                                          GLOBAL_INTENSITY intensity,
+                                                          uint32 duration, uint32 elapsed_time,
+                                                          bool display_change)
 {
     if (!active_effect.IsActive())
         return false;
@@ -536,13 +577,7 @@ bool MapStatusEffectsSupervisor::ChangeStatus(ActiveMapStatusEffect& active_effe
     // Set the coordinates of the status effect next to the corresponding portrait
     vt_mode_manager::IndicatorSupervisor& indicator = MapMode::CurrentInstance()->GetIndicatorSupervisor();
     vt_global::GlobalCharacter* character = active_effect.GetAffectedCharacter();
-    float x_pos = 90.0; // default position.
-    for (uint32 i = 0; i < _characters_portraits.size(); ++i) {
-        if (_characters_portraits[i].GetCharacter() == character) {
-            x_pos = _GiveXPosFromCharacterIndex(i) + 5.0f; // We add an offset to avoid cluttering
-            break;
-        }
-    }
+    float x_pos = _GetEffectAnimationXPosition(character);
 
     // Perform status changes according to the previously determined information
     if(active_effect.IsActive()) {
@@ -558,20 +593,27 @@ bool MapStatusEffectsSupervisor::ChangeStatus(ActiveMapStatusEffect& active_effe
         if(new_intensity == GLOBAL_INTENSITY_NEUTRAL)
             _RemoveActiveStatusEffect(active_effect);
 
+        if (!display_change)
+            return true;
+
         indicator.AddStatusIndicator(x_pos, EFFECTS_Y_POS, active_effect.GetType(), previous_intensity, new_intensity);
-        _MakeCharacterPortraitAppear(active_effect.GetAffectedCharacter(), 3000); // default time in milliseconds
+        _MakeCharacterPortraitAppear(character, vt_mode_manager::INDICATOR_TIME);
         return true;
     }
     else {
         _AddActiveStatusEffect(active_effect.GetAffectedCharacter(), active_effect.GetType(), intensity, duration, elapsed_time);
         new_intensity = intensity;
 
+        if (!display_change)
+            return true;
+
         indicator.AddStatusIndicator(x_pos, EFFECTS_Y_POS, active_effect.GetType(), previous_intensity, new_intensity);
-        _MakeCharacterPortraitAppear(active_effect.GetAffectedCharacter(), 3000); // default time in milliseconds
+        _MakeCharacterPortraitAppear(character, vt_mode_manager::INDICATOR_TIME);
+        return true;
     }
 
     return false;
-} // bool MapStatusEffectsSupervisor::ChangeStatus( ... )
+} // bool MapStatusEffectsSupervisor::ChangeActiveStatusEffect( ... )
 
 void MapStatusEffectsSupervisor::_AddActiveStatusEffect(GlobalCharacter* character,
                                                         GLOBAL_STATUS status, GLOBAL_INTENSITY intensity,
@@ -671,6 +713,18 @@ void MapStatusEffectsSupervisor::_MakeCharacterPortraitAppear(vt_global::GlobalC
             return;
         }
     }
+}
+
+float MapStatusEffectsSupervisor::_GetEffectAnimationXPosition(vt_global::GlobalCharacter* character)
+{
+    float x_pos = 90.0; // default position.
+    for (uint32 i = 0; i < _characters_portraits.size(); ++i) {
+        if (_characters_portraits[i].GetCharacter() == character) {
+            x_pos = _GetEffectXPositionFromCharacterIndex(i) + 5.0f; // We add an offset to avoid cluttering
+            break;
+        }
+    }
+    return x_pos;
 }
 
 } // namespace private_map

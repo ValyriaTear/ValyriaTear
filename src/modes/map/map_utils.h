@@ -228,9 +228,6 @@ const uint32 MAX_DIALOGUE_OPTIONS = 5;
 //! \brief The number of milliseconds to take to fade out the map
 const uint32 MAP_FADE_OUT_TIME = 800;
 
-const uint32 STAMINA_EMPTY  = 0;
-const uint32 STAMINA_FULL   = 10000;
-
 /** ****************************************************************************
 *** \brief Represents a rectangular section of a map
 ***

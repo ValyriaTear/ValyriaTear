@@ -30,6 +30,9 @@
 namespace vt_mode_manager
 {
 
+//! \brief The total amount of time (in milliseconds) that the display sequence lasts for indicator elements
+const uint32 INDICATOR_TIME = 3000;
+
 /** \brief the indicator types.
 *** According to the indicator type, the draw position computation won't be the same
 **/

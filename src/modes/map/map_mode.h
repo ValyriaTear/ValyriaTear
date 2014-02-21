@@ -292,6 +292,10 @@ public:
     //! \brief Tells whether a battle can start
     bool AttackAllowed();
 
+    //! \brief Applies a potential malus when the map stamina is low.
+    //! This is applied as an active status effect on agility.
+    void ApplyPotentialStaminaMalus();
+
     /**
      * \brief Since the map coords are non standard, this function
      * permits to quickly adapt the images to the map scale.
@@ -438,7 +442,7 @@ private:
     bool _show_gui;
 
     /** \brief A counter for the player's stamina
-    *** This value ranges from STAMINA_EMPTY to STAMINA_FULL. It takes twice as long to regenerate stamina as
+    *** This value ranges from 0 to STAMINA_FULL. It takes twice as long to regenerate stamina as
     *** it does to consume it when running.
     **/
     uint32 _run_stamina;
