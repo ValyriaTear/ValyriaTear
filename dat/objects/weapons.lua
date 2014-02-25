@@ -75,17 +75,17 @@ weapons[10001] = {
 
 weapons[10002] = {
     name = vt_system.Translate("Reinforced wooden Sword"),
-    description = vt_system.Translate("A sword made of wood with a steel hilt, very good for practising."),
+    description = vt_system.Translate("A sword made of wood with a steel hilt, reinforced magically."),
     icon = "img/icons/weapons/woodensword.png",
-    physical_attack = 11,
-    magical_attack = 0,
-    standard_price = 120,
+    physical_attack = 30,
+    magical_attack = 10,
+    standard_price = 1200,
     usable_by = BRONANN + THANIS,
     slots = 0,
     key_item = true,
 
     trade_conditions = {
-        [0] = 120,   -- price
+        [0] = 1200,  -- price
         [10001] = 1, -- 1 wooden sword
         [3001] = 3   -- 3 Copper ore
     },
@@ -115,17 +115,17 @@ weapons[10002] = {
 
 weapons[10003] = {
     name = vt_system.Translate("Perfect wooden Sword"),
-    description = vt_system.Translate("A sword made of wood with a steel hilt, very good for practising."),
+    description = vt_system.Translate("A sword made of wood with a steel hilt, surrounded by a great magical force."),
     icon = "img/icons/weapons/woodensword.png",
-    physical_attack = 20,
-    magical_attack = 0,
-    standard_price = 150,
+    physical_attack = 60,
+    magical_attack = 20,
+    standard_price = 4500,
     usable_by = BRONANN + THANIS,
     slots = 0,
     key_item = true,
 
     trade_conditions = {
-        [0] = 150,   -- price
+        [0] = 4500,  -- price
         [10002] = 1, -- 1 Reinforced wooden sword
         [3001] = 5   -- 5 Copper ore
     },
@@ -193,14 +193,14 @@ weapons[10012] = {
     name = vt_system.Translate("Soldier Sword"),
     description = vt_system.Translate("Standard soldier sword. A light weight iron sword suitable for most skirmishes."),
     icon = "img/icons/weapons/karlate_sword.png",
-    physical_attack = 45,
+    physical_attack = 50,
     magical_attack = 0,
-    standard_price = 1150,
+    standard_price = 1250,
     usable_by = BRONANN + THANIS,
     slots = 0,
 
     trade_conditions = {
-        [0] = 1150,   -- price
+        [0] = 1250,  -- price
         [10011] = 1, -- 1 Iron sword
         [3001] = 3,  -- 3 Copper ore
         [3002] = 1   -- 1 Iron ore
@@ -233,7 +233,7 @@ weapons[10013] = {
     name = vt_system.Translate("Knight's Blade"),
     description = vt_system.Translate("A weapon bestowed to seasoned veterans of the knighthood."),
     icon = "img/icons/weapons/knights_blade.png",
-    physical_attack = 54,
+    physical_attack = 70,
     magical_attack = 0,
     standard_price = 2180,
     usable_by = BRONANN + THANIS,
@@ -243,7 +243,7 @@ weapons[10013] = {
         [0] = 1150,   -- price
         [10012] = 1, -- 1 Soldier sword
         [3002] = 3,  -- 3 Iron ore
-        --[3002] = 1   -- TODO: Add 1 feather
+        [3008] = 1   -- 1 Phoenix Feather
     },
 
     battle_animations = {
@@ -280,10 +280,10 @@ weapons[10014] = {
     slots = 3,
 
     trade_conditions = {
-        [0] = 4000,  -- price
+        [0] = 4340,  -- price
         [10013] = 1, -- 1 Knight's blade
         [3002] = 5,   -- 5 Iron Ore
-        -- TODO: Add 3 feathers
+        [3008] = 3   -- 3 Phoenix Feather
         -- TODO: Add 1 fire salamander
     },
 
@@ -399,6 +399,87 @@ weapons[11001] = {
     usable_by = KALYA,
     slots = 0,
     key_item = true,
+
+    battle_animations = {
+        [KALYA] = {
+            idle = "img/sprites/battle/characters/kalya/weapons/steel/kalya_idle.lua",
+            run = "img/sprites/battle/characters/kalya/weapons/steel/kalya_run.lua",
+            run_after_victory = "img/sprites/battle/characters/kalya/weapons/steel/kalya_run.lua",
+            attack = "img/sprites/battle/characters/kalya/weapons/steel/kalya_attack.lua",
+            dodge = "img/sprites/battle/characters/kalya/weapons/steel/kalya_dodge.lua",
+            victory = "img/sprites/battle/characters/kalya/weapons/steel/kalya_victory.lua",
+            hurt = "img/sprites/battle/characters/kalya/weapons/steel/kalya_hurt.lua",
+            poor = "img/sprites/battle/characters/kalya/weapons/steel/kalya_kneeling.lua",
+            dying = "img/sprites/battle/characters/kalya/weapons/steel/kalya_kneeling.lua",
+            dead = "img/sprites/battle/characters/kalya/weapons/steel/kalya_dead.lua",
+            revive = "img/sprites/battle/characters/kalya/weapons/steel/kalya_kneeling.lua",
+            item = "img/sprites/battle/characters/kalya/weapons/steel/kalya_idle.lua",
+            magic_prepare = "img/sprites/battle/characters/kalya/weapons/steel/kalya_magic_prepare.lua",
+            magic_cast = "img/sprites/battle/characters/kalya/weapons/steel/kalya_magic_cast.lua"
+        }
+    }
+}
+
+weapons[11002] = {
+    name = vt_system.Translate("Noble Arbalest"),
+    description = vt_system.Translate("An arbalest made out of fine noble ash tree wood."),
+    icon = "img/icons/weapons/arbalest.png",
+    -- The image displayed when kalya fires with her arbalest.
+    battle_ammo_animation_file = "img/sprites/battle/ammo/wood_arrow.lua",
+    physical_attack = 34,
+    magical_attack = 12,
+    standard_price = 1450,
+    usable_by = KALYA,
+    slots = 0,
+    key_item = true,
+
+    trade_conditions = {
+        [0] = 1450,  -- price
+        [11001] = 1, -- 1 Wooden Arbalest
+        [3001] = 2,  -- 2 Copper ore
+        [3002] = 1   -- 1 Iron ore
+    },
+
+    battle_animations = {
+        [KALYA] = {
+            idle = "img/sprites/battle/characters/kalya/weapons/steel/kalya_idle.lua",
+            run = "img/sprites/battle/characters/kalya/weapons/steel/kalya_run.lua",
+            run_after_victory = "img/sprites/battle/characters/kalya/weapons/steel/kalya_run.lua",
+            attack = "img/sprites/battle/characters/kalya/weapons/steel/kalya_attack.lua",
+            dodge = "img/sprites/battle/characters/kalya/weapons/steel/kalya_dodge.lua",
+            victory = "img/sprites/battle/characters/kalya/weapons/steel/kalya_victory.lua",
+            hurt = "img/sprites/battle/characters/kalya/weapons/steel/kalya_hurt.lua",
+            poor = "img/sprites/battle/characters/kalya/weapons/steel/kalya_kneeling.lua",
+            dying = "img/sprites/battle/characters/kalya/weapons/steel/kalya_kneeling.lua",
+            dead = "img/sprites/battle/characters/kalya/weapons/steel/kalya_dead.lua",
+            revive = "img/sprites/battle/characters/kalya/weapons/steel/kalya_kneeling.lua",
+            item = "img/sprites/battle/characters/kalya/weapons/steel/kalya_idle.lua",
+            magic_prepare = "img/sprites/battle/characters/kalya/weapons/steel/kalya_magic_prepare.lua",
+            magic_cast = "img/sprites/battle/characters/kalya/weapons/steel/kalya_magic_cast.lua"
+        }
+    }
+}
+
+weapons[11003] = {
+    name = vt_system.Translate("Arbalest of Force"),
+    description = vt_system.Translate("An arbalest strengthen with magical ore."),
+    icon = "img/icons/weapons/arbalest.png",
+    -- The image displayed when kalya fires with her arbalest.
+    battle_ammo_animation_file = "img/sprites/battle/ammo/wood_arrow.lua",
+    physical_attack = 25,
+    magical_attack = 24,
+    standard_price = 1650,
+    usable_by = KALYA,
+    slots = 0,
+    key_item = true,
+
+    trade_conditions = {
+        [0] = 1650,  -- price
+        [11001] = 1, -- 1 Wooden Arbalest
+        [3001] = 1,  -- 2 Copper ore
+        [3002] = 2,  -- 1 Iron ore
+        [1003] = 1,  -- 1 Elixir
+    },
 
     battle_animations = {
         [KALYA] = {

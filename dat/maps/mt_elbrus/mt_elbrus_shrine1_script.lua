@@ -129,6 +129,8 @@ function _UpdateSophiaDialogue()
     -- The interesting part!
     event:AddTrade(10002, 1); -- Reinforced Wooden Sword (with magical attack)
     event:AddTrade(10012, 1); -- Soldier sword. (a strong sword)
+    event:AddTrade(11002, 1); -- Noble Arbalest (Strong attack arbalest)
+    event:AddTrade(11003, 1); -- Arbalest of force
     event:SetPriceLevels(vt_shop.ShopMode.SHOP_PRICE_STANDARD,
                          vt_shop.ShopMode.SHOP_PRICE_STANDARD);
     EventManager:RegisterEvent(event);
