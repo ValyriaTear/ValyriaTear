@@ -1,7 +1,7 @@
 Licenses
 ========
 
-Last update: 2014.02.16
+Last update: 2014.02.25
 
 This file is listing all the files licenses from the point of the fork
 from the Allacrost project.
@@ -259,7 +259,6 @@ img/icons/actors/enemies/shroom.png                             CC by SA 3.0    
 img/icons/battle/default_weapon.png                             GPLv2+                   Allacrost
 img/icons/battle/default_special.png                            CC by SA 3.0             Bertram
 img/icons/battle/invocation.png                                 GPLv2+                   Allacrost
-img/icons/battle/template.png                                   GPLv2+                   Allacrost
 img/icons/battle/character_selector.png                         GPLv2+                   Allacrost
 img/icons/battle/magic.png                                      GPLv2+                   Allacrost
 img/icons/battle/item.png                                       GPLv2+                   Allacrost
@@ -852,7 +851,6 @@ Files:
 ./img/menus/equip.png
 ./img/menus/battle_character_command.png
 ./img/menus/battle_character_selection.png
-./img/menus/stamina_icon.png
 ./img/menus/dialogue_last_ind.png
 ./img/menus/black_sleet_parch.png
 ./img/menus/battle_command_buttons.png
