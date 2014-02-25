@@ -1226,7 +1226,7 @@ std::string _TurnIntoSeconds(uint32 milliseconds)
     uint32 seconds = milliseconds / 1000;
     uint32 dec = (milliseconds / 100) - (seconds * 10);
     std::string formatted_seconds = NumberToString(seconds) + "." + NumberToString(dec);
-    // TRANSLATORS: this is about displayed a time: eg 4.2s
+    // TRANSLATORS: this is about displaying a time: eg 4.2s
     formatted_seconds = VTranslate("%ss", formatted_seconds);
     return formatted_seconds;
 }
