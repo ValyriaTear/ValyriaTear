@@ -1221,6 +1221,16 @@ void CommandSupervisor::_UpdateAttackPointTarget()
     }
 }
 
+std::string _TurnIntoSeconds(uint32 milliseconds)
+{
+    uint32 seconds = milliseconds / 1000;
+    uint32 dec = (milliseconds / 100) - (seconds * 10);
+    std::string formatted_seconds = NumberToString(seconds) + "." + NumberToString(dec);
+    // TRANSLATORS: this is about displayed a time: eg 4.2s
+    formatted_seconds = VTranslate("%ss", formatted_seconds);
+    return formatted_seconds;
+}
+
 void CommandSupervisor::_UpdateActionInformation()
 {
     ustring info_text;
@@ -1231,8 +1241,8 @@ void CommandSupervisor::_UpdateActionInformation()
                              + VTranslate("%s SP", NumberToString(_selected_skill->GetSPRequired()))));
 
         info_text = MakeUnicodeString(VTranslate("Target Type: %s", GetTargetText(_selected_skill->GetTargetType())) + "\n");
-        info_text += MakeUnicodeString(VTranslate("Prep Time: %s", NumberToString(_selected_skill->GetWarmupTime())) + " - ");
-        info_text += MakeUnicodeString(VTranslate("Cool Time: %s", NumberToString(_selected_skill->GetCooldownTime())) + "\n\n");
+        info_text += MakeUnicodeString(VTranslate("Prep Time: %s", _TurnIntoSeconds(_selected_skill->GetWarmupTime())) + " - ");
+        info_text += MakeUnicodeString(VTranslate("Cool Time: %s", _TurnIntoSeconds(_selected_skill->GetCooldownTime())) + "\n\n");
         info_text += _selected_skill->GetDescription();
     } else if(_IsItemCategorySelected() == true) {
         _info_header.SetText(_selected_item->GetItem().GetName()
