@@ -23,30 +23,6 @@ later version" text should be present.
 
 Files                                                            Licenses                 Authors and details
 --------------------------------------------------------------- ------------------------ --------------------------------------------------------------------
-art/bronann_by_safir_kreuz-CCbySA3.0.png                        CC by SA 3.0             Safir-Kreuz (dA)
-art/bronann_bed_animation.xcf                                   CC by SA 3.0             Jetrel (OGA) for the bed and Bronann's head + Bertram for the animation.
-art/bronann_dead.xcf                                            GPLv2                    Allacrost + Lilou
-art/bronann_kneeling.xcf                                        GPLv2                    Allacrost + Lilou
-art/kalya_kneeling.xcf                                          GPLv2                    Allacrost + Lilou
-art/Tile-Mapping-System.png                                     CC by SA 3.0             Jetrel (OGA)
-art/day_night_cycle_gradient_casper_nilsson_oga.png             CC by SA 3.0             C.Nilsson (OGA)
-art/forest_tree_small.xcf                                       CC by SA 3.0             Original tree from Jetrel (OGA) + Variations from Bertram
-art/kalya-high-idle.png                                         GPLv2+                   Allacrost
-art/kalya-high-unarmed-idle.png                                 GPLv2+                   Allacrost + Bertram
-art/kalya-attack.xcf                                            GPLv2+ or CC by SA 3.0   Allacrost (Frame 2), Bertram (Frames 1, 3 and 4)
-art/kalya-idle.xcf                                              CC by SA 3.0             Bertram
-art/legend-cliffs.png                                           CC by 3.0                Daniel Cook (lostgarden.com)
-art/map_locations_borders.xcf                                   GPLv2+                   Based on Allacrost Team work, adapted into a translucent XCF by Bertram.
-art/fenrir_patrick_thompson_ccbysa30.xcf                        CC by SA 3.0             Patrick Thompson (PK Illustration) - http://opengameart.org/content/fenrir-wolf-sprite-injuries
-art/item_template.png                                           CC by SA 3.0             Bertram
-art/lightning1.xcf                                              CC by SA 3.0             Bertram
-art/lightning2.xcf                                              CC by SA 3.0             Bertram
-art/lightning3.xcf                                              CC by SA 3.0             Bertram
-art/stamina_bar.xcf                                             CC by SA 3.0             Bertram, Lamoot (OGA) for the borders - http://opengameart.org/content/rpg-gui-construction-kit-v10, Ashiroxzer (OGA) for a few decorations - http://opengameart.org/content/dungeon-tbs
-art/knight_lord.xcf                                             CC by SA 3.0             Based on killyoverdrive (OGA) - http://opengameart.org/content/blue-knight-templar-transparent-background + image by Bertram
-art/lord_spritesheet.xcf                                        CC by SA 3.0             Bertram, based on Redshrike (OGA) - http://opengameart.org/content/dark-soldier-for-valyria-tear
-art/well.xcf                                                    CC by SA 3.0             Bertram, based on several Jetrel's sprites.
-
 dat/global.lua                                                  GPLv2+                   Bertram (Completely redone it.)
 
 dat/actors/characters.lua                                       GPLv2+                   Allacrost + Bertram
