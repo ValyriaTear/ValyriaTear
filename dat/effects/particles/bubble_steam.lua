@@ -1,4 +1,3 @@
--- Save point particle effect
 -- Author: Bertram
 
 -- The effect overall size in pixel. Used to make the map mode draw the effect on time.
@@ -35,7 +34,7 @@ systems[0] =
         emitter_mode = 'looping',
         spin = 'clockwise'
     },
-    
+
     -- Makes the particles rotate.
     rotation = {
     },

@@ -27,7 +27,11 @@ systems[0] =
         emission_rate = 2,
         start_time = 0,
         emitter_mode = 'burst',
-        spin = 'counter clockwise'
+        spin = 'clockwise'
+    },
+
+    -- Makes the particles rotate.
+    rotation = {
     },
 
     keyframes =
@@ -36,7 +40,7 @@ systems[0] =
             size_x = 0.3,
             size_y = 0.3,
             color={0.2, 0.2, 1.0, 0.6},
-            rotation_speed = 0.0,
+            rotation_speed = 4.0,
             size_variation_x = 0.2,
             size_variation_y = 0.2,
             rotation_speed_variation = 0.0,
@@ -48,7 +52,7 @@ systems[0] =
             size_x = 1.5,
             size_y = 1.5,
             color = {0.5, 0.5, 1.0, 0.4},
-            rotation_speed = 0.0,
+            rotation_speed = 4.0,
             size_variation_x = 0.2,
             size_variation_y = 0.2,
             rotation_speed_variation = 0.0,
@@ -56,11 +60,11 @@ systems[0] =
             time = 0.6
         },
 
-        {  -- keyframe 2
+        {  -- keyframe 3
             size_x = 1.5,
             size_y = 1.5,
             color = {0.5, 0.5, 1.0, 0.0},
-            rotation_speed = 0.0,
+            rotation_speed = 4.0,
             size_variation_x = 0.2,
             size_variation_y = 0.2,
             rotation_speed_variation = 0.0,
@@ -80,16 +84,16 @@ systems[0] =
     },
 
     blend_mode = 13,
-    system_lifetime = 0.3,
-    particle_lifetime = 0.5,
+    system_lifetime = 2.1,
+    particle_lifetime = 2.0,
     particle_lifetime_variation = 0.0,
     max_particles = 5,
     damping = 1,
     damping_variation = 0,
     acceleration_x = 0,
-    acceleration_y = 50,
+    acceleration_y = 30,
     acceleration_variation_x = 40,
-    acceleration_variation_y = 10,
+    acceleration_variation_y = 5,
     wind_velocity_x = 0,
     wind_velocity_y = 0,
     wind_velocity_variation_x = 0,
