@@ -778,8 +778,6 @@ enemies[14] = {
     }
 }
 
--- ======== Unbalanced ========
-
 enemies[15] = {
     name = vt_system.Translate("Beetle"),
     stamina_icon = "img/icons/actors/enemies/beetle.png",
@@ -792,16 +790,16 @@ enemies[15] = {
     },
 
     base_stats = {
-        hit_points = 90,
-        skill_points = 5,
-        strength = 12,
-        vigor = 0,
-        fortitude = 14,
-        protection = 4,
-        agility = 13,
-        evade = 2.0,
-        experience_points = 5,
-        drunes = 18
+        hit_points = 100,
+        skill_points = 0,
+        strength = 30,
+        vigor = 25,
+        fortitude = 60,
+        protection = 10,
+        agility = 35,
+        evade = 5.0,
+        experience_points = 45,
+        drunes = 45
     },
 
     attack_points = {
@@ -820,7 +818,7 @@ enemies[15] = {
     },
 
     drop_objects = {
-        { 1, 0.15 } -- Minor Healing Potion
+        { 2, 0.05 } -- Medium Healing Potion
     }
 }
 
@@ -836,16 +834,16 @@ enemies[16] = {
     },
 
     base_stats = {
-        hit_points = 90,
-        skill_points = 5,
-        strength = 12,
-        vigor = 0,
-        fortitude = 14,
-        protection = 4,
-        agility = 13,
-        evade = 2.0,
-        experience_points = 5,
-        drunes = 18
+        hit_points = 120,
+        skill_points = 80,
+        strength = 35,
+        vigor = 20,
+        fortitude = 35,
+        protection = 20,
+        agility = 40,
+        evade = 7.0,
+        experience_points = 47,
+        drunes = 40
     },
 
     attack_points = {
@@ -872,10 +870,11 @@ enemies[16] = {
     },
 
     drop_objects = {
-        { 1, 0.15 } -- Minor Healing Potion
+        { 15, 0.05 }  -- Lotus petal - (Cure poison)
     }
 }
 
+-- unbalanced
 enemies[17] = {
     name = vt_system.Translate("Thing"),
     stamina_icon = "img/icons/actors/enemies/thing.png",
@@ -920,6 +919,7 @@ enemies[17] = {
     }
 }
 
+-- unbalanced
 enemies[18] = {
     name = vt_system.Translate("Yeti"),
     stamina_icon = "img/icons/actors/enemies/yeti.png",
@@ -976,16 +976,16 @@ enemies[19] = {
     },
 
     base_stats = {
-        hit_points = 124,
-        skill_points = 10,
-        strength = 15,
-        vigor = 0,
-        fortitude = 14,
-        protection = 4,
-        agility = 13,
-        evade = 2.0,
-        experience_points = 5,
-        drunes = 18
+        hit_points = 150,
+        skill_points = 100,
+        strength = 30,
+        vigor = 25,
+        fortitude = 30,
+        protection = 25,
+        agility = 35,
+        evade = 5.0,
+        experience_points = 50,
+        drunes = 30
     },
 
     attack_points = {
@@ -1021,9 +1021,11 @@ enemies[19] = {
     },
 
     drop_objects = {
-        { 1, 0.15 } -- Minor Healing Potion
+        { 12, 0.05 } -- Medium moon juice
     }
 }
+
+-- ======== Unbalanced ========
 
 -- Traits -----------------------------------------------------------------------
 -- HSP: low HP, low SP
