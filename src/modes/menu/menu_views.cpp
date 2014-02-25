@@ -2177,6 +2177,7 @@ void EquipWindow::Draw()
 static const ustring spacing = MakeUnicodeString("<20>");
 static const ustring exclamation_file = MakeUnicodeString("<img/effects/emotes/exclamation.png>") + spacing;
 static const ustring check_file = MakeUnicodeString("<img/menus/green_check.png>") + spacing;
+static const ustring cross_file = MakeUnicodeString("<img/menus/red_x.png>") + spacing;
 
 QuestListWindow::QuestListWindow() :
     _active_box(false)
@@ -2269,6 +2270,11 @@ void QuestListWindow::_UpdateQuestList()
         _quests_list.SetCursorOffset(-55.0f, -15.0f);
         _quests_list.EnableOption(selection, false);
     }
+    else if (!GlobalManager->IsQuestCompletable(quest_id)) {
+        _quests_list.SetOptionText(selection, cross_file + title);
+        _quests_list.SetCursorOffset(-55.0f, -15.0f);
+        _quests_list.EnableOption(selection, false);
+    }
     else
     {
         _quests_list.SetCursorOffset(-75.0f, -15.0f);
@@ -2320,6 +2326,10 @@ void QuestListWindow::_SetupQuestsList() {
         //completed quest check.
         if(GlobalManager->IsQuestCompleted(quest_id)) {
             _quests_list.AddOption(check_file + title);
+            _quests_list.EnableOption(i, false);
+        }
+        else if (!GlobalManager->IsQuestCompletable(quest_id)) {
+            _quests_list.AddOption(cross_file + title);
             _quests_list.EnableOption(i, false);
         }
         //if incomplete, then we check the read status

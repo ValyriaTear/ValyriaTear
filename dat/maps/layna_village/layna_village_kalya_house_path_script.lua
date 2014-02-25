@@ -451,6 +451,8 @@ map_functions = {
     set_chicken_dialogue_done = function()
         GlobalManager:SetEventValue("game", "layna_village_chicken_dialogue_done", 1);
         _ReloadGrandmaDialogue();
+        -- Adds the quest log about the chicken...
+        GlobalManager:AddQuestLog("catch_chicken");
     end,
 
     set_chicken_reward_given = function()

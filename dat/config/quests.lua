@@ -4,6 +4,9 @@
 -- When the event value of the completion_event_name in the completion_event_group is equal to 1, the quest is considered complete.
 -- location_name, location_subname, location_subimage and location_banner_filename are optional fields, and they are used to display the quest start location and associated banner image
 -- All fields can be empty but are required.
+-- There are two more optional parameters: not_completable_event_group, not_completable_event_name
+-- If those two are set, once the respective event is set to 1, the quest is considered not completable anymore
+-- and a red X will be shown next to it in the menu.
 
 -- Use the 'GlobalManager:AddQuestLog("string_id");' luabind script command to add a quest entry in the player's quest log.
 
@@ -57,6 +60,24 @@ quests = {
     },
 
     -- Quest id
+    ["catch_chicken"] = {
+        -- Title
+        vt_system.Translate("Catch the chicken..."),
+        -- Description
+        vt_system.Translate("Grandma asked me to catch the chicken that flown away. There are three of them..."),
+        -- Completion Description
+        vt_system.Translate("I was able to find them!"),
+        -- Group and event for the quest to be complete.
+        "game", "layna_village_chicken_reward_given",
+        -- Location name and banner image filename
+        vt_system.Translate("Village of Layna"), "img/menus/locations/mountain_village.png",
+        -- Location sub-name and image filename
+        vt_system.Translate("Kalya's house path"), "",
+        -- Events telling the quest isn't completable anymore
+        "story", "layna_forest_crystal_event_done"
+    },
+
+    -- Quest id
     ["wants_to_go_into_the_forest"] = {
         -- Title
         vt_system.Translate("Let's go in the woods..."),
@@ -102,5 +123,5 @@ quests = {
         vt_system.Translate("Village of Layna"), "img/menus/locations/mountain_village.png",
         -- Location sub-name and image filename
         vt_system.Translate("Kalya's home basement"), "img/menus/quests/flee_from_dark_soldiers.png",
-    }
+    },
 }

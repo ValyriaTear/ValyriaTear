@@ -201,18 +201,24 @@ private:
 class QuestLogInfo {
 
 public:
-    QuestLogInfo(const vt_utils::ustring &title,
-                 const vt_utils::ustring &description,
-                 const vt_utils::ustring &completion_description,
-                 const std::string &completion_event_group,
-                 const std::string &completion_event_name,
-                 const vt_utils::ustring &location_name,
-                 const std::string &location_banner_filename,
-                 const vt_utils::ustring &location_subname,
-                 const std::string &location_subimage_filename);
+    QuestLogInfo(const vt_utils::ustring& title,
+                 const vt_utils::ustring& description,
+                 const vt_utils::ustring& completion_description,
+                 const std::string& completion_event_group,
+                 const std::string& completion_event_name,
+                 const vt_utils::ustring& location_name,
+                 const std::string& location_banner_filename,
+                 const vt_utils::ustring& location_subname,
+                 const std::string& location_subimage_filename);
 
     QuestLogInfo()
     {}
+
+    void SetNotCompletableIf(const std::string& not_completable_event_group,
+                             const std::string& not_completable_event_name) {
+        _not_completable_event_group = not_completable_event_group;
+        _not_completable_event_name = not_completable_event_name;
+    }
 
     // User info about the quest log
     vt_utils::ustring _title;
@@ -223,6 +229,9 @@ public:
     // Internal quest info used to know whether the quest is complete.
     std::string _completion_event_group;
     std::string _completion_event_name;
+    // Internal quest info used to know whether the quest is not comppletable anymore.
+    std::string _not_completable_event_group;
+    std::string _not_completable_event_name;
 
     // location information
     vt_video::StillImage _location_image;
@@ -522,19 +531,38 @@ public:
 
     //! \name Quest Log Entry methods
     //@{
-    //! Tells whether a quest id is completed, based on the internal quest info
+    //! \brief Tells whether a quest id is completed, based on the internal quest info
     //! and the current game event values.
-    bool IsQuestCompleted(const std::string &quest_id)
+    //! \param quest_id the string id into quests table for this quest
+    bool IsQuestCompleted(const std::string& quest_id)
     {
-        if (_quest_log_info.find(quest_id) == _quest_log_info.end())
+        std::map<std::string, vt_global::QuestLogInfo>::iterator it = _quest_log_info.find(quest_id);
+        if (it == _quest_log_info.end())
             return false;
-        const QuestLogInfo info = _quest_log_info[quest_id];
+        const QuestLogInfo& info = it->second;
+        if (info._completion_event_group.empty() || info._completion_event_name.empty())
+            return true;
 
         return (GetEventValue(info._completion_event_group, info._completion_event_name) == 1);
     }
 
+    //! \brief Tells whether a quest id is completed, based on the internal quest info
+    //! and the current game event values.
+    //! \param quest_id the string id into quests table for this quest
+    bool IsQuestCompletable(const std::string& quest_id)
+    {
+        std::map<std::string, vt_global::QuestLogInfo>::iterator it = _quest_log_info.find(quest_id);
+        if (it == _quest_log_info.end())
+            return true;
+        const QuestLogInfo& info = it->second;
+        if (info._not_completable_event_group.empty() || info._not_completable_event_name.empty())
+            return true;
+
+        return (GetEventValue(info._not_completable_event_group, info._not_completable_event_name) == 0);
+    }
+
     /** \brief adds a new quest log entry into the quest log entries table
-    *** \param the string id into quests table for this quest
+    *** \param quest_id the string id into quests table for this quest
     *** \return true if the entry was added. false if the entry already exists
     **/
     bool AddQuestLog(const std::string &quest_id)
