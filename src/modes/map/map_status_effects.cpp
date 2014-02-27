@@ -558,10 +558,8 @@ bool MapStatusEffectsSupervisor::ChangeActiveStatusEffect(ActiveMapStatusEffect&
         return false;
 
     // Determine if we are attempting to increment or decrement the intensity of this status
-    bool increase_intensity;
-    if((intensity < GLOBAL_INTENSITY_NEUTRAL) && (intensity >= GLOBAL_INTENSITY_NEG_EXTREME))
-        increase_intensity = false;
-    else if((intensity <= GLOBAL_INTENSITY_POS_EXTREME) && (intensity > GLOBAL_INTENSITY_NEUTRAL))
+    bool increase_intensity = false;
+    if((intensity <= GLOBAL_INTENSITY_POS_EXTREME) && (intensity > GLOBAL_INTENSITY_NEUTRAL))
         increase_intensity = true;
 
     // Holds the unsigned amount of change in intensity in either a positive or negative degree
