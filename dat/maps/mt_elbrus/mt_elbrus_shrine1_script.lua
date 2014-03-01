@@ -633,11 +633,11 @@ function _CreateEvents()
     dialogue:AddLine(text, sophia);
     text = vt_system.Translate("Herth sent you? But he told me it was nothing, that he would handle it!");
     dialogue:AddLineEmote(text, kalya, "exclamation");
-    text = vt_system.Translate("I fear he just wanted you to protect you and make you all meet your destiny at the same time...");
+    text = vt_system.Translate("I fear he just wanted to protect you and make you all meet your destiny at the same time...");
     dialogue:AddLine(text, sophia);
     text = vt_system.Translate("What?! You mean you all knew about the crystal?");
     dialogue:AddLineEmote(text, hero, "exclamation");
-    text = vt_system.Translate("We weren't exactly knowing what would happen, Bronann. But we knew you three had a special burden to carry one day... Herth told us this...");
+    text = vt_system.Translate("We didn't know exactly what would happen, Bronann. But we knew one day the three of you would have to carry a special burden... That is what Herth told us...");
     dialogue:AddLineEventEmote(text, sophia, "Sophia looks west", "Sophia looks north", "sweat drop");
     text = vt_system.Translate("Listen kids, I feel bad about what happened, and I can't help you as a magical force is preventing me from entering the Shrine...");
     dialogue:AddLine(text, sophia);
@@ -653,7 +653,7 @@ function _CreateEvents()
     dialogue:AddLineEmote(text, sophia, "exclamation");
     text = vt_system.Translate("So that's how you help, by selling stuff to us...");
     dialogue:AddLineEmote(text, kalya, "sweat drop");
-    text = vt_system.Translate("Yes, it's a great privilege as I usually don't do such things for children. I'll stay here as long as you'll be stuck, isn't this quite honest?");
+    text = vt_system.Translate("Yes, it's a great privilege as I usually don't do such things for children. I'll stay here as long as you are stuck, isn't this quite honest?");
     dialogue:AddLine(text, sophia);
     text = vt_system.Translate("But, and you'll let us deal with this place, alone??");
     dialogue:AddLineEmote(text, hero, "exclamation");
