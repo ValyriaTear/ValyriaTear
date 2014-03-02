@@ -62,9 +62,9 @@ quests = {
     -- Quest id
     ["catch_chicken"] = {
         -- Title
-        vt_system.Translate("Catch the chicken..."),
+        vt_system.Translate("Catch the chickens..."),
         -- Description
-        vt_system.Translate("Grandma asked me to catch the chicken that flown away. There are three of them..."),
+        vt_system.Translate("Grandma asked me to catch the chickens that flew away. There are three of them..."),
         -- Completion Description
         vt_system.Translate("I was able to find them!"),
         -- Group and event for the quest to be complete.
@@ -72,7 +72,7 @@ quests = {
         -- Location name and banner image filename
         vt_system.Translate("Village of Layna"), "img/menus/locations/mountain_village.png",
         -- Location sub-name and image filename
-        vt_system.Translate("Kalya's house path"), "",
+        vt_system.Translate("Path to Kalya's house"), "",
         -- Events telling the quest isn't completable anymore
         "story", "layna_forest_crystal_event_done"
     },

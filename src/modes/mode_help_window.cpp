@@ -188,7 +188,7 @@ void HelpWindow::_RefreshText()
         _key_table.AddOption(UTranslate("Show details or confirm a transaction"));
         _key_table.AddOption(UTranslate("Menu"));
         _key_table.AddOption(UTranslate(vt_input::InputManager->GetMenuKeyName()));
-        _key_table.AddOption(UTranslate("Change the item displayed category."));
+        _key_table.AddOption(UTranslate("Change the displayed item category."));
         _key_table.AddOption(UTranslate("Cancel"));
         _key_table.AddOption(UTranslate(vt_input::InputManager->GetCancelKeyName()));
         _key_table.AddOption(UTranslate("Get out the Buy/Sell/Confirm mode,\nor quit the shop."));
