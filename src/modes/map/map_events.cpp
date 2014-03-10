@@ -262,14 +262,16 @@ void BattleEncounterEvent::_Start()
         for(uint32 i = 0; i < _battle_scripts.size(); ++i)
             BM->GetScriptSupervisor().AddScript(_battle_scripts[i]);
 
-        TransitionToBattleMode *TM = new TransitionToBattleMode(BM, _is_boss);
+        BM->SetBossBattle(_is_boss);
+
+        TransitionToBattleMode* TM = new TransitionToBattleMode(BM, _is_boss);
 
         ModeManager->Push(TM);
-    } catch(const luabind::error &e) {
+    } catch(const luabind::error& e) {
         PRINT_ERROR << "Error while loading battle encounter event!"
                     << std::endl;
         ScriptManager->HandleLuaError(e);
-    } catch(const luabind::cast_failed &e) {
+    } catch(const luabind::cast_failed& e) {
         PRINT_ERROR << "Error while loading battle encounter event!"
                     << std::endl;
         ScriptManager->HandleCastError(e);

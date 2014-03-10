@@ -458,6 +458,17 @@ public:
     //! \param The animation filename is the animation definition file.
     //! \return the animation object for scripted manipulation purpose.
     private_battle::BattleAnimation* CreateBattleAnimation(const std::string& animation_filename);
+
+    //! \brief Sets whether the current fight is a fight including a boss.
+    //! N.B.: Certain items shouldn't work in a boss fight, for instance.
+    void SetBossBattle(bool is_boss = true) {
+        _is_boss_battle = is_boss;
+    }
+
+    //! \brief Tells whether the current fight is a fight including a boss.
+    bool IsBossBattle() const {
+        return _is_boss_battle;
+    }
     //@}
 
 private:
@@ -571,6 +582,9 @@ private:
 
     //! \brief the battle type time factor, speeding the battle actors depending on the battle type.
     float _battle_type_time_factor;
+
+    //! \brief Tells whether the battle is a boss fight.
+    bool _is_boss_battle;
 
     ////////////////////////////// PRIVATE METHODS ///////////////////////////////
 

@@ -654,6 +654,8 @@ void VirtualSprite::_StartBattleEncounter(EnemySprite *enemy)
     if(!enemy_battle_scripts.empty())
         BM->GetScriptSupervisor().SetScripts(enemy_battle_scripts);
 
+    BM->SetBossBattle(enemy->IsBoss());
+
     TransitionToBattleMode *TM = new TransitionToBattleMode(BM, enemy->IsBoss());
 
     // Indicates to the potential enemy zone that this spawn is dead.

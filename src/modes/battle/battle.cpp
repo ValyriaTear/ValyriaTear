@@ -215,7 +215,8 @@ BattleMode::BattleMode() :
     _scene_mode(false),
     _battle_type(BATTLE_TYPE_WAIT),
     _highest_agility(0),
-    _battle_type_time_factor(BATTLE_WAIT_FACTOR)
+    _battle_type_time_factor(BATTLE_WAIT_FACTOR),
+    _is_boss_battle(false)
 {
     _current_instance = this;
 
