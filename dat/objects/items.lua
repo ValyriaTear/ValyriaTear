@@ -449,6 +449,103 @@ items[1003] = {
     end
 }
 
+items[1004] = {
+    name = vt_system.Translate("Periwinkle Potion"),
+    description = vt_system.Translate("Gives a reasonable boost in strength to an ally for a large amount of time."),
+    icon = "img/icons/items/periwinkle_potion.png",
+    target_type = vt_global.GameGlobal.GLOBAL_TARGET_ALLY,
+    standard_price = 1600,
+    use_warmup_time = 3600,
+    cooldown_time = 2100,
+
+    BattleUse = function(user, target)
+        local target_actor = target:GetActor();
+        if (target_actor:IsAlive() == true) then
+            -- Decrement any active negative base stats status effects when alive
+            target_actor:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_STRENGTH,
+                                                 vt_global.GameGlobal.GLOBAL_INTENSITY_POS_MODERATE,
+                                                 90000);
+            AudioManager:PlaySound("snd/potion_drink.wav");
+            return true;
+        end
+        return false;
+    end,
+
+    FieldUse = function(target)
+        if (target:IsAlive() == true) then
+            -- increment active base stats status effects when alive.
+            target:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_STRENGTH,
+                                           vt_global.GameGlobal.GLOBAL_INTENSITY_POS_MODERATE,
+                                           90000);
+            AudioManager:PlaySound("snd/potion_drink.wav");
+            return true;
+        end
+        return false;
+    end
+}
+
+items[1005] = {
+    name = vt_system.Translate("Haste Potion"),
+    description = vt_system.Translate("Gives a reasonable boost in strength to an ally for a small amount of time."),
+    icon = "img/icons/items/haste_potion.png",
+    target_type = vt_global.GameGlobal.GLOBAL_TARGET_ALLY,
+    standard_price = 1400,
+    use_warmup_time = 1600,
+    cooldown_time = 2100,
+
+    BattleUse = function(user, target)
+        local target_actor = target:GetActor();
+        if (target_actor:IsAlive() == true) then
+            -- Decrement any active negative base stats status effects when alive
+            target_actor:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_AGILITY,
+                                                 vt_global.GameGlobal.GLOBAL_INTENSITY_POS_MODERATE,
+                                                 30000);
+            AudioManager:PlaySound("snd/potion_drink.wav");
+            return true;
+        end
+        return false;
+    end,
+
+    FieldUse = function(target)
+        if (target:IsAlive() == true) then
+            -- increment active base stats status effects when alive.
+            target:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_AGILITY,
+                                           vt_global.GameGlobal.GLOBAL_INTENSITY_POS_MODERATE,
+                                           30000);
+            AudioManager:PlaySound("snd/potion_drink.wav");
+            return true;
+        end
+        return false;
+    end
+}
+
+items[1006] = {
+    name = vt_system.Translate("Poison Potion"),
+    description = vt_system.Translate("Poisons an enemy a for small amount of time."),
+    icon = "img/icons/items/poison_potion.png",
+    target_type = vt_global.GameGlobal.GLOBAL_TARGET_FOE,
+    standard_price = 1400,
+    use_warmup_time = 1600,
+    cooldown_time = 2100,
+
+    BattleUse = function(user, target)
+        local target_actor = target:GetActor();
+        if (target_actor:IsAlive() == true) then
+            -- Decrement any active negative base stats status effects when alive
+            target_actor:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_HP,
+                                                 vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_MODERATE,
+                                                 30000);
+            return true;
+        end
+        return false;
+    end,
+
+    -- Can't be used from menu
+    --FieldUse = function(target)
+        --return false;
+    --end
+}
+
 --------------------------------------------------------------------------------
 -- IDs 2,001 - 3,000 are reserved for elemental potions
 --------------------------------------------------------------------------------
@@ -510,6 +607,93 @@ items[3008] = {
     description = vt_system.Translate("A genuine and perfect feather from the great Fire Bird. It is known to bring life to inanimated items."),
     icon = "img/icons/items/phoenix_feather.png",
     standard_price = 4500
+}
+
+--------------------------------------------------------------------------------
+-- IDs 4,001 - 5,000 are reserved for items with special effects
+--------------------------------------------------------------------------------
+
+-- Gets the average agility value of the hero party.
+function _GetAverageHeroesEvasionLevel()
+    local id = 0;
+    local agility_sum = 0.0;
+
+    local battle_instance = ModeManager:GetTop();
+    local nb_heroes = battle_instance:GetNumberOfCharacters();
+    while id < nb_heroes do
+        local hero = battle_instance:GetCharacterActor(id);
+        if (hero ~= nil and hero:CanFight() == true) then
+            agility_sum = agility_sum + hero:GetAgility();
+        end
+    id = id + 1;
+    end
+
+    if (id == 0) then
+        return 0.0;
+    end
+    return agility_sum / id;
+end
+
+-- Gets the average agility value of the enemy party.
+function _GetAverageEnemiesAgilityLevel()
+    local id = 0;
+    local agility_sum = 0.0;
+
+    local battle_instance = ModeManager:GetTop();
+    local nb_enemies = battle_instance:GetNumberOfEnemies();
+    while id < nb_enemies do
+        local enemy = battle_instance:GetEnemyActor(id);
+        if (enemy ~= nil and enemy:CanFight() == true) then
+            agility_sum = agility_sum + enemy:GetAgility();
+        end
+    id = id + 1;
+    end
+
+    if (id == 0) then
+        return 0.0;
+    end
+    return agility_sum / id;
+end
+
+items[4001] = {
+    name = vt_system.Translate("Escape Smoke"),
+    description = vt_system.Translate("A ninja potion bursting out a damp mist when crashed on the ground. Used to hopefully escape from standard opponents."),
+    icon = "img/icons/items/escape_smoke.png",
+    target_type = vt_global.GameGlobal.GLOBAL_TARGET_SELF,
+    standard_price = 100,
+
+    use_warmup_time = 1600,
+    cooldown_time = 2100,
+
+    BattleUse = function(user, target)
+        -- TODO: Triggers the smoke effect when succeeding
+        -- TODO for later: Adds animation support when using items and triggers effect in any case.
+
+        local battle_instance = ModeManager:GetTop();
+        -- If it's a boss battle, this can't work at all
+        if (battle_instance:IsBossBattle() == true) then
+            return true;
+        end
+
+        -- % chance to miss due to too high agility from enemies, for instance
+        -- Give a slight advantage to the party.
+        local evade_diff = 60.0 + _GetAverageHeroesEvasionLevel() - _GetAverageEnemiesAgilityLevel();
+        if (math.random(0, 100) > evade_diff) then
+            local target_actor = target:GetActor();
+            target_actor:RegisterMiss(true);
+            return true;
+        end
+
+        -- Quit the battle (A parent mode should always be there to take the relay)
+        battle_instance:SetSceneMode(true);
+        ModeManager:Pop(true, true);
+        return true;
+    end,
+
+    -- Can't be used from menu
+    --FieldUse = function(target)
+        --return false;
+    --end
 }
 
 --------------------------------------------------------------------------------
