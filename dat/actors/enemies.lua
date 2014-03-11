@@ -721,7 +721,7 @@ enemies[13] = {
 
     drop_objects = {
         { 1, 0.15 },  -- Minor Healing Potion
-        { 15, 0.05 } -- Lotus Petal (Cures poison)
+        { 15, 0.02 } -- Lotus Petal (Cures poison)
     }
 }
 
@@ -916,7 +916,7 @@ enemies[17] = {
     },
 
     drop_objects = {
-        { 1006, 0.05 }  -- Poison potion
+        { 1006, 0.02 }  -- Poison potion
     }
 }
 
@@ -1023,7 +1023,7 @@ enemies[19] = {
 
     drop_objects = {
         { 12, 0.05 }, -- Medium moon juice
-        { 1004, 0.05 } -- Periwinkle Potion (Strength)
+        { 1004, 0.02 } -- Periwinkle Potion (Strength)
     }
 }
 
