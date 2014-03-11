@@ -24,6 +24,7 @@ local Script = {};
 local hero = {};
 
 -- Forest dialogue secondary hero
+local kalya = {};
 local orlinn = {};
 
 -- Name of the main sprite. Used to reload the good one at the end of dialogue events.
@@ -89,6 +90,14 @@ function _CreateCharacters()
         hero:SetDirection(vt_map.MapMode.WEST);
     end
 
+    kalya = CreateSprite(Map, "Kalya",
+                         hero:GetXPosition(), hero:GetYPosition());
+    kalya:SetDirection(vt_map.MapMode.EAST);
+    kalya:SetMovementSpeed(vt_map.MapMode.NORMAL_SPEED);
+    kalya:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
+    kalya:SetVisible(false);
+    Map:AddGroundObject(kalya);
+
     orlinn = CreateSprite(Map, "Orlinn",
                           hero:GetXPosition(), hero:GetYPosition());
     orlinn:SetDirection(vt_map.MapMode.EAST);
@@ -110,6 +119,8 @@ local flame2_trigger2 = {};
 
 -- The grid preventing from going to the second floor.
 local second_floor_gate = {};
+
+local passage_event_object = {};
 
 function _CreateObjects()
     local object = {}
@@ -140,12 +151,11 @@ function _CreateObjects()
     object = CreateObject(Map, "Box1", 37, 36);
     Map:AddGroundObject(object);
 
-    -- Add an invisible object permitting to trigger the high passage dialogue
-    object = CreateObject(Map, "Box1", 33, 17);
-    object:SetVisible(false);
-    object:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
-    object:SetEventWhenTalking("The hero wonders about the high passage");
-    Map:AddGroundObject(object);
+    -- Add an invisible object permitting to trigger the high passage events
+    passage_event_object = CreateObject(Map, "Box1", 33, 17);
+    passage_event_object:SetVisible(false);
+    passage_event_object:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
+    Map:AddGroundObject(passage_event_object);
 
     -- The two stone trigger will open the gate to the second floor
     stone_trigger1 = vt_map.TriggerObject("mt elbrus shrine 5 trigger 1",
@@ -225,6 +235,13 @@ function _add_flame(x, y)
         vt_video.Color(0.99, 1.0, 0.27, 0.1));
 end
 
+
+-- high passage event
+local kalya_move_next_to_hero_event = {}
+local kalya_move_back_to_hero_event = {}
+local orlinn_move_next_to_hero_event = {}
+local orlinn_move_back_to_hero_event = {}
+
 -- Creates all events and sets up the entire event sequence chain
 function _CreateEvents()
     local event = {};
@@ -249,11 +266,91 @@ function _CreateEvents()
                                        "dat/maps/mt_elbrus/mt_elbrus_shrine8_script.lua", "from_shrine_first_floor_NW_room");
     EventManager:RegisterEvent(event);
 
+    -- Generic events
+    event = vt_map.ChangeDirectionSpriteEvent("Kalya looks north", kalya, vt_map.MapMode.NORTH);
+    EventManager:RegisterEvent(event);
+    event = vt_map.ChangeDirectionSpriteEvent("Orlinn looks north", orlinn, vt_map.MapMode.NORTH);
+    EventManager:RegisterEvent(event);
+    event = vt_map.LookAtSpriteEvent("Kalya looks at Orlinn", kalya, orlinn);
+    EventManager:RegisterEvent(event);
+    event = vt_map.LookAtSpriteEvent("Orlinn looks at Kalya", orlinn, kalya);
+    EventManager:RegisterEvent(event);
+    event = vt_map.LookAtSpriteEvent("Bronann looks at Orlinn", hero, orlinn);
+    EventManager:RegisterEvent(event);
+
     -- Opens the left passage to the next map.
     event = vt_map.ScriptedEvent("Open south west passage", "open_sw_passage_start", "open_sw_passage_update");
     EventManager:RegisterEvent(event);
 
-    -- Tells about Orlinn's passage
+    _UpdatePassageEvent();
+end
+
+function _UpdatePassageEvent()
+    local event = {};
+    local dialogue = {};
+    local text = {};
+
+    -- 3. Just ask whether to climb, and show the throw animation
+    if (GlobalManager:GetEventValue("story", "mt_elbrus_shrine_high_passage_event_done") == 1) then
+        -- TODO
+        passage_event_object:SetEventWhenTalking("");
+        return;
+    elseif (GlobalManager:GetEventValue("story", "mt_elbrus_saw_missing_stone") == 1) then
+        -- 2. Orlinn wants to go to the high passage event (after seeing the stone)
+        event = vt_map.ScriptedEvent("High passage discussion event start", "passage_event_start", "");
+        event:AddEventLinkAtEnd("Kalya moves next to Bronann", 100);
+        event:AddEventLinkAtEnd("Orlinn moves next to Bronann", 100);
+        EventManager:RegisterEvent(event);
+
+        -- NOTE: The actual destination is set just before the actual start call
+        kalya_move_next_to_hero_event = vt_map.PathMoveSpriteEvent("Kalya moves next to Bronann", kalya, 0, 0, false);
+        kalya_move_next_to_hero_event:AddEventLinkAtEnd("Kalya looks north");
+        EventManager:RegisterEvent(kalya_move_next_to_hero_event);
+        orlinn_move_next_to_hero_event = vt_map.PathMoveSpriteEvent("Orlinn moves next to Bronann", orlinn, 0, 0, false);
+        orlinn_move_next_to_hero_event:AddEventLinkAtEnd("Orlinn looks north");
+        orlinn_move_next_to_hero_event:AddEventLinkAtEnd("The heroes discuss about getting to the high passage", 500);
+        EventManager:RegisterEvent(orlinn_move_next_to_hero_event);
+
+        dialogue = vt_map.SpriteDialogue();
+        text = vt_system.Translate("This must be it! We have to climb and open a way somehow...");
+        dialogue:AddLineEmote(text, hero, "thinking dots");
+        text = vt_system.Translate("The fact is, you and me cannot afford standing on those stones. Maybe with a rope?");
+        dialogue:AddLine(text, kalya);
+        text = vt_system.Translate("... I'll do it.");
+        dialogue:AddLine(text, orlinn);
+        text = vt_system.Translate("What? Are you crazy? There could be monsters up here.");
+        dialogue:AddLineEventEmote(text, kalya, "Kalya looks at Orlinn", "", "exclamation");
+        text = vt_system.Translate("Then, I'll deal with them, sis. We can't just stay here, anyway...");
+        dialogue:AddLineEvent(text, orlinn, "Orlinn looks at Kalya", "");
+        text = vt_system.Translate("Orlinn, you sure have grown up because of all this. Are you sure?");
+        dialogue:AddLineEventEmote(text, kalya, "Kalya looks north", "", "sweat drop");
+        text = vt_system.Translate("I need to be ... I guess.");
+        dialogue:AddLineEventEmote(text, orlinn, "Orlinn looks north", "", "sweat drop");
+        text = vt_system.Translate("Just tell me when you're ready and I'll throw you up here.");
+        dialogue:AddLineEvent(text, hero, "Bronann looks at Orlinn", "");
+        text = vt_system.Translate("Yiek!");
+        dialogue:AddLineEventEmote(text, orlinn, "Orlinn looks at Kalya", "", "sweat drop");
+        DialogueManager:AddDialogue(dialogue);
+        event = vt_map.DialogueEvent("The heroes discuss about getting to the high passage", dialogue);
+        event:AddEventLinkAtEnd("Orlinn goes back to party");
+        event:AddEventLinkAtEnd("Kalya goes back to party");
+        EventManager:RegisterEvent(event);
+
+        orlinn_move_back_to_hero_event = vt_map.PathMoveSpriteEvent("Orlinn goes back to party", orlinn, hero, false);
+        orlinn_move_back_to_hero_event:AddEventLinkAtEnd("High passage discussion event end");
+        EventManager:RegisterEvent(orlinn_move_back_to_hero_event);
+
+        kalya_move_back_to_hero_event = vt_map.PathMoveSpriteEvent("Kalya goes back to party", kalya, hero, false);
+        EventManager:RegisterEvent(kalya_move_back_to_hero_event);
+
+        event = vt_map.ScriptedEvent("High passage discussion event end", "passage_event_end", "");
+        EventManager:RegisterEvent(event);
+
+        passage_event_object:SetEventWhenTalking("High passage discussion event start");
+        return;
+    end
+    
+    -- 1. Tells about Orlinn's passage (before seeing the stone)
     dialogue = vt_map.SpriteDialogue();
     text = vt_system.Translate("There is a passage here but I'm too heavy for those stones jutting out. Maybe later...");
     dialogue:AddLine(text, hero);
@@ -262,7 +359,9 @@ function _CreateEvents()
     event:SetStopCameraMovement(true);
     EventManager:RegisterEvent(event);
 
+    passage_event_object:SetEventWhenTalking("The hero wonders about the high passage");
 end
+
 
 -- Sets common battle environment settings for enemy sprites
 function _SetBattleEnvironment(enemy)
@@ -448,5 +547,44 @@ map_functions = {
             return true;
         end
         return false;
+    end,
+
+    passage_event_start = function()
+        Map:PushState(vt_map.MapMode.STATE_SCENE);
+        hero:SetMoving(false);
+
+        -- Keep a reference of the correct sprite for the event end.
+        main_sprite_name = hero:GetSpriteName();
+
+        -- Make the hero be Bronann for the event.
+        hero:ReloadSprite("Bronann");
+
+        kalya:SetPosition(hero:GetXPosition(), hero:GetYPosition());
+        kalya:SetVisible(true);
+        orlinn:SetPosition(hero:GetXPosition(), hero:GetYPosition());
+        orlinn:SetVisible(true);
+        kalya:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
+        orlinn:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
+
+        kalya_move_next_to_hero_event:SetDestination(hero:GetXPosition() - 2.0, hero:GetYPosition(), false);
+        orlinn_move_next_to_hero_event:SetDestination(hero:GetXPosition() + 2.0, hero:GetYPosition(), false);
+    end,
+
+    passage_event_end = function()
+        Map:PopState();
+        kalya:SetPosition(0, 0);
+        kalya:SetVisible(false);
+        kalya:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
+        orlinn:SetPosition(0, 0);
+        orlinn:SetVisible(false);
+        orlinn:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
+
+        -- Reload the hero back to default
+        hero:ReloadSprite(main_sprite_name);
+
+        -- Set event as done
+        GlobalManager:SetEventValue("story", "mt_elbrus_shrine_high_passage_event_done", 1);
+
+        _UpdatePassageEvent();
     end,
 }
