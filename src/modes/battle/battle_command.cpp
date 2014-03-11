@@ -440,6 +440,9 @@ void ItemCommand::ConstructList()
     else {
         _item_list.SetSelection(0);
         _item_target_list.SetSelection(0);
+        // Reset scrolling
+        _item_list.ResetViewableOption();
+        _item_target_list.ResetViewableOption();
     }
 }
 
