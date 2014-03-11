@@ -188,10 +188,17 @@ function _CreateObjects()
     Map:AddGroundObject(flame2_trigger1);
 
     -- Right door: Using a switch
-    flame1_trigger2 = CreateObject(Map, "Flame Pot1", 27, 38);
+    local flame1_trigger2_x_position = 27.0;
+    local flame2_trigger2_x_position = 29.0;
+    -- Sets the passage open if the trigger is pushed
+    if (GlobalManager:GetEventValue("triggers", "mt elbrus shrine 6 trigger 1") == 1) then
+        flame1_trigger2_x_position = 25.0;
+        flame2_trigger2_x_position = 31.0;
+    end
+    flame1_trigger2 = CreateObject(Map, "Flame Pot1", flame1_trigger2_x_position, 38);
     flame1_trigger2:RandomizeCurrentAnimationFrame();
     Map:AddGroundObject(flame1_trigger2);
-    flame2_trigger2 = CreateObject(Map, "Flame Pot1", 29, 38);
+    flame2_trigger2 = CreateObject(Map, "Flame Pot1", flame2_trigger2_x_position, 38);
     flame2_trigger2:RandomizeCurrentAnimationFrame();
     Map:AddGroundObject(flame2_trigger2);
 
@@ -282,6 +289,7 @@ function _CreateEnemies()
     roam_zone = vt_map.EnemyZone(13, 20, 26, 36);
     if (monsters_defeated == false) then
         enemy = CreateEnemySprite(Map, "Skeleton");
+        enemy:SetAggroRange(4.0)
         _SetBattleEnvironment(enemy);
         enemy:NewEnemyParty();
         enemy:AddEnemy(19); -- Skeleton
