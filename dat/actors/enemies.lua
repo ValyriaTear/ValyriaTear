@@ -455,8 +455,7 @@ enemies[8] = {
     },
 
     drop_objects = {
-    { 1, 1.0 }, -- Minor Healing Potion x2
-    { 1, 1.0 }
+        { 16, 1.0 } -- Candy (Regen)
     }
 }
 
@@ -518,8 +517,8 @@ enemies[9] = {
     },
 
     drop_objects = {
-        { 1, 0.15 }, -- Minor Healing Potion
-        { 11, 0.15 } -- Minor Moon Juice
+        { 11, 0.15 }, -- Minor Moon Juice
+        { 4001, 0.05 } -- Escape Smoke
     }
 }
 
@@ -722,6 +721,7 @@ enemies[13] = {
 
     drop_objects = {
         { 1, 0.15 },  -- Minor Healing Potion
+        { 15, 0.05 } -- Lotus Petal (Cures poison)
     }
 }
 
@@ -775,6 +775,7 @@ enemies[14] = {
 
     drop_objects = {
         { 3002, 1.0 },  -- Iron Ore
+        { 1005, 1.0 } -- Haste potion
     }
 }
 
@@ -915,7 +916,7 @@ enemies[17] = {
     },
 
     drop_objects = {
-
+        { 1006, 0.05 }  -- Poison potion
     }
 }
 
@@ -1021,7 +1022,8 @@ enemies[19] = {
     },
 
     drop_objects = {
-        { 12, 0.05 } -- Medium moon juice
+        { 12, 0.05 }, -- Medium moon juice
+        { 1004, 0.05 } -- Periwinkle Potion (Strength)
     }
 }
 
