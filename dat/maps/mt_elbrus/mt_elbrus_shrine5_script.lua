@@ -7,7 +7,7 @@ setfenv(1, ns);
 -- The map name, subname and location image
 map_name = "Mt. Elbrus Shrine"
 map_image_filename = "img/menus/locations/mountain_shrine.png"
-map_subname = ""
+map_subname = "1st Floor"
 
 -- The music file used as default background music on this map.
 -- Other musics will have to handled through scripting.
@@ -42,7 +42,7 @@ function Load(m)
 
     _CreateCharacters();
     _CreateObjects();
-    --_CreateEnemies();
+    _CreateEnemies();
 
     -- Set the camera focus on hero
     Map:SetCamera(hero);
@@ -55,6 +55,11 @@ function Load(m)
     -- Add a mediumly dark overlay
     Map:GetEffectSupervisor():EnableAmbientOverlay("img/ambient/dark.png", 0.0, 0.0, false);
 
+    -- Preloads the action sounds to avoid glitches
+    AudioManager:LoadSound("snd/opening_sword_unsheathe.wav", Map);
+    AudioManager:LoadSound("snd/stone_roll.wav", Map);
+    AudioManager:LoadSound("snd/stone_bump.ogg", Map);
+    AudioManager:LoadSound("snd/trigger_on.wav", Map);
 end
 
 -- the map update function handles checks done on each game tick.
@@ -62,7 +67,7 @@ function Update()
     -- Check whether the character is in one of the zones
     _CheckZones();
     -- Check wether the monsters have been defeated
-    --_CheckMonstersStates();
+    _CheckMonstersStates();
 end
 
 -- Character creation
@@ -120,6 +125,27 @@ function _CreateObjects()
     Map:AddGroundObject(object);
     object = CreateObject(Map, "Candle Holder1", 24, 11);
     Map:AddGroundObject(object);
+    
+    -- TODO: Add stone fence instead when ready.
+    object = CreateObject(Map, "Box1", 43, 26);
+    Map:AddGroundObject(object);
+    object = CreateObject(Map, "Box1", 41, 28);
+    Map:AddGroundObject(object);
+    object = CreateObject(Map, "Box1", 39, 30);
+    Map:AddGroundObject(object);
+    object = CreateObject(Map, "Box1", 37, 32);
+    Map:AddGroundObject(object);
+    object = CreateObject(Map, "Box1", 37, 34);
+    Map:AddGroundObject(object);
+    object = CreateObject(Map, "Box1", 37, 36);
+    Map:AddGroundObject(object);
+
+    -- Add an invisible object permitting to trigger the high passage dialogue
+    object = CreateObject(Map, "Box1", 33, 17);
+    object:SetVisible(false);
+    object:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
+    object:SetEventWhenTalking("The hero wonders about the high passage");
+    Map:AddGroundObject(object);
 
     -- The two stone trigger will open the gate to the second floor
     stone_trigger1 = vt_map.TriggerObject("mt elbrus shrine 5 trigger 1",
@@ -147,15 +173,26 @@ function _CreateObjects()
 
     -- Add flames preventing from using the doors
     -- Left door: Unlocked by beating monsters
-    flame1_trigger1 = CreateObject(Map, "Flame Pot1", 15, 38);
+    local flame1_trigger1_x_position = 15.0;
+    local flame2_trigger1_x_position = 17.0;
+    -- Sets the passage open if the enemies were already beaten
+    if (GlobalManager:GetEventValue("story", "mountain_shrine_1st_NW_monsters_defeated") == 1) then
+        flame1_trigger1_x_position = 13.0;
+        flame2_trigger1_x_position = 19.0;
+    end
+    flame1_trigger1 = CreateObject(Map, "Flame Pot1", flame1_trigger1_x_position, 38);
+    flame1_trigger1:RandomizeCurrentAnimationFrame();
     Map:AddGroundObject(flame1_trigger1);
-    flame2_trigger1 = CreateObject(Map, "Flame Pot1", 17, 38);
+    flame2_trigger1 = CreateObject(Map, "Flame Pot1", flame2_trigger1_x_position, 38);
+    flame2_trigger1:RandomizeCurrentAnimationFrame();
     Map:AddGroundObject(flame2_trigger1);
 
     -- Right door: Using a switch
     flame1_trigger2 = CreateObject(Map, "Flame Pot1", 27, 38);
+    flame1_trigger2:RandomizeCurrentAnimationFrame();
     Map:AddGroundObject(flame1_trigger2);
     flame2_trigger2 = CreateObject(Map, "Flame Pot1", 29, 38);
+    flame2_trigger2:RandomizeCurrentAnimationFrame();
     Map:AddGroundObject(flame2_trigger2);
 
     second_floor_gate = CreateObject(Map, "Gate1 closed", 20, 10);
@@ -172,6 +209,7 @@ function _add_flame(x, y)
     if (object ~= nil) then Map:AddAmbientSoundObject(object) end;
 
     object = CreateObject(Map, "Flame1", x, y);
+    object:RandomizeCurrentAnimationFrame();
     Map:AddGroundObject(object);
 
     Map:AddHalo("img/misc/lights/torch_light_mask2.lua", x, y + 3.0,
@@ -204,6 +242,19 @@ function _CreateEvents()
                                        "dat/maps/mt_elbrus/mt_elbrus_shrine8_script.lua", "from_shrine_first_floor_NW_room");
     EventManager:RegisterEvent(event);
 
+    -- Opens the left passage to the next map.
+    event = vt_map.ScriptedEvent("Open south west passage", "open_sw_passage_start", "open_sw_passage_update");
+    EventManager:RegisterEvent(event);
+
+    -- Tells about Orlinn's passage
+    dialogue = vt_map.SpriteDialogue();
+    text = vt_system.Translate("There is a passage here but I'm too heavy for those stones jutting out. Maybe later...");
+    dialogue:AddLine(text, hero);
+    DialogueManager:AddDialogue(dialogue);
+    event = vt_map.DialogueEvent("The hero wonders about the high passage", dialogue);
+    event:SetStopCameraMovement(true);
+    EventManager:RegisterEvent(event);
+
 end
 
 -- Sets common battle environment settings for enemy sprites
@@ -220,6 +271,7 @@ local monsters_defeated = false;
 function _CreateEnemies()
     local enemy = {};
 
+    -- Checks whether the enemies there have been already defeated...
     if (GlobalManager:GetEventValue("story", "mountain_shrine_1st_NW_monsters_defeated") == 1) then
         monsters_defeated = true;
         return;
@@ -227,22 +279,22 @@ function _CreateEnemies()
 
     -- Monsters that can only be beaten once
     -- Hint: left, right, top, bottom
-    roam_zone = vt_map.EnemyZone(26, 30, 43, 50);
+    roam_zone = vt_map.EnemyZone(13, 20, 26, 36);
     if (monsters_defeated == false) then
         enemy = CreateEnemySprite(Map, "Skeleton");
         _SetBattleEnvironment(enemy);
         enemy:NewEnemyParty();
+        enemy:AddEnemy(19); -- Skeleton
         enemy:AddEnemy(19);
         enemy:AddEnemy(19);
-        enemy:AddEnemy(19);
-        enemy:AddEnemy(18);
+        enemy:AddEnemy(16); -- Rat
         enemy:NewEnemyParty();
-        enemy:AddEnemy(18);
+        enemy:AddEnemy(16);
         enemy:AddEnemy(19);
-        enemy:AddEnemy(17);
-        enemy:AddEnemy(18);
-        roam_zone:AddEnemy(enemy, Map, 2);
-        roam_zone:SetSpawnsLeft(2); -- These monsters shall spawn only one time.
+        enemy:AddEnemy(17); -- Thing
+        enemy:AddEnemy(16);
+        roam_zone:AddEnemy(enemy, Map, 1);
+        roam_zone:SetSpawnsLeft(1); -- These monsters shall spawn only one time.
     end
     Map:AddZone(roam_zone);
 end
@@ -253,15 +305,14 @@ function _CheckMonstersStates()
         return
     end
 
-    if (roam_zone1:GetSpawnsLeft() == 0) then
-        monsters_defeated = true;
+    if (roam_zone:GetSpawnsLeft() > 0) then
+        return
     end
-
-
+    
     -- Open the south left passage
+    monsters_defeated = true;
     hero:SetMoving(false);
-    -- Trigger the dialogue event about the shaking...
-    EventManager:StartEvent("Open south west passage");
+    EventManager:StartEvent("Open south west passage", 1000);
 
     GlobalManager:SetEventValue("story", "mountain_shrine_1st_NW_monsters_defeated", 1);
 end
@@ -315,7 +366,12 @@ function _CheckZones()
 
 end
 
+-- The north east gate y position
 local gate_y_position = 10.0;
+
+-- The fire pots x position
+local sw_passage_pot1_x = 0.0;
+local sw_passage_pot2_x = 0.0;
 
 -- Map Custom functions
 -- Used through scripted events
@@ -361,5 +417,28 @@ map_functions = {
         second_floor_gate:SetPosition(20.0, 7.0);
         second_floor_gate:SetDrawOnSecondPass(true);
         second_floor_gate:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
+    end,
+
+    -- Opens the south west passage, by moving the fire pots out of the way.
+    open_sw_passage_start = function()
+        sw_passage_pot1_x = 15.0;
+        sw_passage_pot2_x = 17.0;
+        AudioManager:PlaySound("snd/stone_roll.wav");
+    end,
+
+    open_sw_passage_update = function()
+        local update_time = SystemManager:GetUpdateTime();
+        local movement_diff = 0.005 * update_time;
+
+        sw_passage_pot1_x = sw_passage_pot1_x - movement_diff;
+        flame1_trigger1:SetPosition(sw_passage_pot1_x, 38.0);
+
+        sw_passage_pot2_x = sw_passage_pot2_x + movement_diff;
+        flame2_trigger1:SetPosition(sw_passage_pot2_x, 38.0);
+
+        if (sw_passage_pot1_x <= 13.0) then
+            return true;
+        end
+        return false;
     end,
 }
