@@ -124,10 +124,11 @@ function _CreateObjects()
     local text = {}
     local event = {}
 
-    -- TODO: Add items in there... A regen potion and strength booster.
     object = CreateTreasure(Map, "Elbrus_Shrine_entrance1", "Jar1", 59, 16);
+    object:AddObject(15, 1); -- Lotus Petal (Regen)
     Map:AddGroundObject(object);
     object = CreateTreasure(Map, "Elbrus_Shrine_entrance2", "Jar1", 20, 46.6);
+    object:AddObject(1004, 1); -- Periwinkle potion (Strength)
     Map:AddGroundObject(object);
 
     Map:AddHalo("img/misc/lights/torch_light_mask.lua", 33.5, 90,
