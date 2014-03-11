@@ -7,7 +7,7 @@ setfenv(1, ns);
 -- The map name, subname and location image
 map_name = "Mt. Elbrus Shrine"
 map_image_filename = "img/menus/locations/mountain_shrine.png"
-map_subname = ""
+map_subname = "1st floor"
 
 -- The music file used as default background music on this map.
 -- Other musics will have to handled through scripting.
@@ -39,6 +39,7 @@ function Load(m)
 
     _CreateCharacters();
     _CreateObjects();
+    _CreateEnemies();
 
     -- Set the camera focus on hero
     Map:SetCamera(hero);
@@ -50,6 +51,11 @@ function Load(m)
 
     -- Add a mediumly dark overlay
     Map:GetEffectSupervisor():EnableAmbientOverlay("img/ambient/dark.png", 0.0, 0.0, false);
+
+    -- Preloads the action sounds to avoid glitches
+    AudioManager:LoadSound("snd/stone_roll.wav", Map);
+    AudioManager:LoadSound("snd/stone_bump.ogg", Map);
+    AudioManager:LoadSound("snd/trigger_on.wav", Map);
 
 end
 
@@ -82,6 +88,13 @@ function _CreateCharacters()
     end
 end
 
+-- Flames preventing from getting through
+local flame1_trigger1 = {};
+local flame2_trigger1 = {};
+local flame1_trigger2 = {};
+local flame2_trigger2 = {};
+local stone_trigger1 = {};
+
 function _CreateObjects()
     local object = {}
     local npc = {}
@@ -91,6 +104,75 @@ function _CreateObjects()
 
     _add_flame(9.5, 7);
     _add_flame(33.5, 7);
+
+    object = CreateObject(Map, "Candle Holder1", 43, 20);
+    Map:AddGroundObject(object);
+    object = CreateObject(Map, "Candle Holder1", 43, 31);
+    Map:AddGroundObject(object);
+
+    object = CreateObject(Map, "Flame Pot1", 13, 11);
+    object:RandomizeCurrentAnimationFrame();
+    Map:AddGroundObject(object);
+    object = CreateObject(Map, "Flame Pot1", 19, 11);
+    object:RandomizeCurrentAnimationFrame();
+    Map:AddGroundObject(object);
+
+    -- TODO: Add stone fence instead when ready.
+    object = CreateObject(Map, "Box1", 39, 12);
+    Map:AddGroundObject(object);
+    object = CreateObject(Map, "Box1", 41, 14);
+    Map:AddGroundObject(object);
+    object = CreateObject(Map, "Box1", 43, 16);
+    Map:AddGroundObject(object);
+
+    -- Add flames preventing from using the doors
+    -- Top Right door: Unlocked by trigger
+    local flame1_trigger1_x_position = 27.0;
+    local flame2_trigger1_x_position = 29.0;
+    -- Sets the passage open if the enemies were already beaten
+    -- FIXME: USE a trigger event instead.
+    if (GlobalManager:GetEventValue("triggers", "mt elbrus shrine 6 trigger 1") == 1) then
+        flame1_trigger1_x_position = 25.0;
+        flame2_trigger1_x_position = 31.0;
+    end
+
+    flame1_trigger1 = CreateObject(Map, "Flame Pot1", flame1_trigger1_x_position, 11);
+    flame1_trigger1:RandomizeCurrentAnimationFrame();
+    Map:AddGroundObject(flame1_trigger1);
+    flame2_trigger1 = CreateObject(Map, "Flame Pot1", flame2_trigger1_x_position, 11);
+    flame2_trigger1:RandomizeCurrentAnimationFrame();
+    Map:AddGroundObject(flame2_trigger1);
+
+    -- Bottom right door: Unlocked by switch
+    local flame1_trigger2_y_position = 34.0;
+    local flame2_trigger2_y_position = 36.0;
+    -- Sets the passage open if the enemies were already beaten
+    -- FIXME: USE a trigger event instead.
+    if (GlobalManager:GetEventValue("story", "mountain_shrine_1st_NE_trigger_pushed") == 1) then
+        flame1_trigger2_y_position = 32.0;
+        flame2_trigger2_y_position = 38.0;
+    end
+
+    flame1_trigger2 = CreateObject(Map, "Flame Pot1", 43.0, flame1_trigger2_y_position);
+    flame1_trigger2:RandomizeCurrentAnimationFrame();
+    Map:AddGroundObject(flame1_trigger2);
+    flame2_trigger2 = CreateObject(Map, "Flame Pot1", 43.0, flame2_trigger2_y_position);
+    flame2_trigger2:RandomizeCurrentAnimationFrame();
+    Map:AddGroundObject(flame2_trigger2);
+
+    -- The two stone trigger will open the gate to the second floor
+    stone_trigger1 = vt_map.TriggerObject("mt elbrus shrine 6 trigger 1",
+                             "img/sprites/map/triggers/rolling_stone_trigger1_off.lua",
+                             "img/sprites/map/triggers/rolling_stone_trigger1_on.lua",
+                             "",
+                             "Check triggers");
+    stone_trigger1:SetObjectID(Map.object_supervisor:GenerateObjectID());
+    stone_trigger1:SetPosition(26, 17);
+    stone_trigger1:SetTriggerableByCharacter(false); -- Only an event can trigger it
+    Map:AddFlatGroundObject(stone_trigger1);
+
+    event = vt_map.ScriptedEvent("Check triggers", "check_triggers", "")
+    EventManager:RegisterEvent(event);
 end
 
 function _add_flame(x, y)
@@ -100,12 +182,42 @@ function _add_flame(x, y)
     if (object ~= nil) then Map:AddAmbientSoundObject(object) end;
 
     object = CreateObject(Map, "Flame1", x, y);
+    object:RandomizeCurrentAnimationFrame();
     Map:AddGroundObject(object);
 
     Map:AddHalo("img/misc/lights/torch_light_mask2.lua", x, y + 3.0,
         vt_video.Color(0.85, 0.32, 0.0, 0.6));
     Map:AddHalo("img/misc/lights/sun_flare_light_main.lua", x, y + 2.0,
         vt_video.Color(0.99, 1.0, 0.27, 0.1));
+end
+
+-- Sets common battle environment settings for enemy sprites
+function _SetBattleEnvironment(enemy)
+    enemy:SetBattleMusicTheme("mus/heroism-OGA-Edward-J-Blakeley.ogg");
+    enemy:SetBattleBackground("img/backdrops/battle/mountain_shrine.png");
+    enemy:AddBattleScript("dat/battles/mountain_shrine_battle_anim.lua");
+end
+
+function _CreateEnemies()
+    local enemy = {};
+
+    -- Monsters that can only be beaten once
+    -- Hint: left, right, top, bottom
+    local roam_zone = vt_map.EnemyZone(7, 20, 22, 33);
+    enemy = CreateEnemySprite(Map, "Skeleton");
+    _SetBattleEnvironment(enemy);
+    enemy:NewEnemyParty();
+    enemy:AddEnemy(19); -- Skeleton
+    enemy:AddEnemy(19);
+    enemy:AddEnemy(19);
+    enemy:AddEnemy(16); -- Rat
+    enemy:NewEnemyParty();
+    enemy:AddEnemy(16);
+    enemy:AddEnemy(19);
+    enemy:AddEnemy(17); -- Thing
+    enemy:AddEnemy(16);
+    roam_zone:AddEnemy(enemy, Map, 1);
+    Map:AddZone(roam_zone);
 end
 
 -- Creates all events and sets up the entire event sequence chain
@@ -125,6 +237,10 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
     event = vt_map.MapTransitionEvent("to mountain shrine 1st floor SE room - bottom door", "dat/maps/mt_elbrus/mt_elbrus_shrine7_map.lua",
                                        "dat/maps/mt_elbrus/mt_elbrus_shrine7_script.lua", "from_shrine_first_floor_SW_bottom_door");
+    EventManager:RegisterEvent(event);
+
+    -- Opens the north east passage to the next map.
+    event = vt_map.ScriptedEvent("Open north east passage", "open_ne_passage_start", "open_ne_passage_update");
     EventManager:RegisterEvent(event);
 
 end
@@ -168,8 +284,44 @@ function _CheckZones()
 
 end
 
+
+-- The fire pots x position
+local ne_passage_pot1_x = 0.0;
+local ne_passage_pot2_x = 0.0;
+
 -- Map Custom functions
 -- Used through scripted events
 map_functions = {
+    -- Check whether both triggers are activated and then free the way.
+    check_triggers = function()
+        if (stone_trigger1:GetState() == true) then
+            -- Play a click sound when a trigger is pushed
+            AudioManager:PlaySound("snd/trigger_on.wav");
+            -- Free the way
+            EventManager:StartEvent("Open north east passage", 1000);
+        end
+    end,
 
+    -- Opens the south west passage, by moving the fire pots out of the way.
+    open_ne_passage_start = function()
+        ne_passage_pot1_x = 27.0;
+        ne_passage_pot2_x = 29.0;
+        AudioManager:PlaySound("snd/stone_roll.wav");
+    end,
+
+    open_ne_passage_update = function()
+        local update_time = SystemManager:GetUpdateTime();
+        local movement_diff = 0.005 * update_time;
+
+        ne_passage_pot1_x = ne_passage_pot1_x - movement_diff;
+        flame1_trigger1:SetPosition(ne_passage_pot1_x, 11.0);
+
+        ne_passage_pot2_x = ne_passage_pot2_x + movement_diff;
+        flame2_trigger1:SetPosition(ne_passage_pot2_x, 11.0);
+
+        if (ne_passage_pot1_x <= 25.0) then
+            return true;
+        end
+        return false;
+    end,
 }
