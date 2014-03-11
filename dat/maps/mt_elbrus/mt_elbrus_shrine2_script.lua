@@ -288,6 +288,7 @@ function _add_flame(x, y)
     if (object ~= nil) then Map:AddAmbientSoundObject(object) end;
 
     object = CreateObject(Map, "Flame1", x, y);
+    object:RandomizeCurrentAnimationFrame();
     Map:AddGroundObject(object);
 
     Map:AddHalo("img/misc/lights/torch_light_mask2.lua", x, y + 3.0,
