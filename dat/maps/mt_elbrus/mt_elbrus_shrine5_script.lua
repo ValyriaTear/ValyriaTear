@@ -136,23 +136,22 @@ function _CreateObjects()
     Map:AddGroundObject(object);
     object = CreateObject(Map, "Candle Holder1", 24, 11);
     Map:AddGroundObject(object);
-    
-    -- TODO: Add stone fence instead when ready.
-    object = CreateObject(Map, "Box1", 43, 26);
+
+    object = CreateObject(Map, "Stone Fence1", 43, 26);
     Map:AddGroundObject(object);
-    object = CreateObject(Map, "Box1", 41, 28);
+    object = CreateObject(Map, "Stone Fence1", 41, 28);
     Map:AddGroundObject(object);
-    object = CreateObject(Map, "Box1", 39, 30);
+    object = CreateObject(Map, "Stone Fence1", 39, 30);
     Map:AddGroundObject(object);
-    object = CreateObject(Map, "Box1", 37, 32);
+    object = CreateObject(Map, "Stone Fence1", 37, 32);
     Map:AddGroundObject(object);
-    object = CreateObject(Map, "Box1", 37, 34);
+    object = CreateObject(Map, "Stone Fence1", 37, 34);
     Map:AddGroundObject(object);
-    object = CreateObject(Map, "Box1", 37, 36);
+    object = CreateObject(Map, "Stone Fence1", 37, 36);
     Map:AddGroundObject(object);
 
     -- Add an invisible object permitting to trigger the high passage events
-    passage_event_object = CreateObject(Map, "Box1", 33, 17);
+    passage_event_object = CreateObject(Map, "Stone Fence1", 33, 17);
     passage_event_object:SetVisible(false);
     passage_event_object:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
     Map:AddGroundObject(passage_event_object);
@@ -349,7 +348,7 @@ function _UpdatePassageEvent()
         passage_event_object:SetEventWhenTalking("High passage discussion event start");
         return;
     end
-    
+
     -- 1. Tells about Orlinn's passage (before seeing the stone)
     dialogue = vt_map.SpriteDialogue();
     text = vt_system.Translate("There is a passage here but I'm too heavy for those stones jutting out. Maybe later...");
@@ -415,7 +414,7 @@ function _CheckMonstersStates()
     if (roam_zone:GetSpawnsLeft() > 0) then
         return
     end
-    
+
     -- Open the south left passage
     monsters_defeated = true;
     hero:SetMoving(false);
@@ -516,7 +515,7 @@ map_functions = {
             return true;
         end
         return false;
-        
+
     end,
 
     -- Set the gate directly to the open state

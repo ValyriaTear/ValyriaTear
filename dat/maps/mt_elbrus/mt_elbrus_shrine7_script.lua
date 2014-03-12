@@ -101,14 +101,13 @@ function _CreateObjects()
     object = CreateObject(Map, "Candle Holder1", 5, 31);
     Map:AddGroundObject(object);
 
-    -- TODO: Add stone fence instead when ready.
-    object = CreateObject(Map, "Box1", 11, 10);
+    object = CreateObject(Map, "Stone Fence1", 11, 10);
     Map:AddGroundObject(object);
-    object = CreateObject(Map, "Box1", 9, 12);
+    object = CreateObject(Map, "Stone Fence1", 9, 12);
     Map:AddGroundObject(object);
-    object = CreateObject(Map, "Box1", 7, 14);
+    object = CreateObject(Map, "Stone Fence1", 7, 14);
     Map:AddGroundObject(object);
-    object = CreateObject(Map, "Box1", 5, 16);
+    object = CreateObject(Map, "Stone Fence1", 5, 16);
     Map:AddGroundObject(object);
 
     -- Bottom right door: Unlocked by switch
@@ -353,7 +352,7 @@ local stone_direction3 = vt_map.MapMode.EAST;
 map_functions = {
 
     missing_stone_event_start = function()
-        Map:PushState(vt_map.MapMode.STATE_SCENE);        
+        Map:PushState(vt_map.MapMode.STATE_SCENE);
     end,
 
     missing_stone_event_end = function()

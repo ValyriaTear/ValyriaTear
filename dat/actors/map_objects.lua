@@ -472,6 +472,14 @@ objects["Stone Sign1"] = {
    img_height = 2.18
 }
 
+objects["Stone Fence1"] = {
+   animation_filename = "img/sprites/map/objects/stone_fence1.lua",
+   coll_half_width = 1.0,
+   coll_height = 1.8,
+   img_half_width = 1.0,
+   img_height = 2.625
+}
+
 objects["Stele1"] = {
    animation_filename = "img/sprites/map/objects/stele1.lua",
    coll_half_width = 1.0,

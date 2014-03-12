@@ -117,12 +117,11 @@ function _CreateObjects()
     object:RandomizeCurrentAnimationFrame();
     Map:AddGroundObject(object);
 
-    -- TODO: Add stone fence instead when ready.
-    object = CreateObject(Map, "Box1", 39, 12);
+    object = CreateObject(Map, "Stone Fence1", 39, 12);
     Map:AddGroundObject(object);
-    object = CreateObject(Map, "Box1", 41, 14);
+    object = CreateObject(Map, "Stone Fence1", 41, 14);
     Map:AddGroundObject(object);
-    object = CreateObject(Map, "Box1", 43, 16);
+    object = CreateObject(Map, "Stone Fence1", 43, 16);
     Map:AddGroundObject(object);
 
     -- Add flames preventing from using the doors
