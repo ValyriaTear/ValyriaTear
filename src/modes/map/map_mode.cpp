@@ -80,7 +80,8 @@ MapMode::MapMode(const std::string& data_filename, const std::string& script_fil
     _run_stamina(stamina),
     _gui_alpha(0.0f),
     _minimap(NULL),
-    _show_minimap(false)
+    _show_minimap(false),
+    _menu_enabled(true)
 {
     mode_type = MODE_MANAGER_MAP_MODE;
     _current_instance = this;
@@ -744,7 +745,7 @@ void MapMode::_CreateMinimap()
 void MapMode::_UpdateExplore()
 {
     // First go to menu mode if the user requested it
-    if(InputManager->MenuPress()) {
+    if(_menu_enabled && InputManager->MenuPress()) {
         MenuMode *MM = new MenuMode();
         ModeManager->Push(MM);
         return;

@@ -120,6 +120,8 @@ void BindModeCode()
             .def("SetMinimapImage", &MapMode::SetMinimapImage)
             .def("GetStamina", &MapMode::GetStamina)
             .def("SetStamina", &MapMode::SetStamina)
+            .def("IsMenuEnabled", &MapMode::IsMenuEnabled)
+            .def("SetMenuEnabled", &MapMode::SetMenuEnabled)
 
             // Namespace constants
             .enum_("constants") [

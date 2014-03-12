@@ -343,6 +343,16 @@ public:
             _CreateMinimap();
     }
 
+    //! \brief Sets whether the menu mode is available from the map mode.
+    void SetMenuEnabled(bool enabled) {
+        _menu_enabled = enabled;
+    }
+
+    //! \brief Tells whether the menu mode is available from the map mode.
+    bool IsMenuEnabled() {
+        return _menu_enabled;
+    }
+
     //@}
 
 private:
@@ -515,6 +525,9 @@ private:
 
     //! \brief The character party status effects supervisor
     private_map::MapStatusEffectsSupervisor _status_effect_supervisor;
+
+    //! \brief Tells whether the menu mode is available from the map mode.
+    bool _menu_enabled;
 
     // ----- Methods -----
 
