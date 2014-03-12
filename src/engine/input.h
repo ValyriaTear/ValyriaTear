@@ -193,6 +193,7 @@ private:
     bool _right_state;
     bool _confirm_state;
     bool _cancel_state;
+    bool _menu_state;
     //@}
 
     /** \name  Input Press Members
@@ -341,6 +342,10 @@ public:
 
     bool CancelState() const {
         return _cancel_state;
+    }
+
+    bool MenuState() const {
+        return _menu_state;
     }
     //@}
 

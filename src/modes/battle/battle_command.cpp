@@ -1120,12 +1120,14 @@ void CommandSupervisor::_UpdateAction()
         GlobalManager->Media().PlaySound("cancel");
         return;
     }
-    else if(InputManager->MenuPress()) {
-        _show_information = !_show_information;
-        if (_show_information)
-            _UpdateActionInformation();
-        GlobalManager->Media().PlaySound("confirm");
-        return;
+
+    // Handles showing skills/item info on menu key pressed state
+    if(InputManager->MenuState()) {
+        _show_information = true;
+        _UpdateActionInformation();
+    }
+    else {
+        _show_information = false;
     }
 
     if(_IsSkillCategorySelected() == true) {

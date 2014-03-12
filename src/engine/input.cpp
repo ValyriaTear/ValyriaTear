@@ -67,6 +67,7 @@ InputEngine::InputEngine()
     _cancel_state         = false;
     _cancel_press         = false;
     _cancel_release       = false;
+    _menu_state           = false;
     _menu_press           = false;
     _menu_release         = false;
     _minimap_press        = false;
@@ -397,6 +398,7 @@ void InputEngine::_KeyEventHandler(SDL_KeyboardEvent &key_event)
             _cancel_press = true;
             return;
         } else if(key_event.keysym.sym == _key.menu) {
+            _menu_state = true;
             _menu_press = true;
             return;
         } else if(key_event.keysym.sym == _key.minimap) {
@@ -447,6 +449,7 @@ void InputEngine::_KeyEventHandler(SDL_KeyboardEvent &key_event)
             _cancel_release = true;
             return;
         } else if(key_event.keysym.sym == _key.menu) {
+            _menu_state = false;
             _menu_release = true;
             return;
         } else if(key_event.keysym.sym == _key.minimap) {
@@ -585,6 +588,7 @@ void InputEngine::_JoystickEventHandler(SDL_Event &js_event)
             _cancel_press = true;
             return;
         } else if(js_event.jbutton.button == _joystick.menu) {
+            _menu_state = true;
             _menu_press = true;
             return;
         } else if(js_event.jbutton.button == _joystick.minimap) {
@@ -612,6 +616,7 @@ void InputEngine::_JoystickEventHandler(SDL_Event &js_event)
             _cancel_release = true;
             return;
         } else if(js_event.jbutton.button == _joystick.menu) {
+            _menu_state = false;
             _menu_release = true;
             return;
         } else if(js_event.jbutton.button == _joystick.minimap) {
