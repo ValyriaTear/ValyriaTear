@@ -51,6 +51,9 @@ class GlobalObject;
 namespace vt_map
 {
 
+//! The stamina maximum value.
+const uint32 STAMINA_FULL = 10000;
+
 //! An internal namespace to be used only within the map code. Don't use this namespace anywhere else!
 namespace private_map
 {
@@ -109,7 +112,9 @@ class MapMode : public vt_mode_manager::GameMode
 public:
     //! \param data_filename The name of the Lua file that retains all data about the map to create
     //! \param script_filename The name of the Lua file that retains all data about script to load
-    MapMode(const std::string &data_filename, const std::string& script_filename);
+    //! \param stamina The amount of stamina the map character sprite will start with.
+    //! \note the last parameter is usually set to carry the current stamina value from one map to another.
+    MapMode(const std::string &data_filename, const std::string& script_filename, uint32 stamina = STAMINA_FULL);
 
     ~MapMode();
 

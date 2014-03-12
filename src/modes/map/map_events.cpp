@@ -185,7 +185,9 @@ bool MapTransitionEvent::_Update()
     // break the fade smoothness and visible duration.
     if(!_done) {
         vt_global::GlobalManager->SetPreviousLocation(_transition_origin);
-        MapMode *MM = new MapMode(_transition_map_data_filename, _transition_map_script_filename);
+        MapMode* MM = new MapMode(_transition_map_data_filename,
+                                  _transition_map_script_filename,
+                                  MapMode::CurrentInstance()->GetStamina());
         ModeManager->Pop();
         ModeManager->Push(MM, false, true);
         _done = true;

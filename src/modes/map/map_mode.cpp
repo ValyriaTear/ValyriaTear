@@ -51,9 +51,6 @@ using namespace vt_map::private_map;
 namespace vt_map
 {
 
-//! The stamina maximum value.
-const uint32 STAMINA_FULL = 10000;
-
 // Initialize static class variables
 MapMode *MapMode::_current_instance = NULL;
 
@@ -61,7 +58,7 @@ MapMode *MapMode::_current_instance = NULL;
 // ********** MapMode Public Class Methods
 // ****************************************************************************
 
-MapMode::MapMode(const std::string& data_filename, const std::string& script_filename) :
+MapMode::MapMode(const std::string& data_filename, const std::string& script_filename, uint32 stamina) :
     GameMode(),
     _activated(false),
     _map_data_filename(data_filename),
@@ -80,7 +77,7 @@ MapMode::MapMode(const std::string& data_filename, const std::string& script_fil
     _running_disabled(false),
     _unlimited_stamina(false),
     _show_gui(true),
-    _run_stamina(STAMINA_FULL),
+    _run_stamina(stamina),
     _gui_alpha(0.0f),
     _minimap(NULL),
     _show_minimap(false)
