@@ -555,8 +555,8 @@ sprites["Skeleton"] = {
     name = vt_system.Translate("Skeleton"),
     coll_half_width = 0.6,
     coll_height = 1.2,
-    img_half_width = 1.25,
-    img_height = 2.6,
+    img_half_width = 2.0,
+    img_height = 4.0,
     movement_speed = ENEMY_SPEED,
     --face_portrait = "",
 
