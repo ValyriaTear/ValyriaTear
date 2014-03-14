@@ -74,24 +74,21 @@ function _CreateCharacters()
     hero:SetMovementSpeed(vt_map.MapMode.NORMAL_SPEED);
     Map:AddGroundObject(hero);
 
-    kalya = CreateSprite(Map, "Kalya",
-                         0, 0);
+    kalya = CreateSprite(Map, "Kalya", 0, 0);
     kalya:SetDirection(vt_map.MapMode.EAST);
     kalya:SetMovementSpeed(vt_map.MapMode.NORMAL_SPEED);
     kalya:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
     kalya:SetVisible(false);
     Map:AddGroundObject(kalya);
 
-    orlinn = CreateSprite(Map, "Orlinn",
-                          0, 0);
+    orlinn = CreateSprite(Map, "Orlinn", 0, 0);
     orlinn:SetDirection(vt_map.MapMode.EAST);
     orlinn:SetMovementSpeed(vt_map.MapMode.FAST_SPEED);
     orlinn:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
     orlinn:SetVisible(false);
     Map:AddGroundObject(orlinn);
 
-    bronann = CreateSprite(Map, "Bronann",
-                          0, 0);
+    bronann = CreateSprite(Map, "Bronann", 0, 0);
     bronann:SetDirection(vt_map.MapMode.EAST);
     bronann:SetMovementSpeed(vt_map.MapMode.NORMAL_SPEED);
     bronann:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
@@ -141,10 +138,10 @@ local stone_trigger1 = {};
 local stone_trigger2 = {};
 
 -- Flames preventing from getting through
-local flame1_trigger1 = {};
-local flame2_trigger1 = {};
-local flame1_trigger2 = {};
-local flame2_trigger2 = {};
+local fence1_trigger1 = {};
+local fence2_trigger1 = {};
+local fence1_trigger2 = {};
+local fence2_trigger2 = {};
 
 -- Monster trap object
 local trap_spikes = {}
@@ -184,8 +181,7 @@ function _CreateObjects()
     object = CreateObject(Map, "Stone Fence1", 37, 36);
     Map:AddGroundObject(object);
 
-    -- TODO: replace this with spikes
-    trap_spikes = CreateObject(Map, "Stone Fence1", 14, 26);
+    trap_spikes = CreateObject(Map, "Spikes1", 14, 26);
     trap_spikes:SetVisible(false);
     trap_spikes:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
     Map:AddGroundObject(trap_spikes);
@@ -232,34 +228,34 @@ function _CreateObjects()
 
     -- Add flames preventing from using the doors
     -- Left door: Unlocked by beating monsters
-    local flame1_trigger1_x_position = 15.0;
-    local flame2_trigger1_x_position = 17.0;
+    local fence1_trigger1_x_position = 15.0;
+    local fence2_trigger1_x_position = 17.0;
     -- Sets the passage open if the enemies were already beaten
     if (GlobalManager:GetEventValue("story", "mountain_shrine_1st_NW_monsters_defeated") == 1) then
-        flame1_trigger1_x_position = 13.0;
-        flame2_trigger1_x_position = 19.0;
+        fence1_trigger1_x_position = 13.0;
+        fence2_trigger1_x_position = 19.0;
     end
-    flame1_trigger1 = CreateObject(Map, "Flame Pot1", flame1_trigger1_x_position, 38);
-    flame1_trigger1:RandomizeCurrentAnimationFrame();
-    Map:AddGroundObject(flame1_trigger1);
-    flame2_trigger1 = CreateObject(Map, "Flame Pot1", flame2_trigger1_x_position, 38);
-    flame2_trigger1:RandomizeCurrentAnimationFrame();
-    Map:AddGroundObject(flame2_trigger1);
+    fence1_trigger1 = CreateObject(Map, "Stone Fence1", fence1_trigger1_x_position, 38);
+    fence1_trigger1:RandomizeCurrentAnimationFrame();
+    Map:AddGroundObject(fence1_trigger1);
+    fence2_trigger1 = CreateObject(Map, "Stone Fence1", fence2_trigger1_x_position, 38);
+    fence2_trigger1:RandomizeCurrentAnimationFrame();
+    Map:AddGroundObject(fence2_trigger1);
 
     -- Right door: Using a switch
-    local flame1_trigger2_x_position = 27.0;
-    local flame2_trigger2_x_position = 29.0;
+    local fence1_trigger2_x_position = 27.0;
+    local fence2_trigger2_x_position = 29.0;
     -- Sets the passage open if the trigger is pushed
     if (GlobalManager:GetEventValue("triggers", "mt elbrus shrine 6 trigger 1") == 1) then
-        flame1_trigger2_x_position = 25.0;
-        flame2_trigger2_x_position = 31.0;
+        fence1_trigger2_x_position = 25.0;
+        fence2_trigger2_x_position = 31.0;
     end
-    flame1_trigger2 = CreateObject(Map, "Flame Pot1", flame1_trigger2_x_position, 38);
-    flame1_trigger2:RandomizeCurrentAnimationFrame();
-    Map:AddGroundObject(flame1_trigger2);
-    flame2_trigger2 = CreateObject(Map, "Flame Pot1", flame2_trigger2_x_position, 38);
-    flame2_trigger2:RandomizeCurrentAnimationFrame();
-    Map:AddGroundObject(flame2_trigger2);
+    fence1_trigger2 = CreateObject(Map, "Stone Fence1", fence1_trigger2_x_position, 38);
+    fence1_trigger2:RandomizeCurrentAnimationFrame();
+    Map:AddGroundObject(fence1_trigger2);
+    fence2_trigger2 = CreateObject(Map, "Stone Fence1", fence2_trigger2_x_position, 38);
+    fence2_trigger2:RandomizeCurrentAnimationFrame();
+    Map:AddGroundObject(fence2_trigger2);
 
     second_floor_gate = CreateObject(Map, "Gate1 closed", 20, 10);
     Map:AddGroundObject(second_floor_gate);
@@ -594,7 +590,6 @@ function _CreateEnemies()
     roam_zone = vt_map.EnemyZone(13, 20, 26, 36);
     if (monsters_defeated == false) then
         enemy = CreateEnemySprite(Map, "Skeleton");
-        enemy:SetAggroRange(4.0)
         _SetBattleEnvironment(enemy);
         enemy:NewEnemyParty();
         enemy:AddEnemy(19); -- Skeleton
@@ -630,11 +625,6 @@ function _CheckMonstersStates()
     monsters_defeated = true;
     hero:SetMoving(false);
     EventManager:StartEvent("Open south west passage", 1000);
-    
-    -- Hide spikes
-    trap_spikes:SetVisible(false);
-    trap_spikes:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
-    AudioManager:PlaySound("snd/opening_sword_unsheathe.wav");
 
     GlobalManager:SetEventValue("story", "mountain_shrine_1st_NW_monsters_defeated", 1);
 end
@@ -693,7 +683,7 @@ function _CheckZones()
     elseif (trap_triggered == false and monster_trap_zone:IsCameraEntering() == true) then
         if (GlobalManager:GetEventValue("story", "mountain_shrine_1st_NW_monsters_defeated") == 0) then
             trap_triggered = true;
-            -- Hide spikes
+            -- Show spikes
             trap_spikes:SetVisible(true);
             trap_spikes:SetCollisionMask(vt_map.MapMode.ALL_COLLISION);
             AudioManager:PlaySound("snd/opening_sword_unsheathe.wav");
@@ -782,12 +772,16 @@ map_functions = {
         local movement_diff = 0.005 * update_time;
 
         sw_passage_pot1_x = sw_passage_pot1_x - movement_diff;
-        flame1_trigger1:SetPosition(sw_passage_pot1_x, 38.0);
+        fence1_trigger1:SetPosition(sw_passage_pot1_x, 38.0);
 
         sw_passage_pot2_x = sw_passage_pot2_x + movement_diff;
-        flame2_trigger1:SetPosition(sw_passage_pot2_x, 38.0);
+        fence2_trigger1:SetPosition(sw_passage_pot2_x, 38.0);
 
         if (sw_passage_pot1_x <= 13.0) then
+            -- Hide spikes
+            trap_spikes:SetVisible(false);
+            trap_spikes:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
+            AudioManager:PlaySound("snd/opening_sword_unsheathe.wav");
             return true;
         end
         return false;
