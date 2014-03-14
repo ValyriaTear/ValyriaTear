@@ -617,7 +617,7 @@ function _CreateEvents()
     dialogue:AddLine(text, sophia);
     text = vt_system.Translate("When I saw you leaving the village to the sanctuary, I decided to follow you.");
     dialogue:AddLineEvent(text, sophia, "Sophia looks west", "Sophia looks north");
-    text = vt_system.Translate("But the time I reached the place, you three were gone... And I had to found out where you were heading.");
+    text = vt_system.Translate("But the time I reached the area, you three were gone... And I had to found out where you were heading.");
     dialogue:AddLine(text, sophia);
     text = vt_system.Translate("But the bridge, how did you cross?");
     dialogue:AddLineEmote(text, kalya, "thinking dots");
@@ -655,7 +655,7 @@ function _CreateEvents()
     dialogue:AddLineEmote(text, kalya, "sweat drop");
     text = vt_system.Translate("Yes, it's a great privilege as I usually don't do such things for children. I'll stay here as long as you are stuck, isn't this quite honest?");
     dialogue:AddLine(text, sophia);
-    text = vt_system.Translate("But, and you'll let us deal with this place, alone??");
+    text = vt_system.Translate("But, you'll let us deal with this place, alone??");
     dialogue:AddLineEmote(text, hero, "exclamation");
     text = vt_system.Translate("This place is part of your burden. Herth was right. You managed to come here all by yourselves, after all...");
     dialogue:AddLine(text, sophia);
