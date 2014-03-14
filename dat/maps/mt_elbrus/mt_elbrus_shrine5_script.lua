@@ -44,7 +44,6 @@ function Load(m)
 
     _CreateCharacters();
     _CreateObjects();
-    _CreateEnemies();
 
     _CreateEvents();
     _CreateZones();
@@ -147,6 +146,9 @@ local flame2_trigger1 = {};
 local flame1_trigger2 = {};
 local flame2_trigger2 = {};
 
+-- Monster trap object
+local trap_spikes = {}
+
 -- The grid preventing from going to the second floor.
 local second_floor_gate = {};
 
@@ -181,6 +183,12 @@ function _CreateObjects()
     Map:AddGroundObject(object);
     object = CreateObject(Map, "Stone Fence1", 37, 36);
     Map:AddGroundObject(object);
+
+    -- TODO: replace this with spikes
+    trap_spikes = CreateObject(Map, "Stone Fence1", 14, 26);
+    trap_spikes:SetVisible(false);
+    trap_spikes:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
+    Map:AddGroundObject(trap_spikes);
 
     -- Add an invisible object permitting to trigger the high passage events
     passage_event_object = CreateObject(Map, "Stone Fence1", 33, 17);
@@ -569,7 +577,7 @@ function _SetBattleEnvironment(enemy)
 end
 
 -- Enemies to defeat before opening the south-west passage
-local roam_zone = {};
+local roam_zone = nil;
 local monsters_defeated = false;
 
 function _CreateEnemies()
@@ -598,7 +606,7 @@ function _CreateEnemies()
         enemy:AddEnemy(19);
         enemy:AddEnemy(17); -- Thing
         enemy:AddEnemy(16);
-        roam_zone:AddEnemy(enemy, Map, 1);
+        roam_zone:AddEnemy(enemy, Map, 10);
         roam_zone:SetSpawnsLeft(1); -- These monsters shall spawn only one time.
     end
     Map:AddZone(roam_zone);
@@ -610,6 +618,10 @@ function _CheckMonstersStates()
         return
     end
 
+    if (roam_zone == nil) then
+        return
+    end
+
     if (roam_zone:GetSpawnsLeft() > 0) then
         return
     end
@@ -618,6 +630,11 @@ function _CheckMonstersStates()
     monsters_defeated = true;
     hero:SetMoving(false);
     EventManager:StartEvent("Open south west passage", 1000);
+    
+    -- Hide spikes
+    trap_spikes:SetVisible(false);
+    trap_spikes:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
+    AudioManager:PlaySound("snd/opening_sword_unsheathe.wav");
 
     GlobalManager:SetEventValue("story", "mountain_shrine_1st_NW_monsters_defeated", 1);
 end
@@ -628,6 +645,8 @@ local to_shrine_2nd_floor_room_zone = {};
 local to_shrine_SW_left_door_room_zone = {};
 local to_shrine_SW_right_door_room_zone = {};
 local to_shrine_NE_room_zone = {};
+
+local monster_trap_zone = {};
 
 -- Create the different map zones triggering events
 function _CreateZones()
@@ -648,7 +667,11 @@ function _CreateZones()
     to_shrine_NE_room_zone = vt_map.CameraZone(46, 48, 8, 12);
     Map:AddZone(to_shrine_NE_room_zone);
 
+    monster_trap_zone = vt_map.CameraZone(11, 21, 29, 38);
+    Map:AddZone(monster_trap_zone);
 end
+
+local trap_triggered = false;
 
 -- Check whether the active camera has entered a zone. To be called within Update()
 function _CheckZones()
@@ -667,6 +690,18 @@ function _CheckZones()
     elseif (to_shrine_NE_room_zone:IsCameraEntering() == true) then
         hero:SetDirection(vt_map.MapMode.EAST);
         EventManager:StartEvent("to mountain shrine 1st floor NE room");
+    elseif (trap_triggered == false and monster_trap_zone:IsCameraEntering() == true) then
+        if (GlobalManager:GetEventValue("story", "mountain_shrine_1st_NW_monsters_defeated") == 0) then
+            trap_triggered = true;
+            -- Hide spikes
+            trap_spikes:SetVisible(true);
+            trap_spikes:SetCollisionMask(vt_map.MapMode.ALL_COLLISION);
+            AudioManager:PlaySound("snd/opening_sword_unsheathe.wav");
+            -- Add the enemies.
+            _CreateEnemies();
+        else
+            trap_triggered = true;
+        end
     end
 
 end
