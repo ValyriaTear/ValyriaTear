@@ -110,6 +110,13 @@ function _CreateObjects()
     object = CreateObject(Map, "Stone Fence1", 5, 16);
     Map:AddGroundObject(object);
 
+    -- Add an invisible object permitting to trigger the same event.
+    object = CreateObject(Map, "Stone Fence1", 28, 15);
+    object:SetVisible(false);
+    object:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
+    object:SetEventWhenTalking("Heroes see the missing stone event");
+    Map:AddGroundObject(object);
+
     -- Bottom right door: Unlocked by switch
     local flame1_trigger1_y_position = 34.0;
     local flame2_trigger1_y_position = 36.0;
@@ -187,10 +194,10 @@ function _CreateEvents()
 
     -- The dialogue where the heroes see the missing stones.
     event = vt_map.ScriptedEvent("Heroes see the missing stone event", "missing_stone_event_start", "");
-    event:AddEventLinkAtEnd("The hero runs to a good view point");
+    event:AddEventLinkAtEnd("Set camera on stone", 100);
     EventManager:RegisterEvent(event);
 
-    event = vt_map.PathMoveSpriteEvent("The hero runs to a good view point", hero, 28, 16, true);
+    event = vt_map.ScriptedEvent("Set camera on stone", "set_camera_on_stone", "set_camera_update");
     event:AddEventLinkAtEnd("The hero talks about finding a way to get there");
     EventManager:RegisterEvent(event);
 
@@ -201,6 +208,10 @@ function _CreateEvents()
     DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("The hero talks about finding a way to get there", dialogue);
     event:SetStopCameraMovement(true);
+    event:AddEventLinkAtEnd("Set camera on hero");
+    EventManager:RegisterEvent(event);
+
+    event = vt_map.ScriptedEvent("Set camera on hero", "set_camera_on_hero", "set_camera_update");
     event:AddEventLinkAtEnd("Heroes see the missing stone event end");
     EventManager:RegisterEvent(event);
 
@@ -227,7 +238,7 @@ function _CreateZones()
     Map:AddZone(to_shrine_NE_room_zone);
 
     -- The zone where the characters see the missing stone
-    see_the_missing_stone_zone = vt_map.CameraZone(26, 32, 16, 22);
+    see_the_missing_stone_zone = vt_map.CameraZone(26, 32, 14, 22);
     Map:AddZone(see_the_missing_stone_zone);
 
 end
@@ -353,6 +364,25 @@ map_functions = {
 
     missing_stone_event_start = function()
         Map:PushState(vt_map.MapMode.STATE_SCENE);
+        hero:SetDirection(vt_map.MapMode.NORTH);
+        hero:Emote("exclamation", vt_map.MapMode.NORTH)
+        hero:SetMoving(false);
+    end,
+
+    set_camera_on_stone = function()
+        Map:MoveVirtualFocus(rolling_stone3:GetXPosition(), rolling_stone3:GetYPosition());
+        Map:SetCamera(ObjectManager.virtual_focus, 800);
+    end,
+
+    set_camera_on_hero = function()
+        Map:SetCamera(hero, 800);
+    end,
+
+    set_camera_update = function()
+        if (Map:IsCameraMoving() == true) then
+            return false;
+        end
+        return true;
     end,
 
     missing_stone_event_end = function()
