@@ -218,7 +218,7 @@ ShopObjectViewer::ShopObjectViewer() :
     _conditions_name.SetVerticalWrapMode(VIDEO_WRAP_MODE_NONE);
 
     _conditions_number.SetOwner(ShopMode::CurrentInstance()->GetMiddleWindow());
-    _conditions_number.SetPosition(730.0f, 140.0f);
+    _conditions_number.SetPosition(720.0f, 140.0f);
     _conditions_number.SetDimensions(50.0f, 120.0f, 1, 255, 1, 4);
     _conditions_number.SetOptionAlignment(VIDEO_X_LEFT, VIDEO_Y_CENTER);
     _conditions_number.SetTextStyle(TextStyle("text22"));
@@ -415,6 +415,9 @@ void ShopObjectViewer::_UpdateTradeConditions()
         uint32 item_id = trade_cond[i].first;
         uint32 item_number = trade_cond[i].second;
 
+        // Gets how many items the party has got
+        uint32 owned_number = GlobalManager->HowManyObjectsInInventory(item_id);
+
         // Create a global object to get info from.
         GlobalObject* obj = GlobalCreateNewObject(item_id, 1);
         if (!obj)
@@ -429,7 +432,19 @@ void ShopObjectViewer::_UpdateTradeConditions()
         if (img)
             img->SetDimensions(30.0f, 30.0f);
 
-        _conditions_number.AddOption(MakeUnicodeString("x" + NumberToString(item_number)));
+        // Show whether each conditions is met.
+        std::string conditions;
+        if (owned_number >= item_number)
+            conditions = "<img/menus/green_check.png><20>";
+        else
+            conditions = "<img/menus/red_x.png><20>";
+        conditions += NumberToString(owned_number) + " / " + NumberToString(item_number);
+
+        _conditions_number.AddOption(MakeUnicodeString(conditions));
+
+        StillImage* cnd_img = _conditions_number.GetEmbeddedImage(j);
+        if (cnd_img)
+            cnd_img->SetWidthKeepRatio(18.0f);
 
         ++j;
     }
