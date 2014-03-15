@@ -496,10 +496,22 @@ void BattleActor::RemoveActiveStatusEffect(GLOBAL_STATUS status_effect)
 
 void BattleActor::Update()
 {
+    BattleMode *BM = BattleMode::CurrentInstance();
+
+    // Avoid updating the battle logic when finishing.
+    // This might break the character's animation.
+    switch (BM->GetState()) {
+    default:
+        break;
+    case BATTLE_STATE_VICTORY:
+    case BATTLE_STATE_DEFEAT:
+    case BATTLE_STATE_EXITING:
+        return;
+    }
+
     // Don't update the state timer when the battle tells is to pause
     // when in idle state.
     // Also don't elapse the status effect time when paused.
-    BattleMode *BM = BattleMode::CurrentInstance();
     if (!BM->AreActorStatesPaused() && !BM->IsInSceneMode()) {
         // Don't update the state_timer if the character is hurt.
         if (!_hurt_timer.IsRunning()) {
@@ -899,6 +911,17 @@ void BattleCharacter::Update()
     _current_weapon_animation.Update();
 
     BattleMode* BM = BattleMode::CurrentInstance();
+
+    // Avoid updating the battle logic when finishing.
+    // This might break the character's animation.
+    switch (BM->GetState()) {
+    default:
+        break;
+    case BATTLE_STATE_VICTORY:
+    case BATTLE_STATE_DEFEAT:
+    case BATTLE_STATE_EXITING:
+        return;
+    }
 
     // In scene mode, only the animations are updated
     if (BM->IsInSceneMode())
