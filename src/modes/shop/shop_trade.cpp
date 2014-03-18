@@ -502,7 +502,7 @@ void TradeListDisplay::ReconstructList()
 }
 
 
-bool TradeListDisplay::ChangeTradeQuantity(bool less_or_more, uint32 amount)
+bool TradeListDisplay::ChangeTradeQuantity(bool more, uint32 amount)
 {
     ShopObject *obj = GetSelectedObject();
     if(obj == NULL) {
@@ -514,46 +514,57 @@ bool TradeListDisplay::ChangeTradeQuantity(bool less_or_more, uint32 amount)
     // amount requested if there is an limitation such as shop stock or available funds
     uint32 change_amount = amount;
 
-    if(less_or_more == false) {
+    // Remove an item case
+    if(more == false) {
         // Ensure that at least one count of this object is already marked for purchase
-        if(obj->GetTradeCount() == 0) {
+        if(obj->GetTradeCount() == 0)
             return false;
-        }
 
         // Determine if there's a sufficient count selected to decrement by the desire amount. If not, return as many as possible
-        if(amount > obj->GetTradeCount()) {
+        if(amount > obj->GetTradeCount())
             change_amount = obj->GetTradeCount();
-        }
 
         obj->DecrementTradeCount(change_amount);
         ShopMode::CurrentInstance()->UpdateFinances(obj->GetTradePrice() * change_amount);
         return true;
-    } else {
-        // Make sure that there is at least one more object in stock and the player has enough funds to purchase it
-        if((obj->GetTradeCount() > obj->GetStockCount()))
-            return false;
-
-        if(obj->GetObject()->GetTradeConditions().empty())
-            return false;
-
-        for(uint32 i = 0; i < obj->GetObject()->GetTradeConditions().size(); ++i) {
-            if(!GlobalManager->IsObjectInInventory(obj->GetObject()->GetTradeConditions()[i].first))
-                return false;
-
-            if(obj->GetTradeCount() * obj->GetObject()->GetTradeConditions()[i].second > GlobalManager->HowManyObjectsInInventory(obj->GetObject()->GetTradeConditions()[i].first))
-                return false;
-        }
-
-        // Determine if there's enough of the object in stock to buy. If not, buy as many left as possible
-        if((obj->GetStockCount() - obj->GetTradeCount()) < change_amount) {
-            change_amount = obj->GetStockCount() - obj->GetTradeCount();
-        }
-
-        obj->IncrementTradeCount(change_amount);
-        ShopMode::CurrentInstance()->UpdateFinances(-obj->GetTradePrice() * change_amount);
-        return true;
     }
-} // bool TradeListDisplay::ChangeTradeQuantity(bool less_or_more, uint32 amount)
+
+    // Adds an item case
+
+    // Determine if there's enough of the object in stock to buy. If not, buy as many left as possible
+    if((obj->GetStockCount() - obj->GetTradeCount()) < change_amount) {
+        change_amount = obj->GetStockCount() - obj->GetTradeCount();
+    }
+
+    // Make sure that there is at least one more object in stock
+    if(change_amount == 0)
+        return false;
+
+    uint32 new_trade_amount = obj->GetTradeCount() + change_amount;
+
+    // check party's finances.
+    if (obj->GetTradePrice() * new_trade_amount > ShopMode::CurrentInstance()->GetTotalRemaining())
+        return false;
+
+    if(obj->GetObject()->GetTradeConditions().empty())
+        return false;
+
+    // Make sure  and the player has enough funds to purchase it
+    for(uint32 i = 0; i < obj->GetObject()->GetTradeConditions().size(); ++i) {
+        if(!GlobalManager->IsObjectInInventory(obj->GetObject()->GetTradeConditions()[i].first))
+            return false;
+
+        uint32 item_possessed = GlobalManager->HowManyObjectsInInventory(obj->GetObject()->GetTradeConditions()[i].first);
+        uint32 item_needed_number = new_trade_amount * obj->GetObject()->GetTradeConditions()[i].second;
+
+        if(item_possessed < item_needed_number)
+            return false;
+    }
+
+    obj->IncrementTradeCount(change_amount);
+    ShopMode::CurrentInstance()->UpdateFinances(-obj->GetTradePrice() * change_amount);
+    return true;
+} // bool TradeListDisplay::ChangeTradeQuantity(bool more, uint32 amount)
 
 } // namespace private_shop
 
