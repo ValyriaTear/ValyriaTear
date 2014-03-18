@@ -76,6 +76,9 @@ function _CreateCharacters()
         hero:SetPosition(28, 37.5);
         hero:SetDirection(vt_map.MapMode.NORTH);
     end
+
+    -- The menu is disabled in this map
+    Map:SetMenuEnabled(false);
 end
 
 function _CreateObjects()
@@ -87,6 +90,24 @@ function _CreateObjects()
 
     _add_flame(5.5, 6);
     _add_flame(27.5, 7);
+
+    -- A trigger that will open the gate in the SE map.
+    object = vt_map.TriggerObject("mt elbrus shrine 8 gate 7 trigger",
+                             "img/sprites/map/triggers/stone_trigger1_off.lua",
+                             "img/sprites/map/triggers/stone_trigger1_on.lua",
+                             "", "");
+    object:SetObjectID(Map.object_supervisor:GenerateObjectID());
+    object:SetPosition(19, 20);
+    Map:AddFlatGroundObject(object);
+
+    -- A trigger that will reéove the spikes in the SE map.
+    object = vt_map.TriggerObject("mt elbrus shrine 8 spikes trigger",
+                             "img/sprites/map/triggers/stone_trigger1_off.lua",
+                             "img/sprites/map/triggers/stone_trigger1_on.lua",
+                             "", "");
+    object:SetObjectID(Map.object_supervisor:GenerateObjectID());
+    object:SetPosition(39, 26);
+    Map:AddFlatGroundObject(object);
 end
 
 function _add_flame(x, y)
