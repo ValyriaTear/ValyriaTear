@@ -107,7 +107,7 @@ function _CreateObjects()
 
     object = CreateObject(Map, "Candle Holder1", 43, 20);
     Map:AddGroundObject(object);
-    object = CreateObject(Map, "Candle Holder1", 43, 31);
+    object = CreateObject(Map, "Candle Holder1", 43, 30);
     Map:AddGroundObject(object);
 
     object = CreateObject(Map, "Stone Fence1", 13, 11);
@@ -122,12 +122,16 @@ function _CreateObjects()
     object = CreateObject(Map, "Stone Fence1", 43, 16);
     Map:AddGroundObject(object);
 
+    object = CreateObject(Map, "Stone Fence1", 34, 13);
+    Map:AddGroundObject(object);
+    object = CreateObject(Map, "Stone Fence1", 26, 19);
+    Map:AddGroundObject(object);
+
     -- Add flames preventing from using the doors
     -- Top Right door: Unlocked by trigger
     local fence1_trigger1_x_position = 27.0;
     local fence2_trigger1_x_position = 29.0;
     -- Sets the passage open if the enemies were already beaten
-    -- FIXME: USE a trigger event instead.
     if (GlobalManager:GetEventValue("triggers", "mt elbrus shrine 6 trigger 1") == 1) then
         fence1_trigger1_x_position = 25.0;
         fence2_trigger1_x_position = 31.0;
@@ -142,8 +146,7 @@ function _CreateObjects()
     local fence1_trigger2_y_position = 34.0;
     local fence2_trigger2_y_position = 36.0;
     -- Sets the passage open if the enemies were already beaten
-    -- FIXME: USE a trigger event instead.
-    if (GlobalManager:GetEventValue("story", "mountain_shrine_1st_NE_trigger_pushed") == 1) then
+    if (GlobalManager:GetEventValue("triggers", "mt elbrus shrine 8 gate 7 trigger") == 1) then
         fence1_trigger2_y_position = 32.0;
         fence2_trigger2_y_position = 38.0;
     end
