@@ -89,10 +89,10 @@ function _CreateCharacters()
 end
 
 -- Flames preventing from getting through
-local flame1_trigger1 = {};
-local flame2_trigger1 = {};
-local flame1_trigger2 = {};
-local flame2_trigger2 = {};
+local fence1_trigger1 = {};
+local fence2_trigger1 = {};
+local fence1_trigger2 = {};
+local fence2_trigger2 = {};
 local stone_trigger1 = {};
 
 function _CreateObjects()
@@ -110,11 +110,9 @@ function _CreateObjects()
     object = CreateObject(Map, "Candle Holder1", 43, 31);
     Map:AddGroundObject(object);
 
-    object = CreateObject(Map, "Flame Pot1", 13, 11);
-    object:RandomizeCurrentAnimationFrame();
+    object = CreateObject(Map, "Stone Fence1", 13, 11);
     Map:AddGroundObject(object);
-    object = CreateObject(Map, "Flame Pot1", 19, 11);
-    object:RandomizeCurrentAnimationFrame();
+    object = CreateObject(Map, "Stone Fence1", 19, 11);
     Map:AddGroundObject(object);
 
     object = CreateObject(Map, "Stone Fence1", 39, 12);
@@ -126,38 +124,34 @@ function _CreateObjects()
 
     -- Add flames preventing from using the doors
     -- Top Right door: Unlocked by trigger
-    local flame1_trigger1_x_position = 27.0;
-    local flame2_trigger1_x_position = 29.0;
+    local fence1_trigger1_x_position = 27.0;
+    local fence2_trigger1_x_position = 29.0;
     -- Sets the passage open if the enemies were already beaten
     -- FIXME: USE a trigger event instead.
     if (GlobalManager:GetEventValue("triggers", "mt elbrus shrine 6 trigger 1") == 1) then
-        flame1_trigger1_x_position = 25.0;
-        flame2_trigger1_x_position = 31.0;
+        fence1_trigger1_x_position = 25.0;
+        fence2_trigger1_x_position = 31.0;
     end
 
-    flame1_trigger1 = CreateObject(Map, "Flame Pot1", flame1_trigger1_x_position, 11);
-    flame1_trigger1:RandomizeCurrentAnimationFrame();
-    Map:AddGroundObject(flame1_trigger1);
-    flame2_trigger1 = CreateObject(Map, "Flame Pot1", flame2_trigger1_x_position, 11);
-    flame2_trigger1:RandomizeCurrentAnimationFrame();
-    Map:AddGroundObject(flame2_trigger1);
+    fence1_trigger1 = CreateObject(Map, "Stone Fence1", fence1_trigger1_x_position, 11);
+    Map:AddGroundObject(fence1_trigger1);
+    fence2_trigger1 = CreateObject(Map, "Stone Fence1", fence2_trigger1_x_position, 11);
+    Map:AddGroundObject(fence2_trigger1);
 
     -- Bottom right door: Unlocked by switch
-    local flame1_trigger2_y_position = 34.0;
-    local flame2_trigger2_y_position = 36.0;
+    local fence1_trigger2_y_position = 34.0;
+    local fence2_trigger2_y_position = 36.0;
     -- Sets the passage open if the enemies were already beaten
     -- FIXME: USE a trigger event instead.
     if (GlobalManager:GetEventValue("story", "mountain_shrine_1st_NE_trigger_pushed") == 1) then
-        flame1_trigger2_y_position = 32.0;
-        flame2_trigger2_y_position = 38.0;
+        fence1_trigger2_y_position = 32.0;
+        fence2_trigger2_y_position = 38.0;
     end
 
-    flame1_trigger2 = CreateObject(Map, "Flame Pot1", 43.0, flame1_trigger2_y_position);
-    flame1_trigger2:RandomizeCurrentAnimationFrame();
-    Map:AddGroundObject(flame1_trigger2);
-    flame2_trigger2 = CreateObject(Map, "Flame Pot1", 43.0, flame2_trigger2_y_position);
-    flame2_trigger2:RandomizeCurrentAnimationFrame();
-    Map:AddGroundObject(flame2_trigger2);
+    fence1_trigger2 = CreateObject(Map, "Stone Fence1", 43.0, fence1_trigger2_y_position);
+    Map:AddGroundObject(fence1_trigger2);
+    fence2_trigger2 = CreateObject(Map, "Stone Fence1", 43.0, fence2_trigger2_y_position);
+    Map:AddGroundObject(fence2_trigger2);
 
     -- The two stone trigger will open the gate to the second floor
     stone_trigger1 = vt_map.TriggerObject("mt elbrus shrine 6 trigger 1",
@@ -285,8 +279,8 @@ end
 
 
 -- The fire pots x position
-local ne_passage_pot1_x = 0.0;
-local ne_passage_pot2_x = 0.0;
+local ne_passage_fence1_x = 0.0;
+local ne_passage_fence2_x = 0.0;
 
 -- Map Custom functions
 -- Used through scripted events
@@ -303,8 +297,8 @@ map_functions = {
 
     -- Opens the south west passage, by moving the fire pots out of the way.
     open_ne_passage_start = function()
-        ne_passage_pot1_x = 27.0;
-        ne_passage_pot2_x = 29.0;
+        ne_passage_fence1_x = 27.0;
+        ne_passage_fence2_x = 29.0;
         AudioManager:PlaySound("snd/stone_roll.wav");
     end,
 
@@ -312,13 +306,13 @@ map_functions = {
         local update_time = SystemManager:GetUpdateTime();
         local movement_diff = 0.005 * update_time;
 
-        ne_passage_pot1_x = ne_passage_pot1_x - movement_diff;
-        flame1_trigger1:SetPosition(ne_passage_pot1_x, 11.0);
+        ne_passage_fence1_x = ne_passage_fence1_x - movement_diff;
+        fence1_trigger1:SetPosition(ne_passage_fence1_x, 11.0);
 
-        ne_passage_pot2_x = ne_passage_pot2_x + movement_diff;
-        flame2_trigger1:SetPosition(ne_passage_pot2_x, 11.0);
+        ne_passage_fence2_x = ne_passage_fence2_x + movement_diff;
+        fence2_trigger1:SetPosition(ne_passage_fence2_x, 11.0);
 
-        if (ne_passage_pot1_x <= 25.0) then
+        if (ne_passage_fence1_x <= 25.0) then
             return true;
         end
         return false;
