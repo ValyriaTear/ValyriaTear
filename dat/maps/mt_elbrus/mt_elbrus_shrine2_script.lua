@@ -137,34 +137,15 @@ function _CreateObjects()
     _add_flame(19.5, 2);
     _add_flame(9.5, 2);
 
-    object = CreateObject(Map, "Flame Pot1", 40, 40.6);
-    object:RandomizeCurrentAnimationFrame();
-    Map:AddGroundObject(object);
-    object = CreateObject(Map, "Flame Pot1", 42, 36.6);
-    object:RandomizeCurrentAnimationFrame();
-    Map:AddGroundObject(object);
-    object = CreateObject(Map, "Flame Pot1", 26, 40.6);
-    object:RandomizeCurrentAnimationFrame();
-    Map:AddGroundObject(object);
-    object = CreateObject(Map, "Flame Pot1", 24, 36.6);
-    object:RandomizeCurrentAnimationFrame();
-    Map:AddGroundObject(object);
-
-    object = CreateObject(Map, "Flame Pot1", 22, 20.6);
-    object:RandomizeCurrentAnimationFrame();
-    Map:AddGroundObject(object);
-    object = CreateObject(Map, "Flame Pot1", 22, 16.6);
-    object:RandomizeCurrentAnimationFrame();
-    Map:AddGroundObject(object);
-    object = CreateObject(Map, "Flame Pot1", 22, 12.6);
-    object:RandomizeCurrentAnimationFrame();
-    Map:AddGroundObject(object);
-    object = CreateObject(Map, "Flame Pot1", 22, 8.6);
-    object:RandomizeCurrentAnimationFrame();
-    Map:AddGroundObject(object);
-    object = CreateObject(Map, "Flame Pot1", 20, 6.6);
-    object:RandomizeCurrentAnimationFrame();
-    Map:AddGroundObject(object);
+    _add_flame_pot(40, 40.6);
+    _add_flame_pot(42, 36.6);
+    _add_flame_pot(26, 40.6);
+    _add_flame_pot(24, 36.6);
+    _add_flame_pot(22, 20.6);
+    _add_flame_pot(22, 16.6);
+    _add_flame_pot(22, 12.6);
+    _add_flame_pot(22, 8.6);
+    _add_flame_pot(20, 6.6);
 
     object = CreateObject(Map, "Vase2", 38, 42);
     Map:AddGroundObject(object);
@@ -288,6 +269,22 @@ function _add_flame(x, y)
     if (object ~= nil) then Map:AddAmbientSoundObject(object) end;
 
     object = CreateObject(Map, "Flame1", x, y);
+    object:RandomizeCurrentAnimationFrame();
+    Map:AddGroundObject(object);
+
+    Map:AddHalo("img/misc/lights/torch_light_mask2.lua", x, y + 3.0,
+        vt_video.Color(0.85, 0.32, 0.0, 0.6));
+    Map:AddHalo("img/misc/lights/sun_flare_light_main.lua", x, y + 2.0,
+        vt_video.Color(0.99, 1.0, 0.27, 0.1));
+end
+
+function _add_flame_pot(x, y)
+    local object = vt_map.SoundObject("snd/campfire.ogg", x, y, 5.0);
+    if (object ~= nil) then Map:AddAmbientSoundObject(object) end;
+    object = vt_map.SoundObject("snd/campfire.ogg", x + 18.0, y, 5.0);
+    if (object ~= nil) then Map:AddAmbientSoundObject(object) end;
+
+    object = CreateObject(Map, "Flame Pot1", x, y);
     object:RandomizeCurrentAnimationFrame();
     Map:AddGroundObject(object);
 
