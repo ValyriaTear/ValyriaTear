@@ -118,7 +118,7 @@ function _CreateObjects()
 
     object = CreateObject(Map, "Candle Holder1", 5, 20);
     Map:AddGroundObject(object);
-    object = CreateObject(Map, "Candle Holder1", 5, 31);
+    object = CreateObject(Map, "Candle Holder1", 5, 30);
     Map:AddGroundObject(object);
 
     object = CreateObject(Map, "Stone Fence1", 11, 10);
@@ -128,6 +128,9 @@ function _CreateObjects()
     object = CreateObject(Map, "Stone Fence1", 7, 14);
     Map:AddGroundObject(object);
     object = CreateObject(Map, "Stone Fence1", 5, 16);
+    Map:AddGroundObject(object);
+
+    object = CreateObject(Map, "Stone Fence1", 43, 19);
     Map:AddGroundObject(object);
 
     -- Add an invisible object permitting to trigger the same event.
@@ -143,7 +146,7 @@ function _CreateObjects()
     -- Sets the passage open if the enemies were already beaten
     -- FIXME: USE a trigger event instead.
     if (GlobalManager:GetEventValue("triggers", "mt elbrus shrine 8 gate 7 trigger") == 1) then
-        fence1_trigger1_y_position = 32.0;
+        fence1_trigger1_y_position = 31.8;
         fence2_trigger1_y_position = 38.0;
     end
 
