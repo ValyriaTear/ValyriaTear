@@ -528,6 +528,14 @@ objects["Salad1"] = {
     img_height = 2.0
 }
 
+objects["Spikes1"] = {
+    animation_filename = "img/sprites/map/objects/spikes1.lua",
+    coll_half_width = 1.0,
+    coll_height = 2.0,
+    img_half_width = 1.0,
+    img_height = 3.0
+}
+
 objects["Tree Big1"] = {
     animation_filename = "img/sprites/map/objects/tree_big1.lua",
     coll_half_width = 3.0,
