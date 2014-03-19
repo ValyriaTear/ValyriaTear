@@ -318,6 +318,17 @@ public:
     //! the x position of a tile position on the Y axis.
     float GetScreenYCoordinate(float tile_position_y) const;
 
+    //! \brief Gives the current map pixel lengths.
+    //! Used to properly place sprites and avoid glitches.
+    //! \see _UpdateMapFrame() for a better explanation.
+    float GetMapPixelXLength() const {
+        return _pixel_length_x;
+    }
+
+    float GetMapPixelYLength() const {
+        return _pixel_length_y;
+    }
+
     //! \brief toggles visibility of the minimap
     //! \param the new state of the minimap visibility
     void ShowMinimap(bool visibility) {
@@ -444,8 +455,16 @@ private:
     //! \brief A time for camera movement
     vt_system::SystemTimer _camera_timer;
 
-    //! \brief The number of contexts that this map uses (at least 1, at most 32)
-    uint8 _num_map_contexts;
+    //! \brief The pixel length depending on the current resolution.
+    //! This is used to avoid seeing jumping objects when scrolling the map view
+    //! and/or sprite's vibrating edges by using only scrolling values which are
+    //! a multiple of the pixel size.
+    //! \note Those are computed once at the first map tile frame update
+    //! and kept in memory to avoid useless recomputations.
+    //! This also should be dropped once the map mode uses a standard coordinate system.
+    //! \see _UpdateMapFrame() for more info.
+    float _pixel_length_x;
+    float _pixel_length_y;
 
     //! \brief If true, the player is not allowed to run.
     bool _running_disabled;

@@ -69,18 +69,17 @@ bool MapObject::ShouldDraw()
     if(!visible)
         return false;
 
-    MapMode *map = MapMode::CurrentInstance();
+    MapMode* MM = MapMode::CurrentInstance();
 
     // Determine if the sprite is off-screen and if so, don't draw it.
-    if(!MapRectangle::CheckIntersection(GetImageRectangle(), map->GetMapFrame().screen_edges))
+    if(!MapRectangle::CheckIntersection(GetImageRectangle(), MM->GetMapFrame().screen_edges))
         return false;
 
     // Move the drawing cursor to the appropriate coordinates for this sprite
     // NOTE: We round the value to a multiple of the current pixel size.
     // See MapMode::_UpdateMapFrame() for a better explanation.
-    const float PIXEL_LENGTH = 0.04f;
-    VideoManager->Move(FloorToFloatMultiple(GetXPosition() - map->GetMapFrame().screen_edges.left, PIXEL_LENGTH),
-                       FloorToFloatMultiple(GetYPosition() - map->GetMapFrame().screen_edges.top, PIXEL_LENGTH));
+    VideoManager->Move(FloorToFloatMultiple(GetXPosition() - MM->GetMapFrame().screen_edges.left, MM->GetMapPixelXLength()),
+                       FloorToFloatMultiple(GetYPosition() - MM->GetMapFrame().screen_edges.top, MM->GetMapPixelYLength()));
 
     return true;
 } // bool MapObject::ShouldDraw()

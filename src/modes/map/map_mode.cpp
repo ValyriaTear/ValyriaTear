@@ -73,7 +73,8 @@ MapMode::MapMode(const std::string& data_filename, const std::string& script_fil
     _camera(NULL),
     _delta_x(0),
     _delta_y(0),
-    _num_map_contexts(0),
+    _pixel_length_x(-1.0f),
+    _pixel_length_y(-1.0f),
     _running_disabled(false),
     _unlimited_stamina(false),
     _show_gui(true),
@@ -867,17 +868,17 @@ void MapMode::_UpdateMapFrame()
     uint16 current_y = GetFloatInteger(camera_y);
 
     // NOTE: Would the map mode coordinate system be able to dynamically change, allow this to be recomputed,
-    // and used as the multiple of the current camera tile offset, instead of PIXEL_LENGTH.
-    //float pixel_length_x, pixel_length_y;
-    //VideoManager->GetPixelSize(pixel_length_x, pixel_length_y);
-    // NOTE: Until then, we'll hardcode the never-changing resulting value of 0.04f for performance purpose.
-    const float PIXEL_LENGTH = 0.04f;
+    // and used as the multiple of the current camera tile offset.
+    if (_pixel_length_x <= 0.0f || _pixel_length_y <= 0.0f)
+        VideoManager->GetPixelSize(_pixel_length_x, _pixel_length_y);
+    // std::cout << "the ratio is: " << _pixel_length_x << ", " << _pixel_length_y << " for resolution: "
+    // << VideoManager->GetScreenWidth() << " x " << VideoManager->GetScreenHeight() << std::endl;
 
     // NOTE: The offset is corrected based on the map coord sys pixel size, to avoid glitches on tiles with transparent parts
     // and black edges. The size of the edge would have a variable size and look like vibrating when scrolling
     // without this fix.
-    float current_offset_x = vt_utils::FloorToFloatMultiple(GetFloatFraction(camera_x), PIXEL_LENGTH);
-    float current_offset_y = vt_utils::FloorToFloatMultiple(GetFloatFraction(camera_y), PIXEL_LENGTH);
+    float current_offset_x = vt_utils::FloorToFloatMultiple(GetFloatFraction(camera_x), _pixel_length_x);
+    float current_offset_y = vt_utils::FloorToFloatMultiple(GetFloatFraction(camera_y), _pixel_length_y);
 
     // Determine the draw coordinates of the top left corner using the camera's current position
     _map_frame.tile_x_offset = 1.0f - current_offset_x;
