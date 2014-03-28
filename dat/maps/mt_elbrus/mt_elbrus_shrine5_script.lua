@@ -63,6 +63,8 @@ function Update()
     _CheckZones();
     -- Check wether the monsters have been defeated
     _CheckMonstersStates();
+
+    _CheckStoneAndTriggersCollision();
 end
 
 -- Character creation
@@ -178,7 +180,7 @@ function _CreateObjects()
     Map:AddGroundObject(object);
     object = CreateObject(Map, "Stone Fence1", 37, 36);
     Map:AddGroundObject(object);
-    object = CreateObject(Map, "Stone Fence1", 35, 18);
+    object = CreateObject(Map, "Stone Fence1", 35, 20);
     Map:AddGroundObject(object);
 
     trap_spikes = CreateObject(Map, "Spikes1", 14, 26);
@@ -209,7 +211,7 @@ function _CreateObjects()
                              "",
                              "Open Gate");
     stone_trigger2:SetObjectID(Map.object_supervisor:GenerateObjectID());
-    stone_trigger2:SetPosition(43, 20);
+    stone_trigger2:SetPosition(43, 22);
     stone_trigger2:SetTriggerableByCharacter(false); -- Only an event can trigger it
     Map:AddFlatGroundObject(stone_trigger2);
 
@@ -218,11 +220,6 @@ function _CreateObjects()
 
     event = vt_map.ScriptedEvent("Open Gate", "open_gate_animated_start", "open_gate_animated_update")
     EventManager:RegisterEvent(event);
-    
-    -- Open the gates when the trigger is on.
-    if (GlobalManager:GetEventValue("triggers", "mt elbrus shrine 5 trigger 2") == 1) then
-        map_functions.set_gate_opened();
-    end
 
     -- Add blocks preventing from using the doors
     -- Left door: Unlocked by beating monsters
@@ -254,6 +251,26 @@ function _CreateObjects()
     fence2_trigger2 = CreateObject(Map, "Stone Fence1", fence2_trigger2_x_position, 38);
     fence2_trigger2:RandomizeCurrentAnimationFrame();
     Map:AddGroundObject(fence2_trigger2);
+
+    rolling_stone2 = CreateObject(Map, "Rolling Stone", 28, 33);
+    Map:AddGroundObject(rolling_stone2);
+    event = vt_map.IfEvent("Check hero position for rolling stone 2", "check_diagonal_stone2", "Push the rolling stone 2", "");
+    EventManager:RegisterEvent(event);
+    event = vt_map.ScriptedEvent("Push the rolling stone 2", "start_to_move_the_stone2", "move_the_stone_update2")
+    EventManager:RegisterEvent(event);
+    
+    if (GlobalManager:GetEventValue("story", "mt_shrine_1st_floor_stone2_through_2nd_door") == 0) then
+        rolling_stone2:SetVisible(false);
+        rolling_stone2:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
+    else
+        rolling_stone2:SetEventWhenTalking("Check hero position for rolling stone 2");
+    end
+
+    -- Open the gates when the trigger is on and put the stone on it.
+    if (GlobalManager:GetEventValue("triggers", "mt elbrus shrine 5 trigger 2") == 1) then
+        map_functions.set_gate_opened();
+        rolling_stone2:SetPosition(43, 22);
+    end
 end
 
 function _add_flame(x, y)
@@ -331,17 +348,7 @@ function _CreateEvents()
     event = vt_map.ScriptedEvent("Open south west passage", "open_sw_passage_start", "open_sw_passage_update");
     EventManager:RegisterEvent(event);
 
-    -- 1. Tells about Orlinn's passage (before seeing the stone)
-    dialogue = vt_map.SpriteDialogue();
-    text = vt_system.Translate("There is a passage here but I'm too heavy for those stones jutting out. Maybe later...");
-    dialogue:AddLine(text, hero);
-    DialogueManager:AddDialogue(dialogue);
-    event = vt_map.DialogueEvent("The hero wonders about the high passage", dialogue);
-    event:SetStopCameraMovement(true);
-    EventManager:RegisterEvent(event);
-    
-
-    -- 2. Orlinn wants to go to the high passage event (after seeing the stone)
+    -- 1. Orlinn wants to go to the high passage event (after seeing the stone)
     event = vt_map.ScriptedEvent("High passage discussion event start", "passage_event_start", "");
     event:AddEventLinkAtEnd("Kalya moves next to Bronann", 100);
     event:AddEventLinkAtEnd("Orlinn moves next to Bronann", 100);
@@ -357,7 +364,7 @@ function _CreateEvents()
     EventManager:RegisterEvent(orlinn_move_next_to_hero_event);
 
     dialogue = vt_map.SpriteDialogue();
-    text = vt_system.Translate("This must be it! We have to climb and open a way somehow...");
+    text = vt_system.Translate("There is a passage here but I'm too heavy for those stones jutting out ...");
     dialogue:AddLineEmote(text, hero, "thinking dots");
     text = vt_system.Translate("The fact is, you and me cannot afford standing on those stones. Maybe with a rope?");
     dialogue:AddLine(text, kalya);
@@ -392,7 +399,7 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
 
 
-    -- 3. Just ask whether to climb, and show the throw animation
+    -- 2. Just ask whether to climb, and show the throw animation
     event = vt_map.ScriptedEvent("Thrown to high passage event start", "thrown_to_passage_event_start", "");
     event:AddEventLinkAtEnd("Orlinn moves next to Bronann2", 100);
     event:AddEventLinkAtEnd("Kalya moves next to Bronann2", 100);
@@ -549,10 +556,8 @@ end
 function _UpdatePassageEvent()
     if (GlobalManager:GetEventValue("story", "mt_elbrus_shrine_high_passage_event_done") == 1) then
         passage_event_object:SetEventWhenTalking("Thrown to high passage event start");
-    elseif (GlobalManager:GetEventValue("story", "mt_elbrus_saw_missing_stone") == 1) then
-        passage_event_object:SetEventWhenTalking("High passage discussion event start");
     else
-        passage_event_object:SetEventWhenTalking("The hero wonders about the high passage");
+        passage_event_object:SetEventWhenTalking("High passage discussion event start");
     end
 end
 
@@ -685,7 +690,105 @@ function _CheckZones()
             trap_triggered = true;
         end
     end
+end
 
+function _CheckStoneAndTriggersCollision()
+    -- Check trigger
+    if (stone_trigger2:GetState() == false) then
+        if (stone_trigger2:IsCollidingWith(rolling_stone2) == true) then
+            stone_trigger2:SetState(true)
+        end
+    end
+end
+
+function _CheckForDiagonals(target)
+    -- Check for diagonals. If the player is in diagonal,
+    -- whe shouldn't trigger the event at all, as only straight relative position
+    -- to the target sprite will work correctly.
+    -- (Here used only for shrooms and stones)
+
+    local hero_x = hero:GetXPosition();
+    local hero_y = hero:GetYPosition();
+
+    local target_x = target:GetXPosition();
+    local target_y = target:GetYPosition();
+
+    -- bottom-left
+    if (hero_y > target_y + 0.3 and hero_x < target_x - 1.2) then return false; end
+    -- bottom-right
+    if (hero_y > target_y + 0.3 and hero_x > target_x + 1.2) then return false; end
+    -- top-left
+    if (hero_y < target_y - 1.5 and hero_x < target_x - 1.2) then return false; end
+    -- top-right
+    if (hero_y < target_y - 1.5 and hero_x > target_x + 1.2) then return false; end
+
+    return true;
+end
+
+function _UpdateStoneMovement(stone_object, stone_direction)
+    local update_time = SystemManager:GetUpdateTime();
+    local movement_diff = 0.015 * update_time;
+
+    -- We cap the max movement distance to avoid making the ball go through obstacles
+    -- in case of low FPS
+    if (movement_diff > 1.0) then
+        movement_diff = 1.0;
+    end
+
+    local new_pos_x = stone_object:GetXPosition();
+    local new_pos_y = stone_object:GetYPosition();
+
+    -- Apply the movement
+    if (stone_direction == vt_map.MapMode.NORTH) then
+        new_pos_y = stone_object:GetYPosition() - movement_diff;
+    elseif (stone_direction == vt_map.MapMode.SOUTH) then
+        new_pos_y = stone_object:GetYPosition() + movement_diff;
+    elseif (stone_direction == vt_map.MapMode.WEST) then
+        new_pos_x = stone_object:GetXPosition() - movement_diff;
+    elseif (stone_direction == vt_map.MapMode.EAST) then
+        new_pos_x = stone_object:GetXPosition() + movement_diff;
+    end
+
+    -- Check the collision
+    if (stone_object:IsColliding(new_pos_x, new_pos_y) == true) then
+        AudioManager:PlaySound("snd/stone_bump.ogg");
+        return true;
+    end
+
+    --  and apply the movement if none
+    stone_object:SetPosition(new_pos_x, new_pos_y);
+
+    return false;
+end
+
+-- returns the direction the stone shall take
+function _GetStoneDirection(stone)
+
+    local hero_x = hero:GetXPosition();
+    local hero_y = hero:GetYPosition();
+
+    local stone_x = stone:GetXPosition();
+    local stone_y = stone:GetYPosition();
+
+    -- Set the stone direction
+    local stone_direction = vt_map.MapMode.EAST;
+
+    -- Determine the hero position relative to the stone
+    if (hero_y > stone_y + 0.3) then
+        -- the hero is below, the stone is pushed upward.
+        stone_direction = vt_map.MapMode.NORTH;
+    elseif (hero_y < stone_y - 1.5) then
+        -- the hero is above, the stone is pushed downward.
+        stone_direction = vt_map.MapMode.SOUTH;
+    elseif (hero_x < stone_x - 1.2) then
+        -- the hero is on the left, the stone is pushed to the right.
+        stone_direction = vt_map.MapMode.EAST;
+    elseif (hero_x > stone_x + 1.2) then
+        -- the hero is on the right, the stone is pushed to the left.
+        stone_direction = vt_map.MapMode.WEST;
+    end
+
+    return stone_direction;
 end
 
 -- The north east gate y position
@@ -1016,5 +1119,18 @@ map_functions = {
         
         -- Disable the come back object event
         passage_back_event_object:ClearEventWhenTalking();
+    end,
+
+    check_diagonal_stone2 = function()
+        return _CheckForDiagonals(rolling_stone2);
+    end,
+
+    start_to_move_the_stone2 = function()
+        stone_direction2 = _GetStoneDirection(rolling_stone2);
+        AudioManager:PlaySound("snd/stone_roll.wav");
+    end,
+
+    move_the_stone_update2 = function()
+        return _UpdateStoneMovement(rolling_stone2, stone_direction2)
     end,
 }
