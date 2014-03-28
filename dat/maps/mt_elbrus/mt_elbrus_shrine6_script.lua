@@ -114,6 +114,11 @@ function _CreateObjects()
     _add_flame(9.5, 7);
     _add_flame(33.5, 7);
 
+    local chest = CreateTreasure(Map, "mt_shrine6_chest1", "Wood_Chest2", 7, 26);
+    chest:AddObject(15, 1); -- Cure poison
+    chest:AddObject(4001, 1); -- Escape smoke
+    Map:AddGroundObject(chest);
+
     object = CreateObject(Map, "Candle Holder1", 43, 20);
     Map:AddGroundObject(object);
     object = CreateObject(Map, "Candle Holder1", 43, 30);
@@ -244,23 +249,29 @@ end
 function _CreateEnemies()
     local enemy = {};
 
-    -- Monsters that can only be beaten once
-    -- Hint: left, right, top, bottom
-    local roam_zone = vt_map.EnemyZone(7, 20, 22, 33);
-    enemy = CreateEnemySprite(Map, "Skeleton");
-    _SetBattleEnvironment(enemy);
-    enemy:NewEnemyParty();
-    enemy:AddEnemy(19); -- Skeleton
-    enemy:AddEnemy(19);
-    enemy:AddEnemy(19);
-    enemy:AddEnemy(16); -- Rat
-    enemy:NewEnemyParty();
-    enemy:AddEnemy(16);
-    enemy:AddEnemy(19);
-    enemy:AddEnemy(17); -- Thing
-    enemy:AddEnemy(16);
-    roam_zone:AddEnemy(enemy, Map, 1);
-    Map:AddZone(roam_zone);
+    -- Adds 6 zones with one enemy each
+    local i = 0;
+    while i < 6 do
+        -- Monsters that can only be beaten once
+        -- Hint: left, right, top, bottom
+        local roam_zone = vt_map.EnemyZone(7, 20, 22, 33);
+        enemy = CreateEnemySprite(Map, "Skeleton");
+        _SetBattleEnvironment(enemy);
+        enemy:NewEnemyParty();
+        enemy:AddEnemy(19); -- Skeleton
+        enemy:AddEnemy(19);
+        enemy:AddEnemy(19);
+        enemy:AddEnemy(16); -- Rat
+        enemy:NewEnemyParty();
+        enemy:AddEnemy(16);
+        enemy:AddEnemy(19);
+        enemy:AddEnemy(17); -- Thing
+        enemy:AddEnemy(16);
+        roam_zone:AddEnemy(enemy, Map, 1);
+        Map:AddZone(roam_zone);
+
+        i = i + 1;
+    end
 end
 
 -- Creates all events and sets up the entire event sequence chain
