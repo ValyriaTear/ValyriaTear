@@ -115,8 +115,38 @@ function _CreateObjects()
     local text = {}
     local event = {}
 
+    object = CreateTreasure(Map, "mt_shrine7_chest1", "Wood_Chest3", 16, 13);
+    object:AddObject(3002, 1); -- Iron Ore
+    object:AddEvent("Monster trap in chest");
+    Map:AddGroundObject(object);
+
+    event = vt_map.BattleEncounterEvent("Monster trap in chest");
+    event:SetMusic("mus/heroism-OGA-Edward-J-Blakeley.ogg");
+    event:SetBackground("img/backdrops/battle/mountain_shrine.png");
+    event:AddScript("dat/battles/mountain_shrine_battle_anim.lua");
+    event:AddEnemy(16); -- Rat
+    event:AddEnemy(16);
+    event:AddEnemy(16);
+    event:AddEnemy(16);
+    event:AddEnemy(16);
+    event:AddEnemy(16);
+    event:AddEnemy(16);
+    event:AddEnemy(16);
+    event:AddEnemy(16);
+    event:AddEnemy(16);
+    event:AddEnemy(16);
+    event:AddEnemy(16);
+    EventManager:RegisterEvent(event);
+
     _add_flame(15.5, 5);
     _add_flame(39.5, 5);
+
+    object = CreateObject(Map, "Vase4", 9, 15);
+    Map:AddGroundObject(object);
+    object = CreateObject(Map, "Jar1", 18, 10);
+    Map:AddGroundObject(object);
+    object = CreateObject(Map, "Jar1", 43, 22);
+    Map:AddGroundObject(object);
 
     object = CreateObject(Map, "Candle Holder1", 5, 20);
     Map:AddGroundObject(object);
