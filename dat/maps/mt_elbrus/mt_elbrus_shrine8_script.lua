@@ -81,6 +81,10 @@ function _CreateCharacters()
     Map:SetMenuEnabled(false);
 end
 
+-- The trigger state at map load time.
+-- Used to restore it, would Orlinn be caught.
+local trigger_state = 0;
+
 function _CreateObjects()
     local object = {}
     local npc = {}
@@ -100,14 +104,7 @@ function _CreateObjects()
     object:SetPosition(19, 20);
     Map:AddFlatGroundObject(object);
 
-    -- A trigger that will remove the spikes in the SE map.
-    object = vt_map.TriggerObject("mt elbrus shrine 8 spikes trigger",
-                             "img/sprites/map/triggers/stone_trigger1_off.lua",
-                             "img/sprites/map/triggers/stone_trigger1_on.lua",
-                             "", "");
-    object:SetObjectID(Map.object_supervisor:GenerateObjectID());
-    object:SetPosition(39, 26);
-    Map:AddFlatGroundObject(object);
+    trigger_state = GlobalManager:GetEventValue("triggers", "mt elbrus shrine 8 gate 7 trigger");
 end
 
 function _add_flame(x, y)
@@ -226,5 +223,8 @@ map_functions = {
         Map:PushState(vt_map.MapMode.STATE_SCENE);
         hero:SetMoving(false);
         AudioManager:PlayMusic("battle_encounter_01.ogg");
+
+        -- Restore potential trigger previous state
+        GlobalManager:SetEventValue("triggers", "mt elbrus shrine 8 gate 7 trigger", trigger_state);
     end,
 }
