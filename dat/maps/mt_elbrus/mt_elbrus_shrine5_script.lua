@@ -55,7 +55,6 @@ function Load(m)
     AudioManager:LoadSound("snd/opening_sword_unsheathe.wav", Map);
     AudioManager:LoadSound("snd/stone_roll.wav", Map);
     AudioManager:LoadSound("snd/stone_bump.ogg", Map);
-    AudioManager:LoadSound("snd/trigger_on.wav", Map);
 end
 
 -- the map update function handles checks done on each game tick.
@@ -134,7 +133,6 @@ function _CreateCharacters()
 end
 
 -- Triggers
-local stone_trigger1 = {};
 local stone_trigger2 = {};
 
 -- Flames preventing from getting through
@@ -180,6 +178,8 @@ function _CreateObjects()
     Map:AddGroundObject(object);
     object = CreateObject(Map, "Stone Fence1", 37, 36);
     Map:AddGroundObject(object);
+    object = CreateObject(Map, "Stone Fence1", 35, 18);
+    Map:AddGroundObject(object);
 
     trap_spikes = CreateObject(Map, "Spikes1", 14, 26);
     trap_spikes:SetVisible(false);
@@ -202,31 +202,29 @@ function _CreateObjects()
     end
     Map:AddGroundObject(passage_back_event_object);
 
-    -- The two stone trigger will open the gate to the second floor
-    stone_trigger1 = vt_map.TriggerObject("mt elbrus shrine 5 trigger 1",
-                             "img/sprites/map/triggers/rolling_stone_trigger1_off.lua",
-                             "img/sprites/map/triggers/rolling_stone_trigger1_on.lua",
-                             "",
-                             "Check triggers");
-    stone_trigger1:SetObjectID(Map.object_supervisor:GenerateObjectID());
-    stone_trigger1:SetPosition(29, 18);
-    stone_trigger1:SetTriggerableByCharacter(false); -- Only an event can trigger it
-    Map:AddFlatGroundObject(stone_trigger1);
-
+    -- The stone trigger that will open the gate to the second floor
     stone_trigger2 = vt_map.TriggerObject("mt elbrus shrine 5 trigger 2",
                              "img/sprites/map/triggers/rolling_stone_trigger1_off.lua",
                              "img/sprites/map/triggers/rolling_stone_trigger1_on.lua",
                              "",
-                             "Check triggers");
+                             "Open Gate");
     stone_trigger2:SetObjectID(Map.object_supervisor:GenerateObjectID());
     stone_trigger2:SetPosition(43, 20);
     stone_trigger2:SetTriggerableByCharacter(false); -- Only an event can trigger it
     Map:AddFlatGroundObject(stone_trigger2);
 
-    event = vt_map.ScriptedEvent("Check triggers", "check_triggers", "")
-    EventManager:RegisterEvent(event);
+    second_floor_gate = CreateObject(Map, "Gate1 closed", 20, 10);
+    Map:AddGroundObject(second_floor_gate);
 
-    -- Add flames preventing from using the doors
+    event = vt_map.ScriptedEvent("Open Gate", "open_gate_animated_start", "open_gate_animated_update")
+    EventManager:RegisterEvent(event);
+    
+    -- Open the gates when the trigger is on.
+    if (GlobalManager:GetEventValue("triggers", "mt elbrus shrine 5 trigger 2") == 1) then
+        map_functions.set_gate_opened();
+    end
+
+    -- Add blocks preventing from using the doors
     -- Left door: Unlocked by beating monsters
     local fence1_trigger1_x_position = 15.0;
     local fence2_trigger1_x_position = 17.0;
@@ -256,12 +254,6 @@ function _CreateObjects()
     fence2_trigger2 = CreateObject(Map, "Stone Fence1", fence2_trigger2_x_position, 38);
     fence2_trigger2:RandomizeCurrentAnimationFrame();
     Map:AddGroundObject(fence2_trigger2);
-
-    second_floor_gate = CreateObject(Map, "Gate1 closed", 20, 10);
-    Map:AddGroundObject(second_floor_gate);
-
-    event = vt_map.ScriptedEvent("Open Gate", "open_gate_animated_start", "open_gate_animated_update")
-    EventManager:RegisterEvent(event);
 end
 
 function _add_flame(x, y)
@@ -717,18 +709,6 @@ local orlinn_y_position = 0;
 -- Map Custom functions
 -- Used through scripted events
 map_functions = {
-    -- Check whether both triggers are activated and then free the way.
-    check_triggers = function()
-        if (stone_trigger1:GetState() == true
-                and stone_trigger2:GetState() == true) then
-            -- Free the way
-            EventManager:StartEvent("Open Gate", 100);
-        else
-            -- Play a click sound when a trigger is pushed
-            AudioManager:PlaySound("snd/trigger_on.wav");
-        end
-    end,
-
     -- A function making the gate slide up with a noise and removing its collision
     open_gate_animated_start = function()
         gate_y_position = 10.0;
