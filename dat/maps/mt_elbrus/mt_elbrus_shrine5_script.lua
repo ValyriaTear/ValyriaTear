@@ -163,6 +163,19 @@ function _CreateObjects()
     _add_flame(13.5, 7);
     _add_flame(43.5, 6);
 
+    object = CreateObject(Map, "Vase3", 35, 35);
+    Map:AddGroundObject(object);
+    object = CreateObject(Map, "Vase2", 8, 27);
+    Map:AddGroundObject(object);
+    object = CreateObject(Map, "Vase4", 26, 13);
+    Map:AddGroundObject(object);
+    object = CreateObject(Map, "Vase4", 27, 15);
+    Map:AddGroundObject(object);
+    object = CreateObject(Map, "Jar1", 6, 33);
+    Map:AddGroundObject(object);
+    object = CreateObject(Map, "Vase3", 8, 35);
+    Map:AddGroundObject(object);
+
     object = CreateObject(Map, "Candle Holder1", 16, 11);
     Map:AddGroundObject(object);
     object = CreateObject(Map, "Candle Holder1", 24, 11);
