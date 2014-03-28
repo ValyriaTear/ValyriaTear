@@ -63,6 +63,9 @@ end
 function Update()
     -- Check whether the character is in one of the zones
     _CheckZones();
+
+    -- Check whether the triggers are toggled.
+    _CheckStoneAndTriggersCollision();
 end
 
 -- Character creation
@@ -93,7 +96,13 @@ local fence1_trigger1 = {};
 local fence2_trigger1 = {};
 local fence1_trigger2 = {};
 local fence2_trigger2 = {};
+local fence3_trigger2 = {};
+
 local stone_trigger1 = {};
+
+local rolling_stone1 = {};
+local rolling_stone2 = {};
+local rolling_stone2_out = false;
 
 function _CreateObjects()
     local object = {}
@@ -122,8 +131,6 @@ function _CreateObjects()
     object = CreateObject(Map, "Stone Fence1", 43, 16);
     Map:AddGroundObject(object);
 
-    object = CreateObject(Map, "Stone Fence1", 34, 13);
-    Map:AddGroundObject(object);
     object = CreateObject(Map, "Stone Fence1", 26, 19);
     Map:AddGroundObject(object);
 
@@ -131,16 +138,21 @@ function _CreateObjects()
     -- Top Right door: Unlocked by trigger
     local fence1_trigger1_x_position = 27.0;
     local fence2_trigger1_x_position = 29.0;
+    local fence3_trigger1_y_position = 13.0;
     -- Sets the passage open if the enemies were already beaten
     if (GlobalManager:GetEventValue("triggers", "mt elbrus shrine 6 trigger 1") == 1) then
         fence1_trigger1_x_position = 25.0;
         fence2_trigger1_x_position = 31.0;
+        fence3_trigger1_y_position = 14.0;
     end
 
     fence1_trigger1 = CreateObject(Map, "Stone Fence1", fence1_trigger1_x_position, 11);
     Map:AddGroundObject(fence1_trigger1);
     fence2_trigger1 = CreateObject(Map, "Stone Fence1", fence2_trigger1_x_position, 11);
     Map:AddGroundObject(fence2_trigger1);
+
+    fence3_trigger1 = CreateObject(Map, "Stone Fence1", 34, fence3_trigger1_y_position);
+    Map:AddGroundObject(fence3_trigger1);
 
     -- Bottom right door: Unlocked by switch
     local fence1_trigger2_y_position = 34.0;
@@ -169,6 +181,41 @@ function _CreateObjects()
 
     event = vt_map.ScriptedEvent("Check triggers", "check_triggers", "")
     EventManager:RegisterEvent(event);
+
+    -- The stones used to get through this enigma
+    rolling_stone1 = CreateObject(Map, "Rolling Stone", 38, 34);
+    Map:AddGroundObject(rolling_stone1);
+    event = vt_map.IfEvent("Check hero position for rolling stone 1", "check_diagonal_stone1", "Push the rolling stone 1", "");
+    EventManager:RegisterEvent(event);
+    event = vt_map.ScriptedEvent("Push the rolling stone 1", "start_to_move_the_stone1", "move_the_stone_update1")
+    EventManager:RegisterEvent(event);
+
+    if (GlobalManager:GetEventValue("story", "mt_shrine_1st_floor_stone1_through_1st_door") == 1) then
+        if (GlobalManager:GetEventValue("triggers", "mt elbrus shrine 6 trigger 1") == 1) then
+            rolling_stone1:SetPosition(26, 17);
+        end
+        rolling_stone1:SetEventWhenTalking("Check hero position for rolling stone 1");
+    else
+        rolling_stone1:SetVisible(false);
+        rolling_stone1:SetVisible(false);
+        rolling_stone1:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
+    end
+
+    rolling_stone2 = CreateObject(Map, "Rolling Stone", 38, 34);
+    Map:AddGroundObject(rolling_stone2);
+    event = vt_map.IfEvent("Check hero position for rolling stone 2", "check_diagonal_stone2", "Push the rolling stone 2", "");
+    EventManager:RegisterEvent(event);
+    event = vt_map.ScriptedEvent("Push the rolling stone 2", "start_to_move_the_stone2", "move_the_stone_update2")
+    EventManager:RegisterEvent(event);
+
+    if (GlobalManager:GetEventValue("story", "mt_shrine_1st_floor_stone2_through_1st_door") == 1
+            and GlobalManager:GetEventValue("story", "mt_shrine_1st_floor_stone2_through_2nd_door") == 0) then
+        rolling_stone2:SetEventWhenTalking("Check hero position for rolling stone 2");
+    else
+        rolling_stone2:SetVisible(false);
+        rolling_stone2:SetVisible(false);
+        rolling_stone2:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
+    end
 end
 
 function _add_flame(x, y)
@@ -278,12 +325,122 @@ function _CheckZones()
         EventManager:StartEvent("to mountain shrine 1st floor SE room - bottom door");
     end
 
+    if (rolling_stone2_out == false) then
+        if (to_shrine_NW_right_door_room_zone:IsInsideZone(rolling_stone2:GetXPosition(), rolling_stone2:GetYPosition()) == true) then
+            GlobalManager:SetEventValue("story", "mt_shrine_1st_floor_stone2_through_2nd_door", 1);
+            rolling_stone2_out = true;
+            rolling_stone2:SetVisible(false);
+            rolling_stone2:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
+        end
+    end
 end
 
+function _CheckStoneAndTriggersCollision()
+    -- Check trigger
+    if (stone_trigger1:GetState() == false) then
+        if (stone_trigger1:IsCollidingWith(rolling_stone1) == true) then
+            stone_trigger1:SetState(true)
+        end
+    end
+end
+
+
+function _CheckForDiagonals(target)
+    -- Check for diagonals. If the player is in diagonal,
+    -- whe shouldn't trigger the event at all, as only straight relative position
+    -- to the target sprite will work correctly.
+    -- (Here used only for shrooms and stones)
+
+    local hero_x = hero:GetXPosition();
+    local hero_y = hero:GetYPosition();
+
+    local target_x = target:GetXPosition();
+    local target_y = target:GetYPosition();
+
+    -- bottom-left
+    if (hero_y > target_y + 0.3 and hero_x < target_x - 1.2) then return false; end
+    -- bottom-right
+    if (hero_y > target_y + 0.3 and hero_x > target_x + 1.2) then return false; end
+    -- top-left
+    if (hero_y < target_y - 1.5 and hero_x < target_x - 1.2) then return false; end
+    -- top-right
+    if (hero_y < target_y - 1.5 and hero_x > target_x + 1.2) then return false; end
+
+    return true;
+end
+
+function _UpdateStoneMovement(stone_object, stone_direction)
+    local update_time = SystemManager:GetUpdateTime();
+    local movement_diff = 0.015 * update_time;
+
+    -- We cap the max movement distance to avoid making the ball go through obstacles
+    -- in case of low FPS
+    if (movement_diff > 1.0) then
+        movement_diff = 1.0;
+    end
+
+    local new_pos_x = stone_object:GetXPosition();
+    local new_pos_y = stone_object:GetYPosition();
+
+    -- Apply the movement
+    if (stone_direction == vt_map.MapMode.NORTH) then
+        new_pos_y = stone_object:GetYPosition() - movement_diff;
+    elseif (stone_direction == vt_map.MapMode.SOUTH) then
+        new_pos_y = stone_object:GetYPosition() + movement_diff;
+    elseif (stone_direction == vt_map.MapMode.WEST) then
+        new_pos_x = stone_object:GetXPosition() - movement_diff;
+    elseif (stone_direction == vt_map.MapMode.EAST) then
+        new_pos_x = stone_object:GetXPosition() + movement_diff;
+    end
+
+    -- Check the collision
+    if (stone_object:IsColliding(new_pos_x, new_pos_y) == true) then
+        AudioManager:PlaySound("snd/stone_bump.ogg");
+        return true;
+    end
+
+    --  and apply the movement if none
+    stone_object:SetPosition(new_pos_x, new_pos_y);
+
+    return false;
+end
+
+-- returns the direction the stone shall take
+function _GetStoneDirection(stone)
+
+    local hero_x = hero:GetXPosition();
+    local hero_y = hero:GetYPosition();
+
+    local stone_x = stone:GetXPosition();
+    local stone_y = stone:GetYPosition();
+
+    -- Set the stone direction
+    local stone_direction = vt_map.MapMode.EAST;
+
+    -- Determine the hero position relative to the stone
+    if (hero_y > stone_y + 0.3) then
+        -- the hero is below, the stone is pushed upward.
+        stone_direction = vt_map.MapMode.NORTH;
+    elseif (hero_y < stone_y - 1.5) then
+        -- the hero is above, the stone is pushed downward.
+        stone_direction = vt_map.MapMode.SOUTH;
+    elseif (hero_x < stone_x - 1.2) then
+        -- the hero is on the left, the stone is pushed to the right.
+        stone_direction = vt_map.MapMode.EAST;
+    elseif (hero_x > stone_x + 1.2) then
+        -- the hero is on the right, the stone is pushed to the left.
+        stone_direction = vt_map.MapMode.WEST;
+    end
+
+    return stone_direction;
+end
 
 -- The fire pots x position
 local ne_passage_fence1_x = 0.0;
 local ne_passage_fence2_x = 0.0;
+
+local stone_direction1 = vt_map.MapMode.EAST;
+local stone_direction2 = vt_map.MapMode.EAST;
 
 -- Map Custom functions
 -- Used through scripted events
@@ -315,9 +472,39 @@ map_functions = {
         ne_passage_fence2_x = ne_passage_fence2_x + movement_diff;
         fence2_trigger1:SetPosition(ne_passage_fence2_x, 11.0);
 
+        if (fence3_trigger1:GetYPosition() < 14.0) then
+            fence3_trigger1:SetYPosition(fence3_trigger1:GetYPosition() + movement_diff)
+        end
+
         if (ne_passage_fence1_x <= 25.0) then
             return true;
         end
         return false;
+    end,
+
+    check_diagonal_stone1 = function()
+        return _CheckForDiagonals(rolling_stone1);
+    end,
+
+    check_diagonal_stone2 = function()
+        return _CheckForDiagonals(rolling_stone2);
+    end,
+
+    start_to_move_the_stone1 = function()
+        stone_direction1 = _GetStoneDirection(rolling_stone1);
+        AudioManager:PlaySound("snd/stone_roll.wav");
+    end,
+
+    start_to_move_the_stone2 = function()
+        stone_direction2 = _GetStoneDirection(rolling_stone2);
+        AudioManager:PlaySound("snd/stone_roll.wav");
+    end,
+
+    move_the_stone_update1 = function()
+        return _UpdateStoneMovement(rolling_stone1, stone_direction1)
+    end,
+
+    move_the_stone_update2 = function()
+        return _UpdateStoneMovement(rolling_stone2, stone_direction2)
     end,
 }
