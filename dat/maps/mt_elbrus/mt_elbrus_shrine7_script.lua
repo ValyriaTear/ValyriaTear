@@ -46,7 +46,6 @@ function Load(m)
 
     -- Add a mediumly dark overlay
     Map:GetEffectSupervisor():EnableAmbientOverlay("img/ambient/dark.png", 0.0, 0.0, false);
-
 end
 
 -- the map update function handles checks done on each game tick.
@@ -104,7 +103,10 @@ local fence2_trigger1 = {};
 
 local rolling_stone1 = {};
 local rolling_stone2 = {};
-local rolling_stone3 = {};
+
+-- tells whether the stones already went throught the door.
+local rolling_stone1_out = false;
+local rolling_stone2_out = false;
 
 function _CreateObjects()
     local object = {}
@@ -133,18 +135,19 @@ function _CreateObjects()
     object = CreateObject(Map, "Stone Fence1", 43, 19);
     Map:AddGroundObject(object);
 
-    -- Add an invisible object permitting to trigger the same event.
-    object = CreateObject(Map, "Stone Fence1", 28, 15);
-    object:SetVisible(false);
-    object:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
-    object:SetEventWhenTalking("Heroes see the missing stone event");
-    Map:AddGroundObject(object);
+    if (GlobalManager:GetEventValue("story", "mountain_shrine_1stfloor_orlinn_pushed_stone") == 0) then
+        -- Add an invisible object permitting to trigger the event when the stone is still in its first place.
+        object = CreateObject(Map, "Stone Fence1", 28, 15);
+        object:SetVisible(false);
+        object:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
+        object:SetEventWhenTalking("Heroes see the missing stone event");
+        Map:AddGroundObject(object);
+    end
 
     -- Bottom right door: Unlocked by switch
     local fence1_trigger1_y_position = 34.0;
     local fence2_trigger1_y_position = 36.0;
     -- Sets the passage open if the enemies were already beaten
-    -- FIXME: USE a trigger event instead.
     if (GlobalManager:GetEventValue("triggers", "mt elbrus shrine 8 gate 7 trigger") == 1) then
         fence1_trigger1_y_position = 31.8;
         fence2_trigger1_y_position = 38.0;
@@ -155,8 +158,8 @@ function _CreateObjects()
     fence2_trigger1 = CreateObject(Map, "Stone Fence1", 5.0, fence2_trigger1_y_position);
     Map:AddGroundObject(fence2_trigger1);
 
-    -- Adds the spikes preventing from getting the rolling stone if the trigger wasn't pushed
-    if (GlobalManager:GetEventValue("triggers", "mt elbrus shrine 8 spikes trigger") == 0) then
+    -- Adds the spikes preventing from getting the rolling stone if the SW trigger wasn't pushed
+    if (GlobalManager:GetEventValue("triggers", "mt elbrus shrine 6 trigger 1") == 0) then
         object = CreateObject(Map, "Spikes1", 25, 7);
         Map:AddGroundObject(object);
         object = CreateObject(Map, "Spikes1", 27, 7);
@@ -168,45 +171,50 @@ function _CreateObjects()
     end
 
     -- The stones used to get through this enigma
-    rolling_stone1 = CreateObject(Map, "Rolling Stone", 16, 12);
+    rolling_stone1 = CreateObject(Map, "Rolling Stone", 15, 34);
     Map:AddGroundObject(rolling_stone1);
-    rolling_stone1:SetEventWhenTalking("Check hero position for rolling stone 1");
     event = vt_map.IfEvent("Check hero position for rolling stone 1", "check_diagonal_stone1", "Push the rolling stone 1", "");
     EventManager:RegisterEvent(event);
     event = vt_map.ScriptedEvent("Push the rolling stone 1", "start_to_move_the_stone1", "move_the_stone_update1")
     EventManager:RegisterEvent(event);
 
-    rolling_stone2 = CreateObject(Map, "Rolling Stone", 15, 34);
-    Map:AddGroundObject(rolling_stone2);
-    rolling_stone2:SetEventWhenTalking("Check hero position for rolling stone 2");
-    event = vt_map.IfEvent("Check hero position for rolling stone 2", "check_diagonal_stone2", "Push the rolling stone 2", "");
-    EventManager:RegisterEvent(event);
-    event = vt_map.ScriptedEvent("Push the rolling stone 2", "start_to_move_the_stone2", "move_the_stone_update2")
-    EventManager:RegisterEvent(event);
+    -- Check whether we put the stone 1 through the door
+    if (GlobalManager:GetEventValue("story", "mt_shrine_1st_floor_stone1_through_1st_door") == 1) then
+        rolling_stone1_out = true;
+        rolling_stone1:SetVisible(false);
+        rolling_stone1:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
+    else
+        rolling_stone1:SetEventWhenTalking("Check hero position for rolling stone 1");
+    end
 
-    rolling_stone3 = CreateObject(Map, "Rolling Stone", 28, 9);
-    Map:AddGroundObject(rolling_stone3);
-    -- If the spikes are removed, and the stone untouched, Orlinn can pushed downstairs...
-    if (GlobalManager:GetEventValue("story", "mountain_shrine_1stfloor_orlinn_pushed_stone") == 0
-            and GlobalManager:GetEventValue("triggers", "mt elbrus shrine 8 spikes trigger") == 1) then
-        rolling_stone3:SetEventWhenTalking("Make rolling stone3 fall event start");
+    rolling_stone2 = CreateObject(Map, "Rolling Stone", 28, 9);
+    Map:AddGroundObject(rolling_stone2);
+    if (GlobalManager:GetEventValue("story", "mt_shrine_1st_floor_stone2_through_1st_door") == 1) then
+        -- Check whether we put the stone 2 through the door
+        rolling_stone2_out = true;
+        rolling_stone2:SetVisible(false);
+        rolling_stone2:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
+    elseif (GlobalManager:GetEventValue("story", "mountain_shrine_1stfloor_orlinn_pushed_stone") == 0
+            and GlobalManager:GetEventValue("triggers", "mt elbrus shrine 6 trigger 1") == 1) then
+        -- If the spikes are removed, and the stone untouched, Orlinn can pushed downstairs...
+        rolling_stone2:SetEventWhenTalking("Make rolling stone2 fall event start");
     elseif (GlobalManager:GetEventValue("story", "mountain_shrine_1stfloor_orlinn_pushed_stone") == 1) then
         -- The stone is downstairs
-        rolling_stone3:SetPosition(28, 18);
-        rolling_stone3:SetEventWhenTalking("Check hero position for rolling stone 3");
+        rolling_stone2:SetPosition(28, 18);
+        rolling_stone2:SetEventWhenTalking("Check hero position for rolling stone 2");
     end
 
     -- Makes the stone fall
-    event = vt_map.ScriptedEvent("Make rolling stone3 fall event start", "stone_falls_event_start", "stone_falls_event_update");
+    event = vt_map.ScriptedEvent("Make rolling stone2 fall event start", "stone_falls_event_start", "stone_falls_event_update");
     event:AddEventLinkAtEnd("Rolling stone3 falls event end");
     EventManager:RegisterEvent(event);
     event = vt_map.ScriptedEvent("Rolling stone3 falls event end", "stone_falls_event_end", "");
     EventManager:RegisterEvent(event);
 
     -- Push the stone
-    event = vt_map.IfEvent("Check hero position for rolling stone 3", "check_diagonal_stone3", "Push the rolling stone 3", "");
+    event = vt_map.IfEvent("Check hero position for rolling stone 2", "check_diagonal_stone2", "Push the rolling stone 2", "");
     EventManager:RegisterEvent(event);
-    event = vt_map.ScriptedEvent("Push the rolling stone 3", "start_to_move_the_stone3", "move_the_stone_update3")
+    event = vt_map.ScriptedEvent("Push the rolling stone 2", "start_to_move_the_stone2", "move_the_stone_update2")
     EventManager:RegisterEvent(event);
 end
 
@@ -253,7 +261,7 @@ function _CreateEvents()
 
     -- Tells about Orlinn's passage
     dialogue = vt_map.SpriteDialogue();
-    text = vt_system.Translate("There seems to be one of those rolling stones up there. Maybe is there something we missed?");
+    text = vt_system.Translate("There seems to be one of those rolling stones up here ...");
     dialogue:AddLineEmote(text, hero, "thinking dots");
     DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("The hero talks about finding a way to get there", dialogue);
@@ -287,10 +295,6 @@ function _CreateZones()
     to_shrine_NE_room_zone = vt_map.CameraZone(24, 32, 0, 2);
     Map:AddZone(to_shrine_NE_room_zone);
 
-    -- The zone where the characters see the missing stone
-    see_the_missing_stone_zone = vt_map.CameraZone(26, 32, 14, 22);
-    Map:AddZone(see_the_missing_stone_zone);
-
 end
 
 -- Check whether the active camera has entered a zone. To be called within Update()
@@ -304,11 +308,23 @@ function _CheckZones()
     elseif (to_shrine_NE_room_zone:IsCameraEntering() == true) then
         hero:SetDirection(vt_map.MapMode.NORTH);
         EventManager:StartEvent("to mountain shrine 1st floor NE room");
-    elseif (see_the_missing_stone_zone:IsCameraEntering() == true
-            and Map:CurrentState() == vt_map.MapMode.STATE_EXPLORE) then
-        if (GlobalManager:GetEventValue("story", "mt_elbrus_saw_missing_stone") == 0) then
-            hero:SetDirection(vt_map.MapMode.NORTH);
-            EventManager:StartEvent("Heroes see the missing stone event");
+    end
+
+    -- Check whether we pushed one stone through the door
+    if (rolling_stone1_out == false) then
+        if (to_shrine_SW_bottom_door_room_zone:IsInsideZone(rolling_stone1:GetXPosition(), rolling_stone1:GetYPosition()) == true) then
+            GlobalManager:SetEventValue("story", "mt_shrine_1st_floor_stone1_through_1st_door", 1);
+            rolling_stone1_out = true;
+            rolling_stone1:SetVisible(false);
+            rolling_stone1:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
+        end
+    end
+    if (rolling_stone2_out == false) then
+        if (to_shrine_SW_bottom_door_room_zone:IsInsideZone(rolling_stone2:GetXPosition(), rolling_stone2:GetYPosition()) == true) then
+            GlobalManager:SetEventValue("story", "mt_shrine_1st_floor_stone2_through_1st_door", 1);
+            rolling_stone2_out = true;
+            rolling_stone2:SetVisible(false);
+            rolling_stone2:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
         end
     end
 end
@@ -406,7 +422,6 @@ end
 
 local stone_direction1 = vt_map.MapMode.EAST;
 local stone_direction2 = vt_map.MapMode.EAST;
-local stone_direction3 = vt_map.MapMode.EAST;
 
 local stone_fall_y_pos = 9;
 local stone_fall_hit_ground = false;
@@ -423,7 +438,7 @@ map_functions = {
     end,
 
     set_camera_on_stone = function()
-        Map:MoveVirtualFocus(rolling_stone3:GetXPosition(), rolling_stone3:GetYPosition());
+        Map:MoveVirtualFocus(rolling_stone2:GetXPosition(), rolling_stone2:GetYPosition());
         Map:SetCamera(ObjectManager.virtual_focus, 800);
     end,
 
@@ -465,7 +480,7 @@ map_functions = {
         end
         local movement_diff = diff_speed * update_time;
         stone_fall_y_pos = stone_fall_y_pos + movement_diff;
-        rolling_stone3:SetYPosition(stone_fall_y_pos);
+        rolling_stone2:SetYPosition(stone_fall_y_pos);
         if (stone_fall_y_pos >= 18.0) then
             GlobalManager:SetEventValue("story", "mountain_shrine_1stfloor_orlinn_pushed_stone", 1);
             Map:PopState();
@@ -482,10 +497,6 @@ map_functions = {
         return _CheckForDiagonals(rolling_stone2);
     end,
 
-    check_diagonal_stone3 = function()
-        return _CheckForDiagonals(rolling_stone3);
-    end,
-
     start_to_move_the_stone1 = function()
         stone_direction1 = _GetStoneDirection(rolling_stone1);
         AudioManager:PlaySound("snd/stone_roll.wav");
@@ -496,21 +507,12 @@ map_functions = {
         AudioManager:PlaySound("snd/stone_roll.wav");
     end,
 
-    start_to_move_the_stone3 = function()
-        stone_direction3 = _GetStoneDirection(rolling_stone3);
-        AudioManager:PlaySound("snd/stone_roll.wav");
-    end,
-
     move_the_stone_update1 = function()
         return _UpdateStoneMovement(rolling_stone1, stone_direction1)
     end,
 
     move_the_stone_update2 = function()
         return _UpdateStoneMovement(rolling_stone2, stone_direction2)
-    end,
-
-    move_the_stone_update3 = function()
-        return _UpdateStoneMovement(rolling_stone3, stone_direction3)
     end,
 
 }
