@@ -100,7 +100,7 @@ function _CreateObjects()
     object:SetPosition(19, 20);
     Map:AddFlatGroundObject(object);
 
-    -- A trigger that will reéove the spikes in the SE map.
+    -- A trigger that will remove the spikes in the SE map.
     object = vt_map.TriggerObject("mt elbrus shrine 8 spikes trigger",
                              "img/sprites/map/triggers/stone_trigger1_off.lua",
                              "img/sprites/map/triggers/stone_trigger1_on.lua",
@@ -133,20 +133,12 @@ function _CreateEnemies()
     roam_zone = vt_map.EnemyZone(12, 20, 14, 22);
 
     enemy = CreateEnemySprite(Map, "Beetle");
-    _SetBattleEnvironment(enemy);
-    enemy:NewEnemyParty();
-    enemy:AddEnemy(15);
-    enemy:AddEnemy(15);
-    enemy:AddEnemy(16, 612, 384);
-    enemy:NewEnemyParty();
-    enemy:AddEnemy(15);
-    enemy:AddEnemy(17);
-
     enemy:AddWayPoint(13.1, 15.8);
     enemy:AddWayPoint(18.9, 15.8);
     enemy:AddWayPoint(18.9, 21.8);
     enemy:AddWayPoint(13.1, 21.8);
     enemy:SetAggroRange(2);
+    enemy:SetEncounterEvent("Restart Orlinn Map");
     roam_zone:AddEnemy(enemy, Map, 1);
     Map:AddZone(roam_zone);
 
@@ -154,50 +146,27 @@ function _CreateEnemies()
     roam_zone = vt_map.EnemyZone(28, 40, 16, 24);
 
     enemy = CreateEnemySprite(Map, "Beetle");
-    _SetBattleEnvironment(enemy);
-    enemy:NewEnemyParty();
-    enemy:AddEnemy(15);
-    enemy:AddEnemy(15);
-    enemy:AddEnemy(16, 612, 384);
-    enemy:NewEnemyParty();
-    enemy:AddEnemy(15);
-    enemy:AddEnemy(17);
-
     enemy:AddWayPoint(33.2, 15.8);
     enemy:AddWayPoint(38.2, 15.8);
     enemy:AddWayPoint(38.2, 23.8);
     enemy:AddWayPoint(29.1, 23.8);
     enemy:AddWayPoint(29.1, 17.8);
     enemy:SetAggroRange(2);
+    enemy:SetEncounterEvent("Restart Orlinn Map");
     roam_zone:AddEnemy(enemy, Map, 1);
     Map:AddZone(roam_zone);
 
     roam_zone = vt_map.EnemyZone(28, 40, 22, 30);
 
     enemy = CreateEnemySprite(Map, "Beetle");
-    _SetBattleEnvironment(enemy);
-    enemy:NewEnemyParty();
-    enemy:AddEnemy(15);
-    enemy:AddEnemy(15);
-    enemy:AddEnemy(16, 612, 384);
-    enemy:NewEnemyParty();
-    enemy:AddEnemy(15);
-    enemy:AddEnemy(17);
-
     enemy:AddWayPoint(29.1, 23.8);
     enemy:AddWayPoint(38.1, 23.8);
     enemy:AddWayPoint(38.1, 29.8);
     enemy:AddWayPoint(29.1, 29.8);
     enemy:SetAggroRange(2);
+    enemy:SetEncounterEvent("Restart Orlinn Map");
     roam_zone:AddEnemy(enemy, Map, 1);
     Map:AddZone(roam_zone);
-end
-
--- Sets common battle environment settings for enemy sprites
-function _SetBattleEnvironment(enemy)
-    enemy:SetBattleMusicTheme("mus/heroism-OGA-Edward-J-Blakeley.ogg");
-    enemy:SetBattleBackground("img/backdrops/battle/mountain_shrine.png");
-    enemy:AddBattleScript("dat/battles/mountain_shrine_battle_anim.lua");
 end
 
 -- Creates all events and sets up the entire event sequence chain
@@ -211,6 +180,14 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
     event = vt_map.MapTransitionEvent("to mountain shrine 1st floor SE room", "dat/maps/mt_elbrus/mt_elbrus_shrine7_map.lua",
                                        "dat/maps/mt_elbrus/mt_elbrus_shrine7_script.lua", "from_shrine_first_floor_NE_room");
+    EventManager:RegisterEvent(event);
+
+    -- Restart the map when Orlinn is caught.
+    event = vt_map.ScriptedEvent("Restart Orlinn Map", "restart_map_event_start", "");
+    event:AddEventLinkAtEnd("to previous entrance");
+    EventManager:RegisterEvent(event);
+    event = vt_map.MapTransitionEvent("to previous entrance", "dat/maps/mt_elbrus/mt_elbrus_shrine8_map.lua",
+                                       "dat/maps/mt_elbrus/mt_elbrus_shrine8_script.lua", GlobalManager:GetPreviousLocation());
     EventManager:RegisterEvent(event);
 
 end
@@ -245,5 +222,9 @@ end
 -- Map Custom functions
 -- Used through scripted events
 map_functions = {
-
+    restart_map_event_start = function()
+        Map:PushState(vt_map.MapMode.STATE_SCENE);
+        hero:SetMoving(false);
+        AudioManager:PlayMusic("battle_encounter_01.ogg");
+    end,
 }
