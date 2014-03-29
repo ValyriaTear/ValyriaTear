@@ -343,6 +343,8 @@ void BindModeCode()
             .def("ChangeStateSpawning", &EnemySprite::ChangeStateSpawning)
             .def("ChangeStateHostile", &EnemySprite::ChangeStateHostile)
             .def("AddWayPoint", &EnemySprite::AddWayPoint)
+            .def("GetEncounterEvent", &EnemySprite::GetEncounterEvent)
+            .def("SetEncounterEvent", &EnemySprite::SetEncounterEvent)
         ];
 
         luabind::module(vt_script::ScriptManager->GetGlobalState(), "vt_map")

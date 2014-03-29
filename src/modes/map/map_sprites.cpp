@@ -342,7 +342,7 @@ void VirtualSprite::_SetNextPosition()
             if(enemy && enemy->IsHostile() && map->AttackAllowed()) {
                  // Check whether the player is actually playing. If not, we don't want to start a battle.
                  if (MapMode::CurrentInstance()->CurrentState() == STATE_EXPLORE)
-                     _StartBattleEncounter(enemy);
+                     _StartEnemyEncounter(enemy);
 
                  return;
             }
@@ -369,7 +369,7 @@ void VirtualSprite::_SetNextPosition()
             if(enemy && enemy->IsHostile() && map->AttackAllowed()) {
                  // Check whether the player is actually playing. If not, we don't want to start a battle.
                  if (MapMode::CurrentInstance()->CurrentState() == STATE_EXPLORE)
-                     _StartBattleEncounter(enemy);
+                     _StartEnemyEncounter(enemy);
 
                  return;
             }
@@ -626,8 +626,18 @@ void VirtualSprite::RestoreState()
 }
 
 
-void VirtualSprite::_StartBattleEncounter(EnemySprite *enemy)
+void VirtualSprite::_StartEnemyEncounter(EnemySprite *enemy)
 {
+    if (!enemy)
+        return;
+
+    // If the enemy has got an encounter event, we trigger it.
+    if (!enemy->GetEncounterEvent().empty()) {
+        MapMode::CurrentInstance()->GetEventSupervisor()->StartEvent(enemy->GetEncounterEvent());
+        return;
+    }
+
+    // Otherwise, we start a battle
     // Check the current map stamina and apply a malus on agility when it is low
     MapMode* MM = MapMode::CurrentInstance();
     MM->ApplyPotentialStaminaMalus();

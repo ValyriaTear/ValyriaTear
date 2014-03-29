@@ -200,10 +200,10 @@ protected:
     **/
     void _SetNextPosition();
 
-    /** \brief Start a battle encounter with a given enemy
+    /** \brief Start a enemy encounter battle or event with a given enemy
     *** \param enemy The enemy sprite the character has collided with.
     **/
-    void _StartBattleEncounter(EnemySprite *enemy);
+    void _StartEnemyEncounter(EnemySprite* enemy);
 
     /** \brief Handles position corrections when the sprite is on the edge of
     *** physical obstacles. (NPC sprites, treasure, ... aren't considered here for playability purpose)
@@ -587,6 +587,18 @@ public:
     //! \brief Returns a reference to a random party of enemies
     const std::vector<BattleEnemyInfo>& RetrieveRandomParty() const;
 
+    //! \brief Returns the enemy's encounter event id.
+    //! If this event is not empty, it is triggered instead of a battle,
+    //! when encountering an enemy sprite in the map mode.
+    const std::string& GetEncounterEvent() const {
+        return _encounter_event;
+    }
+
+    //! \brief Sets the enemy's encounter event id.
+    void SetEncounterEvent(const std::string& event) {
+        _encounter_event = event;
+    }
+
     //! \name Class Member Access Functions
     //@{
     float GetAggroRange() const {
@@ -728,6 +740,10 @@ private:
     *** The numbers contained within this member are ID numbers for the enemy.
     **/
     std::vector<std::vector<BattleEnemyInfo> > _enemy_parties;
+
+    //! \brief The enemy's encounter event.
+    //! If this event is not empty, it is triggered instead of a battle.
+    std::string _encounter_event;
 
     //! \brief Tells whether pathfinding is used to compute the enemy movement.
     bool _use_path;
