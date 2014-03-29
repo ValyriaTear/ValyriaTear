@@ -163,7 +163,7 @@ function _CreateObjects()
     _add_flame(13.5, 7);
     _add_flame(43.5, 6);
 
-    object = CreateObject(Map, "Vase3", 35, 35);
+    object = CreateObject(Map, "Vase3", 24, 35);
     Map:AddGroundObject(object);
     object = CreateObject(Map, "Vase2", 8, 27);
     Map:AddGroundObject(object);
@@ -271,7 +271,7 @@ function _CreateObjects()
     EventManager:RegisterEvent(event);
     event = vt_map.ScriptedEvent("Push the rolling stone 2", "start_to_move_the_stone2", "move_the_stone_update2")
     EventManager:RegisterEvent(event);
-    
+
     if (GlobalManager:GetEventValue("story", "mt_shrine_1st_floor_stone2_through_2nd_door") == 0) then
         rolling_stone2:SetVisible(false);
         rolling_stone2:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
@@ -526,7 +526,7 @@ function _CreateEvents()
     dialogue = vt_map.SpriteDialogue();
     text = vt_system.Translate("Oops, sorry!");
     dialogue:AddLineEvent(text, orlinn, "Orlinn looks west", "");
-   
+
     if (GlobalManager:GetEventValue("story", "mt_elbrus_fell_on_bronanns_head") == 0) then
         -- First time
         text = vt_system.Translate("Bronann, are you fine?");
@@ -555,7 +555,7 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("Orlinn goes back to party3");
     event:AddEventLinkAtEnd("Kalya goes back to party3");
     EventManager:RegisterEvent(event);
-    
+
     event = vt_map.PathMoveSpriteEvent("Orlinn goes back to party3", orlinn, bronann, false);
     EventManager:RegisterEvent(event);
     event = vt_map.PathMoveSpriteEvent("Kalya goes back to party3", kalya, bronann, false);
@@ -944,7 +944,7 @@ map_functions = {
 
         -- Near, but not upon
         orlinn_move_near_hero_event:SetDestination(hero:GetXPosition() + 1.0, hero:GetYPosition() + 0.2, false);
-        
+
         jump_canceled = false;
     end,
 
@@ -959,11 +959,11 @@ map_functions = {
         orlinn:SetDirection(vt_map.MapMode.WEST)
         kalya:SetDirection(vt_map.MapMode.EAST)
     end,
-    
+
     jump_to_passage_update = function()
         local update_time = SystemManager:GetUpdateTime();
         jump_event_time = jump_event_time + update_time;
-        
+
         -- Bronann's movement
         if (kneeling_done == false and jump_event_time >= 100) then
             -- Bronann kneels so Orlinn can grab Orlinn's feet.
@@ -987,7 +987,7 @@ map_functions = {
             orlinn:SetDirection(vt_map.MapMode.SOUTH);
             return true;
         end
-        
+
         return false;
     end,
 
@@ -1007,7 +1007,7 @@ map_functions = {
     end,
 
     thrown_to_passage_event_end = function()
-      
+
         -- If the user chose 'No', Orlinn can now be removed the event end
         if (jump_canceled == true) then
             Map:PopState();
@@ -1027,7 +1027,7 @@ map_functions = {
             orlinn:SetCollisionMask(vt_map.MapMode.ALL_COLLISION);
             -- Enables the event to permit coming back
             passage_back_event_object:SetEventWhenTalking("Orlinn comes back event start");
-            
+
             -- Removes the 'hero' sprite, and add the 'bronann' sprite instead for the coming back event.
             bronann:SetDirection(hero:GetDirection());
             bronann:SetPosition(hero:GetXPosition(), hero:GetYPosition());
@@ -1064,7 +1064,7 @@ map_functions = {
         local update_time = SystemManager:GetUpdateTime();
         orlinn_y_position = orlinn_y_position + 0.015 * update_time;
         orlinn:SetYPosition(orlinn_y_position);
-        
+
         if (orlinn_y_position >= bronann:GetYPosition()) then
             return true;
         end
@@ -1103,7 +1103,7 @@ map_functions = {
         end
         return true;
     end,
-    
+
     come_back_from_passage_event_end = function()
         -- Put back the hero sprite in place
         hero:SetDirection(bronann:GetDirection());
@@ -1129,7 +1129,7 @@ map_functions = {
         Map:PopState();
 
         GlobalManager:SetEventValue("story", "mt_elbrus_fell_on_bronanns_head", 1)
-        
+
         -- Disable the come back object event
         passage_back_event_object:ClearEventWhenTalking();
     end,
