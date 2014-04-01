@@ -149,6 +149,11 @@ function _CreateObjects()
 
     _add_flame(29.5, 31);
     _add_flame(45.5, 31);
+
+    _add_bubble(23, 30);
+    _add_bubble(19, 29);
+    _add_bubble(6, 29.5);
+    _add_bubble(4, 39);
 end
 
 function _add_flame(x, y)
@@ -165,6 +170,15 @@ function _add_flame(x, y)
         vt_video.Color(0.85, 0.32, 0.0, 0.6));
     Map:AddHalo("img/misc/lights/sun_flare_light_main.lua", x, y + 2.0,
         vt_video.Color(0.99, 1.0, 0.27, 0.1));
+end
+
+function _add_bubble(x, y)
+    local object = CreateObject(Map, "Bubble", x, y);
+    object:RandomizeCurrentAnimationFrame();
+    Map:AddGroundObject(object);
+    object = vt_map.ParticleObject("dat/effects/particles/bubble_steam.lua", x, y);
+    object:SetObjectID(Map.object_supervisor:GenerateObjectID());
+    Map:AddGroundObject(object);
 end
 
 -- Special event references which destinations must be updated just before being called.
