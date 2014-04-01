@@ -107,6 +107,9 @@ function _CreateCharacters()
     elseif (GlobalManager:GetPreviousLocation() == "from_shrine_first_floor_SW_right_door") then
         hero:SetPosition(28, 36);
         hero:SetDirection(vt_map.MapMode.NORTH);
+    elseif (GlobalManager:GetPreviousLocation() == "from_shrine_2nd_floor") then
+        hero:SetPosition(20, 12);
+        hero:SetDirection(vt_map.MapMode.SOUTH);
     elseif (GlobalManager:GetPreviousLocation() == "from_shrine_first_floor_NE_room") then
         -- In that case, Orlinn is back from the top-right passage,
         -- and the player is incarnating him.
@@ -325,8 +328,8 @@ function _CreateEvents()
                                        "dat/maps/mt_elbrus/mt_elbrus_shrine2_script.lua", "from_shrine_first_floor");
     EventManager:RegisterEvent(event);
 
-    event = vt_map.MapTransitionEvent("to mountain shrine 2nd floor", "dat/maps/mt_elbrus/mt_elbrus_shrine9_map.lua",
-                                       "dat/maps/mt_elbrus/mt_elbrus_shrine9_script.lua", "from_shrine_first_floor");
+    event = vt_map.MapTransitionEvent("to mountain shrine 2nd floor", "dat/maps/mt_elbrus/mt_elbrus_shrine_stairs_map.lua",
+                                       "dat/maps/mt_elbrus/mt_elbrus_shrine_stairs_script.lua", "from_shrine_first_floor");
     EventManager:RegisterEvent(event);
 
     event = vt_map.MapTransitionEvent("to mountain shrine 1st floor SW room - left door", "dat/maps/mt_elbrus/mt_elbrus_shrine6_map.lua",
@@ -679,8 +682,8 @@ function _CheckZones()
         hero:SetDirection(vt_map.MapMode.NORTH);
         EventManager:StartEvent("to mountain shrine main room");
     elseif (to_shrine_2nd_floor_room_zone:IsCameraEntering() == true) then
-        --hero:SetDirection(vt_map.MapMode.NORTH);
-        --EventManager:StartEvent("to mountain shrine 2nd floor");
+        hero:SetDirection(vt_map.MapMode.NORTH);
+        EventManager:StartEvent("to mountain shrine 2nd floor");
     elseif (to_shrine_SW_left_door_room_zone:IsCameraEntering() == true) then
         hero:SetDirection(vt_map.MapMode.SOUTH);
         EventManager:StartEvent("to mountain shrine 1st floor SW room - left door");
