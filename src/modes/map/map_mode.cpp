@@ -907,52 +907,46 @@ void MapMode::_UpdateMapFrame()
     _camera_x_in_map_corner = false;
     _camera_y_in_map_corner = false;
 
+    // Determine the number of rows and columns of tiles that need to be drawn
+    _map_frame.num_draw_x_axis = TILES_ON_X_AXIS + 1;
+    _map_frame.num_draw_y_axis = TILES_ON_Y_AXIS + 1;
+
     // Camera exceeds the left boundary of the map
     if(_map_frame.tile_x_start < 0) {
         _map_frame.tile_x_start = 0;
-        _map_frame.tile_x_offset = 1.0f;
+        _map_frame.tile_x_offset = vt_utils::FloorToFloatMultiple(1.0f, _pixel_length_x);
         _map_frame.screen_edges.left = 0.0f;
         _map_frame.screen_edges.right = SCREEN_GRID_X_LENGTH;
+        _map_frame.num_draw_x_axis = TILES_ON_X_AXIS;
         _camera_x_in_map_corner = true;
     }
     // Camera exceeds the right boundary of the map
     else if(_map_frame.tile_x_start + TILES_ON_X_AXIS >= _tile_supervisor->_num_tile_on_x_axis) {
         _map_frame.tile_x_start = static_cast<int16>(_tile_supervisor->_num_tile_on_x_axis - TILES_ON_X_AXIS);
-        _map_frame.tile_x_offset = 1.0f;
+        _map_frame.tile_x_offset = vt_utils::FloorToFloatMultiple(1.0f, _pixel_length_x);
         _map_frame.screen_edges.right = static_cast<float>(_object_supervisor->_num_grid_x_axis);
         _map_frame.screen_edges.left = _map_frame.screen_edges.right - SCREEN_GRID_X_LENGTH;
+        _map_frame.num_draw_x_axis = TILES_ON_X_AXIS;
         _camera_x_in_map_corner = true;
     }
 
     // Camera exceeds the top boundary of the map
     if(_map_frame.tile_y_start < 0) {
         _map_frame.tile_y_start = 0;
-        _map_frame.tile_y_offset = 2.0f;
+        _map_frame.tile_y_offset = vt_utils::FloorToFloatMultiple(2.0f, _pixel_length_y);
         _map_frame.screen_edges.top = 0.0f;
         _map_frame.screen_edges.bottom = SCREEN_GRID_Y_LENGTH;
+        _map_frame.num_draw_y_axis = TILES_ON_Y_AXIS;
         _camera_y_in_map_corner = true;
     }
     // Camera exceeds the bottom boundary of the map
     else if(_map_frame.tile_y_start + TILES_ON_Y_AXIS >= _tile_supervisor->_num_tile_on_y_axis) {
         _map_frame.tile_y_start = static_cast<int16>(_tile_supervisor->_num_tile_on_y_axis - TILES_ON_Y_AXIS);
-        _map_frame.tile_y_offset = 2.0f;
+        _map_frame.tile_y_offset = vt_utils::FloorToFloatMultiple(2.0f, _pixel_length_y);
         _map_frame.screen_edges.bottom = static_cast<float>(_object_supervisor->_num_grid_y_axis);
         _map_frame.screen_edges.top = _map_frame.screen_edges.bottom - SCREEN_GRID_Y_LENGTH;
-        _camera_y_in_map_corner = true;
-    }
-
-    // Determine the number of rows and columns of tiles that need to be drawn
-
-    // When the tile images align perfectly with the screen, we can afford to draw one less row or column of tiles
-    if(IsFloatInRange(_map_frame.tile_x_offset, 0.999f, 1.001f)) {
-        _map_frame.num_draw_x_axis = TILES_ON_X_AXIS;
-    } else {
-        _map_frame.num_draw_x_axis = TILES_ON_X_AXIS + 1;
-    }
-    if(IsFloatInRange(_map_frame.tile_y_offset, 1.999f, 2.001f)) {
         _map_frame.num_draw_y_axis = TILES_ON_Y_AXIS;
-    } else {
-        _map_frame.num_draw_y_axis = TILES_ON_Y_AXIS + 1;
+        _camera_y_in_map_corner = true;
     }
 
     // Update parallax effects now that map corner members are up to date
