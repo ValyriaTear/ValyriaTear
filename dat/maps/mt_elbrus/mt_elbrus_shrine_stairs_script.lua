@@ -79,8 +79,8 @@ function _CreateCharacters()
         hero:SetDirection(vt_map.MapMode.SOUTH);
         hero:SetPosition(x_position, y_position);
     elseif (GlobalManager:GetPreviousLocation() == "from_shrine_2nd_floor") then
-        hero:SetDirection(vt_map.MapMode.WEST);
-        hero:SetPosition(42.0, 38.0);
+        hero:SetDirection(vt_map.MapMode.NE_EAST);
+        hero:SetPosition(57.0, 38.0);
     end
 
     Map:AddGroundObject(hero);
@@ -263,7 +263,7 @@ function _CheckZones()
         hero:SetDirection(vt_map.MapMode.WEST);
         EventManager:StartEvent("to mountain shrine 1st floor");
     elseif (to_shrine_2nd_floor_zone:IsCameraEntering() == true) then
-        hero:SetMoving(false);
+        hero:SetDirection(vt_map.MapMode.EAST);
         EventManager:StartEvent("to mountain shrine 2nd floor");
     end
 end
