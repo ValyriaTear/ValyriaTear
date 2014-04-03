@@ -23,7 +23,7 @@ local Script = {};
 -- the main character handler
 local hero = {};
 
--- Dialogue secondary heroes
+-- Forest dialogue secondary hero
 local kalya = {};
 local orlinn = {};
 local bronann = {}; -- A copy of Bronann, used to simplify some scripting.
@@ -137,7 +137,7 @@ function _CreateCharacters()
     end
 end
 
--- Triggers and stones
+-- Trigger and stone
 local stone_trigger2 = {};
 local rolling_stone2 = {};
 
@@ -248,10 +248,8 @@ function _CreateObjects()
         fence2_trigger1_x_position = 19.0;
     end
     fence1_trigger1 = CreateObject(Map, "Stone Fence1", fence1_trigger1_x_position, 38);
-    fence1_trigger1:RandomizeCurrentAnimationFrame();
     Map:AddGroundObject(fence1_trigger1);
     fence2_trigger1 = CreateObject(Map, "Stone Fence1", fence2_trigger1_x_position, 38);
-    fence2_trigger1:RandomizeCurrentAnimationFrame();
     Map:AddGroundObject(fence2_trigger1);
 
     -- Right door: Using a switch
@@ -263,10 +261,8 @@ function _CreateObjects()
         fence2_trigger2_x_position = 31.0;
     end
     fence1_trigger2 = CreateObject(Map, "Stone Fence1", fence1_trigger2_x_position, 38);
-    fence1_trigger2:RandomizeCurrentAnimationFrame();
     Map:AddGroundObject(fence1_trigger2);
     fence2_trigger2 = CreateObject(Map, "Stone Fence1", fence2_trigger2_x_position, 38);
-    fence2_trigger2:RandomizeCurrentAnimationFrame();
     Map:AddGroundObject(fence2_trigger2);
 
     rolling_stone2 = CreateObject(Map, "Rolling Stone", 28, 33);
@@ -825,6 +821,9 @@ local hero_looks_north_done = false;
 
 -- Coming back event
 local orlinn_y_position = 0;
+
+-- Stone direction
+local stone_direction2 = vt_map.MapMode.EAST;
 
 -- Map Custom functions
 -- Used through scripted events
