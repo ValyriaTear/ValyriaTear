@@ -5,8 +5,8 @@ mt_elbrus_shrine_stairs_script = ns;
 setfenv(1, ns);
 
 -- The map name, subname and location image
-map_name = "Mt. Elbrus"
-map_image_filename = "img/menus/locations/mt_elbrus.png"
+map_name = "Mt. Elbrus Shrine"
+map_image_filename = "img/menus/locations/mountain_shrine.png"
 map_subname = ""
 
 -- The music file used as default background music on this map.
@@ -198,6 +198,10 @@ function _CreateEvents()
                                        "dat/maps/mt_elbrus/mt_elbrus_shrine5_script.lua", "from_shrine_2nd_floor");
     EventManager:RegisterEvent(event);
 
+    event = vt_map.MapTransitionEvent("to mountain shrine 2nd floor", "dat/maps/mt_elbrus/mt_elbrus_shrine_2nd_ne_map.lua",
+                                       "dat/maps/mt_elbrus/mt_elbrus_shrine_2nd_ne_script.lua", "from_shrine_1st_floor");
+    EventManager:RegisterEvent(event);
+
     -- Heal point
     event = vt_map.ScriptedEvent("Heal event", "heal_party", "heal_done");
     EventManager:RegisterEvent(event);
@@ -260,7 +264,7 @@ function _CheckZones()
         EventManager:StartEvent("to mountain shrine 1st floor");
     elseif (to_shrine_2nd_floor_zone:IsCameraEntering() == true) then
         hero:SetMoving(false);
-        EventManager:StartEvent("to shrine 2nd floor");
+        EventManager:StartEvent("to mountain shrine 2nd floor");
     end
 end
 
