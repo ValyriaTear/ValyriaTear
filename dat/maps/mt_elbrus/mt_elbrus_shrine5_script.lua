@@ -23,7 +23,7 @@ local Script = {};
 -- the main character handler
 local hero = {};
 
--- Forest dialogue secondary hero
+-- Dialogue secondary heroes
 local kalya = {};
 local orlinn = {};
 local bronann = {}; -- A copy of Bronann, used to simplify some scripting.
@@ -137,8 +137,9 @@ function _CreateCharacters()
     end
 end
 
--- Triggers
+-- Triggers and stones
 local stone_trigger2 = {};
+local rolling_stone2 = {};
 
 -- Flames preventing from getting through
 local fence1_trigger1 = {};
