@@ -76,30 +76,19 @@ function _CreateCharacters()
         hero:SetPosition(28, 36);
         hero:SetDirection(vt_map.MapMode.NORTH);
     elseif (GlobalManager:GetPreviousLocation() == "from_shrine_1st_floor") then
-        hero:SetPosition(20, 12);
+        hero:SetPosition(24, 12);
         hero:SetDirection(vt_map.MapMode.SOUTH);
     end
 end
 
--- Triggers
-local stone_trigger1 = {};
-local stone_trigger2 = {};
-local stone_trigger3 = {};
-local stone_trigger4 = {};
-local stone_trigger5 = {};
-local stone_trigger6 = {};
-local stone_trigger7 = {};
-local stone_trigger8 = {};
+-- Triggers and stones
+local num_of_triggers = 8;
 
--- stones
-local rolling_stone1 = {};
-local rolling_stone2 = {};
-local rolling_stone3 = {};
-local rolling_stone4 = {};
-local rolling_stone5 = {};
-local rolling_stone6 = {};
-local rolling_stone7 = {};
-local rolling_stone8 = {};
+-- arrays storing the objects and their states
+local stone_triggers = {};
+local rolling_stones = {};
+local stone_directions = {};
+local stone_rolling = {};
 
 -- Fences preventing from getting through
 local fence1_trigger1 = {};
@@ -118,18 +107,43 @@ function _CreateObjects()
     local text = {}
     local event = {}
 
-    _add_flame(13.5, 7);
-    _add_flame(43.5, 6);
+    _add_flame(17.5, 7);
+    _add_flame(31.5, 7);
 
     object = CreateObject(Map, "Vase3", 24, 35);
     Map:AddGroundObject(object);
 
-    object = CreateObject(Map, "Candle Holder1", 16, 11);
+    object = CreateObject(Map, "Candle Holder1", 21, 11);
     Map:AddGroundObject(object);
-    object = CreateObject(Map, "Candle Holder1", 24, 11);
+    object = CreateObject(Map, "Candle Holder1", 27, 11);
     Map:AddGroundObject(object);
 
-    object = CreateObject(Map, "Stone Fence1", 43, 26);
+    object = CreateObject(Map, "Stone Fence1", 5, 26);
+    Map:AddGroundObject(object);
+    object = CreateObject(Map, "Stone Fence1", 7, 28);
+    Map:AddGroundObject(object);
+    object = CreateObject(Map, "Stone Fence1", 9, 30);
+    Map:AddGroundObject(object);
+    object = CreateObject(Map, "Stone Fence1", 11, 32);
+    Map:AddGroundObject(object);
+    object = CreateObject(Map, "Stone Fence1", 11, 34);
+    Map:AddGroundObject(object);
+    object = CreateObject(Map, "Stone Fence1", 11, 36);
+    Map:AddGroundObject(object);
+    object = CreateObject(Map, "Stone Fence1", 11, 38);
+    Map:AddGroundObject(object);
+
+    object = CreateObject(Map, "Stone Fence1", 15, 24.5);
+    Map:AddGroundObject(object);
+    object = CreateObject(Map, "Stone Fence1", 37, 23);
+    Map:AddGroundObject(object);
+    object = CreateObject(Map, "Stone Fence1", 35, 15);
+    Map:AddGroundObject(object);
+    object = CreateObject(Map, "Stone Fence1", 13, 31);
+    Map:AddGroundObject(object);
+    object = CreateObject(Map, "Stone Fence1", 35, 33);
+    Map:AddGroundObject(object);
+    object = CreateObject(Map, "Stone Fence1", 13, 17);
     Map:AddGroundObject(object);
 
     trap_spikes = CreateObject(Map, "Spikes1", 14, 26);
@@ -138,176 +152,115 @@ function _CreateObjects()
     Map:AddGroundObject(trap_spikes);
 
     -- The stone triggers that will open the passage
-    stone_trigger1 = vt_map.TriggerObject("mt elbrus shrine 2nd NE trigger 1",
-                             "img/sprites/map/triggers/rolling_stone_trigger1_off.lua",
-                             "img/sprites/map/triggers/rolling_stone_trigger1_on.lua",
-                             "",
-                             "Open Gate");
-    stone_trigger1:SetObjectID(Map.object_supervisor:GenerateObjectID());
-    stone_trigger1:SetPosition(15, 17);
-    stone_trigger1:SetTriggerableByCharacter(false); -- Only an event can trigger it
-    Map:AddFlatGroundObject(stone_trigger1);
+    local i = 1;
+    local pos_x = 0.0;
+    local pos_y = 0.0;
+    
+    local passage_open = false;
+    if (GlobalManager:GetEventValue("story", "mt_shrine_2nd_floor_NE_open") == 1) then
+        passage_open = true;
+    end
 
-    stone_trigger2 = vt_map.TriggerObject("mt elbrus shrine 2nd NE trigger 2",
-                             "img/sprites/map/triggers/rolling_stone_trigger1_off.lua",
-                             "img/sprites/map/triggers/rolling_stone_trigger1_on.lua",
-                             "",
-                             "Open Gate");
-    stone_trigger2:SetObjectID(Map.object_supervisor:GenerateObjectID());
-    stone_trigger2:SetPosition(17, 19);
-    stone_trigger2:SetTriggerableByCharacter(false); -- Only an event can trigger it
-    Map:AddFlatGroundObject(stone_trigger2);
+    for i = 1, num_of_triggers do
+        if (i == 1) then
+            pos_x = 15;
+            pos_y = 17;
+        elseif (i == 2) then
+            pos_x = 17;
+            pos_y = 19;
+        elseif (i == 3) then
+            pos_x = 35;
+            pos_y = 17;
+        elseif (i == 4) then
+            pos_x = 33;
+            pos_y = 19;
+        elseif (i == 5) then
+            pos_x = 15;
+            pos_y = 31;
+        elseif (i == 6) then
+            pos_x = 17;
+            pos_y = 29;
+        elseif (i == 7) then
+            pos_x = 35;
+            pos_y = 31;
+        elseif (i == 8) then
+            pos_x = 33;
+            pos_y = 29;
+        end
 
-    stone_trigger3 = vt_map.TriggerObject("mt elbrus shrine 2nd NE trigger 3",
-                             "img/sprites/map/triggers/rolling_stone_trigger1_off.lua",
-                             "img/sprites/map/triggers/rolling_stone_trigger1_on.lua",
-                             "",
-                             "Open Gate");
-    stone_trigger3:SetObjectID(Map.object_supervisor:GenerateObjectID());
-    stone_trigger3:SetPosition(35, 17);
-    stone_trigger3:SetTriggerableByCharacter(false); -- Only an event can trigger it
-    Map:AddFlatGroundObject(stone_trigger3);
+        stone_triggers[i] = vt_map.TriggerObject("mt elbrus shrine 2nd NE trigger "..i,
+                                 "img/sprites/map/triggers/rolling_stone_trigger1_off.lua",
+                                 "img/sprites/map/triggers/rolling_stone_trigger1_on.lua",
+                                 "",
+                                 "Check Gate");
+        stone_triggers[i]:SetObjectID(Map.object_supervisor:GenerateObjectID());
+        stone_triggers[i]:SetTriggerableByCharacter(false); -- Only an event can trigger it
+        stone_triggers[i]:SetPosition(pos_x, pos_y);
+        Map:AddFlatGroundObject(stone_triggers[i]);
 
-    stone_trigger4 = vt_map.TriggerObject("mt elbrus shrine 2nd NE trigger 4",
-                             "img/sprites/map/triggers/rolling_stone_trigger1_off.lua",
-                             "img/sprites/map/triggers/rolling_stone_trigger1_on.lua",
-                             "",
-                             "Open Gate");
-    stone_trigger4:SetObjectID(Map.object_supervisor:GenerateObjectID());
-    stone_trigger4:SetPosition(33, 19);
-    stone_trigger4:SetTriggerableByCharacter(false); -- Only an event can trigger it
-    Map:AddFlatGroundObject(stone_trigger4);
-
-    stone_trigger5 = vt_map.TriggerObject("mt elbrus shrine 2nd NE trigger 5",
-                             "img/sprites/map/triggers/rolling_stone_trigger1_off.lua",
-                             "img/sprites/map/triggers/rolling_stone_trigger1_on.lua",
-                             "",
-                             "Open Gate");
-    stone_trigger5:SetObjectID(Map.object_supervisor:GenerateObjectID());
-    stone_trigger5:SetPosition(15, 31);
-    stone_trigger5:SetTriggerableByCharacter(false); -- Only an event can trigger it
-    Map:AddFlatGroundObject(stone_trigger5);
-
-    stone_trigger6 = vt_map.TriggerObject("mt elbrus shrine 2nd NE trigger 6",
-                             "img/sprites/map/triggers/rolling_stone_trigger1_off.lua",
-                             "img/sprites/map/triggers/rolling_stone_trigger1_on.lua",
-                             "",
-                             "Open Gate");
-    stone_trigger6:SetObjectID(Map.object_supervisor:GenerateObjectID());
-    stone_trigger6:SetPosition(17, 29);
-    stone_trigger6:SetTriggerableByCharacter(false); -- Only an event can trigger it
-    Map:AddFlatGroundObject(stone_trigger6);
-
-    stone_trigger7 = vt_map.TriggerObject("mt elbrus shrine 2nd NE trigger 7",
-                             "img/sprites/map/triggers/rolling_stone_trigger1_off.lua",
-                             "img/sprites/map/triggers/rolling_stone_trigger1_on.lua",
-                             "",
-                             "Open Gate");
-    stone_trigger7:SetObjectID(Map.object_supervisor:GenerateObjectID());
-    stone_trigger7:SetPosition(35, 31);
-    stone_trigger7:SetTriggerableByCharacter(false); -- Only an event can trigger it
-    Map:AddFlatGroundObject(stone_trigger7);
-
-    stone_trigger8 = vt_map.TriggerObject("mt elbrus shrine 2nd NE trigger 8",
-                             "img/sprites/map/triggers/rolling_stone_trigger1_off.lua",
-                             "img/sprites/map/triggers/rolling_stone_trigger1_on.lua",
-                             "",
-                             "Open Gate");
-    stone_trigger8:SetObjectID(Map.object_supervisor:GenerateObjectID());
-    stone_trigger8:SetPosition(33, 29);
-    stone_trigger8:SetTriggerableByCharacter(false); -- Only an event can trigger it
-    Map:AddFlatGroundObject(stone_trigger8);
+        -- Reset the trigger state when not all of them have been pushed
+        if (passage_open == false) then
+            stone_triggers[i]:SetState(false);
+        end
+    end
 
     -- Add blocks preventing from using the doors
     -- Left door: Unlocked by beating monsters
-    local fence1_trigger1_x_position = 15.0;
-    local fence2_trigger1_x_position = 17.0;
+    local fence1_trigger1_x_position = 27.0;
+    local fence2_trigger1_x_position = 29.0;
     -- Sets the passage open if the enemies were already beaten
     if (GlobalManager:GetEventValue("story", "mountain_shrine_1st_NW_monsters_defeated") == 1) then
-        fence1_trigger1_x_position = 13.0;
-        fence2_trigger1_x_position = 19.0;
+        fence1_trigger1_x_position = 25.0;
+        fence2_trigger1_x_position = 31.0;
     end
     fence1_trigger1 = CreateObject(Map, "Stone Fence1", fence1_trigger1_x_position, 38);
     Map:AddGroundObject(fence1_trigger1);
     fence2_trigger1 = CreateObject(Map, "Stone Fence1", fence2_trigger1_x_position, 38);
     Map:AddGroundObject(fence2_trigger1);
 
-    -- bottom passage: Needs all the switches to trigger.
-    local fence1_trigger2_x_position = 27.0;
-    local fence2_trigger2_x_position = 29.0;
-    -- Sets the passage open if the trigger is pushed
-    --if (GlobalManager:GetEventValue("triggers", "mt elbrus shrine 2nd NE trigger 1") == 1) then
-    --    fence1_trigger2_x_position = 25.0;
-    --    fence2_trigger2_x_position = 31.0;
-    --end
-    fence1_trigger2 = CreateObject(Map, "Stone Fence1", fence1_trigger2_x_position, 38);
-    Map:AddGroundObject(fence1_trigger2);
-    fence2_trigger2 = CreateObject(Map, "Stone Fence1", fence2_trigger2_x_position, 38);
-    Map:AddGroundObject(fence2_trigger2);
+    local i = 1;
+    local pos_x = 0.0;
+    local pos_y = 0.0;
+    for i = 1, num_of_triggers do
 
-    rolling_stone1 = CreateObject(Map, "Rolling Stone", 15, 19);
-    rolling_stone1:SetEventWhenTalking("Check hero position for rolling stone 1");
-    Map:AddGroundObject(rolling_stone1);
-    event = vt_map.IfEvent("Check hero position for rolling stone 1", "check_diagonal_stone1", "Push the rolling stone 1", "");
-    EventManager:RegisterEvent(event);
-    event = vt_map.ScriptedEvent("Push the rolling stone 1", "start_to_move_the_stone1", "move_the_stone_update1")
-    EventManager:RegisterEvent(event);
+        if (i == 1) then
+            pos_x = 15;
+            pos_y = 19;
+        elseif (i == 2) then
+            pos_x = 17;
+            pos_y = 23;
+        elseif (i == 3) then
+            pos_x = 19;
+            pos_y = 29;
+        elseif (i == 4) then
+            pos_x = 17;
+            pos_y = 31;
+        elseif (i == 5) then
+            pos_x = 33;
+            pos_y = 27;
+        elseif (i == 6) then
+            pos_x = 35;
+            pos_y = 29;
+        elseif (i == 7) then
+            pos_x = 31;
+            pos_y = 19;
+        elseif (i == 8) then
+            pos_x = 33;
+            pos_y = 17;
+        end
 
-    rolling_stone2 = CreateObject(Map, "Rolling Stone", 17, 21);
-    rolling_stone2:SetEventWhenTalking("Check hero position for rolling stone 2");
-    Map:AddGroundObject(rolling_stone2);
-    event = vt_map.IfEvent("Check hero position for rolling stone 2", "check_diagonal_stone2", "Push the rolling stone 2", "");
-    EventManager:RegisterEvent(event);
-    event = vt_map.ScriptedEvent("Push the rolling stone 2", "start_to_move_the_stone2", "move_the_stone_update2")
-    EventManager:RegisterEvent(event);
-
-    rolling_stone3 = CreateObject(Map, "Rolling Stone", 19, 29);
-    rolling_stone3:SetEventWhenTalking("Check hero position for rolling stone 3");
-    Map:AddGroundObject(rolling_stone3);
-    event = vt_map.IfEvent("Check hero position for rolling stone 3", "check_diagonal_stone3", "Push the rolling stone 3", "");
-    EventManager:RegisterEvent(event);
-    event = vt_map.ScriptedEvent("Push the rolling stone 3", "start_to_move_the_stone3", "move_the_stone_update3")
-    EventManager:RegisterEvent(event);
-
-    rolling_stone4 = CreateObject(Map, "Rolling Stone", 17, 31);
-    rolling_stone4:SetEventWhenTalking("Check hero position for rolling stone 4");
-    Map:AddGroundObject(rolling_stone4);
-    event = vt_map.IfEvent("Check hero position for rolling stone 4", "check_diagonal_stone4", "Push the rolling stone 4", "");
-    EventManager:RegisterEvent(event);
-    event = vt_map.ScriptedEvent("Push the rolling stone 4", "start_to_move_the_stone4", "move_the_stone_update4")
-    EventManager:RegisterEvent(event);
-
-    rolling_stone5 = CreateObject(Map, "Rolling Stone", 33, 27);
-    rolling_stone5:SetEventWhenTalking("Check hero position for rolling stone 5");
-    Map:AddGroundObject(rolling_stone5);
-    event = vt_map.IfEvent("Check hero position for rolling stone 5", "check_diagonal_stone5", "Push the rolling stone 5", "");
-    EventManager:RegisterEvent(event);
-    event = vt_map.ScriptedEvent("Push the rolling stone 5", "start_to_move_the_stone5", "move_the_stone_update5")
-    EventManager:RegisterEvent(event);
-
-    rolling_stone6 = CreateObject(Map, "Rolling Stone", 35, 29);
-    rolling_stone6:SetEventWhenTalking("Check hero position for rolling stone 6");
-    Map:AddGroundObject(rolling_stone6);
-    event = vt_map.IfEvent("Check hero position for rolling stone 6", "check_diagonal_stone6", "Push the rolling stone 6", "");
-    EventManager:RegisterEvent(event);
-    event = vt_map.ScriptedEvent("Push the rolling stone 6", "start_to_move_the_stone6", "move_the_stone_update6")
-    EventManager:RegisterEvent(event);
-
-    rolling_stone7 = CreateObject(Map, "Rolling Stone", 31, 19);
-    rolling_stone7:SetEventWhenTalking("Check hero position for rolling stone 7");
-    Map:AddGroundObject(rolling_stone7);
-    event = vt_map.IfEvent("Check hero position for rolling stone 7", "check_diagonal_stone7", "Push the rolling stone 7", "");
-    EventManager:RegisterEvent(event);
-    event = vt_map.ScriptedEvent("Push the rolling stone 7", "start_to_move_the_stone7", "move_the_stone_update7")
-    EventManager:RegisterEvent(event);
-
-    rolling_stone8 = CreateObject(Map, "Rolling Stone", 33, 17);
-    rolling_stone8:SetEventWhenTalking("Check hero position for rolling stone 8");
-    Map:AddGroundObject(rolling_stone8);
-    event = vt_map.IfEvent("Check hero position for rolling stone 8", "check_diagonal_stone8", "Push the rolling stone 8", "");
-    EventManager:RegisterEvent(event);
-    event = vt_map.ScriptedEvent("Push the rolling stone 8", "start_to_move_the_stone8", "move_the_stone_update8")
-    EventManager:RegisterEvent(event);
+        rolling_stones[i] = CreateObject(Map, "Rolling Stone", pos_x, pos_y);
+        rolling_stones[i]:SetEventWhenTalking("Check hero position for rolling stone "..i);
+        Map:AddGroundObject(rolling_stones[i]);
+        event = vt_map.IfEvent("Check hero position for rolling stone "..i, "check_diagonal_stone"..i, "Push the rolling stone "..i, "");
+        EventManager:RegisterEvent(event);
+        event = vt_map.ScriptedEvent("Push the rolling stone "..i, "start_to_move_the_stone"..i, "move_the_stone_update"..i)
+        EventManager:RegisterEvent(event);
+        
+        -- Setup the initial stone direction value
+        stone_directions[i] = vt_map.MapMode.EAST;
+        stone_rolling[i] = false;
+    end
 end
 
 function _add_flame(x, y)
@@ -341,25 +294,8 @@ function _CreateEvents()
                                        "dat/maps/mt_elbrus/mt_elbrus_shrine_2nd_SE_script.lua", "from_shrine_2nd_floor_NE_room");
     EventManager:RegisterEvent(event);
 
-    -- Generic events
-    event = vt_map.ChangeDirectionSpriteEvent("Kalya looks north", kalya, vt_map.MapMode.NORTH);
+    event = vt_map.IfEvent("Check Gate", "check_triggers", "Open Gate", "");
     EventManager:RegisterEvent(event);
-    event = vt_map.ChangeDirectionSpriteEvent("Orlinn looks north", orlinn, vt_map.MapMode.NORTH);
-    EventManager:RegisterEvent(event);
-    event = vt_map.ChangeDirectionSpriteEvent("Orlinn looks south", orlinn, vt_map.MapMode.SOUTH);
-    EventManager:RegisterEvent(event);
-    event = vt_map.ChangeDirectionSpriteEvent("Orlinn looks west", orlinn, vt_map.MapMode.WEST);
-    EventManager:RegisterEvent(event);
-    event = vt_map.LookAtSpriteEvent("Kalya looks at Orlinn", kalya, orlinn);
-    EventManager:RegisterEvent(event);
-    event = vt_map.LookAtSpriteEvent("Orlinn looks at Kalya", orlinn, kalya);
-    EventManager:RegisterEvent(event);
-    event = vt_map.LookAtSpriteEvent("Orlinn looks at Bronann", orlinn, hero);
-    EventManager:RegisterEvent(event);
-    event = vt_map.LookAtSpriteEvent("Bronann looks at Orlinn", hero, orlinn);
-    EventManager:RegisterEvent(event);
-
-
 end
 
 -- Sets common battle environment settings for enemy sprites
@@ -405,7 +341,7 @@ local to_shrine_SE_room_zone = {};
 function _CreateZones()
 
     -- N.B.: left, right, top, bottom
-    to_shrine_1st_floor_room_zone = vt_map.CameraZone(18, 22, 9, 11);
+    to_shrine_1st_floor_room_zone = vt_map.CameraZone(22, 26, 9, 11);
     Map:AddZone(to_shrine_1st_floor_room_zone);
 
     to_shrine_SE_room_zone = vt_map.CameraZone(24, 32, 38, 42);
@@ -426,11 +362,23 @@ function _CheckZones()
 end
 
 function _CheckStoneAndTriggersCollision()
-    -- Check trigger
-    if (stone_trigger2:GetState() == false) then
-        if (stone_trigger2:IsCollidingWith(rolling_stone2) == true) then
-            stone_trigger2:SetState(true)
-        end
+    -- Check triggers
+    -- NOTE: Push the trigger only when the stone is not rolling.
+    local tr = 1
+    local st = 1
+
+    for tr = 1, 8 do
+        for st = 1, 8 do
+            -- If the trigger is pushed, then look into it.
+            if (stone_triggers[tr]:GetState() == true) then
+                break;
+            end
+            
+            if (stone_rolling[st] == false and stone_triggers[tr]:IsCollidingWith(rolling_stones[st]) == true) then
+                stone_triggers[tr]:SetState(true)
+                break;
+            end
+        end    
     end
 end
 
@@ -524,105 +472,30 @@ function _GetStoneDirection(stone)
     return stone_direction;
 end
 
--- Stones directions
-local stone_direction1 = vt_map.MapMode.EAST;
-local stone_direction2 = vt_map.MapMode.EAST;
-local stone_direction3 = vt_map.MapMode.EAST;
-local stone_direction4 = vt_map.MapMode.EAST;
-local stone_direction5 = vt_map.MapMode.EAST;
-local stone_direction6 = vt_map.MapMode.EAST;
-local stone_direction7 = vt_map.MapMode.EAST;
-local stone_direction8 = vt_map.MapMode.EAST;
-
 -- Map Custom functions
 -- Used through scripted events
 map_functions = {
 
-    check_diagonal_stone1 = function()
-        return _CheckForDiagonals(rolling_stone1);
-    end,
-    start_to_move_the_stone1 = function()
-        stone_direction1 = _GetStoneDirection(rolling_stone1);
-        AudioManager:PlaySound("snd/stone_roll.wav");
-    end,
-    move_the_stone_update1 = function()
-        return _UpdateStoneMovement(rolling_stone1, stone_direction1)
-    end,
-
-    check_diagonal_stone2 = function()
-        return _CheckForDiagonals(rolling_stone2);
-    end,
-    start_to_move_the_stone2 = function()
-        stone_direction2 = _GetStoneDirection(rolling_stone2);
-        AudioManager:PlaySound("snd/stone_roll.wav");
-    end,
-    move_the_stone_update2 = function()
-        return _UpdateStoneMovement(rolling_stone2, stone_direction2)
-    end,
-
-    check_diagonal_stone3 = function()
-        return _CheckForDiagonals(rolling_stone3);
-    end,
-    start_to_move_the_stone3 = function()
-        stone_direction3 = _GetStoneDirection(rolling_stone3);
-        AudioManager:PlaySound("snd/stone_roll.wav");
-    end,
-    move_the_stone_update3 = function()
-        return _UpdateStoneMovement(rolling_stone3, stone_direction3)
-    end,
-
-    check_diagonal_stone4 = function()
-        return _CheckForDiagonals(rolling_stone4);
-    end,
-    start_to_move_the_stone3 = function()
-        stone_direction4 = _GetStoneDirection(rolling_stone4);
-        AudioManager:PlaySound("snd/stone_roll.wav");
-    end,
-    move_the_stone_update4 = function()
-        return _UpdateStoneMovement(rolling_stone4, stone_direction4)
-    end,
-
-    check_diagonal_stone5 = function()
-        return _CheckForDiagonals(rolling_stone5);
-    end,
-    start_to_move_the_stone5 = function()
-        stone_direction5 = _GetStoneDirection(rolling_stone5);
-        AudioManager:PlaySound("snd/stone_roll.wav");
-    end,
-    move_the_stone_update5 = function()
-        return _UpdateStoneMovement(rolling_stone5, stone_direction5)
-    end,
-
-    check_diagonal_stone6 = function()
-        return _CheckForDiagonals(rolling_stone6);
-    end,
-    start_to_move_the_stone6 = function()
-        stone_direction6 = _GetStoneDirection(rolling_stone6);
-        AudioManager:PlaySound("snd/stone_roll.wav");
-    end,
-    move_the_stone_update6 = function()
-        return _UpdateStoneMovement(rolling_stone6, stone_direction6)
-    end,
-
-    check_diagonal_stone7 = function()
-        return _CheckForDiagonals(rolling_stone7);
-    end,
-    start_to_move_the_stone7 = function()
-        stone_direction7 = _GetStoneDirection(rolling_stone7);
-        AudioManager:PlaySound("snd/stone_roll.wav");
-    end,
-    move_the_stone_update7 = function()
-        return _UpdateStoneMovement(rolling_stone7, stone_direction7)
-    end,
-
-    check_diagonal_stone8 = function()
-        return _CheckForDiagonals(rolling_stone8);
-    end,
-    start_to_move_the_stone8 = function()
-        stone_direction8 = _GetStoneDirection(rolling_stone8);
-        AudioManager:PlaySound("snd/stone_roll.wav");
-    end,
-    move_the_stone_update8 = function()
-        return _UpdateStoneMovement(rolling_stone8, stone_direction8)
-    end,
 }
+
+-- Init all the stones map_functions...
+local index = 1;
+for index = 1, 8 do
+    map_functions["check_diagonal_stone"..index] = function()
+        return _CheckForDiagonals(rolling_stones[index]);
+    end
+
+    map_functions["start_to_move_the_stone"..index] = function()
+        stone_directions[index] = _GetStoneDirection(rolling_stones[index]);
+        AudioManager:PlaySound("snd/stone_roll.wav");
+    end
+
+    map_functions["move_the_stone_update"..index] = function()
+        -- Stores whether the stone is rolling
+        stone_rolling[index] = not _UpdateStoneMovement(rolling_stones[index], stone_directions[index])
+        return not stone_rolling[index];
+    end
+end
+
+--for i, v in ipairs(map_functions) do print(i, v) end
+
