@@ -49,6 +49,7 @@ function Load(m)
     -- Preloads the action sounds to avoid glitches
     AudioManager:LoadSound("snd/stone_roll.wav", Map);
     AudioManager:LoadSound("snd/stone_bump.ogg", Map);
+    AudioManager:LoadSound("snd/opening_sword_unsheathe.wav", Map);
 end
 
 -- the map update function handles checks done on each game tick.
@@ -93,12 +94,10 @@ local stone_rolling = {};
 -- Fences preventing from getting through
 local fence1_trigger1 = {};
 local fence2_trigger1 = {};
+local fence1_trigger1_x_position = 27.0;
+local fence2_trigger1_x_position = 29.0;
 
 local trap_spikes = {};
-
--- Object used to trigger Orlinn going up event
-local passage_event_object = {};
-local passage_back_event_object = {};
 
 function _CreateObjects()
     local object = {}
@@ -107,10 +106,17 @@ function _CreateObjects()
     local text = {}
     local event = {}
 
+    -- Snow effect
+    object = vt_map.ParticleObject("dat/maps/mt_elbrus/particles_snow_south_entrance.lua", 28, 40);
+    object:SetObjectID(Map.object_supervisor:GenerateObjectID());
+    Map:AddGroundObject(object);
+    Map:AddHalo("img/misc/lights/torch_light_mask.lua", 28, 47,
+        vt_video.Color(1.0, 1.0, 1.0, 0.8));
+
     _add_flame(17.5, 7);
     _add_flame(31.5, 7);
 
-    object = CreateObject(Map, "Vase3", 24, 35);
+    object = CreateObject(Map, "Vase3", 21, 35);
     Map:AddGroundObject(object);
 
     object = CreateObject(Map, "Candle Holder1", 21, 11);
@@ -132,6 +138,10 @@ function _CreateObjects()
     Map:AddGroundObject(object);
     object = CreateObject(Map, "Stone Fence1", 11, 38);
     Map:AddGroundObject(object);
+    object = CreateObject(Map, "Stone Fence1", 25, 39);
+    Map:AddGroundObject(object);
+    object = CreateObject(Map, "Stone Fence1", 31, 39);
+    Map:AddGroundObject(object);
 
     object = CreateObject(Map, "Stone Fence1", 15, 24.5);
     Map:AddGroundObject(object);
@@ -146,7 +156,7 @@ function _CreateObjects()
     object = CreateObject(Map, "Stone Fence1", 13, 17);
     Map:AddGroundObject(object);
 
-    trap_spikes = CreateObject(Map, "Spikes1", 14, 26);
+    trap_spikes = CreateObject(Map, "Spikes1", 25, 24);
     trap_spikes:SetVisible(false);
     trap_spikes:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
     Map:AddGroundObject(trap_spikes);
@@ -204,18 +214,15 @@ function _CreateObjects()
         end
     end
 
-    -- Add blocks preventing from using the doors
-    -- Left door: Unlocked by beating monsters
-    local fence1_trigger1_x_position = 27.0;
-    local fence2_trigger1_x_position = 29.0;
+    -- Add blocks preventing from using the passage
     -- Sets the passage open if the enemies were already beaten
-    if (GlobalManager:GetEventValue("story", "mountain_shrine_1st_NW_monsters_defeated") == 1) then
+    if (passage_open == true) then
         fence1_trigger1_x_position = 25.0;
         fence2_trigger1_x_position = 31.0;
     end
-    fence1_trigger1 = CreateObject(Map, "Stone Fence1", fence1_trigger1_x_position, 38);
+    fence1_trigger1 = CreateObject(Map, "Stone Fence1", fence1_trigger1_x_position, 39);
     Map:AddGroundObject(fence1_trigger1);
-    fence2_trigger1 = CreateObject(Map, "Stone Fence1", fence2_trigger1_x_position, 38);
+    fence2_trigger1 = CreateObject(Map, "Stone Fence1", fence2_trigger1_x_position, 39);
     Map:AddGroundObject(fence2_trigger1);
 
     local i = 1;
@@ -296,6 +303,12 @@ function _CreateEvents()
 
     event = vt_map.IfEvent("Check Gate", "check_triggers", "Open Gate", "");
     EventManager:RegisterEvent(event);
+
+    event = vt_map.ScriptedEvent("Open Gate", "open_passage_start", "open_passage_update");
+    EventManager:RegisterEvent(event);
+
+    event = vt_map.ScriptedEvent("Trigger spikes", "trigger_spikes_start", "trigger_spikes_update");
+    EventManager:RegisterEvent(event);
 end
 
 -- Sets common battle environment settings for enemy sprites
@@ -336,6 +349,7 @@ end
 -- zones
 local to_shrine_1st_floor_room_zone = {};
 local to_shrine_SE_room_zone = {};
+local spike_trap_zone = {};
 
 -- Create the different map zones triggering events
 function _CreateZones()
@@ -346,6 +360,9 @@ function _CreateZones()
 
     to_shrine_SE_room_zone = vt_map.CameraZone(24, 32, 38, 42);
     Map:AddZone(to_shrine_SE_room_zone);
+
+    spike_trap_zone = vt_map.CameraZone(24, 26, 22, 24);
+    Map:AddZone(spike_trap_zone);
 end
 
 local trap_triggered = false;
@@ -356,8 +373,12 @@ function _CheckZones()
         hero:SetDirection(vt_map.MapMode.NORTH);
         EventManager:StartEvent("to mountain shrine 1st floor");
     elseif (to_shrine_SE_room_zone:IsCameraEntering() == true) then
-        hero:SetDirection(vt_map.MapMode.EAST);
+        hero:SetDirection(vt_map.MapMode.SOUTH);
         EventManager:StartEvent("to mountain shrine 2nd floor SE room");
+    elseif (spike_trap_zone:IsCameraEntering() == true) then
+        if (trap_spikes:IsVisible() == false) then
+            EventManager:StartEvent("Trigger spikes", 200);
+        end
     end
 end
 
@@ -367,9 +388,9 @@ function _CheckStoneAndTriggersCollision()
     local tr = 1
     local st = 1
 
-    for tr = 1, 8 do
-        for st = 1, 8 do
-            -- If the trigger is pushed, then look into it.
+    for tr = 1, num_of_triggers do
+        for st = 1, num_of_triggers do
+            -- If the trigger is pushed, then don't look into it.
             if (stone_triggers[tr]:GetState() == true) then
                 break;
             end
@@ -472,15 +493,80 @@ function _GetStoneDirection(stone)
     return stone_direction;
 end
 
+local spike_appearance_time = 0;
+
 -- Map Custom functions
 -- Used through scripted events
 map_functions = {
+    check_triggers = function()
+        -- check whether all triggers are pushed
+        local i = 1;
+        for i = 1, num_of_triggers do
+            if (stone_triggers[i]:GetState() == false) then
+                return false;
+            end
+        end
 
+        return true;
+    end,
+
+    -- Opens the south passage, by moving the fences out of the way.
+    open_passage_start = function()
+        fence1_trigger1_x_position = 27.0;
+        fence2_trigger1_x_position = 29.0;
+        AudioManager:PlaySound("snd/stone_roll.wav");
+    end,
+
+    open_passage_update = function()
+        local update_time = SystemManager:GetUpdateTime();
+        local movement_diff = 0.005 * update_time;
+
+        fence1_trigger1_x_position = fence1_trigger1_x_position - movement_diff;
+        fence1_trigger1:SetXPosition(fence1_trigger1_x_position);
+
+        fence2_trigger1_x_position = fence2_trigger1_x_position + movement_diff;
+        fence2_trigger1:SetXPosition(fence2_trigger1_x_position);
+
+        if (fence1_trigger1_x_position <= 25.0) then
+            GlobalManager:SetEventValue("story", "mt_shrine_2nd_floor_NE_open", 1);
+            return true;
+        end
+        return false;
+    end,
+
+    trigger_spikes_start = function()
+        Map:PushState(vt_map.MapMode.STATE_SCENE);
+        spike_appearance_time = 0;
+        trap_spikes:SetVisible(true);
+        AudioManager:PlaySound("snd/opening_sword_unsheathe.wav");
+        hero:SetCustomAnimation("hurt", 800);
+        hero:SetMoving(false);
+        --TODO: Trigger party damage.
+        -- Adds an effect on map
+        local map_mode = ModeManager:GetTop();
+        local x_pos = map_mode:GetScreenXCoordinate(hero:GetXPosition());
+        local y_pos = map_mode:GetScreenYCoordinate(hero:GetYPosition());
+        local map_indicator = map_mode:GetIndicatorSupervisor();
+        local hp_change = math.random(25, 40);
+        map_indicator:AddDamageIndicator(x_pos, y_pos, hp_change, vt_video.TextStyle("text22", vt_video.Color(1.0, 0.0, 0.0, 0.9)), true);
+    end,
+
+    trigger_spikes_update = function()
+        spike_appearance_time = spike_appearance_time + SystemManager:GetUpdateTime();
+        if (spike_appearance_time > 800) then
+            Map:PopState();
+            -- Hide spikes
+            trap_spikes:SetVisible(false);
+            AudioManager:PlaySound("snd/opening_sword_unsheathe.wav");
+            return true;
+        end
+        return false;
+    end,
 }
 
 -- Init all the stones map_functions...
 local index = 1;
-for index = 1, 8 do
+for index = 1, num_of_triggers do
     map_functions["check_diagonal_stone"..index] = function()
         return _CheckForDiagonals(rolling_stones[index]);
     end
