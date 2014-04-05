@@ -306,6 +306,10 @@ void InputEngine::EventHandler()
             _JoystickEventHandler(event);
         }
     } // while (SDL_PollEvent(&event)
+
+    _any_key_press = _up_press || _down_press || _left_press || _right_press || _quit_press ||
+            _confirm_press || _cancel_press || _minimap_press || _menu_press || _pause_press ||
+            _help_press;
 } // void InputEngine::EventHandler()
 
 
@@ -314,13 +318,7 @@ void InputEngine::EventHandler()
 void InputEngine::_KeyEventHandler(SDL_KeyboardEvent &key_event)
 {
     if(key_event.type == SDL_KEYDOWN) {  // Key was pressed
-
-        _any_key_press = true;
-
         if(key_event.keysym.mod &KMOD_CTRL || key_event.keysym.sym == SDLK_LCTRL || key_event.keysym.sym == SDLK_RCTRL) {   // CTRL key was held down
-
-            _any_key_press = false; // CTRL isn't "any key"! :)
-
             if(key_event.keysym.sym == SDLK_f) {
                 // Toggle between full-screen and windowed mode
                 VideoManager->ToggleFullscreen();
@@ -420,8 +418,6 @@ void InputEngine::_KeyEventHandler(SDL_KeyboardEvent &key_event)
             return;
         }
     } else { // Key was released
-
-        _any_key_press = false;
         _any_key_release = true;
 
         if(key_event.keysym.sym == _key.up) {
@@ -478,7 +474,6 @@ void InputEngine::_JoystickEventHandler(SDL_Event &js_event)
                 }
             } else {
                 _left_state = false;
-                _any_key_press = false;
             }
 
             if(js_event.jaxis.value > _joystick.threshold) {
@@ -488,7 +483,6 @@ void InputEngine::_JoystickEventHandler(SDL_Event &js_event)
                 }
             } else {
                 _right_state = false;
-                _any_key_press = false;
             }
         } else if(js_event.jaxis.axis == _joystick.y_axis) {
             if(js_event.jaxis.value < -_joystick.threshold) {
@@ -498,7 +492,6 @@ void InputEngine::_JoystickEventHandler(SDL_Event &js_event)
                 }
             } else {
                 _up_state = false;
-                _any_key_press = false;
             }
 
             if(js_event.jaxis.value > _joystick.threshold) {
@@ -508,15 +501,12 @@ void InputEngine::_JoystickEventHandler(SDL_Event &js_event)
                 }
             } else {
                 _down_state = false;
-                _any_key_press = false;
             }
         }
 
         if(js_event.jaxis.value > _joystick.threshold
                 || js_event.jaxis.value < -_joystick.threshold) {
             _last_axis_moved = js_event.jaxis.axis;
-            // Axis are keys, too
-            _any_key_press = true;
         }
     } // if (js_event.type == SDL_JOYAXISMOTION)
 
@@ -526,7 +516,6 @@ void InputEngine::_JoystickEventHandler(SDL_Event &js_event)
             if(!_hat_left_state) {
                 _hat_left_state = true;
                 _left_press = true;
-                _any_key_press = true;
             }
         }
         else {
@@ -537,7 +526,6 @@ void InputEngine::_JoystickEventHandler(SDL_Event &js_event)
             if(!_hat_right_state) {
                 _hat_right_state = true;
                 _right_press = true;
-                _any_key_press = true;
             }
         }
         else {
@@ -548,7 +536,6 @@ void InputEngine::_JoystickEventHandler(SDL_Event &js_event)
             if(!_hat_up_state) {
                 _hat_up_state = true;
                 _up_press = true;
-                _any_key_press = true;
             }
         }
         else {
@@ -559,7 +546,6 @@ void InputEngine::_JoystickEventHandler(SDL_Event &js_event)
             if(!_hat_down_state) {
                 _hat_down_state = true;
                 _down_press = true;
-                _any_key_press = true;
             }
         }
         else {
@@ -567,7 +553,6 @@ void InputEngine::_JoystickEventHandler(SDL_Event &js_event)
         }
 
         if (js_event.jhat.value == SDL_HAT_CENTERED) {
-            _any_key_press = false;
             _hat_right_state = false;
             _hat_left_state = false;
             _hat_up_state = false;
@@ -576,9 +561,6 @@ void InputEngine::_JoystickEventHandler(SDL_Event &js_event)
     } // if (js_event.type == SDL_JOYHATMOTION)
 
     else if(js_event.type == SDL_JOYBUTTONDOWN) {
-
-        _any_key_press = true;
-
         if(js_event.jbutton.button == _joystick.confirm) {
             _confirm_state = true;
             _confirm_press = true;
@@ -604,7 +586,6 @@ void InputEngine::_JoystickEventHandler(SDL_Event &js_event)
     } // else if (js_event.type == JOYBUTTONDOWN)
 
     else if(js_event.type == SDL_JOYBUTTONUP) {
-        _any_key_press = false;
         _any_key_release = true;
 
         if(js_event.jbutton.button == _joystick.confirm) {
