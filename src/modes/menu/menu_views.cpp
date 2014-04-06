@@ -187,7 +187,7 @@ InventoryWindow::InventoryWindow() :
     _description.SetOwner(this);
     _description.SetPosition(30.0f, 525.0f);
     _description.SetDimensions(800.0f, 80.0f);
-    _description.SetDisplaySpeed(30);
+    _description.SetDisplaySpeed(SystemManager->GetMessageSpeed());
     _description.SetTextStyle(TextStyle("text20"));
     _description.SetDisplayMode(VIDEO_TEXT_INSTANT);
     _description.SetTextAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
@@ -1171,7 +1171,7 @@ SkillsWindow::SkillsWindow() :
     _description.SetOwner(this);
     _description.SetPosition(90.0f, 465.0f);
     _description.SetDimensions(740.0f, 80.0f);
-    _description.SetDisplaySpeed(30);
+    _description.SetDisplaySpeed(SystemManager->GetMessageSpeed());
     _description.SetDisplayMode(VIDEO_TEXT_INSTANT);
     _description.SetTextAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
     _description.SetTextStyle(TextStyle("text20"));

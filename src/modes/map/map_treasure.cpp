@@ -118,7 +118,7 @@ TreasureSupervisor::TreasureSupervisor() :
 
     _detail_textbox.SetPosition(20.0f, 90.0f);
     _detail_textbox.SetDimensions(726.0f, 128.0f);
-    _detail_textbox.SetDisplaySpeed(50);
+    _detail_textbox.SetDisplaySpeed(SystemManager->GetMessageSpeed());
     _detail_textbox.SetTextStyle(TextStyle("text22", Color::white, VIDEO_TEXT_SHADOW_DARK, 1, -2));
     _detail_textbox.SetDisplayMode(VIDEO_TEXT_REVEAL);
     _detail_textbox.SetTextAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);

@@ -201,6 +201,18 @@ bool LoadSettings()
         settings.CloseTable(); // audio_settings
     }
 
+    // Load Game settings
+    if (!settings.OpenTable("game_options")) {
+        PRINT_ERROR << "Couldn't open the 'game_options' table in: "
+            << settings.GetFilename() << std::endl
+            << settings.GetErrorMessages() << std::endl;
+        SystemManager->SetMessageSpeed(30); // default value is the old hardcoded one ( except for treasures which were 50 )
+    }
+    else {
+        SystemManager->SetMessageSpeed(settings.ReadFloat("message_speed"));
+        settings.CloseTable(); // video_settings
+    }
+
     settings.CloseTable(); // settings
 
     if(settings.IsErrorDetected()) {

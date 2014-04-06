@@ -197,7 +197,7 @@ CommonDialogueWindow::CommonDialogueWindow() :
     VideoManager->PushState();
     VideoManager->SetStandardCoordSys();
 
-    _display_textbox.SetDisplaySpeed(30);
+    _display_textbox.SetDisplaySpeed(SystemManager->GetMessageSpeed());
     _display_textbox.SetPosition(260.0f, 596.0f);
     _display_textbox.SetDimensions(700.0f, 126.0f);
     _display_textbox.SetTextStyle(TextStyle("text20", Color::black, VIDEO_TEXT_SHADOW_LIGHT));
