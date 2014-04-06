@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Valyria Tear\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-04-06 19:37+0200\n"
-"PO-Revision-Date: 2014-04-06 21:12+0100\n"
+"POT-Creation-Date: 2014-04-06 21:14+0200\n"
+"PO-Revision-Date: 2014-04-06 21:15+0100\n"
 "Last-Translator: Yohann Ferreira <yohann.ferreira@orange.fr>\n"
 "Language-Team: French\n"
 "Language: fr\n"
@@ -5625,6 +5625,10 @@ msgstr ""
 "Que la Déesse soit louée ! Vous êtes tous sains et saufs ... J'étais malade "
 "d'inquiétude !"
 
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:541
+msgid "Thanks Goddess..."
+msgstr "Que la Déesse soit louée ..."
+
 #: ../dat/battles/tutorial_battle_dialogs.lua:111
 msgid "Thanks Kalya, I'm prepared now."
 msgstr "Merci Kalya, je suis prêt maintenant."
@@ -5648,10 +5652,6 @@ msgstr "Merci d'avoir joué !!"
 #: ../dat/maps/layna_forest/layna_forest_north_west_script.lua:1153
 msgid "Thanks for your help there ..."
 msgstr "Merci pour ton aide là-bas ..."
-
-#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:541
-msgid "Thanks goddess..."
-msgstr "Que la Déesse soit louée ..."
 
 #: ../dat/credits/episode1_credits.lua:81
 msgid ""

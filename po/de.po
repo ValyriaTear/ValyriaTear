@@ -25,7 +25,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Valyria Tear\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-04-06 19:37+0200\n"
+"POT-Creation-Date: 2014-04-06 21:14+0200\n"
 "PO-Revision-Date: 2013-09-25 13:59+0100\n"
 "Last-Translator: <>\n"
 "Language-Team:  <German>\n"
@@ -5756,6 +5756,11 @@ msgstr "Danke ..."
 msgid "Thanks Goddess! You're all safe and sound... I was worried sick!"
 msgstr ""
 
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:541
+#, fuzzy
+msgid "Thanks Goddess..."
+msgstr "Danke ..."
+
 #: ../dat/battles/tutorial_battle_dialogs.lua:111
 msgid "Thanks Kalya, I'm prepared now."
 msgstr "Danke Kalya, ich bin jetzt bereit."
@@ -5779,11 +5784,6 @@ msgstr ""
 #: ../dat/maps/layna_forest/layna_forest_north_west_script.lua:1153
 msgid "Thanks for your help there ..."
 msgstr "Danke für deine Hilfe da draußen ..."
-
-#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:541
-#, fuzzy
-msgid "Thanks goddess..."
-msgstr "Danke ..."
 
 #: ../dat/credits/episode1_credits.lua:81
 msgid ""

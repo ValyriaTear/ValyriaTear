@@ -47,7 +47,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Hero of Allacrost 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-04-06 19:37+0200\n"
+"POT-Creation-Date: 2014-04-06 21:14+0200\n"
 "PO-Revision-Date: 2011-07-17 23:34-0500\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -5513,6 +5513,10 @@ msgstr ""
 msgid "Thanks Goddess! You're all safe and sound... I was worried sick!"
 msgstr ""
 
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:541
+msgid "Thanks Goddess..."
+msgstr ""
+
 #: ../dat/battles/tutorial_battle_dialogs.lua:111
 msgid "Thanks Kalya, I'm prepared now."
 msgstr ""
@@ -5535,10 +5539,6 @@ msgstr ""
 
 #: ../dat/maps/layna_forest/layna_forest_north_west_script.lua:1153
 msgid "Thanks for your help there ..."
-msgstr ""
-
-#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:541
-msgid "Thanks goddess..."
 msgstr ""
 
 #: ../dat/credits/episode1_credits.lua:81

@@ -25,7 +25,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: it\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-04-06 19:37+0200\n"
+"POT-Creation-Date: 2014-04-06 21:14+0200\n"
 "PO-Revision-Date: 2014-02-21 18:11+0100\n"
 "Last-Translator: BioHazardX <coccatostefano@hotmail.it>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -5806,6 +5806,11 @@ msgstr "Grazie..."
 msgid "Thanks Goddess! You're all safe and sound... I was worried sick!"
 msgstr ""
 
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:541
+#, fuzzy
+msgid "Thanks Goddess..."
+msgstr "Grazie a Dio..."
+
 #: ../dat/battles/tutorial_battle_dialogs.lua:111
 msgid "Thanks Kalya, I'm prepared now."
 msgstr "Grazie Kalya, ora mi sento preparato."
@@ -5829,10 +5834,6 @@ msgstr "Grazie per aver giocato!!"
 #: ../dat/maps/layna_forest/layna_forest_north_west_script.lua:1153
 msgid "Thanks for your help there ..."
 msgstr "Grazie per l'aiuto che ci hai dato..."
-
-#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:541
-msgid "Thanks goddess..."
-msgstr "Grazie a Dio..."
 
 #: ../dat/credits/episode1_credits.lua:81
 msgid ""

@@ -24,7 +24,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-04-06 19:37+0200\n"
+"POT-Creation-Date: 2014-04-06 21:14+0200\n"
 "PO-Revision-Date: 2014-03-01 21:44+0100\n"
 "Last-Translator: Adrián Chaves Fernández <adriyetichaves@gmail.com>\n"
 "Language-Team: Galician <kde-i18n-doc@kde.org>\n"
@@ -5760,6 +5760,11 @@ msgstr "Grazas…"
 msgid "Thanks Goddess! You're all safe and sound... I was worried sick!"
 msgstr "Grazas á deusa! Estás san e salvo… Tíñasme co corazón nun puño!"
 
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:541
+#, fuzzy
+msgid "Thanks Goddess..."
+msgstr "Menos mal…"
+
 #: ../dat/battles/tutorial_battle_dialogs.lua:111
 msgid "Thanks Kalya, I'm prepared now."
 msgstr "Grazas, Calia, xa estou listo."
@@ -5783,10 +5788,6 @@ msgstr "Grazas por xogar!"
 #: ../dat/maps/layna_forest/layna_forest_north_west_script.lua:1153
 msgid "Thanks for your help there ..."
 msgstr "Grazas pola túa axuda…"
-
-#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:541
-msgid "Thanks goddess..."
-msgstr "Menos mal…"
 
 #: ../dat/credits/episode1_credits.lua:81
 msgid ""

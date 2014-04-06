@@ -538,7 +538,7 @@ function _CreateEvents()
     dialogue = vt_map.SpriteDialogue();
     text = vt_system.Translate("... I'm fine... I guess... The pain faded away...");
     dialogue:AddLineEvent(text, hero, "Bronann looks south", "");
-    text = vt_system.Translate("Thanks goddess...");
+    text = vt_system.Translate("Thanks Goddess...");
     dialogue:AddLineEmote(text, kalya, "sweat drop");
     text = vt_system.Translate("Well, the door is open now...");
     dialogue:AddLineEmote(text, kalya, "thinking dots");
