@@ -37,5 +37,8 @@ settings.joystick_settings.minimap = 3
 settings.joystick_settings.pause = 6
 settings.joystick_settings.quit = 7
 
+settings.game_options = {}
+settings.game_options.message_speed = 30 -- characters by second
+
 -- Not supported yet
 settings.joystick_settings.index = 0

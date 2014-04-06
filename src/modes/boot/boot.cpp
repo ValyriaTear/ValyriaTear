@@ -1275,6 +1275,14 @@ bool BootMode::_SaveSettingsFile(const std::string &filename)
     settings_lua.WriteInt("quit", InputManager->GetQuitJoy());
     settings_lua.EndTable(); // joystick_settings
 
+    // game
+    settings_lua.InsertNewLine();
+    settings_lua.WriteComment("--Game settings--");
+    settings_lua.BeginTable("game_options");
+    settings_lua.WriteComment("Speed of text displaying in dialogues ( in characters by seconds )");
+    settings_lua.WriteInt("message_speed", SystemManager->GetMessageSpeed());
+    settings_lua.EndTable(); // game_options
+
     settings_lua.EndTable(); // settings
 
     // and save it!
