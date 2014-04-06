@@ -11,6 +11,11 @@ FIND_PACKAGE(PNG REQUIRED)
 FIND_PACKAGE(Gettext REQUIRED)
 FIND_PACKAGE(Boost 1.48.0 REQUIRED)
 
+# Detect clang compiler use
+IF (CMAKE_CXX_COMPILER MATCHES ".*clang")
+    SET(CMAKE_COMPILER_IS_CLANGCXX 1)
+ENDIF()
+
 IF (UNIX AND USE_SYSTEM_LUABIND)
     # Find the luabind package
     FIND_PACKAGE(Luabind REQUIRED)
@@ -33,6 +38,15 @@ IF (CMAKE_COMPILER_IS_GNUCXX)
         # with gdb, though.
         SET(CMAKE_CXX_FLAGS_RELWITHDEBINFO "-O2 -ggdb0 -gstabs2")
     ENDIF()
+ENDIF()
+
+# This disables a warning (seen in clang 3.4) that **wrongly** claims part of the code
+# needs c++11 features. For instance:
+# "/src/common/global/global.cpp:30:69: warning: first declaration of static data member specialization
+# of '_singleton_reference' outside namespace 'vt_utils' is a C++11 extension [-Wc++11-extensions]"
+# Note: This project doesn't actually need c++1x features.
+IF (CMAKE_COMPILER_IS_CLANGCXX)
+    SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 ENDIF()
 
 IF (POLICY CMP0015)
