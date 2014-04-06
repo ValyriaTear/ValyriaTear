@@ -34,8 +34,6 @@ using namespace vt_mode_manager;
 using namespace vt_system;
 using namespace vt_input::private_input;
 
-template<> vt_input::InputEngine *Singleton<vt_input::InputEngine>::_singleton_reference = NULL;
-
 namespace vt_input
 {
 

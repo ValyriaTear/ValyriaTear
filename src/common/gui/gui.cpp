@@ -27,8 +27,6 @@
 using namespace vt_utils;
 using namespace vt_video;
 
-template<> vt_gui::GUISystem *Singleton<vt_gui::GUISystem>::_singleton_reference = NULL;
-
 namespace vt_gui
 {
 

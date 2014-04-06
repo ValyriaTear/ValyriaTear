@@ -30,8 +30,6 @@ using namespace vt_system;
 using namespace vt_video;
 using namespace vt_audio;
 
-template<> vt_mode_manager::ModeEngine *Singleton<vt_mode_manager::ModeEngine>::_singleton_reference = NULL;
-
 namespace vt_mode_manager
 {
 

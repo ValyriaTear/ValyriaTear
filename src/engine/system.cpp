@@ -30,8 +30,6 @@ using namespace vt_utils;
 using namespace vt_script;
 using namespace vt_mode_manager;
 
-template<> vt_system::SystemEngine *Singleton<vt_system::SystemEngine>::_singleton_reference = NULL;
-
 namespace vt_system
 {
 

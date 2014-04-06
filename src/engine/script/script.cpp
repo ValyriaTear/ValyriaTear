@@ -27,8 +27,6 @@ using namespace luabind;
 using namespace vt_utils;
 using namespace vt_script::private_script;
 
-template<> vt_script::ScriptEngine *Singleton<vt_script::ScriptEngine>::_singleton_reference = NULL;
-
 namespace vt_script
 {
 

@@ -27,8 +27,6 @@ using namespace vt_video;
 using namespace vt_script;
 using namespace vt_system;
 
-template<> vt_global::GameGlobal *Singleton<vt_global::GameGlobal>::_singleton_reference = NULL;
-
 namespace vt_global
 {
 

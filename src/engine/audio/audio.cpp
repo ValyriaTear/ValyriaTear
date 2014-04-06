@@ -34,10 +34,6 @@ using namespace vt_utils;
 using namespace vt_system;
 using namespace vt_audio::private_audio;
 
-
-template<> vt_audio::AudioEngine *Singleton<vt_audio::AudioEngine>::_singleton_reference = 0;
-
-
 namespace vt_audio
 {
 

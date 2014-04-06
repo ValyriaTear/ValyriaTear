@@ -25,8 +25,6 @@
 using namespace vt_utils;
 using namespace vt_video::private_video;
 
-template<> vt_video::TextureController *Singleton<vt_video::TextureController>::_singleton_reference = NULL;
-
 namespace vt_video
 {
 

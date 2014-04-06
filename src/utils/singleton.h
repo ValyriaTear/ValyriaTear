@@ -102,6 +102,9 @@ private:
     Singleton &operator=(const Singleton &s);
 }; // template<typename T> class Singleton
 
+template<typename T>
+T* Singleton<T>::_singleton_reference = NULL;
+
 } // namespace vt_utils
 
 #endif // __SINGLETON_HEADER__

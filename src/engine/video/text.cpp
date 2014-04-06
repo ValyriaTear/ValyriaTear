@@ -34,8 +34,6 @@ const std::string _font_script_filename = "dat/config/fonts.lua";
 using namespace vt_utils;
 using namespace vt_video::private_video;
 
-template<> vt_video::TextSupervisor *Singleton<vt_video::TextSupervisor>::_singleton_reference = NULL;
-
 namespace vt_video
 {
 

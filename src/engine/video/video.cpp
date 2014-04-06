@@ -29,8 +29,6 @@
 using namespace vt_utils;
 using namespace vt_video::private_video;
 
-template<> vt_video::VideoEngine *Singleton<vt_video::VideoEngine>::_singleton_reference = NULL;
-
 namespace vt_video
 {
 
