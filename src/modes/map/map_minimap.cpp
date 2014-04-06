@@ -169,7 +169,7 @@ vt_video::StillImage Minimap::_CreateProcedurally()
                 {
                     PRINT_ERROR << "Couldn't fill a rect on temp_surface: " << SDL_GetError() << std::endl;
                     SDL_FreeSurface(temp_surface);
-                    return NULL;
+                    return vt_video::StillImage();
                 }
 
             }
