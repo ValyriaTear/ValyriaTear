@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Valyria Tear\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-04-06 21:14+0200\n"
-"PO-Revision-Date: 2014-04-06 21:15+0100\n"
+"PO-Revision-Date: 2014-04-08 01:52+0100\n"
 "Last-Translator: Yohann Ferreira <yohann.ferreira@orange.fr>\n"
 "Language-Team: French\n"
 "Language: fr\n"
@@ -995,7 +995,7 @@ msgstr "Partons maintenant ..."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:549
 msgid "Anyway, let's stick together and we'll be fine as always, right?"
-msgstr ""
+msgstr "Restons ensemble et on s'en sortira, comme toujours."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_path3_script.lua:619
 msgid "Anyway, once the cemetery is behind us, we should be out of trouble!"
@@ -1008,6 +1008,8 @@ msgid ""
 "Anyway, we might even not be able to enter there at all. But you're right, "
 "let's have a look around first. Who knows?"
 msgstr ""
+"De toute façon, nous ne pourrions même pas y entrer. Mais tu as raison, "
+"faisons d'abord un tour. Qui sait ce que nous trouverons ?"
 
 #: ../dat/objects/weapons.lua:391
 msgid "Arbalest"
@@ -1137,6 +1139,17 @@ msgid ""
 "\n"
 "Multiple screen fix, ..."
 msgstr ""
+"Equilibrage des stats, ...\n"
+"\n"
+"Journal de quêtes, Mini-carte, ...\n"
+"\n"
+"Support du troc, ...\n"
+"\n"
+"Changement de thème d'interface, ...\n"
+"\n"
+"Amélioration du code OpenGL, ...\n"
+"\n"
+"Support multi-écrans, ..."
 
 #: ../dat/maps/layna_village/battle_with_banesore/battle_with_banesore_script.lua:57
 msgid "Banesore"
@@ -1207,10 +1220,27 @@ msgid ""
 "\n"
 "Programming lead, Game engine, Map code"
 msgstr ""
+"Aide sur le code des combats, du menu\n"
+"\n"
+"Editor de cartes\n"
+"\n"
+"Moteur de jeu\n"
+"\n"
+"Code gestion des cartes\n"
+"\n"
+"Différents modes de jeu, scripting\n"
+"\n"
+"Moteur vidéo\n"
+"\n"
+"Moteur vidéo et audio\n"
+"\n"
+"Editeur de cartes\n"
+"\n"
+"Leader programmation, Moteur de jeu, code du mode carte."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine5_script.lua:464
 msgid "Be careful, ok?"
-msgstr "Sois prudente, d'accord ?"
+msgstr "Sois prudent, d'accord ?"
 
 #: ../dat/actors/enemies.lua:783 ../dat/actors/map_sprites.lua:539
 msgid "Beetle"
@@ -1457,7 +1487,7 @@ msgstr "Mais je ..."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:388
 msgid "But Kalya, look at the passageway!"
-msgstr ""
+msgstr "Mais Kalya, regarde le passage souterrain !"
 
 #: ../dat/maps/layna_village/layna_village_center_script.lua:553
 msgid "But father!"
@@ -1472,6 +1502,8 @@ msgid ""
 "But let's be careful, as it also said this place is dangerous, and the dark "
 "waters are a trap somehow..."
 msgstr ""
+"Mais soyons prudents, car on dit que cet endroit est dangereux, et que les "
+"eaux sombres sont un sorte de piège ..."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_path3_script.lua:781
 msgid "But let's play together first, shall we?"
@@ -1494,10 +1526,12 @@ msgid ""
 "But the time I reached the area, you three were gone... And I had to found "
 "out where you were heading."
 msgstr ""
+"Mais le temps que je retrouve votre trace, vous étiez tous les trois "
+"partis ... Et je me suis mis à suivre vos traces."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:644
 msgid "But then, you're stuck here, too, right?"
-msgstr ""
+msgstr "Mais alors, tu es coincée ici, également, n'est-ce pas?"
 
 #: ../dat/maps/layna_village/layna_village_center_script.lua:529
 msgid "But you might get hurt!"
@@ -1511,7 +1545,7 @@ msgstr ""
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:658
 msgid "But, you'll let us deal with this place, alone??"
-msgstr ""
+msgstr "Mais, tu vas nous laisser traverser le Sanctuaire, seuls ??"
 
 #: ../dat/maps/layna_village/layna_village_center_script.lua:537
 msgid "But..."
@@ -1630,7 +1664,7 @@ msgstr "Catégorie"
 
 #: ../src/modes/mode_help_window.cpp:191
 msgid "Change the displayed item category."
-msgstr ""
+msgstr "Change la catégorie d'objets affichée."
 
 #: ../dat/actors/enemies.lua:808 ../dat/actors/enemies.lua:860
 #: ../dat/actors/enemies.lua:1002 ../dat/actors/enemies.lua:1735
@@ -1908,7 +1942,7 @@ msgstr "Fais ce que je te dis et tout ira bien."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:614
 msgid "Do you know how are the others doing? Are my parents fine?"
-msgstr ""
+msgstr "Sais-tu si les autres vont bien ? Et pour mes parents ?"
 
 #: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:693
 msgid ""
@@ -2086,6 +2120,21 @@ msgid ""
 "\n"
 "Spanish (es)"
 msgstr ""
+"Revue du texte Anglais\n"
+"\n"
+"Français (fr)\n"
+"\n"
+"Galicien (gl)\n"
+"\n"
+"Allemand (de)\n"
+"\n"
+"Italien (it)\n"
+"\n"
+"Portuguais (pt_PT)\n"
+"\n"
+"Russe (ru)\n"
+"\n"
+"Espagnol (es)"
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_path3_script.lua:811
 msgid "Enough of this shallow game. Give me your souls now!..."
@@ -2100,6 +2149,8 @@ msgid ""
 "Enough! You hid everything from me just like everyone else. You're a liar! I "
 "won't be manipulated anymore!"
 msgstr ""
+"Assez ! Tu m'as caché la vérité comme tous les autres. Tu es une menteuse ! "
+"Je ne me laisserai plus manipulé !"
 
 #: ../dat/skills/magic.lua:508
 msgid ""
@@ -2413,11 +2464,15 @@ msgstr "Sortir des listes d'achat/vente/confirmation, ou quitter le magasin."
 msgid ""
 "Gives a reasonable boost in strength to an ally for a large amount of time."
 msgstr ""
+"Donne une bonne dose de force supplémentaire à un allié pendant une longue "
+"durée."
 
 #: ../dat/objects/items.lua:489
 msgid ""
 "Gives a reasonable boost in strength to an ally for a small amount of time."
 msgstr ""
+"Donne une dose raisonnable de force supplémentaire à un allié pendant une "
+"courte durée."
 
 #: ../dat/maps/layna_village/layna_village_center_script.lua:866
 msgid "Good luck Bronann."
@@ -2440,6 +2495,8 @@ msgid ""
 "Grandma asked me to catch the chickens that flew away. There are three of "
 "them..."
 msgstr ""
+"Grand-Mère m'a demandé d'attraper les poules qui se sont échappées. Il y en "
+"a trois ..."
 
 #: ../dat/credits/end_credits.lua:164 ../dat/credits/end_credits.lua:203
 msgid "Graphics"
@@ -2503,6 +2560,8 @@ msgid ""
 "Have you seen one of these before? This is a Layna statue! Praying near it "
 "heals both your mind and body."
 msgstr ""
+"As-tu déjà vu l'une d'elles auparavant ? C'est une statue de Layna ! Lorsque "
+"tu pries près d'elle, elle peut guérir ton corps et ton esprit."
 
 #: ../dat/maps/layna_village/layna_village_riverbank_script.lua:593
 msgid ""
@@ -2521,7 +2580,7 @@ msgid ""
 "He thought that I would be the one to be chosen by the crystal. However, it "
 "seems he was wrong. Now, I am to look after you..."
 msgstr ""
-"Il pensait que je serais l'Elue. Mais il semble qu'il se soit trompé, and "
+"Il pensait que je serais l'Elue. Mais il semble qu'il se soit trompé, et "
 "maintenant mon devoir est de te protéger ..."
 
 #: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:329
@@ -2533,7 +2592,7 @@ msgstr ""
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:632
 msgid "He was afraid they'd corner us to prevent an escape, and he was right."
-msgstr ""
+msgstr "Il avait peur qu'ils nous encerclent, et il avait raison."
 
 #: ../dat/maps/layna_village/layna_village_center_script.lua:551
 msgid "He won't slow you down, believe me. Right, Bronann?"
@@ -2620,6 +2679,8 @@ msgid ""
 "Here we are, looking at this huge, wonderful and yet creepy door... I don't "
 "like this..."
 msgstr ""
+"Nous y voilà, à contempler cette énorme, magnifique et pourtant sinistre "
+"arche ... Je n'aime pas ça ..."
 
 #: ../dat/battles/tutorial_battle_dialogs.lua:82
 msgid ""
@@ -2645,6 +2706,8 @@ msgstr "Herth m'a préparé ... Toute ma vie ... Pour ce jour ..."
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:634
 msgid "Herth sent you? But he told me it was nothing, that he would handle it!"
 msgstr ""
+"Herth t'a envoyée ? Mais il n'a dit que ce n'était rien, qu'il s'en "
+"occuperait !"
 
 #: ../dat/maps/layna_village/layna_village_center_script.lua:533
 msgid "Herth, we both know it'll likely..."
@@ -2791,7 +2854,7 @@ msgstr "Comment ai-je être blessé par ... Des enfants ..."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:608
 msgid "How in Layna did you reach the Mt Elbrus all alone?"
-msgstr ""
+msgstr "Comment, par Layna, avez-vous pu atteindre le Mont Elbrus tous seuls ?"
 
 #: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:341
 msgid "How?"
@@ -2845,7 +2908,7 @@ msgstr ""
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_path4_script.lua:489
 msgid "Hurray! Those idiots will have a hard time catching us now!"
-msgstr ""
+msgstr "Hourra ! Ces idiots vont avoir du mal à nous attraper maintenant !"
 
 #: ../dat/maps/layna_village/layna_village_kalya_house_path_at_night_script.lua:242
 msgid "Hurry up! They're coming!!"
@@ -2871,12 +2934,16 @@ msgstr "J'ai également laissé mes parents là-bas ..."
 msgid ""
 "I believe we don't really have a choice... Somehow this place... called me."
 msgstr ""
+"Je crois que nous n'avons pas vraiment le choix ... D'une certaine manière "
+"cet endroit ... m'a appelé."
 
 #: ../dat/maps/layna_forest/layna_forest_cave1_2_script.lua:333
 msgid ""
 "I can feel a breeze and see light escaping into the cave around this rock. "
 "Orlinn must have gone through here."
 msgstr ""
+"Je peux sentir de l'air et voir de la lumière autour de ce rocher. Orlinn "
+"doit être passeé par là."
 
 #: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:501
 msgid "I can feel it, sis'. It's coming!"
@@ -2903,6 +2970,8 @@ msgid ""
 "I didn't know that there was a cave here. It's kind of creepy... Let's hurry "
 "and find Orlinn."
 msgstr ""
+"Je ne savais pas qu'il y avait une grotte par ici. Pas très rassurant ... "
+"Dépêchons-nous de retrouver Orlinn."
 
 #: ../dat/maps/layna_village/battle_with_banesore/battle_with_banesore_script.lua:93
 msgid "I do remember you, old man..."
@@ -2936,6 +3005,8 @@ msgid ""
 "I fear he just wanted to protect you and make you all meet your destiny at "
 "the same time..."
 msgstr ""
+"J'ai bien peur qu'il ne souhaitait que vous protéger et vous faire "
+"rencontrer vos destin par la même occasion ..."
 
 #: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:291
 msgid "I feel dizzy... So many things have happened in such little time..."
@@ -2960,6 +3031,7 @@ msgstr ""
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:662
 msgid "I guess it's better than nothing... But Orlinn, you stay with us."
 msgstr ""
+"Je suppose que c'est mieux que rien ... Mais Orlinn, tu restes avec nous."
 
 #: ../dat/maps/layna_village/layna_village_bronanns_home_first_floor_script.lua:199
 msgid ""
@@ -2990,7 +3062,7 @@ msgstr ""
 
 #: ../dat/maps/layna_village/layna_village_bronanns_home_first_floor_script.lua:201
 msgid "I might as well get up and forget about it..."
-msgstr ""
+msgstr "Je ferais mieux de me lever et d'oublier tout ça ..."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine5_script.lua:392
 msgid "I need to be ... I guess."
@@ -3020,6 +3092,8 @@ msgid ""
 "I shall bring your souls to the Master. You don't stand a chance against the "
 "Great Harlequin..."
 msgstr ""
+"J'apporterai vos âmes au Maître. Vous n'avez aucune chance contre le Grand "
+"Harlequin ..."
 
 #: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:448
 msgid "I should be able to sneak through when they're not watching..."
@@ -3054,6 +3128,8 @@ msgid ""
 "I wasn't out for no reason. Actually, Herth sent me to watch for soldiers in "
 "the forest west parts."
 msgstr ""
+"Je n'étais pas sortie sans raison. En fait, Herth m'avait envoyé surveiller "
+"les environs à l'ouest de la forêt."
 
 #: ../dat/maps/layna_village/battle_with_banesore/battle_with_banesore_script.lua:87
 msgid "I will... try."
@@ -3073,11 +3149,13 @@ msgstr ""
 
 #: ../dat/maps/layna_village/layna_village_kalya_house_path_script.lua:137
 msgid "I'll see what I can do about it."
-msgstr ""
+msgstr "Je vais voir ce que je peux faire à propos de cela."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:114
 msgid "I'll stay here as long as you need me. Do you want to buy something?"
 msgstr ""
+"Je resterai ici aussi longtemps que vous aurez besoin de mon aide. Vous avez "
+"envie d'acheter quelque-chose ?"
 
 #: ../dat/maps/layna_forest/layna_forest_north_east_script.lua:688
 msgid ""
@@ -3221,11 +3299,11 @@ msgstr "Augmente l'esquive d'un allié."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_path4_script.lua:491
 msgid "Indeed! They've been had!"
-msgstr ""
+msgstr "En effet, on les a bien eu !"
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:436
 msgid "Indeed, It must be a long time ago..."
-msgstr ""
+msgstr "En effet, il y a très longtemps ..."
 
 #: ../dat/skills/magic.lua:823
 msgid "Inflicts poison to an enemy."
@@ -3357,6 +3435,8 @@ msgstr "C'est ma chambre, là-haut. N'y pense même pas !"
 msgid ""
 "It's not like I actually would want to open it, but how are we going to?"
 msgstr ""
+"Ce n'est pas comme si je voulais réellement ouvrir cette porte, mais comment "
+"allons-nous nous y prendre ?"
 
 #: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:537
 msgid "It's time to think Lilly..."
@@ -3395,6 +3475,9 @@ msgid ""
 "on the outside as it is on the inside. Besides, it suits me better than it "
 "would you."
 msgstr ""
+"Les bijoux sont un cadeau du ciel qui nous rappellent que la beauté peut-"
+"être aussi pure à l'extérieur qu'à l'intérieur. Qui plus est, il me va mieux "
+"qu'à toi."
 
 #: ../src/modes/boot/boot.cpp:514
 msgid "Joystick Settings"
@@ -3412,7 +3495,7 @@ msgstr ""
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine5_script.lua:394
 msgid "Just tell me when you're ready and I'll throw you up here."
-msgstr ""
+msgstr "Dis-moi simplement lorsque tu seras prêt et je t'enverrai là-haut."
 
 #: ../dat/actors/characters.lua:228 ../dat/actors/map_sprites.lua:60
 #: ../dat/battles/tutorial_battle_dialogs.lua:64
@@ -3470,7 +3553,7 @@ msgstr "Kalya ?!"
 
 #: ../dat/objects/torso_armor.lua:94
 msgid "Karlate Breastplate"
-msgstr ""
+msgstr "Cuirasse Karlatienne"
 
 #: ../dat/maps/layna_village/layna_village_center_at_night_script.lua:346
 msgid "Keep quiet, little brat!"
@@ -3583,7 +3666,7 @@ msgstr "Laissez-la en dehors de ça ! Vous pouvez m'avoir à sa place."
 
 #: ../dat/maps/layna_village/layna_village_kalya_house_path_script.lua:154
 msgid "Let me give you something as a reward."
-msgstr ""
+msgstr "Laisse-moi te donner quelque-chose en guise de récompense."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine2_script.lua:392
 msgid "Let me see..."
@@ -3595,7 +3678,7 @@ msgstr "Laisse ta peur grandir, jeune garçon !"
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine2_script.lua:418
 msgid "Let's find out how to activate that waterfall, then."
-msgstr ""
+msgstr "Trouvons comment activer cette chute d'eau, dans ce cas."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_path4_script.lua:508
 msgid "Let's go back and tell the others..."
@@ -3676,6 +3759,9 @@ msgid ""
 "Listen kids, I feel bad about what happened, and I can't help you as a "
 "magical force is preventing me from entering the Shrine..."
 msgstr ""
+"Ecoutez les enfants, je me sens coupable de ce qui est arrivé, et je ne peux "
+"pas vous aider car un champ de force m'empêche d'entrer dans le "
+"Sanctuaire ..."
 
 #: ../src/modes/boot/boot.cpp:470 ../src/modes/save/save_mode.cpp:93
 msgid "Load Game"
@@ -3717,7 +3803,7 @@ msgstr "Lord Banesore"
 
 #: ../dat/objects/items.lua:264
 msgid "Lotus Petal"
-msgstr ""
+msgstr "Pétale de Lotus"
 
 #: map_names_tr.lua:128 map_names_tr.lua:132 map_names_tr.lua:312
 #: map_names_tr.lua:316
@@ -3804,7 +3890,7 @@ msgstr "Permet à un allié de recouvrir lentement sa santé."
 
 #: ../dat/objects/items.lua:317
 msgid "Makes an ally's health regenerate moderately."
-msgstr ""
+msgstr "Régénère lentement la santé d'un allié."
 
 #: ../dat/skills/magic.lua:627
 msgid "Makes an enemy attack its own allies."
@@ -3842,6 +3928,11 @@ msgid ""
 "\n"
 "Map monster sprites"
 msgstr ""
+"Tiles\n"
+"\n"
+"Icônes d'inventaire\n"
+"\n"
+"Monstres"
 
 #: ../dat/credits/end_credits.lua:745
 msgid ""
