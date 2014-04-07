@@ -203,13 +203,20 @@ bool LoadSettings()
 
     // Load Game settings
     if (!settings.OpenTable("game_options")) {
-        PRINT_ERROR << "Couldn't open the 'game_options' table in: "
+        PRINT_WARNING << "Couldn't open the 'game_options' table in: "
             << settings.GetFilename() << std::endl
-            << settings.GetErrorMessages() << std::endl;
-        SystemManager->SetMessageSpeed(30); // default value is the old hardcoded one ( except for treasures which were 50 )
+            << settings.GetErrorMessages() << std::endl
+            << "Setting game options values to defaults..." << std::endl;
+        // The default value is the old hardcoded one.
+        SystemManager->SetMessageSpeed(30);
     }
     else {
-        SystemManager->SetMessageSpeed(settings.ReadFloat("message_speed"));
+        float message_speed = settings.ReadFloat("message_speed");
+        if (message_speed < 1.0f) {
+            PRINT_WARNING << "Invalid message_speed option value. Reverting to default one." << std::endl;
+            message_speed = 30.0f;
+        }
+        SystemManager->SetMessageSpeed(message_speed);
         settings.CloseTable(); // video_settings
     }
 

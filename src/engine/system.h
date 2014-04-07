@@ -478,11 +478,14 @@ public:
     Semaphore *CreateSemaphore(int max);
     void DestroySemaphore(Semaphore *);
 
-    float GetMessageSpeed( void ) const {
+    //! \brief Get the dialogue text message growth in characters per second.
+    //! Mostly seen in characters dialogues while in game.
+    float GetMessageSpeed() const {
         return _message_speed;
     }
 
-    void SetMessageSpeed( float message_speed ) {
+    //! \brief Set the dialogue text message growth in characters per second.
+    void SetMessageSpeed(float message_speed) {
         _message_speed = message_speed;
     }
 
@@ -512,7 +515,7 @@ private:
     //! \brief The identification string that determines what language the game is running in
     std::string _language;
 
-    //! \brief Speed at which messages are displayed in dialogues, in characters by second
+    //! \brief Speed at which messages are displayed in dialogues, in characters per second
     float _message_speed;
 
     /** \brief A set container for all SystemTimer objects that have automatic updating enabled

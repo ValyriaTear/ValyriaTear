@@ -1279,7 +1279,7 @@ bool BootMode::_SaveSettingsFile(const std::string &filename)
     settings_lua.InsertNewLine();
     settings_lua.WriteComment("--Game settings--");
     settings_lua.BeginTable("game_options");
-    settings_lua.WriteComment("Speed of text displaying in dialogues ( in characters by seconds )");
+    settings_lua.WriteComment("Speed of text displayed in dialogues (in characters per seconds) [1-N] (Default: 30)");
     settings_lua.WriteInt("message_speed", SystemManager->GetMessageSpeed());
     settings_lua.EndTable(); // game_options
 

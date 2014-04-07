@@ -34,7 +34,7 @@ namespace vt_gui
 const uint16 NEWLINE_CHARACTER = static_cast<uint16>('\n');
 
 TextBox::TextBox() :
-    _display_speed(0.0f),
+    _display_speed(30.0f),
     _text_xalign(VIDEO_X_LEFT),
     _text_yalign(VIDEO_Y_BOTTOM),
     _num_chars(0),
@@ -52,7 +52,7 @@ TextBox::TextBox() :
 }
 
 TextBox::TextBox(float x, float y, float width, float height, const TEXT_DISPLAY_MODE &mode) :
-    _display_speed(0.0f),
+    _display_speed(30.0f),
     _text_xalign(VIDEO_X_LEFT),
     _text_yalign(VIDEO_Y_BOTTOM),
     _num_chars(0),
@@ -185,10 +185,10 @@ void TextBox::SetDisplayMode(const TEXT_DISPLAY_MODE &mode)
 
 void TextBox::SetDisplaySpeed(float display_speed)
 {
-    if(display_speed <= 0.0f) {
-        if(VIDEO_DEBUG)
-            PRINT_ERROR << "VIDEO WARNING: TextBox::SetDisplaySpeed() failed due to an invalid display speed: "
-                        << display_speed << std::endl;
+    // Avoid strange behaviours by not permitting under 1.0f.
+    if(display_speed < 1.0f) {
+        PRINT_WARNING << "TextBox::SetDisplaySpeed() failed due to an invalid display speed: "
+                      << display_speed << std::endl;
         return;
     }
 
