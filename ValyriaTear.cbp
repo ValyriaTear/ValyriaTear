@@ -232,6 +232,8 @@
 		<Unit filename="src/common/common_bindings.cpp" />
 		<Unit filename="src/common/dialogue.cpp" />
 		<Unit filename="src/common/dialogue.h" />
+		<Unit filename="src/common/message_window.cpp" />
+		<Unit filename="src/common/message_window.h" />
 		<Unit filename="src/common/global/global.cpp">
 			<Option weight="60" />
 		</Unit>

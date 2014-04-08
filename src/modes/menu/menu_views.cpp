@@ -2615,35 +2615,4 @@ void WorldMapWindow::Activate(bool new_state)
 
 } // namespace private_menu
 
-
-MessageWindow::MessageWindow(const ustring &message, float w, float h) :
-    _message(message)
-{
-    float start_x = (1024 - w) / 2;
-    float start_y = (768 - h) / 2;
-
-    MenuWindow::Create(w, h);
-    MenuWindow::SetPosition(start_x, start_y);
-    MenuWindow::Show();
-
-    _textbox.SetPosition(30, 5);
-    _textbox.SetDimensions(w, h);
-    _textbox.SetTextStyle(TextStyle("text22"));
-    _textbox.SetDisplayMode(VIDEO_TEXT_INSTANT);
-    _textbox.SetTextAlignment(VIDEO_X_LEFT, VIDEO_Y_CENTER);
-    _textbox.SetDisplayText(_message);
-    _textbox.SetOwner(this);
-}
-
-MessageWindow::~MessageWindow()
-{
-    MenuWindow::Destroy();
-}
-
-void MessageWindow::Draw()
-{
-    MenuWindow::Draw();
-    _textbox.Draw();
-}
-
 } // namespace vt_menu

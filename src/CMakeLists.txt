@@ -267,10 +267,6 @@ utils/utils_strings.cpp
 )
 
 SET(SRCS
-main.cpp
-common/common_bindings.cpp
-common/common.cpp
-common/dialogue.cpp
 common/global/global.cpp
 common/global/global.h
 common/global/global_actors.cpp
@@ -284,14 +280,18 @@ common/global/global_skills.h
 common/global/global_utils.cpp
 common/global/global_utils.h
 common/gui/option.h
+common/gui/option.cpp
 common/gui/menu_window.cpp
 common/gui/menu_window.h
-common/gui/gui.h
 common/gui/textbox.cpp
 common/gui/textbox.h
-common/gui/option.cpp
 common/gui/gui.cpp
+common/gui/gui.h
+common/message_window.cpp
+common/message_window.h
+common/dialogue.cpp
 common/dialogue.h
+common/common.cpp
 common/common.h
 common/common_bindings.cpp
 engine/audio/audio.h
@@ -314,6 +314,16 @@ engine/indicator_supervisor.h
 engine/indicator_supervisor.cpp
 engine/system.cpp
 engine/system.h
+engine/input.h
+engine/input.cpp
+engine/engine_bindings.cpp
+engine/video/screen_rect.h
+engine/video/color.h
+engine/video/particle_emitter.h
+engine/video/particle_keyframe.h
+engine/video/context.h
+engine/video/particle.h
+engine/video/coord_sys.h
 engine/video/video.h
 engine/video/video.cpp
 engine/video/texture_controller.h
@@ -337,8 +347,6 @@ engine/video/particle_effect.h
 engine/video/particle_effect.cpp
 engine/video/particle_system.h
 engine/video/particle_system.cpp
-main_options.h
-modes/pause.cpp
 modes/shop/shop_root.h
 modes/shop/shop_buy.cpp
 modes/shop/shop_sell.cpp
@@ -351,9 +359,6 @@ modes/shop/shop_buy.h
 modes/shop/shop_utils.cpp
 modes/shop/shop.h
 modes/shop/shop_sell.h
-modes/mode_bindings.cpp
-modes/mode_help_window.h
-modes/mode_help_window.cpp
 modes/battle/battle_effects.cpp
 modes/battle/battle_sequence.h
 modes/battle/battle_actors.cpp
@@ -404,22 +409,18 @@ modes/menu/menu.h
 modes/menu/menu.cpp
 modes/menu/menu_views.cpp
 modes/menu/menu_views.h
+modes/pause.cpp
 modes/pause.h
+modes/mode_bindings.cpp
+modes/mode_help_window.h
+modes/mode_help_window.cpp
 utils/ustring.h
 utils/ustring.cpp
 utils/exception.h
 utils/exception.cpp
-engine/input.h
-engine/input.cpp
-engine/engine_bindings.cpp
-engine/video/screen_rect.h
-engine/video/color.h
-engine/video/particle_emitter.h
-engine/video/particle_keyframe.h
-engine/video/context.h
-engine/video/particle.h
-engine/video/coord_sys.h
+main_options.h
 main_options.cpp
+main.cpp
     )
 
 IF (WIN32)

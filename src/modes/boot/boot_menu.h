@@ -23,8 +23,7 @@
 #include "common/gui/option.h"
 #include "common/gui/menu_window.h"
 
-//TODO: Move the message window class to commmon/gui and remove that include to the menu mode.
-#include "modes/menu/menu_views.h"
+#include "common/message_window.h"
 
 namespace vt_gui
 {
@@ -188,7 +187,7 @@ private:
     void (GameOptionsMenuHandler::*_joy_axis_setting_function)(int8 axis);
 
     //! \brief Window display message for "select a key"
-    vt_menu::MessageWindow _message_window;
+    vt_common::MessageWindow _message_window;
 
     //! \brief The parent game mode the handler is a component of. Don't delete this.
     vt_mode_manager::GameMode* _parent_mode;

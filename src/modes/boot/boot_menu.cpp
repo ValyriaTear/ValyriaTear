@@ -28,6 +28,8 @@
 
 #include "utils/utils_files.h"
 
+#include "common/global/global.h"
+
 using namespace vt_utils;
 using namespace vt_video;
 using namespace vt_input;
@@ -137,7 +139,7 @@ GameOptionsMenuHandler::GameOptionsMenuHandler(vt_mode_manager::GameMode* parent
     _key_setting_function(NULL),
     _joy_setting_function(NULL),
     _joy_axis_setting_function(NULL),
-    _message_window(ustring(), 210.0f, 733.0f),
+    _message_window(ustring(), 310.0f, 233.0f),
     _parent_mode(parent_mode)
 {
     // Create the option window used as background

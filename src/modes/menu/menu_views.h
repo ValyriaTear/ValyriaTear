@@ -831,37 +831,6 @@ template <class T> std::vector<vt_global::GlobalObject *> InventoryWindow::_GetI
 
 } // namespace private_menu
 
-/** **************************************************************************
-*** \brief A window to display a message to the player
-*** Displays a message to the user in the center of the screen
-*** This class is not private because it's a handy message box and
-*** it could be used else where.
-*** **************************************************************************/
-class MessageWindow : public vt_gui::MenuWindow
-{
-public:
-    MessageWindow(const vt_utils::ustring &message, float w, float h);
-    ~MessageWindow();
-
-    //! \brief Set the text to display in the window
-    void SetText(const vt_utils::ustring &message) {
-        _message = message;
-        _textbox.SetDisplayText(message);
-    }
-
-    //! \brief Standard Window Functions
-    //@{
-    void Draw();
-    //@}
-
-private:
-    //! \brief the message to display
-    vt_utils::ustring _message;
-
-    //! \brief used to display the message
-    vt_gui::TextBox _textbox;
-}; // class MessageWindow
-
 } // namespace vt_menu
 
 #endif
