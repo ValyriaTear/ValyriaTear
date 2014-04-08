@@ -9,16 +9,14 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 /** ****************************************************************************
-*** \file    boot_menu.h
+*** \file    options_handler.h
 *** \author  Viljami Korhonen, mindflayer@allacrost.org
 *** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Header file for the options menus
 *** ***************************************************************************/
 
-#ifndef __OPTION_MENU__
-#define __OPTION_MENU__
-
-//TODO: Move this class to common/gui
+#ifndef __OPTION_HANDLER__
+#define __OPTION_HANDLER__
 
 #include "common/gui/option.h"
 #include "common/gui/menu_window.h"
@@ -354,4 +352,4 @@ private:
 
 } // namespace vt_gui
 
-#endif // __OPTION_MENU__
+#endif // __OPTION_HANDLER__

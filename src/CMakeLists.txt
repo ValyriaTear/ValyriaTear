@@ -293,6 +293,8 @@ common/dialogue.cpp
 common/dialogue.h
 common/common.cpp
 common/common.h
+common/options_handler.cpp
+common/options_handler.h
 common/common_bindings.cpp
 engine/audio/audio.h
 engine/audio/audio.cpp
@@ -379,8 +381,6 @@ modes/battle/battle_finish.cpp
 modes/battle/battle_sequence.cpp
 modes/boot/boot.h
 modes/boot/boot.cpp
-modes/boot/boot_menu.h
-modes/boot/boot_menu.cpp
 modes/save/save_mode.h
 modes/save/save_mode.cpp
 modes/map/map_dialogue.h

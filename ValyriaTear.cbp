@@ -234,6 +234,8 @@
 		<Unit filename="src/common/dialogue.h" />
 		<Unit filename="src/common/message_window.cpp" />
 		<Unit filename="src/common/message_window.h" />
+		<Unit filename="src/common/options_handler.cpp" />
+		<Unit filename="src/common/options_handler.h" />
 		<Unit filename="src/common/global/global.cpp">
 			<Option weight="60" />
 		</Unit>
@@ -443,8 +445,6 @@
 		<Unit filename="src/modes/battle/battle_utils.h" />
 		<Unit filename="src/modes/boot/boot.cpp" />
 		<Unit filename="src/modes/boot/boot.h" />
-		<Unit filename="src/modes/boot/boot_menu.cpp" />
-		<Unit filename="src/modes/boot/boot_menu.h" />
 		<Unit filename="src/modes/map/map_dialogue.cpp" />
 		<Unit filename="src/modes/map/map_dialogue.h" />
 		<Unit filename="src/modes/map/map_events.cpp" />

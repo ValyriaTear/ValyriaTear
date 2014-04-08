@@ -23,7 +23,7 @@
 
 #include "engine/mode_manager.h"
 
-#include "boot_menu.h"
+#include "common/options_handler.h"
 
 //! \brief All calls to boot mode are wrapped in this namespace.
 namespace vt_boot

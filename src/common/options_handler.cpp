@@ -9,14 +9,14 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 /** ****************************************************************************
-*** \file    boot_menu.cpp
+*** \file    options_handler.cpp
 *** \author  Viljami Korhonen, mindflayer@allacrost.org
 *** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Source file for the options menus
 *** ***************************************************************************/
 
 #include "utils/utils_pch.h"
-#include "boot_menu.h"
+#include "options_handler.h"
 
 #include "engine/system.h"
 #include "engine/input.h"
