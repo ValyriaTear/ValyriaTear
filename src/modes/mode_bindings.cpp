@@ -55,7 +55,6 @@ void BindModeCode()
     // ----- Boot Mode Bindings
     {
         using namespace vt_boot;
-        using namespace vt_boot::private_boot;
 
         luabind::module(vt_script::ScriptManager->GetGlobalState(), "vt_boot")
         [

@@ -121,6 +121,11 @@ public:
     //! \brief Returns the indicator supervisor.
     IndicatorSupervisor& GetIndicatorSupervisor();
 
+    //! \brief Makes the game mode reload the different texts.
+    //! Used when changing the language in the options.
+    virtual void ReloadTranslatedTexts()
+    {}
+
 private:
     //! \brief Handles all the custom scripted animation for the given mode.
     ScriptSupervisor _script_supervisor;

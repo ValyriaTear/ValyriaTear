@@ -39,7 +39,7 @@ namespace vt_pause
 bool PAUSE_DEBUG = false;
 
 /** \name Quit Options Menu Constants
-*** These constants reprent the OptionBox selection indeces of the three different options
+*** These constants represent the OptionBox selection indeces of the three different options
 *** presented to the player while the _quit_state member is active.
 **/
 //@{
