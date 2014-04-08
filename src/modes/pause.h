@@ -18,9 +18,10 @@
 #ifndef __PAUSE_HEADER__
 #define __PAUSE_HEADER__
 
-#include "common/gui/option.h"
-
 #include "engine/mode_manager.h"
+
+#include "common/options_handler.h"
+#include "common/gui/option.h"
 
 //! \brief All calls to pause mode are wrapped in this namespace.
 namespace vt_pause
@@ -74,6 +75,9 @@ public:
     //! \brief Draws the next frame to be displayed on the screen, bunt unaffected but ambient effects
     void DrawPostEffects();
 
+    //! \brief Reload the different translated texts
+    void ReloadTranslatedTexts();
+
 private:
     //! \brief When true, the player is presented with quit options. When false, "Paused" is displayed on the screen
     bool _quit_state;
@@ -98,6 +102,13 @@ private:
 
     //! \brief Tells whether an option has been selected, thus preventing the quick triggering of another one.
     bool _option_selected;
+
+    //! \brief The options permitting to change different settings.
+    vt_gui::private_gui::GameOptionsMenuHandler _options_handler;
+
+    //! \brief Load or reload the menu options
+    void _SetupOptions();
+
 }; // class PauseMode : public vt_mode_manager::GameMode
 
 } // namespace vt_pause
