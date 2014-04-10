@@ -18,6 +18,8 @@
 #include "utils/utils_pch.h"
 #include "modes/boot/boot.h"
 
+#include "common/global/global.h"
+
 #include "engine/input.h"
 #include "engine/audio/audio.h"
 
