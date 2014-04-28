@@ -493,6 +493,24 @@ function _GetStoneDirection(stone)
     return stone_direction;
 end
 
+-- Trigger damages on the characters present on the battle front.
+function _TriggerPartyDamage(damage)
+    local index = 0;
+    for index = 0, 3 do
+        local char = GlobalManager:GetCharacter(index);
+        if (char ~= nil) then
+            -- Do not kill characters. though
+            local hp_damage = damage;
+            if (hp_damage >= char:GetHitPoints()) then
+                hp_damage = char:GetHitPoints() - 1;
+            end
+            if (hp_damage > 0) then
+                char:SubtractHitPoints(hp_damage);
+            end
+        end
+    end
+end
+
 local spike_appearance_time = 0;
 
 -- Map Custom functions
@@ -541,7 +559,6 @@ map_functions = {
         AudioManager:PlaySound("snd/opening_sword_unsheathe.wav");
         hero:SetCustomAnimation("hurt", 800);
         hero:SetMoving(false);
-        --TODO: Trigger party damage.
         -- Adds an effect on map
         local map_mode = ModeManager:GetTop();
         local x_pos = map_mode:GetScreenXCoordinate(hero:GetXPosition());
@@ -549,6 +566,8 @@ map_functions = {
         local map_indicator = map_mode:GetIndicatorSupervisor();
         local hp_change = math.random(25, 40);
         map_indicator:AddDamageIndicator(x_pos, y_pos, hp_change, vt_video.TextStyle("text22", vt_video.Color(1.0, 0.0, 0.0, 0.9)), true);
+        -- Trigger party damage.
+        _TriggerPartyDamage(hp_change);
     end,
 
     trigger_spikes_update = function()
