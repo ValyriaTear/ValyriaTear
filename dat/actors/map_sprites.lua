@@ -77,7 +77,8 @@ sprites["Kalya"] = {
         kneeling = "img/sprites/map/characters/kalya_kneeling.lua",
         struggling = "img/sprites/map/characters/kalya_struggling.lua",
         jump_south = "img/sprites/map/characters/kalya_jump_south.lua",
-        laughing = "img/sprites/map/characters/kalya_laughing.lua"
+        laughing = "img/sprites/map/characters/kalya_laughing.lua",
+        hurt = "img/sprites/map/characters/kalya_hurt.lua",
     }
 }
 
