@@ -39,6 +39,7 @@ function Load(m)
 
     _CreateCharacters();
     _CreateObjects();
+    _CreateEnemies();
 
     _CreateEvents();
     _CreateZones();
@@ -80,6 +81,30 @@ function _CreateCharacters()
         hero:SetPosition(24, 12);
         hero:SetDirection(vt_map.MapMode.SOUTH);
     end
+end
+
+-- Sets common battle environment settings for enemy sprites
+function _SetBattleEnvironment(enemy)
+    enemy:SetBattleMusicTheme("mus/heroism-OGA-Edward-J-Blakeley.ogg");
+    enemy:SetBattleBackground("img/backdrops/battle/mountain_shrine.png");
+    enemy:AddBattleScript("dat/battles/mountain_shrine_battle_anim.lua");
+end
+
+function _CreateEnemies()
+    local enemy = {};
+    local roam_zone = {};
+
+    -- Hint: left, right, top, bottom
+    roam_zone = vt_map.EnemyZone(6, 35, 13, 39);
+
+    enemy = CreateEnemySprite(Map, "Skeleton");
+    _SetBattleEnvironment(enemy);
+    enemy:NewEnemyParty();
+    enemy:AddEnemy(19);
+    enemy:AddEnemy(19);
+    enemy:AddEnemy(19);
+    roam_zone:AddEnemy(enemy, Map, 1);
+    Map:AddZone(roam_zone);
 end
 
 -- Triggers and stones
@@ -309,41 +334,6 @@ function _CreateEvents()
 
     event = vt_map.ScriptedEvent("Trigger spikes", "trigger_spikes_start", "trigger_spikes_update");
     EventManager:RegisterEvent(event);
-end
-
--- Sets common battle environment settings for enemy sprites
-function _SetBattleEnvironment(enemy)
-    enemy:SetBattleMusicTheme("mus/heroism-OGA-Edward-J-Blakeley.ogg");
-    enemy:SetBattleBackground("img/backdrops/battle/mountain_shrine.png");
-    enemy:AddBattleScript("dat/battles/mountain_shrine_battle_anim.lua");
-end
-
--- Enemies to defeat before opening the south-west passage
-local roam_zone = nil;
-local monsters_defeated = false;
-
-function _CreateEnemies()
-    local enemy = {};
-
-    -- Monsters that can only be beaten once
-    -- Hint: left, right, top, bottom
-    roam_zone = vt_map.EnemyZone(13, 20, 26, 36);
-    if (monsters_defeated == false) then
-        enemy = CreateEnemySprite(Map, "Skeleton");
-        _SetBattleEnvironment(enemy);
-        enemy:NewEnemyParty();
-        enemy:AddEnemy(19); -- Skeleton
-        enemy:AddEnemy(19);
-        enemy:AddEnemy(19);
-        enemy:AddEnemy(16); -- Rat
-        enemy:NewEnemyParty();
-        enemy:AddEnemy(16);
-        enemy:AddEnemy(19);
-        enemy:AddEnemy(17); -- Thing
-        enemy:AddEnemy(16);
-        roam_zone:AddEnemy(enemy, Map, 10);
-    end
-    Map:AddZone(roam_zone);
 end
 
 -- zones
