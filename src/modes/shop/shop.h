@@ -488,7 +488,8 @@ public:
 
     /** \brief Adds a new object for the shop to sell
     *** \param object_id The id number of the object to add
-    *** \param stock The amount of the object to make available for sale at the shop
+    *** \param stock The amount of the object to make available for sale at the shop.
+    *** If set to 0, the number of objects to buy is infinite.
     ***
     *** Adding an object after the shop mode instance has already been initialized (by being made the active game state)
     *** this call will add the object but will not be visible to the player.
@@ -498,7 +499,8 @@ public:
 
     /** \brief Adds a new trade for the shop to sell
     *** \param object_id The id number of the object to add
-    *** \param stock The amount of the object to make available for sale at the shop
+    *** \param stock The amount of the object to make available for sale at the shop.
+    *** If set to 0, the number of objects is infinite.
     ***
     *** Adding an object after the shop mode instance has already been initialized (by being made the active game state)
     *** this call will add the object but will not be visible to the player.

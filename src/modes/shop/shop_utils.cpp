@@ -50,6 +50,7 @@ ShopObject::ShopObject(GlobalObject *object) :
     _sell_price(0),
     _own_count(0),
     _stock_count(0),
+    _infinite_buy_amount(false),
     _buy_count(0),
     _sell_count(0),
     _trade_count(0)
@@ -173,7 +174,7 @@ void ShopObject::IncrementBuyCount(uint32 inc)
     }
 
     _buy_count += inc;
-    if(_stock_count < _buy_count) {
+    if(!IsInfiniteAmount() && _stock_count < _buy_count) {
         IF_PRINT_WARNING(SHOP_DEBUG) << "incremented buy count beyond the amount available in stock" << std::endl;
         _buy_count = old_count;
         return;
@@ -215,7 +216,7 @@ void ShopObject::IncrementTradeCount(uint32 inc)
     }
 
     _trade_count += inc;
-    if(_trade_count > _stock_count) {
+    if(!IsInfiniteAmount() && _trade_count > _stock_count) {
         IF_PRINT_WARNING(SHOP_DEBUG) << "incremented sell count beyond the amount available to be sold" << std::endl;
         _trade_count -= inc;
         return;
@@ -246,6 +247,10 @@ void ShopObject::DecrementOwnCount(uint32 dec)
 
 void ShopObject::DecrementStockCount(uint32 dec)
 {
+    // Doesn't apply when there is an infinity of such items.
+    if (IsInfiniteAmount())
+        return;
+
     if(dec > _stock_count) {
         IF_PRINT_WARNING(SHOP_DEBUG) << "attempted to decrement stock count below zero" << std::endl;
         return;

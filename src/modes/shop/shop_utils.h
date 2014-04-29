@@ -224,6 +224,14 @@ public:
         return _trade_count;
     }
 
+    bool IsInfiniteAmount() const {
+        return _infinite_buy_amount;
+    }
+
+    void SetInfiniteAmount(bool infinite) {
+        _infinite_buy_amount = infinite;
+    }
+
     void ResetBuyCount() {
         _buy_count = 0;
     }
@@ -282,6 +290,9 @@ private:
 
     //! \brief The stock of this object that the shop
     uint32 _stock_count;
+
+    //! \brief Tells whether there is an infinite amount of this object to buy.
+    bool _infinite_buy_amount;
 
     //! \brief The amount of this object that the player plans to purchase
     uint32 _buy_count;

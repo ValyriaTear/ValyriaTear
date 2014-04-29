@@ -418,7 +418,10 @@ void TradeInterface::_ChangeViewMode(SHOP_VIEW_MODE new_mode)
         _selected_icon = _selected_object->GetObject()->GetIconImage();
         _selected_icon.SetDimensions(30.0f, 30.0f);
         _selected_properties.SetOptionText(0, MakeUnicodeString(NumberToString(_selected_object->GetTradePrice())));
-        _selected_properties.SetOptionText(1, MakeUnicodeString("×" + NumberToString(_selected_object->GetStockCount())));
+        if (_selected_object->IsInfiniteAmount())
+            _selected_properties.SetOptionText(1, MakeUnicodeString("∞"));
+        else
+            _selected_properties.SetOptionText(1, MakeUnicodeString("×" + NumberToString(_selected_object->GetStockCount())));
         _selected_properties.SetOptionText(2, MakeUnicodeString("×" + NumberToString(_selected_object->GetOwnCount())));
     } else {
         IF_PRINT_WARNING(SHOP_DEBUG) << "tried to change to an invalid/unsupported view mode: " << new_mode << std::endl;
@@ -490,7 +493,10 @@ void TradeListDisplay::ReconstructList()
         _identify_list.GetEmbeddedImage(i)->SetDimensions(30.0f, 30.0f);
 
         _property_list.AddOption(MakeUnicodeString(NumberToString(obj->GetTradePrice())));
-        _property_list.AddOption(MakeUnicodeString("×" + NumberToString(obj->GetStockCount())));
+        if (obj->IsInfiniteAmount())
+            _property_list.AddOption(MakeUnicodeString("∞"));
+        else
+            _property_list.AddOption(MakeUnicodeString("×" + NumberToString(obj->GetStockCount())));
         uint32 own_count = GlobalManager->HowManyObjectsInInventory(obj->GetObject()->GetID());
         _property_list.AddOption(MakeUnicodeString("×" + NumberToString(own_count)));
     }
@@ -532,7 +538,7 @@ bool TradeListDisplay::ChangeTradeQuantity(bool more, uint32 amount)
     // Adds an item case
 
     // Determine if there's enough of the object in stock to buy. If not, buy as many left as possible
-    if((obj->GetStockCount() - obj->GetTradeCount()) < change_amount) {
+    if(!obj->IsInfiniteAmount() && (obj->GetStockCount() - obj->GetTradeCount()) < change_amount) {
         change_amount = obj->GetStockCount() - obj->GetTradeCount();
     }
 

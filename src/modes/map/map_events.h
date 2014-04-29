@@ -261,9 +261,10 @@ public:
         _enable_sell_mode = sell_mode_enabled;
     }
 
-    /** \brief Adds an object to the list of objects for sale
-    *** \param object_id The ID of the GlobalObject to make available for purchase
-    *** \param stock The amount of the object to make available for purchase
+    /** \brief Adds an object to the list of objects for sale.
+    *** \param object_id The ID of the GlobalObject to make available for purchase.
+    *** \param stock The amount of the object to make available for purchase.
+    *** If set to 0, the number of objects is infinite.
     *** \note All wares must be added before the _Start() method is called to ensure
     *** that the wares actually appear in shop mode.
     **/
@@ -271,9 +272,10 @@ public:
         _objects.insert(std::make_pair(object_id, stock));
     }
 
-    /** \brief Adds an object to the list of objects for sale
-    *** \param object_id The ID of the GlobalObject to make available for purchase
-    *** \param stock The amount of the object to make available for purchase
+    /** \brief Adds an object to the list of objects for sale.
+    *** \param object_id The ID of the GlobalObject to make available for purchase.
+    *** \param stock The amount of the object to make available for purchase.
+    *** If set to 0, the number of objects is infinite.
     *** \note All wares must be added before the _Start() method is called to ensure
     *** that the wares actually appear in shop mode.
     **/

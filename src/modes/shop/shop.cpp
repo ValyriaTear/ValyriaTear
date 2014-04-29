@@ -1507,10 +1507,11 @@ void ShopMode::CompleteTransaction()
 
         it->second->ResetBuyCount();
         it->second->IncrementOwnCount(count);
-        it->second->DecrementStockCount(count);
+        if (!it->second->IsInfiniteAmount())
+            it->second->DecrementStockCount(count);
         GlobalManager->AddToInventory(id, count);
 
-        if(it->second->GetStockCount() == 0) {
+        if(!it->second->IsInfiniteAmount() && it->second->GetStockCount() == 0) {
             RemoveObjectToBuy(id);
         }
     }
@@ -1547,7 +1548,8 @@ void ShopMode::CompleteTransaction()
 
         it->second->ResetTradeCount();
         it->second->IncrementOwnCount(count);
-        it->second->DecrementStockCount(count);
+        if (!it->second->IsInfiniteAmount())
+            it->second->DecrementStockCount(count);
         GlobalManager->AddToInventory(id, count);
 
         //Remove trade condition items from inventory and possibly call RemoveObjectToSell
@@ -1556,7 +1558,7 @@ void ShopMode::CompleteTransaction()
                                                 it->second->GetObject()->GetTradeConditions()[i].second * count);
         }
 
-        if(it->second->GetStockCount() == 0) {
+        if(!it->second->IsInfiniteAmount() && it->second->GetStockCount() == 0) {
             RemoveObjectToTrade(id);
         }
 
@@ -1703,7 +1705,10 @@ void ShopMode::AddObject(uint32 object_id, uint32 stock)
     GlobalObject *new_object = GlobalCreateNewObject(object_id, 1);
     if(new_object != NULL) {
         ShopObject *new_shop_object = new ShopObject(new_object);
-        new_shop_object->IncrementStockCount(stock);
+        if (stock > 0)
+            new_shop_object->IncrementStockCount(stock);
+        else // When the stock is set to 0, it means there is an infinity amount of object to buy.
+            new_shop_object->SetInfiniteAmount(true);
         _available_buy.insert(std::make_pair(object_id, new_shop_object));
     }
 }
@@ -1730,7 +1735,10 @@ void ShopMode::AddTrade(uint32 object_id, uint32 stock)
     GlobalObject *new_object = GlobalCreateNewObject(object_id, 1);
     if(new_object != NULL) {
         ShopObject *new_shop_object = new ShopObject(new_object);
-        new_shop_object->IncrementStockCount(stock);
+        if (stock > 0)
+            new_shop_object->IncrementStockCount(stock);
+        else // When the stock is set to 0, it means there is an infinity amount of object to trade.
+            new_shop_object->SetInfiniteAmount(true);
         _available_trade.insert(std::make_pair(object_id, new_shop_object));
     }
 }
