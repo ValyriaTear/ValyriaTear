@@ -349,11 +349,9 @@ bool SystemEngine::IsLanguageAvailable(const std::string& lang)
         return true;
 
     // Test whether the file is existing.
-    if (!vt_utils::DoesFileExist(mo_filename)) {
-        PRINT_WARNING << "Couldn't locate gettext .mo file: '" << mo_filename << "'." << std::endl
-            << "The " << lang << " translation will be disabled." << std::endl;
+    if (!vt_utils::DoesFileExist(mo_filename))
         return false;
-    }
+
     return true;
 }
 

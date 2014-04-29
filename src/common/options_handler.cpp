@@ -581,6 +581,9 @@ void GameOptionsMenuHandler::_RefreshLanguageOptions()
     _language_options_menu.ClearOptions();
     _language_options_menu.SetDimensions(300.0f, 200.0f, 1, table_size, 1, (table_size > 8 ? 8 : table_size));
 
+    // Used to warn about missing po files, but only once at start.
+    static bool warnAboutMissingFiles = true;
+
     _po_files.clear();
     std::string current_language = vt_system::SystemManager->GetLanguage();
     for(uint32 i = 1; i <= table_size; ++i) {
@@ -604,6 +607,12 @@ void GameOptionsMenuHandler::_RefreshLanguageOptions()
             // We also reset the current selection when the current language is unavailable.
             if (lang == current_language)
                 _language_options_menu.SetSelection(0);
+
+            if (warnAboutMissingFiles) {
+                std::string mo_filename = lang + "/LC_MESSAGES/"APPSHORTNAME".mo";
+                PRINT_WARNING << "Couldn't locate gettext .mo file: '" << mo_filename << "'." << std::endl
+                    << "The " << lang << " translation will be disabled." << std::endl;
+            }
         }
 
 #ifdef DISABLE_TRANSLATIONS
@@ -614,6 +623,9 @@ void GameOptionsMenuHandler::_RefreshLanguageOptions()
 #endif
         read_data.CloseTable();
     }
+
+    // Only warn once about missing language files.
+    warnAboutMissingFiles = false;
 
     read_data.CloseTable();
     if(read_data.IsErrorDetected())
