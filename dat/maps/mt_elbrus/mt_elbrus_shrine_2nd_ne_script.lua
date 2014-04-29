@@ -74,7 +74,7 @@ function _CreateCharacters()
     -- This is a dungeon map, we'll use the front battle member sprite as default sprite.
     Map.object_supervisor:SetPartyMemberVisibleSprite(hero);
 
-    if (GlobalManager:GetPreviousLocation() == "from_shrine_2nd_floor_SE_passage") then
+    if (GlobalManager:GetPreviousLocation() == "from_shrine_2nd_floor_south") then
         hero:SetPosition(28, 36);
         hero:SetDirection(vt_map.MapMode.NORTH);
     elseif (GlobalManager:GetPreviousLocation() == "from_shrine_1st_floor") then
@@ -322,8 +322,8 @@ function _CreateEvents()
                                        "dat/maps/mt_elbrus/mt_elbrus_shrine_stairs_script.lua", "from_shrine_2nd_floor");
     EventManager:RegisterEvent(event);
 
-    event = vt_map.MapTransitionEvent("to mountain shrine 2nd floor SE room", "dat/maps/mt_elbrus/mt_elbrus_shrine_2nd_SE_map.lua",
-                                       "dat/maps/mt_elbrus/mt_elbrus_shrine_2nd_SE_script.lua", "from_shrine_2nd_floor_NE_room");
+    event = vt_map.MapTransitionEvent("to mountain shrine 2nd floor South", "dat/maps/mt_elbrus/mt_elbrus_shrine_2nd_s1_map.lua",
+                                       "dat/maps/mt_elbrus/mt_elbrus_shrine_2nd_s1_script.lua", "from_shrine_2nd_floor_NE_room");
     EventManager:RegisterEvent(event);
 
     event = vt_map.IfEvent("Check Gate", "check_triggers", "Open Gate", "");
@@ -364,7 +364,7 @@ function _CheckZones()
         EventManager:StartEvent("to mountain shrine 1st floor");
     elseif (to_shrine_SE_room_zone:IsCameraEntering() == true) then
         hero:SetDirection(vt_map.MapMode.SOUTH);
-        EventManager:StartEvent("to mountain shrine 2nd floor SE room");
+        EventManager:StartEvent("to mountain shrine 2nd floor South");
     elseif (spike_trap_zone:IsCameraEntering() == true) then
         if (trap_spikes:IsVisible() == false) then
             EventManager:StartEvent("Trigger spikes", 200);
