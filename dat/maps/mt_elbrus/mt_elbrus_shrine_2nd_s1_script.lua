@@ -94,16 +94,59 @@ function _CreateObjects()
     -- Objects array
     local map_objects = {
 
-        { "Tree Small1 snow", 7, 66 },
-        { "Tree Small1 snow", 50, 63 },
-        { "Tree Small2 snow", 19, 5 },
-        { "Tree Small1 snow", 23, 7 },
-        { "Tree Big2 snow", 39, 56 },
-        { "Tree Big2 snow", 2, 70 },
-        { "Tree Big2 snow", 36, 72 },
-        { "Tree Big1 snow", 0, 75 },
-        { "Tree Big1 snow", 48, 70 },
-        { "Rock1 snow", 32, 56 },
+        { "Tree Small1 snow", 81.5, 20 },
+        { "Tree Small1 snow", 80, 28 },
+        { "Tree Small2 snow", 71, 72 },
+        { "Tree Small1 snow", 60, 73 },
+        { "Tree Small1 snow", 86, 56 },
+        { "Tree Small1 snow", 62, 56.5 },
+        { "Tree Small2 snow", 51, 50 },
+        { "Tree Small2 snow", 49, 45 },
+        { "Tree Small1 snow", 40, 41 },
+        { "Tree Small2 snow", 36, 46 },
+        { "Tree Small2 snow", 67, 51 },
+        { "Tree Small2 snow", 47, 70 },
+        { "Tree Small1 snow", 60, 52.2 },
+        { "Tree Small2 snow", 29, 25 },
+        { "Tree Small1 snow", 39, 26 },
+        { "Tree Small1 snow", 8, 71 },
+        { "Tree Small1 snow", 7, 64 },
+        { "Tree Small1 snow", 82, 11 },
+        { "Tree Small1 snow", 26, 3 },
+
+        { "Tree Big2 snow", 79, 12 },
+        { "Tree Big1 snow", 96.5, 29 },
+        { "Tree Big2 snow", 90, 51 },
+        { "Tree Big2 snow", 93, 12 },
+        { "Tree Big1 snow", 79, 42 },
+        { "Tree Big2 snow", 96, 37 },
+        { "Tree Big1 snow", 78, 51 },
+        { "Tree Big2 snow", 82, 63 },
+        { "Tree Big1 snow", 66, 65 },
+        { "Tree Big1 snow", 8, 61 },
+        { "Tree Big1 snow", 12, 51 },
+        { "Tree Big2 snow", 15, 55 },
+        { "Tree Big2 snow", 22.5, 65 },
+        { "Tree Big2 snow", 31, 35 },
+        { "Tree Big1 snow", 38, 36 },
+        { "Tree Big1 snow", 15, 10 },
+        { "Tree Big2 snow", 3, 9 },
+        { "Tree Big2 snow", 49, 27 },
+
+        { "Rock1 snow", 92, 18 },
+        { "Rock1 snow", 91.5, 39 },
+        { "Rock1 snow", 59, 47 },
+        { "Rock1 snow", 42, 47.2 },
+        { "Rock1 snow", 26, 67 },
+        { "Rock1 snow", 24, 75 },
+        { "Rock1 snow", 30, 72.1 },
+        { "Rock1 snow", 28, 73.1 },
+        { "Rock1 snow", 40, 72.2 },
+        { "Rock1 snow", 33.5, 39 },
+        { "Rock1 snow", 18, 3 },
+        { "Rock1 snow", 38.5, 10 },
+        { "Rock1 snow", 40, 22.5 },
+        { "Rock1 snow", 94, 23 },
     }
 
     -- Loads the trees according to the array
@@ -114,7 +157,7 @@ function _CreateObjects()
     end
 
     -- Create the bridge
-    object = CreateObject(Map, "Bridge1_up", 10, 9);
+    object = CreateObject(Map, "Bridge1_up", 10, 11);
     Map:AddFlatGroundObject(object);
 
     bridge_middle_parts[1] = CreateObject(Map, "Bridge1_middle", 10, 11);
@@ -143,8 +186,10 @@ function _CreateObjects()
     Map:AddFlatGroundObject(bridge_middle_parts[12]);
     bridge_middle_parts[13] = CreateObject(Map, "Bridge1_middle", 10, 34);
     Map:AddFlatGroundObject(bridge_middle_parts[13]);
+    bridge_middle_parts[14] = CreateObject(Map, "Bridge1_middle", 10, 36);
+    Map:AddFlatGroundObject(bridge_middle_parts[14]);
 
-    object = CreateObject(Map, "Bridge1_down", 10, 36);
+    object = CreateObject(Map, "Bridge1_down", 10, 38);
     Map:AddFlatGroundObject(object);
 end
 
@@ -170,7 +215,7 @@ function _CreateZones()
     -- N.B.: left, right, top, bottom
     to_shrine_ne_zone = vt_map.CameraZone(84, 88, 3, 5);
     Map:AddZone(to_shrine_ne_zone);
-    to_shrine_nw_zone = vt_map.CameraZone(5, 9, 3, 5);
+    to_shrine_nw_zone = vt_map.CameraZone(6, 10, 3, 5);
     Map:AddZone(to_shrine_nw_zone);
     to_grotto_zone = vt_map.CameraZone(33, 35, 22, 24);
     Map:AddZone(to_grotto_zone);
