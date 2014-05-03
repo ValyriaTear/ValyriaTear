@@ -621,7 +621,7 @@ function _CreateEvents()
     dialogue:AddLine(text, sophia);
     text = vt_system.Translate("But the bridge, how did you cross?");
     dialogue:AddLineEmote(text, kalya, "thinking dots");
-    text = vt_system.Translate("Using my rope and my ninja skills, of course, eh.");
+    text = vt_system.Translate("Using my rope and my Ranger skills, of course, eh.");
     dialogue:AddLine(text, sophia);
     text = vt_system.Translate("Sophia could be of great help, Kalya. The passage has collapsed, and we're stuck finding a way in this dreadful place...");
     dialogue:AddLineEvent(text, hero, "Bronann looks at Kalya", "Bronann looks south");

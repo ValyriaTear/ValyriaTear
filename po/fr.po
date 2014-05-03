@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Valyria Tear\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-04-06 21:14+0200\n"
-"PO-Revision-Date: 2014-05-01 13:56+0100\n"
+"POT-Creation-Date: 2014-05-04 01:42+0200\n"
+"PO-Revision-Date: 2014-05-04 01:42+0100\n"
 "Last-Translator: Yohann Ferreira <yohann.ferreira@orange.fr>\n"
 "Language-Team: French\n"
 "Language: fr\n"
@@ -66,8 +66,8 @@ msgstr " PM"
 msgid " — "
 msgstr " — "
 
-#: ../dat/maps/layna_village/layna_village_center_script.lua:893
-#: ../dat/maps/layna_village/layna_village_center_script.lua:914
+#: ../dat/maps/layna_village/layna_village_center_script.lua:910
+#: ../dat/maps/layna_village/layna_village_center_script.lua:931
 msgid "!! What?"
 msgstr "!! Quoi ?"
 
@@ -164,7 +164,7 @@ msgstr "(Chuchotant également) Je ne sais pas ..."
 msgid "(Bronann looks on the ground ...)"
 msgstr "(Bronann regarde au sol...)"
 
-#: ../dat/maps/layna_village/layna_village_center_script.lua:851
+#: ../dat/maps/layna_village/layna_village_center_script.lua:743
 msgid "(Hmm, maybe I should get a sword then.)"
 msgstr "(Hmm, peut-être devrais-je trouver une épée dans ce cas.)"
 
@@ -191,11 +191,11 @@ msgstr ""
 msgid "(Let's have a look..)"
 msgstr "(Jetons un œil ...)"
 
-#: ../dat/maps/layna_village/layna_village_center_script.lua:908
+#: ../dat/maps/layna_village/layna_village_center_script.lua:925
 msgid "(Sigh)... Georges!"
 msgstr "(Soupir) Georges !"
 
-#: ../dat/maps/layna_village/layna_village_center_script.lua:961
+#: ../dat/maps/layna_village/layna_village_center_script.lua:978
 msgid "(Sigh)... Hmm, fine."
 msgstr "(Soupir) Hum, bien."
 
@@ -207,7 +207,7 @@ msgstr "(Soupir)... J'aurais dû rester à la maison aujourd'hui ..."
 msgid "(Sigh)... got it, mom!"
 msgstr "Ouf... J'en ai, Maman !"
 
-#: ../dat/maps/layna_village/layna_village_center_script.lua:930
+#: ../dat/maps/layna_village/layna_village_center_script.lua:947
 msgid "(Sigh...) Hmm, fine."
 msgstr "(Soupir) Hum, bien."
 
@@ -242,8 +242,8 @@ msgstr "(Grogne) ... Idioties !"
 #: ../dat/maps/layna_forest/layna_forest_wolf_cave_script.lua:211
 #: ../dat/maps/layna_village/battle_with_banesore/battle_with_banesore_script.lua:66
 #: ../dat/maps/layna_village/layna_village_bronanns_home_script.lua:305
-#: ../dat/maps/layna_village/layna_village_center_script.lua:502
-#: ../dat/maps/layna_village/layna_village_center_script.lua:1006
+#: ../dat/maps/layna_village/layna_village_center_script.lua:504
+#: ../dat/maps/layna_village/layna_village_center_script.lua:1023
 #: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:319
 #: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:450
 #: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:551
@@ -262,7 +262,7 @@ msgstr "... D'a ... ccord ..."
 msgid "... Am I telling you all that? That's simple..."
 msgstr "... Suis-je en train de vous dire tout cela ? C'est simple ..."
 
-#: ../dat/maps/layna_village/layna_village_center_script.lua:449
+#: ../dat/maps/layna_village/layna_village_center_script.lua:451
 msgid "... Bronann! Wait!"
 msgstr "... Bronann ! Attends !"
 
@@ -286,7 +286,7 @@ msgstr "... Calme-toi Kalya, il doit y avoir un moyen de se sortir de là ..."
 msgid "... Fine."
 msgstr "... Bien."
 
-#: ../dat/maps/layna_village/layna_village_center_script.lua:482
+#: ../dat/maps/layna_village/layna_village_center_script.lua:484
 msgid "... Hmmm..."
 msgstr "... Hmmm..."
 
@@ -373,7 +373,7 @@ msgstr "... Oh, pourquoi ma tête me fait-elle si mal ? ..."
 msgid "... Something heavy seems to have fallen nearby."
 msgstr "... Quelque-chose de lourd semble être tombé pas très loin d'ici."
 
-#: ../dat/maps/layna_village/layna_village_center_script.lua:947
+#: ../dat/maps/layna_village/layna_village_center_script.lua:964
 msgid ""
 "... The incredible and amazing. I could even say, the stunning feel of it in "
 "the wind..."
@@ -418,12 +418,12 @@ msgid "... someone brave enough to jump between my brother and it..."
 msgstr ""
 "... quelqu'un d'assez brave pour sauter entre mon frère et cette chose ..."
 
-#: map_names_tr.lua:164 map_names_tr.lua:168 map_names_tr.lua:172
-#: map_names_tr.lua:348 map_names_tr.lua:352 map_names_tr.lua:356
+#: map_names_tr.lua:168 map_names_tr.lua:172 map_names_tr.lua:176
+#: map_names_tr.lua:356 map_names_tr.lua:360 map_names_tr.lua:364
 msgid "1st Floor"
 msgstr "1er Etage"
 
-#: map_names_tr.lua:148 map_names_tr.lua:332
+#: map_names_tr.lua:148 map_names_tr.lua:336
 msgid "2nd Floor"
 msgstr "2ème Etage"
 
@@ -438,7 +438,7 @@ msgid ""
 msgstr "... C'est la première fois que je te vois si inquiète."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_path3_script.lua:297 map_names_tr.lua:20
-#: map_names_tr.lua:204
+#: map_names_tr.lua:208
 msgid "???"
 msgstr "???"
 
@@ -678,8 +678,8 @@ msgstr "Abdomen"
 msgid "Acheron"
 msgstr "Abîmes"
 
-#: ../dat/maps/layna_village/layna_village_center_script.lua:891
-#: ../dat/maps/layna_village/layna_village_center_script.lua:912
+#: ../dat/maps/layna_village/layna_village_center_script.lua:908
+#: ../dat/maps/layna_village/layna_village_center_script.lua:929
 msgid "Actually, I bought the barley meal for Lilly."
 msgstr "En fait, le blé d'orge était pour Lilly."
 
@@ -812,7 +812,7 @@ msgstr ""
 "Ah ah ! tu veux sûrement voir cette jeune fille vivant là-haut. Ah, les "
 "jeunes de nos jours ..."
 
-#: ../dat/maps/layna_village/layna_village_center_script.lua:951
+#: ../dat/maps/layna_village/layna_village_center_script.lua:968
 msgid ""
 "Ah, I see. Well unfortunately, I'm so sad about a recent loss that I can't "
 "find the right words with which to tell you."
@@ -820,7 +820,7 @@ msgstr ""
 "Ah je vois. Malheureusement, je suis si triste par la perte que je viens "
 "d'avoir, que je ne peux te le dire avec les bons mots."
 
-#: ../dat/maps/layna_village/layna_village_center_script.lua:969
+#: ../dat/maps/layna_village/layna_village_center_script.lua:986
 msgid ""
 "Ah, the river is so beautiful at this time of the year. I feel like writing "
 "some poetry..."
@@ -912,7 +912,7 @@ msgstr "Allié"
 msgid "Ally — Point"
 msgstr "Allié — Point"
 
-#: ../dat/maps/layna_village/layna_village_center_script.lua:713
+#: ../dat/maps/layna_village/layna_village_center_script.lua:715
 msgid ""
 "Also, the person in front of the battle line will lead the group in the "
 "forest. What I mean by that is the person on the top of the battle formation "
@@ -969,7 +969,7 @@ msgid ""
 msgstr ""
 "Et comment es-tu arrivée jusqu'ici ? N'étais-tu pas captive avec les autres ?"
 
-#: ../dat/maps/layna_village/layna_village_center_script.lua:707
+#: ../dat/maps/layna_village/layna_village_center_script.lua:709
 #, c-format
 msgid ""
 "And tell me that you have equipped your sword ... If you haven't, open your "
@@ -1095,7 +1095,7 @@ msgid "Attacks an enemy with a chance of making Death catch its soul."
 msgstr ""
 "Attaque un ennemi et provoque potentiellement l'appel de la Mort sur lui."
 
-#: ../src/modes/boot/boot.cpp:511
+#: ../src/common/options_handler.cpp:364
 msgid "Audio"
 msgstr "Audio"
 
@@ -1111,8 +1111,8 @@ msgstr "Minerai Aurifère"
 msgid "Aurum Drakueli"
 msgstr "Aurum Drakueli"
 
-#: ../dat/maps/layna_village/layna_village_center_script.lua:849
-#: ../dat/maps/layna_village/layna_village_center_script.lua:859
+#: ../dat/maps/layna_village/layna_village_center_script.lua:741
+#: ../dat/maps/layna_village/layna_village_center_script.lua:755
 msgid "Aww..."
 msgstr "Oooh..."
 
@@ -1180,7 +1180,7 @@ msgstr "Du blé d'orge ? encore ?"
 msgid "Based on the engine"
 msgstr "Basé sur"
 
-#: map_names_tr.lua:88 map_names_tr.lua:272
+#: map_names_tr.lua:88 map_names_tr.lua:276
 msgid "Basement"
 msgstr "Cave"
 
@@ -1188,11 +1188,11 @@ msgstr "Cave"
 msgid "Basic yet good and cheap flour."
 msgstr "Céréales communes mais bon marché et pas désagréables à manger."
 
-#: ../dat/actors/enemies.lua:290 ../dat/actors/map_sprites.lua:350
+#: ../dat/actors/enemies.lua:290 ../dat/actors/map_sprites.lua:351
 msgid "Bat"
 msgstr "Chauve-souris"
 
-#: ../src/modes/boot/boot.cpp:476 ../src/modes/menu/menu_views.cpp:1268
+#: ../src/modes/boot/boot.cpp:365 ../src/modes/menu/menu_views.cpp:1268
 msgid "Battle"
 msgstr "Combat"
 
@@ -1242,7 +1242,7 @@ msgstr ""
 msgid "Be careful, ok?"
 msgstr "Sois prudent, d'accord ?"
 
-#: ../dat/actors/enemies.lua:783 ../dat/actors/map_sprites.lua:539
+#: ../dat/actors/enemies.lua:783 ../dat/actors/map_sprites.lua:540
 msgid "Beetle"
 msgstr "Blatte"
 
@@ -1334,7 +1334,7 @@ msgstr "Minerai de Borium"
 msgid "Branches"
 msgstr "Branches"
 
-#: ../src/modes/boot/boot.cpp:536 ../src/modes/boot/boot.cpp:704
+#: ../src/common/options_handler.cpp:389 ../src/common/options_handler.cpp:561
 msgid "Brightness: "
 msgstr "Luminosité : "
 
@@ -1362,7 +1362,7 @@ msgstr "Bronann ! Est-ce que tout va bien ? Réponds-moi !!"
 msgid "Bronann! Are you alright?"
 msgstr "Bronann ! Est-ce que ça va ?"
 
-#: ../dat/maps/layna_village/layna_village_center_script.lua:847
+#: ../dat/maps/layna_village/layna_village_center_script.lua:739
 msgid ""
 "Bronann! Sorry, you can't access the forest without permission. You don't "
 "even have a sword..."
@@ -1370,7 +1370,7 @@ msgstr ""
 "Bronann ! Désolé, tu ne dois pas aller dans la forêt sans permission. Tu "
 "n'as même pas d'épée..."
 
-#: ../dat/maps/layna_village/layna_village_center_script.lua:857
+#: ../dat/maps/layna_village/layna_village_center_script.lua:753
 msgid ""
 "Bronann! Sorry, you know you can't access the forest without permission."
 msgstr ""
@@ -1398,11 +1398,11 @@ msgid "Bronann!!! Hold on! We're almost there..."
 msgstr "Bronann !!! Tiens bon ! Nous y sommes presque ..."
 
 #: ../dat/config/quests.lua:27 ../dat/config/quests.lua:93 map_names_tr.lua:52
-#: map_names_tr.lua:236
+#: map_names_tr.lua:240
 msgid "Bronann's home"
 msgstr "Maison de Bronann"
 
-#: ../dat/maps/layna_village/layna_village_center_script.lua:506
+#: ../dat/maps/layna_village/layna_village_center_script.lua:508
 #: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:309
 msgid "Bronann, I ..."
 msgstr "Bronann, je ..."
@@ -1435,7 +1435,7 @@ msgstr "Bronann, s'il te plaît."
 msgid "Bronann, promise me that you'll be careful, ok?"
 msgstr "Promet-moi que tu seras prudent, Bronann, ok ?"
 
-#: ../dat/maps/layna_village/layna_village_center_script.lua:583
+#: ../dat/maps/layna_village/layna_village_center_script.lua:585
 msgid ""
 "Bronann, take this sword. You'll probably need it to make your way through "
 "there."
@@ -1447,7 +1447,7 @@ msgstr ""
 msgid "Bronann, the crystal! No!"
 msgstr "Bronann, le cristal ! Non !"
 
-#: ../dat/maps/layna_village/layna_village_center_script.lua:484
+#: ../dat/maps/layna_village/layna_village_center_script.lua:486
 msgid ""
 "Bronann, there is something that I have to tell you. We've been fearing for "
 "this moment. I mean your mother and I..."
@@ -1463,7 +1463,7 @@ msgstr ""
 "Bronann, cette fois je veux que tu écoutes bien ton père. S'il te plaît, mon "
 "chéri."
 
-#: ../dat/maps/layna_village/layna_village_center_script.lua:539
+#: ../dat/maps/layna_village/layna_village_center_script.lua:541
 msgid "Bronann, you should go with her."
 msgstr "Bronann, tu devrais y aller avec elle."
 
@@ -1483,7 +1483,7 @@ msgstr "Bronann ?"
 msgid "Brr... It's quite cold up here."
 msgstr "Brr ... Il fait plutôt froid par ici."
 
-#: ../dat/actors/map_sprites.lua:191
+#: ../dat/actors/map_sprites.lua:192
 #: ../dat/maps/layna_village/layna_village_center_script.lua:157
 #: ../dat/maps/layna_village/layna_village_kalya_house_path_script.lua:187
 #: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:163
@@ -1506,11 +1506,11 @@ msgstr "Mais je ..."
 msgid "But Kalya, look at the passageway!"
 msgstr "Mais Kalya, regarde le passage souterrain !"
 
-#: ../dat/maps/layna_village/layna_village_center_script.lua:553
+#: ../dat/maps/layna_village/layna_village_center_script.lua:555
 msgid "But father!"
 msgstr "Mais Père !"
 
-#: ../dat/maps/layna_village/layna_village_center_script.lua:547
+#: ../dat/maps/layna_village/layna_village_center_script.lua:549
 msgid "But he would just be a burden!"
 msgstr "Mais il sera juste un fardeau !"
 
@@ -1550,7 +1550,7 @@ msgstr ""
 msgid "But then, you're stuck here, too, right?"
 msgstr "Mais alors, tu es coincée ici, également, n'est-ce pas?"
 
-#: ../dat/maps/layna_village/layna_village_center_script.lua:529
+#: ../dat/maps/layna_village/layna_village_center_script.lua:531
 msgid "But you might get hurt!"
 msgstr "Mais tu pourrais être blessé !!"
 
@@ -1564,11 +1564,11 @@ msgstr ""
 msgid "But, you'll let us deal with this place, alone??"
 msgstr "Mais, tu vas nous laisser traverser le Sanctuaire, seuls ??"
 
-#: ../dat/maps/layna_village/layna_village_center_script.lua:537
+#: ../dat/maps/layna_village/layna_village_center_script.lua:539
 msgid "But..."
 msgstr "Mais ..."
 
-#: ../dat/actors/map_sprites.lua:317
+#: ../dat/actors/map_sprites.lua:318
 msgid "Butterfly"
 msgstr "Papillon"
 
@@ -1588,7 +1588,7 @@ msgstr "Achats : x"
 msgid "Buy prices"
 msgstr "Prix d'achat"
 
-#: ../dat/maps/layna_village/layna_village_center_script.lua:699
+#: ../dat/maps/layna_village/layna_village_center_script.lua:701
 msgid ""
 "By the way, have you ever prepared yourself for something like this before?"
 msgstr ""
@@ -1613,13 +1613,13 @@ msgstr ""
 msgid "Calls the defender of the Arctic."
 msgstr "Appelle le Défenseur de l'Arctique"
 
-#: ../dat/maps/layna_village/layna_village_center_script.lua:939
+#: ../dat/maps/layna_village/layna_village_center_script.lua:956
 msgid "Can you hear this?"
 msgstr "Peux-tu entendre ceci ?"
 
-#: ../src/modes/boot/boot.cpp:783 ../src/modes/mode_help_window.cpp:146
+#: ../src/common/options_handler.cpp:650 ../src/modes/mode_help_window.cpp:146
 #: ../src/modes/mode_help_window.cpp:192 ../src/modes/mode_help_window.cpp:245
-#: ../src/modes/pause.cpp:77 ../src/modes/save/save_mode.cpp:138
+#: ../src/modes/pause.cpp:83 ../src/modes/save/save_mode.cpp:138
 msgid "Cancel"
 msgstr "Annuler"
 
@@ -1631,11 +1631,11 @@ msgstr "Annuler une action"
 msgid "Cancel an action or menu command"
 msgstr "Annuler une action"
 
-#: ../src/modes/boot/boot.cpp:596
+#: ../src/common/options_handler.cpp:453
 msgid "Cancel: "
 msgstr "Annuler : "
 
-#: ../src/modes/boot/boot.cpp:803
+#: ../src/common/options_handler.cpp:668
 msgid "Cancel: Button"
 msgstr "Annuler : Touche"
 
@@ -1643,21 +1643,21 @@ msgstr "Annuler : Touche"
 msgid "Candy"
 msgstr "Bonbon"
 
-#: ../dat/actors/map_sprites.lua:103
+#: ../dat/actors/map_sprites.lua:104
 msgid "Carson"
 msgstr "Carson"
 
-#: ../dat/maps/layna_village/layna_village_center_script.lua:545
+#: ../dat/maps/layna_village/layna_village_center_script.lua:547
 msgid "Carson is right, Kalya. Bronann shall go with you."
 msgstr "Carson a raison, Kalya. Bronann ira avec toi."
 
-#: ../dat/maps/layna_village/layna_village_center_script.lua:555
+#: ../dat/maps/layna_village/layna_village_center_script.lua:557
 msgid ""
 "Carson is right, Kalya. Bronann shall go with you. It's... it's an order."
 msgstr ""
 "Carson a raison, Kalya. Bronann ira avec toi. C'est ... C'est un ordre."
 
-#: ../dat/maps/layna_village/layna_village_center_script.lua:500
+#: ../dat/maps/layna_village/layna_village_center_script.lua:502
 msgid "Carson, they've passed the river. They shall be here in no time."
 msgstr ""
 "Carson, ils ont passé la rivière. Ils devraient être ici en un rien de temps."
@@ -1689,7 +1689,7 @@ msgstr "Change la catégorie d'objets affichée."
 msgid "Chest"
 msgstr "Poitrine"
 
-#: ../dat/actors/map_sprites.lua:302
+#: ../dat/actors/map_sprites.lua:303
 msgid "Chicken"
 msgstr "Poulet"
 
@@ -1764,7 +1764,7 @@ msgstr ""
 msgid "Conditions:"
 msgstr "Conditions :"
 
-#: ../src/modes/boot/boot.cpp:782 ../src/modes/mode_help_window.cpp:143
+#: ../src/common/options_handler.cpp:649 ../src/modes/mode_help_window.cpp:143
 #: ../src/modes/mode_help_window.cpp:186 ../src/modes/mode_help_window.cpp:242
 msgid "Confirm"
 msgstr "Valider"
@@ -1786,11 +1786,11 @@ msgstr "Valider une action"
 msgid "Confirm an action or menu command"
 msgstr "Valider une action"
 
-#: ../src/modes/boot/boot.cpp:595
+#: ../src/common/options_handler.cpp:452
 msgid "Confirm: "
 msgstr "Valider : "
 
-#: ../src/modes/boot/boot.cpp:802
+#: ../src/common/options_handler.cpp:667
 msgid "Confirm: Button"
 msgstr "Valider : Touche"
 
@@ -1827,7 +1827,7 @@ msgstr "Créé une boule de feu brûlant un adversaire."
 msgid "Crested Helmet"
 msgstr "Casque à crête"
 
-#: ../dat/actors/map_sprites.lua:268
+#: ../dat/actors/map_sprites.lua:269
 msgid "Crystal"
 msgstr "Cristal"
 
@@ -1888,8 +1888,8 @@ msgstr "Zut !!"
 msgid "Dang! And now the rain..."
 msgstr "De la pluie ... Manquait plus que ça !"
 
-#: ../dat/actors/enemies.lua:463 ../dat/actors/map_sprites.lua:448
-#: ../dat/actors/map_sprites.lua:523
+#: ../dat/actors/enemies.lua:463 ../dat/actors/map_sprites.lua:449
+#: ../dat/actors/map_sprites.lua:524
 msgid "Dark Soldier"
 msgstr "Soldat Noir"
 
@@ -1970,7 +1970,7 @@ msgstr "Dissipation"
 msgid "Divine Wish"
 msgstr "Souhait Divin"
 
-#: ../dat/maps/layna_village/layna_village_center_script.lua:535
+#: ../dat/maps/layna_village/layna_village_center_script.lua:537
 msgid "Do as I say and it'll be alright."
 msgstr "Fais ce que je te dis et tout ira bien."
 
@@ -2034,7 +2034,7 @@ msgstr "Ne t'aventure pas trop loin, j'aurai besoin de ton aide très bientôt !
 msgid "Don't worry Kalya, I have not forgotten my training."
 msgstr "Ne t'inquiète pas Kalya, je n'ai pas oublié mon entraînement."
 
-#: ../dat/maps/layna_village/layna_village_center_script.lua:998
+#: ../dat/maps/layna_village/layna_village_center_script.lua:1015
 msgid "Don't worry about that, Orlinn. Ok?"
 msgstr "Ne t'inquiète pas pour cela, Orlinn, ok ?"
 
@@ -2062,7 +2062,7 @@ msgstr "Ne t'inquiète pas, je vais bien. Heu, quel cristal ? Quel loup ??"
 msgid "Don't worry, sis. It's fine, we can tell him."
 msgstr "Ne t'inquiète pas soeurette. Tout va bien, on peut lui dire."
 
-#: ../dat/maps/layna_village/layna_village_center_script.lua:648
+#: ../dat/maps/layna_village/layna_village_center_script.lua:650
 msgid "Don't worry, we'll find him. Ok?"
 msgstr "Ne t'inquiète pas pour cela, nous le trouverons, ok ?"
 
@@ -2075,7 +2075,7 @@ msgstr "Comdamnation"
 msgid "Down"
 msgstr "Bas"
 
-#: ../src/modes/boot/boot.cpp:592
+#: ../src/common/options_handler.cpp:449
 msgid "Down: "
 msgstr "Bas : "
 
@@ -2124,7 +2124,7 @@ msgid "Eh? You really know nothing about women, do you?"
 msgstr "Hmm, tu n'y connais vraiment rien aux femmes, n'est-ce pas ?"
 
 #: map_names_tr.lua:116 map_names_tr.lua:120 map_names_tr.lua:124
-#: map_names_tr.lua:300 map_names_tr.lua:304 map_names_tr.lua:308
+#: map_names_tr.lua:304 map_names_tr.lua:308 map_names_tr.lua:312
 msgid "Elbrus Grotto"
 msgstr "Grotte d'Elbrus"
 
@@ -2230,7 +2230,7 @@ msgstr "Heu, oui ?"
 msgid "Er... Sorry grandma, I have to go! Maybe later?"
 msgstr "Heu ... Désolé grand-mère, je dois y aller ! Peut-être plus tard ?"
 
-#: ../dat/maps/layna_village/layna_village_center_script.lua:941
+#: ../dat/maps/layna_village/layna_village_center_script.lua:958
 msgid "Erm, ... Well, I don't hear anything special..."
 msgstr "Heu ... Je n'entends rien de spécial ..."
 
@@ -2299,7 +2299,7 @@ msgstr "Niveau : "
 msgid "Eye"
 msgstr "Œil"
 
-#: ../dat/actors/enemies.lua:640 ../dat/actors/map_sprites.lua:507
+#: ../dat/actors/enemies.lua:640 ../dat/actors/map_sprites.lua:508
 msgid "Eyeball"
 msgstr "Globe oculaire"
 
@@ -2315,17 +2315,17 @@ msgstr "Tête"
 msgid "Fairy"
 msgstr "Fée"
 
-#: ../dat/maps/layna_village/layna_village_center_script.lua:508
+#: ../dat/maps/layna_village/layna_village_center_script.lua:510
 msgid "Father!"
 msgstr "Père !"
 
-#: ../dat/maps/layna_village/layna_village_center_script.lua:521
+#: ../dat/maps/layna_village/layna_village_center_script.lua:523
 msgid "Father! Orlinn has disappeared. I saw him taking the forest pathway!"
 msgstr ""
 "Père ! Orlinn a disparu. Je l'ai vu prendre le chemin menant à la forêt !"
 
 #: ../dat/actors/enemies.lua:120 ../dat/actors/enemies.lua:345
-#: ../dat/actors/enemies.lua:405 ../dat/actors/map_sprites.lua:433
+#: ../dat/actors/enemies.lua:405 ../dat/actors/map_sprites.lua:434
 msgid "Fenrir"
 msgstr "Fenrir"
 
@@ -2382,7 +2382,7 @@ msgstr "Eclat de Feu"
 msgid "First Aid"
 msgstr "Premiers Soins"
 
-#: ../dat/maps/layna_village/layna_village_center_script.lua:705
+#: ../dat/maps/layna_village/layna_village_center_script.lua:707
 msgid ""
 "First of all, before going there, you might need better equipment. You "
 "should visit Flora first, ok?"
@@ -2395,7 +2395,7 @@ msgstr ""
 msgid "Flora"
 msgstr "Flora"
 
-#: map_names_tr.lua:64 map_names_tr.lua:248
+#: map_names_tr.lua:64 map_names_tr.lua:252
 msgid "Flora's Boutique"
 msgstr "Boutique de Flora"
 
@@ -2427,7 +2427,7 @@ msgstr "Pour toi, cela aura pu durer des années."
 msgid "Forehead"
 msgstr "Front"
 
-#: map_names_tr.lua:24 map_names_tr.lua:208
+#: map_names_tr.lua:24 map_names_tr.lua:212
 msgid "Forest entrance"
 msgstr "Orée de forêt"
 
@@ -2447,15 +2447,15 @@ msgstr "Heureusement, ils ne m'ont pas vu ou ils m'auraient également attrapé.
 msgid "Forward Thrust"
 msgstr "Attaque portée"
 
-#: ../src/modes/boot/boot.cpp:697
+#: ../src/common/options_handler.cpp:554
 msgid "Fullscreen"
 msgstr "Plein écran"
 
-#: ../src/modes/shop/shop.cpp:1604
+#: ../src/modes/shop/shop.cpp:1606
 msgid "Funds: "
 msgstr "Fonds : "
 
-#: ../dat/maps/layna_village/layna_village_center_script.lua:581
+#: ../dat/maps/layna_village/layna_village_center_script.lua:583
 msgid "Gahh... ok."
 msgstr "Arrrmmh, ok."
 
@@ -2467,7 +2467,7 @@ msgstr "Autres commandes :"
 msgid "General Purpose"
 msgstr "Description"
 
-#: ../dat/actors/map_sprites.lua:252
+#: ../dat/actors/map_sprites.lua:253
 #: ../dat/maps/layna_village/layna_village_center_script.lua:200
 #: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:171
 msgid "Georges"
@@ -2477,7 +2477,7 @@ msgstr "Georges"
 msgid "Georges's pen, presumably used to write poetry."
 msgstr "La plume de Georges, probablement utilisée pour écrire de la poésie."
 
-#: ../dat/maps/layna_village/layna_village_center_script.lua:949
+#: ../dat/maps/layna_village/layna_village_center_script.lua:966
 msgid ""
 "Georges, I simply wanted to ask you whether or not you had any barley meal "
 "left!"
@@ -2508,11 +2508,11 @@ msgstr ""
 "Donne une dose raisonnable de force supplémentaire à un allié pendant une "
 "courte durée."
 
-#: ../dat/maps/layna_village/layna_village_center_script.lua:866
+#: ../dat/maps/layna_village/layna_village_center_script.lua:889
 msgid "Good luck Bronann."
 msgstr "Bonne chance Bronann."
 
-#: ../dat/maps/layna_village/layna_village_center_script.lua:631
+#: ../dat/maps/layna_village/layna_village_center_script.lua:633
 msgid "Good luck, son."
 msgstr "Bonne chance, mon fils."
 
@@ -2628,7 +2628,7 @@ msgstr ""
 msgid "He was afraid they'd corner us to prevent an escape, and he was right."
 msgstr "Il avait peur qu'ils nous encerclent, et il avait raison."
 
-#: ../dat/maps/layna_village/layna_village_center_script.lua:551
+#: ../dat/maps/layna_village/layna_village_center_script.lua:553
 msgid "He won't slow you down, believe me. Right, Bronann?"
 msgstr "Il ne te ralentira pas, n'est-ce pas , Bronann ?"
 
@@ -2674,16 +2674,16 @@ msgstr "Potion de soins"
 msgid "Healing Rain"
 msgstr "Pluie curatrice"
 
-#: ../dat/maps/layna_village/layna_village_center_script.lua:1019
+#: ../dat/maps/layna_village/layna_village_center_script.lua:1036
 #: ../dat/maps/layna_village/layna_village_riverbank_script.lua:639
 msgid "Hee hee hee!"
 msgstr "Hi hi hi !"
 
-#: ../dat/maps/layna_village/layna_village_center_script.lua:1027
+#: ../dat/maps/layna_village/layna_village_center_script.lua:1044
 msgid "Hee hee hee! Yes!"
 msgstr "Hi hi hi ! Oui !"
 
-#: ../dat/maps/layna_village/layna_village_center_script.lua:1037
+#: ../dat/maps/layna_village/layna_village_center_script.lua:1054
 msgid "Hee hee! (He'll never find me hiding behind the buildings!)"
 msgstr "Hi hi ! (Il ne trouvera jamais ma cachette derrière les maisons !)"
 
@@ -2704,7 +2704,7 @@ msgstr "A l'aide !!!"
 msgid "Here it is, Bronann."
 msgstr "Le voilà, Bronann."
 
-#: ../dat/maps/layna_village/layna_village_center_script.lua:904
+#: ../dat/maps/layna_village/layna_village_center_script.lua:921
 msgid "Here it is, Georges."
 msgstr "Le voilà, Georges."
 
@@ -2728,7 +2728,7 @@ msgstr ""
 msgid "Here!"
 msgstr "Là !"
 
-#: ../dat/actors/map_sprites.lua:156
+#: ../dat/actors/map_sprites.lua:157
 #: ../dat/maps/layna_village/battle_with_banesore/battle_with_banesore_script.lua:58
 msgid "Herth"
 msgstr "Herth"
@@ -2743,7 +2743,7 @@ msgstr ""
 "Herth t'a envoyée ? Mais il n'a dit que ce n'était rien, qu'il s'en "
 "occuperait !"
 
-#: ../dat/maps/layna_village/layna_village_center_script.lua:533
+#: ../dat/maps/layna_village/layna_village_center_script.lua:535
 msgid "Herth, we both know it'll likely..."
 msgstr "Herth, nous savons tous deux que..."
 
@@ -2763,7 +2763,7 @@ msgstr ""
 msgid "Hey, why would I tell you my hiding spots?!"
 msgstr "Hé, pourquoi est-ce que je te dirais toutes mes cachettes ?!"
 
-#: ../dat/maps/layna_village/layna_village_center_script.lua:1044
+#: ../dat/maps/layna_village/layna_village_center_script.lua:1061
 msgid "Heya bro! Wanna play with me?"
 msgstr "Hé Bro, tu veux jouer avec moi ?"
 
@@ -2793,7 +2793,7 @@ msgstr ""
 "Salut Flora ! Heu, pourrais-tu me prêter l'une de tes épées d'entraînement ? "
 "J'aurais aimé pratiquer un peu..."
 
-#: ../dat/maps/layna_village/layna_village_center_script.lua:937
+#: ../dat/maps/layna_village/layna_village_center_script.lua:954
 msgid "Hi Georges. Erm, I'm coming from the shop and I ..."
 msgstr "Salut Georges. Heu, je viens du magasin et je ..."
 
@@ -2834,13 +2834,13 @@ msgstr "De grands dégâts d'Eau sur tous les ennemis."
 msgid "Hlm"
 msgstr "Csq"
 
-#: ../dat/maps/layna_village/layna_village_center_script.lua:375
+#: ../dat/maps/layna_village/layna_village_center_script.lua:377
 msgid "Hmm, I'll go to Flora's shop. I hope she'll help me..."
 msgstr ""
 "Hum, je vais aller à la boutique de Flora, elle a sûrement de quoi "
 "m'aider ..."
 
-#: ../dat/maps/layna_village/layna_village_center_script.lua:715
+#: ../dat/maps/layna_village/layna_village_center_script.lua:717
 msgid "Hmm, right. I'm not sure that I fully get what you mean, but..."
 msgstr ""
 "Hmm, bien. Je ne suis pas sûr de bien comprendre ce que tu veux dire, "
@@ -2898,24 +2898,24 @@ msgstr "Comment ?"
 msgid "However, I don't know what it means."
 msgstr "Je ne comprends pas ce que cette énigme signifie, cependant."
 
-#: ../dat/maps/layna_village/layna_village_center_script.lua:945
+#: ../dat/maps/layna_village/layna_village_center_script.lua:962
 msgid "Huh, please Georges. I do not want to run away like the last time..."
 msgstr ""
 "Heu, s'il te plaît Georges, je ne voudrais pas avoir à m'enfuir comme la "
 "dernière fois ..."
 
 #: ../dat/maps/layna_village/layna_village_center_at_night_script.lua:312
-#: ../dat/maps/layna_village/layna_village_center_script.lua:543
-#: ../dat/maps/layna_village/layna_village_center_script.lua:953
+#: ../dat/maps/layna_village/layna_village_center_script.lua:545
+#: ../dat/maps/layna_village/layna_village_center_script.lua:970
 #: ../dat/maps/mt_elbrus/mt_elbrus_path4_script.lua:347
 msgid "Huh?"
 msgstr "Hein ?"
 
-#: ../dat/maps/layna_village/layna_village_center_script.lua:549
+#: ../dat/maps/layna_village/layna_village_center_script.lua:551
 msgid "Huh? Hey! But..."
 msgstr "Hein ? Hé, mais ..."
 
-#: ../dat/maps/layna_village/layna_village_center_script.lua:504
+#: ../dat/maps/layna_village/layna_village_center_script.lua:506
 msgid "Huh? Hey, what's happening here?!"
 msgstr "Hein ? Hé, qu'est-ce qui se passe ici ?"
 
@@ -2923,15 +2923,15 @@ msgstr "Hein ? Hé, qu'est-ce qui se passe ici ?"
 msgid "Huh? How do you know my name??"
 msgstr "Hein ? Comment connaissez-vous mon nom ??"
 
-#: ../dat/maps/layna_village/layna_village_center_script.lua:1025
+#: ../dat/maps/layna_village/layna_village_center_script.lua:1042
 msgid "Huh? Wait! Are you talking about Georges's lost pen?"
 msgstr "Hein ? Attends ! Tu parles de la plume de Georges ?"
 
-#: ../dat/maps/layna_village/layna_village_center_script.lua:701
+#: ../dat/maps/layna_village/layna_village_center_script.lua:703
 msgid "Huh? Well, Orlinn doesn't disappear every day, you know?"
 msgstr "Hein ? Et bien, Orlinn ne disparaît pas tout les jours, tu sais ?"
 
-#: ../dat/maps/layna_village/layna_village_center_script.lua:447
+#: ../dat/maps/layna_village/layna_village_center_script.lua:449
 msgid "Huh? What was that light?"
 msgstr "Hein ? C'était quoi cette lumière ?"
 
@@ -2991,7 +2991,7 @@ msgstr "Je ne peux pas y retourner maintenant ..."
 msgid "I can't sis... I can feel it... calling me..."
 msgstr "Je ne peux pas sœurette. Je la sens ... m'appeler ..."
 
-#: ../dat/maps/layna_village/layna_village_center_script.lua:525
+#: ../dat/maps/layna_village/layna_village_center_script.lua:527
 msgid ""
 "I did, but he just slipped through my fingers at the very second that "
 "strange light appeared."
@@ -3081,7 +3081,7 @@ msgstr "J'espère qu'Orlinn va bien."
 msgid "I knew the crystal would appear..."
 msgstr "Je savais que le cristal apparaîtrait ..."
 
-#: ../dat/maps/layna_village/layna_village_center_script.lua:587
+#: ../dat/maps/layna_village/layna_village_center_script.lua:589
 msgid ""
 "I know, but everything has changed. I'll explain it to you once it is all "
 "finished. Now go, my son."
@@ -3102,7 +3102,7 @@ msgstr "Je ferais mieux de me lever et d'oublier tout ça ..."
 msgid "I need to be ... I guess."
 msgstr "Il le faut ... Je suppose."
 
-#: ../dat/maps/layna_village/layna_village_center_script.lua:996
+#: ../dat/maps/layna_village/layna_village_center_script.lua:1013
 msgid "I promise I won't bother you again ..."
 msgstr "Je te promets que je ne t'embêterai plus ..."
 
@@ -3110,7 +3110,7 @@ msgstr "Je te promets que je ne t'embêterai plus ..."
 msgid "I really hope we are..."
 msgstr "Je l'espère sincèrement, en tout cas ..."
 
-#: ../dat/maps/layna_village/layna_village_center_script.lua:703
+#: ../dat/maps/layna_village/layna_village_center_script.lua:705
 msgid ""
 "I see... Then there are two very important things that you need to know:"
 msgstr ""
@@ -3145,7 +3145,7 @@ msgstr "Je devrais plutôt rentrer à la maison ..."
 msgid "I still feel really dizzy but I'll be ok..."
 msgstr "Je me sens vraiment tout drôle mais ça ira ..."
 
-#: ../dat/maps/layna_village/layna_village_center_script.lua:480
+#: ../dat/maps/layna_village/layna_village_center_script.lua:482
 msgid "I suppose you just saw that light, right?"
 msgstr "Je suppose que tu as vu cette lumière, n'est-ce pas ?"
 
@@ -3343,12 +3343,12 @@ msgstr "En effet, il y a très longtemps ..."
 msgid "Inflicts poison to an enemy."
 msgstr "Empoisonne un ennemi."
 
-#: ../src/modes/boot/boot.cpp:795 ../src/modes/boot/boot.cpp:797
+#: ../src/common/options_handler.cpp:660 ../src/common/options_handler.cpp:662
 msgid "Input enabled: "
 msgstr "Activé : "
 
-#: ../dat/maps/layna_village/layna_village_center_script.lua:928
-#: ../dat/maps/layna_village/layna_village_center_script.lua:959
+#: ../dat/maps/layna_village/layna_village_center_script.lua:945
+#: ../dat/maps/layna_village/layna_village_center_script.lua:976
 msgid ""
 "Inquire our comrades in the settlement, perhaps somebody has laid their eyes "
 "on it."
@@ -3513,7 +3513,7 @@ msgstr ""
 "être aussi pure à l'extérieur qu'à l'intérieur. Qui plus est, il me va mieux "
 "qu'à toi."
 
-#: ../src/modes/boot/boot.cpp:514
+#: ../src/common/options_handler.cpp:367
 msgid "Joystick Settings"
 msgstr "Configuration du Joystick"
 
@@ -3545,7 +3545,7 @@ msgstr ""
 "Kalya... Nous sommes au beau milieu d'une grotte lugubre et tu ne songes "
 "qu'à te parer d'un collier."
 
-#: ../dat/maps/layna_village/layna_village_center_script.lua:668
+#: ../dat/maps/layna_village/layna_village_center_script.lua:670
 msgid "Kalya joins your party!"
 msgstr "Kalya a rejoint votre équipe."
 
@@ -3553,7 +3553,7 @@ msgstr "Kalya a rejoint votre équipe."
 msgid "Kalya! Now!!"
 msgstr "Kalya ! Maintenant !!"
 
-#: ../dat/maps/layna_village/layna_village_center_script.lua:523
+#: ../dat/maps/layna_village/layna_village_center_script.lua:525
 msgid "Kalya! You were supposed to keep an eye on him!"
 msgstr "Kalya ! Tu étais supposée garder un œil sur lui !"
 
@@ -3573,7 +3573,7 @@ msgstr "Cave de la maison de Kalya"
 msgid "Kalya, ... Err ..."
 msgstr "Kalya ... Heu ..."
 
-#: ../dat/maps/layna_village/layna_village_center_script.lua:527
+#: ../dat/maps/layna_village/layna_village_center_script.lua:529
 msgid ""
 "Kalya, the army is coming. I'll deal with them, you, go and find Orlinn as "
 "fast as possible."
@@ -3605,7 +3605,7 @@ msgstr "Spl"
 msgid "Key Items"
 msgstr "Objets-clés"
 
-#: ../src/modes/boot/boot.cpp:513
+#: ../src/common/options_handler.cpp:366
 msgid "Key Settings"
 msgstr "Configuration des touches"
 
@@ -3613,7 +3613,7 @@ msgstr "Configuration des touches"
 msgid "Knight's Blade"
 msgstr "Lame de Chevalier"
 
-#: ../src/modes/boot/boot.cpp:512
+#: ../src/common/options_handler.cpp:365
 msgid "Language"
 msgstr "Langage"
 
@@ -3623,15 +3623,15 @@ msgstr "Lave"
 
 #: ../dat/config/world_locations.lua:29 map_names_tr.lua:18
 #: map_names_tr.lua:22 map_names_tr.lua:26 map_names_tr.lua:30
-#: map_names_tr.lua:34 map_names_tr.lua:38 map_names_tr.lua:202
-#: map_names_tr.lua:206 map_names_tr.lua:210 map_names_tr.lua:214
-#: map_names_tr.lua:218 map_names_tr.lua:222
+#: map_names_tr.lua:34 map_names_tr.lua:38 map_names_tr.lua:206
+#: map_names_tr.lua:210 map_names_tr.lua:214 map_names_tr.lua:218
+#: map_names_tr.lua:222 map_names_tr.lua:226
 msgid "Layna Forest"
 msgstr "Forêt de Layna"
 
 #: map_names_tr.lua:6 map_names_tr.lua:10 map_names_tr.lua:14
-#: map_names_tr.lua:42 map_names_tr.lua:190 map_names_tr.lua:194
-#: map_names_tr.lua:198 map_names_tr.lua:226
+#: map_names_tr.lua:42 map_names_tr.lua:194 map_names_tr.lua:198
+#: map_names_tr.lua:202 map_names_tr.lua:230
 msgid "Layna Forest Cave"
 msgstr "Grottes de Layna"
 
@@ -3665,7 +3665,7 @@ msgstr "Quitter"
 msgid "Left"
 msgstr "Gauche"
 
-#: ../src/modes/boot/boot.cpp:593
+#: ../src/common/options_handler.cpp:450
 msgid "Left: "
 msgstr "Gauche : "
 
@@ -3777,14 +3777,14 @@ msgstr "Résistance à l'élément de Vie"
 msgid "Lightning"
 msgstr "Eclair"
 
-#: ../dat/actors/map_sprites.lua:237
+#: ../dat/actors/map_sprites.lua:238
 #: ../dat/maps/layna_village/battle_with_banesore/battle_with_banesore_script.lua:59
 #: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:151
 #: ../dat/maps/layna_village/layna_village_riverbank_script.lua:107
 msgid "Lilly"
 msgstr "Lilly"
 
-#: map_names_tr.lua:96 map_names_tr.lua:280
+#: map_names_tr.lua:96 map_names_tr.lua:284
 msgid "Lilly's house"
 msgstr "Maison de Lilly"
 
@@ -3797,7 +3797,7 @@ msgstr ""
 "pas vous aider car un champ de force m'empêche d'entrer dans le "
 "Sanctuaire ..."
 
-#: ../src/modes/boot/boot.cpp:470 ../src/modes/save/save_mode.cpp:93
+#: ../src/modes/boot/boot.cpp:359 ../src/modes/save/save_mode.cpp:93
 msgid "Load Game"
 msgstr "Continuer"
 
@@ -3826,7 +3826,7 @@ msgstr "Ecoute, je ..."
 msgid "Look, there is a stone slab on the ground. Let's check this out."
 msgstr "Regarde, il a une sorte de dalle juste-là. Allons vérifier."
 
-#: ../dat/actors/map_sprites.lua:469
+#: ../dat/actors/map_sprites.lua:470
 msgid "Lord"
 msgstr "Seigneur"
 
@@ -3839,8 +3839,8 @@ msgstr "Lord Banesore"
 msgid "Lotus Petal"
 msgstr "Pétale de Lotus"
 
-#: map_names_tr.lua:128 map_names_tr.lua:132 map_names_tr.lua:312
-#: map_names_tr.lua:316
+#: map_names_tr.lua:128 map_names_tr.lua:132 map_names_tr.lua:316
+#: map_names_tr.lua:320
 msgid "Low Mountain"
 msgstr "Basse montagne"
 
@@ -3946,7 +3946,7 @@ msgstr "Des violentes vagues frappent un adversaire."
 msgid "Making one with the crystal, huh?"
 msgstr "Ne faire qu'un avec le cristal ??"
 
-#: ../dat/actors/map_sprites.lua:119
+#: ../dat/actors/map_sprites.lua:120
 msgid "Malta"
 msgstr "Malta"
 
@@ -4016,11 +4016,11 @@ msgstr ""
 "\n"
 "Tiles, sprites, icônes d'inventaire, coordination graphismes Allacrost"
 
-#: ../src/modes/boot/boot.cpp:805
+#: ../src/common/options_handler.cpp:670
 msgid "Map: Button"
 msgstr "Carte : Touche"
 
-#: ../dat/actors/map_sprites.lua:206
+#: ../dat/actors/map_sprites.lua:207
 #: ../dat/maps/layna_village/layna_village_center_script.lua:166
 #: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:167
 msgid "Martha"
@@ -4043,7 +4043,7 @@ msgstr ""
 msgid "Maybe we should tell him..."
 msgstr "Peut-être devrions-nous lui dire ?"
 
-#: ../dat/maps/layna_village/layna_village_center_script.lua:1031
+#: ../dat/maps/layna_village/layna_village_center_script.lua:1048
 msgid "Maybe yes, maybe no!"
 msgstr "Peut-être que oui, peut-être que non !"
 
@@ -4084,17 +4084,17 @@ msgstr "Mega potion de soins"
 msgid "Mega Moon Juice Potion"
 msgstr "Mega potion de Lune"
 
-#: ../src/modes/boot/boot.cpp:477 ../src/modes/boot/boot.cpp:784
+#: ../src/common/options_handler.cpp:651 ../src/modes/boot/boot.cpp:366
 #: ../src/modes/mode_help_window.cpp:189 ../src/modes/mode_help_window.cpp:250
 #: ../src/modes/mode_help_window.cpp:255
 msgid "Menu"
 msgstr "Menu"
 
-#: ../src/modes/boot/boot.cpp:597
+#: ../src/common/options_handler.cpp:454
 msgid "Menu: "
 msgstr "Menu : "
 
-#: ../src/modes/boot/boot.cpp:804
+#: ../src/common/options_handler.cpp:669
 msgid "Menu: Button"
 msgstr "Menu : Touche"
 
@@ -4154,31 +4154,31 @@ msgstr "Potion de Lune"
 #: map_names_tr.lua:78 map_names_tr.lua:82 map_names_tr.lua:86
 #: map_names_tr.lua:90 map_names_tr.lua:94 map_names_tr.lua:98
 #: map_names_tr.lua:102 map_names_tr.lua:106 map_names_tr.lua:110
-#: map_names_tr.lua:238 map_names_tr.lua:242 map_names_tr.lua:246
-#: map_names_tr.lua:250 map_names_tr.lua:254 map_names_tr.lua:258
-#: map_names_tr.lua:262 map_names_tr.lua:266 map_names_tr.lua:270
-#: map_names_tr.lua:274 map_names_tr.lua:278 map_names_tr.lua:282
-#: map_names_tr.lua:286 map_names_tr.lua:290 map_names_tr.lua:294
+#: map_names_tr.lua:242 map_names_tr.lua:246 map_names_tr.lua:250
+#: map_names_tr.lua:254 map_names_tr.lua:258 map_names_tr.lua:262
+#: map_names_tr.lua:266 map_names_tr.lua:270 map_names_tr.lua:274
+#: map_names_tr.lua:278 map_names_tr.lua:282 map_names_tr.lua:286
+#: map_names_tr.lua:290 map_names_tr.lua:294 map_names_tr.lua:298
 msgid "Mountain Village of Layna"
 msgstr "Village de Layna"
 
-#: map_names_tr.lua:140 map_names_tr.lua:324
+#: map_names_tr.lua:140 map_names_tr.lua:328
 msgid "Mountain bridge"
 msgstr "Pont"
 
-#: ../src/modes/boot/boot.cpp:779
+#: ../src/common/options_handler.cpp:646
 msgid "Move Down"
 msgstr "Bas"
 
-#: ../src/modes/boot/boot.cpp:780
+#: ../src/common/options_handler.cpp:647
 msgid "Move Left"
 msgstr "Gauche"
 
-#: ../src/modes/boot/boot.cpp:781
+#: ../src/common/options_handler.cpp:648
 msgid "Move Right"
 msgstr "Droite"
 
-#: ../src/modes/boot/boot.cpp:778
+#: ../src/common/options_handler.cpp:645
 msgid "Move Up"
 msgstr "Haut"
 
@@ -4221,18 +4221,19 @@ msgstr "Bouger votre personnage :"
 #: ../dat/config/world_locations.lua:40 map_names_tr.lua:114
 #: map_names_tr.lua:118 map_names_tr.lua:122 map_names_tr.lua:126
 #: map_names_tr.lua:130 map_names_tr.lua:134 map_names_tr.lua:138
-#: map_names_tr.lua:142 map_names_tr.lua:298 map_names_tr.lua:302
+#: map_names_tr.lua:142 map_names_tr.lua:150 map_names_tr.lua:302
 #: map_names_tr.lua:306 map_names_tr.lua:310 map_names_tr.lua:314
 #: map_names_tr.lua:318 map_names_tr.lua:322 map_names_tr.lua:326
+#: map_names_tr.lua:330 map_names_tr.lua:338
 msgid "Mt. Elbrus"
 msgstr "Mt. Elbrus"
 
-#: map_names_tr.lua:146 map_names_tr.lua:150 map_names_tr.lua:154
-#: map_names_tr.lua:158 map_names_tr.lua:162 map_names_tr.lua:166
-#: map_names_tr.lua:170 map_names_tr.lua:174 map_names_tr.lua:178
-#: map_names_tr.lua:330 map_names_tr.lua:334 map_names_tr.lua:338
-#: map_names_tr.lua:342 map_names_tr.lua:346 map_names_tr.lua:350
-#: map_names_tr.lua:354 map_names_tr.lua:358 map_names_tr.lua:362
+#: map_names_tr.lua:146 map_names_tr.lua:154 map_names_tr.lua:158
+#: map_names_tr.lua:162 map_names_tr.lua:166 map_names_tr.lua:170
+#: map_names_tr.lua:174 map_names_tr.lua:178 map_names_tr.lua:182
+#: map_names_tr.lua:334 map_names_tr.lua:342 map_names_tr.lua:346
+#: map_names_tr.lua:350 map_names_tr.lua:354 map_names_tr.lua:358
+#: map_names_tr.lua:362 map_names_tr.lua:366 map_names_tr.lua:370
 msgid "Mt. Elbrus Shrine"
 msgstr "Sanctuaire du Mt. Elbrus"
 
@@ -4245,7 +4246,7 @@ msgstr "Zombi-gnon"
 msgid "Music"
 msgstr "Musique"
 
-#: ../src/modes/boot/boot.cpp:557 ../src/modes/boot/boot.cpp:770
+#: ../src/common/options_handler.cpp:413 ../src/common/options_handler.cpp:639
 msgid "Music Volume: "
 msgstr "Volume de la musique : "
 
@@ -4304,7 +4305,7 @@ msgstr "Neutre"
 msgid "Neutral Elemental Strength"
 msgstr "Résistance à l'élément Neutre"
 
-#: ../dat/maps/layna_village/layna_village_center_script.lua:711
+#: ../dat/maps/layna_village/layna_village_center_script.lua:713
 msgid "Nevermind that, just do it."
 msgstr "Ca n'a pas d'importance, fais-le, c'est tout."
 
@@ -4320,7 +4321,7 @@ msgstr ""
 "Non rien ... Ne t'inquiète pas pour moi. Trouve-le et il devrait t'en "
 "donner, ok ?"
 
-#: ../src/modes/boot/boot.cpp:469
+#: ../src/modes/boot/boot.cpp:358
 msgid "New Game"
 msgstr "Nv. jeu"
 
@@ -4328,7 +4329,8 @@ msgstr "Nv. jeu"
 msgid "New Skill Learned:\n"
 msgstr "Nouvelle capacité :\n"
 
-#: ../src/modes/battle/battle_finish.cpp:162 ../src/modes/boot/boot.cpp:797
+#: ../src/common/options_handler.cpp:662
+#: ../src/modes/battle/battle_finish.cpp:162
 msgid "No"
 msgstr "Non"
 
@@ -4380,11 +4382,11 @@ msgstr "Non ! Laissez-le s'approcher ..."
 msgid "No, I won't follow you anymore..."
 msgstr "Non, je ne te suivrai plus ..."
 
-#: ../dat/maps/layna_village/layna_village_center_script.lua:429
+#: ../dat/maps/layna_village/layna_village_center_script.lua:431
 msgid "No, I won't go there. I just can't talk to them at the moment..."
 msgstr "Non, je n'y irai pas. Je ne veux pas leur parler pour le moment ..."
 
-#: ../dat/maps/layna_village/layna_village_center_script.lua:531
+#: ../dat/maps/layna_village/layna_village_center_script.lua:533
 msgid ""
 "No, don't worry. We'll simply talk to them and they'll move on. You know "
 "what you have to do, right?"
@@ -4480,7 +4482,7 @@ msgstr "Bien sûr que tu l'as. Je peux le sentir dans ta chair ..."
 msgid "Oh no! the gate!"
 msgstr "Oh non ! La grille !"
 
-#: ../dat/maps/layna_village/layna_village_center_script.lua:1033
+#: ../dat/maps/layna_village/layna_village_center_script.lua:1050
 msgid "Oh no, please Orlinn! I need it!"
 msgstr "Oh non, s'il te plaît Orlinn, j'en ai besoin !"
 
@@ -4516,11 +4518,11 @@ msgstr "Oh, elles sont toutes de retour, mon brave héros ..."
 msgid "Ok"
 msgstr "Ok"
 
-#: ../dat/maps/layna_village/layna_village_center_script.lua:650
+#: ../dat/maps/layna_village/layna_village_center_script.lua:652
 msgid "Ok ..."
 msgstr "Ok ..."
 
-#: ../dat/maps/layna_village/layna_village_center_script.lua:910
+#: ../dat/maps/layna_village/layna_village_center_script.lua:927
 msgid "Ok ok. Just having a bit of spirit, young man."
 msgstr "Ok ok. J'essaie juste de faire un peu d'esprit, jeune homme."
 
@@ -4534,7 +4536,7 @@ msgstr "Ok !"
 msgid "Ok, thanks."
 msgstr "Oh, merci."
 
-#: ../dat/maps/layna_village/layna_village_center_script.lua:646
+#: ../dat/maps/layna_village/layna_village_center_script.lua:648
 msgid "Ok, we'll go together. But slow me down and I'll make you regret it..."
 msgstr ""
 "Ok, nous irons ensemble, mais ralentis-moi, et je te le ferai regretter ..."
@@ -4543,7 +4545,7 @@ msgstr ""
 msgid "Ok..."
 msgstr "Ok ..."
 
-#: map_names_tr.lua:136 map_names_tr.lua:320
+#: map_names_tr.lua:136 map_names_tr.lua:324
 msgid "Old Cemetery"
 msgstr "Vieux cimetierre"
 
@@ -4555,7 +4557,7 @@ msgstr "Casque ancien"
 msgid "Old Willow Dress"
 msgstr "Vieille robe ample"
 
-#: ../dat/actors/map_sprites.lua:176
+#: ../dat/actors/map_sprites.lua:177
 #: ../dat/maps/layna_village/layna_village_center_script.lua:206
 #: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:175
 msgid "Olivia"
@@ -4597,7 +4599,7 @@ msgstr "Oups, désolé !"
 msgid "Opens the party menu"
 msgstr "Afficher le menu de statut des personnages"
 
-#: ../src/modes/boot/boot.cpp:471
+#: ../src/modes/boot/boot.cpp:360 ../src/modes/pause.cpp:84
 msgid "Options"
 msgstr "Options"
 
@@ -4605,7 +4607,7 @@ msgstr "Options"
 msgid "Orifice"
 msgstr "Orifice"
 
-#: ../dat/actors/map_sprites.lua:135
+#: ../dat/actors/map_sprites.lua:136
 msgid "Orlinn"
 msgstr "Orlinn"
 
@@ -4716,7 +4718,7 @@ msgstr "Gestion de l'équipe : %s"
 msgid "Path to Kalya's house"
 msgstr "Sur le chemin menant à la maison de Kalya"
 
-#: ../src/modes/boot/boot.cpp:786 ../src/modes/mode_help_window.cpp:198
+#: ../src/common/options_handler.cpp:653 ../src/modes/mode_help_window.cpp:198
 #: ../src/modes/mode_help_window.cpp:259
 msgid "Pause"
 msgstr "Pause"
@@ -4726,15 +4728,15 @@ msgstr "Pause"
 msgid "Pause Menu: %s"
 msgstr "Pause : %s"
 
-#: ../src/modes/boot/boot.cpp:599
+#: ../src/common/options_handler.cpp:456
 msgid "Pause: "
 msgstr "Pause : "
 
-#: ../src/modes/boot/boot.cpp:806
+#: ../src/common/options_handler.cpp:671
 msgid "Pause: Button"
 msgstr "Pause : Touche"
 
-#: ../src/modes/pause.cpp:63
+#: ../src/modes/pause.cpp:65
 msgid "Paused"
 msgstr "Pause"
 
@@ -4791,7 +4793,7 @@ msgstr "Pince"
 msgid "Pincers"
 msgstr "Pinces"
 
-#: ../src/modes/boot/boot.cpp:1132
+#: ../src/common/options_handler.cpp:888
 msgid "Please move an axis."
 msgstr "Veuillez bouger un axe du joystick."
 
@@ -4799,15 +4801,15 @@ msgstr "Veuillez bouger un axe du joystick."
 msgid "Please no! Wait!"
 msgstr "S'il te plaît, non ! Attends !"
 
-#: ../src/modes/boot/boot.cpp:1128
+#: ../src/common/options_handler.cpp:884
 msgid "Please press a new joystick button."
 msgstr "Veuillez appuyer sur une touche du joystick."
 
-#: ../src/modes/boot/boot.cpp:1130
+#: ../src/common/options_handler.cpp:886
 msgid "Please press a new key."
 msgstr "Veuillez appuyer sur une nouvelle touche."
 
-#: ../dat/maps/layna_village/layna_village_center_script.lua:1029
+#: ../dat/maps/layna_village/layna_village_center_script.lua:1046
 msgid "Please tell me! Have you found it?"
 msgstr "S'il te plaît, dis-moi en plus ! L'as-tu trouvé ?"
 
@@ -4878,7 +4880,7 @@ msgstr ""
 msgid "Press '%s' anytime to show/hide help."
 msgstr "Appuyer sur '%s' pour montrer/cacher l'écran d'aide."
 
-#: ../src/modes/boot/boot.cpp:492
+#: ../src/modes/boot/boot.cpp:381
 #, c-format
 msgid "Press '%s' to get to know about the game keys."
 msgstr "Appuyez sur '%s' pour obtenir la liste des touches du jeu."
@@ -4916,7 +4918,7 @@ msgstr "Protection (PRO) : "
 msgid "Punch"
 msgstr "Coup de poing"
 
-#: ../src/modes/shop/shop.cpp:1606
+#: ../src/modes/shop/shop.cpp:1608
 msgid "Purchases: "
 msgstr "Achats : "
 
@@ -4940,12 +4942,12 @@ msgstr "Vite ! Suivons-le."
 msgid "Quick, we must go now!!"
 msgstr "Vite, nous devons y aller maintenant !!"
 
-#: ../src/modes/boot/boot.cpp:482 ../src/modes/mode_help_window.cpp:150
+#: ../src/modes/boot/boot.cpp:371 ../src/modes/mode_help_window.cpp:150
 #: ../src/modes/mode_help_window.cpp:201 ../src/modes/mode_help_window.cpp:262
 msgid "Quit"
 msgstr "Quitter"
 
-#: ../src/modes/pause.cpp:75
+#: ../src/modes/pause.cpp:86
 msgid "Quit Game"
 msgstr "Quitter"
 
@@ -4966,11 +4968,11 @@ msgstr ""
 "Quitte le jeu\n"
 "(clavier uniquement)"
 
-#: ../src/modes/pause.cpp:76
+#: ../src/modes/pause.cpp:85
 msgid "Quit to Main Menu"
 msgstr "Menu principal"
 
-#: ../src/modes/boot/boot.cpp:807
+#: ../src/common/options_handler.cpp:672
 msgid "Quit: Button"
 msgstr "Quitter : Bouton"
 
@@ -5016,11 +5018,11 @@ msgid ""
 msgstr ""
 "Retire tout effet de statut ou élémentaire et tout sort actif d'un ennemi."
 
-#: ../src/modes/boot/boot.cpp:533 ../src/modes/boot/boot.cpp:693
+#: ../src/common/options_handler.cpp:385 ../src/common/options_handler.cpp:550
 msgid "Resolution: "
 msgstr "Résolution : "
 
-#: ../src/modes/boot/boot.cpp:600 ../src/modes/boot/boot.cpp:632
+#: ../src/common/options_handler.cpp:457 ../src/common/options_handler.cpp:490
 msgid "Restore defaults"
 msgstr "Paramètres par défaut"
 
@@ -5102,12 +5104,12 @@ msgstr "Droite"
 msgid "Right!"
 msgstr "Ok !"
 
-#: ../src/modes/boot/boot.cpp:594
+#: ../src/common/options_handler.cpp:451
 msgid "Right: "
 msgstr "Droite : "
 
-#: map_names_tr.lua:92 map_names_tr.lua:100 map_names_tr.lua:276
-#: map_names_tr.lua:284
+#: map_names_tr.lua:92 map_names_tr.lua:100 map_names_tr.lua:280
+#: map_names_tr.lua:288
 msgid "Riverbank"
 msgstr "Bord de rivière"
 
@@ -5131,7 +5133,7 @@ msgstr "Tunique de recrue"
 msgid "Royal Silk"
 msgstr "Soie Royale"
 
-#: ../dat/maps/layna_village/layna_village_center_script.lua:717
+#: ../dat/maps/layna_village/layna_village_center_script.lua:719
 msgid "Rrrr... Bronann. Just listen."
 msgstr "Grrr ... Bronann. Ecoute-moi."
 
@@ -5170,7 +5172,7 @@ msgstr ""
 "\n"
 "Thème du sanctuaire de la montagne"
 
-#: ../src/modes/shop/shop.cpp:1609
+#: ../src/modes/shop/shop.cpp:1611
 msgid "Sales: +"
 msgstr "Ventes : +"
 
@@ -5276,11 +5278,11 @@ msgstr "Dois-je répéter ?"
 msgid "Shall we jump?"
 msgstr "Devons-nous sauter ?"
 
-#: ../dat/maps/layna_village/layna_village_center_script.lua:926
+#: ../dat/maps/layna_village/layna_village_center_script.lua:943
 msgid "Shall you find it, I would be extremely obliged to you!"
 msgstr "Puisses-tu le trouver, je serais ton obligé !"
 
-#: ../dat/maps/layna_village/layna_village_center_script.lua:957
+#: ../dat/maps/layna_village/layna_village_center_script.lua:974
 msgid "Shall you find it, I would be extremely obliged!"
 msgstr "Puisses-tu le trouver, je serais ton obligé !"
 
@@ -5296,7 +5298,7 @@ msgstr "Bouclier"
 msgid "Shift"
 msgstr "MàJ"
 
-#: ../src/modes/boot/boot.cpp:478
+#: ../src/modes/boot/boot.cpp:367
 msgid "Shop"
 msgstr "Magasin"
 
@@ -5325,7 +5327,7 @@ msgstr "Montrer plus de détails ou confirmer une transaction"
 msgid "Show/Hide items and skills descriptions."
 msgstr "Montre/Cache la description des objets et des compétences."
 
-#: ../dat/actors/enemies.lua:595 ../dat/actors/map_sprites.lua:486
+#: ../dat/actors/enemies.lua:595 ../dat/actors/map_sprites.lua:487
 msgid "Shroom"
 msgstr "Champi"
 
@@ -5357,7 +5359,7 @@ msgstr "Soeurette !"
 msgid "Sis!! They're in front of the house!"
 msgstr "Soeurette !! Ils sont devant la maison !"
 
-#: ../dat/actors/enemies.lua:969 ../dat/actors/map_sprites.lua:555
+#: ../dat/actors/enemies.lua:969 ../dat/actors/map_sprites.lua:556
 msgid "Skeleton"
 msgstr "Squelette"
 
@@ -5373,7 +5375,7 @@ msgstr "Compétences"
 msgid "Skills obtained:"
 msgstr "Capacités obtenues :"
 
-#: ../dat/actors/enemies.lua:244 ../dat/actors/map_sprites.lua:391
+#: ../dat/actors/enemies.lua:244 ../dat/actors/map_sprites.lua:392
 msgid "Slime Mother"
 msgstr "Maman blob"
 
@@ -5438,7 +5440,7 @@ msgstr ""
 msgid "So... You think you can hurt me?"
 msgstr "Et bien ... Penses-tu pouvoir me blesser ?"
 
-#: ../dat/actors/map_sprites.lua:284
+#: ../dat/actors/map_sprites.lua:285
 #: ../dat/maps/layna_village/layna_village_center_at_night_script.lua:123
 #: ../dat/maps/layna_village/layna_village_center_at_night_script.lua:127
 #: ../dat/maps/layna_village/layna_village_center_at_night_script.lua:131
@@ -5514,7 +5516,7 @@ msgstr ""
 msgid "Sonic Wind"
 msgstr "Vent supersonique"
 
-#: ../dat/actors/map_sprites.lua:221
+#: ../dat/actors/map_sprites.lua:222
 #: ../dat/maps/layna_village/layna_village_center_script.lua:175
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:179
 msgid "Sophia"
@@ -5542,7 +5544,7 @@ msgid "Sorry, son. It's maybe a bit early, but I'd like you to be careful."
 msgstr ""
 "Désolé, fils. C'est peut-être un peu tôt, mais j'aimerais tu sois prudent."
 
-#: ../src/modes/boot/boot.cpp:556 ../src/modes/boot/boot.cpp:769
+#: ../src/common/options_handler.cpp:410 ../src/common/options_handler.cpp:638
 msgid "Sound Volume: "
 msgstr "Volume des effets : "
 
@@ -5608,7 +5610,7 @@ msgstr ""
 msgid "Spirits"
 msgstr "Esprits"
 
-#: ../dat/actors/map_sprites.lua:332
+#: ../dat/actors/map_sprites.lua:333
 msgid "Squirrel"
 msgstr "Ecureuil"
 
@@ -5672,7 +5674,7 @@ msgstr ""
 msgid "Steals positive effects from an enemy."
 msgstr "Vole des effets positifs à un ennemi."
 
-#: ../dat/maps/layna_village/layna_village_center_script.lua:419
+#: ../dat/maps/layna_village/layna_village_center_script.lua:421
 msgid ""
 "Still, I have to go there and figure out what they're trying to hide from me."
 msgstr ""
@@ -5735,7 +5737,7 @@ msgstr "Ardeur du Soleil"
 msgid "Sure grandma."
 msgstr "Bien sûr, Grand-Mère."
 
-#: ../dat/maps/layna_village/layna_village_center_script.lua:1035
+#: ../dat/maps/layna_village/layna_village_center_script.lua:1052
 msgid "Sure, I'll help you. But only if you can catch me!"
 msgstr "Bien sûr, je t'aiderai mais seulement si tu peux m'attraper !"
 
@@ -5798,7 +5800,7 @@ msgstr "Testeurs"
 msgid "Testers"
 msgstr "Testeurs"
 
-#: ../dat/actors/characters.lua:574 ../dat/actors/map_sprites.lua:85
+#: ../dat/actors/characters.lua:574 ../dat/actors/map_sprites.lua:86
 msgid "Thanis"
 msgstr "Thanis"
 
@@ -5828,7 +5830,7 @@ msgstr "Merci Kalya, je suis prêt maintenant."
 msgid "Thanks anyway, Sophia."
 msgstr "Merci quand-même, Sophia."
 
-#: ../dat/maps/layna_village/layna_village_center_script.lua:606
+#: ../dat/maps/layna_village/layna_village_center_script.lua:608
 msgid "Thanks dad, we'll find him in no time."
 msgstr "Merci papa, nous le trouverons en un rien de temps."
 
@@ -5869,7 +5871,7 @@ msgstr "Ce signe ... C'est le signe des Anciens ! Bronann, est-ce que ça va ?"
 msgid "That was close..."
 msgstr "C'était moins une ..."
 
-#: ../dat/maps/layna_village/layna_village_center_script.lua:719
+#: ../dat/maps/layna_village/layna_village_center_script.lua:721
 msgid ""
 "That will be the case only in certain areas. Here in the village, you'll be "
 "the one leading, or at least you may believe that ..."
@@ -5885,7 +5887,7 @@ msgstr "C'est parce qu'il n'est pas notre père ..."
 msgid "That's it..."
 msgstr "C'est ça ..."
 
-#: ../dat/maps/layna_village/layna_village_center_script.lua:943
+#: ../dat/maps/layna_village/layna_village_center_script.lua:960
 msgid ""
 "That's the point! Can't you hear the magnificent sound of nature, so "
 "invisible to our adapted ears?"
@@ -6077,11 +6079,11 @@ msgstr ""
 msgid "There seems to be one of those rolling stones up here ..."
 msgstr "Il semble qu'il y ait l'une de ces boules en pierre là-haut ..."
 
-#: ../dat/maps/layna_village/layna_village_center_script.lua:916
+#: ../dat/maps/layna_village/layna_village_center_script.lua:933
 msgid "There's no need to thank me for that, it's my pleasure."
 msgstr "Ne me remercie pas pour cela. Tout le plaisir est pour moi."
 
-#: ../dat/maps/layna_village/layna_village_center_script.lua:895
+#: ../dat/maps/layna_village/layna_village_center_script.lua:912
 msgid "There's no need to thank me for that. It's my pleasure."
 msgstr "Ne me remercie pas pour cela. Tout le plaisir est pour moi."
 
@@ -6095,7 +6097,7 @@ msgid "They are too strong. If they catch us, we're doomed."
 msgstr ""
 "Ils sont beaucoup trop forts. S'il nous attrapent, cela en est finit de nous."
 
-#: ../dat/maps/layna_village/layna_village_center_script.lua:486
+#: ../dat/maps/layna_village/layna_village_center_script.lua:488
 msgid "They're coming!"
 msgstr "ils arrivent !"
 
@@ -6160,7 +6162,7 @@ msgid "This water looks weird. Shall we drink it anyway?"
 msgstr ""
 "Cette eau ne me dit rien qui vaille. Allons-nous tout de même la boire ?"
 
-#: ../src/modes/boot/boot.cpp:801
+#: ../src/common/options_handler.cpp:666
 msgid "Threshold"
 msgstr "Zone morte"
 
@@ -6190,11 +6192,11 @@ msgstr "Pour Lilou et Léo..."
 msgid "To be continued..."
 msgstr "A suivre ..."
 
-#: ../src/modes/boot/boot.cpp:785
+#: ../src/common/options_handler.cpp:652
 msgid "Toggle Map"
 msgstr "Afficher/Cacher la carte"
 
-#: ../src/modes/boot/boot.cpp:598
+#: ../src/common/options_handler.cpp:455
 msgid "Toggle Map: "
 msgstr "Afficher/Cacher la carte :"
 
@@ -6227,7 +6229,7 @@ msgstr "Torse : "
 msgid "Total Drunes: "
 msgstr "Total Drunes : "
 
-#: ../src/modes/shop/shop.cpp:1607 ../src/modes/shop/shop.cpp:1610
+#: ../src/modes/shop/shop.cpp:1609 ../src/modes/shop/shop.cpp:1612
 msgid "Total: "
 msgstr "Total : "
 
@@ -6275,7 +6277,7 @@ msgstr "Tunique"
 msgid "Turns an enemy into stone."
 msgstr "Change un ennemi en pierre."
 
-#: ../src/modes/boot/boot.cpp:537 ../src/modes/boot/boot.cpp:707
+#: ../src/common/options_handler.cpp:391 ../src/common/options_handler.cpp:564
 msgid "UI Theme: "
 msgstr "Thème : "
 
@@ -6285,7 +6287,7 @@ msgid ""
 "Save FAILED!"
 msgstr "Impossible de sauvegarder !!"
 
-#: map_names_tr.lua:144 map_names_tr.lua:328
+#: map_names_tr.lua:144 map_names_tr.lua:332
 msgid "Underpass"
 msgstr "Passage souterrain"
 
@@ -6310,7 +6312,7 @@ msgstr "Malheureusement ... Oui , il y en a  un ..."
 msgid "Up"
 msgstr "Haut"
 
-#: ../src/modes/boot/boot.cpp:591
+#: ../src/common/options_handler.cpp:448
 msgid "Up: "
 msgstr "Haut : "
 
@@ -6319,8 +6321,8 @@ msgid "Use"
 msgstr "Utiliser"
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:624
-msgid "Using my rope and my ninja skills, of course, eh."
-msgstr "En utilisant ma corde et mes compétences de ninja, bien sûr !"
+msgid "Using my rope and my Ranger skills, of course, eh."
+msgstr "En utilisant ma corde et mes compétences de Ranger, bien sûr !"
 
 #: ../src/modes/battle/battle_finish.cpp:767
 msgid "VIG: +"
@@ -6356,7 +6358,7 @@ msgstr ""
 "\n"
 "Tiles, sprites"
 
-#: ../src/modes/boot/boot.cpp:510
+#: ../src/common/options_handler.cpp:363
 msgid "Video"
 msgstr "Vidéo"
 
@@ -6408,11 +6410,11 @@ msgstr "Vigueur (VIG) : "
 
 #: ../dat/config/quests.lua:43 ../dat/config/quests.lua:59
 #: ../dat/config/quests.lua:109 map_names_tr.lua:56 map_names_tr.lua:60
-#: map_names_tr.lua:240 map_names_tr.lua:244
+#: map_names_tr.lua:244 map_names_tr.lua:248
 msgid "Village center"
 msgstr "Centre du village"
 
-#: map_names_tr.lua:112 map_names_tr.lua:296
+#: map_names_tr.lua:112 map_names_tr.lua:300
 msgid "Village entrance"
 msgstr "Entrée du village"
 
@@ -6545,7 +6547,7 @@ msgstr "Nous devons absolument les éviter ou ils appelleront des renforts."
 msgid "We must escape from the soldiers..."
 msgstr "Nous devons semer les soldats ..."
 
-#: ../dat/maps/layna_village/layna_village_center_script.lua:608
+#: ../dat/maps/layna_village/layna_village_center_script.lua:610
 msgid "We shall go now... Good luck, both of you."
 msgstr "Nous allons partir maintenant, ... Bonne chance à vous deux."
 
@@ -6674,7 +6676,7 @@ msgstr ""
 msgid "What are we waiting for, let's go!"
 msgstr "... Qu'est-ce que tu attends, allons-y !"
 
-#: ../dat/maps/layna_village/layna_village_center_script.lua:1021
+#: ../dat/maps/layna_village/layna_village_center_script.lua:1038
 msgid "What are you laughing about, Orlinn?"
 msgstr "Qu'est-ce qui te fais rire, Orlinn ?"
 
@@ -6724,7 +6726,7 @@ msgstr "Quoi ?"
 msgid "What? Are you crazy? There could be monsters up here."
 msgstr "Quoi ? Non, il pourrait y avoir des monstres là-haut."
 
-#: ../dat/maps/layna_village/layna_village_center_script.lua:585
+#: ../dat/maps/layna_village/layna_village_center_script.lua:587
 msgid "What? But one minute ago you said..."
 msgstr "Quoi ? Mais il y a une minute tu disais ..."
 
@@ -6741,7 +6743,7 @@ msgstr "Quoi ?!"
 msgid "What?! You mean you all knew about the crystal?"
 msgstr "Quoi ?! Tu veux dire que vous saviez tous pour le Cristal ?"
 
-#: ../dat/maps/layna_village/layna_village_center_script.lua:541
+#: ../dat/maps/layna_village/layna_village_center_script.lua:543
 msgid "What?!?"
 msgstr "Quoi ?!?"
 
@@ -6761,7 +6763,7 @@ msgstr ""
 msgid "Where is the crystal? Where is... the boy?"
 msgstr "Où est le Cristal ? Où est ... Le garçon ?"
 
-#: map_names_tr.lua:46 map_names_tr.lua:230
+#: map_names_tr.lua:46 map_names_tr.lua:234
 msgid "Where it all began..."
 msgstr "Où tout à commencé ..."
 
@@ -6777,7 +6779,7 @@ msgstr "Qui sont les petits morveux, maintenant, hein ?"
 msgid "Who's there?"
 msgstr "Qui va là ?"
 
-#: ../dat/maps/layna_village/layna_village_center_script.lua:417
+#: ../dat/maps/layna_village/layna_village_center_script.lua:419
 msgid "Why doesn't anyone want to tell me what's going on!!"
 msgstr "Pourquoi personne ne veut me dire ce qui se passe !!"
 
@@ -6801,12 +6803,12 @@ msgstr "Cercle de Vent"
 msgid "Wind Elemental Strength"
 msgstr "Résistance à l'élément d'Air"
 
-#: ../src/modes/boot/boot.cpp:535 ../src/modes/boot/boot.cpp:697
-#: ../src/modes/boot/boot.cpp:699
+#: ../src/common/options_handler.cpp:387 ../src/common/options_handler.cpp:554
+#: ../src/common/options_handler.cpp:556
 msgid "Window mode: "
 msgstr "Mode d'affichage : "
 
-#: ../src/modes/boot/boot.cpp:699
+#: ../src/common/options_handler.cpp:556
 msgid "Windowed"
 msgstr "Fenêtré"
 
@@ -6887,7 +6889,7 @@ msgstr "Wouah ! Tu penses qu'ils pourraient venir ici ?"
 msgid "Wpn"
 msgstr "Arm"
 
-#: ../src/modes/boot/boot.cpp:799
+#: ../src/common/options_handler.cpp:664
 msgid "X Axis"
 msgstr "Axe X"
 
@@ -6908,11 +6910,12 @@ msgstr "XP restants : "
 msgid "XP to Next: "
 msgstr "XP restants : "
 
-#: ../src/modes/boot/boot.cpp:800
+#: ../src/common/options_handler.cpp:665
 msgid "Y Axis"
 msgstr "Axe Y"
 
-#: ../src/modes/battle/battle_finish.cpp:161 ../src/modes/boot/boot.cpp:795
+#: ../src/common/options_handler.cpp:660
+#: ../src/modes/battle/battle_finish.cpp:161
 msgid "Yes"
 msgstr "Oui"
 
@@ -7027,7 +7030,7 @@ msgstr ""
 "Tu sais que tu ne t'en sortiras pas comme cela, lorsque nous verrons "
 "Herth ..."
 
-#: ../dat/maps/layna_village/layna_village_center_script.lua:709
+#: ../dat/maps/layna_village/layna_village_center_script.lua:711
 msgid "You mean I need to push a key to open my bag?"
 msgstr ""
 "Attends, tu veux dire que je dois appuyer sur un bouton pour ouvrir mon sac ?"
@@ -7048,8 +7051,8 @@ msgstr "Vous obtenez"
 msgid "You really won't tell me?"
 msgstr "Vous ne me le direz vraiment pas ?"
 
-#: ../dat/maps/layna_village/layna_village_center_script.lua:924
-#: ../dat/maps/layna_village/layna_village_center_script.lua:955
+#: ../dat/maps/layna_village/layna_village_center_script.lua:941
+#: ../dat/maps/layna_village/layna_village_center_script.lua:972
 msgid ""
 "You see, I lost my beloved pen. Was it near a tree or next to the waving "
 "child of the mountain snow?"
@@ -7079,7 +7082,7 @@ msgstr ""
 "Tu ne l'auras pas Banesore ! Il semblerait que nous avons été plus malin que "
 "toi, cette fois ..."
 
-#: ../dat/maps/layna_village/layna_village_center_script.lua:1023
+#: ../dat/maps/layna_village/layna_village_center_script.lua:1040
 msgid "You'll never find it!"
 msgstr "Tu ne le trouveras jamais !"
 
@@ -7102,7 +7105,7 @@ msgid ""
 msgstr ""
 "Tu es plus fort que je le pensais mais ... Trop faible pour me combattre !"
 
-#: ../dat/maps/layna_village/layna_village_center_script.lua:906
+#: ../dat/maps/layna_village/layna_village_center_script.lua:923
 msgid ""
 "You're the nicest person I know, Bronann. I will tell everyone how brave "
 "you..."
