@@ -26,7 +26,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-05-04 01:42+0200\n"
+"POT-Creation-Date: 2014-05-06 00:32+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -5327,7 +5327,7 @@ msgstr ""
 
 #: ../dat/objects/items.lua:489
 msgid ""
-"Gives a reasonable boost in strength to an ally for a small amount of time."
+"Gives a reasonable boost in agility to an ally for a small amount of time."
 msgstr ""
 
 #: ../dat/objects/items.lua:523

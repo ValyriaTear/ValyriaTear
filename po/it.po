@@ -25,7 +25,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: it\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-05-04 01:42+0200\n"
+"POT-Creation-Date: 2014-05-06 00:32+0200\n"
 "PO-Revision-Date: 2014-04-27 14:35+0100\n"
 "Last-Translator: BioHazardX <coccatostefano@hotmail.it>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -2501,19 +2501,20 @@ msgstr ""
 "Esci dalla modalità conferma/compra/vendi,\n"
 "oppure abbandona il negozio."
 
+#: ../dat/objects/items.lua:489
+#, fuzzy
+msgid ""
+"Gives a reasonable boost in agility to an ally for a small amount of time."
+msgstr ""
+"Conferisce una quantità ragionevole di forza all'alleato per un periodo "
+"abbastanza breve."
+
 #: ../dat/objects/items.lua:454
 msgid ""
 "Gives a reasonable boost in strength to an ally for a large amount of time."
 msgstr ""
 "Conferisce una quantità ragionevole di forza all'alleato per un periodo "
 "abbastanza lungo."
-
-#: ../dat/objects/items.lua:489
-msgid ""
-"Gives a reasonable boost in strength to an ally for a small amount of time."
-msgstr ""
-"Conferisce una quantità ragionevole di forza all'alleato per un periodo "
-"abbastanza breve."
 
 #: ../dat/maps/layna_village/layna_village_center_script.lua:889
 msgid "Good luck Bronann."

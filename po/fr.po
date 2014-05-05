@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Valyria Tear\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-05-04 01:42+0200\n"
-"PO-Revision-Date: 2014-05-04 01:42+0100\n"
+"POT-Creation-Date: 2014-05-06 00:32+0200\n"
+"PO-Revision-Date: 2014-05-06 00:33+0100\n"
 "Last-Translator: Yohann Ferreira <yohann.ferreira@orange.fr>\n"
 "Language-Team: French\n"
 "Language: fr\n"
@@ -2494,19 +2494,17 @@ msgid ""
 "or quit the shop."
 msgstr "Sortir des listes d'achat/vente/confirmation, ou quitter le magasin."
 
+#: ../dat/objects/items.lua:489
+msgid ""
+"Gives a reasonable boost in agility to an ally for a small amount of time."
+msgstr "Améliore l'agilité d'un allié pendant une courte durée."
+
 #: ../dat/objects/items.lua:454
 msgid ""
 "Gives a reasonable boost in strength to an ally for a large amount of time."
 msgstr ""
 "Donne une bonne dose de force supplémentaire à un allié pendant une longue "
 "durée."
-
-#: ../dat/objects/items.lua:489
-msgid ""
-"Gives a reasonable boost in strength to an ally for a small amount of time."
-msgstr ""
-"Donne une dose raisonnable de force supplémentaire à un allié pendant une "
-"courte durée."
 
 #: ../dat/maps/layna_village/layna_village_center_script.lua:889
 msgid "Good luck Bronann."

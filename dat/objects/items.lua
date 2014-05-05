@@ -486,7 +486,7 @@ items[1004] = {
 
 items[1005] = {
     name = vt_system.Translate("Haste Potion"),
-    description = vt_system.Translate("Gives a reasonable boost in strength to an ally for a small amount of time."),
+    description = vt_system.Translate("Gives a reasonable boost in agility to an ally for a small amount of time."),
     icon = "img/icons/items/haste_potion.png",
     target_type = vt_global.GameGlobal.GLOBAL_TARGET_ALLY,
     standard_price = 1400,

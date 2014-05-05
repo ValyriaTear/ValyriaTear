@@ -26,7 +26,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Hero of Allacrost - Demo 1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-05-04 01:42+0200\n"
+"POT-Creation-Date: 2014-05-06 00:32+0200\n"
 "PO-Revision-Date: 2013-11-23 15:11-0500\n"
 "Last-Translator: Yohann Ferreira <yohann.ferreira@orange.fr>\n"
 "Language-Team: en_US <kde-i18n-doc@kde.org>\n"
@@ -2411,14 +2411,15 @@ msgstr ""
 "Salir del modo de compra/venta/confirmación,\n"
 "o salir de la tienda"
 
+#: ../dat/objects/items.lua:489
+#, fuzzy
+msgid ""
+"Gives a reasonable boost in agility to an ally for a small amount of time."
+msgstr "Detiene a un enemigo por mucho tiempo."
+
 #: ../dat/objects/items.lua:454
 msgid ""
 "Gives a reasonable boost in strength to an ally for a large amount of time."
-msgstr ""
-
-#: ../dat/objects/items.lua:489
-msgid ""
-"Gives a reasonable boost in strength to an ally for a small amount of time."
 msgstr ""
 
 #: ../dat/maps/layna_village/layna_village_center_script.lua:889

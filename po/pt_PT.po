@@ -25,7 +25,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ValkyriaTear\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-05-04 01:42+0200\n"
+"POT-Creation-Date: 2014-05-06 00:32+0200\n"
 "PO-Revision-Date: 2013-05-01 19:02-0000\n"
 "Last-Translator: Sérgio Lopes <knitter.is@gmail.com>\n"
 "Language-Team: Sérgio Lopes <knitter.is@gmail.com>\n"
@@ -2270,14 +2270,14 @@ msgid ""
 "or quit the shop."
 msgstr ""
 
+#: ../dat/objects/items.lua:489
+msgid ""
+"Gives a reasonable boost in agility to an ally for a small amount of time."
+msgstr ""
+
 #: ../dat/objects/items.lua:454
 msgid ""
 "Gives a reasonable boost in strength to an ally for a large amount of time."
-msgstr ""
-
-#: ../dat/objects/items.lua:489
-msgid ""
-"Gives a reasonable boost in strength to an ally for a small amount of time."
 msgstr ""
 
 #: ../dat/maps/layna_village/layna_village_center_script.lua:889

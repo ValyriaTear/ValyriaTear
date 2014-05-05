@@ -47,7 +47,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Hero of Allacrost 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-05-04 01:42+0200\n"
+"POT-Creation-Date: 2014-05-06 00:32+0200\n"
 "PO-Revision-Date: 2011-07-17 23:34-0500\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -2337,14 +2337,14 @@ msgid ""
 "or quit the shop."
 msgstr ""
 
+#: ../dat/objects/items.lua:489
+msgid ""
+"Gives a reasonable boost in agility to an ally for a small amount of time."
+msgstr ""
+
 #: ../dat/objects/items.lua:454
 msgid ""
 "Gives a reasonable boost in strength to an ally for a large amount of time."
-msgstr ""
-
-#: ../dat/objects/items.lua:489
-msgid ""
-"Gives a reasonable boost in strength to an ally for a small amount of time."
 msgstr ""
 
 #: ../dat/maps/layna_village/layna_village_center_script.lua:889
