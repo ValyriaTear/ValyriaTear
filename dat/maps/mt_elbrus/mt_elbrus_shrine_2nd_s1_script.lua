@@ -73,12 +73,12 @@ function _CreateCharacters()
     hero:SetDirection(vt_map.MapMode.SOUTH);
     hero:SetMovementSpeed(vt_map.MapMode.NORMAL_SPEED);
 
-    if (GlobalManager:GetPreviousLocation() == "from_path3") then
-        hero:SetDirection(vt_map.MapMode.NORTH);
-        hero:SetPosition(10.0, 90.0);
-    elseif (GlobalManager:GetPreviousLocation() == "from_shrine_entrance") then
+    if (GlobalManager:GetPreviousLocation() == "from_shrine_2nd_floor_grotto_left") then
         hero:SetDirection(vt_map.MapMode.SOUTH);
-        hero:SetPosition(40.0, 7.0);
+        hero:SetPosition(8.0, 7.0);
+    elseif (GlobalManager:GetPreviousLocation() == "from_shrine_2nd_floor_grotto_right") then
+        hero:SetDirection(vt_map.MapMode.SOUTH);
+        hero:SetPosition(34.0, 26.0);
     end
 
     Map:AddGroundObject(hero);
@@ -202,6 +202,14 @@ function _CreateEvents()
     event = vt_map.MapTransitionEvent("to mountain shrine 2nd floor NE", "dat/maps/mt_elbrus/mt_elbrus_shrine_2nd_ne_map.lua",
                                       "dat/maps/mt_elbrus/mt_elbrus_shrine_2nd_ne_script.lua", "from_shrine_2nd_floor_south");
     EventManager:RegisterEvent(event);
+
+    event = vt_map.MapTransitionEvent("to mountain shrine 2nd floor north west", "dat/maps/mt_elbrus/mt_elbrus_shrine_2nd_s2_map.lua",
+                                      "dat/maps/mt_elbrus/mt_elbrus_shrine_2nd_s2_script.lua", "from_shrine_2nd_floor_south_west");
+    EventManager:RegisterEvent(event);
+
+    event = vt_map.MapTransitionEvent("to mountain shrine 2nd floor north east", "dat/maps/mt_elbrus/mt_elbrus_shrine_2nd_s2_map.lua",
+                                      "dat/maps/mt_elbrus/mt_elbrus_shrine_2nd_s2_script.lua", "from_shrine_2nd_floor_south_east");
+    EventManager:RegisterEvent(event);
 end
 
 -- zones
@@ -229,10 +237,13 @@ function _CheckZones()
         hero:SetDirection(vt_map.MapMode.NORTH);
         EventManager:StartEvent("to mountain shrine 2nd floor NE");
     elseif (to_grotto_zone:IsCameraEntering() == true) then
-        --EventManager:StartEvent("Cut the bridge Event");
+        hero:SetDirection(vt_map.MapMode.NORTH);
+        hero:SetMoving(false);
+        EventManager:StartEvent("to mountain shrine 2nd floor north east");
     elseif (to_shrine_nw_zone:IsCameraEntering() == true) then
-        --hero:SetMoving(false);
-        --EventManager:StartEvent("Can't go back dialogue");
+        hero:SetMoving(true);
+        hero:SetDirection(vt_map.MapMode.NORTH);
+        EventManager:StartEvent("to mountain shrine 2nd floor north west");
     end
 end
 
