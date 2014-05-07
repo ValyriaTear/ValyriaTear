@@ -81,6 +81,9 @@ function _CreateCharacters()
     elseif (GlobalManager:GetPreviousLocation() == "from_shrine_2nd_floor") then
         hero:SetDirection(vt_map.MapMode.WEST);
         hero:SetPosition(57.0, 38.0);
+    elseif (GlobalManager:GetPreviousLocation() == "from_shrine_2nd_floor_grotto") then
+        hero:SetDirection(vt_map.MapMode.EAST);
+        hero:SetPosition(13.5, 16.0);
     end
 
     Map:AddGroundObject(hero);
@@ -149,6 +152,8 @@ function _CreateObjects()
 
     _add_flame(29.5, 31);
     _add_flame(45.5, 31);
+    _add_flame(21.5, 11);
+    _add_flame(53.5, 11);
 
     _add_bubble(23, 30);
     _add_bubble(19, 29);
@@ -202,6 +207,10 @@ function _CreateEvents()
                                        "dat/maps/mt_elbrus/mt_elbrus_shrine_2nd_ne_script.lua", "from_shrine_1st_floor");
     EventManager:RegisterEvent(event);
 
+    event = vt_map.MapTransitionEvent("to mountain shrine 2nd floor grotto", "dat/maps/mt_elbrus/mt_elbrus_shrine_2nd_s2_map.lua",
+                                       "dat/maps/mt_elbrus/mt_elbrus_shrine_2nd_s2_script.lua", "from_shrine_stairs");
+    EventManager:RegisterEvent(event);
+
     -- Heal point
     event = vt_map.ScriptedEvent("Heal event", "heal_party", "heal_done");
     EventManager:RegisterEvent(event);
@@ -244,6 +253,7 @@ end
 -- zones
 local to_shrine_1st_floor_zone = {};
 local to_shrine_2nd_floor_zone = {};
+local to_shrine_2nd_floor_grotto_zone = {};
 
 -- Create the different map zones triggering events
 function _CreateZones()
@@ -255,6 +265,8 @@ function _CreateZones()
     to_shrine_2nd_floor_zone = vt_map.CameraZone(59, 61, 36, 39);
     Map:AddZone(to_shrine_2nd_floor_zone);
 
+    to_shrine_2nd_floor_grotto_zone = vt_map.CameraZone(9, 12, 14, 16);
+    Map:AddZone(to_shrine_2nd_floor_grotto_zone);
 end
 
 -- Check whether the active camera has entered a zone. To be called within Update()
@@ -265,6 +277,9 @@ function _CheckZones()
     elseif (to_shrine_2nd_floor_zone:IsCameraEntering() == true) then
         hero:SetDirection(vt_map.MapMode.NE_EAST);
         EventManager:StartEvent("to mountain shrine 2nd floor");
+    elseif (to_shrine_2nd_floor_grotto_zone:IsCameraEntering() == true) then
+        hero:SetDirection(vt_map.MapMode.WEST);
+        EventManager:StartEvent("to mountain shrine 2nd floor grotto");
     end
 end
 
