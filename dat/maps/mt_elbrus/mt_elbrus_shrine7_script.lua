@@ -236,9 +236,6 @@ function _CreateObjects()
 
     -- Makes the stone fall
     event = vt_map.ScriptedEvent("Make rolling stone2 fall event start", "stone_falls_event_start", "stone_falls_event_update");
-    event:AddEventLinkAtEnd("Rolling stone3 falls event end");
-    EventManager:RegisterEvent(event);
-    event = vt_map.ScriptedEvent("Rolling stone3 falls event end", "stone_falls_event_end", "");
     EventManager:RegisterEvent(event);
 
     -- Push the stone
