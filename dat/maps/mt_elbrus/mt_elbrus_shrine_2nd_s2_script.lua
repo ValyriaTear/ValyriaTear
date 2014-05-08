@@ -92,6 +92,8 @@ function _add_flame(x, y)
         vt_video.Color(0.99, 1.0, 0.27, 0.1));
 end
 
+local rolling_stone1 = {};
+
 function _CreateObjects()
     local object = {}
     local npc = {}
@@ -126,6 +128,30 @@ function _CreateObjects()
                 vt_video.Color(1.0, 1.0, 1.0, 0.8));
 
     _add_flame(9.5, 3);
+
+    -- The stone used to get through this enigma
+    rolling_stone1 = CreateObject(Map, "Rolling Stone", 28, 34);
+    Map:AddGroundObject(rolling_stone1);
+
+    -- events on the lower level
+    event = vt_map.IfEvent("Check hero position for rolling stone 1", "check_diagonal_stone1", "Push the rolling stone 1", "");
+    EventManager:RegisterEvent(event);
+    event = vt_map.ScriptedEvent("Push the rolling stone 1", "start_to_move_the_stone1", "move_the_stone_update1")
+    EventManager:RegisterEvent(event);
+
+    -- events on the upper level
+    event = vt_map.ScriptedEvent("Make rolling stone1 fall event start", "stone_falls_event_start", "stone_falls_event_update");
+    EventManager:RegisterEvent(event);
+
+    -- Set the stone event according to the events
+    if (GlobalManager:GetEventValue("story", "mountain_shrine_2ndfloor_pushed_stone") == 0) then
+        -- The stones is on the upper level
+        rolling_stone1:SetEventWhenTalking("Make rolling stone1 fall event start");
+    else
+        -- The stone is on the lower level
+        rolling_stone1:SetPosition(16, 34);
+        rolling_stone1:SetEventWhenTalking("Check hero position for rolling stone 1");
+    end
 end
 
 -- Creates all events and sets up the entire event sequence chain
@@ -181,8 +207,146 @@ function _CheckZones()
     end
 end
 
+function _CheckForDiagonals(target)
+    -- Check for diagonals. If the player is in diagonal,
+    -- whe shouldn't trigger the event at all, as only straight relative position
+    -- to the target sprite will work correctly.
+    -- (Here used only for shrooms and stones)
+
+    local hero_x = hero:GetXPosition();
+    local hero_y = hero:GetYPosition();
+
+    local target_x = target:GetXPosition();
+    local target_y = target:GetYPosition();
+
+    -- bottom-left
+    if (hero_y > target_y + 0.3 and hero_x < target_x - 1.2) then return false; end
+    -- bottom-right
+    if (hero_y > target_y + 0.3 and hero_x > target_x + 1.2) then return false; end
+    -- top-left
+    if (hero_y < target_y - 1.5 and hero_x < target_x - 1.2) then return false; end
+    -- top-right
+    if (hero_y < target_y - 1.5 and hero_x > target_x + 1.2) then return false; end
+
+    return true;
+end
+
+function _UpdateStoneMovement(stone_object, stone_direction)
+    local update_time = SystemManager:GetUpdateTime();
+    local movement_diff = 0.015 * update_time;
+
+    -- We cap the max movement distance to avoid making the ball go through obstacles
+    -- in case of low FPS
+    if (movement_diff > 1.0) then
+        movement_diff = 1.0;
+    end
+
+    local new_pos_x = stone_object:GetXPosition();
+    local new_pos_y = stone_object:GetYPosition();
+
+    -- Apply the movement
+    if (stone_direction == vt_map.MapMode.NORTH) then
+        new_pos_y = stone_object:GetYPosition() - movement_diff;
+    elseif (stone_direction == vt_map.MapMode.SOUTH) then
+        new_pos_y = stone_object:GetYPosition() + movement_diff;
+    elseif (stone_direction == vt_map.MapMode.WEST) then
+        new_pos_x = stone_object:GetXPosition() - movement_diff;
+    elseif (stone_direction == vt_map.MapMode.EAST) then
+        new_pos_x = stone_object:GetXPosition() + movement_diff;
+    end
+
+    -- Check the collision
+    if (stone_object:IsColliding(new_pos_x, new_pos_y) == true) then
+        AudioManager:PlaySound("snd/stone_bump.ogg");
+        return true;
+    end
+
+    --  and apply the movement if none
+    stone_object:SetPosition(new_pos_x, new_pos_y);
+
+    return false;
+end
+
+-- returns the direction the stone shall take
+function _GetStoneDirection(stone)
+
+    local hero_x = hero:GetXPosition();
+    local hero_y = hero:GetYPosition();
+
+    local stone_x = stone:GetXPosition();
+    local stone_y = stone:GetYPosition();
+
+    -- Set the stone direction
+    local stone_direction = vt_map.MapMode.EAST;
+
+    -- Determine the hero position relative to the stone
+    if (hero_y > stone_y + 0.3) then
+        -- the hero is below, the stone is pushed upward.
+        stone_direction = vt_map.MapMode.NORTH;
+    elseif (hero_y < stone_y - 1.5) then
+        -- the hero is above, the stone is pushed downward.
+        stone_direction = vt_map.MapMode.SOUTH;
+    elseif (hero_x < stone_x - 1.2) then
+        -- the hero is on the left, the stone is pushed to the right.
+        stone_direction = vt_map.MapMode.EAST;
+    elseif (hero_x > stone_x + 1.2) then
+        -- the hero is on the right, the stone is pushed to the left.
+        stone_direction = vt_map.MapMode.WEST;
+    end
+
+    return stone_direction;
+end
+
+local stone_direction1 = vt_map.MapMode.EAST;
+
+local stone_fall_x_pos = 28;
+local stone_fall_y_pos = 14;
+local stone_fall_hit_ground = false;
+
 -- Map Custom functions
 -- Used through scripted events
 map_functions = {
+    stone_falls_event_start = function()
+        Map:PushState(vt_map.MapMode.STATE_SCENE);
+        stone_fall_x_pos = 28;
+        stone_fall_y_pos = 34;
+        stone_fall_hit_ground = false;
+        AudioManager:PlaySound("snd/stone_roll.wav");
+    end,
+    
+    stone_falls_event_update = function()
+        local update_time = SystemManager:GetUpdateTime();
+        -- change the movement speed according to whether the stone is rolling
+        -- or falling
+        if (stone_fall_x_pos > 24.0 and stone_fall_x_pos < 25.0) then
+            stone_fall_y_pos = stone_fall_y_pos + 0.015 * update_time
+        end
+        -- Play a sound when it is hitting the ground
+        if (stone_fall_hit_ground == false and stone_fall_x_pos < 24.0) then
+            stone_fall_hit_ground = true;
+            AudioManager:PlaySound("snd/stone_bump.ogg");
+        end
+        local movement_diff = 0.010 * update_time;
+        stone_fall_x_pos = stone_fall_x_pos - movement_diff;
+        rolling_stone1:SetPosition(stone_fall_x_pos, stone_fall_y_pos);
+        if (stone_fall_x_pos <= 16.0) then
+            GlobalManager:SetEventValue("story", "mountain_shrine_2ndfloor_pushed_stone", 1);
+            Map:PopState();
+            return true;
+        end
+        return false;
+    end,
 
+    check_diagonal_stone1 = function()
+        return _CheckForDiagonals(rolling_stone1);
+    end,
+
+    start_to_move_the_stone1 = function()
+        stone_direction1 = _GetStoneDirection(rolling_stone1);
+        AudioManager:PlaySound("snd/stone_roll.wav");
+    end,
+
+    move_the_stone_update1 = function()
+        return _UpdateStoneMovement(rolling_stone1, stone_direction1)
+    end,
 }
