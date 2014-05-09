@@ -604,6 +604,16 @@ float MapMode::GetScreenYCoordinate(float tile_position_y) const
         * VIDEO_STANDARD_RES_HEIGHT / SCREEN_GRID_Y_LENGTH;
 }
 
+uint16 MapMode::GetMapWidth() const
+{
+    return _tile_supervisor->_num_tile_on_x_axis;
+}
+
+uint16 MapMode::GetMapHeight() const
+{
+    return _tile_supervisor->_num_tile_on_y_axis;
+}
+
 // ****************************************************************************
 // ********** MapMode Private Class Methods
 // ****************************************************************************

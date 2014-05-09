@@ -200,11 +200,11 @@ public:
         return _map_hud_name.GetString();
     }
 
-    uint32 GetStamina(){
+    uint32 GetStamina() const {
         return _run_stamina;
     }
 
-    void SetStamina(uint32 new_stamina){
+    void SetStamina(uint32 new_stamina) {
         _run_stamina = new_stamina;
     }
 
@@ -317,6 +317,22 @@ public:
     //! \brief Returns in standard screen coordinates (1024x768),
     //! the x position of a tile position on the Y axis.
     float GetScreenYCoordinate(float tile_position_y) const;
+
+    //! \brief Returns the tile offset x value,
+    float GetMapXOffset() const {
+        return _map_frame.screen_edges.left;
+    }
+
+    //! \brief Returns the tile offset y value,
+    float GetMapYOffset() const {
+        return _map_frame.screen_edges.top;
+    }
+
+    //! \brief Returns the map x size in tiles,
+    uint16 GetMapWidth() const;
+
+    //! \brief Returns the map y size in tiles,
+    uint16 GetMapHeight() const;
 
     //! \brief Gives the current map pixel lengths.
     //! Used to properly place sprites and avoid glitches.
