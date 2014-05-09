@@ -47,6 +47,11 @@ function Load(m)
     _CreateZones();
 
     Map:GetEffectSupervisor():EnableAmbientOverlay("img/ambient/dark.png", 0.0, 0.0, false);
+
+    -- Preloads the action sounds to avoid glitches
+    AudioManager:LoadSound("snd/stone_roll.wav", Map);
+    AudioManager:LoadSound("snd/stone_bump.ogg", Map);
+    AudioManager:LoadSound("snd/opening_sword_unsheathe.wav", Map);
 end
 
 -- the map update function handles checks done on each game tick.
@@ -63,9 +68,6 @@ function _CreateCharacters()
     hero:SetMovementSpeed(vt_map.MapMode.NORMAL_SPEED);
 
     if (GlobalManager:GetPreviousLocation() == "from_shrine_2nd_floor_south_east") then
-        hero:SetDirection(vt_map.MapMode.NORTH);
-        hero:SetPosition(42.5, 48.0);
-    elseif (GlobalManager:GetPreviousLocation() == "from_shrine_2nd_floor_south_east") then
         hero:SetDirection(vt_map.MapMode.NORTH);
         hero:SetPosition(42.5, 48.0);
     elseif (GlobalManager:GetPreviousLocation() == "from_shrine_stairs") then
@@ -93,6 +95,11 @@ function _add_flame(x, y)
 end
 
 local rolling_stone1 = {};
+
+-- Arrays of spikes objects
+local trap_spikes = {};
+local trap_spikes_left = {};
+local trap_spikes_right = {};
 
 function _CreateObjects()
     local object = {}
@@ -152,6 +159,182 @@ function _CreateObjects()
         rolling_stone1:SetPosition(16, 34);
         rolling_stone1:SetEventWhenTalking("Check hero position for rolling stone 1");
     end
+
+    -- Creates the spikes
+    local spike_objects = {
+        -- upper border
+        { 3, 23 },
+        { 5, 23 },
+        { 7, 23 },
+        { 9, 23 },
+        { 11, 23 },
+        { 13, 23 },
+        { 15, 23 },
+        { 17, 23 },
+        { 19, 23 },
+        { 21, 23 },
+        { 23, 23 },
+        -- lower border
+        { 3, 43 },
+        { 5, 43 },
+        { 7, 43 },
+        { 9, 43 },
+        { 11, 43 },
+        { 13, 43 },
+        { 15, 43 },
+        { 17, 43 },
+        { 19, 43 },
+        { 21, 43 },
+        { 23, 43 },
+        -- left
+        { 2, 25 },
+        { 2, 27 },
+        { 2, 29 },
+        { 2, 31 },
+        { 2, 33 },
+        { 2, 35 },
+        { 2, 37 },
+        { 2, 39 },
+        { 2, 41 },
+        -- right
+        { 24, 25 },
+        { 24, 27 },
+        { 24, 29 },
+        { 24, 31 },
+        { 24, 33 },
+        { 24, 35 },
+        { 24, 37 },
+        { 24, 39 },
+        { 24, 41 },
+    }
+
+    -- Loads the spikes according to the array
+    for my_index, my_array in pairs(spike_objects) do
+        trap_spikes[my_index] = CreateObject(Map, "Spikes1", my_array[1], my_array[2]);
+        Map:AddGroundObject(trap_spikes[my_index]);
+        trap_spikes[my_index]:SetVisible(false);
+        trap_spikes[my_index]:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
+    end
+
+    -- Creates the other spikes
+    local spike_objects2 = {
+        -- from top-left
+        { 4, 25 },
+        { 6, 25 },
+        { 8, 25 },
+        { 10, 25 },
+        { 12, 25 },
+        { 14, 25 },
+        { 16, 25 },
+        { 18, 25 },
+        { 20, 25 },
+        { 22, 25 },
+        { 22, 27 },
+        { 22, 29 },
+        { 22, 31 },
+        { 22, 33 },
+        { 22, 35 },
+        { 22, 37 },
+        { 22, 39 },
+        { 20, 39 },
+        { 18, 39 },
+        { 16, 39 },
+        { 14, 39 },
+        { 12, 39 },
+        { 10, 39 },
+        { 8, 39 },
+        { 6, 39 },
+        { 6, 37 },
+        { 6, 35 },
+        { 6, 33 },
+        { 6, 31 },
+        { 6, 29 },
+        { 8, 29 },
+        { 10, 29 },
+        { 12, 29 },
+        { 14, 29 },
+        { 16, 29 },
+        { 18, 29 },
+        { 18, 31 },
+        { 18, 33 },
+        { 18, 35 },
+        { 16, 35 },
+        { 14, 35 },
+        { 12, 35 },
+        { 10, 35 },
+        { 10, 33 },
+        { 12, 33 },
+    }
+
+    -- Loads the other spikes according to the array
+    local spike_index = 0;
+    for my_index, my_array in pairs(spike_objects2) do
+        trap_spikes_left[spike_index] = CreateObject(Map, "Spikes1", my_array[1], my_array[2]);
+        Map:AddGroundObject(trap_spikes_left[spike_index]);
+        trap_spikes_left[spike_index]:SetVisible(false);
+        trap_spikes_left[spike_index]:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
+        spike_index = spike_index + 1
+    end
+
+    local spike_objects3 = {
+        -- from bottom-right
+        { 22, 41 },
+        { 20, 41 },
+        { 18, 41 },
+        { 16, 41 },
+        { 14, 41 },
+        { 12, 41 },
+        { 10, 41 },
+        { 8, 41 },
+        { 6, 41 },
+        { 4, 41 },
+        { 4, 39 },
+        { 4, 37 },
+        { 4, 35 },
+        { 4, 33 },
+        { 4, 31 },
+        { 4, 29 },
+        { 4, 27 },
+        { 6, 27 },
+        { 8, 27 },
+        { 10, 27 },
+        { 12, 27 },
+        { 14, 27 },
+        { 16, 27 },
+        { 18, 27 },
+        { 20, 27 },
+        { 20, 29 },
+        { 20, 31 },
+        { 20, 33 },
+        { 20, 35 },
+        { 20, 37 },
+        { 18, 37 },
+        { 16, 37 },
+        { 14, 37 },
+        { 12, 37 },
+        { 10, 37 },
+        { 8, 37 },
+        { 8, 35 },
+        { 8, 33 },
+        { 8, 31 },
+        { 10, 31 },
+        { 12, 31 },
+        { 14, 31 },
+        { 16, 31 },
+        { 16, 33 },
+        { 14, 33 },
+    }
+
+    -- Loads the other spikes according to the array
+    spike_index = 0;
+    for my_index, my_array in pairs(spike_objects3) do
+        trap_spikes_right[spike_index] = CreateObject(Map, "Spikes1", my_array[1], my_array[2]);
+        Map:AddGroundObject(trap_spikes_right[spike_index]);
+        trap_spikes_right[spike_index]:SetVisible(false);
+        trap_spikes_right[spike_index]:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
+        spike_index = spike_index + 1
+    end
+
 end
 
 -- Creates all events and sets up the entire event sequence chain
@@ -171,12 +354,22 @@ function _CreateEvents()
     event = vt_map.MapTransitionEvent("to mountain shrine stairs", "dat/maps/mt_elbrus/mt_elbrus_shrine_stairs_map.lua",
                                       "dat/maps/mt_elbrus/mt_elbrus_shrine_stairs_script.lua", "from_shrine_2nd_floor_grotto");
     EventManager:RegisterEvent(event);
+
+    -- trap
+    event = vt_map.ScriptedEvent("start trap", "trap_start", "trap_update");
+    EventManager:RegisterEvent(event);
+
+    -- When dying because of the trap
+    event = vt_map.MapTransitionEvent("Restart map", "dat/maps/mt_elbrus/mt_elbrus_shrine_2nd_s2_map.lua",
+                                      "dat/maps/mt_elbrus/mt_elbrus_shrine_2nd_s2_script.lua", "from_shrine_2nd_floor_south_west");
+    EventManager:RegisterEvent(event);
 end
 
 -- zones
 local to_shrine_se_zone = {};
 local to_shrine_sw_zone = {};
 local to_stairs_zone = {};
+local trap_zone = {};
 
 -- Create the different map zones triggering events
 function _CreateZones()
@@ -188,7 +381,13 @@ function _CreateZones()
     Map:AddZone(to_shrine_sw_zone);
     to_stairs_zone = vt_map.CameraZone(5, 7, 5, 7);
     Map:AddZone(to_stairs_zone);
+
+    trap_zone = vt_map.CameraZone(5, 21, 25, 39);
+    Map:AddZone(trap_zone);
 end
+
+local trap_started = false;
+local caught_by_trap = false;
 
 -- Check whether the active camera has entered a zone. To be called within Update()
 function _CheckZones()
@@ -204,6 +403,17 @@ function _CheckZones()
         hero:SetMoving(true);
         hero:SetDirection(vt_map.MapMode.NORTH);
         EventManager:StartEvent("to mountain shrine stairs");
+    elseif (trap_started == false and trap_zone:IsCameraEntering() == true) then
+        trap_started = true;
+        EventManager:StartEvent("start trap");
+    end
+
+    -- Check whether the hero is dead because of trap.
+    if (caught_by_trap == true and Map:CurrentState() == vt_map.MapMode.STATE_EXPLORE) then
+        Map:PushState(vt_map.MapMode.STATE_SCENE);
+        hero:SetCustomAnimation("hurt", 0);
+        hero:SetMoving(false);
+        EventManager:StartEvent("Restart map");
     end
 end
 
@@ -255,6 +465,27 @@ function _UpdateStoneMovement(stone_object, stone_direction)
         new_pos_x = stone_object:GetXPosition() + movement_diff;
     end
 
+    -- Check collision with a spike and break the spike if so.
+    for my_index, my_object in pairs(trap_spikes_left) do
+        if (my_object ~= nil) then
+            if (my_object:IsCollidingWith(stone_object) == true) then
+                -- TODO: Add breaking sound and broken spikes map object there
+                my_object:SetVisible(false);
+                my_object:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
+            end
+        end
+    end
+    -- Check collision with a spike and break the spike if so.
+    for my_index, my_object in pairs(trap_spikes_right) do
+        if (my_object ~= nil) then
+            if (my_object:IsCollidingWith(stone_object) == true) then
+                -- TODO: Add breaking sound and broken spikes map object there
+                my_object:SetVisible(false);
+                my_object:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
+            end
+        end
+    end
+
     -- Check the collision
     if (stone_object:IsColliding(new_pos_x, new_pos_y) == true) then
         AudioManager:PlaySound("snd/stone_bump.ogg");
@@ -297,11 +528,16 @@ function _GetStoneDirection(stone)
     return stone_direction;
 end
 
+-- Stone variables
 local stone_direction1 = vt_map.MapMode.EAST;
-
 local stone_fall_x_pos = 28;
 local stone_fall_y_pos = 14;
 local stone_fall_hit_ground = false;
+
+-- Trap variables
+local trap_update_time = 0;
+local trap_index = 0;
+local hero_is_dead = false;
 
 -- Map Custom functions
 -- Used through scripted events
@@ -348,5 +584,61 @@ map_functions = {
 
     move_the_stone_update1 = function()
         return _UpdateStoneMovement(rolling_stone1, stone_direction1)
+    end,
+
+    trap_start = function()
+        -- Surrounds the character
+        for my_index, my_object in pairs(trap_spikes) do
+            my_object:SetVisible(true);
+            my_object:SetCollisionMask(vt_map.MapMode.ALL_COLLISION);
+        end
+        AudioManager:PlaySound("snd/opening_sword_unsheathe.wav");
+        trap_update_time = 0;
+        trap_index = 0;
+        hero_is_dead = false;
+    end,
+
+    trap_update = function()
+        -- Adds one spikes on each borders, every seconds.
+        trap_update_time = trap_update_time + SystemManager:GetUpdateTime();
+        if (trap_update_time < 500) then --1000
+            return false;
+        end
+        trap_update_time = 0;
+        
+        local spike_object = trap_spikes_left[trap_index];
+        if (spike_object ~= nil) then
+            spike_object:SetVisible(true);
+            spike_object:SetCollisionMask(vt_map.MapMode.ALL_COLLISION);
+        end
+
+        spike_object = trap_spikes_right[trap_index];
+        if (spike_object ~= nil) then
+            spike_object:SetVisible(true);
+            spike_object:SetCollisionMask(vt_map.MapMode.ALL_COLLISION);
+            AudioManager:PlaySound("snd/opening_sword_unsheathe.wav");
+        end
+
+        trap_index = trap_index + 1
+
+        -- TODO: Check collision with player and make it restart the map if so.
+        if (caught_by_trap == false) then
+            for my_index, my_object in pairs(trap_spikes_left) do
+                if (my_object ~= nil and my_object:IsCollidingWith(hero) == true) then
+                    caught_by_trap = true;
+                end
+            end
+            for my_index, my_object in pairs(trap_spikes_right) do
+                if (my_object ~= nil and my_object:IsCollidingWith(hero) == true) then
+                    caught_by_trap = true;
+                end
+            end
+        end
+
+        if (trap_index < 45) then
+            return false;
+        end
+
+        return true;
     end,
 }
