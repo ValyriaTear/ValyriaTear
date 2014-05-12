@@ -453,6 +453,8 @@ function _UpdateStoneMovement(stone_object, stone_direction)
 
     local new_pos_x = stone_object:GetXPosition();
     local new_pos_y = stone_object:GetYPosition();
+    local old_pos_x = stone_object:GetXPosition();
+    local old_pos_y = stone_object:GetYPosition();
 
     -- Apply the movement
     if (stone_direction == vt_map.MapMode.NORTH) then
@@ -465,6 +467,19 @@ function _UpdateStoneMovement(stone_object, stone_direction)
         new_pos_x = stone_object:GetXPosition() + movement_diff;
     end
 
+    -- Temporarily apply the new position right away to test collision properly
+    stone_object:SetPosition(new_pos_x, new_pos_y);
+
+    -- Check collision with a spike and break the spike if so.
+    for my_index, my_object in pairs(trap_spikes) do
+        if (my_object ~= nil) then
+            if (my_object:IsCollidingWith(stone_object) == true) then
+                -- TODO: Add breaking sound and broken spikes map object there
+                my_object:SetVisible(false);
+                my_object:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
+            end
+        end
+    end
     -- Check collision with a spike and break the spike if so.
     for my_index, my_object in pairs(trap_spikes_left) do
         if (my_object ~= nil) then
@@ -488,11 +503,12 @@ function _UpdateStoneMovement(stone_object, stone_direction)
 
     -- Check the collision
     if (stone_object:IsColliding(new_pos_x, new_pos_y) == true) then
+        stone_object:SetPosition(old_pos_x, old_pos_y);
         AudioManager:PlaySound("snd/stone_bump.ogg");
         return true;
     end
 
-    --  and apply the movement if none
+    --  and reapply the movement if none
     stone_object:SetPosition(new_pos_x, new_pos_y);
 
     return false;
@@ -549,7 +565,7 @@ map_functions = {
         stone_fall_hit_ground = false;
         AudioManager:PlaySound("snd/stone_roll.wav");
     end,
-    
+
     stone_falls_event_update = function()
         local update_time = SystemManager:GetUpdateTime();
         -- change the movement speed according to whether the stone is rolling
@@ -605,7 +621,7 @@ map_functions = {
             return false;
         end
         trap_update_time = 0;
-        
+
         local spike_object = trap_spikes_left[trap_index];
         if (spike_object ~= nil) then
             spike_object:SetVisible(true);
