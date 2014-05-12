@@ -134,7 +134,7 @@ function _CreateEnemies()
     enemy:AddWayPoint(18.9, 15.8);
     enemy:AddWayPoint(18.9, 21.8);
     enemy:AddWayPoint(13.1, 21.8);
-    enemy:SetAggroRange(2);
+    enemy:SetAggroRange(5);
     enemy:SetEncounterEvent("Restart Orlinn Map");
     roam_zone:AddEnemy(enemy, Map, 1);
     Map:AddZone(roam_zone);
@@ -148,7 +148,7 @@ function _CreateEnemies()
     enemy:AddWayPoint(38.2, 23.8);
     enemy:AddWayPoint(29.1, 23.8);
     enemy:AddWayPoint(29.1, 17.8);
-    enemy:SetAggroRange(2);
+    enemy:SetAggroRange(5);
     enemy:SetEncounterEvent("Restart Orlinn Map");
     roam_zone:AddEnemy(enemy, Map, 1);
     Map:AddZone(roam_zone);
@@ -160,7 +160,7 @@ function _CreateEnemies()
     enemy:AddWayPoint(38.1, 23.8);
     enemy:AddWayPoint(38.1, 29.8);
     enemy:AddWayPoint(29.1, 29.8);
-    enemy:SetAggroRange(2);
+    enemy:SetAggroRange(5);
     enemy:SetEncounterEvent("Restart Orlinn Map");
     roam_zone:AddEnemy(enemy, Map, 1);
     Map:AddZone(roam_zone);
