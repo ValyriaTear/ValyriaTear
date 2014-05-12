@@ -52,6 +52,8 @@ function Load(m)
     AudioManager:LoadSound("snd/stone_roll.wav", Map);
     AudioManager:LoadSound("snd/stone_bump.ogg", Map);
     AudioManager:LoadSound("snd/opening_sword_unsheathe.wav", Map);
+    AudioManager:LoadSound("snd/magic_blast.ogg", Map);
+    AudioManager:LoadSound("snd/battle_encounter_03.ogg", Map);
 end
 
 -- the map update function handles checks done on each game tick.
@@ -361,7 +363,7 @@ function _CreateEvents()
 
     -- When dying because of the trap
     event = vt_map.MapTransitionEvent("Restart map", "dat/maps/mt_elbrus/mt_elbrus_shrine_2nd_s2_map.lua",
-                                      "dat/maps/mt_elbrus/mt_elbrus_shrine_2nd_s2_script.lua", "from_shrine_2nd_floor_south_west");
+                                      "dat/maps/mt_elbrus/mt_elbrus_shrine_2nd_s2_script.lua", GlobalManager:GetPreviousLocation());
     EventManager:RegisterEvent(event);
 end
 
@@ -414,6 +416,7 @@ function _CheckZones()
         hero:SetCustomAnimation("hurt", 0);
         hero:SetMoving(false);
         EventManager:StartEvent("Restart map");
+        AudioManager:PlaySound("snd/battle_encounter_03.ogg");
     end
 end
 
@@ -474,7 +477,8 @@ function _UpdateStoneMovement(stone_object, stone_direction)
     for my_index, my_object in pairs(trap_spikes) do
         if (my_object ~= nil) then
             if (my_object:IsCollidingWith(stone_object) == true) then
-                -- TODO: Add breaking sound and broken spikes map object there
+                -- TODO: Add broken spikes map object there
+                AudioManager:PlaySound("snd/magic_blast.ogg");
                 my_object:SetVisible(false);
                 my_object:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
             end
@@ -484,7 +488,8 @@ function _UpdateStoneMovement(stone_object, stone_direction)
     for my_index, my_object in pairs(trap_spikes_left) do
         if (my_object ~= nil) then
             if (my_object:IsCollidingWith(stone_object) == true) then
-                -- TODO: Add breaking sound and broken spikes map object there
+                -- TODO: Add broken spikes map object there
+                AudioManager:PlaySound("snd/magic_blast.ogg");
                 my_object:SetVisible(false);
                 my_object:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
             end
@@ -494,7 +499,8 @@ function _UpdateStoneMovement(stone_object, stone_direction)
     for my_index, my_object in pairs(trap_spikes_right) do
         if (my_object ~= nil) then
             if (my_object:IsCollidingWith(stone_object) == true) then
-                -- TODO: Add breaking sound and broken spikes map object there
+                -- TODO: Add broken spikes map object there
+                AudioManager:PlaySound("snd/magic_blast.ogg");
                 my_object:SetVisible(false);
                 my_object:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
             end
