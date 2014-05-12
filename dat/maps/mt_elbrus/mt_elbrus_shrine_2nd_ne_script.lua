@@ -485,6 +485,12 @@ end
 
 -- Trigger damages on the characters present on the battle front.
 function _TriggerPartyDamage(damage)
+    -- Adds an effect on map
+    local x_pos = Map:GetScreenXCoordinate(hero:GetXPosition());
+    local y_pos = Map:GetScreenYCoordinate(hero:GetYPosition());
+    local map_indicator = Map:GetIndicatorSupervisor();
+    map_indicator:AddDamageIndicator(x_pos, y_pos, damage, vt_video.TextStyle("text22", vt_video.Color(1.0, 0.0, 0.0, 0.9)), true);
+
     local index = 0;
     for index = 0, 3 do
         local char = GlobalManager:GetCharacter(index);
@@ -549,14 +555,8 @@ map_functions = {
         AudioManager:PlaySound("snd/opening_sword_unsheathe.wav");
         hero:SetCustomAnimation("hurt", 800);
         hero:SetMoving(false);
-        -- Adds an effect on map
-        local map_mode = ModeManager:GetTop();
-        local x_pos = map_mode:GetScreenXCoordinate(hero:GetXPosition());
-        local y_pos = map_mode:GetScreenYCoordinate(hero:GetYPosition());
-        local map_indicator = map_mode:GetIndicatorSupervisor();
-        local hp_change = math.random(25, 40);
-        map_indicator:AddDamageIndicator(x_pos, y_pos, hp_change, vt_video.TextStyle("text22", vt_video.Color(1.0, 0.0, 0.0, 0.9)), true);
         -- Trigger party damage.
+        local hp_change = math.random(25, 40);
         _TriggerPartyDamage(hp_change);
     end,
 
