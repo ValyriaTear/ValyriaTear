@@ -170,7 +170,7 @@ function _CreateObjects()
 
     object = CreateObject(Map, "Stone Fence1", 15, 24.5);
     Map:AddGroundObject(object);
-    object = CreateObject(Map, "Stone Fence1", 37, 23);
+    object = CreateObject(Map, "Stone Fence1", 37.3, 23);
     Map:AddGroundObject(object);
     object = CreateObject(Map, "Stone Fence1", 35, 15);
     Map:AddGroundObject(object);
