@@ -309,9 +309,7 @@ local kalya_move_back_to_hero_event = {}
 local orlinn_move_next_to_hero_event = {}
 local orlinn_move_back_to_hero_event = {}
 local kalya_move_next_to_hero_event2 = {}
-local kalya_move_back_to_hero_event2 = {}
 local orlinn_move_next_to_hero_event2 = {}
-local orlinn_move_back_to_hero_event2 = {}
 local orlinn_move_near_hero_event = {}
 local orlinn_goes_above_bronann_event = {}
 
@@ -397,20 +395,8 @@ function _CreateEvents()
     dialogue:AddLineEventEmote(text, orlinn, "Orlinn looks at Kalya", "", "sweat drop");
     DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("The heroes discuss about getting to the high passage", dialogue);
-    event:AddEventLinkAtEnd("Orlinn goes back to party");
-    event:AddEventLinkAtEnd("Kalya goes back to party");
+    event:AddEventLinkAtEnd("Ready? dialogue");
     EventManager:RegisterEvent(event);
-
-    orlinn_move_back_to_hero_event = vt_map.PathMoveSpriteEvent("Orlinn goes back to party", orlinn, hero, false);
-    orlinn_move_back_to_hero_event:AddEventLinkAtEnd("High passage discussion event end");
-    EventManager:RegisterEvent(orlinn_move_back_to_hero_event);
-
-    kalya_move_back_to_hero_event = vt_map.PathMoveSpriteEvent("Kalya goes back to party", kalya, hero, false);
-    EventManager:RegisterEvent(kalya_move_back_to_hero_event);
-
-    event = vt_map.ScriptedEvent("High passage discussion event end", "passage_event_end", "");
-    EventManager:RegisterEvent(event);
-
 
     -- 2. Just ask whether to climb, and show the throw animation
     event = vt_map.ScriptedEvent("Thrown to high passage event start", "thrown_to_passage_event_start", "");
@@ -440,15 +426,15 @@ function _CreateEvents()
 
     -- Chose "No"
     event = vt_map.ScriptedEvent("Not thrown event", "set_remove_orlinn_at_end", "");
-    event:AddEventLinkAtEnd("Orlinn goes back to party2");
-    event:AddEventLinkAtEnd("Kalya goes back to party2");
+    event:AddEventLinkAtEnd("Orlinn goes back to party");
+    event:AddEventLinkAtEnd("Kalya goes back to party");
     EventManager:RegisterEvent(event);
 
-    orlinn_move_back_to_hero_event2 = vt_map.PathMoveSpriteEvent("Orlinn goes back to party2", orlinn, hero, false);
-    EventManager:RegisterEvent(orlinn_move_back_to_hero_event2);
-    kalya_move_back_to_hero_event2 = vt_map.PathMoveSpriteEvent("Kalya goes back to party2", kalya, hero, false);
-    kalya_move_back_to_hero_event2:AddEventLinkAtEnd("Thrown to high passage event end");
-    EventManager:RegisterEvent(kalya_move_back_to_hero_event2);
+    orlinn_move_back_to_hero_event = vt_map.PathMoveSpriteEvent("Orlinn goes back to party", orlinn, hero, false);
+    EventManager:RegisterEvent(orlinn_move_back_to_hero_event);
+    kalya_move_back_to_hero_event = vt_map.PathMoveSpriteEvent("Kalya goes back to party", kalya, hero, false);
+    kalya_move_back_to_hero_event:AddEventLinkAtEnd("Thrown to high passage event end");
+    EventManager:RegisterEvent(kalya_move_back_to_hero_event);
 
     -- Chose "Yes"
     -- NOTE: The actual destination will be set at event start
@@ -552,13 +538,13 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
 
     event = vt_map.ScriptedEvent("Set Camera on hero", "set_camera_on_hero", "set_camera_on_hero_update");
-    event:AddEventLinkAtEnd("Orlinn goes back to party3");
-    event:AddEventLinkAtEnd("Kalya goes back to party3");
+    event:AddEventLinkAtEnd("Orlinn goes back to party2");
+    event:AddEventLinkAtEnd("Kalya goes back to party2");
     EventManager:RegisterEvent(event);
 
-    event = vt_map.PathMoveSpriteEvent("Orlinn goes back to party3", orlinn, bronann, false);
+    event = vt_map.PathMoveSpriteEvent("Orlinn goes back to party2", orlinn, bronann, false);
     EventManager:RegisterEvent(event);
-    event = vt_map.PathMoveSpriteEvent("Kalya goes back to party3", kalya, bronann, false);
+    event = vt_map.PathMoveSpriteEvent("Kalya goes back to party2", kalya, bronann, false);
     event:AddEventLinkAtEnd("Orlinn comes back event end");
     EventManager:RegisterEvent(event);
 
@@ -907,24 +893,6 @@ map_functions = {
         orlinn_move_next_to_hero_event:SetDestination(hero:GetXPosition() + 2.0, hero:GetYPosition(), false);
     end,
 
-    passage_event_end = function()
-        Map:PopState();
-        kalya:SetPosition(0, 0);
-        kalya:SetVisible(false);
-        kalya:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
-        orlinn:SetPosition(0, 0);
-        orlinn:SetVisible(false);
-        orlinn:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
-
-        -- Reload the hero back to default
-        hero:ReloadSprite(main_sprite_name);
-
-        -- Set event as done
-        GlobalManager:SetEventValue("story", "mt_elbrus_shrine_high_passage_event_done", 1);
-
-        _UpdatePassageEvent();
-    end,
-
     thrown_to_passage_event_start = function()
         Map:PushState(vt_map.MapMode.STATE_SCENE);
         hero:SetMoving(false);
@@ -1011,6 +979,9 @@ map_functions = {
 
     thrown_to_passage_event_end = function()
 
+        -- Set event as done
+        GlobalManager:SetEventValue("story", "mt_elbrus_shrine_high_passage_event_done", 1);
+
         -- If the user chose 'No', Orlinn can now be removed the event end
         if (jump_canceled == true) then
             Map:PopState();
@@ -1041,6 +1012,8 @@ map_functions = {
             -- Disable the menu mode.
             Map:SetMenuEnabled(false);
         end
+
+        _UpdatePassageEvent();
     end,
 
     come_back_from_passage_event_start = function()
