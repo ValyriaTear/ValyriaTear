@@ -154,7 +154,6 @@ EnemyZone::EnemyZone() :
     MapZone(),
     _enabled(true),
     _roaming_restrained(true),
-    _agression_roaming_restrained(false),
     _active_enemies(0),
     _spawns_left(-1), // Infinite spawns permitted.
     _spawn_timer(STANDARD_ENEMY_FIRST_SPAWN_TIME),
@@ -172,7 +171,6 @@ EnemyZone::EnemyZone(uint16 left_col, uint16 right_col,
     MapZone(left_col, right_col, top_row, bottom_row),
     _enabled(true),
     _roaming_restrained(true),
-    _agression_roaming_restrained(false),
     _active_enemies(0),
     _spawns_left(-1), // Infinite spawns permitted.
     _spawn_timer(STANDARD_ENEMY_FIRST_SPAWN_TIME),
@@ -188,7 +186,6 @@ EnemyZone::EnemyZone(const EnemyZone &copy) :
 {
     _enabled = copy._enabled;
     _roaming_restrained = copy._roaming_restrained;
-    _agression_roaming_restrained = copy._agression_roaming_restrained;
     _spawns_left = copy._spawns_left;
     _active_enemies = copy._active_enemies;
     _spawn_timer = copy._spawn_timer;
@@ -211,7 +208,6 @@ EnemyZone &EnemyZone::operator=(const EnemyZone &copy)
     MapZone::operator=(copy);
     _enabled = copy._enabled;
     _roaming_restrained = copy._roaming_restrained;
-    _agression_roaming_restrained = copy._agression_roaming_restrained;
     _spawns_left = copy._spawns_left;
     _active_enemies = copy._active_enemies;
     _spawn_timer = copy._spawn_timer;

@@ -721,9 +721,6 @@ private:
     //! \brief the default time used to respawn (Set to STANDARD_ENEMY_SPAWN_TIME by default)
     uint32 _time_to_respawn;
 
-    //! \brief Indicates if the enemy is outside of its zone. If it is, it won't change direction until it gets back in.
-    bool _out_of_zone;
-
     //! \brief The default battle music theme for the monster
     std::string _music_theme;
 
@@ -785,6 +782,9 @@ private:
     //! \brief Set a path for the sprite being the next way point given.
     //! \return whether it failed.
     bool _SetPathToNextWayPoint();
+
+    //! \brief Handles behavior when the enemy is in hostile state (seeking for characters)
+    void _HandleHostileUpdate();
 
 }; // class EnemySprite : public MapSprite
 
