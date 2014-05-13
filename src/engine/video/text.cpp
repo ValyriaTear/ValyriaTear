@@ -1217,12 +1217,13 @@ void TextSupervisor::_DrawTextHelper(const uint16 *const text, FontProperties *f
 bool TextSupervisor::_RenderText(vt_utils::ustring &string, TextStyle &style, ImageMemory &buffer)
 {
     FontProperties *fp = style.GetFontProperties();
-    TTF_Font *font = fp->ttf_font;
 
-    if(fp == NULL || font == NULL) {
+    if(fp == NULL || fp->ttf_font == NULL) {
         IF_PRINT_WARNING(VIDEO_DEBUG) << "The TextStyle argument using font:'" << style.GetFontName() << "' was invalid" << std::endl;
         return false;
     }
+
+    TTF_Font* font = fp->ttf_font;
 
     // Width and height of each line of text
     int32 line_w, line_h;

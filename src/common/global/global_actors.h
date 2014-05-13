@@ -1513,7 +1513,7 @@ public:
     }
 
     bool IsPartyEmpty() const {
-        return (_characters.size() == 0);
+        return _characters.empty();
     }
 
     uint32 GetPartySize() const {

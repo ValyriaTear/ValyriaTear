@@ -293,7 +293,7 @@ void ModeEngine::Update()
         }
 
         // Push any new game modes onto the true game stack.
-        while(_push_stack.size() != 0) {
+        while(!_push_stack.empty()) {
             // Tell the previous game mode about being deactivated.
             if(!_game_stack.empty() && _game_stack.back())
                 _game_stack.back()->Deactivate();
@@ -365,7 +365,7 @@ void ModeEngine::DrawPostEffects()
 void ModeEngine::DEBUG_PrintStack()
 {
     PRINT_WARNING << "MODE MANAGER DEBUG: Printing Game Stack" << std::endl;
-    if(_game_stack.size() == 0) {
+    if(_game_stack.empty()) {
         PRINT_WARNING << "***Game stack is empty!" << std::endl;
         return;
     }

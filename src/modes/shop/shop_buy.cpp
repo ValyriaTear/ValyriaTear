@@ -268,7 +268,7 @@ void BuyInterface::MakeActive()
 {
     Reinitialize();
 
-    if(_list_displays.size() == 0) {
+    if(_list_displays.empty()) {
         ShopMode::CurrentInstance()->ChangeState(SHOP_STATE_ROOT);
         return;
     }
@@ -284,7 +284,7 @@ void BuyInterface::MakeActive()
 
 void BuyInterface::TransactionNotification()
 {
-    for(uint32 i = 0; i < _list_displays.size(); i++) {
+    for(uint32 i = 0; i < _list_displays.size(); ++i) {
         _list_displays[i]->ReconstructList();
         _list_displays[i]->ResetSelection();
     }

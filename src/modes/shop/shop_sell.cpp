@@ -279,7 +279,7 @@ void SellInterface::MakeActive()
 {
     Reinitialize();
 
-    if(_list_displays.size() == 0) {
+    if(_list_displays.empty()) {
         ShopMode::CurrentInstance()->ChangeState(SHOP_STATE_ROOT);
         return;
     }

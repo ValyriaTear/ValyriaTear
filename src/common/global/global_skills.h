@@ -196,7 +196,7 @@ private:
 
     /** \brief The animation name played before dealing the battle_execute_function.
     *** When a character is ready to attack, it will first play an attack animation for instance
-    *** before delaing damage.
+    *** before dealing damage.
     **/
     std::string _action_name;
 

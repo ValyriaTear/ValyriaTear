@@ -1251,7 +1251,7 @@ bool AnimatedImage::LoadFromFrameGrid(const std::string &filename, const std::ve
         return false;
     }
 
-    if(image_frames.size() == 0)
+    if(image_frames.empty())
         return false;
 
     // If the animation dimensions are not set yet, we're using the first frame

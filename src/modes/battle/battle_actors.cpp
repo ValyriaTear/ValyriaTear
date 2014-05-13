@@ -442,7 +442,6 @@ vt_video::TextStyle BattleActor::_GetHealingTextStyle(uint32 amount, bool is_hp)
     const Color high_blue(0.0f, 0.15f, 1.0f, 1.0f);
 
     TextStyle style;
-    std::string text = NumberToString(amount);
 
     // Use different colors/shades of green/blue for different degrees of healing
     std::string font;

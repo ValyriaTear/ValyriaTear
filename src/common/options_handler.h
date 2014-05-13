@@ -53,7 +53,8 @@ class GameOptionsMenuHandler;
 class OptionMenu : public vt_gui::OptionBox
 {
 public:
-    OptionMenu()
+    OptionMenu():
+        _handler(NULL)
     {}
 
     ~OptionMenu()

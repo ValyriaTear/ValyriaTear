@@ -250,11 +250,13 @@ public:
 struct WorldMapLocation
 {
 public:
-    WorldMapLocation()
+    WorldMapLocation():
+        _x(0.0f),
+        _y(0.0f)
     {}
 
-    WorldMapLocation(float x, float y, const std::string &location_name,
-                     const std::string &image_path, const std::string &world_map_location_id);
+    WorldMapLocation(float x, float y, const std::string& location_name,
+                     const std::string& image_path, const std::string& world_map_location_id);
 
     WorldMapLocation(const WorldMapLocation &other):
         _x(other._x),
