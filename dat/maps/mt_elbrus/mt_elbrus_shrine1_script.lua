@@ -75,9 +75,11 @@ function Load(m)
         EventManager:StartEvent("Shrine entrance event start", 200);
     elseif (GlobalManager:GetEventValue("story", "mt_elbrus_shrine_sophia_dialogue_event") == 0 and
             GlobalManager:GetEventValue("story", "mountain_shrine_entrance_light_done") == 1) then
-        -- (Re)Introduce Sophia when the characters leave the shrine the first time.
-        hero:SetMoving(false);
-        EventManager:StartEvent("Sophia introduction event", 200);
+        if (GlobalManager:GetPreviousLocation() == "from_shrine_main_room") then
+            -- (Re)Introduce Sophia when the characters leave the shrine the first time from the north entrance.
+            hero:SetMoving(false);
+            EventManager:StartEvent("Sophia introduction event", 200);
+        end
     end
 
     if (GlobalManager:GetEventValue("story", "mt_elbrus_shrine_door_opening_event") == 1) then
@@ -195,7 +197,8 @@ function _CreateCharacters()
     nekko:SetEventWhenTalking("Nekko says Meoww!");
 
     -- When returning from a first trip in the dungeon, the characters fall on Sophia.
-    if (GlobalManager:GetEventValue("story", "mountain_shrine_entrance_light_done") == 1) then
+    if (GlobalManager:GetEventValue("story", "mountain_shrine_entrance_light_done") == 1
+            and GlobalManager:GetPreviousLocation() == "from_shrine_main_room") then
         sophia:SetCollisionMask(vt_map.MapMode.ALL_COLLISION);
         sophia:SetVisible(true);
         sophia:SetPosition(42.0, 21.0);
