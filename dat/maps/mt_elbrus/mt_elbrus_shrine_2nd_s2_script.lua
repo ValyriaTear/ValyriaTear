@@ -399,6 +399,7 @@ function _CreateZones()
     Map:AddZone(to_stairs_zone);
 
     trap_zone = vt_map.CameraZone(0, 26, 25, 39);
+    trap_zone:AddSection(21, 26, 20, 25);
     Map:AddZone(trap_zone);
 end
 
