@@ -265,7 +265,7 @@ function _CreateZones()
     to_shrine_2nd_floor_zone = vt_map.CameraZone(59, 61, 36, 39);
     Map:AddZone(to_shrine_2nd_floor_zone);
 
-    to_shrine_2nd_floor_grotto_zone = vt_map.CameraZone(9, 12, 14, 16);
+    to_shrine_2nd_floor_grotto_zone = vt_map.CameraZone(9, 12, 14, 17);
     Map:AddZone(to_shrine_2nd_floor_grotto_zone);
 end
 
