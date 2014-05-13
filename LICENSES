@@ -1,7 +1,7 @@
 Licenses
 ========
 
-Last update: 2014.03.19
+Last update: 2014.05.13
 
 This file is listing all the files licenses from the point of the fork
 from the Allacrost project.
@@ -642,8 +642,10 @@ img/sprites/map/objects/parchment.png                           GPLv2+          
 img/sprites/map/objects/rock1.png                               CC by 3.0                Daniel Cook + Outline fix from Bertram
 img/sprites/map/objects/rock2.png                               CC by 3.0                Daniel Cook + Outline fix from Bertram
 img/sprites/map/objects/rock3.png                               CC by 3.0                Daniel Cook
-img/sprites/map/objects/rolling_stone.png                       CC by 3.0                Bertram
+img/sprites/map/objects/rolling_stone1.png                      CC by 3.0                Bertram
+img/sprites/map/objects/rolling_stone2.png                      CC by 3.0                Bertram
 img/sprites/map/objects/spikes1.png                             CC by SA 3.0             Adapted Circle 2D graphics from Daniel Cook (lostgarden.com)
+img/sprites/map/objects/spikes_broken1.png                      CC by SA 3.0             Bertram
 img/sprites/map/objects/stele1.png                              CC by SA 3.0             Adapted Circle 2D graphics from Daniel Cook (lostgarden.com)
 img/sprites/map/objects/stone_sign1.png                         CC by 3.0                Daniel Cook + Small edit from Bertram
 img/sprites/map/objects/stone_fence1.lua                        GPLv2+                   Allacrost

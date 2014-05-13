@@ -441,7 +441,15 @@ objects["Rock3"] = {
 }
 
 objects["Rolling Stone"] = {
-    animation_filename = "img/sprites/map/objects/rolling_stone.lua",
+    animation_filename = "img/sprites/map/objects/rolling_stone1.lua",
+    coll_half_width = 0.9,
+    coll_height = 1.8,
+    img_half_width = 1.0,
+    img_height = 2.0
+}
+
+objects["Rolling Stone2"] = {
+    animation_filename = "img/sprites/map/objects/rolling_stone2.lua",
     coll_half_width = 0.9,
     coll_height = 1.8,
     img_half_width = 1.0,
@@ -534,6 +542,14 @@ objects["Spikes1"] = {
     coll_height = 2.0,
     img_half_width = 1.0,
     img_height = 3.0
+}
+
+objects["Spikes_broken1"] = {
+    animation_filename = "img/sprites/map/objects/spikes_broken1.lua",
+    coll_half_width = 0.906,
+    coll_height = 1.56,
+    img_half_width = 0.906,
+    img_height = 1.56
 }
 
 objects["Tree Big1"] = {
