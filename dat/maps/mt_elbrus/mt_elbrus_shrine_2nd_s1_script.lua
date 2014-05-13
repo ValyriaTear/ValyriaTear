@@ -58,6 +58,8 @@ function Load(m)
     -- The mountain cliff background
     Map:GetScriptSupervisor():AddScript("dat/maps/mt_elbrus/mt_elbrus_background_anim.lua");
 
+    -- Start the pusher winds
+    EventManager:StartEvent("Start winds");
 end
 
 -- the map update function handles checks done on each game tick.
@@ -83,6 +85,10 @@ function _CreateCharacters()
 
     Map:AddGroundObject(hero);
 end
+
+local wind_effect1 = {}
+local wind_effect2 = {}
+local wind_effect3 = {}
 
 function _CreateObjects()
     local object = {}
@@ -191,6 +197,24 @@ function _CreateObjects()
 
     object = CreateObject(Map, "Bridge1_down", 10, 38);
     Map:AddFlatGroundObject(object);
+
+    -- Adds the wind particle effects
+    wind_effect1 = vt_map.ParticleObject("dat/maps/mt_elbrus/particles_snow_pushing.lua", 34, 80);
+    wind_effect1:SetObjectID(Map.object_supervisor:GenerateObjectID());
+    wind_effect1:Stop(); -- Don't run it at start
+    Map:AddGroundObject(wind_effect1);
+
+    wind_effect2 = vt_map.ParticleObject("dat/maps/mt_elbrus/particles_snow_pushing.lua", 45, 55);
+    wind_effect2:SetObjectID(Map.object_supervisor:GenerateObjectID());
+    wind_effect2:Stop(); -- Don't run it at start
+    Map:AddGroundObject(wind_effect2);
+    -- TODO: add wind sound effects.
+
+    -- An harmless wind pusher, for once
+    wind_effect3 = vt_map.ParticleObject("dat/maps/mt_elbrus/particles_snow_pushing.lua", 87, 29);
+    wind_effect3:SetObjectID(Map.object_supervisor:GenerateObjectID());
+    wind_effect3:Stop(); -- Don't run it at start
+    Map:AddGroundObject(wind_effect3);
 end
 
 -- Creates all events and sets up the entire event sequence chain
@@ -210,12 +234,29 @@ function _CreateEvents()
     event = vt_map.MapTransitionEvent("to mountain shrine 2nd floor north east", "dat/maps/mt_elbrus/mt_elbrus_shrine_2nd_s2_map.lua",
                                       "dat/maps/mt_elbrus/mt_elbrus_shrine_2nd_s2_script.lua", "from_shrine_2nd_floor_south_east");
     EventManager:RegisterEvent(event);
+
+    -- A never-ending event that triggers winds every few seconds pushing the character down and back to the start if he's heedless enough.
+    event = vt_map.ScriptedEvent("Start winds", "winds_start", "winds_update");
+    EventManager:RegisterEvent(event);
+
+    -- Makes the character slowly fall downward
+    event = vt_map.ScriptedEvent("Falling to shrine entrance", "falling_start", "falling_update");
+    EventManager:RegisterEvent(event);
+
+    event = vt_map.MapTransitionEvent("To mountain shrine entrance", "dat/maps/mt_elbrus/mt_elbrus_path4_map.lua",
+                                      "dat/maps/mt_elbrus/mt_elbrus_path4_script.lua", "from_shrine_2nd_floor_wind_trap");
+    EventManager:RegisterEvent(event);
 end
 
 -- zones
 local to_shrine_ne_zone = {};
 local to_grotto_zone = {};
 local to_shrine_nw_zone = {};
+
+local windy1_zone = {};
+local windy2_zone = {};
+local windy3_zone = {};
+local falling_zone = {};
 
 -- Create the different map zones triggering events
 function _CreateZones()
@@ -228,7 +269,23 @@ function _CreateZones()
     to_grotto_zone = vt_map.CameraZone(33, 35, 22, 24);
     Map:AddZone(to_grotto_zone);
 
+    windy1_zone = vt_map.CameraZone(32, 36, 65, 71);
+    Map:AddZone(windy1_zone);
+    windy2_zone = vt_map.CameraZone(43, 47, 40, 48);
+    Map:AddZone(windy2_zone);
+    falling_zone = vt_map.CameraZone(32, 36, 71, 74);
+    falling_zone:AddSection(43, 47, 48, 52);
+    Map:AddZone(falling_zone);
+
+    windy3_zone = vt_map.CameraZone(85, 89, 10, 29);
+    Map:AddZone(windy3_zone);
+
 end
+
+-- Tells whether the winds are on.
+local wind1_started = false;
+local wind2_started = false;
+local wind3_started = false;
 
 -- Check whether the active camera has entered a zone. To be called within Update()
 function _CheckZones()
@@ -244,11 +301,107 @@ function _CheckZones()
         hero:SetMoving(true);
         hero:SetDirection(vt_map.MapMode.NORTH);
         EventManager:StartEvent("to mountain shrine 2nd floor north west");
+    elseif (wind1_started == true and windy1_zone:IsCameraInside() == true) then
+        -- Push the character down.
+        local update_time = SystemManager:GetUpdateTime();
+        local movement_diff = 0.007 * update_time;
+        hero:SetYPosition(hero:GetYPosition() + movement_diff);
+    elseif (wind2_started == true and windy2_zone:IsCameraInside() == true) then
+        -- Push the character down.
+        local update_time = SystemManager:GetUpdateTime();
+        local movement_diff = 0.007 * update_time;
+        hero:SetYPosition(hero:GetYPosition() + movement_diff);
+    elseif (wind3_started == true and windy3_zone:IsCameraInside() == true) then
+        -- Push the character down.
+        local update_time = SystemManager:GetUpdateTime();
+        local movement_diff = 0.007 * update_time;
+        -- Check for collision since one doesn't want to get the player stuck this time
+        if (hero:IsColliding(hero:GetXPosition(), hero:GetYPosition() + movement_diff) == false) then
+            hero:SetYPosition(hero:GetYPosition() + movement_diff);
+        end
+    end
+
+    -- Check whether the hero is south-enough to fall.
+    if (falling_zone:IsCameraEntering() == true and Map:CurrentState() == vt_map.MapMode.STATE_EXPLORE) then
+        Map:PushState(vt_map.MapMode.STATE_SCENE);
+        hero:SetMoving(false);
+        EventManager:StartEvent("Falling to shrine entrance");
+        EventManager:StartEvent("To mountain shrine entrance");
     end
 end
+
+local wind1_update_time = 0;
+local wind2_update_time = 0;
+local wind3_update_time = 0;
 
 -- Map Custom functions
 -- Used through scripted events
 map_functions = {
 
+    winds_start = function()
+        wind1_update_time = 0;
+        wind2_update_time = 0;
+        wind3_update_time = 0;
+        wind_effect1:Stop();
+        wind_effect2:Stop();
+        wind_effect3:Stop();
+        wind1_started = false;
+        wind2_started = false;
+        wind3_started = false;
+    end,
+
+    winds_update = function()
+        local update_time = SystemManager:GetUpdateTime();
+        wind1_update_time = wind1_update_time + update_time;
+        wind2_update_time = wind2_update_time + update_time;
+        wind3_update_time = wind3_update_time + update_time;
+        
+        if (wind1_started == false and wind1_update_time > 6000) then
+            wind1_update_time = 0;
+            wind_effect1:Start();
+            wind1_started = true;
+        elseif (wind1_started == true and wind1_update_time > 4500) then
+            wind1_update_time = 0;
+            wind_effect1:Stop();
+            wind1_started = false;
+        end
+
+        if (wind2_started == false and wind2_update_time > 5000) then
+            wind2_update_time = 0;
+            wind_effect2:Start();
+            wind2_started = true;
+        elseif (wind2_started == true and wind2_update_time > 4500) then
+            wind2_update_time = 0;
+            wind_effect2:Stop();
+            wind2_started = false;
+        end
+
+        if (wind3_started == false and wind3_update_time > 3000) then
+            wind3_update_time = 0;
+            wind_effect3:Start();
+            wind3_started = true;
+        elseif (wind3_started == true and wind3_update_time > 4500) then
+            wind3_update_time = 0;
+            wind_effect3:Stop();
+            wind3_started = false;
+        end
+        return false;
+    end,
+
+    falling_start = function()
+        hero:SetCustomAnimation("frightened_fixed", 0); -- 0 means forever
+        -- TODO: Play falling sound
+    end,
+
+    falling_update = function()
+        if (hero:GetYPosition() > 120) then
+            return false;
+        end
+
+        -- Push the character down.
+        local update_time = SystemManager:GetUpdateTime();
+        local movement_diff = 0.010 * update_time;
+        hero:SetYPosition(hero:GetYPosition() + movement_diff);
+        return false;
+    end,
 }
