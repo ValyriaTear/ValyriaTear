@@ -18,6 +18,7 @@ local Map = {};
 local ObjectManager = {};
 local DialogueManager = {};
 local EventManager = {};
+local Effects = {};
 
 -- the main character handler
 local hero = {};
@@ -32,6 +33,7 @@ function Load(m)
     ObjectManager = Map.object_supervisor;
     DialogueManager = Map.dialogue_supervisor;
     EventManager = Map.event_supervisor;
+    Effects = Map:GetEffectSupervisor();
 
     Map.unlimited_stamina = false;
 
@@ -139,7 +141,7 @@ function _CreateObjects()
     _add_flame(9.5, 3);
 
     -- The stone used to get through this enigma
-    rolling_stone1 = CreateObject(Map, "Rolling Stone", 28, 34);
+    rolling_stone1 = CreateObject(Map, "Rolling Stone2", 28, 34);
     Map:AddGroundObject(rolling_stone1);
 
     -- events on the lower level
@@ -150,6 +152,18 @@ function _CreateObjects()
 
     -- events on the upper level
     event = vt_map.ScriptedEvent("Make rolling stone1 fall event start", "stone_falls_event_start", "stone_falls_event_update");
+    event:AddEventLinkAtEnd("Hero speaks about the red stone");
+    EventManager:RegisterEvent(event);
+
+    dialogue = vt_map.SpriteDialogue();
+    text = vt_system.Translate("Phew, this one sure is heavier and sturdier...");
+    dialogue:AddLineEmote(text, hero, "sweat drop");
+    DialogueManager:AddDialogue(dialogue);
+    event = vt_map.DialogueEvent("Hero speaks about the red stone", dialogue);
+    event:AddEventLinkAtEnd("Make rolling stone1 fall event end");
+    EventManager:RegisterEvent(event);
+
+    event = vt_map.ScriptedEvent("Make rolling stone1 fall event end", "stone_falls_event_end", "");
     EventManager:RegisterEvent(event);
 
     -- Set the stone event according to the events
@@ -384,8 +398,32 @@ function _CreateZones()
     to_stairs_zone = vt_map.CameraZone(5, 7, 5, 7);
     Map:AddZone(to_stairs_zone);
 
-    trap_zone = vt_map.CameraZone(5, 21, 25, 39);
+    trap_zone = vt_map.CameraZone(0, 26, 25, 39);
     Map:AddZone(trap_zone);
+end
+
+-- Trigger damages on the characters present on the battle front.
+function _TriggerPartyDamage(damage)
+    -- Adds an effect on map
+    local x_pos = Map:GetScreenXCoordinate(hero:GetXPosition());
+    local y_pos = Map:GetScreenYCoordinate(hero:GetYPosition());
+    local map_indicator = Map:GetIndicatorSupervisor();
+    map_indicator:AddDamageIndicator(x_pos, y_pos, damage, vt_video.TextStyle("text22", vt_video.Color(1.0, 0.0, 0.0, 0.9)), true);
+
+    local index = 0;
+    for index = 0, 3 do
+        local char = GlobalManager:GetCharacter(index);
+        if (char ~= nil) then
+            -- Do not kill characters. though
+            local hp_damage = damage;
+            if (hp_damage >= char:GetHitPoints()) then
+                hp_damage = char:GetHitPoints() - 1;
+            end
+            if (hp_damage > 0) then
+                char:SubtractHitPoints(hp_damage);
+            end
+        end
+    end
 end
 
 local trap_started = false;
@@ -415,6 +453,10 @@ function _CheckZones()
         Map:PushState(vt_map.MapMode.STATE_SCENE);
         hero:SetCustomAnimation("hurt", 0);
         hero:SetMoving(false);
+        -- Trigger party damage.
+        local hp_change = math.random(25, 40);
+        _TriggerPartyDamage(hp_change);
+
         EventManager:StartEvent("Restart map");
         AudioManager:PlaySound("snd/battle_encounter_03.ogg");
     end
@@ -477,8 +519,13 @@ function _UpdateStoneMovement(stone_object, stone_direction)
     for my_index, my_object in pairs(trap_spikes) do
         if (my_object ~= nil) then
             if (my_object:IsCollidingWith(stone_object) == true) then
-                -- TODO: Add broken spikes map object there
+                -- Add broken spikes map object there
+                local broken_spike = CreateObject(Map, "Spikes_broken1", my_object:GetXPosition(), my_object:GetYPosition());
+                broken_spike:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
+                Map:AddFlatGroundObject(broken_spike);
+                -- Play the shatter sound
                 AudioManager:PlaySound("snd/magic_blast.ogg");
+
                 my_object:SetVisible(false);
                 my_object:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
             end
@@ -488,8 +535,13 @@ function _UpdateStoneMovement(stone_object, stone_direction)
     for my_index, my_object in pairs(trap_spikes_left) do
         if (my_object ~= nil) then
             if (my_object:IsCollidingWith(stone_object) == true) then
-                -- TODO: Add broken spikes map object there
+                -- Add broken spikes map object there
+                local broken_spike = CreateObject(Map, "Spikes_broken1", my_object:GetXPosition(), my_object:GetYPosition());
+                broken_spike:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
+                Map:AddFlatGroundObject(broken_spike);
+                -- Play the shatter sound
                 AudioManager:PlaySound("snd/magic_blast.ogg");
+
                 my_object:SetVisible(false);
                 my_object:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
             end
@@ -499,8 +551,13 @@ function _UpdateStoneMovement(stone_object, stone_direction)
     for my_index, my_object in pairs(trap_spikes_right) do
         if (my_object ~= nil) then
             if (my_object:IsCollidingWith(stone_object) == true) then
-                -- TODO: Add broken spikes map object there
+                -- Add broken spikes map object there
+                local broken_spike = CreateObject(Map, "Spikes_broken1", my_object:GetXPosition(), my_object:GetYPosition());
+                broken_spike:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
+                Map:AddFlatGroundObject(broken_spike);
+                -- Play the shatter sound
                 AudioManager:PlaySound("snd/magic_blast.ogg");
+
                 my_object:SetVisible(false);
                 my_object:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
             end
@@ -511,6 +568,7 @@ function _UpdateStoneMovement(stone_object, stone_direction)
     if (stone_object:IsColliding(new_pos_x, new_pos_y) == true) then
         stone_object:SetPosition(old_pos_x, old_pos_y);
         AudioManager:PlaySound("snd/stone_bump.ogg");
+        Effects:ShakeScreen(0.6, 600, vt_mode_manager.EffectSupervisor.SHAKE_FALLOFF_GRADUAL);
         return true;
     end
 
@@ -583,16 +641,20 @@ map_functions = {
         if (stone_fall_hit_ground == false and stone_fall_x_pos < 24.0) then
             stone_fall_hit_ground = true;
             AudioManager:PlaySound("snd/stone_bump.ogg");
+            Effects:ShakeScreen(0.6, 600, vt_mode_manager.EffectSupervisor.SHAKE_FALLOFF_GRADUAL);
         end
         local movement_diff = 0.010 * update_time;
         stone_fall_x_pos = stone_fall_x_pos - movement_diff;
         rolling_stone1:SetPosition(stone_fall_x_pos, stone_fall_y_pos);
         if (stone_fall_x_pos <= 16.0) then
-            GlobalManager:SetEventValue("story", "mountain_shrine_2ndfloor_pushed_stone", 1);
-            Map:PopState();
             return true;
         end
         return false;
+    end,
+
+    stone_falls_event_end = function()
+        GlobalManager:SetEventValue("story", "mountain_shrine_2ndfloor_pushed_stone", 1);
+        Map:PopState();
     end,
 
     check_diagonal_stone1 = function()
@@ -609,10 +671,13 @@ map_functions = {
     end,
 
     trap_start = function()
-        -- Surrounds the character
+        -- Surrounds the character of even get him
         for my_index, my_object in pairs(trap_spikes) do
             my_object:SetVisible(true);
             my_object:SetCollisionMask(vt_map.MapMode.ALL_COLLISION);
+            if (my_object:IsCollidingWith(hero) == true) then
+                caught_by_trap = true;
+            end
         end
         AudioManager:PlaySound("snd/opening_sword_unsheathe.wav");
         trap_update_time = 0;
@@ -621,9 +686,9 @@ map_functions = {
     end,
 
     trap_update = function()
-        -- Adds one spikes on each borders, every seconds.
+        -- Adds one spikes on each borders, every half a second.
         trap_update_time = trap_update_time + SystemManager:GetUpdateTime();
-        if (trap_update_time < 500) then --1000
+        if (trap_update_time < 500) then
             return false;
         end
         trap_update_time = 0;
@@ -643,7 +708,7 @@ map_functions = {
 
         trap_index = trap_index + 1
 
-        -- TODO: Check collision with player and make it restart the map if so.
+        -- Check collision with player and make it restart the map if so.
         if (caught_by_trap == false) then
             for my_index, my_object in pairs(trap_spikes_left) do
                 if (my_object ~= nil and my_object:IsCollidingWith(hero) == true) then
@@ -651,6 +716,11 @@ map_functions = {
                 end
             end
             for my_index, my_object in pairs(trap_spikes_right) do
+                if (my_object ~= nil and my_object:IsCollidingWith(hero) == true) then
+                    caught_by_trap = true;
+                end
+            end
+            for my_index, my_object in pairs(trap_spikes) do
                 if (my_object ~= nil and my_object:IsCollidingWith(hero) == true) then
                     caught_by_trap = true;
                 end
