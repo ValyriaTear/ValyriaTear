@@ -39,6 +39,7 @@ function Load(m)
 
     _CreateCharacters();
     _CreateObjects();
+    _CreateEnemies();
 
     -- Set the camera focus on hero
     Map:SetCamera(hero);
@@ -104,6 +105,8 @@ local rolling_stone1 = {};
 local trap_spikes = {};
 local trap_spikes_left = {};
 local trap_spikes_right = {};
+
+local mini_boss = {};
 
 function _CreateObjects()
     local object = {}
@@ -351,6 +354,17 @@ function _CreateObjects()
         spike_index = spike_index + 1
     end
 
+    -- Mini-boss
+    mini_boss = CreateObject(Map, "Spikes1", 27, 10); --TODO: TEMP sprite, replace with the correct one once done.
+    Map:AddGroundObject(mini_boss);
+    if (GlobalManager:GetEventValue("story", "mt_elbrus_shrine_trap_boss_done") == 1) then
+        mini_boss:SetPosition(0, 0);
+        mini_boss:SetVisible(false);
+        mini_boss:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
+    else
+        mini_boss:SetEventWhenTalking("Mini-Boss fight");
+    end
+
 end
 
 -- Creates all events and sets up the entire event sequence chain
@@ -379,6 +393,49 @@ function _CreateEvents()
     event = vt_map.MapTransitionEvent("Restart map", "dat/maps/mt_elbrus/mt_elbrus_shrine_2nd_s2_map.lua",
                                       "dat/maps/mt_elbrus/mt_elbrus_shrine_2nd_s2_script.lua", GlobalManager:GetPreviousLocation());
     EventManager:RegisterEvent(event);
+
+    -- Mini boss event
+    event = vt_map.ScriptedEvent("Mini-Boss fight", "mini_boss_start", "");
+    event:AddEventLinkAtEnd("Mini-boss fight battle start");
+    EventManager:RegisterEvent(event);
+
+    event = vt_map.BattleEncounterEvent("Mini-boss fight battle start");
+    event:SetMusic("mus/accion-OGA-djsaryon.ogg");
+    event:SetBackground("img/backdrops/battle/desert_cave/desert_cave.png");
+    event:AddScript("dat/battles/desert_cave_battle_anim.lua");
+    event:SetBoss(true);
+    event:AddEnemy(16); -- TODO: Replace with proper boss
+    event:AddEventLinkAtEnd("Mini-boss fight end");
+    EventManager:RegisterEvent(event);
+
+    event = vt_map.ScriptedEvent("Mini-boss fight end", "mini_boss_end", "");
+    EventManager:RegisterEvent(event);
+end
+
+-- Sets common battle environment settings for enemy sprites
+function _SetBattleEnvironment(enemy)
+    enemy:SetBattleMusicTheme("mus/heroism-OGA-Edward-J-Blakeley.ogg");
+    enemy:SetBattleBackground("img/backdrops/battle/desert_cave/desert_cave.png");
+    -- Add the background and foreground animations
+    enemy:AddBattleScript("dat/battles/desert_cave_battle_anim.lua");
+end
+
+function _CreateEnemies()
+    local enemy = {};
+    local roam_zone = {};
+
+    -- Hint: left, right, top, bottom
+    roam_zone = vt_map.EnemyZone(32, 46, 12, 32);
+
+    enemy = CreateEnemySprite(Map, "Skeleton");
+    _SetBattleEnvironment(enemy);
+    enemy:NewEnemyParty();
+    enemy:AddEnemy(19);
+    enemy:AddEnemy(19);
+    enemy:AddEnemy(19);
+    enemy:AddEnemy(19);
+    roam_zone:AddEnemy(enemy, Map, 2);
+    Map:AddZone(roam_zone);
 end
 
 -- zones
@@ -614,6 +671,8 @@ local stone_direction1 = vt_map.MapMode.EAST;
 local stone_fall_x_pos = 28;
 local stone_fall_y_pos = 14;
 local stone_fall_hit_ground = false;
+local stone_x_force = 0.0150;
+local stone_friction = 0.0002;
 
 -- Trap variables
 local trap_update_time = 0;
@@ -629,6 +688,9 @@ map_functions = {
         stone_fall_y_pos = 34;
         stone_fall_hit_ground = false;
         AudioManager:PlaySound("snd/stone_roll.wav");
+
+        stone_x_force = 0.0150;
+        stone_friction = 0.0002;
     end,
 
     stone_falls_event_update = function()
@@ -644,12 +706,14 @@ map_functions = {
             AudioManager:PlaySound("snd/stone_bump.ogg");
             Effects:ShakeScreen(0.6, 600, vt_mode_manager.EffectSupervisor.SHAKE_FALLOFF_GRADUAL);
         end
-        local movement_diff = 0.010 * update_time;
+        local movement_diff = stone_x_force * update_time;
         stone_fall_x_pos = stone_fall_x_pos - movement_diff;
-        rolling_stone1:SetPosition(stone_fall_x_pos, stone_fall_y_pos);
-        if (stone_fall_x_pos <= 16.0) then
+        stone_x_force = stone_x_force - stone_friction;
+        if (stone_x_force <= 0.0) then
             return true;
         end
+        rolling_stone1:SetPosition(stone_fall_x_pos, stone_fall_y_pos);
+
         return false;
     end,
 
@@ -733,5 +797,19 @@ map_functions = {
         end
 
         return true;
+    end,
+
+    mini_boss_start = function()
+        Map:PushState(vt_map.MapMode.STATE_SCENE);
+    end,
+    
+    mini_boss_end = function()
+        Map:PopState();
+        GlobalManager:SetEventValue("story", "mt_elbrus_shrine_trap_boss_done", 1)
+
+        mini_boss:SetPosition(0, 0);
+        mini_boss:SetVisible(false);
+        mini_boss:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
+        mini_boss:ClearEventWhenTalking();
     end,
 }
