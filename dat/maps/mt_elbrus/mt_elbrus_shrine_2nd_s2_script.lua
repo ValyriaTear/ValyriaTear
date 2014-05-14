@@ -57,6 +57,7 @@ function Load(m)
     AudioManager:LoadSound("snd/opening_sword_unsheathe.wav", Map);
     AudioManager:LoadSound("snd/magic_blast.ogg", Map);
     AudioManager:LoadSound("snd/battle_encounter_03.ogg", Map);
+    AudioManager:LoadSound("snd/cave-in.ogg", Map);
 end
 
 -- the map update function handles checks done on each game tick.
@@ -365,6 +366,15 @@ function _CreateObjects()
         mini_boss:SetEventWhenTalking("Mini-Boss fight");
     end
 
+    -- A trigger that will open ground floor enigma map.
+    object = vt_map.TriggerObject("mt elbrus shrine 2nd s2 trigger",
+                             "img/sprites/map/triggers/stone_trigger1_off.lua",
+                             "img/sprites/map/triggers/stone_trigger1_on.lua",
+                             "", "Enigma map open event");
+    object:SetObjectID(Map.object_supervisor:GenerateObjectID());
+    object:SetPosition(20, 10);
+    Map:AddFlatGroundObject(object);
+
 end
 
 -- Creates all events and sets up the entire event sequence chain
@@ -409,6 +419,22 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
 
     event = vt_map.ScriptedEvent("Mini-boss fight end", "mini_boss_end", "");
+    EventManager:RegisterEvent(event);
+
+    -- Enigma map open event
+    event = vt_map.ScriptedEvent("Enigma map open event", "enigma_map_start", "");
+    event:AddEventLinkAtEnd("Enigma map dialogue");
+    EventManager:RegisterEvent(event);
+
+    dialogue = vt_map.SpriteDialogue();
+    text = vt_system.Translate("I can feel something move far below...");
+    dialogue:AddLine(text, hero);
+    DialogueManager:AddDialogue(dialogue);
+    event = vt_map.DialogueEvent("Enigma map dialogue", dialogue);
+    event:AddEventLinkAtEnd("Enigma map open event end");
+    EventManager:RegisterEvent(event);
+
+    event = vt_map.ScriptedEvent("Enigma map open event end", "enigma_map_end", "");
     EventManager:RegisterEvent(event);
 end
 
@@ -811,5 +837,15 @@ map_functions = {
         mini_boss:SetVisible(false);
         mini_boss:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
         mini_boss:ClearEventWhenTalking();
+    end,
+
+    enigma_map_start = function()
+        Map:PushState(vt_map.MapMode.STATE_SCENE);
+        Effects:ShakeScreen(0.6, 2000, vt_mode_manager.EffectSupervisor.SHAKE_FALLOFF_LINEAR);
+        AudioManager:PlaySound("snd/cave-in.ogg");
+    end,
+
+    enigma_map_end = function()
+        Map:PopState();
     end,
 }
