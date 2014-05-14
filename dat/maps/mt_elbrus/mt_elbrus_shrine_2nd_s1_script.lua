@@ -97,6 +97,10 @@ function _CreateObjects()
     local text = {}
     local event = {}
 
+    object = CreateTreasure(Map, "mt_shrine_2nd_s1_chest1", "Wood_Chest1", 73, 49);
+    object:AddObject(12, 1); -- Medium Moon Juice potion x 1
+    Map:AddGroundObject(object);
+
     -- Objects array
     local map_objects = {
 
