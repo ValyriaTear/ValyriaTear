@@ -243,6 +243,21 @@ function _CreateObjects()
     EventManager:RegisterEvent(event);
     event = vt_map.ScriptedEvent("Push the rolling stone 2", "start_to_move_the_stone2", "move_the_stone_update2")
     EventManager:RegisterEvent(event);
+
+    -- Add parchment
+    object = CreateObject(Map, "Parchment", 9.0, 18.6);
+    Map:AddGroundObject(object);
+    object:SetEventWhenTalking("Parchment event");
+
+    -- The second parchment note
+    dialogue = vt_map.SpriteDialogue();
+    text = vt_system.Translate("There is a note left here.");
+    dialogue:AddLineEmote(text, hero, "thinking dots");
+    text = vt_system.Translate("It says: 'I fathomed it! After all, not every ladder is made of wood. Now, I'll have to get back there alive...'");
+    dialogue:AddLine(text, hero);
+    DialogueManager:AddDialogue(dialogue);
+    event = vt_map.DialogueEvent("Parchment event", dialogue);
+    EventManager:RegisterEvent(event);
 end
 
 function _add_flame(x, y)
