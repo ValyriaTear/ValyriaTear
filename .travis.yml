@@ -19,7 +19,7 @@ script:
 branches:
   only:
     - master
-after_script: cppcheck --verbose --enable=all --std=posix --quiet `git ls-files src/\*.cpp`
+after_script: cppcheck --verbose --enable=all --quiet `git ls-files src/\*.cpp`
 notifications:
   email:
     recipients:
