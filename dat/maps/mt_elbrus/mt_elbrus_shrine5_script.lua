@@ -804,8 +804,10 @@ local jump_event_time = 0;
 local kneeling_done = false;
 local stop_kneeling_done = false;
 local hero_looks_north_done = false;
+local orlinn_in_place_to_climb = false;
+local time_before_climbing = 0;
 
--- Coming back event
+-- Going up and back events
 local orlinn_y_position = 0;
 
 -- Stone direction
@@ -891,6 +893,9 @@ map_functions = {
 
         kalya_move_next_to_hero_event:SetDestination(hero:GetXPosition() - 2.0, hero:GetYPosition(), false);
         orlinn_move_next_to_hero_event:SetDestination(hero:GetXPosition() + 2.0, hero:GetYPosition(), false);
+
+        -- Near, but not upon
+        orlinn_move_near_hero_event:SetDestination(hero:GetXPosition() + 1.0, hero:GetYPosition() + 0.2, false);
     end,
 
     thrown_to_passage_event_start = function()
@@ -915,12 +920,15 @@ map_functions = {
 
         -- Near, but not upon
         orlinn_move_near_hero_event:SetDestination(hero:GetXPosition() + 1.0, hero:GetYPosition() + 0.2, false);
-
-        jump_canceled = false;
     end,
 
     jump_to_passage_start = function()
         jump_event_time = 0;
+
+        jump_canceled = false;
+        time_before_climbing = 0;
+        orlinn_in_place_to_climb = false;
+        orlinn_y_position = orlinn:GetYPosition();
 
         -- Bronann's movement
         kneeling_done = false;
@@ -940,23 +948,55 @@ map_functions = {
             -- Bronann kneels so Orlinn can grab Orlinn's feet.
             hero:SetCustomAnimation("kneeling", 0); -- 0 means forever
             kneeling_done = true;
-        elseif (stop_kneeling_done == false and jump_event_time >= 1000) then
+        elseif (stop_kneeling_done == false and jump_event_time >= 600) then
             hero:DisableCustomAnimation();
             hero:SetDirection(vt_map.MapMode.EAST);
             stop_kneeling_done = true;
-        elseif (stop_kneeling_done == true and hero_looks_north_done == false and jump_event_time >= 1300) then
+        elseif (stop_kneeling_done == true and hero_looks_north_done == false and jump_event_time >= 900) then
             hero:SetDirection(vt_map.MapMode.NORTH);
+            orlinn:SetDirection(vt_map.MapMode.NORTH);
             hero_looks_north_done = true;
         end
 
         -- Orlinn's movement.
-        local y_position = orlinn:GetYPosition();
-        if (jump_event_time >= 1000 and y_position > 11.0) then
-            y_position = y_position - 0.015 * update_time;
-            orlinn:SetYPosition(y_position);
-        elseif (y_position <= 11.0) then
-            orlinn:SetDirection(vt_map.MapMode.SOUTH);
-            return true;
+        if (orlinn_in_place_to_climb == false and jump_event_time >= 600) then
+            -- Place Orlinn above Bronann
+            local x_position = orlinn:GetXPosition();
+            if (x_position > hero:GetXPosition()) then
+                x_position = x_position - 0.007 * update_time;
+                orlinn:SetXPosition(x_position);
+            end
+            if (orlinn_y_position > 14.5) then
+                orlinn_y_position = orlinn_y_position - 0.015 * update_time;
+                orlinn:SetYPosition(orlinn_y_position);
+            end
+
+            -- Next step conditions
+            if (orlinn:GetXPosition() <= hero:GetXPosition() and orlinn_y_position <= 14.5) then
+                time_before_climbing = time_before_climbing + update_time;
+                if (time_before_climbing > 1000) then
+                    orlinn:SetDirection(vt_map.MapMode.NORTH);
+                    orlinn:SetMoving(true);
+                    orlinn_in_place_to_climb = true;
+                end
+            end
+        elseif (orlinn_in_place_to_climb == true) then
+            -- And then, make him climb up the wall.            
+            -- Climb
+            if (orlinn_y_position > 12.0) then
+                orlinn_y_position = orlinn_y_position - 0.005 * update_time;
+                orlinn:SetYPosition(orlinn_y_position);
+            -- Walk
+            elseif (orlinn_y_position > 11.0) then
+                orlinn_y_position = orlinn_y_position - 0.010 * update_time;
+                orlinn:SetYPosition(orlinn_y_position);
+            end
+            -- event end
+            if (orlinn:GetYPosition() <= 11.0) then
+                orlinn:SetDirection(vt_map.MapMode.SOUTH);
+                orlinn:SetMoving(false);
+                return true;
+            end
         end
 
         return false;
