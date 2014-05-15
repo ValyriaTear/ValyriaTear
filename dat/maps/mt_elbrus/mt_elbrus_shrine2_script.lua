@@ -223,7 +223,7 @@ function _CreateObjects()
 
     -- Create the fake walls out of the objects catalog as they are used once,
     -- Left secret passage
-    if (GlobalManager:GetEventValue("story", "mountain_shrine_hidden_path1_done") == 0) then
+    if (GlobalManager:GetEventValue("triggers", "mt elbrus shrine 2nd s2 trigger") == 0) then
         object = vt_map.PhysicalObject();
         object:SetPosition(2.0, 62.0);
         object:SetObjectID(Map.object_supervisor:GenerateObjectID());
@@ -238,7 +238,7 @@ function _CreateObjects()
     end
 
     -- Right one
-    if (GlobalManager:GetEventValue("story", "mountain_shrine_hidden_path2_done") == 0) then
+    if (GlobalManager:GetEventValue("story", "mountain_shrine_hidden_path1_done") == 0) then
         object = vt_map.PhysicalObject();
         object:SetPosition(62.0, 62.0);
         object:SetObjectID(Map.object_supervisor:GenerateObjectID());
