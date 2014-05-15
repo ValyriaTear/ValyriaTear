@@ -198,7 +198,7 @@ function _CreateCharacters()
 
     -- When returning from a first trip in the dungeon, the characters fall on Sophia.
     if (GlobalManager:GetEventValue("story", "mountain_shrine_entrance_light_done") == 1
-            and GlobalManager:GetPreviousLocation() == "from_shrine_main_room") then
+            or GlobalManager:GetEventValue("story", "mt_elbrus_shrine_sophia_dialogue_event") == 1) then
         sophia:SetCollisionMask(vt_map.MapMode.ALL_COLLISION);
         sophia:SetVisible(true);
         sophia:SetPosition(42.0, 21.0);
