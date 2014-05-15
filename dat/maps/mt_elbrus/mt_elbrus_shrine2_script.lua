@@ -238,7 +238,7 @@ function _CreateObjects()
     end
 
     -- Right one
-    if (GlobalManager:GetEventValue("story", "mountain_shrine_hidden_path1_done") == 0) then
+    if (GlobalManager:GetEventValue("triggers", "mt elbrus shrine 4 trigger 1") == 0) then
         object = vt_map.PhysicalObject();
         object:SetPosition(62.0, 62.0);
         object:SetObjectID(Map.object_supervisor:GenerateObjectID());
