@@ -247,6 +247,15 @@ function _CreateObjects()
     spike5_up = true;
     spike6_up = true;
 
+    -- The trigger opening the next map.
+    object = vt_map.TriggerObject("mt elbrus shrine 4 trigger 1",
+                             "img/sprites/map/triggers/stone_trigger1_off.lua",
+                             "img/sprites/map/triggers/stone_trigger1_on.lua",
+                             "", "Trap map open event");
+    object:SetObjectID(Map.object_supervisor:GenerateObjectID());
+    object:SetPosition(52, 10);
+    Map:AddFlatGroundObject(object);
+
 end
 
 function _add_flame(x, y)
@@ -304,6 +313,22 @@ function _CreateEvents()
     event = vt_map.ScriptedEvent("Push trigger 2", "push_trigger_2", "");
     EventManager:RegisterEvent(event);
     event = vt_map.ScriptedEvent("Push trigger 3", "push_trigger_3", "");
+    EventManager:RegisterEvent(event);
+
+    -- Trap map open event
+    event = vt_map.ScriptedEvent("Trap map open event", "trap_map_start", "");
+    event:AddEventLinkAtEnd("Trap map dialogue");
+    EventManager:RegisterEvent(event);
+
+    dialogue = vt_map.SpriteDialogue();
+    text = vt_system.Translate("Again, I can feel something move not far from here...");
+    dialogue:AddLine(text, hero);
+    DialogueManager:AddDialogue(dialogue);
+    event = vt_map.DialogueEvent("Trap map dialogue", dialogue);
+    event:AddEventLinkAtEnd("Trap map open event end");
+    EventManager:RegisterEvent(event);
+
+    event = vt_map.ScriptedEvent("Trap map open event end", "trap_map_end", "");
     EventManager:RegisterEvent(event);
 end
 
@@ -423,5 +448,15 @@ map_functions = {
         spike3_up = not spike3_up;
         spike4_up = not spike4_up;
         _UpdateSpikeState();
+    end,
+
+    trap_map_start = function()
+        Map:PushState(vt_map.MapMode.STATE_SCENE);
+        Map:GetEffectSupervisor():ShakeScreen(0.6, 2000, vt_mode_manager.EffectSupervisor.SHAKE_FALLOFF_LINEAR);
+        AudioManager:PlaySound("snd/cave-in.ogg");
+    end,
+
+    trap_map_end = function()
+        Map:PopState();
     end,
 }
