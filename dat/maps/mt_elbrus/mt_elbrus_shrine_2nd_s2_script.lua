@@ -362,8 +362,6 @@ function _CreateObjects()
         mini_boss:SetPosition(0, 0);
         mini_boss:SetVisible(false);
         mini_boss:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
-    else
-        mini_boss:SetEventWhenTalking("Mini-Boss fight");
     end
 
     -- A trigger that will open ground floor enigma map.
@@ -469,6 +467,7 @@ local to_shrine_se_zone = {};
 local to_shrine_sw_zone = {};
 local to_stairs_zone = {};
 local trap_zone = {};
+local mini_boss_zone = {};
 
 -- Create the different map zones triggering events
 function _CreateZones()
@@ -484,6 +483,9 @@ function _CreateZones()
     trap_zone = vt_map.CameraZone(0, 26, 25, 39);
     trap_zone:AddSection(21, 26, 20, 25);
     Map:AddZone(trap_zone);
+
+    mini_boss_zone = vt_map.CameraZone(30, 32, 5, 10);
+    Map:AddZone(mini_boss_zone);
 end
 
 -- Trigger damages on the characters present on the battle front.
@@ -530,6 +532,10 @@ function _CheckZones()
     elseif (trap_started == false and trap_zone:IsCameraEntering() == true) then
         trap_started = true;
         EventManager:StartEvent("start trap");
+    elseif (mini_boss_zone:IsCameraEntering() == true) then
+        if (GlobalManager:GetEventValue("story", "mt_elbrus_shrine_trap_boss_done") == 0) then
+            EventManager:StartEvent("Mini-Boss fight");
+        end
     end
 
     -- Check whether the hero is dead because of trap.
