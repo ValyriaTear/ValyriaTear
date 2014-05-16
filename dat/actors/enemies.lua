@@ -1027,6 +1027,69 @@ enemies[19] = {
     }
 }
 
+-- unbalanced
+enemies[20] = {
+    name = vt_system.Translate("Dorver"),
+    stamina_icon = "img/icons/actors/enemies/dorver.png",
+
+    battle_animations = {
+        [HURT_NONE] = "img/sprites/battle/enemies/dorver_0.lua",
+        [HURT_SLIGHTLY] = "img/sprites/battle/enemies/dorver_0.lua",
+        [HURT_MEDIUM] = "img/sprites/battle/enemies/dorver_0.lua",
+        [HURT_HEAVILY] = "img/sprites/battle/enemies/dorver_0.lua"
+    },
+
+    base_stats = {
+        hit_points = 150,
+        skill_points = 100,
+        strength = 30,
+        vigor = 25,
+        fortitude = 30,
+        protection = 25,
+        agility = 35,
+        evade = 5.0,
+        experience_points = 50,
+        drunes = 30
+    },
+
+    attack_points = {
+        [1] = {
+            name = vt_system.Translate("Head"),
+            x_position = -23,
+            y_position = 108,
+            fortitude_modifier = 0.0,
+            protection_modifier = 0.0,
+            evade_modifier = 0.0
+        },
+        [2] = {
+            name = vt_system.Translate("Chest"),
+            x_position = -12,
+            y_position = 82,
+            fortitude_modifier = 0.0,
+            protection_modifier = 0.0,
+            evade_modifier = 0.0
+        },
+        [3] = {
+            name = vt_system.Translate("Leg"),
+            x_position = -26,
+            y_position = 56,
+            fortitude_modifier = 0.0,
+            protection_modifier = 0.0,
+            evade_modifier = 0.0,
+            status_effects = { [vt_global.GameGlobal.GLOBAL_STATUS_AGILITY] = 20.0 }
+        }
+    },
+
+    skills = {
+        1006
+    },
+
+    drop_objects = {
+        { 12, 0.05 }, -- Medium moon juice
+        --{ 1004, 0.02 } -- Periwinkle Potion (Strength)
+    }
+}
+
 -- ======== Unbalanced ========
 
 -- Traits -----------------------------------------------------------------------

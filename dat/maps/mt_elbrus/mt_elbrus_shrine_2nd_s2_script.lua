@@ -356,7 +356,7 @@ function _CreateObjects()
     end
 
     -- Mini-boss
-    mini_boss = CreateObject(Map, "Spikes1", 27, 10); --TODO: TEMP sprite, replace with the correct one once done.
+    mini_boss = CreateObject(Map, "Dorver1", 27, 10);
     Map:AddGroundObject(mini_boss);
     if (GlobalManager:GetEventValue("story", "mt_elbrus_shrine_trap_boss_done") == 1) then
         mini_boss:SetPosition(0, 0);
@@ -414,7 +414,7 @@ function _CreateEvents()
     event:SetBackground("img/backdrops/battle/desert_cave/desert_cave.png");
     event:AddScript("dat/battles/desert_cave_battle_anim.lua");
     event:SetBoss(true);
-    event:AddEnemy(16); -- TODO: Replace with proper boss
+    event:AddEnemy(20);
     event:AddEventLinkAtEnd("Mini-boss fight end");
     EventManager:RegisterEvent(event);
 

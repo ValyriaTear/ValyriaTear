@@ -1,7 +1,7 @@
 Licenses
 ========
 
-Last update: 2014.05.13
+Last update: 2014.05.16
 
 This file is listing all the files licenses from the point of the fork
 from the Allacrost project.
@@ -254,7 +254,8 @@ img/icons/actors/enemies/green_snake.png                        GPLv2+          
 img/icons/actors/enemies/thing.png                              CC by SA 3.0             From Jetrel (OGA) (From thing enemy)
 img/icons/actors/enemies/yeti.png                               CC by SA 3.0             From Jetrel (OGA) (From yeti enemy)
 img/icons/actors/enemies/fenrir.png                             CC by SA 3.0             Icon from Bertram, image from Patrick Thompson (PK Illustration) - http://opengameart.org/content/fenrir-wolf-sprite-injuries
-img/icons/actors/enemies/shroom.png                             CC by SA 3.0             Blarumyrran (OGA), redone on higher res by Bertram - http://opengameart.org/content/blarumyrrans-publicdomain-wesnoth-sprites
+img/icons/actors/enemies/shroom.png                             CC by SA 3.0             Blarumyrran (OGA), redone on higher res by Bertram - http://opengameart.org/content/blarumyrrans-publicdomain-wesnoth-sprites*
+img/icons/actors/enemies/dorver.png                             CC by SA 3,0             Manrevu (OGA) - Based on the dorver sprite - http://opengameart.org/content/dorver-monster
 
 img/icons/battle/default_weapon.png                             GPLv2+                   Allacrost
 img/icons/battle/default_special.png                            CC by SA 3.0             Bertram
@@ -519,6 +520,7 @@ img/sprites/battle/effects/sword_slash.png                      GPLv3 / CC by SA
 
 img/sprites/battle/enemies/big_slime.png                        GPLv2+                   Bertram (based on the slime sprite)
 img/sprites/battle/enemies/dark_soldier.png                     GPLv3                    Kirill777 (OGA) - http://opengameart.org/content/soldier-0
+img/sprites/battle/enemies/dorver.png                           CC by SA 3,0             Manrevu (OGA) - http://opengameart.org/content/dorver-monster
 img/sprites/battle/enemies/green_snake.png                      GPLv2+                   Allacrost (From snake enemy)
 img/sprites/battle/enemies/harlequin.png                        CC by 3.0                Redshrike (OGA) - http://opengameart.org/content/3-form-rpg-boss-harlequin-epicycle
 img/sprites/battle/enemies/mushroom_zombie.png                  CC by SA 3.0             Redshrike (OGA)
@@ -628,6 +630,7 @@ img/sprites/map/objects/chair1_north.png                        CC by SA 3.0    
 img/sprites/map/objects/chair2.png                              GPLv2+                   Allacrost
 img/sprites/map/objects/clock1.png                              GPLv2+                   Allacrost
 img/sprites/map/objects/dog1.png                                GPLv2+                   Nami97 (The Mana World - http://forums.themanaworld.org/viewtopic.php?f=8&t=16156)
+img/sprites/map/objects/dorver1.png                             CC by SA 3,0             Manrevu (OGA) - Based on the dorver sprite - http://opengameart.org/content/dorver-monster
 img/sprites/map/objects/door_big1.png                           GPLv3, CC by SA 3.0      Daniel Armstrong (HughSpectrum) (OGA), rearranged in 2x ratio by Bertram - http://opengameart.org/content/lpc-animated-castle-doors
 img/sprites/map/objects/flame1.png                              GPLv3, CC by 3.0         Sharm, William. Thompsonj (OGA) - http://opengameart.org/content/lpc-flames
 img/sprites/map/objects/flower_pot1.png                         GPLv2+                   Allacrost
