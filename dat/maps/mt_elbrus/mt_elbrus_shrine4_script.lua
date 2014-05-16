@@ -101,12 +101,18 @@ local spike_trigger1 = nil;
 local spike_trigger2 = nil;
 local spike_trigger3 = nil;
 
+local mini_boss = nil;
+
 function _CreateObjects()
     local object = {}
     local npc = {}
     local dialogue = {}
     local text = {}
     local event = {}
+
+    object = CreateTreasure(Map, "mt_shrine4_chest1", "Wood_Chest3", 6, 43);
+    object:AddObject(1001, 1); -- Minor Elixir
+    Map:AddGroundObject(object);
 
     _add_flame(61.5, 29);
 
@@ -220,7 +226,7 @@ function _CreateObjects()
                              "img/sprites/map/triggers/stone_trigger1_on.lua",
                              "", "Push trigger 1");
     spike_trigger1:SetObjectID(Map.object_supervisor:GenerateObjectID());
-    spike_trigger1:SetPosition(30, 26);
+    spike_trigger1:SetPosition(30, 27);
     Map:AddFlatGroundObject(spike_trigger1);
 
     spike_trigger2 = vt_map.TriggerObject("",
@@ -228,7 +234,7 @@ function _CreateObjects()
                              "img/sprites/map/triggers/stone_trigger1_on.lua",
                              "", "Push trigger 2");
     spike_trigger2:SetObjectID(Map.object_supervisor:GenerateObjectID());
-    spike_trigger2:SetPosition(34, 26);
+    spike_trigger2:SetPosition(34, 27);
     Map:AddFlatGroundObject(spike_trigger2);
 
     spike_trigger3 = vt_map.TriggerObject("",
@@ -236,7 +242,7 @@ function _CreateObjects()
                              "img/sprites/map/triggers/stone_trigger1_on.lua",
                              "", "Push trigger 3");
     spike_trigger3:SetObjectID(Map.object_supervisor:GenerateObjectID());
-    spike_trigger3:SetPosition(38, 26);
+    spike_trigger3:SetPosition(38, 27);
     Map:AddFlatGroundObject(spike_trigger3);
 
     -- Make sure the spike square states are initialized
@@ -255,6 +261,15 @@ function _CreateObjects()
     object:SetObjectID(Map.object_supervisor:GenerateObjectID());
     object:SetPosition(52, 10);
     Map:AddFlatGroundObject(object);
+
+    -- 2nd Mini-boss
+    mini_boss = CreateObject(Map, "Dorver1", 45, 11); --TODO: Turn it left
+    Map:AddGroundObject(mini_boss);
+    if (GlobalManager:GetEventValue("story", "mt_elbrus_shrine_trap_boss_2_done") == 1) then
+        mini_boss:SetPosition(0, 0);
+        mini_boss:SetVisible(false);
+        mini_boss:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
+    end
 
 end
 
@@ -330,11 +345,29 @@ function _CreateEvents()
 
     event = vt_map.ScriptedEvent("Trap map open event end", "trap_map_end", "");
     EventManager:RegisterEvent(event);
+
+    -- Mini boss event
+    event = vt_map.ScriptedEvent("Mini-Boss fight", "mini_boss_start", "");
+    event:AddEventLinkAtEnd("Mini-boss fight battle start");
+    EventManager:RegisterEvent(event);
+
+    event = vt_map.BattleEncounterEvent("Mini-boss fight battle start");
+    event:SetMusic("mus/accion-OGA-djsaryon.ogg");
+    event:SetBackground("img/backdrops/battle/mountain_shrine.png");
+    event:AddScript("dat/battles/mountain_shrine_battle_anim.lua");
+    event:SetBoss(true);
+    event:AddEnemy(20);
+    event:AddEventLinkAtEnd("Mini-boss fight end");
+    EventManager:RegisterEvent(event);
+
+    event = vt_map.ScriptedEvent("Mini-boss fight end", "mini_boss_end", "");
+    EventManager:RegisterEvent(event);
 end
 
 -- zones
 local to_shrine_main_room_zone = {};
 local to_shrine_treasure_room_zone = {};
+local mini_boss_zone = {};
 
 -- Create the different map zones triggering events
 function _CreateZones()
@@ -343,6 +376,9 @@ function _CreateZones()
     to_shrine_main_room_zone = vt_map.CameraZone(62, 64, 32, 36);
     Map:AddZone(to_shrine_main_room_zone);
 
+    mini_boss_zone = vt_map.CameraZone(40, 42, 6, 11);
+    Map:AddZone(mini_boss_zone);
+
 end
 
 -- Check whether the active camera has entered a zone. To be called within Update()
@@ -350,6 +386,10 @@ function _CheckZones()
     if (to_shrine_main_room_zone:IsCameraEntering() == true) then
         hero:SetDirection(vt_map.MapMode.EAST);
         EventManager:StartEvent("to mountain shrine main room");
+    elseif (mini_boss_zone:IsCameraEntering() == true) then
+        if (GlobalManager:GetEventValue("story", "mt_elbrus_shrine_trap_boss_2_done") == 0) then
+            EventManager:StartEvent("Mini-Boss fight");
+        end
     end
 
 end
@@ -458,5 +498,19 @@ map_functions = {
 
     trap_map_end = function()
         Map:PopState();
+    end,
+
+    mini_boss_start = function()
+        Map:PushState(vt_map.MapMode.STATE_SCENE);
+    end,
+    
+    mini_boss_end = function()
+        Map:PopState();
+        GlobalManager:SetEventValue("story", "mt_elbrus_shrine_trap_boss_2_done", 1)
+
+        mini_boss:SetPosition(0, 0);
+        mini_boss:SetVisible(false);
+        mini_boss:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
+        mini_boss:ClearEventWhenTalking();
     end,
 }
