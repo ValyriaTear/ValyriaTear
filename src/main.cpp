@@ -207,14 +207,13 @@ bool LoadSettings()
             << settings.GetFilename() << std::endl
             << settings.GetErrorMessages() << std::endl
             << "Setting game options values to defaults..." << std::endl;
-        // The default value is the old hardcoded one.
-        SystemManager->SetMessageSpeed(30);
+        SystemManager->SetMessageSpeed(DEFAULT_MESSAGE_SPEED);
     }
     else {
         float message_speed = settings.ReadFloat("message_speed");
         if (message_speed < 1.0f) {
             PRINT_WARNING << "Invalid message_speed option value. Reverting to default one." << std::endl;
-            message_speed = 30.0f;
+            message_speed = DEFAULT_MESSAGE_SPEED;
         }
         SystemManager->SetMessageSpeed(message_speed);
         settings.CloseTable(); // video_settings

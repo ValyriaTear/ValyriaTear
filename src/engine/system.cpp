@@ -24,6 +24,8 @@
 #include "utils/utils_strings.h"
 #include "utils/utils_files.h"
 
+#include "common/gui/textbox.h"
+
 #include "mode_manager.h"
 
 using namespace vt_utils;
@@ -283,11 +285,18 @@ void SystemTimer::_UpdateTimer(uint32 time)
 // SystemEngine Class
 // -----------------------------------------------------------------------------
 
-SystemEngine::SystemEngine()
+SystemEngine::SystemEngine():
+    _last_update(0),
+    _update_time(1), // Set to 1 to avoid hanging the system.
+    _hours_played(0),
+    _minutes_played(0),
+    _seconds_played(0),
+    _milliseconds_played(0),
+    _not_done(true),
+    _message_speed(vt_gui::DEFAULT_MESSAGE_SPEED)
 {
     IF_PRINT_DEBUG(SYSTEM_DEBUG) << "constructor invoked" << std::endl;
 
-    _not_done = true;
     SetLanguage("en@quot"); // Default language is English
     _language = "en@quot"; // In case no files were found.
 }

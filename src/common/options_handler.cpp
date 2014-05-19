@@ -1034,7 +1034,10 @@ bool GameOptionsMenuHandler::_SaveSettingsFile(const std::string& filename)
     settings_lua.InsertNewLine();
     settings_lua.WriteComment("--Game settings--");
     settings_lua.BeginTable("game_options");
-    settings_lua.WriteComment("Speed of text displayed in dialogues (in characters per seconds) [1-N] (Default: 30)");
+    std::stringstream speed_text("");
+    speed_text << "Speed of text displayed in dialogues (in characters per seconds) [1-N] (Default: "
+               << vt_gui::DEFAULT_MESSAGE_SPEED << ")";
+    settings_lua.WriteComment(speed_text.str());
     settings_lua.WriteInt("message_speed", SystemManager->GetMessageSpeed());
     settings_lua.EndTable(); // game_options
 

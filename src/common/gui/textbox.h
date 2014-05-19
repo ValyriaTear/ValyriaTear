@@ -30,6 +30,9 @@
 namespace vt_gui
 {
 
+//! \brief The default speed at which the text will appear, for non-instant text, in character/second.
+const float DEFAULT_MESSAGE_SPEED = 45.0f;
+
 namespace private_gui
 {
 
