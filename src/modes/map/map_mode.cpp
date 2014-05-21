@@ -587,8 +587,11 @@ void MapMode::ApplyPotentialStaminaMalus()
     std::vector<GlobalCharacter*>* characters = GlobalManager->GetOrderedCharacters();
     // We only apply the effect on characters that will be present in battle
     for (uint32 i = 0; i < characters->size() && i < GLOBAL_MAX_PARTY_SIZE; ++i) {
-        _status_effect_supervisor.ChangeActiveStatusEffect(characters->at(i), GLOBAL_STATUS_AGILITY,
-                                                            intensity, STAMINA_FULL * 2, 0, false);
+        // Apply the effect only on living characters.
+        if (characters->at(i)->IsAlive()) {
+            _status_effect_supervisor.ChangeActiveStatusEffect(characters->at(i), GLOBAL_STATUS_AGILITY,
+                                                               intensity, STAMINA_FULL * 2, 0, false);
+        }
     }
 }
 
