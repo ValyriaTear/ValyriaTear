@@ -54,7 +54,7 @@ function Load(m)
     -- Preload sounds
     AudioManager:LoadSound("snd/stone_roll.wav", Map);
     AudioManager:LoadSound("snd/opening_sword_unsheathe.wav", Map);
-
+    AudioManager:LoadSound("snd/battle_encounter_03.ogg", Map);
 end
 
 -- the map update function handles checks done on each game tick.
@@ -82,6 +82,8 @@ end
 local fence1 = {};
 local fence2 = {};
 local spikes = {};
+
+local spike_wall = nil;
 
 function _CreateObjects()
     local object = {}
@@ -111,6 +113,18 @@ function _CreateObjects()
             spike:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
         end
     end
+
+    spike_wall = vt_map.PhysicalObject();
+    spike_wall:SetPosition(19.0, 48.0);
+    spike_wall:SetObjectID(Map.object_supervisor:GenerateObjectID());
+    spike_wall:SetCollHalfWidth(15.0);
+    spike_wall:SetCollHeight(5.0);
+    spike_wall:SetImgHalfWidth(15.0);
+    spike_wall:SetImgHeight(5.0);
+    spike_wall:AddStillFrame("dat/maps/mt_elbrus/spike_wall.png");
+    spike_wall:SetVisible(false);
+    spike_wall:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
+    Map:AddGroundObject(spike_wall);
 end
 
 function _add_flame(x, y)
@@ -147,6 +161,12 @@ function _CreateEvents()
 
     event = vt_map.ScriptedEvent("Start trap end", "end_trap_start", "end_trap_update");
     EventManager:RegisterEvent(event);
+
+    event = vt_map.ScriptedEvent("Make spike wall go up", "spike_wall_start", "spike_wall_update");
+    EventManager:RegisterEvent(event);
+    event = vt_map.ScriptedEvent("Make spike wall go down", "spike_wall_down_start", "spike_wall_down_update");
+    event:AddEventLinkAtEnd("Start trap end");
+    EventManager:RegisterEvent(event);
 end
 
 -- Tells which is the latest monster group the party has defeated.
@@ -164,7 +184,7 @@ end
 function _CreateEnemiesZones()
     local enemy = nil;
 
-    roam_zones[1] = vt_map.EnemyZone(10, 32, 19, 42);
+    roam_zones[1] = vt_map.EnemyZone(10, 32, 15, 19);
     enemy = CreateEnemySprite(Map, "slime");
     _SetBattleEnvironment(enemy);
     enemy:NewEnemyParty();
@@ -180,7 +200,7 @@ function _CreateEnemiesZones()
     
     --roam_zones[1]:SetEnabled(false); -- Not disabled since it's the first one.
 
-    roam_zones[2] = vt_map.EnemyZone(10, 32, 19, 42);
+    roam_zones[2] = vt_map.EnemyZone(10, 32, 15, 19);
     enemy = CreateEnemySprite(Map, "spider");
     _SetBattleEnvironment(enemy);
     enemy:NewEnemyParty();
@@ -195,7 +215,7 @@ function _CreateEnemiesZones()
     Map:AddZone(roam_zones[2]);
     roam_zones[2]:SetEnabled(false); -- Disabled per default
 
-    roam_zones[3] = vt_map.EnemyZone(10, 32, 19, 42);
+    roam_zones[3] = vt_map.EnemyZone(10, 32, 15, 19);
     -- Some bats
     enemy = CreateEnemySprite(Map, "bat");
     _SetBattleEnvironment(enemy);
@@ -210,7 +230,7 @@ function _CreateEnemiesZones()
     Map:AddZone(roam_zones[3]);
     roam_zones[3]:SetEnabled(false); -- Disabled per default
 
-    roam_zones[4] = vt_map.EnemyZone(10, 32, 19, 42);
+    roam_zones[4] = vt_map.EnemyZone(10, 32, 15, 19);
     enemy = CreateEnemySprite(Map, "snake");
     _SetBattleEnvironment(enemy);
     enemy:NewEnemyParty();
@@ -227,18 +247,19 @@ function _CreateEnemiesZones()
     Map:AddZone(roam_zones[4]);
     roam_zones[4]:SetEnabled(false); -- Disabled per default    
     
-    roam_zones[5] = vt_map.EnemyZone(10, 32, 19, 42);
+    roam_zones[5] = vt_map.EnemyZone(10, 32, 15, 19);
     enemy = CreateEnemySprite(Map, "big slime");
     _SetBattleEnvironment(enemy);
     enemy:NewEnemyParty();
     enemy:AddEnemy(5, 812.0, 350.0);
+    enemy:AddEnemy(5, 612.0, 450.0);
     enemy:SetBoss(true);
     roam_zones[5]:AddEnemy(enemy, Map, 1);
     roam_zones[5]:SetSpawnsLeft(1); -- This monster shall spawn only one time.
     Map:AddZone(roam_zones[5]);
     roam_zones[5]:SetEnabled(false); -- Disabled per default
 
-    roam_zones[6] = vt_map.EnemyZone(10, 32, 19, 42);
+    roam_zones[6] = vt_map.EnemyZone(10, 32, 15, 19);
     enemy = CreateEnemySprite(Map, "Eyeball");
     _SetBattleEnvironment(enemy);
     enemy:NewEnemyParty();
@@ -253,7 +274,7 @@ function _CreateEnemiesZones()
     Map:AddZone(roam_zones[6]);
     roam_zones[6]:SetEnabled(false); -- Disabled per default
 
-    roam_zones[7] = vt_map.EnemyZone(10, 32, 19, 42);
+    roam_zones[7] = vt_map.EnemyZone(10, 32, 15, 19);
     enemy = CreateEnemySprite(Map, "Beetle");
     _SetBattleEnvironment(enemy);
     enemy:NewEnemyParty();
@@ -270,7 +291,7 @@ function _CreateEnemiesZones()
     Map:AddZone(roam_zones[7]);
     roam_zones[7]:SetEnabled(false); -- Disabled per default
 
-    roam_zones[8] = vt_map.EnemyZone(10, 32, 19, 42);
+    roam_zones[8] = vt_map.EnemyZone(10, 32, 15, 19);
     enemy = CreateEnemySprite(Map, "Skeleton");
     _SetBattleEnvironment(enemy);
     enemy:NewEnemyParty();
@@ -288,7 +309,7 @@ function _CreateEnemiesZones()
     Map:AddZone(roam_zones[8]);
     roam_zones[8]:SetEnabled(false); -- Disabled per default
 
-    roam_zones[9] = vt_map.EnemyZone(10, 32, 19, 42);
+    roam_zones[9] = vt_map.EnemyZone(10, 32, 15, 19);
     enemy = CreateEnemySprite(Map, "Skeleton");
     _SetBattleEnvironment(enemy);
     enemy:NewEnemyParty();
@@ -333,8 +354,10 @@ function _CheckEnemiesState()
         -- Won!!
         -- Deactivate trap check
         monsters_started = false;
-        EventManager:StartEvent("Start trap end");
-        
+
+        -- Stop the death wall
+        EventManager:TerminateEvents("Make spike wall go up", false);
+        EventManager:StartEvent("Make spike wall go down");
         return;
     end
 end
@@ -359,6 +382,7 @@ function _CreateZones()
 end
 
 local trap_started = false;
+local caught_by_trap = false;
 
 -- Check whether the active camera has entered a zone. To be called within Update()
 function _CheckZones()
@@ -377,6 +401,44 @@ function _CheckZones()
     elseif (trap_started == false and trap_zone:IsCameraEntering() == true) then
         if (GlobalManager:GetEventValue("story", "mt_shrine_treasure_trap_done") == 0) then
             EventManager:StartEvent("Start trap");
+            EventManager:StartEvent("Make spike wall go up", 2000);
+        end
+    end
+
+    -- Check whether the hero is dead because of trap.
+    if (caught_by_trap == true and Map:CurrentState() == vt_map.MapMode.STATE_EXPLORE) then
+        Map:PushState(vt_map.MapMode.STATE_SCENE);
+        hero:SetCustomAnimation("hurt", 0);
+        hero:SetMoving(false);
+        -- Trigger party damage.
+        local hp_change = math.random(40, 60);
+        _TriggerPartyDamage(hp_change);
+
+        EventManager:StartEvent("to mountain shrine main room");
+        AudioManager:PlaySound("snd/battle_encounter_03.ogg");
+    end
+end
+
+-- Trigger damages on the characters present on the battle front.
+function _TriggerPartyDamage(damage)
+    -- Adds an effect on map
+    local x_pos = Map:GetScreenXCoordinate(hero:GetXPosition());
+    local y_pos = Map:GetScreenYCoordinate(hero:GetYPosition());
+    local map_indicator = Map:GetIndicatorSupervisor();
+    map_indicator:AddDamageIndicator(x_pos, y_pos, damage, vt_video.TextStyle("text22", vt_video.Color(1.0, 0.0, 0.0, 0.9)), true);
+
+    local index = 0;
+    for index = 0, 3 do
+        local char = GlobalManager:GetCharacter(index);
+        if (char ~= nil) then
+            -- Do not kill characters. though
+            local hp_damage = damage;
+            if (hp_damage >= char:GetHitPoints()) then
+                hp_damage = char:GetHitPoints() - 1;
+            end
+            if (hp_damage > 0) then
+                char:SubtractHitPoints(hp_damage);
+            end
         end
     end
 end
@@ -487,8 +549,6 @@ map_functions = {
             return false;
         end
 
-        -- Set event as done
-        GlobalManager:SetEventValue("story", "mt_shrine_treasure_trap_done", 1);
         -- Remove spikes
         AudioManager:PlaySound("snd/opening_sword_unsheathe.wav");
         for my_index, spike in pairs(spikes) do
@@ -496,6 +556,66 @@ map_functions = {
             spike:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
         end
 
+        return true;
+    end,
+
+    spike_wall_start = function()
+        spike_wall:SetPosition(19, 50);
+        spike_wall:SetVisible(true);
+        spike_wall:SetCollisionMask(vt_map.MapMode.ALL_COLLISION);
+        caught_by_trap = false;
+
+        -- Start the tremor
+        Map:GetEffectSupervisor():ShakeScreen(0.6, 0, vt_mode_manager.EffectSupervisor.SHAKE_FALLOFF_NONE); -- 0 means infinite time.
+        -- TODO: Play an environmental sound of continuous tremor, following the wall...
+    end,
+    
+    spike_wall_update = function()
+        local update_time = SystemManager:GetUpdateTime();
+        local spike_y = spike_wall:GetYPosition();
+        spike_y = spike_y - 0.0007 * update_time;
+        spike_wall:SetYPosition(spike_y);
+
+        -- TODO: Check collision with props and push them...
+
+        -- Check collision with camera
+        if (spike_wall:IsCollidingWith(hero) == true) then
+            caught_by_trap = true;
+            return true;
+        end
+
+        -- Check collision with camera
+        if (spike_wall:GetYPosition() > 14) then
+            return false;
+        end
+
+        caught_by_trap = true;
+
+        return true;
+    end,
+
+    spike_wall_down_start = function()
+        -- Stops the tremor
+        Map:GetEffectSupervisor():StopShaking();
+
+        -- Set event as done
+        GlobalManager:SetEventValue("story", "mt_shrine_treasure_trap_done", 1);
+    end,
+    
+    spike_wall_down_update = function()
+        local update_time = SystemManager:GetUpdateTime();
+        local spike_y = spike_wall:GetYPosition();
+        spike_y = spike_y + 0.002 * update_time;
+        spike_wall:SetYPosition(spike_y);
+
+        -- Check collision with camera
+        if (spike_wall:GetYPosition() < 50) then
+            return false;
+        end
+
+        spike_wall:SetVisible(false);
+        spike_wall:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
+        
         return true;
     end,
 }
