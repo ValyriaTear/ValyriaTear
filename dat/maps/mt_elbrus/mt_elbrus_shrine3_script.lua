@@ -85,6 +85,14 @@ local spikes = {};
 
 local spike_wall = nil;
 
+-- An array a breaking spikes when the death wall go over them
+local breaking_spikes = {};
+-- An array a bones that are pushed upward by the wall.
+local pushed_bones = {};
+
+-- Jars with treasures that will break once touched by the wall
+local treasure_jars = {};
+
 function _CreateObjects()
     local object = {}
     local npc = {}
@@ -118,13 +126,115 @@ function _CreateObjects()
     spike_wall:SetPosition(19.0, 48.0);
     spike_wall:SetObjectID(Map.object_supervisor:GenerateObjectID());
     spike_wall:SetCollHalfWidth(15.0);
-    spike_wall:SetCollHeight(5.0);
+    spike_wall:SetCollHeight(3.7);
     spike_wall:SetImgHalfWidth(15.0);
     spike_wall:SetImgHeight(5.0);
     spike_wall:AddStillFrame("dat/maps/mt_elbrus/spike_wall.png");
     spike_wall:SetVisible(false);
     spike_wall:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
     Map:AddGroundObject(spike_wall);
+
+    -- Adds breaking spikes
+    local spikes_array = {
+        {27, 39},
+        {27, 37},
+        {27, 35},
+        {27, 33},
+        {27, 31},
+        {27, 29},
+        {27, 27},
+        {29, 27},
+        {31, 27},
+        {33, 27},
+
+        {5, 26},
+        {7, 26},
+        {9, 26},
+        {11, 26},
+        {11, 28},
+        {11, 30},
+        {11, 32},
+        {11, 24},
+        {11, 22},
+
+        {16, 30},
+        {16, 28},
+        {16, 26},
+        {16, 24},
+        {16, 22},
+        {16, 20},
+        {16, 18},
+        {18, 18},
+        {20, 18},
+        {22, 18},
+        {24, 18},
+
+        {25, 23},
+        {27, 23},
+        {29, 23},
+        {31, 23},
+        {33, 23},
+        
+    };
+    
+    for my_index, my_array in pairs(spikes_array) do
+        breaking_spikes[my_index] = CreateObject(Map, "Spikes1", my_array[1], my_array[2]);
+        Map:AddGroundObject(breaking_spikes[my_index]);
+    end
+
+    -- Adds pushed bones
+    local bones_array = {
+        {23, 43},
+        {29, 42},
+        {31, 42.3},
+        {13, 38},
+        {11, 36},
+        {6, 21},
+        {7, 19},
+        {26, 12},
+        {27, 11},
+        {5, 12},
+        {32, 19},
+        {9, 11.2},
+    };
+    
+    for my_index, my_array in pairs(bones_array) do
+        pushed_bones[my_index] = CreateObject(Map, "Bones1", my_array[1], my_array[2]);
+        Map:AddGroundObject(pushed_bones[my_index]);
+    end
+
+    -- Adds a few tempting but treacherous treasures...
+    local jars_array = {
+        -- Treasure name, x, y, item
+        {"Elbrus_Shrine_trap1", 33, 25, 1004}, -- Periwinkle potion (Strength)
+        {"Elbrus_Shrine_trap2", 33, 29, 3001}, -- Copper ore
+        {"Elbrus_Shrine_trap3", 8, 23, 1001}, -- Minor Elixir
+    };
+
+    for my_index, my_array in pairs(jars_array) do
+        treasure_jars[my_index] = CreateTreasure(Map, my_array[1], "Jar1", my_array[2], my_array[3]);
+        treasure_jars[my_index]:AddObject(my_array[4], 1);
+        Map:AddGroundObject(treasure_jars[my_index]);
+    end
+
+    -- If the trap has been deactivated, the treasures aren't there anymore...
+    if (GlobalManager:GetEventValue("story", "mt_shrine_treasure_trap_done") == 1) then
+        for _, my_object in pairs(treasure_jars) do
+            my_object:SetVisible(false);
+            my_object:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
+            my_object:SetPosition(0, 0);
+        end
+    else
+        -- Test whether a treasure has been already taken
+        for _, my_object in pairs(treasure_jars) do
+            if (GlobalManager:DoesEventExist("treasures", my_object:GetTreasureName()) == true) then
+                my_object:SetVisible(false);
+                my_object:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
+                my_object:SetPosition(0, 0);
+            end
+        end
+    end
+
 end
 
 function _add_flame(x, y)
@@ -185,7 +295,7 @@ end
 function _CreateEnemiesZones()
     local enemy = nil;
 
-    roam_zones[1] = vt_map.EnemyZone(10, 32, 15, 19);
+    roam_zones[1] = vt_map.EnemyZone(10, 32, 12, 16);
     enemy = CreateEnemySprite(Map, "slime");
     _SetBattleEnvironment(enemy);
     enemy:NewEnemyParty();
@@ -201,7 +311,7 @@ function _CreateEnemiesZones()
     
     --roam_zones[1]:SetEnabled(false); -- Not disabled since it's the first one.
 
-    roam_zones[2] = vt_map.EnemyZone(10, 32, 15, 19);
+    roam_zones[2] = vt_map.EnemyZone(10, 32, 12, 16);
     enemy = CreateEnemySprite(Map, "spider");
     _SetBattleEnvironment(enemy);
     enemy:NewEnemyParty();
@@ -216,7 +326,7 @@ function _CreateEnemiesZones()
     Map:AddZone(roam_zones[2]);
     roam_zones[2]:SetEnabled(false); -- Disabled per default
 
-    roam_zones[3] = vt_map.EnemyZone(10, 32, 15, 19);
+    roam_zones[3] = vt_map.EnemyZone(10, 32, 12, 16);
     -- Some bats
     enemy = CreateEnemySprite(Map, "bat");
     _SetBattleEnvironment(enemy);
@@ -231,7 +341,7 @@ function _CreateEnemiesZones()
     Map:AddZone(roam_zones[3]);
     roam_zones[3]:SetEnabled(false); -- Disabled per default
 
-    roam_zones[4] = vt_map.EnemyZone(10, 32, 15, 19);
+    roam_zones[4] = vt_map.EnemyZone(10, 32, 12, 16);
     enemy = CreateEnemySprite(Map, "snake");
     _SetBattleEnvironment(enemy);
     enemy:NewEnemyParty();
@@ -248,7 +358,7 @@ function _CreateEnemiesZones()
     Map:AddZone(roam_zones[4]);
     roam_zones[4]:SetEnabled(false); -- Disabled per default    
     
-    roam_zones[5] = vt_map.EnemyZone(10, 32, 15, 19);
+    roam_zones[5] = vt_map.EnemyZone(10, 32, 12, 16);
     enemy = CreateEnemySprite(Map, "big slime");
     _SetBattleEnvironment(enemy);
     enemy:NewEnemyParty();
@@ -260,7 +370,7 @@ function _CreateEnemiesZones()
     Map:AddZone(roam_zones[5]);
     roam_zones[5]:SetEnabled(false); -- Disabled per default
 
-    roam_zones[6] = vt_map.EnemyZone(10, 32, 15, 19);
+    roam_zones[6] = vt_map.EnemyZone(10, 32, 12, 16);
     enemy = CreateEnemySprite(Map, "Eyeball");
     _SetBattleEnvironment(enemy);
     enemy:NewEnemyParty();
@@ -275,7 +385,7 @@ function _CreateEnemiesZones()
     Map:AddZone(roam_zones[6]);
     roam_zones[6]:SetEnabled(false); -- Disabled per default
 
-    roam_zones[7] = vt_map.EnemyZone(10, 32, 15, 19);
+    roam_zones[7] = vt_map.EnemyZone(10, 32, 12, 16);
     enemy = CreateEnemySprite(Map, "Beetle");
     _SetBattleEnvironment(enemy);
     enemy:NewEnemyParty();
@@ -292,7 +402,7 @@ function _CreateEnemiesZones()
     Map:AddZone(roam_zones[7]);
     roam_zones[7]:SetEnabled(false); -- Disabled per default
 
-    roam_zones[8] = vt_map.EnemyZone(10, 32, 15, 19);
+    roam_zones[8] = vt_map.EnemyZone(10, 32, 12, 16);
     enemy = CreateEnemySprite(Map, "Skeleton");
     _SetBattleEnvironment(enemy);
     enemy:NewEnemyParty();
@@ -310,7 +420,7 @@ function _CreateEnemiesZones()
     Map:AddZone(roam_zones[8]);
     roam_zones[8]:SetEnabled(false); -- Disabled per default
 
-    roam_zones[9] = vt_map.EnemyZone(10, 32, 15, 19);
+    roam_zones[9] = vt_map.EnemyZone(10, 32, 12, 16);
     enemy = CreateEnemySprite(Map, "Skeleton");
     _SetBattleEnvironment(enemy);
     enemy:NewEnemyParty();
@@ -402,6 +512,7 @@ function _CheckZones()
     elseif (trap_started == false and trap_zone:IsCameraEntering() == true) then
         if (GlobalManager:GetEventValue("story", "mt_shrine_treasure_trap_done") == 0) then
             EventManager:StartEvent("Start trap");
+            AudioManager:FadeOutAllMusic(1500);
             EventManager:StartEvent("Make spike wall go up", 2000);
         end
     end
@@ -574,10 +685,46 @@ map_functions = {
     spike_wall_update = function()
         local update_time = SystemManager:GetUpdateTime();
         local spike_y = spike_wall:GetYPosition();
-        spike_y = spike_y - 0.0007 * update_time;
+        local movement_diff = 0.0007 * update_time;
+        spike_y = spike_y - movement_diff;
         spike_wall:SetYPosition(spike_y);
 
-        -- TODO: Check collision with props and push them...
+        -- Break spikes along the way up
+        local one_thing_broke = false;
+        for _, my_object in pairs(breaking_spikes) do
+            if (spike_wall:IsCollidingWith(my_object) == true) then
+                -- Add broken spikes map object there
+                local broken_spike = CreateObject(Map, "Spikes_broken1", my_object:GetXPosition(), my_object:GetYPosition());
+                broken_spike:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
+                Map:AddFlatGroundObject(broken_spike);
+
+                my_object:SetVisible(false);
+                my_object:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
+                one_thing_broke = true;
+            end
+        end
+
+        -- Push bones along the way up
+        for _, my_object in pairs(pushed_bones) do
+            if (spike_wall:IsCollidingWith(my_object) == true) then
+                my_object:SetYPosition(my_object:GetYPosition() - movement_diff);
+            end
+        end
+
+        -- Break treasure jars
+        for _, my_object in pairs(treasure_jars) do
+            if (spike_wall:IsCollidingWith(my_object) == true) then
+                my_object:SetVisible(false);
+                my_object:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
+                my_object:SetPosition(0, 0);
+                one_thing_broke = true;
+            end
+        end
+
+        -- Play the shatter sound if at least one thing broke
+        if (one_thing_broke == true) then
+            AudioManager:PlaySound("snd/magic_blast.ogg");
+        end
 
         -- Check collision with camera
         if (spike_wall:IsCollidingWith(hero) == true) then
