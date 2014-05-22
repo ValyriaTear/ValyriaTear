@@ -179,6 +179,7 @@ function _SetBattleEnvironment(enemy)
     enemy:SetBattleMusicTheme("mus/heroism-OGA-Edward-J-Blakeley.ogg");
     enemy:SetBattleBackground("img/backdrops/battle/mountain_shrine.png");
     enemy:AddBattleScript("dat/battles/mountain_shrine_battle_anim.lua");
+    enemy:AddBattleScript("dat/maps/mt_elbrus/battles_in_trap_map_script.lua");
 end
 
 function _CreateEnemiesZones()
