@@ -267,6 +267,7 @@ void BindModeCode()
             .def("SetDrunes", &TreasureObject::SetDrunes)
             .def("AddObject", &TreasureObject::AddObject)
             .def("AddEvent", &TreasureObject::AddEvent)
+            .def("GetTreasureName", &TreasureObject::GetTreasureName)
         ];
 
         luabind::module(vt_script::ScriptManager->GetGlobalState(), "vt_map")
