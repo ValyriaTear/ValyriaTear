@@ -1,7 +1,7 @@
 Licenses
 ========
 
-Last update: 2014.05.16
+Last update: 2014.05.22
 
 This file is listing all the files licenses from the point of the fork
 from the Allacrost project.
@@ -124,6 +124,7 @@ dat/maps/layna_village/kalya_house_fake_wall.png                GPLv2+          
 dat/maps/mt_elbrus/ancient_sign_big_bright.png                  CC by SA 3.0             Bertram
 dat/maps/mt_elbrus/shrine_entrance_light.png                    CC by SA 3.0             Bertram
 dat/maps/mt_elbrus/fake_wall.png                                CC by SA 3.0, GPLv3      Guido Bos + adaptation from Bertram - http://opengameart.org/content/3rd-entry-some-old-castle-stuff
+dat/maps/mt_elbrus/spike_wall.png                               CC by SA 3.0, GPLv3      Guido Bos + adaptation from Bertram - http://opengameart.org/content/3rd-entry-some-old-castle-stuff
 
 dat/objects/arm_armor.lua                                       GPLv2+                   Allacrost + Bertram
 dat/objects/head_armor.lua                                      GPLv2+                   Allacrost + Bertram
@@ -614,6 +615,7 @@ img/sprites/map/objects/bed2.png                                GPLv2           
 img/sprites/map/objects/bench1.png                              GPLv2+                   Allacrost
 img/sprites/map/objects/bench2.png                              GPLv2+                   Allacrost
 img/sprites/map/objects/box1.png                                GPLv2+                   Allacrost
+img/sprites/map/objects/bones1.png                              CC by SA 3,0             Bertram
 img/sprites/map/objects/bubble.png                              CC by SA 3.0             Julien (OGA) - http://opengameart.org/content/large-bubble-and-some-bubbles-going-out-of-a-ground
 img/sprites/map/objects/bush1.png                               CC by SA 3.0             Zabin (OGA)
 img/sprites/map/objects/bush2.png                               CC by SA 3.0             Zabin (OGA) + Variation from Bertram
@@ -631,6 +633,7 @@ img/sprites/map/objects/chair2.png                              GPLv2+          
 img/sprites/map/objects/clock1.png                              GPLv2+                   Allacrost
 img/sprites/map/objects/dog1.png                                GPLv2+                   Nami97 (The Mana World - http://forums.themanaworld.org/viewtopic.php?f=8&t=16156)
 img/sprites/map/objects/dorver1.png                             CC by SA 3,0             Manrevu (OGA) - Based on the dorver sprite - http://opengameart.org/content/dorver-monster
+img/sprites/map/objects/dorver1_left.png                        CC by SA 3,0             Manrevu (OGA) - Based on the dorver sprite - http://opengameart.org/content/dorver-monster
 img/sprites/map/objects/door_big1.png                           GPLv3, CC by SA 3.0      Daniel Armstrong (HughSpectrum) (OGA), rearranged in 2x ratio by Bertram - http://opengameart.org/content/lpc-animated-castle-doors
 img/sprites/map/objects/flame1.png                              GPLv3, CC by 3.0         Sharm, William. Thompsonj (OGA) - http://opengameart.org/content/lpc-flames
 img/sprites/map/objects/flower_pot1.png                         GPLv2+                   Allacrost

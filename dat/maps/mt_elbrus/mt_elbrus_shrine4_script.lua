@@ -263,7 +263,7 @@ function _CreateObjects()
     Map:AddFlatGroundObject(object);
 
     -- 2nd Mini-boss
-    mini_boss = CreateObject(Map, "Dorver1", 45, 11); --TODO: Turn it left
+    mini_boss = CreateObject(Map, "Dorver1_left", 45, 11);
     Map:AddGroundObject(mini_boss);
     if (GlobalManager:GetEventValue("story", "mt_elbrus_shrine_trap_boss_2_done") == 1) then
         mini_boss:SetPosition(0, 0);
@@ -503,7 +503,7 @@ map_functions = {
     mini_boss_start = function()
         Map:PushState(vt_map.MapMode.STATE_SCENE);
     end,
-    
+
     mini_boss_end = function()
         Map:PopState();
         GlobalManager:SetEventValue("story", "mt_elbrus_shrine_trap_boss_2_done", 1)
