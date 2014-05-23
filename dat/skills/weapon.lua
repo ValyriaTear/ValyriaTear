@@ -735,3 +735,27 @@ skills[1012] = {
         end
     end
 }
+
+skills[1013] = {
+    name = "Dorver Frenzy",
+    sp_required = 10,
+    warmup_time = 2900,
+    cooldown_time = 1000,
+    target_type = vt_global.GameGlobal.GLOBAL_TARGET_SELF,
+
+    BattleExecute = function(user, target) -- target is self, we'll use user...
+        -- Add strength & agility, but decrease defence
+        local effect_duration = user:GetVigor() * 2000;
+        user:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_STRENGTH,
+                                     vt_global.GameGlobal.GLOBAL_INTENSITY_POS_MODERATE,
+                                     effect_duration);
+        user:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_AGILITY,
+                                     vt_global.GameGlobal.GLOBAL_INTENSITY_POS_MODERATE,
+                                     effect_duration);
+        user:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_FORTITUDE,
+                                     vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_MODERATE,
+                                     effect_duration);
+
+        AudioManager:PlaySound("snd/defence1_spell.ogg");
+    end
+}
