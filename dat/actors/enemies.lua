@@ -1085,12 +1085,14 @@ enemies[20] = {
     },
 
     skills = {
-        1006
+        1008, -- Attack
+        1009, -- Attack all
+        1013, -- Frenzy (atk & agility +, but def -)
     },
 
     drop_objects = {
         { 12, 0.05 }, -- Medium moon juice
-        --{ 1004, 0.02 } -- Periwinkle Potion (Strength)
+        { 1004, 0.02 } -- Periwinkle Potion (Strength)
     }
 }
 
