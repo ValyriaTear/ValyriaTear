@@ -1,7 +1,7 @@
 Licenses
 ========
 
-Last update: 2014.05.22
+Last update: 2014.05.23
 
 This file is listing all the files licenses from the point of the fork
 from the Allacrost project.
@@ -781,6 +781,7 @@ snd/lightning.wav                                               CC0             
 snd/meow.wav                                                    CC by 3.0                TheGertz (FreeSound) - hhttp://www.freesound.org/people/TheGertz/sounds/131201/
 snd/new_game.wav                                                GPLv2+                   (Same sound than the opening_sword_fall.wav) file from Allacrost.
 snd/punch.wav                                                   CC0                      Independent.nu (OGA) - http://opengameart.org/content/37-hitspunches
+snd/rumble_continuous.ogg                                       GPLv2+                   Allacrost, adapted by Bertram
 snd/save_point_activated_dokashiteru_oga.wav                    CC by 3.0 or GPLv2/3     DoKashiteru (OGA)
 snd/save_successful_nick_bowler_oga.wav                         CC by 3.0                Nick Bowler, added by draconx (OGA)
 snd/steam_hisses.ogg                                            CC0                      (Bart) (OGA) - http://opengameart.org/content/steam-release-sounds
