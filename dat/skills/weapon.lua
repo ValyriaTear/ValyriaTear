@@ -653,3 +653,85 @@ skills[1009] = {
         end
     end
 }
+
+skills[1010] = {
+    name = "Rat Poison Bite",
+    sp_required = 5,
+    warmup_time = 900,
+    cooldown_time = 100,
+    target_type = vt_global.GameGlobal.GLOBAL_TARGET_FOE_POINT,
+
+    BattleExecute = function(user, target)
+        local target_actor = target:GetActor();
+
+        if (vt_battle.CalculateStandardEvasion(target) == false) then
+            local effect_duration = user:GetVigor() * 2000;
+            if (effect_duration < 15000) then effect_duration = 15000 end
+            target_actor:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_HP,
+                                                 vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_LESSER,
+                                                 effect_duration);
+
+            -- The damages are applied after the potential effects, so that a potential target death handles the effect removal properly
+            target_actor:RegisterDamage(vt_battle.CalculatePhysicalDamageAdder(user, target, 6), target);
+            AudioManager:PlaySound("snd/skeleton_attack.wav");
+        else
+            target_actor:RegisterMiss(true);
+        end
+    end
+}
+
+skills[1011] = {
+    name = "Skeleton Frenzy Attack",
+    sp_required = 10,
+    warmup_time = 2400,
+    cooldown_time = 500,
+    target_type = vt_global.GameGlobal.GLOBAL_TARGET_ALL_FOES,
+
+    BattleExecute = function(user, target)
+        local index = 0;
+        while true do
+            local target_actor = target:GetPartyActor(index);
+            if (target_actor == nil) then
+                break;
+            end
+
+            if (vt_battle.CalculateStandardEvasion(target_actor) == false) then
+                target_actor:RegisterDamage(vt_battle.CalculatePhysicalDamageAdder(user, target_actor, 25));
+                AudioManager:PlaySound("snd/skeleton_attack.wav");
+            else
+                target_actor:RegisterMiss(true);
+            end
+
+            index = index + 1;
+        end
+    end
+}
+
+skills[1012] = {
+    name = "Beetle Agility stealing Attack",
+    sp_required = 12,
+    warmup_time = 2400,
+    cooldown_time = 500,
+    target_type = vt_global.GameGlobal.GLOBAL_TARGET_FOE,
+
+    BattleExecute = function(user, target)
+        local target_actor = target:GetActor();
+
+        if (vt_battle.CalculateStandardEvasion(target) == false) then
+            local effect_duration = user:GetVigor() * 2000;
+            if (effect_duration < 15000) then effect_duration = 15000 end
+            target_actor:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_AGILITY,
+                                                 vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_MODERATE,
+                                                 effect_duration);
+            user:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_AGILITY,
+                                         vt_global.GameGlobal.GLOBAL_INTENSITY_POS_MODERATE,
+                                         effect_duration);
+
+            -- The damages are applied after the potential effects, so that a potential target death handles the effect removal properly
+            target_actor:RegisterDamage(vt_battle.CalculatePhysicalDamageAdder(user, target, 6), target);
+            AudioManager:PlaySound("snd/spider_attack.wav");
+        else
+            target_actor:RegisterMiss(true);
+        end
+    end
+}
