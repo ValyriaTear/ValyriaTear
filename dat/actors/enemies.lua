@@ -792,7 +792,7 @@ enemies[15] = {
 
     base_stats = {
         hit_points = 100,
-        skill_points = 0,
+        skill_points = 36,
         strength = 30,
         vigor = 25,
         fortitude = 60,
@@ -815,7 +815,8 @@ enemies[15] = {
     },
 
     skills = {
-        1006
+        1006, -- Normal atack
+        1012. -- Agility stealing attack
     },
 
     drop_objects = {
@@ -867,7 +868,8 @@ enemies[16] = {
     },
 
     skills = {
-        1006
+        1006, -- Normal attack
+        1010, -- Poison attack
     },
 
     drop_objects = {
@@ -889,7 +891,7 @@ enemies[17] = {
 
     base_stats = {
         hit_points = 124,
-        skill_points = 10,
+        skill_points = 50,
         strength = 15,
         vigor = 0,
         fortitude = 14,
@@ -912,7 +914,8 @@ enemies[17] = {
     },
 
     skills = {
-        1006
+        1006,  -- Normal attack
+        10100, -- Fire
     },
 
     drop_objects = {
@@ -1018,7 +1021,8 @@ enemies[19] = {
     },
 
     skills = {
-        1006
+        1006, -- Normal attack
+        1011, -- Frenzy attack (all characters)
     },
 
     drop_objects = {
