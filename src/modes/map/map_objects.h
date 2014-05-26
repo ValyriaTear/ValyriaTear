@@ -635,7 +635,7 @@ private:
 class SoundObject : public MapObject
 {
 public:
-    /** \brief An environmental sound objet which sound is played looped and with a volume
+    /** \brief An environmental sound object which sound is played looped and with a volume
     *** computed against the distance of the object with the camera.
     *** \param sound_filename The sound filename to play.
     *** \param x, y The sound map location
@@ -643,7 +643,7 @@ public:
     in map tiles the sound can be heard within.
     *** The sound volume will be compute according that distance.
     **/
-    SoundObject(const std::string &sound_filename, float x, float y, float strength);
+    SoundObject(const std::string& sound_filename, float x, float y, float strength);
 
     ~SoundObject()
     {}
@@ -655,13 +655,29 @@ public:
     void Draw()
     {}
 
+    //! \brief Stop the ambient sound
+    void Stop();
+
+    //! \brief Start the ambient sound
+    void Start();
+
+    //! \brief Tells whether the ambient sound is active
+    bool IsActive() const {
+        return _activated;
+    }
+
 private:
     //! \brief The sound object.
     vt_audio::SoundDescriptor _sound;
-    //! The maximal distance in map tiles the sound can be heard within.
+
+    //! \brief The maximal distance in map tiles the sound can be heard within.
     float _strength;
-    //! The time remaining before next update
+
+    //! \brief The time remaining before next update
     int32 _time_remaining;
+
+    //! \brief Tells whether the sound is activated.
+    bool _activated;
 }; // class SoundObject : public MapObject
 
 /** ****************************************************************************

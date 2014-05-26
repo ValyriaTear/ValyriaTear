@@ -603,8 +603,9 @@ void Light::Draw()
     VideoManager->SetDrawFlags(VIDEO_X_CENTER, VIDEO_Y_BOTTOM, 0);
 }
 
-SoundObject::SoundObject(const std::string &sound_filename, float x, float y, float strength):
-    MapObject()
+SoundObject::SoundObject(const std::string& sound_filename, float x, float y, float strength):
+    MapObject(),
+    _activated(true)
 {
     MapObject::_object_type = SOUND_TYPE;
 
@@ -640,6 +641,9 @@ void SoundObject::Update()
     if (_strength == 0.0f)
         return;
 
+    if (!_activated)
+        return;
+
     // Update the volume only every 100ms
     _time_remaining -= (int32)vt_system::SystemManager->GetUpdateTime();
     if (_time_remaining > 0)
@@ -671,6 +675,26 @@ void SoundObject::Update()
 
     if (_sound.GetState() != AUDIO_STATE_PLAYING)
         _sound.Play();
+}
+
+void SoundObject::Stop()
+{
+    if (!_activated)
+        return;
+
+    _sound.Stop();
+    _activated = false;
+}
+
+void SoundObject::Start()
+{
+    if (_activated)
+        return;
+
+    _activated = true;
+
+    // Restores the sound state
+    Update();
 }
 
 // ----------------------------------------------------------------------------

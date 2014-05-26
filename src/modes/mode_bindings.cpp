@@ -244,6 +244,9 @@ void BindModeCode()
         [
             luabind::class_<SoundObject, MapObject>("SoundObject")
             .def(luabind::constructor<const std::string&, float, float, float>())
+            .def("Stop", &SoundObject::Stop)
+            .def("Start", &SoundObject::Start)
+            .def("IsActive", &SoundObject::IsActive)
         ];
 
         luabind::module(vt_script::ScriptManager->GetGlobalState(), "vt_map")
