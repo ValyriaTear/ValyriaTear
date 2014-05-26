@@ -58,6 +58,7 @@ function Load(m)
     AudioManager:LoadSound("snd/magic_blast.ogg", Map);
     AudioManager:LoadSound("snd/battle_encounter_03.ogg", Map);
     AudioManager:LoadSound("snd/cave-in.ogg", Map);
+    AudioManager:LoadSound("snd/heavy_bump.wav", Map);
 end
 
 -- the map update function handles checks done on each game tick.
@@ -657,7 +658,7 @@ function _UpdateStoneMovement(stone_object, stone_direction)
     -- Check the collision
     if (stone_object:IsColliding(new_pos_x, new_pos_y) == true) then
         stone_object:SetPosition(old_pos_x, old_pos_y);
-        AudioManager:PlaySound("snd/stone_bump.ogg");
+        AudioManager:PlaySound("snd/heavy_bump.wav");
         Effects:ShakeScreen(0.6, 600, vt_mode_manager.EffectSupervisor.SHAKE_FALLOFF_GRADUAL);
         return true;
     end
@@ -735,7 +736,7 @@ map_functions = {
         -- Play a sound when it is hitting the ground
         if (stone_fall_hit_ground == false and stone_fall_x_pos < 24.0) then
             stone_fall_hit_ground = true;
-            AudioManager:PlaySound("snd/stone_bump.ogg");
+            AudioManager:PlaySound("snd/heavy_bump.wav");
             Effects:ShakeScreen(0.6, 600, vt_mode_manager.EffectSupervisor.SHAKE_FALLOFF_GRADUAL);
         end
         local movement_diff = stone_x_force * update_time;
@@ -834,7 +835,7 @@ map_functions = {
     mini_boss_start = function()
         Map:PushState(vt_map.MapMode.STATE_SCENE);
     end,
-    
+
     mini_boss_end = function()
         Map:PopState();
         GlobalManager:SetEventValue("story", "mt_elbrus_shrine_trap_boss_done", 1)
