@@ -84,6 +84,7 @@ local fence2 = {};
 local spikes = {};
 
 local spike_wall = nil;
+local wall_rumble_sound = nil;
 
 -- An array a breaking spikes when the death wall go over them
 local breaking_spikes = {};
@@ -134,6 +135,10 @@ function _CreateObjects()
     spike_wall:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
     Map:AddGroundObject(spike_wall);
 
+    wall_rumble_sound = vt_map.SoundObject("snd/rumble_continuous.ogg", 19.0, 48.0, 20.0);
+    Map:AddAmbientSoundObject(wall_rumble_sound);
+    wall_rumble_sound:Stop();
+
     -- Adds breaking spikes
     local spikes_array = {
         {27, 39},
@@ -174,9 +179,9 @@ function _CreateObjects()
         {29, 23},
         {31, 23},
         {33, 23},
-        
+
     };
-    
+
     for my_index, my_array in pairs(spikes_array) do
         breaking_spikes[my_index] = CreateObject(Map, "Spikes1", my_array[1], my_array[2]);
         Map:AddGroundObject(breaking_spikes[my_index]);
@@ -197,7 +202,7 @@ function _CreateObjects()
         {32, 19},
         {9, 11.2},
     };
-    
+
     for my_index, my_array in pairs(bones_array) do
         pushed_bones[my_index] = CreateObject(Map, "Bones1", my_array[1], my_array[2]);
         Map:AddGroundObject(pushed_bones[my_index]);
@@ -308,7 +313,7 @@ function _CreateEnemiesZones()
     roam_zones[1]:AddEnemy(enemy, Map, 1);
     roam_zones[1]:SetSpawnsLeft(1); -- This monster shall spawn only one time.
     Map:AddZone(roam_zones[1]);
-    
+
     --roam_zones[1]:SetEnabled(false); -- Not disabled since it's the first one.
 
     roam_zones[2] = vt_map.EnemyZone(10, 32, 12, 16);
@@ -356,8 +361,8 @@ function _CreateEnemiesZones()
     roam_zones[4]:AddEnemy(enemy, Map, 1);
     roam_zones[4]:SetSpawnsLeft(1); -- This monster shall spawn only one time.
     Map:AddZone(roam_zones[4]);
-    roam_zones[4]:SetEnabled(false); -- Disabled per default    
-    
+    roam_zones[4]:SetEnabled(false); -- Disabled per default
+
     roam_zones[5] = vt_map.EnemyZone(10, 32, 12, 16);
     enemy = CreateEnemySprite(Map, "big slime");
     _SetBattleEnvironment(enemy);
@@ -455,7 +460,7 @@ function _CheckEnemiesState()
         -- Change the active zone.
         roam_zones[current_monster_id]:SetEnabled(false);
         current_monster_id = current_monster_id + 1;
-    
+
         if (roam_zones[current_monster_id] ~= nil) then
             roam_zones[current_monster_id]:SetEnabled(true);
         end
@@ -578,7 +583,7 @@ map_functions = {
 
     trap_update = function()
         local update_time = SystemManager:GetUpdateTime();
-        
+
         -- Moving vertically first
         if (moving_step == 1) then
             if (fence1_y < 36) then
@@ -626,10 +631,10 @@ map_functions = {
         moving_step = 1;
         AudioManager:PlaySound("snd/stone_roll.wav");
     end,
-    
+
     end_trap_update = function()
         local update_time = SystemManager:GetUpdateTime();
-        
+
         -- Moving horizontally first
         if(moving_step == 1) then
             if (fence1_x < 5) then
@@ -679,15 +684,17 @@ map_functions = {
 
         -- Start the tremor
         Map:GetEffectSupervisor():ShakeScreen(0.6, 0, vt_mode_manager.EffectSupervisor.SHAKE_FALLOFF_NONE); -- 0 means infinite time.
-        -- TODO: Play an environmental sound of continuous tremor, following the wall...
+        wall_rumble_sound:SetPosition(19, 50);
+        wall_rumble_sound:Start();
     end,
-    
+
     spike_wall_update = function()
         local update_time = SystemManager:GetUpdateTime();
         local spike_y = spike_wall:GetYPosition();
         local movement_diff = 0.0007 * update_time;
         spike_y = spike_y - movement_diff;
         spike_wall:SetYPosition(spike_y);
+        wall_rumble_sound:SetYPosition(spike_y);
 
         -- Break spikes along the way up
         local one_thing_broke = false;
@@ -745,11 +752,12 @@ map_functions = {
     spike_wall_down_start = function()
         -- Stops the tremor
         Map:GetEffectSupervisor():StopShaking();
+        wall_rumble_sound:Stop();
 
         -- Set event as done
         GlobalManager:SetEventValue("story", "mt_shrine_treasure_trap_done", 1);
     end,
-    
+
     spike_wall_down_update = function()
         local update_time = SystemManager:GetUpdateTime();
         local spike_y = spike_wall:GetYPosition();
@@ -763,7 +771,7 @@ map_functions = {
 
         spike_wall:SetVisible(false);
         spike_wall:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
-        
+
         return true;
     end,
 }
