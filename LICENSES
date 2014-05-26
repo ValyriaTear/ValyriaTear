@@ -1,7 +1,7 @@
 Licenses
 ========
 
-Last update: 2014.05.23
+Last update: 2014.05.26
 
 This file is listing all the files licenses from the point of the fork
 from the Allacrost project.
@@ -772,6 +772,7 @@ snd/crystal_chime.wav                                           CC by SA 3.0    
 snd/crystal_appearance.ogg                                      CC by SA 3.0 or GPLv3    Mathew Pablo (OGA) - Based on the few first seconds of Solliloquy.
 snd/defence1_spell.ogg                                          CC by SA 3.0             qubodup (OGA) - http://opengameart.org/content/time-magic
 snd/dog_barking.wav                                             CC by 3.0                Brandon Morris (OGA) - http://opengameart.org/content/dog-barking-mono
+snd/falling.ogg                                                 CC by SA 3,0             Bertram
 snd/fire1_spell.ogg                                             CC by 3.0                artisticdude (OGA) - http://opengameart.org/content/fire-evil-spell
 snd/growl1_IFartInUrGeneralDirection_freesound.wav              CC by SA 3.0 or GPLv2+   Sampled by lendrick (http://www.freesound.org/people/lendrick/sounds/77632/) with permission from IFartInUrGeneralDirection
 snd/heartbeat_slow.wav                                          CC0                      (bart) (OGA) - http://opengameart.org/content/heartbeat-sounds

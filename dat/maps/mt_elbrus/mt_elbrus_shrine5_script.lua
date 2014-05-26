@@ -55,6 +55,8 @@ function Load(m)
     AudioManager:LoadSound("snd/opening_sword_unsheathe.wav", Map);
     AudioManager:LoadSound("snd/stone_roll.wav", Map);
     AudioManager:LoadSound("snd/stone_bump.ogg", Map);
+    AudioManager:LoadSound("snd/falling.ogg", Map);
+    AudioManager:LoadSound("snd/bump.wav", Map);
 end
 
 -- the map update function handles checks done on each game tick.
@@ -981,7 +983,7 @@ map_functions = {
                 end
             end
         elseif (orlinn_in_place_to_climb == true) then
-            -- And then, make him climb up the wall.            
+            -- And then, make him climb up the wall.
             -- Climb
             if (orlinn_y_position > 12.0) then
                 orlinn_y_position = orlinn_y_position - 0.005 * update_time;
@@ -1074,6 +1076,7 @@ map_functions = {
     jumping_back_animation_start = function()
         orlinn_y_position = orlinn:GetYPosition();
         kalya:SetDirection(vt_map.MapMode.EAST)
+        AudioManager:PlaySound("snd/falling.ogg");
     end,
 
     jumping_back_animation_update = function()
@@ -1093,6 +1096,7 @@ map_functions = {
     end,
 
     bronann_on_ground_animation = function()
+        AudioManager:PlaySound("snd/bump.wav");
         bronann:SetCustomAnimation("sleeping", 0); -- 0 means forever
     end,
 

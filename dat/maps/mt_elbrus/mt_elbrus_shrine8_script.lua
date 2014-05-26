@@ -53,6 +53,9 @@ function Load(m)
     -- Add a mediumly dark overlay
     Map:GetEffectSupervisor():EnableAmbientOverlay("img/ambient/dark.png", 0.0, 0.0, false);
 
+    -- Preload sounds
+    AudioManager:LoadSound("snd/trigger_on.wav", Map);
+
 end
 
 -- the map update function handles checks done on each game tick.
@@ -99,7 +102,7 @@ function _CreateObjects()
     object = vt_map.TriggerObject("mt elbrus shrine 8 gate 7 trigger",
                              "img/sprites/map/triggers/stone_trigger1_off.lua",
                              "img/sprites/map/triggers/stone_trigger1_on.lua",
-                             "", "");
+                             "", "Trigger on event");
     object:SetObjectID(Map.object_supervisor:GenerateObjectID());
     object:SetPosition(19, 20);
     Map:AddFlatGroundObject(object);
@@ -187,6 +190,9 @@ function _CreateEvents()
                                        "dat/maps/mt_elbrus/mt_elbrus_shrine8_script.lua", GlobalManager:GetPreviousLocation());
     EventManager:RegisterEvent(event);
 
+    event = vt_map.ScriptedEvent("Trigger on event", "trigger_on_sound", "");
+    EventManager:RegisterEvent(event);
+
 end
 
 -- zones
@@ -226,5 +232,9 @@ map_functions = {
 
         -- Restore potential trigger previous state
         GlobalManager:SetEventValue("triggers", "mt elbrus shrine 8 gate 7 trigger", trigger_state);
+    end,
+
+    trigger_on_sound = function()
+        AudioManager:PlaySound("snd/trigger_on.wav");
     end,
 }

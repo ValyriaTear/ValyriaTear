@@ -60,6 +60,9 @@ function Load(m)
 
     -- Start the pusher winds
     EventManager:StartEvent("Start winds");
+
+    -- Preload falling sounds
+    AudioManager:LoadSound("snd/falling.ogg", Map);
 end
 
 -- the map update function handles checks done on each game tick.
@@ -359,7 +362,7 @@ map_functions = {
         wind1_update_time = wind1_update_time + update_time;
         wind2_update_time = wind2_update_time + update_time;
         wind3_update_time = wind3_update_time + update_time;
-        
+
         if (wind1_started == false and wind1_update_time > 6000) then
             wind1_update_time = 0;
             wind_effect1:Start();
@@ -394,7 +397,7 @@ map_functions = {
 
     falling_start = function()
         hero:SetCustomAnimation("frightened_fixed", 0); -- 0 means forever
-        -- TODO: Play falling sound
+        AudioManager:PlaySound("snd/falling.ogg");
     end,
 
     falling_update = function()
