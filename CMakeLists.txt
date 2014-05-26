@@ -59,7 +59,7 @@ ENDIF(NOT DISABLE_TRANSLATIONS)
 # CPack installation part
 If(UNIX)
     # Shortcut desktop file
-    INSTALL(FILES "${CMAKE_CURRENT_SOURCE_DIR}/valyriatear.desktop" DESTINATION share/applications)
+    INSTALL(FILES "${CMAKE_CURRENT_SOURCE_DIR}/valyriatear.desktop" DESTINATION ${CMAKE_INSTALL_PREFIX}/share/applications)
     # data files
     INSTALL(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/dat" DESTINATION ${PKG_DATADIR} FILES_MATCHING PATTERN "*.lua" PATTERN "*.png")
     INSTALL(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/img" DESTINATION ${PKG_DATADIR} FILES_MATCHING PATTERN "*.lua" PATTERN "*.png" PATTERN "*.ttf")
@@ -68,6 +68,9 @@ If(UNIX)
     # icon file
     INSTALL(FILES "${CMAKE_CURRENT_SOURCE_DIR}/img/logos/program_icon_48x48.png"
             DESTINATION ${CMAKE_INSTALL_PREFIX}/share/icons/hicolor/48x48/apps RENAME valyriatear.png)
+    # KDE/Gnome app center app data
+    INSTALL(FILES "${CMAKE_CURRENT_SOURCE_DIR}/valyriatear.appdata.xml"
+            DESTINATION ${CMAKE_INSTALL_PREFIX}/share/appdata)
 ENDIF()
 
 SET(CPACK_PACKAGE_NAME "valyriatear")
