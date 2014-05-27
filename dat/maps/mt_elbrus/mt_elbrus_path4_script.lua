@@ -94,6 +94,7 @@ function Load(m)
     AudioManager:LoadSound("snd/sword_swipe.wav", Map);
     AudioManager:LoadSound("snd/footstep_grass2.wav", Map);
     AudioManager:LoadSound("snd/heavy_bump.wav", Map);
+    AudioManager:LoadMusic("mus/Zander Noriega - School of Quirks.ogg", Map);
 end
 
 -- the map update function handles checks done on each game tick.
@@ -481,10 +482,14 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
 
     event = vt_map.ScriptedEvent("Set focus on Bronann2", "set_focus_on_bronann", "set_focus_update")
+    event:AddEventLinkAtEnd("Play funny music");
     event:AddEventLinkAtEnd("The party relaxes 2");
     event:AddEventLinkAtEnd("The hero laughs");
     event:AddEventLinkAtEnd("Kalya laughs");
     event:AddEventLinkAtEnd("Orlinn laughs");
+    EventManager:RegisterEvent(event);
+
+    event = vt_map.ScriptedEvent("Play funny music", "play_funny_music", "");
     EventManager:RegisterEvent(event);
 
     event = vt_map.AnimateSpriteEvent("The hero laughs", hero, "laughing", 0); -- 0 = infinite time.
@@ -788,6 +793,10 @@ map_functions = {
         end
     end,
 
+    play_funny_music = function()
+        AudioManager:PlayMusic("mus/Zander Noriega - School of Quirks.ogg");
+    end,
+
     stop_party_animation = function(sprite)
         -- Stops the laughing animation in that particular case
         EventManager:TerminateAllEvents(hero);
@@ -809,6 +818,9 @@ map_functions = {
 
         -- Actually block the player's bridge access.
         blocking_bridge:SetCollisionMask(vt_map.MapMode.WALL_COLLISION);
+
+        -- Fade in the default music
+        AudioManager:PlayMusic("snd/wind.ogg");
 
         -- Set event as done
         GlobalManager:SetEventValue("story", "mt_elbrus_bridge_cut_event", 1);
