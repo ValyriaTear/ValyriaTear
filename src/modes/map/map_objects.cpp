@@ -666,7 +666,7 @@ void SoundObject::Update()
     //distance = sqrtf(_distance); <-- We dont actually need it as it is slow.
 
     if (distance >= (_strength * _strength)) {
-        _sound.Stop();
+        _sound.FadeOut(1000);
         return;
     }
 
@@ -674,7 +674,7 @@ void SoundObject::Update()
     _sound.SetVolume(volume);
 
     if (_sound.GetState() != AUDIO_STATE_PLAYING)
-        _sound.Play();
+        _sound.FadeIn(1000);
 }
 
 void SoundObject::Stop()
@@ -682,7 +682,7 @@ void SoundObject::Stop()
     if (!_activated)
         return;
 
-    _sound.Stop();
+    _sound.FadeOut(1000);
     _activated = false;
 }
 
