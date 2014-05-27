@@ -93,6 +93,10 @@ local wind_effect1 = {}
 local wind_effect2 = {}
 local wind_effect3 = {}
 
+local wind_sound1 = nil;
+local wind_sound2 = nil;
+local wind_sound3 = nil;
+
 function _CreateObjects()
     local object = {}
     local npc = {}
@@ -222,6 +226,18 @@ function _CreateObjects()
     wind_effect3:SetObjectID(Map.object_supervisor:GenerateObjectID());
     wind_effect3:Stop(); -- Don't run it at start
     Map:AddGroundObject(wind_effect3);
+
+    wind_sound1 = vt_map.SoundObject("snd/mountain_wind.ogg", 34.0, 68.0, 15.0);
+    Map:AddAmbientSoundObject(wind_sound1);
+    wind_sound1:Stop();
+
+    wind_sound2 = vt_map.SoundObject("snd/mountain_wind.ogg", 46.0, 47.0, 15.0);
+    Map:AddAmbientSoundObject(wind_sound2);
+    wind_sound2:Stop();
+
+    wind_sound3 = vt_map.SoundObject("snd/mountain_wind.ogg", 87.0, 19.0, 15.0);
+    Map:AddAmbientSoundObject(wind_sound3);
+    wind_sound3:Stop();
 end
 
 -- Creates all events and sets up the entire event sequence chain
@@ -366,19 +382,23 @@ map_functions = {
         if (wind1_started == false and wind1_update_time > 6000) then
             wind1_update_time = 0;
             wind_effect1:Start();
+            wind_sound1:Start();
             wind1_started = true;
         elseif (wind1_started == true and wind1_update_time > 4500) then
             wind1_update_time = 0;
             wind_effect1:Stop();
+            wind_sound1:Stop();
             wind1_started = false;
         end
 
         if (wind2_started == false and wind2_update_time > 5000) then
             wind2_update_time = 0;
+            wind_sound2:Start();
             wind_effect2:Start();
             wind2_started = true;
         elseif (wind2_started == true and wind2_update_time > 4500) then
             wind2_update_time = 0;
+            wind_sound2:Stop();
             wind_effect2:Stop();
             wind2_started = false;
         end
@@ -386,10 +406,12 @@ map_functions = {
         if (wind3_started == false and wind3_update_time > 3000) then
             wind3_update_time = 0;
             wind_effect3:Start();
+            wind_sound3:Start();
             wind3_started = true;
         elseif (wind3_started == true and wind3_update_time > 4500) then
             wind3_update_time = 0;
             wind_effect3:Stop();
+            wind_sound3:Stop();
             wind3_started = false;
         end
         return false;
