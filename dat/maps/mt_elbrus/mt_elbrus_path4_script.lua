@@ -93,6 +93,7 @@ function Load(m)
     -- Preloads certain sounds
     AudioManager:LoadSound("snd/sword_swipe.wav", Map);
     AudioManager:LoadSound("snd/footstep_grass2.wav", Map);
+    AudioManager:LoadSound("snd/heavy_bump.wav", Map);
 end
 
 -- the map update function handles checks done on each game tick.
@@ -821,10 +822,10 @@ map_functions = {
         hero:SetPosition(45.0, 2.0);
         hero:SetCustomAnimation("frightened_fixed", 0); -- 0 means forever
     end,
-    
+
     fall_event_update = function()
         if (hero:GetYPosition() >= 6.0) then
-            -- TODO: fall bump sound
+            AudioManager:PlaySound("snd/heavy_bump.wav");
             Effects:ShakeScreen(0.6, 600, vt_mode_manager.EffectSupervisor.SHAKE_FALLOFF_GRADUAL);
             hero:SetCustomAnimation("hurt", 800);
             _TriggerPartyDamage(math.random(25, 40));
