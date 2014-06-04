@@ -84,6 +84,10 @@ function _CreateCharacters()
     elseif (GlobalManager:GetPreviousLocation() == "from_shrine_2nd_floor_grotto") then
         hero:SetDirection(vt_map.MapMode.EAST);
         hero:SetPosition(13.5, 16.0);
+    elseif (GlobalManager:GetPreviousLocation() == "from_shrine_third_floor") then
+        -- TODO: The hero is Orlinn
+        hero:SetDirection(vt_map.MapMode.SOUTH);
+        hero:SetPosition(37, 8.5);
     end
 
     Map:AddGroundObject(hero);
@@ -162,9 +166,7 @@ function _CreateObjects()
 end
 
 function _add_flame(x, y)
-    local object = vt_map.SoundObject("snd/campfire.ogg", x, y, 5.0);
-    if (object ~= nil) then Map:AddAmbientSoundObject(object) end;
-    object = vt_map.SoundObject("snd/campfire.ogg", x + 18.0, y, 5.0);
+    local object = vt_map.SoundObject("snd/campfire.ogg", x, y, 10.0);
     if (object ~= nil) then Map:AddAmbientSoundObject(object) end;
 
     object = CreateObject(Map, "Flame1", x, y);
@@ -211,6 +213,10 @@ function _CreateEvents()
                                        "dat/maps/mt_elbrus/mt_elbrus_shrine_2nd_s2_script.lua", "from_shrine_stairs");
     EventManager:RegisterEvent(event);
 
+    event = vt_map.MapTransitionEvent("to mountain shrine 3rd floor", "dat/maps/mt_elbrus/mt_elbrus_shrine_3rd_map.lua",
+                                       "dat/maps/mt_elbrus/mt_elbrus_shrine_3rd_script.lua", "from_shrine_stairs");
+    EventManager:RegisterEvent(event);
+
     -- Heal point
     event = vt_map.ScriptedEvent("Heal event", "heal_party", "heal_done");
     EventManager:RegisterEvent(event);
@@ -254,6 +260,7 @@ end
 local to_shrine_1st_floor_zone = {};
 local to_shrine_2nd_floor_zone = {};
 local to_shrine_2nd_floor_grotto_zone = {};
+local to_shrine_3rd_floor_zone = {};
 
 -- Create the different map zones triggering events
 function _CreateZones()
@@ -267,6 +274,9 @@ function _CreateZones()
 
     to_shrine_2nd_floor_grotto_zone = vt_map.CameraZone(9, 12, 14, 17);
     Map:AddZone(to_shrine_2nd_floor_grotto_zone);
+
+    to_shrine_3rd_floor_zone = vt_map.CameraZone(34, 40, 5, 7);
+    Map:AddZone(to_shrine_3rd_floor_zone);
 end
 
 -- Check whether the active camera has entered a zone. To be called within Update()
@@ -280,6 +290,9 @@ function _CheckZones()
     elseif (to_shrine_2nd_floor_grotto_zone:IsCameraEntering() == true) then
         hero:SetDirection(vt_map.MapMode.WEST);
         EventManager:StartEvent("to mountain shrine 2nd floor grotto");
+    elseif (to_shrine_3rd_floor_zone:IsCameraEntering() == true) then
+        hero:SetDirection(vt_map.MapMode.NORTH);
+        EventManager:StartEvent("to mountain shrine 3rd floor");
     end
 end
 
