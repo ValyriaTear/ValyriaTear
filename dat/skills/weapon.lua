@@ -695,7 +695,7 @@ skills[1011] = {
                 break;
             end
 
-            if (vt_battle.CalculateStandardEvasion(target_actor) == false) then
+            if (target_actor:IsAlive() == true and vt_battle.CalculateStandardEvasion(target_actor) == false) then
                 target_actor:RegisterDamage(vt_battle.CalculatePhysicalDamageAdder(user, target_actor, 25));
                 AudioManager:PlaySound("snd/skeleton_attack.wav");
             else
