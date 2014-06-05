@@ -638,7 +638,8 @@ SoundObject::SoundObject(const std::string& sound_filename, float x, float y, fl
 
 void SoundObject::Update()
 {
-    if (_strength == 0.0f)
+    // Don't activate a sound which is too weak to be heard anyway.
+    if (_strength < 1.0f)
         return;
 
     if (!_activated)
@@ -663,18 +664,26 @@ void SoundObject::Update()
 
     float distance = (position.x - center.x) * (position.x - center.x);
     distance += (position.y - center.y) * (position.y - center.y);
-    //distance = sqrtf(_distance); <-- We dont actually need it as it is slow.
+    //distance = sqrtf(_distance); <-- We don't actually need it as it is slow.
 
-    if (distance >= (_strength * _strength)) {
-        _sound.FadeOut(1000);
+    float strength2 = _strength * _strength;
+
+    if (distance >= strength2) {
+        _sound.FadeOut(1000.0f);
         return;
     }
 
-    float volume = 1.0f - (distance / (_strength * _strength));
+    // We add a one-half-tile neutral margin where nothing happens
+    // to avoid the edge case where the sound repeatedly starts/stops
+    // because of the camera position rounding.
+    if (distance >= (strength2 - 0.5f))
+        return;
+
+    float volume = 1.0f - (distance / strength2);
     _sound.SetVolume(volume);
 
     if (_sound.GetState() != AUDIO_STATE_PLAYING)
-        _sound.FadeIn(1000);
+        _sound.FadeIn(1000.0f);
 }
 
 void SoundObject::Stop()
