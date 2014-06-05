@@ -58,6 +58,8 @@ function Load(m)
     AudioManager:LoadSound("snd/stone_bump.ogg", Map);
     AudioManager:LoadSound("snd/opening_sword_unsheathe.wav", Map);
 
+    --debug
+    EventManager:StartEvent("Start spikes");
 end
 
 -- the map update function handles checks done on each game tick.
@@ -202,7 +204,6 @@ function _CreateObjects()
         { 13, 34 },
         { 13, 36 },
         -- bottom
-        { 13, 36 },
         { 15, 36 },
         { 17, 36 },
         { 19, 36 },
@@ -223,7 +224,6 @@ function _CreateObjects()
         { 49, 36 },
         { 51, 36 },
         --right
-        { 51, 36 },
         { 51, 34 },
         { 51, 32 },
         { 51, 30 },
@@ -333,6 +333,9 @@ function _CreateEvents()
                                        "dat/maps/mt_elbrus/mt_elbrus_shrine_stairs_script.lua", "from_shrine_third_floor");
     EventManager:RegisterEvent(event);
 
+    event = vt_map.ScriptedEvent("Start spikes", "spikes_start", "spikes_update");
+    EventManager:RegisterEvent(event);
+
 end
 
 -- zones
@@ -356,8 +359,101 @@ function _CheckZones()
 
 end
 
+function _HideAllSpikes()
+    for my_index, my_object in pairs(spikes1) do
+        my_object:SetVisible(false);
+        my_object:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
+    end
+    for my_index, my_object in pairs(spikes2) do
+        my_object:SetVisible(false);
+        my_object:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
+    end
+    for my_index, my_object in pairs(spikes3) do
+        my_object:SetVisible(false);
+        my_object:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
+    end
+    for my_index, my_object in pairs(spikes4) do
+        my_object:SetVisible(false);
+        my_object:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
+    end
+end
+
+-- Make the next spike visible, and remove the current one
+-- returns the new index value.
+function _UpdateSpike(spike_array, spike_index, max_size)
+    local spike_object = spike_array[spike_index];
+    if (spike_object ~= nil) then
+        spike_object:SetVisible(false);
+        spike_object:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
+    end
+    spike_index = spike_index + 1;
+    if (spike_index > max_size) then
+        spike_index = 0;
+    end
+
+    spike_object = spike_array[spike_index];
+    if (spike_object ~= nil) then
+        spike_object:SetVisible(true);
+        spike_object:SetCollisionMask(vt_map.MapMode.ALL_COLLISION);
+    end
+    return spike_index;
+end
+
+local spikes_update_time = 0;
+local spike1_index1 = 0;
+local spike1_index2 = 0;
+local spike2_index1 = 0;
+local spike2_index2 = 0;
+local spike3_index1 = 0;
+local spike3_index2 = 0;
+local spike3_index3 = 0;
+local spike4_index1 = 0;
+local spike4_index2 = 0;
+local spike4_index3 = 0;
+
 -- Map Custom functions
 -- Used through scripted events
 map_functions = {
+    -- TODO: Add boss appearance
+    -- TODO: Make boss periodically disable the spikes and throw a stone.
+    -- TODO: Make boss periodically throw fireballs at the player.
 
+    -- The spikes are started
+    spikes_start = function()
+        _HideAllSpikes();
+
+        spikes_update_time = 0;
+        spike1_index1 = 0;
+        spike1_index2 = 7; -- 14/2
+        spike2_index1 = 0;
+        spike2_index2 = 11; -- 22/2
+        spike3_index1 = 0;
+        spike3_index2 = 12; -- 37/3
+        spike3_index3 = 24; -- 37/3*2
+        spike4_index1 = 0;
+        spike4_index2 = 13; -- 41/3
+        spike4_index3 = 26; -- 41/3*2
+    end,
+    
+    spikes_update = function()
+        spikes_update_time = spikes_update_time + SystemManager:GetUpdateTime();
+        if (spikes_update_time < 700) then
+            return false;
+        end
+        spikes_update_time = 0;
+        
+        spike1_index1 = _UpdateSpike(spikes1, spike1_index1, 14); -- size of array
+        spike1_index2 = _UpdateSpike(spikes1, spike1_index2, 14);
+        spike2_index1 = _UpdateSpike(spikes2, spike2_index1, 22);
+        spike2_index2 = _UpdateSpike(spikes2, spike2_index2, 22);
+        spike3_index1 = _UpdateSpike(spikes3, spike3_index1, 37);
+        spike3_index2 = _UpdateSpike(spikes3, spike3_index2, 37);
+        spike3_index3 = _UpdateSpike(spikes3, spike3_index3, 37);
+        spike4_index1 = _UpdateSpike(spikes4, spike4_index1, 41);
+        spike4_index2 = _UpdateSpike(spikes4, spike4_index2, 41);
+        spike4_index3 = _UpdateSpike(spikes4, spike4_index3, 41);
+
+        AudioManager:PlaySound("snd/opening_sword_unsheathe.wav");
+        return false;
+    end,
 }
