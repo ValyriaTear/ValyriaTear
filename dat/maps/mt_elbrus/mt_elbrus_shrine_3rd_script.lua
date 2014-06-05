@@ -53,6 +53,11 @@ function Load(m)
     -- Add a mediumly dark overlay
     Map:GetEffectSupervisor():EnableAmbientOverlay("img/ambient/dark.png", 0.0, 0.0, false);
 
+    -- Preloads the action sounds to avoid glitches
+    AudioManager:LoadSound("snd/stone_roll.wav", Map);
+    AudioManager:LoadSound("snd/stone_bump.ogg", Map);
+    AudioManager:LoadSound("snd/opening_sword_unsheathe.wav", Map);
+
 end
 
 -- the map update function handles checks done on each game tick.
@@ -73,9 +78,17 @@ function _CreateCharacters()
     Map:SetMenuEnabled(false);
 end
 
--- The trigger state at map load time.
--- Used to restore it, would Orlinn be caught.
-local trigger_state = 0;
+-- Arrays of spikes objects
+local spikes1 = {};
+local spikes2 = {};
+local spikes3 = {};
+local spikes4 = {};
+
+-- The fences preventing from triggering the waterfalls
+local upper_fence1 = nil;
+local upper_fence2 = nil;
+local lower_fence1 = nil;
+local lower_fence2 = nil;
 
 function _CreateObjects()
     local object = {}
@@ -86,6 +99,209 @@ function _CreateObjects()
 
     _add_flame(39.5, 7);
     _add_flame(25.5, 7);
+
+    object = CreateObject(Map, "Stone Fence1", 31, 38);
+    Map:AddGroundObject(object);
+    object = CreateObject(Map, "Stone Fence1", 35, 36);
+    Map:AddGroundObject(object);
+    object = CreateObject(Map, "Stone Fence1", 53, 26);
+    Map:AddGroundObject(object);
+    object = CreateObject(Map, "Stone Fence1", 51, 22);
+    Map:AddGroundObject(object);
+    object = CreateObject(Map, "Stone Fence1", 13, 28);
+    Map:AddGroundObject(object);
+    object = CreateObject(Map, "Stone Fence1", 11, 24);
+    Map:AddGroundObject(object);
+
+    -- Create the mobile fences
+    upper_fence1 = CreateObject(Map, "Stone Fence1", 31, 16);
+    Map:AddGroundObject(upper_fence1);
+    upper_fence1 = CreateObject(Map, "Stone Fence1", 33, 16);
+    Map:AddGroundObject(upper_fence1);
+
+    lower_fence1 = CreateObject(Map, "Stone Fence1", 29, 46);
+    Map:AddGroundObject(lower_fence1);
+    lower_fence2 = CreateObject(Map, "Stone Fence1", 35, 46);
+    Map:AddGroundObject(lower_fence2);
+
+    -- Create the spikes
+    -- Inner circle
+    local spike_objects1 = {
+        { 29, 20 },
+        { 27, 22 },
+        { 25, 24 },
+        { 25, 26 },
+        { 27, 28 },
+        { 29, 30 },
+        { 31, 32 },
+        { 33, 32 },
+        { 35, 30 },
+        { 37, 28 },
+        { 39, 26 },
+        { 39, 24 },
+        { 37, 22 },
+        { 35, 20 },
+    }
+
+    -- Loads the spikes according to the array
+    for my_index, my_array in pairs(spike_objects1) do
+        spikes1[my_index] = CreateObject(Map, "Spikes1", my_array[1], my_array[2]);
+        Map:AddGroundObject(spikes1[my_index]);
+        spikes1[my_index]:SetVisible(false);
+        spikes1[my_index]:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
+    end
+
+    -- Outer circle
+    local spike_objects2 = {
+        -- left
+        { 27, 16 },
+        { 27, 18 },
+        { 25, 18 },
+        { 23, 20 },
+        { 21, 22 },
+        { 21, 24 },
+        { 21, 26 },
+        { 21, 28 },
+        { 23, 30 },
+        { 25, 32 },
+        { 27, 34 },
+        -- right
+        { 37, 34 },
+        { 39, 32 },
+        { 41, 30 },
+        { 43, 28 },
+        { 43, 26 },
+        { 43, 24 },
+        { 43, 22 },
+        { 41, 20 },
+        { 39, 18 },
+        { 37, 18 },
+        { 37, 16 },
+    }
+
+    -- Loads the spikes according to the array
+    for my_index, my_array in pairs(spike_objects2) do
+        spikes2[my_index] = CreateObject(Map, "Spikes1", my_array[1], my_array[2]);
+        Map:AddGroundObject(spikes2[my_index]);
+        spikes2[my_index]:SetVisible(false);
+        spikes2[my_index]:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
+    end
+
+    -- Inner lines
+    local spike_objects3 = {
+        -- left
+        { 13, 16 },
+        { 13, 18 },
+        { 13, 20 },
+        { 13, 22 },
+        { 13, 24 },
+        { 13, 26 },
+        --{ 13, 28 },
+        { 13, 30 },
+        { 13, 32 },
+        { 13, 34 },
+        { 13, 36 },
+        -- bottom
+        { 13, 36 },
+        { 15, 36 },
+        { 17, 36 },
+        { 19, 36 },
+        { 21, 36 },
+        { 23, 36 },
+        { 25, 36 },
+        { 27, 36 },
+        { 29, 36 },
+        { 31, 36 },
+        { 33, 36 },
+        --{ 35, 36 },
+        { 37, 36 },
+        { 39, 36 },
+        { 41, 36 },
+        { 43, 36 },
+        { 45, 36 },
+        { 47, 36 },
+        { 49, 36 },
+        { 51, 36 },
+        --right
+        { 51, 36 },
+        { 51, 34 },
+        { 51, 32 },
+        { 51, 30 },
+        { 51, 28 },
+        { 51, 26 },
+        { 51, 24 },
+        --{ 51, 22 },
+        { 51, 20 },
+        { 51, 18 },
+        { 51, 16 },
+    }
+
+    -- Loads the spikes according to the array
+    for my_index, my_array in pairs(spike_objects3) do
+        spikes3[my_index] = CreateObject(Map, "Spikes1", my_array[1], my_array[2]);
+        Map:AddGroundObject(spikes3[my_index]);
+        spikes3[my_index]:SetVisible(false);
+        spikes3[my_index]:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
+    end
+
+    -- Outer lines
+    local spike_objects4 = {
+        -- right
+        { 53, 14 },
+        { 53, 16 },
+        { 53, 18 },
+        { 53, 20 },
+        { 53, 22 },
+        { 53, 24 },
+        --{ 53, 26 },
+        { 53, 28 },
+        { 53, 30 },
+        { 53, 32 },
+        { 53, 34 },
+        { 53, 36 },
+        -- bottom
+        { 51, 38 },
+        { 49, 38 },
+        { 47, 38 },
+        { 45, 38 },
+        { 43, 38 },
+        { 41, 38 },
+        { 39, 38 },
+        { 37, 38 },
+        { 35, 38 },
+        { 33, 38 },
+        --{ 31, 38 },
+        { 29, 38 },
+        { 27, 38 },
+        { 25, 38 },
+        { 23, 38 },
+        { 21, 38 },
+        { 19, 38 },
+        { 17, 38 },
+        { 15, 38 },
+        { 13, 38 },
+        -- left
+        { 11, 36 },
+        { 11, 34 },
+        { 11, 32 },
+        { 11, 30 },
+        { 11, 28 },
+        { 11, 26 },
+        --{ 11, 24 },
+        { 11, 22 },
+        { 11, 20 },
+        { 11, 18 },
+        { 11, 16 },
+        { 11, 14 },
+    }
+
+    -- Loads the spikes according to the array
+    for my_index, my_array in pairs(spike_objects4) do
+        spikes4[my_index] = CreateObject(Map, "Spikes1", my_array[1], my_array[2]);
+        Map:AddGroundObject(spikes4[my_index]);
+        spikes4[my_index]:SetVisible(false);
+        spikes4[my_index]:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
+    end
 end
 
 function _add_flame(x, y)
