@@ -21,7 +21,7 @@ local EventManager = {};
 local Script = {};
 
 -- the main character handler
-local hero = {};
+local orlinn = {};
 
 -- Name of the main sprite. Used to reload the good one at the end of dialogue events.
 local main_sprite_name = "";
@@ -42,10 +42,9 @@ function Load(m)
     _CreateEnemies()
 
     -- Set the camera focus on hero
-    Map:SetCamera(hero);
+    Map:SetCamera(orlinn);
     -- This is a dungeon map, we'll use the front battle member sprite as default sprite.
     -- The player incarnates Orlinn in this map.
-    -- Map.object_supervisor:SetPartyMemberVisibleSprite(hero);
 
     _CreateEvents();
     _CreateZones();
@@ -57,9 +56,6 @@ function Load(m)
     AudioManager:LoadSound("snd/stone_roll.wav", Map);
     AudioManager:LoadSound("snd/stone_bump.ogg", Map);
     AudioManager:LoadSound("snd/opening_sword_unsheathe.wav", Map);
-
-    --debug
-    EventManager:StartEvent("Start spikes");
 end
 
 -- the map update function handles checks done on each game tick.
@@ -68,16 +64,24 @@ function Update()
     _CheckZones();
 end
 
+-- The boss!
+local andromalius = nil;
+
 -- Character creation
 function _CreateCharacters()
     -- Default hero and position
-    hero = CreateSprite(Map, "Orlinn", 32.0, 45.0);
-    hero:SetDirection(vt_map.MapMode.NORTH);
-    hero:SetMovementSpeed(vt_map.MapMode.FAST_SPEED);
-    Map:AddGroundObject(hero);
+    orlinn = CreateSprite(Map, "Orlinn", 32.0, 45.0);
+    orlinn:SetDirection(vt_map.MapMode.NORTH);
+    orlinn:SetMovementSpeed(vt_map.MapMode.FAST_SPEED);
+    Map:AddGroundObject(orlinn);
 
     -- The menu is disabled in this map
     Map:SetMenuEnabled(false);
+
+    andromalius = CreateSprite(Map, "Andromalius", 32.0, 25.0);
+    andromalius:SetDirection(vt_map.MapMode.SOUTH);
+    andromalius:SetMovementSpeed(vt_map.MapMode.FAST_SPEED);
+    Map:AddGroundObject(andromalius);
 end
 
 -- Arrays of spikes objects
@@ -333,13 +337,53 @@ function _CreateEvents()
                                        "dat/maps/mt_elbrus/mt_elbrus_shrine_stairs_script.lua", "from_shrine_third_floor");
     EventManager:RegisterEvent(event);
 
+    event = vt_map.ScriptedEvent("Close bottom fences", "bottom_fence_start", "bottom_fence_update");
+    EventManager:RegisterEvent(event);
+
+    event = vt_map.PathMoveSpriteEvent("Orlinn goes near boss", orlinn, 32, 33.5, false);
+    event:AddEventLinkAtEnd("Set camera on Boss");
+    EventManager:RegisterEvent(event);
+
+    event = vt_map.ScriptedEvent("Set camera on Boss", "camera_on_boss_start", "camera_update");
+    event:AddEventLinkAtEnd("Boss introduction");
+    EventManager:RegisterEvent(event);
+    
+    dialogue = vt_map.SpriteDialogue();
+    text = vt_system.Translate("Yiek! A big monster!");
+    dialogue:AddLineEmote(text, orlinn, "exclamation");
+    text = vt_system.Translate("My name is Andromalius, Guardian of the Sacred Seal, and Keeper of the Goddess Shrine...");
+    dialogue:AddLine(text, andromalius);
+    text = vt_system.Translate("You have trespassed the Holy ground of the Ancient and remained unharmed for too long in this temple...");
+    dialogue:AddLine(text, andromalius);
+    text = vt_system.Translate("Thus, let death embrace you, little boy, for your comrades are already dying under my charm and you have to join them into the other world...");
+    dialogue:AddLine(text, andromalius);
+    text = vt_system.Translate("Yiek!");
+    dialogue:AddLineEmote(text, orlinn, "exclamation");
+    DialogueManager:AddDialogue(dialogue);
+    event = vt_map.DialogueEvent("Boss introduction", dialogue);
+    event:AddEventLinkAtEnd("Set camera on Orlinn");
+    EventManager:RegisterEvent(event);
+
+    event = vt_map.ScriptedEvent("Set camera on Orlinn", "camera_on_orlinn_start", "camera_update");
+    event:AddEventLinkAtEnd("Start spikes");
+    event:AddEventLinkAtEnd("Start battle");
+    EventManager:RegisterEvent(event);
+
     event = vt_map.ScriptedEvent("Start spikes", "spikes_start", "spikes_update");
+    EventManager:RegisterEvent(event);
+
+    event = vt_map.ScriptedEvent("Start battle", "battle_start", "battle_update");
     EventManager:RegisterEvent(event);
 
 end
 
+-- Tells the boss battle state
+local boss_started = false;
+local boss_finished = false;
+
 -- zones
 local to_shrine_stairs_zone = {};
+local start_boss_zone = {};
 
 -- Create the different map zones triggering events
 function _CreateZones()
@@ -347,17 +391,45 @@ function _CreateZones()
     -- N.B.: left, right, top, bottom
     to_shrine_stairs_zone = vt_map.CameraZone(30, 34, 46, 48);
     Map:AddZone(to_shrine_stairs_zone);
+    start_boss_zone = vt_map.CameraZone(30, 34, 38, 40);
+    Map:AddZone(start_boss_zone);
 
 end
 
 -- Check whether the active camera has entered a zone. To be called within Update()
 function _CheckZones()
     if (to_shrine_stairs_zone:IsCameraEntering() == true) then
-        hero:SetDirection(vt_map.MapMode.SOUTH);
+        orlinn:SetDirection(vt_map.MapMode.SOUTH);
         EventManager:StartEvent("to mountain shrine stairs");
+    elseif (boss_started == false and start_boss_zone:IsCameraEntering() == true) then
+        orlinn:SetMoving(false);
+        orlinn:SetDirection(vt_map.MapMode.NORTH);
+        Map:PushState(vt_map.MapMode.STATE_SCENE);
+
+        boss_started = true;
+        EventManager:StartEvent("Close bottom fences");
+        EventManager:StartEvent("Orlinn goes near boss");
     end
 
 end
+
+
+-- Fireballs handling
+local fireballs_array = {};
+
+function _SpawnFireBalls()
+    -- TODO
+    local fireball = vt_map.ParticleObject("dat/effects/particles/fire.lua", andromalius:GetXPosition(), andromalius:GetYPosition());
+    fireball:SetObjectID(Map.object_supervisor:GenerateObjectID());
+    Map:AddGroundObject(fireball);
+    
+    local new_table = {};
+    new_table["object"] = fireball;
+    new_table["lifetime"] = 5000;
+    
+    table.insert(fireballs_array, new_table);
+end
+
 
 function _HideAllSpikes()
     for my_index, my_object in pairs(spikes1) do
@@ -411,13 +483,15 @@ local spike4_index1 = 0;
 local spike4_index2 = 0;
 local spike4_index3 = 0;
 
+-- battle members
+local fireball_timer = 0;
+local fireball_timer2 = 0;
+local fireball_timer3 = 0;
+local andromalius_current_action = "idle";
+
 -- Map Custom functions
 -- Used through scripted events
 map_functions = {
-    -- TODO: Add boss appearance
-    -- TODO: Make boss periodically disable the spikes and throw a stone.
-    -- TODO: Make boss periodically throw fireballs at the player.
-
     -- The spikes are started
     spikes_start = function()
         _HideAllSpikes();
@@ -454,6 +528,119 @@ map_functions = {
         spike4_index3 = _UpdateSpike(spikes4, spike4_index3, 41);
 
         AudioManager:PlaySound("snd/opening_sword_unsheathe.wav");
+        return false;
+    end,
+
+    bottom_fence_start = function()
+        lower_fence1:SetXPosition(29);
+        lower_fence2:SetXPosition(35);
+        AudioManager:PlaySound("snd/stone_roll.wav");
+    end,
+    
+    bottom_fence_update = function()
+        local update_time = SystemManager:GetUpdateTime();
+        local movement_diff = update_time * 0.005;
+        lower_fence1:SetXPosition(lower_fence1:GetXPosition() + movement_diff);
+        lower_fence2:SetXPosition(lower_fence2:GetXPosition() - movement_diff);
+
+        if (lower_fence1:GetXPosition() >= 31) then
+            return true;
+        end
+        return false;
+    end,
+
+    camera_on_boss_start = function()
+        Map:SetCamera(andromalius, 800);
+    end,
+
+    camera_on_orlinn_start = function()
+        Map:SetCamera(orlinn, 500);
+    end,
+
+    camera_update = function()
+        if (Map:IsCameraMoving() == true) then
+            return false;
+        end
+        return true;
+    end,
+
+    battle_start = function()
+        fireball_timer = 0;
+        -- Free the player so he can move.
+        Map:PopState();
+    end,
+
+    -- TODO: Make boss periodically disable the spikes and throw a stone.
+    battle_update = function()
+        local update_time = SystemManager:GetUpdateTime();
+        fireball_timer = fireball_timer + update_time;
+        
+        -- Make andromalius watch orlinn
+        andromalius:LookAt(orlinn);
+
+        -- Make andromalius start to throw fireballs
+        if (fireball_timer > 8000 and andromalius_current_action == "idle") then
+            andromalius_current_action = "fireballs";
+            if (orlinn:GetXPosition() > andromalius:GetXPosition()) then
+                andromalius:SetCustomAnimation("open_mouth_right", 0);
+            else
+                andromalius:SetCustomAnimation("open_mouth_left", 0);
+            end
+            _SpawnFireBalls();
+            fireball_timer2 = 0;
+            fireball_timer3 = 0;
+        end
+        -- Makes him keep up throwing them 3 times in total.
+        if (andromalius_current_action == "fireballs") then
+            if (fireball_timer2 < 1000) then
+                fireball_timer2 = fireball_timer2 + update_time;
+                if (fireball_timer2 >= 1000) then
+                    _SpawnFireBalls();
+                end
+            end
+            if (fireball_timer2 >= 1000 and fireball_timer3 < 1000) then
+                fireball_timer3 = fireball_timer3 + update_time;
+                if (fireball_timer3 >= 1000) then
+                    _SpawnFireBalls();
+                    andromalius_current_action = "idle";
+                    andromalius:DisableCustomAnimation();
+                    -- reset the main timer.
+                    fireball_timer = 0;
+                end
+            end
+        end
+
+        -- Update fireballs position and lifetime
+        for key, my_table in pairs(fireballs_array) do
+            if (my_table ~= nil) then
+                local object = my_table["object"];
+                local lifetime = my_table["lifetime"];
+                if (object ~= nil) then
+                    local x_diff = object:GetXPosition() - orlinn:GetXPosition();
+                    if (x_diff > 0.0) then x_diff = -1.0 else x_diff = 1.0 end
+                    local y_diff = object:GetYPosition() - orlinn:GetYPosition();
+                    if (y_diff > 0.0) then y_diff = -1.0 else y_diff = 1.0 end
+
+                    object:SetXPosition(object:GetXPosition() + update_time * 0.005 * x_diff);
+                    object:SetYPosition(object:GetYPosition() + update_time * 0.005 * y_diff);
+                    my_table["lifetime"] = lifetime - update_time;
+                end
+            end
+        end
+        -- remove fireballs when their lifetime has run out
+        for key, my_table in pairs(fireballs_array) do
+            if (my_table ~= nil) then
+                local object = my_table["object"];
+                local lifetime = my_table["lifetime"];
+                if (object ~= nil and lifetime <= 0.0) then
+                    object:SetVisible(false);
+                    object:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
+                    table.remove(fireballs_array, key);
+                    --Map:RemoveGroundObject(object); -- TODO: add support for this.
+                end
+            end
+        end
+
         return false;
     end,
 }
