@@ -190,7 +190,7 @@ function _CreateObjects()
     local i = 1;
     local pos_x = 0.0;
     local pos_y = 0.0;
-    
+
     local passage_open = false;
     if (GlobalManager:GetEventValue("story", "mt_shrine_2nd_floor_NE_open") == 1) then
         passage_open = true;
@@ -288,7 +288,7 @@ function _CreateObjects()
         EventManager:RegisterEvent(event);
         event = vt_map.ScriptedEvent("Push the rolling stone "..i, "start_to_move_the_stone"..i, "move_the_stone_update"..i)
         EventManager:RegisterEvent(event);
-        
+
         -- Setup the initial stone direction value
         stone_directions[i] = vt_map.MapMode.EAST;
         stone_rolling[i] = false;
@@ -296,9 +296,7 @@ function _CreateObjects()
 end
 
 function _add_flame(x, y)
-    local object = vt_map.SoundObject("snd/campfire.ogg", x, y, 5.0);
-    if (object ~= nil) then Map:AddAmbientSoundObject(object) end;
-    object = vt_map.SoundObject("snd/campfire.ogg", x + 18.0, y, 5.0);
+    local object = vt_map.SoundObject("snd/campfire.ogg", x, y, 10.0);
     if (object ~= nil) then Map:AddAmbientSoundObject(object) end;
 
     object = CreateObject(Map, "Flame1", x, y);
@@ -384,12 +382,12 @@ function _CheckStoneAndTriggersCollision()
             if (stone_triggers[tr]:GetState() == true) then
                 break;
             end
-            
+
             if (stone_rolling[st] == false and stone_triggers[tr]:IsCollidingWith(rolling_stones[st]) == true) then
                 stone_triggers[tr]:SetState(true)
                 break;
             end
-        end    
+        end
     end
 end
 

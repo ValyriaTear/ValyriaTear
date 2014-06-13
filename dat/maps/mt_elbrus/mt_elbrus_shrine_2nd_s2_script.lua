@@ -86,9 +86,7 @@ function _CreateCharacters()
 end
 
 function _add_flame(x, y)
-    local object = vt_map.SoundObject("snd/campfire.ogg", x, y, 5.0);
-    if (object ~= nil) then Map:AddAmbientSoundObject(object) end;
-    object = vt_map.SoundObject("snd/campfire.ogg", x + 18.0, y, 5.0);
+    local object = vt_map.SoundObject("snd/campfire.ogg", x, y, 10.0);
     if (object ~= nil) then Map:AddAmbientSoundObject(object) end;
 
     object = CreateObject(Map, "Flame1", x, y);

@@ -219,7 +219,6 @@ function _CreateObjects()
     wind_effect2:SetObjectID(Map.object_supervisor:GenerateObjectID());
     wind_effect2:Stop(); -- Don't run it at start
     Map:AddGroundObject(wind_effect2);
-    -- TODO: add wind sound effects.
 
     -- An harmless wind pusher, for once
     wind_effect3 = vt_map.ParticleObject("dat/maps/mt_elbrus/particles_snow_pushing.lua", 87, 29);

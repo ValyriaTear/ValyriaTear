@@ -261,9 +261,7 @@ function _CreateObjects()
 end
 
 function _add_flame(x, y)
-    local object = vt_map.SoundObject("snd/campfire.ogg", x, y, 5.0);
-    if (object ~= nil) then Map:AddAmbientSoundObject(object) end;
-    object = vt_map.SoundObject("snd/campfire.ogg", x + 18.0, y, 5.0);
+    local object = vt_map.SoundObject("snd/campfire.ogg", x, y, 10.0);
     if (object ~= nil) then Map:AddAmbientSoundObject(object) end;
 
     object = CreateObject(Map, "Flame1", x, y);
@@ -506,7 +504,7 @@ map_functions = {
         stone_fall_hit_ground = false;
         AudioManager:PlaySound("snd/stone_roll.wav");
     end,
-    
+
     stone_falls_event_update = function()
         local update_time = SystemManager:GetUpdateTime();
         -- change the movement speed according to whether the stone is rolling

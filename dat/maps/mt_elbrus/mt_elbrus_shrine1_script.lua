@@ -745,9 +745,9 @@ function _set_shrine_door_open()
 end
 
 function _show_flames()
-    local object = vt_map.SoundObject("snd/campfire.ogg", 33.0, 9.1, 5.0);
+    local object = vt_map.SoundObject("snd/campfire.ogg", 33.0, 9.1, 10.0);
     if (object ~= nil) then Map:AddAmbientSoundObject(object) end;
-    object = vt_map.SoundObject("snd/campfire.ogg", 51.0, 9.1, 5.0);
+    object = vt_map.SoundObject("snd/campfire.ogg", 51.0, 9.1, 10.0);
     if (object ~= nil) then Map:AddAmbientSoundObject(object) end;
 
     Map:AddHalo("img/misc/lights/torch_light_mask2.lua", 33.0, 9.1 + 3.0,
