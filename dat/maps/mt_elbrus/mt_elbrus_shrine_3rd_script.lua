@@ -405,11 +405,15 @@ function _CreateEvents()
     event = vt_map.ScriptedEvent("Start battle", "battle_start", "battle_update");
     EventManager:RegisterEvent(event);
 
+    event = vt_map.ScriptedEvent("Boss hurt effect", "hurt_effect_start", "hurt_effect_update")
+    EventManager:RegisterEvent(event);
+
 end
 
 -- Tells the boss battle state
 local boss_started = false;
-local boss_finished = false;
+local boss_damage = 0;
+local battle_won = false;
 
 -- zones
 local to_shrine_stairs_zone = {};
@@ -427,6 +431,21 @@ function _CreateZones()
     boss_zone = vt_map.CameraZone(28, 36, 20, 28);
     Map:AddZone(boss_zone);
 
+end
+
+function _CheckBossZone(stone)
+    if (boss_zone:IsInsideZone(stone:GetXPosition(), stone:GetYPosition())) then
+        stone:SetVisible(false);
+        stone:SetPosition(0, 0);
+        _HurtBoss();
+    end
+end
+
+function _CheckStones()
+    -- check whether a stone hit the boss
+    _CheckBossZone(stone1);
+    _CheckBossZone(stone2);
+    _CheckBossZone(stone3);
 end
 
 -- Check whether the active camera has entered a zone. To be called within Update()
@@ -447,6 +466,8 @@ function _CheckZones()
         _SpawnFireBall(29, 25);
         _SpawnFireBall(32, 28);
         _SpawnFireBall(35, 25);
+    elseif (boss_started == true and battle_won == false) then
+        _CheckStones()
     end
 
 end
@@ -619,10 +640,26 @@ local fireball_timer3 = 0;
 local fireball_speed = 0;
 local andromalius_current_action = "idle";
 
+function _HurtBoss()
+    -- TODO: Play hurt sound
+    andromalius:SetCustomAnimation("open_mouth_left", -1);
+    boss_damage = boss_damage + 1;
+    fireball_speed = fireball_speed + 0.001;
+    EventManager:StartEvent("Boss hurt effect");
+
+    if (boss_damage >= 9) then
+        battle_won = true;
+        return;
+    end
+end
+
 -- Stone variables
 local stone_direction1 = vt_map.MapMode.EAST;
 local stone_direction2 = vt_map.MapMode.EAST;
 local stone_direction3 = vt_map.MapMode.EAST;
+
+local hurt_effect_time = 0;
+local hurt_color = vt_video.Color(1.0, 0.0, 0.0, 1.0);
 
 -- Map Custom functions
 -- Used through scripted events
@@ -702,7 +739,9 @@ map_functions = {
 
     battle_start = function()
         fireball_timer = 0;
-        fireball_speed = 0.004;
+        fireball_speed = 0.003;
+        boss_damage = 0;
+        battle_won = false;
         -- Free the player so he can move.
         Map:PopState();
     end,
@@ -787,7 +826,7 @@ map_functions = {
                     object:Stop();
                     object:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
                     table.remove(fireballs_array, key);
-                    -- object:CanDelete(); -- TODO: add support for this.
+                    -- object:CanDelete(); -- TODO: add support for something like this.
                     -- object = nil;
                 end
             end
@@ -833,5 +872,33 @@ map_functions = {
 
     move_the_stone_update3 = function()
         return _UpdateStoneMovement(stone3, stone_direction3)
+    end,
+
+    hurt_effect_start = function()
+        hurt_effect_time = 0;
+    end,
+
+    hurt_effect_update = function()
+        hurt_effect_time = hurt_effect_time + SystemManager:GetUpdateTime();
+
+        if (hurt_effect_time < 300.0) then
+            hurt_color:SetAlpha(hurt_effect_time / 300.0 / 3.0);
+            Map:GetEffectSupervisor():EnableLightingOverlay(hurt_color);
+            return false;
+        end
+
+        if (hurt_effect_time < 600.0) then
+            hurt_color:SetAlpha(((600.0 - hurt_effect_time) / 300.0) / 3.0);
+            Map:GetEffectSupervisor():EnableLightingOverlay(hurt_color);
+            return false;
+        end
+
+        -- The boss avenges
+        if (battle_won == false) then
+            _SpawnFireBall(29, 25);
+            _SpawnFireBall(32, 28);
+            _SpawnFireBall(35, 25);
+        end
+        return true;
     end,
 }
