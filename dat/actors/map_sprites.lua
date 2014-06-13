@@ -568,6 +568,28 @@ sprites["Skeleton"] = {
     },
 }
 
+sprites["Andromalius"] = {
+    name = vt_system.Translate("Andromalius"),
+    coll_half_width = 1.781,
+    coll_height = 3.0,
+    img_half_width = 1.781,
+    img_height = 5.5,
+    movement_speed = ENEMY_SPEED,
+    --face_portrait = "",
+
+    -- using special animation files.
+    standard_animations = {
+        idle = "img/sprites/map/enemies/andromalius_idle.lua",
+        walk = "img/sprites/map/enemies/andromalius_idle.lua"
+    },
+
+    -- using standard (one direction only) animation files.
+    custom_animations = {
+        open_mouth_right = "img/sprites/map/enemies/andromalius_openmouth_right.lua",
+        open_mouth_left = "img/sprites/map/enemies/andromalius_openmouth_left.lua",
+    }
+}
+
 function CreateSprite(Map, name, x, y)
     if (sprites[name] == nil) then
         print("Error: No object named: "..name.." found!!");
