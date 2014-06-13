@@ -100,6 +100,11 @@ local spike6_up = true;
 local spike_trigger1 = nil;
 local spike_trigger2 = nil;
 local spike_trigger3 = nil;
+local spike_trigger4 = nil;
+local spike_trigger5 = nil;
+
+local blocking_spike1 = nil;
+local blocking_spike2 = nil;
 
 local mini_boss = nil;
 
@@ -116,7 +121,7 @@ function _CreateObjects()
 
     _add_flame(61.5, 29);
 
-    _add_bubble(39, 34);
+    _add_bubble(39, 39);
     _add_bubble(45, 25);
     _add_bubble(15, 27);
     _add_bubble(57, 13);
@@ -220,13 +225,19 @@ function _CreateObjects()
         Map:AddGroundObject(spike_square6[my_index]);
     end
 
-    -- 3 triggers permitting to play a bit...
+    -- Spikes blocking while the enigma isn't solved
+    blocking_spike1 = CreateObject(Map, "Spikes1", 37, 12);
+    Map:AddGroundObject(blocking_spike1);
+    blocking_spike2 = CreateObject(Map, "Spikes1", 39, 12);
+    Map:AddGroundObject(blocking_spike2);
+
+    -- 5 triggers permitting to play a bit...
     spike_trigger1 = vt_map.TriggerObject("",
                              "img/sprites/map/triggers/stone_trigger1_off.lua",
                              "img/sprites/map/triggers/stone_trigger1_on.lua",
                              "", "Push trigger 1");
     spike_trigger1:SetObjectID(Map.object_supervisor:GenerateObjectID());
-    spike_trigger1:SetPosition(30, 27);
+    spike_trigger1:SetPosition(32, 27.5);
     Map:AddFlatGroundObject(spike_trigger1);
 
     spike_trigger2 = vt_map.TriggerObject("",
@@ -234,7 +245,7 @@ function _CreateObjects()
                              "img/sprites/map/triggers/stone_trigger1_on.lua",
                              "", "Push trigger 2");
     spike_trigger2:SetObjectID(Map.object_supervisor:GenerateObjectID());
-    spike_trigger2:SetPosition(34, 27);
+    spike_trigger2:SetPosition(36, 27.5);
     Map:AddFlatGroundObject(spike_trigger2);
 
     spike_trigger3 = vt_map.TriggerObject("",
@@ -242,8 +253,24 @@ function _CreateObjects()
                              "img/sprites/map/triggers/stone_trigger1_on.lua",
                              "", "Push trigger 3");
     spike_trigger3:SetObjectID(Map.object_supervisor:GenerateObjectID());
-    spike_trigger3:SetPosition(38, 27);
+    spike_trigger3:SetPosition(30, 31);
     Map:AddFlatGroundObject(spike_trigger3);
+
+    spike_trigger4 = vt_map.TriggerObject("",
+                             "img/sprites/map/triggers/stone_trigger1_off.lua",
+                             "img/sprites/map/triggers/stone_trigger1_on.lua",
+                             "", "Push trigger 4");
+    spike_trigger4:SetObjectID(Map.object_supervisor:GenerateObjectID());
+    spike_trigger4:SetPosition(34, 31);
+    Map:AddFlatGroundObject(spike_trigger4);
+
+    spike_trigger5 = vt_map.TriggerObject("",
+                             "img/sprites/map/triggers/stone_trigger1_off.lua",
+                             "img/sprites/map/triggers/stone_trigger1_on.lua",
+                             "", "Push trigger 5");
+    spike_trigger5:SetObjectID(Map.object_supervisor:GenerateObjectID());
+    spike_trigger5:SetPosition(38, 31);
+    Map:AddFlatGroundObject(spike_trigger5);
 
     -- Make sure the spike square states are initialized
     spike1_up = true;
@@ -328,6 +355,10 @@ function _CreateEvents()
     event = vt_map.ScriptedEvent("Push trigger 2", "push_trigger_2", "");
     EventManager:RegisterEvent(event);
     event = vt_map.ScriptedEvent("Push trigger 3", "push_trigger_3", "");
+    EventManager:RegisterEvent(event);
+    event = vt_map.ScriptedEvent("Push trigger 4", "push_trigger_4", "");
+    EventManager:RegisterEvent(event);
+    event = vt_map.ScriptedEvent("Push trigger 5", "push_trigger_5", "");
     EventManager:RegisterEvent(event);
 
     -- Trap map open event
@@ -456,6 +487,30 @@ function _UpdateSpikeState()
         end
     end
     AudioManager:PlaySound("snd/opening_sword_unsheathe.wav");
+
+    -- Then check whether the enigma is solved.
+    if (spike1_up == false and spike2_up == false and spike3_up == false and
+        spike4_up == false and spike5_up == false and spike6_up == false) then
+
+        -- free the exit
+        blocking_spike1:SetVisible(false);
+        blocking_spike2:SetVisible(false);
+        blocking_spike1:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
+        blocking_spike2:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
+
+        -- Disable the triggers
+        spike_trigger1:SetOnEvent("");
+        spike_trigger2:SetOnEvent("");
+        spike_trigger3:SetOnEvent("");
+        spike_trigger4:SetOnEvent("");
+        spike_trigger5:SetOnEvent("");
+
+        spike_trigger1:SetState(true);
+        spike_trigger2:SetState(true);
+        spike_trigger3:SetState(true);
+        spike_trigger4:SetState(true);
+        spike_trigger5:SetState(true);
+    end
 end
 
 -- Map Custom functions
@@ -465,28 +520,57 @@ map_functions = {
     push_trigger_1 = function()
         spike_trigger2:SetState(false);
         spike_trigger3:SetState(false);
+        spike_trigger4:SetState(false);
+        spike_trigger5:SetState(false);
 
         spike1_up = not spike1_up;
-        spike3_up = not spike3_up;
         spike5_up = not spike5_up;
+        spike6_up = not spike6_up;
         _UpdateSpikeState();
     end,
 
     push_trigger_2 = function()
         spike_trigger1:SetState(false);
         spike_trigger3:SetState(false);
+        spike_trigger4:SetState(false);
+        spike_trigger5:SetState(false);
 
-        spike2_up = not spike2_up;
+        spike3_up = not spike3_up;
         spike4_up = not spike4_up;
+        spike5_up = not spike5_up;
         _UpdateSpikeState();
     end,
 
     push_trigger_3 = function()
         spike_trigger1:SetState(false);
         spike_trigger2:SetState(false);
+        spike_trigger4:SetState(false);
+        spike_trigger5:SetState(false);
 
+        --spike1_up = not spike1_up;
         spike3_up = not spike3_up;
-        spike4_up = not spike4_up;
+        spike5_up = not spike5_up;
+        _UpdateSpikeState();
+    end,
+
+    push_trigger_4 = function()
+        spike_trigger1:SetState(false);
+        spike_trigger2:SetState(false);
+        spike_trigger3:SetState(false);
+        spike_trigger5:SetState(false);
+
+        spike2_up = not spike2_up;
+        spike6_up = not spike6_up;
+        _UpdateSpikeState();
+    end,
+
+    push_trigger_5 = function()
+        spike_trigger1:SetState(false);
+        spike_trigger2:SetState(false);
+        spike_trigger3:SetState(false);
+        spike_trigger4:SetState(false);
+
+        spike1_up = not spike1_up;
         _UpdateSpikeState();
     end,
 
