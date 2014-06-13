@@ -96,6 +96,10 @@ local upper_fence2 = nil;
 local lower_fence1 = nil;
 local lower_fence2 = nil;
 
+local stone1 = nil;
+local stone2 = nil;
+local stone3 = nil;
+
 function _CreateObjects()
     local object = {}
     local npc = {}
@@ -306,6 +310,32 @@ function _CreateObjects()
         spikes4[my_index]:SetVisible(false);
         spikes4[my_index]:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
     end
+
+    -- Adds the red rolling stones
+    stone1 = CreateObject(Map, "Rolling Stone", 30.8, 35.8);
+    stone1:SetEventWhenTalking("Check hero position for stone 1");
+    Map:AddGroundObject(stone1);
+    stone2 = CreateObject(Map, "Rolling Stone", 13, 24.2);
+    stone2:SetEventWhenTalking("Check hero position for stone 2");
+    Map:AddGroundObject(stone2);
+    stone3 = CreateObject(Map, "Rolling Stone", 51, 26.2);
+    stone3:SetEventWhenTalking("Check hero position for stone 3");
+    Map:AddGroundObject(stone3);
+
+    event = vt_map.IfEvent("Check hero position for stone 1", "check_diagonal_stone1", "Push the stone 1", "");
+    EventManager:RegisterEvent(event);
+    event = vt_map.ScriptedEvent("Push the stone 1", "start_to_move_the_stone1", "move_the_stone_update1")
+    EventManager:RegisterEvent(event);
+
+    event = vt_map.IfEvent("Check hero position for stone 2", "check_diagonal_stone2", "Push the stone 2", "");
+    EventManager:RegisterEvent(event);
+    event = vt_map.ScriptedEvent("Push the stone 2", "start_to_move_the_stone2", "move_the_stone_update2")
+    EventManager:RegisterEvent(event);
+
+    event = vt_map.IfEvent("Check hero position for stone 3", "check_diagonal_stone3", "Push the stone 3", "");
+    EventManager:RegisterEvent(event);
+    event = vt_map.ScriptedEvent("Push the stone 3", "start_to_move_the_stone3", "move_the_stone_update3")
+    EventManager:RegisterEvent(event);
 end
 
 function _add_flame(x, y)
@@ -421,6 +451,98 @@ function _CheckZones()
 
 end
 
+-- Stones handling
+
+function _CheckForDiagonals(target)
+    -- Check for diagonals. If the player is in diagonal,
+    -- whe shouldn't trigger the event at all, as only straight relative position
+    -- to the target sprite will work correctly.
+    -- (Here used only for shrooms and stones)
+
+    local hero_x = orlinn:GetXPosition();
+    local hero_y = orlinn:GetYPosition();
+
+    local target_x = target:GetXPosition();
+    local target_y = target:GetYPosition();
+
+    -- bottom-left
+    if (hero_y > target_y + 0.3 and hero_x < target_x - 1.2) then return false; end
+    -- bottom-right
+    if (hero_y > target_y + 0.3 and hero_x > target_x + 1.2) then return false; end
+    -- top-left
+    if (hero_y < target_y - 1.5 and hero_x < target_x - 1.2) then return false; end
+    -- top-right
+    if (hero_y < target_y - 1.5 and hero_x > target_x + 1.2) then return false; end
+
+    return true;
+end
+
+function _UpdateStoneMovement(stone_object, stone_direction)
+    local update_time = SystemManager:GetUpdateTime();
+    local movement_diff = 0.015 * update_time;
+
+    -- We cap the max movement distance to avoid making the ball go through obstacles
+    -- in case of low FPS
+    if (movement_diff > 1.0) then
+        movement_diff = 1.0;
+    end
+
+    local new_pos_x = stone_object:GetXPosition();
+    local new_pos_y = stone_object:GetYPosition();
+
+    -- Apply the movement
+    if (stone_direction == vt_map.MapMode.NORTH) then
+        new_pos_y = stone_object:GetYPosition() - movement_diff;
+    elseif (stone_direction == vt_map.MapMode.SOUTH) then
+        new_pos_y = stone_object:GetYPosition() + movement_diff;
+    elseif (stone_direction == vt_map.MapMode.WEST) then
+        new_pos_x = stone_object:GetXPosition() - movement_diff;
+    elseif (stone_direction == vt_map.MapMode.EAST) then
+        new_pos_x = stone_object:GetXPosition() + movement_diff;
+    end
+
+    -- Check the collision
+    if (stone_object:IsColliding(new_pos_x, new_pos_y) == true) then
+        AudioManager:PlaySound("snd/stone_bump.ogg");
+        return true;
+    end
+
+    --  and apply the movement if none
+    stone_object:SetPosition(new_pos_x, new_pos_y);
+
+    return false;
+end
+
+-- returns the direction the stone shall take
+function _GetStoneDirection(stone)
+
+    local hero_x = orlinn:GetXPosition();
+    local hero_y = orlinn:GetYPosition();
+
+    local stone_x = stone:GetXPosition();
+    local stone_y = stone:GetYPosition();
+
+    -- Set the stone direction
+    local stone_direction = vt_map.MapMode.EAST;
+
+    -- Determine the hero position relative to the stone
+    if (hero_y > stone_y + 0.3) then
+        -- the hero is below, the stone is pushed upward.
+        stone_direction = vt_map.MapMode.NORTH;
+    elseif (hero_y < stone_y - 1.5) then
+        -- the hero is above, the stone is pushed downward.
+        stone_direction = vt_map.MapMode.SOUTH;
+    elseif (hero_x < stone_x - 1.2) then
+        -- the hero is on the left, the stone is pushed to the right.
+        stone_direction = vt_map.MapMode.EAST;
+    elseif (hero_x > stone_x + 1.2) then
+        -- the hero is on the right, the stone is pushed to the left.
+        stone_direction = vt_map.MapMode.WEST;
+    end
+
+    return stone_direction;
+end
+
 
 -- Fireballs handling
 local fireballs_array = {};
@@ -497,6 +619,11 @@ local fireball_timer3 = 0;
 local fireball_speed = 0;
 local andromalius_current_action = "idle";
 
+-- Stone variables
+local stone_direction1 = vt_map.MapMode.EAST;
+local stone_direction2 = vt_map.MapMode.EAST;
+local stone_direction3 = vt_map.MapMode.EAST;
+
 -- Map Custom functions
 -- Used through scripted events
 map_functions = {
@@ -559,6 +686,7 @@ map_functions = {
 
     camera_on_boss_start = function()
         Map:SetCamera(andromalius, 800);
+        orlinn:SetDirection(vt_map.MapMode.NORTH);
     end,
 
     camera_on_orlinn_start = function()
@@ -666,5 +794,44 @@ map_functions = {
         end
 
         return false;
+    end,
+
+    check_diagonal_stone1 = function()
+        return _CheckForDiagonals(stone1);
+    end,
+
+    start_to_move_the_stone1 = function()
+        stone_direction1 = _GetStoneDirection(stone1);
+        AudioManager:PlaySound("snd/stone_roll.wav");
+    end,
+
+    move_the_stone_update1 = function()
+        return _UpdateStoneMovement(stone1, stone_direction1)
+    end,
+
+    check_diagonal_stone2 = function()
+        return _CheckForDiagonals(stone2);
+    end,
+
+    start_to_move_the_stone2 = function()
+        stone_direction2 = _GetStoneDirection(stone2);
+        AudioManager:PlaySound("snd/stone_roll.wav");
+    end,
+
+    move_the_stone_update2 = function()
+        return _UpdateStoneMovement(stone2, stone_direction2)
+    end,
+
+    check_diagonal_stone3 = function()
+        return _CheckForDiagonals(stone3);
+    end,
+
+    start_to_move_the_stone3 = function()
+        stone_direction3 = _GetStoneDirection(stone3);
+        AudioManager:PlaySound("snd/stone_roll.wav");
+    end,
+
+    move_the_stone_update3 = function()
+        return _UpdateStoneMovement(stone3, stone_direction3)
     end,
 }
