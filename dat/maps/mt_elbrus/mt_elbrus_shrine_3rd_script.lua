@@ -384,6 +384,7 @@ local boss_finished = false;
 -- zones
 local to_shrine_stairs_zone = {};
 local start_boss_zone = {};
+local boss_zone = {};
 
 -- Create the different map zones triggering events
 function _CreateZones()
@@ -393,6 +394,8 @@ function _CreateZones()
     Map:AddZone(to_shrine_stairs_zone);
     start_boss_zone = vt_map.CameraZone(30, 34, 38, 40);
     Map:AddZone(start_boss_zone);
+    boss_zone = vt_map.CameraZone(28, 36, 20, 28);
+    Map:AddZone(boss_zone);
 
 end
 
@@ -409,6 +412,11 @@ function _CheckZones()
         boss_started = true;
         EventManager:StartEvent("Close bottom fences");
         EventManager:StartEvent("Orlinn goes near boss");
+    elseif (boss_started == true and boss_zone:IsCameraEntering() == true
+            and Map:CurrentState() == vt_map.MapMode.STATE_EXPLORE) then
+        _SpawnFireBall(29, 25);
+        _SpawnFireBall(32, 28);
+        _SpawnFireBall(35, 25);
     end
 
 end
@@ -417,9 +425,8 @@ end
 -- Fireballs handling
 local fireballs_array = {};
 
-function _SpawnFireBalls()
-    -- TODO
-    local fireball = vt_map.ParticleObject("dat/effects/particles/fire.lua", andromalius:GetXPosition(), andromalius:GetYPosition());
+function _SpawnFireBall(x, y)
+    local fireball = vt_map.ParticleObject("dat/effects/particles/fire.lua", x, y);
     fireball:SetObjectID(Map.object_supervisor:GenerateObjectID());
     Map:AddGroundObject(fireball);
     
@@ -487,6 +494,7 @@ local spike4_index3 = 0;
 local fireball_timer = 0;
 local fireball_timer2 = 0;
 local fireball_timer3 = 0;
+local fireball_speed = 0;
 local andromalius_current_action = "idle";
 
 -- Map Custom functions
@@ -566,6 +574,7 @@ map_functions = {
 
     battle_start = function()
         fireball_timer = 0;
+        fireball_speed = 0.004;
         -- Free the player so he can move.
         Map:PopState();
     end,
@@ -586,7 +595,7 @@ map_functions = {
             else
                 andromalius:SetCustomAnimation("open_mouth_left", 0);
             end
-            _SpawnFireBalls();
+            _SpawnFireBall(andromalius:GetXPosition(), andromalius:GetYPosition());
             fireball_timer2 = 0;
             fireball_timer3 = 0;
         end
@@ -595,13 +604,13 @@ map_functions = {
             if (fireball_timer2 < 1000) then
                 fireball_timer2 = fireball_timer2 + update_time;
                 if (fireball_timer2 >= 1000) then
-                    _SpawnFireBalls();
+                    _SpawnFireBall(andromalius:GetXPosition(), andromalius:GetYPosition());
                 end
             end
             if (fireball_timer2 >= 1000 and fireball_timer3 < 1000) then
                 fireball_timer3 = fireball_timer3 + update_time;
                 if (fireball_timer3 >= 1000) then
-                    _SpawnFireBalls();
+                    _SpawnFireBall(andromalius:GetXPosition(), andromalius:GetYPosition());
                     andromalius_current_action = "idle";
                     andromalius:DisableCustomAnimation();
                     -- reset the main timer.
@@ -616,13 +625,27 @@ map_functions = {
                 local object = my_table["object"];
                 local lifetime = my_table["lifetime"];
                 if (object ~= nil) then
+                    -- compute the fireball movement.
                     local x_diff = object:GetXPosition() - orlinn:GetXPosition();
-                    if (x_diff > 0.0) then x_diff = -1.0 else x_diff = 1.0 end
-                    local y_diff = object:GetYPosition() - orlinn:GetYPosition();
-                    if (y_diff > 0.0) then y_diff = -1.0 else y_diff = 1.0 end
+                    if (x_diff > 0.5) then
+                        x_diff = -1.0
+                    elseif (x_diff < -0.5) then
+                        x_diff = 1.0
+                    else
+                        x_diff = 0.0;
+                    end
 
-                    object:SetXPosition(object:GetXPosition() + update_time * 0.005 * x_diff);
-                    object:SetYPosition(object:GetYPosition() + update_time * 0.005 * y_diff);
+                    local y_diff = object:GetYPosition() - orlinn:GetYPosition();
+                    if (y_diff > 0.5) then
+                        y_diff = -1.0
+                    elseif (y_diff < -0.5) then
+                        y_diff = 1.0
+                    else
+                        y_diff = 0.0
+                    end
+
+                    object:SetXPosition(object:GetXPosition() + update_time * fireball_speed * x_diff);
+                    object:SetYPosition(object:GetYPosition() + update_time * fireball_speed * y_diff);
                     my_table["lifetime"] = lifetime - update_time;
                 end
             end
@@ -633,10 +656,11 @@ map_functions = {
                 local object = my_table["object"];
                 local lifetime = my_table["lifetime"];
                 if (object ~= nil and lifetime <= 0.0) then
-                    object:SetVisible(false);
+                    object:Stop();
                     object:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
                     table.remove(fireballs_array, key);
-                    --Map:RemoveGroundObject(object); -- TODO: add support for this.
+                    -- object:CanDelete(); -- TODO: add support for this.
+                    -- object = nil;
                 end
             end
         end
