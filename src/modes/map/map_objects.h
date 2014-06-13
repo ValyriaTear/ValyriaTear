@@ -824,6 +824,16 @@ public:
     void SetTriggerableByCharacter(bool triggerable)
     { _triggerable_by_character = triggerable; }
 
+    //! \brief Set the new event name trigger when the trigger is pushed.
+    //! if the event is empty, the trigger event is disabled.
+    void SetOnEvent(const std::string& on_event)
+    { _on_event = on_event; }
+
+    //! \brief Set the new event name trigger when the trigger is set to not pushed.
+    //! if the event is empty, the trigger event is disabled.
+    void SetOffEvent(const std::string& off_event)
+    { _off_event = off_event; }
+
 private:
     //! \brief The treasure object name
     std::string _trigger_name;

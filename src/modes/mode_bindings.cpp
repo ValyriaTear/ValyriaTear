@@ -281,6 +281,8 @@ void BindModeCode()
             .def("GetState", &TriggerObject::GetState)
             .def("GetTriggerName", &TriggerObject::GetTriggerName)
             .def("SetTriggerableByCharacter", &TriggerObject::SetTriggerableByCharacter)
+            .def("SetOnEvent", &TriggerObject::SetOnEvent)
+            .def("SetOffEvent", &TriggerObject::SetOffEvent)
         ];
 
         luabind::module(vt_script::ScriptManager->GetGlobalState(), "vt_map")
