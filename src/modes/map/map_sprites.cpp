@@ -997,7 +997,7 @@ void MapSprite::LoadFacePortrait(const std::string &filename)
 void MapSprite::Update()
 {
     // Stores the last value of moved_position to determine when a change in sprite movement between calls to this function occurs
-    static bool was_moved = moved_position;
+    bool was_moved = moved_position;
 
     // This call will update the sprite's position and perform collision detection
     VirtualSprite::Update();
