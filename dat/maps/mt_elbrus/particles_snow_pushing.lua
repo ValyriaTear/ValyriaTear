@@ -1,9 +1,14 @@
 -- Snowy wind particle effect
 
--- The effect overall size in pixel. Used to make the map mode draw the effect on time.
+-- The effect overall size in pixel. Used to make the map mode draw the effect on time
+-- and when the character is going to collide with it.
 map_effect_collision = {
+    -- Collision rectangle
     effect_collision_width = 6 * 16,
-    effect_collision_height = 19 * 16
+    effect_collision_height = 19 * 16,
+    -- Image rectangle
+    effect_width = 6 * 16,
+    effect_height = 19 * 16,
 }
 
 systems = {}

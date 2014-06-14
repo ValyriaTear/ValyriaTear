@@ -276,8 +276,8 @@ ParticleObject::ParticleObject(const std::string &filename, float x, float y):
     if(!_particle_effect)
         return;
 
-    SetCollHalfWidth(_particle_effect->GetEffectWidth() / 2.0f / (GRID_LENGTH * 0.5f));
-    SetCollHeight(_particle_effect->GetEffectHeight() / (GRID_LENGTH * 0.5f));
+    SetCollHalfWidth(_particle_effect->GetEffectCollisionWidth() / 2.0f / (GRID_LENGTH * 0.5f));
+    SetCollHeight(_particle_effect->GetEffectCollisionHeight() / (GRID_LENGTH * 0.5f));
 
     // Setup the image collision for the display update
     SetImgHalfWidth(_particle_effect->GetEffectWidth() / 2.0f / (GRID_LENGTH * 0.5f));
@@ -333,6 +333,8 @@ void ParticleObject::Draw()
     VideoManager->Move(standard_pos_x, standard_pos_y);
     MapRectangle rect = GetImageRectangle();
     VideoManager->DrawRectangle(rect.right - rect.left, rect.bottom - rect.top, Color(0.0f, 1.0f, 1.0f, 0.6f));
+    rect = GetCollisionRectangle();
+    VideoManager->DrawRectangle(rect.right - rect.left, rect.bottom - rect.top, Color(0.0f, 0.0f, 1.0f, 0.5f));
 }
 
 // Save points

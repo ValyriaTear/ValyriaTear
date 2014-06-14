@@ -9,7 +9,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 /** ***************************************************************************
-*** \file    particle.h
+*** \file    particle_effect.cpp
 *** \author  Raj Sharma, roos@allacrost.org
 *** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Source file for particle effects
@@ -53,6 +53,8 @@ bool ParticleEffect::_LoadEffectDef(const std::string &particle_file)
     if (particle_script.OpenTable("map_effect_collision")) {
         _effect_def.effect_collision_width = particle_script.ReadFloat("effect_collision_width");
         _effect_def.effect_collision_height = particle_script.ReadFloat("effect_collision_height");
+        _effect_def.effect_width = particle_script.ReadFloat("effect_width");
+        _effect_def.effect_height = particle_script.ReadFloat("effect_height");
         particle_script.CloseTable(); // map_effect_collision
     }
 
