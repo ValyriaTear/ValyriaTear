@@ -85,6 +85,11 @@ function _CreateCharacters()
     andromalius:SetDirection(vt_map.MapMode.SOUTH);
     andromalius:SetMovementSpeed(vt_map.MapMode.FAST_SPEED);
     Map:AddGroundObject(andromalius);
+
+    if (GlobalManager:GetEventValue("story", "mt_elbrus_shrine_boss_beaten") == 1) then
+        andromalius:SetVisible(false);
+        andromalius:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
+    end
 end
 
 -- Arrays of spikes objects
@@ -129,8 +134,13 @@ function _CreateObjects()
     -- Create the mobile fences
     upper_fence1 = CreateObject(Map, "Stone Fence1", 31, 16);
     Map:AddGroundObject(upper_fence1);
-    upper_fence1 = CreateObject(Map, "Stone Fence1", 33, 16);
-    Map:AddGroundObject(upper_fence1);
+    upper_fence2 = CreateObject(Map, "Stone Fence1", 33, 16);
+    Map:AddGroundObject(upper_fence2);
+
+    if (GlobalManager:GetEventValue("story", "mt_elbrus_shrine_boss_beaten") == 1) then
+        upper_fence1:SetXPosition(29);
+        upper_fence2:SetXPosition(35);
+    end
 
     lower_fence1 = CreateObject(Map, "Stone Fence1", 29, 46);
     Map:AddGroundObject(lower_fence1);
@@ -420,6 +430,14 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
     event = vt_map.ScriptedEvent("The new stones fall", "new_stones_fall_start", "new_stones_fall_update")
     EventManager:RegisterEvent(event);
+
+    -- Won the battle!
+    event = vt_map.ScriptedEvent("The Boss dies", "boss_die_start", "boss_die_update")
+    event:AddEventLinkAtEnd("Open path");
+    EventManager:RegisterEvent(event);
+
+    event = vt_map.ScriptedEvent("Open path", "open_fences_start", "open_fences_update")
+    EventManager:RegisterEvent(event);
 end
 
 -- Tells the boss battle state
@@ -471,7 +489,19 @@ function _CheckZones()
     if (to_shrine_stairs_zone:IsCameraEntering() == true) then
         orlinn:SetDirection(vt_map.MapMode.SOUTH);
         EventManager:StartEvent("to mountain shrine stairs");
-    elseif (boss_started == false and start_boss_zone:IsCameraEntering() == true) then
+    end
+
+    -- Stop checking for battle conditions as soon as the player won.
+    if (battle_won == true) then
+        return;
+    end
+
+    -- Disable the boss battle when it is won.
+    if (GlobalManager:GetEventValue("story", "mt_elbrus_shrine_boss_beaten") == 1) then
+        battle_won = true;
+    end
+
+    if (boss_started == false and start_boss_zone:IsCameraEntering() == true) then
         orlinn:SetMoving(false);
         orlinn:SetDirection(vt_map.MapMode.NORTH);
         Map:PushState(vt_map.MapMode.STATE_SCENE);
@@ -483,7 +513,7 @@ function _CheckZones()
         _SpawnFireBall(29, 25);
         _SpawnFireBall(32, 28);
         _SpawnFireBall(35, 25);
-    elseif (boss_started == true and battle_won == false) then
+    elseif (boss_started == true) then
         _CheckStones()
         -- Check whether we can reset stones.
         if (ok_to_hit_the_ground == true) then
@@ -603,6 +633,22 @@ function _SpawnFireBall(x, y)
     table.insert(fireballs_array, new_table);
 end
 
+-- Remove all fireballs
+function _KillAllFireBalls()
+    for key, my_table in pairs(fireballs_array) do
+        if (my_table ~= nil) then
+            local object = my_table["object"];
+            if (object ~= nil) then
+                object:Stop();
+                object:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
+                --table.remove(fireballs_array, key);
+                -- object:CanDelete(); -- TODO: add support for something like this.
+                -- object = nil;
+            end
+        end
+    end
+end
+
 
 function _HideAllSpikes()
     for my_index, my_object in pairs(spikes1) do
@@ -675,9 +721,20 @@ function _HurtBoss()
     boss_damage = boss_damage + 1;
     fireball_speed = fireball_speed + 0.0005;
     EventManager:StartEvent("Boss hurt effect");
-
-    if (boss_damage >= 9) then
+    if (boss_damage >= 6) then
         battle_won = true;
+        Map:PushState(vt_map.MapMode.STATE_SCENE);
+        orlinn:SetMoving(false);
+        orlinn:LookAt(andromalius);
+        -- Stop the music very quickly.
+        AudioManager:FadeOutAllMusic(400);
+
+        EventManager:TerminateEvents("Start battle", false);
+        EventManager:TerminateEvents("Start spikes", false);
+
+        _HideAllSpikes();
+        _KillAllFireBalls();
+        EventManager:StartEvent("The Boss dies", 2000);
         return;
     end
 end
@@ -689,6 +746,9 @@ local stone_direction3 = vt_map.MapMode.EAST;
 
 local hurt_effect_time = 0;
 local hurt_color = vt_video.Color(1.0, 0.0, 0.0, 1.0);
+local boss_die_time = 0;
+local boss_turn_head_time = 0;
+local boss_head_to_right = true;
 
 -- Map Custom functions
 -- Used through scripted events
@@ -853,7 +913,7 @@ map_functions = {
             else
                 andromalius:SetCustomAnimation("open_mouth_left", 0);
             end
-            _SpawnFireBall(andromalius:GetXPosition(), andromalius:GetYPosition());
+            _SpawnFireBall(andromalius:GetXPosition(), andromalius:GetYPosition() - 2.0);
             fireball_timer2 = 0;
             fireball_timer3 = 0;
         end
@@ -862,13 +922,13 @@ map_functions = {
             if (fireball_timer2 < 1000) then
                 fireball_timer2 = fireball_timer2 + update_time;
                 if (fireball_timer2 >= 1000) then
-                    _SpawnFireBall(andromalius:GetXPosition(), andromalius:GetYPosition());
+                    _SpawnFireBall(andromalius:GetXPosition(), andromalius:GetYPosition() - 2.0);
                 end
             end
             if (fireball_timer2 >= 1000 and fireball_timer3 < 1000) then
                 fireball_timer3 = fireball_timer3 + update_time;
                 if (fireball_timer3 >= 1000) then
-                    _SpawnFireBall(andromalius:GetXPosition(), andromalius:GetYPosition());
+                    _SpawnFireBall(andromalius:GetXPosition(), andromalius:GetYPosition() - 2.0);
                     andromalius_current_action = "idle";
                     andromalius:DisableCustomAnimation();
                     -- reset the main timer.
@@ -960,7 +1020,7 @@ map_functions = {
 
         if (andromalius:GetYPosition() > 29.0) then
             AudioManager:PlaySound("snd/heavy_bump.wav");
-            Map:GetEffectSupervisor():ShakeScreen(1.0, 1000, vt_mode_manager.EffectSupervisor.SHAKE_FALLOFF_SUDDEN);
+            Map:GetEffectSupervisor():ShakeScreen(6.0, 1000, vt_mode_manager.EffectSupervisor.SHAKE_FALLOFF_SUDDEN);
             return true;
         end
 
@@ -1084,6 +1144,78 @@ map_functions = {
             return true;
         end
 
+        return false;
+    end,
+
+    boss_die_start = function()
+        boss_die_time = 0;
+        boss_turn_head_time = 0;
+        Map:GetEffectSupervisor():ShakeScreen(4.0, 6000, vt_mode_manager.EffectSupervisor.SHAKE_FALLOFF_LINEAR);
+        AudioManager:PlaySound("snd/cave-in.ogg");
+        andromalius:SetCustomAnimation("open_mouth_right", 0);
+        boss_head_to_right = true;
+    end,
+
+    boss_die_update = function()
+        boss_die_time = boss_die_time + SystemManager:GetUpdateTime();
+        boss_turn_head_time = boss_turn_head_time + SystemManager:GetUpdateTime();
+
+        -- TODO: Add the boss dying sound
+        if (boss_turn_head_time > 1000) then
+            boss_turn_head_time = 0;
+            if (boss_head_to_right == false) then
+                andromalius:SetCustomAnimation("open_mouth_right", 0);
+                boss_head_to_right = true;
+            elseif (boss_head_to_right == true) then
+                andromalius:SetCustomAnimation("open_mouth_left", 0);
+                boss_head_to_right = false;
+            end
+        end
+
+        if (boss_die_time < 3300.0) then
+            hurt_color:SetAlpha(boss_die_time / 3300.0);
+            Map:GetEffectSupervisor():EnableLightingOverlay(hurt_color);
+            return false;
+        end
+
+        -- Once we've reached this code, the boss can be hidden
+        -- TODO: Add particle effect
+        if (andromalius:IsVisible() == true) then
+            andromalius:SetVisible(false);
+            andromalius:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
+        end
+
+        if (boss_die_time < 8600.0) then
+            hurt_color:SetAlpha(((8600.0 - boss_die_time) / 3300.0));
+            Map:GetEffectSupervisor():EnableLightingOverlay(hurt_color);
+            return false;
+        end
+
+        -- Free the player
+        Map:PopState();
+        GlobalManager:SetEventValue("story", "mt_elbrus_shrine_boss_beaten", 1);
+        return true;
+    end,
+
+    open_fences_start = function()
+        lower_fence1:SetXPosition(31);
+        lower_fence2:SetXPosition(33);
+        upper_fence1:SetXPosition(31);
+        upper_fence2:SetXPosition(33);
+        AudioManager:PlaySound("snd/stone_roll.wav");
+    end,
+    
+    open_fences_update = function()
+        local update_time = SystemManager:GetUpdateTime();
+        local movement_diff = update_time * 0.005;
+        lower_fence1:SetXPosition(lower_fence1:GetXPosition() - movement_diff);
+        lower_fence2:SetXPosition(lower_fence2:GetXPosition() + movement_diff);
+        upper_fence1:SetXPosition(upper_fence1:GetXPosition() - movement_diff);
+        upper_fence2:SetXPosition(upper_fence2:GetXPosition() + movement_diff);
+
+        if (lower_fence1:GetXPosition() <= 29) then
+            return true;
+        end
         return false;
     end,
 }
