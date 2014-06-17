@@ -15,11 +15,10 @@ animation = {
     -- The frames duration in milliseconds
     frames = {
         [0] = { id = 2, duration = 800, x_offset = 40, y_offset = 20 },
-        -- FIXME: the offsets don't work when frames are reused... #311
-        --[1] = { id = 3, duration = 200, x_offset = 40, y_offset = 20 }, 
-        --[2] = { id = 0, duration = 200, x_offset = 40, y_offset = 20 },
-        --[3] = { id = 1, duration = 200, x_offset = 40, y_offset = 20 },
-        --[4] = { id = 0, duration = 200, x_offset = 40, y_offset = 20 },
-        --[5] = { id = 3, duration = 200, x_offset = 40, y_offset = 20 },
+        [1] = { id = 3, duration = 200, x_offset = 40, y_offset = 20 }, 
+        [2] = { id = 0, duration = 200, x_offset = 40, y_offset = 20 },
+        [3] = { id = 1, duration = 200, x_offset = 40, y_offset = 20 },
+        [4] = { id = 0, duration = 200, x_offset = 40, y_offset = 20 },
+        [5] = { id = 3, duration = 200, x_offset = 40, y_offset = 20 },
     }
 }
