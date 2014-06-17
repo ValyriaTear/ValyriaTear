@@ -56,6 +56,9 @@ function Load(m)
     AudioManager:LoadSound("snd/stone_roll.wav", Map);
     AudioManager:LoadSound("snd/stone_bump.ogg", Map);
     AudioManager:LoadSound("snd/opening_sword_unsheathe.wav", Map);
+    AudioManager:LoadSound("snd/falling.ogg", Map);
+    AudioManager:LoadSound("snd/cave-in.ogg", Map);
+    AudioManager:LoadSound("snd/heavy_bump.wav", Map);
 end
 
 -- the map update function handles checks done on each game tick.
@@ -408,17 +411,28 @@ function _CreateEvents()
     event = vt_map.ScriptedEvent("Boss hurt effect", "hurt_effect_start", "hurt_effect_update")
     EventManager:RegisterEvent(event);
 
+    -- Reset stones action
+    event = vt_map.ScriptedEvent("The boss hit the ground", "hit_ground_start", "hit_ground_update")
+    event:AddEventLinkAtEnd("The stones are put away");
+    EventManager:RegisterEvent(event);
+    event = vt_map.ScriptedEvent("The stones are put away", "visible_stones_fly_start", "visible_stones_fly_update")
+    event:AddEventLinkAtEnd("The new stones fall");
+    EventManager:RegisterEvent(event);
+    event = vt_map.ScriptedEvent("The new stones fall", "new_stones_fall_start", "new_stones_fall_update")
+    EventManager:RegisterEvent(event);
 end
 
 -- Tells the boss battle state
 local boss_started = false;
 local boss_damage = 0;
 local battle_won = false;
+-- boolean set to true when the stones are to be reset.
+local ok_to_hit_the_ground = true;
 
 -- zones
-local to_shrine_stairs_zone = {};
-local start_boss_zone = {};
-local boss_zone = {};
+local to_shrine_stairs_zone = nil;
+local start_boss_zone = nil;
+local boss_zone = nil;
 
 -- Create the different map zones triggering events
 function _CreateZones()
@@ -430,10 +444,14 @@ function _CreateZones()
     Map:AddZone(start_boss_zone);
     boss_zone = vt_map.CameraZone(28, 36, 20, 28);
     Map:AddZone(boss_zone);
-
 end
 
 function _CheckBossZone(stone)
+    -- Check whether the boss is hurt
+    if (stone:GetCollisionMask() == vt_map.MapMode.NO_COLLISION) then
+        return;
+    end
+
     if (boss_zone:IsInsideZone(stone:GetXPosition(), stone:GetYPosition())) then
         stone:SetVisible(false);
         stone:SetPosition(0, 0);
@@ -458,7 +476,6 @@ function _CheckZones()
         orlinn:SetDirection(vt_map.MapMode.NORTH);
         Map:PushState(vt_map.MapMode.STATE_SCENE);
 
-        boss_started = true;
         EventManager:StartEvent("Close bottom fences");
         EventManager:StartEvent("Orlinn goes near boss");
     elseif (boss_started == true and boss_zone:IsCameraEntering() == true
@@ -468,6 +485,12 @@ function _CheckZones()
         _SpawnFireBall(35, 25);
     elseif (boss_started == true and battle_won == false) then
         _CheckStones()
+        -- Check whether we can reset stones.
+        if (ok_to_hit_the_ground == true) then
+            EventManager:StartEvent("The boss hit the ground");
+            ok_to_hit_the_ground = false;
+            return;
+        end
     end
 
 end
@@ -640,11 +663,17 @@ local fireball_timer3 = 0;
 local fireball_speed = 0;
 local andromalius_current_action = "idle";
 
+-- reset balls action
+local stone1_hit_ground = false;
+local stone2_hit_ground = false;
+local stone3_hit_ground = false;
+local stones_reset_timer = 0;
+
 function _HurtBoss()
     -- TODO: Play hurt sound
     andromalius:SetCustomAnimation("open_mouth_left", -1);
     boss_damage = boss_damage + 1;
-    fireball_speed = fireball_speed + 0.001;
+    fireball_speed = fireball_speed + 0.0005;
     EventManager:StartEvent("Boss hurt effect");
 
     if (boss_damage >= 9) then
@@ -740,51 +769,20 @@ map_functions = {
     battle_start = function()
         fireball_timer = 0;
         fireball_speed = 0.003;
+        stones_reset_timer = 0;
+        ok_to_hit_the_ground = false;
         boss_damage = 0;
         battle_won = false;
+        boss_started = true;
         -- Free the player so he can move.
         Map:PopState();
     end,
 
-    -- TODO: Make boss periodically disable the spikes and throw a stone.
     battle_update = function()
         local update_time = SystemManager:GetUpdateTime();
-        fireball_timer = fireball_timer + update_time;
         
         -- Make andromalius watch orlinn
         andromalius:LookAt(orlinn);
-
-        -- Make andromalius start to throw fireballs
-        if (fireball_timer > 8000 and andromalius_current_action == "idle") then
-            andromalius_current_action = "fireballs";
-            if (orlinn:GetXPosition() > andromalius:GetXPosition()) then
-                andromalius:SetCustomAnimation("open_mouth_right", 0);
-            else
-                andromalius:SetCustomAnimation("open_mouth_left", 0);
-            end
-            _SpawnFireBall(andromalius:GetXPosition(), andromalius:GetYPosition());
-            fireball_timer2 = 0;
-            fireball_timer3 = 0;
-        end
-        -- Makes him keep up throwing them 3 times in total.
-        if (andromalius_current_action == "fireballs") then
-            if (fireball_timer2 < 1000) then
-                fireball_timer2 = fireball_timer2 + update_time;
-                if (fireball_timer2 >= 1000) then
-                    _SpawnFireBall(andromalius:GetXPosition(), andromalius:GetYPosition());
-                end
-            end
-            if (fireball_timer2 >= 1000 and fireball_timer3 < 1000) then
-                fireball_timer3 = fireball_timer3 + update_time;
-                if (fireball_timer3 >= 1000) then
-                    _SpawnFireBall(andromalius:GetXPosition(), andromalius:GetYPosition());
-                    andromalius_current_action = "idle";
-                    andromalius:DisableCustomAnimation();
-                    -- reset the main timer.
-                    fireball_timer = 0;
-                end
-            end
-        end
 
         -- Update fireballs position and lifetime
         for key, my_table in pairs(fireballs_array) do
@@ -828,6 +826,53 @@ map_functions = {
                     table.remove(fireballs_array, key);
                     -- object:CanDelete(); -- TODO: add support for something like this.
                     -- object = nil;
+                end
+            end
+        end
+
+        -- Make the boss reset stones position from time to time.
+        -- TODO: This should block the player or throw spikes too.
+        stones_reset_timer = stones_reset_timer + update_time;
+        if (stones_reset_timer > 30000 and andromalius_current_action == "idle") then
+            andromalius_current_action = "stones";
+            ok_to_hit_the_ground = true;
+            return false;
+        end
+
+        -- Wait for the action to be finished.
+        if (andromalius_current_action == "stones") then
+            return false;
+        end
+
+        -- Make andromalius start to throw fireballs
+        fireball_timer = fireball_timer + update_time;
+        if (fireball_timer > 8000 and andromalius_current_action == "idle") then
+            andromalius_current_action = "fireballs";
+            if (orlinn:GetXPosition() > andromalius:GetXPosition()) then
+                andromalius:SetCustomAnimation("open_mouth_right", 0);
+            else
+                andromalius:SetCustomAnimation("open_mouth_left", 0);
+            end
+            _SpawnFireBall(andromalius:GetXPosition(), andromalius:GetYPosition());
+            fireball_timer2 = 0;
+            fireball_timer3 = 0;
+        end
+        -- Makes him keep up throwing them 3 times in total.
+        if (andromalius_current_action == "fireballs") then
+            if (fireball_timer2 < 1000) then
+                fireball_timer2 = fireball_timer2 + update_time;
+                if (fireball_timer2 >= 1000) then
+                    _SpawnFireBall(andromalius:GetXPosition(), andromalius:GetYPosition());
+                end
+            end
+            if (fireball_timer2 >= 1000 and fireball_timer3 < 1000) then
+                fireball_timer3 = fireball_timer3 + update_time;
+                if (fireball_timer3 >= 1000) then
+                    _SpawnFireBall(andromalius:GetXPosition(), andromalius:GetYPosition());
+                    andromalius_current_action = "idle";
+                    andromalius:DisableCustomAnimation();
+                    -- reset the main timer.
+                    fireball_timer = 0;
                 end
             end
         end
@@ -900,5 +945,145 @@ map_functions = {
             _SpawnFireBall(35, 25);
         end
         return true;
+    end,
+
+    hit_ground_start = function()
+        -- The boss will hit the ground and make the visible stones fly away.
+        -- Then, new ones will fall in place.
+        hit_ground_update_time = 0;
+        andromalius:SetPosition(32.0, 25.0);
+    end,
+
+    hit_ground_update = function()
+        local update_time = SystemManager:GetUpdateTime();
+        andromalius:SetYPosition(andromalius:GetYPosition() + 0.017 * update_time);
+
+        if (andromalius:GetYPosition() > 29.0) then
+            AudioManager:PlaySound("snd/heavy_bump.wav");
+            Map:GetEffectSupervisor():ShakeScreen(1.0, 1000, vt_mode_manager.EffectSupervisor.SHAKE_FALLOFF_SUDDEN);
+            return true;
+        end
+
+        return false;
+    end,
+
+    visible_stones_fly_start = function()
+        AudioManager:PlaySound("snd/cave-in.ogg");
+        stone1:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
+        stone2:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
+        stone3:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
+    end,
+
+    visible_stones_fly_update = function()
+        -- Make Andromalius slowly come back to its former location.
+        local update_time = SystemManager:GetUpdateTime();
+        if (andromalius:GetYPosition() > 25.0) then
+            andromalius:SetYPosition(andromalius:GetYPosition() - 0.003 * update_time);
+        end
+
+        -- Make the stones fly away from screen
+        if (stone1:IsVisible() == true) then
+            local x_diff = 0.030 * update_time;
+            if (stone1:GetXPosition() < orlinn:GetXPosition()) then
+                x_diff = -x_diff;
+            end
+            stone1:SetPosition(stone1:GetXPosition() + x_diff, stone1:GetYPosition() - 0.005 * update_time);
+        end
+        if (stone2:IsVisible() == true) then
+            local x_diff = 0.030 * update_time;
+            if (stone2:GetXPosition() < orlinn:GetXPosition()) then
+                x_diff = -x_diff;
+            end
+            stone2:SetPosition(stone2:GetXPosition() + x_diff, stone2:GetYPosition() - 0.005 * update_time);
+        end
+        if (stone3:IsVisible() == true) then
+            local x_diff = 0.030 * update_time;
+            if (stone3:GetXPosition() < orlinn:GetXPosition()) then
+                x_diff = -x_diff;
+            end
+            stone3:SetPosition(stone3:GetXPosition() + x_diff, stone3:GetYPosition() - 0.005 * update_time);
+        end
+
+        -- Make the stones invisible when they leave the map
+        if (stone1:GetXPosition() <= 0 or stone1:GetXPosition() >= 70) then
+            stone1:SetVisible(false);
+        end
+        if (stone2:GetXPosition() <= 0 or stone2:GetXPosition() >= 70) then
+            stone2:SetVisible(false);
+        end
+        if (stone3:GetXPosition() <= 0 or stone3:GetXPosition() >= 70) then
+            stone3:SetVisible(false);
+        end
+
+        -- Check that both Andromalius and the stones are in place
+        if (andromalius:GetYPosition() <= 25.0 and stone1:IsVisible() == false
+                and stone2:IsVisible() == false and stone3:IsVisible() == false) then
+            return true;
+        end
+
+        return false;
+    end,
+
+    new_stones_fall_start = function()
+        -- Place the stones, ready to fall
+        stone1_hit_ground = false;
+        stone2_hit_ground = false;
+        stone3_hit_ground = false;
+
+        stone1:SetPosition(30.8, 30.8);
+        stone1:SetVisible(true);
+        stone1:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
+        stone2:SetPosition(13, 19.2);
+        stone2:SetVisible(true);
+        stone2:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
+        stone3:SetPosition(51, 21.2);
+        stone3:SetVisible(true);
+        stone3:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
+        -- Play the falling sound
+        AudioManager:PlaySound("snd/falling.ogg");
+    end,
+
+    new_stones_fall_update = function()
+        local update_time = SystemManager:GetUpdateTime();
+        local movement_diff = 0.011 * update_time;
+
+        if (stone1_hit_ground == false) then
+            stone1:SetYPosition(stone1:GetYPosition() + movement_diff)
+        end
+        if (stone1:GetYPosition() >= 35.8) then
+            stone1:SetCollisionMask(vt_map.MapMode.ALL_COLLISION);
+            AudioManager:PlaySound("snd/stone_bump.ogg");
+            stone1_hit_ground = true;
+        end
+
+        if (stone2_hit_ground == false) then
+            stone2:SetYPosition(stone2:GetYPosition() + movement_diff)
+        end
+        if (stone2:GetYPosition() >= 24.2) then
+            stone2:SetCollisionMask(vt_map.MapMode.ALL_COLLISION);
+            AudioManager:PlaySound("snd/stone_bump.ogg");
+            stone2_hit_ground = true;
+        end
+
+        if (stone3_hit_ground == false) then
+            stone3:SetYPosition(stone3:GetYPosition() + movement_diff)
+        end
+        if (stone3:GetYPosition() >= 26.2) then
+            stone3:SetCollisionMask(vt_map.MapMode.ALL_COLLISION);
+            AudioManager:PlaySound("snd/stone_bump.ogg");
+            stone3_hit_ground = true;
+        end
+
+        -- Check whether all the stones are ready.
+        if (stone1_hit_ground == true and stone2_hit_ground == true
+                and stone3_hit_ground == true) then
+
+            -- Restart the battle actions
+            andromalius_current_action = "idle";
+            stones_reset_timer = 0;
+            return true;
+        end
+
+        return false;
     end,
 }
