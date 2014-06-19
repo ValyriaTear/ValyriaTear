@@ -678,6 +678,11 @@ private:
 
     //! \brief Tells whether the sound is activated.
     bool _activated;
+
+    //! \brief Tells whether the sound is currently playing or not
+    //! This boolean is here to avoid calling fadeIn()/FadeOut()
+    //! repeatedly on sounds.
+    bool _playing;
 }; // class SoundObject : public MapObject
 
 /** ****************************************************************************

@@ -631,6 +631,7 @@ SoundObject::SoundObject(const std::string& sound_filename, float x, float y, fl
         _strength = 0.0f;
 
     _time_remaining = 0.0f;
+    _playing = false;
 
     position.x = x;
     position.y = y;
@@ -671,7 +672,10 @@ void SoundObject::Update()
     float strength2 = _strength * _strength;
 
     if (distance >= strength2) {
-        _sound.FadeOut(1000.0f);
+        if (_playing) {
+            _sound.FadeOut(1000.0f);
+            _playing = false;
+        }
         return;
     }
 
@@ -684,8 +688,10 @@ void SoundObject::Update()
     float volume = 1.0f - (distance / strength2);
     _sound.SetVolume(volume);
 
-    if (_sound.GetState() != AUDIO_STATE_PLAYING)
+    if (!_playing) {
         _sound.FadeIn(1000.0f);
+        _playing = true;
+    }
 }
 
 void SoundObject::Stop()
