@@ -304,6 +304,14 @@ bool ParticleObject::Start()
     return false;
 }
 
+bool ParticleObject::IsAlive() const
+{
+    if (_particle_effect)
+        return _particle_effect->IsAlive();
+    else
+        return false;
+}
+
 void ParticleObject::Update()
 {
     if(!_particle_effect || !updatable)
@@ -955,7 +963,7 @@ void TriggerObject::SetState(bool state)
 ObjectSupervisor::ObjectSupervisor() :
     _num_grid_x_axis(0),
     _num_grid_y_axis(0),
-    _last_id(1000), //! Every object Id must be > 0 since 0 is reserved for speakerless dialogues.
+    _last_id(1), //! Every object Id must be > 0 since 0 is reserved for speakerless dialogues.
     _visible_party_member(0)
 {
     _virtual_focus = new VirtualSprite();
@@ -964,8 +972,6 @@ ObjectSupervisor::ObjectSupervisor() :
     _virtual_focus->SetCollisionMask(NO_COLLISION);
     _virtual_focus->SetVisible(false);
 }
-
-
 
 ObjectSupervisor::~ObjectSupervisor()
 {
@@ -1000,47 +1006,20 @@ ObjectSupervisor::~ObjectSupervisor()
     delete(_virtual_focus);
 }
 
-
-
-MapObject *ObjectSupervisor::GetObjectByIndex(uint32 index)
-{
-    if(index >= GetNumberObjects()) {
-        return NULL;
-    }
-
-    uint32 counter = 0;
-    for(std::map<uint16, MapObject *>::iterator it = _all_objects.begin(); it != _all_objects.end(); ++it) {
-        if(counter == index)
-            return it->second;
-        else
-            ++counter;
-    }
-
-    IF_PRINT_WARNING(MAP_DEBUG) << "object not found after reaching end of set -- this should never happen" << std::endl;
-    return NULL;
-}
-
-
-
 MapObject *ObjectSupervisor::GetObject(uint32 object_id)
 {
-    std::map<uint16, MapObject *>::iterator it = _all_objects.find(object_id);
-
-    if(it == _all_objects.end())
+    if(object_id >= _all_objects.size())
         return NULL;
     else
-        return it->second;
+        return _all_objects[object_id];
 }
-
-
 
 VirtualSprite *ObjectSupervisor::GetSprite(uint32 object_id)
 {
     MapObject *object = GetObject(object_id);
 
-    if(object == NULL) {
+    if(object == NULL)
         return NULL;
-    }
 
     VirtualSprite *sprite = dynamic_cast<VirtualSprite *>(object);
     if(sprite == NULL) {
@@ -1051,7 +1030,150 @@ VirtualSprite *ObjectSupervisor::GetSprite(uint32 object_id)
     return sprite;
 }
 
+void ObjectSupervisor::AddFlatGroundObject(MapObject* object)
+{
+    if(!object) {
+        PRINT_WARNING << "Couldn't add NULL object." << std::endl;
+        return;
+    }
+    _flat_ground_objects.push_back(object);
+    _AddObject(object);
+}
 
+void ObjectSupervisor::RemoveFlatGroundObject(MapObject* object)
+{
+    if(!object) {
+        PRINT_WARNING << "Couldn't remove NULL object." << std::endl;
+        return;
+    }
+
+    std::vector<MapObject*>::iterator it = _flat_ground_objects.begin();
+    std::vector<MapObject*>::iterator it_end = _flat_ground_objects.end();
+    for(; it != it_end; ++it) {
+        if (*it == object) {
+            _flat_ground_objects.erase(it);
+            break;
+        }
+    }
+    _RemoveObject(object);
+    delete object;
+}
+
+void ObjectSupervisor::AddGroundObject(MapObject* object)
+{
+    if(!object) {
+        PRINT_WARNING << "Couldn't add NULL object." << std::endl;
+        return;
+    }
+    _ground_objects.push_back(object);
+    _AddObject(object);
+}
+
+void ObjectSupervisor::RemoveGroundObject(MapObject* object)
+{
+    if(!object) {
+        PRINT_WARNING << "Couldn't remove NULL object." << std::endl;
+        return;
+    }
+
+    std::vector<MapObject*>::iterator it = _ground_objects.begin();
+    std::vector<MapObject*>::iterator it_end = _ground_objects.end();
+    for(; it != it_end; ++it) {
+        if (*it == object) {
+            _ground_objects.erase(it);
+            break;
+        }
+    }
+    _RemoveObject(object);
+    delete object;
+}
+
+void ObjectSupervisor::AddPassObject(MapObject* object)
+{
+    if(!object) {
+        PRINT_WARNING << "Couldn't add NULL object." << std::endl;
+        return;
+    }
+    _pass_objects.push_back(object);
+    _AddObject(object);
+}
+
+void ObjectSupervisor::RemovePassObject(MapObject* object)
+{
+    if(!object) {
+        PRINT_WARNING << "Couldn't remove NULL object." << std::endl;
+        return;
+    }
+
+    std::vector<MapObject*>::iterator it = _pass_objects.begin();
+    std::vector<MapObject*>::iterator it_end = _pass_objects.end();
+    for(; it != it_end; ++it) {
+        if (*it == object) {
+            _pass_objects.erase(it);
+            break;
+        }
+    }
+    _RemoveObject(object);
+    delete object;
+}
+
+void ObjectSupervisor::AddSkyObject(MapObject* object)
+{
+    if(!object) {
+        PRINT_WARNING << "Couldn't add NULL object." << std::endl;
+        return;
+    }
+    _sky_objects.push_back(object);
+    _AddObject(object);
+}
+
+void ObjectSupervisor::RemoveSkyObject(MapObject* object)
+{
+    if(!object) {
+        PRINT_WARNING << "Couldn't remove NULL object." << std::endl;
+        return;
+    }
+
+    std::vector<MapObject*>::iterator it = _sky_objects.begin();
+    std::vector<MapObject*>::iterator it_end = _sky_objects.end();
+    for(; it != it_end; ++it) {
+        if (*it == object) {
+            _sky_objects.erase(it);
+            break;
+        }
+    }
+    _RemoveObject(object);
+    delete object;
+}
+
+void ObjectSupervisor::_AddObject(MapObject* object)
+{
+    if (!object || object->GetObjectID() < 0)
+        return;
+
+    uint32 obj_id = (uint32)object->GetObjectID();
+
+    // Adds the object to the all object collection.
+    if (obj_id >= _all_objects.size())
+        _all_objects.resize(obj_id + 1, NULL);
+    _all_objects[obj_id] = object;
+}
+
+void ObjectSupervisor::_RemoveObject(MapObject* object)
+{
+    if (!object)
+        return;
+
+    for (uint32 i = 0; i < _all_objects.size(); ++i) {
+        // We only set it to NULL without removing its place in memory
+        // to avoid breaking the vector key used as object id,
+        // so that in: _all_objects[key]: key = object_id.
+        if (_all_objects[i] == object) {
+            _all_objects[i] = NULL;
+            break;
+        }
+    }
+}
 
 void ObjectSupervisor::SortObjects()
 {
@@ -1060,8 +1182,6 @@ void ObjectSupervisor::SortObjects()
     std::sort(_pass_objects.begin(), _pass_objects.end(), MapObject_Ptr_Less());
     std::sort(_sky_objects.begin(), _sky_objects.end(), MapObject_Ptr_Less());
 }
-
-
 
 bool ObjectSupervisor::Load(ReadScriptDescriptor &map_file)
 {
@@ -1081,8 +1201,6 @@ bool ObjectSupervisor::Load(ReadScriptDescriptor &map_file)
     _num_grid_x_axis = _collision_grid[0].size();
     return true;
 }
-
-
 
 void ObjectSupervisor::Update()
 {
@@ -1309,7 +1427,6 @@ MapObject *ObjectSupervisor::FindNearestInteractionObject(const VirtualSprite *s
     return closest_obj;
 } // MapObject* ObjectSupervisor::FindNearestObject(VirtualSprite* sprite, float search_distance)
 
-
 bool ObjectSupervisor::CheckObjectCollision(const MapRectangle &rect, const private_map::MapObject *const obj)
 {
     if(!obj)
@@ -1318,7 +1435,6 @@ bool ObjectSupervisor::CheckObjectCollision(const MapRectangle &rect, const priv
     MapRectangle obj_rect = obj->GetCollisionRectangle();
     return MapRectangle::CheckIntersection(rect, obj_rect);
 }
-
 
 bool ObjectSupervisor::IsPositionOccupiedByObject(float x, float y, MapObject *object)
 {
@@ -1336,7 +1452,6 @@ bool ObjectSupervisor::IsPositionOccupiedByObject(float x, float y, MapObject *o
     }
     return false;
 }
-
 
 COLLISION_TYPE ObjectSupervisor::GetCollisionFromObjectType(MapObject *obj) const
 {
@@ -1360,8 +1475,6 @@ COLLISION_TYPE ObjectSupervisor::GetCollisionFromObjectType(MapObject *obj) cons
     }
     return NO_COLLISION;
 }
-
-
 
 COLLISION_TYPE ObjectSupervisor::DetectCollision(MapObject* object,
                                                  float x_pos, float y_pos,
@@ -1433,7 +1546,6 @@ COLLISION_TYPE ObjectSupervisor::DetectCollision(MapObject* object,
 
     return NO_COLLISION;
 } // bool ObjectSupervisor::DetectCollision(VirtualSprite* sprite, float x, float y, MapObject** collision_object_ptr)
-
 
 Path ObjectSupervisor::FindPath(VirtualSprite *sprite, const MapPosition &destination, uint32 max_cost)
 {
@@ -1629,9 +1741,9 @@ void ObjectSupervisor::ReloadVisiblePartyMember()
 
 void ObjectSupervisor::SetAllEnemyStatesToDead()
 {
-    for(std::map<uint16, MapObject *>::iterator it = _all_objects.begin(); it != _all_objects.end(); ++it) {
-        if (it->second->GetObjectType() == ENEMY_TYPE) {
-            EnemySprite* enemy = dynamic_cast<EnemySprite*>(it->second);
+    for(uint32 i = 0; i < _all_objects.size(); ++i) {
+        if (_all_objects[i] && _all_objects[i]->GetObjectType() == ENEMY_TYPE) {
+            EnemySprite* enemy = dynamic_cast<EnemySprite*>(_all_objects[i]);
             enemy->ChangeStateDead();
         }
     }

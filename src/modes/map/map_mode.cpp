@@ -415,8 +415,6 @@ void MapMode::PopState()
     }
 }
 
-
-
 MAP_STATE MapMode::CurrentState()
 {
     if(_state_stack.empty() == true) {
@@ -427,46 +425,44 @@ MAP_STATE MapMode::CurrentState()
     return _state_stack.back();
 }
 
-void MapMode::AddFlatGroundObject(MapObject *obj)
+void MapMode::AddFlatGroundObject(private_map::MapObject* obj)
 {
-    if(!obj) {
-        PRINT_WARNING << "Couldn't add NULL object." << std::endl;
-        return;
-    }
-    _object_supervisor->_flat_ground_objects.push_back(obj);
-    _object_supervisor->_all_objects.insert(std::make_pair(obj->object_id, obj));
+    _object_supervisor->AddFlatGroundObject(obj);
 }
 
-void MapMode::AddGroundObject(MapObject *obj)
+void MapMode::RemoveFlatGroundObject(private_map::MapObject* obj)
 {
-    if(!obj) {
-        PRINT_WARNING << "Couldn't add NULL object." << std::endl;
-        return;
-    }
-    _object_supervisor->_ground_objects.push_back(obj);
-    _object_supervisor->_all_objects.insert(std::make_pair(obj->object_id, obj));
+    _object_supervisor->RemoveFlatGroundObject(obj);
 }
 
-
-void MapMode::AddPassObject(MapObject *obj)
+void MapMode::AddGroundObject(private_map::MapObject* obj)
 {
-    if(!obj) {
-        PRINT_WARNING << "Couldn't add NULL object." << std::endl;
-        return;
-    }
-    _object_supervisor->_pass_objects.push_back(obj);
-    _object_supervisor->_all_objects.insert(std::make_pair(obj->object_id, obj));
+    _object_supervisor->AddGroundObject(obj);
 }
 
-
-void MapMode::AddSkyObject(MapObject *obj)
+void MapMode::RemoveGroundObject(private_map::MapObject* obj)
 {
-    if(!obj) {
-        PRINT_WARNING << "Couldn't add NULL object." << std::endl;
-        return;
-    }
-    _object_supervisor->_sky_objects.push_back(obj);
-    _object_supervisor->_all_objects.insert(std::make_pair(obj->object_id, obj));
+    _object_supervisor->RemoveGroundObject(obj);
+}
+
+void MapMode::AddPassObject(private_map::MapObject* obj)
+{
+    _object_supervisor->AddPassObject(obj);
+}
+
+void MapMode::RemovePassObject(private_map::MapObject* obj)
+{
+    _object_supervisor->RemovePassObject(obj);
+}
+
+void MapMode::AddSkyObject(private_map::MapObject* obj)
+{
+    _object_supervisor->AddSkyObject(obj);
+}
+
+void MapMode::RemoveSkyObject(private_map::MapObject* obj)
+{
+    _object_supervisor->RemoveSkyObject(obj);
 }
 
 void MapMode::AddAmbientSoundObject(SoundObject *obj)

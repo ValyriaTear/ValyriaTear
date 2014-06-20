@@ -153,16 +153,28 @@ public:
     private_map::MAP_STATE CurrentState();
 
     //! \brief Adds a new object to the layer before ground object layer
-    void AddFlatGroundObject(private_map::MapObject *obj);
+    void AddFlatGroundObject(private_map::MapObject* obj);
+
+    //! \brief Removes an object from the ground object layer
+    void RemoveFlatGroundObject(private_map::MapObject* obj);
 
     //! \brief Adds a new object to the ground object layer
-    void AddGroundObject(private_map::MapObject *obj);
+    void AddGroundObject(private_map::MapObject* obj);
+
+    //! \brief Removes an object from the ground object layer
+    void RemoveGroundObject(private_map::MapObject* obj);
 
     //! \brief Adds a new object to the pass object layer
-    void AddPassObject(private_map::MapObject *obj);
+    void AddPassObject(private_map::MapObject* obj);
+
+    //! \brief Removes an object from the pass object layer
+    void RemovePassObject(private_map::MapObject* obj);
 
     //! \brief Adds a new object to the sky object layer
-    void AddSkyObject(private_map::MapObject *obj);
+    void AddSkyObject(private_map::MapObject* obj);
+
+    //! \brief Removes an object from the sky object layer
+    void RemoveSkyObject(private_map::MapObject* obj);
 
     //! \brief Adds a new ambient sound object
     void AddAmbientSoundObject(private_map::SoundObject *obj);

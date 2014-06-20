@@ -390,7 +390,7 @@ function _CreateEvents()
     event = vt_map.ScriptedEvent("Set camera on Boss", "camera_on_boss_start", "camera_update");
     event:AddEventLinkAtEnd("Boss introduction");
     EventManager:RegisterEvent(event);
-    
+
     dialogue = vt_map.SpriteDialogue();
     text = vt_system.Translate("Yiek! A big monster!");
     dialogue:AddLineEmote(text, orlinn, "exclamation");
@@ -625,11 +625,11 @@ function _SpawnFireBall(x, y)
     local fireball = vt_map.ParticleObject("dat/effects/particles/fire.lua", x, y);
     fireball:SetObjectID(Map.object_supervisor:GenerateObjectID());
     Map:AddGroundObject(fireball);
-    
+
     local new_table = {};
     new_table["object"] = fireball;
     new_table["lifetime"] = 5000;
-    
+
     table.insert(fireballs_array, new_table);
 end
 
@@ -639,11 +639,9 @@ function _KillAllFireBalls()
         if (my_table ~= nil) then
             local object = my_table["object"];
             if (object ~= nil) then
-                object:Stop();
-                object:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
-                --table.remove(fireballs_array, key);
-                -- object:CanDelete(); -- TODO: add support for something like this.
-                -- object = nil;
+                table.remove(fireballs_array, key);
+                Map:RemoveGroundObject(object);
+                object = nil;
             end
         end
     end
@@ -769,14 +767,14 @@ map_functions = {
         spike4_index2 = 13; -- 41/3
         spike4_index3 = 26; -- 41/3*2
     end,
-    
+
     spikes_update = function()
         spikes_update_time = spikes_update_time + SystemManager:GetUpdateTime();
         if (spikes_update_time < 700) then
             return false;
         end
         spikes_update_time = 0;
-        
+
         spike1_index1 = _UpdateSpike(spikes1, spike1_index1, 14); -- size of array
         spike1_index2 = _UpdateSpike(spikes1, spike1_index2, 14);
         spike2_index1 = _UpdateSpike(spikes2, spike2_index1, 22);
@@ -797,7 +795,7 @@ map_functions = {
         lower_fence2:SetXPosition(35);
         AudioManager:PlaySound("snd/stone_roll.wav");
     end,
-    
+
     bottom_fence_update = function()
         local update_time = SystemManager:GetUpdateTime();
         local movement_diff = update_time * 0.005;
@@ -840,7 +838,7 @@ map_functions = {
 
     battle_update = function()
         local update_time = SystemManager:GetUpdateTime();
-        
+
         -- Make andromalius watch orlinn
         andromalius:LookAt(orlinn);
 
@@ -875,17 +873,23 @@ map_functions = {
                 end
             end
         end
-        -- remove fireballs when their lifetime has run out
+        -- Stop and/or remove fireballs when their lifetime has run out
         for key, my_table in pairs(fireballs_array) do
             if (my_table ~= nil) then
                 local object = my_table["object"];
                 local lifetime = my_table["lifetime"];
-                if (object ~= nil and lifetime <= 0.0) then
-                    object:Stop();
-                    object:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
-                    table.remove(fireballs_array, key);
-                    -- object:CanDelete(); -- TODO: add support for something like this.
-                    -- object = nil;
+                if (object ~= nil) then
+                    -- Check whether the flame should stop
+                    if (lifetime <= 0.0) then
+                        object:Stop();
+                        object:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
+                    end
+                    -- Once the particle effect is dead, we can remove the object.
+                    if (object:IsAlive() == false) then
+                        table.remove(fireballs_array, key);
+                        Map:RemoveGroundObject(object);
+                        object = nil;
+                    end
                 end
             end
         end
@@ -1204,7 +1208,7 @@ map_functions = {
         upper_fence2:SetXPosition(33);
         AudioManager:PlaySound("snd/stone_roll.wav");
     end,
-    
+
     open_fences_update = function()
         local update_time = SystemManager:GetUpdateTime();
         local movement_diff = update_time * 0.005;

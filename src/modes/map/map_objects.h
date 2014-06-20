@@ -345,13 +345,13 @@ protected:
     MAP_OBJECT_TYPE _object_type;
 
     //! \brief the emote animation to play
-    vt_video::AnimatedImage *_emote_animation;
+    vt_video::AnimatedImage* _emote_animation;
 
     //! \brief The emote animation drawing offset (depending on the map object direction)
     float _emote_offset_x;
     float _emote_offset_y;
 
-    //! \brief the time the emote animatio will last in milliseconds,
+    //! \brief the time the emote animation will last in milliseconds,
     int32 _emote_time;
 
     //! \brief Takes care of updating the emote animation and state.
@@ -490,9 +490,13 @@ public:
     //! \brief Stop the particle effect
     bool Start();
 
+    //! \brief Tells whether there are particles still alive,
+    //! even if the whole particle effect is stopping.
+    bool IsAlive() const;
+
 private:
     //! \brief A reference to the current map save animation.
-    vt_mode_manager::ParticleEffect *_particle_effect;
+    vt_mode_manager::ParticleEffect* _particle_effect;
 
     //@}
 }; // class ParticleObject : public MapObject
@@ -894,15 +898,6 @@ public:
         return _all_objects.size();
     }
 
-    /** \brief Retrieves an object by its position in the _all_objects container
-    *** \param index The index of the object to retrieve
-    *** \return A pointer to the object at this index, or NULL if no object exists at the given index
-    ***
-    *** \note It is uncommon to require the use of this function in a map. It exists for Lua to be able to access
-    *** all available map objects even when the IDs of those objects are unknown.
-    **/
-    MapObject *GetObjectByIndex(uint32 index);
-
     /** \brief Retrieves a pointer to an object on this map
     *** \param object_id The id number of the object to retreive
     *** \return A pointer to the map object, or NULL if no object with that ID was found
@@ -914,6 +909,16 @@ public:
     *** \return A pointer to the sprite object, or NULL if the object was not found or was not a sprite type
     **/
     VirtualSprite *GetSprite(uint32 object_id);
+
+    //! \brief Add/Remove an object in/from a given layer on map.
+    void AddFlatGroundObject(MapObject* object);
+    void RemoveFlatGroundObject(MapObject* object);
+    void AddGroundObject(MapObject* object);
+    void RemoveGroundObject(MapObject* object);
+    void AddPassObject(MapObject* object);
+    void RemovePassObject(MapObject* object);
+    void AddSkyObject(MapObject* object);
+    void RemoveSkyObject(MapObject* object);
 
     //! \brief Sorts objects on all three layers according to their draw order
     void SortObjects();
@@ -1094,7 +1099,17 @@ private:
     //! \brief Debug: Draws the map zones in orange
     void _DrawMapZones();
 
-    /** \brief The number of rows and columns in the collision gride
+    //! \brief Wrapper to add an object in the all objects vector.
+    //! This should only be called by corresponding public Add*Object() functions.
+    void _AddObject(MapObject* object);
+
+    //! \brief Wrapper to remove an object from the all objects vector.
+    //! This should only be called by corresponding public Remove*Object() functions.
+    //! \note: The object isn't actually deleted from memory, only set to NULL in the vector,
+    //! so that the key values don't change.
+    void _RemoveObject(MapObject* object);
+
+    /** \brief The number of rows and columns in the collision grid
     *** The number of collision grid rows and columns is always equal to twice
     *** that of the number of rows and columns of tiles (stored in the TileManager).
     **/
@@ -1128,9 +1143,9 @@ private:
 
     /** \brief A map containing pointers to all of the sprites on a map.
     *** This map does not include a pointer to the _virtual_focus object. The
-    *** sprite's unique identifier integer is used as the map key.
+    *** sprite's unique identifier integer is used as the vector key.
     **/
-    std::map<uint16, MapObject *> _all_objects;
+    std::vector<MapObject *> _all_objects;
 
     /** \brief A container for all of the map objects located on the ground layer, and being flat.
     *** See this layer as a pre ground object layer
