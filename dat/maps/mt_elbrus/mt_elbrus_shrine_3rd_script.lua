@@ -440,7 +440,9 @@ function _CreateEvents()
     dialogue:AddLine(text, andromalius);
     text = vt_system.Translate("Me? But I'm not the Chosen One.");
     dialogue:AddLineEmote(text, orlinn, "interrogation");
-    text = vt_system.Translate("The Ones can be few or many, but each of them will have to prove themselves as it is ought to be...");
+    text = vt_system.Translate("The Ones being few or many, still each of them will have to prove themselves as it is ought to be...");
+    dialogue:AddLine(text, andromalius);
+    text = vt_system.Translate("Farewell, Chosen One...");
     dialogue:AddLine(text, andromalius);
     DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Boss conclusion", dialogue);
@@ -660,6 +662,7 @@ function _KillAllFireBalls()
             local object = my_table["object"];
             if (object ~= nil) then
                 table.remove(fireballs_array, key);
+                object:Stop();
                 Map:RemoveGroundObject(object);
                 object = nil;
             end
@@ -1044,7 +1047,10 @@ map_functions = {
 
         if (andromalius:GetYPosition() > 29.0) then
             AudioManager:PlaySound("snd/heavy_bump.wav");
-            Map:GetEffectSupervisor():ShakeScreen(6.0, 1000, vt_mode_manager.EffectSupervisor.SHAKE_FALLOFF_SUDDEN);
+            Map:GetEffectSupervisor():ShakeScreen(6.0, 4000, vt_mode_manager.EffectSupervisor.SHAKE_FALLOFF_SUDDEN);
+            
+            -- Make Orlinn walk slowly because of the hit for a few sec.
+            orlinn:SetMovementSpeed(vt_map.MapMode.SLOW_SPEED);
             return true;
         end
 
@@ -1102,6 +1108,9 @@ map_functions = {
         -- Check that both Andromalius and the stones are in place
         if (andromalius:GetYPosition() <= 25.0 and stone1:IsVisible() == false
                 and stone2:IsVisible() == false and stone3:IsVisible() == false) then
+
+            -- Restore Orlinn speed
+            orlinn:SetMovementSpeed(vt_map.MapMode.FAST_SPEED);
             return true;
         end
 
@@ -1174,6 +1183,8 @@ map_functions = {
     camera_on_boss2_start = function()
         Map:SetCamera(andromalius, 800);
         orlinn:SetMoving(false);
+        -- Make sure all the fireballs are removed
+        _KillAllFireBalls();
     end,
 
     camera_on_orlinn2_start = function()
@@ -1183,7 +1194,7 @@ map_functions = {
     boss_die_start = function()
         boss_die_time = 0;
         boss_turn_head_time = 0;
-        Map:GetEffectSupervisor():ShakeScreen(4.0, 6000, vt_mode_manager.EffectSupervisor.SHAKE_FALLOFF_LINEAR);
+        Map:GetEffectSupervisor():ShakeScreen(6.0, 10000, vt_mode_manager.EffectSupervisor.SHAKE_FALLOFF_LINEAR);
         AudioManager:PlaySound("snd/cave-in.ogg");
         andromalius:SetCustomAnimation("open_mouth_right", 0);
         boss_head_to_right = true;
@@ -1224,6 +1235,8 @@ map_functions = {
             return false;
         end
 
+        -- Restore Orlinn speed just in case
+        orlinn:SetMovementSpeed(vt_map.MapMode.FAST_SPEED);
         -- Free the player
         Map:PopState();
         GlobalManager:SetEventValue("story", "mt_elbrus_shrine_boss_beaten", 1);
