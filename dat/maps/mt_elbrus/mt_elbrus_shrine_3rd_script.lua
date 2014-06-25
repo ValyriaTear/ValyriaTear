@@ -59,6 +59,7 @@ function Load(m)
     AudioManager:LoadSound("snd/falling.ogg", Map);
     AudioManager:LoadSound("snd/cave-in.ogg", Map);
     AudioManager:LoadSound("snd/heavy_bump.wav", Map);
+    AudioManager:LoadSound("snd/battle_encounter_03.ogg", Map);
 end
 
 -- the map update function handles checks done on each game tick.
@@ -406,6 +407,10 @@ function _CreateEvents()
                                        "dat/maps/mt_elbrus/mt_elbrus_shrine_stairs_script.lua", "from_shrine_third_floor");
     EventManager:RegisterEvent(event);
 
+    event = vt_map.MapTransitionEvent("Restart map", "dat/maps/mt_elbrus/mt_elbrus_shrine_3rd_map.lua",
+                                       "dat/maps/mt_elbrus/mt_elbrus_shrine_3rd_script.lua", "from_shrine_stairs");
+    EventManager:RegisterEvent(event);
+
     event = vt_map.ChangeDirectionSpriteEvent("Orlinn looks south", orlinn, vt_map.MapMode.SOUTH);
     EventManager:RegisterEvent(event);
 
@@ -558,6 +563,75 @@ function _CheckStones()
     _CheckBossZone(stone3);
 end
 
+-- Check whether orlinn is hurt and restart the map if so...
+local orlinn_is_hurt = false
+
+-- The array containing fireballs
+local fireballs_array = {};
+
+function _RestartMap()
+    AudioManager:PlaySound("snd/battle_encounter_03.ogg");
+    Map:PushState(vt_map.MapMode.STATE_SCENE);
+    orlinn:SetMoving(false);
+    orlinn:SetCustomAnimation("hurt", 0);
+    EventManager:StartEvent("Restart map");
+    orlinn_is_hurt = true;
+end
+
+function _CheckOrlinnCollisions()
+    if (orlinn_is_hurt == true) then
+        return;
+    end
+
+    -- check collision with fireballs
+    for key, my_table in pairs(fireballs_array) do
+        if (my_table ~= nil) then
+            local object = my_table["object"];
+            local lifetime = my_table["lifetime"];
+            if (object ~= nil and lifetime > 0.0) then
+                if (orlinn:IsCollidingWith(object) == true) then
+                    _RestartMap();
+                    return;
+                end
+            end
+        end
+    end
+
+    -- Check collision with spikes
+    for my_index, object in pairs(spikes1) do
+        if (object ~= nil) then
+            if (orlinn:IsCollidingWith(object) == true) then
+                _RestartMap();
+                return;
+            end
+        end
+    end
+    for my_index, object in pairs(spikes2) do
+        if (object ~= nil) then
+            if (orlinn:IsCollidingWith(object) == true) then
+                _RestartMap();
+                return;
+            end
+        end
+    end
+    for my_index, object in pairs(spikes3) do
+        if (object ~= nil) then
+            if (orlinn:IsCollidingWith(object) == true) then
+                _RestartMap();
+                return;
+            end
+        end
+    end
+    for my_index, object in pairs(spikes4) do
+        if (object ~= nil) then
+            if (orlinn:IsCollidingWith(object) == true) then
+                _RestartMap();
+                return;
+            end
+        end
+    end
+end
+
 -- Check whether the active camera has entered a zone. To be called within Update()
 function _CheckZones()
     if (to_shrine_stairs_zone:IsCameraEntering() == true) then
@@ -573,6 +647,7 @@ function _CheckZones()
     -- Disable the boss battle when it is won.
     if (GlobalManager:GetEventValue("story", "mt_elbrus_shrine_boss_beaten") == 1) then
         battle_won = true;
+        return;
     end
 
     if (boss_started == false and start_boss_zone:IsCameraEntering() == true) then
@@ -588,6 +663,7 @@ function _CheckZones()
         _SpawnFireBall(32, 28);
         _SpawnFireBall(35, 25);
     elseif (boss_started == true) then
+        _CheckOrlinnCollisions();
         _CheckStones()
         -- Check whether we can reset stones.
         if (ok_to_hit_the_ground == true) then
@@ -693,11 +769,10 @@ end
 
 
 -- Fireballs handling
-local fireballs_array = {};
-
 function _SpawnFireBall(x, y)
     local fireball = vt_map.ParticleObject("dat/effects/particles/fire.lua", x, y);
     fireball:SetObjectID(Map.object_supervisor:GenerateObjectID());
+    fireball:SetCollisionMask(vt_map.MapMode.ALL_COLLISION)
     Map:AddGroundObject(fireball);
 
     local new_table = {};
