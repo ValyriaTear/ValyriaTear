@@ -108,6 +108,8 @@ local stone1 = nil;
 local stone2 = nil;
 local stone3 = nil;
 
+local waterfall_sound = nil;
+
 function _CreateObjects()
     local object = {}
     local npc = {}
@@ -117,6 +119,30 @@ function _CreateObjects()
 
     _add_flame(39.5, 7);
     _add_flame(25.5, 7);
+
+    -- Add the water fall trigger button
+    -- A trigger that will open the gate in the SE map.
+    object = vt_map.TriggerObject("mt elbrus waterfall trigger",
+                             "img/sprites/map/triggers/stone_trigger1_off.lua",
+                             "img/sprites/map/triggers/stone_trigger1_on.lua",
+                             "", "Water trigger on event");
+    object:SetObjectID(Map.object_supervisor:GenerateObjectID());
+    object:SetPosition(32, 11);
+    Map:AddFlatGroundObject(object);
+
+    -- Add the corresponding waterfall ambient sound, ready to be started.
+    waterfall_sound = vt_map.SoundObject("snd/fountain_large.ogg", 32, 11, 100.0);
+    Map:AddAmbientSoundObject(waterfall_sound)
+
+    -- Deactivate the sound when the trigger is not already pushed
+    if (GlobalManager:GetEventValue("triggers", "mt elbrus waterfall trigger") == 0) then
+        waterfall_sound:Stop();
+    end
+
+    object = CreateObject(Map, "Layna Statue", 29, 10);
+    Map:AddGroundObject(object);
+    object = CreateObject(Map, "Layna Statue", 35, 10);
+    Map:AddGroundObject(object);
 
     object = CreateObject(Map, "Stone Fence1", 31, 38);
     Map:AddGroundObject(object);
@@ -380,6 +406,9 @@ function _CreateEvents()
                                        "dat/maps/mt_elbrus/mt_elbrus_shrine_stairs_script.lua", "from_shrine_third_floor");
     EventManager:RegisterEvent(event);
 
+    event = vt_map.ChangeDirectionSpriteEvent("Orlinn looks south", orlinn, vt_map.MapMode.SOUTH);
+    EventManager:RegisterEvent(event);
+
     event = vt_map.ScriptedEvent("Close bottom fences", "bottom_fence_start", "bottom_fence_update");
     EventManager:RegisterEvent(event);
 
@@ -460,6 +489,29 @@ function _CreateEvents()
 
     event = vt_map.ScriptedEvent("Open path", "open_fences_start", "open_fences_update")
     EventManager:RegisterEvent(event);
+
+    -- Waterfalls on event
+    event = vt_map.ScriptedEvent("Water trigger on event", "waterfall_sound_start", "aterfall_sound_update")
+    event:AddEventLinkAtEnd("Water shake event", 1000);
+    EventManager:RegisterEvent(event);
+
+    event = vt_map.ScriptedEvent("Water shake event", "waterfall_shake_start", "waterfall_shake_update")
+    event:AddEventLinkAtEnd("Waterfall dialogue", 1000);
+    EventManager:RegisterEvent(event);
+
+    dialogue = vt_map.SpriteDialogue();
+    text = vt_system.Translate("I can hear water from everywhere...");
+    dialogue:AddLineEmote(text, orlinn, "interrogation");
+    text = vt_system.Translate("Kalya, Bronann!");
+    dialogue:AddLineEventEmote(text, orlinn, "Orlinn looks south", "", "exclamation");
+    DialogueManager:AddDialogue(dialogue);
+    event = vt_map.DialogueEvent("Waterfall dialogue", dialogue);
+    event:AddEventLinkAtEnd("Waterfall event end");
+    EventManager:RegisterEvent(event);
+
+    event = vt_map.ScriptedEvent("Waterfall event end", "waterfall_end_start", "waterfall_end_update")
+    EventManager:RegisterEvent(event);
+
 end
 
 -- Tells the boss battle state
@@ -657,17 +709,20 @@ end
 
 -- Remove all fireballs
 function _KillAllFireBalls()
+    -- First tell the engine to get rid of the object
     for key, my_table in pairs(fireballs_array) do
         if (my_table ~= nil) then
             local object = my_table["object"];
             if (object ~= nil) then
-                table.remove(fireballs_array, key);
                 object:Stop();
                 Map:RemoveGroundObject(object);
                 object = nil;
             end
         end
     end
+
+    -- Then empty the table, (table.remove() is reordering the keys.)
+    fireballs_array = {};
 end
 
 
@@ -1183,6 +1238,7 @@ map_functions = {
     camera_on_boss2_start = function()
         Map:SetCamera(andromalius, 800);
         orlinn:SetMoving(false);
+        Map:GetEffectSupervisor():ShakeScreen(4.0, 0, vt_mode_manager.EffectSupervisor.SHAKE_FALLOFF_NONE);
     end,
 
     camera_on_orlinn2_start = function()
@@ -1192,6 +1248,7 @@ map_functions = {
     boss_die_start = function()
         boss_die_time = 0;
         boss_turn_head_time = 0;
+        Map:GetEffectSupervisor():StopShaking()
         Map:GetEffectSupervisor():ShakeScreen(6.0, 10000, vt_mode_manager.EffectSupervisor.SHAKE_FALLOFF_LINEAR);
         AudioManager:PlaySound("snd/cave-in.ogg");
         andromalius:SetCustomAnimation("open_mouth_right", 0);
@@ -1270,4 +1327,21 @@ map_functions = {
         end
         return false;
     end,
+
+    waterfall_sound_start = function()
+        Map:PushState(vt_map.MapMode.STATE_SCENE);
+        orlinn:SetMoving(false);
+        AudioManager:PlaySound("snd/heavy_bump.wav");
+    end,
+
+    waterfall_shake_start = function()
+        AudioManager:PlaySound("snd/cave-in.ogg");
+        waterfall_sound:Start();
+        Map:GetEffectSupervisor():ShakeScreen(6.0, 4000, vt_mode_manager.EffectSupervisor.SHAKE_FALLOFF_LINEAR);
+    end,
+
+    waterfall_end_start = function()
+        Map:PopState();
+    end,
+
 }
