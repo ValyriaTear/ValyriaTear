@@ -431,8 +431,28 @@ function _CreateEvents()
     event = vt_map.ScriptedEvent("The new stones fall", "new_stones_fall_start", "new_stones_fall_update")
     EventManager:RegisterEvent(event);
 
+    event = vt_map.ScriptedEvent("Set camera on Boss 2", "camera_on_boss2_start", "camera_update");
+    event:AddEventLinkAtEnd("Boss conclusion");
+    EventManager:RegisterEvent(event);
+
+    dialogue = vt_map.SpriteDialogue();
+    text = vt_system.Translate("You've proven yourself, Chosen One... You deserve to live after all...");
+    dialogue:AddLine(text, andromalius);
+    text = vt_system.Translate("Me? But I'm not the Chosen One.");
+    dialogue:AddLineEmote(text, orlinn, "interrogation");
+    text = vt_system.Translate("The Ones can be few or many, but each of them will have to prove themselves as it is ought to be...");
+    dialogue:AddLine(text, andromalius);
+    DialogueManager:AddDialogue(dialogue);
+    event = vt_map.DialogueEvent("Boss conclusion", dialogue);
+    event:AddEventLinkAtEnd("The Boss dies");
+    EventManager:RegisterEvent(event);
+
     -- Won the battle!
     event = vt_map.ScriptedEvent("The Boss dies", "boss_die_start", "boss_die_update")
+    event:AddEventLinkAtEnd("Set camera on Orlinn 2");
+    EventManager:RegisterEvent(event);
+
+    event = vt_map.ScriptedEvent("Set camera on Orlinn 2", "camera_on_orlinn2_start", "camera_update");
     event:AddEventLinkAtEnd("Open path");
     EventManager:RegisterEvent(event);
 
@@ -732,7 +752,7 @@ function _HurtBoss()
 
         _HideAllSpikes();
         _KillAllFireBalls();
-        EventManager:StartEvent("The Boss dies", 2000);
+        EventManager:StartEvent("Set camera on Boss 2", 2000);
         return;
     end
 end
@@ -1149,6 +1169,15 @@ map_functions = {
         end
 
         return false;
+    end,
+
+    camera_on_boss2_start = function()
+        Map:SetCamera(andromalius, 800);
+        orlinn:SetMoving(false);
+    end,
+
+    camera_on_orlinn2_start = function()
+        Map:SetCamera(orlinn, 500);
     end,
 
     boss_die_start = function()
