@@ -918,7 +918,7 @@ map_functions = {
         end
 
         -- Make the boss reset stones position from time to time.
-        -- TODO: This should block the player or throw spikes too.
+        -- This will slow down the player for a few sec.
         stones_reset_timer = stones_reset_timer + update_time;
         if (stones_reset_timer > 30000 and andromalius_current_action == "idle") then
             andromalius_current_action = "stones";
@@ -1183,8 +1183,6 @@ map_functions = {
     camera_on_boss2_start = function()
         Map:SetCamera(andromalius, 800);
         orlinn:SetMoving(false);
-        -- Make sure all the fireballs are removed
-        _KillAllFireBalls();
     end,
 
     camera_on_orlinn2_start = function()
@@ -1223,8 +1221,16 @@ map_functions = {
         end
 
         -- Once we've reached this code, the boss can be hidden
-        -- TODO: Add particle effect
         if (andromalius:IsVisible() == true) then
+            -- Add dying particle effect
+            local dying_particles = vt_map.ParticleObject("dat/effects/particles/slow_burst_particles.lua",
+                                                          andromalius:GetXPosition(), andromalius:GetYPosition());
+            dying_particles:SetObjectID(Map.object_supervisor:GenerateObjectID());
+            Map:AddGroundObject(dying_particles);
+
+            -- Make sure all the fireballs are removed
+            _KillAllFireBalls();
+
             andromalius:SetVisible(false);
             andromalius:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
         end
