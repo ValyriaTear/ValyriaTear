@@ -26,6 +26,7 @@ local hero = {};
 -- Forest dialogue secondary hero
 local kalya = {};
 local orlinn = {};
+local bronann = {}; -- A copy of Bronann, used to simplify some scripting.
 
 -- Name of the main sprite. Used to reload the good one at the end of dialogue events.
 local main_sprite_name = "";
@@ -49,11 +50,62 @@ function Load(m)
     -- This is a dungeon map, we'll use the front battle member sprite as default sprite.
     Map.object_supervisor:SetPartyMemberVisibleSprite(hero);
 
+    -- If the event in progress involves being Orlinn, then take his place.
+    if (GlobalManager:GetEventValue("story", "elbrus_shrine_laughing_event_done") == 1) then
+        orlinn:SetPosition(hero:GetXPosition(), hero:GetYPosition());
+        orlinn:SetVisible(true);
+        orlinn:SetCollisionMask(vt_map.MapMode.ALL_COLLISION);
+        orlinn:SetDirection(hero:GetDirection());
+        Map:SetCamera(orlinn)
+        -- hide the hero sprite
+        hero:SetVisible(false)
+        hero:SetPosition(0, 0);
+
+        -- Place kalya and bronann laughing
+        bronann:SetPosition(37, 11);
+        bronann:SetVisible(true);
+        bronann:SetDirection(vt_map.MapMode.SOUTH);
+        bronann:SetCollisionMask(vt_map.MapMode.ALL_COLLISION);
+        bronann:SetCustomAnimation("laughing", 0); -- 0 means forever
+
+        kalya:SetPosition(35, 11);
+        kalya:SetVisible(true);
+        kalya:SetDirection(vt_map.MapMode.SOUTH);
+        kalya:SetCollisionMask(vt_map.MapMode.ALL_COLLISION);
+        kalya:SetCustomAnimation("laughing", 0); -- 0 means forever
+        _UpdateKalyaBronannDialogue();
+    end
+
     _CreateEvents();
     _CreateZones();
 
     -- Add a mediumly dark overlay when necessary
     Map:GetEffectSupervisor():EnableAmbientOverlay("img/ambient/dark.png", 0.0, 0.0, false);
+end
+
+-- set up/updates Kalya and Bronann dialogue
+function _UpdateKalyaBronannDialogue()
+    local text = {};
+    local dialogue = {};
+    local event = {};
+
+    kalya:ClearDialogueReferences();
+    bronann:ClearDialogueReferences();
+    if (GlobalManager:GetEventValue("story", "elbrus_shrine_laughing_event_done") == 0) then
+        return
+    end
+
+    -- Short version of the dialogue for later
+    dialogue = vt_map.SpriteDialogue();
+    text = vt_system.Translate("We can't move Orlinn ...");
+    dialogue:AddLine(text, kalya);
+    text = vt_system.Translate("We're gonna ... suffocate...");
+    dialogue:AddLine(text, bronann);
+    text = vt_system.Translate("Orlinn, help us ... Please, Oh oh oh...");
+    dialogue:AddLine(text, kalya);
+    DialogueManager:AddDialogue(dialogue);
+    bronann:AddDialogueReference(dialogue);
+    kalya:AddDialogueReference(dialogue);
 end
 
 -- the map update function handles checks done on each game tick.
@@ -108,10 +160,19 @@ function _CreateCharacters()
     orlinn:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
     orlinn:SetVisible(false);
     Map:AddGroundObject(orlinn);
+
+    bronann = CreateSprite(Map, "Bronann",
+                           hero:GetXPosition(), hero:GetYPosition());
+    bronann:SetDirection(vt_map.MapMode.EAST);
+    bronann:SetMovementSpeed(vt_map.MapMode.NORMAL_SPEED);
+    bronann:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
+    bronann:SetVisible(false);
+    Map:AddGroundObject(bronann);
 end
 
 -- The heal particle effect map object
 local heal_effect = {};
+local layna_statue = nil;
 
 function _CreateObjects()
     local object = {}
@@ -120,7 +181,9 @@ function _CreateObjects()
     local text = {}
     local event = {}
 
-    Map:AddSavePoint(51, 22);
+    if (GlobalManager:GetEventValue("story", "elbrus_shrine_laughing_event_done") == 0) then
+        Map:AddSavePoint(51, 22);
+    end
 
     -- Load the spring heal effect.
     heal_effect = vt_map.ParticleObject("dat/effects/particles/heal_particle.lua", 0, 0);
@@ -128,9 +191,11 @@ function _CreateObjects()
     heal_effect:Stop(); -- Don't run it until the character heals itself
     Map:AddGroundObject(heal_effect);
 
-    object = CreateObject(Map, "Layna Statue", 57, 22);
-    object:SetEventWhenTalking("Heal dialogue");
-    Map:AddGroundObject(object);
+    layna_statue = CreateObject(Map, "Layna Statue", 57, 22);
+    if (GlobalManager:GetEventValue("story", "elbrus_shrine_laughing_event_done") == 0) then
+        layna_statue:SetEventWhenTalking("Heal dialogue");
+    end
+    Map:AddGroundObject(layna_statue);
 
     object = CreateObject(Map, "Layna Statue", 37, 30);
     object:SetEventWhenTalking("Heal dialogue");
@@ -190,10 +255,10 @@ end
 
 -- Special event references which destinations must be updated just before being called.
 -- shrine entrance event
-local kalya_move_next_to_hero_event1 = {}
-local kalya_move_back_to_hero_event1 = {}
-local orlinn_move_next_to_hero_event1 = {}
-local orlinn_move_back_to_hero_event1 = {}
+local kalya_move_next_to_bronann_event1 = {}
+local kalya_move_back_to_bronann_event1 = {}
+local orlinn_move_next_to_bronann_event1 = {}
+local orlinn_move_back_to_bronann_event1 = {}
 
 -- Creates all events and sets up the entire event sequence chain
 function _CreateEvents()
@@ -228,9 +293,9 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
     event = vt_map.ChangeDirectionSpriteEvent("Orlinn looks south", orlinn, vt_map.MapMode.SOUTH);
     EventManager:RegisterEvent(event);
-    event = vt_map.ChangeDirectionSpriteEvent("Bronann looks north", hero, vt_map.MapMode.NORTH);
+    event = vt_map.ChangeDirectionSpriteEvent("Bronann looks north", bronann, vt_map.MapMode.NORTH);
     EventManager:RegisterEvent(event);
-    event = vt_map.ChangeDirectionSpriteEvent("Bronann looks south", hero, vt_map.MapMode.SOUTH);
+    event = vt_map.ChangeDirectionSpriteEvent("Bronann looks south", bronann, vt_map.MapMode.SOUTH);
     EventManager:RegisterEvent(event);
     event = vt_map.ChangeDirectionSpriteEvent("Kalya looks north", kalya, vt_map.MapMode.NORTH);
     EventManager:RegisterEvent(event);
@@ -238,22 +303,83 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
     event = vt_map.ChangeDirectionSpriteEvent("Kalya looks south", kalya, vt_map.MapMode.SOUTH);
     EventManager:RegisterEvent(event);
-    event = vt_map.ChangeDirectionSpriteEvent("Sophia looks north", sophia, vt_map.MapMode.NORTH);
-    EventManager:RegisterEvent(event);
-    event = vt_map.ChangeDirectionSpriteEvent("Sophia looks west", sophia, vt_map.MapMode.WEST);
-    EventManager:RegisterEvent(event);
-    event = vt_map.LookAtSpriteEvent("Kalya looks at Bronann", kalya, hero);
+    event = vt_map.LookAtSpriteEvent("Kalya looks at Bronann", kalya, bronann);
     EventManager:RegisterEvent(event);
     event = vt_map.LookAtSpriteEvent("Kalya looks at Orlinn", kalya, orlinn);
     EventManager:RegisterEvent(event);
-    event = vt_map.LookAtSpriteEvent("Bronann looks at Kalya", hero, kalya);
+    event = vt_map.LookAtSpriteEvent("Bronann looks at Kalya", bronann, kalya);
     EventManager:RegisterEvent(event);
     event = vt_map.LookAtSpriteEvent("Orlinn looks at Kalya", orlinn, kalya);
     EventManager:RegisterEvent(event);
-    event = vt_map.LookAtSpriteEvent("Orlinn looks at Bronann", orlinn, hero);
+    event = vt_map.LookAtSpriteEvent("Orlinn looks at Bronann", orlinn, bronann);
     EventManager:RegisterEvent(event);
 
+    -- Kalya and Bronann are falling because of the smoke
+    event = vt_map.PathMoveSpriteEvent("The hero goes in front of the door", hero, 37, 11, false);
+    event:AddEventLinkAtEnd("Kalya and Bronann laughs event start");
+    EventManager:RegisterEvent(event);
 
+    event = vt_map.ScriptedEvent("Kalya and Bronann laughs event start", "laughing_event_start", "");
+    event:AddEventLinkAtEnd("Kalya moves next to Bronann");
+    event:AddEventLinkAtEnd("Orlinn moves next to Bronann");
+    EventManager:RegisterEvent(event);
+
+    -- NOTE: The actual destination is set just before the actual start call
+    kalya_move_next_to_bronann_event1 = vt_map.PathMoveSpriteEvent("Kalya moves next to Bronann", kalya, 0, 0, false);
+    kalya_move_next_to_bronann_event1:AddEventLinkAtEnd("Kalya looks north");
+    EventManager:RegisterEvent(kalya_move_next_to_bronann_event1);
+    orlinn_move_next_to_bronann_event1 = vt_map.PathMoveSpriteEvent("Orlinn moves next to Bronann", orlinn, 0, 0, false);
+    orlinn_move_next_to_bronann_event1:AddEventLinkAtEnd("Orlinn looks north");
+    orlinn_move_next_to_bronann_event1:AddEventLinkAtEnd("The heroes discuss about the big door", 500);
+    EventManager:RegisterEvent(orlinn_move_next_to_bronann_event1);
+
+    event = vt_map.ScriptedEvent("Kalya laughs", "kalya_laughs", "");
+    EventManager:RegisterEvent(event);
+    event = vt_map.ScriptedEvent("Bronann laughs", "bronann_laughs", "");
+    EventManager:RegisterEvent(event);
+
+    dialogue = vt_map.SpriteDialogue();
+    text = vt_system.Translate("What a big gate... What is behind must be fearsome...");
+    dialogue:AddLineEmote(text, bronann, "sweat drop");
+    text = vt_system.Translate("Don't worry, we've managed to come this far. There is nothing that could...");
+    dialogue:AddLineEvent(text, kalya, "Kalya looks at Bronann", "Orlinn looks at Kalya");
+    text = vt_system.Translate("... What is it, Kalya?");
+    dialogue:AddLineEventEmote(text, bronann, "", "Bronann looks at Kalya", "interrogation");
+    text = vt_system.Translate("... Kalya?!");
+    dialogue:AddLineEmote(text, bronann, "exclamation");
+    text = vt_system.Translate("sis'!");
+    dialogue:AddLineEmote(text, orlinn, "exclamation");
+    text = vt_system.Translate("I feel... I...");
+    dialogue:AddLineEvent(text, kalya, "Kalya laughs", "");
+    text = vt_system.Translate("Hi hi... Hi hi hi... I can't stop!!");
+    dialogue:AddLineEvent(text, kalya, "Kalya laughs", "");
+    text = vt_system.Translate("What's so funny, Kalya? eh eh.");
+    dialogue:AddLineEmote(text, bronann, "interrogation");
+    text = vt_system.Translate("I don't know... Ah, I can barely breathe! ...");
+    dialogue:AddLine(text, kalya);
+    text = vt_system.Translate("Hi hi hi... What's happening to me...");
+    dialogue:AddLineEvent(text, bronann, "", "Bronann laughs");
+    text = vt_system.Translate("It's the scent, ah ah ah.");
+    dialogue:AddLine(text, kalya);
+    text = vt_system.Translate("Erm, are you crazy or what? I usually am the one with bad jokes you know...");
+    dialogue:AddLineEmote(text, orlinn, "exclamation");
+    text = vt_system.Translate("We can't move Orlinn ...");
+    dialogue:AddLine(text, kalya);
+    text = vt_system.Translate("We're gonna ... suffocate...");
+    dialogue:AddLine(text, bronann);
+    text = vt_system.Translate("Orlinn, help us ... Please, Oh oh oh...");
+    dialogue:AddLine(text, kalya);
+    DialogueManager:AddDialogue(dialogue);
+    event = vt_map.DialogueEvent("The heroes discuss about the big door", dialogue);
+    event:AddEventLinkAtEnd("Set camera on Orlinn");
+    EventManager:RegisterEvent(event);
+
+    event = vt_map.ScriptedEvent("Set camera on Orlinn", "camera_on_orlinn_start", "camera_update");
+    event:AddEventLinkAtEnd("Laughing event end");
+    EventManager:RegisterEvent(event);
+
+    event = vt_map.ScriptedEvent("Laughing event end", "laughing_event_end", "");
+    EventManager:RegisterEvent(event);
 end
 
 -- zones
@@ -261,6 +387,7 @@ local to_shrine_1st_floor_zone = {};
 local to_shrine_2nd_floor_zone = {};
 local to_shrine_2nd_floor_grotto_zone = {};
 local to_shrine_3rd_floor_zone = {};
+local before_3rd_floor_zone = {};
 
 -- Create the different map zones triggering events
 function _CreateZones()
@@ -277,6 +404,9 @@ function _CreateZones()
 
     to_shrine_3rd_floor_zone = vt_map.CameraZone(34, 40, 5, 7);
     Map:AddZone(to_shrine_3rd_floor_zone);
+
+    before_3rd_floor_zone = vt_map.CameraZone(28, 46, 7, 10);
+    Map:AddZone(before_3rd_floor_zone);
 end
 
 -- Check whether the active camera has entered a zone. To be called within Update()
@@ -293,6 +423,11 @@ function _CheckZones()
     elseif (to_shrine_3rd_floor_zone:IsCameraEntering() == true) then
         hero:SetDirection(vt_map.MapMode.NORTH);
         EventManager:StartEvent("to mountain shrine 3rd floor");
+    elseif (before_3rd_floor_zone:IsCameraEntering() == true and Map:CurrentState() == vt_map.MapMode.STATE_EXPLORE) then
+        if (GlobalManager:GetEventValue("story", "elbrus_shrine_laughing_event_done") == 0) then
+            Map:PushState(vt_map.MapMode.STATE_SCENE);
+            EventManager:StartEvent("The hero goes in front of the door");
+        end
     end
 end
 
@@ -330,5 +465,62 @@ map_functions = {
             return false;
         end
         return true;
+    end,
+
+    laughing_event_start = function()
+        hero:SetMoving(false);
+
+        -- Keep a reference of the correct sprite for the event end.
+        main_sprite_name = hero:GetSpriteName();
+
+        -- Make the hero be Bronann for the event.
+        hero:ReloadSprite("Bronann");
+
+        kalya:SetPosition(hero:GetXPosition(), hero:GetYPosition());
+        kalya:SetVisible(true);
+        orlinn:SetPosition(hero:GetXPosition(), hero:GetYPosition());
+        orlinn:SetVisible(true);
+        kalya:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
+        orlinn:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
+        bronann:SetPosition(hero:GetXPosition(), hero:GetYPosition());
+        bronann:SetDirection(vt_map.MapMode.NORTH);
+        bronann:SetVisible(true);
+        hero:SetVisible(false);
+        Map:SetCamera(bronann);
+        hero:SetPosition(0, 0);
+
+        kalya_move_next_to_bronann_event1:SetDestination(bronann:GetXPosition() - 2.0, bronann:GetYPosition(), false);
+        orlinn_move_next_to_bronann_event1:SetDestination(bronann:GetXPosition() + 2.0, bronann:GetYPosition(), false);
+    end,
+
+    kalya_laughs = function()
+        kalya:SetCustomAnimation("laughing", 0); -- 0 means forever
+    end,
+
+    bronann_laughs = function()
+        bronann:SetCustomAnimation("laughing", 0); -- 0 means forever
+    end,
+
+    camera_on_orlinn_start = function()
+        Map:SetCamera(orlinn, 500);
+    end,
+
+    camera_update = function()
+        if (Map:IsCameraMoving() == true) then
+            return false;
+        end
+        return true;
+    end,
+
+    laughing_event_end = function()
+        -- Set the event as done
+        GlobalManager:SetEventValue("story", "elbrus_shrine_laughing_event_done", 1);
+        orlinn:SetCollisionMask(vt_map.MapMode.ALL_COLLISION);
+        Map:PopState();
+        -- Prevent from healing the team when being Orlinn
+        layna_statue:ClearEventWhenTalking();
+        -- TODO: Disable save point
+        -- Make Bronann and Kalya repeat on need
+        _UpdateKalyaBronannDialogue();
     end,
 }
