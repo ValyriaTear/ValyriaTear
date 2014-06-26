@@ -27,9 +27,6 @@ local bronann = nil;
 local kalya = nil;
 local orlinn = nil;
 
--- Name of the main sprite. Used to reload the good one at the end of the first forest entrance event.
-local main_sprite_name = "";
-
 -- the main map loading code
 function Load(m)
 
@@ -56,6 +53,10 @@ function Load(m)
     Effects:EnableAmbientOverlay("img/ambient/dark.png", 0.0, 0.0, false);
     -- Add the background and foreground animations
     Map:GetScriptSupervisor():AddScript("dat/maps/layna_forest/layna_forest_caves_background_anim.lua");
+
+    -- Preload sounds to avoid glitches
+    AudioManager:LoadSound("snd/heavy_bump.wav", Map);
+    AudioManager:LoadSound("snd/falling.ogg", Map);
 end
 
 -- the map update function handles checks done on each game tick.
@@ -171,6 +172,9 @@ function _CreateEnemies()
     Map:AddZone(roam_zone);
 end
 
+local kalya_move_next_to_bronann = nil;
+local orlinn_move_next_to_bronann = nil;
+
 -- Creates all events and sets up the entire event sequence chain
 function _CreateEvents()
     local event = {};
@@ -182,6 +186,51 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
     event = vt_map.MapTransitionEvent("to mountain shrine trap room", "dat/maps/mt_elbrus/mt_elbrus_shrine3_map.lua",
                                        "dat/maps/mt_elbrus/mt_elbrus_shrine3_script.lua", "from_shrine_stairs1");
+    EventManager:RegisterEvent(event);
+
+    event = vt_map.ChangeDirectionSpriteEvent("Bronann looks south", bronann, vt_map.MapMode.SOUTH);
+    EventManager:RegisterEvent(event);
+    event = vt_map.LookAtSpriteEvent("Kalya looks at Orlinn", kalya, orlinn);
+    EventManager:RegisterEvent(event);
+    event = vt_map.LookAtSpriteEvent("Orlinn looks at Kalya", orlinn, kalya);
+    EventManager:RegisterEvent(event);
+
+    -- The party is trapped ... again ...
+    event = vt_map.ScriptedEvent("Start trap event", "trap_event_start", "");
+    event:AddEventLinkAtEnd("Kalya moves up");
+    event:AddEventLinkAtEnd("Orlinn moves up");
+    event:AddEventLinkAtEnd("Bronann moves up");
+    EventManager:RegisterEvent(event);
+
+    event = vt_map.PathMoveSpriteEvent("Kalya moves up", kalya, 20, 15, false);
+    EventManager:RegisterEvent(event);
+    event = vt_map.PathMoveSpriteEvent("Orlinn moves up", orlinn, 24, 15, false);
+    EventManager:RegisterEvent(event);
+    event = vt_map.PathMoveSpriteEvent("Bronann moves up", bronann, 22, 13, false);
+    event:AddEventLinkAtEnd("Trigger trap");
+    EventManager:RegisterEvent(event);
+
+    event = vt_map.ScriptedEvent("Trigger trap", "trap_trigger", "");
+    event:AddEventLinkAtEnd("The heroes wonder", 1000);
+    EventManager:RegisterEvent(event);
+
+    event = vt_map.ScriptedEvent("The heroes wonder", "heroes_wonder", "");
+    event:AddEventLinkAtEnd("Bronann looks south", 500);
+    event:AddEventLinkAtEnd("Kalya looks at Orlinn", 500);
+    event:AddEventLinkAtEnd("Orlinn looks at Kalya", 500);
+    event:AddEventLinkAtEnd("The heroes exclamate", 1500);
+    EventManager:RegisterEvent(event);
+
+    event = vt_map.ScriptedEvent("The heroes exclamate", "heroes_exclamate", "");
+    event:AddEventLinkAtEnd("The heroes fall", 800);
+    event:AddEventLinkAtEnd("to mountain shrine basement", 800);
+    EventManager:RegisterEvent(event);
+
+    event = vt_map.ScriptedEvent("The heroes fall", "heroes_fall_start", "heroes_fall_update");
+    EventManager:RegisterEvent(event);
+
+    event = vt_map.MapTransitionEvent("to mountain shrine basement", "dat/maps/mt_elbrus/mt_elbrus_shrine_basement_map.lua",
+                                       "dat/maps/mt_elbrus/mt_elbrus_shrine_basement_script.lua", "from_shrine_stairs1");
     EventManager:RegisterEvent(event);
 
 end
@@ -200,7 +249,7 @@ function _CreateZones()
     to_shrine_trap_zone = vt_map.CameraZone(50, 52, 46, 48);
     Map:AddZone(to_shrine_trap_zone);
 
-    falling_event_zone = vt_map.CameraZone(19, 25, 11, 19);
+    falling_event_zone = vt_map.CameraZone(19, 25, 28, 33);
     Map:AddZone(falling_event_zone);
 end
 
@@ -212,6 +261,10 @@ function _CheckZones()
     elseif (to_shrine_trap_zone:IsCameraEntering() == true) then
         hero:SetMoving(false);
         EventManager:StartEvent("to mountain shrine trap room");
+    elseif (falling_event_zone:IsCameraEntering() == true and Map:CurrentState() == vt_map.MapMode.STATE_EXPLORE) then
+        Map:PushState(vt_map.MapMode.STATE_SCENE)
+        hero:SetMoving(false);
+        EventManager:StartEvent("Start trap event");
     end
 end
 
@@ -252,4 +305,62 @@ map_functions = {
         end
         return true;
     end,
+
+    trap_event_start = function()
+        bronann:SetPosition(hero:GetXPosition(), hero:GetYPosition());
+        kalya:SetPosition(hero:GetXPosition(), hero:GetYPosition());
+        orlinn:SetPosition(hero:GetXPosition(), hero:GetYPosition());
+        Map:SetCamera(bronann);
+        hero:SetVisible(false);
+        bronann:SetDirection(vt_map.MapMode.NORTH)
+        kalya:SetDirection(vt_map.MapMode.NORTH)
+        orlinn:SetDirection(vt_map.MapMode.NORTH)
+
+        bronann:SetVisible(true);
+        kalya:SetVisible(true);
+        orlinn:SetVisible(true);
+    end,
+
+    trap_trigger = function()
+        -- TODO: hole opening, and fall hiding graphics
+        AudioManager:PlaySound("snd/heavy_bump.wav");
+        Map:GetEffectSupervisor():ShakeScreen(3.0, 1000, vt_mode_manager.EffectSupervisor.SHAKE_FALLOFF_SUDDEN);
+        AudioManager:FadeOutAllMusic(400);
+    end,
+
+    heroes_wonder = function()
+        kalya:Emote("interrogation", kalya:GetDirection());
+        orlinn:Emote("interrogation", orlinn:GetDirection());
+        bronann:Emote("interrogation", bronann:GetDirection());
+    end,
+
+    heroes_exclamate = function()
+        kalya:Emote("exclamation", kalya:GetDirection());
+        orlinn:Emote("exclamation", orlinn:GetDirection());
+        bronann:Emote("exclamation", bronann:GetDirection());
+    end,
+
+    heroes_fall_start = function()
+        AudioManager:PlaySound("snd/falling.ogg");
+        bronann:SetCustomAnimation("frightened_fixed", 0) -- 0 means forever
+        kalya:SetCustomAnimation("frightened_fixed", 0) -- 0 means forever
+        orlinn:SetCustomAnimation("frightened_fixed", 0) -- 0 means forever
+    end,
+
+    heroes_fall_update = function()
+        local update_time = SystemManager:GetUpdateTime();
+        -- Make the heroes fall
+        if (bronann:GetYPosition() < 17.0) then
+            bronann:SetYPosition(bronann:GetYPosition() + update_time * 0.005)
+        end
+        if (kalya:GetYPosition() < 17.0) then
+            kalya:SetYPosition(kalya:GetYPosition() + update_time * 0.005)
+        end
+        if (orlinn:GetYPosition() < 17.0) then
+            orlinn:SetYPosition(orlinn:GetYPosition() + update_time * 0.005)
+        end
+        -- never actually ends
+        return false;
+    end,
+
 }
