@@ -396,7 +396,8 @@ void DialogueSupervisor::BeginDialogue(uint32 dialogue_id)
     SpriteDialogue *dialogue = GetDialogue(dialogue_id);
 
     if(dialogue == NULL) {
-        IF_PRINT_WARNING(COMMON_DEBUG) << "could not begin dialogue because none existed for id# " << dialogue_id << std::endl;
+        PRINT_WARNING << "Could not begin dialogue because none existed for id: " << dialogue_id << std::endl
+            << "Did you register the dialogue using 'AddDialogue()'?" << std::endl;
         return;
     }
 
