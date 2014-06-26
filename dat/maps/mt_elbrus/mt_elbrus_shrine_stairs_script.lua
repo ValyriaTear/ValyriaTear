@@ -51,7 +51,8 @@ function Load(m)
     Map.object_supervisor:SetPartyMemberVisibleSprite(hero);
 
     -- If the event in progress involves being Orlinn, then let's incarnate him.
-    if (GlobalManager:GetEventValue("story", "elbrus_shrine_laughing_event_done") == 1) then
+    if (GlobalManager:GetEventValue("story", "elbrus_shrine_laughing_event_done") == 1
+            and GlobalManager:GetEventValue("story", "mt elbrus shrine heroes saved") == 0) then
         orlinn:SetPosition(hero:GetXPosition(), hero:GetYPosition());
         orlinn:SetVisible(true);
         orlinn:SetCollisionMask(vt_map.MapMode.ALL_COLLISION);
@@ -69,13 +70,18 @@ function Load(m)
         bronann:SetVisible(true);
         bronann:SetDirection(vt_map.MapMode.SOUTH);
         bronann:SetCollisionMask(vt_map.MapMode.ALL_COLLISION);
-        bronann:SetCustomAnimation("laughing", 0); -- 0 means forever
 
         kalya:SetPosition(35, 11);
         kalya:SetVisible(true);
         kalya:SetDirection(vt_map.MapMode.SOUTH);
         kalya:SetCollisionMask(vt_map.MapMode.ALL_COLLISION);
-        kalya:SetCustomAnimation("laughing", 0); -- 0 means forever
+
+        -- If Orlinn hasn't triggered the button, yet, the other heroes are laughing.
+        if (GlobalManager:GetEventValue("triggers", "mt elbrus waterfall trigger") == 0) then
+            bronann:SetCustomAnimation("laughing", 0); -- 0 means forever
+            kalya:SetCustomAnimation("laughing", 0); -- 0 means forever
+        end
+
         _UpdateKalyaBronannDialogue();
     end
 
@@ -94,6 +100,14 @@ function _UpdateKalyaBronannDialogue()
 
     kalya:ClearDialogueReferences();
     bronann:ClearDialogueReferences();
+
+    -- If Orlinn has triggered the waterfall button, the heroes are stainding not laughing
+    if (GlobalManager:GetEventValue("triggers", "mt elbrus waterfall trigger") == 1) then
+        kalya:LookAt(bronann);
+        bronann:LookAt(kalya);
+        return;
+    end
+
     if (GlobalManager:GetEventValue("story", "elbrus_shrine_laughing_event_done") == 0) then
         return
     end
@@ -183,8 +197,16 @@ function _CreateObjects()
     local text = {}
     local event = {}
 
-    if (GlobalManager:GetEventValue("story", "elbrus_shrine_laughing_event_done") == 0) then
-        Map:AddSavePoint(51, 22);
+    Map:AddSavePoint(51, 22);
+    if (GlobalManager:GetEventValue("story", "elbrus_shrine_laughing_event_done") == 1
+            and GlobalManager:GetEventValue("story", "mt elbrus shrine heroes saved") == 0) then
+        -- TODO: Disable the save point
+    end
+
+    -- We can hear waterfalls in that case
+    if (GlobalManager:GetEventValue("triggers", "mt elbrus waterfall trigger") == 1) then
+        object = vt_map.SoundObject("snd/fountain_large.ogg", 0, 0, 50.0);
+        Map:AddAmbientSoundObject(object)
     end
 
     -- Load the spring heal effect.
@@ -194,7 +216,8 @@ function _CreateObjects()
     Map:AddGroundObject(heal_effect);
 
     layna_statue = CreateObject(Map, "Layna Statue", 57, 22);
-    if (GlobalManager:GetEventValue("story", "elbrus_shrine_laughing_event_done") == 0) then
+    if (GlobalManager:GetEventValue("story", "elbrus_shrine_laughing_event_done") == 0
+            or GlobalManager:GetEventValue("story", "mt elbrus shrine heroes saved") == 1) then
         layna_statue:SetEventWhenTalking("Heal dialogue");
     end
     Map:AddGroundObject(layna_statue);
@@ -311,6 +334,8 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
     event = vt_map.LookAtSpriteEvent("Bronann looks at Kalya", bronann, kalya);
     EventManager:RegisterEvent(event);
+    event = vt_map.LookAtSpriteEvent("Bronann looks at Orlinn", bronann, orlinn);
+    EventManager:RegisterEvent(event);
     event = vt_map.LookAtSpriteEvent("Orlinn looks at Kalya", orlinn, kalya);
     EventManager:RegisterEvent(event);
     event = vt_map.LookAtSpriteEvent("Orlinn looks at Bronann", orlinn, bronann);
@@ -390,6 +415,66 @@ function _CreateEvents()
     DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Orlinn can't go away dialogue", dialogue);
     EventManager:RegisterEvent(event);
+
+    -- Heroes can't go to the boss throne
+    event = vt_map.ScriptedEvent("Heroes can't go there...", "cant_go_in_start", "cant_go_in_update");
+    event:AddEventLinkAtEnd("The heroes can't go in dialogue");
+    EventManager:RegisterEvent(event);
+
+    dialogue = vt_map.SpriteDialogue();
+    text = vt_system.Translate("Something is preventing me from entering ...");
+    dialogue:AddLineEmote(text, hero, "thinking dots");
+    DialogueManager:AddDialogue(dialogue);
+    event = vt_map.DialogueEvent("The heroes can't go in dialogue", dialogue);
+    event:AddEventLinkAtEnd("Heroes can't go there - end");
+    EventManager:RegisterEvent(event);
+
+    event = vt_map.ScriptedEvent("Heroes can't go there - end", "cant_go_in_end", "");
+    EventManager:RegisterEvent(event);
+
+    -- Heroes are saved event
+    event = vt_map.ScriptedEvent("Orlinn laughs", "orlinn_laughs", "");
+    EventManager:RegisterEvent(event);
+    event = vt_map.ScriptedEvent("Orlinn stops laughing", "orlinn_stops_laughing", "");
+    EventManager:RegisterEvent(event);
+
+    dialogue = vt_map.SpriteDialogue();
+    text = vt_system.Translate("I feel better much now...");
+    dialogue:AddLineEmote(text, bronann, "thinking dots");
+    text = vt_system.Translate("Indeed. It seems the scent has no effect on us anymore.");
+    dialogue:AddLineEmote(text, kalya, "thinking dots");
+    text = vt_system.Translate("Orlinn, did you do something?");
+    dialogue:AddLineEventEmote(text, kalya, "Kalya looks at Orlinn", "Bronann looks at Orlinn", "exclamation");
+    text = vt_system.Translate("Me? You know: A bit of this, a bit of that...");
+    dialogue:AddLineEvent(text, orlinn, "Orlinn laughs", "");
+    text = vt_system.Translate("... I didn't think I would say that, but... Thank you Orlinn.");
+    dialogue:AddLineEmote(text, kalya, "sweat drop");
+    text = vt_system.Translate("Thank you, indeed.");
+    dialogue:AddLine(text, bronann);
+    text = vt_system.Translate("You're welcome!");
+    dialogue:AddLine(text, orlinn);
+    text = vt_system.Translate("Well, please stop laughing now. I'm not at ease with what just happened...");
+    dialogue:AddLineEventEmote(text, kalya, "Kalya looks at Orlinn", "", "sweat drop");
+    text = vt_system.Translate("...");
+    dialogue:AddLineEmote(text, kalya, "sweat drop");
+    text = vt_system.Translate("Stop laughing now or I'll smash your little head against that wall!");
+    dialogue:AddLineEmote(text, kalya, "exclamation");
+    text = vt_system.Translate("Aww... Ok.");
+    dialogue:AddLineEventEmote(text, orlinn, "Orlinn stops laughing", "", "sweat drop");
+    DialogueManager:AddDialogue(dialogue);
+    event = vt_map.DialogueEvent("Orlinn saved the heroes", dialogue);
+    event:AddEventLinkAtEnd("Kalya goes back to party");
+    event:AddEventLinkAtEnd("Orlinn goes back to party");
+    EventManager:RegisterEvent(event);
+
+    event = vt_map.PathMoveSpriteEvent("Kalya goes back to party", kalya, bronann, false);
+    EventManager:RegisterEvent(event);
+    event = vt_map.PathMoveSpriteEvent("Orlinn goes back to party", orlinn, bronann, false);
+    event:AddEventLinkAtEnd("Orlinn saved the heroes event end");
+    EventManager:RegisterEvent(event);
+
+    event = vt_map.ScriptedEvent("Orlinn saved the heroes event end", "saved_the_heroes_end", "");
+    EventManager:RegisterEvent(event);
 end
 
 -- zones
@@ -428,7 +513,8 @@ function _CheckZones()
         hero:SetDirection(vt_map.MapMode.NE_EAST);
         EventManager:StartEvent("to mountain shrine 2nd floor");
     elseif (to_shrine_2nd_floor_grotto_zone:IsCameraEntering() == true) then
-        if (GlobalManager:GetEventValue("story", "elbrus_shrine_laughing_event_done") == 0) then
+        if (GlobalManager:GetEventValue("story", "elbrus_shrine_laughing_event_done") == 0
+                or GlobalManager:GetEventValue("story", "mt elbrus shrine heroes saved") == 1) then
             hero:SetDirection(vt_map.MapMode.WEST);
             EventManager:StartEvent("to mountain shrine 2nd floor grotto");
         else
@@ -437,10 +523,26 @@ function _CheckZones()
             EventManager:StartEvent("Orlinn can't go away dialogue");
         end
     elseif (to_shrine_3rd_floor_zone:IsCameraEntering() == true) then
-        hero:SetDirection(vt_map.MapMode.NORTH);
-        EventManager:StartEvent("to mountain shrine 3rd floor");
+        if (GlobalManager:GetEventValue("story", "mt elbrus shrine heroes saved") == 0) then
+            hero:SetDirection(vt_map.MapMode.NORTH);
+            EventManager:StartEvent("to mountain shrine 3rd floor");
+        else
+            EventManager:StartEvent("Heroes can't go there...");
+        end
     elseif (before_3rd_floor_zone:IsCameraEntering() == true and Map:CurrentState() == vt_map.MapMode.STATE_EXPLORE) then
-        if (GlobalManager:GetEventValue("story", "elbrus_shrine_laughing_event_done") == 0) then
+        if (GlobalManager:GetEventValue("story", "mt elbrus shrine heroes saved") == 1) then
+            -- Do nothing in that case
+
+        elseif (GlobalManager:GetEventValue("triggers", "mt elbrus waterfall trigger") == 1) then
+            -- Start the scene where orlinn has just saved our heroes
+            Map:PushState(vt_map.MapMode.STATE_SCENE);
+            orlinn:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
+            bronann:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
+            kalya:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
+            EventManager:StartEvent("Orlinn saved the heroes");
+
+        elseif (GlobalManager:GetEventValue("story", "elbrus_shrine_laughing_event_done") == 0) then
+            -- Start the laughing scene
             Map:PushState(vt_map.MapMode.STATE_SCENE);
             EventManager:StartEvent("The hero goes in front of the door");
         end
@@ -450,6 +552,9 @@ end
 -- Effect time used when applying the heal light effect
 local heal_effect_time = 0;
 local heal_color = vt_video.Color(0.0, 0.0, 1.0, 1.0);
+
+local field_effect_time = 0;
+local field_color = vt_video.Color(0.0, 0.0, 0.0, 1.0);
 
 -- Map Custom functions
 -- Used through scripted events
@@ -517,6 +622,14 @@ map_functions = {
         bronann:SetCustomAnimation("laughing", 0); -- 0 means forever
     end,
 
+    orlinn_laughs = function()
+        orlinn:SetCustomAnimation("laughing", 0); -- 0 means forever
+    end,
+
+    orlinn_stops_laughing = function()
+        orlinn:DisableCustomAnimation();
+    end,
+
     camera_on_orlinn_start = function()
         Map:SetCamera(orlinn, 500);
     end,
@@ -543,5 +656,64 @@ map_functions = {
 
         -- The menu is then disabled
         Map:SetMenuEnabled(false);
+    end,
+
+    cant_go_in_start = function()
+        Map:PushState(vt_map.MapMode.STATE_SCENE);
+        hero:SetMoving(false);
+        field_effect_time = 0;
+    end,
+    
+    cant_go_in_update = function()
+        field_effect_time = field_effect_time + SystemManager:GetUpdateTime();
+
+        if (field_effect_time < 300.0) then
+            field_color:SetAlpha(field_effect_time / 300.0 / 2.0);
+            Map:GetEffectSupervisor():EnableLightingOverlay(field_color);
+            return false;
+        end
+
+        if (field_effect_time < 1000.0) then
+            field_color:SetAlpha(((1000.0 - field_effect_time) / 700.0) / 2.0);
+            Map:GetEffectSupervisor():EnableLightingOverlay(field_color);
+            return false;
+        end
+        return true;
+    end,
+
+    cant_go_in_end = function()
+        Map:PopState();
+    end,
+
+    saved_the_heroes_end = function()
+        Map:PopState();
+
+        -- Make the player incarnate the default hero again
+        hero:SetPosition(bronann:GetXPosition(), bronann:GetYPosition())
+        Map:SetCamera(hero, 500);
+
+        -- Reload the hero back to default
+        hero:ReloadSprite(main_sprite_name);
+        hero:SetVisible(true);
+        bronann:SetCollisionMask(vt_map.MapMode.ALL_COLLISION);
+
+        bronann:SetPosition(0, 0);
+        bronann:SetVisible(false);
+        bronann:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
+        kalya:SetPosition(0, 0);
+        kalya:SetVisible(false);
+        kalya:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
+        orlinn:SetPosition(0, 0);
+        orlinn:SetVisible(false);
+        orlinn:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
+
+        -- TODO: Re-enable save point
+        layna_statue:SetEventWhenTalking("Heal dialogue");
+
+        -- The menu is then enabled
+        Map:SetMenuEnabled(true);
+
+        -- Set event as done
+        GlobalManager:SetEventValue("story", "mt elbrus shrine heroes saved", 1)
     end,
 }
