@@ -388,10 +388,19 @@ public:
     }
 
     //! \brief Tells whether the menu mode is available from the map mode.
-    bool IsMenuEnabled() {
+    bool IsMenuEnabled() const {
         return _menu_enabled;
     }
 
+    //! \brief Sets whether the save points are enabled in the map mode.
+    void SetSavePointsEnabled(bool enabled) {
+        _save_points_enabled = enabled;
+    }
+
+    //! \brief Tells whether the save points are enabled in the map mode.
+    bool AreSavePointsEnabled() const {
+        return _save_points_enabled;
+    }
     //@}
 
 private:
@@ -575,6 +584,9 @@ private:
 
     //! \brief Tells whether the menu mode is available from the map mode.
     bool _menu_enabled;
+
+    //! \brief Tells whether the save points are enabled in the map mode.
+    bool _save_points_enabled;
 
     // ----- Methods -----
 

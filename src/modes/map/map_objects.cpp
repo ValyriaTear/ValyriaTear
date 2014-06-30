@@ -1282,7 +1282,8 @@ void ObjectSupervisor::DrawDialogIcons()
 
 void ObjectSupervisor::_UpdateSavePoints()
 {
-    VirtualSprite *sprite = MapMode::CurrentInstance()->GetCamera();
+    MapMode* map_mode = MapMode::CurrentInstance();
+    VirtualSprite *sprite = map_mode->GetCamera();
 
     MapRectangle spr_rect;
     if(sprite)
@@ -1290,8 +1291,14 @@ void ObjectSupervisor::_UpdateSavePoints()
 
     for(std::vector<SavePoint *>::iterator it = _save_points.begin();
             it != _save_points.end(); ++it) {
-        (*it)->SetActive(MapRectangle::CheckIntersection(spr_rect,
-                         (*it)->GetCollisionRectangle()));
+        if (map_mode->AreSavePointsEnabled()) {
+            (*it)->SetActive(MapRectangle::CheckIntersection(spr_rect,
+                             (*it)->GetCollisionRectangle()));
+        }
+        else {
+            (*it)->SetActive(false);
+        }
+
         (*it)->Update();
     }
 }

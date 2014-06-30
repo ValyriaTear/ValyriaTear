@@ -82,7 +82,8 @@ MapMode::MapMode(const std::string& data_filename, const std::string& script_fil
     _gui_alpha(0.0f),
     _minimap(NULL),
     _show_minimap(false),
-    _menu_enabled(true)
+    _menu_enabled(true),
+    _save_points_enabled(true)
 {
     mode_type = MODE_MANAGER_MAP_MODE;
     _current_instance = this;
@@ -818,7 +819,7 @@ void MapMode::_UpdateExplore()
                     _camera->moving = false;
                     treasure_object->Open();
                 }
-            } else if(obj->GetType() == SAVE_TYPE) {
+            } else if(obj->GetType() == SAVE_TYPE && _save_points_enabled) {
                 // Make sure the character will be centered in the save point
                 SaveMode *save_mode = new SaveMode(true, obj->GetXPosition(), obj->GetYPosition() - 1.0f);
                 ModeManager->Push(save_mode, false, false);
