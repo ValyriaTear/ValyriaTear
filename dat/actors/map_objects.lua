@@ -792,6 +792,30 @@ objects["Vase4"] = {
     img_height = 2.0
 }
 
+objects["Waterfall1"] = {
+    animation_filename = "img/sprites/map/objects/waterfall1.lua",
+    coll_half_width = 3,
+    coll_height = 16,
+    img_half_width = 3,
+    img_height = 16
+}
+
+objects["Waterfall2"] = {
+    animation_filename = "img/sprites/map/objects/waterfall2.lua",
+    coll_half_width = 3,
+    coll_height = 8.93,
+    img_half_width = 3,
+    img_height = 8.93
+}
+
+objects["Water Light1"] = {
+    animation_filename = "img/sprites/map/objects/water_light1.lua",
+    coll_half_width = 1,
+    coll_height = 3,
+    img_half_width = 1,
+    img_height = 3
+}
+
 objects["Well"] = {
     animation_filename = "img/sprites/map/objects/well.lua",
     coll_half_width = 2.10,

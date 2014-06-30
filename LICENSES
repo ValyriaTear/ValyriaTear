@@ -1,7 +1,7 @@
 Licenses
 ========
 
-Last update: 2014.06.14
+Last update: 2014.06.30
 
 This file is listing all the files licenses from the point of the fork
 from the Allacrost project.
@@ -677,6 +677,9 @@ img/sprites/map/objects/tree_tiny2.png                          CC by SA 3.0    
 img/sprites/map/objects/tree_tiny3.png                          CC by SA 3.0             Jetrel, Zabin (OGA) + Variation from Bertram
 img/sprites/map/objects/tree_tiny4.png                          CC by SA 3.0             Jetrel, Zabin (OGA) + Variation from Bertram
 img/sprites/map/objects/vase1.png                               GPLv2+                   Allacrost
+img/sprites/map/objects/water_light1.png                        CC by SA 3.0             ZaPaper (OGA) base on LPC work - http://opengameart.org/content/lpc-animated-water-and-waterfalls
+img/sprites/map/objects/waterfall1.png                          CC by SA 3.0             ZaPaper (OGA) base on LPC work - http://opengameart.org/content/lpc-animated-water-and-waterfalls
+img/sprites/map/objects/waterfall2.png                          CC by SA 3.0             ZaPaper (OGA) base on LPC work - http://opengameart.org/content/lpc-animated-water-and-waterfalls
 img/sprites/map/objects/well.png                                CC by SA 3.0             Bertram, based on several Jetrel's sprites
 img/sprites/map/objects/wooden_table_big.png                    GPLv2+                   Allacrost
 img/sprites/map/objects/wooden_table_small.png                  GPLv2+                   Allacrost

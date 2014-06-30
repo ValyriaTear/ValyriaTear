@@ -286,6 +286,30 @@ function _CreateObjects()
         map_functions.set_gate_opened();
         rolling_stone2:SetPosition(43, 22);
     end
+
+    -- Waterfall
+    if (GlobalManager:GetEventValue("triggers", "mt elbrus waterfall trigger") == 1) then
+        _add_waterfall(44, 46);
+    end
+
+end
+
+function _add_waterfall(x, y)
+    local object = CreateObject(Map, "Waterfall1", x - 0.1, y - 0.2);
+    object:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
+    Map:AddGroundObject(object);
+    -- Ambient sound
+    object = vt_map.SoundObject("snd/fountain_large.ogg", x, y - 5, 50.0);
+    Map:AddAmbientSoundObject(object)
+    -- Particle effects
+    object = vt_map.ParticleObject("dat/effects/particles/waterfall_steam.lua", x, y - 15.0);
+    object:SetObjectID(Map.object_supervisor:GenerateObjectID());
+    object:SetDrawOnSecondPass(true);
+    Map:AddGroundObject(object);
+    object = vt_map.ParticleObject("dat/effects/particles/waterfall_steam_big.lua", x, y + 0.2);
+    object:SetObjectID(Map.object_supervisor:GenerateObjectID());
+    object:SetDrawOnSecondPass(true);
+    Map:AddGroundObject(object);
 end
 
 function _add_flame(x, y)
