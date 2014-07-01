@@ -309,6 +309,10 @@ function _CreateEvents()
     event = vt_map.MapTransitionEvent("to mountain shrine", "dat/maps/mt_elbrus/mt_elbrus_shrine2_map.lua",
                                        "dat/maps/mt_elbrus/mt_elbrus_shrine2_script.lua", "from_shrine_entrance");
     EventManager:RegisterEvent(event);
+    event = vt_map.MapTransitionEvent("to mountain shrine-waterfalls", "dat/maps/mt_elbrus/mt_elbrus_shrine2_2_map.lua",
+                                       "dat/maps/mt_elbrus/mt_elbrus_shrine2_script.lua", "from_shrine_entrance");
+    EventManager:RegisterEvent(event);
+
     event = vt_map.MapTransitionEvent("to mountain bridge", "dat/maps/mt_elbrus/mt_elbrus_path4_map.lua",
                                        "dat/maps/mt_elbrus/mt_elbrus_path4_script.lua", "from_shrine_entrance");
     EventManager:RegisterEvent(event);
@@ -714,7 +718,12 @@ end
 function _CheckZones()
     if (to_shrine_zone:IsCameraEntering() == true) then
         hero:SetMoving(false);
-        EventManager:StartEvent("to mountain shrine");
+        if (GlobalManager:GetEventValue("triggers", "mt elbrus waterfall trigger") == 0) then
+            EventManager:StartEvent("to mountain shrine");
+        else
+            EventManager:StartEvent("to mountain shrine-waterfalls");
+        end
+       
     elseif (to_mountain_bridge_zone:IsCameraEntering() == true) then
         hero:SetMoving(false);
         EventManager:StartEvent("to mountain bridge");
