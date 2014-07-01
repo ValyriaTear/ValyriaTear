@@ -115,6 +115,10 @@ function _CreateCharacters()
     Map:AddGroundObject(orlinn);
 end
 
+-- falling hole objects
+local falling_hole = nil
+local falling_hole_wall = nil
+
 function _CreateObjects()
     local object = {};
     local npc = {};
@@ -146,6 +150,31 @@ function _CreateObjects()
 
     event = vt_map.ScriptedEvent("Heal event", "heal_party", "heal_done");
     EventManager:RegisterEvent(event);
+
+    falling_hole = vt_map.PhysicalObject();
+    falling_hole:SetPosition(22.0, 18.0);
+    falling_hole:SetObjectID(Map.object_supervisor:GenerateObjectID());
+    falling_hole:SetCollHalfWidth(4.0);
+    falling_hole:SetCollHeight(8.0);
+    falling_hole:SetImgHalfWidth(4.0);
+    falling_hole:SetImgHeight(8.0);
+    falling_hole:AddStillFrame("dat/maps/mt_elbrus/falling_hole.png");
+    falling_hole:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
+    falling_hole:SetVisible(false);
+    Map:AddFlatGroundObject(falling_hole);
+
+    falling_hole_wall = vt_map.PhysicalObject();
+    falling_hole_wall:SetPosition(22.0, 25.0);
+    falling_hole_wall:SetObjectID(Map.object_supervisor:GenerateObjectID());
+    falling_hole_wall:SetCollHalfWidth(4.0);
+    falling_hole_wall:SetCollHeight(7.37);
+    falling_hole_wall:SetImgHalfWidth(4.0);
+    falling_hole_wall:SetImgHeight(7.37);
+    falling_hole_wall:AddStillFrame("dat/maps/mt_elbrus/falling_hole_above.png");
+    falling_hole_wall:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
+    falling_hole_wall:SetVisible(false);
+    Map:AddSkyObject(falling_hole_wall);
+
 end
 
 -- Sets common battle environment settings for enemy sprites
@@ -181,7 +210,7 @@ function _CreateEvents()
     local dialogue = {};
     local text = {};
 
-    event = vt_map.MapTransitionEvent("to mountain shrine entrance", "dat/maps/mt_elbrus/mt_elbrus_shrine2_map.lua",
+    event = vt_map.MapTransitionEvent("to mountain shrine entrance", "dat/maps/mt_elbrus/mt_elbrus_shrine2_2_map.lua",
                                        "dat/maps/mt_elbrus/mt_elbrus_shrine2_script.lua", "from_shrine_stairs1");
     EventManager:RegisterEvent(event);
     event = vt_map.MapTransitionEvent("to mountain shrine trap room", "dat/maps/mt_elbrus/mt_elbrus_shrine3_map.lua",
@@ -197,14 +226,14 @@ function _CreateEvents()
 
     -- The party is trapped ... again ...
     event = vt_map.ScriptedEvent("Start trap event", "trap_event_start", "");
-    event:AddEventLinkAtEnd("Kalya moves up");
-    event:AddEventLinkAtEnd("Orlinn moves up");
+    event:AddEventLinkAtEnd("Kalya moves up", 300);
+    event:AddEventLinkAtEnd("Orlinn moves up", 300);
     event:AddEventLinkAtEnd("Bronann moves up");
     EventManager:RegisterEvent(event);
 
-    event = vt_map.PathMoveSpriteEvent("Kalya moves up", kalya, 20, 15, false);
+    event = vt_map.PathMoveSpriteEvent("Kalya moves up", kalya, 21, 15, false);
     EventManager:RegisterEvent(event);
-    event = vt_map.PathMoveSpriteEvent("Orlinn moves up", orlinn, 24, 15, false);
+    event = vt_map.PathMoveSpriteEvent("Orlinn moves up", orlinn, 23, 15, false);
     EventManager:RegisterEvent(event);
     event = vt_map.PathMoveSpriteEvent("Bronann moves up", bronann, 22, 13, false);
     event:AddEventLinkAtEnd("Trigger trap");
@@ -223,7 +252,7 @@ function _CreateEvents()
 
     event = vt_map.ScriptedEvent("The heroes exclamate", "heroes_exclamate", "");
     event:AddEventLinkAtEnd("The heroes fall", 800);
-    event:AddEventLinkAtEnd("to mountain shrine basement", 800);
+    event:AddEventLinkAtEnd("to mountain shrine basement", 1400);
     EventManager:RegisterEvent(event);
 
     event = vt_map.ScriptedEvent("The heroes fall", "heroes_fall_start", "heroes_fall_update");
@@ -256,7 +285,7 @@ end
 -- Check whether the active camera has entered a zone. To be called within Update()
 function _CheckZones()
     if (to_shrine_entrance_zone:IsCameraEntering() == true) then
-        hero:SetMoving(false);
+        hero:SetDirection(vt_map.MapMode.SOUTH);
         EventManager:StartEvent("to mountain shrine entrance");
     elseif (to_shrine_trap_zone:IsCameraEntering() == true) then
         hero:SetMoving(false);
@@ -322,7 +351,9 @@ map_functions = {
     end,
 
     trap_trigger = function()
-        -- TODO: hole opening, and fall hiding graphics
+        -- hole opening, and fall hiding graphics
+        falling_hole:SetVisible(true)
+        falling_hole_wall:SetVisible(true)
         AudioManager:PlaySound("snd/heavy_bump.wav");
         Map:GetEffectSupervisor():ShakeScreen(3.0, 1000, vt_mode_manager.EffectSupervisor.SHAKE_FALLOFF_SUDDEN);
         AudioManager:FadeOutAllMusic(400);
@@ -350,14 +381,14 @@ map_functions = {
     heroes_fall_update = function()
         local update_time = SystemManager:GetUpdateTime();
         -- Make the heroes fall
-        if (bronann:GetYPosition() < 17.0) then
-            bronann:SetYPosition(bronann:GetYPosition() + update_time * 0.005)
+        if (bronann:GetYPosition() < 23.0) then
+            bronann:SetYPosition(bronann:GetYPosition() + update_time * 0.011)
         end
-        if (kalya:GetYPosition() < 17.0) then
-            kalya:SetYPosition(kalya:GetYPosition() + update_time * 0.005)
+        if (kalya:GetYPosition() < 23.0) then
+            kalya:SetYPosition(kalya:GetYPosition() + update_time * 0.011)
         end
-        if (orlinn:GetYPosition() < 17.0) then
-            orlinn:SetYPosition(orlinn:GetYPosition() + update_time * 0.005)
+        if (orlinn:GetYPosition() < 23.0) then
+            orlinn:SetYPosition(orlinn:GetYPosition() + update_time * 0.011)
         end
         -- never actually ends
         return false;
