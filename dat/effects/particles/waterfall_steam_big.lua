@@ -5,10 +5,10 @@
 -- and when the character is going to collide with it.
 map_effect_collision = {
     -- Collision rectangle
-    effect_collision_width = 7 * 16,
+    effect_collision_width = 8 * 16,
     effect_collision_height = 8 * 16,
     -- Image rectangle
-    effect_width = 7 * 16,
+    effect_width = 8 * 16,
     effect_height = 8 * 16,
 }
 
@@ -20,9 +20,9 @@ systems[0] =
 
     emitter =
     {
-        x = -60,
+        x = -70,
         y = -45,
-        x2 = 60,
+        x2 = 70,
         y2 = -45,
         center_x = 0,
         center_y = 0,
