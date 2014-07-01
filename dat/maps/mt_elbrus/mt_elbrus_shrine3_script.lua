@@ -264,6 +264,9 @@ function _CreateEvents()
     event = vt_map.MapTransitionEvent("to mountain shrine main room", "dat/maps/mt_elbrus/mt_elbrus_shrine2_map.lua",
                                        "dat/maps/mt_elbrus/mt_elbrus_shrine2_script.lua", "from_shrine_trap_room");
     EventManager:RegisterEvent(event);
+    event = vt_map.MapTransitionEvent("to mountain shrine main room-waterfalls", "dat/maps/mt_elbrus/mt_elbrus_shrine2_2_map.lua",
+                                       "dat/maps/mt_elbrus/mt_elbrus_shrine2_script.lua", "from_shrine_trap_room");
+    EventManager:RegisterEvent(event);
 
     event = vt_map.MapTransitionEvent("to mountain shrine treasure room", "dat/maps/mt_elbrus/mt_elbrus_shrineX_map.lua",
                                        "dat/maps/mt_elbrus/mt_elbrus_shrineX_script.lua", "from_shrine_trap_room");
@@ -508,7 +511,11 @@ function _CheckZones()
         end
     elseif (to_shrine_main_room_zone:IsCameraEntering() == true) then
         hero:SetDirection(vt_map.MapMode.WEST);
-        EventManager:StartEvent("to mountain shrine main room");
+        if (GlobalManager:GetEventValue("triggers", "mt elbrus waterfall trigger") == 0) then
+            EventManager:StartEvent("to mountain shrine main room");
+        else
+            EventManager:StartEvent("to mountain shrine main room-waterfalls")
+        end
     elseif (to_shrine_treasure_room_zone:IsCameraEntering() == true) then
         hero:SetDirection(vt_map.MapMode.NORTH);
         --EventManager:StartEvent("to mountain shrine treasure room");
@@ -529,7 +536,11 @@ function _CheckZones()
         local hp_change = math.random(40, 60);
         _TriggerPartyDamage(hp_change);
 
-        EventManager:StartEvent("to mountain shrine main room");
+        if (GlobalManager:GetEventValue("triggers", "mt elbrus waterfall trigger") == 0) then
+            EventManager:StartEvent("to mountain shrine main room");
+        else
+            EventManager:StartEvent("to mountain shrine main room-waterfalls")
+        end
         AudioManager:PlaySound("snd/battle_encounter_03.ogg");
     end
 end
