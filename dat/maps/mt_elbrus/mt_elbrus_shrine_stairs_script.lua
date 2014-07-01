@@ -28,9 +28,6 @@ local kalya = {};
 local orlinn = {};
 local bronann = {}; -- A copy of Bronann, used to simplify some scripting.
 
--- Name of the main sprite. Used to reload the good one at the end of dialogue events.
-local main_sprite_name = "";
-
 -- the main map loading code
 function Load(m)
 
@@ -250,10 +247,43 @@ function _CreateObjects()
     _add_flame(21.5, 11);
     _add_flame(53.5, 11);
 
-    _add_bubble(23, 30);
-    _add_bubble(19, 29);
-    _add_bubble(6, 29.5);
-    _add_bubble(4, 39);
+    -- Waterfall
+    if (GlobalManager:GetEventValue("triggers", "mt elbrus waterfall trigger") == 1) then
+        _add_small_waterfall(18, 30);
+        _add_waterlight(13, 31)
+        _add_waterlight(23, 31)
+    else
+        _add_bubble(23, 30);
+        _add_bubble(19, 29);
+        _add_bubble(6, 29.5);
+        _add_bubble(4, 39);
+    end
+end
+
+function _add_small_waterfall(x, y)
+    local object = CreateObject(Map, "Waterfall2", x - 0.1, y - 0.2);
+    object:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
+    object:RandomizeCurrentAnimationFrame();
+    Map:AddGroundObject(object);
+    -- Ambient sound
+    object = vt_map.SoundObject("snd/fountain_large.ogg", x, y - 5, 50.0);
+    Map:AddAmbientSoundObject(object)
+    -- Particle effects
+    object = vt_map.ParticleObject("dat/effects/particles/waterfall_steam.lua", x, y - 8.0);
+    object:SetObjectID(Map.object_supervisor:GenerateObjectID());
+    object:SetDrawOnSecondPass(true);
+    Map:AddGroundObject(object);
+    object = vt_map.ParticleObject("dat/effects/particles/waterfall_steam_big.lua", x, y + 1.0);
+    object:SetObjectID(Map.object_supervisor:GenerateObjectID());
+    object:SetDrawOnSecondPass(true);
+    Map:AddGroundObject(object);
+end
+
+function _add_waterlight(x, y)
+    local object = CreateObject(Map, "Water Light1", x, y);
+    object:RandomizeCurrentAnimationFrame();
+    object:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
+    Map:AddGroundObject(object);
 end
 
 function _add_flame(x, y)
@@ -592,12 +622,6 @@ map_functions = {
     laughing_event_start = function()
         hero:SetMoving(false);
 
-        -- Keep a reference of the correct sprite for the event end.
-        main_sprite_name = hero:GetSpriteName();
-
-        -- Make the hero be Bronann for the event.
-        hero:ReloadSprite("Bronann");
-
         kalya:SetPosition(hero:GetXPosition(), hero:GetYPosition());
         kalya:SetVisible(true);
         orlinn:SetPosition(hero:GetXPosition(), hero:GetYPosition());
@@ -695,7 +719,6 @@ map_functions = {
         Map:SetCamera(hero, 500);
 
         -- Reload the hero back to default
-        hero:ReloadSprite(main_sprite_name);
         hero:SetVisible(true);
         bronann:SetCollisionMask(vt_map.MapMode.ALL_COLLISION);
 
