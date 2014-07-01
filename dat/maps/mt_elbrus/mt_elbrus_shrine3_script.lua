@@ -23,9 +23,6 @@ local Script = {};
 -- the main character handler
 local hero = {};
 
--- Name of the main sprite. Used to reload the good one at the end of dialogue events.
-local main_sprite_name = "";
-
 -- the main map loading code
 function Load(m)
 
@@ -73,7 +70,7 @@ function _CreateCharacters()
     -- Load previous save point data
     if (GlobalManager:GetPreviousLocation() == "from_shrine_treasure_room") then
         hero:SetDirection(vt_map.MapMode.SOUTH);
-        hero:SetPosition(10.0, 10.0);
+        hero:SetPosition(19.0, 13.0);
     end
 
     Map:AddGroundObject(hero);
@@ -268,8 +265,8 @@ function _CreateEvents()
                                        "dat/maps/mt_elbrus/mt_elbrus_shrine2_script.lua", "from_shrine_trap_room");
     EventManager:RegisterEvent(event);
 
-    event = vt_map.MapTransitionEvent("to mountain shrine treasure room", "dat/maps/mt_elbrus/mt_elbrus_shrineX_map.lua",
-                                       "dat/maps/mt_elbrus/mt_elbrus_shrineX_script.lua", "from_shrine_trap_room");
+    event = vt_map.MapTransitionEvent("to mountain shrine treasure room", "dat/maps/mt_elbrus/mt_elbrus_shrine9_map.lua",
+                                       "dat/maps/mt_elbrus/mt_elbrus_shrine9_script.lua", "from_shrine_trap_room");
     EventManager:RegisterEvent(event);
 
     event = vt_map.ScriptedEvent("Start trap", "trap_start", "trap_update");
@@ -517,8 +514,10 @@ function _CheckZones()
             EventManager:StartEvent("to mountain shrine main room-waterfalls")
         end
     elseif (to_shrine_treasure_room_zone:IsCameraEntering() == true) then
-        hero:SetDirection(vt_map.MapMode.NORTH);
-        --EventManager:StartEvent("to mountain shrine treasure room");
+        if (GlobalManager:GetEventValue("story", "mt_shrine_treasure_trap_done") == 1) then
+            hero:SetDirection(vt_map.MapMode.NORTH);
+            EventManager:StartEvent("to mountain shrine treasure room");
+        end
     elseif (trap_started == false and trap_zone:IsCameraEntering() == true) then
         if (GlobalManager:GetEventValue("story", "mt_shrine_treasure_trap_done") == 0) then
             EventManager:StartEvent("Start trap");
