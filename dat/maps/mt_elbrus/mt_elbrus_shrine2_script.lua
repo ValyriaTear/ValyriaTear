@@ -77,7 +77,7 @@ function _CreateCharacters()
     -- Load previous save point data
     if (GlobalManager:GetPreviousLocation() == "from_shrine_stairs1") then
         hero:SetDirection(vt_map.MapMode.SOUTH);
-        hero:SetPosition(50.0, 10.0);
+        hero:SetPosition(50.0, 4.0);
     elseif (GlobalManager:GetPreviousLocation() == "from_shrine_trap_room") then
         hero:SetDirection(vt_map.MapMode.WEST);
         hero:SetPosition(58.0, 60.0);
@@ -178,12 +178,23 @@ function _CreateObjects()
     object = CreateObject(Map, "Jar1", 46, 51.6);
     Map:AddGroundObject(object);
 
-    _add_bubble(30, 30);
-    _add_bubble(35, 35);
-    _add_bubble(42, 20);
-    _add_bubble(28, 12);
-    _add_bubble(32, 18);
-    _add_bubble(55, 17);
+    -- Waterfalls
+    if (GlobalManager:GetEventValue("triggers", "mt elbrus waterfall trigger") == 1) then
+        _add_very_small_waterfall(32, 7);
+        _add_very_small_waterfall(40, 7);
+        _add_waterlight(27, 12)
+        _add_waterlight(36, 18)
+        _add_waterlight(31, 26)
+        _add_waterlight(36, 32)
+        _add_waterlight(55, 15)
+    else
+        _add_bubble(30, 30);
+        _add_bubble(35, 35);
+        _add_bubble(42, 20);
+        _add_bubble(28, 12);
+        _add_bubble(32, 18);
+        _add_bubble(55, 17);
+    end
 
     -- Add the first parchment
     parchment1 = CreateObject(Map, "Parchment", 33.0, 40.6);
@@ -251,6 +262,32 @@ function _CreateObjects()
     else
         _add_flame(63.5, 53);
     end
+end
+
+function _add_very_small_waterfall(x, y)
+    local object = CreateObject(Map, "Waterfall3", x - 0.1, y - 0.2);
+    object:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
+    object:RandomizeCurrentAnimationFrame();
+    Map:AddGroundObject(object);
+    -- Ambient sound
+    object = vt_map.SoundObject("snd/fountain_large.ogg", x, y - 5, 50.0);
+    Map:AddAmbientSoundObject(object)
+    -- Particle effects
+    object = vt_map.ParticleObject("dat/effects/particles/waterfall_steam.lua", x, y - 4.0);
+    object:SetObjectID(Map.object_supervisor:GenerateObjectID());
+    object:SetDrawOnSecondPass(true);
+    Map:AddGroundObject(object);
+    object = vt_map.ParticleObject("dat/effects/particles/waterfall_steam_big.lua", x, y + 1.0);
+    object:SetObjectID(Map.object_supervisor:GenerateObjectID());
+    object:SetDrawOnSecondPass(true);
+    Map:AddGroundObject(object);
+end
+
+function _add_waterlight(x, y)
+    local object = CreateObject(Map, "Water Light1", x, y);
+    object:RandomizeCurrentAnimationFrame();
+    object:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
+    Map:AddGroundObject(object);
 end
 
 function _add_bubble(x, y)
@@ -342,6 +379,10 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
     event = vt_map.MapTransitionEvent("to mountain shrine first floor", "dat/maps/mt_elbrus/mt_elbrus_shrine5_map.lua",
                                        "dat/maps/mt_elbrus/mt_elbrus_shrine5_script.lua", "from_shrine_main_room");
+    EventManager:RegisterEvent(event);
+
+    event = vt_map.MapTransitionEvent("to mountain shrine stairs", "dat/maps/mt_elbrus/mt_elbrus_shrine9_map.lua",
+                                       "dat/maps/mt_elbrus/mt_elbrus_shrine9_script.lua", "from_shrine_main_room");
     EventManager:RegisterEvent(event);
 
     -- Generic events
@@ -492,6 +533,7 @@ end
 local to_shrine_entrance_zone = {};
 local to_shrine_trap_room_zone = {};
 local to_shrine_enigma_room_zone = {};
+local to_shrine_stairs_room_zone = {};
 local shrine_skeleton_trap_zone = {};
 
 -- Create the different map zones triggering events
@@ -509,6 +551,9 @@ function _CreateZones()
 
     to_shrine_first_floor_zone = vt_map.CameraZone(12, 16, 0, 2);
     Map:AddZone(to_shrine_first_floor_zone);
+
+    to_shrine_stairs_room_zone = vt_map.CameraZone(46, 54, 0, 2);
+    Map:AddZone(to_shrine_stairs_room_zone);
 
     shrine_skeleton_trap_zone = vt_map.CameraZone(4, 24, 10, 12);
     Map:AddZone(shrine_skeleton_trap_zone);
@@ -528,6 +573,9 @@ function _CheckZones()
     elseif (to_shrine_first_floor_zone:IsCameraEntering() == true) then
         hero:SetDirection(vt_map.MapMode.NORTH);
         EventManager:StartEvent("to mountain shrine first floor");
+    elseif (to_shrine_stairs_room_zone:IsCameraEntering() == true) then
+        hero:SetDirection(vt_map.MapMode.NORTH);
+        EventManager:StartEvent("to mountain shrine stairs");
     elseif (shrine_skeleton_trap_zone:IsCameraEntering() == true and Map:CurrentState() == vt_map.MapMode.STATE_EXPLORE) then
         if (GlobalManager:GetEventValue("story", "mountain_shrine_skeleton_event_done") == 0) then
             EventManager:StartEvent("Skeleton event start");
