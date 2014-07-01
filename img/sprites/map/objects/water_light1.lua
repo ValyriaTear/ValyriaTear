@@ -12,17 +12,20 @@ animation = {
     -- set the image dimensions on the map (in pixels)
     frame_width = 32,
     frame_height = 48,
+    -- Set whether the animation frames fade from one to another
+    crossfade_frames = true,
     -- The frames duration in milliseconds
     frames = {
         [0] = { id = 0, duration = 2000 },
-        [1] = { id = 1, duration = 2000 },
-        [2] = { id = 2, duration = 2000 },
-        [3] = { id = 3, duration = 2000 },
-        [4] = { id = 4, duration = 2000 },
-        [5] = { id = 5, duration = 2000 },
-        [6] = { id = 6, duration = 2000 },
-        [7] = { id = 7, duration = 2000 },
-        [8] = { id = 8, duration = 2000 },
-        [9] = { id = 9, duration = 2000 },
+        -- TODO: Waiting for crossfaded animation support.
+        --[1] = { id = 1, duration = 2000 },
+        --[2] = { id = 2, duration = 2000 },
+        --[3] = { id = 3, duration = 2000 },
+        --[4] = { id = 4, duration = 2000 },
+        --[5] = { id = 5, duration = 2000 },
+        --[6] = { id = 6, duration = 2000 },
+        --[7] = { id = 7, duration = 2000 },
+        --[8] = { id = 8, duration = 2000 },
+        --[9] = { id = 9, duration = 2000 },
     }
 }
