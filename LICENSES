@@ -1,7 +1,7 @@
 Licenses
 ========
 
-Last update: 2014.06.30
+Last update: 2014.07.01
 
 This file is listing all the files licenses from the point of the fork
 from the Allacrost project.
@@ -125,6 +125,8 @@ dat/maps/mt_elbrus/ancient_sign_big_bright.png                  CC by SA 3.0    
 dat/maps/mt_elbrus/shrine_entrance_light.png                    CC by SA 3.0             Bertram
 dat/maps/mt_elbrus/fake_wall.png                                CC by SA 3.0, GPLv3      Guido Bos + adaptation from Bertram - http://opengameart.org/content/3rd-entry-some-old-castle-stuff
 dat/maps/mt_elbrus/spike_wall.png                               CC by SA 3.0, GPLv3      Guido Bos + adaptation from Bertram - http://opengameart.org/content/3rd-entry-some-old-castle-stuff
+dat/maps/mt_elbrus/falling_hole.png                             CC by SA 3.0, GPLv3      Guido Bos + adaptation from Bertram - http://opengameart.org/content/3rd-entry-some-old-castle-stuff
+dat/maps/mt_elbrus/falling_hole_above.png                       CC by SA 3.0, GPLv3      Guido Bos + adaptation from Bertram - http://opengameart.org/content/3rd-entry-some-old-castle-stuff
 
 dat/objects/arm_armor.lua                                       GPLv2+                   Allacrost + Bertram
 dat/objects/head_armor.lua                                      GPLv2+                   Allacrost + Bertram
