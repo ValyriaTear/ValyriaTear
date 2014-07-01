@@ -297,6 +297,7 @@ end
 function _add_waterfall(x, y)
     local object = CreateObject(Map, "Waterfall1", x - 0.1, y - 0.2);
     object:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
+    object:RandomizeCurrentAnimationFrame();
     Map:AddGroundObject(object);
     -- Ambient sound
     object = vt_map.SoundObject("snd/fountain_large.ogg", x, y - 5, 50.0);
