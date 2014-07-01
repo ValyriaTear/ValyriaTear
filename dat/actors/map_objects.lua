@@ -808,6 +808,14 @@ objects["Waterfall2"] = {
     img_height = 8.93
 }
 
+objects["Waterfall3"] = {
+    animation_filename = "img/sprites/map/objects/waterfall2.lua",
+    coll_half_width = 3,
+    coll_height = 4.93,
+    img_half_width = 3,
+    img_height = 4.93
+}
+
 objects["Water Light1"] = {
     animation_filename = "img/sprites/map/objects/water_light1.lua",
     coll_half_width = 1,
