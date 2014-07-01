@@ -345,6 +345,9 @@ function _CreateEvents()
     event = vt_map.MapTransitionEvent("to mountain shrine main room", "dat/maps/mt_elbrus/mt_elbrus_shrine2_map.lua",
                                        "dat/maps/mt_elbrus/mt_elbrus_shrine2_script.lua", "from_shrine_enigma_room");
     EventManager:RegisterEvent(event);
+    event = vt_map.MapTransitionEvent("to mountain shrine main room-waterfalls", "dat/maps/mt_elbrus/mt_elbrus_shrine2_2_map.lua",
+                                       "dat/maps/mt_elbrus/mt_elbrus_shrine2_script.lua", "from_shrine_enigma_room");
+    EventManager:RegisterEvent(event);
 
     event = vt_map.ScriptedEvent("Push trigger 1", "push_trigger_1", "");
     EventManager:RegisterEvent(event);
@@ -412,7 +415,11 @@ end
 function _CheckZones()
     if (to_shrine_main_room_zone:IsCameraEntering() == true) then
         hero:SetDirection(vt_map.MapMode.EAST);
-        EventManager:StartEvent("to mountain shrine main room");
+        if (GlobalManager:GetEventValue("triggers", "mt elbrus waterfall trigger") == 0) then
+            EventManager:StartEvent("to mountain shrine main room");
+        else
+            EventManager:StartEvent("to mountain shrine main room-waterfalls");
+        end
     elseif (mini_boss_zone:IsCameraEntering() == true) then
         if (GlobalManager:GetEventValue("story", "mt_elbrus_shrine_trap_boss_2_done") == 0) then
             EventManager:StartEvent("Mini-Boss fight");
