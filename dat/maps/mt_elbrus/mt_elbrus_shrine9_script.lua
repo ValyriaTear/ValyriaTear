@@ -124,6 +124,18 @@ function _CreateObjects()
     local npc = {};
     local event = {}
 
+    object = CreateTreasure(Map, "mt_shrine9_chest1", "Wood_Chest1", 47, 42);
+    object:AddObject(3001, 1); -- Copper Ore x 1
+    Map:AddGroundObject(object);
+
+    object = CreateTreasure(Map, "mt_shrine9_chest2", "Wood_Chest1", 51, 42);
+    object:AddObject(3001, 1); -- Copper Ore x 1
+    Map:AddGroundObject(object);
+
+    object = CreateTreasure(Map, "mt_shrine9_chest3", "Wood_Chest1", 55, 42);
+    object:AddObject(3002, 1); -- Iron Ore x 1
+    Map:AddGroundObject(object);
+
     Map:AddHalo("img/misc/lights/right_ray_light.lua", 26, 18,
             vt_video.Color(1.0, 1.0, 1.0, 0.8));
     Map:AddHalo("img/misc/lights/right_ray_light.lua", 53, 44,
@@ -214,7 +226,7 @@ function _CreateEvents()
                                        "dat/maps/mt_elbrus/mt_elbrus_shrine2_script.lua", "from_shrine_stairs1");
     EventManager:RegisterEvent(event);
     event = vt_map.MapTransitionEvent("to mountain shrine trap room", "dat/maps/mt_elbrus/mt_elbrus_shrine3_map.lua",
-                                       "dat/maps/mt_elbrus/mt_elbrus_shrine3_script.lua", "from_shrine_stairs1");
+                                       "dat/maps/mt_elbrus/mt_elbrus_shrine3_script.lua", "from_shrine_treasure_room");
     EventManager:RegisterEvent(event);
 
     event = vt_map.ChangeDirectionSpriteEvent("Bronann looks south", bronann, vt_map.MapMode.SOUTH);
@@ -288,11 +300,10 @@ function _CheckZones()
         hero:SetDirection(vt_map.MapMode.SOUTH);
         EventManager:StartEvent("to mountain shrine entrance");
     elseif (to_shrine_trap_zone:IsCameraEntering() == true) then
-        hero:SetMoving(false);
+        hero:SetDirection(vt_map.MapMode.SOUTH);
         EventManager:StartEvent("to mountain shrine trap room");
     elseif (falling_event_zone:IsCameraEntering() == true and Map:CurrentState() == vt_map.MapMode.STATE_EXPLORE) then
         Map:PushState(vt_map.MapMode.STATE_SCENE)
-        hero:SetMoving(false);
         EventManager:StartEvent("Start trap event");
     end
 end
