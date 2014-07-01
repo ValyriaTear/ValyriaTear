@@ -347,6 +347,9 @@ function _CreateEvents()
     event = vt_map.MapTransitionEvent("to mountain shrine main room", "dat/maps/mt_elbrus/mt_elbrus_shrine2_map.lua",
                                        "dat/maps/mt_elbrus/mt_elbrus_shrine2_script.lua", "from_shrine_first_floor");
     EventManager:RegisterEvent(event);
+    event = vt_map.MapTransitionEvent("to mountain shrine main room-waterfalls", "dat/maps/mt_elbrus/mt_elbrus_shrine2_2_map.lua",
+                                       "dat/maps/mt_elbrus/mt_elbrus_shrine2_script.lua", "from_shrine_first_floor");
+    EventManager:RegisterEvent(event);
 
     event = vt_map.MapTransitionEvent("to mountain shrine 2nd floor", "dat/maps/mt_elbrus/mt_elbrus_shrine_stairs_map.lua",
                                        "dat/maps/mt_elbrus/mt_elbrus_shrine_stairs_script.lua", "from_shrine_first_floor");
@@ -688,7 +691,11 @@ local trap_triggered = false;
 function _CheckZones()
     if (to_shrine_main_room_zone:IsCameraEntering() == true) then
         hero:SetDirection(vt_map.MapMode.NORTH);
-        EventManager:StartEvent("to mountain shrine main room");
+        if (GlobalManager:GetEventValue("triggers", "mt elbrus waterfall trigger") == 0) then
+            EventManager:StartEvent("to mountain shrine main room");
+        else
+            EventManager:StartEvent("to mountain shrine main room-waterfalls");
+        end
     elseif (to_shrine_2nd_floor_room_zone:IsCameraEntering() == true) then
         hero:SetDirection(vt_map.MapMode.NORTH);
         EventManager:StartEvent("to mountain shrine 2nd floor");
