@@ -121,14 +121,24 @@ function _CreateObjects()
 
     _add_flame(61.5, 29);
 
-    _add_bubble(39, 39);
-    _add_bubble(45, 25);
-    _add_bubble(15, 27);
-    _add_bubble(57, 13);
-    _add_bubble(18, 15);
-    _add_bubble(5, 37);
-    _add_bubble(51, 38);
-    _add_bubble(54, 22);
+    if (GlobalManager:GetEventValue("triggers", "mt elbrus waterfall trigger") == 1) then
+        _add_waterlight(45, 25)
+        _add_waterlight(15, 27)
+        _add_waterlight(57, 13)
+        _add_waterlight(18, 15)
+        _add_waterlight(5, 37)
+        _add_waterlight(51, 38)
+        _add_waterlight(54, 22)
+    else
+        _add_bubble(39, 39);
+        _add_bubble(45, 25);
+        _add_bubble(15, 27);
+        _add_bubble(57, 13);
+        _add_bubble(18, 15);
+        _add_bubble(5, 37);
+        _add_bubble(51, 38);
+        _add_bubble(54, 22);
+    end
 
     _add_flame_pot(26, 24);
     _add_flame_pot(26, 20);
@@ -298,6 +308,13 @@ function _CreateObjects()
         mini_boss:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
     end
 
+end
+
+function _add_waterlight(x, y)
+    local object = CreateObject(Map, "Water Light1", x, y);
+    object:RandomizeCurrentAnimationFrame();
+    object:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
+    Map:AddGroundObject(object);
 end
 
 function _add_flame(x, y)
