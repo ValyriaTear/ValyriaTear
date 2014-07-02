@@ -27,6 +27,7 @@ local hero = nil
 local bronann = nil
 local kalya = nil
 local orlinn = nil
+local andromalius = nil
 
 -- the main map loading code
 function Load(m)
@@ -61,6 +62,10 @@ function Load(m)
         orlinn:SetPosition(19, 13);
         orlinn:SetVisible(true);
         orlinn:SetDirection(vt_map.MapMode.WEST);
+
+        andromalius:SetPosition(15, 13);
+        andromalius:SetVisible(true);
+        andromalius:SetDirection(vt_map.MapMode.EAST);
     end
 
     -- When falling from above, the heroes start by falling
@@ -110,6 +115,14 @@ function _CreateCharacters()
     orlinn:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
     orlinn:SetVisible(false);
     Map:AddGroundObject(orlinn);
+
+    andromalius = CreateSprite(Map, "Andromalius", 0, 0);
+    andromalius:SetName(vt_system.Translate("Andromalius II"));
+    andromalius:SetDirection(vt_map.MapMode.EAST);
+    andromalius:SetMovementSpeed(vt_map.MapMode.FAST_SPEED);
+    andromalius:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
+    andromalius:SetVisible(false);
+    Map:AddGroundObject(andromalius);
 end
 
 function _CreateObjects()
@@ -124,12 +137,10 @@ function _CreateObjects()
 
     Map:AddHalo("img/misc/lights/right_ray_light.lua", 0, 28,
             vt_video.Color(1.0, 1.0, 1.0, 0.8));
-
 end
 
 -- Special event references which destinations must be updated just before being called.
 local kalya_move_next_to_hero_event1 = nil
-local kalya_move_next_to_hero_event2 = nil
 
 -- Creates all events and sets up the entire event sequence chain
 function _CreateEvents()
@@ -243,22 +254,17 @@ function _CreateEvents()
     -- Final boss event
     event = vt_map.ScriptedEvent("Final boss battle event start", "final_boss_event_start", "");
     event:AddEventLinkAtEnd("Bronann move to the scene start point");
-    EventManager:RegisterEvent(event);
-
-    event = vt_map.PathMoveSpriteEvent("Bronann move to the scene start point", bronann, 26, 13, true);
-    event:AddEventLinkAtEnd("Bronann looks at Orlinn");
-    event:AddEventLinkAtEnd("Kalya moves next to Bronann2-prep");
-    EventManager:RegisterEvent(event);
-
-    event = vt_map.ScriptedEvent("Kalya moves next to Bronann2-prep", "prep_kalya_position", "");
     event:AddEventLinkAtEnd("Kalya moves next to Bronann2");
     EventManager:RegisterEvent(event);
 
-    -- NOTE: The actual destination is set just before the actual start call
-    kalya_move_next_to_hero_event2 = vt_map.PathMoveSpriteEvent("Kalya moves next to Bronann2", kalya, 0, 0, false);
-    kalya_move_next_to_hero_event2:AddEventLinkAtEnd("Before boss dialogue");
-    kalya_move_next_to_hero_event2:AddEventLinkAtEnd("Kalya looks at Orlinn");
-    EventManager:RegisterEvent(kalya_move_next_to_hero_event2);
+    event = vt_map.PathMoveSpriteEvent("Bronann move to the scene start point", bronann, 25, 13, true);
+    event:AddEventLinkAtEnd("Bronann looks at Orlinn");
+    EventManager:RegisterEvent(event);
+
+    event = vt_map.PathMoveSpriteEvent("Kalya moves next to Bronann2", kalya, 24, 16, true);
+    event:AddEventLinkAtEnd("Before boss dialogue");
+    event:AddEventLinkAtEnd("Kalya looks at Orlinn");
+    EventManager:RegisterEvent(event);
 
     dialogue = vt_map.SpriteDialogue();
     text = vt_system.Translate("Help!!");
@@ -282,11 +288,11 @@ function _CreateEvents()
     -- TODO: add boss sprite and dialogue
     dialogue = vt_map.SpriteDialogue();
     text = vt_system.Translate("You shall not leave this place without my consent.");
-    dialogue:AddLine(text, 0); -- Andromalius II
+    dialogue:AddLine(text, andromalius);
     text = vt_system.Translate("And you shall not touch by brother without mine...");
     dialogue:AddLineEmote(text, kalya, "exclamation");
     text = vt_system.Translate("You have been proven guilty in trying to get through the Holy ordeal without dying. I shall not let you live...");
-    dialogue:AddLine(text, 0); -- Andromalius II
+    dialogue:AddLine(text, andromalius);
     text = vt_system.Translate("Let's fight for our lives then!");
     dialogue:AddLineEmote(text, bronann, "exclamation");
     DialogueManager:AddDialogue(dialogue);
@@ -294,10 +300,20 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("Battle with the boss");
     EventManager:RegisterEvent(event);
 
-    -- TODO: battle parameters
     event = vt_map.BattleEncounterEvent("Battle with the boss");
-    event:AddEventLinkAtEnd("Bronann runs to Orlinn");
-    event:AddEventLinkAtEnd("Kalya runs to Orlinn");
+    event:SetMusic("mus/accion-OGA-djsaryon.ogg");
+    event:SetBackground("img/backdrops/battle/desert_cave/desert_cave.png");
+    event:AddScript("dat/battles/desert_cave_battle_anim.lua");
+    event:SetBoss(true);
+    event:AddEnemy(21);
+    event:AddEnemy(20);
+
+    event:AddEventLinkAtEnd("Make the boss invisible");
+    event:AddEventLinkAtEnd("Bronann runs to Orlinn", 1000);
+    event:AddEventLinkAtEnd("Kalya runs to Orlinn", 1000);
+    EventManager:RegisterEvent(event);
+
+    event = vt_map.ScriptedEvent("Make the boss invisible", "make_boss_invisible", "");
     EventManager:RegisterEvent(event);
 
     event = vt_map.PathMoveSpriteEvent("Bronann runs to Orlinn", bronann, 27, 11, true);
@@ -354,7 +370,7 @@ function _CreateZones()
     see_exit_zone = vt_map.CameraZone(56, 61, 40, 45);
     Map:AddZone(see_exit_zone);
 
-    final_boss_zone = vt_map.CameraZone(21, 24, 3, 22);
+    final_boss_zone = vt_map.CameraZone(21, 36, 3, 22);
     Map:AddZone(final_boss_zone);
 
     to_mountain_exit_zone = vt_map.CameraZone(0, 2, 15, 34);
@@ -490,8 +506,9 @@ map_functions = {
         kalya:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
     end,
 
-    prep_kalya_position = function()
-        kalya_move_next_to_hero_event2:SetDestination(bronann:GetXPosition(), bronann:GetYPosition() + 2.0, true);
+    make_boss_invisible = function()
+        andromalius:SetPosition(0, 0);
+        andromalius:SetVisible(false);
     end,
 
     final_boss_event_end = function()
