@@ -160,6 +160,10 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
     event = vt_map.ChangeDirectionSpriteEvent("Kalya looks south", kalya, vt_map.MapMode.SOUTH);
     EventManager:RegisterEvent(event);
+    event = vt_map.ChangeDirectionSpriteEvent("Hero looks west", hero, vt_map.MapMode.WEST);
+    EventManager:RegisterEvent(event);
+    event = vt_map.ChangeDirectionSpriteEvent("Hero looks east", hero, vt_map.MapMode.EAST);
+    EventManager:RegisterEvent(event);
     event = vt_map.LookAtSpriteEvent("Kalya looks at Bronann", kalya, bronann);
     EventManager:RegisterEvent(event);
     event = vt_map.LookAtSpriteEvent("Kalya looks at Orlinn", kalya, orlinn);
@@ -216,10 +220,22 @@ function _CreateEvents()
     event = vt_map.ScriptedEvent("After the fall event end", "after_fall_event_end", "");
     EventManager:RegisterEvent(event);
 
+    -- Hero sees the exit
+    dialogue = vt_map.SpriteDialogue();
+    text = vt_system.Translate("This is the blocked passage to the Shrine entrance...");
+    dialogue:AddLineEventEmote(text, hero, "Hero looks east", "", "thinking dots");
+    text = vt_system.Translate("This can only mean we're near the exit!");
+    dialogue:AddLineEventEmote(text, hero, "Hero looks west", "", "exclamation");
+    DialogueManager:AddDialogue(dialogue);
+    event = vt_map.DialogueEvent("See exit dialogue", dialogue);
+    EventManager:RegisterEvent(event);
+
     -- Orlinn screams
     dialogue = vt_map.SpriteDialogue();
     text = vt_system.Translate("Help!!");
     dialogue:AddLine(text, orlinn);
+    text = vt_system.Translate("Orlinn!");
+    dialogue:AddLineEmote(text, hero, "exclamation");
     DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Orlinn screams dialogue", dialogue);
     EventManager:RegisterEvent(event);
@@ -301,6 +317,8 @@ function _CreateEvents()
 end
 
 -- zones
+local see_exit_zone = nil
+local orlinn_screams_zone = nil
 local final_boss_zone = nil
 local to_mountain_exit_zone = nil
 
@@ -308,12 +326,22 @@ local to_mountain_exit_zone = nil
 function _CreateZones()
 
     -- N.B.: left, right, top, bottom
+    orlinn_screams_zone = vt_map.CameraZone(36, 40, 36, 48);
+    Map:AddZone(orlinn_screams_zone);
+
+    see_exit_zone = vt_map.CameraZone(56, 61, 40, 45);
+    Map:AddZone(see_exit_zone);
+
     final_boss_zone = vt_map.CameraZone(21, 23, 3, 22);
     Map:AddZone(final_boss_zone);
 
     to_mountain_exit_zone = vt_map.CameraZone(0, 2, 15, 34);
     Map:AddZone(to_mountain_exit_zone);
 end
+
+-- Booleans preventing from starting the even more than once.
+local heard_orlinn_screaming = false;
+local saw_exit = false;
 
 -- Check whether the active camera has entered a zone. To be called within Update()
 function _CheckZones()
@@ -324,6 +352,18 @@ function _CheckZones()
         if (GlobalManager:GetEventValue("story", "mt_elbrus_ep1_final_boss_beaten") == 0) then
             hero:SetMoving(false);
             EventManager:StartEvent("Final boss battle event start");
+        end
+    elseif (heard_orlinn_screaming == false and orlinn_screams_zone:IsCameraEntering() == true and Map:CurrentState() == vt_map.MapMode.STATE_EXPLORE) then
+        if (GlobalManager:GetEventValue("story", "mt_elbrus_ep1_final_boss_beaten") == 0) then
+            hero:SetMoving(false);
+            EventManager:StartEvent("Orlinn screams dialogue");
+            heard_orlinn_screaming = true;
+        end
+    elseif (saw_exit == false and see_exit_zone:IsCameraEntering() == true and Map:CurrentState() == vt_map.MapMode.STATE_EXPLORE) then
+        if (GlobalManager:GetEventValue("story", "mt_elbrus_ep1_final_boss_beaten") == 0) then
+            hero:SetMoving(false);
+            EventManager:StartEvent("See exit dialogue");
+            saw_exit = true;
         end
     end
 end
