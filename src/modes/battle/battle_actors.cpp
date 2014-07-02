@@ -474,7 +474,7 @@ void BattleActor::RegisterMiss(bool was_attacked)
     vt_mode_manager::IndicatorSupervisor& indicator = BM->GetIndicatorSupervisor();
     indicator.AddMissIndicator(GetXLocation(), y_pos);
 
-    if(was_attacked)
+    if(was_attacked && IsAlive())
         ChangeSpriteAnimation("dodge");
 }
 
