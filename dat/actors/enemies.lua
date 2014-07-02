@@ -816,7 +816,7 @@ enemies[15] = {
 
     skills = {
         1006, -- Normal atack
-        1012. -- Agility stealing attack
+        1012  -- Agility stealing attack
     },
 
     drop_objects = {
@@ -869,7 +869,7 @@ enemies[16] = {
 
     skills = {
         1006, -- Normal attack
-        1010, -- Poison attack
+        1010, -- Poison attack (5 SP)
     },
 
     drop_objects = {
@@ -915,7 +915,7 @@ enemies[17] = {
 
     skills = {
         1006,  -- Normal attack
-        10100, -- Fire
+        10100, -- Fire (7 SP)
     },
 
     drop_objects = {
@@ -1096,6 +1096,59 @@ enemies[20] = {
 
     drop_objects = {
         { 12, 0.05 }, -- Medium moon juice
+        { 1004, 0.02 } -- Periwinkle Potion (Strength)
+    }
+}
+
+-- unbalanced
+enemies[21] = {
+    name = vt_system.Translate("Andromalius"),
+    --stamina_icon = "img/icons/actors/enemies/andromalius.png", --TODO
+
+    battle_animations = {
+        [HURT_NONE] = "img/sprites/battle/enemies/andromalius_0.lua",
+        [HURT_SLIGHTLY] = "img/sprites/battle/enemies/andromalius_0.lua",
+        [HURT_MEDIUM] = "img/sprites/battle/enemies/andromalius_1.lua",
+        [HURT_HEAVILY] = "img/sprites/battle/enemies/andromalius_1.lua"
+    },
+
+    base_stats = {
+        hit_points = 150,
+        skill_points = 100,
+        strength = 30,
+        vigor = 25,
+        fortitude = 30,
+        protection = 25,
+        agility = 35,
+        evade = 5.0,
+        experience_points = 50,
+        drunes = 30
+    },
+
+    attack_points = {
+        [1] = {
+            name = vt_system.Translate("Head"),
+            x_position = -10,
+            y_position = 26,
+            fortitude_modifier = 0.0,
+            protection_modifier = 0.0,
+            evade_modifier = 0.0
+        },
+    },
+
+    scripts = {
+        battle_ai = "dat/battles/enemies_ai/andromalius_ai.lua",
+    },
+
+    skills = {
+        1014,  -- Shake atk + AGI-
+        10100, -- Fire
+        10007, -- Magical poison
+        21002, -- Dark Wish
+    },
+
+    drop_objects = {
+        { 3002, 1.0 }, -- Iron ore
         { 1004, 0.02 } -- Periwinkle Potion (Strength)
     }
 }
