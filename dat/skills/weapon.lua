@@ -759,3 +759,29 @@ skills[1013] = {
         AudioManager:PlaySound("snd/defence1_spell.ogg");
     end
 }
+
+skills[1014] = {
+    name = "Andromalius Ground Hit",
+    sp_required = 0,
+    warmup_time = 1900,
+    cooldown_time = 1000,
+    target_type = vt_global.GameGlobal.GLOBAL_TARGET_FOE,
+
+    BattleExecute = function(user, target)
+        local target_actor = target:GetActor();
+
+        if (vt_battle.CalculateStandardEvasion(target) == false) then
+            local effect_duration = user:GetVigor() * 2000;
+            if (effect_duration < 15000) then effect_duration = 15000 end
+            target_actor:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_AGILITY,
+                                                 vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_MODERATE,
+                                                 effect_duration);
+
+            -- The damages are applied after the potential effects, so that a potential target death handles the effect removal properly
+            target_actor:RegisterDamage(vt_battle.CalculatePhysicalDamageAdder(user, target, 6), target);
+            AudioManager:PlaySound("snd/cave-in.ogg");
+        else
+            target_actor:RegisterMiss(true);
+        end
+    end
+}
