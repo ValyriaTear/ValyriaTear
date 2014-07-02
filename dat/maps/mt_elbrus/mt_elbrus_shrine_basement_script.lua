@@ -245,15 +245,19 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("Bronann move to the scene start point");
     EventManager:RegisterEvent(event);
 
-    event = vt_map.PathMoveSpriteEvent("Bronann move to the scene start point", bronann, 29, 13, true);
-    event:AddEventLinkAtEnd("Kalya moves next to Bronann2", 100);
+    event = vt_map.PathMoveSpriteEvent("Bronann move to the scene start point", bronann, 26, 13, true);
+    event:AddEventLinkAtEnd("Bronann looks at Orlinn");
+    event:AddEventLinkAtEnd("Kalya moves next to Bronann2-prep");
+    EventManager:RegisterEvent(event);
+
+    event = vt_map.ScriptedEvent("Kalya moves next to Bronann2-prep", "prep_kalya_position", "");
+    event:AddEventLinkAtEnd("Kalya moves next to Bronann2");
     EventManager:RegisterEvent(event);
 
     -- NOTE: The actual destination is set just before the actual start call
     kalya_move_next_to_hero_event2 = vt_map.PathMoveSpriteEvent("Kalya moves next to Bronann2", kalya, 0, 0, false);
     kalya_move_next_to_hero_event2:AddEventLinkAtEnd("Before boss dialogue");
     kalya_move_next_to_hero_event2:AddEventLinkAtEnd("Kalya looks at Orlinn");
-    kalya_move_next_to_hero_event2:AddEventLinkAtEnd("Bronann looks at Orlinn");
     EventManager:RegisterEvent(kalya_move_next_to_hero_event2);
 
     dialogue = vt_map.SpriteDialogue();
@@ -270,13 +274,21 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("Orlinn back off");
     EventManager:RegisterEvent(event);
 
-    event = vt_map.PathMoveSpriteEvent("Orlinn back off", orlinn, 29, 10, true);
+    event = vt_map.PathMoveSpriteEvent("Orlinn back off", orlinn, 29, 12, true);
+    event:AddEventLinkAtEnd("Orlinn looks at Bronann");
     event:AddEventLinkAtEnd("Before boss dialogue2");
     EventManager:RegisterEvent(event);
 
+    -- TODO: add boss sprite and dialogue
     dialogue = vt_map.SpriteDialogue();
-    text = vt_system.Translate("Let's fight!");
+    text = vt_system.Translate("You shall not leave this place without my consent.");
+    dialogue:AddLine(text, 0); -- Andromalius II
+    text = vt_system.Translate("And you shall not touch by brother without mine...");
     dialogue:AddLineEmote(text, kalya, "exclamation");
+    text = vt_system.Translate("You have been proven guilty in trying to get through the Holy ordeal without dying. I shall not let you live...");
+    dialogue:AddLine(text, 0); -- Andromalius II
+    text = vt_system.Translate("Let's fight for our lives then!");
+    dialogue:AddLineEmote(text, bronann, "exclamation");
     DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Before boss dialogue2", dialogue);
     event:AddEventLinkAtEnd("Battle with the boss");
@@ -288,18 +300,28 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("Kalya runs to Orlinn");
     EventManager:RegisterEvent(event);
 
-    event = vt_map.PathMoveSpriteEvent("Bronann runs to Orlinn", bronann, 21, 10, true);
+    event = vt_map.PathMoveSpriteEvent("Bronann runs to Orlinn", bronann, 27, 11, true);
     event:AddEventLinkAtEnd("Bronann looks at Orlinn");
     EventManager:RegisterEvent(event);
 
-    event = vt_map.PathMoveSpriteEvent("Kalya runs to Orlinn", kalya, 21, 12, true);
-    event:AddEventLinkAtEnd("Kalya looks west");
+    event = vt_map.PathMoveSpriteEvent("Kalya runs to Orlinn", kalya, 27, 13, true);
+    event:AddEventLinkAtEnd("Kalya looks at Orlinn");
     event:AddEventLinkAtEnd("Dialogue with Orlinn");
     EventManager:RegisterEvent(event);
 
     dialogue = vt_map.SpriteDialogue();
     text = vt_system.Translate("Orlinn, are you alright?");
-    dialogue:AddLineEventEmote(text, kalya, "Orlinn looks at Kalya", "", "sweat drop");
+    dialogue:AddLineEmote(text, kalya, "sweat drop");
+    text = vt_system.Translate("Yes, I'm sorry I wasn't able to protect myself, sis.");
+    dialogue:AddLineEmote(text, orlinn, "sweat drop");
+    text = vt_system.Translate("Don't you worry about that, brother. Never leave me like that again, ok?");
+    dialogue:AddLine(text, kalya);
+    text = vt_system.Translate("I promise I didn't do it this time. I just fell in front of this hideous green head...");
+    dialogue:AddLine(text, orlinn);
+    text = vt_system.Translate("... Well, let's leave this place before another one wants our lives again.");
+    dialogue:AddLineEmote(text, bronann, "sweat drop");
+    text = vt_system.Translate("I couldn't agree more ...");
+    dialogue:AddLineEvent(text, kalya, "Kalya looks at Bronann", "");
     DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Dialogue with Orlinn", dialogue);
     event:AddEventLinkAtEnd("Kalya moves back to party2");
@@ -332,7 +354,7 @@ function _CreateZones()
     see_exit_zone = vt_map.CameraZone(56, 61, 40, 45);
     Map:AddZone(see_exit_zone);
 
-    final_boss_zone = vt_map.CameraZone(21, 23, 3, 22);
+    final_boss_zone = vt_map.CameraZone(21, 24, 3, 22);
     Map:AddZone(final_boss_zone);
 
     to_mountain_exit_zone = vt_map.CameraZone(0, 2, 15, 34);
@@ -466,7 +488,9 @@ map_functions = {
         kalya:SetPosition(bronann:GetXPosition(), bronann:GetYPosition());
         kalya:SetVisible(true);
         kalya:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
+    end,
 
+    prep_kalya_position = function()
         kalya_move_next_to_hero_event2:SetDestination(bronann:GetXPosition(), bronann:GetYPosition() + 2.0, true);
     end,
 
