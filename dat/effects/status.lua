@@ -432,35 +432,48 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_HP] = {
             return;
         end
 
+        local hp_change = battle_actor:GetMaxHitPoints();
+
         if (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_LESSER) then
-            battle_actor:RegisterHealing(1, true);
+            hp_change = hp_change / 80;
+            if (hp_change < 1) then hp_change = 1 end;
+            battle_actor:RegisterHealing(hp_change, true);
             return
         elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_MODERATE) then
-            battle_actor:RegisterHealing(2, true);
+            hp_change = hp_change / 40;
+            if (hp_change < 2) then hp_change = 2 end;
+            battle_actor:RegisterHealing(hp_change, true);
             return
         elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_GREATER) then
-            battle_actor:RegisterHealing(4, true);
+            hp_change = hp_change / 20;
+            if (hp_change < 4) then hp_change = 4 end;
+            battle_actor:RegisterHealing(hp_change, true);
             return
         elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_EXTREME) then
-            battle_actor:RegisterHealing(8, true);
+            hp_change = hp_change / 12.5;
+            if (hp_change < 6) then hp_change = 6 end;
+            battle_actor:RegisterHealing(hp_change, true);
             return
         end
 
-        local hp_damage = 2;
         if (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_LESSER) then
-            -- hp damage already equal to 2.
+            hp_change = hp_change / 70;
+            if (hp_change < 2) then hp_change = 2 end;
         elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_MODERATE) then
-            hp_damage = 4
+            hp_change = hp_change / 35;
+            if (hp_change < 4) then hp_change = 4 end;
         elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_GREATER) then
-            hp_damage = 8
+            hp_change = hp_change / 18;
+            if (hp_change < 6) then hp_change = 6 end;
         elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_EXTREME) then
-            hp_damage = 16
+            hp_change = hp_change / 11;
+            if (hp_change < 8) then hp_change = 8 end;
         end
 
-        if (battle_actor:GetHitPoints() < hp_damage) then
-            hp_damage = battle_actor:GetHitPoints();
+        if (battle_actor:GetHitPoints() < hp_change) then
+            hp_change = battle_actor:GetHitPoints();
         end
-        battle_actor:RegisterDamage(hp_damage);
+        battle_actor:RegisterDamage(hp_change);
     end,
 
     BattleUpdate = function(battle_actor, battle_effect)
@@ -494,23 +507,35 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_HP] = {
             return;
         end
 
-        local hp_change = 0;
+        local hp_change = global_character:GetMaxHitPoints();
         if (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_LESSER) then
-            hp_change = 1;
+            hp_change = hp_change / 80;
+            if (hp_change < 1) then hp_change = 1 end;
         elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_MODERATE) then
-            hp_change = 2;
+            hp_change = hp_change / 40;
+            if (hp_change < 2) then hp_change = 2 end;
         elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_GREATER) then
-            hp_change = 4;
+            hp_change = hp_change / 20;
+            if (hp_change < 4) then hp_change = 4 end;
         elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_EXTREME) then
-            hp_change = 8;
+            hp_change = hp_change / 12.5;
+            if (hp_change < 6) then hp_change = 6 end;
         elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_LESSER) then
-            hp_change = -2;
+            hp_change = hp_change / 70;
+            if (hp_change < 2) then hp_change = 2 end;
+            hp_change = -hp_change;
         elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_MODERATE) then
-            hp_change = -4;
+            hp_change = hp_change / 35;
+            if (hp_change < 4) then hp_change = 4 end;
+            hp_change = -hp_change;
         elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_GREATER) then
-            hp_change = -8;
+            hp_change = hp_change / 18;
+            if (hp_change < 6) then hp_change = 6 end;
+            hp_change = -hp_change;
         elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_EXTREME) then
-            hp_change = -16;
+            hp_change = hp_change / 11;
+            if (hp_change < 8) then hp_change = 8 end;
+            hp_change = -hp_change;
         end
         local hp_diff = global_character:GetHitPoints() + hp_change;
         -- Don't kill the character or set more than its max HP.
@@ -521,7 +546,8 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_HP] = {
             hp_change = global_character:GetMaxHitPoints() - global_character:GetHitPoints();
             if (hp_change == 0) then return end
         end
-        global_character:SetHitPoints(hp_change);
+        hp_diff = global_character:GetHitPoints() + hp_change;
+        global_character:SetHitPoints(hp_diff);
 
         -- Adds an effect on map
         local map_mode = ModeManager:GetTop();
@@ -533,7 +559,7 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_HP] = {
             y_pos = y_pos - map_mode.camera:GetImgHeight() * 16;
             map_indicator:AddHealingIndicator(x_pos, y_pos, hp_change, vt_video.TextStyle("text22", vt_video.Color(0.0, 0.0, 1.0, 0.9)), true);
         else
-            map_indicator:AddDamageIndicator(x_pos, y_pos, hp_change, vt_video.TextStyle("text22", vt_video.Color(1.0, 0.0, 0.0, 0.9)), true);
+            map_indicator:AddDamageIndicator(x_pos, y_pos, -hp_change, vt_video.TextStyle("text22", vt_video.Color(1.0, 0.0, 0.0, 0.9)), true);
         end
 
     end,
@@ -575,17 +601,27 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_SP] = {
             return;
         end
 
+        local sp_change = battle_actor:GetMaxSkillPoints();
+
         if (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_LESSER) then
-            battle_actor:RegisterHealing(1, false);
+            sp_change = sp_change / 80;
+            if (sp_change < 1) then sp_change = 1 end;
+            battle_actor:RegisterHealing(sp_change, false);
             return
         elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_MODERATE) then
-            battle_actor:RegisterHealing(2, false);
+            sp_change = sp_change / 40;
+            if (sp_change < 2) then sp_change = 2 end;
+            battle_actor:RegisterHealing(sp_change, false);
             return
         elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_GREATER) then
-            battle_actor:RegisterHealing(4, false);
+            sp_change = sp_change / 20;
+            if (sp_change < 4) then sp_change = 4 end;
+            battle_actor:RegisterHealing(sp_change, false);
             return
         elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_EXTREME) then
-            battle_actor:RegisterHealing(8, false);
+            sp_change = sp_change / 12.5;
+            if (sp_change < 6) then sp_change = 6 end;
+            battle_actor:RegisterHealing(sp_change, false);
             return
         end
 
@@ -595,23 +631,23 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_SP] = {
         end
 
         if (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_LESSER) then
-            battle_actor:RegisterSPDamage(1);
-            return
-        end
-
-        local sp_damage = 2;
-        if (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_MODERATE) then
-            -- sp damage already equal to 2.
+            sp_change = sp_change / 70;
+            if (sp_change < 2) then sp_change = 2 end;
+        elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_MODERATE) then
+            sp_change = sp_change / 35;
+            if (sp_change < 4) then sp_change = 4 end;
         elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_GREATER) then
-            sp_damage = 4
+            sp_change = sp_change / 18;
+            if (sp_change < 6) then sp_change = 6 end;
         elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_EXTREME) then
-            sp_damage = 8
+            sp_change = sp_change / 11;
+            if (sp_change < 8) then sp_change = 8 end;
         end
 
-        if (battle_actor:GetSkillPoints() < sp_damage) then
-            sp_damage = battle_actor:GetSkillPoints();
+        if (battle_actor:GetSkillPoints() < sp_change) then
+            sp_change = battle_actor:GetSkillPoints();
         end
-        battle_actor:RegisterSPDamage(sp_damage);
+        battle_actor:RegisterSPDamage(sp_change);
     end,
 
     BattleUpdate = function(battle_actor, battle_effect)
@@ -644,26 +680,39 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_SP] = {
             return;
         end
 
-        local sp_change = 0;
+        local sp_change = global_character:GetMaxSkillPoints();
         if (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_LESSER) then
-            sp_change = 1;
+            sp_change = sp_change / 80;
+            if (sp_change < 1) then sp_change = 1 end;
         elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_MODERATE) then
-            sp_change = 2;
+            sp_change = sp_change / 40;
+            if (sp_change < 2) then sp_change = 2 end;
         elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_GREATER) then
-            sp_change = 4;
+            sp_change = sp_change / 20;
+            if (sp_change < 4) then sp_change = 4 end;
         elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_EXTREME) then
-            sp_change = 8;
+            sp_change = sp_change / 12.5;
+            if (sp_change < 6) then sp_change = 6 end;
         elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_LESSER) then
-            sp_change = -1;
+            sp_change = sp_change / 70;
+            if (sp_change < 2) then sp_change = 2 end;
+            sp_change = -sp_change;
         elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_MODERATE) then
-            sp_change = -2;
+            sp_change = sp_change / 35;
+            if (sp_change < 4) then sp_change = 4 end;
+            sp_change = -sp_change;
         elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_GREATER) then
-            sp_change = -4;
+            sp_change = sp_change / 18;
+            if (sp_change < 6) then sp_change = 6 end;
+            sp_change = -sp_change;
         elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_EXTREME) then
-            sp_change = -8;
+            sp_change = sp_change / 11;
+            if (sp_change < 8) then sp_change = 8 end;
+            sp_change = -sp_change;
         end
+
         local sp_diff = global_character:GetSkillPoints() + sp_change;
-        -- Don't kill the character or set more than its max HP.
+        -- Don't kill the character or set more than its max SP.
         if (sp_diff <= 0) then
             sp_change = global_character:GetSkillPoints() - 1;
             if (sp_change == 0) then return end
@@ -671,7 +720,8 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_SP] = {
             sp_change = global_character:GetMaxSkillPoints() - global_character:GetSkillPoints();
             if (sp_change == 0) then return end
         end
-        global_character:SetSkillPoints(sp_change);
+        sp_diff = global_character:GetSkillPoints() + sp_change;
+        global_character:SetSkillPoints(sp_diff);
 
         -- Adds an effect on map
         local map_mode = ModeManager:GetTop();
@@ -683,7 +733,7 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_SP] = {
             y_pos = y_pos - map_mode.camera:GetImgHeight() * 16;
             map_indicator:AddHealingIndicator(x_pos, y_pos, sp_change, vt_video.TextStyle("text22", vt_video.Color(0.0, 0.8, 0.8, 0.9)), true);
         else
-            map_indicator:AddDamageIndicator(x_pos, y_pos, sp_change, vt_video.TextStyle("text22", vt_video.Color(0.0, 1.0, 0.0, 0.9)), true);
+            map_indicator:AddDamageIndicator(x_pos, y_pos, -sp_change, vt_video.TextStyle("text22", vt_video.Color(0.0, 1.0, 0.0, 0.9)), true);
         end
 
     end,
