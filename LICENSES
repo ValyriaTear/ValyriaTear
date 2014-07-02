@@ -1,7 +1,7 @@
 Licenses
 ========
 
-Last update: 2014.07.01
+Last update: 2014.07.02
 
 This file is listing all the files licenses from the point of the fork
 from the Allacrost project.
@@ -570,6 +570,7 @@ img/sprites/map/characters/sylve_walk.png                       GPLv2+          
 img/sprites/map/characters/thanis_walk.png                      GPLv2+                   Allacrost
 img/sprites/map/characters/bronann_laughing_unarmed.png         GPLv2+                   Allacrost + Bertram
 img/sprites/map/characters/kalya_laughing.png                   GPLv2+                   Allacrost + Bertram
+img/sprites/map/characters/kalya_frightened.png                 GPLv2+                   Allacrost + Bertram
 
 img/sprites/map/enemies/andromalius_spritesheet.png             CC by 3.0                Redshrike / Balmer (OGA) - http://opengameart.org/content/bosses-and-monsters-spritesheets-ars-notoria
 img/sprites/map/enemies/bat_spritesheet.png                     CC by SA 3.0             From the Liberated Pixel Cup Bat enemy - http://lpc.opengameart.org/ (OGA)
@@ -610,6 +611,7 @@ img/sprites/map/npcs/soldier_on_horse.png                       CC by SA 3.0    
 img/sprites/map/npcs/story/carson_walk.png                      GPLv2+                   Allacrost
 img/sprites/map/npcs/story/malta_walk.png                       GPLv2+                   Allacrost
 img/sprites/map/npcs/story/orlinn_laughing.png                  GPLv2+                   Allacrost + Bertram
+img/sprites/map/npcs/story/orlinn_frightened.png                GPLv2+                   Allacrost + Bertram
 
 img/sprites/map/objects/ancient_sign.png                        CC by SA 3.0             Bertram
 img/sprites/map/objects/barrel1.png                             GPLv2+                   Allacrost

@@ -79,6 +79,7 @@ sprites["Kalya"] = {
         jump_south = "img/sprites/map/characters/kalya_jump_south.lua",
         laughing = "img/sprites/map/characters/kalya_laughing.lua",
         hurt = "img/sprites/map/characters/kalya_hurt.lua",
+        frightened_fixed = "img/sprites/map/characters/kalya_frightened_fixed.lua",
     }
 }
 
@@ -150,6 +151,7 @@ sprites["Orlinn"] = {
     -- using standard (one direction only) animation files.
     custom_animations = {
         laughing = "img/sprites/map/npcs/story/orlinn_laughing.lua",
+        frightened_fixed = "img/sprites/map/npcs/story/orlinn_frightened_fixed.lua",
     }
 }
 

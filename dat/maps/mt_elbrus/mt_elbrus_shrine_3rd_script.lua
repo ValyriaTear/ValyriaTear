@@ -573,7 +573,7 @@ function _RestartMap()
     AudioManager:PlaySound("snd/battle_encounter_03.ogg");
     Map:PushState(vt_map.MapMode.STATE_SCENE);
     orlinn:SetMoving(false);
-    orlinn:SetCustomAnimation("hurt", 0);
+    orlinn:SetCustomAnimation("frightened_fixed", 0);
     EventManager:StartEvent("Restart map");
     orlinn_is_hurt = true;
 end
@@ -1178,7 +1178,7 @@ map_functions = {
         if (andromalius:GetYPosition() > 29.0) then
             AudioManager:PlaySound("snd/heavy_bump.wav");
             Map:GetEffectSupervisor():ShakeScreen(6.0, 4000, vt_mode_manager.EffectSupervisor.SHAKE_FALLOFF_SUDDEN);
-            
+
             -- Make Orlinn walk slowly because of the hit for a few sec.
             orlinn:SetMovementSpeed(vt_map.MapMode.SLOW_SPEED);
             return true;

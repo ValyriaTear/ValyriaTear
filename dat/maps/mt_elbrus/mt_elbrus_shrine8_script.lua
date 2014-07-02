@@ -283,6 +283,7 @@ map_functions = {
         Map:PushState(vt_map.MapMode.STATE_SCENE);
         hero:SetMoving(false);
         AudioManager:PlayMusic("battle_encounter_01.ogg");
+        hero:SetCustomAnimation("frightened_fixed", 0); -- 0 means forever
 
         -- Restore potential trigger previous state
         GlobalManager:SetEventValue("triggers", "mt elbrus shrine 8 gate 7 trigger", trigger_state);
