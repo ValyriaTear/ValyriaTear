@@ -1084,6 +1084,10 @@ enemies[20] = {
         }
     },
 
+    scripts = {
+        battle_ai = "dat/battles/enemies_ai/dorver_ai.lua",
+    },
+
     skills = {
         1008, -- Attack
         1009, -- Attack all
