@@ -39,7 +39,6 @@ function Load(m)
 
     _CreateCharacters();
     _CreateObjects();
-    _CreateEnemies();
 
     -- Set the camera focus on hero
     Map:SetCamera(hero);
@@ -164,7 +163,7 @@ function _CreateObjects()
     EventManager:RegisterEvent(event);
 
     falling_hole = vt_map.PhysicalObject();
-    falling_hole:SetPosition(22.0, 18.0);
+    falling_hole:SetPosition(22.02, 18.0);
     falling_hole:SetObjectID(Map.object_supervisor:GenerateObjectID());
     falling_hole:SetCollHalfWidth(4.0);
     falling_hole:SetCollHeight(8.0);
@@ -176,41 +175,17 @@ function _CreateObjects()
     Map:AddFlatGroundObject(falling_hole);
 
     falling_hole_wall = vt_map.PhysicalObject();
-    falling_hole_wall:SetPosition(22.0, 25.0);
+    falling_hole_wall:SetPosition(22.02, 25.35);
     falling_hole_wall:SetObjectID(Map.object_supervisor:GenerateObjectID());
     falling_hole_wall:SetCollHalfWidth(4.0);
-    falling_hole_wall:SetCollHeight(7.37);
+    falling_hole_wall:SetCollHeight(7.375);
     falling_hole_wall:SetImgHalfWidth(4.0);
-    falling_hole_wall:SetImgHeight(7.37);
+    falling_hole_wall:SetImgHeight(7.375);
     falling_hole_wall:AddStillFrame("dat/maps/mt_elbrus/falling_hole_above.png");
     falling_hole_wall:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
     falling_hole_wall:SetVisible(false);
     Map:AddSkyObject(falling_hole_wall);
 
-end
-
--- Sets common battle environment settings for enemy sprites
-function _SetBattleEnvironment(enemy)
-    enemy:SetBattleMusicTheme("mus/heroism-OGA-Edward-J-Blakeley.ogg");
-    enemy:SetBattleBackground("img/backdrops/battle/mountain_shrine.png");
-    enemy:AddBattleScript("dat/battles/mountain_shrine_battle_anim.lua");
-end
-
-function _CreateEnemies()
-    local enemy = {};
-    local roam_zone = {};
-
-    -- Hint: left, right, top, bottom
-    roam_zone = vt_map.EnemyZone(26, 37, 33, 45);
-
-    enemy = CreateEnemySprite(Map, "Skeleton");
-    _SetBattleEnvironment(enemy);
-    enemy:NewEnemyParty();
-    enemy:AddEnemy(19);
-    enemy:AddEnemy(19);
-    enemy:AddEnemy(19);
-    roam_zone:AddEnemy(enemy, Map, 1);
-    Map:AddZone(roam_zone);
 end
 
 local kalya_move_next_to_bronann = nil;
@@ -290,7 +265,7 @@ function _CreateZones()
     to_shrine_trap_zone = vt_map.CameraZone(50, 52, 46, 48);
     Map:AddZone(to_shrine_trap_zone);
 
-    falling_event_zone = vt_map.CameraZone(19, 25, 28, 33);
+    falling_event_zone = vt_map.CameraZone(19, 25, 26, 28);
     Map:AddZone(falling_event_zone);
 end
 
