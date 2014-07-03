@@ -877,7 +877,6 @@ enemies[16] = {
     }
 }
 
--- unbalanced
 enemies[17] = {
     name = vt_system.Translate("Thing"),
     stamina_icon = "img/icons/actors/enemies/thing.png",
@@ -892,14 +891,14 @@ enemies[17] = {
     base_stats = {
         hit_points = 124,
         skill_points = 50,
-        strength = 15,
-        vigor = 0,
-        fortitude = 14,
-        protection = 4,
-        agility = 13,
-        evade = 2.0,
-        experience_points = 5,
-        drunes = 18
+        strength = 25,
+        vigor = 30,
+        fortitude = 60,
+        protection = 20,
+        agility = 37,
+        evade = 5.0,
+        experience_points = 48,
+        drunes = 30
     },
 
     attack_points = {
@@ -1031,7 +1030,6 @@ enemies[19] = {
     }
 }
 
--- unbalanced
 enemies[20] = {
     name = vt_system.Translate("Dorver"),
     stamina_icon = "img/icons/actors/enemies/dorver.png",
@@ -1044,16 +1042,16 @@ enemies[20] = {
     },
 
     base_stats = {
-        hit_points = 150,
+        hit_points = 300,
         skill_points = 100,
-        strength = 30,
-        vigor = 25,
-        fortitude = 30,
-        protection = 25,
-        agility = 35,
-        evade = 5.0,
-        experience_points = 50,
-        drunes = 30
+        strength = 40,
+        vigor = 20,
+        fortitude = 80,
+        protection = 20,
+        agility = 25,
+        evade = 4.0,
+        experience_points = 91,
+        drunes = 60
     },
 
     attack_points = {
@@ -1100,7 +1098,6 @@ enemies[20] = {
     }
 }
 
--- unbalanced
 enemies[21] = {
     name = vt_system.Translate("Andromalius"),
     --stamina_icon = "img/icons/actors/enemies/andromalius.png", --TODO
@@ -1113,16 +1110,16 @@ enemies[21] = {
     },
 
     base_stats = {
-        hit_points = 150,
-        skill_points = 100,
+        hit_points = 600,
+        skill_points = 200,
         strength = 30,
-        vigor = 25,
+        vigor = 40,
         fortitude = 30,
-        protection = 25,
-        agility = 35,
-        evade = 5.0,
-        experience_points = 50,
-        drunes = 30
+        protection = 40,
+        agility = 40,
+        evade = 6.0,
+        experience_points = 200,
+        drunes = 150
     },
 
     attack_points = {
