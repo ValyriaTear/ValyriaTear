@@ -121,7 +121,7 @@ function _CreateCharacters()
         hero:SetPosition(x_position, y_position);
     elseif (GlobalManager:GetPreviousLocation() == "from_path3") then
         hero:SetDirection(vt_map.MapMode.NORTH);
-        hero:SetPosition(10.0, 90.0);
+        hero:SetPosition(55.0, 77.0);
     elseif (GlobalManager:GetPreviousLocation() == "from_shrine_entrance") then
         hero:SetDirection(vt_map.MapMode.SOUTH);
         hero:SetPosition(40.0, 7.0);
