@@ -73,6 +73,12 @@ function Load(m)
         hero:SetMoving(false);
         EventManager:StartEvent("Falls from above event", 200);
     end
+
+    -- TEMP: Credits place here in the wait of adding the last episode map.
+    Map:GetScriptSupervisor():AddScript("dat/credits/end_credits.lua");
+    event = vt_map.ScriptedEvent("Episode I End Credits", "start_credits", "");
+    EventManager:RegisterEvent(event);
+
 end
 
 -- the map update function handles checks done on each game tick.
@@ -384,7 +390,10 @@ local saw_exit = false;
 -- Check whether the active camera has entered a zone. To be called within Update()
 function _CheckZones()
     if (to_mountain_exit_zone:IsCameraEntering() == true) then
-        EventManager:StartEvent("to mountain shrine exit");
+        --EventManager:StartEvent("to mountain shrine exit");
+
+        -- TEMP: Credits place here in the wait of adding the last episode map.
+        EventManager:StartEvent("Episode I End Credits");
 
     elseif (final_boss_zone:IsCameraEntering() == true and Map:CurrentState() == vt_map.MapMode.STATE_EXPLORE) then
         if (GlobalManager:GetEventValue("story", "mt_elbrus_ep1_final_boss_beaten") == 0) then
@@ -532,4 +541,11 @@ map_functions = {
         -- Set event as done
         GlobalManager:SetEventValue("story", "mt_elbrus_ep1_final_boss_beaten", 1);
     end,
+
+    -- TEMP: Credits place here in the wait of adding the last episode map.
+    start_credits = function()
+        Map:PushState(vt_map.MapMode.STATE_SCENE);
+        hero:SetMoving(false);
+        GlobalManager:SetEventValue("game", "Start_End_Credits", 1);
+    end
 }
