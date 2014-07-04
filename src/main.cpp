@@ -203,10 +203,6 @@ bool LoadSettings()
 
     // Load Game settings
     if (!settings.OpenTable("game_options")) {
-        PRINT_WARNING << "Couldn't open the 'game_options' table in: "
-            << settings.GetFilename() << std::endl
-            << settings.GetErrorMessages() << std::endl
-            << "Setting game options values to defaults..." << std::endl;
         SystemManager->SetMessageSpeed(DEFAULT_MESSAGE_SPEED);
     }
     else {
