@@ -1100,7 +1100,7 @@ enemies[20] = {
 
 enemies[21] = {
     name = vt_system.Translate("Andromalius"),
-    --stamina_icon = "img/icons/actors/enemies/andromalius.png", --TODO
+    stamina_icon = "img/icons/actors/enemies/andromalius.png",
 
     battle_animations = {
         [HURT_NONE] = "img/sprites/battle/enemies/andromalius_0.lua",
