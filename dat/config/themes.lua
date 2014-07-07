@@ -22,5 +22,12 @@ themes = {
         win_background_file = "img/menus/themes/black_sleet/black_sleet_texture.png",
         win_border_file = "img/menus/themes/black_sleet/black_sleet_skin.png",
         cursor_file = "img/menus/themes/black_sleet/cursor.png"
+    },
+
+    ["Elvish Feather"] = {
+        name = vt_system.Translate("Elvish Feather"),
+        win_background_file = "img/menus/themes/elvish_feather/win_background.png",
+        win_border_file = "img/menus/themes/elvish_feather/win_border.png",
+        cursor_file = "img/menus/themes/elvish_feather/cursor.png"
     }
 }
