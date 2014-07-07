@@ -127,6 +127,7 @@ dat/maps/mt_elbrus/fake_wall.png                                CC by SA 3.0, GP
 dat/maps/mt_elbrus/spike_wall.png                               CC by SA 3.0, GPLv3      Guido Bos + adaptation from Bertram - http://opengameart.org/content/3rd-entry-some-old-castle-stuff
 dat/maps/mt_elbrus/falling_hole.png                             CC by SA 3.0, GPLv3      Guido Bos + adaptation from Bertram - http://opengameart.org/content/3rd-entry-some-old-castle-stuff
 dat/maps/mt_elbrus/falling_hole_above.png                       CC by SA 3.0, GPLv3      Guido Bos + adaptation from Bertram - http://opengameart.org/content/3rd-entry-some-old-castle-stuff
+dat/maps/mt_elbrus/elbrus_landscape.png                         CC by SA 3.0             Julien (OGA) - http://opengameart.org/content/large-nature-background
 
 dat/objects/arm_armor.lua                                       GPLv2+                   Allacrost + Bertram
 dat/objects/head_armor.lua                                      GPLv2+                   Allacrost + Bertram
