@@ -327,9 +327,10 @@ public:
     ***
     *** If the skin_id does not refer to a valid skin, a warning message will be printed and no change
     *** will occur.
+    *** \return Whether the skin could be loaded.
     *** \note This method will <b>not</b> change the skins of any active menu windows.
     **/
-    void SetDefaultMenuSkin(const std::string &skin_id);
+    bool SetDefaultMenuSkin(const std::string& skin_id);
 
     /** \brief Sets the next default menu skin to use from the set of pre-loaded skins
     ***

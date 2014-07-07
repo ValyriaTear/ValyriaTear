@@ -304,8 +304,9 @@ static void LoadGUIThemes(const std::string& theme_script_filename)
     // Query for the user menu skin which could have been set in the user settings lua file.
     std::string user_theme_id = GUIManager->GetUserMenuSkinId();
     if (!user_theme_id.empty()) {
-        // Activate the user theme.
-        GUIManager->SetDefaultMenuSkin(user_theme_id);
+        // Activate the user theme, and the default one if not found.
+        if (!GUIManager->SetDefaultMenuSkin(user_theme_id))
+            GUIManager->SetDefaultMenuSkin(default_theme_id);
     } else if (default_theme_found) {
         // Activate the default theme.
         GUIManager->SetDefaultMenuSkin(default_theme_id);

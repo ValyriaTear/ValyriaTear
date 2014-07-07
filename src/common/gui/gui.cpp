@@ -348,16 +348,19 @@ std::string GUISystem::GetUserMenuSkinId()
     return _user_menu_skin;
 }
 
-void GUISystem::SetDefaultMenuSkin(const std::string &skin_id)
+bool GUISystem::SetDefaultMenuSkin(const std::string &skin_id)
 {
     if(_menu_skins.find(skin_id) == _menu_skins.end()) {
         IF_PRINT_WARNING(VIDEO_DEBUG) << "the skin id " << skin_id << " was not registered." << std::endl;
-        return;
+        return false;
     }
 
     _default_skin = &_menu_skins[skin_id];
-    if (!VideoManager->SetDefaultCursor(_default_skin->cursor_file))
+    if (!VideoManager->SetDefaultCursor(_default_skin->cursor_file)) {
         IF_PRINT_WARNING(VIDEO_DEBUG) << "Couldn't load the GUI cursor file: '" << _default_skin->cursor_file << "'." << std::endl;
+        return false;
+    }
+    return true;
 }
 
 void GUISystem::SetNextDefaultMenuSkin()
