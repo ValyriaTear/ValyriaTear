@@ -489,7 +489,7 @@ function _CreateEvents()
     text = vt_system.Translate("...");
     dialogue:AddLineEmote(text, kalya, "sweat drop");
     text = vt_system.Translate("Stop laughing now or I'll smash your little head against that wall!");
-    dialogue:AddLineEmote(text, kalya, "exclamation");
+    dialogue:AddLineEmote(text, kalya, "popping veins");
     text = vt_system.Translate("Aww... Ok.");
     dialogue:AddLineEventEmote(text, orlinn, "Orlinn stops laughing", "", "sweat drop");
     DialogueManager:AddDialogue(dialogue);
@@ -689,7 +689,7 @@ map_functions = {
         hero:SetMoving(false);
         field_effect_time = 0;
     end,
-    
+
     cant_go_in_update = function()
         field_effect_time = field_effect_time + SystemManager:GetUpdateTime();
 
