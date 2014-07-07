@@ -57,6 +57,7 @@ function Load(m)
     AudioManager:LoadSound("snd/cave-in.ogg", Map);
     AudioManager:LoadSound("snd/heavy_bump.wav", Map);
     AudioManager:LoadSound("snd/battle_encounter_03.ogg", Map);
+    AudioManager:LoadSound("snd/fire1_spell.ogg", Map);
 
     AudioManager:LoadMusic("mus/dont_close_your_eyes.ogg", Map);
 end
@@ -773,6 +774,7 @@ function _SpawnFireBall(x, y)
     fireball:SetObjectID(Map.object_supervisor:GenerateObjectID());
     fireball:SetCollisionMask(vt_map.MapMode.ALL_COLLISION)
     Map:AddGroundObject(fireball);
+    AudioManager:PlaySound("snd/fire1_spell.ogg");
 
     local new_table = {};
     new_table["object"] = fireball;
