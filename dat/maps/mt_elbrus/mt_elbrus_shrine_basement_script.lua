@@ -123,7 +123,7 @@ function _CreateCharacters()
     Map:AddGroundObject(orlinn);
 
     andromalius = CreateSprite(Map, "Andromalius", 0, 0);
-    andromalius:SetName(vt_system.Translate("Andromalius II"));
+    andromalius:SetName(vt_system.Translate("Andromalius"));
     andromalius:SetDirection(vt_map.MapMode.EAST);
     andromalius:SetMovementSpeed(vt_map.MapMode.FAST_SPEED);
     andromalius:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
@@ -143,6 +143,10 @@ function _CreateObjects()
 
     Map:AddHalo("img/misc/lights/right_ray_light.lua", 0, 28,
             vt_video.Color(1.0, 1.0, 1.0, 0.8));
+
+    object = CreateTreasure(Map, "mt_shrine_basement_chest1", "Wood_Chest1", 20, 36);
+    object:AddObject(2, 3); -- Medium potion x 3
+    Map:AddGroundObject(object);
 end
 
 -- Special event references which destinations must be updated just before being called.
@@ -311,8 +315,8 @@ function _CreateEvents()
     event:SetBackground("img/backdrops/battle/desert_cave/desert_cave.png");
     event:AddScript("dat/battles/desert_cave_battle_anim.lua");
     event:SetBoss(true);
-    event:AddEnemy(21);
-    event:AddEnemy(20);
+    event:AddEnemy(21, 812, 312);
+    event:AddEnemy(20, 512, 512);
 
     event:AddEventLinkAtEnd("Make the boss invisible");
     event:AddEventLinkAtEnd("Bronann runs to Orlinn", 1000);
