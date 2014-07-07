@@ -58,6 +58,8 @@ function Load(m)
     AudioManager:LoadSound("snd/heavy_bump.wav", Map);
     AudioManager:LoadSound("snd/battle_encounter_03.ogg", Map);
     AudioManager:LoadSound("snd/fire1_spell.ogg", Map);
+    AudioManager:LoadSound("snd/low_scream.ogg", Map);
+    AudioManager:LoadSound("snd/low_scream_long.ogg", Map);
 
     AudioManager:LoadMusic("mus/dont_close_your_eyes.ogg", Map);
 end
@@ -110,6 +112,7 @@ local stone2 = nil;
 local stone3 = nil;
 
 local waterfall_sound = nil;
+local rumble_sound = nil;
 
 function _CreateObjects()
     local object = {}
@@ -134,6 +137,11 @@ function _CreateObjects()
     -- Add the corresponding waterfall ambient sound, ready to be started.
     waterfall_sound = vt_map.SoundObject("snd/fountain_large.ogg", 32, 11, 100.0);
     Map:AddAmbientSoundObject(waterfall_sound)
+
+    -- Add the rumble sound used at boss end
+    rumble_sound = vt_map.SoundObject("snd/rumble_continuous.ogg", 19.0, 48.0, 20.0);
+    Map:AddAmbientSoundObject(rumble_sound);
+    rumble_sound:Stop();
 
     -- Deactivate the sound when the trigger is not already pushed
     if (GlobalManager:GetEventValue("triggers", "mt elbrus waterfall trigger") == 0) then
@@ -868,8 +876,8 @@ local stone3_hit_ground = false;
 local stones_reset_timer = 0;
 
 function _HurtBoss()
-    -- TODO: Play hurt sound
     andromalius:SetCustomAnimation("open_mouth_left", -1);
+    AudioManager:PlaySound("snd/low_scream.ogg");
     boss_damage = boss_damage + 1;
     fireball_speed = fireball_speed + 0.0005;
     EventManager:StartEvent("Boss hurt effect");
@@ -901,6 +909,7 @@ local hurt_color = vt_video.Color(1.0, 0.0, 0.0, 1.0);
 local boss_die_time = 0;
 local boss_turn_head_time = 0;
 local boss_head_to_right = true;
+local boss_dying_sound = false;
 
 -- Map Custom functions
 -- Used through scripted events
@@ -1321,6 +1330,8 @@ map_functions = {
         Map:SetCamera(andromalius, 800);
         orlinn:SetMoving(false);
         Map:GetEffectSupervisor():ShakeScreen(4.0, 0, vt_mode_manager.EffectSupervisor.SHAKE_FALLOFF_NONE);
+        rumble_sound:SetPosition(andromalius:GetXPosition(), andromalius:GetYPosition());
+        rumble_sound:Start();
     end,
 
     camera_on_orlinn2_start = function()
@@ -1331,17 +1342,18 @@ map_functions = {
         boss_die_time = 0;
         boss_turn_head_time = 0;
         Map:GetEffectSupervisor():StopShaking()
+        rumble_sound:Stop();
         Map:GetEffectSupervisor():ShakeScreen(6.0, 10000, vt_mode_manager.EffectSupervisor.SHAKE_FALLOFF_LINEAR);
         AudioManager:PlaySound("snd/cave-in.ogg");
         andromalius:SetCustomAnimation("open_mouth_right", 0);
         boss_head_to_right = true;
+        boss_dying_sound = false;
     end,
 
     boss_die_update = function()
         boss_die_time = boss_die_time + SystemManager:GetUpdateTime();
         boss_turn_head_time = boss_turn_head_time + SystemManager:GetUpdateTime();
 
-        -- TODO: Add the boss dying sound
         if (boss_turn_head_time > 1000) then
             boss_turn_head_time = 0;
             if (boss_head_to_right == false) then
@@ -1350,6 +1362,10 @@ map_functions = {
             elseif (boss_head_to_right == true) then
                 andromalius:SetCustomAnimation("open_mouth_left", 0);
                 boss_head_to_right = false;
+            end
+            if (boss_dying_sound == false) then
+                AudioManager:PlaySound("snd/low_scream_long.ogg");
+                boss_dying_sound = true;
             end
         end
 

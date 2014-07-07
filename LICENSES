@@ -795,6 +795,8 @@ snd/heavy_bump.wav                                              CC by SA 3.0    
 snd/itempick2_michel_baradari_oga.wav                           CC by 3.0                Michel Baradari (OGA) from here: http://www.cubeengine.com/forum.php4?action=display_thread&thread_id=2164
 snd/levelup.wav                                                 CC0                      (qubodup) OGA
 snd/lightning.wav                                               CC0                      (Bertram)
+snd/low_scream.ogg                                              CC by 3.0                Bertram, based on Macro's sound (OGA) - http://opengameart.org/content/screaming
+snd/low_scream_long.ogg                                         CC by 3.0                Bertram, based on Macro's sound (OGA) - http://opengameart.org/content/screaming
 snd/meow.wav                                                    CC by 3.0                TheGertz (FreeSound) - http://www.freesound.org/people/TheGertz/sounds/131201/
 snd/mountain_wind.ogg                                           CC by 3.0                Blender Foundation (OGA) - http://opengameart.org/content/ambient-mountain-river-wind-and-forest-and-waterfall
 snd/new_game.wav                                                GPLv2+                   (Same sound than the opening_sword_fall.wav) file from Allacrost.
