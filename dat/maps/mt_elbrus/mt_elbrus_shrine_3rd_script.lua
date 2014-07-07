@@ -23,9 +23,6 @@ local Script = {};
 -- the main character handler
 local orlinn = {};
 
--- Name of the main sprite. Used to reload the good one at the end of dialogue events.
-local main_sprite_name = "";
-
 -- the main map loading code
 function Load(m)
 
@@ -60,6 +57,8 @@ function Load(m)
     AudioManager:LoadSound("snd/cave-in.ogg", Map);
     AudioManager:LoadSound("snd/heavy_bump.wav", Map);
     AudioManager:LoadSound("snd/battle_encounter_03.ogg", Map);
+
+    AudioManager:LoadMusic("mus/dont_close_your_eyes.ogg", Map);
 end
 
 -- the map update function handles checks done on each game tick.
@@ -964,6 +963,9 @@ map_functions = {
     camera_on_boss_start = function()
         Map:SetCamera(andromalius, 800);
         orlinn:SetDirection(vt_map.MapMode.NORTH);
+        -- Fade out the music
+        AudioManager:FadeOutAllMusic(1000);
+
     end,
 
     camera_on_orlinn_start = function()
@@ -978,6 +980,9 @@ map_functions = {
     end,
 
     battle_start = function()
+        -- Play the special boss music
+        AudioManager:PlayMusic("mus/dont_close_your_eyes.ogg");
+
         fireball_timer = 0;
         fireball_speed = 0.003;
         stones_reset_timer = 0;
