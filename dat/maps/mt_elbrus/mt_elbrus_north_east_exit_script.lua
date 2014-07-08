@@ -84,13 +84,29 @@ function _CreateObjects()
     -- Objects array
     local map_objects = {
 
-        { "Tree Small1 snow", 81.5, 20 },
-        { "Tree Small2 snow", 71, 72 },
+        { "Tree Small1 snow", 35, 28 },
+        { "Tree Small1 snow", 3, 46 },
+        { "Tree Small1 snow", 18, 17 },
+        { "Tree Small1 snow", 23, 30 },
+        { "Tree Small1 snow", 18, 32 },
+        { "Tree Small1 snow", 15, 34 },
+        { "Tree Small1 snow", 52, 6 },
+        { "Tree Small2 snow", 39, 26 },
+        { "Tree Small2 snow", 11, 35 },
 
-        { "Tree Big2 snow", 79, 12 },
-        { "Tree Big1 snow", 96.5, 29 },
+        { "Tree Big2 snow", 17, 40 },
+        { "Tree Big2 snow", 9, 39 },
+        { "Tree Big1 snow", 13, 20 },
+        { "Tree Big2 snow", 13, 47 },
+        { "Tree Big1 snow", 2, 34 },
+        { "Tree Big1 snow", 19, 7 },
+        { "Tree Big1 snow", 21, 41 },
+        { "Tree Big2 snow", 24, 15 },
+        { "Tree Big2 snow", 9, 29 },
 
-        { "Rock1 snow", 92, 18 },
+        { "Rock1 snow", 20, 13 },
+        { "Rock1 snow", 40, 30 },
+        { "Rock1 snow", 12, 41 },
     }
 
     -- Loads the trees according to the array
