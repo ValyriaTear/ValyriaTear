@@ -238,7 +238,7 @@ function Initialize(map_instance)
                     image_position_y = 220.0,
                 },
                 [1] = {
-                    image = Script:CreateAnimation("img/sprites/map/objects/campfire.lua"),
+                    image = Script:CreateAnimation("img/sprites/map/objects/campfire1.lua"),
                     image_dimension_x = 320.0 / 5 * 2,
                     image_dimension_y = 64.0 * 2,
                     image_position_x = 800.0,
