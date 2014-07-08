@@ -74,11 +74,6 @@ function Load(m)
         EventManager:StartEvent("Falls from above event", 200);
     end
 
-    -- TEMP: Credits place here in the wait of adding the last episode map.
-    Map:GetScriptSupervisor():AddScript("dat/credits/end_credits.lua");
-    event = vt_map.ScriptedEvent("Episode I End Credits", "start_credits", "");
-    EventManager:RegisterEvent(event);
-
 end
 
 -- the map update function handles checks done on each game tick.
@@ -158,8 +153,8 @@ function _CreateEvents()
     local dialogue = {};
     local text = {};
 
-    event = vt_map.MapTransitionEvent("to mountain shrine exit", "dat/maps/mt_elbrus/mt_elbrus_shrine_north_exit_map.lua",
-                                       "dat/maps/mt_elbrus/mt_elbrus_shrine_north_exit_script.lua", "from_shrine_basement");
+    event = vt_map.MapTransitionEvent("to mountain shrine exit", "dat/maps/mt_elbrus/mt_elbrus_north_east_exit_map.lua",
+                                       "dat/maps/mt_elbrus/mt_elbrus_north_east_exit_script.lua", "from_shrine_basement");
     EventManager:RegisterEvent(event);
 
     -- Generic events
@@ -295,7 +290,6 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("Before boss dialogue2");
     EventManager:RegisterEvent(event);
 
-    -- TODO: add boss sprite and dialogue
     dialogue = vt_map.SpriteDialogue();
     text = vt_system.Translate("You shall not leave this place without my consent.");
     dialogue:AddLine(text, andromalius);
@@ -394,10 +388,8 @@ local saw_exit = false;
 -- Check whether the active camera has entered a zone. To be called within Update()
 function _CheckZones()
     if (to_mountain_exit_zone:IsCameraEntering() == true) then
-        --EventManager:StartEvent("to mountain shrine exit");
-
-        -- TEMP: Credits place here in the wait of adding the last episode map.
-        EventManager:StartEvent("Episode I End Credits");
+        EventManager:StartEvent("to mountain shrine exit");
+        hero:SetMoving(false);
 
     elseif (final_boss_zone:IsCameraEntering() == true and Map:CurrentState() == vt_map.MapMode.STATE_EXPLORE) then
         if (GlobalManager:GetEventValue("story", "mt_elbrus_ep1_final_boss_beaten") == 0) then
@@ -545,11 +537,4 @@ map_functions = {
         -- Set event as done
         GlobalManager:SetEventValue("story", "mt_elbrus_ep1_final_boss_beaten", 1);
     end,
-
-    -- TEMP: Credits place here in the wait of adding the last episode map.
-    start_credits = function()
-        Map:PushState(vt_map.MapMode.STATE_SCENE);
-        hero:SetMoving(false);
-        GlobalManager:SetEventValue("game", "Start_End_Credits", 1);
-    end
 }
