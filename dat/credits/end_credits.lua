@@ -122,13 +122,13 @@ function Initialize(map_instance)
                     text_color = vt_video.Color(1.0, 0.8, 0.7, 1.0),
                 },
                 [1] = {
-                    text = Script:CreateText("Roots\n\nIkarusDowned\n\nCoderGreen\n\nAuthenticate\n\nLogzero\n\nEndoalir", vt_video.TextStyle("text24")),
+                    text = Script:CreateText("Roots\n\nIkarusDowned\n\nCoderGreen\n\nAuthenticate\n\nLogzero\n\nEndoalir\n\nSuiteCake\n\nBMorel", vt_video.TextStyle("text24")),
                     text_position_x = 512.0,
                     text_position_y = 300.0,
                     text_color = vt_video.Color(1.0, 1.0, 1.0, 1.0),
                 },
                 [2] = {
-                    text = Script:CreateText(vt_system.Translate("Balancing, ...\n\nQuest log, Minimap support, ...\n\nShop Trade mode support, ...\n\nUI theme change menu support, ...\n\nGL code improvement, ...\n\nMultiple screen fix, ..."), vt_video.TextStyle("text24")),
+                    text = Script:CreateText(vt_system.Translate("Balancing, ...\n\nQuest log, Minimap support, ...\n\nShop Trade mode support, ...\n\nUI theme change menu support, ...\n\nGL code improvement, ...\n\nMultiple screen fix, ...\n\nMisc fixes\n\nJoystick handling fixes"), vt_video.TextStyle("text24")),
                     text_position_x = 642.0,
                     text_position_y = 324.0,
                     text_color = vt_video.Color(0.7, 0.7, 0.7, 1.0),
@@ -206,7 +206,7 @@ function Initialize(map_instance)
                     text_color = vt_video.Color(1.0, 0.8, 0.7, 1.0),
                 },
                 [1] = {
-                    text = Script:CreateText("Redshrike (OGA)\n\neleazzar (OGA)\n\nBertram\n\nLilou\n\nRavenmore (OGA)\n\nKirill777 (OGA)\n\nAnthony44 (OGA)\n\nJAP (OGA)\n\nEcrivain (OGA)\n\nkillyoverdrive (OGA)",
+                    text = Script:CreateText("Redshrike (OGA)\n\neleazzar (OGA)\n\nBertram\n\nLilou\n\nRavenmore (OGA)\n\nKirill777 (OGA)\n\nAnthony44 (OGA)\n\nJAP (OGA)\n\nEcrivain (OGA)\n\nkillyoverdrive (OGA)\n\nlumimae (OGA)",
                                              vt_video.TextStyle("text20")),
                     text_position_x = 292.0,
                     text_position_y = 300.0,
@@ -220,7 +220,7 @@ function Initialize(map_instance)
                     text_color = vt_video.Color(1.0, 1.0, 1.0, 1.0),
                 },
                 [3] = {
-                    text = Script:CreateText("Sunburn (OGA)\n\nBlarumyrran (OGA)\n\nrichtaur (OGA)\n\nLamoot (OGA\n\nXenodora (OGA)\n\nThe Mana World (TMW)\n\nYuuki (TMW)\n\nPhilipp H. Poll\n\nTempest in the Aether\n\nUnknown Horizons",
+                    text = Script:CreateText("Sunburn (OGA)\n\nBlarumyrran (OGA)\n\nrichtaur (OGA)\n\nLamoot (OGA\n\nXenodora (OGA)\n\nThe Mana World (TMW)\n\nYuuki (TMW)\n\nFotherJ (TMW)\n\nPhilipp H. Poll\n\nTempest in the Aether\n\nUnknown Horizons",
                                              vt_video.TextStyle("text20")),
                     text_position_x = 732.0,
                     text_position_y = 300.0,
@@ -229,6 +229,53 @@ function Initialize(map_instance)
             },
         },
         [7] = {
+            images = {
+                [0] = {
+                    image = Script:CreateAnimation("img/sprites/map/objects/layna_statue.lua"),
+                    image_dimension_x = 60.0,
+                    image_dimension_y = 170.0,
+                    image_position_x = 300.0,
+                    image_position_y = 250.0,
+                },
+                [1] = {
+                    image = Script:CreateAnimation("img/sprites/battle/enemies/harlequin_0.lua"),
+                    image_dimension_x = 79.0 * 2,
+                    image_dimension_y = 94.0 * 2,
+                    image_position_x = 170.0,
+                    image_position_y = 420.0,
+                },
+            },
+            texts = {
+                [0] = {
+                    text = Script:CreateText(vt_system.Translate("Graphics"), vt_video.TextStyle("text28")),
+                    text_position_x = 512.0,
+                    text_position_y = 200.0,
+                    text_color = vt_video.Color(1.0, 0.8, 0.7, 1.0),
+                },
+                [1] = {
+                    text = Script:CreateText("Tommy Brunn (OGA)\n\nLuke.RUSTLTD (OGA)\n\nWilliam. Thompsonj (OGA)\n\nSharm (OGA)\n\nHyptosis (OGA)",
+                                             vt_video.TextStyle("text20")),
+                    text_position_x = 292.0,
+                    text_position_y = 300.0,
+                    text_color = vt_video.Color(1.0, 1.0, 1.0, 1.0),
+                },
+                [2] = {
+                    text = Script:CreateText("Manrevu (OGA)\n\nBalmer (OGA)\n\nHughSpectrum (OGA)\n\nZaPaper (OGA)\n\nGuido Bos (OGA)",
+                                             vt_video.TextStyle("text20")),
+                    text_position_x = 512.0,
+                    text_position_y = 300.0,
+                    text_color = vt_video.Color(1.0, 1.0, 1.0, 1.0),
+                },
+                [3] = {
+                    text = Script:CreateText("Julien (OGA)",
+                                             vt_video.TextStyle("text20")),
+                    text_position_x = 732.0,
+                    text_position_y = 300.0,
+                    text_color = vt_video.Color(1.0, 1.0, 1.0, 1.0),
+                },
+            },
+        },
+        [8] = {
             images = {
                 [0] = {
                     image = Script:CreateAnimation("img/sprites/map/objects/cat1.lua"),
@@ -268,7 +315,7 @@ function Initialize(map_instance)
                 },
             },
         },
-        [8] = {
+        [9] = {
             images = {
                 [0] = {
                     image = Script:CreateAnimation("img/sprites/map/characters/kalya_laughing.lua"),
@@ -286,21 +333,21 @@ function Initialize(map_instance)
                     text_color = vt_video.Color(1.0, 0.8, 0.7, 1.0),
                 },
                 [1] = {
-                    text = Script:CreateText("lasercheese (OGA)\n\nEliot Corley (el-corleo) (OGA)\n\nTom Peter (OGA)\n\n",
+                    text = Script:CreateText("lasercheese (OGA)\n\nEliot Corley (el-corleo) (OGA)\n\nTom Peter (OGA)\n\nAlexandr Zhelanov (OGA)",
                                              vt_video.TextStyle("text24")),
                     text_position_x = 512.0,
                     text_position_y = 300.0,
                     text_color = vt_video.Color(1.0, 1.0, 1.0, 1.0),
                 },
                 [2] = {
-                    text = Script:CreateText(vt_system.Translate("Sad theme\n\nMountain music\n\nMountain Shrine music"), vt_video.TextStyle("text24")),
+                    text = Script:CreateText(vt_system.Translate("Sad theme\n\nMountain music\n\nMountain Shrine music\n\nSpecial Boss"), vt_video.TextStyle("text24")),
                     text_position_x = 642.0,
                     text_position_y = 324.0,
                     text_color = vt_video.Color(0.7, 0.7, 0.7, 1.0),
                 },
             },
         },
-        [9] = {
+        [10] = {
             images = {
                 [0] = {
                     image = Script:CreateAnimation("img/sprites/map/characters/bronann_hero_stance_unarmed.lua"),
@@ -333,7 +380,7 @@ function Initialize(map_instance)
                     text_color = vt_video.Color(1.0, 1.0, 1.0, 1.0),
                 },
                 [3] = {
-                    text = Script:CreateText("DoKashiteru (OGA)\n\nNick Bowler (OGA)\n\nkddekadenz (OGA)\n\nremaxim (OGA)\n\nj1987\n\nOveMelaa (OGA)",
+                    text = Script:CreateText("DoKashiteru (OGA)\n\nNick Bowler (OGA)\n\nkddekadenz (OGA)\n\nremaxim (OGA)\n\nj1987\n\nOveMelaa (OGA)\n\nMacro (OGA)",
                                              vt_video.TextStyle("text20")),
                     text_position_x = 712.0,
                     text_position_y = 300.0,
@@ -341,7 +388,7 @@ function Initialize(map_instance)
                 },
             },
         },
-        [10] = {
+        [11] = {
             images = {
                 [0] = {
                     image = Script:CreateAnimation("img/sprites/map/characters/bronann_bed_animation.lua"),
@@ -384,7 +431,7 @@ function Initialize(map_instance)
                 },
             },
         },
-        [11] = {
+        [12] = {
             images = {
                 [0] = {
                     image = Script:CreateImage("img/sprites/map/characters/bronann_hurt_west.png"),
@@ -402,7 +449,7 @@ function Initialize(map_instance)
                     text_color = vt_video.Color(1.0, 0.8, 0.7, 1.0),
                 },
                 [1] = {
-                    text = Script:CreateText("mmstick, Astralchaos, Ibara\n\nBertram\n\nGallaecio\n\nNaN\n\nBioHazardX\n\nKnitter\n\ndimproject\n\njahalic", vt_video.TextStyle("text24")),
+                    text = Script:CreateText("Gallaecio, mmstick, Astralchaos, Ibara, ...\n\nBertram\n\nGallaecio\n\nNaN\n\nBioHazardX\n\nKnitter\n\ndimproject\n\njahalic", vt_video.TextStyle("text24")),
                     text_position_x = 512.0,
                     text_position_y = 300.0,
                     text_color = vt_video.Color(1.0, 1.0, 1.0, 1.0),
@@ -415,7 +462,7 @@ function Initialize(map_instance)
                 },
             },
         },
-        [12] = {
+        [13] = {
             images = {
                 [0] = {
                     image = Script:CreateAnimation("img/sprites/battle/characters/kalya/kalya_victory.lua"),
@@ -433,14 +480,14 @@ function Initialize(map_instance)
                     text_color = vt_video.Color(1.0, 0.8, 0.7, 1.0),
                 },
                 [1] = {
-                    text = Script:CreateText("Shirish\n\nKhyana\n\nSahaondra\n\nOmega\n\nPenPen", vt_video.TextStyle("text24")),
+                    text = Script:CreateText("Lilou\n\nShirish\n\nSahaondra\n\nOmega\n\nPenPen\n\nNemesis", vt_video.TextStyle("text24")),
                     text_position_x = 512.0,
                     text_position_y = 300.0,
                     text_color = vt_video.Color(1.0, 1.0, 1.0, 1.0),
                 },
             },
         },
-        [13] = {
+        [14] = {
             images = nil,
             texts = {
                 [0] = {
@@ -451,7 +498,7 @@ function Initialize(map_instance)
                 },
             },
         },
-        [14] = {
+        [15] = {
             images = {
                 [0] = {
                     image = Script:CreateImage("img/logos/hoa_garland_logo.png"),
@@ -470,7 +517,7 @@ function Initialize(map_instance)
                 },
             },
         },
-        [15] = {
+        [16] = {
             images = {
                 [0] = {
                     image = Script:CreateImage("img/logos/main_logo_sword.png"),
@@ -495,7 +542,7 @@ function Initialize(map_instance)
                 },
             },
         },
-        [16] = {
+        [17] = {
             images = {
                 [0] = {
                     image = Script:CreateImage("img/logos/main_logo_sword.png"),
@@ -520,7 +567,7 @@ function Initialize(map_instance)
                 },
             },
         },
-        [17] = {
+        [18] = {
             images = {
                 [0] = {
                     image = Script:CreateImage("img/logos/main_logo_sword.png"),
@@ -560,7 +607,7 @@ function Initialize(map_instance)
                 },
             },
         },
-        [18] = {
+        [19] = {
             images = {
                 [0] = {
                     image = Script:CreateImage("img/logos/main_logo_sword.png"),
@@ -600,7 +647,7 @@ function Initialize(map_instance)
                 },
             },
         },
-        [19] = {
+        [20] = {
             images = {
                 [0] = {
                     image = Script:CreateImage("img/logos/main_logo_sword.png"),
@@ -637,7 +684,7 @@ function Initialize(map_instance)
                 },
             },
         },
-        [20] = {
+        [21] = {
             images = {
                 [0] = {
                     image = Script:CreateImage("img/logos/main_logo_sword.png"),
@@ -673,7 +720,7 @@ function Initialize(map_instance)
                 },
             },
         },
-        [21] = {
+        [22] = {
             images = {
                 [0] = {
                     image = Script:CreateImage("img/logos/main_logo_sword.png"),
@@ -713,7 +760,7 @@ function Initialize(map_instance)
                 },
             },
         },
-        [22] = {
+        [23] = {
             images = {
                 [0] = {
                     image = Script:CreateImage("img/logos/main_logo_sword.png"),
@@ -750,7 +797,7 @@ function Initialize(map_instance)
                 },
             },
         },
-        [23] = {
+        [24] = {
             images = {
                 [0] = {
                     image = Script:CreateImage("img/logos/main_logo_sword.png"),
@@ -787,7 +834,7 @@ function Initialize(map_instance)
                 },
             },
         },
-        [24] = {
+        [25] = {
             images = {
                 [0] = {
                     image = Script:CreateImage("img/logos/main_logo_sword.png"),
@@ -825,7 +872,7 @@ function Initialize(map_instance)
                 },
             },
         },
-        [25] = {
+        [26] = {
             images = {
                 [0] = {
                     image = Script:CreateImage("img/logos/main_logo_sword.png"),
@@ -861,7 +908,7 @@ function Initialize(map_instance)
                 },
             },
         },
-        [26] = {
+        [27] = {
             images = {
                 [0] = {
                     image = Script:CreateImage("img/backdrops/boot/crystal.png"),
