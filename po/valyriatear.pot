@@ -9,24 +9,27 @@
 #: map_names_tr.lua:44 map_names_tr.lua:48 map_names_tr.lua:50
 #: map_names_tr.lua:68 map_names_tr.lua:72 map_names_tr.lua:76
 #: map_names_tr.lua:80 map_names_tr.lua:84 map_names_tr.lua:104
-#: map_names_tr.lua:108 map_names_tr.lua:152 map_names_tr.lua:156
-#: map_names_tr.lua:160 map_names_tr.lua:164 map_names_tr.lua:180
-#: map_names_tr.lua:184 map_names_tr.lua:186 map_names_tr.lua:188
-#: map_names_tr.lua:190 map_names_tr.lua:192 map_names_tr.lua:196
-#: map_names_tr.lua:200 map_names_tr.lua:204 map_names_tr.lua:216
-#: map_names_tr.lua:220 map_names_tr.lua:224 map_names_tr.lua:228
-#: map_names_tr.lua:232 map_names_tr.lua:236 map_names_tr.lua:238
-#: map_names_tr.lua:256 map_names_tr.lua:260 map_names_tr.lua:264
-#: map_names_tr.lua:268 map_names_tr.lua:272 map_names_tr.lua:292
-#: map_names_tr.lua:296 map_names_tr.lua:340 map_names_tr.lua:344
-#: map_names_tr.lua:348 map_names_tr.lua:352 map_names_tr.lua:368
-#: map_names_tr.lua:372 map_names_tr.lua:374 map_names_tr.lua:376
+#: map_names_tr.lua:108 map_names_tr.lua:128 map_names_tr.lua:156
+#: map_names_tr.lua:160 map_names_tr.lua:164 map_names_tr.lua:168
+#: map_names_tr.lua:172 map_names_tr.lua:176 map_names_tr.lua:192
+#: map_names_tr.lua:196 map_names_tr.lua:204 map_names_tr.lua:206
+#: map_names_tr.lua:208 map_names_tr.lua:210 map_names_tr.lua:212
+#: map_names_tr.lua:216 map_names_tr.lua:220 map_names_tr.lua:224
+#: map_names_tr.lua:236 map_names_tr.lua:240 map_names_tr.lua:244
+#: map_names_tr.lua:248 map_names_tr.lua:252 map_names_tr.lua:256
+#: map_names_tr.lua:258 map_names_tr.lua:276 map_names_tr.lua:280
+#: map_names_tr.lua:284 map_names_tr.lua:288 map_names_tr.lua:292
+#: map_names_tr.lua:312 map_names_tr.lua:316 map_names_tr.lua:336
+#: map_names_tr.lua:364 map_names_tr.lua:368 map_names_tr.lua:372
+#: map_names_tr.lua:376 map_names_tr.lua:380 map_names_tr.lua:384
+#: map_names_tr.lua:400 map_names_tr.lua:404 map_names_tr.lua:412
+#: map_names_tr.lua:414 map_names_tr.lua:416
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-05-06 00:32+0200\n"
+"POT-Creation-Date: 2014-07-20 16:32+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -98,7 +101,7 @@ msgstr ""
 #: ../src/common/global/global_utils.cpp:68
 #: ../src/modes/battle/battle_command.cpp:1332
 #: ../src/modes/battle/battle_command.cpp:1360
-#: ../src/modes/battle/battle_utils.cpp:1055
+#: ../src/modes/battle/battle_utils.cpp:1080
 msgid "All Allies"
 msgstr ""
 
@@ -315,7 +318,7 @@ msgstr ""
 msgid "[error]"
 msgstr ""
 
-#: ../src/modes/battle/battle_actors.cpp:1083
+#: ../src/modes/battle/battle_actors.cpp:1082
 msgid "[Select Action]"
 msgstr ""
 
@@ -357,7 +360,7 @@ msgstr ""
 
 #: ../src/modes/battle/battle_command.cpp:1334
 #: ../src/modes/battle/battle_command.cpp:1362
-#: ../src/modes/battle/battle_utils.cpp:1058
+#: ../src/modes/battle/battle_utils.cpp:1083
 msgid "All Enemies"
 msgstr ""
 
@@ -369,7 +372,7 @@ msgstr ""
 msgid "HP"
 msgstr ""
 
-#: ../src/modes/battle/battle.cpp:112 ../dat/effects/status.lua:561
+#: ../src/modes/battle/battle.cpp:112 ../dat/effects/status.lua:587
 msgid "SP"
 msgstr ""
 
@@ -476,11 +479,11 @@ msgstr ""
 msgid "The heroes fell in battle..."
 msgstr ""
 
-#: ../src/modes/battle/battle_utils.cpp:1040
+#: ../src/modes/battle/battle_utils.cpp:1065
 msgid "[Invalid Target]"
 msgstr ""
 
-#: ../src/modes/battle/battle_utils.cpp:1045
+#: ../src/modes/battle/battle_utils.cpp:1070
 msgid " — "
 msgstr ""
 
@@ -657,8 +660,9 @@ msgstr ""
 msgid "Tor"
 msgstr ""
 
-#: ../src/modes/menu/menu_views.cpp:273 ../dat/actors/enemies.lua:1010
-#: ../dat/actors/enemies.lua:1074 ../dat/actors/enemies.lua:1410
+#: ../src/modes/menu/menu_views.cpp:273 ../dat/actors/enemies.lua:1012
+#: ../dat/actors/enemies.lua:1075 ../dat/actors/enemies.lua:1197
+#: ../dat/actors/enemies.lua:1533
 msgid "Leg"
 msgstr ""
 
@@ -772,11 +776,12 @@ msgstr ""
 #: ../dat/actors/enemies.lua:149 ../dat/actors/enemies.lua:204
 #: ../dat/actors/enemies.lua:374 ../dat/actors/enemies.lua:434
 #: ../dat/actors/enemies.lua:488 ../dat/actors/enemies.lua:556
-#: ../dat/actors/enemies.lua:852 ../dat/actors/enemies.lua:994
-#: ../dat/actors/enemies.lua:1058 ../dat/actors/enemies.lua:1116
-#: ../dat/actors/enemies.lua:1394 ../dat/actors/enemies.lua:1613
-#: ../dat/actors/enemies.lua:1670 ../dat/actors/enemies.lua:1727
-#: ../dat/actors/enemies.lua:1793
+#: ../dat/actors/enemies.lua:853 ../dat/actors/enemies.lua:996
+#: ../dat/actors/enemies.lua:1059 ../dat/actors/enemies.lua:1127
+#: ../dat/actors/enemies.lua:1181 ../dat/actors/enemies.lua:1239
+#: ../dat/actors/enemies.lua:1517 ../dat/actors/enemies.lua:1736
+#: ../dat/actors/enemies.lua:1793 ../dat/actors/enemies.lua:1850
+#: ../dat/actors/enemies.lua:1916
 msgid "Head"
 msgstr ""
 
@@ -785,7 +790,7 @@ msgstr ""
 #: ../dat/actors/characters.lua:628 ../dat/actors/enemies.lua:315
 #: ../dat/actors/enemies.lua:497 ../dat/actors/enemies.lua:565
 #: ../dat/actors/enemies.lua:708 ../dat/actors/enemies.lua:755
-#: ../dat/actors/enemies.lua:950 ../dat/actors/enemies.lua:1179
+#: ../dat/actors/enemies.lua:952 ../dat/actors/enemies.lua:1302
 msgid "Torso"
 msgstr ""
 
@@ -798,8 +803,8 @@ msgstr ""
 #: ../src/modes/menu/menu_views.cpp:1641 ../dat/actors/characters.lua:88
 #: ../dat/actors/characters.lua:301 ../dat/actors/characters.lua:509
 #: ../dat/actors/characters.lua:645 ../dat/actors/enemies.lua:505
-#: ../dat/actors/enemies.lua:573 ../dat/actors/enemies.lua:1474
-#: ../dat/actors/enemies.lua:1751
+#: ../dat/actors/enemies.lua:573 ../dat/actors/enemies.lua:1597
+#: ../dat/actors/enemies.lua:1874
 msgid "Legs"
 msgstr ""
 
@@ -1215,7 +1220,7 @@ msgstr ""
 msgid "Mist"
 msgstr ""
 
-#: ../dat/actors/characters.lua:574 ../dat/actors/map_sprites.lua:86
+#: ../dat/actors/characters.lua:574 ../dat/actors/map_sprites.lua:87
 msgid "Thanis"
 msgstr ""
 
@@ -1230,9 +1235,9 @@ msgstr ""
 #: ../dat/actors/enemies.lua:47 ../dat/actors/enemies.lua:158
 #: ../dat/actors/enemies.lua:213 ../dat/actors/enemies.lua:269
 #: ../dat/actors/enemies.lua:383 ../dat/actors/enemies.lua:443
-#: ../dat/actors/enemies.lua:620 ../dat/actors/enemies.lua:905
-#: ../dat/actors/enemies.lua:1243 ../dat/actors/enemies.lua:1299
-#: ../dat/actors/enemies.lua:1346 ../dat/actors/enemies.lua:1621
+#: ../dat/actors/enemies.lua:620 ../dat/actors/enemies.lua:906
+#: ../dat/actors/enemies.lua:1366 ../dat/actors/enemies.lua:1422
+#: ../dat/actors/enemies.lua:1469 ../dat/actors/enemies.lua:1744
 msgid "Body"
 msgstr ""
 
@@ -1240,13 +1245,13 @@ msgstr ""
 msgid "Spider"
 msgstr ""
 
-#: ../dat/actors/enemies.lua:100 ../dat/actors/enemies.lua:1066
-#: ../dat/actors/enemies.lua:1678
+#: ../dat/actors/enemies.lua:100 ../dat/actors/enemies.lua:1189
+#: ../dat/actors/enemies.lua:1801
 msgid "Abdomen"
 msgstr ""
 
 #: ../dat/actors/enemies.lua:120 ../dat/actors/enemies.lua:345
-#: ../dat/actors/enemies.lua:405 ../dat/actors/map_sprites.lua:434
+#: ../dat/actors/enemies.lua:405 ../dat/actors/map_sprites.lua:436
 msgid "Fenrir"
 msgstr ""
 
@@ -1254,16 +1259,16 @@ msgstr ""
 msgid "Snake"
 msgstr ""
 
-#: ../dat/actors/enemies.lua:221 ../dat/actors/enemies.lua:1124
-#: ../dat/actors/enemies.lua:1629 ../dat/actors/enemies.lua:1686
+#: ../dat/actors/enemies.lua:221 ../dat/actors/enemies.lua:1247
+#: ../dat/actors/enemies.lua:1752 ../dat/actors/enemies.lua:1809
 msgid "Tail"
 msgstr ""
 
-#: ../dat/actors/enemies.lua:244 ../dat/actors/map_sprites.lua:392
+#: ../dat/actors/enemies.lua:244 ../dat/actors/map_sprites.lua:394
 msgid "Slime Mother"
 msgstr ""
 
-#: ../dat/actors/enemies.lua:290 ../dat/actors/map_sprites.lua:351
+#: ../dat/actors/enemies.lua:290 ../dat/actors/map_sprites.lua:353
 msgid "Bat"
 msgstr ""
 
@@ -1271,8 +1276,8 @@ msgstr ""
 msgid "Wing"
 msgstr ""
 
-#: ../dat/actors/enemies.lua:463 ../dat/actors/map_sprites.lua:449
-#: ../dat/actors/map_sprites.lua:524
+#: ../dat/actors/enemies.lua:463 ../dat/actors/map_sprites.lua:451
+#: ../dat/actors/map_sprites.lua:526
 msgid "Dark Soldier"
 msgstr ""
 
@@ -1281,15 +1286,15 @@ msgstr ""
 msgid "Lord Banesore"
 msgstr ""
 
-#: ../dat/actors/enemies.lua:595 ../dat/actors/map_sprites.lua:487
+#: ../dat/actors/enemies.lua:595 ../dat/actors/map_sprites.lua:489
 msgid "Shroom"
 msgstr ""
 
-#: ../dat/actors/enemies.lua:640 ../dat/actors/map_sprites.lua:508
+#: ../dat/actors/enemies.lua:640 ../dat/actors/map_sprites.lua:510
 msgid "Eyeball"
 msgstr ""
 
-#: ../dat/actors/enemies.lua:665 ../dat/actors/enemies.lua:1171
+#: ../dat/actors/enemies.lua:665 ../dat/actors/enemies.lua:1294
 msgid "Eye"
 msgstr ""
 
@@ -1298,192 +1303,201 @@ msgid "Harlequin?"
 msgstr ""
 
 #: ../dat/actors/enemies.lua:730
-#: ../dat/maps/mt_elbrus/mt_elbrus_path3_script.lua:1150
+#: ../dat/maps/mt_elbrus/mt_elbrus_path3_script.lua:1142
 msgid "Harlequin"
 msgstr ""
 
-#: ../dat/actors/enemies.lua:783 ../dat/actors/map_sprites.lua:540
+#: ../dat/actors/enemies.lua:783 ../dat/actors/map_sprites.lua:542
 msgid "Beetle"
 msgstr ""
 
-#: ../dat/actors/enemies.lua:808 ../dat/actors/enemies.lua:860
-#: ../dat/actors/enemies.lua:1002 ../dat/actors/enemies.lua:1735
-#: ../dat/actors/enemies.lua:1801
+#: ../dat/actors/enemies.lua:808 ../dat/actors/enemies.lua:861
+#: ../dat/actors/enemies.lua:1004 ../dat/actors/enemies.lua:1067
+#: ../dat/actors/enemies.lua:1858 ../dat/actors/enemies.lua:1924
 msgid "Chest"
 msgstr ""
 
-#: ../dat/actors/enemies.lua:827
+#: ../dat/actors/enemies.lua:828
 msgid "Rat"
 msgstr ""
 
-#: ../dat/actors/enemies.lua:880
+#: ../dat/actors/enemies.lua:881
 msgid "Thing"
 msgstr ""
 
-#: ../dat/actors/enemies.lua:925
+#: ../dat/actors/enemies.lua:927
 msgid "Yeti"
 msgstr ""
 
-#: ../dat/actors/enemies.lua:969 ../dat/actors/map_sprites.lua:556
+#: ../dat/actors/enemies.lua:971 ../dat/actors/map_sprites.lua:558
 msgid "Skeleton"
 msgstr ""
 
-#: ../dat/actors/enemies.lua:1040
+#: ../dat/actors/enemies.lua:1034
+msgid "Dorver"
+msgstr ""
+
+#: ../dat/actors/enemies.lua:1102 ../dat/actors/map_sprites.lua:574
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine_basement_script.lua:121
+msgid "Andromalius"
+msgstr ""
+
+#: ../dat/actors/enemies.lua:1163
 msgid "Scorpion"
 msgstr ""
 
-#: ../dat/actors/enemies.lua:1095
+#: ../dat/actors/enemies.lua:1218
 msgid "Dune Crawler"
 msgstr ""
 
-#: ../dat/actors/enemies.lua:1150
+#: ../dat/actors/enemies.lua:1273
 msgid "Stygian Lizard"
 msgstr ""
 
-#: ../dat/actors/enemies.lua:1187 ../dat/actors/enemies.lua:1251
+#: ../dat/actors/enemies.lua:1310 ../dat/actors/enemies.lua:1374
 msgid "Claw"
 msgstr ""
 
-#: ../dat/actors/enemies.lua:1214
+#: ../dat/actors/enemies.lua:1337
 msgid "Demonic Essence"
 msgstr ""
 
-#: ../dat/actors/enemies.lua:1235
+#: ../dat/actors/enemies.lua:1358
 msgid "Face"
 msgstr ""
 
-#: ../dat/actors/enemies.lua:1278
+#: ../dat/actors/enemies.lua:1401
 msgid "Red Slime"
 msgstr ""
 
-#: ../dat/actors/enemies.lua:1325
+#: ../dat/actors/enemies.lua:1448
 msgid "Mushroom Zombie"
 msgstr ""
 
-#: ../dat/actors/enemies.lua:1373
+#: ../dat/actors/enemies.lua:1496
 msgid "Scorpion Goliath"
 msgstr ""
 
-#: ../dat/actors/enemies.lua:1402
+#: ../dat/actors/enemies.lua:1525
 msgid "Pincer"
 msgstr ""
 
-#: ../dat/actors/enemies.lua:1437
+#: ../dat/actors/enemies.lua:1560
 msgid "Armored Beast"
 msgstr ""
 
-#: ../dat/actors/enemies.lua:1458
+#: ../dat/actors/enemies.lua:1581
 msgid "Mesosoma"
 msgstr ""
 
-#: ../dat/actors/enemies.lua:1466
+#: ../dat/actors/enemies.lua:1589
 msgid "Pincers"
 msgstr ""
 
-#: ../dat/actors/enemies.lua:1494
+#: ../dat/actors/enemies.lua:1617
 msgid "Daemarbora"
 msgstr ""
 
-#: ../dat/actors/enemies.lua:1515
+#: ../dat/actors/enemies.lua:1638
 msgid "Trunk"
 msgstr ""
 
-#: ../dat/actors/enemies.lua:1523
+#: ../dat/actors/enemies.lua:1646
 msgid "Branches"
 msgstr ""
 
-#: ../dat/actors/enemies.lua:1543
+#: ../dat/actors/enemies.lua:1666
 msgid "Aerocephal"
 msgstr ""
 
-#: ../dat/actors/enemies.lua:1564
+#: ../dat/actors/enemies.lua:1687
 msgid "Forehead"
 msgstr ""
 
-#: ../dat/actors/enemies.lua:1572
+#: ../dat/actors/enemies.lua:1695
 msgid "Orifice"
 msgstr ""
 
-#: ../dat/actors/enemies.lua:1592
+#: ../dat/actors/enemies.lua:1715
 msgid "Arcana Drake"
 msgstr ""
 
-#: ../dat/actors/enemies.lua:1649
+#: ../dat/actors/enemies.lua:1772
 msgid "Nagaruda"
 msgstr ""
 
-#: ../dat/actors/enemies.lua:1706
+#: ../dat/actors/enemies.lua:1829
 msgid "Deceleon"
 msgstr ""
 
-#: ../dat/actors/enemies.lua:1743 ../dat/actors/enemies.lua:1809
+#: ../dat/actors/enemies.lua:1866 ../dat/actors/enemies.lua:1932
 msgid "Arm"
 msgstr ""
 
-#: ../dat/actors/enemies.lua:1771
+#: ../dat/actors/enemies.lua:1894
 msgid "Aurum Drakueli"
 msgstr ""
 
-#: ../dat/actors/map_sprites.lua:104
+#: ../dat/actors/map_sprites.lua:105
 msgid "Carson"
 msgstr ""
 
-#: ../dat/actors/map_sprites.lua:120
+#: ../dat/actors/map_sprites.lua:121
 msgid "Malta"
 msgstr ""
 
-#: ../dat/actors/map_sprites.lua:136
+#: ../dat/actors/map_sprites.lua:137
 msgid "Orlinn"
 msgstr ""
 
-#: ../dat/actors/map_sprites.lua:157
+#: ../dat/actors/map_sprites.lua:159
 #: ../dat/maps/layna_village/battle_with_banesore/battle_with_banesore_script.lua:58
 msgid "Herth"
 msgstr ""
 
-#: ../dat/actors/map_sprites.lua:177
+#: ../dat/actors/map_sprites.lua:179
 #: ../dat/maps/layna_village/layna_village_center_script.lua:206
 #: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:175
 msgid "Olivia"
 msgstr ""
 
-#: ../dat/actors/map_sprites.lua:192
+#: ../dat/actors/map_sprites.lua:194
 #: ../dat/maps/layna_village/layna_village_center_script.lua:157
 #: ../dat/maps/layna_village/layna_village_kalya_house_path_script.lua:187
 #: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:163
 msgid "Brymir"
 msgstr ""
 
-#: ../dat/actors/map_sprites.lua:207
+#: ../dat/actors/map_sprites.lua:209
 #: ../dat/maps/layna_village/layna_village_center_script.lua:166
 #: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:167
 msgid "Martha"
 msgstr ""
 
-#: ../dat/actors/map_sprites.lua:222
+#: ../dat/actors/map_sprites.lua:224
 #: ../dat/maps/layna_village/layna_village_center_script.lua:175
-#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:179
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:181
 msgid "Sophia"
 msgstr ""
 
-#: ../dat/actors/map_sprites.lua:238
+#: ../dat/actors/map_sprites.lua:240
 #: ../dat/maps/layna_village/battle_with_banesore/battle_with_banesore_script.lua:59
 #: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:151
 #: ../dat/maps/layna_village/layna_village_riverbank_script.lua:107
 msgid "Lilly"
 msgstr ""
 
-#: ../dat/actors/map_sprites.lua:253
+#: ../dat/actors/map_sprites.lua:255
 #: ../dat/maps/layna_village/layna_village_center_script.lua:200
 #: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:171
 msgid "Georges"
 msgstr ""
 
-#: ../dat/actors/map_sprites.lua:269
+#: ../dat/actors/map_sprites.lua:271
 msgid "Crystal"
 msgstr ""
 
-#: ../dat/actors/map_sprites.lua:285
+#: ../dat/actors/map_sprites.lua:287
 #: ../dat/maps/layna_village/layna_village_center_at_night_script.lua:123
 #: ../dat/maps/layna_village/layna_village_center_at_night_script.lua:127
 #: ../dat/maps/layna_village/layna_village_center_at_night_script.lua:131
@@ -1511,28 +1525,28 @@ msgstr ""
 #: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:248
 #: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:262
 #: ../dat/maps/mt_elbrus/battle_with_dark_soldiers_script.lua:33
-#: ../dat/maps/mt_elbrus/mt_elbrus_path3_script.lua:152
-#: ../dat/maps/mt_elbrus/mt_elbrus_path3_script.lua:156
-#: ../dat/maps/mt_elbrus/mt_elbrus_path3_script.lua:160
-#: ../dat/maps/mt_elbrus/mt_elbrus_path4_script.lua:142
-#: ../dat/maps/mt_elbrus/mt_elbrus_path4_script.lua:146
-#: ../dat/maps/mt_elbrus/mt_elbrus_path4_script.lua:150
+#: ../dat/maps/mt_elbrus/mt_elbrus_path3_script.lua:149
+#: ../dat/maps/mt_elbrus/mt_elbrus_path3_script.lua:153
+#: ../dat/maps/mt_elbrus/mt_elbrus_path3_script.lua:157
+#: ../dat/maps/mt_elbrus/mt_elbrus_path4_script.lua:152
+#: ../dat/maps/mt_elbrus/mt_elbrus_path4_script.lua:156
+#: ../dat/maps/mt_elbrus/mt_elbrus_path4_script.lua:160
 msgid "Soldier"
 msgstr ""
 
-#: ../dat/actors/map_sprites.lua:303
+#: ../dat/actors/map_sprites.lua:305
 msgid "Chicken"
 msgstr ""
 
-#: ../dat/actors/map_sprites.lua:318
+#: ../dat/actors/map_sprites.lua:320
 msgid "Butterfly"
 msgstr ""
 
-#: ../dat/actors/map_sprites.lua:333
+#: ../dat/actors/map_sprites.lua:335
 msgid "Squirrel"
 msgstr ""
 
-#: ../dat/actors/map_sprites.lua:470
+#: ../dat/actors/map_sprites.lua:472
 msgid "Lord"
 msgstr ""
 
@@ -1557,6 +1571,8 @@ msgstr ""
 #: ../dat/maps/mt_elbrus/mt_elbrus_cave1_script.lua:135
 #: ../dat/maps/mt_elbrus/mt_elbrus_cave1_script.lua:158
 #: ../dat/maps/mt_elbrus/mt_elbrus_cave1_script.lua:191
+#: ../dat/maps/mt_elbrus/mt_elbrus_north_east_exit_script.lua:291
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:489
 msgid "..."
 msgstr ""
 
@@ -1675,7 +1691,7 @@ msgid "Village of Layna"
 msgstr ""
 
 #: ../dat/config/quests.lua:27 ../dat/config/quests.lua:93 map_names_tr.lua:52
-#: map_names_tr.lua:240
+#: map_names_tr.lua:260
 msgid "Bronann's home"
 msgstr ""
 
@@ -1700,7 +1716,7 @@ msgstr ""
 
 #: ../dat/config/quests.lua:43 ../dat/config/quests.lua:59
 #: ../dat/config/quests.lua:109 map_names_tr.lua:56 map_names_tr.lua:60
-#: map_names_tr.lua:244 map_names_tr.lua:248
+#: map_names_tr.lua:264 map_names_tr.lua:268
 msgid "Village center"
 msgstr ""
 
@@ -1807,21 +1823,27 @@ msgstr ""
 msgid "Black Sleet"
 msgstr ""
 
+#: ../dat/config/themes.lua:28
+msgid "Elvish Feather"
+msgstr ""
+
 #: ../dat/config/world_locations.lua:29 map_names_tr.lua:18
 #: map_names_tr.lua:22 map_names_tr.lua:26 map_names_tr.lua:30
-#: map_names_tr.lua:34 map_names_tr.lua:38 map_names_tr.lua:206
-#: map_names_tr.lua:210 map_names_tr.lua:214 map_names_tr.lua:218
-#: map_names_tr.lua:222 map_names_tr.lua:226
+#: map_names_tr.lua:34 map_names_tr.lua:38 map_names_tr.lua:226
+#: map_names_tr.lua:230 map_names_tr.lua:234 map_names_tr.lua:238
+#: map_names_tr.lua:242 map_names_tr.lua:246
 msgid "Layna Forest"
 msgstr ""
 
 #: ../dat/config/world_locations.lua:40 map_names_tr.lua:114
 #: map_names_tr.lua:118 map_names_tr.lua:122 map_names_tr.lua:126
 #: map_names_tr.lua:130 map_names_tr.lua:134 map_names_tr.lua:138
-#: map_names_tr.lua:142 map_names_tr.lua:150 map_names_tr.lua:302
-#: map_names_tr.lua:306 map_names_tr.lua:310 map_names_tr.lua:314
-#: map_names_tr.lua:318 map_names_tr.lua:322 map_names_tr.lua:326
-#: map_names_tr.lua:330 map_names_tr.lua:338
+#: map_names_tr.lua:142 map_names_tr.lua:146 map_names_tr.lua:154
+#: map_names_tr.lua:158 map_names_tr.lua:198 map_names_tr.lua:322
+#: map_names_tr.lua:326 map_names_tr.lua:330 map_names_tr.lua:334
+#: map_names_tr.lua:338 map_names_tr.lua:342 map_names_tr.lua:346
+#: map_names_tr.lua:350 map_names_tr.lua:354 map_names_tr.lua:362
+#: map_names_tr.lua:366 map_names_tr.lua:406
 msgid "Mt. Elbrus"
 msgstr ""
 
@@ -1857,10 +1879,15 @@ msgid ""
 "\n"
 "GL code improvement, ...\n"
 "\n"
-"Multiple screen fix, ..."
+"Multiple screen fix, ...\n"
+"\n"
+"Misc fixes\n"
+"\n"
+"Joystick handling fixes"
 msgstr ""
 
 #: ../dat/credits/end_credits.lua:164 ../dat/credits/end_credits.lua:203
+#: ../dat/credits/end_credits.lua:250
 msgid "Graphics"
 msgstr ""
 
@@ -1883,12 +1910,12 @@ msgid ""
 "A lot of various things"
 msgstr ""
 
-#: ../dat/credits/end_credits.lua:250 ../dat/credits/end_credits.lua:283
+#: ../dat/credits/end_credits.lua:297 ../dat/credits/end_credits.lua:330
 #: ../dat/credits/episode1_credits.lua:51
 msgid "Music"
 msgstr ""
 
-#: ../dat/credits/end_credits.lua:264
+#: ../dat/credits/end_credits.lua:311
 msgid ""
 "\n"
 "Main theme, Village music, ...\n"
@@ -1908,28 +1935,30 @@ msgid ""
 "Layna cave music"
 msgstr ""
 
-#: ../dat/credits/end_credits.lua:296
+#: ../dat/credits/end_credits.lua:343
 msgid ""
 "Sad theme\n"
 "\n"
 "Mountain music\n"
 "\n"
-"Mountain Shrine music"
+"Mountain Shrine music\n"
+"\n"
+"Special Boss"
 msgstr ""
 
-#: ../dat/credits/end_credits.lua:315
+#: ../dat/credits/end_credits.lua:362
 msgid "Sounds"
 msgstr ""
 
-#: ../dat/credits/end_credits.lua:356 ../dat/credits/episode1_credits.lua:64
+#: ../dat/credits/end_credits.lua:403 ../dat/credits/episode1_credits.lua:64
 msgid "Ports"
 msgstr ""
 
-#: ../dat/credits/end_credits.lua:399 ../dat/credits/episode1_credits.lua:68
+#: ../dat/credits/end_credits.lua:446 ../dat/credits/episode1_credits.lua:68
 msgid "Translations"
 msgstr ""
 
-#: ../dat/credits/end_credits.lua:411
+#: ../dat/credits/end_credits.lua:458
 msgid ""
 "English text review\n"
 "\n"
@@ -1948,34 +1977,34 @@ msgid ""
 "Spanish (es)"
 msgstr ""
 
-#: ../dat/credits/end_credits.lua:430
+#: ../dat/credits/end_credits.lua:477
 msgid "Testers"
 msgstr ""
 
-#: ../dat/credits/end_credits.lua:447
+#: ../dat/credits/end_credits.lua:494
 msgid "And you..."
 msgstr ""
 
-#: ../dat/credits/end_credits.lua:466
+#: ../dat/credits/end_credits.lua:513
 msgid "Valyria Tear was forked from Hero of Allacrost in 2011"
 msgstr ""
 
-#: ../dat/credits/end_credits.lua:485
+#: ../dat/credits/end_credits.lua:532
 msgid ""
 "Allacrost Development Team (2004-2011)\n"
 "\n"
 "Founder and Lead Designer"
 msgstr ""
 
-#: ../dat/credits/end_credits.lua:510
+#: ../dat/credits/end_credits.lua:557
 msgid "Allacrost Project Leads/Administrators"
 msgstr ""
 
-#: ../dat/credits/end_credits.lua:535
+#: ../dat/credits/end_credits.lua:582
 msgid "Allacrost Programming Team (2004-2011)"
 msgstr ""
 
-#: ../dat/credits/end_credits.lua:555
+#: ../dat/credits/end_credits.lua:602
 msgid ""
 "Battle code, Menu code\n"
 "\n"
@@ -1996,11 +2025,11 @@ msgid ""
 "Programming lead, Game engine, Map code"
 msgstr ""
 
-#: ../dat/credits/end_credits.lua:575 ../dat/credits/end_credits.lua:615
+#: ../dat/credits/end_credits.lua:622 ../dat/credits/end_credits.lua:662
 msgid "Allacrost Programming Team"
 msgstr ""
 
-#: ../dat/credits/end_credits.lua:595
+#: ../dat/credits/end_credits.lua:642
 msgid ""
 "Boot code, Battle code\n"
 "\n"
@@ -2021,7 +2050,7 @@ msgid ""
 "Video engine"
 msgstr ""
 
-#: ../dat/credits/end_credits.lua:632
+#: ../dat/credits/end_credits.lua:679
 msgid ""
 "Video engine, Game engine\n"
 "\n"
@@ -2036,11 +2065,11 @@ msgid ""
 "Various code"
 msgstr ""
 
-#: ../dat/credits/end_credits.lua:652
+#: ../dat/credits/end_credits.lua:699
 msgid "Allacrost Artwork Team (2004-2011)"
 msgstr ""
 
-#: ../dat/credits/end_credits.lua:668
+#: ../dat/credits/end_credits.lua:715
 msgid ""
 "Map sprites, Battle sprites, Character portraits, Location graphics\n"
 "\n"
@@ -2053,12 +2082,12 @@ msgid ""
 "Map tiles, map sprites, Inventory icons, Allacrost artwork coordination"
 msgstr ""
 
-#: ../dat/credits/end_credits.lua:688 ../dat/credits/end_credits.lua:728
-#: ../dat/credits/end_credits.lua:765
+#: ../dat/credits/end_credits.lua:735 ../dat/credits/end_credits.lua:775
+#: ../dat/credits/end_credits.lua:812
 msgid "Allacrost Artwork Team"
 msgstr ""
 
-#: ../dat/credits/end_credits.lua:708
+#: ../dat/credits/end_credits.lua:755
 msgid ""
 "Concept art\n"
 "\n"
@@ -2079,7 +2108,7 @@ msgid ""
 "Map sprites"
 msgstr ""
 
-#: ../dat/credits/end_credits.lua:745
+#: ../dat/credits/end_credits.lua:792
 msgid ""
 "Map sprite animations\n"
 "\n"
@@ -2094,7 +2123,7 @@ msgid ""
 "Map tiles"
 msgstr ""
 
-#: ../dat/credits/end_credits.lua:782
+#: ../dat/credits/end_credits.lua:829
 msgid ""
 "Various art\n"
 "\n"
@@ -2109,11 +2138,11 @@ msgid ""
 "Map tiles, Battle sprites"
 msgstr ""
 
-#: ../dat/credits/end_credits.lua:802
+#: ../dat/credits/end_credits.lua:849
 msgid "Allacrost Music and Sound Team (2004-2011)"
 msgstr ""
 
-#: ../dat/credits/end_credits.lua:820
+#: ../dat/credits/end_credits.lua:867
 msgid ""
 "Sound composer\n"
 "\n"
@@ -2130,11 +2159,11 @@ msgid ""
 "Soundtrack composer"
 msgstr ""
 
-#: ../dat/credits/end_credits.lua:840
+#: ../dat/credits/end_credits.lua:887
 msgid "Allacrost Special Thanks"
 msgstr ""
 
-#: ../dat/credits/end_credits.lua:856
+#: ../dat/credits/end_credits.lua:903
 msgid ""
 "Map Tiles\n"
 "\n"
@@ -2143,7 +2172,7 @@ msgid ""
 "Map monster sprites"
 msgstr ""
 
-#: ../dat/credits/end_credits.lua:883 ../dat/maps/to_be_continued_anim.lua:32
+#: ../dat/credits/end_credits.lua:930 ../dat/maps/to_be_continued_anim.lua:32
 msgid "To be continued..."
 msgstr ""
 
@@ -2211,35 +2240,35 @@ msgstr ""
 msgid "Evasion"
 msgstr ""
 
-#: ../dat/effects/status.lua:711
+#: ../dat/effects/status.lua:761
 msgid "Paralysis"
 msgstr ""
 
-#: ../dat/effects/status.lua:766
+#: ../dat/effects/status.lua:816
 msgid "Fire Elemental Strength"
 msgstr ""
 
-#: ../dat/effects/status.lua:823
+#: ../dat/effects/status.lua:873
 msgid "Water Elemental Strength"
 msgstr ""
 
-#: ../dat/effects/status.lua:880
+#: ../dat/effects/status.lua:930
 msgid "Wind Elemental Strength"
 msgstr ""
 
-#: ../dat/effects/status.lua:936
+#: ../dat/effects/status.lua:986
 msgid "Earth Elemental Strength"
 msgstr ""
 
-#: ../dat/effects/status.lua:992
+#: ../dat/effects/status.lua:1042
 msgid "Life Elemental Strength"
 msgstr ""
 
-#: ../dat/effects/status.lua:1048
+#: ../dat/effects/status.lua:1098
 msgid "Death Elemental Strength"
 msgstr ""
 
-#: ../dat/effects/status.lua:1105
+#: ../dat/effects/status.lua:1155
 msgid "Neutral Elemental Strength"
 msgstr ""
 
@@ -2281,9 +2310,10 @@ msgstr ""
 #: ../dat/maps/layna_forest/layna_forest_south_east_script.lua:132
 #: ../dat/maps/mt_elbrus/mt_elbrus_path1_script.lua:158
 #: ../dat/maps/mt_elbrus/mt_elbrus_path2_script.lua:162
-#: ../dat/maps/mt_elbrus/mt_elbrus_path3_script.lua:211
-#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:234
-#: ../dat/maps/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:133
+#: ../dat/maps/mt_elbrus/mt_elbrus_path3_script.lua:208
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:237
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine9_script.lua:156
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:228
 msgid "Your party feels better..."
 msgstr ""
 
@@ -2444,7 +2474,7 @@ msgstr ""
 #: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:696
 #: ../dat/maps/layna_village/layna_village_bronanns_home_script.lua:143
 #: ../dat/maps/layna_village/layna_village_kalya_house_path_at_night_script.lua:259
-#: ../dat/maps/mt_elbrus/mt_elbrus_path4_script.lua:418
+#: ../dat/maps/mt_elbrus/mt_elbrus_path4_script.lua:428
 msgid "Bronann!"
 msgstr ""
 
@@ -2622,7 +2652,8 @@ msgid ""
 msgstr ""
 
 #: ../dat/maps/layna_forest/layna_forest_north_west_script.lua:1025
-#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:438
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:445
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine_basement_script.lua:253
 msgid "Orlinn!"
 msgstr ""
 
@@ -3013,7 +3044,7 @@ msgstr ""
 #: ../dat/maps/layna_village/layna_village_center_at_night_script.lua:312
 #: ../dat/maps/layna_village/layna_village_center_script.lua:545
 #: ../dat/maps/layna_village/layna_village_center_script.lua:970
-#: ../dat/maps/mt_elbrus/mt_elbrus_path4_script.lua:347
+#: ../dat/maps/mt_elbrus/mt_elbrus_path4_script.lua:357
 msgid "Huh?"
 msgstr ""
 
@@ -3910,7 +3941,7 @@ msgid "It's time..."
 msgstr ""
 
 #: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:429
-#: ../dat/maps/mt_elbrus/mt_elbrus_path4_script.lua:274
+#: ../dat/maps/mt_elbrus/mt_elbrus_path4_script.lua:284
 msgid "We can't go back now..."
 msgstr ""
 
@@ -4412,6 +4443,76 @@ msgstr ""
 msgid "Not now..."
 msgstr ""
 
+#: ../dat/maps/mt_elbrus/mt_elbrus_north_east_exit_script.lua:229
+msgid "We made it, at last!"
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_north_east_exit_script.lua:231
+msgid "Indeed! Yeepee!"
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_north_east_exit_script.lua:233
+msgid "I'm so relieved we made it safely, hee hee."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_north_east_exit_script.lua:235
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine_basement_script.lua:219
+msgid "Wait..."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_north_east_exit_script.lua:237
+msgid "Can you smell that stench?"
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_north_east_exit_script.lua:239
+msgid "... Yes... Is it... smoke?"
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_north_east_exit_script.lua:241
+msgid "Something's burning..."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_north_east_exit_script.lua:263
+msgid "Our village... is burning..."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_north_east_exit_script.lua:265
+msgid "My parents..."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_north_east_exit_script.lua:267
+msgid "Herth..."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_north_east_exit_script.lua:269
+msgid "Everyone..."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_north_east_exit_script.lua:285
+msgid "May they rest in peace..."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_north_east_exit_script.lua:287
+msgid "All this..."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_north_east_exit_script.lua:289
+msgid "All this was for a crystal??"
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_north_east_exit_script.lua:293
+msgid "I'll fix this..."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_north_east_exit_script.lua:295
+msgid ""
+"If this crystal is so powerful, then I'll use it ... and I'll fix this..."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_north_east_exit_script.lua:308
+msgid "Then, I'll help you..."
+msgstr ""
+
 #: ../dat/maps/mt_elbrus/mt_elbrus_path1_script.lua:659
 msgid "Banesore's minions are already all over the place ..."
 msgstr ""
@@ -4462,679 +4563,959 @@ msgid ""
 "If we can reach the great plains, we should indeed be out of troubles..."
 msgstr ""
 
-#: ../dat/maps/mt_elbrus/mt_elbrus_path3_script.lua:297 map_names_tr.lua:20
-#: map_names_tr.lua:208
+#: ../dat/maps/mt_elbrus/mt_elbrus_path3_script.lua:294 map_names_tr.lua:20
+#: map_names_tr.lua:228
 msgid "???"
 msgstr ""
 
-#: ../dat/maps/mt_elbrus/mt_elbrus_path3_script.lua:609
+#: ../dat/maps/mt_elbrus/mt_elbrus_path3_script.lua:602
 msgid ""
 "This place is the village's old cemetery, used when the former villagers "
 "lived in Layna..."
 msgstr ""
 
-#: ../dat/maps/mt_elbrus/mt_elbrus_path3_script.lua:611
+#: ../dat/maps/mt_elbrus/mt_elbrus_path3_script.lua:604
 msgid "The former villagers? What do you mean?"
 msgstr ""
 
-#: ../dat/maps/mt_elbrus/mt_elbrus_path3_script.lua:613
+#: ../dat/maps/mt_elbrus/mt_elbrus_path3_script.lua:606
 msgid ""
 "Well, Layna Village was abandoned a long time ago, before your parents and "
 "all the others settled here... Your mother never told you that?"
 msgstr ""
 
-#: ../dat/maps/mt_elbrus/mt_elbrus_path3_script.lua:615
+#: ../dat/maps/mt_elbrus/mt_elbrus_path3_script.lua:608
 msgid ""
 "I've never been further alone before... This place gives me the chill..."
 msgstr ""
 
-#: ../dat/maps/mt_elbrus/mt_elbrus_path3_script.lua:617
-#: ../dat/maps/mt_elbrus/mt_elbrus_shrine5_script.lua:396
+#: ../dat/maps/mt_elbrus/mt_elbrus_path3_script.lua:610
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine_3rd_script.lua:445
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine5_script.lua:422
 msgid "Yiek!"
 msgstr ""
 
-#: ../dat/maps/mt_elbrus/mt_elbrus_path3_script.lua:619
+#: ../dat/maps/mt_elbrus/mt_elbrus_path3_script.lua:612
 msgid "Anyway, once the cemetery is behind us, we should be out of trouble!"
 msgstr ""
 
-#: ../dat/maps/mt_elbrus/mt_elbrus_path3_script.lua:644
+#: ../dat/maps/mt_elbrus/mt_elbrus_path3_script.lua:637
 msgid "Isn't that soldiers up there?"
 msgstr ""
 
-#: ../dat/maps/mt_elbrus/mt_elbrus_path3_script.lua:675
+#: ../dat/maps/mt_elbrus/mt_elbrus_path3_script.lua:668
 msgid "The west gates are condemned, as the Lord commanded."
 msgstr ""
 
-#: ../dat/maps/mt_elbrus/mt_elbrus_path3_script.lua:677
+#: ../dat/maps/mt_elbrus/mt_elbrus_path3_script.lua:670
 msgid "Fine. Let's go back and wait for them."
 msgstr ""
 
-#: ../dat/maps/mt_elbrus/mt_elbrus_path3_script.lua:709
+#: ../dat/maps/mt_elbrus/mt_elbrus_path3_script.lua:702
 msgid "The gate to the great plains..."
 msgstr ""
 
-#: ../dat/maps/mt_elbrus/mt_elbrus_path3_script.lua:711
+#: ../dat/maps/mt_elbrus/mt_elbrus_path3_script.lua:704
 msgid "Have we got any other way to leave this place?"
 msgstr ""
 
-#: ../dat/maps/mt_elbrus/mt_elbrus_path3_script.lua:713
+#: ../dat/maps/mt_elbrus/mt_elbrus_path3_script.lua:706
 msgid "Only one left... The mountain top..."
 msgstr ""
 
-#: ../dat/maps/mt_elbrus/mt_elbrus_path3_script.lua:739
+#: ../dat/maps/mt_elbrus/mt_elbrus_path3_script.lua:732
 msgid "Oh no! the gate!"
 msgstr ""
 
-#: ../dat/maps/mt_elbrus/mt_elbrus_path3_script.lua:751
+#: ../dat/maps/mt_elbrus/mt_elbrus_path3_script.lua:744
 msgid "We're trapped!"
 msgstr ""
 
-#: ../dat/maps/mt_elbrus/mt_elbrus_path3_script.lua:759
+#: ../dat/maps/mt_elbrus/mt_elbrus_path3_script.lua:752
 msgid "You're mine now!"
 msgstr ""
 
-#: ../dat/maps/mt_elbrus/mt_elbrus_path3_script.lua:779
+#: ../dat/maps/mt_elbrus/mt_elbrus_path3_script.lua:772
 msgid ""
 "I shall bring your souls to the Master. You don't stand a chance against the "
 "Great Harlequin..."
 msgstr ""
 
-#: ../dat/maps/mt_elbrus/mt_elbrus_path3_script.lua:781
+#: ../dat/maps/mt_elbrus/mt_elbrus_path3_script.lua:774
 msgid "But let's play together first, shall we?"
 msgstr ""
 
-#: ../dat/maps/mt_elbrus/mt_elbrus_path3_script.lua:783
+#: ../dat/maps/mt_elbrus/mt_elbrus_path3_script.lua:776
 msgid "Now catch me... if you can."
 msgstr ""
 
-#: ../dat/maps/mt_elbrus/mt_elbrus_path3_script.lua:811
+#: ../dat/maps/mt_elbrus/mt_elbrus_path3_script.lua:804
 msgid "Enough of this shallow game. Give me your souls now!..."
 msgstr ""
 
-#: ../dat/maps/mt_elbrus/mt_elbrus_path3_script.lua:832
+#: ../dat/maps/mt_elbrus/mt_elbrus_path3_script.lua:825
 msgid "How could I be hurt by... children..."
 msgstr ""
 
-#: ../dat/maps/mt_elbrus/mt_elbrus_path3_script.lua:834
+#: ../dat/maps/mt_elbrus/mt_elbrus_path3_script.lua:827
 msgid "We'll see each other again, Chosen One..."
 msgstr ""
 
-#: ../dat/maps/mt_elbrus/mt_elbrus_path4_script.lua:296
+#: ../dat/maps/mt_elbrus/mt_elbrus_path4_script.lua:306
 msgid "We made it..."
 msgstr ""
 
-#: ../dat/maps/mt_elbrus/mt_elbrus_path4_script.lua:298
+#: ../dat/maps/mt_elbrus/mt_elbrus_path4_script.lua:308
 msgid "Brr... It's quite cold up here."
 msgstr ""
 
-#: ../dat/maps/mt_elbrus/mt_elbrus_path4_script.lua:300
+#: ../dat/maps/mt_elbrus/mt_elbrus_path4_script.lua:310
 msgid ""
 "The bridge is a few feet away. Let's reach the mountain pass before the "
 "frost kills us."
 msgstr ""
 
-#: ../dat/maps/mt_elbrus/mt_elbrus_path4_script.lua:302
+#: ../dat/maps/mt_elbrus/mt_elbrus_path4_script.lua:312
 msgid "Let's hurry, I can't feel my toes anymore..."
 msgstr ""
 
-#: ../dat/maps/mt_elbrus/mt_elbrus_path4_script.lua:327
+#: ../dat/maps/mt_elbrus/mt_elbrus_path4_script.lua:337
 msgid "(Woah, this bridge doesn't look that sturdy...)"
 msgstr ""
 
-#: ../dat/maps/mt_elbrus/mt_elbrus_path4_script.lua:329
+#: ../dat/maps/mt_elbrus/mt_elbrus_path4_script.lua:339
 msgid "Well, here we go...."
 msgstr ""
 
-#: ../dat/maps/mt_elbrus/mt_elbrus_path4_script.lua:345
+#: ../dat/maps/mt_elbrus/mt_elbrus_path4_script.lua:355
 msgid "Here!"
 msgstr ""
 
-#: ../dat/maps/mt_elbrus/mt_elbrus_path4_script.lua:366
+#: ../dat/maps/mt_elbrus/mt_elbrus_path4_script.lua:376
 msgid "Catch them before they reach the Shrine!"
 msgstr ""
 
-#: ../dat/maps/mt_elbrus/mt_elbrus_path4_script.lua:381
+#: ../dat/maps/mt_elbrus/mt_elbrus_path4_script.lua:391
 msgid "Let's run!"
 msgstr ""
 
-#: ../dat/maps/mt_elbrus/mt_elbrus_path4_script.lua:420
+#: ../dat/maps/mt_elbrus/mt_elbrus_path4_script.lua:430
 msgid "I'll cut those ropes!"
 msgstr ""
 
-#: ../dat/maps/mt_elbrus/mt_elbrus_path4_script.lua:448
+#: ../dat/maps/mt_elbrus/mt_elbrus_path4_script.lua:458
 msgid "That was close..."
 msgstr ""
 
-#: ../dat/maps/mt_elbrus/mt_elbrus_path4_script.lua:463
+#: ../dat/maps/mt_elbrus/mt_elbrus_path4_script.lua:473
 msgid "Damn!!"
 msgstr ""
 
-#: ../dat/maps/mt_elbrus/mt_elbrus_path4_script.lua:465
+#: ../dat/maps/mt_elbrus/mt_elbrus_path4_script.lua:475
 msgid "The Master won't be happy with this..."
 msgstr ""
 
-#: ../dat/maps/mt_elbrus/mt_elbrus_path4_script.lua:467
+#: ../dat/maps/mt_elbrus/mt_elbrus_path4_script.lua:477
 msgid "You won't get away so easily... We will catch you sooner or later..."
 msgstr ""
 
-#: ../dat/maps/mt_elbrus/mt_elbrus_path4_script.lua:489
+#: ../dat/maps/mt_elbrus/mt_elbrus_path4_script.lua:503
 msgid "Hurray! Those idiots will have a hard time catching us now!"
 msgstr ""
 
-#: ../dat/maps/mt_elbrus/mt_elbrus_path4_script.lua:491
+#: ../dat/maps/mt_elbrus/mt_elbrus_path4_script.lua:505
 msgid "Indeed! They've been had!"
 msgstr ""
 
-#: ../dat/maps/mt_elbrus/mt_elbrus_path4_script.lua:493
+#: ../dat/maps/mt_elbrus/mt_elbrus_path4_script.lua:507
 msgid "Who are the little brats now, eh?"
 msgstr ""
 
-#: ../dat/maps/mt_elbrus/mt_elbrus_path4_script.lua:508
+#: ../dat/maps/mt_elbrus/mt_elbrus_path4_script.lua:522
 msgid "Let's go back and tell the others..."
 msgstr ""
 
-#: ../dat/maps/mt_elbrus/mt_elbrus_path4_script.lua:510
+#: ../dat/maps/mt_elbrus/mt_elbrus_path4_script.lua:524
 msgid "Yes, Sir..."
 msgstr ""
 
-#: ../dat/maps/mt_elbrus/mt_elbrus_path4_script.lua:533
+#: ../dat/maps/mt_elbrus/mt_elbrus_path4_script.lua:547
 msgid ""
 "They're gone... We should move on before they actually find a way to cross "
 "the gap."
 msgstr ""
 
-#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:114
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:116
 msgid "I'll stay here as long as you need me. Do you want to buy something?"
 msgstr ""
 
-#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:121
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:123
 msgid "Sophia's items"
 msgstr ""
 
-#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:122
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:124
 msgid "Don't forget my trade offers!"
 msgstr ""
 
-#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:378
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:385
 msgid ""
 "... You'll see: there's plenty of things I need to show you there. Plus, "
 "it's a safe place."
 msgstr ""
 
-#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:380
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:387
 msgid "Err... Sis?"
 msgstr ""
 
-#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:382
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:389
 msgid ""
 "Our Elder will also be able to help us. And you'll get more explanation than "
 "I could ever..."
 msgstr ""
 
-#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:384
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:391
 msgid "Sis!"
 msgstr ""
 
-#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:386
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:393
 msgid "... One second, Orlinn. I try to..."
 msgstr ""
 
-#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:388
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:395
 msgid "But Kalya, look at the passageway!"
 msgstr ""
 
-#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:390
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:397
 msgid "What about the..."
 msgstr ""
 
-#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:392
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:399
 msgid "NO!"
 msgstr ""
 
-#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:406
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:413
 msgid "... No, it can't be..."
 msgstr ""
 
-#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:408
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:415
 msgid "After all we've been through, this..."
 msgstr ""
 
-#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:424
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:431
 msgid "... Calm down Kalya, there must be a way to go through this somehow..."
 msgstr ""
 
-#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:426
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:433
 msgid "Unfortunately... Yes, there is one..."
 msgstr ""
 
-#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:428
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:435
 msgid "We'll have to enter the ancient shrine..."
 msgstr ""
 
-#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:430
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:437
 msgid ""
 "Wouldn't have we flown all by ourselves, I would swear Banesore's army "
 "pushed us here on purpose..."
 msgstr ""
 
-#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:432
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:439
 msgid "... What's with this 'ancient shrine'?"
 msgstr ""
 
-#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:434
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:441
 msgid ""
 "Some say it is haunted... And it was sealed a long time ago, long before I "
 "was even born."
 msgstr ""
 
-#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:436
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:443
 msgid "Indeed, It must be a long time ago..."
 msgstr ""
 
-#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:440
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:447
 msgid ""
 "Anyway, we might even not be able to enter there at all. But you're right, "
 "let's have a look around first. Who knows?"
 msgstr ""
 
-#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:486
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:493
 msgid ""
 "Here we are, looking at this huge, wonderful and yet creepy door... I don't "
 "like this..."
 msgstr ""
 
-#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:488
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:495
 msgid ""
 "It's not like I actually would want to open it, but how are we going to?"
 msgstr ""
 
-#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:500
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:507
 msgid "Oh, my chest, it hurts!!"
 msgstr ""
 
-#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:502
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:509
 msgid "The Crystal! ... Orlinn! Let's stand back!"
 msgstr ""
 
-#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:526
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:533
 msgid ""
 "That sign... It is the sign of the Ancients! ... Bronann! Are you alright?"
 msgstr ""
 
-#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:539
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:546
 msgid "... I'm fine... I guess... The pain faded away..."
 msgstr ""
 
-#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:541
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:548
 msgid "Thanks Goddess..."
 msgstr ""
 
-#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:543
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:550
 msgid "Well, the door is open now..."
 msgstr ""
 
-#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:545
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:552
 msgid "Yiek! Do you really want to go there??"
 msgstr ""
 
-#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:547
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:554
 msgid ""
 "I believe we don't really have a choice... Somehow this place... called me."
 msgstr ""
 
-#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:549
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:556
 msgid "Anyway, let's stick together and we'll be fine as always, right?"
 msgstr ""
 
-#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:551
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:558
 msgid "... I have a bad feeling about all this now..."
 msgstr ""
 
-#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:589
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:596
 msgid "... Bronann!!"
 msgstr ""
 
-#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:602
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:609
 msgid "Thanks Goddess! You're all safe and sound... I was worried sick!"
 msgstr ""
 
-#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:604
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:611
 msgid "Sophia, you here?"
 msgstr ""
 
-#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:606
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:613
 msgid "Yes, it's a miracle destiny kept you away from harm."
 msgstr ""
 
-#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:608
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:615
 msgid "How in Layna did you reach the Mt Elbrus all alone?"
 msgstr ""
 
-#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:610
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:617
 msgid ""
 "And how did you reach up here? Weren't you caught by the soldiers with the "
 "others?"
 msgstr ""
 
-#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:612
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:619
 msgid ""
 "Well, it's a long story... But in short, I was out of the village when they "
 "caught everyone."
 msgstr ""
 
-#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:614
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:621
 msgid "Do you know how are the others doing? Are my parents fine?"
 msgstr ""
 
-#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:616
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:623
 msgid "Unfortunately no. I left them behind..."
 msgstr ""
 
-#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:618
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:625
 msgid ""
 "When I saw you leaving the village to the sanctuary, I decided to follow you."
 msgstr ""
 
-#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:620
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:627
 msgid ""
 "But the time I reached the area, you three were gone... And I had to found "
 "out where you were heading."
 msgstr ""
 
-#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:622
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:629
 msgid "But the bridge, how did you cross?"
 msgstr ""
 
-#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:624
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:631
 msgid "Using my rope and my Ranger skills, of course, eh."
 msgstr ""
 
-#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:626
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:633
 msgid ""
 "Sophia could be of great help, Kalya. The passage has collapsed, and we're "
 "stuck finding a way in this dreadful place..."
 msgstr ""
 
-#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:628
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:635
 msgid ""
 "Maybe, maybe not. Sophia was out the time they attacked? Somehow I don't buy "
 "it."
 msgstr ""
 
-#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:630
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:637
 msgid ""
 "I wasn't out for no reason. Actually, Herth sent me to watch for soldiers in "
 "the forest west parts."
 msgstr ""
 
-#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:632
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:639
 msgid "He was afraid they'd corner us to prevent an escape, and he was right."
 msgstr ""
 
-#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:634
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:641
 msgid "Herth sent you? But he told me it was nothing, that he would handle it!"
 msgstr ""
 
-#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:636
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:643
 msgid ""
 "I fear he just wanted to protect you and make you all meet your destiny at "
 "the same time..."
 msgstr ""
 
-#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:638
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:645
 msgid "What?! You mean you all knew about the crystal?"
 msgstr ""
 
-#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:640
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:647
 msgid ""
 "We didn't know exactly what would happen, Bronann. But we knew one day the "
 "three of you would have to carry a special burden... That is what Herth told "
 "us..."
 msgstr ""
 
-#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:642
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:649
 msgid ""
 "Listen kids, I feel bad about what happened, and I can't help you as a "
 "magical force is preventing me from entering the Shrine..."
 msgstr ""
 
-#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:644
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:651
 msgid "But then, you're stuck here, too, right?"
 msgstr ""
 
-#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:646
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:653
 msgid "Me? Not at all. I don't need bridges to cross a moutain."
 msgstr ""
 
-#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:648
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:655
 msgid "... But maybe?"
 msgstr ""
 
-#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:650
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:657
 msgid "Maybe?"
 msgstr ""
 
-#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:652
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:659
 msgid ""
 "Maybe I could sell you a few things to help you find a way to open a path in "
 "there?"
 msgstr ""
 
-#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:654
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:661
 msgid "So that's how you help, by selling stuff to us..."
 msgstr ""
 
-#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:656
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:663
 msgid ""
 "Yes, it's a great privilege as I usually don't do such things for children. "
 "I'll stay here as long as you are stuck, isn't this quite honest?"
 msgstr ""
 
-#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:658
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:665
 msgid "But, you'll let us deal with this place, alone??"
 msgstr ""
 
-#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:660
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:667
 msgid ""
 "This place is part of your burden. Herth was right. You managed to come here "
 "all by yourselves, after all..."
 msgstr ""
 
-#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:662
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:669
 msgid "I guess it's better than nothing... But Orlinn, you stay with us."
 msgstr ""
 
-#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:664
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:671
 msgid "Thanks anyway, Sophia."
 msgstr ""
 
-#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:666
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:673
 msgid "You're welcome, my Dear!"
 msgstr ""
 
-#: ../dat/maps/mt_elbrus/mt_elbrus_shrine2_script.lua:388
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine_2nd_s2_script.lua:162
+msgid "Phew, this one sure is heavier and sturdier..."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine_2nd_s2_script.lua:427
+msgid "I can feel something move far below..."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine2_script.lua:425
 msgid "... It seems somebody left a note here on purpose..."
 msgstr ""
 
-#: ../dat/maps/mt_elbrus/mt_elbrus_shrine2_script.lua:390
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine2_script.lua:427
 msgid "You mean, in the middle of those scary bones?"
 msgstr ""
 
-#: ../dat/maps/mt_elbrus/mt_elbrus_shrine2_script.lua:392
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine2_script.lua:429
 msgid "Let me see..."
 msgstr ""
 
-#: ../dat/maps/mt_elbrus/mt_elbrus_shrine2_script.lua:394
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine2_script.lua:431
 msgid "'To whoever will read this:'"
 msgstr ""
 
-#: ../dat/maps/mt_elbrus/mt_elbrus_shrine2_script.lua:396
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine2_script.lua:433
 msgid ""
 "'Battles have been waging all over the place and the Ancient have now "
 "forsaken me into oblivion when they sealed the Goddess Shrine.'"
 msgstr ""
 
-#: ../dat/maps/mt_elbrus/mt_elbrus_shrine2_script.lua:398
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine2_script.lua:435
 msgid ""
 "'All my comrades have perished in battles and I am the last unfortunate one "
 "left.'"
 msgstr ""
 
-#: ../dat/maps/mt_elbrus/mt_elbrus_shrine2_script.lua:400
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine2_script.lua:437
 msgid ""
 "'My name is Shawn, and I do believe my time is running out in this life as "
 "there is neither food nor water in here ...'"
 msgstr ""
 
-#: ../dat/maps/mt_elbrus/mt_elbrus_shrine2_script.lua:402
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine2_script.lua:439
 msgid "Poor guy... He must have died from starvation."
 msgstr ""
 
-#: ../dat/maps/mt_elbrus/mt_elbrus_shrine2_script.lua:404
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine2_script.lua:441
 msgid ""
 "'... But I will attempt one last time to escape from here and I'm leaving "
 "this note in case you'd need to do the same.'"
 msgstr ""
 
-#: ../dat/maps/mt_elbrus/mt_elbrus_shrine2_script.lua:406
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine2_script.lua:443
 msgid ""
 "'The only way to escape this hellish place is to reach the highest floor and "
 "activate the waterfall. At least that's what they said.'"
 msgstr ""
 
-#: ../dat/maps/mt_elbrus/mt_elbrus_shrine2_script.lua:408
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine2_script.lua:445
 msgid "What are we waiting for, let's go!"
 msgstr ""
 
-#: ../dat/maps/mt_elbrus/mt_elbrus_shrine2_script.lua:410
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine2_script.lua:447
 msgid "Wait Orlinn! That's not over..."
 msgstr ""
 
-#: ../dat/maps/mt_elbrus/mt_elbrus_shrine2_script.lua:412
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine2_script.lua:449
 msgid ""
 "'... But be warned for the very scent exuding from the dark waters itself is "
 "a trap!'"
 msgstr ""
 
-#: ../dat/maps/mt_elbrus/mt_elbrus_shrine2_script.lua:414
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine2_script.lua:451
 msgid ""
 "'The entire Shrine has been turned into a murderous area and you'll have to "
 "fight your way through, just as I will now...'"
 msgstr ""
 
-#: ../dat/maps/mt_elbrus/mt_elbrus_shrine2_script.lua:416
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine2_script.lua:453
 msgid "That's it..."
 msgstr ""
 
-#: ../dat/maps/mt_elbrus/mt_elbrus_shrine2_script.lua:418
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine2_script.lua:455
 msgid "Let's find out how to activate that waterfall, then."
 msgstr ""
 
-#: ../dat/maps/mt_elbrus/mt_elbrus_shrine2_script.lua:420
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine2_script.lua:457
 msgid "Yes, and let's do it quickly..."
 msgstr ""
 
-#: ../dat/maps/mt_elbrus/mt_elbrus_shrine2_script.lua:440
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine2_script.lua:477
 msgid ""
 "Somebody left a note on purpose here. According to it, we need to find out a "
 "way to trigger the waterfall from the highest floor."
 msgstr ""
 
-#: ../dat/maps/mt_elbrus/mt_elbrus_shrine2_script.lua:442
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine2_script.lua:479
 msgid ""
 "But let's be careful, as it also said this place is dangerous, and the dark "
 "waters are a trap somehow..."
 msgstr ""
 
-#: ../dat/maps/mt_elbrus/mt_elbrus_shrine2_script.lua:454
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine2_script.lua:491
 msgid "What is this? ... Skeletons?!"
 msgstr ""
 
-#: ../dat/maps/mt_elbrus/mt_elbrus_shrine2_script.lua:484
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine2_script.lua:521
 msgid "Phew..."
 msgstr ""
 
-#: ../dat/maps/mt_elbrus/mt_elbrus_shrine5_script.lua:380
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine_3rd_script.lua:437
+msgid "Yiek! A big monster!"
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine_3rd_script.lua:439
+msgid ""
+"My name is Andromalius, Guardian of the Sacred Seal, and Keeper of the "
+"Goddess Shrine..."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine_3rd_script.lua:441
+msgid ""
+"You have trespassed the Holy ground of the Ancient and remained unharmed for "
+"too long in this temple..."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine_3rd_script.lua:443
+msgid ""
+"Thus, let death embrace you, little boy, for your comrades are already dying "
+"under my charm and you have to join them into the other world..."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine_3rd_script.lua:481
+msgid "You've proven yourself, Chosen One... You deserve to live after all..."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine_3rd_script.lua:483
+msgid "Me? But I'm not the Chosen One."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine_3rd_script.lua:485
+msgid ""
+"The Ones being few or many, still each of them will have to prove themselves "
+"as it is ought to be..."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine_3rd_script.lua:487
+msgid "Farewell, Chosen One..."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine_3rd_script.lua:516
+msgid "I can hear water from everywhere..."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine_3rd_script.lua:518
+msgid "Kalya, Bronann!"
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine4_script.lua:386
+msgid "Again, I can feel something move not far from here..."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine5_script.lua:406
 msgid ""
 "There is a passage here but I'm too heavy for those stones jutting out ..."
 msgstr ""
 
-#: ../dat/maps/mt_elbrus/mt_elbrus_shrine5_script.lua:382
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine5_script.lua:408
 msgid ""
 "The fact is, you and me cannot afford standing on those stones. Maybe with a "
 "rope?"
 msgstr ""
 
-#: ../dat/maps/mt_elbrus/mt_elbrus_shrine5_script.lua:384
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine5_script.lua:410
 msgid "... I'll do it."
 msgstr ""
 
-#: ../dat/maps/mt_elbrus/mt_elbrus_shrine5_script.lua:386
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine5_script.lua:412
 msgid "What? Are you crazy? There could be monsters up here."
 msgstr ""
 
-#: ../dat/maps/mt_elbrus/mt_elbrus_shrine5_script.lua:388
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine5_script.lua:414
 msgid "Then, I'll deal with them, sis. We can't just stay here, anyway..."
 msgstr ""
 
-#: ../dat/maps/mt_elbrus/mt_elbrus_shrine5_script.lua:390
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine5_script.lua:416
 msgid "Orlinn, you sure have grown up because of all this. Are you sure?"
 msgstr ""
 
-#: ../dat/maps/mt_elbrus/mt_elbrus_shrine5_script.lua:392
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine5_script.lua:418
 msgid "I need to be ... I guess."
 msgstr ""
 
-#: ../dat/maps/mt_elbrus/mt_elbrus_shrine5_script.lua:394
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine5_script.lua:420
 msgid "Just tell me when you're ready and I'll throw you up here."
 msgstr ""
 
-#: ../dat/maps/mt_elbrus/mt_elbrus_shrine5_script.lua:431
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine5_script.lua:445
 msgid "Ready to go up? ..."
 msgstr ""
 
-#: ../dat/maps/mt_elbrus/mt_elbrus_shrine5_script.lua:433
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine5_script.lua:447
 msgid "Yes, let's go ..."
 msgstr ""
 
-#: ../dat/maps/mt_elbrus/mt_elbrus_shrine5_script.lua:435
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine5_script.lua:449
 msgid "Err, not already!"
 msgstr ""
 
-#: ../dat/maps/mt_elbrus/mt_elbrus_shrine5_script.lua:464
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine5_script.lua:478
 msgid "Be careful, ok?"
 msgstr ""
 
-#: ../dat/maps/mt_elbrus/mt_elbrus_shrine5_script.lua:488
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine5_script.lua:502
 msgid "Wants to come back?"
 msgstr ""
 
-#: ../dat/maps/mt_elbrus/mt_elbrus_shrine5_script.lua:490
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine5_script.lua:504
 msgid "Yes!"
 msgstr ""
 
-#: ../dat/maps/mt_elbrus/mt_elbrus_shrine5_script.lua:492
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine5_script.lua:506
 msgid "No, not yet."
 msgstr ""
 
-#: ../dat/maps/mt_elbrus/mt_elbrus_shrine5_script.lua:527
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine5_script.lua:541
 msgid "Oops, sorry!"
 msgstr ""
 
-#: ../dat/maps/mt_elbrus/mt_elbrus_shrine5_script.lua:532
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine5_script.lua:546
 msgid "Bronann, are you fine?"
 msgstr ""
 
-#: ../dat/maps/mt_elbrus/mt_elbrus_shrine5_script.lua:534
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine5_script.lua:548
 msgid "... I don't know, I guess I felt something crack ..."
 msgstr ""
 
-#: ../dat/maps/mt_elbrus/mt_elbrus_shrine5_script.lua:538
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine5_script.lua:552
 msgid "... Not again ..."
 msgstr ""
 
-#: ../dat/maps/mt_elbrus/mt_elbrus_shrine7_script.lua:294
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine7_script.lua:254
+msgid "There is a note left here."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine7_script.lua:256
+msgid ""
+"It says: 'I fathomed it! After all, not every ladder is made of wood. Now, "
+"I'll have to get back there alive...'"
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine7_script.lua:304
 msgid "There seems to be one of those rolling stones up here ..."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine_basement_script.lua:213
+msgid "Wow, what a fall... I didn't see that one coming."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine_basement_script.lua:215
+msgid "Are you alright, Kalya?"
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine_basement_script.lua:217
+msgid "I should be fine, but we should heal just in case..."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine_basement_script.lua:221
+msgid "Where is Orlinn?"
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine_basement_script.lua:223
+msgid "Orlinn? Orlinn!"
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine_basement_script.lua:225
+msgid "Let's find him ... once more, before something bad happens..."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine_basement_script.lua:241
+msgid "This is the blocked passage to the Shrine entrance..."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine_basement_script.lua:243
+msgid "This can only mean we're near the exit!"
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine_basement_script.lua:251
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine_basement_script.lua:275
+msgid "Help!!"
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine_basement_script.lua:277
+msgid "Orlinn! Back off!"
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine_basement_script.lua:279
+msgid "I, I ..."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine_basement_script.lua:281
+msgid "Orlinn! NOW!"
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine_basement_script.lua:294
+msgid "You shall not leave this place without my consent."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine_basement_script.lua:296
+msgid "And you shall not touch by brother without mine..."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine_basement_script.lua:298
+msgid ""
+"You have been proven guilty in trying to get through the Holy ordeal without "
+"dying. I shall not let you live..."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine_basement_script.lua:300
+msgid "Let's fight for our lives then!"
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine_basement_script.lua:333
+msgid "Orlinn, are you alright?"
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine_basement_script.lua:335
+msgid "Yes, I'm sorry I wasn't able to protect myself, sis."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine_basement_script.lua:337
+msgid ""
+"Don't you worry about that, brother. Never leave me like that again, ok?"
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine_basement_script.lua:339
+msgid ""
+"I promise I didn't do it this time. I just fell in front of this hideous "
+"green head..."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine_basement_script.lua:341
+msgid ""
+"... Well, let's leave this place before another one wants our lives again."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine_basement_script.lua:343
+msgid "I couldn't agree more ..."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:114
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:424
+msgid "We can't move Orlinn ..."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:116
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:426
+msgid "We're gonna ... suffocate..."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:118
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:428
+msgid "Orlinn, help us ... Please, Oh oh oh..."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:400
+msgid "What a big gate... What is behind must be fearsome..."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:402
+msgid ""
+"Don't worry, we've managed to come this far. There is nothing that could..."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:404
+msgid "... What is it, Kalya?"
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:406
+msgid "... Kalya?!"
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:408
+msgid "sis'!"
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:410
+msgid "I feel... I..."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:412
+msgid "Hi hi... Hi hi hi... I can't stop!!"
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:414
+msgid "What's so funny, Kalya? eh eh."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:416
+msgid "I don't know... Ah, I can barely breathe! ..."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:418
+msgid "Hi hi hi... What's happening to me..."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:420
+msgid "It's the scent, ah ah ah."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:422
+msgid ""
+"Erm, are you crazy or what? I usually am the one with bad jokes you know..."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:444
+msgid "I can't let them, I have to find out something..."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:456
+msgid "Something is preventing me from entering ..."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:473
+msgid "I feel better much now..."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:475
+msgid "Indeed. It seems the scent has no effect on us anymore."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:477
+msgid "Orlinn, did you do something?"
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:479
+msgid "Me? You know: A bit of this, a bit of that..."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:481
+msgid "... I didn't think I would say that, but... Thank you Orlinn."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:483
+msgid "Thank you, indeed."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:485
+msgid "You're welcome!"
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:487
+msgid ""
+"Well, please stop laughing now. I'm not at ease with what just happened..."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:491
+msgid "Stop laughing now or I'll smash your little head against that wall!"
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:493
+msgid "Aww... Ok."
 msgstr ""
 
 #: ../dat/objects/arm_armor.lua:41
@@ -6170,7 +6551,7 @@ msgstr ""
 msgid "Increases all elemental effects on one character."
 msgstr ""
 
-#: ../dat/skills/magic.lua:1254
+#: ../dat/skills/magic.lua:1254 map_names_tr.lua:200 map_names_tr.lua:408
 msgid "?"
 msgstr ""
 
@@ -6438,16 +6819,16 @@ msgid ""
 msgstr ""
 
 #: map_names_tr.lua:6 map_names_tr.lua:10 map_names_tr.lua:14
-#: map_names_tr.lua:42 map_names_tr.lua:194 map_names_tr.lua:198
-#: map_names_tr.lua:202 map_names_tr.lua:230
+#: map_names_tr.lua:42 map_names_tr.lua:214 map_names_tr.lua:218
+#: map_names_tr.lua:222 map_names_tr.lua:250
 msgid "Layna Forest Cave"
 msgstr ""
 
-#: map_names_tr.lua:24 map_names_tr.lua:212
+#: map_names_tr.lua:24 map_names_tr.lua:232
 msgid "Forest entrance"
 msgstr ""
 
-#: map_names_tr.lua:46 map_names_tr.lua:234
+#: map_names_tr.lua:46 map_names_tr.lua:254
 msgid "Where it all began..."
 msgstr ""
 
@@ -6456,71 +6837,73 @@ msgstr ""
 #: map_names_tr.lua:78 map_names_tr.lua:82 map_names_tr.lua:86
 #: map_names_tr.lua:90 map_names_tr.lua:94 map_names_tr.lua:98
 #: map_names_tr.lua:102 map_names_tr.lua:106 map_names_tr.lua:110
-#: map_names_tr.lua:242 map_names_tr.lua:246 map_names_tr.lua:250
-#: map_names_tr.lua:254 map_names_tr.lua:258 map_names_tr.lua:262
-#: map_names_tr.lua:266 map_names_tr.lua:270 map_names_tr.lua:274
-#: map_names_tr.lua:278 map_names_tr.lua:282 map_names_tr.lua:286
-#: map_names_tr.lua:290 map_names_tr.lua:294 map_names_tr.lua:298
+#: map_names_tr.lua:262 map_names_tr.lua:266 map_names_tr.lua:270
+#: map_names_tr.lua:274 map_names_tr.lua:278 map_names_tr.lua:282
+#: map_names_tr.lua:286 map_names_tr.lua:290 map_names_tr.lua:294
+#: map_names_tr.lua:298 map_names_tr.lua:302 map_names_tr.lua:306
+#: map_names_tr.lua:310 map_names_tr.lua:314 map_names_tr.lua:318
 msgid "Mountain Village of Layna"
 msgstr ""
 
-#: map_names_tr.lua:64 map_names_tr.lua:252
+#: map_names_tr.lua:64 map_names_tr.lua:272
 msgid "Flora's Boutique"
 msgstr ""
 
-#: map_names_tr.lua:88 map_names_tr.lua:276
+#: map_names_tr.lua:88 map_names_tr.lua:296
 msgid "Basement"
 msgstr ""
 
-#: map_names_tr.lua:92 map_names_tr.lua:100 map_names_tr.lua:280
-#: map_names_tr.lua:288
+#: map_names_tr.lua:92 map_names_tr.lua:100 map_names_tr.lua:300
+#: map_names_tr.lua:308
 msgid "Riverbank"
 msgstr ""
 
-#: map_names_tr.lua:96 map_names_tr.lua:284
+#: map_names_tr.lua:96 map_names_tr.lua:304
 msgid "Lilly's house"
 msgstr ""
 
-#: map_names_tr.lua:112 map_names_tr.lua:300
+#: map_names_tr.lua:112 map_names_tr.lua:320
 msgid "Village entrance"
 msgstr ""
 
 #: map_names_tr.lua:116 map_names_tr.lua:120 map_names_tr.lua:124
-#: map_names_tr.lua:304 map_names_tr.lua:308 map_names_tr.lua:312
+#: map_names_tr.lua:324 map_names_tr.lua:328 map_names_tr.lua:332
 msgid "Elbrus Grotto"
 msgstr ""
 
-#: map_names_tr.lua:128 map_names_tr.lua:132 map_names_tr.lua:316
-#: map_names_tr.lua:320
+#: map_names_tr.lua:132 map_names_tr.lua:136 map_names_tr.lua:340
+#: map_names_tr.lua:344
 msgid "Low Mountain"
 msgstr ""
 
-#: map_names_tr.lua:136 map_names_tr.lua:324
+#: map_names_tr.lua:140 map_names_tr.lua:348
 msgid "Old Cemetery"
 msgstr ""
 
-#: map_names_tr.lua:140 map_names_tr.lua:328
+#: map_names_tr.lua:144 map_names_tr.lua:352
 msgid "Mountain bridge"
 msgstr ""
 
-#: map_names_tr.lua:144 map_names_tr.lua:332
+#: map_names_tr.lua:148 map_names_tr.lua:356
 msgid "Underpass"
 msgstr ""
 
-#: map_names_tr.lua:146 map_names_tr.lua:154 map_names_tr.lua:158
-#: map_names_tr.lua:162 map_names_tr.lua:166 map_names_tr.lua:170
-#: map_names_tr.lua:174 map_names_tr.lua:178 map_names_tr.lua:182
-#: map_names_tr.lua:334 map_names_tr.lua:342 map_names_tr.lua:346
-#: map_names_tr.lua:350 map_names_tr.lua:354 map_names_tr.lua:358
-#: map_names_tr.lua:362 map_names_tr.lua:366 map_names_tr.lua:370
+#: map_names_tr.lua:150 map_names_tr.lua:162 map_names_tr.lua:166
+#: map_names_tr.lua:170 map_names_tr.lua:174 map_names_tr.lua:178
+#: map_names_tr.lua:182 map_names_tr.lua:186 map_names_tr.lua:190
+#: map_names_tr.lua:194 map_names_tr.lua:202 map_names_tr.lua:358
+#: map_names_tr.lua:370 map_names_tr.lua:374 map_names_tr.lua:378
+#: map_names_tr.lua:382 map_names_tr.lua:386 map_names_tr.lua:390
+#: map_names_tr.lua:394 map_names_tr.lua:398 map_names_tr.lua:402
+#: map_names_tr.lua:410
 msgid "Mt. Elbrus Shrine"
 msgstr ""
 
-#: map_names_tr.lua:148 map_names_tr.lua:336
+#: map_names_tr.lua:152 map_names_tr.lua:360
 msgid "2nd Floor"
 msgstr ""
 
-#: map_names_tr.lua:168 map_names_tr.lua:172 map_names_tr.lua:176
-#: map_names_tr.lua:356 map_names_tr.lua:360 map_names_tr.lua:364
+#: map_names_tr.lua:180 map_names_tr.lua:184 map_names_tr.lua:188
+#: map_names_tr.lua:388 map_names_tr.lua:392 map_names_tr.lua:396
 msgid "1st Floor"
 msgstr ""
