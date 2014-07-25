@@ -294,24 +294,27 @@ skills[102] = {
     warmup_time = 3500,
     cooldown_time = 1000,
     action_name = "attack",
-    target_type = vt_global.GameGlobal.GLOBAL_TARGET_FOE_POINT,
+    target_type = vt_global.GameGlobal.GLOBAL_TARGET_ALL_FOES,
 
     BattleExecute = function(user, target)
-        local target_actor = target:GetActor();
+        local index = 0;
+        while (target:GetPartyActor(index) ~= nil) do
+            local target_actor = target:GetPartyActor(index)
 
-        if (vt_battle.CalculateStandardEvasion(target) == false) then
-            -- Calculate chance for attack lowering effect and activate it
-            trigger_potential_attack_lowering(user, target);
-            target_actor:RegisterDamage(vt_battle.CalculatePhysicalDamageAdder(user, target, 15), target);
-            AudioManager:PlaySound("snd/crossbow.ogg");
-        else
-            target_actor:RegisterMiss(true);
-            AudioManager:PlaySound("snd/crossbow_miss.ogg");
+            if (vt_battle.CalculateStandardEvasion(target_actor) == false) then
+                target_actor:RegisterDamage(vt_battle.CalculatePhysicalDamageAdder(user, target_actor, 5), target);
+                AudioManager:PlaySound("snd/crossbow.ogg");
+            else
+                target_actor:RegisterMiss(true);
+                AudioManager:PlaySound("snd/crossbow_miss.ogg");
+            end
+
+            index = index + 1
         end
     end,
 
     animation_scripts = {
-        [KALYA] = "dat/battles/characters_animations/kalya_attack.lua"
+        [KALYA] = "dat/battles/characters_animations/kalya_attack_party_target.lua"
     }
 }
 
