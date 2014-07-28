@@ -101,6 +101,7 @@ function _CreateCharacters()
 end
 
 local kalya_tear = nil
+local fire_particle_effect = nil
 
 function _CreateObjects()
     local object = {}
@@ -157,6 +158,11 @@ function _CreateObjects()
     kalya_tear:SetDrawOnSecondPass(true);
     Map:AddGroundObject(kalya_tear);
 
+    -- Village burning effect
+    fire_particle_effect = vt_map.ParticleObject("dat/maps/mt_elbrus/particles_fire_smoke.lua", 66, 24);
+    fire_particle_effect:SetObjectID(Map.object_supervisor:GenerateObjectID());
+    Map:AddGroundObject(fire_particle_effect);
+    fire_particle_effect:Stop();
 end
 
 -- Creates all events and sets up the entire event sequence chain
@@ -256,7 +262,11 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
 
     event = vt_map.ScriptedEvent("Set Camera on village", "set_camera_on_village_start", "camera_update");
+    event:AddEventLinkAtEnd("Start village burning effect");
     event:AddEventLinkAtEnd("Village burning dialogue", 2000);
+    EventManager:RegisterEvent(event);
+
+    event = vt_map.ScriptedEvent("Start village burning effect", "burning_particle_effect_start", "");
     EventManager:RegisterEvent(event);
 
     dialogue = vt_map.SpriteDialogue();
@@ -396,6 +406,10 @@ map_functions = {
             return false;
         end
         return true;
+    end,
+
+    burning_particle_effect_start = function()
+        fire_particle_effect:Start();
     end,
 
     kalya_kneels = function()
