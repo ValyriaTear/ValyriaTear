@@ -45,12 +45,13 @@ In that case, you might need the dependencies and headers files that can be down
 - **Microsoft Visual C++ 2012 and later:**
 
 _**(Warning: not officially supported!)**_
+Please contact [authenticate](https://github.com/authenticate) for support.  
 To build on Windows with Visual Studio 2012, do this:
-1. git clone https://github.com/authenticate/ValyriaTear-VS2012-Dependencies.git
-2. Copy the ValyriaTear-VS2012-Dependencies folder into your Valyria Tear repository.
-3. Open the VS 2012 solution file: .../ValyriaTearRepository/vs2012/ValyriaTear.sln
-4. Build (F7)
-5. Run (F5)
+- git clone https://github.com/authenticate/ValyriaTear-VS2012-Dependencies.git
+- Copy the ```ValyriaTear-VS2012-Dependencies/``` folder into your Valyria Tear repository.
+- Open the VS 2012 solution file: ```ValyriaTearRepository/vs2012/ValyriaTear.sln```
+- Build ```F7```
+- Run ```F5```
 
 ## Dependencies
 
