@@ -53,6 +53,11 @@ function Load(m)
     -- Start the far away village event
     EventManager:StartEvent("Heroes see the village event", 200);
 
+    -- Funny music
+    AudioManager:LoadMusic("mus/Zander Noriega - School of Quirks.ogg", Map);
+    -- Sad one
+    AudioManager:LoadMusic("mus/sad_moment.ogg", Map);
+
     -- TEMP: Credits place here in the wait of adding the last episode map.
     Map:GetScriptSupervisor():AddScript("dat/credits/end_credits.lua");
 end
@@ -382,6 +387,9 @@ map_functions = {
 
     orlinn_laughs = function()
         orlinn:SetCustomAnimation("laughing", 0); -- 0 means forever
+
+        -- Play funny music
+        AudioManager:PlayMusic("mus/Zander Noriega - School of Quirks.ogg");
     end,
 
     orlinn_stops_laughing = function()
@@ -394,6 +402,9 @@ map_functions = {
 
     kalya_stops_laughing = function()
         kalya:DisableCustomAnimation();
+
+        -- Make music fade out
+        AudioManager:FadeOutAllMusic(1000)
     end,
 
     set_camera_on_village_start = function()
@@ -414,6 +425,7 @@ map_functions = {
 
     kalya_kneels = function()
         kalya:SetCustomAnimation("kneeling", 0); -- 0 means forever
+        AudioManager:PlayMusic("mus/sad_moment.ogg");
     end,
 
     kalya_cries_start = function()
@@ -458,6 +470,5 @@ map_functions = {
     -- TEMP: Credits place here in the wait of adding the last episode map.
     start_credits = function()
         GlobalManager:SetEventValue("game", "Start_End_Credits", 1);
-        --TODO: Fade in credits music
     end
 }
