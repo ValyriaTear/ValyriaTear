@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Valyria Tear\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-07-20 16:32+0200\n"
-"PO-Revision-Date: 2014-07-30 00:30+0100\n"
+"PO-Revision-Date: 2014-07-30 00:39+0100\n"
 "Last-Translator: Yohann Ferreira <yohann.ferreira@orange.fr>\n"
 "Language-Team: French\n"
 "Language: fr\n"
@@ -4963,7 +4963,7 @@ msgstr "Herth ..."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_north_east_exit_script.lua:269
 msgid "Everyone..."
-msgstr "Tout nos amis ..."
+msgstr "Tous nos amis ..."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_north_east_exit_script.lua:285
 msgid "May they rest in peace..."
