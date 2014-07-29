@@ -668,11 +668,16 @@ skills[1010] = {
         local target_actor = target:GetActor();
 
         if (vt_battle.CalculateStandardEvasion(target) == false) then
-            local effect_duration = user:GetVigor() * 2000;
-            if (effect_duration < 15000) then effect_duration = 15000 end
-            target_actor:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_HP,
-                                                 vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_LESSER,
-                                                 effect_duration);
+            local intensity = target_actor:GetActiveStatusEffectIntensity(vt_global.GameGlobal.GLOBAL_STATUS_HP);
+
+            -- Only apply up to a moderate poison
+            if (intensity > vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_MODERATE) then
+                local effect_duration = user:GetVigor() * 2000;
+                if (effect_duration < 15000) then effect_duration = 15000 end
+                target_actor:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_HP,
+                                                     vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_LESSER,
+                                                     effect_duration);
+            end
 
             -- The damages are applied after the potential effects, so that a potential target death handles the effect removal properly
             target_actor:RegisterDamage(vt_battle.CalculatePhysicalDamageAdder(user, target, 6), target);
