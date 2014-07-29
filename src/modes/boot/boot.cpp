@@ -75,10 +75,10 @@ BootMode::BootMode() :
 
     // Note: Not translated on purpose.
     _version_text.SetStyle(TextStyle("text18"));
-    std::string version_string = "Version 0.6.0";
+    std::string version_string = "Version 1.0.0-rc1";
 
     // NOTE: Only leave the " - " part for releases.
-    version_string.append(" - Development Release - ");
+    version_string.append(" - ");
     version_string.append(__DATE__);
     _version_text.SetText(MakeUnicodeString(version_string));
 
