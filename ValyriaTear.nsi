@@ -2,7 +2,7 @@
 
 ; HM NIS Edit Wizard helper defines
 !define PRODUCT_NAME "Valyria Tear"
-!define PRODUCT_VERSION "Half-Episode I Release Candidate 1"
+!define PRODUCT_VERSION "Episode I Release Candidate 1"
 !define PRODUCT_PUBLISHER "Bertram"
 !define PRODUCT_WEB_SITE "https://github.com/Bertram25/ValyriaTear/wiki"
 !define PRODUCT_DIR_REGKEY "Software\Microsoft\Windows\CurrentVersion\App Paths\ValyriaTear.exe"
@@ -70,6 +70,16 @@ Section "MainSection" SEC01
   File /oname=valyriatear.mo po\it.mo
   SetOutPath "$INSTDIR\po\de\LC_MESSAGES"
   File /oname=valyriatear.mo po\de.mo
+  SetOutPath "$INSTDIR\po\es\LC_MESSAGES"
+  File /oname=valyriatear.mo po\es.mo
+  SetOutPath "$INSTDIR\po\gl\LC_MESSAGES"
+  File /oname=valyriatear.mo po\gl.mo
+  SetOutPath "$INSTDIR\po\pt_BR\LC_MESSAGES"
+  File /oname=valyriatear.mo po\pt_BR.mo
+  SetOutPath "$INSTDIR\po\pt_PT\LC_MESSAGES"
+  File /oname=valyriatear.mo po\pt_PT.mo
+  SetOutPath "$INSTDIR\po\ru\LC_MESSAGES"
+  File /oname=valyriatear.mo po\ru.mo
   SetOutPath "$INSTDIR\po\en@quot\LC_MESSAGES"
   File /oname=valyriatear.mo po\en@quot.mo
 
