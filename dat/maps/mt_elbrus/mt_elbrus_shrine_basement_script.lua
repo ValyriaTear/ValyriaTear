@@ -74,6 +74,9 @@ function Load(m)
         EventManager:StartEvent("Falls from above event", 200);
     end
 
+    -- Loads the pre-boss music
+    AudioManager:LoadMusic("mus/dont_close_your_eyes.ogg", Map);
+
 end
 
 -- the map update function handles checks done on each game tick.
@@ -315,6 +318,10 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("Make the boss invisible");
     event:AddEventLinkAtEnd("Bronann runs to Orlinn", 1000);
     event:AddEventLinkAtEnd("Kalya runs to Orlinn", 1000);
+    event:AddEventLinkAtEnd("Play default music");
+    EventManager:RegisterEvent(event);
+
+    event = vt_map.ScriptedEvent("Play default music", "play_default_music", "");
     EventManager:RegisterEvent(event);
 
     event = vt_map.ScriptedEvent("Make the boss invisible", "make_boss_invisible", "");
@@ -509,6 +516,13 @@ map_functions = {
         kalya:SetPosition(bronann:GetXPosition(), bronann:GetYPosition());
         kalya:SetVisible(true);
         kalya:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
+
+        -- Start the pre-boss music
+        AudioManager:PlayMusic("mus/dont_close_your_eyes.ogg")
+    end,
+
+    play_default_music = function()
+        AudioManager:PlayMusic("mus/icy_wind.ogg")
     end,
 
     make_boss_invisible = function()
