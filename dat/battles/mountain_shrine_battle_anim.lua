@@ -20,6 +20,9 @@ function Initialize(battle_instance)
     torch:SetDimensions(340.0, 340.0);
     flare = Script:CreateImage("img/misc/lights/sun_flare_light.png");
     flare:SetDimensions(154.0, 161.0);
+
+    -- Stop any ambient sounds
+    AudioManager:FadeOutAllSounds(500);
 end
 
 

@@ -55,6 +55,7 @@ void BindEngineCode()
             .def("ResumeAllMusic", &AudioEngine::ResumeAllMusic)
             .def("FadeOutAllMusic", &AudioEngine::FadeOutAllMusic)
             .def("FadeInAllMusic", &AudioEngine::FadeInAllMusic)
+            .def("FadeOutAllSounds", &AudioEngine::FadeOutAllSounds)
         ];
 
     } // End using audio namespaces
