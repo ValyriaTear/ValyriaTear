@@ -92,6 +92,11 @@ function Load(m)
     AudioManager:LoadSound("snd/heartbeat_slow.wav", Map);
     AudioManager:LoadSound("snd/ancient_invocation.wav", Map);
     AudioManager:LoadSound("snd/cave-in.ogg", Map);
+
+    -- Loads the funny music if needed.
+    if (GlobalManager:GetEventValue("story", "mt_elbrus_shrine_sophia_dialogue_event") == 0) then
+        AudioManager:LoadMusic("mus/Zander Noriega - School of Quirks.ogg", Map);
+    end
 end
 
 -- the map update function handles checks done on each game tick.
@@ -590,6 +595,10 @@ function _CreateEvents()
 
     event = vt_map.ScriptedEvent("Everyone is suprised", "everyone_exclamation", "");
     event:AddEventLinkAtEnd("Sophia Dialogue 1");
+    event:AddEventLinkAtEnd("Fade out music");
+    EventManager:RegisterEvent(event);
+
+    event = vt_map.ScriptedEvent("Fade out music", "fade_out_music", "");
     EventManager:RegisterEvent(event);
 
     dialogue = vt_map.SpriteDialogue();
@@ -598,6 +607,10 @@ function _CreateEvents()
     DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Sophia Dialogue 1", dialogue);
     event:AddEventLinkAtEnd("Sophia moves near the heroes");
+    event:AddEventLinkAtEnd("Play funny music");
+    EventManager:RegisterEvent(event);
+
+    event = vt_map.ScriptedEvent("Play funny music", "play_funny_music", "");
     EventManager:RegisterEvent(event);
 
     -- NOTE: The actual destination is set just before the actual start call
@@ -723,7 +736,7 @@ function _CheckZones()
         else
             EventManager:StartEvent("to mountain shrine-waterfalls");
         end
-       
+
     elseif (to_mountain_bridge_zone:IsCameraEntering() == true) then
         hero:SetMoving(false);
         EventManager:StartEvent("to mountain bridge");
@@ -972,6 +985,14 @@ map_functions = {
         sophia:Emote("exclamation", vt_map.MapMode.ANIM_NORTH);
     end,
 
+    fade_out_music = function()
+        AudioManager:FadeOutAllMusic(300);
+    end,
+
+    play_funny_music = function()
+        AudioManager:PlayMusic("mus/Zander Noriega - School of Quirks.ogg");
+    end,
+
     sophia_event_end = function()
         Map:PopState();
         kalya:SetPosition(0, 0);
@@ -989,5 +1010,8 @@ map_functions = {
 
         -- Adds Sophia's shop dialogue
         _UpdateSophiaDialogue();
+
+        -- Fade in the default music
+        AudioManager:PlayMusic("mus/icy_wind.ogg");
     end,
 }
