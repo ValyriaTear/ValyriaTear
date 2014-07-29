@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Valyria Tear\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-07-20 16:32+0200\n"
-"PO-Revision-Date: 2014-07-21 16:18+0100\n"
+"PO-Revision-Date: 2014-07-29 23:07+0100\n"
 "Last-Translator: Yohann Ferreira <yohann.ferreira@orange.fr>\n"
 "Language-Team: French\n"
 "Language: fr\n"
@@ -5313,7 +5313,7 @@ msgstr "... Ce n'est pas possible ..."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:415
 msgid "After all we've been through, this..."
-msgstr "Après tout ce que nous avons vécu, ceci ..."
+msgstr "Après tout ce que nous avons vécu, pas ça ..."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:431
 msgid "... Calm down Kalya, there must be a way to go through this somehow..."
@@ -5321,11 +5321,11 @@ msgstr "... Calme-toi Kalya, il doit y avoir un moyen de se sortir de là ..."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:433
 msgid "Unfortunately... Yes, there is one..."
-msgstr "Malheureusement ... Oui , il y en a  un ..."
+msgstr "Malheureusement ... Oui , il y en a un ..."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:435
 msgid "We'll have to enter the ancient shrine..."
-msgstr "Nous allons devoir entrer dans le sanctuaire de la montagne ..."
+msgstr "Nous allons devoir entrer dans le Sanctuaire de la montagne ..."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:437
 msgid ""
@@ -5349,7 +5349,7 @@ msgstr ""
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:443
 msgid "Indeed, It must be a long time ago..."
-msgstr "En effet, il y a très longtemps ..."
+msgstr "En effet, il y a très longtemps dans ce cas ..."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:447
 msgid ""
@@ -5713,7 +5713,7 @@ msgstr ""
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine2_script.lua:453
 msgid "That's it..."
-msgstr "C'est ça ..."
+msgstr "C'est tout ..."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine2_script.lua:455
 msgid "Let's find out how to activate that waterfall, then."
