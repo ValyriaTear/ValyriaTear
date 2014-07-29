@@ -80,6 +80,11 @@ function Load(m)
         end
 
         _UpdateKalyaBronannDialogue();
+
+        -- Loads the funny music if needed.
+        if (GlobalManager:GetEventValue("triggers", "mt elbrus waterfall trigger") == 1) then
+            AudioManager:LoadMusic("mus/Zander Noriega - School of Quirks.ogg", Map);
+        end
     end
 
     _CreateEvents();
@@ -641,6 +646,7 @@ map_functions = {
 
     kalya_laughs = function()
         kalya:SetCustomAnimation("laughing", 0); -- 0 means forever
+        AudioManager:FadeOutAllMusic(1000); -- Remove the music
     end,
 
     bronann_laughs = function()
@@ -649,6 +655,8 @@ map_functions = {
 
     orlinn_laughs = function()
         orlinn:SetCustomAnimation("laughing", 0); -- 0 means forever
+        -- Adds funny music
+        AudioManager:PlayMusic("mus/Zander Noriega - School of Quirks.ogg");
     end,
 
     orlinn_stops_laughing = function()
@@ -741,5 +749,8 @@ map_functions = {
 
         -- Set event as done
         GlobalManager:SetEventValue("story", "mt elbrus shrine heroes saved", 1)
+
+        -- Fade in the default music
+        AudioManager:PlayMusic("mus/icy_wind.ogg");
     end,
 }
