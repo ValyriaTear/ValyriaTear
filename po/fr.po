@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Valyria Tear\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-07-20 16:32+0200\n"
-"PO-Revision-Date: 2014-07-29 23:07+0100\n"
+"PO-Revision-Date: 2014-07-30 00:30+0100\n"
 "Last-Translator: Yohann Ferreira <yohann.ferreira@orange.fr>\n"
 "Language-Team: French\n"
 "Language: fr\n"
@@ -5974,8 +5974,8 @@ msgid ""
 "You have been proven guilty in trying to get through the Holy ordeal without "
 "dying. I shall not let you live..."
 msgstr ""
-"Vous avez reconnu coupable en passant les épreuves Sacrées sans périr. Je ne "
-"vous laisserai pas vivre ..."
+"Vous avez été reconnu coupables en passant les épreuves Sacrées sans périr. "
+"Je ne vous laisserai pas vivre ..."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine_basement_script.lua:300
 msgid "Let's fight for our lives then!"
@@ -6024,7 +6024,7 @@ msgstr "Nous ne pouvons pas bouger Orlinn ..."
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:116
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:426
 msgid "We're gonna ... suffocate..."
-msgstr "Nous allons ... Suffocer ..."
+msgstr "Nous allons ... Suffoquer ..."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:118
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:428
