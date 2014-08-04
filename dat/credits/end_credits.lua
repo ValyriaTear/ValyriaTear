@@ -17,6 +17,7 @@ local credit_alpha = 1.0;
 
 local dark_overlay = {};
 local overlay_time = 0;
+local Map = nil
 
 function Initialize(map_instance)
     Map = map_instance;
@@ -960,8 +961,11 @@ function Update()
         return;
     end
 
-    -- Stop once the credits have finished.
+    -- Stop once the credits have finished and return to the boot screen...
     if (credit_map[credit_id] == nil) then
+        local BM = vt_boot.BootMode();
+        ModeManager:PopAll();
+        ModeManager:Push(BM, false, true);
         return;
     end
 
