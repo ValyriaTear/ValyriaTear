@@ -60,6 +60,7 @@ BootMode* BootMode::_current_instance = NULL;
 // ****************************************************************************
 
 BootMode::BootMode() :
+    GameMode(MODE_MANAGER_BOOT_MODE),
     _boot_state(BOOT_STATE_INTRO),
     _exiting_to_new_game(false),
     _menu_handler(this),
@@ -67,8 +68,6 @@ BootMode::BootMode() :
     _help_text_alpha(0.0f)
 {
     _current_instance = this;
-
-    mode_type = MODE_MANAGER_BOOT_MODE;
 
     // Remove potential previous ambient overlays
     VideoManager->DisableFadeEffect();

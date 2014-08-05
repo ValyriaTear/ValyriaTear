@@ -61,15 +61,13 @@ const uint8 SAVE_MODE_NO_VALID_SAVES  = 6;
 //@}
 
 SaveMode::SaveMode(bool save_mode, uint32 x_position, uint32 y_position) :
-    GameMode(),
+    GameMode(MODE_MANAGER_SAVE_MODE),
     _current_state(SAVE_MODE_LOADING),
     _dim_color(0.35f, 0.35f, 0.35f, 1.0f), // A grayish opaque color
     _x_position(x_position),
     _y_position(y_position),
     _save_mode(save_mode)
 {
-    mode_type = MODE_MANAGER_SAVE_MODE;
-
     _window.Create(600.0f, 500.0f);
     _window.SetPosition(212.0f, 138.0f);
     _window.Hide();

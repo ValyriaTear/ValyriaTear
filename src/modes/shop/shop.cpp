@@ -977,6 +977,7 @@ void ShopObjectViewer::_DrawSpirit()
 // *****************************************************************************
 
 ShopMode::ShopMode() :
+    GameMode(MODE_MANAGER_SHOP_MODE),
     _sell_mode_enabled(true),
     _initialized(false),
     _state(SHOP_STATE_ROOT),
@@ -992,7 +993,6 @@ ShopMode::ShopMode() :
     _sell_interface(NULL),
     _trade_interface(NULL)
 {
-    mode_type = MODE_MANAGER_SHOP_MODE;
     _current_instance = this;
 
     // Create the menu windows and set their properties

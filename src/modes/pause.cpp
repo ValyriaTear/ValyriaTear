@@ -50,7 +50,7 @@ const uint8 QUIT_GAME      = 3;
 //@}
 
 PauseMode::PauseMode(bool quit_state, bool pause_audio) :
-    GameMode(),
+    GameMode(MODE_MANAGER_PAUSE_MODE),
     _quit_state(quit_state),
     _audio_paused(pause_audio),
     _music_volume(1.0f),
@@ -58,8 +58,6 @@ PauseMode::PauseMode(bool quit_state, bool pause_audio) :
     _option_selected(false),
     _options_handler(this)
 {
-    mode_type = MODE_MANAGER_PAUSE_MODE;
-
     // Render the paused string in white text
     _paused_text.SetStyle(TextStyle("title28", Color::white, VIDEO_TEXT_SHADOW_BLACK));
     _paused_text.SetText(UTranslate("Paused"));
@@ -178,7 +176,7 @@ void PauseMode::Update()
             ModeManager->PopAll();
 
             // This will permit the fade system to start updating again.
-            mode_type = MODE_MANAGER_DUMMY_MODE;
+            _mode_type = MODE_MANAGER_DUMMY_MODE;
 
             ModeManager->Push(new BootMode(), true, true);
             break;

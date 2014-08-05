@@ -719,6 +719,7 @@ const uint32 win_width = 208;
 ////////////////////////////////////////////////////////////////////////////////
 
 MenuMode::MenuMode() :
+    GameMode(MODE_MANAGER_MENU_MODE),
     _main_menu_state(this),
     _inventory_state(this),
     _party_state(this),
@@ -735,8 +736,6 @@ MenuMode::MenuMode() :
 
 {
     _current_instance = this;
-
-    mode_type = MODE_MANAGER_MENU_MODE;
 
     // Init the controls parameters.
     _time_text.SetTextStyle(TextStyle("text22"));

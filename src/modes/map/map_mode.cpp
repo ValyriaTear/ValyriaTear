@@ -59,7 +59,7 @@ MapMode *MapMode::_current_instance = NULL;
 // ****************************************************************************
 
 MapMode::MapMode(const std::string& data_filename, const std::string& script_filename, uint32 stamina) :
-    GameMode(),
+    GameMode(MODE_MANAGER_MAP_MODE),
     _activated(false),
     _map_data_filename(data_filename),
     _map_script_filename(script_filename),
@@ -85,7 +85,6 @@ MapMode::MapMode(const std::string& data_filename, const std::string& script_fil
     _menu_enabled(true),
     _save_points_enabled(true)
 {
-    mode_type = MODE_MANAGER_MAP_MODE;
     _current_instance = this;
 
     ResetState();

@@ -203,6 +203,7 @@ const float DEFAULT_ENEMY_LOCATIONS[][2] = {
 const uint32 NUM_DEFAULT_LOCATIONS = 8;
 
 BattleMode::BattleMode() :
+    GameMode(MODE_MANAGER_BATTLE_MODE),
     _state(BATTLE_STATE_INVALID),
     _sequence_supervisor(NULL),
     _command_supervisor(NULL),
@@ -219,8 +220,6 @@ BattleMode::BattleMode() :
     _is_boss_battle(false)
 {
     _current_instance = this;
-
-    mode_type = MODE_MANAGER_BATTLE_MODE;
 
     _sequence_supervisor = new SequenceSupervisor(this);
     _command_supervisor = new CommandSupervisor();

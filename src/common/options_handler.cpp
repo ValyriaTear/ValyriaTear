@@ -367,6 +367,11 @@ void GameOptionsMenuHandler::_SetupOptionsMenu()
     _options_menu.AddOption(UTranslate("Joystick Settings"), this, &GameOptionsMenuHandler::_OnJoySettings);
 
     _options_menu.SetSelection(0);
+
+    // Disable the language menu when not in the boot menu.
+    // Otherwise, the game language changes aren't handled correctly.
+    if (_parent_mode && _parent_mode->GetGameType() != vt_mode_manager::MODE_MANAGER_BOOT_MODE)
+        _options_menu.EnableOption(2, false);
 }
 
 void GameOptionsMenuHandler::_SetupVideoOptionsMenu()
