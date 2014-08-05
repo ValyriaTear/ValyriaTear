@@ -199,18 +199,16 @@ function _CreateObjects()
     Map:AddGroundObject(heal_effect);
 
     -- Heal point
-    npc = CreateSprite(Map, "Butterfly", 60, 70);
-    npc:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
-    npc:SetVisible(false);
-    npc:SetName(""); -- Unset the speaker name
-    Map:AddGroundObject(npc);
+    object = CreateObject(Map, "Layna Statue", 60, 70);
+    object:SetEventWhenTalking("Heal dialogue");
+    Map:AddGroundObject(object);
+
     dialogue = vt_map.SpriteDialogue();
     text = vt_system.Translate("Your party feels better...");
-    dialogue:AddLineEvent(text, npc, "Heal event", "");
+    dialogue:AddLineEvent(text, 0, "Heal event", ""); -- 0 means no portrait and no name
     DialogueManager:AddDialogue(dialogue);
-    npc:AddDialogueReference(dialogue);
-    npc = CreateObject(Map, "Layna Statue", 60, 70);
-    Map:AddGroundObject(npc);
+    event = vt_map.DialogueEvent("Heal dialogue", dialogue);
+    EventManager:RegisterEvent(event);
 
     -- Cemetery gates
     north_gate_closed = CreateObject(Map, "Gate1 closed", 51, 16);
