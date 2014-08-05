@@ -401,6 +401,16 @@ public:
     bool AreSavePointsEnabled() const {
         return _save_points_enabled;
     }
+
+    //! \brief Sets whether the status effects can run in the map mode.
+    void SetStatusEffectsEnabled(bool enabled) {
+        _status_effects_enabled = enabled;
+    }
+
+    //! \brief Tells whether the status effects can run in the map mode.
+    bool AreStatusEffectsEnabled() const {
+        return _status_effects_enabled;
+    }
     //@}
 
 private:
@@ -587,6 +597,9 @@ private:
 
     //! \brief Tells whether the save points are enabled in the map mode.
     bool _save_points_enabled;
+
+    //! \brief Tells whether the status effects can run in the map mode.
+    bool _status_effects_enabled;
 
     // ----- Methods -----
 

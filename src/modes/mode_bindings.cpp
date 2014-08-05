@@ -131,6 +131,8 @@ void BindModeCode()
             .def("SetMenuEnabled", &MapMode::SetMenuEnabled)
             .def("AreSavePointsEnabled", &MapMode::AreSavePointsEnabled)
             .def("SetSavePointsEnabled", &MapMode::SetSavePointsEnabled)
+            .def("AreStatusEffectsEnabled", &MapMode::AreStatusEffectsEnabled)
+            .def("SetStatusEffectsEnabled", &MapMode::SetStatusEffectsEnabled)
 
             // Namespace constants
             .enum_("constants") [

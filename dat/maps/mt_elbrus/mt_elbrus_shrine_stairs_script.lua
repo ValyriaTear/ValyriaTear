@@ -59,8 +59,9 @@ function Load(m)
         hero:SetVisible(false)
         hero:SetPosition(0, 0);
 
-        -- The menu is then disabled
+        -- The menu and status effects are then disabled.
         Map:SetMenuEnabled(false);
+        Map:SetStatusEffectsEnabled(false);
 
         -- Place kalya and bronann laughing
         bronann:SetPosition(37, 11);
@@ -688,8 +689,9 @@ map_functions = {
         -- Make Bronann and Kalya repeat on need
         _UpdateKalyaBronannDialogue();
 
-        -- The menu is then disabled
+        -- The menu and status effects are then disabled.
         Map:SetMenuEnabled(false);
+        Map:SetStatusEffectsEnabled(false);
     end,
 
     cant_go_in_start = function()
@@ -744,8 +746,9 @@ map_functions = {
         Map:SetSavePointsEnabled(true);
         layna_statue:SetEventWhenTalking("Heal dialogue");
 
-        -- The menu is then enabled
+        -- The menu and status effects are enabled.
         Map:SetMenuEnabled(true);
+        Map:SetStatusEffectsEnabled(true);
 
         -- Set event as done
         GlobalManager:SetEventValue("story", "mt elbrus shrine heroes saved", 1)

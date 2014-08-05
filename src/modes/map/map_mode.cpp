@@ -83,7 +83,8 @@ MapMode::MapMode(const std::string& data_filename, const std::string& script_fil
     _minimap(NULL),
     _show_minimap(false),
     _menu_enabled(true),
-    _save_points_enabled(true)
+    _save_points_enabled(true),
+    _status_effects_enabled(true)
 {
     _current_instance = this;
 
@@ -762,7 +763,9 @@ void MapMode::_UpdateExplore()
     }
 
     // Only update the status effect supervisor in Exploration mode
-    _status_effect_supervisor.UpdateEffects();
+    // and if they are allowed.
+    if (_status_effects_enabled)
+        _status_effect_supervisor.UpdateEffects();
 
     // Update the running state of the camera object. Check if the character is running and if so,
     // update the stamina value if the operation is permitted

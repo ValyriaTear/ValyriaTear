@@ -80,8 +80,9 @@ function _CreateCharacters()
         hero:SetDirection(vt_map.MapMode.NORTH);
     end
 
-    -- The menu is disabled in this map
+    -- The menu and status effects are disabled in this map
     Map:SetMenuEnabled(false);
+    Map:SetStatusEffectsEnabled(false);
 end
 
 -- The trigger state at map load time.

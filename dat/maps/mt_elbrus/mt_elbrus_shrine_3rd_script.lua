@@ -81,8 +81,9 @@ function _CreateCharacters()
     orlinn:SetMovementSpeed(vt_map.MapMode.FAST_SPEED);
     Map:AddGroundObject(orlinn);
 
-    -- The menu is disabled in this map
+    -- The menu and status effects are disabled in this map.
     Map:SetMenuEnabled(false);
+    Map:SetStatusEffectsEnabled(false);
 
     andromalius = CreateSprite(Map, "Andromalius", 32.0, 25.0);
     andromalius:SetDirection(vt_map.MapMode.SOUTH);

@@ -134,8 +134,9 @@ function _CreateCharacters()
         kalya:SetVisible(true);
         kalya:SetDirection(vt_map.MapMode.EAST);
 
-        -- The menu is disabled now.
+        -- The menu and status effects are disabled for now.
         Map:SetMenuEnabled(false);
+        Map:SetStatusEffectsEnabled(false);
     end
 end
 
@@ -1081,8 +1082,9 @@ map_functions = {
             hero:SetPosition(0, 0);
             hero:SetVisible(false);
 
-            -- Disable the menu mode.
+            -- Disable the menu mode & status effects.
             Map:SetMenuEnabled(false);
+            Map:SetStatusEffectsEnabled(false);
         end
 
         _UpdatePassageEvent();
@@ -1170,6 +1172,7 @@ map_functions = {
 
         -- Re-enable the menu mode.
         Map:SetMenuEnabled(true);
+        Map:SetStatusEffectsEnabled(true);
 
         -- Reload the hero back to default
         if (main_sprite_name ~= "") then
