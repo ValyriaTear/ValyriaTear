@@ -482,10 +482,14 @@ function _CreateEvents()
     DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Kalya talks about the statue", dialogue);
     event:AddEventLinkAtEnd("Kalya moves near the statue");
+    event:AddEventLinkAtEnd("Bronann gets nearer as well", 1000);
     EventManager:RegisterEvent(event);
 
-    event = vt_map.PathMoveSpriteEvent("Kalya moves near the statue", kalya_sprite, 14, 25, true);
+    event = vt_map.PathMoveSpriteEvent("Kalya moves near the statue", kalya_sprite, 21, 20, true);
     event:AddEventLinkAtEnd("Kalya talks about the statue 2", 1000);
+    EventManager:RegisterEvent(event);
+
+    event = vt_map.PathMoveSpriteEvent("Bronann gets nearer as well", hero, 14, 25, false);
     EventManager:RegisterEvent(event);
 
     dialogue = vt_map.SpriteDialogue();
