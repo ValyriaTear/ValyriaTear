@@ -615,6 +615,24 @@ void InventoryWindow::_UpdateSelection()
     // Update the item list
     _UpdateItemText();
 
+    // Lower bound checks
+    // Make the menu back-off when no more items are in the category list.
+    if (_item_objects.empty()) {
+        _object = NULL;
+        _active_box = ITEM_ACTIVE_CATEGORY;
+        _item_categories.SetCursorState(VIDEO_CURSOR_STATE_VISIBLE);
+        _inventory_items.SetCursorState(VIDEO_CURSOR_STATE_HIDDEN);
+        return;
+    }
+
+    // Make sure the selection is sane.
+    if (_inventory_items.GetSelection() < 0)
+        _inventory_items.SetSelection(0);
+
+    // Upper bound check to avoid crashes when selecting the last item at list's end.
+    if (static_cast<uint32>(_inventory_items.GetSelection()) >= _item_objects.size())
+        _inventory_items.SetSelection(_item_objects.size() - 1);
+
     _object = _item_objects[ _inventory_items.GetSelection() ];
     _object_type = _object->GetObjectType();
     _object_name.SetText(_object->GetName(), TextStyle("title22"));
@@ -660,15 +678,6 @@ void InventoryWindow::_UpdateSelection()
 // Updates the item list
 void InventoryWindow::_UpdateItemText()
 {
-    // This is a case only for equipment.
-    // before we update the current inventory_items option box
-    // if the actual available items WAS zero on the last frame, then we make sure
-    // that the cursor is reset to hidden.
-    // if you don't do this, then the previous ITEM_CATEGORY cursor state remains, and will
-    // cause the darkened pointer to show
-    if(_item_objects.empty())
-        _inventory_items.SetCursorState(VIDEO_CURSOR_STATE_HIDDEN);
-
     _item_objects.clear();
     _inventory_items.ClearOptions();
 
@@ -717,10 +726,18 @@ void InventoryWindow::_UpdateItemText()
             break;
         }
 
+    // Before we update the current inventory_items option box,
+    // if the actual available items WAS zero on the last frame, then we make sure
+    // that the cursor is reset to hidden.
+    // If you don't do this, then the previous ITEM_CATEGORY cursor state remains, and will
+    // cause the darkened pointer to show.
+    if(_item_objects.empty())
+        _inventory_items.SetCursorState(VIDEO_CURSOR_STATE_HIDDEN);
+
     ustring text;
     std::vector<ustring> inv_names;
 
-    for(size_t ctr = 0; ctr < _item_objects.size(); ctr++) {
+    for(size_t ctr = 0; ctr < _item_objects.size(); ++ctr) {
         text = MakeUnicodeString("<" + _item_objects[ctr]->GetIconImage().GetFilename() + "><20>     ") +
                _item_objects[ctr]->GetName() + MakeUnicodeString("<R><350>" + NumberToString(_item_objects[ctr]->GetCount()) + "   ");
         inv_names.push_back(text);
@@ -733,11 +750,15 @@ void InventoryWindow::_UpdateItemText()
             image->SetWidthKeepRatio(32);
     }
 
-    if(current_selected_category != _previous_category )
+    // Upper bound check to avoid a crash at when selecting the last item of the list's end.
+    if (static_cast<uint32>(_inventory_items.GetSelection()) >= _item_objects.size())
+        _inventory_items.SetSelection(_item_objects.size() - 1);
+
+    if(current_selected_category != _previous_category)
     {
-        //swap to the new category
-        _previous_category = current_selected_category ;
-        //reset the top viewing inventory item
+        // Swap to the new category
+        _previous_category = current_selected_category;
+        // Reset the top viewing inventory item
         _inventory_items.ResetViewableOption();
     }
 } // void InventoryWindow::UpdateItemText()
