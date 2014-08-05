@@ -287,6 +287,9 @@ void GlobalMedia::Initialize()
     if(!vt_video::ImageDescriptor::LoadMultiImageFromElementGrid(_all_category_icons, "img/icons/object_category_icons.png", 3, 3))
         PRINT_WARNING << "Failed to load object category icon images" << std::endl;
 
+    if(!vt_video::ImageDescriptor::LoadMultiImageFromElementGrid(_small_category_icons, "img/misc/category_icons.png", 3, 4))
+        PRINT_WARNING << "Failed to load small object category icon images" << std::endl;
+
     // Load common sounds
     _LoadSoundFile("confirm", "snd/confirm.wav");
     _LoadSoundFile("cancel", "snd/cancel.wav");
@@ -417,6 +420,42 @@ vt_video::StillImage* GlobalMedia::GetItemCategoryIcon(GLOBAL_OBJECT object_type
     }
 
     return &(_all_category_icons[index]);
+}
+
+vt_video::StillImage* GlobalMedia::GetSmallItemCategoryIcon(ITEM_CATEGORY object_category)
+{
+    uint32 index = 0;
+
+    switch(object_category) {
+    case ITEM_LEGS_ARMOR:
+        index = 0;
+        break;
+    case ITEM_ARMS_ARMOR:
+        index = 1;
+        break;
+    case ITEM_WEAPON:
+        index = 2;
+        break;
+    case ITEM_TORSO_ARMOR:
+        index = 3;
+        break;
+    case ITEM_HEAD_ARMOR:
+        index = 4;
+        break;
+    case ITEM_ITEM:
+        index = 8;
+        break;
+    case ITEM_KEY:
+        index = 9;
+        break;
+    case ITEM_ALL:
+        index = 10;
+        break;
+    default:
+        return NULL;
+    }
+
+    return &(_small_category_icons[index]);
 }
 
 void GlobalMedia::PlaySound(const std::string &identifier)

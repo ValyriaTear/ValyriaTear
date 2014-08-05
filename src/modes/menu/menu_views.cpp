@@ -263,19 +263,23 @@ void InventoryWindow::_InitCategory()
     _item_categories.SetVerticalWrapMode(VIDEO_WRAP_MODE_STRAIGHT);
     _item_categories.SetOptionAlignment(VIDEO_X_CENTER, VIDEO_Y_CENTER);
 
-    std::vector<ustring> options;
-    options.push_back(UTranslate("All"));
-    options.push_back(UTranslate("Itm"));
-    options.push_back(UTranslate("Wpn"));
-    options.push_back(UTranslate("Hlm"));
-    options.push_back(UTranslate("Tor"));
-    options.push_back(CUTranslate("Menu|Arm"));
-    options.push_back(UTranslate("Leg"));
-    options.push_back(UTranslate("Key"));
+    // Add an option for every category + 1 (All items)
+    for (uint32 i = 0; i < ITEM_CATEGORY_SIZE + 1; ++i)
+        _item_categories.AddOption();
 
-    _item_categories.SetOptions(options);
     _item_categories.SetSelection(ITEM_ALL);
     _item_categories.SetCursorState(VIDEO_CURSOR_STATE_HIDDEN);
+
+    // Adds category images
+    GlobalMedia& media = GlobalManager->Media();
+    _item_categories.AddOptionElementImage(0, media.GetSmallItemCategoryIcon(ITEM_ALL));
+    _item_categories.AddOptionElementImage(1, media.GetSmallItemCategoryIcon(ITEM_ITEM));
+    _item_categories.AddOptionElementImage(2, media.GetSmallItemCategoryIcon(ITEM_WEAPON));
+    _item_categories.AddOptionElementImage(3, media.GetSmallItemCategoryIcon(ITEM_HEAD_ARMOR));
+    _item_categories.AddOptionElementImage(4, media.GetSmallItemCategoryIcon(ITEM_TORSO_ARMOR));
+    _item_categories.AddOptionElementImage(5, media.GetSmallItemCategoryIcon(ITEM_ARMS_ARMOR));
+    _item_categories.AddOptionElementImage(6, media.GetSmallItemCategoryIcon(ITEM_LEGS_ARMOR));
+    _item_categories.AddOptionElementImage(7, media.GetSmallItemCategoryIcon(ITEM_KEY));
 }
 
 // Activates/deactivates inventory window
