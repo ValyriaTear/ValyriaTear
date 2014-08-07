@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Valyria Tear\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-07-20 16:32+0200\n"
-"PO-Revision-Date: 2014-07-30 00:39+0100\n"
+"PO-Revision-Date: 2014-08-07 20:52+0100\n"
 "Last-Translator: Yohann Ferreira <yohann.ferreira@orange.fr>\n"
 "Language-Team: French\n"
 "Language: fr\n"
@@ -168,7 +168,7 @@ msgstr "Menu : "
 
 #: ../src/common/options_handler.cpp:455
 msgid "Toggle Map: "
-msgstr "Afficher/Cacher la carte :"
+msgstr "Aff./Cacher la carte :"
 
 #: ../src/common/options_handler.cpp:456
 msgid "Pause: "
@@ -221,7 +221,7 @@ msgstr "Menu"
 
 #: ../src/common/options_handler.cpp:652
 msgid "Toggle Map"
-msgstr "Afficher/Cacher la carte"
+msgstr "Aff./Cacher la carte"
 
 #: ../src/common/options_handler.cpp:653 ../src/modes/mode_help_window.cpp:198
 #: ../src/modes/mode_help_window.cpp:259
@@ -256,23 +256,23 @@ msgstr "Zone morte"
 
 #: ../src/common/options_handler.cpp:667
 msgid "Confirm: Button"
-msgstr "Valider : Touche"
+msgstr "Valider : Bouton"
 
 #: ../src/common/options_handler.cpp:668
 msgid "Cancel: Button"
-msgstr "Annuler : Touche"
+msgstr "Annuler : Bouton"
 
 #: ../src/common/options_handler.cpp:669
 msgid "Menu: Button"
-msgstr "Menu : Touche"
+msgstr "Menu : Bouton"
 
 #: ../src/common/options_handler.cpp:670
 msgid "Map: Button"
-msgstr "Carte : Touche"
+msgstr "Carte : Bouton"
 
 #: ../src/common/options_handler.cpp:671
 msgid "Pause: Button"
-msgstr "Pause : Touche"
+msgstr "Pause : Bouton"
 
 #: ../src/common/options_handler.cpp:672
 msgid "Quit: Button"
@@ -280,7 +280,7 @@ msgstr "Quitter : Bouton"
 
 #: ../src/common/options_handler.cpp:884
 msgid "Please press a new joystick button."
-msgstr "Veuillez appuyer sur une touche du joystick."
+msgstr "Veuillez appuyer sur un bouton du joystick."
 
 #: ../src/common/options_handler.cpp:886
 msgid "Please press a new key."
