@@ -156,7 +156,7 @@ void BootMode::Update()
 
     // The intro is being played
     if(_boot_state == BOOT_STATE_INTRO) {
-        if(InputManager->AnyKeyPress()) {
+        if(InputManager->AnyRegisteredKeyPress()) {
             ChangeState(BOOT_STATE_MENU);
             return;
         } else {
@@ -174,7 +174,8 @@ void BootMode::Update()
     HelpWindow *help_window = ModeManager->GetHelpWindow();
     if(help_window && help_window->IsActive()) {
         // Any key, except F1
-        if(!InputManager->HelpPress() && InputManager->AnyKeyPress()) {
+        if(!InputManager->HelpPress()
+                && (InputManager->AnyKeyboardKeyPress() || InputManager->AnyJoystickKeyPress())) {
             GlobalManager->Media().PlaySound("confirm");
             help_window->Hide();
         }

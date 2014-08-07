@@ -44,8 +44,12 @@ bool INPUT_DEBUG = false;
 InputEngine::InputEngine()
 {
     IF_PRINT_WARNING(INPUT_DEBUG) << "INPUT: InputEngine constructor invoked" << std::endl;
-    _any_key_press        = false;
-    _any_key_release      = false;
+    _registered_key_press   = false;
+    _registered_key_release = false;
+
+    _any_keyboard_key_press = false;
+    _any_joystick_key_press = false;
+
     _last_axis_moved      = -1;
     _up_state             = false;
     _up_press             = false;
@@ -203,6 +207,7 @@ bool InputEngine::RestoreDefaultJoyButtons()
     _joystick.menu         = static_cast<uint8>(restore_settings_file.ReadInt("menu"));
     _joystick.minimap      = static_cast<uint8>(restore_settings_file.ReadInt("minimap"));
     _joystick.pause        = static_cast<uint8>(restore_settings_file.ReadInt("pause"));
+    _joystick.help         = static_cast<uint8>(restore_settings_file.ReadInt("help"));
     _joystick.quit         = static_cast<uint8>(restore_settings_file.ReadInt("quit"));
     restore_settings_file.CloseTable();
     restore_settings_file.CloseTable();
@@ -212,29 +217,17 @@ bool InputEngine::RestoreDefaultJoyButtons()
     return true;
 }
 
-
-// Checks if any keyboard key or joystick button is pressed
-bool InputEngine::AnyKeyPress()
-{
-    return _any_key_press;
-}
-
-
-// Checks if any keyboard key or joystick button is released
-bool InputEngine::AnyKeyRelease()
-{
-    return _any_key_release;
-}
-
-
 // Handles all of the event processing for the game.
 void InputEngine::EventHandler()
 {
     SDL_Event event; // Holds the game event
 
     // Reset all of the press and release flags so that they don't get detected twice.
-    _any_key_press   = false;
-    _any_key_release = false;
+    _registered_key_press   = false;
+    _registered_key_release = false;
+
+    _any_keyboard_key_press = false;
+    _any_joystick_key_press = false;
 
     _up_press             = false;
     _up_release           = false;
@@ -253,9 +246,12 @@ void InputEngine::EventHandler()
     _minimap_press        = false;
     _minimap_release      = false;
 
-    _pause_press = false;
-    _quit_press = false;
-    _help_press = false;
+    _pause_press          = false;
+    _pause_release        = false;
+    _quit_press           = false;
+    _quit_release         = false;
+    _help_press           = false;
+    _help_release         = false;
 
     // NOTE: We don't reinit the D-Pad/hat values on purpose here.
 
@@ -305,9 +301,13 @@ void InputEngine::EventHandler()
         }
     } // while (SDL_PollEvent(&event)
 
-    _any_key_press = _up_press || _down_press || _left_press || _right_press || _quit_press ||
+    _registered_key_press = _up_press || _down_press || _left_press || _right_press || _quit_press ||
             _confirm_press || _cancel_press || _minimap_press || _menu_press || _pause_press ||
             _help_press;
+
+    _registered_key_release = _up_release || _down_release || _left_release || _right_release || _quit_release ||
+            _confirm_release || _cancel_release || _minimap_release || _menu_release || _pause_release ||
+            _help_release;
 } // void InputEngine::EventHandler()
 
 
@@ -316,6 +316,8 @@ void InputEngine::EventHandler()
 void InputEngine::_KeyEventHandler(SDL_KeyboardEvent &key_event)
 {
     if(key_event.type == SDL_KEYDOWN) {  // Key was pressed
+        _any_keyboard_key_press = true;
+
         if(key_event.keysym.mod &KMOD_CTRL || key_event.keysym.sym == SDLK_LCTRL || key_event.keysym.sym == SDLK_RCTRL) {   // CTRL key was held down
             if(key_event.keysym.sym == SDLK_f) {
                 // Toggle between full-screen and windowed mode
@@ -416,7 +418,6 @@ void InputEngine::_KeyEventHandler(SDL_KeyboardEvent &key_event)
             return;
         }
     } else { // Key was released
-        _any_key_release = true;
 
         if(key_event.keysym.sym == _key.up) {
             _up_state = false;
@@ -449,6 +450,15 @@ void InputEngine::_KeyEventHandler(SDL_KeyboardEvent &key_event)
         } else if(key_event.keysym.sym == _key.minimap) {
             _minimap_release = true;
             return;
+        } else if(key_event.keysym.sym == _key.pause) {
+            _pause_release = true;
+            return;
+        } else if(key_event.keysym.sym == SDLK_F1) {
+            _help_release = true;
+            return;
+        } else if(key_event.keysym.sym == SDLK_ESCAPE) {
+            _quit_release = true;
+            return;
         }
     }
 } // void InputEngine::_KeyEventHandler(SDL_KeyboardEvent& key_event)
@@ -467,6 +477,7 @@ void InputEngine::_JoystickEventHandler(SDL_Event &js_event)
         if(js_event.jaxis.axis == _joystick.x_axis) {
             if(js_event.jaxis.value < -_joystick.threshold) {
                 if(!_left_state) {
+                    _any_joystick_key_press = true;
                     _left_state = true;
                     _left_press = true;
                 }
@@ -476,6 +487,7 @@ void InputEngine::_JoystickEventHandler(SDL_Event &js_event)
 
             if(js_event.jaxis.value > _joystick.threshold) {
                 if(!_right_state) {
+                    _any_joystick_key_press = true;
                     _right_state = true;
                     _right_press = true;
                 }
@@ -485,6 +497,7 @@ void InputEngine::_JoystickEventHandler(SDL_Event &js_event)
         } else if(js_event.jaxis.axis == _joystick.y_axis) {
             if(js_event.jaxis.value < -_joystick.threshold) {
                 if(!_up_state) {
+                    _any_joystick_key_press = true;
                     _up_state = true;
                     _up_press = true;
                 }
@@ -494,6 +507,7 @@ void InputEngine::_JoystickEventHandler(SDL_Event &js_event)
 
             if(js_event.jaxis.value > _joystick.threshold) {
                 if(!_down_state) {
+                    _any_joystick_key_press = true;
                     _down_state = true;
                     _down_press = true;
                 }
@@ -512,6 +526,7 @@ void InputEngine::_JoystickEventHandler(SDL_Event &js_event)
 
         if(js_event.jhat.value & SDL_HAT_LEFT) {
             if(!_hat_left_state) {
+                _any_joystick_key_press = true;
                 _hat_left_state = true;
                 _left_press = true;
             }
@@ -522,6 +537,7 @@ void InputEngine::_JoystickEventHandler(SDL_Event &js_event)
 
         if(js_event.jhat.value & SDL_HAT_RIGHT) {
             if(!_hat_right_state) {
+                _any_joystick_key_press = true;
                 _hat_right_state = true;
                 _right_press = true;
             }
@@ -532,6 +548,7 @@ void InputEngine::_JoystickEventHandler(SDL_Event &js_event)
 
         if(js_event.jhat.value & SDL_HAT_UP) {
             if(!_hat_up_state) {
+                _any_joystick_key_press = true;
                 _hat_up_state = true;
                 _up_press = true;
             }
@@ -542,6 +559,7 @@ void InputEngine::_JoystickEventHandler(SDL_Event &js_event)
 
         if(js_event.jhat.value & SDL_HAT_DOWN) {
             if(!_hat_down_state) {
+                _any_joystick_key_press = true;
                 _hat_down_state = true;
                 _down_press = true;
             }
@@ -559,6 +577,8 @@ void InputEngine::_JoystickEventHandler(SDL_Event &js_event)
     } // if (js_event.type == SDL_JOYHATMOTION)
 
     else if(js_event.type == SDL_JOYBUTTONDOWN) {
+        _any_joystick_key_press = true;
+
         if(js_event.jbutton.button == _joystick.confirm) {
             _confirm_state = true;
             _confirm_press = true;
@@ -577,6 +597,9 @@ void InputEngine::_JoystickEventHandler(SDL_Event &js_event)
         } else if(js_event.jbutton.button == _joystick.pause) {
             _pause_press = true;
             return;
+        } else if(js_event.jbutton.button == _joystick.help) {
+            _help_press = true;
+            return;
         } else if(js_event.jbutton.button == _joystick.quit) {
             _quit_press = true;
             return;
@@ -584,7 +607,6 @@ void InputEngine::_JoystickEventHandler(SDL_Event &js_event)
     } // else if (js_event.type == JOYBUTTONDOWN)
 
     else if(js_event.type == SDL_JOYBUTTONUP) {
-        _any_key_release = true;
 
         if(js_event.jbutton.button == _joystick.confirm) {
             _confirm_state = false;
@@ -600,6 +622,15 @@ void InputEngine::_JoystickEventHandler(SDL_Event &js_event)
             return;
         } else if(js_event.jbutton.button == _joystick.minimap) {
             _minimap_release = true;
+            return;
+        } else if(js_event.jbutton.button == _joystick.pause) {
+            _pause_release = true;
+            return;
+        } else if(js_event.jbutton.button == _joystick.help) {
+            _help_release = true;
+            return;
+        } else if(js_event.jbutton.button == _joystick.quit) {
+            _quit_release = true;
             return;
         }
     } // else if (js_event.type == JOYBUTTONUP)

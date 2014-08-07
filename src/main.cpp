@@ -157,8 +157,13 @@ bool LoadSettings()
     InputManager->SetMenuJoy(static_cast<uint8>(settings.ReadInt("menu")));
     InputManager->SetMinimapJoy(static_cast<uint8>(settings.ReadInt("minimap")));
     InputManager->SetPauseJoy(static_cast<uint8>(settings.ReadInt("pause")));
-
     InputManager->SetQuitJoy(static_cast<uint8>(settings.ReadInt("quit")));
+    // DEPRECATED: Remove the hack in one or two releases...
+    if(settings.DoesIntExist("help"))
+        InputManager->SetHelpJoy(static_cast<uint8>(settings.ReadInt("help")));
+    else
+        InputManager->SetHelpJoy(15); // A high value to avoid getting in the way
+
     if(settings.DoesIntExist("x_axis"))
         InputManager->SetXAxisJoy(static_cast<int8>(settings.ReadInt("x_axis")));
     if(settings.DoesIntExist("y_axis"))

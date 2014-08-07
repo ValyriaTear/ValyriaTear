@@ -200,7 +200,8 @@ void GameOptionsMenuHandler::Update()
         else if (InputManager->LeftPress() || InputManager->RightPress()) {
             // Do nothing in this case
         }
-        else if ((InputManager->AnyKeyPress() && ev.type == SDL_KEYDOWN)
+        else if (InputManager->AnyKeyboardKeyPress()
+                || InputManager->AnyJoystickKeyPress()
                 || InputManager->ConfirmPress()) {
             // Set the language
             _active_menu->InputConfirm();
@@ -226,7 +227,7 @@ void GameOptionsMenuHandler::Update()
     // Check for waiting keypresses or joystick button presses
     SDL_Event ev = InputManager->GetMostRecentEvent();
     if(_joy_setting_function != NULL) {
-        if(InputManager->AnyKeyPress() && ev.type == SDL_JOYBUTTONDOWN) {
+        if(InputManager->AnyJoystickKeyPress()) {
             (this->*_joy_setting_function)(InputManager->GetMostRecentEvent().jbutton.button);
             _joy_setting_function = NULL;
             _has_modified_settings = true;
@@ -257,7 +258,7 @@ void GameOptionsMenuHandler::Update()
     }
 
     if(_key_setting_function != NULL) {
-        if(InputManager->AnyKeyPress() && ev.type == SDL_KEYDOWN) {
+        if(InputManager->AnyKeyboardKeyPress()) {
             (this->*_key_setting_function)(InputManager->GetMostRecentEvent().key.keysym.sym);
             _key_setting_function = NULL;
             _has_modified_settings = true;
@@ -466,7 +467,7 @@ void GameOptionsMenuHandler::_SetupJoySettingsMenu()
 {
     _joy_settings_menu.ClearOptions();
     _joy_settings_menu.SetPosition(512.0f, 468.0f);
-    _joy_settings_menu.SetDimensions(250.0f, 500.0f, 1, 11, 1, 11);
+    _joy_settings_menu.SetDimensions(250.0f, 500.0f, 1, 12, 1, 12);
     _joy_settings_menu.SetTextStyle(TextStyle("title20"));
     _joy_settings_menu.SetTextStyle(TextStyle("title22"));
     _joy_settings_menu.SetAlignment(VIDEO_X_CENTER, VIDEO_Y_CENTER);
@@ -490,6 +491,7 @@ void GameOptionsMenuHandler::_SetupJoySettingsMenu()
     _joy_settings_menu.AddOption(dummy, this, &GameOptionsMenuHandler::_RedefineMenuJoy);
     _joy_settings_menu.AddOption(dummy, this, &GameOptionsMenuHandler::_RedefineMinimapJoy);
     _joy_settings_menu.AddOption(dummy, this, &GameOptionsMenuHandler::_RedefinePauseJoy);
+    _joy_settings_menu.AddOption(dummy, this, &GameOptionsMenuHandler::_RedefineHelpJoy);
     _joy_settings_menu.AddOption(dummy, this, &GameOptionsMenuHandler::_RedefineQuitJoy);
 
     _joy_settings_menu.AddOption(UTranslate("Restore defaults"), this, &GameOptionsMenuHandler::_OnRestoreDefaultJoyButtons);
@@ -674,6 +676,7 @@ void GameOptionsMenuHandler::_RefreshJoySettings()
     _joy_settings_menu.SetOptionText(i++, UTranslate("Menu: Button") + MakeUnicodeString("<r>" + NumberToString(InputManager->GetMenuJoy())));
     _joy_settings_menu.SetOptionText(i++, UTranslate("Map: Button") + MakeUnicodeString("<r>" + NumberToString(InputManager->GetMinimapJoy())));
     _joy_settings_menu.SetOptionText(i++, UTranslate("Pause: Button") + MakeUnicodeString("<r>" + NumberToString(InputManager->GetPauseJoy())));
+    _joy_settings_menu.SetOptionText(i++, UTranslate("Help: Button") + MakeUnicodeString("<r>" + NumberToString(InputManager->GetHelpJoy())));
     _joy_settings_menu.SetOptionText(i++, UTranslate("Quit: Button") + MakeUnicodeString("<r>" + NumberToString(InputManager->GetQuitJoy())));
 }
 
@@ -1032,6 +1035,7 @@ bool GameOptionsMenuHandler::_SaveSettingsFile(const std::string& filename)
     settings_lua.WriteInt("menu", InputManager->GetMenuJoy());
     settings_lua.WriteInt("minimap", InputManager->GetMinimapJoy());
     settings_lua.WriteInt("pause", InputManager->GetPauseJoy());
+    settings_lua.WriteInt("help", InputManager->GetHelpJoy());
     settings_lua.WriteInt("quit", InputManager->GetQuitJoy());
     settings_lua.EndTable(); // joystick_settings
 
@@ -1204,6 +1208,12 @@ void GameOptionsMenuHandler::_RedefinePauseJoy()
     _ShowMessageWindow(true);
 }
 
+void GameOptionsMenuHandler::_RedefineHelpJoy()
+{
+    _joy_setting_function = &GameOptionsMenuHandler::_SetHelpJoy;
+    _ShowMessageWindow(true);
+}
+
 void GameOptionsMenuHandler::_RedefineQuitJoy()
 {
     _joy_setting_function = &GameOptionsMenuHandler::_SetQuitJoy;
@@ -1243,6 +1253,11 @@ void GameOptionsMenuHandler::_SetMinimapJoy(uint8 button)
 void GameOptionsMenuHandler::_SetPauseJoy(uint8 button)
 {
     InputManager->SetPauseJoy(button);
+}
+
+void GameOptionsMenuHandler::_SetHelpJoy(uint8 button)
+{
+    InputManager->SetHelpJoy(button);
 }
 
 void GameOptionsMenuHandler::_SetQuitJoy(uint8 button)

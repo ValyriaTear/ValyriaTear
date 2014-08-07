@@ -343,7 +343,7 @@ void InventoryWindow::Update()
     }
 
     // Update object and character data when necessary
-    if (InputManager->AnyKeyPress())
+    if (InputManager->AnyRegisteredKeyPress())
         _UpdateSelection();
 
     uint32 event = active_option->GetEvent();
@@ -1021,7 +1021,7 @@ void PartyWindow::Update()
     _char_select.Update();
 
     // update the status text
-    if (InputManager->AnyKeyPress())
+    if (InputManager->AnyRegisteredKeyPress())
         UpdateStatus();
 } // void PartyWindow::Update()
 
@@ -1797,7 +1797,7 @@ void EquipWindow::Update()
     }
 
     // update the concerned character on each change
-    if (InputManager->AnyKeyPress())
+    if (InputManager->AnyRegisteredKeyPress())
         _character = GlobalManager->GetActiveParty()->GetCharacterAtIndex(_char_select.GetSelection());
 
     uint32 event = active_option->GetEvent();
@@ -2053,7 +2053,7 @@ void EquipWindow::_UpdateEquipList()
 void EquipWindow::_UpdateSelectedObject()
 {
     // Only updates when some input is handled.
-    if (!InputManager->AnyKeyPress())
+    if (!InputManager->AnyRegisteredKeyPress())
         return;
 
     // Don't show anything when there is no item selected
