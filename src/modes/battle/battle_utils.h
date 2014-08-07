@@ -378,6 +378,11 @@ public:
     //! \brief Resets all class members, invalidating the target
     void InvalidateTarget();
 
+    //! \brief Reinit the attack point. Used when changing target.
+    void ReinitAttackPoint() {
+        _point = 0;
+    }
+
     /** \brief Used to set the initial target
     *** \param user A pointer to the actor which will use the target
     *** \param type The type of target to set

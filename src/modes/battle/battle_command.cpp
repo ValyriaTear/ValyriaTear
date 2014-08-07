@@ -305,43 +305,6 @@ void CharacterCommandSettings::SaveLastTarget(BattleTarget &target)
     }
 }
 
-
-
-void CharacterCommandSettings::SetLastSelfTarget(BattleTarget &target)
-{
-    if((target.GetType() != GLOBAL_TARGET_SELF_POINT) && (target.GetType() != GLOBAL_TARGET_SELF)) {
-        IF_PRINT_WARNING(BATTLE_DEBUG) << "target argument was an invalid type: " << target.GetType() << std::endl;
-        return;
-    }
-
-    _last_self_target = target;
-}
-
-
-
-void CharacterCommandSettings::SetLastCharacterTarget(BattleTarget &target)
-{
-    if((target.GetType() != GLOBAL_TARGET_ALLY_POINT) && (target.GetType() != GLOBAL_TARGET_ALLY)
-            && (target.GetType() != GLOBAL_TARGET_ALLY_EVEN_DEAD) && (target.GetType() != GLOBAL_TARGET_DEAD_ALLY)) {
-        IF_PRINT_WARNING(BATTLE_DEBUG) << "target argument was an invalid type: " << target.GetType() << std::endl;
-        return;
-    }
-
-    _last_character_target = target;
-}
-
-
-
-void CharacterCommandSettings::SetLastEnemyTarget(BattleTarget &target)
-{
-    if((target.GetType() != GLOBAL_TARGET_FOE_POINT) && (target.GetType() != GLOBAL_TARGET_FOE)) {
-        IF_PRINT_WARNING(BATTLE_DEBUG) << "target argument was an invalid type: " << target.GetType() << std::endl;
-        return;
-    }
-
-    _last_enemy_target = target;
-}
-
 ////////////////////////////////////////////////////////////////////////////////
 // ItemCommand class
 ////////////////////////////////////////////////////////////////////////////////
@@ -978,7 +941,7 @@ bool CommandSupervisor::_SetInitialTarget()
     if(!_selected_target.IsValid(permit_dead_targets)) {
         // Party targets should always be valid and attack points on actors do not disappear, so only the actor
         // must be invalid
-        if(!_selected_target.SelectNextActor(user, permit_dead_targets)) {
+        if(!_selected_target.SelectNextActor(user, true, true, permit_dead_targets)) {
             // No more target of that type, let's go back to the command state
             // Invalidate the target so that one can get a completely new one
             _selected_target.InvalidateTarget();
@@ -1195,6 +1158,9 @@ void CommandSupervisor::_UpdateActorTarget()
                                 || (_selected_target.GetType() == GLOBAL_TARGET_DEAD_ALLY));
 
         if((IsTargetActor(_selected_target.GetType()) == true) || (IsTargetPoint(_selected_target.GetType()) == true)) {
+            // Since we're changing the target, we reinit the attack point to the first one,
+            // as the new target may have less attack points than the latest one.
+            _selected_target.ReinitAttackPoint();
             _selected_target.SelectNextActor(GetCommandCharacter(), direction, true, permit_dead_targets);
             _CreateActorTargetText();
             GlobalManager->Media().PlaySound("confirm");

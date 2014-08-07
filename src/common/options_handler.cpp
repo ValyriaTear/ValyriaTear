@@ -189,7 +189,6 @@ void GameOptionsMenuHandler::Update()
 
     // On first app run, show the language menu and apply language on any key press.
     if (_first_run && _active_menu == &_language_options_menu) {
-        SDL_Event ev = InputManager->GetMostRecentEvent();
         _active_menu->Update();
         if (InputManager->UpPress()) {
             _active_menu->InputUp();
@@ -225,7 +224,6 @@ void GameOptionsMenuHandler::Update()
         return;
 
     // Check for waiting keypresses or joystick button presses
-    SDL_Event ev = InputManager->GetMostRecentEvent();
     if(_joy_setting_function != NULL) {
         if(InputManager->AnyJoystickKeyPress()) {
             (this->*_joy_setting_function)(InputManager->GetMostRecentEvent().jbutton.button);
