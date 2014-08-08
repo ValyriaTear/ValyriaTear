@@ -978,7 +978,7 @@ function Update()
     end
 
     -- Start the timer
-    if (credit_time > 7000) then
+    if (credit_time > 10000) then
         credit_time = 0
 
         credit_id = credit_id + 1;
@@ -1008,10 +1008,10 @@ function Update()
     if (credit_time >= 0
             and credit_time <= 1000) then
         credit_alpha = credit_time / 1000;
-    elseif (credit_time > 6000
-            and credit_time <= 7000) then
-        credit_alpha = 1.0 - (credit_time - 6000) / (7000 - 6000);
-    elseif (credit_time > 7000) then
+    elseif (credit_time > 9000
+            and credit_time <= 10000) then
+        credit_alpha = 1.0 - (credit_time - 9000) / (10000 - 9000);
+    elseif (credit_time > 10000) then
         credit_alpha = 0.0;
     end
 
