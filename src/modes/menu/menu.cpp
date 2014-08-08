@@ -146,7 +146,6 @@ void AbstractMenuState::Update()
 
 void AbstractMenuState::Draw()
 {
-    static const Color grayed(0.35f, 0.35f, 0.35f, 1.0f);
     // Draw the saved screen background
     // For that, set the system coordinates to the size of the window (same with the save-screen)
     int32 width = VideoManager->GetViewportWidth();
