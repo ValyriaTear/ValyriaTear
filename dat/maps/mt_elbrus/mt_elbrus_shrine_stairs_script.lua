@@ -476,7 +476,7 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
 
     dialogue = vt_map.SpriteDialogue();
-    text = vt_system.Translate("I feel better much now...");
+    text = vt_system.Translate("I feel much better now...");
     dialogue:AddLineEmote(text, bronann, "thinking dots");
     text = vt_system.Translate("Indeed. It seems the scent has no effect on us anymore.");
     dialogue:AddLineEmote(text, kalya, "thinking dots");
