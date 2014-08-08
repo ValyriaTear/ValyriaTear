@@ -126,10 +126,6 @@ void PauseMode::Reset()
         IF_PRINT_WARNING(PAUSE_DEBUG) << e.ToString() << std::endl;
     }
 
-    _screen_capture.SetWidthKeepRatio(VIDEO_STANDARD_RES_WIDTH);
-
-    VideoManager->SetStandardCoordSys();
-    VideoManager->SetDrawFlags(VIDEO_BLEND, 0);
     VideoManager->DisableFadeEffect();
 }
 
@@ -205,12 +201,15 @@ void PauseMode::Update()
 
 void PauseMode::DrawPostEffects()
 {
-    // Set the coordinate system for the background and draw
-    VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_BOTTOM, 0);
-    VideoManager->Move(0.0f, VIDEO_STANDARD_RES_HEIGHT);
+    // Draw the background image. Set the system coordinates to the size of the window (same as the screen backdrop)
+    VideoManager->SetCoordSys(0.0f, static_cast<float>(VideoManager->GetViewportWidth()),
+                              static_cast<float>(VideoManager->GetViewportHeight()), 0.0f);
+    VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_TOP, VIDEO_BLEND, 0);
+    VideoManager->Move(0.0f, 0.0f);
     _screen_capture.Draw(_dim_color);
 
-    VideoManager->SetDrawFlags(VIDEO_X_CENTER, VIDEO_Y_CENTER, 0);
+    VideoManager->SetStandardCoordSys();
+    VideoManager->SetDrawFlags(VIDEO_X_CENTER, VIDEO_Y_CENTER, VIDEO_BLEND, 0);
     VideoManager->Move(512.0f, 384.0f);
 
     if(!_quit_state) {
