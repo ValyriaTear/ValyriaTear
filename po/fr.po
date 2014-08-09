@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Valyria Tear\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-07-20 16:32+0200\n"
-"PO-Revision-Date: 2014-08-07 20:52+0100\n"
+"PO-Revision-Date: 2014-08-09 16:44+0100\n"
 "Last-Translator: Yohann Ferreira <yohann.ferreira@orange.fr>\n"
 "Language-Team: French\n"
 "Language: fr\n"
@@ -3128,7 +3128,7 @@ msgstr "Et bien ... Penses-tu pouvoir me blesser ?"
 
 #: ../dat/maps/layna_village/battle_with_banesore/battle_with_banesore_script.lua:64
 msgid "You? A child with an old wooden stick?"
-msgstr "Toi ? Un enfant avec un pauvre morceaux de bois entre les mains ?"
+msgstr "Toi ? Un enfant avec un pauvre morceau de bois entre les mains ?"
 
 #: ../dat/maps/layna_village/battle_with_banesore/battle_with_banesore_script.lua:71
 msgid ""
