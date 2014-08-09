@@ -374,14 +374,14 @@ function Initialize(map_instance)
                     text_color = vt_video.Color(1.0, 1.0, 1.0, 1.0),
                 },
                 [2] = {
-                    text = Script:CreateText("lendrick (freesound)\n\nSpandau (freesound)\n\nTheGertz (freesound)\n\nEcrivain(OGA)\n\nBrandon Morris (OGA)\n\nIndependent.nu (OGA)",
+                    text = Script:CreateText("lendrick (freesound)\n\nSpandau (freesound)\n\nTheGertz (freesound)\n\nEcrivain (OGA)\n\nBrandon Morris (OGA)\n\nIndependent.nu (OGA)",
                                              vt_video.TextStyle("text20")),
                     text_position_x = 512.0,
                     text_position_y = 300.0,
                     text_color = vt_video.Color(1.0, 1.0, 1.0, 1.0),
                 },
                 [3] = {
-                    text = Script:CreateText("DoKashiteru (OGA)\n\nNick Bowler (OGA)\n\nkddekadenz (OGA)\n\nremaxim (OGA)\n\nj1987\n\nOveMelaa (OGA)\n\nMacro (OGA)",
+                    text = Script:CreateText("DoKashiteru (OGA)\n\nNick Bowler (OGA)\n\nkddekadenz (OGA)\n\nremaxim (OGA)\n\nj1987\n\nOveMelaa (OGA)\n\nMacro (OGA)\n\nJute (OGA)",
                                              vt_video.TextStyle("text20")),
                     text_position_x = 712.0,
                     text_position_y = 300.0,

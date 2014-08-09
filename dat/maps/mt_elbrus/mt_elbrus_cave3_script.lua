@@ -46,6 +46,10 @@ function Load(m)
     -- Add a mediumly dark overlay
     Map:GetEffectSupervisor():EnableAmbientOverlay("img/ambient/dark.png", 0.0, 0.0, false);
 
+    -- Place an omni ambient sound at the center of the map to add a nice indoor rainy effect.
+    local rainy_sound = vt_map.SoundObject("mus/rain_indoors.ogg", 25.0, 20.0, 100.0);
+    Map:AddAmbientSoundObject(rainy_sound);
+
     -- Preloads the action sounds to avoid glitches
     AudioManager:LoadSound("snd/cave-in.ogg", Map);
     AudioManager:LoadSound("snd/stone_roll.wav", Map);
