@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: Valyria Tear\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-07-20 16:32+0200\n"
-"PO-Revision-Date: 2014-08-11 22:19+0000\n"
+"PO-Revision-Date: 2014-08-12 18:44+0000\n"
 "Last-Translator: Rémi Verschelde <akien@mageia.org>\n"
 "Language-Team: French (http://www.transifex.com/projects/p/valyria-tear/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -1208,7 +1208,7 @@ msgstr "Thanis"
 
 #: ../dat/actors/characters.lua:580
 msgid "Acheron"
-msgstr "Abîmes"
+msgstr "Achéron"
 
 #: ../dat/actors/enemies.lua:22
 msgid "Green Slime"
@@ -1825,7 +1825,7 @@ msgstr "Mt. Elbrus"
 
 #: ../dat/credits/end_credits.lua:31
 msgid "Thanks for playing!!"
-msgstr "Merci d'avoir joué !!"
+msgstr "Merci d'avoir joué !"
 
 #: ../dat/credits/end_credits.lua:50
 msgid "Episode I"
@@ -1841,7 +1841,7 @@ msgstr "Programmation, scripts, cartes"
 
 #: ../dat/credits/end_credits.lua:119
 msgid "Additional programming and scripting"
-msgstr "Programmation et scripting additionnel"
+msgstr "Programmation et scripts additionnels"
 
 #: ../dat/credits/end_credits.lua:131
 msgid ""
@@ -1860,7 +1860,7 @@ msgid ""
 "Misc fixes\n"
 "\n"
 "Joystick handling fixes"
-msgstr "Equilibrage des stats, ...\n\nJournal de quêtes, Mini-carte, ...\n\nSupport du troc, ...\n\nChangement de thème d'interface, ...\n\nAmélioration du code OpenGL, ...\n\nSupport multi-écrans, ...\n\nCorrections diverses, ...\n\nCorrections dans la gestion du joysticks"
+msgstr "Équilibrage des caractéristiques, ...\n\nJournal de quêtes, mini-carte, ...\n\nSupport du mode « troc », ...\n\nChangement de thème d'interface, ...\n\nAmélioration du code OpenGL, ...\n\nSupport multi-écrans, ...\n\nCorrections diverses\n\nCorrections dans la gestion du joystick"
 
 #: ../dat/credits/end_credits.lua:164 ../dat/credits/end_credits.lua:203
 #: ../dat/credits/end_credits.lua:250
@@ -1909,7 +1909,7 @@ msgid ""
 "Battle lost music\n"
 "\n"
 "Layna cave music"
-msgstr "\nThème principal, Musique du village, ...\n\nCombat avec Banesore, ...\n\nMusique de la forêt de Layna, ...\n\nMusique des Boss\n\nMusique de combats\n\nChants d'oiseaux\n\nMusique des défaites\n\nMusique des cavernes de Layna"
+msgstr "\nThème principal, musique du village, ...\n\nCombat avec Banesore, ...\n\nMusique de la forêt de Layna, ...\n\nMusique des boss\n\nMusique des combats\n\nChants d'oiseaux\n\nMusique de défaite\n\nMusique des cavernes de Layna"
 
 #: ../dat/credits/end_credits.lua:343
 msgid ""
@@ -1951,7 +1951,7 @@ msgid ""
 "Russian (ru)\n"
 "\n"
 "Spanish (es)"
-msgstr "Revue du texte Anglais\n\nFrançais (fr)\n\nGalicien (gl)\n\nAllemand (de)\n\nItalien (it)\n\nPortuguais (pt_PT)\n\nRusse (ru)\n\nEspagnol (es)"
+msgstr "Révision du texte anglais\n\nFrançais (fr)\n\nGalicien (gl)\n\nAllemand (de)\n\nItalien (it)\n\nPortugais (pt_PT)\n\nRusse (ru)\n\nEspagnol (es)"
 
 #: ../dat/credits/end_credits.lua:477
 msgid "Testers"
@@ -1974,11 +1974,11 @@ msgstr "Allacrost - Équipe de développement (2004-2011)\n\nFondateur et dével
 
 #: ../dat/credits/end_credits.lua:557
 msgid "Allacrost Project Leads/Administrators"
-msgstr "Allacrost - Administrateurs et Leadeurs"
+msgstr "Allacrost - Administrateurs et leaders"
 
 #: ../dat/credits/end_credits.lua:582
 msgid "Allacrost Programming Team (2004-2011)"
-msgstr "Allacrost - Equipe de développement (2004-2011)"
+msgstr "Allacrost - Équipe de développement (2004-2011)"
 
 #: ../dat/credits/end_credits.lua:602
 msgid ""
@@ -1999,11 +1999,11 @@ msgid ""
 "Game editor\n"
 "\n"
 "Programming lead, Game engine, Map code"
-msgstr "Aide sur le code des combats, du menu\n\nEditor de cartes\n\nMoteur de jeu\n\nCode gestion des cartes\n\nDifférents modes de jeu, scripting\n\nMoteur vidéo\n\nMoteur vidéo et audio\n\nEditeur de cartes\n\nLeader programmation, Moteur de jeu, code du mode carte."
+msgstr "Aide sur le code du mode combat, du menu\n\nÉditeur de cartes\n\nMoteur de jeu\n\nCode gestion des cartes\n\nDifférents modes de jeu, scripting\n\nMoteur vidéo\n\nMoteur vidéo et audio\n\nÉditeur de cartes\n\nDirection de la programmation, moteur de jeu, code du mode carte"
 
 #: ../dat/credits/end_credits.lua:622 ../dat/credits/end_credits.lua:662
 msgid "Allacrost Programming Team"
-msgstr "Allacrost - Equipe de développement"
+msgstr "Allacrost - Équipe de développement"
 
 #: ../dat/credits/end_credits.lua:642
 msgid ""
@@ -2024,7 +2024,7 @@ msgid ""
 "Internationalization\n"
 "\n"
 "Video engine"
-msgstr "Code de présentation et combat\n\nEditeur de carte\n\nMoteur audio\n\nCode divers, Maintenance Mac OS X\n\nMoteur de jeu et scripting de compilation Windows\n\nMoteur de combat\n\nEditeur de carte\n\nInternationalisation\n\nMoteur vidéo"
+msgstr "Code de démarrage et mode combat\n\nÉditeur de carte\n\nMoteur audio\n\nCode divers, maintenance Mac OS X\n\nMoteur de jeu, modes de jeu et scripts de compilation Windows\n\nCode du mode combat\n\nÉditeur de carte\n\nInternationalisation\n\nMoteur vidéo"
 
 #: ../dat/credits/end_credits.lua:679
 msgid ""
@@ -2056,7 +2056,7 @@ msgid ""
 "Allacrost website graphics, GUI artwork, Game logos\n"
 "\n"
 "Map tiles, map sprites, Inventory icons, Allacrost artwork coordination"
-msgstr "Sprites, Portraits des personnages, Images des différents lieux\n\nSprites, ancien interface d'Allacrost\n\nTiles\n\nImages site web Allacrost, interface, Icône du jeu\n\nTiles, sprites, icônes d'inventaire, coordination graphismes Allacrost"
+msgstr "Sprites, portraits des personnages, graphismes des différents lieux\n\nSprites, ancienne interface d'Allacrost\n\nTiles\n\nGraphismes du site d'Allacrost, interface, logo du jeu\n\nTiles, sprites, icônes d'inventaire, coordination graphismes Allacrost"
 
 #: ../dat/credits/end_credits.lua:735 ../dat/credits/end_credits.lua:775
 #: ../dat/credits/end_credits.lua:812
@@ -2082,7 +2082,7 @@ msgid ""
 "Map tiles\n"
 "\n"
 "Map sprites"
-msgstr "Concept art\n\nIcônes d'inventaire\n\nAnimations des sprites\n\nConcept art\n\nIcônes d'inventaire\n\nConcept art, sprites\n\nTiles de carte\n\nTiles de cartes\n\nsprites"
+msgstr "Concept art\n\nIcônes d'inventaire\n\nAnimations des sprites\n\nConcept art\n\nIcônes d'inventaire\n\nConcept art, sprites\n\nTiles\n\nTiles\n\nSprites"
 
 #: ../dat/credits/end_credits.lua:792
 msgid ""
@@ -2097,7 +2097,7 @@ msgid ""
 "Concept art, Map sprites\n"
 "\n"
 "Map tiles"
-msgstr "Animation de sprites\n\nAnimation de sprites, Tiles de carte\n\nConcept art, Image titre de Allacrost\n\nConcept art, sprites, Tiles\n\nConcept art, sprites\n\nTiles"
+msgstr "Animation des sprites\n\nAnimation des sprites, tiles\n\nConcept art, image de titre d'Allacrost\n\nConcept art, sprites, tiles\n\nConcept art, sprites\n\nTiles"
 
 #: ../dat/credits/end_credits.lua:829
 msgid ""
@@ -2112,7 +2112,7 @@ msgid ""
 "Map tiles, Inventory icons\n"
 "\n"
 "Map tiles, Battle sprites"
-msgstr "Divers graphismes\n\nTiles\n\nSprites\n\nSprites, tiles\n\nTiles, icônes d'inventaire\n\nTiles, sprites"
+msgstr "Divers graphismes\n\nTiles\n\nSprites des ennemis\n\nSprites, tiles\n\nTiles, icônes d'inventaire\n\nTiles, sprites"
 
 #: ../dat/credits/end_credits.lua:849
 msgid "Allacrost Music and Sound Team (2004-2011)"
@@ -2133,11 +2133,11 @@ msgid ""
 "Sound mixer\n"
 "\n"
 "Soundtrack composer"
-msgstr "Création de sons\n\nCréation de musique\n\nLead en  musique et sons, création de sons\n\nCréation de sons\n\nCréation de sons\n\nMixage de sons\n\nCréation de musiques"
+msgstr "Création de sons\n\nComposition musicale\n\nDirection de l'équipe musique et sons, composition musicale\n\nCréation de sons\n\nCréation de sons\n\nMixage de sons\n\nComposition musicale"
 
 #: ../dat/credits/end_credits.lua:887
 msgid "Allacrost Special Thanks"
-msgstr "Allacrost - Remerciements spéciaux"
+msgstr "Allacrost - Remerciements particuliers"
 
 #: ../dat/credits/end_credits.lua:903
 msgid ""
@@ -2158,11 +2158,11 @@ msgstr "Basé sur"
 
 #: ../dat/credits/episode1_credits.lua:42
 msgid "Episode I - Main Graphics"
-msgstr "Episode I\nGraphismes principaux"
+msgstr "Épisode I - Graphismes principaux"
 
 #: ../dat/credits/episode1_credits.lua:46
 msgid "Episode I - Additional Graphics"
-msgstr "Episode I\nGraphismes additionnels"
+msgstr "Épisode I - Graphismes additionnels"
 
 #: ../dat/credits/episode1_credits.lua:47
 msgid "and many others"
@@ -2222,35 +2222,35 @@ msgstr "Paralysie"
 
 #: ../dat/effects/status.lua:816
 msgid "Fire Elemental Strength"
-msgstr "Résistance à l'élément de Feu"
+msgstr "Résistance à l'élément feu"
 
 #: ../dat/effects/status.lua:873
 msgid "Water Elemental Strength"
-msgstr "Résistance à l'élément d'Eau"
+msgstr "Résistance à l'élément eau"
 
 #: ../dat/effects/status.lua:930
 msgid "Wind Elemental Strength"
-msgstr "Résistance à l'élément d'Air"
+msgstr "Résistance à l'élément air"
 
 #: ../dat/effects/status.lua:986
 msgid "Earth Elemental Strength"
-msgstr "Résistance à l'élément de Terre"
+msgstr "Résistance à l'élément terre"
 
 #: ../dat/effects/status.lua:1042
 msgid "Life Elemental Strength"
-msgstr "Résistance à l'élément de Vie"
+msgstr "Résistance à l'élément vie"
 
 #: ../dat/effects/status.lua:1098
 msgid "Death Elemental Strength"
-msgstr "Résistance à l'élément de Mort"
+msgstr "Résistance à l'élément mort"
 
 #: ../dat/effects/status.lua:1155
 msgid "Neutral Elemental Strength"
-msgstr "Résistance à l'élément Neutre"
+msgstr "Résistance à l'élément neutre"
 
 #: ../dat/help/in_game_move_and_interact_anim.lua:45
 msgid "Escape"
-msgstr "Echap"
+msgstr "Échap"
 
 #: ../dat/help/in_game_move_and_interact_anim.lua:46
 msgid "Space"
@@ -2266,7 +2266,7 @@ msgstr "Alt"
 
 #: ../dat/help/in_game_move_and_interact_anim.lua:49
 msgid "Shift"
-msgstr "MàJ"
+msgstr "Maj"
 
 #: ../dat/help/in_game_move_and_interact_anim.lua:51
 msgid "Move your character:"
@@ -4433,20 +4433,20 @@ msgstr "En effet ! Youpi !"
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_north_east_exit_script.lua:233
 msgid "I'm so relieved we made it safely, hee hee."
-msgstr "Je suis si soulagée que tu t'en sois sorti, hi hi."
+msgstr "Je suis tellement soulagée qu'on s'en soit sorti, hi hi."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_north_east_exit_script.lua:235
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine_basement_script.lua:219
 msgid "Wait..."
-msgstr "Attends..."
+msgstr "Attendez..."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_north_east_exit_script.lua:237
 msgid "Can you smell that stench?"
-msgstr "Peux-tu sentir cette odeur nauséabonde ?"
+msgstr "Sentez-vous cette odeur nauséabonde ?"
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_north_east_exit_script.lua:239
 msgid "... Yes... Is it... smoke?"
-msgstr "... Oui, mais c'est... de la fumée ?"
+msgstr "... Oui, ça sent... la fumée ?"
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_north_east_exit_script.lua:241
 msgid "Something's burning..."
@@ -4454,7 +4454,7 @@ msgstr "Quelque chose brûle..."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_north_east_exit_script.lua:263
 msgid "Our village... is burning..."
-msgstr "Notre village... il brûle..."
+msgstr "Notre village... est en train de brûler..."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_north_east_exit_script.lua:265
 msgid "My parents..."
@@ -5167,11 +5167,11 @@ msgstr "Tu as profané le sol sacré des Anciens et es resté impuni bien trop l
 msgid ""
 "Thus, let death embrace you, little boy, for your comrades are already dying"
 " under my charm and you have to join them into the other world..."
-msgstr "Ainsi, laisse la mort t'accueillir, jeune garçon, car tes camarades sont déjà entrain de périr sous l'emprise de mon charme et tu dois les rejoindre dans l'au-delà..."
+msgstr "Ainsi, laisse la mort t'accueillir, jeune garçon, car tes camarades sont déjà en train de périr sous l'emprise de mon charme et tu dois les rejoindre dans l'au-delà..."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine_3rd_script.lua:481
 msgid "You've proven yourself, Chosen One... You deserve to live after all..."
-msgstr "Tu as prouvé ta valeur, Élu... Tu as mérité de vivre après tout..."
+msgstr "Tu as prouvé ta valeur, Élu... Tu mérites de vivre après tout..."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine_3rd_script.lua:483
 msgid "Me? But I'm not the Chosen One."
@@ -5181,7 +5181,7 @@ msgstr "Moi ? Mais je ne suis pas l'Élu."
 msgid ""
 "The Ones being few or many, still each of them will have to prove themselves"
 " as it is ought to be..."
-msgstr "Qu'ils soient nombreux ou non, chacun des Élus devront prouver leur valeur ainsi que l'exige leur destin..."
+msgstr "Qu'ils soient nombreux ou non, chacun des Élus devra prouver sa valeur ainsi que l'exige son destin..."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine_3rd_script.lua:487
 msgid "Farewell, Chosen One..."
@@ -5189,7 +5189,7 @@ msgstr "Adieu, Élu..."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine_3rd_script.lua:516
 msgid "I can hear water from everywhere..."
-msgstr "Je peux entendre de l'eau couler de toutes parts..."
+msgstr "Je peux entendre de l'eau couler de tous côtés..."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine_3rd_script.lua:518
 msgid "Kalya, Bronann!"
@@ -5294,15 +5294,15 @@ msgstr "Il semble qu'il y ait l'une de ces boules en pierre là-haut..."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine_basement_script.lua:213
 msgid "Wow, what a fall... I didn't see that one coming."
-msgstr "Woah, quelle chute... Je ne l'ai pas vu venir, celle-là."
+msgstr "Wouah, quelle chute... Je ne l'ai pas vu venir, celle-là."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine_basement_script.lua:215
 msgid "Are you alright, Kalya?"
-msgstr "Est-ce que ça va, Kalya ?"
+msgstr "Tu ne t'es pas fait mal, Kalya ?"
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine_basement_script.lua:217
 msgid "I should be fine, but we should heal just in case..."
-msgstr "Ca devrait aller, mais nous devrions nous soigner au cas où..."
+msgstr "Ça devrait aller, mais nous devrions nous soigner au cas où..."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine_basement_script.lua:221
 msgid "Where is Orlinn?"
@@ -5314,20 +5314,20 @@ msgstr "Orlinn ? Orlinn !"
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine_basement_script.lua:225
 msgid "Let's find him ... once more, before something bad happens..."
-msgstr "Trouvons-le... encore, avant que quelque chose de grave n'arrive..."
+msgstr "Trouvons-le... encore une fois, avant que quelque chose de grave n'arrive..."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine_basement_script.lua:241
 msgid "This is the blocked passage to the Shrine entrance..."
-msgstr "C'est le passage écroulé menant à l'entrée du Sanctuaire..."
+msgstr "C'est le passage obstrué menant à l'entrée du Sanctuaire..."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine_basement_script.lua:243
 msgid "This can only mean we're near the exit!"
-msgstr "Cela ne veut dire qu'une seule chose : Nous sommes proches de la sortie !"
+msgstr "Cela ne veut dire qu'une seule chose : nous sommes proches de la sortie !"
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine_basement_script.lua:251
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine_basement_script.lua:275
 msgid "Help!!"
-msgstr "A l'aide !!"
+msgstr "À l'aide !!"
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine_basement_script.lua:277
 msgid "Orlinn! Back off!"
@@ -5353,7 +5353,7 @@ msgstr "Et tu ne toucheras pas à mon frère sans le mien..."
 msgid ""
 "You have been proven guilty in trying to get through the Holy ordeal without"
 " dying. I shall not let you live..."
-msgstr "Vous avez été reconnu coupables en passant les épreuves Sacrées sans périr. Je ne vous laisserai pas vivre..."
+msgstr "Vous avez été reconnus coupables d'avoir tenté de passer les épreuves sacrées sans périr. Je ne vous laisserai pas vivre..."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine_basement_script.lua:300
 msgid "Let's fight for our lives then!"
@@ -5361,7 +5361,7 @@ msgstr "Combattons pour nos vies dans ce cas !"
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine_basement_script.lua:333
 msgid "Orlinn, are you alright?"
-msgstr "Orlinn, Est-ce que ça va ?"
+msgstr "Orlinn, est-ce que tout va bien ?"
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine_basement_script.lua:335
 msgid "Yes, I'm sorry I wasn't able to protect myself, sis."
@@ -5370,22 +5370,22 @@ msgstr "Oui, je suis désolé de ne pas avoir été capable de me protéger, sœ
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine_basement_script.lua:337
 msgid ""
 "Don't you worry about that, brother. Never leave me like that again, ok?"
-msgstr "Ne t'inquiète pas pour cela, frangin. Ne me laisse plus jamais comme cela, ok ?"
+msgstr "Ne t'inquiète pas pour cela, frangin. Ne me laisse plus jamais comme cela, d'accord ?"
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine_basement_script.lua:339
 msgid ""
 "I promise I didn't do it this time. I just fell in front of this hideous "
 "green head..."
-msgstr "Je te jure que je n'ai rien fait cette fois. Je suis tombé droit devant cette grosse tête verte..."
+msgstr "Je te jure que je n'ai rien fait, cette fois ! Je suis tombé droit devant cette immonde tête verte..."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine_basement_script.lua:341
 msgid ""
 "... Well, let's leave this place before another one wants our lives again."
-msgstr "... Bien, quittons cet endroit avant que quelque chose d'autre ne réclame nos vies."
+msgstr "... Bien, quittons cet endroit avant que quelque chose d'autre ne vienne réclamer nos vies."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine_basement_script.lua:343
 msgid "I couldn't agree more ..."
-msgstr "Je ne pourrai pas être plus d'accord..."
+msgstr "Je suis on ne peut plus d'accord..."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:114
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:424
@@ -5491,11 +5491,11 @@ msgstr "De rien !"
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:487
 msgid ""
 "Well, please stop laughing now. I'm not at ease with what just happened..."
-msgstr "Eh bien, s'il te plaît arrête de rire maintenant, je ne suis pas à l'aise avec ce qui vient de se passer..."
+msgstr "Bon, maintenant arrête de rire s'il te plaît. Ça me met mal à l'aise avec ce qui vient de se passer..."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:491
 msgid "Stop laughing now or I'll smash your little head against that wall!"
-msgstr "Arrête de rire ou je vais écraser ta petite tête contre ce mur !"
+msgstr "Arrête de rire ou j'écrase ta petite tête contre le mur !"
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:493
 msgid "Aww... Ok."
