@@ -1187,6 +1187,9 @@ void PartyWindow::Draw()
 // SkillsWindow Class
 ////////////////////////////////////////////////////////////////////////////////
 
+static ustring choose_character_message;
+static ustring choose_skill_category_message;
+
 SkillsWindow::SkillsWindow() :
     _active_box(SKILL_ACTIVE_NONE),
     _char_skillset(0)
@@ -1203,6 +1206,10 @@ SkillsWindow::SkillsWindow() :
     _description.SetDisplayMode(VIDEO_TEXT_INSTANT);
     _description.SetTextAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
     _description.SetTextStyle(TextStyle("text20"));
+
+    // We set them here so that they are re-translated when changing the language.
+    choose_character_message = UTranslate("Choose a character.");
+    choose_skill_category_message = UTranslate("Choose a skill category to use.");
 
 } // SkillsWindow::SkillsWindow()
 
@@ -1462,51 +1469,68 @@ void SkillsWindow::Update()
     if(_active_box != SKILL_ACTIVE_CHAR_APPLY)
         _UpdateSkillList();
 
-    if(_skills_list.GetNumberOptions() > 0 && _skills_list.GetSelection() >= 0
-            && static_cast<int32>(_skills_list.GetNumberOptions()) > _skills_list.GetSelection()) {
-
-        GlobalSkill *skill = _GetCurrentSkill();
-        GlobalCharacter *skill_owner = GlobalManager->GetActiveParty()->GetCharacterAtIndex(_char_skillset);
-
-        // Get the skill type
-        vt_utils::ustring skill_type;
-        switch(skill->GetType()) {
-            case GLOBAL_SKILL_WEAPON:
-                if (skill_owner->GetWeaponEquipped())
-                    skill_type = UTranslate("Weapon skill");
-                else
-                    skill_type = UTranslate("Bare hands");
-                break;
-            case GLOBAL_SKILL_MAGIC:
-                skill_type = UTranslate("Magic skill");
-                break;
-            case GLOBAL_SKILL_SPECIAL:
-                if (skill_owner)
-                    skill_type = skill_owner->GetSpecialCategoryName();
-                else
-                    skill_type = UTranslate("Special skill");
-                break;
-            default:
-            break;
-        }
-
-        vt_utils::ustring description = skill->GetName();
-        if (!skill_type.empty())
-            description += MakeUnicodeString("  (") + skill_type + MakeUnicodeString(")");
-
-        description += MakeUnicodeString("\n\n");
-        description += skill->GetDescription();
-        _description.SetDisplayText(description);
-
-        // Load the skill icon
-        if (!skill->GetIconFilename().empty()) {
-            _skill_icon.Load(skill->GetIconFilename());
-            if (_skill_icon.GetHeight() > 70)
-                _skill_icon.SetHeightKeepRatio(70);
-        }
-        else
-            _skill_icon.Clear();
+    // If the selection is invalid, we clear up the list and return
+    if(_skills_list.GetNumberOptions() <= 0 || _skills_list.GetSelection() < 0
+            || static_cast<int32>(_skills_list.GetNumberOptions()) <= _skills_list.GetSelection()) {
+        _skill_icon.Clear();
+        _description.ClearText();
+        return;
     }
+
+    // If the menu isn't selecting any particular skill, we also return.
+    if (_active_box != SKILL_ACTIVE_LIST && _active_box != SKILL_ACTIVE_CHAR_APPLY) {
+        _skill_icon.Clear();
+
+        if (_active_box == SKILL_ACTIVE_NONE)
+            _description.ClearText();
+        if (_active_box == SKILL_ACTIVE_CHAR)
+            _description.SetDisplayText(choose_character_message);
+        else if (_active_box == SKILL_ACTIVE_CATEGORY)
+            _description.SetDisplayText(choose_skill_category_message);
+        return;
+    }
+
+    GlobalSkill *skill = _GetCurrentSkill();
+    GlobalCharacter *skill_owner = GlobalManager->GetActiveParty()->GetCharacterAtIndex(_char_skillset);
+
+    // Get the skill type
+    vt_utils::ustring skill_type;
+    switch(skill->GetType()) {
+        case GLOBAL_SKILL_WEAPON:
+            if (skill_owner->GetWeaponEquipped())
+                skill_type = UTranslate("Weapon skill");
+            else
+                skill_type = UTranslate("Bare hands");
+            break;
+        case GLOBAL_SKILL_MAGIC:
+            skill_type = UTranslate("Magic skill");
+            break;
+        case GLOBAL_SKILL_SPECIAL:
+            if (skill_owner)
+                skill_type = skill_owner->GetSpecialCategoryName();
+            else
+                skill_type = UTranslate("Special skill");
+            break;
+        default:
+        break;
+    }
+
+    vt_utils::ustring description = skill->GetName();
+    if (!skill_type.empty())
+        description += MakeUnicodeString("  (") + skill_type + MakeUnicodeString(")");
+
+    description += MakeUnicodeString("\n\n");
+    description += skill->GetDescription();
+    _description.SetDisplayText(description);
+
+    // Load the skill icon
+    if (!skill->GetIconFilename().empty()) {
+        _skill_icon.Load(skill->GetIconFilename());
+        if (_skill_icon.GetHeight() > 70)
+            _skill_icon.SetHeightKeepRatio(70);
+    }
+    else
+        _skill_icon.Clear();
 
 } // void SkillsWindow::Update()
 
