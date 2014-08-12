@@ -671,7 +671,10 @@ void InventoryWindow::_UpdateSelection()
 
     if (_is_equipment && !_can_equip)
         MenuMode::CurrentInstance()->_help_information.SetDisplayText(cannot_equip);
-    else // standard items
+    else if (_active_box == ITEM_ACTIVE_CATEGORY)
+        MenuMode::CurrentInstance()->_help_information.SetDisplayText(inventory_help_message);
+    else
+        // standard items
         MenuMode::CurrentInstance()->_help_information.SetDisplayText(item_use);
 }
 
