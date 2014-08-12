@@ -651,7 +651,7 @@ CommandSupervisor::CommandSupervisor() :
     _window_text.SetStyle(TextStyle("text20"));
     _info_header.SetStyle(TextStyle("title22"));
     _info_text.SetStyle(TextStyle("text20"));
-    _info_text.SetWordWrapWidth(500);
+    _info_text.SetWordWrapWidth(475);
 
     _category_options.SetOwner(&_command_window);
     _category_options.SetPosition(256.0f, 80.0f);
