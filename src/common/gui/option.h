@@ -470,6 +470,11 @@ public:
         return _scrolling;
     }
 
+    //! \brief Tells whether the scrolling should be animated.
+    void AnimateScrolling(bool animated) {
+        _scrolling_animated = animated;
+    }
+
     /** \brief Retreives an event that has occurred, or zero if no event occurred.
     *** \return An integer int representing an option box event (i.e. cancel, confirm, left, right, etc.)
     *** \note Calling the Update() method will clear any registered events
@@ -584,6 +589,9 @@ private:
 
     //! \brief Indicates the scrolling direction; 1 for down or -1 for up
     int32 _scroll_direction;
+
+    //! \brief Tells whether the scrolling should be animated.
+    bool _scrolling_animated;
 
     //! \brief The position of the horizontal scroll arrows
     HORIZONTAL_ARROWS_POSITION _horizontal_arrows_position;

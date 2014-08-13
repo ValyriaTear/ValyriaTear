@@ -82,6 +82,7 @@ CharacterCommandSettings::CharacterCommandSettings(BattleCharacter *character, M
     _weapon_skill_list.SetTextStyle(TextStyle("text20"));
     _weapon_skill_list.SetCursorState(VIDEO_CURSOR_STATE_VISIBLE);
     _weapon_skill_list.SetCursorOffset(-50.0f, -25.0f);
+    _weapon_skill_list.AnimateScrolling(false);
 
     _weapon_target_list.SetOwner(&window);
     _weapon_target_list.SetPosition(LIST_POSITION_X + TARGET_ICON_OFFSET, LIST_POSITION_Y);
@@ -91,6 +92,7 @@ CharacterCommandSettings::CharacterCommandSettings(BattleCharacter *character, M
     _weapon_target_list.SetVerticalWrapMode(VIDEO_WRAP_MODE_STRAIGHT);
     _weapon_target_list.SetTextStyle(TextStyle("text20"));
     _weapon_target_list.SetCursorState(VIDEO_CURSOR_STATE_HIDDEN);
+    _weapon_target_list.AnimateScrolling(false);
 
     _magic_skill_list.SetOwner(&window);
     _magic_skill_list.SetPosition(LIST_POSITION_X, LIST_POSITION_Y);
@@ -101,6 +103,7 @@ CharacterCommandSettings::CharacterCommandSettings(BattleCharacter *character, M
     _magic_skill_list.SetTextStyle(TextStyle("text20"));
     _magic_skill_list.SetCursorState(VIDEO_CURSOR_STATE_VISIBLE);
     _magic_skill_list.SetCursorOffset(-50.0f, -25.0f);
+    _magic_skill_list.AnimateScrolling(false);
 
     _magic_target_list.SetOwner(&window);
     _magic_target_list.SetPosition(LIST_POSITION_X + TARGET_ICON_OFFSET, LIST_POSITION_Y);
@@ -110,6 +113,7 @@ CharacterCommandSettings::CharacterCommandSettings(BattleCharacter *character, M
     _magic_target_list.SetVerticalWrapMode(VIDEO_WRAP_MODE_STRAIGHT);
     _magic_target_list.SetTextStyle(TextStyle("text20"));
     _magic_target_list.SetCursorState(VIDEO_CURSOR_STATE_HIDDEN);
+    _magic_target_list.AnimateScrolling(false);
 
     _special_skill_list.SetOwner(&window);
     _special_skill_list.SetPosition(LIST_POSITION_X, LIST_POSITION_Y);
@@ -120,6 +124,7 @@ CharacterCommandSettings::CharacterCommandSettings(BattleCharacter *character, M
     _special_skill_list.SetTextStyle(TextStyle("text20"));
     _special_skill_list.SetCursorState(VIDEO_CURSOR_STATE_VISIBLE);
     _special_skill_list.SetCursorOffset(-50.0f, -25.0f);
+    _special_skill_list.AnimateScrolling(false);
 
     _special_target_list.SetOwner(&window);
     _special_target_list.SetPosition(LIST_POSITION_X + TARGET_ICON_OFFSET, LIST_POSITION_Y);
@@ -129,6 +134,7 @@ CharacterCommandSettings::CharacterCommandSettings(BattleCharacter *character, M
     _special_target_list.SetVerticalWrapMode(VIDEO_WRAP_MODE_STRAIGHT);
     _special_target_list.SetTextStyle(TextStyle("text20"));
     _special_target_list.SetCursorState(VIDEO_CURSOR_STATE_HIDDEN);
+    _special_target_list.AnimateScrolling(false);
 
     if(_character == NULL) {
         IF_PRINT_WARNING(BATTLE_DEBUG) << "constructor received NULL character pointer" << std::endl;
@@ -329,6 +335,7 @@ ItemCommand::ItemCommand(MenuWindow &window)
     _item_list.SetTextStyle(TextStyle("text20"));
     _item_list.SetCursorState(VIDEO_CURSOR_STATE_VISIBLE);
     _item_list.SetCursorOffset(-50.0f, -25.0f);
+    _item_list.AnimateScrolling(false);
 
     _item_target_list.SetOwner(&window);
     _item_target_list.SetPosition(LIST_POSITION_X + TARGET_ICON_OFFSET, LIST_POSITION_Y);
@@ -338,6 +345,7 @@ ItemCommand::ItemCommand(MenuWindow &window)
     _item_target_list.SetVerticalWrapMode(VIDEO_WRAP_MODE_STRAIGHT);
     _item_target_list.SetTextStyle(TextStyle("text20"));
     _item_target_list.SetCursorState(VIDEO_CURSOR_STATE_HIDDEN);
+    _item_target_list.AnimateScrolling(false);
 
     ResetItemList();
 }
@@ -661,6 +669,7 @@ CommandSupervisor::CommandSupervisor() :
     _category_options.SetOptionAlignment(VIDEO_X_CENTER, VIDEO_Y_TOP);
     _category_options.SetTextStyle(TextStyle("title22"));
     _category_options.SetSelectMode(VIDEO_SELECT_SINGLE);
+    _category_options.SetVerticalWrapMode(VIDEO_WRAP_MODE_STRAIGHT);
     _category_options.SetOptions(option_text);
     _category_options.SetSelection(0);
 
@@ -672,7 +681,7 @@ CommandSupervisor::CommandSupervisor() :
     _target_options.SetDimensions(TARGET_SIZE_X, TARGET_SIZE_Y, 1, 255, 1, 4);
     _target_options.SetAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
     _target_options.SetOptionAlignment(VIDEO_X_LEFT, VIDEO_Y_CENTER);
-    _target_options.SetVerticalWrapMode(VIDEO_WRAP_MODE_NONE);
+    _target_options.SetVerticalWrapMode(VIDEO_WRAP_MODE_STRAIGHT);
     _target_options.SetTextStyle(TextStyle("text20"));
     _target_options.SetCursorState(VIDEO_CURSOR_STATE_VISIBLE);
     _target_options.SetCursorOffset(-50.0f, -25.0f);

@@ -131,6 +131,7 @@ OptionBox::OptionBox() :
     _scrolling(false),
     _scroll_time(0),
     _scroll_direction(0),
+    _scrolling_animated(true),
     _horizontal_arrows_position(H_POSITION_BOTTOM),
     _vertical_arrows_position(V_POSITION_RIGHT)
 {
@@ -145,19 +146,19 @@ void OptionBox::Update(uint32 frame_time)
     if(!_scrolling)
         return;
 
-    _scroll_time += frame_time;
-
-    if(_scroll_time > VIDEO_OPTION_SCROLL_TIME) {
+    if(!_scrolling_animated || _scroll_time > VIDEO_OPTION_SCROLL_TIME) {
         _scroll_time = 0;
         _scrolling = false;
         _scroll_offset = 0.0f;
-    } else {
-        // Computes the _scroll_offset independently from the coordinate system
-        _scroll_offset = (_scroll_time / static_cast<float>(VIDEO_OPTION_SCROLL_TIME)) * _cell_height;
-        if(_scroll_direction == -1) {   // Up
-            _scroll_offset = _cell_height - _scroll_offset;
-        }
+        return;
     }
+
+    _scroll_time += frame_time;
+
+    // Computes the _scroll_offset independently from the coordinate system
+    _scroll_offset = (_scroll_time / static_cast<float>(VIDEO_OPTION_SCROLL_TIME)) * _cell_height;
+    if(_scroll_direction == -1) // Up
+        _scroll_offset = _cell_height - _scroll_offset;
 }
 
 
