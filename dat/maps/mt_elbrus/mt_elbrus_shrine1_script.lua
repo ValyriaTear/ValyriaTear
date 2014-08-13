@@ -407,6 +407,10 @@ function _CreateEvents()
     event = vt_map.DialogueEvent("Dialogue about the passage to Estoria", dialogue);
     event:AddEventLinkAtEnd("Kalya runs to the blocked passage");
     event:AddEventLinkAtEnd("Bronann looks north");
+    event:AddEventLinkAtEnd("Move camera to the obstructed passage");
+    EventManager:RegisterEvent(event);
+
+    event = vt_map.ScriptedEvent("Move camera to the obstructed passage", "camera_to_passage", "");
     EventManager:RegisterEvent(event);
 
     event = vt_map.PathMoveSpriteEvent("Kalya runs to the blocked passage", kalya, 27, 34, true);
@@ -424,8 +428,12 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("Bronann goes near both");
     EventManager:RegisterEvent(event);
 
+    event = vt_map.ScriptedEvent("Move camera back to hero", "camera_to_hero", "");
+    EventManager:RegisterEvent(event);
+
     event = vt_map.PathMoveSpriteEvent("Bronann goes near both", hero, 28, 36, false);
     event:AddEventLinkAtEnd("Bronann looks north");
+    event:AddEventLinkAtEnd("Move camera back to hero");
     event:AddEventLinkAtEnd("Dialogue about the passage to Estoria 3");
     EventManager:RegisterEvent(event);
 
@@ -847,6 +855,15 @@ map_functions = {
 
         kalya_move_next_to_hero_event1:SetDestination(hero:GetXPosition() + 2.0, hero:GetYPosition(), false);
         orlinn_move_next_to_hero_event1:SetDestination(hero:GetXPosition() - 2.0, hero:GetYPosition(), false);
+    end,
+
+    camera_to_passage = function()
+        Map:MoveVirtualFocus(15, 30);
+        Map:SetCamera(ObjectManager.virtual_focus, 1000);
+    end,
+
+    camera_to_hero = function()
+        Map:SetCamera(hero, 2000);
     end,
 
     shrine_entrance_event_end = function()
