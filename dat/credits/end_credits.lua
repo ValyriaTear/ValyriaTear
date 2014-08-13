@@ -419,7 +419,7 @@ function Initialize(map_instance)
                     text_color = vt_video.Color(0.7, 0.7, 0.7, 1.0),
                 },
                 [3] = {
-                    text = Script:CreateText("hasufell\n\nakien-Mageia\n\nAapoRantalainen\n\nptitSeb\n\nEric Anholt", vt_video.TextStyle("text24")),
+                    text = Script:CreateText("hasufell\n\nAkien\n\nAapoRantalainen\n\nptitSeb\n\nEric Anholt", vt_video.TextStyle("text24")),
                     text_position_x = 612.0,
                     text_position_y = 300.0,
                     text_color = vt_video.Color(1.0, 1.0, 1.0, 1.0),
