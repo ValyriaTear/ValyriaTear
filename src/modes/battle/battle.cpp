@@ -556,6 +556,11 @@ void BattleMode::AddEnemy(uint32 new_enemy_id, float position_x, float position_
     _enemy_actors.push_back(new_battle_enemy);
     _enemy_party.push_back(new_battle_enemy);
 
+    // Sort the enemies based on their Y location.
+    // The player will then be able to target them in that order
+    // which is much more straight-forward.
+    std::sort(_enemy_party.begin(), _enemy_party.end(), CompareObjectsYCoord);
+
     if (GetState() == BATTLE_STATE_INVALID) {
         // When the enemy is added before the battle has begun, we can store it
         // in case of a battle restart, as the number of enemies might have changed afterwards
@@ -763,6 +768,11 @@ void BattleMode::_Initialize()
         BattleCharacter *new_actor = new BattleCharacter(active_party->GetCharacterAtIndex(i));
         _character_actors.push_back(new_actor);
         _character_party.push_back(new_actor);
+
+    // Sort the characters based on their Y location.
+    // The player will then be able to target them in that order
+    // which is much more straight-forward.
+    std::sort(_character_party.begin(), _character_party.end(), CompareObjectsYCoord);
 
         // Check whether the character is alive
         if(new_actor->GetHitPoints() == 0)
