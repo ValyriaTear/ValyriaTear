@@ -414,17 +414,11 @@ public:
     **/
     void RemoveFromInventory(uint32 obj_id);
 
-    /** \brief Retries a single copy of an object from the inventory
-    *** \param obj_id The identifier value of the item to remove
-    *** \param all_counts If set to true, all counts of the object will be removed from the inventory (default value == false)
+    /** \brief Gets a copy of an object from the inventory
+    *** \param obj_id The identifier value of the item to obtain
     *** \return A newly instantiated copy of the object, or NULL if the object was not found in the inventory
-    ***
-    *** If all_counts is false, the returned object will have a count of one and the count of the object inside the inventory
-    *** will be decremented by one. If all_counts is ture, the returned object will have the same count as was previously in
-    *** the inventory, and the object will be removed from the inventory alltogether. Note that the pointer returned will need
-    *** to be deleted by the user code, unless the object is re-added to the inventory or equipped on a character.
     **/
-    GlobalObject *RetrieveFromInventory(uint32 obj_id, bool all_counts = false);
+    GlobalObject* GetGlobalObject(uint32 obj_id);
 
     /** \brief Increments the number (count) of an object in the inventory
     *** \param item_id The integer identifier of the item that will have its count incremented
@@ -1177,12 +1171,11 @@ private:
     template <class T> bool _RemoveFromInventory(uint32 obj_id, std::vector<T *>& inv);
 
     /** \brief A helper template function that finds and returns a copy of an object from the inventory
-    *** \param obj_id The ID of the object to remove from the inventory
+    *** \param obj_id The ID of the object to obtain from the inventory
     *** \param inv The vector container of the appropriate inventory type
-    *** \param all_counts If false the object's count is decremented by one from the inventory, otherwise all counts are removed completely
     *** \return A pointer to the newly created copy of the object, or NULL if the object could not be found
     **/
-    template <class T> T *_RetrieveFromInventory(uint32 obj_id, std::vector<T *>& inv, bool all_counts);
+    template <class T> T *_GetFromInventory(uint32 obj_id, std::vector<T *>& inv);
 
     /** \brief A helper function to GameGlobal::SaveGame() that stores the contents of a type of inventory to the saved game file
     *** \param file A reference to the open and valid file where to write the inventory list
@@ -1302,30 +1295,19 @@ template <class T> bool GameGlobal::_RemoveFromInventory(uint32 obj_id, std::vec
     return false;
 } // template <class T> bool GameGlobal::_RemoveFromInventory(uint32 obj_id, std::vector<T*>& inv)
 
-
-
-template <class T> T *GameGlobal::_RetrieveFromInventory(uint32 obj_id, std::vector<T *>& inv, bool all_counts)
+template <class T> T *GameGlobal::_GetFromInventory(uint32 obj_id, std::vector<T *>& inv)
 {
-    for(typename std::vector<T *>::iterator i = inv.begin(); i != inv.end(); i++) {
-        if((*i)->GetID() == obj_id) {
-            T *return_object;
-            if(all_counts == true || _inventory[obj_id]->GetCount() == 1) {
-                return_object = *i;
-                _inventory.erase(obj_id);
-                inv.erase(i);
-            } else {
-                return_object = new T(**i);
-                return_object->SetCount(1);
-                _inventory[obj_id]->DecrementCount();
-            }
-            return return_object;
-        }
+    for(typename std::vector<T*>::iterator it = inv.begin(); it != inv.end(); ++it) {
+        if((*it)->GetID() != obj_id)
+            continue;
+
+        T *return_object = new T(**it);
+        return_object->SetCount(1);
+        return return_object;
     }
 
     return NULL;
-} // template <class T> T* GameGlobal::_RetrieveFromInventory(uint32 obj_id, std::vector<T*>& inv, bool all_counts)
-
-
+}
 
 template <class T> void GameGlobal::_SaveInventory(vt_script::WriteScriptDescriptor &file, const std::string &name, std::vector<T *>& inv)
 {

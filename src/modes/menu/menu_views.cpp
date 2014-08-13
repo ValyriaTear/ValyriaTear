@@ -399,13 +399,11 @@ void InventoryWindow::Update()
                 }
 
                 // Check first whether the item is usable from the menu
-                GlobalItem *item = (GlobalItem *)GlobalManager->RetrieveFromInventory(_object->GetID());
-                if (!item->IsUsableInField()) {
+                GlobalItem *item = (GlobalItem *)GlobalManager->GetGlobalObject(_object->GetID());
+                if (!item || !item->IsUsableInField()) {
                     media.PlaySound("cancel");
-                    GlobalManager->AddToInventory(item);
                     break;
                 }
-                GlobalManager->AddToInventory(item);
 
                 _active_box = ITEM_ACTIVE_CHAR;
                 _inventory_items.SetCursorState(VIDEO_CURSOR_STATE_DARKEN);
@@ -451,8 +449,11 @@ void InventoryWindow::Update()
                     {
                         // Returns an item object, already removed from inventory.
                         // Don't forget to readd the item if not used, or to delete the pointer.
-                        GlobalItem *item = (GlobalItem *)GlobalManager->RetrieveFromInventory(_object->GetID());
-                        const ScriptObject &script_function = item->GetFieldUseFunction();
+                        GlobalItem* item = (GlobalItem *)GlobalManager->GetGlobalObject(_object->GetID());
+                        if (!item)
+                            break;
+
+                        const ScriptObject& script_function = item->GetFieldUseFunction();
                         if(!script_function.is_valid()) {
                             IF_PRINT_WARNING(MENU_DEBUG) << "item did not have a menu use function" << std::endl;
                         } else {
@@ -472,11 +473,10 @@ void InventoryWindow::Update()
                                     success = false;
                                 }
 
-                                // If the item use failed, we readd it to inventory.
-                                if(!success)
-                                    GlobalManager->AddToInventory(item);
-                                else // delete the item instance when succeeded. Also, return back a level to the item selection list
+                                if(success)
                                 {
+                                    // Delete the item instance when succeeded.
+                                    // Also, return back a level to the item selection list
                                     _active_box = ITEM_ACTIVE_LIST;
                                     _char_select.SetCursorState(VIDEO_CURSOR_STATE_HIDDEN);
                                     _char_select.ResetViewableOption();
@@ -485,6 +485,9 @@ void InventoryWindow::Update()
                                     // We also update the Characters stats as the item might have some effects there.
                                     MenuMode::CurrentInstance()->ReloadCharacterWindows();
                                     delete item;
+                                    item = NULL;
+                                    // Now the item is used, we can remove it from the inventory.
+                                    GlobalManager->DecrementObjectCount(_object->GetID(), 1);
                                 }
                             } // if GLOBAL_TARGET_PARTY
                             else { // Use on a single character only
@@ -501,11 +504,10 @@ void InventoryWindow::Update()
                                     success = false;
                                 }
 
-                                // If the item use failed, we readd it to inventory.
-                                if(!success)
-                                    GlobalManager->AddToInventory(item);
-                                else // delete the item instance when succeeded. Also, return back a level to the item selection list
+                                if(success)
                                 {
+                                    // delete the item instance when succeeded.
+                                    // Also, return back a level to the item selection list
                                     _active_box = ITEM_ACTIVE_LIST;
                                     _char_select.SetCursorState(VIDEO_CURSOR_STATE_HIDDEN);
                                     _char_select.ResetViewableOption();
@@ -514,6 +516,9 @@ void InventoryWindow::Update()
                                     // We also update the Characters stats as the item might have some effects there.
                                     MenuMode::CurrentInstance()->ReloadCharacterWindows();
                                     delete item;
+                                    item = NULL;
+                                    // Now the item is used, we can remove it from the inventory.
+                                    GlobalManager->DecrementObjectCount(_object->GetID(), 1);
                                 }
                             }
                         }
@@ -522,7 +527,7 @@ void InventoryWindow::Update()
                     case GLOBAL_OBJECT_WEAPON:
                     {
                         //get the item from the inventory list. this also removes the item from the list
-                        selected_weapon = dynamic_cast<GlobalWeapon *>(GlobalManager->RetrieveFromInventory(_object->GetID()));
+                        selected_weapon = dynamic_cast<GlobalWeapon *>(GlobalManager->GetGlobalObject(_object->GetID()));
                         break;
                     }
                     case GLOBAL_OBJECT_HEAD_ARMOR:
@@ -531,7 +536,7 @@ void InventoryWindow::Update()
                     case GLOBAL_OBJECT_LEG_ARMOR:
                     {
                         //get the item from the inventory list. this also removes the item from the list
-                        selected_armor = dynamic_cast<GlobalArmor *>(GlobalManager->RetrieveFromInventory(_object->GetID()));
+                        selected_armor = dynamic_cast<GlobalArmor *>(GlobalManager->GetGlobalObject(_object->GetID()));
                         break;
                     }
 
@@ -567,9 +572,10 @@ void InventoryWindow::Update()
                     _char_select.ResetViewableOption();
                     //set the item select to by lightened
                     _inventory_items.SetCursorState(VIDEO_CURSOR_STATE_VISIBLE);
-
+                    // Remove the selected one from inventory
+                    GlobalManager->DecrementObjectCount(_object->GetID(), 1);
                 }
-                //if we can equuip and it is a weapon
+                //if we can equip and it is a weapon
                 else if(_can_equip && selected_weapon)
                 {
                     //get the old weapon by swapping the selected_weapon for the current one
@@ -582,16 +588,12 @@ void InventoryWindow::Update()
                     _char_select.ResetViewableOption();
                     //set the item select to by lightened
                     _inventory_items.SetCursorState(VIDEO_CURSOR_STATE_VISIBLE);
-
+                    // Remove the selected one from inventory
+                    GlobalManager->DecrementObjectCount(_object->GetID(), 1);
                 }
                 //if we cannot equip
                 else
                 {
-                    //return the weapon to inventory
-                    if(selected_weapon)
-                        GlobalManager->AddToInventory(selected_weapon);
-                    if(selected_armor)
-                        GlobalManager->AddToInventory(selected_armor);
                     media.PlaySound("cancel");
                 }
 
@@ -1905,7 +1907,8 @@ void EquipWindow::Update()
                 GlobalWeapon *wpn = GlobalManager->GetInventoryWeapons()->at(inventory_id);
                 if(wpn->GetUsableBy() & _character->GetID()) {
                     id_num = wpn->GetID();
-                    GlobalManager->AddToInventory(_character->EquipWeapon((GlobalWeapon *)GlobalManager->RetrieveFromInventory(id_num)));
+                    GlobalManager->AddToInventory(_character->EquipWeapon((GlobalWeapon *)GlobalManager->GetGlobalObject(id_num)));
+                    GlobalManager->DecrementObjectCount(id_num, 1);
                 } else {
                     media.PlaySound("cancel");
                 }
@@ -1916,7 +1919,8 @@ void EquipWindow::Update()
                 GlobalArmor *hlm = GlobalManager->GetInventoryHeadArmor()->at(inventory_id);
                 if(hlm->GetUsableBy() & _character->GetID()) {
                     id_num = hlm->GetID();
-                    GlobalManager->AddToInventory(_character->EquipHeadArmor((GlobalArmor *)GlobalManager->RetrieveFromInventory(id_num)));
+                    GlobalManager->AddToInventory(_character->EquipHeadArmor((GlobalArmor *)GlobalManager->GetGlobalObject(id_num)));
+                    GlobalManager->DecrementObjectCount(id_num, 1);
                 } else {
                     media.PlaySound("cancel");
                 }
@@ -1927,7 +1931,8 @@ void EquipWindow::Update()
                 GlobalArmor *arm = GlobalManager->GetInventoryTorsoArmor()->at(inventory_id);
                 if(arm->GetUsableBy() & _character->GetID()) {
                     id_num = arm->GetID();
-                    GlobalManager->AddToInventory(_character->EquipTorsoArmor((GlobalArmor *)GlobalManager->RetrieveFromInventory(id_num)));
+                    GlobalManager->AddToInventory(_character->EquipTorsoArmor((GlobalArmor *)GlobalManager->GetGlobalObject(id_num)));
+                    GlobalManager->DecrementObjectCount(id_num, 1);
                 } else {
                     media.PlaySound("cancel");
                 }
@@ -1938,7 +1943,8 @@ void EquipWindow::Update()
                 GlobalArmor *shld = GlobalManager->GetInventoryArmArmor()->at(inventory_id);
                 if(shld->GetUsableBy() & _character->GetID()) {
                     id_num = shld->GetID();
-                    GlobalManager->AddToInventory(_character->EquipArmArmor((GlobalArmor *)GlobalManager->RetrieveFromInventory(id_num)));
+                    GlobalManager->AddToInventory(_character->EquipArmArmor((GlobalArmor *)GlobalManager->GetGlobalObject(id_num)));
+                    GlobalManager->DecrementObjectCount(id_num, 1);
                 } else {
                     media.PlaySound("cancel");
                 }
@@ -1949,7 +1955,8 @@ void EquipWindow::Update()
                 GlobalArmor *lgs = GlobalManager->GetInventoryLegArmor()->at(inventory_id);
                 if(lgs->GetUsableBy() & _character->GetID()) {
                     id_num = lgs->GetID();
-                    GlobalManager->AddToInventory(_character->EquipLegArmor((GlobalArmor *)GlobalManager->RetrieveFromInventory(id_num)));
+                    GlobalManager->AddToInventory(_character->EquipLegArmor((GlobalArmor *)GlobalManager->GetGlobalObject(id_num)));
+                    GlobalManager->DecrementObjectCount(id_num, 1);
                 } else {
                     media.PlaySound("cancel");
                 }
