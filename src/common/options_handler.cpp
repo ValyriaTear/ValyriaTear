@@ -424,7 +424,7 @@ void GameOptionsMenuHandler::_SetupAudioOptionsMenu()
 
 void GameOptionsMenuHandler::_SetupLanguageOptionsMenu()
 {
-    _language_options_menu.SetPosition(442.0f, 468.0f);
+    _language_options_menu.SetPosition(402.0f, 468.0f);
     _language_options_menu.SetTextStyle(TextStyle("title22"));
     _language_options_menu.SetAlignment(VIDEO_X_LEFT, VIDEO_Y_CENTER);
     _language_options_menu.SetOptionAlignment(VIDEO_X_LEFT, VIDEO_Y_CENTER);
@@ -584,7 +584,7 @@ void GameOptionsMenuHandler::_RefreshLanguageOptions()
 
     // Set up the dimensions of the window according to how many languages are available.
     _language_options_menu.ClearOptions();
-    _language_options_menu.SetDimensions(300.0f, 200.0f, 1, table_size, 1, (table_size > 8 ? 8 : table_size));
+    _language_options_menu.SetDimensions(300.0f, 500.0f, 1, table_size, 1, (table_size > 12 ? 12 : table_size));
 
     // Used to warn about missing po files, but only once at start.
     static bool warnAboutMissingFiles = true;
