@@ -731,7 +731,7 @@ function _CheckZones()
     elseif (music_fade_out_zone:IsCameraEntering() == true) then
         -- fade out the music when the first boss fight hasn't been done yet.
         if (GlobalManager:DoesEventExist("story", "layna_forest_boss_fight1") == false) then
-            AudioManager:FadeOutAllMusic(2000);
+            AudioManager:FadeOutActiveMusic(2000);
         end
     elseif (boss_fight1_zone:IsCameraEntering() == true) then
         -- fade out the music when the first boss fight hasn't been done yet.
@@ -782,6 +782,6 @@ map_functions = {
     end,
 
     restart_music = function()
-        AudioManager:FadeInAllMusic(2000);
+        AudioManager:FadeInActiveMusic(2000);
     end
 }

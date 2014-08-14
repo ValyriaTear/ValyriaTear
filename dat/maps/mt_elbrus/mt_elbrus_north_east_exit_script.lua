@@ -404,7 +404,7 @@ map_functions = {
         kalya:DisableCustomAnimation();
 
         -- Make music fade out
-        AudioManager:FadeOutAllMusic(1000)
+        AudioManager:FadeOutActiveMusic(1000)
     end,
 
     set_camera_on_village_start = function()

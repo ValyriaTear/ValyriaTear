@@ -427,7 +427,7 @@ bool SaveMode::_LoadGame(uint32 id)
 
     if(DoesFileExist(filename)) {
         _current_state = SAVE_MODE_FADING_OUT;
-        AudioManager->StopAllMusic();
+        AudioManager->StopActiveMusic();
 
         GlobalManager->LoadGame(filename, id);
 

@@ -1274,7 +1274,7 @@ map_functions = {
 
         move_next_to_hero_event:SetDestination(hero:GetXPosition() + 2.0, hero:GetYPosition(), false);
 
-        AudioManager:FadeOutAllMusic(1000);
+        AudioManager:FadeOutActiveMusic(1000);
     end,
 
     end_of_dialogue_with_orlinn = function()
@@ -1286,7 +1286,7 @@ map_functions = {
         -- Reload the hero back to default
         hero:ReloadSprite(main_sprite_name);
 
-        AudioManager:FadeInAllMusic(1000);
+        AudioManager:FadeInActiveMusic(1000);
 
         -- Set event as done
         GlobalManager:SetEventValue("story", "layna_forest_kalya sees_orlinn", 1);

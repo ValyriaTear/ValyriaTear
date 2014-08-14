@@ -616,7 +616,7 @@ map_functions = {
         soldier4:SetDirection(vt_map.MapMode.SOUTH);
 
         -- Fade out the music
-        AudioManager:FadeOutAllMusic(2000);
+        AudioManager:FadeOutActiveMusic(2000);
     end,
 
     set_camera_on_kalya = function()

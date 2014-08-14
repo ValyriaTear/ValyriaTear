@@ -62,7 +62,7 @@ function Initialize(battle, _enemy)
     light3_image = Script:CreateImage("dat/battles/enemies_animations/death_light_3.png");
 
     -- Fade out the battle music to make the event more dramatic
-    AudioManager:FadeOutAllMusic(2000);
+    AudioManager:FadeOutActiveMusic(2000);
 end
 
 local white_color = vt_video.Color(1.0, 1.0, 1.0, 1.0);

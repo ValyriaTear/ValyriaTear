@@ -282,7 +282,7 @@ function _CreateEvents()
     event = vt_map.ScriptedEvent("Sad music start", "sad_music_start", "");
     EventManager:RegisterEvent(event);
 
-    event = vt_map.ScriptedEvent("FadeOutAllMusic", "fade_out_music", "");
+    event = vt_map.ScriptedEvent("FadeOutActiveMusic", "fade_out_music", "");
     EventManager:RegisterEvent(event);
 
     dialogue = vt_map.SpriteDialogue();
@@ -293,7 +293,7 @@ function _CreateEvents()
     text = vt_system.Translate("The soldiers will be here any minute. We'll leave to the north and cross the north-west plain up to...");
     dialogue:AddLine(text, kalya);
     text = vt_system.Translate("No.");
-    dialogue:AddLineEvent(text, bronann, "FadeOutAllMusic", "");
+    dialogue:AddLineEvent(text, bronann, "FadeOutActiveMusic", "");
     text = vt_system.Translate("No?!");
     dialogue:AddLineEventEmote(text, kalya, "Kalya looks at Bronann", "", "exclamation");
     text = vt_system.Translate("No, I won't follow you anymore...");
@@ -506,7 +506,7 @@ map_functions = {
     end,
 
     fade_out_music = function()
-        AudioManager:FadeOutAllMusic(1000);
+        AudioManager:FadeOutActiveMusic(1000);
     end,
 
     sad_music_start = function()

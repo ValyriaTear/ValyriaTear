@@ -1283,7 +1283,7 @@ map_functions = {
         bright_light_time = 0.0;
         Effects:ShakeScreen(0.6, 6000, vt_mode_manager.EffectSupervisor.SHAKE_FALLOFF_GRADUAL);
         AudioManager:PlaySound("snd/rumble.wav");
-        AudioManager:FadeOutAllMusic(2000);
+        AudioManager:FadeOutActiveMusic(2000);
     end,
 
     BrightLightUpdate = function()
@@ -1322,7 +1322,7 @@ map_functions = {
             GlobalManager:SetEventValue("story", "kalya_has_joined", 1);
             GlobalManager:AddQuestLog("bring_orlinn_back");
         end
-        AudioManager:FadeInAllMusic(2000);
+        AudioManager:FadeInActiveMusic(2000);
 
         -- Now, the event is done, update Olivia's dialogue as access to the forest is granted
         _UpdateOliviaDialogue();

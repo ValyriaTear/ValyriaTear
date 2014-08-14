@@ -708,7 +708,7 @@ map_functions = {
 
     kalya_laughs = function()
         kalya:SetCustomAnimation("laughing", 0); -- 0 means forever
-        AudioManager:FadeOutAllMusic(1000); -- Remove the music
+        AudioManager:FadeOutActiveMusic(1000); -- Remove the music
     end,
 
     bronann_laughs = function()

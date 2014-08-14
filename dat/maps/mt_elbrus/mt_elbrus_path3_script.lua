@@ -1116,7 +1116,7 @@ map_functions = {
     -- ---------------------------------
     hero_exclamation = function()
         hero:Emote("exclamation", hero:GetDirection());
-        AudioManager:FadeOutAllMusic(1000);
+        AudioManager:FadeOutActiveMusic(1000);
     end,
 
     set_focus_on_harlequin = function()

@@ -888,7 +888,7 @@ function _HurtBoss()
         orlinn:SetMoving(false);
         orlinn:LookAt(andromalius);
         -- Stop the music very quickly.
-        AudioManager:FadeOutAllMusic(400);
+        AudioManager:FadeOutActiveMusic(400);
 
         EventManager:TerminateEvents("Start battle", false);
         EventManager:TerminateEvents("Start spikes", false);
@@ -976,7 +976,7 @@ map_functions = {
         Map:SetCamera(andromalius, 800);
         orlinn:SetDirection(vt_map.MapMode.NORTH);
         -- Fade out the music
-        AudioManager:FadeOutAllMusic(1000);
+        AudioManager:FadeOutActiveMusic(1000);
 
     end,
 

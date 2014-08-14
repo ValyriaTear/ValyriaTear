@@ -388,7 +388,7 @@ void BootMode::_SetupMainMenu()
 
 void BootMode::_OnNewGame()
 {
-    AudioManager->StopAllMusic();
+    AudioManager->StopActiveMusic();
     VideoManager->FadeScreen(Color::black, 2000);
 
     AudioManager->PlaySound("snd/new_game.wav");

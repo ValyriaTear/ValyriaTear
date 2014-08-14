@@ -1260,7 +1260,7 @@ void TransitionToBattleMode::Reset()
     _transition_timer.Run();
 
     // Stop the map music
-    AudioManager->StopAllMusic();
+    AudioManager->StopActiveMusic();
 
     // Play a random encounter sound
     if (_is_boss) {

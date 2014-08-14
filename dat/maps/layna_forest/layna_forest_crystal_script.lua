@@ -1028,7 +1028,7 @@ map_functions = {
     end,
 
     fade_out_music = function()
-        AudioManager:FadeOutAllMusic(2000);
+        AudioManager:FadeOutActiveMusic(2000);
     end,
 
     play_funny_music = function()
