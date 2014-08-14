@@ -378,7 +378,7 @@ function _CreateEvents()
     event = vt_map.LookAtSpriteEvent("Orlinn looks at Bronann", orlinn, bronann);
     EventManager:RegisterEvent(event);
 
-    -- Kalya and Bronann are falling because of the smoke
+    -- Kalya and Bronann are falling because of the smoke event
     event = vt_map.PathMoveSpriteEvent("The hero goes in front of the door", hero, 37, 11, false);
     event:AddEventLinkAtEnd("Kalya and Bronann laughs event start");
     EventManager:RegisterEvent(event);
@@ -394,17 +394,54 @@ function _CreateEvents()
     EventManager:RegisterEvent(kalya_move_next_to_bronann_event1);
     orlinn_move_next_to_bronann_event1 = vt_map.PathMoveSpriteEvent("Orlinn moves next to Bronann", orlinn, 0, 0, false);
     orlinn_move_next_to_bronann_event1:AddEventLinkAtEnd("Orlinn looks north");
-    orlinn_move_next_to_bronann_event1:AddEventLinkAtEnd("The heroes discuss about the big door", 500);
+    orlinn_move_next_to_bronann_event1:AddEventLinkAtEnd("Choice to enter the big door", 500);
     EventManager:RegisterEvent(orlinn_move_next_to_bronann_event1);
 
+    -- choice to enter
+    dialogue = vt_map.SpriteDialogue();
+    text = vt_system.Translate("What a big gate... What is behind must be fearsome...");
+    dialogue:AddLineEmote(text, bronann, "sweat drop");
+    text = vt_system.Translate("Shall we go in?");
+    dialogue:AddLine(text, kalya);
+    text = vt_system.Translate("Yes, let's end this.");
+    dialogue:AddOptionEvent(text, 2, "The heroes decide to go event");
+    text = vt_system.Translate("No, let's prepare first...");
+    dialogue:AddOptionEvent(text, "Kalya goes back to party2");
+    DialogueManager:AddDialogue(dialogue);
+    event = vt_map.DialogueEvent("Choice to enter the big door", dialogue);
+    EventManager:RegisterEvent(event);
+
+    -- Chose not to enter event
+    event = vt_map.PathMoveSpriteEvent("Kalya goes back to party2", kalya, bronann, false);
+    event:AddEventLinkAtStart("Orlinn goes back to party2");
+    event:AddEventLinkAtEnd("Hide Kalya and Orlinn");
+    event:AddEventLinkAtEnd("Bronann goes away from the door");
+    EventManager:RegisterEvent(event);
+    event = vt_map.PathMoveSpriteEvent("Orlinn goes back to party2", orlinn, bronann, false);
+    EventManager:RegisterEvent(event);
+
+    event = vt_map.ScriptedEvent("Hide Kalya and Orlinn", "hide_kalya_and_orlinn", "");
+    EventManager:RegisterEvent(event);
+
+    event = vt_map.PathMoveSpriteEvent("Bronann goes away from the door", bronann, 37, 14, false);
+    event:AddEventLinkAtEnd("The heroes won't enter event");
+    EventManager:RegisterEvent(event);
+
+    event = vt_map.ScriptedEvent("The heroes won't enter event", "heroes_wont_enter", "");
+    EventManager:RegisterEvent(event);
+
+    -- Chose to enter
     event = vt_map.ScriptedEvent("Kalya laughs", "kalya_laughs", "");
     EventManager:RegisterEvent(event);
     event = vt_map.ScriptedEvent("Bronann laughs", "bronann_laughs", "");
     EventManager:RegisterEvent(event);
 
+    -- A link event use to reset the dialogue state properly
+    event = vt_map.ScriptedEvent("The heroes decide to go event", "empty_event", "");
+    event:AddEventLinkAtEnd("The heroes discuss about the big door");
+    EventManager:RegisterEvent(event);
+
     dialogue = vt_map.SpriteDialogue();
-    text = vt_system.Translate("What a big gate... What is behind must be fearsome...");
-    dialogue:AddLineEmote(text, bronann, "sweat drop");
     text = vt_system.Translate("Don't worry, we've managed to come this far. There is nothing that could...");
     dialogue:AddLineEvent(text, kalya, "Kalya looks at Bronann", "Orlinn looks at Kalya");
     text = vt_system.Translate("... What is it, Kalya?");
@@ -625,6 +662,30 @@ map_functions = {
         return true;
     end,
 
+    hide_kalya_and_orlinn = function()
+        kalya:SetPosition(0, 0);
+        kalya:SetVisible(false);
+        kalya:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
+        orlinn:SetPosition(0, 0);
+        orlinn:SetVisible(false);
+        orlinn:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
+    end,
+
+    heroes_wont_enter = function()
+        Map:PopState();
+
+        -- Make the player incarnate the default hero again
+        hero:SetPosition(bronann:GetXPosition(), bronann:GetYPosition())
+        hero:SetDirection(bronann:GetDirection())
+        Map:SetCamera(hero);
+
+        -- Reload the hero back to default
+        hero:SetVisible(true);
+        bronann:SetCollisionMask(vt_map.MapMode.ALL_COLLISION);
+        bronann:SetPosition(0, 0)
+        bronann:SetVisible(false)
+    end,
+
     laughing_event_start = function()
         hero:SetMoving(false);
 
@@ -755,5 +816,8 @@ map_functions = {
 
         -- Fade in the default music
         AudioManager:PlayMusic("mus/icy_wind.ogg");
+    end,
+
+    empty_event = function()
     end,
 }
