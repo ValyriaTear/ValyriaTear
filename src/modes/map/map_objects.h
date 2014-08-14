@@ -670,6 +670,12 @@ public:
         return _activated;
     }
 
+    //! \brief Gets the sound descriptor of the object.
+    //! Used to apply changes directly to the sound object.
+    vt_audio::SoundDescriptor& GetSoundDescriptor() {
+        return _sound;
+    }
+
 private:
     //! \brief The sound object.
     vt_audio::SoundDescriptor _sound;
@@ -1082,9 +1088,17 @@ public:
     bool IsMapCollision(uint32 x, uint32 y)
     { return (_collision_grid[y][x] > 0); }
 
-    //! returns a const reference to the ground objects in
+    //! \brief returns a const reference to the ground objects in
     const std::vector<MapObject *>& GetGroundObjects() const
     { return _ground_objects; }
+
+    //! \brief Stops sounds objects such as ambient sounds.
+    //! Used when starting a battle for instance.
+    void StopSoundObjects();
+
+    //! \brief Restarts sounds objects that were previously stopped.
+    //! Used when leaving a battle for instance.
+    void RestartSoundObjects();
 
 private:
     //! \brief Returns the nearest save point. Used by FindNearestObject.
@@ -1180,6 +1194,9 @@ private:
     //! to the distance with the camera.
     //! \note sound objects are not registered in _all_objects.
     std::vector<SoundObject *> _sound_objects;
+
+    //! \brief The sound objects that can be restarted when the map is reset()
+    std::vector<SoundObject *> _sound_objects_to_restart;
 
     //! \brief Containers for all of the map source of light, quite similar as the ground objects container.
     //! \note Halos and lights are not registered in _all_objects.

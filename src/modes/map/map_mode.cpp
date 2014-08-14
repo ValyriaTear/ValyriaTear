@@ -181,6 +181,9 @@ void MapMode::Deactivate()
     // This way, they'll properly be taken in account in the menu mode or battle mode.
     _status_effect_supervisor.SaveActiveStatusEffects();
 
+    // Stop ambient sounds
+    _object_supervisor->StopSoundObjects();
+
     _activated = false;
 }
 
@@ -203,6 +206,9 @@ void MapMode::Reset()
                           _map_image.GetFilename(), _map_hud_name.GetString());
 
     _ResetMusicState();
+
+    // Restart ambient sounds
+    _object_supervisor->RestartSoundObjects();
 
     _intro_timer.Run();
 

@@ -1818,6 +1818,29 @@ bool ObjectSupervisor::IsStaticCollision(float x, float y)
     return false;
 }
 
+void ObjectSupervisor::StopSoundObjects()
+{
+    _sound_objects_to_restart.clear();
+    for (uint32 i = 0; i < _sound_objects.size(); ++i) {
+        vt_audio::SoundDescriptor& sound = _sound_objects[i]->GetSoundDescriptor();
+        if (sound.GetState() == vt_audio::AUDIO_STATE_PLAYING
+                || sound.GetState() == vt_audio::AUDIO_STATE_FADE_IN) {
+            sound.Stop();
+            _sound_objects_to_restart.push_back(_sound_objects[i]);
+        }
+    }
+}
+
+void ObjectSupervisor::RestartSoundObjects()
+{
+    for (uint32 i = 0; i < _sound_objects_to_restart.size(); ++i) {
+        vt_audio::SoundDescriptor& sound = _sound_objects_to_restart[i]->GetSoundDescriptor();
+        if (sound.GetState() == vt_audio::AUDIO_STATE_STOPPED)
+            sound.Play();
+    }
+    _sound_objects_to_restart.clear();
+}
+
 } // namespace private_map
 
 } // namespace vt_map
