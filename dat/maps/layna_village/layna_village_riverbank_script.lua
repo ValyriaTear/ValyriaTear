@@ -242,6 +242,9 @@ function _CreateEvents()
                                        "dat/maps/layna_village/layna_village_center_script.lua", "from_secret_path");
     EventManager:RegisterEvent(event);
 
+    event = vt_map.ScriptedEvent("Orlinn laughs", "orlinn_laughs", "");
+    EventManager:RegisterEvent(event);
+
     -- Quest events - Hide and seek 2
     dialogue = vt_map.SpriteDialogue();
     text = vt_system.Translate("Wow! You found me!");
@@ -622,7 +625,7 @@ function _SetOrlinnState()
         return;
     elseif (GlobalManager:DoesEventExist("layna_riverbank", "quest1_orlinn_hide_n_seek2_done") == true) then
         orlinn:SetPosition(74, 44);
-    orlinn:SetDirection(vt_map.MapMode.WEST);
+        orlinn:SetDirection(vt_map.MapMode.WEST);
 
         -- Final hide and seek dialogue
         dialogue = vt_map.SpriteDialogue();
@@ -637,11 +640,11 @@ function _SetOrlinnState()
         -- Orlinn is on the cliff and is mocking Bronann.
         dialogue = vt_map.SpriteDialogue();
         text = vt_system.Translate("Hee hee hee!");
-        dialogue:AddLine(text, orlinn_dialogue_npc);
+        dialogue:AddLineEvent(text, orlinn_dialogue_npc, "Orlinn laughs", "");
         text = vt_system.Translate("Orlinn, how did you get there?");
         dialogue:AddLine(text, bronann);
         text = vt_system.Translate("(giggle) I won't tell you!");
-        dialogue:AddLine(text, orlinn_dialogue_npc);
+        dialogue:AddLineEvent(text, orlinn_dialogue_npc, "Orlinn laughs", "");
         DialogueManager:AddDialogue(dialogue);
         orlinn_dialogue_npc:AddDialogueReference(dialogue);
         return;
@@ -663,6 +666,10 @@ map_functions = {
             sprite:SetVisible(false);
             sprite:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
         end
+    end,
+
+    orlinn_laughs = function()
+        orlinn:SetCustomAnimation("laughing", 1000);
     end,
 
     Prepare_orlinn_kalya_scene = function()
