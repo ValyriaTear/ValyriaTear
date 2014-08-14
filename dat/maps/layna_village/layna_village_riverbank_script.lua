@@ -142,7 +142,7 @@ function _CreateObjects()
     -- Add hill treasure chest
     local hill_chest = CreateTreasure(Map, "riverbank_secret_hill_chest", "Wood_Chest1", 72, 5);
     if (hill_chest ~= nil) then
-        hill_chest:AddObject(1, 1);
+        hill_chest:AddObject(1, 3); -- 3 small potions
         Map:AddGroundObject(hill_chest);
     end
 
@@ -395,6 +395,7 @@ function _CreateEvents()
 
     event = vt_map.TreasureEvent("Quest1: Hide and Seek3: Orlinn gives the pen to Bronann");
     event:AddObject(70001, 1); -- The ink key item
+    event:SetDrunes(50); -- The reward for running after Orlinn for so long.
     event:AddEventLinkAtEnd("Quest1: Hide and Seek3: Orlinn is going away for real");
     event:AddEventLinkAtEnd("Quest1: Hide and Seek3: Lilly tells Bronann a bit about Kalya", 2000);
     EventManager:RegisterEvent(event);

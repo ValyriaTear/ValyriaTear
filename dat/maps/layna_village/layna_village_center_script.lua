@@ -132,8 +132,8 @@ function _CreateNPCs()
     EventManager:RegisterEvent(event);
     EventManager:StartEvent("Kalya random move");
     dialogue = vt_map.SpriteDialogue("ep1_layna_village_kalya_wants_to_be_alone");
-    text = vt_system.Translate("Please, leave me alone, Bronann...");
-    dialogue:AddLineEmote(text, kalya, "exclamation");
+    text = vt_system.Translate("Do you need something, Bronann?");
+    dialogue:AddLineEmote(text, kalya, "interrogation");
     DialogueManager:AddDialogue(dialogue);
     kalya:AddDialogueReference(dialogue);
 
@@ -1125,7 +1125,7 @@ function _UpdateOrlinnAndKalyaState()
         dialogue:AddLine(text, bronann);
         text = vt_system.Translate("Why? ... Oh, don't tell it. He's hiding somewhere.");
         dialogue:AddLineEmote(text, kalya, "thinking dots");
-        text = vt_system.Translate("Yes, he took Georges pen and I need to give him back...");
+        text = vt_system.Translate("Yes, he took Georges pen and I need to give it back to him...");
         dialogue:AddLine(text, bronann);
         text = vt_system.Translate("Hmpf, no surprise. Do you want me to bring him back?");
         dialogue:AddLineEmote(text, kalya, "sweat drop");
@@ -1137,7 +1137,7 @@ function _UpdateOrlinnAndKalyaState()
         dialogue:AddLine(text, kalya);
         DialogueManager:AddDialogue(dialogue);
         kalya:AddDialogueReference(dialogue);
-        
+
         return;
     elseif (GlobalManager:DoesEventExist("layna_center", "quest1_georges_dialogue_done") == true) then
         dialogue = vt_map.SpriteDialogue();
@@ -1218,6 +1218,8 @@ map_functions = {
     kalya_brings_orlinn_back_start = function()
         -- Use the scene state so that the character can't move by player's input
         Map:PushState(vt_map.MapMode.STATE_SCENE);
+        -- Do it twice to ensure this state during the transition to the next dialogue
+        Map:PushState(vt_map.MapMode.STATE_SCENE);
         -- Place Orlinn for the event
         orlinn:SetPosition(67, 78);
         orlinn:SetMovementSpeed(vt_map.MapMode.FAST_SPEED);
@@ -1229,6 +1231,8 @@ map_functions = {
 
     orlinn_comes_back_event_end = function()
         GlobalManager:SetEventValue("layna_riverbank", "quest1_orlinn_hide_n_seek3_done", 1);
+        Map:PopState();
+        -- Remove it twice since we added it twice.
         Map:PopState();
 
         -- Updates Kalya and Orlinn dialogues
@@ -1249,7 +1253,7 @@ map_functions = {
     end,
 
     orlinn_laughs = function()
-        orlinn:SetCustomAnimation("laughing", 1000);
+        orlinn:SetCustomAnimation("laughing", 700);
     end,
 
     Prepare_forest_event = function()
