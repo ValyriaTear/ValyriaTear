@@ -226,7 +226,7 @@ void CommonDialogueWindow::SetPosition(float pos_x, float pos_y)
     _pos_y = pos_y;
 
     _display_textbox.SetPosition(_pos_x + 80.0f, _pos_y - 90.0f);
-    _display_optionbox.SetPosition(_pos_x - 260.0f, _pos_y - 112.0f);
+    _display_optionbox.SetPosition(_pos_x - 220.0f, _pos_y - 112.0f);
 }
 
 
