@@ -138,6 +138,7 @@ function _CreateNPCs()
     kalya:AddDialogueReference(dialogue);
 
     orlinn = CreateSprite(Map, "Orlinn", 40, 18);
+    orlinn:SetCollisionMask(vt_map.MapMode.WALL_COLLISION);
     Map:AddGroundObject(orlinn);
     -- Setup Orlinn's state and dialogue depending on the story current context
     _UpdateOrlinnAndKalyaState();
@@ -367,6 +368,16 @@ function _CreateEvents()
     event = vt_map.ScriptedEvent("Map:PopState()", "Map_PopState", "");
     EventManager:RegisterEvent(event);
 
+    event = vt_map.ChangeDirectionSpriteEvent("Kalya looks south", kalya, vt_map.MapMode.SOUTH);
+    EventManager:RegisterEvent(event);
+
+    event = vt_map.LookAtSpriteEvent("Orlinn looks at Kalya", orlinn, kalya);
+    EventManager:RegisterEvent(event);
+    event = vt_map.LookAtSpriteEvent("Orlinn looks at Bronann", orlinn, bronann);
+    EventManager:RegisterEvent(event);
+    event = vt_map.LookAtSpriteEvent("Kalya looks at Orlinn", kalya, orlinn);
+    EventManager:RegisterEvent(event);
+
     -- Quest events
     -- Bronann wonders where he can find barley meal
     event = vt_map.ScriptedEvent("Quest1: Bronann wonders where he can find some barley meal", "Map_SceneState", "");
@@ -399,6 +410,79 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
 
     event = vt_map.ScriptedSpriteEvent("Quest1: Make Orlinn disappear", orlinn, "MakeInvisible", "");
+    event:AddEventLinkAtEnd("Quest1: Make Orlinn run event end");
+    EventManager:RegisterEvent(event);
+
+    event = vt_map.ScriptedSpriteEvent("Quest1: Make Orlinn run event end", orlinn, "orlinn_run_event_end", "");
+    EventManager:RegisterEvent(event);
+
+    -- Kalya calls for Orlinn
+    event = vt_map.ScriptedEvent("Kalya brings back Orlinn event start", "kalya_brings_orlinn_back_start", "");
+    event:AddEventLinkAtEnd("Kalya tells Bronann to follow her");
+    EventManager:RegisterEvent(event);
+
+    dialogue = vt_map.SpriteDialogue();
+    text = vt_system.Translate("As you wish... Follow me.");
+    dialogue:AddLine(text, kalya);
+    DialogueManager:AddDialogue(dialogue);
+    event = vt_map.DialogueEvent("Kalya tells Bronann to follow her", dialogue);
+    event:AddEventLinkAtEnd("Kalya goes at the center of village");
+    event:AddEventLinkAtEnd("Bronann follows Kalya at the center of the village", 1000);
+    EventManager:RegisterEvent(event);
+
+    event = vt_map.PathMoveSpriteEvent("Kalya goes at the center of village", kalya, 52, 47, true);
+    event:AddEventLinkAtEnd("Kalya looks south");
+    event:AddEventLinkAtEnd("Kalya tells Orlinn to come");
+    EventManager:RegisterEvent(event);
+    event = vt_map.PathMoveSpriteEvent("Bronann follows Kalya at the center of the village", bronann, 48, 47, true);
+    event:AddEventLinkAtEnd("Bronann looks south");
+    EventManager:RegisterEvent(event);
+
+    dialogue = vt_map.SpriteDialogue();
+    text = vt_system.Translate("ORLINN!! Come here NOW!!");
+    dialogue:AddLine(text, kalya);
+    DialogueManager:AddDialogue(dialogue);
+    event = vt_map.DialogueEvent("Kalya tells Orlinn to come", dialogue);
+    event:AddEventLinkAtEnd("Orlinn comes near Kalya");
+    EventManager:RegisterEvent(event);
+
+    event = vt_map.PathMoveSpriteEvent("Orlinn comes near Kalya", orlinn, 52, 50, true);
+    event:AddEventLinkAtEnd("Orlinn looks at Kalya");
+    event:AddEventLinkAtEnd("Kalya tells Orlinn to give the pen");
+    EventManager:RegisterEvent(event);
+
+    dialogue = vt_map.SpriteDialogue();
+    text = vt_system.Translate("Orlinn, give back the pen to Bronann, or I shall sma...");
+    dialogue:AddLineEmote(text, kalya, "exclamation");
+    text = vt_system.Translate("Yea... Yes, here it is.");
+    dialogue:AddLineEmote(text, orlinn, "exclamation");
+    DialogueManager:AddDialogue(dialogue);
+    event = vt_map.DialogueEvent("Kalya tells Orlinn to give the pen", dialogue);
+    event:AddEventLinkAtEnd("Orlinn comes near Bronann");
+    EventManager:RegisterEvent(event);
+
+    event = vt_map.PathMoveSpriteEvent("Orlinn comes near Bronann", orlinn, 48, 50, false);
+    event:AddEventLinkAtEnd("Orlinn looks at Bronann");
+    event:AddEventLinkAtEnd("Kalya looks at Orlinn");
+    event:AddEventLinkAtEnd("Orlinn gives the pen to Bronann");
+    EventManager:RegisterEvent(event);
+
+    event = vt_map.TreasureEvent("Orlinn gives the pen to Bronann");
+    event:AddObject(70001, 1); -- The ink key item
+    event:AddEventLinkAtEnd("Orlinn apologizes");
+    EventManager:RegisterEvent(event);
+
+    dialogue = vt_map.SpriteDialogue();
+    text = vt_system.Translate("I found that pen under a tree near the river. I just wanted to play...");
+    dialogue:AddLineEmote(text, orlinn, "sweat drop");
+    text = vt_system.Translate("Don't worry about that...");
+    dialogue:AddLine(text, bronann);
+    DialogueManager:AddDialogue(dialogue);
+    event = vt_map.DialogueEvent("Orlinn apologizes", dialogue);
+    event:AddEventLinkAtEnd("Orlinn comes back event end");
+    EventManager:RegisterEvent(event);
+
+    event = vt_map.ScriptedEvent("Orlinn comes back event end", "orlinn_comes_back_event_end", "");
     EventManager:RegisterEvent(event);
 
     -- Georges event
@@ -1033,6 +1117,27 @@ function _UpdateOrlinnAndKalyaState()
         -- At that time, Orlinn isn't in the village center anymore.
         orlinn:SetVisible(false);
         orlinn:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
+
+        -- Kalya propose to seek him for you
+        kalya:ClearDialogueReferences();
+        dialogue = vt_map.SpriteDialogue();
+        text = vt_system.Translate("Kalya, have you seen Orlinn?");
+        dialogue:AddLine(text, bronann);
+        text = vt_system.Translate("Why? ... Oh, don't tell it. He's hiding somewhere.");
+        dialogue:AddLineEmote(text, kalya, "thinking dots");
+        text = vt_system.Translate("Yes, he took Georges pen and I need to give him back...");
+        dialogue:AddLine(text, bronann);
+        text = vt_system.Translate("Hmpf, no surprise. Do you want me to bring him back?");
+        dialogue:AddLineEmote(text, kalya, "sweat drop");
+        text = vt_system.Translate("Yes, please...");
+        dialogue:AddOptionEvent(text, 15, "Kalya brings back Orlinn event start"); -- 15 is after the dialogue's end on purpose.
+        text = vt_system.Translate("No, it's not that bad.");
+        dialogue:AddOption(text, 4);
+        text = vt_system.Translate("As you wish...");
+        dialogue:AddLine(text, kalya);
+        DialogueManager:AddDialogue(dialogue);
+        kalya:AddDialogueReference(dialogue);
+        
         return;
     elseif (GlobalManager:DoesEventExist("layna_center", "quest1_georges_dialogue_done") == true) then
         dialogue = vt_map.SpriteDialogue();
@@ -1099,10 +1204,35 @@ map_functions = {
         orlinn:SetCollisionMask(vt_map.MapMode.WALL_COLLISION);
         orlinn:ClearDialogueReferences();
         EventManager:TerminateAllEvents(orlinn);
+    end,
 
+    orlinn_run_event_end = function()
         -- Updates Orlinn's state
         GlobalManager:SetEventValue("layna_center", "quest1_orlinn_dialogue1_done", 1);
         GlobalManager:AddQuestLog("hide_n_seek_with_orlinn");
+
+        -- Updates Kalya dialogue
+        _UpdateOrlinnAndKalyaState();
+    end,
+
+    kalya_brings_orlinn_back_start = function()
+        -- Use the scene state so that the character can't move by player's input
+        Map:PushState(vt_map.MapMode.STATE_SCENE);
+        -- Place Orlinn for the event
+        orlinn:SetPosition(67, 78);
+        orlinn:SetMovementSpeed(vt_map.MapMode.FAST_SPEED);
+        orlinn:SetCollisionMask(vt_map.MapMode.WALL_COLLISION);
+        orlinn:SetVisible(true);
+        -- Makes her stop wandering
+        EventManager:TerminateAllEvents(kalya);
+    end,
+
+    orlinn_comes_back_event_end = function()
+        GlobalManager:SetEventValue("layna_riverbank", "quest1_orlinn_hide_n_seek3_done", 1);
+        Map:PopState();
+
+        -- Updates Kalya and Orlinn dialogues
+        _UpdateOrlinnAndKalyaState();
     end,
 
     Quest1GeorgesTellsBronannAboutLilly = function()
