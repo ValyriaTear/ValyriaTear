@@ -387,6 +387,9 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
 
     -- Orlinn
+    event = vt_map.ScriptedEvent("Orlinn laughs", "orlinn_laughs", "");
+    EventManager:RegisterEvent(event);
+
     event = vt_map.ScriptedEvent("Quest1: Make Orlinn run and hide", "Quest1OrlinnRunAndHide", "");
     event:AddEventLinkAtEnd("Quest1: Make Orlinn run");
     EventManager:RegisterEvent(event);
@@ -1034,7 +1037,7 @@ function _UpdateOrlinnAndKalyaState()
     elseif (GlobalManager:DoesEventExist("layna_center", "quest1_georges_dialogue_done") == true) then
         dialogue = vt_map.SpriteDialogue();
         text = vt_system.Translate("Hee hee hee!");
-        dialogue:AddLine(text, orlinn);
+        dialogue:AddLineEvent(text, orlinn, "Orlinn laughs", "");
         text = vt_system.Translate("What are you laughing about, Orlinn?");
         dialogue:AddLineEmote(text, bronann, "interrogation");
         text = vt_system.Translate("You'll never find it!");
@@ -1042,7 +1045,7 @@ function _UpdateOrlinnAndKalyaState()
         text = vt_system.Translate("Huh? Wait! Are you talking about Georges's lost pen?");
         dialogue:AddLineEmote(text, bronann, "exclamation");
         text = vt_system.Translate("Hee hee hee! Yes!");
-        dialogue:AddLine(text, orlinn);
+        dialogue:AddLineEvent(text, orlinn, "Orlinn laughs", "");
         text = vt_system.Translate("Please tell me! Have you found it?");
         dialogue:AddLine(text, bronann);
         text = vt_system.Translate("Maybe yes, maybe no!");
@@ -1052,7 +1055,7 @@ function _UpdateOrlinnAndKalyaState()
         text = vt_system.Translate("Sure, I'll help you. But only if you can catch me!");
         dialogue:AddLine(text, orlinn);
         text = vt_system.Translate("Hee hee! (He'll never find me hiding behind the buildings!)");
-        dialogue:AddLineEvent(text, orlinn, "", "Quest1: Make Orlinn run and hide");
+        dialogue:AddLineEvent(text, orlinn, "Orlinn laughs", "Quest1: Make Orlinn run and hide");
 
         DialogueManager:AddDialogue(dialogue);
         orlinn:AddDialogueReference(dialogue);
@@ -1113,6 +1116,10 @@ map_functions = {
 
         -- Updates Georges dialogue
         _UpdateGeorgesDialogue();
+    end,
+
+    orlinn_laughs = function()
+        orlinn:SetCustomAnimation("laughing", 1000);
     end,
 
     Prepare_forest_event = function()
