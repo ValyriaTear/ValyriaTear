@@ -2,36 +2,36 @@
 
 Lead, dev and story:
 --------------------
-Yohann Ferreira (Bertram)   -   Code review and inclusion, code dev and lead, story content, many other things...
-(Lilou)                     -   Story, some art and a few tweaks.
+Yohann Ferreira (Bertram)     -   Code review and inclusion, code dev and lead, story content, many other things...
+(Lilou)                       -   Story, some art and a few tweaks.
 
 
 Development:
 ------------
-(Bertram)                   -   Lead and main lone-wolf stuff
-Tyler Olsen (Roots)         -   Balancing of HEIR1, small tweaks.
-Nik Nihonnik (IkarusDowned) -   Quest log, Minimap and world map, Many menu mode improvements, ...
-Josh Niehenke (Codergreen)  -   Shop mode simplification, trade support.
-(authenticate)              -   Bug fixes, UI theme support, VS2012 compilation support
-(logzero)                   -   Bug fixes, OpenGL improvements, and precompiled header support.
-(endoalir)                  -   Bug fixes, SDL multi-screen better support.
+(Bertram)                     -   Lead and main lone-wolf stuff
+Tyler Olsen (Roots)           -   Balancing of HEIR1, small tweaks.
+Nik Nihonnik (IkarusDowned)   -   Quest log, Minimap and world map, Many menu mode improvements, ...
+Josh Niehenke (Codergreen)    -   Shop mode simplification, trade support.
+James Lammlein (Authenticate) -   Bug fixes, UI theme support, VS compilation support, and precompiled header support.
+(logzero)                     -   Bug fixes, OpenGL improvements, and precompiled header support.
+(endoalir)                    -   Bug fixes, SDL multi-screen better support.
 
 
 Packaging:
 ----------
-Philippe Groarke (Socapex)  -   Mac port upgrades and improvements
-Brian Callahan (bcallah)    -   OpenBSD distribution
-Dmitry Marakasov (AMDmi3)   -   FreeBSD distribution
-Eric Anholt (anholt)        -   Debian packaging
-Erik Schilling (Ablu)       -   Fedora port, linux compliance and Knight of Mana ;)
+Philippe Groarke (Socapex)    -   Mac port upgrades and improvements
+Brian Callahan (bcallah)      -   OpenBSD distribution
+Dmitry Marakasov (AMDmi3)     -   FreeBSD distribution
+Eric Anholt (anholt)          -   Debian packaging
+Erik Schilling (Ablu)         -   Fedora port, linux compliance and Knight of Mana ;)
 
 
 Translations:
 -------------
-(Gallaecio)                 -   Galician translation
-(NaN)                       -   German translation
-(BioHazardX)                -   Italian translation
-(Bertram)                   -   French translation
+(Gallaecio)                   -   Galician translation
+(NaN)                         -   German translation
+(BioHazardX)                  -   Italian translation
+(Bertram)                     -   French translation
 
 
 
