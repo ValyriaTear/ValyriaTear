@@ -447,7 +447,7 @@ function _CreateEvents()
     dialogue:AddLineEmote(text, orlinn, "exclamation");
     text = vt_system.Translate("Wait Orlinn! That's not over...");
     dialogue:AddLineEvent(text, hero, "Kalya looks at Orlinn", "Kalya looks north");
-    text = vt_system.Translate("'... But be warned for the very scent exuding from the dark waters itself is a trap!'");
+    text = vt_system.Translate("'... But be warned, for even the very scent exuding from the dark waters is a trap!'");
     dialogue:AddLine(text, hero);
     text = vt_system.Translate("'The entire Shrine has been turned into a murderous area and you'll have to fight your way through, just as I will now...'");
     dialogue:AddLine(text, hero);

@@ -198,7 +198,7 @@ function _CreateEvents()
     dialogue = vt_map.SpriteDialogue();
     text = vt_system.Translate("I had that same nightmare again... This time, however, I still feel dizzy even after getting up...");
     dialogue:AddLine(text, bronann);
-    text = vt_system.Translate("I might as well get up and forget about it...");
+    text = vt_system.Translate("I might as well move on and forget about it...");
     dialogue:AddLine(text, bronann);
     DialogueManager:AddDialogue(dialogue);
 

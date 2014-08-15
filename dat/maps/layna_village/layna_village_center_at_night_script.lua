@@ -291,7 +291,7 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
 
     dialogue = vt_map.SpriteDialogue();
-    text = vt_system.Translate("Weird, I can see no lights in there... I have a bad feeling about this, lets get back home...");
+    text = vt_system.Translate("Weird, I can see no lights in there... I have a bad feeling about this, let's get back home...");
     dialogue:AddLine(text, bronann);
     DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Bronann should go home when checking other houses", dialogue);

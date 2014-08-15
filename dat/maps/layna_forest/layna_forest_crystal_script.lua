@@ -703,7 +703,7 @@ function _CreateEvents()
     dialogue:AddLineEvent(text, hero, "", "Kalya and orlinn are surprised");
     text = vt_system.Translate("Bronann! Are you alright?");
     dialogue:AddLineEventEmote(text, kalya_sprite, "Kalya looks east", "", "exclamation");
-    text = vt_system.Translate("I... I guess so. ...");
+    text = vt_system.Translate("I ... I guess so ...");
     dialogue:AddLine(text, hero);
     text = vt_system.Translate("... The wolf! The crystal! Orlinn! Are you ok?? ...");
     dialogue:AddLineEventEmote(text, hero, "Bronann gets up", "", "exclamation");

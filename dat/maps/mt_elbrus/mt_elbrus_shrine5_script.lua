@@ -417,7 +417,7 @@ function _CreateEvents()
     dialogue:AddLineEvent(text, orlinn, "Orlinn looks at Kalya", "");
     text = vt_system.Translate("Orlinn, you sure have grown up because of all this. Are you sure?");
     dialogue:AddLineEventEmote(text, kalya, "Kalya looks north", "", "sweat drop");
-    text = vt_system.Translate("I need to be ... I guess.");
+    text = vt_system.Translate("I need to ... I guess.");
     dialogue:AddLineEventEmote(text, orlinn, "Orlinn looks north", "", "sweat drop");
     text = vt_system.Translate("Just tell me when you're ready and I'll throw you up here.");
     dialogue:AddLineEvent(text, hero, "Bronann looks at Orlinn", "");
@@ -448,7 +448,7 @@ function _CreateEvents()
     dialogue:AddLineEvent(text, hero, "Bronann looks at Orlinn", "");
     text = vt_system.Translate("Yes, let's go ...");
     dialogue:AddOptionEvent(text, 50, "Orlinn goes closer of the hero"); -- 50 means next line number, past the end of the dialogue
-    text = vt_system.Translate("Err, not already!");
+    text = vt_system.Translate("Err, not yet!");
     dialogue:AddOptionEvent(text, 50, "Not thrown event");
     DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Ready? dialogue", dialogue);

@@ -462,7 +462,7 @@ weapons[11002] = {
 
 weapons[11003] = {
     name = vt_system.Translate("Arbalest of Force"),
-    description = vt_system.Translate("An arbalest strengthen with magical ore."),
+    description = vt_system.Translate("An arbalest strengthened with magical ore."),
     icon = "img/icons/weapons/arbalest.png",
     -- The image displayed when kalya fires with her arbalest.
     battle_ammo_animation_file = "img/sprites/battle/ammo/wood_arrow.lua",

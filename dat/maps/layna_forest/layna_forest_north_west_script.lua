@@ -1087,7 +1087,7 @@ function _CreateEvents()
     dialogue = vt_map.SpriteDialogue();
     text = vt_system.Translate("Great! The tremor has opened a path back to the village!");
     dialogue:AddLine(text, hero);
-    text = vt_system.Translate("Now we can get back to the village quicker.");
+    text = vt_system.Translate("Now we can get back to the village more quickly.");
     dialogue:AddLine(text, hero);
     DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("The Hero sees the created shortcut", dialogue);

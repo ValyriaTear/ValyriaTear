@@ -658,7 +658,7 @@ function _CreateEvents()
     dialogue:AddLine(text, malta);
     text = vt_system.Translate("Bronann!! No!");
     dialogue:AddLine(text, carson);
-    text = vt_system.Translate("Bronann, Why? ...");
+    text = vt_system.Translate("Bronann, why? ...");
     dialogue:AddLineEvent(text, lilly, "Lilly goes near Bronann", "");
     text = vt_system.Translate("Clear the way, Lilly. I need to speak to him...");
     dialogue:AddLineEvent(text, lord, "", "Lilly looks east");

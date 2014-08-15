@@ -663,7 +663,7 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
 
     dialogue = vt_map.SpriteDialogue();
-    text = vt_system.Translate("The west gates are condemned, as the Lord commanded.");
+    text = vt_system.Translate("The west gate is condemned, as the Lord commanded.");
     dialogue:AddLine(text, soldier1);
     text = vt_system.Translate("Fine. Let's go back and wait for them.");
     dialogue:AddLine(text, soldier3);

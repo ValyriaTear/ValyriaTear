@@ -645,7 +645,7 @@ function _CreateEvents()
     dialogue:AddLine(text, sophia);
     text = vt_system.Translate("When I saw you leaving the village to the sanctuary, I decided to follow you.");
     dialogue:AddLineEvent(text, sophia, "Sophia looks west", "Sophia looks north");
-    text = vt_system.Translate("But the time I reached the area, you three were gone... And I had to found out where you were heading.");
+    text = vt_system.Translate("But by the time I reached the area, you three were gone... And I had to find out where you were heading.");
     dialogue:AddLine(text, sophia);
     text = vt_system.Translate("But the bridge, how did you cross?");
     dialogue:AddLineEmote(text, kalya, "thinking dots");
@@ -691,7 +691,7 @@ function _CreateEvents()
     dialogue:AddLineEventEmote(text, kalya, "Orlinn looks at Kalya", "Orlinn looks south", "thinking dots");
     text = vt_system.Translate("Thanks anyway, Sophia.");
     dialogue:AddLine(text, hero);
-    text = vt_system.Translate("You're welcome, my Dear!");
+    text = vt_system.Translate("You're welcome, my dear!");
     dialogue:AddLine(text, sophia);
 
     DialogueManager:AddDialogue(dialogue);
