@@ -670,6 +670,10 @@ public:
         return _activated;
     }
 
+    //! \brief Sets the max sound volume of the ambient sound.
+    //! From  0.0f to 1.0f
+    void SetMaxVolume(float max_volume);
+
     //! \brief Gets the sound descriptor of the object.
     //! Used to apply changes directly to the sound object.
     vt_audio::SoundDescriptor& GetSoundDescriptor() {
@@ -682,6 +686,9 @@ private:
 
     //! \brief The maximal distance in map tiles the sound can be heard within.
     float _strength;
+
+    //! \brief The maximal strength of the sound object. (0.0f - 1.0f)
+    float _max_sound_volume;
 
     //! \brief The time remaining before next update
     int32 _time_remaining;

@@ -615,6 +615,7 @@ void Light::Draw()
 
 SoundObject::SoundObject(const std::string& sound_filename, float x, float y, float strength):
     MapObject(),
+    _max_sound_volume(1.0f),
     _activated(true)
 {
     MapObject::_object_type = SOUND_TYPE;
@@ -647,10 +648,20 @@ SoundObject::SoundObject(const std::string& sound_filename, float x, float y, fl
     collision_mask = NO_COLLISION;
 }
 
+void SoundObject::SetMaxVolume(float max_volume)
+{
+    _max_sound_volume = max_volume;
+
+    if (_max_sound_volume < 0.0f)
+        _max_sound_volume = 0.0f;
+    else if (_max_sound_volume > 1.0f)
+        _max_sound_volume = 1.0f;
+}
+
 void SoundObject::Update()
 {
     // Don't activate a sound which is too weak to be heard anyway.
-    if (_strength < 1.0f)
+    if (_strength < 1.0f || _max_sound_volume <= 0.0f)
         return;
 
     if (!_activated)
@@ -693,7 +704,7 @@ void SoundObject::Update()
     if (distance >= (strength2 - 0.5f))
         return;
 
-    float volume = 1.0f - (distance / strength2);
+    float volume = _max_sound_volume - (_max_sound_volume * (distance / strength2));
     _sound.SetVolume(volume);
 
     if (!_playing) {

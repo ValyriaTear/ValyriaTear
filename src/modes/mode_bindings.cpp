@@ -254,6 +254,7 @@ void BindModeCode()
             .def("Stop", &SoundObject::Stop)
             .def("Start", &SoundObject::Start)
             .def("IsActive", &SoundObject::IsActive)
+            .def("SetMaxVolume", &SoundObject::SetMaxVolume)
         ];
 
         luabind::module(vt_script::ScriptManager->GetGlobalState(), "vt_map")

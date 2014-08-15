@@ -137,6 +137,7 @@ function _CreateObjects()
 
     -- Add the corresponding waterfall ambient sound, ready to be started.
     waterfall_sound = vt_map.SoundObject("snd/fountain_large.ogg", 32, 11, 100.0);
+    waterfall_sound:SetMaxVolume(0.6);
     Map:AddAmbientSoundObject(waterfall_sound)
 
     -- Add the rumble sound used at boss end
