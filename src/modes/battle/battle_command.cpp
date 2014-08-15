@@ -481,11 +481,11 @@ void ItemCommand::UpdateList()
     if(InputManager->UpPress()) {
         _item_list.InputUp();
         _item_target_list.InputUp();
-        GlobalManager->Media().PlaySound("confirm");
+        GlobalManager->Media().PlaySound("bump");
     } else if(InputManager->DownPress()) {
         _item_list.InputDown();
         _item_target_list.InputDown();
-        GlobalManager->Media().PlaySound("confirm");
+        GlobalManager->Media().PlaySound("bump");
     }
 }
 
@@ -590,11 +590,11 @@ void SkillCommand::UpdateList()
     if(InputManager->UpPress()) {
         _skill_list->InputUp();
         _target_n_cost_list->InputUp();
-        GlobalManager->Media().PlaySound("confirm");
+        GlobalManager->Media().PlaySound("bump");
     } else if(InputManager->DownPress()) {
         _skill_list->InputDown();
         _target_n_cost_list->InputDown();
-        GlobalManager->Media().PlaySound("confirm");
+        GlobalManager->Media().PlaySound("bump");
     }
 }
 
@@ -1074,12 +1074,12 @@ void CommandSupervisor::_UpdateCategory()
 
     else if(InputManager->LeftPress()) {
         _category_options.InputLeft();
-        GlobalManager->Media().PlaySound("confirm");
+        GlobalManager->Media().PlaySound("bump");
     }
 
     else if(InputManager->RightPress()) {
         _category_options.InputRight();
-        GlobalManager->Media().PlaySound("confirm");
+        GlobalManager->Media().PlaySound("bump");
     }
 }
 
@@ -1172,7 +1172,7 @@ void CommandSupervisor::_UpdateActorTarget()
             _selected_target.ReinitAttackPoint();
             _selected_target.SelectNextActor(GetCommandCharacter(), direction, true, permit_dead_targets);
             _CreateActorTargetText();
-            GlobalManager->Media().PlaySound("confirm");
+            GlobalManager->Media().PlaySound("bump");
         }
     }
 }
@@ -1187,6 +1187,7 @@ void CommandSupervisor::_UpdateAttackPointTarget()
     else if(InputManager->ConfirmPress()
             || _selected_target.GetActor()->GetAttackPoints().size() == 1) {
         _FinalizeCommand();
+        GlobalManager->Media().PlaySound("confirm");
     }
 
     else if(InputManager->UpPress() || InputManager->DownPress()) {
@@ -1197,7 +1198,7 @@ void CommandSupervisor::_UpdateAttackPointTarget()
 
         _selected_target.SelectNextPoint(GetCommandCharacter(), InputManager->DownPress());
         _CreateAttackPointTargetText();
-        GlobalManager->Media().PlaySound("confirm");
+        GlobalManager->Media().PlaySound("bump");
     }
 }
 
@@ -1378,7 +1379,6 @@ void CommandSupervisor::_FinalizeCommand()
 
     _ChangeState(COMMAND_STATE_INVALID);
     BattleMode::CurrentInstance()->NotifyCharacterCommandComplete(character);
-    GlobalManager->Media().PlaySound("confirm");
 }
 
 } // namespace private_battle

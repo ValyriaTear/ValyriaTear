@@ -24,6 +24,8 @@
 #include "engine/system.h"
 #include "modes/boot/boot.h"
 
+#include "common/global/global.h"
+
 using namespace vt_utils;
 using namespace vt_audio;
 using namespace vt_video;
@@ -154,6 +156,8 @@ void PauseMode::Update()
         return;
     }
 
+    vt_global::GlobalMedia& media = vt_global::GlobalManager->Media();
+
     _quit_options.Update();
 
     if(InputManager->QuitPress()) {
@@ -161,6 +165,7 @@ void PauseMode::Update()
         ModeManager->Pop();
         return;
     } else if(InputManager->ConfirmPress()) {
+        media.PlaySound("confirm");
         _option_selected = true;
         switch(_quit_options.GetSelection()) {
         case QUIT_CANCEL:
@@ -189,12 +194,15 @@ void PauseMode::Update()
         }
         return;
     } else if(InputManager->CancelPress()) {
+        media.PlaySound("cancel");
         _option_selected = true;
         ModeManager->Pop();
         return;
     } else if(InputManager->UpPress()) {
+        media.PlaySound("bump");
         _quit_options.InputUp();
     } else if(InputManager->DownPress()) {
+        media.PlaySound("bump");
         _quit_options.InputDown();
     }
 } // void PauseMode::Update()

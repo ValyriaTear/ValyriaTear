@@ -1245,11 +1245,14 @@ void ShopMode::Update()
                 ModeManager->Pop();
             }
         } else if(InputManager->CancelPress()) {
+            GlobalManager->Media().PlaySound("cancel");
             // Leave shop
             ModeManager->Pop();
         } else if(InputManager->LeftPress()) {
+            GlobalManager->Media().PlaySound("bump");
             _action_options.InputLeft();
         } else if(InputManager->RightPress()) {
+            GlobalManager->Media().PlaySound("bump");
             _action_options.InputRight();
         }
         _action_options.Update();

@@ -401,24 +401,28 @@ void BattleMode::Update()
         // the command supervisor.
 
         if(InputManager->UpPress()) {
+            GlobalManager->Media().PlaySound("bump");
             if(_character_actors.size() >= 1) {   // Should always evaluate to true
                 character_selection = _character_actors[0];
             }
         }
 
         else if(InputManager->DownPress()) {
+            GlobalManager->Media().PlaySound("bump");
             if(_character_actors.size() >= 2) {
                 character_selection = _character_actors[1];
             }
         }
 
         else if(InputManager->LeftPress()) {
+            GlobalManager->Media().PlaySound("bump");
             if(_character_actors.size() >= 3) {
                 character_selection = _character_actors[2];
             }
         }
 
         else if(InputManager->RightPress()) {
+            GlobalManager->Media().PlaySound("bump");
             if(_character_actors.size() >= 4) {
                 character_selection = _character_actors[3];
             }

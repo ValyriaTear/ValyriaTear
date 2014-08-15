@@ -284,12 +284,16 @@ void GameOptionsMenuHandler::Update()
         _active_menu->InputConfirm();
 
     } else if(InputManager->LeftPress()) {
+        GlobalManager->Media().PlaySound("bump");
         _active_menu->InputLeft();
     } else if(InputManager->RightPress()) {
+        GlobalManager->Media().PlaySound("bump");
         _active_menu->InputRight();
     } else if(InputManager->UpPress()) {
+        GlobalManager->Media().PlaySound("bump");
         _active_menu->InputUp();
     } else if(InputManager->DownPress()) {
+        GlobalManager->Media().PlaySound("bump");
         _active_menu->InputDown();
     } else if(InputManager->CancelPress() || InputManager->QuitPress()) {
         if(_active_menu == &_options_menu) {

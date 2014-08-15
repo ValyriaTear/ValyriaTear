@@ -231,10 +231,12 @@ void BootMode::Update()
     }
 
     if (InputManager->LeftPress()) {
+        GlobalManager->Media().PlaySound("bump");
         _main_menu.InputLeft();
         return;
     }
     else if (InputManager->RightPress()) {
+        GlobalManager->Media().PlaySound("bump");
         _main_menu.InputRight();
         return;
     }

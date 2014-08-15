@@ -91,11 +91,13 @@ void AbstractMenuState::Update()
     // handle left / right option box movement
     else if(InputManager->LeftPress())
     {
+        media.PlaySound("bump");
         _options.InputLeft();
         return;
     }
     else if(InputManager->RightPress())
     {
+        media.PlaySound("bump");
         _options.InputRight();
         return;
     }

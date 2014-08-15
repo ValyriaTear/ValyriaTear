@@ -246,8 +246,11 @@ void SaveMode::Update()
     _file_list.Update();
     _confirm_save_optionbox.Update();
 
+    GlobalMedia& media = GlobalManager->Media();
+
     // Otherwise, it's time to start handling events.
     if(InputManager->ConfirmPress()) {
+        media.PlaySound("confirm");
         switch(_current_state) {
         case SAVE_MODE_SAVING:
             if(_file_list.GetSelection() > -1) {
@@ -300,6 +303,7 @@ void SaveMode::Update()
     } // end if (InputManager->ConfirmPress())
 
     else if(InputManager->CancelPress()) {
+        media.PlaySound("cancel");
         switch(_current_state) {
         default:
         case SAVE_MODE_NO_VALID_SAVES:
@@ -317,6 +321,7 @@ void SaveMode::Update()
     } // end if (InputManager->CancelPress())
 
     else if(InputManager->UpPress()) {
+        media.PlaySound("bump");
         switch(_current_state) {
         case SAVE_MODE_SAVING:
         case SAVE_MODE_LOADING:
@@ -335,6 +340,7 @@ void SaveMode::Update()
     } // end if (InputManager->UpPress())
 
     else if(InputManager->DownPress()) {
+        media.PlaySound("bump");
         switch(_current_state) {
         case SAVE_MODE_SAVING:
         case SAVE_MODE_LOADING:

@@ -333,12 +333,16 @@ void InventoryWindow::Update()
     } else if(InputManager->CancelPress()) {
         active_option->InputCancel();
     } else if(InputManager->LeftPress()) {
+        media.PlaySound("bump");
         active_option->InputLeft();
     } else if(InputManager->RightPress()) {
+        media.PlaySound("bump");
         active_option->InputRight();
     } else if(InputManager->UpPress()) {
+        media.PlaySound("bump");
         active_option->InputUp();
     } else if(InputManager->DownPress()) {
+        media.PlaySound("bump");
         active_option->InputDown();
     }
 
@@ -488,6 +492,7 @@ void InventoryWindow::Update()
                                     item = NULL;
                                     // Now the item is used, we can remove it from the inventory.
                                     GlobalManager->DecrementObjectCount(_object->GetID(), 1);
+                                    media.PlaySound("confirm");
                                 }
                             } // if GLOBAL_TARGET_PARTY
                             else { // Use on a single character only
@@ -519,6 +524,7 @@ void InventoryWindow::Update()
                                     item = NULL;
                                     // Now the item is used, we can remove it from the inventory.
                                     GlobalManager->DecrementObjectCount(_object->GetID(), 1);
+                                    media.PlaySound("confirm");
                                 }
                             }
                         }
@@ -574,6 +580,7 @@ void InventoryWindow::Update()
                     _inventory_items.SetCursorState(VIDEO_CURSOR_STATE_VISIBLE);
                     // Remove the selected one from inventory
                     GlobalManager->DecrementObjectCount(_object->GetID(), 1);
+                    media.PlaySound("confirm");
                 }
                 //if we can equip and it is a weapon
                 else if(_can_equip && selected_weapon)
@@ -590,6 +597,7 @@ void InventoryWindow::Update()
                     _inventory_items.SetCursorState(VIDEO_CURSOR_STATE_VISIBLE);
                     // Remove the selected one from inventory
                     GlobalManager->DecrementObjectCount(_object->GetID(), 1);
+                    media.PlaySound("confirm");
                 }
                 //if we cannot equip
                 else
@@ -978,12 +986,16 @@ void PartyWindow::Update()
     } else if(InputManager->CancelPress()) {
         active_option->InputCancel();
     } else if(InputManager->LeftPress()) {
+        media.PlaySound("bump");
         active_option->InputLeft();
     } else if(InputManager->RightPress()) {
+        media.PlaySound("bump");
         active_option->InputRight();
     } else if(InputManager->UpPress()) {
+        media.PlaySound("bump");
         active_option->InputUp();
     } else if(InputManager->DownPress()) {
+        media.PlaySound("bump");
         active_option->InputDown();
     }
 
@@ -1015,6 +1027,7 @@ void PartyWindow::Update()
             _char_select_active = FORM_ACTIVE_CHAR;
             _char_select.SetCursorState(VIDEO_CURSOR_STATE_VISIBLE);
             _second_char_select.SetCursorState(VIDEO_CURSOR_STATE_HIDDEN);
+            media.PlaySound("confirm");
         } else if(event == VIDEO_OPTION_CANCEL) {
             _char_select_active = FORM_ACTIVE_CHAR;
             _char_select.SetCursorState(VIDEO_CURSOR_STATE_VISIBLE);
@@ -1338,14 +1351,18 @@ void SkillsWindow::Update()
     } else if(InputManager->CancelPress()) {
         active_option->InputCancel();
     } else if(InputManager->LeftPress()) {
+        media.PlaySound("bump");
         active_option->InputLeft();
     } else if(InputManager->RightPress()) {
+        media.PlaySound("bump");
         active_option->InputRight();
     } else if(InputManager->UpPress()) {
+        media.PlaySound("bump");
         active_option->InputUp();
         if (active_option == &_skills_list)
             _skill_cost_list.InputUp();
     } else if(InputManager->DownPress()) {
+        media.PlaySound("bump");
         active_option->InputDown();
         if (active_option == &_skills_list)
             _skill_cost_list.InputDown();
@@ -1816,12 +1833,16 @@ void EquipWindow::Update()
     } else if(InputManager->CancelPress()) {
         active_option->InputCancel();
     } else if(InputManager->LeftPress()) {
+        media.PlaySound("bump");
         active_option->InputLeft();
     } else if(InputManager->RightPress()) {
+        media.PlaySound("bump");
         active_option->InputRight();
     } else if(InputManager->UpPress()) {
+        media.PlaySound("bump");
         active_option->InputUp();
     } else if(InputManager->DownPress()) {
+        media.PlaySound("bump");
         active_option->InputDown();
     }
 
@@ -1884,6 +1905,7 @@ void EquipWindow::Update()
                     PRINT_WARNING << "Unequip slot is invalid: " << _equip_select.GetSelection() << std::endl;
                     break;
                 }
+                media.PlaySound("confirm");
             } // Equip/Unequip
         } // Confirm
         else if(event == VIDEO_OPTION_CANCEL) {
@@ -2283,14 +2305,19 @@ void QuestListWindow::Update()
     if(InputManager->CancelPress()) {
         _quests_list.InputCancel();
     } else if(InputManager->UpPress()) {
+        media.PlaySound("bump");
         _quests_list.InputUp();
     } else if(InputManager->DownPress()) {
+        media.PlaySound("bump");
         _quests_list.InputDown();
     }
 
     uint32 event = _quests_list.GetEvent();
     // cancel and exit
-    if(event == VIDEO_OPTION_CANCEL) {
+    if (event == VIDEO_OPTION_CONFIRM) {
+        media.PlaySound("confirm");
+    }
+    else if(event == VIDEO_OPTION_CANCEL) {
         _active_box = false;
         _quests_list.SetCursorState(VIDEO_CURSOR_STATE_HIDDEN);
         media.PlaySound("cancel");
@@ -2624,7 +2651,7 @@ void WorldMapWindow::Update()
         else if(worldmap_goto != WORLDMAP_NOPRESS)
         {
             //play confirm sound
-            media.PlaySound("confirm");
+            media.PlaySound("bump");
             _SetSelectedLocation(worldmap_goto);
 
         }
