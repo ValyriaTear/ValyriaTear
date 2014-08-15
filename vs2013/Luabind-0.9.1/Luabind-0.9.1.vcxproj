@@ -44,7 +44,7 @@
       <WarningLevel>Level4</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>..\..\ValyriaTear-VS2012-Dependencies\luabind-0.9.1\;..\..\ValyriaTear-VS2012-Dependencies\boost_1_53_0\;..\..\ValyriaTear-VS2012-Dependencies\lua-5.1.5\src\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\ValyriaTear-VS2013-Dependencies\luabind-0.9.1\;..\..\ValyriaTear-VS2013-Dependencies\boost_1_56_0\;..\..\ValyriaTear-VS2013-Dependencies\lua-5.1.5\src\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <MinimalRebuild>false</MinimalRebuild>
       <PreprocessorDefinitions>_DEBUG;_WIN32;LUABIND_NO_ERROR_CHECKING;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -61,7 +61,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>..\..\ValyriaTear-VS2012-Dependencies\luabind-0.9.1\;..\..\ValyriaTear-VS2012-Dependencies\boost_1_53_0\;..\..\ValyriaTear-VS2012-Dependencies\lua-5.1.5\src\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\ValyriaTear-VS2013-Dependencies\luabind-0.9.1\;..\..\ValyriaTear-VS2013-Dependencies\boost_1_56_0\;..\..\ValyriaTear-VS2013-Dependencies\lua-5.1.5\src\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <PreprocessorDefinitions>_WIN32;NDEBUG;LUABIND_NO_ERROR_CHECKING;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ProgramDataBaseFileName>$(IntDir)Luabind-0.9.1.pdb</ProgramDataBaseFileName>
@@ -73,105 +73,105 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\ValyriaTear-VS2012-Dependencies\luabind-0.9.1\src\class.cpp" />
-    <ClCompile Include="..\..\ValyriaTear-VS2012-Dependencies\luabind-0.9.1\src\class_info.cpp" />
-    <ClCompile Include="..\..\ValyriaTear-VS2012-Dependencies\luabind-0.9.1\src\class_registry.cpp" />
-    <ClCompile Include="..\..\ValyriaTear-VS2012-Dependencies\luabind-0.9.1\src\class_rep.cpp" />
-    <ClCompile Include="..\..\ValyriaTear-VS2012-Dependencies\luabind-0.9.1\src\create_class.cpp" />
-    <ClCompile Include="..\..\ValyriaTear-VS2012-Dependencies\luabind-0.9.1\src\error.cpp" />
-    <ClCompile Include="..\..\ValyriaTear-VS2012-Dependencies\luabind-0.9.1\src\exception_handler.cpp" />
-    <ClCompile Include="..\..\ValyriaTear-VS2012-Dependencies\luabind-0.9.1\src\function.cpp" />
-    <ClCompile Include="..\..\ValyriaTear-VS2012-Dependencies\luabind-0.9.1\src\inheritance.cpp" />
-    <ClCompile Include="..\..\ValyriaTear-VS2012-Dependencies\luabind-0.9.1\src\link_compatibility.cpp" />
-    <ClCompile Include="..\..\ValyriaTear-VS2012-Dependencies\luabind-0.9.1\src\object_rep.cpp" />
-    <ClCompile Include="..\..\ValyriaTear-VS2012-Dependencies\luabind-0.9.1\src\open.cpp" />
-    <ClCompile Include="..\..\ValyriaTear-VS2012-Dependencies\luabind-0.9.1\src\pcall.cpp" />
-    <ClCompile Include="..\..\ValyriaTear-VS2012-Dependencies\luabind-0.9.1\src\scope.cpp" />
-    <ClCompile Include="..\..\ValyriaTear-VS2012-Dependencies\luabind-0.9.1\src\stack_content_by_name.cpp" />
-    <ClCompile Include="..\..\ValyriaTear-VS2012-Dependencies\luabind-0.9.1\src\weak_ref.cpp" />
-    <ClCompile Include="..\..\ValyriaTear-VS2012-Dependencies\luabind-0.9.1\src\wrapper_base.cpp" />
+    <ClCompile Include="..\..\ValyriaTear-VS2013-Dependencies\luabind-0.9.1\src\class.cpp" />
+    <ClCompile Include="..\..\ValyriaTear-VS2013-Dependencies\luabind-0.9.1\src\class_info.cpp" />
+    <ClCompile Include="..\..\ValyriaTear-VS2013-Dependencies\luabind-0.9.1\src\class_registry.cpp" />
+    <ClCompile Include="..\..\ValyriaTear-VS2013-Dependencies\luabind-0.9.1\src\class_rep.cpp" />
+    <ClCompile Include="..\..\ValyriaTear-VS2013-Dependencies\luabind-0.9.1\src\create_class.cpp" />
+    <ClCompile Include="..\..\ValyriaTear-VS2013-Dependencies\luabind-0.9.1\src\error.cpp" />
+    <ClCompile Include="..\..\ValyriaTear-VS2013-Dependencies\luabind-0.9.1\src\exception_handler.cpp" />
+    <ClCompile Include="..\..\ValyriaTear-VS2013-Dependencies\luabind-0.9.1\src\function.cpp" />
+    <ClCompile Include="..\..\ValyriaTear-VS2013-Dependencies\luabind-0.9.1\src\inheritance.cpp" />
+    <ClCompile Include="..\..\ValyriaTear-VS2013-Dependencies\luabind-0.9.1\src\link_compatibility.cpp" />
+    <ClCompile Include="..\..\ValyriaTear-VS2013-Dependencies\luabind-0.9.1\src\object_rep.cpp" />
+    <ClCompile Include="..\..\ValyriaTear-VS2013-Dependencies\luabind-0.9.1\src\open.cpp" />
+    <ClCompile Include="..\..\ValyriaTear-VS2013-Dependencies\luabind-0.9.1\src\pcall.cpp" />
+    <ClCompile Include="..\..\ValyriaTear-VS2013-Dependencies\luabind-0.9.1\src\scope.cpp" />
+    <ClCompile Include="..\..\ValyriaTear-VS2013-Dependencies\luabind-0.9.1\src\stack_content_by_name.cpp" />
+    <ClCompile Include="..\..\ValyriaTear-VS2013-Dependencies\luabind-0.9.1\src\weak_ref.cpp" />
+    <ClCompile Include="..\..\ValyriaTear-VS2013-Dependencies\luabind-0.9.1\src\wrapper_base.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\ValyriaTear-VS2012-Dependencies\luabind-0.9.1\luabind\adopt_policy.hpp" />
-    <ClInclude Include="..\..\ValyriaTear-VS2012-Dependencies\luabind-0.9.1\luabind\back_reference.hpp" />
-    <ClInclude Include="..\..\ValyriaTear-VS2012-Dependencies\luabind-0.9.1\luabind\back_reference_fwd.hpp" />
-    <ClInclude Include="..\..\ValyriaTear-VS2012-Dependencies\luabind-0.9.1\luabind\class.hpp" />
-    <ClInclude Include="..\..\ValyriaTear-VS2012-Dependencies\luabind-0.9.1\luabind\class_info.hpp" />
-    <ClInclude Include="..\..\ValyriaTear-VS2012-Dependencies\luabind-0.9.1\luabind\config.hpp" />
-    <ClInclude Include="..\..\ValyriaTear-VS2012-Dependencies\luabind-0.9.1\luabind\container_policy.hpp" />
-    <ClInclude Include="..\..\ValyriaTear-VS2012-Dependencies\luabind-0.9.1\luabind\copy_policy.hpp" />
-    <ClInclude Include="..\..\ValyriaTear-VS2012-Dependencies\luabind-0.9.1\luabind\dependency_policy.hpp" />
-    <ClInclude Include="..\..\ValyriaTear-VS2012-Dependencies\luabind-0.9.1\luabind\detail\calc_arity.hpp" />
-    <ClInclude Include="..\..\ValyriaTear-VS2012-Dependencies\luabind-0.9.1\luabind\detail\call.hpp" />
-    <ClInclude Include="..\..\ValyriaTear-VS2012-Dependencies\luabind-0.9.1\luabind\detail\call_function.hpp" />
-    <ClInclude Include="..\..\ValyriaTear-VS2012-Dependencies\luabind-0.9.1\luabind\detail\call_member.hpp" />
-    <ClInclude Include="..\..\ValyriaTear-VS2012-Dependencies\luabind-0.9.1\luabind\detail\call_operator_iterate.hpp" />
-    <ClInclude Include="..\..\ValyriaTear-VS2012-Dependencies\luabind-0.9.1\luabind\detail\class_cache.hpp" />
-    <ClInclude Include="..\..\ValyriaTear-VS2012-Dependencies\luabind-0.9.1\luabind\detail\class_registry.hpp" />
-    <ClInclude Include="..\..\ValyriaTear-VS2012-Dependencies\luabind-0.9.1\luabind\detail\class_rep.hpp" />
-    <ClInclude Include="..\..\ValyriaTear-VS2012-Dependencies\luabind-0.9.1\luabind\detail\compute_score.hpp" />
-    <ClInclude Include="..\..\ValyriaTear-VS2012-Dependencies\luabind-0.9.1\luabind\detail\constructor.hpp" />
-    <ClInclude Include="..\..\ValyriaTear-VS2012-Dependencies\luabind-0.9.1\luabind\detail\conversion_storage.hpp" />
-    <ClInclude Include="..\..\ValyriaTear-VS2012-Dependencies\luabind-0.9.1\luabind\detail\convert_to_lua.hpp" />
-    <ClInclude Include="..\..\ValyriaTear-VS2012-Dependencies\luabind-0.9.1\luabind\detail\debug.hpp" />
-    <ClInclude Include="..\..\ValyriaTear-VS2012-Dependencies\luabind-0.9.1\luabind\detail\decorate_type.hpp" />
-    <ClInclude Include="..\..\ValyriaTear-VS2012-Dependencies\luabind-0.9.1\luabind\detail\deduce_signature.hpp" />
-    <ClInclude Include="..\..\ValyriaTear-VS2012-Dependencies\luabind-0.9.1\luabind\detail\enum_maker.hpp" />
-    <ClInclude Include="..\..\ValyriaTear-VS2012-Dependencies\luabind-0.9.1\luabind\detail\format_signature.hpp" />
-    <ClInclude Include="..\..\ValyriaTear-VS2012-Dependencies\luabind-0.9.1\luabind\detail\garbage_collector.hpp" />
-    <ClInclude Include="..\..\ValyriaTear-VS2012-Dependencies\luabind-0.9.1\luabind\detail\has_get_pointer.hpp" />
-    <ClInclude Include="..\..\ValyriaTear-VS2012-Dependencies\luabind-0.9.1\luabind\detail\inheritance.hpp" />
-    <ClInclude Include="..\..\ValyriaTear-VS2012-Dependencies\luabind-0.9.1\luabind\detail\instance_holder.hpp" />
-    <ClInclude Include="..\..\ValyriaTear-VS2012-Dependencies\luabind-0.9.1\luabind\detail\is_indirect_const.hpp" />
-    <ClInclude Include="..\..\ValyriaTear-VS2012-Dependencies\luabind-0.9.1\luabind\detail\link_compatibility.hpp" />
-    <ClInclude Include="..\..\ValyriaTear-VS2012-Dependencies\luabind-0.9.1\luabind\detail\make_instance.hpp" />
-    <ClInclude Include="..\..\ValyriaTear-VS2012-Dependencies\luabind-0.9.1\luabind\detail\most_derived.hpp" />
-    <ClInclude Include="..\..\ValyriaTear-VS2012-Dependencies\luabind-0.9.1\luabind\detail\object_call.hpp" />
-    <ClInclude Include="..\..\ValyriaTear-VS2012-Dependencies\luabind-0.9.1\luabind\detail\object_funs.hpp" />
-    <ClInclude Include="..\..\ValyriaTear-VS2012-Dependencies\luabind-0.9.1\luabind\detail\object_rep.hpp" />
-    <ClInclude Include="..\..\ValyriaTear-VS2012-Dependencies\luabind-0.9.1\luabind\detail\open.hpp" />
-    <ClInclude Include="..\..\ValyriaTear-VS2012-Dependencies\luabind-0.9.1\luabind\detail\operator_id.hpp" />
-    <ClInclude Include="..\..\ValyriaTear-VS2012-Dependencies\luabind-0.9.1\luabind\detail\other.hpp" />
-    <ClInclude Include="..\..\ValyriaTear-VS2012-Dependencies\luabind-0.9.1\luabind\detail\pcall.hpp" />
-    <ClInclude Include="..\..\ValyriaTear-VS2012-Dependencies\luabind-0.9.1\luabind\detail\pointee_sizeof.hpp" />
-    <ClInclude Include="..\..\ValyriaTear-VS2012-Dependencies\luabind-0.9.1\luabind\detail\pointee_typeid.hpp" />
-    <ClInclude Include="..\..\ValyriaTear-VS2012-Dependencies\luabind-0.9.1\luabind\detail\policy.hpp" />
-    <ClInclude Include="..\..\ValyriaTear-VS2012-Dependencies\luabind-0.9.1\luabind\detail\primitives.hpp" />
-    <ClInclude Include="..\..\ValyriaTear-VS2012-Dependencies\luabind-0.9.1\luabind\detail\property.hpp" />
-    <ClInclude Include="..\..\ValyriaTear-VS2012-Dependencies\luabind-0.9.1\luabind\detail\ref.hpp" />
-    <ClInclude Include="..\..\ValyriaTear-VS2012-Dependencies\luabind-0.9.1\luabind\detail\signature_match.hpp" />
-    <ClInclude Include="..\..\ValyriaTear-VS2012-Dependencies\luabind-0.9.1\luabind\detail\stack_utils.hpp" />
-    <ClInclude Include="..\..\ValyriaTear-VS2012-Dependencies\luabind-0.9.1\luabind\detail\typetraits.hpp" />
-    <ClInclude Include="..\..\ValyriaTear-VS2012-Dependencies\luabind-0.9.1\luabind\detail\yes_no.hpp" />
-    <ClInclude Include="..\..\ValyriaTear-VS2012-Dependencies\luabind-0.9.1\luabind\discard_result_policy.hpp" />
-    <ClInclude Include="..\..\ValyriaTear-VS2012-Dependencies\luabind-0.9.1\luabind\error.hpp" />
-    <ClInclude Include="..\..\ValyriaTear-VS2012-Dependencies\luabind-0.9.1\luabind\exception_handler.hpp" />
-    <ClInclude Include="..\..\ValyriaTear-VS2012-Dependencies\luabind-0.9.1\luabind\from_stack.hpp" />
-    <ClInclude Include="..\..\ValyriaTear-VS2012-Dependencies\luabind-0.9.1\luabind\function.hpp" />
-    <ClInclude Include="..\..\ValyriaTear-VS2012-Dependencies\luabind-0.9.1\luabind\get_main_thread.hpp" />
-    <ClInclude Include="..\..\ValyriaTear-VS2012-Dependencies\luabind-0.9.1\luabind\get_pointer.hpp" />
-    <ClInclude Include="..\..\ValyriaTear-VS2012-Dependencies\luabind-0.9.1\luabind\handle.hpp" />
-    <ClInclude Include="..\..\ValyriaTear-VS2012-Dependencies\luabind-0.9.1\luabind\iterator_policy.hpp" />
-    <ClInclude Include="..\..\ValyriaTear-VS2012-Dependencies\luabind-0.9.1\luabind\luabind.hpp" />
-    <ClInclude Include="..\..\ValyriaTear-VS2012-Dependencies\luabind-0.9.1\luabind\lua_include.hpp" />
-    <ClInclude Include="..\..\ValyriaTear-VS2012-Dependencies\luabind-0.9.1\luabind\make_function.hpp" />
-    <ClInclude Include="..\..\ValyriaTear-VS2012-Dependencies\luabind-0.9.1\luabind\nil.hpp" />
-    <ClInclude Include="..\..\ValyriaTear-VS2012-Dependencies\luabind-0.9.1\luabind\object.hpp" />
-    <ClInclude Include="..\..\ValyriaTear-VS2012-Dependencies\luabind-0.9.1\luabind\open.hpp" />
-    <ClInclude Include="..\..\ValyriaTear-VS2012-Dependencies\luabind-0.9.1\luabind\operator.hpp" />
-    <ClInclude Include="..\..\ValyriaTear-VS2012-Dependencies\luabind-0.9.1\luabind\out_value_policy.hpp" />
-    <ClInclude Include="..\..\ValyriaTear-VS2012-Dependencies\luabind-0.9.1\luabind\prefix.hpp" />
-    <ClInclude Include="..\..\ValyriaTear-VS2012-Dependencies\luabind-0.9.1\luabind\raw_policy.hpp" />
-    <ClInclude Include="..\..\ValyriaTear-VS2012-Dependencies\luabind-0.9.1\luabind\return_reference_to_policy.hpp" />
-    <ClInclude Include="..\..\ValyriaTear-VS2012-Dependencies\luabind-0.9.1\luabind\scope.hpp" />
-    <ClInclude Include="..\..\ValyriaTear-VS2012-Dependencies\luabind-0.9.1\luabind\shared_ptr_converter.hpp" />
-    <ClInclude Include="..\..\ValyriaTear-VS2012-Dependencies\luabind-0.9.1\luabind\tag_function.hpp" />
-    <ClInclude Include="..\..\ValyriaTear-VS2012-Dependencies\luabind-0.9.1\luabind\typeid.hpp" />
-    <ClInclude Include="..\..\ValyriaTear-VS2012-Dependencies\luabind-0.9.1\luabind\value_wrapper.hpp" />
-    <ClInclude Include="..\..\ValyriaTear-VS2012-Dependencies\luabind-0.9.1\luabind\version.hpp" />
-    <ClInclude Include="..\..\ValyriaTear-VS2012-Dependencies\luabind-0.9.1\luabind\weak_ref.hpp" />
-    <ClInclude Include="..\..\ValyriaTear-VS2012-Dependencies\luabind-0.9.1\luabind\wrapper_base.hpp" />
-    <ClInclude Include="..\..\ValyriaTear-VS2012-Dependencies\luabind-0.9.1\luabind\yield_policy.hpp" />
+    <ClInclude Include="..\..\ValyriaTear-VS2013-Dependencies\luabind-0.9.1\luabind\adopt_policy.hpp" />
+    <ClInclude Include="..\..\ValyriaTear-VS2013-Dependencies\luabind-0.9.1\luabind\back_reference.hpp" />
+    <ClInclude Include="..\..\ValyriaTear-VS2013-Dependencies\luabind-0.9.1\luabind\back_reference_fwd.hpp" />
+    <ClInclude Include="..\..\ValyriaTear-VS2013-Dependencies\luabind-0.9.1\luabind\class.hpp" />
+    <ClInclude Include="..\..\ValyriaTear-VS2013-Dependencies\luabind-0.9.1\luabind\class_info.hpp" />
+    <ClInclude Include="..\..\ValyriaTear-VS2013-Dependencies\luabind-0.9.1\luabind\config.hpp" />
+    <ClInclude Include="..\..\ValyriaTear-VS2013-Dependencies\luabind-0.9.1\luabind\container_policy.hpp" />
+    <ClInclude Include="..\..\ValyriaTear-VS2013-Dependencies\luabind-0.9.1\luabind\copy_policy.hpp" />
+    <ClInclude Include="..\..\ValyriaTear-VS2013-Dependencies\luabind-0.9.1\luabind\dependency_policy.hpp" />
+    <ClInclude Include="..\..\ValyriaTear-VS2013-Dependencies\luabind-0.9.1\luabind\detail\calc_arity.hpp" />
+    <ClInclude Include="..\..\ValyriaTear-VS2013-Dependencies\luabind-0.9.1\luabind\detail\call.hpp" />
+    <ClInclude Include="..\..\ValyriaTear-VS2013-Dependencies\luabind-0.9.1\luabind\detail\call_function.hpp" />
+    <ClInclude Include="..\..\ValyriaTear-VS2013-Dependencies\luabind-0.9.1\luabind\detail\call_member.hpp" />
+    <ClInclude Include="..\..\ValyriaTear-VS2013-Dependencies\luabind-0.9.1\luabind\detail\call_operator_iterate.hpp" />
+    <ClInclude Include="..\..\ValyriaTear-VS2013-Dependencies\luabind-0.9.1\luabind\detail\class_cache.hpp" />
+    <ClInclude Include="..\..\ValyriaTear-VS2013-Dependencies\luabind-0.9.1\luabind\detail\class_registry.hpp" />
+    <ClInclude Include="..\..\ValyriaTear-VS2013-Dependencies\luabind-0.9.1\luabind\detail\class_rep.hpp" />
+    <ClInclude Include="..\..\ValyriaTear-VS2013-Dependencies\luabind-0.9.1\luabind\detail\compute_score.hpp" />
+    <ClInclude Include="..\..\ValyriaTear-VS2013-Dependencies\luabind-0.9.1\luabind\detail\constructor.hpp" />
+    <ClInclude Include="..\..\ValyriaTear-VS2013-Dependencies\luabind-0.9.1\luabind\detail\conversion_storage.hpp" />
+    <ClInclude Include="..\..\ValyriaTear-VS2013-Dependencies\luabind-0.9.1\luabind\detail\convert_to_lua.hpp" />
+    <ClInclude Include="..\..\ValyriaTear-VS2013-Dependencies\luabind-0.9.1\luabind\detail\debug.hpp" />
+    <ClInclude Include="..\..\ValyriaTear-VS2013-Dependencies\luabind-0.9.1\luabind\detail\decorate_type.hpp" />
+    <ClInclude Include="..\..\ValyriaTear-VS2013-Dependencies\luabind-0.9.1\luabind\detail\deduce_signature.hpp" />
+    <ClInclude Include="..\..\ValyriaTear-VS2013-Dependencies\luabind-0.9.1\luabind\detail\enum_maker.hpp" />
+    <ClInclude Include="..\..\ValyriaTear-VS2013-Dependencies\luabind-0.9.1\luabind\detail\format_signature.hpp" />
+    <ClInclude Include="..\..\ValyriaTear-VS2013-Dependencies\luabind-0.9.1\luabind\detail\garbage_collector.hpp" />
+    <ClInclude Include="..\..\ValyriaTear-VS2013-Dependencies\luabind-0.9.1\luabind\detail\has_get_pointer.hpp" />
+    <ClInclude Include="..\..\ValyriaTear-VS2013-Dependencies\luabind-0.9.1\luabind\detail\inheritance.hpp" />
+    <ClInclude Include="..\..\ValyriaTear-VS2013-Dependencies\luabind-0.9.1\luabind\detail\instance_holder.hpp" />
+    <ClInclude Include="..\..\ValyriaTear-VS2013-Dependencies\luabind-0.9.1\luabind\detail\is_indirect_const.hpp" />
+    <ClInclude Include="..\..\ValyriaTear-VS2013-Dependencies\luabind-0.9.1\luabind\detail\link_compatibility.hpp" />
+    <ClInclude Include="..\..\ValyriaTear-VS2013-Dependencies\luabind-0.9.1\luabind\detail\make_instance.hpp" />
+    <ClInclude Include="..\..\ValyriaTear-VS2013-Dependencies\luabind-0.9.1\luabind\detail\most_derived.hpp" />
+    <ClInclude Include="..\..\ValyriaTear-VS2013-Dependencies\luabind-0.9.1\luabind\detail\object_call.hpp" />
+    <ClInclude Include="..\..\ValyriaTear-VS2013-Dependencies\luabind-0.9.1\luabind\detail\object_funs.hpp" />
+    <ClInclude Include="..\..\ValyriaTear-VS2013-Dependencies\luabind-0.9.1\luabind\detail\object_rep.hpp" />
+    <ClInclude Include="..\..\ValyriaTear-VS2013-Dependencies\luabind-0.9.1\luabind\detail\open.hpp" />
+    <ClInclude Include="..\..\ValyriaTear-VS2013-Dependencies\luabind-0.9.1\luabind\detail\operator_id.hpp" />
+    <ClInclude Include="..\..\ValyriaTear-VS2013-Dependencies\luabind-0.9.1\luabind\detail\other.hpp" />
+    <ClInclude Include="..\..\ValyriaTear-VS2013-Dependencies\luabind-0.9.1\luabind\detail\pcall.hpp" />
+    <ClInclude Include="..\..\ValyriaTear-VS2013-Dependencies\luabind-0.9.1\luabind\detail\pointee_sizeof.hpp" />
+    <ClInclude Include="..\..\ValyriaTear-VS2013-Dependencies\luabind-0.9.1\luabind\detail\pointee_typeid.hpp" />
+    <ClInclude Include="..\..\ValyriaTear-VS2013-Dependencies\luabind-0.9.1\luabind\detail\policy.hpp" />
+    <ClInclude Include="..\..\ValyriaTear-VS2013-Dependencies\luabind-0.9.1\luabind\detail\primitives.hpp" />
+    <ClInclude Include="..\..\ValyriaTear-VS2013-Dependencies\luabind-0.9.1\luabind\detail\property.hpp" />
+    <ClInclude Include="..\..\ValyriaTear-VS2013-Dependencies\luabind-0.9.1\luabind\detail\ref.hpp" />
+    <ClInclude Include="..\..\ValyriaTear-VS2013-Dependencies\luabind-0.9.1\luabind\detail\signature_match.hpp" />
+    <ClInclude Include="..\..\ValyriaTear-VS2013-Dependencies\luabind-0.9.1\luabind\detail\stack_utils.hpp" />
+    <ClInclude Include="..\..\ValyriaTear-VS2013-Dependencies\luabind-0.9.1\luabind\detail\typetraits.hpp" />
+    <ClInclude Include="..\..\ValyriaTear-VS2013-Dependencies\luabind-0.9.1\luabind\detail\yes_no.hpp" />
+    <ClInclude Include="..\..\ValyriaTear-VS2013-Dependencies\luabind-0.9.1\luabind\discard_result_policy.hpp" />
+    <ClInclude Include="..\..\ValyriaTear-VS2013-Dependencies\luabind-0.9.1\luabind\error.hpp" />
+    <ClInclude Include="..\..\ValyriaTear-VS2013-Dependencies\luabind-0.9.1\luabind\exception_handler.hpp" />
+    <ClInclude Include="..\..\ValyriaTear-VS2013-Dependencies\luabind-0.9.1\luabind\from_stack.hpp" />
+    <ClInclude Include="..\..\ValyriaTear-VS2013-Dependencies\luabind-0.9.1\luabind\function.hpp" />
+    <ClInclude Include="..\..\ValyriaTear-VS2013-Dependencies\luabind-0.9.1\luabind\get_main_thread.hpp" />
+    <ClInclude Include="..\..\ValyriaTear-VS2013-Dependencies\luabind-0.9.1\luabind\get_pointer.hpp" />
+    <ClInclude Include="..\..\ValyriaTear-VS2013-Dependencies\luabind-0.9.1\luabind\handle.hpp" />
+    <ClInclude Include="..\..\ValyriaTear-VS2013-Dependencies\luabind-0.9.1\luabind\iterator_policy.hpp" />
+    <ClInclude Include="..\..\ValyriaTear-VS2013-Dependencies\luabind-0.9.1\luabind\luabind.hpp" />
+    <ClInclude Include="..\..\ValyriaTear-VS2013-Dependencies\luabind-0.9.1\luabind\lua_include.hpp" />
+    <ClInclude Include="..\..\ValyriaTear-VS2013-Dependencies\luabind-0.9.1\luabind\make_function.hpp" />
+    <ClInclude Include="..\..\ValyriaTear-VS2013-Dependencies\luabind-0.9.1\luabind\nil.hpp" />
+    <ClInclude Include="..\..\ValyriaTear-VS2013-Dependencies\luabind-0.9.1\luabind\object.hpp" />
+    <ClInclude Include="..\..\ValyriaTear-VS2013-Dependencies\luabind-0.9.1\luabind\open.hpp" />
+    <ClInclude Include="..\..\ValyriaTear-VS2013-Dependencies\luabind-0.9.1\luabind\operator.hpp" />
+    <ClInclude Include="..\..\ValyriaTear-VS2013-Dependencies\luabind-0.9.1\luabind\out_value_policy.hpp" />
+    <ClInclude Include="..\..\ValyriaTear-VS2013-Dependencies\luabind-0.9.1\luabind\prefix.hpp" />
+    <ClInclude Include="..\..\ValyriaTear-VS2013-Dependencies\luabind-0.9.1\luabind\raw_policy.hpp" />
+    <ClInclude Include="..\..\ValyriaTear-VS2013-Dependencies\luabind-0.9.1\luabind\return_reference_to_policy.hpp" />
+    <ClInclude Include="..\..\ValyriaTear-VS2013-Dependencies\luabind-0.9.1\luabind\scope.hpp" />
+    <ClInclude Include="..\..\ValyriaTear-VS2013-Dependencies\luabind-0.9.1\luabind\shared_ptr_converter.hpp" />
+    <ClInclude Include="..\..\ValyriaTear-VS2013-Dependencies\luabind-0.9.1\luabind\tag_function.hpp" />
+    <ClInclude Include="..\..\ValyriaTear-VS2013-Dependencies\luabind-0.9.1\luabind\typeid.hpp" />
+    <ClInclude Include="..\..\ValyriaTear-VS2013-Dependencies\luabind-0.9.1\luabind\value_wrapper.hpp" />
+    <ClInclude Include="..\..\ValyriaTear-VS2013-Dependencies\luabind-0.9.1\luabind\version.hpp" />
+    <ClInclude Include="..\..\ValyriaTear-VS2013-Dependencies\luabind-0.9.1\luabind\weak_ref.hpp" />
+    <ClInclude Include="..\..\ValyriaTear-VS2013-Dependencies\luabind-0.9.1\luabind\wrapper_base.hpp" />
+    <ClInclude Include="..\..\ValyriaTear-VS2013-Dependencies\luabind-0.9.1\luabind\yield_policy.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
