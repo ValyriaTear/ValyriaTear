@@ -13,6 +13,7 @@
 *** \brief   Source file for map active status effects handling.
 *** ***************************************************************************/
 
+#include "utils/utils_pch.h"
 #include "modes/map/map_status_effects.h"
 
 #include "modes/map/map_mode.h"
