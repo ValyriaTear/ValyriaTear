@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: Valyria Tear\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-08-19 00:12+0200\n"
-"PO-Revision-Date: 2014-08-19 00:27+0100\n"
+"PO-Revision-Date: 2014-08-19 00:55+0100\n"
 "Last-Translator: Yohann Ferreira <yohann.ferreira@orange.fr>\n"
 "Language-Team: French (http://www.transifex.com/projects/p/valyria-tear/"
 "language/fr/)\n"
@@ -7280,7 +7280,7 @@ msgstr "Carapace"
 
 #: ../dat/skills/magic.lua:1239
 msgid "Increases all elemental effects on one character."
-msgstr "Augmente tous les résistances élémentaires d'un allié."
+msgstr "Augmente tous les résistances élémentaires d'un personnage."
 
 #: ../dat/skills/magic.lua:1254 map_names_tr.lua:200 map_names_tr.lua:408
 msgid "?"
