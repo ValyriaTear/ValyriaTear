@@ -1235,8 +1235,9 @@ map_functions = {
         -- Remove it twice since we added it twice.
         Map:PopState();
 
-        -- Updates Kalya and Orlinn dialogues
+        -- Updates Kalya, Orlinn and Georges dialogues
         _UpdateOrlinnAndKalyaState();
+        _UpdateGeorgesDialogue();
     end,
 
     Quest1GeorgesTellsBronannAboutLilly = function()
