@@ -70,7 +70,7 @@ function Initialize(map_instance)
         },
         [9] = {
             header = Script:CreateText(vt_system.Translate("Translations"), vt_video.TextStyle("text22")),
-            text = Script:CreateText("Bertram (fr)\ndimproject (ru)\njahalic (es)", vt_video.TextStyle("text22"))
+            text = Script:CreateText("Bertram (fr)\ndimproject (ru)\njahalic (es)\nWillemS (nl_NL)", vt_video.TextStyle("text22"))
         },
         [10] = {
             header = Script:CreateText(vt_system.Translate("Tester Team"), vt_video.TextStyle("text22")),
