@@ -5,12 +5,13 @@
 # Translators:
 # Stefano C. <coccatostefano@hotmail.it>, 2014
 # Stefano C. <coccatostefano@hotmail.it>, 2014
+# Bertram <yohann.ferreira@orange.fr>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: Valyria Tear\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-08-19 00:12+0200\n"
-"PO-Revision-Date: 2014-08-21 23:19+0100\n"
+"POT-Creation-Date: 2014-08-21 23:27+0200\n"
+"PO-Revision-Date: 2014-08-21 23:53+0100\n"
 "Last-Translator: Yohann Ferreira <yohann.ferreira@orange.fr>\n"
 "Language-Team: Italian (http://www.transifex.com/projects/p/valyria-tear/"
 "language/it/)\n"
@@ -2074,9 +2075,11 @@ msgstr "Traduzioni"
 msgid ""
 "English text review\n"
 "\n"
+"Dutch (nl_NL)\n"
+"\n"
 "French (fr)\n"
 "\n"
-"Gallician (gl)\n"
+"Galician (gl)\n"
 "\n"
 "German (de)\n"
 "\n"
@@ -2089,6 +2092,8 @@ msgid ""
 "Spanish (es)"
 msgstr ""
 "Revisione testo in inglese\n"
+"\n"
+"Olandese (nl_NL)\n"
 "\n"
 "Francese (fr)\n"
 "\n"
@@ -7503,8 +7508,8 @@ msgstr "Menu di gruppo: %s"
 
 #: ../dat/help/in_game_move_and_interact_anim.lua:68
 #, c-format
-msgid "Pause Menu: %s"
-msgstr "Menu di pausa: %s"
+msgid "Pause: %s"
+msgstr "Pausa: %s"
 
 #: ../dat/help/in_game_move_and_interact_anim.lua:70
 #, c-format

@@ -1,20 +1,24 @@
+# SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 #
-# Adrián Chaves Fernández <adriyetichaves@gmail.com>, 2013, 2014.
+# Translators:
+# Adrián Chaves Fernández <adriyetichaves@gmail.com>, 2013-2014
+# Bertram <yohann.ferreira@orange.fr>, 2014
 msgid ""
 msgstr ""
-"Project-Id-Version: \n"
+"Project-Id-Version: Valyria Tear\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-08-19 00:12+0200\n"
-"PO-Revision-Date: 2014-08-19 01:41+0100\n"
+"POT-Creation-Date: 2014-08-21 23:27+0200\n"
+"PO-Revision-Date: 2014-08-21 23:55+0100\n"
 "Last-Translator: Yohann Ferreira <yohann.ferreira@orange.fr>\n"
-"Language-Team: Galician <kde-i18n-doc@kde.org>\n"
-"Language: gl\n"
+"Language-Team: Galician (http://www.transifex.com/projects/p/valyria-tear/"
+"language/gl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"Language: gl\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Poedit 1.5.4\n"
 
 #: ../src/common/global/global_effects.cpp:37
@@ -705,9 +709,8 @@ msgid "Evade (EVD): "
 msgstr "Esquivar (ESQ): "
 
 #: ../src/modes/menu/menu_views.cpp:1226
-#, fuzzy
 msgid "Choose a character."
-msgstr "Move a personaxe:"
+msgstr ""
 
 #: ../src/modes/menu/menu_views.cpp:1227
 msgid "Choose a skill category to use."
@@ -1059,16 +1062,10 @@ msgstr "Nome"
 msgid "Price"
 msgstr "Prezo"
 
-# De «Dispoñíbel (no almacén)», existe unha limitación de espazo.
-#
-# Esta cadea é o nome dunha das columnas que aparece cando vas mercar algo nunha tenda.
 #: ../src/modes/shop/shop_buy.cpp:69 ../src/modes/shop/shop_trade.cpp:66
 msgid "Stock"
 msgstr "Disp."
 
-# De «Inventario», existe unha limitación de espazo.
-#
-# Esta cadea é o nome dunha das columnas que aparece cando vas mercar algo nunha tenda.
 #: ../src/modes/shop/shop_buy.cpp:70 ../src/modes/shop/shop_sell.cpp:69
 #: ../src/modes/shop/shop_trade.cpp:67
 msgid "Own"
@@ -1078,30 +1075,18 @@ msgstr "Inv."
 msgid "Weapons"
 msgstr "Armas"
 
-# Existe unha limitación de espazo.
-#
-# Esta cadea aparece cando vas mercar un elemento deste tipo nunha tenda, na esquina inferior esquerda da pantalla na que seleccionas a cantidade de unidades do elemento que queres mercar.
 #: ../src/modes/shop/shop.cpp:69
 msgid "Head Armor"
 msgstr "Cabeza"
 
-# Existe unha limitación de espazo.
-#
-# Esta cadea aparece cando vas mercar un elemento deste tipo nunha tenda, na esquina inferior esquerda da pantalla na que seleccionas a cantidade de unidades do elemento que queres mercar.
 #: ../src/modes/shop/shop.cpp:70
 msgid "Torso Armor"
 msgstr "Torso"
 
-# Existe unha limitación de espazo.
-#
-# Esta cadea aparece cando vas mercar un elemento deste tipo nunha tenda, na esquina inferior esquerda da pantalla na que seleccionas a cantidade de unidades do elemento que queres mercar.
 #: ../src/modes/shop/shop.cpp:71
 msgid "Arm Armor"
 msgstr "Brazos"
 
-# Existe unha limitación de espazo.
-#
-# Esta cadea aparece cando vas mercar un elemento deste tipo nunha tenda, na esquina inferior esquerda da pantalla na que seleccionas a cantidade de unidades do elemento que queres mercar.
 #: ../src/modes/shop/shop.cpp:72
 msgid "Leg Armor"
 msgstr "Pernas"
@@ -1154,7 +1139,6 @@ msgstr "Mercar"
 msgid "Sell"
 msgstr "Vender"
 
-# Non vai no sentido de «comerciar», senón no de intercambiar unha serie de cousas, «requisitos», por outra.
 #: ../src/modes/shop/shop.cpp:1027 ../src/modes/shop/shop.cpp:1186
 msgid "Trade"
 msgstr "Trocar"
@@ -1342,7 +1326,6 @@ msgstr "Esqueleto"
 msgid "Leg"
 msgstr "Perna"
 
-# http://opengameart.org/content/dorver-monster
 #: ../dat/actors/enemies.lua:1034
 msgid "Dorver"
 msgstr "Dorver"
@@ -2086,9 +2069,11 @@ msgstr "Tradución"
 msgid ""
 "English text review\n"
 "\n"
+"Dutch (nl_NL)\n"
+"\n"
 "French (fr)\n"
 "\n"
-"Gallician (gl)\n"
+"Galician (gl)\n"
 "\n"
 "German (de)\n"
 "\n"
@@ -2101,6 +2086,8 @@ msgid ""
 "Spanish (es)"
 msgstr ""
 "Revisión dos textos orixinais en inglés.\n"
+"\n"
+"Holandés (nl_NL)\n"
 "\n"
 "Francés (fr).\n"
 "\n"
@@ -3428,14 +3415,12 @@ msgid "Orlinn, give back the pen to Bronann, or I shall sma..."
 msgstr ""
 
 #: ../dat/maps/layna_village/layna_village_center_script.lua:457
-#, fuzzy
 msgid "Yea... Yes, here it is."
-msgstr "Haber hai outro sitio por onde cruzar… Por desgraza…"
+msgstr ""
 
 #: ../dat/maps/layna_village/layna_village_center_script.lua:476
-#, fuzzy
 msgid "I found that pen under a tree near the river. I just wanted to play..."
-msgstr "Atopei a pluma esa preto da árbore de aí atrás. Só quería xogar…"
+msgstr ""
 
 #: ../dat/maps/layna_village/layna_village_center_script.lua:478
 #: ../dat/maps/layna_village/layna_village_riverbank_script.lua:385
@@ -3866,9 +3851,8 @@ msgid "No, it's not that bad."
 msgstr ""
 
 #: ../dat/maps/layna_village/layna_village_center_script.lua:1136
-#, fuzzy
 msgid "As you wish..."
-msgstr "E ti…"
+msgstr ""
 
 #: ../dat/maps/layna_village/layna_village_center_script.lua:1144
 #: ../dat/maps/layna_village/layna_village_riverbank_script.lua:643
@@ -5982,14 +5966,12 @@ msgstr ""
 "Mira que é grande esta porta… Medo me dá o que poda haber ao outro lado…"
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:405
-#, fuzzy
 msgid "Shall we go in?"
-msgstr "Saltamos?"
+msgstr ""
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:407
-#, fuzzy
 msgid "Yes, let's end this."
-msgstr "Saltamos."
+msgstr ""
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:409
 msgid "No, let's prepare first..."
@@ -7406,8 +7388,8 @@ msgstr "Menú do grupo: %s"
 
 #: ../dat/help/in_game_move_and_interact_anim.lua:68
 #, c-format
-msgid "Pause Menu: %s"
-msgstr "Menú de pausa: %s"
+msgid "Pause: %s"
+msgstr "Parar: %s"
 
 #: ../dat/help/in_game_move_and_interact_anim.lua:70
 #, c-format
@@ -7530,264 +7512,3 @@ msgstr "Segundo andar"
 #: map_names_tr.lua:388 map_names_tr.lua:392 map_names_tr.lua:396
 msgid "1st Floor"
 msgstr "Primeiro andar"
-
-#~ msgid "Itm"
-#~ msgstr "Ele."
-
-#~ msgid "Wpn"
-#~ msgstr "Arm."
-
-#~ msgid "Hlm"
-#~ msgstr "Cas."
-
-#~ msgid "Tor"
-#~ msgstr "Tor."
-
-#~ msgid "Key"
-#~ msgstr "Cha."
-
-#~ msgid "Please, leave me alone, Bronann..."
-#~ msgstr "Déixame en paz, Bronan."
-
-#~ msgid "Increases the Air elemental defense on an ally."
-#~ msgstr "Aumenta a defensa dun aliado contra elementais de aire."
-
-#~ msgid "Menu|Arm"
-#~ msgstr "Menú|Brazo"
-
-#~ msgid " "
-#~ msgstr " "
-
-#~ msgid "... I do trust you, Kalya."
-#~ msgstr "Confiar confío…"
-
-#~ msgid "A"
-#~ msgstr "A"
-
-#~ msgid "Brightness:"
-#~ msgstr "Brillo:"
-
-#~ msgid "Can you also see this strange circle surrounded by light?"
-#~ msgstr "Ti tamén podes ver este círculo estraño rodeado de luz?"
-
-#~ msgid "Creates a slime."
-#~ msgstr "Crea unha baballa."
-
-#~ msgid "D"
-#~ msgstr "D"
-
-#~ msgid "Defensive Stance"
-#~ msgstr "Posición defensiva"
-
-#~ msgid "Down Arrow"
-#~ msgstr "↓"
-
-#~ msgid "Drain HP"
-#~ msgstr "Absorber vida"
-
-#~ msgid "Drain SP"
-#~ msgstr "Absorber habilidade"
-
-#~ msgid "Drunes - "
-#~ msgstr "Drunas: "
-
-#~ msgid "Drunes: "
-#~ msgstr "Drunas: "
-
-#~ msgid "E"
-#~ msgstr "E"
-
-#~ msgid "Enough! You hid things to me. You're a liar, like everyone else!"
-#~ msgstr ""
-#~ "Basta! Estiveches ocultándome cousas. Es unha mentireira, como todos os "
-#~ "demais!"
-
-#~ msgid "Err... Are you sure?"
-#~ msgstr "Estás segura?"
-
-#~ msgid "Esc"
-#~ msgstr "Esc"
-
-#~ msgid "F"
-#~ msgstr "F"
-
-#~ msgid "Hi Bronnan! What can I do for you?"
-#~ msgstr "Ola Bronan. Que che poño?"
-
-#~ msgid "Huh? I... I'm coming."
-#~ msgstr "Vou, vou."
-
-#~ msgid "I can feel fresh air and some light coming from around this rock."
-#~ msgstr ""
-#~ "Hai aire fresco arredor desta rocha, e pode verse luz entrar polos "
-#~ "buratos."
-
-#~ msgid "I feel like I can go in there..."
-#~ msgstr "Sinto que podo entrar nel…"
-
-#~ msgid "I shall bring your spirits to the Master."
-#~ msgstr "Entregareille os vosos espíritos ao mestre."
-
-#~ msgid "I'd better be going and forget about it as fast as possible..."
-#~ msgstr "Mellor será que marche e o esqueza."
-
-#~ msgid ""
-#~ "If so, then come and try for yourself. Push '%s' and you'll feel safe, "
-#~ "too."
-#~ msgstr ""
-#~ "Entón ven e compróbao ti mesmo. Preme «%s» e ti tamén te sentirás a salvo."
-
-#~ msgid "It is like... it's calling me."
-#~ msgstr "É como se… como se me estivese a chamar."
-
-#~ msgid "It suits me better than it would for you, don't be jealous."
-#~ msgstr "Non sexas celoso, a ti non te quedaría tan ben como a min."
-
-#~ msgid "Kyle"
-#~ msgstr "Cail"
-
-#~ msgid "Left Arrow"
-#~ msgstr " ←"
-
-#~ msgid "Left Select"
-#~ msgstr "Escolla esquerda"
-
-#~ msgid "Let's fight!"
-#~ msgstr "Loitemos!"
-
-#~ msgid "Lower Agility"
-#~ msgstr "Reducir a axilidade"
-
-#~ msgid "Lower Evasion"
-#~ msgstr "Reducir o esquivar"
-
-#~ msgid "Lower Fortitude"
-#~ msgstr "Reducir a resistencia"
-
-#~ msgid "Lower Protection"
-#~ msgstr "Reducir a protección"
-
-#~ msgid "Lower Strength"
-#~ msgstr "Reducir a forza"
-
-#~ msgid "Lower Vigor"
-#~ msgstr "Reducir a enerxía"
-
-#~ msgid "Map tiles: "
-#~ msgstr "Teselas: "
-
-#~ msgid "Mt Elbrus"
-#~ msgstr "Monte Elbrus"
-
-#~ msgid "No! I want the truth now, or I won't come!"
-#~ msgstr ""
-#~ "Non! Quero a verdade, xa! De aquí non me movo ata que saiba o que está a "
-#~ "pasar!"
-
-#~ msgid "Normal"
-#~ msgstr "Normais"
-
-#~ msgid ""
-#~ "Oh, I almost forgot, have you seen up here? There is a Layna spring! We "
-#~ "can heal our wounds there."
-#~ msgstr ""
-#~ "Oh, case o esquezo, viches iso de alí arriba? É unha fonte de Lania! "
-#~ "Podemos curar as feridas na auga."
-
-#~ msgid "Quantity: "
-#~ msgstr "Cantidade: "
-
-#~ msgid "Regenerate HP"
-#~ msgstr "Rexenerar vida"
-
-#~ msgid "Regenerate SP"
-#~ msgstr "Rexenerar habilidade"
-
-#~ msgid "Right Arrow"
-#~ msgstr "→"
-
-#~ msgid "Right Select"
-#~ msgstr "Escolla dereita"
-
-#~ msgid "S"
-#~ msgstr "S"
-
-#~ msgid "See... It brings no harm."
-#~ msgstr "Ves… Non é perigoso."
-
-#~ msgid "Select multiple or backward page scroll"
-#~ msgstr "Escoller a páxina anterior ou varias."
-
-#~ msgid "Select multiple or forward page scroll"
-#~ msgstr "Escoller a páxina posterior ou varias."
-
-#~ msgid "Shards"
-#~ msgstr "Fragmentos"
-
-#~ msgid "Skill Points: "
-#~ msgstr "Puntos de habilidade: "
-
-#~ msgid "Slime Spawn"
-#~ msgstr "Xerar baballa"
-
-#~ msgid "Smoothed"
-#~ msgstr "Suavizadas"
-
-#~ msgid "So... You seem to remind me, Banesore?"
-#~ msgstr "Que? Lémbrasme, Bansor?"
-
-#~ msgid "Somehow... I don't know why, but yes ..."
-#~ msgstr "Non me preguntes como… non o sei. Pero si, entendo o que din…"
-
-#~ msgid "Spacebar"
-#~ msgstr "Barra espazadora"
-
-#~ msgid "Standard Helmet"
-#~ msgstr "Helmo estándar"
-
-#~ msgid ""
-#~ "Standard Karlate issued equipment. Battle worn but reliable head "
-#~ "protection."
-#~ msgstr ""
-#~ "Equipamento estándar de Carlate para protexer a cabeza. Está usado, pero "
-#~ "aguanta ben."
-
-#~ msgid "Stop worrying. We also have our little secrets..."
-#~ msgstr "Deixa de preocuparte. Nós tamén temos os nosos segredos…"
-
-#~ msgid "Strange... it sounds familiar to me. Like... A safe place to be."
-#~ msgstr "Que raro… Sóame. É como se… como se fose un lugar seguro."
-
-#~ msgid "Sure! Do you trust me?"
-#~ msgstr "Pois claro que estou segura! Confías en min?"
-
-#~ msgid "Swap"
-#~ msgstr "Intercambiar"
-
-#~ msgid "Swaps active menu or character"
-#~ msgstr "Intercambia a personaxe ou menú activo."
-
-#~ msgid "Time - "
-#~ msgstr "Tempo: "
-
-#~ msgid "Up Arrow"
-#~ msgstr "↑"
-
-#~ msgid "Use: "
-#~ msgstr "Usar: "
-
-#~ msgid "W"
-#~ msgstr "W"
-
-#~ msgid "What a creepy place. I had never heard about this before ..."
-#~ msgstr ""
-#~ "Non me gusta nada este lugar. E como é que nunca escoitei falar del?"
-
-#~ msgid "When I'm standing near you, I can."
-#~ msgstr "Si, pero só cando estou preto de ti."
-
-#~ msgid "Window mode:"
-#~ msgstr "Modo:"
-
-#~ msgid "You're right. This place makes me feel good."
-#~ msgstr "Tes razón. Síntome ben aquí."

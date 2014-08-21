@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the Valyria Tear package.
 #
 # Translators:
-# Sergej Forat <core13@gmx.net>, 2012-2014
+# sefox <core13@gmx.net>, 2014
+# Bertram <yohann.ferreira@orange.fr>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: Valyria Tear\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-08-19 00:12+0200\n"
-"PO-Revision-Date: 2014-08-21 23:23+0100\n"
+"POT-Creation-Date: 2014-08-21 23:27+0200\n"
+"PO-Revision-Date: 2014-08-21 23:54+0100\n"
 "Last-Translator: Yohann Ferreira <yohann.ferreira@orange.fr>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/valyria-tear/"
 "language/de/)\n"
@@ -2015,9 +2016,11 @@ msgstr "Übersetzung"
 msgid ""
 "English text review\n"
 "\n"
+"Dutch (nl_NL)\n"
+"\n"
 "French (fr)\n"
 "\n"
-"Gallician (gl)\n"
+"Galician (gl)\n"
 "\n"
 "German (de)\n"
 "\n"
@@ -2030,6 +2033,8 @@ msgid ""
 "Spanish (es)"
 msgstr ""
 "Englisch Korrektur\n"
+"\n"
+"Holländisch (nl_NL)\n"
 "\n"
 "Französisch (fr)\n"
 "\n"
@@ -7375,8 +7380,8 @@ msgstr "Gruppen-Menü: %s"
 
 #: ../dat/help/in_game_move_and_interact_anim.lua:68
 #, c-format
-msgid "Pause Menu: %s"
-msgstr "Pause-Menü: %s"
+msgid "Pause: %s"
+msgstr "Pause: %s"
 
 #: ../dat/help/in_game_move_and_interact_anim.lua:70
 #, c-format

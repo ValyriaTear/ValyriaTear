@@ -4,12 +4,13 @@
 #
 # Translators:
 # Willem Sonke <w.m.sonke@student.tue.nl>, 2014
+# Bertram <yohann.ferreira@orange.fr>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: Valyria Tear\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-08-19 00:12+0200\n"
-"PO-Revision-Date: 2014-08-21 23:10+0100\n"
+"POT-Creation-Date: 2014-08-21 23:27+0200\n"
+"PO-Revision-Date: 2014-08-21 23:52+0100\n"
 "Last-Translator: Yohann Ferreira <yohann.ferreira@orange.fr>\n"
 "Language-Team: Dutch (Netherlands) (http://www.transifex.com/projects/p/"
 "valyria-tear/language/nl_NL/)\n"
@@ -2068,9 +2069,11 @@ msgstr "Vertalingen"
 msgid ""
 "English text review\n"
 "\n"
+"Dutch (nl_NL)\n"
+"\n"
 "French (fr)\n"
 "\n"
-"Gallician (gl)\n"
+"Galician (gl)\n"
 "\n"
 "German (de)\n"
 "\n"
@@ -2082,7 +2085,9 @@ msgid ""
 "\n"
 "Spanish (es)"
 msgstr ""
-"Nalezen van het Engels\n"
+"Herziening van de Engelse tekst\n"
+"\n"
+"Nederlands (nl_NL)\n"
 "\n"
 "Frans (fr)\n"
 "\n"
@@ -7466,8 +7471,8 @@ msgstr "Groepmenu: %s"
 
 #: ../dat/help/in_game_move_and_interact_anim.lua:68
 #, c-format
-msgid "Pause Menu: %s"
-msgstr "Pauzemenu: %s"
+msgid "Pause: %s"
+msgstr "Pauze: %s"
 
 #: ../dat/help/in_game_move_and_interact_anim.lua:70
 #, c-format
