@@ -3,19 +3,21 @@
 # This file is distributed under the same license as the PACKAGE package.
 #
 # Translators:
+# Bertram <yohann.ferreira@orange.fr>, 2014
+# Bertram <yohann.ferreira@orange.fr>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: Valyria Tear\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-08-19 00:12+0200\n"
-"PO-Revision-Date: 2014-08-19 01:19+0100\n"
+"PO-Revision-Date: 2014-08-21 23:21+0100\n"
 "Last-Translator: Yohann Ferreira <yohann.ferreira@orange.fr>\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/valyria-tear/"
 "language/ru/)\n"
-"Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: ru\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Generator: Poedit 1.5.4\n"
@@ -709,13 +711,12 @@ msgid "Evade (EVD): "
 msgstr "Уклонение (УКЛ): "
 
 #: ../src/modes/menu/menu_views.cpp:1226
-#, fuzzy
 msgid "Choose a character."
-msgstr "Движение твоего героя:"
+msgstr "Выбери героя."
 
 #: ../src/modes/menu/menu_views.cpp:1227
 msgid "Choose a skill category to use."
-msgstr ""
+msgstr "Выбери категорию умения, чтобы использовать."
 
 #: ../src/modes/menu/menu_views.cpp:1316
 msgid "All"
@@ -3376,7 +3377,7 @@ msgstr "Что я делаю? Мне следовало бы пойти и по�
 
 #: ../dat/maps/layna_village/layna_village_center_script.lua:135
 msgid "Do you need something, Bronann?"
-msgstr ""
+msgstr "Тебе что-нибудь нужно, Бронан?"
 
 #: ../dat/maps/layna_village/layna_village_center_script.lua:162
 msgid "Ahh sure! (gossip, gossip)"
@@ -3403,19 +3404,19 @@ msgstr "Хм, Я пойду в магазин Флоры. Я надеюсь, ч�
 
 #: ../dat/maps/layna_village/layna_village_center_script.lua:425
 msgid "As you wish... Follow me."
-msgstr ""
+msgstr "Как хочешь... Следуй за мной."
 
 #: ../dat/maps/layna_village/layna_village_center_script.lua:442
 msgid "ORLINN!! Come here NOW!!"
-msgstr ""
+msgstr "ОРЛИН! Подойди сюда СЕЙЧАС ЖЕ!!"
 
 #: ../dat/maps/layna_village/layna_village_center_script.lua:455
 msgid "Orlinn, give back the pen to Bronann, or I shall sma..."
-msgstr ""
+msgstr "Орлин, отдай перо Бронану, или я тебя уда..."
 
 #: ../dat/maps/layna_village/layna_village_center_script.lua:457
 msgid "Yea... Yes, here it is."
-msgstr "К сожалению... Да, есть один..."
+msgstr "Угу... Да, вот оно..."
 
 #: ../dat/maps/layna_village/layna_village_center_script.lua:476
 msgid "I found that pen under a tree near the river. I just wanted to play..."
@@ -3759,7 +3760,7 @@ msgstr ""
 
 #: ../dat/maps/layna_village/layna_village_center_script.lua:1030
 msgid "Shall you find it, I would be extremely obliged to you!"
-msgstr "Если найдёшь это, я буду очень тебе благодарен!"
+msgstr "Если найдёшь его, я буду тебе очень благодарен!"
 
 #: ../dat/maps/layna_village/layna_village_center_script.lua:1032
 #: ../dat/maps/layna_village/layna_village_center_script.lua:1063
@@ -3847,33 +3848,31 @@ msgstr "Не беспокойся об этом, Орлин. Хорошо?"
 
 #: ../dat/maps/layna_village/layna_village_center_script.lua:1124
 msgid "Kalya, have you seen Orlinn?"
-msgstr ""
+msgstr "Каля, ты видела Орлина?"
 
 #: ../dat/maps/layna_village/layna_village_center_script.lua:1126
 msgid "Why? ... Oh, don't tell it. He's hiding somewhere."
-msgstr ""
+msgstr "Ну? ... Ох, не говори. Он где-то прячется."
 
 #: ../dat/maps/layna_village/layna_village_center_script.lua:1128
 msgid "Yes, he took Georges pen and I need to give it back to him..."
-msgstr ""
+msgstr "Да, он взял перо Джорджа, а мне нужно его вернуть..."
 
 #: ../dat/maps/layna_village/layna_village_center_script.lua:1130
 msgid "Hmpf, no surprise. Do you want me to bring him back?"
-msgstr ""
+msgstr "Хм, не удивительно. Ты хочешь, чтобы я его привела?"
 
 #: ../dat/maps/layna_village/layna_village_center_script.lua:1132
-#, fuzzy
 msgid "Yes, please..."
-msgstr "Да, пожалуйста!"
+msgstr "Да, пожалуйста..."
 
 #: ../dat/maps/layna_village/layna_village_center_script.lua:1134
 msgid "No, it's not that bad."
-msgstr ""
+msgstr "Нет, это не так плохо."
 
 #: ../dat/maps/layna_village/layna_village_center_script.lua:1136
-#, fuzzy
 msgid "As you wish..."
-msgstr "И вы..."
+msgstr "Как хочешь..."
 
 #: ../dat/maps/layna_village/layna_village_center_script.lua:1144
 #: ../dat/maps/layna_village/layna_village_riverbank_script.lua:643
@@ -3886,7 +3885,7 @@ msgstr "О чём ты смеёшься, Орлин?"
 
 #: ../dat/maps/layna_village/layna_village_center_script.lua:1148
 msgid "You'll never find it!"
-msgstr "Ты никогда не найдёшь это!"
+msgstr "Ты никогда не найдёшь его!"
 
 #: ../dat/maps/layna_village/layna_village_center_script.lua:1150
 msgid "Huh? Wait! Are you talking about Georges's lost pen?"
@@ -5924,13 +5923,10 @@ msgid "And you shall not touch my brother without mine..."
 msgstr "И ты не тронешь рядом брата без моего..."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine_basement_script.lua:301
-#, fuzzy
 msgid ""
 "You have got through the Holy Ordeal without dying. I shall not let you "
 "live..."
-msgstr ""
-"Вы доказано виновны в попытке пройти через священное тяжёлое испытание не "
-"умерев. Я не дам вам жить..."
+msgstr "Вы прошли священное тяжёлое испытание не умерев. Я не дам вам жить..."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine_basement_script.lua:303
 msgid "Let's fight for our lives then!"
@@ -5990,18 +5986,16 @@ msgid "What a big gate... What is behind must be fearsome..."
 msgstr "Какие большие врата... Что вызывает должно быть что-то ужасное..."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:405
-#, fuzzy
 msgid "Shall we go in?"
-msgstr "Нам прыгать?"
+msgstr "Мы идём?"
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:407
-#, fuzzy
 msgid "Yes, let's end this."
-msgstr "Да, идём."
+msgstr "Да, давайте покончим с этим."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:409
 msgid "No, let's prepare first..."
-msgstr ""
+msgstr "Нет, давайте сперва подготовимся..."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:446
 msgid ""
@@ -7038,9 +7032,8 @@ msgid "Wind Circle"
 msgstr "Круг ветра"
 
 #: ../dat/skills/magic.lua:922
-#, fuzzy
 msgid "Increases the Air elemental defense on a character."
-msgstr "Увеличивает защиту стихии огня у героя."
+msgstr "Увеличивает защиту стихии воздуха у героя."
 
 #: ../dat/skills/magic.lua:946
 msgid "Lightning"
@@ -7540,27 +7533,3 @@ msgstr "2-ой этаж"
 #: map_names_tr.lua:388 map_names_tr.lua:392 map_names_tr.lua:396
 msgid "1st Floor"
 msgstr "1-ый этаж"
-
-#~ msgid "Itm"
-#~ msgstr "Пр."
-
-#~ msgid "Wpn"
-#~ msgstr "Ор."
-
-#~ msgid "Hlm"
-#~ msgstr "Шл."
-
-#~ msgid "Tor"
-#~ msgstr "Т"
-
-#~ msgid "Key"
-#~ msgstr "Кл."
-
-#~ msgid "Please, leave me alone, Bronann..."
-#~ msgstr "Пожалуйста, оставь меня в покое, Бронан..."
-
-#~ msgid "Increases the Air elemental defense on an ally."
-#~ msgstr "Увеличивает защиту стихии воздуха у союзника."
-
-#~ msgid "Menu|Arm"
-#~ msgstr "Меню|Р"

@@ -1,20 +1,23 @@
 # German translations for Valyria Tear package.
 # Copyright (C) 2012 The Valyria Tear Project
 # This file is distributed under the same license as the Valyria Tear package.
-# Sergej Forat <core13@gmx.net>, 2012-2014.
 #
+# Translators:
+# Sergej Forat <core13@gmx.net>, 2012-2014
 msgid ""
 msgstr ""
 "Project-Id-Version: Valyria Tear\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-08-19 00:12+0200\n"
-"PO-Revision-Date: 2014-08-19 01:38+0100\n"
+"PO-Revision-Date: 2014-08-21 23:23+0100\n"
 "Last-Translator: Yohann Ferreira <yohann.ferreira@orange.fr>\n"
-"Language-Team:  <German>\n"
-"Language: de\n"
+"Language-Team: German (http://www.transifex.com/projects/p/valyria-tear/"
+"language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: de\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Poedit 1.5.4\n"
 
 #: ../src/common/global/global_effects.cpp:37
@@ -706,13 +709,12 @@ msgid "Evade (EVD): "
 msgstr "Gewandtheit (GW): "
 
 #: ../src/modes/menu/menu_views.cpp:1226
-#, fuzzy
 msgid "Choose a character."
-msgstr "Charakter bewegen:"
+msgstr " Wähle einen Charakter."
 
 #: ../src/modes/menu/menu_views.cpp:1227
 msgid "Choose a skill category to use."
-msgstr ""
+msgstr " Wähle zu verwedende Fertigkeitskategorie."
 
 #: ../src/modes/menu/menu_views.cpp:1316
 msgid "All"
@@ -3030,7 +3032,7 @@ msgstr ""
 
 #: ../dat/maps/layna_village/layna_village_bronanns_home_first_floor_script.lua:201
 msgid "I might as well move on and forget about it..."
-msgstr "Mach keinen Sinn darüber weiter zu grübeln, auf geht's..."
+msgstr "Macht keinen Sinn darüber weiter zu grübeln, auf geht's..."
 
 #: ../dat/maps/layna_village/layna_village_bronanns_home_first_floor_script.lua:228
 msgid "You can come back here and save as many times as you want."
@@ -3242,7 +3244,7 @@ msgstr "Was mache ich hier? Ich muss versuchen Kalya zu befreien!"
 
 #: ../dat/maps/layna_village/layna_village_center_script.lua:135
 msgid "Do you need something, Bronann?"
-msgstr ""
+msgstr "Brauchst du irgendwas, Bronann?"
 
 #: ../dat/maps/layna_village/layna_village_center_script.lua:162
 msgid "Ahh sure! (gossip, gossip)"
@@ -3275,11 +3277,11 @@ msgstr ""
 
 #: ../dat/maps/layna_village/layna_village_center_script.lua:442
 msgid "ORLINN!! Come here NOW!!"
-msgstr ""
+msgstr "ORLINN!! Komm her, SOFORT!!"
 
 #: ../dat/maps/layna_village/layna_village_center_script.lua:455
 msgid "Orlinn, give back the pen to Bronann, or I shall sma..."
-msgstr ""
+msgstr "Orlinn, gib Bronann den Stift, sonst setzt's was!"
 
 #: ../dat/maps/layna_village/layna_village_center_script.lua:457
 msgid "Yea... Yes, here it is."
@@ -3719,19 +3721,19 @@ msgstr "Mach dir keine Sorgen, Orlinn. In Ordnung?"
 
 #: ../dat/maps/layna_village/layna_village_center_script.lua:1124
 msgid "Kalya, have you seen Orlinn?"
-msgstr ""
+msgstr "Kalya, hast du Orlinn gesehen?"
 
 #: ../dat/maps/layna_village/layna_village_center_script.lua:1126
 msgid "Why? ... Oh, don't tell it. He's hiding somewhere."
-msgstr ""
+msgstr "Wieso? ... Oh, sag's mir nicht. Er versteckt sich wieder irgendwo."
 
 #: ../dat/maps/layna_village/layna_village_center_script.lua:1128
 msgid "Yes, he took Georges pen and I need to give it back to him..."
-msgstr ""
+msgstr "Ja, er hat Georges Stift, und ich versprach ihn zurückzubringen..."
 
 #: ../dat/maps/layna_village/layna_village_center_script.lua:1130
 msgid "Hmpf, no surprise. Do you want me to bring him back?"
-msgstr ""
+msgstr "Hmpf, wieso bin ich nicht überrascht... Soll ich ihn für dich holen?"
 
 #: ../dat/maps/layna_village/layna_village_center_script.lua:1132
 msgid "Yes, please..."
@@ -3739,12 +3741,11 @@ msgstr "Ja, bitte!"
 
 #: ../dat/maps/layna_village/layna_village_center_script.lua:1134
 msgid "No, it's not that bad."
-msgstr ""
+msgstr "Nee, mach dir keine Umstände."
 
 #: ../dat/maps/layna_village/layna_village_center_script.lua:1136
-#, fuzzy
 msgid "As you wish..."
-msgstr "Und du..."
+msgstr "Wie du willst..."
 
 #: ../dat/maps/layna_village/layna_village_center_script.lua:1144
 #: ../dat/maps/layna_village/layna_village_riverbank_script.lua:643
@@ -5787,9 +5788,8 @@ msgid "... Not again ..."
 msgstr "... Nicht schon wieder ..."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine7_script.lua:255
-#, fuzzy
 msgid "There is a note left here."
-msgstr "Diese Funktion ist noch nicht verfügbar."
+msgstr "Hier ist eine Notiz."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine7_script.lua:257
 msgid ""
@@ -5861,13 +5861,15 @@ msgstr "Ihr werdet diesen Ort nicht verlassen, nicht ohne meine Einwilligung."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine_basement_script.lua:299
 msgid "And you shall not touch my brother without mine..."
-msgstr ""
+msgstr "Und du wirst meinen Bruder nicht anrühren ohne meine..."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine_basement_script.lua:301
 msgid ""
 "You have got through the Holy Ordeal without dying. I shall not let you "
 "live..."
 msgstr ""
+"Ihr habt die heilige Prüfung überlebt. Ich werde euch nicht am Leben "
+"lassen..."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine_basement_script.lua:303
 msgid "Let's fight for our lives then!"
@@ -5910,9 +5912,8 @@ msgstr "Dem kann ich nur zustimmen..."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:120
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:468
-#, fuzzy
 msgid "We can't move Orlinn ..."
-msgstr "Wir können noch nicht zurück..."
+msgstr "Wir können uns nich bewegen. Orlinn..."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:122
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:470
@@ -5931,18 +5932,16 @@ msgstr ""
 "furcherregend sein..."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:405
-#, fuzzy
 msgid "Shall we go in?"
-msgstr "Sollen wir springen?"
+msgstr "Sollen wir rein?"
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:407
-#, fuzzy
 msgid "Yes, let's end this."
-msgstr "Ja, los geht's."
+msgstr "Ja, lass uns es beenden."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:409
 msgid "No, let's prepare first..."
-msgstr ""
+msgstr "Nein, wir sollten uns erst vorbereiten..."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:446
 msgid ""
@@ -5952,9 +5951,8 @@ msgstr ""
 "nichts, was..."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:448
-#, fuzzy
 msgid "... What is it, Kalya?"
-msgstr "Was ist es, Bronann?"
+msgstr "... Was ist denn, Kalya?"
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:450
 msgid "... Kalya?!"
@@ -5965,9 +5963,8 @@ msgid "sis'!"
 msgstr "Schwester!"
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:454
-#, fuzzy
 msgid "I feel... I..."
-msgstr "... In Ordnung..."
+msgstr "Ich fühle... Ich..."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:456
 msgid "Hi hi... Hi hi hi... I can't stop!!"
@@ -5982,9 +5979,8 @@ msgid "I don't know... Ah, I can barely breathe! ..."
 msgstr "Ich weiß es nicht... Ah, ich kann kaum atmen!"
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:462
-#, fuzzy
 msgid "Hi hi hi... What's happening to me..."
-msgstr "Was? Hey, was passiert hier?!"
+msgstr "Ha ha ha... Was passiert mit mir..."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:464
 msgid "It's the scent, ah ah ah."
@@ -6007,16 +6003,15 @@ msgstr "Etwas hindert mich daran einzutreten..."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:517
 msgid "I feel much better now..."
-msgstr ""
+msgstr "Ich fühle mich schon viel besser..."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:519
 msgid "Indeed. It seems the scent has no effect on us anymore."
 msgstr "In der Tat. Es scheint, als hätte der Duft seine Wirkung verloren."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:521
-#, fuzzy
 msgid "Orlinn, did you do something?"
-msgstr "Orlinn, wie bist du denn dahin gekommen?"
+msgstr "Orlinn, hast du irgendwas gemacht?"
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:523
 msgid "Me? You know: A bit of this, a bit of that..."
@@ -6029,14 +6024,12 @@ msgstr ""
 "danke dir Orlinn."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:527
-#, fuzzy
 msgid "Thank you, indeed."
-msgstr "Ich danke dir, Kind."
+msgstr "Fürwahr. Vielen Dank!"
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:529
-#, fuzzy
 msgid "You're welcome!"
-msgstr "... Gern geschehen."
+msgstr "Keine Ursache!"
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:531
 msgid ""
@@ -7510,794 +7503,3 @@ msgstr "Obergeschoss"
 #: map_names_tr.lua:388 map_names_tr.lua:392 map_names_tr.lua:396
 msgid "1st Floor"
 msgstr "Erdgeschoss"
-
-#~ msgid "Itm"
-#~ msgstr "Geg"
-
-#~ msgid "Wpn"
-#~ msgstr "Waf"
-
-#~ msgid "Hlm"
-#~ msgstr "Kop"
-
-#~ msgid "Tor"
-#~ msgstr "Tor"
-
-#~ msgid "Key"
-#~ msgstr "Taste"
-
-#~ msgid "Please, leave me alone, Bronann..."
-#~ msgstr "Bitte, lass mich in Ruhe, Bronann..."
-
-#~ msgid "Increases the Air elemental defense on an ally."
-#~ msgstr "Erhöht Abwehr gegen das Luft-Element."
-
-#~ msgid "Menu|Arm"
-#~ msgstr "Menu|Arm"
-
-#~ msgid " "
-#~ msgstr " "
-
-#~ msgid " characters"
-#~ msgstr " Charaktere"
-
-#~ msgid " to add items to buy and "
-#~ msgstr " um Gegenstände zu kaufen und  "
-
-#~ msgid " to add items to sell and "
-#~ msgstr " um Gegenstände zu verkaufen und "
-
-#~ msgid " to remove items from your trade."
-#~ msgstr " um Gegenstände von der Tauschliste zu entfernen."
-
-#~ msgid " to trade for this items and "
-#~ msgstr " um Gegenstände einzutauschen und "
-
-#~ msgid " unique"
-#~ msgstr " untersch."
-
-#~ msgid "' and you'll feel safe, too."
-#~ msgstr "' und du wirst dich geborgen fühlen."
-
-#~ msgid "'."
-#~ msgstr "'."
-
-#~ msgid "(Sigh) ... Ok."
-#~ msgstr "(Seufz)  ... Okay."
-
-#~ msgid ""
-#~ "), and select 'Equip'. Then you'll be able to select your sword and add "
-#~ "it as your main weapon, ok?"
-#~ msgstr ""
-#~ "), und wähle 'Ausrüsten'. Dann kannst du dein Schwert auswählen und als "
-#~ "diene Hauptwaffe verwenden, okay?"
-
-#~ msgid "... I do trust you, Kalya."
-#~ msgstr "... Ich vertraue dir, Kalya."
-
-#~ msgid "A"
-#~ msgstr "A"
-
-#~ msgid "AGI:"
-#~ msgstr "AGI:"
-
-#~ msgid "AGI: "
-#~ msgstr "AGI: "
-
-#~ msgid "ATK: "
-#~ msgstr "ATK: "
-
-#~ msgid ""
-#~ "All actions affect only one type of target. The target type for each "
-#~ "action is indicated by an icon in the command menu. Possible target types "
-#~ "include an ally, enemy, or an entire party. There are also target types "
-#~ "which affect an attack point, which is a specific part on the body of an "
-#~ "actor."
-#~ msgstr ""
-#~ "Alle Aktionen haben einen bestimmten Zieltyp. Der Zieltyp für jede Aktion "
-#~ "wird durch ein Symbol im Befehlsmenü angezeigt. Zu den möglichen "
-#~ "Zieltypen gehören: ein Verbündeter, ein Feind oder eine ganze Gruppe. "
-#~ "Auch bestimmte Körperteile, die Angriffspunkte sind, können ein Zieltyp "
-#~ "sein."
-
-#~ msgid "Ask about issuing commands."
-#~ msgstr "Frage über Befehle."
-
-#~ msgid "Ask about status effects."
-#~ msgstr "Frage über Statuseffekte."
-
-#~ msgid "Ask nothing."
-#~ msgstr "Keine Fragen."
-
-#~ msgid ""
-#~ "At the bottom of the screen, a directional button is shown for each "
-#~ "character that you may select a command for. You can set or change the "
-#~ "action and/or target issued to a character whenever these buttons are "
-#~ "visible."
-#~ msgstr ""
-#~ "Am unteren Rand des Bildschirms wird für jeden Charakter eine Pfeiltaste "
-#~ "eingeblendet, die zur Befehlvergabe verwendet werden kann. Solbald die "
-#~ "Pfeiltasten verfügbar sind, kann die Aktion und/oder das gewählte Ziel "
-#~ "für den jeweiligen Charakter gesetzt oder geändert werden."
-
-#~ msgid ""
-#~ "Attack points have properties that make them susceptible to certain types "
-#~ "of attacks or more resistant to others. For example, typically attacking "
-#~ "the head of a target will deal more damage, but the attack is more likely "
-#~ "to miss this small target."
-#~ msgstr ""
-#~ "Angriffspunkte haben Eigenschaften, die sie anfällig für bestimmte Arten "
-#~ "von Angriffen oder widerstandsfähiger gegen andere machen. Ein Angriff "
-#~ "auf den Kopf eines Ziels verursacht zum Beispiel mehr Schaden, die "
-#~ "Wahrscheinlichkeit dieses kleinere Ziel zu verfehlen ist jedoch höher."
-
-#~ msgid ""
-#~ "Battle actions requires a certain amount of time to prepare to use as "
-#~ "well as time to recover from after using. These periods are known as the "
-#~ "warm up time and cool down periods. In general, the more powerful the "
-#~ "skill the longer these periods will be."
-#~ msgstr ""
-#~ "Kampfaktionen erfordern eine gewisse Zeit zur Vorbereitung, als auch zur "
-#~ "Regeneration nach der Verwendung. Diese Zeiträume sind bekannt als "
-#~ "Aufwärm- und Abkühlphasen. Im Allgemeinen hängt ihre Dauer von der Stärke "
-#~ "der Fertigkeit ab."
-
-#~ msgid "Body Armor"
-#~ msgstr "Torso"
-
-#~ msgid "Brightness:"
-#~ msgstr "Helligkeit:"
-
-#~ msgid "Bronann, is there anything you need to ask?"
-#~ msgstr "Bronann, hast du irgendwelche Fragen?"
-
-#~ msgid ""
-#~ "By selecting attacks which target specific attack points on your foes, "
-#~ "you can sometimes naturally trigger a status effect. For example, try "
-#~ "attacking an enemy's arms or claws to reduce their strength. Or choose to "
-#~ "go for their wings or legs to reduce their agility."
-#~ msgstr ""
-#~ "Attacken die gegen bestimmte Angriffspunkte des Gegners gerichtet sind, "
-#~ "können beim Ziel Statusveränderungen zufolge haben. Ein Angriff auf die "
-#~ "Arme oder Klauen eines Gegners zum Beispiel reduziert seine Kraft. "
-#~ "Verletzungen an den Flügeln oder Beinen verringern die Agilität."
-
-#~ msgid "Can you also see this strange circle surrounded by light?"
-#~ msgstr "Kannst du auch diesen seltsamen von Licht umgebenen Kreis sehen?"
-
-#~ msgid "Complete Transaction"
-#~ msgstr "Bestätigen"
-
-#~ msgid "Confirm: exit game."
-#~ msgstr "Bestätige: Spiel verlassen."
-
-#~ msgid "Confirm: restart from last save."
-#~ msgstr "Bestätige: Vom letzten Speicherpunkt fortsetzen."
-
-#~ msgid "Creates a slime."
-#~ msgstr "Erzeugt einen Schleim."
-
-#~ msgid "Current Equipment:"
-#~ msgstr "Aktuelle Ausrüstung:"
-
-#~ msgid "D"
-#~ msgstr "D"
-
-#~ msgid "DEF: "
-#~ msgstr "DEF: "
-
-#~ msgid "Defend"
-#~ msgstr "Verteid"
-
-#~ msgid "Defensive Stance"
-#~ msgstr "Verteidigungshaltung"
-
-#~ msgid "Delete"
-#~ msgstr "Löschen"
-
-#~ msgid "Development Release"
-#~ msgstr "Entwicklungsversion"
-
-#~ msgid "Down Arrow"
-#~ msgstr "Pfeiltaste runter"
-
-#~ msgid "Drain HP"
-#~ msgstr "Reduziet HP"
-
-#~ msgid "Drain SP"
-#~ msgstr "Reduziert SP"
-
-#~ msgid "Drunes - "
-#~ msgstr "Runen - "
-
-#~ msgid "Drunes: "
-#~ msgstr "Runen: "
-
-#~ msgid "E"
-#~ msgstr "E"
-
-#~ msgid "EVD: "
-#~ msgstr "EVD: "
-
-#~ msgid ""
-#~ "Each character has three types of skills they may execute as an action: "
-#~ "attack, defend, and support skills."
-#~ msgstr ""
-#~ "Jeder Charakter verfügt über drei Fertigkeitentypen, die sie als Aktion "
-#~ "ausführen können: Angriffs-, Verteidigungs-, und "
-#~ "Unterstützungsfertigkeiten."
-
-#~ msgid "Edit"
-#~ msgstr "Bearbeiten"
-
-#~ msgid "Enough! You hid things to me. You're a liar, like everyone else!"
-#~ msgstr ""
-#~ "Es reicht! Du hast Sachen vor mir verheimlicht. Du bist eine Lügnerin, "
-#~ "wie alle anderen!"
-
-#~ msgid "Equipment|Arm"
-#~ msgstr "Equipment|Arm"
-
-#~ msgid "Er, ok. Thanks again."
-#~ msgstr "Äh, okay. Nochmals vielen Dank."
-
-#~ msgid "Err, wow, ok!"
-#~ msgstr "Äh, wow, okay!"
-
-#~ msgid "Err... Are you sure?"
-#~ msgstr "Äh... Bist du sicher?"
-
-#~ msgid "Esc"
-#~ msgstr "Esc"
-
-#~ msgid ""
-#~ "Every action taken in battle requires some amount of SP before it is able "
-#~ "to be used. Most basic actions consume no SP. Using an item also consumes "
-#~ "no SP."
-#~ msgstr ""
-#~ "Jede Kampfhandlung benötigt eine gewisse Menge an SP um ausgeführt werden "
-#~ "zu können. Nur die einfachsten Aktionen und die Verwendung von "
-#~ "Gegenständen verbrauchen keine SP."
-
-#~ msgid ""
-#~ "Every actor on the battle screen has a hit point (HP) and skill point "
-#~ "(SP) gauge. Each character's HP and SP are displayed at the bottom of the "
-#~ "screen. As enemies take damage in battle, their appearance will reflect "
-#~ "that damage."
-#~ msgstr ""
-#~ "Jeder Kampfteilnemer hat eine Lebenspunkte- (HP) und "
-#~ "Fertigkeitspunkteanzeige (SP). Die HP und SP der Mitstreiter werden im "
-#~ "unteren Teil des Bildschirms angezeigt. Der erlittene Schaden beeinflusst "
-#~ "das äußere Erscheinungsbild."
-
-#~ msgid "Exit the game."
-#~ msgstr "Spiel verlassen."
-
-#~ msgid "F"
-#~ msgstr "F"
-
-#~ msgid "FRT: "
-#~ msgstr "FRT: "
-
-#~ msgid ""
-#~ "Finally, status effects disappear completely when a battle ends, so there "
-#~ "is no need to remedy your characters from status effects after a battle "
-#~ "has been won."
-#~ msgstr ""
-#~ "Aktive Statuseffekte verschwinden komplett nach Beendigung eines Kampfes."
-
-#~ msgid "Finished"
-#~ msgstr "Fertig"
-
-#~ msgid ""
-#~ "Georges has lost his pen. I need to get it back to him so he can tell "
-#~ "me \n"
-#~ " whom he gave the barley meal to."
-#~ msgstr ""
-#~ "Georges hat seinen Stift verloren. Ich muss ihn finden, damit er mir "
-#~ "verrät,\n"
-#~ "wem er sein Gerstenmehl gegeben hat."
-
-#~ msgid "Half-Episode I Release Candidate 2"
-#~ msgstr "Halb-Episode I Release Candidate 2"
-
-#~ msgid "Headgear"
-#~ msgstr "Kopf"
-
-#~ msgid "Hey Bronann! Now don't go telling us that you forgot how to fight."
-#~ msgstr "Hey Bronann! Sag bloß, du hast vergessen, wie man kämpft."
-
-#~ msgid "Hi Bronnan! What can I do for you?"
-#~ msgstr "Hallo Bronann! Was kann ich für dich tun?"
-
-#~ msgid "Hi hi hi!"
-#~ msgstr "Hi hi hi!"
-
-#~ msgid "Hi hi hi!!"
-#~ msgstr "Hi hi hi!!"
-
-#~ msgid ""
-#~ "Hmm, I can't go in there without being prepared... I suppose I need to go "
-#~ "and find Flora again."
-#~ msgstr ""
-#~ "Hmm, kann da nich unvorbereitet hingehen... Ich glaube, ich muss los und "
-#~ "Flora wieder finden."
-
-#~ msgid "Hmm, I can't go in there, Mom asked me to get some barley meal..."
-#~ msgstr ""
-#~ "Hmm, ich kann nicht dorthin. Mam bat mich etwas Gerstenmehl zu holen..."
-
-#~ msgid "How do I select commands to execute?"
-#~ msgstr "Wie bestimme ich welche Befehle ausgeführt werden?"
-
-#~ msgid "Huh? I... I'm coming."
-#~ msgstr "Hä? Ich... ich komme."
-
-#~ msgid "I can feel fresh air and some light coming from around this rock."
-#~ msgstr ""
-#~ "Ich kann einen Luftzug um den Stein spüren. Es dringt auch etwas Licht "
-#~ "durch."
-
-#~ msgid "I feel like I can go in there..."
-#~ msgstr "Ich denke, ich kann es betreten..."
-
-#~ msgid "I shall bring your spirits to the Master."
-#~ msgstr "Ich werde eure Seelen meinem Meister übergeben."
-
-#~ msgid ""
-#~ "I should follow them silently. They will probably lead me to the others "
-#~ "and I must help Kalya before she gets hurt!"
-#~ msgstr ""
-#~ "Ich sollte ihnen unauffällig folgen. Sie werden mich sicher zu den "
-#~ "anderen führen. Und ich muss Kalya helfen bevor ihr was passiert!"
-
-#~ msgid "I'd better be going and forget about it as fast as possible..."
-#~ msgstr "Ich geh besser los und versuche nicht daran zu denken..."
-
-#~ msgid ""
-#~ "If so, then come and try for yourself. Push '%s' and you'll feel safe, "
-#~ "too."
-#~ msgstr "Wenn das so ist, dann komm und probiere es selbst aus. Drücke '%s'."
-
-#~ msgid "Is there anything else you need to ask?"
-#~ msgstr "Gibt es sonst irgendwas, das du wissen möchtest?"
-
-#~ msgid "It is like... it's calling me."
-#~ msgstr "Es ist als... würde es mich rufen."
-
-#~ msgid "It suits me better than it would for you, don't be jealous."
-#~ msgstr "Kein Grund neidisch zu sein. Sie steht mir eh besser als dir."
-
-#~ msgid "Item"
-#~ msgstr "Gegenst"
-
-#~ msgid "Karlate Sword"
-#~ msgstr "Karlate Schwert"
-
-#~ msgid "Kyle"
-#~ msgstr "Kyle"
-
-#~ msgid "Left Arrow"
-#~ msgstr "Pfeiltaste links"
-
-#~ msgid "Left Select"
-#~ msgstr "Auswahl links"
-
-#~ msgid "Left Select: "
-#~ msgstr "Auswahl links: "
-
-#~ msgid "Left Select: Button"
-#~ msgstr "Auswahl links: Taste"
-
-#~ msgid "Leggings"
-#~ msgstr "Beine"
-
-#~ msgid "Load"
-#~ msgstr "Laden"
-
-#~ msgid "Load the game from the last save game point."
-#~ msgstr "Spiel vom letzten Speicherpunkt fortsetzen."
-
-#~ msgid "Lower Agility"
-#~ msgstr "Verringert Agilität"
-
-#~ msgid "Lower Evasion"
-#~ msgstr "Verringert Ausweichen"
-
-#~ msgid "Lower Fortitude"
-#~ msgstr "Verringert Tapferkeit"
-
-#~ msgid "Lower Protection"
-#~ msgstr "Verringert Schutz"
-
-#~ msgid "Lower Strength"
-#~ msgstr "Verringert Stärke"
-
-#~ msgid "Lower Vigor"
-#~ msgstr "Verringert Kraft"
-
-#~ msgid "Lukar"
-#~ msgstr "Lukar"
-
-#~ msgid "M.ATK: "
-#~ msgstr "M.ATK: "
-
-#~ msgid "M.DEF: "
-#~ msgstr "M.DEF: "
-
-#~ msgid "Mag:"
-#~ msgstr "Menge:"
-
-#~ msgid "Map tiles: "
-#~ msgstr "Kacheln: "
-
-#~ msgid "Mark"
-#~ msgstr "Mark"
-
-#~ msgid "Mauling"
-#~ msgstr "Zerreißen"
-
-#~ msgid "Meta:"
-#~ msgstr "Meta:"
-
-#~ msgid "Mind focus improving defence against incoming attacks."
-#~ msgstr ""
-#~ "Nehme eine Haltung ein, die besser gegen eingehende Angriffe zu schützt."
-
-#~ msgid "Modify Order"
-#~ msgstr "Ändern"
-
-#~ msgid "Mt Elbrus"
-#~ msgstr "Berg Elbrus"
-
-#~ msgid "New Profile"
-#~ msgstr "Neues Profil"
-
-#~ msgid "No marked transactions."
-#~ msgstr "Keine aktiven Transaktionen."
-
-#~ msgid "No! I want the truth now, or I won't come!"
-#~ msgstr "Nein! Ich will die Wahrheit hören, jetzt, oder ich komme nicht mit!"
-
-#~ msgid "Normal"
-#~ msgstr "Normal"
-
-#~ msgid "Offhand"
-#~ msgstr "Arme"
-
-#~ msgid ""
-#~ "Oh, I almost forgot, have you seen up here? There is a Layna spring! We "
-#~ "can heal our wounds there."
-#~ msgstr ""
-#~ "Ach ja, fast vergessen, siehst du das da? Dort is eine Layna Quelle! Wir "
-#~ "können unsere Verletzungen dort heilen."
-
-#~ msgid "Ok, right!"
-#~ msgstr "Einverstanden!"
-
-#~ msgid "Ok."
-#~ msgstr "Okay."
-
-#~ msgid ""
-#~ "Once the character's icon reaches the green command bar on the stamina "
-#~ "gauge, they will begin preparing to execute any action they have set. If "
-#~ "a character does not have a command set when their icon reaches the green "
-#~ "command bar, the battle will stop until a command is issued for that "
-#~ "character."
-#~ msgstr ""
-#~ "Wenn das Charaktersymbol den grünen Balken auf der Konditionsleiste "
-#~ "erreicht, beginnt er mit der Vorbereitung für die Ausführung die "
-#~ "gewählten Aktion. Falls ein Charakter den grünen Balken ohne eine gesetze "
-#~ "Aktion erreicht, wird der Kampf unterbrochen bis eine Aktion für ihn "
-#~ "gewählt wurde."
-
-#~ msgid "Overwrite? Confirm/Cancel"
-#~ msgstr "Überschreiben? Ja/Nein"
-
-#~ msgid "PRO:"
-#~ msgstr "PRO:"
-
-#~ msgid "PRO: "
-#~ msgstr "PRO: "
-
-#~ msgid "Phys:"
-#~ msgstr "Phys:"
-
-#~ msgid "Piercing"
-#~ msgstr "Stich"
-
-#~ msgid "Please enter a name for your new profile"
-#~ msgstr "Bitte geben Sie einen Namen für das neue Profil ein"
-
-#~ msgid "Please, shut it Thanis."
-#~ msgstr "Klappe, Thanis!"
-
-#~ msgid "Press "
-#~ msgstr "Betätige "
-
-#~ msgid "Press '"
-#~ msgstr "Drücke '"
-
-#~ msgid "Profiles"
-#~ msgstr "Profile"
-
-#~ msgid "Purchases"
-#~ msgstr "Einkäufe"
-
-#~ msgid "Quantity: "
-#~ msgstr "Menge: "
-
-#~ msgid "Regenerate HP"
-#~ msgstr "Regeneriert HP"
-
-#~ msgid "Regenerate SP"
-#~ msgstr "Regeneriert SP"
-
-#~ msgid "Restart"
-#~ msgstr "Neustarten"
-
-#~ msgid "Retire"
-#~ msgstr "Aufgeben"
-
-#~ msgid "Return"
-#~ msgstr "Weiter"
-
-#~ msgid "Returns the game to the main boot menu."
-#~ msgstr "Zum Hauptmenü zurückkehren."
-
-#~ msgid "Right Arrow"
-#~ msgstr "Pfeiltaste rechts"
-
-#~ msgid "Right Select"
-#~ msgstr "Auswahl rechts"
-
-#~ msgid "Right Select: "
-#~ msgstr "Auswahl rechts:"
-
-#~ msgid "Right Select: Button"
-#~ msgstr "Auswahl rechts: Taste"
-
-#~ msgid "S"
-#~ msgstr "S"
-
-#~ msgid "STR:"
-#~ msgstr "STR:"
-
-#~ msgid "STR: "
-#~ msgstr "STR: "
-
-#~ msgid "Sales"
-#~ msgstr "Verkäufe"
-
-#~ msgid "Save"
-#~ msgstr "Speichern"
-
-#~ msgid "See... It brings no harm."
-#~ msgstr "Siehst du... Es ist ungefährlich."
-
-#~ msgid "Select multiple or backward page scroll"
-#~ msgstr "Mehrfachauswahl oder Seite zurück"
-
-#~ msgid "Select multiple or forward page scroll"
-#~ msgstr "Mehrfachauswahl oder Seite vor"
-
-#~ msgid "Shards"
-#~ msgstr "Scherben"
-
-#~ msgid "Shop Name"
-#~ msgstr "Laden"
-
-#~ msgid "Skill Points: "
-#~ msgstr "Fertigkeitspunkte: "
-
-#~ msgid "Slicing"
-#~ msgstr "Schnitt"
-
-#~ msgid "Slime Spawn"
-#~ msgstr "Schleimruf"
-
-#~ msgid "Smashing"
-#~ msgstr "Schmettern"
-
-#~ msgid "Smoothed"
-#~ msgstr "Geglättet"
-
-#~ msgid "So... You seem to remind me, Banesore?"
-#~ msgstr "So... Du scheinst dich an mich zu erinnern, Banesore?"
-
-#~ msgid "Somehow... I don't know why, but yes ..."
-#~ msgstr "Irgendwie... Ich weiß nicht wieso, aber ja ..."
-
-#~ msgid "Spacebar"
-#~ msgstr "Leertaste"
-
-#~ msgid "Standard Helmet"
-#~ msgstr "Standardhelm"
-
-#~ msgid ""
-#~ "Standard Karlate issued equipment. Battle worn but reliable head "
-#~ "protection."
-#~ msgstr ""
-#~ "Karlate Standardausrüstung. Von vielen Schlachten gezeichneter, dennoch "
-#~ "zuverlässiger Kopfschutz."
-
-#~ msgid "Stasis"
-#~ msgstr "Starre"
-
-#~ msgid "Status"
-#~ msgstr "Status"
-
-#~ msgid ""
-#~ "Status effects cause temporary changes in the state of the afflicted "
-#~ "actor. These changes may be either beneficial or harmful to the their "
-#~ "target. Positive status effects are indicated by an upward green arrow on "
-#~ "the status icon, whereas a negative status effect displays a downward red "
-#~ "arrow on its icon."
-#~ msgstr ""
-#~ "Statuseffekte verursachen vorübergehende Zustandsänderungen beim "
-#~ "betroffenen Charakter. Diese Änderungen können vorteilhaft oder schädlich "
-#~ "für ihr Ziel sein. Positive Statuseffekte werden mit einen nach oben "
-#~ "gerichteten grünen Pfeil am Statussymbol signalisiert, während negative "
-#~ "Effekte durch einen nach unten gerichteten roten Pfeil angezeigt werden."
-
-#~ msgid ""
-#~ "Status effects naturally grow weaker in intensity and dissipate with "
-#~ "time. You must continually reinforce status effects that you wish to "
-#~ "remain active."
-#~ msgstr ""
-#~ "Statuseffekte verlieren mit der Zeit ihre Intensität und lassen in ihrer "
-#~ "Wirkung nach. Sie müsssen wiederholt aufgefrischt werden, falls sie "
-#~ "länger aktiv bleiben sollen."
-
-#~ msgid "Stop worrying. We also have our little secrets..."
-#~ msgstr "Keine Sorge. Auch wir haben unsere kleinen Geheimnisse..."
-
-#~ msgid "Strange... it sounds familiar to me. Like... A safe place to be."
-#~ msgstr "Seltsam... es fühlt sich vertraut an. Wie... ein sicherer Ort."
-
-#~ msgid "Support"
-#~ msgstr "Unterst"
-
-#~ msgid "Sure! Do you trust me?"
-#~ msgstr "Ja! Vertraust du mir?"
-
-#~ msgid "Swap"
-#~ msgstr "Tauschen"
-
-#~ msgid "Swap: "
-#~ msgstr "Tauschen: "
-
-#~ msgid "Swaps active menu or character"
-#~ msgstr "Wechsle aktives Menü oder Charakter"
-
-#~ msgid "Switch"
-#~ msgstr "Tauschen"
-
-#~ msgid ""
-#~ "The lower right corner of the screen displays each character's selected "
-#~ "action and target. When a command is being issued for a character, this "
-#~ "area of the screen is replaced with the command menu."
-#~ msgstr ""
-#~ "Die untere rechte Ecke des Bildschirms zeigt gewählte Aktion und das Ziel "
-#~ "von jedem Charakter. Beim Erteilen eines Befehls wird in diesem Bereich "
-#~ "das Befehlsmenü eingeblendet."
-
-#~ msgid ""
-#~ "The stamina gauge on the right side of the screen determines when an "
-#~ "actor may take an action. Once an actor's icon reaches the green command "
-#~ "bar, they will begin preparing to execute their selected action. When "
-#~ "they reach the top of the gauge, they will execute that action."
-#~ msgstr ""
-#~ "Die Konditionsleiste auf der rechten Seite des Bildschirms bestimmt wann "
-#~ "ein Charakter eine Aktion ausführen kann. Sobald sein Symbol den grünen "
-#~ "Balken erreicht, bereitet er sich auf die Ausführung der gewählten Aktion "
-#~ "vor. Die Aktion wird ausgeführt wenn das Symbol das obere Ende der Leiste "
-#~ "erreicht hat."
-
-#~ msgid ""
-#~ "There are a total of four intensity levels for each status effect. As an "
-#~ "example, if you target an actor that is already inflicted with a negative "
-#~ "reduction in strength with a skill that reduces strength, the intensity "
-#~ "of the status will be increased."
-#~ msgstr ""
-#~ "Es gibt insgesamt vier Intensitätsstufen für jeden Statuseffekt. Die "
-#~ "Intensität erhöht sich bei mehrfacher, direkt aufeinander folgender "
-#~ "Anwendung des Effekts auf das Ziel."
-
-#~ msgid "There are no marked purchases, sales, or trades."
-#~ msgstr "Keine aktiven Einkäufe, Verkäufe oder Tauschgeschäfte."
-
-#~ msgid ""
-#~ "This will remove all marked purchases, sales, and trades. Are you sure?"
-#~ msgstr ""
-#~ "Dadurch werden alle aktiven Einkäufe, Verkäufe und Tauschgeschäfte "
-#~ "entfernt. Bist du sicher?"
-
-#~ msgid "Time - "
-#~ msgstr "Zeit - "
-
-#~ msgid "Up Arrow"
-#~ msgstr "Pfeiltaste hoch"
-
-#~ msgid "Use: "
-#~ msgstr "Verwende: "
-
-#~ msgid "VIG:"
-#~ msgstr "VIG:"
-
-#~ msgid "VIG: "
-#~ msgstr "VIG: "
-
-#~ msgid "View"
-#~ msgstr "Inspizieren"
-
-#~ msgid "View Order"
-#~ msgstr "Bestellung anzeigen"
-
-#~ msgid ""
-#~ "Village of Layna\n"
-#~ " \n"
-#~ "Bronann's home"
-#~ msgstr ""
-#~ "Dorf Layna\n"
-#~ " \n"
-#~ "Bronanns Haus"
-
-#~ msgid ""
-#~ "Village of Layna\n"
-#~ " \n"
-#~ "Village center"
-#~ msgstr ""
-#~ "Dorf Layna\n"
-#~ " \n"
-#~ "Dorfzentrum"
-
-#~ msgid "W"
-#~ msgstr "W"
-
-#~ msgid "What a creepy place. I had never heard about this before ..."
-#~ msgstr "Was für ein gruseliger Ort. Ich habe noch nie was davon gehört ..."
-
-#~ msgid "What do I need to know about status effects?"
-#~ msgstr "Was muss ich über Statuseffekte wissen?"
-
-#~ msgid "When I'm standing near you, I can."
-#~ msgstr "Wenn ich mich zu dir stelle, ja."
-
-#~ msgid ""
-#~ "When an actor's HP reaches zero, they become incapacitated. Victory in "
-#~ "battle is obtained by reducing the HP of all enemies to zero."
-#~ msgstr ""
-#~ "Sobald die HP eines Kämpfers auf null fallen wird er kampfunfähig. Ein "
-#~ "Kampf wird beendet sobald die HP aller Gegner auf null reduziert worden "
-#~ "sind."
-
-#~ msgid "White Wolf"
-#~ msgstr "Weißer Wolf"
-
-#~ msgid "Will that be all?"
-#~ msgstr "Ist das alles?"
-
-#~ msgid "Window mode:"
-#~ msgstr "Fenstermodus:"
-
-#~ msgid "With the additional "
-#~ msgstr "Mit den zusätzlichen "
-
-#~ msgid "XP: "
-#~ msgstr "XP: "
-
-#~ msgid "Xandar"
-#~ msgstr "Xandar"
-
-#~ msgid "You're right. This place makes me feel good."
-#~ msgstr "Du hast recht. Ich verspüre ein angenehmes Gefühl hier."
-
-#~ msgid ""
-#~ "Your order is not yet final. Are you sure you want to leave the shop?"
-#~ msgstr ""
-#~ "Ihre Bestellung ist noch nicht abgeschlossen. Trotzdem den Laden "
-#~ "verlassen?"
-
-#~ msgid "back"
-#~ msgstr "Zurück"

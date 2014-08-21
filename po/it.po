@@ -1,19 +1,24 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
+# Translators:
+# Stefano C. <coccatostefano@hotmail.it>, 2014
+# Stefano C. <coccatostefano@hotmail.it>, 2014
 msgid ""
 msgstr ""
-"Project-Id-Version: it\n"
+"Project-Id-Version: Valyria Tear\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-08-19 00:12+0200\n"
-"PO-Revision-Date: 2014-08-19 01:23+0100\n"
+"PO-Revision-Date: 2014-08-21 23:19+0100\n"
 "Last-Translator: Yohann Ferreira <yohann.ferreira@orange.fr>\n"
-"Language-Team: LANGUAGE <it>\n"
+"Language-Team: Italian (http://www.transifex.com/projects/p/valyria-tear/"
+"language/it/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: it\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Poedit 1.5.4\n"
 
 #: ../src/common/global/global_effects.cpp:37
@@ -706,13 +711,12 @@ msgid "Evade (EVD): "
 msgstr "Elusione (ELU): "
 
 #: ../src/modes/menu/menu_views.cpp:1226
-#, fuzzy
 msgid "Choose a character."
-msgstr "Muovi il tuo personaggio:"
+msgstr "Scegli un personaggio."
 
 #: ../src/modes/menu/menu_views.cpp:1227
 msgid "Choose a skill category to use."
-msgstr ""
+msgstr "Scegli un'abilità da usare."
 
 #: ../src/modes/menu/menu_views.cpp:1316
 msgid "All"
@@ -839,11 +843,11 @@ msgstr "Muovi a destra"
 
 #: ../src/modes/mode_help_window.cpp:145
 msgid "Confirm a menu command"
-msgstr "Conferma un comando"
+msgstr "Conferma il comando selezionato"
 
 #: ../src/modes/mode_help_window.cpp:148
 msgid "Cancel a menu command"
-msgstr "Annulla un comando"
+msgstr "Annulla il comando selezionato"
 
 #: ../src/modes/mode_help_window.cpp:152
 msgid ""
@@ -894,7 +898,7 @@ msgstr "Scorri la lista degli oggetti verso il basso."
 
 #: ../src/modes/mode_help_window.cpp:188
 msgid "Show details or confirm a transaction"
-msgstr "Mostra dettagli o conferma una trattativa"
+msgstr "Mostra i dettagli o conferma la trattativa"
 
 #: ../src/modes/mode_help_window.cpp:191
 msgid "Change the displayed item category."
@@ -954,7 +958,7 @@ msgstr "Conferma un'azione o un comando"
 
 #: ../src/modes/mode_help_window.cpp:247
 msgid "Cancel an action or menu command"
-msgstr "Annulla un'azione o comando"
+msgstr "Annulla l'azione o il comando"
 
 #: ../src/modes/mode_help_window.cpp:252
 msgid "Opens the party menu"
@@ -2683,7 +2687,7 @@ msgstr "Questa è lei. Ho sentito la sua voce che chiamava..."
 
 #: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:589
 msgid "Dear chosen one, the time has finally come."
-msgstr "Caro prescelto, il momento è finalmente giunto."
+msgstr "Caro Prescelto, il momento è finalmente giunto."
 
 #: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:591
 msgid "For us, it will be but an instant."
@@ -3396,7 +3400,7 @@ msgstr "Cosa sto faccendo? Dovrei andare lì e tentare di liberare Kalya!"
 
 #: ../dat/maps/layna_village/layna_village_center_script.lua:135
 msgid "Do you need something, Bronann?"
-msgstr ""
+msgstr "Hai bisogno di qualcosa, Bronann?"
 
 #: ../dat/maps/layna_village/layna_village_center_script.lua:162
 msgid "Ahh sure! (gossip, gossip)"
@@ -3422,15 +3426,15 @@ msgstr "Mm, andrò nel negozio di Flora. Spero che mi possa aiutare..."
 
 #: ../dat/maps/layna_village/layna_village_center_script.lua:425
 msgid "As you wish... Follow me."
-msgstr ""
+msgstr "Come desideri... Seguimi."
 
 #: ../dat/maps/layna_village/layna_village_center_script.lua:442
 msgid "ORLINN!! Come here NOW!!"
-msgstr ""
+msgstr "ORLINN!! Vieni qui SUBITO!!"
 
 #: ../dat/maps/layna_village/layna_village_center_script.lua:455
 msgid "Orlinn, give back the pen to Bronann, or I shall sma..."
-msgstr ""
+msgstr "Orlinn, restituisci la penna a Bronann, o ti ammaz..."
 
 #: ../dat/maps/layna_village/layna_village_center_script.lua:457
 msgid "Yea... Yes, here it is."
@@ -3872,19 +3876,21 @@ msgstr "Non preoccuparti, Orlinn. Capito?"
 
 #: ../dat/maps/layna_village/layna_village_center_script.lua:1124
 msgid "Kalya, have you seen Orlinn?"
-msgstr ""
+msgstr "Kalya, hai visto Orlinn?"
 
 #: ../dat/maps/layna_village/layna_village_center_script.lua:1126
 msgid "Why? ... Oh, don't tell it. He's hiding somewhere."
-msgstr ""
+msgstr "Perché?...Oh, non dirmelo. E' andato a nascondersi da qualche parte."
 
 #: ../dat/maps/layna_village/layna_village_center_script.lua:1128
 msgid "Yes, he took Georges pen and I need to give it back to him..."
 msgstr ""
+"Esatto, ha preso la penna di Georges e ora la devo riportare al suo "
+"proprietario..."
 
 #: ../dat/maps/layna_village/layna_village_center_script.lua:1130
 msgid "Hmpf, no surprise. Do you want me to bring him back?"
-msgstr ""
+msgstr "Hmpf, non è una sorpresa. Vuoi che la riporti indietro?"
 
 #: ../dat/maps/layna_village/layna_village_center_script.lua:1132
 msgid "Yes, please..."
@@ -3892,12 +3898,11 @@ msgstr "Sì, grazie!"
 
 #: ../dat/maps/layna_village/layna_village_center_script.lua:1134
 msgid "No, it's not that bad."
-msgstr ""
+msgstr "No, non è così male."
 
 #: ../dat/maps/layna_village/layna_village_center_script.lua:1136
-#, fuzzy
 msgid "As you wish..."
-msgstr "E tu..."
+msgstr "Come desideri..."
 
 #: ../dat/maps/layna_village/layna_village_center_script.lua:1144
 #: ../dat/maps/layna_village/layna_village_riverbank_script.lua:643
@@ -5206,7 +5211,7 @@ msgstr ""
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_path4_script.lua:312
 msgid "Let's hurry, I can't feel my toes anymore..."
-msgstr "Sbrighiamoci, non sento più le dita dei miei piedi..."
+msgstr "Sbrighiamoci, non sento più le dita dei piedi..."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_path4_script.lua:337
 msgid "(Woah, this bridge doesn't look that sturdy...)"
@@ -5214,7 +5219,7 @@ msgstr "(Woah, questo ponte non sembra molto robusto...)"
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_path4_script.lua:339
 msgid "Well, here we go...."
-msgstr "Bene, ci siamo..."
+msgstr "Bene, ci siamo quasi..."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_path4_script.lua:355
 msgid "There!"
@@ -5222,7 +5227,7 @@ msgstr "Di qua!"
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_path4_script.lua:376
 msgid "Catch them before they reach the Shrine!"
-msgstr "Catturateli prima che raggiungano il santuario!"
+msgstr "Catturateli prima che raggiungano il Santuario!"
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_path4_script.lua:391
 msgid "Let's run!"
@@ -5230,11 +5235,11 @@ msgstr "Corriamo!"
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_path4_script.lua:430
 msgid "I'll cut those ropes!"
-msgstr "Taglierò le corde!"
+msgstr "Proverò a tagliare le corde!"
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_path4_script.lua:458
 msgid "That was close..."
-msgstr "Ci mancava poco..."
+msgstr "Per un pelo..."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_path4_script.lua:473
 msgid "Damn!!"
@@ -5242,12 +5247,13 @@ msgstr "Dannazione!!"
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_path4_script.lua:475
 msgid "The Master won't be happy with this..."
-msgstr "Il Maestro non sarà felice di questo..."
+msgstr "Al Maestro non farà piacere..."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_path4_script.lua:477
 msgid "You won't get away so easily... We will catch you sooner or later..."
 msgstr ""
-"Non sarà possibile andare via così facilmente... Vi prenderemo prima o poi..."
+"Non sarà possibile per voi andare via così facilmente... Vi prenderemo prima "
+"o poi..."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_path4_script.lua:503
 msgid "Hurray! Those idiots will have a hard time catching us now!"
@@ -5255,7 +5261,7 @@ msgstr "Evviva! Ora quegli idioti difficilmente ci cattureranno!"
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_path4_script.lua:505
 msgid "Indeed! They've been had!"
-msgstr "Infatti! Lo avranno!"
+msgstr "Infatti! Hanno avuto quello che si meritavano!"
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_path4_script.lua:507
 msgid "Who are the little brats now, eh?"
@@ -5263,7 +5269,7 @@ msgstr "Chi sono le piccole pesti ora, eh?"
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_path4_script.lua:522
 msgid "Let's go back and tell the others..."
-msgstr "Torniamo indietro e raccontiamolo agli altri..."
+msgstr "Torniamo indietro e informiamo gli altri..."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_path4_script.lua:524
 msgid "Yes, Sir..."
@@ -5308,8 +5314,8 @@ msgid ""
 "Our Elder will also be able to help us. And you'll get more explanation than "
 "I could ever..."
 msgstr ""
-"Il nostro Anziano sarà in grado di aiutarci. E avrai più spiegazioni che non "
-"osi immaginare..."
+"Il nostro Anziano sarà in grado di aiutarci. E avrai così tante spiegazioni "
+"che non osi immaginare..."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:396
 msgid "Sis!"
@@ -5356,8 +5362,8 @@ msgid ""
 "Wouldn't have we flown all by ourselves, I would swear Banesore's army "
 "pushed us here on purpose..."
 msgstr ""
-"Non avremmo mai potuto scappare via con le nostre sole forze, io giurerei "
-"che l'esercito di Banesore ci ha abbia spinto qui di proposito.."
+"Non saremmo potuti scappare via con le nostre sole forze, io ci giurerei che "
+"l'esercito di Banesore ci ha abbia spinto qui di proposito.."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:452
 msgid "... What's with this 'ancient shrine'?"
@@ -5368,33 +5374,34 @@ msgid ""
 "Some say it is haunted... And it was sealed a long time ago, long before I "
 "was even born."
 msgstr ""
-"Alcuni dicono che sia stregato...e fu sigillato tanto tempo fa, molto prima "
+"Alcuni dicono che sia stregato... fu sigillato tanto tempo fa, molto prima "
 "che io nascessi."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:456
 msgid "Indeed, It must be a long time ago..."
-msgstr "Anzi, deve essere stato molto ma molto tempo fa..."
+msgstr ""
+"Infatti, una cosa che siamo certi è che è stato molto ma molto tempo fa..."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:460
 msgid ""
 "Anyway, we might even not be able to enter there at all. But you're right, "
 "let's have a look around first. Who knows?"
 msgstr ""
-"In ogni caso, potremmo anche non essere in grado di entrare proprio lì "
-"dentro. Ma hai ragione, prima diamo un'occhiata in giro. Chi lo può sapere?"
+"In ogni caso, potremmo anche non essere in grado di entrare lì dentro. Hai "
+"ragione, prima diamo un'occhiata in giro. Chi lo può sapere?"
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:506
 msgid ""
 "Here we are, looking at this huge, wonderful and yet creepy door... I don't "
 "like this..."
 msgstr ""
-"Eccoci arrivati, guarda questa enorme, meravigliosa ma allo stesso tempo "
-"inquietante porta... non mi piace..."
+"Eccoci arrivati, guardate questa porta enorme, meravigliosa ma allo stesso "
+"tempo inquietante... non mi piace..."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:508
 msgid ""
 "It's not like I actually would want to open it, but how are we going to?"
-msgstr "Non è che in realtà vorrei aprirla, ma cosa dovremmo fare?"
+msgstr "Non è che in realtà vorrei aprirla, ma cosa potremmo fare?"
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:520
 msgid "Oh, my chest, it hurts!!"
@@ -5407,7 +5414,7 @@ msgstr "Il cristallo!...Orlinn! Stai indietro!"
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:546
 msgid ""
 "That sign... It is the sign of the Ancients! ... Bronann! Are you alright?"
-msgstr "Quel segno...è il segno degli antichi!...Bronann! Stai bene?"
+msgstr "Quel segno...è il segno degli Antichi!...Bronann! Stai bene?"
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:559
 msgid "... I'm fine... I guess... The pain faded away..."
@@ -5423,14 +5430,14 @@ msgstr "Bene, la porta si è aperta..."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:565
 msgid "Yiek! Do you really want to go there??"
-msgstr "Yiek! Davvero vuoi andare laggiù?"
+msgstr "Yiek! Davvero volete andare laggiù?"
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:567
 msgid ""
 "I believe we don't really have a choice... Somehow this place... called me."
 msgstr ""
-"Credo che in realtà non abbiamo altra scelta...chissà perché ma questo "
-"posto...mi ha chiamato."
+"Sinceramente credo che non abbiamo altra scelta...chissà perché ma questo "
+"posto...mi chiama."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:569
 msgid "Anyway, let's stick together and we'll be fine as always, right?"
@@ -5438,7 +5445,9 @@ msgstr "Ad ogni modo, cerchiamo di stare vicini e andrà tutto bene, d'accordo?"
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:571
 msgid "... I have a bad feeling about all this now..."
-msgstr "...Ho una brutta sensazione su quello che sta accadendo..."
+msgstr ""
+"...Ho una brutta sensazione su ciò che ci accadrà una volta oltrepassata la "
+"porta..."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:613
 msgid "... Bronann!!"
@@ -5454,11 +5463,11 @@ msgstr "Sophia, che ci fai qui?"
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:634
 msgid "Yes, it's a miracle destiny kept you away from harm."
-msgstr "Sì sono io, solo un miracolo vi ha tenuto lontano dal male."
+msgstr "Sì sono io, solo un miracolo vi ha tenuto lontani dal male."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:636
 msgid "How in Layna did you reach the Mt Elbrus all alone?"
-msgstr "Come sei riuscita da Layna a raggiungere da sola il monte Elbrus?"
+msgstr "Come sei riuscita da Layna a raggiungere il monte Elbrus da sola?"
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:638
 msgid ""
@@ -5653,11 +5662,11 @@ msgstr "...Sembra che qualcuno abbia lasciato qui di proposito una nota..."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine2_script.lua:428
 msgid "You mean, in the middle of those scary bones?"
-msgstr "Mi vorresti dire, nel bel mezzo di queste ossa spaventevoli?"
+msgstr "Mi vorresti dire, nel bel mezzo di queste ossa terrificanti?"
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine2_script.lua:430
 msgid "Let me see..."
-msgstr "Fammi vedere..."
+msgstr "Fatemi vedere..."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine2_script.lua:432
 msgid "'To whoever will read this:'"
@@ -5669,8 +5678,8 @@ msgid ""
 "forsaken me into oblivion when they sealed the Goddess Shrine.'"
 msgstr ""
 "\"Le battaglie imperversano in tutto il luogo e l'Antico mi ha ormai "
-"abbandonato nell'oblio dall'istante in cui quando hanno sigillato il "
-"Santuario della Dea.\""
+"abbandonato nell'oblio nell'istante in cui hanno sigillato il Santuario "
+"della Dea.\""
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine2_script.lua:436
 msgid ""
@@ -5678,7 +5687,7 @@ msgid ""
 "left.'"
 msgstr ""
 "\"Tutti i miei compagni sono caduti in battaglia e io sono l'ultimo "
-"sventurato rimasto ancora in vita\""
+"sventurato rimasto ancora in vita.\""
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine2_script.lua:438
 msgid ""
@@ -5686,7 +5695,7 @@ msgid ""
 "there is neither food nor water in here ...'"
 msgstr ""
 "\"Il mio nome è Shawn, e credo che il mio tempo stia per scadere in questo "
-"mondo per la mancanza di cibo e acqua...\""
+"mondo in quanto non è rimasto più cibo e né acqua...\""
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine2_script.lua:440
 msgid "Poor guy... He must have died from starvation."
@@ -5730,8 +5739,8 @@ msgid ""
 "'The entire Shrine has been turned into a murderous area and you'll have to "
 "fight your way through, just as I will now...'"
 msgstr ""
-"\"L'intero santuario si è tramutato in un posto pericoloso e dovrete "
-"combattereper proseguire il vostro cammino, proprio come lo sto facendo io "
+"\"L'intero Santuario si è tramutato in un posto pericoloso e dovrete "
+"combattere per proseguire il vostro cammino, proprio come lo sto facendo io "
 "ora...\""
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine2_script.lua:454
@@ -5751,8 +5760,8 @@ msgid ""
 "Somebody left a note on purpose here. According to it, we need to find out a "
 "way to trigger the waterfall from the highest floor."
 msgstr ""
-"Qualcuno ha lasciato apposta una nota qui. In base ad essa, abbiamo bisogno "
-"di trovare un modo per innescare la cascata dal piano più alto."
+"Qualcuno ha lasciato apposta una nota qui. In base ad essa, dobbiamo trovare "
+"un modo per innescare la cascata dal piano più alto."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine2_script.lua:480
 msgid ""
@@ -5764,7 +5773,7 @@ msgstr ""
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine2_script.lua:492
 msgid "What is this? ... Skeletons?!"
-msgstr "Cosa sono questi?... Scheletri!?"
+msgstr "Cosa sono tutti questi?... Scheletri!?"
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine2_script.lua:522
 msgid "Phew..."
@@ -5801,23 +5810,23 @@ msgstr ""
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine_3rd_script.lua:483
 msgid "You've proven yourself, Chosen One... You deserve to live after all..."
-msgstr "Ti sei fatto valere, Eletto... Dopotutto, meriti di vivere..."
+msgstr "Ti sei fatto valere, Prescelto... Dopotutto, meriti di vivere..."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine_3rd_script.lua:485
 msgid "Me? But I'm not the Chosen One."
-msgstr "Io? Ma non solo l'Eletto."
+msgstr "Io? Ma non sono il Prescelto."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine_3rd_script.lua:487
 msgid ""
 "The Ones being few or many, still each of them will have to prove themselves "
 "as it is ought to be..."
 msgstr ""
-"Gli Eletti che siano in pochi o in molti non ha importanza, ancora una volta "
-"ognuno di loro ha dimostrato il proprio coraggio..."
+"I Prescelti che siano in pochi o in molti non ha importanza, ancora una "
+"volta ognuno di loro ha dimostrato il proprio coraggio..."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine_3rd_script.lua:489
 msgid "Farewell, Chosen One..."
-msgstr "Addio, Eletto..."
+msgstr "Addio, Prescelto..."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine_3rd_script.lua:518
 msgid "I can hear water from everywhere..."
@@ -5834,44 +5843,44 @@ msgstr "Ancora una volta, sento qualcosa muoversi non molto lontano da qui..."
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine5_script.lua:408
 msgid ""
 "There is a passage here but I'm too heavy for those stones jutting out ..."
-msgstr ""
-"C'è un passaggio qui vicino, ma peso troppo per quelle pietre aggettanti..."
+msgstr "Vedo un passaggio, ma peso troppo per arrampicarmi su quelle rocce..."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine5_script.lua:410
 msgid ""
 "The fact is, you and me cannot afford standing on those stones. Maybe with a "
 "rope?"
 msgstr ""
-"Il problema è che, voi ed io, non possiamo posare i piedi su quelle pietre. "
-"Magari con l'aiuto di una corda?"
+"Il problema è che non possiamo scalare quelle rocce. Magari con l'aiuto di "
+"una fune?"
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine5_script.lua:412
 msgid "... I'll do it."
-msgstr "...Lo farò."
+msgstr "...Andrò io."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine5_script.lua:414
 msgid "What? Are you crazy? There could be monsters up here."
 msgstr ""
-"Cosa? Ti ha dato di volta il cervello? Ci potrebbero essere dei mostri qui."
+"Cosa? Ti ha dato di volta il cervello? Ci potrebbero essere dei mostri lassù."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine5_script.lua:416
 msgid "Then, I'll deal with them, sis. We can't just stay here, anyway..."
 msgstr ""
-"Dopo mi occuperò di loro, sorellona. Non possiamo restare qui, comunque..."
+"Allora, mi sbarazzerò di loro, sorellona. Non possiamo rimanere qui, "
+"comunque..."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine5_script.lua:418
 msgid "Orlinn, you sure have grown up because of all this. Are you sure?"
 msgstr ""
-"Orlinn, sicuramente sei diventato più maturo a causa di tutto ciò che sta "
-"accadendo. Tu credi?"
+"Orlinn, sicuramente sei diventato più maturo a causa di tutto ciò. Sei "
+"davvero sicuro?"
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine5_script.lua:420
 msgid "I need to ... I guess."
-msgstr "...Lo spero."
+msgstr "Devo andare...spero di farcela."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine5_script.lua:422
 msgid "Just tell me when you're ready and I'll throw you up here."
-msgstr "Dimmi solo quando sei pronto e ti faccio salire qui."
+msgstr "Dimmi solo quando sei pronto e ti faccio salire lassù."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine5_script.lua:447
 msgid "Ready to go up? ..."
@@ -5911,7 +5920,7 @@ msgstr "Bronann, ti senti bene?"
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine5_script.lua:550
 msgid "... I don't know, I guess I felt something crack ..."
-msgstr "...Non lo so, credo di aver sentito qualcosa che si frantuma..."
+msgstr "...Non lo so, credo di aver sentito qualche schiocco..."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine5_script.lua:554
 msgid "... Not again ..."
@@ -5931,11 +5940,11 @@ msgstr ""
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine7_script.lua:305
 msgid "There seems to be one of those rolling stones up here ..."
-msgstr "Sembra che ci sia una di quelle pietre che rotolano fino qui..."
+msgstr "Sembra che sia una di quelle pietre rotolanti lassù..."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine_basement_script.lua:216
 msgid "Wow, what a fall... I didn't see that one coming."
-msgstr "Wow, che caduta....Non l'ho visto arrivare."
+msgstr "Wow, che caduta....Non l'ho vista arrivare."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine_basement_script.lua:218
 msgid "Are you alright, Kalya?"
@@ -5958,12 +5967,12 @@ msgstr "Orlinn? Orlinn!"
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine_basement_script.lua:228
 msgid "Let's find him ... once more, before something bad happens..."
 msgstr ""
-"Troviamolo... ancora una volta, prima che succeda a lui qualcosa di brutto."
+"Troviamolo... ancora una volta, prima che gli succeda qualcosa di brutto."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine_basement_script.lua:244
 msgid "This is the blocked passage to the Shrine entrance..."
 msgstr ""
-"Questo è il passaggio bloccato che conduce all'ingresso del santuario..."
+"Questo è il passaggio bloccato che conduce all'ingresso del Santuario..."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine_basement_script.lua:246
 msgid "This can only mean we're near the exit!"
@@ -5995,13 +6004,11 @@ msgid "And you shall not touch my brother without mine..."
 msgstr "E tu il consenso di toccare mio fratello non ce l'hai..."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine_basement_script.lua:301
-#, fuzzy
 msgid ""
 "You have got through the Holy Ordeal without dying. I shall not let you "
 "live..."
 msgstr ""
-"Siete stati dichiarati colpevoli per aver osato oltrepassare il Sacro "
-"Calvario senza morire. Non vi lascierò vivere ..."
+"Avete oltrepassato il Sacro Calvario senza morire. Non vi lascerò vivere..."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine_basement_script.lua:303
 msgid "Let's fight for our lives then!"
@@ -6061,18 +6068,16 @@ msgid "What a big gate... What is behind must be fearsome..."
 msgstr "Che cancello grande...cosa si cela dietro deve essere terribile..."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:405
-#, fuzzy
 msgid "Shall we go in?"
-msgstr "Saltiamo?"
+msgstr "Vogliamo andare?"
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:407
-#, fuzzy
 msgid "Yes, let's end this."
-msgstr "Sì, andiamo!"
+msgstr "Sì, poniamo fine a questo."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:409
 msgid "No, let's prepare first..."
-msgstr ""
+msgstr "No, prima cerchiamo di prepararci..."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:446
 msgid ""
@@ -7117,9 +7122,8 @@ msgid "Wind Circle"
 msgstr "Cerchio del vento"
 
 #: ../dat/skills/magic.lua:922
-#, fuzzy
 msgid "Increases the Air elemental defense on a character."
-msgstr "Aumenta la difesa di tipo fuoco del personaggio."
+msgstr "Aumenta la difesa elementale di tipo \"aria\" del personaggio."
 
 #: ../dat/skills/magic.lua:946
 msgid "Lightning"
@@ -7447,7 +7451,7 @@ msgstr "Tempo migliore: %s"
 #: ../src/modes/boot/boot.cpp:383
 #, c-format
 msgid "Press '%s' to get to know about the game keys."
-msgstr "Premi ''%s'' per conoscere i tasti di gioco."
+msgstr "Premi ''%s'' per mostrare i tasti di gioco."
 
 #: ../src/modes/map/map_treasure.cpp:328
 #, c-format
@@ -7627,718 +7631,3 @@ msgstr "2^ piano"
 #: map_names_tr.lua:388 map_names_tr.lua:392 map_names_tr.lua:396
 msgid "1st Floor"
 msgstr "1^ piano"
-
-#~ msgid "Itm"
-#~ msgstr "Ogg"
-
-#~ msgid "Wpn"
-#~ msgstr "Arm"
-
-#~ msgid "Hlm"
-#~ msgstr "Elm"
-
-#~ msgid "Tor"
-#~ msgstr "Tor"
-
-#~ msgid "Key"
-#~ msgstr "Chi"
-
-#~ msgid "Please, leave me alone, Bronann..."
-#~ msgstr "Per favore Bronann, lasciami in pace..."
-
-#~ msgid "Increases the Air elemental defense on an ally."
-#~ msgstr "Aumenta la difesa di tipo aria del personaggio."
-
-#~ msgid "Menu|Arm"
-#~ msgstr "Menu|Bra"
-
-#~ msgid "Skill Points: "
-#~ msgstr "Punti abilità: "
-
-#~ msgid "Quantity: "
-#~ msgstr "Quantità: "
-
-#~ msgid "Up Arrow"
-#~ msgstr "Frecca in su"
-
-#~ msgid "Down Arrow"
-#~ msgstr "Freccia in giù"
-
-#~ msgid "Left Arrow"
-#~ msgstr "Freccia a sinistra"
-
-#~ msgid "Right Arrow"
-#~ msgstr "Freccia a destra"
-
-#~ msgid "F"
-#~ msgstr "F"
-
-#~ msgid "D"
-#~ msgstr "D"
-
-#~ msgid "S"
-#~ msgstr "S"
-
-#~ msgid "Swap"
-#~ msgstr "Scambia"
-
-#~ msgid "A"
-#~ msgstr "A"
-
-#~ msgid "Swaps active menu or character"
-#~ msgstr "Scambia menu o personaggi"
-
-#~ msgid "Left Select"
-#~ msgstr "Seleziona sinistra"
-
-#~ msgid "W"
-#~ msgstr "W"
-
-#~ msgid "Select multiple or backward page scroll"
-#~ msgstr "Seleziona scorrimenti di più pagine."
-
-#~ msgid "Right Select"
-#~ msgstr "Seleziona destra"
-
-#~ msgid "E"
-#~ msgstr "E"
-
-#~ msgid "Select multiple or forward page scroll"
-#~ msgstr "Seleziona scorrimenti di più pagine."
-
-#~ msgid "Spacebar"
-#~ msgstr "Spazio"
-
-#~ msgid "Esc"
-#~ msgstr "Esc"
-
-#~ msgid "Use: "
-#~ msgstr "Usa: "
-
-#~ msgid "Map tiles: "
-#~ msgstr "Qualità dei tile: "
-
-#~ msgid "Smoothed"
-#~ msgstr "Alta"
-
-#~ msgid "Normal"
-#~ msgstr "Normale"
-
-#~ msgid "Kyle"
-#~ msgstr "Kyle"
-
-#~ msgid "Mt Elbrus"
-#~ msgstr "M. Elbrus"
-
-#~ msgid "What a creepy place. I had never heard about this before ..."
-#~ msgstr "Che brutto posto. Non avevo mai sentito parlarne prima ..."
-
-#~ msgid "Somehow... I don't know why, but yes ..."
-#~ msgstr "In qualche modo...non so come mai, però sì..."
-
-#~ msgid "I can feel fresh air and some light coming from around this rock."
-#~ msgstr ""
-#~ "Riesco a sentire l'aria fresca e vedere un po' di luce provenire da "
-#~ "questa roccia."
-
-#~ msgid "Can you also see this strange circle surrounded by light?"
-#~ msgstr "Riesci inoltre a vedere questo strano cerchio avvolto dalla luce?"
-
-#~ msgid "When I'm standing near you, I can."
-#~ msgstr "Sì, se sto vicino a te."
-
-#~ msgid "Strange... it sounds familiar to me. Like... A safe place to be."
-#~ msgstr ""
-#~ "Strano...suona familiare per me. È come...essere in un luogo sicuro."
-
-#~ msgid "I feel like I can go in there..."
-#~ msgstr "Mi sento come se potessi andare là dentro..."
-
-#~ msgid "It is like... it's calling me."
-#~ msgstr "È come se...mi stesse chiamando."
-
-#~ msgid "See... It brings no harm."
-#~ msgstr "Guarda...non fa nulla di male."
-
-#~ msgid "Err... Are you sure?"
-#~ msgstr "Ehm...sei sicura?"
-
-#~ msgid "Sure! Do you trust me?"
-#~ msgstr "Certo! Non ti fidi di me?"
-
-#~ msgid "... I do trust you, Kalya."
-#~ msgstr "...Mi fido, Kalya."
-
-#~ msgid ""
-#~ "Oh, I almost forgot, have you seen up here? There is a Layna spring! We "
-#~ "can heal our wounds there."
-#~ msgstr ""
-#~ "Oh, mi stavo per dimenticare, hai visto cosa c'è qui? C'è una sorgente di "
-#~ "Layna! Possiamo usarla per curarci le nostre ferite."
-
-#~ msgid "Huh? I... I'm coming."
-#~ msgstr "Eh? Ok...arrivo."
-
-#~ msgid "You're right. This place makes me feel good."
-#~ msgstr "Hai ragione. Questo posto mi fa sentire meglio."
-
-#~ msgid "It suits me better than it would for you, don't be jealous."
-#~ msgstr "Mi si adatta meglio di quanto tu credi, non essere geloso."
-
-#~ msgid "So... You seem to remind me, Banesore?"
-#~ msgstr "Così...vi ricordate di me, Banesore?"
-
-#~ msgid "I'd better be going and forget about it as fast as possible..."
-#~ msgstr "È meglio andare e scordare al più presto..."
-
-#~ msgid "Stop worrying. We also have our little secrets..."
-#~ msgstr ""
-#~ "Smettila di preoccuparti. Anche noi nascondiamo dei piccoli segreti..."
-
-#~ msgid "Enough! You hid things to me. You're a liar, like everyone else!"
-#~ msgstr ""
-#~ "Basta! Mi hai nascosto un sacco di cose. Sei una bugiarda, come tutti gli "
-#~ "altri!"
-
-#~ msgid "No! I want the truth now, or I won't come!"
-#~ msgstr "No! Voglio sapere la verità ora, o non verrò con te!"
-
-#~ msgid "I shall bring your spirits to the Master."
-#~ msgstr "Porterò i vostri spiriti al Maestro."
-
-#~ msgid ""
-#~ "If so, then come and try for yourself. Push '%s' and you'll feel safe, "
-#~ "too."
-#~ msgstr ""
-#~ "Se sì, vieni qui e prova per credere. Premi ''%s'' e ti sentirai al "
-#~ "sicuro."
-
-#~ msgid " "
-#~ msgstr " "
-
-#~ msgid "Slime Spawn"
-#~ msgstr "Generazione di slime"
-
-#~ msgid "Creates a slime."
-#~ msgstr "Crea uno slime."
-
-#~ msgid "Standard Helmet"
-#~ msgstr "Elmo normale"
-
-#~ msgid ""
-#~ "Standard Karlate issued equipment. Battle worn but reliable head "
-#~ "protection."
-#~ msgstr ""
-#~ "Normale equipaggiamento usato dai karlate. Logoro da battaglie ma sempre "
-#~ "sicuro per proteggere il capo."
-
-#~ msgid "Window mode:"
-#~ msgstr "Schermo:"
-
-#~ msgid "Brightness:"
-#~ msgstr "Luminosità:"
-
-#~ msgid "Lower Strength"
-#~ msgstr "Abbassa la forza"
-
-#~ msgid "Lower Vigor"
-#~ msgstr "Abbassa il vigore"
-
-#~ msgid "Lower Fortitude"
-#~ msgstr "Abbassa la fermezza"
-
-#~ msgid "Lower Protection"
-#~ msgstr "Abbassa la protezione"
-
-#~ msgid "Lower Agility"
-#~ msgstr "Abbassa l'agilità"
-
-#~ msgid "Lower Evasion"
-#~ msgstr "Abbassa l'elusione"
-
-#~ msgid "Regenerate HP"
-#~ msgstr "Rigenera PV"
-
-#~ msgid "Drain HP"
-#~ msgstr "Assorbi PV"
-
-#~ msgid "Regenerate SP"
-#~ msgstr "Rigenera PA"
-
-#~ msgid "Drain SP"
-#~ msgstr "Assorbi PA"
-
-#~ msgid "Drunes: "
-#~ msgstr "Drune: "
-
-#~ msgid "Time - "
-#~ msgstr "Tempo - "
-
-#~ msgid "Drunes - "
-#~ msgstr "Drune - "
-
-#~ msgid "Hi Bronnan! What can I do for you?"
-#~ msgstr "Ciao Bronann! Cosa posso fare per te?"
-
-#~ msgid "Shards"
-#~ msgstr "Frammenti"
-
-#~ msgid "Karlate Sword"
-#~ msgstr "Spada dei karlate"
-
-#~ msgid "Defensive Stance"
-#~ msgstr "Posizione difensiva"
-
-#~ msgid ""
-#~ "I should follow them silently. They will probably lead me to the others "
-#~ "and I must help Kalya before she gets hurt!"
-#~ msgstr ""
-#~ "Dovrei seguirli in silenzio. Essi probabilmente mi porteranno dagli altri "
-#~ "ma devo aiutare subito Kalya prima che li faccia del male!"
-
-#~ msgid "Slicing"
-#~ msgstr "Taglia"
-
-#~ msgid "Smashing"
-#~ msgstr "Massacra"
-
-#~ msgid "Mauling"
-#~ msgstr "Percuoti"
-
-#~ msgid "Piercing"
-#~ msgstr "Perfora"
-
-#~ msgid "STR: "
-#~ msgstr "FOR: "
-
-#~ msgid "VIG: "
-#~ msgstr "VIG: "
-
-#~ msgid "FRT: "
-#~ msgstr "FER: "
-
-#~ msgid "PRO: "
-#~ msgstr "PRO: "
-
-#~ msgid "AGI: "
-#~ msgstr "AGI: "
-
-#~ msgid "EVD: "
-#~ msgstr "ELU: "
-
-#~ msgid "Current Equipment:"
-#~ msgstr "Equipaggiamento attuale:"
-
-#~ msgid "ATK: "
-#~ msgstr "ATC: "
-
-#~ msgid "DEF: "
-#~ msgstr "DEF: "
-
-#~ msgid "M.ATK: "
-#~ msgstr "M.ATC: "
-
-#~ msgid "M.DEF: "
-#~ msgstr "M.DIF: "
-
-#~ msgid "Headgear"
-#~ msgstr "Copricapo"
-
-#~ msgid "Body Armor"
-#~ msgstr "Armatura"
-
-#~ msgid "Offhand"
-#~ msgstr "Mani"
-
-#~ msgid "Leggings"
-#~ msgstr "Gambali"
-
-#~ msgid "Phys:"
-#~ msgstr "Fis:"
-
-#~ msgid "Mag:"
-#~ msgstr "Mag:"
-
-#~ msgid "Stasis"
-#~ msgstr "Stasi"
-
-#~ msgid "Equipment|Arm"
-#~ msgstr "Equipment|Braccia"
-
-#~ msgid "Press "
-#~ msgstr "Premi "
-
-#~ msgid " to add items to buy and "
-#~ msgstr " per aggiungere oggetti di acquisto e "
-
-#~ msgid " to add items to sell and "
-#~ msgstr " per aggiungere oggetti di vendita e "
-
-#~ msgid " to trade for this items and "
-#~ msgstr " per trattare questi oggetti e "
-
-#~ msgid " to remove items from your trade."
-#~ msgstr " per rimuoverli dalla trattativa."
-
-#~ msgid "Press '"
-#~ msgstr "Premi ''"
-
-#~ msgid "With the additional "
-#~ msgstr "Con l'aggiuntivo di "
-
-#~ msgid "' and you'll feel safe, too."
-#~ msgstr "'' e ti sentirai al sicuro, anche."
-
-#~ msgid "'."
-#~ msgstr "''."
-
-#~ msgid ""
-#~ "), and select 'Equip'. Then you'll be able to select your sword and add "
-#~ "it as your main weapon, ok?"
-#~ msgstr ""
-#~ "), e seleziona ''Equipaggia''. Così sarai in grado di selezionare la tua "
-#~ "spada e aggiungerla come arma principale, capito?"
-
-#~ msgid "Woah, what happened here?"
-#~ msgstr "Hey, cosa è successo qui!?"
-
-#~ msgid "Support"
-#~ msgstr "Supporto"
-
-#~ msgid "Development Release"
-#~ msgstr "Versione di sviluppo"
-
-#~ msgid "Mark"
-#~ msgstr "Mark"
-
-#~ msgid "Lukar"
-#~ msgstr "Lukar"
-
-#~ msgid ""
-#~ "Village of Layna\n"
-#~ " \n"
-#~ "Bronann's home"
-#~ msgstr ""
-#~ "Villaggio di Layna\n"
-#~ "\n"
-#~ "Casa di Bronann"
-
-#~ msgid ""
-#~ "Village of Layna\n"
-#~ " \n"
-#~ "Village center"
-#~ msgstr ""
-#~ "Villaggio di Layna\n"
-#~ "\n"
-#~ "Centro villaggio"
-
-#~ msgid "Swap: "
-#~ msgstr "Scambia:"
-
-#~ msgid "Left Select: "
-#~ msgstr "Seleziona sinistra:"
-
-#~ msgid "Right Select: "
-#~ msgstr "Seleziona destra:"
-
-#~ msgid "Left Select: Button"
-#~ msgstr "Seleziona sinistra: tasto"
-
-#~ msgid "Right Select: Button"
-#~ msgstr "Seleziona destra: tasto"
-
-#~ msgid "View"
-#~ msgstr "Visualizza"
-
-#~ msgid "Purchases"
-#~ msgstr "Acquisti"
-
-#~ msgid "Sales"
-#~ msgstr "Vendite"
-
-#~ msgid "No marked transactions."
-#~ msgstr "Nessuna transazione contrassegnata."
-
-#~ msgid "There are no marked purchases, sales, or trades."
-#~ msgstr "Non ci sono acquisti, vendite o trattative contrassegnate."
-
-#~ msgid "Will that be all?"
-#~ msgstr "È tutto?"
-
-#~ msgid "Modify Order"
-#~ msgstr "Modifica l'ordine"
-
-#~ msgid "Complete Transaction"
-#~ msgstr "Completa la trattativa"
-
-#~ msgid ""
-#~ "This will remove all marked purchases, sales, and trades. Are you sure?"
-#~ msgstr ""
-#~ "Rimuoverà tutti gli acquisti, vendite o trattative contrassegnate. Sei "
-#~ "sicuro di proseguire?"
-
-#~ msgid " unique"
-#~ msgstr " unico"
-
-#~ msgid " characters"
-#~ msgstr " personaggi"
-
-#~ msgid "Meta:"
-#~ msgstr "Meta:"
-
-#~ msgid ""
-#~ "Your order is not yet final. Are you sure you want to leave the shop?"
-#~ msgstr "L'ordine non è ancora concluso. Sei sicuro di lasciare il negozio?"
-
-#~ msgid "View Order"
-#~ msgstr "Visualizza l'ordine"
-
-#~ msgid "Shop Name"
-#~ msgstr "Nome negozio"
-
-#~ msgid ""
-#~ "Georges has lost his pen. I need to get it back to him so he can tell "
-#~ "me \n"
-#~ " whom he gave the barley meal to."
-#~ msgstr ""
-#~ "Georges ha perduto la sua penna. Devo tornare da lui e\n"
-#~ "fammi dire a chi gli ha dato la farina d'orzo."
-
-#~ msgid "Defend"
-#~ msgstr "Difendi"
-
-#~ msgid "Item"
-#~ msgstr "Oggetto"
-
-#~ msgid "XP: "
-#~ msgstr "XP: "
-
-#~ msgid "STR:"
-#~ msgstr "STR:"
-
-#~ msgid "VIG:"
-#~ msgstr "VIG:"
-
-#~ msgid "PRO:"
-#~ msgstr "PRO:"
-
-#~ msgid "AGI:"
-#~ msgstr "AGI:"
-
-#~ msgid "Ask about issuing commands."
-#~ msgstr "Chiedi riguardo i comandi emittenti."
-
-#~ msgid "Ask about status effects."
-#~ msgstr "Chiedi riguardo le alterazioni di stato."
-
-#~ msgid ""
-#~ "Every actor on the battle screen has a hit point (HP) and skill point "
-#~ "(SP) gauge. Each character's HP and SP are displayed at the bottom of the "
-#~ "screen. As enemies take damage in battle, their appearance will reflect "
-#~ "that damage."
-#~ msgstr ""
-#~ "Ogni combattente presente nella schermata della battaglia possiede un "
-#~ "indicatore di punti vita (HP) e uno di punti abilità (SP). Gli HP e SP di "
-#~ "ogni personaggio sono mostrati in basso dello schermo. Ogni volta che i "
-#~ "nemici subiscono danni, il loro aspetto fisico rifletterà la loro salute."
-
-#~ msgid ""
-#~ "When an actor's HP reaches zero, they become incapacitated. Victory in "
-#~ "battle is obtained by reducing the HP of all enemies to zero."
-#~ msgstr ""
-#~ "Se gli HP di un combattente raggiungono il valore zero, non sarà più in "
-#~ "grado di lottare. La vittoria della battaglia si ottiene azzerando gli HP "
-#~ "di ogni nemico."
-
-#~ msgid ""
-#~ "Every action taken in battle requires some amount of SP before it is able "
-#~ "to be used. Most basic actions consume no SP. Using an item also consumes "
-#~ "no SP."
-#~ msgstr ""
-#~ "Ogni azione richiesta in battaglia necessita di una certa quantità di SP "
-#~ "prima di essere usata. La maggior parte delle azioni normali non "
-#~ "consumano SP, e questo vale anche per l'uso di oggetti speciali."
-
-#~ msgid ""
-#~ "The stamina gauge on the right side of the screen determines when an "
-#~ "actor may take an action. Once an actor's icon reaches the green command "
-#~ "bar, they will begin preparing to execute their selected action. When "
-#~ "they reach the top of the gauge, they will execute that action."
-#~ msgstr ""
-#~ "L'indicatore della stamina nella parte a destra dello schermo determina "
-#~ "il momento in cui i combattenti potranno intraprendere un'azione. Una "
-#~ "volta che l'icona del personaggio raggiunge la linea verde, inizierà la "
-#~ "preparazione per eseguire l'azione da scegliere; e quando l'icona "
-#~ "toccherà il limite dell'indicatore, i combattenti eseguiranno l'azione "
-#~ "richiesta."
-
-#~ msgid ""
-#~ "The lower right corner of the screen displays each character's selected "
-#~ "action and target. When a command is being issued for a character, this "
-#~ "area of the screen is replaced with the command menu."
-#~ msgstr ""
-#~ "L'angolo in basso a destra dello schermo mostra ogni tipo di azione e "
-#~ "bersaglio del personaggio selezionato. Quando si sceglierà il comando da "
-#~ "dare al personaggio, quest'area dello schermo verrà rimpiazzata dal menu "
-#~ "dei comandi."
-
-#~ msgid "How do I select commands to execute?"
-#~ msgstr "Come posso selezionare i comandi da eseguire?"
-
-#~ msgid ""
-#~ "Each character has three types of skills they may execute as an action: "
-#~ "attack, defend, and support skills."
-#~ msgstr ""
-#~ "Ogni personaggio ha a disposizione tre tipi di abilità che vengono "
-#~ "eseguite come azioni: attacco, difesa e supporto."
-
-#~ msgid ""
-#~ "Battle actions requires a certain amount of time to prepare to use as "
-#~ "well as time to recover from after using. These periods are known as the "
-#~ "warm up time and cool down periods. In general, the more powerful the "
-#~ "skill the longer these periods will be."
-#~ msgstr ""
-#~ "Le azioni da battaglia necessitano di una certa quantità di tempo per la "
-#~ "loro preparazione per essere usate così come il tempo da recuperare una "
-#~ "volta usate. Questi periodi sono noti come \"warm up time\" e \"cool down "
-#~ "time\". In generale, più potente è l'abilità più il tempo di caricamento "
-#~ "sarà lungo."
-
-#~ msgid ""
-#~ "At the bottom of the screen, a directional button is shown for each "
-#~ "character that you may select a command for. You can set or change the "
-#~ "action and/or target issued to a character whenever these buttons are "
-#~ "visible."
-#~ msgstr ""
-#~ "In basso della schermata è mostrato un pulsante direzionale per ogni "
-#~ "personaggio di cui è possibile selezionare un determinato comando. Puoi "
-#~ "impostare o modificare l'azione e il bersaglio scelto dal personaggio "
-#~ "ogni volta che questi pulsanti saranno visibili."
-
-#~ msgid ""
-#~ "Once the character's icon reaches the green command bar on the stamina "
-#~ "gauge, they will begin preparing to execute any action they have set. If "
-#~ "a character does not have a command set when their icon reaches the green "
-#~ "command bar, the battle will stop until a command is issued for that "
-#~ "character."
-#~ msgstr ""
-#~ "Una volta che un'icona raggiunge la linea verde dell'indicatore di "
-#~ "stamina, la battaglia si blocca ma riprenderà non appena si sceglierà "
-#~ "un'azione da far intraprendere al proprio personaggio, il quale si "
-#~ "preparerà ad eseguire qualsiasi azione impostata precedentemente."
-
-#~ msgid ""
-#~ "All actions affect only one type of target. The target type for each "
-#~ "action is indicated by an icon in the command menu. Possible target types "
-#~ "include an ally, enemy, or an entire party. There are also target types "
-#~ "which affect an attack point, which is a specific part on the body of an "
-#~ "actor."
-#~ msgstr ""
-#~ "Ogni azione può colpire un solo tipo di bersaglio, indicato con un'icona "
-#~ "dal menu dei comandi. Possibili tipi di bersaglio includono un alleato, "
-#~ "un nemico o un intero gruppo. Ci sono inoltre tipi di bersaglio che "
-#~ "affliggono uno specifico punto di attacco, il quale è una parte specifica "
-#~ "del corpo di un combattente."
-
-#~ msgid ""
-#~ "Attack points have properties that make them susceptible to certain types "
-#~ "of attacks or more resistant to others. For example, typically attacking "
-#~ "the head of a target will deal more damage, but the attack is more likely "
-#~ "to miss this small target."
-#~ msgstr ""
-#~ "I punti d'attacco hanno proprietà che li rendono sensibili o più "
-#~ "resistenti a certi tipi di attacchi. Per esempio, attaccare la testa di "
-#~ "un bersaglio infliggerà più danni, ma sarà più difficile mirare dato che "
-#~ "il bersaglio è molto più piccolo rispetto al corpo."
-
-#~ msgid "What do I need to know about status effects?"
-#~ msgstr "Cosa dovrei sapere riguardo le alterazioni di stato?"
-
-#~ msgid ""
-#~ "Status effects cause temporary changes in the state of the afflicted "
-#~ "actor. These changes may be either beneficial or harmful to the their "
-#~ "target. Positive status effects are indicated by an upward green arrow on "
-#~ "the status icon, whereas a negative status effect displays a downward red "
-#~ "arrow on its icon."
-#~ msgstr ""
-#~ "Le alterazioni di stato provocano dei cambiamenti temporanei al "
-#~ "combattente afflitto, i quali possono essere sia benefici che dannosi per "
-#~ "il bersaglio. Gli effetti positivi sono indicati da una freccia verde "
-#~ "rivolta verso l'alto sull'icona di stato, mentre quelli negativi mostrano "
-#~ "una freccia rossa verso il basso."
-
-#~ msgid ""
-#~ "There are a total of four intensity levels for each status effect. As an "
-#~ "example, if you target an actor that is already inflicted with a negative "
-#~ "reduction in strength with a skill that reduces strength, the intensity "
-#~ "of the status will be increased."
-#~ msgstr ""
-#~ "Sono presenti quattro livelli di intensità di danno per ogni alterazione "
-#~ "di stato. Per esempio, se colpisci un nemico già afflitto da "
-#~ "un'alterazione che provoca riduzione di forza con un'abilità che riduce "
-#~ "sempre la forza, l'intensità dello stato aumenterà."
-
-#~ msgid ""
-#~ "By selecting attacks which target specific attack points on your foes, "
-#~ "you can sometimes naturally trigger a status effect. For example, try "
-#~ "attacking an enemy's arms or claws to reduce their strength. Or choose to "
-#~ "go for their wings or legs to reduce their agility."
-#~ msgstr ""
-#~ "A volte è possibile attivare un'alterazione di stato colpendo il nemico "
-#~ "in certe parti del corpo. Per esempio, prova ad attaccare le braccia del "
-#~ "nemico per ridurre la sua forza, oppure scegli di colpire alle gambe se "
-#~ "vuoi ridurre la sua agilità."
-
-#~ msgid ""
-#~ "Status effects naturally grow weaker in intensity and dissipate with "
-#~ "time. You must continually reinforce status effects that you wish to "
-#~ "remain active."
-#~ msgstr ""
-#~ "Le alterazioni di stato diventano più deboli in intensità e svaniscono "
-#~ "col passare del tempo. È necessario rafforzare continuamente le "
-#~ "alterazioni se vuoi che rimangano attive."
-
-#~ msgid ""
-#~ "Finally, status effects disappear completely when a battle ends, so there "
-#~ "is no need to remedy your characters from status effects after a battle "
-#~ "has been won."
-#~ msgstr ""
-#~ "Infine, le alterazioni svaniscono completamente alla fine di una "
-#~ "battaglia e quindi non sarà necessario curare i personaggi afflitti dalla "
-#~ "battaglia precedente."
-
-#~ msgid "Is there anything else you need to ask?"
-#~ msgstr "C'è qualcos'altro che devi chiedere?"
-
-#~ msgid "Ask nothing."
-#~ msgstr "Chiedi niente."
-
-#~ msgid "Ok, right!"
-#~ msgstr "Ok, vado!"
-
-#~ msgid "Ok."
-#~ msgstr "Ok."
-
-#~ msgid "Err, wow, ok!"
-#~ msgstr "Eh, va bene, va bene!"
-
-#~ msgid "(Sigh) ... Ok."
-#~ msgstr "(sospiro)...Ok."
-
-#~ msgid "Er, ok. Thanks again."
-#~ msgstr "Ehm. ok. Grazie di nuovo."
-
-#~ msgid "Status"
-#~ msgstr "Stato"
-
-#~ msgid "Edit"
-#~ msgstr "Modifica"
-
-#~ msgid "Save"
-#~ msgstr "Salva"
-
-#~ msgid "Switch"
-#~ msgstr "Cambia"
-
-#~ msgid "White Wolf"
-#~ msgstr "Lupo bianco"
