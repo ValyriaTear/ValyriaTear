@@ -183,7 +183,8 @@ void BootMode::Update()
     }
 
     // Updates the main menu when the option menu handler isn't active.
-    if(_menu_handler.IsActive()) {
+    bool is_menu_active = _menu_handler.IsActive();
+    if(is_menu_active) {
         bool was_showing_first_run_dlg = _menu_handler.IsShowingFirstRunLanguageMenu();
         _menu_handler.Update();
 
@@ -216,12 +217,12 @@ void BootMode::Update()
             _menu_bar_alpha = 0.6f;
     }
 
-    if(_menu_handler.IsActive())
+    if(is_menu_active)
         return;
 
-    // Handles main menu input
+    // Handles the main menu input.
 
-    // Only quit when we are at the main menu level
+    // Only quit when we are at the main menu level.
     if(InputManager->QuitPress()) {
         // Don't quit the game when using the joystick,
         // as it is confusing for the user.
@@ -257,7 +258,7 @@ void BootMode::Update()
     case 2:
         _OnOptions();
         break;
-    // Insert the debug options
+    // Insert the debug options.
 #ifdef DEBUG_FEATURES
     case 3:
         _DEBUG_OnBattle();
@@ -277,8 +278,7 @@ void BootMode::Update()
         break;
 #endif
     }
-
-} // void BootMode::Update()
+}
 
 void BootMode::Draw()
 {
