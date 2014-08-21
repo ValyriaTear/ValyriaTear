@@ -101,8 +101,7 @@ function _CreateEnemies()
     _SetBattleEnvironment(enemy);
     enemy:NewEnemyParty();
     enemy:AddEnemy(19);
-    enemy:AddEnemy(19);
-    enemy:AddEnemy(19);
+    enemy:SetTimeToRespawn(25000);
     roam_zone:AddEnemy(enemy, Map, 1);
     Map:AddZone(roam_zone);
 end
