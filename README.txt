@@ -59,6 +59,7 @@ http://sourceforge.net/projects/valyriatear/files/win32-depends/valyriatear-win3
 - **Microsoft Visual C++ 2013 and later:**
 
 _**(Warning: not officially supported!)**_
+Please contact Authenticate for support about this one: https://github.com/authenticate
 To build on Windows with Visual Studio 2013, do this:
 1. git clone https://github.com/authenticate/ValyriaTear-VS2013-Dependencies.git
 2. Copy the ValyriaTear-VS2013-Dependencies folder into your Valyria Tear repository.
@@ -70,7 +71,7 @@ To build on Windows with Visual Studio 2013, do this:
 
 You will need the following in order to compile and run the game:
 
-- **Boost headers** (Tested from 1.42 to 1.53)
+- **Boost headers** (Tested from 1.42 to 1.55)
 (make sure that the boost headers used to compile Luabind are the same version used to compile Valyria Tear)
 - **GNU Gettext** - (libiconv, libintl)
 - **lua** (5.1.x - 5.2.x) - (liblua)
