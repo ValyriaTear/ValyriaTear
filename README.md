@@ -13,7 +13,7 @@ The game has all the features you can expect from JRPG classics: entertaining st
 
 ## Licensing
 
-**Copyright (C) 2012-2014 by Bertram
+**Copyright (C) 2012-2014 by Bertram  
 Copyright (C) 2004-2011 by The Allacrost Project**
 
 The source code is licensed under the *GNU GPL*. It is free software and you may
@@ -57,7 +57,7 @@ To build on Windows with Visual Studio 2013, do this:
 
 You will need the following in order to compile and run the game:
 
-- **Boost headers** (Tested from 1.42 to 1.53)
+- **Boost headers** (Tested from 1.42 to 1.55)
 (make sure that the boost headers used to compile Luabind are the same version used to compile Valyria Tear)
 - **GNU Gettext** - (libiconv, libintl)
 - **lua** (5.1.x - 5.2.x) - (liblua)
