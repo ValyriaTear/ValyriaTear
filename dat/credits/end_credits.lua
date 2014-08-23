@@ -221,7 +221,7 @@ function Initialize(map_instance)
                     text_color = vt_video.Color(1.0, 1.0, 1.0, 1.0),
                 },
                 [3] = {
-                    text = Script:CreateText("Sunburn (OGA)\n\nBlarumyrran (OGA)\n\nrichtaur (OGA)\n\nLamoot (OGA\n\nXenodora (OGA)\n\nThe Mana World (TMW)\n\nYuuki (TMW)\n\nFotherJ (TMW)\n\nPhilipp H. Poll\n\nTempest in the Aether\n\nUnknown Horizons",
+                    text = Script:CreateText("Sunburn (OGA)\n\nBlarumyrran (OGA)\n\nrichtaur (OGA)\n\nLamoot (OGA)\n\nXenodora (OGA)\n\nThe Mana World (TMW)\n\nYuuki (TMW)\n\nFotherJ (TMW)\n\nPhilipp H. Poll\n\nTempest in the Aether\n\nUnknown Horizons",
                                              vt_video.TextStyle("text20")),
                     text_position_x = 732.0,
                     text_position_y = 300.0,
