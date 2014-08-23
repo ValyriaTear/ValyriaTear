@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Valyria Tear\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-08-21 23:27+0200\n"
-"PO-Revision-Date: 2014-08-21 23:54+0100\n"
+"PO-Revision-Date: 2014-08-23 19:33+0100\n"
 "Last-Translator: Yohann Ferreira <yohann.ferreira@orange.fr>\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/valyria-tear/"
 "language/ru/)\n"
@@ -1868,11 +1868,11 @@ msgstr "Подвал дома Кали"
 
 #: ../dat/config/themes.lua:14
 msgid "Royal Silk"
-msgstr "Синяя"
+msgstr "Царский шёлк"
 
 #: ../dat/config/themes.lua:21
 msgid "Black Sleet"
-msgstr "Красная"
+msgstr "Тёмное небо"
 
 #: ../dat/config/themes.lua:28
 msgid "Elvish Feather"
@@ -2083,23 +2083,23 @@ msgid ""
 "\n"
 "Spanish (es)"
 msgstr ""
-"Английский текст\n"
+"Проверка англ. текста\n"
 "\n"
-"Голландский (nl_NL)\n"
+"Голландского (nl_NL)\n"
 "\n"
-"Французский (fr)\n"
+"Французского (fr)\n"
 "\n"
-"Галисийский (gl)\n"
+"Галисийского (gl)\n"
 "\n"
-"Немецкий (de)\n"
+"Немецкого (de)\n"
 "\n"
-"Итальянский (it)\n"
+"Итальянского (it)\n"
 "\n"
-"Португальский (pt_PT)\n"
+"Португальского (pt_PT)\n"
 "\n"
-"Русский (ru)\n"
+"Русского (ru)\n"
 "\n"
-"Испанский (es)"
+"Испанского (es)"
 
 #: ../dat/credits/end_credits.lua:478
 msgid "Testers"
@@ -3420,7 +3420,7 @@ msgstr "Орлин, отдай перо Бронану, или я тебя уд�
 
 #: ../dat/maps/layna_village/layna_village_center_script.lua:457
 msgid "Yea... Yes, here it is."
-msgstr "Угу... Да, вот оно..."
+msgstr "Угу... Да, вот оно."
 
 #: ../dat/maps/layna_village/layna_village_center_script.lua:476
 msgid "I found that pen under a tree near the river. I just wanted to play..."
