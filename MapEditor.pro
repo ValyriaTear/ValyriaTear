@@ -40,30 +40,36 @@ DEFINES += EDITOR_BUILD QT_DYNAMIC_CAST NO_UNICODE
 QMAKE_CXXFLAGS -= -fno-exceptions -fno-rtti
 QMAKE_CXXFLAGS += -fexceptions -frtti
 
+PRECOMPILED_HEADER = ./src/utils/utils_pch.h
+
 HEADERS += \
-    ./src/editor/tileset.h \
-    ./src/editor/grid.h \
-    ./src/editor/editor.h \
     ./src/editor/dialog_boxes.h \
-    ./src/engine/script/script_write.h \
-    ./src/engine/script/script_read.h \
-    ./src/engine/script/script.h \
+    ./src/editor/editor.h \
+    ./src/editor/grid.h \
+    ./src/editor/tileset.h \
     ./src/editor/tileset_editor.h \
-    ./src/utils/utils_pch.h \
-    ./src/utils/utils_random.h \
+    ./src/engine/script/script.h \
+    ./src/engine/script/script_read.h \
+    ./src/engine/script/script_write.h \
     ./src/utils/utils_files.h \
     ./src/utils/utils_numeric.h \
+    ./src/utils/utils_random.h \
     ./src/utils/utils_strings.h \
 
 SOURCES += \
-    ./src/editor/tileset.cpp \
-    ./src/editor/grid.cpp \
-    ./src/editor/editor_main.cpp \
-    ./src/editor/editor.cpp \
     ./src/editor/dialog_boxes.cpp \
-    ./src/engine/script/script_write.cpp \
-    ./src/engine/script/script_read.cpp \
+    ./src/editor/editor.cpp \
+    ./src/editor/editor_main.cpp \
+    ./src/editor/grid.cpp \
+    ./src/editor/tileset.cpp \
+    ./src/editor/tileset_editor.cpp \
     ./src/engine/script/script.cpp \
+    ./src/engine/script/script_read.cpp \
+    ./src/engine/script/script_write.cpp \
+    ./src/utils/utils_files.cpp \
+    ./src/utils/utils_numeric.cpp \
+    ./src/utils/utils_random.cpp \
+    ./src/utils/utils_strings.cpp \
     ./src/luabind/src/wrapper_base.cpp \
     ./src/luabind/src/weak_ref.cpp \
     ./src/luabind/src/stack_content_by_name.cpp \
@@ -81,9 +87,3 @@ SOURCES += \
     ./src/luabind/src/class_registry.cpp \
     ./src/luabind/src/class_info.cpp \
     ./src/luabind/src/class.cpp \
-    ./src/utils/utils_pch.cpp \
-    ./src/utils/utils_random.cpp \
-    ./src/utils/utils_files.cpp \
-    ./src/utils/utils_numeric.cpp \
-    ./src/utils/utils_strings.cpp \
-    ./src/editor/tileset_editor.cpp \
