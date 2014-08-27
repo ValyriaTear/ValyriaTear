@@ -13,6 +13,8 @@ local scent_alpha = 0.0;
 local scent_timer;
 local scent_time_length = 8000;
 
+local poison_appliance_cooldown = 0;
+
 -- c++ objects instances
 local Map = {};
 local Script = {};
@@ -30,6 +32,8 @@ function Initialize(map_instance)
     scent:SetDimensions(320.0, 256.0);
 
     scent_timer:Run();
+
+    poison_appliance_cooldown = 0;
 end
 
 function _ApplyPoison()
@@ -40,12 +44,17 @@ function _ApplyPoison()
         if (char ~= nil and char:IsAlive() == true) then
 
             -- Only apply up to a moderate poison
-            local intensity = char:GetActiveStatusEffectIntensity(vt_global.GameGlobal.GLOBAL_STATUS_HP);
+            local intensity = Map:GetActiveStatusEffectIntensity(char, vt_global.GameGlobal.GLOBAL_STATUS_HP);
             if (intensity > vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_MODERATE) then
-                -- FIXME: Makes this be applied in the map mode, or it won't work
-                char:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_HP,
-                                                     vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_LESSER,
-                                                     15000);
+                -- Makes this be applied through the map mode, to make it applied correctly
+                -- and shown to the player in a visual way.
+                Map:ChangeActiveStatusEffect(char,
+                                             vt_global.GameGlobal.GLOBAL_STATUS_HP,
+                                             vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_LESSER,
+                                             18000); -- multiple of 9000 on purpose
+                -- Give the characters a 5 seconds poison relisiance time
+                -- so they're not poisoned multiple times within a few miliseconds.
+                poison_appliance_cooldown = 5000;
             end
         end
     end
@@ -85,13 +94,22 @@ function Update()
         scent_alpha = 0.3 - (0.3 * (scent_timer:PercentComplete() - 0.5) / 0.5);
     end
 
+    if (poison_appliance_cooldown >= 0) then
+        poison_appliance_cooldown = poison_appliance_cooldown - SystemManager:GetUpdateTime();
+        --print(poison_appliance_cooldown)
+        return;
+    end
+
     -- Apply potential collision effects.
     local camera = Map.camera;
     local state = Map:CurrentState();
     if (camera ~= nil and state == vt_map.MapMode.STATE_EXPLORE) then
-    print("1")
-        if (camera:IsColliding(scent_x_position, scent_y_position) == true) then
-        print("2")
+        local x_pos = Map:GetScreenXCoordinate(camera:GetXPosition())
+        local y_pos = Map:GetScreenYCoordinate(camera:GetYPosition())
+        -- check using a simple bounding box, X centered, Y bottom aligned.
+        if (x_pos > scent_x_position - 32.0 and x_pos < scent_x_position + 32.0 and
+            y_pos > scent_y_position - 48.0 and y_pos < scent_y_position) then
+            --print("colliding with "..scent_x_position..", "..scent_y_position)
             _ApplyPoison();
         end
     end
