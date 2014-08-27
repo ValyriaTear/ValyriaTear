@@ -411,6 +411,25 @@ public:
     bool AreStatusEffectsEnabled() const {
         return _status_effects_enabled;
     }
+
+    //! \brief Proxy function used to set up a character status effect from the map mode.
+    bool ChangeActiveStatusEffect(vt_global::GlobalCharacter* character,
+                                  vt_global::GLOBAL_STATUS status_type,
+                                  vt_global::GLOBAL_INTENSITY intensity,
+                                  uint32 duration) {
+        return _status_effect_supervisor.ChangeActiveStatusEffect(character,
+                                                                  status_type,
+                                                                  intensity,
+                                                                  duration,
+                                                                  0, true);
+    }
+
+    //! \brief Proxy function used to obtain the currently applied intensity
+    //! of an active status effect applied on the character.
+    vt_global::GLOBAL_INTENSITY GetActiveStatusEffectIntensity(vt_global::GlobalCharacter* character,
+                                                                         vt_global::GLOBAL_STATUS status_type) const {
+        return _status_effect_supervisor.GetActiveStatusEffectIntensity(character, status_type);
+    }
     //@}
 
 private:

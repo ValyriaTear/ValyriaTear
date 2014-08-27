@@ -316,6 +316,13 @@ public:
                                   vt_global::GLOBAL_INTENSITY intensity,
                                   uint32 duration = 0, uint32 elapsed_time = 0, bool display_change = true);
 
+    //! \brief Tells the current active status effect intensity applied on the given character.
+    //! \note As the map mode is not syncing the status effects with the global characters
+    //! the map mode is activated for performance reasons, we need to get info from here,
+    //! and not form the global characters directly when the map mode is active.
+    vt_global::GLOBAL_INTENSITY GetActiveStatusEffectIntensity(vt_global::GlobalCharacter* character,
+                                                               vt_global::GLOBAL_STATUS status_type) const;
+
 private:
     //! \brief Contains all possible status effects.
     //! The vector is initialized with the size of all possible status effects slots.

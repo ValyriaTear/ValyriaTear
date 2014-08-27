@@ -614,6 +614,29 @@ bool MapStatusEffectsSupervisor::ChangeActiveStatusEffect(ActiveMapStatusEffect&
     return false;
 } // bool MapStatusEffectsSupervisor::ChangeActiveStatusEffect( ... )
 
+GLOBAL_INTENSITY MapStatusEffectsSupervisor::GetActiveStatusEffectIntensity(GlobalCharacter* character,
+                                                                            GLOBAL_STATUS status_type) const
+{
+    if (character == NULL)
+        return GLOBAL_INTENSITY_INVALID;
+
+    if (status_type == GLOBAL_STATUS_INVALID || status_type == GLOBAL_STATUS_TOTAL)
+        return GLOBAL_INTENSITY_INVALID;
+
+    for (uint32 i = 0; i < _active_status_effects.size(); ++i) {
+        const ActiveMapStatusEffect& effect = _active_status_effects[i];
+        if (effect.GetType() != status_type)
+            continue;
+
+        if (effect.GetAffectedCharacter() != character)
+            continue;
+
+        return effect.GetIntensity();
+    }
+
+    return GLOBAL_INTENSITY_NEUTRAL;
+}
+
 void MapStatusEffectsSupervisor::_AddActiveStatusEffect(GlobalCharacter* character,
                                                         GLOBAL_STATUS status, GLOBAL_INTENSITY intensity,
                                                         uint32 duration, uint32 elapsed_time)

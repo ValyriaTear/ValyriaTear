@@ -49,7 +49,7 @@ systems[0] =
         {  -- keyframe 1
             size_x = 2.0,
             size_y = 2.0,
-            color={1.0, 1.0, 1.0, 0.6},
+            color={0.4, 1.0, 0.4, 0.6},
             rotation_speed = 0.2,
             size_variation_x = 0.0,
             size_variation_y = 0.0,
@@ -61,7 +61,7 @@ systems[0] =
         {  -- keyframe 2
             size_x = 1.9,
             size_y = 1.9,
-            color = {1.0, 1.0, 1.0, 0.0},
+            color = {0.4, 1.0, 0.4, 0.0},
             rotation_speed = 0.6,
             size_variation_x = 0.0,
             size_variation_y = 0.0,

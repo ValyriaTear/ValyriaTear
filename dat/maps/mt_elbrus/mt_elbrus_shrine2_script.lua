@@ -194,6 +194,9 @@ function _CreateObjects()
         _add_bubble(28, 12);
         _add_bubble(32, 18);
         _add_bubble(55, 17);
+
+        -- The poisonous scent
+        Map:GetScriptSupervisor():AddScript("dat/maps/mt_elbrus/mt_elbrus_scent_anim.lua");
     end
 
     -- Add the first parchment
