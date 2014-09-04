@@ -138,6 +138,9 @@ function _CreateObjects()
         _add_bubble(5, 37);
         _add_bubble(51, 38);
         _add_bubble(54, 22);
+
+        -- The poisonous scent
+        Map:GetScriptSupervisor():AddScript("dat/maps/mt_elbrus/mt_elbrus_scent_anim.lua");
     end
 
     _add_flame_pot(26, 24);

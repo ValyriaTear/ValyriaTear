@@ -60,6 +60,7 @@ BootMode* BootMode::_current_instance = NULL;
 // ****************************************************************************
 
 BootMode::BootMode() :
+    GameMode(MODE_MANAGER_BOOT_MODE),
     _boot_state(BOOT_STATE_INTRO),
     _exiting_to_new_game(false),
     _menu_handler(this),
@@ -67,8 +68,6 @@ BootMode::BootMode() :
     _help_text_alpha(0.0f)
 {
     _current_instance = this;
-
-    mode_type = MODE_MANAGER_BOOT_MODE;
 
     // Remove potential previous ambient overlays
     VideoManager->DisableFadeEffect();
@@ -157,7 +156,7 @@ void BootMode::Update()
 
     // The intro is being played
     if(_boot_state == BOOT_STATE_INTRO) {
-        if(InputManager->AnyKeyPress()) {
+        if(InputManager->AnyRegisteredKeyPress()) {
             ChangeState(BOOT_STATE_MENU);
             return;
         } else {
@@ -175,7 +174,8 @@ void BootMode::Update()
     HelpWindow *help_window = ModeManager->GetHelpWindow();
     if(help_window && help_window->IsActive()) {
         // Any key, except F1
-        if(!InputManager->HelpPress() && InputManager->AnyKeyPress()) {
+        if(!InputManager->HelpPress()
+                && (InputManager->AnyKeyboardKeyPress() || InputManager->AnyJoystickKeyPress())) {
             GlobalManager->Media().PlaySound("confirm");
             help_window->Hide();
         }
@@ -183,7 +183,8 @@ void BootMode::Update()
     }
 
     // Updates the main menu when the option menu handler isn't active.
-    if(_menu_handler.IsActive()) {
+    bool is_menu_active = _menu_handler.IsActive();
+    if(is_menu_active) {
         bool was_showing_first_run_dlg = _menu_handler.IsShowingFirstRunLanguageMenu();
         _menu_handler.Update();
 
@@ -216,12 +217,12 @@ void BootMode::Update()
             _menu_bar_alpha = 0.6f;
     }
 
-    if(_menu_handler.IsActive())
+    if(is_menu_active)
         return;
 
-    // Handles main menu input
+    // Handles the main menu input.
 
-    // Only quit when we are at the main menu level
+    // Only quit when we are at the main menu level.
     if(InputManager->QuitPress()) {
         // Don't quit the game when using the joystick,
         // as it is confusing for the user.
@@ -231,10 +232,12 @@ void BootMode::Update()
     }
 
     if (InputManager->LeftPress()) {
+        GlobalManager->Media().PlaySound("bump");
         _main_menu.InputLeft();
         return;
     }
     else if (InputManager->RightPress()) {
+        GlobalManager->Media().PlaySound("bump");
         _main_menu.InputRight();
         return;
     }
@@ -255,7 +258,7 @@ void BootMode::Update()
     case 2:
         _OnOptions();
         break;
-    // Insert the debug options
+    // Insert the debug options.
 #ifdef DEBUG_FEATURES
     case 3:
         _DEBUG_OnBattle();
@@ -275,8 +278,7 @@ void BootMode::Update()
         break;
 #endif
     }
-
-} // void BootMode::Update()
+}
 
 void BootMode::Draw()
 {
@@ -388,7 +390,7 @@ void BootMode::_SetupMainMenu()
 
 void BootMode::_OnNewGame()
 {
-    AudioManager->StopAllMusic();
+    AudioManager->StopActiveMusic();
     VideoManager->FadeScreen(Color::black, 2000);
 
     AudioManager->PlaySound("snd/new_game.wav");

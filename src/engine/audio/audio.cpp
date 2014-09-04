@@ -289,54 +289,46 @@ void AudioEngine::RewindAllSounds()
     }
 }
 
-void AudioEngine::PauseAllMusic()
+void AudioEngine::PauseActiveMusic()
 {
-    for(std::vector<MusicDescriptor *>::iterator i = _registered_music.begin();
-            i != _registered_music.end(); ++i) {
-        (*i)->Pause();
-    }
+    MusicDescriptor* music = GetActiveMusic();
+    if (music)
+        music->Pause();
 }
 
-void AudioEngine::ResumeAllMusic()
+void AudioEngine::ResumeActiveMusic()
 {
-    for(std::vector<MusicDescriptor *>::iterator i = _registered_music.begin();
-            i != _registered_music.end(); ++i) {
-        (*i)->Resume();
-    }
+    MusicDescriptor* music = GetActiveMusic();
+    if (music)
+        music->Resume();
 }
 
-void AudioEngine::StopAllMusic()
+void AudioEngine::StopActiveMusic()
 {
-    for(std::vector<MusicDescriptor *>::iterator i = _registered_music.begin();
-            i != _registered_music.end(); ++i) {
-        (*i)->Stop();
-    }
+    MusicDescriptor* music = GetActiveMusic();
+    if (music)
+        music->Stop();
 }
 
-void AudioEngine::RewindAllMusic()
+void AudioEngine::RewindActiveMusic()
 {
-    for(std::vector<MusicDescriptor *>::iterator i = _registered_music.begin();
-            i != _registered_music.end(); ++i) {
-        (*i)->Rewind();
-    }
+    MusicDescriptor* music = GetActiveMusic();
+    if (music)
+        music->Rewind();
 }
 
-void AudioEngine::FadeOutAllMusic(float time)
+void AudioEngine::FadeOutActiveMusic(float time)
 {
-    for(std::vector<MusicDescriptor *>::iterator it = _registered_music.begin();
-            it != _registered_music.end(); ++it) {
-        if(*it)
-            (*it)->FadeOut(time);
-    }
+    MusicDescriptor* music = GetActiveMusic();
+    if (music)
+        music->FadeOut(time);
 }
 
-void AudioEngine::FadeInAllMusic(float time)
+void AudioEngine::FadeInActiveMusic(float time)
 {
-    for(std::vector<MusicDescriptor *>::iterator it = _registered_music.begin();
-            it != _registered_music.end(); ++it) {
-        if(*it)
-            (*it)->FadeIn(time);
-    }
+    MusicDescriptor* music = GetActiveMusic();
+    if (music)
+        music->FadeIn(time);
 }
 
 void AudioEngine::FadeOutAllSounds(float time)

@@ -629,9 +629,7 @@ void GameGlobal::RemoveFromInventory(uint32 obj_id)
     }
 } // void GameGlobal::RemoveFromInventory(uint32 obj_id)
 
-
-
-GlobalObject *GameGlobal::RetrieveFromInventory(uint32 obj_id, bool all_counts)
+GlobalObject* GameGlobal::GetGlobalObject(uint32 obj_id)
 {
     if(_inventory.find(obj_id) == _inventory.end()) {
         IF_PRINT_WARNING(GLOBAL_DEBUG) << "attempted to retrieve an object from inventory that didn't exist with id: " << obj_id << std::endl;
@@ -642,31 +640,31 @@ GlobalObject *GameGlobal::RetrieveFromInventory(uint32 obj_id, bool all_counts)
     // Use the id value to figure out what type of object it is, and remove it from the object vector
     if((obj_id > 0 && obj_id <= MAX_ITEM_ID)
         || (obj_id > MAX_SPIRIT_ID && obj_id <= MAX_KEY_ITEM_ID)) {
-        return_object = _RetrieveFromInventory(obj_id, _inventory_items, all_counts);
+        return_object = _GetFromInventory(obj_id, _inventory_items);
         if(return_object == NULL)
             IF_PRINT_WARNING(GLOBAL_DEBUG) << "object to retrieve was not found in inventory items: " << obj_id << std::endl;
     } else if((obj_id > MAX_ITEM_ID) && (obj_id <= MAX_WEAPON_ID)) {
-        return_object = _RetrieveFromInventory(obj_id, _inventory_weapons, all_counts);
+        return_object = _GetFromInventory(obj_id, _inventory_weapons);
         if(return_object == NULL)
             IF_PRINT_WARNING(GLOBAL_DEBUG) << "object to retrieve was not found in inventory weapons: " << obj_id << std::endl;
     } else if((obj_id > MAX_WEAPON_ID) && (obj_id <= MAX_HEAD_ARMOR_ID)) {
-        return_object = _RetrieveFromInventory(obj_id, _inventory_head_armor, all_counts);
+        return_object = _GetFromInventory(obj_id, _inventory_head_armor);
         if(return_object == NULL)
             IF_PRINT_WARNING(GLOBAL_DEBUG) << "object to retrieve was not found in inventory head armor: " << obj_id << std::endl;
     } else if((obj_id > MAX_HEAD_ARMOR_ID) && (obj_id <= MAX_TORSO_ARMOR_ID)) {
-        return_object = _RetrieveFromInventory(obj_id, _inventory_torso_armor, all_counts);
+        return_object = _GetFromInventory(obj_id, _inventory_torso_armor);
         if(return_object == NULL)
             IF_PRINT_WARNING(GLOBAL_DEBUG) << "object to retrieve was not found in inventory torso armor: " << obj_id << std::endl;
     } else if((obj_id > MAX_TORSO_ARMOR_ID) && (obj_id <= MAX_ARM_ARMOR_ID)) {
-        return_object = _RetrieveFromInventory(obj_id, _inventory_arm_armor, all_counts);
+        return_object = _GetFromInventory(obj_id, _inventory_arm_armor);
         if(return_object == NULL)
             IF_PRINT_WARNING(GLOBAL_DEBUG) << "object to retrieve was not found in inventory arm armor: " << obj_id << std::endl;
     } else if((obj_id > MAX_ARM_ARMOR_ID) && (obj_id <= MAX_LEG_ARMOR_ID)) {
-        return_object = _RetrieveFromInventory(obj_id, _inventory_leg_armor, all_counts);
+        return_object = _GetFromInventory(obj_id, _inventory_leg_armor);
         if(return_object == NULL)
             IF_PRINT_WARNING(GLOBAL_DEBUG) << "object to retrieve was not found in inventory leg armor: " << obj_id << std::endl;
     } else if((obj_id > MAX_LEG_ARMOR_ID) && (obj_id <= MAX_SPIRIT_ID)) {
-        return_object = _RetrieveFromInventory(obj_id, _inventory_spirits, all_counts);
+        return_object = _GetFromInventory(obj_id, _inventory_spirits);
         if(return_object == NULL)
             IF_PRINT_WARNING(GLOBAL_DEBUG) << "object to retrieve was not found in inventory spirits: " << obj_id << std::endl;
     } else {
@@ -674,9 +672,7 @@ GlobalObject *GameGlobal::RetrieveFromInventory(uint32 obj_id, bool all_counts)
     }
 
     return return_object;
-} // GlobalObject* GameGlobal::RetrieveFromInventory(uint32 obj_id, bool all_counts)
-
-
+}
 
 void GameGlobal::IncrementObjectCount(uint32 obj_id, uint32 count)
 {

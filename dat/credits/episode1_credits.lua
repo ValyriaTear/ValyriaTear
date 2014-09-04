@@ -1,5 +1,5 @@
 ------------------------------------------------------------------------------[[
--- Filename: small_credits.lua
+-- Filename: episode1_credits.lua
 --
 -- Description: Contains the credits seen at game start, only the main
 -- authors are there.
@@ -66,17 +66,21 @@ function Initialize(map_instance)
         },
         [8] = {
             header = Script:CreateText(vt_system.Translate("Translations"), vt_video.TextStyle("text22")),
-            text = Script:CreateText("NaN (de)\nGallaecio (gl)\nBioHazardX (it)\nKnitter (pt_PT)\nBertram (fr)", vt_video.TextStyle("text22"))
+            text = Script:CreateText("NaN (de)\nGallaecio (gl)\nBioHazardX (it)\nKnitter (pt_PT)", vt_video.TextStyle("text22"))
         },
         [9] = {
+            header = Script:CreateText(vt_system.Translate("Translations"), vt_video.TextStyle("text22")),
+            text = Script:CreateText("Bertram (fr)\ndimproject (ru)\njahalic (es)\nWillemS (nl_NL)", vt_video.TextStyle("text22"))
+        },
+        [10] = {
             header = Script:CreateText(vt_system.Translate("Tester Team"), vt_video.TextStyle("text22")),
             text = Script:CreateText("Shirish\nKhyana\nSahaondra\nOmega\nPenPen", vt_video.TextStyle("text22"))
         },
-        [10] = {
+        [11] = {
             header = Script:CreateText("", vt_video.TextStyle("text22")),
             text = Script:CreateText(vt_system.Translate("To Lilou and Léo..."), vt_video.TextStyle("text22"))
         },
-        [11] = {
+        [12] = {
             header = Script:CreateText("", vt_video.TextStyle("text22")),
             text = Script:CreateText(vt_system.Translate("Thanks to everyone\nwho made this possible!!"), vt_video.TextStyle("text22"))
         }

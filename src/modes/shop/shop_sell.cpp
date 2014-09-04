@@ -304,6 +304,7 @@ void SellInterface::Update()
 {
     if(_view_mode == SHOP_VIEW_MODE_LIST) {
         if((InputManager->ConfirmPress()) && (_selected_object != NULL)) {
+            GlobalManager->Media().PlaySound("confirm");
             _ChangeViewMode(SHOP_VIEW_MODE_INFO);
         } else if(InputManager->CancelPress()) {
             ShopMode::CurrentInstance()->ChangeState(SHOP_STATE_ROOT);
@@ -321,12 +322,12 @@ void SellInterface::Update()
         else if(InputManager->UpPress() && (_selected_object != NULL)) {
             if(_ChangeSelection(false) == true) {
                 ShopMode::CurrentInstance()->ObjectViewer()->SetSelectedObject(_selected_object);
-                GlobalManager->Media().PlaySound("confirm");
+                GlobalManager->Media().PlaySound("bump");
             }
         } else if(InputManager->DownPress() && (_selected_object != NULL)) {
             if(_ChangeSelection(true) == true) {
                 ShopMode::CurrentInstance()->ObjectViewer()->SetSelectedObject(_selected_object);
-                GlobalManager->Media().PlaySound("confirm");
+                GlobalManager->Media().PlaySound("bump");
             }
         }
     } // if (_view_mode == SHOP_VIEW_MODE_LIST)

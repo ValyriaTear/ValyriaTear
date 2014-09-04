@@ -316,12 +316,12 @@ void BuyInterface::Update()
         else if(InputManager->UpPress()) {
             if(_ChangeSelection(false) == true) {
                 ShopMode::CurrentInstance()->ObjectViewer()->SetSelectedObject(_selected_object);
-                GlobalManager->Media().PlaySound("confirm");
+                GlobalManager->Media().PlaySound("bump");
             }
         } else if(InputManager->DownPress()) {
             if(_ChangeSelection(true) == true) {
                 ShopMode::CurrentInstance()->ObjectViewer()->SetSelectedObject(_selected_object);
-                GlobalManager->Media().PlaySound("confirm");
+                GlobalManager->Media().PlaySound("bump");
             }
         }
     } // if (_view_mode == SHOP_VIEW_MODE_LIST)

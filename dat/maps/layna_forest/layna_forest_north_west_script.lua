@@ -1087,7 +1087,7 @@ function _CreateEvents()
     dialogue = vt_map.SpriteDialogue();
     text = vt_system.Translate("Great! The tremor has opened a path back to the village!");
     dialogue:AddLine(text, hero);
-    text = vt_system.Translate("Now we can get back to the village quicker.");
+    text = vt_system.Translate("Now we can get back to the village more quickly.");
     dialogue:AddLine(text, hero);
     DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("The Hero sees the created shortcut", dialogue);
@@ -1274,7 +1274,7 @@ map_functions = {
 
         move_next_to_hero_event:SetDestination(hero:GetXPosition() + 2.0, hero:GetYPosition(), false);
 
-        AudioManager:FadeOutAllMusic(1000);
+        AudioManager:FadeOutActiveMusic(1000);
     end,
 
     end_of_dialogue_with_orlinn = function()
@@ -1286,7 +1286,7 @@ map_functions = {
         -- Reload the hero back to default
         hero:ReloadSprite(main_sprite_name);
 
-        AudioManager:FadeInAllMusic(1000);
+        AudioManager:FadeInActiveMusic(1000);
 
         -- Set event as done
         GlobalManager:SetEventValue("story", "layna_forest_kalya sees_orlinn", 1);

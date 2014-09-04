@@ -70,16 +70,16 @@ end
 -- Character creation
 function _CreateCharacters()
     -- Default hero and position
-    hero = CreateSprite(Map, "Bronann", 10, 68);
+    hero = CreateSprite(Map, "Bronann", 16, 68);
     hero:SetDirection(vt_map.MapMode.NORTH);
     hero:SetMovementSpeed(vt_map.MapMode.NORMAL_SPEED);
 
     if (GlobalManager:GetPreviousLocation() == "from_shrine_2nd_floor_south_east") then
         hero:SetDirection(vt_map.MapMode.NORTH);
-        hero:SetPosition(42.5, 48.0);
+        hero:SetPosition(48.5, 48.0);
     elseif (GlobalManager:GetPreviousLocation() == "from_shrine_stairs") then
         hero:SetDirection(vt_map.MapMode.SOUTH);
-        hero:SetPosition(6.0, 8.0);
+        hero:SetPosition(12.0, 8.0);
     end
 
     Map:AddGroundObject(hero);
@@ -118,7 +118,7 @@ function _CreateObjects()
     -- Objects array
     local map_objects = {
 
-        { "Rock1", 25, 14 },
+        { "Rock1", 31, 14 },
     }
 
     -- Loads the trees according to the array
@@ -129,22 +129,22 @@ function _CreateObjects()
     end
 
     -- Snow effects
-    object = vt_map.ParticleObject("dat/maps/mt_elbrus/particles_snow_south_entrance.lua", 10, 72);
+    object = vt_map.ParticleObject("dat/maps/mt_elbrus/particles_snow_south_entrance.lua", 16, 72);
     object:SetObjectID(Map.object_supervisor:GenerateObjectID());
     Map:AddGroundObject(object);
-    Map:AddHalo("img/misc/lights/torch_light_mask.lua", 10, 79,
+    Map:AddHalo("img/misc/lights/torch_light_mask.lua", 16, 79,
                 vt_video.Color(1.0, 1.0, 1.0, 0.8));
 
-    object = vt_map.ParticleObject("dat/maps/mt_elbrus/particles_snow_south_entrance.lua", 44, 50);
+    object = vt_map.ParticleObject("dat/maps/mt_elbrus/particles_snow_south_entrance.lua", 50, 50);
     object:SetObjectID(Map.object_supervisor:GenerateObjectID());
     Map:AddGroundObject(object);
-    Map:AddHalo("img/misc/lights/torch_light_mask.lua", 45, 57,
+    Map:AddHalo("img/misc/lights/torch_light_mask.lua", 51, 57,
                 vt_video.Color(1.0, 1.0, 1.0, 0.8));
 
-    _add_flame(9.5, 3);
+    _add_flame(15.5, 3);
 
     -- The stone used to get through this enigma
-    rolling_stone1 = CreateObject(Map, "Rolling Stone2", 28, 34);
+    rolling_stone1 = CreateObject(Map, "Rolling Stone2", 34, 34);
     Map:AddGroundObject(rolling_stone1);
 
     -- events on the lower level
@@ -182,9 +182,6 @@ function _CreateObjects()
     -- Creates the spikes
     local spike_objects = {
         -- upper border
-        { 3, 23 },
-        { 5, 23 },
-        { 7, 23 },
         { 9, 23 },
         { 11, 23 },
         { 13, 23 },
@@ -193,10 +190,10 @@ function _CreateObjects()
         { 19, 23 },
         { 21, 23 },
         { 23, 23 },
+        { 25, 23 },
+        { 27, 23 },
+        { 29, 23 },
         -- lower border
-        { 3, 43 },
-        { 5, 43 },
-        { 7, 43 },
         { 9, 43 },
         { 11, 43 },
         { 13, 43 },
@@ -205,26 +202,29 @@ function _CreateObjects()
         { 19, 43 },
         { 21, 43 },
         { 23, 43 },
+        { 25, 43 },
+        { 27, 43 },
+        { 29, 43 },
         -- left
-        { 2, 25 },
-        { 2, 27 },
-        { 2, 29 },
-        { 2, 31 },
-        { 2, 33 },
-        { 2, 35 },
-        { 2, 37 },
-        { 2, 39 },
-        { 2, 41 },
+        { 8, 25 },
+        { 8, 27 },
+        { 8, 29 },
+        { 8, 31 },
+        { 8, 33 },
+        { 8, 35 },
+        { 8, 37 },
+        { 8, 39 },
+        { 8, 41 },
         -- right
-        { 24, 25 },
-        { 24, 27 },
-        { 24, 29 },
-        { 24, 31 },
-        { 24, 33 },
-        { 24, 35 },
-        { 24, 37 },
-        { 24, 39 },
-        { 24, 41 },
+        { 30, 25 },
+        { 30, 27 },
+        { 30, 29 },
+        { 30, 31 },
+        { 30, 33 },
+        { 30, 35 },
+        { 30, 37 },
+        { 30, 39 },
+        { 30, 41 },
     }
 
     -- Loads the spikes according to the array
@@ -238,9 +238,6 @@ function _CreateObjects()
     -- Creates the other spikes
     local spike_objects2 = {
         -- from top-left
-        { 4, 25 },
-        { 6, 25 },
-        { 8, 25 },
         { 10, 25 },
         { 12, 25 },
         { 14, 25 },
@@ -248,41 +245,44 @@ function _CreateObjects()
         { 18, 25 },
         { 20, 25 },
         { 22, 25 },
-        { 22, 27 },
-        { 22, 29 },
-        { 22, 31 },
-        { 22, 33 },
-        { 22, 35 },
-        { 22, 37 },
+        { 24, 25 },
+        { 26, 25 },
+        { 28, 25 },
+        { 28, 27 },
+        { 28, 29 },
+        { 28, 31 },
+        { 28, 33 },
+        { 28, 35 },
+        { 28, 37 },
+        { 28, 39 },
+        { 26, 39 },
+        { 24, 39 },
         { 22, 39 },
         { 20, 39 },
         { 18, 39 },
         { 16, 39 },
         { 14, 39 },
         { 12, 39 },
-        { 10, 39 },
-        { 8, 39 },
-        { 6, 39 },
-        { 6, 37 },
-        { 6, 35 },
-        { 6, 33 },
-        { 6, 31 },
-        { 6, 29 },
-        { 8, 29 },
-        { 10, 29 },
+        { 12, 37 },
+        { 12, 35 },
+        { 12, 33 },
+        { 12, 31 },
         { 12, 29 },
         { 14, 29 },
         { 16, 29 },
         { 18, 29 },
-        { 18, 31 },
-        { 18, 33 },
+        { 20, 29 },
+        { 22, 29 },
+        { 24, 29 },
+        { 24, 31 },
+        { 24, 33 },
+        { 24, 35 },
+        { 22, 35 },
+        { 20, 35 },
         { 18, 35 },
         { 16, 35 },
-        { 14, 35 },
-        { 12, 35 },
-        { 10, 35 },
-        { 10, 33 },
-        { 12, 33 },
+        { 16, 33 },
+        { 18, 33 },
     }
 
     -- Loads the other spikes according to the array
@@ -297,6 +297,9 @@ function _CreateObjects()
 
     local spike_objects3 = {
         -- from bottom-right
+        { 28, 41 },
+        { 26, 41 },
+        { 24, 41 },
         { 22, 41 },
         { 20, 41 },
         { 18, 41 },
@@ -304,44 +307,41 @@ function _CreateObjects()
         { 14, 41 },
         { 12, 41 },
         { 10, 41 },
-        { 8, 41 },
-        { 6, 41 },
-        { 4, 41 },
-        { 4, 39 },
-        { 4, 37 },
-        { 4, 35 },
-        { 4, 33 },
-        { 4, 31 },
-        { 4, 29 },
-        { 4, 27 },
-        { 6, 27 },
-        { 8, 27 },
+        { 10, 39 },
+        { 10, 37 },
+        { 10, 35 },
+        { 10, 33 },
+        { 10, 31 },
+        { 10, 29 },
         { 10, 27 },
         { 12, 27 },
         { 14, 27 },
         { 16, 27 },
         { 18, 27 },
         { 20, 27 },
-        { 20, 29 },
-        { 20, 31 },
-        { 20, 33 },
-        { 20, 35 },
+        { 22, 27 },
+        { 24, 27 },
+        { 26, 27 },
+        { 26, 29 },
+        { 26, 31 },
+        { 26, 33 },
+        { 26, 35 },
+        { 26, 37 },
+        { 24, 37 },
+        { 22, 37 },
         { 20, 37 },
         { 18, 37 },
         { 16, 37 },
         { 14, 37 },
-        { 12, 37 },
-        { 10, 37 },
-        { 8, 37 },
-        { 8, 35 },
-        { 8, 33 },
-        { 8, 31 },
-        { 10, 31 },
-        { 12, 31 },
+        { 14, 35 },
+        { 14, 33 },
         { 14, 31 },
         { 16, 31 },
-        { 16, 33 },
-        { 14, 33 },
+        { 18, 31 },
+        { 20, 31 },
+        { 22, 31 },
+        { 22, 33 },
+        { 20, 33 },
     }
 
     -- Loads the other spikes according to the array
@@ -355,7 +355,7 @@ function _CreateObjects()
     end
 
     -- Mini-boss
-    mini_boss = CreateObject(Map, "Dorver1", 27, 10);
+    mini_boss = CreateObject(Map, "Dorver1", 33, 10);
     Map:AddGroundObject(mini_boss);
     if (GlobalManager:GetEventValue("story", "mt_elbrus_shrine_trap_boss_done") == 1) then
         mini_boss:SetPosition(0, 0);
@@ -369,7 +369,7 @@ function _CreateObjects()
                              "img/sprites/map/triggers/stone_trigger1_on.lua",
                              "", "Enigma map open event");
     object:SetObjectID(Map.object_supervisor:GenerateObjectID());
-    object:SetPosition(20, 10);
+    object:SetPosition(26, 10);
     Map:AddFlatGroundObject(object);
 
 end
@@ -448,7 +448,7 @@ function _CreateEnemies()
     local roam_zone = {};
 
     -- Hint: left, right, top, bottom
-    roam_zone = vt_map.EnemyZone(32, 46, 12, 32);
+    roam_zone = vt_map.EnemyZone(38, 52, 12, 32);
 
     enemy = CreateEnemySprite(Map, "Skeleton");
     _SetBattleEnvironment(enemy);
@@ -472,18 +472,18 @@ local mini_boss_zone = {};
 function _CreateZones()
 
     -- N.B.: left, right, top, bottom
-    to_shrine_se_zone = vt_map.CameraZone(42, 46, 49, 51);
+    to_shrine_se_zone = vt_map.CameraZone(48, 52, 49, 51);
     Map:AddZone(to_shrine_se_zone);
-    to_shrine_sw_zone = vt_map.CameraZone(8, 12, 70, 72);
+    to_shrine_sw_zone = vt_map.CameraZone(14, 18, 70, 72);
     Map:AddZone(to_shrine_sw_zone);
-    to_stairs_zone = vt_map.CameraZone(5, 7, 5, 7);
+    to_stairs_zone = vt_map.CameraZone(11, 13, 5, 7);
     Map:AddZone(to_stairs_zone);
 
-    trap_zone = vt_map.CameraZone(0, 26, 25, 39);
-    trap_zone:AddSection(21, 26, 20, 25);
+    trap_zone = vt_map.CameraZone(6, 32, 25, 39);
+    trap_zone:AddSection(27, 32, 20, 25);
     Map:AddZone(trap_zone);
 
-    mini_boss_zone = vt_map.CameraZone(30, 32, 5, 10);
+    mini_boss_zone = vt_map.CameraZone(36, 38, 5, 10);
     Map:AddZone(mini_boss_zone);
 end
 
@@ -699,7 +699,7 @@ end
 
 -- Stone variables
 local stone_direction1 = vt_map.MapMode.EAST;
-local stone_fall_x_pos = 28;
+local stone_fall_x_pos = 34;
 local stone_fall_y_pos = 14;
 local stone_fall_hit_ground = false;
 local stone_x_force = 0.0150;
@@ -715,7 +715,7 @@ local hero_is_dead = false;
 map_functions = {
     stone_falls_event_start = function()
         Map:PushState(vt_map.MapMode.STATE_SCENE);
-        stone_fall_x_pos = 28;
+        stone_fall_x_pos = 34;
         stone_fall_y_pos = 34;
         stone_fall_hit_ground = false;
         AudioManager:PlaySound("snd/stone_roll.wav");
@@ -728,11 +728,11 @@ map_functions = {
         local update_time = SystemManager:GetUpdateTime();
         -- change the movement speed according to whether the stone is rolling
         -- or falling
-        if (stone_fall_x_pos > 24.0 and stone_fall_x_pos < 25.0) then
+        if (stone_fall_x_pos > 30.0 and stone_fall_x_pos < 31.0) then
             stone_fall_y_pos = stone_fall_y_pos + 0.015 * update_time
         end
         -- Play a sound when it is hitting the ground
-        if (stone_fall_hit_ground == false and stone_fall_x_pos < 24.0) then
+        if (stone_fall_hit_ground == false and stone_fall_x_pos < 30.0) then
             stone_fall_hit_ground = true;
             AudioManager:PlaySound("snd/heavy_bump.wav");
             Effects:ShakeScreen(0.6, 600, vt_mode_manager.EffectSupervisor.SHAKE_FALLOFF_GRADUAL);

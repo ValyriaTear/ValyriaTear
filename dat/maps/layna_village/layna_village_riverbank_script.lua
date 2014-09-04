@@ -142,7 +142,7 @@ function _CreateObjects()
     -- Add hill treasure chest
     local hill_chest = CreateTreasure(Map, "riverbank_secret_hill_chest", "Wood_Chest1", 72, 5);
     if (hill_chest ~= nil) then
-        hill_chest:AddObject(1, 1);
+        hill_chest:AddObject(1, 3); -- 3 small potions
         Map:AddGroundObject(hill_chest);
     end
 
@@ -240,6 +240,9 @@ function _CreateEvents()
 
     event = vt_map.MapTransitionEvent("to secret path entrance", "dat/maps/layna_village/layna_village_center_map.lua",
                                        "dat/maps/layna_village/layna_village_center_script.lua", "from_secret_path");
+    EventManager:RegisterEvent(event);
+
+    event = vt_map.ScriptedEvent("Orlinn laughs", "orlinn_laughs", "");
     EventManager:RegisterEvent(event);
 
     -- Quest events - Hide and seek 2
@@ -392,6 +395,7 @@ function _CreateEvents()
 
     event = vt_map.TreasureEvent("Quest1: Hide and Seek3: Orlinn gives the pen to Bronann");
     event:AddObject(70001, 1); -- The ink key item
+    event:SetDrunes(50); -- The reward for running after Orlinn for so long.
     event:AddEventLinkAtEnd("Quest1: Hide and Seek3: Orlinn is going away for real");
     event:AddEventLinkAtEnd("Quest1: Hide and Seek3: Lilly tells Bronann a bit about Kalya", 2000);
     EventManager:RegisterEvent(event);
@@ -622,7 +626,7 @@ function _SetOrlinnState()
         return;
     elseif (GlobalManager:DoesEventExist("layna_riverbank", "quest1_orlinn_hide_n_seek2_done") == true) then
         orlinn:SetPosition(74, 44);
-    orlinn:SetDirection(vt_map.MapMode.WEST);
+        orlinn:SetDirection(vt_map.MapMode.WEST);
 
         -- Final hide and seek dialogue
         dialogue = vt_map.SpriteDialogue();
@@ -637,11 +641,11 @@ function _SetOrlinnState()
         -- Orlinn is on the cliff and is mocking Bronann.
         dialogue = vt_map.SpriteDialogue();
         text = vt_system.Translate("Hee hee hee!");
-        dialogue:AddLine(text, orlinn_dialogue_npc);
+        dialogue:AddLineEvent(text, orlinn_dialogue_npc, "Orlinn laughs", "");
         text = vt_system.Translate("Orlinn, how did you get there?");
         dialogue:AddLine(text, bronann);
         text = vt_system.Translate("(giggle) I won't tell you!");
-        dialogue:AddLine(text, orlinn_dialogue_npc);
+        dialogue:AddLineEvent(text, orlinn_dialogue_npc, "Orlinn laughs", "");
         DialogueManager:AddDialogue(dialogue);
         orlinn_dialogue_npc:AddDialogueReference(dialogue);
         return;
@@ -663,6 +667,10 @@ map_functions = {
             sprite:SetVisible(false);
             sprite:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
         end
+    end,
+
+    orlinn_laughs = function()
+        orlinn:SetCustomAnimation("laughing", 1000);
     end,
 
     Prepare_orlinn_kalya_scene = function()

@@ -61,15 +61,13 @@ const uint8 SAVE_MODE_NO_VALID_SAVES  = 6;
 //@}
 
 SaveMode::SaveMode(bool save_mode, uint32 x_position, uint32 y_position) :
-    GameMode(),
+    GameMode(MODE_MANAGER_SAVE_MODE),
     _current_state(SAVE_MODE_LOADING),
     _dim_color(0.35f, 0.35f, 0.35f, 1.0f), // A grayish opaque color
     _x_position(x_position),
     _y_position(y_position),
     _save_mode(save_mode)
 {
-    mode_type = MODE_MANAGER_SAVE_MODE;
-
     _window.Create(600.0f, 500.0f);
     _window.SetPosition(212.0f, 138.0f);
     _window.Hide();
@@ -248,8 +246,11 @@ void SaveMode::Update()
     _file_list.Update();
     _confirm_save_optionbox.Update();
 
+    GlobalMedia& media = GlobalManager->Media();
+
     // Otherwise, it's time to start handling events.
     if(InputManager->ConfirmPress()) {
+        media.PlaySound("confirm");
         switch(_current_state) {
         case SAVE_MODE_SAVING:
             if(_file_list.GetSelection() > -1) {
@@ -302,6 +303,7 @@ void SaveMode::Update()
     } // end if (InputManager->ConfirmPress())
 
     else if(InputManager->CancelPress()) {
+        media.PlaySound("cancel");
         switch(_current_state) {
         default:
         case SAVE_MODE_NO_VALID_SAVES:
@@ -319,6 +321,7 @@ void SaveMode::Update()
     } // end if (InputManager->CancelPress())
 
     else if(InputManager->UpPress()) {
+        media.PlaySound("bump");
         switch(_current_state) {
         case SAVE_MODE_SAVING:
         case SAVE_MODE_LOADING:
@@ -337,6 +340,7 @@ void SaveMode::Update()
     } // end if (InputManager->UpPress())
 
     else if(InputManager->DownPress()) {
+        media.PlaySound("bump");
         switch(_current_state) {
         case SAVE_MODE_SAVING:
         case SAVE_MODE_LOADING:
@@ -429,7 +433,7 @@ bool SaveMode::_LoadGame(uint32 id)
 
     if(DoesFileExist(filename)) {
         _current_state = SAVE_MODE_FADING_OUT;
-        AudioManager->StopAllMusic();
+        AudioManager->StopActiveMusic();
 
         GlobalManager->LoadGame(filename, id);
 

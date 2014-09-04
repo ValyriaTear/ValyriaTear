@@ -34,6 +34,20 @@ class StillImage;
 namespace vt_global
 {
 
+//! \brief The different item categories
+//! \TODO Merge this back with the other item categories...
+enum ITEM_CATEGORY {
+    ITEM_ALL = 0,
+    ITEM_ITEM = 1,
+    ITEM_WEAPON = 2,
+    ITEM_HEAD_ARMOR = 3,
+    ITEM_TORSO_ARMOR = 4,
+    ITEM_ARMS_ARMOR = 5,
+    ITEM_LEGS_ARMOR = 6,
+    ITEM_KEY = 7,
+    ITEM_CATEGORY_SIZE = 8
+};
+
 class GlobalObject;
 
 namespace private_global
@@ -476,6 +490,9 @@ public:
     std::vector<vt_video::StillImage>* GetAllItemCategoryIcons() {
         return &_all_category_icons;
     }
+    std::vector<vt_video::StillImage>* GetAllSmallItemCategoryIcons() {
+        return &_small_category_icons;
+    }
 
     /** \brief Retrieves the category icon image that represents the specified object type
     *** \param object_type The type of the global object to retrieve the icon for
@@ -483,6 +500,13 @@ public:
     *** \note GLOBAL_OBJECT_TOTAL will return the icon for "all wares"
     **/
     vt_video::StillImage* GetItemCategoryIcon(GLOBAL_OBJECT object_type);
+
+    /** \brief Retrieves the category icon image that represents the specified object type
+    *** \param object_type The type of the global object to retrieve the icon for
+    *** \return A pointer to the image holding the category's icon. NULL if the argument was invalid.
+    *** \note GLOBAL_OBJECT_TOTAL will return the icon for "all wares"
+    **/
+    vt_video::StillImage* GetSmallItemCategoryIcon(ITEM_CATEGORY object_category);
 
     /** \brief Retrieves a specific elemental icon with the proper type and intensity
     *** \param element_type The type of element the user is trying to retrieve the icon for
@@ -498,14 +522,17 @@ public:
     **/
     vt_video::StillImage* GetStatusIcon(GLOBAL_STATUS status_type, GLOBAL_INTENSITY intensity);
 
-    /** \brief Plays a sound object previoulsy loaded
+    /** \brief Plays a sound object previously loaded
     *** \param identifier The string identifier for the sound to play
     **/
-    void PlaySound(const std::string &identifier);
+    void PlaySound(const std::string& identifier);
 
 private:
     //! \brief Retains icon images for all possible object categories, including "all wares"
     std::vector<vt_video::StillImage> _all_category_icons;
+
+    //! \brief Category icons - in a smaller size for the party menu.
+    std::vector<vt_video::StillImage> _small_category_icons;
 
     //! \brief Image icon representing drunes (currency)
     vt_video::StillImage _drunes_icon;

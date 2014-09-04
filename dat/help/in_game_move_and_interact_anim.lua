@@ -65,7 +65,7 @@ function Initialize(map_instance)
                                   vt_video.TextStyle("text22"));
 
     game_title_text = Script:CreateText(vt_system.Translate("Game commands:"), vt_video.TextStyle("text22"));
-    pause_text = Script:CreateText(vt_system.VTranslate("Pause Menu: %s", vt_system.Translate(InputManager:GetPauseKeyName())),
+    pause_text = Script:CreateText(vt_system.VTranslate("Pause: %s", vt_system.Translate(InputManager:GetPauseKeyName())),
                  vt_video.TextStyle("text22"))
     quit_text = Script:CreateText(vt_system.VTranslate("Quit Menu: %s", vt_system.Translate(InputManager:GetQuitKeyName())),
                 vt_video.TextStyle("text22"));

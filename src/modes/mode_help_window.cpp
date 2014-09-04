@@ -228,7 +228,7 @@ void HelpWindow::_RefreshText()
     _key_table.SetCursorState(VIDEO_CURSOR_STATE_HIDDEN);
 
     _key_table.AddOption(UTranslate("Up"));
-    _key_table.AddOption(UTranslate(vt_input::InputManager->GetDownKeyName()));
+    _key_table.AddOption(UTranslate(vt_input::InputManager->GetUpKeyName()));
     _key_table.AddOption(UTranslate("Move position or cursor upwards"));
     _key_table.AddOption(UTranslate("Down"));
     _key_table.AddOption(UTranslate(vt_input::InputManager->GetDownKeyName()));

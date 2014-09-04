@@ -134,8 +134,9 @@ function _CreateCharacters()
         kalya:SetVisible(true);
         kalya:SetDirection(vt_map.MapMode.EAST);
 
-        -- The menu is disabled now.
+        -- The menu and status effects are disabled for now.
         Map:SetMenuEnabled(false);
+        Map:SetStatusEffectsEnabled(false);
     end
 end
 
@@ -301,6 +302,7 @@ function _add_waterfall(x, y)
     Map:AddGroundObject(object);
     -- Ambient sound
     object = vt_map.SoundObject("snd/fountain_large.ogg", x, y - 5, 50.0);
+    object:SetMaxVolume(0.6);
     Map:AddAmbientSoundObject(object)
     -- Particle effects
     object = vt_map.ParticleObject("dat/effects/particles/waterfall_steam.lua", x, y - 15.0);
@@ -415,7 +417,7 @@ function _CreateEvents()
     dialogue:AddLineEvent(text, orlinn, "Orlinn looks at Kalya", "");
     text = vt_system.Translate("Orlinn, you sure have grown up because of all this. Are you sure?");
     dialogue:AddLineEventEmote(text, kalya, "Kalya looks north", "", "sweat drop");
-    text = vt_system.Translate("I need to be ... I guess.");
+    text = vt_system.Translate("I need to ... I guess.");
     dialogue:AddLineEventEmote(text, orlinn, "Orlinn looks north", "", "sweat drop");
     text = vt_system.Translate("Just tell me when you're ready and I'll throw you up here.");
     dialogue:AddLineEvent(text, hero, "Bronann looks at Orlinn", "");
@@ -446,7 +448,7 @@ function _CreateEvents()
     dialogue:AddLineEvent(text, hero, "Bronann looks at Orlinn", "");
     text = vt_system.Translate("Yes, let's go ...");
     dialogue:AddOptionEvent(text, 50, "Orlinn goes closer of the hero"); -- 50 means next line number, past the end of the dialogue
-    text = vt_system.Translate("Err, not already!");
+    text = vt_system.Translate("Err, not yet!");
     dialogue:AddOptionEvent(text, 50, "Not thrown event");
     DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Ready? dialogue", dialogue);
@@ -1081,8 +1083,9 @@ map_functions = {
             hero:SetPosition(0, 0);
             hero:SetVisible(false);
 
-            -- Disable the menu mode.
+            -- Disable the menu mode & status effects.
             Map:SetMenuEnabled(false);
+            Map:SetStatusEffectsEnabled(false);
         end
 
         _UpdatePassageEvent();
@@ -1170,6 +1173,7 @@ map_functions = {
 
         -- Re-enable the menu mode.
         Map:SetMenuEnabled(true);
+        Map:SetStatusEffectsEnabled(true);
 
         -- Reload the hero back to default
         if (main_sprite_name ~= "") then

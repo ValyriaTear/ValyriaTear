@@ -24,6 +24,8 @@
 #include "engine/system.h"
 #include "modes/boot/boot.h"
 
+#include "common/global/global.h"
+
 using namespace vt_utils;
 using namespace vt_audio;
 using namespace vt_video;
@@ -50,7 +52,7 @@ const uint8 QUIT_GAME      = 3;
 //@}
 
 PauseMode::PauseMode(bool quit_state, bool pause_audio) :
-    GameMode(),
+    GameMode(MODE_MANAGER_PAUSE_MODE),
     _quit_state(quit_state),
     _audio_paused(pause_audio),
     _music_volume(1.0f),
@@ -58,8 +60,6 @@ PauseMode::PauseMode(bool quit_state, bool pause_audio) :
     _option_selected(false),
     _options_handler(this)
 {
-    mode_type = MODE_MANAGER_PAUSE_MODE;
-
     // Render the paused string in white text
     _paused_text.SetStyle(TextStyle("title28", Color::white, VIDEO_TEXT_SHADOW_BLACK));
     _paused_text.SetText(UTranslate("Paused"));
@@ -128,10 +128,6 @@ void PauseMode::Reset()
         IF_PRINT_WARNING(PAUSE_DEBUG) << e.ToString() << std::endl;
     }
 
-    _screen_capture.SetWidthKeepRatio(VIDEO_STANDARD_RES_WIDTH);
-
-    VideoManager->SetStandardCoordSys();
-    VideoManager->SetDrawFlags(VIDEO_BLEND, 0);
     VideoManager->DisableFadeEffect();
 }
 
@@ -160,6 +156,8 @@ void PauseMode::Update()
         return;
     }
 
+    vt_global::GlobalMedia& media = vt_global::GlobalManager->Media();
+
     _quit_options.Update();
 
     if(InputManager->QuitPress()) {
@@ -167,6 +165,7 @@ void PauseMode::Update()
         ModeManager->Pop();
         return;
     } else if(InputManager->ConfirmPress()) {
+        media.PlaySound("confirm");
         _option_selected = true;
         switch(_quit_options.GetSelection()) {
         case QUIT_CANCEL:
@@ -178,7 +177,7 @@ void PauseMode::Update()
             ModeManager->PopAll();
 
             // This will permit the fade system to start updating again.
-            mode_type = MODE_MANAGER_DUMMY_MODE;
+            _mode_type = MODE_MANAGER_DUMMY_MODE;
 
             ModeManager->Push(new BootMode(), true, true);
             break;
@@ -195,24 +194,30 @@ void PauseMode::Update()
         }
         return;
     } else if(InputManager->CancelPress()) {
+        media.PlaySound("cancel");
         _option_selected = true;
         ModeManager->Pop();
         return;
     } else if(InputManager->UpPress()) {
+        media.PlaySound("bump");
         _quit_options.InputUp();
     } else if(InputManager->DownPress()) {
+        media.PlaySound("bump");
         _quit_options.InputDown();
     }
 } // void PauseMode::Update()
 
 void PauseMode::DrawPostEffects()
 {
-    // Set the coordinate system for the background and draw
-    VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_BOTTOM, 0);
-    VideoManager->Move(0.0f, VIDEO_STANDARD_RES_HEIGHT);
+    // Draw the background image. Set the system coordinates to the size of the window (same as the screen backdrop)
+    VideoManager->SetCoordSys(0.0f, static_cast<float>(VideoManager->GetViewportWidth()),
+                              static_cast<float>(VideoManager->GetViewportHeight()), 0.0f);
+    VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_TOP, VIDEO_BLEND, 0);
+    VideoManager->Move(0.0f, 0.0f);
     _screen_capture.Draw(_dim_color);
 
-    VideoManager->SetDrawFlags(VIDEO_X_CENTER, VIDEO_Y_CENTER, 0);
+    VideoManager->SetStandardCoordSys();
+    VideoManager->SetDrawFlags(VIDEO_X_CENTER, VIDEO_Y_CENTER, VIDEO_BLEND, 0);
     VideoManager->Move(512.0f, 384.0f);
 
     if(!_quit_state) {

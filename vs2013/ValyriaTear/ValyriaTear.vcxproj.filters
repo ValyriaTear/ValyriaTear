@@ -185,9 +185,6 @@
     <ClCompile Include="..\..\src\modes\battle\battle_finish.cpp">
       <Filter>modes\battle</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\modes\battle\battle_indicators.cpp">
-      <Filter>modes\battle</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\modes\battle\battle_sequence.cpp">
       <Filter>modes\battle</Filter>
     </ClCompile>
@@ -195,9 +192,6 @@
       <Filter>modes\battle</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\modes\boot\boot.cpp">
-      <Filter>modes\boot</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\modes\boot\boot_menu.cpp">
       <Filter>modes\boot</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\modes\map\map_dialogue.cpp">
@@ -286,6 +280,18 @@
     </ClCompile>
     <ClCompile Include="..\..\src\utils\utils_pch.cpp">
       <Filter>utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\common\message_window.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\common\options_handler.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\engine\indicator_supervisor.cpp">
+      <Filter>engine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\modes\map\map_status_effects.cpp">
+      <Filter>modes\map</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -443,9 +449,6 @@
     <ClInclude Include="..\..\src\modes\battle\battle_finish.h">
       <Filter>modes\battle</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\modes\battle\battle_indicators.h">
-      <Filter>modes\battle</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\src\modes\battle\battle_sequence.h">
       <Filter>modes\battle</Filter>
     </ClInclude>
@@ -453,9 +456,6 @@
       <Filter>modes\battle</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\modes\boot\boot.h">
-      <Filter>modes\boot</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\modes\boot\boot_menu.h">
       <Filter>modes\boot</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\modes\map\map_dialogue.h">
@@ -544,6 +544,18 @@
     </ClInclude>
     <ClInclude Include="..\..\src\utils\utils_pch.h">
       <Filter>utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\common\message_window.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\common\options_handler.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\engine\indicator_supervisor.h">
+      <Filter>engine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\modes\map\map_status_effects.h">
+      <Filter>modes\map</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

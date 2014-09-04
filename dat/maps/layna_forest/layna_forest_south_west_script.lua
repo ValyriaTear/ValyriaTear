@@ -608,7 +608,7 @@ function _CreateEnemies()
     _SetBattleEnvironment(enemy);
     enemy:NewEnemyParty();
     enemy:AddEnemy(1);
-    enemy:AddEnemy(1);
+    enemy:AddEnemy(2);
     enemy:AddEnemy(1);
     enemy:NewEnemyParty();
     enemy:AddEnemy(2);

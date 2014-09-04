@@ -59,7 +59,7 @@ MapMode *MapMode::_current_instance = NULL;
 // ****************************************************************************
 
 MapMode::MapMode(const std::string& data_filename, const std::string& script_filename, uint32 stamina) :
-    GameMode(),
+    GameMode(MODE_MANAGER_MAP_MODE),
     _activated(false),
     _map_data_filename(data_filename),
     _map_script_filename(script_filename),
@@ -83,9 +83,9 @@ MapMode::MapMode(const std::string& data_filename, const std::string& script_fil
     _minimap(NULL),
     _show_minimap(false),
     _menu_enabled(true),
-    _save_points_enabled(true)
+    _save_points_enabled(true),
+    _status_effects_enabled(true)
 {
-    mode_type = MODE_MANAGER_MAP_MODE;
     _current_instance = this;
 
     ResetState();
@@ -181,6 +181,9 @@ void MapMode::Deactivate()
     // This way, they'll properly be taken in account in the menu mode or battle mode.
     _status_effect_supervisor.SaveActiveStatusEffects();
 
+    // Stop ambient sounds
+    _object_supervisor->StopSoundObjects();
+
     _activated = false;
 }
 
@@ -203,6 +206,9 @@ void MapMode::Reset()
                           _map_image.GetFilename(), _map_hud_name.GetString());
 
     _ResetMusicState();
+
+    // Restart ambient sounds
+    _object_supervisor->RestartSoundObjects();
 
     _intro_timer.Run();
 
@@ -763,7 +769,9 @@ void MapMode::_UpdateExplore()
     }
 
     // Only update the status effect supervisor in Exploration mode
-    _status_effect_supervisor.UpdateEffects();
+    // and if they are allowed.
+    if (_status_effects_enabled)
+        _status_effect_supervisor.UpdateEffects();
 
     // Update the running state of the camera object. Check if the character is running and if so,
     // update the stamina value if the operation is permitted

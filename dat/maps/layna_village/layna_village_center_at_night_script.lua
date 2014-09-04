@@ -291,7 +291,7 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
 
     dialogue = vt_map.SpriteDialogue();
-    text = vt_system.Translate("Weird, I can see no lights in there... I have a bad feeling about this, lets get back home...");
+    text = vt_system.Translate("Weird, I can see no lights in there... I have a bad feeling about this, let's get back home...");
     dialogue:AddLine(text, bronann);
     DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Bronann should go home when checking other houses", dialogue);
@@ -616,7 +616,7 @@ map_functions = {
         soldier4:SetDirection(vt_map.MapMode.SOUTH);
 
         -- Fade out the music
-        AudioManager:FadeOutAllMusic(2000);
+        AudioManager:FadeOutActiveMusic(2000);
     end,
 
     set_camera_on_kalya = function()

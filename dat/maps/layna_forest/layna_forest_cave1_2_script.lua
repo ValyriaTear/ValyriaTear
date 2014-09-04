@@ -336,7 +336,7 @@ function _CreateEvents()
     dialogue:AddLineEvent(text, kalya_sprite, "Kalya looks at Bronann", "");
     text = vt_system.Translate("Your family? Long ago? ...");
     dialogue:AddLineEmote(text, hero, "interrogation");
-    text = vt_system.Translate("Err... Nevermind that, we must find a way to make this move. Let's look around.");
+    text = vt_system.Translate("Err... Nevermind, we must find a way to make this move. Let's look around.");
     dialogue:AddLineEmote(text, kalya_sprite, "exclamation");
     DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Kalya tells there is an exit behind the rock", dialogue);

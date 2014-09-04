@@ -280,7 +280,7 @@ skills[10008] = {
 
 skills[10009] = {
     name = vt_system.Translate("Terrify"),
-    description = vt_system.Translate("Makes a normal enemy leave."),
+    description = vt_system.Translate("Makes a normal enemy potentially leave."),
     --icon = "img/icons/magic/leader_call.png",
     sp_required = 12,
     warmup_time = 3000,
@@ -919,7 +919,7 @@ skills[10130] = {
 
 skills[10131] = {
     name = vt_system.Translate("Wind Circle"),
-    description = vt_system.Translate("Increases the Air elemental defense on an ally."),
+    description = vt_system.Translate("Increases the Air elemental defense on a character."),
     icon = "img/icons/magic/wind_circle.png",
     sp_required = 7,
     warmup_time = 4000,
@@ -1136,7 +1136,7 @@ skills[10144] = {
 
 skills[10150] = {
     name = vt_system.Translate("Death"),
-    description = vt_system.Translate("Death tries and take an enemy with it."),
+    description = vt_system.Translate("Death tries to take an enemy with it."),
     icon = "img/icons/magic/death.png",
     sp_required = 7,
     warmup_time = 4000,
@@ -1194,7 +1194,7 @@ skills[10152] = {
 
 skills[10153] = {
     name = vt_system.Translate("Magical Reflection"),
-    description = vt_system.Translate("Makes the next enemy spell targeting the ally be cast upon itself."),
+    description = vt_system.Translate("Makes the next enemy spell cast back upon the attacker."),
     --icon = "img/icons/magic/fireball.png",
     sp_required = 7,
     warmup_time = 4000,

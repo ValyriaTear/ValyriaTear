@@ -131,6 +131,10 @@ void BindModeCode()
             .def("SetMenuEnabled", &MapMode::SetMenuEnabled)
             .def("AreSavePointsEnabled", &MapMode::AreSavePointsEnabled)
             .def("SetSavePointsEnabled", &MapMode::SetSavePointsEnabled)
+            .def("AreStatusEffectsEnabled", &MapMode::AreStatusEffectsEnabled)
+            .def("SetStatusEffectsEnabled", &MapMode::SetStatusEffectsEnabled)
+            .def("ChangeActiveStatusEffect", &MapMode::ChangeActiveStatusEffect)
+            .def("GetActiveStatusEffectIntensity", &MapMode::GetActiveStatusEffectIntensity)
 
             // Namespace constants
             .enum_("constants") [
@@ -252,6 +256,7 @@ void BindModeCode()
             .def("Stop", &SoundObject::Stop)
             .def("Start", &SoundObject::Start)
             .def("IsActive", &SoundObject::IsActive)
+            .def("SetMaxVolume", &SoundObject::SetMaxVolume)
         ];
 
         luabind::module(vt_script::ScriptManager->GetGlobalState(), "vt_map")

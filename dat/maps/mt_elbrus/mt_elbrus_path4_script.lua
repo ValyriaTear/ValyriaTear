@@ -352,7 +352,7 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
 
     dialogue = vt_map.SpriteDialogue();
-    text = vt_system.Translate("Here!");
+    text = vt_system.Translate("There!");
     dialogue:AddLine(text, soldier1);
     text = vt_system.Translate("Huh?");
     dialogue:AddLineEventEmote(text, hero, "Bronann looks south", "", "exclamation");

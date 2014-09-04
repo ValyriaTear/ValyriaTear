@@ -38,19 +38,6 @@ class MenuMode;
 namespace private_menu
 {
 
-//! \brief The different item categories
-enum ITEM_CATEGORY {
-    ITEM_ALL = 0,
-    ITEM_ITEM = 1,
-    ITEM_WEAPON = 2,
-    ITEM_HEAD_ARMOR = 3,
-    ITEM_TORSO_ARMOR = 4,
-    ITEM_ARMS_ARMOR = 5,
-    ITEM_LEGS_ARMOR = 6,
-    ITEM_KEY = 7,
-    ITEM_CATEGORY_SIZE = 8
-};
-
 //! \brief The different skill types
 enum SKILL_CATEGORY {
     SKILL_ALL = 0,
@@ -231,7 +218,7 @@ private:
     std::vector< vt_global::GlobalObject * > _item_objects;
 
     //! holds previous category. we were looking at
-    ITEM_CATEGORY _previous_category;
+    vt_global::ITEM_CATEGORY _previous_category;
 
     //! The currently selected object
     vt_global::GlobalObject* _object;

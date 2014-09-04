@@ -91,11 +91,13 @@ void AbstractMenuState::Update()
     // handle left / right option box movement
     else if(InputManager->LeftPress())
     {
+        media.PlaySound("bump");
         _options.InputLeft();
         return;
     }
     else if(InputManager->RightPress())
     {
+        media.PlaySound("bump");
         _options.InputRight();
         return;
     }
@@ -146,7 +148,6 @@ void AbstractMenuState::Update()
 
 void AbstractMenuState::Draw()
 {
-    static const Color grayed(0.35f, 0.35f, 0.35f, 1.0f);
     // Draw the saved screen background
     // For that, set the system coordinates to the size of the window (same with the save-screen)
     int32 width = VideoManager->GetViewportWidth();
@@ -719,6 +720,7 @@ const uint32 win_width = 208;
 ////////////////////////////////////////////////////////////////////////////////
 
 MenuMode::MenuMode() :
+    GameMode(MODE_MANAGER_MENU_MODE),
     _main_menu_state(this),
     _inventory_state(this),
     _party_state(this),
@@ -735,8 +737,6 @@ MenuMode::MenuMode() :
 
 {
     _current_instance = this;
-
-    mode_type = MODE_MANAGER_MENU_MODE;
 
     // Init the controls parameters.
     _time_text.SetTextStyle(TextStyle("text22"));

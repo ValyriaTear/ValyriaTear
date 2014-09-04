@@ -407,6 +407,10 @@ function _CreateEvents()
     event = vt_map.DialogueEvent("Dialogue about the passage to Estoria", dialogue);
     event:AddEventLinkAtEnd("Kalya runs to the blocked passage");
     event:AddEventLinkAtEnd("Bronann looks north");
+    event:AddEventLinkAtEnd("Move camera to the obstructed passage");
+    EventManager:RegisterEvent(event);
+
+    event = vt_map.ScriptedEvent("Move camera to the obstructed passage", "camera_to_passage", "");
     EventManager:RegisterEvent(event);
 
     event = vt_map.PathMoveSpriteEvent("Kalya runs to the blocked passage", kalya, 27, 34, true);
@@ -424,8 +428,12 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("Bronann goes near both");
     EventManager:RegisterEvent(event);
 
+    event = vt_map.ScriptedEvent("Move camera back to hero", "camera_to_hero", "");
+    EventManager:RegisterEvent(event);
+
     event = vt_map.PathMoveSpriteEvent("Bronann goes near both", hero, 28, 36, false);
     event:AddEventLinkAtEnd("Bronann looks north");
+    event:AddEventLinkAtEnd("Move camera back to hero");
     event:AddEventLinkAtEnd("Dialogue about the passage to Estoria 3");
     EventManager:RegisterEvent(event);
 
@@ -637,7 +645,7 @@ function _CreateEvents()
     dialogue:AddLine(text, sophia);
     text = vt_system.Translate("When I saw you leaving the village to the sanctuary, I decided to follow you.");
     dialogue:AddLineEvent(text, sophia, "Sophia looks west", "Sophia looks north");
-    text = vt_system.Translate("But the time I reached the area, you three were gone... And I had to found out where you were heading.");
+    text = vt_system.Translate("But by the time I reached the area, you three were gone... And I had to find out where you were heading.");
     dialogue:AddLine(text, sophia);
     text = vt_system.Translate("But the bridge, how did you cross?");
     dialogue:AddLineEmote(text, kalya, "thinking dots");
@@ -683,7 +691,7 @@ function _CreateEvents()
     dialogue:AddLineEventEmote(text, kalya, "Orlinn looks at Kalya", "Orlinn looks south", "thinking dots");
     text = vt_system.Translate("Thanks anyway, Sophia.");
     dialogue:AddLine(text, hero);
-    text = vt_system.Translate("You're welcome, my Dear!");
+    text = vt_system.Translate("You're welcome, my dear!");
     dialogue:AddLine(text, sophia);
 
     DialogueManager:AddDialogue(dialogue);
@@ -849,6 +857,15 @@ map_functions = {
         orlinn_move_next_to_hero_event1:SetDestination(hero:GetXPosition() - 2.0, hero:GetYPosition(), false);
     end,
 
+    camera_to_passage = function()
+        Map:MoveVirtualFocus(15, 30);
+        Map:SetCamera(ObjectManager.virtual_focus, 1000);
+    end,
+
+    camera_to_hero = function()
+        Map:SetCamera(hero, 2000);
+    end,
+
     shrine_entrance_event_end = function()
         Map:PopState();
         kalya:SetPosition(0, 0);
@@ -986,7 +1003,7 @@ map_functions = {
     end,
 
     fade_out_music = function()
-        AudioManager:FadeOutAllMusic(300);
+        AudioManager:FadeOutActiveMusic(300);
     end,
 
     play_funny_music = function()

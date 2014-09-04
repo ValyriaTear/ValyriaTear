@@ -329,6 +329,7 @@ private:
     void _RedefineMenuJoy();
     void _RedefineMinimapJoy();
     void _RedefinePauseJoy();
+    void _RedefineHelpJoy();
     void _RedefineQuitJoy();
     //@}
 
@@ -345,6 +346,7 @@ private:
     void _SetMenuJoy(uint8 button);
     void _SetMinimapJoy(uint8 button);
     void _SetPauseJoy(uint8 button);
+    void _SetHelpJoy(uint8 button);
     void _SetQuitJoy(uint8 button);
     //@}
 };

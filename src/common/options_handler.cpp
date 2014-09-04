@@ -189,7 +189,6 @@ void GameOptionsMenuHandler::Update()
 
     // On first app run, show the language menu and apply language on any key press.
     if (_first_run && _active_menu == &_language_options_menu) {
-        SDL_Event ev = InputManager->GetMostRecentEvent();
         _active_menu->Update();
         if (InputManager->UpPress()) {
             _active_menu->InputUp();
@@ -200,7 +199,8 @@ void GameOptionsMenuHandler::Update()
         else if (InputManager->LeftPress() || InputManager->RightPress()) {
             // Do nothing in this case
         }
-        else if ((InputManager->AnyKeyPress() && ev.type == SDL_KEYDOWN)
+        else if (InputManager->AnyKeyboardKeyPress()
+                || InputManager->AnyJoystickKeyPress()
                 || InputManager->ConfirmPress()) {
             // Set the language
             _active_menu->InputConfirm();
@@ -224,9 +224,8 @@ void GameOptionsMenuHandler::Update()
         return;
 
     // Check for waiting keypresses or joystick button presses
-    SDL_Event ev = InputManager->GetMostRecentEvent();
     if(_joy_setting_function != NULL) {
-        if(InputManager->AnyKeyPress() && ev.type == SDL_JOYBUTTONDOWN) {
+        if(InputManager->AnyJoystickKeyPress()) {
             (this->*_joy_setting_function)(InputManager->GetMostRecentEvent().jbutton.button);
             _joy_setting_function = NULL;
             _has_modified_settings = true;
@@ -257,7 +256,7 @@ void GameOptionsMenuHandler::Update()
     }
 
     if(_key_setting_function != NULL) {
-        if(InputManager->AnyKeyPress() && ev.type == SDL_KEYDOWN) {
+        if(InputManager->AnyKeyboardKeyPress()) {
             (this->*_key_setting_function)(InputManager->GetMostRecentEvent().key.keysym.sym);
             _key_setting_function = NULL;
             _has_modified_settings = true;
@@ -285,12 +284,16 @@ void GameOptionsMenuHandler::Update()
         _active_menu->InputConfirm();
 
     } else if(InputManager->LeftPress()) {
+        GlobalManager->Media().PlaySound("bump");
         _active_menu->InputLeft();
     } else if(InputManager->RightPress()) {
+        GlobalManager->Media().PlaySound("bump");
         _active_menu->InputRight();
     } else if(InputManager->UpPress()) {
+        GlobalManager->Media().PlaySound("bump");
         _active_menu->InputUp();
     } else if(InputManager->DownPress()) {
+        GlobalManager->Media().PlaySound("bump");
         _active_menu->InputDown();
     } else if(InputManager->CancelPress() || InputManager->QuitPress()) {
         if(_active_menu == &_options_menu) {
@@ -367,6 +370,11 @@ void GameOptionsMenuHandler::_SetupOptionsMenu()
     _options_menu.AddOption(UTranslate("Joystick Settings"), this, &GameOptionsMenuHandler::_OnJoySettings);
 
     _options_menu.SetSelection(0);
+
+    // Disable the language menu when not in the boot menu.
+    // Otherwise, the game language changes aren't handled correctly.
+    if (_parent_mode && _parent_mode->GetGameType() != vt_mode_manager::MODE_MANAGER_BOOT_MODE)
+        _options_menu.EnableOption(2, false);
 }
 
 void GameOptionsMenuHandler::_SetupVideoOptionsMenu()
@@ -420,7 +428,7 @@ void GameOptionsMenuHandler::_SetupAudioOptionsMenu()
 
 void GameOptionsMenuHandler::_SetupLanguageOptionsMenu()
 {
-    _language_options_menu.SetPosition(442.0f, 468.0f);
+    _language_options_menu.SetPosition(402.0f, 468.0f);
     _language_options_menu.SetTextStyle(TextStyle("title22"));
     _language_options_menu.SetAlignment(VIDEO_X_LEFT, VIDEO_Y_CENTER);
     _language_options_menu.SetOptionAlignment(VIDEO_X_LEFT, VIDEO_Y_CENTER);
@@ -461,7 +469,7 @@ void GameOptionsMenuHandler::_SetupJoySettingsMenu()
 {
     _joy_settings_menu.ClearOptions();
     _joy_settings_menu.SetPosition(512.0f, 468.0f);
-    _joy_settings_menu.SetDimensions(250.0f, 500.0f, 1, 11, 1, 11);
+    _joy_settings_menu.SetDimensions(250.0f, 500.0f, 1, 12, 1, 12);
     _joy_settings_menu.SetTextStyle(TextStyle("title20"));
     _joy_settings_menu.SetTextStyle(TextStyle("title22"));
     _joy_settings_menu.SetAlignment(VIDEO_X_CENTER, VIDEO_Y_CENTER);
@@ -485,6 +493,7 @@ void GameOptionsMenuHandler::_SetupJoySettingsMenu()
     _joy_settings_menu.AddOption(dummy, this, &GameOptionsMenuHandler::_RedefineMenuJoy);
     _joy_settings_menu.AddOption(dummy, this, &GameOptionsMenuHandler::_RedefineMinimapJoy);
     _joy_settings_menu.AddOption(dummy, this, &GameOptionsMenuHandler::_RedefinePauseJoy);
+    _joy_settings_menu.AddOption(dummy, this, &GameOptionsMenuHandler::_RedefineHelpJoy);
     _joy_settings_menu.AddOption(dummy, this, &GameOptionsMenuHandler::_RedefineQuitJoy);
 
     _joy_settings_menu.AddOption(UTranslate("Restore defaults"), this, &GameOptionsMenuHandler::_OnRestoreDefaultJoyButtons);
@@ -579,7 +588,7 @@ void GameOptionsMenuHandler::_RefreshLanguageOptions()
 
     // Set up the dimensions of the window according to how many languages are available.
     _language_options_menu.ClearOptions();
-    _language_options_menu.SetDimensions(300.0f, 200.0f, 1, table_size, 1, (table_size > 8 ? 8 : table_size));
+    _language_options_menu.SetDimensions(300.0f, 500.0f, 1, table_size, 1, (table_size > 12 ? 12 : table_size));
 
     // Used to warn about missing po files, but only once at start.
     static bool warnAboutMissingFiles = true;
@@ -669,6 +678,7 @@ void GameOptionsMenuHandler::_RefreshJoySettings()
     _joy_settings_menu.SetOptionText(i++, UTranslate("Menu: Button") + MakeUnicodeString("<r>" + NumberToString(InputManager->GetMenuJoy())));
     _joy_settings_menu.SetOptionText(i++, UTranslate("Map: Button") + MakeUnicodeString("<r>" + NumberToString(InputManager->GetMinimapJoy())));
     _joy_settings_menu.SetOptionText(i++, UTranslate("Pause: Button") + MakeUnicodeString("<r>" + NumberToString(InputManager->GetPauseJoy())));
+    _joy_settings_menu.SetOptionText(i++, UTranslate("Help: Button") + MakeUnicodeString("<r>" + NumberToString(InputManager->GetHelpJoy())));
     _joy_settings_menu.SetOptionText(i++, UTranslate("Quit: Button") + MakeUnicodeString("<r>" + NumberToString(InputManager->GetQuitJoy())));
 }
 
@@ -1027,6 +1037,7 @@ bool GameOptionsMenuHandler::_SaveSettingsFile(const std::string& filename)
     settings_lua.WriteInt("menu", InputManager->GetMenuJoy());
     settings_lua.WriteInt("minimap", InputManager->GetMinimapJoy());
     settings_lua.WriteInt("pause", InputManager->GetPauseJoy());
+    settings_lua.WriteInt("help", InputManager->GetHelpJoy());
     settings_lua.WriteInt("quit", InputManager->GetQuitJoy());
     settings_lua.EndTable(); // joystick_settings
 
@@ -1199,6 +1210,12 @@ void GameOptionsMenuHandler::_RedefinePauseJoy()
     _ShowMessageWindow(true);
 }
 
+void GameOptionsMenuHandler::_RedefineHelpJoy()
+{
+    _joy_setting_function = &GameOptionsMenuHandler::_SetHelpJoy;
+    _ShowMessageWindow(true);
+}
+
 void GameOptionsMenuHandler::_RedefineQuitJoy()
 {
     _joy_setting_function = &GameOptionsMenuHandler::_SetQuitJoy;
@@ -1238,6 +1255,11 @@ void GameOptionsMenuHandler::_SetMinimapJoy(uint8 button)
 void GameOptionsMenuHandler::_SetPauseJoy(uint8 button)
 {
     InputManager->SetPauseJoy(button);
+}
+
+void GameOptionsMenuHandler::_SetHelpJoy(uint8 button)
+{
+    InputManager->SetHelpJoy(button);
 }
 
 void GameOptionsMenuHandler::_SetQuitJoy(uint8 button)

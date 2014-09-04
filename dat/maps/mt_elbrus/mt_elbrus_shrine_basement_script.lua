@@ -296,9 +296,9 @@ function _CreateEvents()
     dialogue = vt_map.SpriteDialogue();
     text = vt_system.Translate("You shall not leave this place without my consent.");
     dialogue:AddLine(text, andromalius);
-    text = vt_system.Translate("And you shall not touch by brother without mine...");
+    text = vt_system.Translate("And you shall not touch my brother without mine...");
     dialogue:AddLineEmote(text, kalya, "exclamation");
-    text = vt_system.Translate("You have been proven guilty in trying to get through the Holy ordeal without dying. I shall not let you live...");
+    text = vt_system.Translate("You have got through the Holy Ordeal without dying. I shall not let you live...");
     dialogue:AddLine(text, andromalius);
     text = vt_system.Translate("Let's fight for our lives then!");
     dialogue:AddLineEmote(text, bronann, "exclamation");

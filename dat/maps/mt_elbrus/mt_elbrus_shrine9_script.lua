@@ -342,7 +342,7 @@ map_functions = {
         falling_hole_wall:SetVisible(true)
         AudioManager:PlaySound("snd/heavy_bump.wav");
         Map:GetEffectSupervisor():ShakeScreen(3.0, 1000, vt_mode_manager.EffectSupervisor.SHAKE_FALLOFF_SUDDEN);
-        AudioManager:FadeOutAllMusic(400);
+        AudioManager:FadeOutActiveMusic(400);
     end,
 
     heroes_wonder = function()

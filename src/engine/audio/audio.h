@@ -132,22 +132,22 @@ public:
     //@{
     void PauseAudio() {
         PauseAllSounds();
-        PauseAllMusic();
+        PauseActiveMusic();
     }
 
     void ResumeAudio() {
         ResumeAllSounds();
-        ResumeAllMusic();
+        ResumeActiveMusic();
     }
 
     void StopAudio() {
         StopAllSounds();
-        StopAllMusic();
+        StopActiveMusic();
     }
 
     void RewindAudio() {
         RewindAllSounds();
-        RewindAllMusic();
+        RewindActiveMusic();
     }
     //@}
 
@@ -168,10 +168,10 @@ public:
     *** the MusicDescriptor which currently has posession of the source.
     **/
     //@{
-    void PauseAllMusic();
-    void ResumeAllMusic();
-    void StopAllMusic();
-    void RewindAllMusic();
+    void PauseActiveMusic();
+    void ResumeActiveMusic();
+    void StopActiveMusic();
+    void RewindActiveMusic();
     //@}
 
     /** \name Three Dimensional Audio Properties Functions
@@ -202,8 +202,8 @@ public:
     /** \brief Fades in or out every audio entry of the given type.
     *** \param time the time in ms to fade in/out.
     **/
-    void FadeOutAllMusic(float time = 1000.0f);
-    void FadeInAllMusic(float time = 1000.0f);
+    void FadeOutActiveMusic(float time = 1000.0f);
+    void FadeInActiveMusic(float time = 1000.0f);
     void FadeOutAllSounds(float time = 1000.0f);
     //@}
 

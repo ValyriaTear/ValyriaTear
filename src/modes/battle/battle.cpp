@@ -203,6 +203,7 @@ const float DEFAULT_ENEMY_LOCATIONS[][2] = {
 const uint32 NUM_DEFAULT_LOCATIONS = 8;
 
 BattleMode::BattleMode() :
+    GameMode(MODE_MANAGER_BATTLE_MODE),
     _state(BATTLE_STATE_INVALID),
     _sequence_supervisor(NULL),
     _command_supervisor(NULL),
@@ -219,8 +220,6 @@ BattleMode::BattleMode() :
     _is_boss_battle(false)
 {
     _current_instance = this;
-
-    mode_type = MODE_MANAGER_BATTLE_MODE;
 
     _sequence_supervisor = new SequenceSupervisor(this);
     _command_supervisor = new CommandSupervisor();
@@ -402,24 +401,28 @@ void BattleMode::Update()
         // the command supervisor.
 
         if(InputManager->UpPress()) {
+            GlobalManager->Media().PlaySound("bump");
             if(_character_actors.size() >= 1) {   // Should always evaluate to true
                 character_selection = _character_actors[0];
             }
         }
 
         else if(InputManager->DownPress()) {
+            GlobalManager->Media().PlaySound("bump");
             if(_character_actors.size() >= 2) {
                 character_selection = _character_actors[1];
             }
         }
 
         else if(InputManager->LeftPress()) {
+            GlobalManager->Media().PlaySound("bump");
             if(_character_actors.size() >= 3) {
                 character_selection = _character_actors[2];
             }
         }
 
         else if(InputManager->RightPress()) {
+            GlobalManager->Media().PlaySound("bump");
             if(_character_actors.size() >= 4) {
                 character_selection = _character_actors[3];
             }
@@ -556,6 +559,11 @@ void BattleMode::AddEnemy(uint32 new_enemy_id, float position_x, float position_
 
     _enemy_actors.push_back(new_battle_enemy);
     _enemy_party.push_back(new_battle_enemy);
+
+    // Sort the enemies based on their Y location.
+    // The player will then be able to target them in that order
+    // which is much more straight-forward.
+    std::sort(_enemy_party.begin(), _enemy_party.end(), CompareObjectsYCoord);
 
     if (GetState() == BATTLE_STATE_INVALID) {
         // When the enemy is added before the battle has begun, we can store it
@@ -764,6 +772,11 @@ void BattleMode::_Initialize()
         BattleCharacter *new_actor = new BattleCharacter(active_party->GetCharacterAtIndex(i));
         _character_actors.push_back(new_actor);
         _character_party.push_back(new_actor);
+
+    // Sort the characters based on their Y location.
+    // The player will then be able to target them in that order
+    // which is much more straight-forward.
+    std::sort(_character_party.begin(), _character_party.end(), CompareObjectsYCoord);
 
         // Check whether the character is alive
         if(new_actor->GetHitPoints() == 0)
@@ -1251,7 +1264,7 @@ void TransitionToBattleMode::Reset()
     _transition_timer.Run();
 
     // Stop the map music
-    AudioManager->StopAllMusic();
+    AudioManager->StopActiveMusic();
 
     // Play a random encounter sound
     if (_is_boss) {

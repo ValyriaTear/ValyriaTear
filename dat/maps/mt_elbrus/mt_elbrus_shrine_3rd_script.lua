@@ -81,8 +81,9 @@ function _CreateCharacters()
     orlinn:SetMovementSpeed(vt_map.MapMode.FAST_SPEED);
     Map:AddGroundObject(orlinn);
 
-    -- The menu is disabled in this map
+    -- The menu and status effects are disabled in this map.
     Map:SetMenuEnabled(false);
+    Map:SetStatusEffectsEnabled(false);
 
     andromalius = CreateSprite(Map, "Andromalius", 32.0, 25.0);
     andromalius:SetDirection(vt_map.MapMode.SOUTH);
@@ -136,6 +137,7 @@ function _CreateObjects()
 
     -- Add the corresponding waterfall ambient sound, ready to be started.
     waterfall_sound = vt_map.SoundObject("snd/fountain_large.ogg", 32, 11, 100.0);
+    waterfall_sound:SetMaxVolume(0.6);
     Map:AddAmbientSoundObject(waterfall_sound)
 
     -- Add the rumble sound used at boss end
@@ -887,7 +889,7 @@ function _HurtBoss()
         orlinn:SetMoving(false);
         orlinn:LookAt(andromalius);
         -- Stop the music very quickly.
-        AudioManager:FadeOutAllMusic(400);
+        AudioManager:FadeOutActiveMusic(400);
 
         EventManager:TerminateEvents("Start battle", false);
         EventManager:TerminateEvents("Start spikes", false);
@@ -975,7 +977,7 @@ map_functions = {
         Map:SetCamera(andromalius, 800);
         orlinn:SetDirection(vt_map.MapMode.NORTH);
         -- Fade out the music
-        AudioManager:FadeOutAllMusic(1000);
+        AudioManager:FadeOutActiveMusic(1000);
 
     end,
 

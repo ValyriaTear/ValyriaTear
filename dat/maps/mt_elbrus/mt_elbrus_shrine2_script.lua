@@ -194,6 +194,9 @@ function _CreateObjects()
         _add_bubble(28, 12);
         _add_bubble(32, 18);
         _add_bubble(55, 17);
+
+        -- The poisonous scent
+        Map:GetScriptSupervisor():AddScript("dat/maps/mt_elbrus/mt_elbrus_scent_anim.lua");
     end
 
     -- Add the first parchment
@@ -271,6 +274,7 @@ function _add_very_small_waterfall(x, y)
     Map:AddGroundObject(object);
     -- Ambient sound
     object = vt_map.SoundObject("snd/fountain_large.ogg", x, y - 5, 50.0);
+    object:SetMaxVolume(0.6);
     Map:AddAmbientSoundObject(object)
     -- Particle effects
     object = vt_map.ParticleObject("dat/effects/particles/waterfall_steam.lua", x, y - 4.0);
@@ -446,7 +450,7 @@ function _CreateEvents()
     dialogue:AddLineEmote(text, orlinn, "exclamation");
     text = vt_system.Translate("Wait Orlinn! That's not over...");
     dialogue:AddLineEvent(text, hero, "Kalya looks at Orlinn", "Kalya looks north");
-    text = vt_system.Translate("'... But be warned for the very scent exuding from the dark waters itself is a trap!'");
+    text = vt_system.Translate("'... But be warned, for even the very scent exuding from the dark waters is a trap!'");
     dialogue:AddLine(text, hero);
     text = vt_system.Translate("'The entire Shrine has been turned into a murderous area and you'll have to fight your way through, just as I will now...'");
     dialogue:AddLine(text, hero);

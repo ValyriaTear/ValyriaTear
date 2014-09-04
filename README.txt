@@ -56,13 +56,14 @@ A [Code::Blocks](http://www.codeblocks.org/) project file is also provided when 
 In that case, you might need the dependencies and headers files that can be downloaded here:
 http://sourceforge.net/projects/valyriatear/files/win32-depends/valyriatear-win32-depends-sdl1.2-2012.08.30.zip/download
 
-- **Microsoft Visual C++ 2012 and later:**
+- **Microsoft Visual C++ 2013 and later:**
 
 _**(Warning: not officially supported!)**_
-To build on Windows with Visual Studio 2012, do this:
-1. git clone https://github.com/authenticate/ValyriaTear-VS2012-Dependencies.git
-2. Copy the ValyriaTear-VS2012-Dependencies folder into your Valyria Tear repository.
-3. Open the VS 2012 solution file: .../ValyriaTearRepository/vs2012/ValyriaTear.sln
+Please contact Authenticate for support about this one: https://github.com/authenticate
+To build on Windows with Visual Studio 2013, do this:
+1. git clone https://github.com/authenticate/ValyriaTear-VS2013-Dependencies.git
+2. Copy the ValyriaTear-VS2013-Dependencies folder into your Valyria Tear repository.
+3. Open the VS 2013 solution file: .../ValyriaTearRepository/vs2013/ValyriaTear.sln
 4. Build (F7)
 5. Run (F5)
 
@@ -70,7 +71,7 @@ To build on Windows with Visual Studio 2012, do this:
 
 You will need the following in order to compile and run the game:
 
-- **Boost headers** (Tested from 1.42 to 1.53)
+- **Boost headers** (Tested from 1.42 to 1.55)
 (make sure that the boost headers used to compile Luabind are the same version used to compile Valyria Tear)
 - **GNU Gettext** - (libiconv, libintl)
 - **lua** (5.1.x - 5.2.x) - (liblua)

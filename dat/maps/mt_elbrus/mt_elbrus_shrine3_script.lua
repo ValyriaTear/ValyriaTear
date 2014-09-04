@@ -521,7 +521,7 @@ function _CheckZones()
     elseif (trap_started == false and trap_zone:IsCameraEntering() == true) then
         if (GlobalManager:GetEventValue("story", "mt_shrine_treasure_trap_done") == 0) then
             EventManager:StartEvent("Start trap");
-            AudioManager:FadeOutAllMusic(1500);
+            AudioManager:FadeOutActiveMusic(1500);
             EventManager:StartEvent("Make spike wall go up", 2000);
         end
     end

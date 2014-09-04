@@ -93,8 +93,9 @@ function _CreateCharacters()
         hero:SetPosition(0, 0);
         hero:SetVisible(false);
 
-        -- The menu is disabled now.
+        -- The menu and status effects are disabled now.
         Map:SetMenuEnabled(false);
+        Map:SetStatusEffectsEnabled(false);
     end
 end
 

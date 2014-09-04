@@ -343,7 +343,7 @@ skills[200] = {
 
 skills[201] = {
     name = vt_system.Translate("Poison Slash"),
-    description = vt_system.Translate("A dagger attack, poisoning the enemy"),
+    description = vt_system.Translate("A dagger attack, poisoning the enemy."),
     sp_required = 5,
     warmup_time = 1000,
     cooldown_time = 200,

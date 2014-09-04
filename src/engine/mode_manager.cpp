@@ -48,7 +48,7 @@ GameMode::GameMode()
             << "MODE MANAGER: GameMode constructor invoked" << std::endl;
 
     // The value of this member should later be replaced by the child class
-    mode_type = MODE_MANAGER_DUMMY_MODE;
+    _mode_type = MODE_MANAGER_DUMMY_MODE;
 }
 
 
@@ -56,7 +56,7 @@ GameMode::GameMode(uint8 mt)
 {
     IF_PRINT_WARNING(MODE_MANAGER_DEBUG)
             << "MODE MANAGER: GameMode constructor invoked" << std::endl;
-    mode_type = mt;
+    _mode_type = mt;
 }
 
 
@@ -235,7 +235,7 @@ uint8 ModeEngine::GetGameType()
     if(_game_stack.empty())
         return MODE_MANAGER_DUMMY_MODE;
     else
-        return _game_stack.back()->mode_type;
+        return _game_stack.back()->GetGameType();
 }
 
 
@@ -245,7 +245,7 @@ uint8 ModeEngine::GetGameType(uint32 index)
     if(_game_stack.size() < index)
         return MODE_MANAGER_DUMMY_MODE;
     else
-        return _game_stack.at(_game_stack.size() - index)->mode_type;
+        return _game_stack.at(_game_stack.size() - index)->GetGameType();
 }
 
 
@@ -372,7 +372,7 @@ void ModeEngine::DEBUG_PrintStack()
 
     PRINT_WARNING << "***top of stack***" << std::endl;
     for(int32 i = static_cast<int32>(_game_stack.size()) - 1; i >= 0; i--)
-        PRINT_WARNING << " index: " << i << " type: " << _game_stack[i]->mode_type << std::endl;
+        PRINT_WARNING << " index: " << i << " type: " << _game_stack[i]->GetGameType() << std::endl;
     PRINT_WARNING << "***bottom of stack***" << std::endl;
 }
 

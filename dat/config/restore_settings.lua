@@ -36,6 +36,7 @@ settings_defaults.joystick_defaults.menu = 2
 settings_defaults.joystick_defaults.minimap = 3
 settings_defaults.joystick_defaults.pause = 6
 settings_defaults.joystick_defaults.quit = 7
+settings_defaults.joystick_defaults.help = 8
 
 -- Not supported yet
 settings_defaults.joystick_defaults.index = 0

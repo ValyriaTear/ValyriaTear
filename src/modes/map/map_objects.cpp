@@ -615,6 +615,7 @@ void Light::Draw()
 
 SoundObject::SoundObject(const std::string& sound_filename, float x, float y, float strength):
     MapObject(),
+    _max_sound_volume(1.0f),
     _activated(true)
 {
     MapObject::_object_type = SOUND_TYPE;
@@ -647,10 +648,20 @@ SoundObject::SoundObject(const std::string& sound_filename, float x, float y, fl
     collision_mask = NO_COLLISION;
 }
 
+void SoundObject::SetMaxVolume(float max_volume)
+{
+    _max_sound_volume = max_volume;
+
+    if (_max_sound_volume < 0.0f)
+        _max_sound_volume = 0.0f;
+    else if (_max_sound_volume > 1.0f)
+        _max_sound_volume = 1.0f;
+}
+
 void SoundObject::Update()
 {
     // Don't activate a sound which is too weak to be heard anyway.
-    if (_strength < 1.0f)
+    if (_strength < 1.0f || _max_sound_volume <= 0.0f)
         return;
 
     if (!_activated)
@@ -693,7 +704,7 @@ void SoundObject::Update()
     if (distance >= (strength2 - 0.5f))
         return;
 
-    float volume = 1.0f - (distance / strength2);
+    float volume = _max_sound_volume - (_max_sound_volume * (distance / strength2));
     _sound.SetVolume(volume);
 
     if (!_playing) {
@@ -1816,6 +1827,29 @@ bool ObjectSupervisor::IsStaticCollision(float x, float y)
     }
 
     return false;
+}
+
+void ObjectSupervisor::StopSoundObjects()
+{
+    _sound_objects_to_restart.clear();
+    for (uint32 i = 0; i < _sound_objects.size(); ++i) {
+        vt_audio::SoundDescriptor& sound = _sound_objects[i]->GetSoundDescriptor();
+        if (sound.GetState() == vt_audio::AUDIO_STATE_PLAYING
+                || sound.GetState() == vt_audio::AUDIO_STATE_FADE_IN) {
+            sound.Stop();
+            _sound_objects_to_restart.push_back(_sound_objects[i]);
+        }
+    }
+}
+
+void ObjectSupervisor::RestartSoundObjects()
+{
+    for (uint32 i = 0; i < _sound_objects_to_restart.size(); ++i) {
+        vt_audio::SoundDescriptor& sound = _sound_objects_to_restart[i]->GetSoundDescriptor();
+        if (sound.GetState() == vt_audio::AUDIO_STATE_STOPPED)
+            sound.Play();
+    }
+    _sound_objects_to_restart.clear();
 }
 
 } // namespace private_map

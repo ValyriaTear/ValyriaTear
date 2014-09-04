@@ -639,16 +639,24 @@ function _CreateEvents()
     event = vt_map.ScriptedEvent("Map:PopState()", "Map_PopState", "");
     EventManager:RegisterEvent(event);
 
-    -- Boss fight scene
-    event = vt_map.ScriptedEvent("boss fight scene", "start_boss_fight_scene", "");
-    event:AddEventLinkAtEnd("boss fight pre-dialogue");
+    event = vt_map.ChangeDirectionSpriteEvent("The Hero looks north", hero, vt_map.MapMode.NORTH);
     EventManager:RegisterEvent(event);
 
+    -- Warning dialogue
+    event = vt_map.SoundEvent("Warning dialogue event", "snd/footstep_grass1.wav")
+    event:AddEventLinkAtEnd("Warning dialogue");
+    EventManager:RegisterEvent(event);
+    
     dialogue = vt_map.SpriteDialogue();
     text = vt_system.Translate("What's that?!");
-    dialogue:AddLineEmote(text, hero, "exclamation");
+    dialogue:AddLineEventEmote(text, hero, "The Hero looks north", "", "exclamation");
     DialogueManager:AddDialogue(dialogue);
-    event = vt_map.DialogueEvent("boss fight pre-dialogue", dialogue);
+    event = vt_map.DialogueEvent("Warning dialogue", dialogue);
+    event:SetStopCameraMovement(true);
+    EventManager:RegisterEvent(event);
+
+    -- Boss fight scene
+    event = vt_map.ScriptedEvent("boss fight scene", "start_boss_fight_scene", "");
     event:AddEventLinkAtEnd("hero looks west");
     EventManager:RegisterEvent(event);
 
@@ -681,7 +689,7 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
 
     dialogue = vt_map.SpriteDialogue();
-    text = vt_system.Translate("Woah, that was quite a nasty fight. Why on earth was an arctic north fenrir lurking in the forest? I thought it was merely a part of myths.");
+    text = vt_system.Translate("Woah, that was quite a nasty fight. Why on earth was a north arctic Fenrir lurking in the forest? I thought it was merely a part of myths.");
     dialogue:AddLineEmote(text, hero, "sweat drop");
     text = vt_system.Translate("It ran away... I'm almost certain that we'll meet it again... We'd better be more prepared next time.");
     dialogue:AddLineEmote(text, hero, "thinking dots");
@@ -698,10 +706,11 @@ function _CreateEvents()
 end
 
 -- zones
-local to_forest_NW_zone = {};
-local to_forest_SE_zone = {};
-local music_fade_out_zone = {};
-local boss_fight1_zone = {};
+local to_forest_NW_zone = nil
+local to_forest_SE_zone = nil
+local music_fade_out_zone = nil
+local warning_zone = nil
+local boss_fight1_zone = nil
 
 -- Create the different map zones triggering events
 function _CreateZones()
@@ -716,9 +725,15 @@ function _CreateZones()
     music_fade_out_zone = vt_map.CameraZone(48, 50, 8, 17);
     Map:AddZone(music_fade_out_zone);
 
+    warning_zone = vt_map.CameraZone(91, 93, 4, 18);
+    Map:AddZone(warning_zone);
+
     boss_fight1_zone = vt_map.CameraZone(103, 105, 4, 18);
     Map:AddZone(boss_fight1_zone);
 end
+
+-- A simple boolean permiting to trigger the dialogue only once...
+local warning_dialogue_done = false
 
 -- Check whether the active camera has entered a zone. To be called within Update()
 function _CheckZones()
@@ -731,7 +746,12 @@ function _CheckZones()
     elseif (music_fade_out_zone:IsCameraEntering() == true) then
         -- fade out the music when the first boss fight hasn't been done yet.
         if (GlobalManager:DoesEventExist("story", "layna_forest_boss_fight1") == false) then
-            AudioManager:FadeOutAllMusic(2000);
+            AudioManager:FadeOutActiveMusic(2000);
+        end
+    elseif (warning_zone:IsCameraEntering() == true) then
+        if (warning_dialogue_done == false) then
+            warning_dialogue_done = true;
+            EventManager:StartEvent("Warning dialogue event");
         end
     elseif (boss_fight1_zone:IsCameraEntering() == true) then
         -- fade out the music when the first boss fight hasn't been done yet.
@@ -782,6 +802,6 @@ map_functions = {
     end,
 
     restart_music = function()
-        AudioManager:FadeInAllMusic(2000);
+        AudioManager:FadeInActiveMusic(2000);
     end
 }

@@ -1412,6 +1412,11 @@ void EnemySprite::_HandleHostileUpdate()
             _use_path = false;
         }
 
+        // Check whether we're already colliding, so that even when not moving
+        // we can start a battle.
+        if (this->IsCollidingWith(camera))
+            _StartEnemyEncounter(this);
+
         // Make the monster go toward the character
         if(xdelta > -0.5 && xdelta < 0.5 && ydelta < 0)
             SetDirection(SOUTH);

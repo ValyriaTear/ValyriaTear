@@ -527,7 +527,7 @@ map_functions = {
     end,
 
     Audio_FadeOutMusic = function()
-        AudioManager:FadeOutAllMusic(2000);
+        AudioManager:FadeOutActiveMusic(2000);
     end,
 
     MakeInvisible = function(sprite)

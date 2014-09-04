@@ -17,6 +17,7 @@ local credit_alpha = 1.0;
 
 local dark_overlay = {};
 local overlay_time = 0;
+local Map = nil
 
 function Initialize(map_instance)
     Map = map_instance;
@@ -220,7 +221,7 @@ function Initialize(map_instance)
                     text_color = vt_video.Color(1.0, 1.0, 1.0, 1.0),
                 },
                 [3] = {
-                    text = Script:CreateText("Sunburn (OGA)\n\nBlarumyrran (OGA)\n\nrichtaur (OGA)\n\nLamoot (OGA\n\nXenodora (OGA)\n\nThe Mana World (TMW)\n\nYuuki (TMW)\n\nFotherJ (TMW)\n\nPhilipp H. Poll\n\nTempest in the Aether\n\nUnknown Horizons",
+                    text = Script:CreateText("Sunburn (OGA)\n\nBlarumyrran (OGA)\n\nrichtaur (OGA)\n\nLamoot (OGA)\n\nXenodora (OGA)\n\nThe Mana World (TMW)\n\nYuuki (TMW)\n\nFotherJ (TMW)\n\nPhilipp H. Poll\n\nTempest in the Aether\n\nUnknown Horizons",
                                              vt_video.TextStyle("text20")),
                     text_position_x = 732.0,
                     text_position_y = 300.0,
@@ -373,14 +374,14 @@ function Initialize(map_instance)
                     text_color = vt_video.Color(1.0, 1.0, 1.0, 1.0),
                 },
                 [2] = {
-                    text = Script:CreateText("lendrick (freesound)\n\nSpandau (freesound)\n\nTheGertz (freesound)\n\nEcrivain(OGA)\n\nBrandon Morris (OGA)\n\nIndependent.nu (OGA)",
+                    text = Script:CreateText("lendrick (freesound)\n\nSpandau (freesound)\n\nTheGertz (freesound)\n\nEcrivain (OGA)\n\nBrandon Morris (OGA)\n\nIndependent.nu (OGA)",
                                              vt_video.TextStyle("text20")),
                     text_position_x = 512.0,
                     text_position_y = 300.0,
                     text_color = vt_video.Color(1.0, 1.0, 1.0, 1.0),
                 },
                 [3] = {
-                    text = Script:CreateText("DoKashiteru (OGA)\n\nNick Bowler (OGA)\n\nkddekadenz (OGA)\n\nremaxim (OGA)\n\nj1987\n\nOveMelaa (OGA)\n\nMacro (OGA)",
+                    text = Script:CreateText("DoKashiteru (OGA)\n\nNick Bowler (OGA)\n\nkddekadenz (OGA)\n\nremaxim (OGA)\n\nj1987\n\nOveMelaa (OGA)\n\nMacro (OGA)\n\nJute (OGA)",
                                              vt_video.TextStyle("text20")),
                     text_position_x = 712.0,
                     text_position_y = 300.0,
@@ -418,7 +419,7 @@ function Initialize(map_instance)
                     text_color = vt_video.Color(0.7, 0.7, 0.7, 1.0),
                 },
                 [3] = {
-                    text = Script:CreateText("hasufell\n\nakien-Mageia\n\nAapoRantalainen\n\nptitSeb\n\nEric Anholt", vt_video.TextStyle("text24")),
+                    text = Script:CreateText("hasufell\n\nAkien\n\nAapoRantalainen\n\nptitSeb\n\nEric Anholt", vt_video.TextStyle("text24")),
                     text_position_x = 612.0,
                     text_position_y = 300.0,
                     text_color = vt_video.Color(1.0, 1.0, 1.0, 1.0),
@@ -449,13 +450,13 @@ function Initialize(map_instance)
                     text_color = vt_video.Color(1.0, 0.8, 0.7, 1.0),
                 },
                 [1] = {
-                    text = Script:CreateText("Gallaecio, mmstick, Astralchaos, Ibara, ...\n\nBertram\n\nGallaecio\n\nNaN\n\nBioHazardX\n\nKnitter\n\ndimproject\n\njahalic", vt_video.TextStyle("text24")),
+                    text = Script:CreateText("Gallaecio, mmstick, Astralchaos, Ibara, ...\n\nWillemS\n\nBertram\n\nGallaecio\n\nNaN\n\nBioHazardX\n\nKnitter\n\ndimproject\n\njahalic", vt_video.TextStyle("text24")),
                     text_position_x = 512.0,
                     text_position_y = 300.0,
                     text_color = vt_video.Color(1.0, 1.0, 1.0, 1.0),
                 },
                 [2] = {
-                    text = Script:CreateText(vt_system.Translate("English text review\n\nFrench (fr)\n\nGallician (gl)\n\nGerman (de)\n\nItalian (it)\n\nPortuguese (pt_PT)\n\nRussian (ru)\n\nSpanish (es)"), vt_video.TextStyle("text24")),
+                    text = Script:CreateText(vt_system.Translate("English text review\n\nDutch (nl_NL)\n\nFrench (fr)\n\nGalician (gl)\n\nGerman (de)\n\nItalian (it)\n\nPortuguese (pt_PT)\n\nRussian (ru)\n\nSpanish (es)"), vt_video.TextStyle("text24")),
                     text_position_x = 642.0,
                     text_position_y = 324.0,
                     text_color = vt_video.Color(0.7, 0.7, 0.7, 1.0),
@@ -960,8 +961,11 @@ function Update()
         return;
     end
 
-    -- Stop once the credits have finished.
+    -- Stop once the credits have finished and return to the boot screen...
     if (credit_map[credit_id] == nil) then
+        local BM = vt_boot.BootMode();
+        ModeManager:PopAll();
+        ModeManager:Push(BM, false, true);
         return;
     end
 
@@ -974,7 +978,7 @@ function Update()
     end
 
     -- Start the timer
-    if (credit_time > 7000) then
+    if (credit_time > 10000) then
         credit_time = 0
 
         credit_id = credit_id + 1;
@@ -1004,10 +1008,10 @@ function Update()
     if (credit_time >= 0
             and credit_time <= 1000) then
         credit_alpha = credit_time / 1000;
-    elseif (credit_time > 6000
-            and credit_time <= 7000) then
-        credit_alpha = 1.0 - (credit_time - 6000) / (7000 - 6000);
-    elseif (credit_time > 7000) then
+    elseif (credit_time > 9000
+            and credit_time <= 10000) then
+        credit_alpha = 1.0 - (credit_time - 9000) / (10000 - 9000);
+    elseif (credit_time > 10000) then
         credit_alpha = 0.0;
     end
 

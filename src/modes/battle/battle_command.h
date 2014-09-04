@@ -86,15 +86,6 @@ public:
         _last_item = item;
     }
 
-    //! \note Only valid types for target parameter are GLOBAL_TARGET_SELF_POINT and GLOBAL_TARGET_SELF
-    void SetLastSelfTarget(BattleTarget &target);
-
-    //! \note Only valid types for target parameter are GLOBAL_TARGET_ALLY_POINT and GLOBAL_TARGET_ALLY
-    void SetLastCharacterTarget(BattleTarget &target);
-
-    //! \note Only valid types for target parameter are GLOBAL_TARGET_FOE_POINT and GLOBAL_TARGET_FOE
-    void SetLastEnemyTarget(BattleTarget &target);
-
     BattleCharacter *GetCharacter() const {
         return _character;
     }
