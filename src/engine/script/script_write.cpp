@@ -1,5 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
-//            Copyright (C) 2004-2010 by The Allacrost Project
+//            Copyright (C) 2004-2011 by The Allacrost Project
+//            Copyright (C) 2012-2014 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -10,20 +11,19 @@
 /** ****************************************************************************
 *** \file    script_write.cpp
 *** \author  Daniel Steuernol - steu@allacrost.org,
-***          Tyler Olsen - roots@allacrost.org
+*** \author  Tyler Olsen - roots@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Source file for the WriteScriptDescriptor class.
 *** ***************************************************************************/
 
-#include <fstream>
-
-#include "utils.h"
-
-#include "script.h"
+#include "utils/utils_pch.h"
 #include "script_write.h"
 
-using namespace hoa_utils;
+#include "script.h"
 
-namespace hoa_script
+using namespace vt_utils;
+
+namespace vt_script
 {
 
 WriteScriptDescriptor::~WriteScriptDescriptor()
@@ -66,7 +66,7 @@ bool WriteScriptDescriptor::OpenFile(const std::string &file_name)
     }
 
     _outfile.open(file_name.c_str());
-    if(!_outfile) {
+    if(!_outfile.is_open()) {
         PRINT_ERROR << "SCRIPT ERROR: WriteScriptDescriptor::OpenFile() failed to open the file "
                     << file_name << " for writing." << std::endl;
         _access_mode = SCRIPT_CLOSED;
@@ -469,4 +469,4 @@ void WriteScriptDescriptor::_WriteTablePath()
     }
 }
 
-} // namespace hoa_script
+} // namespace vt_script

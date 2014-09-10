@@ -13,13 +13,13 @@
 # include <boost/mpl/next.hpp>
 # include <boost/mpl/size.hpp>
 
-namespace luabind {
+namespace luabind { namespace adl {
 
 class object;
 class argument;
 template <class Base>
 struct table;
-
+    }
 } // namespace luabind
 
 namespace luabind { namespace detail {

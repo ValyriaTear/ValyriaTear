@@ -1,5 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
-//            Copyright (C) 2004-2010 by The Allacrost Project
+//            Copyright (C) 2004-2011 by The Allacrost Project
+//            Copyright (C) 2012-2014 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -10,6 +11,7 @@
 /** ****************************************************************************
 *** \file    textbox.h
 *** \author  Raj Sharma, roos@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Header file for TextBox class
 ***
 *** The TextBox class is a GUI control which lets you define a rectangular area
@@ -23,15 +25,16 @@
 #include "gui.h"
 #include "engine/system.h"
 #include "engine/video/text.h"
+#include "engine/video/screen_rect.h"
 
-namespace hoa_gui
+namespace vt_gui
 {
+
+//! \brief The default speed at which the text will appear, for non-instant text, in character/second.
+const float DEFAULT_MESSAGE_SPEED = 45.0f;
 
 namespace private_gui
 {
-
-//! \brief The unicode version of the newline character, used for string parsing
-const uint16 NEWLINE_CHARACTER = static_cast<uint16>('\n');
 
 //! \brief Assume this many characters per line of text when calculating display speed for textboxes
 const uint32 CHARS_PER_LINE = 30;
@@ -59,10 +62,8 @@ enum TEXT_DISPLAY_MODE {
 
 /** ****************************************************************************
 *** \brief Class for representing an invisible box for rendering text to.
-*** Although the video engine has an easy-to-use DrawText() function, for any
-*** non-trivial text display, the TextBox class must be used. This class provides
-*** a few things which aren't handled by DrawText(), namely word wrapping, and
-*** "gradual display", such as drawing one character at a time or fading each line
+*** This class provides word wrapping, and "gradual display",
+*** such as drawing one character at a time or fading each line
 *** of text in individually.
 ***
 *** \note The alignment flags affect the textbox as a whole, but not the actual text
@@ -77,7 +78,8 @@ public:
 
     TextBox(float x, float y, float width, float height, const TEXT_DISPLAY_MODE &mode = VIDEO_TEXT_INSTANT);
 
-    ~TextBox();
+    ~TextBox()
+    {}
 
     //! \brief Removes all text from the text box
     void ClearText();
@@ -86,7 +88,7 @@ public:
     *** \param frame_time The amount of milliseconds that have transpired since the last frame.
     *** This must be called every frame in order to update the gradual display of text.
     **/
-    void Update(uint32 frame_time = hoa_system::SystemManager->GetUpdateTime());
+    void Update(uint32 frame_time = vt_system::SystemManager->GetUpdateTime());
 
     /** \brief Renders the textbox to the screen back buffer.
     *** Note that the rendering is not affected by any draw flags or coordinate system settings,.
@@ -119,7 +121,7 @@ public:
     /** \brief Sets the text style to use for this textbox.
     *** \param style The style intended \see #TextStyle
     **/
-    void SetTextStyle(const hoa_video::TextStyle &style);
+    void SetTextStyle(const vt_video::TextStyle &style);
 
     /** \brief Sets the current text display mode (e.g. fading lines of text, etc.)
     *** \param mode The display mode to use for the text.
@@ -143,7 +145,7 @@ public:
     *** new lines where appropriate. If the text is so big that it can't fit even with word
     *** wrapping, an error is printed to the console if debugging is enabled.
     **/
-    void SetDisplayText(const hoa_utils::ustring &text);
+    void SetDisplayText(const vt_utils::ustring &text);
 
     /** \brief A non-unicode version of SetDisplayText().
     *** \param text The text to be set in the box (a standard non-unicode string).
@@ -163,7 +165,7 @@ public:
     /** \brief  Gets the current text style for this textbox
     *** \return The current text style.
     **/
-    const hoa_video::TextStyle &GetTextStyle() {
+    const vt_video::TextStyle &GetTextStyle() {
         return _text_style;
     }
 
@@ -178,8 +180,8 @@ public:
     }
 
     //! \brief Returns the text currently being displayed by the textbox.
-    void GetText(std::vector<hoa_utils::ustring>& text) const {
-        text = _text;
+    vt_utils::ustring GetText() const {
+        return (_mode == VIDEO_TEXT_INSTANT) ? _text_image.GetString() : _text_save;
     }
 
     /** \brief Returns true if this textbox is finished with its gradual display of text
@@ -192,23 +194,8 @@ public:
 
     //! \brief Returns true if this text box contains no text empty.
     bool IsEmpty() const {
-        return _text.empty();
+        return (_mode == VIDEO_TEXT_INSTANT) ? _text_image.GetString().empty() : _text.empty();
     }
-
-    /** \brief Checks all class members to see if all members have been set to valid values.
-    *** \param errors A reference to a string to be filled if any errors are found.
-    *** \return True if object is initialized, or false if it is not.
-    *** This is used to make sure that the text box's settings are valid before doing any
-    *** drawing or update operations. If it detects any problems, it generates a string of errors
-    *** and returns it by reference so they can be displayed.
-    **/
-    bool IsInitialized(std::string &errors);
-
-    /** \brief Returns the height of the text when it's rendered with the current font
-    *** \return The height of text rendered in current font
-    *** \note This is a low-level function so it doesn't check if the current font is valid or not
-    **/
-    int32 CalculateTextHeight();
 
 private:
     //! \brief The display speed of the text, in characters per second.
@@ -230,58 +217,55 @@ private:
     uint32 _end_time;
 
     //! \brief The rendered image of the text stored in the text box
-    hoa_video::TextImage _text_image;
+    vt_video::TextImage _text_image;
 
     //! \brief The text style for this textbox
-    hoa_video::TextStyle _text_style;
-
-    //! \brief A pointer to the structure containing properties of the current font such as its height, etc.
-    hoa_video::FontProperties *_font_properties;
+    vt_video::TextStyle _text_style;
 
     //! \brief The display mode for the text (one character at a time, fading in, instant, etc.).
     TEXT_DISPLAY_MODE _mode;
 
     //! \brief An array of wide strings, one for each line of text.
-    std::vector<hoa_utils::ustring> _text;
+    std::vector<vt_utils::ustring> _text;
 
     //! \brief The unedited text for reformatting
-    hoa_utils::ustring _text_save;
+    vt_utils::ustring _text_save;
 
-    /** \brief Returns true if the given unicode character can be interrupted for a word wrap.
-    *** \param character The character you wish to check.
-    *** \return True if character can be wrapped, false if it can not.
-    *** For example in English, you can do a word wrap wherever there is a space (code 0x20).
-    *** Other languages might have space characters corresponding to other unicode values.
-    **/
-    bool _IsBreakableChar(uint16 character);
-
-    /** \brief Adds a new line of text to the _text vector.
-    *** \param line The unicode text string to add as a new line
-    *** If the line is too long to fit in the width of the textbox, it will automatically
-    *** be split into multiple lines through word wrapping.
-    **/
-    void _AddLine(const hoa_utils::ustring &line);
+    //! \brief Cache data for textbox drawing
+    //! Recomputed in ReformatText()
+    // The textBox text scissoring screen rectangle.
+    vt_video::ScreenRect _scissor_rect;
+    // Holds the height of the text to be drawn
+    float _text_height;
+    // Holds the actual x and y position where the text should be drawn
+    float _text_xpos;
+    float _text_ypos;
 
     /** \brief Draws the textbox text, taking the display mode into account.
     *** \param text_x The x value to use, depending on the alignment.
     *** \param text_y The y value to use, depending on the alignment.
     *** \param scissor_rect The scissor rectangle used for this textbox.
     **/
-    void _DrawTextLines(float text_x, float text_y, hoa_video::ScreenRect scissor_rect);
+    void _DrawTextLines(float text_x, float text_y, vt_video::ScreenRect scissor_rect);
 
     /** \brief Reformats text for size/font.
     **/
     void _ReformatText();
 
+    /** \brief Returns the height of the text when it's rendered with the current font
+    *** \return The height of text rendered in current font
+    *** \note This is a low-level function so it doesn't check if the current font is valid or not
+    **/
+    float _CalculateTextHeight();
+
     /** \brief Draws an outline of the element boundaries
-    *** \param text_ypos The y position corresponding to the top of the first line of text
     *** \note This function also draws an outline for each line of text in addition to the textbox
     *** as a whole.
     **/
-    void _DEBUG_DrawOutline(float text_ypos);
+    void _DEBUG_DrawOutline();
 
 }; // class TextBox : public GUIControl
 
-} // namespace hoa_gui
+} // namespace vt_gui
 
 #endif  // __TEXTBOX_HEADER__

@@ -20,10 +20,11 @@
 -- {description}: A brief description about the armor.
 -- {icon}: The filepath to the image icon representing this armor.
 -- {physical_defense}: The amount of physical defense that the armor provides.
--- {metaphysical_defense}: The amount of metaphysical defense that the armor casues.
+-- {magical_defense}: The amount of magical defense that the armor casues.
 -- {standard_price}: The standard asking price of this armor from merchants.
 -- {usable_by}: A list of characters which may equip this armor,
 -- {slots}: The number of slots available to equip shards on the armor.
+-- {key_item}: Tells whether the item is a key item, preventing it from being consumed or sold.
 ------------------------------------------------------------------------------]]
 
 -- All armor definitions are stored in this table
@@ -37,55 +38,55 @@ end
 -- -----------------------------------------------------------------------------
 
 armor[40001] = {
-	name = hoa_system.Translate("Prismatic ring"),
-	description = hoa_system.Translate("A strange ring that protects the wearer from darkness."),
+	name = vt_system.Translate("Prismatic ring"),
+	description = vt_system.Translate("A strange ring that protects the wearer from darkness."),
 	icon = "img/icons/armor/jewelry_ring_prismatic.png",
 	physical_defense = 4,
-	metaphysical_defense = 3,
+	magical_defense = 3,
 	standard_price = 180,
 	usable_by = BRONANN + KALYA + THANIS + SYLVE,
 	slots = 0
 }
 
 armor[40011] = {
-	name = hoa_system.Translate("Wooden Shield"),
-	description = hoa_system.Translate("Robust wooden oak protects from all but the heaviest of assaults."),
+	name = vt_system.Translate("Wooden Shield"),
+	description = vt_system.Translate("Robust wooden oak protects from all but the heaviest of assaults."),
 	icon = "img/icons/armor/wooden_shield.png",
 	physical_defense = 2,
-	metaphysical_defense = 0,
+	magical_defense = 0,
 	standard_price = 90,
 	usable_by = BRONANN + KALYA + THANIS + SYLVE,
 	slots = 0
 }
 
 armor[40012] = {
-	name = hoa_system.Translate("Metal Shield"),
-	description = hoa_system.Translate("A shield formed completely out of a light-weight but cheap metallic alloy."),
+	name = vt_system.Translate("Metal Shield"),
+	description = vt_system.Translate("A shield formed completely out of a light-weight but cheap metallic alloy."),
 	icon = "img/icons/armor/metal_shield.png",
 	physical_defense = 5,
-	metaphysical_defense = 2,
+	magical_defense = 2,
 	standard_price = 170,
 	usable_by = BRONANN + THANIS,
 	slots = 0
 }
 
 armor[40013] = {
-	name = hoa_system.Translate("Phoenix Shield"),
-	description = hoa_system.Translate("A tall steel shield with a mighty phoenix emblazoned on the front."),
+	name = vt_system.Translate("Phoenix Shield"),
+	description = vt_system.Translate("A tall steel shield with a mighty phoenix emblazoned on the front."),
 	icon = "img/icons/armor/phoenix_shield.png",
 	physical_defense = 10,
-	metaphysical_defense = 6,
+	magical_defense = 6,
 	standard_price = 310,
 	usable_by = BRONANN + THANIS,
 	slots = 0
 }
 
 armor[40014] = {
-	name = hoa_system.Translate("Trident Shield"),
-	description = hoa_system.Translate("A large shield with enough fortitude to withstand waves of powerful attacks."),
+	name = vt_system.Translate("Trident Shield"),
+	description = vt_system.Translate("A large shield with enough fortitude to withstand waves of powerful attacks."),
 	icon = "img/icons/armor/trident_shield.png",
 	physical_defense = 10,
-	metaphysical_defense = 6,
+	magical_defense = 6,
 	standard_price = 310,
 	usable_by = BRONANN + THANIS,
 	slots = 1

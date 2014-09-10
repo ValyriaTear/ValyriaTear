@@ -1,5 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
-//            Copyright (C) 2004-2010 by The Allacrost Project
+//            Copyright (C) 2004-2011 by The Allacrost Project
+//            Copyright (C) 2012-2014 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -10,21 +11,25 @@
 /** ****************************************************************************
 *** \file    video.cpp
 *** \author  Raj Sharma, roos@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Source file for video engine interface.
 *** ***************************************************************************/
 
-
+#include "utils/utils_pch.h"
 #include "engine/video/video.h"
+
 #include "engine/script/script_read.h"
 
 #include "engine/system.h"
 
-using namespace hoa_utils;
-using namespace hoa_video::private_video;
+#include "utils/utils_strings.h"
 
-template<> hoa_video::VideoEngine *Singleton<hoa_video::VideoEngine>::_singleton_reference = NULL;
+#include "engine/mode_manager.h"
 
-namespace hoa_video
+using namespace vt_utils;
+using namespace vt_video::private_video;
+
+namespace vt_video
 {
 
 VideoEngine *VideoManager = NULL;
@@ -34,27 +39,18 @@ bool VIDEO_DEBUG = false;
 // Static variable for the Color class
 //-----------------------------------------------------------------------------
 
-Color Color::clear(0.0f, 0.0f, 0.0f, 0.0f);
-Color Color::white(1.0f, 1.0f, 1.0f, 1.0f);
-Color Color::gray(0.5f, 0.5f, 0.5f, 1.0f);
-Color Color::black(0.0f, 0.0f, 0.0f, 1.0f);
-Color Color::red(1.0f, 0.0f, 0.0f, 1.0f);
-Color Color::orange(1.0f, 0.4f, 0.0f, 1.0f);
-Color Color::yellow(1.0f, 1.0f, 0.0f, 1.0f);
-Color Color::green(0.0f, 1.0f, 0.0f, 1.0f);
-Color Color::aqua(0.0f, 1.0f, 1.0f, 1.0f);
-Color Color::blue(0.0f, 0.0f, 1.0f, 1.0f);
-Color Color::violet(0.0f, 0.0f, 1.0f, 1.0f);
-Color Color::brown(0.6f, 0.3f, 0.1f, 1.0f);
-
-
-
-float Lerp(float alpha, float initial, float final)
-{
-    return alpha * final + (1.0f - alpha) * initial;
-}
-
-
+const Color Color::clear(0.0f, 0.0f, 0.0f, 0.0f);
+const Color Color::white(1.0f, 1.0f, 1.0f, 1.0f);
+const Color Color::gray(0.5f, 0.5f, 0.5f, 1.0f);
+const Color Color::black(0.0f, 0.0f, 0.0f, 1.0f);
+const Color Color::red(1.0f, 0.0f, 0.0f, 1.0f);
+const Color Color::orange(1.0f, 0.4f, 0.0f, 1.0f);
+const Color Color::yellow(1.0f, 1.0f, 0.0f, 1.0f);
+const Color Color::green(0.0f, 1.0f, 0.0f, 1.0f);
+const Color Color::aqua(0.0f, 1.0f, 1.0f, 1.0f);
+const Color Color::blue(0.0f, 0.0f, 1.0f, 1.0f);
+const Color Color::violet(0.0f, 0.0f, 1.0f, 1.0f);
+const Color Color::brown(0.6f, 0.3f, 0.1f, 1.0f);
 
 void RotatePoint(float &x, float &y, float angle)
 {
@@ -76,6 +72,7 @@ VideoEngine::VideoEngine():
     _fps_sum(0),
     _current_sample(0),
     _number_samples(0),
+    _FPS_textimage(NULL),
     _gl_error_code(GL_NO_ERROR),
     _gl_blend_is_active(false),
     _gl_texture_2d_is_active(false),
@@ -85,7 +82,10 @@ VideoEngine::VideoEngine():
     _gl_vertex_array_is_activated(false),
     _gl_color_array_is_activated(false),
     _gl_texture_coord_array_is_activated(false),
-    _target(VIDEO_TARGET_SDL_WINDOW),
+    _viewport_x_offset(0),
+    _viewport_y_offset(0),
+    _viewport_width(0),
+    _viewport_height(0),
     _screen_width(0),
     _screen_height(0),
     _fullscreen(false),
@@ -94,7 +94,7 @@ VideoEngine::VideoEngine():
     _debug_info(false),
     _x_shake(0),
     _y_shake(0),
-    _gamma_value(1.0f),
+    _brightness_value(1.0f),
     _temp_fullscreen(false),
     _temp_width(0),
     _temp_height(0),
@@ -108,34 +108,39 @@ VideoEngine::VideoEngine():
     _current_context.y_flip = 0;
     _current_context.coordinate_system = CoordSys(0.0f, VIDEO_STANDARD_RES_WIDTH,
                                          0.0f, VIDEO_STANDARD_RES_HEIGHT);
-    _current_context.viewport = ScreenRect(0, 0, 100, 100);
+    _current_context.viewport = ScreenRect(0, 0, VIDEO_STANDARD_RES_WIDTH, VIDEO_STANDARD_RES_HEIGHT);
     _current_context.scissor_rectangle = ScreenRect(0, 0, VIDEO_STANDARD_RES_WIDTH,
                                          VIDEO_STANDARD_RES_HEIGHT);
     _current_context.scissoring_enabled = false;
 
-    strcpy(_next_temp_file, "00000000");
-
     for(uint32 sample = 0; sample < FPS_SAMPLES; sample++)
         _fps_samples[sample] = 0;
-
-    // Custom fading overlay
-    _fade_overlay_img.Load("", 1.0f, 1.0f);
 }
 
 
-void VideoEngine::DrawFPS()
+
+void VideoEngine::_UpdateFPS()
 {
     if(!_fps_display)
         return;
 
-    uint32 frame_time = hoa_system::SystemManager->GetUpdateTime();
-    SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_BOTTOM, VIDEO_X_NOFLIP, VIDEO_Y_NOFLIP, VIDEO_BLEND, 0);
+    // We only create the text image when needed, to permit getting the text style correctly.
+    if (!_FPS_textimage)
+        _FPS_textimage = new TextImage("FPS: ", TextStyle("text20", Color::white));
+
+    //! \brief Maximum milliseconds that the current frame time and our averaged frame time must vary
+    //! before we begin trying to catch up
+    const uint32 MAX_FTIME_DIFF = 5;
+
+    //! \brief The number of samples to take if we need to play catchup with the current FPS
+    const uint32 FPS_CATCHUP = 20;
+
+    uint32 frame_time = vt_system::SystemManager->GetUpdateTime();
 
     // Calculate the FPS for the current frame
     uint32 current_fps = 1000;
-    if(frame_time) {
+    if(frame_time)
         current_fps /= frame_time;
-    }
 
     // The number of times to insert the current FPS sample into the fps_samples array
     uint32 number_insertions;
@@ -173,14 +178,21 @@ void VideoEngine::DrawFPS()
     uint32 avg_fps = _fps_sum / FPS_SAMPLES;
 
     // The text to display to the screen
-    char fps_text[16];
-    sprintf(fps_text, "FPS: %d", avg_fps);
+    _FPS_textimage->SetText("FPS: " + NumberToString(avg_fps));
+}
 
-    Move(930.0f, 720.0f); // Upper right hand corner of the screen
-    Text()->Draw(fps_text, TextStyle("text20", Color::white));
+void VideoEngine::_DrawFPS()
+{
+    if(!_fps_display || !_FPS_textimage)
+        return;
 
-} // void GUISystem::_DrawFPS(uint32 frame_time)
-
+    PushState();
+    SetStandardCoordSys();
+    SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_BOTTOM, VIDEO_X_NOFLIP, VIDEO_Y_NOFLIP, VIDEO_BLEND, 0);
+    Move(930.0f, 40.0f); // Upper right hand corner of the screen
+    _FPS_textimage->Draw();
+    PopState();
+} // void GUISystem::_DrawFPS()
 
 VideoEngine::~VideoEngine()
 {
@@ -188,11 +200,10 @@ VideoEngine::~VideoEngine()
 
     _default_menu_cursor.Clear();
     _rectangle_image.Clear();
+    delete _FPS_textimage;
 
     TextureManager->SingletonDestroy();
 }
-
-
 
 bool VideoEngine::SingletonInitialize()
 {
@@ -231,10 +242,8 @@ bool VideoEngine::FinalizeInitialization()
 
     // Prepare the screen for rendering
     Clear();
-    Draw();
-    Clear();
 
-    // TEMP: this is a hack and should be removed when we can support procedural images
+    // Empty image used to draw colored rectangles.
     if(_rectangle_image.Load("") == false) {
         PRINT_ERROR << "_rectangle_image could not be created" << std::endl;
         return false;
@@ -272,18 +281,6 @@ void VideoEngine::SetInitialResolution(int32 width, int32 height)
 //-----------------------------------------------------------------------------
 // VideoEngine class - General methods
 //-----------------------------------------------------------------------------
-
-void VideoEngine::SetTarget(VIDEO_TARGET target)
-{
-    if(target <= VIDEO_TARGET_INVALID || target >= VIDEO_TARGET_TOTAL) {
-        IF_PRINT_WARNING(VIDEO_DEBUG) << "tried to set video engine to an invalid target: " << target << std::endl;
-        return;
-    }
-
-    _target = target;
-}
-
-
 
 void VideoEngine::SetDrawFlags(int32 first_flag, ...)
 {
@@ -356,10 +353,10 @@ void VideoEngine::Clear()
 
 
 
-void VideoEngine::Clear(const Color &c)
+void VideoEngine::Clear(const Color& c)
 {
-    _current_context.viewport = ScreenRect(0, 0, _screen_width, _screen_height);
-    glViewport(0, 0, _screen_width, _screen_height);
+    _current_context.viewport = ScreenRect(_viewport_x_offset, _viewport_y_offset, _viewport_width, _viewport_height);
+    glViewport(_viewport_x_offset, _viewport_y_offset, _viewport_width, _viewport_height);
     glClearColor(c[0], c[1], c[2], c[3]);
     glClear(GL_COLOR_BUFFER_BIT);
 
@@ -369,31 +366,30 @@ void VideoEngine::Clear(const Color &c)
 
 void VideoEngine::Update()
 {
-    uint32 frame_time = hoa_system::SystemManager->GetUpdateTime();
-
-    // Update shaking effect
-    _UpdateShake(frame_time);
+    uint32 frame_time = vt_system::SystemManager->GetUpdateTime();
 
     _screen_fader.Update(frame_time);
+
+    if (_fps_display)
+        _UpdateFPS();
 }
 
-
-void VideoEngine::Draw()
+void VideoEngine::DrawDebugInfo()
 {
-    PushState();
-
-    // Restore possible previous coords changes
-    SetCoordSys(0.0f, VIDEO_STANDARD_RES_WIDTH, 0.0f, VIDEO_STANDARD_RES_HEIGHT);
-
     if(TextureManager->debug_current_sheet >= 0)
         TextureManager->DEBUG_ShowTexSheet();
 
-    // Draw FPS Counter If We Need To
-    DrawFPS();
-    PopState();
+    if (_fps_display)
+        _DrawFPS();
 } // void VideoEngine::Draw()
 
+bool VideoEngine::CheckGLError() {
+    if(!VIDEO_DEBUG)
+        return false;
 
+    _gl_error_code = glGetError();
+    return (_gl_error_code != GL_NO_ERROR);
+}
 
 const std::string VideoEngine::CreateGLErrorString()
 {
@@ -411,97 +407,119 @@ const std::string VideoEngine::CreateGLErrorString()
 
 void VideoEngine::GetPixelSize(float &x, float &y)
 {
-    x = fabs(_current_context.coordinate_system.GetRight() - _current_context.coordinate_system.GetLeft()) / _screen_width;
-    y = fabs(_current_context.coordinate_system.GetTop() - _current_context.coordinate_system.GetBottom()) / _screen_height;
+    x = fabs(_current_context.coordinate_system.GetRight() - _current_context.coordinate_system.GetLeft()) / _viewport_width;
+    y = fabs(_current_context.coordinate_system.GetTop() - _current_context.coordinate_system.GetBottom()) / _viewport_height;
 }
 
 
 
 bool VideoEngine::ApplySettings()
 {
-    if(_target == VIDEO_TARGET_SDL_WINDOW) {
-        // Losing GL context, so unload images first
-        if(TextureManager && TextureManager->UnloadTextures() == false) {
-            IF_PRINT_WARNING(VIDEO_DEBUG) << "failed to delete OpenGL textures during a context change" << std::endl;
-        }
+    // Losing GL context, so unload images first
+    if(!TextureManager || !TextureManager->UnloadTextures())
+        IF_PRINT_WARNING(VIDEO_DEBUG) << "failed to delete OpenGL textures during a context change" << std::endl;
 
-        // Clear GL state
-        DisableBlending();
-        DisableTexture2D();
-        DisableAlphaTest();
-        DisableStencilTest();
-        DisableScissoring();
-        DisableVertexArray();
-        DisableColorArray();
-        DisableTextureCoordArray();
+    int32 flags = SDL_OPENGL;
 
-        int32 flags = SDL_OPENGL;
+    if(_temp_fullscreen)
+        flags |= SDL_FULLSCREEN;
 
-        if(_temp_fullscreen == true) {
-            flags |= SDL_FULLSCREEN;
-        }
+    SDL_GL_SetAttribute(SDL_GL_RED_SIZE, 8);
+    SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE, 8);
+    SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE, 8);
+    SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 16);
+    SDL_GL_SetAttribute(SDL_GL_ALPHA_SIZE, 8);
+    SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
+    SDL_GL_SetAttribute(SDL_GL_MULTISAMPLEBUFFERS, 2);
+    SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, 4);
+    SDL_GL_SetAttribute(SDL_GL_SWAP_CONTROL, 1);
 
-        SDL_GL_SetAttribute(SDL_GL_RED_SIZE, 8);
-        SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE, 8);
-        SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE, 8);
+    if(SDL_SetVideoMode(_temp_width, _temp_height, 0, flags) == false) {
+        // RGB values of 1 for each and 8 for depth seemed to be sufficient.
+        // 565 and 16 here because it works with them on this computer.
+        // NOTE from prophile: this ought to be changed to 5558
+        SDL_GL_SetAttribute(SDL_GL_RED_SIZE, 5);
+        SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE, 6);
+        SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE, 5);
         SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 16);
-        SDL_GL_SetAttribute(SDL_GL_ALPHA_SIZE, 8);
-        SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
-        SDL_GL_SetAttribute(SDL_GL_MULTISAMPLEBUFFERS, 2);
-        SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, 4);
+        SDL_GL_SetAttribute(SDL_GL_ALPHA_SIZE, 0);
+        SDL_GL_SetAttribute(SDL_GL_MULTISAMPLEBUFFERS, 0);
+        SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, 0);
         SDL_GL_SetAttribute(SDL_GL_SWAP_CONTROL, 1);
 
         if(SDL_SetVideoMode(_temp_width, _temp_height, 0, flags) == false) {
-            // RGB values of 1 for each and 8 for depth seemed to be sufficient.
-            // 565 and 16 here because it works with them on this computer.
-            // NOTE from prophile: this ought to be changed to 5558
-            SDL_GL_SetAttribute(SDL_GL_RED_SIZE, 5);
-            SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE, 6);
-            SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE, 5);
-            SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 16);
-            SDL_GL_SetAttribute(SDL_GL_ALPHA_SIZE, 0);
-            SDL_GL_SetAttribute(SDL_GL_MULTISAMPLEBUFFERS, 0);
-            SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, 0);
-            SDL_GL_SetAttribute(SDL_GL_SWAP_CONTROL, 1);
+            IF_PRINT_WARNING(VIDEO_DEBUG) << "SDL_SetVideoMode() failed with error: " << SDL_GetError() << std::endl;
 
-            if(SDL_SetVideoMode(_temp_width, _temp_height, 0, flags) == false) {
-                IF_PRINT_WARNING(VIDEO_DEBUG) << "SDL_SetVideoMode() failed with error: " << SDL_GetError() << std::endl;
+            _temp_fullscreen = _fullscreen;
+            _temp_width = _screen_width;
+            _temp_height = _screen_height;
 
-                _temp_fullscreen = _fullscreen;
-                _temp_width = _screen_width;
-                _temp_height = _screen_height;
+            _UpdateViewportMetrics();
 
-                if(TextureManager && _screen_width > 0) {  // Test to see if we already had a valid video mode
-                    TextureManager->ReloadTextures();
-                }
-                return false;
-            }
+            // Test to see if we already had a valid video mode
+            if(TextureManager && _screen_width > 0)
+                TextureManager->ReloadTextures();
+
+            return false;
         }
-
-        // Turn off writing to the depth buffer
-        glDepthMask(GL_FALSE);
-
-        _screen_width = _temp_width;
-        _screen_height = _temp_height;
-        _fullscreen = _temp_fullscreen;
-
-        if(TextureManager)
-            TextureManager->ReloadTextures();
-
-        return true;
-    } // if (_target == VIDEO_TARGET_SDL_WINDOW)
-
-    // Used by the editor, which uses QT4
-    else if(_target == VIDEO_TARGET_QT_WIDGET) {
-        _screen_width = _temp_width;
-        _screen_height = _temp_height;
-        _fullscreen = _temp_fullscreen;
-
-        return true;
     }
 
-    return false;
+    // Clear GL state, after SDL_SetVideoMode() for OSX compatibility
+    DisableBlending();
+    DisableTexture2D();
+    DisableAlphaTest();
+    DisableStencilTest();
+    DisableScissoring();
+    DisableVertexArray();
+    DisableColorArray();
+    DisableTextureCoordArray();
+
+    // Turn off writing to the depth buffer
+    glDepthMask(GL_FALSE);
+
+    _screen_width = _temp_width;
+    _screen_height = _temp_height;
+    _fullscreen = _temp_fullscreen;
+
+    _UpdateViewportMetrics();
+
+    if(TextureManager)
+        TextureManager->ReloadTextures();
+
+    return true;
 } // bool VideoEngine::ApplySettings()
+
+void VideoEngine::_UpdateViewportMetrics()
+{
+    // Test the desired resolution and adds the necessary offsets if it's not a 4:3 one
+    float width = _screen_width;
+    float height = _screen_height;
+    float scr_ratio = height > 0.2f ? width / height : 1.33f;
+    if (vt_utils::IsFloatEqual(scr_ratio, 1.33f, 0.2f)) { // 1.33f == 4:3
+        // 4:3: No offsets
+        _viewport_x_offset = 0;
+        _viewport_y_offset = 0;
+        _viewport_width = _screen_width;
+        _viewport_height = _screen_height;
+        return;
+    }
+
+    // Handle non 4:3 cases
+    if (width >= height) {
+        float ideal_width = height / 3.0f * 4.0f;
+        _viewport_width = ideal_width;
+        _viewport_height = _screen_height;
+        _viewport_x_offset = (int32)((width - ideal_width) / 2.0f);
+        _viewport_y_offset = 0;
+    }
+    else {
+        float ideal_height = width / 3.0f * 4.0f;
+        _viewport_height = ideal_height;
+        _viewport_width = _screen_width;
+        _viewport_x_offset = 0;
+        _viewport_y_offset = (int32)((height - ideal_height) / 2.0f);
+    }
+}
 
 //-----------------------------------------------------------------------------
 // VideoEngine class - Coordinate system and viewport methods
@@ -518,10 +536,32 @@ void VideoEngine::SetCoordSys(const CoordSys &coordinate_system)
 
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
-    // This small translation is supposed to help with pixel-perfect 2D rendering in OpenGL.
-    // Reference: http://www.opengl.org/resources/faq/technical/transformations.htm#tran0030
-    // Changed to 32/1024 or 24/768 since it's the size of one pixel for the map mode.
-    glTranslatef(0.03125, 0.03125, 0);
+}
+
+void VideoEngine::GetCurrentViewport(float &x, float &y, float &width, float &height)
+{
+    static GLint viewport_dimensions[4] = {(GLint)0};
+    glGetIntegerv(GL_VIEWPORT, viewport_dimensions);
+    x = (float) viewport_dimensions[0];
+    y = (float) viewport_dimensions[1];
+    width = (float) viewport_dimensions[2];
+    height = (float) viewport_dimensions[3];
+}
+
+void VideoEngine::SetViewport(float x, float y, float width, float height)
+{
+    if(width <= 0 || height <= 0)
+    {
+        PRINT_WARNING << "attempted to set an invalid viewport size: " << x << "," << y
+            << " at " << width << ":" << height << std::endl;
+        return;
+    }
+
+    _viewport_x_offset = x;
+    _viewport_y_offset = y;
+    _viewport_width = width;
+    _viewport_height = height;
+    glViewport(_viewport_x_offset, _viewport_y_offset, _viewport_width, _viewport_height);
 }
 
 void VideoEngine::EnableScissoring()
@@ -731,14 +771,21 @@ void VideoEngine::MoveRelative(float x, float y)
     _y_cursor += y;
 }
 
+void VideoEngine::PushMatrix()
+{
+    glPushMatrix();
+}
 
-
+void VideoEngine::PopMatrix()
+{
+    glPopMatrix();
+}
 
 void VideoEngine::PushState()
 {
     // Push current modelview transformation
     glMatrixMode(GL_MODELVIEW);
-    glPushMatrix();
+    PushMatrix();
 
     _context_stack.push(_current_context);
 }
@@ -758,22 +805,30 @@ void VideoEngine::PopState()
 
     // Restore the modelview transformation
     glMatrixMode(GL_MODELVIEW);
-    glPopMatrix();
+    PopMatrix();
     glViewport(_current_context.viewport.left, _current_context.viewport.top, _current_context.viewport.width, _current_context.viewport.height);
 
     if(_current_context.scissoring_enabled) {
-        glEnable(GL_SCISSOR_TEST);
+        EnableScissoring();
         glScissor(static_cast<GLint>((_current_context.scissor_rectangle.left / static_cast<float>(VIDEO_STANDARD_RES_WIDTH)) * _current_context.viewport.width),
                   static_cast<GLint>((_current_context.scissor_rectangle.top / static_cast<float>(VIDEO_STANDARD_RES_HEIGHT)) * _current_context.viewport.height),
                   static_cast<GLsizei>((_current_context.scissor_rectangle.width / static_cast<float>(VIDEO_STANDARD_RES_WIDTH)) * _current_context.viewport.width),
                   static_cast<GLsizei>((_current_context.scissor_rectangle.height / static_cast<float>(VIDEO_STANDARD_RES_HEIGHT)) * _current_context.viewport.height)
                  );
     } else {
-        glDisable(GL_SCISSOR_TEST);
+        DisableScissoring();
     }
 }
 
+void VideoEngine::Rotate(float angle)
+{
+    glRotatef(angle, 0, 0, 1);
+}
 
+void VideoEngine::Scale(float x, float y)
+{
+    glScalef(x, y, 1.0f);
+}
 
 void VideoEngine::SetTransform(float matrix[16])
 {
@@ -784,17 +839,7 @@ void VideoEngine::SetTransform(float matrix[16])
 
 void VideoEngine::DrawFadeEffect()
 {
-
-    // Draw a screen overlay if we are in the process of doing a custom fading
-    if(_screen_fader.ShouldUseFadeOverlay()) {
-        _fade_overlay_img.SetColor(_screen_fader.GetFadeOverlayColor());
-        SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_BOTTOM, 0);
-        SetCoordSys(0.0f, 1.0f, 0.0f, 1.0f);
-        PushState();
-        Move(0.0f, 0.0f);
-        _fade_overlay_img.Draw();
-        PopState();
-    }
+    _screen_fader.Draw();
 }
 
 
@@ -821,7 +866,7 @@ StillImage VideoEngine::CaptureScreen() throw(Exception)
     screen_image.SetDimensions((float)viewport_dimensions[2], (float)viewport_dimensions[3]);
 
     // Set up the screen rectangle to copy
-    ScreenRect screen_rect(0, viewport_dimensions[3], viewport_dimensions[2], viewport_dimensions[3]);
+    ScreenRect screen_rect(viewport_dimensions[0], viewport_dimensions[1], viewport_dimensions[2], viewport_dimensions[3]);
 
     // Create a new ImageTexture with a unique filename for this newly captured screen
     ImageTexture *new_image = new ImageTexture("capture_screen" + NumberToString(capture_id), "<T>", viewport_dimensions[2], viewport_dimensions[3]);
@@ -835,22 +880,16 @@ StillImage VideoEngine::CaptureScreen() throw(Exception)
     if(sheet == NULL) {
         delete new_image;
         throw Exception("could not create texture sheet to store captured screen", __FILE__, __LINE__, __FUNCTION__);
-        screen_image.Clear();
-        return screen_image;
     }
     if(sheet->InsertTexture(new_image) == false) {
         TextureManager->_RemoveSheet(sheet);
         delete new_image;
         throw Exception("could not insert captured screen image into texture sheet", __FILE__, __LINE__, __FUNCTION__);
-        screen_image.Clear();
-        return screen_image;
     }
     if(sheet->CopyScreenRect(0, 0, screen_rect) == false) {
         TextureManager->_RemoveSheet(sheet);
         delete new_image;
         throw Exception("call to TexSheet::CopyScreenRect() failed", __FILE__, __LINE__, __FUNCTION__);
-        screen_image.Clear();
-        return screen_image;
     }
 
     // Store the image element to the saved image (with a flipped y axis)
@@ -866,28 +905,99 @@ StillImage VideoEngine::CaptureScreen() throw(Exception)
     return screen_image;
 }
 
-void VideoEngine::DrawText(const ustring &text, float x, float y, const Color &c)
+StillImage VideoEngine::CreateImage(ImageMemory *raw_image, const std::string &image_name, bool delete_on_exist) throw(Exception)
 {
-    Move(x, y);
-    TextStyle text_style = Text()->GetDefaultStyle();
-    text_style.color = c;
-    Text()->Draw(text, text_style);
-}
+    //the returning image
+    StillImage still_image;
 
-void VideoEngine::SetGamma(float value)
-{
-    _gamma_value = value;
-
-    // Limit min/max gamma
-    if(_gamma_value > 2.0f) {
-        IF_PRINT_WARNING(VIDEO_DEBUG) << "tried to set gamma over 2.0f" << std::endl;
-        _gamma_value = 2.0f;
-    } else if(_gamma_value < 0.0f) {
-        IF_PRINT_WARNING(VIDEO_DEBUG) << "tried to set gamma below 0.0f" << std::endl;
-        _gamma_value = 0.0f;
+    //check if the raw_image pointer is valid
+    if(!raw_image)
+    {
+        throw Exception("raw_image is NULL, cannot create a StillImage", __FILE__, __LINE__, __FUNCTION__);
     }
 
-    SDL_SetGamma(_gamma_value, _gamma_value, _gamma_value);
+    still_image.SetDimensions(raw_image->width, raw_image->height);
+
+    //Check to see if the image_name exists
+    if(TextureManager->_IsImageTextureRegistered(image_name))
+    {
+        //if we are allowed to delete, then we remove the texture
+        if(delete_on_exist)
+        {
+            ImageTexture* old = TextureManager->_GetImageTexture(image_name);
+            TextureManager->_UnregisterImageTexture(old);
+            if(old->RemoveReference())
+                delete old;
+        }
+        else
+        {
+            throw Exception("image already exists in texture manager", __FILE__, __LINE__, __FUNCTION__);
+        }
+    }
+
+    //create a new texture image. the next few steps are similar to CaptureImage, so in the future
+    // we may want to do a code-cleanup
+    ImageTexture *new_image = new ImageTexture(image_name, "<T>", raw_image->width, raw_image->height);
+    new_image->AddReference();
+    // Create a texture sheet of an appropriate size that can retain the capture
+    TexSheet *temp_sheet = TextureManager->_CreateTexSheet(RoundUpPow2(raw_image->width), RoundUpPow2(raw_image->height), VIDEO_TEXSHEET_ANY, false);
+    VariableTexSheet *sheet = dynamic_cast<VariableTexSheet *>(temp_sheet);
+
+    // Ensure that texture sheet creation succeeded, insert the texture image into the sheet, and copy the screen into the sheet
+    if(sheet == NULL) {
+        delete new_image;
+        throw Exception("could not create texture sheet to store still image", __FILE__, __LINE__, __FUNCTION__);
+    }
+
+    if(sheet->InsertTexture(new_image) == false)
+    {
+        TextureManager->_RemoveSheet(sheet);
+        delete new_image;
+        throw Exception("could not insert raw image into texture sheet", __FILE__, __LINE__, __FUNCTION__);
+    }
+
+    if(sheet->CopyRect(0, 0, *raw_image) == false)
+    {
+        TextureManager->_RemoveSheet(sheet);
+        delete new_image;
+        throw Exception("call to TexSheet::CopyRect() failed", __FILE__, __LINE__, __FUNCTION__);
+    }
+
+    // Store the image element to the saved image (with a flipped y axis)
+    still_image._image_texture = new_image;
+    still_image._texture = new_image;
+    return still_image;
+}
+
+bool VideoEngine::IsScreenShaking()
+{
+    vt_mode_manager::GameMode *gm = vt_mode_manager::ModeManager->GetTop();
+
+    if (!gm)
+        return false;
+
+    vt_mode_manager::EffectSupervisor &effects = gm->GetEffectSupervisor();
+    if (!effects.IsScreenShaking())
+        return false;
+
+    // update the shaking offsets before returning
+    effects.GetShakingOffsets(_x_shake, _y_shake);
+    return true;
+}
+
+void VideoEngine::SetBrightness(float value)
+{
+    _brightness_value = value;
+
+    // Limit min/max brightness
+    if(_brightness_value > 2.0f) {
+        _brightness_value = 2.0f;
+    } else if(_brightness_value < 0.0f) {
+        _brightness_value = 0.0f;
+    }
+
+    // Note: To replace with: SDL_SetWindowBrightness() in SDL 2
+    SDL_SetGamma(_brightness_value, _brightness_value, _brightness_value);
 }
 
 
@@ -906,8 +1016,9 @@ void VideoEngine::MakeScreenshot(const std::string &filename)
     buffer.pixels = malloc(buffer.width * buffer.height * 3);
     buffer.rgb_format = true;
 
-    // Read pixel data
-    glReadPixels(0, 0, buffer.width, buffer.height, GL_RGB, GL_UNSIGNED_BYTE, buffer.pixels);
+    // Read the viewport pixel data
+    glReadPixels(viewport_dimensions[0], viewport_dimensions[1],
+                 buffer.width, buffer.height, GL_RGB, GL_UNSIGNED_BYTE, buffer.pixels);
 
     if(CheckGLError() == true) {
         IF_PRINT_WARNING(VIDEO_DEBUG) << "an OpenGL error occured: " << CreateGLErrorString() << std::endl;
@@ -927,54 +1038,12 @@ void VideoEngine::MakeScreenshot(const std::string &filename)
     buffer.pixels = buffer_temp;
     buffer_temp = temp;
 
-    buffer.SaveImage(filename, false);
+    buffer.SaveImage(filename);
 
     free(buffer_temp);
     free(buffer.pixels);
     buffer.pixels = NULL;
 }
-
-//-----------------------------------------------------------------------------
-// _CreateTempFilename
-//-----------------------------------------------------------------------------
-
-std::string VideoEngine::_CreateTempFilename(const std::string &extension)
-{
-    // figure out the temp filename to return
-    std::string file_name = "/tmp/"APPSHORTNAME;
-    file_name += _next_temp_file;
-    file_name += extension;
-
-    // increment the 8-character temp name
-    // Note: assume that the temp name is currently set to
-    //       a valid name
-
-
-    for(int32 digit = 7; digit >= 0; --digit) {
-        ++_next_temp_file[digit];
-
-        if(_next_temp_file[digit] > 'z') {
-            if(digit == 0) {
-                IF_PRINT_WARNING(VIDEO_DEBUG)
-                        << "VIDEO ERROR: _nextTempFile went past 'zzzzzzzz'" << std::endl;
-                return file_name;
-            }
-
-            _next_temp_file[digit] = '0';
-        } else {
-            if(_next_temp_file[digit] > '9' && _next_temp_file[digit] < 'a')
-                _next_temp_file[digit] = 'a';
-
-            // if the digit did not overflow, then we don't need to carry over
-            break;
-        }
-    }
-
-    return file_name;
-}
-
-
-
 
 int32 VideoEngine::_ConvertYAlign(int32 y_align)
 {
@@ -990,9 +1059,6 @@ int32 VideoEngine::_ConvertYAlign(int32 y_align)
         return 0;
     }
 }
-
-
-
 
 int32 VideoEngine::_ConvertXAlign(int32 x_align)
 {
@@ -1038,7 +1104,7 @@ int32 VideoEngine::_ScreenCoordX(float x)
         percent = (x - _current_context.coordinate_system.GetRight()) /
                   (_current_context.coordinate_system.GetLeft() - _current_context.coordinate_system.GetRight());
 
-    return static_cast<int32>(percent * static_cast<float>(_screen_width));
+    return static_cast<int32>(percent * static_cast<float>(_viewport_width));
 }
 
 
@@ -1053,10 +1119,10 @@ int32 VideoEngine::_ScreenCoordY(float y)
         percent = (y - _current_context.coordinate_system.GetBottom()) /
                   (_current_context.coordinate_system.GetTop() - _current_context.coordinate_system.GetBottom());
 
-    return static_cast<int32>(percent * static_cast<float>(_screen_height));
+    return static_cast<int32>(percent * static_cast<float>(_viewport_height));
 }
 
-void VideoEngine::DrawLine(float x1, float y1, float x2, float y2, float width, const Color &color)
+void VideoEngine::DrawLine(float x1, float y1, float x2, float y2, float width, const Color& color)
 {
     GLfloat vert_coords[] = {
         x1, y1,
@@ -1067,15 +1133,14 @@ void VideoEngine::DrawLine(float x1, float y1, float x2, float y2, float width, 
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); // Normal blending
     glPushAttrib(GL_LINE_WIDTH);
 
-    float pixel_width, pixel_height;
-    GetPixelSize(pixel_width, pixel_height);
-    glLineWidth(width * pixel_height);
+    glLineWidth(width);
     EnableVertexArray();
     DisableColorArray();
     DisableTextureCoordArray();
     glColor4fv((GLfloat *)color.GetColors());
     glVertexPointer(2, GL_FLOAT, 0, vert_coords);
     glDrawArrays(GL_LINES, 0, 2);
+
     glPopAttrib(); // GL_LINE_WIDTH
 }
 
@@ -1132,12 +1197,10 @@ void VideoEngine::DrawRectangleOutline(float left, float right, float bottom, fl
 
 void VideoEngine::DrawHalo(const ImageDescriptor &id, const Color &color)
 {
-    //PushMatrix();
     char old_blend_mode = _current_context.blend;
     _current_context.blend = VIDEO_BLEND_ADD;
     id.Draw(color);
     _current_context.blend = old_blend_mode;
-    //PopMatrix();
 }
 
-}  // namespace hoa_video
+}  // namespace vt_video

@@ -1,5 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
-//            Copyright (C) 2004-2010 by The Allacrost Project
+//            Copyright (C) 2004-2011 by The Allacrost Project
+//            Copyright (C) 2012-2014 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -10,12 +11,14 @@
 /** ****************************************************************************
 *** \file    map_treasure.cpp
 *** \author  Tyler Olsen, roots@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Source file for map mode treasures.
 *** ***************************************************************************/
 
+#include "utils/utils_pch.h"
 #include "modes/map/map_treasure.h"
 
-#include "modes/map/map.h"
+#include "modes/map/map_mode.h"
 #include "modes/map/map_objects.h"
 
 #include "modes/menu/menu.h"
@@ -25,16 +28,16 @@
 
 #include "common/global/global.h"
 
-using namespace hoa_utils;
-using namespace hoa_input;
-using namespace hoa_mode_manager;
-using namespace hoa_system;
-using namespace hoa_video;
-using namespace hoa_gui;
-using namespace hoa_global;
-using namespace hoa_menu;
+using namespace vt_utils;
+using namespace vt_input;
+using namespace vt_mode_manager;
+using namespace vt_system;
+using namespace vt_video;
+using namespace vt_gui;
+using namespace vt_global;
+using namespace vt_menu;
 
-namespace hoa_map
+namespace vt_map
 {
 
 namespace private_map
@@ -58,7 +61,7 @@ MapTreasure::~MapTreasure()
 
 bool MapTreasure::AddObject(uint32 id, uint32 quantity)
 {
-    hoa_global::GlobalObject *obj = GlobalCreateNewObject(id, quantity);
+    vt_global::GlobalObject *obj = GlobalCreateNewObject(id, quantity);
 
     if(obj == NULL) {
         IF_PRINT_WARNING(MAP_DEBUG) << "invalid object id argument passed to function: " << id << std::endl;
@@ -78,19 +81,18 @@ TreasureSupervisor::TreasureSupervisor() :
     _selection(ACTION_SELECTED),
     _window_title(UTranslate("You obtain"), TextStyle("title24", Color::white, VIDEO_TEXT_SHADOW_DARK, 1, -2)),
     _selection_name(),
-    _selection_icon(NULL)
+    _selection_icon(NULL),
+    _is_key_item(false)
 {
     // Create the menu windows and option boxes used for the treasure menu and
     // align them at the appropriate locations on the screen
     _action_window.Create(768.0f, 64.0f, ~VIDEO_MENU_EDGE_BOTTOM);
     _action_window.SetPosition(512.0f, 460.0f);
     _action_window.SetAlignment(VIDEO_X_CENTER, VIDEO_Y_TOP);
-    _action_window.SetDisplayMode(VIDEO_MENU_INSTANT);
 
     _list_window.Create(768.0f, 236.0f);
     _list_window.SetPosition(512.0f, 516.0f);
     _list_window.SetAlignment(VIDEO_X_CENTER, VIDEO_Y_TOP);
-    _list_window.SetDisplayMode(VIDEO_MENU_INSTANT);
 
     _action_options.SetPosition(30.0f, 18.0f);
     _action_options.SetDimensions(726.0f, 32.0f, 1, 1, 1, 1);
@@ -113,29 +115,16 @@ TreasureSupervisor::TreasureSupervisor() :
     _list_options.SetCursorOffset(-50.0f, -25.0f);
     _list_options.SetTextStyle(TextStyle("text22", Color::white, VIDEO_TEXT_SHADOW_DARK, 1, -2));
     _list_options.SetOwner(&_list_window);
-    // TODO: this currently does not work (text will be blank). Re-enable it once the scissoring bug is fixed in the video engine
-// 	_list_options.Scissoring(true, true);
 
     _detail_textbox.SetPosition(20.0f, 90.0f);
     _detail_textbox.SetDimensions(726.0f, 128.0f);
-    _detail_textbox.SetDisplaySpeed(50);
+    _detail_textbox.SetDisplaySpeed(SystemManager->GetMessageSpeed());
     _detail_textbox.SetTextStyle(TextStyle("text22", Color::white, VIDEO_TEXT_SHADOW_DARK, 1, -2));
     _detail_textbox.SetDisplayMode(VIDEO_TEXT_REVEAL);
     _detail_textbox.SetTextAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
     _detail_textbox.SetOwner(&_list_window);
 
     _selection_name.SetStyle(TextStyle("text22", Color::white, VIDEO_TEXT_SHADOW_DARK, 1, -2));
-
-    if(!_drunes_icon.Load("img/icons/drunes.png"))
-        IF_PRINT_WARNING(MAP_DEBUG) << "failed to load drunes icon for treasure menu" << std::endl;
-
-    if(!_coins_snd.LoadAudio("snd/coins.wav"))
-        IF_PRINT_WARNING(MAP_DEBUG) << "failed to load the obtain sound for Drunes treasures" << std::endl;
-    _coins_snd.AddOwner(MapMode::CurrentInstance());
-
-    if(!_items_snd.LoadAudio("snd/itempick2_michel_baradari_oga.wav"))
-        IF_PRINT_WARNING(MAP_DEBUG) << "failed to load the obtain sound for Items treasures" << std::endl;
-    _items_snd.AddOwner(MapMode::CurrentInstance());
 } // TreasureSupervisor::TreasureSupervisor()
 
 TreasureSupervisor::~TreasureSupervisor()
@@ -165,10 +154,12 @@ void TreasureSupervisor::Initialize(MapTreasure *treasure)
 
     // Construct the object list, including any drunes that were contained within the treasure
     if(_treasure->_drunes != 0) {
-        _list_options.AddOption(MakeUnicodeString("<img/icons/drunes.png>       Drunes<R>" + NumberToString(_treasure->_drunes)));
-        _coins_snd.Play();
+        _list_options.AddOption(MakeUnicodeString("<img/icons/drunes.png>       ") +
+                                UTranslate("Drunes") +
+                                MakeUnicodeString("<R>" + NumberToString(_treasure->_drunes)));
+        GlobalManager->Media().PlaySound("coins");
     } else {
-        _items_snd.Play();
+        GlobalManager->Media().PlaySound("item_pickup");
     }
 
     for(uint32 i = 0; i < _treasure->_objects_list.size(); i++) {
@@ -204,7 +195,7 @@ void TreasureSupervisor::Initialize(MapTreasure *treasure)
             continue;
         if(!GlobalManager->IsObjectInInventory(obj->GetID())) {
             // Pass a copy to the inventory, the treasure object will delete its content on destruction.
-            hoa_global::GlobalObject *obj_copy = GlobalCreateNewObject(obj->GetID(), obj->GetCount());
+            vt_global::GlobalObject *obj_copy = GlobalCreateNewObject(obj->GetID(), obj->GetCount());
             GlobalManager->AddToInventory(obj_copy);
         } else {
             GlobalManager->IncrementObjectCount(obj->GetID(), obj->GetCount());
@@ -222,8 +213,7 @@ void TreasureSupervisor::Update()
 
     // Allow the user to go to menu mode at any time when the treasure menu is open
     if(InputManager->MenuPress()) {
-        MenuMode *MM = new MenuMode(MapMode::CurrentInstance()->GetMapHudName(),
-                                    MapMode::CurrentInstance()->GetMapImage().GetFilename());
+        MenuMode *MM = new MenuMode();
         ModeManager->Push(MM);
         return;
     }
@@ -256,9 +246,17 @@ void TreasureSupervisor::Draw()
     if(_selection == DETAIL_SELECTED) {
         VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_TOP, 0);
         // Move to the upper left corner and draw the object icon
-        if(_selection_icon != NULL) {
+        if(_selection_icon) {
             VideoManager->Move(150.0f, 535.0f);
             _selection_icon->Draw();
+            if (_is_key_item) {
+                StillImage* key_icon = GlobalManager->Media().GetKeyItemIcon();
+                VideoManager->MoveRelative(_selection_icon->GetWidth() - key_icon->GetWidth() - 3.0f,
+                                           _selection_icon->GetHeight() - key_icon->GetHeight() - 3.0f);
+                key_icon->Draw();
+                VideoManager->MoveRelative(-_selection_icon->GetWidth() + key_icon->GetWidth() + 3.0f,
+                                           -_selection_icon->GetHeight() + key_icon->GetHeight() + 3.0f);
+            }
         }
 
         // Draw the name of the selected object to the right of the icon
@@ -282,7 +280,7 @@ void TreasureSupervisor::Finish()
     _list_window.Hide();
     _list_options.ClearOptions();
 
-    if(MapMode::CurrentInstance()->CurrentState() == hoa_map::private_map::STATE_TREASURE)
+    if(MapMode::CurrentInstance()->CurrentState() == vt_map::private_map::STATE_TREASURE)
         MapMode::CurrentInstance()->PopState();
 }
 
@@ -323,16 +321,19 @@ void TreasureSupervisor::_UpdateList()
         _list_options.SetCursorState(VIDEO_CURSOR_STATE_HIDDEN);
 
         uint32 list_selection = _list_options.GetSelection();
-        if(list_selection == 0 && _treasure->_drunes != 0) {  // If true, the drunes have been selected
+        if(list_selection == 0 && _treasure->_drunes != 0) {
+            // If true, the drunes have been selected
             _selection_name.SetText(UTranslate("Drunes"));
-            _selection_icon = &_drunes_icon;
-            _detail_textbox.SetDisplayText(UTranslate("With the additional ") + MakeUnicodeString(NumberToString(_treasure->_drunes)) +
-                                           UTranslate(" drunes found in this treasure added, the party now holds a total of ") + MakeUnicodeString(NumberToString(GlobalManager->GetDrunes()))
-                                           + MakeUnicodeString(" drunes."));
+            _selection_icon = GlobalManager->Media().GetDrunesIcon();
+            _detail_textbox.SetDisplayText(VTranslate("With the additional %u drunes found in this treasure added, "
+                                                      "the party now holds a total of %u drunes.",
+                                                      _treasure->_drunes, GlobalManager->GetDrunes()));
+            _is_key_item = false;
         } else { // Otherwise, a GlobalObject is selected
             if(_treasure->_drunes != 0)
                 list_selection--;
             _selection_name.SetText(_treasure->_objects_list[list_selection]->GetName());
+            _is_key_item = _treasure->_objects_list[list_selection]->IsKeyItem();
             // TODO: this is not good practice. We should probably either remove the const status from the GetIconImage() call
             _selection_icon = const_cast<StillImage *>(&_treasure->_objects_list[list_selection]->GetIconImage());
             _detail_textbox.SetDisplayText(_treasure->_objects_list[list_selection]->GetDescription());
@@ -370,4 +371,4 @@ void TreasureSupervisor::_UpdateDetail()
 
 } // namespace private_map
 
-} // namespace hoa_map
+} // namespace vt_map

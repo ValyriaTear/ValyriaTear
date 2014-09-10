@@ -1,5 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
-//            Copyright (C) 2004-2010 by The Allacrost Project
+//            Copyright (C) 2004-2011 by The Allacrost Project
+//            Copyright (C) 2012-2014 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -10,6 +11,7 @@
 /** ****************************************************************************
 *** \file    image.h
 *** \author  Tyler Olsen, roots@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Source file for image classes
 ***
 *** This file contains several classes that represent images loaded into the
@@ -48,13 +50,14 @@
 
 #include "image_base.h"
 
-struct U;
-namespace hoa_mode_manager
+#include "utils/exception.h"
+
+namespace vt_mode_manager
 {
 class ParticleSystem;
 }
 
-namespace hoa_video
+namespace vt_video
 {
 
 class StillImage;
@@ -102,16 +105,10 @@ public:
     //! \brief Clears all data retained by the object (color, width, height, etc.)
     virtual void Clear() = 0;
 
-    /** \brief Draws the image to the display buffer
-    *** The location and orientation of the drawn image is dependent upon the current cursor position
-    *** and context (draw flags) set in the VideoEngine class.
-    **/
-    virtual void Draw() const = 0;
-
     /** \brief Draws a color modulated version of the image to the display buffer
     *** \param draw_color The color to modulate the image by
     **/
-    virtual void Draw(const Color &draw_color) const = 0;
+    virtual void Draw(const Color& draw_color = vt_video::Color::white) const = 0;
 
     //! \name Class Member Access Functions
     //@{
@@ -124,6 +121,10 @@ public:
     virtual float GetHeight() const {
         return _height;
     }
+
+    //! \brief Empty update function permitting better abstraction between StillImage and AnimatedImage.
+    virtual void Update()
+    {}
 
     //! \brief Set whether the image should be drawn smoothed.
     void Smooth(bool smooth) {
@@ -196,13 +197,13 @@ public:
     **/
     //@{
     /** \brief Retrieves various properties about an image file
-    *** \param filename The name of the image file (.png or .jpg) to retrieve the properties of
+    *** \param filename The name of the image file (SDL_Image compatible) to retrieve the properties of
     *** \param rows The number of rows of pixels in the image
     *** \param cols The number of columns of pixels in the image
     *** \param bpp The number of bits per pixel of the image
-    *** \throw Exception If any of the properties are not retrieved successfully
+    *** \returns whether the info were successfully obtained.
     **/
-    static void GetImageInfo(const std::string &filename, uint32 &rows, uint32 &cols, uint32 &bpp) throw(hoa_utils::Exception);
+    static bool GetImageInfo(const std::string &filename, uint32 &rows, uint32 &cols, uint32 &bpp);
 
     /** \brief Loads a multi image into a vector of StillImage objects
     *** \param images Reference to the vector of StillImages to be loaded with elements from the multi image
@@ -295,7 +296,7 @@ protected:
     ***
     *** \note This method modifies the draw cursor position and does not restore it before finishing. Therefore
     *** under most circumstances, you will want to call VideoManager->PushState()/PopState(), or
-    *** glPushMatrix()/glPopMatrix() before and after calling this function. The latter is preferred due to the
+    *** PushMatrix()/PopMatrix() before and after calling this function. The latter is preferred due to the
     *** lower cost of the call, but some circumstances may require using the former when more state information
     *** needs to be retained.
     **/
@@ -313,24 +314,6 @@ protected:
     void _DrawTexture(const Color *draw_color) const;
 
 private:
-    /** \brief Retrieves various properties about a PNG image file
-    *** \param filename The name of the PNG image file to retrieve the properties of
-    *** \param rows The number of rows of pixels in the image
-    *** \param cols The number of columns of pixels in the image
-    *** \param bpp The number of bits per pixel of the image
-    *** \throw Exception If any of the properties are not retrieved successfully
-    **/
-    static void _GetPngImageInfo(const std::string &filename, uint32 &rows, uint32 &cols, uint32 &bpp) throw(hoa_utils::Exception);
-
-    /** \brief Retrieves various properties about a JPG image file
-    *** \param filename The name of the JPG image file to retrieve the properties of
-    *** \param rows The number of rows of pixels in the image
-    *** \param cols The number of columns of pixels in the image
-    *** \param bpp The number of bits per pixel of the image
-    *** \throw Exception If any of the properties are not retrieved successfully
-    **/
-    static void _GetJpgImageInfo(const std::string &filename, uint32 &rows, uint32 &cols, uint32 &bpp) throw(hoa_utils::Exception);
-
     /** \brief A helper function to the public LoadMultiImage* calls
     *** \param images Reference to the vector of StillImages to be loaded
     *** \param filename The name of the multi image file to read
@@ -357,7 +340,7 @@ class StillImage : public ImageDescriptor
     friend class AnimatedImage;
     friend class CompositeImage;
     friend class TextureController;
-    friend class hoa_mode_manager::ParticleSystem;
+    friend class vt_mode_manager::ParticleSystem;
 
 public:
     //! \brief Supply the constructor with "true" if you want this to represent a grayscale image
@@ -369,7 +352,7 @@ public:
     void Clear();
 
     /** \brief Loads a single image file to be represented by the class object
-    *** \param filename The filename of the image to load (should have a .png or .jpg extension)
+    *** \param filename The filename of the image to load (should have a SDL_image compatible extension)
     *** \return True if the image was successfully loaded and is now represented by this object
     ***
     *** \note Invoking this function will clear all image elements currently used by this class.
@@ -384,16 +367,13 @@ public:
         return Load(filename);
     }
 
-    //! \brief Draws the image to the screen
-    void Draw() const;
-
     /** \brief Draws a color-modulated version of the image
     *** \param draw_color The color to modulate the image by
     **/
-    void Draw(const Color &draw_color) const;
+    void Draw(const Color& draw_color = vt_video::Color::white) const;
 
     /** \brief Saves the image to a file
-    *** \param filename The filename of the image to save (should have a .png or .jpg extension)
+    *** \param filename The filename of the image to save (must have a .png extension)
     *** \return True if the image was successfully saved to a file
     ***
     *** \note The image being saved should contain only one image element. Support for saving of
@@ -428,6 +408,8 @@ public:
     *** \param width Width of the image
     **/
     void SetWidth(float width) {
+        if (_width > 0.0f && _x_offset != 0.0f)
+            _x_offset = _x_offset != 0.0f ? _x_offset / _width * width : 0.0f;
         _width = width;
     }
 
@@ -435,6 +417,8 @@ public:
     *** \param height Height of the image
     **/
     void SetHeight(float height) {
+        if (_height > 0.0f && _y_offset != 0.0f)
+            _y_offset = _y_offset != 0.0f ? _y_offset / _height * height : 0.0f;
         _height = height;
     }
 
@@ -457,6 +441,29 @@ public:
         SetHeight(height);
     }
 
+    /** \brief Sets the image X drawing offset
+    *** \param x_offset The horizontal offset in pixels
+    **/
+    void SetXDrawOffset(float x_offset) {
+        _x_offset = x_offset;
+    }
+
+    /** \brief Sets the image Y drawing offset
+    *** \param y_offset The vertical offset in pixels
+    **/
+    void SetYDrawOffset(float y_offset) {
+        _y_offset = y_offset;
+    }
+
+    /** \brief Sets the image drawing offset
+    *** \param x_offset The horizontal offset in pixels
+    *** \param y_offset The vertical offset in pixels
+    **/
+    void SetDrawOffsets(float x_offset, float y_offset) {
+        _x_offset = x_offset;
+        _y_offset = y_offset;
+    }
+
     /** \brief Sets image to static/animated
     ***	\param is_static Flag indicating whether the image should be made static or not
     **/
@@ -475,6 +482,9 @@ protected:
 
     //! \brief The texture image that is referenced by this element
     private_video::ImageTexture *_image_texture;
+
+    //! \brief X and y draw position offsets of this element
+    float _x_offset, _y_offset;
 }; // class StillImage : public ImageDescriptor
 
 
@@ -543,7 +553,7 @@ public:
     void Clear();
 
     /** \brief Loads an AnimatedImage by opening a multi image file
-    *** \param filename The name of the file to load, which should end in a .png or .jpg extension
+    *** \param filename The name of the image file to load.
     *** \param timings A vector reference which holds the timing information for each animation frame
     *** \param frame_width The width (in pixels) of each frame in the multi image file
     *** \param frame_height The height (in pixels) of each frame in the multi image file
@@ -557,7 +567,7 @@ public:
     bool LoadFromFrameSize(const std::string &filename, const std::vector<uint32>& timings, const uint32 frame_width, const uint32 frame_height, const uint32 trim = 0);
 
     /** \brief Loads an AnimatedImage from a multi image file
-    *** \param filename The name of the file to load, which should end in a .png or .jpg extension
+    *** \param filename The name of the image file to load.
     *** \param timings A vector reference which holds the timing information for each animation frame
     *** \param frame_rows The number of rows of frame images in the image file
     *** \param frame_cols The number of columns of frame images in the image file
@@ -590,16 +600,13 @@ public:
      */
     bool LoadFromAnimationScript(const std::string &filename);
 
-    //! \brief Draws the current frame image to the screen
-    void Draw() const;
-
     /** \brief Draws the current frame image which is modulated by a color
     *** \param draw_color The color to modulate the image by
     **/
-    void Draw(const Color &draw_color) const;
+    void Draw(const Color& draw_color = vt_video::Color::white) const;
 
     /** \brief Saves all frame images into a single file (a multi image file)
-    *** \param filename The filename of the image to save (should have a .png or .jpg extension)
+    *** \param filename The filename of the image to save (must have a .png extension)
     *** \param grid_rows The number of grid rows to save in the multi image
     *** \param grid_cols The number of grid columns to save in the multi image
     *** \return True if all frames were successfully saved to a file
@@ -762,6 +769,12 @@ public:
         _frame_index = index;
         _frame_counter = 0;
     }
+
+    /** \brief Sets a random frame index to the animation.
+    *** \note This permits to avoid seeing the exact same animation shapes
+    *** when adding the same animation multiple times on screen.
+    **/
+    void RandomizeAnimationFrame();
 
     /** \brief Sets the number of milliseconds that the current frame has been shown for.
     *** \param time The time to set the frame counter
@@ -946,6 +959,6 @@ private:
     std::vector<private_video::ImageElement> _elements;
 }; // class CompositeImage : public ImageDescriptor
 
-}  // namespace hoa_video
+}  // namespace vt_video
 
 #endif // __IMAGE_HEADER__

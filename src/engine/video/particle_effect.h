@@ -1,5 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
-//            Copyright (C) 2004-2010 by The Allacrost Project
+//            Copyright (C) 2004-2011 by The Allacrost Project
+//            Copyright (C) 2012-2014 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -7,39 +8,41 @@
 // See http://www.gnu.org/copyleft/gpl.html for details.
 ///////////////////////////////////////////////////////////////////////////////
 
-/*!****************************************************************************
- * \file    particle_effect.h
- * \author  Raj Sharma, roos@allacrost.org
- * \brief   Header file for particle effects
- *
- * Particle effects are basically nothing more than a collection of particle
- * systems. Many effects are just one system. However, for example, if you think
- * about a campfire effect, that might actually consist of fire + smoke + embers.
- * So, that's an example of an effect that consists of 3 systems.
- *
- * This file contains two classes: ParticleEffectDef, and ParticleEffect.
- *
- * ParticleEffectDef is a "definition" class, which holds a list of
- *    ParticleSystemDefs.
- *
- * ParticleEffect is an "instance" class, which holds a list of
- *    ParticleSystems.
- *
- *
- * This way, if you have 100 explosions, the properties of the
- * effect are stored only once in a ParticleEffectDef, and the only thing that
- * gets repeated 100 times is the ParticleEffect, which holds instance-specific stuff.
- *****************************************************************************/
+/** ***************************************************************************
+*** \file    particle_effect.h
+*** \author  Raj Sharma, roos@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
+*** \brief   Header file for particle effects
+***
+*** Particle effects are basically nothing more than a collection of particle
+*** systems. Many effects are just one system. However, for example, if you think
+*** about a campfire effect, that might actually consist of fire + smoke + embers.
+*** So, that's an example of an effect that consists of 3 systems.
+***
+*** This file contains two classes: ParticleEffectDef, and ParticleEffect.
+***
+*** ParticleEffectDef is a "definition" class, which holds a list of
+***    ParticleSystemDefs.
+***
+*** ParticleEffect is an "instance" class, which holds a list of
+***    ParticleSystems.
+***
+***
+*** This way, if you have 100 explosions, the properties of the
+*** effect are stored only once in a ParticleEffectDef, and the only thing that
+*** gets repeated 100 times is the ParticleEffect, which holds instance-specific stuff.
+*** **************************************************************************/
 
 #ifndef __PARTICLE_EFFECT_HEADER__
 #define __PARTICLE_EFFECT_HEADER__
 
-#include "defs.h" // TODO: Get rid of this bad practice
-#include "utils.h"
-
 #include "engine/video/particle_system.h"
 
-namespace hoa_map
+namespace vt_script {
+class ReadScriptDescriptor;
+}
+
+namespace vt_map
 {
 namespace private_map
 {
@@ -47,7 +50,7 @@ class ParticleObject;
 }
 }
 
-namespace hoa_mode_manager
+namespace vt_mode_manager
 {
 
 /*!***************************************************************************
@@ -59,18 +62,28 @@ class ParticleEffectDef
 {
 public:
     ParticleEffectDef():
+        effect_width(0.0f),
+        effect_height(0.0f),
         effect_collision_width(0.0f),
         effect_collision_height(0.0f)
     {}
 
     void Clear() {
+        effect_width = 0.0f;
+        effect_height = 0.0f;
         effect_collision_width = 0.0f;
         effect_collision_height = 0.0f;
         _systems.clear();
     }
 
     /** The effect size in pixels, used to know when to display it when it used as
-    *** a map object fir instance. It is used to compute the image rectangle.
+    *** a map object for instance. It is used to compute the image rectangle.
+    *** \note Not used if equal to 0.
+    **/
+    float effect_width;
+    float effect_height;
+
+    /** The effect collision size in pixels.
     *** \note Not used if equal to 0.
     **/
     float effect_collision_width;
@@ -205,31 +218,36 @@ public:
         return _age;
     }
 
-    //! \brief Get the overall effect width/height in pixels.
-    float GetEffectWidth() const {
+    //! \brief Get the overall effect collision width/height in pixels.
+    float GetEffectCollisionWidth() const {
         return _effect_def.effect_collision_width;
     }
-    float GetEffectHeight() const {
+    float GetEffectCollisionHeight() const {
         return _effect_def.effect_collision_height;
     }
+
+    //! \brief Get the overall effect image width/height in pixels.
+    float GetEffectWidth() const {
+        return _effect_def.effect_width;
+    }
+    float GetEffectHeight() const {
+        return _effect_def.effect_height;
+    }
+
 
     bool IsLoaded() const {
         return _loaded;
     }
 
-    /*!
-     * \brief draws the effect.
-     * \return success/failure
-     */
-    bool Draw();
+    //! \brief draws the effect.
+    void Draw();
 
     /*!
      * \brief updates the effect.
      * \param the new frame time
-     * \return success/failure
      */
-    bool Update(float frame_time);
-    bool Update();
+    void Update(float frame_time);
+    void Update();
 private:
     /*!
      * \brief destroys the effect. This is private so that only the ParticleManager class
@@ -250,7 +268,7 @@ private:
     bool _CreateEffect();
 
     //! \brief Helper function used to read a color subtable.
-    hoa_video::Color _ReadColor(hoa_script::ReadScriptDescriptor &particle_script,
+    vt_video::Color _ReadColor(vt_script::ReadScriptDescriptor &particle_script,
                                 const std::string &param_name);
 
     //! The effect definition
@@ -282,6 +300,6 @@ private:
     int32 _num_particles;
 }; // class ParticleEffect
 
-}  // namespace hoa_mode_manager
+}  // namespace vt_mode_manager
 
 #endif  //! __PARTICLE_EFFECT_HEADER__

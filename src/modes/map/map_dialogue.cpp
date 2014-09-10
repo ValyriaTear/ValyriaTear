@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 //            Copyright (C) 2004-2011 by The Allacrost Project
-//            Copyright (C) 2012 by Bertram (Valyria Tear)
+//            Copyright (C) 2012-2014 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -15,27 +15,33 @@
 *** \brief   Source file for map mode dialogue.
 *** ***************************************************************************/
 
+#include "utils/utils_pch.h"
 #include "modes/map/map_dialogue.h"
 
-#include "modes/map/map.h"
+#include "modes/map/map_mode.h"
 #include "modes/map/map_events.h"
 #include "modes/map/map_sprites.h"
 
 #include "engine/input.h"
 
-using namespace hoa_utils;
-using namespace hoa_audio;
-using namespace hoa_video;
-using namespace hoa_gui;
-using namespace hoa_input;
-using namespace hoa_mode_manager;
-using namespace hoa_script;
-using namespace hoa_system;
-using namespace hoa_global;
-using namespace hoa_menu;
-using namespace hoa_common;
+#include "common/global/global.h"
 
-namespace hoa_map
+namespace vt_common {
+extern bool COMMON_DEBUG;
+}
+
+using namespace vt_utils;
+using namespace vt_audio;
+using namespace vt_video;
+using namespace vt_gui;
+using namespace vt_input;
+using namespace vt_mode_manager;
+using namespace vt_script;
+using namespace vt_system;
+using namespace vt_global;
+using namespace vt_common;
+
+namespace vt_map
 {
 
 namespace private_map
@@ -49,15 +55,45 @@ SpriteDialogue::SpriteDialogue(uint32 id) :
     CommonDialogue(id),
     _input_blocked(false),
     _restore_state(true),
-    _event_name("dialogue#" + hoa_utils::NumberToString(id))
+    _dialogue_seen(false)
 {}
 
 SpriteDialogue::SpriteDialogue() :
     CommonDialogue(MapMode::CurrentInstance()->GetDialogueSupervisor()->GenerateDialogueID()),
     _input_blocked(false),
-    _restore_state(true)
+    _restore_state(true),
+    _dialogue_seen(false)
+{}
+
+SpriteDialogue::SpriteDialogue(const std::string& dialogue_event_name) :
+    CommonDialogue(MapMode::CurrentInstance()->GetDialogueSupervisor()->GenerateDialogueID()),
+    _input_blocked(false),
+    _restore_state(true),
+    _event_name(dialogue_event_name)
 {
-    _event_name = "dialogue#" + hoa_utils::NumberToString(GetDialogueID());
+    // Check whether the dialogue as already been seen
+    _dialogue_seen = false;
+    if (_event_name.empty())
+        return;
+
+    int32 seen = vt_global::GlobalManager->GetEventValue("dialogues", _event_name);
+    if (seen > 0)
+        _dialogue_seen = true;
+}
+
+void SpriteDialogue::SetAsSeen(bool seen)
+{
+    _dialogue_seen = seen;
+
+    if (_event_name.empty())
+        return;
+
+    // Stores the dialogue state in the save data
+    int32 event_value = 0;
+    if (_dialogue_seen)
+        event_value = 1;
+
+    vt_global::GlobalManager->SetEventValue("dialogues", _event_name, event_value);
 }
 
 void SpriteDialogue::AddLine(const std::string &text, uint32 speaker_id)
@@ -68,13 +104,13 @@ void SpriteDialogue::AddLine(const std::string &text, uint32 speaker_id)
 
 void SpriteDialogue::AddLine(const std::string &text, VirtualSprite *speaker)
 {
-    AddLine(text, speaker->GetObjectID());
+    AddLine(text, speaker ? speaker->GetObjectID() : 0);
 }
 
 void SpriteDialogue::AddLineEmote(const std::string &text, VirtualSprite *speaker,
                                   const std::string &emote_id)
 {
-    AddLineTimedEvent(text, speaker->GetObjectID(), COMMON_DIALOGUE_NEXT_LINE, COMMON_DIALOGUE_NO_TIMER,
+    AddLineTimedEvent(text, speaker ? speaker->GetObjectID() : 0, COMMON_DIALOGUE_NEXT_LINE, COMMON_DIALOGUE_NO_TIMER,
                       std::string(), std::string(), emote_id);
 }
 
@@ -86,7 +122,7 @@ void SpriteDialogue::AddLine(const std::string &text, uint32 speaker_id, int32 n
 
 void SpriteDialogue::AddLine(const std::string &text, VirtualSprite *speaker, int32 next_line)
 {
-    AddLine(text, speaker->GetObjectID(), next_line);
+    AddLine(text, speaker ? speaker->GetObjectID() : 0, next_line);
 }
 
 void SpriteDialogue::AddLineTimed(const std::string &text, uint32 speaker_id, uint32 display_time)
@@ -97,7 +133,7 @@ void SpriteDialogue::AddLineTimed(const std::string &text, uint32 speaker_id, ui
 
 void SpriteDialogue::AddLineTimed(const std::string &text, VirtualSprite *speaker, uint32 display_time)
 {
-    AddLineTimed(text, speaker->GetObjectID(), display_time);
+    AddLineTimed(text, speaker ? speaker->GetObjectID() : 0, display_time);
 }
 
 void SpriteDialogue::AddLineTimed(const std::string &text, uint32 speaker_id, int32 next_line, uint32 display_time)
@@ -108,7 +144,7 @@ void SpriteDialogue::AddLineTimed(const std::string &text, uint32 speaker_id, in
 
 void SpriteDialogue::AddLineTimed(const std::string &text, VirtualSprite *speaker, int32 next_line, uint32 display_time)
 {
-    AddLineTimed(text, speaker->GetObjectID(), next_line, display_time);
+    AddLineTimed(text, speaker ? speaker->GetObjectID() : 0, next_line, display_time);
 }
 
 void SpriteDialogue::AddLineEvent(const std::string &text, uint32 speaker_id,
@@ -121,7 +157,7 @@ void SpriteDialogue::AddLineEvent(const std::string &text, uint32 speaker_id,
 void SpriteDialogue::AddLineEvent(const std::string &text, VirtualSprite *speaker,
                                   const std::string &begin_event_id, const std::string &end_event_id)
 {
-    AddLineEvent(text, speaker->GetObjectID(), begin_event_id, end_event_id);
+    AddLineEvent(text, speaker ? speaker->GetObjectID() : 0, begin_event_id, end_event_id);
 }
 
 void SpriteDialogue::AddLineEventEmote(const std::string &text, VirtualSprite *speaker,
@@ -129,7 +165,7 @@ void SpriteDialogue::AddLineEventEmote(const std::string &text, VirtualSprite *s
                                        const std::string &end_event_id,
                                        const std::string &emote_id)
 {
-    AddLineTimedEvent(text, speaker->GetObjectID(), COMMON_DIALOGUE_NEXT_LINE,
+    AddLineTimedEvent(text, speaker ? speaker->GetObjectID() : 0, COMMON_DIALOGUE_NEXT_LINE,
                       COMMON_DIALOGUE_NO_TIMER,
                       begin_event_id, end_event_id, emote_id);
 }
@@ -144,7 +180,7 @@ void SpriteDialogue::AddLineEvent(const std::string &text, uint32 speaker_id, in
 void SpriteDialogue::AddLineEvent(const std::string &text, VirtualSprite *speaker, int32 next_line,
                                   const std::string &begin_event_id, const std::string &end_event_id)
 {
-    AddLineEvent(text, speaker->GetObjectID(),
+    AddLineEvent(text, speaker ? speaker->GetObjectID() : 0,
                  next_line, begin_event_id, end_event_id);
 }
 
@@ -158,7 +194,7 @@ void SpriteDialogue::AddLineTimedEvent(const std::string &text, uint32 speaker_i
 void SpriteDialogue::AddLineTimedEvent(const std::string &text, VirtualSprite *speaker, uint32 display_time,
                                        const std::string &begin_event_id, const std::string &end_event_id)
 {
-    AddLineTimedEvent(text, speaker->GetObjectID(), display_time,
+    AddLineTimedEvent(text, speaker ? speaker->GetObjectID() : 0, display_time,
                       begin_event_id, end_event_id);
 }
 
@@ -176,7 +212,7 @@ void SpriteDialogue::AddLineTimedEvent(const std::string &text, uint32 speaker_i
 void SpriteDialogue::AddLineTimedEvent(const std::string &text, VirtualSprite *speaker, int32 next_line, uint32 display_time,
                                        const std::string &begin_event_id, const std::string &end_event_id)
 {
-    AddLineTimedEvent(text, speaker->GetObjectID(), next_line, display_time,
+    AddLineTimedEvent(text, speaker ? speaker->GetObjectID() : 0, next_line, display_time,
                       begin_event_id, end_event_id, std::string());
 }
 
@@ -228,8 +264,12 @@ bool SpriteDialogue::Validate()
         event_ids.insert(_end_events[i]);
     }
 
-    // Check that all sprites and events referrenced by the dialogue exist
-    for(std::set<uint32>::iterator i = sprite_ids.begin(); i != sprite_ids.end(); i++) {
+    // Check that all sprites and events referenced by the dialogue exist
+    for(std::set<uint32>::iterator i = sprite_ids.begin(); i != sprite_ids.end(); ++i) {
+        //! Skip speakerless dialogues (sprite id == 0)
+        if ((*i) == 0)
+            continue;
+
         if(MapMode::CurrentInstance()->GetObjectSupervisor()->GetSprite(*i) == NULL) {
             IF_PRINT_WARNING(MAP_DEBUG) << "Validation failed for dialogue #" << _dialogue_id
                                         << ": dialogue referenced invalid sprite with id: " << *i << std::endl;
@@ -237,7 +277,7 @@ bool SpriteDialogue::Validate()
         }
     }
 
-    for(std::set<std::string>::iterator i = event_ids.begin(); i != event_ids.end(); i++) {
+    for(std::set<std::string>::iterator i = event_ids.begin(); i != event_ids.end(); ++i) {
         if(!(*i).empty()) {
             if(MapMode::CurrentInstance()->GetEventSupervisor()->GetEvent(*i) == NULL) {
                 IF_PRINT_WARNING(MAP_DEBUG) << "Validation failed for dialogue #" << _dialogue_id
@@ -297,7 +337,7 @@ DialogueSupervisor::~DialogueSupervisor()
     _current_options = NULL;
 
     // Delete all dialogues
-    for(std::map<uint32, SpriteDialogue *>::iterator i = _dialogues.begin(); i != _dialogues.end(); i++) {
+    for(std::map<uint32, SpriteDialogue *>::iterator i = _dialogues.begin(); i != _dialogues.end(); ++i) {
         delete i->second;
     }
     _dialogues.clear();
@@ -356,7 +396,8 @@ void DialogueSupervisor::BeginDialogue(uint32 dialogue_id)
     SpriteDialogue *dialogue = GetDialogue(dialogue_id);
 
     if(dialogue == NULL) {
-        IF_PRINT_WARNING(COMMON_DEBUG) << "could not begin dialogue because none existed for id# " << dialogue_id << std::endl;
+        PRINT_WARNING << "Could not begin dialogue because none existed for id: " << dialogue_id << std::endl
+            << "Did you register the dialogue using 'AddDialogue()'?" << std::endl;
         return;
     }
 
@@ -378,18 +419,24 @@ void DialogueSupervisor::EndDialogue()
         return;
     }
 
-    _current_dialogue->IncrementTimesSeen();
+    _current_dialogue->SetAsSeen();
 
     // We only want to call the RestoreState function *once* for each speaker, so first we have to construct a list of pointers
     // for all speakers without duplication (i.e. the case where a speaker spoke more than one line of dialogue).
 
+    MapMode *map_mode = MapMode::CurrentInstance();
+
     // Get a unique set of all sprites that participated in the dialogue
     std::set<MapSprite *> speakers;
-    for(uint32 i = 0; i < _current_dialogue->GetLineCount(); i++) {
-        speakers.insert(dynamic_cast<MapSprite *>(MapMode::CurrentInstance()->GetObjectSupervisor()->GetObject(_current_dialogue->GetLineSpeaker(i))));
+    for(uint32 i = 0; i < _current_dialogue->GetLineCount(); ++i) {
+        uint32 speaker_id = _current_dialogue->GetLineSpeaker(i);
+        MapSprite* speaker = (speaker_id > 0) ?
+            dynamic_cast<MapSprite *>(map_mode->GetObjectSupervisor()->GetObject(speaker_id))
+            : NULL;
+        speakers.insert(speaker);
     }
 
-    for(std::set<MapSprite *>::iterator i = speakers.begin(); i != speakers.end(); i++) {
+    for(std::set<MapSprite *>::iterator i = speakers.begin(); i != speakers.end(); ++i) {
         if(!(*i))
             continue;
         // Each sprite needs to know that this dialogue completed so that they can update their data accordingly
@@ -402,9 +449,17 @@ void DialogueSupervisor::EndDialogue()
         }
     }
 
+    map_mode->PopState();
+
+    std::string event_id = _current_dialogue->GetEventAtDialogueEnd();
+    if (!event_id.empty()) {
+        // Trigger the event after popping the map state, permitting
+        // to set a scene state afterward, for instance.
+        map_mode->GetEventSupervisor()->StartEvent(event_id);
+    }
+
     _current_dialogue = NULL;
     _current_options = NULL;
-    MapMode::CurrentInstance()->PopState();
 }
 
 SpriteDialogue *DialogueSupervisor::GetDialogue(uint32 dialogue_id)
@@ -418,7 +473,11 @@ SpriteDialogue *DialogueSupervisor::GetDialogue(uint32 dialogue_id)
 
 void DialogueSupervisor::_UpdateEmote()
 {
-    MapObject *object = MapMode::CurrentInstance()->GetObjectSupervisor()->GetObject(_current_dialogue->GetLineSpeaker(_line_counter));
+    uint32 speaker_id = _current_dialogue->GetLineSpeaker(_line_counter);
+    MapObject *object = speaker_id > 0 ?
+        MapMode::CurrentInstance()->GetObjectSupervisor()->GetObject(speaker_id)
+        : NULL;
+
     if(!object || !object->HasEmote()) {
         _emote_triggered = true;
         _BeginLine();
@@ -465,6 +524,7 @@ void DialogueSupervisor::_UpdateLine()
 
 void DialogueSupervisor::_UpdateOptions()
 {
+    _dialogue_window.GetDisplayTextBox().Update();
     _dialogue_window.GetDisplayOptionBox().Update();
     if(InputManager->ConfirmPress()) {
         _dialogue_window.GetDisplayOptionBox().InputConfirm();
@@ -485,16 +545,22 @@ void DialogueSupervisor::_BeginLine()
     // Starts possible events at new line.
     MapMode *map_mode = MapMode::CurrentInstance();
     std::string line_event = _current_dialogue->GetLineBeginEvent(_line_counter);
-    if(!line_event.empty()) {
+    if(!line_event.empty() && !map_mode->GetEventSupervisor()->IsEventActive(line_event)) {
         map_mode->GetEventSupervisor()->StartEvent(line_event);
     }
+
+    // The current speaker id
+    uint32 speaker_id = _current_dialogue->GetLineSpeaker(_line_counter);
 
     // Starts possible emote first.
     std::string emote_event = _current_dialogue->GetLineEmote(_line_counter);
     if(!emote_event.empty() && !_emote_triggered) {
-        MapSprite *sprite = dynamic_cast<MapSprite *>(map_mode->GetObjectSupervisor()->GetObject(_current_dialogue->GetLineSpeaker(_line_counter)));
+        MapSprite* sprite = (speaker_id > 0) ?
+            dynamic_cast<MapSprite *>(map_mode->GetObjectSupervisor()->GetObject(speaker_id))
+            : NULL;
+
         if(sprite) {
-            sprite->Emote(emote_event, (hoa_map::private_map::ANIM_DIRECTIONS)sprite->GetCurrentAnimationDirection());
+            sprite->Emote(emote_event, (vt_map::private_map::ANIM_DIRECTIONS)sprite->GetCurrentAnimationDirection());
             _state = DIALOGUE_STATE_EMOTE;
             _emote_triggered = true;
             return;
@@ -520,27 +586,29 @@ void DialogueSupervisor::_BeginLine()
     _dialogue_window.Clear();
     _dialogue_window.GetDisplayTextBox().SetDisplayText(_current_dialogue->GetLineText(_line_counter));
 
-    if(_current_options != NULL) {
-        for(uint32 i = 0; i < _current_options->GetNumberOptions(); i++) {
-            _dialogue_window.GetDisplayOptionBox().AddOption(_current_options->GetOptionText(i));
-        }
-
-        _dialogue_window.GetDisplayOptionBox().SetSelection(0);
+    MapObject *object = speaker_id > 0 ? map_mode->GetObjectSupervisor()->GetObject(speaker_id) : NULL;
+    if(object && object->GetType() != SPRITE_TYPE) {
+        IF_PRINT_WARNING(MAP_DEBUG) << "dialogue #" << _current_dialogue->GetDialogueID()
+            << " referenced a map object which was not a sprite with id: " << speaker_id << std::endl;
+        return;
     }
 
-    MapObject *object = map_mode->GetObjectSupervisor()->GetObject(_current_dialogue->GetLineSpeaker(_line_counter));
-    if(object == NULL) {
-        IF_PRINT_WARNING(MAP_DEBUG) << "dialogue #" << _current_dialogue->GetDialogueID()
-                                    << " referenced a sprite that did not exist with id: " << _current_dialogue->GetLineSpeaker(_line_counter) << std::endl;
-        return;
-    } else if(object->GetType() != SPRITE_TYPE) {
-        IF_PRINT_WARNING(MAP_DEBUG) << "dialogue #" << _current_dialogue->GetDialogueID()
-                                    << " referenced a map object which was not a sprite with id: " << _current_dialogue->GetLineSpeaker(_line_counter) << std::endl;
-        return;
+    if(!object) {
+        // Clear the speaker name and potential portrait.
+        _dialogue_window.GetNameText().Clear();
+        _dialogue_window.SetPortraitImage(NULL);
     } else {
         MapSprite *speaker = dynamic_cast<MapSprite *>(object);
         _dialogue_window.GetNameText().SetText(speaker->GetName());
         _dialogue_window.SetPortraitImage(speaker->GetFacePortrait());
+    }
+
+    if(_current_options) {
+        for(uint32 i = 0; i < _current_options->GetNumberOptions(); ++i)
+            _dialogue_window.GetDisplayOptionBox().AddOption(_current_options->GetOptionText(i));
+
+        _dialogue_window.GetDisplayOptionBox().SetSelection(0);
+        _state = DIALOGUE_STATE_OPTION;
     }
 }
 
@@ -607,4 +675,4 @@ void DialogueSupervisor::_EndLine()
 
 } // namespace private_map
 
-} // namespace hoa_map
+} // namespace vt_map

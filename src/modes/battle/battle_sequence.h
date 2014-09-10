@@ -1,5 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
-//            Copyright (C) 2004-2010 by The Allacrost Project
+//            Copyright (C) 2004-2011 by The Allacrost Project
+//            Copyright (C) 2012-2014 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software and
@@ -10,6 +11,7 @@
 /** ****************************************************************************
 *** \file    battle.h
 *** \author  Tyler Olsen, roots@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Header file for battle sequence manager.
 ***
 *** Battle sequences are the brief scenes that the player sees when the battle
@@ -21,20 +23,19 @@
 #ifndef __BATTLE_SEQUENCE_HEADER__
 #define __BATTLE_SEQUENCE_HEADER__
 
-#include "defs.h"
-#include "utils.h"
+#include "modes/battle/battle.h"
+#include "modes/battle/battle_utils.h"
+
+#include "utils/utils_pch.h"
 
 #include "engine/audio/audio.h"
 #include "engine/mode_manager.h"
 #include "engine/script/script.h"
 #include "engine/system.h"
-#include "engine/video/video.h"
 
 #include "common/global/global.h"
 
-#include "modes/battle/battle_utils.h"
-
-namespace hoa_battle
+namespace vt_battle
 {
 
 extern bool BATTLE_DEBUG;
@@ -92,7 +93,7 @@ private:
     uint32 _sequence_step;
 
     //! \brief A timer utilized for many different purposes when playing out a sequence
-    hoa_system::SystemTimer _sequence_timer;
+    vt_system::SystemTimer _sequence_timer;
 
     //! \brief A position offset used to move GUI objects from off screen to their permanent positions
     float _gui_position_offset;
@@ -121,6 +122,6 @@ private:
 
 } // namespace private_battle
 
-} // namespace hoa_battle
+} // namespace vt_battle
 
 #endif // __BATTLE_SEQUENCE_HEADER__

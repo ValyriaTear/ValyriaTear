@@ -1,5 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
-//            Copyright (C) 2004-2010 by The Allacrost Project
+//            Copyright (C) 2004-2011 by The Allacrost Project
+//            Copyright (C) 2012-2014 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software and
@@ -13,6 +14,7 @@
 *** \author  Viljami Korhonen, mindflayer@allacrost.org
 *** \author  Corey Hoffstein, visage@allacrost.org
 *** \author  Andy Gardner, chopperdave@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Header file for battle mode interface.
 ***
 *** This code handles event processing, game state updates, and video frame
@@ -29,20 +31,26 @@
 
 #include "common/global/global_actors.h"
 
-#include <list>
-
-namespace hoa_battle
+namespace vt_battle
 {
 
-//! \brief Determines whether the code in the hoa_battle namespace should print debug statements or not.
+//! \brief Determines whether the code in the vt_battle namespace should print debug statements or not.
 extern bool BATTLE_DEBUG;
 
 //! \brief An internal namespace to be used only within the battle code. Don't use this namespace anywhere else!
 namespace private_battle
 {
 
+class BattleActor;
+class BattleCharacter;
+class BattleEnemy;
 class BattleObject;
 class BattleParticleEffect;
+class BattleAnimation;
+class CommandSupervisor;
+class DialogueSupervisor;
+class FinishSupervisor;
+class SequenceSupervisor;
 
 /** \name Battle setting type
 *** \brief Represents the play types of battle that the player may have to deal with
@@ -71,6 +79,35 @@ const float BATTLE_SEMI_ACTIVE_FACTOR   = 1.5f;
 const float BATTLE_ACTIVE_FACTOR        = 1.0f;
 //@}
 
+//! \brief A simple structure keeping the enemy info to later permit to reinsert
+//! it as it was first requested, on battles restarts.
+struct BattleEnemyInfo {
+    BattleEnemyInfo():
+        id(0),
+        pos_x(0.0f),
+        pos_y(0.0f)
+    {}
+
+    BattleEnemyInfo(uint32 _id):
+        id(_id),
+        pos_x(0.0f),
+        pos_y(0.0f)
+    {}
+
+    BattleEnemyInfo(uint32 _id, float x, float y):
+        id(_id),
+        pos_x(x),
+        pos_y(y)
+    {}
+
+    //! \brief the battle enemy id
+    uint32 id;
+    //! \brief The x enemy position on the battle field, or 0 if default one.
+    float pos_x;
+    //! \brief The y enemy position on the battle field, or 0 if default one.
+    float pos_y;
+};
+
 /** ****************************************************************************
 *** \brief A companion class to BattleMode that holds various multimedia data
 ***
@@ -89,7 +126,7 @@ class BattleMedia
 public:
     BattleMedia();
 
-    ~BattleMedia();
+    ~BattleMedia() {}
 
     ///! \brief Updates the different animations and media
     void Update();
@@ -108,76 +145,57 @@ public:
     *** \param index The index of the button to retrieve
     *** \return A pointer to the appropriate button image, or NULL if the index argument was out of bounds
     **/
-    hoa_video::StillImage *GetCharacterActionButton(uint32 index);
+    vt_video::StillImage *GetCharacterActionButton(uint32 index);
 
     /** \brief Retrieves the appropriate icon image given a valid target type
     *** \param target_type The enumerated value that represents the type of target
     *** \return A pointer to the appropriate icon image, or NULL if the target type was invalid
     **/
-    hoa_video::StillImage *GetTargetTypeIcon(hoa_global::GLOBAL_TARGET target_type);
+    vt_video::StillImage *GetTargetTypeIcon(vt_global::GLOBAL_TARGET target_type);
 
-    /** \brief Retrieves a specific status icon with the proper type and intensity
-    *** \param type The type of status effect the user is trying to retrieve the icon for
-    *** \param intensity The intensity level of the icon to retrieve
-    *** \return The icon representation of the element type and intensity, or NULL if no appropriate image was found
-    **/
-    hoa_video::StillImage *GetStatusIcon(hoa_global::GLOBAL_STATUS type, hoa_global::GLOBAL_INTENSITY intensity);
-
-    const hoa_video::StillImage &GetStunnedIcon() {
+    const vt_video::StillImage &GetStunnedIcon() {
         return _stunned_icon;
     }
 
     // ---------- Public members
 
     //! \brief The static background image to be used for the battle
-    hoa_video::StillImage background_image;
+    vt_video::StillImage background_image;
 
     //! \brief The static image that is drawn for the bottom menus
-    hoa_video::StillImage bottom_menu_image;
+    vt_video::StillImage bottom_menu_image;
 
     /** \brief An image that indicates that a particular actor has been selected
     *** This image best suites character sprites and enemy sprites of similar size. It does not work
     *** well with larger or smaller sprites.
     **/
-    hoa_video::StillImage actor_selection_image;
+    vt_video::StillImage actor_selection_image;
 
     /** \brief An image that points out the location of specific attack points on an actor
     *** This image may be used for both character and enemy actors. It is used to indicate an actively selected
     *** attack point, <b>not</b> just any attack points present.
     **/
-    hoa_video::AnimatedImage attack_point_indicator;
+    vt_video::AnimatedImage attack_point_indicator;
 
     //! \brief Used to provide a background highlight for a selected character
-    hoa_video::StillImage character_selected_highlight;
+    vt_video::StillImage character_selected_highlight;
 
     //! \brief Used to provide a background highlight for a character that needs a command set
-    hoa_video::StillImage character_command_highlight;
+    vt_video::StillImage character_command_highlight;
 
-    //! \brief An image which contains the covers for the HP and SP bars
-    hoa_video::StillImage character_bar_covers;
+    //! \brief An image which contains the HP and SP bars headers.
+    vt_video::TextImage character_HP_text;
+    vt_video::TextImage character_SP_text;
 
     /** \brief The universal stamina bar that is used to represent the state of battle actors
     *** All battle actors have a portrait that moves along this meter to signify their
     *** turn in the rotation.  The meter and corresponding portraits must be drawn after the
     *** character sprites.
     **/
-    hoa_video::StillImage stamina_meter;
+    vt_video::StillImage stamina_meter;
 
     //! \brief The image used to highlight stamina icons for selected actors
-    hoa_video::StillImage stamina_icon_selected;
-
-    /** \brief Image that indicates when a player may perform character swapping
-    *** This image is drawn in the lower left corner of the screen. When no swaps are available to the player,
-    *** the image is drawn in gray-scale.
-    **/
-    hoa_video::StillImage swap_icon;
-
-    /** \brief Used for visual display of how many swaps a character may perform
-    *** This image is drawn in the lower left corner of the screen, just above the swap indicator. This image
-    *** may be drawn on the screen up to four times (in a card-stack fashion), one for each swap that is
-    *** available to be used. It is not drawn when the player has no swaps available.
-    **/
-    hoa_video::StillImage swap_card;
+    vt_video::StillImage stamina_icon_selected;
 
     /** \brief Small button icons used to indicate when a player can select an action for their characters
     *** These buttons are used to indicate to the player what button to press to bring up a character's command
@@ -186,43 +204,26 @@ public:
     *** in each row is a "blank" button that is not used. The next four elements correspond to the characters on
     *** the screen, from top to bottom.
     **/
-    std::vector<hoa_video::StillImage> character_action_buttons;
+    std::vector<vt_video::StillImage> character_action_buttons;
 
     //! \brief The music played during the battle
-    hoa_audio::MusicDescriptor battle_music;
+    vt_audio::MusicDescriptor battle_music;
 
     //! \brief The music played after the player has won the battle
-    hoa_audio::MusicDescriptor victory_music;
+    vt_audio::MusicDescriptor victory_music;
 
     //! \brief The music played after the player has lost the battle
-    hoa_audio::MusicDescriptor defeat_music;
-
-    //! \brief Various sounds that are played as the player performs menu actions
-    //@{
-    hoa_audio::SoundDescriptor confirm_sound;
-    hoa_audio::SoundDescriptor cancel_sound;
-    hoa_audio::SoundDescriptor cursor_sound;
-    hoa_audio::SoundDescriptor invalid_sound;
-    hoa_audio::SoundDescriptor finish_sound;
+    vt_audio::MusicDescriptor defeat_music;
     //@}
 
 private:
-    /** \brief Container used to find the appropriate row index for each status type
-    *** Status icons for all types of status are all contained within a single image. This container is used to
-    *** quickly determine which row of icons in that image corresponds to each status type.
-    **/
-    std::map<hoa_global::GLOBAL_STATUS, uint32> _status_indeces;
-
     /** \brief Holds icon images that represent the different types of targets
     *** Target types include attack points, ally/enemy, and different parties.
     **/
-    std::vector<hoa_video::StillImage> _target_type_icons;
-
-    //! \brief Contains the entire set of status effect icons
-    std::vector<hoa_video::StillImage> _status_icons;
+    std::vector<vt_video::StillImage> _target_type_icons;
 
     //! \brief An icon displayed above the character's head when it is stunned.
-    hoa_video::StillImage _stunned_icon;
+    vt_video::StillImage _stunned_icon;
 }; // class BattleMedia
 
 } // namespace private_battle
@@ -242,7 +243,7 @@ private:
 *** it returns to battle mode the paused timers will incorrectly be resumed. Need
 *** to save/restore additional state information about timers on a pause event.
 *** ***************************************************************************/
-class BattleMode : public hoa_mode_manager::GameMode
+class BattleMode : public vt_mode_manager::GameMode
 {
     friend class private_battle::SequenceSupervisor;
 
@@ -277,30 +278,23 @@ public:
     //@}
 
     /** \brief Adds a new active enemy to the battle field
-    *** \param new_enemy A copy of the GlobalEnemy object to add to the battle
-    *** \param position_x, position_y The enemy sprite position on the battle ground in pixels
-    *** This method uses the GlobalEnemy copy constructor to create a copy of the enemy. The GlobalEnemy
-    *** passed as an argument should be in its default loaded state (that is, it should have an experience
-    *** level equal to zero).
-    **/
-    void AddEnemy(hoa_global::GlobalEnemy *new_enemy, float position_x, float position_y);
-
-    /** \brief Adds a new active enemy to the battle field
     *** \param new_enemy_id The id number of the new enemy to add to the battle
     *** \param position_x, position_y The enemy sprite position on the battle ground in pixels
+    *** If both are equal to 0.0f, the position is automatically computed.
     *** This method works precisely the same was as the method which takes a GlobalEnemy argument,
     *** only this version will construct the global enemy just using its id (meaning that it has
     *** to open up the Lua file which defines the enemy). If the GlobalEnemy has already been
     *** defined somewhere else, it is better to pass it in to the alternative definition of this
     *** function.
     **/
-    void AddEnemy(uint32 new_enemy_id, float position_x, float position_y) {
-        AddEnemy(new hoa_global::GlobalEnemy(new_enemy_id), position_x, position_y);
+    void AddEnemy(uint32 new_enemy_id, float position_x, float position_y);
+    void AddEnemy(uint32 new_enemy_id) {
+        AddEnemy(new_enemy_id, 0.0f, 0.0f);
     }
 
     /** \brief Restores the battle to its initial state, allowing the player another attempt to achieve victory
-    ***
-    ***
+    *** This function is permitted only when the battle state isn't invalid, as this value is reserved
+    *** for battles that haven't started yet.
     **/
     void RestartBattle();
 
@@ -316,6 +310,16 @@ public:
 
     private_battle::BATTLE_STATE GetState() const {
         return _state;
+    }
+
+    //! \brief Sets the battle in scene mode, pausing the actors actions and states.
+    void SetSceneMode(bool scene_mode) {
+        _scene_mode = scene_mode;
+    }
+
+    //! \brief Tells whether the battle is paused and playing a scene
+    bool IsInSceneMode() const {
+        return _scene_mode;
     }
 
     /** \brief Changes the state of the battle and performs any initializations and updates needed
@@ -377,13 +381,13 @@ public:
 
     //! \brief Tells the battle type: Wait, semi-wait, active.
     //! \see BATTLE_TYPE enum.
-    hoa_battle::private_battle::BATTLE_TYPE GetBattleType() const {
+    vt_battle::private_battle::BATTLE_TYPE GetBattleType() const {
         return _battle_type;
     }
 
     //! \brief Tells the battle type: Wait, semi-wait, active.
     //! \see BATTLE_TYPE enum.
-    void SetBattleType(hoa_battle::private_battle::BATTLE_TYPE battle_type) {
+    void SetBattleType(vt_battle::private_battle::BATTLE_TYPE battle_type) {
         _battle_type = battle_type;
     }
 
@@ -397,8 +401,20 @@ public:
         return _character_actors;
     }
 
+    private_battle::BattleCharacter* GetCharacterActor(uint32 index) {
+        if (index >= _character_actors.size())
+            return NULL;
+        return _character_actors[index];
+    }
+
     std::deque<private_battle::BattleEnemy *>& GetEnemyActors() {
         return _enemy_actors;
+    }
+
+    private_battle::BattleEnemy* GetEnemyActor(uint32 index) {
+        if (index >= _enemy_actors.size())
+            return NULL;
+        return _enemy_actors[index];
     }
 
     std::deque<private_battle::BattleActor *>& GetCharacterParty() {
@@ -429,10 +445,34 @@ public:
     //! \param The effect filename is the particle effect definition file.
     //! \param x the x coordinates of the particle effect in pixels.
     //! \param y the y coordinates of the particle effect in pixels.
-    void TriggerBattleParticleEffect(const std::string &effect_filename, uint32 x, uint32 y);
+    void TriggerBattleParticleEffect(const std::string& effect_filename, uint32 x, uint32 y);
+
+    //! \brief Creates a battle animation object.
+    //! Those objects are also drawn sorted by their Y coordinate value.
+    //! Note that at the animation is created invisible at coordinate (0,0)
+    //! and that you must call SetVisible(true) and move it somewhere visible
+    //! for it to be shown.
+    //! Once you don't need it anymore, you can throw it by calling Remove()
+    //! and the animation will be freed from memory on the next Battle update.
+    //!
+    //! \param The animation filename is the animation definition file.
+    //! \return the animation object for scripted manipulation purpose.
+    private_battle::BattleAnimation* CreateBattleAnimation(const std::string& animation_filename);
+
+    //! \brief Sets whether the current fight is a fight including a boss.
+    //! N.B.: Certain items shouldn't work in a boss fight, for instance.
+    void SetBossBattle(bool is_boss = true) {
+        _is_boss_battle = is_boss;
+    }
+
+    //! \brief Tells whether the current fight is a fight including a boss.
+    bool IsBossBattle() const {
+        return _is_boss_battle;
+    }
     //@}
 
 private:
+
     //! \brief A static pointer to the currently active instance of battle mode
     static BattleMode *_current_instance;
 
@@ -486,11 +526,15 @@ private:
     **/
     std::deque<private_battle::BattleActor *> _enemy_party;
 
-    /** \brief The particle effects container.
-    *** It will permit to draw particle effect in the right order, and will get rid of the dead particle effects,
-    *** at update time.
+    //! \brief A copy of the enemy actors id at the beginning of the battle. Useful when restarting the battle,
+    //! as the number of enemies might have changed.
+    std::deque<private_battle::BattleEnemyInfo> _initial_enemy_actors_info;
+
+    /** \brief The effects container.
+    *** It will permit to draw particle effects and animations in the right order,
+    *** and will get rid of the "dead" useless effects at update time.
     **/
-    std::vector<private_battle::BattleParticleEffect *> _battle_particle_effects;
+    std::vector<private_battle::BattleObject *> _battle_effects;
 
     /** \brief A FIFO queue of all actors that are ready to perform an action
     *** When an actor has completed the wait time for their warm-up state, they enter the ready state and are
@@ -524,14 +568,23 @@ private:
     //! \brief Tells whether the state of battle actors should be paused. Used in wait battle types.
     bool _actor_state_paused;
 
+    //! Tells whether the battle is in scene mode
+    //! The actor states should then be paused, the dialogues played if there are some,
+    //! But the actors animations and indicators should still updates.
+    //! The effects shouldn't update though.
+    bool _scene_mode;
+
     //! \brief Retains the play type setting for battle that the user requested (e.g. wait mode, active mode, etc).
-    hoa_battle::private_battle::BATTLE_TYPE _battle_type;
+    vt_battle::private_battle::BATTLE_TYPE _battle_type;
 
     //! \brief Setup at battle start, and used to factorize the battle actors speed in battle.
     uint32 _highest_agility;
 
     //! \brief the battle type time factor, speeding the battle actors depending on the battle type.
     float _battle_type_time_factor;
+
+    //! \brief Tells whether the battle is a boss fight.
+    bool _is_boss_battle;
 
     ////////////////////////////// PRIVATE METHODS ///////////////////////////////
 
@@ -589,11 +642,8 @@ private:
 
     //! \brief Draws the stamina bar and the icons of the actors of both parties
     void _DrawStaminaBar();
-
-    //! \brief Draws indicator text and graphics for each actor on the field
-    void _DrawIndicators();
     //@}
-}; // class BattleMode : public hoa_mode_manager::GameMode
+}; // class BattleMode : public vt_mode_manager::GameMode
 
 
 /** ****************************************************************************
@@ -602,13 +652,17 @@ private:
 *** Must be called without fade transition, as it will do it.
 ***
 *** ***************************************************************************/
-class TransitionToBattleMode : public hoa_mode_manager::GameMode
+class TransitionToBattleMode : public vt_mode_manager::GameMode
 {
 public:
-    TransitionToBattleMode(BattleMode *BM);
+    TransitionToBattleMode(BattleMode *BM, bool is_boss = false);
 
-    ~TransitionToBattleMode()
-    {}
+    ~TransitionToBattleMode() {
+        // If the game quits while in pause mode during a transition to battle,
+        // The battle mode object needs to be freed.
+        if (_BM)
+            delete _BM;
+    }
 
     void Update();
 
@@ -618,18 +672,21 @@ public:
 
 private:
     //! \brief The screen capture of the moment of the encounter
-    hoa_video::StillImage _screen_capture;
+    vt_video::StillImage _screen_capture;
 
     //! \brief The transition timer, used to display the encounter visual effect
-    hoa_system::SystemTimer _transition_timer;
+    vt_system::SystemTimer _transition_timer;
 
     //! \brief Used to display the effect
     float _position;
+
+    //! \brief Tells whether the boss trigger sound is to be played or not.
+    bool _is_boss;
 
     //! \brief The Battle mode to trigger afterward. Must not be NULL.
     BattleMode *_BM;
 };
 
-} // namespace hoa_battle
+} // namespace vt_battle
 
 #endif // __BATTLE_HEADER__

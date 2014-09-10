@@ -1,5 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
-//            Copyright (C) 2004-2010 by The Allacrost Project
+//            Copyright (C) 2004-2011 by The Allacrost Project
+//            Copyright (C) 2012-2014 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -10,19 +11,19 @@
 /** ****************************************************************************
 *** \file    script_read.h
 *** \author  Daniel Steuernol - steu@allacrost.org,
-***          Tyler Olsen - roots@allacrost.org
+*** \author  Tyler Olsen - roots@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Header file for the ReadScriptDescriptor class.
 *** ***************************************************************************/
 
 #ifndef __SCRIPT_READ_HEADER__
 #define __SCRIPT_READ_HEADER__
 
-#include "utils.h"
-#include "defs.h"
-
 #include "script.h"
 
-namespace hoa_script
+#include "utils/ustring.h"
+
+namespace vt_script
 {
 
 namespace private_script
@@ -225,12 +226,12 @@ public:
         return _ReadData<std::string>(key, "");
     }
 
-    hoa_utils::ustring ReadUString(const std::string &key) {
-        return _ReadData<hoa_utils::ustring>(key, hoa_utils::MakeUnicodeString(""));
+    vt_utils::ustring ReadUString(const std::string &key) {
+        return _ReadData<vt_utils::ustring>(key, vt_utils::MakeUnicodeString(""));
     }
 
-    hoa_utils::ustring ReadUString(int32 key) {
-        return _ReadData<hoa_utils::ustring>(key, hoa_utils::MakeUnicodeString(""));
+    vt_utils::ustring ReadUString(int32 key) {
+        return _ReadData<vt_utils::ustring>(key, vt_utils::MakeUnicodeString(""));
     }
     //@}
 
@@ -287,12 +288,12 @@ public:
         _ReadDataVector<std::string>(key, vect);
     }
 
-    void ReadUStringVector(const std::string &key, std::vector<hoa_utils::ustring>& vect) {
-        _ReadDataVector<hoa_utils::ustring>(key, vect);
+    void ReadUStringVector(const std::string &key, std::vector<vt_utils::ustring>& vect) {
+        _ReadDataVector<vt_utils::ustring>(key, vect);
     }
 
-    void ReadUStringVector(int32 key, std::vector<hoa_utils::ustring>& vect) {
-        _ReadDataVector<hoa_utils::ustring>(key, vect);
+    void ReadUStringVector(int32 key, std::vector<vt_utils::ustring>& vect) {
+        _ReadDataVector<vt_utils::ustring>(key, vect);
     }
     //@}
 
@@ -319,12 +320,12 @@ public:
     //! \param use_global This overrides the open_tables vector, the reason for this is
     //! when a function is called from lua, any open tables are no longer on the stack passed to the function
     //! so to start a new chain of open tables we have to ignore the open tables vector
-    void OpenTable(const std::string &table_name, bool use_global = false);
+    bool OpenTable(const std::string &table_name, bool use_global = false);
 
     /** \param table_name The integer key of the table to open
     *** \note This function will only work when there is at least one other table already open
     **/
-    void OpenTable(int32 table_name);
+    bool OpenTable(int32 table_name);
 
     /** Opens the lua file own tablespace. It's useful to permit having several lua files
     *** with their own function without worrying too much about the global naming collisions.
@@ -394,39 +395,45 @@ public:
     }
 
     void ReadTableKeys(const std::string &table_name, std::vector<std::string>& keys) {
-        OpenTable(table_name);
-        _ReadTableKeys(keys);
-        CloseTable();
+        if (OpenTable(table_name)) {
+            _ReadTableKeys(keys);
+            CloseTable();
+        }
     }
 
     void ReadTableKeys(const std::string &table_name, std::vector<int32>& keys) {
-        OpenTable(table_name);
-        _ReadTableKeys(keys);
-        CloseTable();
+        if (OpenTable(table_name)) {
+            _ReadTableKeys(keys);
+            CloseTable();
+        }
     }
 
     void ReadTableKeys(const std::string &table_name, std::vector<uint32>& keys) {
-        OpenTable(table_name);
-        _ReadTableKeys(keys);
-        CloseTable();
+        if (OpenTable(table_name)) {
+            _ReadTableKeys(keys);
+            CloseTable();
+        }
     }
 
     void ReadTableKeys(int32 table_name, std::vector<std::string>& keys) {
-        OpenTable(table_name);
-        _ReadTableKeys(keys);
-        CloseTable();
+        if (OpenTable(table_name)) {
+            _ReadTableKeys(keys);
+            CloseTable();
+        }
     }
 
     void ReadTableKeys(int32 table_name, std::vector<int32>& keys) {
-        OpenTable(table_name);
-        _ReadTableKeys(keys);
-        CloseTable();
+        if (OpenTable(table_name)) {
+            _ReadTableKeys(keys);
+            CloseTable();
+        }
     }
 
     void ReadTableKeys(int32 table_name, std::vector<uint32>& keys) {
-        OpenTable(table_name);
-        _ReadTableKeys(keys);
-        CloseTable();
+        if (OpenTable(table_name)) {
+            _ReadTableKeys(keys);
+            CloseTable();
+        }
     }
     //@}
     //@}
@@ -596,6 +603,9 @@ template <class T> T ReadScriptDescriptor::_ReadData(int32 key, T default_value)
 
 template <class T> void ReadScriptDescriptor::_ReadDataVector(const std::string &key, std::vector<T>& vect)
 {
+    if (!DoesTableExist(key))
+        return;
+
     // Open the table and grab if off the stack
     OpenTable(key);
     _ReadDataVectorHelper(vect);
@@ -611,6 +621,9 @@ template <class T> void ReadScriptDescriptor::_ReadDataVector(int32 key, std::ve
                                        << key << std::endl;;
         return;
     }
+
+    if (!DoesTableExist(key))
+        return;
 
     // Open the table and grab if off the stack
     OpenTable(key);
@@ -630,7 +643,7 @@ template <class T> void ReadScriptDescriptor::_ReadDataVectorHelper(std::vector<
     }
 
     // Iterate through all the items of the table and place it in the vector
-    for(luabind::iterator it(o); it != private_script::TABLE_END; it++) {
+    for(luabind::iterator it(o); it != private_script::TABLE_END; ++it) {
         try {
             vect.push_back(luabind::object_cast<T>((*it)));
         } catch(...) {
@@ -657,7 +670,7 @@ template <class T> void ReadScriptDescriptor::_ReadTableKeys(std::vector<T>& key
         return;
     }
 
-    for(luabind::iterator i(table); i != private_script::TABLE_END; i++) {
+    for(luabind::iterator i(table); i != private_script::TABLE_END; ++i) {
         try {
             keys.push_back(luabind::object_cast<T>(i.key()));
         } catch(...) {
@@ -668,6 +681,6 @@ template <class T> void ReadScriptDescriptor::_ReadTableKeys(std::vector<T>& key
     }
 } // template <class T> void ReadScriptDescriptor::ReadTableKeys(std::vector<T>& keys) {
 
-} // namespace hoa_script
+} // namespace vt_script
 
 #endif // __SCRIPT_READ_HEADER__

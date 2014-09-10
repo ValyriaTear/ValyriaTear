@@ -1,5 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
-//            Copyright (C) 2004-2010 by The Allacrost Project
+//            Copyright (C) 2004-2011 by The Allacrost Project
+//            Copyright (C) 2012-2014 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -7,17 +8,28 @@
 // See http://www.gnu.org/copyleft/gpl.html for details.
 ///////////////////////////////////////////////////////////////////////////////
 
+/** ***************************************************************************
+*** \file    particle_effect.cpp
+*** \author  Raj Sharma, roos@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
+*** \brief   Source file for particle effects
+*** **************************************************************************/
+
+#include "utils/utils_pch.h"
 #include "engine/video/particle_effect.h"
+
 #include "engine/video/particle_system.h"
-
-#include "engine/system.h"
 #include "engine/video/video.h"
+
 #include "engine/script/script_read.h"
+#include "engine/system.h"
 
-using namespace hoa_script;
-using namespace hoa_video;
+#include "utils/utils_files.h"
 
-namespace hoa_mode_manager
+using namespace vt_script;
+using namespace vt_video;
+
+namespace vt_mode_manager
 {
 
 bool ParticleEffect::_LoadEffectDef(const std::string &particle_file)
@@ -25,7 +37,11 @@ bool ParticleEffect::_LoadEffectDef(const std::string &particle_file)
     _effect_def.Clear();
     _loaded = false;
 
-    hoa_script::ReadScriptDescriptor particle_script;
+    // Make sure the corresponding tables are empty
+    ScriptManager->DropGlobalTable("systems");
+    ScriptManager->DropGlobalTable("map_effect_collision");
+
+    vt_script::ReadScriptDescriptor particle_script;
     if(!particle_script.OpenFile(particle_file)) {
         PRINT_WARNING << "No script file: '"
                       << particle_file << "' The corresponding particle effect won't work."
@@ -34,8 +50,13 @@ bool ParticleEffect::_LoadEffectDef(const std::string &particle_file)
     }
 
     // Read the particle image rectangle when existing
-    _effect_def.effect_collision_width = particle_script.ReadFloat("effect_collision_width");
-    _effect_def.effect_collision_height = particle_script.ReadFloat("effect_collision_height");
+    if (particle_script.OpenTable("map_effect_collision")) {
+        _effect_def.effect_collision_width = particle_script.ReadFloat("effect_collision_width");
+        _effect_def.effect_collision_height = particle_script.ReadFloat("effect_collision_height");
+        _effect_def.effect_width = particle_script.ReadFloat("effect_width");
+        _effect_def.effect_height = particle_script.ReadFloat("effect_height");
+        particle_script.CloseTable(); // map_effect_collision
+    }
 
     if(!particle_script.DoesTableExist("systems")) {
         PRINT_WARNING << "Could not find the 'systems' array in particle effect "
@@ -100,6 +121,8 @@ bool ParticleEffect::_LoadEffectDef(const std::string &particle_file)
             sys_def.emitter._shape = EMITTER_SHAPE_POINT;
         else if(!strcasecmp(shape_string.c_str(), "line"))
             sys_def.emitter._shape = EMITTER_SHAPE_LINE;
+        else if(!strcasecmp(shape_string.c_str(), "ellipse outline"))
+            sys_def.emitter._shape = EMITTER_SHAPE_ELLIPSE;
         else if(!strcasecmp(shape_string.c_str(), "circle outline"))
             sys_def.emitter._shape = EMITTER_SHAPE_CIRCLE;
         else if(!strcasecmp(shape_string.c_str(), "circle"))
@@ -109,8 +132,7 @@ bool ParticleEffect::_LoadEffectDef(const std::string &particle_file)
 
         sys_def.emitter._omnidirectional = particle_script.ReadBool("omnidirectional");
         sys_def.emitter._orientation = particle_script.ReadFloat("orientation");
-        sys_def.emitter._outer_cone = particle_script.ReadFloat("outer_cone");
-        sys_def.emitter._inner_cone = particle_script.ReadFloat("inner_cone");
+        sys_def.emitter._angle_variation = particle_script.ReadFloat("angle_variation");
         sys_def.emitter._initial_speed = particle_script.ReadFloat("initial_speed");
         sys_def.emitter._initial_speed_variation = particle_script.ReadFloat("initial_speed_variation");
         sys_def.emitter._emission_rate = particle_script.ReadFloat("emission_rate");
@@ -193,7 +215,7 @@ bool ParticleEffect::_LoadEffectDef(const std::string &particle_file)
         std::vector<std::string>::const_iterator it, it_end;
         for(it = sys_def.animation_frame_filenames.begin(),
                 it_end = sys_def.animation_frame_filenames.end(); it != it_end; ++it) {
-            if(!hoa_utils::DoesFileExist(*it)) {
+            if(!vt_utils::DoesFileExist(*it)) {
                 PRINT_WARNING << "Could not find file: "
                               << *it << " in system #" << sys << " in particle effect "
                               << particle_file << std::endl;
@@ -236,11 +258,19 @@ bool ParticleEffect::_LoadEffectDef(const std::string &particle_file)
         sys_def.wind_velocity_variation_x = particle_script.ReadFloat("wind_velocity_variation_x");
         sys_def.wind_velocity_variation_y = particle_script.ReadFloat("wind_velocity_variation_y");
 
-        sys_def.wave_motion_used = particle_script.ReadBool("wave_motion_used");
-        sys_def.wave_length = particle_script.ReadFloat("wave_length");
-        sys_def.wave_length_variation = particle_script.ReadFloat("wave_length_variation");
-        sys_def.wave_amplitude = particle_script.ReadFloat("wave_amplitude");
-        sys_def.wave_amplitude_variation = particle_script.ReadFloat("wave_amplitude_variation");
+        if (particle_script.OpenTable("wave_motion")) {
+
+            sys_def.wave_motion_used = true;
+            sys_def.wave_length = particle_script.ReadFloat("wave_length");
+            sys_def.wave_length_variation = particle_script.ReadFloat("wave_length_variation");
+            sys_def.wave_amplitude = particle_script.ReadFloat("wave_amplitude");
+            sys_def.wave_amplitude_variation = particle_script.ReadFloat("wave_amplitude_variation");
+
+            particle_script.CloseTable();
+        }
+        else {
+            sys_def.wave_motion_used = false;
+        }
 
         sys_def.tangential_acceleration = particle_script.ReadFloat("tangential_acceleration");
         sys_def.tangential_acceleration_variation = particle_script.ReadFloat("tangential_acceleration_variation");
@@ -251,13 +281,36 @@ bool ParticleEffect::_LoadEffectDef(const std::string &particle_file)
         sys_def.user_defined_attractor = particle_script.ReadBool("user_defined_attractor");
         sys_def.attractor_falloff = particle_script.ReadFloat("attractor_falloff");
 
-        sys_def.rotation_used = particle_script.ReadBool("rotation_used");
-        sys_def.rotate_to_velocity = particle_script.ReadBool("rotate_to_velocity");
+        if (particle_script.OpenTable("rotation")) {
+            sys_def.rotation_used = true;
 
-        sys_def.speed_scale_used = particle_script.ReadBool("speed_scale_used");
-        sys_def.speed_scale = particle_script.ReadFloat("speed_scale");
-        sys_def.min_speed_scale = particle_script.ReadFloat("min_speed_scale");
-        sys_def.max_speed_scale = particle_script.ReadFloat("max_speed_scale");
+            if (particle_script.OpenTable("rotate_to_velocity")) {
+
+                sys_def.rotate_to_velocity = true;
+
+                if (particle_script.DoesFloatExist("speed_scale")) {
+                    sys_def.speed_scale_used = true;
+
+                    sys_def.speed_scale = particle_script.ReadFloat("speed_scale");
+                    sys_def.min_speed_scale = particle_script.ReadFloat("min_speed_scale");
+                    sys_def.max_speed_scale = particle_script.ReadFloat("max_speed_scale");
+
+                }
+                else {
+                    sys_def.speed_scale_used = false;
+                }
+
+                particle_script.CloseTable(); // rotate_to_velocity
+            }
+            else {
+                sys_def.rotate_to_velocity = false;
+            }
+
+            particle_script.CloseTable(); // rotation
+        }
+        else {
+            sys_def.rotation_used = false;
+        }
 
         sys_def.smooth_animation = particle_script.ReadBool("smooth_animation");
         sys_def.modify_stencil = particle_script.ReadBool("modify_stencil");
@@ -287,7 +340,7 @@ bool ParticleEffect::_LoadEffectDef(const std::string &particle_file)
 }
 
 // A helper function reading a lua subtable of 4 float values.
-Color ParticleEffect::_ReadColor(hoa_script::ReadScriptDescriptor &particle_script,
+Color ParticleEffect::_ReadColor(vt_script::ReadScriptDescriptor &particle_script,
                                  const std::string &param_name)
 {
     std::vector<float> float_vec;
@@ -349,50 +402,37 @@ bool ParticleEffect::LoadEffect(const std::string &filename)
     return true;
 }
 
-bool ParticleEffect::Draw()
+void ParticleEffect::Draw()
 {
-    bool success = true;
-
     // move to the effect's location
     VideoManager->Move(_x, _y);
 
     std::vector<ParticleSystem>::iterator iSystem = _systems.begin();
 
     while(iSystem != _systems.end()) {
-        VideoManager->PushMatrix();
-        if(!(*iSystem).Draw()) {
-            success = false;
-            IF_PRINT_WARNING(VIDEO_DEBUG)
-                    << "Failed to draw system!" << std::endl;
-        }
-
-        VideoManager->PopMatrix();
+        (*iSystem).Draw();
         ++iSystem;
     }
 
     VideoManager->DisableAlphaTest();
     VideoManager->DisableStencilTest();
     glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
-
-    return success;
 }
 
-bool ParticleEffect::Update()
+void ParticleEffect::Update()
 {
-    return Update(static_cast<float>(hoa_system::SystemManager->GetUpdateTime()) / 1000.0f);
+    Update(static_cast<float>(vt_system::SystemManager->GetUpdateTime()) / 1000.0f);
 }
 
-bool ParticleEffect::Update(float frame_time)
+void ParticleEffect::Update(float frame_time)
 {
     _age += frame_time;
     _num_particles = 0;
 
     if(!_alive)
-        return true;
+        return;
 
-    bool success = true;
-
-    hoa_mode_manager::EffectParameters effect_parameters;
+    vt_mode_manager::EffectParameters effect_parameters;
     effect_parameters.orientation = _orientation;
 
     // note we subtract the effect position to put the attractor point in effect
@@ -409,18 +449,12 @@ bool ParticleEffect::Update(float frame_time)
             if(_systems.empty())
                 _alive = false;
         } else {
-            if(!(*iSystem).Update(frame_time, effect_parameters)) {
-                success = false;
-                IF_PRINT_WARNING(VIDEO_DEBUG)
-                        << "Failed to update system!" << std::endl;
-            }
+            (*iSystem).Update(frame_time, effect_parameters);
 
             _num_particles += (*iSystem).GetNumParticles();
             ++iSystem;
         }
     }
-
-    return success;
 }
 
 
@@ -489,4 +523,4 @@ void ParticleEffect::GetPosition(float &x, float &y) const
     y = _y;
 }
 
-} // namespace hoa_mode_manager
+} // namespace vt_mode_manager

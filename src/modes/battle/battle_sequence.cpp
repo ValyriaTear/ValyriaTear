@@ -1,5 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
-//            Copyright (C) 2004-2010 by The Allacrost Project
+//            Copyright (C) 2004-2011 by The Allacrost Project
+//            Copyright (C) 2012-2014 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software and
@@ -10,8 +11,12 @@
 /** ****************************************************************************
 *** \file    battle_sequence.cpp
 *** \author  Tyler Olsen, roots@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Source file for battle sequence manager.
 *** ***************************************************************************/
+
+#include "utils/utils_pch.h"
+#include "modes/battle/battle_sequence.h"
 
 #include "engine/audio/audio.h"
 #include "engine/mode_manager.h"
@@ -20,16 +25,15 @@
 
 #include "modes/battle/battle.h"
 #include "modes/battle/battle_actors.h"
-#include "modes/battle/battle_sequence.h"
 #include "modes/battle/battle_utils.h"
 
-using namespace hoa_utils;
-using namespace hoa_audio;
-using namespace hoa_mode_manager;
-using namespace hoa_system;
-using namespace hoa_video;
+using namespace vt_utils;
+using namespace vt_audio;
+using namespace vt_mode_manager;
+using namespace vt_system;
+using namespace vt_video;
 
-namespace hoa_battle
+namespace vt_battle
 {
 
 namespace private_battle
@@ -251,7 +255,7 @@ void SequenceSupervisor::_UpdateExitingSequence()
 
             if(!_one_is_dead) {
                 for(uint32 i = 0; i < _battle->_character_actors.size(); i++) {
-                    _battle->_character_actors[i]->ChangeSpriteAnimation("run");
+                    _battle->_character_actors[i]->ChangeSpriteAnimation("run_after_victory");
                 }
             }
 
@@ -319,38 +323,8 @@ void SequenceSupervisor::_DrawGUI()
     // Draw all images that compose the bottom menu area
     // Draw the static image for the lower menu
     VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_BOTTOM, VIDEO_BLEND, 0);
-    VideoManager->Move(0.0f, 0.0f -  _gui_position_offset);
+    VideoManager->Move(0.0f, VIDEO_STANDARD_RES_HEIGHT +  _gui_position_offset);
     _battle->GetMedia().bottom_menu_image.Draw();
-
-    // Draw the swap icon
-    VideoManager->MoveRelative(6.0f, 16.0f);
-    _battle->GetMedia().swap_icon.Draw(Color::gray);
-
-    // Determine the draw order of stamina icons for all living actors
-    // A container to hold all actors that should have their stamina icons drawn
-    std::vector<BattleActor *> live_actors;
-
-    for(uint32 i = 0; i < _battle->_character_actors.size(); i++) {
-        if(_battle->_character_actors[i]->IsAlive())
-            live_actors.push_back(_battle->_character_actors[i]);
-    }
-    for(uint32 i = 0; i < _battle->_enemy_actors.size(); i++) {
-        if(_battle->_enemy_actors[i]->IsAlive())
-            live_actors.push_back(_battle->_enemy_actors[i]);
-    }
-
-    std::vector<float> draw_positions(live_actors.size(), 0.0f);
-    for(uint32 i = 0; i < live_actors.size(); i++) {
-        switch(live_actors[i]->GetState()) {
-        case ACTOR_STATE_IDLE:
-            draw_positions[i] = STAMINA_LOCATION_BOTTOM + (STAMINA_LOCATION_COMMAND - STAMINA_LOCATION_BOTTOM) *
-                                live_actors[i]->GetStateTimer().PercentComplete();
-            break;
-        default:
-            draw_positions[i] = STAMINA_LOCATION_BOTTOM - 50.0f;
-            break;
-        }
-    }
 
     // Draw the stamina bar
     VideoManager->SetDrawFlags(VIDEO_X_CENTER, VIDEO_Y_BOTTOM, 0);
@@ -360,4 +334,4 @@ void SequenceSupervisor::_DrawGUI()
 
 } // namespace private_battle
 
-} // namespace hoa_battle
+} // namespace vt_battle

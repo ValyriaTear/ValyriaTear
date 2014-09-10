@@ -1,5 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
-//            Copyright (C) 2004-2010 by The Allacrost Project
+//            Copyright (C) 2004-2011 by The Allacrost Project
+//            Copyright (C) 2012-2014 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -10,21 +11,23 @@
 /** ****************************************************************************
 *** \file    pause.h
 *** \author  Tyler Olsen, roots@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Header file for pause mode interface.
 *** ***************************************************************************/
 
 #ifndef __PAUSE_HEADER__
 #define __PAUSE_HEADER__
 
-#include "common/gui/option.h"
-
 #include "engine/mode_manager.h"
 
+#include "common/options_handler.h"
+#include "common/gui/option.h"
+
 //! \brief All calls to pause mode are wrapped in this namespace.
-namespace hoa_pause
+namespace vt_pause
 {
 
-//! \brief Determines whether the code in the hoa_pause namespace should print debug statements or not.
+//! \brief Determines whether the code in the vt_pause namespace should print debug statements or not.
 extern bool PAUSE_DEBUG;
 
 /** ****************************************************************************
@@ -48,7 +51,7 @@ extern bool PAUSE_DEBUG;
 *** quit state, the game will exit immediately. If the user inputs a quit event
 *** when the quit state is not active, this will activate the quite state.
 *** ***************************************************************************/
-class PauseMode : public hoa_mode_manager::GameMode
+class PauseMode : public vt_mode_manager::GameMode
 {
 public:
     /** \brief The class constructor determines the state and settings that PauseMode should be created in
@@ -72,6 +75,9 @@ public:
     //! \brief Draws the next frame to be displayed on the screen, bunt unaffected but ambient effects
     void DrawPostEffects();
 
+    //! \brief Reload the different translated texts
+    void ReloadTranslatedTexts();
+
 private:
     //! \brief When true, the player is presented with quit options. When false, "Paused" is displayed on the screen
     bool _quit_state;
@@ -79,22 +85,32 @@ private:
     //! \brief Set to true if the audio should be resumed when this mode finishes
     bool _audio_paused;
 
+    //! \brief The original music volume. Used to restore it when quitting the pause mode.
+    float _music_volume;
+
     //! \brief A screen capture of the last frame rendered on the screen before PauseMode was invoked
-    hoa_video::StillImage _screen_capture;
+    vt_video::StillImage _screen_capture;
 
     //! \brief The color used to dim the background screen capture image
-    hoa_video::Color _dim_color;
+    vt_video::Color _dim_color;
 
     //! \brief "PAUSED" rendered as a text image texture
-    hoa_video::TextImage _paused_text;
+    vt_video::TextImage _paused_text;
 
     //! \brief The list of selectabled quit options presented to the user while the mode is in the quit state
-    hoa_gui::OptionBox _quit_options;
+    vt_gui::OptionBox _quit_options;
 
     //! \brief Tells whether an option has been selected, thus preventing the quick triggering of another one.
     bool _option_selected;
-}; // class PauseMode : public hoa_mode_manager::GameMode
 
-} // namespace hoa_pause
+    //! \brief The options permitting to change different settings.
+    vt_gui::private_gui::GameOptionsMenuHandler _options_handler;
+
+    //! \brief Load or reload the menu options
+    void _SetupOptions();
+
+}; // class PauseMode : public vt_mode_manager::GameMode
+
+} // namespace vt_pause
 
 #endif // __PAUSE_HEADER__

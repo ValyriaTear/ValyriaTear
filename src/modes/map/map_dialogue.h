@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 //            Copyright (C) 2004-2011 by The Allacrost Project
-//            Copyright (C) 2012 by Bertram (Valyria Tear)
+//            Copyright (C) 2012-2014 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -22,16 +22,18 @@
 
 #include "map_utils.h"
 
-namespace hoa_map
+namespace vt_map
 {
 
 namespace private_map
 {
 
+class VirtualSprite;
+
 /** ****************************************************************************
 *** \brief Represents a dialogue that occurs between one or more sprites on a map
 *** ***************************************************************************/
-class SpriteDialogue : public hoa_common::CommonDialogue
+class SpriteDialogue : public vt_common::CommonDialogue
 {
 public:
     //! \param id The id number to represent the dialogue, which should be unique to other dialogue ids within this map
@@ -40,8 +42,24 @@ public:
     //! \brief Constructor with auto-generated dialogue ID
     SpriteDialogue();
 
+    //! \brief Dialogue with auto-generated id and event name
+    //! \param dialogue_event_name event name used and stored in the 'dialogues' save data table.
+    //! The event name is used to know whether the player has already seen a dialogue
+    //! and display the dialogue bubble accordingly.
+    //! If empty, the event is not stored.
+    SpriteDialogue(const std::string& dialogue_event_name);
+
     ~SpriteDialogue()
     {}
+
+    //! \brief Indicates if this dialogue has already been seen by the player.
+    bool HasAlreadySeen() const {
+        return _dialogue_seen;
+    }
+
+    //! \brief Set the dialogue as seen by the player, and stores its states
+    //! in the save data if its event name isn't empty.
+    void SetAsSeen(bool seen = true);
 
     /** \brief Adds a new line of text to the dialogue
     *** \param text The text to show on the screen
@@ -244,6 +262,14 @@ public:
     void SetRestoreState(bool restore) {
         _restore_state = restore;
     }
+
+    void SetEventAtDialogueEnd(const std::string& event_id) {
+        _event_after_dialogue_end = event_id;
+    }
+
+    const std::string& GetEventAtDialogueEnd() const {
+        return _event_after_dialogue_end;
+    }
     //@}
 
 private:
@@ -253,8 +279,13 @@ private:
     //! \brief If true, the state of map sprites participating in this dialogue will be reset after the dialogue completes
     bool _restore_state;
 
-    //! \brief The event name for this dialogue that is stored in the saved game file, of the form "dialogue#"
+    //! \brief The event name for this dialogue that is stored in the saved game file, if not empty.
+    //! This permit the engine to know whether the player already saw a dialogue event when leaving the map
+    //! and coming back.
     std::string _event_name;
+
+    //! \brief Tells whether the dialogue has been seen by the player.
+    bool _dialogue_seen;
 
     //! \brief Contains object ID numbers that declare the speaker of each line
     std::vector<uint32> _speakers;
@@ -267,7 +298,11 @@ private:
 
     //! \brief the emote to play on the speaker sprite before starting the line (and if possible).
     std::vector<std::string> _emote_events;
-}; // class SpriteDialogue : public hoa_common::CommonDialogue
+
+    //! \brief The optional event id to trigger after dialogue's end.
+    //! This is handly to trigger other scene events after a dialogue.
+    std::string _event_after_dialogue_end;
+}; // class SpriteDialogue : public vt_common::CommonDialogue
 
 
 /** ***************************************************************************************
@@ -278,7 +313,7 @@ private:
 *** that will follow. Optionally, each particular option may trigger a different map event when
 *** it is selected.
 *** **************************************************************************************/
-class MapDialogueOptions : public hoa_common::CommonDialogueOptions
+class MapDialogueOptions : public vt_common::CommonDialogueOptions
 {
 public:
     MapDialogueOptions()
@@ -336,7 +371,7 @@ public:
 private:
     //! \brief An optional MapEvent that may occur as a result of selecting each option
     std::vector<std::string> _events;
-}; // class MapDialogueOptions : public hoa_common::CommonDialogueOptions
+}; // class MapDialogueOptions : public vt_common::CommonDialogueOptions
 
 
 /** ****************************************************************************
@@ -402,7 +437,7 @@ public:
         return _current_options;
     }
 
-    hoa_system::SystemTimer &GetLineTimer() {
+    vt_system::SystemTimer &GetLineTimer() {
         return _line_timer;
     }
 
@@ -410,6 +445,7 @@ public:
         return _line_counter;
     }
 
+    //! NOTE: Must start at 1, since 0 is a speakerless dialogue.
     uint32 GenerateDialogueID() const {
         return _dialogues.empty() ? 1 : _dialogues.rbegin()->first + 1;
     }
@@ -429,13 +465,13 @@ private:
     MapDialogueOptions *_current_options;
 
     //! \brief A timer employed for dialogues which have a display time limit
-    hoa_system::SystemTimer _line_timer;
+    vt_system::SystemTimer _line_timer;
 
     //! \brief Keeps track of which line is active for the current dialogue
     uint32 _line_counter;
 
     //! \brief Holds the text and graphics that should be displayed for the dialogue
-    hoa_common::CommonDialogueWindow _dialogue_window;
+    vt_common::CommonDialogueWindow _dialogue_window;
 
     //! \brief Keeps in memory whether the emote event has been triggered.
     bool _emote_triggered;
@@ -478,6 +514,6 @@ private:
 
 } // namespace private_map
 
-} // namespace hoa_map
+} // namespace vt_map
 
 #endif // __MAP_DIALOGUE_HEADER__

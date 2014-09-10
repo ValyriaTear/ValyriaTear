@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 //            Copyright (C) 2004-2011 by The Allacrost Project
-//            Copyright (C) 2012 by Bertram (Valyria Tear)
+//            Copyright (C) 2012-2014 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -21,11 +21,13 @@
 #include "modes/map/map_dialogue.h"
 #include "modes/map/map_zones.h"
 
-namespace hoa_map
+namespace vt_map
 {
 
 namespace private_map
 {
+
+class SpriteEvent;
 
 //! Standard time values for spawning enemies on a map. All values are in number of milliseconds.
 //@{
@@ -198,10 +200,16 @@ protected:
     **/
     void _SetNextPosition();
 
-    /** \brief Start a battle encounter with a given enemy
+    /** \brief Start a enemy encounter battle or event with a given enemy
     *** \param enemy The enemy sprite the character has collided with.
     **/
-    void _StartBattleEncounter(EnemySprite *enemy);
+    void _StartEnemyEncounter(EnemySprite* enemy);
+
+    /** \brief Handles position corrections when the sprite is on the edge of
+    *** physical obstacles. (NPC sprites, treasure, ... aren't considered here for playability purpose)
+    **/
+    bool _HandleWallEdges(float& next_pos_x, float& next_pos_y, float distance_moved,
+                          MapObject* collision_object);
 
     /** \name Saved state attributes
     *** These attributes are used to save and restore the state of a VirtualSprite
@@ -337,12 +345,12 @@ public:
     *** These functions are specifically written to enable Lua to access the members of this class.
     **/
     //@{
-    void SetName(const hoa_utils::ustring &name) {
+    void SetName(const vt_utils::ustring &name) {
         _name = name;
     }
 
     void SetName(const std::string &name) {
-        _name = hoa_utils::MakeUnicodeString(name);
+        _name = vt_utils::MakeUnicodeString(name);
     }
 
     void SetCurrentAnimationDirection(uint8 anim_direction) {
@@ -361,11 +369,11 @@ public:
         return _has_unseen_dialogue;
     }
 
-    hoa_utils::ustring &GetName() {
+    vt_utils::ustring &GetName() {
         return _name;
     }
 
-    hoa_video::StillImage *GetFacePortrait() const {
+    vt_video::StillImage *GetFacePortrait() const {
         return _face_portrait;
     }
 
@@ -387,12 +395,20 @@ public:
     /** \brief Tells the sprite to use a custom animation
     *** \param The animation name used as a key to find the custom animation declared in map_sprites.lua
     *** You can set the animation key to empty to disable the custom animation.
-    *** \param The time to display the given animation or 0 for the default time.
+    *** \param The time to display the given animation, -1 for the default time and 0 for an infinite amount of time.
     **/
-    void SetCustomAnimation(const std::string &animaton_name, uint32 time);
+    void SetCustomAnimation(const std::string &animaton_name, int32 time);
 
     bool IsAnimationCustom() const {
         return _custom_animation_on;
+    }
+
+    /** \brief Disable a posible running custom animation.
+    *** Useful after setting an inifinite running animation, for instance.
+    **/
+    void DisableCustomAnimation() {
+        _custom_animation_on = false;
+        _infinite_custom_animation = false;
     }
 
     void SetSpriteName(const std::string &map_sprite_name) {
@@ -402,16 +418,30 @@ public:
     const std::string &GetSpriteName() const {
         return _sprite_name;
     }
+
+    /** \brief Used to reload (or change) the graphic animations
+    *** of an existing sprite.
+    *** \param sprite_name The sprite name entry found in the map_sprites.lua
+    *** sprite table.
+    **/
+    void ReloadSprite(const std::string& sprite_name);
+
+    //! Will change the sprite type to SCENERY,
+    //! making other sprites unable to collide with it. It is usually used to setup
+    //! harmless and little animals seen on maps.
+    void SetSpriteAsScenery(bool is_scenery) {
+        MapObject::_object_type = is_scenery ? SCENERY_TYPE : SPRITE_TYPE;
+    }
     //@}
 
 protected:
     //! \brief The name of the sprite, as seen by the player in the game.
-    hoa_utils::ustring _name;
+    vt_utils::ustring _name;
 
     /** \brief A pointer to the face portrait of the sprite, as seen in dialogues and menus.
     *** \note Not all sprites have portraits, in which case this member will be NULL
     **/
-    hoa_video::StillImage *_face_portrait;
+    vt_video::StillImage *_face_portrait;
 
     /** Keeps the map sprite reference name permitting, used to know whether a map sprite needs reloading
     *** when the map sprite name has actually changed.
@@ -425,18 +455,18 @@ protected:
     uint8 _current_anim_direction;
 
     //! \brief A map containing all four directions of the sprite's various animations.
-    std::vector<hoa_video::AnimatedImage> _standing_animations;
-    std::vector<hoa_video::AnimatedImage> _walking_animations;
-    std::vector<hoa_video::AnimatedImage> _running_animations;
+    std::vector<vt_video::AnimatedImage> _standing_animations;
+    std::vector<vt_video::AnimatedImage> _walking_animations;
+    std::vector<vt_video::AnimatedImage> _running_animations;
 
     //! \brief A pointer to the current standard animation vector
-    std::vector<hoa_video::AnimatedImage>* _animation;
+    std::vector<vt_video::AnimatedImage>* _animation;
 
     //! \brief A map containing all the custom animations, indexed by their name.
-    std::map<std::string, hoa_video::AnimatedImage> _custom_animations;
+    std::map<std::string, vt_video::AnimatedImage> _custom_animations;
 
     //! \brief The currently used custom animation.
-    hoa_video::AnimatedImage *_current_custom_animation;
+    vt_video::AnimatedImage *_current_custom_animation;
 
     //! \brief Contains the id values of all dialogues referenced by the sprite
     std::vector<uint32> _dialogue_references;
@@ -446,9 +476,7 @@ protected:
     **/
     int16 _next_dialogue;
 
-    /** \brief True if the sprite references at least one available dialogue
-    *** \note A dialogue may become unavailable if it reaches its max view count
-    **/
+    //! \brief True if the sprite references at least one dialogue
     bool _has_available_dialogue;
 
     //! \brief True if at least one dialogue referenced by this sprite has not yet been viewed -and- is available to be viewed
@@ -462,6 +490,9 @@ protected:
 
     //! \brief Tells how much time left the custom animation will have to be drawn
     int32  _custom_animation_time;
+
+    //! Tells whether the animation has got an infinite duration
+    bool _infinite_custom_animation;
 
     /** \name Saved state attributes
     *** These attributes are used to save and load the state of a VirtualSprite
@@ -522,11 +553,8 @@ private:
     };
 
 public:
-    //! \brief The default constructor which typically requires that the user make several additional calls to setup the sprite properties
+    //! \brief The default constructor
     EnemySprite();
-
-    //! \brief A constructor for when the enemy sprite is stored in the definition of a single file
-    EnemySprite(const std::string &file);
 
     //! \brief Resets various members of the class so that the enemy is dead, invisible, and does not produce a collision
     void Reset();
@@ -557,7 +585,19 @@ public:
     }
 
     //! \brief Returns a reference to a random party of enemies
-    const std::vector<BattleEnemyInfo>& RetrieveRandomParty();
+    const std::vector<BattleEnemyInfo>& RetrieveRandomParty() const;
+
+    //! \brief Returns the enemy's encounter event id.
+    //! If this event is not empty, it is triggered instead of a battle,
+    //! when encountering an enemy sprite in the map mode.
+    const std::string& GetEncounterEvent() const {
+        return _encounter_event;
+    }
+
+    //! \brief Sets the enemy's encounter event id.
+    void SetEncounterEvent(const std::string& event) {
+        _encounter_event = event;
+    }
 
     //! \name Class Member Access Functions
     //@{
@@ -565,8 +605,8 @@ public:
         return _aggro_range;
     }
 
-    uint32 GetTimeToChange() const {
-        return _time_dir_change;
+    uint32 GetTimeBeforeNewDestination() const {
+        return _time_before_new_destination;
     }
 
     uint32 GetTimeToSpawn() const {
@@ -597,6 +637,10 @@ public:
         return _state == HOSTILE;
     }
 
+    bool IsBoss() const {
+        return _is_boss;
+    }
+
     void SetZone(EnemyZone *zone) {
         _zone = zone;
     }
@@ -609,12 +653,16 @@ public:
         _aggro_range = range;
     }
 
-    void SetTimeToChange(uint32 time) {
-        _time_dir_change = time;
+    void SetTimeBeforeNewDestination(uint32 time) {
+        _time_before_new_destination = time;
     }
 
-    void SetTimeToSpawn(uint32 time) {
-        _time_to_spawn = time;
+    void SetTimeToRespawn(uint32 time) {
+        _time_to_respawn = time;
+    }
+
+    void SetBoss(bool is_boss) {
+        _is_boss = is_boss;
     }
 
     void SetBattleMusicTheme(const std::string &music_theme) {
@@ -641,6 +689,11 @@ public:
     }
 
     void ChangeStateHostile();
+
+    //! Makes an enemy follow way point when not running after a hero
+    //! \note You'll have to add at least two valid way point to make those
+    //! taken into account by the enemy sprite.
+    void AddWayPoint(float destination_x, float destination_y);
     //@}
 
 private:
@@ -648,7 +701,7 @@ private:
     private_map::EnemyZone *_zone;
 
     //! \brief Used to gradually fade in the sprite as it is spawning by adjusting the alpha channel
-    hoa_video::Color _color;
+    vt_video::Color _color;
 
     //! \brief A timer used for spawning
     uint32 _time_elapsed;
@@ -659,14 +712,14 @@ private:
     //! \brief A value which determines how close the player needs to be for the enemy to aggressively seek to confront it
     float _aggro_range;
 
-    //! \brief ???
-    uint32 _time_dir_change;
+    //! \brief Tells the time the sprite is waiting before going to a new destination.
+    uint32 _time_before_new_destination;
 
-    //! \brief ???
+    //! \brief Tells the actual time in milliseconds the sprite will use to respawn. This will set up the fade in speed.
     uint32 _time_to_spawn;
 
-    //! \brief Indicates if the enemy is outside of its zone. If it is, it won't change direction until it gets back in.
-    bool _out_of_zone;
+    //! \brief the default time used to respawn (Set to STANDARD_ENEMY_SPAWN_TIME by default)
+    uint32 _time_to_respawn;
 
     //! \brief The default battle music theme for the monster
     std::string _music_theme;
@@ -677,18 +730,66 @@ private:
     //! \brief The filenames of the script to pass to the battle
     std::vector<std::string> _script_files;
 
-    //! \brief The custom script filename
-    // TODO: Actually use it for animation and/or custom battle AI ??
-    std::string _filename;
+    //! \brief Tells whether the sprite is a boss.
+    bool _is_boss;
 
     /** \brief Contains the possible groups of enemies that may appear in a battle should the player encounter this enemy sprite
     *** The numbers contained within this member are ID numbers for the enemy.
     **/
     std::vector<std::vector<BattleEnemyInfo> > _enemy_parties;
+
+    //! \brief The enemy's encounter event.
+    //! If this event is not empty, it is triggered instead of a battle.
+    std::string _encounter_event;
+
+    //! \brief Tells whether pathfinding is used to compute the enemy movement.
+    bool _use_path;
+
+    //! \brief Used to store the previous coordinates of the sprite during path movement,
+    //! so as to set the proper direction of the sprite as it moves
+    float _last_node_x_position, _last_node_y_position;
+
+    //! \brief Used to store the current node collision position (with offset)
+    float _current_node_x, _current_node_y;
+
+    //! \brief An index to the path vector containing the node that the sprite currently occupies
+    uint32 _current_node_id;
+
+    //! \brief The current destination of the sprite.
+    float _destination_x, _destination_y;
+
+    //! \brief Holds the path needed to traverse from source to destination
+    Path _path;
+
+    //! \brief Way points used by the enemy when not hostile
+    std::vector<MapPosition> _way_points;
+    uint32 _current_way_point_id;
+
+    //! \brief Set the new path destination of the sprite.
+    //! \param destination_x The pixel x destination to find a path to.
+    //! \param destination_y The pixel y destination to find a path to.
+    //! \param max_cost More or less the path max length in nodes or 0 if no limitations.
+    //! Use this to avoid heavy computations.
+    //! \return whether it failed.
+    bool _SetDestination(float destination_x, float destination_y, uint32 max_cost = 20);
+
+    //! \brief Set the actual sprite direction according to the current path node.
+    void _SetSpritePathDirection();
+
+    //! \brief Update the sprite direction according to the current path.
+    void _UpdatePath();
+
+    //! \brief Set a path for the sprite being the next way point given.
+    //! \return whether it failed.
+    bool _SetPathToNextWayPoint();
+
+    //! \brief Handles behavior when the enemy is in hostile state (seeking for characters)
+    void _HandleHostileUpdate();
+
 }; // class EnemySprite : public MapSprite
 
 } // namespace private_map
 
-} // namespace hoa_map
+} // namespace vt_map
 
 #endif // __MAP_SPRITES_HEADER__

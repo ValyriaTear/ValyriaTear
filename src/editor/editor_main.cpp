@@ -1,5 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
-//            Copyright (C) 2004-2010 by The Allacrost Project
+//            Copyright (C) 2004-2011 by The Allacrost Project
+//            Copyright (C) 2012-2014 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -10,16 +11,12 @@
 /** ****************************************************************************
 *** \file    editor_main.cpp
 *** \author  Philip Vorsilak, gorzuate@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Source file for editor's main() function.
 *** ***************************************************************************/
 
-#ifdef __MACH__
-#include <unistd.h>
-#include <string>
-#endif
-
+#include "utils/utils_pch.h"
 #include "editor.h"
-#include "engine/script/script.h"
 
 // Used to permit compilation as qmake will create a makefile requiring qMain
 // as the main app function, and the aliasing of main prevents this to work
@@ -28,8 +25,8 @@
 #undef main
 #endif
 
-using namespace hoa_script;
-using namespace hoa_editor;
+using namespace vt_script;
+using namespace vt_editor;
 
 int main(int argc, char **argv)
 {
@@ -37,7 +34,7 @@ int main(int argc, char **argv)
 #ifndef __MACH__
     // Look for data files in DATADIR only if they are not available in the
     // current directory.
-    if(std::ifstream("./dat/config/settings.lua") == NULL) {
+    if(std::ifstream("./dat/config/editor.lua") == NULL) {
         if(chdir(PKG_DATADIR) != 0) {
             PRINT_ERROR << "failed to change directory to data location" << std::endl;
         }
@@ -62,8 +59,6 @@ int main(int argc, char **argv)
 #endif
 
     QApplication app(argc, argv);
-    ScriptManager = ScriptEngine::SingletonCreate();
-    ScriptManager->SingletonInitialize();
 
     Editor *editor = new Editor();
     editor->setWindowTitle("Map Editor");

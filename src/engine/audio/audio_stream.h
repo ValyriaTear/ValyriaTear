@@ -1,5 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
-//            Copyright (C) 2004-2010 by The Allacrost Project
+//            Copyright (C) 2004-2011 by The Allacrost Project
+//            Copyright (C) 2012-2014 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -11,6 +12,7 @@
 *** \file   audio_stream.h
 *** \author Mois�s Ferrer Serra, byaku@allacrost.org
 *** \author Tyler Olsen, roots@allacrost.org
+*** \author Yohann Ferreira, yohann ferreira orange fr
 *** \brief  Header file for class for streaming audio from diferent sources
 ***
 *** This code implements functionality for advanced streaming operations
@@ -19,20 +21,9 @@
 #ifndef __AUDIO_STREAM_HEADER__
 #define __AUDIO_STREAM_HEADER__
 
-#ifdef __MACH__
-#include <OpenAL/al.h>
-#include <OpenAL/alc.h>
-#else
-#include "al.h"
-#include "alc.h"
-#endif
-
-#include "defs.h"
-#include "utils.h"
-
 #include "audio_input.h"
 
-namespace hoa_audio
+namespace vt_audio
 {
 
 namespace private_audio
@@ -130,6 +121,6 @@ private:
 
 } // namespace private_audio
 
-} // namespace hoa_audio
+} // namespace vt_audio
 
 #endif // __AUDIO_STREAM_HEADER__

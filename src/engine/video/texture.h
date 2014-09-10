@@ -1,5 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
-//            Copyright (C) 2004-2010 by The Allacrost Project
+//            Copyright (C) 2004-2011 by The Allacrost Project
+//            Copyright (C) 2012-2014 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -10,6 +11,7 @@
 /** ****************************************************************************
 *** \file    tex_mgmt.h
 *** \author  Raj Sharma, roos@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Header file for texture management code
 ***
 *** We use texture management so that at runtime, we can load many small images
@@ -41,24 +43,7 @@
 #ifndef __TEXTURE_HEADER__
 #define __TEXTURE_HEADER__
 
-#include "utils.h"
-
-#ifdef _VS
-#include <GL/glew.h>
-#endif
-
-// OpenGL includes
-#ifdef __APPLE__
-#include <OpenGL/gl.h>
-#include <OpenGL/glu.h>
-#else
-#include <GL/gl.h>
-#include <GL/glu.h>
-#endif
-
-#include <set>
-
-namespace hoa_video
+namespace vt_video
 {
 
 class ScreenRect;
@@ -428,6 +413,6 @@ private:
 
 }  // namespace private_video
 
-}  // namespace hoa_video
+}  // namespace vt_video
 
 #endif // __TEXTURE_HEADER__

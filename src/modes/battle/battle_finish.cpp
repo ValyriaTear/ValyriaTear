@@ -1,5 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
-//            Copyright (C) 2004-2010 by The Allacrost Project
+//            Copyright (C) 2004-2011 by The Allacrost Project
+//            Copyright (C) 2012-2014 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software and
@@ -10,8 +11,12 @@
 /** ****************************************************************************
 *** \file    battle_finish.cpp
 *** \author  Tyler Olsen, roots@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Source file for battle finish menu
 *** ***************************************************************************/
+
+#include "utils/utils_pch.h"
+#include "modes/battle/battle_finish.h"
 
 #include "engine/audio/audio.h"
 #include "engine/mode_manager.h"
@@ -22,21 +27,20 @@
 #include "modes/battle/battle.h"
 #include "modes/battle/battle_actions.h"
 #include "modes/battle/battle_actors.h"
-#include "modes/battle/battle_finish.h"
 #include "modes/battle/battle_utils.h"
 
 #include "modes/boot/boot.h"
 
-using namespace hoa_utils;
-using namespace hoa_audio;
-using namespace hoa_video;
-using namespace hoa_gui;
-using namespace hoa_input;
-using namespace hoa_mode_manager;
-using namespace hoa_system;
-using namespace hoa_global;
+using namespace vt_utils;
+using namespace vt_audio;
+using namespace vt_video;
+using namespace vt_gui;
+using namespace vt_input;
+using namespace vt_mode_manager;
+using namespace vt_system;
+using namespace vt_global;
 
-namespace hoa_battle
+namespace vt_battle
 {
 
 namespace private_battle
@@ -45,12 +49,12 @@ namespace private_battle
 //! \brief Draw position and dimension constants used for GUI objects
 //@{
 const float TOP_WINDOW_XPOS        = 512.0f;
-const float TOP_WINDOW_YPOS        = 664.0f;
+const float TOP_WINDOW_YPOS        = 104.0f;
 const float TOP_WINDOW_WIDTH       = 512.0f;
 const float TOP_WINDOW_HEIGHT      = 64.0f;
 
 const float TOOLTIP_WINDOW_XPOS    = TOP_WINDOW_XPOS;
-const float TOOLTIP_WINDOW_YPOS    = TOP_WINDOW_YPOS - TOP_WINDOW_HEIGHT + 16.0f;
+const float TOOLTIP_WINDOW_YPOS    = TOP_WINDOW_YPOS + TOP_WINDOW_HEIGHT - 16.0f;
 const float TOOLTIP_WINDOW_WIDTH   = TOP_WINDOW_WIDTH;
 const float TOOLTIP_WINDOW_HEIGHT  = 112.0f;
 
@@ -88,15 +92,11 @@ CharacterGrowth::CharacterGrowth(GlobalCharacter* ch) :
 
 
 void CharacterGrowth::UpdateGrowthData() {
-    bool remaining_growth = true;
-    bool level_gained = false;
+    while (_character->ReachedNewExperienceLevel()) {
+        // Makes the character gain its level.
+        _character->AcknowledgeGrowth();
 
-    // The logic required to update this data can be a bit tricky. We have to retrieve all of the stat growth
-    // prior to calling AcknowledgeGrowth() because that call will reset the stat data. However, the list of
-    // new skills learned is not available until after calling AcknowledgeGrowth to process the new level gained
-    // (if any). And of course multiple AcknowledgeGrowth() calls may have to be made. The structure of the loop
-    // below addresses all of these cases.
-    while (remaining_growth == true) {
+        // Update the battle finish growth info members
         hit_points += _character->GetHitPointsGrowth();
         skill_points += _character->GetSkillPointsGrowth();
         strength += _character->GetStrengthGrowth();
@@ -106,19 +106,15 @@ void CharacterGrowth::UpdateGrowthData() {
         agility += _character->GetAgilityGrowth();
         evade += _character->GetEvadeGrowth();
 
-        level_gained = _character->ReachedNewExperienceLevel();
-        remaining_growth = _character->AcknowledgeGrowth();
+        ++_experience_levels_gained;
+        AudioManager->PlaySound("snd/levelup.wav");
 
-        if (level_gained == true) {
-            _experience_levels_gained++;
-
-            // New skills are only found in growth data when the character has reached a new level
-            // Note that the character's new skills learned container will be cleared upon the next
-            // call to AcknowledgeGrowth, so skills will not be duplicated in the skills_learned container
-            std::vector<GlobalSkill*>* skills = _character->GetNewSkillsLearned();
-            for (uint32 i = 0; i < skills->size(); i++) {
-                skills_learned.push_back(skills->at(i));
-            }
+        // New skills are only found in growth data when the character has reached a new level
+        // Note that the character's new skills learned container will be cleared upon the next
+        // call to AcknowledgeGrowth, so skills will not be duplicated in the skills_learned container
+        std::vector<GlobalSkill*>* skills = _character->GetNewSkillsLearned();
+        for (uint32 i = 0; i < skills->size(); i++) {
+            skills_learned.push_back(skills->at(i));
         }
     }
 }
@@ -141,37 +137,37 @@ FinishDefeatAssistant::FinishDefeatAssistant(FINISH_STATE &state) :
     _tooltip_window.Show();
 
     _options.SetOwner(&_options_window);
-    _options.SetPosition(TOP_WINDOW_WIDTH / 2, TOP_WINDOW_HEIGHT / 2 + 4.0f);
+    _options.SetPosition(TOP_WINDOW_WIDTH / 2, 28.0f);
     _options.SetDimensions(480.0f, 50.0f, 2, 1, 2, 1);
     _options.SetTextStyle(TextStyle("title22", Color::white, VIDEO_TEXT_SHADOW_DARK));
     _options.SetAlignment(VIDEO_X_CENTER, VIDEO_Y_CENTER);
     _options.SetOptionAlignment(VIDEO_X_CENTER, VIDEO_Y_CENTER);
     _options.SetSelectMode(VIDEO_SELECT_SINGLE);
     _options.SetHorizontalWrapMode(VIDEO_WRAP_MODE_STRAIGHT);
-    _options.SetCursorOffset(-60.0f, 25.0f);
+    _options.SetCursorOffset(-60.0f, -25.0f);
     _options.AddOption(UTranslate("Retry"));
     _options.AddOption(UTranslate("End"));
     _options.SetSelection(0);
 
     _confirm_options.SetOwner(&_options_window);
-    _confirm_options.SetPosition(TOP_WINDOW_WIDTH / 2, TOP_WINDOW_HEIGHT / 2 + 4.0f);
+    _confirm_options.SetPosition(TOP_WINDOW_WIDTH / 2, 28.0f);
     _confirm_options.SetDimensions(240.0f, 50.0f, 2, 1, 2, 1);
     _confirm_options.SetTextStyle(TextStyle("title22", Color::white, VIDEO_TEXT_SHADOW_DARK));
     _confirm_options.SetAlignment(VIDEO_X_CENTER, VIDEO_Y_CENTER);
     _confirm_options.SetOptionAlignment(VIDEO_X_CENTER, VIDEO_Y_CENTER);
     _confirm_options.SetSelectMode(VIDEO_SELECT_SINGLE);
     _confirm_options.SetHorizontalWrapMode(VIDEO_WRAP_MODE_STRAIGHT);
-    _confirm_options.SetCursorOffset(-60.0f, 25.0f);
+    _confirm_options.SetCursorOffset(-60.0f, -25.0f);
     _confirm_options.AddOption(UTranslate("Yes"));
     _confirm_options.AddOption(UTranslate("No"));
     _confirm_options.SetSelection(0);
 
     _tooltip.SetOwner(&_tooltip_window);
-    _tooltip.SetPosition(32.0f, TOOLTIP_WINDOW_HEIGHT - 40.0f);
+    _tooltip.SetPosition(32.0f, 40.0f);
     _tooltip.SetDimensions(480.0f, 80.0f);
     _tooltip.SetAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
     _tooltip.SetTextAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
-    _tooltip.SetDisplaySpeed(30);
+    _tooltip.SetDisplaySpeed(SystemManager->GetMessageSpeed());
     _tooltip.SetTextStyle(TextStyle("text20", Color::white));
     _tooltip.SetDisplayMode(VIDEO_TEXT_INSTANT);
 }
@@ -289,8 +285,6 @@ void FinishDefeatAssistant::Draw()
 
 void FinishDefeatAssistant::_SetTooltipText()
 {
-    _tooltip.SetDisplayText("");
-
     if((_state == FINISH_ANNOUNCE_RESULT) || (_state == FINISH_DEFEAT_SELECT)) {
         switch(_options.GetSelection()) {
         case DEFEAT_OPTION_RETRY:
@@ -300,6 +294,7 @@ void FinishDefeatAssistant::_SetTooltipText()
             _tooltip.SetDisplayText(UTranslate("Exit to main menu."));
             break;
         default:
+            _tooltip.SetDisplayText("");
             break;
         }
     } else if(_state == FINISH_DEFEAT_CONFIRM) {
@@ -311,6 +306,7 @@ void FinishDefeatAssistant::_SetTooltipText()
             _tooltip.SetDisplayText(UTranslate("Confirm: return to main menu."));
             break;
         default:
+            _tooltip.SetDisplayText("");
             break;
         }
     }
@@ -322,7 +318,7 @@ void FinishDefeatAssistant::_SetTooltipText()
 
 FinishVictoryAssistant::FinishVictoryAssistant(FINISH_STATE &state) :
     _state(state),
-    _number_characters(0),
+    _characters_number(0),
     _xp_earned(0),
     _drunes_dropped(0),
     _begin_counting(false),
@@ -342,48 +338,50 @@ FinishVictoryAssistant::FinishVictoryAssistant(FINISH_STATE &state) :
     _spoils_window.Show();
 
     _header_growth.SetOwner(&_header_window);
-    _header_growth.SetPosition(TOP_WINDOW_WIDTH / 2 - 50.0f, TOP_WINDOW_HEIGHT - 20.0f);
+    _header_growth.SetPosition(TOP_WINDOW_WIDTH / 2 - 50.0f, 15.0f);
     _header_growth.SetDimensions(400.0f, 40.0f);
     _header_growth.SetAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
     _header_growth.SetTextAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
-    _header_growth.SetDisplaySpeed(30);
+    _header_growth.SetDisplaySpeed(SystemManager->GetMessageSpeed());
     _header_growth.SetTextStyle(TextStyle("text20", Color::white));
     _header_growth.SetDisplayMode(VIDEO_TEXT_INSTANT);
 
     _header_drunes_dropped.SetOwner(&_header_window);
-    _header_drunes_dropped.SetPosition(TOP_WINDOW_WIDTH / 2 - 200.0f, TOP_WINDOW_HEIGHT - 20.0f);
+    _header_drunes_dropped.SetPosition(TOP_WINDOW_WIDTH / 2 - 200.0f, 15.0f);
     _header_drunes_dropped.SetDimensions(400.0f, 40.0f);
     _header_drunes_dropped.SetAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
     _header_drunes_dropped.SetTextAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
-    _header_drunes_dropped.SetDisplaySpeed(30);
+    _header_drunes_dropped.SetDisplaySpeed(SystemManager->GetMessageSpeed());
     _header_drunes_dropped.SetTextStyle(TextStyle("text20", Color::white));
     _header_drunes_dropped.SetDisplayMode(VIDEO_TEXT_INSTANT);
 
     _header_total_drunes.SetOwner(&_header_window);
-    _header_total_drunes.SetPosition(TOP_WINDOW_WIDTH / 2 + 50.0f, TOP_WINDOW_HEIGHT - 20.0f);
+    _header_total_drunes.SetPosition(TOP_WINDOW_WIDTH / 2 + 50.0f, 15.0f);
     _header_total_drunes.SetDimensions(400.0f, 40.0f);
     _header_total_drunes.SetAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
     _header_total_drunes.SetTextAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
-    _header_total_drunes.SetDisplaySpeed(30);
+    _header_total_drunes.SetDisplaySpeed(SystemManager->GetMessageSpeed());
     _header_total_drunes.SetTextStyle(TextStyle("text20", Color::white));
     _header_total_drunes.SetDisplayMode(VIDEO_TEXT_INSTANT);
 
     for(uint32 i = 0; i < 4; i++) {
         _growth_list[i].SetOwner(&(_character_window[i]));
+        _raw_xp_given[i] = true;
+        _raw_xp_won[i] = false;
     }
 
     _object_header_text.SetOwner(&_spoils_window);
-    _object_header_text.SetPosition(SPOILS_WINDOW_WIDTH / 2 - 50.0f, SPOILS_WINDOW_HEIGHT - 10.0f);
-    _object_header_text.SetDimensions(200.0f, 40.0f);
+    _object_header_text.SetPosition(SPOILS_WINDOW_WIDTH / 2 - 50.0f, 15.0f);
+    _object_header_text.SetDimensions(350.0f, 40.0f);
     _object_header_text.SetAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
     _object_header_text.SetTextAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
-    _object_header_text.SetDisplaySpeed(30);
+    _object_header_text.SetDisplaySpeed(SystemManager->GetMessageSpeed());
     _object_header_text.SetTextStyle(TextStyle("title20", Color::white));
     _object_header_text.SetDisplayMode(VIDEO_TEXT_INSTANT);
     _object_header_text.SetDisplayText(UTranslate("Items Found"));
 
     _object_list.SetOwner(&_spoils_window);
-    _object_list.SetPosition(100.0f, SPOILS_WINDOW_HEIGHT - 35.0f);
+    _object_list.SetPosition(100.0f, 45.0f);
     _object_list.SetDimensions(300.0f, 160.0f, 1, 8, 1, 8);
     _object_list.SetTextStyle(TextStyle("text20", Color::white));
     _object_list.SetAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
@@ -398,12 +396,12 @@ FinishVictoryAssistant::~FinishVictoryAssistant()
     _header_window.Destroy();
     _spoils_window.Destroy();
 
-    for(uint32 i = 0; i < _number_character_windows_created; i++) {
+    for(uint32 i = 0; i < _number_character_windows_created; ++i) {
         _character_window[i].Destroy();
     }
 
     // Add all the objects that were dropped by enemies to the party's inventory
-    for(std::map<GlobalObject *, int32>::iterator i = _objects_dropped.begin(); i != _objects_dropped.end(); i++) {
+    for(std::map<GlobalObject *, int32>::iterator i = _objects_dropped.begin(); i != _objects_dropped.end(); ++i) {
         GlobalManager->AddToInventory(i->first->GetID(), i->second);
     }
 
@@ -415,11 +413,14 @@ FinishVictoryAssistant::~FinishVictoryAssistant()
 
 void FinishVictoryAssistant::Initialize()
 {
-    // ----- (1): Prepare all character data
+    // Prepare all character data
     std::deque<BattleCharacter *>& all_characters = BattleMode::CurrentInstance()->GetCharacterActors();
-    _number_characters = all_characters.size();
+    // Reinit the number of living characters
+    uint32 alive_characters_number = 0;
 
-    for(uint32 i = 0; i < _number_characters; ++i) {
+    _characters_number = all_characters.size();
+
+    for(uint32 i = 0; i < _characters_number; ++i) {
         _characters.push_back(all_characters[i]->GetGlobalCharacter());
         _character_growths.push_back(CharacterGrowth(_characters[i]));
         _character_portraits[i] = all_characters[i]->GetPortrait();
@@ -428,23 +429,24 @@ void FinishVictoryAssistant::Initialize()
         if(!_character_portraits[i].GetFilename().empty())
             _character_portraits[i].SetDimensions(100.0f, 100.0f);
 
-        // Gray out portraits of deceased characters
-        if(!all_characters[i]->IsAlive()) {
-            _character_portraits[i].EnableGrayScale();
-        } else {
+        if(all_characters[i]->IsAlive()) {
             // Set up the victory animation for the living beings
             all_characters[i]->ChangeSpriteAnimation("victory");
+            // Adds a living player to later split xp with.
+            ++alive_characters_number;
+        } else {
+            // Gray out portraits of deceased characters
+            _character_portraits[i].EnableGrayScale();
         }
     }
 
-    // ----- (2): Collect the XP, drunes, and dropped objects for each defeated enemy
+    // Collect the XP, drunes, and dropped objects for each defeated enemy
     std::deque<BattleEnemy *>& all_enemies = BattleMode::CurrentInstance()->GetEnemyActors();
-    GlobalEnemy *enemy;
     std::vector<GlobalObject *> objects;
     std::map<GlobalObject *, int32>::iterator iter;
 
     for(uint32 i = 0; i < all_enemies.size(); ++i) {
-        enemy = all_enemies[i]->GetGlobalEnemy();
+        GlobalEnemy* enemy = all_enemies[i]->GetGlobalEnemy();
         _xp_earned += enemy->GetExperiencePoints();
         _drunes_dropped += enemy->GetDrunesDropped();
         enemy->DetermineDroppedObjects(objects);
@@ -456,7 +458,7 @@ void FinishVictoryAssistant::Initialize()
             iter = _objects_dropped.begin();
             while(iter != _objects_dropped.end()) {
                 if(iter->first->GetID() == objects[j]->GetID()) break;
-                iter++;
+                ++iter;
             }
 
             if(iter != _objects_dropped.end()) {
@@ -467,8 +469,23 @@ void FinishVictoryAssistant::Initialize()
         }
     }
 
-    // ----- (3): Divide up the XP earnings by the number of players (both living and dead) and apply the penalty for any battle retries
-    _xp_earned /= _number_characters;
+    // Divide up the XP earnings by the number of players (only living ones)
+    if (alive_characters_number > 0)
+        _xp_earned /= alive_characters_number;
+    else
+        _xp_earned /= 4; // Should never happen.
+
+    // Compute the raw fighting XP bonus for each characters (20% of character's XP)
+    for(uint32 i = 0; i < _characters.size() && i < 4; ++i) {
+        if (_characters[i]->HasEquipment()) {
+            _raw_xp_won[i] = false;
+            _raw_xp_given[i] = true;
+        }
+        else {
+            _raw_xp_won[i] = true;
+            _raw_xp_given[i] = false;
+        }
+    }
 
     _CreateCharacterGUIObjects();
     _CreateObjectList();
@@ -505,7 +522,7 @@ void FinishVictoryAssistant::Draw()
 
     if(_state == FINISH_VICTORY_GROWTH) {
         _header_growth.Draw();
-        for(uint32 i = 0; i < _number_characters; i++) {
+        for(uint32 i = 0; i < _characters_number; ++i) {
             _character_window[i].Draw();
             _DrawGrowth(i);
         }
@@ -536,11 +553,11 @@ void FinishVictoryAssistant::_SetHeaderText()
 
 void FinishVictoryAssistant::_CreateCharacterGUIObjects()
 {
-    // ----- (1): Create the character windows. The lowest one does not have its lower border removed
+    // Create the character windows. The lowest one does not have its lower border removed
     float next_ypos = CHAR_WINDOW_YPOS;
-    for(uint32 i = 0; i < _number_characters; i++) {
+    for(uint32 i = 0; i < _characters_number; ++i) {
         _number_character_windows_created++;
-        if((i + 1) >= _number_characters) {
+        if((i + 1) >= _characters_number) {
             _character_window[i].Create(CHAR_WINDOW_WIDTH, CHAR_WINDOW_HEIGHT);
         } else {
             _character_window[i].Create(CHAR_WINDOW_WIDTH, CHAR_WINDOW_HEIGHT, ~VIDEO_MENU_EDGE_BOTTOM, VIDEO_MENU_EDGE_BOTTOM);
@@ -549,37 +566,37 @@ void FinishVictoryAssistant::_CreateCharacterGUIObjects()
         _character_window[i].SetPosition(CHAR_WINDOW_XPOS, next_ypos);
         _character_window[i].SetAlignment(VIDEO_X_CENTER, VIDEO_Y_TOP);
         _character_window[i].Show();
-        next_ypos -= CHAR_WINDOW_HEIGHT;
+        next_ypos += CHAR_WINDOW_HEIGHT;
     }
 
-    // ----- (2): Construct GUI objects that will fill each character window
-    for(uint32 i = 0; i < _number_characters; i++) {
+    // Construct GUI objects that will fill each character window
+    for(uint32 i = 0; i < _characters_number; ++i) {
         _growth_list[i].SetOwner(&_character_window[i]);
-        _growth_list[i].SetPosition(290.0f, 115.0f);
-        _growth_list[i].SetDimensions(200.0f, 100.0f, 4, 4, 4, 4);
-        _growth_list[i].SetTextStyle(TextStyle("text20", Color::white, VIDEO_TEXT_SHADOW_DARK));
+        _growth_list[i].SetPosition(340.0f, 15.0f);
+        _growth_list[i].SetDimensions(200.0f, 70.0f, 4, 4, 4, 4);
+        _growth_list[i].SetTextStyle(TextStyle("text14", Color::white, VIDEO_TEXT_SHADOW_DARK));
         _growth_list[i].SetAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
         _growth_list[i].SetOptionAlignment(VIDEO_X_RIGHT, VIDEO_Y_CENTER);
         _growth_list[i].SetCursorState(VIDEO_CURSOR_STATE_HIDDEN);
-        for(uint32 j = 0; j < 16; j ++) {
+        for(uint32 j = 0; j < 16; ++j) {
             _growth_list[i].AddOption();
         }
 
         _level_text[i].SetOwner(&_character_window[i]);
-        _level_text[i].SetPosition(130.0f, 110.0f);
+        _level_text[i].SetPosition(130.0f, 10.0f);
         _level_text[i].SetDimensions(200.0f, 40.0f);
         _level_text[i].SetAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
         _level_text[i].SetTextAlignment(VIDEO_X_LEFT, VIDEO_Y_CENTER);
-        _level_text[i].SetDisplaySpeed(30);
+        _level_text[i].SetDisplaySpeed(SystemManager->GetMessageSpeed());
         _level_text[i].SetTextStyle(TextStyle("text20", Color::white));
         _level_text[i].SetDisplayMode(VIDEO_TEXT_INSTANT);
 
         _xp_text[i].SetOwner(&_character_window[i]);
-        _xp_text[i].SetPosition(130.0f, 90.0f);
-        _xp_text[i].SetDimensions(200.0f, 40.0f);
+        _xp_text[i].SetPosition(130.0f, 30.0f);
+        _xp_text[i].SetDimensions(200.0f, 50.0f);
         _xp_text[i].SetAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
         _xp_text[i].SetTextAlignment(VIDEO_X_LEFT, VIDEO_Y_CENTER);
-        _xp_text[i].SetDisplaySpeed(30);
+        _xp_text[i].SetDisplaySpeed(SystemManager->GetMessageSpeed());
         _xp_text[i].SetTextStyle(TextStyle("text20", Color::white));
         _xp_text[i].SetDisplayMode(VIDEO_TEXT_INSTANT);
 
@@ -591,16 +608,16 @@ void FinishVictoryAssistant::_CreateCharacterGUIObjects()
         } else {
             _level_text[i].SetDisplayText(UTranslate("Level: ")
                                              + MakeUnicodeString(NumberToString(_characters[i]->GetExperienceLevel())));
-            _xp_text[i].SetDisplayText(UTranslate("XP: ")
+            _xp_text[i].SetDisplayText(UTranslate("XP left: ")
                                        + MakeUnicodeString(NumberToString(_characters[i]->GetExperienceForNextLevel())));
         }
 
         _skill_text[i].SetOwner(&_character_window[i]);
-        _skill_text[i].SetPosition(130.0f, 60.0f);
+        _skill_text[i].SetPosition(130.0f, 65.0f);
         _skill_text[i].SetDimensions(200.0f, 40.0f);
         _skill_text[i].SetAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
         _skill_text[i].SetTextAlignment(VIDEO_X_LEFT, VIDEO_Y_CENTER);
-        _skill_text[i].SetDisplaySpeed(30);
+        _skill_text[i].SetDisplaySpeed(SystemManager->GetMessageSpeed());
         _skill_text[i].SetTextStyle(TextStyle("text20", Color::white));
         _skill_text[i].SetDisplayMode(VIDEO_TEXT_INSTANT);
     }
@@ -610,14 +627,14 @@ void FinishVictoryAssistant::_CreateCharacterGUIObjects()
 
 void FinishVictoryAssistant::_CreateObjectList()
 {
-    for(std::map<hoa_global::GlobalObject *, int32>::iterator i = _objects_dropped.begin(); i != _objects_dropped.end(); i++) {
+    for(std::map<vt_global::GlobalObject *, int32>::iterator i = _objects_dropped.begin(); i != _objects_dropped.end(); ++i) {
         GlobalObject *obj = i->first;
         _object_list.AddOption(MakeUnicodeString("<" + obj->GetIconImage().GetFilename() + "><30>")
                                + obj->GetName() + MakeUnicodeString("<R>x" + NumberToString(i->second)));
     }
 
     // Resize all icon images so that they are the same height as the text
-    for(uint32 i = 0; i < _object_list.GetNumberOptions(); i++) {
+    for(uint32 i = 0; i < _object_list.GetNumberOptions(); ++i) {
         _object_list.GetEmbeddedImage(i)->SetDimensions(30.0f, 30.0f);
     }
 }
@@ -628,7 +645,7 @@ void FinishVictoryAssistant::_SetCharacterStatus()
 {
     std::deque<BattleCharacter *>& battle_characters = BattleMode::CurrentInstance()->GetCharacterActors();
 
-    for(std::deque<BattleCharacter *>::iterator i = battle_characters.begin(); i != battle_characters.end(); i++) {
+    for(std::deque<BattleCharacter *>::iterator i = battle_characters.begin(); i != battle_characters.end(); ++i) {
         GlobalCharacter *character = (*i)->GetGlobalCharacter();
 
         // Put back the current HP / SP onto the global characters.
@@ -649,7 +666,7 @@ void FinishVictoryAssistant::_UpdateGrowth()
     // The amount of XP to add to each character this update cycle
     uint32 xp_to_add = 0;
 
-    // ---------- (1): Process confirm press inputs.
+    // Process confirm press inputs.
     if(InputManager->ConfirmPress()) {
         // Begin counting out XP earned
         if(!_begin_counting) {
@@ -670,7 +687,7 @@ void FinishVictoryAssistant::_UpdateGrowth()
     if(!_begin_counting || (_xp_earned == 0))
         return;
 
-    // ---------- (2): Update the timer and determine how much XP to add if the time has been reached
+    // Update the timer and determine how much XP to add if the time has been reached
     // We don't want to modify the XP to add if a confirm event occurred in step (1)
     if(xp_to_add == 0) {
         time_counter += SystemManager->GetUpdateTime();
@@ -690,89 +707,96 @@ void FinishVictoryAssistant::_UpdateGrowth()
     }
 
     // If there is no XP to add this update cycle, there is nothing left for us to do
-    if(xp_to_add == 0) {
+    if(xp_to_add == 0)
         return;
-    }
 
-    // ---------- (3): Add the XP amount to the characters appropriately
+    // Add the XP amount to the characters appropriately
     std::deque<BattleCharacter *>& battle_characters = BattleMode::CurrentInstance()->GetCharacterActors();
-    // Tell whether the character can receive XP
-    bool level_maxed_out = false;
-    for(uint32 i = 0; i < _number_characters; ++i) {
+    for(uint32 i = 0; i < _characters_number; ++i) {
         // Don't add experience points to dead characters
-        if(battle_characters[i]->IsAlive() == false) {
+        if(!battle_characters[i]->IsAlive())
             continue;
-        }
+
+        // Tells whether the character can receive XP
+        bool level_maxed_out = false;
 
         // Don't permit to earn XP when the maximum level has been reached.
-        if(battle_characters[i]->GetExperienceLevel() >= GlobalManager->GetMaxExperienceLevel())
+        if(battle_characters[i]->GetGlobalCharacter()->GetExperienceLevel() >= GlobalManager->GetMaxExperienceLevel())
             level_maxed_out = true;
 
-        if(!level_maxed_out && _characters[i]->AddExperiencePoints(xp_to_add) == true) {
+        uint32 xp_added = xp_to_add;
+        // Add the raw bonus when not given yet (+20% XP)
+        if (_raw_xp_given[i] == false) {
+            if (_xp_earned > 100) {
+                xp_added += (xp_to_add / 5);
+            }
+            else {
+                // When giving one xp point at a time,
+                // we give all the rest of the raw bonus and set it as done.
+                xp_added += _xp_earned / 5;
+                _raw_xp_given[i] = true;
+            }
+
+        }
+
+        if(!level_maxed_out && _characters[i]->AddExperiencePoints(xp_added) == true) {
             _character_growths[i].UpdateGrowthData();
             // Only add text for the stats that experienced growth
             uint32 line = 0;
 
             // HP
             if(_character_growths[i].hit_points > 0) {
-                _growth_list[i].SetOptionText(line, UTranslate("HP:"));
-                _growth_list[i].SetOptionText(line + 1, MakeUnicodeString(NumberToString(_character_growths[i].hit_points)));
+                _growth_list[i].SetOptionText(line, UTranslate("HP: +") + MakeUnicodeString(NumberToString(_character_growths[i].hit_points)));
                 line = line + 2;
             }
 
             // SP
             if(_character_growths[i].skill_points > 0) {
-                _growth_list[i].SetOptionText(line, UTranslate("SP:"));
-                _growth_list[i].SetOptionText(line + 1, MakeUnicodeString(NumberToString(_character_growths[i].skill_points)));
+                _growth_list[i].SetOptionText(line, UTranslate("SP: +") + MakeUnicodeString(NumberToString(_character_growths[i].skill_points)));
                 line = line + 2;
             }
 
             // Strength
             if(_character_growths[i].strength > 0) {
-                _growth_list[i].SetOptionText(line, UTranslate("STR:"));
-                _growth_list[i].SetOptionText(line + 1, MakeUnicodeString(NumberToString(_character_growths[i].strength)));
+                _growth_list[i].SetOptionText(line, UTranslate("STR: +") + MakeUnicodeString(NumberToString(_character_growths[i].strength)));
                 line = line + 2;
             }
 
             // Vigor
             if(_character_growths[i].vigor > 0) {
-                _growth_list[i].SetOptionText(line, UTranslate("VIG:"));
-                _growth_list[i].SetOptionText(line + 1, MakeUnicodeString(NumberToString(_character_growths[i].vigor)));
+                _growth_list[i].SetOptionText(line, UTranslate("VIG: +") + MakeUnicodeString(NumberToString(_character_growths[i].vigor)));
                 line = line + 2;
             }
 
             // Fortitude
             if(_character_growths[i].fortitude > 0) {
-                _growth_list[i].SetOptionText(line, UTranslate("FOR:"));
-                _growth_list[i].SetOptionText(line + 1, MakeUnicodeString(NumberToString(_character_growths[i].fortitude)));
+                _growth_list[i].SetOptionText(line, UTranslate("FOR: +") + MakeUnicodeString(NumberToString(_character_growths[i].fortitude)));
                 line = line + 2;
             }
 
             // Protection
             if(_character_growths[i].protection > 0) {
-                _growth_list[i].SetOptionText(line, UTranslate("PRO:"));
-                _growth_list[i].SetOptionText(line + 1, MakeUnicodeString(NumberToString(_character_growths[i].protection)));
+                _growth_list[i].SetOptionText(line, UTranslate("PRO: +") + MakeUnicodeString(NumberToString(_character_growths[i].protection)));
                 line = line + 2;
             }
 
             // Agility
             if(_character_growths[i].agility > 0) {
-                _growth_list[i].SetOptionText(line, UTranslate("AGI:"));
-                _growth_list[i].SetOptionText(line + 1, MakeUnicodeString(NumberToString(_character_growths[i].agility)));
+                _growth_list[i].SetOptionText(line, UTranslate("AGI: +") + MakeUnicodeString(NumberToString(_character_growths[i].agility)));
                 line = line + 2;
             }
 
             // Evade
             if(_character_growths[i].evade > 0.0f) {
-                _growth_list[i].SetOptionText(line, UTranslate("EVA:"));
-                _growth_list[i].SetOptionText(line + 1, MakeUnicodeString(NumberToString(_character_growths[i].evade)));
+                _growth_list[i].SetOptionText(line, UTranslate("EVA: +")
+                    + MakeUnicodeString(NumberToString(_character_growths[i].evade)) + MakeUnicodeString("%"));
                 line = line + 2;
             }
 
             if(_character_growths[i].skills_learned.empty() == false) {
                 // TODO: this currently only shows the first skill learned. We need this interface to support showing multiple
                 // skills that were learned for each character
-                _skill_text[i].SetDisplayText(UTranslate("New Skill Learned:\n   ") + _character_growths[i].skills_learned[0]->GetName());
+                _skill_text[i].SetDisplayText(UTranslate("New Skill Learned:\n") + _character_growths[i].skills_learned[0]->GetName());
             }
         }
 
@@ -782,7 +806,9 @@ void FinishVictoryAssistant::_UpdateGrowth()
             level_text = UTranslate("Level (Max): ") + MakeUnicodeString(NumberToString(_characters[i]->GetExperienceLevel()));
         } else {
             level_text = UTranslate("Level: ") + MakeUnicodeString(NumberToString(_characters[i]->GetExperienceLevel()));
-            xp_text = UTranslate("XP: ") + MakeUnicodeString(NumberToString(_characters[i]->GetExperienceForNextLevel()));
+            xp_text = UTranslate("XP left: ") + MakeUnicodeString(NumberToString(_characters[i]->GetExperienceForNextLevel()));
+            if (_raw_xp_won[i])
+                xp_text += UTranslate(" (+20%)");
         }
 
         _level_text[i].SetDisplayText(level_text);
@@ -861,7 +887,7 @@ void FinishVictoryAssistant::_UpdateSpoils()
 void FinishVictoryAssistant::_DrawGrowth(uint32 index)
 {
     VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_TOP, 0);
-    VideoManager->Move(CHAR_WINDOW_XPOS - (CHAR_WINDOW_WIDTH / 2) + 20.0f, (CHAR_WINDOW_YPOS - 15.0f) - (CHAR_WINDOW_HEIGHT * index));
+    VideoManager->Move(CHAR_WINDOW_XPOS - (CHAR_WINDOW_WIDTH / 2) + 20.0f, (CHAR_WINDOW_YPOS + 17.0f) + (CHAR_WINDOW_HEIGHT * index));
     _character_portraits[index].Draw();
 
     _level_text[index].Draw();
@@ -888,11 +914,11 @@ FinishSupervisor::FinishSupervisor() :
     _defeat_assistant(_state),
     _victory_assistant(_state)
 {
-    _outcome_text.SetPosition(400.0f, 720.0f);
+    _outcome_text.SetPosition(400.0f, 48.0f);
     _outcome_text.SetAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
     _outcome_text.SetTextAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
     _outcome_text.SetDimensions(400.0f, 50.0f);
-    _outcome_text.SetDisplaySpeed(30);
+    _outcome_text.SetDisplaySpeed(SystemManager->GetMessageSpeed());
     _outcome_text.SetTextStyle(TextStyle("text24", Color::white));
     _outcome_text.SetDisplayMode(VIDEO_TEXT_INSTANT);
 }
@@ -942,7 +968,7 @@ void FinishSupervisor::Update()
                 break;
             case DEFEAT_OPTION_END:
                 ModeManager->PopAll();
-                ModeManager->Push(new hoa_boot::BootMode(), false, true);
+                ModeManager->Push(new vt_boot::BootMode(), false, true);
                 break;
             default:
                 IF_PRINT_WARNING(BATTLE_DEBUG)
@@ -969,4 +995,4 @@ void FinishSupervisor::Draw()
 
 } // namespace private_battle
 
-} // namespace hoa_battle
+} // namespace vt_battle

@@ -1,5 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
-//            Copyright (C) 2004-2007 by The Allacrost Project
+//            Copyright (C) 2004-2011 by The Allacrost Project
+//            Copyright (C) 2012-2014 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -10,6 +11,7 @@
 /** ****************************************************************************
 *** \file    global_effects.h
 *** \author  Jacob Rudolph, rujasu@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Header file for global game effects
 ***
 *** This file contains the class implementation for status and elemental effects.
@@ -22,11 +24,11 @@
 #ifndef __GLOBAL_EFFECTS_HEADER__
 #define __GLOBAL_EFFECTS_HEADER__
 
-#include "utils.h"
-
 #include "global_utils.h"
 
-namespace hoa_global
+#include "engine/system.h"
+
+namespace vt_global
 {
 
 /** \brief Retrieves a string representation for any GLOBAL_ELEMENTAL enum value
@@ -34,7 +36,6 @@ namespace hoa_global
 *** \return Translated text that describes the elemental
 **/
 std::string GetElementName(GLOBAL_ELEMENTAL type);
-
 
 /** \brief Retrieves a string representation for any GLOBAL_STATUS enum value
 *** \param type The status enum value to find the string for
@@ -46,68 +47,6 @@ std::string GetElementName(GLOBAL_ELEMENTAL type);
 *** number of script file accesses that need to take place.
 **/
 std::string GetStatusName(GLOBAL_STATUS type);
-
-
-/** ****************************************************************************
-*** \brief Represents an elemental effect in the game
-***
-*** This class is a simple container of two enumerated values: an elemental type
-*** and an intensity. Elemental effects provide for special types of attack and
-*** defense bonuses. There are really two types of elemental effects: physical
-*** and metaphysical, the same as the two attack damage types. Whether the elemental
-*** effect represented by objects of this class are meant to serve as a defensive boost
-*** or an offensive boost is determined by the context in which the class object is used.
-***
-*** \todo Explain any differences between how physical versus metaphyiscal elements
-*** function in the game once that decision has been reached.
-*** ***************************************************************************/
-class GlobalElementalEffect
-{
-public:
-    /** \param type The elemental type that this class object should represent
-    *** \param intensity The intensity of the elemental (default value == GLOBAL_INTENSITY_NEUTRAL)
-    **/
-    GlobalElementalEffect(GLOBAL_ELEMENTAL type, GLOBAL_INTENSITY intensity = GLOBAL_INTENSITY_NEUTRAL) :
-        _type(type), _intensity(intensity) {}
-
-    ~GlobalElementalEffect()
-    {}
-
-    //! \brief Class Member Access Functions
-    //@{
-    GLOBAL_ELEMENTAL GetType() const {
-        return _type;
-    }
-
-    GLOBAL_INTENSITY GetIntensity() const {
-        return _intensity;
-    }
-
-    void SetIntensity(GLOBAL_INTENSITY intensity) {
-        _intensity = intensity;
-    }
-    //@}
-
-    /** \brief Increments the elemental effect's intensity
-    *** \param amount The number of levels to increase the intensity by (default = 1)
-    *** \note The intensity will not be allowed to increase beyond the valid intensity range
-    **/
-    void IncrementIntensity(uint8 amount = 1);
-
-    /** \brief Decrements the elemental effect's intensity
-    *** \param amount The number of levels to decrease the intensity by (default = 1)
-    *** \note The intensity will not be allowed to decrease beyond the valid intensity range
-    **/
-    void DecrementIntensity(uint8 amount = 1);
-
-protected:
-    //! \brief The type of elemental that the object represents
-    GLOBAL_ELEMENTAL _type;
-
-    //! \brief The intensity level of this elemental effect
-    GLOBAL_INTENSITY _intensity;
-}; // class GlobalElementalEffect
-
 
 /** ****************************************************************************
 *** \brief Represents a status effect in the game
@@ -122,10 +61,9 @@ class GlobalStatusEffect
 {
 public:
     /** \param type The status type that this class object should represent
-    *** \param intensity The intensity of the status (default value == GLOBAL_INTENSITY_NEUTRAL)
+    *** \param intensity The intensity of the status.
     **/
-    GlobalStatusEffect(GLOBAL_STATUS type, GLOBAL_INTENSITY intensity = GLOBAL_INTENSITY_NEUTRAL) :
-        _type(type), _intensity(intensity) {}
+    GlobalStatusEffect(GLOBAL_STATUS type, GLOBAL_INTENSITY intensity = GLOBAL_INTENSITY_NEUTRAL);
 
     virtual ~GlobalStatusEffect()
     {}
@@ -159,14 +97,45 @@ public:
     **/
     virtual bool DecrementIntensity(uint8 amount);
 
+    vt_system::SystemTimer *GetUpdateTimer() {
+        return &_update_timer;
+    }
+
+    //! \brief Tells wether the effect should update only when its update timer has finished.
+    bool IsUsingUpdateTimer() const {
+        return _use_update_timer;
+    }
+
+    //! \brief Sets the effect as invalid
+    void Disable() {
+        _type = GLOBAL_STATUS_INVALID;
+        _intensity = GLOBAL_INTENSITY_NEUTRAL;
+    }
+
+    //! \brief Checks whether the effect is active (and valid).
+    bool IsActive() const {
+        return !(_type == GLOBAL_STATUS_INVALID || _type == GLOBAL_STATUS_TOTAL
+            || _intensity == GLOBAL_INTENSITY_NEUTRAL || _intensity == GLOBAL_INTENSITY_INVALID
+            || _intensity == GLOBAL_INTENSITY_TOTAL);
+    }
+
 protected:
     //! \brief The type of status that the object represents
     GLOBAL_STATUS _type;
 
     //! \brief The intensity level of this status effect
     GLOBAL_INTENSITY _intensity;
+
+    //! \brief A timer used when the effect should call its Update function after a certain time
+    //! E.g.: When poisoning a character the poison effect shouldn't be applied every cycles,
+    //! but every few seconds.
+    vt_system::SystemTimer _update_timer;
+
+    //! \brief Tells whether the update timer should be used.
+    bool _use_update_timer;
+
 }; // class GlobalStatusEffect
 
-} // namespace hoa_global
+} // namespace vt_global
 
 #endif // __GLOBAL_EFFECTS_HEADER__

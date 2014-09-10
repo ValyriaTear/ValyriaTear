@@ -1,5 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
-//            Copyright (C) 2004-2010 by The Allacrost Project
+//            Copyright (C) 2004-2011 by The Allacrost Project
+//            Copyright (C) 2012-2014 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -7,16 +8,25 @@
 // See http://www.gnu.org/copyleft/gpl.html for details.
 ///////////////////////////////////////////////////////////////////////////////
 
-#include "video.h"
+/** ***************************************************************************
+*** \file    particle_system.cpp
+*** \author  Raj Sharma, roos@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
+*** \brief   Source file for particle system
+*** **************************************************************************/
 
+#include "utils/utils_pch.h"
 #include "particle_system.h"
+
 #include "particle_keyframe.h"
 #include "engine/video/video.h"
 
-using namespace hoa_utils;
-using namespace hoa_video;
+#include "utils/utils_random.h"
 
-namespace hoa_mode_manager
+using namespace vt_utils;
+using namespace vt_video;
+
+namespace vt_mode_manager
 {
 
 bool ParticleSystem::_Create(ParticleSystemDef *sys_def)
@@ -57,10 +67,10 @@ bool ParticleSystem::_Create(ParticleSystemDef *sys_def)
     return true;
 }
 
-bool ParticleSystem::Draw()
+void ParticleSystem::Draw()
 {
     if(!_alive || !_system_def->enabled || _age < _system_def->emitter._start_time)
-        return true;
+        return;
 
     // set blending parameters
     if(_system_def->blend_mode == VIDEO_NO_BLEND) {
@@ -329,24 +339,22 @@ bool ParticleSystem::Draw()
 
         glDrawArrays(GL_QUADS, 0, _num_particles * 4);
     }
-
-    return true;
 }
 
 //-----------------------------------------------------------------------------
 // Update: updates particle positions and properties, and emits/kills particles
 //-----------------------------------------------------------------------------
 
-bool ParticleSystem::Update(float frame_time, const EffectParameters &params)
+void ParticleSystem::Update(float frame_time, const EffectParameters &params)
 {
     if(!_alive || !_system_def->enabled)
-        return true;
+        return;
 
     _age += frame_time;
 
     if(_age < _system_def->emitter._start_time) {
         _last_update_time = _age;
-        return true;
+        return;
     }
 
     _animation.Update();
@@ -398,7 +406,6 @@ bool ParticleSystem::Update(float frame_time, const EffectParameters &params)
         _alive = false;
 
     _last_update_time = _age;
-    return true;
 }
 
 void ParticleSystem::_Destroy()
@@ -677,6 +684,15 @@ void ParticleSystem::_RespawnParticle(int32 i, const EffectParameters &params)
         _particles[i].y += emitter._y;
         break;
     }
+    case EMITTER_SHAPE_ELLIPSE: {
+        float angle = RandomFloat(0.0f, UTILS_2PI);
+        _particles[i].x = emitter._x * cosf(angle);
+        _particles[i].y = emitter._y * sinf(angle);
+        // Apply offset
+        _particles[i].x += emitter._x2;
+        _particles[i].y += emitter._y2;
+        break;
+    }
     case EMITTER_SHAPE_FILLED_CIRCLE: {
         float radius_squared = emitter._radius;
         radius_squared *= radius_squared;
@@ -741,13 +757,16 @@ void ParticleSystem::_RespawnParticle(int32 i, const EffectParameters &params)
     }
 
     // figure out the orientation
-
     float angle = 0.0f;
 
     if(emitter._omnidirectional) {
         angle = RandomFloat(0.0f, UTILS_2PI);
-    } else if(emitter._inner_cone == 0.0f && emitter._outer_cone == 0.0f) {
+    }
+    else {
         angle = emitter._orientation + params.orientation;
+
+        if(!IsFloatEqual(emitter._angle_variation, 0.0f))
+            angle += RandomFloat(-emitter._angle_variation, emitter._angle_variation);
     }
 
     _particles[i].velocity_x = speed * cosf(angle);
@@ -853,4 +872,4 @@ void ParticleSystem::_RespawnParticle(int32 i, const EffectParameters &params)
                                            _system_def->particle_lifetime_variation);
 }
 
-}  // namespace hoa_mode_manager
+}  // namespace vt_mode_manager

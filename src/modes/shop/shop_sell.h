@@ -1,5 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
-//            Copyright (C) 2004-2010 by The Allacrost Project
+//            Copyright (C) 2004-2011 by The Allacrost Project
+//            Copyright (C) 2012-2014 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -10,6 +11,7 @@
 /** ****************************************************************************
 *** \file    shop_sell.h
 *** \author  Tyler Olsen, roots@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Header file for sell interface of shop mode
 ***
 *** \note The contents of this file are near identical to the contents of
@@ -20,16 +22,17 @@
 #ifndef __SHOP_SELL_HEADER__
 #define __SHOP_SELL_HEADER__
 
-#include "engine/video/video.h"
 #include "common/global/global.h"
 
 #include "shop_utils.h"
 
-namespace hoa_shop
+namespace vt_shop
 {
 
 namespace private_shop
 {
+
+class SellListDisplay;
 
 /** ****************************************************************************
 *** \brief Manages the shop when it is in sell mode and enables the player to sell their inventory
@@ -85,19 +88,19 @@ private:
     uint32 _current_category;
 
     //! \brief Header text for the category field
-    hoa_video::TextImage _category_header;
+    vt_video::TextImage _category_header;
 
     //! \brief Header text for the name field
-    hoa_video::TextImage _name_header;
+    vt_video::TextImage _name_header;
 
     //! \brief Header text for the list of object properties (refer to the SellListDisplay class)
-    hoa_gui::OptionBox _properties_header;
+    vt_gui::OptionBox _properties_header;
 
     //! \brief String representations of all category names that may
-    std::vector<hoa_utils::ustring> _category_names;
+    std::vector<vt_utils::ustring> _category_names;
 
     //! \brief A pointer to icon images
-    std::vector<hoa_video::StillImage *> _category_icons;
+    std::vector<vt_video::StillImage *> _category_icons;
 
     //! \brief Display manager for the current category of objects selected
     ObjectCategoryDisplay _category_display;
@@ -108,13 +111,13 @@ private:
     std::vector<SellListDisplay *> _list_displays;
 
     //! \brief A copy of the selected object's icon, scaled to 1/4 size
-    hoa_video::StillImage _selected_icon;
+    vt_video::StillImage _selected_icon;
 
     //! \brief Text image of the selected object's name
-    hoa_video::TextImage _selected_name;
+    vt_video::TextImage _selected_name;
 
     //! \brief A single row option box containing the selected object's properties
-    hoa_gui::OptionBox _selected_properties;
+    vt_gui::OptionBox _selected_properties;
 
     /**
     ***  Update the available deal types. Called only in _RefreshItemCategories().
@@ -151,12 +154,6 @@ private:
     *** \return True if the _selected_object member has changed
     **/
     bool _ChangeSelection(bool up_or_down);
-
-    /** \brief Refreshes the text in the _selected_properties OptionBox
-    *** This method only needs to be called when the properties (likely quantity) change
-    *** in the "info" view mode. Calling it while in "list" view is wasted effort
-    **/
-    void _RefreshSelectedProperties();
 }; // class SellInterface : public ShopInterface
 
 
@@ -180,15 +177,6 @@ public:
     //! \brief Reconstructs all option box entries from the object data
     void ReconstructList();
 
-    /** \brief Will refresh the displayed sell count property for a single list entry
-    *** \param index The index of the object data to reconstruct
-    ***
-    *** The reason that only sell quantity is refreshed is that no other property data needs to be
-    *** updated while in the sell interface. All other data remains static and require updating
-    *** only after a shop transaction is completed.
-    **/
-    void RefreshEntry(uint32 index);
-
     /** \brief Changes the sell count of the selected object, refreshes the list entry, and updates financial totals
     *** \param less_or_more False to decrease the quantity, true to increase it
     *** \param amount The amount to decrease/increase the quantity by (default value == 1)
@@ -203,6 +191,6 @@ public:
 
 } // namespace private_shop
 
-} // namespace hoa_shop
+} // namespace vt_shop
 
 #endif // __SHOP_SELL_HEADER__

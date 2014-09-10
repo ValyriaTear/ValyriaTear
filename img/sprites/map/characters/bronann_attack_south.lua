@@ -3,13 +3,13 @@
 
 animation = {
 
-	-- The file to load the frames from
-	image_filename = "img/sprites/map/bronann_attack_south.png",
-	-- The number of rows and columns of images, will be used to compute
-	-- the images width and height, and also the frames number (row x col)
-	rows = 1,
-	columns = 5,
-	-- The frames duration in milliseconds
+    -- The file to load the frames from
+    image_filename = "img/sprites/map/characters/bronann_attack_south.png",
+    -- The number of rows and columns of images, will be used to compute
+    -- the images width and height, and also the frames number (row x col)
+    rows = 1,
+    columns = 5,
+    -- The frames duration in milliseconds
     frames = {
         [0] = { id = 0, duration = 75 },
         [1] = { id = 1, duration = 75 },

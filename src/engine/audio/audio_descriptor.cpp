@@ -1,5 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
-//            Copyright (C) 2004-2010 by The Allacrost Project
+//            Copyright (C) 2004-2011 by The Allacrost Project
+//            Copyright (C) 2012-2014 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -11,6 +12,7 @@
 *** \file   audio_descriptor.cpp
 *** \author Mois�s Ferrer Serra, byaku@allacrost.org
 *** \author Tyler Olsen, roots@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief  Source for audio descriptors, sources and buffers
 ***
 *** This code provides the funcionality for load sounds and music in the engine.
@@ -20,12 +22,17 @@
 *** \note This code uses the OpenAL audio library. See http://www.openal.com/
 *** ***************************************************************************/
 
-#include "audio.h"
+#include "utils/utils_pch.h"
 #include "audio_descriptor.h"
 
-using namespace hoa_audio::private_audio;
+#include "audio.h"
+#include "engine/system.h"
 
-namespace hoa_audio
+#include "utils/utils_strings.h"
+
+using namespace vt_audio::private_audio;
+
+namespace vt_audio
 {
 
 namespace private_audio
@@ -108,6 +115,8 @@ AudioDescriptor::AudioDescriptor() :
     _looping(false),
     _offset(0),
     _volume(1.0f),
+    _fade_effect_time(0.0f),
+    _original_volume(0.0f),
     _stream_buffer_size(0)
 {
     _position[0] = 0.0f;
@@ -131,6 +140,8 @@ AudioDescriptor::AudioDescriptor(const AudioDescriptor &copy) :
     _looping(copy._looping),
     _offset(0),
     _volume(copy._volume),
+    _fade_effect_time(copy._fade_effect_time),
+    _original_volume(copy._original_volume),
     _stream_buffer_size(0)
 {
     _position[0] = 0.0f;
@@ -164,7 +175,7 @@ bool AudioDescriptor::LoadAudio(const std::string &filename, AUDIO_LOAD load_typ
     }
     // Convert the file extension to uppercase and use it to create the proper input type
     std::string file_extension = filename.substr(filename.size() - 3, 3);
-    file_extension = hoa_utils::Upcase(file_extension);
+    file_extension = vt_utils::Upcase(file_extension);
 
     // Based on the extension of the file, load properly one
     if(file_extension.compare("WAV") == 0) {
@@ -307,19 +318,19 @@ void AudioDescriptor::FreeAudio()
     }
 }
 
-void AudioDescriptor::Play()
+bool AudioDescriptor::Play()
 {
     if(!AUDIO_ENABLE)
-        return;
+        return true;
 
     if(_state == AUDIO_STATE_PLAYING)
-        return;
+        return true;
 
     if(!_source) {
         _AcquireSource();
         if(!_source) {
             IF_PRINT_WARNING(AUDIO_DEBUG) << "did not have access to valid AudioSource" << std::endl;
-            return;
+            return false;
         }
         _SetSourceProperties();
     }
@@ -339,6 +350,7 @@ void AudioDescriptor::Play()
         IF_PRINT_WARNING(AUDIO_DEBUG) << "playing the source failed: " << AudioManager->CreateALErrorString() << std::endl;
     }
     _state = AUDIO_STATE_PLAYING;
+    return true;
 }
 
 void AudioDescriptor::Stop()
@@ -550,14 +562,14 @@ void AudioDescriptor::SetDirection(const float direction[3])
     }
 }
 
-void AudioDescriptor::AddOwner(hoa_mode_manager::GameMode *gm)
+void AudioDescriptor::AddOwner(vt_mode_manager::GameMode *gm)
 {
     // Don't accept null references.
     if(!gm)
         return;
 
     // Check for duplicate entries
-    std::vector<hoa_mode_manager::GameMode *>::const_iterator it = _owners.begin();
+    std::vector<vt_mode_manager::GameMode *>::const_iterator it = _owners.begin();
     for(; it != _owners.end(); ++it) {
         if(*it == gm)
             return;
@@ -566,16 +578,16 @@ void AudioDescriptor::AddOwner(hoa_mode_manager::GameMode *gm)
     _owners.push_back(gm);
 }
 
-void AudioDescriptor::AddOwners(std::vector<hoa_mode_manager::GameMode *>& owners)
+void AudioDescriptor::AddOwners(std::vector<vt_mode_manager::GameMode *>& owners)
 {
-    std::vector<hoa_mode_manager::GameMode *>::const_iterator it = owners.begin();
+    std::vector<vt_mode_manager::GameMode *>::const_iterator it = owners.begin();
 
     for(; it != owners.end(); ++it) {
         AddOwner(*it);
     }
 }
 
-bool AudioDescriptor::RemoveOwner(hoa_mode_manager::GameMode *gm)
+bool AudioDescriptor::RemoveOwner(vt_mode_manager::GameMode *gm)
 {
     if(!gm)
         return false;
@@ -585,7 +597,7 @@ bool AudioDescriptor::RemoveOwner(hoa_mode_manager::GameMode *gm)
         return false;
 
     // Check for duplicate entries
-    std::vector<hoa_mode_manager::GameMode *>::iterator it = _owners.begin();
+    std::vector<vt_mode_manager::GameMode *>::iterator it = _owners.begin();
     for(; it != _owners.end();) {
         if(*it != gm) {
             ++it;
@@ -605,12 +617,29 @@ bool AudioDescriptor::RemoveOwner(hoa_mode_manager::GameMode *gm)
 
 void AudioDescriptor::FadeIn(float time)
 {
-    _audio_effects.push_back(new private_audio::FadeInEffect(*this, time));
+    // If the sound is not playing, then start it.
+    // Note: Only audio descriptors being played are updated.
+    if(_state != AUDIO_STATE_PLAYING)
+        Play();
+
+    if (GetVolume() >= 1.0f)
+        return;
+
+    _state = AUDIO_STATE_FADE_IN;
+    _fade_effect_time = time;
 }
 
 void AudioDescriptor::FadeOut(float time)
 {
-    _audio_effects.push_back(new private_audio::FadeOutEffect(*this, time));
+    _original_volume = GetVolume();
+
+    if (_original_volume <= 0.0f) {
+        Stop();
+        return;
+    }
+
+    _fade_effect_time = time;
+    _state = AUDIO_STATE_FADE_OUT;
 }
 
 void AudioDescriptor::RemoveEffects()
@@ -692,7 +721,7 @@ void AudioDescriptor::_SetVolumeControl(float volume)
 void AudioDescriptor::_Update()
 {
     // Don't update stopped audio descriptors
-    if(_state != AUDIO_STATE_PLAYING)
+    if(_state != AUDIO_STATE_PLAYING && _state != AUDIO_STATE_FADE_IN && _state != AUDIO_STATE_FADE_OUT)
         return;
 
     // If the last set state was the playing state, we have to double check
@@ -710,6 +739,9 @@ void AudioDescriptor::_Update()
             _state = AUDIO_STATE_STOPPED;
         }
     }
+
+    // Handle the fade in/out states
+    _HandleFadeStates();
 
     // Update all registered audio effects
     for(std::vector<AudioEffect *>::iterator it = _audio_effects.begin(); it != _audio_effects.end();) {
@@ -780,6 +812,55 @@ void AudioDescriptor::_Update()
 } // void AudioDescriptor::_Update()
 
 
+void AudioDescriptor::_HandleFadeStates()
+{
+    if (_state == AUDIO_STATE_FADE_OUT) {
+        // Hande when the effect time is very quick
+        if( _fade_effect_time <= 10.0f) {
+            Stop();
+            SetVolume(0.0f);
+            return;
+        }
+
+        float time_elapsed = (float)vt_system::SystemManager->GetUpdateTime();
+        float new_volume = GetVolume() - (_original_volume - (_original_volume - (time_elapsed / _fade_effect_time)));
+
+        // Stop the audio, and terminate the effect if the volume drops to 0.0f or below
+        if(new_volume <= 0.0f) {
+            Stop();
+            SetVolume(0.0f);
+            return;
+        }
+        // Otherwise, update the volume for the audio
+        else {
+            SetVolume(new_volume);
+            return;
+        }
+    }
+    else if (_state == AUDIO_STATE_FADE_IN) {
+        // Stop right away when the effect is less than a usual cpu cycle
+        if(_fade_effect_time <= 10.0f) {
+            SetVolume(1.0f);
+            _state = AUDIO_STATE_PLAYING;
+            return;
+        }
+
+        float time_elapsed = (float)vt_system::SystemManager->GetUpdateTime();
+        float new_volume = GetVolume() + (time_elapsed / _fade_effect_time);
+
+
+        // If the volume has reached the maximum, mark the effect as over
+        if(new_volume >= 1.0f) {
+            SetVolume(1.0f);
+            _state = AUDIO_STATE_PLAYING;
+            return;
+        }
+        // Otherwise, update the volume for the audio
+        else {
+            SetVolume(new_volume);
+        }
+    }
+}
 
 void AudioDescriptor::_AcquireSource()
 {
@@ -903,7 +984,7 @@ SoundDescriptor::SoundDescriptor() :
 SoundDescriptor::~SoundDescriptor()
 {
     for(std::vector<SoundDescriptor *>::iterator i = AudioManager->_registered_sounds.begin();
-            i != AudioManager->_registered_sounds.end(); i++) {
+            i != AudioManager->_registered_sounds.end(); ++i) {
         if(*i == this) {
             AudioManager->_registered_sounds.erase(i);
             return;
@@ -930,15 +1011,15 @@ void SoundDescriptor::SetVolume(float volume)
     }
 }
 
-void SoundDescriptor::Play()
+bool SoundDescriptor::Play()
 {
     if(!AUDIO_ENABLE)
-        return;
+        return true;
 
     if(_state == AUDIO_STATE_PLAYING)
         Stop();
 
-    AudioDescriptor::Play();
+    return AudioDescriptor::Play();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -959,7 +1040,7 @@ MusicDescriptor::~MusicDescriptor()
     }
 
     for(std::vector<MusicDescriptor *>::iterator i = AudioManager->_registered_music.begin();
-            i != AudioManager->_registered_music.end(); i++) {
+            i != AudioManager->_registered_music.end(); ++i) {
         if(*i == this) {
             AudioManager->_registered_music.erase(i);
             return;
@@ -978,20 +1059,28 @@ bool MusicDescriptor::LoadAudio(const std::string &filename, AUDIO_LOAD load_typ
     return AudioDescriptor::LoadAudio(filename, load_type, stream_buffer_size);
 }
 
-void MusicDescriptor::Play()
+bool MusicDescriptor::Play()
 {
     if(!AUDIO_ENABLE)
-        return;
+        return true;
 
     if(AudioManager->_active_music == this) {
-        if(_state != AUDIO_STATE_PLAYING)
-            AudioDescriptor::Play();
+        if(_state != AUDIO_STATE_PLAYING && _state != AUDIO_STATE_FADE_IN) {
+            if (AudioDescriptor::Play())
+                FadeIn(500);
+            else
+                return false;
+        }
     } else {
         if(AudioManager->_active_music)
-            AudioManager->_active_music->Stop();
+            AudioManager->_active_music->FadeOut(500);
         AudioManager->_active_music = this;
-        Play(); // Recursive call now the music is the active one.
+        if (AudioDescriptor::Play())
+            FadeIn(500);
+        else
+            return false;
     }
+    return true;
 }
 
 void MusicDescriptor::SetVolume(float volume)
@@ -1005,4 +1094,4 @@ void MusicDescriptor::SetVolume(float volume)
     }
 }
 
-} // namespace hoa_audio
+} // namespace vt_audio

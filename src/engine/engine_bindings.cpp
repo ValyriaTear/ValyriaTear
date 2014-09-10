@@ -1,5 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
-//            Copyright (C) 2004-2010 by The Allacrost Project
+//            Copyright (C) 2004-2011 by The Allacrost Project
+//            Copyright (C) 2012-2014 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -10,6 +11,7 @@
 /** ***************************************************************************
 *** \file    engine_bindings.cpp
 *** \author  Daniel Steuernol, steu@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Lua bindings for the engine code
 ***
 *** All bindings for the engine code is contained within this file.
@@ -21,6 +23,8 @@
 *** as necessary to gain an understanding of this code style.
 *** **************************************************************************/
 
+#include "utils/utils_pch.h"
+
 #include "engine/audio/audio.h"
 #include "engine/input.h"
 #include "engine/mode_manager.h"
@@ -31,24 +35,27 @@
 
 #include "common/global/global.h"
 
-namespace hoa_defs
+namespace vt_defs
 {
 
 void BindEngineCode()
 {
     // ----- Audio Engine Bindings
     {
-        using namespace hoa_audio;
+        using namespace vt_audio;
 
-        luabind::module(hoa_script::ScriptManager->GetGlobalState(), "hoa_audio")
+        luabind::module(vt_script::ScriptManager->GetGlobalState(), "vt_audio")
         [
             luabind::class_<AudioEngine>("GameAudio")
+            .def("LoadSound", &AudioEngine::LoadSound)
             .def("PlaySound", &AudioEngine::PlaySound)
             .def("PlayMusic", &AudioEngine::PlayMusic)
-            .def("PauseAllMusic", &AudioEngine::PauseAllMusic)
-            .def("ResumeAllMusic", &AudioEngine::ResumeAllMusic)
-            .def("FadeOutAllMusic", &AudioEngine::FadeOutAllMusic)
-            .def("FadeInAllMusic", &AudioEngine::FadeInAllMusic)
+            .def("LoadMusic", &AudioEngine::LoadMusic)
+            .def("PauseActiveMusic", &AudioEngine::PauseActiveMusic)
+            .def("ResumeActiveMusic", &AudioEngine::ResumeActiveMusic)
+            .def("FadeOutActiveMusic", &AudioEngine::FadeOutActiveMusic)
+            .def("FadeInActiveMusic", &AudioEngine::FadeInActiveMusic)
+            .def("FadeOutAllSounds", &AudioEngine::FadeOutAllSounds)
         ];
 
     } // End using audio namespaces
@@ -57,9 +64,9 @@ void BindEngineCode()
 
     // ----- Input Engine Bindings
     {
-        using namespace hoa_input;
+        using namespace vt_input;
 
-        luabind::module(hoa_script::ScriptManager->GetGlobalState(), "hoa_input")
+        luabind::module(vt_script::ScriptManager->GetGlobalState(), "vt_input")
         [
             luabind::class_<InputEngine>("GameInput")
             .def("GetUpKeyName", &InputEngine::GetUpKeyName)
@@ -69,6 +76,7 @@ void BindEngineCode()
             .def("GetConfirmKeyName", &InputEngine::GetConfirmKeyName)
             .def("GetCancelKeyName", &InputEngine::GetCancelKeyName)
             .def("GetMenuKeyName", &InputEngine::GetMenuKeyName)
+            .def("GetMinimapKeyName", &InputEngine::GetMinimapKeyName)
             .def("GetPauseKeyName", &InputEngine::GetPauseKeyName)
             .def("GetHelpKeyName", &InputEngine::GetHelpKeyName)
             .def("GetQuitKeyName", &InputEngine::GetQuitKeyName)
@@ -80,41 +88,50 @@ void BindEngineCode()
 
     // ----- Mode Manager Engine Bindings
     {
-        using namespace hoa_mode_manager;
+        using namespace vt_mode_manager;
 
-        luabind::module(hoa_script::ScriptManager->GetGlobalState(), "hoa_mode_manager")
+        luabind::module(vt_script::ScriptManager->GetGlobalState(), "vt_mode_manager")
         [
             luabind::class_<ScriptSupervisor>("ScriptSupervisor")
             .def("AddScript", &ScriptSupervisor::AddScript)
-            .def("AddAnimation", &ScriptSupervisor::AddAnimation)
-            .def("AddImage", &ScriptSupervisor::AddImage)
-            .def("DrawImage", &ScriptSupervisor::DrawImage)
-            .def("DrawRotatedImage", &ScriptSupervisor::DrawRotatedImage)
-            .def("DrawAnimation", &ScriptSupervisor::DrawAnimation)
+            .def("CreateImage", &ScriptSupervisor::CreateImage)
+            .def("CreateAnimation", &ScriptSupervisor::CreateAnimation)
+            .def("CreateText", (vt_video::TextImage*(ScriptSupervisor:: *)(const std::string&, const vt_video::TextStyle&))&ScriptSupervisor::CreateText)
+            .def("CreateText", (vt_video::TextImage*(ScriptSupervisor:: *)(const vt_utils::ustring&, const vt_video::TextStyle&))&ScriptSupervisor::CreateText)
             .def("SetDrawFlag", &ScriptSupervisor::SetDrawFlag)
         ];
 
-        luabind::module(hoa_script::ScriptManager->GetGlobalState(), "hoa_mode_manager")
+        luabind::module(vt_script::ScriptManager->GetGlobalState(), "vt_mode_manager")
         [
             luabind::class_<EffectSupervisor>("EffectSupervisor")
             .def("EnableLightingOverlay", &EffectSupervisor::EnableLightingOverlay)
             .def("DisableLightingOverlay", &EffectSupervisor::DisableLightingOverlay)
             .def("EnableAmbientOverlay", &EffectSupervisor::EnableAmbientOverlay)
             .def("DisableAmbientOverlay", &EffectSupervisor::DisableAmbientOverlay)
-            .def("EnableLightning", &EffectSupervisor::EnableLightning)
-            .def("DisableLightning", &EffectSupervisor::DisableLightning)
             .def("DisableEffects", &EffectSupervisor::DisableEffects)
             .def("GetCameraXMovement", &EffectSupervisor::GetCameraXMovement)
             .def("GetCameraYMovement", &EffectSupervisor::GetCameraYMovement)
+            .def("ShakeScreen", &EffectSupervisor::ShakeScreen)
+            .def("StopShaking", &EffectSupervisor::StopShaking)
+
+            // Namespace constants
+            .enum_("constants") [
+                // Shake fall off types
+                luabind::value("SHAKE_FALLOFF_NONE", SHAKE_FALLOFF_NONE),
+                luabind::value("SHAKE_FALLOFF_EASE", SHAKE_FALLOFF_EASE),
+                luabind::value("SHAKE_FALLOFF_LINEAR", SHAKE_FALLOFF_LINEAR),
+                luabind::value("SHAKE_FALLOFF_GRADUAL", SHAKE_FALLOFF_GRADUAL),
+                luabind::value("SHAKE_FALLOFF_SUDDEN", SHAKE_FALLOFF_SUDDEN)
+            ]
         ];
 
-        luabind::module(hoa_script::ScriptManager->GetGlobalState(), "hoa_mode_manager")
+        luabind::module(vt_script::ScriptManager->GetGlobalState(), "vt_mode_manager")
         [
             luabind::class_<ParticleEffect>("ParticleEffect")
             .def(luabind::constructor<>())
             .def(luabind::constructor<const std::string &>())
             .def("LoadEffect", &ParticleEffect::LoadEffect)
-            .def("Update", (bool (ParticleEffect:: *)())&ParticleEffect::Update)
+            .def("Update", (void (ParticleEffect:: *)())&ParticleEffect::Update)
             .def("Draw", &ParticleEffect::Draw)
             .def("IsAlive", &ParticleEffect::IsAlive)
             .def("Move", &ParticleEffect::Move)
@@ -122,22 +139,30 @@ void BindEngineCode()
             .def("Start", &ParticleEffect::Start)
         ];
 
-        luabind::module(hoa_script::ScriptManager->GetGlobalState(), "hoa_mode_manager")
+        luabind::module(vt_script::ScriptManager->GetGlobalState(), "vt_mode_manager")
         [
             luabind::class_<ParticleManager>("ParticleManager")
             .def("AddParticleEffect", &ParticleManager::AddParticleEffect)
             .def("StopAll", &ParticleManager::StopAll)
         ];
 
-        luabind::module(hoa_script::ScriptManager->GetGlobalState(), "hoa_mode_manager")
+        luabind::module(vt_script::ScriptManager->GetGlobalState(), "vt_mode_manager")
+        [
+            luabind::class_<IndicatorSupervisor>("IndicatorSupervisor")
+            .def("AddDamageIndicator", &IndicatorSupervisor::AddDamageIndicator)
+            .def("AddHealingIndicator", &IndicatorSupervisor::AddHealingIndicator)
+        ];
+
+        luabind::module(vt_script::ScriptManager->GetGlobalState(), "vt_mode_manager")
         [
             luabind::class_<GameMode>("GameMode")
             .def("GetScriptSupervisor", &GameMode::GetScriptSupervisor)
             .def("GetEffectSupervisor", &GameMode::GetEffectSupervisor)
             .def("GetParticleManager", &GameMode::GetParticleManager)
+            .def("GetIndicatorSupervisor", &GameMode::GetIndicatorSupervisor)
         ];
 
-        luabind::module(hoa_script::ScriptManager->GetGlobalState(), "hoa_mode_manager")
+        luabind::module(vt_script::ScriptManager->GetGlobalState(), "vt_mode_manager")
         [
             luabind::class_<ModeEngine>("GameModeManager")
             // The adopt policy set on the GameMode pointer is permitting to avoid
@@ -157,9 +182,9 @@ void BindEngineCode()
 
     // ----- Script Engine Bindings
     {
-        using namespace hoa_script;
+        using namespace vt_script;
 
-        luabind::module(hoa_script::ScriptManager->GetGlobalState(), "hoa_script")
+        luabind::module(vt_script::ScriptManager->GetGlobalState(), "vt_script")
         [
             luabind::class_<ScriptEngine>("GameScript")
         ];
@@ -170,12 +195,20 @@ void BindEngineCode()
 
     // ----- System Engine Bindings
     {
-        using namespace hoa_system;
+        using namespace vt_system;
 
-        luabind::module(hoa_script::ScriptManager->GetGlobalState(), "hoa_system")
+        luabind::module(vt_script::ScriptManager->GetGlobalState(), "vt_system")
         [
-            luabind::def("Translate", &hoa_system::Translate),
-            luabind::def("UTranslate", &hoa_system::UTranslate),
+            luabind::def("Translate", &vt_system::Translate),
+            luabind::def("CTranslate", &vt_system::CTranslate),
+            luabind::def("UTranslate", &vt_system::UTranslate),
+            luabind::def("CUTranslate", &vt_system::CUTranslate),
+
+            // Specializaton of c-formatted translation bounds
+            luabind::def("VTranslate", (std::string(*)(const std::string&, uint32)) &vt_system::VTranslate),
+            luabind::def("VTranslate", (std::string(*)(const std::string&, int32)) &vt_system::VTranslate),
+            luabind::def("VTranslate", (std::string(*)(const std::string&, float)) &vt_system::VTranslate),
+            luabind::def("VTranslate", (std::string(*)(const std::string&, const std::string&)) &vt_system::VTranslate),
 
             luabind::class_<SystemTimer>("SystemTimer")
             .def(luabind::constructor<>())
@@ -225,34 +258,74 @@ void BindEngineCode()
 
     // ----- Video Engine Bindings
     {
-        using namespace hoa_video;
+        using namespace vt_video;
 
-        luabind::module(hoa_script::ScriptManager->GetGlobalState(), "hoa_video")
+        luabind::module(vt_script::ScriptManager->GetGlobalState(), "vt_video")
         [
             luabind::class_<Color>("Color")
-            .def(luabind::constructor<float, float, float, float>()),
+            .def(luabind::constructor<float, float, float, float>())
+            .def("SetAlpha", &Color::SetAlpha)
+            .def("SetColor", (void(Color::*)(float, float, float, float))&Color::SetColor),
+
+            luabind::class_<ImageDescriptor>("ImageDescriptor")
+            .def("GetWidth", &ImageDescriptor::GetWidth)
+            .def("GetHeight", &ImageDescriptor::GetHeight)
+            .def("Update", &ImageDescriptor::Update),
+
+            luabind::class_<StillImage, ImageDescriptor>("StillImage")
+            .def("Clear", &StillImage::Clear)
+            .def("Draw", (void(StillImage::*)(const vt_video::Color&)) &StillImage::Draw)
+            .def("SetWidth", &StillImage::SetWidth)
+            .def("SetHeight", &StillImage::SetHeight)
+            .def("SetWidthKeepRatio", &StillImage::SetWidthKeepRatio)
+            .def("SetHeightKeepRatio", &StillImage::SetHeightKeepRatio)
+            .def("SetDimensions", &StillImage::SetDimensions)
+            .def("SetXDrawOffset", &StillImage::SetXDrawOffset)
+            .def("SetYDrawOffset", &StillImage::SetYDrawOffset)
+            .def("SetDrawOffsets", &StillImage::SetDrawOffsets),
+
+            luabind::class_<AnimatedImage, ImageDescriptor>("AnimatedImage")
+            .def("Clear", &AnimatedImage::Clear)
+            .def("Draw", (void(AnimatedImage::*)(const Color&))&AnimatedImage::Draw)
+            .def("Update", (void(AnimatedImage::*)())&AnimatedImage::Update)
+            .def("Update", (void(AnimatedImage::*)(uint32))&AnimatedImage::Update)
+            .def("ResetAnimation", &AnimatedImage::ResetAnimation)
+            .def("GetAnimationLength", &AnimatedImage::GetAnimationLength)
+            .def("RandomizeAnimationFrame", &AnimatedImage::RandomizeAnimationFrame)
+            .def("SetWidth", &AnimatedImage::SetWidth)
+            .def("SetHeight", &AnimatedImage::SetHeight)
+            .def("SetDimensions", &AnimatedImage::SetDimensions),
+
+            luabind::class_<TextImage, ImageDescriptor>("TextImage")
+            .def("Clear", &TextImage::Clear)
+            .def("Draw", (void(TextImage::*)(const Color&))&TextImage::Draw)
+            .def("SetWidth", &TextImage::SetWidth)
+            .def("SetHeight", &TextImage::SetHeight)
+            .def("SetDimensions", &TextImage::SetDimensions)
+            .def("SetText", (void(TextImage::*)(const std::string&))&TextImage::SetText)
+            .def("SetText", (void(TextImage::*)(const std::string&, const TextStyle&))&TextImage::SetText)
+            .def("SetText", (void(TextImage::*)(const vt_utils::ustring&))&TextImage::SetText)
+            .def("SetText", (void(TextImage::*)(const vt_utils::ustring&, const TextStyle&))&TextImage::SetText)
+            .def("SetStyle", &TextImage::SetStyle)
+            .def("SetWordWrapWidth", &TextImage::SetWordWrapWidth)
+            .def("GetWordWrapWidth", &TextImage::GetWordWrapWidth),
+
+            luabind::class_<TextStyle>("TextStyle")
+            .def(luabind::constructor<const std::string&>())
+            .def(luabind::constructor<const std::string&, const Color&>()),
 
             luabind::class_<VideoEngine>("GameVideo")
             .def("FadeScreen", &VideoEngine::FadeScreen)
             .def("IsFading", &VideoEngine::IsFading)
             .def("FadeIn", &VideoEngine::FadeIn)
-            .def("ShakeScreen", &VideoEngine::ShakeScreen)
-            .def("DrawText", (void (VideoEngine:: *)(const hoa_utils::ustring &, float, float, const Color &)) &VideoEngine::DrawText)
-            .def("DrawText", (void (VideoEngine:: *)(const std::string &, float, float, const Color &)) &VideoEngine::DrawText)
 
             // Draw cursor commands
             .def("Move", &VideoEngine::Move)
+            .def("MoveRelative", &VideoEngine::MoveRelative)
             .def("Rotate", &VideoEngine::Rotate)
 
             // Namespace constants
             .enum_("constants") [
-                // Shake fall off types
-                luabind::value("VIDEO_FALLOFF_NONE", VIDEO_FALLOFF_NONE),
-                luabind::value("VIDEO_FALLOFF_EASE", VIDEO_FALLOFF_EASE),
-                luabind::value("VIDEO_FALLOFF_LINEAR", VIDEO_FALLOFF_LINEAR),
-                luabind::value("VIDEO_FALLOFF_GRADUAL", VIDEO_FALLOFF_GRADUAL),
-                luabind::value("VIDEO_FALLOFF_SUDDEN", VIDEO_FALLOFF_SUDDEN),
-
                 // Video context drawing constants
                 luabind::value("VIDEO_X_LEFT", VIDEO_X_LEFT),
                 luabind::value("VIDEO_X_CENTER", VIDEO_X_CENTER),
@@ -273,13 +346,13 @@ void BindEngineCode()
     } // End using video namespaces
 
     // ---------- Bind engine class objects
-    luabind::object global_table = luabind::globals(hoa_script::ScriptManager->GetGlobalState());
-    global_table["AudioManager"]     = hoa_audio::AudioManager;
-    global_table["InputManager"]     = hoa_input::InputManager;
-    global_table["ModeManager"]      = hoa_mode_manager::ModeManager;
-    global_table["ScriptManager"]    = hoa_script::ScriptManager;
-    global_table["SystemManager"]    = hoa_system::SystemManager;
-    global_table["VideoManager"]     = hoa_video::VideoManager;
+    luabind::object global_table = luabind::globals(vt_script::ScriptManager->GetGlobalState());
+    global_table["AudioManager"]     = vt_audio::AudioManager;
+    global_table["InputManager"]     = vt_input::InputManager;
+    global_table["ModeManager"]      = vt_mode_manager::ModeManager;
+    global_table["ScriptManager"]    = vt_script::ScriptManager;
+    global_table["SystemManager"]    = vt_system::SystemManager;
+    global_table["VideoManager"]     = vt_video::VideoManager;
 } // void BindEngineCode()
 
-} // namespace hoa_defs
+} // namespace vt_defs

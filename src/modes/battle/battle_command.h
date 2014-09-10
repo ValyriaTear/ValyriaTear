@@ -1,5 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
-//            Copyright (C) 2004-2010 by The Allacrost Project
+//            Copyright (C) 2004-2011 by The Allacrost Project
+//            Copyright (C) 2012-2014 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software and
@@ -10,6 +11,7 @@
 /** ****************************************************************************
 *** \file    battle_command.h
 *** \author  Tyler Olsen, roots@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Header file for battle command menu
 ***
 *** This code is responsible for processing input from the player when they are
@@ -25,8 +27,9 @@
 #include "common/gui/option.h"
 
 #include "battle_utils.h"
+#include "battle_actors.h"
 
-namespace hoa_battle
+namespace vt_battle
 {
 
 namespace private_battle
@@ -52,7 +55,7 @@ public:
     /** \param character A pointer to the character represented by this class
     *** \param window A reference to the MenuWindow that should be the owner of the GUI displays
     **/
-    CharacterCommandSettings(BattleCharacter *character, hoa_gui::MenuWindow &window);
+    CharacterCommandSettings(BattleCharacter *character, vt_gui::MenuWindow &window);
 
     ~CharacterCommandSettings()
     {}
@@ -83,15 +86,6 @@ public:
         _last_item = item;
     }
 
-    //! \note Only valid types for target parameter are GLOBAL_TARGET_SELF_POINT and GLOBAL_TARGET_SELF
-    void SetLastSelfTarget(BattleTarget &target);
-
-    //! \note Only valid types for target parameter are GLOBAL_TARGET_ALLY_POINT and GLOBAL_TARGET_ALLY
-    void SetLastCharacterTarget(BattleTarget &target);
-
-    //! \note Only valid types for target parameter are GLOBAL_TARGET_FOE_POINT and GLOBAL_TARGET_FOE
-    void SetLastEnemyTarget(BattleTarget &target);
-
     BattleCharacter *GetCharacter() const {
         return _character;
     }
@@ -116,16 +110,25 @@ public:
         return _last_enemy_target;
     }
 
-    hoa_gui::OptionBox *GetAttackList() {
-        return &_attack_list;
+    vt_gui::OptionBox *GetWeaponSkillList() {
+        return &_weapon_skill_list;
+    }
+    vt_gui::OptionBox *GetWeaponTargetList() {
+        return &_weapon_target_list;
     }
 
-    hoa_gui::OptionBox *GetDefendList() {
-        return &_defend_list;
+    vt_gui::OptionBox *GetMagicSkillList() {
+        return &_magic_skill_list;
+    }
+    vt_gui::OptionBox *GetMagicTargetList() {
+        return &_magic_target_list;
     }
 
-    hoa_gui::OptionBox *GetSupportList() {
-        return &_support_list;
+    vt_gui::OptionBox *GetSpecialSkillList() {
+        return &_special_skill_list;
+    }
+    vt_gui::OptionBox *GetSpecialTargetList() {
+        return &_special_target_list;
     }
     //@}
 
@@ -148,14 +151,17 @@ private:
     //! \brief The last enemy target that the player selected for this character
     BattleTarget _last_enemy_target;
 
-    //! \brief A display list of all usable items
-    hoa_gui::OptionBox _attack_list;
+    //! \brief A display list of all usable weapon skills
+    vt_gui::OptionBox _weapon_skill_list;
+    vt_gui::OptionBox _weapon_target_list;
+
+    //! \brief A display list of all usable magic skills
+    vt_gui::OptionBox _magic_skill_list;
+    vt_gui::OptionBox _magic_target_list;
 
     //! \brief A display list of all usable items
-    hoa_gui::OptionBox _defend_list;
-
-    //! \brief A display list of all usable items
-    hoa_gui::OptionBox _support_list;
+    vt_gui::OptionBox _special_skill_list;
+    vt_gui::OptionBox _special_target_list;
 }; // class CharacterCommandSettings
 
 
@@ -177,7 +183,7 @@ class ItemCommand
 {
 public:
     //! \param window A reference to the MenuWindow that the GUI objects should be owned by
-    ItemCommand(hoa_gui::MenuWindow &window);
+    ItemCommand(vt_gui::MenuWindow &window);
 
     ~ItemCommand()
     {}
@@ -204,32 +210,11 @@ public:
     **/
     bool IsSelectedItemAvailable() const;
 
-    /** \brief Returns the index of the item currently selected in the item list
-    *** If the selection is invalid (because the list is empty) or the item could not be found,
-    *** the value 0xFFFFFFFF will be returned.
-    **/
-    uint32 GetItemIndex() const;
-
-    /** \brief Returns a pointer to the item at the selected index
-    *** \param item_index The index of the item to retrieve
-    *** \return A pointer to the item, or NULL if the item_index argument was out-of-range
-    **/
-    BattleItem *GetItem(uint32 item_index) {
-        if(item_index >= _items.size()) return NULL;
-        else return &(_items[item_index]);
-    }
-
     //! \brief Updates the item list and processes user input
     void UpdateList();
 
-    //! \brief Updates the item information and processses user input
-    void UpdateInformation();
-
     //! \brief Draws the item header and list
     void DrawList();
-
-    //! \brief Draws information about the selected item
-    void DrawInformation();
 
     /** \brief Modifies the character party's global inventory to match the counts of the items in this class
     *** This should be called only after the battle has finished. There is no need to modify the party's
@@ -237,45 +222,35 @@ public:
     **/
     void CommitChangesToInventory();
 
-    //! \brief Reset the item list content, used at battle restart
+    //! \brief Reset the item list content, used to get inventory items at battle (re)starts.
     void ResetItemList();
 
-    //! \brief Retuns the number of items that will be displayed in the list
+    //! \brief Returns the number of items that will be displayed in the list
     uint32 GetNumberListOptions() const {
         return _item_list.GetNumberOptions();
     }
 
-    /** \brief Refreshes a single entry in the _item_list
-    *** \param entry An index to the element of the OptionBox to refresh
-    ***
-    *** This method is called whenever the available count for a given item is changed. However if
-    *** the count is changing between a zero and non-zero value, this method is not used because the
-    *** entire list needs to be reconstructed in this case.
-    **/
-    void RefreshEntry(uint32 entry);
-
 private:
-    /** \brief Container for all available items
-    *** The order of the items in this container is the same as the order that the items would appear in
-    *** the inventory list of menu mode. The size of the container does not change, even when the available
+    /** \brief Container for all available items at battle start
+    *** The size of the container does not change, even when the available
     *** count of a specific item becomes zero.
+    *** This list only updates the battle Items count and is used to change the global inventory,
+    *** when a battle is won.
     **/
-    std::vector<BattleItem> _items;
+    std::vector<BattleItem> _battle_items;
 
-    /** \brief A mapping of each element in the _items vector to its position in the item list
-    *** This container is necessary because the _item_list option box does not always have the same number
-    *** of options as there are elements in the _items vector, since some items may be used up during the
-    *** battle. This container is the same size as the _items vector and the elements it stores are a
-    *** mapping to the index representing each item in the _item_list. If _item_list does not contain an
-    *** entry for a particular item, a negative value will be stored for that item in this container.
+    /** \brief A sub-list of BattleItem pointing on _battle_items members that are still considered valid
+    *** and thus added to the item menu list.
     **/
-    std::vector<int32> _item_mappings;
+    std::vector<BattleItem*> _menu_items;
 
     //! \brief A single line of header text for the item list option box
-    hoa_gui::OptionBox _item_header;
+    vt_gui::OptionBox _item_header;
 
     //! \brief A display list of all usable items
-    hoa_gui::OptionBox _item_list;
+    vt_gui::OptionBox _item_list;
+    //! \brief A display list of all usable items target type and number in inventory.
+    vt_gui::OptionBox _item_target_list;
 }; // class ItemCommand
 
 
@@ -290,22 +265,25 @@ class SkillCommand
 {
 public:
     //! \param window A reference to the MenuWindow that the GUI objects should be owned by
-    SkillCommand(hoa_gui::MenuWindow &window);
+    SkillCommand(vt_gui::MenuWindow &window);
 
     ~SkillCommand()
     {}
 
     /** \brief Initializes the class
     *** \param skills A pointer to the set of skills that the class will
-    *** \param skill_list A pointer to the option box
+    *** \param skill_list A pointer to the skill list option box
+    *** \param target_n_cost_list A pointer to the target typ and skill cost option box
     **/
-    void Initialize(std::vector<hoa_global::GlobalSkill *>* skills, hoa_gui::OptionBox *skill_list);
+    void Initialize(std::vector<vt_global::GlobalSkill *>* skills,
+                    vt_gui::OptionBox *skill_list,
+                    vt_gui::OptionBox *target_n_cost_list);
 
     /** \brief Returns the currently selected skill
     *** This function will return NULL if the class has not been initialized and there is no list of
     *** skills to select from.
     **/
-    hoa_global::GlobalSkill *GetSelectedSkill() const;
+    vt_global::GlobalSkill *GetSelectedSkill() const;
 
     /** \brief Returns if the selected skill is enabled
     *** This function will return true, if the selected skill is enabled and false otherwise. It will
@@ -317,24 +295,20 @@ public:
     //! \brief Updates the skill list and processes user input
     void UpdateList();
 
-    //! \brief Updates the skill information and processses user input
-    void UpdateInformation();
-
     //! \brief Draws the skill header and list
     void DrawList();
 
-    //! \brief Draws information about the selected skill
-    void DrawInformation();
-
 private:
     //! \brief A pointer to the vector of skills corresponding to the options in _skill_list
-    std::vector<hoa_global::GlobalSkill *>* _skills;
+    std::vector<vt_global::GlobalSkill *>* _skills;
 
     //! \brief A single line of header text for the skill list option box
-    hoa_gui::OptionBox _skill_header;
+    vt_gui::OptionBox _skill_header;
 
     //! \brief A pointer to the list of skills that the class should operate on
-    hoa_gui::OptionBox *_skill_list;
+    vt_gui::OptionBox *_skill_list;
+    //! \brief A pointer to the list of skills targets and cost
+    vt_gui::OptionBox *_target_n_cost_list;
 }; // class SkillCommand
 
 
@@ -352,9 +326,7 @@ private:
 *** -# The player selects an action for the character, which may be to execute a skill or use an item
 *** -# The player selects a target for the action, finalizing the command
 ***
-*** The player may backtrack through this flow of events and change their previous selections. There
-*** also exists an optional state where the player can view information about a selected skill or item
-*** during the action selection process.
+*** The player may backtrack through this flow of events and change their previous selections.
 ***
 *** This class also enables cursor memory on a per-character basis. It does this by retaining an instance
 *** of CharacterCommandSettings for each character. These objects retain all the previous selections
@@ -442,7 +414,7 @@ private:
     CharacterCommandSettings *_active_settings;
 
     //! \brief A pointer to the skill that is currently selected, if any
-    hoa_global::GlobalSkill *_selected_skill;
+    vt_global::GlobalSkill *_selected_skill;
 
     //! \brief A pointer to the item that is currently selected, if any
     BattleItem *_selected_item;
@@ -462,31 +434,43 @@ private:
     // ---------- Graphics and GUI members
 
     //! \brief Contains the icon images that represent each action category
-    std::vector<hoa_video::StillImage> _category_icons;
+    std::vector<vt_video::StillImage> _category_icons;
 
     //! \brief Contains the text that represent each action category
-    std::vector<hoa_video::TextImage> _category_text;
+    std::vector<vt_video::TextImage> _category_text;
 
-    //! \brief The window where all command information and GUI displays are drawn
-    hoa_gui::MenuWindow _command_window;
+    //! \brief The window where all actions are drawn
+    vt_gui::MenuWindow _command_window;
 
     //! \brief Header text
-    hoa_video::TextImage _window_header;
+    vt_video::TextImage _window_header;
 
     //! \brief Rendered text that contains information about the currently selected target
-    hoa_video::TextImage _window_text;
+    vt_video::TextImage _window_text;
+
+    //! \brief The window where all information about the currently selected action is drawn
+    vt_gui::MenuWindow _info_window;
+
+    //! \brief Info text header
+    vt_video::TextImage _info_header;
+
+    //! \brief Info text text
+    vt_video::TextImage _info_text;
 
     /** \brief The option box that lists the types of actions that a character may take in battle
     *** Typically this list includes "attack", "defend", "support", and "item". More types may appear
     *** under special circumstances and conditions.
     **/
-    hoa_gui::OptionBox _category_options;
+    vt_gui::OptionBox _category_options;
 
     /** \brief Contains a list of the possible targets that a player may select from
     ***
     *** This option box is used for the selection of both actors and attack points.
     **/
-    hoa_gui::OptionBox _target_options;
+    vt_gui::OptionBox _target_options;
+
+    //! \brief Stores whether the information window should be shown
+    bool _show_information;
 
     // ---------- Private methods
 
@@ -497,7 +481,7 @@ private:
     bool _IsItemCategorySelected() const;
 
     //! \brief Returns the type of target for the selected action
-    hoa_global::GLOBAL_TARGET _ActionTargetType();
+    vt_global::GLOBAL_TARGET _ActionTargetType();
 
     //! \brief Returns true if the character parameter has already had a settings instance created for it
     bool _HasCharacterSettings(BattleCharacter *character) const {
@@ -535,8 +519,8 @@ private:
     //! \brief Updates state when the player is selecting an attack point target
     void _UpdateAttackPointTarget();
 
-    //! \brief Updates state when the player is viewing information about an action
-    void _UpdateInformation();
+    //! \brief Updates current skill/item information data
+    void _UpdateActionInformation();
 
     //! \brief Draws visible contents to the screen when the player is selecting an action category
     void _DrawCategory();
@@ -551,7 +535,7 @@ private:
     void _DrawAttackPointTarget();
 
     //! \brief Draws visible contents to the screen when the player is viewing information about an action
-    void _DrawInformation();
+    void _DrawActionInformation();
 
     //! \brief Sets the text for _window_header and _window_text to represent information about the selected target
     void _CreateActorTargetText();
@@ -559,15 +543,12 @@ private:
     //! \brief Sets the text for _window_header and _window_text to represent information about the selected target
     void _CreateAttackPointTargetText();
 
-    //! \brief Sets the text for _window_header and _window_text to represent information about the selected skill or item
-    void _CreateInformationText();
-
     //! \brief Finalizes the player's command of the character by creating the appropriate action
     void _FinalizeCommand();
 }; // class CommandSupervisor
 
 } // namespace private_battle
 
-} // namespace hoa_battle
+} // namespace vt_battle
 
 #endif // __BATTLE_COMMAND_HEADER__

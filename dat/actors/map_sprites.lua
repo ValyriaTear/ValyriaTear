@@ -1,18 +1,19 @@
 sprites = {}
-enemies = {}
 
-local NORMAL_SPEED = hoa_map.MapMode.NORMAL_SPEED;
-local SLOW_SPEED = hoa_map.MapMode.SLOW_SPEED;
-local VERY_SLOW_SPEED = hoa_map.MapMode.VERY_SLOW_SPEED;
-local VERY_FAST_SPEED = hoa_map.MapMode.VERY_FAST_SPEED;
+local NORMAL_SPEED = vt_map.MapMode.NORMAL_SPEED;
+local SLOW_SPEED = vt_map.MapMode.SLOW_SPEED;
+local VERY_SLOW_SPEED = vt_map.MapMode.VERY_SLOW_SPEED;
+local VERY_FAST_SPEED = vt_map.MapMode.VERY_FAST_SPEED;
+
+local ENEMY_SPEED = vt_map.MapMode.ENEMY_SPEED;
 
 sprites["Bronann"] = {
-	name = hoa_system.Translate("Bronann"),
-	coll_half_width = 0.95,
-	coll_height = 1.0,
-	img_half_width = 1.0,
-	img_height = 4.0,
-	movement_speed = NORMAL_SPEED,
+    name = vt_system.Translate("Bronann"),
+    coll_half_width = 0.95,
+    coll_height = 1.0,
+    img_half_width = 1.0,
+    img_height = 4.0,
+    movement_speed = NORMAL_SPEED,
     face_portrait = "img/portraits/bronann.png",
 
     -- using special animation files.
@@ -27,33 +28,68 @@ sprites["Bronann"] = {
         hero_stance = "img/sprites/map/characters/bronann_hero_stance_unarmed.lua",
         searching = "img/sprites/map/characters/bronann_searching_unarmed.lua",
         frightened = "img/sprites/map/characters/bronann_frightened_unarmed.lua",
+        frightened_fixed = "img/sprites/map/characters/bronann_frightened_unarmed_fixed.lua",
+        hurt = "img/sprites/map/characters/bronann_hurt_unarmed.lua",
+        sleeping = "img/sprites/map/characters/bronann_dead.lua",
+        kneeling = "img/sprites/map/characters/bronann_kneeling.lua",
+        kneeling_left = "img/sprites/map/characters/bronann_kneeling_left.lua",
+        jump_south = "img/sprites/map/characters/bronann_jump_south.lua",
+        attack_south = "img/sprites/map/characters/bronann_attack_south.lua",
+        laughing = "img/sprites/map/characters/bronann_laughing_unarmed.lua"
     }
 }
 
+-- Overworld sprite
+sprites["Mini_Bronann"] = {
+    name = vt_system.Translate("Bronann"),
+    coll_half_width = 0.47,
+    coll_height = 0.5,
+    img_half_width = 0.5,
+    img_height = 2.0,
+    movement_speed = NORMAL_SPEED,
+    face_portrait = "img/portraits/bronann.png",
+
+    -- using special animation files.
+    standard_animations = {
+        idle = "img/sprites/map/characters/bronann_idle_overworld_unarmed.lua",
+        walk = "img/sprites/map/characters/bronann_walk_overworld_unarmed.lua"
+    },
+}
+
 sprites["Kalya"] = {
-	name = hoa_system.Translate("Kalya"),
-	coll_half_width = 0.95,
-	coll_height = 1.0,
-	img_half_width = 1.0,
-	img_height = 4.0,
-	movement_speed = SLOW_SPEED,
-	face_portrait = "img/portraits/kalya.png",
+    name = vt_system.Translate("Kalya"),
+    coll_half_width = 0.95,
+    coll_height = 1.0,
+    img_half_width = 1.0,
+    img_height = 4.0,
+    movement_speed = SLOW_SPEED,
+    face_portrait = "img/portraits/kalya.png",
 
     -- using special animation files.
     standard_animations = {
         idle = "img/sprites/map/characters/kalya_idle.lua",
         walk = "img/sprites/map/characters/kalya_walk.lua",
         run = "img/sprites/map/characters/kalya_run.lua"
+    },
+
+    -- using standard (one direction only) animation files.
+    custom_animations = {
+        kneeling = "img/sprites/map/characters/kalya_kneeling.lua",
+        struggling = "img/sprites/map/characters/kalya_struggling.lua",
+        jump_south = "img/sprites/map/characters/kalya_jump_south.lua",
+        laughing = "img/sprites/map/characters/kalya_laughing.lua",
+        hurt = "img/sprites/map/characters/kalya_hurt.lua",
+        frightened_fixed = "img/sprites/map/characters/kalya_frightened_fixed.lua",
     }
 }
 
 sprites["Thanis"] = {
-	name = hoa_system.Translate("Thanis"),
-	coll_half_width = 0.95,
-	coll_height = 1.0,
-	img_half_width = 1.0,
-	img_height = 4.0,
-	movement_speed = SLOW_SPEED,
+    name = vt_system.Translate("Thanis"),
+    coll_half_width = 0.95,
+    coll_height = 1.0,
+    img_half_width = 1.0,
+    img_height = 4.0,
+    movement_speed = SLOW_SPEED,
     face_portrait = "img/portraits/thanis.png",
 
     -- using special animation files.
@@ -66,12 +102,12 @@ sprites["Thanis"] = {
 }
 
 sprites["Carson"] = {
-	name = hoa_system.Translate("Carson"),
-	coll_half_width = 0.95,
-	coll_height = 1.0,
-	img_half_width = 1.0,
-	img_height = 4.0,
-	movement_speed = SLOW_SPEED,
+    name = vt_system.Translate("Carson"),
+    coll_half_width = 0.95,
+    coll_height = 1.0,
+    img_half_width = 1.0,
+    img_height = 4.0,
+    movement_speed = SLOW_SPEED,
     face_portrait = "img/portraits/npcs/carson.png",
 
     -- using special animation files.
@@ -82,12 +118,12 @@ sprites["Carson"] = {
 }
 
 sprites["Malta"] = {
-	name = hoa_system.Translate("Malta"),
-	coll_half_width = 0.95,
-	coll_height = 1.0,
-	img_half_width = 1.0,
-	img_height = 4.0,
-	movement_speed = VERY_SLOW_SPEED,
+    name = vt_system.Translate("Malta"),
+    coll_half_width = 0.95,
+    coll_height = 1.0,
+    img_half_width = 1.0,
+    img_height = 4.0,
+    movement_speed = VERY_SLOW_SPEED,
     face_portrait = "img/portraits/npcs/malta.png",
 
     -- using special animation files.
@@ -98,27 +134,35 @@ sprites["Malta"] = {
 }
 
 sprites["Orlinn"] = {
-	name = hoa_system.Translate("Orlinn"),
-	coll_half_width = 0.95,
-	coll_height = 1.9,
-	img_half_width = 1.0,
-	img_height = 4.0,
-	movement_speed = NORMAL_SPEED,
+    name = vt_system.Translate("Orlinn"),
+    coll_half_width = 0.95,
+    coll_height = 1.0,
+    img_half_width = 1.0,
+    img_height = 3.0,
+    movement_speed = NORMAL_SPEED,
+    face_portrait = "img/portraits/npcs/orlinn.png",
 
     -- using special animation files.
     standard_animations = {
         idle = "img/sprites/map/npcs/story/orlinn_idle.lua",
         walk = "img/sprites/map/npcs/story/orlinn_walk.lua"
+    },
+
+    -- using standard (one direction only) animation files.
+    custom_animations = {
+        laughing = "img/sprites/map/npcs/story/orlinn_laughing.lua",
+        frightened_fixed = "img/sprites/map/npcs/story/orlinn_frightened_fixed.lua",
     }
 }
 
 sprites["Herth"] = {
-	name = hoa_system.Translate("Herth"),
-	coll_half_width = 0.95,
-	coll_height = 1.0,
-	img_half_width = 1.0,
-	img_height = 4.0,
-	movement_speed = SLOW_SPEED,
+    name = vt_system.Translate("Herth"),
+    coll_half_width = 0.95,
+    coll_height = 1.0,
+    img_half_width = 1.0,
+    img_height = 4.0,
+    movement_speed = SLOW_SPEED,
+    face_portrait = "img/portraits/npcs/herth.png",
 
     -- using special animation files.
     standard_animations = {
@@ -132,12 +176,12 @@ sprites["Herth"] = {
 -- ----
 
 sprites["Girl1"] = {
-	name = hoa_system.Translate("Olivia"), -- default name
-	coll_half_width = 0.95,
-	coll_height = 1.9,
-	img_half_width = 1.0,
-	img_height = 4.0,
-	movement_speed = SLOW_SPEED,
+    name = vt_system.Translate("Olivia"), -- default name
+    coll_half_width = 0.95,
+    coll_height = 1.0,
+    img_half_width = 1.0,
+    img_height = 4.0,
+    movement_speed = SLOW_SPEED,
 
     -- using special animation files.
     standard_animations = {
@@ -147,12 +191,12 @@ sprites["Girl1"] = {
 }
 
 sprites["Old Woman1"] = {
-	name = hoa_system.Translate("Brymir"), -- default name
-	coll_half_width = 0.95,
-	coll_height = 1.9,
-	img_half_width = 1.0,
-	img_height = 4.0,
-	movement_speed = SLOW_SPEED,
+    name = vt_system.Translate("Brymir"), -- default name
+    coll_half_width = 0.95,
+    coll_height = 1.3,
+    img_half_width = 1.0,
+    img_height = 4.0,
+    movement_speed = SLOW_SPEED,
 
     -- using special animation files.
     standard_animations = {
@@ -162,12 +206,12 @@ sprites["Old Woman1"] = {
 }
 
 sprites["Woman1"] = {
-	name = hoa_system.Translate("Martha"), -- default name
-	coll_half_width = 0.95,
-	coll_height = 1.9,
-	img_half_width = 1.0,
-	img_height = 4.0,
-	movement_speed = SLOW_SPEED,
+    name = vt_system.Translate("Martha"), -- default name
+    coll_half_width = 0.95,
+    coll_height = 1.1,
+    img_half_width = 1.0,
+    img_height = 4.0,
+    movement_speed = SLOW_SPEED,
 
     -- using special animation files.
     standard_animations = {
@@ -177,12 +221,13 @@ sprites["Woman1"] = {
 }
 
 sprites["Woman2"] = {
-	name = hoa_system.Translate("Sophia"), -- default name
-	coll_half_width = 1.0,
-	coll_height = 2.0,
-	img_half_width = 1.0,
-	img_height = 4.0,
-	movement_speed = NORMAL_SPEED,
+    name = vt_system.Translate("Sophia"), -- default name
+    coll_half_width = 1.0,
+    coll_height = 1.1,
+    img_half_width = 1.0,
+    img_height = 4.0,
+    movement_speed = NORMAL_SPEED,
+    face_portrait = "img/portraits/npcs/woman02.png",
 
     -- using special animation files.
     standard_animations = {
@@ -192,12 +237,12 @@ sprites["Woman2"] = {
 }
 
 sprites["Woman3"] = {
-	name = hoa_system.Translate("Lilly"), -- default name
-	coll_half_width = 1.0,
-	coll_height = 2.0,
-	img_half_width = 1.0,
-	img_height = 4.0,
-	movement_speed = NORMAL_SPEED,
+    name = vt_system.Translate("Lilly"), -- default name
+    coll_half_width = 1.0,
+    coll_height = 1.3,
+    img_half_width = 1.0,
+    img_height = 4.0,
+    movement_speed = NORMAL_SPEED,
 
     -- using special animation files.
     standard_animations = {
@@ -207,12 +252,12 @@ sprites["Woman3"] = {
 }
 
 sprites["Man1"] = {
-	name = hoa_system.Translate("Georges"), -- default name
-	coll_half_width = 0.95,
-	coll_height = 1.9,
-	img_half_width = 1.0,
-	img_height = 4.0,
-	movement_speed = SLOW_SPEED,
+    name = vt_system.Translate("Georges"), -- default name
+    coll_half_width = 0.95,
+    coll_height = 1.0,
+    img_half_width = 1.0,
+    img_height = 4.0,
+    movement_speed = SLOW_SPEED,
 
     -- using special animation files.
     standard_animations = {
@@ -221,13 +266,30 @@ sprites["Man1"] = {
     }
 }
 
+-- Used as a NPC to get portrait support
+sprites["Crystal"] = {
+    name = vt_system.Translate("Crystal"), -- default name
+    coll_half_width = 0.95,
+    coll_height = 1.9,
+    img_half_width = 1.0,
+    img_height = 4.0,
+    movement_speed = SLOW_SPEED,
+    face_portrait = "img/backdrops/boot/crystal.png",
+
+    -- using special animation files.
+    standard_animations = {
+        idle = "img/sprites/map/npcs/crystal_idle.lua",
+        walk = "img/sprites/map/npcs/crystal_idle.lua"
+    }
+}
+
 sprites["Soldier"] = {
-	name = hoa_system.Translate("Soldier"),
-	coll_half_width = 0.95,
-	coll_height = 1.9,
-	img_half_width = 1.0,
-	img_height = 4.0,
-	movement_speed = SLOW_SPEED,
+    name = vt_system.Translate("Soldier"),
+    coll_half_width = 0.95,
+    coll_height = 1.2,
+    img_half_width = 1.0,
+    img_height = 4.0,
+    movement_speed = SLOW_SPEED,
 
     -- using special animation files.
     standard_animations = {
@@ -236,31 +298,16 @@ sprites["Soldier"] = {
     }
 }
 
-sprites["Lord"] = {
-	name = hoa_system.Translate("Lord"),
-	coll_half_width = 0.95,
-	coll_height = 1.9,
-	img_half_width = 1.0,
-	img_height = 4.0,
-	movement_speed = SLOW_SPEED,
-
-    -- using special animation files.
-    standard_animations = {
-        idle = "img/sprites/map/npcs/npc_soldier02_idle.lua",
-        walk = "img/sprites/map/npcs/npc_soldier02_walk.lua"
-    }
-}
-
 -- ---------
 -- Scening - Animals, ect ...
 -- ---------
 sprites["Chicken"] = {
-	name = hoa_system.Translate("Chicken"),
-	coll_half_width = 0.95,
-	coll_height = 0.8,
-	img_half_width = 1.0,
-	img_height = 2.0,
-	movement_speed = VERY_SLOW_SPEED,
+    name = vt_system.Translate("Chicken"),
+    coll_half_width = 0.95,
+    coll_height = 0.8,
+    img_half_width = 1.0,
+    img_height = 2.0,
+    movement_speed = VERY_SLOW_SPEED,
 
     -- using special animation files.
     standard_animations = {
@@ -270,12 +317,12 @@ sprites["Chicken"] = {
 }
 
 sprites["Butterfly"] = {
-	name = hoa_system.Translate("Butterfly"),
-	coll_half_width = 0.65,
-	coll_height = 0.7,
-	img_half_width = 1.0,
-	img_height = 2.0,
-	movement_speed = NORMAL_SPEED,
+    name = vt_system.Translate("Butterfly"),
+    coll_half_width = 0.65,
+    coll_height = 0.7,
+    img_half_width = 1.0,
+    img_height = 2.0,
+    movement_speed = NORMAL_SPEED,
 
     -- using special animation files.
     standard_animations = {
@@ -285,12 +332,12 @@ sprites["Butterfly"] = {
 }
 
 sprites["Squirrel"] = {
-	name = hoa_system.Translate("Squirrel"),
-	coll_half_width = 0.65,
-	coll_height = 0.8,
-	img_half_width = 1.0,
-	img_height = 2.0,
-	movement_speed = NORMAL_SPEED,
+    name = vt_system.Translate("Squirrel"),
+    coll_half_width = 0.65,
+    coll_height = 0.8,
+    img_half_width = 1.0,
+    img_height = 2.0,
+    movement_speed = NORMAL_SPEED,
 
     -- using special animation files.
     standard_animations = {
@@ -303,12 +350,12 @@ sprites["Squirrel"] = {
 -- Enemies
 -- ---------
 sprites["bat"] = {
-    name = hoa_system.Translate("Bat"),
-    coll_half_width = 1.0,
-    coll_height = 2.0,
+    name = vt_system.Translate("Bat"),
+    coll_half_width = 0.6,
+    coll_height = 1.6,
     img_half_width = 1.0,
     img_height = 2.0,
-    movement_speed = NORMAL_SPEED,
+    movement_speed = ENEMY_SPEED,
 
     -- using special animation files.
     standard_animations = {
@@ -318,11 +365,11 @@ sprites["bat"] = {
 }
 
 sprites["slime"] = {
-	coll_half_width = 0.6,
-	coll_height = 1.0,
-	img_half_width = 0.6,
-	img_height = 1.0,
-	movement_speed = NORMAL_SPEED,
+    coll_half_width = 0.6,
+    coll_height = 1.0,
+    img_half_width = 0.6,
+    img_height = 1.0,
+    movement_speed = ENEMY_SPEED,
     -- using special animation files.
     standard_animations = {
         idle = "img/sprites/map/enemies/slime_idle.lua",
@@ -330,13 +377,26 @@ sprites["slime"] = {
     }
 }
 
+sprites["spider"] = {
+    coll_half_width = 0.9,
+    coll_height = 1.8,
+    img_half_width = 1.0,
+    img_height = 2.0,
+    movement_speed = ENEMY_SPEED,
+    -- using special animation files.
+    standard_animations = {
+        idle = "img/sprites/map/enemies/spider_idle.lua",
+        walk = "img/sprites/map/enemies/spider_walk.lua"
+    }
+}
+
 sprites["big slime"] = {
-	name = hoa_system.Translate("Slime Mother"),
-	coll_half_width = 1.5,
-	coll_height = 3.0,
-	img_half_width = 1.5,
-	img_height = 3.0,
-	movement_speed = NORMAL_SPEED,
+    name = vt_system.Translate("Slime Mother"),
+    coll_half_width = 1.5,
+    coll_height = 3.0,
+    img_half_width = 1.5,
+    img_height = 3.0,
+    movement_speed = ENEMY_SPEED,
 
     -- using special animation files.
     standard_animations = {
@@ -346,11 +406,11 @@ sprites["big slime"] = {
 }
 
 sprites["snake"] = {
-	coll_half_width = 1.0,
-	coll_height = 2.0,
-	img_half_width = 1.0,
-	img_height = 4.0,
-	movement_speed = NORMAL_SPEED,
+    coll_half_width = 1.0,
+    coll_height = 2.0,
+    img_half_width = 1.0,
+    img_height = 4.0,
+    movement_speed = ENEMY_SPEED,
     -- using special animation files.
     standard_animations = {
         idle = "img/sprites/map/enemies/snake_idle.lua",
@@ -360,11 +420,11 @@ sprites["snake"] = {
 
 
 sprites["scorpion"] = {
-	coll_half_width = 1.0,
-	coll_height = 2.0,
-	img_half_width = 1.0,
-	img_height = 4.0,
-	movement_speed = NORMAL_SPEED,
+    coll_half_width = 1.0,
+    coll_height = 2.0,
+    img_half_width = 1.0,
+    img_height = 4.0,
+    movement_speed = ENEMY_SPEED,
     -- using special animation files.
     standard_animations = {
         idle = "img/sprites/map/enemies/scorpion_idle.lua",
@@ -372,147 +432,252 @@ sprites["scorpion"] = {
     }
 }
 
-sprites["Wolf"] = {
-	name = hoa_system.Translate("Wolf"),
-	coll_half_width = 1.5,
-	coll_height = 3.0,
-	img_half_width = 1.5,
-	img_height = 3.0,
-	movement_speed = NORMAL_SPEED,
+sprites["Fenrir"] = {
+    name = vt_system.Translate("Fenrir"),
+    coll_half_width = 1.5,
+    coll_height = 3.0,
+    img_half_width = 1.5,
+    img_height = 3.0,
+    movement_speed = ENEMY_SPEED,
 
     -- using special animation files.
     standard_animations = {
-        idle = "img/sprites/map/enemies/wolf_idle.lua",
-        walk = "img/sprites/map/enemies/wolf_walk.lua"
+        idle = "img/sprites/map/enemies/fenrir_idle.lua",
+        walk = "img/sprites/map/enemies/fenrir_walk.lua"
     }
 }
 
+sprites["Dark Soldier"] = {
+    name = vt_system.Translate("Dark Soldier"),
+    coll_half_width = 0.95,
+    coll_height = 1.2,
+    img_half_width = 1.0,
+    img_height = 4.0,
+    movement_speed = ENEMY_SPEED,
+    face_portrait = "img/portraits/npcs/dark_soldier.png",
 
-sprite = {}
-enemy = {}
+    -- using special animation files.
+    standard_animations = {
+        idle = "img/sprites/map/enemies/dark_soldier01_idle.lua",
+        walk = "img/sprites/map/enemies/dark_soldier01_walk.lua"
+    },
+
+    -- using standard (one direction only) animation files.
+    custom_animations = {
+        ko = "img/sprites/map/enemies/dark_soldier_ko.lua",
+    }
+}
+
+sprites["Lord"] = {
+    name = vt_system.Translate("Lord"),
+    coll_half_width = 0.95,
+    coll_height = 1.2,
+    img_half_width = 1.0,
+    img_height = 4.0,
+    movement_speed = SLOW_SPEED,
+    face_portrait = "img/portraits/npcs/lord_banesore.png",
+
+    -- using special animation files.
+    standard_animations = {
+        idle = "img/sprites/map/enemies/lord_idle.lua",
+        walk = "img/sprites/map/enemies/lord_walk.lua"
+    }
+}
+
+-- First actual Mt. Elbrus monster
+sprites["Shroom"] = {
+    name = vt_system.Translate("Shroom"),
+    coll_half_width = 0.9,
+    coll_height = 1.9,
+    img_half_width = 1.25,
+    img_height = 2.6,
+    movement_speed = ENEMY_SPEED,
+    --face_portrait = "",
+
+    -- using special animation files.
+    standard_animations = {
+        idle = "img/sprites/map/enemies/spiky_mushroom_idle.lua",
+        walk = "img/sprites/map/enemies/spiky_mushroom_walk.lua"
+    },
+
+    -- using standard (one direction only) animation files.
+    custom_animations = {
+        mushroom_ko = "img/sprites/map/enemies/spiky_mushroom_dead.lua",
+    }
+}
+
+sprites["Eyeball"] = {
+    name = vt_system.Translate("Eyeball"),
+    coll_half_width = 0.9,
+    coll_height = 1.9,
+    img_half_width = 1.25,
+    img_height = 2.6,
+    movement_speed = ENEMY_SPEED,
+    --face_portrait = "",
+
+    -- using special animation files.
+    standard_animations = {
+        idle = "img/sprites/map/enemies/eyeball_idle.lua",
+        walk = "img/sprites/map/enemies/eyeball_walk.lua"
+    },
+}
+
+sprites["Dark Soldier on horse"] = {
+    name = vt_system.Translate("Dark Soldier"),
+    coll_half_width = 3.0,
+    coll_height = 3.2,
+    img_half_width = 3.0,
+    img_height = 6.0,
+    movement_speed = ENEMY_SPEED,
+    face_portrait = "img/portraits/npcs/dark_soldier.png",
+
+    -- using special animation files.
+    standard_animations = {
+        idle = "img/sprites/map/npcs/soldier_on_horse_idle.lua",
+        walk = "img/sprites/map/npcs/soldier_on_horse_walk.lua"
+    }
+}
+
+sprites["Beetle"] = {
+    name = vt_system.Translate("Beetle"),
+    coll_half_width = 0.6,
+    coll_height = 1.2,
+    img_half_width = 1.25,
+    img_height = 2.6,
+    movement_speed = ENEMY_SPEED,
+    --face_portrait = "",
+
+    -- using special animation files.
+    standard_animations = {
+        idle = "img/sprites/map/enemies/beetle_idle.lua",
+        walk = "img/sprites/map/enemies/beetle_walk.lua"
+    },
+}
+
+sprites["Skeleton"] = {
+    name = vt_system.Translate("Skeleton"),
+    coll_half_width = 0.6,
+    coll_height = 1.2,
+    img_half_width = 2.0,
+    img_height = 4.0,
+    movement_speed = ENEMY_SPEED,
+    --face_portrait = "",
+
+    -- using special animation files.
+    standard_animations = {
+        idle = "img/sprites/map/enemies/skeleton_idle.lua",
+        walk = "img/sprites/map/enemies/skeleton_walk.lua"
+    },
+}
+
+sprites["Andromalius"] = {
+    name = vt_system.Translate("Andromalius"),
+    coll_half_width = 1.781,
+    coll_height = 3.0,
+    img_half_width = 1.781,
+    img_height = 5.5,
+    movement_speed = ENEMY_SPEED,
+    --face_portrait = "",
+
+    -- using special animation files.
+    standard_animations = {
+        idle = "img/sprites/map/enemies/andromalius_idle.lua",
+        walk = "img/sprites/map/enemies/andromalius_idle.lua"
+    },
+
+    -- using standard (one direction only) animation files.
+    custom_animations = {
+        open_mouth_right = "img/sprites/map/enemies/andromalius_openmouth_right.lua",
+        open_mouth_left = "img/sprites/map/enemies/andromalius_openmouth_left.lua",
+    }
+}
 
 function CreateSprite(Map, name, x, y)
-	if (sprites[name] == nil) then
-		print("Error: No object named: "..name.." found!!");
-		return nil;
-	end
+    if (sprites[name] == nil) then
+        print("Error: No object named: "..name.." found!!");
+        return nil;
+    end
 
-	if (Map == nil) then
-		print("Error: Function called with invalid Map object");
-		return nil;
-	end
+    if (Map == nil) then
+        print("Error: Function called with invalid Map object");
+        return nil;
+    end
 
-	dir = (2 ^ math.random(0, 3));
+    dir = (2 ^ math.random(0, 3));
 
-	sprite = hoa_map.MapSprite();
-	sprite:SetName(sprites[name].name);
-	sprite:SetSpriteName(name); -- The catalog reference
-	sprite:SetObjectID(Map.object_supervisor:GenerateObjectID());
-	sprite:SetContext(hoa_map.MapMode.CONTEXT_01);
-	sprite:SetPosition(x, y);
-	sprite:SetCollHalfWidth(sprites[name].coll_half_width);
-	sprite:SetCollHeight(sprites[name].coll_height);
-	sprite:SetImgHalfWidth(sprites[name].img_half_width);
-	sprite:SetImgHeight(sprites[name].img_height);
-	sprite:SetMovementSpeed(sprites[name].movement_speed);
-	sprite:SetDirection(dir);
-	if (sprites[name].face_portrait) then
-		sprite:LoadFacePortrait(sprites[name].face_portrait);
-	end
+    local sprite = {}
+    sprite = vt_map.MapSprite();
+    sprite:SetName(sprites[name].name);
+    sprite:SetSpriteName(name); -- The catalog reference
+    sprite:SetObjectID(Map.object_supervisor:GenerateObjectID());
+    sprite:SetPosition(x, y);
+    sprite:SetCollHalfWidth(sprites[name].coll_half_width);
+    sprite:SetCollHeight(sprites[name].coll_height);
+    sprite:SetImgHalfWidth(sprites[name].img_half_width);
+    sprite:SetImgHeight(sprites[name].img_height);
+    sprite:SetMovementSpeed(sprites[name].movement_speed);
+    sprite:SetDirection(dir);
+    if (sprites[name].face_portrait) then
+        sprite:LoadFacePortrait(sprites[name].face_portrait);
+    end
 
-	sprite:LoadStandingAnimations(sprites[name].standard_animations.idle);
-	sprite:LoadWalkingAnimations(sprites[name].standard_animations.walk);
-	if (sprites[name].standard_animations.run ~= nil) then
+    sprite:LoadStandingAnimations(sprites[name].standard_animations.idle);
+    sprite:LoadWalkingAnimations(sprites[name].standard_animations.walk);
+    if (sprites[name].standard_animations.run ~= nil) then
         sprite:LoadRunningAnimations(sprites[name].standard_animations.run);
-	end
-	-- Load custom animations
-	if (sprites[name].custom_animations ~= nil) then
-		for name,file in pairs(sprites[name].custom_animations) do
-			sprite:LoadCustomAnimation(name, file);
-		end
-	end
+    end
+    -- Load custom animations
+    if (sprites[name].custom_animations ~= nil) then
+        for animation_name,file in pairs(sprites[name].custom_animations) do
+            sprite:LoadCustomAnimation(animation_name, file);
+        end
+    end
 
     return sprite;
 end
 
--- Used to reload (or change) the graphic animations of an existing sprite.
-function ReloadSprite(sprite_ref, name)
-	if (sprites[name] == nil) then
-		print("Error: No object named: "..name.." found!!");
-		return;
-	end
-
-	if (sprite_ref == nil) then
-		print("Error: Function called with invalid sprite object");
-		return;
-	end
-
-	sprite_ref:SetName(sprites[name].name);
-	sprite_ref:SetSpriteName(name); -- The catalog reference
-	sprite_ref:SetCollHalfWidth(sprites[name].coll_half_width);
-	sprite_ref:SetCollHeight(sprites[name].coll_height);
-	sprite_ref:SetImgHalfWidth(sprites[name].img_half_width);
-	sprite_ref:SetImgHeight(sprites[name].img_height);
-	if (sprites[name].face_portrait) then
-		sprite_ref:LoadFacePortrait(sprites[name].face_portrait);
-	end
-
-	sprite_ref:ClearAnimations();
-	sprite_ref:LoadStandingAnimations(sprites[name].standard_animations.idle);
-	sprite_ref:LoadWalkingAnimations(sprites[name].standard_animations.walk);
-	if (sprites[name].standard_animations.run ~= nil) then
-		sprite_ref:LoadRunningAnimations(sprites[name].standard_animations.run);
-	end
-	-- Load custom animations
-	if (sprites[name].custom_animations ~= nil) then
-		for name,file in pairs(sprites[name].custom_animations) do
-			sprite_ref:LoadCustomAnimation(name, file);
-		end
-	end
-end
 
 -- Permit to setup a custom name
 -- and reuse the npcs sprites more easily
 function CreateNPCSprite(Map, name, npc_name, x, y)
-	if (sprites[name] == nil) then
-		print("Error: No object named: "..name.." found!!");
-		return nil;
-	end
+    if (sprites[name] == nil) then
+        print("Error: No object named: "..name.." found!!");
+        return nil;
+    end
 
-	if (Map == nil) then
-		print("Error: Function called with invalid Map object");
-		return nil;
-	end
+    if (Map == nil) then
+        print("Error: Function called with invalid Map object");
+        return nil;
+    end
 
-	dir = (2 ^ math.random(0, 3));
+    dir = (2 ^ math.random(0, 3));
+    local sprite = {};
+    sprite = vt_map.MapSprite();
+    sprite:SetName(npc_name);
+    sprite:SetSpriteName(name); -- The catalog reference
+    sprite:SetObjectID(Map.object_supervisor:GenerateObjectID());
+    sprite:SetPosition(x, y);
+    sprite:SetCollHalfWidth(sprites[name].coll_half_width);
+    sprite:SetCollHeight(sprites[name].coll_height);
+    sprite:SetImgHalfWidth(sprites[name].img_half_width);
+    sprite:SetImgHeight(sprites[name].img_height);
+    sprite:SetMovementSpeed(sprites[name].movement_speed);
+    sprite:SetDirection(dir);
+    if (sprites[name].face_portrait) then
+        sprite:LoadFacePortrait(sprites[name].face_portrait);
+    end
 
-	sprite = hoa_map.MapSprite();
-	sprite:SetName(npc_name);
-	sprite:SetSpriteName(name); -- The catalog reference
-	sprite:SetObjectID(Map.object_supervisor:GenerateObjectID());
-	sprite:SetContext(hoa_map.MapMode.CONTEXT_01);
-	sprite:SetPosition(x, y);
-	sprite:SetCollHalfWidth(sprites[name].coll_half_width);
-	sprite:SetCollHeight(sprites[name].coll_height);
-	sprite:SetImgHalfWidth(sprites[name].img_half_width);
-	sprite:SetImgHeight(sprites[name].img_height);
-	sprite:SetMovementSpeed(sprites[name].movement_speed);
-	sprite:SetDirection(dir);
-	if (sprites[name].face_portrait) then
-		sprite:LoadFacePortrait(sprites[name].face_portrait);
-	end
-
-	sprite:LoadStandingAnimations(sprites[name].standard_animations.idle);
-	sprite:LoadWalkingAnimations(sprites[name].standard_animations.walk);
-	if (sprites[name].standard_animations.run ~= nil) then
+    sprite:LoadStandingAnimations(sprites[name].standard_animations.idle);
+    sprite:LoadWalkingAnimations(sprites[name].standard_animations.walk);
+    if (sprites[name].standard_animations.run ~= nil) then
         sprite:LoadRunningAnimations(sprites[name].standard_animations.run);
-	end
-	-- Load custom animations
-	if (sprites[name].custom_animations ~= nil) then
-		for name,file in pairs(sprites[name].custom_animations) do
-			sprite:LoadCustomAnimation(name, file);
-		end
-	end
+    end
+    -- Load custom animations
+    if (sprites[name].custom_animations ~= nil) then
+        for animation_name,file in pairs(sprites[name].custom_animations) do
+            sprite:LoadCustomAnimation(animation_name, file);
+        end
+    end
 
     return sprite;
 end
@@ -520,28 +685,28 @@ end
 
 
 function CreateEnemySprite(Map, name)
-	if (sprites[name] == nil) then
-		print("Error: No object named: "..name.." found!!");
-		return nil;
-	end
+    if (sprites[name] == nil) then
+        print("Error: No object named: "..name.." found!!");
+        return nil;
+    end
 
-	if (Map == nil) then
-		print("Error: Function called with invalid Map object");
-		return nil;
-	end
+    if (Map == nil) then
+        print("Error: Function called with invalid Map object");
+        return nil;
+    end
 
-	enemy = hoa_map.EnemySprite();
-	enemy:SetSpriteName(name); -- The catalog reference
-	enemy:SetObjectID(Map.object_supervisor:GenerateObjectID());
-	enemy:SetContext(hoa_map.MapMode.CONTEXT_01);
-	enemy:SetCollHalfWidth(sprites[name].coll_half_width);
-	enemy:SetCollHeight(sprites[name].coll_height);
-	enemy:SetImgHalfWidth(sprites[name].img_half_width);
-	enemy:SetImgHeight(sprites[name].img_height);
-	enemy:SetMovementSpeed(sprites[name].movement_speed);
+    local enemy = {}
+    enemy = vt_map.EnemySprite();
+    enemy:SetSpriteName(name); -- The catalog reference
+    enemy:SetObjectID(Map.object_supervisor:GenerateObjectID());
+    enemy:SetCollHalfWidth(sprites[name].coll_half_width);
+    enemy:SetCollHeight(sprites[name].coll_height);
+    enemy:SetImgHalfWidth(sprites[name].img_half_width);
+    enemy:SetImgHeight(sprites[name].img_height);
+    enemy:SetMovementSpeed(sprites[name].movement_speed);
 
-	enemy:LoadStandingAnimations(sprites[name].standard_animations.idle);
-	enemy:LoadWalkingAnimations(sprites[name].standard_animations.walk);
+    enemy:LoadStandingAnimations(sprites[name].standard_animations.idle);
+    enemy:LoadWalkingAnimations(sprites[name].standard_animations.walk);
 
-	return enemy;
+    return enemy;
 end

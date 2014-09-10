@@ -1,5 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
-//            Copyright (C) 2004-2010 by The Allacrost Project
+//            Copyright (C) 2004-2011 by The Allacrost Project
+//            Copyright (C) 2012-2014 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -10,38 +11,18 @@
 /** ***************************************************************************
 *** \file   input.h
 *** \author Tyler Olsen, roots@allacrost.org
+*** \author Yohann Ferreira, yohann ferreira orange fr
 *** \brief  Header file for processing user input
-***
-*** \todo Currently joystick hat and ball events are not handled by this input
-*** event manager. I may add support for them later if it is found necessary.
-***
-*** \todo Joystick processing needs more testing. It has only bee tested with
-*** one gamepad (Logitech Wingman Extreme). Particularly, I'm not sure if I
-*** chose an adequate value for JOYSTICK_THRESHOLD that will be suitable for
-*** all gamepads/joysticks.
-***
-*** \todo This engine is missing the following functionality:
-***   - Access calls for re-defining what keys/joystick buttons are mapped to
-***     which input events
-***   - The ability to save the current key/joystick maps to a file, or
-***     overwrite the mapping in a current file.
-***   - The ability to handle systems with multiple joysticks and to allow the
-***     player to choose which joystick to use
-***   - The ability to allow the player to disable the joystick subsystem and
-***     normal keyboard commands. At least one input (keyboard or joystick)
-***     should be enabled at any given time. Keyboard meta-commands (Ctrl+key)
-***     are exempt from this rule and will never be disabled
 *** **************************************************************************/
 
 #ifndef __INPUT_HEADER__
 #define __INPUT_HEADER__
 
-#include <SDL/SDL.h>
-
-#include "utils.h"
+#include "utils/utils_strings.h"
+#include "utils/singleton.h"
 
 //! All calls to the input engine are wrapped in this namespace.
-namespace hoa_input
+namespace vt_input
 {
 
 class InputEngine;
@@ -49,7 +30,7 @@ class InputEngine;
 //! The singleton pointer responsible for handling and updating user input.
 extern InputEngine *InputManager;
 
-//! Determines whether the code in the hoa_input namespace should print debug statements or not.
+//! Determines whether the code in the vt_input namespace should print debug statements or not.
 extern bool INPUT_DEBUG;
 
 //! An internal namespace to be used only within the input code.
@@ -77,9 +58,7 @@ public:
     SDLKey confirm;
     SDLKey cancel;
     SDLKey menu;
-    SDLKey swap;
-    SDLKey left_select;
-    SDLKey right_select;
+    SDLKey minimap;
     SDLKey pause;
     //@}
 }; // class KeyState
@@ -112,10 +91,9 @@ public:
     uint8 confirm;
     uint8 cancel;
     uint8 menu;
-    uint8 swap;
-    uint8 left_select;
-    uint8 right_select;
+    uint8 minimap;
     uint8 pause;
+    uint8 help;
     uint8 quit;
     //@}
 
@@ -151,9 +129,7 @@ public:
 *** - confirm      :: Confirms a menu selection or command
 *** - cancel       :: Cancels a menu selection or command
 *** - menu         :: Opens up a menu
-*** - swap         :: Used for swapping selected items or characters
-*** - left_select  :: Selecting multiple items or friendlys
-*** - right_select :: Selecting multiple items or foes
+*** - minimap      :: Used to toggle the minimap view when there is one.
 *** - pause        :: Pauses the game
 ***
 *** There are also other events and meta-key combination events that are handled within
@@ -182,9 +158,9 @@ public:
 *** \note In the end, all you really need to know about this class are the
 *** member access functions in the public section of this class (its not that hard).
 *** **************************************************************************/
-class InputEngine : public hoa_utils::Singleton<InputEngine>
+class InputEngine : public vt_utils::Singleton<InputEngine>
 {
-    friend class hoa_utils::Singleton<InputEngine>;
+    friend class vt_utils::Singleton<InputEngine>;
 
 private:
     InputEngine();
@@ -195,11 +171,21 @@ private:
     //! Holds the current user-defined joystick settings
     private_input::JoystickState _joystick;
 
-    //! Any key (or joystick button) pressed
-    bool _any_key_press;
+    //! \brief Tells whether the joystick input is disabled.
+    //! Is useful on certain OS where other inputs are falsely taken as joysticks ones.
+    bool _joysticks_enabled;
 
-    //! Any key released
-    bool _any_key_release;
+    //! Any registered key (or joystick button) pressed (one of the key mapped to have an action in game)
+    bool _registered_key_press;
+
+    //! Any registered key (or joystick button) released (one of the key mapped to have an action in game)
+    bool _registered_key_release;
+
+    //! Any keyboard key pressed (registered or not)
+    bool _any_keyboard_key_press;
+
+    //! Any joystick key pressed (registered or not)
+    bool _any_joystick_key_press;
 
     //! Any joystick axis moved
     int8 _last_axis_moved;
@@ -215,9 +201,6 @@ private:
     bool _confirm_state;
     bool _cancel_state;
     bool _menu_state;
-    bool _swap_state;
-    bool _left_select_state;
-    bool _right_select_state;
     //@}
 
     /** \name  Input Press Members
@@ -231,9 +214,7 @@ private:
     bool _confirm_press;
     bool _cancel_press;
     bool _menu_press;
-    bool _swap_press;
-    bool _left_select_press;
-    bool _right_select_press;
+    bool _minimap_press;
     bool _pause_press;
     bool _quit_press;
     bool _help_press;
@@ -250,17 +231,20 @@ private:
     bool _confirm_release;
     bool _cancel_release;
     bool _menu_release;
-    bool _swap_release;
-    bool _left_select_release;
-    bool _right_select_release;
+    bool _minimap_release;
+    bool _pause_release;
+    bool _quit_release;
+    bool _help_release;
     //@}
 
-    /** \name  First Joystick Axis Motion
-    *** \brief Retains whether a joystick axis event has already occured or not
+    /** \name  D-Pad/ Hat Input State Members
+    *** \brief Retain whether an input key/button is currently being held down
     **/
     //@{
-    bool _joyaxis_x_first;
-    bool _joyaxis_y_first;
+    bool _hat_up_state;
+    bool _hat_down_state;
+    bool _hat_left_state;
+    bool _hat_right_state;
     //@}
 
     /** \brief Most recent SDL event
@@ -291,10 +275,14 @@ private:
 public:
     ~InputEngine();
 
-    bool SingletonInitialize();
+    bool SingletonInitialize()
+    { return true; }
 
     //! \brief Initialize the joysticks with SDL, delayed because we need info from the lua settings file first.
     void InitializeJoysticks();
+
+    //! \brief Deinitialize the joysticks, if initialized.
+    void DeinitializeJoysticks();
 
     /** \brief Loads the default key settings from the lua file and sets them back
     *** \return Returns false if the settings file couldn't be read
@@ -306,15 +294,31 @@ public:
     **/
     bool RestoreDefaultJoyButtons();
 
-    /** \brief Checks if any keyboard key or joystick button is pressed
-    *** \return True if any key/button is pressed
+    /** \brief Checks whether any mapped keyboard key or joystick button is pressed.
+    *** A mapped key is a key configured to have an action in game.
+    *** \return True if any of the mapped key/button is pressed.
     **/
-    bool AnyKeyPress();
+    bool AnyRegisteredKeyPress() const
+    { return _registered_key_press; }
 
-    /** \brief Checks if any keyboard key or joystick button is released
+    /** \brief Checks if any mapped keyboard key or joystick button is released
+    *** A mapped key is a key configured to have an action in game.
     *** \return True if any key/button is released
     **/
-    bool AnyKeyRelease();
+    bool AnyRegisteredKeyRelease() const
+    { return _registered_key_release; }
+
+    /** \brief Checks if any keyboard key is pressed (registered or not)
+    *** \return True if any key is pressed
+    **/
+    bool AnyKeyboardKeyPress() const
+    { return _any_keyboard_key_press; }
+
+    /** \brief Checks if any joystick button is pressed (registered or not)
+    *** \return True if any button is pressed
+    **/
+    bool AnyJoystickKeyPress() const
+    { return _any_joystick_key_press; }
 
     /** \brief Returns the last joystick axis that has moved
     *** \return True if any joystick axis has moved
@@ -343,19 +347,19 @@ public:
     **/
     //@{
     bool UpState() const {
-        return _up_state;
+        return _up_state || _hat_up_state;
     }
 
     bool DownState() const {
-        return _down_state;
+        return _down_state || _hat_down_state;
     }
 
     bool LeftState() const {
-        return _left_state;
+        return _left_state || _hat_left_state;
     }
 
     bool RightState() const {
-        return _right_state;
+        return _right_state || _hat_right_state;
     }
 
     bool ConfirmState() const {
@@ -368,18 +372,6 @@ public:
 
     bool MenuState() const {
         return _menu_state;
-    }
-
-    bool SwapState() const {
-        return _swap_state;
-    }
-
-    bool LeftSelectState() const {
-        return _left_select_state;
-    }
-
-    bool RightSelectState() const {
-        return _right_select_state;
     }
     //@}
 
@@ -415,16 +407,8 @@ public:
         return _menu_press;
     }
 
-    bool SwapPress() const {
-        return _swap_press;
-    }
-
-    bool LeftSelectPress() const {
-        return _left_select_press;
-    }
-
-    bool RightSelectPress() const {
-        return _right_select_press;
+    bool MinimapPress() const {
+        return _minimap_press;
     }
 
     bool PausePress() const {
@@ -472,16 +456,20 @@ public:
         return _menu_release;
     }
 
-    bool SwapRelease() const {
-        return _swap_release;
+    bool MinimapRelease() const {
+        return _minimap_release;
     }
 
-    bool LeftSelectRelease() const {
-        return _left_select_release;
+    bool PauseRelease() const {
+        return _pause_release;
     }
 
-    bool RightSelectRelease() const {
-        return _right_select_release;
+    bool QuitRelease() const {
+        return _quit_release;
+    }
+
+    bool HelpRelease() const {
+        return _help_release;
     }
     //@}
 
@@ -490,57 +478,56 @@ public:
     **/
     //@{
     std::string GetUpKeyName() const {
-        return hoa_utils::UpcaseFirst(SDL_GetKeyName(_key.up));
+        return vt_utils::UpcaseFirst(SDL_GetKeyName(_key.up));
     }
 
     std::string GetDownKeyName() const {
-        return hoa_utils::UpcaseFirst(SDL_GetKeyName(_key.down));
+        return vt_utils::UpcaseFirst(SDL_GetKeyName(_key.down));
     }
 
     std::string GetLeftKeyName() const {
-        return hoa_utils::UpcaseFirst(SDL_GetKeyName(_key.left));
+        return vt_utils::UpcaseFirst(SDL_GetKeyName(_key.left));
     }
 
     std::string GetRightKeyName() const {
-        return hoa_utils::UpcaseFirst(SDL_GetKeyName(_key.right));
+        return vt_utils::UpcaseFirst(SDL_GetKeyName(_key.right));
     }
 
     std::string GetConfirmKeyName() const {
-        return hoa_utils::UpcaseFirst(SDL_GetKeyName(_key.confirm));
+        return vt_utils::UpcaseFirst(SDL_GetKeyName(_key.confirm));
     }
 
     std::string GetCancelKeyName() const {
-        return hoa_utils::UpcaseFirst(SDL_GetKeyName(_key.cancel));
+        return vt_utils::UpcaseFirst(SDL_GetKeyName(_key.cancel));
     }
 
     std::string GetMenuKeyName() const {
-        return hoa_utils::UpcaseFirst(SDL_GetKeyName(_key.menu));
+        return vt_utils::UpcaseFirst(SDL_GetKeyName(_key.menu));
     }
 
-    std::string GetSwapKeyName() const {
-        return hoa_utils::UpcaseFirst(SDL_GetKeyName(_key.swap));
-    }
-
-    std::string GetLeftSelectKeyName() const {
-        return hoa_utils::UpcaseFirst(SDL_GetKeyName(_key.left_select));
-    }
-
-    std::string GetRightSelectKeyName() const {
-        return hoa_utils::UpcaseFirst(SDL_GetKeyName(_key.right_select));
+    std::string GetMinimapKeyName() const {
+        return vt_utils::UpcaseFirst(SDL_GetKeyName(_key.minimap));
     }
 
     std::string GetPauseKeyName() const {
-        return hoa_utils::UpcaseFirst(SDL_GetKeyName(_key.pause));
+        return vt_utils::UpcaseFirst(SDL_GetKeyName(_key.pause));
     }
 
     std::string GetHelpKeyName() const {
-        return hoa_utils::UpcaseFirst(SDL_GetKeyName(SDLK_F1));
+        return vt_utils::UpcaseFirst(SDL_GetKeyName(SDLK_F1));
     }
 
     std::string GetQuitKeyName() const {
-        return hoa_utils::UpcaseFirst(SDL_GetKeyName(SDLK_ESCAPE));
+        return vt_utils::UpcaseFirst(SDL_GetKeyName(SDLK_ESCAPE));
     }
     //@}
+
+    //! \brief Tells whether joysticks should have enabled or not.
+    //! \note this isn't representing the SDL subsystem state, but a game option
+    //! preventing them from being initialized if necessary.
+    bool GetJoysticksEnabled() const {
+        return _joysticks_enabled;
+    }
 
     /** \name Joystick axis access functions
     *** \return axis number or threshold value
@@ -575,16 +562,8 @@ public:
         return _joystick.menu;
     }
 
-    int32 GetSwapJoy() const {
-        return _joystick.swap;
-    }
-
-    int32 GetLeftSelectJoy() const {
-        return _joystick.left_select;
-    }
-
-    int32 GetRightSelectJoy() const {
-        return _joystick.right_select;
+    int32 GetMinimapJoy() const {
+        return _joystick.minimap;
     }
 
     int32 GetPauseJoy() const {
@@ -594,10 +573,14 @@ public:
     int32 GetQuitJoy() const {
         return _joystick.quit;
     }
+
+    int32 GetHelpJoy() const {
+        return _joystick.help;
+    }
     //@}
 
     /** \name Key re-mapping functions
-    *** \paramkey New key for the action
+    *** \param key New key for the action
     **/
     //@{
     void SetUpKey(const SDLKey &key) {
@@ -628,22 +611,21 @@ public:
         _SetNewKey(_key.menu, key);
     }
 
-    void SetSwapKey(const SDLKey &key) {
-        _SetNewKey(_key.swap, key);
-    }
-
-    void SetLeftSelectKey(const SDLKey &key) {
-        _SetNewKey(_key.left_select, key);
-    }
-
-    void SetRightSelectKey(const SDLKey &key) {
-        _SetNewKey(_key.right_select, key);
+    void SetMinimapKey(const SDLKey &key) {
+        _SetNewKey(_key.minimap, key);
     }
 
     void SetPauseKey(const SDLKey &key) {
         _SetNewKey(_key.pause, key);
     }
     //@}
+
+    //! \brief Tells whether joysticks should have enabled or not.
+    //! \note this isn't representing the SDL subsystem state, but a game option
+    //! preventing them from being initialized if necessary.
+    void SetJoysticksEnabled(bool enabled) {
+        _joysticks_enabled = enabled;
+    }
 
     /** \name Joystick button re-mapping functions
     *** \param	key New button for the action
@@ -665,16 +647,8 @@ public:
         _SetNewJoyButton(_joystick.menu, button);
     }
 
-    void SetSwapJoy(uint8 button) {
-        _SetNewJoyButton(_joystick.swap, button);
-    }
-
-    void SetLeftSelectJoy(uint8 button) {
-        _SetNewJoyButton(_joystick.left_select, button);
-    }
-
-    void SetRightSelectJoy(uint8 button) {
-        _SetNewJoyButton(_joystick.right_select, button);
+    void SetMinimapJoy(uint8 button) {
+        _SetNewJoyButton(_joystick.minimap, button);
     }
 
     void SetPauseJoy(uint8 button) {
@@ -683,6 +657,10 @@ public:
 
     void SetQuitJoy(uint8 button) {
         _SetNewJoyButton(_joystick.quit, button);
+    }
+
+    void SetHelpJoy(uint8 button) {
+        _SetNewJoyButton(_joystick.help, button);
     }
 
     void SetXAxisJoy(int8 axis) {
@@ -730,16 +708,8 @@ public:
         return _key.menu;
     }
 
-    int32 GetSwapKey() const {
-        return _key.swap;
-    }
-
-    int32 GetLeftSelectKey() const {
-        return _key.left_select;
-    }
-
-    int32 GetRightSelectKey() const {
-        return _key.right_select;
+    int32 GetMinimapKey() const {
+        return _key.minimap;
     }
 
     int32 GetPauseKey() const {
@@ -751,8 +721,8 @@ public:
     const SDL_Event &GetMostRecentEvent() const {
         return _event;
     }
-}; // class InputEngine : public hoa_utils::Singleton<InputEngine>
+}; // class InputEngine : public vt_utils::Singleton<InputEngine>
 
-} // namespace hoa_input
+} // namespace vt_input
 
 #endif

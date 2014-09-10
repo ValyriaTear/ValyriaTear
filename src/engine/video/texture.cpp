@@ -1,5 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
-//            Copyright (C) 2004-2010 by The Allacrost Project
+//            Copyright (C) 2004-2011 by The Allacrost Project
+//            Copyright (C) 2012-2014 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -10,16 +11,18 @@
 /** ****************************************************************************
 *** \file    tex_mgmt.h
 *** \author  Raj Sharma, roos@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Source file for texture management code
 *** ***************************************************************************/
 
-#include "video.h"
-
+#include "utils/utils_pch.h"
 #include "texture.h"
 
-using namespace hoa_utils;
+#include "video.h"
 
-namespace hoa_video
+using namespace vt_utils;
+
+namespace vt_video
 {
 
 namespace private_video
@@ -137,7 +140,7 @@ bool TexSheet::CopyScreenRect(int32 x, int32 y, const ScreenRect &screen_rect)
         x, // x offset within tex sheet
         y, // y offset within tex sheet
         screen_rect.left, // left starting pixel of the screen to copy
-        screen_rect.top - screen_rect.height, // bottom starting pixel of the screen to copy
+        screen_rect.top, // top starting pixel of the screen to copy
         screen_rect.width, // width in pixels of image
         screen_rect.height // height in pixels of image
     );
@@ -171,10 +174,10 @@ void TexSheet::DEBUG_Draw() const
 {
     // The vertex coordinate array to use (assumes glScale() has been appropriately set)
     static const float vertex_coords[] = {
-        0.0f, 0.0f, // Upper left
-        1.0f, 0.0f, // Upper right
         1.0f, 1.0f, // Lower right
         0.0f, 1.0f, // Lower left
+        0.0f, 0.0f, // Upper left
+        1.0f, 0.0f, // Upper right
     };
 
     // The texture coordinate array to use (specifies the coordinates encompassing the entire texture)
@@ -598,4 +601,4 @@ void VariableTexSheet::_SetBlockProperties(BaseTexture *tex, BaseTexture *new_te
 
 } // namespace private_video
 
-} // namespace hoa_video
+} // namespace vt_video

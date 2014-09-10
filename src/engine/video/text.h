@@ -1,5 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
-//            Copyright (C) 2004-2010 by The Allacrost Project
+//            Copyright (C) 2004-2011 by The Allacrost Project
+//            Copyright (C) 2012-2014 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -10,6 +11,7 @@
 /** ****************************************************************************
 *** \file    text.h
 *** \author  Lindsay Roberts, linds@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Header file for text rendering
 ***
 *** This code makes use of the SDL_ttf font library for representing fonts,
@@ -19,22 +21,17 @@
 #ifndef __TEXT_HEADER__
 #define __TEXT_HEADER__
 
-#include "utils.h"
 #include "engine/video/image.h"
 
-// OpenGL includes
-#ifdef __APPLE__
-#include <OpenGL/gl.h>
-#include <OpenGL/glu.h>
-#else
-#include <GL/gl.h>
-#include <GL/glu.h>
-#endif
+#include "utils/singleton.h"
+#include "utils/ustring.h"
 
 typedef struct _TTF_Font TTF_Font;
 
-namespace hoa_video
+namespace vt_video
 {
+
+const std::string _LANGUAGE_FILE = "dat/config/languages.lua";
 
 class TextSupervisor;
 
@@ -62,13 +59,24 @@ enum TEXT_SHADOW_STYLE {
     VIDEO_TEXT_SHADOW_TOTAL = 6
 };
 
-
 /** ****************************************************************************
 *** \brief A structure to hold properties about a particular font glyph
 *** ***************************************************************************/
 class FontGlyph
 {
 public:
+    FontGlyph():
+        texture(0),
+        width(0),
+        height(0),
+        min_x(0),
+        min_y(0),
+        max_x(0.0f),
+        max_y(0.0f),
+        advance(0),
+        top_y(0)
+    {}
+
     //! \brief The index of the GL texture for this glyph.
     GLuint texture;
 
@@ -95,6 +103,39 @@ public:
 class FontProperties
 {
 public:
+    FontProperties():
+        height(0),
+        line_skip(0),
+        ascent(0),
+        descent(0),
+        ttf_font(NULL),
+        font_size(0),
+        glyph_cache(NULL)
+    {}
+
+    ~FontProperties()
+    {
+        ClearFont();
+    }
+
+    //! \brief Clears out a font object plus its glyph cache.
+    //! Useful when changing a TextStyle font without deleting
+    //! the font properties object.
+    void ClearFont() {
+        // Free the font.
+        if(ttf_font)
+            TTF_CloseFont(ttf_font);
+
+        // Clears the glyph cache and delete it
+        if(glyph_cache) {
+            std::vector<vt_video::FontGlyph *>::const_iterator it_end = glyph_cache->end();
+            for(std::vector<FontGlyph *>::iterator j = glyph_cache->begin(); j != it_end; ++j) {
+                delete *j;
+            }
+            delete glyph_cache;
+        }
+    }
+
     //! \brief The maximum height of all of the glyphs for this font.
     int32 height;
 
@@ -106,6 +147,12 @@ public:
 
     //! \brief A pointer to SDL_TTF's font structure.
     TTF_Font *ttf_font;
+
+    //! \brief Used to know the font currently used.
+    std::string font_filename;
+
+    //! \brief Used to know  the font size currently used
+    uint32 font_size;
 
     //! \brief A pointer to a cache which holds all of the glyphs used in this font.
     std::vector<FontGlyph *>* glyph_cache;
@@ -124,45 +171,110 @@ class TextStyle
 {
 public:
     //! \brief No-arg constructor will set all members to the same value as the current default text style
-    TextStyle();
+    //! Special empty TextStyle to permit a default initialization in the TextSupervisor.
+    TextStyle():
+        _shadow_style(VIDEO_TEXT_SHADOW_NONE),
+        _shadow_offset_x(0),
+        _shadow_offset_y(0),
+        _font_property(NULL)
+    {}
 
     //! \brief Constructor requiring a font name only
-    TextStyle(const std::string &fnt);
+    TextStyle(const std::string& font);
 
     //! \brief Constructor requiring a text color only
-    TextStyle(const Color &c);
+    TextStyle(const Color& color);
 
     //! \brief Constructor requiring a shadow style only
     TextStyle(TEXT_SHADOW_STYLE style);
 
     //! \brief Constructor requiring a font name and text color
-    TextStyle(const std::string &fnt, const Color &c);
+    TextStyle(const std::string& font, const Color& color);
 
     //! \brief Constructor requiring a font name and shadow style
-    TextStyle(const std::string &fnt, TEXT_SHADOW_STYLE style);
+    TextStyle(const std::string& font, TEXT_SHADOW_STYLE style);
 
     //! \brief Constructor requiring a text color and shadow style
-    TextStyle(const Color &c, TEXT_SHADOW_STYLE style);
+    TextStyle(const Color& color, TEXT_SHADOW_STYLE style);
 
     //! \brief Constructor requiring a font name, color, and shadow style
-    TextStyle(const std::string &fnt, const Color &c, TEXT_SHADOW_STYLE style);
+    TextStyle(const std::string& font, const Color& color, TEXT_SHADOW_STYLE style);
 
     //! \brief Full constructor requiring initialization data arguments for all class members
-    TextStyle(const std::string &fnt, const Color &c, TEXT_SHADOW_STYLE style, int32 shadow_x, int32 shadow_y);
+    TextStyle(const std::string& font, const Color& color, TEXT_SHADOW_STYLE style, int32 shadow_x, int32 shadow_y);
 
-    // ---------- Public members
+    //! Sets the font name and updates the font properties.
+    void SetFont(const std::string& font);
 
+    //! Sets the font name and updates the font properties.
+    void SetColor(const Color& color) {
+        _color = color;
+        _UpdateTextShadowColor();
+    }
+
+    //! Sets the shadow style
+    void SetShadowStyle(TEXT_SHADOW_STYLE shadow_style) {
+        _shadow_style = shadow_style;
+        _UpdateTextShadowColor();
+    }
+
+    //! Sets the shadow offsets from the given text.
+    void SetShadowOffsets(int32 xoffset, int32 yoffset) {
+        _shadow_offset_x = xoffset;
+        _shadow_offset_y = yoffset;
+    }
+
+    //! \brief Returns the font property pointer value.
+    FontProperties* GetFontProperties() const {
+        return _font_property;
+    }
+
+    const std::string& GetFontName() const {
+        return _font;
+    }
+
+    const Color& GetColor() const {
+        return _color;
+    }
+
+    const Color& GetShadowColor() const {
+        return _shadow_color;
+    }
+
+    TEXT_SHADOW_STYLE GetShadowStyle() const {
+        return _shadow_style;
+    }
+
+    int32 GetShadowOffsetX() const {
+        return _shadow_offset_x;
+    }
+
+    int32 GetShadowOffsetY() const {
+        return _shadow_offset_y;
+    }
+
+private:
     //! \brief The string font name
-    std::string font;
+    std::string _font;
 
     //! \brief The color of the text
-    Color color;
+    Color _color;
 
     //! \brief The enum representing the shadow style
-    TEXT_SHADOW_STYLE shadow_style;
+    TEXT_SHADOW_STYLE _shadow_style;
+    //! \brief The shadow color corresponding to the current color and shadow style.
+    Color _shadow_color;
 
     //! \brief The x and y offsets of the shadow
-    int32 shadow_offset_x, shadow_offset_y;
+    int32 _shadow_offset_x;
+    int32 _shadow_offset_y;
+
+    //! \brief A pointer to the FontProperty object
+    //! This acts as reference cache, thus it must not be deleted here!
+    FontProperties* _font_property;
+
+    //! \brief Updates the shadow color to correspond to the current color and shadow style.
+    void _UpdateTextShadowColor();
 }; // class TextStyle
 
 namespace private_video
@@ -180,14 +292,14 @@ public:
     /** \brief Constructor defaults image as the first one in a texture sheet.
     *** \note The actual sheet where the image is located will be determined later.
     **/
-    TextTexture(const hoa_utils::ustring &string_, const TextStyle &style_);
+    TextTexture(const vt_utils::ustring &string_, const TextStyle &style_);
 
     ~TextTexture();
 
     // ---------- Public members
 
     //! \brief The string represented
-    hoa_utils::ustring string;
+    vt_utils::ustring string;
 
     //! \brief The text style of the rendered string
     TextStyle style;
@@ -288,10 +400,10 @@ public:
     TextImage();
 
     //! \brief Constructs rendered string of specified ustring
-    TextImage(const hoa_utils::ustring &string, TextStyle style = TextStyle());
+    TextImage(const vt_utils::ustring& text, const TextStyle& style = TextStyle());
 
     //! \brief Constructs rendered string of specified std::string
-    TextImage(const std::string &string, TextStyle style = TextStyle());
+    TextImage(const std::string& text, const TextStyle& style = TextStyle());
 
     //! \brief Destructs TextImage, lowering reference counts on all contained timages.
     ~TextImage() {
@@ -306,13 +418,10 @@ public:
     //! \brief Clears the image by resetting its properties
     void Clear();
 
-    //! \brief Draws the rendered text to the screen
-    void Draw() const;
-
     /** \brief Draws the rendered text to the screen with a color modulation
     *** \param draw_color The color to modulate the text by
     **/
-    void Draw(const Color &draw_color) const;
+    void Draw(const Color &draw_color = vt_video::Color::white) const;
 
     //! \brief Dervied from ImageDescriptor, this method is not used by TextImage
     void EnableGrayScale()
@@ -362,40 +471,68 @@ public:
     }
 
     //! \brief Sets the text contained
-    void SetText(const hoa_utils::ustring &string) {
-        _string = string;
+    void SetText(const vt_utils::ustring &text) {
+        // Don't do anything if it's the same text
+        if (_text == text)
+            return;
+
+        _text = text;
+        _Regenerate();
+    }
+
+    void SetText(const vt_utils::ustring &text, const TextStyle& text_style) {
+        _text = text;
+        _style = text_style;
         _Regenerate();
     }
 
     //! \brief Sets the text (std::string version)
-    void SetText(const std::string &string) {
-        SetText(hoa_utils::MakeUnicodeString(string));
-        _Regenerate();
+    void SetText(const std::string &text) {
+        SetText(vt_utils::MakeUnicodeString(text));
     }
 
     //! \brief Sets the texts style - regenerating text if present.
-    void SetStyle(TextStyle style) {
+    void SetStyle(const TextStyle& style) {
         _style = style;
         _Regenerate();
     }
 
+    void SetText(const std::string &text, const TextStyle& text_style) {
+        SetText(vt_utils::MakeUnicodeString(text), text_style);
+    }
+
+    void SetWordWrapWidth(uint32 width) {
+        _max_width = width;
+    }
+
     //! \name Class Member Access Functions
     //@{
-    hoa_utils::ustring GetString() const {
-        return _string;
+    const vt_utils::ustring& GetString() const {
+        return _text;
     }
 
     TextStyle GetStyle() const {
         return _style;
     }
+
+    virtual float GetWidth() const {
+        return _width;
+    }
+
+    uint32 GetWordWrapWidth() const {
+        return _max_width;
+    }
     //@}
 
 private:
     //! \brief The unicode string of the text to render
-    hoa_utils::ustring _string;
+    vt_utils::ustring _text;
 
     //! \brief The style to render the text in
     TextStyle _style;
+
+    //! \brief The text max width, used for word wrapping
+    uint32 _max_width;
 
     //! \brief The TextTexture elements representing rendered text portions, usually lines.
     std::vector<private_video::TextElement *> _text_sections;
@@ -420,56 +557,28 @@ private:
 *** way for doing so is to call "VideoManager->Text()->MethodName()".
 *** VideoManager->Text() returns the singleton pointer to this class.
 *** ***************************************************************************/
-class TextSupervisor : public hoa_utils::Singleton<TextSupervisor>
+class TextSupervisor : public vt_utils::Singleton<TextSupervisor>
 {
-    friend class hoa_utils::Singleton<TextSupervisor>;
+    friend class vt_utils::Singleton<TextSupervisor>;
     friend class VideoEngine;
     friend class TextureController;
     friend class private_video::TextTexture;
     friend class TextImage;
+    friend class TextStyle;
 
 public:
     ~TextSupervisor();
 
-    /** \brief Initialzies the SDL_ttf library and loads a debug_font
+    /** \brief Initializes the SDL_ttf library
     *** \return True if all initializations were successful, or false if there was an error
     **/
     bool SingletonInitialize();
 
-    //! \name Font manipulation methods
-    //@{
-    /** \brief Loads a font file from disk with a specific size and name
-    *** \param font_filename The filename of the font file to load
-    *** \param font_name The name which to refer to the font after it is loaded
-    *** \param size The point size to set the font after it is loaded
-    *** \return True if the font was successfully loaded, or false if there was an error
+    /** \brief Loads or reloads font needed by the given locale (ex: fr, it, ru, ...)
+    *** using the font script filename: "dat/config/fonts.lua"
+    *** \return false in case of an error.
     **/
-    bool LoadFont(const std::string &filename, const std::string &font_name, uint32 size);
-
-    /** \brief Removes a loaded font from memory and frees up associated resources
-    *** \param font_name The reference name of the font to unload
-    ***
-    *** If the argument name is invalid (i.e. no font with that reference name exists), this method will do
-    *** nothing more than print out a warning message if running in debug mode.
-    ***
-    *** \todo Implement this function. Its not available yet because of potential problems with lingering references to the
-    *** font (in TextStyle objects, or elswhere)
-    **/
-    void FreeFont(const std::string &font_name);
-
-    /** \brief Returns true if a font of a certain reference name exists
-    *** \param font_name The reference name of the font to check
-    *** \return True if font name is valid, false if it is not.
-    **/
-    bool IsFontValid(const std::string &font_name) {
-        return (_font_map.find(font_name) != _font_map.end());
-    }
-
-    /** \brief Get the font properties for a loaded font
-    *** \param font_name The name reference of the loaded font
-    *** \return A pointer to the FontProperties object with the requested data, or NULL if the properties could not be fetched
-    **/
-    FontProperties *GetFontProperties(const std::string &font_name);
+    bool LoadFonts(const std::string& locale_name);
     //@}
 
     //! \name Text methods
@@ -477,7 +586,7 @@ public:
     /** \brief Renders and draws a unicode string of text to the screen in the default text style
     *** \param text The text string to draw in unicode format
     **/
-    void Draw(const hoa_utils::ustring &text) {
+    inline void Draw(const vt_utils::ustring &text) {
         Draw(text, _default_style);
     }
 
@@ -485,36 +594,42 @@ public:
     *** \param text The text string to draw in unicode format
     *** \param style A reference to the TextStyle to use for drawing the string
     **/
-    void Draw(const hoa_utils::ustring &text, const TextStyle &style);
+    void Draw(const vt_utils::ustring &text, const TextStyle &style);
 
     /** \brief Renders and draws a standard string of text to the screen in the default text style
     *** \param text The text string to draw in standard format
     **/
-    void Draw(const std::string &text) {
-        Draw(hoa_utils::MakeUnicodeString(text));
+    inline void Draw(const std::string &text) {
+        Draw(vt_utils::MakeUnicodeString(text));
     }
 
     /** \brief Renders and draws a standard string of text to the screen in a desired text style
     *** \param text The text string to draw in standard format
     *** \param style A reference to the TextStyle to use for drawing the string
     **/
-    void Draw(const std::string &text, const TextStyle &style) {
-        Draw(hoa_utils::MakeUnicodeString(text), style);
+    inline void Draw(const std::string &text, const TextStyle &style) {
+        Draw(vt_utils::MakeUnicodeString(text), style);
     }
 
     /** \brief Calculates what the width would be for a unicode string of text if it were rendered
-    *** \param font_name The reference name of the font to use for the calculation
+    *** \param ttf_font The True Type SDL font object
     *** \param text The text string in unicode format
     *** \return The width of the text as it would be rendered, or -1 if there was an error
     **/
-    int32 CalculateTextWidth(const std::string &font_name, const hoa_utils::ustring &text);
+    int32 CalculateTextWidth(TTF_Font* ttf_font, const vt_utils::ustring& text);
 
     /** \brief Calculates what the width would be for a standard string of text if it were rendered
-    *** \param font_name The reference name of the font to use for the calculation
+    *** \param ttf_font The True Type SDL font object
     *** \param text The text string in standard format
     *** \return The width of the text as it would be rendered, or -1 if there was an error
     **/
-    int32 CalculateTextWidth(const std::string &font_name, const std::string &text);
+    int32 CalculateTextWidth(TTF_Font* ttf_font, const std::string& text);
+
+    /** \brief Returns the text as a vector of lines which text width is inferior or equal to the given pixel max width.
+    *** \param text The ustring text
+    *** \param ttf_font The True Type SDL font object
+    **/
+    std::vector<vt_utils::ustring> WrapText(const vt_utils::ustring& text, TTF_Font* ttf_font, uint32 max_width);
     //@}
 
     //! \name Class member access methods
@@ -523,7 +638,7 @@ public:
         return _default_style;
     }
 
-    void SetDefaultStyle(TextStyle style) {
+    void SetDefaultStyle(const TextStyle& style) {
         _default_style = style;
     }
     //@}
@@ -543,11 +658,24 @@ private:
 
     // ---------- Private methods
 
-    /** \brief Retrieves the color for a shadow based on the current text color and a shadow style
-    *** \param style The text style that would be used to generate the shadow for the text
-    *** \return The color of the shadow
+    /** \brief Loads or Reloads a font file from disk with a specific size and name
+    *** \param Text style name The name which to refer to the text style after it is loaded
+    *** \param font_filename The filename of the TTF font filename to load
+    *** \param size The point size to set the font after it is loaded
+    *** \return True if the font was successfully loaded, or false if there was an error
     **/
-    Color _GetTextShadowColor(const TextStyle &style) const;
+    bool _LoadFont(const std::string& textstyle_name, const std::string& font_filename, uint32 size);
+
+    /** \brief Removes a loaded font from memory and frees up associated resources
+    *** \param font_name The reference name of the font to unload
+    ***
+    *** If the argument name is invalid (i.e. no font with that reference name exists), this method will do
+    *** nothing more than print out a warning message if running in debug mode.
+    ***
+    *** \todo Implement this function. Its not available yet because of potential problems with lingering references to the
+    *** font (in TextStyle objects, or elswhere)
+    **/
+    void _FreeFont(const std::string &font_name);
 
     /** \brief Caches glyph information and textures for rendering
     *** \param text A pointer to the unicode string holding the characters (glyphs) to cache
@@ -571,9 +699,23 @@ private:
     *** \param buffer A reference to the pixel array where to place the rendered string to
     *** \return True if the string was rendered successfully, or false if it was not
     **/
-    bool _RenderText(hoa_utils::ustring &string, TextStyle &style, private_video::ImageMemory &buffer);
-}; // class TextSupervisor : public hoa_utils::Singleton
+    bool _RenderText(vt_utils::ustring &string, TextStyle &style, private_video::ImageMemory &buffer);
 
-}  // namespace hoa_video
+    /** \brief Returns true if a font of a certain reference name exists
+    *** \param font_name The reference name of the font to check
+    *** \return True if font name is valid, false if it is not.
+    **/
+    bool _IsFontValid(const std::string& font_name) {
+        return (_font_map.find(font_name) != _font_map.end());
+    }
+
+    /** \brief Get the font properties for a loaded font
+    *** \param font_name The name reference of the loaded font
+    *** \return A pointer to the FontProperties object with the requested data, or NULL if the properties could not be fetched
+    **/
+    FontProperties* _GetFontProperties(const std::string& font_name);
+}; // class TextSupervisor : public vt_utils::Singleton
+
+}  // namespace vt_video
 
 #endif // __TEXT_HEADER__

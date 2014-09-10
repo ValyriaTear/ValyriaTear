@@ -1,5 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
-//            Copyright (C) 2004-2010 by The Allacrost Project
+//            Copyright (C) 2004-2011 by The Allacrost Project
+//            Copyright (C) 2012-2014 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -10,6 +11,7 @@
 /** ***************************************************************************
 *** \file   mode_manager.h
 *** \author Tyler Olsen, roots@allacrost.org
+*** \author Yohann Ferreira, yohann ferreira orange fr
 *** \brief  Header file for game mode processing
 *** **************************************************************************/
 
@@ -19,17 +21,18 @@
 #include "effect_supervisor.h"
 #include "engine/video/particle_manager.h"
 #include "engine/script_supervisor.h"
+#include "engine/indicator_supervisor.h"
 
 //! All calls to the mode management code are wrapped inside this namespace
-namespace hoa_mode_manager
+namespace vt_mode_manager
 {
-
 class HelpWindow;
+class ModeEngine;
 
 //! The singleton pointer responsible for maintaining and updating the game mode state.
 extern ModeEngine *ModeManager;
 
-//! Determines whether the code in the hoa_mode_manager namespace should print debug statements or not.
+//! Determines whether the code in the vt_mode_manager namespace should print debug statements or not.
 extern bool MODE_MANAGER_DEBUG;
 
 //! \name Game States/Modes
@@ -42,9 +45,7 @@ const uint8 MODE_MANAGER_BATTLE_MODE = 3;
 const uint8 MODE_MANAGER_MENU_MODE   = 4;
 const uint8 MODE_MANAGER_SHOP_MODE   = 5;
 const uint8 MODE_MANAGER_PAUSE_MODE  = 6;
-const uint8 MODE_MANAGER_SCENE_MODE  = 7;
-const uint8 MODE_MANAGER_WORLD_MODE  = 8;
-const uint8 MODE_MANAGER_SAVE_MODE   = 9;
+const uint8 MODE_MANAGER_SAVE_MODE   = 7;
 //@}
 
 /** ***************************************************************************
@@ -65,22 +66,16 @@ class GameMode
 {
     friend class ModeEngine;
 
-protected:
-    //! Indicates what 'mode' this object is in (what type of inherited class).
-    uint8 mode_type;
-
-private:
-    //! Copy constructor is private, because making a copy of a game mode object is a \b bad idea.
-    GameMode(const GameMode &other);
-    //! Copy assignment operator is private, because making a copy of a game mode object is a \b bad idea.
-    GameMode &operator=(const GameMode &other);
-    // Note: Should I make the delete and delete[] operators private too?
 public:
     GameMode();
     //! \param mt The mode_type to set the new GameMode object to.
     GameMode(uint8 mt);
 
     virtual ~GameMode();
+
+    uint8 GetGameType() const {
+        return _mode_type;
+    }
 
     //! Updates the state of the game mode.
     virtual void Update();
@@ -95,7 +90,7 @@ public:
     *** Draws the next screen frame for the game mode, but unaffected
     *** by potential light and fade effects.
     **/
-    virtual void DrawPostEffects() {};
+    virtual void DrawPostEffects();
 
     /** \brief Resets the state of the class.
     ***
@@ -105,17 +100,29 @@ public:
     **/
     virtual void Reset() = 0;
 
-    EffectSupervisor &GetEffectSupervisor() {
-        return _effect_supervisor;
-    }
+    //! \brief Called when a game mode is made inactive
+    virtual void Deactivate();
 
-    ParticleManager &GetParticleManager() {
-        return _particle_manager;
-    }
+    //! \brief Returns the effect supervisor.
+    EffectSupervisor& GetEffectSupervisor();
 
-    ScriptSupervisor &GetScriptSupervisor() {
-        return _script_supervisor;
-    }
+    //! \brief Returns the particle manager.
+    ParticleManager& GetParticleManager();
+
+    //! \brief Returns the script supervisor.
+    ScriptSupervisor& GetScriptSupervisor();
+
+    //! \brief Returns the indicator supervisor.
+    IndicatorSupervisor& GetIndicatorSupervisor();
+
+    //! \brief Makes the game mode reload the different texts.
+    //! Used when changing the language in the options.
+    virtual void ReloadTranslatedTexts()
+    {}
+
+protected:
+    //! Indicates what 'mode' this object is in (what type of inherited class).
+    uint8 _mode_type;
 
 private:
     //! \brief Handles all the custom scripted animation for the given mode.
@@ -126,6 +133,14 @@ private:
 
     //! \brief The particle manager instance, handles the work of managing particle effects
     ParticleManager _particle_manager;
+
+    //! \brief The indicator supervisor instance, handles the work of displaying indication with eye-candy.
+    IndicatorSupervisor _indicator_supervisor;
+
+    //! Copy constructor is private, because making a copy of a game mode object is a \b bad idea.
+    GameMode(const GameMode &other);
+    //! Copy assignment operator is private, because making a copy of a game mode object is a \b bad idea.
+    GameMode &operator=(const GameMode &other);
 }; // class GameMode
 
 
@@ -154,9 +169,9 @@ private:
 *** a stack is used. The second reason is "just in case" we need to access a stack
 *** element that is not on the top of the stack.
 *** **************************************************************************/
-class ModeEngine : public hoa_utils::Singleton<ModeEngine>
+class ModeEngine : public vt_utils::Singleton<ModeEngine>
 {
-    friend class hoa_utils::Singleton<ModeEngine>;
+    friend class vt_utils::Singleton<ModeEngine>;
 
 private:
     ModeEngine();
@@ -256,8 +271,8 @@ public:
 
     //! \brief Prints the contents of the game_stack member to standard output.
     void DEBUG_PrintStack();
-}; // class ModeEngine : public hoa_utils::Singleton<ModeEngine>
+}; // class ModeEngine : public vt_utils::Singleton<ModeEngine>
 
-} // namespace hoa_mode_manager
+} // namespace vt_mode_manager
 
 #endif

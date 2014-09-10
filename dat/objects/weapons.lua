@@ -20,10 +20,11 @@
 -- {description}: A brief description about the weapon.
 -- {icon}: The filepath to the image icon representing this weapon.
 -- {physical_attack}: The amount of physical damage that the weapon causes.
--- {metaphysical_attack}: The amount of metaphysical damage that the weapon causes.
+-- {magical_attack}: The amount of magical damage that the weapon causes.
 -- {standard_price}: The standard asking price of this weapon from merchants.
 -- {usable_by}: A list of characters which may equip this weapon.
 -- {slots}: The number of slots available to equip shards on the weapon.
+-- {key_item}: Tells whether the item is a key item, preventing it from being consumed or sold.
 ------------------------------------------------------------------------------]]
 
 -- All weapon definitions are stored in this table
@@ -36,68 +37,350 @@ end
 -- IDs 10,001 - 10,500 are reserved for swords
 -- -----------------------------------------------------------------------------
 
+-- Wood/earth family
+-- -----------------
 weapons[10001] = {
-	name = hoa_system.Translate("Wooden Sword"),
-	description = hoa_system.Translate("A sword made of wood with a steel hilt, very good for practising."),
-	icon = "img/icons/weapons/woodensword.png",
-	physical_attack = 2,
-	metaphysical_attack = 0,
-	standard_price = 0,
-	usable_by = BRONANN + THANIS,
-	slots = 0
-}
+    name = vt_system.Translate("Wooden Sword"),
+    description = vt_system.Translate("A sword made of wood with a steel hilt, very good for practising."),
+    icon = "img/icons/weapons/woodensword.png",
+    physical_attack = 2,
+    magical_attack = 0,
+    standard_price = 0,
+    usable_by = BRONANN + THANIS,
+    slots = 0,
+    key_item = true,
 
-weapons[10011] = {
-	name = hoa_system.Translate("Karlate Sword"),
-	description = hoa_system.Translate("Standard Karlate issued equipment. A light weight iron sword suitable for most skirmishes."),
-	icon = "img/icons/weapons/karlate_sword.png",
-	physical_attack = 12,
-	metaphysical_attack = 0,
-	standard_price = 120,
-	usable_by = BRONANN + THANIS,
-	slots = 0
+    battle_animations = {
+        [BRONANN] = {
+            idle = "img/sprites/battle/characters/bronann/weapons/wood_bronze/bronann_idle.lua",
+            run = "img/sprites/battle/characters/bronann/weapons/wood_bronze/bronann_run.lua",
+            run_after_victory = "img/sprites/battle/characters/bronann/weapons/wood_bronze/bronann_run_after_victory.lua",
+            attack = "img/sprites/battle/characters/bronann/weapons/wood_bronze/bronann_attack.lua",
+            attack_forward_thrust = "img/sprites/battle/characters/bronann/weapons/wood_bronze/bronann_attack_forward_thrust.lua",
+            dodge = "img/sprites/battle/characters/bronann/weapons/wood_bronze/bronann_dodge.lua",
+            victory = "img/sprites/battle/characters/bronann/weapons/wood_bronze/bronann_victory.lua",
+            hurt = "img/sprites/battle/characters/bronann/weapons/wood_bronze/bronann_hurt.lua",
+            poor = "img/sprites/battle/characters/bronann/weapons/wood_bronze/bronann_kneeling.lua",
+            dying = "img/sprites/battle/characters/bronann/weapons/wood_bronze/bronann_kneeling.lua",
+            dead = "img/sprites/battle/characters/bronann/weapons/wood_bronze/bronann_dead.lua",
+            revive = "img/sprites/battle/characters/bronann/weapons/wood_bronze/bronann_kneeling.lua",
+            item = "img/sprites/battle/characters/bronann/weapons/wood_bronze/bronann_idle.lua",
+            magic_prepare = "img/sprites/battle/characters/bronann/weapons/wood_bronze/bronann_magic_prepare.lua",
+            magic_cast = "img/sprites/battle/characters/bronann/weapons/wood_bronze/bronann_magic_cast.lua",
+            jump_forward = "img/sprites/battle/characters/bronann/weapons/wood_bronze/bronann_jump_forward.lua",
+            jump_backward = "img/sprites/battle/characters/bronann/weapons/wood_bronze/bronann_hurt.lua"
+        }
+    }
 }
 
 weapons[10002] = {
-	name = hoa_system.Translate("Iron Sword"),
-	description = hoa_system.Translate("A sturdy but somewhat dull sword whose blade was forged from a single block of solid iron."),
-	icon = "img/icons/weapons/iron_sword.png",
-	physical_attack = 16,
-	metaphysical_attack = 0,
-	standard_price = 250,
-	usable_by = BRONANN + THANIS,
-	slots = 0
+    name = vt_system.Translate("Reinforced wooden Sword"),
+    description = vt_system.Translate("A sword made of wood with a steel hilt, reinforced magically."),
+    icon = "img/icons/weapons/woodensword.png",
+    physical_attack = 30,
+    magical_attack = 10,
+    standard_price = 1200,
+    usable_by = BRONANN + THANIS,
+    slots = 0,
+    key_item = true,
+
+    trade_conditions = {
+        [0] = 1200,  -- price
+        [10001] = 1, -- 1 wooden sword
+        [3001] = 3   -- 3 Copper ore
+    },
+
+    battle_animations = {
+        [BRONANN] = {
+            idle = "img/sprites/battle/characters/bronann/weapons/wood_bronze/bronann_idle.lua",
+            run = "img/sprites/battle/characters/bronann/weapons/wood_bronze/bronann_run.lua",
+            run_after_victory = "img/sprites/battle/characters/bronann/weapons/wood_bronze/bronann_run_after_victory.lua",
+            attack = "img/sprites/battle/characters/bronann/weapons/wood_bronze/bronann_attack.lua",
+            attack_forward_thrust = "img/sprites/battle/characters/bronann/weapons/wood_bronze/bronann_attack_forward_thrust.lua",
+            dodge = "img/sprites/battle/characters/bronann/weapons/wood_bronze/bronann_dodge.lua",
+            victory = "img/sprites/battle/characters/bronann/weapons/wood_bronze/bronann_victory.lua",
+            hurt = "img/sprites/battle/characters/bronann/weapons/wood_bronze/bronann_hurt.lua",
+            poor = "img/sprites/battle/characters/bronann/weapons/wood_bronze/bronann_kneeling.lua",
+            dying = "img/sprites/battle/characters/bronann/weapons/wood_bronze/bronann_kneeling.lua",
+            dead = "img/sprites/battle/characters/bronann/weapons/wood_bronze/bronann_dead.lua",
+            revive = "img/sprites/battle/characters/bronann/weapons/wood_bronze/bronann_kneeling.lua",
+            item = "img/sprites/battle/characters/bronann/weapons/wood_bronze/bronann_idle.lua",
+            magic_prepare = "img/sprites/battle/characters/bronann/weapons/wood_bronze/bronann_magic_prepare.lua",
+            magic_cast = "img/sprites/battle/characters/bronann/weapons/wood_bronze/bronann_magic_cast.lua",
+            jump_forward = "img/sprites/battle/characters/bronann/weapons/wood_bronze/bronann_jump_forward.lua",
+            jump_backward = "img/sprites/battle/characters/bronann/weapons/wood_bronze/bronann_hurt.lua"
+        }
+    }
 }
 
 weapons[10003] = {
-	name = hoa_system.Translate("Knight's Blade"),
-	description = hoa_system.Translate("A weapon bestowed to seasoned veterans of the knighthood in several kingdoms throughout the world."),
-	icon = "img/icons/weapons/knights_blade.png",
-	physical_attack = 34,
-	metaphysical_attack = 0,
-	standard_price = 800,
-	usable_by = BRONANN + THANIS,
-	slots = 1
+    name = vt_system.Translate("Perfect wooden Sword"),
+    description = vt_system.Translate("A sword made of wood with a steel hilt, surrounded by a great magical force."),
+    icon = "img/icons/weapons/woodensword.png",
+    physical_attack = 60,
+    magical_attack = 20,
+    standard_price = 4500,
+    usable_by = BRONANN + THANIS,
+    slots = 0,
+    key_item = true,
+
+    trade_conditions = {
+        [0] = 4500,  -- price
+        [10002] = 1, -- 1 Reinforced wooden sword
+        [3001] = 5   -- 5 Copper ore
+    },
+
+    battle_animations = {
+        [BRONANN] = {
+            idle = "img/sprites/battle/characters/bronann/weapons/wood_bronze/bronann_idle.lua",
+            run = "img/sprites/battle/characters/bronann/weapons/wood_bronze/bronann_run.lua",
+            run_after_victory = "img/sprites/battle/characters/bronann/weapons/wood_bronze/bronann_run_after_victory.lua",
+            attack = "img/sprites/battle/characters/bronann/weapons/wood_bronze/bronann_attack.lua",
+            attack_forward_thrust = "img/sprites/battle/characters/bronann/weapons/wood_bronze/bronann_attack_forward_thrust.lua",
+            dodge = "img/sprites/battle/characters/bronann/weapons/wood_bronze/bronann_dodge.lua",
+            victory = "img/sprites/battle/characters/bronann/weapons/wood_bronze/bronann_victory.lua",
+            hurt = "img/sprites/battle/characters/bronann/weapons/wood_bronze/bronann_hurt.lua",
+            poor = "img/sprites/battle/characters/bronann/weapons/wood_bronze/bronann_kneeling.lua",
+            dying = "img/sprites/battle/characters/bronann/weapons/wood_bronze/bronann_kneeling.lua",
+            dead = "img/sprites/battle/characters/bronann/weapons/wood_bronze/bronann_dead.lua",
+            revive = "img/sprites/battle/characters/bronann/weapons/wood_bronze/bronann_kneeling.lua",
+            item = "img/sprites/battle/characters/bronann/weapons/wood_bronze/bronann_idle.lua",
+            magic_prepare = "img/sprites/battle/characters/bronann/weapons/wood_bronze/bronann_magic_prepare.lua",
+            magic_cast = "img/sprites/battle/characters/bronann/weapons/wood_bronze/bronann_magic_cast.lua",
+            jump_forward = "img/sprites/battle/characters/bronann/weapons/wood_bronze/bronann_jump_forward.lua",
+            jump_backward = "img/sprites/battle/characters/bronann/weapons/wood_bronze/bronann_hurt.lua"
+        }
+    }
 }
 
-weapons[10004] = {
-	name = hoa_system.Translate("Paladin's Sword"),
-	description = hoa_system.Translate("A mythical weapon blessed with a magical fire."),
-	icon = "img/icons/weapons/paladin-sword.png",
-	physical_attack = 90,
-	metaphysical_attack = 30,
-	standard_price = 30800,
-	usable_by = BRONANN + THANIS,
-	slots = 3,
 
-	elemental_effects = {
-		[hoa_global.GameGlobal.GLOBAL_ELEMENTAL_FIRE] = hoa_global.GameGlobal.GLOBAL_INTENSITY_POS_LESSER
-	},
+-- Iron/fire family
+-- -----------------
+weapons[10011] = {
+    name = vt_system.Translate("Iron Sword"),
+    description = vt_system.Translate("A sturdy but somewhat dull sword whose blade was forged from a single block of solid iron."),
+    icon = "img/icons/weapons/iron_sword.png",
+    physical_attack = 36,
+    magical_attack = 0,
+    standard_price = 250,
+    usable_by = BRONANN + THANIS,
+    slots = 0,
 
-	status_effects = {
-		[hoa_global.GameGlobal.GLOBAL_STATUS_PROTECTION_RAISE] = hoa_global.GameGlobal.GLOBAL_INTENSITY_POS_LESSER,
-		[hoa_global.GameGlobal.GLOBAL_STATUS_VIGOR_RAISE] = hoa_global.GameGlobal.GLOBAL_INTENSITY_POS_LESSER
-	}
+    battle_animations = {
+        [BRONANN] = {
+            idle = "img/sprites/battle/characters/bronann/weapons/steel/bronann_idle.lua",
+            run = "img/sprites/battle/characters/bronann/weapons/steel/bronann_run.lua",
+            run_after_victory = "img/sprites/battle/characters/bronann/weapons/steel/bronann_run_after_victory.lua",
+            attack = "img/sprites/battle/characters/bronann/weapons/steel/bronann_attack.lua",
+            attack_forward_thrust = "img/sprites/battle/characters/bronann/weapons/steel/bronann_attack_forward_thrust.lua",
+            dodge = "img/sprites/battle/characters/bronann/weapons/steel/bronann_dodge.lua",
+            victory = "img/sprites/battle/characters/bronann/weapons/steel/bronann_victory.lua",
+            hurt = "img/sprites/battle/characters/bronann/weapons/steel/bronann_hurt.lua",
+            poor = "img/sprites/battle/characters/bronann/weapons/steel/bronann_kneeling.lua",
+            dying = "img/sprites/battle/characters/bronann/weapons/steel/bronann_kneeling.lua",
+            dead = "img/sprites/battle/characters/bronann/weapons/steel/bronann_dead.lua",
+            revive = "img/sprites/battle/characters/bronann/weapons/steel/bronann_kneeling.lua",
+            item = "img/sprites/battle/characters/bronann/weapons/steel/bronann_idle.lua",
+            magic_prepare = "img/sprites/battle/characters/bronann/weapons/steel/bronann_magic_prepare.lua",
+            magic_cast = "img/sprites/battle/characters/bronann/weapons/steel/bronann_magic_cast.lua",
+            jump_forward = "img/sprites/battle/characters/bronann/weapons/steel/bronann_jump_forward.lua",
+            jump_backward = "img/sprites/battle/characters/bronann/weapons/steel/bronann_hurt.lua"
+        }
+    }
+}
+
+weapons[10012] = {
+    name = vt_system.Translate("Soldier Sword"),
+    description = vt_system.Translate("Standard soldier sword. A light weight iron sword suitable for most skirmishes."),
+    icon = "img/icons/weapons/karlate_sword.png",
+    physical_attack = 50,
+    magical_attack = 0,
+    standard_price = 1250,
+    usable_by = BRONANN + THANIS,
+    slots = 0,
+
+    trade_conditions = {
+        [0] = 1250,  -- price
+        [10011] = 1, -- 1 Iron sword
+        [3001] = 3,  -- 3 Copper ore
+        [3002] = 1   -- 1 Iron ore
+    },
+
+    battle_animations = {
+        [BRONANN] = {
+            idle = "img/sprites/battle/characters/bronann/weapons/steel/bronann_idle.lua",
+            run = "img/sprites/battle/characters/bronann/weapons/steel/bronann_run.lua",
+            run_after_victory = "img/sprites/battle/characters/bronann/weapons/steel/bronann_run_after_victory.lua",
+            attack = "img/sprites/battle/characters/bronann/weapons/steel/bronann_attack.lua",
+            attack_forward_thrust = "img/sprites/battle/characters/bronann/weapons/steel/bronann_attack_forward_thrust.lua",
+            dodge = "img/sprites/battle/characters/bronann/weapons/steel/bronann_dodge.lua",
+            victory = "img/sprites/battle/characters/bronann/weapons/steel/bronann_victory.lua",
+            hurt = "img/sprites/battle/characters/bronann/weapons/steel/bronann_hurt.lua",
+            poor = "img/sprites/battle/characters/bronann/weapons/steel/bronann_kneeling.lua",
+            dying = "img/sprites/battle/characters/bronann/weapons/steel/bronann_kneeling.lua",
+            dead = "img/sprites/battle/characters/bronann/weapons/steel/bronann_dead.lua",
+            revive = "img/sprites/battle/characters/bronann/weapons/steel/bronann_kneeling.lua",
+            item = "img/sprites/battle/characters/bronann/weapons/steel/bronann_idle.lua",
+            magic_prepare = "img/sprites/battle/characters/bronann/weapons/steel/bronann_magic_prepare.lua",
+            magic_cast = "img/sprites/battle/characters/bronann/weapons/steel/bronann_magic_cast.lua",
+            jump_forward = "img/sprites/battle/characters/bronann/weapons/steel/bronann_jump_forward.lua",
+            jump_backward = "img/sprites/battle/characters/bronann/weapons/steel/bronann_hurt.lua"
+        }
+    }
+}
+
+weapons[10013] = {
+    name = vt_system.Translate("Knight's Blade"),
+    description = vt_system.Translate("A weapon bestowed to seasoned veterans of the knighthood."),
+    icon = "img/icons/weapons/knights_blade.png",
+    physical_attack = 70,
+    magical_attack = 0,
+    standard_price = 2180,
+    usable_by = BRONANN + THANIS,
+    slots = 1,
+
+    trade_conditions = {
+        [0] = 1150,   -- price
+        [10012] = 1, -- 1 Soldier sword
+        [3002] = 3,  -- 3 Iron ore
+        [3008] = 1   -- 1 Phoenix Feather
+    },
+
+    battle_animations = {
+        [BRONANN] = {
+            idle = "img/sprites/battle/characters/bronann/weapons/steel/bronann_idle.lua",
+            run = "img/sprites/battle/characters/bronann/weapons/steel/bronann_run.lua",
+            run_after_victory = "img/sprites/battle/characters/bronann/weapons/steel/bronann_run_after_victory.lua",
+            attack = "img/sprites/battle/characters/bronann/weapons/steel/bronann_attack.lua",
+            attack_forward_thrust = "img/sprites/battle/characters/bronann/weapons/steel/bronann_attack_forward_thrust.lua",
+            dodge = "img/sprites/battle/characters/bronann/weapons/steel/bronann_dodge.lua",
+            victory = "img/sprites/battle/characters/bronann/weapons/steel/bronann_victory.lua",
+            hurt = "img/sprites/battle/characters/bronann/weapons/steel/bronann_hurt.lua",
+            poor = "img/sprites/battle/characters/bronann/weapons/steel/bronann_kneeling.lua",
+            dying = "img/sprites/battle/characters/bronann/weapons/steel/bronann_kneeling.lua",
+            dead = "img/sprites/battle/characters/bronann/weapons/steel/bronann_dead.lua",
+            revive = "img/sprites/battle/characters/bronann/weapons/steel/bronann_kneeling.lua",
+            item = "img/sprites/battle/characters/bronann/weapons/steel/bronann_idle.lua",
+            magic_prepare = "img/sprites/battle/characters/bronann/weapons/steel/bronann_magic_prepare.lua",
+            magic_cast = "img/sprites/battle/characters/bronann/weapons/steel/bronann_magic_cast.lua",
+            jump_forward = "img/sprites/battle/characters/bronann/weapons/steel/bronann_jump_forward.lua",
+            jump_backward = "img/sprites/battle/characters/bronann/weapons/steel/bronann_hurt.lua"
+        }
+    }
+}
+
+weapons[10014] = {
+    name = vt_system.Translate("Paladin's Sword"),
+    description = vt_system.Translate("A mythical weapon blessed with a magical fire."),
+    icon = "img/icons/weapons/paladin-sword.png",
+    physical_attack = 90,
+    magical_attack = 30,
+    standard_price = 4340,
+    usable_by = BRONANN + THANIS,
+    slots = 3,
+
+    trade_conditions = {
+        [0] = 4340,  -- price
+        [10013] = 1, -- 1 Knight's blade
+        [3002] = 5,   -- 5 Iron Ore
+        [3008] = 3   -- 3 Phoenix Feather
+        -- TODO: Add 1 fire salamander
+    },
+
+    status_effects = {
+        [vt_global.GameGlobal.GLOBAL_STATUS_PROTECTION] = vt_global.GameGlobal.GLOBAL_INTENSITY_POS_LESSER,
+        [vt_global.GameGlobal.GLOBAL_STATUS_VIGOR] = vt_global.GameGlobal.GLOBAL_INTENSITY_POS_LESSER,
+        [vt_global.GameGlobal.GLOBAL_STATUS_LIFE] = vt_global.GameGlobal.GLOBAL_INTENSITY_POS_LESSER
+    },
+
+    battle_animations = {
+        [BRONANN] = {
+            idle = "img/sprites/battle/characters/bronann/weapons/steel/bronann_idle.lua",
+            run = "img/sprites/battle/characters/bronann/weapons/steel/bronann_run.lua",
+            run_after_victory = "img/sprites/battle/characters/bronann/weapons/steel/bronann_run_after_victory.lua",
+            attack = "img/sprites/battle/characters/bronann/weapons/steel/bronann_attack.lua",
+            attack_forward_thrust = "img/sprites/battle/characters/bronann/weapons/steel/bronann_attack_forward_thrust.lua",
+            dodge = "img/sprites/battle/characters/bronann/weapons/steel/bronann_dodge.lua",
+            victory = "img/sprites/battle/characters/bronann/weapons/steel/bronann_victory.lua",
+            hurt = "img/sprites/battle/characters/bronann/weapons/steel/bronann_hurt.lua",
+            poor = "img/sprites/battle/characters/bronann/weapons/steel/bronann_kneeling.lua",
+            dying = "img/sprites/battle/characters/bronann/weapons/steel/bronann_kneeling.lua",
+            dead = "img/sprites/battle/characters/bronann/weapons/steel/bronann_dead.lua",
+            revive = "img/sprites/battle/characters/bronann/weapons/steel/bronann_kneeling.lua",
+            item = "img/sprites/battle/characters/bronann/weapons/steel/bronann_idle.lua",
+            magic_prepare = "img/sprites/battle/characters/bronann/weapons/steel/bronann_magic_prepare.lua",
+            magic_cast = "img/sprites/battle/characters/bronann/weapons/steel/bronann_magic_cast.lua",
+            jump_forward = "img/sprites/battle/characters/bronann/weapons/steel/bronann_jump_forward.lua",
+            jump_backward = "img/sprites/battle/characters/bronann/weapons/steel/bronann_hurt.lua"
+        }
+    }
+}
+
+-- NOTE: Test weapon
+weapons[10999] = {
+    name = vt_system.Translate("Omni Sword"),
+    description = "The ultimate sword, used only for testing...",
+    icon = "img/icons/weapons/sword-flaming.png",
+    physical_attack = 9999,
+    magical_attack = 9999,
+    standard_price = 9999999,
+    usable_by = BRONANN + THANIS,
+    slots = 5,
+    key_item = true,
+
+    -- NOTE: Testing trade conditions,
+    trade_conditions = {
+        [0] = 20000,  -- price
+        [1003] = 5,   -- 5 Elixirs
+        [1] = 3,      -- 3 minor healing potions
+        [2] = 2,      -- 2 medium healing potions
+        [3] = 6,      -- 6 healing potions
+        [4] = 5,      -- 5 Mega healing potions
+        [11] = 8      -- 8 Small moon juice
+    },
+
+    status_effects = {
+        [vt_global.GameGlobal.GLOBAL_STATUS_STRENGTH] = vt_global.GameGlobal.GLOBAL_INTENSITY_POS_EXTREME,
+        [vt_global.GameGlobal.GLOBAL_STATUS_PROTECTION] = vt_global.GameGlobal.GLOBAL_INTENSITY_POS_EXTREME,
+        [vt_global.GameGlobal.GLOBAL_STATUS_VIGOR] = vt_global.GameGlobal.GLOBAL_INTENSITY_POS_EXTREME,
+        [vt_global.GameGlobal.GLOBAL_STATUS_FORTITUDE] = vt_global.GameGlobal.GLOBAL_INTENSITY_POS_EXTREME,
+        [vt_global.GameGlobal.GLOBAL_STATUS_AGILITY] = vt_global.GameGlobal.GLOBAL_INTENSITY_POS_EXTREME,
+        [vt_global.GameGlobal.GLOBAL_STATUS_EVADE] = vt_global.GameGlobal.GLOBAL_INTENSITY_POS_EXTREME,
+        [vt_global.GameGlobal.GLOBAL_STATUS_HP] = vt_global.GameGlobal.GLOBAL_INTENSITY_POS_EXTREME,
+        [vt_global.GameGlobal.GLOBAL_STATUS_SP] = vt_global.GameGlobal.GLOBAL_INTENSITY_POS_EXTREME,
+        [vt_global.GameGlobal.GLOBAL_STATUS_FIRE] = vt_global.GameGlobal.GLOBAL_INTENSITY_POS_EXTREME,
+        [vt_global.GameGlobal.GLOBAL_STATUS_WATER] = vt_global.GameGlobal.GLOBAL_INTENSITY_POS_EXTREME,
+        [vt_global.GameGlobal.GLOBAL_STATUS_VOLT] = vt_global.GameGlobal.GLOBAL_INTENSITY_POS_EXTREME,
+        [vt_global.GameGlobal.GLOBAL_STATUS_EARTH] = vt_global.GameGlobal.GLOBAL_INTENSITY_POS_EXTREME,
+        [vt_global.GameGlobal.GLOBAL_STATUS_LIFE] = vt_global.GameGlobal.GLOBAL_INTENSITY_POS_EXTREME,
+        [vt_global.GameGlobal.GLOBAL_STATUS_DEATH] = vt_global.GameGlobal.GLOBAL_INTENSITY_POS_EXTREME,
+        [vt_global.GameGlobal.GLOBAL_STATUS_NEUTRAL] = vt_global.GameGlobal.GLOBAL_INTENSITY_POS_EXTREME
+    },
+
+    -- A max of 5 skills can be earned through a piece of equipment.
+    equipment_skills = { 10100, 10119, 10101, 10163, 10164 },
+
+    battle_animations = {
+        [BRONANN] = {
+            idle = "img/sprites/battle/characters/bronann/weapons/steel/bronann_idle.lua",
+            run = "img/sprites/battle/characters/bronann/weapons/steel/bronann_run.lua",
+            run_after_victory = "img/sprites/battle/characters/bronann/weapons/steel/bronann_run_after_victory.lua",
+            attack = "img/sprites/battle/characters/bronann/weapons/steel/bronann_attack.lua",
+            attack_forward_thrust = "img/sprites/battle/characters/bronann/weapons/steel/bronann_attack_forward_thrust.lua",
+            dodge = "img/sprites/battle/characters/bronann/weapons/steel/bronann_dodge.lua",
+            victory = "img/sprites/battle/characters/bronann/weapons/steel/bronann_victory.lua",
+            hurt = "img/sprites/battle/characters/bronann/weapons/steel/bronann_hurt.lua",
+            poor = "img/sprites/battle/characters/bronann/weapons/steel/bronann_kneeling.lua",
+            dying = "img/sprites/battle/characters/bronann/weapons/steel/bronann_kneeling.lua",
+            dead = "img/sprites/battle/characters/bronann/weapons/steel/bronann_dead.lua",
+            revive = "img/sprites/battle/characters/bronann/weapons/steel/bronann_kneeling.lua",
+            item = "img/sprites/battle/characters/bronann/weapons/steel/bronann_idle.lua",
+            magic_prepare = "img/sprites/battle/characters/bronann/weapons/steel/bronann_magic_prepare.lua",
+            magic_cast = "img/sprites/battle/characters/bronann/weapons/steel/bronann_magic_cast.lua",
+            jump_forward = "img/sprites/battle/characters/bronann/weapons/steel/bronann_jump_forward.lua",
+            jump_backward = "img/sprites/battle/characters/bronann/weapons/steel/bronann_hurt.lua"
+        }
+    }
 }
 
 -- -----------------------------------------------------------------------------
@@ -105,14 +388,115 @@ weapons[10004] = {
 -- -----------------------------------------------------------------------------
 
 weapons[11001] = {
-	name = hoa_system.Translate("Arbalest"),
-	description = hoa_system.Translate("A standard wooden arbalest."),
-	icon = "img/icons/weapons/arbalest.png",
-	-- The image displayed when kalya fires with her arbalest.
-	battle_ammo_animation_file = "img/sprites/battle/ammo/wood_arrow.lua",
-	physical_attack = 3,
-	metaphysical_attack = 0,
-	standard_price = 50,
-	usable_by = KALYA,
-	slots = 0
+    name = vt_system.Translate("Arbalest"),
+    description = vt_system.Translate("A standard wooden arbalest."),
+    icon = "img/icons/weapons/arbalest.png",
+    -- The image displayed when kalya fires with her arbalest.
+    battle_ammo_animation_file = "img/sprites/battle/ammo/wood_arrow.lua",
+    physical_attack = 3,
+    magical_attack = 0,
+    standard_price = 50,
+    usable_by = KALYA,
+    slots = 0,
+    key_item = true,
+
+    battle_animations = {
+        [KALYA] = {
+            idle = "img/sprites/battle/characters/kalya/weapons/steel/kalya_idle.lua",
+            run = "img/sprites/battle/characters/kalya/weapons/steel/kalya_run.lua",
+            run_after_victory = "img/sprites/battle/characters/kalya/weapons/steel/kalya_run.lua",
+            attack = "img/sprites/battle/characters/kalya/weapons/steel/kalya_attack.lua",
+            dodge = "img/sprites/battle/characters/kalya/weapons/steel/kalya_dodge.lua",
+            victory = "img/sprites/battle/characters/kalya/weapons/steel/kalya_victory.lua",
+            hurt = "img/sprites/battle/characters/kalya/weapons/steel/kalya_hurt.lua",
+            poor = "img/sprites/battle/characters/kalya/weapons/steel/kalya_kneeling.lua",
+            dying = "img/sprites/battle/characters/kalya/weapons/steel/kalya_kneeling.lua",
+            dead = "img/sprites/battle/characters/kalya/weapons/steel/kalya_dead.lua",
+            revive = "img/sprites/battle/characters/kalya/weapons/steel/kalya_kneeling.lua",
+            item = "img/sprites/battle/characters/kalya/weapons/steel/kalya_idle.lua",
+            magic_prepare = "img/sprites/battle/characters/kalya/weapons/steel/kalya_magic_prepare.lua",
+            magic_cast = "img/sprites/battle/characters/kalya/weapons/steel/kalya_magic_cast.lua"
+        }
+    }
+}
+
+weapons[11002] = {
+    name = vt_system.Translate("Noble Arbalest"),
+    description = vt_system.Translate("An arbalest made out of fine noble ash tree wood."),
+    icon = "img/icons/weapons/arbalest.png",
+    -- The image displayed when kalya fires with her arbalest.
+    battle_ammo_animation_file = "img/sprites/battle/ammo/wood_arrow.lua",
+    physical_attack = 34,
+    magical_attack = 12,
+    standard_price = 1450,
+    usable_by = KALYA,
+    slots = 0,
+    key_item = true,
+
+    trade_conditions = {
+        [0] = 1450,  -- price
+        [11001] = 1, -- 1 Wooden Arbalest
+        [3001] = 2,  -- 2 Copper ore
+        [3002] = 1   -- 1 Iron ore
+    },
+
+    battle_animations = {
+        [KALYA] = {
+            idle = "img/sprites/battle/characters/kalya/weapons/steel/kalya_idle.lua",
+            run = "img/sprites/battle/characters/kalya/weapons/steel/kalya_run.lua",
+            run_after_victory = "img/sprites/battle/characters/kalya/weapons/steel/kalya_run.lua",
+            attack = "img/sprites/battle/characters/kalya/weapons/steel/kalya_attack.lua",
+            dodge = "img/sprites/battle/characters/kalya/weapons/steel/kalya_dodge.lua",
+            victory = "img/sprites/battle/characters/kalya/weapons/steel/kalya_victory.lua",
+            hurt = "img/sprites/battle/characters/kalya/weapons/steel/kalya_hurt.lua",
+            poor = "img/sprites/battle/characters/kalya/weapons/steel/kalya_kneeling.lua",
+            dying = "img/sprites/battle/characters/kalya/weapons/steel/kalya_kneeling.lua",
+            dead = "img/sprites/battle/characters/kalya/weapons/steel/kalya_dead.lua",
+            revive = "img/sprites/battle/characters/kalya/weapons/steel/kalya_kneeling.lua",
+            item = "img/sprites/battle/characters/kalya/weapons/steel/kalya_idle.lua",
+            magic_prepare = "img/sprites/battle/characters/kalya/weapons/steel/kalya_magic_prepare.lua",
+            magic_cast = "img/sprites/battle/characters/kalya/weapons/steel/kalya_magic_cast.lua"
+        }
+    }
+}
+
+weapons[11003] = {
+    name = vt_system.Translate("Arbalest of Force"),
+    description = vt_system.Translate("An arbalest strengthened with magical ore."),
+    icon = "img/icons/weapons/arbalest.png",
+    -- The image displayed when kalya fires with her arbalest.
+    battle_ammo_animation_file = "img/sprites/battle/ammo/wood_arrow.lua",
+    physical_attack = 25,
+    magical_attack = 24,
+    standard_price = 1650,
+    usable_by = KALYA,
+    slots = 0,
+    key_item = true,
+
+    trade_conditions = {
+        [0] = 1650,  -- price
+        [11001] = 1, -- 1 Wooden Arbalest
+        [3001] = 1,  -- 2 Copper ore
+        [3002] = 2,  -- 1 Iron ore
+        [1003] = 1,  -- 1 Elixir
+    },
+
+    battle_animations = {
+        [KALYA] = {
+            idle = "img/sprites/battle/characters/kalya/weapons/steel/kalya_idle.lua",
+            run = "img/sprites/battle/characters/kalya/weapons/steel/kalya_run.lua",
+            run_after_victory = "img/sprites/battle/characters/kalya/weapons/steel/kalya_run.lua",
+            attack = "img/sprites/battle/characters/kalya/weapons/steel/kalya_attack.lua",
+            dodge = "img/sprites/battle/characters/kalya/weapons/steel/kalya_dodge.lua",
+            victory = "img/sprites/battle/characters/kalya/weapons/steel/kalya_victory.lua",
+            hurt = "img/sprites/battle/characters/kalya/weapons/steel/kalya_hurt.lua",
+            poor = "img/sprites/battle/characters/kalya/weapons/steel/kalya_kneeling.lua",
+            dying = "img/sprites/battle/characters/kalya/weapons/steel/kalya_kneeling.lua",
+            dead = "img/sprites/battle/characters/kalya/weapons/steel/kalya_dead.lua",
+            revive = "img/sprites/battle/characters/kalya/weapons/steel/kalya_kneeling.lua",
+            item = "img/sprites/battle/characters/kalya/weapons/steel/kalya_idle.lua",
+            magic_prepare = "img/sprites/battle/characters/kalya/weapons/steel/kalya_magic_prepare.lua",
+            magic_cast = "img/sprites/battle/characters/kalya/weapons/steel/kalya_magic_cast.lua"
+        }
+    }
 }

@@ -1,5 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
-//            Copyright (C) 2004-2010 by The Allacrost Project
+//            Copyright (C) 2004-2011 by The Allacrost Project
+//            Copyright (C) 2012-2014 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -10,6 +11,7 @@
 /** ****************************************************************************
 *** \file    map_tiles.h
 *** \author  Tyler Olsen, roots@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Header file for map mode tile management.
 ***
 *** This code encapsulates everything related to tiles and tile management in
@@ -23,7 +25,12 @@
 
 #include "engine/script/script_read.h"
 
-namespace hoa_map
+namespace vt_video {
+class ImageDescriptor;
+class AnimatedImage;
+}
+
+namespace vt_map
 {
 
 class MapMode;
@@ -50,9 +57,6 @@ public:
     {}
 };
 
-// A map context - A map file can have several, but at least one.
-typedef std::vector<Layer> Context;
-
 /** ****************************************************************************
 *** \brief A helper class to MapMode responsible for all tile data and operations
 ***
@@ -65,7 +69,7 @@ typedef std::vector<Layer> Context;
 *** ***************************************************************************/
 class TileSupervisor
 {
-    friend class hoa_map::MapMode;
+    friend class vt_map::MapMode;
 
 public:
     TileSupervisor();
@@ -76,7 +80,7 @@ public:
     *** \param map_file A reference to the Lua file containing the map data
     *** \note The map file should already be opened with no Lua tables open
     **/
-    bool Load(hoa_script::ReadScriptDescriptor &map_file);
+    bool Load(vt_script::ReadScriptDescriptor &map_file);
 
     //! \brief Updates all animated tile images
     void Update();
@@ -106,28 +110,21 @@ private:
     **/
     uint16 _num_tile_on_y_axis;
 
-    /** \brief A map of 2D vectors that contains all of the map's tile objects.
-    *** Each key-value pair in the std::map represents a map context, thus the size of the std::map is equal to
-    *** the number of contexts in the game map (up to 32).
-    **/
-    std::map<MAP_CONTEXT, Context > _tile_grid;
-
-    //! \brief keeps a reference to the current context data for speed optimizations purpose
-    Context *_ctxt_layers;
-    MAP_CONTEXT _current_context;
+    //! \brief The map tile layers
+    std::vector<Layer> _tile_grid;
 
     //! \brief Contains the image objects for all map tiles, both still and animated.
-    std::vector<hoa_video::ImageDescriptor *> _tile_images;
+    std::vector<vt_video::ImageDescriptor *> _tile_images;
 
     /** \brief Contains all of the animated tile images used on the map.
     *** The purpose of this vector is to easily update all tile animations without stepping through the
     *** _tile_images vector, which contains both still and animated images.
     **/
-    std::vector<hoa_video::AnimatedImage *> _animated_tile_images;
+    std::vector<vt_video::AnimatedImage *> _animated_tile_images;
 }; // class TileSupervisor
 
 } // namespace private_map
 
-} // namespace hoa_map
+} // namespace vt_map
 
 #endif // __MAP_TILES_HEADER__

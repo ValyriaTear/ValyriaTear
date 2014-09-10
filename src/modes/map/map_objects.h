@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 //            Copyright (C) 2004-2011 by The Allacrost Project
-//            Copyright (C) 2012 by Bertram (Valyria Tear)
+//            Copyright (C) 2012-2014 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -20,11 +20,30 @@
 
 #include "modes/map/map_treasure.h"
 
-namespace hoa_map
+namespace vt_script {
+class ReadScriptDescriptor;
+}
+
+namespace vt_mode_manager {
+class ParticleEffect;
+}
+
+namespace vt_defs {
+void BindModeCode();
+}
+
+namespace vt_map
 {
+
+class MapMode;
 
 namespace private_map
 {
+
+class ContextZone;
+class MapSprite;
+class MapZone;
+class VirtualSprite;
 
 /** ****************************************************************************
 *** \brief Abstract class that represents objects on a map
@@ -71,16 +90,6 @@ public:
     *** are invalid.
     **/
     int16 object_id;
-
-    /** \brief The map context that the object currently resides in.
-    *** Context helps to determine where an object "resides". For example, inside of a house or
-    *** outside of a house. The context member determines if the object should be drawn or not,
-    *** since objects are only drawn if they are in the same context as the map's camera.
-    *** Objects can only interact with one another if they both reside in the same context.
-    ***
-    *** \note The default value for this member is the base context (context 01).
-    **/
-    MAP_CONTEXT context;
 
     /** \brief Coordinates for the object's origin/position.
     *** The origin of every map object is the bottom center point of the object. These
@@ -178,6 +187,17 @@ public:
         return _object_type;
     }
 
+    /** \brief Tells whether the object is currently colliding with another object or a wall
+    *** \param pos_x The x position to test against a collision
+    *** \param pos_y The y position to test against a collision
+    **/
+    bool IsColliding(float pos_x, float pos_y);
+
+    /** \brief Tells whether the object is currently colliding with another object or a wall
+    *** \param object The other object to test against a collision
+    **/
+    bool IsCollidingWith(MapObject* other_object);
+
     /** \brief Returns the collision rectangle for the current object
     **/
     MapRectangle GetCollisionRectangle() const;
@@ -209,10 +229,6 @@ public:
     //@{
     void SetObjectID(int16 id = 0) {
         object_id = id;
-    }
-
-    void SetContext(MAP_CONTEXT ctxt) {
-        context = ctxt;
     }
 
     void SetPosition(float x, float y) {
@@ -263,10 +279,6 @@ public:
 
     int16 GetObjectID() const {
         return object_id;
-    }
-
-    MAP_CONTEXT GetContext() const {
-        return context;
     }
 
     MapPosition GetPosition() const {
@@ -320,7 +332,7 @@ public:
     /** \brief Play the corresponding emote animation set in the emotes.lua file
     *** \see LoadEmotes() in the GameGlobal class.
     **/
-    void Emote(const std::string &emote_name, hoa_map::private_map::ANIM_DIRECTIONS dir = hoa_map::private_map::ANIM_SOUTH);
+    void Emote(const std::string &emote_name, vt_map::private_map::ANIM_DIRECTIONS dir = vt_map::private_map::ANIM_SOUTH);
 
     //! \brief Indicates whether the given map object is using an emote animation.
     bool HasEmote() const {
@@ -333,13 +345,13 @@ protected:
     MAP_OBJECT_TYPE _object_type;
 
     //! \brief the emote animation to play
-    hoa_video::AnimatedImage *_emote_animation;
+    vt_video::AnimatedImage* _emote_animation;
 
     //! \brief The emote animation drawing offset (depending on the map object direction)
     float _emote_offset_x;
     float _emote_offset_y;
 
-    //! \brief the time the emote animatio will last in milliseconds,
+    //! \brief the time the emote animation will last in milliseconds,
     int32 _emote_time;
 
     //! \brief Takes care of updating the emote animation and state.
@@ -378,17 +390,12 @@ public:
 
     ~PhysicalObject();
 
-    /** \brief The index to the animations vector that contains the current image to display
-    *** When modifying this member, take care not to exceed the bounds of the animations vector
-    **/
-    uint8 current_animation;
-
     /** \brief A vector containing all the object's animations.
     *** These need not be actual animations. If you just want a still image, add only a single
     *** frame to the animation. Usually only need a single still image or animation will be
     *** needed, but a vector is used here in case others are needed.
     **/
-    std::vector<hoa_video::AnimatedImage> animations;
+    std::vector<vt_video::AnimatedImage> animations;
 
     //! \brief Updates the object's current animation.
     virtual void Update();
@@ -412,20 +419,51 @@ public:
     **/
     int32 AddStillFrame(const std::string &image_filename);
 
-    void AddAnimation(hoa_video::AnimatedImage new_img) {
+    void AddAnimation(const vt_video::AnimatedImage& new_img) {
         animations.push_back(new_img);
     }
 
     void SetCurrentAnimation(uint32 animation_id);
 
     void SetAnimationProgress(uint32 progress) {
-        animations[current_animation].SetTimeProgress(progress);
+        animations[_current_animation_id].SetTimeProgress(progress);
     }
 
-    uint32 GetCurrentAnimation() const {
-        return current_animation;
+    uint32 GetCurrentAnimationId() const {
+        return _current_animation_id;
+    }
+
+    void RandomizeCurrentAnimationFrame() {
+        animations[_current_animation_id].RandomizeAnimationFrame();
+    }
+
+    /** \brief Adds an event triggered when talking to a physical object
+    *** \param event_id The event string id
+    **/
+    void SetEventWhenTalking(const std::string& event_id) {
+        _event_when_talking = event_id;
+    }
+
+    /** \brief Removes the event linked to a physical object
+    **/
+    void ClearEventWhenTalking() {
+        _event_when_talking.clear();
+    }
+
+    //! \brief Returns the event id triggered when talking to the physical object.
+    const std::string& GetEventIdWhenTalking() const {
+        return _event_when_talking;
     }
     //@}
+
+private:
+    /** \brief The index to the animations vector that contains the current image to display
+    *** When modifying this member, take care not to exceed the bounds of the animations vector
+    **/
+    uint32 _current_animation_id;
+
+    //! \brief The event id triggered when talking to the sprite.
+    std::string _event_when_talking;
 }; // class PhysicalObject : public MapObject
 
 /** ****************************************************************************
@@ -434,7 +472,7 @@ public:
 class ParticleObject : public MapObject
 {
 public:
-    ParticleObject(const std::string &filename, float x, float y, MAP_CONTEXT map_context);
+    ParticleObject(const std::string &filename, float x, float y);
 
     ~ParticleObject();
 
@@ -452,9 +490,13 @@ public:
     //! \brief Stop the particle effect
     bool Start();
 
+    //! \brief Tells whether there are particles still alive,
+    //! even if the whole particle effect is stopping.
+    bool IsAlive() const;
+
 private:
     //! \brief A reference to the current map save animation.
-    hoa_mode_manager::ParticleEffect *_particle_effect;
+    vt_mode_manager::ParticleEffect* _particle_effect;
 
     //@}
 }; // class ParticleObject : public MapObject
@@ -465,7 +507,7 @@ private:
 class SavePoint : public MapObject
 {
 public:
-    SavePoint(float x, float y, MAP_CONTEXT map_context);
+    SavePoint(float x, float y);
 
     ~SavePoint()
     {}
@@ -484,7 +526,7 @@ public:
 
 private:
     //! \brief A reference to the current map save animation.
-    std::vector<hoa_video::AnimatedImage>* _animations;
+    std::vector<vt_video::AnimatedImage>* _animations;
 
     //! \brief The corresponding particle object for active/inactive save points pointers
     // Note that those pointers are managed by the object supervisor
@@ -504,8 +546,7 @@ class Halo : public MapObject
 {
 public:
     //! \brief setup a halo on the map, using the given animation file.
-    Halo(const std::string &filename, float x, float y,
-         const hoa_video::Color &color, MAP_CONTEXT map_context);
+    Halo(const std::string &filename, float x, float y, const vt_video::Color &color);
 
     ~Halo()
     {}
@@ -521,10 +562,10 @@ public:
 
 private:
     //! \brief A reference to the current map save animation.
-    hoa_video::AnimatedImage _animation;
+    vt_video::AnimatedImage _animation;
 
     //! The blending color of the halo
-    hoa_video::Color _color;
+    vt_video::Color _color;
 
     //@}
 }; // class Halo : public MapObject
@@ -540,8 +581,7 @@ public:
     Light(const std::string &main_flare_filename,
           const std::string &secondary_flare_filename,
           float x, float y,
-          const hoa_video::Color &main_color, const hoa_video::Color &secondary_color,
-          MAP_CONTEXT map_context);
+          const vt_video::Color &main_color, const vt_video::Color &secondary_color);
 
     ~Light()
     {}
@@ -563,16 +603,16 @@ private:
     void _UpdateLightAngle();
 
     //! \brief A reference to the current light animation.
-    hoa_video::AnimatedImage _main_animation;
-    hoa_video::AnimatedImage _secondary_animation;
+    vt_video::AnimatedImage _main_animation;
+    vt_video::AnimatedImage _secondary_animation;
 
     //! The blending color of the light
-    hoa_video::Color _main_color;
-    hoa_video::Color _secondary_color;
+    vt_video::Color _main_color;
+    vt_video::Color _secondary_color;
 
     //! The blending color with dynamic alpha, for better rendering
-    hoa_video::Color _main_color_alpha;
-    hoa_video::Color _secondary_color_alpha;
+    vt_video::Color _main_color_alpha;
+    vt_video::Color _secondary_color_alpha;
 
     //! used to compute the flare lines equation.
     float _a, _b;
@@ -593,6 +633,74 @@ private:
     //@}
 }; // class Light : public MapObject
 
+/** ****************************************************************************
+*** \brief Represents a sound source object on the map
+*** ***************************************************************************/
+class SoundObject : public MapObject
+{
+public:
+    /** \brief An environmental sound object which sound is played looped and with a volume
+    *** computed against the distance of the object with the camera.
+    *** \param sound_filename The sound filename to play.
+    *** \param x, y The sound map location
+    *** \param strength The "strength" of the sound, the maximal distance
+    in map tiles the sound can be heard within.
+    *** The sound volume will be compute according that distance.
+    **/
+    SoundObject(const std::string& sound_filename, float x, float y, float strength);
+
+    ~SoundObject()
+    {}
+
+    //! \brief Updates the object's current volume.
+    void Update();
+
+    //! \brief Does nothing
+    void Draw()
+    {}
+
+    //! \brief Stop the ambient sound
+    void Stop();
+
+    //! \brief Start the ambient sound
+    void Start();
+
+    //! \brief Tells whether the ambient sound is active
+    bool IsActive() const {
+        return _activated;
+    }
+
+    //! \brief Sets the max sound volume of the ambient sound.
+    //! From  0.0f to 1.0f
+    void SetMaxVolume(float max_volume);
+
+    //! \brief Gets the sound descriptor of the object.
+    //! Used to apply changes directly to the sound object.
+    vt_audio::SoundDescriptor& GetSoundDescriptor() {
+        return _sound;
+    }
+
+private:
+    //! \brief The sound object.
+    vt_audio::SoundDescriptor _sound;
+
+    //! \brief The maximal distance in map tiles the sound can be heard within.
+    float _strength;
+
+    //! \brief The maximal strength of the sound object. (0.0f - 1.0f)
+    float _max_sound_volume;
+
+    //! \brief The time remaining before next update
+    int32 _time_remaining;
+
+    //! \brief Tells whether the sound is activated.
+    bool _activated;
+
+    //! \brief Tells whether the sound is currently playing or not
+    //! This boolean is here to avoid calling fadeIn()/FadeOut()
+    //! repeatedly on sounds.
+    bool _playing;
+}; // class SoundObject : public MapObject
 
 /** ****************************************************************************
 *** \brief Represents an obtainable treasure on the map which the player may access
@@ -682,6 +790,13 @@ private:
     //! \brief Events triggered at the start of the treasure event.
     std::vector<std::string> _events;
 
+    //! \brief Tells whether the events have been started. So we can keep track of
+    //! whether they've finished before opening the treasure supervisor.
+    bool _events_triggered;
+
+    //! \brief Tells whether the treasure is being opened.
+    bool _is_opening;
+
     //! \brief Loads the state of the chest from the global event corresponding to the current map
     void _LoadState();
 }; // class TreasureObject : public PhysicalObject
@@ -727,12 +842,30 @@ public:
     void ToggleState()
     { SetState(!_trigger_state); }
 
+    //! \brief Set whether the trigger can be toggled by the character.
+    void SetTriggerableByCharacter(bool triggerable)
+    { _triggerable_by_character = triggerable; }
+
+    //! \brief Set the new event name trigger when the trigger is pushed.
+    //! if the event is empty, the trigger event is disabled.
+    void SetOnEvent(const std::string& on_event)
+    { _on_event = on_event; }
+
+    //! \brief Set the new event name trigger when the trigger is set to not pushed.
+    //! if the event is empty, the trigger event is disabled.
+    void SetOffEvent(const std::string& off_event)
+    { _off_event = off_event; }
+
 private:
     //! \brief The treasure object name
     std::string _trigger_name;
 
     //! The trigger state (false == off)
     bool _trigger_state;
+
+    //! \brief Tells whether the character can toggle the state by stepping on it.
+    //! If not, only events can do that. (true by default)
+    bool _triggerable_by_character;
 
     //! \brief Event triggered when the trigger is set to on.
     std::string _on_event;
@@ -759,10 +892,8 @@ private:
 *** ***************************************************************************/
 class ObjectSupervisor
 {
-    friend class hoa_map::MapMode;
-    // TEMP: for allowing context zones to access all objects
-    friend class hoa_map::private_map::ContextZone;
-    friend void hoa_defs::BindModeCode();
+    friend class vt_map::MapMode;
+    friend void vt_defs::BindModeCode();
 
 public:
     ObjectSupervisor();
@@ -770,6 +901,7 @@ public:
     ~ObjectSupervisor();
 
     //! \brief Returns a unique ID integer for an object to use
+    //! Every object Id must be > 0 since 0 is reserved for speakerless dialogues.
     uint16 GenerateObjectID() {
         return ++_last_id;
     }
@@ -778,15 +910,6 @@ public:
     uint32 GetNumberObjects() const {
         return _all_objects.size();
     }
-
-    /** \brief Retrieves an object by its position in the _all_objects container
-    *** \param index The index of the object to retrieve
-    *** \return A pointer to the object at this index, or NULL if no object exists at the given index
-    ***
-    *** \note It is uncommon to require the use of this function in a map. It exists for Lua to be able to access
-    *** all available map objects even when the IDs of those objects are unknown.
-    **/
-    MapObject *GetObjectByIndex(uint32 index);
 
     /** \brief Retrieves a pointer to an object on this map
     *** \param object_id The id number of the object to retreive
@@ -800,6 +923,16 @@ public:
     **/
     VirtualSprite *GetSprite(uint32 object_id);
 
+    //! \brief Add/Remove an object in/from a given layer on map.
+    void AddFlatGroundObject(MapObject* object);
+    void RemoveFlatGroundObject(MapObject* object);
+    void AddGroundObject(MapObject* object);
+    void RemoveGroundObject(MapObject* object);
+    void AddPassObject(MapObject* object);
+    void RemovePassObject(MapObject* object);
+    void AddSkyObject(MapObject* object);
+    void RemoveSkyObject(MapObject* object);
+
     //! \brief Sorts objects on all three layers according to their draw order
     void SortObjects();
 
@@ -811,7 +944,7 @@ public:
     *** be at the highest level scope (i.e., there are no actively open tables
     *** in the script descriptor object).
     **/
-    bool Load(hoa_script::ReadScriptDescriptor &map_file);
+    bool Load(vt_script::ReadScriptDescriptor &map_file);
 
     //! \brief Updates the state of all map zones and objects
     void Update();
@@ -874,7 +1007,7 @@ public:
     COLLISION_TYPE GetCollisionFromObjectType(MapObject *obj) const;
 
     /** \brief Tells the collision type of a sprite when it is at the given position
-    *** \param sprite A pointer to the map sprite to check
+    *** \param object A pointer to the map object to check
     *** \param x The collision point on the x axis
     *** \param y The collision point on the y axis
     *** \param coll_obj A pointer to the MapObject that the sprite has collided with, if any
@@ -884,13 +1017,16 @@ public:
     *** This method is invoked by a map sprite who wishes to check for its own collision.
     *** \See COLLISION_TYPE for more information.
     **/
-    COLLISION_TYPE DetectCollision(VirtualSprite *sprite, float x, float y,
+    COLLISION_TYPE DetectCollision(MapObject* object, float x, float y,
                                    MapObject **collision_object_ptr = NULL);
 
     /** \brief Finds a path from a sprite's current position to a destination
     *** \param sprite A pointer of the sprite to find the path for
     *** \param dest The destination coordinates
     *** \param path A vector of PathNode objects storing the path
+    *** \param max_cost Tells how far a path node can be computed agains the starting path node.
+    *** This is used to avoid heavy computations.
+    *** If this param is equal to 0, there is no limitation.
     ***
     *** This algorithm uses the A* algorithm to find a path from a source to a destination.
     *** This function ignores the position of all other objects and only concerns itself with
@@ -898,7 +1034,7 @@ public:
     ***
     *** \note If an error is detected or a path could not be found, the function will empty the path vector before returning
     **/
-    Path FindPath(private_map::VirtualSprite *sprite, const MapPosition &destination);
+    Path FindPath(private_map::VirtualSprite *sprite, const MapPosition &destination, uint32 max_cost = 0);
 
     /** \brief Returns the pointer to the virtual focus.
     **/
@@ -936,6 +1072,41 @@ public:
     //! \brief Draw the collision rectangles. Used for debugging purpose.
     void DrawCollisionArea(const MapFrame *frame);
 
+    //! \brief some retrieval functions. These are all const to indicate that
+    //! external callers cannot modify the contents of the map_object;
+
+    //! \brief get the number of rows and columns in the collision grid
+    void GetGridAxis(uint32 &x, uint32 &y) const
+    {
+        x = _num_grid_x_axis;
+        y = _num_grid_y_axis;
+    }
+
+    //! \brief checks to see if the location is a wall for the party or not. The naming is to indicate
+    //! that we only check for non-moving objects. IE, characters / NPCs / enemies are not checked
+    //! note that treasure boxes, save spots, etc are also skipped
+    //! \param x x location on collision grid
+    //! \param y y location on collision grid
+    //! \return whether the location would be a "wall" for the party or not
+    bool IsStaticCollision(float x, float y);
+
+    //! \brief checks if the location on the grid has a simple map collision. This is different from
+    //! IsStaticCollision, in that it DOES NOT check static objects, but only the collision value for the map
+    bool IsMapCollision(uint32 x, uint32 y)
+    { return (_collision_grid[y][x] > 0); }
+
+    //! \brief returns a const reference to the ground objects in
+    const std::vector<MapObject *>& GetGroundObjects() const
+    { return _ground_objects; }
+
+    //! \brief Stops sounds objects such as ambient sounds.
+    //! Used when starting a battle for instance.
+    void StopSoundObjects();
+
+    //! \brief Restarts sounds objects that were previously stopped.
+    //! Used when leaving a battle for instance.
+    void RestartSoundObjects();
+
 private:
     //! \brief Returns the nearest save point. Used by FindNearestObject.
     private_map::MapObject *_FindNearestSavePoint(const VirtualSprite *sprite);
@@ -943,10 +1114,23 @@ private:
     //! \brief Updates save points animation and active state.
     void _UpdateSavePoints();
 
+    //! \brief Updates the ambient sounds volume according to the camera distance.
+    void _UpdateAmbientSounds();
+
     //! \brief Debug: Draws the map zones in orange
     void _DrawMapZones();
 
-    /** \brief The number of rows and columns in the collision gride
+    //! \brief Wrapper to add an object in the all objects vector.
+    //! This should only be called by corresponding public Add*Object() functions.
+    void _AddObject(MapObject* object);
+
+    //! \brief Wrapper to remove an object from the all objects vector.
+    //! This should only be called by corresponding public Remove*Object() functions.
+    //! \note: The object isn't actually deleted from memory, only set to NULL in the vector,
+    //! so that the key values don't change.
+    void _RemoveObject(MapObject* object);
+
+    /** \brief The number of rows and columns in the collision grid
     *** The number of collision grid rows and columns is always equal to twice
     *** that of the number of rows and columns of tiles (stored in the TileManager).
     **/
@@ -980,9 +1164,9 @@ private:
 
     /** \brief A map containing pointers to all of the sprites on a map.
     *** This map does not include a pointer to the _virtual_focus object. The
-    *** sprite's unique identifier integer is used as the map key.
+    *** sprite's unique identifier integer is used as the vector key.
     **/
-    std::map<uint16, MapObject *> _all_objects;
+    std::vector<MapObject *> _all_objects;
 
     /** \brief A container for all of the map objects located on the ground layer, and being flat.
     *** See this layer as a pre ground object layer
@@ -1013,6 +1197,14 @@ private:
     **/
     std::vector<MapObject *> _sky_objects;
 
+    //! \brief Ambient sound objects, that plays a sound with a volume according
+    //! to the distance with the camera.
+    //! \note sound objects are not registered in _all_objects.
+    std::vector<SoundObject *> _sound_objects;
+
+    //! \brief The sound objects that can be restarted when the map is reset()
+    std::vector<SoundObject *> _sound_objects_to_restart;
+
     //! \brief Containers for all of the map source of light, quite similar as the ground objects container.
     //! \note Halos and lights are not registered in _all_objects.
     std::vector<Halo *> _halos;
@@ -1020,18 +1212,10 @@ private:
 
     //! \brief Container for all zones used in this map
     std::vector<MapZone *> _zones;
-
-    /** \brief Container for all resident zones used in this map
-    ***
-    *** Resident zones (and classes derived from resident zones) are stored in an additional container because
-    *** they need to continually check whether sprites have entered them. This is done in the Update() function
-    *** of this class.
-    **/
-    std::vector<ResidentZone *> _resident_zones;
 }; // class ObjectSupervisor
 
 } // namespace private_map
 
-} // namespace hoa_map
+} // namespace vt_map
 
 #endif // __MAP_OBJECTS_HEADER__

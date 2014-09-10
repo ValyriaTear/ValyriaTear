@@ -1,5 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
-//            Copyright (C) 2004-2010 by The Allacrost Project
+//            Copyright (C) 2004-2011 by The Allacrost Project
+//            Copyright (C) 2012-2014 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -10,25 +11,23 @@
 /** ****************************************************************************
 *** \file    script.cpp
 *** \author  Daniel Steuernol - steu@allacrost.org,
-***          Tyler Olsen - roots@allacrost.org
+*** \author  Tyler Olsen - roots@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 ***
 *** \brief   Source file for the scripting engine.
 *** ***************************************************************************/
 
-#include <iostream>
-#include <stdarg.h>
-
+#include "utils/utils_pch.h"
 #include "script.h"
+
 #include "script_read.h"
 
 using namespace luabind;
 
-using namespace hoa_utils;
-using namespace hoa_script::private_script;
+using namespace vt_utils;
+using namespace vt_script::private_script;
 
-template<> hoa_script::ScriptEngine *Singleton<hoa_script::ScriptEngine>::_singleton_reference = NULL;
-
-namespace hoa_script
+namespace vt_script
 {
 
 ScriptEngine *ScriptManager = NULL;
@@ -43,7 +42,7 @@ ScriptEngine::ScriptEngine()
     IF_PRINT_DEBUG(SCRIPT_DEBUG) << "ScriptEngine constructor invoked." << std::endl;
 
     // Initialize Lua and LuaBind
-    _global_state = lua_open();
+    _global_state = luaL_newstate();
     luaL_openlibs(_global_state);
     luabind::open(_global_state);
 }
@@ -102,7 +101,7 @@ void ScriptEngine::_AddOpenFile(ScriptDescriptor *sd)
     // NOTE: This function assumes that the file is not already open
     _open_files.insert(std::make_pair(sd->_filename, sd));
     // Add the lua_State to the list of opened lua states if it is not already present
-    if(sd->GetAccessMode() == SCRIPT_READ || sd->GetAccessMode() == SCRIPT_MODIFY) {
+    if(sd->GetAccessMode() == SCRIPT_READ) {
         ReadScriptDescriptor *rsd = dynamic_cast<ReadScriptDescriptor *>(sd);
         if(_open_threads.find(rsd->GetFilename()) == _open_threads.end())
             _open_threads[rsd->GetFilename()] = rsd->_lstack;
@@ -115,14 +114,15 @@ void ScriptEngine::_RemoveOpenFile(ScriptDescriptor *sd)
 {
     // NOTE: Function assumes that the ScriptDescriptor file is already open
     _open_files.erase(sd->_filename);
+
+    // Remove the thread reference from memory, permitting lua to later drop it.
+    _open_threads.erase(sd->_filename);
 }
 
 
 
 lua_State *ScriptEngine::_CheckForPreviousLuaState(const std::string &filename)
 {
-    return NULL; // TEMP, see todo notes in script.h
-
     if(_open_threads.find(filename) != _open_threads.end())
         return _open_threads[filename];
     else
@@ -130,4 +130,4 @@ lua_State *ScriptEngine::_CheckForPreviousLuaState(const std::string &filename)
 }
 
 
-} // namespace hoa_script
+} // namespace vt_script

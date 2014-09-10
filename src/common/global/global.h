@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 //            Copyright (C) 2004-2011 by The Allacrost Project
-//            Copyright (C) 2012 by Bertram (Valyria Tear)
+//            Copyright (C) 2012-2014 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -19,11 +19,13 @@
 *** contains the current characters in the party, the party's inventory, etc.
 *** The definition of characters, items, and other related global data are
 *** implemented in the other global header files (e.g. global_actors.h). All
-*** of these global files share the same hoa_global namespace.
+*** of these global files share the same vt_global namespace.
 *** ***************************************************************************/
 
 #ifndef __GLOBAL_HEADER__
 #define __GLOBAL_HEADER__
+
+#include "utils/utils_strings.h"
 
 #include "engine/script/script_read.h"
 #include "engine/script/script_write.h"
@@ -37,13 +39,15 @@
 #include "modes/map/map_utils.h"
 
 //! \brief All calls to global code are wrapped inside this namespace.
-namespace hoa_global
+namespace vt_global
 {
+
+class GameGlobal;
 
 //! \brief The singleton pointer responsible for the management of global game data.
 extern GameGlobal *GlobalManager;
 
-//! \brief Determines whether the code in the hoa_global namespace should print debug statements or not.
+//! \brief Determines whether the code in the vt_global namespace should print debug statements or not.
 extern bool GLOBAL_DEBUG;
 
 /** ****************************************************************************
@@ -98,14 +102,14 @@ public:
 
     /** \brief Retrieves the value of a specific event in the group
     *** \param event_name The name of the event to retrieve
-    *** \return The value of the event, or GLOBAL_BAD_EVENT if there is no event corresponding to
+    *** \return The value of the event, or 0 if there is no event corresponding to
     *** the requested event named
     **/
     int32 GetEvent(const std::string &event_name);
 
     /** \brief Sets the value for an existing event
     *** \param event_name The name of the event whose value should be changed
-    *** \param event_value The value to set for the event
+    *** \param event_value The value to set for the event.
     *** \note If the event by the given name is not found, the event group will be created.
     **/
     void SetEvent(const std::string &event_name, int32 event_value);
@@ -137,6 +141,153 @@ private:
     std::map<std::string, int32> _events;
 }; // class GlobalEventGroup
 
+/** ****************************************************************************
+*** \brief An Entry for the quest log
+***
+*** Similar to Event Groups, QuestLogEntry is a string to multiple-string
+*** relationship. Due to lookup speed being a concern, each quest log entry
+*** is its own object, with the namespace of the Quest being the key
+***
+*** A Quest Entry is defined more formally as a Quest name and a "tuple" of
+*** the mother dependency event, the completion event, the displaying log entry
+*** name and finally the description string
+***
+*** There should be no need for this to be created outside of the global
+*** manager, as the setting and toggling of quests will be done from the game
+*** manager and through scrip entries
+*** ***************************************************************************/
+
+struct QuestLogEntry
+{
+public:
+    //! ctor to create the QuestLogEntry. the key, event states and description
+    //! cannot be changed
+    //! \param quest_id for quest entry in config/quest.lua quest table
+    //! \param the quest log counter, indicating the order in which the quest was added
+    //! \param set whether or not the log entry is read or not. Defaults to false.
+    //! this flag is manipulated by the game internals as opposed to the scripting side
+    QuestLogEntry(const std::string &quest_id,
+                  uint32 quest_number,
+                  bool is_read = false):
+        _quest_id(quest_id),
+        _quest_log_number(quest_number),
+        _is_read(is_read)
+    {}
+
+    void SetRead()
+    { _is_read = true; }
+
+    bool IsRead() const
+    { return _is_read; }
+
+    const std::string& GetQuestId() const
+    { return _quest_id; }
+
+    uint32 GetQuestLogNumber() const
+    { return _quest_log_number; }
+
+private:
+    //! the string id for the title and description of this quest
+    const std::string _quest_id;
+
+    //! the quest log number for this quest
+    const uint32 _quest_log_number;
+
+    //! flag to indicate whether or not this entry has been read
+    bool _is_read;
+};
+
+// A simple structure used to store quest log system info.
+class QuestLogInfo {
+
+public:
+    QuestLogInfo(const vt_utils::ustring& title,
+                 const vt_utils::ustring& description,
+                 const vt_utils::ustring& completion_description,
+                 const std::string& completion_event_group,
+                 const std::string& completion_event_name,
+                 const vt_utils::ustring& location_name,
+                 const std::string& location_banner_filename,
+                 const vt_utils::ustring& location_subname,
+                 const std::string& location_subimage_filename);
+
+    QuestLogInfo()
+    {}
+
+    void SetNotCompletableIf(const std::string& not_completable_event_group,
+                             const std::string& not_completable_event_name) {
+        _not_completable_event_group = not_completable_event_group;
+        _not_completable_event_name = not_completable_event_name;
+    }
+
+    // User info about the quest log
+    vt_utils::ustring _title;
+    vt_utils::ustring _description;
+    // Completion description gets added to the quest description when the quest is considered completed
+    vt_utils::ustring _completion_description;
+
+    // Internal quest info used to know whether the quest is complete.
+    std::string _completion_event_group;
+    std::string _completion_event_name;
+    // Internal quest info used to know whether the quest is not comppletable anymore.
+    std::string _not_completable_event_group;
+    std::string _not_completable_event_name;
+
+    // location information
+    vt_video::StillImage _location_image;
+    vt_video::StillImage _location_subimage;
+    vt_utils::ustring _location_name;
+    vt_utils::ustring _location_subname;
+};
+
+/** *****************************************************************************
+*** \brief Struct for world map locations
+*** the parameters are all immutable and loaded at creation time
+*** there should be no reason for these to be created outside the global manager
+*** the key is the unique location id set in the script as a string
+*** there is no need for accesor functions because this is just a storage struct
+*** *****************************************************************************/
+struct WorldMapLocation
+{
+public:
+    WorldMapLocation():
+        _x(0.0f),
+        _y(0.0f)
+    {}
+
+    WorldMapLocation(float x, float y, const std::string& location_name,
+                     const std::string& image_path, const std::string& world_map_location_id);
+
+    WorldMapLocation(const WorldMapLocation &other):
+        _x(other._x),
+        _y(other._y),
+        _location_name(other._location_name),
+        _world_map_location_id(other._world_map_location_id),
+        _image(other._image)
+    {}
+
+    WorldMapLocation &operator=(const WorldMapLocation &other)
+    {
+        if(this == &other)
+            return *this;
+        _x = other._x;
+        _y = other._y;
+        _location_name = other._location_name;
+        _world_map_location_id = other._world_map_location_id;
+        _image = other._image;
+        return *this;
+    }
+
+    ~WorldMapLocation() {
+        _image.Clear();
+    }
+
+    float _x;
+    float _y;
+    std::string _location_name;
+    std::string _world_map_location_id;
+    vt_video::StillImage _image;
+};
 
 /** ****************************************************************************
 *** \brief Retains all the state information about the active game
@@ -151,15 +302,14 @@ private:
 *** manager class. There can only be one game instance that the player is playing
 *** at any given time.
 *** ***************************************************************************/
-class GameGlobal : public hoa_utils::Singleton<GameGlobal>
+class GameGlobal : public vt_utils::Singleton<GameGlobal>
 {
-    friend class hoa_utils::Singleton<GameGlobal>;
+    friend class vt_utils::Singleton<GameGlobal>;
 
 public:
     ~GameGlobal();
 
-    bool SingletonInitialize()
-    { return _LoadGlobalScripts(); }
+    bool SingletonInitialize();
 
     //! Reloads the persistent scripts. Used when changing the language for instance.
     bool ReloadGlobalScripts()
@@ -227,6 +377,9 @@ public:
         if(_characters.find(id) != _characters.end()) return true;
         else return false;
     }
+
+    //! \brief Tells whether an enemy id is existing in the enemy data.
+    bool DoesEnemyExist(uint32 enemy_id);
     //@}
 
     //! \name Inventory Methods
@@ -261,17 +414,11 @@ public:
     **/
     void RemoveFromInventory(uint32 obj_id);
 
-    /** \brief Retries a single copy of an object from the inventory
-    *** \param obj_id The identifier value of the item to remove
-    *** \param all_counts If set to true, all counts of the object will be removed from the inventory (default value == false)
+    /** \brief Gets a copy of an object from the inventory
+    *** \param obj_id The identifier value of the item to obtain
     *** \return A newly instantiated copy of the object, or NULL if the object was not found in the inventory
-    ***
-    *** If all_counts is false, the returned object will have a count of one and the count of the object inside the inventory
-    *** will be decremented by one. If all_counts is ture, the returned object will have the same count as was previously in
-    *** the inventory, and the object will be removed from the inventory alltogether. Note that the pointer returned will need
-    *** to be deleted by the user code, unless the object is re-added to the inventory or equipped on a character.
     **/
-    GlobalObject *RetrieveFromInventory(uint32 obj_id, bool all_counts = false);
+    GlobalObject* GetGlobalObject(uint32 obj_id);
 
     /** \brief Increments the number (count) of an object in the inventory
     *** \param item_id The integer identifier of the item that will have its count incremented
@@ -341,7 +488,7 @@ public:
     /** \brief Returns a pointer to an event group of the specified name
     *** \param group_name The name of the event group to retreive
     *** \return A pointer to the GlobalEventGroup that represents the event group, or NULL if no event group
-    *** of the specifed name was found
+    *** of the specified name was found
     ***
     *** You can use this method to invoke the public methods of the GlobalEventGroup class. For example, if
     *** we wanted to add a new event "cave_collapse" with a value of 1 to the group event "cave_map", we
@@ -354,7 +501,7 @@ public:
     /** \brief Returns the value of an event inside of a specified group
     *** \param group_name The name of the event group where the event is contained
     *** \param event_name The name of the event whose value should be retrieved
-    *** \return The value of the requested event, or GLOBAL_BAD_EVENT if the event was not found
+    *** \return The value of the requested event, or 0 if the event was not found
     **/
     int32 GetEventValue(const std::string &group_name, const std::string &event_name) const;
 
@@ -378,6 +525,76 @@ public:
     uint32 GetNumberEvents(const std::string &group_name) const;
     //@}
 
+    //! \name Quest Log Entry methods
+    //@{
+    //! \brief Tells whether a quest id is completed, based on the internal quest info
+    //! and the current game event values.
+    //! \param quest_id the string id into quests table for this quest
+    bool IsQuestCompleted(const std::string& quest_id)
+    {
+        std::map<std::string, vt_global::QuestLogInfo>::iterator it = _quest_log_info.find(quest_id);
+        if (it == _quest_log_info.end())
+            return false;
+        const QuestLogInfo& info = it->second;
+        if (info._completion_event_group.empty() || info._completion_event_name.empty())
+            return true;
+
+        return (GetEventValue(info._completion_event_group, info._completion_event_name) == 1);
+    }
+
+    //! \brief Tells whether a quest id is completed, based on the internal quest info
+    //! and the current game event values.
+    //! \param quest_id the string id into quests table for this quest
+    bool IsQuestCompletable(const std::string& quest_id)
+    {
+        std::map<std::string, vt_global::QuestLogInfo>::iterator it = _quest_log_info.find(quest_id);
+        if (it == _quest_log_info.end())
+            return true;
+        const QuestLogInfo& info = it->second;
+        if (info._not_completable_event_group.empty() || info._not_completable_event_name.empty())
+            return true;
+
+        return (GetEventValue(info._not_completable_event_group, info._not_completable_event_name) == 0);
+    }
+
+    /** \brief adds a new quest log entry into the quest log entries table
+    *** \param quest_id the string id into quests table for this quest
+    *** \return true if the entry was added. false if the entry already exists
+    **/
+    bool AddQuestLog(const std::string &quest_id)
+    {
+        return _AddQuestLog(quest_id, _quest_log_count++);
+    }
+
+    /** \brief gets the number of quest log entries
+    *** \return number of log entries
+    **/
+    uint32 GetNumberQuestLogEntries() const
+    {
+        return _quest_log_entries.size();
+    }
+
+    /** \brief get a list of all the currently active quest log entries
+    *** \return a vector of valid quest log entries
+    **/
+    std::vector<QuestLogEntry *> GetActiveQuestIds() const
+    {
+        std::vector<QuestLogEntry *> keys;
+        for(std::map<std::string, QuestLogEntry *>::const_iterator itr = _quest_log_entries.begin();
+                itr != _quest_log_entries.end(); ++itr) {
+            if (itr->second)
+                keys.push_back(itr->second);
+        }
+        return keys;
+    }
+
+    /** \brief gets a pointer to the description for the quest string id,
+    *** \param quest_id the quest id
+    *** \return a reference to the given quest log info or an empty quest log info.
+    **/
+    const QuestLogInfo& GetQuestInfo(const std::string &quest_id) const;
+    //@}
+
     //! \note The overflow condition is not checked here: we just assume it will never occur
     void AddDrunes(uint32 amount) {
         _drunes += amount;
@@ -397,18 +614,116 @@ public:
     }
 
     /** \brief Sets the name and graphic for the current location
-    *** \param map_filename The string that contains the name of the current map.
+    *** \param map_data_filename The string that contains the name of the current map data file.
+    *** \param map_script_filename The string that contains the name of the current map script file.
     *** \param map_image_filename The filename of the image that presents this map
     *** \param map_hud_name The UTF16 map name shown at map intro time.
     **/
-    void SetMap(const std::string &map_filename, const std::string &map_image_filename,
-                const hoa_utils::ustring &map_hud_name);
+    void SetMap(const std::string &map_data_filename,
+                const std::string &map_script_filename,
+                const std::string &map_image_filename,
+                const vt_utils::ustring &map_hud_name);
 
-    /** \brief Sets the active Map filename (for game saves)
-    *** \param location_name The string that contains the name of the current map
+    /** \brief Sets the active Map data filename (for game saves)
+    *** \param location_name The string that contains the name of the current map data
     **/
-    void SetMapFilename(const std::string &map_filename) {
-        _map_filename = map_filename;
+    void SetMapDataFilename(const std::string &map_data_filename) {
+        _map_data_filename = map_data_filename;
+    }
+
+    /** \brief Sets the active Map script filename (for game saves)
+    *** \param location_name The string that contains the name of the current map script file
+    **/
+    void SetMapScriptFilename(const std::string &map_script_filename) {
+        _map_script_filename = map_script_filename;
+    }
+
+    /** \brief sets the current viewable world map
+    *** empty strings are valid, and will cause the return
+    *** of a null pointer on GetWorldMap call.
+    *** \note this will also clear the currently viewable locations and the current location id
+    **/
+    void SetWorldMap(const std::string &world_map_filename)
+    {
+        if (_world_map_image)
+            delete _world_map_image;
+
+        _viewable_world_locations.clear();
+        _current_world_location_id.clear();
+        _world_map_image = new vt_video::StillImage();
+        _world_map_image->Load(world_map_filename);
+    }
+
+    /** \brief Sets the current location id
+    *** \param the location id of the world location that is defaulted to as "here"
+    *** when the world map menu is opened
+    **/
+    void SetCurrentLocationId(const std::string &location_id)
+    {
+        _current_world_location_id = location_id;
+    }
+
+    /** \brief adds a viewable location string id to the currently viewable
+    *** set. This string IDs are maintained in the dat/ folder
+    *** \param the string id to the currently viewable location
+    **/
+    void ShowWorldLocation(const std::string &location_id)
+    {
+        //defensive check. do not allow blank ids.
+        //if you want to remove an id, call HideWorldLocation
+        if(location_id.empty())
+            return;
+        // check to make sure this location isn't already visible
+        if(std::find(_viewable_world_locations.begin(),
+                     _viewable_world_locations.end(),
+                     location_id) == _viewable_world_locations.end())
+        {
+            _viewable_world_locations.push_back(location_id);
+        }
+
+    }
+
+    /** \brief removes a location from the currently viewable list
+    *** if the id doesn't exist, we don't do anything
+    *** \param the string id to the viewable location we want to hide
+    **/
+    void HideWorldLocation( const std::string &location_id)
+    {
+        std::vector<std::string>::iterator rem_iterator = std::find(_viewable_world_locations.begin(),
+                                                          _viewable_world_locations.end(),
+                                                          location_id);
+        if(rem_iterator != _viewable_world_locations.end())
+            _viewable_world_locations.erase((rem_iterator));
+    }
+
+    /** \brief gets a reference to the current viewable location ids
+    *** \return reference to the current viewable location ids
+    **/
+    const std::vector<std::string> &GetViewableLocationIds() const
+    {
+        return _viewable_world_locations;
+    }
+
+    /** \brief get a pointer to the associated world location for the id
+    *** \param string Reference if for the world map location
+    *** \return NULL if the location does not exist. otherwise, return a const pointer
+    *** to the location
+    **/
+    WorldMapLocation *GetWorldLocation(const std::string &id)
+    {
+        std::map<std::string, WorldMapLocation>::iterator itr = _world_map_locations.find(id);
+        return itr == _world_map_locations.end() ? NULL : &(itr->second);
+    }
+
+    /** \brief Gets a reference to the current world location id
+    *** \return Reference to the current id. this value always exists, but could be "" if
+    *** the location is not set, or if the world map is cleared
+    *** the value could also not currently exist, if HideWorldLocation was called on an
+    *** id that was also set as the current location. the calling code should check for this
+    **/
+    const std::string &GetCurrentLocationId() const
+    {
+        return _current_world_location_id;
     }
 
     /** Set up the previous map point the character is coming from.
@@ -429,6 +744,15 @@ public:
     **/
     bool ShouldDisplayHudNameOnMapIntro() const {
         return !_same_map_hud_name_as_previous;
+    }
+
+    //! Tells whether the map mode minimap should be shown, if any.
+    bool ShouldShowMinimap() const {
+        return _show_minimap;
+    }
+
+    void ShowMinimap(bool show) {
+        _show_minimap = show;
     }
 
     //! \brief Executes function NewGame() from global script
@@ -472,8 +796,12 @@ public:
         return _drunes;
     }
 
-    const std::string &GetMapFilename() {
-        return _map_filename;
+    const std::string &GetMapDataFilename() {
+        return _map_data_filename;
+    }
+
+    const std::string &GetMapScriptFilename() {
+        return _map_script_filename;
     }
 
     uint32 GetSaveLocationX() {
@@ -492,12 +820,42 @@ public:
         _y_save_map_position = 0;
     }
 
-    hoa_video::StillImage &GetMapImage() {
+    vt_video::StillImage &GetMapImage() {
         return _map_image;
+    }
+
+    const vt_utils::ustring& GetMapHudName() const {
+        return _map_hud_name;
+    }
+
+    //! \brief gets the current world map image
+    //! \return a pointer to the currently viewable World Map Image.
+    //! \note returns NULL if the filename has been set to ""
+    vt_video::StillImage *GetWorldMapImage() const
+    {
+        return _world_map_image;
+    }
+
+    const std::string &GetWorldMapFilename() const
+    {
+        if (_world_map_image)
+            return _world_map_image->GetFilename();
+        else
+            return vt_utils::_empty_string;
     }
 
     std::vector<GlobalCharacter *>* GetOrderedCharacters() {
         return &_ordered_characters;
+    }
+
+    // Returns the character party position
+    uint32 GetPartyPosition(GlobalCharacter* character) {
+        for (uint32 i = 0; i < _ordered_characters.size(); ++i) {
+            if (_ordered_characters[i] == character)
+                return i;
+        }
+        // Default case
+        return 0;
     }
 
     GlobalParty *GetActiveParty() {
@@ -532,59 +890,67 @@ public:
         return &_inventory_leg_armor;
     }
 
-    std::vector<GlobalShard *>* GetInventoryShards() {
-        return &_inventory_shards;
+    std::vector<GlobalSpirit *>* GetInventorySpirits() {
+        return &_inventory_spirits;
     }
 
-    std::vector<GlobalKeyItem *>* GetInventoryKeyItems() {
-        return &_inventory_key_items;
-    }
-
-    hoa_script::ReadScriptDescriptor &GetItemsScript() {
+    vt_script::ReadScriptDescriptor &GetItemsScript() {
         return _items_script;
     }
 
-    hoa_script::ReadScriptDescriptor &GetKeyItemsScript() {
-        return _key_items_script;
-    }
-
-    hoa_script::ReadScriptDescriptor &GetWeaponsScript() {
+    vt_script::ReadScriptDescriptor &GetWeaponsScript() {
         return _weapons_script;
     }
 
-    hoa_script::ReadScriptDescriptor &GetHeadArmorScript() {
+    vt_script::ReadScriptDescriptor &GetHeadArmorScript() {
         return _head_armor_script;
     }
 
-    hoa_script::ReadScriptDescriptor &GetTorsoArmorScript() {
+    vt_script::ReadScriptDescriptor &GetTorsoArmorScript() {
         return _torso_armor_script;
     }
 
-    hoa_script::ReadScriptDescriptor &GetArmArmorScript() {
+    vt_script::ReadScriptDescriptor &GetArmArmorScript() {
         return _arm_armor_script;
     }
 
-    hoa_script::ReadScriptDescriptor &GetLegArmorScript() {
+    vt_script::ReadScriptDescriptor &GetLegArmorScript() {
         return _leg_armor_script;
     }
 
-    hoa_script::ReadScriptDescriptor &GetAttackSkillsScript() {
-        return _attack_skills_script;
+    vt_script::ReadScriptDescriptor &GetSpiritsScript() {
+        return _spirits_script;
     }
 
-    hoa_script::ReadScriptDescriptor &GetDefendSkillsScript() {
-        return _defend_skills_script;
+    vt_script::ReadScriptDescriptor &GetWeaponSkillsScript() {
+        return _weapon_skills_script;
     }
 
-    hoa_script::ReadScriptDescriptor &GetSupportSkillsScript() {
-        return _support_skills_script;
+    vt_script::ReadScriptDescriptor &GetMagicSkillsScript() {
+        return _magic_skills_script;
     }
 
-    hoa_script::ReadScriptDescriptor &GetStatusEffectsScript() {
+    vt_script::ReadScriptDescriptor &GetSpecialSkillsScript() {
+        return _special_skills_script;
+    }
+
+    vt_script::ReadScriptDescriptor &GetBareHandsSkillsScript() {
+        return _bare_hands_skills_script;
+    }
+
+    vt_script::ReadScriptDescriptor &GetStatusEffectsScript() {
         return _status_effects_script;
     }
 
-    hoa_script::ReadScriptDescriptor &GetMapSpriteScript() {
+    vt_script::ReadScriptDescriptor &GetCharactersScript() {
+        return _characters_script;
+    }
+
+    vt_script::ReadScriptDescriptor &GetEnemiesScript() {
+        return _enemies_script;
+    }
+
+    vt_script::ReadScriptDescriptor &GetMapSpriteScript() {
         return _map_sprites_script;
     }
     //@}
@@ -593,7 +959,7 @@ public:
     void LoadEmotes(const std::string &emotes_filename);
 
     //! \brief Set up the offsets for the given emote animation and sprite direction.
-    void GetEmoteOffset(float &x, float &y, const std::string &emote_id, hoa_map::private_map::ANIM_DIRECTIONS dir);
+    void GetEmoteOffset(float &x, float &y, const std::string &emote_id, vt_map::private_map::ANIM_DIRECTIONS dir);
 
     //! \brief Tells whether an emote id exists and is valid
     bool DoesEmoteExist(const std::string &emote_id) {
@@ -601,9 +967,16 @@ public:
     }
 
     //! \brief Get a pointer reference to the given emote animation. Don't delete it!
-    hoa_video::AnimatedImage *GetEmoteAnimation(const std::string &emote_id) {
+    vt_video::AnimatedImage *GetEmoteAnimation(const std::string &emote_id) {
         if(_emotes.find(emote_id) != _emotes.end()) return &_emotes.at(emote_id);
         else return 0;
+    }
+
+    //! \brief Gives access to global media files.
+    //! Note: The reference is passed non const to be able to give modifiable references
+    //! and pointers.
+    GlobalMedia& Media() {
+        return _global_media;
     }
 
 private:
@@ -620,14 +993,27 @@ private:
     **/
     uint32 _max_experience_level;
 
-    //! \brief The map filename the current party is on.
-    std::string _map_filename;
+    //! \brief The map data and script filename the current party is on.
+    std::string _map_data_filename;
+    std::string _map_script_filename;
 
     //! \brief last save point map tile location.
     uint32 _x_save_map_position, _y_save_map_position;
 
     //! \brief The graphical image which represents the current location
-    hoa_video::StillImage _map_image;
+    vt_video::StillImage _map_image;
+
+    //! \brief The current graphical world map. If the filename is empty,
+    //! then we are "hiding" the map
+    vt_video::StillImage* _world_map_image;
+
+    //! \brief The current viewable location ids on the current world map image
+    //! \note this list is cleared when we call SetWorldMap. It is up to the
+    //! script writter to maintain the properties of the map by either
+    //!  1) call CopyViewableLocationList()
+    //!  2) maintain in some other fashion the list
+
+    std::vector<std::string> _viewable_world_locations;
 
     //! \brief The map location the character is com from. Used to make the new map know where to make the character appear.
     std::string _previous_location;
@@ -635,8 +1021,8 @@ private:
     /** \brief Stores the previous and current map names appearing on screen at intro time.
     *** This is used to know whether we have to display it, as we won't when it's the same location name than the previous map.
     **/
-    hoa_utils::ustring _previous_map_hud_name;
-    hoa_utils::ustring _map_hud_name;
+    vt_utils::ustring _previous_map_hud_name;
+    vt_utils::ustring _map_hud_name;
     bool _same_map_hud_name_as_previous;
 
     /** \brief A map containing all characters that the player has discovered
@@ -675,62 +1061,64 @@ private:
     std::vector<GlobalArmor *>    _inventory_torso_armor;
     std::vector<GlobalArmor *>    _inventory_arm_armor;
     std::vector<GlobalArmor *>    _inventory_leg_armor;
-    std::vector<GlobalShard *>    _inventory_shards;
-    std::vector<GlobalKeyItem *>  _inventory_key_items;
+    std::vector<GlobalSpirit *>   _inventory_spirits;
     //@}
 
     //! \name Global data and function script files
     //@{
     //! \brief Contains character ID definitions and a number of useful functions
-    hoa_script::ReadScriptDescriptor _global_script;
+    vt_script::ReadScriptDescriptor _global_script;
 
     //! \brief Contains data definitions for all items
-    hoa_script::ReadScriptDescriptor _items_script;
-
-    //! \brief Contains data definitions for all key items
-    hoa_script::ReadScriptDescriptor _key_items_script;
+    vt_script::ReadScriptDescriptor _items_script;
 
     //! \brief Contains data definitions for all weapons
-    hoa_script::ReadScriptDescriptor _weapons_script;
+    vt_script::ReadScriptDescriptor _weapons_script;
 
     //! \brief Contains data definitions for all armor that are equipped on the head
-    hoa_script::ReadScriptDescriptor _head_armor_script;
+    vt_script::ReadScriptDescriptor _head_armor_script;
 
     //! \brief Contains data definitions for all armor that are equipped on the torso
-    hoa_script::ReadScriptDescriptor _torso_armor_script;
+    vt_script::ReadScriptDescriptor _torso_armor_script;
 
     //! \brief Contains data definitions for all armor that are equipped on the arms
-    hoa_script::ReadScriptDescriptor _arm_armor_script;
+    vt_script::ReadScriptDescriptor _arm_armor_script;
 
     //! \brief Contains data definitions for all armor that are equipped on the legs
-    hoa_script::ReadScriptDescriptor _leg_armor_script;
+    vt_script::ReadScriptDescriptor _leg_armor_script;
 
-    //! \brief Contains data definitions for all shards
-    // hoa_script::ReadScriptDescriptor _shard_script;
+    //! \brief Contains data definitions for all spirits
+    vt_script::ReadScriptDescriptor _spirits_script;
 
-    //! \brief Contains data definitions for all key items
-    // hoa_script::ReadScriptDescriptor _key_items_script;
+    //! \brief Contains data and functional definitions for all weapon skills
+    vt_script::ReadScriptDescriptor _weapon_skills_script;
 
-    //! \brief Contains data and functional definitions for all attack skills
-    hoa_script::ReadScriptDescriptor _attack_skills_script;
+    //! \brief Contains data and functional definitions for all magic skills
+    vt_script::ReadScriptDescriptor _magic_skills_script;
 
-    //! \brief Contains data and functional definitions for all defense skills
-    hoa_script::ReadScriptDescriptor _defend_skills_script;
+    //! \brief Contains data and functional definitions for all special skills
+    vt_script::ReadScriptDescriptor _special_skills_script;
 
-    //! \brief Contains data and functional definitions for all support skills
-    hoa_script::ReadScriptDescriptor _support_skills_script;
+    //! \brief Contains data and functional definitions for all bare hands skills
+    vt_script::ReadScriptDescriptor _bare_hands_skills_script;
 
     //! \brief Contains functional definitions for all status effects
-    hoa_script::ReadScriptDescriptor _status_effects_script;
+    vt_script::ReadScriptDescriptor _status_effects_script;
+
+    //! \brief Contains data and functional definitions for characters
+    vt_script::ReadScriptDescriptor _characters_script;
+
+    //! \brief Contains data and functional definitions for enemies
+    vt_script::ReadScriptDescriptor _enemies_script;
 
     //! \brief Contains data and functional definitions for sprites seen in game maps
-    hoa_script::ReadScriptDescriptor _map_sprites_script;
+    vt_script::ReadScriptDescriptor _map_sprites_script;
 
     //! \brief Contains data and functional definitions for map objects seen in game maps
-    hoa_script::ReadScriptDescriptor _map_objects_script;
+    vt_script::ReadScriptDescriptor _map_objects_script;
 
     //! \brief Contains data and functional definitions for map treasures seen in game maps
-    hoa_script::ReadScriptDescriptor _map_treasures_script;
+    vt_script::ReadScriptDescriptor _map_treasures_script;
     //@}
 
     /** \brief The container which stores all of the groups of events that have occured in the game
@@ -738,10 +1126,40 @@ private:
     **/
     std::map<std::string, GlobalEventGroup *> _event_groups;
 
+    /** \brief The container which stores the quest log entries in the game. the quest log key
+    *** acts as the key for this quest
+    *** \note due to a limitation with OptionBoxes, we can only currently only support 255
+    *** entries. Please be careful about this limitation
+    **/
+    std::map<std::string, QuestLogEntry *> _quest_log_entries;
+
+    /** \brief the container which stores all the available world locations in the game.
+    *** the world_location_id acts as the key
+    **/
+    std::map<std::string, WorldMapLocation> _world_map_locations;
+
+    //! \brief the current world map location id that indicates where the player is
+    std::string _current_world_location_id;
+
+    /** \brief counter that is updated as quest log entries are added. we use this to
+    *** order the quest logs from recent (high number) to older (low number)
+    **/
+    uint32 _quest_log_count;
+
     //! \brief A map containing all the emote animations
-    std::map<std::string, hoa_video::AnimatedImage> _emotes;
+    std::map<std::string, vt_video::AnimatedImage> _emotes;
     //! \brief The map continaing the four sprite direction offsets (x and y value).
     std::map<std::string, std::vector<std::pair<float, float> > > _emotes_offsets;
+
+    //! \brief a map of the quest string ids to their info
+    std::map<std::string, QuestLogInfo> _quest_log_info;
+
+    //! \brief Stores whether the map mode minimap should be shown.
+    bool _show_minimap;
+
+    // ----- Global media files
+    //! \brief member storing all the common media files.
+    GlobalMedia _global_media;
 
     // ----- Private methods
 
@@ -753,12 +1171,11 @@ private:
     template <class T> bool _RemoveFromInventory(uint32 obj_id, std::vector<T *>& inv);
 
     /** \brief A helper template function that finds and returns a copy of an object from the inventory
-    *** \param obj_id The ID of the object to remove from the inventory
+    *** \param obj_id The ID of the object to obtain from the inventory
     *** \param inv The vector container of the appropriate inventory type
-    *** \param all_counts If false the object's count is decremented by one from the inventory, otherwise all counts are removed completely
     *** \return A pointer to the newly created copy of the object, or NULL if the object could not be found
     **/
-    template <class T> T *_RetrieveFromInventory(uint32 obj_id, std::vector<T *>& inv, bool all_counts);
+    template <class T> T *_GetFromInventory(uint32 obj_id, std::vector<T *>& inv);
 
     /** \brief A helper function to GameGlobal::SaveGame() that stores the contents of a type of inventory to the saved game file
     *** \param file A reference to the open and valid file where to write the inventory list
@@ -766,7 +1183,7 @@ private:
     *** \param inv A reference to the inventory vector to store
     *** \note The class type T must be a derived class of GlobalObject
     **/
-    template <class T> void _SaveInventory(hoa_script::WriteScriptDescriptor &file, const std::string &name, std::vector<T *>& inv);
+    template <class T> void _SaveInventory(vt_script::WriteScriptDescriptor &file, const std::string &name, std::vector<T *>& inv);
 
     /** \brief A helper function to GameGlobal::SaveGame() that writes character data to the saved game file
     *** \param file A reference to the open and valid file where to write the character data
@@ -774,39 +1191,90 @@ private:
     *** \param last Set to true if this is the final character that needs to be saved
     *** This method will need to be called once for each character in the player's party
     **/
-    void _SaveCharacter(hoa_script::WriteScriptDescriptor &file, GlobalCharacter *character, bool last);
+    void _SaveCharacter(vt_script::WriteScriptDescriptor &file, GlobalCharacter *character, bool last);
 
     /** \brief A helper function to GameGlobal::SaveGame() that writes a group of event data to the saved game file
     *** \param file A reference to the open and valid file where to write the event data
     *** \param event_group A pointer to the group of events to store
     *** This method will need to be called once for each GlobalEventGroup contained by this class.
     **/
-    void _SaveEvents(hoa_script::WriteScriptDescriptor &file, GlobalEventGroup *event_group);
+    void _SaveEvents(vt_script::WriteScriptDescriptor &file, GlobalEventGroup *event_group);
+
+    /** \brief adds a new quest log entry into the quest log entries table. also updates the quest log number
+    *** \param quest_id for the quest
+    *** \param the quest entry's log number
+    *** \param flag to indicate if this entry is read or not. default is false
+    *** \return true if the entry was added. false if the entry already exists
+    **/
+    bool _AddQuestLog(const std::string &quest_id,
+                      uint32 quest_log_number,
+                      bool is_read = false)
+    {
+        if(_quest_log_entries.find(quest_id) != _quest_log_entries.end())
+            return false;
+        _quest_log_entries[quest_id] = new QuestLogEntry(quest_id,
+                                                         quest_log_number,
+                                                         is_read);
+        return true;
+    }
+
+    /** \brief Helper function that saves the Quest Log entries. this is called from SaveGame()
+    *** \param file Reference to open and valid file set for writting the data
+    *** \param the quest log entry we wish to write
+    **/
+    void _SaveQuests(vt_script::WriteScriptDescriptor &file, const QuestLogEntry *quest_log_entry);
+
+    /** \brief saves the world map information. this is called from SaveGame()
+    *** \param file Reference to open and valid file for writting the data
+    **/
+    void _SaveWorldMap(vt_script::WriteScriptDescriptor &file);
 
     /** \brief A helper function to GameGlobal::LoadGame() that restores the contents of the inventory from a saved game file
     *** \param file A reference to the open and valid file from where to read the inventory list
     *** \param category_name The name of the table in the file that should contain the inventory for a specific category
     **/
-    void _LoadInventory(hoa_script::ReadScriptDescriptor &file, const std::string &category_name);
+    void _LoadInventory(vt_script::ReadScriptDescriptor &file, const std::string &category_name);
 
     /** \brief A helper function to GameGlobal::LoadGame() that loads a saved game character and adds it to the party
     *** \param file A reference to the open and valid file from where to read the character from
     *** \param id The character's integer ID, used to find and restore the character data
     **/
-    void _LoadCharacter(hoa_script::ReadScriptDescriptor &file, uint32 id);
+    void _LoadCharacter(vt_script::ReadScriptDescriptor &file, uint32 id);
 
     /** \brief A helper function to GameGlobal::LoadGame() that loads a group of game events from a saved game file
     *** \param file A reference to the open and valid file from where to read the event data from
     *** \param group_name The name of the event group to load
     **/
-    void _LoadEvents(hoa_script::ReadScriptDescriptor &file, const std::string &group_name);
+    void _LoadEvents(vt_script::ReadScriptDescriptor &file, const std::string &group_name);
+
+    /** \brief Helper function called by LoadGame() that loads each quest into the quest entry table based on the quest_entry_keys
+    *** in the save game file
+    *** \param file Reference to open and valid file set for reading the data
+    *** \param reference to the quest entry key
+    **/
+    void _LoadQuests(vt_script::ReadScriptDescriptor &file, const std::string &quest_key);
+
+    /** \brief Load world map and viewable information from the save game
+    *** \param file Reference to an open file for reading save game data
+    **/
+    void _LoadWorldMap(vt_script::ReadScriptDescriptor &file);
+
+    /** \brief Helper function called by LoadGlobalScripts() that (re)loads each world location from the script into the world location entry map
+    *** \param file Path to the file to world locations script
+    *** \return true if successfully loaded
+    **/
+    bool _LoadWorldLocationsScript(const std::string &world_locations_filename);
+
+    //! (Re)Loads the quest entries into the GlobalManager
+    //! \Note this is done in _LoadGlobalScripts().
+    bool _LoadQuestsScript(const std::string& quests_script_filename);
 
     //! Loads every persistent scripts, used at the global initialization time.
     bool _LoadGlobalScripts();
 
     //! Unloads every persistent scripts by closing their files.
     void _CloseGlobalScripts();
-}; // class GameGlobal : public hoa_utils::Singleton<GameGlobal>
+}; // class GameGlobal : public vt_utils::Singleton<GameGlobal>
 
 //-----------------------------------------------------------------------------
 // Template Function Definitions
@@ -827,32 +1295,21 @@ template <class T> bool GameGlobal::_RemoveFromInventory(uint32 obj_id, std::vec
     return false;
 } // template <class T> bool GameGlobal::_RemoveFromInventory(uint32 obj_id, std::vector<T*>& inv)
 
-
-
-template <class T> T *GameGlobal::_RetrieveFromInventory(uint32 obj_id, std::vector<T *>& inv, bool all_counts)
+template <class T> T *GameGlobal::_GetFromInventory(uint32 obj_id, std::vector<T *>& inv)
 {
-    for(typename std::vector<T *>::iterator i = inv.begin(); i != inv.end(); i++) {
-        if((*i)->GetID() == obj_id) {
-            T *return_object;
-            if(all_counts == true || _inventory[obj_id]->GetCount() == 1) {
-                return_object = *i;
-                _inventory.erase(obj_id);
-                inv.erase(i);
-            } else {
-                return_object = new T(**i);
-                return_object->SetCount(1);
-                _inventory[obj_id]->DecrementCount();
-            }
-            return return_object;
-        }
+    for(typename std::vector<T*>::iterator it = inv.begin(); it != inv.end(); ++it) {
+        if((*it)->GetID() != obj_id)
+            continue;
+
+        T *return_object = new T(**it);
+        return_object->SetCount(1);
+        return return_object;
     }
 
     return NULL;
-} // template <class T> T* GameGlobal::_RetrieveFromInventory(uint32 obj_id, std::vector<T*>& inv, bool all_counts)
+}
 
-
-
-template <class T> void GameGlobal::_SaveInventory(hoa_script::WriteScriptDescriptor &file, const std::string &name, std::vector<T *>& inv)
+template <class T> void GameGlobal::_SaveInventory(vt_script::WriteScriptDescriptor &file, const std::string &name, std::vector<T *>& inv)
 {
     if(file.IsFileOpen() == false) {
         IF_PRINT_WARNING(GLOBAL_DEBUG) << "failed because the argument file was not open" << std::endl;
@@ -862,17 +1319,28 @@ template <class T> void GameGlobal::_SaveInventory(hoa_script::WriteScriptDescri
     file.InsertNewLine();
     file.WriteLine(name + " = {");
     for(uint32 i = 0; i < inv.size(); i++) {
+        // Don't save inventory items with 0 count
+        if(inv[i]->GetCount() == 0)
+            continue;
+
         if(i == 0)
             file.WriteLine("\t", false);
         else
             file.WriteLine(", ", false);
-        file.WriteLine("[" + hoa_utils::NumberToString(inv[i]->GetID()) + "] = "
-                       + hoa_utils::NumberToString(inv[i]->GetCount()), false);
+
+        // Add a new line every 10 entries for better readability and debugging
+        if ((i > 0) && !(i % 10)) {
+            file.InsertNewLine();
+            file.WriteLine("\t", false);
+        }
+
+        file.WriteLine("[" + vt_utils::NumberToString(inv[i]->GetID()) + "] = "
+                       + vt_utils::NumberToString(inv[i]->GetCount()), false);
     }
     file.InsertNewLine();
-    file.WriteLine("}");
-} // template <class T> void GameGlobal::_SaveInventory(hoa_script::WriteScriptDescriptor& file, std::string name, std::vector<T*>& inv)
+    file.WriteLine("},");
+} // template <class T> void GameGlobal::_SaveInventory(vt_script::WriteScriptDescriptor& file, std::string name, std::vector<T*>& inv)
 
-} // namespace hoa_global
+} // namespace vt_global
 
 #endif // __GLOBAL_HEADER__

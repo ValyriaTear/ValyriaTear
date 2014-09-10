@@ -1,0 +1,17 @@
+#
+# Visual Studio Ignores
+#
+
+*.sdf
+*.exe
+*.ilk
+*.pdb
+*.suo
+*.dll
+*.opensdf
+*/Release/*
+*/Debug/*
+ipch
+*.lib
+*.exp
+*.user

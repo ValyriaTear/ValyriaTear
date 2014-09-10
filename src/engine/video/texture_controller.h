@@ -1,5 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
-//            Copyright (C) 2004-2010 by The Allacrost Project
+//            Copyright (C) 2004-2011 by The Allacrost Project
+//            Copyright (C) 2012-2014 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -10,6 +11,7 @@
 /** ****************************************************************************
 *** \file    texture_controller.h
 *** \author  Tyler Olsen, roots@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Header file for texture management code
 ***
 *** This code declares a single class, TextureController, which manages all
@@ -20,31 +22,25 @@
 #ifndef __TEXTURE_CONTROLLER_HEADER__
 #define __TEXTURE_CONTROLLER_HEADER__
 
-#include "utils.h"
+#include "utils/singleton.h"
 
 #include "texture.h"
 #include "image_base.h"
 
-// OpenGL includes
-#ifdef __APPLE__
-#include <OpenGL/gl.h>
-#include <OpenGL/glu.h>
-#else
-#include <GL/gl.h>
-#include <GL/glu.h>
-#endif
+namespace vt_mode_manager {
+class ParticleSystem;
+}
 
-#include <map>
-
-namespace hoa_video
+namespace vt_video
 {
 
-//! \brief The singleton pointer for the instance of the texture controller
-extern TextureController *TextureManager;
+namespace private_video {
+class TextTexture;
+}
 
-class TextureController : public hoa_utils::Singleton<TextureController>
+class TextureController : public vt_utils::Singleton<TextureController>
 {
-    friend class hoa_utils::Singleton<TextureController>;
+    friend class vt_utils::Singleton<TextureController>;
     friend class VideoEngine;
     friend class private_video::ImageMemory;
     friend class ImageDescriptor;
@@ -56,8 +52,7 @@ class TextureController : public hoa_utils::Singleton<TextureController>
     friend class private_video::TexSheet;
     friend class private_video::FixedTexSheet;
     friend class private_video::VariableTexSheet;
-
-    friend class hoa_mode_manager::ParticleSystem;
+    friend class vt_mode_manager::ParticleSystem;
 
 public:
     TextureController();
@@ -148,9 +143,7 @@ private:
     /** \brief Deletes any temporary textures that were saved in the "img/temp" directory
     *** \return True if the "img/temp" directory was successfully emptied
     **/
-    bool _DeleteTempTextures() {
-        return hoa_utils::CleanDirectory("img/temp");
-    }
+    bool _DeleteTempTextures();
     //@}
 
     //! \name Texture Sheet Operations
@@ -193,12 +186,12 @@ private:
     /** \brief Adds an image texture to the map registery
     *** \param img A pointer to the ImageTexture to add with its filename and tags members correctly set
     **/
-    void _RegisterImageTexture(hoa_video::private_video::ImageTexture *img);
+    void _RegisterImageTexture(vt_video::private_video::ImageTexture *img);
 
     /** \brief Removes an image texture from the map registery
     *** \param img A pointer to the ImageTexture to remove with its filename and tags members correctly set
     **/
-    void _UnregisterImageTexture(hoa_video::private_video::ImageTexture *img);
+    void _UnregisterImageTexture(vt_video::private_video::ImageTexture *img);
 
     /** \brief Determines if an ImageTexture is currently registered
     *** \param nametag The filename + tag string data to use as the map key
@@ -211,7 +204,7 @@ private:
     /** \brief Return the ImageTexture stored under the given nametag (filename + tag)
     *** \return A pointer to the registered ImageTexture object, or NULL if the nametag could not be found
      **/
-    hoa_video::private_video::ImageTexture *_GetImageTexture(std::string nametag) {
+    vt_video::private_video::ImageTexture *_GetImageTexture(std::string nametag) {
         if(_IsImageTextureRegistered(nametag) == true) return _images[nametag];
         else return NULL;
     }
@@ -237,8 +230,11 @@ private:
         return (_text_images.find(tex) != _text_images.end());
     }
     //@}
-}; // class TextureController : public hoa_utils::Singleton<TextureController>
+}; // class TextureController : public vt_utils::Singleton<TextureController>
 
-} // namespace hoa_video
+//! \brief The singleton pointer for the instance of the texture controller
+extern TextureController *TextureManager;
+
+} // namespace vt_video
 
 #endif // __TEXTURE_CONTROLLER_HEADER__

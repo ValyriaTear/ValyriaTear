@@ -1,5 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
-//            Copyright (C) 2004-2010 by The Allacrost Project
+//            Copyright (C) 2004-2011 by The Allacrost Project
+//            Copyright (C) 2012-2014 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -10,10 +11,13 @@
 /** ***************************************************************************
 *** \file   mode_manager.cpp
 *** \author Tyler Olsen, roots@allacrost.org
+*** \author Yohann Ferreira, yohann ferreira orange fr
 *** \brief  Source file for managing user settings
 *** **************************************************************************/
 
+#include "utils/utils_pch.h"
 #include "mode_manager.h"
+
 #include "system.h"
 
 #include "engine/video/video.h"
@@ -21,15 +25,12 @@
 
 #include "modes/mode_help_window.h"
 
-using namespace hoa_utils;
-using namespace hoa_system;
-using namespace hoa_boot;
-using namespace hoa_video;
-using namespace hoa_audio;
+using namespace vt_utils;
+using namespace vt_system;
+using namespace vt_video;
+using namespace vt_audio;
 
-template<> hoa_mode_manager::ModeEngine *Singleton<hoa_mode_manager::ModeEngine>::_singleton_reference = NULL;
-
-namespace hoa_mode_manager
+namespace vt_mode_manager
 {
 
 ModeEngine *ModeManager = NULL;
@@ -47,7 +48,7 @@ GameMode::GameMode()
             << "MODE MANAGER: GameMode constructor invoked" << std::endl;
 
     // The value of this member should later be replaced by the child class
-    mode_type = MODE_MANAGER_DUMMY_MODE;
+    _mode_type = MODE_MANAGER_DUMMY_MODE;
 }
 
 
@@ -55,7 +56,7 @@ GameMode::GameMode(uint8 mt)
 {
     IF_PRINT_WARNING(MODE_MANAGER_DEBUG)
             << "MODE MANAGER: GameMode constructor invoked" << std::endl;
-    mode_type = mt;
+    _mode_type = mt;
 }
 
 
@@ -71,11 +72,12 @@ GameMode::~GameMode()
 
 void GameMode::Update()
 {
-    uint32 frame_time = hoa_system::SystemManager->GetUpdateTime();
+    uint32 frame_time = vt_system::SystemManager->GetUpdateTime();
 
     _script_supervisor.Update();
     _effect_supervisor.Update(frame_time);
     _particle_manager.Update(frame_time);
+    _indicator_supervisor.Update();
 }
 
 
@@ -85,6 +87,33 @@ void GameMode::DrawEffects()
     _effect_supervisor.DrawEffects();
 }
 
+void GameMode::DrawPostEffects()
+{
+}
+
+void GameMode::Deactivate()
+{
+}
+
+EffectSupervisor& GameMode::GetEffectSupervisor()
+{
+    return _effect_supervisor;
+}
+
+ParticleManager& GameMode::GetParticleManager()
+{
+    return _particle_manager;
+}
+
+ScriptSupervisor& GameMode::GetScriptSupervisor()
+{
+    return _script_supervisor;
+}
+
+IndicatorSupervisor& GameMode::GetIndicatorSupervisor()
+{
+    return _indicator_supervisor;
+}
 
 // ****************************************************************************
 // ***** ModeEngine class
@@ -111,13 +140,13 @@ ModeEngine::~ModeEngine()
     IF_PRINT_WARNING(MODE_MANAGER_DEBUG)
             << "MODE MANAGER: ModeEngine destructor invoked" << std::endl;
     // Delete any game modes on the stack
-    while(_game_stack.size() != 0) {
+    while(!_game_stack.empty()) {
         delete _game_stack.back();
         _game_stack.pop_back();
     }
 
     // Delete any game modes on the push stack
-    while(_push_stack.size() != 0) {
+    while(!_push_stack.empty()) {
         delete _push_stack.back();
         _push_stack.pop_back();
     }
@@ -130,13 +159,13 @@ ModeEngine::~ModeEngine()
 bool ModeEngine::SingletonInitialize()
 {
     // Delete any game modes on the stack
-    while(_game_stack.size() != 0) {
+    while(!_game_stack.empty()) {
         delete _game_stack.back();
         _game_stack.pop_back();
     }
 
     // Delete any game modes on the push stack
-    while(_push_stack.size() != 0) {
+    while(!_push_stack.empty()) {
         delete _push_stack.back();
         _push_stack.pop_back();
     }
@@ -206,7 +235,7 @@ uint8 ModeEngine::GetGameType()
     if(_game_stack.empty())
         return MODE_MANAGER_DUMMY_MODE;
     else
-        return _game_stack.back()->mode_type;
+        return _game_stack.back()->GetGameType();
 }
 
 
@@ -216,7 +245,7 @@ uint8 ModeEngine::GetGameType(uint32 index)
     if(_game_stack.size() < index)
         return MODE_MANAGER_DUMMY_MODE;
     else
-        return _game_stack.at(_game_stack.size() - index)->mode_type;
+        return _game_stack.at(_game_stack.size() - index)->GetGameType();
 }
 
 
@@ -264,12 +293,16 @@ void ModeEngine::Update()
         }
 
         // Push any new game modes onto the true game stack.
-        while(_push_stack.size() != 0) {
+        while(!_push_stack.empty()) {
+            // Tell the previous game mode about being deactivated.
+            if(!_game_stack.empty() && _game_stack.back())
+                _game_stack.back()->Deactivate();
+
             _game_stack.push_back(_push_stack.back());
             _push_stack.pop_back();
         }
 
-        // Make sure there is a game mode on the stack, otherwise we'll get a segementation fault.
+        // Make sure there is a game mode on the stack, otherwise we'll get a segmentation fault.
         if(_game_stack.empty()) {
             PRINT_WARNING << "game stack is empty, exiting application" << std::endl;
             SystemManager->ExitGame();
@@ -332,15 +365,15 @@ void ModeEngine::DrawPostEffects()
 void ModeEngine::DEBUG_PrintStack()
 {
     PRINT_WARNING << "MODE MANAGER DEBUG: Printing Game Stack" << std::endl;
-    if(_game_stack.size() == 0) {
+    if(_game_stack.empty()) {
         PRINT_WARNING << "***Game stack is empty!" << std::endl;
         return;
     }
 
     PRINT_WARNING << "***top of stack***" << std::endl;
     for(int32 i = static_cast<int32>(_game_stack.size()) - 1; i >= 0; i--)
-        PRINT_WARNING << " index: " << i << " type: " << _game_stack[i]->mode_type << std::endl;
+        PRINT_WARNING << " index: " << i << " type: " << _game_stack[i]->GetGameType() << std::endl;
     PRINT_WARNING << "***bottom of stack***" << std::endl;
 }
 
-} // namespace hoa_mode_manager
+} // namespace vt_mode_manager

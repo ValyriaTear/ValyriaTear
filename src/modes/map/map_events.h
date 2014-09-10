@@ -1,5 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
-//            Copyright (C) 2004-2010 by The Allacrost Project
+//            Copyright (C) 2004-2011 by The Allacrost Project
+//            Copyright (C) 2012-2014 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -10,6 +11,7 @@
 /** ****************************************************************************
 *** \file    map_events.h
 *** \author  Tyler Olsen, roots@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Header file for map mode events and event processing
 ***
 *** Events occur on map mode to alter the state of the map, present a scene to the
@@ -29,11 +31,16 @@
 
 #include "engine/script/script.h"
 
-namespace hoa_map
+namespace vt_map
 {
 
 namespace private_map
 {
+
+class ContextZone;
+class MapSprite;
+class SpriteDialogue;
+class VirtualSprite;
 
 struct BattleEnemyInfo;
 
@@ -225,9 +232,6 @@ protected:
 
 /** ****************************************************************************
 *** \brief An event that creates an instance of ShopMode when started
-***
-*** \todo Several future shop mode features will likely need to be added to this
-*** class. This includes limited availability of objects, market pricing, etc.
 *** ***************************************************************************/
 class ShopEvent : public MapEvent
 {
@@ -235,16 +239,32 @@ public:
     //! \param event_id The ID of this event
     ShopEvent(const std::string &event_id):
         MapEvent(event_id, SHOP_EVENT),
-        _buy_level(hoa_shop::SHOP_PRICE_STANDARD),
-        _sell_level(hoa_shop::SHOP_PRICE_STANDARD)
+        _buy_level(vt_shop::SHOP_PRICE_STANDARD),
+        _sell_level(vt_shop::SHOP_PRICE_STANDARD),
+        _enable_sell_mode(true)
     {}
 
     ~ShopEvent()
     {}
 
-    /** \brief Adds an object to the list of objects for sale
-    *** \param object_id The ID of the GlobalObject to make available for purchase
-    *** \param stock The amount of the object to make available for purchase
+    //! \brief Set the Shop name
+    void SetShopName(const vt_utils::ustring& shop_name) {
+        _shop_name = shop_name;
+    }
+
+    //! \brief Set the Shop greetings text
+    void SetGreetingText(const vt_utils::ustring& greeting_text) {
+        _greeting_text = greeting_text;
+    }
+
+    void SetSellModeEnabled(bool sell_mode_enabled) {
+        _enable_sell_mode = sell_mode_enabled;
+    }
+
+    /** \brief Adds an object to the list of objects for sale.
+    *** \param object_id The ID of the GlobalObject to make available for purchase.
+    *** \param stock The amount of the object to make available for purchase.
+    *** If set to 0, the number of objects is infinite.
     *** \note All wares must be added before the _Start() method is called to ensure
     *** that the wares actually appear in shop mode.
     **/
@@ -252,9 +272,20 @@ public:
         _objects.insert(std::make_pair(object_id, stock));
     }
 
+    /** \brief Adds an object to the list of objects for sale.
+    *** \param object_id The ID of the GlobalObject to make available for purchase.
+    *** \param stock The amount of the object to make available for purchase.
+    *** If set to 0, the number of objects is infinite.
+    *** \note All wares must be added before the _Start() method is called to ensure
+    *** that the wares actually appear in shop mode.
+    **/
+    void AddTrade(uint32 object_id, uint32 stock) {
+        _trades.insert(std::make_pair(object_id, stock));
+    }
+
     //! \brief Set the shop quality levels which will handle pricing variations.
-    void SetPriceLevels(hoa_shop::SHOP_PRICE_LEVEL buy_level,
-                        hoa_shop::SHOP_PRICE_LEVEL sell_level) {
+    void SetPriceLevels(vt_shop::SHOP_PRICE_LEVEL buy_level,
+                        vt_shop::SHOP_PRICE_LEVEL sell_level) {
         _buy_level = buy_level;
         _sell_level = sell_level;
     }
@@ -263,9 +294,19 @@ protected:
     //! \brief The GlobalObject IDs and stock count of all objects to be sold in the shop
     std::set<std::pair<uint32, uint32> > _objects;
 
+    //! \brief The GlobalObject IDs and stock count of all objects to be sold in the shop
+    std::set<std::pair<uint32, uint32> > _trades;
+
     //! \brief The Shop quality levels. The more the level is, the worse it is for the player.
-    hoa_shop::SHOP_PRICE_LEVEL _buy_level;
-    hoa_shop::SHOP_PRICE_LEVEL _sell_level;
+    vt_shop::SHOP_PRICE_LEVEL _buy_level;
+    vt_shop::SHOP_PRICE_LEVEL _sell_level;
+
+    //! \brief Optional custom shop name and greeting text.
+    vt_utils::ustring _shop_name;
+    vt_utils::ustring _greeting_text;
+
+    //! \brief Tells whether the sell mode can be enabled
+    bool _enable_sell_mode;
 
     //! \brief Creates an instance of ShopMode and pushes it to the game mode stack
     void _Start();
@@ -313,7 +354,7 @@ public:
     { _sound.Stop(); }
 
     //! \brief Accessor which allows the properties of the sound to be customized
-    hoa_audio::SoundDescriptor &GetSound()
+    vt_audio::SoundDescriptor &GetSound()
     { return _sound; }
 
 protected:
@@ -325,7 +366,7 @@ protected:
     bool _Update();
 
     //! \brief The sound that this event will play
-    hoa_audio::SoundDescriptor _sound;
+    vt_audio::SoundDescriptor _sound;
 }; // class SoundEvent : public MapEvent
 
 
@@ -338,10 +379,13 @@ class MapTransitionEvent : public MapEvent
 {
 public:
     /** \param event_id The ID of this event
-    *** \param filename The name of the map file to transition to
+    *** \param data_filename The name of the map data file to transition to
+    *** \param data_filename The name of the map script file to use
     *** \param coming_from The transition origin.
     **/
-    MapTransitionEvent(const std::string &event_id, const std::string &filename,
+    MapTransitionEvent(const std::string &event_id,
+                       const std::string &data_filename,
+                       const std::string &script_filename,
                        const std::string &coming_from);
 
     ~MapTransitionEvent() {};
@@ -353,8 +397,9 @@ protected:
     //! \brief Once the fading process completes, creates the new map mode to transition to
     bool _Update();
 
-    //! \brief The filename of the map to transition to
-    std::string _transition_map_filename;
+    //! \brief The data and script filenames of the map to transition to
+    std::string _transition_map_data_filename;
+    std::string _transition_map_script_filename;
 
     /** \brief a string telling where the map transition is coming from.
     *** useful when changing from a map to another to set up the camera position.
@@ -412,7 +457,15 @@ public:
         _battle_background = filename;
     }
 
+    void SetBoss(bool is_boss) {
+        _is_boss = is_boss;
+    }
+
     void AddEnemy(uint32 enemy_id, float position_x, float position_y);
+
+    void AddEnemy(uint32 enemy_id) {
+        AddEnemy(enemy_id, 0, 0);
+    }
 
     void AddScript(const std::string &filename) {
         _battle_scripts.push_back(filename);
@@ -431,6 +484,9 @@ protected:
     //! \brief Filenames of the battle scripts
     std::vector<std::string> _battle_scripts;
 
+    //! \brief Tells whether the battle is against a boss
+    bool _is_boss;
+
     //! \brief Starts the battle
     void _Start();
 
@@ -442,6 +498,40 @@ protected:
     }
 }; // class BattleEncounterEvent : public MapEvent
 
+/** ****************************************************************************
+*** \brief An event thats starts an event or another based on a check function.
+*** ***************************************************************************/
+class IfEvent : public MapEvent
+{
+public:
+    /** \param event_id The ID of this event
+    *** \param check_function the map file's function to call to make the check requested
+    *** \param on_true_event the map to call when the check function returns true
+    *** \param on_false_event the map to call when the check function returns false
+    ***
+    *** \note An empty value for either the true or false event id arguments
+    *** will result in no event in this case
+    **/
+    IfEvent(const std::string& event_id, const std::string& check_function,
+            const std::string& on_true_event, const std::string& on_false_event);
+
+    ~IfEvent()
+    {}
+
+protected:
+    //! \brief A pointer to the Lua function that starts the event
+    ScriptObject _check_function;
+
+    std::string _true_event_id;
+    std::string _false_event_id;
+
+    //! \brief Calls the Lua _start_function, if one was defined
+    void _Start();
+
+    //! \brief Calls the Lua _update_function. If no update function was defined, does nothing and returns true
+    bool _Update()
+    { return true; }
+}; // class IfEvent : public MapEvent
 
 /** ****************************************************************************
 *** \brief An event with its _Start and _Update functions implemented in Lua.
@@ -468,18 +558,15 @@ public:
     ScriptedEvent(const std::string &event_id, const std::string &start_function,
                   const std::string &update_function);
 
-    ~ScriptedEvent();
-
-    ScriptedEvent(const ScriptedEvent &copy);
-
-    ScriptedEvent &operator=(const ScriptedEvent &copy);
+    ~ScriptedEvent()
+    {}
 
 protected:
     //! \brief A pointer to the Lua function that starts the event
-    ScriptObject *_start_function;
+    ScriptObject _start_function;
 
     //! \brief A pointer to the Lua function that returns a boolean value if the event is finished
-    ScriptObject *_update_function;
+    ScriptObject _update_function;
 
     //! \brief Calls the Lua _start_function, if one was defined
     void _Start();
@@ -588,18 +675,15 @@ public:
     ScriptedSpriteEvent(const std::string &event_id, VirtualSprite *sprite,
                         const std::string &start_function, const std::string &update_function);
 
-    ~ScriptedSpriteEvent();
-
-    ScriptedSpriteEvent(const ScriptedSpriteEvent &copy);
-
-    ScriptedSpriteEvent &operator=(const ScriptedSpriteEvent &copy);
+    ~ScriptedSpriteEvent()
+    {}
 
 protected:
     //! \brief A pointer to the Lua function that starts the event
-    ScriptObject *_start_function;
+    ScriptObject _start_function;
 
     //! \brief A pointer to the Lua function that returns a boolean value if the event is finished
-    ScriptObject *_update_function;
+    ScriptObject _update_function;
 
     //! \brief Calls the Lua _start_function, if one was defined
     void _Start();
@@ -824,7 +908,7 @@ public:
 
 protected:
     /** \brief The amount of time (in milliseconds) to perform random movement before ending this action
-    *** Set this member to hoa_system::INFINITE_TIME in order to continue the random movement
+    *** Set this member to vt_system::INFINITE_TIME in order to continue the random movement
     *** forever. The default value of this member will be set to 10 seconds if it is not specified.
     **/
     uint32 _total_movement_time;
@@ -867,9 +951,11 @@ class AnimateSpriteEvent : public SpriteEvent
 public:
     /** \param event_id The ID of this event
     *** \param sprite A pointer to the sprite to move
+    *** \param animation_name The name of the custom animation to play
+    *** \param animation_time The custom animation time, 0 if infinite, and -1 is default time used.
     **/
     AnimateSpriteEvent(const std::string &event_id, VirtualSprite *sprite,
-                       const std::string &animation_name, uint32 animation_time);
+                       const std::string &animation_name, int32 animation_time);
 
     ~AnimateSpriteEvent()
     {}
@@ -882,7 +968,7 @@ protected:
     std::string _animation_name;
 
     //! The custom animation time.
-    uint32 _animation_time;
+    int32 _animation_time;
 
     //! A reference to the map sprite object
     MapSprite *_map_sprite;
@@ -1074,6 +1160,9 @@ public:
     **/
     MapEvent *GetEvent(const std::string &event_id) const;
 
+    bool DoesEventExist(const std::string &event_id) const
+    { return !(GetEvent(event_id) == NULL); }
+
 private:
     //! \brief A container for all map events, where the event's ID serves as the key to the std::map
     std::map<std::string, MapEvent *> _all_events;
@@ -1109,6 +1198,6 @@ private:
 
 } // namespace private_map
 
-} // namespace hoa_map
+} // namespace vt_map
 
 #endif // __MAP_EVENTS_HEADER__

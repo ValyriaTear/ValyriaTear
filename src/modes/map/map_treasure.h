@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 //            Copyright (C) 2004-2011 by The Allacrost Project
-//            Copyright (C) 2012 by Bertram (Valyria Tear)
+//            Copyright (C) 2012-2014 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -26,11 +26,17 @@
 
 #include "engine/audio/audio_descriptor.h"
 
-namespace hoa_map
+namespace vt_global {
+class GlobalObject;
+}
+
+namespace vt_map
 {
 
 namespace private_map
 {
+
+class TreasureObject;
 
 /** ****************************************************************************
 *** \brief A container class for treasures procured by the player
@@ -83,7 +89,7 @@ private:
     uint32 _drunes;
 
     //! \brief The list of objects given to the player upon opening the treasure
-    std::vector<hoa_global::GlobalObject *> _objects_list;
+    std::vector<vt_global::GlobalObject *> _objects_list;
 }; // class MapTreasure : public PhysicalObject
 
 
@@ -165,35 +171,31 @@ private:
     SELECTION _selection;
 
     //! \brief Contains options for viewing, using, or equipping inventory, or for exiting the menu
-    hoa_gui::MenuWindow _action_window;
+    vt_gui::MenuWindow _action_window;
 
     //! \brief Lists all of the drunes and inventory objects contained in the treasure
-    hoa_gui::MenuWindow _list_window;
+    vt_gui::MenuWindow _list_window;
 
     //! \brief The available actions that a user can currently take. Displayed in the _action_window.
-    hoa_gui::OptionBox _action_options;
+    vt_gui::OptionBox _action_options;
 
     //! \brief The name + quantity of all drunes and inventory objects earned. Displayed in the _list_window
-    hoa_gui::OptionBox _list_options;
+    vt_gui::OptionBox _list_options;
 
     //! \brief A textbox that displays the detailed description about a selected treasure
-    hoa_gui::TextBox _detail_textbox;
+    vt_gui::TextBox _detail_textbox;
 
     //! \brief A rendering of the name for the treasure window
-    hoa_video::TextImage _window_title;
+    vt_video::TextImage _window_title;
 
     //! \brief The name of the selected list item
-    hoa_video::TextImage _selection_name;
+    vt_video::TextImage _selection_name;
 
     //! \brief A pointer to the image of the selected list item
-    hoa_video::StillImage *_selection_icon;
+    vt_video::StillImage *_selection_icon;
 
-    //! \brief Holds the icon image that represent drunes
-    hoa_video::StillImage _drunes_icon;
-
-    //! \brief The "Obtained" sound, played at opening.
-    hoa_audio::SoundDescriptor _coins_snd;
-    hoa_audio::SoundDescriptor _items_snd;
+    //! \brief Tells whether the currently selected item is a key item
+    bool _is_key_item;
 
     // ---------- Private methods
 
@@ -209,6 +211,6 @@ private:
 
 } // namespace private_map
 
-} // namespace hoa_map
+} // namespace vt_map
 
 #endif // __MAP_TREASURE_HEADER__

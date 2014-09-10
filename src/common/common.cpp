@@ -1,5 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
-//            Copyright (C) 2004-2010 by The Allacrost Project
+//            Copyright (C) 2004-2011 by The Allacrost Project
+//            Copyright (C) 2012-2014 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -10,14 +11,15 @@
 /** ****************************************************************************
 *** \file    common.cpp
 *** \author  Tyler Olsen, roots@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Source file for common code shared across the source tree
 *** ***************************************************************************/
 
-// Local common headers
+#include "utils/utils_pch.h"
 #include "common.h"
 
-namespace hoa_common {
+namespace vt_common {
 
 bool COMMON_DEBUG = false;
 
-} // namespace hoa_common
+} // namespace vt_common

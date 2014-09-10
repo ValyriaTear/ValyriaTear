@@ -1,5 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
-//            Copyright (C) 2004-2010 by The Allacrost Project
+//            Copyright (C) 2004-2011 by The Allacrost Project
+//            Copyright (C) 2012-2014 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -10,20 +11,23 @@
 /** ****************************************************************************
 *** \file    map_zones.h
 *** \author  Guillaume Anctil, drakkoon@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Header file for map mode zones.
 *** ***************************************************************************/
 
 #ifndef __MAP_ZONES_HEADER__
 #define __MAP_ZONES_HEADER__
 
-#include "modes/map/map.h"
+#include "modes/map/map_mode.h"
 #include "modes/map/map_objects.h"
 
-namespace hoa_map
+namespace vt_map
 {
 
 namespace private_map
 {
+
+class EnemySprite;
 
 /** ****************************************************************************
 *** \brief Represents a rectangular area on a map.
@@ -56,9 +60,8 @@ public:
 *** \brief Represents a zone on a map that can take any shape
 ***
 *** The area is made up of many ZoneSection instances, so it can be any shape
-*** (specifically, any combination of rectangular shapes). In addition to the
-*** sections that make up the zone, each MapZone holds a bit-mask of which contexts
-*** the zone is applicable in. A MapZone by itself is not very useful, but serves as
+*** (specifically, any combination of rectangular shapes).
+*** A MapZone by itself is not very useful, but serves as
 *** a foundation for other zone classes which derive from it.
 ***
 *** \note ZoneSections in the MapZone may overlap without any problem. In general,
@@ -67,12 +70,12 @@ public:
 *** ***************************************************************************/
 class MapZone
 {
-    // This friend declaration is necessary because EnemyZone, although it dervies from MapZone, also keeps a pointer
+    // This friend declaration is necessary because EnemyZone, although it derives from MapZone, also keeps a pointer
     // to a MapZone object and needs to access the protected members and methods of this object pointer.
     friend class EnemyZone;
 
 public:
-    MapZone() : _active_contexts(MAP_CONTEXT_NONE)
+    MapZone()
     {}
 
     /** \brief Constructs a map zone that is initialized with a single zone section
@@ -82,15 +85,6 @@ public:
     *** \param bottom_row The bottom edge of the section to add
     **/
     MapZone(uint16 left_col, uint16 right_col, uint16 top_row, uint16 bottom_row);
-
-    /** \brief Constructs a map zone that is initialized with a single zone section and context bit-mask
-    *** \param left_col The left edge of the section to add
-    *** \param right_col The right edge of the section to add
-    *** \param top_row The top edge of the section to add
-    *** \param bottom_row The bottom edge of the section to add
-    *** \param contexts A bit-mask of which contexts this zone is active in
-    **/
-    MapZone(uint16 left_col, uint16 right_col, uint16 top_row, uint16 bottom_row, MAP_CONTEXT contexts);
 
     virtual ~MapZone()
     {}
@@ -121,32 +115,18 @@ public:
     **/
     bool IsInsideZone(float pos_x, float pos_y) const;
 
-    //! \name Class member accessor methods
-    //@{
-    MAP_CONTEXT GetActiveContexts() const {
-        return _active_contexts;
-    }
-
-    void SetActiveContexts(MAP_CONTEXT contexts) {
-        _active_contexts = contexts;
-    }
-    //@}
-
     //! \brief Draws the map zone on screen for debugging purpose
     virtual void Draw();
 
-protected:
-    //! \brief A bit mask used to determine on which contexts this zone is valid
-    MAP_CONTEXT _active_contexts;
-
-    //! \brief The rectangular sections which compose the map zone
-    std::vector<ZoneSection> _sections;
-
     /** \brief Returns random x, y position coordinates within the zone
     *** \param x A reference where to store the value of the x position
-    *** \param y A reference where to store the value of the x position
+    *** \param y A reference where to store the value of the y position
     **/
-    void _RandomPosition(float &x, float &y);
+    void RandomPosition(float &x, float &y);
+
+protected:
+    //! \brief The rectangular sections which compose the map zone
+    std::vector<ZoneSection> _sections;
 
     //! \brief Tells whether a section is on screen and place the drawing cursor in that case.
     bool _ShouldDraw(const ZoneSection &section);
@@ -184,15 +164,6 @@ public:
     **/
     CameraZone(uint16 left_col, uint16 right_col, uint16 top_row, uint16 bottom_row);
 
-    /** \brief Constructs a resident zone that is initialized with a single zone section and context bit-mask
-    *** \param left_col The left edge of the section to add
-    *** \param right_col The right edge of the section to add
-    *** \param top_row The top edge of the section to add
-    *** \param bottom_row The bottom edge of the section to add
-    *** \param contexts A bit-mask of which contexts this zone is active in
-    **/
-    CameraZone(uint16 left_col, uint16 right_col, uint16 top_row, uint16 bottom_row, MAP_CONTEXT contexts);
-
     virtual ~CameraZone()
     {}
 
@@ -221,211 +192,6 @@ protected:
     //! \brief Holds the previous value of _camera_inside
     bool _was_camera_inside;
 }; // class CameraZone : public MapZone
-
-
-/** ****************************************************************************
-*** \brief An advanced map zone which keeps track of its resident sprites
-***
-*** This zone class enhances the skeletal MapZone by adding features which keep
-*** track of the sprites which exist in this zone, as well as when those sprites
-*** enter and exit the zone area. This is very useful information for zones which
-*** trigger map events, for instance, when a sprite interacts with the zone area.
-*** Sprites inhabiting the zone are called "residents", hence the nomenclature for
-*** this class.
-***
-*** ResidentZones are updated by the ObjectSupervisor. Every time a sprite's position
-*** is changed, it is marked and all zones that share the same context as the sprite
-*** are examined to see if the sprite has entered or left any zones. Because it is
-*** quite common to want to determine if the sprite pointed to by the camera has interacted
-*** with the zone area, there are specific functions that provide for that ability, to
-*** ease the burden on the map script writers.
-***
-*** It is necessary to define which map contexts the zone takes effect on so that
-*** only sprites that share a common context with a zone are taken into account. Note that
-*** a zone can be active in any number of the available map contexts, since it stores a bit
-*** mask value of contexts where the zone is active. Also note that this class examines
-*** resident sprites, but not lower classes of objects (which typically do not move and
-*** likewise we would not want to trigger any sort of event).
-*** ***************************************************************************/
-class ResidentZone : public MapZone
-{
-public:
-    ResidentZone()
-    {}
-
-    /** \brief Constructs a resident zone that is initialized with a single zone section
-    *** \param left_col The left edge of the section to add
-    *** \param right_col The right edge of the section to add
-    *** \param top_row The top edge of the section to add
-    *** \param bottom_row The bottom edge of the section to add
-    **/
-    ResidentZone(uint16 left_col, uint16 right_col, uint16 top_row, uint16 bottom_row);
-
-    /** \brief Constructs a resident zone that is initialized with a single zone section and context
-    *** \param left_col The left edge of the section to add
-    *** \param right_col The right edge of the section to add
-    *** \param top_row The top edge of the section to add
-    *** \param bottom_row The bottom edge of the section to add
-    *** \param contexts A bit-mask of which contexts this zone is active in
-    **/
-    ResidentZone(uint16 left_col, uint16 right_col, uint16 top_row, uint16 bottom_row, MAP_CONTEXT contexts);
-
-    ~ResidentZone()
-    {}
-
-    //! \brief Refreshes the entering/exiting resident lists
-    void Update();
-
-    /** \brief Examines a sprite to determine if it has entered this zone and established residency
-    *** \param sprite A pointer to the sprite to examine
-    ***
-    *** This function is invoked by the object supervisor for every sprite that has either moved or changed its context.
-    *** If it determines that the sprite is located within the zone, it is added to the residents and entering residents
-    *** sets. This method is not bound to Lua as its use there is unnecessary.
-    **/
-    void AddPotentialResident(VirtualSprite *sprite);
-
-    //! \brief Returns true if any sprites have recently entered this zone
-    bool IsResidentEntering() const {
-        return !_entering_residents.empty();
-    }
-
-    //! \brief Returns true if any sprites have recently exited this zone
-    bool IsResidentExiting() const {
-        return !_exiting_residents.empty();
-    }
-
-    /** \brief Returns true if a specific sprite resides inside the zone
-    *** \param object_id The object ID number of the sprite to check for
-    *** \return True if the object ID is valid and the sprite is inside the zone
-    **/
-    bool IsSpriteResident(uint32 object_id) const {
-        return IsSpriteResident(MapMode::CurrentInstance()->GetObjectSupervisor()->GetSprite(object_id));
-    }
-
-    /** \brief Returns true if a specific sprite resides inside the zone
-    *** \param sprite A pointer to the sprite to check
-    *** \return True if the sprite is inside the zone
-    **/
-    bool IsSpriteResident(VirtualSprite *sprite) const {
-        return (_residents.count(sprite) > 0);
-    }
-
-    //! \brief Returns true if the sprite pointed to by the map camera is inside the zone
-    bool IsCameraResident() const {
-        return IsSpriteResident(MapMode::CurrentInstance()->GetCamera());
-    }
-
-    /** \brief Returns true if a specific sprite is currently entering the zone
-    *** \param object_id The object ID number of the sprite to check for
-    *** \return True if the object ID is valid and the sprite is entering the zone
-    **/
-    bool IsSpriteEntering(uint32 object_id) const {
-        return IsSpriteEntering(MapMode::CurrentInstance()->GetObjectSupervisor()->GetSprite(object_id));
-    }
-
-    /** \brief Returns true if a specific sprite is currently entering the zone
-    *** \param sprite A pointer to the sprite to check
-    *** \return True if the sprite is entering the zone
-    **/
-    bool IsSpriteEntering(VirtualSprite *sprite) const {
-        return (_residents.count(sprite) > 0);
-    }
-
-    //! \brief Returns true if the sprite pointed to by the camera has recently entered this zone
-    bool IsCameraEntering() const {
-        return IsSpriteEntering(MapMode::CurrentInstance()->GetCamera());
-    }
-
-    /** \brief Returns true if a specific sprite is currently exiting the zone
-    *** \param object_id The object ID number of the sprite to check for
-    *** \return True if the object ID is valid and the sprite is exitingg the zone
-    **/
-    bool IsSpritExiting(uint32 object_id) const {
-        return IsSpriteExiting(MapMode::CurrentInstance()->GetObjectSupervisor()->GetSprite(object_id));
-    }
-
-    /** \brief Returns true if a specific sprite is currently exiting the zone
-    *** \param sprite A pointer to the sprite to check
-    *** \return True if the sprite is exiting the zone
-    **/
-    bool IsSpriteExiting(VirtualSprite *sprite) const {
-        return (_exiting_residents.count(sprite) > 0);
-    }
-
-    //! \brief Returns true of the sprite pointed to by the camera has recently exited this zone
-    bool IsCameraExiting() const {
-        return IsSpriteExiting(MapMode::CurrentInstance()->GetCamera());
-    }
-
-    /** \brief Retrieves a pointer to a sprite that resides inside the zone
-    *** \param index The index of the resident sprite to retrieve
-    *** \return A pointer to the sprite, or NULL if there is no resident for the given index
-    ***
-    *** \note This function is designed to allow Lua access to all sprite residents
-    **/
-    VirtualSprite *GetResident(uint32 index) const {
-        return _GetSpriteInSet(_residents, index);
-    }
-
-    /** \brief Retrieves a pointer to a sprite has recently entered the zone
-    *** \param index The index of the entering resident to retrieve
-    *** \return A pointer to the sprite, or NULL if there is no entering resident for the given index
-    ***
-    *** \note This function is designed to allow Lua access to all entering residents
-    **/
-    VirtualSprite *GetEnteringResident(uint32 index) const {
-        return _GetSpriteInSet(_entering_residents, index);
-    }
-
-    /** \brief Retrieves a pointer to a sprite that recently exited the zone
-    *** \param index The index of the exiting sprite to retrieve
-    *** \return A pointer to the sprite, or NULL if there is no exiting resident for the given index
-    ***
-    *** \note This function is designed to allow Lua access to all exiting residents
-    **/
-    VirtualSprite *GetExitingResident(uint32 index) const {
-        return _GetSpriteInSet(_exiting_residents, index);
-    }
-
-    //! \brief Returns the number of sprites that are currently located within the zone boundaries
-    uint32 GetNumberResidents() const {
-        return _residents.size();
-    }
-
-    //! \brief Returns the number of sprites that are entering the zone boundaries
-    uint32 GetNumberEnteringResidents() const {
-        return _entering_residents.size();
-    }
-
-    //! \brief Returns the number of sprites that are exiting the zone boundaries
-    uint32 GetNumberExitingResidents() const {
-        return _exiting_residents.size();
-    }
-
-protected:
-    //! \brief A container that retains pointers to all sprites which occupy this zone
-    std::set<VirtualSprite *> _residents;
-
-    /** \brief Temporarily retains all sprites which have entered the zone
-    *** \note This list is cleared on every update, so there is only one opportunity to
-    *** observe which sprites have entered the zone.
-    **/
-    std::set<VirtualSprite *> _entering_residents;
-
-    /** \brief Temporarily retains all sprites which have exited the zone
-    *** \note This list is cleared on every update, so there is only one opportunity to
-    *** observe which sprites have exited the zone.
-    **/
-    std::set<VirtualSprite *> _exiting_residents;
-
-    /** \brief A helper function which retrieves a sprite at a specific index in a std::set of sprites
-    *** \param local_set A reference to the set of sprites to use
-    *** \param index The index into the set of where to retrieve the sprite from
-    *** \return A pointer to the sprite at the specified index, or NULL if no sprite exists at that index
-    **/
-    VirtualSprite *_GetSpriteInSet(const std::set<VirtualSprite *>& local_set, uint32 index) const;
-}; // class ResidentZone : public MapZone
 
 
 /** ****************************************************************************
@@ -460,7 +226,7 @@ public:
     *** \param bottom_row The bottom edge of the section to add
     **/
     EnemyZone(uint16 left_col, uint16 right_col,
-              uint16 top_row, uint16 bottom_row, MAP_CONTEXT contexts);
+              uint16 top_row, uint16 bottom_row);
 
     ~EnemyZone() {
         if(_spawn_zone != NULL) delete _spawn_zone;
@@ -469,6 +235,11 @@ public:
     EnemyZone(const EnemyZone &copy);
 
     EnemyZone &operator=(const EnemyZone &copy);
+
+    //! \brief Enables/disables the enemy zone.
+    void SetEnabled(bool is_enabled) {
+        _enabled = is_enabled;
+    }
 
     /** \brief Adds a new enemy sprite to the zone
     *** \param enemy A pointer to the EnemySprite object instance to add
@@ -517,22 +288,12 @@ public:
         return _roaming_restrained;
     }
 
-    //! \brief Tells whether the monster is allowed to get out of the spawning zone while chasing a character.
-    bool IsAgressionRestrainedtoRoamingZone() const {
-        return _agression_roaming_restrained;
-    }
-
     uint32 GetSpawnTime() const {
         return _spawn_timer.GetDuration();
     }
 
     void SetRoamingRestrained(bool restrain) {
         _roaming_restrained = restrain;
-    }
-
-    //! \brief Sets whether the monster is allowed to get out of the spawning zone while chasing a character.
-    void SetAgressionRestrainedtoRoamingZone(bool restrain) {
-        _agression_roaming_restrained = restrain;
     }
 
     //! \note Calling this function will reset the elapsed spawn time
@@ -556,13 +317,12 @@ public:
     //@}
 
 private:
+    //! \brief Tells whether the zone is activated.
+    bool _enabled;
+
     //! \brief If true, enemies of this zone are not allowed
     //! to roam outside of the zone boundaries
     bool _roaming_restrained;
-
-    //! \brief If true, enemies of this zone are not allowed
-    //! to roam outside of the zone boundaries while chasing a character
-    bool _agression_roaming_restrained;
 
     //! \brief The number of enemies that are currently not in the DEAD state
     uint8 _active_enemies;
@@ -574,10 +334,10 @@ private:
     int32 _spawns_left;
 
     //! \brief Used for the respawning of enemies within the zone
-    hoa_system::SystemTimer _spawn_timer;
+    vt_system::SystemTimer _spawn_timer;
 
     //! \brief Used to keep track of the amount of time to wait before re-spawning a dead enemy
-    hoa_system::SystemTimer _dead_timer;
+    vt_system::SystemTimer _dead_timer;
 
     //! \brief An optional zone which specifies where enemies may spawn
     MapZone *_spawn_zone;
@@ -588,75 +348,8 @@ private:
     std::vector<EnemySprite *> _enemies;
 }; // class EnemyZone : public MapZone
 
-
-/** ****************************************************************************
-*** \brief Represents an area where the active map context may switch
-***
-*** This type of zone enables map sprites to transfer betweeen two map contexts.
-*** Each zone section added is labeled as corresponding to one context or the
-*** other. When a sprite stands upon a particular section, their context will
-*** be set to the context of that section.
-***
-*** \todo In the future collision detection needs to be accounted for when two
-*** objects are in the context zone but have different active map contexts.
-*** Normally no collision detection is done between objects in different contexts,
-*** but context zones need to be an exception to this rule.
-***
-*** \todo Currently the Update() function checks all ground objects to determine
-*** if any context changes need to occur. This is a temporarily solution that needs
-*** to be improved by the following:
-***  - The class should have a container of objects currently located within the zone,
-***    and check only those objects (when sprites are in motion, they can check if they
-***    have stepped into a context zone there)
-***  - Sky objects should also be able to change their context via context zones
-***  - There should be an option for having the context zone not to apply to either the
-***    ground or sky object layers
-*** ***************************************************************************/
-class ContextZone : public MapZone
-{
-public:
-    /** \brief The constructor requires the map contexts of the zone to be declared immediately
-    *** \note These two context arguments can not be equal
-    **/
-    ContextZone(MAP_CONTEXT one, MAP_CONTEXT two);
-
-    /** \brief Overrides the virtual base method
-    ***
-    *** This method should not be called for this class as zone sections which are added need to be
-    *** instructed as to which context they should belong to. The only reason this method is defined
-    *** here is to override the MapZone class' base method. This function prints a warning and will not
-    *** add the new section
-    **/
-    void AddSection(uint16 left_col, uint16 right_col, uint16 top_row, uint16 bottom_row);
-
-    /** \brief Adds a new rectangular section to the zone
-    *** \param left_col The left edge of the section to add
-    *** \param right_col The right edge of the section to add
-    *** \param top_row The top edge of the section to add
-    *** \param bottom_row The bottom edge of the section to add
-    *** \param context True indicates that the new section belongs to context one, false to context two
-    **/
-    void AddSection(uint16 left_col, uint16 right_col, uint16 top_row, uint16 bottom_row, bool context);
-
-    //! \brief Updates the active contexts of any map objects that exist within the zone
-    void Update();
-
-private:
-    //! \brief The different map contexts that the context zone allows an object to transition between
-    MAP_CONTEXT _context_one, _context_two;
-
-    //! \brief Stores the context of each zone section. True indicates context one, false is context two
-    std::vector<bool> _section_contexts;
-
-    /** \brief Determines if a map object is inside the context zone
-    *** \param object A pointer to the map object
-    *** \return The index of the zone section where the object is located, or -1 if it is not in the zone
-    **/
-    int16 _IsInsideZone(MapObject *object);
-}; // class ContextZone : public MapZone
-
 } // namespace private_map
 
-} // namespace hoa_map
+} // namespace vt_map
 
 #endif // __MAP_ZONES_HEADER__

@@ -42,7 +42,15 @@ MACRO(VALYRIATEAR_GETTEXT_CREATE_TRANSLATIONS _potFile _firstPoFileArg)
           DEPENDS ${_gmoFile}
       )
 
-      INSTALL(FILES ${_gmoFile} DESTINATION share/locale/${_lang}/LC_MESSAGES RENAME ${_potBasename}.mo)
+      # Install the mo files depending on the OS.
+      IF (UNIX)
+          # In the linux localedir, e.g.: /usr/share/locale/<lang>/LC_MESSAGES/valyriatear.mo
+          INSTALL(FILES ${_gmoFile} DESTINATION ${LOCALEDIR}/${_lang}/LC_MESSAGES RENAME ${_potBasename}.mo)
+      ELSE()
+          # In the po/ data folder
+          INSTALL(FILES ${_gmoFile} DESTINATION ${PKG_DATADIR}/po/${_lang}/LC_MESSAGES RENAME ${_potBasename}.mo)
+      ENDIF()
+
       SET(_gmoFiles ${_gmoFiles} ${_gmoFile})
       SET(_moFiles ${_moFiles} ${_moFile})
 
@@ -56,14 +64,20 @@ MACRO(VALYRIATEAR_GETTEXT_UPDATE_PO _potFile _languages)
 
    ADD_CUSTOM_TARGET(
       update-pot
-      COMMAND xgettext --files-from=translatable-files --directory=. --output=${_potFile} -d valyriatear --keyword=_ --keyword=N_ --keyword=Translate --keyword=UTranslate --from-code=UTF-8
+      # Standard keywords
+      COMMAND xgettext -c/ -C --files-from=translatable-files --directory=. --output=${_potFile} -d valyriatear --keyword=_ --keyword=N_ --keyword=Translate --keyword=UTranslate --from-code=UTF-8
+      # Contextual translation keywords
+      COMMAND xgettext -c/ -C --files-from=translatable-files -j --directory=. --output=${_potFile} -d valyriatear --keyword=CTranslate --keyword=CUTranslate --from-code=UTF-8
+      # C-formatted translation keywords
+      COMMAND xgettext -c/ -C --files-from=translatable-files -j --directory=. --output=${_potFile} -d valyriatear --keyword=VTranslate:1 --from-code=UTF-8
       COMMAND bash create_map_names_translatable_strings.sh
-      COMMAND xgettext --directory=. -j --output=${_potFile} -d valyriatear --keyword=Translate --from-code=UTF-8  map_names_tr.lua
+      COMMAND xgettext -c/ -C --directory=. -j --output=${_potFile} -d valyriatear --keyword=Translate --from-code=UTF-8  map_names_tr.lua
 
       # The pot file is ready - We can remove the temp files
       COMMAND rm -f translatable-files
       COMMAND rm -f map_names_files
       COMMAND rm -f map_names_tr.lua
+      WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
       )
 
    ADD_CUSTOM_TARGET(
@@ -71,10 +85,13 @@ MACRO(VALYRIATEAR_GETTEXT_UPDATE_PO _potFile _languages)
       COMMAND grep '_\(' -Irl ../src --include=*.cpp | sort > translatable-files
       COMMAND grep 'Translate\(' -Irl ../src --include=*.cpp | sort >> translatable-files
       COMMAND grep 'UTranslate\(' -Irl ../src --include=*.cpp | sort >> translatable-files
+      COMMAND grep 'CTranslate\(' -Irl ../src --include=*.cpp | sort >> translatable-files
+      COMMAND grep 'CUTranslate\(' -Irl ../src --include=*.cpp | sort >> translatable-files
       COMMAND grep 'Translate\(' -Irl ../dat | sort >> translatable-files
       # Add map names and subnames to the translatable strings
       COMMAND grep 'map_name =' -Irl ../dat/maps --include=*.lua | sort > map_names_files
       COMMAND grep 'map_subname =' -Irl  ../dat/maps --include=*.lua | sort >> map_names_files
+      WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
       )
 
    FOREACH(_lang ${_languages})
@@ -83,6 +100,7 @@ MACRO(VALYRIATEAR_GETTEXT_UPDATE_PO _potFile _languages)
       ADD_CUSTOM_TARGET(
          "update-translation-${_lang}"
          COMMAND ${GETTEXT_MSGMERGE_EXECUTABLE} --quiet --update --backup=none -s ${_absFile} ${_absPotFile}
+         WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
          )
       ADD_DEPENDENCIES("update-translation-${_lang}" update-pot)
       ADD_DEPENDENCIES(update-po "update-translation-${_lang}")
@@ -97,7 +115,7 @@ FOREACH(_lang ${_languages})
    STRING(REGEX REPLACE "#.*" "" _lang "${_lang}")
    IF(NOT ${_lang} STREQUAL "")
       SET(languages ${languages} ${_lang})
-      SET(POFILES ${POFILES} "${_lang}.po")
+      SET(POFILES ${POFILES} "${CMAKE_CURRENT_SOURCE_DIR}/${_lang}.po")
    ENDIF()
 ENDFOREACH()
 

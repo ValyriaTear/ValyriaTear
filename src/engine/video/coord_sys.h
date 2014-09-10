@@ -1,5 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
-//            Copyright (C) 2004-2010 by The Allacrost Project
+//            Copyright (C) 2004-2011 by The Allacrost Project
+//            Copyright (C) 2012-2014 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -10,17 +11,14 @@
 /** ****************************************************************************
 *** \file    coord_sys.h
 *** \author  Raj Sharma, roos@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Header file for the CoordSys class.
 *** ***************************************************************************/
 
 #ifndef __COORD_SYS_HEADER__
 #define __COORD_SYS_HEADER__
 
-#include "utils.h"
-
-#include <cmath>
-
-namespace hoa_video
+namespace vt_video
 {
 
 /** ****************************************************************************
@@ -108,6 +106,6 @@ private:
     float _left, _right, _bottom, _top;
 }; // class CoordSys
 
-} // namespace hoa_video
+} // namespace vt_video
 
 #endif // __COORD_SYS_HEADER__

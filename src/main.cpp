@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 //            Copyright (C) 2004-2011 by The Allacrost Project
-//            Copyright (C) 2012 by Bertram (Valyria Tear)
+//            Copyright (C) 2012-2014 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -27,6 +27,10 @@
 *** -# Update the game status based on how much time expired from the last update.
 *** ***************************************************************************/
 
+#include "utils/utils_pch.h"
+
+#include "utils/utils_files.h"
+
 #include "engine/audio/audio.h"
 #include "engine/input.h"
 #include "engine/mode_manager.h"
@@ -39,24 +43,32 @@
 #include "modes/boot/boot.h"
 #include "main_options.h"
 
-#ifdef __MACH__
-#include <unistd.h>
-#endif
+using namespace vt_utils;
+using namespace vt_audio;
+using namespace vt_video;
+using namespace vt_gui;
+using namespace vt_mode_manager;
+using namespace vt_input;
+using namespace vt_system;
+using namespace vt_global;
+using namespace vt_script;
+using namespace vt_boot;
+using namespace vt_map;
 
-#include <SDL_image.h>
-#include <time.h>
+//! \brief Namespace which contains all binding functions
+namespace vt_defs
+{
 
-using namespace hoa_utils;
-using namespace hoa_audio;
-using namespace hoa_video;
-using namespace hoa_gui;
-using namespace hoa_mode_manager;
-using namespace hoa_input;
-using namespace hoa_system;
-using namespace hoa_global;
-using namespace hoa_script;
-using namespace hoa_boot;
-using namespace hoa_map;
+/** \brief Contains the binding code which makes the C++ engine available to Lua
+*** This method should <b>only be called once</b>. It must be called after the
+*** ScriptEngine is initialized, otherwise the application will crash.
+**/
+
+void BindEngineCode();
+void BindCommonCode();
+void BindModeCode();
+
+} // namespace vt_defs
 
 /** \brief Frees all data allocated by the game by destroying the singleton classes
 ***
@@ -97,15 +109,28 @@ void QuitApp()
 bool LoadSettings()
 {
     ReadScriptDescriptor settings;
-    if(settings.OpenFile(GetSettingsFilename()) == false)
+    if(!settings.OpenFile(GetSettingsFilename()))
         return false;
 
-    settings.OpenTable("settings");
+    if (!settings.OpenTable("settings")) {
+        PRINT_ERROR << "Couldn't open the 'settings' table in: "
+            << settings.GetFilename() << std::endl
+            << settings.GetErrorMessages() << std::endl;
+        settings.CloseFile();
+        return false;
+    }
 
     // Load language settings
     SystemManager->SetLanguage(static_cast<std::string>(settings.ReadString("language")));
 
-    settings.OpenTable("key_settings");
+    if (!settings.OpenTable("key_settings")) {
+        PRINT_ERROR << "Couldn't open the 'key_settings' table in: "
+            << settings.GetFilename() << std::endl
+            << settings.GetErrorMessages() << std::endl;
+        settings.CloseFile();
+        return false;
+    }
+
     InputManager->SetUpKey(static_cast<SDLKey>(settings.ReadInt("up")));
     InputManager->SetDownKey(static_cast<SDLKey>(settings.ReadInt("down")));
     InputManager->SetLeftKey(static_cast<SDLKey>(settings.ReadInt("left")));
@@ -113,83 +138,95 @@ bool LoadSettings()
     InputManager->SetConfirmKey(static_cast<SDLKey>(settings.ReadInt("confirm")));
     InputManager->SetCancelKey(static_cast<SDLKey>(settings.ReadInt("cancel")));
     InputManager->SetMenuKey(static_cast<SDLKey>(settings.ReadInt("menu")));
-    InputManager->SetSwapKey(static_cast<SDLKey>(settings.ReadInt("swap")));
-    InputManager->SetLeftSelectKey(static_cast<SDLKey>(settings.ReadInt("left_select")));
-    InputManager->SetRightSelectKey(static_cast<SDLKey>(settings.ReadInt("right_select")));
+    InputManager->SetMinimapKey(static_cast<SDLKey>(settings.ReadInt("minimap")));
     InputManager->SetPauseKey(static_cast<SDLKey>(settings.ReadInt("pause")));
-    settings.CloseTable();
+    settings.CloseTable(); // key_settings
 
-    if(settings.IsErrorDetected()) {
-        PRINT_ERROR << "SETTINGS LOAD ERROR: failure while trying to retrieve key map "
-                    << "information from file: " << GetSettingsFilename() << std::endl
-                    << settings.GetErrorMessages() << std::endl;
+    if (!settings.OpenTable("joystick_settings")) {
+        PRINT_ERROR << "Couldn't open the 'joystick_settings' table in: "
+            << settings.GetFilename() << std::endl
+            << settings.GetErrorMessages() << std::endl;
+        settings.CloseFile();
         return false;
     }
 
-    settings.OpenTable("joystick_settings");
-    // This is a hack to disable joystick input to fix a bug with "phantom" joysticks on certain systems.
-    // TODO; It should call a method of the input engine to disable the joysticks.
-    if(settings.DoesBoolExist("input_disabled") && settings.ReadBool("input_disabled") == true) {
-        SDL_JoystickEventState(SDL_IGNORE);
-        SDL_QuitSubSystem(SDL_INIT_JOYSTICK);
-    }
+    InputManager->SetJoysticksEnabled(!settings.ReadBool("input_disabled"));
     InputManager->SetJoyIndex(static_cast<int32>(settings.ReadInt("index")));
     InputManager->SetConfirmJoy(static_cast<uint8>(settings.ReadInt("confirm")));
     InputManager->SetCancelJoy(static_cast<uint8>(settings.ReadInt("cancel")));
     InputManager->SetMenuJoy(static_cast<uint8>(settings.ReadInt("menu")));
-    InputManager->SetSwapJoy(static_cast<uint8>(settings.ReadInt("swap")));
-    InputManager->SetLeftSelectJoy(static_cast<uint8>(settings.ReadInt("left_select")));
-    InputManager->SetRightSelectJoy(static_cast<uint8>(settings.ReadInt("right_select")));
+    InputManager->SetMinimapJoy(static_cast<uint8>(settings.ReadInt("minimap")));
     InputManager->SetPauseJoy(static_cast<uint8>(settings.ReadInt("pause")));
-
     InputManager->SetQuitJoy(static_cast<uint8>(settings.ReadInt("quit")));
+    // DEPRECATED: Remove the hack in one or two releases...
+    if(settings.DoesIntExist("help"))
+        InputManager->SetHelpJoy(static_cast<uint8>(settings.ReadInt("help")));
+    else
+        InputManager->SetHelpJoy(15); // A high value to avoid getting in the way
+
     if(settings.DoesIntExist("x_axis"))
         InputManager->SetXAxisJoy(static_cast<int8>(settings.ReadInt("x_axis")));
     if(settings.DoesIntExist("y_axis"))
         InputManager->SetYAxisJoy(static_cast<int8>(settings.ReadInt("y_axis")));
 
-    // WinterKnight: These are hidden settings. You can change them by editing settings.lua,
-    // but they are not available in the options menu at this time.
     if(settings.DoesIntExist("threshold"))
         InputManager->SetThresholdJoy(static_cast<uint16>(settings.ReadInt("threshold")));
 
-    settings.CloseTable();
+    settings.CloseTable(); // joystick_settings
 
-    if(settings.IsErrorDetected()) {
-        PRINT_ERROR << "SETTINGS LOAD ERROR: an error occured while trying to retrieve joystick mapping information "
-                    << "from file: " << GetSettingsFilename() << std::endl
-                    << settings.GetErrorMessages() << std::endl;
+    if (!settings.OpenTable("video_settings")) {
+        PRINT_ERROR << "Couldn't open the 'video_settings' table in: "
+            << settings.GetFilename() << std::endl
+            << settings.GetErrorMessages() << std::endl;
+        settings.CloseFile();
         return false;
     }
 
     // Load video settings
-    settings.OpenTable("video_settings");
-    bool fullscreen = settings.ReadBool("full_screen");
     int32 resx = settings.ReadInt("screen_resx");
     int32 resy = settings.ReadInt("screen_resy");
     VideoManager->SetInitialResolution(resx, resy);
-    VideoManager->SetFullscreen(fullscreen);
-    settings.CloseTable();
-
-    if(settings.IsErrorDetected()) {
-        PRINT_ERROR << "SETTINGS LOAD ERROR: failure while trying to retrieve video settings "
-                    << "information from file: " << GetSettingsFilename() << std::endl
-                    << settings.GetErrorMessages() << std::endl;
-        return false;
-    }
+    VideoManager->SetFullscreen(settings.ReadBool("full_screen"));
+    GUIManager->SetUserMenuSkin(settings.ReadString("ui_theme"));
+    settings.CloseTable(); // video_settings
 
     // Load Audio settings
     if(AUDIO_ENABLE) {
-        settings.OpenTable("audio_settings");
+        if (!settings.OpenTable("audio_settings")) {
+            PRINT_ERROR << "Couldn't open the 'audio_settings' table in: "
+                << settings.GetFilename() << std::endl
+                << settings.GetErrorMessages() << std::endl;
+            settings.CloseFile();
+            return false;
+        }
+
         AudioManager->SetMusicVolume(static_cast<float>(settings.ReadFloat("music_vol")));
         AudioManager->SetSoundVolume(static_cast<float>(settings.ReadFloat("sound_vol")));
+
+        settings.CloseTable(); // audio_settings
     }
-    settings.CloseAllTables();
+
+    // Load Game settings
+    if (!settings.OpenTable("game_options")) {
+        SystemManager->SetMessageSpeed(DEFAULT_MESSAGE_SPEED);
+    }
+    else {
+        float message_speed = settings.ReadFloat("message_speed");
+        if (message_speed < 1.0f) {
+            PRINT_WARNING << "Invalid message_speed option value. Reverting to default one." << std::endl;
+            message_speed = DEFAULT_MESSAGE_SPEED;
+        }
+        SystemManager->SetMessageSpeed(message_speed);
+        settings.CloseTable(); // video_settings
+    }
+
+    settings.CloseTable(); // settings
 
     if(settings.IsErrorDetected()) {
-        PRINT_ERROR << "SETTINGS LOAD ERROR: failure while trying to retrieve audio settings "
-                    << "information from file: " << GetSettingsFilename() << std::endl
-                    << settings.GetErrorMessages() << std::endl;
+        PRINT_ERROR << "Errors while attempting to load the setting file: "
+            << settings.GetFilename() << std::endl
+            << settings.GetErrorMessages() << std::endl;
+        settings.CloseFile();
         return false;
     }
 
@@ -198,82 +235,10 @@ bool LoadSettings()
     return true;
 } // bool LoadSettings()
 
-//! Loads all the fonts available in the game.
-//! And sets a default one
-//! The function will exit the game if no valid font were loaded
-//! or if the default font is invalid.
-static void LoadFonts(const std::string &font_script_filename)
-{
-    hoa_script::ReadScriptDescriptor font_script;
-
-    //Checking the file existence and validity.
-    if(!font_script.OpenFile(font_script_filename)) {
-        PRINT_ERROR << "Couldn't open font file: " << font_script_filename
-                    << std::endl;
-        exit(EXIT_FAILURE);
-    }
-
-    if(!font_script.DoesTableExist("fonts")) {
-        PRINT_ERROR << "No 'fonts' table in file: " << font_script_filename
-                    << std::endl;
-        font_script.CloseFile();
-        exit(EXIT_FAILURE);
-    }
-
-    std::string font_default = font_script.ReadString("font_default");
-    if(font_default.empty()) {
-        PRINT_ERROR << "No default font defined in: " << font_script_filename
-                    << std::endl;
-        font_script.CloseFile();
-        exit(EXIT_FAILURE);
-    }
-
-    std::vector<std::string> style_names;
-    font_script.ReadTableKeys("fonts", style_names);
-    if(style_names.empty()) {
-        PRINT_ERROR << "No text styles defined in the 'fonts' table of file: "
-                    << font_script_filename << std::endl;
-        font_script.CloseFile();
-        exit(EXIT_FAILURE);
-    }
-
-    font_script.OpenTable("fonts");
-    for(uint32 i = 0; i < style_names.size(); ++i) {
-        font_script.OpenTable(style_names[i]); // Text style
-
-        std::string font_file = font_script.ReadString("font");
-        uint32 font_size = font_script.ReadInt("size");
-
-        if(!VideoManager->Text()->LoadFont(font_file, style_names[i], font_size)) {
-            // Check whether the default font is invalid
-            if(font_default == style_names[i]) {
-                font_script.CloseAllTables();
-                font_script.CloseFile();
-                PRINT_ERROR << "The default font '" << font_default
-                            << "' couldn't be loaded in file: " << font_script_filename
-                            << std::endl;
-                exit(EXIT_FAILURE);
-                return; // Superfluous but for readability.
-            }
-        }
-
-        font_script.CloseTable(); // Text style
-    }
-    font_script.CloseTable(); // fonts
-
-    font_script.CloseFile();
-
-    // Setup the default font
-    VideoManager->Text()->SetDefaultStyle(TextStyle(font_default, Color::white,
-                                          VIDEO_TEXT_SHADOW_BLACK, 1, -2));
-}
-
 //! Loads the default window GUI theme for the game.
-//! TODO: Make this changeable from the boot menu
-//! and handle keeping the them in memory through config
 static void LoadGUIThemes(const std::string& theme_script_filename)
 {
-    hoa_script::ReadScriptDescriptor theme_script;
+    vt_script::ReadScriptDescriptor theme_script;
 
     // Checking the file existence and validity.
     if(!theme_script.OpenFile(theme_script_filename)) {
@@ -289,17 +254,9 @@ static void LoadGUIThemes(const std::string& theme_script_filename)
         exit(EXIT_FAILURE);
     }
 
-    std::string default_theme = theme_script.ReadString("default_theme");
-    if (default_theme.empty()) {
-        PRINT_ERROR << "No default theme defined in: " << theme_script_filename
-                    << std::endl;
-        theme_script.CloseFile();
-        exit(EXIT_FAILURE);
-    }
-
-    std::vector<std::string> theme_names;
-    theme_script.ReadTableKeys("themes", theme_names);
-    if (theme_names.empty()) {
+    std::vector<std::string> theme_ids;
+    theme_script.ReadTableKeys("themes", theme_ids);
+    if (theme_ids.empty()) {
         PRINT_ERROR << "No themes defined in the 'themes' table of file: "
                     << theme_script_filename << std::endl;
         theme_script.CloseFile();
@@ -308,60 +265,75 @@ static void LoadGUIThemes(const std::string& theme_script_filename)
 
     theme_script.OpenTable("themes");
 
+    std::string default_theme_id = theme_script.ReadString("default_theme");
+    if (default_theme_id.empty()) {
+        PRINT_ERROR << "No default theme defined in: " << theme_script_filename
+                    << std::endl;
+        theme_script.CloseFile();
+        exit(EXIT_FAILURE);
+    }
+
     bool default_theme_found = false;
 
-    for(uint32 i = 0; i < theme_names.size(); ++i) {
-        theme_script.OpenTable(theme_names[i]); // Theme name
+    for(uint32 i = 0; i < theme_ids.size(); ++i) {
+        // Skip the default theme value
+        if (theme_ids[i] == "default_theme")
+            continue;
 
+        theme_script.OpenTable(theme_ids[i]); // Theme name
+
+        std::string theme_name = theme_script.ReadString("name");
         std::string win_border_file = theme_script.ReadString("win_border_file");
         std::string win_background_file = theme_script.ReadString("win_background_file");
         std::string cursor_file = theme_script.ReadString("cursor_file");
 
-        if(!GUIManager->LoadMenuSkin(theme_names[i], win_border_file, win_background_file)) {
-            // Check whether the default font is invalid
-            if(default_theme == theme_names[i]) {
-                theme_script.CloseAllTables();
-                theme_script.CloseFile();
-                PRINT_ERROR << "The default theme '" << default_theme
-                            << "' couldn't be loaded in file: '" << theme_script_filename
-                            << "'. Exitting." << std::endl;
-                exit(EXIT_FAILURE);
-                return; // Superfluous but for readability.
-            }
-        }
-
-        if(default_theme == theme_names[i]) {
+        if (default_theme_id == theme_ids[i])
             default_theme_found = true;
-            if(!VideoManager->SetDefaultCursor(cursor_file)) {
-                theme_script.CloseAllTables();
-                theme_script.CloseFile();
-                PRINT_ERROR << "Couldn't load the GUI cursor file: '" << cursor_file
-                    << "'. Exitting." << std::endl;
-                exit(EXIT_FAILURE);
-            }
+
+        if (!GUIManager->LoadMenuSkin(theme_ids[i], theme_name, cursor_file, win_border_file, win_background_file)) {
+            theme_script.CloseAllTables();
+            theme_script.CloseFile();
+            PRINT_ERROR << "The theme '" << theme_ids[i]
+                        << "' couldn't be loaded in file: '" << theme_script_filename
+                        << "'. Exitting." << std::endl;
+            exit(EXIT_FAILURE);
+            return; // Superfluous but for readability.
         }
 
         theme_script.CloseTable(); // Theme name
     }
 
+    theme_script.CloseTable(); // themes
     theme_script.CloseFile();
 
-    if (!default_theme_found) {
-        PRINT_ERROR << "Couldn't find the default theme: '" << default_theme
-            << "' in file: '" << theme_script_filename << "'. Exitting." << std::endl;
+    // Query for the user menu skin which could have been set in the user settings lua file.
+    std::string user_theme_id = GUIManager->GetUserMenuSkinId();
+    if (!user_theme_id.empty()) {
+        // Activate the user theme, and the default one if not found.
+        if (!GUIManager->SetDefaultMenuSkin(user_theme_id))
+            GUIManager->SetDefaultMenuSkin(default_theme_id);
+    } else if (default_theme_found) {
+        // Activate the default theme.
+        GUIManager->SetDefaultMenuSkin(default_theme_id);
+    } else {
+        PRINT_ERROR << "No default or user settings UI theme found. Exiting." << std::endl;
         exit(EXIT_FAILURE);
     }
-
-    // Activate the default theme
-    // TODO: Obtain it from config
-    GUIManager->SetDefaultMenuSkin(default_theme);
 }
 
 /** \brief Initializes all engine components and makes other preparations for the game to start
-*** \return True if the game engine was initialized successfully, false if an unrecoverable error occured
+*** \return True if the game engine was initialized successfully, false if an unrecoverable error occurred
 **/
 void InitializeEngine() throw(Exception)
 {
+    // use display #0 unless already specified
+    // behavior of fullscreen mode is erratic without this value set
+#ifndef _WIN32
+    setenv("SDL_VIDEO_FULLSCREEN_DISPLAY", "0", 0);
+#else
+    SetEnvironmentVariable("SDL_VIDEO_FULLSCREEN_DISPLAY", "0");
+#endif
+
     // Initialize SDL. The video, audio, and joystick subsystems are initialized elsewhere.
     if(SDL_Init(SDL_INIT_TIMER) != 0) {
         throw Exception("MAIN ERROR: Unable to initialize SDL: ", __FILE__, __LINE__, __FUNCTION__);
@@ -389,9 +361,9 @@ void InitializeEngine() throw(Exception)
         throw Exception("ERROR: unable to initialize ScriptManager", __FILE__, __LINE__, __FUNCTION__);
     }
 
-    hoa_defs::BindEngineCode();
-    hoa_defs::BindCommonCode();
-    hoa_defs::BindModeCode();
+    vt_defs::BindEngineCode();
+    vt_defs::BindCommonCode();
+    vt_defs::BindModeCode();
 
     if(SystemManager->SingletonInitialize() == false) {
         throw Exception("ERROR: unable to initialize SystemManager", __FILE__, __LINE__, __FUNCTION__);
@@ -408,24 +380,29 @@ void InitializeEngine() throw(Exception)
     SDL_WM_SetIcon(IMG_Load("img/logos/program_icon.png"), NULL);
 
     // Load all the settings from lua. This includes some engine configuration settings.
-    if(LoadSettings() == false)
+    if(!LoadSettings())
         throw Exception("ERROR: Unable to load settings file", __FILE__, __LINE__, __FUNCTION__);
+
+    // Enforce smooth tiles graphics
+    VideoManager->SetPixelArtSmoothed(true);
 
     // Apply engine configuration settings with delayed initialization calls to the managers
     InputManager->InitializeJoysticks();
+
     if(VideoManager->ApplySettings() == false)
         throw Exception("ERROR: Unable to apply video settings", __FILE__, __LINE__, __FUNCTION__);
     if(VideoManager->FinalizeInitialization() == false)
         throw Exception("ERROR: Unable to apply video settings", __FILE__, __LINE__, __FUNCTION__);
 
-    // Loads the default GUI skin
+    // Loads the GUI skins.
     LoadGUIThemes("dat/config/themes.lua");
 
     // NOTE: This function call should have its argument set to false for release builds
     GUIManager->DEBUG_EnableGUIOutlines(false);
 
-    // Loads all game fonts
-    LoadFonts("dat/config/fonts.lua");
+    // Loads needed game text styles (fonts + colors + shadows)
+    if (!TextManager->LoadFonts(SystemManager->GetLanguage()))
+        exit(EXIT_FAILURE);
 
     // Loads potential emotes
     GlobalManager->LoadEmotes("dat/effects/emotes.lua");
@@ -470,8 +447,8 @@ int main(int argc, char *argv[])
 
     try {
         // Change to the directory where the game data is stored
-#ifdef __MACH__
-        string path;
+#ifdef __APPLE__
+        std::string path;
         path = argv[0];
         // Remove the binary name
         path.erase(path.find_last_of('/'));
@@ -480,7 +457,7 @@ int main(int argc, char *argv[])
         // Now the program should be in app/Contents
         path.append("/Resources/");
         chdir(path.c_str());
-#elif (defined(__linux__) || defined(__FreeBSD__)) && !defined(RELEASE_BUILD)
+#elif (defined(__linux__) || defined(__FreeBSD__) || defined(__OpenBSD__) || defined(SOLARIS)) && !defined(RELEASE_BUILD)
         // Look for data files in DATADIR only if they are not available in the current directory.
         if(std::ifstream("dat/config/settings.lua") == NULL) {
             if(chdir(PKG_DATADIR) != 0) {
@@ -496,7 +473,7 @@ int main(int argc, char *argv[])
         int32 return_code = EXIT_FAILURE;
 
         // Parse command lines and exit out of the game if needed
-        if(hoa_main::ParseProgramOptions(return_code, static_cast<int32>(argc), argv) == false) {
+        if(vt_main::ParseProgramOptions(return_code, static_cast<int32>(argc), argv) == false) {
             return static_cast<int>(return_code);
         }
 
@@ -523,9 +500,11 @@ int main(int argc, char *argv[])
             // 1) Render the scene
             VideoManager->Clear();
             ModeManager->Draw();
-            VideoManager->Draw();
             ModeManager->DrawEffects();
             ModeManager->DrawPostEffects();
+            VideoManager->DrawFadeEffect();
+            VideoManager->DrawDebugInfo();
+
             // Swap the buffers once the draw operations are done.
             SDL_GL_SwapBuffers();
 

@@ -1,5 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
-//            Copyright (C) 2004-2010 by The Allacrost Project
+//            Copyright (C) 2004-2011 by The Allacrost Project
+//            Copyright (C) 2012-2014 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software and
@@ -12,28 +13,27 @@
 *** \author  Viljami Korhonen, mindflayer@allacrost.org
 *** \author  Andy Gardner, chopperdave@allacrost.org
 *** \author  Tyler Olsen, roots@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Source file for actions that occur in battles.
 *** ***************************************************************************/
 
-#include <iostream>
-#include <sstream>
+#include "utils/utils_pch.h"
+#include "modes/battle/battle_actions.h"
 
 #include "engine/script/script.h"
 
 #include "modes/battle/battle.h"
-#include "modes/battle/battle_actions.h"
 #include "modes/battle/battle_actors.h"
 #include "modes/battle/battle_utils.h"
 
-using namespace hoa_utils;
-using namespace hoa_audio;
-using namespace hoa_video;
-using namespace hoa_input;
-using namespace hoa_system;
-using namespace hoa_global;
-using namespace hoa_script;
+using namespace vt_utils;
+using namespace vt_audio;
+using namespace vt_video;
+using namespace vt_system;
+using namespace vt_global;
+using namespace vt_script;
 
-namespace hoa_battle
+namespace vt_battle
 {
 
 namespace private_battle
@@ -79,6 +79,10 @@ SkillAction::SkillAction(BattleActor *actor, BattleTarget target, GlobalSkill *s
 
     if(animation_script_file.empty())
         return;
+
+    // Clears out old script data
+    std::string tablespace = ScriptEngine::GetTableSpace(animation_script_file);
+    ScriptManager->DropGlobalTable(tablespace);
 
     ReadScriptDescriptor anim_script;
     if(!anim_script.OpenFile(animation_script_file)) {
@@ -127,15 +131,8 @@ bool SkillAction::Initialize()
         return false;
 
     // Ensure that the skill will affect a valid target
-    if(!_target.IsValid()) {
-        // TEMP: party targets should always be valid and attack points never disappear, so only the actor needs to be changed
-// 		if (IsTargetPoint(_target.GetType()) == true)
-// 			_target.SelectNextPoint();
-// 		else if (IsTargetActor(_target.GetType()) == true)
-
-        // TEMP: this should only be done if the skill has no custom checking for valid targets
+    if(!_target.IsValid())
         _target.SelectNextActor(_actor);
-    }
 
     if(IsScripted())
         _InitAnimationScript();
@@ -149,29 +146,6 @@ bool SkillAction::Execute()
 
     if(!_skill->ExecuteBattleFunction(_actor, _target))
         return false;
-
-// 	if (_target->GetType() == GLOBAL_TARGET_PARTY) {
-    // TODO: loop through _target.GetParty() and apply the function
-// 		if (_target->IsEnemy()) {
-// 			BattleEnemy* enemy;
-// 			//Loop through all enemies and apply the item
-// 			for (uint32 i = 0; i < BattleMode::CurrentInstance()->GetNumberOfEnemies(); i++) {
-// 				enemy = BattleMode::CurrentInstance()->GetEnemyActorAt(i);
-// 				ScriptCallFunction<void>(*script_function, enemy, _source);
-// 			}
-// 		}
-// 		else { // Target is a character
-// 			BattleCharacter* character;
-// 			//Loop through all party members and apply
-// 			for (uint32 i = 0; i < BattleMode::CurrentInstance()->GetNumberOfCharacters(); i++) {
-// 				character = BattleMode::CurrentInstance()->GetPlayerCharacterAt(i);
-// 				ScriptCallFunction<void>(*script_function, character, _source);
-// 			}
-// 		}
-// 	}
-// 	else {
-//
-// 	}
 
     _actor->SubtractSkillPoints(_skill->GetSPRequired());
     return true;
@@ -203,6 +177,22 @@ ustring SkillAction::GetName() const
         return ustring();
     else
         return _skill->GetName();
+}
+
+std::string SkillAction::GetIconFilename() const
+{
+    if (!_skill)
+        return std::string();
+
+    switch (_skill->GetType()) {
+    default:
+        break;
+    case vt_global::GLOBAL_SKILL_WEAPON:
+        return std::string("weapon"); // alias used to know the weapon icon needs to used.
+    case GLOBAL_SKILL_BARE_HANDS:
+        return std::string("img/icons/weapons/fist-human.png");
+    }
+    return _skill->GetIconFilename();
 }
 
 std::string SkillAction::GetWarmupActionName() const
@@ -247,7 +237,7 @@ ItemAction::ItemAction(BattleActor *source, BattleTarget target, BattleItem *ite
     _action_canceled(false)
 {
     if(item == NULL) {
-        IF_PRINT_WARNING(BATTLE_DEBUG) << "constructor received NULL item argument" << std::endl;
+        PRINT_WARNING << "Item action without valid item!!" << std::endl;
         return;
     }
 
@@ -267,11 +257,14 @@ bool ItemAction::Execute()
     // step.
 
     const ScriptObject &script_function = _item->GetItem().GetBattleUseFunction();
-    bool ret = false;
     if(!script_function.is_valid()) {
         IF_PRINT_WARNING(BATTLE_DEBUG) << "item did not have a battle use function" << std::endl;
+
+        Cancel();
+        return false;
     }
 
+    bool ret = false;
     try {
         ret = ScriptCallFunction<bool>(script_function, _actor, _target);
     } catch(const luabind::error &err) {
@@ -295,7 +288,8 @@ void ItemAction::Cancel()
         return;
 
     // Give the item back in that case
-    _item->IncrementBattleCount();
+    if (_item)
+        _item->IncrementBattleCount();
 
     // Permit to cancel only once.
     _action_canceled = true;
@@ -303,10 +297,16 @@ void ItemAction::Cancel()
 
 ustring ItemAction::GetName() const
 {
-    if(_item == NULL)
-        return UTranslate("Use: [error]");
-    else
-        return (UTranslate("Use: ") + (_item->GetItem()).GetName());
+    if(_item)
+        return _item->GetItem().GetName();
+    return UTranslate("[error]");
+}
+
+std::string ItemAction::GetIconFilename() const
+{
+    if(_item)
+        return _item->GetItem().GetIconImage().GetFilename();
+    return std::string();
 }
 
 uint32 ItemAction::GetWarmUpTime() const
@@ -327,4 +327,4 @@ uint32 ItemAction::GetCoolDownTime() const
 
 } // namespace private_battle
 
-} // namespace hoa_battle
+} // namespace vt_battle

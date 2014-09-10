@@ -1,5 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
-//            Copyright (C) 2004-2010 by The Allacrost Project
+//            Copyright (C) 2004-2011 by The Allacrost Project
+//            Copyright (C) 2012-2014 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -10,6 +11,7 @@
 /** ****************************************************************************
 *** \file    screen_rect.h
 *** \author  Raj Sharma, roos@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Header file for the ScreenRect class.
 *** The ScreenRect class is used for storing rectangles with pixel coordinates
 *** ***************************************************************************/
@@ -17,9 +19,7 @@
 #ifndef __SCREEN_RECT_HEADER__
 #define __SCREEN_RECT_HEADER__
 
-#include "utils.h"
-
-namespace hoa_video
+namespace vt_video
 {
 
 /** ****************************************************************************
@@ -32,10 +32,23 @@ namespace hoa_video
 class ScreenRect
 {
 public:
-    ScreenRect()
+    ScreenRect():
+        left(0),
+        top(0),
+        width(0),
+        height(0)
     {}
-    ScreenRect(int32 l, int32 t, int32 w, int32 h)
-        : left(l), top(t), width(w), height(h) {}
+
+    ScreenRect(int32 l, int32 t, int32 w, int32 h):
+        left(l),
+        top(t),
+        width(w),
+        height(h)
+    {}
+
+    void Set(int32 l, int32 t, int32 w, int32 h)
+    { left = l; top = t; width = w; height = h; }
+
 
     /** \brief Modifies the rectangle coordinates to be an intersection of itself with another rectangle
     *** \param rect The rectangle to intersect this rectangle with
@@ -75,6 +88,6 @@ public:
     int32 width, height;
 }; // class ScreenRect
 
-}  // namespace hoa_video
+}  // namespace vt_video
 
 #endif // __SCREEN_RECT_HEADER__

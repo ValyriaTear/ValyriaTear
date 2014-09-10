@@ -1,5 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
-//            Copyright (C) 2004-2010 by The Allacrost Project
+//            Copyright (C) 2004-2011 by The Allacrost Project
+//            Copyright (C) 2012-2014 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -11,20 +12,22 @@
 *** \file   audio_stream.cpp
 *** \author Mois�s Ferrer Serra, byaku@allacrost.org
 *** \author Tyler Olsen, roots@allacrost.org
+*** \author Yohann Ferreira, yohann ferreira orange fr
 *** \brief  Implementation of the streaming audio classes
 ***
 *** This code implements the functionality for more advanced streaming. Streaming
 *** enables support for features such as customized looping.
 *** ***************************************************************************/
 
+#include "utils/utils_pch.h"
 #include "audio_stream.h"
 
 #include "audio_input.h"
 
-#include <cstdlib>
-
-namespace hoa_audio
+namespace vt_audio
 {
+
+extern bool AUDIO_DEBUG;
 
 namespace private_audio
 {
@@ -115,4 +118,4 @@ void AudioStream::SetLoopEnd(uint32 sample)
 
 } // namespace private_audio
 
-} // namespace hoa_audio
+} // namespace vt_audio

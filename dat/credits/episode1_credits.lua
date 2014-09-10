@@ -1,5 +1,5 @@
 ------------------------------------------------------------------------------[[
--- Filename: small_credits.lua
+-- Filename: episode1_credits.lua
 --
 -- Description: Contains the credits seen at game start, only the main
 -- authors are there.
@@ -10,11 +10,8 @@ setmetatable(ns, {__index = _G})
 episode1_credits = ns;
 setfenv(1, ns);
 
-local open_game_art_logo_id = 0;
-local allacrost_logo_id = 0;
-
-local current_text_header = "";
-local current_text = "";
+local open_game_art_logo = {};
+local allacrost_logo = {};
 
 local credit_map = {}
 local credit_id = 0;
@@ -27,45 +24,65 @@ function Initialize(map_instance)
 
     Script = Map:GetScriptSupervisor();
 
-    allacrost_logo_id = Script:AddImage("img/logos/hoa_garland_logo.png", 206.0, 100.0);
-    open_game_art_logo_id = Script:AddImage("img/logos/oga.png", 160.0, 80.0);
+    allacrost_logo = Script:CreateImage("img/logos/hoa_garland_logo.png");
+    allacrost_logo:SetDimensions(206.0, 100.0);
+    open_game_art_logo = Script:CreateImage("img/logos/oga.png");
+    open_game_art_logo:SetDimensions(160.0, 80.0);
 
     credit_map = {
         [0] = {
-            header = hoa_system.Translate("Based on the engine"),
-            text = ""
+            header = Script:CreateText(vt_system.Translate("Based on the engine"), vt_video.TextStyle("text22")),
+            text = Script:CreateText("", vt_video.TextStyle("text22"))
         },
         [1] = {
-            header = hoa_system.Translate("Story"),
-            text = "Bertram\nLilou"
+            header = Script:CreateText(vt_system.Translate("Story"), vt_video.TextStyle("text22")),
+            text = Script:CreateText("Bertram\nLilou", vt_video.TextStyle("text22")),
         },
         [2] = {
-            header = hoa_system.Translate("Episode I - Main Graphics"),
-            text = "Daniel Cook\nSafir-Kreuz\nJetrel\nZabin\nRamtam"
+            header = Script:CreateText(vt_system.Translate("Episode I - Main Graphics"), vt_video.TextStyle("text22")),
+            text = Script:CreateText("Daniel Cook\nZabin\nSafir-Kreuz\nJetrel", vt_video.TextStyle("text22")),
         },
         [3] = {
-            header = hoa_system.Translate("Episode I - Additional Graphics"),
-            text = "Open Game Art\nand many others"
+            header = Script:CreateText(vt_system.Translate("Episode I - Additional Graphics"), vt_video.TextStyle("text22")),
+            text = Script:CreateText("Open Game Art\nRamtam\n(vectorgurl.com)\nPatrick Thompson\n(pkillustration.com)\n"..vt_system.Translate("and many others"),
+                                     vt_video.TextStyle("text22")),
         },
         [4] = {
-            header = hoa_system.Translate("Music"),
-            text = "Mathew Pablo\nwww.matthewpablo.com\nKoertes (OGA)\nHorrorPen (OGA)"
+            header = Script:CreateText(vt_system.Translate("Music"), vt_video.TextStyle("text22")),
+            text = Script:CreateText("Mathew Pablo\n(matthewpablo.com)\nZander Noriega (OGA)\nKoertes (OGA)\nHorrorPen (OGA)",
+                                     vt_video.TextStyle("text22")),
         },
         [5] = {
-            header = hoa_system.Translate("Programming, Scripting, Maps"),
-            text = "Bertram"
+            header = Script:CreateText(vt_system.Translate("Programming, Scripting, Maps"), vt_video.TextStyle("text22")),
+            text = Script:CreateText("Bertram", vt_video.TextStyle("text22"))
         },
         [6] = {
-            header = hoa_system.Translate("Additional programming\nand scripting"),
-            text = "Roots\nIkarusDowned\nCoderGreen"
+            header = Script:CreateText(vt_system.Translate("Additional programming\nand scripting"), vt_video.TextStyle("text22")),
+            text = Script:CreateText("Roots\nIkarusDowned   CoderGreen\nAuthenticate   Logzero\nEndoalir", vt_video.TextStyle("text22"))
         },
         [7] = {
-            header = "",
-            text = hoa_system.Translate("To Lilou and Léo...")
+            header = Script:CreateText(vt_system.Translate("Ports"), vt_video.TextStyle("text22")),
+            text = Script:CreateText("Ablu\nSocapex\nIbara\nAMDmi3", vt_video.TextStyle("text22"))
         },
         [8] = {
-            header = "",
-            text = hoa_system.Translate("Thanks to everyone\nwho made this possible!!")
+            header = Script:CreateText(vt_system.Translate("Translations"), vt_video.TextStyle("text22")),
+            text = Script:CreateText("NaN (de)\nGallaecio (gl)\nBioHazardX (it)\nKnitter (pt_PT)", vt_video.TextStyle("text22"))
+        },
+        [9] = {
+            header = Script:CreateText(vt_system.Translate("Translations"), vt_video.TextStyle("text22")),
+            text = Script:CreateText("Bertram (fr)\ndimproject (ru)\njahalic (es)\nWillemS (nl_NL)", vt_video.TextStyle("text22"))
+        },
+        [10] = {
+            header = Script:CreateText(vt_system.Translate("Tester Team"), vt_video.TextStyle("text22")),
+            text = Script:CreateText("Shirish\nKhyana\nSahaondra\nOmega\nPenPen", vt_video.TextStyle("text22"))
+        },
+        [11] = {
+            header = Script:CreateText("", vt_video.TextStyle("text22")),
+            text = Script:CreateText(vt_system.Translate("To Lilou and Léo..."), vt_video.TextStyle("text22"))
+        },
+        [12] = {
+            header = Script:CreateText("", vt_video.TextStyle("text22")),
+            text = Script:CreateText(vt_system.Translate("Thanks to everyone\nwho made this possible!!"), vt_video.TextStyle("text22"))
         }
     }
 
@@ -124,6 +141,10 @@ function Update()
 
 end
 
+local header_color = vt_video.Color(1.0, 0.8, 0.7, 1.0);
+local text_color = vt_video.Color(1.0, 1.0, 1.0, 1.0);
+local logo_color = vt_video.Color(1.0, 1.0, 1.0, 1.0);
+
 function DrawPostEffects()
     -- Stop once the credits have finished.
     if (credit_map[credit_id] == nil or intro_time_done == false) then
@@ -140,23 +161,30 @@ function DrawPostEffects()
 
     local text_alpha = 1.0;
     if (credit_time >= 0
-			and credit_time <= 1000) then
-		text_alpha = credit_time / 1000;
+            and credit_time <= 1000) then
+        text_alpha = credit_time / 1000;
     elseif (credit_time > 4000
-			and credit_time <= 5000) then
+            and credit_time <= 5000) then
         text_alpha = 1.0 - (credit_time - 4000) / (5000 - 4000);
     elseif (credit_time > 5000) then
         text_alpha = 0.0;
     end
 
-    VideoManager:DrawText(credit_map[credit_id].header, 870.0, 600.0, hoa_video.Color(1.0, 0.8, 0.7, 1.0 * text_alpha));
-    VideoManager:DrawText(credit_map[credit_id].text, 870.0, 648.0, hoa_video.Color(1.0, 1.0, 1.0, 0.9 * text_alpha));
+    header_color:SetAlpha(1.0 * text_alpha);
+    text_color:SetAlpha(0.9 * text_alpha);
+    VideoManager:Move(870.0, 600.0);
+    credit_map[credit_id].header:Draw(header_color);
+    VideoManager:Move(870.0, 648.0);
+    credit_map[credit_id].text:Draw(text_color);
 
     -- Custom images in honor of those who helped :)
+    logo_color:SetAlpha(0.8 * text_alpha);
     if (credit_id == 0) then
-        Script:DrawImage(allacrost_logo_id, 870.0, 720.0, hoa_video.Color(1.0, 1.0, 1.0, 0.8 * text_alpha));
+        VideoManager:Move(870.0, 720.0);
+        allacrost_logo:Draw(logo_color);
     elseif (credit_id == 3) then
-        Script:DrawImage(open_game_art_logo_id, 690.0, 710.0, hoa_video.Color(1.0, 1.0, 1.0, 0.8 * text_alpha));
+        VideoManager:Move(690.0, 710.0);
+        open_game_art_logo:Draw(logo_color);
     end
 
 end

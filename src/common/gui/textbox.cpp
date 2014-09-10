@@ -1,5 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
-//            Copyright (C) 2004-2010 by The Allacrost Project
+//            Copyright (C) 2004-2011 by The Allacrost Project
+//            Copyright (C) 2012-2014 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -7,57 +8,67 @@
 // See http://www.gnu.org/copyleft/gpl.html for details.
 ///////////////////////////////////////////////////////////////////////////////
 
+/** ****************************************************************************
+*** \file    textbox.h
+*** \author  Raj Sharma, roos@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
+*** \brief   Header file for TextBox class
+*** ***************************************************************************/
+
+#include "utils/utils_pch.h"
 #include "textbox.h"
 
 #include "common/gui/menu_window.h"
 #include "engine/video/video.h"
 
-using namespace hoa_utils;
-using namespace hoa_video;
-using namespace hoa_video::private_video;
-using namespace hoa_gui;
-using namespace hoa_gui::private_gui;
+using namespace vt_utils;
+using namespace vt_video;
+using namespace vt_video::private_video;
+using namespace vt_gui;
+using namespace vt_gui::private_gui;
 
-namespace hoa_gui
+namespace vt_gui
 {
+
+//! \brief The unicode version of the newline character, used for string parsing
+const uint16 NEWLINE_CHARACTER = static_cast<uint16>('\n');
 
 TextBox::TextBox() :
-    _display_speed(0.0f),
+    _display_speed(DEFAULT_MESSAGE_SPEED),
     _text_xalign(VIDEO_X_LEFT),
     _text_yalign(VIDEO_Y_BOTTOM),
     _num_chars(0),
     _finished(false),
     _current_time(0),
-    _mode(VIDEO_TEXT_INSTANT)
+    _end_time(0),
+    _mode(VIDEO_TEXT_INSTANT),
+    _text_height(0.0f),
+    _text_xpos(0.0f),
+    _text_ypos(0.0f)
 {
-    _initialized = false;
+    _width = 0.0f;
+    _height = 0.0f;
+    _text_style = TextManager->GetDefaultStyle();
 }
 
-
-
 TextBox::TextBox(float x, float y, float width, float height, const TEXT_DISPLAY_MODE &mode) :
-    _display_speed(0.0f),
+    _display_speed(DEFAULT_MESSAGE_SPEED),
     _text_xalign(VIDEO_X_LEFT),
     _text_yalign(VIDEO_Y_BOTTOM),
     _num_chars(0),
     _finished(false),
     _current_time(0),
-    _mode(mode)
+    _end_time(0),
+    _mode(mode),
+    _text_height(0.0f),
+    _text_xpos(0.0f),
+    _text_ypos(0.0f)
 {
     _width = width;
     _height = height;
     _text_style = TextManager->GetDefaultStyle();
     SetPosition(x, y);
-    _initialized = false;
 }
-
-
-
-TextBox::~TextBox()
-{
-    // Does nothing since TextBox doesn't allocate any memory
-}
-
 
 
 void TextBox::ClearText()
@@ -65,12 +76,17 @@ void TextBox::ClearText()
     _finished = true;
     _text.clear();
     _num_chars = 0;
+    _text_save.clear();
+    _text_image.Clear();
 }
 
 
 
 void TextBox::Update(uint32 time)
 {
+    if (_finished)
+        return;
+
     _current_time += time;
 
     if(_text.empty() == false && _current_time > _end_time)
@@ -81,94 +97,31 @@ void TextBox::Update(uint32 time)
 
 void TextBox::Draw()
 {
-    if(_text.empty())
+    if(_mode != VIDEO_TEXT_INSTANT && _text.empty())
         return;
-
-    if(_initialized == false) {
-        IF_PRINT_WARNING(VIDEO_DEBUG) << "function failed because the textbox was not initialized:\n" << _initialization_errors << std::endl;
-        return;
-    }
 
     // Don't draw text window if parent window is hidden
     if(_owner && _owner->GetState() == VIDEO_MENU_STATE_HIDDEN)
         return;
 
-    // Take the following steps to draw the text:
-    //  (1): Save the video engine's context and enable appropriate draw settings
-    //  (2): Determine the coordinates of the textbox rectangle to draw
-    //  (3): Create a ScreenRect for the textbox area and apply scissoring if its enabled
-    //  (4): Determine the text draw position from the alignment flags
-    //  (5): Draw each line of text to the screen
-    //  (6): Restore the original video engine context
     VideoManager->PushState();
 
     VideoManager->SetDrawFlags(_xalign, _yalign, VIDEO_BLEND, 0);
 
-    // Stores the positions of the four sides of the rectangle
-    float left   = 0.0f;
-    float right  = _width;
-    float bottom = 0.0f;
-    float top    = _height;
-
-    CalculateAlignedRect(left, right, bottom, top);
-
-    // Create a screen rectangle for the position and apply any scissoring
-    int32 x, y, w, h;
-
-    x = static_cast<int32>(left < right ? left : right);
-    y = static_cast<int32>(top < bottom ? top : bottom);
-    w = static_cast<int32>(right - left);
-    h = static_cast<int32>(top - bottom);
-
-    if(w < 0)
-        w = -w;
-    if(h < 0)
-        h = -h;
-
-    ScreenRect rect(x, y, w, h);
-
-    // TODO: this block of code (scissoring for textboxes) does not work properly
-    /*
-    if (_owner) {
-    	rect.Intersect(_owner->GetScissorRect());
-    }
-    rect.Intersect(VideoManager->GetScissorRect());
-    VideoManager->EnableScissoring(_owner || VideoManager->IsScissoringEnabled());
-    if (VideoManager->IsScissoringEnabled()) {
-    	VideoManager->SetScissorRect(rect);
-    }
-    */
-
-    // Holds the height of the text to be drawn
-    float text_height = static_cast<float>(CalculateTextHeight());
-    // Holds the x and y position where the text should be drawn
-    float text_xpos, text_ypos;
-
-    // Determine the vertical position of the text based on the alignment
-    if(_text_yalign == VIDEO_Y_TOP) {
-        text_ypos = top;
-    } else if(_text_yalign == VIDEO_Y_CENTER) {
-        text_ypos = top - (VideoManager->_current_context.coordinate_system.GetVerticalDirection() * (_height - text_height) * 0.5f);
-    } else { // (_yalign == VIDEO_Y_BOTTOM)
-        text_ypos = top - (VideoManager->_current_context.coordinate_system.GetVerticalDirection() * (_height - text_height));
-    }
-
-    // Determine the horizontal position of the text based on the alignment
-    if(_text_xalign == VIDEO_X_LEFT) {
-        text_xpos = left;
-    } else if(_text_xalign == VIDEO_X_CENTER) {
-        text_xpos = (left + right) * 0.5f; // TODO: Is this logic right? It doesn't seem so...
-    } else { // (_text_xalign == VIDEO_X_RIGHT)
-        text_xpos = right;
-    }
-
     // Set the draw cursor, draw flags, and draw the text
-    VideoManager->Move(0.0f, text_ypos);
-    VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_TOP, VIDEO_BLEND, 0);
-    _DrawTextLines(text_xpos, text_ypos, rect);
+    if (_mode == VIDEO_TEXT_INSTANT) {
+        VideoManager->Move(_text_xpos, _text_ypos);
+        VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_TOP, VIDEO_BLEND, 0);
+        _text_image.Draw();
+    }
+    else {
+        VideoManager->Move(0.0f, _text_ypos);
+        VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_TOP, VIDEO_BLEND, 0);
+        _DrawTextLines(_text_xpos, _text_ypos, _scissor_rect);
+    }
 
-    if(GUIManager->DEBUG_DrawOutlines() == true)
-        _DEBUG_DrawOutline(text_ypos);
+    if(GUIManager->DEBUG_DrawOutlines())
+        _DEBUG_DrawOutline();
 
     VideoManager->PopState();
 } // void TextBox::Draw()
@@ -198,21 +151,22 @@ void TextBox::SetTextAlignment(int32 xalign, int32 yalign)
 {
     _text_xalign = xalign;
     _text_yalign = yalign;
+    _ReformatText();
 }
 
 
 
 void TextBox::SetTextStyle(const TextStyle &style)
 {
-    _font_properties = TextManager->GetFontProperties(style.font);
-    if(_font_properties == NULL) {
-        IF_PRINT_WARNING(VIDEO_DEBUG) << "function failed because it was passed an invalid font name: " << style.font << std::endl;
+    if(style.GetFontProperties() == NULL) {
+        IF_PRINT_WARNING(VIDEO_DEBUG) << "Function failed because it was passed an invalid font name: " << style.GetFontName() << std::endl;
         return;
     }
 
     _text_style = style;
+    _text_image.SetStyle(style);
+
     _ReformatText();
-    _initialized = true;
 }
 
 
@@ -231,10 +185,10 @@ void TextBox::SetDisplayMode(const TEXT_DISPLAY_MODE &mode)
 
 void TextBox::SetDisplaySpeed(float display_speed)
 {
-    if(display_speed <= 0.0f) {
-        if(VIDEO_DEBUG)
-            PRINT_ERROR << "VIDEO WARNING: TextBox::SetDisplaySpeed() failed due to an invalid display speed: "
-                        << display_speed << std::endl;
+    // Avoid strange behaviours by not permitting under 1.0f.
+    if(display_speed < 1.0f) {
+        PRINT_WARNING << "TextBox::SetDisplaySpeed() failed due to an invalid display speed: "
+                      << display_speed << std::endl;
         return;
     }
 
@@ -252,10 +206,9 @@ void TextBox::SetDisplayText(const std::string &text)
 
 void TextBox::SetDisplayText(const ustring &text)
 {
-    if(_initialized == false) {
-        IF_PRINT_WARNING(VIDEO_DEBUG) << "function failed because the textbox was not initialized:\n" << _initialization_errors << std::endl;
+    // If the text hasn't changed, don't recompute the textbox.
+    if (_text_save == text)
         return;
-    }
 
     _text_save = text;
     _ReformatText();
@@ -263,12 +216,14 @@ void TextBox::SetDisplayText(const ustring &text)
     // Reset the timer since new text has been set
     _current_time = 0;
 
-    // (3): Determine how much time the text will take to display depending on the display mode, speed, and size of the text
+    // Determine how much time the text will take to display depending on the display mode, speed, and size of the text
     _finished = false;
     switch(_mode) {
+    default:
+        _mode = VIDEO_TEXT_INSTANT;
     case VIDEO_TEXT_INSTANT:
         _end_time = 0;
-        // (4): Set finished to true only if the display mode is VIDEO_TEXT_INSTANT
+        // Set finished to true only if the display mode is VIDEO_TEXT_INSTANT
         _finished = true;
         break;
 
@@ -284,11 +239,6 @@ void TextBox::SetDisplayText(const ustring &text)
         // Instead of _num_chars in the other calculation, we use number of lines times CHARS_PER_LINE
         _end_time = static_cast<int32>(1000.0f * (_text.size() * CHARS_PER_LINE) / _display_speed);
         break;
-
-    default:
-        _end_time = 0;
-        IF_PRINT_WARNING(VIDEO_DEBUG) << "unknown display mode was active: " << _mode << std::endl;
-        break;
     };
 
 } // void TextBox::SetDisplayText(const ustring& text)
@@ -297,164 +247,116 @@ void TextBox::SetDisplayText(const ustring &text)
 
 void TextBox::_ReformatText()
 {
-    // (1): Go through the text ustring and determine where the newline characters can be found, examining one line at a time and adding it to the _text vector.
-    size_t newline_pos;
-    size_t startline_pos = 0;
-    ustring temp_str = _text_save;
-    const size_t temp_length = temp_str.length();
+    // Go through the text ustring and determine where the newline characters can be found,
+    // examining one line at a time and adding it to the _text vector.
     _text.clear();
     _num_chars = 0;
 
+    FontProperties* fp = _text_style.GetFontProperties();
 
     // If font not set, return (leave _text vector empty)
-    if(!_font_properties) {
-        IF_PRINT_WARNING(VIDEO_DEBUG) << "textbox font is invalid" << std::endl;
+    if(fp == NULL || fp->ttf_font == NULL) {
+        IF_PRINT_WARNING(VIDEO_DEBUG) << "Textbox font properties are invalid" << std::endl;
         return;
     }
 
-    while(startline_pos < temp_length)
-    {
-        newline_pos = temp_str.find(NEWLINE_CHARACTER,startline_pos);
-        // If the end of the string has been reached, add the new line and exit
-        if(newline_pos == ustring::npos) {
-            _AddLine(temp_str.substr(startline_pos, temp_length-startline_pos));
-            break;
-        }
-        // Otherwise, add the new line segment and proceed to find the next
-        else {
-            _AddLine(temp_str.substr(startline_pos,temp_length-newline_pos));
-            startline_pos = newline_pos + 1;
-
-        }
+    if (_mode == VIDEO_TEXT_INSTANT) {
+        _text_image.SetWordWrapWidth(_width);
+        _text_image.SetText(_text_save);
     }
-    // (2): Calculate the height of the text and check it against the height of the textbox.
-    int32 text_height = CalculateTextHeight();
+    else {
+        // Get the wrapped text lines
+        _text = TextManager->WrapText(_text_save, fp->ttf_font, _width);
 
-    if(text_height > _height) {
-        IF_PRINT_WARNING(VIDEO_DEBUG) << "tried to display text of height (" << text_height
+        // Compute the number of chars
+        const size_t temp_length = _text_save.length();
+        size_t startline_pos = 0;
+        uint32 new_lines = 0;
+        while(startline_pos < temp_length) {
+            size_t newline_pos = _text_save.find(NEWLINE_CHARACTER, startline_pos);
+            if(newline_pos == ustring::npos)
+                break;
+            ++new_lines;
+            startline_pos = newline_pos + 1;
+        }
+        _num_chars = _text_save.length() - new_lines;
+    }
+
+    // Update the scissor cache
+    // Stores the positions of the four sides of the rectangle
+    float left   = 0.0f;
+    float right  = _width;
+    float bottom = 0.0f;
+    float top    = _height;
+
+    VideoManager->PushState();
+
+    VideoManager->SetDrawFlags(_xalign, _yalign, VIDEO_BLEND, 0);
+    CalculateAlignedRect(left, right, bottom, top);
+    VideoManager->PopState();
+
+    // Create a screen rectangle for the position and apply any scissoring
+    int32 x, y, w, h;
+
+    x = static_cast<int32>(left < right ? left : right);
+    y = static_cast<int32>(top < bottom ? top : bottom);
+    w = static_cast<int32>(right - left);
+    h = static_cast<int32>(top - bottom);
+
+    if(w < 0)
+        w = -w;
+    if(h < 0)
+        h = -h;
+
+    _scissor_rect.Set(x, y, w, h);
+
+    // Update the text height
+    _text_height = _CalculateTextHeight();
+    // Calculate the height of the text and check it against the height of the textbox.
+    if(_text_height > _height) {
+        IF_PRINT_WARNING(VIDEO_DEBUG) << "tried to display text of height (" << _text_height
                                       << ") in a window of lower height (" << _height << ")" << std::endl;
+    }
+
+    // Determine the vertical position of the text based on the alignment
+    if(_text_yalign == VIDEO_Y_TOP) {
+        _text_ypos = top;
+    } else if(_text_yalign == VIDEO_Y_CENTER) {
+        _text_ypos = top - (VideoManager->_current_context.coordinate_system.GetVerticalDirection() * (_height - _text_height) * 0.5f);
+    } else { // (_yalign == VIDEO_Y_BOTTOM)
+        _text_ypos = top - (VideoManager->_current_context.coordinate_system.GetVerticalDirection() * (_height - _text_height));
+    }
+
+    // Determine the horizontal position of the text based on the alignment
+    if(_text_xalign == VIDEO_X_LEFT) {
+        _text_xpos = left;
+    } else if(_text_xalign == VIDEO_X_CENTER) {
+        _text_xpos = (left + right) * 0.5f; // * 0.5 equals /2.
+    } else { // (_text_xalign == VIDEO_X_RIGHT)
+        _text_xpos = right;
     }
 } // void TextBox::_ReformatText()
 
-
-
-bool TextBox::IsInitialized(std::string &errors)
+float TextBox::_CalculateTextHeight()
 {
-    errors.clear();
-    std::ostringstream stream;
+    if (_mode == VIDEO_TEXT_INSTANT)
+        return _text_image.GetHeight();
 
-
-    // Check font
-    if(TextManager->IsFontValid(_text_style.font) == false)
-        stream << "* Invalid font: " << _text_style.font << std::endl;
-
-    errors = stream.str();
-
-    if(errors.empty()) {
-        _initialized = true;
-    } else {
-        _initialized = false;
-    }
-
-    return _initialized;
-} // bool TextBox::IsInitialized(string& errors)
-
-
-
-int32 TextBox::CalculateTextHeight()
-{
     if(_text.empty())
         return 0;
-    else
-        return _font_properties->height + _font_properties->line_skip * (static_cast<int32>(_text.size()) - 1);
+
+    FontProperties* fp = _text_style.GetFontProperties();
+    return static_cast<float>(fp->height + fp->line_skip * (static_cast<float>(_text.size()) - 1));
 }
 
-
-
-void TextBox::_AddLine(const ustring &line)
-{
-    // perform word wrapping in a loop until all the text is added
-
-    ustring temp_line = line;
-
-    while(temp_line.empty() == false) {
-        int32 text_width = TextManager->CalculateTextWidth(_text_style.font, line);
-
-        // If the text can fit in the text box, add the whole line and return
-        if(text_width < _width) {
-            _text.push_back(temp_line);
-            _num_chars += static_cast<int32>(temp_line.size());
-            return;
-        }
-
-        // Otherwise, find the maximum number of words which can fit and make that substring a line
-        // Word boundaries are found by calling the _IsCharacterBreakable() method
-        ustring wrapped_line;
-        int32 num_wrapped_chars = 0;
-        int32 last_breakable_index = -1;
-        int32 line_length = static_cast<int32>(temp_line.length());
-
-        while(num_wrapped_chars < line_length) {
-            wrapped_line += temp_line[num_wrapped_chars];
-
-            if(_IsBreakableChar(temp_line[num_wrapped_chars])) {
-                int32 text_width = TextManager->CalculateTextWidth(_text_style.font, wrapped_line);
-
-                if(text_width < _width) {
-                    // We haven't gone past the breaking point: mark this as a possible breaking point
-                    last_breakable_index = num_wrapped_chars;
-                } else {
-                    // We exceeded the maximum width, so go back to the previous breaking point.
-                    // If there was no previous breaking point (== -1), then just break it off at
-                    // the current character position.
-                    if(last_breakable_index != -1)
-                        num_wrapped_chars = last_breakable_index;
-                    break;
-                }
-            } // (_IsBreakableChar(temp_line[num_wrapped_chars]))
-            ++num_wrapped_chars;
-        } // while (num_wrapped_chars < line_length)
-
-        // Figure out the number of characters in the wrapped line and construct the wrapped line
-        text_width = TextManager->CalculateTextWidth(_text_style.font, wrapped_line);
-        if(text_width >= _width && last_breakable_index != -1) {
-            num_wrapped_chars = last_breakable_index;
-        }
-        wrapped_line = temp_line.substr(0, num_wrapped_chars);
-
-        // Add the new wrapped line to the text.
-        _text.push_back(wrapped_line);
-        _num_chars += static_cast<int32>(wrapped_line.size());
-
-        // If there is no more text remaining, we are finished.
-        if(num_wrapped_chars == line_length)
-            return;
-        // Otherwise, we need to grab the rest of the text that remains to be added and loop again
-        else
-            temp_line = temp_line.substr(num_wrapped_chars + 1, line_length - num_wrapped_chars);
-    } // while (temp_line.empty() == false)
-} // void TextBox::_AddLine(const ustring& line)
-
-
-
-bool TextBox::_IsBreakableChar(uint16 character)
-{
-    if(character == 0x20)
-        return true;
-
-    return false;
-}
 
 
 
 void TextBox::_DrawTextLines(float text_x, float text_y, ScreenRect scissor_rect)
 {
+    FontProperties* fp = _text_style.GetFontProperties();
+    TTF_Font* ttf_font = fp->ttf_font;
     int32 num_chars_drawn = 0;
-// 	// A quick
-// 	TEXT_DISPLAY_MODE mode = _mode;
-//
-// 	if (_finished)
-// 		mode = VIDEO_TEXT_INSTANT;
 
     // Calculate the fraction of the text to display
     float percent_complete;
@@ -466,7 +368,7 @@ void TextBox::_DrawTextLines(float text_x, float text_y, ScreenRect scissor_rect
     // Iterate through the loop for every line of text and draw it
     for(int32 line = 0; line < static_cast<int32>(_text.size()); ++line) {
         // (1): Calculate the x draw offset for this line and move to that position
-        float line_width = static_cast<float>(TextManager->CalculateTextWidth(_text_style.font, _text[line]));
+        float line_width = static_cast<float>(TextManager->CalculateTextWidth(ttf_font, _text[line]));
         int32 x_align = VideoManager->_ConvertXAlign(_text_xalign);
         float x_offset = text_x + ((x_align + 1) * line_width) * 0.5f * VideoManager->_current_context.coordinate_system.GetHorizontalDirection();
 
@@ -478,7 +380,6 @@ void TextBox::_DrawTextLines(float text_x, float text_y, ScreenRect scissor_rect
         if(_finished || _mode == VIDEO_TEXT_INSTANT) {
             TextManager->Draw(_text[line], _text_style);
         }
-
         else if(_mode == VIDEO_TEXT_CHAR) {
             // Determine which character is currently being rendered
             int32 cur_char = static_cast<int32>(percent_complete * _num_chars);
@@ -522,12 +423,14 @@ void TextBox::_DrawTextLines(float text_x, float text_y, ScreenRect scissor_rect
                     }
 
                     // Draw the current character that is being faded in at the appropriate alpha level
-                    Color old_color = _text_style.color;
-                    _text_style.color[3] *= cur_percent;
+                    Color saved_color = _text_style.GetColor();
+                    Color current_color = saved_color;
+                    current_color[3] *= cur_percent;
+                    _text_style.SetColor(current_color);
 
-                    VideoManager->MoveRelative(static_cast<float>(TextManager->CalculateTextWidth(_text_style.font, substring)), 0.0f);
+                    VideoManager->MoveRelative(static_cast<float>(TextManager->CalculateTextWidth(ttf_font, substring)), 0.0f);
                     TextManager->Draw(_text[line].substr(num_completed_chars, 1), _text_style);
-                    _text_style.color = old_color;
+                    _text_style.SetColor(saved_color);
                 }
             }
         } // else if (_mode == VIDEO_TEXT_FADECHAR)
@@ -544,11 +447,13 @@ void TextBox::_DrawTextLines(float text_x, float text_y, ScreenRect scissor_rect
             }
             // Otherwise if this is the line being rendered, determine the amount of alpha for the line being faded in and draw it
             else if(line == lines) {
-                Color old_color = _text_style.color;
-                _text_style.color[3] *= cur_percent;
+                Color saved_color = _text_style.GetColor();
+                Color current_color = saved_color;
+                current_color[3] *= cur_percent;
+                _text_style.SetColor(current_color);
 
                 TextManager->Draw(_text[line], _text_style);
-                _text_style.color = old_color;
+                _text_style.SetColor(saved_color);
             }
         } // else if (_mode == VIDEO_TEXT_FADELINE)
 
@@ -579,9 +484,9 @@ void TextBox::_DrawTextLines(float text_x, float text_y, ScreenRect scissor_rect
                 // Create a rectangle for the current character, in window coordinates
                 int32 char_x, char_y, char_w, char_h;
                 char_x = static_cast<int32>(x_offset + VideoManager->_current_context.coordinate_system.GetHorizontalDirection()
-                                            * TextManager->CalculateTextWidth(_text_style.font, substring));
+                                            * TextManager->CalculateTextWidth(ttf_font, substring));
                 char_y = static_cast<int32>(text_y - VideoManager->_current_context.coordinate_system.GetVerticalDirection()
-                                            * (_font_properties->height + _font_properties->descent));
+                                            * (fp->height + fp->descent));
 
                 if(VideoManager->_current_context.coordinate_system.GetHorizontalDirection() < 0.0f)
                     char_y = static_cast<int32>(VideoManager->_current_context.coordinate_system.GetBottom()) - char_y;
@@ -589,13 +494,13 @@ void TextBox::_DrawTextLines(float text_x, float text_y, ScreenRect scissor_rect
                 if(VideoManager->_current_context.coordinate_system.GetVerticalDirection() < 0.0f)
                     char_x = static_cast<int32>(VideoManager->_current_context.coordinate_system.GetLeft()) - char_x;
 
-                char_w = TextManager->CalculateTextWidth(_text_style.font, cur_char_string);
-                char_h = _font_properties->height;
+                char_w = TextManager->CalculateTextWidth(ttf_font, cur_char_string);
+                char_h = fp->height;
 
                 // Multiply the width by percentage done to determine the scissoring dimensions
                 char_w = static_cast<int32>(cur_percent * char_w);
                 VideoManager->MoveRelative(VideoManager->_current_context.coordinate_system.GetHorizontalDirection()
-                                           * TextManager->CalculateTextWidth(_text_style.font, substring), 0.0f);
+                                           * TextManager->CalculateTextWidth(ttf_font, substring), 0.0f);
 
                 // Construct the scissor rectangle using the character dimensions and draw the revealing character
                 VideoManager->PushState();
@@ -617,15 +522,15 @@ void TextBox::_DrawTextLines(float text_x, float text_y, ScreenRect scissor_rect
 
         // (3): Prepare to draw the next line and move the draw cursor appropriately
         num_chars_drawn += line_size;
-// 		VideoManager->MoveRelative(-xOffset, _font_properties.line_skip * -cs._vertical_direction);
-        text_y += _font_properties->line_skip * -VideoManager->_current_context.coordinate_system.GetVerticalDirection();
+        // VideoManager->MoveRelative(-xOffset, fp.line_skip * -cs._vertical_direction);
+        text_y += fp->line_skip * -VideoManager->_current_context.coordinate_system.GetVerticalDirection();
         VideoManager->Move(0.0f, text_y);
     } // for (int32 line = 0; line < static_cast<int32>(_text.size()); ++line)
 } // void TextBox::_DrawLines(float text_x, float text_y, ScreenRect scissor_rect)
 
 
 
-void TextBox::_DEBUG_DrawOutline(float text_y)
+void TextBox::_DEBUG_DrawOutline()
 {
     // Stores the positions of the four sides of the rectangle
     float left   = 0.0f;
@@ -640,9 +545,10 @@ void TextBox::_DEBUG_DrawOutline(float text_y)
     VideoManager->DrawRectangleOutline(left, right, bottom, top, 1, alpha_white);
 
     // Draw the inner boundaries for each line of text
-    uint32 possible_lines = _height / _font_properties->line_skip;
-    float line_height = _font_properties->line_skip * -VideoManager->_current_context.coordinate_system.GetVerticalDirection();
-    float line_offset = text_y;
+    FontProperties* fp = _text_style.GetFontProperties();
+    uint32 possible_lines = _height / fp->line_skip;
+    float line_height = fp->line_skip * -VideoManager->_current_context.coordinate_system.GetVerticalDirection();
+    float line_offset = top;
 
     for(uint32 i = 1; i <= possible_lines; ++i) {
         line_offset += line_height;
@@ -651,4 +557,4 @@ void TextBox::_DEBUG_DrawOutline(float text_y)
     }
 }
 
-}  // namespace hoa_gui
+}  // namespace vt_gui

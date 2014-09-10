@@ -1,5 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
-//            Copyright (C) 2004-2010 by The Allacrost Project
+//            Copyright (C) 2004-2011 by The Allacrost Project
+//            Copyright (C) 2012-2014 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -10,21 +11,28 @@
 /** ****************************************************************************
 *** \file    global_skills.cpp
 *** \author  Tyler Olsen, roots@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Source file for global game skills.
 *** ***************************************************************************/
+
+#include "utils/utils_pch.h"
+#include "global_skills.h"
 
 #include "engine/script/script.h"
 #include "engine/video/video.h"
 
-#include "global_skills.h"
 #include "global.h"
 
-using namespace hoa_utils;
-using namespace hoa_video;
-using namespace hoa_script;
-using namespace hoa_battle;
+using namespace vt_utils;
+using namespace vt_video;
+using namespace vt_script;
+using namespace vt_battle;
 
-namespace hoa_global
+namespace vt_battle {
+extern bool BATTLE_DEBUG;
+}
+
+namespace vt_global
 {
 
 using namespace private_global;
@@ -44,15 +52,18 @@ GlobalSkill::GlobalSkill(uint32 id) :
     // A pointer to the skill script which will be used to load this skill
     ReadScriptDescriptor *skill_script = NULL;
 
-    if((_id > 0) && (_id <= MAX_ATTACK_ID)) {
-        _type = GLOBAL_SKILL_ATTACK;
-        skill_script = &(GlobalManager->GetAttackSkillsScript());
-    } else if((_id > MAX_ATTACK_ID) && (_id <= MAX_DEFEND_ID)) {
-        _type = GLOBAL_SKILL_DEFEND;
-        skill_script = &(GlobalManager->GetDefendSkillsScript());
-    } else if((_id > MAX_DEFEND_ID) && (_id <= MAX_SUPPORT_ID)) {
-        _type = GLOBAL_SKILL_SUPPORT;
-        skill_script = &(GlobalManager->GetSupportSkillsScript());
+    if((_id > 0) && (_id <= MAX_WEAPON_SKILL_ID)) {
+        _type = GLOBAL_SKILL_WEAPON;
+        skill_script = &(GlobalManager->GetWeaponSkillsScript());
+    } else if((_id > MAX_WEAPON_SKILL_ID) && (_id <= MAX_MAGIC_SKILL_ID)) {
+        _type = GLOBAL_SKILL_MAGIC;
+        skill_script = &(GlobalManager->GetMagicSkillsScript());
+    } else if((_id > MAX_MAGIC_SKILL_ID) && (_id <= MAX_SPECIAL_SKILL_ID)) {
+        _type = GLOBAL_SKILL_SPECIAL;
+        skill_script = &(GlobalManager->GetSpecialSkillsScript());
+    } else if((_id > MAX_SPECIAL_SKILL_ID) && (_id <= MAX_BARE_HANDS_SKILL_ID)) {
+        _type = GLOBAL_SKILL_BARE_HANDS;
+        skill_script = &(GlobalManager->GetBareHandsSkillsScript());
     } else {
         IF_PRINT_WARNING(GLOBAL_DEBUG) << "constructor received an invalid id argument: " << id << std::endl;
         _id = 0; // Indicate that this skill is invalid
@@ -70,6 +81,8 @@ GlobalSkill::GlobalSkill(uint32 id) :
     _name = MakeUnicodeString(skill_script->ReadString("name"));
     if(skill_script->DoesStringExist("description"))
         _description = MakeUnicodeString(skill_script->ReadString("description"));
+    if(skill_script->DoesStringExist("icon"))
+        _icon_filename = skill_script->ReadString("icon");
     _sp_required = skill_script->ReadUInt("sp_required");
     _warmup_time = skill_script->ReadUInt("warmup_time");
     _cooldown_time = skill_script->ReadUInt("cooldown_time");
@@ -101,7 +114,11 @@ GlobalSkill::GlobalSkill(uint32 id) :
     }
 } // GlobalSkill::GlobalSkill()
 
-GlobalSkill::GlobalSkill(const GlobalSkill &copy)
+GlobalSkill::GlobalSkill(const GlobalSkill &copy):
+    _icon_filename(copy._icon_filename),
+    _warmup_action_name(copy._warmup_action_name),
+    _action_name(copy._action_name),
+    _animation_scripts(copy._animation_scripts)
 {
     _name = copy._name;
     _description = copy._description;
@@ -110,13 +127,11 @@ GlobalSkill::GlobalSkill(const GlobalSkill &copy)
     _sp_required = copy._sp_required;
     _warmup_time = copy._warmup_time;
     _cooldown_time = copy._cooldown_time;
-    _action_name = copy._action_name;
     _target_type = copy._target_type;
 
     // Make copies of valid ScriptObject function pointers
     _battle_execute_function = copy._battle_execute_function;
     _field_execute_function = copy._field_execute_function;
-    _animation_scripts = copy._animation_scripts;
 }
 
 
@@ -128,11 +143,13 @@ GlobalSkill &GlobalSkill::operator=(const GlobalSkill &copy)
 
     _name = copy._name;
     _description = copy._description;
+    _icon_filename = copy._icon_filename;
     _id = copy._id;
     _type = copy._type;
     _sp_required = copy._sp_required;
     _warmup_time = copy._warmup_time;
     _cooldown_time = copy._cooldown_time;
+    _warmup_action_name = copy._warmup_action_name;
     _action_name = copy._action_name;
     _target_type = copy._target_type;
 
@@ -173,4 +190,4 @@ std::string GlobalSkill::GetAnimationScript(uint32 character_id)
     return script_file;
 }
 
-} // namespace hoa_global
+} // namespace vt_global

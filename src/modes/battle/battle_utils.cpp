@@ -1,5 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
-//            Copyright (C) 2004-2010 by The Allacrost Project
+//            Copyright (C) 2004-2011 by The Allacrost Project
+//            Copyright (C) 2012-2014 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -10,28 +11,30 @@
 /** ****************************************************************************
 *** \file    battle_utils.cpp
 *** \author  Tyler Olsen, roots@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Source file for battle mode utility code
 ***
 *** This file contains utility code that is shared among the various battle mode
 *** classes.
 *** ***************************************************************************/
 
-#include "defs.h"
-#include "utils.h"
+#include "utils/utils_pch.h"
+#include "modes/battle/battle_utils.h"
+
+#include "modes/battle/battle.h"
+#include "modes/battle/battle_actors.h"
 
 #include "common/global/global.h"
 
 #include "engine/system.h"
 
-#include "modes/battle/battle.h"
-#include "modes/battle/battle_actors.h"
-#include "modes/battle/battle_utils.h"
+#include "utils/utils_random.h"
 
-using namespace hoa_utils;
-using namespace hoa_system;
-using namespace hoa_global;
+using namespace vt_utils;
+using namespace vt_system;
+using namespace vt_global;
 
-namespace hoa_battle
+namespace vt_battle
 {
 
 namespace private_battle
@@ -41,32 +44,43 @@ namespace private_battle
 // Standard battle calculation functions
 ////////////////////////////////////////////////////////////////////////////////
 
-bool CalculateStandardEvasion(BattleTarget *target)
+bool CalculateStandardEvasion(BattleTarget* target)
 {
     return CalculateStandardEvasionAdder(target, 0.0f);
 }
 
+bool CalculateStandardEvasion(BattleActor* target_actor)
+{
+    return CalculateStandardEvasionAdder(target_actor, 0.0f);
+}
 
-
-bool CalculateStandardEvasionAdder(BattleTarget *target, float add_eva)
+bool CalculateStandardEvasionAdder(BattleTarget* target, float add_eva)
 {
     if(target == NULL) {
         IF_PRINT_WARNING(BATTLE_DEBUG) << "function received NULL target argument" << std::endl;
-        return false;
+        return true;
     }
     if(IsTargetParty(target->GetType()) == true) {
         IF_PRINT_WARNING(BATTLE_DEBUG) << "target was a party type: " << target->GetType() << std::endl;
-        return false;
+        return true;
     }
+
+    BattleActor* target_actor = target->GetActor();
+    if (!target_actor)
+        return true;
+
+    // When stunned, the actor can't dodge.
+    if (target_actor->IsStunned())
+        return false;
 
     float evasion = 0.0f;
     if(IsTargetPoint(target->GetType()) == true) {
-        evasion = target->GetActor()->GetAttackPoint(target->GetPoint())->GetTotalEvadeRating();
+        evasion = target_actor->GetAttackPoint(target->GetPoint())->GetTotalEvadeRating();
     } else if(IsTargetActor(target->GetType()) == true) {
-        evasion = target->GetActor()->GetAverageEvadeRating();
+        evasion = target_actor->GetAverageEvadeRating();
     } else {
         IF_PRINT_WARNING(BATTLE_DEBUG) << "invalid target type: " << target->GetType() << std::endl;
-        return false;
+        return true;
     }
 
     evasion += add_eva;
@@ -83,18 +97,51 @@ bool CalculateStandardEvasionAdder(BattleTarget *target, float add_eva)
         return false;
 } // bool CalculateStandardEvasionAdder(BattleTarget* target, float add_evade)
 
+bool CalculateStandardEvasionAdder(BattleActor* target_actor, float add_eva)
+{
+    if (!target_actor) {
+        IF_PRINT_WARNING(BATTLE_DEBUG) << "Invalid target actor" << std::endl;
+        return true;
+    }
 
+    // When stunned, the actor can't dodge.
+    if (target_actor->IsStunned())
+        return false;
 
-bool CalculateStandardEvasionMultiplier(BattleTarget *target, float mul_eva)
+    float evasion = target_actor->GetAverageEvadeRating();
+    evasion += add_eva;
+
+    // Check for absolute hit/miss conditions
+    if(evasion <= 0.0f)
+        return false;
+    else if(evasion >= 100.0f)
+        return true;
+
+    if(RandomFloat(0.0f, 100.0f) <= evasion)
+        return true;
+    else
+        return false;
+}
+
+bool CalculateStandardEvasionMultiplier(BattleTarget* target, float mul_eva)
 {
     if(target == NULL) {
         IF_PRINT_WARNING(BATTLE_DEBUG) << "function received NULL target argument" << std::endl;
-        return false;
+        return true;
     }
     if(IsTargetParty(target->GetType()) == true) {
         IF_PRINT_WARNING(BATTLE_DEBUG) << "target was a party type: " << target->GetType() << std::endl;
-        return false;
+        return true;
     }
+
+    BattleActor* target_actor = target->GetActor();
+    if (!target_actor)
+        return true;
+
+    // When stunned, the actor can't dodge.
+    if (target_actor->IsStunned())
+        return false;
+
     if(mul_eva < 0.0f) {
         IF_PRINT_WARNING(BATTLE_DEBUG) << "function received negative multiplier argument: " << mul_eva << std::endl;
         mul_eva = fabs(mul_eva);
@@ -103,12 +150,12 @@ bool CalculateStandardEvasionMultiplier(BattleTarget *target, float mul_eva)
     // Find the base evasion and apply the multiplier
     float evasion = 0.0f;
     if(IsTargetPoint(target->GetType()) == true) {
-        evasion = target->GetActor()->GetAttackPoint(target->GetPoint())->GetTotalEvadeRating();
+        evasion = target_actor->GetAttackPoint(target->GetPoint())->GetTotalEvadeRating();
     } else if(IsTargetActor(target->GetType()) == true) {
-        evasion = target->GetActor()->GetAverageEvadeRating();
+        evasion = target_actor->GetAverageEvadeRating();
     } else {
         IF_PRINT_WARNING(BATTLE_DEBUG) << "invalid target type: " << target->GetType() << std::endl;
-        return false;
+        return true;
     }
 
     evasion = evasion * mul_eva;
@@ -125,6 +172,37 @@ bool CalculateStandardEvasionMultiplier(BattleTarget *target, float mul_eva)
         return true;
 } // bool CalculateStandardEvasionMultiplier(BattleTarget* target, float mul_evade)
 
+bool CalculateStandardEvasionMultiplier(BattleActor* target_actor, float mul_eva)
+{
+    if (!target_actor) {
+        IF_PRINT_WARNING(BATTLE_DEBUG) << "Invalid target actor" << std::endl;
+        return true;
+    }
+
+    // When stunned, the actor can't dodge.
+    if (target_actor->IsStunned())
+        return false;
+
+    if(mul_eva < 0.0f) {
+        IF_PRINT_WARNING(BATTLE_DEBUG) << "function received negative multiplier argument: " << mul_eva << std::endl;
+        mul_eva = fabs(mul_eva);
+    }
+
+    // Find the base evasion and apply the multiplier
+    float evasion = target_actor->GetAverageEvadeRating();
+    evasion = evasion * mul_eva;
+
+    // Check for absolute hit/miss conditions
+    if(evasion <= 0.0f)
+        return false;
+    else if(evasion >= 100.0f)
+        return true;
+
+    if(RandomFloat(0.0f, 100.0f) > evasion)
+        return false;
+    else
+        return true;
+}
 
 
 uint32 CalculatePhysicalDamage(BattleActor *attacker, BattleTarget *target)
@@ -132,21 +210,30 @@ uint32 CalculatePhysicalDamage(BattleActor *attacker, BattleTarget *target)
     return CalculatePhysicalDamageAdder(attacker, target, 0, 0.10f);
 }
 
-
+uint32 CalculatePhysicalDamage(BattleActor *attacker, BattleActor *target_actor)
+{
+    return CalculatePhysicalDamageAdder(attacker, target_actor, 0, 0.10f);
+}
 
 uint32 CalculatePhysicalDamage(BattleActor *attacker, BattleTarget *target, float std_dev)
 {
     return CalculatePhysicalDamageAdder(attacker, target, 0, std_dev);
 }
 
-
+uint32 CalculatePhysicalDamage(BattleActor *attacker, BattleActor *target_actor, float std_dev)
+{
+    return CalculatePhysicalDamageAdder(attacker, target_actor, 0, std_dev);
+}
 
 uint32 CalculatePhysicalDamageAdder(BattleActor *attacker, BattleTarget *target, int32 add_atk)
 {
     return CalculatePhysicalDamageAdder(attacker, target, add_atk, 0.10f);
 }
 
-
+uint32 CalculatePhysicalDamageAdder(BattleActor *attacker, BattleActor *target_actor, int32 add_atk)
+{
+    return CalculatePhysicalDamageAdder(attacker, target_actor, add_atk, 0.10f);
+}
 
 uint32 CalculatePhysicalDamageAdder(BattleActor *attacker, BattleTarget *target, int32 add_atk, float std_dev)
 {
@@ -192,8 +279,7 @@ uint32 CalculatePhysicalDamageAdder(BattleActor *attacker, BattleTarget *target,
         return static_cast<uint32>(RandomBoundedInteger(1, 5));
 
     // Holds the absolute standard deviation used in the GaussianRandomValue function
-    float abs_std_dev = 0.0f;
-    abs_std_dev = static_cast<float>(total_dmg) * std_dev;
+    float abs_std_dev = static_cast<float>(total_dmg) * std_dev;
     total_dmg = GaussianRandomValue(total_dmg, abs_std_dev, false);
 
     // If the total damage came to a value less than or equal to zero after the gaussian randomization,
@@ -204,14 +290,57 @@ uint32 CalculatePhysicalDamageAdder(BattleActor *attacker, BattleTarget *target,
     return static_cast<uint32>(total_dmg);
 } // uint32 CalculatePhysicalDamageAdder(BattleActor* attacker, BattleTarget* target, int32 add_atk, float std_dev)
 
+uint32 CalculatePhysicalDamageAdder(BattleActor *attacker, BattleActor *target_actor, int32 add_atk, float std_dev)
+{
+    if(attacker == NULL) {
+        IF_PRINT_WARNING(BATTLE_DEBUG) << "function received NULL attacker argument" << std::endl;
+        return 0;
+    }
+    if(!target_actor) {
+        IF_PRINT_WARNING(BATTLE_DEBUG) << "Invalid target battle actor" << std::endl;
+        return 0;
+    }
+    if(std_dev < 0.0f) {
+        IF_PRINT_WARNING(BATTLE_DEBUG) << "function received negative standard deviation argument: " << std_dev << std::endl;
+        std_dev = fabs(std_dev);
+    }
 
+    // Holds the total physical attack of the attacker and modifier
+    int32 total_phys_atk = attacker->GetTotalPhysicalAttack() + add_atk;
+    if(total_phys_atk < 0)
+        total_phys_atk = 0;
+
+    // Holds the total physical defense of the target
+    int32 total_phys_def = target_actor->GetAverageDefense();
+
+    // Holds the total damage dealt
+    int32 total_dmg = total_phys_atk - total_phys_def;
+
+    // If the total damage is zero, fall back to causing a small non-zero damage value
+    if(total_dmg <= 0)
+        return static_cast<uint32>(RandomBoundedInteger(1, 5));
+
+    // Holds the absolute standard deviation used in the GaussianRandomValue function
+    float abs_std_dev = static_cast<float>(total_dmg) * std_dev;
+    total_dmg = GaussianRandomValue(total_dmg, abs_std_dev, false);
+
+    // If the total damage came to a value less than or equal to zero after the gaussian randomization,
+    // fall back to returning a small non-zero damage value
+    if(total_dmg <= 0)
+        return static_cast<uint32>(RandomBoundedInteger(1, 5));
+
+    return static_cast<uint32>(total_dmg);
+}
 
 uint32 CalculatePhysicalDamageMultiplier(BattleActor *attacker, BattleTarget *target, float mul_atk)
 {
     return CalculatePhysicalDamageMultiplier(attacker, target, mul_atk, 0.10f);
 }
 
-
+uint32 CalculatePhysicalDamageMultiplier(BattleActor *attacker, BattleActor *target_actor, float mul_atk)
+{
+    return CalculatePhysicalDamageMultiplier(attacker, target_actor, mul_atk, 0.10f);
+}
 
 uint32 CalculatePhysicalDamageMultiplier(BattleActor *attacker, BattleTarget *target, float mul_atk, float std_dev)
 {
@@ -263,9 +392,8 @@ uint32 CalculatePhysicalDamageMultiplier(BattleActor *attacker, BattleTarget *ta
         return static_cast<uint32>(RandomBoundedInteger(1, 5));
 
     // Holds the absolute standard deviation used in the GaussianRandomValue function
-    float abs_std_dev = 0.0f;
     // A value of "0.075f" means the standard deviation should be 7.5% of the mean (the total damage)
-    abs_std_dev = static_cast<float>(total_dmg) * std_dev;
+    float abs_std_dev = static_cast<float>(total_dmg) * std_dev;
     total_dmg = GaussianRandomValue(total_dmg, abs_std_dev, false);
 
     // If the total damage came to a value less than or equal to zero after the gaussian randomization,
@@ -276,30 +404,89 @@ uint32 CalculatePhysicalDamageMultiplier(BattleActor *attacker, BattleTarget *ta
     return static_cast<uint32>(total_dmg);
 } // uint32 CalculatePhysicalDamageMultiplier(BattleActor* attacker, BattleTarget* target, float mul_phys, float std_dev)
 
-
-
-uint32 CalculateMetaphysicalDamage(BattleActor *attacker, BattleTarget *target)
+uint32 CalculatePhysicalDamageMultiplier(BattleActor *attacker, BattleActor *target_actor, float mul_atk, float std_dev)
 {
-    return CalculateMetaphysicalDamageAdder(attacker, target, 0, 0.10f);
+    if(attacker == NULL) {
+        IF_PRINT_WARNING(BATTLE_DEBUG) << "function received NULL attacker argument" << std::endl;
+        return 0;
+    }
+    if(!target_actor) {
+        IF_PRINT_WARNING(BATTLE_DEBUG) << "Invalid target battle actor" << std::endl;
+        return 0;
+    }
+    if(mul_atk < 0.0f) {
+        IF_PRINT_WARNING(BATTLE_DEBUG) << "function received negative multiplier arument: " << mul_atk << std::endl;
+        mul_atk = fabs(mul_atk);
+    }
+    if(std_dev < 0.0f) {
+        IF_PRINT_WARNING(BATTLE_DEBUG) << "function received negative standard deviation argument: " << std_dev << std::endl;
+        std_dev = fabs(std_dev);
+    }
+
+    // Retrieve the total physical attack of the attacker and apply the modifier
+    int32 total_phys_atk = attacker->GetTotalPhysicalAttack();
+    total_phys_atk = static_cast<int32>(static_cast<float>(total_phys_atk) * mul_atk);
+
+    if(total_phys_atk < 0)
+        total_phys_atk = 0;
+
+    // Holds the total physical defense of the target
+    int32 total_phys_def = target_actor->GetAverageDefense();
+
+    // Holds the total damage dealt
+    int32 total_dmg = total_phys_atk - total_phys_def;
+
+    // If the total damage is zero, fall back to causing a small non-zero damage value
+    if(total_dmg <= 0)
+        return static_cast<uint32>(RandomBoundedInteger(1, 5));
+
+    // Holds the absolute standard deviation used in the GaussianRandomValue function
+    // A value of "0.075f" means the standard deviation should be 7.5% of the mean (the total damage)
+    float abs_std_dev = static_cast<float>(total_dmg) * std_dev;
+    total_dmg = GaussianRandomValue(total_dmg, abs_std_dev, false);
+
+    // If the total damage came to a value less than or equal to zero after the gaussian randomization,
+    // fall back to returning a small non-zero damage value
+    if(total_dmg <= 0)
+        return static_cast<uint32>(RandomBoundedInteger(1, 5));
+
+    return static_cast<uint32>(total_dmg);
 }
 
 
-
-uint32 CalculateMetaphysicalDamage(BattleActor *attacker, BattleTarget *target, float std_dev)
+// Magical damages
+uint32 CalculateMagicalDamage(BattleActor *attacker, BattleTarget *target, GLOBAL_ELEMENTAL element)
 {
-    return CalculateMetaphysicalDamageAdder(attacker, target, 0, std_dev);
+    return CalculateMagicalDamageAdder(attacker, target, element, 0, 0.10f);
 }
 
-
-
-uint32 CalculateMetaphysicalDamageAdder(BattleActor *attacker, BattleTarget *target, int32 add_atk)
+uint32 CalculateMagicalDamage(BattleActor *attacker, BattleActor *target_actor, GLOBAL_ELEMENTAL element)
 {
-    return CalculateMetaphysicalDamageAdder(attacker, target, add_atk, 0.10f);
+    return CalculateMagicalDamageAdder(attacker, target_actor, element, 0, 0.10f);
 }
 
+uint32 CalculateMagicalDamage(BattleActor *attacker, BattleTarget *target, GLOBAL_ELEMENTAL element, float std_dev)
+{
+    return CalculateMagicalDamageAdder(attacker, target, element, 0, std_dev);
+}
 
+uint32 CalculateMagicalDamage(BattleActor *attacker, BattleActor *target_actor, GLOBAL_ELEMENTAL element, float std_dev)
+{
+    return CalculateMagicalDamageAdder(attacker, target_actor, element, 0, std_dev);
+}
 
-uint32 CalculateMetaphysicalDamageAdder(BattleActor *attacker, BattleTarget *target, int32 add_atk, float std_dev)
+uint32 CalculateMagicalDamageAdder(BattleActor *attacker, BattleTarget *target, GLOBAL_ELEMENTAL element, int32 add_atk)
+{
+    return CalculateMagicalDamageAdder(attacker, target, element, add_atk, 0.10f);
+}
+
+uint32 CalculateMagicalDamageAdder(BattleActor *attacker, BattleActor *target_actor, GLOBAL_ELEMENTAL element, int32 add_atk)
+{
+    return CalculateMagicalDamageAdder(attacker, target_actor, element, add_atk, 0.10f);
+}
+
+uint32 CalculateMagicalDamageAdder(BattleActor *attacker, BattleTarget *target,
+                                   GLOBAL_ELEMENTAL element, int32 add_atk, float std_dev)
 {
     if(attacker == NULL) {
         IF_PRINT_WARNING(BATTLE_DEBUG) << "function received NULL attacker argument" << std::endl;
@@ -319,25 +506,24 @@ uint32 CalculateMetaphysicalDamageAdder(BattleActor *attacker, BattleTarget *tar
     }
 
     // Holds the total physical attack of the attacker and modifier
-    int32 total_meta_atk = 0;
-    total_meta_atk = attacker->GetTotalMetaphysicalAttack() + add_atk;
-    if(total_meta_atk < 0)
-        total_meta_atk = 0;
+    int32 total_mag_atk = attacker->GetTotalMagicalAttack(element) + add_atk;
+    if(total_mag_atk < 0)
+        total_mag_atk = 0;
 
     // Holds the total physical defense of the target
-    int32 total_meta_def = 0;
+    int32 total_mag_def = 0;
 
     if(IsTargetPoint(target->GetType()) == true) {
-        total_meta_def = target->GetActor()->GetAttackPoint(target->GetPoint())->GetTotalMetaphysicalDefense();
+        total_mag_def = target->GetActor()->GetAttackPoint(target->GetPoint())->GetTotalMagicalDefense(element);
     } else if(IsTargetActor(target->GetType()) == true) {
-        total_meta_def = target->GetActor()->GetAverageMagicalDefense();
+        total_mag_def = target->GetActor()->GetAverageMagicalDefense(element);
     } else {
         IF_PRINT_WARNING(BATTLE_DEBUG) << "invalid target type: " << target->GetType() << std::endl;
         return 0;
     }
 
     // Holds the total damage dealt
-    int32 total_dmg = total_meta_atk - total_meta_def;
+    int32 total_dmg = total_mag_atk - total_mag_def;
     if(total_dmg < 0)
         total_dmg = 0;
 
@@ -346,8 +532,7 @@ uint32 CalculateMetaphysicalDamageAdder(BattleActor *attacker, BattleTarget *tar
         return static_cast<uint32>(RandomBoundedInteger(1, 5));
 
     // Holds the absolute standard deviation used in the GaussianRandomValue function
-    float abs_std_dev = 0.0f;
-    abs_std_dev = static_cast<float>(total_dmg) * std_dev;
+    float abs_std_dev = static_cast<float>(total_dmg) * std_dev;
     total_dmg = GaussianRandomValue(total_dmg, abs_std_dev, false);
 
     // If the total damage came to a value less than or equal to zero after the gaussian randomization,
@@ -356,18 +541,68 @@ uint32 CalculateMetaphysicalDamageAdder(BattleActor *attacker, BattleTarget *tar
         return static_cast<uint32>(RandomBoundedInteger(1, 5));
 
     return static_cast<uint32>(total_dmg);
-} // uint32 CalculateMetaphysicalDamageAdder(BattleActor* attacker, BattleTarget* target, int32 add_atk, float std_dev)
+}
 
-
-
-uint32 CalculateMetaphysicalDamageMultiplier(BattleActor *attacker, BattleTarget *target, float mul_atk)
+uint32 CalculateMagicalDamageAdder(BattleActor *attacker, BattleActor *target_actor,
+                                   GLOBAL_ELEMENTAL element, int32 add_atk, float std_dev)
 {
-    return CalculateMetaphysicalDamageMultiplier(attacker, target, mul_atk, 0.10f);
+    if(attacker == NULL) {
+        IF_PRINT_WARNING(BATTLE_DEBUG) << "function received NULL attacker argument" << std::endl;
+        return 0;
+    }
+    if(target_actor == NULL) {
+        IF_PRINT_WARNING(BATTLE_DEBUG) << "Invalid target battle actor" << std::endl;
+        return 0;
+    }
+    if(std_dev < 0.0f) {
+        IF_PRINT_WARNING(BATTLE_DEBUG) << "function received negative standard deviation argument: " << std_dev << std::endl;
+        std_dev = fabs(std_dev);
+    }
+
+    // Holds the total physical attack of the attacker and modifier
+    int32 total_mag_atk = attacker->GetTotalMagicalAttack(element) + add_atk;
+    if(total_mag_atk < 0)
+        total_mag_atk = 0;
+
+    // Holds the total physical defense of the target
+    int32 total_mag_def = target_actor->GetAverageMagicalDefense(element);
+
+    // Holds the total damage dealt
+    int32 total_dmg = total_mag_atk - total_mag_def;
+    if(total_dmg < 0)
+        total_dmg = 0;
+
+    // If the total damage is zero, fall back to causing a small non-zero damage value
+    if(total_dmg <= 0)
+        return static_cast<uint32>(RandomBoundedInteger(1, 5));
+
+    // Holds the absolute standard deviation used in the GaussianRandomValue function
+    float abs_std_dev = static_cast<float>(total_dmg) * std_dev;
+    total_dmg = GaussianRandomValue(total_dmg, abs_std_dev, false);
+
+    // If the total damage came to a value less than or equal to zero after the gaussian randomization,
+    // fall back to returning a small non-zero damage value
+    if(total_dmg <= 0)
+        return static_cast<uint32>(RandomBoundedInteger(1, 5));
+
+    return static_cast<uint32>(total_dmg);
 }
 
 
+uint32 CalculateMagicalDamageMultiplier(BattleActor *attacker, BattleTarget *target,
+                                        GLOBAL_ELEMENTAL element, float mul_atk)
+{
+    return CalculateMagicalDamageMultiplier(attacker, target, element, mul_atk, 0.10f);
+}
 
-uint32 CalculateMetaphysicalDamageMultiplier(BattleActor *attacker, BattleTarget *target, float mul_atk, float std_dev)
+uint32 CalculateMagicalDamageMultiplier(BattleActor *attacker, BattleActor *target_actor,
+                                        GLOBAL_ELEMENTAL element, float mul_atk)
+{
+    return CalculateMagicalDamageMultiplier(attacker, target_actor, element, mul_atk, 0.10f);
+}
+
+uint32 CalculateMagicalDamageMultiplier(BattleActor *attacker, BattleTarget *target,
+                                        GLOBAL_ELEMENTAL element, float mul_atk, float std_dev)
 {
     if(attacker == NULL) {
         IF_PRINT_WARNING(BATTLE_DEBUG) << "function received NULL attacker argument" << std::endl;
@@ -391,34 +626,33 @@ uint32 CalculateMetaphysicalDamageMultiplier(BattleActor *attacker, BattleTarget
     }
 
     // Retrieve the total physical attack of the attacker and apply the modifier
-    int32 total_meta_atk = static_cast<int32>(static_cast<float>(attacker->GetTotalMetaphysicalAttack()) * mul_atk);
+    int32 total_mag_atk = static_cast<int32>(static_cast<float>(attacker->GetTotalMagicalAttack(element)) * mul_atk);
 
-    if(total_meta_atk < 0)
-        total_meta_atk = 0;
+    if(total_mag_atk < 0)
+        total_mag_atk = 0;
 
     // Holds the total physical defense of the target
-    int32 total_meta_def = 0;
+    int32 total_mag_def = 0;
 
     if(IsTargetPoint(target->GetType()) == true) {
-        total_meta_def = target->GetActor()->GetAttackPoint(target->GetPoint())->GetTotalMetaphysicalDefense();
+        total_mag_def = target->GetActor()->GetAttackPoint(target->GetPoint())->GetTotalMagicalDefense(element);
     } else if(IsTargetActor(target->GetType()) == true) {
-        total_meta_def = target->GetActor()->GetAverageMagicalDefense();
+        total_mag_def = target->GetActor()->GetAverageMagicalDefense(element);
     } else {
         IF_PRINT_WARNING(BATTLE_DEBUG) << "invalid target type: " << target->GetType() << std::endl;
         return 0;
     }
 
     // Holds the total damage dealt
-    int32 total_dmg = total_meta_atk - total_meta_def;
+    int32 total_dmg = total_mag_atk - total_mag_def;
 
     // If the total damage is zero, fall back to causing a small non-zero damage value
     if(total_dmg <= 0)
         return static_cast<uint32>(RandomBoundedInteger(1, 5));
 
     // Holds the absolute standard deviation used in the GaussianRandomValue function
-    float abs_std_dev = 0.0f;
     // A value of "0.075f" means the standard deviation should be 7.5% of the mean (the total damage)
-    abs_std_dev = static_cast<float>(total_dmg) * std_dev;
+    float abs_std_dev = static_cast<float>(total_dmg) * std_dev;
     total_dmg = GaussianRandomValue(total_dmg, abs_std_dev, false);
 
     // If the total damage came to a value less than or equal to zero after the gaussian randomization,
@@ -427,7 +661,57 @@ uint32 CalculateMetaphysicalDamageMultiplier(BattleActor *attacker, BattleTarget
         return static_cast<uint32>(RandomBoundedInteger(1, 5));
 
     return static_cast<uint32>(total_dmg);
-} // uint32 CalculateMetaphysicalDamageMultiplier(BattleActor* attacker, BattleTarget* target, float mul_phys, float std_dev)
+}
+
+uint32 CalculateMagicalDamageMultiplier(BattleActor *attacker, BattleActor *target_actor,
+                                        GLOBAL_ELEMENTAL element, float mul_atk, float std_dev)
+{
+    if(attacker == NULL) {
+        IF_PRINT_WARNING(BATTLE_DEBUG) << "function received NULL attacker argument" << std::endl;
+        return 0;
+    }
+    if(target_actor == NULL) {
+        IF_PRINT_WARNING(BATTLE_DEBUG) << "Invalid target battle actor" << std::endl;
+        return 0;
+    }
+    if(mul_atk < 0.0f) {
+        IF_PRINT_WARNING(BATTLE_DEBUG) << "function received negative multiplier arument: " << mul_atk << std::endl;
+        mul_atk = fabs(mul_atk);
+    }
+    if(std_dev < 0.0f) {
+        IF_PRINT_WARNING(BATTLE_DEBUG) << "function received negative standard deviation argument: " << std_dev << std::endl;
+        std_dev = fabs(std_dev);
+    }
+
+    // Retrieve the total physical attack of the attacker and apply the modifier
+    int32 total_mag_atk = static_cast<int32>(static_cast<float>(attacker->GetTotalMagicalAttack(element)) * mul_atk);
+
+    if(total_mag_atk < 0)
+        total_mag_atk = 0;
+
+    // Holds the total physical defense of the target
+    int32 total_mag_def = target_actor->GetAverageMagicalDefense(element);
+
+    // Holds the total damage dealt
+    int32 total_dmg = total_mag_atk - total_mag_def;
+
+    // If the total damage is zero, fall back to causing a small non-zero damage value
+    if(total_dmg <= 0)
+        return static_cast<uint32>(RandomBoundedInteger(1, 5));
+
+    // Holds the absolute standard deviation used in the GaussianRandomValue function
+    // A value of "0.075f" means the standard deviation should be 7.5% of the mean (the total damage)
+    float abs_std_dev = static_cast<float>(total_dmg) * std_dev;
+    total_dmg = GaussianRandomValue(total_dmg, abs_std_dev, false);
+
+    // If the total damage came to a value less than or equal to zero after the gaussian randomization,
+    // fall back to returning a small non-zero damage value
+    if(total_dmg <= 0)
+        return static_cast<uint32>(RandomBoundedInteger(1, 5));
+
+    return static_cast<uint32>(total_dmg);
+}
+
 
 ////////////////////////////////////////////////////////////////////////////////
 // BattleTarget class
@@ -468,7 +752,7 @@ bool BattleTarget::SetInitialTarget(BattleActor *user, GLOBAL_TARGET type)
     // Determine what party the initial target will exist in
     std::deque<BattleActor *>* target_party;
     if((type == GLOBAL_TARGET_ALLY_POINT) || (type == GLOBAL_TARGET_ALLY) || (type == GLOBAL_TARGET_ALL_ALLIES)
-            || (type == GLOBAL_TARGET_ALLY_EVEN_DEAD)) {
+            || (type == GLOBAL_TARGET_ALLY_EVEN_DEAD) || (type == GLOBAL_TARGET_DEAD_ALLY)) {
         if(user->IsEnemy() == false)
             target_party = &BattleMode::CurrentInstance()->GetCharacterParty();
         else
@@ -488,6 +772,7 @@ bool BattleTarget::SetInitialTarget(BattleActor *user, GLOBAL_TARGET type)
     case GLOBAL_TARGET_SELF:
     case GLOBAL_TARGET_ALLY_POINT:
     case GLOBAL_TARGET_ALLY:
+    case GLOBAL_TARGET_DEAD_ALLY:
         _actor = user;
         break;
     case GLOBAL_TARGET_ALLY_EVEN_DEAD:
@@ -690,7 +975,7 @@ bool BattleTarget::SelectNextActor(BattleActor *user, bool direction, bool valid
     if((_type == GLOBAL_TARGET_SELF_POINT) || (_type == GLOBAL_TARGET_SELF)) {
         return false; // Self type targets do not have multiple actors to select from
     } else if((_type == GLOBAL_TARGET_ALLY_POINT) || (_type == GLOBAL_TARGET_ALLY)
-              || (_type == GLOBAL_TARGET_ALLY_EVEN_DEAD)) {
+              || (_type == GLOBAL_TARGET_ALLY_EVEN_DEAD) || (_type == GLOBAL_TARGET_DEAD_ALLY)) {
         if(user->IsEnemy() == false)
             target_party = &BattleMode::CurrentInstance()->GetCharacterParty();
         else
@@ -775,25 +1060,35 @@ BattleActor *BattleTarget::GetPartyActor(uint32 index)
 
 ustring BattleTarget::GetName()
 {
-    if((_type == GLOBAL_TARGET_SELF_POINT) || (_type == GLOBAL_TARGET_ALLY_POINT) || (_type == GLOBAL_TARGET_FOE_POINT)) {
+    switch(_type) {
+    default:
+        return UTranslate("[Invalid Target]");
+
+    case GLOBAL_TARGET_SELF_POINT:
+    case GLOBAL_TARGET_ALLY_POINT:
+    case GLOBAL_TARGET_FOE_POINT:
         return (_actor->GetName() + UTranslate(" — ") + (_actor->GetAttackPoints()).at(_point)->GetName());
-    } else if((_type == GLOBAL_TARGET_SELF) || (_type == GLOBAL_TARGET_ALLY) || (_type == GLOBAL_TARGET_FOE)
-              || (_type == GLOBAL_TARGET_ALLY_EVEN_DEAD)) {
+
+    case GLOBAL_TARGET_SELF:
+    case GLOBAL_TARGET_ALLY:
+    case GLOBAL_TARGET_ALLY_EVEN_DEAD:
+    case GLOBAL_TARGET_DEAD_ALLY:
+    case GLOBAL_TARGET_FOE:
         return _actor->GetName();
-    } else if(_type == GLOBAL_TARGET_ALL_ALLIES) {
+
+    case GLOBAL_TARGET_ALL_ALLIES:
         return UTranslate("All Allies");
-    } else if(_type == GLOBAL_TARGET_ALL_FOES) {
+
+    case GLOBAL_TARGET_ALL_FOES:
         return UTranslate("All Enemies");
     }
-
-    return UTranslate("[Invalid Target]");
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 // BattleItem class
 ////////////////////////////////////////////////////////////////////////////////
 
-BattleItem::BattleItem(hoa_global::GlobalItem item) :
+BattleItem::BattleItem(vt_global::GlobalItem item) :
     _item(item),
     _battle_count(item.GetCount())
 {
@@ -829,6 +1124,6 @@ void BattleItem::DecrementBattleCount()
 }
 
 
-} // namespace private_shop
+} // namespace private_battle
 
-} // namespace hoa_shop
+} // namespace vt_battle

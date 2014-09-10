@@ -1,5 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
-//            Copyright (C) 2004-2010 by The Allacrost Project
+//            Copyright (C) 2004-2011 by The Allacrost Project
+//            Copyright (C) 2012-2014 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -7,16 +8,24 @@
 // See http://www.gnu.org/copyleft/gpl.html for details.
 ///////////////////////////////////////////////////////////////////////////////
 
+/** ***************************************************************************
+*** \file    particle_manager.cpp
+*** \author  Raj Sharma, roos@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
+*** \brief   Source file for particle manager
+*** **************************************************************************/
+
+#include "utils/utils_pch.h"
 #include "engine/video/particle_manager.h"
 
 #include "engine/video/video.h"
 
 #include "engine/video/particle_effect.h"
 
-using namespace hoa_script;
-using namespace hoa_video;
+using namespace vt_script;
+using namespace vt_video;
 
-namespace hoa_mode_manager
+namespace vt_mode_manager
 {
 
 bool ParticleManager::AddParticleEffect(const std::string &effect_filename, float x, float y)
@@ -46,39 +55,30 @@ void ParticleManager::_DEBUG_ShowParticleStats()
     TextManager->Draw(text);
 }
 
-bool ParticleManager::Draw()
+void ParticleManager::Draw() const
 {
     VideoManager->PushState();
     VideoManager->SetStandardCoordSys();
     VideoManager->DisableScissoring();
 
-    std::vector<ParticleEffect *>::iterator it = _active_effects.begin();
+    std::vector<ParticleEffect *>::const_iterator it = _active_effects.begin();
 
     glClearStencil(0);
     glClear(GL_STENCIL_BUFFER_BIT);
 
-    bool success = true;
-
     while(it != _active_effects.end()) {
-        if(!(*it)->Draw()) {
-            success = false;
-            IF_PRINT_WARNING(VIDEO_DEBUG)
-                    << "Effect failed to draw!" << std::endl;
-        }
+        (*it)->Draw();
         ++it;
     }
 
     VideoManager->PopState();
-    return success;
 }
 
-bool ParticleManager::Update(int32 frame_time)
+void ParticleManager::Update(int32 frame_time)
 {
     float frame_time_seconds = static_cast<float>(frame_time) / 1000.0f;
 
     std::vector<ParticleEffect *>::iterator it = _active_effects.begin();
-
-    bool success = true;
 
     _num_particles = 0;
 
@@ -86,18 +86,11 @@ bool ParticleManager::Update(int32 frame_time)
         if(!(*it)->IsAlive()) {
             it = _active_effects.erase(it);
         } else {
-            if(!(*it)->Update(frame_time_seconds)) {
-                success = false;
-                IF_PRINT_WARNING(VIDEO_DEBUG)
-                        << "Effect failed to update!" << std::endl;
-            }
-
+            (*it)->Update(frame_time_seconds);
             _num_particles += (*it)->GetNumParticles();
             ++it;
         }
     }
-
-    return success;
 }
 
 void ParticleManager::StopAll(bool kill_immediate)
@@ -122,4 +115,4 @@ void ParticleManager::_Destroy()
     _active_effects.clear();
 }
 
-}  // namespace hoa_mode_manager
+}  // namespace vt_mode_manager

@@ -1,5 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
-//            Copyright (C) 2004-2010 by The Allacrost Project
+//            Copyright (C) 2004-2011 by The Allacrost Project
+//            Copyright (C) 2012-2014 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -10,6 +11,7 @@
 /** ****************************************************************************
 *** \file    shop.h
 *** \author  Tyler Olsen, roots@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Header file for shop mode interface
 ***
 *** This code provides an interface for the user to purchase wares from a
@@ -28,16 +30,25 @@
 
 #include "shop_utils.h"
 
+namespace vt_audio {
+class SoundDescriptor;
+}
+
 //! \brief All calls to shop mode are wrapped in this namespace.
-namespace hoa_shop
+namespace vt_shop
 {
 
-//! \brief Determines whether the code in the hoa_shop namespace should print debug statements or not.
+//! \brief Determines whether the code in the vt_shop namespace should print debug statements or not.
 extern bool SHOP_DEBUG;
 
 //! \brief An internal namespace to be used only within the shop code. Don't use this namespace anywhere else!
 namespace private_shop
 {
+
+class BuyInterface;
+class RootInterface;
+class SellInterface;
+class TradeInterface;
 
 /** ****************************************************************************
 *** \brief A companion class to ShopMode that holds various multimedia data
@@ -57,49 +68,14 @@ class ShopMedia
 public:
     ShopMedia();
 
-    ~ShopMedia();
+    ~ShopMedia() {}
 
-    std::vector<hoa_utils::ustring>* GetAllCategoryNames() {
+    //! \brief Shop specific category names
+    std::vector<vt_utils::ustring>* GetAllCategoryNames() {
         return &_all_category_names;
     }
 
-    std::vector<hoa_video::StillImage>* GetAllCategoryIcons() {
-        return &_all_category_icons;
-    }
-
-    hoa_video::StillImage *GetDrunesIcon() {
-        return &_drunes_icon;
-    }
-
-    hoa_video::StillImage *GetStarIcon() {
-        return &_star_icon;
-    }
-
-    hoa_video::StillImage *GetCheckIcon() {
-        return &_check_icon;
-    }
-
-    hoa_video::StillImage *GetXIcon() {
-        return &_x_icon;
-    }
-
-    hoa_video::StillImage *GetShardSlotIcon() {
-        return &_shard_slot_icon;
-    }
-
-    hoa_video::StillImage *GetEquipIcon() {
-        return &_equip_icon;
-    }
-
-    std::vector<hoa_video::StillImage>* GetElementalIcons() {
-        return &_elemental_icons;
-    }
-
-    std::vector<hoa_video::StillImage>* GetStatusIcons() {
-        return &_status_icons;
-    }
-
-    std::vector<hoa_video::AnimatedImage>* GetCharacterSprites() {
+    std::vector<vt_video::AnimatedImage>* GetCharacterSprites() {
         return &_character_sprites;
     }
 
@@ -108,77 +84,14 @@ public:
     *** \return A pointer to the ustring holding the category's name. NULL if the argument was invalid.
     *** \note GLOBAL_OBJECT_TOTAL will return the name for "all wares"
     **/
-    hoa_utils::ustring *GetCategoryName(hoa_global::GLOBAL_OBJECT object_type);
-
-    /** \brief Retrieves the category icon image that represents the specified object type
-    *** \param object_type The type of the global object to retrieve the icon for
-    *** \return A pointer to the image holding the category's icon. NULL if the argument was invalid.
-    *** \note GLOBAL_OBJECT_TOTAL will return the icon for "all wares"
-    **/
-    hoa_video::StillImage *GetCategoryIcon(hoa_global::GLOBAL_OBJECT object_type);
-
-    /** \brief Retrieves a specific elemental icon with the proper type and intensity
-    *** \param element_type The type of element the user is trying to retrieve the icon for
-    *** \param intensity The intensity level of the icon to retrieve
-    *** \return The icon representation of the element type and intensity
-    **/
-    hoa_video::StillImage *GetElementalIcon(hoa_global::GLOBAL_ELEMENTAL element_type, hoa_global::GLOBAL_INTENSITY intensity);
-
-    /** \brief Retrieves a specificstatus icon with the proper type and intensity
-    *** \param status_type The type of status the user is trying to retrieve the icon for
-    *** \param intensity The intensity level of the icon to retrieve
-    *** \return The icon representation of the status type and intensity
-    **/
-    hoa_video::StillImage *GetStatusIcon(hoa_global::GLOBAL_STATUS status_type, hoa_global::GLOBAL_INTENSITY intensity);
-
-    /** \brief Retrieves a shop sound object
-    *** \param identifier The string identifier for the sound to retrieve
-    *** \return A pointer to the SoundDescriptor, or NULL if no sound had the identifier name
-    **/
-    hoa_audio::SoundDescriptor *GetSound(const std::string &identifier);
+    vt_utils::ustring *GetCategoryName(vt_global::GLOBAL_OBJECT object_type);
 
 private:
-    /** \brief Container used to find the appropriate row index for each status type
-    *** Status icons for all types of status are all contained within a single image. This container is used to
-    *** quickly determine which row of icons in that image corresponds to each status type.
-    **/
-    std::map<hoa_global::GLOBAL_STATUS, uint32> _status_indeces;
-
     //! \brief Retains text names for all possible object categories, including "all wares"
-    std::vector<hoa_utils::ustring> _all_category_names;
-
-    //! \brief Retains icon images for all possible object categories, including "all wares"
-    std::vector<hoa_video::StillImage> _all_category_icons;
-
-    //! \brief Image icon representing drunes (currency)
-    hoa_video::StillImage _drunes_icon;
-
-    //! \brief Image icon of a single yellow/gold star
-    hoa_video::StillImage _star_icon;
-
-    //! \brief Image icon of a green check mark
-    hoa_video::StillImage _check_icon;
-
-    //! \brief Image icon of a red x
-    hoa_video::StillImage _x_icon;
-
-    //! \brief Image icon representing open shard slots available on weapons and armors
-    hoa_video::StillImage _shard_slot_icon;
-
-    //! \brief Image icon that represents when a character has a weapon or armor equipped
-    hoa_video::StillImage _equip_icon;
-
-    //! \brief Retains all icon images that represent the game's elementals
-    std::vector<hoa_video::StillImage> _elemental_icons;
-
-    //! \brief Retains all icon images that represent the game's status effects
-    std::vector<hoa_video::StillImage> _status_icons;
+    std::vector<vt_utils::ustring> _all_category_names;
 
     //! \brief Retains sprite image frames for all characters in the active party
-    std::vector<hoa_video::AnimatedImage> _character_sprites;
-
-    //! \brief A map of the sounds used in shop mode
-    std::map<std::string, hoa_audio::SoundDescriptor *> _sounds;
+    std::vector<vt_video::AnimatedImage> _character_sprites;
 
     //! \brief Initialize the character's data to show
     void _InitializeCharacters();
@@ -199,8 +112,8 @@ private:
 *** different depending upon what type of object is selected. The primary purpose of this class
 *** is to serve as a helper to the BuyInterface class and to keep the code organized.
 ***
-*** \todo Currently this class treats the display of shards the same as it does for items
-*** and key items. This should be changed once shard properties have a more clear definition
+*** \todo Currently this class treats the display of spirits the same as it does for items
+*** and key items. This should be changed once spirit properties have a more clear definition
 *** in the game design.
 ***
 *** \todo Status icons are not currently displayed as there are no status effects implemented
@@ -242,6 +155,13 @@ public:
     **/
     void ChangeViewMode(SHOP_VIEW_MODE new_mode);
 
+    //! \brief Update the the count text content according to the current shop mode and state.
+    void UpdateCountText();
+
+    //! \brief Scroll the trade conditions up or down. Has no effect when not in trade mode.
+    void ScrollUpTradeConditions();
+    void ScrollDownTradeConditions();
+
 private:
     //! \brief Holds the current view mode of this class
     SHOP_VIEW_MODE _view_mode;
@@ -252,26 +172,42 @@ private:
     //! \brief The type of the selected object
     SHOP_OBJECT _object_type;
 
+    //! \brief When the object type is equipment, this tells whether it is a weapon.
+    bool _is_weapon;
+
     //! \name Data that all object types share
     //@{
     //! \brief The name of the selected object
-    hoa_video::TextImage _object_name;
+    vt_video::TextImage _object_name;
 
     //! \brief A summary description of the object to display
-    hoa_gui::TextBox _description_text;
+    vt_gui::TextBox _description_text;
+
+    //! \brief A hint helping on how to handle commands on the shop
+    vt_gui::TextBox _hint_text;
+
+    //! \brief Displays buy count, sell count, or trade count
+    vt_gui::TextBox _count_text;
+
+    //! \brief The trade conditions title
+    vt_video::TextImage _conditions_title;
+
+    //! \brief Trade conditions displayed in an OptionBox
+    vt_gui::OptionBox _conditions_name;
+    vt_gui::OptionBox _conditions_number;
     //@}
 
     //! \name Data used only for item object types
     //@{
     //! \brief For items, various header text for identifying specific item properties
-    hoa_video::TextImage _field_use_header, _battle_use_header, _target_type_header;
+    vt_video::TextImage _field_use_header, _battle_use_header, _target_type_header;
 
     //! \brief Image copies of a green check mark and a red x mark
-    hoa_video::StillImage *_check_icon;
-    hoa_video::StillImage *_x_icon;
+    vt_video::StillImage *_check_icon;
+    vt_video::StillImage *_x_icon;
 
     //! \brief Holds rendered text images of possible set of target types ("Self — Point", "Ally", "All Enemies", etc.)
-    std::vector<hoa_video::TextImage> _target_type_text;
+    std::vector<vt_video::TextImage> _target_type_text;
 
     //! \brief Booleans that indicate whether the item is usable on maps and/or in battles
     bool _map_usable, _battle_usable;
@@ -282,39 +218,55 @@ private:
 
     //! \name Data used only for weapon and armor object types
     //@{
-    //! \brief Header text identifying the physical and metaphysical ratings
-    hoa_video::TextImage _phys_header, _meta_header;
+    //! \brief Header text identifying the physical and magical ratings
+    vt_video::TextImage _phys_header, _mag_header;
 
-    //! \brief A rendering of the physical and metaphysical attack/defense ratings
-    hoa_video::TextImage _phys_rating, _meta_rating;
+    //! \brief A rendering of the physical and magical attack/defense ratings
+    vt_video::TextImage _phys_rating, _mag_rating;
 
-    //! \brief An icon image of a shard slot
-    hoa_video::StillImage *_shard_slot_icon;
+    //! \brief An icon image of a spirit slot
+    vt_video::StillImage *_spirit_slot_icon;
 
-    //! \brief Text indicating how many shards the selected equipment can support
-    hoa_video::TextImage _shard_slot_text;
+    //! \brief The key item icon
+    vt_video::StillImage *_key_item_icon;
 
-    //! \brief Icon images representing elemental effects and intensity properties of the selected object
-    std::vector<hoa_video::StillImage *> _elemental_icons;
+    //! \brief ATK, DEF, MATK, MDEF icons
+    vt_video::StillImage *_atk_icon;
+    vt_video::StillImage *_matk_icon;
+    vt_video::StillImage *_def_icon;
+    vt_video::StillImage *_mdef_icon;
+
+    //! \brief The number of spirit the equipment can support.
+    uint32 _spirit_number;
 
     //! \brief Icon images representing status effects and intensity properties of the selected object
-    std::vector<hoa_video::StillImage *> _status_icons;
+    std::vector<vt_video::StillImage *> _status_icons;
+
+    //! \brief The skills earned when equipping
+    vt_video::TextImage _equip_skills_header;
+    std::vector<vt_video::TextImage> _equip_skills;
+    std::vector<vt_video::StillImage> _equip_skill_icons;
     //@}
 
     //! \name Data used for displaying character sprites and related status
     //@{
     //! \brief Sprite images of all characters currently in the party
-    std::vector<hoa_video::AnimatedImage *> _character_sprites;
+    std::vector<vt_video::AnimatedImage *> _character_sprites;
 
     //! \brief For weapons and armor, icon image that represents when a character already has the object equipped
-    hoa_video::StillImage *_equip_icon;
+    vt_video::StillImage *_equip_icon;
 
     //! \brief For weapons and armor, this member is set to true for each character that has the object equipped
     std::vector<bool> _character_equipped;
 
-    //! \brief For weapons and armor, text to indicate changes in phys/meta stats from current equipment
-    std::vector<hoa_video::TextImage> _phys_change_text, _meta_change_text;
+    //! \brief For weapons and armor, text to indicate changes in phys/mag stats from current equipment
+    std::vector<vt_video::TextImage> _phys_change_text, _mag_change_text;
     //@}
+
+    /** \brief Updates the condition list.
+    *** Used in trade mode to show the rade conditions in the detailed view.
+    **/
+    void _UpdateTradeConditions();
 
     /** \brief Updates the data and visuals associated specifically with items for the selected object
     *** This method should only be called if the _selected_object member is an item
@@ -326,29 +278,23 @@ private:
     **/
     void _SetEquipmentData();
 
-    /** \brief Updates the data and visuals associated specifically with shards for the selected object
-    *** This method should only be called if the _selected_object member is a shard
+    /** \brief Updates the data and visuals associated specifically with spirits for the selected object
+    *** This method should only be called if the _selected_object member is a spirit
     **/
-    void _SetShardData();
+    void _SetSpiritData();
 
-    //! \brief Determines the proper window owner, position, dimensions for description text
+    //! \brief Determines the proper window owner, position, dimensions and content of the description text
     void _SetDescriptionText();
 
-    /** \brief Renders the desired physical and metaphysical change text
-    *** \param index The index into the _phys_change_text and _meta_change_text containers to re-render
-    *** \param phys_diff The physical change amount
-    *** \param meta_diff The metaphysical change amount
-    **/
-    void _SetChangeText(uint32 index, int32 phys_diff, int32 meta_diff);
+    //! \brief Determines the hint text content
+    void _SetHintText();
 
-    /** \brief Sets all elemental icons to the proper image when given a container
-    *** \param elemental_effects A const reference to a map of elemental effect types and their associated intensities
-    ***
-    *** The argument is presumed to have an entrity for each type of element. This condition is not checked by the function.
-    *** The format of the parameter comes from the global object code, as object classes return a const std::map reference
-    *** of this type to indicate their elemental effects.
+    /** \brief Renders the desired physical and magical change text
+    *** \param index The index into the _phys_change_text and _mag_change_text containers to re-render
+    *** \param phys_diff The physical change amount
+    *** \param mag_diff The magical change amount
     **/
-    void _SetElementalIcons(const std::vector<std::pair<hoa_global::GLOBAL_ELEMENTAL, hoa_global::GLOBAL_INTENSITY> >& elemental_effects);
+    void _SetChangeText(uint32 index, int32 phys_diff, int32 mag_diff);
 
     /** \brief Sets all statusicons to the proper image when given a container
     *** \param status_effects A const reference to a map of status effect types and their associated intensities
@@ -357,7 +303,7 @@ private:
     *** The format of the parameter comes from the global object code, as object classes return a const std::map reference
     *** of this type to indicate their status effects.
     **/
-    void _SetStatusIcons(const std::vector<std::pair<hoa_global::GLOBAL_STATUS, hoa_global::GLOBAL_INTENSITY> >& status_effects);
+    void _SetStatusIcons(const std::vector<std::pair<vt_global::GLOBAL_STATUS, vt_global::GLOBAL_INTENSITY> >& status_effects);
 
     //! \brief Helper function that draws information specific to items
     void _DrawItem();
@@ -365,11 +311,8 @@ private:
     //! \brief Helper function that draws information specific to equipment
     void _DrawEquipment();
 
-    //! \brief Helper function that draws information specific to shards
-    void _DrawShard();
-
-    //! \brief Helper function that draws information specific to key items
-    void _DrawKeyItem();
+    //! \brief Helper function that draws information specific to spirits
+    void _DrawSpirit();
 }; // class ShopObjectViewer
 
 } // namespace private_shop
@@ -395,7 +338,7 @@ private:
 *** -# AddObject() for each object to be sold
 *** -# Wait for the Reset() method to be automatically called, which will finalize shop initialization
 *** ***************************************************************************/
-class ShopMode : public hoa_mode_manager::GameMode
+class ShopMode : public vt_mode_manager::GameMode
 {
 public:
     ShopMode();
@@ -460,6 +403,20 @@ public:
     **/
     void RemoveObjectFromSellList(private_shop::ShopObject *object);
 
+    /** \brief Used when an object has been selected to be sold by the player
+    *** \param object A pointer to the object to add
+    *** \note The sell count of the shop object added should be non-zero before this function is called.
+    *** Otherwise a warning message will be printed, but the object will still be added.
+    **/
+    void AddObjectToTradeList(private_shop::ShopObject *object);
+
+    /** \brief Used when the player decides not to sell an object that was previously marked to be sold
+    *** \param object A pointer to the object to remove
+    *** \note The sell count of the shop object added should be zero before this function is called.
+    *** Otherwise a warning message will be printed, but the object will still be removed.
+    **/
+    void RemoveObjectFromTradeList(private_shop::ShopObject *object);
+
     /** \brief Called whenever the player chooses to clear all marked purchases, sales, and trades
     *** This will empty the buy/sell/trade lists and reset the total costs and sales amounts
     **/
@@ -480,7 +437,7 @@ public:
     *** it also has to update the finance text. Thus the function does not just modify integer values but in fact
     *** does have a small amount of computational overhead
     **/
-    void UpdateFinances(int32 costs_amount, int32 sales_amount);
+    void UpdateFinances(int32 change_amount);
 
     /** \brief Changes the active state of shop mode and prepares the interface of the new state
     *** \param new_state The state to change the shop to
@@ -494,7 +451,7 @@ public:
 
     //! \brief Returns the number of drunes that the party would be left with after the marked purchases and sales
     uint32 GetTotalRemaining() const {
-        return (hoa_global::GlobalManager->GetDrunes() + _total_sales - _total_costs);
+        return (vt_global::GlobalManager->GetDrunes() + _total_change_amount);
     }
 
     /** \name Exported class methods
@@ -503,18 +460,23 @@ public:
     **/
     //@{
     /** \brief Sets the name of the store that should be displayed to the player
-    *** \param greeting The name of the shop
+    *** \param name The name of the shop
     *** \note This method will only work if it is called before the shop is initialized. Calling it afterwards will
     *** result in no operation and a warning message
     **/
-    void SetShopName(hoa_utils::ustring name);
+    void SetShopName(const vt_utils::ustring& name);
 
     /** \brief Sets the greeting message from the shop/merchant
     *** \param greeting The text
     *** \note This method will only work if it is called before the shop is initialized. Calling it afterwards will
     *** result in no operation and a warning message
     **/
-    void SetGreetingText(hoa_utils::ustring greeting);
+    void SetGreetingText(const vt_utils::ustring& greeting);
+
+    //! \brief Sets whether the player can sell item in this shop.
+    void SetSellModeEnabled(bool enable_sell_mode) {
+        _sell_mode_enabled = enable_sell_mode;
+    }
 
     /** \brief Sets the buy and sell price levels for the shop
     *** \param buy_level The price level to set for wares that the player would buy from the shop
@@ -526,13 +488,45 @@ public:
 
     /** \brief Adds a new object for the shop to sell
     *** \param object_id The id number of the object to add
-    *** \param stock The amount of the object to make available for sale at the shop
+    *** \param stock The amount of the object to make available for sale at the shop.
+    *** If set to 0, the number of objects to buy is infinite.
     ***
     *** Adding an object after the shop mode instance has already been initialized (by being made the active game state)
     *** this call will add the object but will not be visible to the player.
     **/
     void AddObject(uint32 object_id, uint32 stock);
     //@}
+
+    /** \brief Adds a new trade for the shop to sell
+    *** \param object_id The id number of the object to add
+    *** \param stock The amount of the object to make available for sale at the shop.
+    *** If set to 0, the number of objects is infinite.
+    ***
+    *** Adding an object after the shop mode instance has already been initialized (by being made the active game state)
+    *** this call will add the object but will not be visible to the player.
+    **/
+    void AddTrade(uint32 object_id, uint32 stock);
+    //@}
+
+    /** \brief Deletes an object from the shop sell list
+    *** \param object_id The id number of the object to remove
+    ***
+    *** This function should be used in only one specific case. This case is when the player buys all instances
+    *** of one object type.
+    *** Trying to remove an object that the shop sells to the player or trying to remove an object
+    *** that still remains in the shop's inventory will result in a warning message and the object will not be removed.
+    **/
+    void RemoveObjectToBuy(uint32 object_id);
+
+    /** \brief Deletes an object from the shop sell list
+    *** \param object_id The id number of the object to remove
+    ***
+    *** This function should be used in only one specific case. This case is when the player owns this object and
+    *** chooses to sell all instances of it and additionally the shop does not sell this item. Trying to remove
+    *** an object that the shop sells to the player or trying to remove an object that still remains in the party's
+    *** inventory will result in a warning message and the object will not be removed.
+    **/
+    void RemoveObjectToSell(uint32 object_id);
 
     /** \brief Deletes an object from the shop
     *** \param object_id The id number of the object to remove
@@ -542,7 +536,7 @@ public:
     *** an object that the shop sells to the player or trying to remove an object that still remains in the party's
     *** inventory will result in a warning message and the object will not be removed.
     **/
-    void RemoveObjectToSell(uint32 object_id);
+    void RemoveObjectToTrade(uint32 object_id);
 
     //! \name Class member access functions
     //@{
@@ -580,6 +574,11 @@ public:
         return &_available_sell;
     }
 
+    //! Returns the available list of item that can be traded for
+    std::map<uint32, private_shop::ShopObject *>* GetAvailableTrade() {
+        return &_available_trade;
+    }
+
     //!  Returns the list of items the player has currently reserved for acquisition.
     std::map<uint32, private_shop::ShopObject *>* GetBuyList() {
         return &_buy_list;
@@ -590,15 +589,20 @@ public:
         return &_sell_list;
     }
 
-    hoa_gui::MenuWindow *GetTopWindow() {
+    //! Returns the list of items the player is currently willing to sell.
+    std::map<uint32, private_shop::ShopObject *>* GetTradeList() {
+        return &_trade_list;
+    }
+
+    vt_gui::MenuWindow *GetTopWindow() {
         return &_top_window;
     }
 
-    hoa_gui::MenuWindow *GetMiddleWindow() {
+    vt_gui::MenuWindow *GetMiddleWindow() {
         return &_middle_window;
     }
 
-    hoa_gui::MenuWindow *GetBottomWindow() {
+    vt_gui::MenuWindow *GetBottomWindow() {
         return &_bottom_window;
     }
     //@}
@@ -615,6 +619,9 @@ private:
     *** is NULL when no shop is active
     **/
     static ShopMode *_current_instance;
+
+    //! \brief Tells whether the sell mode is enabled in this shop, thus whether the player can sell items.
+    bool _sell_mode_enabled;
 
     //! \brief Set to true only after the shop has been initialized and is ready to be used by the player
     bool _initialized;
@@ -634,11 +641,15 @@ private:
     //! \brief The total revenue that will be earned from all marked sales.
     uint32 _total_sales;
 
+    //! \brief The total revenue that will be earned from all marked sales.
+    int32 _total_change_amount;
+
     /** \brief Holds all objects that can be bought, or sold in the shop
     *** The integer key to this map is the global object ID represented by the ShopObject.
     **/
     std::map<uint32, private_shop::ShopObject *> _available_buy;
     std::map<uint32, private_shop::ShopObject *> _available_sell;
+    std::map<uint32, private_shop::ShopObject *> _available_trade;
 
     /** \brief Holds pointers to all objects that the player plans to purchase
     *** The integer key to this map is the global object ID represented by the ShopObject.
@@ -649,6 +660,11 @@ private:
     *** The integer key to this map is the global object ID represented by the ShopObject.
     **/
     std::map<uint32, private_shop::ShopObject *> _sell_list;
+
+    /** \brief Holds pointers to all objects that the player plans to sell
+    *** The integer key to this map is the global object ID represented by the ShopObject.
+    **/
+    std::map<uint32, private_shop::ShopObject *> _trade_list;
 
     //! \brief A pointer to the ShopMedia object created to coincide with this instance of ShopMode
     private_shop::ShopMedia *_shop_media;
@@ -668,32 +684,30 @@ private:
     private_shop::BuyInterface *_buy_interface;
     private_shop::SellInterface *_sell_interface;
     private_shop::TradeInterface *_trade_interface;
-    private_shop::ConfirmInterface *_confirm_interface;
-    private_shop::LeaveInterface *_leave_interface;
     //@}
 
     //! \brief Holds an image of the screen taken when the ShopMode instance was created
-    hoa_video::StillImage _screen_backdrop;
+    vt_video::StillImage _screen_backdrop;
 
     //! \brief The highest level window that contains the shop actions and finance information
-    hoa_gui::MenuWindow _top_window;
+    vt_gui::MenuWindow _top_window;
 
     //! \brief The largest window usually used to display lists of objects
-    hoa_gui::MenuWindow _middle_window;
+    vt_gui::MenuWindow _middle_window;
 
     //! \brief The lowest window typically displays detailed information or additional shop options
-    hoa_gui::MenuWindow _bottom_window;
+    vt_gui::MenuWindow _bottom_window;
 
     //! \brief The list of options for what the player may do in shop mode
-    hoa_gui::OptionBox _action_options;
+    vt_gui::OptionBox _action_options;
 
     //! \brief Separate text images for each action option. Displayed when _action_options are hidden
-    std::vector<hoa_video::TextImage> _action_titles;
+    std::vector<vt_video::TextImage> _action_titles;
 
     //! \brief Table-formatted text containing the financial information about the current purchases and sales
-    hoa_gui::OptionBox _finance_table;
-}; // class ShopMode : public hoa_mode_manager::GameMode
+    vt_gui::OptionBox _finance_table;
+}; // class ShopMode : public vt_mode_manager::GameMode
 
-} // namespace hoa_shop
+} // namespace vt_shop
 
 #endif // __SHOP_HEADER__

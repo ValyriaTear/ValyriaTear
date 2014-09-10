@@ -1,5 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
-//            Copyright (C) 2004-2010 by The Allacrost Project
+//            Copyright (C) 2004-2011 by The Allacrost Project
+//            Copyright (C) 2012-2014 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -10,6 +11,7 @@
 /** ****************************************************************************
 *** \file    global_objects.h
 *** \author  Tyler Olsen, roots@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Header file for global game objects
 ***
 *** This file contains several representations of inventory "objects" used
@@ -24,8 +26,16 @@
 #include "engine/video/image.h"
 #include "engine/script/script.h"
 
-namespace hoa_global
+#include "utils/ustring.h"
+
+namespace vt_script {
+class ReadScriptDescriptor;
+}
+
+namespace vt_global
 {
+
+class GlobalSpirit;
 
 /** ****************************************************************************
 *** \brief An abstract base class for representing a game object
@@ -54,10 +64,20 @@ class GlobalObject
 {
 public:
     GlobalObject() :
-        _id(0), _count(0), _price(0) {}
+        _id(0),
+        _is_key_item(false),
+        _count(0),
+        _price(0),
+        _trade_price(0)
+    {}
 
     GlobalObject(uint32 id, uint32 count = 1) :
-        _id(id), _count(count), _price(0) {}
+        _id(id),
+        _is_key_item(false),
+        _count(count),
+        _price(0),
+        _trade_price(0)
+    {}
 
     virtual ~GlobalObject()
     {}
@@ -65,6 +85,11 @@ public:
     //! \brief Returns true if the object is properly initialized and ready to be used
     bool IsValid() const {
         return (_id != 0);
+    }
+
+    //! \brief Returns true if the object is properly initialized and ready to be used
+    bool IsKeyItem() const {
+        return _is_key_item;
     }
 
     /** \brief Purely virtual function used to distinguish between object types
@@ -95,11 +120,11 @@ public:
         return _id;
     }
 
-    const hoa_utils::ustring &GetName() const {
+    const vt_utils::ustring &GetName() const {
         return _name;
     }
 
-    const hoa_utils::ustring &GetDescription() const {
+    const vt_utils::ustring &GetDescription() const {
         return _description;
     }
 
@@ -115,12 +140,16 @@ public:
         return _price;
     }
 
-    const hoa_video::StillImage &GetIconImage() const {
-        return _icon_image;
+    uint32 GetTradingPrice() const {
+        return _trade_price;
     }
 
-    const std::vector<std::pair<GLOBAL_ELEMENTAL, GLOBAL_INTENSITY> >& GetElementalEffects() const {
-        return _elemental_effects;
+    const std::vector<std::pair<uint32, uint32> >& GetTradeConditions() const {
+        return _trade_conditions;
+    }
+
+    const vt_video::StillImage &GetIconImage() const {
+        return _icon_image;
     }
 
     const std::vector<std::pair<GLOBAL_STATUS, GLOBAL_INTENSITY> >& GetStatusEffects() const {
@@ -135,10 +164,13 @@ protected:
     uint32 _id;
 
     //! \brief The name of the object as it would be displayed on a screen
-    hoa_utils::ustring _name;
+    vt_utils::ustring _name;
 
     //! \brief A short description of the item to display on the screen
-    hoa_utils::ustring _description;
+    vt_utils::ustring _description;
+
+    //! \brief Tells whether an item is a key item, preventing from being consumed or sold.
+    bool _is_key_item;
 
     //! \brief Retains how many occurences of the object are represented by this class object instance
     uint32 _count;
@@ -146,18 +178,23 @@ protected:
     //! \brief The base price of the object for purchase/sale in the game
     uint32 _price;
 
-    //! \brief A loaded icon image of the object at its original size of 60x60 pixels
-    hoa_video::StillImage _icon_image;
+    //! \brief The additional price of the object requested when trading it.
+    uint32 _trade_price;
 
-    /** \brief Container that holds the intensity of each type of elemental effect of the object
-    *** Elements with an intensity of GLOBAL_INTENSITY_NEUTRAL indicate no elemental bonus
-    **/
-    std::vector<std::pair<GLOBAL_ELEMENTAL, GLOBAL_INTENSITY> > _elemental_effects;
+    //! \brief The trade conditions of the item <item_id, number>
+    //! There is an exception: If the item_id is zero, the second value is the trade price.
+    std::vector<std::pair<uint32, uint32> > _trade_conditions;
+
+    //! \brief A loaded icon image of the object at its original size of 60x60 pixels
+    vt_video::StillImage _icon_image;
 
     /** \brief Container that holds the intensity of each type of status effect of the object
     *** Effects with an intensity of GLOBAL_INTENSITY_NEUTRAL indicate no status effect bonus
     **/
     std::vector<std::pair<GLOBAL_STATUS, GLOBAL_INTENSITY> > _status_effects;
+
+    //! \brief The skills that can be learned when equipping that piece of equipment.
+    std::vector<uint32> _equipment_skills;
 
     //! \brief Causes the object to become invalid due to a loading error or other significant issue
     void _InvalidateObject() {
@@ -172,13 +209,16 @@ protected:
     *** table context prepared. This function will do nothing more but read the expected key/values of
     *** the open table in the script file and return.
     **/
-    void _LoadObjectData(hoa_script::ReadScriptDescriptor &script);
-
-    //! \brief Loads elemental effects data
-    void _LoadElementalEffects(hoa_script::ReadScriptDescriptor &script);
+    void _LoadObjectData(vt_script::ReadScriptDescriptor &script);
 
     //! \brief Loads status effects data
-    void _LoadStatusEffects(hoa_script::ReadScriptDescriptor &script);
+    void _LoadStatusEffects(vt_script::ReadScriptDescriptor &script);
+
+    //! \brief Loads trading conditions data
+    void _LoadTradeConditions(vt_script::ReadScriptDescriptor &script);
+
+    //! \brief Loads the object linked skills (used by equipment only)
+    void _LoadEquipmentSkills(vt_script::ReadScriptDescriptor &script);
 }; // class GlobalObject
 
 
@@ -277,9 +317,9 @@ private:
 *** All classes of weapons (swords, bows, spears, etc.) are represented by this
 *** class. Typically, a weapon may only be used by a select few and can not be
 *** equipped on every character. Weapons have two attack ratings: physical
-*** and metaphysical, both of which are included in the damage calculation
+*** and magical, both of which are included in the damage calculation
 *** formulae when a character or enemy attacks using the weapon. Weapons may also
-*** have a small number of "sockets" in which shards can be inserted to improve
+*** have a small number of slots in which spirits can be merged to improve
 *** or alter the weapon's properties. Some weapons have zero sockets available.
 *** Finally, weapons may come imbued with certain elemental or status effect
 *** properties that are inflicted on a target.
@@ -305,20 +345,29 @@ public:
         return _physical_attack;
     }
 
-    uint32 GetMetaphysicalAttack() const {
-        return _metaphysical_attack;
+    uint32 GetMagicalAttack() const {
+        return _magical_attack;
     }
 
     uint32 GetUsableBy() const {
         return _usable_by;
     }
 
-    const std::vector<GlobalShard *>& GetShardSlots() const {
-        return _shard_slots;
+    const std::vector<GlobalSpirit *>& GetSpiritSlots() const {
+        return _spirit_slots;
     }
 
     const std::string &GetAmmoImageFile() const {
         return _ammo_image_file;
+    }
+
+    //! \brief Get the animation filename corresponding to the character weapon animation
+    //! requested.
+    const std::string& GetWeaponAnimationFile(uint32 character_id, const std::string& animation_alias);
+
+    //! \brief Gives the list of learned skill thanks to this piece of equipment.
+    const std::vector<uint32>& GetEquipmentSkills() const {
+        return _equipment_skills;
     }
     //@}
 
@@ -329,20 +378,27 @@ private:
     //! \brief The amount of physical damage that the weapon causes
     uint32 _physical_attack;
 
-    //! \brief The amount of metaphysical damage that the weapon causes
-    uint32 _metaphysical_attack;
+    //! \brief The amount of magical damage that the weapon causes for each elements.
+    uint32 _magical_attack;
 
     /** \brief A bit-mask that determines which characters can use or equip the object
     *** See the game character ID constants in global_actors.h for more information
     **/
     uint32 _usable_by;
 
-    /** \brief Shard slots which may be used to place shards on the weapon
+    //! \brief The info about weapon animations for each global character.
+    //! map < character_id, map < animation alias, animation filename > >
+    std::map <uint32, std::map<std::string, std::string> > _weapon_animations;
+
+    /** \brief Spirit slots which may be used to place spirits on the weapon
     *** Weapons may have no slots, so it is not uncommon for the size of this vector to be zero.
-    *** When shard slots are available but empty (has no attached shard), the pointer at that index
+    *** When spirit slots are available but empty (has no attached spirit), the pointer at that index
     *** will be NULL.
     **/
-    std::vector<GlobalShard *> _shard_slots;
+    std::vector<GlobalSpirit *> _spirit_slots;
+
+    //! \brief Loads the battle animations data for each character that can use the weapon.
+    void _LoadWeaponBattleAnimations(vt_script::ReadScriptDescriptor& script);
 }; // class GlobalWeapon : public GlobalObject
 
 
@@ -354,10 +410,10 @@ private:
 *** between different types of armor is where they may be equipped on an actor. Not
 *** all armor can be equipped by any character or enemy. Typically, armor may only
 *** be used by a select few and can not be equipped on every character. Armor have
-*** two defense ratings: physical and metaphysical, both of which are included in
+*** two defense ratings: physical and magical, both of which are included in
 *** the damage calculation formulae when a character or enemy is attacked at the
 *** location where the armor is equipped. Armor may also have a small number of
-*** "sockets" in which shards can be inserted to improve or alter the armor's
+*** "sockets" in which spirits can be inserted to improve or alter the armor's
 *** properties. Some armor will have zero sockets available. Finally, armor may
 *** come imbued with certain elemental or status effect properties that bolster
 *** and protect the user.
@@ -377,79 +433,64 @@ public:
         return _physical_defense;
     }
 
-    uint32 GetMetaphysicalDefense() const {
-        return _metaphysical_defense;
+    uint32 GetMagicalDefense() const {
+        return _magical_defense;
     }
 
     uint32 GetUsableBy() const {
         return _usable_by;
     }
 
-    const std::vector<GlobalShard *>& GetShardSlots() const {
-        return _shard_slots;
+    const std::vector<GlobalSpirit *>& GetSpiritSlots() const {
+        return _spirit_slots;
+    }
+
+    //! \brief Gives the list of learned skill thanks to this piece of equipment.
+    const std::vector<uint32>& GetEquipmentSkills() const {
+        return _equipment_skills;
     }
 
 private:
     //! \brief The amount of physical defense that the armor provides
     uint32 _physical_defense;
 
-    //! \brief The amount of metaphysical defense that the armor provides
-    uint32 _metaphysical_defense;
+    //! \brief The amount of magical defense that the armor provides against each elements
+    uint32 _magical_defense;
 
     /** \brief A bit-mask that determines which characters can use or equip the object
     *** See the game character ID constants in global_actors.h for more information
     **/
     uint32 _usable_by;
 
-    /** \brief Sockets which may be used to place shards on the armor
+    /** \brief Sockets which may be used to place spirits on the armor
     *** Armor may have no sockets, so it is not uncommon for the size of this vector to be zero.
-    *** When a socket is available but empty (has no attached shard), the pointer at that index
+    *** When a socket is available but empty (has no attached spirit), the pointer at that index
     *** will be NULL.
     **/
-    std::vector<GlobalShard *> _shard_slots;
+    std::vector<GlobalSpirit *> _spirit_slots;
 }; // class GlobalArmor : public GlobalObject
 
 
 /** ****************************************************************************
-*** \brief Represents any type of shard that can be attached to weapons and armor
+*** \brief Represents any type of spirit that can be attached to weapons and armor
 ***
-*** Shards are small gems or stones that can be placed into sockets available on
-*** weapons and armor. Shards have the ability to enhance the properties of
+*** Spirits are small gems or stones that can be placed into sockets available on
+*** weapons and armor. Spirits have the ability to enhance the properties of
 *** equipment it is attached to, allowing the player a degree of customization
 *** in the weapons and armor that their character use.
 ***
 *** \todo This class is not yet implemented
 *** ***************************************************************************/
-class GlobalShard : public GlobalObject
+class GlobalSpirit : public GlobalObject
 {
 public:
-    GlobalShard(uint32 id, uint32 count = 1);
+    GlobalSpirit(uint32 id, uint32 count = 1);
 
     GLOBAL_OBJECT GetObjectType() const {
-        return GLOBAL_OBJECT_SHARD;
+        return GLOBAL_OBJECT_SPIRIT;
     }
-}; // class GlobalShard : public GlobalObject
+}; // class GlobalSpirit : public GlobalObject
 
-
-/** ****************************************************************************
-*** \brief Represents key items found throughout the game
-***
-*** Key items are special items which can not be used directly used nor sold by
-*** the player. Their primary function is to for use in game logic. For example,
-*** a copper key may be needed to open a certain door in a dungeon. Key items
-*** have no need for further data  nor logic beyond what is provided in the
-*** GlobalObject base class is necessary for key items.
-*** ***************************************************************************/
-class GlobalKeyItem : public GlobalObject
-{
-public:
-    GlobalKeyItem(uint32 id, uint32 count = 1);
-
-    GLOBAL_OBJECT GetObjectType() const {
-        return GLOBAL_OBJECT_KEY_ITEM;
-    }
-}; // class GlobalKeyItem : public GlobalObject
-
-} // namespace hoa_global
+} // namespace vt_global
 
 #endif // __GLOBAL_OBJECTS_HEADER__

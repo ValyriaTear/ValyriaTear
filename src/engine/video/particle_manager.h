@@ -1,5 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
-//            Copyright (C) 2004-2010 by The Allacrost Project
+//            Copyright (C) 2004-2011 by The Allacrost Project
+//            Copyright (C) 2012-2014 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -7,24 +8,24 @@
 // See http://www.gnu.org/copyleft/gpl.html for details.
 ///////////////////////////////////////////////////////////////////////////////
 
-/*!****************************************************************************
- * \file    particle_manager.h
- * \author  Raj Sharma, roos@allacrost.org
- * \brief   Header file for particle manager
- *
- * The particle manager is very simple. Every time you want to draw an effect,
- * you call AddEffect() with a pointer to the effect definition structure.
- * Then every frame, call Update() and Draw() to draw all the effects.
- *****************************************************************************/
+/** ***************************************************************************
+*** \file    particle_manager.h
+*** \author  Raj Sharma, roos@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
+*** \brief   Header file for particle manager
+***
+*** The particle manager is very simple. Every time you want to draw an effect,
+*** you call AddEffect() with a pointer to the effect definition structure.
+*** Then every frame, call Update() and Draw() to draw all the effects.
+*** **************************************************************************/
 
 #ifndef __PARTICLE_MANAGER_HEADER__
 #define __PARTICLE_MANAGER_HEADER__
 
-#include "defs.h"
-#include "utils.h"
-
-namespace hoa_mode_manager
+namespace vt_mode_manager
 {
+
+class ParticleEffect;
 
 /*!***************************************************************************
  *  \brief ParticleManager, used internally by video engine to store/update/draw
@@ -55,18 +56,14 @@ public:
      */
     bool AddParticleEffect(const std::string &effect_filename, float x, float y);
 
-    /*!
-     *  \brief draws all active effects
-     * \return success/failure
-     */
-    bool Draw();
+    //! \brief draws all active effects
+    void Draw() const;
 
     /*!
-     *  \brief updates all active effects
-     * \param the new time
-     * \return success/failure
+     * \brief updates all active effects
+     * \param frame_time The elapsed time since last call.
      */
-    bool Update(int32 frame_time);
+    void Update(int32 frame_time);
 
     /*!
      *  \brief stops all registered effects
@@ -108,6 +105,6 @@ private:
     int32 _num_particles;
 };
 
-}  // namespace hoa_mode_manager
+}  // namespace vt_mode_manager
 
 #endif // !__PARTICLE_MANAGER_HEADER

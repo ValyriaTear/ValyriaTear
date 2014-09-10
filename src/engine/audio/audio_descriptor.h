@@ -1,5 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
-//            Copyright (C) 2004-2010 by The Allacrost Project
+//            Copyright (C) 2004-2011 by The Allacrost Project
+//            Copyright (C) 2012-2014 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -11,6 +12,7 @@
 *** \file   audio_descriptor.h
 *** \author Mois�s Ferrer Serra, byaku@allacrost.org
 *** \author Tyler Olsen, roots@allacrost.org
+*** \author Yohann Ferreira, yohann ferreira orange fr
 *** \brief  Header file for audio descriptors, sources and buffers
 ***
 *** This code provides the interface for the sound and music descriptors, that
@@ -26,10 +28,14 @@
 #include "audio_stream.h"
 #include "audio_effects.h"
 
-#include <cstring>
+namespace vt_mode_manager {
+class GameMode;
+}
 
-namespace hoa_audio
+namespace vt_audio
 {
+
+class AudioDescriptor;
 
 //! \brief The set of states that AudioDescriptor class objects may be in
 enum AUDIO_STATE {
@@ -40,7 +46,11 @@ enum AUDIO_STATE {
     //! Audio is loaded and is presently playing
     AUDIO_STATE_PLAYING    = 2,
     //! Audio is loaded and was playing, but is now paused
-    AUDIO_STATE_PAUSED     = 3
+    AUDIO_STATE_PAUSED     = 3,
+    //! Audio is fading out
+    AUDIO_STATE_FADE_OUT   = 4,
+    //! Audio is fading in
+    AUDIO_STATE_FADE_IN    = 5,
 };
 
 //! \brief The possible ways for that a piece of audio data may be loaded
@@ -55,6 +65,8 @@ enum AUDIO_LOAD {
 
 namespace private_audio
 {
+
+class AudioEffect;
 
 //! \brief The default buffer size (in bytes) for streaming buffers
 const uint32 DEFAULT_BUFFER_SIZE = 8192;
@@ -196,7 +208,7 @@ public:
     *** \param filename The name of the file that contains the new audio data (should have a .wav or .ogg file extension)
     *** \param load_type The type of loading to perform (default == AUDIO_LOAD_STATIC)
     *** \param stream_buffer_size If the loading type is streaming, the buffer size to use (default == DEFAULT_BUFFER_SIZE)
-    *** \return True if the audio was succesfully loaded, false if there was an error
+    *** \return True if the audio was successfully loaded, false if there was an error
     ***
     *** The action taken by this function depends on the load type selected. For static sounds, a single OpenAL buffer is
     *** filled. For streaming, the file/memory is prepared.
@@ -210,7 +222,7 @@ public:
     void FreeAudio();
 
     const std::string GetFilename() const {
-        if(_input == NULL) return "";
+        if(_input == NULL) return std::string();
         else return _input->GetFilename();
     }
 
@@ -233,7 +245,7 @@ public:
     *** - RewindAudio()   <==>   all states
     **/
     //@{
-    virtual void Play();
+    virtual bool Play();
     virtual void Stop();
     virtual void Pause();
     virtual void Resume();
@@ -311,25 +323,25 @@ public:
     *** when the game mode is deleted.
     *** This function won't add NULL reference and won't permit duplicate owners.
     **/
-    void AddOwner(hoa_mode_manager::GameMode *gm);
+    void AddOwner(vt_mode_manager::GameMode *gm);
 
     /**
     *** Adds multiple owners at once.
     *** @see AddOwner()
     **/
-    void AddOwners(std::vector<hoa_mode_manager::GameMode *>& owners);
+    void AddOwners(std::vector<vt_mode_manager::GameMode *>& owners);
 
     /**
     *** Remove a game mode reference from the audio descriptor owners,
     *** and checks whether the file data can be freed.
     *** \returns whether the descriptor should be removed from the cache.
     **/
-    bool RemoveOwner(hoa_mode_manager::GameMode *gm);
+    bool RemoveOwner(vt_mode_manager::GameMode *gm);
 
     /**
     *** Get the list of game mode claiming ownership over the audio descriptor.
     **/
-    std::vector<hoa_mode_manager::GameMode *>* GetOwners() {
+    std::vector<vt_mode_manager::GameMode *>* GetOwners() {
         return &_owners;
     }
 
@@ -344,6 +356,9 @@ public:
     *** \param time The amount of time that the fade should last for, in seconds
     **/
     void FadeOut(float time);
+
+    //! Tells whether the audio descriptor is fading out.
+    bool IsFadingOut();
 
     //! \brief Remove effects.
     void RemoveEffects();
@@ -388,6 +403,12 @@ protected:
     **/
     float _volume;
 
+    //! \brief Keeps in memory the fade out or in time.
+    float _fade_effect_time;
+
+    //! \brief The volume of the audio when the fade effect was registered
+    float _original_volume;
+
     //! \brief Size of the streaming buffer, if the audio was loaded for streaming
     uint32 _stream_buffer_size;
 
@@ -405,7 +426,7 @@ protected:
     *** Musics and sounds that are never owned will have to be freed manually.
     *** @see AddOwner(), RemoveOwner()
     **/
-    std::vector<hoa_mode_manager::GameMode *> _owners;
+    std::vector<vt_mode_manager::GameMode *> _owners;
 
     //! \brief Holds all active audio effects for this descriptor
     std::vector<private_audio::AudioEffect *> _audio_effects;
@@ -424,6 +445,9 @@ private:
     *** conditions are not met, the function will return since it has nothing to do.
     **/
     void _Update();
+
+    //! \brief Handles the fading states volumes update.
+    void _HandleFadeStates();
 
     /** \brief Acquires an audio source for playback
     *** This function is called whenever an audio piece is loaded and whenever the Play operation is specified on
@@ -473,7 +497,7 @@ public:
     void SetVolume(float volume);
 
     //! \brief Plays or restart the currently played sound.
-    void Play();
+    bool Play();
 }; // class SoundDescriptor : public AudioDescriptor
 
 
@@ -511,9 +535,9 @@ public:
     *** calling this method on one music also effectively calls stop on another
     *** piece of music that was playing when the call was made
     **/
-    void Play();
+    bool Play();
 }; // class MusicDescriptor : public AudioDescriptor
 
-} // namespace hoa_audio
+} // namespace vt_audio
 
 #endif

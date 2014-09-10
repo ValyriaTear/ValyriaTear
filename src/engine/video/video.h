@@ -1,5 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
-//            Copyright (C) 2004-2010 by The Allacrost Project
+//            Copyright (C) 2004-2011 by The Allacrost Project
+//            Copyright (C) 2012-2014 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -10,7 +11,8 @@
 /** ****************************************************************************
 *** \file    video.h
 *** \author  Raj Sharma, roos@allacrost.org
-***          Daniel Steuernol, steu@allacrost.org
+*** \author  Daniel Steuernol, steu@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Header file for video engine interface.
 ***
 *** This code provides a comprehensive API for managing all drawing, rendering,
@@ -20,71 +22,55 @@
 *** by the map editor GUI as a QT widget.
 ***
 *** \note This code uses the OpenGL library for graphics rendering.
-*** \note This code uses the libpng and libjpeg libraries for loading images.
+*** \note This code uses the SDL_Image library to load images.
 *** \note This code uses the SDL_ttf 2.0 library for font rendering.
 *** ***************************************************************************/
 
 #ifndef __VIDEO_HEADER__
 #define __VIDEO_HEADER__
 
-#include "context.h"
-#include "color.h"
-#include "coord_sys.h"
-#include "fade.h"
-#include "image.h"
-#include "interpolator.h"
-#include "shake.h"
-#include "screen_rect.h"
-#include "texture_controller.h"
-#include "text.h"
+#include "engine/video/context.h"
+#include "engine/video/color.h"
+#include "engine/video/coord_sys.h"
+#include "engine/video/fade.h"
+#include "engine/video/image.h"
+#include "engine/video/screen_rect.h"
+#include "engine/video/texture_controller.h"
+#include "engine/video/text.h"
 
-// required for Code::Blocks and VS
-#ifdef _WIN32
-#include <windows.h> // needs to be included before gl.h
-#endif
+namespace vt_gui {
+class TextBox;
+class OptionBox;
+class GUISystem;
+class MenuWindow;
+namespace private_gui {
+class GUIElement;
+}
+}
 
-// just required for VS
-#ifdef _VS
-#include <GL/glew.h>
-#endif
+namespace vt_map {
+namespace private_map {
+class MapTransitionEvent;
+}
+}
 
-#ifdef __APPLE__
-#include <OpenGL/gl.h>
-#include <OpenGL/glu.h>
-#else
-#include <GL/gl.h>
-#include <GL/glu.h>
-#endif
-
-#ifdef __APPLE__
-#include <SDL_ttf/SDL_ttf.h>
-#else
-#include <SDL/SDL_ttf.h>
-#endif
-
-#include <stack>
+namespace vt_mode_manager {
+class ModeEngine;
+}
 
 //! \brief All calls to the video engine are wrapped in this namespace.
-namespace hoa_video
+namespace vt_video
 {
+class VideoEngine;
 
 //! \brief The singleton pointer for the engine, responsible for all video operations.
 extern VideoEngine *VideoManager;
 
-//! \brief Determines whether the code in the hoa_video namespace should print
+//! \brief Determines whether the code in the vt_video namespace should print
 extern bool VIDEO_DEBUG;
 
-namespace private_video
-{
 //! \brief The number of FPS samples to retain across frames
 const uint32 FPS_SAMPLES = 250;
-
-//! \brief Maximum milliseconds that the current frame time and our averaged frame time must vary before we begin trying to catch up
-const uint32 MAX_FTIME_DIFF = 5;
-
-//! \brief The number of samples to take if we need to play catchup with the current FPS
-const uint32 FPS_CATCHUP = 20;
-}
 
 //! \brief Draw flags to control x and y alignment, flipping, and texture blending.
 enum VIDEO_DRAW_FLAGS {
@@ -126,32 +112,9 @@ enum VIDEO_DRAW_FLAGS {
     VIDEO_DRAW_FLAGS_TOTAL = 14
 };
 
-
-//! \brief Specifies the target window environement where the video engine will run
-enum VIDEO_TARGET {
-    VIDEO_TARGET_INVALID = -1,
-
-    //! Represents a SDL window
-    VIDEO_TARGET_SDL_WINDOW = 0,
-
-    //! Represents a QT widget
-    VIDEO_TARGET_QT_WIDGET  = 1,
-
-    VIDEO_TARGET_TOTAL = 2
-};
-
 //! \brief The standard screen resolution
 const float	VIDEO_STANDARD_RES_WIDTH  = 1024.0f;
 const float	VIDEO_STANDARD_RES_HEIGHT = 768.0f;
-
-/** \brief Linearly interpolates a value which is (alpha * 100) percent between initial and final
-*** \param alpha Determines where inbetween initial (0.0f) and final (1.0f) the interpolation should be
-*** \param initial The initial value
-*** \param final The final value
-*** \return the linear interpolated value
-**/
-float Lerp(float alpha, float initial, float final);
-
 
 /** \brief Rotates a point (x,y) around the origin (0,0), by angle radians
 *** \param x x coordinate of point to rotate
@@ -168,25 +131,24 @@ void RotatePoint(float &x, float &y, float angle);
 *** large, the implementation of many of the methods for this class are split up
 *** into multiple .cpp source files in the video code directory.
 *** *****************************************************************************/
-class VideoEngine : public hoa_utils::Singleton<VideoEngine>
+class VideoEngine : public vt_utils::Singleton<VideoEngine>
 {
-    friend class hoa_utils::Singleton<VideoEngine>;
+    friend class vt_utils::Singleton<VideoEngine>;
 
     friend class TextureController;
     friend class TextSupervisor;
-    friend class hoa_gui::GUISystem;
+    friend class vt_gui::GUISystem;
 
-    friend class hoa_gui::TextBox;
-    friend class hoa_gui::OptionBox;
-    friend class hoa_gui::MenuWindow;
+    friend class vt_gui::TextBox;
+    friend class vt_gui::OptionBox;
+    friend class vt_gui::MenuWindow;
 
-    friend class hoa_gui::private_gui::GUIElement;
+    friend class vt_gui::private_gui::GUIElement;
     friend class private_video::TexSheet;
     friend class private_video::FixedTexSheet;
     friend class private_video::VariableTexSheet;
 
     friend class ImageDescriptor;
-    friend class StillImage;
     friend class CompositeImage;
     friend class private_video::TextElement;
     friend class TextImage;
@@ -206,15 +168,6 @@ public:
     //@}
 
     // ---------- General methods
-
-    /** \brief Sets the target window environment where the video engine will be used
-    *** \param target The window target, which can be VIDEO_TARGET_SDL_WINDOW or VIDEO_TARGET_QT_WIDGET
-    *** \note The video engien's default target is a SDL window, so if that's what you desire then this
-    *** function does not need to be called.
-    *** \note You must set the target before calling the SingletonInitialize() function. Any invocations
-    *** of the SetTarget function after SingletonInitialize has been called will result in no effect.
-    **/
-    void SetTarget(VIDEO_TARGET target);
 
     /** \brief Sets one to multiple flags which control drawing orientation (flip, align, blending, etc). Simply pass
     *** \param first_flag The first (and possibly only) draw flag to set
@@ -238,9 +191,8 @@ public:
     **/
     void Update();
 
-    /** \brief Displays the newly drawn contents onto the screen
-    **/
-    void Draw();
+    //! \brief Displays potential debug information (FPS and textures).
+    void DrawDebugInfo();
 
     /** \brief Retrieves the OpenGL error code and retains it in the _gl_error_code member
     *** \return True if an OpenGL error has been detected, false if no errors were detected
@@ -248,11 +200,7 @@ public:
     *** because the call to glGetError() requires a round trip to the GPU and a flush of the rendering pipeline; a fairly
     *** expensive operation. If VIDEO_DEBUG is false, the function will always return false immediately.
     **/
-    bool CheckGLError() {
-        if(VIDEO_DEBUG == false) return false;
-        _gl_error_code = glGetError();
-        return (_gl_error_code != GL_NO_ERROR);
-    }
+    bool CheckGLError();
 
     //! \brief Returns the value of the most recently fetched OpenGL error code
     GLenum GetGLError() {
@@ -272,6 +220,20 @@ public:
     //! \brief Returns the height of the screen, in pixels
     int32 GetScreenHeight() const {
         return _screen_height;
+    }
+
+    //! \brief Returns the viewport current offsets/width/height
+    int32 GetViewportXOffset() const {
+        return _viewport_x_offset;
+    }
+    int32 GetViewportYOffset() const {
+        return _viewport_y_offset;
+    }
+    int32 GetViewportWidth() const {
+        return _viewport_width;
+    }
+    int32 GetViewportHeight() const {
+        return _viewport_height;
     }
 
     bool IsInitialized() const {
@@ -361,6 +323,22 @@ public:
     **/
     void SetCoordSys(const CoordSys &coordinate_system);
 
+    /** \brief get the current viewport information
+    *** \param x the current x location as a float
+    *** \param y the current y location as a float
+    *** \param width current width as a float
+    *** \param height current height as a float
+    **/
+    void GetCurrentViewport(float &x, float &y, float &width, float &height);
+
+    /** \brief assigns the viewport for open gl to draw into
+    *** \param x the x start location
+    *** \param y the y start location
+    *** \param width the x width
+    *** \param height the y height
+    **/
+    void SetViewport(float x, float y, float width, float height);
+
     //! Perform the OpenGL corresponding calls, but only if necessary.
     void EnableAlphaTest();
     void DisableAlphaTest();
@@ -378,7 +356,7 @@ public:
     void DisableTextureCoordArray();
 
     /** \brief Enables the scissoring effect in the video engine
-    *** Scisorring is where you can specify a rectangle of the screen which is affected
+    *** Scissoring is where you can specify a rectangle of the screen which is affected
     *** by rendering operations (and hence, specify what area is not affected). Make sure
     *** to disable scissoring as soon as you're done using the effect, or all subsequent
     *** draw calls will get messed up.
@@ -452,14 +430,10 @@ public:
     *** What this means is that it save the combined result of all transformation
     *** calls (Move/MoveRelative/Scale/Rotate)
     **/
-    void PushMatrix() {
-        glPushMatrix();
-    }
+    void PushMatrix();
 
     //! \brief Pops the modelview transformation from the stack
-    void PopMatrix() {
-        glPopMatrix();
-    }
+    void PopMatrix();
 
     /** \brief Saves relevant state of the video engine on to an internal stack
     *** The contents saved include the modelview transformation and the current
@@ -482,9 +456,7 @@ public:
     *** \note You should understand how transformation matrices work in OpenGL
     *** prior to using this function.
     **/
-    void Rotate(float angle) {
-        glRotatef(angle, 0, 0, 1);
-    }
+    void Rotate(float angle);
 
     /** \brief Scales all subsequent image drawing calls in the horizontal and vertical direction
     *** \param x The amount of horizontal scaling to perform (0.5 for half, 1.0 for normal, 2.0 for double, etc)
@@ -492,9 +464,7 @@ public:
     *** \note You should understand how transformation matrices work in OpenGL
     *** prior to using this function.
     **/
-    void Scale(float x, float y) {
-        glScalef(x, y, 1.0f);
-    }
+    void Scale(float x, float y);
 
     /** \brief Sets the OpenGL transform to the contents of 4x4 matrix
     *** \param matrix A pointer to an array of 16 float values that form a 4x4 transformation matrix
@@ -513,44 +483,20 @@ public:
     *** screen captures existing at one time, because each image capture requires a relatively
     *** large amount of texutre memory (roughly 3GB for a 1024x768 screen).
     **/
-    StillImage CaptureScreen() throw(hoa_utils::Exception);
+    StillImage CaptureScreen() throw(vt_utils::Exception);
 
-    /** \brief Returns a pointer to the GUIManager singleton object
-    *** This method allows the user to perform text operations. For example, to load a
-    *** font, the user may utilize this method like so:
-    *** `if (VideoManager->Text()->LoadFont(...) == true) { cout << "Success" << std::endl; }`
-    ***
-    *** \note See text.h for the public methods available from the TextSupervisor class
-    *** \note This function is guaranteed to return a valid pointer so long as the VideoEngine class
-    *** has been properly initialized
+    /** \brief Creates an image based on the raw image information passed in. This
+    *** image can be rendered or used as a texture by the rendering system
+    *** \param raw_image a pointer to a valid ImageMemory. It is assumed all the parameters such as width and height are set,
+    *** and that the size of a pixel is 4-bytes wide
+    *** \param image_name The unique image name that we will use to create this image. Note that if it is not unique we throw an Exception
+    *** if delete_on_exist is not set to true (default)
+    *** \param delete_on_exist Flag that indicates whether or not to destroy the image from the TextureManager if the image_name exists.
+    *** Default true
+    *** \return a valid StillImage that is created from the input parameter
+    *** \throw Exception if the new image cannot be created
     **/
-    TextSupervisor *Text() {
-        return TextManager;
-    }
-
-    /** \brief Helper to draw some text at the given position.
-     *
-     * \param x x coordinate to start grid at
-     * \param y y coordinate to start grid at
-     * \param c color of the text
-     */
-    void DrawText(const std::string &text, float x, float y, const Color &c) {
-        DrawText(hoa_utils::MakeUnicodeString(text), x, y, c);
-    }
-    void DrawText(const hoa_utils::ustring &text, float x, float y, const Color &c);
-
-    /** \brief Returns a pointer to the TextureManager singleton object
-    *** This method allows the user to perform texture management operations. For example, to reload
-    *** all textures, the user may utilize this method like so:
-    *** `if (VideoManager->Textures()->ReloadTextures() == true) { cout << "Success" << std::endl; }`
-    ***
-    *** \note See texture_controller.h for the public methods available from the GUISystem class
-    *** \note This function is guaranteed to return a valid pointer so long as the VideoEngine class
-    *** has been properly initialized
-    **/
-    TextureController *Textures() {
-        return TextureManager;
-    }
+    StillImage CreateImage(private_video::ImageMemory *raw_image, const std::string &image_name, bool delete_on_exist = true) throw(vt_utils::Exception);
 
     //-- Overlays: Lighting, Lightning  -----------------------------------------------------
 
@@ -593,42 +539,23 @@ public:
     }
 
     //-- Screen shaking -------------------------------------------------------
-
-    /** \brief Adds a new shaking effect to the screen
-    ***
-    *** \param force The initial force of the shake
-    *** \param falloff_time The number of milliseconds that the effect should last for. 0 indicates infinite time.
-    *** \param falloff_method Specifies the method of falloff. The default is VIDEO_FALLOFF_NONE.
-    *** \note If you want to manually control when the shaking stops, set the falloff_time to zero
-    *** and the falloff_method to VIDEO_FALLOFF_NONE.
-    **/
-    void ShakeScreen(float force, uint32 falloff_time, ShakeFalloff falloff_method = VIDEO_FALLOFF_NONE);
-
-    //! \brief Terminates all current screen shake effects
-    void StopShaking() {
-        _shake_forces.clear();
-        _x_shake = 0.0f;
-        _y_shake = 0.0f;
-    }
-
     //! \brief Returns true if the screen is shaking
-    bool IsShaking() {
-        return (_shake_forces.empty() == false);
-    }
+    //! \note The function acts as a wrapper for the current game mode effect supervisor
+    //! and check for active shaking
+    bool IsScreenShaking();
 
     //-- Miscellaneous --------------------------------------------------------
 
-    /** \brief Sets a new gamma value using SDL_SetGamma()
-     *
-     *  \param value        Gamma value of 1.0f is the default value
-     */
-    void SetGamma(float value);
+    /** \brief Sets a new brightness value
+    *** \param value Brightness value [0.0f - 2.0f]. 1.0f is the default value
+    **/
+    void SetBrightness(float value);
 
-    /** \brief Returns the gamma value
-     * \return the gamma value
-     */
-    float GetGamma() const {
-        return _gamma_value;
+    /** \brief Returns the current brightness value [0.0f - 2.0f]
+    *** \return the brightness value
+    **/
+    float GetBrightness() const {
+        return _brightness_value;
     }
 
     /** \brief Draws a colored line between two points
@@ -680,9 +607,9 @@ public:
     void DrawRectangleOutline(float x1, float y1, float x2, float y2, float width, const Color &color);
 
     /** \brief Takes a screenshot and saves the image to a file
-    *** \param filename The name of the file, if any, to save the screenshot as. Default is "screenshot.jpg"
+    *** \param filename The name of the file, if any, to save the screenshot as. Default is "screenshot.png"
     **/
-    void MakeScreenshot(const std::string &filename = "screenshot.jpg");
+    void MakeScreenshot(const std::string &filename = "screenshot.png");
 
     /** \brief toggles debug information display.
     *** currently used for debugging game modes, and more especially the map mode.
@@ -712,11 +639,7 @@ public:
      */
     TextStyle GetTextStyle();
 
-    //! \brief Updates the FPS counter and draws the current average FPS to the screen.
-    void DrawFPS();
-
-    /** \brief toggles the FPS display
-     */
+    //! \brief toggles the FPS display
     void ToggleFPS() {
         _fps_display = !_fps_display;
     }
@@ -724,7 +647,9 @@ private:
     VideoEngine();
 
     //-- System fades. Only usable by the mode manager
-    friend class hoa_mode_manager::ModeEngine;
+    // and the MapTransition MapEvent.
+    friend class vt_mode_manager::ModeEngine;
+    friend class vt_map::private_map::MapTransitionEvent;
     void _StartTransitionFadeOut(const Color &final, uint32 time) {
         _screen_fader.StartTransitionFadeOut(final, time);
     }
@@ -739,7 +664,7 @@ private:
     bool _fps_display;
 
     //! \brief A circular array of FPS samples used for calculating average FPS
-    uint32 _fps_samples[private_video::FPS_SAMPLES];
+    uint32 _fps_samples[FPS_SAMPLES];
 
     /** \brief Keeps track of the sum of FPS values over the last VIDEO_FPS_SAMPLES frames
     *** This is used to simplify the calculation of average frames per second.
@@ -755,6 +680,9 @@ private:
     *** been displayed.
     **/
     uint32 _number_samples;
+
+    //! The FPS text
+    TextImage* _FPS_textimage;
 
     //! \brief Holds the most recently fetched OpenGL error code
     GLenum _gl_error_code;
@@ -777,11 +705,16 @@ private:
     //! \brief Holds whether the GL_VERTEX_ARRAY state is activated. Used to optimize the drawing logic
     bool _gl_texture_coord_array_is_activated;
 
-    //! \brief The type of window target that the video manager will operate on (SDL window or QT widget)
-    VIDEO_TARGET _target;
+    //! \brief The x/y offsets, width and height of the current viewport (the drawn part), in pixels
+    //! \note the viewport is different from the screen size when in non-4:3 modes.
+    int32 _viewport_x_offset;
+    int32 _viewport_y_offset;
+    int32 _viewport_width;
+    int32 _viewport_height;
 
-    //! \brief The width and height of the current screen, in pixels
-    int32  _screen_width, _screen_height;
+    //! \brief The width and height of the current screen (window), in pixels
+    int32 _screen_width;
+    int32 _screen_height;
 
     //! \brief True if the game is currently running fullscreen
     bool _fullscreen;
@@ -795,28 +728,19 @@ private:
     //! \brief Manages the current screen fading effect when fading is activated
     private_video::ScreenFader _screen_fader;
 
-    //! Image used as a sub-fading overlay
-    StillImage _fade_overlay_img;
-
-    //! eight character name for temp files that increments every time you create a new one so they are always unique
-    char _next_temp_file[9];
-
     //! Keeps whether debug info about the current game mode should be drawn.
     bool _debug_info;
 
     // Shaking effects
 
     //! X offset to shake the screen by (if any)
-    float  _x_shake;
+    float _x_shake;
 
     //! Y offset to shake the screen by (if any)
     float _y_shake;
 
-    //! Current gamma value
-    float _gamma_value;
-
-    //! current shake forces affecting screen
-    std::deque<private_video::ShakeForce> _shake_forces;
+    //! Current brightness value between 0.0f and 2.0f. 1.0f is the original brightness value.
+    float _brightness_value;
 
     // changing the video settings does not actually do anything until
     // you call ApplySettings(). Up til that point, store them in temp
@@ -860,28 +784,6 @@ private:
     */
     int32 _ConvertYAlign(int32 yalign);
 
-    /** \brief returns a filename like TEMP_abcd1234.ext, and each time you call it, it increments the
-     *         alphanumeric part of the filename. This way, during any particular run
-     *         of the game, each temp filename is guaranteed to be unique.
-     *         Assuming you create a new temp file every second, it would take 100,000 years to get
-     *         from TEMP_00000000 to TEMP_zzzzzzzz
-     *
-     *  \param extension   The extension for the temp file. Although we could just save temp files
-     *                     without an extension, that might cause stupid bugs like DevIL refusing
-     *                     to load an image because it doesn't end with .png.
-     * \return name of the generated temp file
-     */
-    std::string _CreateTempFilename(const std::string &extension);
-
-    /** \brief Rounds a force value to the nearest integer based on probability.
-    *** \param force  The force to round
-    *** \return the rounded force value
-    *** \note For example, a force value of 2.85 has an 85% chance of rounding to 3 and a 15% chance of rounding to 2. This rounding
-    *** methodology is necessary because for force values less than 1 (e.g. 0.5f), the shake force would always round down to zero
-    *** even though there is positive force.
-    **/
-    float _RoundForce(float force);
-
     /**
     * \brief takes an x value and converts it into screen coordinates
     * \return the converted value
@@ -894,12 +796,17 @@ private:
     */
     int32 _ScreenCoordY(float y);
 
-    /** \brief Updates all active shaking effects
-    *** \param frame_time The number of milliseconds that have elapsed for the current rendering frame
-    **/
-    void _UpdateShake(uint32 frame_time);
-}; // class VideoEngine : public hoa_utils::Singleton<VideoEngine>
+    //! \brief Updates the viewport metrics according to the current screen width/height.
+    //! \note it also centers the viewport when the resolution isn't a 4:3 one.
+    void _UpdateViewportMetrics();
 
-}  // namespace hoa_video
+    // Debug info
+    //! \brief Updates the FPS counter.
+    void _UpdateFPS();
+    //! \brief Draws the current average FPS to the screen.
+    void _DrawFPS();
+}; // class VideoEngine : public vt_utils::Singleton<VideoEngine>
+
+}  // namespace vt_video
 
 #endif // __VIDEO_HEADER__

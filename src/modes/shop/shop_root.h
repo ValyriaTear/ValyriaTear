@@ -1,5 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
-//            Copyright (C) 2004-2010 by The Allacrost Project
+//            Copyright (C) 2004-2011 by The Allacrost Project
+//            Copyright (C) 2012-2014 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -10,50 +11,22 @@
 /** ****************************************************************************
 *** \file    shop_root.h
 *** \author  Tyler Olsen, roots@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Header file for root interface of shop mode
 *** ***************************************************************************/
 
 #ifndef __SHOP_ROOT_HEADER__
 #define __SHOP_ROOT_HEADER__
 
-#include "engine/video/video.h"
 #include "common/global/global.h"
 
 #include "shop_utils.h"
 
-namespace hoa_shop
+namespace vt_shop
 {
 
 namespace private_shop
 {
-
-/** ****************************************************************************
-*** \brief Assists the RootInterface in proper draw orientation of object category icons and text
-***
-*** Shops have anywhere between one and eight different categories of objects that they may deal in.
-*** One job of the root interface is to display the icon and name of all categories which the shop
-*** deals in. This information is displayed in rows of four. To keep the interface looking nice and consistent
-*** with all the different possible combinations of category numbers, the y draw position for the rows is altered
-*** depending on whether one or two rows are to be drawn. The x draw position of the category icons and text is
-*** also variable depending on the number of categories to be drawn in that row.
-*** ***************************************************************************/
-class CategoryDrawData
-{
-public:
-    /** \brief Determines the appropriate values to set for each class member
-    *** \param number_categories The total number of object categories to draw. Valid range: 1-8
-    **/
-    void ComputeCoordinates(uint8 number_categories);
-
-    /** \brief The number of object categories in the first and second rows
-    *** \note The first row may have 1-4 categories and the second row may have 0-4 categories
-    **/
-    uint8 first_row_num, second_row_num;
-
-    //! \brief Starting draw positions for the first and second rows of object categories
-    float first_row_x, first_row_y, second_row_x, second_row_y;
-}; // class CategoryDrawData
-
 
 /** ****************************************************************************
 *** \brief The highest level shopping interface which displays information about the shop
@@ -106,42 +79,29 @@ public:
     /** \brief Create's the shop name's text
     *** \param name The name of the shop
     **/
-    void SetShopName(hoa_utils::ustring name);
+    void SetShopName(const vt_utils::ustring& name);
 
     /** \brief Creates the shop keeper's greeting message text
     *** \param greeting The textual greeting
     **/
-    void SetGreetingText(hoa_utils::ustring greeting);
+    void SetGreetingText(const vt_utils::ustring& greeting);
 
 private:
     //! \brief The rendered text image of the shop name
-    hoa_video::TextImage _shop_name;
+    vt_video::TextImage _shop_name;
 
     //! \brief Text for displaying price levels
-    hoa_video::TextImage _buy_price_text, _sell_price_text;
+    vt_video::TextImage _buy_price_text, _sell_price_text;
 
     //! \brief A composite image for the star rating of the buy and sell price levels
-    hoa_video::CompositeImage _buy_price_rating, _sell_price_rating;
-
-    /** \brief Container for the text object representing each object category's name
-    *** Categories which the shop does not deal in will have their text rendered in grayscale
-    **/
-    std::vector<hoa_video::TextImage> _category_names;
-
-    /** \brief Container for icon images that represent each object category
-    *** Categories which the shop does not deal in will have their icon rendered in grayscale
-    **/
-    std::vector<hoa_video::StillImage> _category_icons;
+    vt_video::CompositeImage _buy_price_rating, _sell_price_rating;
 
     //! \brief A textbox displaying a short greeting or message from the shop keeper
-    hoa_gui::TextBox _greeting_text;
-
-    //! \brief A container holding the correct draw coordinates and information for object categories
-    CategoryDrawData _category_draw_data;
+    vt_gui::TextBox _greeting_text;
 }; // class RootInterface : public ShopInterface
 
 } // namespace private_shop
 
-} // namespace hoa_shop
+} // namespace vt_shop
 
 #endif // __SHOP_ROOT_HEADER__

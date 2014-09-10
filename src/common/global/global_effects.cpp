@@ -1,5 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
-//            Copyright (C) 2004-2007 by The Allacrost Project
+//            Copyright (C) 2004-2011 by The Allacrost Project
+//            Copyright (C) 2012-2014 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -10,20 +11,23 @@
 /** ****************************************************************************
 *** \file    global_effects.cpp
 *** \author  Jacob Rudolph, rujasu@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Source file for global game effects
 *** ***************************************************************************/
 
+#include "utils/utils_pch.h"
 #include "global_effects.h"
+
 #include "global.h"
 
 #include "engine/system.h"
 
-using namespace hoa_utils;
+using namespace vt_utils;
 
-using namespace hoa_script;
-using namespace hoa_system;
+using namespace vt_script;
+using namespace vt_system;
 
-namespace hoa_global
+namespace vt_global
 {
 
 std::string GetElementName(GLOBAL_ELEMENTAL type)
@@ -37,20 +41,16 @@ std::string GetElementName(GLOBAL_ELEMENTAL type)
         return Translate("Volt");
     case GLOBAL_ELEMENTAL_EARTH:
         return Translate("Earth");
-    case GLOBAL_ELEMENTAL_SLICING:
-        return Translate("Slicing");
-    case GLOBAL_ELEMENTAL_SMASHING:
-        return Translate("Smashing");
-    case GLOBAL_ELEMENTAL_MAULING:
-        return Translate("Mauling");
-    case GLOBAL_ELEMENTAL_PIERCING:
-        return Translate("Piercing");
+    case GLOBAL_ELEMENTAL_LIFE:
+        return Translate("Life");
+    case GLOBAL_ELEMENTAL_DEATH:
+        return Translate("Death");
+    case GLOBAL_ELEMENTAL_NEUTRAL:
+        return Translate("Neutral");
     default:
-        return Translate("Invalid Elemental");
+        return Translate("Invalid Element");
     }
 }
-
-
 
 std::string GetStatusName(GLOBAL_STATUS type)
 {
@@ -70,53 +70,63 @@ std::string GetStatusName(GLOBAL_STATUS type)
         IF_PRINT_WARNING(GLOBAL_DEBUG) << "Lua definition file contained no entry for status effect: " << type << std::endl;
     }
 
-    if(result == "") {
+    if(result.empty()) {
         result = Translate("Invalid Status");
     }
     return result;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-// GlobalElementalEffect class
-////////////////////////////////////////////////////////////////////////////////
-
-void GlobalElementalEffect::IncrementIntensity(uint8 amount)
-{
-    hoa_global::IncrementIntensity(_intensity, amount);
-}
-
-
-
-void GlobalElementalEffect::DecrementIntensity(uint8 amount)
-{
-    hoa_global::DecrementIntensity(_intensity, amount);
-}
-
-////////////////////////////////////////////////////////////////////////////////
 // GlobalStatusEffect class
 ////////////////////////////////////////////////////////////////////////////////
 
-bool GlobalStatusEffect::IncrementIntensity(uint8 amount)
+GlobalStatusEffect::GlobalStatusEffect(GLOBAL_STATUS type, GLOBAL_INTENSITY intensity) :
+        _type(type),
+        _intensity(intensity),
+        _update_timer(0),
+        _use_update_timer(false)
 {
-    return hoa_global::IncrementIntensity(_intensity, amount);
+    // Check that the constructor arguments are valid
+    if((type <= GLOBAL_STATUS_INVALID) || (type >= GLOBAL_STATUS_TOTAL)) {
+        IF_PRINT_WARNING(GLOBAL_DEBUG) << "constructor received an invalid type argument: " << type << std::endl;
+        return;
+    }
+    if((intensity <= GLOBAL_INTENSITY_INVALID) || (intensity >= GLOBAL_INTENSITY_TOTAL)) {
+        IF_PRINT_WARNING(GLOBAL_DEBUG) << "constructor received an invalid intensity argument: " << intensity << std::endl;
+        return;
+    }
+
+    // Make sure that a table entry exists for this status element
+    uint32 table_id = static_cast<uint32>(type);
+    ReadScriptDescriptor &script_file = GlobalManager->GetStatusEffectsScript();
+    if(!script_file.OpenTable(table_id)) {
+        IF_PRINT_WARNING(GLOBAL_DEBUG) << "Lua definition file contained no entry for status effect: " << table_id << std::endl;
+        return;
+    }
+
+    uint32 update_every = script_file.ReadUInt("update_every");
+    if (update_every > 0)
+        _update_timer.SetDuration(update_every);
+
+    script_file.CloseTable(); // table_id
+
+    // Init the update effect timer
+    if (update_every > 0) {
+        _update_timer.EnableManualUpdate();
+        _update_timer.Reset();
+        _update_timer.Run();
+        _use_update_timer = true;
+    }
 }
 
-
+bool GlobalStatusEffect::IncrementIntensity(uint8 amount)
+{
+    return vt_global::IncrementIntensity(_intensity, amount);
+}
 
 bool GlobalStatusEffect::DecrementIntensity(uint8 amount)
 {
-    GLOBAL_INTENSITY previous_intensity = _intensity;
-    bool intensity_modified = hoa_global::DecrementIntensity(_intensity, amount);
-
-    if(intensity_modified == true) {
-        if(_intensity < GLOBAL_INTENSITY_NEUTRAL) {
-            IF_PRINT_WARNING(GLOBAL_DEBUG) << "attempted to decrement intensity below neutral level" << std::endl;
-            _intensity = GLOBAL_INTENSITY_NEUTRAL;
-            if(_intensity == previous_intensity)
-                intensity_modified = false;
-        }
-    }
-    return intensity_modified;
+    return vt_global::DecrementIntensity(_intensity, amount);
 }
 
-} // namespace hoa_global
+} // namespace vt_global

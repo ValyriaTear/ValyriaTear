@@ -1,5 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
-//            Copyright (C) 2004-2010 by The Allacrost Project
+//            Copyright (C) 2004-2011 by The Allacrost Project
+//            Copyright (C) 2012-2014 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -10,28 +11,30 @@
 /** ****************************************************************************
 *** \file    map_events.cpp
 *** \author  Tyler Olsen, roots@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Source file for map mode events and event processing.
 *** ***************************************************************************/
 
+#include "utils/utils_pch.h"
 #include "modes/map/map_events.h"
 
-#include "modes/map/map.h"
+#include "modes/map/map_mode.h"
 
 #include "modes/map/map_sprites.h"
 
 #include "modes/shop/shop.h"
 #include "modes/battle/battle.h"
 
-using namespace hoa_audio;
-using namespace hoa_mode_manager;
-using namespace hoa_script;
-using namespace hoa_system;
-using namespace hoa_video;
+using namespace vt_audio;
+using namespace vt_mode_manager;
+using namespace vt_script;
+using namespace vt_system;
+using namespace vt_video;
 
-using namespace hoa_battle;
-using namespace hoa_shop;
+using namespace vt_battle;
+using namespace vt_shop;
 
-namespace hoa_map
+namespace vt_map
 {
 
 namespace private_map
@@ -43,6 +46,11 @@ namespace private_map
 
 void SpriteEvent::_Start()
 {
+    if (!_sprite) {
+        PRINT_WARNING << "No valid sprite given in event: " << GetEventID() << std::endl;
+        return;
+    }
+
     EventSupervisor *event_supervisor = MapMode::CurrentInstance()->GetEventSupervisor();
     // Terminate the previous event whenever it is another sprite event.
     if(dynamic_cast<SpriteEvent *>(_sprite->control_event) && event_supervisor) {
@@ -97,9 +105,20 @@ bool DialogueEvent::_Update()
 void ShopEvent::_Start()
 {
     ShopMode *shop = new ShopMode();
-    for(std::set<std::pair<uint32, uint32> >::iterator i = _objects.begin(); i != _objects.end(); ++i)
-        shop->AddObject((*i).first, (*i).second);
+    for(std::set<std::pair<uint32, uint32> >::iterator it = _objects.begin(); it != _objects.end(); ++it)
+        shop->AddObject((*it).first, (*it).second);
 
+    for(std::set<std::pair<uint32, uint32> >::iterator it = _trades.begin(); it != _trades.end(); ++it)
+        shop->AddTrade((*it).first, (*it).second);
+
+    // Adds optional custom shop name and greetings text
+    if (!_shop_name.empty())
+        shop->SetShopName(_shop_name);
+    if (!_greeting_text.empty())
+        shop->SetGreetingText(_greeting_text);
+
+    // Sets the shop options.
+    shop->SetSellModeEnabled(_enable_sell_mode);
     shop->SetPriceLevels(_buy_level, _sell_level);
     ModeManager->Push(shop);
 }
@@ -135,10 +154,12 @@ bool SoundEvent::_Update()
 // -----------------------------------------------------------------------------
 
 MapTransitionEvent::MapTransitionEvent(const std::string &event_id,
-                                       const std::string &filename,
+                                       const std::string &data_filename,
+                                       const std::string &script_filename,
                                        const std::string &coming_from) :
     MapEvent(event_id, MAP_TRANSITION_EVENT),
-    _transition_map_filename(filename),
+    _transition_map_data_filename(data_filename),
+    _transition_map_script_filename(script_filename),
     _transition_origin(coming_from),
     _done(false)
 {}
@@ -149,10 +170,8 @@ void MapTransitionEvent::_Start()
 {
     MapMode::CurrentInstance()->PushState(STATE_SCENE);
 
-    VideoManager->FadeScreen(Color::black, MAP_FADE_OUT_TIME);
+    VideoManager->_StartTransitionFadeOut(Color::black, MAP_FADE_OUT_TIME);
     _done = false;
-
-    // TODO: fade out the map music
 }
 
 
@@ -165,8 +184,10 @@ bool MapTransitionEvent::_Update()
     // Only load the map once the fade out is done, since the load time can
     // break the fade smoothness and visible duration.
     if(!_done) {
-        hoa_global::GlobalManager->SetPreviousLocation(_transition_origin);
-        MapMode *MM = new MapMode(_transition_map_filename);
+        vt_global::GlobalManager->SetPreviousLocation(_transition_origin);
+        MapMode* MM = new MapMode(_transition_map_data_filename,
+                                  _transition_map_script_filename,
+                                  MapMode::CurrentInstance()->GetStamina());
         ModeManager->Pop();
         ModeManager->Push(MM, false, true);
         _done = true;
@@ -212,8 +233,9 @@ bool JoinPartyEvent::_Update()
 
 BattleEncounterEvent::BattleEncounterEvent(const std::string &event_id) :
     MapEvent(event_id, BATTLE_ENCOUNTER_EVENT),
-    _battle_music("mus/Confrontation.ogg"),
-    _battle_background("img/backdrops/battle/desert.png")
+    _battle_music("mus/heroism-OGA-Edward-J-Blakeley.ogg"),
+    _battle_background("img/backdrops/battle/desert_cave/desert_cave.png"),
+    _is_boss(false)
 {}
 
 
@@ -228,6 +250,11 @@ void BattleEncounterEvent::AddEnemy(uint32 enemy_id, float position_x, float pos
 void BattleEncounterEvent::_Start()
 {
     try {
+        // Check the current map stamina and apply a malus on agility when it is low
+        MapMode* MM = MapMode::CurrentInstance();
+        if (MM)
+            MM->ApplyPotentialStaminaMalus();
+
         BattleMode *BM = new BattleMode();
         for(uint32 i = 0; i < _enemies.size(); ++i)
             BM->AddEnemy(_enemies.at(i).enemy_id, _enemies.at(i).position_x, _enemies.at(i).position_y);
@@ -237,16 +264,69 @@ void BattleEncounterEvent::_Start()
         for(uint32 i = 0; i < _battle_scripts.size(); ++i)
             BM->GetScriptSupervisor().AddScript(_battle_scripts[i]);
 
-        TransitionToBattleMode *TM = new TransitionToBattleMode(BM);
+        BM->SetBossBattle(_is_boss);
+
+        TransitionToBattleMode* TM = new TransitionToBattleMode(BM, _is_boss);
 
         ModeManager->Push(TM);
-    } catch(const luabind::error &e) {
+    } catch(const luabind::error& e) {
         PRINT_ERROR << "Error while loading battle encounter event!"
                     << std::endl;
         ScriptManager->HandleLuaError(e);
-    } catch(const luabind::cast_failed &e) {
+    } catch(const luabind::cast_failed& e) {
         PRINT_ERROR << "Error while loading battle encounter event!"
                     << std::endl;
+        ScriptManager->HandleCastError(e);
+    }
+}
+
+// -----------------------------------------------------------------------------
+// ---------- IfEvent Class Methods
+// -----------------------------------------------------------------------------
+
+IfEvent::IfEvent(const std::string& event_id, const std::string& check_function,
+                 const std::string& on_true_event, const std::string& on_false_event) :
+    MapEvent(event_id, IF_EVENT)
+{
+    ReadScriptDescriptor &map_script = MapMode::CurrentInstance()->GetMapScript();
+    if (!MapMode::CurrentInstance()->OpenMapTablespace(true))
+        return;
+    if (!map_script.OpenTable("map_functions"))
+        return;
+
+    if(!check_function.empty())
+        _check_function = map_script.ReadFunctionPointer(check_function);
+
+    map_script.CloseTable(); // map_functions
+    map_script.CloseTable(); // tablespace
+
+    _true_event_id = on_true_event;
+    _false_event_id = on_false_event;
+}
+
+
+void IfEvent::_Start()
+{
+    if(!_check_function.is_valid())
+        return;
+
+    EventSupervisor* events = MapMode::CurrentInstance()->GetEventSupervisor();
+
+    try {
+        // We had a timer of 100ms her to avoid launching an event within an event
+        // for the sake of the engine loop. That time is unnoticeable, anyway.
+        if (ScriptCallFunction<bool>(_check_function)
+            && !_true_event_id.empty() && !events->IsEventActive(_true_event_id)) {
+            events->StartEvent(_true_event_id, 100);
+        }
+        else if (!_false_event_id.empty() && !events->IsEventActive(_false_event_id)) {
+            events->StartEvent(_false_event_id, 100);
+        }
+    } catch(const luabind::error &e) {
+        PRINT_ERROR << "Error while loading IFEvent check function." << std::endl;
+        ScriptManager->HandleLuaError(e);
+    } catch(const luabind::cast_failed &e) {
+        PRINT_ERROR << "Error while loading IFEvent check function." << std::endl;
         ScriptManager->HandleCastError(e);
     }
 }
@@ -258,95 +338,57 @@ void BattleEncounterEvent::_Start()
 ScriptedEvent::ScriptedEvent(const std::string &event_id,
                              const std::string &start_function,
                              const std::string &update_function) :
-    MapEvent(event_id, SCRIPTED_EVENT),
-    _start_function(NULL),
-    _update_function(NULL)
+    MapEvent(event_id, SCRIPTED_EVENT)
 {
     ReadScriptDescriptor &map_script = MapMode::CurrentInstance()->GetMapScript();
-    MapMode::CurrentInstance()->OpenMapTablespace(true);
-    map_script.OpenTable("map_functions");
-    if(!start_function.empty()) {
-        _start_function = new ScriptObject();
-        *_start_function = map_script.ReadFunctionPointer(start_function);
-    }
+    if (!MapMode::CurrentInstance()->OpenMapTablespace(true))
+        return;
+    if (!map_script.OpenTable("map_functions"))
+        return;
 
-    if(!update_function.empty()) {
-        _update_function = new ScriptObject();
-        *_update_function = map_script.ReadFunctionPointer(update_function);
-    }
+    if(!start_function.empty())
+        _start_function = map_script.ReadFunctionPointer(start_function);
+
+    if(!update_function.empty())
+        _update_function = map_script.ReadFunctionPointer(update_function);
 
     map_script.CloseTable(); // map_functions
     map_script.CloseTable(); // tablespace
 }
 
 
-
-ScriptedEvent::~ScriptedEvent()
-{
-    if(_start_function != NULL) {
-        delete _start_function;
-        _start_function = NULL;
-    }
-    if(_update_function != NULL) {
-        delete _update_function;
-        _update_function = NULL;
-    }
-}
-
-
-
-ScriptedEvent::ScriptedEvent(const ScriptedEvent &copy) :
-    MapEvent(copy)
-{
-    if(copy._start_function == NULL)
-        _start_function = NULL;
-    else
-        _start_function = new ScriptObject(*copy._start_function);
-
-    if(copy._update_function == NULL)
-        _update_function = NULL;
-    else
-        _update_function = new ScriptObject(*copy._update_function);
-}
-
-
-
-ScriptedEvent &ScriptedEvent::operator=(const ScriptedEvent &copy)
-{
-    if(this == &copy)  // Handle self-assignment case
-        return *this;
-
-    MapEvent::operator=(copy);
-
-    if(copy._start_function == NULL)
-        _start_function = NULL;
-    else
-        _start_function = new ScriptObject(*copy._start_function);
-
-    if(copy._update_function == NULL)
-        _update_function = NULL;
-    else
-        _update_function = new ScriptObject(*copy._update_function);
-
-    return *this;
-}
-
-
-
 void ScriptedEvent::_Start()
 {
-    if(_start_function != NULL)
-        ScriptCallFunction<void>(*_start_function);
-}
+    if(!_start_function.is_valid())
+        return;
 
+    try {
+        ScriptCallFunction<void>(_start_function);
+    } catch(const luabind::error &e) {
+        PRINT_ERROR << "Error while loading ScriptedEvent start function" << std::endl;
+        ScriptManager->HandleLuaError(e);
+    } catch(const luabind::cast_failed &e) {
+        PRINT_ERROR << "Error while loading ScriptedEvent start function" << std::endl;
+        ScriptManager->HandleCastError(e);
+    }
+}
 
 
 bool ScriptedEvent::_Update()
 {
-    if(_update_function != NULL)
-        return ScriptCallFunction<bool>(*_update_function);
-    else
+    if(!_update_function.is_valid())
         return true;
+
+    try {
+        return ScriptCallFunction<bool>(_update_function);
+    } catch(const luabind::error &e) {
+        PRINT_ERROR << "Error while loading ScriptedEvent update function" << std::endl;
+        ScriptManager->HandleLuaError(e);
+    } catch(const luabind::cast_failed &e) {
+        PRINT_ERROR << "Error while loading ScriptedEvent update function" << std::endl;
+        ScriptManager->HandleCastError(e);
+    }
+    return true;
 }
 
 // -----------------------------------------------------------------------------
@@ -393,22 +435,19 @@ void SpriteEvent::Terminate()
 ScriptedSpriteEvent::ScriptedSpriteEvent(const std::string &event_id, uint16 sprite_id,
         const std::string &start_function,
         const std::string &update_function) :
-    SpriteEvent(event_id, SCRIPTED_SPRITE_EVENT, sprite_id),
-    _start_function(NULL),
-    _update_function(NULL)
+    SpriteEvent(event_id, SCRIPTED_SPRITE_EVENT, sprite_id)
 {
     ReadScriptDescriptor &map_script = MapMode::CurrentInstance()->GetMapScript();
-    MapMode::CurrentInstance()->OpenMapTablespace(true);
-    map_script.OpenTable("map_functions");
-    if(!start_function.empty()) {
-        _start_function = new ScriptObject();
-        *_start_function = map_script.ReadFunctionPointer(start_function);
-    }
+    if (!MapMode::CurrentInstance()->OpenMapTablespace(true))
+        return;
+    if (!map_script.OpenTable("map_functions"))
+        return;
 
-    if(!update_function.empty()) {
-        _update_function = new ScriptObject();
-        *_update_function = map_script.ReadFunctionPointer(update_function);
-    }
+    if(!start_function.empty())
+        _start_function = map_script.ReadFunctionPointer(start_function);
+
+    if(!update_function.empty())
+        _update_function = map_script.ReadFunctionPointer(update_function);
 
     map_script.CloseTable(); // map_functions
     map_script.CloseTable(); // tablespace
@@ -419,103 +458,45 @@ ScriptedSpriteEvent::ScriptedSpriteEvent(const std::string &event_id, uint16 spr
 ScriptedSpriteEvent::ScriptedSpriteEvent(const std::string &event_id, VirtualSprite *sprite,
         const std::string &start_function,
         const std::string &update_function) :
-    SpriteEvent(event_id, SCRIPTED_SPRITE_EVENT, sprite),
-    _start_function(NULL),
-    _update_function(NULL)
+    SpriteEvent(event_id, SCRIPTED_SPRITE_EVENT, sprite)
 {
     ReadScriptDescriptor &map_script = MapMode::CurrentInstance()->GetMapScript();
-    MapMode::CurrentInstance()->OpenMapTablespace(true);
-    map_script.OpenTable("map_functions");
-    if(!start_function.empty()) {
-        _start_function = new ScriptObject();
-        *_start_function = map_script.ReadFunctionPointer(start_function);
-    }
+    if (!MapMode::CurrentInstance()->OpenMapTablespace(true))
+        return;
+    if (!map_script.OpenTable("map_functions"))
+        return;
 
-    if(!update_function.empty()) {
-        _update_function = new ScriptObject();
-        *_update_function = map_script.ReadFunctionPointer(update_function);
-    }
+    if(!start_function.empty())
+        _start_function = map_script.ReadFunctionPointer(start_function);
+
+    if(!update_function.empty())
+        _update_function = map_script.ReadFunctionPointer(update_function);
 
     map_script.CloseTable(); // map_functions
     map_script.CloseTable(); // tablespace
 }
 
 
-
-ScriptedSpriteEvent::~ScriptedSpriteEvent()
-{
-    if(_start_function != NULL) {
-        delete _start_function;
-        _start_function = NULL;
-    }
-    if(_update_function != NULL) {
-        delete _update_function;
-        _update_function = NULL;
-    }
-}
-
-
-
-ScriptedSpriteEvent::ScriptedSpriteEvent(const ScriptedSpriteEvent &copy) :
-    SpriteEvent(copy)
-{
-    if(copy._start_function == NULL)
-        _start_function = NULL;
-    else
-        _start_function = new ScriptObject(*copy._start_function);
-
-    if(copy._update_function == NULL)
-        _update_function = NULL;
-    else
-        _update_function = new ScriptObject(*copy._update_function);
-}
-
-
-
-ScriptedSpriteEvent &ScriptedSpriteEvent::operator=(const ScriptedSpriteEvent &copy)
-{
-    if(this == &copy)  // Handle self-assignment case
-        return *this;
-
-    SpriteEvent::operator=(copy);
-
-    if(copy._start_function == NULL)
-        _start_function = NULL;
-    else
-        _start_function = new ScriptObject(*copy._start_function);
-
-    if(copy._update_function == NULL)
-        _update_function = NULL;
-    else
-        _update_function = new ScriptObject(*copy._update_function);
-
-    return *this;
-}
-
-
-
 void ScriptedSpriteEvent::_Start()
 {
-    if(_start_function != NULL) {
-        SpriteEvent::_Start();
-        ScriptCallFunction<void>(*_start_function, _sprite);
-    }
+    SpriteEvent::_Start();
+    if(_start_function.is_valid())
+        ScriptCallFunction<void>(_start_function, _sprite);
 }
-
 
 
 bool ScriptedSpriteEvent::_Update()
 {
     bool finished = false;
-    if(_update_function != NULL) {
-        finished = ScriptCallFunction<bool>(*_update_function, _sprite);
+    if(_update_function.is_valid()) {
+        finished = ScriptCallFunction<bool>(_update_function, _sprite);
     } else {
         finished = true;
     }
 
-    if(finished) {
+    if(finished)
         SpriteEvent::Terminate();
-    }
+
     return finished;
 }
 
@@ -726,6 +707,11 @@ void PathMoveSpriteEvent::_Start()
 
     MapPosition dest(_destination_x, _destination_y);
 
+    // If the sprite is at the destination, we don't have to compute anything
+    if ((uint32)_sprite->GetXPosition() == (uint32)_destination_x
+            && (uint32)_sprite->GetYPosition() == (uint32)_destination_y)
+        return;
+
     _path = MapMode::CurrentInstance()->GetObjectSupervisor()->FindPath(_sprite, dest);
     if(_path.empty()) {
         PRINT_ERROR << "No path to destination (" << _destination_x
@@ -755,8 +741,8 @@ bool PathMoveSpriteEvent::_Update()
     float distance_moved = _sprite->CalculateDistanceMoved();
 
     // Check whether the sprite has arrived at the position of the current node
-    if(hoa_utils::IsFloatEqual(sprite_position_x, _current_node_x, distance_moved)
-            && hoa_utils::IsFloatEqual(sprite_position_y, _current_node_y, distance_moved)) {
+    if(vt_utils::IsFloatEqual(sprite_position_x, _current_node_x, distance_moved)
+            && vt_utils::IsFloatEqual(sprite_position_y, _current_node_y, distance_moved)) {
         ++_current_node;
 
         if(_current_node < _path.size()) {
@@ -773,8 +759,8 @@ bool PathMoveSpriteEvent::_Update()
     _SetSpriteDirection();
 
     // End the path event
-    if(hoa_utils::IsFloatEqual(sprite_position_x, _destination_x, distance_moved)
-            && hoa_utils::IsFloatEqual(sprite_position_y, _destination_y, distance_moved)) {
+    if(vt_utils::IsFloatEqual(sprite_position_x, _destination_x, distance_moved)
+            && vt_utils::IsFloatEqual(sprite_position_y, _destination_y, distance_moved)) {
         Terminate();
         return true;
     }
@@ -895,7 +881,7 @@ void RandomMoveSpriteEvent::Terminate()
 // -----------------------------------------------------------------------------
 
 AnimateSpriteEvent::AnimateSpriteEvent(const std::string &event_id, VirtualSprite *sprite,
-                                       const std::string &animation_name, uint32 animation_time) :
+                                       const std::string &animation_name, int32 animation_time) :
     SpriteEvent(event_id, ANIMATE_SPRITE_EVENT, sprite),
     _animation_name(animation_name),
     _animation_time(animation_time)
@@ -928,6 +914,10 @@ bool AnimateSpriteEvent::_Update()
 
 void AnimateSpriteEvent::Terminate()
 {
+    // Disable a possible still running custom animation.
+    // Useful when calling TerminateAllEvents() on a sprite.
+    if (_map_sprite)
+        _map_sprite->DisableCustomAnimation();
     _map_sprite = 0;
     _animation_name.clear();
     _animation_time = 0;
@@ -1009,8 +999,10 @@ void EventSupervisor::RegisterEvent(MapEvent *new_event)
     }
 
     if(GetEvent(new_event->_event_id) != NULL) {
-        IF_PRINT_WARNING(MAP_DEBUG) << "event with this ID already existed: "
-                                    << new_event->_event_id << std::endl;
+        PRINT_WARNING << "The event with this ID already existed: '"
+                      << new_event->_event_id
+                      << "' in map script: "
+                      << MapMode::CurrentInstance()->GetMapScriptFilename() << std::endl;
         return;
     }
 
@@ -1023,8 +1015,9 @@ void EventSupervisor::StartEvent(const std::string &event_id)
 {
     MapEvent *event = GetEvent(event_id);
     if(event == NULL) {
-        IF_PRINT_WARNING(MAP_DEBUG) << "no event with this ID existed: "
-                                    << event_id << std::endl;
+        PRINT_WARNING << "No event with this ID existed: '" << event_id
+            << "' in map script: "
+            << MapMode::CurrentInstance()->GetMapScriptFilename() << std::endl;
         return;
     }
 
@@ -1037,8 +1030,9 @@ void EventSupervisor::StartEvent(const std::string &event_id, uint32 launch_time
 {
     MapEvent *event = GetEvent(event_id);
     if(event == NULL) {
-        IF_PRINT_WARNING(MAP_DEBUG) << "no event with this ID existed: "
-                                    << event_id << std::endl;
+        PRINT_WARNING << "No event with this ID existed: '" << event_id
+            << "' in map script: "
+            << MapMode::CurrentInstance()->GetMapScriptFilename() << std::endl;
         return;
     }
 
@@ -1075,16 +1069,20 @@ void EventSupervisor::StartEvent(MapEvent *event)
 
     // Never ever do that when updating events.
     if(_is_updating) {
-        PRINT_WARNING << "Tried to start the event: " << event->GetEventID()
-                      << " within an update function. The StartEvent() call will be ignored. Fix your scripts!" << std::endl;
+        PRINT_WARNING << "Tried to start the event: '" << event->GetEventID()
+                      << "' within an update function. The StartEvent() call will be ignored. "
+                      << std::endl << " You should fix the map script: "
+                      << MapMode::CurrentInstance()->GetMapScriptFilename() << std::endl;
         return;
     }
 
     for(std::vector<MapEvent *>::iterator it = _active_events.begin(); it != _active_events.end(); ++it) {
         if((*it) == event) {
-            PRINT_WARNING << "The event: " << event->GetEventID()
-                          << " is already active and can be active only once at a time. "
-                          "The StartEvent() call will be ignored. Fix your script!" << std::endl;
+            PRINT_WARNING << "The event: '" << event->GetEventID()
+                          << "' is already active and can be active only once at a time. "
+                          << "The StartEvent() call will be ignored."
+                          << std::endl << " You should fix the map script: "
+                          << MapMode::CurrentInstance()->GetMapScriptFilename() << std::endl;
             return;
         }
     }
@@ -1100,8 +1098,10 @@ void EventSupervisor::PauseEvents(const std::string &event_id)
 {
     // Never ever do that when updating events.
     if(_is_updating) {
-        PRINT_WARNING << "Tried to pause the event: " << event_id
-                      << " within an update function. The PauseEvents() call will be ignored. Fix your scripts!" << std::endl;
+        PRINT_WARNING << "Tried to pause the event: '" << event_id
+                      << "' within an update function. The PauseEvents() call will be ignored."
+                      << std::endl << " You should fix the map script: "
+                      << MapMode::CurrentInstance()->GetMapScriptFilename() << std::endl;
         return;
     }
 
@@ -1138,7 +1138,9 @@ void EventSupervisor::PauseAllEvents(VirtualSprite *sprite)
     // Never ever do that when updating events.
     if(_is_updating) {
         PRINT_WARNING << "Tried to pause all events for sprite: " << sprite->GetObjectID()
-                      << " within an update function. The PauseAllEvents() call will be ignored. Fix your script!" << std::endl;
+                      << " within an update function. The PauseAllEvents() call will be ignored."
+                      << std::endl << " You should fix the map script: "
+                      << MapMode::CurrentInstance()->GetMapScriptFilename() << std::endl;
         return;
     }
 
@@ -1172,8 +1174,10 @@ void EventSupervisor::ResumeEvents(const std::string &event_id)
 {
     // Never ever do that when updating events.
     if(_is_updating) {
-        PRINT_WARNING << "Tried to resume event: " << event_id
-                      << " within an update function. The ResumeEvents() call will be ignored. Fix your script!" << std::endl;
+        PRINT_WARNING << "Tried to resume event: '" << event_id
+                      << "' within an update function. The ResumeEvents() call will be ignored."
+                      << std::endl << " You should fix the map script: "
+                      << MapMode::CurrentInstance()->GetMapScriptFilename() << std::endl;
         return;
     }
 
@@ -1210,7 +1214,9 @@ void EventSupervisor::ResumeAllEvents(VirtualSprite *sprite)
     // Never ever do that when updating events.
     if(_is_updating) {
         PRINT_WARNING << "Tried to resume all events for sprite: " << sprite->GetObjectID()
-                      << " within an update function. The TerminateAllEvents() call will be ignored. Fix your script!" << std::endl;
+                      << " within an update function. The TerminateAllEvents() call will be ignored."
+                      << std::endl << " You should fix the map script: "
+                      << MapMode::CurrentInstance()->GetMapScriptFilename() << std::endl;
         return;
     }
 
@@ -1246,8 +1252,10 @@ void EventSupervisor::TerminateEvents(const std::string &event_id, bool trigger_
 
     // Never ever do that when updating events.
     if(_is_updating) {
-        PRINT_WARNING << "Tried to terminate the event: " << event_id
-                      << " within an update function. The TerminateEvents() call will be ignored. Fix your script!" << std::endl;
+        PRINT_WARNING << "Tried to terminate the event: '" << event_id
+                      << "' within an update function. The TerminateEvents() call will be ignored."
+                      << std::endl << " You should fix the map script: "
+                      << MapMode::CurrentInstance()->GetMapScriptFilename() << std::endl;
         return;
     }
 
@@ -1328,8 +1336,10 @@ void EventSupervisor::TerminateEvents(MapEvent *event, bool trigger_event_links)
 
     // Never ever do that when updating events.
     if(_is_updating) {
-        PRINT_WARNING << "Tried to terminate the event: " << event->GetEventID()
-                      << " within an update function. The TerminateEvents() call will be ignored. Fix your script!" << std::endl;
+        PRINT_WARNING << "Tried to terminate the event: '" << event->GetEventID()
+                      << "' within an update function. The TerminateEvents() call will be ignored."
+                      << std::endl << " You should fix the map script: "
+                      << MapMode::CurrentInstance()->GetMapScriptFilename() << std::endl;
         return;
     }
 
@@ -1347,7 +1357,9 @@ void EventSupervisor::TerminateAllEvents(VirtualSprite *sprite)
     // Never ever do that when updating events.
     if(_is_updating) {
         PRINT_WARNING << "Tried to terminate all events for sprite: " << sprite->GetObjectID()
-                      << " within an update function. The TerminateAllEvents() call will be ignored. Fix your script!" << std::endl;
+                      << " within an update function. The TerminateAllEvents() call will be ignored."
+                      << std::endl << " You should fix the map script: "
+                      << MapMode::CurrentInstance()->GetMapScriptFilename() << std::endl;
         return;
     }
 
@@ -1402,6 +1414,9 @@ void EventSupervisor::TerminateAllEvents(VirtualSprite *sprite)
 
 void EventSupervisor::Update()
 {
+    // Store the events that became active in the delayed event loop.
+    std::vector<MapEvent *> events_to_start;
+
     // Update all launch event timers and start all events whose timers have finished
     for(std::vector<std::pair<int32, MapEvent *> >::iterator it = _active_delayed_events.begin();
             it != _active_delayed_events.end();) {
@@ -1410,12 +1425,18 @@ void EventSupervisor::Update()
         if(it->first <= 0) {  // Timer has expired
             MapEvent *start_event = it->second;
             it = _active_delayed_events.erase(it);
-            // We begin the event only after it has been removed from the launch list
-            StartEvent(start_event);
+
+            // We add the event ready to start i a vector, waiting for the loop to end
+            // before starting it.
+            events_to_start.push_back(start_event);
         } else {
             ++it;
         }
     }
+
+    // Starts the events that became active.
+    for(std::vector<MapEvent *>::iterator it = events_to_start.begin(); it != events_to_start.end(); ++it)
+        StartEvent(*it);
 
     // Store the events that ended within the update loop.
     std::vector<MapEvent *> finished_events;
@@ -1488,8 +1509,11 @@ void EventSupervisor::_ExamineEventLinks(MapEvent *parent_event, bool event_star
         else {
             MapEvent *child = GetEvent(link.child_event_id);
             if(child == NULL) {
-                IF_PRINT_WARNING(MAP_DEBUG) << "can not launch child event, no event with this ID existed: "
-                                            << link.child_event_id << std::endl;
+                PRINT_WARNING << "Couldn't launch child event, no event with this ID existed: '"
+                              << link.child_event_id << "' from parent event ID: '"
+                              << parent_event->GetEventID()
+                              << "' in map script: "
+                              << MapMode::CurrentInstance()->GetMapScriptFilename() << std::endl;
                 continue;
             } else {
                 _active_delayed_events.push_back(std::make_pair(static_cast<int32>(link.launch_timer), child));
@@ -1500,4 +1524,4 @@ void EventSupervisor::_ExamineEventLinks(MapEvent *parent_event, bool event_star
 
 } // namespace private_map
 
-} // namespace hoa_map
+} // namespace vt_map

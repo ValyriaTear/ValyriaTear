@@ -1,5 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
-//            Copyright (C) 2004-2010 by The Allacrost Project
+//            Copyright (C) 2004-2011 by The Allacrost Project
+//            Copyright (C) 2012-2014 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -10,6 +11,7 @@
 /** ****************************************************************************
 *** \file    shop_utils.h
 *** \author  Tyler Olsen, roots@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Header file for shop mode utility code.
 ***
 *** This file contains utility code that is shared among the various shop mode
@@ -24,7 +26,7 @@
 #include "common/gui/textbox.h"
 #include "common/gui/option.h"
 
-namespace hoa_shop
+namespace vt_shop
 {
 
 //! \brief The five possible price ratings/levels for the shop's buy/sell prices
@@ -48,9 +50,7 @@ enum SHOP_STATE {
     SHOP_STATE_BUY       =  1,
     SHOP_STATE_SELL      =  2,
     SHOP_STATE_TRADE     =  3,
-    SHOP_STATE_CONFIRM   =  4,
-    SHOP_STATE_LEAVE     =  5,
-    SHOP_STATE_TOTAL     =  6
+    SHOP_STATE_TOTAL     =  4
 };
 
 //! \brief Used to toggle between different view models in some interfaces
@@ -72,13 +72,9 @@ enum SHOP_OBJECT {
     SHOP_OBJECT_INVALID    = -1,
     SHOP_OBJECT_ITEM       =  0,
     SHOP_OBJECT_EQUIPMENT  =  1, //!< This type covers weapons and all types of armor
-    SHOP_OBJECT_SHARD      =  2,
-    SHOP_OBJECT_KEY_ITEM   =  3,
-    SHOP_OBJECT_TOTAL      =  4
+    SHOP_OBJECT_SPIRIT     =  2,
+    SHOP_OBJECT_TOTAL      =  3
 };
-
-//! \brief The number to add/subtract from buy/sell count when the player uses the increase/decrease batch commands
-const uint32 SHOP_BATCH_COUNT = 10;
 
 //! \name Price multipliers
 //! \brief These values are multiplied by an object's standard price to get the price for the desired price level
@@ -105,7 +101,7 @@ const uint8 DEALS_HEAD_ARMOR   = 0x04;
 const uint8 DEALS_TORSO_ARMOR  = 0x08;
 const uint8 DEALS_ARM_ARMOR    = 0x10;
 const uint8 DEALS_LEG_ARMOR    = 0x20;
-const uint8 DEALS_SHARDS       = 0x40;
+const uint8 DEALS_SPIRIT       = 0x40;
 const uint8 DEALS_KEY_ITEMS    = 0x80;
 //@}
 
@@ -167,7 +163,7 @@ class ShopObject
 public:
     /** \param object A pointer to a valid GlobalObject instance that the shop object will represent
     **/
-    ShopObject(hoa_global::GlobalObject *object);
+    ShopObject(vt_global::GlobalObject *object);
 
     ~ShopObject()
     {}
@@ -175,7 +171,7 @@ public:
     /** \brief Determines the appropriate SHOP_OBJECT that corresponds to a GLOBAL_OBJECT
     *** \param global_type The global object type to find the equivalent shop object type for
     **/
-    static SHOP_OBJECT DetermineShopObjectType(hoa_global::GLOBAL_OBJECT global_type);
+    static SHOP_OBJECT DetermineShopObjectType(vt_global::GLOBAL_OBJECT global_type);
 
     //! \brief Returns the shop object type of this object
     SHOP_OBJECT DetermineShopObjectType();
@@ -188,7 +184,7 @@ public:
 
     //! \name Class member accessor functions
     //@{
-    hoa_global::GlobalObject *GetObject() const {
+    vt_global::GlobalObject *GetObject() const {
         return _object;
     }
 
@@ -198,6 +194,14 @@ public:
 
     uint32 GetSellPrice() const {
         return _sell_price;
+    }
+
+    uint32 GetTradePrice() const {
+        return _trade_price;
+    }
+
+    std::vector<std::pair<uint32, uint32> > GetTradeConditions() {
+        return _trade_conditions;
     }
 
     uint32 GetOwnCount() const {
@@ -216,12 +220,28 @@ public:
         return _sell_count;
     }
 
+    uint32 GetTradeCount() const {
+        return _trade_count;
+    }
+
+    bool IsInfiniteAmount() const {
+        return _infinite_buy_amount;
+    }
+
+    void SetInfiniteAmount(bool infinite) {
+        _infinite_buy_amount = infinite;
+    }
+
     void ResetBuyCount() {
         _buy_count = 0;
     }
 
     void ResetSellCount() {
         _sell_count = 0;
+    }
+
+    void ResetTradeCount() {
+        _trade_count = 0;
     }
     //@}
 
@@ -241,15 +261,17 @@ public:
     void IncrementStockCount(uint32 inc = 1);
     void IncrementBuyCount(uint32 inc = 1);
     void IncrementSellCount(uint32 inc = 1);
+    void IncrementTradeCount(uint32 inc = 1);
     void DecrementOwnCount(uint32 dec = 1);
     void DecrementStockCount(uint32 dec = 1);
     void DecrementBuyCount(uint32 dec = 1);
     void DecrementSellCount(uint32 dec = 1);
+    void DecrementTradeCount(uint32 dec = 1);
     //@}
 
 private:
     //! \brief A pointer to the global object represented by this
-    hoa_global::GlobalObject *_object;
+    vt_global::GlobalObject *_object;
 
     //! \brief The price that the player must pay to buy this object from the shop
     uint32 _buy_price;
@@ -257,17 +279,29 @@ private:
     //! \brief The return that the player will receive for selling this object to the shop
     uint32 _sell_price;
 
+    //! \brief The price that the player must pay (along with the other conditions) to trade for this object from the shop
+    uint32 _trade_price;
+
+    //! \brief The return that the player will receive for selling this object to the shop
+    std::vector<std::pair<uint32, uint32> > _trade_conditions;
+
     //! \brief The number of this object that the player's party currently owns
     uint32 _own_count;
 
     //! \brief The stock of this object that the shop
     uint32 _stock_count;
 
+    //! \brief Tells whether there is an infinite amount of this object to buy.
+    bool _infinite_buy_amount;
+
     //! \brief The amount of this object that the player plans to purchase
     uint32 _buy_count;
 
     //! \brief The amount of this object that the player plans to sell
     uint32 _sell_count;
+
+    //! \brief The amount of this object that the player plans to sell
+    uint32 _trade_count;
 }; // class ShopObject
 
 
@@ -320,7 +354,7 @@ public:
     *** the same as the previous name/icon
     *** \note It is safe to pass a NULL pointer for the icon argument
     **/
-    void ChangeCategory(hoa_utils::ustring &name, const hoa_video::StillImage *icon);
+    void ChangeCategory(vt_utils::ustring &name, const vt_video::StillImage *icon);
 
 protected:
     //! \brief Determines where and how the category display should draw its images
@@ -330,22 +364,22 @@ protected:
     ShopObject *_selected_object;
 
     //! \brief A pointer to an icon image representing the current category
-    const hoa_video::StillImage *_current_icon;
+    const vt_video::StillImage *_current_icon;
 
     //! \brief A pointer to the icon image that represents the previous category
-    const hoa_video::StillImage *_last_icon;
+    const vt_video::StillImage *_last_icon;
 
     //! \brief The category image for the selected object
-    const hoa_video::StillImage *_object_icon;
+    const vt_video::StillImage *_object_icon;
 
     //! \brief The name of the current category for "list" view mode
-    hoa_gui::TextBox _name_textbox;
+    vt_gui::TextBox _name_textbox;
 
     //! \brief The name of the current category for "info" view mode
-    hoa_video::TextImage _name_text;
+    vt_video::TextImage _name_text;
 
     //! \brief A timer used to track the progress of category transitions
-    hoa_system::SystemTimer _transition_timer;
+    vt_system::SystemTimer _transition_timer;
 }; // class ObjectCategoryDisplay
 
 
@@ -395,19 +429,6 @@ public:
     //! \brief Reconstructs all option box entries from the object data
     virtual void ReconstructList() = 0;
 
-    /** \brief Refreshes the desired properties of a single object
-    *** \param index The row index of the object data to reconstruct
-    **/
-    virtual void RefreshEntry(uint32 index) = 0;
-
-    /** \brief Refreshes the desired properties of all objects in the list
-    *** The difference between this method and the ReconstructList() method is that this method only
-    *** operates on the object's desired properties by calling RefreshEntry(), whereas ReconstructList()
-    *** clears and rebuilds the entire list from scratch. Using this method is much less costly than
-    *** reconstructing the entire list.
-    **/
-    virtual void RefreshAllEntries();
-
     /** \brief Returns a pointer to the currently selected shop object
     *** This method may return NULL if the current selection is invalid or the _objects container is empty
     **/
@@ -440,11 +461,11 @@ public:
 
     //! \name Class member access methods
     //@{
-    hoa_gui::OptionBox &GetIdentifyList() {
+    vt_gui::OptionBox &GetIdentifyList() {
         return _identify_list;
     }
 
-    hoa_gui::OptionBox &GetPropertyList() {
+    vt_gui::OptionBox &GetPropertyList() {
         return _property_list;
     }
     //@}
@@ -454,14 +475,14 @@ protected:
     std::vector<ShopObject *> _objects;
 
     //! \brief Contains identification information about each objects such as graphical icon and name
-    hoa_gui::OptionBox _identify_list;
+    vt_gui::OptionBox _identify_list;
 
     //! \brief Contains properties about the object such as price, stock, amount owned, or amount to buy/sell
-    hoa_gui::OptionBox _property_list;
+    vt_gui::OptionBox _property_list;
 }; // class ObjectListDisplay
 
 } // namespace private_shop
 
-} // namespace hoa_shop
+} // namespace vt_shop
 
 #endif // __SHOP_UTILS_HEADER__

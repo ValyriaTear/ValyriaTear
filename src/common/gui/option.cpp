@@ -1,5 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
-//            Copyright (C) 2004-2010 by The Allacrost Project
+//            Copyright (C) 2004-2011 by The Allacrost Project
+//            Copyright (C) 2012-2014 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -7,18 +8,26 @@
 // See http://www.gnu.org/copyleft/gpl.html for details.
 ///////////////////////////////////////////////////////////////////////////////
 
-#include <sstream>
+/** ****************************************************************************
+*** \file    option.cpp
+*** \author  Raj Sharma, roos@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
+*** \brief   Header file for OptionBox GUI control and supporting classes
+*** ***************************************************************************/
 
+#include "utils/utils_pch.h"
 #include "option.h"
+
 #include "engine/video/video.h"
 
-using namespace hoa_utils;
-using namespace hoa_video;
-using namespace hoa_video::private_video;
-using namespace hoa_input;
-using namespace hoa_gui::private_gui;
+#include "utils/utils_strings.h"
 
-namespace hoa_gui
+using namespace vt_utils;
+using namespace vt_video;
+using namespace vt_video::private_video;
+using namespace vt_gui::private_gui;
+
+namespace vt_gui
 {
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -91,7 +100,6 @@ void Option::Clear()
 
 OptionBox::OptionBox() :
     GUIControl(),
-    _initialized(false),
     _number_rows(1),
     _number_columns(1),
     _number_cell_rows(1),
@@ -110,8 +118,6 @@ OptionBox::OptionBox() :
     _scroll_offset(0.0f),
     _option_xalign(VIDEO_X_LEFT),
     _option_yalign(VIDEO_Y_CENTER),
-    _scissoring(false),
-    _scissoring_owner(false),
     _draw_horizontal_arrows(false),
     _draw_vertical_arrows(false),
     _grey_up_arrow(false),
@@ -125,10 +131,10 @@ OptionBox::OptionBox() :
     _scrolling(false),
     _scroll_time(0),
     _scroll_direction(0),
+    _scrolling_animated(true),
     _horizontal_arrows_position(H_POSITION_BOTTOM),
     _vertical_arrows_position(V_POSITION_RIGHT)
 {
-    // TEMP
     _width = 1.0f;
     _height = 1.0f;
 }
@@ -137,33 +143,28 @@ void OptionBox::Update(uint32 frame_time)
 {
     _event = 0; // Clear all events
 
-    if(_scrolling) {
-        _scroll_time += frame_time;
+    if(!_scrolling)
+        return;
 
-        if(_scroll_time > VIDEO_OPTION_SCROLL_TIME) {
-            _scroll_time = 0;
-            _scrolling = false;
-            _scroll_offset = 0.0f;
-        } else {
-            // [phuedx] Calculate the _scroll_offset independant of the coordinate system
-            _scroll_offset = (_scroll_time / static_cast<float>(VIDEO_OPTION_SCROLL_TIME)) * _cell_height;
-            if(_scroll_direction == -1) {   // Up
-                _scroll_offset = _cell_height - _scroll_offset;
-            }
-        }
+    if(!_scrolling_animated || _scroll_time > VIDEO_OPTION_SCROLL_TIME) {
+        _scroll_time = 0;
+        _scrolling = false;
+        _scroll_offset = 0.0f;
+        return;
     }
+
+    _scroll_time += frame_time;
+
+    // Computes the _scroll_offset independently from the coordinate system
+    _scroll_offset = (_scroll_time / static_cast<float>(VIDEO_OPTION_SCROLL_TIME)) * _cell_height;
+    if(_scroll_direction == -1) // Up
+        _scroll_offset = _cell_height - _scroll_offset;
 }
 
 
 
 void OptionBox::Draw()
 {
-    // Do nothing if the option box is not properly initialized
-    if(!IsInitialized(_initialization_errors)) {
-        PRINT_ERROR << "ERROR: Could not draw OptionBox" << std::endl;
-        return;
-    }
-
     VideoManager->PushState();
     VideoManager->SetDrawFlags(_xalign, _yalign, VIDEO_BLEND, 0);
     VideoManager->DisableScissoring();
@@ -221,7 +222,7 @@ void OptionBox::Draw()
             }
 
             float left_edge = 999999.0f; // The x offset to where the visible option contents begin
-            _DrawOption(_options.at(index), bounds, _scroll_offset, left_edge);
+            _DrawOption(_options.at(index), bounds, left_edge);
 
             // Draw the cursor if the previously drawn option was or is selected
             if((static_cast<int32>(index) == _selection || static_cast<int32>(index) == _first_selection) &&
@@ -326,7 +327,7 @@ void OptionBox::SetDimensions(float width, float height, uint8 num_cols, uint8 n
 void OptionBox::SetOptions(const std::vector<ustring>& option_text)
 {
     ClearOptions();
-    for(std::vector<ustring>::const_iterator i = option_text.begin(); i != option_text.end(); i++) {
+    for(std::vector<ustring>::const_iterator i = option_text.begin(); i != option_text.end(); ++i) {
         const ustring &str = *i;
         Option option;
 
@@ -346,7 +347,11 @@ void OptionBox::ClearOptions()
     _options.clear();
 }
 
-
+void OptionBox::ResetViewableOption()
+{
+    _draw_top_row = 0;
+    _draw_left_column = 0;
+}
 
 void OptionBox::AddOption()
 {
@@ -361,7 +366,7 @@ void OptionBox::AddOption()
 
 
 
-void OptionBox::AddOption(const hoa_utils::ustring &text)
+void OptionBox::AddOption(const vt_utils::ustring &text)
 {
     Option option;
     if(_ConstructOption(text, option) == false) {
@@ -386,7 +391,9 @@ void OptionBox::AddOptionElementText(uint32 option_index, const ustring &text)
 
     new_element.type = VIDEO_OPTION_ELEMENT_TEXT;
     new_element.value = static_cast<int32>(this_option.text.size());
-    this_option.text.push_back(text);
+
+    TextImage text_image(text, _text_style);
+    this_option.text.push_back(text_image);
     this_option.elements.push_back(new_element);
 }
 
@@ -480,7 +487,7 @@ void OptionBox::AddOptionElementPosition(uint32 option_index, uint32 position_le
 
 
 
-bool OptionBox::SetOptionText(uint32 index, const hoa_utils::ustring &text)
+bool OptionBox::SetOptionText(uint32 index, const vt_utils::ustring &text)
 {
     if(index >= GetNumberOptions()) {
         IF_PRINT_WARNING(VIDEO_DEBUG) << "argument was invalid (out of bounds): " << index << std::endl;
@@ -548,53 +555,6 @@ StillImage *OptionBox::GetEmbeddedImage(uint32 index) const
     }
 
     return _options[index].image;
-}
-
-
-
-bool OptionBox::IsInitialized(std::string &error_messages)
-{
-    std::ostringstream s;
-    error_messages.clear();
-
-    if(_width <= 0.0f)
-        s << "* Invalid width (" << _width << ")" << std::endl;
-
-    if(_height <= 0.0f)
-        s << "* Invalid height (" << _height << ")" << std::endl;
-
-    if(_number_rows <= 0)
-        s << "* Invalid number of rows (" << _number_rows << ")" << std::endl;
-
-    if(_number_columns <= 0)
-        s << "* Invalid number of columns (" << _number_columns << ")" << std::endl;
-
-    if(_cell_width <= 0.0f && _number_columns > 1)
-        s << "* Invalid horizontal spacing (" << _cell_width << ")" << std::endl;
-
-    if(_cell_height <= 0.0f && _number_rows > 1)
-        s << "* Invalid vertical spacing (" << _cell_height << ")" << std::endl;
-
-    if(_option_xalign < VIDEO_X_LEFT || _option_xalign > VIDEO_X_RIGHT)
-        s << "* Invalid x align (" << _option_xalign << ")" << std::endl;
-
-    if(_option_yalign < VIDEO_Y_TOP || _option_yalign > VIDEO_Y_BOTTOM)
-        s << "* Invalid y align (" << _option_yalign << ")" << std::endl;
-
-    if(_text_style.font.empty())
-        s << "* Invalid font (none has been set)" << std::endl;
-
-    if(_selection_mode <= VIDEO_SELECT_INVALID || _selection_mode >= VIDEO_SELECT_TOTAL)
-        s << "* Invalid selection mode (" << _selection_mode << ")" << std::endl;
-
-    error_messages = s.str();
-
-    if(error_messages.empty())
-        _initialized = true;
-    else
-        _initialized = false;
-
-    return _initialized;
 }
 
 // -----------------------------------------------------------------------------
@@ -760,13 +720,19 @@ void OptionBox::InputRight()
 
 void OptionBox::SetTextStyle(const TextStyle &style)
 {
-    if(TextManager->GetFontProperties(style.font) == NULL) {
-        IF_PRINT_WARNING(VIDEO_DEBUG) << "text style references an invalid font name: " << style.font << std::endl;
+    if(style.GetFontProperties() == NULL) {
+        IF_PRINT_WARNING(VIDEO_DEBUG) << "text style references an invalid font name: " << style.GetFontName() << std::endl;
         return;
     }
 
     _text_style = style;
-    _initialized = IsInitialized(_initialization_errors);
+
+    // Update any existing TextImage texts with new font style
+    for (uint32 i = 0; i < _options.size(); ++i) {
+        for (uint32 j = 0; j < _options[i].text.size(); ++j) {
+            _options[i].text[j].SetStyle(style);
+        }
+    }
 }
 
 
@@ -882,10 +848,12 @@ bool OptionBox::_ConstructOption(const ustring &format_string, Option &op)
             size_t tag_begin = tmp.find(OPEN_TAG);
 
             if(tag_begin == ustring::npos) {  // There are no more tags remaining, so extract the entire string
-                op.text.push_back(tmp);
+                TextImage text_image(tmp, _text_style);
+                op.text.push_back(text_image);
                 tmp.clear();
             } else { // Another tag remains to be processed, so extract the text substring
-                op.text.push_back(tmp.substr(0, tag_begin));
+                TextImage text_image(tmp.substr(0, tag_begin), _text_style);
+                op.text.push_back(text_image);
                 tmp = tmp.substr(tag_begin, tmp.length() - tag_begin);
             }
         }
@@ -973,7 +941,7 @@ bool OptionBox::_ChangeSelection(int32 offset, bool horizontal)
                 return false;
         } else  { // The bottom boundary was exceeded
             if(_vertical_wrap_mode == VIDEO_WRAP_MODE_STRAIGHT) {
-                if(row + offset >= _number_rows)
+                if(row + offset > _number_rows)
                     offset -= GetNumberOptions();
             }
             // Make sure horizontal wrapping is allowed if vertical wrap mode is shifting
@@ -1125,12 +1093,8 @@ void OptionBox::_DetermineScrollArrows()
 
 
 
-void OptionBox::_DrawOption(const Option &op, const OptionCellBounds &bounds, float scroll_offset, float &left_edge)
+void OptionBox::_DrawOption(const Option &op, const OptionCellBounds &bounds, float &left_edge)
 {
-    // TODO: this function doesn't make use of the scroll_offset parameter currently, but I'm pretty sure it is
-    // needed somewhere to get scrolling full working. Once the scrolling feature has been enabled and verified
-    // for correctness if this paramater is still unused, remove it.
-
     float x, y;
     int32 xalign = _option_xalign;
     int32 yalign = _option_yalign;
@@ -1139,7 +1103,7 @@ void OptionBox::_DrawOption(const Option &op, const OptionCellBounds &bounds, fl
     _SetupAlignment(xalign, yalign, bounds, x, y);
 
     // Iterate through all option elements in the current option
-    for(int32 element = 0; element < static_cast<int32>(op.elements.size()); element++) {
+    for(int32 element = 0; element < static_cast<int32>(op.elements.size()); ++element) {
         switch(op.elements[element].type) {
         case VIDEO_OPTION_ELEMENT_LEFT_ALIGN: {
             xalign = VIDEO_X_LEFT;
@@ -1181,8 +1145,7 @@ void OptionBox::_DrawOption(const Option &op, const OptionCellBounds &bounds, fl
             int32 text_index = op.elements[element].value;
 
             if(text_index >= 0 && text_index < static_cast<int32>(op.text.size())) {
-                const ustring &text = op.text[text_index];
-                float width = static_cast<float>(VideoManager->Text()->CalculateTextWidth(_text_style.font, text));
+                float width = op.text[text_index].GetWidth();
                 float edge = x - bounds.x_left; // edge value for VIDEO_X_LEFT
 
                 if(xalign == VIDEO_X_CENTER)
@@ -1192,14 +1155,11 @@ void OptionBox::_DrawOption(const Option &op, const OptionCellBounds &bounds, fl
 
                 if(edge < left_edge)
                     left_edge = edge;
-                if(op.disabled) {
-                    Color saved = _text_style.color;
-                    _text_style.color = Color::gray;
-                    TextManager->Draw(text, _text_style);
-                    _text_style.color = saved;
-                } else {
-                    TextManager->Draw(text, _text_style);
-                }
+
+                if(op.disabled)
+                    op.text[text_index].Draw(Color::gray);
+                else
+                    op.text[text_index].Draw();
             }
 
             break;
@@ -1266,7 +1226,7 @@ void OptionBox::_DEBUG_DrawOutline()
 
     // Draw outline for inner cell rows
     float cell_row = top;
-    for(int32 i = 1; i < _number_cell_rows; i++) {
+    for(int32 i = 1; i < _number_cell_rows; ++i) {
         cell_row += _cell_height;
         VideoManager->DrawLine(left, cell_row, right, cell_row, 3, alpha_black);
         VideoManager->DrawLine(left, cell_row, right, cell_row, 1, alpha_white);
@@ -1274,11 +1234,11 @@ void OptionBox::_DEBUG_DrawOutline()
 
     // Draw outline for inner cell columns
     float cell_col = left;
-    for(int32 i = 1; i < _number_cell_columns; i++) {
+    for(int32 i = 1; i < _number_cell_columns; ++i) {
         cell_col += _cell_width;
         VideoManager->DrawLine(cell_col, bottom, cell_col, top, 3, alpha_black);
         VideoManager->DrawLine(cell_col, bottom, cell_col, top, 1, alpha_white);
     }
 }
 
-} // namespace hoa_gui
+} // namespace vt_gui

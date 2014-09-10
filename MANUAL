@@ -38,9 +38,6 @@ Right           'right arrow'      Move sprite or cursor to the right
 Confirm         'f'                Confirm an action or menu command
 Cancel          'd'                Cancel an action or menu command
 Menu            's'                Display the main menu
-Swap            'a'                Swap the character being displayed
-Left Select     'w'                Select multiple targets or page scroll up
-Right Select    'e'                Select multiple targets or page scroll down
 Pause           'spacebar'         Pause/unpause the game
 Quit            'ESC'              Quit the game
 
@@ -50,10 +47,10 @@ These commands are not normally used during game play.
 
 
 Command Name    Default Key Map    General Purpose
-Fullscreen	'Ctrl+f'           Toggles between full-screen mode and windowed mode
+Fullscreen      'Ctrl+f'           Toggles between full-screen mode and windowed mode
 Quit            'Ctrl+q'           Quit the game
-FPS Display 	'Ctrl+r'           Toggles display of the frames per second in the upper-right hand corner
-Screenshot 	'Ctrl+s'           Takes a screenshot and saves it to 'screenshot.jpg'
+FPS Display     'Ctrl+r'           Toggles display of the frames per second in the upper-right hand corner
+Screenshot      'Ctrl+s'           Takes a screenshot and saves it to 'screenshot.jpg'
 
 
 === Quitting the Game ===
@@ -136,3 +133,37 @@ Both enemies and characters may be targetted in multiple locations
 
 The battle is over when either all character actors have zero health points (HP)
 or all enemy actors have zero health points.
+
+=== Save files location ===
+
+The save files named with the following pattern 'save_game_N.lua' where N is the game slot number -1,
+are stored in different locations depending on the OS you're playing on. Here are the different known locations
+of these files:
+
+- Linux/BSD:
+~/.local/share/valyriatear
+
+- Mac/OSX:
+<User>/Library/Application Support/ValyriaTear
+
+- Windows:
+%CSIDL_APPDATA%\ValyriaTear (often equals to: %USERPROFILE%\Application Data\ValyriaTear)
+Example on WinXP:
+C:\Documents and Settings\<User>\Application Data\ValyriaTear
+
+=== Settings file location ===
+
+The same goes for the settings.lua file, which stores the different application (video/audio) related options.
+
+- Linux/BSD:
+~/.config/valyriatear
+
+- Mac/OSX:
+<User>/Library/Preferences/ValyriaTear
+
+- Windows:
+%CSIDL_APPDATA%\ValyriaTear (often equals to: %USERPROFILE%\Application Data\ValyriaTear)
+Example on WinXP:
+C:\Documents and Settings\<User>\Application Data\ValyriaTear
+
+You can perfectly reuse one of those files from an OS to another, as long as you follow the corresponding location.

@@ -1,5 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
-//            Copyright (C) 2004-2010 by The Allacrost Project
+//            Copyright (C) 2004-2011 by The Allacrost Project
+//            Copyright (C) 2012-2014 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -10,19 +11,21 @@
 /** ****************************************************************************
 *** \file    texture_controller.cpp
 *** \author  Tyler Olsen, roots@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Source file for texture management code
 *** ***************************************************************************/
 
-#include "video.h"
-
+#include "utils/utils_pch.h"
 #include "texture_controller.h"
+#include "utils/utils_files.h"
 
-using namespace hoa_utils;
-using namespace hoa_video::private_video;
+#include "engine/mode_manager.h"
+#include "engine/video/video.h"
 
-template<> hoa_video::TextureController *Singleton<hoa_video::TextureController>::_singleton_reference = NULL;
+using namespace vt_utils;
+using namespace vt_video::private_video;
 
-namespace hoa_video
+namespace vt_video
 {
 
 TextureController *TextureManager = NULL;
@@ -50,7 +53,7 @@ TextureController::~TextureController()
     }
 
     IF_PRINT_DEBUG(VIDEO_DEBUG) << "Deleting all remaining texture sheets, a total of: " << _tex_sheets.size() << std::endl;
-    for(std::vector<TexSheet *>::iterator i = _tex_sheets.begin(); i != _tex_sheets.end(); i++) {
+    for(std::vector<TexSheet *>::iterator i = _tex_sheets.begin(); i != _tex_sheets.end(); ++i) {
         delete *i;
     }
 }
@@ -111,7 +114,7 @@ bool TextureController::UnloadTextures()
             success = false;
         }
 
-        i++;
+        ++i;
     }
 
     // Clear all font caches
@@ -121,7 +124,7 @@ bool TextureController::UnloadTextures()
         std::vector<FontGlyph *>* glyph_cache = j->second->glyph_cache;
 
         if(glyph_cache) {
-            std::vector<hoa_video::FontGlyph *>::iterator it_end = glyph_cache->end();
+            std::vector<vt_video::FontGlyph *>::iterator it_end = glyph_cache->end();
             for(std::vector<FontGlyph *>::iterator k = glyph_cache->begin();
                     k != it_end; ++k) {
                 if(*k)
@@ -156,7 +159,7 @@ bool TextureController::ReloadTextures()
             success = false;
         }
 
-        i++;
+        ++i;
     }
 
     _DeleteTempTextures();
@@ -215,26 +218,26 @@ void TextureController::DEBUG_ShowTexSheet()
 
     VideoManager->PushState();
     VideoManager->SetDrawFlags(VIDEO_NO_BLEND, VIDEO_X_LEFT, VIDEO_Y_BOTTOM, 0);
-    VideoManager->SetCoordSys(0.0f, VIDEO_STANDARD_RES_WIDTH, 0.0f, VIDEO_STANDARD_RES_HEIGHT);
+    VideoManager->SetStandardCoordSys();
 
-    glPushMatrix();
-    VideoManager->Move(0.0f, 0.0f);
-    glScalef(sheet->width / 2.0f, sheet->height / 2.0f, 1.0f);
+    VideoManager->PushMatrix();
+    VideoManager->Move(0.0f, 368.0f);
+    VideoManager->Scale(sheet->width / 2.0f, sheet->height / 2.0f);
 
     sheet->DEBUG_Draw();
 
-    glPopMatrix();
+    VideoManager->PopMatrix();
 
     char buf[200];
 
-    VideoManager->Move(20, VideoManager->_current_context.coordinate_system.GetTop() - 30);
+    VideoManager->Move(20, 60);
     TextManager->Draw("Current Texture sheet:");
 
     sprintf(buf, "  Sheet:   %d", debug_current_sheet);
-    VideoManager->MoveRelative(0, -20);
+    VideoManager->MoveRelative(0, 20);
     TextManager->Draw(buf);
 
-    VideoManager->MoveRelative(0, -20);
+    VideoManager->MoveRelative(0, 20);
     sprintf(buf, "  Size:    %dx%d", sheet->width, sheet->height);
     TextManager->Draw(buf);
 
@@ -249,15 +252,15 @@ void TextureController::DEBUG_ShowTexSheet()
     else
         sprintf(buf, "  Type:    Unknown");
 
-    VideoManager->MoveRelative(0, -20);
+    VideoManager->MoveRelative(0, 20);
     TextManager->Draw(buf);
 
     sprintf(buf, "  Static:  %d", sheet->is_static);
-    VideoManager->MoveRelative(0, -20);
+    VideoManager->MoveRelative(0, 20);
     TextManager->Draw(buf);
 
     sprintf(buf, "  TexID:   %d", sheet->tex_id);
-    VideoManager->MoveRelative(0, -20);
+    VideoManager->MoveRelative(0, 20);
     TextManager->Draw(buf);
 
     VideoManager->PopState();
@@ -329,7 +332,7 @@ bool TextureController::_SaveTempTextures()
 {
     bool success = true;
 
-    for(std::map<std::string, ImageTexture *>::iterator i = _images.begin(); i != _images.end(); i++) {
+    for(std::map<std::string, ImageTexture *>::iterator i = _images.begin(); i != _images.end(); ++i) {
         ImageTexture *image = i->second;
 
         // Check that this is a temporary texture and if so, save it to disk as a .png file
@@ -337,14 +340,21 @@ bool TextureController::_SaveTempTextures()
             IF_PRINT_DEBUG(VIDEO_DEBUG) << " saving temporary texture " << image->filename << std::endl;
             ImageMemory buffer;
             buffer.CopyFromImage(image);
-            std::string path = GetUserDataPath(true);
-            if(buffer.SaveImage(path + image->filename + ".png", true) == false) {
+            std::string path = GetUserDataPath();
+            if(buffer.SaveImage(path + image->filename + ".png") == false) {
                 success = false;
                 IF_PRINT_WARNING(VIDEO_DEBUG) << "call to ImageMemory::SaveImage() failed" << std::endl;
             }
         }
     }
     return success;
+}
+
+
+
+bool TextureController::_DeleteTempTextures()
+{
+    return vt_utils::CleanDirectory("img/temp");
 }
 
 
@@ -405,7 +415,7 @@ void TextureController::_RemoveSheet(TexSheet *sheet)
             _tex_sheets.erase(i);
             return;
         }
-        i++;
+        ++i;
     }
 
     IF_PRINT_WARNING(VIDEO_DEBUG) << "could not find texture sheet to delete" << std::endl;
@@ -487,7 +497,7 @@ bool TextureController::_ReloadImagesToSheet(TexSheet *sheet)
     std::map<std::string, std::pair<ImageMemory, ImageMemory> > multi_image_info;
 
     bool success = true;
-    for(std::map<std::string, ImageTexture *>::iterator i = _images.begin(); i != _images.end(); i++) {
+    for(std::map<std::string, ImageTexture *>::iterator i = _images.begin(); i != _images.end(); ++i) {
         // Only operate on images which belong to the requested TexSheet
         if(i->second->texture_sheet != sheet) {
             continue;
@@ -597,7 +607,7 @@ bool TextureController::_ReloadImagesToSheet(TexSheet *sheet)
     }
 
     // Regenerate all font textures
-    for(std::set<TextTexture *>::iterator i = _text_images.begin(); i != _text_images.end(); i++) {
+    for(std::set<TextTexture *>::iterator i = _text_images.begin(); i != _text_images.end(); ++i) {
         if((*i)->texture_sheet == sheet) {
             if((*i)->Reload() == false) {
                 IF_PRINT_WARNING(VIDEO_DEBUG) << "failed to reload a TextTexture" << std::endl;
@@ -680,4 +690,4 @@ void TextureController::_UnregisterTextTexture(TextTexture *tex)
 }
 
 
-}  // namespace hoa_video
+}  // namespace vt_video

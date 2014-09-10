@@ -1,5 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
-//            Copyright (C) 2004-2010 by The Allacrost Project
+//            Copyright (C) 2004-2011 by The Allacrost Project
+//            Copyright (C) 2012-2014 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -7,33 +8,31 @@
 // See http://www.gnu.org/copyleft/gpl.html for details.
 ///////////////////////////////////////////////////////////////////////////////
 
-/*!****************************************************************************
- * \file    particle_emitter.h
- * \author  Raj Sharma, roos@allacrost.org
- * \brief   Header file for particle emitter
- *
- * This file contains the ParticleEmitter class, and some enumerations for
- * emitter properties.
- *
- * ParticleEmitter stores info about how a system emits particles. This is made
- * up of two things:
- *
- *  1) Where are particles emitted?
- *      -For example, you could create a circle-shaped emitter, and then every
- *         time a particle is emitted, a random spot in that circle is chosen.
- *
- *  2) When are particles emitted?
- *      -For example, you could emit them all at once, or slowly through the
- *         life of the system.
- *****************************************************************************/
+/** ***************************************************************************
+*** \file    particle_emitter.h
+*** \author  Raj Sharma, roos@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
+*** \brief   Header file for particle emitter
+***
+*** This file contains the ParticleEmitter class, and some enumerations for
+*** emitter properties.
+***
+*** ParticleEmitter stores info about how a system emits particles. This is made
+*** up of two things:
+***
+***  1) Where are particles emitted?
+***      -For example, you could create a circle-shaped emitter, and then every
+***         time a particle is emitted, a random spot in that circle is chosen.
+***
+***  2) When are particles emitted?
+***      -For example, you could emit them all at once, or slowly through the
+***         life of the system.
+*** **************************************************************************/
 
 #ifndef __PARTICLE_EMITTER_HEADER__
 #define __PARTICLE_EMITTER_HEADER__
 
-#include "defs.h"
-#include "utils.h"
-
-namespace hoa_mode_manager
+namespace vt_mode_manager
 {
 
 /*!***************************************************************************
@@ -65,10 +64,10 @@ enum EMITTER_SHAPE {
     EMITTER_SHAPE_POINT            =  0,   //! point (_x, _y)
     EMITTER_SHAPE_LINE             =  1,   //! line from (_x, _y) to (_x2, _y2)
     EMITTER_SHAPE_CIRCLE           =  2,   //! outlined circle with radius of _radius, and transposed by (_x, _y)
-    EMITTER_SHAPE_FILLED_CIRCLE    =  3,   //! filled circle with radius of _radius, and transposed by (_x, _y)
-    EMITTER_SHAPE_FILLED_RECTANGLE =  4,   //! filled rectangle from (_x, _y) to (_x2, _y2)
-
-    EMITTER_SHAPE_TOTAL = 5
+    EMITTER_SHAPE_ELLIPSE          =  3,   //! outlined ellipse with two different lengths at (_x) and small one (_y), and transposed by (_x2, _y2)
+    EMITTER_SHAPE_FILLED_CIRCLE    =  4,   //! filled circle with radius of _radius, and transposed by (_x, _y)
+    EMITTER_SHAPE_FILLED_RECTANGLE =  5,   //! filled rectangle from (_x, _y) to (_x2, _y2)
+    EMITTER_SHAPE_TOTAL            =  6
 };
 
 /*!***************************************************************************
@@ -103,8 +102,7 @@ public:
         _shape(EMITTER_SHAPE_INVALID),
         _omnidirectional(false),
         _orientation(0.0f),
-        _outer_cone(0.0f),
-        _inner_cone(0.0f),
+        _angle_variation(0.0f),
         _initial_speed(0.0f),
         _initial_speed_variation(0.0f),
         _emission_rate(0.0f),
@@ -147,13 +145,9 @@ public:
     //! right, PI/2 is up, PI is left, 3PI/2 is down, etc.
     float _orientation;
 
-    //! outer cone angle, used to create some "spread" in the particle emissions. Set this
+    //! angle variation, used to create some "spread" in the particle emissions. Set this
     //! to zero if you want all particles to be emitted in exactly the same direction
-    float _outer_cone;
-
-    //! inner cone angle, used to create some "spread" in the particle emissions. Set this
-    //! to zero if you want all particles to be emitted in exactly the same direction
-    float _inner_cone;
+    float _angle_variation;
 
     //! initial speed for particles. The unit is pixels. So, with a coordinate system which
     //! is 1024x768, a particle going from left to right with a speed of 512 pixels/sec could
@@ -179,6 +173,6 @@ public:
     EMITTER_SPIN _spin;
 };
 
-} // namespace hoa_mode_manager
+} // namespace vt_mode_manager
 
 #endif  // __PARTICLE_EMITTER_HEADER__

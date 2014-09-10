@@ -1,5 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
-//            Copyright (C) 2004-2010 by The Allacrost Project
+//            Copyright (C) 2004-2011 by The Allacrost Project
+//            Copyright (C) 2012-2014 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -8,10 +9,11 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 /** ****************************************************************************
-*** \file   system.h
-*** \author Tyler Olsen, roots@allacrost.org
-*** \author Andy Gardner, chopperdave@allacrost.org
-*** \brief  Header file for system code management
+*** \file    system.h
+*** \author  Tyler Olsen, roots@allacrost.org
+*** \author  Andy Gardner, chopperdave@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
+*** \brief   Header file for system code management
 ***
 *** The system code handles a diverse variety of tasks including timing, threads
 *** and translation functions.
@@ -23,37 +25,23 @@
 #ifndef __SYSTEM_HEADER__
 #define __SYSTEM_HEADER__
 
-#include <set>
-#include <SDL/SDL.h>
+#include "utils/ustring.h"
+#include "utils/singleton.h"
 
-#include "utils.h"
-#include "defs.h"
-
-#define NO_THREADS 0
-#define SDL_THREADS 1
-
-/* Set this to NO_THREADS to disable threads. Set this to SDL_THREADS to use
- * SDL Threads. */
-#define THREAD_TYPE SDL_THREADS
-
-#if (THREAD_TYPE == SDL_THREADS)
-#include <SDL/SDL_thread.h>
-#include <SDL/SDL_mutex.h>
-typedef SDL_Thread Thread;
-typedef SDL_sem Semaphore;
-#else
-typedef int Thread;
-typedef int Semaphore;
-#endif
+namespace vt_mode_manager {
+class GameMode;
+}
 
 //! All calls to the system engine are wrapped in this namespace.
-namespace hoa_system
+namespace vt_system
 {
+
+class SystemEngine;
 
 //! \brief The singleton pointer responsible for managing the system during game operation.
 extern SystemEngine *SystemManager;
 
-//! \brief Determines whether the code in the hoa_system namespace should print debug statements or not.
+//! \brief Determines whether the code in the vt_system namespace should print debug statements or not.
 extern bool SYSTEM_DEBUG;
 
 /** \brief A constant that represents an "infinite" number of milliseconds that can never be reached
@@ -95,15 +83,38 @@ enum SYSTEM_TIMER_STATE {
 **/
 std::string Translate(const std::string &text);
 
+/** \brief Returns the translated string out of the given context
+*** \param text a string in the form of "context|text" permitting contextual translation.
+*** \note I chose not to use pgettext() because there is no official support on Windows
+*** and I prefer a common way to do it.
+**/
+std::string CTranslate(const std::string &text);
 
 /** \brief Returns a ustring translated into the game's current language
 *** \param text A const reference to the string that should be translated
-*** \return Translated text in the form of a hoa_utils::ustring
+*** \return Translated text in the form of a vt_utils::ustring
 ***
 *** \note This function is nothing more than a short-cut for typing:
 *** MakeUnicodeString(Translate(string));
 **/
-hoa_utils::ustring UTranslate(const std::string &text);
+vt_utils::ustring UTranslate(const std::string &text);
+
+/** \brief Returns the contextual translation as a ustring.
+*** \see CTranslate().
+**/
+vt_utils::ustring CUTranslate(const std::string &text);
+
+/** \brief Returns the translated string fprinted with the c-formatted arguments.
+*** \param text The text to transform containing c-format argument
+*** \param arg1 The text argument.
+**/
+std::string VTranslate(const std::string &text, int32 arg1);
+std::string VTranslate(const std::string &text, uint32 arg1);
+std::string VTranslate(const std::string &text, const std::string& arg1);
+std::string VTranslate(const std::string &text, float arg1);
+// Example with 2 args, used in the treasure supervisor
+std::string VTranslate(const std::string &text, uint32 arg1, uint32 arg2);
+std::string VTranslate(const std::string &text, const std::string &arg1, const std::string &arg2);
 
 
 /** ****************************************************************************
@@ -157,7 +168,7 @@ public:
     /** \brief Enables the auto update feature for the timer
     *** \param owner A pointer to the GameMode which owns this class. Default value is set to NULL (no owner).
     **/
-    void EnableAutoUpdate(hoa_mode_manager::GameMode *owner = NULL);
+    void EnableAutoUpdate(vt_mode_manager::GameMode *owner = NULL);
 
     //! \brief Disables the timer auto update feature
     void EnableManualUpdate();
@@ -243,9 +254,12 @@ public:
     //@{
     void SetDuration(uint32 duration);
 
+    //! \brief Forces the timer to be at a given elapsed time.
+    void SetTimeExpired(uint32 time_expired);
+
     void SetNumberLoops(int32 loops);
 
-    void SetModeOwner(hoa_mode_manager::GameMode *owner);
+    void SetModeOwner(vt_mode_manager::GameMode *owner);
     //@}
 
     //! \name Class Member Accessor Methods
@@ -266,7 +280,7 @@ public:
         return _auto_update;
     }
 
-    hoa_mode_manager::GameMode *GetModeOwner() const {
+    vt_mode_manager::GameMode *GetModeOwner() const {
         return _mode_owner;
     }
 
@@ -293,7 +307,7 @@ protected:
     int32 _number_loops;
 
     //! \brief A pointer to the game mode object which owns this timer, or NULL if it is unowned
-    hoa_mode_manager::GameMode *_mode_owner;
+    vt_mode_manager::GameMode *_mode_owner;
 
     //! \brief The amount of time that has expired on the current timer loop (counts up from 0 to _duration)
     uint32 _time_expired;
@@ -329,9 +343,9 @@ protected:
 ***
 *** \note This class is a singleton.
 *** ***************************************************************************/
-class SystemEngine : public hoa_utils::Singleton<SystemEngine>
+class SystemEngine : public vt_utils::Singleton<SystemEngine>
 {
-    friend class hoa_utils::Singleton<SystemEngine>;
+    friend class vt_utils::Singleton<SystemEngine>;
 
 public:
     ~SystemEngine();
@@ -380,9 +394,7 @@ public:
     *** When this is done, all system timers that are owned by the active game mode are resumed, all timers with
     *** a different owner are paused, and all timers with no owner are ignored.
     **/
-#ifndef EDITOR_BUILD
     void ExamineSystemTimers();
-#endif
 
     /** \brief Retrieves the amount of time that the game should be updated by for time-based movement.
     *** \return The number of milliseconds that have transpired since the last update.
@@ -436,8 +448,12 @@ public:
 
     /** \brief Sets the language that the game should use.
     *** \param lang A two-character string representing the language to execute the game in
+    *** \return whether the corresponding language file could be found.
     **/
-    void SetLanguage(const std::string& lang);
+    bool SetLanguage(const std::string& lang);
+
+    //! \brief Tells whether a language is available.
+    bool IsLanguageAvailable(const std::string& lang);
 
     /** \brief Determines whether the user is done with the game.
     *** \return False if the user would like to exit the game.
@@ -462,6 +478,16 @@ public:
     Semaphore *CreateSemaphore(int max);
     void DestroySemaphore(Semaphore *);
 
+    //! \brief Get the dialogue text message growth in characters per second.
+    //! Mostly seen in characters dialogues while in game.
+    float GetMessageSpeed() const {
+        return _message_speed;
+    }
+
+    //! \brief Set the dialogue text message growth in characters per second.
+    void SetMessageSpeed(float message_speed) {
+        _message_speed = message_speed;
+    }
 
 private:
     SystemEngine();
@@ -489,53 +515,15 @@ private:
     //! \brief The identification string that determines what language the game is running in
     std::string _language;
 
+    //! \brief Speed at which messages are displayed in dialogues, in characters per second
+    float _message_speed;
+
     /** \brief A set container for all SystemTimer objects that have automatic updating enabled
     *** The timers in this container are updated on each call to UpdateTimers().
     **/
     std::set<SystemTimer *> _auto_system_timers;
-}; // class SystemEngine : public hoa_utils::Singleton<SystemEngine>
+}; // class SystemEngine : public vt_utils::Singleton<SystemEngine>
 
-
-
-template <class T> struct generic_class_func_info {
-    static int SpawnThread_Intermediate(void *vptr) {
-        ((((generic_class_func_info <T> *) vptr)->myclass)->*(((generic_class_func_info <T> *) vptr)->func))();
-        return 0;
-    }
-
-    T *myclass;
-    void (T::*func)();
-};
-
-
-
-template <class T> Thread *SystemEngine::SpawnThread(void (T::*func)(), T *myclass)
-{
-#if (THREAD_TYPE == SDL_THREADS)
-    Thread *thread;
-    static generic_class_func_info <T> gen;
-    gen.func = func;
-    gen.myclass = myclass;
-
-    // Winter Knight: There is a potential, but unlikely race condition here.
-    // gen may be overwritten prematurely if this function, SpawnThread, gets
-    // called a second time before SpawnThread_Intermediate calls myclass->*func
-    // This will result in a segfault.
-    thread = SDL_CreateThread(gen.SpawnThread_Intermediate, &gen);
-    if(thread == NULL) {
-        PRINT_ERROR << "Unable to create thread: " << SDL_GetError() << std::endl;
-        return NULL;
-    }
-    return thread;
-#elif (THREAD_TYPE == NO_THREADS)
-    (myclass->*func)();
-    return 1;
-#else
-    PRINT_ERROR << "Invalid THREAD_TYPE." << std::endl;
-    return 0;
-#endif
-}
-
-} // namepsace hoa_system
+} // namepsace vt_system
 
 #endif // __SYSTEM_HEADER__

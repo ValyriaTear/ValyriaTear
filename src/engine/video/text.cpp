@@ -1,5 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
-//            Copyright (C) 2004-2010 by The Allacrost Project
+//            Copyright (C) 2004-2011 by The Allacrost Project
+//            Copyright (C) 2012-2014 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -10,6 +11,7 @@
 /** ****************************************************************************
 *** \file    text.cpp
 *** \author  Lindsay Roberts, linds@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Source file for text rendering
 ***
 *** This code makes use of the SDL_ttf font library for representing fonts,
@@ -20,113 +22,174 @@
 *** requests integer arguments.
 *** ***************************************************************************/
 
-#include <cassert>
-#include <cstdarg>
-#include <math.h>
-
+#include "utils/utils_pch.h"
+#include "text.h"
 #include "video.h"
 
-using namespace hoa_utils;
-using namespace hoa_video::private_video;
+#include "engine/script/script_read.h"
 
-template<> hoa_video::TextSupervisor *Singleton<hoa_video::TextSupervisor>::_singleton_reference = NULL;
+// The script filename used to configure the text styles used in game.
+const std::string _font_script_filename = "dat/config/fonts.lua";
 
-namespace hoa_video
+using namespace vt_utils;
+using namespace vt_video::private_video;
+
+namespace vt_video
 {
 
 TextSupervisor *TextManager = NULL;
+
+// Useful character types for text formatting
+const uint16 NEW_LINE = '\n';
+const uint16 SPACE_CHAR = 0x20;
 
 // -----------------------------------------------------------------------------
 // TextStyle class
 // -----------------------------------------------------------------------------
 
-TextStyle::TextStyle() :
-    font(VideoManager->Text()->GetDefaultStyle().font),
-    color(VideoManager->Text()->GetDefaultStyle().color),
-    shadow_style(VideoManager->Text()->GetDefaultStyle().shadow_style),
-    shadow_offset_x(VideoManager->Text()->GetDefaultStyle().shadow_offset_x),
-    shadow_offset_y(VideoManager->Text()->GetDefaultStyle().shadow_offset_y)
-{}
+TextStyle::TextStyle(const std::string& font)
+{
+    const TextStyle& default_style = TextManager->GetDefaultStyle();
+    _font = font;
+    _color = default_style.GetColor();
+    _shadow_style = default_style.GetShadowStyle();
+    _shadow_offset_x = default_style.GetShadowOffsetX();
+    _shadow_offset_y = default_style.GetShadowOffsetY();
+    _font_property = TextManager->_GetFontProperties(_font);
+    _UpdateTextShadowColor();
+}
 
 
 
-TextStyle::TextStyle(const std::string &fnt) :
-    font(fnt),
-    color(VideoManager->Text()->GetDefaultStyle().color),
-    shadow_style(VideoManager->Text()->GetDefaultStyle().shadow_style),
-    shadow_offset_x(VideoManager->Text()->GetDefaultStyle().shadow_offset_x),
-    shadow_offset_y(VideoManager->Text()->GetDefaultStyle().shadow_offset_y)
-{}
+TextStyle::TextStyle(const Color& color)
+{
+    const TextStyle& default_style = TextManager->GetDefaultStyle();
+    _font = default_style.GetFontName();
+    _color = color;
+    _shadow_style = default_style.GetShadowStyle();
+    _shadow_offset_x = default_style.GetShadowOffsetX();
+    _shadow_offset_y = default_style.GetShadowOffsetY();
+    _font_property = TextManager->_GetFontProperties(_font);
+    _UpdateTextShadowColor();
+}
 
 
 
-TextStyle::TextStyle(const Color &c) :
-    font(VideoManager->Text()->GetDefaultStyle().font),
-    color(c),
-    shadow_style(VideoManager->Text()->GetDefaultStyle().shadow_style),
-    shadow_offset_x(VideoManager->Text()->GetDefaultStyle().shadow_offset_x),
-    shadow_offset_y(VideoManager->Text()->GetDefaultStyle().shadow_offset_y)
-{}
+TextStyle::TextStyle(TEXT_SHADOW_STYLE style)
+{
+    const TextStyle& default_style = TextManager->GetDefaultStyle();
+    _font = default_style.GetFontName();
+    _color = default_style.GetColor();
+    _shadow_style = style;
+    _shadow_offset_x = default_style.GetShadowOffsetX();
+    _shadow_offset_y = default_style.GetShadowOffsetY();
+    _font_property = TextManager->_GetFontProperties(_font);
+    _UpdateTextShadowColor();
+}
 
 
 
-TextStyle::TextStyle(TEXT_SHADOW_STYLE style) :
-    font(VideoManager->Text()->GetDefaultStyle().font),
-    color(VideoManager->Text()->GetDefaultStyle().color),
-    shadow_style(style),
-    shadow_offset_x(VideoManager->Text()->GetDefaultStyle().shadow_offset_x),
-    shadow_offset_y(VideoManager->Text()->GetDefaultStyle().shadow_offset_y)
-{}
+TextStyle::TextStyle(const std::string& font, const Color& color)
+{
+    const TextStyle& default_style = TextManager->GetDefaultStyle();
+    _font = font;
+    _color = color;
+    _shadow_style = default_style.GetShadowStyle();
+    _shadow_offset_x = default_style.GetShadowOffsetX();
+    _shadow_offset_y = default_style.GetShadowOffsetY();
+    _font_property = TextManager->_GetFontProperties(_font);
+    _UpdateTextShadowColor();
+}
 
 
 
-TextStyle::TextStyle(const std::string &fnt, const Color &c) :
-    font(fnt),
-    color(c),
-    shadow_style(VideoManager->Text()->GetDefaultStyle().shadow_style),
-    shadow_offset_x(VideoManager->Text()->GetDefaultStyle().shadow_offset_x),
-    shadow_offset_y(VideoManager->Text()->GetDefaultStyle().shadow_offset_y)
-{}
+TextStyle::TextStyle(const std::string& font, TEXT_SHADOW_STYLE style)
+{
+    const TextStyle& default_style = TextManager->GetDefaultStyle();
+    _font = font;
+    _color = default_style.GetColor();
+    _shadow_style = style;
+    _shadow_offset_x = default_style.GetShadowOffsetX();
+    _shadow_offset_y = default_style.GetShadowOffsetY();
+    _font_property = TextManager->_GetFontProperties(_font);
+    _UpdateTextShadowColor();
+}
 
 
 
-TextStyle::TextStyle(const std::string &fnt, TEXT_SHADOW_STYLE style) :
-    font(fnt),
-    color(VideoManager->Text()->GetDefaultStyle().color),
-    shadow_style(style),
-    shadow_offset_x(VideoManager->Text()->GetDefaultStyle().shadow_offset_x),
-    shadow_offset_y(VideoManager->Text()->GetDefaultStyle().shadow_offset_y)
-{}
+TextStyle::TextStyle(const Color& color, TEXT_SHADOW_STYLE style)
+{
+    const TextStyle& default_style = TextManager->GetDefaultStyle();
+    _font = default_style.GetFontName();
+    _color = color;
+    _shadow_style = style;
+    _shadow_offset_x = default_style.GetShadowOffsetX();
+    _shadow_offset_y = default_style.GetShadowOffsetY();
+    _font_property = TextManager->_GetFontProperties(_font);
+    _UpdateTextShadowColor();
+}
 
 
 
-TextStyle::TextStyle(const Color &c, TEXT_SHADOW_STYLE style) :
-    font(VideoManager->Text()->GetDefaultStyle().font),
-    color(c),
-    shadow_style(style),
-    shadow_offset_x(VideoManager->Text()->GetDefaultStyle().shadow_offset_x),
-    shadow_offset_y(VideoManager->Text()->GetDefaultStyle().shadow_offset_y)
-{}
+TextStyle::TextStyle(const std::string& font, const Color& color, TEXT_SHADOW_STYLE style)
+{
+    const TextStyle& default_style = TextManager->GetDefaultStyle();
+    _font = font;
+    _color = color;
+    _shadow_style = style;
+    _shadow_offset_x = default_style.GetShadowOffsetX();
+    _shadow_offset_y = default_style.GetShadowOffsetY();
+    _font_property = TextManager->_GetFontProperties(_font);
+    _UpdateTextShadowColor();
+}
 
 
 
-TextStyle::TextStyle(const std::string &fnt, const Color &c, TEXT_SHADOW_STYLE style) :
-    font(fnt),
-    color(c),
-    shadow_style(style),
-    shadow_offset_x(VideoManager->Text()->GetDefaultStyle().shadow_offset_x),
-    shadow_offset_y(VideoManager->Text()->GetDefaultStyle().shadow_offset_y)
-{}
+TextStyle::TextStyle(const std::string& font, const Color& color, TEXT_SHADOW_STYLE style, int32 shadow_x, int32 shadow_y)
+{
+    _font = font;
+    _color = color;
+    _shadow_style = style;
+    _shadow_offset_x = shadow_x;
+    _shadow_offset_y = shadow_y;
+    _font_property = TextManager->_GetFontProperties(_font);
+    _UpdateTextShadowColor();
+}
 
+void TextStyle::SetFont(const std::string& font)
+{
+    _font = font;
+    _font_property = TextManager->_GetFontProperties(font);
+}
 
-
-TextStyle::TextStyle(const std::string &fnt, const Color &c, TEXT_SHADOW_STYLE style, int32 shadow_x, int32 shadow_y) :
-    font(fnt),
-    color(c),
-    shadow_style(style),
-    shadow_offset_x(shadow_x),
-    shadow_offset_y(shadow_y)
-{}
+void TextStyle::_UpdateTextShadowColor()
+{
+    switch(_shadow_style) {
+    default:
+    case VIDEO_TEXT_SHADOW_NONE:
+        _shadow_color = Color::clear;
+        break;
+    case VIDEO_TEXT_SHADOW_DARK:
+        _shadow_color = Color::black;
+        _shadow_color[3] = _color[3] * 0.5f;
+        break;
+    case VIDEO_TEXT_SHADOW_LIGHT:
+        _shadow_color = Color::white;
+        _shadow_color[3] = _color[3] * 0.5f;
+        break;
+    case VIDEO_TEXT_SHADOW_BLACK:
+        _shadow_color = Color::black;
+        _shadow_color[3] = _color[3];
+        break;
+    case VIDEO_TEXT_SHADOW_COLOR:
+        _shadow_color = _color;
+        _shadow_color[3] = _color[3] * 0.5f;
+        break;
+    case VIDEO_TEXT_SHADOW_INVCOLOR:
+        _shadow_color = Color(1.0f - _color[0], 1.0f - _color[1], 1.0f - _color[2], _color[3] * 0.5f);
+        break;
+    }
+}
 
 namespace private_video
 {
@@ -148,7 +211,7 @@ static const uint32 AMASK = 0xFF000000;
 // TextTexture class
 // -----------------------------------------------------------------------------
 
-TextTexture::TextTexture(const hoa_utils::ustring &string_, const TextStyle &style_) :
+TextTexture::TextTexture(const vt_utils::ustring &string_, const TextStyle &style_) :
     BaseTexture(),
     string(string_),
     style(style_)
@@ -264,31 +327,25 @@ void TextElement::Draw() const
 void TextElement::Draw(const Color &draw_color) const
 {
     // Don't draw anything if this image is completely transparent (invisible)
-    if(IsFloatEqual(draw_color[3], 0.0f) == true) {
+    if(IsFloatEqual(draw_color[3], 0.0f))
         return;
-    }
 
-    glPushMatrix();
+    VideoManager->PushMatrix();
     _DrawOrientation();
 
-    float modulation = VideoManager->_screen_fader.GetFadeModulation();
-    // Used to determine if the image color should be modulated by any degree due to screen fading effects
-    bool skip_modulation = (draw_color == Color::white && IsFloatEqual(modulation, 1.0f));
-    if(skip_modulation) {
+    if(draw_color == Color::white) {
         _DrawTexture(_color);
     } else {
-        Color fade_color(modulation, modulation, modulation, 1.0f);
         Color modulated_colors[4];
+        modulated_colors[0] = _color[0] * draw_color;
+        modulated_colors[1] = _color[1] * draw_color;
+        modulated_colors[2] = _color[2] * draw_color;
+        modulated_colors[3] = _color[3] * draw_color;
 
-        fade_color = draw_color * fade_color;
-        modulated_colors[0] = _color[0] * fade_color;
-        modulated_colors[1] = _color[1] * fade_color;
-        modulated_colors[2] = _color[2] * fade_color;
-        modulated_colors[3] = _color[3] * fade_color;
         _DrawTexture(modulated_colors);
     }
 
-    glPopMatrix();
+    VideoManager->PopMatrix();
 } // void TextElement::Draw(const Color& draw_color) const
 
 
@@ -331,25 +388,30 @@ void TextElement::SetTexture(TextTexture *texture)
 // -----------------------------------------------------------------------------
 
 TextImage::TextImage() :
-    ImageDescriptor()
-{}
-
-
-
-TextImage::TextImage(const ustring &string, TextStyle style) :
     ImageDescriptor(),
-    _string(string),
-    _style(style)
+    _max_width(1024)
+{
+    _style = TextManager->GetDefaultStyle();
+}
+
+
+
+TextImage::TextImage(const ustring& text, const TextStyle& style) :
+    ImageDescriptor(),
+    _text(text),
+    _style(style),
+    _max_width(1024)
 {
     _Regenerate();
 }
 
 
 
-TextImage::TextImage(const std::string &string, TextStyle style) :
+TextImage::TextImage(const std::string& text, const TextStyle& style) :
     ImageDescriptor(),
-    _string(MakeUnicodeString(string)),
-    _style(style)
+    _text(MakeUnicodeString(text)),
+    _style(style),
+    _max_width(1024)
 {
     _Regenerate();
 }
@@ -358,8 +420,9 @@ TextImage::TextImage(const std::string &string, TextStyle style) :
 
 TextImage::TextImage(const TextImage &copy) :
     ImageDescriptor(copy),
-    _string(copy._string),
-    _style(copy._style)
+    _text(copy._text),
+    _style(copy._style),
+    _max_width(copy._max_width)
 {
     for(uint32 i = 0; i < copy._text_sections.size(); i++) {
         _text_sections.push_back(new TextElement(*(copy._text_sections[i])));
@@ -370,124 +433,96 @@ TextImage::TextImage(const TextImage &copy) :
 
 TextImage &TextImage::operator=(const TextImage &copy)
 {
-    // Handle the case were a dumbass assigns an object to itself
-    if(this == &copy) {
+    // Prevents object assignment to itself
+    if(this == &copy)
         return *this;
-    }
 
     // Remove references to any existing text sections
-    for(uint32 i = 0; i < _text_sections.size(); i++) {
+    for(uint32 i = 0; i < _text_sections.size(); ++i)
         delete _text_sections[i];
-    }
+
     _text_sections.clear();
 
-    _string = copy._string;
+    _text = copy._text;
     _style = copy._style;
-    for(uint32 i = 0; i < copy._text_sections.size(); i++) {
+    _max_width = copy._max_width;
+    for(uint32 i = 0; i < copy._text_sections.size(); ++i)
         _text_sections.push_back(new TextElement(*(copy._text_sections[i])));
-    }
 
     return *this;
 }
 
-
-
 void TextImage::Clear()
 {
     ImageDescriptor::Clear();
-    _string.clear();
-    for(uint32 i = 0; i < _text_sections.size(); i++) {
+    _text.clear();
+    for(uint32 i = 0; i < _text_sections.size(); ++i)
         delete _text_sections[i];
-    }
+
     _text_sections.clear();
     _width = 0;
     _height = 0;
+    // Don't reset the max width as the normal flow might want a new text again
+    // with the same constraints.
 }
 
-
-
-void TextImage::Draw() const
-{
-    glPushMatrix();
-    for(uint32 i = 0; i < _text_sections.size(); ++i) {
-        _text_sections[i]->Draw();
-        VideoManager->MoveRelative(0.0f, TextManager->GetFontProperties(_style.font)->line_skip * -VideoManager->_current_context.coordinate_system.GetVerticalDirection());
-    }
-    glPopMatrix();
-}
-
-
-
-void TextImage::Draw(const Color &draw_color) const
+void TextImage::Draw(const Color& draw_color) const
 {
     // Don't draw anything if this image is completely transparent (invisible)
-    if(IsFloatEqual(draw_color[3], 0.0f) == true) {
+    if(IsFloatEqual(draw_color[3], 0.0f))
         return;
-    }
 
-    glPushMatrix();
+    VideoManager->PushMatrix();
     for(uint32 i = 0; i < _text_sections.size(); ++i) {
-        _text_sections[i]->Draw(draw_color);
-        VideoManager->MoveRelative(0.0f, TextManager->GetFontProperties(_style.font)->line_skip * -VideoManager->_current_context.coordinate_system.GetVerticalDirection());
+        if (_style.GetShadowStyle() != VIDEO_TEXT_SHADOW_NONE) {
+            const float dx = VideoManager->_current_context.coordinate_system.GetHorizontalDirection() * _style.GetShadowOffsetX();
+            const float dy = VideoManager->_current_context.coordinate_system.GetVerticalDirection() * _style.GetShadowOffsetY();
+            VideoManager->MoveRelative(dx, dy);
+            _text_sections[i]->Draw(draw_color * _style.GetShadowColor());
+            VideoManager->MoveRelative(-dx, -dy);
+        }
+        _text_sections[i]->Draw(draw_color * _style.GetColor());
+        VideoManager->MoveRelative(0.0f, _style.GetFontProperties()->line_skip * -VideoManager->_current_context.coordinate_system.GetVerticalDirection());
     }
-    glPopMatrix();
+    VideoManager->PopMatrix();
 }
 
 
 
 void TextImage::_Regenerate()
 {
-    const uint16 NEW_LINE = '\n';
-    const uint16 END_STRING = '\0';
-
-    _width = 0;
-    _height = 0;
-    for(uint32 i = 0; i < _text_sections.size(); i++) {
+    _width = 0.0f;
+    _height = 0.0f;
+    for(uint32 i = 0; i < _text_sections.size(); ++i)
         delete _text_sections[i];
-    }
+
     _text_sections.clear();
 
-    if(_string.empty()) {
+    if(_text.empty())
         return;
-    }
 
-    FontProperties *fp = TextManager->GetFontProperties(_style.font);
-    if(TextManager->IsFontValid(_style.font) == false || fp == NULL) {
+    FontProperties *fp = _style.GetFontProperties();
+    if(fp == NULL || fp->ttf_font == NULL) {
         IF_PRINT_WARNING(VIDEO_DEBUG) << "invalid font or font properties" << std::endl;
         return;
     }
 
-    TextManager->_CacheGlyphs(_string.c_str(), fp);
+    TextManager->_CacheGlyphs(_text.c_str(), fp);
 
-    // 1) Dissect the unicode string into an array of lines of text
-    std::vector<uint16 *> line_array;
-    uint16 *reformatted_text = new uint16[_string.size() + 1];
-    uint16 *text_iter = reformatted_text;
-    uint16 *last_line = reformatted_text;
+    std::vector<ustring> lines_array = TextManager->WrapText(_text, fp->ttf_font, _max_width);
 
-    for(const uint16 *char_iter = _string.c_str(); *char_iter; ++char_iter) {
-        if(*char_iter == NEW_LINE) {
-            *text_iter++ = END_STRING;
-            line_array.push_back(last_line);
-            last_line = text_iter;
-        } else {
-            *text_iter++ = *char_iter;
-        }
-    }
-    line_array.push_back(last_line);
-    *text_iter = END_STRING;
+    // Iterate through each line of text and render a TextTexture for each one
+    std::vector<ustring>::iterator line_iter;
+    for(line_iter = lines_array.begin(); line_iter != lines_array.end(); ++line_iter) {
 
-    // 2) Iterate through each line of text and render a TextTexture for each one
-    std::vector<uint16 *>::iterator line_iter;
-    for(line_iter = line_array.begin(); line_iter != line_array.end(); ++line_iter) {
         TextElement *new_element = new TextElement();
         // If this line is only a newline character or is an empty string, create an empty TextElement object
-        if(**line_iter == NEW_LINE || **line_iter == END_STRING) {
+        if((*line_iter) == ustring(&NEW_LINE) || (*line_iter).empty()) {
             new_element->SetDimensions(0.0f, static_cast<float>(fp->line_skip));
         }
         // Otherwise, create a new TextTexture to be managed by the new element
         else {
-// 			PRINT_DEBUG << **line_iter << std::endl;
+            // PRINT_DEBUG << **line_iter << std::endl;
             TextTexture *texture = new TextTexture(*line_iter, _style);
             if(texture->Regenerate() == false) {
                 IF_PRINT_WARNING(VIDEO_DEBUG) << "call to TextTexture::_Regenerate() failed" << std::endl;
@@ -505,8 +540,6 @@ void TextImage::_Regenerate()
         // Increase height by the font specified line height
         _height += fp->line_skip;
     }
-
-    delete[] reformatted_text;
 } // void TextImage::_Regenerate()
 
 // -----------------------------------------------------------------------------
@@ -514,8 +547,7 @@ void TextImage::_Regenerate()
 // -----------------------------------------------------------------------------
 
 // When TextSupervisor is created, the
-TextSupervisor::TextSupervisor() :
-    _default_style("", Color(), VIDEO_TEXT_SHADOW_INVALID, 0, 0)
+TextSupervisor::TextSupervisor()
 {}
 
 
@@ -523,22 +555,8 @@ TextSupervisor::TextSupervisor() :
 TextSupervisor::~TextSupervisor()
 {
     // Remove all loaded fonts and cached glyphs, then shutdown the SDL_ttf library
-    for(std::map<std::string, FontProperties *>::iterator i = _font_map.begin(); i != _font_map.end(); i++) {
-        FontProperties *fp = i->second;
-
-        if(fp->ttf_font)
-            TTF_CloseFont(fp->ttf_font);
-
-        if(fp->glyph_cache) {
-            std::vector<hoa_video::FontGlyph *>::const_iterator it_end = fp->glyph_cache->end();
-            for(std::vector<FontGlyph *>::iterator j = fp->glyph_cache->begin(); j != it_end; ++j) {
-                delete *j;
-            }
-            delete fp->glyph_cache;
-        }
-
-        delete fp;
-    }
+    for(std::map<std::string, FontProperties *>::iterator it = _font_map.begin(); it != _font_map.end(); ++it)
+        delete it->second;
 
     TTF_Quit();
 }
@@ -555,31 +573,183 @@ bool TextSupervisor::SingletonInitialize()
     return true;
 }
 
-
-
-bool TextSupervisor::LoadFont(const std::string &filename, const std::string &font_name, uint32 size)
+//! Loads all the defaults fonts available in the game (those available to every locales).
+//! And sets a default text style.
+//! The function will exit the game if no valid textstyle was loaded
+//! or if the default text style is invalid.
+bool TextSupervisor::LoadFonts(const std::string& locale_name)
 {
-    // Make sure that the font name is not already taken
-    if(IsFontValid(font_name) == true) {
-        IF_PRINT_WARNING(VIDEO_DEBUG) << "a font with the desired reference name already existed: " << font_name << std::endl;
+    vt_script::ReadScriptDescriptor font_script;
+
+    //Checking the file existence and validity.
+    if(!font_script.OpenFile(_font_script_filename)) {
+        PRINT_ERROR << "Couldn't open font file: " << _font_script_filename << std::endl;
         return false;
     }
 
-    if(size == 0) {
-        IF_PRINT_WARNING(VIDEO_DEBUG) << "attempted to load a font of point size zero" << font_name << std::endl;
+    if(!font_script.DoesTableExist("fonts")) {
+        PRINT_ERROR << "No 'fonts' table in file: " << _font_script_filename << std::endl;
+        font_script.CloseFile();
         return false;
+    }
+
+    std::vector<std::string> locale_names;
+    font_script.ReadTableKeys("fonts", locale_names);
+    if(locale_names.empty() || !font_script.OpenTable("fonts")) {
+        PRINT_ERROR << "No local array defined in the 'fonts' table of file: "
+                    << _font_script_filename << std::endl;
+        font_script.CloseFile();
+        return false;
+    }
+
+    std::string style_default = font_script.ReadString("font_default_style");
+    if(style_default.empty()) {
+        PRINT_ERROR << "No default text style defined in: " << _font_script_filename
+                    << std::endl;
+        font_script.CloseFile();
+        return false;
+    }
+
+    // Search for a 'default' array and the specific locale array
+    bool default_locale_array_found = false;
+    bool specific_locale_array_found = false;
+
+    // We only keep the array we need: the default one and the locale specific one.
+    for(uint32 j = 0; j < locale_names.size(); ++j) {
+        std::string locale = locale_names[j];
+        // Keep the default array
+        if (!strcasecmp(locale.c_str(), "default")) {
+            default_locale_array_found = true;
+            continue;
+        }
+
+        if (locale_name.empty())
+            continue;
+
+        if (!strcasecmp(locale.c_str(), locale_name.c_str()))
+            specific_locale_array_found = true;
+    }
+
+    // If there is no default arrays. Exit now as the script file is invalid.
+    if (!default_locale_array_found) {
+        PRINT_ERROR << "Can't load fonts. No 'default' local array found in file: " << _font_script_filename << std::endl;
+        font_script.CloseFile();
+        return false;
+    }
+
+    // We set the arrays we want to parse.
+    locale_names.clear();
+    // The default one must come in first to permit locale specific fonts to override them.
+    locale_names.push_back("default");
+    if (specific_locale_array_found)
+        locale_names.push_back(locale_name);
+
+    // We now parse the wanted tables only, and the (re)load the fonts accordingly.
+    for(uint32 j = 0; j < locale_names.size(); ++j) {
+        std::string locale = locale_names[j];
+
+        std::vector<std::string> style_names;
+        font_script.ReadTableKeys(locale, style_names);
+        if(style_names.empty()) {
+            PRINT_ERROR << "No text styles defined in the table '"<< locale << "' of file: "
+                        << _font_script_filename << std::endl;
+            font_script.CloseFile();
+            return false;
+        }
+
+        if (!font_script.OpenTable(locale)) { // locale
+            PRINT_ERROR << "Can't open locale table '"<< locale << "' of file: "
+                        << _font_script_filename << std::endl;
+            font_script.CloseFile();
+            return false;
+        }
+
+        for(uint32 i = 0; i < style_names.size(); ++i) {
+
+            if (!font_script.OpenTable(style_names[i])) { // Text style
+                PRINT_ERROR << "Can't open text style table '" << style_names[i] << "' of locale: '" << locale << "' in file: "
+                            << _font_script_filename << std::endl;
+                font_script.CloseFile();
+                continue;
+            }
+
+            std::string font_file = font_script.ReadString("font");
+            uint32 font_size = font_script.ReadInt("size");
+
+            if(!_LoadFont(style_names[i], font_file, font_size)) {
+                // Check whether the default font is invalid
+                if(style_default == style_names[i]) {
+                    font_script.CloseAllTables();
+                    font_script.CloseFile();
+                    PRINT_ERROR << "The default text style '" << style_default
+                                << "' couldn't be loaded in file: " << _font_script_filename
+                                << std::endl;
+                    return false;
+                }
+                else {
+                    PRINT_WARNING << "The text style '" << style_names[i]
+                                << "' couldn't be loaded in file: " << _font_script_filename
+                                << std::endl;
+                }
+            }
+
+            font_script.CloseTable(); // Text style
+        } // load each TextStyle
+
+        font_script.CloseTable(); // locale
+    }
+    font_script.CloseTable(); // fonts
+
+    font_script.CloseFile();
+
+    // Setup the default font
+    SetDefaultStyle(TextStyle(style_default, Color::white, VIDEO_TEXT_SHADOW_BLACK, 1, -2));
+    return true;
+}
+
+bool TextSupervisor::_LoadFont(const std::string& textstyle_name, const std::string& font_filename, uint32 font_size)
+{
+    if(font_size == 0) {
+        PRINT_ERROR << "Attempted to load a text style of size zero: " << textstyle_name << std::endl;
+        return false;
+    }
+
+    // Check whether the TextStyle name is not already taken
+    bool reload = false;
+    std::map<std::string, FontProperties *>::iterator it = _font_map.find(textstyle_name);
+    if(it != _font_map.end()) {
+        reload = true;
+
+        // Let's check whether the requested font is exactly the same than before
+        // and do nothing in this case so we don't hurt performance.
+        FontProperties *fp = it->second;
+        if (fp && fp->font_filename == font_filename && fp->font_size == font_size)
+            return true;
     }
 
     // Attempt to load the font
-    TTF_Font *font = TTF_OpenFont(filename.c_str(), size);
+    TTF_Font *font = TTF_OpenFont(font_filename.c_str(), font_size);
     if(font == NULL) {
-        IF_PRINT_WARNING(VIDEO_DEBUG) << "call to TTF_OpenFont() failed to load the font file: " << filename << std::endl;
+        PRINT_ERROR << "Call to TTF_OpenFont() failed to load the font file: " << font_filename << std::endl
+        << TTF_GetError() << std::endl;
         return false;
     }
 
-    // Create a new FontProperties object for this font and set all of the properties according to SDL_ttf
-    FontProperties *fp = new FontProperties;
+    // Get or Create a new FontProperties object for this font and set all of the properties according to SDL_ttf
+    FontProperties *fp = reload ? it->second : new FontProperties;
+
+    if (fp == NULL) {
+        PRINT_ERROR << "Invalid Font Properties instance for text style: " << textstyle_name << std::endl;
+        return false;
+    }
+
+    // We first clear the font before setting a new one in case of a reload
+    if (reload)
+        fp->ClearFont();
+
     fp->ttf_font = font;
+    fp->font_filename = font_filename;
+    fp->font_size = font_size;
     fp->height = TTF_FontHeight(font);
     fp->line_skip = TTF_FontLineSkip(font);
     fp->ascent = TTF_FontAscent(font);
@@ -587,27 +757,34 @@ bool TextSupervisor::LoadFont(const std::string &filename, const std::string &fo
 
     // Create the glyph cache for the font and add it to the font map
     fp->glyph_cache = new std::vector<FontGlyph *>;
-    _font_map[font_name] = fp;
+
+    // If the text style is new, we add it to the font cache map
+    if (!reload)
+        _font_map[textstyle_name] = fp;
+
     return true;
 } // bool TextSupervisor::LoadFont(...)
 
-
-
-void TextSupervisor::FreeFont(const std::string &font_name)
+void TextSupervisor::_FreeFont(const std::string &font_name)
 {
-    if(_font_map.find(font_name) == _font_map.end()) {
+    std::map<std::string, FontProperties*>::iterator it = _font_map.find(font_name);
+    if(it == _font_map.end()) {
         IF_PRINT_WARNING(VIDEO_DEBUG) << "argument font name was invalid: " << font_name << std::endl;
         return;
     }
 
-    // TODO: implement the rest of this function
+    // Free the font and remove it from the font cache
+    delete it->second;
+
+    // Remove the data from the map once freed.
+    _font_map.erase(it);
 }
 
 
 
-FontProperties *TextSupervisor::GetFontProperties(const std::string &font_name)
+FontProperties *TextSupervisor::_GetFontProperties(const std::string &font_name)
 {
-    if(IsFontValid(font_name) == false) {
+    if(_IsFontValid(font_name) == false) {
         IF_PRINT_WARNING(VIDEO_DEBUG) << "argument font name was invalid: " << font_name << std::endl;
         return NULL;
     }
@@ -624,23 +801,22 @@ void TextSupervisor::Draw(const ustring &text, const TextStyle &style)
         return;
     }
 
-    if(IsFontValid(style.font) == false) {
-        IF_PRINT_WARNING(VIDEO_DEBUG) << "failed because font was invalid: " << style.font << std::endl;
+    FontProperties *fp = style.GetFontProperties();
+    if(fp == NULL || fp->ttf_font == NULL) {
+        IF_PRINT_WARNING(VIDEO_DEBUG) << "failed because font was invalid: " << style.GetFontName() << std::endl;
         return;
     }
 
-    FontProperties *fp = _font_map[style.font];
     VideoManager->PushState();
 
     // Break the string into lines and render the shadow and text for each line
     uint16 buffer[2048];
-    const uint16 NEWLINE = '\n';
     size_t last_line = 0;
     do {
         // Find the next new line character in the string and save the line
         size_t next_line;
         for(next_line = last_line; next_line < text.length(); next_line++) {
-            if(text[next_line] == NEWLINE)
+            if(text[next_line] == NEW_LINE)
                 break;
 
             buffer[next_line - last_line] = text[next_line];
@@ -655,20 +831,21 @@ void TextSupervisor::Draw(const ustring &text, const TextStyle &style)
         }
 
         // Save the draw cursor position before drawing this text
-        glPushMatrix();
+        VideoManager->PushMatrix();
 
         // If text shadows are enabled, draw the shadow first
-        if(style.shadow_style != VIDEO_TEXT_SHADOW_NONE) {
-            glPushMatrix();
-            VideoManager->MoveRelative(VideoManager->_current_context.coordinate_system.GetHorizontalDirection() * style.shadow_offset_x, 0.0f);
-            VideoManager->MoveRelative(0.0f, VideoManager->_current_context.coordinate_system.GetVerticalDirection() * style.shadow_offset_y);
-            _DrawTextHelper(buffer, fp, _GetTextShadowColor(style));
-            glPopMatrix();
+        if(style.GetShadowStyle() != VIDEO_TEXT_SHADOW_NONE) {
+            VideoManager->PushMatrix();
+            const float dx = VideoManager->_current_context.coordinate_system.GetHorizontalDirection() * style.GetShadowOffsetX();
+            const float dy = VideoManager->_current_context.coordinate_system.GetVerticalDirection() * style.GetShadowOffsetY();
+            VideoManager->MoveRelative(dx, dy);
+            _DrawTextHelper(buffer, fp, style.GetShadowColor());
+            VideoManager->PopMatrix();
         }
 
         // Now draw the text itself, restore the position of the draw cursor, and move the draw cursor one line down
-        _DrawTextHelper(buffer, fp, style.color);
-        glPopMatrix();
+        _DrawTextHelper(buffer, fp, style.GetColor());
+        VideoManager->PopMatrix();
         VideoManager->MoveRelative(0, -fp->line_skip * VideoManager->_current_context.coordinate_system.GetVerticalDirection());
 
     } while(last_line < text.length());
@@ -678,16 +855,16 @@ void TextSupervisor::Draw(const ustring &text, const TextStyle &style)
 
 
 
-int32 TextSupervisor::CalculateTextWidth(const std::string &font_name, const hoa_utils::ustring &text)
+int32 TextSupervisor::CalculateTextWidth(TTF_Font* ttf_font, const vt_utils::ustring &text)
 {
-    if(IsFontValid(font_name) == false) {
-        IF_PRINT_WARNING(VIDEO_DEBUG) << "font name argument was invalid: " << font_name << std::endl;
+    if(ttf_font == NULL) {
+        IF_PRINT_WARNING(VIDEO_DEBUG) << "Invalid font" << std::endl;
         return -1;
     }
 
     int32 width;
-    if(TTF_SizeUNICODE(_font_map[font_name]->ttf_font, text.c_str(), &width, NULL) == -1) {
-        IF_PRINT_WARNING(VIDEO_DEBUG) << "call to TTF_SizeUNICODE failed with TTF error: " << TTF_GetError() << std::endl;
+    if(TTF_SizeUNICODE(ttf_font, text.c_str(), &width, NULL) == -1) {
+        IF_PRINT_WARNING(VIDEO_DEBUG) << "Call to TTF_SizeUNICODE failed with TTF error: " << TTF_GetError() << std::endl;
         return -1;
     }
 
@@ -696,80 +873,150 @@ int32 TextSupervisor::CalculateTextWidth(const std::string &font_name, const hoa
 
 
 
-int32 TextSupervisor::CalculateTextWidth(const std::string &font_name, const std::string &text)
+int32 TextSupervisor::CalculateTextWidth(TTF_Font* ttf_font, const std::string &text)
 {
-    if(IsFontValid(font_name) == false) {
-        IF_PRINT_WARNING(VIDEO_DEBUG) << "font name argument was invalid: " << font_name << std::endl;
+    if(ttf_font == NULL) {
+        IF_PRINT_WARNING(VIDEO_DEBUG) << "Invalid font" << std::endl;
         return -1;
     }
 
     int32 width;
-    if(TTF_SizeText(_font_map[font_name]->ttf_font, text.c_str(), &width, NULL) == -1) {
-        IF_PRINT_WARNING(VIDEO_DEBUG) << "call to TTF_SizeText failed with TTF error: " << TTF_GetError() << std::endl;
+    if(TTF_SizeText(ttf_font, text.c_str(), &width, NULL) == -1) {
+        IF_PRINT_WARNING(VIDEO_DEBUG) << "Call to TTF_SizeText failed with TTF error: " << TTF_GetError() << std::endl;
         return -1;
     }
 
     return width;
 }
 
-
-
-Color TextSupervisor::_GetTextShadowColor(const TextStyle &style) const
+std::vector<vt_utils::ustring> TextSupervisor::WrapText(const vt_utils::ustring& text,
+                                                        TTF_Font* ttf_font,
+                                                        uint32 max_width)
 {
-    Color shadow_color;
-
-    if(style.shadow_style == VIDEO_TEXT_SHADOW_NONE) {
-        return shadow_color;
+    std::vector<vt_utils::ustring> lines_array;
+    if (text.empty() || max_width == 0) {
+        // This can happen when called with uninit // gui objects.
+        return lines_array;
     }
 
-    switch(style.shadow_style) {
-    case VIDEO_TEXT_SHADOW_DARK:
-        shadow_color = Color::black;
-        shadow_color[3] = style.color[3] * 0.5f;
-        break;
-    case VIDEO_TEXT_SHADOW_LIGHT:
-        shadow_color = Color::white;
-        shadow_color[3] = style.color[3] * 0.5f;
-        break;
-    case VIDEO_TEXT_SHADOW_BLACK:
-        shadow_color = Color::black;
-        shadow_color[3] = style.color[3];
-        break;
-    case VIDEO_TEXT_SHADOW_COLOR:
-        shadow_color = style.color;
-        shadow_color[3] = style.color[3] * 0.5f;
-        break;
-    case VIDEO_TEXT_SHADOW_INVCOLOR:
-        shadow_color = Color(1.0f - style.color[0], 1.0f - style.color[1], 1.0f - style.color[2], style.color[3] * 0.5f);
-        break;
-    default:
-        IF_PRINT_WARNING(VIDEO_DEBUG) << "unknown text shadow style: " << style.shadow_style << std::endl;
-        break;
-    }
+    // We split the text using new lines in a first row
+    ustring temp_text = text;
+    uint32 text_length = temp_text.length();
 
-    return shadow_color;
+    for (uint32 i = 0; i < text_length; ++i) {
+        if(!(temp_text[i] == NEW_LINE))
+            continue;
+
+        // We add the substring (except the end line)
+        if (i > 0)
+            lines_array.push_back(temp_text.substr(0, i));
+        else // It's only a new line
+            lines_array.push_back(ustring());
+
+        // We reached the string's end
+        if (i + 1 == text_length) {
+            temp_text.clear();
+            break;
+        }
+
+        // We then cut the temp string used part (and the new line)
+        temp_text = temp_text.substr(i + 1);
+        text_length = temp_text.length();
+        i = -1; // Will be set to 0 after the loop end.
+    }
+    // If there is still some text, we push the rest in the vector
+    if (temp_text.length() > 0)
+        lines_array.push_back(temp_text);
+
+    // We then perform word wrapping in a loop until all the text is added
+    // And copy it into the new vector
+    std::vector<vt_utils::ustring> wrapped_lines_array;
+    uint32 num_lines = lines_array.size();
+    for (uint32 line_index = 0; line_index < num_lines; ++line_index) {
+
+        ustring temp_line = lines_array[line_index];
+
+        // If it's an empty string, we add a blank line.
+        if (temp_line.empty()) {
+            wrapped_lines_array.push_back(temp_line);
+            continue;
+        }
+
+        while(!temp_line.empty()) {
+            int32 text_width = TextManager->CalculateTextWidth(ttf_font, temp_line);
+
+            // If the text can fit in the text box, add the whole line and return
+            if(text_width < (int32)max_width) {
+                wrapped_lines_array.push_back(temp_line);
+                break;
+            }
+
+            // Otherwise, find the maximum number of words which can fit and make that substring a line
+            // Word boundaries are found by calling the == 0x20 test
+            ustring wrapped_line;
+            int32 num_wrapped_chars = 0;
+            int32 last_breakable_index = -1;
+            int32 line_length = static_cast<int32>(temp_line.length());
+
+            while(num_wrapped_chars < line_length) {
+                wrapped_line += temp_line[num_wrapped_chars];
+                // If we meet a space character (0x20), we can wrap the text
+                if(temp_line[num_wrapped_chars] == SPACE_CHAR) {
+                    int32 text_width = TextManager->CalculateTextWidth(ttf_font, wrapped_line);
+
+                    if(text_width < (int32)max_width) {
+                        // We haven't gone past the breaking point: mark this as a possible breaking point
+                        last_breakable_index = num_wrapped_chars;
+                    } else {
+                        // We exceeded the maximum width, so go back to the previous breaking point.
+                        // If there was no previous breaking point (== -1), then just break it off at
+                        // the current character position.
+                        if(last_breakable_index != -1)
+                            num_wrapped_chars = last_breakable_index;
+                        break;
+                    }
+                } // (temp_line[num_wrapped_chars] == SPACE_CHAR)
+                ++num_wrapped_chars;
+            } // while (num_wrapped_chars < line_length)
+
+            // Figure out the number of characters in the wrapped line and construct the wrapped line
+            text_width = TextManager->CalculateTextWidth(ttf_font, wrapped_line);
+            if(text_width >= (int32)max_width && last_breakable_index != -1) {
+                num_wrapped_chars = last_breakable_index;
+            }
+            wrapped_line = temp_line.substr(0, num_wrapped_chars);
+
+            // Add the new wrapped line to the text.
+            wrapped_lines_array.push_back(wrapped_line);
+
+            // If there is no more text remaining, we have finished.
+            if(num_wrapped_chars + 1 >= line_length)
+                break;
+            // Otherwise, we need to grab the rest of the text that remains to be added and loop again
+            else
+                temp_line = temp_line.substr(num_wrapped_chars + 1, line_length - num_wrapped_chars);
+        } // while (temp_line.empty() == false)
+    } // for each lines of text
+
+    // Returns the wrapped lines.
+    return wrapped_lines_array;
 }
-
-
 
 void TextSupervisor::_CacheGlyphs(const uint16 *text, FontProperties *fp)
 {
-    if(fp == NULL) {
-        IF_PRINT_WARNING(VIDEO_DEBUG) << "FontProperties argument was null" << std::endl;
+    if(fp == NULL || fp->ttf_font == NULL) {
+        IF_PRINT_WARNING(VIDEO_DEBUG) << "FontProperties argument was invalid" << std::endl;
         return;
     }
 
     // Empty string means there are no glyphs to cache
-    if(*text == 0) {
+    if(*text == 0)
         return;
-    }
 
-    static const SDL_Color glyph_color = { 0xFF, 0xFF, 0xFF, 0xFF }; // Opaque white color
-    static const uint16 fall_back_glyph = '?'; // If we can't cache a particular glyph, we fall back to this one
+    // If we can't cache a particular glyph, we fall back to this one
+    static const uint16 fall_back_glyph = '?';
 
     TTF_Font *font = fp->ttf_font;
-    SDL_Surface *initial = NULL;
-    SDL_Surface *intermediary = NULL;
     int32 w, h;
     GLuint texture;
 
@@ -787,20 +1034,27 @@ void TextSupervisor::_CacheGlyphs(const uint16 *text, FontProperties *fp)
             continue;
 
         // Attempt to create the initial SDL_Surface that contains the rendered glyph
-        initial = TTF_RenderGlyph_Blended(font, character, glyph_color);
+        // We render it white so that color effects are applied correctly on it.
+        static const SDL_Color white_color = { 0xFF, 0xFF, 0xFF, 0xFF };
+        SDL_Surface* initial = TTF_RenderGlyph_Blended(font, character, white_color);
         if(initial == NULL) {
             IF_PRINT_WARNING(VIDEO_DEBUG) << "call to TTF_RenderGlyph_Blended() failed, resorting to fall back glyph: '?'" << std::endl;
-            initial = TTF_RenderGlyph_Blended(font, fall_back_glyph, glyph_color);
+            initial = TTF_RenderGlyph_Blended(font, fall_back_glyph, white_color);
             if(initial == NULL) {
                 IF_PRINT_WARNING(VIDEO_DEBUG) << "call to TTF_RenderGlyph_Blended() failed for fall back glyph, aborting glyph caching" << std::endl;
                 return;
             }
         }
 
+        // Before blitting on a alpha surface, we need to disable blending on the source surface,
+        // or the alpha property of the source image will be ignored on the dest image.
+        // Note: Will be replaced by SDL_SetSurfaceBlendMode(initial, SDL_BLENDMODE_NONE); in SDL 2.0
+        SDL_SetAlpha(initial, 0, 255);
+
         w = RoundUpPow2(initial->w + 1);
         h = RoundUpPow2(initial->h + 1);
 
-        intermediary = SDL_CreateRGBSurface(0, w, h, 32, RMASK, GMASK, BMASK, AMASK);
+        SDL_Surface* intermediary = SDL_CreateRGBSurface(0, w, h, 32, RMASK, GMASK, BMASK, AMASK);
         if(intermediary == NULL) {
             SDL_FreeSurface(initial);
             IF_PRINT_WARNING(VIDEO_DEBUG) << "call to SDL_CreateRGBSurface() failed" << std::endl;
@@ -820,14 +1074,6 @@ void TextSupervisor::_CacheGlyphs(const uint16 *text, FontProperties *fp)
 
 
         SDL_LockSurface(intermediary);
-
-        uint32 num_bytes = w * h * 4;
-        for(uint32 j = 0; j < num_bytes; j += 4) {
-            (static_cast<uint8 *>(intermediary->pixels))[j + 3] = (static_cast<uint8 *>(intermediary->pixels))[j + 2];
-            (static_cast<uint8 *>(intermediary->pixels))[j + 0] = 0xff;
-            (static_cast<uint8 *>(intermediary->pixels))[j + 1] = 0xff;
-            (static_cast<uint8 *>(intermediary->pixels))[j + 2] = 0xff;
-        }
 
         glTexImage2D(GL_TEXTURE_2D, 0, 4, w, h, 0, GL_RGBA, GL_UNSIGNED_BYTE, intermediary->pixels);
         SDL_UnlockSurface(intermediary);
@@ -893,7 +1139,7 @@ void TextSupervisor::_DrawTextHelper(const uint16 *const text, FontProperties *f
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     VideoManager->EnableTexture2D();
 
-    glPushMatrix();
+    VideoManager->PushMatrix();
 
     int font_width, font_height;
     if(TTF_SizeUNICODE(fp->ttf_font, text, &font_width, &font_height) != 0) {
@@ -905,9 +1151,6 @@ void TextSupervisor::_DrawTextHelper(const uint16 *const text, FontProperties *f
     float yoff = ((VideoManager->_current_context.y_align + 1) * font_height) * 0.5f * -cs.GetVerticalDirection();
 
     VideoManager->MoveRelative(xoff, yoff);
-
-    float modulation = VideoManager->_screen_fader.GetFadeModulation();
-    Color final_color = text_color * modulation;
 
     VideoManager->EnableVertexArray();
     VideoManager->EnableTextureCoordArray();
@@ -960,31 +1203,27 @@ void TextSupervisor::_DrawTextHelper(const uint16 *const text, FontProperties *f
         tex_coords[6] = 0.0f;
         tex_coords[7] = 0.0f;
 
-        glColor4fv((GLfloat *)&final_color);
+        glColor4fv((GLfloat *)&text_color);
         glDrawArrays(GL_QUADS, 0, 4);
 
         xpos += glyph_info->advance;
     } // for (const uint16* glyph = text; *glyph != 0; glyph++)
 
-    glPopMatrix();
+    VideoManager->PopMatrix();
 } // void TextSupervisor::_DrawTextHelper(const uint16* const text, FontProperties* fp, Color color)
 
 
 
-bool TextSupervisor::_RenderText(hoa_utils::ustring &string, TextStyle &style, ImageMemory &buffer)
+bool TextSupervisor::_RenderText(vt_utils::ustring &string, TextStyle &style, ImageMemory &buffer)
 {
-    FontProperties *fp = _font_map[style.font];
-    TTF_Font *font = fp->ttf_font;
+    FontProperties *fp = style.GetFontProperties();
 
-    if(font == NULL) {
-        IF_PRINT_WARNING(VIDEO_DEBUG) << "font of TextStyle argument '" << style.font << "' was invalid" << std::endl;
+    if(fp == NULL || fp->ttf_font == NULL) {
+        IF_PRINT_WARNING(VIDEO_DEBUG) << "The TextStyle argument using font:'" << style.GetFontName() << "' was invalid" << std::endl;
         return false;
     }
 
-    static const SDL_Color white_color = { 0xFF, 0xFF, 0xFF, 0xFF };
-
-    SDL_Surface *initial = NULL;
-    SDL_Surface *intermediary = NULL;
+    TTF_Font* font = fp->ttf_font;
 
     // Width and height of each line of text
     int32 line_w, line_h;
@@ -1015,7 +1254,7 @@ bool TextSupervisor::_RenderText(hoa_utils::ustring &string, TextStyle &style, I
     min_y -= 1;
 
     // Check if the first character starts left of pixel 0, and set
-// 	char_ptr = string.c_str();
+    // char_ptr = string.c_str();
     if(*char_ptr) {
         FontGlyph *first_glyphinfo = (*fp->glyph_cache)[*char_ptr];
         if(first_glyphinfo->min_x < 0)
@@ -1031,28 +1270,35 @@ bool TextSupervisor::_RenderText(hoa_utils::ustring &string, TextStyle &style, I
     line_w -= line_start_x;
     line_h -= min_y;
 
-    // Allocate enough memory for the entire text surface to reside on
-    uint8 *intermed_buf = static_cast<uint8 *>(calloc(line_w * line_h, 4));
-    intermediary = SDL_CreateRGBSurfaceFrom(intermed_buf, line_w, line_h, 32, line_w * 4, RMASK, GMASK, BMASK, AMASK);
+    // Creates an alpha surface for the given text
+    SDL_Surface* intermediary = SDL_CreateRGBSurface(SDL_SWSURFACE | SDL_SRCALPHA, line_w, line_h, 32, RMASK, GMASK, BMASK, AMASK);
     if(intermediary == NULL) {
-        IF_PRINT_WARNING(VIDEO_DEBUG) << "call to SDL_CreateRGBSurfaceFrom() failed" << std::endl;
+        IF_PRINT_WARNING(VIDEO_DEBUG) << "call to SDL_CreateRGBSurface() failed" << std::endl;
         return false;
     }
 
     // Go through the string and render each glyph one by one
-    SDL_Rect surf_target;
     int32 xpos = -line_start_x;
     int32 ypos = -min_y;
     for(char_ptr = string.c_str(); *char_ptr != '\0'; ++char_ptr) {
         FontGlyph *glyphinfo = (*fp->glyph_cache)[*char_ptr];
 
-        // Render the glyph
-        initial = TTF_RenderGlyph_Blended(font, *char_ptr, white_color);
+        // Render the glyph in white, the text style color will be used at draw time only,
+        // to permit proper shadows colors.
+        static const SDL_Color white_color = { 0xFF, 0xFF, 0xFF, 0xFF };
+        SDL_Surface* initial = TTF_RenderGlyph_Blended(font, *char_ptr, white_color);
         if(initial == NULL) {
+            SDL_FreeSurface(intermediary);
             IF_PRINT_WARNING(VIDEO_DEBUG) << "call to TTF_RenderGlyph_Blended() failed" << std::endl;
             return false;
         }
 
+        // Before blitting on a alpha surface, we need to disable blending on the source surface,
+        // or the alpha property of the source image will be ignored on the dest image.
+        // Note: Will be replaced by SDL_SetSurfaceBlendMode(initial, SDL_BLENDMODE_NONE); in SDL 2.0
+        SDL_SetAlpha(initial, 0, 255);
+
+        SDL_Rect surf_target;
         surf_target.x = xpos + glyphinfo->min_x;
         surf_target.y = ypos + glyphinfo->top_y;
 
@@ -1060,7 +1306,6 @@ bool TextSupervisor::_RenderText(hoa_utils::ustring &string, TextStyle &style, I
         if(SDL_BlitSurface(initial, NULL, intermediary, &surf_target) < 0) {
             SDL_FreeSurface(initial);
             SDL_FreeSurface(intermediary);
-            free(intermed_buf);
             IF_PRINT_WARNING(VIDEO_DEBUG) << "call to SDL_BlitSurface() failed, SDL error: " << SDL_GetError() << std::endl;
             return false;
         }
@@ -1070,28 +1315,22 @@ bool TextSupervisor::_RenderText(hoa_utils::ustring &string, TextStyle &style, I
 
     SDL_LockSurface(intermediary);
 
-    uint8 color_mult[] = {
-        static_cast<uint8>(style.color[0] * 0xFF),
-        static_cast<uint8>(style.color[1] * 0xFF),
-        static_cast<uint8>(style.color[2] * 0xFF)
-    };
-
     uint32 num_bytes = intermediary->w * intermediary->h * 4;
+    buffer.pixels = static_cast<uint8 *>(calloc(line_w * line_h, 4));
     for(uint32 j = 0; j < num_bytes; j += 4) {
-        ((uint8 *)intermediary->pixels)[j + 3] = ((uint8 *)intermediary->pixels)[j + 2];
-        ((uint8 *)intermediary->pixels)[j + 0] = color_mult[0];
-        ((uint8 *)intermediary->pixels)[j + 1] = color_mult[1];
-        ((uint8 *)intermediary->pixels)[j + 2] = color_mult[2];
+        ((uint8 *)buffer.pixels)[j + 0] = ((uint8 *)intermediary->pixels)[j + 0]; // r
+        ((uint8 *)buffer.pixels)[j + 1] = ((uint8 *)intermediary->pixels)[j + 1]; // g
+        ((uint8 *)buffer.pixels)[j + 2] = ((uint8 *)intermediary->pixels)[j + 2]; // b
+        ((uint8 *)buffer.pixels)[j + 3] = ((uint8 *)intermediary->pixels)[j + 3]; // alpha
     }
 
     buffer.width = line_w;
     buffer.height = line_h;
-    buffer.pixels = intermed_buf;
 
     SDL_UnlockSurface(intermediary);
     SDL_FreeSurface(intermediary);
 
     return true;
-} // bool TextSupervisor::_RenderText(hoa_utils::ustring& string, TextStyle& style, ImageMemory& buffer)
+} // bool TextSupervisor::_RenderText(vt_utils::ustring& string, TextStyle& style, ImageMemory& buffer)
 
-}  // namespace hoa_video
+}  // namespace vt_video

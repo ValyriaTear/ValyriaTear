@@ -1,5 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
-//            Copyright (C) 2004-2010 by The Allacrost Project
+//            Copyright (C) 2004-2011 by The Allacrost Project
+//            Copyright (C) 2012-2014 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -11,6 +12,7 @@
 *** \file   audio_input.cpp
 *** \author Mois�s Ferrer Serra - byaku@allacrost.org
 *** \author Aaron Smith - etherstar@allacrost.org
+*** \author Yohann Ferreira, yohann ferreira orange fr
 *** \brief  Source for the classes that provide input for sounds
 ***
 *** This code provides classes for loading sounds (WAV and OGG). It also
@@ -20,11 +22,13 @@
 *** \note This code uses Ogg-vorbis library for loading Ogg files
 *** ***************************************************************************/
 
+#include "utils/utils_pch.h"
 #include "audio_input.h"
-#include <SDL/SDL_endian.h>
 
-namespace hoa_audio
+namespace vt_audio
 {
+
+extern bool AUDIO_DEBUG;
 
 namespace private_audio
 {
@@ -34,7 +38,6 @@ namespace private_audio
 ////////////////////////////////////////////////////////////////////////////////
 
 AudioInput::AudioInput() :
-    _filename(""),
     _samples_per_second(0),
     _bits_per_sample(0),
     _number_channels(0),
@@ -226,7 +229,7 @@ bool OggFile::Initialize()
     // Windows requires a special loading method in order load ogg files
     // properly when dynamically linking vorbis libs. The workaround is
     // to use the ov_open_callbacks function
-#ifdef WIN32
+#ifdef _WIN32
     // Callbacks struct defining the open, closing, seeking and location behaviors.
     ov_callbacks callbacks =  {
         (size_t ( *)(void *, size_t, size_t, void *)) fread,
@@ -245,7 +248,6 @@ bool OggFile::Initialize()
         IF_PRINT_WARNING(AUDIO_DEBUG) << "input file does not appear to be an Ogg bitstream: " << _filename << std::endl;
         return false;
     }
-
 #else
     // File loading code for non Win32 platforms.  Much simpler.
     FILE *file = fopen(_filename.c_str(), "rb");
@@ -345,7 +347,7 @@ uint32 OggFile::Read(uint8 *buffer, uint32 size, bool &end)
 } // uint32 OggFile::Read(uint8* buffer, uint32 size, bool& end)
 
 
-
+#ifdef _WIN32
 int OggFile::_FileSeekWrapper(FILE *file, ogg_int64_t off, int whence)
 {
     if(file == NULL) {
@@ -355,6 +357,7 @@ int OggFile::_FileSeekWrapper(FILE *file, ogg_int64_t off, int whence)
         return fseek(file, static_cast<long>(off), whence);
     }
 }
+#endif
 
 ////////////////////////////////////////////////////////////////////////////////
 // AudioMemory class methods
@@ -403,6 +406,9 @@ AudioMemory::AudioMemory(const AudioMemory &audio_memory) :
 
 AudioMemory &AudioMemory::operator=(const AudioMemory &audio_memory)
 {
+    if(this == &audio_memory)  // Handle self-assignment case
+        return *this;
+
     if(_audio_data != NULL) {
         delete[] _audio_data;
         _audio_data = NULL;
@@ -462,4 +468,4 @@ uint32 AudioMemory::Read(uint8 *buffer, uint32 size, bool &end)
 
 } // namespace private_audio
 
-} // namespace hoa_audio
+} // namespace vt_audio

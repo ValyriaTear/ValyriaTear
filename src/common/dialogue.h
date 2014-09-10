@@ -1,5 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
-//            Copyright (C) 2004-2010 by The Allacrost Project
+//            Copyright (C) 2004-2011 by The Allacrost Project
+//            Copyright (C) 2012-2014 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -10,19 +11,22 @@
 /** ****************************************************************************
 *** \file    dialogue.h
 *** \author  Tyler Olsen, roots@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Header file for common dialogue code
 *** ***************************************************************************/
 
 #ifndef __DIALOGUE_HEADER__
 #define __DIALOGUE_HEADER__
 
-#include "utils.h"
+#include "utils/ustring.h"
 
 #include "common/gui/textbox.h"
 #include "common/gui/option.h"
 
-namespace hoa_common
+namespace vt_common
 {
+
+class CommonDialogueOptions;
 
 //! \name Constants used among common dialogue classes
 //@{
@@ -32,10 +36,8 @@ const int32 COMMON_DIALOGUE_NEXT_LINE        = -1;
 const int32 COMMON_DIALOGUE_END              = -2;
 //! \brief Indicates that a line has no display timer enabled
 const int32 COMMON_DIALOGUE_NO_TIMER         = -1;
-//! \brief Indicates that the dialogue can be viewed an infinite number of times
-const int32 COMMON_DIALOGUE_INFINITE_VIEWS   = -1;
-//! \brief Returned by numerous dialogue functions to indicate a bad/invalid function call was made
-const int32 COMMON_DIALOGUE_BAD_VALUE        = -5555;
+//! \brief the default invalid value.
+const int32 COMMON_DIALOGUE_INVALID          = -1;
 
 //! \brief The dialogue window should have no indicator (i.e. for automated text)
 const uint8 COMMON_DIALOGUE_NO_INDICATOR   = 0;
@@ -137,17 +139,6 @@ public:
     **/
     void AddOption(const std::string &text, int32 next_line);
 
-    //! \brief Indicates if this dialogue has already been seen by the player.
-    bool HasAlreadySeen() const {
-        return (_times_seen != 0);
-    }
-
-    //! \brief Return true if this dialogue is available to be viewed (_times_seen is still less than _max_views)
-    bool IsAvailable() const {
-        if(_max_views == COMMON_DIALOGUE_INFINITE_VIEWS) return true;
-        else return (static_cast<int32>(_times_seen) < _max_views);
-    }
-
     /** \brief Checks all the data stored by the dialogue class to ensure that it is acceptable and ready for use
     *** \return True if the validation was successful, false if any problems were discovered
     ***
@@ -161,20 +152,20 @@ public:
     //! \name Methods for retrieving properties of a specific line
     //@{
     //! \brief Returns the text of the line specified
-    hoa_utils::ustring GetLineText(uint32 line) const {
-        if(line >= _line_count) return hoa_utils::ustring();
+    vt_utils::ustring GetLineText(uint32 line) const {
+        if(line >= _line_count) return vt_utils::ustring();
         else return _text[line];
     }
 
     //! \brief Returns the line index that follows the line specified
     int32 GetLineNextLine(uint32 line) const {
-        if(line >= _line_count) return COMMON_DIALOGUE_BAD_VALUE;
+        if(line >= _line_count) return COMMON_DIALOGUE_INVALID;
         else return _next_lines[line];
     }
 
     //! \brief Returns the display time of the line specified
     int32 GetLineDisplayTime(uint32 line) const {
-        if(line >= _line_count) return COMMON_DIALOGUE_BAD_VALUE;
+        if(line >= _line_count) return COMMON_DIALOGUE_INVALID;
         else return _display_times[line];
     }
 
@@ -191,32 +182,8 @@ public:
         return _dialogue_id;
     }
 
-    int32 GetTimesSeen() const {
-        return _times_seen;
-    }
-
-    int32 GetMaxViews() const {
-        return _max_views;
-    }
-
     uint32 GetLineCount() const {
         return _line_count;
-    }
-
-    void ResetTimesSeen() {
-        _times_seen = 0;
-    }
-
-    void SetTimesSeen(uint32 times) {
-        _times_seen = times;
-    }
-
-    void IncrementTimesSeen() {
-        _times_seen++;
-    }
-
-    void SetMaxViews(int32 views) {
-        _max_views = views;
     }
     //@}
 
@@ -224,17 +191,11 @@ protected:
     //! \brief A unique identification number that represents this dialogue
     uint32 _dialogue_id;
 
-    //! \brief Counts the number of time a player has seen this dialogue.
-    uint32 _times_seen;
-
-    //! \brief Declares the max number of times that this dialogue can be viewed (negative value indicates no limit)
-    int32 _max_views;
-
     //! \brief Stores the amount of lines in the dialogue.
     uint32 _line_count;
 
     //! \brief The text of the conversation, split up into multiple lines
-    std::vector<hoa_utils::ustring> _text;
+    std::vector<vt_utils::ustring> _text;
 
     /** \brief Holds indeces pointing to which line should follow each line of text
     *** \note When a line contains options, the value stored in this container for that line is never used
@@ -282,14 +243,14 @@ public:
     //! \name Methods for retrieving properties of a specific line
     //@{
     //! \brief Returns the text of the option specified
-    hoa_utils::ustring GetOptionText(uint32 option) const {
-        if(option >= GetNumberOptions()) return hoa_utils::ustring();
+    vt_utils::ustring GetOptionText(uint32 option) const {
+        if(option >= GetNumberOptions()) return vt_utils::ustring();
         else return _text[option];
     }
 
     //! \brief Returns the line index that follows the line when the given option is selected
     int32 GetOptionNextLine(uint32 option) const {
-        if(option >= GetNumberOptions()) return COMMON_DIALOGUE_BAD_VALUE;
+        if(option >= GetNumberOptions()) return COMMON_DIALOGUE_INVALID;
         else return _next_lines[option];
     }
     //@}
@@ -301,7 +262,7 @@ public:
 
 protected:
     //! \brief Contains the text of each option
-    std::vector<hoa_utils::ustring> _text;
+    std::vector<vt_utils::ustring> _text;
 
     //! \brief A index containing the next line of dialogue that should follow each option
     std::vector<int32> _next_lines;
@@ -354,23 +315,23 @@ public:
 
     //! \name Class member access methods
     //@{
-    hoa_gui::TextBox &GetDisplayTextBox() {
+    vt_gui::TextBox &GetDisplayTextBox() {
         return _display_textbox;
     }
 
-    hoa_gui::OptionBox &GetDisplayOptionBox() {
+    vt_gui::OptionBox &GetDisplayOptionBox() {
         return _display_optionbox;
     }
 
-    hoa_video::TextImage &GetNameText() {
+    vt_video::TextImage &GetNameText() {
         return _name_text;
     }
 
-    hoa_video::StillImage *GetPortraitImage() const {
+    vt_video::StillImage *GetPortraitImage() const {
         return _portrait_image;
     }
 
-    void SetPortraitImage(hoa_video::StillImage *image) {
+    void SetPortraitImage(vt_video::StillImage *image) {
         _portrait_image = image;
     }
 
@@ -384,16 +345,16 @@ private:
     float _pos_x, _pos_y;
 
     //! \brief A parchment paper image embedded within the dialogue window
-    hoa_video::StillImage _parchment_image;
+    vt_video::StillImage _parchment_image;
 
     //! \brief The nameplate image used along with the dialogue box image
-    hoa_video::StillImage _nameplate_image;
+    vt_video::StillImage _nameplate_image;
 
     //! \brief The image indicating following dialogue lines
-    hoa_video::StillImage _next_line_image;
+    vt_video::StillImage _next_line_image;
 
     //! \brief The image indicating the last line of a dialogue
-    hoa_video::StillImage _last_line_image;
+    vt_video::StillImage _last_line_image;
 
     //! \brief The indicator symbol to use (arrow, end_of_dialogue_symbol, or none)
     uint8 _indicator_symbol;
@@ -405,16 +366,16 @@ private:
     bool _blink_state;
 
     //! \brief The textbox used for rendering the dialogue text
-    hoa_gui::TextBox _display_textbox;
+    vt_gui::TextBox _display_textbox;
 
     //! \brief The option box used for rendering dialogue options where applicable
-    hoa_gui::OptionBox _display_optionbox;
+    vt_gui::OptionBox _display_optionbox;
 
     //! \brief Holds the name of the speaker
-    hoa_video::TextImage _name_text;
+    vt_video::TextImage _name_text;
 
     //! \brief A pointer to a portrait image to display alongside the text. A NULL value will display no portrait
-    hoa_video::StillImage *_portrait_image;
+    vt_video::StillImage *_portrait_image;
 }; // class CommonDialogueWindow
 
 
@@ -481,7 +442,7 @@ public:
         return _current_options;
     }
 
-    hoa_system::SystemTimer &GetLineTimer() {
+    vt_system::SystemTimer &GetLineTimer() {
         return _line_timer;
     }
 
@@ -501,12 +462,12 @@ protected:
     CommonDialogueOptions *_current_options;
 
     //! \brief A timer that employed for dialogues which have a display time limit
-    hoa_system::SystemTimer _line_timer;
+    vt_system::SystemTimer _line_timer;
 
     //! \brief Keeps track of which line is active for the current dialogue
     uint32 _line_counter;
 }; // class CommonDialogueSupervisor
 
-} // namespace hoa_common
+} // namespace vt_common
 
 #endif // __DIALOGUE_HEADER__

@@ -8,9 +8,21 @@ FIND_PACKAGE(OpenAL REQUIRED)
 FIND_PACKAGE(VorbisFile REQUIRED)
 FIND_PACKAGE(Lua51 REQUIRED)
 FIND_PACKAGE(PNG REQUIRED)
-FIND_PACKAGE(jpeg REQUIRED)
 FIND_PACKAGE(Gettext REQUIRED)
-FIND_PACKAGE(Boost 1.48.0 REQUIRED)
+FIND_PACKAGE(Boost 1.46.1 REQUIRED)
+
+IF (UNIX AND USE_SYSTEM_LUABIND)
+    # Find the luabind package
+    FIND_PACKAGE(Luabind REQUIRED)
+    MESSAGE(STATUS "Using system luabind")
+ENDIF()
+
+# Set the release mode if not told otherwise
+IF(NOT CMAKE_BUILD_TYPE)
+    SET(CMAKE_BUILD_TYPE "Release")
+ENDIF()
+
+MESSAGE(STATUS "Build type: ${CMAKE_BUILD_TYPE}")
 
 IF (CMAKE_COMPILER_IS_GNUCXX)
     # Help getting compilation warnings
@@ -23,17 +35,35 @@ IF (CMAKE_COMPILER_IS_GNUCXX)
     ENDIF()
 ENDIF()
 
-IF (POLICY CMP0015)
-    CMAKE_POLICY(SET CMP0015 OLD)
-ENDIF()
+# in case a user overwrites these paths and specifies a relative one
+FOREACH(dir PKG_DATADIR LOCALEDIR)
+    IF(WIN32)
+        # no change for win32
+        SET(FULL_${dir} ${${dir}})
+    ELSE(WIN32)
+        IF(NOT IS_ABSOLUTE ${${dir}})
+            SET(FULL_${dir} "${CMAKE_INSTALL_PREFIX}/${${dir}}")
+        ELSE()
+            SET(FULL_${dir} ${${dir}})
+        ENDIF()
+    ENDIF(WIN32)
+ENDFOREACH()
 
 SET(FLAGS "-DPACKAGE_VERSION=\\\"${VERSION}\\\"")
-SET(FLAGS "${FLAGS} -DPKG_DATADIR=\\\"${PKG_DATADIR}/\\\"")
-SET(FLAGS "${FLAGS} -DLOCALEDIR=\\\"${LOCALEDIR}/\\\"")
+SET(FLAGS "${FLAGS} -DPKG_DATADIR=\\\"${FULL_PKG_DATADIR}/\\\"")
+SET(FLAGS "${FLAGS} -DLOCALEDIR=\\\"${FULL_LOCALEDIR}/\\\"")
 SET(FLAGS "${FLAGS} -DPKG_NAME=\\\"${PKG_NAME}/\\\"")
 
-IF (DEBUG_MENU)
-    SET(FLAGS "${FLAGS} -DDEBUG_MENU")
+IF (DEBUG_FEATURES)
+    SET(FLAGS "${FLAGS} -DDEBUG_FEATURES")
+    MESSAGE(STATUS "Developer features enabled")
+ENDIF()
+
+IF (DISABLE_TRANSLATIONS)
+    SET(FLAGS "${FLAGS} -DDISABLE_TRANSLATIONS")
+    MESSAGE(STATUS "l10n support disabled")
+ELSE()
+    MESSAGE(STATUS "l10n support enabled")
 ENDIF()
 
 IF (CMAKE_BUILD_TYPE)
@@ -46,19 +76,26 @@ IF (CMAKE_BUILD_TYPE)
             # Help getting debug info
             SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -pg")
         ENDIF()
-
-        MESSAGE(STATUS "Set Debug build type")
     ENDIF()
 ENDIF()
 
-IF (WIN32)
-    SET(EXTRA_LIBRARIES ws2_32 winmm)
-    FIND_PACKAGE(LibIntl REQUIRED)
-ELSEIF (CMAKE_SYSTEM_NAME STREQUAL "Darwin" OR BEOS)
-    FIND_PACKAGE(LibIntl REQUIRED)
-ELSEIF (CMAKE_SYSTEM_NAME STREQUAL SunOS)
-    # explicit linking to libintl is required on Solaris
-    SET(EXTRA_LIBRARIES intl)
+IF (NOT DISABLE_TRANSLATIONS)
+    IF (WIN32)
+        SET(EXTRA_LIBRARIES ws2_32 winmm)
+        FIND_PACKAGE(LibIntl REQUIRED)
+    ELSEIF (CMAKE_SYSTEM_NAME STREQUAL "Darwin" OR BEOS OR CMAKE_SYSTEM_NAME STREQUAL "FreeBSD")
+        FIND_PACKAGE(LibIntl REQUIRED)
+    ELSEIF (CMAKE_SYSTEM_NAME STREQUAL "OpenBSD")
+        FIND_PACKAGE(LibIntl REQUIRED)
+    ELSEIF (CMAKE_SYSTEM_NAME STREQUAL SunOS)
+        # explicit linking to libintl is required on Solaris
+        SET(EXTRA_LIBRARIES intl)
+    ENDIF()
+ENDIF()
+
+IF (CMAKE_SYSTEM_NAME STREQUAL "OpenBSD")
+    FIND_PACKAGE(Ogg REQUIRED)
+    FIND_PACKAGE(Vorbis REQUIRED)
 ENDIF()
 
 IF (USE_X11)
@@ -76,11 +113,14 @@ INCLUDE_DIRECTORIES(
     ${OPENAL_INCLUDE_DIR}
     ${VORBISFILE_INCLUDE_DIR}
     ${PNG_INCLUDE_DIR}
-    ${JPEG_INCLUDE_DIR}
     ${LUA_INCLUDE_DIR}
     ${Boost_INCLUDE_DIRS}
-    ${CMAKE_CURRENT_SOURCE_DIR}/luabind
     )
+
+IF (NOT UNIX OR NOT USE_SYSTEM_LUABIND)
+    INCLUDE_DIRECTORIES("${CMAKE_CURRENT_SOURCE_DIR}/luabind")
+    MESSAGE(STATUS "Using included luabind files")
+ENDIF()
 
 # enable rc-handling with mingw
 # most likely this part can be kicked out with some later cmake version
@@ -104,72 +144,6 @@ MARK_AS_ADVANCED(SDL_INCLUDE_DIR)
 MARK_AS_ADVANCED(SDL_LIBRARY)
 MARK_AS_ADVANCED(SDLIMAGE_INCLUDE_DIR)
 MARK_AS_ADVANCED(SDLIMAGE_LIBRARY)
-
-SET(SRCS_TESTS
-test/test_main.cpp
-test/test_main.h
-)
-
-SET(SRCS_LUABIND_TESTS
-luabind/examples/hello_world/hello_world.cpp
-luabind/examples/cln/cln_test.cpp
-luabind/examples/any_converter/any_converter.cpp
-luabind/examples/intrusive_ptr/intrusive_ptr.cpp
-luabind/examples/glut/glut_bind.cpp
-luabind/examples/filesystem/filesystem.cpp
-luabind/examples/filesystem/directory_iterator.hpp
-luabind/examples/regexp/regex_wrap.cpp
-luabind/test/test_user_defined_converter.cpp
-luabind/test/test_virtual_inheritance.cpp
-luabind/test/test_super_leak.cpp
-luabind/test/main.cpp
-luabind/test/test_properties.cpp
-luabind/test/test_construction.cpp
-luabind/test/test_shared_ptr.cpp
-luabind/test/test_scope.cpp
-luabind/test/test_exceptions.cpp
-luabind/test/test_shadow.cpp
-luabind/test/test_const.cpp
-luabind/test/test_private_destructors.cpp
-luabind/test/test_table.cpp
-luabind/test/test_set_instance_value.cpp
-luabind/test/test_def_from_base.cpp
-luabind/test/test_implicit_cast.cpp
-luabind/test/test_simple_class.cpp
-luabind/test/benchmark.cpp
-luabind/test/test_abstract_base.cpp
-luabind/test/test_back_reference.cpp
-luabind/test/test_adopt.cpp
-luabind/test/test_implicit_raw.cpp
-luabind/test/test_typetraits.cpp
-luabind/test/test_value_wrapper.cpp
-luabind/test/test_smart_ptr_attributes.cpp
-luabind/test/test_dynamic_type.cpp
-luabind/test/test_policies.cpp
-luabind/test/test_tag_function.cpp
-luabind/test/test_iterator.cpp
-luabind/test/test_null_pointer.cpp
-luabind/test/test_create_in_thread.cpp
-luabind/test/test_free_functions.cpp
-luabind/test/test_exception_handlers.cpp
-luabind/test/test_object.cpp
-luabind/test/test_automatic_smart_ptr.cpp
-luabind/test/test_builtin_converters.cpp
-luabind/test/test_yield.cpp
-luabind/test/test_vector_of_object.cpp
-luabind/test/test_collapse_converter.cpp
-luabind/test/test_adopt_wrapper.cpp
-luabind/test/test_held_type.cpp
-luabind/test/test_attributes.cpp
-luabind/test/test_has_get_pointer.cpp
-luabind/test/test_lua_classes.cpp
-luabind/test/test_separation.cpp
-luabind/test/test_operators.cpp
-luabind/test/test_class_info.cpp
-luabind/test/test.hpp
-luabind/test/test_extend_class_in_lua.cpp
-luabind/test/test_unsigned_int.cpp
-)
 
 SET(SRCS_LUABIND
 luabind/src/class_registry.cpp
@@ -273,48 +247,26 @@ luabind/luabind/wrapper_base.hpp
 
 # Files used by both the game and the editor
 SET(SRCS_COMMON
-engine/system.cpp
-engine/system.h
-engine/video/video.h
-engine/video/video.cpp
-engine/video/texture_controller.h
-engine/video/texture_controller.cpp
-engine/video/texture.cpp
-engine/video/texture.h
-engine/video/image.cpp
-engine/video/image.h
-engine/video/image_base.cpp
-engine/video/image_base.h
-engine/video/interpolator.cpp
-engine/video/interpolator.h
-engine/video/fade.h
-engine/video/fade.cpp
-engine/video/text.cpp
-engine/video/text.h
-engine/video/shake.cpp
-engine/video/shake.h
-engine/video/particle_manager.h
-engine/video/particle_manager.cpp
-engine/video/particle_effect.h
-engine/video/particle_effect.cpp
-engine/video/particle_system.h
-engine/video/particle_system.cpp
 engine/script/script.h
 engine/script/script.cpp
 engine/script/script_read.h
 engine/script/script_read.cpp
 engine/script/script_write.h
 engine/script/script_write.cpp
-utils.h
-utils.cpp
-defs.h
+utils/utils_pch.h
+utils/utils_pch.cpp
+utils/singleton.h
+utils/utils_random.h
+utils/utils_random.cpp
+utils/utils_files.h
+utils/utils_files.cpp
+utils/utils_numeric.h
+utils/utils_numeric.cpp
+utils/utils_strings.h
+utils/utils_strings.cpp
 )
 
 SET(SRCS
-main.cpp
-common/common_bindings.cpp
-common/common.cpp
-common/dialogue.cpp
 common/global/global.cpp
 common/global/global.h
 common/global/global_actors.cpp
@@ -328,15 +280,21 @@ common/global/global_skills.h
 common/global/global_utils.cpp
 common/global/global_utils.h
 common/gui/option.h
+common/gui/option.cpp
 common/gui/menu_window.cpp
 common/gui/menu_window.h
-common/gui/gui.h
 common/gui/textbox.cpp
 common/gui/textbox.h
-common/gui/option.cpp
 common/gui/gui.cpp
+common/gui/gui.h
+common/message_window.cpp
+common/message_window.h
+common/dialogue.cpp
 common/dialogue.h
+common/common.cpp
 common/common.h
+common/options_handler.cpp
+common/options_handler.h
 common/common_bindings.cpp
 engine/audio/audio.h
 engine/audio/audio.cpp
@@ -354,80 +312,10 @@ engine/mode_manager.h
 engine/mode_manager.cpp
 engine/script_supervisor.h
 engine/script_supervisor.cpp
-main_options.h
-modes/pause.cpp
-modes/shop/shop_root.h
-modes/shop/shop_buy.cpp
-modes/shop/shop_leave.h
-modes/shop/shop_sell.cpp
-modes/shop/shop_trade.cpp
-modes/shop/shop_utils.h
-modes/shop/shop_root.cpp
-modes/shop/shop_trade.h
-modes/shop/shop_confirm.h
-modes/shop/shop.cpp
-modes/shop/shop_leave.cpp
-modes/shop/shop_confirm.cpp
-modes/shop/shop_buy.h
-modes/shop/shop_utils.cpp
-modes/shop/shop.h
-modes/shop/shop_sell.h
-modes/scene.h
-modes/mode_bindings.cpp
-modes/mode_help_window.h
-modes/mode_help_window.cpp
-modes/battle/battle_effects.cpp
-modes/battle/battle_sequence.h
-modes/battle/battle_actors.cpp
-modes/battle/battle_indicators.h
-modes/battle/battle_actors.h
-modes/battle/battle_command.h
-modes/battle/battle_dialogue.cpp
-modes/battle/battle_actions.h
-modes/battle/battle.h
-modes/battle/battle_utils.h
-modes/battle/battle_indicators.cpp
-modes/battle/battle_finish.h
-modes/battle/battle_actions.cpp
-modes/battle/battle_utils.cpp
-modes/battle/battle_command.cpp
-modes/battle/battle_dialogue.h
-modes/battle/battle_effects.h
-modes/battle/battle.cpp
-modes/battle/battle_finish.cpp
-modes/battle/battle_sequence.cpp
-modes/scene.cpp
-modes/boot/boot.h
-modes/boot/boot.cpp
-modes/boot/boot_menu.h
-modes/boot/boot_menu.cpp
-modes/save/save_mode.h
-modes/save/save_mode.cpp
-modes/map/map_dialogue.h
-modes/map/map_zones.h
-modes/map/map_treasure.h
-modes/map/map_events.h
-modes/map/map_tiles.h
-modes/map/map_utils.h
-modes/map/map.cpp
-modes/map/map_dialogue.cpp
-modes/map/map.h
-modes/map/map_utils.cpp
-modes/map/map_objects.cpp
-modes/map/map_events.cpp
-modes/map/map_tiles.cpp
-modes/map/map_sprites.cpp
-modes/map/map_treasure.cpp
-modes/map/map_sprites.h
-modes/map/map_zones.cpp
-modes/map/map_objects.h
-modes/menu/menu.h
-modes/menu/menu.cpp
-modes/menu/menu_views.cpp
-modes/menu/menu_views.h
-modes/pause.h
-engine/script/script_modify.h
-engine/script/script_modify.cpp
+engine/indicator_supervisor.h
+engine/indicator_supervisor.cpp
+engine/system.cpp
+engine/system.h
 engine/input.h
 engine/input.cpp
 engine/engine_bindings.cpp
@@ -438,8 +326,101 @@ engine/video/particle_keyframe.h
 engine/video/context.h
 engine/video/particle.h
 engine/video/coord_sys.h
-utils.h
+engine/video/video.h
+engine/video/video.cpp
+engine/video/texture_controller.h
+engine/video/texture_controller.cpp
+engine/video/texture.cpp
+engine/video/texture.h
+engine/video/image.cpp
+engine/video/image.h
+engine/video/image_base.cpp
+engine/video/image_base.h
+engine/video/fade.h
+engine/video/fade.cpp
+engine/video/text.cpp
+engine/video/text.h
+engine/video/shake.h
+engine/video/interpolator.cpp
+engine/video/interpolator.h
+engine/video/particle_manager.h
+engine/video/particle_manager.cpp
+engine/video/particle_effect.h
+engine/video/particle_effect.cpp
+engine/video/particle_system.h
+engine/video/particle_system.cpp
+modes/shop/shop_root.h
+modes/shop/shop_buy.cpp
+modes/shop/shop_sell.cpp
+modes/shop/shop_trade.cpp
+modes/shop/shop_utils.h
+modes/shop/shop_root.cpp
+modes/shop/shop_trade.h
+modes/shop/shop.cpp
+modes/shop/shop_buy.h
+modes/shop/shop_utils.cpp
+modes/shop/shop.h
+modes/shop/shop_sell.h
+modes/battle/battle_effects.cpp
+modes/battle/battle_sequence.h
+modes/battle/battle_actors.cpp
+modes/battle/battle_actors.h
+modes/battle/battle_command.h
+modes/battle/battle_dialogue.cpp
+modes/battle/battle_actions.h
+modes/battle/battle.h
+modes/battle/battle_utils.h
+modes/battle/battle_finish.h
+modes/battle/battle_actions.cpp
+modes/battle/battle_utils.cpp
+modes/battle/battle_command.cpp
+modes/battle/battle_dialogue.h
+modes/battle/battle_effects.h
+modes/battle/battle.cpp
+modes/battle/battle_finish.cpp
+modes/battle/battle_sequence.cpp
+modes/boot/boot.h
+modes/boot/boot.cpp
+modes/save/save_mode.h
+modes/save/save_mode.cpp
+modes/map/map_dialogue.h
+modes/map/map_zones.h
+modes/map/map_treasure.h
+modes/map/map_events.h
+modes/map/map_tiles.h
+modes/map/map_utils.h
+modes/map/map_mode.cpp
+modes/map/map_dialogue.cpp
+modes/map/map_mode.h
+modes/map/map_utils.cpp
+modes/map/map_objects.cpp
+modes/map/map_events.cpp
+modes/map/map_tiles.cpp
+modes/map/map_sprites.cpp
+modes/map/map_treasure.cpp
+modes/map/map_sprites.h
+modes/map/map_zones.cpp
+modes/map/map_objects.h
+modes/map/map_minimap.cpp
+modes/map/map_minimap.h
+modes/map/map_status_effects.cpp
+modes/map/map_status_effects.h
+modes/menu/menu.h
+modes/menu/menu.cpp
+modes/menu/menu_views.cpp
+modes/menu/menu_views.h
+modes/pause.cpp
+modes/pause.h
+modes/mode_bindings.cpp
+modes/mode_help_window.h
+modes/mode_help_window.cpp
+utils/ustring.h
+utils/ustring.cpp
+utils/exception.h
+utils/exception.cpp
+main_options.h
 main_options.cpp
+main.cpp
     )
 
 IF (WIN32)
@@ -451,24 +432,91 @@ ENDIF ()
 
 SET (PROGRAMS valyriatear)
 
-ADD_EXECUTABLE(valyriatear WIN32 ${SRCS} ${SRCS_COMMON} ${SRCS_LUABIND})
+# Adds pch compilation support for gcc using cmake
+IF (CMAKE_COMPILER_IS_GNUCXX AND USE_PCH_COMPILATION)
+    MACRO (ADD_PCH_RULE  _header_filename _src_list)
+        SET(_gch_filename "${_header_filename}.gch")
+        LIST(APPEND ${_src_list} ${_gch_filename})
+        SET (_args ${CMAKE_CXX_FLAGS} ${FLAGS})
 
-TARGET_LINK_LIBRARIES(valyriatear
-    ${INTERNAL_LIBRARIES}
-    ${SDL_LIBRARY}
-    ${SDLTTF_LIBRARY}
-    ${SDLIMAGE_LIBRARY}
-    ${OPENGL_LIBRARIES}
-    ${OPENAL_LIBRARY}
-    ${VORBISFILE_LIBRARIES}
-    ${PNG_LIBRARIES}
-    ${JPEG_LIBRARIES}
-    ${LUA_LIBRARIES}
-    ${X11_LIBRARIES}
-    ${LIBINTL_LIBRARIES}
-    ${EXTRA_LIBRARIES})
+        IF (CMAKE_BUILD_TYPE_TOLOWER MATCHES release)
+            # Adds the release cxx compile flags
+            LIST(APPEND _args ${CMAKE_CXX_FLAGS_RELEASE})
+        ENDIF()
+
+        LIST(APPEND _args -c ${_header_filename} -o ${_gch_filename})
+        GET_DIRECTORY_PROPERTY(DIRINC INCLUDE_DIRECTORIES)
+        foreach (_inc ${DIRINC})
+            LIST(APPEND _args " -I" ${_inc})
+        endforeach(_inc ${DIRINC})
+        SEPARATE_ARGUMENTS(_args)
+        add_custom_command(OUTPUT ${_gch_filename}
+            COMMAND rm -f ${_gch_filename}
+            COMMAND ${CMAKE_CXX_COMPILER} ${_args}
+                    DEPENDS ${_header_filename})
+    ENDMACRO(ADD_PCH_RULE _header_filename _src_list)
+
+    ADD_PCH_RULE(${CMAKE_CURRENT_SOURCE_DIR}/utils/utils_pch.h SRCS)
+ENDIF()
+
+# Don't add the luabind static lib files if requested.
+IF (UNIX AND USE_SYSTEM_LUABIND)
+    ADD_EXECUTABLE(valyriatear WIN32 ${SRCS} ${SRCS_COMMON}
+        # The system include files.
+        ${LUABIND_INCLUDE_DIRS}
+    )
+
+    # In that case the luabind system headers will be needed
+    TARGET_LINK_LIBRARIES(valyriatear ${LUABIND_LIBRARIES})
+ELSE()
+    ADD_EXECUTABLE(valyriatear WIN32 ${SRCS} ${SRCS_COMMON} ${SRCS_LUABIND})
+ENDIF()
+
+# Vorbis, vorbisfile and ogg are explcitely needed on OpenBSD
+IF (CMAKE_SYSTEM_NAME STREQUAL "OpenBSD")
+    TARGET_LINK_LIBRARIES(valyriatear
+        ${INTERNAL_LIBRARIES}
+        ${SDL_LIBRARY}
+        ${SDLTTF_LIBRARY}
+        ${SDLIMAGE_LIBRARY}
+        ${OPENGL_LIBRARIES}
+        ${OPENAL_LIBRARY}
+        ${VORBISFILE_LIBRARIES}
+        ${OGG_LIBRARY}
+        ${VORBIS_LIBRARIES}
+        ${PNG_LIBRARIES}
+        ${LUA_LIBRARIES}
+        ${X11_LIBRARIES}
+        ${LIBINTL_LIBRARIES}
+        ${EXTRA_LIBRARIES})
+ELSE()
+    TARGET_LINK_LIBRARIES(valyriatear
+        ${INTERNAL_LIBRARIES}
+        ${SDL_LIBRARY}
+        ${SDLTTF_LIBRARY}
+        ${SDLIMAGE_LIBRARY}
+        ${OPENGL_LIBRARIES}
+        ${OPENAL_LIBRARY}
+        ${VORBISFILE_LIBRARIES}
+        ${PNG_LIBRARIES}
+        ${LUA_LIBRARIES}
+        ${X11_LIBRARIES}
+        ${LIBINTL_LIBRARIES}
+        ${EXTRA_LIBRARIES})
+ENDIF()
 
 INSTALL(TARGETS valyriatear RUNTIME DESTINATION ${PKG_BINDIR})
+
+IF (UNIX)
+      # uninstall target
+      ADD_CUSTOM_TARGET(
+          uninstall-valyriatear
+          COMMAND rm -rf ${PKG_DATADIR}
+          COMMAND rm -f "${PKG_BINDIR}/valyriatear"
+          VERBATIM
+      )
+ENDIF()
+
 
 IF (CMAKE_SYSTEM_NAME STREQUAL SunOS)
     # we expect the SMCgtxt package to be present on Solaris;
@@ -476,12 +524,16 @@ IF (CMAKE_SYSTEM_NAME STREQUAL SunOS)
     SET_TARGET_PROPERTIES(valyriatear PROPERTIES LINK_FLAGS "-L/usr/local/lib")
 ENDIF()
 
-SET_TARGET_PROPERTIES(valyriatear PROPERTIES COMPILE_FLAGS "${FLAGS}")
-
+# Adds invalid pch compilation warning for the game.
+IF (CMAKE_COMPILER_IS_GNUCXX AND USE_PCH_COMPILATION)
+    SET_TARGET_PROPERTIES(valyriatear PROPERTIES COMPILE_FLAGS "${FLAGS}  -Winvalid-pch")
+ELSE()
+    SET_TARGET_PROPERTIES(valyriatear PROPERTIES COMPILE_FLAGS "${FLAGS}")
+ENDIF()
 
 # Editor part
 IF (EDITOR_SUPPORT)
-
+    MESSAGE(STATUS "Editor build on")
     FIND_PACKAGE(Qt4 REQUIRED)
     INCLUDE_DIRECTORIES(
     ${QT_QTOPENGL_INCLUDE_DIR}
@@ -510,12 +562,26 @@ IF (EDITOR_SUPPORT)
 
     SET (PROGRAMS vt-editor)
 
-    ADD_EXECUTABLE(vt-editor
-        ${SRCS_EDITOR}
-        ${SRCS_LUABIND}
-        ${EDITOR_QT_HEADERS_MOC}
-        ${SRCS_COMMON}
-    )
+    # Don't add the static luabind source if requested.
+    IF (UNIX AND USE_SYSTEM_LUABIND)
+            ADD_EXECUTABLE(vt-editor
+                ${SRCS_EDITOR}
+                ${EDITOR_QT_HEADERS_MOC}
+                ${SRCS_COMMON}
+                # The system include files.
+                ${LUABIND_INCLUDE_DIRS}
+            )
+
+        # In that case the luabind system headers will be needed
+        TARGET_LINK_LIBRARIES(vt-editor ${LUABIND_LIBRARIES})
+    ELSE()
+            ADD_EXECUTABLE(vt-editor
+                ${SRCS_EDITOR}
+                ${SRCS_LUABIND}
+                ${EDITOR_QT_HEADERS_MOC}
+                ${SRCS_COMMON}
+            )
+    ENDIF()
 
     TARGET_LINK_LIBRARIES(vt-editor
         ${INTERNAL_LIBRARIES}
@@ -528,7 +594,6 @@ IF (EDITOR_SUPPORT)
         ${OPENAL_LIBRARY}
         ${VORBISFILE_LIBRARIES}
         ${PNG_LIBRARIES}
-        ${JPEG_LIBRARIES}
         ${LUA_LIBRARIES}
         ${X11_LIBRARIES}
         ${LIBINTL_LIBRARIES}
@@ -536,5 +601,14 @@ IF (EDITOR_SUPPORT)
     )
 
     INSTALL(TARGETS vt-editor RUNTIME DESTINATION ${PKG_BINDIR})
-    SET_TARGET_PROPERTIES(vt-editor PROPERTIES COMPILE_FLAGS "${FLAGS} -DQT3_SUPPORT -DEDITOR_BUILD")
+    SET_TARGET_PROPERTIES(vt-editor PROPERTIES COMPILE_FLAGS "${FLAGS} -DEDITOR_BUILD")
+
+    IF (UNIX)
+        # uninstall target
+        ADD_CUSTOM_TARGET(
+            uninstall-vt-editor
+            COMMAND rm -f "${PKG_BINDIR}/vt-editor"
+            VERBATIM
+        )
+    ENDIF()
 ENDIF(EDITOR_SUPPORT)

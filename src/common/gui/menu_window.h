@@ -1,5 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
-//            Copyright (C) 2004-2010 by The Allacrost Project
+//            Copyright (C) 2004-2011 by The Allacrost Project
+//            Copyright (C) 2012-2014 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -10,25 +11,19 @@
 /** ****************************************************************************
 *** \file    menu_window.h
 *** \author  Raj Sharma, roos@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Header file for menu window class
 *** ***************************************************************************/
 
 #ifndef __MENU_WINDOW_HEADER__
 #define __MENU_WINDOW_HEADER__
 
-#include "defs.h"
-#include "utils.h"
-
 #include "gui.h"
 #include "engine/video/screen_rect.h"
 #include "engine/video/image.h"
 
-namespace hoa_gui
+namespace vt_gui
 {
-
-//! \brief How many milliseconds it takes for a window to scroll in or out of view.
-const int32 VIDEO_MENU_SCROLL_TIME = 200;
-
 
 /** \name Menu Edge Bitflags
 *** \brief These flags control the presence/absence of each edge of the menu window.
@@ -44,34 +39,16 @@ const int32 VIDEO_MENU_EDGE_BOTTOM = 0x8;
 const int32 VIDEO_MENU_EDGE_ALL    = 0xF;
 //@}
 
-
-/** \brief Menu display modes control how the menu window appears or disappears.
-*** The specific display modes include:
-*** - VIDEO_MENU_INSTANT: appears/disappears instantly
-*** - VIDEO_MENU_EXPAND_FROM_CENTER: starts as a thin horizontal line at center and expands out
-**/
-enum VIDEO_MENU_DISPLAY_MODE {
-    VIDEO_MENU_INVALID            = -1,
-    VIDEO_MENU_INSTANT            =  0,
-    VIDEO_MENU_EXPAND_FROM_CENTER =  1,
-    VIDEO_MENU_TOTAL              =  2
-};
-
-
 /** \brief These enums are used to tell the visiblity state of a menu window.
 *** The possible states and their meaning include:
 *** - VIDEO_MENU_STATE_SHOWN: the menu is fully shown
-*** - VIDEO_MENU_STATE_SHOWING: the menu is still in the process of scrolling on to the screen
-*** - VIDEO_MENU_STATE_HIDING: the menu is scrolling out of view, but is not completely hidden yet
 *** - VIDEO_MENU_STATE_HIDDEN: the menu is fully hidden
 **/
 enum VIDEO_MENU_STATE {
     VIDEO_MENU_STATE_INVALID = -1,
     VIDEO_MENU_STATE_SHOWN   = 0,
-    VIDEO_MENU_STATE_SHOWING = 1,
-    VIDEO_MENU_STATE_HIDING  = 2,
-    VIDEO_MENU_STATE_HIDDEN  = 3,
-    VIDEO_MENU_STATE_TOTAL   = 4
+    VIDEO_MENU_STATE_HIDDEN  = 1,
+    VIDEO_MENU_STATE_TOTAL   = 2
 };
 
 
@@ -103,6 +80,12 @@ public:
     ~MenuSkin()
     {}
 
+    //! \brief The translated skin name
+    vt_utils::ustring skin_name;
+
+    //! \brief The file name for the cursor image for this skin.
+    std::string cursor_file;
+
     /** \brief A 2d array that holds the border images for the menu skin
     *** The entries in this array represent the following parts:
     *** - borders[0][0]: upper left corner
@@ -115,7 +98,7 @@ public:
     *** - borders[2][1]: bottom side
     *** - borders[2][2]: bottom right corner
     **/
-    hoa_video::StillImage borders[3][3];
+    vt_video::StillImage borders[3][3];
 
     /** \brief Border-connecting images, used when two or more MenuWindows are side by side.
     ***  There are four tri-connectors and one quad-connector. tri_t would be an image for
@@ -126,10 +109,10 @@ public:
     ***  - connectors[3]: right tri-connector
     ***  - connectors[4]: quad connector
     **/
-    hoa_video::StillImage connectors[5];
+    vt_video::StillImage connectors[5];
 
     //! \brief The (optional) background image of the menu skin that fills the inside of the MenuWindow
-    hoa_video::StillImage background;
+    vt_video::StillImage background;
 }; // class MenuSkin
 
 } // namespace private_gui
@@ -146,18 +129,9 @@ public:
 *** the display of dialogue text, inventory lists, etc. This class is designed
 *** with that practice in mind.
 ***
-*** \todo Allow the user to specify an arbitrary amount of time for showing/
-*** hiding the menu window.
-***
 *** \todo Determine function/behavior of copy constructor and copy assignment
 *** operator. Should these be set to private, or implemented? How should the
 *** texture be copied if it is implemented?
-***
-*** \todo Why doesn't the class destructor do what the Destroy function implements?
-*** It would be much safer for the destructor to auto-destroy anything, or at the
-*** very least it could print a warning if the class destructor is called when
-*** destroy has not yet been invoked. If this is changed, remember to update
-*** the documentation on the wiki for this as well.
 *** ***************************************************************************/
 class MenuWindow : public private_gui::GUIElement
 {
@@ -165,8 +139,11 @@ class MenuWindow : public private_gui::GUIElement
 public:
     MenuWindow();
 
-    ~MenuWindow()
-    {}
+    ~MenuWindow() {
+        // Free the memory in case its needed.
+        if (_skin)
+            Destroy();
+    }
 
     /** \brief Sets the width and height of the menu.
     *** \param skin_name The name of the menu skin with which to construct this menu window.
@@ -189,47 +166,31 @@ public:
     **/
     void Destroy();
 
-    /** \brief Updates the menu window, used for gradual show/hide effects.
-    *** \param frame_time The time that has elapsed since the previous frame, in milliseconds.
-    **/
-    void Update(uint32 frame_time);
-
     /** \brief This version is for the subclasses of menu window (allows us to use a single MenuWindow variable
     *** to track the active window.
     **/
+    void Update(uint32 /*frame_time*/)
+    {}
     virtual void Update()
     {}
 
-    //! \brief Draws the menu window to the screen.
-    void Draw();
+    //! \brief Draws the menu window to the screen with default color and opacity
+    inline void Draw() {
+        Draw(vt_video::Color::white);
+    }
 
-    /** \brief Causes the menu to begin making itself visible.
-    *** Depending on the display mode, the menu might show instantly or gradually.
-    *** You can check for when the menu is fully shown by checking if GetState()
-    *** returns VIDEO_MENU_STATE_SHOWN (until then, it is VIDEO_MENU_STATE_SHOWING).
-    *** \note The time it takes for the menu to show is VIDEO_MENU_SCROLL_TIME.
-    **/
-    void Show();
+    //! \brief Draws the menu window to the screen with a specified color and opacity
+    void Draw(const vt_video::Color& color);
 
-    /** \brief Causes the menu to begin making itself not visible.
-    *** Depending on the display mode, the menu might hide instantly or gradually.
-    *** If it's gradual, you should still continue calling Draw() even after you call
-    *** Hide() until it's fully hidden. You can check if it's fully hidden by checking
-    *** if GetState() returns VIDEO_MENU_STATE_HIDDEN (until then, it will be
-    *** VIDEO_MENU_STATE_HIDING).
-    *** \note The time it takes for the menu to show is VIDEO_MENU_SCROLL_TIME
-    **/
-    void Hide();
+    //! \brief Makes the current window visible
+    void Show() {
+        _window_state = VIDEO_MENU_STATE_SHOWN;
+    }
 
-    /** \brief Does a self-check on all its members to see if all its members have been set to valid values.
-    *** \param &errors A reference to a string to be filled if any errors are found.
-    *** \return True if menu window is properly initialized, false if it is not.
-    ***
-    *** This is used internally to make sure we have a valid object before doing any complicated operations.
-    *** If it detects any problems, it generates a list of errors and returns it by reference so they can be
-    *** displayed
-    **/
-    bool IsInitialized(std::string &errors);
+    //! \brief Makes the current window hidden.
+    void Hide() {
+        _window_state = VIDEO_MENU_STATE_HIDDEN;
+    }
 
     /** \brief Indicates whether the window is in the active context
     *** \return True always here, subclasses can override to change the behaviour
@@ -240,22 +201,8 @@ public:
 
     //! \name Class Member Access Functions
     //@{
-    VIDEO_MENU_DISPLAY_MODE GetDisplayMode() const {
-        return _display_mode;
-    }
-
     VIDEO_MENU_STATE GetState() const {
         return _window_state;
-    }
-
-    /** \note When the window is in the process of showing or hiding, subsequent calls to this function
-    *** (in between calls to Update()) will yield different results as the active dimensions of the window
-    *** are changing. When the window is fully shown or fully hidden, this function will always return the
-    *** same scissor rectangle that is reflective of the window's full size.
-    ***
-    **/
-    hoa_video::ScreenRect GetScissorRect() const {
-        return _scissor_rect;
     }
 
     //! \note This call is somewhat expensive since it has to recreate the menu window image.
@@ -275,14 +222,9 @@ public:
 
     //! \note This call is somewhat expensive since it has to recreate the menu window image.
     void SetMenuSkin(const std::string &skin_name);
-
-    void SetDisplayMode(VIDEO_MENU_DISPLAY_MODE mode);
     //@}
 
 private:
-    //! \brief The current id of this object.
-    int32 _id;
-
     //! \brief The dimensions of the space inside the window borders.
     float _inner_width, _inner_height;
 
@@ -298,32 +240,20 @@ private:
     //! \brief The state of the menu window (hidden, shown, hiding, showing).
     VIDEO_MENU_STATE _window_state;
 
-    //! \brief The number of milliseconds that have passed since the menu was shown.
-    int32 _display_timer;
-
     //! \brief The image that creates the window
-    hoa_video::CompositeImage _menu_image;
-
-    //! \brief The window's display mode (instant, expand from center, etc).
-    VIDEO_MENU_DISPLAY_MODE _display_mode;
-
-    //! \brief Set to true if scissoring needs to be used on the window.
-    bool _is_scissored;
-
-    //! \brief The rectangle used for scissoring, set during each call to Update().
-    hoa_video::ScreenRect _scissor_rect;
+    vt_video::CompositeImage _menu_image;
 
     /** \brief Used to create the menu window's image when the visible properties of the window change.
     *** \return True if the menu image was successfully created, false otherwise.
     ***
     *** \note This function may not create a window that is exactly the width and height requested.
-    *** It will automatically adjust the dimneions to minimalize warping. So for example, if the
+    *** It will automatically adjust the dimensions to minimize warping. So for example, if the
     *** border artwork is all 8x8 pixel images and you try to create a menu that is 117x69, it will get
     *** rounded up to 120x72.
     **/
     bool _RecreateImage();
 }; // class MenuWindow : public GUIElement
 
-} // namespace hoa_gui
+} // namespace vt_gui
 
 #endif  // __MENU_WINDOW_HEADER__

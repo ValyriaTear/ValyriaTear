@@ -1,5 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
-//            Copyright (C) 2004-2010 by The Allacrost Project
+//            Copyright (C) 2004-2011 by The Allacrost Project
+//            Copyright (C) 2012-2014 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -10,14 +11,18 @@
 /** ***************************************************************************
 *** \file    main_options.h
 *** \author  Tyler Olsen, roots@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Header functions for handling command-line arguments
 *** \note    Only main.cpp and main_options.cpp should need to include this file.
 *** **************************************************************************/
 
+#ifndef __MAIN_OPTIONS_HEADER__
+#define __MAIN_OPTIONS_HEADER__
+
 /** \brief Namespace containing functions central to main program execution.
 *** \note Normally no other code should need to use this namespace.
 **/
-namespace hoa_main {
+namespace vt_main {
 
 /** \brief Parses command-line options and takes appropriate action on those options
 *** \param return_code A reference to the return code to exit the program with.
@@ -58,4 +63,6 @@ bool ResetSettings();
 **/
 bool EnableDebugging(const std::string& vars);
 
-} // namespace hoa_main
+} // namespace vt_main
+
+#endif // __MAIN_OPTIONS_HEADER__

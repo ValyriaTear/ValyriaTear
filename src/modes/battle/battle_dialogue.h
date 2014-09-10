@@ -1,5 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
-//            Copyright (C) 2004-2010 by The Allacrost Project
+//            Copyright (C) 2004-2011 by The Allacrost Project
+//            Copyright (C) 2012-2014 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -10,6 +11,7 @@
 /** ****************************************************************************
 *** \file    battle_dialogue.h
 *** \author  Tyler Olsen, roots@allacrost.org
+*** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Header file for battle dialogue code
 ***
 *** Dialogue that occurs during a battle typically involves the characters in the
@@ -33,19 +35,18 @@
 #ifndef __BATTLE_DIALOGUE_HEADER__
 #define __BATTLE_DIALOGUE_HEADER__
 
-#include "defs.h"
-#include "utils.h"
-
 #include "engine/video/video.h"
 
 #include "common/dialogue.h"
 
-
-namespace hoa_battle
+namespace vt_battle
 {
 
 namespace private_battle
 {
+
+class BattleCharacter;
+class BattleEnemy;
 
 //! \brief Defines the different states the dialogue can be in.
 enum DIALOGUE_STATE {
@@ -67,14 +68,14 @@ class BattleSpeaker
 {
 public:
     //! \brief The name of this speaker as it will appear to the player
-    hoa_utils::ustring name;
+    vt_utils::ustring name;
 
     /** \brief Holds a reference to the portrait image to use for this speaker
     ***
     *** \note Not all speakers will have portraits available. For those that don't, this
     *** member will simply remain a blank image that is drawn to the screen.
     **/
-    hoa_video::StillImage portrait;
+    vt_video::StillImage portrait;
 }; // class BattleSpeaker
 
 
@@ -96,7 +97,7 @@ public:
 *** a certain condition is met. In general, be cautious about dialogues where battle action is
 *** not halted.
 *** ***************************************************************************/
-class BattleDialogue : public hoa_common::CommonDialogue
+class BattleDialogue : public vt_common::CommonDialogue
 {
 public:
     //! \param id The id number to represent the dialogue, which should be unique to other dialogue ids within this battle
@@ -156,24 +157,10 @@ public:
         else return _speakers[line];
     }
 
-    //! \name Class Member Access Functions
-    //@{
-    bool IsHaltBattleAction() const {
-        return _halt_battle_action;
-    }
-
-    void SetHaltBattleAction(bool halt) {
-        _halt_battle_action = halt;
-    }
-    //@}
-
 private:
-    //! \brief When true, the battle action will be suspended while this dialogue is active
-    bool _halt_battle_action;
-
     //! \brief Contains the speaker ID number corresponding to each line of text
     std::vector<uint32> _speakers;
-}; // class BattleDialogue : public hoa_common::CommonDialogue
+}; // class BattleDialogue : public vt_common::CommonDialogue
 
 
 /** ****************************************************************************
@@ -282,11 +269,11 @@ public:
         return _current_dialogue;
     }
 
-    hoa_common::CommonDialogueOptions *GetCurrentOptions() const {
+    vt_common::CommonDialogueOptions *GetCurrentOptions() const {
         return _current_options;
     }
 
-    hoa_system::SystemTimer &GetLineTimer() {
+    vt_system::SystemTimer &GetLineTimer() {
         return _line_timer;
     }
 
@@ -309,16 +296,16 @@ private:
     BattleDialogue *_current_dialogue;
 
     //! \brief A pointer to the current set of options for the active dialogue line
-    hoa_common::CommonDialogueOptions *_current_options;
+    vt_common::CommonDialogueOptions *_current_options;
 
     //! \brief A timer that employed for dialogues which have a display time limit
-    hoa_system::SystemTimer _line_timer;
+    vt_system::SystemTimer _line_timer;
 
     //! \brief Keeps track of which line is active for the current dialogue
     uint32 _line_counter;
 
     //! \brief Holds the text and graphics that should be displayed for the dialogue
-    hoa_common::CommonDialogueWindow _dialogue_window;
+    vt_common::CommonDialogueWindow _dialogue_window;
 
     // ---------- Private methods
 
@@ -352,6 +339,6 @@ private:
 
 } // namespace private_battle
 
-} // namespace hoa_battle
+} // namespace vt_battle
 
 #endif // __BATTLE_DIALOGUE_HEADER__
