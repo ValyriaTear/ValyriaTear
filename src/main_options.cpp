@@ -173,8 +173,11 @@ bool PrintSystemInformation()
     }
     atexit(SDL_Quit);
 
+    SDL_version sdl_linked_ver;
+    SDL_GetVersion(&sdl_linked_ver);
+
     printf("SDL version (compiled):  %d.%d.%d\n", SDL_MAJOR_VERSION, SDL_MINOR_VERSION, SDL_PATCHLEVEL);
-    printf("SDL version (linked):    %d.%d.%d\n", SDL_Linked_Version()->major, SDL_Linked_Version()->minor, SDL_Linked_Version()->patch);
+    printf("SDL version (linked):    %d.%d.%d\n", sdl_linked_ver.major, sdl_linked_ver.minor, sdl_linked_ver.patch);
 
     int32 js_num = SDL_NumJoysticks();
     printf("Number of joysticks found:  %d\n", js_num);
@@ -182,7 +185,7 @@ bool PrintSystemInformation()
     // Print out information about each joystick
     for(int32 i = 0; i < js_num; i++) {
         printf("  Joystick #%d\n", i);
-        printf("    Joystick Name: %s\n", SDL_JoystickName(i));
+        //printf("    Joystick Name: %s\n", SDL_GameControllerNameForIndex(i));
         SDL_Joystick* js_test = SDL_JoystickOpen(i);
         if(js_test == NULL)
             printf("    ERROR: SDL was unable to open joystick #%d!\n", i);
@@ -211,8 +214,7 @@ bool PrintSystemInformation()
     // TODO: print the OpenGL version number here
 
     printf("SDL_ttf version (compiled): %d.%d.%d\n", SDL_TTF_MAJOR_VERSION, SDL_TTF_MINOR_VERSION, SDL_TTF_PATCHLEVEL);
-    // printf("SDL_ttf version (linked):   %d.%d.%d\n", Ttf_Linked_Version()->major, Ttf_Linked_Version()->minor, Ttf_Linked_Version()->patch);
-
+/*
     char video_driver[80];
     SDL_VideoDriverName(video_driver, 80);
     printf("Name of video driver: %s\n", video_driver);
@@ -267,7 +269,7 @@ bool PrintSystemInformation()
         std::cout << "no\n";
     std::cout << "    Total video memory: " << user_video->video_mem << " kilobytes" << std::endl;
     // std::cout << "    Best pixel format: " << user_video->vfmt << std::endl;
-
+*/
     printf("\n===== Audio Information\n");
 
     vt_audio::AudioManager = vt_audio::AudioEngine::SingletonCreate();

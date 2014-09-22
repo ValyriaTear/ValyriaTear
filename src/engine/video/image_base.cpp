@@ -62,15 +62,13 @@ bool ImageMemory::LoadImage(const std::string &filename)
         pixels = NULL;
     }
 
-    SDL_Surface *temp_surf = NULL;
-    SDL_Surface *alpha_surf = NULL;
-
-    if((temp_surf = IMG_Load(filename.c_str())) == NULL) {
+    SDL_Surface* temp_surf = IMG_Load(filename.c_str());
+    if(temp_surf == NULL) {
         PRINT_ERROR << "Couldn't load image file: " << filename << std::endl;
         return false;
     }
 
-    alpha_surf = SDL_DisplayFormatAlpha(temp_surf);
+    SDL_Surface* alpha_surf = SDL_ConvertSurfaceFormat(temp_surf, SDL_PIXELFORMAT_ARGB8888, 0);
 
     // Tells whether the alpha image will be used
     bool alpha_format = true;
@@ -80,6 +78,7 @@ bool ImageMemory::LoadImage(const std::string &filename)
         alpha_format = false;
     } else {
         SDL_FreeSurface(temp_surf);
+        temp_surf = NULL;
     }
 
     // Now allocate the pixel values
@@ -109,10 +108,8 @@ bool ImageMemory::LoadImage(const std::string &filename)
                 dst_pixel[3] = img_pixel[3];
             }
 #else
-            if(alpha_format) {
-
+            if(alpha_format) { // ARGB8888
 #ifdef __APPLE__
-
                 dst_pixel[3] = img_pixel[0];
                 dst_pixel[0] = img_pixel[1];
                 dst_pixel[1] = img_pixel[2];

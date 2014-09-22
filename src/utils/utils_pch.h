@@ -148,9 +148,9 @@ extern "C" {
 // We include SDL_config.h, which compensates for non ISO C99 compilers.
 // SDL_config.h defines the int??_t types for non ISO C99 compilers,
 // and defines HAVE_STDINT_H for compliant compilers
-#include <SDL/SDL.h>
-#include <SDL/SDL_config.h>
-#include <SDL/SDL_endian.h>
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_config.h>
+#include <SDL2/SDL_endian.h>
 #include <SDL_image.h>
 
 #define NO_THREADS 0
@@ -161,8 +161,8 @@ extern "C" {
 #define THREAD_TYPE SDL_THREADS
 
 #if (THREAD_TYPE == SDL_THREADS)
-#   include <SDL/SDL_thread.h>
-#   include <SDL/SDL_mutex.h>
+#   include <SDL2/SDL_thread.h>
+#   include <SDL2/SDL_mutex.h>
     typedef SDL_Thread Thread;
     typedef SDL_sem Semaphore;
 #else
@@ -173,7 +173,7 @@ extern "C" {
 #ifdef __APPLE__
 #   include <SDL_ttf/SDL_ttf.h>
 #else
-#   include <SDL/SDL_ttf.h>
+#   include <SDL2/SDL_ttf.h>
 #endif
 
 #include <vorbis/vorbisfile.h>
