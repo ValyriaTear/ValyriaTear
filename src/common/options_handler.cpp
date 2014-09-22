@@ -1121,47 +1121,47 @@ void GameOptionsMenuHandler::_RedefinePauseKey()
     _ShowMessageWindow(false);
 }
 
-void GameOptionsMenuHandler::_SetUpKey(const SDLKey &key)
+void GameOptionsMenuHandler::_SetUpKey(const SDL_Keycode &key)
 {
     InputManager->SetUpKey(key);
 }
 
-void GameOptionsMenuHandler::_SetDownKey(const SDLKey &key)
+void GameOptionsMenuHandler::_SetDownKey(const SDL_Keycode &key)
 {
     InputManager->SetDownKey(key);
 }
 
-void GameOptionsMenuHandler::_SetLeftKey(const SDLKey &key)
+void GameOptionsMenuHandler::_SetLeftKey(const SDL_Keycode &key)
 {
     InputManager->SetLeftKey(key);
 }
 
-void GameOptionsMenuHandler::_SetRightKey(const SDLKey &key)
+void GameOptionsMenuHandler::_SetRightKey(const SDL_Keycode &key)
 {
     InputManager->SetRightKey(key);
 }
 
-void GameOptionsMenuHandler::_SetConfirmKey(const SDLKey &key)
+void GameOptionsMenuHandler::_SetConfirmKey(const SDL_Keycode &key)
 {
     InputManager->SetConfirmKey(key);
 }
 
-void GameOptionsMenuHandler::_SetCancelKey(const SDLKey &key)
+void GameOptionsMenuHandler::_SetCancelKey(const SDL_Keycode &key)
 {
     InputManager->SetCancelKey(key);
 }
 
-void GameOptionsMenuHandler::_SetMenuKey(const SDLKey &key)
+void GameOptionsMenuHandler::_SetMenuKey(const SDL_Keycode &key)
 {
     InputManager->SetMenuKey(key);
 }
 
-void GameOptionsMenuHandler::_SetMinimapKey(const SDLKey &key)
+void GameOptionsMenuHandler::_SetMinimapKey(const SDL_Keycode &key)
 {
     InputManager->SetMinimapKey(key);
 }
 
-void GameOptionsMenuHandler::_SetPauseKey(const SDLKey &key)
+void GameOptionsMenuHandler::_SetPauseKey(const SDL_Keycode &key)
 {
     InputManager->SetPauseKey(key);
 }

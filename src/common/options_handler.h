@@ -177,7 +177,7 @@ private:
     OptionMenu _joy_settings_menu;
 
     //! \brief A pointer to the function to call when a key has been pressed when we're waiting for one
-    void (GameOptionsMenuHandler::*_key_setting_function)(const SDLKey &);
+    void (GameOptionsMenuHandler::*_key_setting_function)(const SDL_Keycode &);
 
     //! \brief A pointer to the function to call when a joystick button has been pressed when we're waiting for one
     void (GameOptionsMenuHandler::*_joy_setting_function)(uint8 button);
@@ -309,15 +309,15 @@ private:
     *** pointers directly access the InputManager caused heap corruption.
     **/
     //@{
-    void _SetUpKey(const SDLKey &key);
-    void _SetDownKey(const SDLKey &key);
-    void _SetLeftKey(const SDLKey &key);
-    void _SetRightKey(const SDLKey &key);
-    void _SetConfirmKey(const SDLKey &key);
-    void _SetCancelKey(const SDLKey &key);
-    void _SetMenuKey(const SDLKey &key);
-    void _SetMinimapKey(const SDLKey &key);
-    void _SetPauseKey(const SDLKey &key);
+    void _SetUpKey(const SDL_Keycode &key);
+    void _SetDownKey(const SDL_Keycode &key);
+    void _SetLeftKey(const SDL_Keycode &key);
+    void _SetRightKey(const SDL_Keycode &key);
+    void _SetConfirmKey(const SDL_Keycode &key);
+    void _SetCancelKey(const SDL_Keycode &key);
+    void _SetMenuKey(const SDL_Keycode &key);
+    void _SetMinimapKey(const SDL_Keycode &key);
+    void _SetPauseKey(const SDL_Keycode &key);
     //@}
 
     //! \brief Redefines a joystick command to be mapped to another axis/button
