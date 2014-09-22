@@ -131,15 +131,15 @@ bool LoadSettings()
         return false;
     }
 
-    InputManager->SetUpKey(static_cast<SDLKey>(settings.ReadInt("up")));
-    InputManager->SetDownKey(static_cast<SDLKey>(settings.ReadInt("down")));
-    InputManager->SetLeftKey(static_cast<SDLKey>(settings.ReadInt("left")));
-    InputManager->SetRightKey(static_cast<SDLKey>(settings.ReadInt("right")));
-    InputManager->SetConfirmKey(static_cast<SDLKey>(settings.ReadInt("confirm")));
-    InputManager->SetCancelKey(static_cast<SDLKey>(settings.ReadInt("cancel")));
-    InputManager->SetMenuKey(static_cast<SDLKey>(settings.ReadInt("menu")));
-    InputManager->SetMinimapKey(static_cast<SDLKey>(settings.ReadInt("minimap")));
-    InputManager->SetPauseKey(static_cast<SDLKey>(settings.ReadInt("pause")));
+    InputManager->SetUpKey(static_cast<SDL_Keycode>(settings.ReadInt("up")));
+    InputManager->SetDownKey(static_cast<SDL_Keycode>(settings.ReadInt("down")));
+    InputManager->SetLeftKey(static_cast<SDL_Keycode>(settings.ReadInt("left")));
+    InputManager->SetRightKey(static_cast<SDL_Keycode>(settings.ReadInt("right")));
+    InputManager->SetConfirmKey(static_cast<SDL_Keycode>(settings.ReadInt("confirm")));
+    InputManager->SetCancelKey(static_cast<SDL_Keycode>(settings.ReadInt("cancel")));
+    InputManager->SetMenuKey(static_cast<SDL_Keycode>(settings.ReadInt("menu")));
+    InputManager->SetMinimapKey(static_cast<SDL_Keycode>(settings.ReadInt("minimap")));
+    InputManager->SetPauseKey(static_cast<SDL_Keycode>(settings.ReadInt("pause")));
     settings.CloseTable(); // key_settings
 
     if (!settings.OpenTable("joystick_settings")) {
@@ -185,7 +185,7 @@ bool LoadSettings()
     // Load video settings
     int32 resx = settings.ReadInt("screen_resx");
     int32 resy = settings.ReadInt("screen_resy");
-    VideoManager->SetInitialResolution(resx, resy);
+    VideoManager->SetResolution(resx, resy);
     VideoManager->SetFullscreen(settings.ReadBool("full_screen"));
     GUIManager->SetUserMenuSkin(settings.ReadString("ui_theme"));
     settings.CloseTable(); // video_settings
@@ -375,10 +375,6 @@ void InitializeEngine() throw(Exception)
         throw Exception("ERROR: unable to initialize ModeManager", __FILE__, __LINE__, __FUNCTION__);
     }
 
-    // Set the window icon
-    // NOTE: Seems to be working only under WinXP for now.
-    SDL_WM_SetIcon(IMG_Load("img/logos/program_icon.png"), NULL);
-
     // Load all the settings from lua. This includes some engine configuration settings.
     if(!LoadSettings())
         throw Exception("ERROR: Unable to load settings file", __FILE__, __LINE__, __FUNCTION__);
@@ -389,8 +385,6 @@ void InitializeEngine() throw(Exception)
     // Apply engine configuration settings with delayed initialization calls to the managers
     InputManager->InitializeJoysticks();
 
-    if(VideoManager->ApplySettings() == false)
-        throw Exception("ERROR: Unable to apply video settings", __FILE__, __LINE__, __FUNCTION__);
     if(VideoManager->FinalizeInitialization() == false)
         throw Exception("ERROR: Unable to apply video settings", __FILE__, __LINE__, __FUNCTION__);
 
@@ -407,21 +401,14 @@ void InitializeEngine() throw(Exception)
     // Loads potential emotes
     GlobalManager->LoadEmotes("dat/effects/emotes.lua");
 
-    // Set the window title and icon name
-    SDL_WM_SetCaption(APPFULLNAME, APPFULLNAME);
-
     // Hide the mouse cursor since we don't use or acknowledge mouse input from the user
     SDL_ShowCursor(SDL_DISABLE);
-
-    // Enabled for multilingual keyboard support
-    SDL_EnableUNICODE(1);
 
     // Ignore the events that we don't care about so they never appear in the event queue
     SDL_EventState(SDL_MOUSEMOTION, SDL_IGNORE);
     SDL_EventState(SDL_MOUSEBUTTONDOWN, SDL_IGNORE);
     SDL_EventState(SDL_MOUSEBUTTONUP, SDL_IGNORE);
     SDL_EventState(SDL_SYSWMEVENT, SDL_IGNORE);
-    SDL_EventState(SDL_VIDEOEXPOSE, SDL_IGNORE);
     SDL_EventState(SDL_USEREVENT, SDL_IGNORE);
 
     if(GUIManager->SingletonInitialize() == false) {
@@ -444,6 +431,41 @@ int main(int argc, char *argv[])
     // When the program exits, the QuitApp() function will be called first, followed by SDL_Quit()
     atexit(SDL_Quit);
     atexit(QuitApp);
+
+    if(SDL_InitSubSystem(SDL_INIT_VIDEO) < 0) {
+        PRINT_ERROR << "SDL video initialization failed" << std::endl;
+        return false;
+    }
+
+    // TODO: Translate the windows name
+    SDL_Window *sdl_window = SDL_CreateWindow(APPFULLNAME,
+                         SDL_WINDOWPOS_CENTERED,
+                         SDL_WINDOWPOS_CENTERED,
+                         800, 600, // default size
+                         SDL_WINDOW_OPENGL);
+    if (!sdl_window)
+        return false;
+
+    // Set the window icon
+    SDL_Surface* icon = IMG_Load("img/logos/program_icon.png");
+    if (icon) {
+        SDL_SetWindowIcon(sdl_window, icon);
+        // ...and the surface containing the icon pixel data is no longer required.
+        SDL_FreeSurface(icon);
+    }
+
+    // Create an OpenGL context associated with the window.
+    SDL_GLContext glcontext = SDL_GL_CreateContext(sdl_window);
+
+    SDL_GL_SetAttribute(SDL_GL_RED_SIZE, 8);
+    SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE, 8);
+    SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE, 8);
+    SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 16);
+    SDL_GL_SetAttribute(SDL_GL_ALPHA_SIZE, 8);
+    SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
+    SDL_GL_SetAttribute(SDL_GL_MULTISAMPLEBUFFERS, 2);
+    SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, 4);
+    SDL_GL_SetSwapInterval(1);
 
     try {
         // Change to the directory where the game data is stored
@@ -484,10 +506,14 @@ int main(int argc, char *argv[])
 #ifdef WIN32
         MessageBox(NULL, e.ToString().c_str(), "Unhandled exception", MB_OK | MB_ICONERROR);
 #else
-        std::cerr << e.ToString() << std::endl;
+        PRINT_ERROR << e.ToString() << std::endl;
 #endif
         return EXIT_FAILURE;
     }
+
+    // Set the window handle, apply actual screen resolution
+    VideoManager->SetWindowHandle(sdl_window);
+    VideoManager->ApplySettings();
 
     ModeManager->Push(new BootMode(), false, true);
 
@@ -506,7 +532,7 @@ int main(int argc, char *argv[])
             VideoManager->DrawDebugInfo();
 
             // Swap the buffers once the draw operations are done.
-            SDL_GL_SwapBuffers();
+            SDL_GL_SwapWindow(sdl_window);
 
             // Update timers for correct time-based movement operation
             SystemManager->UpdateTimers();
@@ -532,6 +558,12 @@ int main(int argc, char *argv[])
 #endif
         return EXIT_FAILURE;
     }
+
+    // Once finished with OpenGL functions, the SDL_GLContext can be deleted.
+    SDL_GL_DeleteContext(glcontext);
+
+    // Close and destroy the window
+    SDL_DestroyWindow(sdl_window);
 
     return EXIT_SUCCESS;
 } // int main(int argc, char *argv[])

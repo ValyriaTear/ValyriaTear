@@ -40,26 +40,26 @@ namespace private_input
 /** ***************************************************************************
 *** \brief Retains information about the user-defined key settings.
 ***
-*** This class is simply a container for various SDLKey structures that represent
+*** This class is simply a container for various SDL_Keycode structures that represent
 *** the game's input keys.
 *** **************************************************************************/
 class KeyState
 {
 public:
-    /** \name Generic key names
+    /** \name Generic key code names (layout-dependant, not scancodes)
     *** \brief Each member holds the actual keyboard key that corresponds to the named key event.
     *** \note that SDLK_ESCAPE and SDLK_F1 are reserved for Quit, and Help.
     **/
     //@{
-    SDLKey up;
-    SDLKey down;
-    SDLKey left;
-    SDLKey right;
-    SDLKey confirm;
-    SDLKey cancel;
-    SDLKey menu;
-    SDLKey minimap;
-    SDLKey pause;
+    SDL_Keycode up;
+    SDL_Keycode down;
+    SDL_Keycode left;
+    SDL_Keycode right;
+    SDL_Keycode confirm;
+    SDL_Keycode cancel;
+    SDL_Keycode menu;
+    SDL_Keycode minimap;
+    SDL_Keycode pause;
     //@}
 }; // class KeyState
 
@@ -265,7 +265,7 @@ private:
     *** \param old_key key to be replaced (_key.up for example)
     *** \param new_key key to replace the old value
     **/
-    void _SetNewKey(SDLKey &old_key, SDLKey new_key);
+    void _SetNewKey(SDL_Keycode &old_key, SDL_Keycode new_key);
 
     /** \brief Sets a new joystick button over an older one. If the same button is used elsewhere, the older one is removed
     *** \param old_button to be replaced (_joystick.confirm for example)
@@ -583,39 +583,39 @@ public:
     *** \param key New key for the action
     **/
     //@{
-    void SetUpKey(const SDLKey &key) {
+    void SetUpKey(const SDL_Keycode &key) {
         _SetNewKey(_key.up, key);
     }
 
-    void SetDownKey(const SDLKey &key) {
+    void SetDownKey(const SDL_Keycode &key) {
         _SetNewKey(_key.down, key);
     }
 
-    void SetLeftKey(const SDLKey &key) {
+    void SetLeftKey(const SDL_Keycode &key) {
         _SetNewKey(_key.left, key);
     }
 
-    void SetRightKey(const SDLKey &key) {
+    void SetRightKey(const SDL_Keycode &key) {
         _SetNewKey(_key.right, key);
     }
 
-    void SetConfirmKey(const SDLKey &key) {
+    void SetConfirmKey(const SDL_Keycode &key) {
         _SetNewKey(_key.confirm, key);
     }
 
-    void SetCancelKey(const SDLKey &key) {
+    void SetCancelKey(const SDL_Keycode &key) {
         _SetNewKey(_key.cancel, key);
     }
 
-    void SetMenuKey(const SDLKey &key) {
+    void SetMenuKey(const SDL_Keycode &key) {
         _SetNewKey(_key.menu, key);
     }
 
-    void SetMinimapKey(const SDLKey &key) {
+    void SetMinimapKey(const SDL_Keycode &key) {
         _SetNewKey(_key.minimap, key);
     }
 
-    void SetPauseKey(const SDLKey &key) {
+    void SetPauseKey(const SDL_Keycode &key) {
         _SetNewKey(_key.pause, key);
     }
     //@}

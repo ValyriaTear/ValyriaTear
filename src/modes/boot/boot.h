@@ -167,7 +167,6 @@ private:
 
     //! \brief Tests whether the language selection and the welcome help window should be shown.
     void _ShowLanguageSelectionWindow();
-
 }; // class BootMode : public vt_mode_manager::GameMode
 
 } // namespace vt_boot

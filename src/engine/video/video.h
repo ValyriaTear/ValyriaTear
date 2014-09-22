@@ -159,11 +159,11 @@ public:
     /** \brief Initialzies all video engine libraries and sub-systems
     *** \return True if all initializations were successful, false if there was an error.
     **/
-    bool SingletonInitialize();
+    bool SingletonInitialize()
+    { return true; }
 
     //! \brief Delayed setup calls, that require data from the settings file.
     //@{
-    void SetInitialResolution(int32 width, int32 height);
     bool FinalizeInitialization();
     //@}
 
@@ -643,6 +643,12 @@ public:
     void ToggleFPS() {
         _fps_display = !_fps_display;
     }
+
+    void SetWindowHandle(SDL_Window* window)
+    { _sdl_window = window; }
+
+    SDL_Window* GetWindowHandle()
+    { return _sdl_window; }
 private:
     VideoEngine();
 
@@ -659,6 +665,9 @@ private:
     }
 
     //-- Private variables ----------------------------------------------------
+
+    // The SDL2 Window handle
+    SDL_Window* _sdl_window;
 
     //! fps display flag. If true, FPS is displayed
     bool _fps_display;
