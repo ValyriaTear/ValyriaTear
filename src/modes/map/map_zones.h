@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 //            Copyright (C) 2004-2011 by The Allacrost Project
-//            Copyright (C) 2012-2013 by Bertram (Valyria Tear)
+//            Copyright (C) 2012-2014 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -288,22 +288,12 @@ public:
         return _roaming_restrained;
     }
 
-    //! \brief Tells whether the monster is allowed to get out of the spawning zone while chasing a character.
-    bool IsAgressionRestrainedtoRoamingZone() const {
-        return _agression_roaming_restrained;
-    }
-
     uint32 GetSpawnTime() const {
         return _spawn_timer.GetDuration();
     }
 
     void SetRoamingRestrained(bool restrain) {
         _roaming_restrained = restrain;
-    }
-
-    //! \brief Sets whether the monster is allowed to get out of the spawning zone while chasing a character.
-    void SetAgressionRestrainedtoRoamingZone(bool restrain) {
-        _agression_roaming_restrained = restrain;
     }
 
     //! \note Calling this function will reset the elapsed spawn time
@@ -333,10 +323,6 @@ private:
     //! \brief If true, enemies of this zone are not allowed
     //! to roam outside of the zone boundaries
     bool _roaming_restrained;
-
-    //! \brief If true, enemies of this zone are not allowed
-    //! to roam outside of the zone boundaries while chasing a character
-    bool _agression_roaming_restrained;
 
     //! \brief The number of enemies that are currently not in the DEAD state
     uint8 _active_enemies;

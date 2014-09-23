@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 //            Copyright (C) 2004-2011 by The Allacrost Project
-//            Copyright (C) 2012-2013 by Bertram (Valyria Tear)
+//            Copyright (C) 2012-2014 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -232,9 +232,6 @@ protected:
 
 /** ****************************************************************************
 *** \brief An event that creates an instance of ShopMode when started
-***
-*** \todo Several future shop mode features will likely need to be added to this
-*** class. This includes limited availability of objects, market pricing, etc.
 *** ***************************************************************************/
 class ShopEvent : public MapEvent
 {
@@ -243,15 +240,31 @@ public:
     ShopEvent(const std::string &event_id):
         MapEvent(event_id, SHOP_EVENT),
         _buy_level(vt_shop::SHOP_PRICE_STANDARD),
-        _sell_level(vt_shop::SHOP_PRICE_STANDARD)
+        _sell_level(vt_shop::SHOP_PRICE_STANDARD),
+        _enable_sell_mode(true)
     {}
 
     ~ShopEvent()
     {}
 
-    /** \brief Adds an object to the list of objects for sale
-    *** \param object_id The ID of the GlobalObject to make available for purchase
-    *** \param stock The amount of the object to make available for purchase
+    //! \brief Set the Shop name
+    void SetShopName(const vt_utils::ustring& shop_name) {
+        _shop_name = shop_name;
+    }
+
+    //! \brief Set the Shop greetings text
+    void SetGreetingText(const vt_utils::ustring& greeting_text) {
+        _greeting_text = greeting_text;
+    }
+
+    void SetSellModeEnabled(bool sell_mode_enabled) {
+        _enable_sell_mode = sell_mode_enabled;
+    }
+
+    /** \brief Adds an object to the list of objects for sale.
+    *** \param object_id The ID of the GlobalObject to make available for purchase.
+    *** \param stock The amount of the object to make available for purchase.
+    *** If set to 0, the number of objects is infinite.
     *** \note All wares must be added before the _Start() method is called to ensure
     *** that the wares actually appear in shop mode.
     **/
@@ -259,9 +272,10 @@ public:
         _objects.insert(std::make_pair(object_id, stock));
     }
 
-    /** \brief Adds an object to the list of objects for sale
-    *** \param object_id The ID of the GlobalObject to make available for purchase
-    *** \param stock The amount of the object to make available for purchase
+    /** \brief Adds an object to the list of objects for sale.
+    *** \param object_id The ID of the GlobalObject to make available for purchase.
+    *** \param stock The amount of the object to make available for purchase.
+    *** If set to 0, the number of objects is infinite.
     *** \note All wares must be added before the _Start() method is called to ensure
     *** that the wares actually appear in shop mode.
     **/
@@ -286,6 +300,13 @@ protected:
     //! \brief The Shop quality levels. The more the level is, the worse it is for the player.
     vt_shop::SHOP_PRICE_LEVEL _buy_level;
     vt_shop::SHOP_PRICE_LEVEL _sell_level;
+
+    //! \brief Optional custom shop name and greeting text.
+    vt_utils::ustring _shop_name;
+    vt_utils::ustring _greeting_text;
+
+    //! \brief Tells whether the sell mode can be enabled
+    bool _enable_sell_mode;
 
     //! \brief Creates an instance of ShopMode and pushes it to the game mode stack
     void _Start();

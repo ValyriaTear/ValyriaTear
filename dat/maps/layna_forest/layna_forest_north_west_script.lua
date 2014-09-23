@@ -55,7 +55,7 @@ function Load(m)
     _CreateZones();
 
     -- Add clouds overlay
-    Map:GetEffectSupervisor():EnableAmbientOverlay("img/ambient/clouds.png", 5.0, 5.0, true);
+    Map:GetEffectSupervisor():EnableAmbientOverlay("img/ambient/clouds.png", 5.0, -5.0, true);
 
     _HandleTwilight();
 end
@@ -1039,7 +1039,7 @@ function _CreateEvents()
     dialogue = vt_map.SpriteDialogue();
     text = vt_system.Translate("Orlinn, stop it RIGHT NOW!!");
     dialogue:AddLineEmote(text, kalya_sprite, "exclamation");
-    text = vt_system.Translate("I can't sis. I can feel it... calling me...");
+    text = vt_system.Translate("I can't sis... I can feel it... calling me...");
     dialogue:AddLine(text, orlinn);
     DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Kalya tries to discuss with Orlinn", dialogue);
@@ -1085,9 +1085,9 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
 
     dialogue = vt_map.SpriteDialogue();
-    text = vt_system.Translate("Great! The tremor has just opened a path.");
+    text = vt_system.Translate("Great! The tremor has opened a path back to the village!");
     dialogue:AddLine(text, hero);
-    text = vt_system.Translate("We can easily return to the village from there.");
+    text = vt_system.Translate("Now we can get back to the village more quickly.");
     dialogue:AddLine(text, hero);
     DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("The Hero sees the created shortcut", dialogue);
@@ -1118,7 +1118,7 @@ function _CreateEvents()
     dialogue = vt_map.SpriteDialogue();
     text = vt_system.Translate("We're almost there!");
     dialogue:AddLine(text, orlinn);
-    text = vt_system.Translate("Say Sister, do you think Herth will be angry with me for what happened?");
+    text = vt_system.Translate("Say sis, do you think Herth will be angry at me for what happened?");
     dialogue:AddLineEventEmote(text, orlinn, "Orlinn looks at Kalya", "", "sweat drop");
     text = vt_system.Translate("I don't think so, Orlinn. We both know you didn't do it on purpose, right?");
     dialogue:AddLine(text, kalya_sprite);
@@ -1274,7 +1274,7 @@ map_functions = {
 
         move_next_to_hero_event:SetDestination(hero:GetXPosition() + 2.0, hero:GetYPosition(), false);
 
-        AudioManager:FadeOutAllMusic(1000);
+        AudioManager:FadeOutActiveMusic(1000);
     end,
 
     end_of_dialogue_with_orlinn = function()
@@ -1286,7 +1286,7 @@ map_functions = {
         -- Reload the hero back to default
         hero:ReloadSprite(main_sprite_name);
 
-        AudioManager:FadeInAllMusic(1000);
+        AudioManager:FadeInActiveMusic(1000);
 
         -- Set event as done
         GlobalManager:SetEventValue("story", "layna_forest_kalya sees_orlinn", 1);

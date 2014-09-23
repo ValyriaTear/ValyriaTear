@@ -54,8 +54,18 @@ emotes = {
          [ANIM_NORTH] = { x = 0, y = 0 },
          [ANIM_WEST] =  { x = 0, y = 0 },
          [ANIM_EAST] =  { x = 0, y = 0 }
-    }
-    --["cruciform popping veins"] = "img/effects/emotes/cruciform_veins.lua",
+    },
+
+    ["popping veins"] =  {
+        animation = "img/effects/emotes/popping_veins.lua",
+         -- emote sprite head offsets in pixels
+         [ANIM_SOUTH] = { x = 7, y = 25 },
+         [ANIM_NORTH] = { x = 7, y = 25 },
+         [ANIM_WEST] =  { x = 3, y = 25 },
+         [ANIM_EAST] =  { x = 7, y = 25 }
+
+    },
+
     --["dizzy spirals"] = "img/effects/emotes/dizzy_spirals.lua",
     --["sigh breath"] = "img/emotes/sigh_breath.lua",
     --["black steam of anger"] = "img/emotes/black_steam.lua"

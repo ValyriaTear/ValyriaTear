@@ -60,7 +60,7 @@ function Load(m)
     _CreateZones();
 
     -- Add clouds overlay
-    Map:GetEffectSupervisor():EnableAmbientOverlay("img/ambient/clouds.png", 5.0, 5.0, true);
+    Map:GetEffectSupervisor():EnableAmbientOverlay("img/ambient/clouds.png", 5.0, -5.0, true);
     Map:GetScriptSupervisor():AddScript("dat/maps/common/at_night.lua");
 
     -- Enables thunder
@@ -90,9 +90,6 @@ function Load(m)
         _OpenNorthGate();
         harlequin_battle_done = true;
     end
-
-    -- TEMP: To be continued script
-    Map:GetScriptSupervisor():AddScript("dat/maps/to_be_continued_anim.lua");
 
 end
 
@@ -202,18 +199,16 @@ function _CreateObjects()
     Map:AddGroundObject(heal_effect);
 
     -- Heal point
-    npc = CreateSprite(Map, "Butterfly", 60, 70);
-    npc:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
-    npc:SetVisible(false);
-    npc:SetName(""); -- Unset the speaker name
-    Map:AddGroundObject(npc);
+    object = CreateObject(Map, "Layna Statue", 60, 70);
+    object:SetEventWhenTalking("Heal dialogue");
+    Map:AddGroundObject(object);
+
     dialogue = vt_map.SpriteDialogue();
     text = vt_system.Translate("Your party feels better...");
-    dialogue:AddLineEvent(text, npc, "Heal event", "");
+    dialogue:AddLineEvent(text, 0, "Heal event", ""); -- 0 means no portrait and no name
     DialogueManager:AddDialogue(dialogue);
-    npc:AddDialogueReference(dialogue);
-    npc = CreateObject(Map, "Layna Statue", 60, 70);
-    Map:AddGroundObject(npc);
+    event = vt_map.DialogueEvent("Heal dialogue", dialogue);
+    EventManager:RegisterEvent(event);
 
     -- Cemetery gates
     north_gate_closed = CreateObject(Map, "Gate1 closed", 51, 16);
@@ -277,6 +272,7 @@ function _CreateObjects()
     EventManager:RegisterEvent(event);
 
     event = vt_map.BattleEncounterEvent("Fake Harlequin battle");
+    event:SetBoss(true);
     event:AddEnemy(13, 512, 484); -- Harlequin?
     event:AddEnemy(12, 470, 384); -- Eyeballs
     event:AddEnemy(12, 380, 500); -- Eyeballs
@@ -554,10 +550,6 @@ function _CreateEvents()
                                        "dat/maps/mt_elbrus/mt_elbrus_path4_script.lua", "from_path3");
     EventManager:RegisterEvent(event);
 
-    -- NOTE temp event until what's next is done
-    event = vt_map.ScriptedEvent("to be continued", "to_be_continued", "");
-    EventManager:RegisterEvent(event);
-
     -- Heal point
     event = vt_map.ScriptedEvent("Heal event", "heal_party", "heal_done");
     EventManager:RegisterEvent(event);
@@ -605,11 +597,11 @@ function _CreateEvents()
     EventManager:RegisterEvent(orlinn_move_next_to_hero_event1);
 
     dialogue = vt_map.SpriteDialogue();
-    text = vt_system.Translate("This place is the village old cemetery, used when the former villagers lived in Layna...");
+    text = vt_system.Translate("This place is the village's old cemetery, used when the former villagers lived in Layna...");
     dialogue:AddLine(text, kalya);
     text = vt_system.Translate("The former villagers? What do you mean?");
     dialogue:AddLineEmote(text, hero, "exclamation");
-    text = vt_system.Translate("Well, the Layna Village was abandoned a long time ago, before your parents and all the others came living there... Your mother never told you that?");
+    text = vt_system.Translate("Well, Layna Village was abandoned a long time ago, before your parents and all the others settled here... Your mother never told you that?");
     dialogue:AddLineEventEmote(text, kalya, "Kalya looks at Bronann", "", "thinking dots");
     text = vt_system.Translate("I've never been further alone before... This place gives me the chill...");
     dialogue:AddLineEvent(text, kalya, "Kalya looks north", "");
@@ -671,7 +663,7 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
 
     dialogue = vt_map.SpriteDialogue();
-    text = vt_system.Translate("The west gates are condemned, as the Lord commanded.");
+    text = vt_system.Translate("The west gate is condemned, as the Lord commanded.");
     dialogue:AddLine(text, soldier1);
     text = vt_system.Translate("Fine. Let's go back and wait for them.");
     dialogue:AddLine(text, soldier3);
@@ -775,7 +767,7 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
 
     dialogue = vt_map.SpriteDialogue();
-    text = vt_system.Translate("I shall bring your spirits to the Master. You can't stand a chance in front of the Great Harlequin...");
+    text = vt_system.Translate("I shall bring your souls to the Master. You don't stand a chance against the Great Harlequin...");
     dialogue:AddLineEvent(text, harlequin_focus, "", "Set Harlequin actual name");
     text = vt_system.Translate("But let's play together first, shall we?");
     dialogue:AddLine(text, harlequin_focus);
@@ -880,8 +872,7 @@ end
 function _CheckZones()
     if (to_path4_zone:IsCameraEntering() == true) then
         hero:SetMoving(false);
-        --EventManager:StartEvent("to mountain path 4");
-        EventManager:StartEvent("to be continued");
+        EventManager:StartEvent("to mountain path 4");
     elseif (to_path2_zone:IsCameraEntering() == true) then
         hero:SetMoving(false);
         EventManager:StartEvent("to mountain path 2");
@@ -1125,7 +1116,7 @@ map_functions = {
     -- ---------------------------------
     hero_exclamation = function()
         hero:Emote("exclamation", hero:GetDirection());
-        AudioManager:FadeOutAllMusic(1000);
+        AudioManager:FadeOutActiveMusic(1000);
     end,
 
     set_focus_on_harlequin = function()
@@ -1287,10 +1278,4 @@ map_functions = {
         GlobalManager:SetEventValue("story", "mt_elbrus_cemetery_fight_done", 1);
         harlequin_battle_done = true;
     end,
-
-    to_be_continued = function()
-        Map:PushState(vt_map.MapMode.STATE_SCENE);
-        hero:SetMoving(false);
-        GlobalManager:SetEventValue("game", "to_be_continued", 1);
-    end
 }

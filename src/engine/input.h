@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 //            Copyright (C) 2004-2011 by The Allacrost Project
-//            Copyright (C) 2012-2013 by Bertram (Valyria Tear)
+//            Copyright (C) 2012-2014 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -40,7 +40,7 @@ namespace private_input
 /** ***************************************************************************
 *** \brief Retains information about the user-defined key settings.
 ***
-*** This class is simply a container for various SDLKey structures that represent
+*** This class is simply a container for various SDL_Keycode structures that represent
 *** the game's input keys.
 *** **************************************************************************/
 class KeyState
@@ -93,6 +93,7 @@ public:
     uint8 menu;
     uint8 minimap;
     uint8 pause;
+    uint8 help;
     uint8 quit;
     //@}
 
@@ -174,11 +175,17 @@ private:
     //! Is useful on certain OS where other inputs are falsely taken as joysticks ones.
     bool _joysticks_enabled;
 
-    //! Any key (or joystick button) pressed
-    bool _any_key_press;
+    //! Any registered key (or joystick button) pressed (one of the key mapped to have an action in game)
+    bool _registered_key_press;
 
-    //! Any key released
-    bool _any_key_release;
+    //! Any registered key (or joystick button) released (one of the key mapped to have an action in game)
+    bool _registered_key_release;
+
+    //! Any keyboard key pressed (registered or not)
+    bool _any_keyboard_key_press;
+
+    //! Any joystick key pressed (registered or not)
+    bool _any_joystick_key_press;
 
     //! Any joystick axis moved
     int8 _last_axis_moved;
@@ -193,6 +200,7 @@ private:
     bool _right_state;
     bool _confirm_state;
     bool _cancel_state;
+    bool _menu_state;
     //@}
 
     /** \name  Input Press Members
@@ -224,6 +232,9 @@ private:
     bool _cancel_release;
     bool _menu_release;
     bool _minimap_release;
+    bool _pause_release;
+    bool _quit_release;
+    bool _help_release;
     //@}
 
     /** \name  D-Pad/ Hat Input State Members
@@ -283,15 +294,31 @@ public:
     **/
     bool RestoreDefaultJoyButtons();
 
-    /** \brief Checks if any keyboard key or joystick button is pressed
-    *** \return True if any key/button is pressed
+    /** \brief Checks whether any mapped keyboard key or joystick button is pressed.
+    *** A mapped key is a key configured to have an action in game.
+    *** \return True if any of the mapped key/button is pressed.
     **/
-    bool AnyKeyPress();
+    bool AnyRegisteredKeyPress() const
+    { return _registered_key_press; }
 
-    /** \brief Checks if any keyboard key or joystick button is released
+    /** \brief Checks if any mapped keyboard key or joystick button is released
+    *** A mapped key is a key configured to have an action in game.
     *** \return True if any key/button is released
     **/
-    bool AnyKeyRelease();
+    bool AnyRegisteredKeyRelease() const
+    { return _registered_key_release; }
+
+    /** \brief Checks if any keyboard key is pressed (registered or not)
+    *** \return True if any key is pressed
+    **/
+    bool AnyKeyboardKeyPress() const
+    { return _any_keyboard_key_press; }
+
+    /** \brief Checks if any joystick button is pressed (registered or not)
+    *** \return True if any button is pressed
+    **/
+    bool AnyJoystickKeyPress() const
+    { return _any_joystick_key_press; }
 
     /** \brief Returns the last joystick axis that has moved
     *** \return True if any joystick axis has moved
@@ -341,6 +368,10 @@ public:
 
     bool CancelState() const {
         return _cancel_state;
+    }
+
+    bool MenuState() const {
+        return _menu_state;
     }
     //@}
 
@@ -427,6 +458,18 @@ public:
 
     bool MinimapRelease() const {
         return _minimap_release;
+    }
+
+    bool PauseRelease() const {
+        return _pause_release;
+    }
+
+    bool QuitRelease() const {
+        return _quit_release;
+    }
+
+    bool HelpRelease() const {
+        return _help_release;
     }
     //@}
 
@@ -530,6 +573,10 @@ public:
     int32 GetQuitJoy() const {
         return _joystick.quit;
     }
+
+    int32 GetHelpJoy() const {
+        return _joystick.help;
+    }
     //@}
 
     /** \name Key re-mapping functions
@@ -610,6 +657,10 @@ public:
 
     void SetQuitJoy(uint8 button) {
         _SetNewJoyButton(_joystick.quit, button);
+    }
+
+    void SetHelpJoy(uint8 button) {
+        _SetNewJoyButton(_joystick.help, button);
     }
 
     void SetXAxisJoy(int8 axis) {

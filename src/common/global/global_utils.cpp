@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 //            Copyright (C) 2004-2011 by The Allacrost Project
-//            Copyright (C) 2012-2013 by Bertram (Valyria Tear)
+//            Copyright (C) 2012-2014 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -272,11 +272,23 @@ void GlobalMedia::Initialize()
     if (!_clock_icon.Load("img/menus/clock.png"))
         PRINT_WARNING << "Failed to load clock icon image" << std::endl;
 
+    if(!_stamina_bar_background.Load("img/misc/stamina_bar_background.png", 227, 24))
+        PRINT_WARNING << "Failed to load the the stamina bar background image" << std::endl;
+
+    if(!_stamina_bar.Load("img/misc/stamina_bar_map.png", 200, 9))
+        PRINT_WARNING << "Failed to load the the stamina bar image" << std::endl;
+
+    if(!_stamina_bar_infinite_overlay.Load("img/misc/stamina_bar_infinite_overlay.png", 227, 24))
+        PRINT_WARNING << "Failed to load the the stamina bar infinite overlay image" << std::endl;
+
     if(!vt_video::ImageDescriptor::LoadMultiImageFromElementSize(_status_icons, "img/icons/effects/status.png", 25, 25))
         PRINT_WARNING << "Failed to load status icon images" << std::endl;
 
     if(!vt_video::ImageDescriptor::LoadMultiImageFromElementGrid(_all_category_icons, "img/icons/object_category_icons.png", 3, 3))
         PRINT_WARNING << "Failed to load object category icon images" << std::endl;
+
+    if(!vt_video::ImageDescriptor::LoadMultiImageFromElementGrid(_small_category_icons, "img/misc/category_icons.png", 3, 4))
+        PRINT_WARNING << "Failed to load small object category icon images" << std::endl;
 
     // Load common sounds
     _LoadSoundFile("confirm", "snd/confirm.wav");
@@ -408,6 +420,42 @@ vt_video::StillImage* GlobalMedia::GetItemCategoryIcon(GLOBAL_OBJECT object_type
     }
 
     return &(_all_category_icons[index]);
+}
+
+vt_video::StillImage* GlobalMedia::GetSmallItemCategoryIcon(ITEM_CATEGORY object_category)
+{
+    uint32 index = 0;
+
+    switch(object_category) {
+    case ITEM_LEGS_ARMOR:
+        index = 0;
+        break;
+    case ITEM_ARMS_ARMOR:
+        index = 1;
+        break;
+    case ITEM_WEAPON:
+        index = 2;
+        break;
+    case ITEM_TORSO_ARMOR:
+        index = 3;
+        break;
+    case ITEM_HEAD_ARMOR:
+        index = 4;
+        break;
+    case ITEM_ITEM:
+        index = 8;
+        break;
+    case ITEM_KEY:
+        index = 9;
+        break;
+    case ITEM_ALL:
+        index = 10;
+        break;
+    default:
+        return NULL;
+    }
+
+    return &(_small_category_icons[index]);
 }
 
 void GlobalMedia::PlaySound(const std::string &identifier)

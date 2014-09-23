@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 //            Copyright (C) 2004-2011 by The Allacrost Project
-//            Copyright (C) 2012-2013 by Bertram (Valyria Tear)
+//            Copyright (C) 2012-2014 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -197,16 +197,16 @@ CommonDialogueWindow::CommonDialogueWindow() :
     VideoManager->PushState();
     VideoManager->SetStandardCoordSys();
 
-    _display_textbox.SetDisplaySpeed(30);
+    _display_textbox.SetDisplaySpeed(SystemManager->GetMessageSpeed());
     _display_textbox.SetPosition(260.0f, 596.0f);
-    _display_textbox.SetDimensions(700.0f, 126.0f);
+    _display_textbox.SetDimensions(640.0f, 126.0f);
     _display_textbox.SetTextStyle(TextStyle("text20", Color::black, VIDEO_TEXT_SHADOW_LIGHT));
     _display_textbox.SetDisplayMode(VIDEO_TEXT_FADECHAR);
     _display_textbox.SetAlignment(VIDEO_X_CENTER, VIDEO_Y_CENTER);
     _display_textbox.SetTextAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
 
     _display_optionbox.SetPosition(300.0f, 630.0f);
-    _display_optionbox.SetDimensions(660.0f, 90.0f, 1, 255, 1, 4);
+    _display_optionbox.SetDimensions(640.0f, 90.0f, 1, 255, 1, 4);
     _display_optionbox.SetOptionAlignment(VIDEO_X_LEFT, VIDEO_Y_CENTER);
     _display_optionbox.SetTextStyle(TextStyle("title20", Color::black, VIDEO_TEXT_SHADOW_LIGHT));
     _display_optionbox.SetSelectMode(VIDEO_SELECT_SINGLE);
@@ -225,7 +225,7 @@ void CommonDialogueWindow::SetPosition(float pos_x, float pos_y)
     _pos_x = pos_x;
     _pos_y = pos_y;
 
-    _display_textbox.SetPosition(_pos_x + 120.0f, _pos_y - 90.0f);
+    _display_textbox.SetPosition(_pos_x + 80.0f, _pos_y - 90.0f);
     _display_optionbox.SetPosition(_pos_x - 220.0f, _pos_y - 112.0f);
 }
 

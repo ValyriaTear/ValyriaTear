@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 //            Copyright (C) 2004-2011 by The Allacrost Project
-//            Copyright (C) 2012-2013 by Bertram (Valyria Tear)
+//            Copyright (C) 2012-2014 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -470,6 +470,11 @@ public:
         return _scrolling;
     }
 
+    //! \brief Tells whether the scrolling should be animated.
+    void AnimateScrolling(bool animated) {
+        _scrolling_animated = animated;
+    }
+
     /** \brief Retreives an event that has occurred, or zero if no event occurred.
     *** \return An integer int representing an option box event (i.e. cancel, confirm, left, right, etc.)
     *** \note Calling the Update() method will clear any registered events
@@ -584,6 +589,9 @@ private:
 
     //! \brief Indicates the scrolling direction; 1 for down or -1 for up
     int32 _scroll_direction;
+
+    //! \brief Tells whether the scrolling should be animated.
+    bool _scrolling_animated;
 
     //! \brief The position of the horizontal scroll arrows
     HORIZONTAL_ARROWS_POSITION _horizontal_arrows_position;

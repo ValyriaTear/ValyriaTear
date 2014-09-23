@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 //            Copyright (C) 2004-2011 by The Allacrost Project
-//            Copyright (C) 2012-2013 by Bertram (Valyria Tear)
+//            Copyright (C) 2012-2014 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -279,7 +279,7 @@ void SellInterface::MakeActive()
 {
     Reinitialize();
 
-    if(_list_displays.size() == 0) {
+    if(_list_displays.empty()) {
         ShopMode::CurrentInstance()->ChangeState(SHOP_STATE_ROOT);
         return;
     }
@@ -304,6 +304,7 @@ void SellInterface::Update()
 {
     if(_view_mode == SHOP_VIEW_MODE_LIST) {
         if((InputManager->ConfirmPress()) && (_selected_object != NULL)) {
+            GlobalManager->Media().PlaySound("confirm");
             _ChangeViewMode(SHOP_VIEW_MODE_INFO);
         } else if(InputManager->CancelPress()) {
             ShopMode::CurrentInstance()->ChangeState(SHOP_STATE_ROOT);
@@ -321,12 +322,12 @@ void SellInterface::Update()
         else if(InputManager->UpPress() && (_selected_object != NULL)) {
             if(_ChangeSelection(false) == true) {
                 ShopMode::CurrentInstance()->ObjectViewer()->SetSelectedObject(_selected_object);
-                GlobalManager->Media().PlaySound("confirm");
+                GlobalManager->Media().PlaySound("bump");
             }
         } else if(InputManager->DownPress() && (_selected_object != NULL)) {
             if(_ChangeSelection(true) == true) {
                 ShopMode::CurrentInstance()->ObjectViewer()->SetSelectedObject(_selected_object);
-                GlobalManager->Media().PlaySound("confirm");
+                GlobalManager->Media().PlaySound("bump");
             }
         }
     } // if (_view_mode == SHOP_VIEW_MODE_LIST)

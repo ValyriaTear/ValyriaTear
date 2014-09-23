@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 //            Copyright (C) 2004-2011 by The Allacrost Project
-//            Copyright (C) 2012-2013 by Bertram (Valyria Tear)
+//            Copyright (C) 2012-2014 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -986,6 +986,38 @@ public:
         return _equipment_status_effects;
     }
 
+    //! Gets the currently active status effects on the global actor.
+    const std::vector<ActiveStatusEffect>& GetActiveStatusEffects() const {
+        return _active_status_effects;
+    }
+
+    //! Reset all the active status effects on the global actor.
+    void ResetActiveStatusEffects() {
+        _active_status_effects.clear();
+        _active_status_effects.resize(GLOBAL_STATUS_TOTAL, ActiveStatusEffect());
+    }
+
+    //! Sets the given active status effect state on the global actor.
+    void SetActiveStatusEffect(GLOBAL_STATUS status_effect, GLOBAL_INTENSITY intensity,
+                               uint32 duration, uint32 elapsed_time) {
+        _active_status_effects[status_effect] = ActiveStatusEffect(status_effect, intensity, duration, elapsed_time);
+    }
+
+    //! Sets a newly active status effect on the global actor, but taking in account a possible previous active one.
+    void ApplyActiveStatusEffect(GLOBAL_STATUS status_effect, GLOBAL_INTENSITY intensity,
+                                 uint32 duration);
+
+    //! \brief Tells the intensity of the active status effect currently applied on the character.
+    vt_global::GLOBAL_INTENSITY GetActiveStatusEffectIntensity(vt_global::GLOBAL_STATUS status_effect) const {
+        return _active_status_effects[status_effect].GetIntensity();
+    }
+
+    //! \brief Removes the given status effect.
+    //! \note No scripted function is called.
+    void RemoveActiveStatusEffect(GLOBAL_STATUS status_effect) {
+        _active_status_effects[status_effect] = ActiveStatusEffect();
+    }
+
     uint32 GetHitPointsGrowth() const {
         return _hit_points_growth;
     }
@@ -1143,6 +1175,15 @@ protected:
     **/
     std::vector<GLOBAL_INTENSITY> _equipment_status_effects;
 
+    /** \brief Active status effects currently applied on the character.
+    *** Active status effects are effects not applied through equipment, but rather through
+    *** battle wounds, dungeon trap, potions from the menu, ...
+    *** The given status effect vector is used to store active status effect data and pass it
+    *** between game modes. Each mode is then responsible for properly updating, displaying and applying it.
+    *** The vector is initialized with the size of GLOBAL_STATUS_TOTAL with empty status effects.
+    **/
+    std::vector<ActiveStatusEffect> _active_status_effects;
+
     /** \brief Equips a new armor on the character
     *** \param armor The piece of armor to equip
     *** \param index The index into the _armor_equipped vector where to equip the armor
@@ -1249,18 +1290,6 @@ public:
     virtual ~GlobalEnemy()
     {}
 
-    /** \brief Initializes the enemy and prepares it for battle
-    ***
-    *** This function sets the enemy's experience level, modifies its stats using Guassian
-    *** random values, and constructs the skills that the enemy is capable of using. Call this
-    *** function once only, because after the enemy has skills enabled it will not be able to
-    *** re-initialize. If you need to initialize the enemy once more, you'll have to create a
-    *** brand new GlobalEnemy object and initialize that instead.
-    ***
-    *** \note Certain enemies will skip the stat modification step.
-    **/
-    void Initialize();
-
     /** \brief Enables the enemy to be able to use a specific skill
     *** \param skill_id The integer ID of the skill to add to the enemy
     *** \returns whether the skill was added successfully.
@@ -1348,6 +1377,15 @@ protected:
 
     //! \brief Stores the battle AI script filename used when the enemy is fighting.
     std::string _ai_script_filename;
+
+    /** \brief Initializes the enemy stats and skills
+    ***
+    *** This function sets the enemy's experience level, modifies its stats using Gaussian
+    *** random values, and constructs the skills that the enemy is capable of using.
+    ***
+    *** \note Certain enemies can skip the stat randomization step.
+    **/
+    void _Initialize();
 }; // class GlobalEnemy : public GlobalActor
 
 
@@ -1475,7 +1513,7 @@ public:
     }
 
     bool IsPartyEmpty() const {
-        return (_characters.size() == 0);
+        return _characters.empty();
     }
 
     uint32 GetPartySize() const {

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<application>
+ <id type="desktop">valyriatear.desktop</id>
+ <licence>CC0</licence>
+ <name>Valyria Tear</name>
+ <summary>Valyria Tear</summary>
+ <description>
+ <p>
+  Valyria Tear is an open-source single-player medieval-fantasy 2D J-RPG
+  and inspired by classic console RPGs.
+ </p>
+ <p>
+  The player incarnates Bronann, a young boy forced to take part into the struggle for the possession of a mysterious crystal.
+  This powerful artifact will lead him to discover the actual threat set upon his world, but also courage and love.
+ </p>
+ <p>
+  The game has all the features you can expect from JRPG classics:
+  entertaining story development, colourful map exploration, active side-view battles, character management, puzzles...
+  It is also translated in several languages.
+ </p>
+ </description>
+ <screenshots>
+  <screenshot type="default" width="800" height="600">http://3.bp.blogspot.com/-B_YV6SMCC-0/U-DJPs-zRpI/AAAAAAAAAc0/P2D-0bLy7_M/s1600/screenshot_1.png</screenshot>
+  <screenshot width="800" height="600">http://3.bp.blogspot.com/-rdEj0_q2icw/U-DJn1Ze9uI/AAAAAAAAAc8/ARWZrBCvj9M/s1600/screenshot_2.png</screenshot>
+ </screenshots>
+ <url type="homepage">http://valyriatear.blogspot.com</url>
+ <updatecontact>yohann.ferreira@orange.fr</updatecontact>
+</application>

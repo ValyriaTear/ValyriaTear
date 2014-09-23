@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 //            Copyright (C) 2004-2011 by The Allacrost Project
-//            Copyright (C) 2012-2013 by Bertram (Valyria Tear)
+//            Copyright (C) 2012-2014 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -597,140 +597,139 @@ void Grid::DeleteLayer(uint32 layer_id)
     UpdateScene();
 }
 
-void Grid::InsertRow(uint32 /*tile_index_y*/)
+void Grid::InsertRow(uint32 tile_index_y)
 {
-// See bugs #153 & 154 as to why this function is not implemented for Windows
-// TODO: Check that tile_index is within acceptable bounds
-    /*
-    #if !defined(WIN32)
-    	uint32 row = tile_index / _width;
+    // Check that tile_index is within acceptable bounds
+    if (tile_index_y >= _height)
+        return;
 
-    	// Insert the row throughout all contexts
-    	for (uint32 i = 0; i < static_cast<uint32>(context_names.size()); ++i)
-    	{
-    		_ground_layers[0][i].insert(_ground_layers[0][i].begin()   + row * _width, _width, -1);
-    		_fringe_layers[0][i].insert(_fringe_layers[0][i].begin() + row * _width, _width, -1);
-    		_sky_layers[0][i].insert(_sky_layers[0][i].begin()   + row * _width, _width, -1);
-    	} // iterate through all contexts
+    // Prepare an empty row (filled with -1.)
+    std::vector<int32> row;
+    row.resize(_width, -1);
 
-    	_height++;
-    	resize(_width * TILE_WIDTH, _height * TILE_HEIGHT);
-    #endif*/
+    std::vector<Layer>::iterator it = _tile_layers.begin();
+    std::vector<Layer>::iterator it_end = _tile_layers.end();
+    for(; it != it_end; ++it) {
+        Layer& layer = (*it);
+
+        // We do it naively so it's more portable...
+        std::vector< std::vector<int32> >::iterator tile_y_it = layer.tiles.begin();
+        uint32 y = 0; // the row index
+        for (; tile_y_it != layer.tiles.end(); ++tile_y_it) {
+            // If the wanted index is found we can delete and break.
+            if (y == tile_index_y) {
+                layer.tiles.insert(tile_y_it, row);
+                break;
+            }
+            ++y;
+        }
+    }
+
+    // Updates every related map members.
+    Resize(_width, _height + 1);
 } // Grid::InsertRow(...)
 
 
-void Grid::InsertCol(uint32 /*tile_index_x*/)
+void Grid::InsertCol(uint32 tile_index_x)
 {
-    /*
-    // See bugs #153 & 154 as to why this function is not implemented for Windows
-    // TODO: Check that tile_index is within acceptable bounds
+    // Check that tile_index is within acceptable bounds
+    if (tile_index_x >= _width)
+        return;
 
-    #if !defined(WIN32)
-    uint32 col = tile_index % _width;
 
-    // Insert the column throughout all contexts
-    for (uint32 i = 0; i < static_cast<uint32>(context_names.size()); ++i)
-    {
-    	// Iterate through all rows in each tile layer
-    	vector<int32>::iterator it = _ground_layers[0][i].begin() + col;
-    	for (uint32 row = 0; row < _height; row++)
-    	{
-    		it  = _ground_layers[0][i].insert(it, -1);
-    		it += _width + 1;
-    	} // iterate through the rows of the lower layer
+    std::vector<Layer>::iterator it = _tile_layers.begin();
+    std::vector<Layer>::iterator it_end = _tile_layers.end();
+    for(; it != it_end; ++it) {
+        Layer& layer = (*it);
 
-    	it = _fringe_layers[0][i].begin() + col;
-    	for (uint32 row = 0; row < _height; row++)
-    	{
-    		it  = _fringe_layers[0][i].insert(it, -1);
-    		it += _width + 1;
-    	} // iterate through the rows of the middle layer
+        // We do it naively so it's more portable...
+        for (uint32 y = 0; y < layer.tiles.size(); ++y) {
+            std::vector<int32>::iterator tile_x_it = layer.tiles[y].begin();
+            uint32 x = 0; // the column index
+            for (; tile_x_it != layer.tiles[y].end(); ++tile_x_it) {
+                // If the wanted index is found we can delete and break.
+                if (x == tile_index_x) {
+                    layer.tiles[y].insert(tile_x_it, -1); // Insert an empty tile.
+                    break;
+                }
+                ++x;
+            }
+        } // for each rows
+    }
 
-    	it = _sky_layers[0][i].begin() + col;
-    	for (uint32 row = 0; row < _height; row++)
-    	{
-    		it  = _sky_layers[0][i].insert(it, -1);
-    		it += _width + 1;
-    	} // iterate through the rows of the upper layer
-    } // iterate through all contexts
-
-    _width++;
-    resize(_width * TILE_WIDTH, _height * TILE_HEIGHT);
-    #endif
-    */
+    // Updates every related map members.
+    Resize(_width + 1, _height);
 } // Grid::InsertCol(...)
 
 
-void Grid::DeleteRow(uint32 /*tile_index_y*/)
+void Grid::DeleteRow(uint32 tile_index_y)
 {
-    /*
-    // See bugs #153 & 154 as to why this function is not implemented for Windows
-    // TODO: Check that tile_index is within acceptable bounds
-    // TODO: Check that deleting this row does not cause map height to fall below
-    //       minimum allowed value
+    // Check that tile_index is within acceptable bounds
+    if (tile_index_y >= _height)
+        return;
 
-    #if !defined(WIN32)
-    uint32 row = tile_index / _width;
+    // Check that deleting this row does not cause map height to fall below
+    // minimum allowed value
+    if (_height - 1 < map_min_height)
+        return;
 
-    // Delete the row throughout each context
-    for (uint32 i = 0; i < static_cast<uint32>(context_names.size()); ++i)
-    {
-    	_lower_layer[i].erase(_lower_layer[i].begin()   + row * _width,
-    	                      _lower_layer[i].begin()   + row * _width + _width);
-    	_middle_layer[i].erase(_middle_layer[i].begin() + row * _width,
-    	                       _middle_layer[i].begin() + row * _width + _width);
-    	_upper_layer[i].erase(_upper_layer[i].begin()   + row * _width,
-    	                      _upper_layer[i].begin()   + row * _width + _width);
-    } // iterate through all contexts
+    std::vector<Layer>::iterator it = _tile_layers.begin();
+    std::vector<Layer>::iterator it_end = _tile_layers.end();
+    for(; it != it_end; ++it) {
+        Layer& layer = (*it);
 
-    _height--;
-    resize(_width * TILE_WIDTH, _height * TILE_HEIGHT);
-    #endif
-    */
+        // We do it naively so it's more portable...
+        std::vector< std::vector<int32> >::iterator tile_y_it = layer.tiles.begin();
+        uint32 y = 0; // the row index
+        for (; tile_y_it != layer.tiles.end(); ++tile_y_it) {
+            // If the wanted index is found we can delete and break.
+            if (y == tile_index_y) {
+                layer.tiles.erase(tile_y_it);
+                break;
+            }
+            ++y;
+        }
+    }
+
+    // Updates every related map members.
+    Resize(_width, _height - 1);
+
 } // Grid::DeleteRow(...)
 
 
-void Grid::DeleteCol(uint32 /*tile_index_x*/)
+void Grid::DeleteCol(uint32 tile_index_x)
 {
-    /*
-    // See bugs #153 & 154 as to why this function is not implemented for Windows
-    // TODO: Check that tile_index is within acceptable bounds
-    // TODO: Check that deleting this column does not cause map width to fall below
-    //       minimum allowed value
+    // Check that tile_index is within acceptable bounds
+    if (tile_index_x >= _width)
+        return;
 
-    #if !defined(WIN32)
-    uint32 col = tile_index % _width;
+    // Check that deleting this column does not cause map width to fall below
+    // minimum allowed value
+    if (_width - 1 < map_min_width)
+        return;
 
-    // Delete the column throughout each contexts
-    for (uint32 i = 0; i < static_cast<uint32>(context_names.size()); ++i)
-    {
-    	// Iterate through all rows in each tile layer
-    	vector<int32>::iterator it = _lower_layer[i].begin() + col;
-    	for (uint32 row = 0; row < _height; row++)
-    	{
-    		it  = _lower_layer[i].erase(it);
-    		it += _width - 1;
-    	} // iterate through the rows of the lower layer
+    std::vector<Layer>::iterator it = _tile_layers.begin();
+    std::vector<Layer>::iterator it_end = _tile_layers.end();
+    for(; it != it_end; ++it) {
+        Layer& layer = (*it);
 
-    	it = _middle_layer[i].begin() + col;
-    	for (uint32 row = 0; row < _height; row++)
-    	{
-    		it  = _middle_layer[i].erase(it);
-    		it += _width - 1;
-    	} // iterate through the rows of the middle layer
+        // We do it naively so it's more portable...
+        for (uint32 y = 0; y < layer.tiles.size(); ++y) {
+            std::vector<int32>::iterator tile_x_it = layer.tiles[y].begin();
+            uint32 x = 0; // the column index
+            for (; tile_x_it != layer.tiles[y].end(); ++tile_x_it) {
+                // If the wanted index is found we can delete and break.
+                if (x == tile_index_x) {
+                    layer.tiles[y].erase(tile_x_it);
+                    break;
+                }
+                ++x;
+            }
+        } // for each rows
+    }
 
-    	it = _upper_layer[i].begin() + col;
-    	for (uint32 row = 0; row < _height; row++)
-    	{
-    		it  = _upper_layer[i].erase(it);
-    		it += _width - 1;
-    	} // iterate through the rows of the upper layer
-    } // iterate through all contexts
-
-    _width--;
-    resize(_width * TILE_WIDTH, _height * TILE_HEIGHT);
-    #endif
-    */
+    // Updates every related map members.
+    Resize(_width - 1, _height);
 } // Grid::DeleteCol(...)
 
 std::vector<QTreeWidgetItem *> Grid::getLayerItems()
@@ -804,35 +803,18 @@ void Grid::UpdateScene()
             addPixmap(_blue_square)->setPos(x * TILE_WIDTH, y * TILE_HEIGHT);
         }
     }
-/*
-    // Draw selection rectangle if this mode is active
-    if(_select_on) {
 
-        // Start drawing from the top left
-        VideoManager->Move(left_tile, top_tile);
-
-        x = left_tile;
-        y = top_tile;
-        while(y <= bottom_tile) {
-            layer_index = _select_layer[y][x];
-            // Draw tile if one exists at this location
-            if(layer_index != -1)
-                VideoManager->DrawRectangle(1.0f, 1.0f, blue_selection);
-
-            if(x == right_tile) {
-                x = left_tile;
-                y++;
-                VideoManager->MoveRelative(-(right_tile - left_tile), 1.0f);
-            } else {
-                x++;
-                VideoManager->MoveRelative(1.0f, 0.0f);
-            }
-        } // iterate through selection layer
-    } // selection rectangle must be viewable
-*/
     // If grid is toggled on, draw it
     if(_grid_on)
         _DrawGrid();
+
+    // Draw the borders of the map.
+    QPen pen;
+    pen.setColor(Qt::red);
+    addLine(0, 0, _width * TILE_WIDTH, 0, pen);
+    addLine(0, _height * TILE_HEIGHT, _width * TILE_WIDTH, _height * TILE_HEIGHT, pen);
+    addLine(0, 0, 0, _height * TILE_HEIGHT, pen);
+    addLine(_width * TILE_WIDTH, 0, _width * TILE_WIDTH, _height * TILE_HEIGHT, pen);
 
 } // void Grid::UpdateScene()
 
@@ -887,9 +869,10 @@ void Grid::mousePressEvent(QGraphicsSceneMouseEvent *evt)
 
     switch(_tile_mode) {
     case PAINT_TILE: { // start painting tiles
-        if(evt->button() == Qt::LeftButton && editor->_select_on == false)
+        if(evt->button() == Qt::LeftButton && editor->_select_on == false) {
             _PaintTile(_tile_index_x, _tile_index_y);
-
+            UpdateScene();
+        }
         break;
     } // edit mode PAINT_TILE
 
@@ -903,8 +886,10 @@ void Grid::mousePressEvent(QGraphicsSceneMouseEvent *evt)
     } // edit mode MOVE_TILE
 
     case DELETE_TILE: { // start deleting tiles
-        if(evt->button() == Qt::LeftButton && editor->_select_on == false)
+        if(evt->button() == Qt::LeftButton && editor->_select_on == false) {
             _DeleteTile(_tile_index_x, _tile_index_y);
+            UpdateScene();
+        }
         break;
     } // edit mode DELETE_TILE
 
@@ -912,10 +897,6 @@ void Grid::mousePressEvent(QGraphicsSceneMouseEvent *evt)
         QMessageBox::warning(_graphics_view, "Tile editing mode",
                              "ERROR: Invalid tile editing mode!");
     } // switch on tile editing mode
-
-    // Draw the changes.
-    UpdateScene();
-    return;
 } // void Grid::mousePressEvent(QGraphicsSceneMouseEvent *evt)
 
 
@@ -972,20 +953,24 @@ void Grid::mouseMoveEvent(QGraphicsSceneMouseEvent *evt)
 
         switch(_tile_mode) {
         case PAINT_TILE: { // continue painting tiles
-            if(evt->buttons() == Qt::LeftButton && editor->_select_on == false)
+            if(evt->buttons() == Qt::LeftButton && editor->_select_on == false) {
                 _PaintTile(_tile_index_x, _tile_index_y);
-
+                UpdateScene();
+            }
             break;
         } // edit mode PAINT_TILE
 
         case MOVE_TILE: { // continue moving a tile
+            if (_moving)
+                UpdateScene();
             break;
         } // edit mode MOVE_TILE
 
         case DELETE_TILE: { // continue deleting tiles
-            if(evt->buttons() == Qt::LeftButton && editor->_select_on == false)
+            if(evt->buttons() == Qt::LeftButton && editor->_select_on == false) {
                 _DeleteTile(_tile_index_x, _tile_index_y);
-
+                UpdateScene();
+            }
             break;
         } // edit mode DELETE_TILE
 
@@ -1007,10 +992,6 @@ void Grid::mouseMoveEvent(QGraphicsSceneMouseEvent *evt)
     position.append(QString(" / Sprites: (x: %1  y: %2)").arg(x * 2 / static_cast<float>(TILE_WIDTH), 0, 'f', 1).arg(
                         y * 2 / static_cast<float>(TILE_HEIGHT), 0, 'f', 1));
     editor->statusBar()->showMessage(position);
-
-    // Draw the changes.
-    UpdateScene();
-    return;
 } // void Grid::mouseMoveEvent(QGraphicsSceneMouseEvent *evt)
 
 
@@ -1034,9 +1015,9 @@ void Grid::mouseReleaseEvent(QGraphicsSceneMouseEvent *evt)
                     // have the same size.
                     if(select_layer[y][x] != -1)
                         _PaintTile(x, y);
-
                 } // x
             } // y
+            UpdateScene();
         } // only if painting a bunch of tiles
 
         // Push command onto the undo stack.
@@ -1099,6 +1080,8 @@ void Grid::mouseReleaseEvent(QGraphicsSceneMouseEvent *evt)
             _tile_indeces.clear();
             _previous_tiles.clear();
             _modified_tiles.clear();
+
+            UpdateScene();
         } // moving tiles and not selecting them
 
         break;
@@ -1115,6 +1098,7 @@ void Grid::mouseReleaseEvent(QGraphicsSceneMouseEvent *evt)
                         _DeleteTile(x, y);
                 } // x
             } // y
+            UpdateScene();
         } // only if deleting a bunch of tiles
 
         // Push command onto undo stack.
@@ -1135,6 +1119,7 @@ void Grid::mouseReleaseEvent(QGraphicsSceneMouseEvent *evt)
     // Clear the selection layer.
     if((_tile_mode != MOVE_TILE || _moving == true) && editor->_select_on == true) {
         ClearSelectionLayer();
+        UpdateScene();
     } // clears when not moving tiles or when moving tiles and not selecting them
 
     if(editor->_select_on == true && _moving == false && _tile_mode == MOVE_TILE)
@@ -1142,9 +1127,6 @@ void Grid::mouseReleaseEvent(QGraphicsSceneMouseEvent *evt)
     else
         _moving = false;
 
-    // Draw the changes.
-    UpdateScene();
-    return;
 } // void Grid::mouseReleaseEvent(QGraphicsSceneMouseEvent *evt)
 
 

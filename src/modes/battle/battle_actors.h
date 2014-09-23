@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 //            Copyright (C) 2004-2011 by The Allacrost Project
-//            Copyright (C) 2012-2013 by Bertram (Valyria Tear)
+//            Copyright (C) 2012-2014 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software and
@@ -294,7 +294,7 @@ public:
     }
 
     //! \brief Returns true if the actor can still fight.
-    bool IsValid() const {
+    bool CanFight() const {
         return (_state != ACTOR_STATE_DYING && IsAlive());
     }
 
@@ -407,8 +407,11 @@ public:
     *** If the desired effect does yield a change in status, this function will prepare an indicator image
     *** to be displayed representing the change in status.
     **/
-    void RegisterStatusChange(vt_global::GLOBAL_STATUS status, vt_global::GLOBAL_INTENSITY intensity,
-                              uint32 duration = 0);
+    void ApplyActiveStatusEffect(vt_global::GLOBAL_STATUS status, vt_global::GLOBAL_INTENSITY intensity,
+                                 uint32 duration = 0);
+
+    //! \brief Removes the given status effect, calling the according BattleRemove() script function.
+    void RemoveActiveStatusEffect(vt_global::GLOBAL_STATUS status_effect);
 
     //! \brief Tells the intensity of the active status effect currently applied on the character,
     //! or GLOBAL_STATUS_NEUTRAL if there is no such effect.
@@ -638,8 +641,7 @@ class BattleCharacter : public BattleActor
 public:
     BattleCharacter(vt_global::GlobalCharacter *character);
 
-    ~BattleCharacter()
-    {}
+    ~BattleCharacter();
 
     bool IsEnemy() const {
         return false;
@@ -733,8 +735,8 @@ protected:
     //! \brief Rendered text of the character's currently selected action
     vt_video::TextImage _action_selection_text;
 
-    //! \brief Rendered text of the character's currently selected target
-    vt_video::TextImage _target_selection_text;
+    //! \brief Rendered icon of the character's currently selected action
+    vt_video::StillImage _action_selection_icon;
 }; // class BattleCharacter
 
 
@@ -746,7 +748,7 @@ protected:
 class BattleEnemy : public BattleActor
 {
 public:
-    BattleEnemy(vt_global::GlobalEnemy *enemy);
+    BattleEnemy(uint32 enemy_id);
 
     ~BattleEnemy();
 

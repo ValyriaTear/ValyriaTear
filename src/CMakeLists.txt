@@ -9,7 +9,7 @@ FIND_PACKAGE(VorbisFile REQUIRED)
 FIND_PACKAGE(Lua51 REQUIRED)
 FIND_PACKAGE(PNG REQUIRED)
 FIND_PACKAGE(Gettext REQUIRED)
-FIND_PACKAGE(Boost 1.48.0 REQUIRED)
+FIND_PACKAGE(Boost 1.46.1 REQUIRED)
 
 IF (UNIX AND USE_SYSTEM_LUABIND)
     # Find the luabind package
@@ -19,26 +19,20 @@ ENDIF()
 
 # Set the release mode if not told otherwise
 IF(NOT CMAKE_BUILD_TYPE)
-    MESSAGE(STATUS "Release build type")
     SET(CMAKE_BUILD_TYPE "Release")
 ENDIF()
+
+MESSAGE(STATUS "Build type: ${CMAKE_BUILD_TYPE}")
 
 IF (CMAKE_COMPILER_IS_GNUCXX)
     # Help getting compilation warnings
     SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra")
-    IF (USE_PCH_COMPILATION)
-        SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Winvalid-pch")
-    ENDIF()
     IF (WIN32)
         # This includes enough debug information to get something useful
         # from Dr. Mingw while keeping binary size down. Almost useless
         # with gdb, though.
         SET(CMAKE_CXX_FLAGS_RELWITHDEBINFO "-O2 -ggdb0 -gstabs2")
     ENDIF()
-ENDIF()
-
-IF (POLICY CMP0015)
-    CMAKE_POLICY(SET CMP0015 OLD)
 ENDIF()
 
 # in case a user overwrites these paths and specifies a relative one
@@ -82,8 +76,6 @@ IF (CMAKE_BUILD_TYPE)
             # Help getting debug info
             SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -pg")
         ENDIF()
-
-        MESSAGE(STATUS "Debug build type")
     ENDIF()
 ENDIF()
 
@@ -126,7 +118,7 @@ INCLUDE_DIRECTORIES(
     )
 
 IF (NOT UNIX OR NOT USE_SYSTEM_LUABIND)
-    INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR}/luabind)
+    INCLUDE_DIRECTORIES("${CMAKE_CURRENT_SOURCE_DIR}/luabind")
     MESSAGE(STATUS "Using included luabind files")
 ENDIF()
 
@@ -275,10 +267,6 @@ utils/utils_strings.cpp
 )
 
 SET(SRCS
-main.cpp
-common/common_bindings.cpp
-common/common.cpp
-common/dialogue.cpp
 common/global/global.cpp
 common/global/global.h
 common/global/global_actors.cpp
@@ -292,15 +280,21 @@ common/global/global_skills.h
 common/global/global_utils.cpp
 common/global/global_utils.h
 common/gui/option.h
+common/gui/option.cpp
 common/gui/menu_window.cpp
 common/gui/menu_window.h
-common/gui/gui.h
 common/gui/textbox.cpp
 common/gui/textbox.h
-common/gui/option.cpp
 common/gui/gui.cpp
+common/gui/gui.h
+common/message_window.cpp
+common/message_window.h
+common/dialogue.cpp
 common/dialogue.h
+common/common.cpp
 common/common.h
+common/options_handler.cpp
+common/options_handler.h
 common/common_bindings.cpp
 engine/audio/audio.h
 engine/audio/audio.cpp
@@ -322,6 +316,16 @@ engine/indicator_supervisor.h
 engine/indicator_supervisor.cpp
 engine/system.cpp
 engine/system.h
+engine/input.h
+engine/input.cpp
+engine/engine_bindings.cpp
+engine/video/screen_rect.h
+engine/video/color.h
+engine/video/particle_emitter.h
+engine/video/particle_keyframe.h
+engine/video/context.h
+engine/video/particle.h
+engine/video/coord_sys.h
 engine/video/video.h
 engine/video/video.cpp
 engine/video/texture_controller.h
@@ -345,8 +349,6 @@ engine/video/particle_effect.h
 engine/video/particle_effect.cpp
 engine/video/particle_system.h
 engine/video/particle_system.cpp
-main_options.h
-modes/pause.cpp
 modes/shop/shop_root.h
 modes/shop/shop_buy.cpp
 modes/shop/shop_sell.cpp
@@ -359,9 +361,6 @@ modes/shop/shop_buy.h
 modes/shop/shop_utils.cpp
 modes/shop/shop.h
 modes/shop/shop_sell.h
-modes/mode_bindings.cpp
-modes/mode_help_window.h
-modes/mode_help_window.cpp
 modes/battle/battle_effects.cpp
 modes/battle/battle_sequence.h
 modes/battle/battle_actors.cpp
@@ -382,8 +381,6 @@ modes/battle/battle_finish.cpp
 modes/battle/battle_sequence.cpp
 modes/boot/boot.h
 modes/boot/boot.cpp
-modes/boot/boot_menu.h
-modes/boot/boot_menu.cpp
 modes/save/save_mode.h
 modes/save/save_mode.cpp
 modes/map/map_dialogue.h
@@ -406,26 +403,24 @@ modes/map/map_zones.cpp
 modes/map/map_objects.h
 modes/map/map_minimap.cpp
 modes/map/map_minimap.h
+modes/map/map_status_effects.cpp
+modes/map/map_status_effects.h
 modes/menu/menu.h
 modes/menu/menu.cpp
 modes/menu/menu_views.cpp
 modes/menu/menu_views.h
+modes/pause.cpp
 modes/pause.h
+modes/mode_bindings.cpp
+modes/mode_help_window.h
+modes/mode_help_window.cpp
 utils/ustring.h
 utils/ustring.cpp
 utils/exception.h
 utils/exception.cpp
-engine/input.h
-engine/input.cpp
-engine/engine_bindings.cpp
-engine/video/screen_rect.h
-engine/video/color.h
-engine/video/particle_emitter.h
-engine/video/particle_keyframe.h
-engine/video/context.h
-engine/video/particle.h
-engine/video/coord_sys.h
+main_options.h
 main_options.cpp
+main.cpp
     )
 
 IF (WIN32)
@@ -461,7 +456,7 @@ IF (CMAKE_COMPILER_IS_GNUCXX AND USE_PCH_COMPILATION)
                     DEPENDS ${_header_filename})
     ENDMACRO(ADD_PCH_RULE _header_filename _src_list)
 
-    ADD_PCH_RULE(${CMAKE_CURRENT_SOURCE_DIR}/utils/utils_pch.h SRCS_COMMON)
+    ADD_PCH_RULE(${CMAKE_CURRENT_SOURCE_DIR}/utils/utils_pch.h SRCS)
 ENDIF()
 
 # Don't add the luabind static lib files if requested.
@@ -529,12 +524,16 @@ IF (CMAKE_SYSTEM_NAME STREQUAL SunOS)
     SET_TARGET_PROPERTIES(valyriatear PROPERTIES LINK_FLAGS "-L/usr/local/lib")
 ENDIF()
 
-SET_TARGET_PROPERTIES(valyriatear PROPERTIES COMPILE_FLAGS "${FLAGS}")
-
+# Adds invalid pch compilation warning for the game.
+IF (CMAKE_COMPILER_IS_GNUCXX AND USE_PCH_COMPILATION)
+    SET_TARGET_PROPERTIES(valyriatear PROPERTIES COMPILE_FLAGS "${FLAGS}  -Winvalid-pch")
+ELSE()
+    SET_TARGET_PROPERTIES(valyriatear PROPERTIES COMPILE_FLAGS "${FLAGS}")
+ENDIF()
 
 # Editor part
 IF (EDITOR_SUPPORT)
-    MESSAGE(STATUS "Set Editor build on")
+    MESSAGE(STATUS "Editor build on")
     FIND_PACKAGE(Qt4 REQUIRED)
     INCLUDE_DIRECTORIES(
     ${QT_QTOPENGL_INCLUDE_DIR}

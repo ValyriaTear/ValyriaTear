@@ -241,7 +241,7 @@ items[13] = {
     end
 }
 
-items[13] = {
+items[14] = {
     name = vt_system.Translate("Mega Moon Juice Potion"),
     description = vt_system.Translate("Restores a very high amount of skill points to an ally."),
     icon = "img/icons/items/potion_blue_huge.png",
@@ -260,19 +260,119 @@ items[13] = {
     end
 }
 
+items[15] = {
+    name = vt_system.Translate("Lotus Petal"),
+    description = vt_system.Translate("Cures moderate poisons from an ally"),
+    icon = "img/icons/items/lotus.png",
+    target_type = vt_global.GameGlobal.GLOBAL_TARGET_ALLY,
+    standard_price = 100,
+    use_warmup_time = 1200,
+    cooldown_time = 1300,
+
+    BattleUse = function(user, target)
+        local target_actor = target:GetActor();
+        if (target_actor:IsAlive() == false) then
+            return false;
+        end
+
+        local intensity = target_actor:GetActiveStatusEffectIntensity(vt_global.GameGlobal.GLOBAL_STATUS_HP);
+        -- Can't heal somebody not poisoned
+        if (intensity >= vt_global.GameGlobal.GLOBAL_INTENSITY_NEUTRAL) then
+            return false;
+        elseif (intensity <= vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_GREATER) then
+            -- Removes a bit of a bigger poison.
+            target_actor:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_HP,
+                                                 vt_global.GameGlobal.GLOBAL_INTENSITY_POS_MODERATE, 30000);
+        else
+            target_actor:RemoveActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_HP);
+        end
+
+        return true;
+    end,
+
+    FieldUse = function(global_character)
+        if (global_character:IsAlive() == false) then
+            return false;
+        end
+
+        local intensity = global_character:GetActiveStatusEffectIntensity(vt_global.GameGlobal.GLOBAL_STATUS_HP);
+        -- Can't heal somebody not poisoned
+        if (intensity >= vt_global.GameGlobal.GLOBAL_INTENSITY_NEUTRAL) then
+            return false;
+        elseif (intensity <= vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_GREATER) then
+            -- Removes a bit of a bigger poison.
+            global_character:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_HP,
+                                                     vt_global.GameGlobal.GLOBAL_INTENSITY_POS_MODERATE,
+                                                     30000);
+        else
+            global_character:RemoveActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_HP);
+        end
+
+        return true;
+    end
+}
+
+items[16] = {
+    name = vt_system.Translate("Candy"),
+    description = vt_system.Translate("Makes an ally's health regenerate moderately."),
+    icon = "img/icons/items/candy.png",
+    target_type = vt_global.GameGlobal.GLOBAL_TARGET_ALLY,
+    standard_price = 1300,
+    use_warmup_time = 1200,
+    cooldown_time = 1300,
+
+    BattleUse = function(user, target)
+        local target_actor = target:GetActor();
+        if (target_actor:IsAlive() == false) then
+            return false;
+        end
+
+        target_actor:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_HP,
+                                             vt_global.GameGlobal.GLOBAL_INTENSITY_POS_MODERATE, 30000);
+        return true;
+    end,
+
+    FieldUse = function(global_character)
+        if (global_character:IsAlive() == false) then
+            return false;
+        end
+
+        global_character:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_HP,
+                                                 vt_global.GameGlobal.GLOBAL_INTENSITY_POS_MODERATE,
+                                                 30000);
+        return true;
+    end
+}
+
 --------------------------------------------------------------------------------
--- IDs 1,001 - 2,000 are reserved for status potions
+-- IDs 1,001 - 2,000 are reserved for status improvement potions
 --------------------------------------------------------------------------------
 
-decrement_negative_effects = function(target_actor, intensity)
+_battle_apply_elixir_status_effects = function(target_actor, intensity)
     if (target_actor:IsAlive() == true) then
         -- decrement all the basic negative effects, or put positive effects depending on the intensity
-        target_actor:RegisterStatusChange(vt_global.GameGlobal.GLOBAL_STATUS_STRENGTH, intensity, 30000);
-        target_actor:RegisterStatusChange(vt_global.GameGlobal.GLOBAL_STATUS_VIGOR, intensity, 30000);
-        target_actor:RegisterStatusChange(vt_global.GameGlobal.GLOBAL_STATUS_FORTITUDE, intensity, 30000);
-        target_actor:RegisterStatusChange(vt_global.GameGlobal.GLOBAL_STATUS_PROTECTION, intensity, 30000);
-        target_actor:RegisterStatusChange(vt_global.GameGlobal.GLOBAL_STATUS_AGILITY, intensity, 30000);
-        target_actor:RegisterStatusChange(vt_global.GameGlobal.GLOBAL_STATUS_EVADE, intensity, 30000);
+        target_actor:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_STRENGTH, intensity, 30000);
+        target_actor:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_VIGOR, intensity, 30000);
+        target_actor:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_FORTITUDE, intensity, 30000);
+        target_actor:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_PROTECTION, intensity, 30000);
+        target_actor:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_AGILITY, intensity, 30000);
+        target_actor:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_EVADE, intensity, 30000);
+        AudioManager:PlaySound("snd/potion_drink.wav");
+        return true;
+    else
+        return false;
+    end
+end
+
+_field_apply_elixir_status_effects = function(global_character, intensity)
+    if (global_character:IsAlive() == true) then
+        -- decrement all the basic negative effects, or put positive effects depending on the intensity
+        global_character:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_STRENGTH, intensity, 30000);
+        global_character:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_VIGOR, intensity, 30000);
+        global_character:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_FORTITUDE, intensity, 30000);
+        global_character:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_PROTECTION, intensity, 30000);
+        global_character:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_AGILITY, intensity, 30000);
+        global_character:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_EVADE, intensity, 30000);
         AudioManager:PlaySound("snd/potion_drink.wav");
         return true;
     else
@@ -282,7 +382,7 @@ end
 
 items[1001] = {
     name = vt_system.Translate("Minor Elixir"),
-    description = vt_system.Translate("Revive a character, or improve the character status when it is sane or reduces ailing status effects by a limited degree."),
+    description = vt_system.Translate("Revive a character, or improve the character status when he/she is alive by a limited degree."),
     icon = "img/icons/items/potion_red_small.png",
     target_type = vt_global.GameGlobal.GLOBAL_TARGET_ALLY_EVEN_DEAD,
     standard_price = 50,
@@ -294,22 +394,23 @@ items[1001] = {
         -- Decrement all base stats active negative status effects slightly
         if (target_actor:GetHitPoints() > 0) then
             -- Decrement any active negative base stats status effects when alive
-            return decrement_negative_effects(target_actor, vt_global.GameGlobal.GLOBAL_INTENSITY_POS_LESSER);
+            return _battle_apply_elixir_status_effects(target_actor, vt_global.GameGlobal.GLOBAL_INTENSITY_POS_LESSER);
         else
             -- When dead, revive the character
             target_actor:RegisterRevive(1);
+            AudioManager:PlaySound("snd/potion_drink.wav");
         end
         return true;
     end,
 
     FieldUse = function(target)
         if (target:GetHitPoints() > 0) then
-            -- TODO: decrement any active negative status effects when alive, like poison, or paralysis, but not the base stats effects
-            -- which are valid only in battles.
-            return false;
+            -- increment active base stats status effects when alive.
+            return _field_apply_elixir_status_effects(target, vt_global.GameGlobal.GLOBAL_INTENSITY_POS_LESSER);
         else
             -- When dead, revive the character
             target:SetHitPoints(1);
+            AudioManager:PlaySound("snd/potion_drink.wav");
         end
         return true;
     end
@@ -317,7 +418,7 @@ items[1001] = {
 
 items[1003] = {
     name = vt_system.Translate("Elixir"),
-    description = vt_system.Translate("Revive a character with half of its Hit Points, or reduces almost all its ailing status effects if the potion is drunk when alive."),
+    description = vt_system.Translate("Revive a character with half of its Hit Points, or reasonably improve the character status when he/she is alive."),
     icon = "img/icons/items/potion_red_large.png",
     target_type = vt_global.GameGlobal.GLOBAL_TARGET_ALLY_EVEN_DEAD,
     standard_price = 1200,
@@ -328,7 +429,7 @@ items[1003] = {
         local target_actor = target:GetActor();
         if (target_actor:GetHitPoints() > 0) then
             -- Decrement any active negative base stats status effects when alive
-            return decrement_negative_effects(target_actor, vt_global.GameGlobal.GLOBAL_INTENSITY_POS_MODERATE);
+            return _battle_apply_elixir_status_effects(target_actor, vt_global.GameGlobal.GLOBAL_INTENSITY_POS_MODERATE);
         else
             -- When dead, revive the character
             target_actor:RegisterRevive(target_actor:GetMaxHitPoints() / 2.0);
@@ -338,15 +439,111 @@ items[1003] = {
 
     FieldUse = function(target)
         if (target:GetHitPoints() > 0) then
-        -- TODO: decrement any active negative status effects when alive, like poison, or paralysis, but not the base stats effects
-            -- which are valid only in battles.
-            return false;
+            -- increment active base stats status effects when alive.
+            return _field_apply_elixir_status_effects(target, vt_global.GameGlobal.GLOBAL_INTENSITY_POS_MODERATE);
         else
             -- When dead, revive the character
             target:SetHitPoints(target_actor:GetMaxHitPoints() / 2.0);
         end
         return true;
     end
+}
+
+items[1004] = {
+    name = vt_system.Translate("Periwinkle Potion"),
+    description = vt_system.Translate("Gives a reasonable boost in strength to an ally for a large amount of time."),
+    icon = "img/icons/items/strength_potion.png",
+    target_type = vt_global.GameGlobal.GLOBAL_TARGET_ALLY,
+    standard_price = 1600,
+    use_warmup_time = 3600,
+    cooldown_time = 2100,
+
+    BattleUse = function(user, target)
+        local target_actor = target:GetActor();
+        if (target_actor:IsAlive() == true) then
+            -- Decrement any active negative base stats status effects when alive
+            target_actor:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_STRENGTH,
+                                                 vt_global.GameGlobal.GLOBAL_INTENSITY_POS_MODERATE,
+                                                 90000);
+            AudioManager:PlaySound("snd/potion_drink.wav");
+            return true;
+        end
+        return false;
+    end,
+
+    FieldUse = function(target)
+        if (target:IsAlive() == true) then
+            -- increment active base stats status effects when alive.
+            target:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_STRENGTH,
+                                           vt_global.GameGlobal.GLOBAL_INTENSITY_POS_MODERATE,
+                                           90000);
+            AudioManager:PlaySound("snd/potion_drink.wav");
+            return true;
+        end
+        return false;
+    end
+}
+
+items[1005] = {
+    name = vt_system.Translate("Haste Potion"),
+    description = vt_system.Translate("Gives a reasonable boost in agility to an ally for a small amount of time."),
+    icon = "img/icons/items/haste_potion.png",
+    target_type = vt_global.GameGlobal.GLOBAL_TARGET_ALLY,
+    standard_price = 1400,
+    use_warmup_time = 1600,
+    cooldown_time = 2100,
+
+    BattleUse = function(user, target)
+        local target_actor = target:GetActor();
+        if (target_actor:IsAlive() == true) then
+            -- Decrement any active negative base stats status effects when alive
+            target_actor:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_AGILITY,
+                                                 vt_global.GameGlobal.GLOBAL_INTENSITY_POS_MODERATE,
+                                                 30000);
+            AudioManager:PlaySound("snd/potion_drink.wav");
+            return true;
+        end
+        return false;
+    end,
+
+    FieldUse = function(target)
+        if (target:IsAlive() == true) then
+            -- increment active base stats status effects when alive.
+            target:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_AGILITY,
+                                           vt_global.GameGlobal.GLOBAL_INTENSITY_POS_MODERATE,
+                                           30000);
+            AudioManager:PlaySound("snd/potion_drink.wav");
+            return true;
+        end
+        return false;
+    end
+}
+
+items[1006] = {
+    name = vt_system.Translate("Poison Potion"),
+    description = vt_system.Translate("Poisons an enemy a for small amount of time."),
+    icon = "img/icons/items/poison_potion.png",
+    target_type = vt_global.GameGlobal.GLOBAL_TARGET_FOE,
+    standard_price = 1400,
+    use_warmup_time = 1600,
+    cooldown_time = 2100,
+
+    BattleUse = function(user, target)
+        local target_actor = target:GetActor();
+        if (target_actor:IsAlive() == true) then
+            -- Decrement any active negative base stats status effects when alive
+            target_actor:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_HP,
+                                                 vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_MODERATE,
+                                                 30000);
+            return true;
+        end
+        return false;
+    end,
+
+    -- Can't be used from menu
+    --FieldUse = function(target)
+        --return false;
+    --end
 }
 
 --------------------------------------------------------------------------------
@@ -413,11 +610,98 @@ items[3008] = {
 }
 
 --------------------------------------------------------------------------------
+-- IDs 4,001 - 5,000 are reserved for items with special effects
+--------------------------------------------------------------------------------
+
+-- Gets the average agility value of the hero party.
+function _GetAverageHeroesEvasionLevel()
+    local id = 0;
+    local agility_sum = 0.0;
+
+    local battle_instance = ModeManager:GetTop();
+    local nb_heroes = battle_instance:GetNumberOfCharacters();
+    while id < nb_heroes do
+        local hero = battle_instance:GetCharacterActor(id);
+        if (hero ~= nil and hero:CanFight() == true) then
+            agility_sum = agility_sum + hero:GetAgility();
+        end
+    id = id + 1;
+    end
+
+    if (id == 0) then
+        return 0.0;
+    end
+    return agility_sum / id;
+end
+
+-- Gets the average agility value of the enemy party.
+function _GetAverageEnemiesAgilityLevel()
+    local id = 0;
+    local agility_sum = 0.0;
+
+    local battle_instance = ModeManager:GetTop();
+    local nb_enemies = battle_instance:GetNumberOfEnemies();
+    while id < nb_enemies do
+        local enemy = battle_instance:GetEnemyActor(id);
+        if (enemy ~= nil and enemy:CanFight() == true) then
+            agility_sum = agility_sum + enemy:GetAgility();
+        end
+    id = id + 1;
+    end
+
+    if (id == 0) then
+        return 0.0;
+    end
+    return agility_sum / id;
+end
+
+items[4001] = {
+    name = vt_system.Translate("Escape Smoke"),
+    description = vt_system.Translate("A ninja potion bursting out a damp mist when crashed on the ground. Used to hopefully escape from standard opponents."),
+    icon = "img/icons/items/escape_smoke.png",
+    target_type = vt_global.GameGlobal.GLOBAL_TARGET_SELF,
+    standard_price = 100,
+
+    use_warmup_time = 1600,
+    cooldown_time = 2100,
+
+    BattleUse = function(user, target)
+        -- TODO: Triggers the smoke effect when succeeding
+        -- TODO for later: Adds animation support when using items and triggers effect in any case.
+
+        local battle_instance = ModeManager:GetTop();
+        -- If it's a boss battle, this can't work at all
+        if (battle_instance:IsBossBattle() == true) then
+            return true;
+        end
+
+        -- % chance to miss due to too high agility from enemies, for instance
+        -- Give a slight advantage to the party.
+        local evade_diff = 60.0 + _GetAverageHeroesEvasionLevel() - _GetAverageEnemiesAgilityLevel();
+        if (math.random(0, 100) > evade_diff) then
+            local target_actor = target:GetActor();
+            target_actor:RegisterMiss(true);
+            return true;
+        end
+
+        -- Quit the battle (A parent mode should always be there to take the relay)
+        battle_instance:SetSceneMode(true);
+        ModeManager:Pop(true, true);
+        return true;
+    end,
+
+    -- Can't be used from menu
+    --FieldUse = function(target)
+        --return false;
+    --end
+}
+
+--------------------------------------------------------------------------------
 -- IDs 70001-80000 are reserved for "simple" key items
 --------------------------------------------------------------------------------
 items[70001] = {
     name = vt_system.Translate("Pen"),
-    description = vt_system.Translate("Georges' pen, presumably used to write poetry."),
+    description = vt_system.Translate("Georges's pen, presumably used to write poetry."),
     icon = "img/icons/items/key_items/ink.png",
     standard_price = 0,
     key_item = true

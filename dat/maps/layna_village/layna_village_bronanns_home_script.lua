@@ -91,11 +91,11 @@ function _CreateNPCs()
     end
 
     dialogue = vt_map.SpriteDialogue("ep1_bronann_home_talk_with_dad");
-    text = vt_system.Translate("Hey son! Slept well? Err, where did I leave that oil lamp?");
+    text = vt_system.Translate("Hey son! Did you sleep well? Hmm, now where did I leave that oil lamp?");
     dialogue:AddLine(text, bronanns_dad);
-    text = vt_system.Translate("Hi Dad! Er, I don't know. Sorry.");
+    text = vt_system.Translate("Hi Dad! Um, I don't know. Sorry.");
     dialogue:AddLineEmote(text, bronann, "thinking dots");
-    text = vt_system.Translate("Nah, no problem, I'll find it.");
+    text = vt_system.Translate("Nah, no problem, I'll find it somewhere... eventually.");
     dialogue:AddLine(text, bronanns_dad);
     DialogueManager:AddDialogue(dialogue);
     bronanns_dad:AddDialogueReference(dialogue);
@@ -169,9 +169,9 @@ function _CreateNPCs()
     EventManager:RegisterEvent(event);
 
     dialogue = vt_map.SpriteDialogue();
-    text = vt_system.Translate("Now that you're *finally* up, could you go and buy some barley meal for us three?");
+    text = vt_system.Translate("Now that you're *finally* up, could you go buy some barley meal for us three?");
     dialogue:AddLine(text, bronanns_mother);
-    text = vt_system.Translate("Barley meal again?");
+    text = vt_system.Translate("Barley meal? Again?");
     dialogue:AddLineEmote(text, bronann, "sweat drop");
     text = vt_system.Translate("Hmph, just go, boy. You'll be free after that, ok?");
     dialogue:AddLine(text, bronanns_mother);
@@ -323,13 +323,13 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
 
     dialogue = vt_map.SpriteDialogue();
-    text = vt_system.Translate("Bronann, I'd like you to not go outside today.");
+    text = vt_system.Translate("Bronann, I'd like for you to not leave the village today.");
     dialogue:AddLine(text, bronanns_dad);
-    text = vt_system.Translate("Huh?! Why? You told me I could go into the forest and...");
+    text = vt_system.Translate("Huh?! What? Why? You told me that I could go into the forest and...");
     dialogue:AddLineEmote(text, bronann, "exclamation");
     text = vt_system.Translate("Sorry, son. It's maybe a bit early, but I'd like you to be careful.");
     dialogue:AddLine(text, bronanns_dad);
-    text = vt_system.Translate("Hey, wait! All of the elders in the village are on their nerves. There is something going on here! Why won't you tell me?");
+    text = vt_system.Translate("Hey, wait! All of the village elders' nerves are on edge. There is something going on here! Why won't you tell me?");
     dialogue:AddLineEventEmote(text, bronann, "", "Quest2: Bronann looks at both parents", "interrogation");
     text = vt_system.Translate("None of you?");
     dialogue:AddLine(text, bronann);
@@ -386,7 +386,7 @@ function _CreateEvents()
     dialogue = vt_map.SpriteDialogue();
     text = vt_system.Translate("Maybe we should tell him...");
     dialogue:AddLine(text, bronanns_mother);
-    text = vt_system.Translate("It's too early, darling. We might be wrong.");
+    text = vt_system.Translate("It's too early, darling... We might be wrong.");
     dialogue:AddLineEmote(text, bronanns_dad, "thinking dots");
     text = vt_system.Translate("I really hope we are...");
     dialogue:AddLine(text, bronanns_dad);
@@ -470,7 +470,7 @@ function _UpdateMotherDialogue()
 
     if (GlobalManager:DoesEventExist("story", "Quest2_forest_event_done") == true) then
         local dialogue = vt_map.SpriteDialogue();
-        local text = vt_system.Translate("Promise me you'll be careful, Bronann, ok?.");
+        local text = vt_system.Translate("Bronann, promise me that you'll be careful, ok?");
         dialogue:AddLine(text, bronanns_mother);
         DialogueManager:AddDialogue(dialogue);
         bronanns_mother:AddDialogueReference(dialogue);
@@ -480,7 +480,7 @@ function _UpdateMotherDialogue()
         -- Got some barley meal, Mom!
         -- Begining dialogue
         local dialogue = vt_map.SpriteDialogue();
-        local text = vt_system.Translate("Sigh... got it, mom!");
+        local text = vt_system.Translate("(Sigh)... got it, mom!");
         dialogue:AddLine(text, bronann);
         text = vt_system.Translate("Perfect timing, let's have dinner.");
         dialogue:AddLineEvent(text, bronanns_mother, "", "Quest1: end and transition to after-dinner");
@@ -496,18 +496,18 @@ function _UpdateMotherDialogue()
     elseif (GlobalManager:DoesEventExist("bronanns_home", "quest1_mother_start_dialogue_done") == false) then
         -- Begining dialogue
         local dialogue = vt_map.SpriteDialogue("ep1_bronann_home_talk_with_mother1");
-        local text = vt_system.Translate("Hi son, did you also have a nightmare last night?");
+        local text = vt_system.Translate("Hi son, did you have a nightmare again last night?");
         dialogue:AddLine(text, bronanns_mother);
-        text = vt_system.Translate("Hi mom. Huh, how do you know...");
+        text = vt_system.Translate("Hi mom. Huh, how did you know...?");
         dialogue:AddLineEmote(text, bronann, "interrogation");
-        text = vt_system.Translate("Eh eh? Have you already forgotten I'm your mother?");
+        text = vt_system.Translate("Eh eh? Have you already forgotten that I'm your mother?");
         dialogue:AddLine(text, bronanns_mother);
         DialogueManager:AddDialogue(dialogue);
         bronanns_mother:AddDialogueReference(dialogue);
     else
         -- Last default dialogue
         local dialogue = vt_map.SpriteDialogue();
-        local text = vt_system.Translate("Don't venture too far, I'll need your help quite soon!");
+        local text = vt_system.Translate("Don't venture too far, I'll need your help soon!");
         dialogue:AddLine(text, bronanns_mother);
         DialogueManager:AddDialogue(dialogue);
         bronanns_mother:AddDialogueReference(dialogue);
@@ -527,7 +527,7 @@ map_functions = {
     end,
 
     Audio_FadeOutMusic = function()
-        AudioManager:FadeOutAllMusic(2000);
+        AudioManager:FadeOutActiveMusic(2000);
     end,
 
     MakeInvisible = function(sprite)

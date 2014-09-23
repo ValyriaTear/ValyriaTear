@@ -1,7 +1,7 @@
 Licenses
 ========
 
-Last update: 2013.11.09
+Last update: 2014.07.07
 
 This file is listing all the files licenses from the point of the fork
 from the Allacrost project.
@@ -11,7 +11,7 @@ http://www.allacrost.org
 
 'OGA' stands for: Open Game Art - http://opengameart.org
 'dA' stands for: Deviant Art - http://deviantart.com
-'The Mana World' is referring to: http://themanaworld.org
+'The Mana World' or 'TMW' is referring to: http://themanaworld.org
 
 GPLv2+ or GPLv3+ refer to assets under the standard license with the
 "or any later version" text.  "GPLv2" markings are for assets where it
@@ -23,30 +23,6 @@ later version" text should be present.
 
 Files                                                            Licenses                 Authors and details
 --------------------------------------------------------------- ------------------------ --------------------------------------------------------------------
-art/bronann_by_safir_kreuz-CCbySA3.0.png                        CC by SA 3.0             Safir-Kreuz (dA)
-art/bronann_bed_animation.xcf                                   CC by SA 3.0             Jetrel (OGA) for the bed and Bronann's head + Bertram for the animation.
-art/bronann_dead.xcf                                            GPLv2                    Allacrost + Lilou
-art/bronann_kneeling.xcf                                        GPLv2                    Allacrost + Lilou
-art/kalya_kneeling.xcf                                          GPLv2                    Allacrost + Lilou
-art/Tile-Mapping-System.png                                     CC by SA 3.0             Jetrel (OGA)
-art/day_night_cycle_gradient_casper_nilsson_oga.png             CC by SA 3.0             C.Nilsson (OGA)
-art/forest_tree_small.xcf                                       CC by SA 3.0             Original tree from Jetrel (OGA) + Variations from Bertram
-art/kalya-high-idle.png                                         GPLv2+                   Allacrost
-art/kalya-high-unarmed-idle.png                                 GPLv2+                   Allacrost + Bertram
-art/kalya-attack.xcf                                            GPLv2+ or CC by SA 3.0   Allacrost (Frame 2), Bertram (Frames 1, 3 and 4)
-art/kalya-idle.xcf                                              CC by SA 3.0             Bertram
-art/legend-cliffs.png                                           CC by 3.0                Daniel Cook (lostgarden.com)
-art/map_locations_borders.xcf                                   GPLv2+                   Based on Allacrost Team work, adapted into a translucent XCF by Bertram.
-art/fenrir_patrick_thompson_ccbysa30.xcf                        CC by SA 3.0             Patrick Thompson (PK Illustration) - http://opengameart.org/content/fenrir-wolf-sprite-injuries
-art/item_template.png                                           CC by SA 3.0             Bertram
-art/lightning1.xcf                                              CC by SA 3.0             Bertram
-art/lightning2.xcf                                              CC by SA 3.0             Bertram
-art/lightning3.xcf                                              CC by SA 3.0             Bertram
-art/stamina_bar.xcf                                             CC by SA 3.0             Bertram, Lamoot (OGA) for the borders - http://opengameart.org/content/rpg-gui-construction-kit-v10, Ashiroxzer (OGA) for a few decorations - http://opengameart.org/content/dungeon-tbs
-art/knight_lord.xcf                                             CC by SA 3.0             Based on killyoverdrive (OGA) - http://opengameart.org/content/blue-knight-templar-transparent-background + image by Bertram
-art/lord_spritesheet.xcf                                        CC by SA 3.0             Bertram, based on Redshrike (OGA) - http://opengameart.org/content/dark-soldier-for-valyria-tear
-art/well.xcf                                                    CC by SA 3.0             Bertram, based on several Jetrel's sprites.
-
 dat/global.lua                                                  GPLv2+                   Bertram (Completely redone it.)
 
 dat/actors/characters.lua                                       GPLv2+                   Allacrost + Bertram
@@ -55,6 +31,7 @@ dat/actors/map_objects.lua                                      GPLv2+          
 dat/actors/map_sprites.lua                                      GPLv2+                   Allacrost + Bertram (Was map_sprites_stock.lua)
 
 dat/battles/desert_cave_battle_anim.lua                         GPLv2+                   Bertram
+dat/battles/mountain_shrine_battle_anim.lua                     GPLv2+                   Bertram
 dat/battles/tutorial_battle_dialogs.lua                         GPLv2+                   Allacrost + Bertram
 
 dat/battles/characters_animations/bronann_attack.lua            GPLv2+                   Bertram
@@ -83,7 +60,7 @@ dat/config/restore_settings.lua                                 GPLv2+          
 dat/config/settings.lua                                         GPLv2+                   Bertram
 dat/config/languages.lua                                        GPLv2+                   Bertram
 
-dat/credits/old_credits.lua                                     GPLv2+                   Allacrost
+dat/credits/end_credits.lua                                     GPLv2+                   Bertram
 dat/credits/episode1_credits.lua                                GPLv2+                   Bertram
 
 dat/effects/lightning.lua                                       GPLv2+                   Bertram
@@ -93,6 +70,7 @@ dat/effects/status.lua                                          GPLv2+          
 dat/effects/particles/rain.lua                                  GPLv2+                   roos + Bertram modifications
 dat/effects/particles/snow.lua                                  GPLv2+                   roos + Bertram modifications
 dat/effects/particles/blue_firework.lua                         GPLv2+                   roos + Bertram modifications
+dat/effects/particles/bubble_steam.lua                          GPLv2+                   roos + Bertram modifications
 dat/effects/particles/crystal_appearance.lua                    GPLv2+                   roos + Bertram modifications
 dat/effects/particles/dust.lua                                  GPLv2+                   roos + Bertram modifications
 dat/effects/particles/shield.lua                                GPLv2+                   Bertram
@@ -101,6 +79,7 @@ dat/effects/particles/explosion.lua                             GPLv2+          
 dat/effects/particles/boss_death_particle.lua                   GPLv2+                   roos + Bertram modifications
 dat/effects/particles/fire.lua                                  GPLv2+                   roos + Bertram modifications
 dat/effects/particles/fire_spell.lua                            GPLv2+                   roos + Bertram modifications
+dat/effects/particles/fire_spiral.lua                           GPLv2+                   roos + Bertram modifications
 dat/effects/particles/heal_particle.lua                         GPLv2+                   Bertram
 dat/effects/particles/wave_spell.lua                            GPLv2+                   Bertram
 dat/effects/particles/earth_circle.lua                          GPLv3                    Bertram
@@ -109,6 +88,7 @@ dat/effects/particles/water_circle.lua                          GPLv3           
 dat/effects/particles/water_circle_outer_particles.lua          GPLv3                    Bertram
 dat/effects/particles/wind_circle.lua                           GPLv3                    Bertram
 dat/effects/particles/wind_circle_outer_particles.lua           GPLv3                    Bertram
+dat/effects/particles/stun_star.lua                             GPLv3                    Bertram
 
 dat/maps/*.lua (including subfolders)                           GPLv2+                   Bertram
 
@@ -140,6 +120,14 @@ dat/maps/layna_forest/crystal_appearance/crystal-sentence6.ogg  CC by SA 3.0    
 dat/maps/layna_forest/minimaps/layna_forest_cave1_1_minimap.png CC by SA 3.0             Bertram
 
 dat/maps/layna_village/kalya_house_fake_wall.png                GPLv2+                   Bertram, based on Jetrel harrvah tileset.
+
+dat/maps/mt_elbrus/ancient_sign_big_bright.png                  CC by SA 3.0             Bertram
+dat/maps/mt_elbrus/shrine_entrance_light.png                    CC by SA 3.0             Bertram
+dat/maps/mt_elbrus/fake_wall.png                                CC by SA 3.0, GPLv3      Guido Bos + adaptation from Bertram - http://opengameart.org/content/3rd-entry-some-old-castle-stuff
+dat/maps/mt_elbrus/spike_wall.png                               CC by SA 3.0, GPLv3      Guido Bos + adaptation from Bertram - http://opengameart.org/content/3rd-entry-some-old-castle-stuff
+dat/maps/mt_elbrus/falling_hole.png                             CC by SA 3.0, GPLv3      Guido Bos + adaptation from Bertram - http://opengameart.org/content/3rd-entry-some-old-castle-stuff
+dat/maps/mt_elbrus/falling_hole_above.png                       CC by SA 3.0, GPLv3      Guido Bos + adaptation from Bertram - http://opengameart.org/content/3rd-entry-some-old-castle-stuff
+dat/maps/mt_elbrus/elbrus_landscape.png                         CC by SA 3.0             Julien (OGA) - http://opengameart.org/content/large-nature-background
 
 dat/objects/arm_armor.lua                                       GPLv2+                   Allacrost + Bertram
 dat/objects/head_armor.lua                                      GPLv2+                   Allacrost + Bertram
@@ -196,6 +184,10 @@ img/backdrops/battle/mountain_background.png                    CC by SA 3.0    
 img/backdrops/battle/desert_background.png                      CC0                      JAP (OGA) - http://opengameart.org/content/oil-painting-landscapes
 img/backdrops/battle/plains_background.png                      CC0                      JAP (OGA) - http://opengameart.org/content/oil-painting-landscapes
 img/backdrops/battle/snow_background.png                        GPLv2+, CC by SA 3.0     Delfos (OGA) - http://opengameart.org/content/artic-landscape-background
+img/backdrops/battle/mountain_shrine.png                        CC by SA 3.0, GPLv3      Guido Bos (OGA), from the shrine tileset. Adapted by Bertram as a battle background.
+img/backdrops/battle/mountain_village.png                       GPLv2+                   Allacrost
+img/backdrops/battle/mountain_village_single_house.png          GPLv2+                   Allacrost (Part of mountain_village.png) + based on Bart's CC0 work (OGA) - http://opengameart.org/content/moon-overlay-texture
+img/backdrops/battle/rock.png                                   GPLv2+                   Allacrost
 
 img/backdrops/battle/desert_cave/desert_cave.png                GPLv2+                   Allacrost + Bertram
 img/backdrops/battle/desert_cave/tpl_desert_cave_anim.png       GPLv2+                   Allacrost + Bertram
@@ -204,10 +196,6 @@ img/backdrops/battle/desert_cave/desert_cave_water.png          GPLv2+          
 img/backdrops/battle/desert_cave/desert_cave_eyes2.png          GPLv2+                   Allacrost + Bertram
 img/backdrops/battle/desert_cave/desert_cave_waterdrop.png      GPLv2+                   Allacrost + Bertram
 img/backdrops/battle/desert_cave/desert_cave_creatures.png      GPLv2+                   Allacrost + Bertram
-
-img/backdrops/battle/mountain_village.png                       GPLv2+                   Allacrost
-img/backdrops/battle/mountain_village_single_house.png          GPLv2+                   Allacrost (Part of mountain_village.png) + based on Bart's CC0 work (OGA) - http://opengameart.org/content/moon-overlay-texture
-img/backdrops/battle/rock.png                                   GPLv2+                   Allacrost
 
 img/backgrops/boot/background.png                               GPLv2                    JAP (OGA)
 img/backgrops/boot/cloudfield.png                               GPLv2+                   Bertram
@@ -235,6 +223,7 @@ img/effects/right_arrow.png                                     CC by 3.0       
 img/effects/ripples.lua                                         GPLv3                    Bertram
 img/effects/ripples.png                                         CC0                      zookeeper (OGA) - http://opengameart.org/content/seamless-animated-raindrop-ripples-texture
 img/effects/shield.png                                          GPLv2+                   Allacrost
+img/effects/star.png                                            CC0                      (Ecrivain) (OGA) - http://opengameart.org/content/star
 img/effects/wave.png                                            CC by SA 3.0             Bertram
 img/effects/earth_circle.png                                    CC0                      (MrBeast) (OGA) - http://opengameart.org/content/73-patterns
 img/effects/water_circle.png                                    CC0                      (MrBeast) (OGA) - http://opengameart.org/content/73-patterns
@@ -244,6 +233,7 @@ img/effects/emotes/sweat_drop.png                               CC by SA 3.0    
 img/effects/emotes/thinking_dots.png                            CC by SA 3.0             Bertram
 img/effects/emotes/exclamation.png                              CC by SA 3.0             Bertram
 img/effects/emotes/interrogation.png                            CC by SA 3.0             Bertram
+img/effects/emotes/popping_veins.png                            CC by SA 3.0             Bertram
 
 img/fonts/LinBiolinum_RBah.ttf                                  OFL 1.1 or GPLv2+        Philipp H. Poll - http://www.linuxlibertine.org
 img/fonts/LinLibertine_aBS.ttf                                  OFL 1.1 or GPLv2+        Philipp H. Poll - http://www.linuxlibertine.org
@@ -257,10 +247,12 @@ img/icons/actors/characters/sylve.png                           GPLv2+          
 img/icons/actors/characters/thanis.png                          GPLv2+                   Allacrost (was Claudius icon)
 img/icons/actors/characters/bronann.png                         CC by SA 3.0             Safir-Kreuz (Deviant Art)
 
+img/icons/actors/enemies/andromalius.png                        CC by 3.0                Redshrike / Balmer (OGA) - http://opengameart.org/content/bosses-and-monsters-spritesheets-ars-notoria
+img/icons/actors/enemies/beetle.png                             CC by SA 3.0 / GPLv3     Redshrike (OGA), adapted by Bertram as stamina icon - http://opengameart.org/content/lpc-in-battle-rpg-sprites
 img/icons/actors/enemies/big_slime.png                          GPLv2+                   Bertram + Allacrost (From green slime enemy)
 img/icons/actors/enemies/dark_soldier.png                       GPLv3                    Allacrost + Kirill777 (OGA) - http://opengameart.org/content/soldier-0
 img/icons/actors/enemies/eyeball.png                            CC by SA 3.0 or GPLv3    Redshrike (OGA) - http://opengameart.org/content/lpc-in-battle-rpg-sprites
-img/icons/actors/enemies/harlequin.png                          CC by 3.0                Redshrike (OGA) - http://opengameart.org/content/3-form-rpg-boss-harlequin-epicycle
+img/icons/actors/enemies/harlequin.png                          CC by 3.0                Redshrike (OGA) + Balmer (OGA) - http://opengameart.org/content/3-form-rpg-boss-harlequin-epicycle - http://opengameart.org/content/bosses-and-monsters-spritesheets-ars-notoria
 img/icons/actors/enemies/lord_banesore.png                      CC by SA 3.0             Based on killyoverdrive (OGA) - http://opengameart.org/content/blue-knight-templar-transparent-background + image by Bertram
 img/icons/actors/enemies/mushroom_zombie.png                    CC by SA 3.0             Redshrike (OGA)
 img/icons/actors/enemies/red_slime.png                          GPLv2+                   Allacrost (From green slime enemy)
@@ -268,12 +260,12 @@ img/icons/actors/enemies/green_snake.png                        GPLv2+          
 img/icons/actors/enemies/thing.png                              CC by SA 3.0             From Jetrel (OGA) (From thing enemy)
 img/icons/actors/enemies/yeti.png                               CC by SA 3.0             From Jetrel (OGA) (From yeti enemy)
 img/icons/actors/enemies/fenrir.png                             CC by SA 3.0             Icon from Bertram, image from Patrick Thompson (PK Illustration) - http://opengameart.org/content/fenrir-wolf-sprite-injuries
-img/icons/actors/enemies/shroom.png                             CC by SA 3.0             Blarumyrran (OGA), redone on higher res by Bertram - http://opengameart.org/content/blarumyrrans-publicdomain-wesnoth-sprites
+img/icons/actors/enemies/shroom.png                             CC by SA 3.0             Blarumyrran (OGA), redone on higher res by Bertram - http://opengameart.org/content/blarumyrrans-publicdomain-wesnoth-sprites*
+img/icons/actors/enemies/dorver.png                             CC by SA 3,0             Manrevu (OGA) - Based on the dorver sprite - http://opengameart.org/content/dorver-monster
 
 img/icons/battle/default_weapon.png                             GPLv2+                   Allacrost
 img/icons/battle/default_special.png                            CC by SA 3.0             Bertram
 img/icons/battle/invocation.png                                 GPLv2+                   Allacrost
-img/icons/battle/template.png                                   GPLv2+                   Allacrost
 img/icons/battle/character_selector.png                         GPLv2+                   Allacrost
 img/icons/battle/magic.png                                      GPLv2+                   Allacrost
 img/icons/battle/item.png                                       GPLv2+                   Allacrost
@@ -291,6 +283,7 @@ img/icons/effects/templates.png                                 GPLv2+          
 
 img/icons/items/key_items/barley_meal_bag.png                   CC by SA 3.0             From Daniel Eddeland (OGA) from http://opengameart.org/content/lpc-farming-tilesets-magic-animations-and-ui-elements
 img/icons/items/key_items/necklace_wolfpain.png                 CC by SA 3.0             Adapted from Scrittl (OGA) - http://opengameart.org/content/armor-icons-32x32-px-painterly
+img/icons/items/candy.png                                       CC0                      (lumimae) - http://opengameart.org/content/candy-pack-1
 img/icons/items/copper_ore.png                                  CC by 3.0                Bertram, adapted from Hyptosis's work (OGA) - http://opengameart.org/content/lots-of-free-2d-tiles-and-sprites-by-hyptosis
 img/icons/items/iron_ore.png                                    CC by 3.0                Bertram, adapted from Hyptosis's work (OGA) - http://opengameart.org/content/lots-of-free-2d-tiles-and-sprites-by-hyptosis
 img/icons/items/anthozium_ore.png                               CC by 3.0                Bertram, adapted from Hyptosis's work (OGA) - http://opengameart.org/content/lots-of-free-2d-tiles-and-sprites-by-hyptosis
@@ -298,6 +291,7 @@ img/icons/items/auridium_ore.png                                CC by 3.0       
 img/icons/items/borium_ore.png                                  CC by 3.0                Bertram, adapted from Hyptosis's work (OGA) - http://opengameart.org/content/lots-of-free-2d-tiles-and-sprites-by-hyptosis
 img/icons/items/titanium_ore.png                                CC by 3.0                Bertram, adapted from Hyptosis's work (OGA) - http://opengameart.org/content/lots-of-free-2d-tiles-and-sprites-by-hyptosis
 img/icons/items/evanium_ore.png                                 CC by 3.0                Bertram, adapted from Hyptosis's work (OGA) - http://opengameart.org/content/lots-of-free-2d-tiles-and-sprites-by-hyptosis
+img/icons/items/lotus.png                                       CC by SA 3.0             Tommy Brunn - http://opengameart.org/content/rose-and-lotus-on-paper
 img/icons/items/phoenix_feather.png                             CC by 3.0                Bertram, adapted from Scrittl's work (OGA) - http://opengameart.org/content/phoenix-feather
 img/icons/items/ardoris.png                                     CC by SA 3.0             J. W. Bjerk (eleazzaar) (OGA) -- www.jwbjerk.com/art  - http://opengameart.org/content/painterly-spell-icons
 img/icons/items/demona.png                                      CC by SA 3.0             J. W. Bjerk (eleazzaar) (OGA) -- www.jwbjerk.com/art  - http://opengameart.org/content/painterly-spell-icons
@@ -306,6 +300,10 @@ img/icons/items/fairy.png                                       CC by SA 3.0    
 img/icons/items/oblivion.png                                    CC by SA 3.0             J. W. Bjerk (eleazzaar) (OGA) -- www.jwbjerk.com/art  - http://opengameart.org/content/painterly-spell-icons
 img/icons/items/sylphid.png                                     CC by SA 3.0             J. W. Bjerk (eleazzaar) (OGA) -- www.jwbjerk.com/art  - http://opengameart.org/content/painterly-spell-icons
 img/icons/items/undine.png                                      CC by SA 3.0             J. W. Bjerk (eleazzaar) (OGA) -- www.jwbjerk.com/art  - http://opengameart.org/content/painterly-spell-icons
+img/icons/items/escape_smoke.png                                CC by SA 3.0             J. W. Bjerk (eleazzaar) (OGA) -- www.jwbjerk.com/art  - http://opengameart.org/content/painterly-spell-icons
+img/icons/items/haste_potion.png                                GPLv2+                   Bertram, based on the potion_red_medium.png file.
+img/icons/items/poison_potion.png                               GPLv2+                   Bertram, based on the potion_red_medium.png file.
+img/icons/items/strength_potion.png                             GPLv2+                   Bertram, based on the potion_red_medium.png file.
 
 img/icons/magic/first_aid.png                                   CC by SA 3.0             J. W. Bjerk (eleazzaar) (OGA) -- www.jwbjerk.com/art  - http://opengameart.org/content/painterly-spell-icons
 img/icons/magic/leader_call.png                                 CC by SA 3.0             J. W. Bjerk (eleazzaar) (OGA) -- www.jwbjerk.com/art  - http://opengameart.org/content/painterly-spell-icons
@@ -382,12 +380,33 @@ img/menus/themes/royal_silk/cursor.png                          CC by 3.0       
 img/menus/themes/black_sleet/black_sleet_skin.png               GPLv2+                   Allacrost
 img/menus/themes/black_sleet/black_sleet_texture.png            GPLv2+                   Allacrost
 img/menus/themes/black_sleet/cursor.png                         GPLv2+                   Allacrost
+img/menus/themes/elvish_feather/cursor.png                      CC by 3.0                Bertram, adapted from Scrittl's work (OGA) - http://opengameart.org/content/phoenix-feather
+img/menus/themes/elvish_feather/win_background.png              CC by SA 3.0 / GPLv2+    Allacrost + Bertram modifications
+img/menus/themes/elvish_feather/win_border.png                  CC by SA 3.0             Bertram - with help from Mumu (OGA) - http://opengameart.org/content/40x56-card-frames-revised-again
 
 img/menus/worldmaps/layna_region.png                            CC by SA 3.0             Combination of: http://opengameart.org/content/old-time-3-islands-map (CC0) - Gaming4JC and MrBeast - http://opengameart.org/content/worldmapoverworld-tileset + map by Bertram
 
 img/menus/locations/layna_forest.png                            CC by SA 3.0             Tamara Ramsay vectorgurl.com - Ramtam (OGA) + Bertram's modifications.
 img/menus/locations/mt_elbrus.png                               GPLv2                    JAP (OGA)
+img/menus/locations/mountain_shrine.png                         CC by SA 3.0, GPLv3      Guido Bos (OGA), from the shrine tileset.
+img/menus/locations/mountain_village.png                        GPLv2                    Allacrost
+img/menus/locations/desert_cave.png                             GPLv2                    Allacrost
+img/menus/locations/desert.png                                  GPLv2                    Allacrost
 
+img/misc/stamina_bar_infinite_overlay.png                       GPLv2                    Allacrost
+img/misc/dialogue_icon.png                                      GPLv2                    Allacrost
+img/misc/category_icons.png                                     GPLv2                    Allacrost
+img/misc/stamina_bar_background.png                             GPLv2                    Allacrost
+img/misc/stamina_bar_map.png                                    CC by SA 3.0             Bertram
+
+img/misc/editor-tools/stock-tool-rect-select-22.png             GPLv2                    Allacrost
+img/misc/editor-tools/arrow-left.png                            GPLv2                    Allacrost
+img/misc/editor-tools/stock-tool-arrow.png                      GPLv2                    Allacrost
+img/misc/editor-tools/stock-tool-pencil-22.png                  GPLv2                    Allacrost
+img/misc/editor-tools/stock-tool-color-picker-22.png            GPLv2                    Allacrost
+img/misc/editor-tools/arrow-right.png                           GPLv2                    Allacrost
+img/misc/editor-tools/stock-tool-eraser-22.png                  GPLv2                    Allacrost
+img/misc/editor-tools/stock-tool-bucket-fill-22.png             GPLv2                    Allacrost
 img/misc/editor-tools/document-new.png                          GPLv2+                   Tiled (Bjorn lindeijer - mapeditor.org)
 img/misc/editor-tools/edit-delete.png                           GPLv2+                   Tiled (Bjorn lindeijer - mapeditor.org)
 img/misc/editor-tools/eye.png                                   GPLv2+                   Tiled (Bjorn lindeijer - mapeditor.org)
@@ -510,6 +529,7 @@ img/sprites/battle/effects/sword_slash.png                      GPLv3 / CC by SA
 
 img/sprites/battle/enemies/big_slime.png                        GPLv2+                   Bertram (based on the slime sprite)
 img/sprites/battle/enemies/dark_soldier.png                     GPLv3                    Kirill777 (OGA) - http://opengameart.org/content/soldier-0
+img/sprites/battle/enemies/dorver.png                           CC by SA 3,0             Manrevu (OGA) - http://opengameart.org/content/dorver-monster
 img/sprites/battle/enemies/green_snake.png                      GPLv2+                   Allacrost (From snake enemy)
 img/sprites/battle/enemies/harlequin.png                        CC by 3.0                Redshrike (OGA) - http://opengameart.org/content/3-form-rpg-boss-harlequin-epicycle
 img/sprites/battle/enemies/mushroom_zombie.png                  CC by SA 3.0             Redshrike (OGA)
@@ -521,6 +541,24 @@ img/sprites/battle/enemies/fenrir.png                           CC by SA 3.0    
 img/sprites/battle/enemies/eyeball.png                          CC by SA 3.0 or GPLv3    Redshrike (OGA) - http://opengameart.org/content/lpc-in-battle-rpg-sprites
 img/sprites/battle/enemies/shroom.png                           CC by SA 3.0             Blarumyrran (OGA), redone on higher res by Bertram - http://opengameart.org/content/blarumyrrans-publicdomain-wesnoth-sprites
 img/sprites/battle/enemies/lord_banesore.png                    CC by SA 3.0             Based on killyoverdrive (OGA) - http://opengameart.org/content/blue-knight-templar-transparent-background + image by Bertram
+img/sprites/battle/enemies/spider.png                           GPLv2+                   Allacrost
+img/sprites/battle/enemies/skeleton.png                         GPLv2+                   Allacrost
+img/sprites/battle/enemies/scorpion.png                         GPLv2+                   Allacrost
+img/sprites/battle/enemies/scorpion_goliath.png                 GPLv2+                   Allacrost
+img/sprites/battle/enemies/snake.png                            GPLv2+                   Allacrost
+img/sprites/battle/enemies/deceleon.png                         GPLv2+                   Allacrost
+img/sprites/battle/enemies/bat.png                              GPLv2+                   Allacrost
+img/sprites/battle/enemies/aerocephal.png                       GPLv2+                   Allacrost
+img/sprites/battle/enemies/daemarbora.png                       GPLv2+                   Allacrost
+img/sprites/battle/enemies/green_slime.png                      GPLv2+                   Allacrost
+img/sprites/battle/enemies/demonic_essence.png                  GPLv2+                   Allacrost
+img/sprites/battle/enemies/dune_crawler.png                     GPLv2+                   Allacrost
+img/sprites/battle/enemies/nagaruda.png                         GPLv2+                   Allacrost
+img/sprites/battle/enemies/arcana_drake.png                     GPLv2+                   Allacrost
+img/sprites/battle/enemies/aurum-drakueli.png                   GPLv2+                   Allacrost
+img/sprites/battle/enemies/stygian_lizard.png                   GPLv2+                   Allacrost
+img/sprites/battle/enemies/rat.png                              GPLv2+                   Allacrost
+img/sprites/battle/enemies/beetle.png                           CC by SA 3.0 / GPLv3     Redshrike (OGA) - http://opengameart.org/content/lpc-in-battle-rpg-sprites
 
 img/sprites/map/characters/bronann_bed_animation.png            CC by SA 3.0             Jetrel (OGA) for the bed and Bronann's head, Bertram for the frames.
 img/sprites/map/characters/bronann_frightened.png               GPLv2+                   Allacrost
@@ -538,22 +576,27 @@ img/sprites/map/characters/sylve_walk.png                       GPLv2+          
 img/sprites/map/characters/thanis_walk.png                      GPLv2+                   Allacrost
 img/sprites/map/characters/bronann_laughing_unarmed.png         GPLv2+                   Allacrost + Bertram
 img/sprites/map/characters/kalya_laughing.png                   GPLv2+                   Allacrost + Bertram
+img/sprites/map/characters/kalya_frightened.png                 GPLv2+                   Allacrost + Bertram
 
+img/sprites/map/enemies/andromalius_spritesheet.png             CC by 3.0                Redshrike / Balmer (OGA) - http://opengameart.org/content/bosses-and-monsters-spritesheets-ars-notoria
 img/sprites/map/enemies/bat_spritesheet.png                     CC by SA 3.0             From the Liberated Pixel Cup Bat enemy - http://lpc.opengameart.org/ (OGA)
+img/sprites/map/enemies/beetle_spritesheet.png                  CC by SA 3.0 / GPLv2     Redshrike (OGA) - http://opengameart.org/content/lpc-beetle
 img/sprites/map/enemies/big_slime_spritesheet.png               CC by SA 3.0             From the Liberated Pixel Cup Slime enemy - http://lpc.opengameart.org/ (OGA)
 img/sprites/map/enemies/dark_soldier01_spritesheet.png          CC by SA 3.0             Redshrike (OGA) - http://opengameart.org/content/dark-soldier-for-valyria-tear
 img/sprites/map/enemies/dark_soldier_ko.png                     CC by SA 3.0             Bertram, based on: Redshrike (OGA) - http://opengameart.org/content/dark-soldier-for-valyria-tear
 img/sprites/map/enemies/eyeball_spritesheet.png                 CC by SA 3.0             From the Liberated Pixel Cup Eyeball enemy - http://lpc.opengameart.org/ (OGA)
+img/sprites/map/enemies/fenrir_spritesheet.png                  GPLv2+                   Bertram - adapted from the wolf spritesheet
 img/sprites/map/enemies/gigas_walk.png                          GPLv2+                   Allacrost
+img/sprites/map/enemies/lord_spritesheet.png                    CC by SA 3.0             Bertram, adapted from Redshrike (OGA) - http://opengameart.org/content/dark-soldier-for-valyria-tear
 img/sprites/map/enemies/naga_walk.png                           GPLv2+                   Allacrost
 img/sprites/map/enemies/scorpion_walk.png                       GPLv2+                   Allacrost
+img/sprites/map/enemies/skeleton_spritesheet.png                CC by SA 3.0 / GPLv2     FotherJ (TMW) - https://github.com/themanaworld/tmwa-client-data/blob/master/graphics/sprites/monsters/skeleton.png
 img/sprites/map/enemies/slime_walk.png                          GPLv2+                   Allacrost
 img/sprites/map/enemies/snake_walk.png                          GPLv2+                   Allacrost
-img/sprites/map/enemies/wolf_spritesheet.png                    GPLv2+                   The Mana World
 img/sprites/map/enemies/spider_spritesheet.png                  GPLv2+                   The Mana World + Made it brown (Bertram)
 img/sprites/map/enemies/spiky_mushroom.png                      GPLv2+                   Yuuki - The Mana World - http://www.themanaworld.org
-img/sprites/map/enemies/fenrir_spritesheet.png                  GPLv2+                   Bertram - adapted from the wolf spritesheet
-img/sprites/map/enemies/lord_spritesheet.png                    CC by SA 3.0             Bertram, adapted from Redshrike (OGA) - http://opengameart.org/content/dark-soldier-for-valyria-tear
+img/sprites/map/enemies/wolf_spritesheet.png                    GPLv2+                   The Mana World
+img/sprites/map/enemies/yeti_spritesheet.png                    GPLv2                    Modanung, Pateame (TMW) - https://github.com/themanaworld/tmwa-client-data/blob/master/graphics/sprites/monsters/moggun.png
 
 img/sprites/map/npcs/crystal_spritesheet.png                    CC by SA 3.0             Len + Modifications by Bertram
 img/sprites/map/npcs/mak_hound.png                              GPLv2+                   Allacrost
@@ -574,13 +617,17 @@ img/sprites/map/npcs/soldier_on_horse.png                       CC by SA 3.0    
 img/sprites/map/npcs/story/carson_walk.png                      GPLv2+                   Allacrost
 img/sprites/map/npcs/story/malta_walk.png                       GPLv2+                   Allacrost
 img/sprites/map/npcs/story/orlinn_laughing.png                  GPLv2+                   Allacrost + Bertram
+img/sprites/map/npcs/story/orlinn_frightened.png                GPLv2+                   Allacrost + Bertram
 
+img/sprites/map/objects/ancient_sign.png                        CC by SA 3.0             Bertram
 img/sprites/map/objects/barrel1.png                             GPLv2+                   Allacrost
 img/sprites/map/objects/bed1.png                                GPLv2+                   Allacrost
 img/sprites/map/objects/bed2.png                                GPLv2                    Allacrost + Lilou
 img/sprites/map/objects/bench1.png                              GPLv2+                   Allacrost
 img/sprites/map/objects/bench2.png                              GPLv2+                   Allacrost
 img/sprites/map/objects/box1.png                                GPLv2+                   Allacrost
+img/sprites/map/objects/bones1.png                              CC by SA 3,0             Bertram
+img/sprites/map/objects/bubble.png                              CC by SA 3.0             Julien (OGA) - http://opengameart.org/content/large-bubble-and-some-bubbles-going-out-of-a-ground
 img/sprites/map/objects/bush1.png                               CC by SA 3.0             Zabin (OGA)
 img/sprites/map/objects/bush2.png                               CC by SA 3.0             Zabin (OGA) + Variation from Bertram
 img/sprites/map/objects/bush3.png                               CC by SA 3.0             Zabin (OGA) + Variation from Bertram
@@ -596,7 +643,10 @@ img/sprites/map/objects/chair1_north.png                        CC by SA 3.0    
 img/sprites/map/objects/chair2.png                              GPLv2+                   Allacrost
 img/sprites/map/objects/clock1.png                              GPLv2+                   Allacrost
 img/sprites/map/objects/dog1.png                                GPLv2+                   Nami97 (The Mana World - http://forums.themanaworld.org/viewtopic.php?f=8&t=16156)
+img/sprites/map/objects/dorver1.png                             CC by SA 3,0             Manrevu (OGA) - Based on the dorver sprite - http://opengameart.org/content/dorver-monster
+img/sprites/map/objects/dorver1_left.png                        CC by SA 3,0             Manrevu (OGA) - Based on the dorver sprite - http://opengameart.org/content/dorver-monster
 img/sprites/map/objects/door_big1.png                           GPLv3, CC by SA 3.0      Daniel Armstrong (HughSpectrum) (OGA), rearranged in 2x ratio by Bertram - http://opengameart.org/content/lpc-animated-castle-doors
+img/sprites/map/objects/flame1.png                              GPLv3, CC by 3.0         Sharm, William. Thompsonj (OGA) - http://opengameart.org/content/lpc-flames
 img/sprites/map/objects/flower_pot1.png                         GPLv2+                   Allacrost
 img/sprites/map/objects/flower_pot2.png                         GPLv2+                   Allacrost
 img/sprites/map/objects/gate1_closed.png                        CC by 3.0                Zabin, Hyptosis, and Daniel Cook (OGA) - http://opengameart.org/content/castle-tiles-for-rpgs
@@ -609,9 +659,13 @@ img/sprites/map/objects/parchment.png                           GPLv2+          
 img/sprites/map/objects/rock1.png                               CC by 3.0                Daniel Cook + Outline fix from Bertram
 img/sprites/map/objects/rock2.png                               CC by 3.0                Daniel Cook + Outline fix from Bertram
 img/sprites/map/objects/rock3.png                               CC by 3.0                Daniel Cook
-img/sprites/map/objects/rolling_stone.png                       CC by 3.0                Bertram
+img/sprites/map/objects/rolling_stone1.png                      CC by 3.0                Bertram
+img/sprites/map/objects/rolling_stone2.png                      CC by 3.0                Bertram
+img/sprites/map/objects/spikes1.png                             CC by SA 3.0             Adapted Circle 2D graphics from Daniel Cook (lostgarden.com)
+img/sprites/map/objects/spikes_broken1.png                      CC by SA 3.0             Bertram
 img/sprites/map/objects/stele1.png                              CC by SA 3.0             Adapted Circle 2D graphics from Daniel Cook (lostgarden.com)
 img/sprites/map/objects/stone_sign1.png                         CC by 3.0                Daniel Cook + Small edit from Bertram
+img/sprites/map/objects/stone_fence1.lua                        GPLv2+                   Allacrost
 img/sprites/map/objects/table1.png                              GPLv2+                   Allacrost
 img/sprites/map/objects/table2.png                              GPLv2+                   Allacrost
 img/sprites/map/objects/tree_big1.png                           GPLv2+                   Allacrost
@@ -633,6 +687,9 @@ img/sprites/map/objects/tree_tiny2.png                          CC by SA 3.0    
 img/sprites/map/objects/tree_tiny3.png                          CC by SA 3.0             Jetrel, Zabin (OGA) + Variation from Bertram
 img/sprites/map/objects/tree_tiny4.png                          CC by SA 3.0             Jetrel, Zabin (OGA) + Variation from Bertram
 img/sprites/map/objects/vase1.png                               GPLv2+                   Allacrost
+img/sprites/map/objects/water_light1.png                        CC by SA 3.0             ZaPaper (OGA) base on LPC work - http://opengameart.org/content/lpc-animated-water-and-waterfalls
+img/sprites/map/objects/waterfall1.png                          CC by SA 3.0             ZaPaper (OGA) base on LPC work - http://opengameart.org/content/lpc-animated-water-and-waterfalls
+img/sprites/map/objects/waterfall2.png                          CC by SA 3.0             ZaPaper (OGA) base on LPC work - http://opengameart.org/content/lpc-animated-water-and-waterfalls
 img/sprites/map/objects/well.png                                CC by SA 3.0             Bertram, based on several Jetrel's sprites
 img/sprites/map/objects/wooden_table_big.png                    GPLv2+                   Allacrost
 img/sprites/map/objects/wooden_table_small.png                  GPLv2+                   Allacrost
@@ -644,12 +701,30 @@ img/sprites/map/objects/tree_small1_snow.png                    CC by SA 3.0    
 img/sprites/map/objects/tree_small2_snow.png                    CC by SA 3.0             Daniel Cook + Jetrel's mockups + Zabin (OGA) + snow tree and ground from Yd (OGA)
 img/sprites/map/objects/wood_sign.png                           CC by SA 3.0             Daniel Cook + Jetrel's mockups + Zabin (OGA) + snow tree and ground from Yd (OGA)
 img/sprites/map/objects/wood_sign_snow.png                      CC by SA 3.0             Daniel Cook + Jetrel's mockups + Zabin (OGA) + snow tree and ground from Yd (OGA)
+img/sprites/map/objects/book1.png                               CC by SA 3.0             Allacrost + From Jetrel's mockups + Bertram + adapted other Circle 2D graphics from Daniel Cook (lostgarden.com)
+img/sprites/map/objects/bread1.png                              CC by SA 3.0             Allacrost + From Jetrel's mockups + Bertram + adapted other Circle 2D graphics from Daniel Cook (lostgarden.com)
+img/sprites/map/objects/candle1.png                             CC by SA 3.0             Allacrost + From Jetrel's mockups + Bertram + adapted other Circle 2D graphics from Daniel Cook (lostgarden.com)
+img/sprites/map/objects/candle_holder1.png                      CC by SA 3.0             Allacrost + From Jetrel's mockups + Bertram + adapted other Circle 2D graphics from Daniel Cook (lostgarden.com)
+img/sprites/map/objects/candle_holder2.png                      CC by SA 3.0             Allacrost + From Jetrel's mockups + Bertram + adapted other Circle 2D graphics from Daniel Cook (lostgarden.com)
+img/sprites/map/objects/clock1.png                              CC by SA 3.0             Allacrost + From Jetrel's mockups + Bertram + adapted other Circle 2D graphics from Daniel Cook (lostgarden.com)
+img/sprites/map/objects/flame_pot1.png                          CC by SA 3.0             Allacrost + From Jetrel's mockups + Bertram + adapted other Circle 2D graphics from Daniel Cook (lostgarden.com)
+img/sprites/map/objects/green_pepper1.png                       CC by SA 3.0             Allacrost + From Jetrel's mockups + Bertram + adapted other Circle 2D graphics from Daniel Cook (lostgarden.com)
+img/sprites/map/objects/jar1.png                                CC by SA 3.0             Allacrost + From Jetrel's mockups + Bertram + adapted other Circle 2D graphics from Daniel Cook (lostgarden.com)
+img/sprites/map/objects/knife1.png                              CC by SA 3.0             Allacrost + From Jetrel's mockups + Bertram + adapted other Circle 2D graphics from Daniel Cook (lostgarden.com)
+img/sprites/map/objects/plate_pile1.png                         CC by SA 3.0             Allacrost + From Jetrel's mockups + Bertram + adapted other Circle 2D graphics from Daniel Cook (lostgarden.com)
+img/sprites/map/objects/salad1.png                              CC by SA 3.0             Allacrost + From Jetrel's mockups + Bertram + adapted other Circle 2D graphics from Daniel Cook (lostgarden.com)
+img/sprites/map/objects/sauce_pot1.png                          CC by SA 3.0             Allacrost + From Jetrel's mockups + Bertram + adapted other Circle 2D graphics from Daniel Cook (lostgarden.com)
+img/sprites/map/objects/vase2.png                               CC by SA 3.0             Allacrost + From Jetrel's mockups + Bertram + adapted other Circle 2D graphics from Daniel Cook (lostgarden.com)
+img/sprites/map/objects/vase3.png                               CC by SA 3.0             Allacrost + From Jetrel's mockups + Bertram + adapted other Circle 2D graphics from Daniel Cook (lostgarden.com)
+img/sprites/map/objects/vase4.png                               CC by SA 3.0             Allacrost + From Jetrel's mockups + Bertram + adapted other Circle 2D graphics from Daniel Cook (lostgarden.com)
 
 img/sprites/map/scening/butterfly_spritesheet.png               GPLv2+                   The Mana World
 img/sprites/map/scening/chicken_spritesheet.png                 CC-By-SA 3.0             Daniel Eddeland <-> Daneeklu (OGA)
 img/sprites/map/scening/squirrel_spritesheet.png                GPLv2+                   The Mana World
 
 img/sprites/map/treasures/chest1.png                            GPLv2+                   Allacrost
+img/sprites/map/treasures/chest2.png                            CC by SA 3.0             Allacrost + From Jetrel's mockups + Bertram + adapted other Circle 2D graphics from Daniel Cook (lostgarden.com)
+img/sprites/map/treasures/chest3.png                            CC by SA 3.0             Allacrost + From Jetrel's mockups + Bertram + adapted other Circle 2D graphics from Daniel Cook (lostgarden.com)
 img/sprites/map/treasures/locker1.png                           GPLv2+                   Allacrost + Bertram
 
 img/sprites/map/triggers/stone_trigger1_off.png                 CC by SA 3.0             Adapted Circle 2D graphics from Daniel Cook (lostgarden.com)
@@ -688,12 +763,15 @@ mus/accion-OGA-djsaryon.ogg                                     CC by SA 3.0 or 
 mus/awareness_el_corleo.ogg                                     CC by SA 3.0             Eliot Corley - el-corleo (OGA) - http://opengameart.org/content/awareness
 mus/Battle_lost-OGA-Mumu.ogg                                    CC0                      Mumu (OGA) - http://opengameart.org/content/game-over-muisc
 mus/Caketown_1-OGA-mat-pablo.ogg                                CC by SA 3.0 or GPLv3    Mathew Pablo (OGA)
+mus/dont_close_your_eyes.ogg                                    CC by 3.0                Alexandr Zhelanov (OGA) - http://opengameart.org/content/north-wind-more-music-inside
 mus/Fanfare.ogg                                                 GPLv2+                   Allacrost
 mus/forest_at_night.ogg                                         CC by 3.0                Benboncan, dobroide (freesound.org) - Mix from Bertram between http://www.freesound.org/people/Benboncan/sounds/64544/ and http://www.freesound.org/people/dobroide/sounds/20574/
 mus/heroism-OGA-Edward-J-Blakeley.ogg                           GPLv2/3                  Edward J. Blakeley (OGA) - http://opengameart.org/content/heroism
 mus/house_in_a_forest_loop_horrorpen_oga.ogg                    CC by 3.0                HorrorPen (OGA)
+mus/icy_wind.ogg                                                CC0                      Ecrivain (OGA) - http://opengameart.org/content/icy-heights
 mus/koertes-ccby-birdsongloop16s.ogg                            CC by SA 3.0             Koertes (OGA)
 mus/Ove Melaa - Rainy.ogg                                       CC0                      OveMelaa (OGA) - http://opengameart.org/content/rain-ambient-not-loopable-2-versions-available
+mus/rain_indoors.ogg                                            GPLv2+                   Jute (OGA) - http://opengameart.org/content/thunder-rain-and-wind
 mus/sad_moment.ogg                                              CC by 3.0                lasercheese (OGA) - http://opengameart.org/content/space-orchestral
 mus/Soliloquy_1-OGA-mat-pablo.ogg                               CC by SA 3.0 or GPLv3    Mathew Pablo (OGA)
 mus/shrine-OGA-yd.ogg                                           (CC0)                    yd (OGA) - http://opengameart.org/content/shrine
@@ -703,20 +781,28 @@ mus/Zander Noriega - School of Quirks.ogg                       CC by SA 3.0    
 mus/the_recon_mission.ogg                                       CC by 3.0                Zander Noriega (OGA) - http://opengameart.org/content/the-recon-mission
 mus/overworld_present.ogg                                       CC by 3.0                HorrorPen (OGA) - http://opengameart.org/content/gray-trip
 
+snd/ancient_invocation.wav                                      CC by 3.0 or GPLv2/3     qubodup (OGA) - http://opengameart.org/content/energy-drain, slightly modified.
 snd/campfire.ogg                                                CC0                      Loop made by Bertram out of: http://www.freesound.org/people/Spandau/sounds/40699/
 snd/cloth_sound.wav                                             CC by 3.0 or GPLv2/3     artisticdude (OGA)
 snd/crystal_chime.wav                                           CC by SA 3.0             Bertram
 snd/crystal_appearance.ogg                                      CC by SA 3.0 or GPLv3    Mathew Pablo (OGA) - Based on the few first seconds of Solliloquy.
 snd/defence1_spell.ogg                                          CC by SA 3.0             qubodup (OGA) - http://opengameart.org/content/time-magic
 snd/dog_barking.wav                                             CC by 3.0                Brandon Morris (OGA) - http://opengameart.org/content/dog-barking-mono
+snd/falling.ogg                                                 CC by SA 3,0             Bertram
 snd/fire1_spell.ogg                                             CC by 3.0                artisticdude (OGA) - http://opengameart.org/content/fire-evil-spell
 snd/growl1_IFartInUrGeneralDirection_freesound.wav              CC by SA 3.0 or GPLv2+   Sampled by lendrick (http://www.freesound.org/people/lendrick/sounds/77632/) with permission from IFartInUrGeneralDirection
+snd/heartbeat_slow.wav                                          CC0                      (bart) (OGA) - http://opengameart.org/content/heartbeat-sounds
+snd/heavy_bump.wav                                              CC by SA 3.0             remaxim (OGA) - http://opengameart.org/content/falling-body
 snd/itempick2_michel_baradari_oga.wav                           CC by 3.0                Michel Baradari (OGA) from here: http://www.cubeengine.com/forum.php4?action=display_thread&thread_id=2164
 snd/levelup.wav                                                 CC0                      (qubodup) OGA
 snd/lightning.wav                                               CC0                      (Bertram)
-snd/meow.wav                                                    CC by 3.0                TheGertz (FreeSound) - hhttp://www.freesound.org/people/TheGertz/sounds/131201/
+snd/low_scream.ogg                                              CC by 3.0                Bertram, based on Macro's sound (OGA) - http://opengameart.org/content/screaming
+snd/low_scream_long.ogg                                         CC by 3.0                Bertram, based on Macro's sound (OGA) - http://opengameart.org/content/screaming
+snd/meow.wav                                                    CC by 3.0                TheGertz (FreeSound) - http://www.freesound.org/people/TheGertz/sounds/131201/
+snd/mountain_wind.ogg                                           CC by 3.0                Blender Foundation (OGA) - http://opengameart.org/content/ambient-mountain-river-wind-and-forest-and-waterfall
 snd/new_game.wav                                                GPLv2+                   (Same sound than the opening_sword_fall.wav) file from Allacrost.
 snd/punch.wav                                                   CC0                      Independent.nu (OGA) - http://opengameart.org/content/37-hitspunches
+snd/rumble_continuous.ogg                                       GPLv2+                   Allacrost, adapted by Bertram
 snd/save_point_activated_dokashiteru_oga.wav                    CC by 3.0 or GPLv2/3     DoKashiteru (OGA)
 snd/save_successful_nick_bowler_oga.wav                         CC by 3.0                Nick Bowler, added by draconx (OGA)
 snd/steam_hisses.ogg                                            CC0                      (Bart) (OGA) - http://opengameart.org/content/steam-release-sounds
@@ -791,47 +877,7 @@ Files:
 ./snd/female_scream.ogg
 ./snd/swordslice3.wav
 
-./img/sprites/battle/enemies/spider.png
-./img/sprites/battle/enemies/skeleton.png
-./img/sprites/battle/enemies/scorpion.png
-./img/sprites/battle/enemies/scorpion_goliath.png
-./img/sprites/battle/enemies/snake.png
-./img/sprites/battle/enemies/deceleon.png
-./img/sprites/battle/enemies/bat.png
-./img/sprites/battle/enemies/aerocephal.png
-./img/sprites/battle/enemies/daemarbora.png
-./img/sprites/battle/enemies/green_slime.png
-./img/sprites/battle/enemies/demonic_essence.png
-./img/sprites/battle/enemies/kyle.png
-./img/sprites/battle/enemies/dune_crawler.png
-./img/sprites/battle/enemies/nagaruda.png
-./img/sprites/battle/enemies/arcana_drake.png
-./img/sprites/battle/enemies/aurum-drakueli.png
-./img/sprites/battle/enemies/stygian_lizard.png
-./img/sprites/battle/enemies/rat.png
-
 ./img/logos/main_logo_sword.png
-
-./img/misc/chest1.png
-./img/misc/stamina_bar_infinite_overlay.png
-./img/misc/dialogue_icon.png
-./img/misc/category_icons.png
-./img/misc/stamina_bar_background.png
-./img/misc/skeleton_corpse.png
-./img/misc/editor-tools
-./img/misc/editor-tools/stock-tool-rect-select-22.png
-./img/misc/editor-tools/arrow-left.png
-./img/misc/editor-tools/stock-tool-arrow.png
-./img/misc/editor-tools/stock-tool-pencil-22.png
-./img/misc/editor-tools/stock-tool-color-picker-22.png
-./img/misc/editor-tools/arrow-right.png
-./img/misc/editor-tools/stock-tool-eraser-22.png
-./img/misc/editor-tools/stock-tool-bucket-fill-22.png
-
-./img/menus/locations/mountain_village.png
-./img/menus/locations/blank.png
-./img/menus/locations/desert_cave.png
-./img/menus/locations/desert.png
 
 ./img/menus/green_check.png
 ./img/menus/dialogue_cont_arrow.png
@@ -841,7 +887,6 @@ Files:
 ./img/menus/equip.png
 ./img/menus/battle_character_command.png
 ./img/menus/battle_character_selection.png
-./img/menus/stamina_icon.png
 ./img/menus/dialogue_last_ind.png
 ./img/menus/black_sleet_parch.png
 ./img/menus/battle_command_buttons.png

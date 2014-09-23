@@ -1,9 +1,14 @@
 -- Snow particle effect at shrine entrance
 
--- The effect overall size in pixel. Used to make the map mode draw the effect on time.
+-- The effect overall size in pixel. Used to make the map mode draw the effect on time
+-- and when the character is going to collide with it.
 map_effect_collision = {
+    -- Collision rectangle
     effect_collision_width = 8 * 16,
-    effect_collision_height = 6 * 16
+    effect_collision_height = 6 * 16,
+    -- Image rectangle
+    effect_width = 8 * 16,
+    effect_height = 6 * 16,
 }
 
 systems = {}
@@ -26,8 +31,7 @@ systems[0] =
         shape = 'line',
         omnidirectional = false,
         orientation = 4.50,
-        outer_cone = 0,
-        inner_cone = 0,
+        angle_variation = 0.0,
         initial_speed = 30,
         initial_speed_variation = 10,
         emission_rate = 106,

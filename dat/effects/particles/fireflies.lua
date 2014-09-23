@@ -1,10 +1,15 @@
 -- Fireflies effect
 -- Author: Bertram
 
--- The effect overall size in pixel. Used to make the map mode draw the effect on time.
+-- The effect overall size in pixel. Used to make the map mode draw the effect on time
+-- and when the character is going to collide with it.
 map_effect_collision = {
+    -- Collision rectangle
     effect_collision_width = 6 * 16,
-    effect_collision_height = 5 * 16
+    effect_collision_height = 5 * 16,
+    -- Image rectangle
+    effect_width = 6 * 16,
+    effect_height = 5 * 16,
 }
 
 systems = {}
@@ -27,8 +32,7 @@ systems[0] =
         shape = 'line',
         omnidirectional = true,
         orientation = 1.6, -- omnidirectional, so don't care
-        outer_cone = 0.0,
-        inner_cone = 0,
+        angle_variation = 0.0,
         initial_speed = 10,
         initial_speed_variation = 0,
         emission_rate = 1,

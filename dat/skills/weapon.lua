@@ -41,9 +41,11 @@ function trigger_potential_stun(user, target)
     -- Compute an effect duration time based on the characters' stats
     local effect_duration = (user:GetVigor() - target_actor:GetProtection()) * 2000;
     if (effect_duration < 15000) then effect_duration = 15000; end
-    target_actor:RegisterStatusChange(vt_global.GameGlobal.GLOBAL_STATUS_PARALYSIS,
-                                      vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_LESSER,
-                                      effect_duration);
+    target_actor:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_PARALYSIS,
+                                         vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_LESSER,
+                                         effect_duration);
+    local Battle = ModeManager:GetTop();
+    Battle:TriggerBattleParticleEffect("dat/effects/particles/stun_star.lua", target_actor:GetXLocation(), target_actor:GetYLocation());
 end
 
 function trigger_potential_attack_lowering(user, target)
@@ -60,9 +62,9 @@ function trigger_potential_attack_lowering(user, target)
     -- Compute an effect duration time based on the characters' stats
     local effect_duration = (user:GetVigor() - target_actor:GetProtection()) * 2000;
     if (effect_duration < 15000) then effect_duration = 15000; end
-    target_actor:RegisterStatusChange(vt_global.GameGlobal.GLOBAL_STATUS_STRENGTH,
-                                      vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_MODERATE,
-                                      effect_duration);
+    target_actor:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_STRENGTH,
+                                         vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_MODERATE,
+                                         effect_duration);
 end
 
 -- All attack skills definitions are stored in this table
@@ -178,9 +180,9 @@ skills[4] = {
         if (vt_battle.CalculateStandardEvasionAdder(target, 8.5) == false) then
             local effect_duration = user:GetVigor() * 2000;
             if (effect_duration < 15000) then effect_duration = 15000 end
-            target_actor:RegisterStatusChange(vt_global.GameGlobal.GLOBAL_STATUS_AGILITY,
-                                            vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_GREATER,
-                                            effect_duration);
+            target_actor:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_AGILITY,
+                                                 vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_GREATER,
+                                                 effect_duration);
 
             target_actor:RegisterDamage(vt_battle.CalculatePhysicalDamageAdder(user, target, 20), target);
             AudioManager:PlaySound("snd/swordslice2.wav");
@@ -238,9 +240,9 @@ skills[6] = {
         if (vt_battle.CalculateStandardEvasionAdder(target, 8.5) == false) then
             local effect_duration = user:GetVigor() * 2000;
             if (effect_duration < 15000) then effect_duration = 15000 end
-            target_actor:RegisterStatusChange(vt_global.GameGlobal.GLOBAL_STATUS_AGILITY,
-                                            vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_GREATER,
-                                            effect_duration);
+            target_actor:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_AGILITY,
+                                                 vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_GREATER,
+                                                 effect_duration);
 
             target_actor:RegisterDamage(vt_battle.CalculatePhysicalDamageAdder(user, target, 20), target);
             AudioManager:PlaySound("snd/swordslice2.wav");
@@ -292,24 +294,27 @@ skills[102] = {
     warmup_time = 3500,
     cooldown_time = 1000,
     action_name = "attack",
-    target_type = vt_global.GameGlobal.GLOBAL_TARGET_FOE_POINT,
+    target_type = vt_global.GameGlobal.GLOBAL_TARGET_ALL_FOES,
 
     BattleExecute = function(user, target)
-        local target_actor = target:GetActor();
+        local index = 0;
+        while (target:GetPartyActor(index) ~= nil) do
+            local target_actor = target:GetPartyActor(index)
 
-        if (vt_battle.CalculateStandardEvasion(target) == false) then
-            -- Calculate chance for attack lowering effect and activate it
-            trigger_potential_attack_lowering(user, target);
-            target_actor:RegisterDamage(vt_battle.CalculatePhysicalDamageAdder(user, target, 15), target);
-            AudioManager:PlaySound("snd/crossbow.ogg");
-        else
-            target_actor:RegisterMiss(true);
-            AudioManager:PlaySound("snd/crossbow_miss.ogg");
+            if (vt_battle.CalculateStandardEvasion(target_actor) == false) then
+                target_actor:RegisterDamage(vt_battle.CalculatePhysicalDamageAdder(user, target_actor, 5), target);
+                AudioManager:PlaySound("snd/crossbow.ogg");
+            else
+                target_actor:RegisterMiss(true);
+                AudioManager:PlaySound("snd/crossbow_miss.ogg");
+            end
+
+            index = index + 1
         end
     end,
 
     animation_scripts = {
-        [KALYA] = "dat/battles/characters_animations/kalya_attack.lua"
+        [KALYA] = "dat/battles/characters_animations/kalya_attack_party_target.lua"
     }
 }
 
@@ -338,7 +343,7 @@ skills[200] = {
 
 skills[201] = {
     name = vt_system.Translate("Poison Slash"),
-    description = vt_system.Translate("A dagger attack, poisoning the enemy"),
+    description = vt_system.Translate("A dagger attack, poisoning the enemy."),
     sp_required = 5,
     warmup_time = 1000,
     cooldown_time = 200,
@@ -550,9 +555,9 @@ skills[1005] = {
         if (vt_battle.CalculateStandardEvasion(target) == false) then
             local effect_duration = user:GetVigor() * 2000;
             if (effect_duration < 15000) then effect_duration = 15000 end
-            target_actor:RegisterStatusChange(vt_global.GameGlobal.GLOBAL_STATUS_AGILITY,
-                                                vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_LESSER,
-                                                effect_duration);
+            target_actor:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_AGILITY,
+                                                 vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_LESSER,
+                                                 effect_duration);
 
             -- The damages are applied after the potential effects, so that a potential target death handles the effect removal properly
             target_actor:RegisterDamage(vt_battle.CalculatePhysicalDamageAdder(user, target, 6), target);
@@ -648,6 +653,143 @@ skills[1009] = {
             end
 
             index = index + 1;
+        end
+    end
+}
+
+skills[1010] = {
+    name = "Rat Poison Bite",
+    sp_required = 5,
+    warmup_time = 900,
+    cooldown_time = 100,
+    target_type = vt_global.GameGlobal.GLOBAL_TARGET_FOE_POINT,
+
+    BattleExecute = function(user, target)
+        local target_actor = target:GetActor();
+
+        if (vt_battle.CalculateStandardEvasion(target) == false) then
+            local intensity = target_actor:GetActiveStatusEffectIntensity(vt_global.GameGlobal.GLOBAL_STATUS_HP);
+
+            -- Only apply up to a moderate poison
+            if (intensity > vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_MODERATE) then
+                local effect_duration = user:GetVigor() * 2000;
+                if (effect_duration < 15000) then effect_duration = 15000 end
+                target_actor:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_HP,
+                                                     vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_LESSER,
+                                                     effect_duration);
+            end
+
+            -- The damages are applied after the potential effects, so that a potential target death handles the effect removal properly
+            target_actor:RegisterDamage(vt_battle.CalculatePhysicalDamageAdder(user, target, 6), target);
+            AudioManager:PlaySound("snd/skeleton_attack.wav");
+        else
+            target_actor:RegisterMiss(true);
+        end
+    end
+}
+
+skills[1011] = {
+    name = "Skeleton Frenzy Attack",
+    sp_required = 10,
+    warmup_time = 2400,
+    cooldown_time = 500,
+    target_type = vt_global.GameGlobal.GLOBAL_TARGET_ALL_FOES,
+
+    BattleExecute = function(user, target)
+        local index = 0;
+        while true do
+            local target_actor = target:GetPartyActor(index);
+            if (target_actor == nil) then
+                break;
+            end
+
+            if (target_actor:IsAlive() == true and vt_battle.CalculateStandardEvasion(target_actor) == false) then
+                target_actor:RegisterDamage(vt_battle.CalculatePhysicalDamageAdder(user, target_actor, 25));
+                AudioManager:PlaySound("snd/skeleton_attack.wav");
+            else
+                target_actor:RegisterMiss(true);
+            end
+
+            index = index + 1;
+        end
+    end
+}
+
+skills[1012] = {
+    name = "Beetle Agility stealing Attack",
+    sp_required = 12,
+    warmup_time = 2400,
+    cooldown_time = 500,
+    target_type = vt_global.GameGlobal.GLOBAL_TARGET_FOE,
+
+    BattleExecute = function(user, target)
+        local target_actor = target:GetActor();
+
+        if (vt_battle.CalculateStandardEvasion(target) == false) then
+            local effect_duration = user:GetVigor() * 2000;
+            if (effect_duration < 15000) then effect_duration = 15000 end
+            target_actor:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_AGILITY,
+                                                 vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_MODERATE,
+                                                 effect_duration);
+            user:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_AGILITY,
+                                         vt_global.GameGlobal.GLOBAL_INTENSITY_POS_MODERATE,
+                                         effect_duration);
+
+            -- The damages are applied after the potential effects, so that a potential target death handles the effect removal properly
+            target_actor:RegisterDamage(vt_battle.CalculatePhysicalDamageAdder(user, target, 6), target);
+            AudioManager:PlaySound("snd/spider_attack.wav");
+        else
+            target_actor:RegisterMiss(true);
+        end
+    end
+}
+
+skills[1013] = {
+    name = "Dorver Frenzy",
+    sp_required = 10,
+    warmup_time = 2900,
+    cooldown_time = 1000,
+    target_type = vt_global.GameGlobal.GLOBAL_TARGET_SELF,
+
+    BattleExecute = function(user, target) -- target is self, we'll use user...
+        -- Add strength & agility, but decrease defence
+        local effect_duration = user:GetVigor() * 2000;
+        user:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_STRENGTH,
+                                     vt_global.GameGlobal.GLOBAL_INTENSITY_POS_MODERATE,
+                                     effect_duration);
+        user:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_AGILITY,
+                                     vt_global.GameGlobal.GLOBAL_INTENSITY_POS_MODERATE,
+                                     effect_duration);
+        user:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_FORTITUDE,
+                                     vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_MODERATE,
+                                     effect_duration);
+
+        AudioManager:PlaySound("snd/defence1_spell.ogg");
+    end
+}
+
+skills[1014] = {
+    name = "Andromalius Ground Hit",
+    sp_required = 0,
+    warmup_time = 1900,
+    cooldown_time = 1000,
+    target_type = vt_global.GameGlobal.GLOBAL_TARGET_FOE,
+
+    BattleExecute = function(user, target)
+        local target_actor = target:GetActor();
+
+        if (vt_battle.CalculateStandardEvasion(target) == false) then
+            local effect_duration = user:GetVigor() * 2000;
+            if (effect_duration < 15000) then effect_duration = 15000 end
+            target_actor:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_AGILITY,
+                                                 vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_MODERATE,
+                                                 effect_duration);
+
+            -- The damages are applied after the potential effects, so that a potential target death handles the effect removal properly
+            target_actor:RegisterDamage(vt_battle.CalculatePhysicalDamageAdder(user, target, 6), target);
+            AudioManager:PlaySound("snd/cave-in.ogg");
+        else
+            target_actor:RegisterMiss(true);
         end
     end
 }

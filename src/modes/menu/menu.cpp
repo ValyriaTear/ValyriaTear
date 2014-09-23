@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 //            Copyright (C) 2004-2011 by The Allacrost Project
-//            Copyright (C) 2012-2013 by Bertram (Valyria Tear)
+//            Copyright (C) 2012-2014 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -91,11 +91,13 @@ void AbstractMenuState::Update()
     // handle left / right option box movement
     else if(InputManager->LeftPress())
     {
+        media.PlaySound("bump");
         _options.InputLeft();
         return;
     }
     else if(InputManager->RightPress())
     {
+        media.PlaySound("bump");
         _options.InputRight();
         return;
     }
@@ -146,7 +148,6 @@ void AbstractMenuState::Update()
 
 void AbstractMenuState::Draw()
 {
-    static const Color grayed(0.35f, 0.35f, 0.35f, 1.0f);
     // Draw the saved screen background
     // For that, set the system coordinates to the size of the window (same with the save-screen)
     int32 width = VideoManager->GetViewportWidth();
@@ -719,6 +720,7 @@ const uint32 win_width = 208;
 ////////////////////////////////////////////////////////////////////////////////
 
 MenuMode::MenuMode() :
+    GameMode(MODE_MANAGER_MENU_MODE),
     _main_menu_state(this),
     _inventory_state(this),
     _party_state(this),
@@ -735,8 +737,6 @@ MenuMode::MenuMode() :
 
 {
     _current_instance = this;
-
-    mode_type = MODE_MANAGER_MENU_MODE;
 
     // Init the controls parameters.
     _time_text.SetTextStyle(TextStyle("text22"));
@@ -930,6 +930,10 @@ MenuMode::~MenuMode()
 void MenuMode::Reset()
 {
     _current_instance = this;
+
+    // Reload characters information,
+    // as active status effects may have changed.
+    ReloadCharacterWindows();
 }
 
 void MenuMode::UpdateTimeAndDrunes()

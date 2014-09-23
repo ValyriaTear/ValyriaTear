@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 //            Copyright (C) 2004-2011 by The Allacrost Project
-//            Copyright (C) 2012-2013 by Bertram (Valyria Tear)
+//            Copyright (C) 2012-2014 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -116,6 +116,7 @@ GlobalSkill::GlobalSkill(uint32 id) :
 
 GlobalSkill::GlobalSkill(const GlobalSkill &copy):
     _icon_filename(copy._icon_filename),
+    _warmup_action_name(copy._warmup_action_name),
     _action_name(copy._action_name),
     _animation_scripts(copy._animation_scripts)
 {
@@ -148,6 +149,7 @@ GlobalSkill &GlobalSkill::operator=(const GlobalSkill &copy)
     _sp_required = copy._sp_required;
     _warmup_time = copy._warmup_time;
     _cooldown_time = copy._cooldown_time;
+    _warmup_action_name = copy._warmup_action_name;
     _action_name = copy._action_name;
     _target_type = copy._target_type;
 

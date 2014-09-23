@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 //            Copyright (C) 2004-2011 by The Allacrost Project
-//            Copyright (C) 2012-2013 by Bertram (Valyria Tear)
+//            Copyright (C) 2012-2014 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -342,7 +342,7 @@ void VirtualSprite::_SetNextPosition()
             if(enemy && enemy->IsHostile() && map->AttackAllowed()) {
                  // Check whether the player is actually playing. If not, we don't want to start a battle.
                  if (MapMode::CurrentInstance()->CurrentState() == STATE_EXPLORE)
-                     _StartBattleEncounter(enemy);
+                     _StartEnemyEncounter(enemy);
 
                  return;
             }
@@ -369,7 +369,7 @@ void VirtualSprite::_SetNextPosition()
             if(enemy && enemy->IsHostile() && map->AttackAllowed()) {
                  // Check whether the player is actually playing. If not, we don't want to start a battle.
                  if (MapMode::CurrentInstance()->CurrentState() == STATE_EXPLORE)
-                     _StartBattleEncounter(enemy);
+                     _StartEnemyEncounter(enemy);
 
                  return;
             }
@@ -399,10 +399,11 @@ void VirtualSprite::_SetNextPosition()
                            (GetXPosition() - next_pos_x) / SCREEN_GRID_X_LENGTH * VIDEO_STANDARD_RES_WIDTH :
                            0.0f;
         float y_parallax = !map->IsCameraYAxisInMapCorner() ?
-                           (next_pos_y - GetYPosition()) / SCREEN_GRID_Y_LENGTH * VIDEO_STANDARD_RES_HEIGHT :
+                           (GetYPosition() - next_pos_y) / SCREEN_GRID_Y_LENGTH * VIDEO_STANDARD_RES_HEIGHT :
                            0.0f;
 
         map->GetEffectSupervisor().AddParallax(x_parallax, y_parallax);
+        map->GetIndicatorSupervisor().AddParallax(x_parallax, y_parallax);
     }
 
     // Make the sprite advance at the end
@@ -625,8 +626,21 @@ void VirtualSprite::RestoreState()
 }
 
 
-void VirtualSprite::_StartBattleEncounter(EnemySprite *enemy)
+void VirtualSprite::_StartEnemyEncounter(EnemySprite *enemy)
 {
+    if (!enemy)
+        return;
+
+    // If the enemy has got an encounter event, we trigger it.
+    if (!enemy->GetEncounterEvent().empty()) {
+        MapMode::CurrentInstance()->GetEventSupervisor()->StartEvent(enemy->GetEncounterEvent());
+        return;
+    }
+
+    // Otherwise, we start a battle
+    // Check the current map stamina and apply a malus on agility when it is low
+    MapMode* MM = MapMode::CurrentInstance();
+    MM->ApplyPotentialStaminaMalus();
 
     // Start a map-to-battle transition animation sequence
     BattleMode *BM = new BattleMode();
@@ -650,6 +664,8 @@ void VirtualSprite::_StartBattleEncounter(EnemySprite *enemy)
     if(!enemy_battle_scripts.empty())
         BM->GetScriptSupervisor().SetScripts(enemy_battle_scripts);
 
+    BM->SetBossBattle(enemy->IsBoss());
+
     TransitionToBattleMode *TM = new TransitionToBattleMode(BM, enemy->IsBoss());
 
     // Indicates to the potential enemy zone that this spawn is dead.
@@ -659,7 +675,7 @@ void VirtualSprite::_StartBattleEncounter(EnemySprite *enemy)
 
     // Make all enemy sprites disappear after creating the transition mode so that the player
     // can't be cornerned and forced into multiple battles in succession.
-    MapMode::CurrentInstance()->GetObjectSupervisor()->SetAllEnemyStatesToDead();
+    MM->GetObjectSupervisor()->SetAllEnemyStatesToDead();
 
     ModeManager->Push(TM);
 }
@@ -981,7 +997,7 @@ void MapSprite::LoadFacePortrait(const std::string &filename)
 void MapSprite::Update()
 {
     // Stores the last value of moved_position to determine when a change in sprite movement between calls to this function occurs
-    static bool was_moved = moved_position;
+    bool was_moved = moved_position;
 
     // This call will update the sprite's position and perform collision detection
     VirtualSprite::Update();
@@ -1271,7 +1287,6 @@ EnemySprite::EnemySprite() :
     _time_before_new_destination(1200),
     _time_to_spawn(STANDARD_ENEMY_FIRST_SPAWN_TIME),
     _time_to_respawn(STANDARD_ENEMY_SPAWN_TIME),
-    _out_of_zone(false),
     _is_boss(false),
     _use_path(false)
 {
@@ -1287,7 +1302,6 @@ void EnemySprite::Reset()
     _state = DEAD;
     _time_elapsed = 0;
     _color.SetAlpha(0.0f);
-    _out_of_zone = false;
 
     // Reset path finding info
     _last_node_x_position = 0.0f;
@@ -1352,111 +1366,94 @@ void EnemySprite::Update()
         break;
 
         // Set the sprite's direction so that it seeks to collide with the map camera's position
-    case HOSTILE: {
-        // Holds the x and y deltas between the sprite and map camera coordinate pairs
-        VirtualSprite *camera = MapMode::CurrentInstance()->GetCamera();
-        float camera_x = camera->GetXPosition();
-        float camera_y = camera->GetYPosition();
+    case HOSTILE:
+        _HandleHostileUpdate();
+        break;
 
-        float xdelta = GetXPosition() - camera_x;
-        float ydelta = GetYPosition() - camera_y;
-        float abs_xdelta = fabs(xdelta);
-        float abs_ydelta = fabs(ydelta);
+    // Do nothing if the sprite is in the DEAD state, or any other state
+    case DEAD:
+    default:
+        break;
+    }
+} // void EnemySprite::Update()
 
-        // Don't update enemies that are too far away...
-        if (abs_xdelta > SCREEN_GRID_X_LENGTH || abs_ydelta > SCREEN_GRID_Y_LENGTH)
-            return;
+void EnemySprite::_HandleHostileUpdate()
+{
+    // Holds the x and y deltas between the sprite and map camera coordinate pairs
+    VirtualSprite* camera = MapMode::CurrentInstance()->GetCamera();
+    float camera_x = camera->GetXPosition();
+    float camera_y = camera->GetYPosition();
 
-        // Update the wait time until next path
+    float xdelta = GetXPosition() - camera_x;
+    float ydelta = GetYPosition() - camera_y;
+    float abs_xdelta = fabs(xdelta);
+    float abs_ydelta = fabs(ydelta);
+
+    // Don't update enemies that are too far away...
+    if (abs_xdelta > SCREEN_GRID_X_LENGTH || abs_ydelta > SCREEN_GRID_Y_LENGTH)
+        return;
+
+    // Updates sprite animation and collision fix.
+    MapSprite::Update();
+
+    // Test whether the monster has spotted its target.
+    bool player_in_aggro_range = false;
+    if(abs_xdelta <= _aggro_range && abs_ydelta <= _aggro_range)
+        player_in_aggro_range = true;
+
+    // Handle chasing the character
+    if (player_in_aggro_range && MapMode::CurrentInstance()->AttackAllowed()) {
+        // We first cancel the potential previous path.
+        if (!_path.empty()) {
+            // We cancel any previous path
+            _path.clear();
+            // We set the correct mask before moving normally
+            collision_mask = WALL_COLLISION | CHARACTER_COLLISION;
+            _use_path = false;
+        }
+
+        // Check whether we're already colliding, so that even when not moving
+        // we can start a battle.
+        if (this->IsCollidingWith(camera))
+            _StartEnemyEncounter(this);
+
+        // Make the monster go toward the character
+        if(xdelta > -0.5 && xdelta < 0.5 && ydelta < 0)
+            SetDirection(SOUTH);
+        else if(xdelta > -0.5 && xdelta < 0.5 && ydelta > 0)
+            SetDirection(NORTH);
+        else if(ydelta > -0.5 && ydelta < 0.5 && xdelta > 0)
+            SetDirection(WEST);
+        else if(ydelta > -0.5 && ydelta < 0.5 && xdelta < 0)
+            SetDirection(EAST);
+        else if(xdelta < 0 && ydelta < 0)
+            SetDirection(MOVING_SOUTHEAST);
+        else if(xdelta < 0 && ydelta > 0)
+            SetDirection(MOVING_NORTHEAST);
+        else if(xdelta > 0 && ydelta < 0)
+            SetDirection(MOVING_SOUTHWEST);
+        else
+            SetDirection(MOVING_NORTHWEST);
+        moving = true;
+
+        return;
+    }
+
+    // Handle monsters with way points.
+    if (!_way_points.empty()) {
+
+        // Update the wait time until next path between two way points.
         if (!_use_path || !moving)
             _time_elapsed += SystemManager->GetUpdateTime();
 
-        // Test whether the monster has spotted its target.
-        bool player_in_aggro_range = false;
-        if(abs_xdelta <= _aggro_range && abs_ydelta <= _aggro_range)
-            player_in_aggro_range = true;
-
-        // check whether the monster has the right to get out of the roaming zone
-        bool can_get_out_of_zone = false;
-        if(player_in_aggro_range && !_zone->IsAgressionRestrainedtoRoamingZone())
-            can_get_out_of_zone = true;
-        else if(!player_in_aggro_range && !_zone->IsRoamingRestrained())
-            can_get_out_of_zone = true;
-
-        // If the sprite has moved outside of its zone and it should not, Set the way back home
-        if(_zone && !_zone->IsInsideZone(GetXPosition(), GetYPosition())
-                && !can_get_out_of_zone) {
-            if (_path.empty() && _time_elapsed >= _time_before_new_destination) {
-                if (!_SetPathToNextWayPoint() && !_out_of_zone) {
-                    // Fall back to simple movement mode.
-                    // N.B.: This isn't perfect but it would involve pathfinding otherwise
-                    SetDirection(CalculateOppositeDirection(GetDirection()));
-                    moving = true;
-
-                    // The sprite is now finding its way back into the zone
-                    _out_of_zone = true;
-                    _time_elapsed = 0;
-                }
-                else if (_time_elapsed >= _time_before_new_destination) {
-                    // If still returning to home, we enable a random directions again
-                    // to prevent blocking the enemy sprite in a corner.
-                    if (!_SetPathToNextWayPoint()) {
-                        // Fall back to simple movement mode
-                        SetRandomDirection();
-                        moving = true;
-                        _time_elapsed = 0;
-                    }
-                }
-            }
-        }
-        // Otherwise, determine the direction that the sprite should move if the camera is within the sprite's aggression range
-        else {
-            _out_of_zone = false;
-
-            // Enemies will only get aggressive if the camera is inside the zone, or the zone is non-restrictive
-            // The order of comparisons here is important,
-            // the NULL check MUST come before the rest or a null pointer exception could happen if no zone is registered
-            if(MapMode::CurrentInstance()->AttackAllowed()
-                    && (_zone == NULL || (can_get_out_of_zone || _zone->IsInsideZone(camera_x, camera_y)))) {
-                if (!_path.empty()) {
-                    // We cancel any previous path
-                    _path.clear();
-                    // We set the correct mask before moving normally
-                    collision_mask = WALL_COLLISION | CHARACTER_COLLISION;
-                    _use_path = false;
-                }
-
-                // We set the direction to the character's position if it's not the case
-                if(xdelta > -0.5 && xdelta < 0.5 && ydelta < 0)
-                    SetDirection(SOUTH);
-                else if(xdelta > -0.5 && xdelta < 0.5 && ydelta > 0)
-                    SetDirection(NORTH);
-                else if(ydelta > -0.5 && ydelta < 0.5 && xdelta > 0)
-                    SetDirection(WEST);
-                else if(ydelta > -0.5 && ydelta < 0.5 && xdelta < 0)
-                    SetDirection(EAST);
-                else if(xdelta < 0 && ydelta < 0)
-                    SetDirection(MOVING_SOUTHEAST);
-                else if(xdelta < 0 && ydelta > 0)
-                    SetDirection(MOVING_NORTHEAST);
-                else if(xdelta > 0 && ydelta < 0)
-                    SetDirection(MOVING_SOUTHWEST);
-                else
-                    SetDirection(MOVING_NORTHWEST);
+        if (_path.empty() && _time_elapsed >= _time_before_new_destination) {
+            if (!_SetPathToNextWayPoint()) {
+                // Fall back to simple movement mode
+                SetRandomDirection();
                 moving = true;
-
             }
-            // If the sprite is not within the aggression range, pick a random destination to move
-            // If there is no path left, and the time to set a new destination has passed,
-            // we set a new random destination.
-            else if (_path.empty() && _time_elapsed >= _time_before_new_destination) {
-                if (!_SetPathToNextWayPoint()) {
-                    // Fall back to simple movement mode
-                    SetRandomDirection();
-                    moving = true;
-                }
-                _time_elapsed = 0;
-            }
+            // The sprite is now finding its way back into the zone
+            _time_elapsed = 0;
         }
 
         if (_use_path && _path.empty()) {
@@ -1466,16 +1463,47 @@ void EnemySprite::Update()
             collision_mask = WALL_COLLISION | CHARACTER_COLLISION;
         }
 
-        MapSprite::Update();
+        // Update the sprite direction according to the path
         _UpdatePath();
-        break;
+        return;
     }
-    // Do nothing if the sprite is in the DEAD state, or any other state
-    case DEAD:
-    default:
-        break;
+
+    // Determine standard monster behavior regarding its zone.
+
+    // Update the wait time until two set destination.
+    _time_elapsed += SystemManager->GetUpdateTime();
+
+    // Check whether the monster can get out of the zone.
+    bool can_get_out_of_zone = true;
+    if (_zone && _zone->IsRoamingRestrained() && !player_in_aggro_range)
+        can_get_out_of_zone = false;
+
+    if (!can_get_out_of_zone) {
+        // Check whether the monster is inside its zone
+        bool out_of_zone = false;
+        if (_zone && !_zone->IsInsideZone(GetXPosition(), GetYPosition()))
+            out_of_zone = true;
+
+        if (out_of_zone && _time_elapsed >= _time_before_new_destination) {
+            // The sprite is now finding its way back into the zone
+            float x_dest;
+            float y_dest;
+            _zone->RandomPosition(x_dest, y_dest);
+            LookAt(x_dest, y_dest);
+            moving = true;
+
+            _time_elapsed = 0;
+            return;
+        }
     }
-} // void EnemySprite::Update()
+
+    // Make the monster wander randomly in other cases
+    if (_time_elapsed >= _time_before_new_destination) {
+        SetRandomDirection();
+        moving = true;
+        _time_elapsed = 0;
+    }
+}
 
 void EnemySprite::Draw()
 {

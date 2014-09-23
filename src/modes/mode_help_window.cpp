@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 //            Copyright (C) 2004-2011 by The Allacrost Project
-//            Copyright (C) 2012-2013 by Bertram (Valyria Tear)
+//            Copyright (C) 2012-2014 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -111,11 +111,8 @@ void HelpWindow::_RefreshText()
 
     // Common text
     _text_continue.SetStyle(TextStyle("title24"));
-    char buffer[256];
-    sprintf(buffer, Translate("Press '%s' anytime to show/hide help.").c_str(),
-            vt_input::InputManager->GetHelpKeyName().c_str());
-
-    _text_continue.SetText(std::string(buffer));
+    _text_continue.SetText(VTranslate("Press '%s' anytime to show/hide help.",
+                           vt_input::InputManager->GetHelpKeyName()));
 
     uint8 game_type = ModeManager->GetGameType();
 
@@ -149,9 +146,10 @@ void HelpWindow::_RefreshText()
         _key_table.AddOption(UTranslate("Cancel"));
         _key_table.AddOption(UTranslate(vt_input::InputManager->GetCancelKeyName()));
         _key_table.AddOption(UTranslate("Cancel a menu command"));
+        // Note for later: For 'quit', only show the keyboard key as the joystick won't make the game quit.
         _key_table.AddOption(UTranslate("Quit"));
         _key_table.AddOption(UTranslate(vt_input::InputManager->GetQuitKeyName()));
-        _key_table.AddOption(UTranslate("Quit the application"));
+        _key_table.AddOption(UTranslate("Quit the application\n(when using the keyboard)"));
         return;
     } else if(game_type == MODE_MANAGER_SHOP_MODE) {
         _text_header.SetStyle(TextStyle("text22"));
@@ -188,6 +186,9 @@ void HelpWindow::_RefreshText()
         _key_table.AddOption(UTranslate("Confirm"));
         _key_table.AddOption(UTranslate(vt_input::InputManager->GetConfirmKeyName()));
         _key_table.AddOption(UTranslate("Show details or confirm a transaction"));
+        _key_table.AddOption(UTranslate("Menu"));
+        _key_table.AddOption(UTranslate(vt_input::InputManager->GetMenuKeyName()));
+        _key_table.AddOption(UTranslate("Change the displayed item category."));
         _key_table.AddOption(UTranslate("Cancel"));
         _key_table.AddOption(UTranslate(vt_input::InputManager->GetCancelKeyName()));
         _key_table.AddOption(UTranslate("Get out the Buy/Sell/Confirm mode,\nor quit the shop."));
@@ -227,40 +228,39 @@ void HelpWindow::_RefreshText()
     _key_table.SetCursorState(VIDEO_CURSOR_STATE_HIDDEN);
 
     _key_table.AddOption(UTranslate("Up"));
-    _key_table.AddOption(UTranslate("Up Arrow"));
+    _key_table.AddOption(UTranslate(vt_input::InputManager->GetUpKeyName()));
     _key_table.AddOption(UTranslate("Move position or cursor upwards"));
     _key_table.AddOption(UTranslate("Down"));
-    _key_table.AddOption(UTranslate("Down Arrow"));
+    _key_table.AddOption(UTranslate(vt_input::InputManager->GetDownKeyName()));
     _key_table.AddOption(UTranslate("Move position or cursor downwards"));
     _key_table.AddOption(UTranslate("Left"));
-    _key_table.AddOption(UTranslate("Left Arrow"));
+    _key_table.AddOption(UTranslate(vt_input::InputManager->GetLeftKeyName()));
     _key_table.AddOption(UTranslate("Move position or cursor to the left"));
     _key_table.AddOption(UTranslate("Right"));
-    _key_table.AddOption(UTranslate("Right Arrow"));
+    _key_table.AddOption(UTranslate(vt_input::InputManager->GetRightKeyName()));
     _key_table.AddOption(UTranslate("Move position or cursor to the right"));
     _key_table.AddOption(UTranslate("Confirm"));
-    _key_table.AddOption(UTranslate("F"));
+    _key_table.AddOption(UTranslate(vt_input::InputManager->GetConfirmKeyName()));
     _key_table.AddOption(UTranslate("Confirm an action or menu command"));
     _key_table.AddOption(UTranslate("Cancel"));
-    _key_table.AddOption(UTranslate("D"));
+    _key_table.AddOption(UTranslate(vt_input::InputManager->GetCancelKeyName()));
     _key_table.AddOption(UTranslate("Cancel an action or menu command"));
-    _key_table.AddOption(UTranslate("Menu"));
-    _key_table.AddOption(UTranslate("S"));
-    _key_table.AddOption(UTranslate("Display the character menu"));
-    _key_table.AddOption(UTranslate("Swap"));
-    _key_table.AddOption(UTranslate("A"));
-    _key_table.AddOption(UTranslate("Swaps active menu or character"));
-    _key_table.AddOption(UTranslate("Left Select"));
-    _key_table.AddOption(UTranslate("W"));
-    _key_table.AddOption(UTranslate("Select multiple or backward page scroll"));
-    _key_table.AddOption(UTranslate("Right Select"));
-    _key_table.AddOption(UTranslate("E"));
-    _key_table.AddOption(UTranslate("Select multiple or forward page scroll"));
+
+    if (game_type != MODE_MANAGER_MENU_MODE && game_type != MODE_MANAGER_BATTLE_MODE) {
+        _key_table.AddOption(UTranslate("Menu"));
+        _key_table.AddOption(UTranslate(vt_input::InputManager->GetMenuKeyName()));
+        _key_table.AddOption(UTranslate("Opens the party menu"));
+    }
+    else if (game_type == MODE_MANAGER_BATTLE_MODE) {
+        _key_table.AddOption(UTranslate("Menu"));
+        _key_table.AddOption(UTranslate(vt_input::InputManager->GetMenuKeyName()));
+        _key_table.AddOption(UTranslate("Show/Hide items and skills descriptions."));
+    }
     _key_table.AddOption(UTranslate("Pause"));
-    _key_table.AddOption(UTranslate("Spacebar"));
+    _key_table.AddOption(UTranslate(vt_input::InputManager->GetPauseKeyName()));
     _key_table.AddOption(UTranslate("Pauses the game"));
     _key_table.AddOption(UTranslate("Quit"));
-    _key_table.AddOption(UTranslate("Esc"));
+    _key_table.AddOption(UTranslate(vt_input::InputManager->GetQuitKeyName()));
     _key_table.AddOption(UTranslate("Quit the application"));
 
     _text_additional.SetStyle(TextStyle("text20"));

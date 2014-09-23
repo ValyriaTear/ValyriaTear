@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 //            Copyright (C) 2004-2011 by The Allacrost Project
-//            Copyright (C) 2012-2013 by Bertram (Valyria Tear)
+//            Copyright (C) 2012-2014 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -107,25 +107,12 @@ bool MapZone::_ShouldDraw(const ZoneSection &section)
         return false;
 
     // Determine the center position coordinates for the camera
-    float x_pos, y_pos; // Holds the final X, Y coordinates of the camera
-    float x_pixel_length, y_pixel_length; // The X and Y length values that coorespond to a single pixel in the current coodinate system
-    float rounded_x_offset, rounded_y_offset; // The X and Y position offsets of the object, rounded to perfectly align on a pixel boundary
-
-
-    // TODO: the call to GetPixelSize() will return the same result every time so long as the coordinate system did not change. If we never
-    // change the coordinate system in map mode, then this should be done only once and the calculated values should be saved for re-use.
-    // However, we've discussed the possiblity of adding a zoom feature to maps, in which case we need to continually re-calculate the pixel size
-    x_pos = rect.left + (rect.right - rect.left) / 2;
-    y_pos = rect.top + (rect.bottom - rect.top);
-    vt_video::VideoManager->GetPixelSize(x_pixel_length, y_pixel_length);
-    rounded_x_offset = FloorToFloatMultiple(GetFloatFraction(x_pos), x_pixel_length);
-    rounded_y_offset = FloorToFloatMultiple(GetFloatFraction(y_pos), y_pixel_length);
-    x_pos = static_cast<float>(GetFloatInteger(x_pos)) + rounded_x_offset;
-    y_pos = static_cast<float>(GetFloatInteger(y_pos)) + rounded_y_offset;
+    float x_pos = rect.left + (rect.right - rect.left) / 2;
+    float y_pos = rect.top + (rect.bottom - rect.top);
 
     // Move the drawing cursor to the appropriate coordinates for this sprite
     vt_video::VideoManager->Move(x_pos - map->GetMapFrame().screen_edges.left,
-                                  y_pos - map->GetMapFrame().screen_edges.top);
+                                 y_pos - map->GetMapFrame().screen_edges.top);
     return true;
 }
 
@@ -167,7 +154,6 @@ EnemyZone::EnemyZone() :
     MapZone(),
     _enabled(true),
     _roaming_restrained(true),
-    _agression_roaming_restrained(false),
     _active_enemies(0),
     _spawns_left(-1), // Infinite spawns permitted.
     _spawn_timer(STANDARD_ENEMY_FIRST_SPAWN_TIME),
@@ -185,7 +171,6 @@ EnemyZone::EnemyZone(uint16 left_col, uint16 right_col,
     MapZone(left_col, right_col, top_row, bottom_row),
     _enabled(true),
     _roaming_restrained(true),
-    _agression_roaming_restrained(false),
     _active_enemies(0),
     _spawns_left(-1), // Infinite spawns permitted.
     _spawn_timer(STANDARD_ENEMY_FIRST_SPAWN_TIME),
@@ -201,7 +186,6 @@ EnemyZone::EnemyZone(const EnemyZone &copy) :
 {
     _enabled = copy._enabled;
     _roaming_restrained = copy._roaming_restrained;
-    _agression_roaming_restrained = copy._agression_roaming_restrained;
     _spawns_left = copy._spawns_left;
     _active_enemies = copy._active_enemies;
     _spawn_timer = copy._spawn_timer;
@@ -224,7 +208,6 @@ EnemyZone &EnemyZone::operator=(const EnemyZone &copy)
     MapZone::operator=(copy);
     _enabled = copy._enabled;
     _roaming_restrained = copy._roaming_restrained;
-    _agression_roaming_restrained = copy._agression_roaming_restrained;
     _spawns_left = copy._spawns_left;
     _active_enemies = copy._active_enemies;
     _spawn_timer = copy._spawn_timer;

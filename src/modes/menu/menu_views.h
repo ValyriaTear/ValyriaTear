@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 //            Copyright (C) 2004-2011 by The Allacrost Project
-//            Copyright (C) 2012-2013 by Bertram (Valyria Tear)
+//            Copyright (C) 2012-2014 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -37,19 +37,6 @@ class MenuMode;
 
 namespace private_menu
 {
-
-//! \brief The different item categories
-enum ITEM_CATEGORY {
-    ITEM_ALL = 0,
-    ITEM_ITEM = 1,
-    ITEM_WEAPON = 2,
-    ITEM_HEAD_ARMOR = 3,
-    ITEM_TORSO_ARMOR = 4,
-    ITEM_ARMS_ARMOR = 5,
-    ITEM_LEGS_ARMOR = 6,
-    ITEM_KEY = 7,
-    ITEM_CATEGORY_SIZE = 8
-};
 
 //! \brief The different skill types
 enum SKILL_CATEGORY {
@@ -133,7 +120,7 @@ public:
     /** \brief Set the character for this window
     *** \param character the character to associate with this window
     **/
-    void SetCharacter(vt_global::GlobalCharacter *character);
+    void SetCharacter(vt_global::GlobalCharacter* character);
 
     /** \brief render this window to the screen
     *** \return success/failure
@@ -150,6 +137,15 @@ private:
     //! The text along with the character portrait
     vt_video::TextImage _character_name;
     vt_video::TextImage _character_data;
+
+    //! The character active status effects images.
+    //! Do not delete them, as they are handled by the GlobalMedia class.
+    std::vector<vt_video::StillImage*> _active_status_effects;
+
+    /** Refreshes the active status effects images vector content.
+    *** \param character the character to check status effects for.
+    **/
+    void _UpdateActiveStatusEffects(vt_global::GlobalCharacter* character);
 }; // class CharacterWindow : public vt_video::MenuWindow
 
 
@@ -222,7 +218,7 @@ private:
     std::vector< vt_global::GlobalObject * > _item_objects;
 
     //! holds previous category. we were looking at
-    ITEM_CATEGORY _previous_category;
+    vt_global::ITEM_CATEGORY _previous_category;
 
     //! The currently selected object
     vt_global::GlobalObject* _object;
@@ -821,37 +817,6 @@ template <class T> std::vector<vt_global::GlobalObject *> InventoryWindow::_GetI
 }
 
 } // namespace private_menu
-
-/** **************************************************************************
-*** \brief A window to display a message to the player
-*** Displays a message to the user in the center of the screen
-*** This class is not private because it's a handy message box and
-*** it could be used else where.
-*** **************************************************************************/
-class MessageWindow : public vt_gui::MenuWindow
-{
-public:
-    MessageWindow(const vt_utils::ustring &message, float w, float h);
-    ~MessageWindow();
-
-    //! \brief Set the text to display in the window
-    void SetText(const vt_utils::ustring &message) {
-        _message = message;
-        _textbox.SetDisplayText(message);
-    }
-
-    //! \brief Standard Window Functions
-    //@{
-    void Draw();
-    //@}
-
-private:
-    //! \brief the message to display
-    vt_utils::ustring _message;
-
-    //! \brief used to display the message
-    vt_gui::TextBox _textbox;
-}; // class MessageWindow
 
 } // namespace vt_menu
 

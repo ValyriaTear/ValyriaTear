@@ -52,7 +52,7 @@ function Load(m)
     _CreateZones();
 
     -- Add clouds overlay
-    Map:GetEffectSupervisor():EnableAmbientOverlay("img/ambient/clouds.png", 5.0, 5.0, true);
+    Map:GetEffectSupervisor():EnableAmbientOverlay("img/ambient/clouds.png", 5.0, -5.0, true);
 
     -- Trigger the save point and spring speech event once
     if (GlobalManager:DoesEventExist("story", "kalya_save_points_n_spring_speech_done") == false) then
@@ -461,112 +461,48 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
     event = vt_map.LookAtSpriteEvent("Bronann looks at Kalya", hero, kalya_sprite);
     EventManager:RegisterEvent(event);
-    event = vt_map.LookAtSpriteEvent("Kalya looks at the save point", kalya_sprite, 19, 26);
-    EventManager:RegisterEvent(event);
-    event = vt_map.LookAtSpriteEvent("Kalya looks at the spring", kalya_sprite, 27, 23);
-    EventManager:RegisterEvent(event);
-    event = vt_map.LookAtSpriteEvent("Bronann looks at the save point", hero, 19, 26);
+    event = vt_map.LookAtSpriteEvent("Kalya looks at the statue", kalya_sprite, 27, 23);
     EventManager:RegisterEvent(event);
 
     -- First time forest entrance dialogue about save points and the heal spring.
-    event = vt_map.ScriptedEvent("Forest entrance dialogue", "forest_save_point_dialogue_start", "");
+    event = vt_map.ScriptedEvent("Forest entrance dialogue", "forest_statue_event_start", "");
     event:AddEventLinkAtEnd("Kalya moves next to Bronann", 50);
     EventManager:RegisterEvent(event);
 
     -- NOTE: The actual destination is set just before the actual start call
     move_next_to_hero_event = vt_map.PathMoveSpriteEvent("Kalya moves next to Bronann", kalya_sprite, 0, 0, false);
-    move_next_to_hero_event:AddEventLinkAtEnd("Kalya looks at the save point");
-    move_next_to_hero_event:AddEventLinkAtEnd("Kalya is surprised before running to the save point");
+    move_next_to_hero_event:AddEventLinkAtEnd("Kalya looks at the statue");
+    move_next_to_hero_event:AddEventLinkAtEnd("Kalya talks about the statue");
     move_next_to_hero_event:AddEventLinkAtEnd("kalya:SetCollision(ALL)");
     EventManager:RegisterEvent(move_next_to_hero_event);
 
     dialogue = vt_map.SpriteDialogue();
-    text = vt_system.Translate("What's that?!");
-    dialogue:AddLineEmote(text, kalya_sprite, "exclamation");
+    text = vt_system.Translate("Look!");
+    dialogue:AddLineEventEmote(text, kalya_sprite, "Kalya looks at the statue", "", "exclamation");
     DialogueManager:AddDialogue(dialogue);
-    event = vt_map.DialogueEvent("Kalya is surprised before running to the save point", dialogue);
-    event:AddEventLinkAtEnd("Kalya runs to the save point");
+    event = vt_map.DialogueEvent("Kalya talks about the statue", dialogue);
+    event:AddEventLinkAtEnd("Kalya moves near the statue");
+    event:AddEventLinkAtEnd("Bronann gets nearer as well", 1000);
     EventManager:RegisterEvent(event);
 
-    event = vt_map.PathMoveSpriteEvent("Kalya runs to the save point", kalya_sprite, 15, 26, true);
-    event:AddEventLinkAtEnd("Bronann runs to the save point");
+    event = vt_map.PathMoveSpriteEvent("Kalya moves near the statue", kalya_sprite, 21, 20, true);
+    event:AddEventLinkAtEnd("Kalya talks about the statue 2", 1000);
     EventManager:RegisterEvent(event);
-    event = vt_map.PathMoveSpriteEvent("Bronann runs to the save point", hero, 15, 28, true);
-    event:AddEventLinkAtEnd("Kalya starts to talk about the save point");
+
+    event = vt_map.PathMoveSpriteEvent("Bronann gets nearer as well", hero, 14, 25, false);
     EventManager:RegisterEvent(event);
 
     dialogue = vt_map.SpriteDialogue();
-    text = vt_system.Translate("Can you also see this strange circle surrounded by light?");
-    dialogue:AddLineEventEmote(text, kalya_sprite, "Kalya looks at Bronann", "", "exclamation");
-    text = vt_system.Translate("When I'm standing near you, I can.");
-    dialogue:AddLineEventEmote(text, hero, "Bronann looks at Kalya", "", "thinking dots");
-    text = vt_system.Translate("Strange... it sounds familiar to me. Like... A safe place to be.");
-    dialogue:AddLineEvent(text, kalya_sprite, "Kalya looks at the save point", "");
-    text = vt_system.Translate("I feel like I can go in there...");
-    dialogue:AddLine(text, kalya_sprite);
-    text = vt_system.Translate("Be careful, Kalya!");
-    dialogue:AddLineEmote(text, hero, "exclamation");
-    text = vt_system.Translate("It is like... it's calling me.");
-    dialogue:AddLine(text, kalya_sprite);
-    DialogueManager:AddDialogue(dialogue);
-    event = vt_map.DialogueEvent("Kalya starts to talk about the save point", dialogue);
-    event:AddEventLinkAtEnd("Kalya moves into the save point");
-    event:AddEventLinkAtEnd("Bronann looks at the save point");
-    EventManager:RegisterEvent(event);
-
-    event = vt_map.PathMoveSpriteEvent("Kalya moves into the save point", kalya_sprite, 19, 26, false);
-    event:AddEventLinkAtEnd("Kalya talks about the save point - part 2", 1000);
-    EventManager:RegisterEvent(event);
-
-    dialogue = vt_map.SpriteDialogue();
-    text = vt_system.Translate("See... It brings no harm.");
+    text = vt_system.Translate("Have you seen one of these before? This is a Layna statue! Praying near it heals both your mind and body.");
     dialogue:AddLineEvent(text, kalya_sprite, "Kalya looks at Bronann", "");
-    text = vt_system.Translate("Err... Are you sure?");
-    dialogue:AddLineEmote(text, hero, "sweat drop");
-    text = vt_system.Translate("Sure! Do you trust me?");
-    dialogue:AddLine(text, kalya_sprite);
-    text = vt_system.Translate("... I do trust you, Kalya.");
-    dialogue:AddLine(text, hero);
-    text = vt_system.VTranslate("If so, then come and try for yourself. Push '%s' and you'll feel safe, too.", InputManager:GetConfirmKeyName());
-    dialogue:AddLine(text, kalya_sprite);
-    text = vt_system.Translate("Ok, I... I'll do it.");
-    dialogue:AddLineEmote(text, hero, "sweat drop");
-    DialogueManager:AddDialogue(dialogue);
-    event = vt_map.DialogueEvent("Kalya talks about the save point - part 2", dialogue);
-    event:AddEventLinkAtEnd("Kalya moves slightly right of the save point");
-    EventManager:RegisterEvent(event);
-
-    event = vt_map.PathMoveSpriteEvent("Kalya moves slightly right of the save point", kalya_sprite, 20, 26, false);
-    event:AddEventLinkAtEnd("Kalya talks about the save point - part 3", 1000);
-    EventManager:RegisterEvent(event);
-
-    dialogue = vt_map.SpriteDialogue();
-    text = vt_system.Translate("Oh, I almost forgot, have you seen up here? There is a Layna spring! We can heal our wounds there.");
-    dialogue:AddLineEventEmote(text, kalya_sprite, "Kalya looks at the spring", "", "exclamation");
-    text = vt_system.VTranslate("Just stand in front of the goddess statue below the spring and push '%s'.", InputManager:GetConfirmKeyName());
+    text = vt_system.VTranslate("Just stand in front of the Goddess below the spring and push '%s'.", InputManager:GetConfirmKeyName());
     dialogue:AddLine(text, kalya_sprite);
     text = vt_system.Translate("Ok, thanks.");
     dialogue:AddLine(text, hero);
-    text = vt_system.Translate("... What are you waiting for? Come.");
-    dialogue:AddLineEventEmote(text, kalya_sprite, "Kalya looks at Bronann", "", "thinking dots");
-    text = vt_system.Translate("Huh? I... I'm coming.");
-    dialogue:AddLineEmote(text, hero, "sweat drop");
-    DialogueManager:AddDialogue(dialogue);
-    event = vt_map.DialogueEvent("Kalya talks about the save point - part 3", dialogue);
-    event:AddEventLinkAtEnd("Bronann moves into the save point");
-    EventManager:RegisterEvent(event);
-
-    event = vt_map.PathMoveSpriteEvent("Bronann moves into the save point", hero, 18, 26, false);
-    event:AddEventLinkAtEnd("Kalya talks about the save point - part 4", 1000);
-    EventManager:RegisterEvent(event);
-
-    dialogue = vt_map.SpriteDialogue();
-    text = vt_system.Translate("You're right. This place makes me feel good.");
-    dialogue:AddLineEventEmote(text, hero, "Bronann looks at Kalya", "", "thinking dots");
-    text = vt_system.Translate("See? Now let's find my brother before he gets hurt.");
+    text = vt_system.Translate("See? Now, let's find my brother before he gets hurt.");
     dialogue:AddLine(text, kalya_sprite);
     DialogueManager:AddDialogue(dialogue);
-    event = vt_map.DialogueEvent("Kalya talks about the save point - part 4", dialogue);
+    event = vt_map.DialogueEvent("Kalya talks about the statue 2", dialogue);
     event:AddEventLinkAtEnd("second_hero:SetCollision(NONE)");
     event:AddEventLinkAtEnd("Set Camera");
     EventManager:RegisterEvent(event);
@@ -577,10 +513,10 @@ function _CreateEvents()
 
     move_back_to_hero_event = vt_map.PathMoveSpriteEvent("2nd hero goes back to party", kalya_sprite, hero, false);
     move_back_to_hero_event:AddEventLinkAtEnd("Map:Popstate()");
-    move_back_to_hero_event:AddEventLinkAtEnd("end of save point event");
+    move_back_to_hero_event:AddEventLinkAtEnd("end of statue event");
     EventManager:RegisterEvent(move_back_to_hero_event);
 
-    event = vt_map.ScriptedEvent("end of save point event", "end_of_save_point_event", "");
+    event = vt_map.ScriptedEvent("end of statue event", "end_of_statue_event", "");
     EventManager:RegisterEvent(event);
 end
 
@@ -671,7 +607,7 @@ map_functions = {
     end,
 
     -- Kalya runs to the save point and tells Bronann about the spring.
-    forest_save_point_dialogue_start = function()
+    forest_statue_event_start = function()
         Map:PushState(vt_map.MapMode.STATE_SCENE);
         hero:SetMoving(false);
         -- Keep a reference of the correct sprite for the event end.
@@ -710,7 +646,7 @@ map_functions = {
         Map:PopState();
     end,
 
-    end_of_save_point_event = function()
+    end_of_statue_event = function()
         kalya_sprite:SetPosition(0, 0);
         kalya_sprite:SetVisible(false);
         kalya_sprite:SetCollisionMask(vt_map.MapMode.NO_COLLISION);

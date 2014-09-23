@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 //            Copyright (C) 2004-2011 by The Allacrost Project
-//            Copyright (C) 2012-2013 by Bertram (Valyria Tear)
+//            Copyright (C) 2012-2014 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -33,10 +33,6 @@
 using namespace vt_utils;
 using namespace vt_system;
 using namespace vt_audio::private_audio;
-
-
-template<> vt_audio::AudioEngine *Singleton<vt_audio::AudioEngine>::_singleton_reference = 0;
-
 
 namespace vt_audio
 {
@@ -293,54 +289,46 @@ void AudioEngine::RewindAllSounds()
     }
 }
 
-void AudioEngine::PauseAllMusic()
+void AudioEngine::PauseActiveMusic()
 {
-    for(std::vector<MusicDescriptor *>::iterator i = _registered_music.begin();
-            i != _registered_music.end(); ++i) {
-        (*i)->Pause();
-    }
+    MusicDescriptor* music = GetActiveMusic();
+    if (music)
+        music->Pause();
 }
 
-void AudioEngine::ResumeAllMusic()
+void AudioEngine::ResumeActiveMusic()
 {
-    for(std::vector<MusicDescriptor *>::iterator i = _registered_music.begin();
-            i != _registered_music.end(); ++i) {
-        (*i)->Resume();
-    }
+    MusicDescriptor* music = GetActiveMusic();
+    if (music)
+        music->Resume();
 }
 
-void AudioEngine::StopAllMusic()
+void AudioEngine::StopActiveMusic()
 {
-    for(std::vector<MusicDescriptor *>::iterator i = _registered_music.begin();
-            i != _registered_music.end(); ++i) {
-        (*i)->Stop();
-    }
+    MusicDescriptor* music = GetActiveMusic();
+    if (music)
+        music->Stop();
 }
 
-void AudioEngine::RewindAllMusic()
+void AudioEngine::RewindActiveMusic()
 {
-    for(std::vector<MusicDescriptor *>::iterator i = _registered_music.begin();
-            i != _registered_music.end(); ++i) {
-        (*i)->Rewind();
-    }
+    MusicDescriptor* music = GetActiveMusic();
+    if (music)
+        music->Rewind();
 }
 
-void AudioEngine::FadeOutAllMusic(float time)
+void AudioEngine::FadeOutActiveMusic(float time)
 {
-    for(std::vector<MusicDescriptor *>::iterator it = _registered_music.begin();
-            it != _registered_music.end(); ++it) {
-        if(*it)
-            (*it)->FadeOut(time);
-    }
+    MusicDescriptor* music = GetActiveMusic();
+    if (music)
+        music->FadeOut(time);
 }
 
-void AudioEngine::FadeInAllMusic(float time)
+void AudioEngine::FadeInActiveMusic(float time)
 {
-    for(std::vector<MusicDescriptor *>::iterator it = _registered_music.begin();
-            it != _registered_music.end(); ++it) {
-        if(*it)
-            (*it)->FadeIn(time);
-    }
+    MusicDescriptor* music = GetActiveMusic();
+    if (music)
+        music->FadeIn(time);
 }
 
 void AudioEngine::FadeOutAllSounds(float time)

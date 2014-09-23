@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 //            Copyright (C) 2004-2011 by The Allacrost Project
-//            Copyright (C) 2012-2013 by Bertram (Valyria Tear)
+//            Copyright (C) 2012-2014 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -24,13 +24,15 @@
 
 #include "utils/utils_pch.h"
 #include "text.h"
-
 #include "video.h"
+
+#include "engine/script/script_read.h"
+
+// The script filename used to configure the text styles used in game.
+const std::string _font_script_filename = "dat/config/fonts.lua";
 
 using namespace vt_utils;
 using namespace vt_video::private_video;
-
-template<> vt_video::TextSupervisor *Singleton<vt_video::TextSupervisor>::_singleton_reference = NULL;
 
 namespace vt_video
 {
@@ -571,31 +573,183 @@ bool TextSupervisor::SingletonInitialize()
     return true;
 }
 
-
-
-bool TextSupervisor::LoadFont(const std::string &filename, const std::string &font_name, uint32 size)
+//! Loads all the defaults fonts available in the game (those available to every locales).
+//! And sets a default text style.
+//! The function will exit the game if no valid textstyle was loaded
+//! or if the default text style is invalid.
+bool TextSupervisor::LoadFonts(const std::string& locale_name)
 {
-    // Make sure that the font name is not already taken
-    if(_IsFontValid(font_name) == true) {
-        IF_PRINT_WARNING(VIDEO_DEBUG) << "a font with the desired reference name already existed: " << font_name << std::endl;
+    vt_script::ReadScriptDescriptor font_script;
+
+    //Checking the file existence and validity.
+    if(!font_script.OpenFile(_font_script_filename)) {
+        PRINT_ERROR << "Couldn't open font file: " << _font_script_filename << std::endl;
         return false;
     }
 
-    if(size == 0) {
-        IF_PRINT_WARNING(VIDEO_DEBUG) << "attempted to load a font of point size zero" << font_name << std::endl;
+    if(!font_script.DoesTableExist("fonts")) {
+        PRINT_ERROR << "No 'fonts' table in file: " << _font_script_filename << std::endl;
+        font_script.CloseFile();
         return false;
+    }
+
+    std::vector<std::string> locale_names;
+    font_script.ReadTableKeys("fonts", locale_names);
+    if(locale_names.empty() || !font_script.OpenTable("fonts")) {
+        PRINT_ERROR << "No local array defined in the 'fonts' table of file: "
+                    << _font_script_filename << std::endl;
+        font_script.CloseFile();
+        return false;
+    }
+
+    std::string style_default = font_script.ReadString("font_default_style");
+    if(style_default.empty()) {
+        PRINT_ERROR << "No default text style defined in: " << _font_script_filename
+                    << std::endl;
+        font_script.CloseFile();
+        return false;
+    }
+
+    // Search for a 'default' array and the specific locale array
+    bool default_locale_array_found = false;
+    bool specific_locale_array_found = false;
+
+    // We only keep the array we need: the default one and the locale specific one.
+    for(uint32 j = 0; j < locale_names.size(); ++j) {
+        std::string locale = locale_names[j];
+        // Keep the default array
+        if (!strcasecmp(locale.c_str(), "default")) {
+            default_locale_array_found = true;
+            continue;
+        }
+
+        if (locale_name.empty())
+            continue;
+
+        if (!strcasecmp(locale.c_str(), locale_name.c_str()))
+            specific_locale_array_found = true;
+    }
+
+    // If there is no default arrays. Exit now as the script file is invalid.
+    if (!default_locale_array_found) {
+        PRINT_ERROR << "Can't load fonts. No 'default' local array found in file: " << _font_script_filename << std::endl;
+        font_script.CloseFile();
+        return false;
+    }
+
+    // We set the arrays we want to parse.
+    locale_names.clear();
+    // The default one must come in first to permit locale specific fonts to override them.
+    locale_names.push_back("default");
+    if (specific_locale_array_found)
+        locale_names.push_back(locale_name);
+
+    // We now parse the wanted tables only, and the (re)load the fonts accordingly.
+    for(uint32 j = 0; j < locale_names.size(); ++j) {
+        std::string locale = locale_names[j];
+
+        std::vector<std::string> style_names;
+        font_script.ReadTableKeys(locale, style_names);
+        if(style_names.empty()) {
+            PRINT_ERROR << "No text styles defined in the table '"<< locale << "' of file: "
+                        << _font_script_filename << std::endl;
+            font_script.CloseFile();
+            return false;
+        }
+
+        if (!font_script.OpenTable(locale)) { // locale
+            PRINT_ERROR << "Can't open locale table '"<< locale << "' of file: "
+                        << _font_script_filename << std::endl;
+            font_script.CloseFile();
+            return false;
+        }
+
+        for(uint32 i = 0; i < style_names.size(); ++i) {
+
+            if (!font_script.OpenTable(style_names[i])) { // Text style
+                PRINT_ERROR << "Can't open text style table '" << style_names[i] << "' of locale: '" << locale << "' in file: "
+                            << _font_script_filename << std::endl;
+                font_script.CloseFile();
+                continue;
+            }
+
+            std::string font_file = font_script.ReadString("font");
+            uint32 font_size = font_script.ReadInt("size");
+
+            if(!_LoadFont(style_names[i], font_file, font_size)) {
+                // Check whether the default font is invalid
+                if(style_default == style_names[i]) {
+                    font_script.CloseAllTables();
+                    font_script.CloseFile();
+                    PRINT_ERROR << "The default text style '" << style_default
+                                << "' couldn't be loaded in file: " << _font_script_filename
+                                << std::endl;
+                    return false;
+                }
+                else {
+                    PRINT_WARNING << "The text style '" << style_names[i]
+                                << "' couldn't be loaded in file: " << _font_script_filename
+                                << std::endl;
+                }
+            }
+
+            font_script.CloseTable(); // Text style
+        } // load each TextStyle
+
+        font_script.CloseTable(); // locale
+    }
+    font_script.CloseTable(); // fonts
+
+    font_script.CloseFile();
+
+    // Setup the default font
+    SetDefaultStyle(TextStyle(style_default, Color::white, VIDEO_TEXT_SHADOW_BLACK, 1, -2));
+    return true;
+}
+
+bool TextSupervisor::_LoadFont(const std::string& textstyle_name, const std::string& font_filename, uint32 font_size)
+{
+    if(font_size == 0) {
+        PRINT_ERROR << "Attempted to load a text style of size zero: " << textstyle_name << std::endl;
+        return false;
+    }
+
+    // Check whether the TextStyle name is not already taken
+    bool reload = false;
+    std::map<std::string, FontProperties *>::iterator it = _font_map.find(textstyle_name);
+    if(it != _font_map.end()) {
+        reload = true;
+
+        // Let's check whether the requested font is exactly the same than before
+        // and do nothing in this case so we don't hurt performance.
+        FontProperties *fp = it->second;
+        if (fp && fp->font_filename == font_filename && fp->font_size == font_size)
+            return true;
     }
 
     // Attempt to load the font
-    TTF_Font *font = TTF_OpenFont(filename.c_str(), size);
+    TTF_Font *font = TTF_OpenFont(font_filename.c_str(), font_size);
     if(font == NULL) {
-        IF_PRINT_WARNING(VIDEO_DEBUG) << "call to TTF_OpenFont() failed to load the font file: " << filename << std::endl;
+        PRINT_ERROR << "Call to TTF_OpenFont() failed to load the font file: " << font_filename << std::endl
+        << TTF_GetError() << std::endl;
         return false;
     }
 
-    // Create a new FontProperties object for this font and set all of the properties according to SDL_ttf
-    FontProperties *fp = new FontProperties;
+    // Get or Create a new FontProperties object for this font and set all of the properties according to SDL_ttf
+    FontProperties *fp = reload ? it->second : new FontProperties;
+
+    if (fp == NULL) {
+        PRINT_ERROR << "Invalid Font Properties instance for text style: " << textstyle_name << std::endl;
+        return false;
+    }
+
+    // We first clear the font before setting a new one in case of a reload
+    if (reload)
+        fp->ClearFont();
+
     fp->ttf_font = font;
+    fp->font_filename = font_filename;
+    fp->font_size = font_size;
     fp->height = TTF_FontHeight(font);
     fp->line_skip = TTF_FontLineSkip(font);
     fp->ascent = TTF_FontAscent(font);
@@ -603,13 +757,15 @@ bool TextSupervisor::LoadFont(const std::string &filename, const std::string &fo
 
     // Create the glyph cache for the font and add it to the font map
     fp->glyph_cache = new std::vector<FontGlyph *>;
-    _font_map[font_name] = fp;
+
+    // If the text style is new, we add it to the font cache map
+    if (!reload)
+        _font_map[textstyle_name] = fp;
+
     return true;
 } // bool TextSupervisor::LoadFont(...)
 
-
-
-void TextSupervisor::FreeFont(const std::string &font_name)
+void TextSupervisor::_FreeFont(const std::string &font_name)
 {
     std::map<std::string, FontProperties*>::iterator it = _font_map.find(font_name);
     if(it == _font_map.end()) {
@@ -1060,12 +1216,13 @@ void TextSupervisor::_DrawTextHelper(const uint16 *const text, FontProperties *f
 bool TextSupervisor::_RenderText(vt_utils::ustring &string, TextStyle &style, ImageMemory &buffer)
 {
     FontProperties *fp = style.GetFontProperties();
-    TTF_Font *font = fp->ttf_font;
 
-    if(fp == NULL || font == NULL) {
+    if(fp == NULL || fp->ttf_font == NULL) {
         IF_PRINT_WARNING(VIDEO_DEBUG) << "The TextStyle argument using font:'" << style.GetFontName() << "' was invalid" << std::endl;
         return false;
     }
+
+    TTF_Font* font = fp->ttf_font;
 
     // Width and height of each line of text
     int32 line_w, line_h;

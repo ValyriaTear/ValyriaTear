@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 //            Copyright (C) 2004-2011 by The Allacrost Project
-//            Copyright (C) 2012-2013 by Bertram (Valyria Tear)
+//            Copyright (C) 2012-2014 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -35,14 +35,16 @@ MapPropertiesDialog::MapPropertiesDialog
     // Set up the height spinbox
     _height_label = new QLabel("Height (in tiles):", this);
     _height_sbox  = new QSpinBox(this);
-    _height_sbox->setMinimum(24);
-    _height_sbox->setMaximum(1000);
+    _height_sbox->setMinimum(map_min_height);
+    _height_sbox->setMaximum(100);
+    _height_sbox->setValue(map_min_height * 2);
 
     // Set up the width spinbox
     _width_label = new QLabel(" Width (in tiles):", this);
     _width_sbox  = new QSpinBox(this);
-    _width_sbox->setMinimum(32);
-    _width_sbox->setMaximum(1000);
+    _width_sbox->setMinimum(map_min_width);
+    _width_sbox->setMaximum(100);
+    _width_sbox->setValue(map_min_width * 2);
 
     // Set up the cancel and okay push buttons
     _cancel_pbut = new QPushButton("Cancel", this);
@@ -67,6 +69,11 @@ MapPropertiesDialog::MapPropertiesDialog
     // skip over the present and parent working directories ("." and "..")
     // Also add the dat/tilesets path.
     for(uint32 i = 2; i < tileset_dir.count(); i++) {
+        // Exclude the autotiling.lua file as it's no tileset.
+        // TODO: Move files and handle this better...
+        if (tileset_dir[i] == QString("autotiling.lua"))
+            continue;
+
         QString tileset_definition_file = "dat/tilesets/" + tileset_dir[i];
         tilesets.append(new QTreeWidgetItem((QTreeWidget *)0,
                                             QStringList(tileset_definition_file)));

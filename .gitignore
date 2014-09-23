@@ -27,7 +27,6 @@ valyriatear.depend
 ValyriaTear.depend
 valyriatear.layout
 ValyriaTear.layout
-README.txt
 
 # The precompiled header file
 # with gcc/mingw compilation
@@ -88,4 +87,4 @@ Xcode/ValyriaTear.xcodeproj/project.xcworkspace/xcuserdata
 Xcode/Release/*.dmg
 
 # VS Dependencies Directory
-ValyriaTear-VS2012-Dependencies
+ValyriaTear-VS2013-Dependencies

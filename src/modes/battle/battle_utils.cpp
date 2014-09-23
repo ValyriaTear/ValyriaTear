@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 //            Copyright (C) 2004-2011 by The Allacrost Project
-//            Copyright (C) 2012-2013 by Bertram (Valyria Tear)
+//            Copyright (C) 2012-2014 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -44,35 +44,43 @@ namespace private_battle
 // Standard battle calculation functions
 ////////////////////////////////////////////////////////////////////////////////
 
-bool CalculateStandardEvasion(BattleTarget *target)
+bool CalculateStandardEvasion(BattleTarget* target)
 {
     return CalculateStandardEvasionAdder(target, 0.0f);
 }
 
-bool CalculateStandardEvasion(BattleActor *target_actor)
+bool CalculateStandardEvasion(BattleActor* target_actor)
 {
     return CalculateStandardEvasionAdder(target_actor, 0.0f);
 }
 
-bool CalculateStandardEvasionAdder(BattleTarget *target, float add_eva)
+bool CalculateStandardEvasionAdder(BattleTarget* target, float add_eva)
 {
     if(target == NULL) {
         IF_PRINT_WARNING(BATTLE_DEBUG) << "function received NULL target argument" << std::endl;
-        return false;
+        return true;
     }
     if(IsTargetParty(target->GetType()) == true) {
         IF_PRINT_WARNING(BATTLE_DEBUG) << "target was a party type: " << target->GetType() << std::endl;
-        return false;
+        return true;
     }
+
+    BattleActor* target_actor = target->GetActor();
+    if (!target_actor)
+        return true;
+
+    // When stunned, the actor can't dodge.
+    if (target_actor->IsStunned())
+        return false;
 
     float evasion = 0.0f;
     if(IsTargetPoint(target->GetType()) == true) {
-        evasion = target->GetActor()->GetAttackPoint(target->GetPoint())->GetTotalEvadeRating();
+        evasion = target_actor->GetAttackPoint(target->GetPoint())->GetTotalEvadeRating();
     } else if(IsTargetActor(target->GetType()) == true) {
-        evasion = target->GetActor()->GetAverageEvadeRating();
+        evasion = target_actor->GetAverageEvadeRating();
     } else {
         IF_PRINT_WARNING(BATTLE_DEBUG) << "invalid target type: " << target->GetType() << std::endl;
-        return false;
+        return true;
     }
 
     evasion += add_eva;
@@ -89,12 +97,16 @@ bool CalculateStandardEvasionAdder(BattleTarget *target, float add_eva)
         return false;
 } // bool CalculateStandardEvasionAdder(BattleTarget* target, float add_evade)
 
-bool CalculateStandardEvasionAdder(BattleActor *target_actor, float add_eva)
+bool CalculateStandardEvasionAdder(BattleActor* target_actor, float add_eva)
 {
     if (!target_actor) {
         IF_PRINT_WARNING(BATTLE_DEBUG) << "Invalid target actor" << std::endl;
-        return false;
+        return true;
     }
+
+    // When stunned, the actor can't dodge.
+    if (target_actor->IsStunned())
+        return false;
 
     float evasion = target_actor->GetAverageEvadeRating();
     evasion += add_eva;
@@ -111,16 +123,25 @@ bool CalculateStandardEvasionAdder(BattleActor *target_actor, float add_eva)
         return false;
 }
 
-bool CalculateStandardEvasionMultiplier(BattleTarget *target, float mul_eva)
+bool CalculateStandardEvasionMultiplier(BattleTarget* target, float mul_eva)
 {
     if(target == NULL) {
         IF_PRINT_WARNING(BATTLE_DEBUG) << "function received NULL target argument" << std::endl;
-        return false;
+        return true;
     }
     if(IsTargetParty(target->GetType()) == true) {
         IF_PRINT_WARNING(BATTLE_DEBUG) << "target was a party type: " << target->GetType() << std::endl;
-        return false;
+        return true;
     }
+
+    BattleActor* target_actor = target->GetActor();
+    if (!target_actor)
+        return true;
+
+    // When stunned, the actor can't dodge.
+    if (target_actor->IsStunned())
+        return false;
+
     if(mul_eva < 0.0f) {
         IF_PRINT_WARNING(BATTLE_DEBUG) << "function received negative multiplier argument: " << mul_eva << std::endl;
         mul_eva = fabs(mul_eva);
@@ -129,12 +150,12 @@ bool CalculateStandardEvasionMultiplier(BattleTarget *target, float mul_eva)
     // Find the base evasion and apply the multiplier
     float evasion = 0.0f;
     if(IsTargetPoint(target->GetType()) == true) {
-        evasion = target->GetActor()->GetAttackPoint(target->GetPoint())->GetTotalEvadeRating();
+        evasion = target_actor->GetAttackPoint(target->GetPoint())->GetTotalEvadeRating();
     } else if(IsTargetActor(target->GetType()) == true) {
-        evasion = target->GetActor()->GetAverageEvadeRating();
+        evasion = target_actor->GetAverageEvadeRating();
     } else {
         IF_PRINT_WARNING(BATTLE_DEBUG) << "invalid target type: " << target->GetType() << std::endl;
-        return false;
+        return true;
     }
 
     evasion = evasion * mul_eva;
@@ -151,12 +172,16 @@ bool CalculateStandardEvasionMultiplier(BattleTarget *target, float mul_eva)
         return true;
 } // bool CalculateStandardEvasionMultiplier(BattleTarget* target, float mul_evade)
 
-bool CalculateStandardEvasionMultiplier(BattleActor *target_actor, float mul_eva)
+bool CalculateStandardEvasionMultiplier(BattleActor* target_actor, float mul_eva)
 {
     if (!target_actor) {
         IF_PRINT_WARNING(BATTLE_DEBUG) << "Invalid target actor" << std::endl;
-        return false;
+        return true;
     }
+
+    // When stunned, the actor can't dodge.
+    if (target_actor->IsStunned())
+        return false;
 
     if(mul_eva < 0.0f) {
         IF_PRINT_WARNING(BATTLE_DEBUG) << "function received negative multiplier argument: " << mul_eva << std::endl;

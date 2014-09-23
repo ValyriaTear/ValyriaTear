@@ -113,13 +113,13 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
 
     event = vt_map.ShopEvent("layna: open shop");
-    event:AddObject(1, 10); -- minor potion
-    event:AddObject(1001, 10); -- minor elixir
+    event:AddObject(1, 0); -- infinite minor potions
+    event:AddObject(1001, 0); -- infinite minor elixirs
     event:AddObject(30003, 1); -- tunic for Bronann
     event:AddObject(30004, 1); -- leather cloak for Kalya
     event:AddObject(40001, 3); -- leather cloak for Kalya
     event:SetPriceLevels(vt_shop.ShopMode.SHOP_PRICE_VERY_GOOD, -- Flora is a good friend
-                vt_shop.ShopMode.SHOP_PRICE_STANDARD);
+                         vt_shop.ShopMode.SHOP_PRICE_STANDARD);
 
     EventManager:RegisterEvent(event);
 
@@ -163,9 +163,9 @@ function _UpdateFloraDialogue()
         dialogue = vt_map.SpriteDialogue();
         text = vt_system.Translate("Hi Bronann! What can I do for you?");
         dialogue:AddLine(text, flora);
-        text = vt_system.Translate("Hi Flora! Err, could you lend me one of your training swords? I'd like to practise a bit.");
+        text = vt_system.Translate("Hi Flora! Err, could you lend me one of your training swords? I'd like to practice a bit.");
         dialogue:AddLine(text, bronann);
-        text = vt_system.Translate("Ah! Sure, as soon as your father will stop lending his sword to you to practise with him. Are you sure everything is alright?");
+        text = vt_system.Translate("Ah! Sure, as soon as your father will stop lending his sword to you to practice with him. Are you sure everything is alright?");
         dialogue:AddLine(text, flora);
         text = vt_system.Translate("Err, nevermind...");
         dialogue:AddLineEventEmote(text, bronann, "", "Quest2: Talked to Flora", "sweat drop");

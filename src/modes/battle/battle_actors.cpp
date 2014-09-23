@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 //            Copyright (C) 2004-2011 by The Allacrost Project
-//            Copyright (C) 2012-2013 by Bertram (Valyria Tear)
+//            Copyright (C) 2012-2014 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software and
@@ -209,7 +209,7 @@ void BattleActor::ChangeState(ACTOR_STATE new_state)
         if(_action == NULL) {
             IF_PRINT_WARNING(BATTLE_DEBUG) << "no action available during state change: " << _state << std::endl;
         } else {
-            _state_timer.Initialize(_action->GetWarmUpTime());
+            _state_timer.Initialize(_action->GetWarmUpTime() * GetAgilityModifier());
             _state_timer.Run();
         }
         break;
@@ -223,9 +223,9 @@ void BattleActor::ChangeState(ACTOR_STATE new_state)
     case ACTOR_STATE_COOL_DOWN:
     {
         _execution_finished = false;
-        uint32 cool_down_time = 1000; // Default value, overriden by valid actions
+        uint32 cool_down_time = 1000; // Default value, overridden by valid actions
         if(_action)
-            cool_down_time = _action->GetCoolDownTime();
+            cool_down_time = _action->GetCoolDownTime() * GetAgilityModifier();
 
         _state_timer.Initialize(cool_down_time);
         _state_timer.Run();
@@ -306,7 +306,7 @@ void BattleActor::RegisterDamage(uint32 amount, BattleTarget *target)
             std::vector<std::pair<GLOBAL_STATUS, float> > status_effects = damaged_point->GetStatusEffects();
             for(std::vector<std::pair<GLOBAL_STATUS, float> >::const_iterator i = status_effects.begin(); i != status_effects.end(); ++i) {
                 if(RandomFloat(0.0f, 100.0f) <= i->second) {
-                    RegisterStatusChange(i->first, GLOBAL_INTENSITY_NEG_LESSER);
+                    ApplyActiveStatusEffect(i->first, GLOBAL_INTENSITY_NEG_LESSER);
                 }
             }
         }
@@ -442,7 +442,6 @@ vt_video::TextStyle BattleActor::_GetHealingTextStyle(uint32 amount, bool is_hp)
     const Color high_blue(0.0f, 0.15f, 1.0f, 1.0f);
 
     TextStyle style;
-    std::string text = NumberToString(amount);
 
     // Use different colors/shades of green/blue for different degrees of healing
     std::string font;
@@ -475,13 +474,13 @@ void BattleActor::RegisterMiss(bool was_attacked)
     vt_mode_manager::IndicatorSupervisor& indicator = BM->GetIndicatorSupervisor();
     indicator.AddMissIndicator(GetXLocation(), y_pos);
 
-    if(was_attacked)
+    if(was_attacked && IsAlive())
         ChangeSpriteAnimation("dodge");
 }
 
-void BattleActor::RegisterStatusChange(GLOBAL_STATUS status, GLOBAL_INTENSITY intensity, uint32 duration)
+void BattleActor::ApplyActiveStatusEffect(GLOBAL_STATUS status, GLOBAL_INTENSITY intensity, uint32 duration)
 {
-    _effects_supervisor->ChangeStatus(status, intensity, duration);
+    _effects_supervisor->ChangeActiveStatusEffect(status, intensity, duration);
 }
 
 vt_global::GLOBAL_INTENSITY BattleActor::GetActiveStatusEffectIntensity(vt_global::GLOBAL_STATUS status)
@@ -489,12 +488,29 @@ vt_global::GLOBAL_INTENSITY BattleActor::GetActiveStatusEffectIntensity(vt_globa
     return _effects_supervisor->GetActiveStatusIntensity(status);
 }
 
+void BattleActor::RemoveActiveStatusEffect(GLOBAL_STATUS status_effect)
+{
+    _effects_supervisor->RemoveActiveStatusEffect(status_effect);
+}
+
 void BattleActor::Update()
 {
+    BattleMode *BM = BattleMode::CurrentInstance();
+
+    // Avoid updating the battle logic when finishing.
+    // This might break the character's animation.
+    switch (BM->GetState()) {
+    default:
+        break;
+    case BATTLE_STATE_VICTORY:
+    case BATTLE_STATE_DEFEAT:
+    case BATTLE_STATE_EXITING:
+        return;
+    }
+
     // Don't update the state timer when the battle tells is to pause
     // when in idle state.
     // Also don't elapse the status effect time when paused.
-    BattleMode *BM = BattleMode::CurrentInstance();
     if (!BM->AreActorStatesPaused() && !BM->IsInSceneMode()) {
         // Don't update the state_timer if the character is hurt.
         if (!_hurt_timer.IsRunning()) {
@@ -543,7 +559,7 @@ void BattleActor::_UpdateStaminaIconPosition()
     float x_pos = _x_stamina_location;
     float y_pos = _y_stamina_location;
 
-    if(IsValid()) {
+    if(CanFight()) {
         if(IsEnemy())
             x_pos = STAMINA_BAR_POSITION_X + 25.0f;
         else
@@ -759,8 +775,6 @@ BattleCharacter::BattleCharacter(GlobalCharacter *character) :
 
     _action_selection_text.SetStyle(TextStyle("text20"));
     _action_selection_text.SetText("");
-    _target_selection_text.SetStyle(TextStyle("text20"));
-    _target_selection_text.SetText("");
 
     // Init the battle animation pointers
     _current_sprite_animation = _global_character->RetrieveBattleAnimation(_sprite_animation_alias);
@@ -791,6 +805,25 @@ BattleCharacter::BattleCharacter(GlobalCharacter *character) :
         GLOBAL_STATUS status_effect = (GLOBAL_STATUS) i;
         _effects_supervisor->AddPassiveStatusEffect(status_effect, intensity);
     }
+
+    // Apply currently active status effects
+    const std::vector<ActiveStatusEffect>& active_effects = character->GetActiveStatusEffects();
+    for(std::vector<ActiveStatusEffect>::const_iterator it = active_effects.begin();
+            it != active_effects.end(); ++it) {
+        const ActiveStatusEffect& effect = (*it);
+        _effects_supervisor->ChangeActiveStatusEffect(effect.GetEffect(), effect.GetIntensity(),
+                                                      effect.GetEffectTime(), effect.GetElapsedTime());
+    }
+}
+
+BattleCharacter::~BattleCharacter()
+{
+    // If the character finished the battle alive, we set the active
+    // status effects on its global alter ego.
+    if (IsAlive())
+        _effects_supervisor->SetActiveStatusEffects(_global_character);
+    else // Otherwise, we just reset those.
+        _global_character->ResetActiveStatusEffects();
 }
 
 void BattleCharacter::ResetActor()
@@ -877,6 +910,17 @@ void BattleCharacter::Update()
     _current_weapon_animation.Update();
 
     BattleMode* BM = BattleMode::CurrentInstance();
+
+    // Avoid updating the battle logic when finishing.
+    // This might break the character's animation.
+    switch (BM->GetState()) {
+    default:
+        break;
+    case BATTLE_STATE_VICTORY:
+    case BATTLE_STATE_DEFEAT:
+    case BATTLE_STATE_EXITING:
+        return;
+    }
 
     // In scene mode, only the animations are updated
     if (BM->IsInSceneMode())
@@ -1012,21 +1056,34 @@ void BattleCharacter::ChangeSpriteAnimation(const std::string &alias)
 
 void BattleCharacter::ChangeActionText()
 {
-    // If the character has no action selected to be used, clear both action and target text
-    if(_action == NULL) {
-        // If the character is able to have an action selected, notify the player
-        if((_state == ACTOR_STATE_IDLE) || (_state == ACTOR_STATE_COMMAND)) {
-            _action_selection_text.SetText(Translate("[Select Action]"));
-        } else {
-            _action_selection_text.SetText("");
+    if(_action) {
+        ustring action_text = _action->GetName() + MakeUnicodeString(" -> ") + _action->GetTarget().GetName();
+        _action_selection_text.SetText(action_text);
+        if (_action->GetIconFilename().empty()) {
+            _action_selection_icon.Clear();
         }
-        _target_selection_text.SetText("");
+        else {
+            // Determine the weapon icon according to the current skill
+            std::string icon_file = _action->GetIconFilename();
+            if (icon_file == "weapon") { // Alias used to trigger the loading of the weapon icon.
+                GlobalWeapon* char_wpn = GetGlobalCharacter()->GetWeaponEquipped();
+                icon_file = char_wpn ?
+                            char_wpn->GetIconImage().GetFilename() :
+                            "img/icons/weapons/fist-human.png";
+            }
+            _action_selection_icon.Clear();
+            _action_selection_icon.Load(icon_file, 24, 24);
+        }
+        return;
     }
 
-    else {
-        _action_selection_text.SetText(_action->GetName());
-        _target_selection_text.SetText(_action->GetTarget().GetName());
-    }
+    // If the character is able to have an action selected, notify the player
+    if((_state == ACTOR_STATE_IDLE) || (_state == ACTOR_STATE_COMMAND))
+        _action_selection_text.SetText(Translate("[Select Action]"));
+    else
+        _action_selection_text.Clear();
+
+    _action_selection_icon.Clear();
 }
 
 void BattleCharacter::DrawPortrait()
@@ -1180,29 +1237,38 @@ void BattleCharacter::DrawStatus(uint32 order, BattleCharacter* character_comman
         BattleMode::CurrentInstance()->GetMedia().GetCharacterActionButton(button_index)->Draw();
     }
 
-    // Draw the action text
+    // Draw the action icon and text
     VideoManager->MoveRelative(40.0f, 0.0f);
+    _action_selection_icon.Draw();
+    VideoManager->MoveRelative(28.0f, 0.0f);
     _action_selection_text.Draw();
 
-    // Draw the target text
-    VideoManager->MoveRelative(225.0f, 0.0f);
-    _target_selection_text.Draw();
 } // void BattleCharacter::DrawStatus()
 
 // /////////////////////////////////////////////////////////////////////////////
 // BattleEnemy class
 // /////////////////////////////////////////////////////////////////////////////
 
-BattleEnemy::BattleEnemy(GlobalEnemy *enemy) :
-    BattleActor(enemy),
-    _global_enemy(enemy),
+BattleEnemy::BattleEnemy(uint32 enemy_id) :
+    BattleActor(new vt_global::GlobalEnemy(enemy_id)),
     _sprite_animation_alias("idle"),
     _sprite_alpha(1.0f)
 {
+    _global_enemy = static_cast<GlobalEnemy*>(_global_actor);
+
     _LoadAIScript();
     _LoadDeathAnimationScript();
 
     _sprite_animations = _global_enemy->GetBattleAnimations();
+}
+
+BattleEnemy::~BattleEnemy()
+{
+    // If the actor is an enemy, we can delete it as only the characters
+    // will be needed to remain between battles.
+    // NOTE: We don't delete the _global_actor pointer as it is an alias
+    // of this one.
+    delete _global_enemy;
 }
 
 void BattleEnemy::_LoadAIScript()
@@ -1256,11 +1322,6 @@ void BattleEnemy::_LoadDeathAnimationScript()
     _death_update = death_script.ReadFunctionPointer("Update");
     _death_draw_on_sprite = death_script.ReadFunctionPointer("DrawOnSprite");
     death_script.CloseFile();
-}
-
-BattleEnemy::~BattleEnemy()
-{
-    delete _global_actor;
 }
 
 void BattleEnemy::ResetActor()

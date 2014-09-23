@@ -2,7 +2,7 @@
 # -- Windows
 RC_FILE = ./icon.rc
 # -- Mac
-ICON = ./img/logos/mac_logo.icns
+ICON = ./Xcode/mac_logo.icns
 
 # Needed for the QGLWidget
 QT += opengl core gui
@@ -13,8 +13,6 @@ INCLUDEPATH += ./src
 # Don't forget to copy the unzipped dependencies folder there: 'valyriatear-win32-depends'
 INCLUDEPATH += ./valyriatear-win32-depends/include
 INCLUDEPATH += ./valyriatear-win32-depends/include/lua5.1
-INCLUDEPATH += ./valyriatear-win32-depends/include/AL
-INCLUDEPATH += ./valyriatear-win32-depends/include/SDL
 
 # Luabind
 INCLUDEPATH += ./src/luabind
@@ -24,15 +22,17 @@ INCLUDEPATH += ./src/luabind/luabind/detail
 
 # Linker additional libs
 # You'll have to adapt this line below to make find the lib folder as it won't work as is.
-LIBS += -L"../build-env/valyriatear-win32-depends/lib"
+LIBS += -L"../ValyriaTear/valyriatear-win32-depends/lib"
 
-LIBS += -lLua51 -llibiconv2 -lSDL -lSDL_image -lSDL_TTF -llibpng -llibjpeg -llibintl -lOpenAL32 -logg -lvorbis
+LIBS += -lLua51
 
 # Enable rtti needed for typeid() in Luabind
 # Enable exceptions handling for script reading support.
 # This below doesn't work - Edit qmake.conf in the mkspecs profile for win32-g++ to enable rtti and exceptions
 # by default, and remove the -DQT_NO_DYNAMIC_CAST and -DUNICODE flags from the Makefile.Release file
 # after qmake invocation and before compiling.
+# Please also note that depending on the Qt version you're using, you'll have to use a specific mingw version.
+# E.g.: Mingw 4.4 for Qt 4.8.x
 DEFINES -= QT_NO_DYNAMIC_CAST
 DEFINES -= UNICODE
 DEFINES += EDITOR_BUILD QT_DYNAMIC_CAST NO_UNICODE
@@ -49,8 +49,7 @@ HEADERS += \
     ./src/engine/script/script_read.h \
     ./src/engine/script/script.h \
     ./src/editor/tileset_editor.h \
-    ./src/engine/script_supervisor.h \
-    ./src/utils/utils/utils_pch.h \
+    ./src/utils/utils_pch.h \
     ./src/utils/utils_random.h \
     ./src/utils/utils_files.h \
     ./src/utils/utils_numeric.h \
@@ -82,10 +81,9 @@ SOURCES += \
     ./src/luabind/src/class_registry.cpp \
     ./src/luabind/src/class_info.cpp \
     ./src/luabind/src/class.cpp \
-    ./src/utils/utils/utils_pch.cpp \
+    ./src/utils/utils_pch.cpp \
     ./src/utils/utils_random.cpp \
     ./src/utils/utils_files.cpp \
     ./src/utils/utils_numeric.cpp \
     ./src/utils/utils_strings.cpp \
     ./src/editor/tileset_editor.cpp \
-    ./src/engine/script_supervisor.cpp \

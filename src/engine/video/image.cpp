@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 //            Copyright (C) 2004-2011 by The Allacrost Project
-//            Copyright (C) 2012-2013 by Bertram (Valyria Tear)
+//            Copyright (C) 2012-2014 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -24,6 +24,7 @@
 
 #include "utils/utils_strings.h"
 #include "utils/utils_files.h"
+#include "utils/utils_random.h"
 
 using namespace vt_utils;
 using namespace vt_video::private_video;
@@ -483,7 +484,7 @@ void ImageDescriptor::_DrawOrientation() const
 {
     Context &current_context = VideoManager->_current_context;
 
-    // Fix the image offset according to the current context alignement.
+    // Fix the image offset according to the current context alignment.
     // Takes the image width/height and divides it by 2 (equal to * 0.5f) and applies the offset (left, right, center/top, bottom, center).
     float x_align_offset = ((current_context.x_align + 1) * _width) * 0.5f * -current_context.coordinate_system.GetHorizontalDirection();
     float y_align_offset = ((current_context.y_align + 1) * _height) * 0.5f * -current_context.coordinate_system.GetVerticalDirection();
@@ -899,6 +900,7 @@ void StillImage::Draw(const Color &draw_color) const
         return;
 
     VideoManager->PushMatrix();
+
     if (_x_offset != 0.0f || _y_offset != 0.0f)
         VideoManager->MoveRelative(_x_offset, _y_offset);
 
@@ -1123,16 +1125,14 @@ bool AnimatedImage::LoadFromAnimationScript(const std::string &filename)
         return false;
     }
 
+    // Load requested dimensions and setup default ones if not set
     float frame_width = image_script.ReadFloat("frame_width");
     float frame_height = image_script.ReadFloat("frame_height");
 
-    // Load requested dimensions
-    if(frame_width > 0.0f && frame_height > 0.0f) {
-        SetDimensions(frame_width, frame_height);
-    } else if(IsFloatEqual(_width, 0.0f) && IsFloatEqual(_height, 0.0f)) {
+    if(IsFloatEqual(frame_width, 0.0f) && IsFloatEqual(frame_height, 0.0f)) {
         // If the animation dimensions are not set, we're using the first frame size.
-        _width = image_frames.begin()->GetWidth();
-        _height = image_frames.begin()->GetHeight();
+        frame_width = image_frames.begin()->GetWidth();
+        frame_height = image_frames.begin()->GetHeight();
     }
 
     std::vector<uint32> frames_ids;
@@ -1177,14 +1177,18 @@ bool AnimatedImage::LoadFromAnimationScript(const std::string &filename)
     // Actually create the animation data
     _frames.clear();
     ResetAnimation();
-    for(uint32 i = 0; i < frames_ids.size(); ++i) {
-        // set the frame offsets
-        image_frames[frames_ids[i]].SetDrawOffsets(frames_offsets[i].first, frames_offsets[i].second);
-        // Set the dimension of the requested frame
-        image_frames[frames_ids[i]].SetDimensions(_width, _height);
-
+    // First copy the image data raw
+    for(uint32 i = 0; i < frames_ids.size(); ++i)
         AddFrame(image_frames[frames_ids[i]], frames_duration[i]);
-    }
+
+    // Once copied and only at that time, setup the data offsets to avoid the case
+    // where the offsets might be applied several times on the same origin image,
+    // breaking the offset resizing when the dimensions are different from the original image.
+    for (uint32 i = 0; i < _frames.size(); ++i)
+        _frames[i].image.SetDrawOffsets(frames_offsets[i].first, frames_offsets[i].second);
+
+    // Then only, set the dimensions
+    SetDimensions(frame_width, frame_height);
 
     return true;
 }
@@ -1250,7 +1254,7 @@ bool AnimatedImage::LoadFromFrameGrid(const std::string &filename, const std::ve
         return false;
     }
 
-    if(image_frames.size() == 0)
+    if(image_frames.empty())
         return false;
 
     // If the animation dimensions are not set yet, we're using the first frame
@@ -1441,8 +1445,6 @@ void AnimatedImage::SetDimensions(float width, float height)
     }
 }
 
-
-
 void AnimatedImage::SetColor(const Color &color)
 {
     ImageDescriptor::SetColor(color);
@@ -1452,8 +1454,6 @@ void AnimatedImage::SetColor(const Color &color)
     }
 }
 
-
-
 void AnimatedImage::SetVertexColors(const Color &tl, const Color &tr, const Color &bl, const Color &br)
 {
     ImageDescriptor::SetVertexColors(tl, tr, bl, br);
@@ -1461,6 +1461,17 @@ void AnimatedImage::SetVertexColors(const Color &tl, const Color &tr, const Colo
     for(uint32 i = 0; i < _frames.size(); i++) {
         _frames[i].image.SetVertexColors(tl, tr, bl, br);
     }
+}
+
+void AnimatedImage::RandomizeAnimationFrame() {
+
+    uint32 nb_frames = _frames.size();
+    if (nb_frames <= 1)
+        return;
+
+    uint32 index = vt_utils::RandomBoundedInteger(0, nb_frames - 1);
+    _frame_index = index;
+    _frame_counter = 0;
 }
 
 // -----------------------------------------------------------------------------

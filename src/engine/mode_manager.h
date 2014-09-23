@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 //            Copyright (C) 2004-2011 by The Allacrost Project
-//            Copyright (C) 2012-2013 by Bertram (Valyria Tear)
+//            Copyright (C) 2012-2014 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -66,22 +66,16 @@ class GameMode
 {
     friend class ModeEngine;
 
-protected:
-    //! Indicates what 'mode' this object is in (what type of inherited class).
-    uint8 mode_type;
-
-private:
-    //! Copy constructor is private, because making a copy of a game mode object is a \b bad idea.
-    GameMode(const GameMode &other);
-    //! Copy assignment operator is private, because making a copy of a game mode object is a \b bad idea.
-    GameMode &operator=(const GameMode &other);
-    // Note: Should I make the delete and delete[] operators private too?
 public:
     GameMode();
     //! \param mt The mode_type to set the new GameMode object to.
     GameMode(uint8 mt);
 
     virtual ~GameMode();
+
+    uint8 GetGameType() const {
+        return _mode_type;
+    }
 
     //! Updates the state of the game mode.
     virtual void Update();
@@ -121,6 +115,15 @@ public:
     //! \brief Returns the indicator supervisor.
     IndicatorSupervisor& GetIndicatorSupervisor();
 
+    //! \brief Makes the game mode reload the different texts.
+    //! Used when changing the language in the options.
+    virtual void ReloadTranslatedTexts()
+    {}
+
+protected:
+    //! Indicates what 'mode' this object is in (what type of inherited class).
+    uint8 _mode_type;
+
 private:
     //! \brief Handles all the custom scripted animation for the given mode.
     ScriptSupervisor _script_supervisor;
@@ -133,6 +136,11 @@ private:
 
     //! \brief The indicator supervisor instance, handles the work of displaying indication with eye-candy.
     IndicatorSupervisor _indicator_supervisor;
+
+    //! Copy constructor is private, because making a copy of a game mode object is a \b bad idea.
+    GameMode(const GameMode &other);
+    //! Copy assignment operator is private, because making a copy of a game mode object is a \b bad idea.
+    GameMode &operator=(const GameMode &other);
 }; // class GameMode
 
 

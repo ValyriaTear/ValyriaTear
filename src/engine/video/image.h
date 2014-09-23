@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 //            Copyright (C) 2004-2011 by The Allacrost Project
-//            Copyright (C) 2012-2013 by Bertram (Valyria Tear)
+//            Copyright (C) 2012-2014 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -121,6 +121,10 @@ public:
     virtual float GetHeight() const {
         return _height;
     }
+
+    //! \brief Empty update function permitting better abstraction between StillImage and AnimatedImage.
+    virtual void Update()
+    {}
 
     //! \brief Set whether the image should be drawn smoothed.
     void Smooth(bool smooth) {
@@ -765,6 +769,12 @@ public:
         _frame_index = index;
         _frame_counter = 0;
     }
+
+    /** \brief Sets a random frame index to the animation.
+    *** \note This permits to avoid seeing the exact same animation shapes
+    *** when adding the same animation multiple times on screen.
+    **/
+    void RandomizeAnimationFrame();
 
     /** \brief Sets the number of milliseconds that the current frame has been shown for.
     *** \param time The time to set the frame counter

@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 //            Copyright (C) 2004-2011 by The Allacrost Project
-//            Copyright (C) 2012-2013 by Bertram (Valyria Tear)
+//            Copyright (C) 2012-2014 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -26,8 +26,6 @@ using namespace vt_utils;
 using namespace vt_video;
 using namespace vt_script;
 using namespace vt_system;
-
-template<> vt_global::GameGlobal *Singleton<vt_global::GameGlobal>::_singleton_reference = NULL;
 
 namespace vt_global
 {
@@ -147,6 +145,12 @@ void GameGlobal::_CloseGlobalScripts() {
     _status_effects_script.CloseTable();
     _status_effects_script.CloseFile();
 
+    _characters_script.CloseTable();
+    _characters_script.CloseFile();
+
+    _enemies_script.CloseTable();
+    _enemies_script.CloseFile();
+
     _map_sprites_script.CloseFile();
     _map_objects_script.CloseFile();
     _map_treasures_script.CloseFile();
@@ -192,6 +196,12 @@ bool GameGlobal::_LoadGlobalScripts()
         return false;
 
     if(!_status_effects_script.OpenFile("dat/effects/status.lua") || !_status_effects_script.OpenTable("status_effects"))
+        return false;
+
+    if(!_characters_script.OpenFile("dat/actors/characters.lua") || !_characters_script.OpenTable("characters"))
+        return false;
+
+    if(!_enemies_script.OpenFile("dat/actors/enemies.lua") || !_enemies_script.OpenTable("enemies"))
         return false;
 
     if(!_map_sprites_script.OpenFile("dat/actors/map_sprites.lua") || !_map_sprites_script.OpenTable("sprites"))
@@ -315,8 +325,8 @@ QuestLogInfo::QuestLogInfo(const vt_utils::ustring &title,
 // WorldMapLocation struct
 ////////////////////////////////////////////////////////////////////////////////
 
-WorldMapLocation::WorldMapLocation(float x, float y, const std::string &location_name,
-                                   const std::string &image_path, const std::string &world_map_location_id) :
+WorldMapLocation::WorldMapLocation(float x, float y, const std::string& location_name,
+                                   const std::string& image_path, const std::string& world_map_location_id) :
     _x(x),
     _y(y),
     _location_name(location_name),
@@ -454,6 +464,20 @@ void GameGlobal::SwapCharactersByIndex(uint32 first_index, uint32 second_index)
 
     // Do the same for the party member.
     _active_party.SwapCharactersByIndex(first_index, second_index);
+}
+
+bool GameGlobal::DoesEnemyExist(uint32 enemy_id)
+{
+    if(enemy_id == 0)
+        return false;
+
+    ReadScriptDescriptor& enemy_data = GetEnemiesScript();
+
+    if (!enemy_data.OpenTable(enemy_id))
+        return false;
+
+    enemy_data.CloseTable(); // enemy_id
+    return true;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -605,9 +629,7 @@ void GameGlobal::RemoveFromInventory(uint32 obj_id)
     }
 } // void GameGlobal::RemoveFromInventory(uint32 obj_id)
 
-
-
-GlobalObject *GameGlobal::RetrieveFromInventory(uint32 obj_id, bool all_counts)
+GlobalObject* GameGlobal::GetGlobalObject(uint32 obj_id)
 {
     if(_inventory.find(obj_id) == _inventory.end()) {
         IF_PRINT_WARNING(GLOBAL_DEBUG) << "attempted to retrieve an object from inventory that didn't exist with id: " << obj_id << std::endl;
@@ -618,31 +640,31 @@ GlobalObject *GameGlobal::RetrieveFromInventory(uint32 obj_id, bool all_counts)
     // Use the id value to figure out what type of object it is, and remove it from the object vector
     if((obj_id > 0 && obj_id <= MAX_ITEM_ID)
         || (obj_id > MAX_SPIRIT_ID && obj_id <= MAX_KEY_ITEM_ID)) {
-        return_object = _RetrieveFromInventory(obj_id, _inventory_items, all_counts);
+        return_object = _GetFromInventory(obj_id, _inventory_items);
         if(return_object == NULL)
             IF_PRINT_WARNING(GLOBAL_DEBUG) << "object to retrieve was not found in inventory items: " << obj_id << std::endl;
     } else if((obj_id > MAX_ITEM_ID) && (obj_id <= MAX_WEAPON_ID)) {
-        return_object = _RetrieveFromInventory(obj_id, _inventory_weapons, all_counts);
+        return_object = _GetFromInventory(obj_id, _inventory_weapons);
         if(return_object == NULL)
             IF_PRINT_WARNING(GLOBAL_DEBUG) << "object to retrieve was not found in inventory weapons: " << obj_id << std::endl;
     } else if((obj_id > MAX_WEAPON_ID) && (obj_id <= MAX_HEAD_ARMOR_ID)) {
-        return_object = _RetrieveFromInventory(obj_id, _inventory_head_armor, all_counts);
+        return_object = _GetFromInventory(obj_id, _inventory_head_armor);
         if(return_object == NULL)
             IF_PRINT_WARNING(GLOBAL_DEBUG) << "object to retrieve was not found in inventory head armor: " << obj_id << std::endl;
     } else if((obj_id > MAX_HEAD_ARMOR_ID) && (obj_id <= MAX_TORSO_ARMOR_ID)) {
-        return_object = _RetrieveFromInventory(obj_id, _inventory_torso_armor, all_counts);
+        return_object = _GetFromInventory(obj_id, _inventory_torso_armor);
         if(return_object == NULL)
             IF_PRINT_WARNING(GLOBAL_DEBUG) << "object to retrieve was not found in inventory torso armor: " << obj_id << std::endl;
     } else if((obj_id > MAX_TORSO_ARMOR_ID) && (obj_id <= MAX_ARM_ARMOR_ID)) {
-        return_object = _RetrieveFromInventory(obj_id, _inventory_arm_armor, all_counts);
+        return_object = _GetFromInventory(obj_id, _inventory_arm_armor);
         if(return_object == NULL)
             IF_PRINT_WARNING(GLOBAL_DEBUG) << "object to retrieve was not found in inventory arm armor: " << obj_id << std::endl;
     } else if((obj_id > MAX_ARM_ARMOR_ID) && (obj_id <= MAX_LEG_ARMOR_ID)) {
-        return_object = _RetrieveFromInventory(obj_id, _inventory_leg_armor, all_counts);
+        return_object = _GetFromInventory(obj_id, _inventory_leg_armor);
         if(return_object == NULL)
             IF_PRINT_WARNING(GLOBAL_DEBUG) << "object to retrieve was not found in inventory leg armor: " << obj_id << std::endl;
     } else if((obj_id > MAX_LEG_ARMOR_ID) && (obj_id <= MAX_SPIRIT_ID)) {
-        return_object = _RetrieveFromInventory(obj_id, _inventory_spirits, all_counts);
+        return_object = _GetFromInventory(obj_id, _inventory_spirits);
         if(return_object == NULL)
             IF_PRINT_WARNING(GLOBAL_DEBUG) << "object to retrieve was not found in inventory spirits: " << obj_id << std::endl;
     } else {
@@ -650,9 +672,7 @@ GlobalObject *GameGlobal::RetrieveFromInventory(uint32 obj_id, bool all_counts)
     }
 
     return return_object;
-} // GlobalObject* GameGlobal::RetrieveFromInventory(uint32 obj_id, bool all_counts)
-
-
+}
 
 void GameGlobal::IncrementObjectCount(uint32 obj_id, uint32 count)
 {
@@ -1206,6 +1226,24 @@ void GameGlobal::_SaveCharacter(WriteScriptDescriptor &file, GlobalCharacter *ch
             file.WriteLine(", ", false);
         file.WriteLine(NumberToString(skill_id), false);
     }
+    file.WriteLine("\n\t\t},");
+
+    // Writes active status effects at the time of the save
+    file.InsertNewLine();
+    file.WriteLine("\t\tactive_status_effects = {");
+    const std::vector<ActiveStatusEffect>& status_effects = character->GetActiveStatusEffects();
+    for(uint32 i = 0; i < status_effects.size(); ++i) {
+        const ActiveStatusEffect& effect = status_effects.at(i);
+        if (!effect.IsActive())
+            continue;
+
+        std::string effect_str = "\t\t\t[" + NumberToString((int32)effect.GetEffect()) + "] = { ";
+        effect_str += "intensity = " + NumberToString((int32)effect.GetIntensity()) + ", ";
+        effect_str += "duration = " + NumberToString((int32)effect.GetEffectTime()) + ", ";
+        effect_str += "elapsed_time = " + NumberToString((int32)effect.GetElapsedTime()) + "},";
+
+        file.WriteLine(effect_str);
+    }
     file.WriteLine("\n\t\t}");
 
     if(last)
@@ -1464,6 +1502,45 @@ void GameGlobal::_LoadCharacter(ReadScriptDescriptor &file, uint32 id)
         character->AddSkill(skill_ids[i]);
     }
 
+    // Read the character's active status effects data
+    character->ResetActiveStatusEffects();
+    std::vector<int32> status_effects_ids;
+    file.ReadTableKeys("active_status_effects", status_effects_ids);
+
+    if (file.OpenTable("active_status_effects")) {
+
+        for(uint32 i = 0; i < status_effects_ids.size(); ++i) {
+            int32 status_effect = status_effects_ids[i];
+
+            if (!file.OpenTable(status_effect))
+                continue;
+
+            // Check the status effect validity
+            if (status_effect <= (int32)GLOBAL_STATUS_INVALID || status_effect >= (int32)GLOBAL_STATUS_TOTAL) {
+                file.CloseTable(); // status_effect
+                continue;
+            }
+
+            // Check the status intensity validity
+            int32 intensity = file.ReadInt("intensity");
+            if (intensity <= GLOBAL_INTENSITY_INVALID || intensity >= GLOBAL_INTENSITY_TOTAL) {
+                file.CloseTable(); // status_effect
+                continue;
+            }
+
+            uint32 duration = file.ReadInt("duration");
+            uint32 elapsed_time = file.ReadInt("elapsed_time");
+
+            character->SetActiveStatusEffect((GLOBAL_STATUS)status_effect,
+                                             (GLOBAL_INTENSITY)intensity,
+                                             duration, elapsed_time);
+
+            file.CloseTable(); // status_effect
+        }
+
+        file.CloseTable(); // active_status_effects
+    }
+
     file.CloseTable(); // character id
 
     AddCharacter(character);
@@ -1660,7 +1737,7 @@ bool GameGlobal::_LoadQuestsScript(const std::string& quests_script_filename)
         }
 
         //check whether all fields are there.
-        if(quest_info.size() == 9)
+        if(quest_info.size() >= 9)
         {
             QuestLogInfo info = QuestLogInfo(MakeUnicodeString(quest_info[0]),
                                      MakeUnicodeString(quest_info[1]),
@@ -1668,6 +1745,10 @@ bool GameGlobal::_LoadQuestsScript(const std::string& quests_script_filename)
                                      quest_info[3], quest_info[4],
                                      MakeUnicodeString(quest_info[5]), quest_info[6],
                                      MakeUnicodeString(quest_info[7]), quest_info[8]);
+            // If possible, loads the non-competable event group and name
+            if (quest_info.size() == 11) {
+                info.SetNotCompletableIf(quest_info[9], quest_info[10]);
+            }
             _quest_log_info[quest_id] = info;
         }
         //malformed quest log

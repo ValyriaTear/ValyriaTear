@@ -88,7 +88,7 @@ function Initialize(_character, _target, _skill)
 
     Battle = ModeManager:GetTop();
     -- A sword slash animation
-    sword_slash = Battle:CreateBattleAnimation("img/sprites/battle/effects/sword_slash.lua");
+    sword_slash = Battle:CreateBattleAnimation("img/sprites/battle/effects/sword_forward_slash.lua");
     slash_effect_time = 0;
     slash_effect_started = false;
     move_time = 0;
@@ -178,9 +178,12 @@ function Update()
             end
         end
 
-        if (slash_effect_time > 75 * 4) then -- 300, 410 + 300 = 710 (< 730).
+        if (sword_slash ~= nil and slash_effect_time > 75 * 4) then -- 300, 410 + 300 = 710 (< 730).
             sword_slash:SetVisible(false);
             sword_slash:Remove();
+            -- The Remove() call will make the engine delete the object, so we set it to nil
+            -- to avoid using it again.
+            sword_slash = nil;
         end
 
         -- Triggers the damage in the middle of the attack animation
@@ -195,7 +198,7 @@ function Update()
         if (attack_time > 390) then
             character_pos_x = character_pos_x + distance_moved_x - forward_thrust_counter_force;
             character:SetXLocation(character_pos_x);
-            forward_thrust_counter_force = forward_thrust_counter_force + 1;
+            forward_thrust_counter_force = forward_thrust_counter_force + (2.0 * SystemManager:GetUpdateTime() / 30.0);
 
             -- Adds some dust every 15ms
             move_time = move_time + SystemManager:GetUpdateTime();

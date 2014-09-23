@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 //            Copyright (C) 2004-2011 by The Allacrost Project
-//            Copyright (C) 2012-2013 by Bertram (Valyria Tear)
+//            Copyright (C) 2012-2014 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -55,7 +55,6 @@ void BindModeCode()
     // ----- Boot Mode Bindings
     {
         using namespace vt_boot;
-        using namespace vt_boot::private_boot;
 
         luabind::module(vt_script::ScriptManager->GetGlobalState(), "vt_boot")
         [
@@ -92,9 +91,13 @@ void BindModeCode()
             .def_readwrite("run_stamina", &MapMode::_run_stamina)
 
             .def("AddFlatGroundObject", &MapMode::AddFlatGroundObject, luabind::adopt(_2))
+            .def("RemoveFlatGroundObject", &MapMode::RemoveGroundObject)
             .def("AddGroundObject", &MapMode::AddGroundObject, luabind::adopt(_2))
+            .def("RemoveGroundObject", &MapMode::RemoveGroundObject)
             .def("AddPassObject", &MapMode::AddPassObject, luabind::adopt(_2))
+            .def("RemovePassObject", &MapMode::RemoveGroundObject)
             .def("AddSkyObject", &MapMode::AddSkyObject, luabind::adopt(_2))
+            .def("RemoveSkyObject", &MapMode::RemoveGroundObject)
             .def("AddAmbientSoundObject", &MapMode::AddAmbientSoundObject, luabind::adopt(_2))
             .def("AddZone", &MapMode::AddZone, luabind::adopt(_2))
             .def("AddSavePoint", &MapMode::AddSavePoint)
@@ -110,6 +113,10 @@ void BindModeCode()
             .def("IsCameraMoving", &MapMode::IsCameraMoving)
             .def("GetScreenXCoordinate", &MapMode::GetScreenXCoordinate)
             .def("GetScreenYCoordinate", &MapMode::GetScreenYCoordinate)
+            .def("GetMapXOffset", &MapMode::GetMapXOffset)
+            .def("GetMapYOffset", &MapMode::GetMapYOffset)
+            .def("GetMapWidth", &MapMode::GetMapWidth)
+            .def("GetMapHeight", &MapMode::GetMapHeight)
             .def("SetShowGUI", &MapMode::SetShowGUI)
             .def("IsShowGUI", &MapMode::IsShowGUI)
             .def("PushState", &MapMode::PushState)
@@ -120,6 +127,14 @@ void BindModeCode()
             .def("SetMinimapImage", &MapMode::SetMinimapImage)
             .def("GetStamina", &MapMode::GetStamina)
             .def("SetStamina", &MapMode::SetStamina)
+            .def("IsMenuEnabled", &MapMode::IsMenuEnabled)
+            .def("SetMenuEnabled", &MapMode::SetMenuEnabled)
+            .def("AreSavePointsEnabled", &MapMode::AreSavePointsEnabled)
+            .def("SetSavePointsEnabled", &MapMode::SetSavePointsEnabled)
+            .def("AreStatusEffectsEnabled", &MapMode::AreStatusEffectsEnabled)
+            .def("SetStatusEffectsEnabled", &MapMode::SetStatusEffectsEnabled)
+            .def("ChangeActiveStatusEffect", &MapMode::ChangeActiveStatusEffect)
+            .def("GetActiveStatusEffectIntensity", &MapMode::GetActiveStatusEffectIntensity)
 
             // Namespace constants
             .enum_("constants") [
@@ -182,8 +197,6 @@ void BindModeCode()
             .def_readonly("virtual_focus", &ObjectSupervisor::_virtual_focus)
 
             .def("GenerateObjectID", &ObjectSupervisor::GenerateObjectID)
-            .def("GetNumberObjects", &ObjectSupervisor::GetNumberObjects)
-            .def("GetObjectByIndex", &ObjectSupervisor::GetObjectByIndex)
             .def("GetObject", &ObjectSupervisor::GetObject)
             .def("SetPartyMemberVisibleSprite", &ObjectSupervisor::SetPartyMemberVisibleSprite)
             .def("SetAllEnemyStatesToDead", &ObjectSupervisor::SetAllEnemyStatesToDead)
@@ -226,6 +239,7 @@ void BindModeCode()
             .def(luabind::constructor<const std::string &, float, float>())
             .def("Stop", &ParticleObject::Stop)
             .def("Start", &ParticleObject::Start)
+            .def("IsAlive", &ParticleObject::IsAlive)
         ];
 
         luabind::module(vt_script::ScriptManager->GetGlobalState(), "vt_map")
@@ -239,6 +253,10 @@ void BindModeCode()
         [
             luabind::class_<SoundObject, MapObject>("SoundObject")
             .def(luabind::constructor<const std::string&, float, float, float>())
+            .def("Stop", &SoundObject::Stop)
+            .def("Start", &SoundObject::Start)
+            .def("IsActive", &SoundObject::IsActive)
+            .def("SetMaxVolume", &SoundObject::SetMaxVolume)
         ];
 
         luabind::module(vt_script::ScriptManager->GetGlobalState(), "vt_map")
@@ -249,7 +267,8 @@ void BindModeCode()
             .def("AddStillFrame", &PhysicalObject::AddStillFrame)
             .def("SetCurrentAnimation", &PhysicalObject::SetCurrentAnimation)
             .def("SetAnimationProgress", &PhysicalObject::SetAnimationProgress)
-            .def("GetCurrentAnimation", &PhysicalObject::GetCurrentAnimation)
+            .def("GetCurrentAnimationId", &PhysicalObject::GetCurrentAnimationId)
+            .def("RandomizeCurrentAnimationFrame", &PhysicalObject::RandomizeCurrentAnimationFrame)
             .def("SetEventWhenTalking", &PhysicalObject::SetEventWhenTalking)
             .def("ClearEventWhenTalking", &PhysicalObject::ClearEventWhenTalking)
         ];
@@ -261,6 +280,7 @@ void BindModeCode()
             .def("SetDrunes", &TreasureObject::SetDrunes)
             .def("AddObject", &TreasureObject::AddObject)
             .def("AddEvent", &TreasureObject::AddEvent)
+            .def("GetTreasureName", &TreasureObject::GetTreasureName)
         ];
 
         luabind::module(vt_script::ScriptManager->GetGlobalState(), "vt_map")
@@ -271,6 +291,8 @@ void BindModeCode()
             .def("GetState", &TriggerObject::GetState)
             .def("GetTriggerName", &TriggerObject::GetTriggerName)
             .def("SetTriggerableByCharacter", &TriggerObject::SetTriggerableByCharacter)
+            .def("SetOnEvent", &TriggerObject::SetOnEvent)
+            .def("SetOffEvent", &TriggerObject::SetOffEvent)
         ];
 
         luabind::module(vt_script::ScriptManager->GetGlobalState(), "vt_map")
@@ -340,6 +362,8 @@ void BindModeCode()
             .def("ChangeStateSpawning", &EnemySprite::ChangeStateSpawning)
             .def("ChangeStateHostile", &EnemySprite::ChangeStateHostile)
             .def("AddWayPoint", &EnemySprite::AddWayPoint)
+            .def("GetEncounterEvent", &EnemySprite::GetEncounterEvent)
+            .def("SetEncounterEvent", &EnemySprite::SetEncounterEvent)
         ];
 
         luabind::module(vt_script::ScriptManager->GetGlobalState(), "vt_map")
@@ -559,6 +583,9 @@ void BindModeCode()
         [
             luabind::class_<ShopEvent, MapEvent>("ShopEvent")
             .def(luabind::constructor<std::string>())
+            .def("SetShopName", &ShopEvent::SetShopName)
+            .def("SetGreetingText", &ShopEvent::SetGreetingText)
+            .def("SetSellModeEnabled", &ShopEvent::SetSellModeEnabled)
             .def("AddObject", &ShopEvent::AddObject)
             .def("AddTrade", &ShopEvent::AddTrade)
             .def("SetPriceLevels", &ShopEvent::SetPriceLevels)
@@ -571,6 +598,13 @@ void BindModeCode()
             .def("SetDrunes", &TreasureEvent::SetDrunes)
             .def("AddObject", &TreasureEvent::AddObject)
             .def("AddEvent", &TreasureEvent::AddEvent)
+        ];
+
+        luabind::module(vt_script::ScriptManager->GetGlobalState(), "vt_map")
+        [
+            luabind::class_<ActiveMapStatusEffect, vt_global::GlobalStatusEffect>("ActiveMapStatusEffect")
+            .def("GetAffectedCharacter", &ActiveMapStatusEffect::GetAffectedCharacter)
+            .def("HasIntensityChanged", &ActiveMapStatusEffect::HasIntensityChanged)
         ];
 
     } // End using map mode namespaces
@@ -628,6 +662,8 @@ void BindModeCode()
             .def(luabind::constructor<>())
             .def("AddEnemy", (void(BattleMode:: *)(uint32, float, float))&BattleMode::AddEnemy)
             .def("AddEnemy", (void(BattleMode:: *)(uint32))&BattleMode::AddEnemy)
+            .def("SetBossBattle", &BattleMode::SetBossBattle)
+            .def("IsBossBattle", &BattleMode::IsBossBattle)
             .def("RestartBattle", &BattleMode::RestartBattle)
             .def("AreActorStatesPaused", &BattleMode::AreActorStatesPaused)
             .def("IsInSceneMode", &BattleMode::IsInSceneMode)
@@ -725,10 +761,13 @@ void BindModeCode()
             .def("RegisterHealing", &BattleActor::RegisterHealing)
             .def("RegisterRevive", &BattleActor::RegisterRevive)
             .def("RegisterMiss", &BattleActor::RegisterMiss)
-            .def("RegisterStatusChange", &BattleActor::RegisterStatusChange)
+            .def("ApplyActiveStatusEffect", &BattleActor::ApplyActiveStatusEffect)
+            .def("RemoveActiveStatusEffect", &BattleActor::RemoveActiveStatusEffect)
             .def("GetActiveStatusEffectIntensity", &BattleActor::GetActiveStatusEffectIntensity)
             .def("SetStunned", &BattleActor::SetStunned)
             .def("IsStunned", &BattleActor::IsStunned)
+            .def("IsAlive", &BattleActor::IsAlive)
+            .def("CanFight", &BattleActor::CanFight)
             .def("ResetHitPoints", &BattleActor::ResetHitPoints)
             .def("ResetMaxHitPoints", &BattleActor::ResetMaxHitPoints)
             .def("ResetSkillPoints", &BattleActor::ResetSkillPoints)
@@ -827,7 +866,6 @@ void BindModeCode()
         luabind::module(vt_script::ScriptManager->GetGlobalState(), "vt_battle")
         [
             luabind::class_<ActiveBattleStatusEffect, vt_global::GlobalStatusEffect>("ActiveBattleStatusEffect")
-            .def("GetAffectedActor", &ActiveBattleStatusEffect::GetAffectedActor)
             .def("GetTimer", &ActiveBattleStatusEffect::GetTimer)
             .def("HasIntensityChanged", &ActiveBattleStatusEffect::HasIntensityChanged)
         ];
@@ -855,9 +893,12 @@ void BindModeCode()
         [
             luabind::class_<ShopMode, vt_mode_manager::GameMode>("ShopMode")
             .def(luabind::constructor<>())
+            .def("SetShopName", &ShopMode::SetShopName)
+            .def("SetGreetingText", &ShopMode::SetGreetingText)
             .def("AddObject", &ShopMode::AddObject)
             .def("AddTrade", &ShopMode::AddTrade)
             .def("SetPriceLevels", &ShopMode::SetPriceLevels)
+            .def("SetSellModeEnabled", &ShopMode::SetSellModeEnabled)
 
             .enum_("constants") [
                 // Price levels

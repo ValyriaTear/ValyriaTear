@@ -1,6 +1,6 @@
 /////////////////////////////////////////////////////////////////////////////////
 //            Copyright (C) 2004-2011 by The Allacrost Project
-//            Copyright (C) 2012-2013 by Bertram (Valyria Tear)
+//            Copyright (C) 2012-2014 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -34,6 +34,7 @@
 
 #include "map_utils.h"
 #include "map_minimap.h"
+#include "map_status_effects.h"
 
 #include "engine/audio/audio_descriptor.h"
 
@@ -49,6 +50,9 @@ class GlobalObject;
 //! All calls to map mode are wrapped in this namespace.
 namespace vt_map
 {
+
+//! The stamina maximum value.
+const uint32 STAMINA_FULL = 10000;
 
 //! An internal namespace to be used only within the map code. Don't use this namespace anywhere else!
 namespace private_map
@@ -108,7 +112,9 @@ class MapMode : public vt_mode_manager::GameMode
 public:
     //! \param data_filename The name of the Lua file that retains all data about the map to create
     //! \param script_filename The name of the Lua file that retains all data about script to load
-    MapMode(const std::string &data_filename, const std::string& script_filename);
+    //! \param stamina The amount of stamina the map character sprite will start with.
+    //! \note the last parameter is usually set to carry the current stamina value from one map to another.
+    MapMode(const std::string &data_filename, const std::string& script_filename, uint32 stamina = STAMINA_FULL);
 
     ~MapMode();
 
@@ -147,16 +153,28 @@ public:
     private_map::MAP_STATE CurrentState();
 
     //! \brief Adds a new object to the layer before ground object layer
-    void AddFlatGroundObject(private_map::MapObject *obj);
+    void AddFlatGroundObject(private_map::MapObject* obj);
+
+    //! \brief Removes an object from the ground object layer
+    void RemoveFlatGroundObject(private_map::MapObject* obj);
 
     //! \brief Adds a new object to the ground object layer
-    void AddGroundObject(private_map::MapObject *obj);
+    void AddGroundObject(private_map::MapObject* obj);
+
+    //! \brief Removes an object from the ground object layer
+    void RemoveGroundObject(private_map::MapObject* obj);
 
     //! \brief Adds a new object to the pass object layer
-    void AddPassObject(private_map::MapObject *obj);
+    void AddPassObject(private_map::MapObject* obj);
+
+    //! \brief Removes an object from the pass object layer
+    void RemovePassObject(private_map::MapObject* obj);
 
     //! \brief Adds a new object to the sky object layer
-    void AddSkyObject(private_map::MapObject *obj);
+    void AddSkyObject(private_map::MapObject* obj);
+
+    //! \brief Removes an object from the sky object layer
+    void RemoveSkyObject(private_map::MapObject* obj);
 
     //! \brief Adds a new ambient sound object
     void AddAmbientSoundObject(private_map::SoundObject *obj);
@@ -194,11 +212,11 @@ public:
         return _map_hud_name.GetString();
     }
 
-    uint32 GetStamina(){
+    uint32 GetStamina() const {
         return _run_stamina;
     }
 
-    void SetStamina(uint32 new_stamina){
+    void SetStamina(uint32 new_stamina) {
         _run_stamina = new_stamina;
     }
 
@@ -254,7 +272,7 @@ public:
 
     void SetCamera(private_map::VirtualSprite *sprite, uint32 duration);
 
-    void MoveVirtualFocus(float loc_x, float loc_y);;
+    void MoveVirtualFocus(float loc_x, float loc_y);
 
     void MoveVirtualFocus(float loc_x, float loc_y, uint32 duration);
 
@@ -291,6 +309,10 @@ public:
     //! \brief Tells whether a battle can start
     bool AttackAllowed();
 
+    //! \brief Applies a potential malus when the map stamina is low.
+    //! This is applied as an active status effect on agility.
+    void ApplyPotentialStaminaMalus();
+
     /**
      * \brief Since the map coords are non standard, this function
      * permits to quickly adapt the images to the map scale.
@@ -307,6 +329,33 @@ public:
     //! \brief Returns in standard screen coordinates (1024x768),
     //! the x position of a tile position on the Y axis.
     float GetScreenYCoordinate(float tile_position_y) const;
+
+    //! \brief Returns the tile offset x value,
+    float GetMapXOffset() const {
+        return _map_frame.screen_edges.left;
+    }
+
+    //! \brief Returns the tile offset y value,
+    float GetMapYOffset() const {
+        return _map_frame.screen_edges.top;
+    }
+
+    //! \brief Returns the map x size in tiles,
+    uint16 GetMapWidth() const;
+
+    //! \brief Returns the map y size in tiles,
+    uint16 GetMapHeight() const;
+
+    //! \brief Gives the current map pixel lengths.
+    //! Used to properly place sprites and avoid glitches.
+    //! \see _UpdateMapFrame() for a better explanation.
+    float GetMapPixelXLength() const {
+        return _pixel_length_x;
+    }
+
+    float GetMapPixelYLength() const {
+        return _pixel_length_y;
+    }
 
     //! \brief toggles visibility of the minimap
     //! \param the new state of the minimap visibility
@@ -333,13 +382,61 @@ public:
             _CreateMinimap();
     }
 
+    //! \brief Sets whether the menu mode is available from the map mode.
+    void SetMenuEnabled(bool enabled) {
+        _menu_enabled = enabled;
+    }
+
+    //! \brief Tells whether the menu mode is available from the map mode.
+    bool IsMenuEnabled() const {
+        return _menu_enabled;
+    }
+
+    //! \brief Sets whether the save points are enabled in the map mode.
+    void SetSavePointsEnabled(bool enabled) {
+        _save_points_enabled = enabled;
+    }
+
+    //! \brief Tells whether the save points are enabled in the map mode.
+    bool AreSavePointsEnabled() const {
+        return _save_points_enabled;
+    }
+
+    //! \brief Sets whether the status effects can run in the map mode.
+    void SetStatusEffectsEnabled(bool enabled) {
+        _status_effects_enabled = enabled;
+    }
+
+    //! \brief Tells whether the status effects can run in the map mode.
+    bool AreStatusEffectsEnabled() const {
+        return _status_effects_enabled;
+    }
+
+    //! \brief Proxy function used to set up a character status effect from the map mode.
+    bool ChangeActiveStatusEffect(vt_global::GlobalCharacter* character,
+                                  vt_global::GLOBAL_STATUS status_type,
+                                  vt_global::GLOBAL_INTENSITY intensity,
+                                  uint32 duration) {
+        return _status_effect_supervisor.ChangeActiveStatusEffect(character,
+                                                                  status_type,
+                                                                  intensity,
+                                                                  duration,
+                                                                  0, true);
+    }
+
+    //! \brief Proxy function used to obtain the currently applied intensity
+    //! of an active status effect applied on the character.
+    vt_global::GLOBAL_INTENSITY GetActiveStatusEffectIntensity(vt_global::GlobalCharacter* character,
+                                                                         vt_global::GLOBAL_STATUS status_type) const {
+        return _status_effect_supervisor.GetActiveStatusEffectIntensity(character, status_type);
+    }
     //@}
 
 private:
     // ----- Members : Names and Identifiers -----
 
     /** \brief A reference to the current instance of MapMode
-    *** This is used by other map clases to be able to refer to the map that they exist in.
+    *** This is used by other map classes to be able to refer to the map that they exist in.
     **/
     static MapMode *_current_instance;
 
@@ -412,6 +509,9 @@ private:
     //! \brief A pointer to the map sprite that the map camera will focus on
     private_map::VirtualSprite *_camera;
 
+    //! \brief the camera position debug text
+    vt_video::TextImage _debug_camera_position;
+
     //! \brief The way in x-direction, the camera will move
     float _delta_x;
 
@@ -421,8 +521,16 @@ private:
     //! \brief A time for camera movement
     vt_system::SystemTimer _camera_timer;
 
-    //! \brief The number of contexts that this map uses (at least 1, at most 32)
-    uint8 _num_map_contexts;
+    //! \brief The pixel length depending on the current resolution.
+    //! This is used to avoid seeing jumping objects when scrolling the map view
+    //! and/or sprite's vibrating edges by using only scrolling values which are
+    //! a multiple of the pixel size.
+    //! \note Those are computed once at the first map tile frame update
+    //! and kept in memory to avoid useless recomputations.
+    //! This also should be dropped once the map mode uses a standard coordinate system.
+    //! \see _UpdateMapFrame() for more info.
+    float _pixel_length_x;
+    float _pixel_length_y;
 
     //! \brief If true, the player is not allowed to run.
     bool _running_disabled;
@@ -434,7 +542,7 @@ private:
     bool _show_gui;
 
     /** \brief A counter for the player's stamina
-    *** This value ranges from STAMINA_EMPTY to STAMINA_FULL. It takes twice as long to regenerate stamina as
+    *** This value ranges from 0 to STAMINA_FULL. It takes twice as long to regenerate stamina as
     *** it does to consume it when running.
     **/
     uint32 _run_stamina;
@@ -465,10 +573,16 @@ private:
     vt_video::AnimatedImage _dialogue_icon;
 
     //! \brief Image which underlays the stamina bar for running
-    vt_video::StillImage _stamina_bar_background;
+    //! \note This pointer is a reference handled by the GlobalMedia class, don't delete it!
+    vt_video::StillImage* _stamina_bar_background;
+
+    //! \brief The stamina bar representing the current stamina
+    //! \note This pointer is a reference handled by the GlobalMedia class, don't delete it!
+    vt_video::StillImage* _stamina_bar;
 
     //! \brief Image which overlays the stamina bar to show that the player has unlimited running
-    vt_video::StillImage _stamina_bar_infinite_overlay;
+    //! \note This pointer is a reference handled by the GlobalMedia class, don't delete it!
+    vt_video::StillImage* _stamina_bar_infinite_overlay;
 
     // ----- Members : Containers -----
     /** \brief A container for the various foes which may appear on this map
@@ -493,6 +607,18 @@ private:
 
     //! \brief Stores the potential custom minimap image filename
     std::string _minimap_custom_image_file;
+
+    //! \brief The character party status effects supervisor
+    private_map::MapStatusEffectsSupervisor _status_effect_supervisor;
+
+    //! \brief Tells whether the menu mode is available from the map mode.
+    bool _menu_enabled;
+
+    //! \brief Tells whether the save points are enabled in the map mode.
+    bool _save_points_enabled;
+
+    //! \brief Tells whether the status effects can run in the map mode.
+    bool _status_effects_enabled;
 
     // ----- Methods -----
 

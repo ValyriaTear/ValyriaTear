@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 //            Copyright (C) 2004-2011 by The Allacrost Project
-//            Copyright (C) 2012-2013 by Bertram (Valyria Tear)
+//            Copyright (C) 2012-2014 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software and
@@ -203,6 +203,7 @@ const float DEFAULT_ENEMY_LOCATIONS[][2] = {
 const uint32 NUM_DEFAULT_LOCATIONS = 8;
 
 BattleMode::BattleMode() :
+    GameMode(MODE_MANAGER_BATTLE_MODE),
     _state(BATTLE_STATE_INVALID),
     _sequence_supervisor(NULL),
     _command_supervisor(NULL),
@@ -215,11 +216,10 @@ BattleMode::BattleMode() :
     _scene_mode(false),
     _battle_type(BATTLE_TYPE_WAIT),
     _highest_agility(0),
-    _battle_type_time_factor(BATTLE_WAIT_FACTOR)
+    _battle_type_time_factor(BATTLE_WAIT_FACTOR),
+    _is_boss_battle(false)
 {
     _current_instance = this;
-
-    mode_type = MODE_MANAGER_BATTLE_MODE;
 
     _sequence_supervisor = new SequenceSupervisor(this);
     _command_supervisor = new CommandSupervisor();
@@ -401,24 +401,28 @@ void BattleMode::Update()
         // the command supervisor.
 
         if(InputManager->UpPress()) {
+            GlobalManager->Media().PlaySound("bump");
             if(_character_actors.size() >= 1) {   // Should always evaluate to true
                 character_selection = _character_actors[0];
             }
         }
 
         else if(InputManager->DownPress()) {
+            GlobalManager->Media().PlaySound("bump");
             if(_character_actors.size() >= 2) {
                 character_selection = _character_actors[1];
             }
         }
 
         else if(InputManager->LeftPress()) {
+            GlobalManager->Media().PlaySound("bump");
             if(_character_actors.size() >= 3) {
                 character_selection = _character_actors[2];
             }
         }
 
         else if(InputManager->RightPress()) {
+            GlobalManager->Media().PlaySound("bump");
             if(_character_actors.size() >= 4) {
                 character_selection = _character_actors[3];
             }
@@ -525,18 +529,14 @@ void BattleMode::DrawPostEffects()
 
 void BattleMode::AddEnemy(uint32 new_enemy_id, float position_x, float position_y)
 {
-    GlobalEnemy *new_enemy = new vt_global::GlobalEnemy(new_enemy_id);
-
-    // Don't add the enemy if its id was invalidated
-    if(new_enemy->GetID() == 0) {
-        PRINT_WARNING << "attempted to add a new enemy with an invalid id: "
-            << new_enemy->GetID() << std::endl;
-        delete new_enemy;
+    // Check for the enemy data validity
+    if (!vt_global::GlobalManager->DoesEnemyExist(new_enemy_id)) {
+        PRINT_WARNING << "Attempted to add a new enemy with an invalid id: "
+                      << new_enemy_id << std::endl;
         return;
     }
 
-    new_enemy->Initialize();
-    BattleEnemy *new_battle_enemy = new BattleEnemy(new_enemy);
+    BattleEnemy* new_battle_enemy = new BattleEnemy(new_enemy_id);
 
     // Compute a position when needed.
     if (position_x == 0.0f && position_y == 0.0f) {
@@ -559,6 +559,11 @@ void BattleMode::AddEnemy(uint32 new_enemy_id, float position_x, float position_
 
     _enemy_actors.push_back(new_battle_enemy);
     _enemy_party.push_back(new_battle_enemy);
+
+    // Sort the enemies based on their Y location.
+    // The player will then be able to target them in that order
+    // which is much more straight-forward.
+    std::sort(_enemy_party.begin(), _enemy_party.end(), CompareObjectsYCoord);
 
     if (GetState() == BATTLE_STATE_INVALID) {
         // When the enemy is added before the battle has begun, we can store it
@@ -756,16 +761,22 @@ void BattleMode::_Initialize()
 
     // Construct all character battle actors from the active party, as well as the menus that populate the command supervisor
     GlobalParty *active_party = GlobalManager->GetActiveParty();
-    if(active_party->GetPartySize() == 0) {
-        IF_PRINT_WARNING(BATTLE_DEBUG) << "no characters in the active party, exiting battle" << std::endl;
+    uint32 party_size = active_party->GetPartySize();
+    if(party_size == 0) {
+        IF_PRINT_WARNING(BATTLE_DEBUG) << "No characters in the active party, exiting battle" << std::endl;
         ModeManager->Pop();
         return;
     }
 
-    for(uint32 i = 0; i < active_party->GetPartySize(); i++) {
+    for(uint32 i = 0; i < party_size; ++i) {
         BattleCharacter *new_actor = new BattleCharacter(active_party->GetCharacterAtIndex(i));
         _character_actors.push_back(new_actor);
         _character_party.push_back(new_actor);
+
+    // Sort the characters based on their Y location.
+    // The player will then be able to target them in that order
+    // which is much more straight-forward.
+    std::sort(_character_party.begin(), _character_party.end(), CompareObjectsYCoord);
 
         // Check whether the character is alive
         if(new_actor->GetHitPoints() == 0)
@@ -958,9 +969,8 @@ uint32 BattleMode::_NumberValidEnemies() const
 {
     uint32 enemy_count = 0;
     for(uint32 i = 0; i < _enemy_actors.size(); ++i) {
-        if(_enemy_actors[i]->IsValid()) {
+        if(_enemy_actors[i]->CanFight())
             ++enemy_count;
-        }
     }
     return enemy_count;
 }
@@ -970,9 +980,8 @@ uint32 BattleMode::_NumberCharactersAlive() const
 {
     uint32 character_count = 0;
     for(uint32 i = 0; i < _character_actors.size(); ++i) {
-        if(_character_actors[i]->IsAlive()) {
+        if(_character_actors[i]->IsAlive())
             ++character_count;
-        }
     }
     return character_count;
 }
@@ -1255,7 +1264,7 @@ void TransitionToBattleMode::Reset()
     _transition_timer.Run();
 
     // Stop the map music
-    AudioManager->StopAllMusic();
+    AudioManager->StopActiveMusic();
 
     // Play a random encounter sound
     if (_is_boss) {

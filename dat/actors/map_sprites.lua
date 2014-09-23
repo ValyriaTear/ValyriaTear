@@ -77,7 +77,9 @@ sprites["Kalya"] = {
         kneeling = "img/sprites/map/characters/kalya_kneeling.lua",
         struggling = "img/sprites/map/characters/kalya_struggling.lua",
         jump_south = "img/sprites/map/characters/kalya_jump_south.lua",
-        laughing = "img/sprites/map/characters/kalya_laughing.lua"
+        laughing = "img/sprites/map/characters/kalya_laughing.lua",
+        hurt = "img/sprites/map/characters/kalya_hurt.lua",
+        frightened_fixed = "img/sprites/map/characters/kalya_frightened_fixed.lua",
     }
 }
 
@@ -149,6 +151,7 @@ sprites["Orlinn"] = {
     -- using standard (one direction only) animation files.
     custom_animations = {
         laughing = "img/sprites/map/npcs/story/orlinn_laughing.lua",
+        frightened_fixed = "img/sprites/map/npcs/story/orlinn_frightened_fixed.lua",
     }
 }
 
@@ -535,6 +538,59 @@ sprites["Dark Soldier on horse"] = {
     }
 }
 
+sprites["Beetle"] = {
+    name = vt_system.Translate("Beetle"),
+    coll_half_width = 0.6,
+    coll_height = 1.2,
+    img_half_width = 1.25,
+    img_height = 2.6,
+    movement_speed = ENEMY_SPEED,
+    --face_portrait = "",
+
+    -- using special animation files.
+    standard_animations = {
+        idle = "img/sprites/map/enemies/beetle_idle.lua",
+        walk = "img/sprites/map/enemies/beetle_walk.lua"
+    },
+}
+
+sprites["Skeleton"] = {
+    name = vt_system.Translate("Skeleton"),
+    coll_half_width = 0.6,
+    coll_height = 1.2,
+    img_half_width = 2.0,
+    img_height = 4.0,
+    movement_speed = ENEMY_SPEED,
+    --face_portrait = "",
+
+    -- using special animation files.
+    standard_animations = {
+        idle = "img/sprites/map/enemies/skeleton_idle.lua",
+        walk = "img/sprites/map/enemies/skeleton_walk.lua"
+    },
+}
+
+sprites["Andromalius"] = {
+    name = vt_system.Translate("Andromalius"),
+    coll_half_width = 1.781,
+    coll_height = 3.0,
+    img_half_width = 1.781,
+    img_height = 5.5,
+    movement_speed = ENEMY_SPEED,
+    --face_portrait = "",
+
+    -- using special animation files.
+    standard_animations = {
+        idle = "img/sprites/map/enemies/andromalius_idle.lua",
+        walk = "img/sprites/map/enemies/andromalius_idle.lua"
+    },
+
+    -- using standard (one direction only) animation files.
+    custom_animations = {
+        open_mouth_right = "img/sprites/map/enemies/andromalius_openmouth_right.lua",
+        open_mouth_left = "img/sprites/map/enemies/andromalius_openmouth_left.lua",
+    }
+}
 
 function CreateSprite(Map, name, x, y)
     if (sprites[name] == nil) then

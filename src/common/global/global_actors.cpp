@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 //            Copyright (C) 2004-2011 by The Allacrost Project
-//            Copyright (C) 2012-2013 by Bertram (Valyria Tear)
+//            Copyright (C) 2012-2014 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -628,18 +628,15 @@ GlobalCharacter::GlobalCharacter(uint32 id, bool initial) :
 {
     _id = id;
 
-    // Open the characters script file
-    std::string filename = "dat/actors/characters.lua";
-    ReadScriptDescriptor char_script;
-    if(!char_script.OpenFile(filename)) {
-        PRINT_ERROR << "failed to open character data file: "
-                    << filename << std::endl;
+    // Gets the characters script file
+    ReadScriptDescriptor& char_script = GlobalManager->GetCharactersScript();
+
+    // Retrieve their basic character property data
+    if (!char_script.OpenTable(_id)) {
+        PRINT_ERROR << "Couldn't find character " << _id << " in: " << char_script.GetFilename() << std::endl;
         return;
     }
 
-    // Retrieve their basic character property data
-    char_script.OpenTable("characters");
-    char_script.OpenTable(_id);
     _name = MakeUnicodeString(char_script.ReadString("name"));
 
     // Load all the graphic data
@@ -712,16 +709,17 @@ GlobalCharacter::GlobalCharacter(uint32 id, bool initial) :
     // Read each battle_animations table keys and store the corresponding animation in memory.
     std::vector<std::string> keys_vect;
     char_script.ReadTableKeys("battle_animations", keys_vect);
-    char_script.OpenTable("battle_animations");
-    for(uint32 i = 0; i < keys_vect.size(); ++i) {
-        AnimatedImage animation;
-        animation.LoadFromAnimationScript(char_script.ReadString(keys_vect[i]));
-        _battle_animation[keys_vect[i]] = animation;
+    if (char_script.OpenTable("battle_animations")) {
+        for(uint32 i = 0; i < keys_vect.size(); ++i) {
+            AnimatedImage animation;
+            animation.LoadFromAnimationScript(char_script.ReadString(keys_vect[i]));
+            _battle_animation[keys_vect[i]] = animation;
+        }
+        char_script.CloseTable(); // battle_animations
     }
-    char_script.CloseTable();
 
     // Construct the character from the initial stats if necessary
-    if(initial) {
+    if(initial && char_script.OpenTable("initial_stats")) {
         char_script.OpenTable("initial_stats");
         _experience_level = char_script.ReadUInt("experience_level");
         _experience_points = char_script.ReadUInt("experience_points");
@@ -768,7 +766,7 @@ GlobalCharacter::GlobalCharacter(uint32 id, bool initial) :
         else
             _armor_equipped.push_back(NULL);
 
-        char_script.CloseTable();
+        char_script.CloseTable(); // initial_stats
         if(char_script.IsErrorDetected()) {
             if(GLOBAL_DEBUG) {
                 PRINT_WARNING << "one or more errors occurred while reading initial data - they are listed below"
@@ -784,16 +782,18 @@ GlobalCharacter::GlobalCharacter(uint32 id, bool initial) :
     }
 
     // Setup the character's attack points
-    char_script.OpenTable("attack_points");
-    for(uint32 i = GLOBAL_POSITION_HEAD; i <= GLOBAL_POSITION_LEGS; ++i) {
-        _attack_points.push_back(new GlobalAttackPoint(this));
-        char_script.OpenTable(i);
-        if(_attack_points[i]->LoadData(char_script) == false) {
-            IF_PRINT_WARNING(GLOBAL_DEBUG) << "failed to successfully load data for attack point: " << i << std::endl;
+    if (char_script.OpenTable("attack_points")) {
+        for(uint32 i = GLOBAL_POSITION_HEAD; i <= GLOBAL_POSITION_LEGS; ++i) {
+            _attack_points.push_back(new GlobalAttackPoint(this));
+            if (char_script.OpenTable(i)) {
+                if(_attack_points[i]->LoadData(char_script) == false) {
+                    PRINT_WARNING << "Failed to successfully load data for attack point: " << i << std::endl;
+                }
+                char_script.CloseTable(); // attack point N°i
+            }
         }
-        char_script.CloseTable();
+        char_script.CloseTable(); // attack_points
     }
-    char_script.CloseTable();
 
     if(char_script.IsErrorDetected()) {
         if(GLOBAL_DEBUG) {
@@ -804,55 +804,56 @@ GlobalCharacter::GlobalCharacter(uint32 id, bool initial) :
 
     // Construct the character's initial skill set if necessary
     if(initial) {
-        // The skills table contains key/value pairs. The key indicate the level required to learn the skill and the value is the skill's id
-        std::vector<uint32> skill_levels;
-        char_script.OpenTable("skills");
-        char_script.ReadTableKeys(skill_levels);
+        if (char_script.OpenTable("skills")) {
+            // The skills table contains key/value pairs. The key indicate the level required to learn the skill and the value is the skill's id
+            std::vector<uint32> skill_levels;
+            char_script.ReadTableKeys(skill_levels);
 
-        // We want to add the skills beginning with the first learned to the last. ReadTableKeys does not guarantee returing the keys in a sorted order,
-        // so sort the skills by level before checking each one.
-        std::sort(skill_levels.begin(), skill_levels.end());
+            // We want to add the skills beginning with the first learned to the last. ReadTableKeys does not guarantee returing the keys in a sorted order,
+            // so sort the skills by level before checking each one.
+            std::sort(skill_levels.begin(), skill_levels.end());
 
-        // Only add the skills for which the experience level requirements are met
-        for(uint32 i = 0; i < skill_levels.size(); ++i) {
-            if(skill_levels[i] <= _experience_level) {
-                AddSkill(char_script.ReadUInt(skill_levels[i]));
+            // Only add the skills for which the experience level requirements are met
+            for(uint32 i = 0; i < skill_levels.size(); ++i) {
+                if(skill_levels[i] <= _experience_level) {
+                    AddSkill(char_script.ReadUInt(skill_levels[i]));
+                }
+                // Because skill_levels is sorted, all remaining skills will not have their level requirements met
+                else {
+                    break;
+                }
             }
-            // Because skill_levels is sorted, all remaining skills will not have their level requirements met
+            char_script.CloseTable(); // skills
+
+            if(char_script.IsErrorDetected()) {
+                if(GLOBAL_DEBUG) {
+                    PRINT_WARNING << "one or more errors occurred while reading skill data - they are listed below"
+                                  << std::endl << char_script.GetErrorMessages() << std::endl;
+                }
+            }
+        }
+
+        if (char_script.OpenTable("growth")) {
+            // If initial, determine the character's XP for next level.
+            std::vector<int32> xp_per_levels;
+            char_script.ReadIntVector("experience_for_next_level", xp_per_levels);
+            if (_experience_level <= xp_per_levels.size()) {
+                _experience_for_next_level = xp_per_levels[_experience_level - 1];
+            }
             else {
-                break;
+                PRINT_ERROR << "No XP for next level found for character id: " << _id
+                    << " at level " << _experience_level << std::endl;
+                // Bad default
+                _experience_for_next_level = 100000;
             }
+            char_script.CloseTable(); // growth
         }
-
-        char_script.CloseTable(); // skills
-        if(char_script.IsErrorDetected()) {
-            if(GLOBAL_DEBUG) {
-                PRINT_WARNING << "one or more errors occurred while reading skill data - they are listed below"
-                              << std::endl << char_script.GetErrorMessages() << std::endl;
-            }
-        }
-
-        // If initial, determine the character's XP for next level.
-        std::vector<int32> xp_per_levels;
-        char_script.OpenTable("growth");
-        char_script.ReadIntVector("experience_for_next_level", xp_per_levels);
-        if (_experience_level <= xp_per_levels.size()) {
-            _experience_for_next_level = xp_per_levels[_experience_level - 1];
-        }
-        else {
-            PRINT_ERROR << "No Xp for next level found for character id " << _id
-                << " at level " << _experience_level << std::endl;
-            // Bad default
-            _experience_for_next_level = 100000;
-        }
-        char_script.CloseTable(); // growth
     } // if (initial)
 
     // Reloads available skill according to equipment
     _UpdatesAvailableSkills();
 
-    char_script.CloseTable(); // "characters[id]"
-    char_script.CloseTable(); // "characters"
+    char_script.CloseTable(); // "characters[id]" to restore the script in its original state.
 
     // Close the script file and calculate all rating totals
     if(char_script.IsErrorDetected()) {
@@ -861,11 +862,13 @@ GlobalCharacter::GlobalCharacter(uint32 id, bool initial) :
                           << std::endl << char_script.GetErrorMessages() << std::endl;
         }
     }
-    char_script.CloseFile();
 
     // Init and updates the status effects according to current equipment.
     _equipment_status_effects.resize(GLOBAL_STATUS_TOTAL, GLOBAL_INTENSITY_NEUTRAL);
     _UpdateEquipmentStatusEffects();
+
+    // Init the active status effects data
+    ResetActiveStatusEffects();
 
     _CalculateAttackRatings();
     _CalculateDefenseRatings();
@@ -1263,12 +1266,7 @@ void GlobalCharacter::AcknowledgeGrowth() {
     ++_experience_level;
 
     // Retrieve the growth data for the new experience level and check for any additional growth
-    std::string filename = "dat/actors/characters.lua";
-    ReadScriptDescriptor character_script;
-    if(!character_script.OpenFile(filename)) {
-        IF_PRINT_WARNING(GLOBAL_DEBUG) << "failed to open character data file: " << filename << std::endl;
-        return;
-    }
+    ReadScriptDescriptor& character_script = GlobalManager->GetCharactersScript();
 
     // Clear the growth members before filling their data
     _hit_points_growth = 0;
@@ -1324,10 +1322,37 @@ void GlobalCharacter::AcknowledgeGrowth() {
         AddAgility(_agility_growth);
     if(!IsFloatEqual(_evade_growth, 0.0f))
         AddEvade(_evade_growth);
+} // void GlobalCharacter::AcknowledgeGrowth()
 
-    character_script.CloseFile();
-    return;
-} // bool GlobalCharacter::AcknowledgeGrowth()
+void GlobalCharacter::ApplyActiveStatusEffect(GLOBAL_STATUS status_effect,
+                                              GLOBAL_INTENSITY intensity,
+                                              uint32 duration)
+{
+    if (status_effect == GLOBAL_STATUS_INVALID || status_effect == GLOBAL_STATUS_TOTAL)
+        return;
+
+    if (intensity == GLOBAL_INTENSITY_INVALID || intensity == GLOBAL_INTENSITY_NEUTRAL)
+        return;
+
+    // Get the reference of the corresponding active effect.
+    ActiveStatusEffect& effect = _active_status_effects[status_effect];
+    // If there are no previously applied status effect, we set a new one.
+    if (effect.GetIntensity() == GLOBAL_INTENSITY_INVALID
+            || effect.GetIntensity() == GLOBAL_INTENSITY_NEUTRAL) {
+        SetActiveStatusEffect(status_effect, intensity, duration, 0);
+        return;
+    }
+
+    // If a previous one was active, we must take in account the previous effect intensity
+    int32 new_intensity = intensity + effect.GetIntensity();
+    // We also check bounds
+    if (new_intensity >= GLOBAL_INTENSITY_TOTAL)
+        new_intensity = GLOBAL_INTENSITY_POS_EXTREME;
+    else if (new_intensity <= GLOBAL_INTENSITY_INVALID)
+        new_intensity = GLOBAL_INTENSITY_NEG_EXTREME;
+
+    SetActiveStatusEffect(status_effect, (GLOBAL_INTENSITY)new_intensity, duration, 0);
+}
 
 void GlobalCharacter::_CalculateAttackRatings()
 {
@@ -1371,23 +1396,18 @@ GlobalEnemy::GlobalEnemy(uint32 id) :
 {
     _id = id;
 
-    // Use the id member to determine the name of the data file that the enemy is defined in
-    std::string filename;
-
-    if(_id == 0)
+    if(_id == 0) {
         PRINT_ERROR << "invalid id for loading enemy data: " << _id << std::endl;
-
-    // Open the script file and table that store the enemy data
-    ReadScriptDescriptor enemy_data;
-    if(!enemy_data.OpenFile("dat/actors/enemies.lua")) {
-        PRINT_ERROR << "failed to open enemy data file: " << filename << std::endl;
         return;
     }
 
-    if (!enemy_data.OpenTable("enemies") || !enemy_data.OpenTable(_id)) {
-        enemy_data.CloseFile();
-        PRINT_ERROR << "Failed to open the enemies[" << _id << "] table in "
-            << filename << std::endl;
+    // Open the script file and table that store the enemy data
+    ReadScriptDescriptor& enemy_data = GlobalManager->GetEnemiesScript();
+
+    if (!enemy_data.OpenTable(_id)) {
+        PRINT_ERROR << "Failed to open the enemies[" << _id << "] table in: "
+            << enemy_data.GetFilename() << std::endl;
+        return;
     }
 
     // Load the enemy's name and sprite data
@@ -1416,7 +1436,7 @@ GlobalEnemy::GlobalEnemy(uint32 id) :
                 _sprite_height =_battle_animations[anim_id].GetHeight();
         }
 
-        enemy_data.CloseTable();
+        enemy_data.CloseTable(); // battle_animations
     }
     else {
         PRINT_WARNING << "No 'battle_animations' table for enemy: " << _id << std::endl;
@@ -1469,7 +1489,7 @@ GlobalEnemy::GlobalEnemy(uint32 id) :
             _attack_points.push_back(new GlobalAttackPoint(this));
             if (enemy_data.OpenTable(i)) {
                 if(_attack_points.back()->LoadData(enemy_data) == false) {
-                    IF_PRINT_WARNING(GLOBAL_DEBUG) << "failed to load data for an attack point: "
+                    IF_PRINT_WARNING(GLOBAL_DEBUG) << "Failed to load data for an attack point: "
                         << i << std::endl;
                 }
                 enemy_data.CloseTable();
@@ -1498,16 +1518,14 @@ GlobalEnemy::GlobalEnemy(uint32 id) :
     }
 
     enemy_data.CloseTable(); // enemies[_id]
-    enemy_data.CloseTable(); // enemies
 
     if(enemy_data.IsErrorDetected()) {
-        if(GLOBAL_DEBUG) {
-            PRINT_WARNING << "one or more errors occurred while reading the enemy data - they are listed below"
-                          << std::endl << enemy_data.GetErrorMessages() << std::endl;
-        }
+        PRINT_WARNING << "One or more errors occurred while reading the enemy data - they are listed below"
+                      << std::endl << enemy_data.GetErrorMessages() << std::endl;
     }
 
-    enemy_data.CloseFile();
+    // stats and skills.
+    _Initialize();
 
     _CalculateAttackRatings();
     _CalculateDefenseRatings();
@@ -1543,23 +1561,17 @@ bool GlobalEnemy::AddSkill(uint32 skill_id)
 
 
 
-void GlobalEnemy::Initialize()
+void GlobalEnemy::_Initialize()
 {
-    if(_skills.empty() == false) { // Indicates that the enemy has already been initialized
-        IF_PRINT_WARNING(GLOBAL_DEBUG) << "function was invoked for an already initialized enemy: " << _id << std::endl;
-        return;
-    }
-
     // Add all new skills that should be available at the current experience level
-    for(uint32 i = 0; i < _skill_set.size(); ++i) {
+    _skills.clear();
+    for(uint32 i = 0; i < _skill_set.size(); ++i)
         AddSkill(_skill_set[i]);
-    }
 
-    if(_skills.empty()) {
-        IF_PRINT_WARNING(GLOBAL_DEBUG) << "no skills were added for the enemy: " << _id << std::endl;
-    }
+    if(_skills.empty())
+        PRINT_WARNING << "No skills were added for the enemy: " << _id << std::endl;
 
-    // Randomize the stats by using a guassian random variable
+    // Randomize the stats by using a Gaussian random variable
     if(_no_stat_randomization == false) {
         // Use the base stats as the means and a standard deviation of 10% of the mean
         _max_hit_points = GaussianRandomValue(_max_hit_points, _max_hit_points / 10.0f);

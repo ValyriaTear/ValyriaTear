@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 //            Copyright (C) 2004-2011 by The Allacrost Project
-//            Copyright (C) 2012-2013 by Bertram (Valyria Tear)
+//            Copyright (C) 2012-2014 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -202,7 +202,7 @@ void BuyInterface::Reinitialize()
     }
 
     // Populate the object_data containers
-    
+
     // Pointer to the container of all objects that are bought/sold/traded in the shop
     std::map<uint32, ShopObject *>* buy_objects = ShopMode::CurrentInstance()->GetAvailableBuy();
 
@@ -268,7 +268,7 @@ void BuyInterface::MakeActive()
 {
     Reinitialize();
 
-    if(_list_displays.size() == 0) {
+    if(_list_displays.empty()) {
         ShopMode::CurrentInstance()->ChangeState(SHOP_STATE_ROOT);
         return;
     }
@@ -284,7 +284,7 @@ void BuyInterface::MakeActive()
 
 void BuyInterface::TransactionNotification()
 {
-    for(uint32 i = 0; i < _list_displays.size(); i++) {
+    for(uint32 i = 0; i < _list_displays.size(); ++i) {
         _list_displays[i]->ReconstructList();
         _list_displays[i]->ResetSelection();
     }
@@ -316,12 +316,12 @@ void BuyInterface::Update()
         else if(InputManager->UpPress()) {
             if(_ChangeSelection(false) == true) {
                 ShopMode::CurrentInstance()->ObjectViewer()->SetSelectedObject(_selected_object);
-                GlobalManager->Media().PlaySound("confirm");
+                GlobalManager->Media().PlaySound("bump");
             }
         } else if(InputManager->DownPress()) {
             if(_ChangeSelection(true) == true) {
                 ShopMode::CurrentInstance()->ObjectViewer()->SetSelectedObject(_selected_object);
-                GlobalManager->Media().PlaySound("confirm");
+                GlobalManager->Media().PlaySound("bump");
             }
         }
     } // if (_view_mode == SHOP_VIEW_MODE_LIST)
@@ -425,7 +425,10 @@ void BuyInterface::_ChangeViewMode(SHOP_VIEW_MODE new_mode)
         _selected_icon = _selected_object->GetObject()->GetIconImage();
         _selected_icon.SetDimensions(30.0f, 30.0f);
         _selected_properties.SetOptionText(0, MakeUnicodeString(NumberToString(_selected_object->GetBuyPrice())));
-        _selected_properties.SetOptionText(1, MakeUnicodeString("×" + NumberToString(_selected_object->GetStockCount())));
+        if (_selected_object->IsInfiniteAmount())
+            _selected_properties.SetOptionText(1, MakeUnicodeString("∞"));
+        else
+            _selected_properties.SetOptionText(1, MakeUnicodeString("×" + NumberToString(_selected_object->GetStockCount())));
         uint32 own_count = GlobalManager->HowManyObjectsInInventory(_selected_object->GetObject()->GetID());
         _selected_properties.SetOptionText(2, MakeUnicodeString("×" + NumberToString(own_count)));
 
@@ -503,7 +506,10 @@ void BuyListDisplay::ReconstructList()
 
         // Add an option for each object property in the order of: price, stock, and number owned.
         _property_list.AddOption(MakeUnicodeString(NumberToString(obj->GetBuyPrice())));
-        _property_list.AddOption(MakeUnicodeString("×" + NumberToString(obj->GetStockCount())));
+        if (obj->IsInfiniteAmount())
+            _property_list.AddOption(MakeUnicodeString("∞"));
+        else
+            _property_list.AddOption(MakeUnicodeString("×" + NumberToString(obj->GetStockCount())));
         uint32 own_count = GlobalManager->HowManyObjectsInInventory(obj->GetObject()->GetID());
         _property_list.AddOption(MakeUnicodeString("×" + NumberToString(own_count)));
     }
@@ -515,9 +521,9 @@ void BuyListDisplay::ReconstructList()
 }
 
 
-bool BuyListDisplay::ChangeBuyQuantity(bool less_or_more, uint32 amount)
+bool BuyListDisplay::ChangeBuyQuantity(bool more, uint32 amount)
 {
-    ShopObject *obj = GetSelectedObject();
+    ShopObject* obj = GetSelectedObject();
     if(obj == NULL) {
         IF_PRINT_WARNING(SHOP_DEBUG) << "function could not perform operation because list was empty" << std::endl;
         return false;
@@ -527,7 +533,7 @@ bool BuyListDisplay::ChangeBuyQuantity(bool less_or_more, uint32 amount)
     // amount requested if there is an limitation such as shop stock or available funds
     uint32 change_amount = amount;
 
-    if(less_or_more == false) {
+    if(more == false) { // Decrement
         // Ensure that at least one count of this object is already marked for purchase
         if(obj->GetBuyCount() == 0) {
             return false;
@@ -541,31 +547,33 @@ bool BuyListDisplay::ChangeBuyQuantity(bool less_or_more, uint32 amount)
         obj->DecrementBuyCount(change_amount);
         ShopMode::CurrentInstance()->UpdateFinances(obj->GetBuyPrice() * change_amount);
         return true;
-    } else {
-        // Make sure that there is at least one more object in stock and the player has enough funds to purchase it
-        if((obj->GetBuyCount() >= obj->GetStockCount()) ||
-                (obj->GetBuyPrice() > ShopMode::CurrentInstance()->GetTotalRemaining())) {
-            return false;
-        }
-
-        // Determine if there's enough of the object in stock to buy. If not, buy as many left as possible
-        if((obj->GetStockCount() - obj->GetBuyCount()) < change_amount) {
-            change_amount = obj->GetStockCount() - obj->GetBuyCount();
-        }
-
-        // Determine how many of the possible amount to buy the player can actually afford
-        int32 total_cost = change_amount * obj->GetBuyPrice();
-        int32 total_remaining = static_cast<int32>(ShopMode::CurrentInstance()->GetTotalRemaining());
-        while(total_cost > total_remaining) {
-            change_amount--;
-            total_cost -= obj->GetBuyPrice();
-        }
-
-        obj->IncrementBuyCount(change_amount);
-        ShopMode::CurrentInstance()->UpdateFinances(-obj->GetBuyPrice() * change_amount);
-        return true;
     }
-} // bool BuyListDisplay::ChangeBuyQuantity(bool less_or_more, uint32 amount)
+
+    // increment
+
+    // Make sure that there is at least one more object in stock and the player has enough funds to purchase it
+    if((!obj->IsInfiniteAmount() && obj->GetBuyCount() >= obj->GetStockCount()) ||
+            (obj->GetBuyPrice() > ShopMode::CurrentInstance()->GetTotalRemaining())) {
+        return false;
+    }
+
+    // Determine if there's enough of the object in stock to buy. If not, buy as many left as possible
+    if(!obj->IsInfiniteAmount() && (obj->GetStockCount() - obj->GetBuyCount()) < change_amount) {
+        change_amount = obj->GetStockCount() - obj->GetBuyCount();
+    }
+
+    // Determine how many of the possible amount to buy the player can actually afford
+    int32 total_cost = change_amount * obj->GetBuyPrice();
+    int32 total_remaining = static_cast<int32>(ShopMode::CurrentInstance()->GetTotalRemaining());
+    while(total_cost > total_remaining) {
+        --change_amount;
+        total_cost -= obj->GetBuyPrice();
+    }
+
+    obj->IncrementBuyCount(change_amount);
+    ShopMode::CurrentInstance()->UpdateFinances(-obj->GetBuyPrice() * change_amount);
+    return true;
+} // bool BuyListDisplay::ChangeBuyQuantity(bool more, uint32 amount)
 
 } // namespace private_shop
 

@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-//            Copyright (C) 2013 by Bertram (Valyria Tear)
+//            Copyright (C) 2013-2014 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -169,7 +169,7 @@ vt_video::StillImage Minimap::_CreateProcedurally()
                 {
                     PRINT_ERROR << "Couldn't fill a rect on temp_surface: " << SDL_GetError() << std::endl;
                     SDL_FreeSurface(temp_surface);
-                    return NULL;
+                    return vt_video::StillImage();
                 }
 
             }

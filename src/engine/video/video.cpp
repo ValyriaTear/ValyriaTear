@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 //            Copyright (C) 2004-2011 by The Allacrost Project
-//            Copyright (C) 2012-2013 by Bertram (Valyria Tear)
+//            Copyright (C) 2012-2014 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -28,8 +28,6 @@
 
 using namespace vt_utils;
 using namespace vt_video::private_video;
-
-template<> vt_video::VideoEngine *Singleton<vt_video::VideoEngine>::_singleton_reference = NULL;
 
 namespace vt_video
 {
@@ -505,10 +503,6 @@ void VideoEngine::SetCoordSys(const CoordSys &coordinate_system)
 
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
-    // This small translation is supposed to help with pixel-perfect 2D rendering in OpenGL.
-    // Reference: http://www.opengl.org/resources/faq/technical/transformations.htm#tran0030
-    // Changed to 32/1024 or 24/768 since it's the size of one pixel for the map mode.
-    glTranslatef(0.03125, 0.03125, 0);
 }
 
 void VideoEngine::GetCurrentViewport(float &x, float &y, float &width, float &height)
@@ -1094,7 +1088,7 @@ int32 VideoEngine::_ScreenCoordY(float y)
     return static_cast<int32>(percent * static_cast<float>(_viewport_height));
 }
 
-void VideoEngine::DrawLine(float x1, float y1, float x2, float y2, float width, const Color &color)
+void VideoEngine::DrawLine(float x1, float y1, float x2, float y2, float width, const Color& color)
 {
     GLfloat vert_coords[] = {
         x1, y1,
@@ -1105,15 +1099,14 @@ void VideoEngine::DrawLine(float x1, float y1, float x2, float y2, float width, 
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); // Normal blending
     glPushAttrib(GL_LINE_WIDTH);
 
-    float pixel_width, pixel_height;
-    GetPixelSize(pixel_width, pixel_height);
-    glLineWidth(width * pixel_height);
+    glLineWidth(width);
     EnableVertexArray();
     DisableColorArray();
     DisableTextureCoordArray();
     glColor4fv((GLfloat *)color.GetColors());
     glVertexPointer(2, GL_FLOAT, 0, vert_coords);
     glDrawArrays(GL_LINES, 0, 2);
+
     glPopAttrib(); // GL_LINE_WIDTH
 }
 

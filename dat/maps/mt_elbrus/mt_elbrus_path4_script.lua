@@ -18,6 +18,7 @@ local Map = {};
 local ObjectManager = {};
 local DialogueManager = {};
 local EventManager = {};
+local Effects = {};
 
 -- the main character handler
 local hero = {};
@@ -46,6 +47,7 @@ function Load(m)
     ObjectManager = Map.object_supervisor;
     DialogueManager = Map.dialogue_supervisor;
     EventManager = Map.event_supervisor;
+    Effects = Map:GetEffectSupervisor();
 
     Map.unlimited_stamina = false;
 
@@ -69,8 +71,11 @@ function Load(m)
     -- The mountain cliff background
     Map:GetScriptSupervisor():AddScript("dat/maps/mt_elbrus/mt_elbrus_background_anim.lua");
 
-    -- Start the dialogue about snow and the bridge if not done
-    if (GlobalManager:GetEventValue("story", "mt_elbrus_snowing_dialogue") ~= 1) then
+    if (GlobalManager:GetPreviousLocation() == "from_shrine_2nd_floor_wind_trap") then
+        hero:SetMoving(false);
+        EventManager:StartEvent("Falls from above event", 200);
+    elseif (GlobalManager:GetEventValue("story", "mt_elbrus_snowing_dialogue") ~= 1) then
+        -- Start the dialogue about snow and the bridge if not done
         hero:SetMoving(false);
         EventManager:StartEvent("Snowing Dialogue", 200);
     end
@@ -88,6 +93,8 @@ function Load(m)
     -- Preloads certain sounds
     AudioManager:LoadSound("snd/sword_swipe.wav", Map);
     AudioManager:LoadSound("snd/footstep_grass2.wav", Map);
+    AudioManager:LoadSound("snd/heavy_bump.wav", Map);
+    AudioManager:LoadMusic("mus/Zander Noriega - School of Quirks.ogg", Map);
 end
 
 -- the map update function handles checks done on each game tick.
@@ -114,10 +121,13 @@ function _CreateCharacters()
         hero:SetPosition(x_position, y_position);
     elseif (GlobalManager:GetPreviousLocation() == "from_path3") then
         hero:SetDirection(vt_map.MapMode.NORTH);
-        hero:SetPosition(10.0, 90.0);
+        hero:SetPosition(55.0, 77.0);
     elseif (GlobalManager:GetPreviousLocation() == "from_shrine_entrance") then
         hero:SetDirection(vt_map.MapMode.SOUTH);
         hero:SetPosition(40.0, 7.0);
+    elseif (GlobalManager:GetPreviousLocation() == "from_shrine_2nd_floor_wind_trap") then
+        hero:SetDirection(vt_map.MapMode.SOUTH);
+        hero:SetPosition(45.0, 2.0);
     end
 
     Map:AddGroundObject(hero);
@@ -342,7 +352,7 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
 
     dialogue = vt_map.SpriteDialogue();
-    text = vt_system.Translate("Here!");
+    text = vt_system.Translate("There!");
     dialogue:AddLine(text, soldier1);
     text = vt_system.Translate("Huh?");
     dialogue:AddLineEventEmote(text, hero, "Bronann looks south", "", "exclamation");
@@ -472,10 +482,14 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
 
     event = vt_map.ScriptedEvent("Set focus on Bronann2", "set_focus_on_bronann", "set_focus_update")
+    event:AddEventLinkAtEnd("Play funny music");
     event:AddEventLinkAtEnd("The party relaxes 2");
     event:AddEventLinkAtEnd("The hero laughs");
     event:AddEventLinkAtEnd("Kalya laughs");
     event:AddEventLinkAtEnd("Orlinn laughs");
+    EventManager:RegisterEvent(event);
+
+    event = vt_map.ScriptedEvent("Play funny music", "play_funny_music", "");
     EventManager:RegisterEvent(event);
 
     event = vt_map.AnimateSpriteEvent("The hero laughs", hero, "laughing", 0); -- 0 = infinite time.
@@ -547,6 +561,10 @@ function _CreateEvents()
 
     event = vt_map.ScriptedEvent("End of cutting the bridge Event", "cut_the_bridge_event_end", "");
     EventManager:RegisterEvent(event);
+
+
+    event = vt_map.ScriptedEvent("Falls from above event", "fall_event_start", "fall_event_update");
+    EventManager:RegisterEvent(event);
 end
 
 -- zones
@@ -587,6 +605,30 @@ function _CheckZones()
     elseif (to_path3_zone:IsCameraEntering() == true and Map:CurrentState() == vt_map.MapMode.STATE_EXPLORE) then
         hero:SetMoving(false);
         EventManager:StartEvent("Can't go back dialogue");
+    end
+end
+
+-- Trigger damages on the characters present on the battle front.
+function _TriggerPartyDamage(damage)
+    -- Adds an effect on map
+    local x_pos = Map:GetScreenXCoordinate(hero:GetXPosition());
+    local y_pos = Map:GetScreenYCoordinate(hero:GetYPosition());
+    local map_indicator = Map:GetIndicatorSupervisor();
+    map_indicator:AddDamageIndicator(x_pos, y_pos, damage, vt_video.TextStyle("text22", vt_video.Color(1.0, 0.0, 0.0, 0.9)), true);
+
+    local index = 0;
+    for index = 0, 3 do
+        local char = GlobalManager:GetCharacter(index);
+        if (char ~= nil) then
+            -- Do not kill characters. though
+            local hp_damage = damage;
+            if (hp_damage >= char:GetHitPoints()) then
+                hp_damage = char:GetHitPoints() - 1;
+            end
+            if (hp_damage > 0) then
+                char:SubtractHitPoints(hp_damage);
+            end
+        end
     end
 end
 
@@ -751,6 +793,10 @@ map_functions = {
         end
     end,
 
+    play_funny_music = function()
+        AudioManager:PlayMusic("mus/Zander Noriega - School of Quirks.ogg");
+    end,
+
     stop_party_animation = function(sprite)
         -- Stops the laughing animation in that particular case
         EventManager:TerminateAllEvents(hero);
@@ -773,7 +819,36 @@ map_functions = {
         -- Actually block the player's bridge access.
         blocking_bridge:SetCollisionMask(vt_map.MapMode.WALL_COLLISION);
 
+        -- Fade in the default music
+        AudioManager:PlayMusic("snd/wind.ogg");
+
         -- Set event as done
         GlobalManager:SetEventValue("story", "mt_elbrus_bridge_cut_event", 1);
+    end,
+
+    fall_event_start = function()
+        Map:PushState(vt_map.MapMode.STATE_SCENE);
+        hero:SetMoving(false);
+        -- place the character and make it fall
+        hero:SetDirection(vt_map.MapMode.SOUTH);
+        hero:SetPosition(45.0, 2.0);
+        hero:SetCustomAnimation("frightened_fixed", 0); -- 0 means forever
+    end,
+
+    fall_event_update = function()
+        if (hero:GetYPosition() >= 6.0) then
+            AudioManager:PlaySound("snd/heavy_bump.wav");
+            Effects:ShakeScreen(0.6, 600, vt_mode_manager.EffectSupervisor.SHAKE_FALLOFF_GRADUAL);
+            hero:SetCustomAnimation("hurt", 800);
+            _TriggerPartyDamage(math.random(25, 40));
+            Map:PopState();
+            return true;
+        end
+
+        -- Push the character down.
+        local update_time = SystemManager:GetUpdateTime();
+        local movement_diff = 0.010 * update_time;
+        hero:SetYPosition(hero:GetYPosition() + movement_diff);
+        return false;
     end,
 }

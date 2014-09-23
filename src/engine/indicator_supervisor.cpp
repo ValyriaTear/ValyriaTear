@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 //            Copyright (C) 2004-2011 by The Allacrost Project
-//            Copyright (C) 2012-2013 by Bertram (Valyria Tear)
+//            Copyright (C) 2012-2014 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software and
@@ -30,9 +30,6 @@ using namespace vt_video;
 namespace vt_mode_manager
 {
 
-//! \brief The total amount of time (in milliseconds) that the display sequence lasts for indicator elements
-const uint32 INDICATOR_TIME = 3000;
-
 //! \brief The amount of time (in milliseconds) that indicator elements fade at the beginning of the display sequence
 const uint32 INDICATOR_FADEIN_TIME = 500;
 
@@ -55,6 +52,7 @@ IndicatorElement::IndicatorElement(float x_position, float y_position, INDICATOR
     _y_origin_position(y_position),
     _x_relative_position(0.0f),
     _y_relative_position(0.0f),
+    _use_parallax(false),
     _indicator_type(indicator_type)
 {
 }
@@ -67,7 +65,11 @@ void IndicatorElement::Start()
     _timer.Run();
 
     // Reinit the indicator push
-    _x_force = vt_utils::RandomFloat(-20.0f, 20.0f);
+    _x_force = vt_utils::RandomFloat(0.0f, 100.0f);
+    if (_x_force >= 50.0f)
+        vt_utils::RandomFloat(10.0f, 20.0f);
+    else
+        vt_utils::RandomFloat(-20.0f, -10.0f);
     _y_force = INITIAL_FORCE;
 }
 
@@ -312,7 +314,7 @@ void IndicatorSupervisor::Update()
     while(!_wait_queue.empty()) {
 
         // Update the element position if it is overlapping another one.
-        _wait_queue.front()->Start(); // Setup the indcator's coords
+        _wait_queue.front()->Start(); // Setup the indicator's coords
         while(_FixPotentialIndicatorOverlapping(_wait_queue.front()))
             {}
 
@@ -347,10 +349,16 @@ bool IndicatorSupervisor::_FixPotentialIndicatorOverlapping(IndicatorElement *el
         return false; // No overlapping
 
     // Move the next indicator a bit depending on its type
-    if(element->GetType() == DAMAGE_INDICATOR)
+    if(element->GetType() == DAMAGE_INDICATOR) {
         element->SetXOrigin(element->GetXOrigin() + 1.0f);
-    else
+    }
+    else if (element->GetType() == HEALING_INDICATOR) {
         element->SetXOrigin(element->GetXOrigin() + 15.0f);
+        element->SetYOrigin(element->GetYOrigin() + 15.0f);
+    }
+    else {
+        element->SetXOrigin(element->GetXOrigin() + 15.0f);
+    }
     return true;
 }
 
@@ -361,27 +369,33 @@ void IndicatorSupervisor::Draw()
 }
 
 void IndicatorSupervisor::AddDamageIndicator(float x_position, float y_position,
-                                             uint32 amount, const TextStyle& style)
+                                             uint32 amount, const TextStyle& style, bool use_parallax)
 {
     if (amount == 0)
         return;
 
     std::string text = vt_utils::NumberToString(amount);
 
-    _wait_queue.push_back(new IndicatorText(x_position, y_position, text, style, DAMAGE_INDICATOR));
+    IndicatorText* indicator = new IndicatorText(x_position, y_position, text, style, DAMAGE_INDICATOR);
+    indicator->SetUseParallax(use_parallax);
+
+    _wait_queue.push_back(indicator);
 }
 
 
 
 void IndicatorSupervisor::AddHealingIndicator(float x_position, float y_position,
-                                              uint32 amount, const TextStyle& style)
+                                              uint32 amount, const TextStyle& style, bool use_parallax)
 {
     if(amount == 0)
         return;
 
     std::string text = vt_utils::NumberToString(amount);
 
-    _wait_queue.push_back(new IndicatorText(x_position, y_position, text, style, HEALING_INDICATOR));
+    IndicatorText* indicator = new IndicatorText(x_position, y_position, text, style, HEALING_INDICATOR);
+    indicator->SetUseParallax(use_parallax);
+
+    _wait_queue.push_back(indicator);
 }
 
 void IndicatorSupervisor::AddMissIndicator(float x_position, float y_position)
@@ -414,6 +428,18 @@ void IndicatorSupervisor::AddItemIndicator(float x_position, float y_position, c
 {
     _wait_queue.push_back(new IndicatorImage(x_position, y_position, item.GetIconImage(),
                                              ITEM_INDICATOR));
+}
+
+void IndicatorSupervisor::AddParallax(float x_parallax, float y_parallax)
+{
+    for(std::deque<IndicatorElement *>::iterator it = _active_queue.begin(),
+            it_end = _active_queue.end(); it != it_end; ++it) {
+        IndicatorElement* element = *it;
+        if (!element->UseParallax())
+            continue;
+        element->SetXOrigin(element->GetXOrigin() + x_parallax);
+        element->SetYOrigin(element->GetYOrigin() + y_parallax);
+    }
 }
 
 } // namespace vt_mode_manager

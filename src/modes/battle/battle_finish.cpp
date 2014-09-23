@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 //            Copyright (C) 2004-2011 by The Allacrost Project
-//            Copyright (C) 2012-2013 by Bertram (Valyria Tear)
+//            Copyright (C) 2012-2014 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software and
@@ -167,7 +167,7 @@ FinishDefeatAssistant::FinishDefeatAssistant(FINISH_STATE &state) :
     _tooltip.SetDimensions(480.0f, 80.0f);
     _tooltip.SetAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
     _tooltip.SetTextAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
-    _tooltip.SetDisplaySpeed(30);
+    _tooltip.SetDisplaySpeed(SystemManager->GetMessageSpeed());
     _tooltip.SetTextStyle(TextStyle("text20", Color::white));
     _tooltip.SetDisplayMode(VIDEO_TEXT_INSTANT);
 }
@@ -342,7 +342,7 @@ FinishVictoryAssistant::FinishVictoryAssistant(FINISH_STATE &state) :
     _header_growth.SetDimensions(400.0f, 40.0f);
     _header_growth.SetAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
     _header_growth.SetTextAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
-    _header_growth.SetDisplaySpeed(30);
+    _header_growth.SetDisplaySpeed(SystemManager->GetMessageSpeed());
     _header_growth.SetTextStyle(TextStyle("text20", Color::white));
     _header_growth.SetDisplayMode(VIDEO_TEXT_INSTANT);
 
@@ -351,7 +351,7 @@ FinishVictoryAssistant::FinishVictoryAssistant(FINISH_STATE &state) :
     _header_drunes_dropped.SetDimensions(400.0f, 40.0f);
     _header_drunes_dropped.SetAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
     _header_drunes_dropped.SetTextAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
-    _header_drunes_dropped.SetDisplaySpeed(30);
+    _header_drunes_dropped.SetDisplaySpeed(SystemManager->GetMessageSpeed());
     _header_drunes_dropped.SetTextStyle(TextStyle("text20", Color::white));
     _header_drunes_dropped.SetDisplayMode(VIDEO_TEXT_INSTANT);
 
@@ -360,7 +360,7 @@ FinishVictoryAssistant::FinishVictoryAssistant(FINISH_STATE &state) :
     _header_total_drunes.SetDimensions(400.0f, 40.0f);
     _header_total_drunes.SetAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
     _header_total_drunes.SetTextAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
-    _header_total_drunes.SetDisplaySpeed(30);
+    _header_total_drunes.SetDisplaySpeed(SystemManager->GetMessageSpeed());
     _header_total_drunes.SetTextStyle(TextStyle("text20", Color::white));
     _header_total_drunes.SetDisplayMode(VIDEO_TEXT_INSTANT);
 
@@ -375,7 +375,7 @@ FinishVictoryAssistant::FinishVictoryAssistant(FINISH_STATE &state) :
     _object_header_text.SetDimensions(350.0f, 40.0f);
     _object_header_text.SetAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
     _object_header_text.SetTextAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
-    _object_header_text.SetDisplaySpeed(30);
+    _object_header_text.SetDisplaySpeed(SystemManager->GetMessageSpeed());
     _object_header_text.SetTextStyle(TextStyle("title20", Color::white));
     _object_header_text.SetDisplayMode(VIDEO_TEXT_INSTANT);
     _object_header_text.SetDisplayText(UTranslate("Items Found"));
@@ -587,7 +587,7 @@ void FinishVictoryAssistant::_CreateCharacterGUIObjects()
         _level_text[i].SetDimensions(200.0f, 40.0f);
         _level_text[i].SetAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
         _level_text[i].SetTextAlignment(VIDEO_X_LEFT, VIDEO_Y_CENTER);
-        _level_text[i].SetDisplaySpeed(30);
+        _level_text[i].SetDisplaySpeed(SystemManager->GetMessageSpeed());
         _level_text[i].SetTextStyle(TextStyle("text20", Color::white));
         _level_text[i].SetDisplayMode(VIDEO_TEXT_INSTANT);
 
@@ -596,7 +596,7 @@ void FinishVictoryAssistant::_CreateCharacterGUIObjects()
         _xp_text[i].SetDimensions(200.0f, 50.0f);
         _xp_text[i].SetAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
         _xp_text[i].SetTextAlignment(VIDEO_X_LEFT, VIDEO_Y_CENTER);
-        _xp_text[i].SetDisplaySpeed(30);
+        _xp_text[i].SetDisplaySpeed(SystemManager->GetMessageSpeed());
         _xp_text[i].SetTextStyle(TextStyle("text20", Color::white));
         _xp_text[i].SetDisplayMode(VIDEO_TEXT_INSTANT);
 
@@ -617,7 +617,7 @@ void FinishVictoryAssistant::_CreateCharacterGUIObjects()
         _skill_text[i].SetDimensions(200.0f, 40.0f);
         _skill_text[i].SetAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
         _skill_text[i].SetTextAlignment(VIDEO_X_LEFT, VIDEO_Y_CENTER);
-        _skill_text[i].SetDisplaySpeed(30);
+        _skill_text[i].SetDisplaySpeed(SystemManager->GetMessageSpeed());
         _skill_text[i].SetTextStyle(TextStyle("text20", Color::white));
         _skill_text[i].SetDisplayMode(VIDEO_TEXT_INSTANT);
     }
@@ -918,7 +918,7 @@ FinishSupervisor::FinishSupervisor() :
     _outcome_text.SetAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
     _outcome_text.SetTextAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
     _outcome_text.SetDimensions(400.0f, 50.0f);
-    _outcome_text.SetDisplaySpeed(30);
+    _outcome_text.SetDisplaySpeed(SystemManager->GetMessageSpeed());
     _outcome_text.SetTextStyle(TextStyle("text24", Color::white));
     _outcome_text.SetDisplayMode(VIDEO_TEXT_INSTANT);
 }

@@ -1,0 +1,28 @@
+language: cpp
+compiler:
+  - gcc
+  - clang
+git:
+  submodules: false
+cache: apt
+before_install:
+  - sudo apt-get update -qq
+  - sudo apt-get install -qq cppcheck libsdl1.2-dev libsdl-ttf2.0-dev libsdl-image1.2-dev freeglut3-dev
+  - sudo apt-get install -qq libopenal-dev libalut-dev libvorbis-dev libogg-dev
+  - sudo apt-get install -qq liblua5.1-0-dev libgettextpo-dev libboost-all-dev
+  - sudo apt-get install -qq libqt4-opengl-dev
+script:
+  - cmake -DDEBUG_FEATURES=ON -DEDITOR_SUPPORT=ON .
+  - make -j2 vt-editor
+  - make translations
+  - make -j2 valyriatear
+branches:
+  only:
+    - master
+after_script: cppcheck --verbose --enable=all --quiet `git ls-files src/\*.cpp`
+notifications:
+  email:
+    recipients:
+      - yohann.ferreira@orange.fr
+    on_success: change
+    on_failure: always

@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 //            Copyright (C) 2004-2011 by The Allacrost Project
-//            Copyright (C) 2012-2013 by Bertram (Valyria Tear)
+//            Copyright (C) 2012-2014 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -201,18 +201,24 @@ private:
 class QuestLogInfo {
 
 public:
-    QuestLogInfo(const vt_utils::ustring &title,
-                 const vt_utils::ustring &description,
-                 const vt_utils::ustring &completion_description,
-                 const std::string &completion_event_group,
-                 const std::string &completion_event_name,
-                 const vt_utils::ustring &location_name,
-                 const std::string &location_banner_filename,
-                 const vt_utils::ustring &location_subname,
-                 const std::string &location_subimage_filename);
+    QuestLogInfo(const vt_utils::ustring& title,
+                 const vt_utils::ustring& description,
+                 const vt_utils::ustring& completion_description,
+                 const std::string& completion_event_group,
+                 const std::string& completion_event_name,
+                 const vt_utils::ustring& location_name,
+                 const std::string& location_banner_filename,
+                 const vt_utils::ustring& location_subname,
+                 const std::string& location_subimage_filename);
 
     QuestLogInfo()
     {}
+
+    void SetNotCompletableIf(const std::string& not_completable_event_group,
+                             const std::string& not_completable_event_name) {
+        _not_completable_event_group = not_completable_event_group;
+        _not_completable_event_name = not_completable_event_name;
+    }
 
     // User info about the quest log
     vt_utils::ustring _title;
@@ -223,6 +229,9 @@ public:
     // Internal quest info used to know whether the quest is complete.
     std::string _completion_event_group;
     std::string _completion_event_name;
+    // Internal quest info used to know whether the quest is not comppletable anymore.
+    std::string _not_completable_event_group;
+    std::string _not_completable_event_name;
 
     // location information
     vt_video::StillImage _location_image;
@@ -241,11 +250,13 @@ public:
 struct WorldMapLocation
 {
 public:
-    WorldMapLocation()
+    WorldMapLocation():
+        _x(0.0f),
+        _y(0.0f)
     {}
 
-    WorldMapLocation(float x, float y, const std::string &location_name,
-                     const std::string &image_path, const std::string &world_map_location_id);
+    WorldMapLocation(float x, float y, const std::string& location_name,
+                     const std::string& image_path, const std::string& world_map_location_id);
 
     WorldMapLocation(const WorldMapLocation &other):
         _x(other._x),
@@ -366,6 +377,9 @@ public:
         if(_characters.find(id) != _characters.end()) return true;
         else return false;
     }
+
+    //! \brief Tells whether an enemy id is existing in the enemy data.
+    bool DoesEnemyExist(uint32 enemy_id);
     //@}
 
     //! \name Inventory Methods
@@ -400,17 +414,11 @@ public:
     **/
     void RemoveFromInventory(uint32 obj_id);
 
-    /** \brief Retries a single copy of an object from the inventory
-    *** \param obj_id The identifier value of the item to remove
-    *** \param all_counts If set to true, all counts of the object will be removed from the inventory (default value == false)
+    /** \brief Gets a copy of an object from the inventory
+    *** \param obj_id The identifier value of the item to obtain
     *** \return A newly instantiated copy of the object, or NULL if the object was not found in the inventory
-    ***
-    *** If all_counts is false, the returned object will have a count of one and the count of the object inside the inventory
-    *** will be decremented by one. If all_counts is ture, the returned object will have the same count as was previously in
-    *** the inventory, and the object will be removed from the inventory alltogether. Note that the pointer returned will need
-    *** to be deleted by the user code, unless the object is re-added to the inventory or equipped on a character.
     **/
-    GlobalObject *RetrieveFromInventory(uint32 obj_id, bool all_counts = false);
+    GlobalObject* GetGlobalObject(uint32 obj_id);
 
     /** \brief Increments the number (count) of an object in the inventory
     *** \param item_id The integer identifier of the item that will have its count incremented
@@ -519,19 +527,38 @@ public:
 
     //! \name Quest Log Entry methods
     //@{
-    //! Tells whether a quest id is completed, based on the internal quest info
+    //! \brief Tells whether a quest id is completed, based on the internal quest info
     //! and the current game event values.
-    bool IsQuestCompleted(const std::string &quest_id)
+    //! \param quest_id the string id into quests table for this quest
+    bool IsQuestCompleted(const std::string& quest_id)
     {
-        if (_quest_log_info.find(quest_id) == _quest_log_info.end())
+        std::map<std::string, vt_global::QuestLogInfo>::iterator it = _quest_log_info.find(quest_id);
+        if (it == _quest_log_info.end())
             return false;
-        const QuestLogInfo info = _quest_log_info[quest_id];
+        const QuestLogInfo& info = it->second;
+        if (info._completion_event_group.empty() || info._completion_event_name.empty())
+            return true;
 
         return (GetEventValue(info._completion_event_group, info._completion_event_name) == 1);
     }
 
+    //! \brief Tells whether a quest id is completed, based on the internal quest info
+    //! and the current game event values.
+    //! \param quest_id the string id into quests table for this quest
+    bool IsQuestCompletable(const std::string& quest_id)
+    {
+        std::map<std::string, vt_global::QuestLogInfo>::iterator it = _quest_log_info.find(quest_id);
+        if (it == _quest_log_info.end())
+            return true;
+        const QuestLogInfo& info = it->second;
+        if (info._not_completable_event_group.empty() || info._not_completable_event_name.empty())
+            return true;
+
+        return (GetEventValue(info._not_completable_event_group, info._not_completable_event_name) == 0);
+    }
+
     /** \brief adds a new quest log entry into the quest log entries table
-    *** \param the string id into quests table for this quest
+    *** \param quest_id the string id into quests table for this quest
     *** \return true if the entry was added. false if the entry already exists
     **/
     bool AddQuestLog(const std::string &quest_id)
@@ -915,6 +942,14 @@ public:
         return _status_effects_script;
     }
 
+    vt_script::ReadScriptDescriptor &GetCharactersScript() {
+        return _characters_script;
+    }
+
+    vt_script::ReadScriptDescriptor &GetEnemiesScript() {
+        return _enemies_script;
+    }
+
     vt_script::ReadScriptDescriptor &GetMapSpriteScript() {
         return _map_sprites_script;
     }
@@ -1070,6 +1105,12 @@ private:
     //! \brief Contains functional definitions for all status effects
     vt_script::ReadScriptDescriptor _status_effects_script;
 
+    //! \brief Contains data and functional definitions for characters
+    vt_script::ReadScriptDescriptor _characters_script;
+
+    //! \brief Contains data and functional definitions for enemies
+    vt_script::ReadScriptDescriptor _enemies_script;
+
     //! \brief Contains data and functional definitions for sprites seen in game maps
     vt_script::ReadScriptDescriptor _map_sprites_script;
 
@@ -1130,12 +1171,11 @@ private:
     template <class T> bool _RemoveFromInventory(uint32 obj_id, std::vector<T *>& inv);
 
     /** \brief A helper template function that finds and returns a copy of an object from the inventory
-    *** \param obj_id The ID of the object to remove from the inventory
+    *** \param obj_id The ID of the object to obtain from the inventory
     *** \param inv The vector container of the appropriate inventory type
-    *** \param all_counts If false the object's count is decremented by one from the inventory, otherwise all counts are removed completely
     *** \return A pointer to the newly created copy of the object, or NULL if the object could not be found
     **/
-    template <class T> T *_RetrieveFromInventory(uint32 obj_id, std::vector<T *>& inv, bool all_counts);
+    template <class T> T *_GetFromInventory(uint32 obj_id, std::vector<T *>& inv);
 
     /** \brief A helper function to GameGlobal::SaveGame() that stores the contents of a type of inventory to the saved game file
     *** \param file A reference to the open and valid file where to write the inventory list
@@ -1255,30 +1295,19 @@ template <class T> bool GameGlobal::_RemoveFromInventory(uint32 obj_id, std::vec
     return false;
 } // template <class T> bool GameGlobal::_RemoveFromInventory(uint32 obj_id, std::vector<T*>& inv)
 
-
-
-template <class T> T *GameGlobal::_RetrieveFromInventory(uint32 obj_id, std::vector<T *>& inv, bool all_counts)
+template <class T> T *GameGlobal::_GetFromInventory(uint32 obj_id, std::vector<T *>& inv)
 {
-    for(typename std::vector<T *>::iterator i = inv.begin(); i != inv.end(); i++) {
-        if((*i)->GetID() == obj_id) {
-            T *return_object;
-            if(all_counts == true || _inventory[obj_id]->GetCount() == 1) {
-                return_object = *i;
-                _inventory.erase(obj_id);
-                inv.erase(i);
-            } else {
-                return_object = new T(**i);
-                return_object->SetCount(1);
-                _inventory[obj_id]->DecrementCount();
-            }
-            return return_object;
-        }
+    for(typename std::vector<T*>::iterator it = inv.begin(); it != inv.end(); ++it) {
+        if((*it)->GetID() != obj_id)
+            continue;
+
+        T *return_object = new T(**it);
+        return_object->SetCount(1);
+        return return_object;
     }
 
     return NULL;
-} // template <class T> T* GameGlobal::_RetrieveFromInventory(uint32 obj_id, std::vector<T*>& inv, bool all_counts)
-
-
+}
 
 template <class T> void GameGlobal::_SaveInventory(vt_script::WriteScriptDescriptor &file, const std::string &name, std::vector<T *>& inv)
 {

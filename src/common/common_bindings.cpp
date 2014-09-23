@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 //            Copyright (C) 2004-2011 by The Allacrost Project
-//            Copyright (C) 2012-2013 by Bertram (Valyria Tear)
+//            Copyright (C) 2012-2014 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -312,6 +312,9 @@ void BindCommonCode()
             .def("AddExperienceForNextLevel", &GlobalCharacter::AddExperienceForNextLevel)
             .def("AddSkill", (bool(GlobalCharacter:: *)(uint32)) &GlobalCharacter::AddSkill)
             .def("AddNewSkillLearned", &GlobalCharacter::AddNewSkillLearned)
+            .def("ApplyActiveStatusEffect", &GlobalCharacter::ApplyActiveStatusEffect)
+            .def("RemoveActiveStatusEffect", &GlobalCharacter::RemoveActiveStatusEffect)
+            .def("GetActiveStatusEffectIntensity", &GlobalCharacter::GetActiveStatusEffectIntensity)
         ];
 
         luabind::module(vt_script::ScriptManager->GetGlobalState(), "vt_global")

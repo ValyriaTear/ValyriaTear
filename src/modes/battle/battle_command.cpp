@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 //            Copyright (C) 2004-2011 by The Allacrost Project
-//            Copyright (C) 2012-2013 by Bertram (Valyria Tear)
+//            Copyright (C) 2012-2014 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software and
@@ -82,6 +82,7 @@ CharacterCommandSettings::CharacterCommandSettings(BattleCharacter *character, M
     _weapon_skill_list.SetTextStyle(TextStyle("text20"));
     _weapon_skill_list.SetCursorState(VIDEO_CURSOR_STATE_VISIBLE);
     _weapon_skill_list.SetCursorOffset(-50.0f, -25.0f);
+    _weapon_skill_list.AnimateScrolling(false);
 
     _weapon_target_list.SetOwner(&window);
     _weapon_target_list.SetPosition(LIST_POSITION_X + TARGET_ICON_OFFSET, LIST_POSITION_Y);
@@ -91,6 +92,7 @@ CharacterCommandSettings::CharacterCommandSettings(BattleCharacter *character, M
     _weapon_target_list.SetVerticalWrapMode(VIDEO_WRAP_MODE_STRAIGHT);
     _weapon_target_list.SetTextStyle(TextStyle("text20"));
     _weapon_target_list.SetCursorState(VIDEO_CURSOR_STATE_HIDDEN);
+    _weapon_target_list.AnimateScrolling(false);
 
     _magic_skill_list.SetOwner(&window);
     _magic_skill_list.SetPosition(LIST_POSITION_X, LIST_POSITION_Y);
@@ -101,6 +103,7 @@ CharacterCommandSettings::CharacterCommandSettings(BattleCharacter *character, M
     _magic_skill_list.SetTextStyle(TextStyle("text20"));
     _magic_skill_list.SetCursorState(VIDEO_CURSOR_STATE_VISIBLE);
     _magic_skill_list.SetCursorOffset(-50.0f, -25.0f);
+    _magic_skill_list.AnimateScrolling(false);
 
     _magic_target_list.SetOwner(&window);
     _magic_target_list.SetPosition(LIST_POSITION_X + TARGET_ICON_OFFSET, LIST_POSITION_Y);
@@ -110,6 +113,7 @@ CharacterCommandSettings::CharacterCommandSettings(BattleCharacter *character, M
     _magic_target_list.SetVerticalWrapMode(VIDEO_WRAP_MODE_STRAIGHT);
     _magic_target_list.SetTextStyle(TextStyle("text20"));
     _magic_target_list.SetCursorState(VIDEO_CURSOR_STATE_HIDDEN);
+    _magic_target_list.AnimateScrolling(false);
 
     _special_skill_list.SetOwner(&window);
     _special_skill_list.SetPosition(LIST_POSITION_X, LIST_POSITION_Y);
@@ -120,6 +124,7 @@ CharacterCommandSettings::CharacterCommandSettings(BattleCharacter *character, M
     _special_skill_list.SetTextStyle(TextStyle("text20"));
     _special_skill_list.SetCursorState(VIDEO_CURSOR_STATE_VISIBLE);
     _special_skill_list.SetCursorOffset(-50.0f, -25.0f);
+    _special_skill_list.AnimateScrolling(false);
 
     _special_target_list.SetOwner(&window);
     _special_target_list.SetPosition(LIST_POSITION_X + TARGET_ICON_OFFSET, LIST_POSITION_Y);
@@ -129,6 +134,7 @@ CharacterCommandSettings::CharacterCommandSettings(BattleCharacter *character, M
     _special_target_list.SetVerticalWrapMode(VIDEO_WRAP_MODE_STRAIGHT);
     _special_target_list.SetTextStyle(TextStyle("text20"));
     _special_target_list.SetCursorState(VIDEO_CURSOR_STATE_HIDDEN);
+    _special_target_list.AnimateScrolling(false);
 
     if(_character == NULL) {
         IF_PRINT_WARNING(BATTLE_DEBUG) << "constructor received NULL character pointer" << std::endl;
@@ -305,43 +311,6 @@ void CharacterCommandSettings::SaveLastTarget(BattleTarget &target)
     }
 }
 
-
-
-void CharacterCommandSettings::SetLastSelfTarget(BattleTarget &target)
-{
-    if((target.GetType() != GLOBAL_TARGET_SELF_POINT) && (target.GetType() != GLOBAL_TARGET_SELF)) {
-        IF_PRINT_WARNING(BATTLE_DEBUG) << "target argument was an invalid type: " << target.GetType() << std::endl;
-        return;
-    }
-
-    _last_self_target = target;
-}
-
-
-
-void CharacterCommandSettings::SetLastCharacterTarget(BattleTarget &target)
-{
-    if((target.GetType() != GLOBAL_TARGET_ALLY_POINT) && (target.GetType() != GLOBAL_TARGET_ALLY)
-            && (target.GetType() != GLOBAL_TARGET_ALLY_EVEN_DEAD) && (target.GetType() != GLOBAL_TARGET_DEAD_ALLY)) {
-        IF_PRINT_WARNING(BATTLE_DEBUG) << "target argument was an invalid type: " << target.GetType() << std::endl;
-        return;
-    }
-
-    _last_character_target = target;
-}
-
-
-
-void CharacterCommandSettings::SetLastEnemyTarget(BattleTarget &target)
-{
-    if((target.GetType() != GLOBAL_TARGET_FOE_POINT) && (target.GetType() != GLOBAL_TARGET_FOE)) {
-        IF_PRINT_WARNING(BATTLE_DEBUG) << "target argument was an invalid type: " << target.GetType() << std::endl;
-        return;
-    }
-
-    _last_enemy_target = target;
-}
-
 ////////////////////////////////////////////////////////////////////////////////
 // ItemCommand class
 ////////////////////////////////////////////////////////////////////////////////
@@ -366,6 +335,7 @@ ItemCommand::ItemCommand(MenuWindow &window)
     _item_list.SetTextStyle(TextStyle("text20"));
     _item_list.SetCursorState(VIDEO_CURSOR_STATE_VISIBLE);
     _item_list.SetCursorOffset(-50.0f, -25.0f);
+    _item_list.AnimateScrolling(false);
 
     _item_target_list.SetOwner(&window);
     _item_target_list.SetPosition(LIST_POSITION_X + TARGET_ICON_OFFSET, LIST_POSITION_Y);
@@ -375,56 +345,63 @@ ItemCommand::ItemCommand(MenuWindow &window)
     _item_target_list.SetVerticalWrapMode(VIDEO_WRAP_MODE_STRAIGHT);
     _item_target_list.SetTextStyle(TextStyle("text20"));
     _item_target_list.SetCursorState(VIDEO_CURSOR_STATE_HIDDEN);
+    _item_target_list.AnimateScrolling(false);
 
     ResetItemList();
 }
 
 void ItemCommand::ResetItemList()
 {
-    _items.clear();
-    std::vector<GlobalItem *>* all_items = GlobalManager->GetInventoryItems();
-    for(uint32 i = 0; i < all_items->size(); i++) {
-        if(all_items->at(i)->IsUsableInBattle() == true) {
-            if(all_items->at(i)->GetCount() == 0) {
-                IF_PRINT_WARNING(BATTLE_DEBUG) << "discovered item in inventory with a zero count" << std::endl;
-            }
+    _battle_items.clear();
+    std::vector<GlobalItem *>* inv_items = GlobalManager->GetInventoryItems();
+    for(uint32 i = 0; i < inv_items->size(); ++i) {
+        // Only add non key and valid items as items available at battle start.
+        if(inv_items->at(i)->GetCount() == 0)
+            continue;
+        if (!inv_items->at(i)->IsValid())
+            continue;
+        if (inv_items->at(i)->IsKeyItem())
+            continue;
 
-            _items.push_back(BattleItem(GlobalItem(*all_items->at(i))));
-        }
+        if(inv_items->at(i)->IsUsableInBattle())
+            _battle_items.push_back(BattleItem(GlobalItem(*inv_items->at(i))));
     }
-    _item_mappings.resize(_items.size(), -1);
+    // We clear the menu items list as its pointers are now invalid.
+    _menu_items.clear();
 }
-
-
 
 void ItemCommand::ConstructList()
 {
     _item_list.ClearOptions();
     _item_target_list.ClearOptions();
 
-    uint32 option_index = 0;
-    for(uint32 i = 0; i < _items.size(); i++) {
-        // Don't add any items with a non-zero count
-        if(_items[i].GetBattleCount() == 0) {
-            _item_mappings[i] = -1;
-            continue;
-        }
+    _menu_items.clear();
 
+    uint32 option_index = 0;
+    for(uint32 i = 0; i < _battle_items.size(); ++i) {
+        BattleItem* item = &_battle_items[i];
+        // Don't add any items with a zero count
+        if(item->GetBattleCount() == 0)
+            continue;
+
+        // Adds the BattleItem pointer to the main item list
+        _menu_items.push_back(item);
+
+        // Adds the item menu option
         _item_list.AddOption();
-        if (!_items[i].GetItem().GetIconImage().GetFilename().empty()) {
-            _item_list.AddOptionElementImage(option_index, _items[i].GetItem().GetIconImage().GetFilename());
+        if (!item->GetItem().GetIconImage().GetFilename().empty()) {
+            _item_list.AddOptionElementImage(option_index, item->GetItem().GetIconImage().GetFilename());
             _item_list.GetEmbeddedImage(option_index)->SetHeightKeepRatio(25);
             _item_list.AddOptionElementPosition(option_index, 30);
         }
-        _item_list.AddOptionElementText(option_index, _items[i].GetItem().GetName());
+        _item_list.AddOptionElementText(option_index, item->GetItem().GetName());
 
         _item_target_list.AddOption(ustring());
-        _item_target_list.AddOptionElementImage(option_index, BattleMode::CurrentInstance()->GetMedia().GetTargetTypeIcon(_items[i].GetTargetType()));
+        _item_target_list.AddOptionElementImage(option_index,
+                                                BattleMode::CurrentInstance()->GetMedia().GetTargetTypeIcon(item->GetTargetType()));
         _item_target_list.AddOptionElementPosition(option_index, 45);
-        _item_target_list.AddOptionElementText(option_index, MakeUnicodeString(NumberToString(_items[i].GetBattleCount())));
-
-        _item_mappings[option_index] = i;
-        option_index++;
+        _item_target_list.AddOptionElementText(option_index, MakeUnicodeString(NumberToString(item->GetBattleCount())));
+        ++option_index;
     }
 
     if(_item_list.GetNumberOptions() == 0) {
@@ -434,105 +411,67 @@ void ItemCommand::ConstructList()
     else {
         _item_list.SetSelection(0);
         _item_target_list.SetSelection(0);
+        // Reset scrolling
+        _item_list.ResetViewableOption();
+        _item_target_list.ResetViewableOption();
     }
 }
 
 
 
-void ItemCommand::Initialize(uint32 item_index)
+void ItemCommand::Initialize(uint32 battle_item_index)
 {
-    if(item_index >= _items.size()) {
-        IF_PRINT_WARNING(BATTLE_DEBUG) << "item_index argument was out-of-range: " << item_index << std::endl;
+    // If there is no more usable items in the inventory,
+    // we can set the selection as invalid.
+    if(_item_list.GetNumberOptions() == 0 || _menu_items.size() == 0) {
+        _item_list.SetSelection(-1);
+        _item_target_list.SetSelection(-1);
         return;
     }
 
-    // If the item is in the list, set the list selection to that item
-    if(_item_mappings[item_index] >= 0) {
-        _item_list.SetSelection(_item_mappings[item_index]);
-        _item_target_list.SetSelection(_item_mappings[item_index]);
+    // In case the selection of the previous item leads to something
+    // not relevant anymore, we reset the selection.
+    if(battle_item_index >= _battle_items.size() ||
+            _battle_items[battle_item_index].GetBattleCount() == 0) {
+        _item_list.SetSelection(0);
+        _item_target_list.SetSelection(0);
         return;
     }
 
-    // Otherwise find the nearest item to the desired item that is in the list
-    uint32 next_item_index = 0xFFFFFFFF;
-    uint32 prev_item_index = 0xFFFFFFFF;
-
-    for(uint32 i = item_index + 1; i < _items.size(); i++) {
-        if(_item_mappings[i] >= 0) {
-            next_item_index = i;
+    // Find the corresponding item in the menu list and select it.
+    uint32 selection = 0; // First item in the list per default
+    BattleItem* selected_item = &_battle_items[battle_item_index];
+    for (uint32 i = 0; i < _menu_items.size(); ++i) {
+        if (_menu_items[i] == selected_item) {
+            selection = i;
             break;
         }
     }
-    if(item_index != 0) {
-        uint32 i = item_index - 1;
 
-        do {
-            if(_item_mappings[i] >= 0) {
-                prev_item_index = i;
-                break;
-            }
-
-            i--;
-        } while(i != 0);
-    }
-
-    // If this case is true there are no items in the list. This should not happen because the item
-    // command should not be used if no items exist
-    if((next_item_index == 0xFFFFFFFF) && (prev_item_index == 0xFFFFFFFF)) {
-        IF_PRINT_WARNING(BATTLE_DEBUG) << "no items were in the list" << std::endl;
-        return;
-    } else if((next_item_index - item_index) <= (item_index - prev_item_index)) {
-        _item_list.SetSelection(_item_mappings[next_item_index]);
-        _item_target_list.SetSelection(_item_mappings[next_item_index]);
-    } else {
-        _item_list.SetSelection(_item_mappings[prev_item_index]);
-        _item_target_list.SetSelection(_item_mappings[prev_item_index]);
-    }
+    // If the item is in the list, set the list selection to that item
+    _item_list.SetSelection(selection);
+    _item_target_list.SetSelection(selection);
 }
 
 
 
 BattleItem *ItemCommand::GetSelectedItem()
 {
-    uint32 index = GetItemIndex();
-    if(index == 0xFFFFFFFF)
-        return NULL;
-    else
-        return &(_items[index]);
-}
-
-
-
-uint32 ItemCommand::GetItemIndex() const
-{
-    if(_item_list.GetSelection() < 0) {
-        IF_PRINT_WARNING(BATTLE_DEBUG) << "invalid selection in item list" << std::endl;
-        return 0xFFFFFFFF;
-    }
-
     int32 selection = _item_list.GetSelection();
-    for(uint32 i = 0; i < _items.size(); i++) {
-        if(_item_mappings[selection] == (int32)i) {
-            return static_cast<uint32>(_item_mappings[selection]);
-        }
-    }
+    if (selection == -1 || selection >= (int32)_menu_items.size())
+        return NULL;
 
-    // Execution should never reach this line
-    IF_PRINT_WARNING(BATTLE_DEBUG) << "could not find index for item list selection: " << _item_list.GetSelection() << std::endl;
-    return 0xFFFFFFFF;
+    return _menu_items[selection];
 }
-
 
 bool ItemCommand::IsSelectedItemAvailable() const
 {
-    uint32 index = GetItemIndex();
-
-    if(index == 0xFFFFFFFF)
+    int32 selection = _item_list.GetSelection();
+    if (selection == -1 || selection >= (int32)_menu_items.size())
         return false;
-    else
-        return (_items[_item_mappings[index]].GetBattleCount() > 0);
-}
 
+    return (_menu_items[selection]->GetBattleCount() > 0);
+}
 
 void ItemCommand::UpdateList()
 {
@@ -542,22 +481,13 @@ void ItemCommand::UpdateList()
     if(InputManager->UpPress()) {
         _item_list.InputUp();
         _item_target_list.InputUp();
-        GlobalManager->Media().PlaySound("confirm");
+        GlobalManager->Media().PlaySound("bump");
     } else if(InputManager->DownPress()) {
         _item_list.InputDown();
         _item_target_list.InputDown();
-        GlobalManager->Media().PlaySound("confirm");
+        GlobalManager->Media().PlaySound("bump");
     }
 }
-
-
-
-void ItemCommand::UpdateInformation()
-{
-    // TODO
-}
-
-
 
 void ItemCommand::DrawList()
 {
@@ -566,26 +496,17 @@ void ItemCommand::DrawList()
     _item_target_list.Draw();
 }
 
-
-
-void ItemCommand::DrawInformation()
-{
-    // TODO
-}
-
-
-
 void ItemCommand::CommitChangesToInventory()
 {
-    for(uint32 i = 0; i < _items.size(); ++i) {
+    for(uint32 i = 0; i < _battle_items.size(); ++i) {
         // Get the global item id
-        uint32 id = _items[i].GetItem().GetID();
+        uint32 id = _battle_items[i].GetItem().GetID();
 
         // Remove slots totally used
-        if(_items[i].GetBattleCount() == 0) {
+        if(_battle_items[i].GetBattleCount() == 0) {
             GlobalManager->RemoveFromInventory(id);
         } else {
-            int32 diff = _items[i].GetBattleCount() - _items[i].GetInventoryCount();
+            int32 diff = _battle_items[i].GetBattleCount() - _battle_items[i].GetInventoryCount();
             if(diff > 0) {
                 // Somehow the character have more than before the battle.
                 GlobalManager->IncrementObjectCount(id, diff);
@@ -594,48 +515,6 @@ void ItemCommand::CommitChangesToInventory()
                 GlobalManager->DecrementObjectCount(id, -diff);
             }
         }
-    }
-}
-
-
-void ItemCommand::RefreshEntry(uint32 entry)
-{
-    if(entry >= _item_list.GetNumberOptions()) {
-        IF_PRINT_WARNING(BATTLE_DEBUG) << "entry argument was out-of-range: " << entry << std::endl;
-        return;
-    }
-
-    // Determine which item corresponds to the list entry
-    int32 item_index = 0;
-    for(uint32 i = 0; i < _item_mappings.size(); i++) {
-        if(_item_mappings[i] == static_cast<int32>(entry)) {
-            item_index = _item_mappings[i];
-            break;
-        }
-    }
-
-    // Clear the option and repopulate its elements
-    _item_list.SetOptionText(entry, ustring());
-    if (!_items[item_index].GetItem().GetIconImage().GetFilename().empty()) {
-        _item_list.AddOptionElementImage(entry, _items[item_index].GetItem().GetIconImage().GetFilename());
-        _item_list.GetEmbeddedImage(entry)->SetHeightKeepRatio(25);
-        _item_list.AddOptionElementPosition(entry, 30);
-    }
-    _item_list.AddOptionElementText(entry, _items[item_index].GetItem().GetName());
-
-    _item_target_list.SetOptionText(entry, ustring());
-    _item_target_list.AddOptionElementImage(entry, BattleMode::CurrentInstance()->GetMedia().GetTargetTypeIcon(_items[item_index].GetTargetType()));
-    _item_target_list.AddOptionElementPosition(entry, 45);
-    _item_target_list.AddOptionElementText(entry, MakeUnicodeString(NumberToString(_items[item_index].GetBattleCount())));
-
-    // Gray out the option when there are no items available.
-    if(_items[item_index].GetBattleCount() == 0) {
-        _item_list.EnableOption(entry, false);
-        _item_target_list.EnableOption(entry, false);
-    } else {
-        // Re-enable it if we come to get an item back for any reasons
-        _item_list.EnableOption(entry, true);
-        _item_target_list.EnableOption(entry, true);
     }
 }
 
@@ -711,22 +590,13 @@ void SkillCommand::UpdateList()
     if(InputManager->UpPress()) {
         _skill_list->InputUp();
         _target_n_cost_list->InputUp();
-        GlobalManager->Media().PlaySound("confirm");
+        GlobalManager->Media().PlaySound("bump");
     } else if(InputManager->DownPress()) {
         _skill_list->InputDown();
         _target_n_cost_list->InputDown();
-        GlobalManager->Media().PlaySound("confirm");
+        GlobalManager->Media().PlaySound("bump");
     }
 }
-
-
-
-void SkillCommand::UpdateInformation()
-{
-
-}
-
-
 
 void SkillCommand::DrawList()
 {
@@ -748,7 +618,8 @@ CommandSupervisor::CommandSupervisor() :
     _selected_skill(NULL),
     _selected_item(NULL),
     _item_command(_command_window),
-    _skill_command(_command_window)
+    _skill_command(_command_window),
+    _show_information(false)
 {
     if(_command_window.Create(512.0f, 128.0f) == false) {
         IF_PRINT_WARNING(BATTLE_DEBUG) << "failed to create menu window" << std::endl;
@@ -756,6 +627,11 @@ CommandSupervisor::CommandSupervisor() :
     _command_window.SetPosition(512.0f, 640.0f);
     _command_window.SetAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
     _command_window.Show();
+
+    _info_window.Create(512.0f, 150.0f);
+    _info_window.SetPosition(512.0f, 470.0f);
+    _info_window.SetAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
+    _info_window.Show();
 
     _category_icons.resize(4, StillImage());
     if(_category_icons[0].Load("img/icons/battle/default_weapon.png") == false)
@@ -781,6 +657,9 @@ CommandSupervisor::CommandSupervisor() :
 
     _window_header.SetStyle(TextStyle("title22"));
     _window_text.SetStyle(TextStyle("text20"));
+    _info_header.SetStyle(TextStyle("title22"));
+    _info_text.SetStyle(TextStyle("text20"));
+    _info_text.SetWordWrapWidth(475);
 
     _category_options.SetOwner(&_command_window);
     _category_options.SetPosition(256.0f, 80.0f);
@@ -790,6 +669,7 @@ CommandSupervisor::CommandSupervisor() :
     _category_options.SetOptionAlignment(VIDEO_X_CENTER, VIDEO_Y_TOP);
     _category_options.SetTextStyle(TextStyle("title22"));
     _category_options.SetSelectMode(VIDEO_SELECT_SINGLE);
+    _category_options.SetVerticalWrapMode(VIDEO_WRAP_MODE_STRAIGHT);
     _category_options.SetOptions(option_text);
     _category_options.SetSelection(0);
 
@@ -801,7 +681,7 @@ CommandSupervisor::CommandSupervisor() :
     _target_options.SetDimensions(TARGET_SIZE_X, TARGET_SIZE_Y, 1, 255, 1, 4);
     _target_options.SetAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
     _target_options.SetOptionAlignment(VIDEO_X_LEFT, VIDEO_Y_CENTER);
-    _target_options.SetVerticalWrapMode(VIDEO_WRAP_MODE_NONE);
+    _target_options.SetVerticalWrapMode(VIDEO_WRAP_MODE_STRAIGHT);
     _target_options.SetTextStyle(TextStyle("text20"));
     _target_options.SetCursorState(VIDEO_CURSOR_STATE_VISIBLE);
     _target_options.SetCursorOffset(-50.0f, -25.0f);
@@ -812,6 +692,7 @@ CommandSupervisor::CommandSupervisor() :
 CommandSupervisor::~CommandSupervisor()
 {
     _command_window.Destroy();
+    _info_window.Destroy();
 }
 
 
@@ -938,17 +819,12 @@ void CommandSupervisor::Update()
     case COMMAND_STATE_POINT:
         _UpdateAttackPointTarget();
         break;
-    case COMMAND_STATE_INFORMATION:
-        _UpdateInformation();
-        break;
     default:
         IF_PRINT_WARNING(BATTLE_DEBUG) << "invalid/unknown command state: " << _state << std::endl;
         _ChangeState(COMMAND_STATE_CATEGORY);
         return;
     }
 }
-
-
 
 void CommandSupervisor::Draw()
 {
@@ -959,6 +835,10 @@ void CommandSupervisor::Draw()
         _DrawCategory();
         break;
     case COMMAND_STATE_ACTION:
+        // Show potential info about the current selection
+        if (_show_information)
+            _DrawActionInformation();
+
         _DrawAction();
         break;
     case COMMAND_STATE_ACTOR:
@@ -967,17 +847,10 @@ void CommandSupervisor::Draw()
     case COMMAND_STATE_POINT:
         _DrawAttackPointTarget();
         break;
-    case COMMAND_STATE_INFORMATION:
-        _DrawInformation();
-        break;
     default:
-        IF_PRINT_WARNING(BATTLE_DEBUG) << "invalid/unknown command state: " << _state << std::endl;
-        _ChangeState(COMMAND_STATE_CATEGORY);
-        return;
+        break;
     }
 }
-
-
 
 void CommandSupervisor::NotifyActorDeath(BattleActor *actor)
 {
@@ -1077,7 +950,7 @@ bool CommandSupervisor::_SetInitialTarget()
     if(!_selected_target.IsValid(permit_dead_targets)) {
         // Party targets should always be valid and attack points on actors do not disappear, so only the actor
         // must be invalid
-        if(!_selected_target.SelectNextActor(user, permit_dead_targets)) {
+        if(!_selected_target.SelectNextActor(user, true, true, permit_dead_targets)) {
             // No more target of that type, let's go back to the command state
             // Invalidate the target so that one can get a completely new one
             _selected_target.InvalidateTarget();
@@ -1162,8 +1035,6 @@ void CommandSupervisor::_ChangeState(COMMAND_STATE new_state)
         _CreateActorTargetText();
     } else if(new_state == COMMAND_STATE_POINT) {
         _CreateAttackPointTargetText();
-    } else if(new_state == COMMAND_STATE_INFORMATION) {
-        _CreateInformationText();
     }
 
     _state = new_state;
@@ -1203,12 +1074,12 @@ void CommandSupervisor::_UpdateCategory()
 
     else if(InputManager->LeftPress()) {
         _category_options.InputLeft();
-        GlobalManager->Media().PlaySound("confirm");
+        GlobalManager->Media().PlaySound("bump");
     }
 
     else if(InputManager->RightPress()) {
         _category_options.InputRight();
-        GlobalManager->Media().PlaySound("confirm");
+        GlobalManager->Media().PlaySound("bump");
     }
 }
 
@@ -1220,6 +1091,15 @@ void CommandSupervisor::_UpdateAction()
         _ChangeState(COMMAND_STATE_CATEGORY);
         GlobalManager->Media().PlaySound("cancel");
         return;
+    }
+
+    // Handles showing skills/item info on menu key pressed state
+    if(InputManager->MenuState()) {
+        _show_information = true;
+        _UpdateActionInformation();
+    }
+    else {
+        _show_information = false;
     }
 
     if(_IsSkillCategorySelected() == true) {
@@ -1234,14 +1114,9 @@ void CommandSupervisor::_UpdateAction()
                 GlobalManager->Media().PlaySound("cancel");
             }
         }
-
-        else if(InputManager->MenuPress()) {
-            _ChangeState(COMMAND_STATE_INFORMATION);
-            GlobalManager->Media().PlaySound("confirm");
-        }
-
         else {
             _skill_command.UpdateList();
+            _UpdateActionInformation();
         }
     } else if(_IsItemCategorySelected() == true) {
         _selected_item = _item_command.GetSelectedItem();
@@ -1255,14 +1130,9 @@ void CommandSupervisor::_UpdateAction()
                 GlobalManager->Media().PlaySound("cancel");
             }
         }
-
-        else if(InputManager->MenuPress()) {
-            _ChangeState(COMMAND_STATE_INFORMATION);
-            GlobalManager->Media().PlaySound("confirm");
-        }
-
         else {
             _item_command.UpdateList();
+            _UpdateActionInformation();
         }
     } else {
         IF_PRINT_WARNING(BATTLE_DEBUG) << "invalid category selection: " << _category_options.GetSelection() << std::endl;
@@ -1270,8 +1140,6 @@ void CommandSupervisor::_UpdateAction()
         _category_options.SetSelection(CATEGORY_WEAPON);
     }
 }
-
-
 
 void CommandSupervisor::_UpdateActorTarget()
 {
@@ -1299,14 +1167,15 @@ void CommandSupervisor::_UpdateActorTarget()
                                 || (_selected_target.GetType() == GLOBAL_TARGET_DEAD_ALLY));
 
         if((IsTargetActor(_selected_target.GetType()) == true) || (IsTargetPoint(_selected_target.GetType()) == true)) {
+            // Since we're changing the target, we reinit the attack point to the first one,
+            // as the new target may have less attack points than the latest one.
+            _selected_target.ReinitAttackPoint();
             _selected_target.SelectNextActor(GetCommandCharacter(), direction, true, permit_dead_targets);
             _CreateActorTargetText();
-            GlobalManager->Media().PlaySound("confirm");
+            GlobalManager->Media().PlaySound("bump");
         }
     }
 }
-
-
 
 void CommandSupervisor::_UpdateAttackPointTarget()
 {
@@ -1318,6 +1187,7 @@ void CommandSupervisor::_UpdateAttackPointTarget()
     else if(InputManager->ConfirmPress()
             || _selected_target.GetActor()->GetAttackPoints().size() == 1) {
         _FinalizeCommand();
+        GlobalManager->Media().PlaySound("confirm");
     }
 
     else if(InputManager->UpPress() || InputManager->DownPress()) {
@@ -1328,53 +1198,49 @@ void CommandSupervisor::_UpdateAttackPointTarget()
 
         _selected_target.SelectNextPoint(GetCommandCharacter(), InputManager->DownPress());
         _CreateAttackPointTargetText();
-        GlobalManager->Media().PlaySound("confirm");
+        GlobalManager->Media().PlaySound("bump");
     }
 }
 
-
-
-void CommandSupervisor::_UpdateInformation()
+std::string _TurnIntoSeconds(uint32 milliseconds)
 {
-    if(InputManager->CancelPress() || InputManager->MenuPress()) {
-        _state = COMMAND_STATE_ACTION;
-        GlobalManager->Media().PlaySound("cancel");
-    }
-
-    else if(InputManager->ConfirmPress()) {
-        _ChangeState(COMMAND_STATE_ACTOR);
-        GlobalManager->Media().PlaySound("cancel");
-    }
-
-    // Change selected skill/item and update the information text
-    else if(InputManager->UpPress() || InputManager->DownPress()) {
-
-        if(_IsSkillCategorySelected() == true) {
-            _skill_command.UpdateList();
-            _selected_skill = _skill_command.GetSelectedSkill();
-            GlobalManager->Media().PlaySound("confirm");
-        } else if(_IsItemCategorySelected() == true) {
-            _item_command.UpdateList();
-            _selected_item = _item_command.GetSelectedItem();
-            GlobalManager->Media().PlaySound("confirm");
-        }
-
-        _CreateInformationText();
-    }
-
-    else if(InputManager->RightPress() || InputManager->LeftPress()) {
-        // TODO: toggle between description text and detailed stats
-    }
+    uint32 seconds = milliseconds / 1000;
+    uint32 dec = (milliseconds / 100) - (seconds * 10);
+    std::string formatted_seconds = NumberToString(seconds) + "." + NumberToString(dec);
+    /// TRANSLATORS: this is about displaying a time: eg 4.2s
+    formatted_seconds = VTranslate("%ss", formatted_seconds);
+    return formatted_seconds;
 }
 
+void CommandSupervisor::_UpdateActionInformation()
+{
+    ustring info_text;
 
+    if(_IsSkillCategorySelected() == true) {
+        _info_header.SetText(_selected_skill->GetName()
+                             + MakeUnicodeString(" - "
+                             + VTranslate("%s SP", NumberToString(_selected_skill->GetSPRequired()))));
+
+        info_text = MakeUnicodeString(VTranslate("Target Type: %s", GetTargetText(_selected_skill->GetTargetType())) + "\n");
+        info_text += MakeUnicodeString(VTranslate("Prep Time: %s", _TurnIntoSeconds(_selected_skill->GetWarmupTime())) + " - ");
+        info_text += MakeUnicodeString(VTranslate("Cool Time: %s", _TurnIntoSeconds(_selected_skill->GetCooldownTime())) + "\n\n");
+        info_text += _selected_skill->GetDescription();
+    } else if(_IsItemCategorySelected() == true) {
+        _info_header.SetText(_selected_item->GetItem().GetName()
+                             + MakeUnicodeString(" x " + NumberToString(_selected_item->GetBattleCount())));
+        info_text = MakeUnicodeString(VTranslate("Target Type: %s", GetTargetText(_selected_item->GetTargetType())) + "\n\n");
+        info_text += _selected_item->GetItem().GetDescription();
+    } else {
+        IF_PRINT_WARNING(BATTLE_DEBUG) << "unknown category selected: " << _category_options.GetSelection() << std::endl;
+    }
+
+    _info_text.SetText(info_text);
+}
 
 void CommandSupervisor::_DrawCategory()
 {
     _category_options.Draw();
 }
-
-
 
 void CommandSupervisor::_DrawAction()
 {
@@ -1398,8 +1264,6 @@ void CommandSupervisor::_DrawAction()
     }
 }
 
-
-
 void CommandSupervisor::_DrawActorTarget()
 {
     VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_BOTTOM, VIDEO_BLEND, 0);
@@ -1408,11 +1272,9 @@ void CommandSupervisor::_DrawActorTarget()
     VideoManager->Move(560.0f, 683.0f);
     _window_text.Draw();
 
-// 	_target_options.Draw();
+//  _target_options.Draw();
     // TODO: draw relevant status/elemental icons
 }
-
-
 
 void CommandSupervisor::_DrawAttackPointTarget()
 {
@@ -1426,20 +1288,15 @@ void CommandSupervisor::_DrawAttackPointTarget()
     // TODO: draw relevant status/elemental icons
 }
 
-
-
-void CommandSupervisor::_DrawInformation()
+void CommandSupervisor::_DrawActionInformation()
 {
+    _info_window.Draw();
     VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_BOTTOM, VIDEO_BLEND, 0);
-    VideoManager->Move(560.0f, 658.0f);
-    _window_header.Draw();
-    VideoManager->Move(560.0f, 683.0f);
-    _window_text.Draw();
-
-    // TODO: draw relevant status/elemental icons
+    VideoManager->Move(560.0f, 488.0f);
+    _info_header.Draw();
+    VideoManager->Move(530.0f, 510.0f);
+    _info_text.Draw();
 }
-
-
 
 void CommandSupervisor::_CreateActorTargetText()
 {
@@ -1486,8 +1343,6 @@ void CommandSupervisor::_CreateActorTargetText()
 
 }
 
-
-
 void CommandSupervisor::_CreateAttackPointTargetText()
 {
     _window_header.SetText(UTranslate("Select Attack Point"));
@@ -1503,33 +1358,6 @@ void CommandSupervisor::_CreateAttackPointTargetText()
     _target_options.SetSelection(selected_point);
 }
 
-
-
-void CommandSupervisor::_CreateInformationText()
-{
-    ustring info_text;
-
-    if(_IsSkillCategorySelected() == true) {
-        _window_header.SetText(_selected_skill->GetName());
-
-        info_text = UTranslate("Skill Points: " + NumberToString(_selected_skill->GetSPRequired())) + MakeUnicodeString("\n");
-        info_text += UTranslate("Target Type: ") + MakeUnicodeString(GetTargetText(_selected_skill->GetTargetType())) + MakeUnicodeString("\n");
-        info_text += UTranslate("Prep Time: ") + MakeUnicodeString(NumberToString(_selected_skill->GetWarmupTime())) + MakeUnicodeString("\n");
-        info_text += UTranslate("Cool Time: ") + MakeUnicodeString(NumberToString(_selected_skill->GetCooldownTime())) + MakeUnicodeString("\n");
-    } else if(_IsItemCategorySelected() == true) {
-        _window_header.SetText(_selected_item->GetItem().GetName());
-
-        info_text = UTranslate("Quantity: " + NumberToString(_selected_item->GetBattleCount())) + MakeUnicodeString("\n");
-        info_text += UTranslate("Target Type: ") + MakeUnicodeString(GetTargetText(_selected_item->GetItem().GetTargetType())) + MakeUnicodeString("\n");
-    } else {
-        IF_PRINT_WARNING(BATTLE_DEBUG) << "unknown category selected: " << _category_options.GetSelection() << std::endl;
-    }
-
-    _window_text.SetText(info_text);
-}
-
-
-
 void CommandSupervisor::_FinalizeCommand()
 {
     BattleAction *new_action = NULL;
@@ -1544,7 +1372,6 @@ void CommandSupervisor::_FinalizeCommand()
 
         // Reserve the item for use by the character.
         _selected_item->DecrementBattleCount();
-        _item_command.RefreshEntry(_item_command.GetItemIndex());
     } else {
         IF_PRINT_WARNING(BATTLE_DEBUG) << "did not create action for character, unknown category selected: " << _category_options.GetSelection() << std::endl;
     }
@@ -1552,7 +1379,6 @@ void CommandSupervisor::_FinalizeCommand()
 
     _ChangeState(COMMAND_STATE_INVALID);
     BattleMode::CurrentInstance()->NotifyCharacterCommandComplete(character);
-    GlobalManager->Media().PlaySound("confirm");
 }
 
 } // namespace private_battle

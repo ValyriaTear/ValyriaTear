@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 //            Copyright (C) 2004-2011 by The Allacrost Project
-//            Copyright (C) 2012-2013 by Bertram (Valyria Tear)
+//            Copyright (C) 2012-2014 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -111,6 +111,14 @@ void ShopEvent::_Start()
     for(std::set<std::pair<uint32, uint32> >::iterator it = _trades.begin(); it != _trades.end(); ++it)
         shop->AddTrade((*it).first, (*it).second);
 
+    // Adds optional custom shop name and greetings text
+    if (!_shop_name.empty())
+        shop->SetShopName(_shop_name);
+    if (!_greeting_text.empty())
+        shop->SetGreetingText(_greeting_text);
+
+    // Sets the shop options.
+    shop->SetSellModeEnabled(_enable_sell_mode);
     shop->SetPriceLevels(_buy_level, _sell_level);
     ModeManager->Push(shop);
 }
@@ -177,7 +185,9 @@ bool MapTransitionEvent::_Update()
     // break the fade smoothness and visible duration.
     if(!_done) {
         vt_global::GlobalManager->SetPreviousLocation(_transition_origin);
-        MapMode *MM = new MapMode(_transition_map_data_filename, _transition_map_script_filename);
+        MapMode* MM = new MapMode(_transition_map_data_filename,
+                                  _transition_map_script_filename,
+                                  MapMode::CurrentInstance()->GetStamina());
         ModeManager->Pop();
         ModeManager->Push(MM, false, true);
         _done = true;
@@ -240,6 +250,11 @@ void BattleEncounterEvent::AddEnemy(uint32 enemy_id, float position_x, float pos
 void BattleEncounterEvent::_Start()
 {
     try {
+        // Check the current map stamina and apply a malus on agility when it is low
+        MapMode* MM = MapMode::CurrentInstance();
+        if (MM)
+            MM->ApplyPotentialStaminaMalus();
+
         BattleMode *BM = new BattleMode();
         for(uint32 i = 0; i < _enemies.size(); ++i)
             BM->AddEnemy(_enemies.at(i).enemy_id, _enemies.at(i).position_x, _enemies.at(i).position_y);
@@ -249,14 +264,16 @@ void BattleEncounterEvent::_Start()
         for(uint32 i = 0; i < _battle_scripts.size(); ++i)
             BM->GetScriptSupervisor().AddScript(_battle_scripts[i]);
 
-        TransitionToBattleMode *TM = new TransitionToBattleMode(BM, _is_boss);
+        BM->SetBossBattle(_is_boss);
+
+        TransitionToBattleMode* TM = new TransitionToBattleMode(BM, _is_boss);
 
         ModeManager->Push(TM);
-    } catch(const luabind::error &e) {
+    } catch(const luabind::error& e) {
         PRINT_ERROR << "Error while loading battle encounter event!"
                     << std::endl;
         ScriptManager->HandleLuaError(e);
-    } catch(const luabind::cast_failed &e) {
+    } catch(const luabind::cast_failed& e) {
         PRINT_ERROR << "Error while loading battle encounter event!"
                     << std::endl;
         ScriptManager->HandleCastError(e);

@@ -50,7 +50,7 @@ function Load(m)
     _CreateZones();
 
     -- Add clouds overlay
-    Map:GetEffectSupervisor():EnableAmbientOverlay("img/ambient/clouds.png", 5.0, 5.0, true);
+    Map:GetEffectSupervisor():EnableAmbientOverlay("img/ambient/clouds.png", 5.0, -5.0, true);
 
     -- Permits the display of the crystal ect...
     Map:GetScriptSupervisor():AddScript("dat/maps/layna_forest/crystal_appearance/layna_forest_crystal_appearance_anim.lua");
@@ -132,6 +132,12 @@ function _CreateObjects()
 
     -- save point
     Map:AddSavePoint(58, 87);
+
+    local chest1 = CreateTreasure(Map, "layna_forest_crystal_chest", "Wood_Chest1", 16, 38);
+    if (chest1 ~= nil) then
+        chest1:AddObject(15, 1); -- Lotus Petal
+        Map:AddGroundObject(chest1);
+    end
 
     -- Load the spring heal effect.
     heal_effect = vt_map.ParticleObject("dat/effects/particles/heal_particle.lua", 0, 0);
@@ -554,7 +560,7 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
 
     dialogue = vt_map.SpriteDialogue();
-    text = vt_system.Translate("Gosh!! By all heavens, is this? ...");
+    text = vt_system.Translate("Gosh!! By all heavens, is this...?");
     dialogue:AddLineEmote(text, kalya_sprite, "sweat drop");
     text = vt_system.Translate("A crystal stone?!?");
     dialogue:AddLineEmote(text, hero, "exclamation");
@@ -582,15 +588,15 @@ function _CreateEvents()
     dialogue:SetInputBlocked(true);
     text = vt_system.Translate("Dear chosen one, the time has finally come.");
     dialogue:AddLineTimedEvent(text, crystal, 5000, "crystal voice sound 1", "");
-    text = vt_system.Translate("For us, it will take an instant.");
+    text = vt_system.Translate("For us, it will be but an instant.");
     dialogue:AddLineTimedEvent(text, crystal, 5000, "crystal voice sound 2", "");
-    text = vt_system.Translate("For you, it might have been decades.");
+    text = vt_system.Translate("For you, it might be decades.");
     dialogue:AddLineTimedEvent(text, crystal, 5000, "crystal voice sound 3", "");
     text = vt_system.Translate("May you bring a happy end to this foolish destiny of ours.");
     dialogue:AddLineTimedEvent(text, crystal, 6800, "crystal voice sound 4", "");
     text = vt_system.Translate("We're all anxiously awaiting your return.");
     dialogue:AddLineTimedEvent(text, crystal, 5000, "crystal voice sound 5", "");
-    text = vt_system.Translate("Now, come. And make one with our holy hope.");
+    text = vt_system.Translate("Now, come. Become one with our holy hope.");
     dialogue:AddLineTimedEvent(text, crystal, 5000, "crystal voice sound 6", "");
     DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("crystal dialogue part", dialogue);
@@ -600,9 +606,9 @@ function _CreateEvents()
     dialogue = vt_map.SpriteDialogue();
     text = vt_system.Translate("What does all of this mean?");
     dialogue:AddLineEmote(text, kalya_sprite, "thinking dots");
-    text = vt_system.Translate("I shall come and make one with our only hope...");
+    text = vt_system.Translate("I shall become one with our only hope...");
     dialogue:AddLine(text, orlinn);
-    text = vt_system.Translate("What! No, Orlinn!");
+    text = vt_system.Translate("What! Orlinn, No!");
     dialogue:AddLineEmote(text, hero, "exclamation");
     DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("fourth dialogue part", dialogue);
@@ -697,7 +703,7 @@ function _CreateEvents()
     dialogue:AddLineEvent(text, hero, "", "Kalya and orlinn are surprised");
     text = vt_system.Translate("Bronann! Are you alright?");
     dialogue:AddLineEventEmote(text, kalya_sprite, "Kalya looks east", "", "exclamation");
-    text = vt_system.Translate("I... I guess so. ...");
+    text = vt_system.Translate("I ... I guess so ...");
     dialogue:AddLine(text, hero);
     text = vt_system.Translate("... The wolf! The crystal! Orlinn! Are you ok?? ...");
     dialogue:AddLineEventEmote(text, hero, "Bronann gets up", "", "exclamation");
@@ -744,7 +750,7 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
 
     dialogue = vt_map.SpriteDialogue();
-    text = vt_system.Translate("When I'll catch you, I'll make you wish you weren't born!! Rahh!");
+    text = vt_system.Translate("When I catch you, I'll make you wish you weren't born!! Rahh!");
     dialogue:AddLine(text, kalya_sprite);
     text = vt_system.Translate("Yiek!!");
     dialogue:AddLine(text, orlinn);
@@ -756,11 +762,11 @@ function _CreateEvents()
     dialogue:AddLineEvent(text, hero, "Bronann sighs", "");
     text = vt_system.Translate("... Ouch, why is my head hurting so much? ...");
     dialogue:AddLineEvent(text, hero, "", "Kalya stops running");
-    text = vt_system.Translate("Are you ok? We should get back home so Lilly can examine you...");
+    text = vt_system.Translate("Are you ok? We should head back to the village so Lilly can examine you...");
     dialogue:AddLineEvent(text, kalya_sprite, "Kalya comes back next to Bronann", "");
-    text = vt_system.Translate("I still really feel dizzy but I'll be ok...");
+    text = vt_system.Translate("I still feel really dizzy but I'll be ok...");
     dialogue:AddLine(text, hero);
-    text = vt_system.Translate("I'm relieved Orlinn is fine, too. And speaking of that: Orlinn! Stop running and come here, right away!");
+    text = vt_system.Translate("I'm relieved that Orlinn is fine as well... Speaking of that: Orlinn! Stop running and come here right now!");
     dialogue:AddLine(text, kalya_sprite);
     DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Bronann sighs and think", dialogue);
@@ -781,17 +787,17 @@ function _CreateEvents()
     dialogue = vt_map.SpriteDialogue();
     text = vt_system.Translate("Owww... Alright.");
     dialogue:AddLineEventEmote(text, orlinn, "Fade out music", "Orlinn comes back next to Bronann", "sweat drop");
-    text = vt_system.Translate("Now, Orlinn. Tell us: Why on earth did you go into the forest alone, and how did you just get there so quickly?");
+    text = vt_system.Translate("Now, Orlinn. Tell us: Why on earth did you go into the forest alone, and how did you get there so quickly?");
     dialogue:AddLine(text, kalya_sprite);
     text = vt_system.Translate("I don't know...");
     dialogue:AddLineEmote(text, orlinn, "interrogation");
     text = vt_system.Translate("Why was that giant wolf protecting you?");
     dialogue:AddLine(text, hero);
-    text = vt_system.Translate("What was that crystal? Why did you want to make one with it?");
+    text = vt_system.Translate("What was that crystal? Why did you want to 'become one' with it?");
     dialogue:AddLine(text, kalya_sprite);
     text = vt_system.Translate("I... I... I sincerely don't know... I swear! I was like... dreaming...");
     dialogue:AddLineEmote(text, orlinn, "sweat drop");
-    text = vt_system.Translate("I merely remember a voice in my head, telling me to come...");
+    text = vt_system.Translate("I merely remember a voice in my head... telling me to come...");
     dialogue:AddLineEmote(text, orlinn, "thinking dots");
     text = vt_system.Translate("You know you won't get away with this, when you'll see Herth...");
     dialogue:AddLineEmote(text, kalya_sprite, "thinking dots");
@@ -1022,7 +1028,7 @@ map_functions = {
     end,
 
     fade_out_music = function()
-        AudioManager:FadeOutAllMusic(2000);
+        AudioManager:FadeOutActiveMusic(2000);
     end,
 
     play_funny_music = function()

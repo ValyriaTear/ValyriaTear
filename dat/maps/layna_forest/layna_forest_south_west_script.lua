@@ -52,7 +52,7 @@ function Load(m)
     _CreateZones();
 
     -- Add clouds overlay
-    Map:GetEffectSupervisor():EnableAmbientOverlay("img/ambient/clouds.png", 5.0, 5.0, true);
+    Map:GetEffectSupervisor():EnableAmbientOverlay("img/ambient/clouds.png", 5.0, -5.0, true);
 
         -- Trigger the save point and spring speech event once
     if (GlobalManager:DoesEventExist("story", "kalya_speech_about_snakes_done") == false) then
@@ -608,7 +608,7 @@ function _CreateEnemies()
     _SetBattleEnvironment(enemy);
     enemy:NewEnemyParty();
     enemy:AddEnemy(1);
-    enemy:AddEnemy(1);
+    enemy:AddEnemy(2);
     enemy:AddEnemy(1);
     enemy:NewEnemyParty();
     enemy:AddEnemy(2);
@@ -692,7 +692,7 @@ function _CreateEvents()
     dialogue = vt_map.SpriteDialogue();
     text = vt_system.Translate("Woah, wait!");
     dialogue:AddLineEventEmote(text, kalya_sprite, "Bronann looks at Kalya", "Kalya looks at Bronann", "exclamation");
-    text = vt_system.Translate("Look at that grass. The snakes like it very much. Beware of them, their venom can send you to sleep.");
+    text = vt_system.Translate("Look at that grass... Snakes like to hide in tall grass... We need to be careful because their venom causes drowsiness.");
     dialogue:AddLine(text, kalya_sprite);
     DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Kalya Tells about snakes", dialogue);

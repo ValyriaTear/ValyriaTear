@@ -276,7 +276,6 @@ enemies[5] = {
     },
 
     skills = {
-        1001,
         21001
     },
 
@@ -455,8 +454,7 @@ enemies[8] = {
     },
 
     drop_objects = {
-    { 1, 1.0 }, -- Minor Healing Potion x2
-    { 1, 1.0 }
+        { 16, 1.0 } -- Candy (Regen)
     }
 }
 
@@ -518,8 +516,8 @@ enemies[9] = {
     },
 
     drop_objects = {
-        { 1, 0.15 }, -- Minor Healing Potion
-        { 11, 0.15 } -- Minor Moon Juice
+        { 11, 0.15 }, -- Minor Moon Juice
+        { 4001, 0.05 } -- Escape Smoke
     }
 }
 
@@ -722,6 +720,7 @@ enemies[13] = {
 
     drop_objects = {
         { 1, 0.15 },  -- Minor Healing Potion
+        { 15, 0.02 } -- Lotus Petal (Cures poison)
     }
 }
 
@@ -775,6 +774,378 @@ enemies[14] = {
 
     drop_objects = {
         { 3002, 1.0 },  -- Iron Ore
+        { 1005, 1.0 } -- Haste potion
+    }
+}
+
+enemies[15] = {
+    name = vt_system.Translate("Beetle"),
+    stamina_icon = "img/icons/actors/enemies/beetle.png",
+
+    battle_animations = {
+        [HURT_NONE] = "img/sprites/battle/enemies/beetle_0.lua",
+        [HURT_SLIGHTLY] = "img/sprites/battle/enemies/beetle_0.lua",
+        [HURT_MEDIUM] = "img/sprites/battle/enemies/beetle_0.lua",
+        [HURT_HEAVILY] = "img/sprites/battle/enemies/beetle_0.lua"
+    },
+
+    base_stats = {
+        hit_points = 100,
+        skill_points = 36,
+        strength = 30,
+        vigor = 25,
+        fortitude = 40,
+        protection = 10,
+        agility = 35,
+        evade = 5.0,
+        experience_points = 45,
+        drunes = 45
+    },
+
+    attack_points = {
+        [1] = {
+            name = vt_system.Translate("Chest"),
+            x_position = -8,
+            y_position = 25,
+            fortitude_modifier = 0.0,
+            protection_modifier = 0.0,
+            evade_modifier = 0.0
+        }
+    },
+
+    skills = {
+        1006, -- Normal atack
+        1012  -- Agility stealing attack
+    },
+
+    drop_objects = {
+        { 2, 0.05 } -- Medium Healing Potion
+    }
+}
+
+enemies[16] = {
+    name = vt_system.Translate("Rat"),
+    stamina_icon = "img/icons/actors/enemies/rat.png",
+
+    battle_animations = {
+        [HURT_NONE] = "img/sprites/battle/enemies/rat_0.lua",
+        [HURT_SLIGHTLY] = "img/sprites/battle/enemies/rat_1.lua",
+        [HURT_MEDIUM] = "img/sprites/battle/enemies/rat_2.lua",
+        [HURT_HEAVILY] = "img/sprites/battle/enemies/rat_3.lua"
+    },
+
+    base_stats = {
+        hit_points = 120,
+        skill_points = 80,
+        strength = 35,
+        vigor = 20,
+        fortitude = 35,
+        protection = 20,
+        agility = 40,
+        evade = 7.0,
+        experience_points = 47,
+        drunes = 40
+    },
+
+    attack_points = {
+        [1] = {
+            name = vt_system.Translate("Head"),
+            x_position = -28,
+            y_position = 90,
+            fortitude_modifier = 0.0,
+            protection_modifier = 0.0,
+            evade_modifier = 0.0
+        },
+        [2] = {
+            name = vt_system.Translate("Chest"),
+            x_position = -8,
+            y_position = 50,
+            fortitude_modifier = 0.0,
+            protection_modifier = 0.0,
+            evade_modifier = 0.0
+        }
+    },
+
+    skills = {
+        1006, -- Normal attack
+        1010, -- Poison attack (5 SP)
+    },
+
+    drop_objects = {
+        { 15, 0.05 }  -- Lotus petal - (Cure poison)
+    }
+}
+
+enemies[17] = {
+    name = vt_system.Translate("Thing"),
+    stamina_icon = "img/icons/actors/enemies/thing.png",
+
+    battle_animations = {
+        [HURT_NONE] = "img/sprites/battle/enemies/thing_0.lua",
+        [HURT_SLIGHTLY] = "img/sprites/battle/enemies/thing_0.lua",
+        [HURT_MEDIUM] = "img/sprites/battle/enemies/thing_0.lua",
+        [HURT_HEAVILY] = "img/sprites/battle/enemies/thing_0.lua"
+    },
+
+    base_stats = {
+        hit_points = 124,
+        skill_points = 50,
+        strength = 25,
+        vigor = 30,
+        fortitude = 40,
+        protection = 20,
+        agility = 37,
+        evade = 5.0,
+        experience_points = 48,
+        drunes = 30
+    },
+
+    attack_points = {
+        [1] = {
+            name = vt_system.Translate("Body"),
+            x_position = 0,
+            y_position = 40,
+            fortitude_modifier = 0.0,
+            protection_modifier = 0.0,
+            evade_modifier = 0.0
+        }
+    },
+
+    skills = {
+        1006,  -- Normal attack
+        10100, -- Fire (7 SP)
+    },
+
+    drop_objects = {
+        { 1006, 0.02 }  -- Poison potion
+    }
+}
+
+-- unbalanced
+enemies[18] = {
+    name = vt_system.Translate("Yeti"),
+    stamina_icon = "img/icons/actors/enemies/yeti.png",
+
+    battle_animations = {
+        [HURT_NONE] = "img/sprites/battle/enemies/yeti_0.lua",
+        [HURT_SLIGHTLY] = "img/sprites/battle/enemies/yeti_0.lua",
+        [HURT_MEDIUM] = "img/sprites/battle/enemies/yeti_0.lua",
+        [HURT_HEAVILY] = "img/sprites/battle/enemies/yeti_0.lua"
+    },
+
+    base_stats = {
+        hit_points = 124,
+        skill_points = 10,
+        strength = 15,
+        vigor = 0,
+        fortitude = 14,
+        protection = 4,
+        agility = 13,
+        evade = 2.0,
+        experience_points = 5,
+        drunes = 18
+    },
+
+    attack_points = {
+        [1] = {
+            name = vt_system.Translate("Torso"),
+            x_position = -13,
+            y_position = 80,
+            fortitude_modifier = 0.0,
+            protection_modifier = 0.0,
+            evade_modifier = 0.0
+        }
+    },
+
+    skills = {
+        1006
+    },
+
+    drop_objects = {
+
+    }
+}
+
+enemies[19] = {
+    name = vt_system.Translate("Skeleton"),
+    stamina_icon = "img/icons/actors/enemies/skeleton.png",
+
+    battle_animations = {
+        [HURT_NONE] = "img/sprites/battle/enemies/skeleton_0.lua",
+        [HURT_SLIGHTLY] = "img/sprites/battle/enemies/skeleton_1.lua",
+        [HURT_MEDIUM] = "img/sprites/battle/enemies/skeleton_2.lua",
+        [HURT_HEAVILY] = "img/sprites/battle/enemies/skeleton_3.lua"
+    },
+
+    base_stats = {
+        hit_points = 150,
+        skill_points = 100,
+        strength = 30,
+        vigor = 25,
+        fortitude = 30,
+        protection = 25,
+        agility = 35,
+        evade = 5.0,
+        experience_points = 50,
+        drunes = 30
+    },
+
+    attack_points = {
+        [1] = {
+            name = vt_system.Translate("Head"),
+            x_position = -23,
+            y_position = 108,
+            fortitude_modifier = 0.0,
+            protection_modifier = 0.0,
+            evade_modifier = 0.0
+        },
+        [2] = {
+            name = vt_system.Translate("Chest"),
+            x_position = -12,
+            y_position = 82,
+            fortitude_modifier = 0.0,
+            protection_modifier = 0.0,
+            evade_modifier = 0.0
+        },
+        [3] = {
+            name = vt_system.Translate("Leg"),
+            x_position = -26,
+            y_position = 56,
+            fortitude_modifier = 0.0,
+            protection_modifier = 0.0,
+            evade_modifier = 0.0,
+            status_effects = { [vt_global.GameGlobal.GLOBAL_STATUS_AGILITY] = 20.0 }
+        }
+    },
+
+    skills = {
+        1006, -- Normal attack
+        1011, -- Frenzy attack (all characters)
+    },
+
+    drop_objects = {
+        { 12, 0.05 }, -- Medium moon juice
+        { 1004, 0.02 } -- Periwinkle Potion (Strength)
+    }
+}
+
+enemies[20] = {
+    name = vt_system.Translate("Dorver"),
+    stamina_icon = "img/icons/actors/enemies/dorver.png",
+
+    battle_animations = {
+        [HURT_NONE] = "img/sprites/battle/enemies/dorver_0.lua",
+        [HURT_SLIGHTLY] = "img/sprites/battle/enemies/dorver_0.lua",
+        [HURT_MEDIUM] = "img/sprites/battle/enemies/dorver_0.lua",
+        [HURT_HEAVILY] = "img/sprites/battle/enemies/dorver_0.lua"
+    },
+
+    base_stats = {
+        hit_points = 300,
+        skill_points = 100,
+        strength = 40,
+        vigor = 20,
+        fortitude = 50,
+        protection = 20,
+        agility = 25,
+        evade = 4.0,
+        experience_points = 91,
+        drunes = 60
+    },
+
+    attack_points = {
+        [1] = {
+            name = vt_system.Translate("Head"),
+            x_position = -10,
+            y_position = 26,
+            fortitude_modifier = 0.0,
+            protection_modifier = 0.0,
+            evade_modifier = 0.0
+        },
+        [2] = {
+            name = vt_system.Translate("Chest"),
+            x_position = 50,
+            y_position = 40,
+            fortitude_modifier = 0.0,
+            protection_modifier = 0.0,
+            evade_modifier = 0.0
+        },
+        [3] = {
+            name = vt_system.Translate("Leg"),
+            x_position = 80,
+            y_position = 86,
+            fortitude_modifier = 0.0,
+            protection_modifier = 0.0,
+            evade_modifier = 0.0,
+            status_effects = { [vt_global.GameGlobal.GLOBAL_STATUS_AGILITY] = 20.0 }
+        }
+    },
+
+    scripts = {
+        battle_ai = "dat/battles/enemies_ai/dorver_ai.lua",
+    },
+
+    skills = {
+        1008, -- Attack
+        1009, -- Attack all
+        1013, -- Frenzy (atk & agility +, but def -)
+    },
+
+    drop_objects = {
+        { 12, 0.05 }, -- Medium moon juice
+        { 1004, 0.02 } -- Periwinkle Potion (Strength)
+    }
+}
+
+enemies[21] = {
+    name = vt_system.Translate("Andromalius"),
+    stamina_icon = "img/icons/actors/enemies/andromalius.png",
+
+    battle_animations = {
+        [HURT_NONE] = "img/sprites/battle/enemies/andromalius_0.lua",
+        [HURT_SLIGHTLY] = "img/sprites/battle/enemies/andromalius_0.lua",
+        [HURT_MEDIUM] = "img/sprites/battle/enemies/andromalius_1.lua",
+        [HURT_HEAVILY] = "img/sprites/battle/enemies/andromalius_1.lua"
+    },
+
+    base_stats = {
+        hit_points = 600,
+        skill_points = 200,
+        strength = 30,
+        vigor = 40,
+        fortitude = 30,
+        protection = 40,
+        agility = 40,
+        evade = 6.0,
+        experience_points = 200,
+        drunes = 150
+    },
+
+    attack_points = {
+        [1] = {
+            name = vt_system.Translate("Head"),
+            x_position = -10,
+            y_position = 26,
+            fortitude_modifier = 0.0,
+            protection_modifier = 0.0,
+            evade_modifier = 0.0
+        },
+    },
+
+    scripts = {
+        battle_ai = "dat/battles/enemies_ai/andromalius_ai.lua",
+    },
+
+    skills = {
+        1014,  -- Shake atk + AGI-
+        10100, -- Fire
+        10007, -- Magical poison
+        21002, -- Dark Wish
+    },
+
+    drop_objects = {
+        { 3002, 1.0 }, -- Iron ore
+        { 1004, 0.02 } -- Periwinkle Potion (Strength)
     }
 }
 
@@ -842,13 +1213,6 @@ enemies[59] = {
     }
 }
 
--- Traits -----------------------------------------------------------------------
--- HSP: ??? HP, ??? SP
--- ATK: ??? phys, ??? meta
--- DEF: ??? phys, ??? meta
--- SPD: ??? agi, ??? eva
--- XPD: ??? XP, ??? drunes
---------------------------------------------------------------------------------
 enemies[60] = {
     name = vt_system.Translate("Dune Crawler"),
     stamina_icon = "img/icons/actors/enemies/dune_crawler.png",
@@ -894,70 +1258,6 @@ enemies[60] = {
 
     drop_objects = {
 
-    }
-}
-
--- Traits -----------------------------------------------------------------------
--- HSP: med HP, med SP
--- ATK: high phys, zero meta
--- DEF: high phys, low meta
--- SPD: low agi, low eva
--- XPD: med XP, med drunes
---------------------------------------------------------------------------------
-enemies[61] = {
-    name = vt_system.Translate("Skeleton"),
-    stamina_icon = "img/icons/actors/enemies/skeleton.png",
-    battle_sprites = "img/sprites/battle/enemies/skeleton.png",
-    sprite_width = 64,
-    sprite_height = 128,
-
-    base_stats = {
-        hit_points = 124,
-        skill_points = 10,
-        strength = 15,
-        vigor = 0,
-        fortitude = 14,
-        protection = 4,
-        agility = 13,
-        evade = 2.0,
-        experience_points = 5,
-        drunes = 18
-    },
-
-    attack_points = {
-        [1] = {
-            name = vt_system.Translate("Head"),
-            x_position = -23,
-            y_position = 108,
-            fortitude_modifier = 0.0,
-            protection_modifier = 0.0,
-            evade_modifier = 0.0
-        },
-        [2] = {
-            name = vt_system.Translate("Chest"),
-            x_position = -12,
-            y_position = 82,
-            fortitude_modifier = 0.0,
-            protection_modifier = 0.0,
-            evade_modifier = 0.0
-        },
-        [3] = {
-            name = vt_system.Translate("Leg"),
-            x_position = -26,
-            y_position = 56,
-            fortitude_modifier = 0.0,
-            protection_modifier = 0.0,
-            evade_modifier = 0.0,
-            status_effects = { [vt_global.GameGlobal.GLOBAL_STATUS_AGILITY] = 20.0 }
-        }
-    },
-
-    skills = {
-        1006
-    },
-
-    drop_objects = {
-        { 1, 0.15 } -- Minor Healing Potion
     }
 }
 
@@ -1096,104 +1396,10 @@ enemies[63] = {
 -- SPD: low agi, low eva
 -- XPD: med XP, high drunes
 --------------------------------------------------------------------------------
-enemies[64] = {
-    name = vt_system.Translate("Yeti"),
-    stamina_icon = "img/icons/actors/enemies/yeti.png",
-    battle_sprites = "img/sprites/battle/enemies/yeti.png",
-    sprite_width = 128,
-    sprite_height = 128,
-
-    base_stats = {
-        hit_points = 124,
-        skill_points = 10,
-        strength = 15,
-        vigor = 0,
-        fortitude = 14,
-        protection = 4,
-        agility = 13,
-        evade = 2.0,
-        experience_points = 5,
-        drunes = 18
-    },
-
-    attack_points = {
-        [1] = {
-            name = vt_system.Translate("Torso"),
-            x_position = -13,
-            y_position = 80,
-            fortitude_modifier = 0.0,
-            protection_modifier = 0.0,
-            evade_modifier = 0.0
-        }
-    },
-
-    skills = {
-        1006
-    },
-
-    drop_objects = {
-
-    }
-}
-
--- Traits -----------------------------------------------------------------------
--- HSP: high HP, med SP
--- ATK: med phys, zero meta
--- DEF: med phys, low meta
--- SPD: low agi, low eva
--- XPD: med XP, high drunes
---------------------------------------------------------------------------------
 enemies[65] = {
     name = vt_system.Translate("Red Slime"),
     stamina_icon = "img/icons/actors/enemies/red_slime.png",
     battle_sprites = "img/sprites/battle/enemies/red_slime.png",
-    sprite_width = 64,
-    sprite_height = 64,
-
-    base_stats = {
-        hit_points = 124,
-        skill_points = 10,
-        strength = 15,
-        vigor = 0,
-        fortitude = 14,
-        protection = 4,
-        agility = 13,
-        evade = 2.0,
-        experience_points = 5,
-        drunes = 18
-    },
-
-    attack_points = {
-        [1] = {
-            name = vt_system.Translate("Body"),
-            x_position = -13,
-            y_position = 80,
-            fortitude_modifier = 0.0,
-            protection_modifier = 0.0,
-            evade_modifier = 0.0
-        }
-    },
-
-    skills = {
-        1006
-    },
-
-    drop_objects = {
-
-    }
-}
-
--- Traits -----------------------------------------------------------------------
--- HSP: high HP, med SP
--- ATK: med phys, zero meta
--- DEF: med phys, low meta
--- SPD: low agi, low eva
--- XPD: med XP, high drunes
---------------------------------------------------------------------------------
-enemies[66] = {
-    name = vt_system.Translate("Thing"),
-    stamina_icon = "img/icons/actors/enemies/thing.png",
-    battle_sprites = "img/sprites/battle/enemies/thing.png",
     sprite_width = 64,
     sprite_height = 64,
 
@@ -1274,61 +1480,6 @@ enemies[67] = {
 
     drop_objects = {
 
-    }
-}
-
--- Traits -----------------------------------------------------------------------
--- HSP: med HP, low SP
--- ATK: med phys, zero meta
--- DEF: med phys, low meta
--- SPD: med agi, med eva
--- XPD: low XP, med drunes
---------------------------------------------------------------------------------
-enemies[68] = {
-    name = vt_system.Translate("Rat"),
-    stamina_icon = "img/icons/actors/enemies/rat.png",
-    battle_sprites = "img/sprites/battle/enemies/rat.png",
-    sprite_width = 64,
-    sprite_height = 64,
-
-    base_stats = {
-        hit_points = 90,
-        skill_points = 5,
-        strength = 12,
-        vigor = 0,
-        fortitude = 14,
-        protection = 4,
-        agility = 13,
-        evade = 2.0,
-        experience_points = 5,
-        drunes = 18
-    },
-
-    attack_points = {
-        [1] = {
-            name = vt_system.Translate("Head"),
-            x_position = -24,
-            y_position = 50,
-            fortitude_modifier = 0.0,
-            protection_modifier = 0.0,
-            evade_modifier = 0.0
-        },
-        [2] = {
-            name = vt_system.Translate("Chest"),
-            x_position = -8,
-            y_position = 25,
-            fortitude_modifier = 0.0,
-            protection_modifier = 0.0,
-            evade_modifier = 0.0
-        }
-    },
-
-    skills = {
-        1006
-    },
-
-    drop_objects = {
-        { 1, 0.15 } -- Minor Healing Potion
     }
 }
 
@@ -1782,62 +1933,6 @@ enemies[106] = {
             y_position = 143,
             fortitude_modifier = 0,
             protection_modifier = 0,
-            evade_modifier = 0.0
-        }
-    },
-
-    skills = {
-
-    },
-
-    drop_objects = {
-
-    }
-}
-
-enemies[107] = {
-    name = vt_system.Translate("Kyle"),
-    stamina_icon = "img/icons/actors/enemies/kyle.png",
-    battle_sprites = "img/sprites/battle/enemies/kyle.png",
-    sprite_width = 48,
-    sprite_height = 96,
-
-    growth_stats = {
-        hit_points = 5.0,
-        skill_points = 1.0,
-        experience_points = 1.5,
-        strength = 5.0,
-        vigor = 1.0,
-        fortitude = 3.0,
-        protection = 1.0,
-        agility = 1.0,
-        evade = 0.0,
-        drunes = 2.0
-    },
-
-    attack_points = {
-        [1] = {
-            name = vt_system.Translate("Head"),
-            x_position = 21,
-            y_position = 80,
-            fortitude_modifier = 0.0,
-            protection_modifier = 0.0,
-            evade_modifier = 0.0
-        },
-        [2] = {
-            name = vt_system.Translate("Chest"),
-            x_position = 21,
-            y_position = 46,
-            fortitude_modifier = 0.0,
-            protection_modifier = 0.0,
-            evade_modifier = 0.0
-        },
-        [3] = {
-            name = vt_system.Translate("Legs"),
-            x_position = 21,
-            y_position = 14,
-            fortitude_modifier = 0.0,
-            protection_modifier = 0.0,
             evade_modifier = 0.0
         }
     },

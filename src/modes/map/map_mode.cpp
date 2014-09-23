@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 //            Copyright (C) 2004-2011 by The Allacrost Project
-//            Copyright (C) 2012-2013 by Bertram (Valyria Tear)
+//            Copyright (C) 2012-2014 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -58,8 +58,8 @@ MapMode *MapMode::_current_instance = NULL;
 // ********** MapMode Public Class Methods
 // ****************************************************************************
 
-MapMode::MapMode(const std::string &data_filename, const std::string& script_filename) :
-    GameMode(),
+MapMode::MapMode(const std::string& data_filename, const std::string& script_filename, uint32 stamina) :
+    GameMode(MODE_MANAGER_MAP_MODE),
     _activated(false),
     _map_data_filename(data_filename),
     _map_script_filename(script_filename),
@@ -73,27 +73,30 @@ MapMode::MapMode(const std::string &data_filename, const std::string& script_fil
     _camera(NULL),
     _delta_x(0),
     _delta_y(0),
-    _num_map_contexts(0),
+    _pixel_length_x(-1.0f),
+    _pixel_length_y(-1.0f),
     _running_disabled(false),
     _unlimited_stamina(false),
     _show_gui(true),
-    _run_stamina(10000),
+    _run_stamina(stamina),
     _gui_alpha(0.0f),
     _minimap(NULL),
-    _show_minimap(false)
+    _show_minimap(false),
+    _menu_enabled(true),
+    _save_points_enabled(true),
+    _status_effects_enabled(true)
 {
-    mode_type = MODE_MANAGER_MAP_MODE;
     _current_instance = this;
 
     ResetState();
     PushState(STATE_EXPLORE);
 
+    // Load miscellaneous map graphics
+    _dialogue_icon.LoadFromAnimationScript("img/misc/dialogue_icon.lua");
+    ScaleToMapCoords(_dialogue_icon);
+
     // Load the save point animation files.
     AnimatedImage anim;
-    anim.LoadFromAnimationScript("img/misc/save_point/save_point4.lua");
-    active_save_point_animations.push_back(anim);
-
-    anim.Clear();
     anim.LoadFromAnimationScript("img/misc/save_point/save_point3.lua");
     active_save_point_animations.push_back(anim);
 
@@ -109,7 +112,7 @@ MapMode::MapMode(const std::string &data_filename, const std::string& script_fil
     anim.LoadFromAnimationScript("img/misc/save_point/save_point2.lua");
     inactive_save_point_animations.push_back(anim);
 
-    // Transform the animation size to correspond to the map coodinates system.
+    // Transform the animation size to correspond to the map coordinates system.
     for(uint32 i = 0; i < active_save_point_animations.size(); ++i)
         ScaleToMapCoords(active_save_point_animations[i]);
 
@@ -139,18 +142,16 @@ MapMode::MapMode(const std::string &data_filename, const std::string& script_fil
     if(_show_minimap)
         _CreateMinimap();
 
-    // Load miscellaneous map graphics
-    _dialogue_icon.LoadFromAnimationScript("img/misc/dialogue_icon.lua");
-    ScaleToMapCoords(_dialogue_icon);
-
-    if(!_stamina_bar_background.Load("img/misc/stamina_bar_background.png", 227, 24))
-        IF_PRINT_WARNING(MAP_DEBUG) << "failed to load the the stamina bar background image" << std::endl;
-
-    if(!_stamina_bar_infinite_overlay.Load("img/misc/stamina_bar_infinite_overlay.png", 227, 24))
-        IF_PRINT_WARNING(MAP_DEBUG) << "failed to load the the stamina bar infinite overlay image" << std::endl;
+    GlobalMedia& media = GlobalManager->Media();
+    _stamina_bar_background = media.GetStaminaBarBackgroundImage();
+    _stamina_bar = media.GetStaminaBarImage();
+    _stamina_bar_infinite_overlay = media.GetStaminaInfiniteImage();
 
     // Init the script component.
     GetScriptSupervisor().Initialize(this);
+
+    //! Init the camera position text style
+    _debug_camera_position.SetStyle(TextStyle("title22", Color::white, VIDEO_TEXT_SHADOW_DARK));
 }
 
 
@@ -175,12 +176,24 @@ void MapMode::Deactivate()
     _music_filename = active_music ? active_music->GetFilename() : std::string();
     _audio_state = active_music ? active_music->GetState() : AUDIO_STATE_UNLOADED;
 
+    // Store the status effects state
+    // First stores the currently applied active status effects on characters.
+    // This way, they'll properly be taken in account in the menu mode or battle mode.
+    _status_effect_supervisor.SaveActiveStatusEffects();
+
+    // Stop ambient sounds
+    _object_supervisor->StopSoundObjects();
+
     _activated = false;
 }
 
 void MapMode::Reset()
 {
     _current_instance = this;
+
+    // Reload the active and inactive status effects if necessary
+    if (!_activated)
+        _status_effect_supervisor.LoadStatusEffects();
 
     _activated = true;
 
@@ -193,6 +206,9 @@ void MapMode::Reset()
                           _map_image.GetFilename(), _map_hud_name.GetString());
 
     _ResetMusicState();
+
+    // Restart ambient sounds
+    _object_supervisor->RestartSoundObjects();
 
     _intro_timer.Run();
 
@@ -320,6 +336,22 @@ void MapMode::Update()
         _minimap->Update(_camera, _gui_alpha);
 
     GameMode::Update();
+    // Updates portraits along with other visuals.
+    _status_effect_supervisor.UpdatePortraits();
+
+    // Updates the debug info if needed
+    if(!VideoManager->DebugInfoOn())
+        return;
+
+    // Camera map coordinates
+    VirtualSprite *cam = GetCamera();
+    if(!cam)
+        return;
+    float x_pos = cam->GetXPosition();
+    float y_pos = cam->GetYPosition();
+    std::ostringstream coord_txt;
+    coord_txt << "Camera position: " << x_pos << ", " << y_pos;
+    _debug_camera_position.SetText(coord_txt.str());
 } // void MapMode::Update()
 
 void MapMode::Draw()
@@ -390,8 +422,6 @@ void MapMode::PopState()
     }
 }
 
-
-
 MAP_STATE MapMode::CurrentState()
 {
     if(_state_stack.empty() == true) {
@@ -402,46 +432,44 @@ MAP_STATE MapMode::CurrentState()
     return _state_stack.back();
 }
 
-void MapMode::AddFlatGroundObject(MapObject *obj)
+void MapMode::AddFlatGroundObject(private_map::MapObject* obj)
 {
-    if(!obj) {
-        PRINT_WARNING << "Couldn't add NULL object." << std::endl;
-        return;
-    }
-    _object_supervisor->_flat_ground_objects.push_back(obj);
-    _object_supervisor->_all_objects.insert(std::make_pair(obj->object_id, obj));
+    _object_supervisor->AddFlatGroundObject(obj);
 }
 
-void MapMode::AddGroundObject(MapObject *obj)
+void MapMode::RemoveFlatGroundObject(private_map::MapObject* obj)
 {
-    if(!obj) {
-        PRINT_WARNING << "Couldn't add NULL object." << std::endl;
-        return;
-    }
-    _object_supervisor->_ground_objects.push_back(obj);
-    _object_supervisor->_all_objects.insert(std::make_pair(obj->object_id, obj));
+    _object_supervisor->RemoveFlatGroundObject(obj);
 }
 
-
-void MapMode::AddPassObject(MapObject *obj)
+void MapMode::AddGroundObject(private_map::MapObject* obj)
 {
-    if(!obj) {
-        PRINT_WARNING << "Couldn't add NULL object." << std::endl;
-        return;
-    }
-    _object_supervisor->_pass_objects.push_back(obj);
-    _object_supervisor->_all_objects.insert(std::make_pair(obj->object_id, obj));
+    _object_supervisor->AddGroundObject(obj);
 }
 
-
-void MapMode::AddSkyObject(MapObject *obj)
+void MapMode::RemoveGroundObject(private_map::MapObject* obj)
 {
-    if(!obj) {
-        PRINT_WARNING << "Couldn't add NULL object." << std::endl;
-        return;
-    }
-    _object_supervisor->_sky_objects.push_back(obj);
-    _object_supervisor->_all_objects.insert(std::make_pair(obj->object_id, obj));
+    _object_supervisor->RemoveGroundObject(obj);
+}
+
+void MapMode::AddPassObject(private_map::MapObject* obj)
+{
+    _object_supervisor->AddPassObject(obj);
+}
+
+void MapMode::RemovePassObject(private_map::MapObject* obj)
+{
+    _object_supervisor->RemovePassObject(obj);
+}
+
+void MapMode::AddSkyObject(private_map::MapObject* obj)
+{
+    _object_supervisor->AddSkyObject(obj);
+}
+
+void MapMode::RemoveSkyObject(private_map::MapObject* obj)
+{
+    _object_supervisor->RemoveSkyObject(obj);
 }
 
 void MapMode::AddAmbientSoundObject(SoundObject *obj)
@@ -546,6 +574,30 @@ bool MapMode::AttackAllowed()
     return (CurrentState() == STATE_EXPLORE && !IsCameraOnVirtualFocus());
 }
 
+void MapMode::ApplyPotentialStaminaMalus()
+{
+    if (_run_stamina > STAMINA_FULL / 3)
+        return;
+
+    GLOBAL_INTENSITY intensity = GLOBAL_INTENSITY_NEG_LESSER;
+    if (_run_stamina < STAMINA_FULL / 4)
+        intensity = GLOBAL_INTENSITY_NEG_MODERATE;
+    else if (_run_stamina < STAMINA_FULL / 6)
+        intensity = GLOBAL_INTENSITY_NEG_GREATER;
+    else if (_run_stamina < STAMINA_FULL / 8)
+        intensity = GLOBAL_INTENSITY_NEG_EXTREME;
+
+    std::vector<GlobalCharacter*>* characters = GlobalManager->GetOrderedCharacters();
+    // We only apply the effect on characters that will be present in battle
+    for (uint32 i = 0; i < characters->size() && i < GLOBAL_MAX_PARTY_SIZE; ++i) {
+        // Apply the effect only on living characters.
+        if (characters->at(i)->IsAlive()) {
+            _status_effect_supervisor.ChangeActiveStatusEffect(characters->at(i), GLOBAL_STATUS_AGILITY,
+                                                               intensity, STAMINA_FULL * 2, 0, false);
+        }
+    }
+}
+
 float MapMode::GetScreenXCoordinate(float tile_position_x) const
 {
     return (tile_position_x - _map_frame.screen_edges.left)
@@ -556,6 +608,16 @@ float MapMode::GetScreenYCoordinate(float tile_position_y) const
 {
     return (tile_position_y - _map_frame.screen_edges.top)
         * VIDEO_STANDARD_RES_HEIGHT / SCREEN_GRID_Y_LENGTH;
+}
+
+uint16 MapMode::GetMapWidth() const
+{
+    return _tile_supervisor->_num_tile_on_x_axis;
+}
+
+uint16 MapMode::GetMapHeight() const
+{
+    return _tile_supervisor->_num_tile_on_y_axis;
 }
 
 // ****************************************************************************
@@ -700,11 +762,16 @@ void MapMode::_CreateMinimap()
 void MapMode::_UpdateExplore()
 {
     // First go to menu mode if the user requested it
-    if(InputManager->MenuPress()) {
+    if(_menu_enabled && InputManager->MenuPress()) {
         MenuMode *MM = new MenuMode();
         ModeManager->Push(MM);
         return;
     }
+
+    // Only update the status effect supervisor in Exploration mode
+    // and if they are allowed.
+    if (_status_effects_enabled)
+        _status_effect_supervisor.UpdateEffects();
 
     // Update the running state of the camera object. Check if the character is running and if so,
     // update the stamina value if the operation is permitted
@@ -760,7 +827,7 @@ void MapMode::_UpdateExplore()
                     _camera->moving = false;
                     treasure_object->Open();
                 }
-            } else if(obj->GetType() == SAVE_TYPE) {
+            } else if(obj->GetType() == SAVE_TYPE && _save_points_enabled) {
                 // Make sure the character will be centered in the save point
                 SaveMode *save_mode = new SaveMode(true, obj->GetXPosition(), obj->GetYPosition() - 1.0f);
                 ModeManager->Push(save_mode, false, false);
@@ -804,49 +871,39 @@ void MapMode::_UpdateExplore()
 
 void MapMode::_UpdateMapFrame()
 {
-    // Reinit map corner check members
-    _camera_x_in_map_corner = false;
-    _camera_y_in_map_corner = false;
-
     // Determine the center position coordinates for the camera
-    float camera_x, camera_y; // Holds the final X, Y coordinates of the camera
-    float x_pixel_length, y_pixel_length; // The X and Y length values that coorespond to a single pixel in the current coodinate system
-    float rounded_x_offset, rounded_y_offset; // The X and Y position offsets of the camera, rounded to perfectly align on a pixel boundary
+    // Holds the final X, Y coordinates of the camera
+    float camera_x = _camera->GetXPosition();
+    float camera_y = _camera->GetYPosition();
 
-    uint16 current_x, current_y; // Actual position of the view, either the camera sprite or a point on the camera movement path
-    float current_offset_x, current_offset_y; // Actual offset for the view
-
-    // TODO: the call to GetPixelSize() will return the same result every time so long as the coordinate system did not change. If we never
-    // change the coordinate system in map mode, then this should be done only once and the calculated values should be saved for re-use.
-    // However, we've discussed the possiblity of adding a zoom feature to maps, in which case we need to continually re-calculate the pixel size
-    VideoManager->GetPixelSize(x_pixel_length, y_pixel_length);
-
-    float path_x, path_y = 0.0f;
-    if(!_camera_timer.IsRunning()) {
-        path_x = _camera->GetXPosition();
-        path_y = _camera->GetYPosition();
-    } else {
-        path_x = _camera->GetXPosition() + (1 - _camera_timer.PercentComplete()) * _delta_x;
-        path_y = _camera->GetYPosition() + (1 - _camera_timer.PercentComplete()) * _delta_y;
+    if(_camera_timer.IsRunning()) {
+        camera_x += (1.0f - _camera_timer.PercentComplete()) * _delta_x;
+        camera_y += (1.0f - _camera_timer.PercentComplete()) * _delta_y;
     }
 
-    current_x = GetFloatInteger(path_x);
-    current_y = GetFloatInteger(path_y);
-    current_offset_x = GetFloatFraction(path_x);
-    current_offset_y = GetFloatFraction(path_y);
+    // Actual position of the view, either the camera sprite or a point on the camera movement path
+    uint16 current_x = GetFloatInteger(camera_x);
+    uint16 current_y = GetFloatInteger(camera_y);
 
-    rounded_x_offset = FloorToFloatMultiple(current_offset_x, x_pixel_length);
-    rounded_y_offset = FloorToFloatMultiple(current_offset_y, y_pixel_length);
-    camera_x = static_cast<float>(current_x) + rounded_x_offset;
-    camera_y = static_cast<float>(current_y) + rounded_y_offset;
+    // NOTE: Would the map mode coordinate system be able to dynamically change, allow this to be recomputed,
+    // and used as the multiple of the current camera tile offset.
+    if (_pixel_length_x <= 0.0f || _pixel_length_y <= 0.0f)
+        VideoManager->GetPixelSize(_pixel_length_x, _pixel_length_y);
+    // std::cout << "the ratio is: " << _pixel_length_x << ", " << _pixel_length_y << " for resolution: "
+    // << VideoManager->GetScreenWidth() << " x " << VideoManager->GetScreenHeight() << std::endl;
 
-    // Calculate all four screen edges and determine
+    // NOTE: The offset is corrected based on the map coord sys pixel size, to avoid glitches on tiles with transparent parts
+    // and black edges. The size of the edge would have a variable size and look like vibrating when scrolling
+    // without this fix.
+    float current_offset_x = vt_utils::FloorToFloatMultiple(GetFloatFraction(camera_x), _pixel_length_x);
+    float current_offset_y = vt_utils::FloorToFloatMultiple(GetFloatFraction(camera_y), _pixel_length_y);
+
     // Determine the draw coordinates of the top left corner using the camera's current position
-    _map_frame.tile_x_offset = 1.0f - rounded_x_offset;
+    _map_frame.tile_x_offset = 1.0f - current_offset_x;
     if(IsOddNumber(current_x))
         _map_frame.tile_x_offset -= 1.0f;
 
-    _map_frame.tile_y_offset = 2.0f - rounded_y_offset;
+    _map_frame.tile_y_offset = 2.0f - current_offset_y;
     if(IsOddNumber(current_y))
         _map_frame.tile_y_offset -= 1.0f;
 
@@ -864,52 +921,50 @@ void MapMode::_UpdateMapFrame()
     // Usually the map centers on the camera's position, but when the camera becomes too close to
     // the edges of the map, we need to modify the drawing properties of the frame.
 
+    // Reinit map corner check members
+    _camera_x_in_map_corner = false;
+    _camera_y_in_map_corner = false;
+
+    // Determine the number of rows and columns of tiles that need to be drawn
+    _map_frame.num_draw_x_axis = TILES_ON_X_AXIS + 1;
+    _map_frame.num_draw_y_axis = TILES_ON_Y_AXIS + 1;
+
     // Camera exceeds the left boundary of the map
     if(_map_frame.tile_x_start < 0) {
         _map_frame.tile_x_start = 0;
-        _map_frame.tile_x_offset = 1.0f;
+        _map_frame.tile_x_offset = vt_utils::FloorToFloatMultiple(1.0f, _pixel_length_x);
         _map_frame.screen_edges.left = 0.0f;
         _map_frame.screen_edges.right = SCREEN_GRID_X_LENGTH;
+        _map_frame.num_draw_x_axis = TILES_ON_X_AXIS;
         _camera_x_in_map_corner = true;
     }
     // Camera exceeds the right boundary of the map
     else if(_map_frame.tile_x_start + TILES_ON_X_AXIS >= _tile_supervisor->_num_tile_on_x_axis) {
         _map_frame.tile_x_start = static_cast<int16>(_tile_supervisor->_num_tile_on_x_axis - TILES_ON_X_AXIS);
-        _map_frame.tile_x_offset = 1.0f;
+        _map_frame.tile_x_offset = vt_utils::FloorToFloatMultiple(1.0f, _pixel_length_x);
         _map_frame.screen_edges.right = static_cast<float>(_object_supervisor->_num_grid_x_axis);
         _map_frame.screen_edges.left = _map_frame.screen_edges.right - SCREEN_GRID_X_LENGTH;
+        _map_frame.num_draw_x_axis = TILES_ON_X_AXIS;
         _camera_x_in_map_corner = true;
     }
 
     // Camera exceeds the top boundary of the map
     if(_map_frame.tile_y_start < 0) {
         _map_frame.tile_y_start = 0;
-        _map_frame.tile_y_offset = 2.0f;
+        _map_frame.tile_y_offset = vt_utils::FloorToFloatMultiple(2.0f, _pixel_length_y);
         _map_frame.screen_edges.top = 0.0f;
         _map_frame.screen_edges.bottom = SCREEN_GRID_Y_LENGTH;
+        _map_frame.num_draw_y_axis = TILES_ON_Y_AXIS;
         _camera_y_in_map_corner = true;
     }
     // Camera exceeds the bottom boundary of the map
     else if(_map_frame.tile_y_start + TILES_ON_Y_AXIS >= _tile_supervisor->_num_tile_on_y_axis) {
         _map_frame.tile_y_start = static_cast<int16>(_tile_supervisor->_num_tile_on_y_axis - TILES_ON_Y_AXIS);
-        _map_frame.tile_y_offset = 2.0f;
+        _map_frame.tile_y_offset = vt_utils::FloorToFloatMultiple(2.0f, _pixel_length_y);
         _map_frame.screen_edges.bottom = static_cast<float>(_object_supervisor->_num_grid_y_axis);
         _map_frame.screen_edges.top = _map_frame.screen_edges.bottom - SCREEN_GRID_Y_LENGTH;
-        _camera_y_in_map_corner = true;
-    }
-
-    // Determine the number of rows and columns of tiles that need to be drawn
-
-    // When the tile images align perfectly with the screen, we can afford to draw one less row or column of tiles
-    if(IsFloatInRange(_map_frame.tile_x_offset, 0.999f, 1.001f)) {
-        _map_frame.num_draw_x_axis = TILES_ON_X_AXIS;
-    } else {
-        _map_frame.num_draw_x_axis = TILES_ON_X_AXIS + 1;
-    }
-    if(IsFloatInRange(_map_frame.tile_y_offset, 1.999f, 2.001f)) {
         _map_frame.num_draw_y_axis = TILES_ON_Y_AXIS;
-    } else {
-        _map_frame.num_draw_y_axis = TILES_ON_Y_AXIS + 1;
+        _camera_y_in_map_corner = true;
     }
 
     // Update parallax effects now that map corner members are up to date
@@ -926,29 +981,27 @@ void MapMode::_UpdateMapFrame()
                            / SCREEN_GRID_Y_LENGTH * VIDEO_STANDARD_RES_HEIGHT :
                            0.0f;
 
-        GetEffectSupervisor().AddParallax(x_parallax, -y_parallax);
+        GetEffectSupervisor().AddParallax(x_parallax, y_parallax);
+        GetIndicatorSupervisor().AddParallax(x_parallax, y_parallax);
     }
 
     // Comment this out to print out map draw debugging info about once a second
-// 	static int loops = 0;
-// 	if (loops == 0) {
-// 		printf("--- MAP DRAW INFO ---\n");
-// 		printf("Pixel Size:        [%f, %f]\n", x_pixel_length, y_pixel_length);
-// 		printf("Rounded offsets:   [%f, %f]\n", rounded_x_offset, rounded_y_offset);
-// 		printf("Starting row, col: [%d, %d]\n", _map_frame.starting_row, _map_frame.starting_col);
-// 		printf("# draw rows, cols: [%d, %d]\n", _map_frame.num_draw_rows, _map_frame.num_draw_cols);
-// 		printf("Camera position:   [%f, %f]\n", camera_x, camera_y);
-// 		printf("Tile draw start:   [%f, %f]\n", _map_frame.tile_x_start, _map_frame.tile_y_start);
-// 		printf("Edges (T,B,L,R):   [%f, %f, %f, %f]\n", _map_frame.screen_edges.top, _map_frame.screen_edges.bottom,
-// 			_map_frame.screen_edges.left, _map_frame.screen_edges.right);
-// 	}
+//  static int loops = 0;
+//  if (loops == 0) {
+//      printf("--- MAP DRAW INFO ---\n");
+//      printf("Rounded offsets:   [%f, %f]\n", current_offset_x, current_offset_y);
+//      printf("Starting row, col: [%d, %d]\n", _map_frame.starting_row, _map_frame.starting_col);
+//      printf("# draw rows, cols: [%d, %d]\n", _map_frame.num_draw_rows, _map_frame.num_draw_cols);
+//      printf("Camera position:   [%f, %f]\n", camera_x, camera_y);
+//      printf("Tile draw start:   [%f, %f]\n", _map_frame.tile_x_start, _map_frame.tile_y_start);
+//      printf("Edges (T,B,L,R):   [%f, %f, %f, %f]\n", _map_frame.screen_edges.top, _map_frame.screen_edges.bottom,
+//          _map_frame.screen_edges.left, _map_frame.screen_edges.right);
+//  }
 //
-// 	if (loops >= 60) {
-// 		loops = 0;
-// 	}
-// 	else {
-// 		loops++;
-// 	}
+//  if (loops >= 60)
+//      loops = 0;
+//  else
+//      ++loops;
 } // void MapMode::_UpdateMapFrame()
 
 
@@ -994,21 +1047,13 @@ void MapMode::_DrawMapLayers()
 
 void MapMode::_DrawStaminaBar(const vt_video::Color &blending)
 {
-    const Color olive_green(0.0196f, 0.207f, 0.0196f, 1.0f);
-    const Color lighter_green(0.419f, 0.894f, 0.0f, 1.0f);
-    const Color light_green(0.0196f, 0.207f, 0.0196f, 1.0f);
-    const Color medium_green(0.0509f, 0.556f, 0.0509f, 1.0f);
-    const Color darkish_green(0.352f, 0.4f, 0.352f, 1.0f);
-    const Color dark_green(0.0196f, 0.207f, 0.0196f, 1.0f);
-    const Color bright_yellow(0.937f, 1.0f, 0.725f, 1.0f);
-    const Color dark_orange(0.737f, 0.5f, 0.196f, 1.0f);
-    const Color dark_red(0.737f, 0.0f, 0.125f, 1.0f);
-
     // Don't draw anything when running is disabled.
-    if (_running_disabled)
+    if (_running_disabled || blending.GetAlpha() == 0.0f)
         return;
 
+    // It's the width of the stamina bar image to hide in pixels
     float fill_size = static_cast<float>(_run_stamina) / 10000.0f;
+    fill_size = (1.0f - fill_size) * 200;
 
     VideoManager->PushState();
     VideoManager->SetStandardCoordSys();
@@ -1016,66 +1061,20 @@ void MapMode::_DrawStaminaBar(const vt_video::Color &blending)
 
     // Draw the background image
     VideoManager->Move(780, 747);
-    _stamina_bar_background.Draw(blending);
+    _stamina_bar_background->Draw(blending);
 
-    // Only do this if the bar is at least 4 pixels long
-    if((200 * fill_size) >= 4) {
-        VideoManager->Move(801, 739);
-        VideoManager->DrawRectangle((200 * fill_size) - 2, 1, darkish_green * blending);
-
-        VideoManager->Move(801, 738);
-        VideoManager->DrawRectangle(1, 2, medium_green * blending);
-        VideoManager->Move(800 + (fill_size * 200 - 2), 738); // Automatically reposition to be at moving endcap
-        VideoManager->DrawRectangle(1, 2, medium_green * blending);
-    }
-
-    // the bar color depending on its size
-    Color bar_color;
-    if((200 * fill_size) > 75)
-        bar_color = medium_green;
-    else if((200 * fill_size) > 30)
-        bar_color = dark_orange;
-    else
-        bar_color = dark_red;
-
-    VideoManager->Move(800, 736);
-    VideoManager->DrawRectangle(200 * fill_size, 5, bar_color * blending);
-
-    // Only do this if the bar is at least 6 pixels long
-    if((200 * fill_size) >= 6) {
-        VideoManager->Move(802, 733);
-        VideoManager->DrawRectangle((200 * fill_size) - 4, 1, bright_yellow * blending);
-    }
-
-    // Draw the rest only when the color is green
-    if(bar_color != medium_green) {
-        VideoManager->PopState();
-        return;
-    }
-
-    // Draw the base color of the bar
-    VideoManager->Move(800, 740);
-    VideoManager->DrawRectangle(200 * fill_size, 10, olive_green * blending);
-
-    // Shade the bar with a faux lighting effect
-    VideoManager->Move(800, 739);
-    VideoManager->DrawRectangle(200 * fill_size, 2, dark_green * blending);
-    VideoManager->Move(800, 737);
-    VideoManager->DrawRectangle(200 * fill_size, 7, darkish_green * blending);
-
-    // Only do this if the bar is at least 4 pixels long
-    if((200 * fill_size) >= 4) {
-        VideoManager->Move(801, 735);
-        VideoManager->DrawRectangle(1, 1, lighter_green * blending);
-        VideoManager->Move(800 + (fill_size * 200 - 2), 735); // automatically reposition to be at moving endcap
-        VideoManager->DrawRectangle(1, 1, lighter_green * blending);
-        VideoManager->Move(800, 734);
-        VideoManager->DrawRectangle(200 * fill_size, 2, lighter_green * blending);
-    }
+    // Draw the stamina bar
+    VideoManager->Move(801, 739);
+    _stamina_bar->Draw(blending);
 
     if(_unlimited_stamina) {  // Draw the infinity symbol over the stamina bar
         VideoManager->Move(780, 747);
-        _stamina_bar_infinite_overlay.Draw(blending);
+        _stamina_bar_infinite_overlay->Draw(blending);
+    }
+    else if(fill_size >= 2) {
+        // Only do this if the part to hide is at least 2 pixels long
+        VideoManager->Move(1001 - fill_size, 739);
+        VideoManager->DrawRectangle(fill_size, 9, Color::black * blending);
     }
     VideoManager->PopState();
 }
@@ -1126,6 +1125,15 @@ void MapMode::_DrawGUI()
         }
     }
 
+    // Draw status indications
+    VideoManager->PushState();
+    VideoManager->SetStandardCoordSys();
+    // Draws character portrait when effects changes are triggered.
+    _status_effect_supervisor.Draw();
+    // Draws the effect visuals themselves.
+    GetIndicatorSupervisor().Draw();
+    VideoManager->PopState();
+
     // Draw the minimap
     if(_show_minimap && _minimap && (CurrentState() == STATE_EXPLORE)
             && GlobalManager->ShouldShowMinimap())
@@ -1138,21 +1146,12 @@ void MapMode::_DrawGUI()
     // Draw the debug info
     if(!VideoManager->DebugInfoOn())
         return;
-    // Camera map coordinates
-    VirtualSprite *cam = GetCamera();
-    if(!cam)
-        return;
 
     VideoManager->PushState();
     VideoManager->SetStandardCoordSys();
     VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_CENTER, VIDEO_BLEND, 0);
-
-    float x_pos = cam->GetXPosition();
-    float y_pos = cam->GetYPosition();
-    std::ostringstream coord_txt;
-    coord_txt << "Camera position: " << x_pos << ", " << y_pos;
     VideoManager->Move(10.0f, 10.0f);
-    TextManager->Draw(coord_txt.str(), TextStyle("title22", Color::white, VIDEO_TEXT_SHADOW_DARK));
+    _debug_camera_position.Draw();
     VideoManager->PopState();
 } // void MapMode::_DrawGUI()
 

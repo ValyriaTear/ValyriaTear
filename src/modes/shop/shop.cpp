@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 //            Copyright (C) 2004-2011 by The Allacrost Project
-//            Copyright (C) 2012-2013 by Bertram (Valyria Tear)
+//            Copyright (C) 2012-2014 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -218,7 +218,7 @@ ShopObjectViewer::ShopObjectViewer() :
     _conditions_name.SetVerticalWrapMode(VIDEO_WRAP_MODE_NONE);
 
     _conditions_number.SetOwner(ShopMode::CurrentInstance()->GetMiddleWindow());
-    _conditions_number.SetPosition(730.0f, 140.0f);
+    _conditions_number.SetPosition(720.0f, 140.0f);
     _conditions_number.SetDimensions(50.0f, 120.0f, 1, 255, 1, 4);
     _conditions_number.SetOptionAlignment(VIDEO_X_LEFT, VIDEO_Y_CENTER);
     _conditions_number.SetTextStyle(TextStyle("text22"));
@@ -415,6 +415,9 @@ void ShopObjectViewer::_UpdateTradeConditions()
         uint32 item_id = trade_cond[i].first;
         uint32 item_number = trade_cond[i].second;
 
+        // Gets how many items the party has got
+        uint32 owned_number = GlobalManager->HowManyObjectsInInventory(item_id);
+
         // Create a global object to get info from.
         GlobalObject* obj = GlobalCreateNewObject(item_id, 1);
         if (!obj)
@@ -429,7 +432,19 @@ void ShopObjectViewer::_UpdateTradeConditions()
         if (img)
             img->SetDimensions(30.0f, 30.0f);
 
-        _conditions_number.AddOption(MakeUnicodeString("x" + NumberToString(item_number)));
+        // Show whether each conditions is met.
+        std::string conditions;
+        if (owned_number >= item_number)
+            conditions = "<img/menus/green_check.png><20>";
+        else
+            conditions = "<img/menus/red_x.png><20>";
+        conditions += NumberToString(owned_number) + " / " + NumberToString(item_number);
+
+        _conditions_number.AddOption(MakeUnicodeString(conditions));
+
+        StillImage* cnd_img = _conditions_number.GetEmbeddedImage(j);
+        if (cnd_img)
+            cnd_img->SetWidthKeepRatio(18.0f);
 
         ++j;
     }
@@ -962,6 +977,8 @@ void ShopObjectViewer::_DrawSpirit()
 // *****************************************************************************
 
 ShopMode::ShopMode() :
+    GameMode(MODE_MANAGER_SHOP_MODE),
+    _sell_mode_enabled(true),
     _initialized(false),
     _state(SHOP_STATE_ROOT),
     _buy_price_level(SHOP_PRICE_STANDARD),
@@ -976,7 +993,6 @@ ShopMode::ShopMode() :
     _sell_interface(NULL),
     _trade_interface(NULL)
 {
-    mode_type = MODE_MANAGER_SHOP_MODE;
     _current_instance = this;
 
     // Create the menu windows and set their properties
@@ -1110,6 +1126,10 @@ void ShopMode::_UpdateAvailableObjectsToSell()
     // Reinit the data
     _available_sell.clear();
 
+    // If sell mode is disabled, we can return now.
+    if (!_sell_mode_enabled)
+        return;
+
     std::map<uint32, GlobalObject *>* inventory = GlobalManager->GetInventory();
     for(std::map<uint32, GlobalObject *>::iterator it = inventory->begin(); it != inventory->end(); ++it) {
         // Don't consider 0 worth objects.
@@ -1225,11 +1245,14 @@ void ShopMode::Update()
                 ModeManager->Pop();
             }
         } else if(InputManager->CancelPress()) {
+            GlobalManager->Media().PlaySound("cancel");
             // Leave shop
             ModeManager->Pop();
         } else if(InputManager->LeftPress()) {
+            GlobalManager->Media().PlaySound("bump");
             _action_options.InputLeft();
         } else if(InputManager->RightPress()) {
+            GlobalManager->Media().PlaySound("bump");
             _action_options.InputRight();
         }
         _action_options.Update();
@@ -1487,10 +1510,11 @@ void ShopMode::CompleteTransaction()
 
         it->second->ResetBuyCount();
         it->second->IncrementOwnCount(count);
-        it->second->DecrementStockCount(count);
+        if (!it->second->IsInfiniteAmount())
+            it->second->DecrementStockCount(count);
         GlobalManager->AddToInventory(id, count);
 
-        if(it->second->GetStockCount() == 0) {
+        if(!it->second->IsInfiniteAmount() && it->second->GetStockCount() == 0) {
             RemoveObjectToBuy(id);
         }
     }
@@ -1527,7 +1551,8 @@ void ShopMode::CompleteTransaction()
 
         it->second->ResetTradeCount();
         it->second->IncrementOwnCount(count);
-        it->second->DecrementStockCount(count);
+        if (!it->second->IsInfiniteAmount())
+            it->second->DecrementStockCount(count);
         GlobalManager->AddToInventory(id, count);
 
         //Remove trade condition items from inventory and possibly call RemoveObjectToSell
@@ -1536,7 +1561,7 @@ void ShopMode::CompleteTransaction()
                                                 it->second->GetObject()->GetTradeConditions()[i].second * count);
         }
 
-        if(it->second->GetStockCount() == 0) {
+        if(!it->second->IsInfiniteAmount() && it->second->GetStockCount() == 0) {
             RemoveObjectToTrade(id);
         }
 
@@ -1683,7 +1708,10 @@ void ShopMode::AddObject(uint32 object_id, uint32 stock)
     GlobalObject *new_object = GlobalCreateNewObject(object_id, 1);
     if(new_object != NULL) {
         ShopObject *new_shop_object = new ShopObject(new_object);
-        new_shop_object->IncrementStockCount(stock);
+        if (stock > 0)
+            new_shop_object->IncrementStockCount(stock);
+        else // When the stock is set to 0, it means there is an infinity amount of object to buy.
+            new_shop_object->SetInfiniteAmount(true);
         _available_buy.insert(std::make_pair(object_id, new_shop_object));
     }
 }
@@ -1710,7 +1738,10 @@ void ShopMode::AddTrade(uint32 object_id, uint32 stock)
     GlobalObject *new_object = GlobalCreateNewObject(object_id, 1);
     if(new_object != NULL) {
         ShopObject *new_shop_object = new ShopObject(new_object);
-        new_shop_object->IncrementStockCount(stock);
+        if (stock > 0)
+            new_shop_object->IncrementStockCount(stock);
+        else // When the stock is set to 0, it means there is an infinity amount of object to trade.
+            new_shop_object->SetInfiniteAmount(true);
         _available_trade.insert(std::make_pair(object_id, new_shop_object));
     }
 }

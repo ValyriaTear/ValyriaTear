@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 //            Copyright (C) 2004-2011 by The Allacrost Project
-//            Copyright (C) 2012-2013 by Bertram (Valyria Tear)
+//            Copyright (C) 2012-2014 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -254,6 +254,9 @@ public:
     //@{
     void SetDuration(uint32 duration);
 
+    //! \brief Forces the timer to be at a given elapsed time.
+    void SetTimeExpired(uint32 time_expired);
+
     void SetNumberLoops(int32 loops);
 
     void SetModeOwner(vt_mode_manager::GameMode *owner);
@@ -445,8 +448,12 @@ public:
 
     /** \brief Sets the language that the game should use.
     *** \param lang A two-character string representing the language to execute the game in
+    *** \return whether the corresponding language file could be found.
     **/
-    void SetLanguage(const std::string& lang);
+    bool SetLanguage(const std::string& lang);
+
+    //! \brief Tells whether a language is available.
+    bool IsLanguageAvailable(const std::string& lang);
 
     /** \brief Determines whether the user is done with the game.
     *** \return False if the user would like to exit the game.
@@ -471,6 +478,16 @@ public:
     Semaphore *CreateSemaphore(int max);
     void DestroySemaphore(Semaphore *);
 
+    //! \brief Get the dialogue text message growth in characters per second.
+    //! Mostly seen in characters dialogues while in game.
+    float GetMessageSpeed() const {
+        return _message_speed;
+    }
+
+    //! \brief Set the dialogue text message growth in characters per second.
+    void SetMessageSpeed(float message_speed) {
+        _message_speed = message_speed;
+    }
 
 private:
     SystemEngine();
@@ -497,6 +514,9 @@ private:
 
     //! \brief The identification string that determines what language the game is running in
     std::string _language;
+
+    //! \brief Speed at which messages are displayed in dialogues, in characters per second
+    float _message_speed;
 
     /** \brief A set container for all SystemTimer objects that have automatic updating enabled
     *** The timers in this container are updated on each call to UpdateTimers().

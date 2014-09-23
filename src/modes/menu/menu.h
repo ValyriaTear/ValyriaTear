@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 //            Copyright (C) 2004-2011 by The Allacrost Project
-//            Copyright (C) 2012-2013 by Bertram (Valyria Tear)
+//            Copyright (C) 2012-2014 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -27,6 +27,7 @@
 #include "menu_views.h"
 #include "engine/video/video.h"
 
+#include "common/message_window.h"
 #include "common/global/global.h"
 
 #include "engine/mode_manager.h"
@@ -523,7 +524,7 @@ private:
     private_menu::QuestWindow _quest_window;
     private_menu::WorldMapWindow _world_map_window;
 
-    MessageWindow *_message_window;
+    vt_common::MessageWindow* _message_window;
 
     //! \name Option boxes that are used in the various menu windows
     //@{

@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 //            Copyright (C) 2004-2011 by The Allacrost Project
-//            Copyright (C) 2012-2013 by Bertram (Valyria Tear)
+//            Copyright (C) 2012-2014 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -345,13 +345,13 @@ protected:
     MAP_OBJECT_TYPE _object_type;
 
     //! \brief the emote animation to play
-    vt_video::AnimatedImage *_emote_animation;
+    vt_video::AnimatedImage* _emote_animation;
 
     //! \brief The emote animation drawing offset (depending on the map object direction)
     float _emote_offset_x;
     float _emote_offset_y;
 
-    //! \brief the time the emote animatio will last in milliseconds,
+    //! \brief the time the emote animation will last in milliseconds,
     int32 _emote_time;
 
     //! \brief Takes care of updating the emote animation and state.
@@ -390,11 +390,6 @@ public:
 
     ~PhysicalObject();
 
-    /** \brief The index to the animations vector that contains the current image to display
-    *** When modifying this member, take care not to exceed the bounds of the animations vector
-    **/
-    uint8 current_animation;
-
     /** \brief A vector containing all the object's animations.
     *** These need not be actual animations. If you just want a still image, add only a single
     *** frame to the animation. Usually only need a single still image or animation will be
@@ -424,18 +419,22 @@ public:
     **/
     int32 AddStillFrame(const std::string &image_filename);
 
-    void AddAnimation(vt_video::AnimatedImage new_img) {
+    void AddAnimation(const vt_video::AnimatedImage& new_img) {
         animations.push_back(new_img);
     }
 
     void SetCurrentAnimation(uint32 animation_id);
 
     void SetAnimationProgress(uint32 progress) {
-        animations[current_animation].SetTimeProgress(progress);
+        animations[_current_animation_id].SetTimeProgress(progress);
     }
 
-    uint32 GetCurrentAnimation() const {
-        return current_animation;
+    uint32 GetCurrentAnimationId() const {
+        return _current_animation_id;
+    }
+
+    void RandomizeCurrentAnimationFrame() {
+        animations[_current_animation_id].RandomizeAnimationFrame();
     }
 
     /** \brief Adds an event triggered when talking to a physical object
@@ -458,6 +457,11 @@ public:
     //@}
 
 private:
+    /** \brief The index to the animations vector that contains the current image to display
+    *** When modifying this member, take care not to exceed the bounds of the animations vector
+    **/
+    uint32 _current_animation_id;
+
     //! \brief The event id triggered when talking to the sprite.
     std::string _event_when_talking;
 }; // class PhysicalObject : public MapObject
@@ -486,9 +490,13 @@ public:
     //! \brief Stop the particle effect
     bool Start();
 
+    //! \brief Tells whether there are particles still alive,
+    //! even if the whole particle effect is stopping.
+    bool IsAlive() const;
+
 private:
     //! \brief A reference to the current map save animation.
-    vt_mode_manager::ParticleEffect *_particle_effect;
+    vt_mode_manager::ParticleEffect* _particle_effect;
 
     //@}
 }; // class ParticleObject : public MapObject
@@ -631,7 +639,7 @@ private:
 class SoundObject : public MapObject
 {
 public:
-    /** \brief An environmental sound objet which sound is played looped and with a volume
+    /** \brief An environmental sound object which sound is played looped and with a volume
     *** computed against the distance of the object with the camera.
     *** \param sound_filename The sound filename to play.
     *** \param x, y The sound map location
@@ -639,7 +647,7 @@ public:
     in map tiles the sound can be heard within.
     *** The sound volume will be compute according that distance.
     **/
-    SoundObject(const std::string &sound_filename, float x, float y, float strength);
+    SoundObject(const std::string& sound_filename, float x, float y, float strength);
 
     ~SoundObject()
     {}
@@ -651,13 +659,47 @@ public:
     void Draw()
     {}
 
+    //! \brief Stop the ambient sound
+    void Stop();
+
+    //! \brief Start the ambient sound
+    void Start();
+
+    //! \brief Tells whether the ambient sound is active
+    bool IsActive() const {
+        return _activated;
+    }
+
+    //! \brief Sets the max sound volume of the ambient sound.
+    //! From  0.0f to 1.0f
+    void SetMaxVolume(float max_volume);
+
+    //! \brief Gets the sound descriptor of the object.
+    //! Used to apply changes directly to the sound object.
+    vt_audio::SoundDescriptor& GetSoundDescriptor() {
+        return _sound;
+    }
+
 private:
     //! \brief The sound object.
     vt_audio::SoundDescriptor _sound;
-    //! The maximal distance in map tiles the sound can be heard within.
+
+    //! \brief The maximal distance in map tiles the sound can be heard within.
     float _strength;
-    //! The time remaining before next update
+
+    //! \brief The maximal strength of the sound object. (0.0f - 1.0f)
+    float _max_sound_volume;
+
+    //! \brief The time remaining before next update
     int32 _time_remaining;
+
+    //! \brief Tells whether the sound is activated.
+    bool _activated;
+
+    //! \brief Tells whether the sound is currently playing or not
+    //! This boolean is here to avoid calling fadeIn()/FadeOut()
+    //! repeatedly on sounds.
+    bool _playing;
 }; // class SoundObject : public MapObject
 
 /** ****************************************************************************
@@ -804,6 +846,16 @@ public:
     void SetTriggerableByCharacter(bool triggerable)
     { _triggerable_by_character = triggerable; }
 
+    //! \brief Set the new event name trigger when the trigger is pushed.
+    //! if the event is empty, the trigger event is disabled.
+    void SetOnEvent(const std::string& on_event)
+    { _on_event = on_event; }
+
+    //! \brief Set the new event name trigger when the trigger is set to not pushed.
+    //! if the event is empty, the trigger event is disabled.
+    void SetOffEvent(const std::string& off_event)
+    { _off_event = off_event; }
+
 private:
     //! \brief The treasure object name
     std::string _trigger_name;
@@ -859,15 +911,6 @@ public:
         return _all_objects.size();
     }
 
-    /** \brief Retrieves an object by its position in the _all_objects container
-    *** \param index The index of the object to retrieve
-    *** \return A pointer to the object at this index, or NULL if no object exists at the given index
-    ***
-    *** \note It is uncommon to require the use of this function in a map. It exists for Lua to be able to access
-    *** all available map objects even when the IDs of those objects are unknown.
-    **/
-    MapObject *GetObjectByIndex(uint32 index);
-
     /** \brief Retrieves a pointer to an object on this map
     *** \param object_id The id number of the object to retreive
     *** \return A pointer to the map object, or NULL if no object with that ID was found
@@ -879,6 +922,16 @@ public:
     *** \return A pointer to the sprite object, or NULL if the object was not found or was not a sprite type
     **/
     VirtualSprite *GetSprite(uint32 object_id);
+
+    //! \brief Add/Remove an object in/from a given layer on map.
+    void AddFlatGroundObject(MapObject* object);
+    void RemoveFlatGroundObject(MapObject* object);
+    void AddGroundObject(MapObject* object);
+    void RemoveGroundObject(MapObject* object);
+    void AddPassObject(MapObject* object);
+    void RemovePassObject(MapObject* object);
+    void AddSkyObject(MapObject* object);
+    void RemoveSkyObject(MapObject* object);
 
     //! \brief Sorts objects on all three layers according to their draw order
     void SortObjects();
@@ -1042,9 +1095,17 @@ public:
     bool IsMapCollision(uint32 x, uint32 y)
     { return (_collision_grid[y][x] > 0); }
 
-    //! returns a const reference to the ground objects in
+    //! \brief returns a const reference to the ground objects in
     const std::vector<MapObject *>& GetGroundObjects() const
     { return _ground_objects; }
+
+    //! \brief Stops sounds objects such as ambient sounds.
+    //! Used when starting a battle for instance.
+    void StopSoundObjects();
+
+    //! \brief Restarts sounds objects that were previously stopped.
+    //! Used when leaving a battle for instance.
+    void RestartSoundObjects();
 
 private:
     //! \brief Returns the nearest save point. Used by FindNearestObject.
@@ -1059,7 +1120,17 @@ private:
     //! \brief Debug: Draws the map zones in orange
     void _DrawMapZones();
 
-    /** \brief The number of rows and columns in the collision gride
+    //! \brief Wrapper to add an object in the all objects vector.
+    //! This should only be called by corresponding public Add*Object() functions.
+    void _AddObject(MapObject* object);
+
+    //! \brief Wrapper to remove an object from the all objects vector.
+    //! This should only be called by corresponding public Remove*Object() functions.
+    //! \note: The object isn't actually deleted from memory, only set to NULL in the vector,
+    //! so that the key values don't change.
+    void _RemoveObject(MapObject* object);
+
+    /** \brief The number of rows and columns in the collision grid
     *** The number of collision grid rows and columns is always equal to twice
     *** that of the number of rows and columns of tiles (stored in the TileManager).
     **/
@@ -1093,9 +1164,9 @@ private:
 
     /** \brief A map containing pointers to all of the sprites on a map.
     *** This map does not include a pointer to the _virtual_focus object. The
-    *** sprite's unique identifier integer is used as the map key.
+    *** sprite's unique identifier integer is used as the vector key.
     **/
-    std::map<uint16, MapObject *> _all_objects;
+    std::vector<MapObject *> _all_objects;
 
     /** \brief A container for all of the map objects located on the ground layer, and being flat.
     *** See this layer as a pre ground object layer
@@ -1130,6 +1201,9 @@ private:
     //! to the distance with the camera.
     //! \note sound objects are not registered in _all_objects.
     std::vector<SoundObject *> _sound_objects;
+
+    //! \brief The sound objects that can be restarted when the map is reset()
+    std::vector<SoundObject *> _sound_objects_to_restart;
 
     //! \brief Containers for all of the map source of light, quite similar as the ground objects container.
     //! \note Halos and lights are not registered in _all_objects.

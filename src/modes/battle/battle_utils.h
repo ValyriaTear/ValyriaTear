@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 //            Copyright (C) 2004-2011 by The Allacrost Project
-//            Copyright (C) 2012-2013 by Bertram (Valyria Tear)
+//            Copyright (C) 2012-2014 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -119,9 +119,7 @@ enum COMMAND_STATE {
     COMMAND_STATE_ACTOR           = 2,
     //! Player is selecting the point target to execute the action on
     COMMAND_STATE_POINT           = 3,
-    //! Player is viewing information about the selected action
-    COMMAND_STATE_INFORMATION     = 4,
-    COMMAND_STATE_TOTAL           = 5
+    COMMAND_STATE_TOTAL           = 4
 };
 
 
@@ -379,6 +377,11 @@ public:
 
     //! \brief Resets all class members, invalidating the target
     void InvalidateTarget();
+
+    //! \brief Reinit the attack point. Used when changing target.
+    void ReinitAttackPoint() {
+        _point = 0;
+    }
 
     /** \brief Used to set the initial target
     *** \param user A pointer to the actor which will use the target

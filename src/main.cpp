@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 //            Copyright (C) 2004-2011 by The Allacrost Project
-//            Copyright (C) 2012-2013 by Bertram (Valyria Tear)
+//            Copyright (C) 2012-2014 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -157,8 +157,13 @@ bool LoadSettings()
     InputManager->SetMenuJoy(static_cast<uint8>(settings.ReadInt("menu")));
     InputManager->SetMinimapJoy(static_cast<uint8>(settings.ReadInt("minimap")));
     InputManager->SetPauseJoy(static_cast<uint8>(settings.ReadInt("pause")));
-
     InputManager->SetQuitJoy(static_cast<uint8>(settings.ReadInt("quit")));
+    // DEPRECATED: Remove the hack in one or two releases...
+    if(settings.DoesIntExist("help"))
+        InputManager->SetHelpJoy(static_cast<uint8>(settings.ReadInt("help")));
+    else
+        InputManager->SetHelpJoy(15); // A high value to avoid getting in the way
+
     if(settings.DoesIntExist("x_axis"))
         InputManager->SetXAxisJoy(static_cast<int8>(settings.ReadInt("x_axis")));
     if(settings.DoesIntExist("y_axis"))
@@ -201,6 +206,20 @@ bool LoadSettings()
         settings.CloseTable(); // audio_settings
     }
 
+    // Load Game settings
+    if (!settings.OpenTable("game_options")) {
+        SystemManager->SetMessageSpeed(DEFAULT_MESSAGE_SPEED);
+    }
+    else {
+        float message_speed = settings.ReadFloat("message_speed");
+        if (message_speed < 1.0f) {
+            PRINT_WARNING << "Invalid message_speed option value. Reverting to default one." << std::endl;
+            message_speed = DEFAULT_MESSAGE_SPEED;
+        }
+        SystemManager->SetMessageSpeed(message_speed);
+        settings.CloseTable(); // video_settings
+    }
+
     settings.CloseTable(); // settings
 
     if(settings.IsErrorDetected()) {
@@ -215,75 +234,6 @@ bool LoadSettings()
 
     return true;
 } // bool LoadSettings()
-
-//! Loads all the fonts available in the game.
-//! And sets a default one
-//! The function will exit the game if no valid font were loaded
-//! or if the default font is invalid.
-static void LoadFonts(const std::string &font_script_filename)
-{
-    vt_script::ReadScriptDescriptor font_script;
-
-    //Checking the file existence and validity.
-    if(!font_script.OpenFile(font_script_filename)) {
-        PRINT_ERROR << "Couldn't open font file: " << font_script_filename << std::endl;
-        exit(EXIT_FAILURE);
-    }
-
-    if(!font_script.DoesTableExist("fonts")) {
-        PRINT_ERROR << "No 'fonts' table in file: " << font_script_filename
-                    << std::endl;
-        font_script.CloseFile();
-        exit(EXIT_FAILURE);
-    }
-
-    std::string font_default = font_script.ReadString("font_default");
-    if(font_default.empty()) {
-        PRINT_ERROR << "No default font defined in: " << font_script_filename
-                    << std::endl;
-        font_script.CloseFile();
-        exit(EXIT_FAILURE);
-    }
-
-    std::vector<std::string> style_names;
-    font_script.ReadTableKeys("fonts", style_names);
-    if(style_names.empty()) {
-        PRINT_ERROR << "No text styles defined in the 'fonts' table of file: "
-                    << font_script_filename << std::endl;
-        font_script.CloseFile();
-        exit(EXIT_FAILURE);
-    }
-
-    font_script.OpenTable("fonts");
-    for(uint32 i = 0; i < style_names.size(); ++i) {
-        font_script.OpenTable(style_names[i]); // Text style
-
-        std::string font_file = font_script.ReadString("font");
-        uint32 font_size = font_script.ReadInt("size");
-
-        if(!vt_video::TextManager->LoadFont(font_file, style_names[i], font_size)) {
-            // Check whether the default font is invalid
-            if(font_default == style_names[i]) {
-                font_script.CloseAllTables();
-                font_script.CloseFile();
-                PRINT_ERROR << "The default font '" << font_default
-                            << "' couldn't be loaded in file: " << font_script_filename
-                            << std::endl;
-                exit(EXIT_FAILURE);
-                return; // Superfluous but for readability.
-            }
-        }
-
-        font_script.CloseTable(); // Text style
-    }
-    font_script.CloseTable(); // fonts
-
-    font_script.CloseFile();
-
-    // Setup the default font
-    vt_video::TextManager->SetDefaultStyle(TextStyle(font_default, Color::white,
-                                          VIDEO_TEXT_SHADOW_BLACK, 1, -2));
-}
 
 //! Loads the default window GUI theme for the game.
 static void LoadGUIThemes(const std::string& theme_script_filename)
@@ -359,8 +309,9 @@ static void LoadGUIThemes(const std::string& theme_script_filename)
     // Query for the user menu skin which could have been set in the user settings lua file.
     std::string user_theme_id = GUIManager->GetUserMenuSkinId();
     if (!user_theme_id.empty()) {
-        // Activate the user theme.
-        GUIManager->SetDefaultMenuSkin(user_theme_id);
+        // Activate the user theme, and the default one if not found.
+        if (!GUIManager->SetDefaultMenuSkin(user_theme_id))
+            GUIManager->SetDefaultMenuSkin(default_theme_id);
     } else if (default_theme_found) {
         // Activate the default theme.
         GUIManager->SetDefaultMenuSkin(default_theme_id);
@@ -443,8 +394,9 @@ void InitializeEngine() throw(Exception)
     // NOTE: This function call should have its argument set to false for release builds
     GUIManager->DEBUG_EnableGUIOutlines(false);
 
-    // Loads all game fonts
-    LoadFonts("dat/config/fonts.lua");
+    // Loads needed game text styles (fonts + colors + shadows)
+    if (!TextManager->LoadFonts(SystemManager->GetLanguage()))
+        exit(EXIT_FAILURE);
 
     // Loads potential emotes
     GlobalManager->LoadEmotes("dat/effects/emotes.lua");

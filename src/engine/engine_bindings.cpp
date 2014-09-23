@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 //            Copyright (C) 2004-2011 by The Allacrost Project
-//            Copyright (C) 2012-2013 by Bertram (Valyria Tear)
+//            Copyright (C) 2012-2014 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -51,10 +51,11 @@ void BindEngineCode()
             .def("PlaySound", &AudioEngine::PlaySound)
             .def("PlayMusic", &AudioEngine::PlayMusic)
             .def("LoadMusic", &AudioEngine::LoadMusic)
-            .def("PauseAllMusic", &AudioEngine::PauseAllMusic)
-            .def("ResumeAllMusic", &AudioEngine::ResumeAllMusic)
-            .def("FadeOutAllMusic", &AudioEngine::FadeOutAllMusic)
-            .def("FadeInAllMusic", &AudioEngine::FadeInAllMusic)
+            .def("PauseActiveMusic", &AudioEngine::PauseActiveMusic)
+            .def("ResumeActiveMusic", &AudioEngine::ResumeActiveMusic)
+            .def("FadeOutActiveMusic", &AudioEngine::FadeOutActiveMusic)
+            .def("FadeInActiveMusic", &AudioEngine::FadeInActiveMusic)
+            .def("FadeOutAllSounds", &AudioEngine::FadeOutAllSounds)
         ];
 
     } // End using audio namespaces
@@ -147,10 +148,18 @@ void BindEngineCode()
 
         luabind::module(vt_script::ScriptManager->GetGlobalState(), "vt_mode_manager")
         [
+            luabind::class_<IndicatorSupervisor>("IndicatorSupervisor")
+            .def("AddDamageIndicator", &IndicatorSupervisor::AddDamageIndicator)
+            .def("AddHealingIndicator", &IndicatorSupervisor::AddHealingIndicator)
+        ];
+
+        luabind::module(vt_script::ScriptManager->GetGlobalState(), "vt_mode_manager")
+        [
             luabind::class_<GameMode>("GameMode")
             .def("GetScriptSupervisor", &GameMode::GetScriptSupervisor)
             .def("GetEffectSupervisor", &GameMode::GetEffectSupervisor)
             .def("GetParticleManager", &GameMode::GetParticleManager)
+            .def("GetIndicatorSupervisor", &GameMode::GetIndicatorSupervisor)
         ];
 
         luabind::module(vt_script::ScriptManager->GetGlobalState(), "vt_mode_manager")
@@ -260,7 +269,8 @@ void BindEngineCode()
 
             luabind::class_<ImageDescriptor>("ImageDescriptor")
             .def("GetWidth", &ImageDescriptor::GetWidth)
-            .def("GetHeight", &ImageDescriptor::GetHeight),
+            .def("GetHeight", &ImageDescriptor::GetHeight)
+            .def("Update", &ImageDescriptor::Update),
 
             luabind::class_<StillImage, ImageDescriptor>("StillImage")
             .def("Clear", &StillImage::Clear)
@@ -281,6 +291,7 @@ void BindEngineCode()
             .def("Update", (void(AnimatedImage::*)(uint32))&AnimatedImage::Update)
             .def("ResetAnimation", &AnimatedImage::ResetAnimation)
             .def("GetAnimationLength", &AnimatedImage::GetAnimationLength)
+            .def("RandomizeAnimationFrame", &AnimatedImage::RandomizeAnimationFrame)
             .def("SetWidth", &AnimatedImage::SetWidth)
             .def("SetHeight", &AnimatedImage::SetHeight)
             .def("SetDimensions", &AnimatedImage::SetDimensions),
@@ -300,7 +311,8 @@ void BindEngineCode()
             .def("GetWordWrapWidth", &TextImage::GetWordWrapWidth),
 
             luabind::class_<TextStyle>("TextStyle")
-            .def(luabind::constructor<const std::string&>()),
+            .def(luabind::constructor<const std::string&>())
+            .def(luabind::constructor<const std::string&, const Color&>()),
 
             luabind::class_<VideoEngine>("GameVideo")
             .def("FadeScreen", &VideoEngine::FadeScreen)

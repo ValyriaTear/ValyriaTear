@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 //            Copyright (C) 2004-2011 by The Allacrost Project
-//            Copyright (C) 2012-2013 by Bertram (Valyria Tear)
+//            Copyright (C) 2012-2014 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -30,8 +30,6 @@ using namespace vt_system;
 using namespace vt_video;
 using namespace vt_audio;
 
-template<> vt_mode_manager::ModeEngine *Singleton<vt_mode_manager::ModeEngine>::_singleton_reference = NULL;
-
 namespace vt_mode_manager
 {
 
@@ -50,7 +48,7 @@ GameMode::GameMode()
             << "MODE MANAGER: GameMode constructor invoked" << std::endl;
 
     // The value of this member should later be replaced by the child class
-    mode_type = MODE_MANAGER_DUMMY_MODE;
+    _mode_type = MODE_MANAGER_DUMMY_MODE;
 }
 
 
@@ -58,7 +56,7 @@ GameMode::GameMode(uint8 mt)
 {
     IF_PRINT_WARNING(MODE_MANAGER_DEBUG)
             << "MODE MANAGER: GameMode constructor invoked" << std::endl;
-    mode_type = mt;
+    _mode_type = mt;
 }
 
 
@@ -237,7 +235,7 @@ uint8 ModeEngine::GetGameType()
     if(_game_stack.empty())
         return MODE_MANAGER_DUMMY_MODE;
     else
-        return _game_stack.back()->mode_type;
+        return _game_stack.back()->GetGameType();
 }
 
 
@@ -247,7 +245,7 @@ uint8 ModeEngine::GetGameType(uint32 index)
     if(_game_stack.size() < index)
         return MODE_MANAGER_DUMMY_MODE;
     else
-        return _game_stack.at(_game_stack.size() - index)->mode_type;
+        return _game_stack.at(_game_stack.size() - index)->GetGameType();
 }
 
 
@@ -295,7 +293,7 @@ void ModeEngine::Update()
         }
 
         // Push any new game modes onto the true game stack.
-        while(_push_stack.size() != 0) {
+        while(!_push_stack.empty()) {
             // Tell the previous game mode about being deactivated.
             if(!_game_stack.empty() && _game_stack.back())
                 _game_stack.back()->Deactivate();
@@ -367,14 +365,14 @@ void ModeEngine::DrawPostEffects()
 void ModeEngine::DEBUG_PrintStack()
 {
     PRINT_WARNING << "MODE MANAGER DEBUG: Printing Game Stack" << std::endl;
-    if(_game_stack.size() == 0) {
+    if(_game_stack.empty()) {
         PRINT_WARNING << "***Game stack is empty!" << std::endl;
         return;
     }
 
     PRINT_WARNING << "***top of stack***" << std::endl;
     for(int32 i = static_cast<int32>(_game_stack.size()) - 1; i >= 0; i--)
-        PRINT_WARNING << " index: " << i << " type: " << _game_stack[i]->mode_type << std::endl;
+        PRINT_WARNING << " index: " << i << " type: " << _game_stack[i]->GetGameType() << std::endl;
     PRINT_WARNING << "***bottom of stack***" << std::endl;
 }
 

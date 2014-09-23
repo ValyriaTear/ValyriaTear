@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 //            Copyright (C) 2004-2011 by The Allacrost Project
-//            Copyright (C) 2012-2013 by Bertram (Valyria Tear)
+//            Copyright (C) 2012-2014 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -104,6 +104,19 @@ public:
     //! \brief Tells wether the effect should update only when its update timer has finished.
     bool IsUsingUpdateTimer() const {
         return _use_update_timer;
+    }
+
+    //! \brief Sets the effect as invalid
+    void Disable() {
+        _type = GLOBAL_STATUS_INVALID;
+        _intensity = GLOBAL_INTENSITY_NEUTRAL;
+    }
+
+    //! \brief Checks whether the effect is active (and valid).
+    bool IsActive() const {
+        return !(_type == GLOBAL_STATUS_INVALID || _type == GLOBAL_STATUS_TOTAL
+            || _intensity == GLOBAL_INTENSITY_NEUTRAL || _intensity == GLOBAL_INTENSITY_INVALID
+            || _intensity == GLOBAL_INTENSITY_TOTAL);
     }
 
 protected:

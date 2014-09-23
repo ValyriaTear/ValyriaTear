@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 //            Copyright (C) 2004-2011 by The Allacrost Project
-//            Copyright (C) 2012-2013 by Bertram (Valyria Tear)
+//            Copyright (C) 2012-2014 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -22,14 +22,15 @@
 #include "engine/script/script.h"
 
 #include "utils/utils_strings.h"
+#include "utils/utils_files.h"
+
+#include "common/gui/textbox.h"
 
 #include "mode_manager.h"
 
 using namespace vt_utils;
 using namespace vt_script;
 using namespace vt_mode_manager;
-
-template<> vt_system::SystemEngine *Singleton<vt_system::SystemEngine>::_singleton_reference = NULL;
 
 namespace vt_system
 {
@@ -121,8 +122,6 @@ SystemTimer::SystemTimer() :
     _times_completed(0)
 {}
 
-
-
 SystemTimer::SystemTimer(uint32 duration, int32 loops) :
     _state(SYSTEM_TIMER_INITIAL),
     _auto_update(false),
@@ -133,16 +132,12 @@ SystemTimer::SystemTimer(uint32 duration, int32 loops) :
     _times_completed(0)
 {}
 
-
-
 SystemTimer::~SystemTimer()
 {
     if(_auto_update == true) {
         SystemManager->RemoveAutoTimer(this);
     }
 }
-
-
 
 void SystemTimer::Initialize(uint32 duration, int32 number_loops)
 {
@@ -152,8 +147,6 @@ void SystemTimer::Initialize(uint32 duration, int32 number_loops)
     _time_expired = 0;
     _times_completed = 0;
 }
-
-
 
 void SystemTimer::EnableAutoUpdate(GameMode *owner)
 {
@@ -167,8 +160,6 @@ void SystemTimer::EnableAutoUpdate(GameMode *owner)
     SystemManager->AddAutoTimer(this);
 }
 
-
-
 void SystemTimer::EnableManualUpdate()
 {
     if(_auto_update == false) {
@@ -181,14 +172,10 @@ void SystemTimer::EnableManualUpdate()
     _mode_owner = NULL;
 }
 
-
-
 void SystemTimer::Update()
 {
     Update(SystemManager->GetUpdateTime());
 }
-
-
 
 void SystemTimer::Update(uint32 time)
 {
@@ -220,8 +207,6 @@ float SystemTimer::PercentComplete() const
     }
 }
 
-
-
 void SystemTimer::SetDuration(uint32 duration)
 {
     if(IsInitial() == false) {
@@ -232,7 +217,13 @@ void SystemTimer::SetDuration(uint32 duration)
     _duration = duration;
 }
 
-
+void SystemTimer::SetTimeExpired(uint32 time_expired)
+{
+    if (time_expired <= _duration)
+        _time_expired = time_expired;
+    else
+        _time_expired = _duration;
+}
 
 void SystemTimer::SetNumberLoops(int32 loops)
 {
@@ -244,8 +235,6 @@ void SystemTimer::SetNumberLoops(int32 loops)
     _number_loops = loops;
 }
 
-
-
 void SystemTimer::SetModeOwner(vt_mode_manager::GameMode *owner)
 {
     if(IsInitial() == false) {
@@ -255,8 +244,6 @@ void SystemTimer::SetModeOwner(vt_mode_manager::GameMode *owner)
 
     _mode_owner = owner;
 }
-
-
 
 void SystemTimer::_AutoUpdate()
 {
@@ -270,8 +257,6 @@ void SystemTimer::_AutoUpdate()
 
     _UpdateTimer(SystemManager->GetUpdateTime());
 }
-
-
 
 void SystemTimer::_UpdateTimer(uint32 time)
 {
@@ -300,12 +285,20 @@ void SystemTimer::_UpdateTimer(uint32 time)
 // SystemEngine Class
 // -----------------------------------------------------------------------------
 
-SystemEngine::SystemEngine()
+SystemEngine::SystemEngine():
+    _last_update(0),
+    _update_time(1), // Set to 1 to avoid hanging the system.
+    _hours_played(0),
+    _minutes_played(0),
+    _seconds_played(0),
+    _milliseconds_played(0),
+    _not_done(true),
+    _message_speed(vt_gui::DEFAULT_MESSAGE_SPEED)
 {
     IF_PRINT_DEBUG(SYSTEM_DEBUG) << "constructor invoked" << std::endl;
 
-    _not_done = true;
-    SetLanguage("en@quot"); //Default language is English
+    SetLanguage("en@quot"); // Default language is English
+    _language = "en@quot"; // In case no files were found.
 }
 
 
@@ -316,7 +309,7 @@ SystemEngine::~SystemEngine()
 }
 
 
-void Reinitl10n()
+std::string _Reinitl10n()
 {
     // Initialize the gettext library
     setlocale(LC_ALL, "");
@@ -333,7 +326,7 @@ void Reinitl10n()
 #elif (defined(__linux__) || defined(__FreeBSD__)) && !defined(RELEASE_BUILD)
     // Look for translation files in LOCALEDIR only if they are not available in the
     // current directory.
-    if(std::ifstream("po/en@quot/LC_MESSAGES/"APPSHORTNAME".mo") == NULL) {
+    if(!vt_utils::DoesFileExist("po/en@quot/LC_MESSAGES/"APPSHORTNAME".mo")) {
         bind_text_domain_path = LOCALEDIR;
     } else {
         char buffer[PATH_MAX];
@@ -349,12 +342,35 @@ void Reinitl10n()
     bind_textdomain_codeset(APPSHORTNAME, "UTF-8");
     textdomain(APPSHORTNAME);
 #endif
+    return bind_text_domain_path;
 }
 
-
-void SystemEngine::SetLanguage(const std::string& lang)
+bool SystemEngine::IsLanguageAvailable(const std::string& lang)
 {
-    Reinitl10n();
+    // Construct the corresponding mo filename path.
+    std::string mo_filename = _Reinitl10n();
+    mo_filename.append("/");
+    mo_filename.append(lang);
+    mo_filename.append("/LC_MESSAGES/"APPSHORTNAME".mo");
+
+    // Note: English is always available as it's the default language
+    if (lang == "en@quot")
+        return true;
+
+    // Test whether the file is existing.
+    if (!vt_utils::DoesFileExist(mo_filename))
+        return false;
+
+    return true;
+}
+
+bool SystemEngine::SetLanguage(const std::string& lang)
+{
+    // Test whether the file is existing.
+    // The function called also reinit the i10n paths
+    // so we don't have to do it here.
+    if (!IsLanguageAvailable(lang))
+        return false;
 
     _language = lang;
     setlocale(LC_MESSAGES, _language.c_str());
@@ -369,6 +385,7 @@ void SystemEngine::SetLanguage(const std::string& lang)
     setenv("LANGUAGE", _language.c_str(), 1);
     setenv("LANG", _language.c_str(), 1);
 #endif
+    return true;
 }
 
 

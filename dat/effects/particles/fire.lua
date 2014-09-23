@@ -1,6 +1,17 @@
 -- Fire particle
 -- Author: roos, modifications by Bertram
 
+-- The effect overall size in pixel. Used to make the map mode draw the effect on time
+-- and when the character is going to collide with it.
+map_effect_collision = {
+    -- Collision rectangle
+    effect_collision_width = 3 * 16,
+    effect_collision_height = 3 * 16,
+    -- Image rectangle
+    effect_width = 6 * 16,
+    effect_height = 6 * 16,
+}
+
 systems = {}
 
 systems[0] =
@@ -9,26 +20,25 @@ systems[0] =
 
     emitter =
     {
-        x=0,
-        y=0,
-        x2=0,
-        y2=0,
-        center_x=0,
-        center_y=0,
-        x_variation=0,
-        y_variation=0,
-        radius=30,
-        shape='CIRCLE',
-        omnidirectional=true,
-        orientation=0,
-        outer_cone=0,
-        inner_cone=0,
-        initial_speed=200,
-        initial_speed_variation=0,
-        emission_rate=100,
-        start_time=0,
-        emitter_mode='looping',
-        spin='RANDOM'
+        x = 0,
+        y = -40,
+        x2 = 0,
+        y2 = 0,
+        center_x = 0,
+        center_y = 0,
+        x_variation = 0,
+        y_variation = 0,
+        radius = 30,
+        shape = 'CIRCLE',
+        omnidirectional = true,
+        orientation = 0,
+        angle_variation = 0.0,
+        initial_speed = 200,
+        initial_speed_variation = 0,
+        emission_rate = 100,
+        start_time = 0,
+        emitter_mode = 'looping',
+        spin = 'RANDOM'
     },
 
     keyframes =

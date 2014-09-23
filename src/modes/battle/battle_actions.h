@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 //            Copyright (C) 2004-2011 by The Allacrost Project
-//            Copyright (C) 2012-2013 by Bertram (Valyria Tear)
+//            Copyright (C) 2012-2014 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software and
@@ -89,6 +89,9 @@ public:
     //! \brief Returns the name of the action that the player would read
     virtual vt_utils::ustring GetName() const = 0;
 
+    //! \brief Returns the icon filename of the action that the player would need
+    virtual std::string GetIconFilename() const = 0;
+
     //! \brief Returns the number of milliseconds that the owner actor must wait in the warm up state
     virtual uint32 GetWarmUpTime() const = 0;
 
@@ -171,6 +174,8 @@ public:
 
     vt_utils::ustring GetName() const;
 
+    std::string GetIconFilename() const;
+
     uint32 GetWarmUpTime() const;
 
     uint32 GetCoolDownTime() const;
@@ -226,6 +231,8 @@ public:
     void Cancel();
 
     vt_utils::ustring GetName() const;
+
+    std::string GetIconFilename() const;
 
     uint32 GetWarmUpTime() const;
 

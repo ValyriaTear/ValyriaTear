@@ -14,6 +14,11 @@
 -- {BattleUpdatePassive} - A function executed periodically while the passive (from equipment) status is in effect in battles.
 -- {BattleRemove} - A function executed when the status effect is no longer active on the target
 
+-- {MapApply} - A function executed when the status effect is applied to the target
+-- {MapUpdate} - A function executed periodically while the status is still in effect
+-- {MapUpdatePassive} - A function executed periodically while the passive (from equipment) status is in effect in the map mode.
+-- {MapRemove} - A function executed when the status effect is no longer active on the target
+
 -- {ApplyPassive} - This function is called when equipping and should be used on the global actor, not on the battle one.
 -- {RemovePassive} - function is called when unequipping and should be used on the global actor, not on the battle one.
 --
@@ -70,13 +75,13 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_STRENGTH] = {
     default_duration = 30000,
 
     -- Battle status effects related functions
-    BattleApply = function(battle_effect)
-        status_effects[vt_global.GameGlobal.GLOBAL_STATUS_STRENGTH]._ModifyAttribute(battle_effect);
+    BattleApply = function(battle_actor, battle_effect)
+        status_effects[vt_global.GameGlobal.GLOBAL_STATUS_STRENGTH]._ModifyAttribute(battle_actor, battle_effect);
     end,
 
-    BattleUpdate = function(battle_effect)
+    BattleUpdate = function(battle_actor, battle_effect)
         if (battle_effect:HasIntensityChanged() == true) then
-            status_effects[vt_global.GameGlobal.GLOBAL_STATUS_STRENGTH]._ModifyAttribute(battle_effect);
+            status_effects[vt_global.GameGlobal.GLOBAL_STATUS_STRENGTH]._ModifyAttribute(battle_actor, battle_effect);
         end
     end,
 
@@ -84,13 +89,11 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_STRENGTH] = {
         -- Nothing to do
     end,
 
-    BattleRemove = function(battle_effect)
-        local battle_actor = battle_effect:GetAffectedActor();
+    BattleRemove = function(battle_actor, battle_effect)
         battle_actor:SetStrengthModifier(1.0);
     end,
 
-    _ModifyAttribute = function(battle_effect)
-        local battle_actor = battle_effect:GetAffectedActor();
+    _ModifyAttribute = function(battle_actor, battle_effect)
         local intensity = battle_effect:GetIntensity();
 
         local attribute_modifier = status_effects.GetStatModifier(intensity);
@@ -106,6 +109,22 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_STRENGTH] = {
     RemovePassive = function(global_actor)
         global_actor:SetStrengthModifier(1.0);
     end,
+
+    MapUpdatePassive = function(global_character, intensity)
+        -- Nothing to do here
+    end,
+
+    MapApply = function(map_effect)
+        -- Nothing to do here
+    end,
+
+    MapUpdate = function(map_effect)
+        -- Nothing to do here
+    end,
+
+    MapRemove = function(map_effect)
+        -- Nothing to do here
+    end
 }
 
 status_effects[vt_global.GameGlobal.GLOBAL_STATUS_VIGOR] = {
@@ -113,13 +132,13 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_VIGOR] = {
     default_duration = 30000,
 
     -- Battle status effects related functions
-    BattleApply = function(battle_effect)
-        status_effects[vt_global.GameGlobal.GLOBAL_STATUS_VIGOR]._ModifyAttribute(battle_effect);
+    BattleApply = function(battle_actor, battle_effect)
+        status_effects[vt_global.GameGlobal.GLOBAL_STATUS_VIGOR]._ModifyAttribute(battle_actor, battle_effect);
     end,
 
-    BattleUpdate = function(battle_effect)
+    BattleUpdate = function(battle_actor, battle_effect)
         if (battle_effect:HasIntensityChanged() == true) then
-            status_effects[vt_global.GameGlobal.GLOBAL_STATUS_VIGOR]._ModifyAttribute(battle_effect);
+            status_effects[vt_global.GameGlobal.GLOBAL_STATUS_VIGOR]._ModifyAttribute(battle_actor, battle_effect);
         end
     end,
 
@@ -127,13 +146,11 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_VIGOR] = {
         -- Nothing to do
     end,
 
-    BattleRemove = function(battle_effect)
-        local battle_actor = battle_effect:GetAffectedActor();
+    BattleRemove = function(battle_actor, battle_effect)
         battle_actor:SetVigorModifier(1.0);
     end,
 
-    _ModifyAttribute = function(battle_effect)
-        local battle_actor = battle_effect:GetAffectedActor();
+    _ModifyAttribute = function(battle_actor, battle_effect)
         local intensity = battle_effect:GetIntensity();
 
         local attribute_modifier = status_effects.GetStatModifier(intensity);
@@ -149,6 +166,22 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_VIGOR] = {
     RemovePassive = function(global_actor)
         global_actor:SetVigorModifier(1.0);
     end,
+
+    MapUpdatePassive = function(global_character, intensity)
+        -- Nothing to do here
+    end,
+
+    MapApply = function(map_effect)
+        -- Nothing to do here
+    end,
+
+    MapUpdate = function(map_effect)
+        -- Nothing to do here
+    end,
+
+    MapRemove = function(map_effect)
+        -- Nothing to do here
+    end
 }
 
 status_effects[vt_global.GameGlobal.GLOBAL_STATUS_FORTITUDE] = {
@@ -156,13 +189,13 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_FORTITUDE] = {
     default_duration = 30000,
 
     -- Battle status effects related functions
-    BattleApply = function(battle_effect)
-        status_effects[vt_global.GameGlobal.GLOBAL_STATUS_FORTITUDE]._ModifyAttribute(battle_effect);
+    BattleApply = function(battle_actor, battle_effect)
+        status_effects[vt_global.GameGlobal.GLOBAL_STATUS_FORTITUDE]._ModifyAttribute(battle_actor, battle_effect);
     end,
 
-    BattleUpdate = function(battle_effect)
+    BattleUpdate = function(battle_actor, battle_effect)
         if (battle_effect:HasIntensityChanged() == true) then
-            status_effects[vt_global.GameGlobal.GLOBAL_STATUS_FORTITUDE]._ModifyAttribute(battle_effect);
+            status_effects[vt_global.GameGlobal.GLOBAL_STATUS_FORTITUDE]._ModifyAttribute(battle_actor, battle_effect);
         end
     end,
 
@@ -170,13 +203,11 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_FORTITUDE] = {
         -- Nothing to do
     end,
 
-    BattleRemove = function(battle_effect)
-        local battle_actor = battle_effect:GetAffectedActor();
+    BattleRemove = function(battle_actor, battle_effect)
         battle_actor:SetFortitudeModifier(1.0);
     end,
 
-    _ModifyAttribute = function(battle_effect)
-        local battle_actor = battle_effect:GetAffectedActor();
+    _ModifyAttribute = function(battle_actor, battle_effect)
         local intensity = battle_effect:GetIntensity();
 
         local attribute_modifier = status_effects.GetStatModifier(intensity);
@@ -192,6 +223,22 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_FORTITUDE] = {
     RemovePassive = function(global_actor)
         global_actor:SetFortitudeModifier(1.0);
     end,
+
+    MapUpdatePassive = function(global_character, intensity)
+        -- Nothing to do here
+    end,
+
+    MapApply = function(map_effect)
+        -- Nothing to do here
+    end,
+
+    MapUpdate = function(map_effect)
+        -- Nothing to do here
+    end,
+
+    MapRemove = function(map_effect)
+        -- Nothing to do here
+    end
 }
 
 status_effects[vt_global.GameGlobal.GLOBAL_STATUS_PROTECTION] = {
@@ -199,13 +246,13 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_PROTECTION] = {
     default_duration = 30000,
 
     -- Battle status effects related functions
-    BattleApply = function(battle_effect)
-        status_effects[vt_global.GameGlobal.GLOBAL_STATUS_PROTECTION]._ModifyAttribute(battle_effect);
+    BattleApply = function(battle_actor, battle_effect)
+        status_effects[vt_global.GameGlobal.GLOBAL_STATUS_PROTECTION]._ModifyAttribute(battle_actor, battle_effect);
     end,
 
-    BattleUpdate = function(battle_effect)
+    BattleUpdate = function(battle_actor, battle_effect)
         if (battle_effect:HasIntensityChanged() == true) then
-            status_effects[vt_global.GameGlobal.GLOBAL_STATUS_PROTECTION]._ModifyAttribute(battle_effect);
+            status_effects[vt_global.GameGlobal.GLOBAL_STATUS_PROTECTION]._ModifyAttribute(battle_actor, battle_effect);
         end
     end,
 
@@ -213,13 +260,11 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_PROTECTION] = {
         -- Nothing to do
     end,
 
-    BattleRemove = function(battle_effect)
-        local battle_actor = battle_effect:GetAffectedActor();
+    BattleRemove = function(battle_actor, battle_effect)
         battle_actor:SetProtectionModifier(1.0);
     end,
 
-    _ModifyAttribute = function(battle_effect)
-        local battle_actor = battle_effect:GetAffectedActor();
+    _ModifyAttribute = function(battle_actor, battle_effect)
         local intensity = battle_effect:GetIntensity();
 
         local attribute_modifier = status_effects.GetStatModifier(intensity);
@@ -235,6 +280,22 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_PROTECTION] = {
     RemovePassive = function(global_actor)
         global_actor:SetProtectionModifier(1.0);
     end,
+
+    MapUpdatePassive = function(global_character, intensity)
+        -- Nothing to do here
+    end,
+
+    MapApply = function(map_effect)
+        -- Nothing to do here
+    end,
+
+    MapUpdate = function(map_effect)
+        -- Nothing to do here
+    end,
+
+    MapRemove = function(map_effect)
+        -- Nothing to do here
+    end
 }
 
 status_effects[vt_global.GameGlobal.GLOBAL_STATUS_AGILITY] = {
@@ -242,13 +303,13 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_AGILITY] = {
     default_duration = 30000,
 
     -- Battle status effects related functions
-    BattleApply = function(battle_effect)
-        status_effects[vt_global.GameGlobal.GLOBAL_STATUS_AGILITY]._ModifyAttribute(battle_effect);
+    BattleApply = function(battle_actor, battle_effect)
+        status_effects[vt_global.GameGlobal.GLOBAL_STATUS_AGILITY]._ModifyAttribute(battle_actor, battle_effect);
     end,
 
-    BattleUpdate = function(battle_effect)
+    BattleUpdate = function(battle_actor, battle_effect)
         if (battle_effect:HasIntensityChanged() == true) then
-            status_effects[vt_global.GameGlobal.GLOBAL_STATUS_AGILITY]._ModifyAttribute(battle_effect);
+            status_effects[vt_global.GameGlobal.GLOBAL_STATUS_AGILITY]._ModifyAttribute(battle_actor, battle_effect);
         end
     end,
 
@@ -257,15 +318,12 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_AGILITY] = {
     end,
 
     -- Note: This modifies the actor's idle state wait time accordingly.
-    BattleRemove = function(battle_effect)
-        local battle_actor = battle_effect:GetAffectedActor();
+    BattleRemove = function(battle_actor, battle_effect)
         battle_actor:SetAgilityModifier(1.0);
     end,
 
-    _ModifyAttribute = function(battle_effect)
-        local battle_actor = battle_effect:GetAffectedActor();
+    _ModifyAttribute = function(battle_actor, battle_effect)
         local intensity = battle_effect:GetIntensity();
-
         local attribute_modifier = status_effects.GetStatModifier(intensity);
 
         -- Note: This modifies the actor's idle state wait time accordingly.
@@ -281,6 +339,22 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_AGILITY] = {
     RemovePassive = function(global_actor)
         global_actor:SetAgilityModifier(1.0);
     end,
+
+    MapUpdatePassive = function(global_character, intensity)
+        -- Nothing to do here
+    end,
+
+    MapApply = function(map_effect)
+        -- Nothing to do here
+    end,
+
+    MapUpdate = function(map_effect)
+        -- Nothing to do here
+    end,
+
+    MapRemove = function(map_effect)
+        -- Nothing to do here
+    end
 }
 
 status_effects[vt_global.GameGlobal.GLOBAL_STATUS_EVADE] = {
@@ -288,13 +362,13 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_EVADE] = {
     default_duration = 30000,
 
     -- Battle status effects related functions
-    BattleApply = function(battle_effect)
-        status_effects[vt_global.GameGlobal.GLOBAL_STATUS_EVADE]._ModifyAttribute(battle_effect);
+    BattleApply = function(battle_actor, battle_effect)
+        status_effects[vt_global.GameGlobal.GLOBAL_STATUS_EVADE]._ModifyAttribute(battle_actor, battle_effect);
     end,
 
-    BattleUpdate = function(battle_effect)
+    BattleUpdate = function(battle_actor, battle_effect)
         if (battle_effect:HasIntensityChanged() == true) then
-            status_effects[vt_global.GameGlobal.GLOBAL_STATUS_EVADE]._ModifyAttribute(battle_effect);
+            status_effects[vt_global.GameGlobal.GLOBAL_STATUS_EVADE]._ModifyAttribute(battle_actor, battle_effect);
         end
     end,
 
@@ -302,13 +376,11 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_EVADE] = {
         -- Nothing to do
     end,
 
-    BattleRemove = function(battle_effect)
-        local battle_actor = battle_effect:GetAffectedActor();
+    BattleRemove = function(battle_actor, battle_effect)
         battle_actor:SetEvadeModifier(1.0);
     end,
 
-    _ModifyAttribute = function(battle_effect)
-        local battle_actor = battle_effect:GetAffectedActor();
+    _ModifyAttribute = function(battle_actor, battle_effect)
         local intensity = battle_effect:GetIntensity();
 
         local attribute_modifier = status_effects.GetStatModifier(intensity);
@@ -324,6 +396,22 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_EVADE] = {
     RemovePassive = function(global_actor)
         global_actor:SetEvadeModifier(1.0);
     end,
+
+    MapUpdatePassive = function(global_character, intensity)
+        -- Nothing to do here
+    end,
+
+    MapApply = function(map_effect)
+        -- Nothing to do here
+    end,
+
+    MapUpdate = function(map_effect)
+        -- Nothing to do here
+    end,
+
+    MapRemove = function(map_effect)
+        -- Nothing to do here
+    end
 }
 
 status_effects[vt_global.GameGlobal.GLOBAL_STATUS_HP] = {
@@ -333,54 +421,72 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_HP] = {
     update_every = 9000,
 
     -- Battle status effects related functions
-    BattleApply = function(battle_effect)
+    BattleApply = function(battle_actor, battle_effect)
         -- Nothing to do.
     end,
 
-    BattleUpdate = function(battle_effect)
-        local battle_actor = battle_effect:GetAffectedActor();
-        local intensity = battle_effect:GetIntensity();
+    -- Generic function for updates on the battle mode
+    _ApplyHPEffectOnBattleActor = function(battle_actor, intensity)
+        -- Don't remove/regen hit points on dead targets
+        if (battle_actor:IsAlive() == false) then
+            return;
+        end
+
+        local hp_change = battle_actor:GetMaxHitPoints();
 
         if (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_LESSER) then
-            battle_actor:RegisterHealing(1, true);
+            hp_change = hp_change / 80;
+            if (hp_change < 1) then hp_change = 1 end;
+            battle_actor:RegisterHealing(hp_change, true);
+            return
         elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_MODERATE) then
-            battle_actor:RegisterHealing(2, true);
+            hp_change = hp_change / 40;
+            if (hp_change < 2) then hp_change = 2 end;
+            battle_actor:RegisterHealing(hp_change, true);
+            return
         elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_GREATER) then
-            battle_actor:RegisterHealing(4, true);
+            hp_change = hp_change / 20;
+            if (hp_change < 4) then hp_change = 4 end;
+            battle_actor:RegisterHealing(hp_change, true);
+            return
         elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_EXTREME) then
-            battle_actor:RegisterHealing(8, true);
-        elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_LESSER) then
-            battle_actor:RegisterDamage(2);
-        elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_MODERATE) then
-            battle_actor:RegisterDamage(4);
-        elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_GREATER) then
-            battle_actor:RegisterDamage(8);
-        elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_EXTREME) then
-            battle_actor:RegisterDamage(16);
+            hp_change = hp_change / 12.5;
+            if (hp_change < 6) then hp_change = 6 end;
+            battle_actor:RegisterHealing(hp_change, true);
+            return
         end
+
+        if (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_LESSER) then
+            hp_change = hp_change / 70;
+            if (hp_change < 2) then hp_change = 2 end;
+        elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_MODERATE) then
+            hp_change = hp_change / 35;
+            if (hp_change < 4) then hp_change = 4 end;
+        elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_GREATER) then
+            hp_change = hp_change / 18;
+            if (hp_change < 6) then hp_change = 6 end;
+        elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_EXTREME) then
+            hp_change = hp_change / 11;
+            if (hp_change < 8) then hp_change = 8 end;
+        end
+
+        if (battle_actor:GetHitPoints() < hp_change) then
+            hp_change = battle_actor:GetHitPoints();
+        end
+        battle_actor:RegisterDamage(hp_change);
+    end,
+
+    BattleUpdate = function(battle_actor, battle_effect)
+        local intensity = battle_effect:GetIntensity();
+
+        status_effects[vt_global.GameGlobal.GLOBAL_STATUS_HP]._ApplyHPEffectOnBattleActor(battle_actor, intensity);
     end,
 
     BattleUpdatePassive = function(battle_actor, intensity)
-        if (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_LESSER) then
-            battle_actor:RegisterHealing(1, true);
-        elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_MODERATE) then
-            battle_actor:RegisterHealing(2, true);
-        elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_GREATER) then
-            battle_actor:RegisterHealing(4, true);
-        elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_EXTREME) then
-            battle_actor:RegisterHealing(8, true);
-        elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_LESSER) then
-            battle_actor:RegisterDamage(2);
-        elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_MODERATE) then
-            battle_actor:RegisterDamage(4);
-        elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_GREATER) then
-            battle_actor:RegisterDamage(8);
-        elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_EXTREME) then
-            battle_actor:RegisterDamage(16);
-        end
+        status_effects[vt_global.GameGlobal.GLOBAL_STATUS_HP]._ApplyHPEffectOnBattleActor(battle_actor, intensity);
     end,
 
-    BattleRemove = function(battle_effect)
+    BattleRemove = function(battle_actor, battle_effect)
         -- Nothing to do.
     end,
 
@@ -392,6 +498,89 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_HP] = {
     RemovePassive = function(global_actor)
         -- Nothing to do.
     end,
+
+    -- Generic function for updates on the map mode
+    _ApplyHPEffectOnCharacter = function(global_character, intensity)
+        -- Test whether the character is dead.
+        -- Dead characters can neither regen nor take HP damages.
+        if (global_character:GetHitPoints() == 0) then
+            return;
+        end
+
+        local hp_change = global_character:GetMaxHitPoints();
+        if (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_LESSER) then
+            hp_change = hp_change / 80;
+            if (hp_change < 1) then hp_change = 1 end;
+        elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_MODERATE) then
+            hp_change = hp_change / 40;
+            if (hp_change < 2) then hp_change = 2 end;
+        elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_GREATER) then
+            hp_change = hp_change / 20;
+            if (hp_change < 4) then hp_change = 4 end;
+        elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_EXTREME) then
+            hp_change = hp_change / 12.5;
+            if (hp_change < 6) then hp_change = 6 end;
+        elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_LESSER) then
+            hp_change = hp_change / 70;
+            if (hp_change < 2) then hp_change = 2 end;
+            hp_change = -hp_change;
+        elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_MODERATE) then
+            hp_change = hp_change / 35;
+            if (hp_change < 4) then hp_change = 4 end;
+            hp_change = -hp_change;
+        elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_GREATER) then
+            hp_change = hp_change / 18;
+            if (hp_change < 6) then hp_change = 6 end;
+            hp_change = -hp_change;
+        elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_EXTREME) then
+            hp_change = hp_change / 11;
+            if (hp_change < 8) then hp_change = 8 end;
+            hp_change = -hp_change;
+        end
+        local hp_diff = global_character:GetHitPoints() + hp_change;
+        -- Don't kill the character or set more than its max HP.
+        if (hp_diff <= 0) then
+            hp_change = global_character:GetHitPoints() - 1;
+            if (hp_change == 0) then return end
+        elseif (hp_diff > global_character:GetMaxHitPoints()) then
+            hp_change = global_character:GetMaxHitPoints() - global_character:GetHitPoints();
+            if (hp_change == 0) then return end
+        end
+        hp_diff = global_character:GetHitPoints() + hp_change;
+        global_character:SetHitPoints(hp_diff);
+
+        -- Adds an effect on map
+        local map_mode = ModeManager:GetTop();
+        local x_pos = map_mode:GetScreenXCoordinate(map_mode.camera:GetXPosition());
+        local y_pos = map_mode:GetScreenYCoordinate(map_mode.camera:GetYPosition());
+        local map_indicator = map_mode:GetIndicatorSupervisor();
+        if (hp_change > 0) then
+            -- We move the healing indicator above the head of the sprite.
+            y_pos = y_pos - map_mode.camera:GetImgHeight() * 16;
+            map_indicator:AddHealingIndicator(x_pos, y_pos, hp_change, vt_video.TextStyle("text22", vt_video.Color(0.0, 0.0, 1.0, 0.9)), true);
+        else
+            map_indicator:AddDamageIndicator(x_pos, y_pos, -hp_change, vt_video.TextStyle("text22", vt_video.Color(1.0, 0.0, 0.0, 0.9)), true);
+        end
+
+    end,
+
+    MapUpdatePassive = function(global_character, intensity)
+        status_effects[vt_global.GameGlobal.GLOBAL_STATUS_HP]._ApplyHPEffectOnCharacter(global_character, intensity);
+    end,
+
+    MapApply = function(map_effect)
+        -- Nothing to do here
+    end,
+
+    MapUpdate = function(map_effect)
+        local global_character = map_effect:GetAffectedCharacter();
+        local intensity = map_effect:GetIntensity();
+        status_effects[vt_global.GameGlobal.GLOBAL_STATUS_HP]._ApplyHPEffectOnCharacter(global_character, intensity);
+    end,
+
+    MapRemove = function(map_effect)
+        -- Nothing to do here
+    end
 }
 
 status_effects[vt_global.GameGlobal.GLOBAL_STATUS_SP] = {
@@ -401,25 +590,38 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_SP] = {
     update_every = 9000,
 
     -- Battle status effects related functions
-    BattleApply = function(battle_effect)
+    BattleApply = function(battle_actor, battle_effect)
         -- Nothing to do.
     end,
 
-    BattleUpdate = function(battle_effect)
-        local battle_actor = battle_effect:GetAffectedActor();
-        local intensity = battle_effect:GetIntensity();
+    -- Generic function for updates on the battle mode
+    _ApplySPEffectOnBattleActor = function(battle_actor, intensity)
+        -- Don't remove hit/regen skill points on dead targets
+        if (battle_actor:IsAlive() == false) then
+            return;
+        end
+
+        local sp_change = battle_actor:GetMaxSkillPoints();
 
         if (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_LESSER) then
-            battle_actor:RegisterHealing(1, false);
+            sp_change = sp_change / 80;
+            if (sp_change < 1) then sp_change = 1 end;
+            battle_actor:RegisterHealing(sp_change, false);
             return
         elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_MODERATE) then
-            battle_actor:RegisterHealing(2, false);
+            sp_change = sp_change / 40;
+            if (sp_change < 2) then sp_change = 2 end;
+            battle_actor:RegisterHealing(sp_change, false);
             return
         elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_GREATER) then
-            battle_actor:RegisterHealing(4, false);
+            sp_change = sp_change / 20;
+            if (sp_change < 4) then sp_change = 4 end;
+            battle_actor:RegisterHealing(sp_change, false);
             return
         elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_EXTREME) then
-            battle_actor:RegisterHealing(8, false);
+            sp_change = sp_change / 12.5;
+            if (sp_change < 6) then sp_change = 6 end;
+            battle_actor:RegisterHealing(sp_change, false);
             return
         end
 
@@ -429,50 +631,40 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_SP] = {
         end
 
         if (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_LESSER) then
-            battle_actor:RegisterSPDamage(1);
-            return
-        end
-
-        local sp_damage = 2;
-        if (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_MODERATE) then
-            -- sp damage already equal to 2.
+            sp_change = sp_change / 70;
+            if (sp_change < 2) then sp_change = 2 end;
+        elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_MODERATE) then
+            sp_change = sp_change / 35;
+            if (sp_change < 4) then sp_change = 4 end;
         elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_GREATER) then
-            sp_damage = 4
+            sp_change = sp_change / 18;
+            if (sp_change < 6) then sp_change = 6 end;
         elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_EXTREME) then
-            sp_damage = 8
+            sp_change = sp_change / 11;
+            if (sp_change < 8) then sp_change = 8 end;
         end
 
-        if (battle_actor:GetSkillPoints() < sp_damage) then
-            sp_damage = battle_actor:GetSkillPoints();
+        if (battle_actor:GetSkillPoints() < sp_change) then
+            sp_change = battle_actor:GetSkillPoints();
         end
-        battle_actor:RegisterSPDamage(sp_damage);
+        battle_actor:RegisterSPDamage(sp_change);
+    end,
+
+    BattleUpdate = function(battle_actor, battle_effect)
+        local intensity = battle_effect:GetIntensity();
+
+        status_effects[vt_global.GameGlobal.GLOBAL_STATUS_SP]._ApplySPEffectOnBattleActor(battle_actor, intensity);
     end,
 
     BattleUpdatePassive = function(battle_actor, intensity)
-        if (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_LESSER) then
-            battle_actor:RegisterHealing(1, false);
-        elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_MODERATE) then
-            battle_actor:RegisterHealing(2, false);
-        elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_GREATER) then
-            battle_actor:RegisterHealing(4, false);
-        elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_EXTREME) then
-            battle_actor:RegisterHealing(8, false);
-        elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_LESSER) then
-            battle_actor:RegisterSPDamage(1);
-        elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_MODERATE) then
-            battle_actor:RegisterSPDamage(2);
-        elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_GREATER) then
-            battle_actor:RegisterSPDamage(4);
-        elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_EXTREME) then
-            battle_actor:RegisterSPDamage(8);
-        end
+        status_effects[vt_global.GameGlobal.GLOBAL_STATUS_SP]._ApplySPEffectOnBattleActor(battle_actor, intensity);
     end,
 
-    BattleRemove = function(battle_effect)
+    BattleRemove = function(battle_actor, battle_effect)
         -- Nothing to do.
     end,
 
-    -- Generic passive functions (used with equipment)
+    -- Generic passive functions (used with equipment changes)
     ApplyPassive = function(global_actor, intensity)
         -- Nothing to do.
     end,
@@ -480,6 +672,89 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_SP] = {
     RemovePassive = function(global_actor)
         -- Nothing to do.
     end,
+
+    -- Generic function for updates on the map mode
+    _ApplySPEffectOnCharacter = function(global_character, intensity)
+        -- Dead characters can neither regen nor take SP damages.
+        if (global_character:GetSkillPoints() == 0) then
+            return;
+        end
+
+        local sp_change = global_character:GetMaxSkillPoints();
+        if (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_LESSER) then
+            sp_change = sp_change / 80;
+            if (sp_change < 1) then sp_change = 1 end;
+        elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_MODERATE) then
+            sp_change = sp_change / 40;
+            if (sp_change < 2) then sp_change = 2 end;
+        elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_GREATER) then
+            sp_change = sp_change / 20;
+            if (sp_change < 4) then sp_change = 4 end;
+        elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_EXTREME) then
+            sp_change = sp_change / 12.5;
+            if (sp_change < 6) then sp_change = 6 end;
+        elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_LESSER) then
+            sp_change = sp_change / 70;
+            if (sp_change < 2) then sp_change = 2 end;
+            sp_change = -sp_change;
+        elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_MODERATE) then
+            sp_change = sp_change / 35;
+            if (sp_change < 4) then sp_change = 4 end;
+            sp_change = -sp_change;
+        elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_GREATER) then
+            sp_change = sp_change / 18;
+            if (sp_change < 6) then sp_change = 6 end;
+            sp_change = -sp_change;
+        elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_EXTREME) then
+            sp_change = sp_change / 11;
+            if (sp_change < 8) then sp_change = 8 end;
+            sp_change = -sp_change;
+        end
+
+        local sp_diff = global_character:GetSkillPoints() + sp_change;
+        -- Don't kill the character or set more than its max SP.
+        if (sp_diff <= 0) then
+            sp_change = global_character:GetSkillPoints() - 1;
+            if (sp_change == 0) then return end
+        elseif (sp_diff > global_character:GetMaxSkillPoints()) then
+            sp_change = global_character:GetMaxSkillPoints() - global_character:GetSkillPoints();
+            if (sp_change == 0) then return end
+        end
+        sp_diff = global_character:GetSkillPoints() + sp_change;
+        global_character:SetSkillPoints(sp_diff);
+
+        -- Adds an effect on map
+        local map_mode = ModeManager:GetTop();
+        local x_pos = map_mode:GetScreenXCoordinate(map_mode.camera:GetXPosition());
+        local y_pos = map_mode:GetScreenYCoordinate(map_mode.camera:GetYPosition());
+        local map_indicator = map_mode:GetIndicatorSupervisor();
+        if (sp_change > 0) then
+            -- We move the healing indicator above the head of the sprite.
+            y_pos = y_pos - map_mode.camera:GetImgHeight() * 16;
+            map_indicator:AddHealingIndicator(x_pos, y_pos, sp_change, vt_video.TextStyle("text22", vt_video.Color(0.0, 0.8, 0.8, 0.9)), true);
+        else
+            map_indicator:AddDamageIndicator(x_pos, y_pos, -sp_change, vt_video.TextStyle("text22", vt_video.Color(0.0, 1.0, 0.0, 0.9)), true);
+        end
+
+    end,
+
+    MapUpdatePassive = function(global_character, intensity)
+        status_effects[vt_global.GameGlobal.GLOBAL_STATUS_SP]._ApplySPEffectOnCharacter(global_character, intensity);
+    end,
+
+    MapApply = function(map_effect)
+        -- Nothing to do here
+    end,
+
+    MapUpdate = function(map_effect)
+        local global_character = map_effect:GetAffectedCharacter();
+        local intensity = map_effect:GetIntensity();
+        status_effects[vt_global.GameGlobal.GLOBAL_STATUS_SP]._ApplySPEffectOnCharacter(global_character, intensity);
+    end,
+
+    MapRemove = function(map_effect)
+        -- Nothing to do here
+    end
 }
 
 status_effects[vt_global.GameGlobal.GLOBAL_STATUS_PARALYSIS] = {
@@ -487,15 +762,14 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_PARALYSIS] = {
     default_duration = 10000,
 
     -- Battle status effects related functions
-    BattleApply = function(battle_effect)
+    BattleApply = function(battle_actor, battle_effect)
         -- Let's stun only when the effect is negative
         if (battle_effect:GetIntensity() < vt_global.GameGlobal.GLOBAL_INTENSITY_NEUTRAL) then
-            local battle_actor = battle_effect:GetAffectedActor();
             battle_actor:SetStunned(true);
         end
     end,
 
-    BattleUpdate = function(battle_effect)
+    BattleUpdate = function(battle_actor, battle_effect)
         -- Nothing needs to be updated for this effect
     end,
 
@@ -507,8 +781,7 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_PARALYSIS] = {
         end
     end,
 
-    BattleRemove = function(battle_effect)
-        local battle_actor = battle_effect:GetAffectedActor();
+    BattleRemove = function(battle_actor, battle_effect)
         battle_actor:SetStunned(false);
     end,
 
@@ -520,6 +793,22 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_PARALYSIS] = {
     RemovePassive = function(global_actor)
         -- Nothing to do.
     end,
+
+    MapUpdatePassive = function(global_character, intensity)
+        -- Nothing to do here
+    end,
+
+    MapApply = function(map_effect)
+        -- Nothing to do here
+    end,
+
+    MapUpdate = function(map_effect)
+        -- Nothing to do here
+    end,
+
+    MapRemove = function(map_effect)
+        -- Nothing to do here
+    end
 }
 
 -- Elemental status effects
@@ -528,13 +817,13 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_FIRE] = {
     default_duration = 30000,
 
     -- Battle status effects related functions
-    BattleApply = function(battle_effect)
-        status_effects[vt_global.GameGlobal.GLOBAL_STATUS_FIRE]._ModifyAttribute(battle_effect);
+    BattleApply = function(battle_actor, battle_effect)
+        status_effects[vt_global.GameGlobal.GLOBAL_STATUS_FIRE]._ModifyAttribute(battle_actor, battle_effect);
     end,
 
-    BattleUpdate = function(battle_effect)
+    BattleUpdate = function(battle_actor, battle_effect)
         if (battle_effect:HasIntensityChanged() == true) then
-            status_effects[vt_global.GameGlobal.GLOBAL_STATUS_FIRE]._ModifyAttribute(battle_effect);
+            status_effects[vt_global.GameGlobal.GLOBAL_STATUS_FIRE]._ModifyAttribute(battle_actor, battle_effect);
         end
     end,
 
@@ -542,14 +831,12 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_FIRE] = {
         -- Nothing to do
     end,
 
-    BattleRemove = function(battle_effect)
-        battle_effect:GetAffectedActor():SetElementalModifier(vt_global.GameGlobal.GLOBAL_ELEMENTAL_FIRE, 1.0);
+    BattleRemove = function(battle_actor, battle_effect)
+        battle_actor:SetElementalModifier(vt_global.GameGlobal.GLOBAL_ELEMENTAL_FIRE, 1.0);
     end,
 
-    _ModifyAttribute = function(battle_effect)
-        local battle_actor = battle_effect:GetAffectedActor();
+    _ModifyAttribute = function(battle_actor, battle_effect)
         local intensity = battle_effect:GetIntensity();
-
         local attribute_modifier = status_effects.GetStatModifier(intensity);
         battle_actor:SetElementalModifier(vt_global.GameGlobal.GLOBAL_ELEMENTAL_FIRE, attribute_modifier);
     end,
@@ -563,6 +850,22 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_FIRE] = {
     RemovePassive = function(global_actor)
         global_actor:SetElementalModifier(vt_global.GameGlobal.GLOBAL_ELEMENTAL_FIRE, 1.0);
     end,
+
+    MapUpdatePassive = function(global_character, intensity)
+        -- Nothing to do here
+    end,
+
+    MapApply = function(map_effect)
+        -- Nothing to do here
+    end,
+
+    MapUpdate = function(map_effect)
+        -- Nothing to do here
+    end,
+
+    MapRemove = function(map_effect)
+        -- Nothing to do here
+    end
 }
 
 -- Water
@@ -571,13 +874,13 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_WATER] = {
     default_duration = 30000,
 
     -- Battle status effects related functions
-    BattleApply = function(battle_effect)
-        status_effects[vt_global.GameGlobal.GLOBAL_STATUS_WATER]._ModifyAttribute(battle_effect);
+    BattleApply = function(battle_actor, battle_effect)
+        status_effects[vt_global.GameGlobal.GLOBAL_STATUS_WATER]._ModifyAttribute(battle_actor, battle_effect);
     end,
 
-    BattleUpdate = function(battle_effect)
+    BattleUpdate = function(battle_actor, battle_effect)
         if (battle_effect:HasIntensityChanged() == true) then
-            status_effects[vt_global.GameGlobal.GLOBAL_STATUS_WATER]._ModifyAttribute(battle_effect);
+            status_effects[vt_global.GameGlobal.GLOBAL_STATUS_WATER]._ModifyAttribute(battle_actor, battle_effect);
         end
     end,
 
@@ -585,12 +888,11 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_WATER] = {
         -- Nothing to do
     end,
 
-    BattleRemove = function(battle_effect)
-        battle_effect:GetAffectedActor():SetElementalModifier(vt_global.GameGlobal.GLOBAL_ELEMENTAL_WATER, 1.0);
+    BattleRemove = function(battle_actor, battle_effect)
+        battle_actor:SetElementalModifier(vt_global.GameGlobal.GLOBAL_ELEMENTAL_WATER, 1.0);
     end,
 
-    _ModifyAttribute = function(battle_effect)
-        local battle_actor = battle_effect:GetAffectedActor();
+    _ModifyAttribute = function(battle_actor, battle_effect)
         local intensity = battle_effect:GetIntensity();
 
         local attribute_modifier = status_effects.GetStatModifier(intensity);
@@ -606,6 +908,22 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_WATER] = {
     RemovePassive = function(global_actor)
         global_actor:SetElementalModifier(vt_global.GameGlobal.GLOBAL_ELEMENTAL_WATER, 1.0);
     end,
+
+    MapUpdatePassive = function(global_character, intensity)
+        -- Nothing to do here
+    end,
+
+    MapApply = function(map_effect)
+        -- Nothing to do here
+    end,
+
+    MapUpdate = function(map_effect)
+        -- Nothing to do here
+    end,
+
+    MapRemove = function(map_effect)
+        -- Nothing to do here
+    end
 }
 
 status_effects[vt_global.GameGlobal.GLOBAL_STATUS_VOLT] = {
@@ -613,13 +931,13 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_VOLT] = {
     default_duration = 30000,
 
     -- Battle status effects related functions
-    BattleApply = function(battle_effect)
-        status_effects[vt_global.GameGlobal.GLOBAL_STATUS_VOLT]._ModifyAttribute(battle_effect);
+    BattleApply = function(battle_actor, battle_effect)
+        status_effects[vt_global.GameGlobal.GLOBAL_STATUS_VOLT]._ModifyAttribute(battle_actor, battle_effect);
     end,
 
-    BattleUpdate = function(battle_effect)
+    BattleUpdate = function(battle_actor, battle_effect)
         if (battle_effect:HasIntensityChanged() == true) then
-            status_effects[vt_global.GameGlobal.GLOBAL_STATUS_VOLT]._ModifyAttribute(battle_effect);
+            status_effects[vt_global.GameGlobal.GLOBAL_STATUS_VOLT]._ModifyAttribute(battle_actor, battle_effect);
         end
     end,
 
@@ -627,14 +945,12 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_VOLT] = {
         -- Nothing to do
     end,
 
-    BattleRemove = function(battle_effect)
-        battle_effect:GetAffectedActor():SetElementalModifier(vt_global.GameGlobal.GLOBAL_ELEMENTAL_VOLT, 1.0);
+    BattleRemove = function(battle_actor, battle_effect)
+        battle_actor:SetElementalModifier(vt_global.GameGlobal.GLOBAL_ELEMENTAL_VOLT, 1.0);
     end,
 
-    _ModifyAttribute = function(battle_effect)
-        local battle_actor = battle_effect:GetAffectedActor();
+    _ModifyAttribute = function(battle_actor, battle_effect)
         local intensity = battle_effect:GetIntensity();
-
         local attribute_modifier = status_effects.GetStatModifier(intensity);
         battle_actor:SetElementalModifier(vt_global.GameGlobal.GLOBAL_ELEMENTAL_VOLT, attribute_modifier);
     end,
@@ -648,6 +964,22 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_VOLT] = {
     RemovePassive = function(global_actor)
         global_actor:SetElementalModifier(vt_global.GameGlobal.GLOBAL_ELEMENTAL_VOLT, 1.0);
     end,
+
+    MapUpdatePassive = function(global_character, intensity)
+        -- Nothing to do here
+    end,
+
+    MapApply = function(map_effect)
+        -- Nothing to do here
+    end,
+
+    MapUpdate = function(map_effect)
+        -- Nothing to do here
+    end,
+
+    MapRemove = function(map_effect)
+        -- Nothing to do here
+    end
 }
 
 status_effects[vt_global.GameGlobal.GLOBAL_STATUS_EARTH] = {
@@ -655,13 +987,13 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_EARTH] = {
     default_duration = 30000,
 
     -- Battle status effects related functions
-    BattleApply = function(battle_effect)
-        status_effects[vt_global.GameGlobal.GLOBAL_STATUS_EARTH]._ModifyAttribute(battle_effect);
+    BattleApply = function(battle_actor, battle_effect)
+        status_effects[vt_global.GameGlobal.GLOBAL_STATUS_EARTH]._ModifyAttribute(battle_actor, battle_effect);
     end,
 
-    BattleUpdate = function(battle_effect)
+    BattleUpdate = function(battle_actor, battle_effect)
         if (battle_effect:HasIntensityChanged() == true) then
-            status_effects[vt_global.GameGlobal.GLOBAL_STATUS_EARTH]._ModifyAttribute(battle_effect);
+            status_effects[vt_global.GameGlobal.GLOBAL_STATUS_EARTH]._ModifyAttribute(battle_actor, battle_effect);
         end
     end,
 
@@ -669,14 +1001,12 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_EARTH] = {
         -- Nothing to do
     end,
 
-    BattleRemove = function(battle_effect)
-        battle_effect:GetAffectedActor():SetElementalModifier(vt_global.GameGlobal.GLOBAL_ELEMENTAL_EARTH, 1.0);
+    BattleRemove = function(battle_actor, battle_effect)
+        battle_actor:SetElementalModifier(vt_global.GameGlobal.GLOBAL_ELEMENTAL_EARTH, 1.0);
     end,
 
-    _ModifyAttribute = function(battle_effect)
-        local battle_actor = battle_effect:GetAffectedActor();
+    _ModifyAttribute = function(battle_actor, battle_effect)
         local intensity = battle_effect:GetIntensity();
-
         local attribute_modifier = status_effects.GetStatModifier(intensity);
         battle_actor:SetElementalModifier(vt_global.GameGlobal.GLOBAL_ELEMENTAL_EARTH, attribute_modifier);
     end,
@@ -690,6 +1020,22 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_EARTH] = {
     RemovePassive = function(global_actor)
         global_actor:SetElementalModifier(vt_global.GameGlobal.GLOBAL_ELEMENTAL_EARTH, 1.0);
     end,
+
+    MapUpdatePassive = function(global_character, intensity)
+        -- Nothing to do here
+    end,
+
+    MapApply = function(map_effect)
+        -- Nothing to do here
+    end,
+
+    MapUpdate = function(map_effect)
+        -- Nothing to do here
+    end,
+
+    MapRemove = function(map_effect)
+        -- Nothing to do here
+    end
 }
 
 status_effects[vt_global.GameGlobal.GLOBAL_STATUS_LIFE] = {
@@ -697,13 +1043,13 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_LIFE] = {
     default_duration = 30000,
 
     -- Battle status effects related functions
-    BattleApply = function(battle_effect)
-        status_effects[vt_global.GameGlobal.GLOBAL_STATUS_LIFE]._ModifyAttribute(battle_effect);
+    BattleApply = function(battle_actor, battle_effect)
+        status_effects[vt_global.GameGlobal.GLOBAL_STATUS_LIFE]._ModifyAttribute(battle_actor, battle_effect);
     end,
 
-    BattleUpdate = function(battle_effect)
+    BattleUpdate = function(battle_actor, battle_effect)
         if (battle_effect:HasIntensityChanged() == true) then
-            status_effects[vt_global.GameGlobal.GLOBAL_STATUS_LIFE]._ModifyAttribute(battle_effect);
+            status_effects[vt_global.GameGlobal.GLOBAL_STATUS_LIFE]._ModifyAttribute(battle_actor, battle_effect);
         end
     end,
 
@@ -711,14 +1057,12 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_LIFE] = {
         -- Nothing to do
     end,
 
-    BattleRemove = function(battle_effect)
-        battle_effect:GetAffectedActor():SetElementalModifier(vt_global.GameGlobal.GLOBAL_ELEMENTAL_LIFE, 1.0);
+    BattleRemove = function(battle_actor, battle_effect)
+        battle_actor:SetElementalModifier(vt_global.GameGlobal.GLOBAL_ELEMENTAL_LIFE, 1.0);
     end,
 
-    _ModifyAttribute = function(battle_effect)
-        local battle_actor = battle_effect:GetAffectedActor();
+    _ModifyAttribute = function(battle_actor, battle_effect)
         local intensity = battle_effect:GetIntensity();
-
         local attribute_modifier = status_effects.GetStatModifier(intensity);
         battle_actor:SetElementalModifier(vt_global.GameGlobal.GLOBAL_ELEMENTAL_LIFE, attribute_modifier);
     end,
@@ -732,6 +1076,22 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_LIFE] = {
     RemovePassive = function(global_actor)
         global_actor:SetElementalModifier(vt_global.GameGlobal.GLOBAL_ELEMENTAL_LIFE, 1.0);
     end,
+
+    MapUpdatePassive = function(global_character, intensity)
+        -- Nothing to do here
+    end,
+
+    MapApply = function(map_effect)
+        -- Nothing to do here
+    end,
+
+    MapUpdate = function(map_effect)
+        -- Nothing to do here
+    end,
+
+    MapRemove = function(map_effect)
+        -- Nothing to do here
+    end
 }
 
 status_effects[vt_global.GameGlobal.GLOBAL_STATUS_DEATH] = {
@@ -739,13 +1099,13 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_DEATH] = {
     default_duration = 30000,
 
     -- Battle status effects related functions
-    BattleApply = function(battle_effect)
-        status_effects[vt_global.GameGlobal.GLOBAL_STATUS_DEATH]._ModifyAttribute(battle_effect);
+    BattleApply = function(battle_actor, battle_effect)
+        status_effects[vt_global.GameGlobal.GLOBAL_STATUS_DEATH]._ModifyAttribute(battle_actor, battle_effect);
     end,
 
-    BattleUpdate = function(battle_effect)
+    BattleUpdate = function(battle_actor, battle_effect)
         if (battle_effect:HasIntensityChanged() == true) then
-            status_effects[vt_global.GameGlobal.GLOBAL_STATUS_DEATH]._ModifyAttribute(battle_effect);
+            status_effects[vt_global.GameGlobal.GLOBAL_STATUS_DEATH]._ModifyAttribute(battle_actor, battle_effect);
         end
     end,
 
@@ -753,14 +1113,12 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_DEATH] = {
         -- Nothing to do
     end,
 
-    BattleRemove = function(battle_effect)
-        battle_effect:GetAffectedActor():SetElementalModifier(vt_global.GameGlobal.GLOBAL_ELEMENTAL_DEATH, 1.0);
+    BattleRemove = function(battle_actor, battle_effect)
+        battle_actor:SetElementalModifier(vt_global.GameGlobal.GLOBAL_ELEMENTAL_DEATH, 1.0);
     end,
 
-    _ModifyAttribute = function(battle_effect)
-        local battle_actor = battle_effect:GetAffectedActor();
+    _ModifyAttribute = function(battle_actor, battle_effect)
         local intensity = battle_effect:GetIntensity();
-
         local attribute_modifier = status_effects.GetStatModifier(intensity);
         battle_actor:SetElementalModifier(vt_global.GameGlobal.GLOBAL_ELEMENTAL_DEATH, attribute_modifier);
     end,
@@ -774,6 +1132,22 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_DEATH] = {
     RemovePassive = function(global_actor)
         global_actor:SetElementalModifier(vt_global.GameGlobal.GLOBAL_ELEMENTAL_DEATH, 1.0);
     end,
+
+    MapUpdatePassive = function(global_character, intensity)
+        -- Nothing to do here
+    end,
+
+    MapApply = function(map_effect)
+        -- Nothing to do here
+    end,
+
+    MapUpdate = function(map_effect)
+        -- Nothing to do here
+    end,
+
+    MapRemove = function(map_effect)
+        -- Nothing to do here
+    end
 }
 
 -- Neutral (default magical strength)
@@ -782,13 +1156,13 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_NEUTRAL] = {
     default_duration = 30000,
 
     -- Battle status effects related functions
-    BattleApply = function(battle_effect)
-        status_effects[vt_global.GameGlobal.GLOBAL_STATUS_NEUTRAL]._ModifyAttribute(battle_effect);
+    BattleApply = function(battle_actor, battle_effect)
+        status_effects[vt_global.GameGlobal.GLOBAL_STATUS_NEUTRAL]._ModifyAttribute(battle_actor, battle_effect);
     end,
 
-    BattleUpdate = function(battle_effect)
+    BattleUpdate = function(battle_actor, battle_effect)
         if (battle_effect:HasIntensityChanged() == true) then
-            status_effects[vt_global.GameGlobal.GLOBAL_STATUS_NEUTRAL]._ModifyAttribute(battle_effect);
+            status_effects[vt_global.GameGlobal.GLOBAL_STATUS_NEUTRAL]._ModifyAttribute(battle_actor, battle_effect);
         end
     end,
 
@@ -796,14 +1170,12 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_NEUTRAL] = {
         -- Nothing to do
     end,
 
-    BattleRemove = function(battle_effect)
-        battle_effect:GetAffectedActor():SetElementalModifier(vt_global.GameGlobal.GLOBAL_ELEMENTAL_NEUTRAL, 1.0);
+    BattleRemove = function(battle_actor, battle_effect)
+        battle_actor:SetElementalModifier(vt_global.GameGlobal.GLOBAL_ELEMENTAL_NEUTRAL, 1.0);
     end,
 
-    _ModifyAttribute = function(battle_effect)
-        local battle_actor = battle_effect:GetAffectedActor();
+    _ModifyAttribute = function(battle_actor, battle_effect)
         local intensity = battle_effect:GetIntensity();
-
         local attribute_modifier = status_effects.GetStatModifier(intensity);
         battle_actor:SetElementalModifier(vt_global.GameGlobal.GLOBAL_ELEMENTAL_NEUTRAL, attribute_modifier);
     end,
@@ -817,4 +1189,20 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_NEUTRAL] = {
     RemovePassive = function(global_actor)
         global_actor:SetElementalModifier(vt_global.GameGlobal.GLOBAL_ELEMENTAL_NEUTRAL, 1.0);
     end,
+
+    MapUpdatePassive = function(global_character, intensity)
+        -- Nothing to do here
+    end,
+
+    MapApply = function(map_effect)
+        -- Nothing to do here
+    end,
+
+    MapUpdate = function(map_effect)
+        -- Nothing to do here
+    end,
+
+    MapRemove = function(map_effect)
+        -- Nothing to do here
+    end
 }

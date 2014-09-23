@@ -61,7 +61,7 @@ function Update()
     -- Apply parallax (the camera movement)
     fog_x_position = fog_x_position + Effects:GetCameraXMovement();
     -- Inverted y coords
-    fog_y_position = fog_y_position - Effects:GetCameraYMovement();
+    fog_y_position = fog_y_position + Effects:GetCameraYMovement();
 
     if (fog_timer:PercentComplete() <= 0.5) then
         -- fade in

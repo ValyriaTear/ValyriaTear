@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 //            Copyright (C) 2004-2011 by The Allacrost Project
-//            Copyright (C) 2012-2013 by Bertram (Valyria Tear)
+//            Copyright (C) 2012-2014 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -9,7 +9,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 /** ***************************************************************************
-*** \file    particle.h
+*** \file    particle_effect.cpp
 *** \author  Raj Sharma, roos@allacrost.org
 *** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Source file for particle effects
@@ -53,6 +53,8 @@ bool ParticleEffect::_LoadEffectDef(const std::string &particle_file)
     if (particle_script.OpenTable("map_effect_collision")) {
         _effect_def.effect_collision_width = particle_script.ReadFloat("effect_collision_width");
         _effect_def.effect_collision_height = particle_script.ReadFloat("effect_collision_height");
+        _effect_def.effect_width = particle_script.ReadFloat("effect_width");
+        _effect_def.effect_height = particle_script.ReadFloat("effect_height");
         particle_script.CloseTable(); // map_effect_collision
     }
 
@@ -130,8 +132,7 @@ bool ParticleEffect::_LoadEffectDef(const std::string &particle_file)
 
         sys_def.emitter._omnidirectional = particle_script.ReadBool("omnidirectional");
         sys_def.emitter._orientation = particle_script.ReadFloat("orientation");
-        sys_def.emitter._outer_cone = particle_script.ReadFloat("outer_cone");
-        sys_def.emitter._inner_cone = particle_script.ReadFloat("inner_cone");
+        sys_def.emitter._angle_variation = particle_script.ReadFloat("angle_variation");
         sys_def.emitter._initial_speed = particle_script.ReadFloat("initial_speed");
         sys_def.emitter._initial_speed_variation = particle_script.ReadFloat("initial_speed_variation");
         sys_def.emitter._emission_rate = particle_script.ReadFloat("emission_rate");

@@ -52,7 +52,7 @@ function Load(m)
     _CreateZones();
 
     -- Add clouds overlay
-    Map:GetEffectSupervisor():EnableAmbientOverlay("img/ambient/clouds.png", 5.0, 5.0, true);
+    Map:GetEffectSupervisor():EnableAmbientOverlay("img/ambient/clouds.png", 5.0, -5.0, true);
     Map:GetScriptSupervisor():AddScript("dat/maps/common/at_night.lua");
 
     -- Make the rain starts or the corresponding dialogue according the need
@@ -153,18 +153,16 @@ function _CreateObjects()
     Map:AddGroundObject(heal_effect);
 
     -- Heal point
-    npc = CreateSprite(Map, "Butterfly", 37, 27);
-    npc:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
-    npc:SetVisible(false);
-    npc:SetName(""); -- Unset the speaker name
-    Map:AddGroundObject(npc);
+    object = CreateObject(Map, "Layna Statue", 37, 27);
+    object:SetEventWhenTalking("Heal dialogue");
+    Map:AddGroundObject(object);
+
     dialogue = vt_map.SpriteDialogue();
     text = vt_system.Translate("Your party feels better...");
-    dialogue:AddLineEvent(text, npc, "Heal event", "");
+    dialogue:AddLineEvent(text, 0, "Heal event", ""); -- 0 means no portrait and no name
     DialogueManager:AddDialogue(dialogue);
-    npc:AddDialogueReference(dialogue);
-    npc = CreateObject(Map, "Layna Statue", 37, 27);
-    Map:AddGroundObject(npc);
+    event = vt_map.DialogueEvent("Heal dialogue", dialogue);
+    EventManager:RegisterEvent(event);
 
     -- Treasure box
     local chest = CreateTreasure(Map, "elbrus_path2_chest1", "Wood_Chest1", 7, 7);
