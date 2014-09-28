@@ -32,7 +32,7 @@ quests = {
         -- Title
         vt_system.Translate("Find Georges's pen"),
         -- Description
-        vt_system.Translate("In order to know who Georges gave the rest of his barley meal to, I need to get back his lost pen.\n \nHe said he lost it near a tree; he also told me that people in the village might know more..."),
+        vt_system.Translate("In order to know who Georges gave the rest of his barley meal to, I need to get back his lost pen.\n \nHe said he lost it near a tree. He also told me that people in the village might know more..."),
         -- Completion Description
         vt_system.Translate("Orlinn had the pen and I ran after him all morning to get it back. I hope he won't have any problems with Kalya..."),
         -- Group and event for the quest to be complete.
@@ -48,7 +48,7 @@ quests = {
         -- Title
         vt_system.Translate("Catch Orlinn!"),
         -- Description
-        vt_system.Translate("Orlinn has got the pen I need to back to Georges! The only problem now is to find where he's hiding. Hmm, it shouldn't take long..."),
+        vt_system.Translate("Orlinn has the pen that I need to return to Georges! The only problem now is to find out where he's hiding. Hmm, it shouldn't take long..."),
         -- Completion Description
         vt_system.Translate("After chasing him around the village all morning, I finally have the pen. Time to bring it back to Georges..."),
         -- Group and event for the quest to be complete.
@@ -98,7 +98,7 @@ quests = {
         -- Title
         vt_system.Translate("Orlinn might be in danger!"),
         -- Description
-        vt_system.Translate("After seeing that strange light, Orlinn just ran into the woods. He's just a kid, even if a quick one!\n \nMy father asked me to go there with Kalya and get him back safe and sound.\n \nI can't let them down!"),
+        vt_system.Translate("After seeing that strange light, Orlinn ran into the woods. He's just a kid, even if a quick one!\n \nMy father asked me to go there with Kalya and bring him back safe and sound.\n \nI can't let them down!"),
         -- Completion Description
         vt_system.Translate("We finally retrieved Orlinn in the center of the forest. A mysterious wolf was protecting him, and we came just in time to prevent him from approaching a strange crystal..."),
         -- Group and event for the quest to be complete.
@@ -114,7 +114,7 @@ quests = {
         -- Title
         vt_system.Translate("We must escape from the soldiers..."),
         -- Description
-        vt_system.Translate("After we returned to the village, Kalya was caught by strange soldiers. The country Lord himself provoked me in battle, and thanks to her, we escaped for now.\n \nBut this isn't over, the soldiers are after us and we have to make our way through..."),
+        vt_system.Translate("After we returned to the village, Kalya was caught by strange soldiers. The country Lord himself provoked me in battle and thanks to her, we escaped for now.\n \nBut this isn't over. The soldiers are after us and we have to make our way through..."),
         -- Completion Description
         vt_system.Translate("We managed to find a way up to the mountain top."),
         -- Group and event for the quest to be complete.

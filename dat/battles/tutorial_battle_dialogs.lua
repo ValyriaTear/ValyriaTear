@@ -68,7 +68,7 @@ function Initialize(battle_instance)
     -- of battle, before any action can be taken. The player is presented with several options that they can read to get more information on
     -- the battle system. One of the options that the player may select from will finish the dialogue, allow the battle to resume.
     main_dialogue = vt_battle.BattleDialogue(1);
-        text = vt_system.Translate("Woah, I wouldn't have expected monsters so close to the village. Bronann, do you need a quick reminder about the basics in battles?");
+        text = vt_system.Translate("Woah, I wouldn't have expected monsters so close to the village. Bronann, do you need a quick reminder about the basics of battle?");
         main_dialogue:AddLine(text, 1002);
         text = vt_system.Translate("...");
         main_dialogue:AddLine(text, 1000);
@@ -79,23 +79,23 @@ function Initialize(battle_instance)
         -- [Line 2] After selecting option: Ask about battle basics.
         text = vt_system.Translate("Er, I could use a refresher on the fundamentals of combat.");
         main_dialogue:AddLine(text, 1000);
-        text = vt_system.Translate("Here you can find the Hit Points (HP) and Skill Points (SP) of all the ally party. Don't let our HP reach 0 or we're doomed!");
+        text = vt_system.Translate("Here you can find the Hit Points (HP) and Skill Points (SP) of the ally party. Don't let our HP reach 0 or we're doomed!");
         main_dialogue:AddLine(text, 1002);
-        text = vt_system.Translate("In battles, our stamina icons and the ones of our enemy are going up the Stamina Bar. The more Agility you have, the quickest you'll reach the upper part of it.");
+        text = vt_system.Translate("In battles, our icons and those of our enemies will rise up on the Stamina Bar. The more Agility you have, the faster your icon will climb.");
         main_dialogue:AddLine(text, 1002);
-        text = vt_system.Translate("Once one of us has reached the action level, you can select an action for the one concerned. Don't panic, the battle is then paused and you've got all the time needed to select one.");
+        text = vt_system.Translate("Once an ally has reached the action level, you can select an action for that ally. The battle is then paused and you've got all the time you need to select one, so don't panic.");
         main_dialogue:AddLine(text, 1002);
-        text = vt_system.Translate("There are several action types: The basic one 'Weapon', and later 'Magic' skills. Last but not least, you'll also be able to use our 'Items'. Simply choose one action and a target to trigger it.");
+        text = vt_system.Translate("There are two action types: The basic 'Weapon' to attack, and later you can also use 'Magic' skills. Last but not least, you'll also be able to use our 'Items'. Simply choose an action followed by a target to trigger it.");
         main_dialogue:AddLine(text, 1002);
-        text = vt_system.Translate("The icon will the reach the top of the Stamina Bar before being triggering it. It's called the 'preparation time'. The stronger is the skill, the longer it has to be prepared.");
+        text = vt_system.Translate("The icon will still need to climb to the top of the Stamina Bar before the selected action is executed. This is called the 'preparation time'. Generally the more powerful the skill being executed, the longer it will take to prepare.");
         main_dialogue:AddLine(text, 1002);
-        text = vt_system.Translate("By the way, you're not forced to wait for your icon to reach the action level before acting. The two little arrows here can be triggered, using your up and down keys, to preselect an action for either of us.");
+        text = vt_system.Translate("By the way, you're not forced to wait for your icon to reach the action level before you can select an action. When these two little arrows here are highlighted, you can use your up and down keys to preselect an action for the corresponding ally.");
         main_dialogue:AddLine(text, 1002);
-        text = vt_system.Translate("As long as the little arrows there are visible, you can change the selected action.");
+        text = vt_system.Translate("So long as the little arrows there are still visible, you can change the selected action at any time.");
         main_dialogue:AddLine(text, 1002);
-        text = vt_system.Translate("Don't forget you can press '") .. InputManager:GetHelpKeyName() .. vt_system.Translate("' if you need more details.");
+        text = vt_system.Translate("Don't forget that you can press '") .. InputManager:GetHelpKeyName() .. vt_system.Translate("' if you need more details.");
         main_dialogue:AddLine(text, 1002);
-        text = vt_system.Translate("Shall I repeat?");
+        text = vt_system.Translate("Shall I repeat all that?");
         main_dialogue:AddLine(text, 1002);
         text = vt_system.Translate("...");
         main_dialogue:AddLine(text, 1000);
