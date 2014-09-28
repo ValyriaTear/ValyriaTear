@@ -74,7 +74,7 @@ weapons[10001] = {
 }
 
 weapons[10002] = {
-    name = vt_system.Translate("Reinforced wooden Sword"),
+    name = vt_system.Translate("Reinforced Wooden Sword"),
     description = vt_system.Translate("A sword made of wood with a steel hilt, reinforced magically."),
     icon = "img/icons/weapons/woodensword.png",
     physical_attack = 30,
@@ -114,7 +114,7 @@ weapons[10002] = {
 }
 
 weapons[10003] = {
-    name = vt_system.Translate("Perfect wooden Sword"),
+    name = vt_system.Translate("Perfect Wooden Sword"),
     description = vt_system.Translate("A sword made of wood with a steel hilt, surrounded by a great magical force."),
     icon = "img/icons/weapons/woodensword.png",
     physical_attack = 60,

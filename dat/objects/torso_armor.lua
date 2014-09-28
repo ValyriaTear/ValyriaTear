@@ -70,7 +70,7 @@ armor[30003] = {
 }
 
 armor[30004] = {
-	name = vt_system.Translate("Leather cloak"),
+	name = vt_system.Translate("Leather Cloak"),
 	description = vt_system.Translate("A cloak worn by apprentices."),
 	icon = "img/icons/armor/cloak_leather_brown.png",
 	physical_defense = 5,

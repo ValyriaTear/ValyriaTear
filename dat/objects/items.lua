@@ -382,7 +382,7 @@ end
 
 items[1001] = {
     name = vt_system.Translate("Minor Elixir"),
-    description = vt_system.Translate("Revive a character, or improve the character status when he/she is alive by a limited degree."),
+    description = vt_system.Translate("Revives a character, or improves the character's status when he/she is alive by a limited degree."),
     icon = "img/icons/items/potion_red_small.png",
     target_type = vt_global.GameGlobal.GLOBAL_TARGET_ALLY_EVEN_DEAD,
     standard_price = 50,
@@ -418,7 +418,7 @@ items[1001] = {
 
 items[1003] = {
     name = vt_system.Translate("Elixir"),
-    description = vt_system.Translate("Revive a character with half of its Hit Points, or reasonably improve the character status when he/she is alive."),
+    description = vt_system.Translate("Revives a character to half of their hit points, or reasonably improves the character's status while he/she is alive."),
     icon = "img/icons/items/potion_red_large.png",
     target_type = vt_global.GameGlobal.GLOBAL_TARGET_ALLY_EVEN_DEAD,
     standard_price = 1200,
@@ -521,7 +521,7 @@ items[1005] = {
 
 items[1006] = {
     name = vt_system.Translate("Poison Potion"),
-    description = vt_system.Translate("Poisons an enemy a for small amount of time."),
+    description = vt_system.Translate("Poisons an enemy for a small amount of time."),
     icon = "img/icons/items/poison_potion.png",
     target_type = vt_global.GameGlobal.GLOBAL_TARGET_FOE,
     standard_price = 1400,
@@ -555,14 +555,14 @@ items[1006] = {
 --------------------------------------------------------------------------------
 items[3001] = {
     name = vt_system.Translate("Copper Ore"),
-    description = vt_system.Translate("A small amount of copper ore."),
+    description = vt_system.Translate("A small amount of Copper ore."),
     icon = "img/icons/items/copper_ore.png",
     standard_price = 150
 }
 
 items[3002] = {
     name = vt_system.Translate("Iron Ore"),
-    description = vt_system.Translate("A small amount of iron ore."),
+    description = vt_system.Translate("A small amount of Iron ore."),
     icon = "img/icons/items/iron_ore.png",
     standard_price = 450
 }
@@ -657,7 +657,7 @@ end
 
 items[4001] = {
     name = vt_system.Translate("Escape Smoke"),
-    description = vt_system.Translate("A ninja potion bursting out a damp mist when crashed on the ground. Used to hopefully escape from standard opponents."),
+    description = vt_system.Translate("A ninja potion that bursts out a damp mist when it is crashed on the ground. Used to hopefully escape from standard opponents."),
     icon = "img/icons/items/escape_smoke.png",
     target_type = vt_global.GameGlobal.GLOBAL_TARGET_SELF,
     standard_price = 100,
