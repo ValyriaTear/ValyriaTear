@@ -224,9 +224,9 @@ function _CreateEvents()
     -- Adds a small dialogue describing the save point use.
     dialogue = vt_map.SpriteDialogue();
     text = vt_system.VTranslate("This circle is a save point. Here, you can save your game by pushing %s.", InputManager:GetConfirmKeyName());
-    dialogue:AddLine(text, 0); -- nameless speaker
+    dialogue:AddLine(text, nil); -- nameless speaker
     text = vt_system.Translate("You can come back here and save as many times as you want.");
-    dialogue:AddLine(text, 0); -- nameless speaker
+    dialogue:AddLine(text, nil); -- nameless speaker
     DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Save point dialogue", dialogue);
     event:AddEventLinkAtEnd("Disable save point dialogue");

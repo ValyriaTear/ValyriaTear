@@ -232,29 +232,15 @@
 		<Unit filename="src/common/common_bindings.cpp" />
 		<Unit filename="src/common/dialogue.cpp" />
 		<Unit filename="src/common/dialogue.h" />
-		<Unit filename="src/common/message_window.cpp" />
-		<Unit filename="src/common/message_window.h" />
-		<Unit filename="src/common/options_handler.cpp" />
-		<Unit filename="src/common/options_handler.h" />
-		<Unit filename="src/common/global/global.cpp">
-			<Option weight="60" />
-		</Unit>
+		<Unit filename="src/common/global/global.cpp" />
 		<Unit filename="src/common/global/global.h" />
-		<Unit filename="src/common/global/global_actors.cpp">
-			<Option weight="60" />
-		</Unit>
+		<Unit filename="src/common/global/global_actors.cpp" />
 		<Unit filename="src/common/global/global_actors.h" />
-		<Unit filename="src/common/global/global_effects.cpp">
-			<Option weight="60" />
-		</Unit>
+		<Unit filename="src/common/global/global_effects.cpp" />
 		<Unit filename="src/common/global/global_effects.h" />
-		<Unit filename="src/common/global/global_objects.cpp">
-			<Option weight="60" />
-		</Unit>
+		<Unit filename="src/common/global/global_objects.cpp" />
 		<Unit filename="src/common/global/global_objects.h" />
-		<Unit filename="src/common/global/global_skills.cpp">
-			<Option weight="60" />
-		</Unit>
+		<Unit filename="src/common/global/global_skills.cpp" />
 		<Unit filename="src/common/global/global_skills.h" />
 		<Unit filename="src/common/global/global_utils.cpp" />
 		<Unit filename="src/common/global/global_utils.h" />
@@ -266,6 +252,10 @@
 		<Unit filename="src/common/gui/option.h" />
 		<Unit filename="src/common/gui/textbox.cpp" />
 		<Unit filename="src/common/gui/textbox.h" />
+		<Unit filename="src/common/message_window.cpp" />
+		<Unit filename="src/common/message_window.h" />
+		<Unit filename="src/common/options_handler.cpp" />
+		<Unit filename="src/common/options_handler.h" />
 		<Unit filename="src/engine/audio/audio.cpp" />
 		<Unit filename="src/engine/audio/audio.h" />
 		<Unit filename="src/engine/audio/audio_descriptor.cpp" />
@@ -433,8 +423,6 @@
 		<Unit filename="src/modes/battle/battle_actors.h" />
 		<Unit filename="src/modes/battle/battle_command.cpp" />
 		<Unit filename="src/modes/battle/battle_command.h" />
-		<Unit filename="src/modes/battle/battle_dialogue.cpp" />
-		<Unit filename="src/modes/battle/battle_dialogue.h" />
 		<Unit filename="src/modes/battle/battle_effects.cpp" />
 		<Unit filename="src/modes/battle/battle_effects.h" />
 		<Unit filename="src/modes/battle/battle_finish.cpp" />

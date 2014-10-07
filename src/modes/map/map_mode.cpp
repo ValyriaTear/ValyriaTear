@@ -122,7 +122,7 @@ MapMode::MapMode(const std::string& data_filename, const std::string& script_fil
     _tile_supervisor = new TileSupervisor();
     _object_supervisor = new ObjectSupervisor();
     _event_supervisor = new EventSupervisor();
-    _dialogue_supervisor = new DialogueSupervisor();
+    _dialogue_supervisor = new MapDialogueSupervisor();
     _treasure_supervisor = new TreasureSupervisor();
 
     _intro_timer.Initialize(4000, 0);

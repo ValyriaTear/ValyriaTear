@@ -31,6 +31,11 @@
 
 #include "common/global/global_actors.h"
 
+namespace vt_common
+{
+class DialogueSupervisor;
+}
+
 namespace vt_battle
 {
 
@@ -48,7 +53,6 @@ class BattleObject;
 class BattleParticleEffect;
 class BattleAnimation;
 class CommandSupervisor;
-class DialogueSupervisor;
 class FinishSupervisor;
 class SequenceSupervisor;
 
@@ -322,6 +326,13 @@ public:
         return _scene_mode;
     }
 
+    //! \brief Tells whether user input is accepted in dialogues.
+    //! Used by the common dialogue supervisor.
+    //! In the battle mode, dialogues can handle input only when in scene mode.
+    bool AcceptUserInputInDialogues() const {
+        return _scene_mode;
+    }
+
     /** \brief Changes the state of the battle and performs any initializations and updates needed
     *** \param new_state The new state to change the battle to
     **/
@@ -425,11 +436,11 @@ public:
         return _enemy_party;
     }
 
-    private_battle::CommandSupervisor *GetCommandSupervisor() {
+    private_battle::CommandSupervisor* GetCommandSupervisor() {
         return _command_supervisor;
     }
 
-    private_battle::DialogueSupervisor *GetDialogueSupervisor() {
+    vt_common::DialogueSupervisor* GetDialogueSupervisor() {
         return _dialogue_supervisor;
     }
 
@@ -485,16 +496,16 @@ private:
     //! \name Battle supervisor classes
     //@{
     //! \brief Manages update and draw calls during special battle sequences
-    private_battle::SequenceSupervisor *_sequence_supervisor;
+    private_battle::SequenceSupervisor* _sequence_supervisor;
 
     //! \brief Manages state and visuals when the player is selecting a command for a character
-    private_battle::CommandSupervisor *_command_supervisor;
+    private_battle::CommandSupervisor* _command_supervisor;
 
     //! \brief Stores and processes any dialogue that is to occur on the battle
-    private_battle::DialogueSupervisor *_dialogue_supervisor;
+    vt_common::DialogueSupervisor* _dialogue_supervisor;
 
     //! \brief Presents player with information and options after a battle has concluded
-    private_battle::FinishSupervisor *_finish_supervisor;
+    private_battle::FinishSupervisor* _finish_supervisor;
     //@}
 
     //! \name Battle Actor Containers

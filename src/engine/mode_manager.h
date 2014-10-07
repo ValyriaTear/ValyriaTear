@@ -120,6 +120,12 @@ public:
     virtual void ReloadTranslatedTexts()
     {}
 
+    //! \brief Tells whether user input is accepted in dialogues.
+    //! Used by the common dialogue supervisor.
+    virtual bool AcceptUserInputInDialogues() const {
+        return true;
+    }
+
 protected:
     //! Indicates what 'mode' this object is in (what type of inherited class).
     uint8 _mode_type;

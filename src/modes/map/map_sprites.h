@@ -266,12 +266,12 @@ public:
     *** \param filename The name of the image file holding the given custom animation (one direction only)
     *** \return False if there was a problem loading the animation.
     **/
-    bool LoadCustomAnimation(const std::string &animation_name, const std::string &filename);
+    bool LoadCustomAnimation(const std::string &animation_name, const std::string& filename);
 
     //! \brief Clear out all the sprite animation. Useful in case of reloading.
     void ClearAnimations();
 
-    void LoadFacePortrait(const std::string &filename);
+    void LoadFacePortrait(const std::string& filename);
 
     //! \brief Updates the sprite's position and state.
     virtual void Update();
@@ -283,27 +283,19 @@ public:
     virtual void DrawDialog();
 
     /** \brief Adds a new reference to a dialogue that the sprite uses
-    *** \param dialogue_id The ID number of the dialogue
     *** \param dialogue The SpriteDialogue used.
     *** \note It is valid for a dialogue to be referenced more than once by a sprite
     **/
-    void AddDialogueReference(uint32 dialogue_id);
-    void AddDialogueReference(SpriteDialogue *dialogue) {
-        AddDialogueReference(dialogue->GetDialogueID());
-    }
+    void AddDialogueReference(SpriteDialogue* dialogue);
 
     /** \brief Removes all dialogue references from a sprite
     **/
     void ClearDialogueReferences();
 
     /** \brief Removes a specific dialogue reference from a sprite
-    *** \param dialogue_id The ID number of the dialogue that should be removed
     *** \param dialogue The SpriteDialogue used.
     **/
-    void RemoveDialogueReference(uint32 dialogue_id);
-    void RemoveDialogueReference(SpriteDialogue *dialogue) {
-        RemoveDialogueReference(dialogue->GetDialogueID());
-    }
+    void RemoveDialogueReference(SpriteDialogue* dialogue);
 
     /** \brief Begins a new dialogue with this sprite using its next referenced dialogue
     ***
@@ -383,9 +375,7 @@ public:
     }
 
     //! \brief Gets the ID value of the dialogue that will be the next to be referenced by the sprite
-    uint32 GetNextDialogueID() const { // TODO: check invalid indexing
-        return _dialogue_references[_next_dialogue];
-    }
+    const std::string& GetNextDialogueID() const;
 
     //! \brief Returns the number of dialogues referenced by the sprite (including duplicates)
     uint16 GetNumberDialogueReferences() const {
@@ -469,7 +459,7 @@ protected:
     vt_video::AnimatedImage *_current_custom_animation;
 
     //! \brief Contains the id values of all dialogues referenced by the sprite
-    std::vector<uint32> _dialogue_references;
+    std::vector<std::string> _dialogue_references;
 
     /** \brief An index to the dialogue_references vector, representing the next dialogue the sprite should reference
     *** A negative value indicates that the sprite has no dialogue.

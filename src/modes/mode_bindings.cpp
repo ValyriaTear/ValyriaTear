@@ -33,7 +33,6 @@
 #include "modes/battle/battle.h"
 #include "modes/battle/battle_actors.h"
 #include "modes/battle/battle_command.h"
-#include "modes/battle/battle_dialogue.h"
 #include "modes/battle/battle_effects.h"
 #include "modes/battle/battle_utils.h"
 #include "modes/map/map_mode.h"
@@ -403,45 +402,32 @@ void BindModeCode()
 
         luabind::module(vt_script::ScriptManager->GetGlobalState(), "vt_map")
         [
-            luabind::class_<DialogueSupervisor>("DialogueSupervisor")
-            .def("AddDialogue", &DialogueSupervisor::AddDialogue, luabind::adopt(_2))
-            .def("BeginDialogue", &DialogueSupervisor::BeginDialogue)
-            .def("EndDialogue", &DialogueSupervisor::EndDialogue)
-            .def("GetDialogue", &DialogueSupervisor::GetDialogue)
-            .def("GetCurrentDialogue", &DialogueSupervisor::GetCurrentDialogue)
+            luabind::class_<MapDialogueSupervisor>("MapDialogueSupervisor")
+            .def("AddDialogue", &MapDialogueSupervisor::AddDialogue, luabind::adopt(_2))
+            .def("BeginDialogue", &MapDialogueSupervisor::BeginDialogue)
+            .def("EndDialogue", &MapDialogueSupervisor::EndDialogue)
+            .def("GetDialogue", &MapDialogueSupervisor::GetDialogue)
+            .def("GetCurrentDialogue", &MapDialogueSupervisor::GetCurrentDialogue)
         ];
 
         luabind::module(vt_script::ScriptManager->GetGlobalState(), "vt_map")
         [
-            luabind::class_<SpriteDialogue, vt_common::CommonDialogue>("SpriteDialogue")
-            .def(luabind::constructor<uint32>())
+            luabind::class_<SpriteDialogue, vt_common::Dialogue>("SpriteDialogue")
             .def(luabind::constructor<>())
             .def(luabind::constructor<const std::string&>())
-            .def("AddLine", (void(SpriteDialogue:: *)(const std::string &, uint32))&SpriteDialogue::AddLine)
-            .def("AddLine", (void(SpriteDialogue:: *)(const std::string &, VirtualSprite *))&SpriteDialogue::AddLine)
-            .def("AddLineEmote", (void(SpriteDialogue:: *)(const std::string &, VirtualSprite *, const std::string &))&SpriteDialogue::AddLineEmote)
 
-            .def("AddLine", (void(SpriteDialogue:: *)(const std::string &, uint32, int32))&SpriteDialogue::AddLine)
-            .def("AddLine", (void(SpriteDialogue:: *)(const std::string &, VirtualSprite *, int32))&SpriteDialogue::AddLine)
+            .def("AddLine", (void(SpriteDialogue:: *)(const std::string &, MapSprite*))&SpriteDialogue::AddLine)
+            .def("AddLine", (void(SpriteDialogue:: *)(const std::string &, MapSprite*, int32))&SpriteDialogue::AddLine)
+            .def("AddLineEmote", (void(SpriteDialogue:: *)(const std::string &, MapSprite*, const std::string &))&SpriteDialogue::AddLineEmote)
 
-            .def("AddLineTimed", (void(SpriteDialogue:: *)(const std::string &, uint32, uint32))&SpriteDialogue::AddLineTimed)
-            .def("AddLineTimed", (void(SpriteDialogue:: *)(const std::string &, VirtualSprite *, uint32))&SpriteDialogue::AddLineTimed)
+            .def("AddLineTimed", (void(SpriteDialogue:: *)(const std::string &, MapSprite*, uint32))&SpriteDialogue::AddLineTimed)
+            .def("AddLineTimed", (void(SpriteDialogue:: *)(const std::string &, MapSprite*, int32, uint32))&SpriteDialogue::AddLineTimed)
+            .def("AddLineEvent", (void(SpriteDialogue:: *)(const std::string &, MapSprite*, const std::string &, const std::string &))&SpriteDialogue::AddLineEvent)
+            .def("AddLineEvent", (void(SpriteDialogue:: *)(const std::string &, MapSprite*, int32, const std::string &, const std::string &))&SpriteDialogue::AddLineEvent)
+            .def("AddLineEventEmote", (void(SpriteDialogue:: *)(const std::string &, MapSprite*, const std::string &, const std::string &, const std::string &))&SpriteDialogue::AddLineEventEmote)
 
-            .def("AddLineTimed", (void(SpriteDialogue:: *)(const std::string &, uint32, int32, uint32))&SpriteDialogue::AddLineTimed)
-            .def("AddLineTimed", (void(SpriteDialogue:: *)(const std::string &, VirtualSprite *, int32, uint32))&SpriteDialogue::AddLineTimed)
-
-            .def("AddLineEvent", (void(SpriteDialogue:: *)(const std::string &, uint32, const std::string &, const std::string &))&SpriteDialogue::AddLineEvent)
-            .def("AddLineEvent", (void(SpriteDialogue:: *)(const std::string &, VirtualSprite *, const std::string &, const std::string &))&SpriteDialogue::AddLineEvent)
-            .def("AddLineEventEmote", (void(SpriteDialogue:: *)(const std::string &, VirtualSprite *, const std::string &, const std::string &, const std::string &))&SpriteDialogue::AddLineEventEmote)
-
-            .def("AddLineEvent", (void(SpriteDialogue:: *)(const std::string &, uint32, int32, const std::string &, const std::string &))&SpriteDialogue::AddLineEvent)
-            .def("AddLineEvent", (void(SpriteDialogue:: *)(const std::string &, VirtualSprite *, int32, const std::string &, const std::string &))&SpriteDialogue::AddLineEvent)
-
-            .def("AddLineTimedEvent", (void(SpriteDialogue:: *)(const std::string &, uint32, uint32, const std::string &, const std::string &))&SpriteDialogue::AddLineTimedEvent)
-            .def("AddLineTimedEvent", (void(SpriteDialogue:: *)(const std::string &, VirtualSprite *, uint32, const std::string &, const std::string &))&SpriteDialogue::AddLineTimedEvent)
-
-            .def("AddLineTimedEvent", (void(SpriteDialogue:: *)(const std::string &, uint32, int32, uint32, const std::string &, const std::string &, const std::string &))&SpriteDialogue::AddLineTimedEvent)
-            .def("AddLineTimedEvent", (void(SpriteDialogue:: *)(const std::string &, VirtualSprite *, int32, uint32, const std::string &, const std::string &))&SpriteDialogue::AddLineTimedEvent)
+            .def("AddLineTimedEvent", (void(SpriteDialogue:: *)(const std::string &, MapSprite *, uint32, const std::string &, const std::string &))&SpriteDialogue::AddLineTimedEvent)
+            .def("AddLineTimedEvent", (void(SpriteDialogue:: *)(const std::string &, MapSprite *, int32, uint32, const std::string &, const std::string&, const std::string&))&SpriteDialogue::AddLineTimedEvent)
 
             .def("AddOption", (void(SpriteDialogue:: *)(const std::string &))&SpriteDialogue::AddOption)
             .def("AddOption", (void(SpriteDialogue:: *)(const std::string &, int32))&SpriteDialogue::AddOption)
@@ -489,7 +475,6 @@ void BindModeCode()
         luabind::module(vt_script::ScriptManager->GetGlobalState(), "vt_map")
         [
             luabind::class_<DialogueEvent, MapEvent>("DialogueEvent")
-            .def(luabind::constructor<std::string, uint32>())
             .def(luabind::constructor<std::string, SpriteDialogue *>())
             .def("SetStopCameraMovement", &DialogueEvent::SetStopCameraMovement)
         ];
@@ -589,6 +574,7 @@ void BindModeCode()
             .def("AddObject", &ShopEvent::AddObject)
             .def("AddTrade", &ShopEvent::AddTrade)
             .def("SetPriceLevels", &ShopEvent::SetPriceLevels)
+            .def("AddScript", &ShopEvent::AddScript)
         ];
 
         luabind::module(vt_script::ScriptManager->GetGlobalState(), "vt_map")
@@ -816,36 +802,6 @@ void BindModeCode()
         luabind::module(vt_script::ScriptManager->GetGlobalState(), "vt_battle")
         [
             luabind::class_<CommandSupervisor>("CommandSupervisor")
-        ];
-
-        luabind::module(vt_script::ScriptManager->GetGlobalState(), "vt_battle")
-        [
-            luabind::class_<BattleDialogue, vt_common::CommonDialogue>("BattleDialogue")
-            .def(luabind::constructor<uint32>())
-            .def("AddLine", (void(BattleDialogue:: *)(const std::string &, uint32))&BattleDialogue::AddLine)
-            .def("AddLine", (void(BattleDialogue:: *)(const std::string &, uint32, int32))&BattleDialogue::AddLine)
-            .def("AddLineTimed", (void(BattleDialogue:: *)(const std::string &, uint32, uint32))&BattleDialogue::AddLineTimed)
-            .def("AddLineTimed", (void(BattleDialogue:: *)(const std::string &, uint32, int32, uint32))&BattleDialogue::AddLineTimed)
-            .def("AddOption", (void(BattleDialogue:: *)(const std::string &))&BattleDialogue::AddOption)
-            .def("AddOption", (void(BattleDialogue:: *)(const std::string &, int32))&BattleDialogue::AddOption)
-            .def("Validate", &BattleDialogue::Validate)
-        ];
-
-        luabind::module(vt_script::ScriptManager->GetGlobalState(), "vt_battle")
-        [
-            luabind::class_<DialogueSupervisor>("DialogueSupervisor")
-            .def("AddDialogue", &DialogueSupervisor::AddDialogue, luabind::adopt(_2))
-            .def("AddCharacterSpeaker", &DialogueSupervisor::AddCharacterSpeaker)
-            .def("AddEnemySpeaker", &DialogueSupervisor::AddEnemySpeaker)
-            .def("AddCustomSpeaker", &DialogueSupervisor::AddCustomSpeaker)
-            .def("ChangeSpeakerName", &DialogueSupervisor::ChangeSpeakerName)
-            .def("ChangeSpeakerPortrait", &DialogueSupervisor::ChangeSpeakerPortrait)
-            .def("BeginDialogue", &DialogueSupervisor::BeginDialogue)
-            .def("EndDialogue", &DialogueSupervisor::EndDialogue)
-            .def("ForceNextLine", &DialogueSupervisor::ForceNextLine)
-            .def("IsDialogueActive", &DialogueSupervisor::IsDialogueActive)
-            .def("GetCurrentDialogue", &DialogueSupervisor::GetCurrentDialogue)
-            .def("GetLineCounter", &DialogueSupervisor::GetLineCounter)
         ];
 
         luabind::module(vt_script::ScriptManager->GetGlobalState(), "vt_battle")

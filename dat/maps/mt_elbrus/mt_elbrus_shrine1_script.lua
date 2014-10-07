@@ -240,7 +240,7 @@ function _CreateObjects()
 
     dialogue = vt_map.SpriteDialogue();
     text = vt_system.Translate("Your party feels better...");
-    dialogue:AddLineEvent(text, 0, "Heal event", ""); -- 0 means no portrait and no name
+    dialogue:AddLineEvent(text, nil, "Heal event", ""); -- 'nil' means no portrait and no name
     DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Heal dialogue", dialogue);
     EventManager:RegisterEvent(event);
