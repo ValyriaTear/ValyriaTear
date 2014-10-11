@@ -46,7 +46,10 @@
                     <a href="#options_menu">The options menu</a><br />
                     <a href="#load_save_menu">The load/save menu</a><p />
 
-                    <a href="#in_game">In-Game</a><br />
+                    <a href="#in_game">In-Game</a><p />
+
+                    <a href="#battles">Battles</a><br />
+                    Shops<br />
                     Pause menu<br />
                     The party menu<br />
                       - Inventory<br />
@@ -54,8 +57,6 @@
                       - Party view<br />
                       - Quests<br />
                       - Worldmap<br />
-                    Shops<br />
-                    Battles<br />
 
                     Characters statistics<br />
                     Status effects<br />
@@ -301,18 +302,19 @@
 
                 <a name="in_game" />
                 <h1><img src="img/star.png">&nbsp; In Game...</h1>
+                <p align="center"><img src="img/ingame1.png" align="center" height="400" /></p>
                 <table><tr><td>
-                    <img src="img/ingame1.png" align="left" height="300" /><p />&nbsp;<p />
                     &nbsp;&nbsp; This the main game mode. In this mode you incarnate one character usually centered on the map, and you can move him around
                     using the <b>arrow keys</b>, you can also run by holding the <b>Cancel Key (Default: 'D')</b> and move around.<br />
-                    &nbsp;&nbsp; You can also interact with save points, other characters, and certain hidden spots using the <b>Confirm key (Default: 'F')</b>.<br />
+                    &nbsp;&nbsp; You can also interact with save points, other characters, and certain hidden spots using the <b>Confirm key (Default: 'F')</b>.<p />
                     <table><tr><td><img src="img/ingame_minimap.png" /></td>
                     <td valign="top">
                         &nbsp;&nbsp; In certain locations, minimaps are available (See image on the left) and can be toggled on/off using the <b>Toggle Minimap key
                         (Default: 'C')</b>. In the minimap, several icon indicates interesting items, such as:<p />
-                        - <b>Character location</b> and direction.<p />
-                        - <b>Save points:</b> Used to save the game. See the <a href="#load_save_menu">Load/Save Menu</a>.<p />
-                        - <b>Layna statues:</b> Restores the party HP/SP.
+                        - <img src="img/ingame_character_location.png" /><b>Character location</b> and direction.<p />
+                        - <img src="img/ingame_savepoint.png" /><b>Save points:</b> Used to save the game. See the <a href="#load_save_menu">Load/Save Menu</a>.<p />
+                        - <img src="img/ingame_layna_statue.png" /><b>Layna statues:</b> Restores the party HP/SP.<br />
+                        - <img src="img/ingame_doors.png" /><img src="img/ingame_exit.png" /><b>Doors / Gates / Exits</b>. Not every exits are shown on maps, though.
                     </td></tr></table>
                     <table><tr><td><img src="img/ingame_stamina.png" /></td>
                     <td valign="top">
@@ -323,8 +325,50 @@
                         &nbsp;&nbsp; If an enemy catches you when the stamina bar is low, an agility malus will be applied on your party at the beginning of the fight.
                         The less full the bar is, the higher the malus will be.<p />
                         &nbsp;&nbsp; Last but not least, in friendly areas, where there are no enemies, the stamina bar will display an infinite symbol and disappear.
-                        This means you can run as much as you want in the corresponding location.
+                        <img src="img/ingame_infinite_stamina.png" /> This means you can run as much as you want in the corresponding location.
                     </td></tr></table>
+                </td></tr></table>
+
+                <hr width="50%" />
+
+                <a name="battles" />
+                <h1><img src="img/star.png">&nbsp; Battles</h1>
+                <p align="center"><img src="img/battle.png" align="center" height="400" /></p>
+
+                <table><tr><td>
+                    &nbsp;&nbsp; When an enemy reaches your character on map, or when an event in game triggers it, a new battle starts...<br />
+                    Your characters will then appear on the left side of the screen and the enemies will usually be dispatched on the right side.<p />
+                    <img src="img/battle_stamina_icon.png" />&nbsp;&nbsp; On the right corner of the screen, the battle stamina bar is representing time flowing in battle. Characters and enemies icons
+                    will move along the bar from bottom to top.<p />
+                    &nbsp;&nbsp; Once a character has reached action level <img src="img/battle_action_level.png" />, you'll be prompted on the next action your character
+                    will have to do.<br />
+                    The stamina bar part under the action level is named the preparation time. During that time, character can't do any actions, while you can planned ahead
+                    and already select actions for them.<br />
+                    The part above the action level is named the warmup time. Once a character has selected an action, this one is usually taking a few seconds before
+                    being triggered. You can see that by the time taken for the stamina icon to reach the upper edge of the stamina bar.
+                    The stronger the action, the more time it will take.
+                    <p />
+                    <h2>Choosing an action:</h2>
+                    <p align="center"><img src="img/battle_action_bar.png" align="center" /></p>
+                    &nbsp;&nbsp; Here you can see the action bar with the selected character awaiting you to choose an action for him. (or her this time.)<br />
+                    When a character is selected, the character portrait is displayed, his current Hit Points and Skill Points are also shown next to his name
+                    and highlighted with a Red horizontal bar.
+                    <p /> &nbsp;&nbsp; The available action types are then displayed on the right side: <b>Weapon</b>, <b>Magic</b> and <b>Items</b> in this case.<br />
+                    You can select an action type, a skill and a target using the <b>Confirm Key (default: 'F')</b>, and get back from a menu using the <b>Cancel Key (Default: 'D')</b>.
+                    <p />
+                    <h2>Skills:</h2>
+                    <p align="center"><img src="img/battle_skill_info.png" align="center" /></p>
+                    &nbsp;&nbsp; While choosing a skill, the available skills, target types, and Skill Points costs are displayed in the corresponding list. You can also get info on the skill
+                    by holding the Menu key <b>(Default: 'S')</b>.<br />
+                    Skills can have different target types, such as: An Ally, All Foes, A Foe specific point, ...<p />
+                    <b>Hint:</b> Be aware that skills attacking a specific target location will permit you "to find holes", ailing effects, or weaknesses in your enemies defences.
+                    <p />
+                    <h2>Victory/Game Over:</h2>
+                    &nbsp;&nbsp; Once your enemies have disappeared from the battle screen, usually being defeated by your attacks, the characters will receive Experience Points (XP).
+                    When they have enough XP, they will reach a new level and gain points in Strength, Agility, HP, SP, ... overall becoming stronger. You should make sure to can face
+                    your enemies without too much pain before going further in a dungeon, or...<p />
+                    &nbsp;&nbsp; If all the characters' HP get to 0, then you've lost and a game over screen will ask you whether you want to restart the battle, or stop the game
+                    and go back to the main menu.
                 </td></tr></table>
 
             </td>
