@@ -1,0 +1,6965 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Valyria Tear\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-08-21 23:27+0200\n"
+"PO-Revision-Date: 2014-11-13 23:17+0100\n"
+"Last-Translator: Alexander Kjäll <alexander.kjall@gmail.com>\n"
+"Language-Team: sv <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.5.4\n"
+"Language: sv\n"
+
+#: ../src/common/global/global_effects.cpp:37
+msgid "Fire"
+msgstr "Eld"
+
+#: ../src/common/global/global_effects.cpp:39
+msgid "Water"
+msgstr "Vatten"
+
+#: ../src/common/global/global_effects.cpp:41
+msgid "Volt"
+msgstr "Volt"
+
+#: ../src/common/global/global_effects.cpp:43
+msgid "Earth"
+msgstr "Jord"
+
+#: ../src/common/global/global_effects.cpp:45 ../dat/skills/magic.lua:475
+msgid "Life"
+msgstr "Liv"
+
+#: ../src/common/global/global_effects.cpp:47 ../dat/skills/magic.lua:1138
+msgid "Death"
+msgstr "Död"
+
+#: ../src/common/global/global_effects.cpp:49
+msgid "Neutral"
+msgstr "Neutral"
+
+#: ../src/common/global/global_effects.cpp:51
+msgid "Invalid Element"
+msgstr "Ogiltig Elementareffekt"
+
+#: ../src/common/global/global_effects.cpp:74
+msgid "Invalid Status"
+msgstr "Ogiltig statuseffekt"
+
+#: ../src/common/global/global_utils.cpp:54
+msgid "Self — Point"
+msgstr ""
+
+#: ../src/common/global/global_utils.cpp:56
+msgid "Ally — Point"
+msgstr ""
+
+#: ../src/common/global/global_utils.cpp:58
+msgid "Foe — Point"
+msgstr ""
+
+#: ../src/common/global/global_utils.cpp:60
+msgid "Self"
+msgstr "Mig själv"
+
+#: ../src/common/global/global_utils.cpp:64
+msgid "Ally"
+msgstr "Allierad"
+
+#: ../src/common/global/global_utils.cpp:66
+msgid "Foe"
+msgstr "Fiende"
+
+#: ../src/common/global/global_utils.cpp:68
+#: ../src/modes/battle/battle_command.cpp:1308
+#: ../src/modes/battle/battle_command.cpp:1336
+#: ../src/modes/battle/battle_utils.cpp:1080
+msgid "All Allies"
+msgstr "Alla allierade"
+
+#: ../src/common/global/global_utils.cpp:70
+msgid "All Foes"
+msgstr "Alla fiender"
+
+#: ../src/common/global/global_utils.cpp:72
+msgid "Invalid Target"
+msgstr "Ogiltigt mål"
+
+#: ../src/common/options_handler.cpp:366
+msgid "Video"
+msgstr "Video"
+
+#: ../src/common/options_handler.cpp:367
+msgid "Audio"
+msgstr "Ljud"
+
+#: ../src/common/options_handler.cpp:368
+msgid "Language"
+msgstr "Språk"
+
+#: ../src/common/options_handler.cpp:369
+msgid "Key Settings"
+msgstr "Tangentinställningar"
+
+#: ../src/common/options_handler.cpp:370
+msgid "Joystick Settings"
+msgstr "Joystickinställningar"
+
+#: ../src/common/options_handler.cpp:393 ../src/common/options_handler.cpp:559
+msgid "Resolution: "
+msgstr "Upplösning:"
+
+#: ../src/common/options_handler.cpp:395 ../src/common/options_handler.cpp:563
+#: ../src/common/options_handler.cpp:565
+msgid "Window mode: "
+msgstr "Fönsterläge:"
+
+#: ../src/common/options_handler.cpp:397 ../src/common/options_handler.cpp:570
+msgid "Brightness: "
+msgstr "Ljusstyrka:"
+
+#: ../src/common/options_handler.cpp:399 ../src/common/options_handler.cpp:573
+msgid "UI Theme: "
+msgstr "Gränssnitt:"
+
+#: ../src/common/options_handler.cpp:418 ../src/common/options_handler.cpp:647
+msgid "Sound Volume: "
+msgstr "Ljudvolym:"
+
+#: ../src/common/options_handler.cpp:421 ../src/common/options_handler.cpp:648
+msgid "Music Volume: "
+msgstr "Musikvolym:"
+
+#: ../src/common/options_handler.cpp:456
+msgid "Up: "
+msgstr "Upp:"
+
+#: ../src/common/options_handler.cpp:457
+msgid "Down: "
+msgstr "Ner:"
+
+#: ../src/common/options_handler.cpp:458
+msgid "Left: "
+msgstr "Vänster:"
+
+#: ../src/common/options_handler.cpp:459
+msgid "Right: "
+msgstr "Right:"
+
+#: ../src/common/options_handler.cpp:460
+msgid "Confirm: "
+msgstr "Godkänn:"
+
+#: ../src/common/options_handler.cpp:461
+msgid "Cancel: "
+msgstr "Avbryt:"
+
+#: ../src/common/options_handler.cpp:462
+msgid "Menu: "
+msgstr "Meny:"
+
+#: ../src/common/options_handler.cpp:463
+msgid "Toggle Map: "
+msgstr "Visa karta:"
+
+#: ../src/common/options_handler.cpp:464
+msgid "Pause: "
+msgstr "Pausa:"
+
+#: ../src/common/options_handler.cpp:465 ../src/common/options_handler.cpp:499
+msgid "Restore defaults"
+msgstr "Återställ ursprungsvärdna"
+
+#: ../src/common/options_handler.cpp:563
+msgid "Fullscreen"
+msgstr "Helskärm"
+
+#: ../src/common/options_handler.cpp:565
+msgid "Windowed"
+msgstr "Fönsterläge"
+
+#: ../src/common/options_handler.cpp:654
+msgid "Move Up"
+msgstr "Gå upp"
+
+#: ../src/common/options_handler.cpp:655
+msgid "Move Down"
+msgstr "Gå ner"
+
+#: ../src/common/options_handler.cpp:656
+msgid "Move Left"
+msgstr "Gå vänster"
+
+#: ../src/common/options_handler.cpp:657
+msgid "Move Right"
+msgstr "Gå höger"
+
+#: ../src/common/options_handler.cpp:658 ../src/modes/mode_help_window.cpp:143
+#: ../src/modes/mode_help_window.cpp:186 ../src/modes/mode_help_window.cpp:242
+msgid "Confirm"
+msgstr "Bekräfta"
+
+#: ../src/common/options_handler.cpp:659 ../src/modes/mode_help_window.cpp:146
+#: ../src/modes/mode_help_window.cpp:192 ../src/modes/mode_help_window.cpp:245
+#: ../src/modes/pause.cpp:83 ../src/modes/save/save_mode.cpp:136
+msgid "Cancel"
+msgstr "Avbryt"
+
+#: ../src/common/options_handler.cpp:660 ../src/modes/boot/boot.cpp:368
+#: ../src/modes/mode_help_window.cpp:189 ../src/modes/mode_help_window.cpp:250
+#: ../src/modes/mode_help_window.cpp:255
+msgid "Menu"
+msgstr "Meny"
+
+#: ../src/common/options_handler.cpp:661
+msgid "Toggle Map"
+msgstr "Karta"
+
+#: ../src/common/options_handler.cpp:662 ../src/modes/mode_help_window.cpp:198
+#: ../src/modes/mode_help_window.cpp:259
+msgid "Pause"
+msgstr "Pausa"
+
+#: ../src/common/options_handler.cpp:669 ../src/common/options_handler.cpp:671
+msgid "Input enabled: "
+msgstr ""
+
+#: ../src/common/options_handler.cpp:669
+#: ../src/modes/battle/battle_finish.cpp:161
+msgid "Yes"
+msgstr "Ja"
+
+#: ../src/common/options_handler.cpp:671
+#: ../src/modes/battle/battle_finish.cpp:162
+msgid "No"
+msgstr "Nej"
+
+#: ../src/common/options_handler.cpp:673
+msgid "X Axis"
+msgstr "X-led"
+
+#: ../src/common/options_handler.cpp:674
+msgid "Y Axis"
+msgstr "Y-led"
+
+#: ../src/common/options_handler.cpp:675
+msgid "Threshold"
+msgstr "Gränsvärde"
+
+#: ../src/common/options_handler.cpp:676
+msgid "Confirm: Button"
+msgstr ""
+
+#: ../src/common/options_handler.cpp:677
+msgid "Cancel: Button"
+msgstr ""
+
+#: ../src/common/options_handler.cpp:678
+msgid "Menu: Button"
+msgstr ""
+
+#: ../src/common/options_handler.cpp:679
+msgid "Map: Button"
+msgstr ""
+
+#: ../src/common/options_handler.cpp:680
+msgid "Pause: Button"
+msgstr ""
+
+#: ../src/common/options_handler.cpp:681
+msgid "Help: Button"
+msgstr ""
+
+#: ../src/common/options_handler.cpp:682
+msgid "Quit: Button"
+msgstr ""
+
+#: ../src/common/options_handler.cpp:894
+msgid "Please press a new joystick button."
+msgstr "Vänligen tryck på en ny joystickknapp."
+
+#: ../src/common/options_handler.cpp:896
+msgid "Please press a new key."
+msgstr "Vänligen tryck på en ny knapp."
+
+#: ../src/common/options_handler.cpp:898
+msgid "Please move an axis."
+msgstr ""
+
+#: ../src/engine/indicator_supervisor.cpp:403
+msgid "Miss"
+msgstr "Miss"
+
+#: ../src/modes/battle/battle_actions.cpp:302
+msgid "[error]"
+msgstr "[fel]"
+
+#: ../src/modes/battle/battle_actors.cpp:1082
+msgid "[Select Action]"
+msgstr "[Välj handling]"
+
+#: ../src/modes/battle/battle_command.cpp:327
+msgid "Item<R>Type   ×"
+msgstr ""
+
+#: ../src/modes/battle/battle_command.cpp:537
+msgid "Skill<R>Type SP"
+msgstr ""
+
+#: ../src/modes/battle/battle_command.cpp:647
+#: ../src/modes/battle/battle_command.cpp:653
+#: ../src/modes/battle/battle_command.cpp:751
+#: ../src/modes/battle/battle_command.cpp:752
+#: ../src/modes/menu/menu_views.cpp:1704
+msgid "Weapon"
+msgstr "Vapen"
+
+#: ../src/modes/battle/battle_command.cpp:648
+#: ../src/modes/battle/battle_command.cpp:654
+msgid "Magic"
+msgstr "Magi"
+
+#: ../src/modes/battle/battle_command.cpp:650
+#: ../src/modes/battle/battle_command.cpp:656 ../src/modes/menu/menu.cpp:361
+#: ../src/modes/shop/shop.cpp:67
+msgid "Items"
+msgstr "Saker"
+
+#: ../src/modes/battle/battle_command.cpp:755
+#: ../src/modes/battle/battle_command.cpp:756
+msgid "Bare-hand"
+msgstr ""
+
+#: ../src/modes/battle/battle_command.cpp:1303
+msgid "Select Target"
+msgstr "Välj mål"
+
+#: ../src/modes/battle/battle_command.cpp:1310
+#: ../src/modes/battle/battle_command.cpp:1338
+#: ../src/modes/battle/battle_utils.cpp:1083
+msgid "All Enemies"
+msgstr "Alla fiender"
+
+#: ../src/modes/battle/battle_command.cpp:1348
+msgid "Select Attack Point"
+msgstr ""
+
+#: ../src/modes/battle/battle.cpp:110 ../dat/effects/status.lua:418
+msgid "HP"
+msgstr "HP"
+
+#: ../src/modes/battle/battle.cpp:112 ../dat/effects/status.lua:587
+msgid "SP"
+msgstr ""
+
+#: ../src/modes/battle/battle_finish.cpp:148
+msgid "Retry"
+msgstr "Pröva igen"
+
+#: ../src/modes/battle/battle_finish.cpp:149
+msgid "End"
+msgstr "Avsluta"
+
+#: ../src/modes/battle/battle_finish.cpp:291
+msgid "Start over from the beginning of this battle."
+msgstr ""
+
+#: ../src/modes/battle/battle_finish.cpp:294
+msgid "Exit to main menu."
+msgstr ""
+
+#: ../src/modes/battle/battle_finish.cpp:303
+msgid "Confirm: retry battle."
+msgstr ""
+
+#: ../src/modes/battle/battle_finish.cpp:306
+msgid "Confirm: return to main menu."
+msgstr "Bekräfta: återgå till huvudmenyn."
+
+#: ../src/modes/battle/battle_finish.cpp:381
+msgid "Items Found"
+msgstr "Saker funna"
+
+#: ../src/modes/battle/battle_finish.cpp:543
+msgid "XP Earned: "
+msgstr ""
+
+#: ../src/modes/battle/battle_finish.cpp:545
+msgid "Drunes Found: "
+msgstr ""
+
+#: ../src/modes/battle/battle_finish.cpp:546
+msgid "Total Drunes: "
+msgstr ""
+
+#: ../src/modes/battle/battle_finish.cpp:605
+#: ../src/modes/battle/battle_finish.cpp:806
+msgid "Level (Max): "
+msgstr ""
+
+#: ../src/modes/battle/battle_finish.cpp:609
+#: ../src/modes/battle/battle_finish.cpp:808
+msgid "Level: "
+msgstr ""
+
+#: ../src/modes/battle/battle_finish.cpp:611
+#: ../src/modes/battle/battle_finish.cpp:809
+msgid "XP left: "
+msgstr ""
+
+#: ../src/modes/battle/battle_finish.cpp:749
+msgid "HP: +"
+msgstr "HP: +"
+
+#: ../src/modes/battle/battle_finish.cpp:755
+msgid "SP: +"
+msgstr ""
+
+#: ../src/modes/battle/battle_finish.cpp:761
+msgid "STR: +"
+msgstr ""
+
+#: ../src/modes/battle/battle_finish.cpp:767
+msgid "VIG: +"
+msgstr ""
+
+#: ../src/modes/battle/battle_finish.cpp:773
+msgid "FOR: +"
+msgstr ""
+
+#: ../src/modes/battle/battle_finish.cpp:779
+msgid "PRO: +"
+msgstr ""
+
+#: ../src/modes/battle/battle_finish.cpp:785
+msgid "AGI: +"
+msgstr ""
+
+#: ../src/modes/battle/battle_finish.cpp:791
+msgid "EVA: +"
+msgstr ""
+
+#: ../src/modes/battle/battle_finish.cpp:799
+msgid "New Skill Learned:\n"
+msgstr ""
+
+#: ../src/modes/battle/battle_finish.cpp:811
+msgid " (+20%)"
+msgstr "(+20%)"
+
+#: ../src/modes/battle/battle_finish.cpp:933
+msgid "The heroes were victorious!"
+msgstr "Hjältarna vann!"
+
+#: ../src/modes/battle/battle_finish.cpp:936
+msgid "The heroes fell in battle..."
+msgstr "Hjältarna stupade..."
+
+#: ../src/modes/battle/battle_utils.cpp:1065
+msgid "[Invalid Target]"
+msgstr "[Ogiltigt mål]"
+
+#: ../src/modes/battle/battle_utils.cpp:1070
+msgid " — "
+msgstr ""
+
+#: ../src/modes/boot/boot.cpp:360
+msgid "New Game"
+msgstr "Nytt Spel"
+
+#: ../src/modes/boot/boot.cpp:361 ../src/modes/save/save_mode.cpp:91
+msgid "Load Game"
+msgstr "Ladda spel"
+
+#: ../src/modes/boot/boot.cpp:362 ../src/modes/pause.cpp:84
+msgid "Options"
+msgstr "Inställningar"
+
+#: ../src/modes/boot/boot.cpp:367 ../src/modes/menu/menu_views.cpp:1318
+msgid "Battle"
+msgstr "Strid"
+
+#: ../src/modes/boot/boot.cpp:369
+msgid "Shop"
+msgstr "Butik"
+
+#: ../src/modes/boot/boot.cpp:373 ../src/modes/mode_help_window.cpp:150
+#: ../src/modes/mode_help_window.cpp:201 ../src/modes/mode_help_window.cpp:262
+msgid "Quit"
+msgstr "Avsluta"
+
+#: ../src/modes/map/map_treasure.cpp:82
+msgid "You obtain"
+msgstr "Du får"
+
+#: ../src/modes/map/map_treasure.cpp:105
+msgid "Ok"
+msgstr "Ok"
+
+#: ../src/modes/map/map_treasure.cpp:158 ../src/modes/map/map_treasure.cpp:326
+msgid "Drunes"
+msgstr ""
+
+#: ../src/modes/menu/menu.cpp:237
+msgid "Inventory"
+msgstr ""
+
+#: ../src/modes/menu/menu.cpp:238
+msgid "Skills"
+msgstr ""
+
+#: ../src/modes/menu/menu.cpp:239
+msgid "Party"
+msgstr "Grupp"
+
+#: ../src/modes/menu/menu.cpp:240
+msgid "Quests"
+msgstr ""
+
+#: ../src/modes/menu/menu.cpp:241
+msgid "Map"
+msgstr "Karta"
+
+#: ../src/modes/menu/menu.cpp:256
+msgid ""
+"Select to view current world map.\n"
+"Use left / right to cycle through locations.\n"
+"Press 'cancel' to return"
+msgstr ""
+
+#: ../src/modes/menu/menu.cpp:258
+msgid "Select to view Quest Log."
+msgstr ""
+
+#: ../src/modes/menu/menu.cpp:362
+msgid "Equip"
+msgstr ""
+
+#: ../src/modes/menu/menu.cpp:363
+msgid "Remove"
+msgstr ""
+
+#: ../src/modes/menu/menu.cpp:364 ../src/modes/menu/menu.cpp:443
+#: ../src/modes/menu/menu.cpp:508
+msgid "Back"
+msgstr "Tillbaka"
+
+#: ../src/modes/menu/menu.cpp:442
+msgid "View/Reorder"
+msgstr "Visa/Ändra ordning"
+
+#: ../src/modes/menu/menu.cpp:450
+msgid ""
+"View character Information.\n"
+"Select a character to change formation."
+msgstr ""
+
+#: ../src/modes/menu/menu.cpp:507
+msgid "Use"
+msgstr "Använd"
+
+#: ../src/modes/menu/menu.cpp:781
+msgid "This item is a key item and can be neither consumed nor sold."
+msgstr ""
+
+#: ../src/modes/menu/menu.cpp:789
+msgid "This item is an elemental spirit and can be associated with equipment."
+msgstr ""
+
+#: ../src/modes/menu/menu.cpp:901 ../src/modes/shop/shop.cpp:208
+msgid "Skills obtained:"
+msgstr ""
+
+#: ../src/modes/menu/menu.cpp:1113 ../src/modes/shop/shop.cpp:197
+#: ../src/modes/shop/shop.cpp:537
+msgid "ATK:"
+msgstr ""
+
+#: ../src/modes/menu/menu.cpp:1114 ../src/modes/shop/shop.cpp:199
+#: ../src/modes/shop/shop.cpp:538
+msgid "M.ATK:"
+msgstr ""
+
+#: ../src/modes/menu/menu.cpp:1117 ../src/modes/shop/shop.cpp:544
+msgid "DEF:"
+msgstr ""
+
+#: ../src/modes/menu/menu.cpp:1118 ../src/modes/shop/shop.cpp:545
+msgid "M.DEF:"
+msgstr ""
+
+#: ../src/modes/menu/menu_views.cpp:73 ../src/modes/save/save_mode.cpp:688
+msgid "Lv: "
+msgstr ""
+
+#: ../src/modes/menu/menu_views.cpp:74 ../src/modes/save/save_mode.cpp:689
+msgid "HP: "
+msgstr "HP:"
+
+#: ../src/modes/menu/menu_views.cpp:76 ../src/modes/save/save_mode.cpp:691
+msgid "SP: "
+msgstr ""
+
+#: ../src/modes/menu/menu_views.cpp:78
+msgid "XP to Next: "
+msgstr ""
+
+#: ../src/modes/menu/menu_views.cpp:197
+msgid "Select an item to Equip or Use."
+msgstr ""
+
+#: ../src/modes/menu/menu_views.cpp:198
+msgid "This character cannot equip this item."
+msgstr "Den här karaktären kan inte använda den här saken."
+
+#: ../src/modes/menu/menu_views.cpp:199
+msgid "Select a character to use the item on."
+msgstr ""
+
+#: ../src/modes/menu/menu_views.cpp:872
+msgid "Select a character to change position with."
+msgstr ""
+
+#: ../src/modes/menu/menu_views.cpp:873
+msgid "Select a character to change formation."
+msgstr ""
+
+#: ../src/modes/menu/menu_views.cpp:934
+msgid "Attack / Defense:"
+msgstr ""
+
+#: ../src/modes/menu/menu_views.cpp:936
+msgid "Detailed defense:"
+msgstr ""
+
+#: ../src/modes/menu/menu_views.cpp:939
+msgid "Attack (ATK): "
+msgstr ""
+
+#: ../src/modes/menu/menu_views.cpp:940
+msgid "Magical Attack (M.ATK): "
+msgstr ""
+
+#: ../src/modes/menu/menu_views.cpp:941
+msgid "Defense (DEF): "
+msgstr ""
+
+#: ../src/modes/menu/menu_views.cpp:942
+msgid "Magical Defense (M.DEF): "
+msgstr ""
+
+#: ../src/modes/menu/menu_views.cpp:949
+msgid "Head: "
+msgstr "Huvud:"
+
+#: ../src/modes/menu/menu_views.cpp:950
+msgid "Torso: "
+msgstr "Bål:"
+
+#: ../src/modes/menu/menu_views.cpp:951
+msgid "Arm: "
+msgstr "Armar:"
+
+#: ../src/modes/menu/menu_views.cpp:952
+msgid "Leg: "
+msgstr "Ben:"
+
+#: ../src/modes/menu/menu_views.cpp:1058
+msgid "Experience Level: "
+msgstr ""
+
+#: ../src/modes/menu/menu_views.cpp:1060
+msgid "Strength (STR): "
+msgstr ""
+
+#: ../src/modes/menu/menu_views.cpp:1061
+msgid "Vigor (VIG): "
+msgstr ""
+
+#: ../src/modes/menu/menu_views.cpp:1062
+msgid "Fortitude (FRT): "
+msgstr ""
+
+#: ../src/modes/menu/menu_views.cpp:1063
+msgid "Protection (PRO): "
+msgstr ""
+
+#: ../src/modes/menu/menu_views.cpp:1064
+msgid "Agility (AGI): "
+msgstr ""
+
+#: ../src/modes/menu/menu_views.cpp:1065
+msgid "Evade (EVD): "
+msgstr ""
+
+#: ../src/modes/menu/menu_views.cpp:1226
+msgid "Choose a character."
+msgstr "Välj en karaktär."
+
+#: ../src/modes/menu/menu_views.cpp:1227
+msgid "Choose a skill category to use."
+msgstr ""
+
+#: ../src/modes/menu/menu_views.cpp:1316
+msgid "All"
+msgstr "Alla"
+
+#: ../src/modes/menu/menu_views.cpp:1317
+msgid "Field"
+msgstr "Fält"
+
+#: ../src/modes/menu/menu_views.cpp:1520
+msgid "Weapon skill"
+msgstr ""
+
+#: ../src/modes/menu/menu_views.cpp:1522
+msgid "Bare hands"
+msgstr ""
+
+#: ../src/modes/menu/menu_views.cpp:1525
+msgid "Magic skill"
+msgstr ""
+
+#: ../src/modes/menu/menu_views.cpp:1531
+msgid "Special skill"
+msgstr ""
+
+#: ../src/modes/menu/menu_views.cpp:1651
+msgid " SP"
+msgstr ""
+
+#: ../src/modes/menu/menu_views.cpp:1706 ../dat/actors/characters.lua:62
+#: ../dat/actors/characters.lua:275 ../dat/actors/characters.lua:483
+#: ../dat/actors/characters.lua:619 ../dat/actors/enemies.lua:91
+#: ../dat/actors/enemies.lua:149 ../dat/actors/enemies.lua:204
+#: ../dat/actors/enemies.lua:374 ../dat/actors/enemies.lua:434
+#: ../dat/actors/enemies.lua:488 ../dat/actors/enemies.lua:556
+#: ../dat/actors/enemies.lua:853 ../dat/actors/enemies.lua:996
+#: ../dat/actors/enemies.lua:1059 ../dat/actors/enemies.lua:1127
+#: ../dat/actors/enemies.lua:1181 ../dat/actors/enemies.lua:1239
+#: ../dat/actors/enemies.lua:1517 ../dat/actors/enemies.lua:1736
+#: ../dat/actors/enemies.lua:1793 ../dat/actors/enemies.lua:1850
+#: ../dat/actors/enemies.lua:1916
+msgid "Head"
+msgstr "Huvud"
+
+#: ../src/modes/menu/menu_views.cpp:1708 ../dat/actors/characters.lua:71
+#: ../dat/actors/characters.lua:284 ../dat/actors/characters.lua:492
+#: ../dat/actors/characters.lua:628 ../dat/actors/enemies.lua:315
+#: ../dat/actors/enemies.lua:497 ../dat/actors/enemies.lua:565
+#: ../dat/actors/enemies.lua:708 ../dat/actors/enemies.lua:755
+#: ../dat/actors/enemies.lua:952 ../dat/actors/enemies.lua:1302
+msgid "Torso"
+msgstr "Bål"
+
+#: ../src/modes/menu/menu_views.cpp:1710 ../dat/actors/characters.lua:79
+#: ../dat/actors/characters.lua:292 ../dat/actors/characters.lua:500
+#: ../dat/actors/characters.lua:636
+msgid "Arms"
+msgstr "Armar"
+
+#: ../src/modes/menu/menu_views.cpp:1712 ../dat/actors/characters.lua:88
+#: ../dat/actors/characters.lua:301 ../dat/actors/characters.lua:509
+#: ../dat/actors/characters.lua:645 ../dat/actors/enemies.lua:505
+#: ../dat/actors/enemies.lua:573 ../dat/actors/enemies.lua:1597
+#: ../dat/actors/enemies.lua:1874
+msgid "Legs"
+msgstr "Ben"
+
+#: ../src/modes/menu/menu_views.cpp:2098
+msgid "No weapon"
+msgstr "Inget vapen"
+
+#: ../src/modes/menu/menu_views.cpp:2099
+msgid "No head armor"
+msgstr "Inget skydd för huvudet"
+
+#: ../src/modes/menu/menu_views.cpp:2100
+msgid "No torso armor"
+msgstr "Inget skydd för bålen"
+
+#: ../src/modes/menu/menu_views.cpp:2101
+msgid "No arms armor"
+msgstr "Inget skydd för armarna"
+
+#: ../src/modes/menu/menu_views.cpp:2102
+msgid "No legs armor"
+msgstr "Inget skydd för benen"
+
+#: ../src/modes/mode_help_window.cpp:121
+msgid "Welcome to Valyria Tear"
+msgstr "Välkommen till Valyria Tear"
+
+#: ../src/modes/mode_help_window.cpp:127 ../src/modes/mode_help_window.cpp:164
+#: ../src/modes/mode_help_window.cpp:219
+msgid "Command"
+msgstr "Kommando"
+
+#: ../src/modes/mode_help_window.cpp:128 ../src/modes/mode_help_window.cpp:165
+msgid "Current Key"
+msgstr "Nuvarande tangent"
+
+#: ../src/modes/mode_help_window.cpp:129 ../src/modes/mode_help_window.cpp:166
+msgid "Purpose"
+msgstr ""
+
+#: ../src/modes/mode_help_window.cpp:137 ../src/modes/mode_help_window.cpp:174
+#: ../src/modes/mode_help_window.cpp:236
+#: ../dat/help/in_game_move_and_interact_anim.lua:41
+msgid "Left"
+msgstr "Vänster"
+
+#: ../src/modes/mode_help_window.cpp:139
+msgid "Move menu cursor to the left"
+msgstr "Flytta menypekaren till vänster"
+
+#: ../src/modes/mode_help_window.cpp:140 ../src/modes/mode_help_window.cpp:177
+#: ../src/modes/mode_help_window.cpp:239
+#: ../dat/help/in_game_move_and_interact_anim.lua:42
+msgid "Right"
+msgstr "Höger"
+
+#: ../src/modes/mode_help_window.cpp:142
+msgid "Move menu cursor to the right"
+msgstr "Flytta menypekaren till höger"
+
+#: ../src/modes/mode_help_window.cpp:145
+msgid "Confirm a menu command"
+msgstr "Bekräfta menykommandot"
+
+#: ../src/modes/mode_help_window.cpp:148
+msgid "Cancel a menu command"
+msgstr "Avbryt menykommandot"
+
+#: ../src/modes/mode_help_window.cpp:152
+msgid ""
+"Quit the application\n"
+"(when using the keyboard)"
+msgstr ""
+"Avsluta programmet\n"
+"(när man använder tangentbordet)"
+
+#: ../src/modes/mode_help_window.cpp:156
+msgid ""
+"Shop mode\n"
+"\n"
+"Use the Left/Right keys to add/remove items into the Buy and Sell modes.\n"
+"Then go into the Confirm mode to complete the transaction."
+msgstr ""
+
+#: ../src/modes/mode_help_window.cpp:176
+msgid "Remove an item from the buy/sell list"
+msgstr "Avlägsna från köp/sälj-listan"
+
+#: ../src/modes/mode_help_window.cpp:179
+msgid "Add an item to the buy/sell list."
+msgstr "Lägg till köp/sälj-listan"
+
+#: ../src/modes/mode_help_window.cpp:180 ../src/modes/mode_help_window.cpp:230
+#: ../dat/help/in_game_move_and_interact_anim.lua:43
+msgid "Up"
+msgstr "Upp"
+
+#: ../src/modes/mode_help_window.cpp:182
+msgid "Move up in the item list."
+msgstr ""
+
+#: ../src/modes/mode_help_window.cpp:183 ../src/modes/mode_help_window.cpp:233
+#: ../dat/help/in_game_move_and_interact_anim.lua:44
+msgid "Down"
+msgstr "Ner"
+
+#: ../src/modes/mode_help_window.cpp:185
+msgid "Move down in the item list."
+msgstr ""
+
+#: ../src/modes/mode_help_window.cpp:188
+msgid "Show details or confirm a transaction"
+msgstr ""
+
+#: ../src/modes/mode_help_window.cpp:191
+msgid "Change the displayed item category."
+msgstr ""
+
+#: ../src/modes/mode_help_window.cpp:194
+msgid ""
+"Get out the Buy/Sell/Confirm mode,\n"
+"or quit the shop."
+msgstr ""
+
+#: ../src/modes/mode_help_window.cpp:200 ../src/modes/mode_help_window.cpp:261
+msgid "Pauses the game"
+msgstr "Pausar spelet"
+
+#: ../src/modes/mode_help_window.cpp:203
+msgid "Close this window / Show the system menu"
+msgstr ""
+
+#: ../src/modes/mode_help_window.cpp:209
+msgid "The table below lists the default game controls.\n"
+msgstr ""
+
+#: ../src/modes/mode_help_window.cpp:210
+msgid "The control mappings can be changed in the options menu."
+msgstr ""
+
+#: ../src/modes/mode_help_window.cpp:220
+msgid "Default Key"
+msgstr "Standardtangent"
+
+#: ../src/modes/mode_help_window.cpp:221
+msgid "General Purpose"
+msgstr ""
+
+#: ../src/modes/mode_help_window.cpp:232
+msgid "Move position or cursor upwards"
+msgstr "Flytta markering eller pekare uppåt"
+
+#: ../src/modes/mode_help_window.cpp:235
+msgid "Move position or cursor downwards"
+msgstr "Flytta markering eller pekare neråt"
+
+#: ../src/modes/mode_help_window.cpp:238
+msgid "Move position or cursor to the left"
+msgstr "Flytta markering eller pekare till vänster"
+
+#: ../src/modes/mode_help_window.cpp:241
+msgid "Move position or cursor to the right"
+msgstr "Flytta markering eller pekare till höger"
+
+#: ../src/modes/mode_help_window.cpp:244
+msgid "Confirm an action or menu command"
+msgstr "Bekräfta en handling eller menyval"
+
+#: ../src/modes/mode_help_window.cpp:247
+msgid "Cancel an action or menu command"
+msgstr "Avbryt en handling eller menyval"
+
+#: ../src/modes/mode_help_window.cpp:252
+msgid "Opens the party menu"
+msgstr "Öppnar gruppmenyn"
+
+#: ../src/modes/mode_help_window.cpp:257
+msgid "Show/Hide items and skills descriptions."
+msgstr "Visa/Dölj saker och färdighetsbeskrivningar."
+
+#: ../src/modes/mode_help_window.cpp:264
+msgid "Quit the application"
+msgstr "Avsluta"
+
+#: ../src/modes/mode_help_window.cpp:267
+msgid ""
+"There are additional commands available which can be found in the MANUAL "
+"file."
+msgstr ""
+
+#: ../src/modes/pause.cpp:65
+msgid "Paused"
+msgstr "Pausat"
+
+#: ../src/modes/pause.cpp:85
+msgid "Quit to Main Menu"
+msgstr "Åter till huvudmenyn"
+
+#: ../src/modes/pause.cpp:86
+msgid "Quit Game"
+msgstr "Avsluta"
+
+#: ../src/modes/save/save_mode.cpp:89
+msgid "Save Game"
+msgstr "Spara"
+
+#: ../src/modes/save/save_mode.cpp:113
+msgid "Slot 1"
+msgstr ""
+
+#: ../src/modes/save/save_mode.cpp:114
+msgid "Slot 2"
+msgstr ""
+
+#: ../src/modes/save/save_mode.cpp:115
+msgid "Slot 3"
+msgstr ""
+
+#: ../src/modes/save/save_mode.cpp:116
+msgid "Slot 4"
+msgstr ""
+
+#: ../src/modes/save/save_mode.cpp:117
+msgid "Slot 5"
+msgstr ""
+
+#: ../src/modes/save/save_mode.cpp:118
+msgid "Slot 6"
+msgstr ""
+
+#: ../src/modes/save/save_mode.cpp:135
+msgid "Confirm Save"
+msgstr "Bekräfta sparning"
+
+#: ../src/modes/save/save_mode.cpp:144
+msgid "Save successful!"
+msgstr "Sparning lyckad!"
+
+#: ../src/modes/save/save_mode.cpp:151
+msgid ""
+"Unable to save game!\n"
+"Save FAILED!"
+msgstr ""
+
+#: ../src/modes/save/save_mode.cpp:157
+msgid "No valid saves found!"
+msgstr "Inga giltiga sparningar hittades!"
+
+#: ../src/modes/save/save_mode.cpp:466
+msgid "Invalid data!"
+msgstr "Ogiltig data!"
+
+#: ../src/modes/save/save_mode.cpp:468
+msgid "No data"
+msgstr "Ingen data"
+
+#: ../src/modes/shop/shop_buy.cpp:59 ../src/modes/shop/shop_sell.cpp:59
+#: ../src/modes/shop/shop_trade.cpp:56
+msgid "Category"
+msgstr "Kategori"
+
+#: ../src/modes/shop/shop_buy.cpp:62 ../src/modes/shop/shop_sell.cpp:62
+#: ../src/modes/shop/shop_trade.cpp:59
+msgid "Name"
+msgstr "Namn"
+
+#: ../src/modes/shop/shop_buy.cpp:68 ../src/modes/shop/shop_sell.cpp:68
+#: ../src/modes/shop/shop_trade.cpp:65
+msgid "Price"
+msgstr "Pris"
+
+#: ../src/modes/shop/shop_buy.cpp:69 ../src/modes/shop/shop_trade.cpp:66
+msgid "Stock"
+msgstr ""
+
+#: ../src/modes/shop/shop_buy.cpp:70 ../src/modes/shop/shop_sell.cpp:69
+#: ../src/modes/shop/shop_trade.cpp:67
+msgid "Own"
+msgstr ""
+
+#: ../src/modes/shop/shop.cpp:68
+msgid "Weapons"
+msgstr "Vapen"
+
+#: ../src/modes/shop/shop.cpp:69
+msgid "Head Armor"
+msgstr "Huvudskydd"
+
+#: ../src/modes/shop/shop.cpp:70
+msgid "Torso Armor"
+msgstr "Bålskydd"
+
+#: ../src/modes/shop/shop.cpp:71
+msgid "Arm Armor"
+msgstr "Armskydd"
+
+#: ../src/modes/shop/shop.cpp:72
+msgid "Leg Armor"
+msgstr "Benskydd"
+
+#: ../src/modes/shop/shop.cpp:73
+msgid "Spirits"
+msgstr ""
+
+#: ../src/modes/shop/shop.cpp:74
+msgid "Key Items"
+msgstr "Nyckelföremål"
+
+#: ../src/modes/shop/shop.cpp:75
+msgid "All Wares"
+msgstr ""
+
+#: ../src/modes/shop/shop.cpp:179
+msgid "Field Use:"
+msgstr ""
+
+#: ../src/modes/shop/shop.cpp:181
+msgid "Battle Use:"
+msgstr ""
+
+#: ../src/modes/shop/shop.cpp:183
+msgid "Target:"
+msgstr "Mål:"
+
+#: ../src/modes/shop/shop.cpp:205
+msgid "Conditions:"
+msgstr ""
+
+#: ../src/modes/shop/shop.cpp:728
+msgid "Buy count: x "
+msgstr ""
+
+#: ../src/modes/shop/shop.cpp:731
+msgid "Sell count: x "
+msgstr ""
+
+#: ../src/modes/shop/shop.cpp:734
+msgid "Trade count: x "
+msgstr ""
+
+#: ../src/modes/shop/shop.cpp:1025 ../src/modes/shop/shop.cpp:1184
+msgid "Buy"
+msgstr "Köp"
+
+#: ../src/modes/shop/shop.cpp:1026 ../src/modes/shop/shop.cpp:1185
+msgid "Sell"
+msgstr "Sälj"
+
+#: ../src/modes/shop/shop.cpp:1027 ../src/modes/shop/shop.cpp:1186
+msgid "Trade"
+msgstr "Byt"
+
+#: ../src/modes/shop/shop.cpp:1187
+msgid "Leave"
+msgstr "Lämna"
+
+#: ../src/modes/shop/shop.cpp:1609
+msgid "Funds: "
+msgstr ""
+
+#: ../src/modes/shop/shop.cpp:1611
+msgid "Purchases: "
+msgstr ""
+
+#: ../src/modes/shop/shop.cpp:1612 ../src/modes/shop/shop.cpp:1615
+msgid "Total: "
+msgstr "Totalt:"
+
+#: ../src/modes/shop/shop.cpp:1614
+msgid "Sales: +"
+msgstr ""
+
+#: ../src/modes/shop/shop_root.cpp:54
+msgid "The Shop"
+msgstr "Butiken"
+
+#: ../src/modes/shop/shop_root.cpp:57
+msgid "Buy prices"
+msgstr ""
+
+#: ../src/modes/shop/shop_root.cpp:59
+msgid "Sell prices"
+msgstr ""
+
+#: ../src/modes/shop/shop_root.cpp:67
+msgid "\"Welcome! Take a look around.\""
+msgstr ""
+
+#: ../dat/actors/characters.lua:13 ../dat/actors/map_sprites.lua:11
+#: ../dat/actors/map_sprites.lua:44
+#: ../dat/battles/tutorial_battle_dialogs.lua:63
+#: ../dat/maps/layna_village/battle_with_banesore/battle_with_banesore_script.lua:56
+msgid "Bronann"
+msgstr "Bronann"
+
+#: ../dat/actors/characters.lua:19 ../dat/skills/magic.lua:1048
+msgid "Holy"
+msgstr "Helig"
+
+#: ../dat/actors/characters.lua:228 ../dat/actors/map_sprites.lua:60
+#: ../dat/battles/tutorial_battle_dialogs.lua:64
+#: ../dat/maps/mt_elbrus/battle_with_dark_soldiers_script.lua:32
+msgid "Kalya"
+msgstr ""
+
+#: ../dat/actors/characters.lua:234
+msgid "Invocation"
+msgstr ""
+
+#: ../dat/actors/characters.lua:439
+msgid "Sylve"
+msgstr ""
+
+#: ../dat/actors/characters.lua:445
+msgid "Mist"
+msgstr "Dimma"
+
+#: ../dat/actors/characters.lua:574 ../dat/actors/map_sprites.lua:87
+msgid "Thanis"
+msgstr ""
+
+#: ../dat/actors/characters.lua:580
+msgid "Acheron"
+msgstr ""
+
+#: ../dat/actors/enemies.lua:22
+msgid "Green Slime"
+msgstr ""
+
+#: ../dat/actors/enemies.lua:47 ../dat/actors/enemies.lua:158
+#: ../dat/actors/enemies.lua:213 ../dat/actors/enemies.lua:269
+#: ../dat/actors/enemies.lua:383 ../dat/actors/enemies.lua:443
+#: ../dat/actors/enemies.lua:620 ../dat/actors/enemies.lua:906
+#: ../dat/actors/enemies.lua:1366 ../dat/actors/enemies.lua:1422
+#: ../dat/actors/enemies.lua:1469 ../dat/actors/enemies.lua:1744
+msgid "Body"
+msgstr "Kropp"
+
+#: ../dat/actors/enemies.lua:66
+msgid "Spider"
+msgstr "Spindel"
+
+#: ../dat/actors/enemies.lua:100 ../dat/actors/enemies.lua:1189
+#: ../dat/actors/enemies.lua:1801
+msgid "Abdomen"
+msgstr ""
+
+#: ../dat/actors/enemies.lua:120 ../dat/actors/enemies.lua:345
+#: ../dat/actors/enemies.lua:405 ../dat/actors/map_sprites.lua:436
+msgid "Fenrir"
+msgstr ""
+
+#: ../dat/actors/enemies.lua:179
+msgid "Snake"
+msgstr ""
+
+#: ../dat/actors/enemies.lua:221 ../dat/actors/enemies.lua:1247
+#: ../dat/actors/enemies.lua:1752 ../dat/actors/enemies.lua:1809
+msgid "Tail"
+msgstr ""
+
+#: ../dat/actors/enemies.lua:244 ../dat/actors/map_sprites.lua:394
+msgid "Slime Mother"
+msgstr ""
+
+#: ../dat/actors/enemies.lua:290 ../dat/actors/map_sprites.lua:353
+msgid "Bat"
+msgstr "Fladdermus"
+
+#: ../dat/actors/enemies.lua:323
+msgid "Wing"
+msgstr ""
+
+#: ../dat/actors/enemies.lua:463 ../dat/actors/map_sprites.lua:451
+#: ../dat/actors/map_sprites.lua:526
+msgid "Dark Soldier"
+msgstr "Kärv soldat"
+
+#: ../dat/actors/enemies.lua:526
+#: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:229
+msgid "Lord Banesore"
+msgstr ""
+
+#: ../dat/actors/enemies.lua:595 ../dat/actors/map_sprites.lua:489
+msgid "Shroom"
+msgstr ""
+
+#: ../dat/actors/enemies.lua:640 ../dat/actors/map_sprites.lua:510
+msgid "Eyeball"
+msgstr ""
+
+#: ../dat/actors/enemies.lua:665 ../dat/actors/enemies.lua:1294
+msgid "Eye"
+msgstr "Öga"
+
+#: ../dat/actors/enemies.lua:683
+msgid "Harlequin?"
+msgstr ""
+
+#: ../dat/actors/enemies.lua:730
+#: ../dat/maps/mt_elbrus/mt_elbrus_path3_script.lua:1140
+msgid "Harlequin"
+msgstr ""
+
+#: ../dat/actors/enemies.lua:783 ../dat/actors/map_sprites.lua:542
+msgid "Beetle"
+msgstr ""
+
+#: ../dat/actors/enemies.lua:808 ../dat/actors/enemies.lua:861
+#: ../dat/actors/enemies.lua:1004 ../dat/actors/enemies.lua:1067
+#: ../dat/actors/enemies.lua:1858 ../dat/actors/enemies.lua:1924
+msgid "Chest"
+msgstr "Kista"
+
+#: ../dat/actors/enemies.lua:828
+msgid "Rat"
+msgstr "Råtta"
+
+#: ../dat/actors/enemies.lua:881
+msgid "Thing"
+msgstr "Sak"
+
+#: ../dat/actors/enemies.lua:927
+msgid "Yeti"
+msgstr ""
+
+#: ../dat/actors/enemies.lua:971 ../dat/actors/map_sprites.lua:558
+msgid "Skeleton"
+msgstr "Skelett"
+
+#: ../dat/actors/enemies.lua:1012 ../dat/actors/enemies.lua:1075
+#: ../dat/actors/enemies.lua:1197 ../dat/actors/enemies.lua:1533
+msgid "Leg"
+msgstr "Ben"
+
+#: ../dat/actors/enemies.lua:1034
+msgid "Dorver"
+msgstr ""
+
+#: ../dat/actors/enemies.lua:1102 ../dat/actors/map_sprites.lua:574
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine_basement_script.lua:124
+msgid "Andromalius"
+msgstr ""
+
+#: ../dat/actors/enemies.lua:1163
+msgid "Scorpion"
+msgstr "Skorpion"
+
+#: ../dat/actors/enemies.lua:1218
+msgid "Dune Crawler"
+msgstr ""
+
+#: ../dat/actors/enemies.lua:1273
+msgid "Stygian Lizard"
+msgstr ""
+
+#: ../dat/actors/enemies.lua:1310 ../dat/actors/enemies.lua:1374
+msgid "Claw"
+msgstr ""
+
+#: ../dat/actors/enemies.lua:1337
+msgid "Demonic Essence"
+msgstr ""
+
+#: ../dat/actors/enemies.lua:1358
+msgid "Face"
+msgstr ""
+
+#: ../dat/actors/enemies.lua:1401
+msgid "Red Slime"
+msgstr ""
+
+#: ../dat/actors/enemies.lua:1448
+msgid "Mushroom Zombie"
+msgstr ""
+
+#: ../dat/actors/enemies.lua:1496
+msgid "Scorpion Goliath"
+msgstr ""
+
+#: ../dat/actors/enemies.lua:1525
+msgid "Pincer"
+msgstr ""
+
+#: ../dat/actors/enemies.lua:1560
+msgid "Armored Beast"
+msgstr ""
+
+#: ../dat/actors/enemies.lua:1581
+msgid "Mesosoma"
+msgstr ""
+
+#: ../dat/actors/enemies.lua:1589
+msgid "Pincers"
+msgstr ""
+
+#: ../dat/actors/enemies.lua:1617
+msgid "Daemarbora"
+msgstr ""
+
+#: ../dat/actors/enemies.lua:1638
+msgid "Trunk"
+msgstr ""
+
+#: ../dat/actors/enemies.lua:1646
+msgid "Branches"
+msgstr ""
+
+#: ../dat/actors/enemies.lua:1666
+msgid "Aerocephal"
+msgstr ""
+
+#: ../dat/actors/enemies.lua:1687
+msgid "Forehead"
+msgstr ""
+
+#: ../dat/actors/enemies.lua:1695
+msgid "Orifice"
+msgstr ""
+
+#: ../dat/actors/enemies.lua:1715
+msgid "Arcana Drake"
+msgstr ""
+
+#: ../dat/actors/enemies.lua:1772
+msgid "Nagaruda"
+msgstr ""
+
+#: ../dat/actors/enemies.lua:1829
+msgid "Deceleon"
+msgstr ""
+
+#: ../dat/actors/enemies.lua:1866 ../dat/actors/enemies.lua:1932
+msgid "Arm"
+msgstr ""
+
+#: ../dat/actors/enemies.lua:1894
+msgid "Aurum Drakueli"
+msgstr ""
+
+#: ../dat/actors/map_sprites.lua:105
+msgid "Carson"
+msgstr ""
+
+#: ../dat/actors/map_sprites.lua:121
+msgid "Malta"
+msgstr ""
+
+#: ../dat/actors/map_sprites.lua:137
+msgid "Orlinn"
+msgstr ""
+
+#: ../dat/actors/map_sprites.lua:159
+#: ../dat/maps/layna_village/battle_with_banesore/battle_with_banesore_script.lua:58
+msgid "Herth"
+msgstr ""
+
+#: ../dat/actors/map_sprites.lua:179
+#: ../dat/maps/layna_village/layna_village_center_script.lua:207
+#: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:175
+msgid "Olivia"
+msgstr ""
+
+#: ../dat/actors/map_sprites.lua:194
+#: ../dat/maps/layna_village/layna_village_center_script.lua:158
+#: ../dat/maps/layna_village/layna_village_kalya_house_path_script.lua:188
+#: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:163
+msgid "Brymir"
+msgstr ""
+
+#: ../dat/actors/map_sprites.lua:209
+#: ../dat/maps/layna_village/layna_village_center_script.lua:167
+#: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:167
+msgid "Martha"
+msgstr ""
+
+#: ../dat/actors/map_sprites.lua:224
+#: ../dat/maps/layna_village/layna_village_center_script.lua:176
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:186
+msgid "Sophia"
+msgstr ""
+
+#: ../dat/actors/map_sprites.lua:240
+#: ../dat/maps/layna_village/battle_with_banesore/battle_with_banesore_script.lua:59
+#: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:151
+#: ../dat/maps/layna_village/layna_village_riverbank_script.lua:107
+msgid "Lilly"
+msgstr ""
+
+#: ../dat/actors/map_sprites.lua:255
+#: ../dat/maps/layna_village/layna_village_center_script.lua:201
+#: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:171
+msgid "Georges"
+msgstr ""
+
+#: ../dat/actors/map_sprites.lua:271
+msgid "Crystal"
+msgstr ""
+
+#: ../dat/actors/map_sprites.lua:287
+#: ../dat/maps/layna_village/layna_village_center_at_night_script.lua:123
+#: ../dat/maps/layna_village/layna_village_center_at_night_script.lua:127
+#: ../dat/maps/layna_village/layna_village_center_at_night_script.lua:131
+#: ../dat/maps/layna_village/layna_village_center_at_night_script.lua:135
+#: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:180
+#: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:183
+#: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:186
+#: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:189
+#: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:192
+#: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:195
+#: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:198
+#: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:201
+#: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:204
+#: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:207
+#: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:210
+#: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:213
+#: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:216
+#: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:219
+#: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:222
+#: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:225
+#: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:234
+#: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:237
+#: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:240
+#: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:243
+#: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:248
+#: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:262
+#: ../dat/maps/mt_elbrus/battle_with_dark_soldiers_script.lua:33
+#: ../dat/maps/mt_elbrus/mt_elbrus_path3_script.lua:149
+#: ../dat/maps/mt_elbrus/mt_elbrus_path3_script.lua:153
+#: ../dat/maps/mt_elbrus/mt_elbrus_path3_script.lua:157
+#: ../dat/maps/mt_elbrus/mt_elbrus_path4_script.lua:152
+#: ../dat/maps/mt_elbrus/mt_elbrus_path4_script.lua:156
+#: ../dat/maps/mt_elbrus/mt_elbrus_path4_script.lua:160
+msgid "Soldier"
+msgstr ""
+
+#: ../dat/actors/map_sprites.lua:305
+msgid "Chicken"
+msgstr ""
+
+#: ../dat/actors/map_sprites.lua:320
+msgid "Butterfly"
+msgstr ""
+
+#: ../dat/actors/map_sprites.lua:335
+msgid "Squirrel"
+msgstr ""
+
+#: ../dat/actors/map_sprites.lua:472
+msgid "Lord"
+msgstr ""
+
+#: ../dat/battles/tutorial_battle_dialogs.lua:71
+msgid ""
+"Woah, I wouldn't have expected monsters so close to the village. Bronann, do "
+"you need a quick reminder about the basics in battles?"
+msgstr ""
+
+#: ../dat/battles/tutorial_battle_dialogs.lua:73
+#: ../dat/battles/tutorial_battle_dialogs.lua:100
+#: ../dat/maps/layna_forest/layna_forest_cave1_2_script.lua:204
+#: ../dat/maps/layna_forest/layna_forest_wolf_cave_script.lua:211
+#: ../dat/maps/layna_village/battle_with_banesore/battle_with_banesore_script.lua:66
+#: ../dat/maps/layna_village/layna_village_bronanns_home_script.lua:305
+#: ../dat/maps/layna_village/layna_village_center_script.lua:591
+#: ../dat/maps/layna_village/layna_village_center_script.lua:1110
+#: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:319
+#: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:450
+#: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:551
+#: ../dat/maps/mt_elbrus/mt_elbrus_cave1_script.lua:120
+#: ../dat/maps/mt_elbrus/mt_elbrus_cave1_script.lua:140
+#: ../dat/maps/mt_elbrus/mt_elbrus_cave1_script.lua:163
+#: ../dat/maps/mt_elbrus/mt_elbrus_cave1_script.lua:196
+#: ../dat/maps/mt_elbrus/mt_elbrus_north_east_exit_script.lua:306
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:533
+msgid "..."
+msgstr "..."
+
+#: ../dat/battles/tutorial_battle_dialogs.lua:75
+msgid "Ask about battle basics."
+msgstr ""
+
+#: ../dat/battles/tutorial_battle_dialogs.lua:77
+msgid "Ask nothing. I know how to fight."
+msgstr ""
+
+#: ../dat/battles/tutorial_battle_dialogs.lua:80
+msgid "Er, I could use a refresher on the fundamentals of combat."
+msgstr ""
+
+#: ../dat/battles/tutorial_battle_dialogs.lua:82
+msgid ""
+"Here you can find the Hit Points (HP) and Skill Points (SP) of all the ally "
+"party. Don't let our HP reach 0 or we're doomed!"
+msgstr ""
+
+#: ../dat/battles/tutorial_battle_dialogs.lua:84
+msgid ""
+"In battles, our stamina icons and the ones of our enemy are going up the "
+"Stamina Bar. The more Agility you have, the quickest you'll reach the upper "
+"part of it."
+msgstr ""
+
+#: ../dat/battles/tutorial_battle_dialogs.lua:86
+msgid ""
+"Once one of us has reached the action level, you can select an action for "
+"the one concerned. Don't panic, the battle is then paused and you've got all "
+"the time needed to select one."
+msgstr ""
+
+#: ../dat/battles/tutorial_battle_dialogs.lua:88
+msgid ""
+"There are several action types: The basic one 'Weapon', and later 'Magic' "
+"skills. Last but not least, you'll also be able to use our 'Items'. Simply "
+"choose one action and a target to trigger it."
+msgstr ""
+
+#: ../dat/battles/tutorial_battle_dialogs.lua:90
+msgid ""
+"The icon will the reach the top of the Stamina Bar before being triggering "
+"it. It's called the 'preparation time'. The stronger is the skill, the "
+"longer it has to be prepared."
+msgstr ""
+
+#: ../dat/battles/tutorial_battle_dialogs.lua:92
+msgid ""
+"By the way, you're not forced to wait for your icon to reach the action "
+"level before acting. The two little arrows here can be triggered, using your "
+"up and down keys, to preselect an action for either of us."
+msgstr ""
+
+#: ../dat/battles/tutorial_battle_dialogs.lua:94
+msgid ""
+"As long as the little arrows there are visible, you can change the selected "
+"action."
+msgstr ""
+
+#: ../dat/battles/tutorial_battle_dialogs.lua:96
+msgid "Don't forget you can press '"
+msgstr ""
+
+#: ../dat/battles/tutorial_battle_dialogs.lua:96
+msgid "' if you need more details."
+msgstr ""
+
+#: ../dat/battles/tutorial_battle_dialogs.lua:98
+msgid "Shall I repeat?"
+msgstr ""
+
+#: ../dat/battles/tutorial_battle_dialogs.lua:102
+msgid "Yes, please!"
+msgstr "Ja, gärna!"
+
+#: ../dat/battles/tutorial_battle_dialogs.lua:104
+msgid "No, it's alright!"
+msgstr ""
+
+#: ../dat/battles/tutorial_battle_dialogs.lua:108
+msgid "Don't worry Kalya, I have not forgotten my training."
+msgstr ""
+
+#: ../dat/battles/tutorial_battle_dialogs.lua:111
+msgid "Thanks Kalya, I'm prepared now."
+msgstr ""
+
+#: ../dat/battles/tutorial_battle_dialogs.lua:114
+msgid "Good. Let us quickly dispatch this minor threat."
+msgstr ""
+
+#: ../dat/config/quests.lua:17
+msgid "Get Some Barley Meal"
+msgstr ""
+
+#: ../dat/config/quests.lua:19
+msgid ""
+"Mom needs some for dinner!\n"
+" \n"
+"Flora might have some in her shop. I should go and have a look there first."
+msgstr ""
+
+#: ../dat/config/quests.lua:21
+msgid ""
+"Finally, I found some... Lilly had what I sought in her house the whole time."
+msgstr ""
+
+#: ../dat/config/quests.lua:25 ../dat/config/quests.lua:41
+#: ../dat/config/quests.lua:57 ../dat/config/quests.lua:73
+#: ../dat/config/quests.lua:91 ../dat/config/quests.lua:107
+#: ../dat/config/quests.lua:123 ../dat/config/world_locations.lua:18
+msgid "Village of Layna"
+msgstr ""
+
+#: ../dat/config/quests.lua:27 ../dat/config/quests.lua:93 map_names_tr.lua:52
+#: map_names_tr.lua:260
+msgid "Bronann's home"
+msgstr ""
+
+#: ../dat/config/quests.lua:33
+msgid "Find Georges's pen"
+msgstr ""
+
+#: ../dat/config/quests.lua:35
+msgid ""
+"In order to know who Georges gave the rest of his barley meal to, I need to "
+"get back his lost pen.\n"
+" \n"
+"He said he lost it near a tree; he also told me that people in the village "
+"might know more..."
+msgstr ""
+
+#: ../dat/config/quests.lua:37
+msgid ""
+"Orlinn had the pen and I ran after him all morning to get it back. I hope he "
+"won't have any problems with Kalya..."
+msgstr ""
+
+#: ../dat/config/quests.lua:43 ../dat/config/quests.lua:59
+#: ../dat/config/quests.lua:109 map_names_tr.lua:56 map_names_tr.lua:60
+#: map_names_tr.lua:264 map_names_tr.lua:268
+msgid "Village center"
+msgstr ""
+
+#: ../dat/config/quests.lua:49
+msgid "Catch Orlinn!"
+msgstr ""
+
+#: ../dat/config/quests.lua:51
+msgid ""
+"Orlinn has got the pen I need to back to Georges! The only problem now is to "
+"find where he's hiding. Hmm, it shouldn't take long..."
+msgstr ""
+
+#: ../dat/config/quests.lua:53
+msgid ""
+"After chasing him around the village all morning, I finally have the pen. "
+"Time to bring it back to Georges..."
+msgstr ""
+
+#: ../dat/config/quests.lua:65
+msgid "Catch the chickens..."
+msgstr ""
+
+#: ../dat/config/quests.lua:67
+msgid ""
+"Grandma asked me to catch the chickens that flew away. There are three of "
+"them..."
+msgstr ""
+
+#: ../dat/config/quests.lua:69
+msgid "I was able to find them!"
+msgstr ""
+
+#: ../dat/config/quests.lua:75
+msgid "Path to Kalya's house"
+msgstr ""
+
+#: ../dat/config/quests.lua:83
+msgid "Let's go in the woods..."
+msgstr ""
+
+#: ../dat/config/quests.lua:85
+msgid ""
+"It's been weeks since I could go outside the village.\n"
+" \n"
+"The entrance has been shut with stones, and now they won't even let me go "
+"and breathe in the only place I could be alone?!?\n"
+" \n"
+"Whatever... I need a sword just in case... and I'll get there alone!"
+msgstr ""
+
+#: ../dat/config/quests.lua:87
+msgid "I'm now equipped, and access to the forest has been granted!"
+msgstr ""
+
+#: ../dat/config/quests.lua:99
+msgid "Orlinn might be in danger!"
+msgstr ""
+
+#: ../dat/config/quests.lua:101
+msgid ""
+"After seeing that strange light, Orlinn just ran into the woods. He's just a "
+"kid, even if a quick one!\n"
+" \n"
+"My father asked me to go there with Kalya and get him back safe and sound.\n"
+" \n"
+"I can't let them down!"
+msgstr ""
+
+#: ../dat/config/quests.lua:103
+msgid ""
+"We finally retrieved Orlinn in the center of the forest. A mysterious wolf "
+"was protecting him, and we came just in time to prevent him from approaching "
+"a strange crystal..."
+msgstr ""
+
+#: ../dat/config/quests.lua:115
+msgid "We must escape from the soldiers..."
+msgstr ""
+
+#: ../dat/config/quests.lua:117
+msgid ""
+"After we returned to the village, Kalya was caught by strange soldiers. The "
+"country Lord himself provoked me in battle, and thanks to her, we escaped "
+"for now.\n"
+" \n"
+"But this isn't over, the soldiers are after us and we have to make our way "
+"through..."
+msgstr ""
+
+#: ../dat/config/quests.lua:119
+msgid "We managed to find a way up to the mountain top."
+msgstr ""
+
+#: ../dat/config/quests.lua:125
+msgid "Kalya's home basement"
+msgstr ""
+
+#: ../dat/config/themes.lua:14
+msgid "Royal Silk"
+msgstr ""
+
+#: ../dat/config/themes.lua:21
+msgid "Black Sleet"
+msgstr ""
+
+#: ../dat/config/themes.lua:28
+msgid "Elvish Feather"
+msgstr ""
+
+#: ../dat/config/world_locations.lua:29 map_names_tr.lua:18
+#: map_names_tr.lua:22 map_names_tr.lua:26 map_names_tr.lua:30
+#: map_names_tr.lua:34 map_names_tr.lua:38 map_names_tr.lua:226
+#: map_names_tr.lua:230 map_names_tr.lua:234 map_names_tr.lua:238
+#: map_names_tr.lua:242 map_names_tr.lua:246
+msgid "Layna Forest"
+msgstr ""
+
+#: ../dat/config/world_locations.lua:40 map_names_tr.lua:114
+#: map_names_tr.lua:118 map_names_tr.lua:122 map_names_tr.lua:126
+#: map_names_tr.lua:130 map_names_tr.lua:134 map_names_tr.lua:138
+#: map_names_tr.lua:142 map_names_tr.lua:146 map_names_tr.lua:154
+#: map_names_tr.lua:158 map_names_tr.lua:198 map_names_tr.lua:322
+#: map_names_tr.lua:326 map_names_tr.lua:330 map_names_tr.lua:334
+#: map_names_tr.lua:338 map_names_tr.lua:342 map_names_tr.lua:346
+#: map_names_tr.lua:350 map_names_tr.lua:354 map_names_tr.lua:362
+#: map_names_tr.lua:366 map_names_tr.lua:406
+msgid "Mt. Elbrus"
+msgstr ""
+
+#: ../dat/credits/end_credits.lua:32
+msgid "Thanks for playing!!"
+msgstr ""
+
+#: ../dat/credits/end_credits.lua:51
+msgid "Episode I"
+msgstr ""
+
+#: ../dat/credits/end_credits.lua:70 ../dat/credits/episode1_credits.lua:38
+msgid "Story"
+msgstr ""
+
+#: ../dat/credits/end_credits.lua:95
+msgid "Lead Programming, Scripting, Maps"
+msgstr ""
+
+#: ../dat/credits/end_credits.lua:120
+msgid "Additional programming and scripting"
+msgstr ""
+
+#: ../dat/credits/end_credits.lua:132
+msgid ""
+"Balancing, ...\n"
+"\n"
+"Quest log, Minimap support, ...\n"
+"\n"
+"Shop Trade mode support, ...\n"
+"\n"
+"UI theme change menu support, ...\n"
+"\n"
+"GL code improvement, ...\n"
+"\n"
+"Multiple screen fix, ...\n"
+"\n"
+"Misc fixes\n"
+"\n"
+"Joystick handling fixes"
+msgstr ""
+
+#: ../dat/credits/end_credits.lua:165 ../dat/credits/end_credits.lua:204
+#: ../dat/credits/end_credits.lua:251
+msgid "Graphics"
+msgstr ""
+
+#: ../dat/credits/end_credits.lua:178
+msgid ""
+"Village tileset, ...\n"
+"\n"
+"Cemetery tileset, ...\n"
+"\n"
+"Heroes portraits, ...\n"
+"\n"
+"Heroes sprites, Cave tilesets, ...\n"
+"\n"
+"\n"
+"Forest battle backgrounds, ...\n"
+"\n"
+"\n"
+"The Fenrir\n"
+"\n"
+"A lot of various things"
+msgstr ""
+
+#: ../dat/credits/end_credits.lua:298 ../dat/credits/end_credits.lua:331
+#: ../dat/credits/episode1_credits.lua:51
+msgid "Music"
+msgstr ""
+
+#: ../dat/credits/end_credits.lua:312
+msgid ""
+"\n"
+"Main theme, Village music, ...\n"
+"\n"
+"Banesore's battle, ...\n"
+"\n"
+"Layna Forest music, ...\n"
+"\n"
+"Boss Music\n"
+"\n"
+"Battle music\n"
+"\n"
+"Birds' song\n"
+"\n"
+"Battle lost music\n"
+"\n"
+"Layna cave music"
+msgstr ""
+
+#: ../dat/credits/end_credits.lua:344
+msgid ""
+"Sad theme\n"
+"\n"
+"Mountain music\n"
+"\n"
+"Mountain Shrine music\n"
+"\n"
+"Special Boss"
+msgstr ""
+
+#: ../dat/credits/end_credits.lua:363
+msgid "Sounds"
+msgstr ""
+
+#: ../dat/credits/end_credits.lua:404 ../dat/credits/episode1_credits.lua:64
+msgid "Ports"
+msgstr ""
+
+#: ../dat/credits/end_credits.lua:447 ../dat/credits/episode1_credits.lua:68
+#: ../dat/credits/episode1_credits.lua:72
+msgid "Translations"
+msgstr ""
+
+#: ../dat/credits/end_credits.lua:459
+msgid ""
+"English text review\n"
+"\n"
+"Dutch (nl_NL)\n"
+"\n"
+"French (fr)\n"
+"\n"
+"Galician (gl)\n"
+"\n"
+"German (de)\n"
+"\n"
+"Italian (it)\n"
+"\n"
+"Portuguese (pt_PT)\n"
+"\n"
+"Russian (ru)\n"
+"\n"
+"Spanish (es)"
+msgstr ""
+
+#: ../dat/credits/end_credits.lua:478
+msgid "Testers"
+msgstr ""
+
+#: ../dat/credits/end_credits.lua:495
+msgid "And you..."
+msgstr ""
+
+#: ../dat/credits/end_credits.lua:514
+msgid "Valyria Tear was forked from Hero of Allacrost in 2011"
+msgstr ""
+
+#: ../dat/credits/end_credits.lua:533
+msgid ""
+"Allacrost Development Team (2004-2011)\n"
+"\n"
+"Founder and Lead Designer"
+msgstr ""
+
+#: ../dat/credits/end_credits.lua:558
+msgid "Allacrost Project Leads/Administrators"
+msgstr ""
+
+#: ../dat/credits/end_credits.lua:583
+msgid "Allacrost Programming Team (2004-2011)"
+msgstr ""
+
+#: ../dat/credits/end_credits.lua:603
+msgid ""
+"Battle code, Menu code\n"
+"\n"
+"Game editor\n"
+"\n"
+"Game engine\n"
+"\n"
+"Map code\n"
+"\n"
+"Various game modes, content scripting\n"
+"\n"
+"Video engine\n"
+"\n"
+"Video engine, Audio engine\n"
+"\n"
+"Game editor\n"
+"\n"
+"Programming lead, Game engine, Map code"
+msgstr ""
+
+#: ../dat/credits/end_credits.lua:623 ../dat/credits/end_credits.lua:663
+msgid "Allacrost Programming Team"
+msgstr ""
+
+#: ../dat/credits/end_credits.lua:643
+msgid ""
+"Boot code, Battle code\n"
+"\n"
+"Game editor\n"
+"\n"
+"Audio engine\n"
+"\n"
+"Various code, Mac OS X maintenance\n"
+"\n"
+"Game engine, Game modes, Windows build scripts\n"
+"\n"
+"Battle code\n"
+"\n"
+"Map editor\n"
+"\n"
+"Internationalization\n"
+"\n"
+"Video engine"
+msgstr ""
+
+#: ../dat/credits/end_credits.lua:680
+msgid ""
+"Video engine, Game engine\n"
+"\n"
+"Video engine\n"
+"\n"
+"Video engine\n"
+"\n"
+"Scripting engine\n"
+"\n"
+"Various code\n"
+"\n"
+"Various code"
+msgstr ""
+
+#: ../dat/credits/end_credits.lua:700
+msgid "Allacrost Artwork Team (2004-2011)"
+msgstr ""
+
+#: ../dat/credits/end_credits.lua:716
+msgid ""
+"Map sprites, Battle sprites, Character portraits, Location graphics\n"
+"\n"
+"Battle sprites, old Allacrost GUI artwork\n"
+"\n"
+"Map tiles\n"
+"\n"
+"Allacrost website graphics, GUI artwork, Game logos\n"
+"\n"
+"Map tiles, map sprites, Inventory icons, Allacrost artwork coordination"
+msgstr ""
+
+#: ../dat/credits/end_credits.lua:736 ../dat/credits/end_credits.lua:776
+#: ../dat/credits/end_credits.lua:813
+msgid "Allacrost Artwork Team"
+msgstr ""
+
+#: ../dat/credits/end_credits.lua:756
+msgid ""
+"Concept art\n"
+"\n"
+"Inventory icons\n"
+"\n"
+"Map sprite animations\n"
+"\n"
+"Concept art\n"
+"\n"
+"Inventory icons\n"
+"\n"
+"Concept art, Map sprites\n"
+"\n"
+"Map tiles\n"
+"\n"
+"Map tiles\n"
+"\n"
+"Map sprites"
+msgstr ""
+
+#: ../dat/credits/end_credits.lua:793
+msgid ""
+"Map sprite animations\n"
+"\n"
+"Map sprite animations, Map tiles\n"
+"\n"
+"Concept art, Allacrost title screen image\n"
+"\n"
+"Concept art, Map sprites, Map tiles\n"
+"\n"
+"Concept art, Map sprites\n"
+"\n"
+"Map tiles"
+msgstr ""
+
+#: ../dat/credits/end_credits.lua:830
+msgid ""
+"Various art\n"
+"\n"
+"Map tiles\n"
+"\n"
+"Enemy sprites\n"
+"\n"
+"Map sprites, Map tiles\n"
+"\n"
+"Map tiles, Inventory icons\n"
+"\n"
+"Map tiles, Battle sprites"
+msgstr ""
+
+#: ../dat/credits/end_credits.lua:850
+msgid "Allacrost Music and Sound Team (2004-2011)"
+msgstr ""
+
+#: ../dat/credits/end_credits.lua:868
+msgid ""
+"Sound composer\n"
+"\n"
+"Soundtrack composer\n"
+"\n"
+"Music and sound lead, Soundtrack composer\n"
+"\n"
+"Sound composer\n"
+"\n"
+"Sound composer\n"
+"\n"
+"Sound mixer\n"
+"\n"
+"Soundtrack composer"
+msgstr ""
+
+#: ../dat/credits/end_credits.lua:888
+msgid "Allacrost Special Thanks"
+msgstr ""
+
+#: ../dat/credits/end_credits.lua:904
+msgid ""
+"Map Tiles\n"
+"\n"
+"Inventory Icons\n"
+"\n"
+"Map monster sprites"
+msgstr ""
+
+#: ../dat/credits/end_credits.lua:931 ../dat/maps/to_be_continued_anim.lua:32
+msgid "To be continued..."
+msgstr ""
+
+#: ../dat/credits/episode1_credits.lua:34
+msgid "Based on the engine"
+msgstr "Baserat på motorn"
+
+#: ../dat/credits/episode1_credits.lua:42
+msgid "Episode I - Main Graphics"
+msgstr ""
+
+#: ../dat/credits/episode1_credits.lua:46
+msgid "Episode I - Additional Graphics"
+msgstr ""
+
+#: ../dat/credits/episode1_credits.lua:47
+msgid "and many others"
+msgstr "och många fler"
+
+#: ../dat/credits/episode1_credits.lua:56
+msgid "Programming, Scripting, Maps"
+msgstr "Programmering, skriptande, kartor"
+
+#: ../dat/credits/episode1_credits.lua:60
+msgid ""
+"Additional programming\n"
+"and scripting"
+msgstr ""
+"ytterligare programmerande\n"
+"och skriptande"
+
+#: ../dat/credits/episode1_credits.lua:76
+msgid "Tester Team"
+msgstr "testlaget"
+
+#: ../dat/credits/episode1_credits.lua:81
+msgid "To Lilou and Léo..."
+msgstr "Till Lilou och Léo..."
+
+#: ../dat/credits/episode1_credits.lua:85
+msgid ""
+"Thanks to everyone\n"
+"who made this possible!!"
+msgstr ""
+"Tack alla som\n"
+"gjorde det här möjligt!"
+
+#: ../dat/effects/status.lua:74
+msgid "Strength"
+msgstr "Styrka"
+
+#: ../dat/effects/status.lua:131
+msgid "Vigor"
+msgstr ""
+
+#: ../dat/effects/status.lua:188
+msgid "Fortitude"
+msgstr ""
+
+#: ../dat/effects/status.lua:245
+msgid "Protection"
+msgstr ""
+
+#: ../dat/effects/status.lua:302
+msgid "Agility"
+msgstr ""
+
+#: ../dat/effects/status.lua:361
+msgid "Evasion"
+msgstr ""
+
+#: ../dat/effects/status.lua:761
+msgid "Paralysis"
+msgstr ""
+
+#: ../dat/effects/status.lua:816
+msgid "Fire Elemental Strength"
+msgstr ""
+
+#: ../dat/effects/status.lua:873
+msgid "Water Elemental Strength"
+msgstr ""
+
+#: ../dat/effects/status.lua:930
+msgid "Wind Elemental Strength"
+msgstr ""
+
+#: ../dat/effects/status.lua:986
+msgid "Earth Elemental Strength"
+msgstr ""
+
+#: ../dat/effects/status.lua:1042
+msgid "Life Elemental Strength"
+msgstr ""
+
+#: ../dat/effects/status.lua:1098
+msgid "Death Elemental Strength"
+msgstr ""
+
+#: ../dat/effects/status.lua:1155
+msgid "Neutral Elemental Strength"
+msgstr ""
+
+#: ../dat/help/in_game_move_and_interact_anim.lua:45
+msgid "Escape"
+msgstr "Escape"
+
+#: ../dat/help/in_game_move_and_interact_anim.lua:46
+msgid "Space"
+msgstr "Mellanslag"
+
+#: ../dat/help/in_game_move_and_interact_anim.lua:47
+msgid "Ctrl"
+msgstr "Ctrl"
+
+#: ../dat/help/in_game_move_and_interact_anim.lua:48
+msgid "Alt"
+msgstr "Alt"
+
+#: ../dat/help/in_game_move_and_interact_anim.lua:49
+msgid "Shift"
+msgstr "Shift"
+
+#: ../dat/help/in_game_move_and_interact_anim.lua:51
+msgid "Move your character:"
+msgstr "Förflyttning:"
+
+#: ../dat/help/in_game_move_and_interact_anim.lua:57
+msgid "Possible actions:"
+msgstr "Möjliga handlingar:"
+
+#: ../dat/help/in_game_move_and_interact_anim.lua:67
+msgid "Game commands:"
+msgstr "Spelkommandon:"
+
+#: ../dat/maps/layna_forest/layna_forest_cave1_1_script.lua:169
+#: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:155
+#: ../dat/maps/layna_forest/layna_forest_entrance_script.lua:154
+#: ../dat/maps/layna_forest/layna_forest_south_east_script.lua:132
+#: ../dat/maps/mt_elbrus/mt_elbrus_path1_script.lua:158
+#: ../dat/maps/mt_elbrus/mt_elbrus_path2_script.lua:161
+#: ../dat/maps/mt_elbrus/mt_elbrus_path3_script.lua:207
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:242
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine9_script.lua:156
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:234
+msgid "Your party feels better..."
+msgstr "Din grupp mår bättre..."
+
+#: ../dat/maps/layna_forest/layna_forest_cave1_1_script.lua:467
+msgid ""
+"I didn't know that there was a cave here. It's kind of creepy... Let's hurry "
+"and find Orlinn."
+msgstr ""
+
+#: ../dat/maps/layna_forest/layna_forest_cave1_1_script.lua:469
+msgid "It seems Orlinn was able to go through those platforms... somehow."
+msgstr ""
+
+#: ../dat/maps/layna_forest/layna_forest_cave1_1_script.lua:471
+msgid "Let's make our way through this before something bad happens to him."
+msgstr ""
+
+#: ../dat/maps/layna_forest/layna_forest_cave1_1_script.lua:473
+msgid "Look, there is a stone slab on the ground. Let's check this out."
+msgstr ""
+
+#: ../dat/maps/layna_forest/layna_forest_cave1_1_script.lua:491
+msgid "It seems the way is clear now."
+msgstr ""
+
+#: ../dat/maps/layna_forest/layna_forest_cave1_1_script.lua:493
+msgid "(I also heard something falling outside. Let's hope it's nothing bad.)"
+msgstr ""
+
+#: ../dat/maps/layna_forest/layna_forest_cave1_2_script.lua:165
+msgid "Stone sign"
+msgstr ""
+
+#: ../dat/maps/layna_forest/layna_forest_cave1_2_script.lua:197
+msgid "Only the last one standing shall pass ..."
+msgstr ""
+
+#: ../dat/maps/layna_forest/layna_forest_cave1_2_script.lua:267
+msgid "'Only the last one standing shall pass.' ..."
+msgstr ""
+
+#: ../dat/maps/layna_forest/layna_forest_cave1_2_script.lua:269
+msgid "You are able to decipher this writing, Kalya?"
+msgstr ""
+
+#: ../dat/maps/layna_forest/layna_forest_cave1_2_script.lua:271
+msgid "Somehow... I'm not sure how I am able to, but I can read it."
+msgstr ""
+
+#: ../dat/maps/layna_forest/layna_forest_cave1_2_script.lua:273
+msgid "However, I don't know what it means."
+msgstr ""
+
+#: ../dat/maps/layna_forest/layna_forest_cave1_2_script.lua:275
+msgid "Let's look around. We might find out."
+msgstr ""
+
+#: ../dat/maps/layna_forest/layna_forest_cave1_2_script.lua:294
+msgid "... Something heavy seems to have fallen nearby."
+msgstr ""
+
+#: ../dat/maps/layna_forest/layna_forest_cave1_2_script.lua:315
+msgid "... Look!"
+msgstr ""
+
+#: ../dat/maps/layna_forest/layna_forest_cave1_2_script.lua:333
+msgid ""
+"I can feel a breeze and see light escaping into the cave around this rock. "
+"Orlinn must have gone through here."
+msgstr ""
+
+#: ../dat/maps/layna_forest/layna_forest_cave1_2_script.lua:335
+msgid ""
+"There are signs engraved on this rock, too. This looks like some kind of "
+"mechanism my family used long ago..."
+msgstr ""
+
+#: ../dat/maps/layna_forest/layna_forest_cave1_2_script.lua:337
+msgid "Your family? Long ago? ..."
+msgstr ""
+
+#: ../dat/maps/layna_forest/layna_forest_cave1_2_script.lua:339
+msgid ""
+"Err... Nevermind, we must find a way to make this move. Let's look around."
+msgstr ""
+
+#: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:499
+msgid "Orlinn!!"
+msgstr ""
+
+#: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:501
+msgid "I can feel it, sis'. It's coming!"
+msgstr ""
+
+#: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:503
+msgid "Orlinn, stop!"
+msgstr ""
+
+#: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:524
+msgid "What's happening!?!"
+msgstr ""
+
+#: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:563
+msgid "Gosh!! By all heavens, is this...?"
+msgstr ""
+
+#: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:565
+msgid "A crystal stone?!?"
+msgstr ""
+
+#: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:567
+msgid "This is her. I heard her voice calling..."
+msgstr ""
+
+#: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:589
+msgid "Dear chosen one, the time has finally come."
+msgstr ""
+
+#: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:591
+msgid "For us, it will be but an instant."
+msgstr ""
+
+#: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:593
+msgid "For you, it might be decades."
+msgstr ""
+
+#: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:595
+msgid "May you bring a happy end to this foolish destiny of ours."
+msgstr ""
+
+#: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:597
+msgid "We're all anxiously awaiting your return."
+msgstr ""
+
+#: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:599
+msgid "Now, come. Become one with our holy hope."
+msgstr ""
+
+#: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:607
+msgid "What does all of this mean?"
+msgstr ""
+
+#: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:609
+msgid "I shall become one with our only hope..."
+msgstr ""
+
+#: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:611
+msgid "What! Orlinn, No!"
+msgstr ""
+
+#: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:627
+msgid "Bronann, the crystal! No!"
+msgstr ""
+
+#: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:651
+#: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:692
+#: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:696
+#: ../dat/maps/layna_village/layna_village_bronanns_home_script.lua:143
+#: ../dat/maps/layna_village/layna_village_kalya_house_path_at_night_script.lua:259
+#: ../dat/maps/mt_elbrus/mt_elbrus_path4_script.lua:428
+msgid "Bronann!"
+msgstr "Bronann!"
+
+#: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:690
+msgid "Bronann! Are you all right? Answer me!!"
+msgstr ""
+
+#: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:694
+msgid "Woah, where am I?"
+msgstr ""
+
+#: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:698
+msgid "Sis! What's the matter? What happened?"
+msgstr ""
+
+#: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:700
+msgid "What happened?? ... Orlinn ... What have you done? ..."
+msgstr ""
+
+#: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:702
+msgid "... My head ..."
+msgstr ""
+
+#: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:704
+msgid "Bronann! Are you alright?"
+msgstr ""
+
+#: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:706
+msgid "I ... I guess so ..."
+msgstr ""
+
+#: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:708
+msgid "... The wolf! The crystal! Orlinn! Are you ok?? ..."
+msgstr ""
+
+#: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:710
+msgid "Don't worry, I'm fine. Err, what crystal? What ... wolf??"
+msgstr ""
+
+#: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:712
+msgid "... You won't be fine for long after I'm done with you!!"
+msgstr ""
+
+#: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:714
+msgid "... Huh? Wait, I didn't do anything this time!!"
+msgstr ""
+
+#: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:716
+msgid "... Oh? You didn't??"
+msgstr ""
+
+#: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:753
+msgid "When I catch you, I'll make you wish you weren't born!! Rahh!"
+msgstr ""
+
+#: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:755
+#: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:759
+msgid "Yiek!!"
+msgstr ""
+
+#: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:757
+msgid "Come here, now!!!"
+msgstr ""
+
+#: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:761
+msgid "(Sigh)... I should have stayed home today..."
+msgstr ""
+
+#: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:763
+msgid "... Ouch, why is my head hurting so much? ..."
+msgstr ""
+
+#: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:765
+msgid ""
+"Are you ok? We should head back to the village so Lilly can examine you..."
+msgstr ""
+
+#: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:767
+msgid "I still feel really dizzy but I'll be ok..."
+msgstr ""
+
+#: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:769
+msgid ""
+"I'm relieved that Orlinn is fine as well... Speaking of that: Orlinn! Stop "
+"running and come here right now!"
+msgstr ""
+
+#: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:788
+msgid "Owww... Alright."
+msgstr ""
+
+#: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:790
+msgid ""
+"Now, Orlinn. Tell us: Why on earth did you go into the forest alone, and how "
+"did you get there so quickly?"
+msgstr ""
+
+#: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:792
+msgid "I don't know..."
+msgstr "Jag vet inte..."
+
+#: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:794
+msgid "Why was that giant wolf protecting you?"
+msgstr ""
+
+#: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:796
+msgid "What was that crystal? Why did you want to 'become one' with it?"
+msgstr ""
+
+#: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:798
+msgid "I... I... I sincerely don't know... I swear! I was like... dreaming..."
+msgstr ""
+
+#: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:800
+msgid "I merely remember a voice in my head... telling me to come..."
+msgstr ""
+
+#: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:802
+msgid "You know you won't get away with this, when you'll see Herth..."
+msgstr ""
+
+#: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:804
+msgid "I swear it's the truth!"
+msgstr ""
+
+#: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:806
+msgid "Making one with the crystal, huh?"
+msgstr ""
+
+#: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:808
+msgid ""
+"Let's not panic, Bronann, you look fine... Anyway, we'd better get back to "
+"the village and see the Elders as soon as possible."
+msgstr ""
+
+#: ../dat/maps/layna_forest/layna_forest_entrance_script.lua:480
+#: ../dat/maps/mt_elbrus/mt_elbrus_path1_script.lua:643
+msgid "Look!"
+msgstr ""
+
+#: ../dat/maps/layna_forest/layna_forest_entrance_script.lua:496
+msgid ""
+"Have you seen one of these before? This is a Layna statue! Praying near it "
+"heals both your mind and body."
+msgstr ""
+
+#: ../dat/maps/layna_forest/layna_forest_entrance_script.lua:500
+msgid "Ok, thanks."
+msgstr ""
+
+#: ../dat/maps/layna_forest/layna_forest_entrance_script.lua:502
+msgid "See? Now, let's find my brother before he gets hurt."
+msgstr ""
+
+#: ../dat/maps/layna_forest/layna_forest_north_east_script.lua:648
+msgid "What's that?!"
+msgstr ""
+
+#: ../dat/maps/layna_forest/layna_forest_north_east_script.lua:684
+msgid ""
+"Woah, that was quite a nasty fight. Why on earth was a north arctic Fenrir "
+"lurking in the forest? I thought it was merely a part of myths."
+msgstr ""
+
+#: ../dat/maps/layna_forest/layna_forest_north_east_script.lua:686
+msgid ""
+"It ran away... I'm almost certain that we'll meet it again... We'd better be "
+"more prepared next time."
+msgstr ""
+
+#: ../dat/maps/layna_forest/layna_forest_north_east_script.lua:688
+msgid ""
+"I'll try not to think about what it could have done to Orlinn ... Let's find "
+"him... quickly."
+msgstr ""
+
+#: ../dat/maps/layna_forest/layna_forest_north_west_script.lua:1025
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:458
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine_basement_script.lua:256
+msgid "Orlinn!"
+msgstr ""
+
+#: ../dat/maps/layna_forest/layna_forest_north_west_script.lua:1040
+msgid "Orlinn, stop it RIGHT NOW!!"
+msgstr ""
+
+#: ../dat/maps/layna_forest/layna_forest_north_west_script.lua:1042
+msgid "I can't sis... I can feel it... calling me..."
+msgstr ""
+
+#: ../dat/maps/layna_forest/layna_forest_north_west_script.lua:1061
+msgid "Quick! Let's follow him."
+msgstr ""
+
+#: ../dat/maps/layna_forest/layna_forest_north_west_script.lua:1063
+msgid "Right!"
+msgstr ""
+
+#: ../dat/maps/layna_forest/layna_forest_north_west_script.lua:1088
+msgid "Great! The tremor has opened a path back to the village!"
+msgstr ""
+
+#: ../dat/maps/layna_forest/layna_forest_north_west_script.lua:1090
+msgid "Now we can get back to the village more quickly."
+msgstr ""
+
+#: ../dat/maps/layna_forest/layna_forest_north_west_script.lua:1119
+msgid "We're almost there!"
+msgstr ""
+
+#: ../dat/maps/layna_forest/layna_forest_north_west_script.lua:1121
+msgid "Say sis, do you think Herth will be angry at me for what happened?"
+msgstr ""
+
+#: ../dat/maps/layna_forest/layna_forest_north_west_script.lua:1123
+msgid ""
+"I don't think so, Orlinn. We both know you didn't do it on purpose, right?"
+msgstr ""
+
+#: ../dat/maps/layna_forest/layna_forest_north_west_script.lua:1125
+msgid "Ok..."
+msgstr ""
+
+#: ../dat/maps/layna_forest/layna_forest_north_west_script.lua:1141
+msgid "Kalya, ... Err ..."
+msgstr ""
+
+#: ../dat/maps/layna_forest/layna_forest_north_west_script.lua:1143
+msgid "What is it, Bronann?"
+msgstr ""
+
+#: ../dat/maps/layna_forest/layna_forest_north_west_script.lua:1145
+msgid "Hmm... Nevermind."
+msgstr ""
+
+#: ../dat/maps/layna_forest/layna_forest_north_west_script.lua:1147
+msgid "Don't worry too much, Bronann, Herth will be able to help you."
+msgstr ""
+
+#: ../dat/maps/layna_forest/layna_forest_north_west_script.lua:1149
+msgid "Me? But ..."
+msgstr ""
+
+#: ../dat/maps/layna_forest/layna_forest_north_west_script.lua:1151
+msgid "Thanks ..."
+msgstr ""
+
+#: ../dat/maps/layna_forest/layna_forest_north_west_script.lua:1153
+msgid "Thanks for your help there ..."
+msgstr ""
+
+#: ../dat/maps/layna_forest/layna_forest_north_west_script.lua:1155
+msgid "... You're welcome."
+msgstr ""
+
+#: ../dat/maps/layna_forest/layna_forest_south_west_script.lua:693
+msgid "Woah, wait!"
+msgstr ""
+
+#: ../dat/maps/layna_forest/layna_forest_south_west_script.lua:695
+msgid ""
+"Look at that grass... Snakes like to hide in tall grass... We need to be "
+"careful because their venom causes drowsiness."
+msgstr ""
+
+#: ../dat/maps/layna_forest/layna_forest_wolf_cave_script.lua:176
+msgid "(Bronann looks on the ground ...)"
+msgstr ""
+
+#: ../dat/maps/layna_forest/layna_forest_wolf_cave_script.lua:209
+msgid "This water looks weird. Shall we drink it anyway?"
+msgstr ""
+
+#: ../dat/maps/layna_forest/layna_forest_wolf_cave_script.lua:213
+msgid "Yes, I'm so thirsty."
+msgstr ""
+
+#: ../dat/maps/layna_forest/layna_forest_wolf_cave_script.lua:215
+msgid "No way, we'd get sick."
+msgstr ""
+
+#: ../dat/maps/layna_forest/layna_forest_wolf_cave_script.lua:218
+msgid "The party drinks the water and feels... alright?"
+msgstr ""
+
+#: ../dat/maps/layna_forest/layna_forest_wolf_cave_script.lua:221
+msgid "The party won't drink it."
+msgstr ""
+
+#: ../dat/maps/layna_forest/layna_forest_wolf_cave_script.lua:291
+msgid "Yiek, it's stinking in here."
+msgstr ""
+
+#: ../dat/maps/layna_forest/layna_forest_wolf_cave_script.lua:293
+msgid "Look at all those bones. We should be careful."
+msgstr ""
+
+#: ../dat/maps/layna_forest/layna_forest_wolf_cave_script.lua:295
+msgid "I hope Orlinn is alright."
+msgstr ""
+
+#: ../dat/maps/layna_forest/layna_forest_wolf_cave_script.lua:333
+msgid "What a lovely necklace! I'll take it."
+msgstr ""
+
+#: ../dat/maps/layna_forest/layna_forest_wolf_cave_script.lua:335
+msgid ""
+"Kalya ... We're in the middle of a cave and you're only thinking about "
+"wearing jewels."
+msgstr ""
+
+#: ../dat/maps/layna_forest/layna_forest_wolf_cave_script.lua:337
+msgid ""
+"Jewelry is a gift from the heavens to remind us that beauty can be as pure "
+"on the outside as it is on the inside. Besides, it suits me better than it "
+"would you."
+msgstr ""
+
+#: ../dat/maps/layna_forest/layna_forest_wolf_cave_script.lua:339
+msgid "Kalya! You'd better be careful!"
+msgstr ""
+
+#: ../dat/maps/layna_forest/layna_forest_wolf_cave_script.lua:341
+msgid "Don't even start, this one is all mine."
+msgstr ""
+
+#: ../dat/maps/layna_forest/layna_forest_wolf_cave_script.lua:343
+msgid "Not the necklace, the Fenrir!"
+msgstr ""
+
+#: ../dat/maps/layna_forest/layna_forest_wolf_cave_script.lua:345
+msgid "You can't be serious, we would have heard it come."
+msgstr ""
+
+#: ../dat/maps/layna_forest/layna_forest_wolf_cave_script.lua:357
+msgid "Ah well, you were serious, weren't you?"
+msgstr ""
+
+#: ../dat/maps/layna_forest/layna_forest_wolf_cave_script.lua:387
+msgid ""
+"It ran away again... I'm glad we survived... Let's get out of here before it "
+"comes back."
+msgstr ""
+
+#: ../dat/maps/layna_village/battle_with_banesore/battle_with_banesore_script.lua:57
+msgid "Banesore"
+msgstr ""
+
+#: ../dat/maps/layna_village/battle_with_banesore/battle_with_banesore_script.lua:62
+msgid "So... You think you can hurt me?"
+msgstr ""
+
+#: ../dat/maps/layna_village/battle_with_banesore/battle_with_banesore_script.lua:64
+msgid "You? A child with an old wooden stick?"
+msgstr ""
+
+#: ../dat/maps/layna_village/battle_with_banesore/battle_with_banesore_script.lua:71
+msgid ""
+"You're stronger than I thought... but still ... You are too weak to "
+"challenge me!"
+msgstr ""
+
+#: ../dat/maps/layna_village/battle_with_banesore/battle_with_banesore_script.lua:76
+msgid "Argh! It hurts!"
+msgstr ""
+
+#: ../dat/maps/layna_village/battle_with_banesore/battle_with_banesore_script.lua:78
+msgid "Yes! I can feel it coming closer to the surface!"
+msgstr ""
+
+#: ../dat/maps/layna_village/battle_with_banesore/battle_with_banesore_script.lua:80
+msgid "Let your fear grow, young boy!"
+msgstr ""
+
+#: ../dat/maps/layna_village/battle_with_banesore/battle_with_banesore_script.lua:82
+msgid "Bronann, don't listen to him!"
+msgstr ""
+
+#: ../dat/maps/layna_village/battle_with_banesore/battle_with_banesore_script.lua:87
+msgid "I will... try."
+msgstr ""
+
+#: ../dat/maps/layna_village/battle_with_banesore/battle_with_banesore_script.lua:89
+msgid "Hmph. Soldiers, leave that man to me!"
+msgstr ""
+
+#: ../dat/maps/layna_village/battle_with_banesore/battle_with_banesore_script.lua:91
+msgid "So... It appears that you remember me, Banesore. Is that correct...?"
+msgstr ""
+
+#: ../dat/maps/layna_village/battle_with_banesore/battle_with_banesore_script.lua:93
+msgid "I do remember you, old man..."
+msgstr ""
+
+#: ../dat/maps/layna_village/battle_with_banesore/battle_with_banesore_script.lua:95
+msgid ""
+"Then, you already know that your zombified soldiers are of no match to me..."
+msgstr ""
+
+#: ../dat/maps/layna_village/battle_with_banesore/battle_with_banesore_script.lua:97
+msgid "Argh! My chest is burning!!"
+msgstr ""
+
+#: ../dat/maps/layna_village/battle_with_banesore/battle_with_banesore_script.lua:103
+msgid "Hold on Bronann!"
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_bronanns_home_first_floor_script.lua:199
+msgid ""
+"I had that same nightmare again... This time, however, I still feel dizzy "
+"even after getting up..."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_bronanns_home_first_floor_script.lua:201
+msgid "I might as well move on and forget about it..."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_bronanns_home_first_floor_script.lua:228
+msgid "You can come back here and save as many times as you want."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_bronanns_home_script.lua:94
+msgid "Hey son! Did you sleep well? Hmm, now where did I leave that oil lamp?"
+msgstr "Tjena grabben! Sovit gott? Hmm, var ställde jag den där lanternan?"
+
+#: ../dat/maps/layna_village/layna_village_bronanns_home_script.lua:96
+msgid "Hi Dad! Um, I don't know. Sorry."
+msgstr "Hej pappa! Uhm, Jag vet inte. Tyvärr."
+
+#: ../dat/maps/layna_village/layna_village_bronanns_home_script.lua:98
+msgid "Nah, no problem, I'll find it somewhere... eventually."
+msgstr "Nah, inga problem. Jag hittar den nog någonstanns... till slut."
+
+#: ../dat/maps/layna_village/layna_village_bronanns_home_script.lua:172
+msgid ""
+"Now that you're *finally* up, could you go buy some barley meal for us three?"
+msgstr ""
+"Nu när du *äntligen* har gått upp, skulle du kunna gå och köpa lite kornmjöl "
+"till oss tre?"
+
+#: ../dat/maps/layna_village/layna_village_bronanns_home_script.lua:174
+msgid "Barley meal? Again?"
+msgstr "Kornmjöl? Igen?"
+
+#: ../dat/maps/layna_village/layna_village_bronanns_home_script.lua:176
+msgid "Hmph, just go, boy. You'll be free after that, ok?"
+msgstr "Hmph, gå bara pojk. Du är fri efter det, ok?"
+
+#: ../dat/maps/layna_village/layna_village_bronanns_home_script.lua:301
+msgid "Thanks for helping me out with the dishes."
+msgstr "Tack för att du hjälpte till med disken."
+
+#: ../dat/maps/layna_village/layna_village_bronanns_home_script.lua:303
+msgid "Hmm, say, mom? Why is the village entrance blocked?"
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_bronanns_home_script.lua:326
+msgid "Bronann, I'd like for you to not leave the village today."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_bronanns_home_script.lua:328
+msgid "Huh?! What? Why? You told me that I could go into the forest and..."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_bronanns_home_script.lua:330
+msgid "Sorry, son. It's maybe a bit early, but I'd like you to be careful."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_bronanns_home_script.lua:332
+msgid ""
+"Hey, wait! All of the village elders' nerves are on edge. There is something "
+"going on here! Why won't you tell me?"
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_bronanns_home_script.lua:334
+msgid "None of you?"
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_bronanns_home_script.lua:336
+msgid "You really won't tell me?"
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_bronanns_home_script.lua:338
+msgid "... It's not that simple, Bronann. Believe me."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_bronanns_home_script.lua:350
+msgid ""
+"Bronann, this time I want you to listen to your father very carefully. "
+"Please, my dear."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_bronanns_home_script.lua:352
+msgid "But mom!"
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_bronanns_home_script.lua:354
+msgid "Bronann, please."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_bronanns_home_script.lua:356
+msgid "(grumble)... Crap!"
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_bronanns_home_script.lua:387
+msgid "Maybe we should tell him..."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_bronanns_home_script.lua:389
+msgid "It's too early, darling... We might be wrong."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_bronanns_home_script.lua:391
+msgid "I really hope we are..."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_bronanns_home_script.lua:473
+msgid "Bronann, promise me that you'll be careful, ok?"
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_bronanns_home_script.lua:483
+msgid "(Sigh)... got it, mom!"
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_bronanns_home_script.lua:485
+msgid "Perfect timing, let's have dinner."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_bronanns_home_script.lua:492
+msgid "Could you go and buy some barley meal for us three?"
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_bronanns_home_script.lua:499
+msgid "Hi son, did you have a nightmare again last night?"
+msgstr "Hej Bronann, hade du en till mardröm i natt?"
+
+#: ../dat/maps/layna_village/layna_village_bronanns_home_script.lua:501
+msgid "Hi mom. Huh, how did you know...?"
+msgstr "Hej mamma. Huh, hur visste du det...?"
+
+#: ../dat/maps/layna_village/layna_village_bronanns_home_script.lua:503
+msgid "Eh eh? Have you already forgotten that I'm your mother?"
+msgstr "Eh eh? Har du redan glömt att jag är din mamma?"
+
+#: ../dat/maps/layna_village/layna_village_bronanns_home_script.lua:510
+msgid "Don't venture too far, I'll need your help soon!"
+msgstr "Gå inte för långt, jag kommer att behöva din hjälp snart!"
+
+#: ../dat/maps/layna_village/layna_village_center_at_night_script.lua:267
+msgid "Back home, finally..."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_center_at_night_script.lua:269
+msgid ""
+"I'll go and get Herth. Your parents must be worried... Go home... We'll meet "
+"there."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_center_at_night_script.lua:286
+msgid "I should really get back home..."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_center_at_night_script.lua:294
+msgid ""
+"Weird, I can see no lights in there... I have a bad feeling about this, "
+"let's get back home..."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_center_at_night_script.lua:312
+#: ../dat/maps/layna_village/layna_village_center_script.lua:632
+#: ../dat/maps/layna_village/layna_village_center_script.lua:1057
+#: ../dat/maps/mt_elbrus/mt_elbrus_path4_script.lua:357
+msgid "Huh?"
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_center_at_night_script.lua:323
+msgid "What's happening here?!? Where is everyone??"
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_center_at_night_script.lua:325
+msgid "Help!!!"
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_center_at_night_script.lua:327
+msgid "Kalya?!"
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_center_at_night_script.lua:344
+msgid "Let go of me, you cheap low-grade filthy jerks..."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_center_at_night_script.lua:346
+msgid "Keep quiet, little brat!"
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_center_at_night_script.lua:412
+msgid "Soldiers wearing black armor: the Lord's personal guards!"
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_center_at_night_script.lua:414
+msgid "Fortunately, they didn't see me or I would have been caught as well."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_center_at_night_script.lua:416
+msgid "I should follow them silently..."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_center_at_night_script.lua:428
+msgid "What am I doing? I should go and try to free Kalya!"
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_center_script.lua:135
+msgid "Do you need something, Bronann?"
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_center_script.lua:162
+msgid "Ahh sure! (gossip, gossip)"
+msgstr "Ahh javisst! (skvaller, skvaller)"
+
+#: ../dat/maps/layna_village/layna_village_center_script.lua:171
+msgid "Did you hear that? (gossip, gossip)"
+msgstr "Hörde du det? (skvaller, skvaller)"
+
+#: ../dat/maps/layna_village/layna_village_center_script.lua:182
+msgid ""
+"If you're running after Orlinn, I just saw him disappear near your house."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_center_script.lua:185
+msgid "You're too young to trade stuff with me!"
+msgstr "Du är för ung för att handla här!"
+
+#: ../dat/maps/layna_village/layna_village_center_script.lua:388
+msgid "Hmm, I'll go to Flora's shop. I hope she'll help me..."
+msgstr "Hmm, jag går till floras butik. Hon hjälper mig säkert, hoppas jag..."
+
+#: ../dat/maps/layna_village/layna_village_center_script.lua:425
+msgid "As you wish... Follow me."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_center_script.lua:442
+msgid "ORLINN!! Come here NOW!!"
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_center_script.lua:455
+msgid "Orlinn, give back the pen to Bronann, or I shall sma..."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_center_script.lua:457
+msgid "Yea... Yes, here it is."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_center_script.lua:476
+msgid "I found that pen under a tree near the river. I just wanted to play..."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_center_script.lua:478
+#: ../dat/maps/layna_village/layna_village_riverbank_script.lua:385
+msgid "Don't worry about that..."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_center_script.lua:506
+msgid "Why doesn't anyone want to tell me what's going on!!"
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_center_script.lua:508
+msgid ""
+"Still, I have to go there and figure out what they're trying to hide from me."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_center_script.lua:518
+msgid "No, I won't go there. I just can't talk to them at the moment..."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_center_script.lua:536
+msgid "Huh? What was that light?"
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_center_script.lua:538
+msgid "... Bronann! Wait!"
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_center_script.lua:569
+msgid "I suppose you just saw that light, right?"
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_center_script.lua:571
+msgid "... Hmmm..."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_center_script.lua:573
+msgid ""
+"Bronann, there is something that I have to tell you. We've been fearing for "
+"this moment. I mean your mother and I..."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_center_script.lua:575
+msgid "They're coming!"
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_center_script.lua:589
+msgid "Carson, they've passed the river. They shall be here in no time."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_center_script.lua:593
+msgid "Huh? Hey, what's happening here?!"
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_center_script.lua:595
+#: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:309
+msgid "Bronann, I ..."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_center_script.lua:597
+msgid "Father!"
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_center_script.lua:610
+msgid "Father! Orlinn has disappeared. I saw him taking the forest pathway!"
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_center_script.lua:612
+msgid "Kalya! You were supposed to keep an eye on him!"
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_center_script.lua:614
+msgid ""
+"I did, but he just slipped through my fingers at the very second that "
+"strange light appeared."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_center_script.lua:616
+msgid ""
+"Kalya, the army is coming. I'll deal with them, you, go and find Orlinn as "
+"fast as possible."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_center_script.lua:618
+msgid "But you might get hurt!"
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_center_script.lua:620
+msgid ""
+"No, don't worry. We'll simply talk to them and they'll move on. You know "
+"what you have to do, right?"
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_center_script.lua:622
+msgid "Herth, we both know it'll likely..."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_center_script.lua:624
+msgid "Do as I say and it'll be alright."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_center_script.lua:626
+msgid "But..."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_center_script.lua:628
+msgid "Bronann, you should go with her."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_center_script.lua:630
+msgid "What?!?"
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_center_script.lua:634
+msgid "Carson is right, Kalya. Bronann shall go with you."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_center_script.lua:636
+msgid "But he would just be a burden!"
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_center_script.lua:638
+msgid "Huh? Hey! But..."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_center_script.lua:640
+msgid "He won't slow you down, believe me. Right, Bronann?"
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_center_script.lua:642
+msgid "But father!"
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_center_script.lua:644
+msgid ""
+"Carson is right, Kalya. Bronann shall go with you. It's... it's an order."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_center_script.lua:670
+msgid "Gahh... ok."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_center_script.lua:672
+msgid ""
+"Bronann, take this sword. You'll probably need it to make your way through "
+"there."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_center_script.lua:674
+msgid "What? But one minute ago you said..."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_center_script.lua:676
+msgid ""
+"I know, but everything has changed. I'll explain it to you once it is all "
+"finished. Now go, my son."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_center_script.lua:695
+msgid "Thanks dad, we'll find him in no time."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_center_script.lua:697
+msgid "We shall go now... Good luck, both of you."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_center_script.lua:720
+msgid "Good luck, son."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_center_script.lua:735
+msgid "Ok, we'll go together. But slow me down and I'll make you regret it..."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_center_script.lua:737
+msgid "Don't worry, we'll find him. Ok?"
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_center_script.lua:739
+msgid "Ok ..."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_center_script.lua:757
+msgid "Kalya joins your party!"
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_center_script.lua:788
+msgid ""
+"By the way, have you ever prepared yourself for something like this before?"
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_center_script.lua:790
+msgid "Huh? Well, Orlinn doesn't disappear every day, you know?"
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_center_script.lua:792
+msgid ""
+"I see... Then there are two very important things that you need to know:"
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_center_script.lua:794
+msgid ""
+"First of all, before going there, you might need better equipment. You "
+"should visit Flora first, ok?"
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_center_script.lua:798
+msgid "You mean I need to push a key to open my bag?"
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_center_script.lua:800
+msgid "Nevermind that, just do it."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_center_script.lua:802
+msgid ""
+"Also, the person in front of the battle line will lead the group in the "
+"forest. What I mean by that is the person on the top of the battle formation "
+"will actually appear while the others will stay hidden."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_center_script.lua:804
+msgid "Hmm, right. I'm not sure that I fully get what you mean, but..."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_center_script.lua:806
+msgid "Rrrr... Bronann. Just listen."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_center_script.lua:808
+msgid ""
+"That will be the case only in certain areas. Here in the village, you'll be "
+"the one leading, or at least you may believe that ..."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_center_script.lua:826
+msgid ""
+"Bronann! Sorry, you can't access the forest without permission. You don't "
+"even have a sword..."
+msgstr ""
+"Bronann! Jag är ledsen, men du kan inte gå ut i skogen utan tillstånd. Du "
+"har inte ens ett svärd..."
+
+#: ../dat/maps/layna_village/layna_village_center_script.lua:828
+#: ../dat/maps/layna_village/layna_village_center_script.lua:842
+msgid "Aww..."
+msgstr "Aww..."
+
+#: ../dat/maps/layna_village/layna_village_center_script.lua:830
+msgid "(Hmm, maybe I should get a sword then.)"
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_center_script.lua:840
+msgid ""
+"Bronann! Sorry, you know you can't access the forest without permission."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_center_script.lua:976
+msgid "Good luck Bronann."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_center_script.lua:995
+#: ../dat/maps/layna_village/layna_village_center_script.lua:1016
+msgid "Actually, I bought the barley meal for Lilly."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_center_script.lua:997
+#: ../dat/maps/layna_village/layna_village_center_script.lua:1018
+msgid "!! What?"
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_center_script.lua:999
+msgid "There's no need to thank me for that. It's my pleasure."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_center_script.lua:1008
+msgid "Here it is, Georges."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_center_script.lua:1010
+msgid ""
+"You're the nicest person I know, Bronann. I will tell everyone how brave "
+"you..."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_center_script.lua:1012
+msgid "(Sigh)... Georges!"
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_center_script.lua:1014
+msgid "Ok ok. Just having a bit of spirit, young man."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_center_script.lua:1020
+msgid "There's no need to thank me for that, it's my pleasure."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_center_script.lua:1028
+#: ../dat/maps/layna_village/layna_village_center_script.lua:1059
+msgid ""
+"You see, I lost my beloved pen. Was it near a tree or next to the waving "
+"child of the mountain snow?"
+msgstr ""
+"Du förstår, jag har tappat min älskade penna. Var det nära ett träd eller "
+"vid det ringlande barnet till bergets snö?"
+
+#: ../dat/maps/layna_village/layna_village_center_script.lua:1030
+msgid "Shall you find it, I would be extremely obliged to you!"
+msgstr "Skulle du hitta den, så kommer jag vara förevigt i skuld!"
+
+#: ../dat/maps/layna_village/layna_village_center_script.lua:1032
+#: ../dat/maps/layna_village/layna_village_center_script.lua:1063
+msgid ""
+"Inquire our comrades in the settlement, perhaps somebody has laid their eyes "
+"on it."
+msgstr "Fråga våra kamrater i byn, någon har kanske sett den."
+
+#: ../dat/maps/layna_village/layna_village_center_script.lua:1034
+msgid "(Sigh...) Hmm, fine."
+msgstr "(Suck...) Hmm, visst."
+
+#: ../dat/maps/layna_village/layna_village_center_script.lua:1041
+msgid "Hi Georges. Erm, I'm coming from the shop and I ..."
+msgstr "Hej Georges. Erm, jag kom precis från butiken och jag..."
+
+#: ../dat/maps/layna_village/layna_village_center_script.lua:1043
+msgid "Can you hear this?"
+msgstr "Hör du det?"
+
+#: ../dat/maps/layna_village/layna_village_center_script.lua:1045
+msgid "Erm, ... Well, I don't hear anything special..."
+msgstr "Erm, ...nja, jag hör inte något speciellt..."
+
+#: ../dat/maps/layna_village/layna_village_center_script.lua:1047
+msgid ""
+"That's the point! Can't you hear the magnificent sound of nature, so "
+"invisible to our adapted ears?"
+msgstr ""
+"Det är det som är poängen! Kan du inte höra det magnifika ljudet från "
+"naturen, så omärkligt för våra moderna öron?"
+
+#: ../dat/maps/layna_village/layna_village_center_script.lua:1049
+msgid "Huh, please Georges. I do not want to run away like the last time..."
+msgstr ""
+"Huh, snälla Georges. Jag vill inte springa min väg som senaste gången..."
+
+#: ../dat/maps/layna_village/layna_village_center_script.lua:1051
+msgid ""
+"... The incredible and amazing. I could even say, the stunning feel of it in "
+"the wind..."
+msgstr ""
+"... Det otroliga och bländande. Skulle jag till och med kalla det, den "
+"förstummande känslan i vinden..."
+
+#: ../dat/maps/layna_village/layna_village_center_script.lua:1053
+msgid ""
+"Georges, I simply wanted to ask you whether or not you had any barley meal "
+"left!"
+msgstr "Georges, Jag ville bara fråga dig om du har något av kornmjölet kvar!"
+
+#: ../dat/maps/layna_village/layna_village_center_script.lua:1055
+msgid ""
+"Ah, I see. Well unfortunately, I'm so sad about a recent loss that I can't "
+"find the right words with which to tell you."
+msgstr ""
+"Ah, jag förstår. Olyckligtvis så är jag bedrövad över en närliggande förlust "
+"så att jag inte ens kan hitta orden att berätta det för dig."
+
+#: ../dat/maps/layna_village/layna_village_center_script.lua:1061
+msgid "Shall you find it, I would be extremely obliged!"
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_center_script.lua:1065
+msgid "(Sigh)... Hmm, fine."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_center_script.lua:1073
+msgid ""
+"Ah, the river is so beautiful at this time of the year. I feel like writing "
+"some poetry..."
+msgstr ""
+"Ah, floden är så vacker den här årstiden. Jag får lust att skriva lite "
+"poesi..."
+
+#: ../dat/maps/layna_village/layna_village_center_script.lua:1100
+msgid "I promise I won't bother you again ..."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_center_script.lua:1102
+msgid "Don't worry about that, Orlinn. Ok?"
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_center_script.lua:1124
+msgid "Kalya, have you seen Orlinn?"
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_center_script.lua:1126
+msgid "Why? ... Oh, don't tell it. He's hiding somewhere."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_center_script.lua:1128
+msgid "Yes, he took Georges pen and I need to give it back to him..."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_center_script.lua:1130
+msgid "Hmpf, no surprise. Do you want me to bring him back?"
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_center_script.lua:1132
+msgid "Yes, please..."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_center_script.lua:1134
+msgid "No, it's not that bad."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_center_script.lua:1136
+msgid "As you wish..."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_center_script.lua:1144
+#: ../dat/maps/layna_village/layna_village_riverbank_script.lua:643
+msgid "Hee hee hee!"
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_center_script.lua:1146
+msgid "What are you laughing about, Orlinn?"
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_center_script.lua:1148
+msgid "You'll never find it!"
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_center_script.lua:1150
+msgid "Huh? Wait! Are you talking about Georges's lost pen?"
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_center_script.lua:1152
+msgid "Hee hee hee! Yes!"
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_center_script.lua:1154
+msgid "Please tell me! Have you found it?"
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_center_script.lua:1156
+msgid "Maybe yes, maybe no!"
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_center_script.lua:1158
+msgid "Oh no, please Orlinn! I need it!"
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_center_script.lua:1160
+msgid "Sure, I'll help you. But only if you can catch me!"
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_center_script.lua:1162
+msgid "Hee hee! (He'll never find me hiding behind the buildings!)"
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_center_script.lua:1169
+msgid "Heya bro! Wanna play with me?"
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_center_shop_script.lua:68
+#: ../dat/maps/layna_village/layna_village_center_shop_script.lua:73
+msgid "Flora"
+msgstr "Flora"
+
+#: ../dat/maps/layna_village/layna_village_center_shop_script.lua:164
+#: ../dat/maps/layna_village/layna_village_center_shop_script.lua:187
+#: ../dat/maps/layna_village/layna_village_center_shop_script.lua:208
+msgid "Hi Bronann! What can I do for you?"
+msgstr "Hej Bronann! Vad kan jag hjälpa dig med?"
+
+#: ../dat/maps/layna_village/layna_village_center_shop_script.lua:166
+msgid ""
+"Hi Flora! Err, could you lend me one of your training swords? I'd like to "
+"practice a bit."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_center_shop_script.lua:168
+msgid ""
+"Ah! Sure, as soon as your father will stop lending his sword to you to "
+"practice with him. Are you sure everything is alright?"
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_center_shop_script.lua:170
+msgid "Err, nevermind..."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_center_shop_script.lua:178
+msgid "Just find our *poet* and he should give you some barley meal, ok?"
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_center_shop_script.lua:180
+#: ../dat/maps/layna_village/layna_village_center_shop_script.lua:199
+msgid ""
+"He's probably 'musing' around the cliffs in the village center right now."
+msgstr ""
+"Han letar antagligen efter inspiration bland klipporna i byns centrum för "
+"närvarande."
+
+#: ../dat/maps/layna_village/layna_village_center_shop_script.lua:189
+msgid "Hi Flora! Do you have some barley meal left?"
+msgstr "Hej Flora! Har du något kornmjöl kvar?"
+
+#: ../dat/maps/layna_village/layna_village_center_shop_script.lua:191
+msgid "Oh sorry, our 'great' poet came earlier and took all the rest of it."
+msgstr "Jag är ledsen, vår 'store' poet kom och tog det sista."
+
+#: ../dat/maps/layna_village/layna_village_center_shop_script.lua:193
+msgid "Times are becoming harder now. We've got less food than before..."
+msgstr "Det går mot hårdare tider. Vi har mindre mat än tidigare..."
+
+#: ../dat/maps/layna_village/layna_village_center_shop_script.lua:195
+msgid ""
+"? ... This is the first time that I've seen you wear such a worrisome "
+"expression."
+msgstr "? ...  Det här är första gången som jag har sett dig så bekymrad."
+
+#: ../dat/maps/layna_village/layna_village_center_shop_script.lua:197
+msgid ""
+"Nevermind... Don't worry about me. Just find him and he should give you "
+"some, ok?"
+msgstr ""
+"Bry dig inte om det, oroa dig inte för mig. Om du bara hittar honom så kan "
+"han ge dig lite av mjölet, ok?"
+
+#: ../dat/maps/layna_village/layna_village_kalya_house_exterior_script.lua:107
+#: ../dat/maps/layna_village/layna_village_riverbank_house_script.lua:81
+#: ../dat/maps/layna_village/layna_village_south_entrance_script.lua:149
+msgid "One of Grandma's chicken... I should bring it back."
+msgstr "En av mormors kycklingar... jag borde ta med den tillbaka."
+
+#: ../dat/maps/layna_village/layna_village_kalya_house_exterior_script.lua:210
+msgid "Hmm, the door is locked."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_kalya_house_path_at_night_script.lua:242
+msgid "Hurry up! They're coming!!"
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_kalya_house_path_at_night_script.lua:267
+msgid "Bronann!!!"
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_kalya_house_path_at_night_script.lua:291
+msgid "Bronann!!! Hold on! We're almost there..."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_kalya_house_path_at_night_script.lua:293
+msgid "I ... can't. My body ... Argh!"
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_kalya_house_path_at_night_script.lua:295
+msgid "You can do it. Bronann..."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_kalya_house_path_at_night_script.lua:297
+msgid "Bronann!! Move!!"
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_kalya_house_path_at_night_script.lua:309
+msgid "... Al ... right..."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_kalya_house_path_at_night_script.lua:311
+msgid "Great! Now come on!"
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_kalya_house_path_at_night_script.lua:327
+msgid "There must be soldiers everywere, we're never gonna make it..."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_kalya_house_path_at_night_script.lua:329
+msgid "This town has many secrets..."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_kalya_house_path_at_night_script.lua:331
+msgid "You can go in there, Orlinn."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_kalya_house_path_at_night_script.lua:333
+#: ../dat/maps/mt_elbrus/mt_elbrus_cave1_script.lua:170
+#: ../dat/maps/mt_elbrus/mt_elbrus_cave1_script.lua:203
+msgid "Ok!"
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_kalya_house_path_at_night_script.lua:335
+msgid "See?"
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_kalya_house_path_at_night_script.lua:337
+msgid ""
+"... I understand why Grandma actually never saw you using the 'normal' "
+"path..."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_kalya_house_path_at_night_script.lua:339
+msgid "Now come..."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_kalya_house_path_script.lua:114
+msgid ""
+"My three chickens have flown away again this morning... Could you find the "
+"last one for me?"
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_kalya_house_path_script.lua:116
+msgid ""
+"My three chickens have flown away again this morning... Could you find the "
+"remaining ones for me?"
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_kalya_house_path_script.lua:123
+msgid ""
+"My three chicken have flown away again this morning... Could you find them "
+"for me?"
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_kalya_house_path_script.lua:131
+msgid "Ah! Bronann. Could you help your old Grandma?"
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_kalya_house_path_script.lua:133
+msgid "Sure grandma."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_kalya_house_path_script.lua:135
+msgid "My three chicken have flown away again... Could you find them for me?"
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_kalya_house_path_script.lua:137
+msgid "I'll see what I can do about it."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_kalya_house_path_script.lua:139
+msgid "Thank you, young one."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_kalya_house_path_script.lua:150
+msgid "Oh, they're all back, my Brave Hero..."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_kalya_house_path_script.lua:152
+msgid "Nevermind that..."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_kalya_house_path_script.lua:154
+msgid "Let me give you something as a reward."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_kalya_house_path_script.lua:156
+msgid "Oh, thanks Grandma!"
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_kalya_house_path_script.lua:158
+msgid "You're very welcome, my dear one."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_kalya_house_path_script.lua:173
+msgid ""
+"Ah! It's nice to see your dear young face around, Bronann. Come and chat "
+"with an old Grandma."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_kalya_house_path_script.lua:175
+msgid "Er... Sorry Grandma, I have to go! Maybe later?"
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_kalya_house_path_script.lua:177
+msgid ""
+"Ah! You'll surely want to see the young lady living up there. Ah, youngins "
+"nowadays..."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:246
+msgid "Bronann, how do you feel?"
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:248
+msgid "Better... Somehow, the pain faded away the second I entered here..."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:250
+msgid "By the way, where are we?"
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:252
+msgid ""
+"In our basement. The other stairs there are leading to my room. This house "
+"is an ancient sanctuary, so it might explain why you're feeling better..."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:254
+msgid "Orlinn. Go get the packings. We're leaving..."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:256
+msgid "... Ok..."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:289
+msgid "We're leaving the village now..."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:291
+msgid "I feel dizzy... So many things have happened in such little time..."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:293
+msgid ""
+"The soldiers will be here any minute. We'll leave to the north and cross the "
+"north-west plain up to..."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:295
+msgid "No."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:297
+msgid "No?!"
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:299
+msgid "No, I won't follow you anymore..."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:301
+msgid "Look, I..."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:303
+msgid "Enough!"
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:305
+msgid ""
+"Nobody told me what was happening. Herth and the Lord seemed to know each "
+"other... And now you..."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:307
+msgid "You seem so calm, ready and prepared..."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:311
+msgid ""
+"Enough! You hid everything from me just like everyone else. You're a liar! I "
+"won't be manipulated anymore!"
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:313
+msgid "Bronann, you'll get everything explained in time, I..."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:315
+msgid "No! I won't go unless you tell me the truth now!"
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:317
+msgid "... Fine."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:321
+msgid "I knew the crystal would appear..."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:323
+msgid "What?"
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:325
+msgid "But I didn't know who it would choose."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:327
+msgid "Herth prepared me... all my life... for this very day..."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:329
+msgid ""
+"He trained me, taught me magic, and told me the crystal would appear one "
+"day..."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:331
+msgid ""
+"He thought that I would be the one to be chosen by the crystal. However, it "
+"seems he was wrong. Now, I am to look after you..."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:333
+msgid "You must believe me Bronann..."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:335
+msgid "The crystal chose me? But I'm just..."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:337
+msgid "... someone brave enough to jump between my brother and it..."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:339
+msgid ""
+"It should have been me... But I couldn't move. And now, I have to fix my "
+"mistake..."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:341
+msgid "How?"
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:343
+msgid "I..."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:345
+msgid "Sis!!"
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:365
+msgid "Sis!! They're in front of the house!"
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:367
+msgid "Quick, we must go now!!"
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:369
+msgid ""
+"We won't be able to come back here once out. So, feel free to pick up "
+"everything needed and prepare yourself..."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:371
+msgid ""
+"Wait! There is one more thing... Why are you calling your own father by his "
+"actual name?"
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:373
+msgid "That's because he's not our father..."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:375
+msgid "Our parents were killed a long time ago..."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:377
+msgid "Orlinn..."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:379
+msgid "Don't worry, sis. It's fine, we can tell him."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:381
+msgid "I also left my parents behind..."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:383
+msgid ""
+"... They'll be fine, Bronann. We must prevent Banesore from obtaining the "
+"crystal."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:385
+msgid "Anyway, let's go now..."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:415
+msgid "Wow!"
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:417
+#: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:444
+msgid "It's time..."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:429
+#: ../dat/maps/mt_elbrus/mt_elbrus_path4_script.lua:284
+msgid "We can't go back now..."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:436
+msgid "It's my room upstairs. Don't even think about it!"
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:429
+msgid "I can't go back now..."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:446
+msgid ""
+"Guards are carefully watching their surroundings... I need to get closer to "
+"see what's happening."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:448
+msgid "I should be able to sneak through when they're not watching..."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:472
+msgid "Who's there?"
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:501
+msgid "(Whispering) Kalya!"
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:503
+msgid "(What's happening here?)"
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:505
+msgid "(Also whispering) I don't know..."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:507
+msgid "(Woah, you scared me. Are you mad? You could have make us both caught!)"
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:509
+msgid "(I thought you saw me.)"
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:511
+msgid ""
+"(Kalya was brought here by those weirdos. They are helding everyone captive. "
+"Lilly is talking with that big guy. He gives me the chills.)"
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:513
+msgid "(Let's have a look..)"
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:527
+msgid ""
+"I already told you, again and again, Banesore, I don't know anything about "
+"such a crystal."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:529
+msgid "It is 'Lord Banesore', you scum!"
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:531
+msgid ""
+"Even when confronted by someone who can wipe out everything you hold dear, "
+"you dare to stare me in the eyes? I admire such a courageous heart, my dear "
+"one."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:533
+msgid "Therefore, I'm inclined to ask the questions one last time:"
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:535
+msgid "Where is the crystal? Where is... the boy?"
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:537
+msgid "It's time to think Lilly..."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:539
+msgid "Huh? How do you know my name??"
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:541
+msgid ""
+"Your very soul is slowly but surely opening. I can feel your sorrow and "
+"doubts grow."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:543
+msgid "Fight it, Lilly! Focus!"
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:545
+msgid "Keep quiet, you old daft rat!"
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:547
+msgid "Oh! My apologies, it seems you weren't lying..."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:549
+msgid ""
+"The fact you didn't mention anything about the boy leads me to believe that "
+"you know him."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:553
+msgid "Ah? So he must be close..."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:555
+msgid "What? No!"
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:557
+msgid "Oh, I see now... So this is her mother... Bring her here, and kill her!"
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:586
+msgid "Let her out of this! You can have me instead."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:588
+msgid "So, here we have a gentleman! I'll start with you, then..."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:590
+msgid "Fine..."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:592
+msgid "... But she will be the next one."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:594
+msgid "You filthy demon!"
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:596
+msgid "It's fine, I'll come..."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:598
+msgid "No!"
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:653
+msgid "At last... The boy."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:655
+msgid "No! Let him come closer..."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:657
+msgid "Bronann!!"
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:659
+msgid "Bronann!! No!"
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:661
+msgid "Bronann, why? ..."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:663
+msgid "Clear the way, Lilly. I need to speak to him..."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:665
+msgid "Let's have a talk, Bronann!"
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:667
+msgid "I don't have any other choice, Lilly..."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:669
+msgid "Bronann..."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:681
+msgid "You... After all these years..."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:683
+msgid "... Let everyone out of this. We don't have your 'crystal'..."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:685
+msgid "Of course you have it. I can sense it within your flesh..."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:687
+msgid "So, the crystal is inside me??"
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:689
+msgid "Now, show it to me..."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:691
+msgid "But I..."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:693
+msgid ""
+"Do you need some kind of motivation? If so, let me handle this with my "
+"greatest pleasure!"
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:695
+msgid "Prepare yourself!"
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:745
+msgid "Ah, there it is... Finally!"
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:747
+msgid "Kalya! Now!!"
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:791
+msgid ""
+"You won't get him, Banesore! It seems we were smarter than you, this time..."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:793
+msgid "Ah ah ah... But this is exactly what I wanted."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:795
+#: ../dat/maps/layna_village/layna_village_riverbank_script.lua:601
+msgid "What?!"
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:797
+msgid ""
+"After all, I simply wanted to make sure that boy would reach Mt. Elbrus safe "
+"and sound."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:799
+msgid "He is the only one that can get what I'm looking for..."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:801
+msgid "Soldiers! Give them a few minutes before starting the chase."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:803
+msgid "Yes, my Lord!"
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:805
+msgid "Why in hell ...?"
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:807
+msgid "... Am I telling you all that? That's simple..."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:809
+msgid "It doesn't matter as you're all going to die now..."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_riverbank_script.lua:250
+msgid "Wow! You found me!"
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_riverbank_script.lua:252
+msgid "But I'm not done yet!"
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_riverbank_script.lua:254
+msgid "You'll never find me hiding behind the..."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_riverbank_script.lua:256
+msgid "Hey, why would I tell you my hiding spots?!"
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_riverbank_script.lua:274
+msgid "That kid is pretty quick. This is going to take all day..."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_riverbank_script.lua:326
+msgid "Please no! Wait!"
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_riverbank_script.lua:328
+msgid "Orlinn! Stop this!"
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_riverbank_script.lua:346
+msgid "Orlinn! How many times have I told you not to bother other people?"
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_riverbank_script.lua:348
+msgid "But sis! I..."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_riverbank_script.lua:350
+msgid "I don't want to hear it! Now, come!"
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_riverbank_script.lua:352
+msgid "Don't blame him, Kalya. Actually, it was..."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_riverbank_script.lua:354
+msgid "I don't think I was talking to you, now was I?"
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_riverbank_script.lua:356
+msgid "Come Orlinn!"
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_riverbank_script.lua:383
+msgid "I found that pen near the tree behind you. I just wanted to play..."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_riverbank_script.lua:387
+msgid "Take it... Thanks."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_riverbank_script.lua:415
+msgid "Bronann?"
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_riverbank_script.lua:417
+msgid "Er, yes?"
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_riverbank_script.lua:419
+msgid ""
+"Don't blame Kalya. She was having a hard time along with her brother before "
+"living here, you know?"
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_riverbank_script.lua:421
+msgid "Well anyway, she's been ignoring me since the first day I saw her..."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_riverbank_script.lua:423
+msgid "Eh? You really know nothing about women, do you?"
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_riverbank_script.lua:425
+msgid "... Huh?"
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_riverbank_script.lua:427
+msgid "Heh heh, don't worry about it. It will come in time."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_riverbank_script.lua:472
+msgid "Here it is, Bronann."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_riverbank_script.lua:491
+msgid "Thanks, Lilly."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_riverbank_script.lua:493
+msgid ""
+"We've been having a shortage of food lately. I've been taking... special "
+"measures... to ensure that everyone has enough food."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_riverbank_script.lua:495
+msgid "Try to enjoy this day, Bronann."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_riverbank_script.lua:579
+msgid "We're counting on you."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_riverbank_script.lua:585
+msgid "You should go back home. Your mom must be waiting for you."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_riverbank_script.lua:591
+#: ../dat/maps/layna_village/layna_village_riverbank_script.lua:609
+msgid "What a nice day, isn't it?"
+msgstr "Vilken vacker dag det är, eller hur?"
+
+#: ../dat/maps/layna_village/layna_village_riverbank_script.lua:593
+msgid "Yes, Lilly. But I have something I have to ask you."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_riverbank_script.lua:595
+msgid "Sure, just ask."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_riverbank_script.lua:597
+msgid ""
+"Have you still got any barley meal left for my parents and I? My mother "
+"asked me to get some and I..."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_riverbank_script.lua:599
+msgid "Unfortunately, I gave it all to Kalya..."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_riverbank_script.lua:603
+msgid ""
+"Ah hah! I just wanted to see your reaction. I still have some. Let me go "
+"grab it and bring it back to you."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_riverbank_script.lua:633
+msgid "You'll never get me!"
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_riverbank_script.lua:645
+msgid "Orlinn, how did you get there?"
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_riverbank_script.lua:647
+msgid "(giggle) I won't tell you!"
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_south_entrance_script.lua:111
+msgid "Hi Bronann."
+msgstr "Hej Bronann"
+
+#: ../dat/maps/layna_village/layna_village_south_entrance_script.lua:113
+msgid "Hi Herth. I see you've blocked the gate, why so?"
+msgstr "Hej Herth. Du verkar ha blockerat porten, varför det?"
+
+#: ../dat/maps/layna_village/layna_village_south_entrance_script.lua:115
+msgid ""
+"Don't worry too much. I'm just preventing strangers from being able to sneak "
+"in at night."
+msgstr ""
+"Oroa dig inte. Jag vill bara förhindra att okända smyger sig in om natten."
+
+#: ../dat/maps/layna_village/layna_village_south_entrance_script.lua:117
+msgid "There have been some reports of theft in the villages nearby recently."
+msgstr ""
+"Det har varit några rapporter om stölder i närliggande byar senaste tiden."
+
+#: ../dat/maps/layna_village/layna_village_south_entrance_script.lua:119
+msgid "Wow, do you think that they would come here?"
+msgstr "Oj, tror du att de kommer att komma hit också?"
+
+#: ../dat/maps/layna_village/layna_village_south_entrance_script.lua:121
+#: ../dat/maps/layna_village/layna_village_south_entrance_script.lua:127
+msgid "It's a possibility. But don't worry too much, ok?"
+msgstr "Det är möjligt. Men oroa dig inte för mycket, ok?"
+
+#: ../dat/maps/layna_village/layna_village_south_entrance_script.lua:294
+msgid "Yiek!!! Hey, you scared me."
+msgstr "Jieks!!! Du skrämde mig verkligen."
+
+#: ../dat/maps/layna_village/layna_village_south_entrance_script.lua:296
+msgid "But you'll never find me hiding on top of the cliffs!"
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/battle_with_dark_soldiers_script.lua:36
+msgid ""
+"I found you!! My comrades shall be here in no time. Surrender now or you'll "
+"be punished!!"
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/battle_with_dark_soldiers_script.lua:38
+msgid ""
+"Don't listen to him! We must get rid of him before reinforcements arrive or "
+"we're doomed!!"
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/battle_with_dark_soldiers_script.lua:49
+msgid "Time left:"
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_cave1_script.lua:161
+#: ../dat/maps/mt_elbrus/mt_elbrus_cave1_script.lua:194
+msgid "Shall we jump?"
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_cave1_script.lua:165
+#: ../dat/maps/mt_elbrus/mt_elbrus_cave1_script.lua:198
+msgid "Yes, let's go."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_cave1_script.lua:167
+#: ../dat/maps/mt_elbrus/mt_elbrus_cave1_script.lua:200
+msgid "Not now..."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_north_east_exit_script.lua:240
+msgid "We made it, at last!"
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_north_east_exit_script.lua:242
+msgid "Indeed! Yeepee!"
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_north_east_exit_script.lua:244
+msgid "I'm so relieved we made it safely, hee hee."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_north_east_exit_script.lua:246
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine_basement_script.lua:222
+msgid "Wait..."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_north_east_exit_script.lua:248
+msgid "Can you smell that stench?"
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_north_east_exit_script.lua:250
+msgid "... Yes... Is it... smoke?"
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_north_east_exit_script.lua:252
+msgid "Something's burning..."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_north_east_exit_script.lua:278
+msgid "Our village... is burning..."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_north_east_exit_script.lua:280
+msgid "My parents..."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_north_east_exit_script.lua:282
+msgid "Herth..."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_north_east_exit_script.lua:284
+msgid "Everyone..."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_north_east_exit_script.lua:300
+msgid "May they rest in peace..."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_north_east_exit_script.lua:302
+msgid "All this..."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_north_east_exit_script.lua:304
+msgid "All this was for a crystal??"
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_north_east_exit_script.lua:308
+msgid "I'll fix this..."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_north_east_exit_script.lua:310
+msgid ""
+"If this crystal is so powerful, then I'll use it ... and I'll fix this..."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_north_east_exit_script.lua:323
+msgid "Then, I'll help you..."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_path1_script.lua:659
+msgid "Banesore's minions are already all over the place ..."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_path1_script.lua:661
+msgid ""
+"The dark soldiers, as we call them, are fanatics. They'll follow Banesore's "
+"orders even if it means death."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_path1_script.lua:663
+msgid ""
+"We don't know how he does it, but he can turn anybody into a servile subject."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_path1_script.lua:665
+msgid ""
+"Their strength is increased by the transformation. That's why we call them "
+"the zombified army."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_path1_script.lua:667
+msgid "We must absolutely try to avoid them or they'll call reinforcement."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_path1_script.lua:669
+msgid "They are too strong. If they catch us, we're doomed."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_path2_script.lua:392
+msgid "Dang! And now the rain..."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_path2_script.lua:394
+msgid ""
+"The path seems to lead straight into the storm up there. It's definitely our "
+"lucky day..."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_path2_script.lua:396
+msgid ""
+"Don't lose faith, Kalya. If we manage to escape them here, we'll be safe "
+"past the mountains."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_path2_script.lua:398
+msgid ""
+"If we can reach the great plains, we should indeed be out of troubles..."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_path3_script.lua:292 map_names_tr.lua:20
+#: map_names_tr.lua:228
+msgid "???"
+msgstr "???"
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_path3_script.lua:600
+msgid ""
+"This place is the village's old cemetery, used when the former villagers "
+"lived in Layna..."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_path3_script.lua:602
+msgid "The former villagers? What do you mean?"
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_path3_script.lua:604
+msgid ""
+"Well, Layna Village was abandoned a long time ago, before your parents and "
+"all the others settled here... Your mother never told you that?"
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_path3_script.lua:606
+msgid ""
+"I've never been further alone before... This place gives me the chill..."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_path3_script.lua:608
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine_3rd_script.lua:447
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine5_script.lua:424
+msgid "Yiek!"
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_path3_script.lua:610
+msgid "Anyway, once the cemetery is behind us, we should be out of trouble!"
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_path3_script.lua:635
+msgid "Isn't that soldiers up there?"
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_path3_script.lua:666
+msgid "The west gate is condemned, as the Lord commanded."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_path3_script.lua:668
+msgid "Fine. Let's go back and wait for them."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_path3_script.lua:700
+msgid "The gate to the great plains..."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_path3_script.lua:702
+msgid "Have we got any other way to leave this place?"
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_path3_script.lua:704
+msgid "Only one left... The mountain top..."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_path3_script.lua:730
+msgid "Oh no! the gate!"
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_path3_script.lua:742
+msgid "We're trapped!"
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_path3_script.lua:750
+msgid "You're mine now!"
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_path3_script.lua:770
+msgid ""
+"I shall bring your souls to the Master. You don't stand a chance against the "
+"Great Harlequin..."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_path3_script.lua:772
+msgid "But let's play together first, shall we?"
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_path3_script.lua:774
+msgid "Now catch me... if you can."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_path3_script.lua:802
+msgid "Enough of this shallow game. Give me your souls now!..."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_path3_script.lua:823
+msgid "How could I be hurt by... children..."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_path3_script.lua:825
+msgid "We'll see each other again, Chosen One..."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_path4_script.lua:306
+msgid "We made it..."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_path4_script.lua:308
+msgid "Brr... It's quite cold up here."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_path4_script.lua:310
+msgid ""
+"The bridge is a few feet away. Let's reach the mountain pass before the "
+"frost kills us."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_path4_script.lua:312
+msgid "Let's hurry, I can't feel my toes anymore..."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_path4_script.lua:337
+msgid "(Woah, this bridge doesn't look that sturdy...)"
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_path4_script.lua:339
+msgid "Well, here we go...."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_path4_script.lua:355
+msgid "There!"
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_path4_script.lua:376
+msgid "Catch them before they reach the Shrine!"
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_path4_script.lua:391
+msgid "Let's run!"
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_path4_script.lua:430
+msgid "I'll cut those ropes!"
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_path4_script.lua:458
+msgid "That was close..."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_path4_script.lua:473
+msgid "Damn!!"
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_path4_script.lua:475
+msgid "The Master won't be happy with this..."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_path4_script.lua:477
+msgid "You won't get away so easily... We will catch you sooner or later..."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_path4_script.lua:503
+msgid "Hurray! Those idiots will have a hard time catching us now!"
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_path4_script.lua:505
+msgid "Indeed! They've been had!"
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_path4_script.lua:507
+msgid "Who are the little brats now, eh?"
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_path4_script.lua:522
+msgid "Let's go back and tell the others..."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_path4_script.lua:524
+msgid "Yes, Sir..."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_path4_script.lua:547
+msgid ""
+"They're gone... We should move on before they actually find a way to cross "
+"the gap."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:121
+msgid "I'll stay here as long as you need me. Do you want to buy something?"
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:128
+msgid "Sophia's items"
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:129
+msgid "Don't forget my trade offers!"
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:390
+msgid ""
+"... You'll see: there's plenty of things I need to show you there. Plus, "
+"it's a safe place."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:392
+msgid "Err... Sis?"
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:394
+msgid ""
+"Our Elder will also be able to help us. And you'll get more explanation than "
+"I could ever..."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:396
+msgid "Sis!"
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:398
+msgid "... One second, Orlinn. I try to..."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:400
+msgid "But Kalya, look at the passageway!"
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:402
+msgid "What about the..."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:404
+msgid "NO!"
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:422
+msgid "... No, it can't be..."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:424
+msgid "After all we've been through, this..."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:444
+msgid "... Calm down Kalya, there must be a way to go through this somehow..."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:446
+msgid "Unfortunately... Yes, there is one..."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:448
+msgid "We'll have to enter the ancient shrine..."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:450
+msgid ""
+"Wouldn't have we flown all by ourselves, I would swear Banesore's army "
+"pushed us here on purpose..."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:452
+msgid "... What's with this 'ancient shrine'?"
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:454
+msgid ""
+"Some say it is haunted... And it was sealed a long time ago, long before I "
+"was even born."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:456
+msgid "Indeed, It must be a long time ago..."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:460
+msgid ""
+"Anyway, we might even not be able to enter there at all. But you're right, "
+"let's have a look around first. Who knows?"
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:506
+msgid ""
+"Here we are, looking at this huge, wonderful and yet creepy door... I don't "
+"like this..."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:508
+msgid ""
+"It's not like I actually would want to open it, but how are we going to?"
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:520
+msgid "Oh, my chest, it hurts!!"
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:522
+msgid "The Crystal! ... Orlinn! Let's stand back!"
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:546
+msgid ""
+"That sign... It is the sign of the Ancients! ... Bronann! Are you alright?"
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:559
+msgid "... I'm fine... I guess... The pain faded away..."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:561
+msgid "Thanks Goddess..."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:563
+msgid "Well, the door is open now..."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:565
+msgid "Yiek! Do you really want to go there??"
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:567
+msgid ""
+"I believe we don't really have a choice... Somehow this place... called me."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:569
+msgid "Anyway, let's stick together and we'll be fine as always, right?"
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:571
+msgid "... I have a bad feeling about all this now..."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:613
+msgid "... Bronann!!"
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:630
+msgid "Thanks Goddess! You're all safe and sound... I was worried sick!"
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:632
+msgid "Sophia, you here?"
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:634
+msgid "Yes, it's a miracle destiny kept you away from harm."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:636
+msgid "How in Layna did you reach the Mt Elbrus all alone?"
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:638
+msgid ""
+"And how did you reach up here? Weren't you caught by the soldiers with the "
+"others?"
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:640
+msgid ""
+"Well, it's a long story... But in short, I was out of the village when they "
+"caught everyone."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:642
+msgid "Do you know how are the others doing? Are my parents fine?"
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:644
+msgid "Unfortunately no. I left them behind..."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:646
+msgid ""
+"When I saw you leaving the village to the sanctuary, I decided to follow you."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:648
+msgid ""
+"But by the time I reached the area, you three were gone... And I had to find "
+"out where you were heading."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:650
+msgid "But the bridge, how did you cross?"
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:652
+msgid "Using my rope and my Ranger skills, of course, eh."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:654
+msgid ""
+"Sophia could be of great help, Kalya. The passage has collapsed, and we're "
+"stuck finding a way in this dreadful place..."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:656
+msgid ""
+"Maybe, maybe not. Sophia was out the time they attacked? Somehow I don't buy "
+"it."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:658
+msgid ""
+"I wasn't out for no reason. Actually, Herth sent me to watch for soldiers in "
+"the forest west parts."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:660
+msgid "He was afraid they'd corner us to prevent an escape, and he was right."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:662
+msgid "Herth sent you? But he told me it was nothing, that he would handle it!"
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:664
+msgid ""
+"I fear he just wanted to protect you and make you all meet your destiny at "
+"the same time..."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:666
+msgid "What?! You mean you all knew about the crystal?"
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:668
+msgid ""
+"We didn't know exactly what would happen, Bronann. But we knew one day the "
+"three of you would have to carry a special burden... That is what Herth told "
+"us..."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:670
+msgid ""
+"Listen kids, I feel bad about what happened, and I can't help you as a "
+"magical force is preventing me from entering the Shrine..."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:672
+msgid "But then, you're stuck here, too, right?"
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:674
+msgid "Me? Not at all. I don't need bridges to cross a moutain."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:676
+msgid "... But maybe?"
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:678
+msgid "Maybe?"
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:680
+msgid ""
+"Maybe I could sell you a few things to help you find a way to open a path in "
+"there?"
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:682
+msgid "So that's how you help, by selling stuff to us..."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:684
+msgid ""
+"Yes, it's a great privilege as I usually don't do such things for children. "
+"I'll stay here as long as you are stuck, isn't this quite honest?"
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:686
+msgid "But, you'll let us deal with this place, alone??"
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:688
+msgid ""
+"This place is part of your burden. Herth was right. You managed to come here "
+"all by yourselves, after all..."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:690
+msgid "I guess it's better than nothing... But Orlinn, you stay with us."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:692
+msgid "Thanks anyway, Sophia."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:694
+msgid "You're welcome, my dear!"
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine_2nd_s2_script.lua:162
+msgid "Phew, this one sure is heavier and sturdier..."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine_2nd_s2_script.lua:427
+msgid "I can feel something move far below..."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine2_script.lua:426
+msgid "... It seems somebody left a note here on purpose..."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine2_script.lua:428
+msgid "You mean, in the middle of those scary bones?"
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine2_script.lua:430
+msgid "Let me see..."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine2_script.lua:432
+msgid "'To whoever will read this:'"
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine2_script.lua:434
+msgid ""
+"'Battles have been waging all over the place and the Ancient have now "
+"forsaken me into oblivion when they sealed the Goddess Shrine.'"
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine2_script.lua:436
+msgid ""
+"'All my comrades have perished in battles and I am the last unfortunate one "
+"left.'"
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine2_script.lua:438
+msgid ""
+"'My name is Shawn, and I do believe my time is running out in this life as "
+"there is neither food nor water in here ...'"
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine2_script.lua:440
+msgid "Poor guy... He must have died from starvation."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine2_script.lua:442
+msgid ""
+"'... But I will attempt one last time to escape from here and I'm leaving "
+"this note in case you'd need to do the same.'"
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine2_script.lua:444
+msgid ""
+"'The only way to escape this hellish place is to reach the highest floor and "
+"activate the waterfall. At least that's what they said.'"
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine2_script.lua:446
+msgid "What are we waiting for, let's go!"
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine2_script.lua:448
+msgid "Wait Orlinn! That's not over..."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine2_script.lua:450
+msgid ""
+"'... But be warned, for even the very scent exuding from the dark waters is "
+"a trap!'"
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine2_script.lua:452
+msgid ""
+"'The entire Shrine has been turned into a murderous area and you'll have to "
+"fight your way through, just as I will now...'"
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine2_script.lua:454
+msgid "That's it..."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine2_script.lua:456
+msgid "Let's find out how to activate that waterfall, then."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine2_script.lua:458
+msgid "Yes, and let's do it quickly..."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine2_script.lua:478
+msgid ""
+"Somebody left a note on purpose here. According to it, we need to find out a "
+"way to trigger the waterfall from the highest floor."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine2_script.lua:480
+msgid ""
+"But let's be careful, as it also said this place is dangerous, and the dark "
+"waters are a trap somehow..."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine2_script.lua:492
+msgid "What is this? ... Skeletons?!"
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine2_script.lua:522
+msgid "Phew..."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine_3rd_script.lua:439
+msgid "Yiek! A big monster!"
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine_3rd_script.lua:441
+msgid ""
+"My name is Andromalius, Guardian of the Sacred Seal, and Keeper of the "
+"Goddess Shrine..."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine_3rd_script.lua:443
+msgid ""
+"You have trespassed the Holy ground of the Ancient and remained unharmed for "
+"too long in this temple..."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine_3rd_script.lua:445
+msgid ""
+"Thus, let death embrace you, little boy, for your comrades are already dying "
+"under my charm and you have to join them into the other world..."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine_3rd_script.lua:483
+msgid "You've proven yourself, Chosen One... You deserve to live after all..."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine_3rd_script.lua:485
+msgid "Me? But I'm not the Chosen One."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine_3rd_script.lua:487
+msgid ""
+"The Ones being few or many, still each of them will have to prove themselves "
+"as it is ought to be..."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine_3rd_script.lua:489
+msgid "Farewell, Chosen One..."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine_3rd_script.lua:518
+msgid "I can hear water from everywhere..."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine_3rd_script.lua:520
+msgid "Kalya, Bronann!"
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine4_script.lua:386
+msgid "Again, I can feel something move not far from here..."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine5_script.lua:408
+msgid ""
+"There is a passage here but I'm too heavy for those stones jutting out ..."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine5_script.lua:410
+msgid ""
+"The fact is, you and me cannot afford standing on those stones. Maybe with a "
+"rope?"
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine5_script.lua:412
+msgid "... I'll do it."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine5_script.lua:414
+msgid "What? Are you crazy? There could be monsters up here."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine5_script.lua:416
+msgid "Then, I'll deal with them, sis. We can't just stay here, anyway..."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine5_script.lua:418
+msgid "Orlinn, you sure have grown up because of all this. Are you sure?"
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine5_script.lua:420
+msgid "I need to ... I guess."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine5_script.lua:422
+msgid "Just tell me when you're ready and I'll throw you up here."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine5_script.lua:447
+msgid "Ready to go up? ..."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine5_script.lua:449
+msgid "Yes, let's go ..."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine5_script.lua:451
+msgid "Err, not yet!"
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine5_script.lua:480
+msgid "Be careful, ok?"
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine5_script.lua:504
+msgid "Wants to come back?"
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine5_script.lua:506
+msgid "Yes!"
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine5_script.lua:508
+msgid "No, not yet."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine5_script.lua:543
+msgid "Oops, sorry!"
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine5_script.lua:548
+msgid "Bronann, are you fine?"
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine5_script.lua:550
+msgid "... I don't know, I guess I felt something crack ..."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine5_script.lua:554
+msgid "... Not again ..."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine7_script.lua:255
+msgid "There is a note left here."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine7_script.lua:257
+msgid ""
+"It says: 'I fathomed it! After all, not every ladder is made of wood. Now, "
+"I'll have to get back there alive...'"
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine7_script.lua:305
+msgid "There seems to be one of those rolling stones up here ..."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine_basement_script.lua:216
+msgid "Wow, what a fall... I didn't see that one coming."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine_basement_script.lua:218
+msgid "Are you alright, Kalya?"
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine_basement_script.lua:220
+msgid "I should be fine, but we should heal just in case..."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine_basement_script.lua:224
+msgid "Where is Orlinn?"
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine_basement_script.lua:226
+msgid "Orlinn? Orlinn!"
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine_basement_script.lua:228
+msgid "Let's find him ... once more, before something bad happens..."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine_basement_script.lua:244
+msgid "This is the blocked passage to the Shrine entrance..."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine_basement_script.lua:246
+msgid "This can only mean we're near the exit!"
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine_basement_script.lua:254
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine_basement_script.lua:278
+msgid "Help!!"
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine_basement_script.lua:280
+msgid "Orlinn! Back off!"
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine_basement_script.lua:282
+msgid "I, I ..."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine_basement_script.lua:284
+msgid "Orlinn! NOW!"
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine_basement_script.lua:297
+msgid "You shall not leave this place without my consent."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine_basement_script.lua:299
+msgid "And you shall not touch my brother without mine..."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine_basement_script.lua:301
+msgid ""
+"You have got through the Holy Ordeal without dying. I shall not let you "
+"live..."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine_basement_script.lua:303
+msgid "Let's fight for our lives then!"
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine_basement_script.lua:340
+msgid "Orlinn, are you alright?"
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine_basement_script.lua:342
+msgid "Yes, I'm sorry I wasn't able to protect myself, sis."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine_basement_script.lua:344
+msgid ""
+"Don't you worry about that, brother. Never leave me like that again, ok?"
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine_basement_script.lua:346
+msgid ""
+"I promise I didn't do it this time. I just fell in front of this hideous "
+"green head..."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine_basement_script.lua:348
+msgid ""
+"... Well, let's leave this place before another one wants our lives again."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine_basement_script.lua:350
+msgid "I couldn't agree more ..."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:120
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:468
+msgid "We can't move Orlinn ..."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:122
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:470
+msgid "We're gonna ... suffocate..."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:124
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:472
+msgid "Orlinn, help us ... Please, Oh oh oh..."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:403
+msgid "What a big gate... What is behind must be fearsome..."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:405
+msgid "Shall we go in?"
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:407
+msgid "Yes, let's end this."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:409
+msgid "No, let's prepare first..."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:446
+msgid ""
+"Don't worry, we've managed to come this far. There is nothing that could..."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:448
+msgid "... What is it, Kalya?"
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:450
+msgid "... Kalya?!"
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:452
+msgid "sis'!"
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:454
+msgid "I feel... I..."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:456
+msgid "Hi hi... Hi hi hi... I can't stop!!"
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:458
+msgid "What's so funny, Kalya? eh eh."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:460
+msgid "I don't know... Ah, I can barely breathe! ..."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:462
+msgid "Hi hi hi... What's happening to me..."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:464
+msgid "It's the scent, ah ah ah."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:466
+msgid ""
+"Erm, are you crazy or what? I usually am the one with bad jokes you know..."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:488
+msgid "I can't let them, I have to find out something..."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:500
+msgid "Something is preventing me from entering ..."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:517
+msgid "I feel much better now..."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:519
+msgid "Indeed. It seems the scent has no effect on us anymore."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:521
+msgid "Orlinn, did you do something?"
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:523
+msgid "Me? You know: A bit of this, a bit of that..."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:525
+msgid "... I didn't think I would say that, but... Thank you Orlinn."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:527
+msgid "Thank you, indeed."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:529
+msgid "You're welcome!"
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:531
+msgid ""
+"Well, please stop laughing now. I'm not at ease with what just happened..."
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:535
+msgid "Stop laughing now or I'll smash your little head against that wall!"
+msgstr ""
+
+#: ../dat/maps/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:537
+msgid "Aww... Ok."
+msgstr ""
+
+#: ../dat/objects/arm_armor.lua:41
+msgid "Prismatic ring"
+msgstr ""
+
+#: ../dat/objects/arm_armor.lua:42
+msgid "A strange ring that protects the wearer from darkness."
+msgstr ""
+
+#: ../dat/objects/arm_armor.lua:52
+msgid "Wooden Shield"
+msgstr ""
+
+#: ../dat/objects/arm_armor.lua:53
+msgid "Robust wooden oak protects from all but the heaviest of assaults."
+msgstr ""
+
+#: ../dat/objects/arm_armor.lua:63
+msgid "Metal Shield"
+msgstr ""
+
+#: ../dat/objects/arm_armor.lua:64
+msgid ""
+"A shield formed completely out of a light-weight but cheap metallic alloy."
+msgstr ""
+
+#: ../dat/objects/arm_armor.lua:74
+msgid "Phoenix Shield"
+msgstr ""
+
+#: ../dat/objects/arm_armor.lua:75
+msgid "A tall steel shield with a mighty phoenix emblazoned on the front."
+msgstr ""
+
+#: ../dat/objects/arm_armor.lua:85
+msgid "Trident Shield"
+msgstr ""
+
+#: ../dat/objects/arm_armor.lua:86
+msgid ""
+"A large shield with enough fortitude to withstand waves of powerful attacks."
+msgstr ""
+
+#: ../dat/objects/head_armor.lua:41
+msgid "Butterfly hair tong"
+msgstr ""
+
+#: ../dat/objects/head_armor.lua:42
+msgid "An old and finely done piece of jewelery."
+msgstr ""
+
+#: ../dat/objects/head_armor.lua:52
+msgid "Old Helmet"
+msgstr ""
+
+#: ../dat/objects/head_armor.lua:53
+msgid "A battle worn helmet, still reliable for head protection."
+msgstr ""
+
+#: ../dat/objects/head_armor.lua:63
+msgid "Cobalt Helm"
+msgstr ""
+
+#: ../dat/objects/head_armor.lua:64
+msgid "A small helmet composed of a secret cobalt based alloy."
+msgstr ""
+
+#: ../dat/objects/head_armor.lua:74
+msgid "Crested Helmet"
+msgstr ""
+
+#: ../dat/objects/head_armor.lua:75
+msgid ""
+"A sturdy helmet with a hinged face guard offering additional protection."
+msgstr ""
+
+#: ../dat/objects/items.lua:75
+msgid "Minor Healing Potion"
+msgstr ""
+
+#: ../dat/objects/items.lua:76
+msgid "Restores a small amount of hit points to an ally."
+msgstr ""
+
+#: ../dat/objects/items.lua:94
+msgid "Medium Healing Potion"
+msgstr ""
+
+#: ../dat/objects/items.lua:95
+msgid "Restores a reasonable amount of hit points to an ally."
+msgstr ""
+
+#: ../dat/objects/items.lua:119
+msgid "Healing Potion"
+msgstr ""
+
+#: ../dat/objects/items.lua:120
+msgid "Restores a large amount of hit points to an ally."
+msgstr ""
+
+#: ../dat/objects/items.lua:144
+msgid "Mega Healing Potion"
+msgstr ""
+
+#: ../dat/objects/items.lua:145
+msgid "Restores a very high amount of hit points to an ally."
+msgstr ""
+
+#: ../dat/objects/items.lua:188
+msgid "Small Moon Juice Potion"
+msgstr ""
+
+#: ../dat/objects/items.lua:189
+msgid "Restores a small amount of skill points to an ally."
+msgstr ""
+
+#: ../dat/objects/items.lua:207
+msgid "Medium Moon Juice Potion"
+msgstr ""
+
+#: ../dat/objects/items.lua:208
+msgid "Restores a reasonable amount of skill points to an ally."
+msgstr ""
+
+#: ../dat/objects/items.lua:226
+msgid "Moon Juice Potion"
+msgstr ""
+
+#: ../dat/objects/items.lua:227
+msgid "Restores a large amount of skill points to an ally."
+msgstr ""
+
+#: ../dat/objects/items.lua:245
+msgid "Mega Moon Juice Potion"
+msgstr ""
+
+#: ../dat/objects/items.lua:246
+msgid "Restores a very high amount of skill points to an ally."
+msgstr ""
+
+#: ../dat/objects/items.lua:264
+msgid "Lotus Petal"
+msgstr ""
+
+#: ../dat/objects/items.lua:265
+msgid "Cures moderate poisons from an ally"
+msgstr ""
+
+#: ../dat/objects/items.lua:316
+msgid "Candy"
+msgstr ""
+
+#: ../dat/objects/items.lua:317
+msgid "Makes an ally's health regenerate moderately."
+msgstr ""
+
+#: ../dat/objects/items.lua:384
+msgid "Minor Elixir"
+msgstr ""
+
+#: ../dat/objects/items.lua:385
+msgid ""
+"Revive a character, or improve the character status when he/she is alive by "
+"a limited degree."
+msgstr ""
+
+#: ../dat/objects/items.lua:420
+msgid "Elixir"
+msgstr ""
+
+#: ../dat/objects/items.lua:421
+msgid ""
+"Revive a character with half of its Hit Points, or reasonably improve the "
+"character status when he/she is alive."
+msgstr ""
+
+#: ../dat/objects/items.lua:453
+msgid "Periwinkle Potion"
+msgstr ""
+
+#: ../dat/objects/items.lua:454
+msgid ""
+"Gives a reasonable boost in strength to an ally for a large amount of time."
+msgstr ""
+
+#: ../dat/objects/items.lua:488
+msgid "Haste Potion"
+msgstr ""
+
+#: ../dat/objects/items.lua:489
+msgid ""
+"Gives a reasonable boost in agility to an ally for a small amount of time."
+msgstr ""
+
+#: ../dat/objects/items.lua:523
+msgid "Poison Potion"
+msgstr ""
+
+#: ../dat/objects/items.lua:524
+msgid "Poisons an enemy a for small amount of time."
+msgstr ""
+
+#: ../dat/objects/items.lua:557
+msgid "Copper Ore"
+msgstr ""
+
+#: ../dat/objects/items.lua:558
+msgid "A small amount of copper ore."
+msgstr ""
+
+#: ../dat/objects/items.lua:564
+msgid "Iron Ore"
+msgstr ""
+
+#: ../dat/objects/items.lua:565
+msgid "A small amount of iron ore."
+msgstr ""
+
+#: ../dat/objects/items.lua:571
+msgid "Titanium Ore"
+msgstr ""
+
+#: ../dat/objects/items.lua:572
+msgid "A small amount of Titanium ore."
+msgstr ""
+
+#: ../dat/objects/items.lua:578
+msgid "Anthozium Ore"
+msgstr ""
+
+#: ../dat/objects/items.lua:579
+msgid "A small amount of Anthozium ore."
+msgstr ""
+
+#: ../dat/objects/items.lua:585
+msgid "Auridium Ore"
+msgstr ""
+
+#: ../dat/objects/items.lua:586
+msgid "A small amount of Auridium ore."
+msgstr ""
+
+#: ../dat/objects/items.lua:592
+msgid "Borium Ore"
+msgstr ""
+
+#: ../dat/objects/items.lua:593
+msgid "A small amount of Borium ore."
+msgstr ""
+
+#: ../dat/objects/items.lua:599
+msgid "Evanium Ore"
+msgstr ""
+
+#: ../dat/objects/items.lua:600
+msgid "A small amount of Evanium ore."
+msgstr ""
+
+#: ../dat/objects/items.lua:606
+msgid "Phoenix Feather"
+msgstr ""
+
+#: ../dat/objects/items.lua:607
+msgid ""
+"A genuine and perfect feather from the great Fire Bird. It is known to bring "
+"life to inanimated items."
+msgstr ""
+
+#: ../dat/objects/items.lua:659
+msgid "Escape Smoke"
+msgstr ""
+
+#: ../dat/objects/items.lua:660
+msgid ""
+"A ninja potion bursting out a damp mist when crashed on the ground. Used to "
+"hopefully escape from standard opponents."
+msgstr ""
+
+#: ../dat/objects/items.lua:703
+msgid "Pen"
+msgstr ""
+
+#: ../dat/objects/items.lua:704
+msgid "Georges's pen, presumably used to write poetry."
+msgstr ""
+
+#: ../dat/objects/items.lua:711
+msgid "Barley Meal"
+msgstr ""
+
+#: ../dat/objects/items.lua:712
+msgid "Basic yet good and cheap flour."
+msgstr ""
+
+#: ../dat/objects/items.lua:719
+msgid "Wolfpain Necklace"
+msgstr ""
+
+#: ../dat/objects/items.lua:720
+msgid "A strange necklace with unknown powers."
+msgstr ""
+
+#: ../dat/objects/leg_armor.lua:41
+msgid "Leather boots"
+msgstr ""
+
+#: ../dat/objects/leg_armor.lua:42
+msgid "Simple but fairly good leather boots."
+msgstr ""
+
+#: ../dat/objects/leg_armor.lua:51
+msgid "Standard Greaves"
+msgstr ""
+
+#: ../dat/objects/leg_armor.lua:52
+msgid ""
+"Standard equipment. Light metal alloy protects the legs while minimizing the "
+"negative impact on movement."
+msgstr ""
+
+#: ../dat/objects/leg_armor.lua:62
+msgid "Tempered Greaves"
+msgstr ""
+
+#: ../dat/objects/leg_armor.lua:63
+msgid ""
+"Standard greaves that have undergone an additional tempering process, "
+"increasing their durability and strength."
+msgstr ""
+
+#: ../dat/objects/spirits.lua:23
+msgid "Ardoris"
+msgstr ""
+
+#: ../dat/objects/spirits.lua:24
+msgid "An enchanting child of Fire."
+msgstr ""
+
+#: ../dat/objects/spirits.lua:55
+msgid "Undine"
+msgstr ""
+
+#: ../dat/objects/spirits.lua:56
+msgid "A mesmerizing spirit of living water."
+msgstr ""
+
+#: ../dat/objects/spirits.lua:87
+msgid "Sylphid"
+msgstr ""
+
+#: ../dat/objects/spirits.lua:88
+msgid "A very rare spirit of Wind, usually neither tamable nor catchable."
+msgstr ""
+
+#: ../dat/objects/spirits.lua:119
+msgid "Dryad"
+msgstr ""
+
+#: ../dat/objects/spirits.lua:120
+msgid "A fragile spirit, child of Mother Nature."
+msgstr ""
+
+#: ../dat/objects/spirits.lua:151
+msgid "Fairy"
+msgstr ""
+
+#: ../dat/objects/spirits.lua:152
+msgid "Blinding as the sun, she brings life even where Death belongs."
+msgstr ""
+
+#: ../dat/objects/spirits.lua:183
+msgid "Demona"
+msgstr ""
+
+#: ../dat/objects/spirits.lua:184
+msgid ""
+"Spirit of the Dark. It can't be possessed: it only chose to be possessed, "
+"waiting for its hour..."
+msgstr ""
+
+#: ../dat/objects/spirits.lua:215
+msgid "Oblivion"
+msgstr ""
+
+#: ../dat/objects/spirits.lua:216
+msgid ""
+"Touched neither by the time nor space, this spirit is dwelling in pure "
+"energy."
+msgstr ""
+
+#: ../dat/objects/torso_armor.lua:41
+msgid "Rookie Tunic"
+msgstr ""
+
+#: ../dat/objects/torso_armor.lua:42
+msgid ""
+"A light tunic worn by new soldier recruits. This one belonged to Bronann's "
+"father..."
+msgstr ""
+
+#: ../dat/objects/torso_armor.lua:52
+msgid "Old Willow Dress"
+msgstr ""
+
+#: ../dat/objects/torso_armor.lua:53
+msgid "An old willow dress that Kalya likes to wear."
+msgstr ""
+
+#: ../dat/objects/torso_armor.lua:63
+msgid "Tunic"
+msgstr ""
+
+#: ../dat/objects/torso_armor.lua:64
+msgid "An old light soldier tunic."
+msgstr ""
+
+#: ../dat/objects/torso_armor.lua:73
+msgid "Leather cloak"
+msgstr ""
+
+#: ../dat/objects/torso_armor.lua:74
+msgid "A cloak worn by apprentices."
+msgstr ""
+
+#: ../dat/objects/torso_armor.lua:83
+msgid "Leather Chain Mail"
+msgstr ""
+
+#: ../dat/objects/torso_armor.lua:84
+msgid "A light chain mail woven into a tough leather cuirass."
+msgstr ""
+
+#: ../dat/objects/torso_armor.lua:94
+msgid "Karlate Breastplate"
+msgstr ""
+
+#: ../dat/objects/torso_armor.lua:95
+msgid ""
+"Standard Karlate issued equipment. Effectively protects the torso from most "
+"types of attack."
+msgstr ""
+
+#: ../dat/objects/torso_armor.lua:105
+msgid "Shouldered Breastplate"
+msgstr ""
+
+#: ../dat/objects/torso_armor.lua:106
+msgid ""
+"A breastplate with slightly thicker armor than is commonly found and "
+"additional shoulder guards."
+msgstr ""
+
+#: ../dat/objects/weapons.lua:43
+msgid "Wooden Sword"
+msgstr ""
+
+#: ../dat/objects/weapons.lua:44
+msgid "A sword made of wood with a steel hilt, very good for practising."
+msgstr ""
+
+#: ../dat/objects/weapons.lua:77
+msgid "Reinforced wooden Sword"
+msgstr ""
+
+#: ../dat/objects/weapons.lua:78
+msgid "A sword made of wood with a steel hilt, reinforced magically."
+msgstr ""
+
+#: ../dat/objects/weapons.lua:117
+msgid "Perfect wooden Sword"
+msgstr ""
+
+#: ../dat/objects/weapons.lua:118
+msgid ""
+"A sword made of wood with a steel hilt, surrounded by a great magical force."
+msgstr ""
+
+#: ../dat/objects/weapons.lua:160
+msgid "Iron Sword"
+msgstr ""
+
+#: ../dat/objects/weapons.lua:161
+msgid ""
+"A sturdy but somewhat dull sword whose blade was forged from a single block "
+"of solid iron."
+msgstr ""
+
+#: ../dat/objects/weapons.lua:193
+msgid "Soldier Sword"
+msgstr ""
+
+#: ../dat/objects/weapons.lua:194
+msgid ""
+"Standard soldier sword. A light weight iron sword suitable for most "
+"skirmishes."
+msgstr ""
+
+#: ../dat/objects/weapons.lua:233
+msgid "Knight's Blade"
+msgstr ""
+
+#: ../dat/objects/weapons.lua:234
+msgid "A weapon bestowed to seasoned veterans of the knighthood."
+msgstr ""
+
+#: ../dat/objects/weapons.lua:273
+msgid "Paladin's Sword"
+msgstr ""
+
+#: ../dat/objects/weapons.lua:274
+msgid "A mythical weapon blessed with a magical fire."
+msgstr ""
+
+#: ../dat/objects/weapons.lua:321
+msgid "Omni Sword"
+msgstr ""
+
+#: ../dat/objects/weapons.lua:391
+msgid "Arbalest"
+msgstr ""
+
+#: ../dat/objects/weapons.lua:392
+msgid "A standard wooden arbalest."
+msgstr ""
+
+#: ../dat/objects/weapons.lua:424
+msgid "Noble Arbalest"
+msgstr ""
+
+#: ../dat/objects/weapons.lua:425
+msgid "An arbalest made out of fine noble ash tree wood."
+msgstr ""
+
+#: ../dat/objects/weapons.lua:464
+msgid "Arbalest of Force"
+msgstr ""
+
+#: ../dat/objects/weapons.lua:465
+msgid "An arbalest strengthened with magical ore."
+msgstr ""
+
+#: ../dat/skills/barehands.lua:28
+msgid "Punch"
+msgstr ""
+
+#: ../dat/skills/barehands.lua:29
+msgid "A simple punch. Better than nothing..."
+msgstr ""
+
+#: ../dat/skills/barehands.lua:56
+msgid "Throw stone"
+msgstr ""
+
+#: ../dat/skills/barehands.lua:57
+msgid "Kalya's attack when she's got no weapon."
+msgstr ""
+
+#: ../dat/skills/barehands.lua:83
+msgid "Tornado Punch"
+msgstr ""
+
+#: ../dat/skills/barehands.lua:84
+msgid "Spin knuckles attack doing Wind damages."
+msgstr ""
+
+#: ../dat/skills/magic.lua:46
+msgid "Shield"
+msgstr ""
+
+#: ../dat/skills/magic.lua:47
+msgid "Increases an ally's physical defense by a slight degree."
+msgstr ""
+
+#: ../dat/skills/magic.lua:96
+msgid "First Aid"
+msgstr ""
+
+#: ../dat/skills/magic.lua:97
+msgid ""
+"Performs basic medical assistance, healing the target by a minor degree."
+msgstr ""
+
+#: ../dat/skills/magic.lua:136
+msgid "Leader Call"
+msgstr ""
+
+#: ../dat/skills/magic.lua:137
+msgid "Temporarily increases the strength of all allies."
+msgstr ""
+
+#: ../dat/skills/magic.lua:163
+msgid "Holy Veil"
+msgstr ""
+
+#: ../dat/skills/magic.lua:164
+msgid "Increases the attack and magical attack of all allies."
+msgstr ""
+
+#: ../dat/skills/magic.lua:195
+msgid "Ancient Strength"
+msgstr ""
+
+#: ../dat/skills/magic.lua:196
+msgid "Increases every elemental resistance of all allies."
+msgstr ""
+
+#: ../dat/skills/magic.lua:220
+msgid "Divine Wish"
+msgstr ""
+
+#: ../dat/skills/magic.lua:221 ../dat/skills/special.lua:207
+msgid "Revives an ally, restoring all his/her HP and SP."
+msgstr ""
+
+#: ../dat/skills/magic.lua:240
+msgid "Magical Poison"
+msgstr ""
+
+#: ../dat/skills/magic.lua:241
+msgid "Makes an enemy lose its SP little by little."
+msgstr ""
+
+#: ../dat/skills/magic.lua:265
+msgid "Steal Song"
+msgstr ""
+
+#: ../dat/skills/magic.lua:266
+msgid "Steals positive effects from an enemy."
+msgstr ""
+
+#: ../dat/skills/magic.lua:282
+msgid "Terrify"
+msgstr ""
+
+#: ../dat/skills/magic.lua:283
+msgid "Makes a normal enemy potentially leave."
+msgstr ""
+
+#: ../dat/skills/magic.lua:299
+msgid "Decay Dirge"
+msgstr ""
+
+#: ../dat/skills/magic.lua:300
+msgid "Steals both physical and magical defense of an ally."
+msgstr ""
+
+#: ../dat/skills/magic.lua:316
+msgid "War God"
+msgstr ""
+
+#: ../dat/skills/magic.lua:317
+msgid ""
+"Steals both the physical and magical defense of all enemies and gives it to "
+"the party."
+msgstr ""
+
+#: ../dat/skills/magic.lua:353
+msgid "Fire burst"
+msgstr ""
+
+#: ../dat/skills/magic.lua:354
+msgid "Creates a small fire that burns an enemy."
+msgstr ""
+
+#: ../dat/skills/magic.lua:379
+msgid "Fire Circle"
+msgstr ""
+
+#: ../dat/skills/magic.lua:380
+msgid "Increases the Fire elemental defense on a character."
+msgstr ""
+
+#: ../dat/skills/magic.lua:395
+msgid "Lava"
+msgstr ""
+
+#: ../dat/skills/magic.lua:396
+msgid "Magical attack combining Earth and Fire damages."
+msgstr ""
+
+#: ../dat/skills/magic.lua:411
+msgid "Fog"
+msgstr ""
+
+#: ../dat/skills/magic.lua:412
+msgid "Increases the evade rate of an ally."
+msgstr ""
+
+#: ../dat/skills/magic.lua:427
+msgid "Fire Breath"
+msgstr ""
+
+#: ../dat/skills/magic.lua:428
+msgid "Magical attack combining Air and Fire damages."
+msgstr ""
+
+#: ../dat/skills/magic.lua:443
+msgid "Focus"
+msgstr ""
+
+#: ../dat/skills/magic.lua:444 ../dat/skills/magic.lua:595
+msgid "Increases the Magical Defence of an ally."
+msgstr ""
+
+#: ../dat/skills/magic.lua:459
+msgid "Holy Fire"
+msgstr ""
+
+#: ../dat/skills/magic.lua:460
+msgid "Magical attack combining Life and Fire damages."
+msgstr ""
+
+#: ../dat/skills/magic.lua:476
+msgid "Revives a fallen ally."
+msgstr ""
+
+#: ../dat/skills/magic.lua:491
+msgid "Petrify"
+msgstr ""
+
+#: ../dat/skills/magic.lua:492
+msgid "Turns an enemy into stone."
+msgstr ""
+
+#: ../dat/skills/magic.lua:507
+msgid "Rage"
+msgstr ""
+
+#: ../dat/skills/magic.lua:508
+msgid ""
+"Enrages an ally, increasing its Attack and Speed, but reducing its Defence."
+msgstr ""
+
+#: ../dat/skills/magic.lua:523
+msgid "Rock Fall"
+msgstr ""
+
+#: ../dat/skills/magic.lua:524
+msgid "Rocks fall on an enemy."
+msgstr ""
+
+#: ../dat/skills/magic.lua:549
+msgid "Earth Circle"
+msgstr ""
+
+#: ../dat/skills/magic.lua:550
+msgid "Increases the Earth elemental defense on a character."
+msgstr ""
+
+#: ../dat/skills/magic.lua:578
+msgid "Entangle"
+msgstr ""
+
+#: ../dat/skills/magic.lua:579
+msgid "Decreases the evade rate of an enemy."
+msgstr ""
+
+#: ../dat/skills/magic.lua:594
+msgid "Magical Armor"
+msgstr ""
+
+#: ../dat/skills/magic.lua:610
+msgid "Haste"
+msgstr ""
+
+#: ../dat/skills/magic.lua:611
+msgid "Increases the Battle Speed of an ally."
+msgstr ""
+
+#: ../dat/skills/magic.lua:626
+msgid "Moon"
+msgstr ""
+
+#: ../dat/skills/magic.lua:627
+msgid "Makes an enemy attack its own allies."
+msgstr ""
+
+#: ../dat/skills/magic.lua:642
+msgid "Cure"
+msgstr ""
+
+#: ../dat/skills/magic.lua:643
+msgid "Cures the poison from an ally."
+msgstr ""
+
+#: ../dat/skills/magic.lua:658
+msgid "Drain"
+msgstr ""
+
+#: ../dat/skills/magic.lua:659
+msgid "Steals HP from an enemy."
+msgstr ""
+
+#: ../dat/skills/magic.lua:674
+msgid "Curse"
+msgstr ""
+
+#: ../dat/skills/magic.lua:675
+msgid "Severely decreases several random stats of an enemy."
+msgstr ""
+
+#: ../dat/skills/magic.lua:690
+msgid "Meteor"
+msgstr ""
+
+#: ../dat/skills/magic.lua:691
+msgid "High Earth damages on all foes."
+msgstr ""
+
+#: ../dat/skills/magic.lua:706
+msgid "Wave"
+msgstr ""
+
+#: ../dat/skills/magic.lua:707
+msgid "Makes waves fall on an enemy."
+msgstr ""
+
+#: ../dat/skills/magic.lua:732
+msgid "Water Circle"
+msgstr ""
+
+#: ../dat/skills/magic.lua:733
+msgid "Increases the Water elemental defense on a character."
+msgstr ""
+
+#: ../dat/skills/magic.lua:757
+msgid "Whirlwind"
+msgstr ""
+
+#: ../dat/skills/magic.lua:758
+msgid "Magical attack combining Water and Air damages."
+msgstr ""
+
+#: ../dat/skills/magic.lua:773
+msgid "Slow"
+msgstr ""
+
+#: ../dat/skills/magic.lua:774
+msgid "Decreases the battle speed of an enemy."
+msgstr ""
+
+#: ../dat/skills/magic.lua:789
+msgid "Blindness"
+msgstr ""
+
+#: ../dat/skills/magic.lua:790
+msgid "Prevents an enemy from succeeding any physical attacks."
+msgstr ""
+
+#: ../dat/skills/magic.lua:805
+msgid "Heal"
+msgstr ""
+
+#: ../dat/skills/magic.lua:806
+msgid "Restores Health of an ally."
+msgstr ""
+
+#: ../dat/skills/magic.lua:822
+msgid "Poison"
+msgstr ""
+
+#: ../dat/skills/magic.lua:823
+msgid "Inflicts poison to an enemy."
+msgstr ""
+
+#: ../dat/skills/magic.lua:844
+msgid "Stun"
+msgstr ""
+
+#: ../dat/skills/magic.lua:845
+msgid "Stuns an enemy."
+msgstr ""
+
+#: ../dat/skills/magic.lua:863
+msgid "Tsunami"
+msgstr ""
+
+#: ../dat/skills/magic.lua:864
+msgid "High Water damages on all foes."
+msgstr ""
+
+#: ../dat/skills/magic.lua:879
+msgid "Healing Rain"
+msgstr ""
+
+#: ../dat/skills/magic.lua:880
+msgid "Cures health of all allies."
+msgstr ""
+
+#: ../dat/skills/magic.lua:895
+msgid "Wind"
+msgstr ""
+
+#: ../dat/skills/magic.lua:896
+msgid "The wind slashes an enemy."
+msgstr ""
+
+#: ../dat/skills/magic.lua:921
+msgid "Wind Circle"
+msgstr ""
+
+#: ../dat/skills/magic.lua:922
+msgid "Increases the Air elemental defense on a character."
+msgstr ""
+
+#: ../dat/skills/magic.lua:946
+msgid "Lightning"
+msgstr ""
+
+#: ../dat/skills/magic.lua:947
+msgid "Magical attack combining Life and Air damages."
+msgstr ""
+
+#: ../dat/skills/magic.lua:962
+msgid "Regen"
+msgstr ""
+
+#: ../dat/skills/magic.lua:963
+msgid "Makes an ally recover slowly its health."
+msgstr ""
+
+#: ../dat/skills/magic.lua:984
+msgid "Magic Drain"
+msgstr ""
+
+#: ../dat/skills/magic.lua:985
+msgid "Steals Skill Points from an enemy."
+msgstr ""
+
+#: ../dat/skills/magic.lua:1000
+msgid "Silence"
+msgstr ""
+
+#: ../dat/skills/magic.lua:1001
+msgid "Prevents an enemy from using any magic skills."
+msgstr ""
+
+#: ../dat/skills/magic.lua:1016
+msgid "Storm"
+msgstr ""
+
+#: ../dat/skills/magic.lua:1017
+msgid "High Air damages on all foes."
+msgstr ""
+
+#: ../dat/skills/magic.lua:1032
+msgid "Stop"
+msgstr ""
+
+#: ../dat/skills/magic.lua:1033
+msgid "Stops an enemy for quite a long time."
+msgstr ""
+
+#: ../dat/skills/magic.lua:1049
+msgid "A holy light strikes an enemy."
+msgstr ""
+
+#: ../dat/skills/magic.lua:1074
+msgid "Life Circle"
+msgstr ""
+
+#: ../dat/skills/magic.lua:1075
+msgid "Increases the Life elemental defense on a character."
+msgstr ""
+
+#: ../dat/skills/magic.lua:1090
+msgid "Purify"
+msgstr ""
+
+#: ../dat/skills/magic.lua:1091
+msgid "Cures all bad effects on a character, except the poison."
+msgstr ""
+
+#: ../dat/skills/magic.lua:1106
+msgid "Sun Haze"
+msgstr ""
+
+#: ../dat/skills/magic.lua:1107
+msgid "High Life damages on all foes."
+msgstr ""
+
+#: ../dat/skills/magic.lua:1122
+msgid "Aura"
+msgstr ""
+
+#: ../dat/skills/magic.lua:1123
+msgid "Boost an ally speed and recovers slowly its health."
+msgstr ""
+
+#: ../dat/skills/magic.lua:1139
+msgid "Death tries to take an enemy with it."
+msgstr ""
+
+#: ../dat/skills/magic.lua:1164
+msgid "Death Circle"
+msgstr ""
+
+#: ../dat/skills/magic.lua:1165
+msgid "Increases the Death elemental defense on an ally."
+msgstr ""
+
+#: ../dat/skills/magic.lua:1180
+msgid "Doom"
+msgstr ""
+
+#: ../dat/skills/magic.lua:1181
+msgid "Adds a Death counter upon the enemy's head."
+msgstr ""
+
+#: ../dat/skills/magic.lua:1196
+msgid "Magical Reflection"
+msgstr ""
+
+#: ../dat/skills/magic.lua:1197
+msgid "Makes the next enemy spell cast back upon the attacker."
+msgstr ""
+
+#: ../dat/skills/magic.lua:1212
+msgid "Dispell"
+msgstr ""
+
+#: ../dat/skills/magic.lua:1213
+msgid ""
+"Removes any status effect, elemental effect, and active spell on an enemy."
+msgstr ""
+
+#: ../dat/skills/magic.lua:1238
+msgid "Shell"
+msgstr ""
+
+#: ../dat/skills/magic.lua:1239
+msgid "Increases all elemental effects on one character."
+msgstr ""
+
+#: ../dat/skills/magic.lua:1254 map_names_tr.lua:200 map_names_tr.lua:408
+msgid "?"
+msgstr ""
+
+#: ../dat/skills/magic.lua:1255
+msgid ""
+"A mystic spell happening when offensively combining opposite elementals."
+msgstr ""
+
+#: ../dat/skills/magic.lua:1270
+msgid "Counter"
+msgstr ""
+
+#: ../dat/skills/magic.lua:1271
+msgid "Makes an ally counter-attack if hurt."
+msgstr ""
+
+#: ../dat/skills/magic.lua:1286
+msgid "Phoenix Call"
+msgstr ""
+
+#: ../dat/skills/magic.lua:1287
+msgid "Revives all allies."
+msgstr ""
+
+#: ../dat/skills/magic.lua:1302
+msgid "Bio"
+msgstr ""
+
+#: ../dat/skills/magic.lua:1303
+msgid "Cures poison on all characters."
+msgstr ""
+
+#: ../dat/skills/special.lua:74
+msgid "Wolf Pain"
+msgstr ""
+
+#: ../dat/skills/special.lua:75
+msgid "Calls the defender of the Arctic."
+msgstr ""
+
+#: ../dat/skills/special.lua:206
+msgid "Dark Wish"
+msgstr ""
+
+#: ../dat/skills/weapon.lua:80
+msgid "Sword Slash"
+msgstr ""
+
+#: ../dat/skills/weapon.lua:81
+msgid "A textbook maneuver that deals an effective blow."
+msgstr ""
+
+#: ../dat/skills/weapon.lua:108
+msgid "Forward Thrust"
+msgstr ""
+
+#: ../dat/skills/weapon.lua:109
+msgid "A quicker and more powerful blow than the standard sword slash."
+msgstr ""
+
+#: ../dat/skills/weapon.lua:136
+msgid "Stun Strike"
+msgstr ""
+
+#: ../dat/skills/weapon.lua:137
+msgid "A blow which temporarily stun its target."
+msgstr ""
+
+#: ../dat/skills/weapon.lua:169
+msgid "X-Strike"
+msgstr ""
+
+#: ../dat/skills/weapon.lua:170 ../dat/skills/weapon.lua:230
+msgid ""
+"A strong and aggressive attack with a blade that deals significant damage."
+msgstr ""
+
+#: ../dat/skills/weapon.lua:203
+msgid "Single Shot"
+msgstr ""
+
+#: ../dat/skills/weapon.lua:204
+msgid "A simple shot using an arbalest."
+msgstr ""
+
+#: ../dat/skills/weapon.lua:229
+msgid "Blade Rush"
+msgstr ""
+
+#: ../dat/skills/weapon.lua:263
+msgid "Incapacitating Shot"
+msgstr ""
+
+#: ../dat/skills/weapon.lua:264
+msgid "A powerful aimed shot lowering the enemy attack."
+msgstr ""
+
+#: ../dat/skills/weapon.lua:291
+msgid "Rain of Arrows"
+msgstr ""
+
+#: ../dat/skills/weapon.lua:292
+msgid "An attack striking all enemies."
+msgstr ""
+
+#: ../dat/skills/weapon.lua:323
+msgid "Dagger Slash"
+msgstr ""
+
+#: ../dat/skills/weapon.lua:324
+msgid "A simple but efficient dagger attack."
+msgstr ""
+
+#: ../dat/skills/weapon.lua:345
+msgid "Poison Slash"
+msgstr ""
+
+#: ../dat/skills/weapon.lua:346
+msgid "A dagger attack, poisoning the enemy."
+msgstr ""
+
+#: ../dat/skills/weapon.lua:368
+msgid "High Strike"
+msgstr ""
+
+#: ../dat/skills/weapon.lua:369
+msgid ""
+"A strike from above, stunning the enemy and breaking its magical defense."
+msgstr ""
+
+#: ../dat/skills/weapon.lua:391
+msgid "Sonic Wind"
+msgstr ""
+
+#: ../dat/skills/weapon.lua:392
+msgid "Deals high wind damages to all enemies, stunning them along the way."
+msgstr ""
+
+#: ../dat/skills/weapon.lua:414
+msgid "Sword Breaker"
+msgstr ""
+
+#: ../dat/skills/weapon.lua:415
+msgid "An attack breaking the enemy own attack power."
+msgstr ""
+
+#: ../dat/skills/weapon.lua:440
+msgid "Execution"
+msgstr ""
+
+#: ../dat/skills/weapon.lua:441
+msgid "Attacks an enemy with a chance of making Death catch its soul."
+msgstr ""
+
+#. / TRANSLATORS: this is about displaying a time: eg 4.2s
+#: ../src/modes/battle/battle_command.cpp:1211
+#, c-format
+msgid "%ss"
+msgstr ""
+
+#: ../src/modes/battle/battle_command.cpp:1222
+#, c-format
+msgid "%s SP"
+msgstr ""
+
+#: ../src/modes/battle/battle_command.cpp:1224
+#: ../src/modes/battle/battle_command.cpp:1231
+#, c-format
+msgid "Target Type: %s"
+msgstr ""
+
+#: ../src/modes/battle/battle_command.cpp:1225
+#, c-format
+msgid "Prep Time: %s"
+msgstr ""
+
+#: ../src/modes/battle/battle_command.cpp:1226
+#, c-format
+msgid "Cool Time: %s"
+msgstr ""
+
+#: ../src/modes/boot/boot.cpp:383
+#, c-format
+msgid "Press '%s' to get to know about the game keys."
+msgstr ""
+
+#: ../src/modes/map/map_treasure.cpp:328
+#, c-format
+msgid ""
+"With the additional %u drunes found in this treasure added, the party now "
+"holds a total of %u drunes."
+msgstr ""
+
+#: ../src/modes/mode_help_window.cpp:114
+#, c-format
+msgid "Press '%s' anytime to show/hide help."
+msgstr ""
+
+#: ../src/modes/shop/shop.cpp:705
+#, c-format
+msgid "Press %s to add items to buy and %s to remove items from your purchase."
+msgstr ""
+
+#: ../src/modes/shop/shop.cpp:708
+#, c-format
+msgid "Press %s to add items to sell and %s to remove items from your sale."
+msgstr ""
+
+#: ../src/modes/shop/shop.cpp:711
+#, c-format
+msgid "Press %s to add items to trade and %s to remove them."
+msgstr ""
+
+#: ../dat/help/in_game_move_and_interact_anim.lua:58
+#, c-format
+msgid "Confirm / Open / Talk: %s"
+msgstr ""
+
+#: ../dat/help/in_game_move_and_interact_anim.lua:61
+#, c-format
+msgid "Run / Cancel: %s"
+msgstr ""
+
+#: ../dat/help/in_game_move_and_interact_anim.lua:64
+#, c-format
+msgid "Party Menu: %s"
+msgstr ""
+
+#: ../dat/help/in_game_move_and_interact_anim.lua:68
+#, c-format
+msgid "Pause: %s"
+msgstr ""
+
+#: ../dat/help/in_game_move_and_interact_anim.lua:70
+#, c-format
+msgid "Quit Menu: %s"
+msgstr ""
+
+#: ../dat/help/in_game_move_and_interact_anim.lua:73
+#, c-format
+msgid "Help Menu: %s"
+msgstr "Hjälpmeny: %s"
+
+#: ../dat/maps/layna_forest/layna_forest_entrance_script.lua:498
+#, c-format
+msgid "Just stand in front of the Goddess below the spring and push '%s'."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_bronanns_home_first_floor_script.lua:226
+#, c-format
+msgid ""
+"This circle is a save point. Here, you can save your game by pushing %s."
+msgstr ""
+
+#: ../dat/maps/layna_village/layna_village_center_script.lua:796
+#, c-format
+msgid ""
+"And tell me that you have equipped your sword ... If you haven't, open your "
+"inventory by pressing the menu key (%s), and select 'Equip'. Then you'll be "
+"able to select your sword and add it as your main weapon, ok?"
+msgstr ""
+
+#: map_names_tr.lua:6 map_names_tr.lua:10 map_names_tr.lua:14
+#: map_names_tr.lua:42 map_names_tr.lua:214 map_names_tr.lua:218
+#: map_names_tr.lua:222 map_names_tr.lua:250
+msgid "Layna Forest Cave"
+msgstr ""
+
+#: map_names_tr.lua:24 map_names_tr.lua:232
+msgid "Forest entrance"
+msgstr ""
+
+#: map_names_tr.lua:46 map_names_tr.lua:254
+msgid "Where it all began..."
+msgstr "Där allt startade..."
+
+#: map_names_tr.lua:54 map_names_tr.lua:58 map_names_tr.lua:62
+#: map_names_tr.lua:66 map_names_tr.lua:70 map_names_tr.lua:74
+#: map_names_tr.lua:78 map_names_tr.lua:82 map_names_tr.lua:86
+#: map_names_tr.lua:90 map_names_tr.lua:94 map_names_tr.lua:98
+#: map_names_tr.lua:102 map_names_tr.lua:106 map_names_tr.lua:110
+#: map_names_tr.lua:262 map_names_tr.lua:266 map_names_tr.lua:270
+#: map_names_tr.lua:274 map_names_tr.lua:278 map_names_tr.lua:282
+#: map_names_tr.lua:286 map_names_tr.lua:290 map_names_tr.lua:294
+#: map_names_tr.lua:298 map_names_tr.lua:302 map_names_tr.lua:306
+#: map_names_tr.lua:310 map_names_tr.lua:314 map_names_tr.lua:318
+msgid "Mountain Village of Layna"
+msgstr "Bergsbyn Layna"
+
+#: map_names_tr.lua:64 map_names_tr.lua:272
+msgid "Flora's Boutique"
+msgstr "Floras butik"
+
+#: map_names_tr.lua:88 map_names_tr.lua:296
+msgid "Basement"
+msgstr ""
+
+#: map_names_tr.lua:92 map_names_tr.lua:100 map_names_tr.lua:300
+#: map_names_tr.lua:308
+msgid "Riverbank"
+msgstr ""
+
+#: map_names_tr.lua:96 map_names_tr.lua:304
+msgid "Lilly's house"
+msgstr ""
+
+#: map_names_tr.lua:112 map_names_tr.lua:320
+msgid "Village entrance"
+msgstr ""
+
+#: map_names_tr.lua:116 map_names_tr.lua:120 map_names_tr.lua:124
+#: map_names_tr.lua:324 map_names_tr.lua:328 map_names_tr.lua:332
+msgid "Elbrus Grotto"
+msgstr ""
+
+#: map_names_tr.lua:132 map_names_tr.lua:136 map_names_tr.lua:340
+#: map_names_tr.lua:344
+msgid "Low Mountain"
+msgstr ""
+
+#: map_names_tr.lua:140 map_names_tr.lua:348
+msgid "Old Cemetery"
+msgstr ""
+
+#: map_names_tr.lua:144 map_names_tr.lua:352
+msgid "Mountain bridge"
+msgstr ""
+
+#: map_names_tr.lua:148 map_names_tr.lua:356
+msgid "Underpass"
+msgstr ""
+
+#: map_names_tr.lua:150 map_names_tr.lua:162 map_names_tr.lua:166
+#: map_names_tr.lua:170 map_names_tr.lua:174 map_names_tr.lua:178
+#: map_names_tr.lua:182 map_names_tr.lua:186 map_names_tr.lua:190
+#: map_names_tr.lua:194 map_names_tr.lua:202 map_names_tr.lua:358
+#: map_names_tr.lua:370 map_names_tr.lua:374 map_names_tr.lua:378
+#: map_names_tr.lua:382 map_names_tr.lua:386 map_names_tr.lua:390
+#: map_names_tr.lua:394 map_names_tr.lua:398 map_names_tr.lua:402
+#: map_names_tr.lua:410
+msgid "Mt. Elbrus Shrine"
+msgstr ""
+
+#: map_names_tr.lua:152 map_names_tr.lua:360
+msgid "2nd Floor"
+msgstr "Andra väningen"
+
+#: map_names_tr.lua:180 map_names_tr.lua:184 map_names_tr.lua:188
+#: map_names_tr.lua:388 map_names_tr.lua:392 map_names_tr.lua:396
+msgid "1st Floor"
+msgstr "Första våningen"
