@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Valyria Tear\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-08-21 23:27+0200\n"
-"PO-Revision-Date: 2014-11-14 23:25+0100\n"
+"PO-Revision-Date: 2014-11-16 20:12+0100\n"
 "Last-Translator: Alexander Kjäll <alexander.kjall@gmail.com>\n"
 "Language-Team: sv <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -291,7 +291,7 @@ msgstr "Vänligen tryck på en ny knapp."
 
 #: ../src/common/options_handler.cpp:898
 msgid "Please move an axis."
-msgstr ""
+msgstr "Rör joysticken längs en axel."
 
 #: ../src/engine/indicator_supervisor.cpp:403
 msgid "Miss"
@@ -393,21 +393,21 @@ msgstr "Intjänade Erf:"
 
 #: ../src/modes/battle/battle_finish.cpp:545
 msgid "Drunes Found: "
-msgstr ""
+msgstr "Drunes hittade:"
 
 #: ../src/modes/battle/battle_finish.cpp:546
 msgid "Total Drunes: "
-msgstr ""
+msgstr "Summa drunes:"
 
 #: ../src/modes/battle/battle_finish.cpp:605
 #: ../src/modes/battle/battle_finish.cpp:806
 msgid "Level (Max): "
-msgstr ""
+msgstr "Level (Max): "
 
 #: ../src/modes/battle/battle_finish.cpp:609
 #: ../src/modes/battle/battle_finish.cpp:808
 msgid "Level: "
-msgstr ""
+msgstr "Level: "
 
 #: ../src/modes/battle/battle_finish.cpp:611
 #: ../src/modes/battle/battle_finish.cpp:809
@@ -468,7 +468,7 @@ msgstr "[Ogiltigt mål]"
 
 #: ../src/modes/battle/battle_utils.cpp:1070
 msgid " — "
-msgstr ""
+msgstr " — "
 
 #: ../src/modes/boot/boot.cpp:360
 msgid "New Game"
@@ -505,7 +505,7 @@ msgstr "Ok"
 
 #: ../src/modes/map/map_treasure.cpp:158 ../src/modes/map/map_treasure.cpp:326
 msgid "Drunes"
-msgstr ""
+msgstr "Drunes"
 
 #: ../src/modes/menu/menu.cpp:237
 msgid "Inventory"
@@ -580,7 +580,7 @@ msgstr ""
 
 #: ../src/modes/menu/menu.cpp:901 ../src/modes/shop/shop.cpp:208
 msgid "Skills obtained:"
-msgstr ""
+msgstr "Färdigheter skaffade:"
 
 #: ../src/modes/menu/menu.cpp:1113 ../src/modes/shop/shop.cpp:197
 #: ../src/modes/shop/shop.cpp:537
@@ -602,7 +602,7 @@ msgstr "M.DEF:"
 
 #: ../src/modes/menu/menu_views.cpp:73 ../src/modes/save/save_mode.cpp:688
 msgid "Lv: "
-msgstr ""
+msgstr "Lv:"
 
 #: ../src/modes/menu/menu_views.cpp:74 ../src/modes/save/save_mode.cpp:689
 msgid "HP: "
@@ -858,6 +858,10 @@ msgid ""
 "Use the Left/Right keys to add/remove items into the Buy and Sell modes.\n"
 "Then go into the Confirm mode to complete the transaction."
 msgstr ""
+"Butiksläge\n"
+"\n"
+"Använd vänster/höger för att lägga till/fjärna saker i köp och sälj lägena.\n"
+"Använd sedan bekräfta för att slutföra transaktionen."
 
 #: ../src/modes/mode_help_window.cpp:176
 msgid "Remove an item from the buy/sell list"
@@ -923,7 +927,7 @@ msgstr "Standardtangent"
 
 #: ../src/modes/mode_help_window.cpp:221
 msgid "General Purpose"
-msgstr ""
+msgstr "Generell användning"
 
 #: ../src/modes/mode_help_window.cpp:232
 msgid "Move position or cursor upwards"
@@ -1097,7 +1101,7 @@ msgstr ""
 
 #: ../src/modes/shop/shop.cpp:181
 msgid "Battle Use:"
-msgstr ""
+msgstr "Stridsandvändning"
 
 #: ../src/modes/shop/shop.cpp:183
 msgid "Target:"
@@ -1105,19 +1109,19 @@ msgstr "Mål:"
 
 #: ../src/modes/shop/shop.cpp:205
 msgid "Conditions:"
-msgstr ""
+msgstr "Förutsättningar:"
 
 #: ../src/modes/shop/shop.cpp:728
 msgid "Buy count: x "
-msgstr ""
+msgstr "Inköpsantal: x"
 
 #: ../src/modes/shop/shop.cpp:731
 msgid "Sell count: x "
-msgstr ""
+msgstr "Försäljningsantal: x"
 
 #: ../src/modes/shop/shop.cpp:734
 msgid "Trade count: x "
-msgstr ""
+msgstr "Bytesantal: x"
 
 #: ../src/modes/shop/shop.cpp:1025 ../src/modes/shop/shop.cpp:1184
 msgid "Buy"
@@ -1137,11 +1141,11 @@ msgstr "Lämna"
 
 #: ../src/modes/shop/shop.cpp:1609
 msgid "Funds: "
-msgstr ""
+msgstr "Tillgångar:"
 
 #: ../src/modes/shop/shop.cpp:1611
 msgid "Purchases: "
-msgstr ""
+msgstr "Köp:"
 
 #: ../src/modes/shop/shop.cpp:1612 ../src/modes/shop/shop.cpp:1615
 msgid "Total: "
@@ -1149,7 +1153,7 @@ msgstr "Totalt:"
 
 #: ../src/modes/shop/shop.cpp:1614
 msgid "Sales: +"
-msgstr ""
+msgstr "Sälj: +"
 
 #: ../src/modes/shop/shop_root.cpp:54
 msgid "The Shop"
@@ -1157,11 +1161,11 @@ msgstr "Butiken"
 
 #: ../src/modes/shop/shop_root.cpp:57
 msgid "Buy prices"
-msgstr ""
+msgstr "Inköpspriser:"
 
 #: ../src/modes/shop/shop_root.cpp:59
 msgid "Sell prices"
-msgstr ""
+msgstr "Försäljningspriser:"
 
 #: ../src/modes/shop/shop_root.cpp:67
 msgid "\"Welcome! Take a look around.\""
@@ -1186,7 +1190,7 @@ msgstr "Kalya"
 
 #: ../dat/actors/characters.lua:234
 msgid "Invocation"
-msgstr ""
+msgstr "Åkallelse"
 
 #: ../dat/actors/characters.lua:439
 msgid "Sylve"
@@ -1260,7 +1264,7 @@ msgstr "Kärv soldat"
 #: ../dat/actors/enemies.lua:526
 #: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:229
 msgid "Lord Banesore"
-msgstr ""
+msgstr "Hertig Banesore"
 
 #: ../dat/actors/enemies.lua:595 ../dat/actors/map_sprites.lua:489
 msgid "Shroom"
@@ -1276,12 +1280,12 @@ msgstr "Öga"
 
 #: ../dat/actors/enemies.lua:683
 msgid "Harlequin?"
-msgstr ""
+msgstr "Harlequin?"
 
 #: ../dat/actors/enemies.lua:730
 #: ../dat/maps/mt_elbrus/mt_elbrus_path3_script.lua:1140
 msgid "Harlequin"
-msgstr ""
+msgstr "Harlequin"
 
 #: ../dat/actors/enemies.lua:783 ../dat/actors/map_sprites.lua:542
 msgid "Beetle"
@@ -1316,12 +1320,12 @@ msgstr "Ben"
 
 #: ../dat/actors/enemies.lua:1034
 msgid "Dorver"
-msgstr ""
+msgstr "Dorver"
 
 #: ../dat/actors/enemies.lua:1102 ../dat/actors/map_sprites.lua:574
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine_basement_script.lua:124
 msgid "Andromalius"
-msgstr ""
+msgstr "Andromalius"
 
 #: ../dat/actors/enemies.lua:1163
 msgid "Scorpion"
@@ -1333,7 +1337,7 @@ msgstr "Dynkrypare"
 
 #: ../dat/actors/enemies.lua:1273
 msgid "Stygian Lizard"
-msgstr ""
+msgstr "Stygiansk ödla"
 
 #: ../dat/actors/enemies.lua:1310 ../dat/actors/enemies.lua:1374
 msgid "Claw"
@@ -1341,7 +1345,7 @@ msgstr "Klo"
 
 #: ../dat/actors/enemies.lua:1337
 msgid "Demonic Essence"
-msgstr ""
+msgstr "Demonisk essens"
 
 #: ../dat/actors/enemies.lua:1358
 msgid "Face"
@@ -1353,43 +1357,43 @@ msgstr "Rött slem"
 
 #: ../dat/actors/enemies.lua:1448
 msgid "Mushroom Zombie"
-msgstr ""
+msgstr "Svampzombie"
 
 #: ../dat/actors/enemies.lua:1496
 msgid "Scorpion Goliath"
-msgstr ""
+msgstr "Jätteskorpinion"
 
 #: ../dat/actors/enemies.lua:1525
 msgid "Pincer"
-msgstr ""
+msgstr "Kniptångsklo"
 
 #: ../dat/actors/enemies.lua:1560
 msgid "Armored Beast"
-msgstr ""
+msgstr "Bepansrad best"
 
 #: ../dat/actors/enemies.lua:1581
 msgid "Mesosoma"
-msgstr ""
+msgstr "Mesosoma"
 
 #: ../dat/actors/enemies.lua:1589
 msgid "Pincers"
-msgstr ""
+msgstr "Kniptångsklor"
 
 #: ../dat/actors/enemies.lua:1617
 msgid "Daemarbora"
-msgstr ""
+msgstr "Daemarbora"
 
 #: ../dat/actors/enemies.lua:1638
 msgid "Trunk"
-msgstr ""
+msgstr "Stam"
 
 #: ../dat/actors/enemies.lua:1646
 msgid "Branches"
-msgstr ""
+msgstr "Grenar"
 
 #: ../dat/actors/enemies.lua:1666
 msgid "Aerocephal"
-msgstr ""
+msgstr "Aerocephal"
 
 #: ../dat/actors/enemies.lua:1687
 msgid "Forehead"
@@ -1397,27 +1401,27 @@ msgstr "Panna"
 
 #: ../dat/actors/enemies.lua:1695
 msgid "Orifice"
-msgstr ""
+msgstr "Öppning"
 
 #: ../dat/actors/enemies.lua:1715
 msgid "Arcana Drake"
-msgstr ""
+msgstr "Arkanisk drake"
 
 #: ../dat/actors/enemies.lua:1772
 msgid "Nagaruda"
-msgstr ""
+msgstr "Nagaruda"
 
 #: ../dat/actors/enemies.lua:1829
 msgid "Deceleon"
-msgstr ""
+msgstr "Deceleon"
 
 #: ../dat/actors/enemies.lua:1866 ../dat/actors/enemies.lua:1932
 msgid "Arm"
-msgstr ""
+msgstr "Arm"
 
 #: ../dat/actors/enemies.lua:1894
 msgid "Aurum Drakueli"
-msgstr ""
+msgstr "Aurum Drakueli"
 
 #: ../dat/actors/map_sprites.lua:105
 msgid "Carson"
@@ -1529,7 +1533,7 @@ msgstr "Ekorre"
 
 #: ../dat/actors/map_sprites.lua:472
 msgid "Lord"
-msgstr ""
+msgstr "Hertig"
 
 #: ../dat/battles/tutorial_battle_dialogs.lua:71
 msgid ""
@@ -1625,7 +1629,7 @@ msgid ""
 "level before acting. The two little arrows here can be triggered, using your "
 "up and down keys, to preselect an action for either of us."
 msgstr ""
-"Du behöver inte heller vänta på att symbolen når ända upp innan du aggerar. "
+"Du behöver inte heller vänta på att symbolen når ända upp innan du agerar. "
 "De två små pilarna här kan användas, med upp- och nerknapparna, för att "
 "förvälja handlingar till oss."
 
@@ -1822,7 +1826,7 @@ msgid ""
 "was protecting him, and we came just in time to prevent him from approaching "
 "a strange crystal..."
 msgstr ""
-"Vi lyckades äntligen hämta hem Orlinn från skogens mitt. En mystisk varg "
+"Vi lyckades äntligen hämta hem Orlinn från skogens mitt. En mystisk ulv "
 "skyddade honom, och vi anlände precis i tid för att hindra honom från att "
 "närma sig en konstig kristall..."
 
@@ -2018,6 +2022,23 @@ msgid ""
 "\n"
 "Spanish (es)"
 msgstr ""
+"Engelsk korrekturläsning\n"
+"\n"
+"Nederlänsk (nl_NL)\n"
+"\n"
+"Fransk (fr)\n"
+"\n"
+"Galiciska (gl)\n"
+"\n"
+"Tyska (de)\n"
+"\n"
+"Italienska (it)\n"
+"\n"
+"Portugisiska (pt_PT)\n"
+"\n"
+"Ryska (ru)\n"
+"\n"
+"Spanska (es)"
 
 #: ../dat/credits/end_credits.lua:478
 msgid "Testers"
@@ -2037,10 +2058,13 @@ msgid ""
 "\n"
 "Founder and Lead Designer"
 msgstr ""
+"Allacrost utvecklingsteam (2004-2011)\n"
+"\n"
+"Grundare och huvuddesigner"
 
 #: ../dat/credits/end_credits.lua:558
 msgid "Allacrost Project Leads/Administrators"
-msgstr ""
+msgstr "Allacrosts projektledare/administratörer"
 
 #: ../dat/credits/end_credits.lua:583
 msgid "Allacrost Programming Team (2004-2011)"
@@ -2109,7 +2133,7 @@ msgstr ""
 
 #: ../dat/credits/end_credits.lua:700
 msgid "Allacrost Artwork Team (2004-2011)"
-msgstr ""
+msgstr "Allacrosts konstnärsteam (2004-2011)"
 
 #: ../dat/credits/end_credits.lua:716
 msgid ""
@@ -2127,7 +2151,7 @@ msgstr ""
 #: ../dat/credits/end_credits.lua:736 ../dat/credits/end_credits.lua:776
 #: ../dat/credits/end_credits.lua:813
 msgid "Allacrost Artwork Team"
-msgstr ""
+msgstr "Allacrosts konstnärsteam"
 
 #: ../dat/credits/end_credits.lua:756
 msgid ""
@@ -2221,7 +2245,7 @@ msgstr ""
 
 #: ../dat/credits/end_credits.lua:931 ../dat/maps/to_be_continued_anim.lua:32
 msgid "To be continued..."
-msgstr ""
+msgstr "Fortsättning följer..."
 
 #: ../dat/credits/episode1_credits.lua:34
 msgid "Based on the engine"
@@ -2273,55 +2297,55 @@ msgstr "Styrka"
 
 #: ../dat/effects/status.lua:131
 msgid "Vigor"
-msgstr ""
+msgstr "Energi"
 
 #: ../dat/effects/status.lua:188
 msgid "Fortitude"
-msgstr ""
+msgstr "Mod"
 
 #: ../dat/effects/status.lua:245
 msgid "Protection"
-msgstr ""
+msgstr "Skydd"
 
 #: ../dat/effects/status.lua:302
 msgid "Agility"
-msgstr ""
+msgstr "Smidighet"
 
 #: ../dat/effects/status.lua:361
 msgid "Evasion"
-msgstr ""
+msgstr "Undvika"
 
 #: ../dat/effects/status.lua:761
 msgid "Paralysis"
-msgstr ""
+msgstr "Paralys"
 
 #: ../dat/effects/status.lua:816
 msgid "Fire Elemental Strength"
-msgstr ""
+msgstr "Eldelementarstyrka"
 
 #: ../dat/effects/status.lua:873
 msgid "Water Elemental Strength"
-msgstr ""
+msgstr "Vattenelementarstyrka"
 
 #: ../dat/effects/status.lua:930
 msgid "Wind Elemental Strength"
-msgstr ""
+msgstr "Vindelementarstyrka"
 
 #: ../dat/effects/status.lua:986
 msgid "Earth Elemental Strength"
-msgstr ""
+msgstr "Jordelementarstyrka"
 
 #: ../dat/effects/status.lua:1042
 msgid "Life Elemental Strength"
-msgstr ""
+msgstr "Livelementarstyrka"
 
 #: ../dat/effects/status.lua:1098
 msgid "Death Elemental Strength"
-msgstr ""
+msgstr "Dödselementarstyrka"
 
 #: ../dat/effects/status.lua:1155
 msgid "Neutral Elemental Strength"
-msgstr ""
+msgstr "Neutral elementarstyrka"
 
 #: ../dat/help/in_game_move_and_interact_anim.lua:45
 msgid "Escape"
@@ -2379,14 +2403,16 @@ msgstr ""
 #: ../dat/maps/layna_forest/layna_forest_cave1_1_script.lua:469
 msgid "It seems Orlinn was able to go through those platforms... somehow."
 msgstr ""
+"Det verkar som Orlinn lyckades ta sig över de här plattformarna... på något "
+"sätt."
 
 #: ../dat/maps/layna_forest/layna_forest_cave1_1_script.lua:471
 msgid "Let's make our way through this before something bad happens to him."
-msgstr ""
+msgstr "Låt oss skynda oss över innan något hemskt händer honom."
 
 #: ../dat/maps/layna_forest/layna_forest_cave1_1_script.lua:473
 msgid "Look, there is a stone slab on the ground. Let's check this out."
-msgstr ""
+msgstr "Titta, det ligger ett stenblock på marken. Låt oss undersöka det här."
 
 #: ../dat/maps/layna_forest/layna_forest_cave1_1_script.lua:491
 msgid "It seems the way is clear now."
@@ -2395,6 +2421,8 @@ msgstr "Det verkar som att kusten är klar nu."
 #: ../dat/maps/layna_forest/layna_forest_cave1_1_script.lua:493
 msgid "(I also heard something falling outside. Let's hope it's nothing bad.)"
 msgstr ""
+"(Jag hörde också något som föll utanför. Låt oss hoppas att det inte var "
+"något farligt.)"
 
 #: ../dat/maps/layna_forest/layna_forest_cave1_2_script.lua:165
 msgid "Stone sign"
@@ -2402,27 +2430,28 @@ msgstr "Stentecken"
 
 #: ../dat/maps/layna_forest/layna_forest_cave1_2_script.lua:197
 msgid "Only the last one standing shall pass ..."
-msgstr ""
+msgstr "Endast den som överlever skall passera"
 
 #: ../dat/maps/layna_forest/layna_forest_cave1_2_script.lua:267
 msgid "'Only the last one standing shall pass.' ..."
-msgstr ""
+msgstr "'Endast den som överlever skall passera' ..."
 
 #: ../dat/maps/layna_forest/layna_forest_cave1_2_script.lua:269
 msgid "You are able to decipher this writing, Kalya?"
-msgstr ""
+msgstr "Lyckas du tolka den här texten, Kayla?"
 
 #: ../dat/maps/layna_forest/layna_forest_cave1_2_script.lua:271
 msgid "Somehow... I'm not sure how I am able to, but I can read it."
 msgstr ""
+"På något sätt... Jag är inte säker på hur jag gör det, men jag kan läsa den."
 
 #: ../dat/maps/layna_forest/layna_forest_cave1_2_script.lua:273
 msgid "However, I don't know what it means."
-msgstr ""
+msgstr "Men, jag vet inte vad den betyder."
 
 #: ../dat/maps/layna_forest/layna_forest_cave1_2_script.lua:275
 msgid "Let's look around. We might find out."
-msgstr ""
+msgstr "Vi undersöker stället. Vi kanske hittar något som hjälper."
 
 #: ../dat/maps/layna_forest/layna_forest_cave1_2_script.lua:294
 msgid "... Something heavy seems to have fallen nearby."
@@ -2437,12 +2466,16 @@ msgid ""
 "I can feel a breeze and see light escaping into the cave around this rock. "
 "Orlinn must have gone through here."
 msgstr ""
+"Jag känner en svag luftström och kan se hur ljus sipprar in runt den här "
+"stenen. Orlinn måste ha tagit sig igenom här."
 
 #: ../dat/maps/layna_forest/layna_forest_cave1_2_script.lua:335
 msgid ""
 "There are signs engraved on this rock, too. This looks like some kind of "
 "mechanism my family used long ago..."
 msgstr ""
+"Det finns tecken inristade i den här stenen också. Det här ser ut som en "
+"sorts mekanism min familj brukade använda för länge sedan..."
 
 #: ../dat/maps/layna_forest/layna_forest_cave1_2_script.lua:337
 msgid "Your family? Long ago? ..."
@@ -2452,6 +2485,8 @@ msgstr "Din familj? För länge sedan? ..."
 msgid ""
 "Err... Nevermind, we must find a way to make this move. Let's look around."
 msgstr ""
+"Err... hursomhelst, vi måste hitta ett sätt att flytta på den här, låt oss "
+"leta mera."
 
 #: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:499
 msgid "Orlinn!!"
@@ -2471,7 +2506,7 @@ msgstr "Vad händer!?!"
 
 #: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:563
 msgid "Gosh!! By all heavens, is this...?"
-msgstr ""
+msgstr "Jisses!! Vid hela himlen, är det här...?"
 
 #: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:565
 msgid "A crystal stone?!?"
@@ -2479,39 +2514,39 @@ msgstr "En stenkristall?!?"
 
 #: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:567
 msgid "This is her. I heard her voice calling..."
-msgstr ""
+msgstr "Det är henne. Jag hörde hennes röst ropandes..."
 
 #: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:589
 msgid "Dear chosen one, the time has finally come."
-msgstr ""
+msgstr "Kära utvalde, tiden har äntligen kommit."
 
 #: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:591
 msgid "For us, it will be but an instant."
-msgstr ""
+msgstr "För oss så kommer det blott vara ett ögonblick."
 
 #: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:593
 msgid "For you, it might be decades."
-msgstr ""
+msgstr "För dig så kommer det kanske vara årtionden."
 
 #: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:595
 msgid "May you bring a happy end to this foolish destiny of ours."
-msgstr ""
+msgstr "Må du skapa ett lyckligt slut till vårt galna öde."
 
 #: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:597
 msgid "We're all anxiously awaiting your return."
-msgstr ""
+msgstr "Vi väntar spänt på att du ska återvända."
 
 #: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:599
 msgid "Now, come. Become one with our holy hope."
-msgstr ""
+msgstr "Kom hit nu. Bli ett med vårt enda hopp."
 
 #: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:607
 msgid "What does all of this mean?"
-msgstr ""
+msgstr "Vad betyder allt det här?"
 
 #: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:609
 msgid "I shall become one with our only hope..."
-msgstr ""
+msgstr "Jag ska bli ett med vårt enda hopp..."
 
 #: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:611
 msgid "What! Orlinn, No!"
@@ -2544,7 +2579,7 @@ msgstr "Syrran! Hur är det med dig? Vad händer?"
 
 #: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:700
 msgid "What happened?? ... Orlinn ... What have you done? ..."
-msgstr ""
+msgstr "Vad hände?? ... Orlinn ... Vad har du gjort? ..."
 
 #: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:702
 msgid "... My head ..."
@@ -2560,27 +2595,29 @@ msgstr "Jag ... Jag tror det ..."
 
 #: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:708
 msgid "... The wolf! The crystal! Orlinn! Are you ok?? ..."
-msgstr ""
+msgstr "... Ulven! Kristallen! Orlinn! Mår du bra?? ..."
 
 #: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:710
 msgid "Don't worry, I'm fine. Err, what crystal? What ... wolf??"
-msgstr ""
+msgstr "Ingen fara, jag mår bra. Err, vilken kristall? Vilken... ulv??"
 
 #: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:712
 msgid "... You won't be fine for long after I'm done with you!!"
-msgstr ""
+msgstr "... När jag väl får tag på dig så kommer du verkligen inte må bra!!"
 
 #: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:714
 msgid "... Huh? Wait, I didn't do anything this time!!"
-msgstr ""
+msgstr "... Huh? Vänta lite, jag har inte gjort något, den här gången!!"
 
 #: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:716
 msgid "... Oh? You didn't??"
-msgstr ""
+msgstr "... Oh? Inte??"
 
 #: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:753
 msgid "When I catch you, I'll make you wish you weren't born!! Rahh!"
 msgstr ""
+"När jag fångar dig så kommer du att önska att du aldrig har blivit född! "
+"Rahh!"
 
 #: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:755
 #: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:759
@@ -2589,20 +2626,22 @@ msgstr "Yiek!!"
 
 #: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:757
 msgid "Come here, now!!!"
-msgstr ""
+msgstr "Kom hit nu!!!"
 
 #: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:761
 msgid "(Sigh)... I should have stayed home today..."
-msgstr ""
+msgstr "(Suck)... Jag borde ha stannat hemma idag..."
 
 #: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:763
 msgid "... Ouch, why is my head hurting so much? ..."
-msgstr ""
+msgstr "... Ajajaj, varför gör mitt huvud så ont? ..."
 
 #: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:765
 msgid ""
 "Are you ok? We should head back to the village so Lilly can examine you..."
 msgstr ""
+"Mår du bra? Vi borde ta oss tillbaka till byn så att Lilly kan undersöka "
+"dig..."
 
 #: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:767
 msgid "I still feel really dizzy but I'll be ok..."
@@ -2634,23 +2673,26 @@ msgstr "Jag vet inte..."
 
 #: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:794
 msgid "Why was that giant wolf protecting you?"
-msgstr "Varför beskyddade den där enorma vargen dig?"
+msgstr "Varför beskyddade den där enorma ulven dig?"
 
 #: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:796
 msgid "What was that crystal? Why did you want to 'become one' with it?"
-msgstr ""
+msgstr "Vad var det där för kristall? Varför ville du 'bli ett' med den?"
 
 #: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:798
 msgid "I... I... I sincerely don't know... I swear! I was like... dreaming..."
 msgstr ""
+"Jag... Jag... Jag vet ärligt talat inte... Jag lovar! Det kändes som att "
+"jag... drömde..."
 
 #: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:800
 msgid "I merely remember a voice in my head... telling me to come..."
-msgstr ""
+msgstr "Jag kommer bara ihåg en röst i mitt huvud... som sade mig att komma..."
 
 #: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:802
 msgid "You know you won't get away with this, when you'll see Herth..."
 msgstr ""
+"Du vet att du inte kommer komma undan med det här, när du träffar Herth..."
 
 #: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:804
 msgid "I swear it's the truth!"
@@ -2658,13 +2700,15 @@ msgstr "Jag lovar att det är sanningen!"
 
 #: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:806
 msgid "Making one with the crystal, huh?"
-msgstr ""
+msgstr "Bli ett med kristallen, huh?"
 
 #: ../dat/maps/layna_forest/layna_forest_crystal_script.lua:808
 msgid ""
 "Let's not panic, Bronann, you look fine... Anyway, we'd better get back to "
 "the village and see the Elders as soon as possible."
 msgstr ""
+"Ingen panik, bronann, du ser ut att må bra... Hursomhelst, bäst att vi tar "
+"oss tillbaka till byn och träffar de vuxna så snart som möjligt."
 
 #: ../dat/maps/layna_forest/layna_forest_entrance_script.lua:480
 #: ../dat/maps/mt_elbrus/mt_elbrus_path1_script.lua:643
@@ -2676,6 +2720,8 @@ msgid ""
 "Have you seen one of these before? This is a Layna statue! Praying near it "
 "heals both your mind and body."
 msgstr ""
+"Har du sett en av de här innan? Det är en staty av Layna! Att be i närheten "
+"helar både din kropp och ditt sinne."
 
 #: ../dat/maps/layna_forest/layna_forest_entrance_script.lua:500
 msgid "Ok, thanks."
@@ -2683,29 +2729,35 @@ msgstr "Ok, tackar."
 
 #: ../dat/maps/layna_forest/layna_forest_entrance_script.lua:502
 msgid "See? Now, let's find my brother before he gets hurt."
-msgstr ""
+msgstr "Förstår du? Nu, låt oss hitta min bror innan han råkar skada sig."
 
 #: ../dat/maps/layna_forest/layna_forest_north_east_script.lua:648
 msgid "What's that?!"
-msgstr ""
+msgstr "Vad är det?!"
 
 #: ../dat/maps/layna_forest/layna_forest_north_east_script.lua:684
 msgid ""
 "Woah, that was quite a nasty fight. Why on earth was a north arctic Fenrir "
 "lurking in the forest? I thought it was merely a part of myths."
 msgstr ""
+"Woah, det var en svår strid. Varför i hela världen gömde sig en nordisk "
+"fenris i skogen? Jag trodde att den var mytologisk."
 
 #: ../dat/maps/layna_forest/layna_forest_north_east_script.lua:686
 msgid ""
 "It ran away... I'm almost certain that we'll meet it again... We'd better be "
 "more prepared next time."
 msgstr ""
+"Den sprang sin väg... Jag är nästan helt säker på att vi kommer att stöta på "
+"den igen... Bäst vi är bättre förberedda då."
 
 #: ../dat/maps/layna_forest/layna_forest_north_east_script.lua:688
 msgid ""
 "I'll try not to think about what it could have done to Orlinn ... Let's find "
 "him... quickly."
 msgstr ""
+"Jag ska försöka att inte tänka på vad den kan ha gjort mot Orlinn ... Låt "
+"oss hitta honom... snabbt."
 
 #: ../dat/maps/layna_forest/layna_forest_north_west_script.lua:1025
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:458
@@ -2715,27 +2767,27 @@ msgstr "Orlinn!"
 
 #: ../dat/maps/layna_forest/layna_forest_north_west_script.lua:1040
 msgid "Orlinn, stop it RIGHT NOW!!"
-msgstr ""
+msgstr "Orlinn, sluta GENAST!!"
 
 #: ../dat/maps/layna_forest/layna_forest_north_west_script.lua:1042
 msgid "I can't sis... I can feel it... calling me..."
-msgstr ""
+msgstr "Jag kan inte syrran... Jag kan känna den... den kallar på mig..."
 
 #: ../dat/maps/layna_forest/layna_forest_north_west_script.lua:1061
 msgid "Quick! Let's follow him."
-msgstr ""
+msgstr "Fort! Låt oss följa efter."
 
 #: ../dat/maps/layna_forest/layna_forest_north_west_script.lua:1063
 msgid "Right!"
-msgstr ""
+msgstr "Javisst!"
 
 #: ../dat/maps/layna_forest/layna_forest_north_west_script.lua:1088
 msgid "Great! The tremor has opened a path back to the village!"
-msgstr ""
+msgstr "Utmärkt! Jordbävningen har öppnat en väg tillbaka till byn!"
 
 #: ../dat/maps/layna_forest/layna_forest_north_west_script.lua:1090
 msgid "Now we can get back to the village more quickly."
-msgstr ""
+msgstr "Nu kan vi ta oss tillbaka till byn snabbare."
 
 #: ../dat/maps/layna_forest/layna_forest_north_west_script.lua:1119
 msgid "We're almost there!"
@@ -2743,12 +2795,14 @@ msgstr "Vi är nästan framme!"
 
 #: ../dat/maps/layna_forest/layna_forest_north_west_script.lua:1121
 msgid "Say sis, do you think Herth will be angry at me for what happened?"
-msgstr ""
+msgstr "Så syrran, tror du att Herth kommer att vara arg på mig?"
 
 #: ../dat/maps/layna_forest/layna_forest_north_west_script.lua:1123
 msgid ""
 "I don't think so, Orlinn. We both know you didn't do it on purpose, right?"
 msgstr ""
+"Jag tror inte det Orlinn. Vi vet båda två att du inte gjorde det med flit, "
+"eller hur?"
 
 #: ../dat/maps/layna_forest/layna_forest_north_west_script.lua:1125
 msgid "Ok..."
@@ -2764,11 +2818,11 @@ msgstr "Vad är det Bronann?"
 
 #: ../dat/maps/layna_forest/layna_forest_north_west_script.lua:1145
 msgid "Hmm... Nevermind."
-msgstr ""
+msgstr "Hmm... det var inget."
 
 #: ../dat/maps/layna_forest/layna_forest_north_west_script.lua:1147
 msgid "Don't worry too much, Bronann, Herth will be able to help you."
-msgstr ""
+msgstr "Oroa dig inte för mycket Bronann, Herth kommer att hjälpa dig."
 
 #: ../dat/maps/layna_forest/layna_forest_north_west_script.lua:1149
 msgid "Me? But ..."
@@ -2780,7 +2834,7 @@ msgstr "Tackar ..."
 
 #: ../dat/maps/layna_forest/layna_forest_north_west_script.lua:1153
 msgid "Thanks for your help there ..."
-msgstr ""
+msgstr "Tack för din hjälp där ..."
 
 #: ../dat/maps/layna_forest/layna_forest_north_west_script.lua:1155
 msgid "... You're welcome."
@@ -2800,49 +2854,50 @@ msgstr ""
 
 #: ../dat/maps/layna_forest/layna_forest_wolf_cave_script.lua:176
 msgid "(Bronann looks on the ground ...)"
-msgstr ""
+msgstr "(Bronann tittar på marken ...)"
 
 #: ../dat/maps/layna_forest/layna_forest_wolf_cave_script.lua:209
 msgid "This water looks weird. Shall we drink it anyway?"
-msgstr ""
+msgstr "Vattnet ser lite konstigt ut. Ska vi dricka det ändå?"
 
 #: ../dat/maps/layna_forest/layna_forest_wolf_cave_script.lua:213
 msgid "Yes, I'm so thirsty."
-msgstr ""
+msgstr "Ja, jag är så törstig."
 
 #: ../dat/maps/layna_forest/layna_forest_wolf_cave_script.lua:215
 msgid "No way, we'd get sick."
-msgstr ""
+msgstr "Inte en chans, vi kommer bli sjuka."
 
 #: ../dat/maps/layna_forest/layna_forest_wolf_cave_script.lua:218
 msgid "The party drinks the water and feels... alright?"
-msgstr ""
+msgstr "Gruppen dricker vattnet och känner sig... som vanligt?"
 
 #: ../dat/maps/layna_forest/layna_forest_wolf_cave_script.lua:221
 msgid "The party won't drink it."
-msgstr ""
+msgstr "Gruppen dricker det inte."
 
 #: ../dat/maps/layna_forest/layna_forest_wolf_cave_script.lua:291
 msgid "Yiek, it's stinking in here."
-msgstr ""
+msgstr "Yiek, det stinker här inne."
 
 #: ../dat/maps/layna_forest/layna_forest_wolf_cave_script.lua:293
 msgid "Look at all those bones. We should be careful."
-msgstr ""
+msgstr "Titta på alla de benen. Vi måste vara försiktiga."
 
 #: ../dat/maps/layna_forest/layna_forest_wolf_cave_script.lua:295
 msgid "I hope Orlinn is alright."
-msgstr ""
+msgstr "Jag hoppas att Orlinn mår bra."
 
 #: ../dat/maps/layna_forest/layna_forest_wolf_cave_script.lua:333
 msgid "What a lovely necklace! I'll take it."
-msgstr ""
+msgstr "Vilket fantastiskt halsband! Jag tar det."
 
 #: ../dat/maps/layna_forest/layna_forest_wolf_cave_script.lua:335
 msgid ""
 "Kalya ... We're in the middle of a cave and you're only thinking about "
 "wearing jewels."
 msgstr ""
+"Kalya ... Vi är mitt i en grotta och du tänker bara på att bära smycken."
 
 #: ../dat/maps/layna_forest/layna_forest_wolf_cave_script.lua:337
 msgid ""
@@ -2850,109 +2905,119 @@ msgid ""
 "on the outside as it is on the inside. Besides, it suits me better than it "
 "would you."
 msgstr ""
+"Smycken är en gåva från himlen för att påminna oss om att skönhet kan vara "
+"lika fläckfritt på utsidan som det är på insidan. Dessutom så passar det "
+"mycket bättre på mig än på dig."
 
 #: ../dat/maps/layna_forest/layna_forest_wolf_cave_script.lua:339
 msgid "Kalya! You'd better be careful!"
-msgstr ""
+msgstr "Kalya! Var försiktig!"
 
 #: ../dat/maps/layna_forest/layna_forest_wolf_cave_script.lua:341
 msgid "Don't even start, this one is all mine."
-msgstr ""
+msgstr "Börja inte ens, den här är min."
 
 #: ../dat/maps/layna_forest/layna_forest_wolf_cave_script.lua:343
 msgid "Not the necklace, the Fenrir!"
-msgstr ""
+msgstr "Inte halsbandet, Fenrisulven!"
 
 #: ../dat/maps/layna_forest/layna_forest_wolf_cave_script.lua:345
 msgid "You can't be serious, we would have heard it come."
-msgstr ""
+msgstr "Du kan inte vara seriös, vi skulle ha hört när den kom."
 
 #: ../dat/maps/layna_forest/layna_forest_wolf_cave_script.lua:357
 msgid "Ah well, you were serious, weren't you?"
-msgstr ""
+msgstr "Nåväl, du var seriös, eller hur?"
 
 #: ../dat/maps/layna_forest/layna_forest_wolf_cave_script.lua:387
 msgid ""
 "It ran away again... I'm glad we survived... Let's get out of here before it "
 "comes back."
 msgstr ""
+"Den sprang sin väg igen... Jag är glad att vi överlevde... Låt oss bege oss "
+"innan den kommer tillbaka."
 
 #: ../dat/maps/layna_village/battle_with_banesore/battle_with_banesore_script.lua:57
 msgid "Banesore"
-msgstr ""
+msgstr "Banesore"
 
 #: ../dat/maps/layna_village/battle_with_banesore/battle_with_banesore_script.lua:62
 msgid "So... You think you can hurt me?"
-msgstr ""
+msgstr "Så... Du tror att du kan skada mig?"
 
 #: ../dat/maps/layna_village/battle_with_banesore/battle_with_banesore_script.lua:64
 msgid "You? A child with an old wooden stick?"
-msgstr ""
+msgstr "Du? Ett barn med en gammal träpinne?"
 
 #: ../dat/maps/layna_village/battle_with_banesore/battle_with_banesore_script.lua:71
 msgid ""
 "You're stronger than I thought... but still ... You are too weak to "
 "challenge me!"
 msgstr ""
+"Du är starkare än vad jag trodde... men fortfarande... så är du för svag för "
+"att utmana mig!"
 
 #: ../dat/maps/layna_village/battle_with_banesore/battle_with_banesore_script.lua:76
 msgid "Argh! It hurts!"
-msgstr ""
+msgstr "Argh! Det gör ont!"
 
 #: ../dat/maps/layna_village/battle_with_banesore/battle_with_banesore_script.lua:78
 msgid "Yes! I can feel it coming closer to the surface!"
-msgstr ""
+msgstr "Ja! Jag känner hur det kommer närmare ytan!"
 
 #: ../dat/maps/layna_village/battle_with_banesore/battle_with_banesore_script.lua:80
 msgid "Let your fear grow, young boy!"
-msgstr ""
+msgstr "Låt din fruktan växa, pojk!"
 
 #: ../dat/maps/layna_village/battle_with_banesore/battle_with_banesore_script.lua:82
 msgid "Bronann, don't listen to him!"
-msgstr ""
+msgstr "Bronann, lyssna inte på honom!"
 
 #: ../dat/maps/layna_village/battle_with_banesore/battle_with_banesore_script.lua:87
 msgid "I will... try."
-msgstr ""
+msgstr "Jag kommer att... försöka."
 
 #: ../dat/maps/layna_village/battle_with_banesore/battle_with_banesore_script.lua:89
 msgid "Hmph. Soldiers, leave that man to me!"
-msgstr ""
+msgstr "Hmph. Soldater, lämna den mannen till mig!"
 
 #: ../dat/maps/layna_village/battle_with_banesore/battle_with_banesore_script.lua:91
 msgid "So... It appears that you remember me, Banesore. Is that correct...?"
-msgstr ""
+msgstr "Så... det verkar som att du kommer ihåg mig Banesore. Stämmer det?"
 
 #: ../dat/maps/layna_village/battle_with_banesore/battle_with_banesore_script.lua:93
 msgid "I do remember you, old man..."
-msgstr ""
+msgstr "Nog kommer jag ihåg dig, gubbe..."
 
 #: ../dat/maps/layna_village/battle_with_banesore/battle_with_banesore_script.lua:95
 msgid ""
 "Then, you already know that your zombified soldiers are of no match to me..."
 msgstr ""
+"Då vet du redan att dina odöda soldater inte har någon chans mot mig..."
 
 #: ../dat/maps/layna_village/battle_with_banesore/battle_with_banesore_script.lua:97
 msgid "Argh! My chest is burning!!"
-msgstr ""
+msgstr "Argh! Mitt bröst brinner!!"
 
 #: ../dat/maps/layna_village/battle_with_banesore/battle_with_banesore_script.lua:103
 msgid "Hold on Bronann!"
-msgstr ""
+msgstr "Håll i dig Bronann!"
 
 #: ../dat/maps/layna_village/layna_village_bronanns_home_first_floor_script.lua:199
 msgid ""
 "I had that same nightmare again... This time, however, I still feel dizzy "
 "even after getting up..."
 msgstr ""
+"Jag hade den där mardrömmen igen... Den här gången så var jag dock "
+"fortfarande snurrig efter att jag vaknade..."
 
 #: ../dat/maps/layna_village/layna_village_bronanns_home_first_floor_script.lua:201
 msgid "I might as well move on and forget about it..."
-msgstr ""
+msgstr "Lika bra att jag går vidare och glömmer det..."
 
 #: ../dat/maps/layna_village/layna_village_bronanns_home_first_floor_script.lua:228
 msgid "You can come back here and save as many times as you want."
-msgstr ""
+msgstr "Du kan komma tillbaka hit och spara hur många gånger som du vill."
 
 #: ../dat/maps/layna_village/layna_village_bronanns_home_script.lua:94
 msgid "Hey son! Did you sleep well? Hmm, now where did I leave that oil lamp?"
@@ -2987,43 +3052,46 @@ msgstr "Tack för att du hjälpte till med disken."
 
 #: ../dat/maps/layna_village/layna_village_bronanns_home_script.lua:303
 msgid "Hmm, say, mom? Why is the village entrance blocked?"
-msgstr ""
+msgstr "Hmm, en fråga mamma? Varför har ingången till byn blockerats?"
 
 #: ../dat/maps/layna_village/layna_village_bronanns_home_script.lua:326
 msgid "Bronann, I'd like for you to not leave the village today."
-msgstr ""
+msgstr "Bronann, jag vill inte att du ska lämna byn idag."
 
 #: ../dat/maps/layna_village/layna_village_bronanns_home_script.lua:328
 msgid "Huh?! What? Why? You told me that I could go into the forest and..."
-msgstr ""
+msgstr "Huh?! Vad? Varför? Du sa att jag kunde gå ut i skogen och..."
 
 #: ../dat/maps/layna_village/layna_village_bronanns_home_script.lua:330
 msgid "Sorry, son. It's maybe a bit early, but I'd like you to be careful."
-msgstr ""
+msgstr "Ledsen grabben. "
 
 #: ../dat/maps/layna_village/layna_village_bronanns_home_script.lua:332
 msgid ""
 "Hey, wait! All of the village elders' nerves are on edge. There is something "
 "going on here! Why won't you tell me?"
 msgstr ""
+"Vänta lite! Alla vuxna går runt och är nervösa. Det är något på gång här! "
+"Varför berättar ni inte för mig?"
 
 #: ../dat/maps/layna_village/layna_village_bronanns_home_script.lua:334
 msgid "None of you?"
-msgstr ""
+msgstr "Varken du eller mamma?"
 
 #: ../dat/maps/layna_village/layna_village_bronanns_home_script.lua:336
 msgid "You really won't tell me?"
-msgstr ""
+msgstr "Ni vill verkligen inte berätta för mig?"
 
 #: ../dat/maps/layna_village/layna_village_bronanns_home_script.lua:338
 msgid "... It's not that simple, Bronann. Believe me."
-msgstr ""
+msgstr "... Det är inte riktigt så enkelt Bronann. Lita på mig."
 
 #: ../dat/maps/layna_village/layna_village_bronanns_home_script.lua:350
 msgid ""
 "Bronann, this time I want you to listen to your father very carefully. "
 "Please, my dear."
 msgstr ""
+"Bronann, jag vill att du lyssnar noga på din far angående detta. Snälla du."
 
 #: ../dat/maps/layna_village/layna_village_bronanns_home_script.lua:352
 msgid "But mom!"
@@ -3035,35 +3103,35 @@ msgstr "Bronann, snälla."
 
 #: ../dat/maps/layna_village/layna_village_bronanns_home_script.lua:356
 msgid "(grumble)... Crap!"
-msgstr ""
+msgstr "(grr)... skit också!"
 
 #: ../dat/maps/layna_village/layna_village_bronanns_home_script.lua:387
 msgid "Maybe we should tell him..."
-msgstr ""
+msgstr "Vi kanske borde berätta för honom..."
 
 #: ../dat/maps/layna_village/layna_village_bronanns_home_script.lua:389
 msgid "It's too early, darling... We might be wrong."
-msgstr ""
+msgstr "Det är för tidigt älskling... Vi kanske har fel."
 
 #: ../dat/maps/layna_village/layna_village_bronanns_home_script.lua:391
 msgid "I really hope we are..."
-msgstr ""
+msgstr "Jag hoppas verkligen att vi har det..."
 
 #: ../dat/maps/layna_village/layna_village_bronanns_home_script.lua:473
 msgid "Bronann, promise me that you'll be careful, ok?"
-msgstr ""
+msgstr "Bronann, lova att du kommer att vara försiktig, ok?"
 
 #: ../dat/maps/layna_village/layna_village_bronanns_home_script.lua:483
 msgid "(Sigh)... got it, mom!"
-msgstr ""
+msgstr "(Suck)... Mamma, jag fick tag i det!"
 
 #: ../dat/maps/layna_village/layna_village_bronanns_home_script.lua:485
 msgid "Perfect timing, let's have dinner."
-msgstr ""
+msgstr "Precis i rättan tid, låt oss äta middag."
 
 #: ../dat/maps/layna_village/layna_village_bronanns_home_script.lua:492
 msgid "Could you go and buy some barley meal for us three?"
-msgstr ""
+msgstr "Skulle du kunna gå och köpa lite kornmjöl till oss tre?"
 
 #: ../dat/maps/layna_village/layna_village_bronanns_home_script.lua:499
 msgid "Hi son, did you have a nightmare again last night?"
@@ -3083,70 +3151,74 @@ msgstr "Gå inte för långt, jag kommer att behöva din hjälp snart!"
 
 #: ../dat/maps/layna_village/layna_village_center_at_night_script.lua:267
 msgid "Back home, finally..."
-msgstr ""
+msgstr "Hemma igen, äntligen!"
 
 #: ../dat/maps/layna_village/layna_village_center_at_night_script.lua:269
 msgid ""
 "I'll go and get Herth. Your parents must be worried... Go home... We'll meet "
 "there."
 msgstr ""
+"Jag går och hämtar Herth. Dina föräldrar måste vara oroliga... Gå hem... Vi "
+"möts där."
 
 #: ../dat/maps/layna_village/layna_village_center_at_night_script.lua:286
 msgid "I should really get back home..."
-msgstr ""
+msgstr "Jag borde verkligen ta mig hem..."
 
 #: ../dat/maps/layna_village/layna_village_center_at_night_script.lua:294
 msgid ""
 "Weird, I can see no lights in there... I have a bad feeling about this, "
 "let's get back home..."
 msgstr ""
+"Konstigt, jag ser inte något ljus där... Det här känns inte helt bra, låt "
+"oss skynda hem..."
 
 #: ../dat/maps/layna_village/layna_village_center_at_night_script.lua:312
 #: ../dat/maps/layna_village/layna_village_center_script.lua:632
 #: ../dat/maps/layna_village/layna_village_center_script.lua:1057
 #: ../dat/maps/mt_elbrus/mt_elbrus_path4_script.lua:357
 msgid "Huh?"
-msgstr ""
+msgstr "Huh?"
 
 #: ../dat/maps/layna_village/layna_village_center_at_night_script.lua:323
 msgid "What's happening here?!? Where is everyone??"
-msgstr ""
+msgstr "Vad har hänt här?!? Var är alla??"
 
 #: ../dat/maps/layna_village/layna_village_center_at_night_script.lua:325
 msgid "Help!!!"
-msgstr ""
+msgstr "Hjälp!!!"
 
 #: ../dat/maps/layna_village/layna_village_center_at_night_script.lua:327
 msgid "Kalya?!"
-msgstr ""
+msgstr "Kalya?!"
 
 #: ../dat/maps/layna_village/layna_village_center_at_night_script.lua:344
 msgid "Let go of me, you cheap low-grade filthy jerks..."
-msgstr ""
+msgstr "Släpp mig, era billiga, smutsiga idioter..."
 
 #: ../dat/maps/layna_village/layna_village_center_at_night_script.lua:346
 msgid "Keep quiet, little brat!"
-msgstr ""
+msgstr "Håll käften ungjävel!"
 
 #: ../dat/maps/layna_village/layna_village_center_at_night_script.lua:412
 msgid "Soldiers wearing black armor: the Lord's personal guards!"
-msgstr ""
+msgstr "Soldater i svart rustning. Hertigens personliga livvakt!"
 
 #: ../dat/maps/layna_village/layna_village_center_at_night_script.lua:414
 msgid "Fortunately, they didn't see me or I would have been caught as well."
-msgstr ""
+msgstr "Som tur är så såg de inte mig, annars så skulle de ha fångat mig med."
 
 #: ../dat/maps/layna_village/layna_village_center_at_night_script.lua:416
 msgid "I should follow them silently..."
-msgstr ""
+msgstr "Jag borde följa efter dem ljudlöst..."
 
 #: ../dat/maps/layna_village/layna_village_center_at_night_script.lua:428
 msgid "What am I doing? I should go and try to free Kalya!"
-msgstr ""
+msgstr "Vad håller jag på med? Jag borde gå och rädda Kalya!"
 
 #: ../dat/maps/layna_village/layna_village_center_script.lua:135
 msgid "Do you need something, Bronann?"
-msgstr ""
+msgstr "Behöver du något, Bronann?"
 
 #: ../dat/maps/layna_village/layna_village_center_script.lua:162
 msgid "Ahh sure! (gossip, gossip)"
@@ -3160,6 +3232,7 @@ msgstr "Hörde du det? (skvaller, skvaller)"
 msgid ""
 "If you're running after Orlinn, I just saw him disappear near your house."
 msgstr ""
+"On du letar efter Orlinn så såg jag honom gömma sig i närheten av ditt hus."
 
 #: ../dat/maps/layna_village/layna_village_center_script.lua:185
 msgid "You're too young to trade stuff with me!"
@@ -3171,122 +3244,137 @@ msgstr "Hmm, jag går till floras butik. Hon hjälper mig säkert, hoppas jag...
 
 #: ../dat/maps/layna_village/layna_village_center_script.lua:425
 msgid "As you wish... Follow me."
-msgstr ""
+msgstr "Som du vill... Följ mig."
 
 #: ../dat/maps/layna_village/layna_village_center_script.lua:442
 msgid "ORLINN!! Come here NOW!!"
-msgstr ""
+msgstr "ORLINN!! Kom hit NU!!"
 
 #: ../dat/maps/layna_village/layna_village_center_script.lua:455
 msgid "Orlinn, give back the pen to Bronann, or I shall sma..."
 msgstr ""
+"Orlinn, ge tillbaka pennan till Bronann, annars så kommer jag att smä..."
 
 #: ../dat/maps/layna_village/layna_village_center_script.lua:457
 msgid "Yea... Yes, here it is."
-msgstr ""
+msgstr "Ja... Ja, här är det."
 
 #: ../dat/maps/layna_village/layna_village_center_script.lua:476
 msgid "I found that pen under a tree near the river. I just wanted to play..."
 msgstr ""
+"Jag hittade pennan under ett träd i närheten av floden. Jag ville bara "
+"leka..."
 
 #: ../dat/maps/layna_village/layna_village_center_script.lua:478
 #: ../dat/maps/layna_village/layna_village_riverbank_script.lua:385
 msgid "Don't worry about that..."
-msgstr ""
+msgstr "Oroa dig inte för det..."
 
 #: ../dat/maps/layna_village/layna_village_center_script.lua:506
 msgid "Why doesn't anyone want to tell me what's going on!!"
-msgstr ""
+msgstr "Varför vill ingen berätta för mig vad som är på gång!!"
 
 #: ../dat/maps/layna_village/layna_village_center_script.lua:508
 msgid ""
 "Still, I have to go there and figure out what they're trying to hide from me."
 msgstr ""
+"Men, jag måste försöka lista ut vad det är som de försöker gömmer för mig."
 
 #: ../dat/maps/layna_village/layna_village_center_script.lua:518
 msgid "No, I won't go there. I just can't talk to them at the moment..."
 msgstr ""
+"Nej, Jag vill inte gå in där. Jag orkar inte med att snacka med dem just "
+"nu..."
 
 #: ../dat/maps/layna_village/layna_village_center_script.lua:536
 msgid "Huh? What was that light?"
-msgstr ""
+msgstr "Huh? Vad var det där för ljus?"
 
 #: ../dat/maps/layna_village/layna_village_center_script.lua:538
 msgid "... Bronann! Wait!"
-msgstr ""
+msgstr "... Bronann! Vänta!"
 
 #: ../dat/maps/layna_village/layna_village_center_script.lua:569
 msgid "I suppose you just saw that light, right?"
-msgstr ""
+msgstr "Jag antar att du såg det där ljuset, eller hur?"
 
 #: ../dat/maps/layna_village/layna_village_center_script.lua:571
 msgid "... Hmmm..."
-msgstr ""
+msgstr "... Hmmm..."
 
 #: ../dat/maps/layna_village/layna_village_center_script.lua:573
 msgid ""
 "Bronann, there is something that I have to tell you. We've been fearing for "
 "this moment. I mean your mother and I..."
 msgstr ""
+"Bronann, jag måste berätta en sak för dig. Vi har varit rädda för det här "
+"ett tag. Jag menar att din mor och jag..."
 
 #: ../dat/maps/layna_village/layna_village_center_script.lua:575
 msgid "They're coming!"
-msgstr ""
+msgstr "De kommer!"
 
 #: ../dat/maps/layna_village/layna_village_center_script.lua:589
 msgid "Carson, they've passed the river. They shall be here in no time."
 msgstr ""
+"Carson, de har tagit sig över floden. De kommer att vara här när som helst."
 
 #: ../dat/maps/layna_village/layna_village_center_script.lua:593
 msgid "Huh? Hey, what's happening here?!"
-msgstr ""
+msgstr "Huh? Hej, vad händer här?!"
 
 #: ../dat/maps/layna_village/layna_village_center_script.lua:595
 #: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:309
 msgid "Bronann, I ..."
-msgstr ""
+msgstr "Bronann, Jag ..."
 
 #: ../dat/maps/layna_village/layna_village_center_script.lua:597
 msgid "Father!"
-msgstr ""
+msgstr "Pappa!"
 
 #: ../dat/maps/layna_village/layna_village_center_script.lua:610
 msgid "Father! Orlinn has disappeared. I saw him taking the forest pathway!"
-msgstr ""
+msgstr "Pappa! Orlinn är försvunnen. Jag såg att han sprang ut i skogen!"
 
 #: ../dat/maps/layna_village/layna_village_center_script.lua:612
 msgid "Kalya! You were supposed to keep an eye on him!"
-msgstr ""
+msgstr "Kalya! Du hade ansvar för att hålla honom under uppsikt!"
 
 #: ../dat/maps/layna_village/layna_village_center_script.lua:614
 msgid ""
 "I did, but he just slipped through my fingers at the very second that "
 "strange light appeared."
 msgstr ""
+"Jag hade det, men han smet iväg när det där konstiga ljusskenet uppenbarade "
+"sig."
 
 #: ../dat/maps/layna_village/layna_village_center_script.lua:616
 msgid ""
 "Kalya, the army is coming. I'll deal with them, you, go and find Orlinn as "
 "fast as possible."
 msgstr ""
+"Kalya, armen är på väg. Jag hanterar dem, så går du och hittar Orlinn, så "
+"snabbt du bara kan."
 
 #: ../dat/maps/layna_village/layna_village_center_script.lua:618
 msgid "But you might get hurt!"
-msgstr ""
+msgstr "Du kanske skadar dig!"
 
 #: ../dat/maps/layna_village/layna_village_center_script.lua:620
 msgid ""
 "No, don't worry. We'll simply talk to them and they'll move on. You know "
 "what you have to do, right?"
 msgstr ""
+"Ingen fara. Vi ska bara tala med dem så kommer de att fortsätta vidare. Du "
+"vet vad du behöver göra, eller hur?"
 
 #: ../dat/maps/layna_village/layna_village_center_script.lua:622
 msgid "Herth, we both know it'll likely..."
-msgstr ""
+msgstr "Herth, vi vet båda två att de antagligen kommer..."
 
 #: ../dat/maps/layna_village/layna_village_center_script.lua:624
 msgid "Do as I say and it'll be alright."
-msgstr ""
+msgstr "Gör som jag säger så kommer allt lösa sig."
 
 #: ../dat/maps/layna_village/layna_village_center_script.lua:626
 msgid "But..."
@@ -3294,7 +3382,7 @@ msgstr "Men..."
 
 #: ../dat/maps/layna_village/layna_village_center_script.lua:628
 msgid "Bronann, you should go with her."
-msgstr ""
+msgstr "Bronann, du borde följa med henne."
 
 #: ../dat/maps/layna_village/layna_village_center_script.lua:630
 msgid "What?!?"
@@ -3302,11 +3390,11 @@ msgstr "Vad?!?"
 
 #: ../dat/maps/layna_village/layna_village_center_script.lua:634
 msgid "Carson is right, Kalya. Bronann shall go with you."
-msgstr ""
+msgstr "Carson har en poäng, Kalya. Bronnan följer med dig."
 
 #: ../dat/maps/layna_village/layna_village_center_script.lua:636
 msgid "But he would just be a burden!"
-msgstr ""
+msgstr "Men han kommer bara att sinka mig!"
 
 #: ../dat/maps/layna_village/layna_village_center_script.lua:638
 msgid "Huh? Hey! But..."
@@ -3314,7 +3402,7 @@ msgstr "Huh? Hej! Men..."
 
 #: ../dat/maps/layna_village/layna_village_center_script.lua:640
 msgid "He won't slow you down, believe me. Right, Bronann?"
-msgstr ""
+msgstr "Han kommer inte att sinka dig, tro mig. Eller hur Bronann?"
 
 #: ../dat/maps/layna_village/layna_village_center_script.lua:642
 msgid "But father!"
@@ -3324,6 +3412,7 @@ msgstr "Men pappa!"
 msgid ""
 "Carson is right, Kalya. Bronann shall go with you. It's... it's an order."
 msgstr ""
+"Carson har en poäng, Kalya. Bronnan följer med dig. Det... det är en order."
 
 #: ../dat/maps/layna_village/layna_village_center_script.lua:670
 msgid "Gahh... ok."
@@ -3334,24 +3423,28 @@ msgid ""
 "Bronann, take this sword. You'll probably need it to make your way through "
 "there."
 msgstr ""
+"Bronann, ta det här svärdet. Du kommer nog att behöva det för att ta dig "
+"igenom allt."
 
 #: ../dat/maps/layna_village/layna_village_center_script.lua:674
 msgid "What? But one minute ago you said..."
-msgstr ""
+msgstr "Vad? Men för en minut sedan så sa du..."
 
 #: ../dat/maps/layna_village/layna_village_center_script.lua:676
 msgid ""
 "I know, but everything has changed. I'll explain it to you once it is all "
 "finished. Now go, my son."
 msgstr ""
+"Jag vet, men allt har ändrats. Jag förklarar när allt har lugnat ner sig. "
+"Iväg nu, son."
 
 #: ../dat/maps/layna_village/layna_village_center_script.lua:695
 msgid "Thanks dad, we'll find him in no time."
-msgstr ""
+msgstr "Tackar pappa, vi kommer att hitta honom på nolltid."
 
 #: ../dat/maps/layna_village/layna_village_center_script.lua:697
 msgid "We shall go now... Good luck, both of you."
-msgstr ""
+msgstr "Vi måste gå nu... Lycka till, båda två."
 
 #: ../dat/maps/layna_village/layna_village_center_script.lua:720
 msgid "Good luck, son."
@@ -3360,10 +3453,12 @@ msgstr "Lycka till pojk."
 #: ../dat/maps/layna_village/layna_village_center_script.lua:735
 msgid "Ok, we'll go together. But slow me down and I'll make you regret it..."
 msgstr ""
+"Ok, vi går tillsammans. Men om du sinkar mig så kommer du att få äta upp "
+"det..."
 
 #: ../dat/maps/layna_village/layna_village_center_script.lua:737
 msgid "Don't worry, we'll find him. Ok?"
-msgstr ""
+msgstr "Oroa dig inte, vi kommer att hitta honom. Ok?"
 
 #: ../dat/maps/layna_village/layna_village_center_script.lua:739
 msgid "Ok ..."
@@ -3376,30 +3471,33 @@ msgstr "Kalya slår följe med dig!"
 #: ../dat/maps/layna_village/layna_village_center_script.lua:788
 msgid ""
 "By the way, have you ever prepared yourself for something like this before?"
-msgstr ""
+msgstr "Förresten, har du någonsin förberett dig på något sånt här innan?"
 
 #: ../dat/maps/layna_village/layna_village_center_script.lua:790
 msgid "Huh? Well, Orlinn doesn't disappear every day, you know?"
-msgstr ""
+msgstr "Huh? Nåväl, Orlinn springer inte bort varje dag, eller hur?"
 
 #: ../dat/maps/layna_village/layna_village_center_script.lua:792
 msgid ""
 "I see... Then there are two very important things that you need to know:"
 msgstr ""
+"Jag förstår... Då finns det två väldigt viktiga saker jag måste berätta:"
 
 #: ../dat/maps/layna_village/layna_village_center_script.lua:794
 msgid ""
 "First of all, before going there, you might need better equipment. You "
 "should visit Flora first, ok?"
 msgstr ""
+"För det första, innan vi beger oss iväg så kanske vi behöver bättre "
+"utrustning, du borde börja med att besöka Flora, ok?"
 
 #: ../dat/maps/layna_village/layna_village_center_script.lua:798
 msgid "You mean I need to push a key to open my bag?"
-msgstr ""
+msgstr "Du menar att jag måste trycka på en knapp för att öppna min väska?"
 
 #: ../dat/maps/layna_village/layna_village_center_script.lua:800
 msgid "Nevermind that, just do it."
-msgstr ""
+msgstr "Bry dig inte så mycket, bara gör det."
 
 #: ../dat/maps/layna_village/layna_village_center_script.lua:802
 msgid ""
@@ -3407,20 +3505,26 @@ msgid ""
 "forest. What I mean by that is the person on the top of the battle formation "
 "will actually appear while the others will stay hidden."
 msgstr ""
+"Dessutom, personen längst fram på stridslinjen kommer att leda gruppen i "
+"skogen. Jag menar att personen som är längst upp i stridsformationen är den "
+"som kommer att synas medan de ändra är gömda."
 
 #: ../dat/maps/layna_village/layna_village_center_script.lua:804
 msgid "Hmm, right. I'm not sure that I fully get what you mean, but..."
 msgstr ""
+"Hmm, ok. Jag är inte helt säker på att jag förstår vad du menar, men..."
 
 #: ../dat/maps/layna_village/layna_village_center_script.lua:806
 msgid "Rrrr... Bronann. Just listen."
-msgstr ""
+msgstr "Grrr... Bronann. Lyssna bara."
 
 #: ../dat/maps/layna_village/layna_village_center_script.lua:808
 msgid ""
 "That will be the case only in certain areas. Here in the village, you'll be "
 "the one leading, or at least you may believe that ..."
 msgstr ""
+"Men det kommer bara att gälla vissa områden. Här i byn så kommer det vara du "
+"som leder, eller du kommer i varje fall att tro det..."
 
 #: ../dat/maps/layna_village/layna_village_center_script.lua:826
 msgid ""
@@ -3453,7 +3557,7 @@ msgstr "Lycka till Bronann."
 #: ../dat/maps/layna_village/layna_village_center_script.lua:995
 #: ../dat/maps/layna_village/layna_village_center_script.lua:1016
 msgid "Actually, I bought the barley meal for Lilly."
-msgstr ""
+msgstr "Faktiskt, så köpte jag kornmjölet åt Lilly."
 
 #: ../dat/maps/layna_village/layna_village_center_script.lua:997
 #: ../dat/maps/layna_village/layna_village_center_script.lua:1018
@@ -3462,7 +3566,7 @@ msgstr "!! Vad?"
 
 #: ../dat/maps/layna_village/layna_village_center_script.lua:999
 msgid "There's no need to thank me for that. It's my pleasure."
-msgstr ""
+msgstr "Du behöver inte tacka mig. Det var ett rent nöje."
 
 #: ../dat/maps/layna_village/layna_village_center_script.lua:1008
 msgid "Here it is, Georges."
@@ -3473,6 +3577,8 @@ msgid ""
 "You're the nicest person I know, Bronann. I will tell everyone how brave "
 "you..."
 msgstr ""
+"Du är den snällaste personen jag känner Bronann. Jag kommer att berätta för "
+"alla hur modig du..."
 
 #: ../dat/maps/layna_village/layna_village_center_script.lua:1012
 msgid "(Sigh)... Georges!"
@@ -3480,7 +3586,7 @@ msgstr "(Suck)... Georges!"
 
 #: ../dat/maps/layna_village/layna_village_center_script.lua:1014
 msgid "Ok ok. Just having a bit of spirit, young man."
-msgstr ""
+msgstr "Ok ok. Jag blev bara lite rörd."
 
 #: ../dat/maps/layna_village/layna_village_center_script.lua:1020
 msgid "There's no need to thank me for that, it's my pleasure."
@@ -3743,11 +3849,11 @@ msgstr "Bronann!!!"
 
 #: ../dat/maps/layna_village/layna_village_kalya_house_path_at_night_script.lua:291
 msgid "Bronann!!! Hold on! We're almost there..."
-msgstr ""
+msgstr "Bronann!!! Håll i dig! Vi är nästan framme..."
 
 #: ../dat/maps/layna_village/layna_village_kalya_house_path_at_night_script.lua:293
 msgid "I ... can't. My body ... Argh!"
-msgstr ""
+msgstr "Jag ... kan inte. Min kropp ... Argh!"
 
 #: ../dat/maps/layna_village/layna_village_kalya_house_path_at_night_script.lua:295
 msgid "You can do it. Bronann..."
@@ -3759,23 +3865,23 @@ msgstr "Bronann!! Skynda!!"
 
 #: ../dat/maps/layna_village/layna_village_kalya_house_path_at_night_script.lua:309
 msgid "... Al ... right..."
-msgstr ""
+msgstr "...Ja ... visst..."
 
 #: ../dat/maps/layna_village/layna_village_kalya_house_path_at_night_script.lua:311
 msgid "Great! Now come on!"
-msgstr ""
+msgstr "Utmärkt! Kom nu!"
 
 #: ../dat/maps/layna_village/layna_village_kalya_house_path_at_night_script.lua:327
 msgid "There must be soldiers everywere, we're never gonna make it..."
-msgstr ""
+msgstr "Det verkar vara soldater överallt, vi kommer aldrig att klara det..."
 
 #: ../dat/maps/layna_village/layna_village_kalya_house_path_at_night_script.lua:329
 msgid "This town has many secrets..."
-msgstr ""
+msgstr "Den här byn har många hemligheter..."
 
 #: ../dat/maps/layna_village/layna_village_kalya_house_path_at_night_script.lua:331
 msgid "You can go in there, Orlinn."
-msgstr ""
+msgstr "Du kan gå in där, Orlinn."
 
 #: ../dat/maps/layna_village/layna_village_kalya_house_path_at_night_script.lua:333
 #: ../dat/maps/mt_elbrus/mt_elbrus_cave1_script.lua:170
@@ -3785,13 +3891,15 @@ msgstr "Ok!"
 
 #: ../dat/maps/layna_village/layna_village_kalya_house_path_at_night_script.lua:335
 msgid "See?"
-msgstr ""
+msgstr "Ser du?"
 
 #: ../dat/maps/layna_village/layna_village_kalya_house_path_at_night_script.lua:337
 msgid ""
 "... I understand why Grandma actually never saw you using the 'normal' "
 "path..."
 msgstr ""
+"... Jag förstår varför mormor faktiskt aldrig såg dig använda den 'normala' "
+"vägen..."
 
 #: ../dat/maps/layna_village/layna_village_kalya_house_path_at_night_script.lua:339
 msgid "Now come..."
@@ -3835,15 +3943,15 @@ msgstr ""
 
 #: ../dat/maps/layna_village/layna_village_kalya_house_path_script.lua:137
 msgid "I'll see what I can do about it."
-msgstr ""
+msgstr "Jag ska se vad jag kan göra åt det."
 
 #: ../dat/maps/layna_village/layna_village_kalya_house_path_script.lua:139
 msgid "Thank you, young one."
-msgstr ""
+msgstr "Tackar, yngling."
 
 #: ../dat/maps/layna_village/layna_village_kalya_house_path_script.lua:150
 msgid "Oh, they're all back, my Brave Hero..."
-msgstr "Oh, de är alla tillbaka, min modiga hjälte..."
+msgstr "Oh, de är tillbaka, min modiga hjälte..."
 
 #: ../dat/maps/layna_village/layna_village_kalya_house_path_script.lua:152
 msgid "Nevermind that..."
@@ -3859,14 +3967,14 @@ msgstr "Oh, tack mormor!"
 
 #: ../dat/maps/layna_village/layna_village_kalya_house_path_script.lua:158
 msgid "You're very welcome, my dear one."
-msgstr "Det var så lite, min älsklingsbarnbarn."
+msgstr "Det var så lite, mitt älsklingsbarnbarn."
 
 #: ../dat/maps/layna_village/layna_village_kalya_house_path_script.lua:173
 msgid ""
 "Ah! It's nice to see your dear young face around, Bronann. Come and chat "
 "with an old Grandma."
 msgstr ""
-"Ah! Äntligen så ser man ditt unga ansikte här, Bronann. Kom och tala med din "
+"Ah! Äntligen så ser man ditt ansikte här, Bronann. Kom och tala med din "
 "gamla mormor."
 
 #: ../dat/maps/layna_village/layna_village_kalya_house_path_script.lua:175
@@ -3883,25 +3991,29 @@ msgstr ""
 
 #: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:246
 msgid "Bronann, how do you feel?"
-msgstr ""
+msgstr "Bronann, hur mår du?"
 
 #: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:248
 msgid "Better... Somehow, the pain faded away the second I entered here..."
 msgstr ""
+"Bättre... på något sätt, smärtan försvann samma sekund som jag klev in här..."
 
 #: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:250
 msgid "By the way, where are we?"
-msgstr ""
+msgstr "Förresten, var är vi?"
 
 #: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:252
 msgid ""
 "In our basement. The other stairs there are leading to my room. This house "
 "is an ancient sanctuary, so it might explain why you're feeling better..."
 msgstr ""
+"I vår källare. Den andra trappan där leder upp till mitt rum. Det här huset "
+"är ett urgammalt tempel, så det förklarar kanske varför du känner dig "
+"bättre..."
 
 #: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:254
 msgid "Orlinn. Go get the packings. We're leaving..."
-msgstr ""
+msgstr "Orlinn. Gå och hämta packningen. Vi måste ge oss iväg..."
 
 #: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:256
 msgid "... Ok..."
@@ -3909,17 +4021,19 @@ msgstr "... Ok..."
 
 #: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:289
 msgid "We're leaving the village now..."
-msgstr ""
+msgstr "Vi lämnar byn nu..."
 
 #: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:291
 msgid "I feel dizzy... So many things have happened in such little time..."
-msgstr ""
+msgstr "Jag är helt snurrig... Så många saker har hänt på så kort tid..."
 
 #: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:293
 msgid ""
 "The soldiers will be here any minute. We'll leave to the north and cross the "
 "north-west plain up to..."
 msgstr ""
+"Soldaterna kommer att komma hit vilken minut som helst. Vi måste lämna "
+"nordlandet och korsa den nordvästra steppen upp till..."
 
 #: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:295
 msgid "No."
@@ -3931,11 +4045,11 @@ msgstr "Nej?!"
 
 #: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:299
 msgid "No, I won't follow you anymore..."
-msgstr ""
+msgstr "Nej, jag kommer inte att följa efter er längre..."
 
 #: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:301
 msgid "Look, I..."
-msgstr ""
+msgstr "Vänta, jag..."
 
 #: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:303
 msgid "Enough!"
@@ -3946,24 +4060,28 @@ msgid ""
 "Nobody told me what was happening. Herth and the Lord seemed to know each "
 "other... And now you..."
 msgstr ""
+"Ingen berättar för mig vad som händer. Herth och Hertigen verkade känna "
+"varandra... och nu du..."
 
 #: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:307
 msgid "You seem so calm, ready and prepared..."
-msgstr ""
+msgstr "Du verkar så lugn, redo och förberedd..."
 
 #: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:311
 msgid ""
 "Enough! You hid everything from me just like everyone else. You're a liar! I "
 "won't be manipulated anymore!"
 msgstr ""
+"Nog! Du gömde allt från mig precis som alla andra. Du ljög för mig! Jag "
+"kommer inte låta mig bli manipulerad mera!"
 
 #: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:313
 msgid "Bronann, you'll get everything explained in time, I..."
-msgstr ""
+msgstr "Bronann, du kommer att få allt förklarat för dig i sinsom tid, jag..."
 
 #: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:315
 msgid "No! I won't go unless you tell me the truth now!"
-msgstr ""
+msgstr "Nej! Jag vägrar att följa med om du inte berättar sanningen nu!"
 
 #: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:317
 msgid "... Fine."
@@ -3971,7 +4089,7 @@ msgstr "... Visst."
 
 #: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:321
 msgid "I knew the crystal would appear..."
-msgstr ""
+msgstr "Jag visste att kristallen skulle komma..."
 
 #: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:323
 msgid "What?"
@@ -3979,41 +4097,47 @@ msgstr "Vad?"
 
 #: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:325
 msgid "But I didn't know who it would choose."
-msgstr ""
+msgstr "Men jag visste inte vem den skulle välja."
 
 #: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:327
 msgid "Herth prepared me... all my life... for this very day..."
-msgstr ""
+msgstr "Herth förberedde mig... hela mitt liv... för precis den här dagen..."
 
 #: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:329
 msgid ""
 "He trained me, taught me magic, and told me the crystal would appear one "
 "day..."
 msgstr ""
+"Han tränade mig, lärde mig magi, och berättade att en dag skulle kristallen "
+"komma..."
 
 #: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:331
 msgid ""
 "He thought that I would be the one to be chosen by the crystal. However, it "
 "seems he was wrong. Now, I am to look after you..."
 msgstr ""
+"Han trodde att jag skulle bli den som kristallen valde. Men det verkar som "
+"han hade fel. Nu, måste jag skydda dig..."
 
 #: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:333
 msgid "You must believe me Bronann..."
-msgstr ""
+msgstr "Du måste lita på mig Bronann..."
 
 #: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:335
 msgid "The crystal chose me? But I'm just..."
-msgstr ""
+msgstr "Kristallen valde mig? Men jag är bara..."
 
 #: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:337
 msgid "... someone brave enough to jump between my brother and it..."
-msgstr ""
+msgstr "... någon som är modig nog att hoppa mellan den och min bror..."
 
 #: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:339
 msgid ""
 "It should have been me... But I couldn't move. And now, I have to fix my "
 "mistake..."
 msgstr ""
+"Det borde ha varit jag... Men jag lyckades inte röra mig. Och nu, så måste "
+"jag reparera mitt misstag..."
 
 #: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:341
 msgid "How?"
@@ -4033,27 +4157,30 @@ msgstr "Syrran!! De är framför huset!"
 
 #: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:367
 msgid "Quick, we must go now!!"
-msgstr ""
+msgstr "Fort, vi måste gå nu!!"
 
 #: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:369
 msgid ""
 "We won't be able to come back here once out. So, feel free to pick up "
 "everything needed and prepare yourself..."
 msgstr ""
+"Vi kommer inte komma tillbaka hit när vi väl har gett oss av. Så se till att "
+"ta med dig allt du behöver och förbered dig..."
 
 #: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:371
 msgid ""
 "Wait! There is one more thing... Why are you calling your own father by his "
 "actual name?"
 msgstr ""
+"Vänta! En till fråga... Varför kallar du din pappa för hans riktiga namn?"
 
 #: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:373
 msgid "That's because he's not our father..."
-msgstr ""
+msgstr "Det är för att han inte är vår pappa..."
 
 #: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:375
 msgid "Our parents were killed a long time ago..."
-msgstr ""
+msgstr "Våra föräldrar dödades för länge sedan..."
 
 #: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:377
 msgid "Orlinn..."
@@ -4061,21 +4188,23 @@ msgstr "Orlinn..."
 
 #: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:379
 msgid "Don't worry, sis. It's fine, we can tell him."
-msgstr ""
+msgstr "Oroa dig inte syrran, det kommer ordna sig, vi kan berätta för honom."
 
 #: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:381
 msgid "I also left my parents behind..."
-msgstr ""
+msgstr "Jag lämnade också kvar mina föräldrar..."
 
 #: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:383
 msgid ""
 "... They'll be fine, Bronann. We must prevent Banesore from obtaining the "
 "crystal."
 msgstr ""
+"... De kommer att klara sig Bronann. Vi måste hindra Banesore från att få "
+"tag på kristallen."
 
 #: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:385
 msgid "Anyway, let's go now..."
-msgstr ""
+msgstr "Hursomhelst, låt oss vara påväg nu..."
 
 #: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:415
 msgid "Wow!"
@@ -4089,69 +4218,75 @@ msgstr "Det är dags..."
 #: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:429
 #: ../dat/maps/mt_elbrus/mt_elbrus_path4_script.lua:284
 msgid "We can't go back now..."
-msgstr ""
+msgstr "Vi kan inte gå tillbaka nu..."
 
 #: ../dat/maps/layna_village/layna_village_kalya_house_script.lua:436
 msgid "It's my room upstairs. Don't even think about it!"
-msgstr ""
+msgstr "Det är mitt rum uppför trappan. Tänk inte ens tanken!"
 
 #: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:429
 msgid "I can't go back now..."
-msgstr ""
+msgstr "Jag kan inte gå tillbaka nu..."
 
 #: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:446
 msgid ""
 "Guards are carefully watching their surroundings... I need to get closer to "
 "see what's happening."
 msgstr ""
+"Vakterna observerar noggrant sin omgivning... Jag behöver komma närmare för "
+"att kunna se vad som händer."
 
 #: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:448
 msgid "I should be able to sneak through when they're not watching..."
-msgstr ""
+msgstr "Jag borde kunna smyga igenom när de inte tittar..."
 
 #: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:472
 msgid "Who's there?"
-msgstr ""
+msgstr "Vem där?"
 
 #: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:501
 msgid "(Whispering) Kalya!"
-msgstr ""
+msgstr "(viskandes) Kalya!"
 
 #: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:503
 msgid "(What's happening here?)"
-msgstr ""
+msgstr "(Vad händer här?)"
 
 #: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:505
 msgid "(Also whispering) I don't know..."
-msgstr ""
+msgstr "(Viskandes) Jag vet inte..."
 
 #: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:507
 msgid "(Woah, you scared me. Are you mad? You could have make us both caught!)"
-msgstr ""
+msgstr "(Woah, du skrämdes. Är du galen? Du hade kunnat få oss båda fångade!)"
 
 #: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:509
 msgid "(I thought you saw me.)"
-msgstr ""
+msgstr "(Jag trodde att du såg mig)"
 
 #: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:511
 msgid ""
 "(Kalya was brought here by those weirdos. They are helding everyone captive. "
 "Lilly is talking with that big guy. He gives me the chills.)"
 msgstr ""
+"(Kalya fördes hit av de där knäppgökarna. De håller alla fångna Lilly talar "
+"med den där stora killen. Han ger mig rysningar.)"
 
 #: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:513
 msgid "(Let's have a look..)"
-msgstr ""
+msgstr "(Låt mig se..)"
 
 #: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:527
 msgid ""
 "I already told you, again and again, Banesore, I don't know anything about "
 "such a crystal."
 msgstr ""
+"Jag har redan sagt det om och om igen Banesore. Jag vet ingenting om någon "
+"kristall."
 
 #: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:529
 msgid "It is 'Lord Banesore', you scum!"
-msgstr ""
+msgstr "Det är 'Hertig Banesore', ditt äckel!"
 
 #: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:531
 msgid ""
@@ -4159,82 +4294,89 @@ msgid ""
 "you dare to stare me in the eyes? I admire such a courageous heart, my dear "
 "one."
 msgstr ""
+"Även när du konfronteras av någon som kan förgöra allt du älskar, så vågar "
+"du stirra mig i ögonen? Jag imponeras av sådant mod."
 
 #: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:533
 msgid "Therefore, I'm inclined to ask the questions one last time:"
-msgstr ""
+msgstr "Därför så skulle jag vilja fråga en sista gång:"
 
 #: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:535
 msgid "Where is the crystal? Where is... the boy?"
-msgstr ""
+msgstr "Var är kristallen? Var är... pojken?"
 
 #: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:537
 msgid "It's time to think Lilly..."
-msgstr ""
+msgstr "Det är dags att tänka, Lilly..."
 
 #: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:539
 msgid "Huh? How do you know my name??"
-msgstr ""
+msgstr "Huh? Hur vet du mitt namn??"
 
 #: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:541
 msgid ""
 "Your very soul is slowly but surely opening. I can feel your sorrow and "
 "doubts grow."
 msgstr ""
+"Din själ håller sakta och säkert på att öppna sig. Jag känner hur din sorg "
+"och ditt tvivel växer."
 
 #: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:543
 msgid "Fight it, Lilly! Focus!"
-msgstr ""
+msgstr "Gör motstång Lilly! Fokusera!"
 
 #: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:545
 msgid "Keep quiet, you old daft rat!"
-msgstr ""
+msgstr "Håll tyst, din gamla råtta!"
 
 #: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:547
 msgid "Oh! My apologies, it seems you weren't lying..."
-msgstr ""
+msgstr "Oh! Jag ber om ursäkt, det verkar som att du inte ljög..."
 
 #: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:549
 msgid ""
 "The fact you didn't mention anything about the boy leads me to believe that "
 "you know him."
 msgstr ""
+"Faktumet att du inte sa något om pojken leder mig till att tro att du känner "
+"honom."
 
 #: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:553
 msgid "Ah? So he must be close..."
-msgstr ""
+msgstr "Ah? Så han måste vara i närheten..."
 
 #: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:555
 msgid "What? No!"
-msgstr ""
+msgstr "Vad? Nej!"
 
 #: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:557
 msgid "Oh, I see now... So this is her mother... Bring her here, and kill her!"
 msgstr ""
+"Oh, jag förstår... Så det här är hennes mor... För hit henne och döda henne!"
 
 #: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:586
 msgid "Let her out of this! You can have me instead."
-msgstr ""
+msgstr "Låg henne gå! Du kan ta mig istället."
 
 #: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:588
 msgid "So, here we have a gentleman! I'll start with you, then..."
-msgstr ""
+msgstr "Så, vi har en gentleman! Låt mig börja med dig då..."
 
 #: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:590
 msgid "Fine..."
-msgstr ""
+msgstr "Visst..."
 
 #: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:592
 msgid "... But she will be the next one."
-msgstr ""
+msgstr "... Men hon kommer att vara nästa."
 
 #: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:594
 msgid "You filthy demon!"
-msgstr ""
+msgstr "Din smutsiga demon!"
 
 #: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:596
 msgid "It's fine, I'll come..."
-msgstr ""
+msgstr "Det är ok, jag kommer..."
 
 #: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:598
 msgid "No!"
@@ -4246,7 +4388,7 @@ msgstr "Till slut... pojken."
 
 #: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:655
 msgid "No! Let him come closer..."
-msgstr ""
+msgstr "Nej! Låt honom komma närmare..."
 
 #: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:657
 msgid "Bronann!!"
@@ -4262,39 +4404,39 @@ msgstr "Bronann, varför? ..."
 
 #: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:663
 msgid "Clear the way, Lilly. I need to speak to him..."
-msgstr ""
+msgstr "Ur vägen Lilly. Jag behöver tala med honom..."
 
 #: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:665
 msgid "Let's have a talk, Bronann!"
-msgstr ""
+msgstr "Bronann, vi måste prata!"
 
 #: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:667
 msgid "I don't have any other choice, Lilly..."
-msgstr ""
+msgstr "Jag har inte något annat val Lilly..."
 
 #: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:669
 msgid "Bronann..."
-msgstr ""
+msgstr "Bronann..."
 
 #: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:681
 msgid "You... After all these years..."
-msgstr ""
+msgstr "Du... Efter alla dess år..."
 
 #: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:683
 msgid "... Let everyone out of this. We don't have your 'crystal'..."
-msgstr ""
+msgstr "Låt alla oss gå. Vi har inte din 'kristall'..."
 
 #: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:685
 msgid "Of course you have it. I can sense it within your flesh..."
-msgstr ""
+msgstr "Så klart att ni har den. Jag kan känna den i ert kött..."
 
 #: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:687
 msgid "So, the crystal is inside me??"
-msgstr ""
+msgstr "Så kristallen är inuti mig??"
 
 #: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:689
 msgid "Now, show it to me..."
-msgstr ""
+msgstr "Nu, visa den för mig..."
 
 #: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:691
 msgid "But I..."
@@ -4305,6 +4447,8 @@ msgid ""
 "Do you need some kind of motivation? If so, let me handle this with my "
 "greatest pleasure!"
 msgstr ""
+"Behöver du någon slags motivation? Det ska bli ett nöje att bistå dig med "
+"det!"
 
 #: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:695
 msgid "Prepare yourself!"
@@ -4312,7 +4456,7 @@ msgstr "Förbered dig!"
 
 #: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:745
 msgid "Ah, there it is... Finally!"
-msgstr ""
+msgstr "Där är den... Äntligen!"
 
 #: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:747
 msgid "Kalya! Now!!"
@@ -4322,10 +4466,12 @@ msgstr "Kalya! Nu!!"
 msgid ""
 "You won't get him, Banesore! It seems we were smarter than you, this time..."
 msgstr ""
+"Du kommer inte att få honom Banesore! Det verkar som att vi var smartare än "
+"dig den här gången..."
 
 #: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:793
 msgid "Ah ah ah... But this is exactly what I wanted."
-msgstr ""
+msgstr "Ah ah ah... men det här var exakt vad jag ville."
 
 #: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:795
 #: ../dat/maps/layna_village/layna_village_riverbank_script.lua:601
@@ -4342,75 +4488,76 @@ msgstr ""
 
 #: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:799
 msgid "He is the only one that can get what I'm looking for..."
-msgstr ""
+msgstr "Han är den enda som kan få tag på det som jag är ute efter..."
 
 #: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:801
 msgid "Soldiers! Give them a few minutes before starting the chase."
-msgstr ""
+msgstr "Soldater! Ge dem några minuter innan ni tar upp jakten."
 
 #: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:803
 msgid "Yes, my Lord!"
-msgstr ""
+msgstr "Ja, Hertigen!"
 
 #: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:805
 msgid "Why in hell ...?"
-msgstr ""
+msgstr "Varför i hela helvetet ...?"
 
 #: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:807
 msgid "... Am I telling you all that? That's simple..."
-msgstr ""
+msgstr "... Berättar jag allt det för dig? Det är enkelt..."
 
 #: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:809
 msgid "It doesn't matter as you're all going to die now..."
-msgstr ""
+msgstr "Det spelar ingen roll, för ni kommer alla att dö nu..."
 
 #: ../dat/maps/layna_village/layna_village_riverbank_script.lua:250
 msgid "Wow! You found me!"
-msgstr ""
+msgstr "Wow! Du hittade mig!"
 
 #: ../dat/maps/layna_village/layna_village_riverbank_script.lua:252
 msgid "But I'm not done yet!"
-msgstr ""
+msgstr "Men jag är inte klar än!"
 
 #: ../dat/maps/layna_village/layna_village_riverbank_script.lua:254
 msgid "You'll never find me hiding behind the..."
-msgstr ""
+msgstr "Du kommer aldrig att hitta mig när jag gömmer mig bakom..."
 
 #: ../dat/maps/layna_village/layna_village_riverbank_script.lua:256
 msgid "Hey, why would I tell you my hiding spots?!"
-msgstr ""
+msgstr "Hej, varför berättar jag mina gömställen för dig?!"
 
 #: ../dat/maps/layna_village/layna_village_riverbank_script.lua:274
 msgid "That kid is pretty quick. This is going to take all day..."
-msgstr ""
+msgstr "Den där ungen är granska snabb. Det här kommer att ta hela dan..."
 
 #: ../dat/maps/layna_village/layna_village_riverbank_script.lua:326
 msgid "Please no! Wait!"
-msgstr ""
+msgstr "Snälla nej! Vänta!"
 
 #: ../dat/maps/layna_village/layna_village_riverbank_script.lua:328
 msgid "Orlinn! Stop this!"
-msgstr ""
+msgstr "Orlinn! Lägg av med det där!"
 
 #: ../dat/maps/layna_village/layna_village_riverbank_script.lua:346
 msgid "Orlinn! How many times have I told you not to bother other people?"
 msgstr ""
+"Orlinn! Hur många gånger har jag sagt åt dig att inte störa andra personer?"
 
 #: ../dat/maps/layna_village/layna_village_riverbank_script.lua:348
 msgid "But sis! I..."
-msgstr ""
+msgstr "Men syrran! Jag..."
 
 #: ../dat/maps/layna_village/layna_village_riverbank_script.lua:350
 msgid "I don't want to hear it! Now, come!"
-msgstr ""
+msgstr "Inga undanflykter! Kom nu!"
 
 #: ../dat/maps/layna_village/layna_village_riverbank_script.lua:352
 msgid "Don't blame him, Kalya. Actually, it was..."
-msgstr ""
+msgstr "Det var inte hans fel Kalya. Det var faktiskt..."
 
 #: ../dat/maps/layna_village/layna_village_riverbank_script.lua:354
 msgid "I don't think I was talking to you, now was I?"
-msgstr ""
+msgstr "Jag tror inte att jag talade till dig, vad jag vet?"
 
 #: ../dat/maps/layna_village/layna_village_riverbank_script.lua:356
 msgid "Come Orlinn!"
@@ -4419,10 +4566,12 @@ msgstr "Kom Orlinn!"
 #: ../dat/maps/layna_village/layna_village_riverbank_script.lua:383
 msgid "I found that pen near the tree behind you. I just wanted to play..."
 msgstr ""
+"Jag hittade pennan i närheten av det där trädet bakom dig. Jag ville bara "
+"leka..."
 
 #: ../dat/maps/layna_village/layna_village_riverbank_script.lua:387
 msgid "Take it... Thanks."
-msgstr ""
+msgstr "Du får den... tackar."
 
 #: ../dat/maps/layna_village/layna_village_riverbank_script.lua:415
 msgid "Bronann?"
@@ -4437,14 +4586,17 @@ msgid ""
 "Don't blame Kalya. She was having a hard time along with her brother before "
 "living here, you know?"
 msgstr ""
+"Döm inte Kalya. Hon och hennes bror hade det inte så lätt innan de kom hit "
+"vet du väl?"
 
 #: ../dat/maps/layna_village/layna_village_riverbank_script.lua:421
 msgid "Well anyway, she's been ignoring me since the first day I saw her..."
 msgstr ""
+"Hursomhelst, hon har ignorerat mig sedan första gången jag såg henne..."
 
 #: ../dat/maps/layna_village/layna_village_riverbank_script.lua:423
 msgid "Eh? You really know nothing about women, do you?"
-msgstr ""
+msgstr "Eh? Du vet verkligen ingenting om kvinnor, gör du?"
 
 #: ../dat/maps/layna_village/layna_village_riverbank_script.lua:425
 msgid "... Huh?"
@@ -4452,11 +4604,11 @@ msgstr "... Huh?"
 
 #: ../dat/maps/layna_village/layna_village_riverbank_script.lua:427
 msgid "Heh heh, don't worry about it. It will come in time."
-msgstr ""
+msgstr "Heh heh, oroa dig inte, det kommer lösa sig allteftersom."
 
 #: ../dat/maps/layna_village/layna_village_riverbank_script.lua:472
 msgid "Here it is, Bronann."
-msgstr ""
+msgstr "Här är det bronann."
 
 #: ../dat/maps/layna_village/layna_village_riverbank_script.lua:491
 msgid "Thanks, Lilly."
@@ -4467,6 +4619,8 @@ msgid ""
 "We've been having a shortage of food lately. I've been taking... special "
 "measures... to ensure that everyone has enough food."
 msgstr ""
+"Vi har haft matbrist senaste tiden. Jag har vidtagit... speciella "
+"åtgärder... för att se till så att alla har nog med mat."
 
 #: ../dat/maps/layna_village/layna_village_riverbank_script.lua:495
 msgid "Try to enjoy this day, Bronann."
@@ -4599,52 +4753,52 @@ msgstr "Inte nu..."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_north_east_exit_script.lua:240
 msgid "We made it, at last!"
-msgstr ""
+msgstr "Vi klarade det, äntligen!"
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_north_east_exit_script.lua:242
 msgid "Indeed! Yeepee!"
-msgstr ""
+msgstr "Verkligen! Yeepee!"
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_north_east_exit_script.lua:244
 msgid "I'm so relieved we made it safely, hee hee."
-msgstr ""
+msgstr "Jag är så glad att vi inte skadade oss, hee hee."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_north_east_exit_script.lua:246
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine_basement_script.lua:222
 msgid "Wait..."
-msgstr ""
+msgstr "Vänta..."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_north_east_exit_script.lua:248
 msgid "Can you smell that stench?"
-msgstr ""
+msgstr "Känner du den där stanken?"
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_north_east_exit_script.lua:250
 msgid "... Yes... Is it... smoke?"
-msgstr ""
+msgstr "... Ja... Är det... rök?"
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_north_east_exit_script.lua:252
 msgid "Something's burning..."
-msgstr ""
+msgstr "Något brinner..."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_north_east_exit_script.lua:278
 msgid "Our village... is burning..."
-msgstr ""
+msgstr "Vår by... brinner..."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_north_east_exit_script.lua:280
 msgid "My parents..."
-msgstr ""
+msgstr "Mina föräldrar..."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_north_east_exit_script.lua:282
 msgid "Herth..."
-msgstr ""
+msgstr "Herth..."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_north_east_exit_script.lua:284
 msgid "Everyone..."
-msgstr ""
+msgstr "Alla..."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_north_east_exit_script.lua:300
 msgid "May they rest in peace..."
-msgstr ""
+msgstr "Må de vila i frid..."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_north_east_exit_script.lua:302
 msgid "All this..."
@@ -4652,70 +4806,83 @@ msgstr "Allt det här..."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_north_east_exit_script.lua:304
 msgid "All this was for a crystal??"
-msgstr ""
+msgstr "Allt det här för en kristall??"
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_north_east_exit_script.lua:308
 msgid "I'll fix this..."
-msgstr ""
+msgstr "Jag kommer ordna det här..."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_north_east_exit_script.lua:310
 msgid ""
 "If this crystal is so powerful, then I'll use it ... and I'll fix this..."
 msgstr ""
+"Om den här kristallen är så kraftfull, så kommer jag använda den... och jag "
+"kommer ordna det här..."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_north_east_exit_script.lua:323
 msgid "Then, I'll help you..."
-msgstr ""
+msgstr "Då kommer jag hjälpa dig..."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_path1_script.lua:659
 msgid "Banesore's minions are already all over the place ..."
-msgstr ""
+msgstr "Banesores hejardukar är redan överallt ..."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_path1_script.lua:661
 msgid ""
 "The dark soldiers, as we call them, are fanatics. They'll follow Banesore's "
 "orders even if it means death."
 msgstr ""
+"De mörka soldaterna, som vi kallar dem, är fanatiker. De kommer att följa "
+"Banesores order även om det innebär döden för dem."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_path1_script.lua:663
 msgid ""
 "We don't know how he does it, but he can turn anybody into a servile subject."
 msgstr ""
+"Vi vet inte hur han lyckas, men han kan få vem som helst att bli en lydig "
+"undersåte."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_path1_script.lua:665
 msgid ""
 "Their strength is increased by the transformation. That's why we call them "
 "the zombified army."
 msgstr ""
+"Deras styrka ökar av transformationen. Det är därför som vi kallare det den "
+"zombifierade armen."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_path1_script.lua:667
 msgid "We must absolutely try to avoid them or they'll call reinforcement."
-msgstr ""
+msgstr "Vi måste försöka undvika dem, annars så ropar de på understöd."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_path1_script.lua:669
 msgid "They are too strong. If they catch us, we're doomed."
-msgstr ""
+msgstr "De är för starka. Om de fångar oss så är vi dödsdömda."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_path2_script.lua:392
 msgid "Dang! And now the rain..."
-msgstr ""
+msgstr "Jäklar! Och nu regn också..."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_path2_script.lua:394
 msgid ""
 "The path seems to lead straight into the storm up there. It's definitely our "
 "lucky day..."
 msgstr ""
+"Vägen verkar leda rakt in i det där stormen där uppe. Det är definitivt vår "
+"dag idag..."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_path2_script.lua:396
 msgid ""
 "Don't lose faith, Kalya. If we manage to escape them here, we'll be safe "
 "past the mountains."
 msgstr ""
+"Tappa inte hoppet Kayla. Om vi lyckas att unvika dem nu, så kommer vi vara "
+"ännu säkrare på andra sidan bergen."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_path2_script.lua:398
 msgid ""
 "If we can reach the great plains, we should indeed be out of troubles..."
 msgstr ""
+"Om vi kan ta ända fram till slättmarkena så borde vi vara bortom fara..."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_path3_script.lua:292 map_names_tr.lua:20
 #: map_names_tr.lua:228
@@ -4727,21 +4894,27 @@ msgid ""
 "This place is the village's old cemetery, used when the former villagers "
 "lived in Layna..."
 msgstr ""
+"Det är är byns gamla kyrkogård, den användes av de gamla byborna som bodde i "
+"Layna..."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_path3_script.lua:602
 msgid "The former villagers? What do you mean?"
-msgstr ""
+msgstr "De gamla byborna? Vad menar du?"
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_path3_script.lua:604
 msgid ""
 "Well, Layna Village was abandoned a long time ago, before your parents and "
 "all the others settled here... Your mother never told you that?"
 msgstr ""
+"Byn Layna övergavs för länge sedan, innan dina föräldrar och de andra "
+"bosatte sig här... Berättade aldrig din mor det för dig?"
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_path3_script.lua:606
 msgid ""
 "I've never been further alone before... This place gives me the chill..."
 msgstr ""
+"Jag har aldrig varit längre hemifrån ensam... Det här ställer ger mig kalla "
+"kårar..."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_path3_script.lua:608
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine_3rd_script.lua:447
@@ -4752,30 +4925,32 @@ msgstr "Yiek!"
 #: ../dat/maps/mt_elbrus/mt_elbrus_path3_script.lua:610
 msgid "Anyway, once the cemetery is behind us, we should be out of trouble!"
 msgstr ""
+"Hursomhelst, när vi väl har lämnat begravningsplatsen bakom oss, så borde vi "
+"vara utom fara!"
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_path3_script.lua:635
 msgid "Isn't that soldiers up there?"
-msgstr ""
+msgstr "Är inte det där soldater där uppe?"
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_path3_script.lua:666
 msgid "The west gate is condemned, as the Lord commanded."
-msgstr ""
+msgstr "Den västra grinden är nerstängd, som hertigen beordrade."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_path3_script.lua:668
 msgid "Fine. Let's go back and wait for them."
-msgstr ""
+msgstr "Bra. Låt oss gå tillbaka och vänta på dem."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_path3_script.lua:700
 msgid "The gate to the great plains..."
-msgstr ""
+msgstr "Porten till slättmarkerna..."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_path3_script.lua:702
 msgid "Have we got any other way to leave this place?"
-msgstr ""
+msgstr "Finns det något annat sätt att ta oss ut?"
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_path3_script.lua:704
 msgid "Only one left... The mountain top..."
-msgstr ""
+msgstr "Bara ett sätt... Bergstoppen..."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_path3_script.lua:730
 msgid "Oh no! the gate!"
@@ -4787,33 +4962,35 @@ msgstr "Vi är fångade!"
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_path3_script.lua:750
 msgid "You're mine now!"
-msgstr ""
+msgstr "Du är min nu!"
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_path3_script.lua:770
 msgid ""
 "I shall bring your souls to the Master. You don't stand a chance against the "
 "Great Harlequin..."
 msgstr ""
+"Jag ska hämta hem era själar till mästaren. Ni har inte en chans mot den "
+"store Harlequin..."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_path3_script.lua:772
 msgid "But let's play together first, shall we?"
-msgstr ""
+msgstr "Men låt oss leka tillsammans först, ska vi?"
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_path3_script.lua:774
 msgid "Now catch me... if you can."
-msgstr ""
+msgstr "Fånga mig... om du kan."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_path3_script.lua:802
 msgid "Enough of this shallow game. Give me your souls now!..."
-msgstr ""
+msgstr "Nog med den här barnsliga leken. Ge mig genast era själar! "
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_path3_script.lua:823
 msgid "How could I be hurt by... children..."
-msgstr ""
+msgstr "Hur kan barn ha skadat... mig..."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_path3_script.lua:825
 msgid "We'll see each other again, Chosen One..."
-msgstr ""
+msgstr "Vi kommer att ses igen, utvalde..."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_path4_script.lua:306
 msgid "We made it..."
@@ -4821,25 +4998,27 @@ msgstr "Vi klarade det..."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_path4_script.lua:308
 msgid "Brr... It's quite cold up here."
-msgstr ""
+msgstr "Brr... Det är ganska kallt här uppe."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_path4_script.lua:310
 msgid ""
 "The bridge is a few feet away. Let's reach the mountain pass before the "
 "frost kills us."
 msgstr ""
+"Bron är några meter bort. Låt oss hinna fram till bergspasset innan kylan "
+"tar oss."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_path4_script.lua:312
 msgid "Let's hurry, I can't feel my toes anymore..."
-msgstr ""
+msgstr "Låt oss skynda, jag kan inte känna mina tår..."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_path4_script.lua:337
 msgid "(Woah, this bridge doesn't look that sturdy...)"
-msgstr ""
+msgstr "(Whoa, den här bron ser inte så stadig ut...)"
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_path4_script.lua:339
 msgid "Well, here we go...."
-msgstr ""
+msgstr "Nåväl, nu gör vi det..."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_path4_script.lua:355
 msgid "There!"
@@ -4847,15 +5026,15 @@ msgstr "Där!"
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_path4_script.lua:376
 msgid "Catch them before they reach the Shrine!"
-msgstr ""
+msgstr "Fånga dem innan de når templet!"
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_path4_script.lua:391
 msgid "Let's run!"
-msgstr ""
+msgstr "Spring!"
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_path4_script.lua:430
 msgid "I'll cut those ropes!"
-msgstr ""
+msgstr "Jag skär av de där repen!"
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_path4_script.lua:458
 msgid "That was close..."
@@ -4867,200 +5046,222 @@ msgstr "Jävlar!!"
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_path4_script.lua:475
 msgid "The Master won't be happy with this..."
-msgstr ""
+msgstr "Mästaren kommer inte vara glad över det här..."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_path4_script.lua:477
 msgid "You won't get away so easily... We will catch you sooner or later..."
-msgstr ""
+msgstr "Du kommer inte undan så lätt... Vi kommer att fånga dig till slut..."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_path4_script.lua:503
 msgid "Hurray! Those idiots will have a hard time catching us now!"
-msgstr ""
+msgstr "Hurra! Nu kommer de där idioterna att ha svårt att hitta oss!"
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_path4_script.lua:505
 msgid "Indeed! They've been had!"
-msgstr ""
+msgstr "Verkligen! Där lurade vi dem!"
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_path4_script.lua:507
 msgid "Who are the little brats now, eh?"
-msgstr ""
+msgstr "Vilka är skitungarna nu va?"
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_path4_script.lua:522
 msgid "Let's go back and tell the others..."
-msgstr ""
+msgstr "Låt oss gå tillbaka och berätta för de andra..."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_path4_script.lua:524
 msgid "Yes, Sir..."
-msgstr ""
+msgstr "Ja chefen..."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_path4_script.lua:547
 msgid ""
 "They're gone... We should move on before they actually find a way to cross "
 "the gap."
 msgstr ""
+"De är borta... Vi borde skynda vidare innan de faktiskt hittar ett sätt att "
+"passera ravinen."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:121
 msgid "I'll stay here as long as you need me. Do you want to buy something?"
-msgstr ""
+msgstr "Jag stannar sålänge som du behöver. Vill du köpa något?"
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:128
 msgid "Sophia's items"
-msgstr ""
+msgstr "Sophias saker"
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:129
 msgid "Don't forget my trade offers!"
-msgstr ""
+msgstr "Glöm inte att kolla in mina handelserbjudanden!"
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:390
 msgid ""
 "... You'll see: there's plenty of things I need to show you there. Plus, "
 "it's a safe place."
 msgstr ""
+"... Du förstår: Det finns massor av saker som jag behöver visa dig där. Plus "
+"att det är ett säkert gömställe."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:392
 msgid "Err... Sis?"
-msgstr ""
+msgstr "Err... syrran?"
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:394
 msgid ""
 "Our Elder will also be able to help us. And you'll get more explanation than "
 "I could ever..."
 msgstr ""
+"Vår älste kommer också att kunna hjälpa oss. Och du får mer förklaringar än "
+"vad jag kan..."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:396
 msgid "Sis!"
-msgstr ""
+msgstr "Syrran!"
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:398
 msgid "... One second, Orlinn. I try to..."
-msgstr ""
+msgstr "... En sekund, Orlinn. Jag försöker att..."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:400
 msgid "But Kalya, look at the passageway!"
-msgstr ""
+msgstr "Men Kalya, titta på passagen!"
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:402
 msgid "What about the..."
-msgstr ""
+msgstr "Vad är det med..."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:404
 msgid "NO!"
-msgstr ""
+msgstr "NEJ!"
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:422
 msgid "... No, it can't be..."
-msgstr ""
+msgstr "... Nej, det kan inte..."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:424
 msgid "After all we've been through, this..."
-msgstr ""
+msgstr "Efter allt som vi har varit igenom, det här..."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:444
 msgid "... Calm down Kalya, there must be a way to go through this somehow..."
 msgstr ""
+"... Ta det lungt Kalya, det måste finnas något sätt att ta sig igenom det "
+"här på något sätt..."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:446
 msgid "Unfortunately... Yes, there is one..."
-msgstr ""
+msgstr "Tyvärr... så finns det ett sätt..."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:448
 msgid "We'll have to enter the ancient shrine..."
-msgstr ""
+msgstr "Vi måste gå igenom det gamla templet..."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:450
 msgid ""
 "Wouldn't have we flown all by ourselves, I would swear Banesore's army "
 "pushed us here on purpose..."
 msgstr ""
+"Om vi hade fått bestämma själva så hade det här inte hänt. Jag skulle kunna "
+"svära att Banesores trupper har manövrerat oss hit med flit..."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:452
 msgid "... What's with this 'ancient shrine'?"
-msgstr ""
+msgstr "... Vad är grejen med det här gamla templet?"
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:454
 msgid ""
 "Some say it is haunted... And it was sealed a long time ago, long before I "
 "was even born."
 msgstr ""
+"Vissa påstår att det är hemsökt... Det var blev nerstängt för länge sedan, "
+"långt innan jag ens var född."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:456
 msgid "Indeed, It must be a long time ago..."
-msgstr ""
+msgstr "Oj, det måste vara länge sedan..."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:460
 msgid ""
 "Anyway, we might even not be able to enter there at all. But you're right, "
 "let's have a look around first. Who knows?"
 msgstr ""
+"Hursomhelst, vi kanske inte ens kan ta oss in här överhuvudtaget. Men du har "
+"rätt, låt oss leta runt lite först. Vem vet?"
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:506
 msgid ""
 "Here we are, looking at this huge, wonderful and yet creepy door... I don't "
 "like this..."
 msgstr ""
+"Här är vi, tittandes på den här enorma, fantastiska och ändå läskiga "
+"dörren... Jag gillar inte det här..."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:508
 msgid ""
 "It's not like I actually would want to open it, but how are we going to?"
 msgstr ""
+"Det är inte riktigt som att jag faktiskt vill öppna den här dörren, men hur "
+"skulle det gå till?"
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:520
 msgid "Oh, my chest, it hurts!!"
-msgstr ""
+msgstr "Oh, mitt bröst, det gör ont!!"
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:522
 msgid "The Crystal! ... Orlinn! Let's stand back!"
-msgstr ""
+msgstr "Kristallen!! ... Orlinn!! Lite säkerhetsavstånd!"
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:546
 msgid ""
 "That sign... It is the sign of the Ancients! ... Bronann! Are you alright?"
-msgstr ""
+msgstr "Det tecknet... det är de urgamlas tecken! ... Bronann! Mår du bra?"
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:559
 msgid "... I'm fine... I guess... The pain faded away..."
-msgstr ""
+msgstr "... Jag mår bra... Antar jag... Smärtan försvann..."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:561
 msgid "Thanks Goddess..."
-msgstr ""
+msgstr "Tacka gudinnan..."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:563
 msgid "Well, the door is open now..."
-msgstr ""
+msgstr "Nåväl, dörren är öppen nu..."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:565
 msgid "Yiek! Do you really want to go there??"
-msgstr ""
+msgstr "Yiek! Vill du verkligen gå dit??"
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:567
 msgid ""
 "I believe we don't really have a choice... Somehow this place... called me."
 msgstr ""
+"Jag tror inte att vi har något val... Det här stället... det kallar på mig "
+"på något sätt."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:569
 msgid "Anyway, let's stick together and we'll be fine as always, right?"
 msgstr ""
+"Hursomhelst, låt oss hålla ihop så kommer vi att klara oss som alltid, eller "
+"hur?"
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:571
 msgid "... I have a bad feeling about all this now..."
-msgstr ""
+msgstr "... Det här känns inte riktigt bra..."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:613
 msgid "... Bronann!!"
-msgstr ""
+msgstr "... Bronann!!"
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:630
 msgid "Thanks Goddess! You're all safe and sound... I was worried sick!"
-msgstr ""
+msgstr "Tacka gudinnan! Ni är alla vid god hälsa... jag förgicks av oro!"
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:632
 msgid "Sophia, you here?"
-msgstr ""
+msgstr "Sophia, är du där?"
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:634
 msgid "Yes, it's a miracle destiny kept you away from harm."
-msgstr ""
+msgstr "Ja, det är ett mirakel att du inte har blivit skadad."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:636
 msgid "How in Layna did you reach the Mt Elbrus all alone?"
@@ -5071,75 +5272,95 @@ msgid ""
 "And how did you reach up here? Weren't you caught by the soldiers with the "
 "others?"
 msgstr ""
+"Och hur kom du upp hit? Fångades du inte av soldaterna tillsammans med de "
+"andra?"
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:640
 msgid ""
 "Well, it's a long story... But in short, I was out of the village when they "
 "caught everyone."
 msgstr ""
+"Nåväl, det är en lång historia... Men den korta versionen är att jag inte "
+"var i byn när de grep alla."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:642
 msgid "Do you know how are the others doing? Are my parents fine?"
-msgstr ""
+msgstr "Vet du hur det är med de andra? Mår mina föräldrar bra?"
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:644
 msgid "Unfortunately no. I left them behind..."
-msgstr ""
+msgstr "Tyvärr inte. Jag lämnade dem..."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:646
 msgid ""
 "When I saw you leaving the village to the sanctuary, I decided to follow you."
 msgstr ""
+"När jag såg att du lämnade byn och gå upp mot templet så beslutade jag mig "
+"för att följa efter."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:648
 msgid ""
 "But by the time I reached the area, you three were gone... And I had to find "
 "out where you were heading."
 msgstr ""
+"Men när jag kom fram så var ni redan borta... så jag behövde ta reda på vart "
+"ni var på väg."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:650
 msgid "But the bridge, how did you cross?"
-msgstr ""
+msgstr "Men bron, hur tog du dig över?"
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:652
 msgid "Using my rope and my Ranger skills, of course, eh."
-msgstr ""
+msgstr "Med mitt rep och min erfarenhet som utbygdsjägare så klart, eh."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:654
 msgid ""
 "Sophia could be of great help, Kalya. The passage has collapsed, and we're "
 "stuck finding a way in this dreadful place..."
 msgstr ""
+"Sophia skulle kunna vara till väldigt stor hjälp Kalya. Passagen har "
+"kollapsat, och vi måste hitta en väg genom det här hemska stället..."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:656
 msgid ""
 "Maybe, maybe not. Sophia was out the time they attacked? Somehow I don't buy "
 "it."
 msgstr ""
+"Kanske, kanske inte. Att Sophia skulle ha varit ute ur byn när de "
+"attackerade? Jag köper inte den historien."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:658
 msgid ""
 "I wasn't out for no reason. Actually, Herth sent me to watch for soldiers in "
 "the forest west parts."
 msgstr ""
+"Jag var inte ute utan anledning. Det var faktiskt Herth som hade skickat "
+"iväg mig för att spana efter soldater i den västra delen av skogen."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:660
 msgid "He was afraid they'd corner us to prevent an escape, and he was right."
 msgstr ""
+"Han var rädd att de skulle komma från flera håll, för att förhindra att "
+"någon flydde, och han hade rätt."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:662
 msgid "Herth sent you? But he told me it was nothing, that he would handle it!"
 msgstr ""
+"Herth skickade dig? Men han sade till mig att det inte var någon fara, och "
+"att han kunde hantera det!"
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:664
 msgid ""
 "I fear he just wanted to protect you and make you all meet your destiny at "
 "the same time..."
 msgstr ""
+"Jag är rädd att han bara ville skydda dig, och se till så att ni uppfyllde "
+"ert öde på samma gång..."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:666
 msgid "What?! You mean you all knew about the crystal?"
-msgstr ""
+msgstr "Vad?! Du menar att han kände till kristallen?"
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:668
 msgid ""
@@ -5147,172 +5368,201 @@ msgid ""
 "three of you would have to carry a special burden... That is what Herth told "
 "us..."
 msgstr ""
+"Vi visste inte exakt vad som skulle ske bronann. Men vi visste att en dag så "
+"kommer ni tre att behöva bära en tung börda... Det är vad Herth sa till "
+"oss..."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:670
 msgid ""
 "Listen kids, I feel bad about what happened, and I can't help you as a "
 "magical force is preventing me from entering the Shrine..."
 msgstr ""
+"Lyssna ungar, jag hatar det som har hänt, och jag kan inte hjälpa er då en "
+"magisk kraft hindrar mig från att gå in i templet..."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:672
 msgid "But then, you're stuck here, too, right?"
-msgstr ""
+msgstr "Men då är du fast här också, eller hur?"
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:674
 msgid "Me? Not at all. I don't need bridges to cross a moutain."
-msgstr ""
+msgstr "Jag? Inte alls. Jag behöver inte broar för att ta mig över ett berg."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:676
 msgid "... But maybe?"
-msgstr ""
+msgstr "... Men kanske?"
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:678
 msgid "Maybe?"
-msgstr ""
+msgstr "Kanske?"
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:680
 msgid ""
 "Maybe I could sell you a few things to help you find a way to open a path in "
 "there?"
 msgstr ""
+"Jag skulle kanske kunna sälja lite saker till er, så att ni kan komma på ett "
+"sätt att ta er igenom där?"
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:682
 msgid "So that's how you help, by selling stuff to us..."
-msgstr ""
+msgstr "Så det är så du vill hjälpa till, genom att sälja saker..."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:684
 msgid ""
 "Yes, it's a great privilege as I usually don't do such things for children. "
 "I'll stay here as long as you are stuck, isn't this quite honest?"
 msgstr ""
+"Ja, det är ett stort privilegium då jag normalt sett inte handlar med barn. "
+"Jag stannar här medans ni är fast, det är väl ganska ärligt?"
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:686
 msgid "But, you'll let us deal with this place, alone??"
-msgstr ""
+msgstr "Men du låter oss hantera den här platsen ensamma??"
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:688
 msgid ""
 "This place is part of your burden. Herth was right. You managed to come here "
 "all by yourselves, after all..."
 msgstr ""
+"Den här platsen är en del av ert problem. Herth hade rätt. Och dessutom så "
+"har ni lyckats ta er ända hit av er själva..."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:690
 msgid "I guess it's better than nothing... But Orlinn, you stay with us."
 msgstr ""
+"Jag antar att det är bättre än ingenting... Men Orlinn, du stannar med oss."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:692
 msgid "Thanks anyway, Sophia."
-msgstr ""
+msgstr "Tack ändå, Sophia."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua:694
 msgid "You're welcome, my dear!"
-msgstr ""
+msgstr "Ingen orsak, gullet!"
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine_2nd_s2_script.lua:162
 msgid "Phew, this one sure is heavier and sturdier..."
-msgstr ""
+msgstr "Det här är verkligen tyngre och kraftigare..."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine_2nd_s2_script.lua:427
 msgid "I can feel something move far below..."
-msgstr ""
+msgstr "Jag kan känna att något rör på sig, långt där nere..."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine2_script.lua:426
 msgid "... It seems somebody left a note here on purpose..."
-msgstr ""
+msgstr "... Det verkar som att någon har lämnat en lapp här med flit..."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine2_script.lua:428
 msgid "You mean, in the middle of those scary bones?"
-msgstr ""
+msgstr "Du menar, mitt i de där läskiga benen?"
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine2_script.lua:430
 msgid "Let me see..."
-msgstr ""
+msgstr "Låt mig se?"
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine2_script.lua:432
 msgid "'To whoever will read this:'"
-msgstr ""
+msgstr "'Till den som läser detta:'"
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine2_script.lua:434
 msgid ""
 "'Battles have been waging all over the place and the Ancient have now "
 "forsaken me into oblivion when they sealed the Goddess Shrine.'"
 msgstr ""
+"'Strider har pågått överallt, och de gamla har ni övergett mig när de "
+"förseglade gudinnans tempel.'"
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine2_script.lua:436
 msgid ""
 "'All my comrades have perished in battles and I am the last unfortunate one "
 "left.'"
 msgstr ""
+"'Alla mina kamrater har stupat i striderna och jag är den enda som är kvar.'"
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine2_script.lua:438
 msgid ""
 "'My name is Shawn, and I do believe my time is running out in this life as "
 "there is neither food nor water in here ...'"
 msgstr ""
+"'Mitt namn är Shawn, och jag tror att mina dagar är räknade, då det varken "
+"finns mat eller vatten här inne...'"
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine2_script.lua:440
 msgid "Poor guy... He must have died from starvation."
-msgstr ""
+msgstr "Stackars sate... Han måste ha dött av svält."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine2_script.lua:442
 msgid ""
 "'... But I will attempt one last time to escape from here and I'm leaving "
 "this note in case you'd need to do the same.'"
 msgstr ""
+"'... Men jag kommer att göra ett sista försök att fly och jag lämnar den här "
+"lappen här om du skulle behöva göra samma sak.'"
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine2_script.lua:444
 msgid ""
 "'The only way to escape this hellish place is to reach the highest floor and "
 "activate the waterfall. At least that's what they said.'"
 msgstr ""
+"'Enda sättet att ta sig ut härifrån är att ta sig upp på översta våningen "
+"och aktivera vattenfallet. Det är i varje fall vad de sa till mig.'"
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine2_script.lua:446
 msgid "What are we waiting for, let's go!"
-msgstr ""
+msgstr "Vad väntar vi på, kom igen!"
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine2_script.lua:448
 msgid "Wait Orlinn! That's not over..."
-msgstr ""
+msgstr "Vänta Orlinn! Det är inte över ännu..."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine2_script.lua:450
 msgid ""
 "'... But be warned, for even the very scent exuding from the dark waters is "
 "a trap!'"
 msgstr ""
+"'... Men var försiktiga, för lukten som kommer från det mörka vattnet är en "
+"fälla!'"
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine2_script.lua:452
 msgid ""
 "'The entire Shrine has been turned into a murderous area and you'll have to "
 "fight your way through, just as I will now...'"
 msgstr ""
+"'Hela templet är numera ett slakthus och du måste slåss hela vägen igenom, "
+"precis som jag kommer göra nu...'"
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine2_script.lua:454
 msgid "That's it..."
-msgstr ""
+msgstr "Så är det..."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine2_script.lua:456
 msgid "Let's find out how to activate that waterfall, then."
-msgstr ""
+msgstr "Låt oss leta reda på hur man aktiverar vattenfallet i så fall."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine2_script.lua:458
 msgid "Yes, and let's do it quickly..."
-msgstr ""
+msgstr "Ja, och låt oss göra det snabbt..."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine2_script.lua:478
 msgid ""
 "Somebody left a note on purpose here. According to it, we need to find out a "
 "way to trigger the waterfall from the highest floor."
 msgstr ""
+"Någon lämnade en lapp med flit här. Enligt den så kan vi hitta en väg ut "
+"genom att sätta igång vattenfallet på översta våningen."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine2_script.lua:480
 msgid ""
 "But let's be careful, as it also said this place is dangerous, and the dark "
 "waters are a trap somehow..."
 msgstr ""
+"Men vi får se till att vara försiktiga, den sa också att det här stället var "
+"farligt, samt att det mörka vattnet var på något sätt en fälla..."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine2_script.lua:492
 msgid "What is this? ... Skeletons?!"
-msgstr ""
+msgstr "Vad är det här? ... Skelett?!"
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine2_script.lua:522
 msgid "Phew..."
@@ -5320,43 +5570,51 @@ msgstr "Phew..."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine_3rd_script.lua:439
 msgid "Yiek! A big monster!"
-msgstr ""
+msgstr "Yiek! Ett stort monster!"
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine_3rd_script.lua:441
 msgid ""
 "My name is Andromalius, Guardian of the Sacred Seal, and Keeper of the "
 "Goddess Shrine..."
 msgstr ""
+"Mitt namn är Andromalius, väktare av det heliga sigillet, och bevarare av "
+"gudinnans tempel..."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine_3rd_script.lua:443
 msgid ""
 "You have trespassed the Holy ground of the Ancient and remained unharmed for "
 "too long in this temple..."
 msgstr ""
+"Du har gjort intrång på helig mark som tillhör de gamla och du har varit "
+"oskadd för länge i det här templet..."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine_3rd_script.lua:445
 msgid ""
 "Thus, let death embrace you, little boy, for your comrades are already dying "
 "under my charm and you have to join them into the other world..."
 msgstr ""
+"Så, låt döden omfamna dig pojk, för dina kamrater är redan döende tack vare "
+"mig, och du kommer att återförenas med dem i den andra världen..."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine_3rd_script.lua:483
 msgid "You've proven yourself, Chosen One... You deserve to live after all..."
-msgstr ""
+msgstr "Du har visat dig stark, utvalde... Du förtjänar att leva... "
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine_3rd_script.lua:485
 msgid "Me? But I'm not the Chosen One."
-msgstr ""
+msgstr "Jag? Men jag är inte den utvalda."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine_3rd_script.lua:487
 msgid ""
 "The Ones being few or many, still each of them will have to prove themselves "
 "as it is ought to be..."
 msgstr ""
+"Oberoende om de utvalda är en eller flera, så måste var och en av dem bevisa "
+"sin värdighet, precis som det borde vara..."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine_3rd_script.lua:489
 msgid "Farewell, Chosen One..."
-msgstr ""
+msgstr "Farväl, utvalde..."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine_3rd_script.lua:518
 msgid "I can hear water from everywhere..."
@@ -5368,18 +5626,22 @@ msgstr "Kalya, Bronann!"
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine4_script.lua:386
 msgid "Again, I can feel something move not far from here..."
-msgstr ""
+msgstr "Igen, så känner jag att något rör på sig, inte långt härifrån..."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine5_script.lua:408
 msgid ""
 "There is a passage here but I'm too heavy for those stones jutting out ..."
 msgstr ""
+"Det finns en passage här, men de där stenarna som sticker ut kommer aldrig "
+"att hålla för min tyngd ..."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine5_script.lua:410
 msgid ""
 "The fact is, you and me cannot afford standing on those stones. Maybe with a "
 "rope?"
 msgstr ""
+"Faktum är, att du och jag inte kommer lyckas stå på de där stenarna. Kanske "
+"med ett rep?"
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine5_script.lua:412
 msgid "... I'll do it."
@@ -5387,27 +5649,28 @@ msgstr "... Jag gör det."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine5_script.lua:414
 msgid "What? Are you crazy? There could be monsters up here."
-msgstr ""
+msgstr "Vad? Är du galen? Det skulle kunna vara monster där uppe."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine5_script.lua:416
 msgid "Then, I'll deal with them, sis. We can't just stay here, anyway..."
-msgstr ""
+msgstr "Då kan jag ta hand om dem syrran. Vi kan ändå inte bara stanna här..."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine5_script.lua:418
 msgid "Orlinn, you sure have grown up because of all this. Are you sure?"
 msgstr ""
+"Orlinn, du har verkligen mognat med hjälp av allt som har skett. Är du säker?"
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine5_script.lua:420
 msgid "I need to ... I guess."
-msgstr ""
+msgstr "Jag behöver nog ... gissar jag."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine5_script.lua:422
 msgid "Just tell me when you're ready and I'll throw you up here."
-msgstr ""
+msgstr "Säg bara till när du är redo, så kastar jag upp dig."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine5_script.lua:447
 msgid "Ready to go up? ..."
-msgstr ""
+msgstr "Redo att gå upp? ..."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine5_script.lua:449
 msgid "Yes, let's go ..."
@@ -5443,37 +5706,39 @@ msgstr "Bronann, mår du bra?"
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine5_script.lua:550
 msgid "... I don't know, I guess I felt something crack ..."
-msgstr ""
+msgstr "... Jag vet inte, jag tror att jag kände något som knakade ..."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine5_script.lua:554
 msgid "... Not again ..."
-msgstr ""
+msgstr "... Inte igen ..."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine7_script.lua:255
 msgid "There is a note left here."
-msgstr ""
+msgstr "Det ligger en lapp här."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine7_script.lua:257
 msgid ""
 "It says: 'I fathomed it! After all, not every ladder is made of wood. Now, "
 "I'll have to get back there alive...'"
 msgstr ""
+"Den lyder: 'Jag gissade det! Det är ju inte varje stege som är gjord av trä. "
+"Nu måste jag bara ta mig levande härifrån...'"
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine7_script.lua:305
 msgid "There seems to be one of those rolling stones up here ..."
-msgstr ""
+msgstr "Det verkar som en av de där rullbara stenarna finns där uppe ..."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine_basement_script.lua:216
 msgid "Wow, what a fall... I didn't see that one coming."
-msgstr ""
+msgstr "Wow, vilket fall... det här kunde jag inte förutse."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine_basement_script.lua:218
 msgid "Are you alright, Kalya?"
-msgstr ""
+msgstr "Mår du bra Kalya?"
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine_basement_script.lua:220
 msgid "I should be fine, but we should heal just in case..."
-msgstr ""
+msgstr "Jag klarar mig, men vi borde hela oss, utifallatt ..."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine_basement_script.lua:224
 msgid "Where is Orlinn?"
@@ -5485,15 +5750,15 @@ msgstr "Orlinn? Orlinn!"
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine_basement_script.lua:228
 msgid "Let's find him ... once more, before something bad happens..."
-msgstr ""
+msgstr "Låt oss hitta honom ... igen, innan något dåligt händer..."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine_basement_script.lua:244
 msgid "This is the blocked passage to the Shrine entrance..."
-msgstr ""
+msgstr "Det är den blockerade ingången till templet..."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine_basement_script.lua:246
 msgid "This can only mean we're near the exit!"
-msgstr ""
+msgstr "Det kan bara betyda att vi är i närheten av utgången!"
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine_basement_script.lua:254
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine_basement_script.lua:278
@@ -5514,89 +5779,95 @@ msgstr "Orlinn! NU!"
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine_basement_script.lua:297
 msgid "You shall not leave this place without my consent."
-msgstr ""
+msgstr "Ni kommer inte att lämna den här platsen utan mitt medgivande."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine_basement_script.lua:299
 msgid "And you shall not touch my brother without mine..."
-msgstr ""
+msgstr "Och du kommer inte att röra min bror utan min..."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine_basement_script.lua:301
 msgid ""
 "You have got through the Holy Ordeal without dying. I shall not let you "
 "live..."
 msgstr ""
+"Ni har tagit er igenom den heliga prövningen utan att dö. Jag kan inte låta "
+"er leva..."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine_basement_script.lua:303
 msgid "Let's fight for our lives then!"
-msgstr ""
+msgstr "Låt oss slåss till döden då!"
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine_basement_script.lua:340
 msgid "Orlinn, are you alright?"
-msgstr ""
+msgstr "Orlinn, mår du bra?"
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine_basement_script.lua:342
 msgid "Yes, I'm sorry I wasn't able to protect myself, sis."
-msgstr ""
+msgstr "Ja, jag är ledsen att jag inte lyckades skydda mig själv, syrran."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine_basement_script.lua:344
 msgid ""
 "Don't you worry about that, brother. Never leave me like that again, ok?"
-msgstr ""
+msgstr "Bry dig inte om det brosan, Lämna mig inte igen bara, ok?"
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine_basement_script.lua:346
 msgid ""
 "I promise I didn't do it this time. I just fell in front of this hideous "
 "green head..."
 msgstr ""
+"Jag lovar att jag inte gjorde det den här gången. Jag bara föll framför det "
+"där fula gröna huvudet..."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine_basement_script.lua:348
 msgid ""
 "... Well, let's leave this place before another one wants our lives again."
 msgstr ""
+"... Nåväl, låt oss ta oss härifrån innan något annat försöker döda oss."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine_basement_script.lua:350
 msgid "I couldn't agree more ..."
-msgstr ""
+msgstr "Jag håller verkligen med ..."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:120
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:468
 msgid "We can't move Orlinn ..."
-msgstr ""
+msgstr "Vi kan inte röra på oss, Orlinn..."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:122
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:470
 msgid "We're gonna ... suffocate..."
-msgstr ""
+msgstr "Vi kommer ... kvävas..."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:124
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:472
 msgid "Orlinn, help us ... Please, Oh oh oh..."
-msgstr ""
+msgstr "Orlinn, hjälp oss ... Snälla, Oh oh oh..."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:403
 msgid "What a big gate... What is behind must be fearsome..."
-msgstr ""
+msgstr "Vilken stor grind... Det som finns bakom måste vara skräckinjagande..."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:405
 msgid "Shall we go in?"
-msgstr ""
+msgstr "Ska vi gå in?"
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:407
 msgid "Yes, let's end this."
-msgstr ""
+msgstr "Ja, låt oss avsluta det här."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:409
 msgid "No, let's prepare first..."
-msgstr ""
+msgstr "Nej, vi måste förbereda oss..."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:446
 msgid ""
 "Don't worry, we've managed to come this far. There is nothing that could..."
 msgstr ""
+"Ingen fara, vi har lyckats komma såhär långt. Det finns inget som skulle..."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:448
 msgid "... What is it, Kalya?"
-msgstr ""
+msgstr "... Vad är det Kalya?"
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:450
 msgid "... Kalya?!"
@@ -5608,77 +5879,80 @@ msgstr "syrran'!"
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:454
 msgid "I feel... I..."
-msgstr ""
+msgstr "Jag känner mig... Jag..."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:456
 msgid "Hi hi... Hi hi hi... I can't stop!!"
-msgstr ""
+msgstr "Hi hi... Hi hi hi... Jag kan inte sluta!!"
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:458
 msgid "What's so funny, Kalya? eh eh."
-msgstr ""
+msgstr "Vad är så roligt Kalya? Eh eh."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:460
 msgid "I don't know... Ah, I can barely breathe! ..."
-msgstr ""
+msgstr "Jag vet inte... Ah, jag kan knappt andas! ..."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:462
 msgid "Hi hi hi... What's happening to me..."
-msgstr ""
+msgstr "Hi hi hi... Vad händer med mig..."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:464
 msgid "It's the scent, ah ah ah."
-msgstr ""
+msgstr "Det är lukten, ah ah ah."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:466
 msgid ""
 "Erm, are you crazy or what? I usually am the one with bad jokes you know..."
-msgstr ""
+msgstr "Erm, är du galen? Det är oftast jag som kommer med dåliga skämt..."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:488
 msgid "I can't let them, I have to find out something..."
-msgstr ""
+msgstr "Jag kan inte tillåta dem, jag måste komma på något..."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:500
 msgid "Something is preventing me from entering ..."
-msgstr ""
+msgstr "Något hindrar mig från att gå in ..."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:517
 msgid "I feel much better now..."
-msgstr ""
+msgstr "Jag känner mig mycket bättre nu..."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:519
 msgid "Indeed. It seems the scent has no effect on us anymore."
-msgstr ""
+msgstr "Ja, det verkar som att lukten inte längre har någon effekt på oss."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:521
 msgid "Orlinn, did you do something?"
-msgstr ""
+msgstr "Orlinn, gjorde du något?"
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:523
 msgid "Me? You know: A bit of this, a bit of that..."
-msgstr ""
+msgstr "Jag? Tja, du vet, lite av varje..."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:525
 msgid "... I didn't think I would say that, but... Thank you Orlinn."
-msgstr ""
+msgstr "... Jag trodde aldrig att jag skulle säga det, men... tack Orlinn."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:527
 msgid "Thank you, indeed."
-msgstr ""
+msgstr "Tackar så mycket."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:529
 msgid "You're welcome!"
-msgstr ""
+msgstr "Ingen orsak!"
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:531
 msgid ""
 "Well, please stop laughing now. I'm not at ease with what just happened..."
 msgstr ""
+"Nåväl, ni kan sluta skratta nu. Snälla, jag är inte bekväm med vad som just "
+"hände..."
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:535
 msgid "Stop laughing now or I'll smash your little head against that wall!"
 msgstr ""
+"Sluta skratta genast, annars krossar jag ditt ansikte mot den där väggen!"
 
 #: ../dat/maps/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:537
 msgid "Aww... Ok."
@@ -5686,36 +5960,36 @@ msgstr "Aww... Ok."
 
 #: ../dat/objects/arm_armor.lua:41
 msgid "Prismatic ring"
-msgstr ""
+msgstr "Prismatisk ring"
 
 #: ../dat/objects/arm_armor.lua:42
 msgid "A strange ring that protects the wearer from darkness."
-msgstr ""
+msgstr "En märklig ring som skyddar bäraren från mörker."
 
 #: ../dat/objects/arm_armor.lua:52
 msgid "Wooden Shield"
-msgstr ""
+msgstr "Träsköld"
 
 #: ../dat/objects/arm_armor.lua:53
 msgid "Robust wooden oak protects from all but the heaviest of assaults."
-msgstr ""
+msgstr "Rubust eksköld som skyddar mot allt utom de tyngsta attackerna."
 
 #: ../dat/objects/arm_armor.lua:63
 msgid "Metal Shield"
-msgstr ""
+msgstr "Metalsköld"
 
 #: ../dat/objects/arm_armor.lua:64
 msgid ""
 "A shield formed completely out of a light-weight but cheap metallic alloy."
-msgstr ""
+msgstr "En sköld tillverkad helt av en lätt men billig metallblandning."
 
 #: ../dat/objects/arm_armor.lua:74
 msgid "Phoenix Shield"
-msgstr ""
+msgstr "Fenixsköld"
 
 #: ../dat/objects/arm_armor.lua:75
 msgid "A tall steel shield with a mighty phoenix emblazoned on the front."
-msgstr ""
+msgstr "En lång sköld av stål med en mäktig fenix ingraverat framtill."
 
 #: ../dat/objects/arm_armor.lua:85
 msgid "Trident Shield"
@@ -6719,7 +6993,7 @@ msgstr ""
 
 #: ../dat/skills/magic.lua:1254 map_names_tr.lua:200 map_names_tr.lua:408
 msgid "?"
-msgstr ""
+msgstr "?"
 
 #: ../dat/skills/magic.lua:1255
 msgid ""
@@ -6866,11 +7140,11 @@ msgstr ""
 
 #: ../dat/skills/weapon.lua:440
 msgid "Execution"
-msgstr ""
+msgstr "Avrättning"
 
 #: ../dat/skills/weapon.lua:441
 msgid "Attacks an enemy with a chance of making Death catch its soul."
-msgstr ""
+msgstr "Attackerar en fiende och ger en chans att smitta dess själ med döden."
 
 #. / TRANSLATORS: this is about displaying a time: eg 4.2s
 #: ../src/modes/battle/battle_command.cpp:1211
@@ -6934,17 +7208,17 @@ msgstr ""
 #: ../dat/help/in_game_move_and_interact_anim.lua:58
 #, c-format
 msgid "Confirm / Open / Talk: %s"
-msgstr ""
+msgstr "Bekräfta / Öppna / Tala: %s"
 
 #: ../dat/help/in_game_move_and_interact_anim.lua:61
 #, c-format
 msgid "Run / Cancel: %s"
-msgstr ""
+msgstr "Spring / Avbryt: %s"
 
 #: ../dat/help/in_game_move_and_interact_anim.lua:64
 #, c-format
 msgid "Party Menu: %s"
-msgstr ""
+msgstr "Gruppmeny: %s"
 
 #: ../dat/help/in_game_move_and_interact_anim.lua:68
 #, c-format
@@ -6954,7 +7228,7 @@ msgstr "Pausa: %s"
 #: ../dat/help/in_game_move_and_interact_anim.lua:70
 #, c-format
 msgid "Quit Menu: %s"
-msgstr ""
+msgstr "Stäng menyn: %s"
 
 #: ../dat/help/in_game_move_and_interact_anim.lua:73
 #, c-format
@@ -6964,13 +7238,15 @@ msgstr "Hjälpmeny: %s"
 #: ../dat/maps/layna_forest/layna_forest_entrance_script.lua:498
 #, c-format
 msgid "Just stand in front of the Goddess below the spring and push '%s'."
-msgstr ""
+msgstr "Stå bara framför gudinnan, nedanför källan, och tryck '%s'."
 
 #: ../dat/maps/layna_village/layna_village_bronanns_home_first_floor_script.lua:226
 #, c-format
 msgid ""
 "This circle is a save point. Here, you can save your game by pushing %s."
 msgstr ""
+"Den här cirkeln är en lagringspunkt. Här kan du spara spelet genom att "
+"trycka %s."
 
 #: ../dat/maps/layna_village/layna_village_center_script.lua:796
 #, c-format
@@ -6979,16 +7255,19 @@ msgid ""
 "inventory by pressing the menu key (%s), and select 'Equip'. Then you'll be "
 "able to select your sword and add it as your main weapon, ok?"
 msgstr ""
+"Och snälla säg att du har tagit på dig svärdet... om du inte har gjort det, "
+"visa dina ägodelar genom att trycka menyknappen (%s), och välj 'Equip'. Då "
+"kommer du kunna välja ditt svärd och lägga till det som primärvapen, ok?"
 
 #: map_names_tr.lua:6 map_names_tr.lua:10 map_names_tr.lua:14
 #: map_names_tr.lua:42 map_names_tr.lua:214 map_names_tr.lua:218
 #: map_names_tr.lua:222 map_names_tr.lua:250
 msgid "Layna Forest Cave"
-msgstr ""
+msgstr "Laynas skogsgrotta"
 
 #: map_names_tr.lua:24 map_names_tr.lua:232
 msgid "Forest entrance"
-msgstr ""
+msgstr "Skogskanten"
 
 #: map_names_tr.lua:46 map_names_tr.lua:254
 msgid "Where it all began..."
@@ -7026,7 +7305,7 @@ msgstr "Lillys hus"
 
 #: map_names_tr.lua:112 map_names_tr.lua:320
 msgid "Village entrance"
-msgstr ""
+msgstr "Byporten"
 
 #: map_names_tr.lua:116 map_names_tr.lua:120 map_names_tr.lua:124
 #: map_names_tr.lua:324 map_names_tr.lua:328 map_names_tr.lua:332
@@ -7036,19 +7315,19 @@ msgstr "Elbrusgrottan"
 #: map_names_tr.lua:132 map_names_tr.lua:136 map_names_tr.lua:340
 #: map_names_tr.lua:344
 msgid "Low Mountain"
-msgstr ""
+msgstr "Kullarna"
 
 #: map_names_tr.lua:140 map_names_tr.lua:348
 msgid "Old Cemetery"
-msgstr ""
+msgstr "Den gamla kyrkogården"
 
 #: map_names_tr.lua:144 map_names_tr.lua:352
 msgid "Mountain bridge"
-msgstr ""
+msgstr "Bergsbron"
 
 #: map_names_tr.lua:148 map_names_tr.lua:356
 msgid "Underpass"
-msgstr ""
+msgstr "Grottgången"
 
 #: map_names_tr.lua:150 map_names_tr.lua:162 map_names_tr.lua:166
 #: map_names_tr.lua:170 map_names_tr.lua:174 map_names_tr.lua:178
