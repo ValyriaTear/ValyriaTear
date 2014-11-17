@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Valyria Tear\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-08-21 23:27+0200\n"
-"PO-Revision-Date: 2014-11-16 20:12+0100\n"
+"PO-Revision-Date: 2014-11-17 23:45+0100\n"
 "Last-Translator: Alexander Kjäll <alexander.kjall@gmail.com>\n"
 "Language-Team: sv <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -55,15 +55,15 @@ msgstr "Ogiltig statuseffekt"
 
 #: ../src/common/global/global_utils.cpp:54
 msgid "Self — Point"
-msgstr ""
+msgstr "Själv — Punkt"
 
 #: ../src/common/global/global_utils.cpp:56
 msgid "Ally — Point"
-msgstr ""
+msgstr "Allierad — Punkt"
 
 #: ../src/common/global/global_utils.cpp:58
 msgid "Foe — Point"
-msgstr ""
+msgstr "Fiende — Punkt"
 
 #: ../src/common/global/global_utils.cpp:60
 msgid "Self"
@@ -307,11 +307,11 @@ msgstr "[Välj handling]"
 
 #: ../src/modes/battle/battle_command.cpp:327
 msgid "Item<R>Type   ×"
-msgstr ""
+msgstr "Föremål<R>Typ    x"
 
 #: ../src/modes/battle/battle_command.cpp:537
 msgid "Skill<R>Type SP"
-msgstr ""
+msgstr "Färdighet<R>Typ SP"
 
 #: ../src/modes/battle/battle_command.cpp:647
 #: ../src/modes/battle/battle_command.cpp:653
@@ -349,7 +349,7 @@ msgstr "Alla fiender"
 
 #: ../src/modes/battle/battle_command.cpp:1348
 msgid "Select Attack Point"
-msgstr ""
+msgstr "Välj attackpunkt"
 
 #: ../src/modes/battle/battle.cpp:110 ../dat/effects/status.lua:418
 msgid "HP"
@@ -577,6 +577,7 @@ msgstr "Det här är ett nyckelföremål som varken kan konsumeras eller säljas
 #: ../src/modes/menu/menu.cpp:789
 msgid "This item is an elemental spirit and can be associated with equipment."
 msgstr ""
+"Det här föremålet är en elementarande och kan associeras med utrustning."
 
 #: ../src/modes/menu/menu.cpp:901 ../src/modes/shop/shop.cpp:208
 msgid "Skills obtained:"
@@ -1061,7 +1062,7 @@ msgstr "Lager"
 #: ../src/modes/shop/shop_buy.cpp:70 ../src/modes/shop/shop_sell.cpp:69
 #: ../src/modes/shop/shop_trade.cpp:67
 msgid "Own"
-msgstr ""
+msgstr "Ägda"
 
 #: ../src/modes/shop/shop.cpp:68
 msgid "Weapons"
@@ -1085,7 +1086,7 @@ msgstr "Benskydd"
 
 #: ../src/modes/shop/shop.cpp:73
 msgid "Spirits"
-msgstr ""
+msgstr "Andar"
 
 #: ../src/modes/shop/shop.cpp:74
 msgid "Key Items"
@@ -1097,7 +1098,7 @@ msgstr "Alla varor"
 
 #: ../src/modes/shop/shop.cpp:179
 msgid "Field Use:"
-msgstr ""
+msgstr "Fältanvändning:"
 
 #: ../src/modes/shop/shop.cpp:181
 msgid "Battle Use:"
@@ -1259,7 +1260,7 @@ msgstr "Vinge"
 #: ../dat/actors/enemies.lua:463 ../dat/actors/map_sprites.lua:451
 #: ../dat/actors/map_sprites.lua:526
 msgid "Dark Soldier"
-msgstr "Kärv soldat"
+msgstr "Mörk soldat"
 
 #: ../dat/actors/enemies.lua:526
 #: ../dat/maps/layna_village/layna_village_riverbank_at_night_script.lua:229
@@ -1928,6 +1929,21 @@ msgid ""
 "\n"
 "Joystick handling fixes"
 msgstr ""
+"Spelbalans, ...\n"
+"\n"
+"Uppdragslista, tumnagelskarta, ...\n"
+"\n"
+"Bytesfunktionalitet, ...\n"
+"\n"
+"Tema-bytar-meny, ...\n"
+"\n"
+"GLkodsförbättringar, ...\n"
+"\n"
+"Många skärmfixar, ...\n"
+"\n"
+"Många andra fixar\n"
+"\n"
+"Joystick fixar"
 
 #: ../dat/credits/end_credits.lua:165 ../dat/credits/end_credits.lua:204
 #: ../dat/credits/end_credits.lua:251
@@ -1952,6 +1968,20 @@ msgid ""
 "\n"
 "A lot of various things"
 msgstr ""
+"Bygrafik, ...\n"
+"\n"
+"Kyrkogårdsgrafik, ...\n"
+"\n"
+"Hjälteporträtt, ...\n"
+"\n"
+"Hjältarnas sprites, grottgrafik, ...\n"
+"\n"
+"Stridsbakgrunder i skogen, ...\n"
+"\n"
+"\n"
+"Fenrisulven\n"
+"\n"
+"Mycket annat"
 
 #: ../dat/credits/end_credits.lua:298 ../dat/credits/end_credits.lua:331
 #: ../dat/credits/episode1_credits.lua:51
@@ -1977,6 +2007,22 @@ msgid ""
 "\n"
 "Layna cave music"
 msgstr ""
+"\n"
+"Huvudtema, bymusik, ...\n"
+"\n"
+"BAnesores musik, ...\n"
+"\n"
+"Layna skogsmusik, ...\n"
+"\n"
+"Bossmusik\n"
+"\n"
+"Stridsmusik\n"
+"\n"
+"Fågelsång\n"
+"\n"
+"Striden-förlorad-musik\n"
+"\n"
+"Layna grottmusik"
 
 #: ../dat/credits/end_credits.lua:344
 msgid ""
@@ -1988,6 +2034,13 @@ msgid ""
 "\n"
 "Special Boss"
 msgstr ""
+"Sorligt tema\n"
+"\n"
+"Bergsmusik\n"
+"\n"
+"Bergstempelmusik\n"
+"\n"
+"Specialboss"
 
 #: ../dat/credits/end_credits.lua:363
 msgid "Sounds"
@@ -2090,6 +2143,23 @@ msgid ""
 "\n"
 "Programming lead, Game engine, Map code"
 msgstr ""
+"Stridskod, menykod\n"
+"\n"
+"Speleditor\n"
+"\n"
+"Spelmotor\n"
+"\n"
+"Kartkod\n"
+"\n"
+"Olika spellägen, skriptande\n"
+"\n"
+"Videomotor\n"
+"\n"
+"Videomotor, Ljudmotor\n"
+"\n"
+"Spelmotor\n"
+"\n"
+"Huvudprogrammerare, spelmotor, kartkod"
 
 #: ../dat/credits/end_credits.lua:623 ../dat/credits/end_credits.lua:663
 msgid "Allacrost Programming Team"
@@ -2115,6 +2185,23 @@ msgid ""
 "\n"
 "Video engine"
 msgstr ""
+"Bootkod, Stridskod\n"
+"\n"
+"Speleditor\n"
+"\n"
+"Ljudmotor\n"
+"\n"
+"Annan kod, Mac OS X underhåll\n"
+"\n"
+"Spelmotor, Spellägen, Windows byggskript\n"
+"\n"
+"Stridskod\n"
+"\n"
+"Karteditor\n"
+"\n"
+"Internationalization\n"
+"\n"
+"Videomotor"
 
 #: ../dat/credits/end_credits.lua:680
 msgid ""
@@ -2130,6 +2217,17 @@ msgid ""
 "\n"
 "Various code"
 msgstr ""
+"Videomotor, Spelmotor\n"
+"\n"
+"Videomotor\n"
+"\n"
+"Videomotor\n"
+"\n"
+"Skriptmotor\n"
+"\n"
+"Blandad kod\n"
+"\n"
+"Blandad kod"
 
 #: ../dat/credits/end_credits.lua:700
 msgid "Allacrost Artwork Team (2004-2011)"
@@ -2147,6 +2245,15 @@ msgid ""
 "\n"
 "Map tiles, map sprites, Inventory icons, Allacrost artwork coordination"
 msgstr ""
+"Kartbilder, Stridsbilder, Karaktärsporträtt, Platsgrafik\n"
+"\n"
+"Stridsbilder, gammalt Allacrost GUI grafik\n"
+"\n"
+"Kartbilder\n"
+"\n"
+"Allacrost hemsidegrafik, GUIgrafik, Spellogo\n"
+"\n"
+"Kartgrafik, Inventarieikoner, Allacrost grafik koordinering"
 
 #: ../dat/credits/end_credits.lua:736 ../dat/credits/end_credits.lua:776
 #: ../dat/credits/end_credits.lua:813
@@ -2173,6 +2280,23 @@ msgid ""
 "\n"
 "Map sprites"
 msgstr ""
+"Konceptkonst\n"
+"\n"
+"Inventarieikoner\n"
+"\n"
+"Kartanimationer\n"
+"\n"
+"Konceptkonst\n"
+"\n"
+"Inventarieikoner\n"
+"\n"
+"Konceptkonst, Kartbilder\n"
+"\n"
+"Kartbilder\n"
+"\n"
+"Kartbilder\n"
+"\n"
+"Kartbilder"
 
 #: ../dat/credits/end_credits.lua:793
 msgid ""
@@ -2188,6 +2312,17 @@ msgid ""
 "\n"
 "Map tiles"
 msgstr ""
+"Kartanimationer\n"
+"\n"
+"Kartanimationer, Kartbilder\n"
+"\n"
+"Konceptkonst, Allacrost titelbild\n"
+"\n"
+"Konceptkonst, Kartbilder\n"
+"\n"
+"Konceptkonst, Kartbilder\n"
+"\n"
+"Kartbilder"
 
 #: ../dat/credits/end_credits.lua:830
 msgid ""
@@ -2203,6 +2338,17 @@ msgid ""
 "\n"
 "Map tiles, Battle sprites"
 msgstr ""
+"Blandad konst\n"
+"\n"
+"Kartbilder\n"
+"\n"
+"Fiendebilder\n"
+"\n"
+"Kartbilder\n"
+"\n"
+"Kartbilder, Inventarieikoner\n"
+"\n"
+"Kartbilder, Stridsbilder"
 
 #: ../dat/credits/end_credits.lua:850
 msgid "Allacrost Music and Sound Team (2004-2011)"
@@ -2224,6 +2370,19 @@ msgid ""
 "\n"
 "Soundtrack composer"
 msgstr ""
+"Ljudkompositör\n"
+"\n"
+"Ljudspårskompositör\n"
+"\n"
+"Musik- och ljudkoordinator, Ljudspårskompositör\n"
+"\n"
+"Ljudkompositör\n"
+"\n"
+"Ljudkompositör\n"
+"\n"
+"Ljudmixer\n"
+"\n"
+"Ljudspårskompositör"
 
 #: ../dat/credits/end_credits.lua:888
 msgid "Allacrost Special Thanks"
@@ -5993,45 +6152,45 @@ msgstr "En lång sköld av stål med en mäktig fenix ingraverat framtill."
 
 #: ../dat/objects/arm_armor.lua:85
 msgid "Trident Shield"
-msgstr ""
+msgstr "Treuddssköld"
 
 #: ../dat/objects/arm_armor.lua:86
 msgid ""
 "A large shield with enough fortitude to withstand waves of powerful attacks."
-msgstr ""
+msgstr "En stor sköld kraftig nog att hålla för många attackvågor."
 
 #: ../dat/objects/head_armor.lua:41
 msgid "Butterfly hair tong"
-msgstr ""
+msgstr "Hårfjärilstång"
 
 #: ../dat/objects/head_armor.lua:42
 msgid "An old and finely done piece of jewelery."
-msgstr ""
+msgstr "Ett gammalt och delikat smycke."
 
 #: ../dat/objects/head_armor.lua:52
 msgid "Old Helmet"
-msgstr ""
+msgstr "Gammal hjälm"
 
 #: ../dat/objects/head_armor.lua:53
 msgid "A battle worn helmet, still reliable for head protection."
-msgstr ""
+msgstr "En sliten hjälm, fortfarande tillräckligt hel för att skydda huvudet."
 
 #: ../dat/objects/head_armor.lua:63
 msgid "Cobalt Helm"
-msgstr ""
+msgstr "Kobolthjälm"
 
 #: ../dat/objects/head_armor.lua:64
 msgid "A small helmet composed of a secret cobalt based alloy."
-msgstr ""
+msgstr "En liten hjälm tillverkad av en hemlig koboltlegering."
 
 #: ../dat/objects/head_armor.lua:74
 msgid "Crested Helmet"
-msgstr ""
+msgstr "Korintisk hjälm"
 
 #: ../dat/objects/head_armor.lua:75
 msgid ""
 "A sturdy helmet with a hinged face guard offering additional protection."
-msgstr ""
+msgstr "En stadig hjälm med en visir för extra skydd"
 
 #: ../dat/objects/items.lua:75
 msgid "Minor Healing Potion"
@@ -6067,929 +6226,954 @@ msgstr "Återställer en väldigt stor mängd hälsopoäng."
 
 #: ../dat/objects/items.lua:188
 msgid "Small Moon Juice Potion"
-msgstr ""
+msgstr "Liten månjuicedryck"
 
 #: ../dat/objects/items.lua:189
 msgid "Restores a small amount of skill points to an ally."
-msgstr ""
+msgstr "Återställer en liten mängd färdighetspoäng."
 
 #: ../dat/objects/items.lua:207
 msgid "Medium Moon Juice Potion"
-msgstr ""
+msgstr "Medelstor månjuicedryck"
 
 #: ../dat/objects/items.lua:208
 msgid "Restores a reasonable amount of skill points to an ally."
-msgstr ""
+msgstr "Återställer en medelstor mängd färdighetspoäng."
 
 #: ../dat/objects/items.lua:226
 msgid "Moon Juice Potion"
-msgstr ""
+msgstr "Månjuicedryck"
 
 #: ../dat/objects/items.lua:227
 msgid "Restores a large amount of skill points to an ally."
-msgstr ""
+msgstr "Återställer en stor mängd färdighetspoäng."
 
 #: ../dat/objects/items.lua:245
 msgid "Mega Moon Juice Potion"
-msgstr ""
+msgstr "Enorm månjuicedryck"
 
 #: ../dat/objects/items.lua:246
 msgid "Restores a very high amount of skill points to an ally."
-msgstr ""
+msgstr "Återställer en väldigt stor mängd färdighetspoäng."
 
 #: ../dat/objects/items.lua:264
 msgid "Lotus Petal"
-msgstr ""
+msgstr "Lotuskronblad"
 
 #: ../dat/objects/items.lua:265
 msgid "Cures moderate poisons from an ally"
-msgstr ""
+msgstr "Botas medelstarka gifter."
 
 #: ../dat/objects/items.lua:316
 msgid "Candy"
-msgstr ""
+msgstr "Godis"
 
 #: ../dat/objects/items.lua:317
 msgid "Makes an ally's health regenerate moderately."
-msgstr ""
+msgstr "Får någon att regenerera medelsnabbt."
 
 #: ../dat/objects/items.lua:384
 msgid "Minor Elixir"
-msgstr ""
+msgstr "Litet elexir"
 
 #: ../dat/objects/items.lua:385
 msgid ""
 "Revive a character, or improve the character status when he/she is alive by "
 "a limited degree."
 msgstr ""
+"Återuppliva en person, eller förbättra en levande personens status litegrann."
 
 #: ../dat/objects/items.lua:420
 msgid "Elixir"
-msgstr ""
+msgstr "Elixir"
 
 #: ../dat/objects/items.lua:421
 msgid ""
 "Revive a character with half of its Hit Points, or reasonably improve the "
 "character status when he/she is alive."
 msgstr ""
+"Återuppliva en person med hälften av dess hälsa återställd, eller förbättra "
+"en levande persons status."
 
 #: ../dat/objects/items.lua:453
 msgid "Periwinkle Potion"
-msgstr ""
+msgstr "Ljusblå dryck"
 
 #: ../dat/objects/items.lua:454
 msgid ""
 "Gives a reasonable boost in strength to an ally for a large amount of time."
 msgstr ""
+"Ger en person en rimlig förbättring av dess styrka under en längre tid."
 
 #: ../dat/objects/items.lua:488
 msgid "Haste Potion"
-msgstr ""
+msgstr "Hastighetsdryck"
 
 #: ../dat/objects/items.lua:489
 msgid ""
 "Gives a reasonable boost in agility to an ally for a small amount of time."
 msgstr ""
+"Ger en person en rimlig förbättring av dess smidighet under en liten tid."
 
 #: ../dat/objects/items.lua:523
 msgid "Poison Potion"
-msgstr ""
+msgstr "Giftdryck"
 
 #: ../dat/objects/items.lua:524
 msgid "Poisons an enemy a for small amount of time."
-msgstr ""
+msgstr "Förgiftar en fiende en stund."
 
 #: ../dat/objects/items.lua:557
 msgid "Copper Ore"
-msgstr ""
+msgstr "Kopparmalm"
 
 #: ../dat/objects/items.lua:558
 msgid "A small amount of copper ore."
-msgstr ""
+msgstr "Lite kopparmalm."
 
 #: ../dat/objects/items.lua:564
 msgid "Iron Ore"
-msgstr ""
+msgstr "Järnmalm"
 
 #: ../dat/objects/items.lua:565
 msgid "A small amount of iron ore."
-msgstr ""
+msgstr "Lite järnmalm."
 
 #: ../dat/objects/items.lua:571
 msgid "Titanium Ore"
-msgstr ""
+msgstr "Titanmalm"
 
 #: ../dat/objects/items.lua:572
 msgid "A small amount of Titanium ore."
-msgstr ""
+msgstr "Lite titanmalm."
 
 #: ../dat/objects/items.lua:578
 msgid "Anthozium Ore"
-msgstr ""
+msgstr "Anthoziummalm"
 
 #: ../dat/objects/items.lua:579
 msgid "A small amount of Anthozium ore."
-msgstr ""
+msgstr "Lite anthoziummalm."
 
 #: ../dat/objects/items.lua:585
 msgid "Auridium Ore"
-msgstr ""
+msgstr "Auridiummalm"
 
 #: ../dat/objects/items.lua:586
 msgid "A small amount of Auridium ore."
-msgstr ""
+msgstr "Lite auridiummalm."
 
 #: ../dat/objects/items.lua:592
 msgid "Borium Ore"
-msgstr ""
+msgstr "Boriummalm"
 
 #: ../dat/objects/items.lua:593
 msgid "A small amount of Borium ore."
-msgstr ""
+msgstr "Lite boriummalm"
 
 #: ../dat/objects/items.lua:599
 msgid "Evanium Ore"
-msgstr ""
+msgstr "Evaniummalm"
 
 #: ../dat/objects/items.lua:600
 msgid "A small amount of Evanium ore."
-msgstr ""
+msgstr "Lite evaniummalm."
 
 #: ../dat/objects/items.lua:606
 msgid "Phoenix Feather"
-msgstr ""
+msgstr "Fenixfjäder"
 
 #: ../dat/objects/items.lua:607
 msgid ""
 "A genuine and perfect feather from the great Fire Bird. It is known to bring "
 "life to inanimated items."
 msgstr ""
+"En äkta och perfekt fjäder från den stora eldfågeln. Den ger liv åt livlösa "
+"föremål."
 
 #: ../dat/objects/items.lua:659
 msgid "Escape Smoke"
-msgstr ""
+msgstr "Flyktrök"
 
 #: ../dat/objects/items.lua:660
 msgid ""
 "A ninja potion bursting out a damp mist when crashed on the ground. Used to "
 "hopefully escape from standard opponents."
 msgstr ""
+"En omgång ninjarök som ger ifrån sig en fuktig dimma när en krossas mot "
+"marken. Användbar för att fly från vanliga fiender."
 
 #: ../dat/objects/items.lua:703
 msgid "Pen"
-msgstr ""
+msgstr "Penna"
 
 #: ../dat/objects/items.lua:704
 msgid "Georges's pen, presumably used to write poetry."
-msgstr ""
+msgstr "Georges penna, tydligen används den till att skriva poesi."
 
 #: ../dat/objects/items.lua:711
 msgid "Barley Meal"
-msgstr ""
+msgstr "Kornmjöl"
 
 #: ../dat/objects/items.lua:712
 msgid "Basic yet good and cheap flour."
-msgstr ""
+msgstr "Vanligt men gott och billigt mjöl."
 
 #: ../dat/objects/items.lua:719
 msgid "Wolfpain Necklace"
-msgstr ""
+msgstr "Vargsmärtehalsband"
 
 #: ../dat/objects/items.lua:720
 msgid "A strange necklace with unknown powers."
-msgstr ""
+msgstr "Ett konstigt halsband med okända krafter."
 
 #: ../dat/objects/leg_armor.lua:41
 msgid "Leather boots"
-msgstr ""
+msgstr "Läderstövlar"
 
 #: ../dat/objects/leg_armor.lua:42
 msgid "Simple but fairly good leather boots."
-msgstr ""
+msgstr "Enkla och ganska gedigna stövlar i läder."
 
 #: ../dat/objects/leg_armor.lua:51
 msgid "Standard Greaves"
-msgstr ""
+msgstr "Standardbenskenor"
 
 #: ../dat/objects/leg_armor.lua:52
 msgid ""
 "Standard equipment. Light metal alloy protects the legs while minimizing the "
 "negative impact on movement."
 msgstr ""
+"Del av standardutrustningen. Tillverkade av en lättmetallegering som hindrar "
+"förflyttning minimalt."
 
 #: ../dat/objects/leg_armor.lua:62
 msgid "Tempered Greaves"
-msgstr ""
+msgstr "Härdade benskenor"
 
 #: ../dat/objects/leg_armor.lua:63
 msgid ""
 "Standard greaves that have undergone an additional tempering process, "
 "increasing their durability and strength."
 msgstr ""
+"Ett par standardbenskenor som har blivit härdade ytterligare, vilket ökar "
+"deras slittålighet och styrka."
 
 #: ../dat/objects/spirits.lua:23
 msgid "Ardoris"
-msgstr ""
+msgstr "Ardoris"
 
 #: ../dat/objects/spirits.lua:24
 msgid "An enchanting child of Fire."
-msgstr ""
+msgstr "Ett förhäxander eldbarn."
 
 #: ../dat/objects/spirits.lua:55
 msgid "Undine"
-msgstr ""
+msgstr "Vattennymf"
 
 #: ../dat/objects/spirits.lua:56
 msgid "A mesmerizing spirit of living water."
-msgstr ""
+msgstr "En trollbindande ande av levande vatten."
 
 #: ../dat/objects/spirits.lua:87
 msgid "Sylphid"
-msgstr ""
+msgstr "Sylfid"
 
 #: ../dat/objects/spirits.lua:88
 msgid "A very rare spirit of Wind, usually neither tamable nor catchable."
 msgstr ""
+"En väldigt ovanlig vindelementar, vanligtvis varken fång eller tämjbar."
 
 #: ../dat/objects/spirits.lua:119
 msgid "Dryad"
-msgstr ""
+msgstr "Dryad"
 
 #: ../dat/objects/spirits.lua:120
 msgid "A fragile spirit, child of Mother Nature."
-msgstr ""
+msgstr "En ömtålig ande, moder jords barn."
 
 #: ../dat/objects/spirits.lua:151
 msgid "Fairy"
-msgstr ""
+msgstr "Fe"
 
 #: ../dat/objects/spirits.lua:152
 msgid "Blinding as the sun, she brings life even where Death belongs."
-msgstr ""
+msgstr "Bländande som solen, skapar hon liv även där döden bor."
 
 #: ../dat/objects/spirits.lua:183
 msgid "Demona"
-msgstr ""
+msgstr "Demona"
 
 #: ../dat/objects/spirits.lua:184
 msgid ""
 "Spirit of the Dark. It can't be possessed: it only chose to be possessed, "
 "waiting for its hour..."
 msgstr ""
+"Mörkrets ande. Den kan inte besättas, den väljer att bli besatt, väntandes "
+"på rätt tillfälle..."
 
 #: ../dat/objects/spirits.lua:215
 msgid "Oblivion"
-msgstr ""
+msgstr "Glömska"
 
 #: ../dat/objects/spirits.lua:216
 msgid ""
 "Touched neither by the time nor space, this spirit is dwelling in pure "
 "energy."
-msgstr ""
+msgstr "Påverkad av varken tid eller rum, är denna ande av ren energi."
 
 #: ../dat/objects/torso_armor.lua:41
 msgid "Rookie Tunic"
-msgstr ""
+msgstr "Nybörjartunika"
 
 #: ../dat/objects/torso_armor.lua:42
 msgid ""
 "A light tunic worn by new soldier recruits. This one belonged to Bronann's "
 "father..."
 msgstr ""
+"En lätt tunika som bärs av nya soldater. Den här tillhörde Bronanns pappa..."
 
 #: ../dat/objects/torso_armor.lua:52
 msgid "Old Willow Dress"
-msgstr ""
+msgstr "Gammal sälgdräkt"
 
 #: ../dat/objects/torso_armor.lua:53
 msgid "An old willow dress that Kalya likes to wear."
-msgstr ""
+msgstr "En gammal sälgdräkt som Kalya tyckte om att ha på sig."
 
 #: ../dat/objects/torso_armor.lua:63
 msgid "Tunic"
-msgstr ""
+msgstr "Tunika"
 
 #: ../dat/objects/torso_armor.lua:64
 msgid "An old light soldier tunic."
-msgstr ""
+msgstr "En gammal soldattunika."
 
 #: ../dat/objects/torso_armor.lua:73
 msgid "Leather cloak"
-msgstr ""
+msgstr "Läderkappa"
 
 #: ../dat/objects/torso_armor.lua:74
 msgid "A cloak worn by apprentices."
-msgstr ""
+msgstr "En kappa som bärs av lärlingar."
 
 #: ../dat/objects/torso_armor.lua:83
 msgid "Leather Chain Mail"
-msgstr ""
+msgstr "Läderförstärkt ringbrynja"
 
 #: ../dat/objects/torso_armor.lua:84
 msgid "A light chain mail woven into a tough leather cuirass."
-msgstr ""
+msgstr "En lätt ringbrynja monterat på ett läderharnesk."
 
 #: ../dat/objects/torso_armor.lua:94
 msgid "Karlate Breastplate"
-msgstr ""
+msgstr "Karlatesk bröstharnesk"
 
 #: ../dat/objects/torso_armor.lua:95
 msgid ""
 "Standard Karlate issued equipment. Effectively protects the torso from most "
 "types of attack."
 msgstr ""
+"Standardutrustning från Karlate. Skyddar effektivt bålen mot de flesta "
+"attacker."
 
 #: ../dat/objects/torso_armor.lua:105
 msgid "Shouldered Breastplate"
-msgstr ""
+msgstr "Bröstharnesk med axelskydd"
 
 #: ../dat/objects/torso_armor.lua:106
 msgid ""
 "A breastplate with slightly thicker armor than is commonly found and "
 "additional shoulder guards."
-msgstr ""
+msgstr "Ett lite kraftigare bröstharnesk med extra axelplåtar."
 
 #: ../dat/objects/weapons.lua:43
 msgid "Wooden Sword"
-msgstr ""
+msgstr "Träsvärd"
 
 #: ../dat/objects/weapons.lua:44
 msgid "A sword made of wood with a steel hilt, very good for practising."
-msgstr ""
+msgstr "Ett träsvärd med ett hjalt av stål. Bra att öva med."
 
 #: ../dat/objects/weapons.lua:77
 msgid "Reinforced wooden Sword"
-msgstr ""
+msgstr "Förstärkt träsvärd"
 
 #: ../dat/objects/weapons.lua:78
 msgid "A sword made of wood with a steel hilt, reinforced magically."
-msgstr ""
+msgstr "Ett träsvärd med stålhjalt, magiskt förstärkt."
 
 #: ../dat/objects/weapons.lua:117
 msgid "Perfect wooden Sword"
-msgstr ""
+msgstr "Perfekt träsvärd"
 
 #: ../dat/objects/weapons.lua:118
 msgid ""
 "A sword made of wood with a steel hilt, surrounded by a great magical force."
-msgstr ""
+msgstr "Ett träsvärd med stålhjalt, omgärdat av en enorm magisk kraft."
 
 #: ../dat/objects/weapons.lua:160
 msgid "Iron Sword"
-msgstr ""
+msgstr "Järnsvärd"
 
 #: ../dat/objects/weapons.lua:161
 msgid ""
 "A sturdy but somewhat dull sword whose blade was forged from a single block "
 "of solid iron."
 msgstr ""
+"Ett stadigt med oslipat svärd vars blad var smitt av ett enda block med järn."
 
 #: ../dat/objects/weapons.lua:193
 msgid "Soldier Sword"
-msgstr ""
+msgstr "Soldatsvärd"
 
 #: ../dat/objects/weapons.lua:194
 msgid ""
 "Standard soldier sword. A light weight iron sword suitable for most "
 "skirmishes."
 msgstr ""
+"Standard soldatsvärd. Ett lätt järnsvärd som passar de flesta tillfällena."
 
 #: ../dat/objects/weapons.lua:233
 msgid "Knight's Blade"
-msgstr ""
+msgstr "Riddarsvärd"
 
 #: ../dat/objects/weapons.lua:234
 msgid "A weapon bestowed to seasoned veterans of the knighthood."
-msgstr ""
+msgstr "Ett vapen som ges till erfarna veteraner av riddarordern."
 
 #: ../dat/objects/weapons.lua:273
 msgid "Paladin's Sword"
-msgstr ""
+msgstr "Paladinens svärd"
 
 #: ../dat/objects/weapons.lua:274
 msgid "A mythical weapon blessed with a magical fire."
-msgstr ""
+msgstr "Ett mytiskt vapen som brinner med en helig eld."
 
 #: ../dat/objects/weapons.lua:321
 msgid "Omni Sword"
-msgstr ""
+msgstr "Allsvärd"
 
 #: ../dat/objects/weapons.lua:391
 msgid "Arbalest"
-msgstr ""
+msgstr "Armborst"
 
 #: ../dat/objects/weapons.lua:392
 msgid "A standard wooden arbalest."
-msgstr ""
+msgstr "Ett standard träarmborst."
 
 #: ../dat/objects/weapons.lua:424
 msgid "Noble Arbalest"
-msgstr ""
+msgstr "Nobelt armborst"
 
 #: ../dat/objects/weapons.lua:425
 msgid "An arbalest made out of fine noble ash tree wood."
-msgstr ""
+msgstr "Ett armborst tillverkat från finaste ask."
 
 #: ../dat/objects/weapons.lua:464
 msgid "Arbalest of Force"
-msgstr ""
+msgstr "Kraftens armborst"
 
 #: ../dat/objects/weapons.lua:465
 msgid "An arbalest strengthened with magical ore."
-msgstr ""
+msgstr "Ett armborst som är förstärkt med magi."
 
 #: ../dat/skills/barehands.lua:28
 msgid "Punch"
-msgstr ""
+msgstr "Slag"
 
 #: ../dat/skills/barehands.lua:29
 msgid "A simple punch. Better than nothing..."
-msgstr ""
+msgstr "Ett enkelt slag. Bättre än ingenting..."
 
 #: ../dat/skills/barehands.lua:56
 msgid "Throw stone"
-msgstr ""
+msgstr "Kasta sten"
 
 #: ../dat/skills/barehands.lua:57
 msgid "Kalya's attack when she's got no weapon."
-msgstr ""
+msgstr "Kaylas attack om hon inte har något vapen."
 
 #: ../dat/skills/barehands.lua:83
 msgid "Tornado Punch"
-msgstr ""
+msgstr "Virvelvindsslag"
 
 #: ../dat/skills/barehands.lua:84
 msgid "Spin knuckles attack doing Wind damages."
-msgstr ""
+msgstr "Roterande knogattack som gör vindskada."
 
 #: ../dat/skills/magic.lua:46
 msgid "Shield"
-msgstr ""
+msgstr "Sköld"
 
 #: ../dat/skills/magic.lua:47
 msgid "Increases an ally's physical defense by a slight degree."
-msgstr ""
+msgstr "Öka en persons fysiska skydd lite."
 
 #: ../dat/skills/magic.lua:96
 msgid "First Aid"
-msgstr ""
+msgstr "Första hjälpen"
 
 #: ../dat/skills/magic.lua:97
 msgid ""
 "Performs basic medical assistance, healing the target by a minor degree."
-msgstr ""
+msgstr "Genomför grundläggande livräddning, återställer lite hälsa."
 
 #: ../dat/skills/magic.lua:136
 msgid "Leader Call"
-msgstr ""
+msgstr "Ledartjut"
 
 #: ../dat/skills/magic.lua:137
 msgid "Temporarily increases the strength of all allies."
-msgstr ""
+msgstr "Ökar temporärt styrkan på alla i gruppen."
 
 #: ../dat/skills/magic.lua:163
 msgid "Holy Veil"
-msgstr ""
+msgstr "Helig slöja"
 
 #: ../dat/skills/magic.lua:164
 msgid "Increases the attack and magical attack of all allies."
-msgstr ""
+msgstr "Ökar attackstyrkan och den magiska förmågan hos alla allierade."
 
 #: ../dat/skills/magic.lua:195
 msgid "Ancient Strength"
-msgstr ""
+msgstr "Uråldrig styrka"
 
 #: ../dat/skills/magic.lua:196
 msgid "Increases every elemental resistance of all allies."
-msgstr ""
+msgstr "Ökar alla elementarresistenser hos gruppen."
 
 #: ../dat/skills/magic.lua:220
 msgid "Divine Wish"
-msgstr ""
+msgstr "Gudomlig önskan"
 
 #: ../dat/skills/magic.lua:221 ../dat/skills/special.lua:207
 msgid "Revives an ally, restoring all his/her HP and SP."
-msgstr ""
+msgstr "Återupplivar en person samt återställer alla HP och SP."
 
 #: ../dat/skills/magic.lua:240
 msgid "Magical Poison"
-msgstr ""
+msgstr "Magiskt gift"
 
 #: ../dat/skills/magic.lua:241
 msgid "Makes an enemy lose its SP little by little."
-msgstr ""
+msgstr "Får en fiende att långsamt förlora sina SP."
 
 #: ../dat/skills/magic.lua:265
 msgid "Steal Song"
-msgstr ""
+msgstr "Stöldsång"
 
 #: ../dat/skills/magic.lua:266
 msgid "Steals positive effects from an enemy."
-msgstr ""
+msgstr "Stjäl positiva effekter från fienden."
 
 #: ../dat/skills/magic.lua:282
 msgid "Terrify"
-msgstr ""
+msgstr "Skräckslå"
 
 #: ../dat/skills/magic.lua:283
 msgid "Makes a normal enemy potentially leave."
-msgstr ""
+msgstr "Får en vanlig motståndare att fly."
 
 #: ../dat/skills/magic.lua:299
 msgid "Decay Dirge"
-msgstr ""
+msgstr "Förmultnande sorgesång"
 
 #: ../dat/skills/magic.lua:300
 msgid "Steals both physical and magical defense of an ally."
-msgstr ""
+msgstr "Stjäl både fysiskt och magiskt skydd från en allierad."
 
 #: ../dat/skills/magic.lua:316
 msgid "War God"
-msgstr ""
+msgstr "Stridsgud"
 
 #: ../dat/skills/magic.lua:317
 msgid ""
 "Steals both the physical and magical defense of all enemies and gives it to "
 "the party."
 msgstr ""
+"Stjäl fysiskt och magiskt skydd från alla fiender och ger det till gruppen."
 
 #: ../dat/skills/magic.lua:353
 msgid "Fire burst"
-msgstr ""
+msgstr "Eldskur"
 
 #: ../dat/skills/magic.lua:354
 msgid "Creates a small fire that burns an enemy."
-msgstr ""
+msgstr "Skapar en liten eld som bränner en fiende."
 
 #: ../dat/skills/magic.lua:379
 msgid "Fire Circle"
-msgstr ""
+msgstr "Eldcirkel"
 
 #: ../dat/skills/magic.lua:380
 msgid "Increases the Fire elemental defense on a character."
-msgstr ""
+msgstr "Ökar en persons försvar mot eldbaserade attacker."
 
 #: ../dat/skills/magic.lua:395
 msgid "Lava"
-msgstr ""
+msgstr "Lava"
 
 #: ../dat/skills/magic.lua:396
 msgid "Magical attack combining Earth and Fire damages."
-msgstr ""
+msgstr "Magisk attack som kombinerar jord- och eldskada."
 
 #: ../dat/skills/magic.lua:411
 msgid "Fog"
-msgstr ""
+msgstr "Dimma"
 
 #: ../dat/skills/magic.lua:412
 msgid "Increases the evade rate of an ally."
-msgstr ""
+msgstr "Ökar en persons chans att undvika."
 
 #: ../dat/skills/magic.lua:427
 msgid "Fire Breath"
-msgstr ""
+msgstr "Eldandedräkt"
 
 #: ../dat/skills/magic.lua:428
 msgid "Magical attack combining Air and Fire damages."
-msgstr ""
+msgstr "Magisk attack som kombinerat skadan från eld och luft."
 
 #: ../dat/skills/magic.lua:443
 msgid "Focus"
-msgstr ""
+msgstr "Fokus"
 
 #: ../dat/skills/magic.lua:444 ../dat/skills/magic.lua:595
 msgid "Increases the Magical Defence of an ally."
-msgstr ""
+msgstr "Ökar en persons magiska försvar."
 
 #: ../dat/skills/magic.lua:459
 msgid "Holy Fire"
-msgstr ""
+msgstr "Helig eld"
 
 #: ../dat/skills/magic.lua:460
 msgid "Magical attack combining Life and Fire damages."
-msgstr ""
+msgstr "Magisk attack som kombinerar livs- och eldskada."
 
 #: ../dat/skills/magic.lua:476
 msgid "Revives a fallen ally."
-msgstr ""
+msgstr "Återuppliva en fallen kamrat."
 
 #: ../dat/skills/magic.lua:491
 msgid "Petrify"
-msgstr ""
+msgstr "Förstena"
 
 #: ../dat/skills/magic.lua:492
 msgid "Turns an enemy into stone."
-msgstr ""
+msgstr "Förvandlar en fiende till sten."
 
 #: ../dat/skills/magic.lua:507
 msgid "Rage"
-msgstr ""
+msgstr "Ilska"
 
 #: ../dat/skills/magic.lua:508
 msgid ""
 "Enrages an ally, increasing its Attack and Speed, but reducing its Defence."
 msgstr ""
+"Gör en fiende förbannad, vilket ökar dess attack men minskar dess försvar."
 
 #: ../dat/skills/magic.lua:523
 msgid "Rock Fall"
-msgstr ""
+msgstr "Fallande sten"
 
 #: ../dat/skills/magic.lua:524
 msgid "Rocks fall on an enemy."
-msgstr ""
+msgstr "Stenar faller på en fiende."
 
 #: ../dat/skills/magic.lua:549
 msgid "Earth Circle"
-msgstr ""
+msgstr "Jordcirkel"
 
 #: ../dat/skills/magic.lua:550
 msgid "Increases the Earth elemental defense on a character."
-msgstr ""
+msgstr "Ökar en persons försvar mot jordbaserade attacker."
 
 #: ../dat/skills/magic.lua:578
 msgid "Entangle"
-msgstr ""
+msgstr "Snärja"
 
 #: ../dat/skills/magic.lua:579
 msgid "Decreases the evade rate of an enemy."
-msgstr ""
+msgstr "Minskar risken att en fiender undviker en attack."
 
 #: ../dat/skills/magic.lua:594
 msgid "Magical Armor"
-msgstr ""
+msgstr "Magisk rustning"
 
 #: ../dat/skills/magic.lua:610
 msgid "Haste"
-msgstr ""
+msgstr "Hast"
 
 #: ../dat/skills/magic.lua:611
 msgid "Increases the Battle Speed of an ally."
-msgstr ""
+msgstr "Ökar stridshastigheten hos en person."
 
 #: ../dat/skills/magic.lua:626
 msgid "Moon"
-msgstr ""
+msgstr "Måne"
 
 #: ../dat/skills/magic.lua:627
 msgid "Makes an enemy attack its own allies."
-msgstr ""
+msgstr "Får en fiende att attackera sina allierade."
 
 #: ../dat/skills/magic.lua:642
 msgid "Cure"
-msgstr ""
+msgstr "Bota"
 
 #: ../dat/skills/magic.lua:643
 msgid "Cures the poison from an ally."
-msgstr ""
+msgstr "Botar förgiftning hos en allierad."
 
 #: ../dat/skills/magic.lua:658
 msgid "Drain"
-msgstr ""
+msgstr "Tappning"
 
 #: ../dat/skills/magic.lua:659
 msgid "Steals HP from an enemy."
-msgstr ""
+msgstr "Stjäler HP från en fiende."
 
 #: ../dat/skills/magic.lua:674
 msgid "Curse"
-msgstr ""
+msgstr "Förbannelse"
 
 #: ../dat/skills/magic.lua:675
 msgid "Severely decreases several random stats of an enemy."
-msgstr ""
+msgstr "Minskar kraftig en slumpmässig egenskap hos en fiende."
 
 #: ../dat/skills/magic.lua:690
 msgid "Meteor"
-msgstr ""
+msgstr "Meteroit"
 
 #: ../dat/skills/magic.lua:691
 msgid "High Earth damages on all foes."
-msgstr ""
+msgstr "Gör mycket jordskada på alla fiender."
 
 #: ../dat/skills/magic.lua:706
 msgid "Wave"
-msgstr ""
+msgstr "Våg"
 
 #: ../dat/skills/magic.lua:707
 msgid "Makes waves fall on an enemy."
-msgstr ""
+msgstr "Får vågor att slå emot en fiende."
 
 #: ../dat/skills/magic.lua:732
 msgid "Water Circle"
-msgstr ""
+msgstr "Vattencirkel"
 
 #: ../dat/skills/magic.lua:733
 msgid "Increases the Water elemental defense on a character."
-msgstr ""
+msgstr "Ökar en persons försvar mot vattenbaserade attacker."
 
 #: ../dat/skills/magic.lua:757
 msgid "Whirlwind"
-msgstr ""
+msgstr "Virvelvind"
 
 #: ../dat/skills/magic.lua:758
 msgid "Magical attack combining Water and Air damages."
-msgstr ""
+msgstr "Magisk attack som kombinerar skadan från vatten och luft."
 
 #: ../dat/skills/magic.lua:773
 msgid "Slow"
-msgstr ""
+msgstr "Sakta"
 
 #: ../dat/skills/magic.lua:774
 msgid "Decreases the battle speed of an enemy."
-msgstr ""
+msgstr "Minskar en fiendes stridshastighet."
 
 #: ../dat/skills/magic.lua:789
 msgid "Blindness"
-msgstr ""
+msgstr "Blindhet"
 
 #: ../dat/skills/magic.lua:790
 msgid "Prevents an enemy from succeeding any physical attacks."
-msgstr ""
+msgstr "Förhindrar en fiende från att träffa med några fysiska attacker."
 
 #: ../dat/skills/magic.lua:805
 msgid "Heal"
-msgstr ""
+msgstr "Hela"
 
 #: ../dat/skills/magic.lua:806
 msgid "Restores Health of an ally."
-msgstr ""
+msgstr "Återställer en persons hälsa."
 
 #: ../dat/skills/magic.lua:822
 msgid "Poison"
-msgstr ""
+msgstr "Gift"
 
 #: ../dat/skills/magic.lua:823
 msgid "Inflicts poison to an enemy."
-msgstr ""
+msgstr "Förgiftar en fiende."
 
 #: ../dat/skills/magic.lua:844
 msgid "Stun"
-msgstr ""
+msgstr "Chocka"
 
 #: ../dat/skills/magic.lua:845
 msgid "Stuns an enemy."
-msgstr ""
+msgstr "Chockar en fiende."
 
 #: ../dat/skills/magic.lua:863
 msgid "Tsunami"
-msgstr ""
+msgstr "Tsunami"
 
 #: ../dat/skills/magic.lua:864
 msgid "High Water damages on all foes."
-msgstr ""
+msgstr "Orsakar ordentligt med vattenskada på alla fiender."
 
 #: ../dat/skills/magic.lua:879
 msgid "Healing Rain"
-msgstr ""
+msgstr "Helande regn"
 
 #: ../dat/skills/magic.lua:880
 msgid "Cures health of all allies."
-msgstr ""
+msgstr "Återställer hälsa hos gruppen."
 
 #: ../dat/skills/magic.lua:895
 msgid "Wind"
-msgstr ""
+msgstr "Vind"
 
 #: ../dat/skills/magic.lua:896
 msgid "The wind slashes an enemy."
-msgstr ""
+msgstr "Vinden skär en fiende."
 
 #: ../dat/skills/magic.lua:921
 msgid "Wind Circle"
-msgstr ""
+msgstr "Vindcirkel"
 
 #: ../dat/skills/magic.lua:922
 msgid "Increases the Air elemental defense on a character."
-msgstr ""
+msgstr "Ökar en persons försvar mot vindbaserade attacker."
 
 #: ../dat/skills/magic.lua:946
 msgid "Lightning"
-msgstr ""
+msgstr "Blixtar"
 
 #: ../dat/skills/magic.lua:947
 msgid "Magical attack combining Life and Air damages."
-msgstr ""
+msgstr "Magisk attack som kombinerar skadan från liv och luft."
 
 #: ../dat/skills/magic.lua:962
 msgid "Regen"
-msgstr ""
+msgstr "Regenerera"
 
 #: ../dat/skills/magic.lua:963
 msgid "Makes an ally recover slowly its health."
-msgstr ""
+msgstr "Får en person att långsamt återfå hälsa."
 
 #: ../dat/skills/magic.lua:984
 msgid "Magic Drain"
-msgstr ""
+msgstr "Magitappning"
 
 #: ../dat/skills/magic.lua:985
 msgid "Steals Skill Points from an enemy."
-msgstr ""
+msgstr "Stjäler färdighetspoäng från en fiende."
 
 #: ../dat/skills/magic.lua:1000
 msgid "Silence"
-msgstr ""
+msgstr "Tystnad"
 
 #: ../dat/skills/magic.lua:1001
 msgid "Prevents an enemy from using any magic skills."
-msgstr ""
+msgstr "Hindrar en fiende från att använda några magiska förmågor."
 
 #: ../dat/skills/magic.lua:1016
 msgid "Storm"
-msgstr ""
+msgstr "Storm"
 
 #: ../dat/skills/magic.lua:1017
 msgid "High Air damages on all foes."
-msgstr ""
+msgstr "Kraftig luftskada på alla fiender."
 
 #: ../dat/skills/magic.lua:1032
 msgid "Stop"
-msgstr ""
+msgstr "Stanna"
 
 #: ../dat/skills/magic.lua:1033
 msgid "Stops an enemy for quite a long time."
-msgstr ""
+msgstr "Stannar en fiende ganska länge."
 
 #: ../dat/skills/magic.lua:1049
 msgid "A holy light strikes an enemy."
-msgstr ""
+msgstr "Ett heligt ljus slår ner på en fiende."
 
 #: ../dat/skills/magic.lua:1074
 msgid "Life Circle"
-msgstr ""
+msgstr "Livscirkel"
 
 #: ../dat/skills/magic.lua:1075
 msgid "Increases the Life elemental defense on a character."
-msgstr ""
+msgstr "Ökar en persons försvar mot livsbaserade attacker."
 
 #: ../dat/skills/magic.lua:1090
 msgid "Purify"
-msgstr ""
+msgstr "Rena"
 
 #: ../dat/skills/magic.lua:1091
 msgid "Cures all bad effects on a character, except the poison."
-msgstr ""
+msgstr "Botar en person från alla åkommor, utom förgiftning."
 
 #: ../dat/skills/magic.lua:1106
 msgid "Sun Haze"
-msgstr ""
+msgstr "Soldis"
 
 #: ../dat/skills/magic.lua:1107
 msgid "High Life damages on all foes."
-msgstr ""
+msgstr "Kraftig livsskada på alla fiender."
 
 #: ../dat/skills/magic.lua:1122
 msgid "Aura"
-msgstr ""
+msgstr "Aura"
 
 #: ../dat/skills/magic.lua:1123
 msgid "Boost an ally speed and recovers slowly its health."
-msgstr ""
+msgstr "Ökar en persons hastighet och får en att långsamt återfå sin hälsa."
 
 #: ../dat/skills/magic.lua:1139
 msgid "Death tries to take an enemy with it."
-msgstr ""
+msgstr "Döden försöker ta en fiende med sig."
 
 #: ../dat/skills/magic.lua:1164
 msgid "Death Circle"
-msgstr ""
+msgstr "Dödscirkel"
 
 #: ../dat/skills/magic.lua:1165
 msgid "Increases the Death elemental defense on an ally."
-msgstr ""
+msgstr "Ökar en persons försvar mot dödsbaserade attacker."
 
 #: ../dat/skills/magic.lua:1180
 msgid "Doom"
-msgstr ""
+msgstr "Domedag"
 
 #: ../dat/skills/magic.lua:1181
 msgid "Adds a Death counter upon the enemy's head."
-msgstr ""
+msgstr "Lägger till en dödsnedräkning på en fiende."
 
 #: ../dat/skills/magic.lua:1196
 msgid "Magical Reflection"
-msgstr ""
+msgstr "Magiskreflex"
 
 #: ../dat/skills/magic.lua:1197
 msgid "Makes the next enemy spell cast back upon the attacker."
-msgstr ""
+msgstr "Får nästa magiska attack att studsa tillbaka på besvärjaren."
 
 #: ../dat/skills/magic.lua:1212
 msgid "Dispell"
-msgstr ""
+msgstr "Skingra"
 
 #: ../dat/skills/magic.lua:1213
 msgid ""
 "Removes any status effect, elemental effect, and active spell on an enemy."
 msgstr ""
+"Tar bort alla statuseffekter, elementareffekter och aktiva besvärjelser på "
+"en fiende."
 
 #: ../dat/skills/magic.lua:1238
 msgid "Shell"
-msgstr ""
+msgstr "Skal"
 
 #: ../dat/skills/magic.lua:1239
 msgid "Increases all elemental effects on one character."
-msgstr ""
+msgstr "Ökar alla elementareffekter på en person."
 
 #: ../dat/skills/magic.lua:1254 map_names_tr.lua:200 map_names_tr.lua:408
 msgid "?"
@@ -6999,144 +7183,147 @@ msgstr "?"
 msgid ""
 "A mystic spell happening when offensively combining opposite elementals."
 msgstr ""
+"En mystisk besvärjelse som uppstår när man kombinerar motstående element."
 
 #: ../dat/skills/magic.lua:1270
 msgid "Counter"
-msgstr ""
+msgstr "Motattack"
 
 #: ../dat/skills/magic.lua:1271
 msgid "Makes an ally counter-attack if hurt."
-msgstr ""
+msgstr "Får en person att attackera tillbaka om den blir skadad."
 
 #: ../dat/skills/magic.lua:1286
 msgid "Phoenix Call"
-msgstr ""
+msgstr "Fenix rop"
 
 #: ../dat/skills/magic.lua:1287
 msgid "Revives all allies."
-msgstr ""
+msgstr "Återupplivar alla allierade."
 
 #: ../dat/skills/magic.lua:1302
 msgid "Bio"
-msgstr ""
+msgstr "Bio"
 
 #: ../dat/skills/magic.lua:1303
 msgid "Cures poison on all characters."
-msgstr ""
+msgstr "Botar förgiftning hos alla i gruppen."
 
 #: ../dat/skills/special.lua:74
 msgid "Wolf Pain"
-msgstr ""
+msgstr "Vargsmärta"
 
 #: ../dat/skills/special.lua:75
 msgid "Calls the defender of the Arctic."
-msgstr ""
+msgstr "Ropar på beskyddaren av norden."
 
 #: ../dat/skills/special.lua:206
 msgid "Dark Wish"
-msgstr ""
+msgstr "Mörk önskan"
 
 #: ../dat/skills/weapon.lua:80
 msgid "Sword Slash"
-msgstr ""
+msgstr "Svärdshugg"
 
 #: ../dat/skills/weapon.lua:81
 msgid "A textbook maneuver that deals an effective blow."
-msgstr ""
+msgstr "Ett skolboksexempel på en huggande manöver."
 
 #: ../dat/skills/weapon.lua:108
 msgid "Forward Thrust"
-msgstr ""
+msgstr "Stöt"
 
 #: ../dat/skills/weapon.lua:109
 msgid "A quicker and more powerful blow than the standard sword slash."
-msgstr ""
+msgstr "En snabbare och kraftfullare attack än standardattacken."
 
 #: ../dat/skills/weapon.lua:136
 msgid "Stun Strike"
-msgstr ""
+msgstr "Förlamande slag"
 
 #: ../dat/skills/weapon.lua:137
 msgid "A blow which temporarily stun its target."
-msgstr ""
+msgstr "Ett slag som temporärt förlamar målet."
 
 #: ../dat/skills/weapon.lua:169
 msgid "X-Strike"
-msgstr ""
+msgstr "Krysslag"
 
 #: ../dat/skills/weapon.lua:170 ../dat/skills/weapon.lua:230
 msgid ""
 "A strong and aggressive attack with a blade that deals significant damage."
-msgstr ""
+msgstr "En stark och aggressiv attack som gör ordentligt med skada."
 
 #: ../dat/skills/weapon.lua:203
 msgid "Single Shot"
-msgstr ""
+msgstr "Enkelskott."
 
 #: ../dat/skills/weapon.lua:204
 msgid "A simple shot using an arbalest."
-msgstr ""
+msgstr "Ett enkelt skott med ett arbalest."
 
 #: ../dat/skills/weapon.lua:229
 msgid "Blade Rush"
-msgstr ""
+msgstr "Svärdsrusning"
 
 #: ../dat/skills/weapon.lua:263
 msgid "Incapacitating Shot"
-msgstr ""
+msgstr "Förlamande skott"
 
 #: ../dat/skills/weapon.lua:264
 msgid "A powerful aimed shot lowering the enemy attack."
-msgstr ""
+msgstr "Ett kraftigt skott som sänker fiendens attack."
 
 #: ../dat/skills/weapon.lua:291
 msgid "Rain of Arrows"
-msgstr ""
+msgstr "Pilregn"
 
 #: ../dat/skills/weapon.lua:292
 msgid "An attack striking all enemies."
-msgstr ""
+msgstr "En attack som träffar alla fiender."
 
 #: ../dat/skills/weapon.lua:323
 msgid "Dagger Slash"
-msgstr ""
+msgstr "Knivhugg"
 
 #: ../dat/skills/weapon.lua:324
 msgid "A simple but efficient dagger attack."
-msgstr ""
+msgstr "En enkel men effektiv knivattack."
 
 #: ../dat/skills/weapon.lua:345
 msgid "Poison Slash"
-msgstr ""
+msgstr "Förgiftat hugg"
 
 #: ../dat/skills/weapon.lua:346
 msgid "A dagger attack, poisoning the enemy."
-msgstr ""
+msgstr "En knivattack som förgiftar fienden."
 
 #: ../dat/skills/weapon.lua:368
 msgid "High Strike"
-msgstr ""
+msgstr "Högt slag"
 
 #: ../dat/skills/weapon.lua:369
 msgid ""
 "A strike from above, stunning the enemy and breaking its magical defense."
 msgstr ""
+"En attack från ovan, som lamslår fienden och har sönder deras magiska skydd."
 
 #: ../dat/skills/weapon.lua:391
 msgid "Sonic Wind"
-msgstr ""
+msgstr "Ljudvind"
 
 #: ../dat/skills/weapon.lua:392
 msgid "Deals high wind damages to all enemies, stunning them along the way."
 msgstr ""
+"Gör ordentligt med vindskada på alla fiender, samt förlamar dem samtidigt."
 
 #: ../dat/skills/weapon.lua:414
 msgid "Sword Breaker"
-msgstr ""
+msgstr "Svärdsbrytare"
 
 #: ../dat/skills/weapon.lua:415
 msgid "An attack breaking the enemy own attack power."
-msgstr ""
+msgstr "En attack som bryter ner fiendes attackförmåga."
 
 #: ../dat/skills/weapon.lua:440
 msgid "Execution"
@@ -7150,7 +7337,7 @@ msgstr "Attackerar en fiende och ger en chans att smitta dess själ med döden."
 #: ../src/modes/battle/battle_command.cpp:1211
 #, c-format
 msgid "%ss"
-msgstr ""
+msgstr "%ss"
 
 #: ../src/modes/battle/battle_command.cpp:1222
 #, c-format
@@ -7161,22 +7348,22 @@ msgstr "%s SP"
 #: ../src/modes/battle/battle_command.cpp:1231
 #, c-format
 msgid "Target Type: %s"
-msgstr ""
+msgstr "Måltyp: %s"
 
 #: ../src/modes/battle/battle_command.cpp:1225
 #, c-format
 msgid "Prep Time: %s"
-msgstr ""
+msgstr "Förberedelsetid: %s"
 
 #: ../src/modes/battle/battle_command.cpp:1226
 #, c-format
 msgid "Cool Time: %s"
-msgstr ""
+msgstr "Avkylningstid: %s"
 
 #: ../src/modes/boot/boot.cpp:383
 #, c-format
 msgid "Press '%s' to get to know about the game keys."
-msgstr ""
+msgstr "Tryck '%s' för att få information om tangenterna i spelet."
 
 #: ../src/modes/map/map_treasure.cpp:328
 #, c-format
@@ -7184,26 +7371,30 @@ msgid ""
 "With the additional %u drunes found in this treasure added, the party now "
 "holds a total of %u drunes."
 msgstr ""
+"Med de ytterligare %u drunerna som hittades, så har gruppen nu totalt %u "
+"druner."
 
 #: ../src/modes/mode_help_window.cpp:114
 #, c-format
 msgid "Press '%s' anytime to show/hide help."
-msgstr ""
+msgstr "Du kan närsomhelst trycka '%s' för att visa eller gömma hjälpen."
 
 #: ../src/modes/shop/shop.cpp:705
 #, c-format
 msgid "Press %s to add items to buy and %s to remove items from your purchase."
 msgstr ""
+"Tryck %s för att lägga till varor för inköp och %s för att ta bort dem."
 
 #: ../src/modes/shop/shop.cpp:708
 #, c-format
 msgid "Press %s to add items to sell and %s to remove items from your sale."
 msgstr ""
+"Tryck %s för att lägga till varor för försäljning och %s för att ta bort dem."
 
 #: ../src/modes/shop/shop.cpp:711
 #, c-format
 msgid "Press %s to add items to trade and %s to remove them."
-msgstr ""
+msgstr "Tryck %s för att lägga till varor för byte och %s för att ta bort dem."
 
 #: ../dat/help/in_game_move_and_interact_anim.lua:58
 #, c-format
