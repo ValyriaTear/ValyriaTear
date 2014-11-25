@@ -15,6 +15,7 @@
 *** \brief   Source file for common dialogue code.
 *** ***************************************************************************/
 
+#include "utils/utils_pch.h"
 #include "dialogue.h"
 
 #include "common.h"
@@ -23,8 +24,6 @@
 #include "engine/video/video.h"
 #include "engine/input.h"
 #include "engine/mode_manager.h"
-
-#include "utils/utils_pch.h"
 
 using namespace vt_system;
 using namespace vt_utils;
