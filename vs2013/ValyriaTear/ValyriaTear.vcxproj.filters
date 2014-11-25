@@ -176,9 +176,6 @@
     <ClCompile Include="..\..\src\modes\battle\battle_command.cpp">
       <Filter>modes\battle</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\modes\battle\battle_dialogue.cpp">
-      <Filter>modes\battle</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\modes\battle\battle_effects.cpp">
       <Filter>modes\battle</Filter>
     </ClCompile>
@@ -438,9 +435,6 @@
       <Filter>modes\battle</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\modes\battle\battle_command.h">
-      <Filter>modes\battle</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\modes\battle\battle_dialogue.h">
       <Filter>modes\battle</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\modes\battle\battle_effects.h">
