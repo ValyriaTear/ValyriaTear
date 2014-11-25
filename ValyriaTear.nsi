@@ -84,6 +84,8 @@ Section "MainSection" SEC01
   File /oname=valyriatear.mo po\ru.mo
   SetOutPath "$INSTDIR\po\en_GB\LC_MESSAGES"
   File /oname=valyriatear.mo po\en_GB.mo
+  SetOutPath "$INSTDIR\po\sv\LC_MESSAGES"
+  File /oname=valyriatear.mo po\sv.mo
 
   SetOutPath "$INSTDIR"
   File valyriaTear.exe
