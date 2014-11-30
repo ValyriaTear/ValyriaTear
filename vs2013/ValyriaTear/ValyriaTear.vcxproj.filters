@@ -290,6 +290,9 @@
     <ClCompile Include="..\..\src\modes\map\map_status_effects.cpp">
       <Filter>modes\map</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\engine\video\transform2d.cpp">
+      <Filter>engine\video</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\main_options.h" />
@@ -550,6 +553,9 @@
     </ClInclude>
     <ClInclude Include="..\..\src\modes\map\map_status_effects.h">
       <Filter>modes\map</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\engine\video\transform2d.h">
+      <Filter>engine\video</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

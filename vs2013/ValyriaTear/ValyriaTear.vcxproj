@@ -145,6 +145,7 @@
     <ClCompile Include="..\..\src\engine\video\text.cpp" />
     <ClCompile Include="..\..\src\engine\video\texture.cpp" />
     <ClCompile Include="..\..\src\engine\video\texture_controller.cpp" />
+    <ClCompile Include="..\..\src\engine\video\transform2d.cpp" />
     <ClCompile Include="..\..\src\engine\video\video.cpp" />
     <ClCompile Include="..\..\src\main.cpp" />
     <ClCompile Include="..\..\src\main_options.cpp" />
@@ -238,6 +239,7 @@
     <ClInclude Include="..\..\src\engine\video\text.h" />
     <ClInclude Include="..\..\src\engine\video\texture.h" />
     <ClInclude Include="..\..\src\engine\video\texture_controller.h" />
+    <ClInclude Include="..\..\src\engine\video\transform2d.h" />
     <ClInclude Include="..\..\src\engine\video\video.h" />
     <ClInclude Include="..\..\src\main_options.h" />
     <ClInclude Include="..\..\src\modes\battle\battle.h" />
