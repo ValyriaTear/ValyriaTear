@@ -69,7 +69,7 @@ bool ParticleSystem::_Create(ParticleSystemDef *sys_def)
 
 void ParticleSystem::Draw()
 {
-    if(!_alive || !_system_def->enabled || _age < _system_def->emitter._start_time)
+    if(!_alive || !_system_def->enabled || _age < _system_def->emitter._start_time || _num_particles <= 0)
         return;
 
     // set blending parameters
@@ -276,11 +276,12 @@ void ParticleSystem::Draw()
     VideoManager->EnableVertexArray();
     VideoManager->EnableColorArray();
     VideoManager->EnableTextureCoordArray();
-    glVertexPointer(2, GL_FLOAT, 0, &_particle_vertices[0]);
+
+    VideoManager->SetVertexPointer(2, 0, &_particle_vertices[0]._x);
     glColorPointer(4, GL_FLOAT, 0, &_particle_colors[0]);
     glTexCoordPointer(2, GL_FLOAT, 0, &_particle_texcoords[0]);
 
-    glDrawArrays(GL_QUADS, 0, _num_particles * 4);
+    VideoManager->DrawArrays(GL_QUADS, 0, _num_particles * 4);
 
     if(_system_def->smooth_animation) {
         int findex = _animation.GetCurrentFrameIndex();
@@ -333,11 +334,11 @@ void ParticleSystem::Draw()
             ++c;
         }
 
-        glVertexPointer(2, GL_FLOAT, 0, &_particle_vertices[0]);
+        VideoManager->SetVertexPointer(2, 0, &_particle_vertices[0]._x);
         glColorPointer(4, GL_FLOAT, 0, &_particle_colors[0]);
         glTexCoordPointer(2, GL_FLOAT, 0, &_particle_texcoords[0]);
 
-        glDrawArrays(GL_QUADS, 0, _num_particles * 4);
+        VideoManager->DrawArrays(GL_QUADS, 0, _num_particles * 4);
     }
 }
 

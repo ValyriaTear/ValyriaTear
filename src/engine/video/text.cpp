@@ -1113,9 +1113,7 @@ void TextSupervisor::_CacheGlyphs(const uint16 *text, FontProperties *fp)
         SDL_FreeSurface(initial);
         SDL_FreeSurface(intermediary);
     }
-} // void TextSupervisor::_CacheGlyphs(const uint16* text, FontProperties* fp)
-
-
+}
 
 void TextSupervisor::_DrawTextHelper(const uint16 *const text, FontProperties *fp, Color text_color)
 {
@@ -1155,12 +1153,12 @@ void TextSupervisor::_DrawTextHelper(const uint16 *const text, FontProperties *f
     VideoManager->EnableVertexArray();
     VideoManager->EnableTextureCoordArray();
 
-    GLint vertices[8];
-    GLfloat tex_coords[8];
-    glVertexPointer(2, GL_INT, 0, vertices);
+    GLfloat vertices[8] = { 0 };
+    GLfloat tex_coords[8] = { 0 };
+    VideoManager->SetVertexPointer(2, 0, vertices);
     glTexCoordPointer(2, GL_FLOAT, 0, tex_coords);
 
-    // Iterate through each character in the string and render the character glyphs one at a time
+    // Iterate through each character in the string and render the character glyphs one at a time.
     int xpos = 0;
     for(const uint16 *glyph = text; *glyph != 0; ++glyph) {
         FontGlyph *glyph_info = (*fp->glyph_cache)[*glyph];
@@ -1204,15 +1202,13 @@ void TextSupervisor::_DrawTextHelper(const uint16 *const text, FontProperties *f
         tex_coords[7] = 0.0f;
 
         glColor4fv((GLfloat *)&text_color);
-        glDrawArrays(GL_QUADS, 0, 4);
+        VideoManager->DrawArrays(GL_QUADS, 0, 4);
 
         xpos += glyph_info->advance;
-    } // for (const uint16* glyph = text; *glyph != 0; glyph++)
+    }
 
     VideoManager->PopMatrix();
-} // void TextSupervisor::_DrawTextHelper(const uint16* const text, FontProperties* fp, Color color)
-
-
+}
 
 bool TextSupervisor::_RenderText(vt_utils::ustring &string, TextStyle &style, ImageMemory &buffer)
 {

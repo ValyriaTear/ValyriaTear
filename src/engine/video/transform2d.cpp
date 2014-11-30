@@ -9,7 +9,8 @@
 
 /** ****************************************************************************
 *** \file    transform2d.h
-*** \author  logzero, authenticate
+*** \author  logzero
+*** \author  authenticate
 *** \brief   Source file for Transform2D class
 ***
 *** Transform2D class provides vector transform (matrix)

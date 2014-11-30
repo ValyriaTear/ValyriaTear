@@ -18,13 +18,14 @@
 #include "utils/utils_pch.h"
 #include "image.h"
 
-#include "video.h"
 #include "engine/script/script_read.h"
 #include "engine/system.h"
 
-#include "utils/utils_strings.h"
 #include "utils/utils_files.h"
 #include "utils/utils_random.h"
+#include "utils/utils_strings.h"
+
+#include "video.h"
 
 using namespace vt_utils;
 using namespace vt_video::private_video;
@@ -52,8 +53,6 @@ ImageDescriptor::ImageDescriptor() :
 {
     _color[0] = _color[1] = _color[2] = _color[3] = Color::white;
 }
-
-
 
 ImageDescriptor::~ImageDescriptor()
 {
@@ -555,7 +554,7 @@ void ImageDescriptor::_DrawTexture(const Color *draw_color) const
     }
 
     VideoManager->EnableVertexArray();
-    glVertexPointer(2, GL_FLOAT, 0, vert_coords);
+    VideoManager->SetVertexPointer(2, 0, vert_coords);
 
     // If we have a valid image texture poiner, setup texture coordinates and the texture coordinate array for glDrawArrays()
     if(_texture) {
@@ -622,9 +621,9 @@ void ImageDescriptor::_DrawTexture(const Color *draw_color) const
         VideoManager->DisableTexture2D();
     }
 
-    // Use a vertex array to draw all of the vertices
-    glDrawArrays(GL_QUADS, 0, 4);
-} // void ImageDescriptor::_DrawTexture(const Color* color_array) const
+    // Use a vertex array to draw all of the vertices.
+    VideoManager->DrawArrays(GL_QUADS, 0, 4);
+}
 
 bool ImageDescriptor::_LoadMultiImage(std::vector<StillImage>& images, const std::string &filename,
                                       const uint32 grid_rows, const uint32 grid_cols)
@@ -1542,7 +1541,7 @@ void CompositeImage::Draw(const Color &draw_color) const
         if(coord_sys.GetVerticalDirection() < 0.0f)
             y_scale = -y_scale;
 
-        glScalef(x_scale, y_scale, 1.0f);
+        VideoManager->Scale(x_scale, y_scale);
 
         if(draw_color == Color::white)
             _elements[i].image._DrawTexture(_color);

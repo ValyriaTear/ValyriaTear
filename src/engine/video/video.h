@@ -29,14 +29,15 @@
 #ifndef __VIDEO_HEADER__
 #define __VIDEO_HEADER__
 
-#include "engine/video/context.h"
 #include "engine/video/color.h"
+#include "engine/video/context.h"
 #include "engine/video/coord_sys.h"
 #include "engine/video/fade.h"
 #include "engine/video/image.h"
 #include "engine/video/screen_rect.h"
-#include "engine/video/texture_controller.h"
 #include "engine/video/text.h"
+#include "engine/video/texture_controller.h"
+#include "engine/video/transform2d.h"
 
 namespace vt_gui {
 class TextBox;
@@ -355,6 +356,12 @@ public:
     void EnableTextureCoordArray();
     void DisableTextureCoordArray();
 
+    //!  \brief glVertexPointer wrapper, vertex type is restricted to float.
+    void SetVertexPointer(GLint size, GLsizei stride, const float *ptr);
+
+    //! \brief glDrawArrays wrapper.
+    void DrawArrays(GLenum mode, GLint first, GLsizei count);
+
     /** \brief Enables the scissoring effect in the video engine
     *** Scissoring is where you can specify a rectangle of the screen which is affected
     *** by rendering operations (and hence, specify what area is not affected). Make sure
@@ -465,11 +472,6 @@ public:
     *** prior to using this function.
     **/
     void Scale(float x, float y);
-
-    /** \brief Sets the OpenGL transform to the contents of 4x4 matrix
-    *** \param matrix A pointer to an array of 16 float values that form a 4x4 transformation matrix
-    **/
-    void SetTransform(float matrix[16]);
 
     // ----------  Image operation methods
 
@@ -766,6 +768,16 @@ private:
 
     //! stack containing context, i.e. draw flags plus coord sys. Context is pushed and popped by any VideoEngine functions that clobber these settings
     std::stack<private_video::Context> _context_stack;
+
+    //! stack containing 2D transforms. Pushed and popped by PushMatrix/PopMatrix.
+    std::stack<vt_video::Transform2D> _transform_stack;
+
+    //! cache vertex array data to be able to apply transform before drawing.
+    std::vector<float> _transformed_vertex_array;
+    float *_transformed_vertex_array_ptr;
+    const float *_vertex_array_ptr;
+    GLsizei _vertex_array_stride;
+    GLint _vertex_array_size;
 
     //! check to see if the VideoManager has already been setup.
     bool _initialized;
