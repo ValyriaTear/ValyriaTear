@@ -2265,15 +2265,17 @@ QuestListWindow::QuestListWindow() :
 {
     _quests_list.SetPosition(92.0f, 145.0f);
     _quests_list.SetDimensions(330.0f, 375.0f, 1, 255, 1, 8);
+
     //set the cursor offset next to where the exclamation point would be.
     //this prevents the arrow jumping
     _quests_list.SetCursorOffset(-75.0f, -15.0f);
+    _quests_list.SetCursorState(VIDEO_CURSOR_STATE_HIDDEN);
     _quests_list.SetTextStyle(TextStyle("text20"));
     _quests_list.SetHorizontalWrapMode(VIDEO_WRAP_MODE_NONE);
     _quests_list.SetVerticalWrapMode(VIDEO_WRAP_MODE_STRAIGHT);
     _quests_list.SetOptionAlignment(VIDEO_X_LEFT, VIDEO_Y_CENTER);
-    _quests_list.SetCursorState(VIDEO_CURSOR_STATE_HIDDEN);
-    // enable viewing of grey options
+    
+    // Enable the viewing of grey options.
     _quests_list.SetSkipDisabled(false);
 
     _SetupQuestsList();
@@ -2281,48 +2283,53 @@ QuestListWindow::QuestListWindow() :
 
 void QuestListWindow::Draw()
 {
-    // Draw the menu area
+    // Draw the menu area.
     MenuWindow::Draw();
 
-    // Draw the quest log list
+    // Draw the quest log list.
     _quests_list.Draw();
 }
 
 void QuestListWindow::Update()
 {
+    // Display the cursor.
+    _quests_list.SetCursorState(VIDEO_CURSOR_STATE_VISIBLE);
+
     GlobalMedia& media = GlobalManager->Media();
 
-    //if empty, exit out immediatly
-    if(GlobalManager->GetNumberQuestLogEntries() == 0)
+    // If empty, exit out immediatly.
+    if (GlobalManager->GetNumberQuestLogEntries() == 0)
     {
         media.PlaySound("cancel");
         _active_box = false;
         return;
     }
 
-    // quest log is fairly simple. it only responds
-    // to up / down and cancel
-    if(InputManager->CancelPress()) {
+    // The quest log is fairly simple.
+    // It only responds to up / down and cancel.
+    if (InputManager->CancelPress()) {
         _quests_list.InputCancel();
-    } else if(InputManager->UpPress()) {
+    } else if (InputManager->UpPress()) {
         media.PlaySound("bump");
         _quests_list.InputUp();
-    } else if(InputManager->DownPress()) {
+    } else if (InputManager->DownPress()) {
         media.PlaySound("bump");
         _quests_list.InputDown();
     }
 
     uint32 event = _quests_list.GetEvent();
-    // cancel and exit
+
+    // Cancel and exit.
     if (event == VIDEO_OPTION_CONFIRM) {
         media.PlaySound("confirm");
     }
-    else if(event == VIDEO_OPTION_CANCEL) {
+    else if (event == VIDEO_OPTION_CANCEL) {
         _active_box = false;
         _quests_list.SetCursorState(VIDEO_CURSOR_STATE_HIDDEN);
         media.PlaySound("cancel");
     }
-    //standard upate of quest list
+
+    // The standard update of the quest list.
     _UpdateQuestList();
 }
 
@@ -2339,18 +2346,18 @@ void QuestListWindow::_UpdateQuestList()
 {
     if(GlobalManager->GetNumberQuestLogEntries() == 0)
     {
-        //set the QuestWindow key to "NULL", which is actually ""
+        // Set the QuestWindow key to "NULL", which is actually "".
         MenuMode::CurrentInstance()->_quest_window.SetViewingQuestId(std::string());
         return;
     }
 
-    // Get the cursor selection
+    // Get the cursor selection.
     int32 selection = _quests_list.GetSelection();
 
     QuestLogEntry *entry = _quest_entries[selection];
     const std::string& quest_id = entry->GetQuestId();
     ustring title = GlobalManager->GetQuestInfo(quest_id)._title;
-    if(GlobalManager->IsQuestCompleted(quest_id))
+    if (GlobalManager->IsQuestCompleted(quest_id))
     {
         _quests_list.SetOptionText(selection, check_file + title);
         _quests_list.SetCursorOffset(-55.0f, -15.0f);
@@ -2369,26 +2376,11 @@ void QuestListWindow::_UpdateQuestList()
 
     entry->SetRead();
 
-    // Update the list box
+    // Update the list box.
     _quests_list.Update(SystemManager->GetUpdateTime());
 
-    // Set the QuestWindow quest key value to the selected quest
+    // Set the QuestWindow quest key value to the selected quest.
     MenuMode::CurrentInstance()->_quest_window.SetViewingQuestId(quest_id);
-}
-
-void QuestListWindow::Activate(bool new_state)
-{
-    if(new_state)
-    {
-        _quests_list.SetCursorState(VIDEO_CURSOR_STATE_VISIBLE);
-        _quests_list.ResetViewableOption();
-        _quests_list.SetSelection(0);
-    }
-    else
-    {
-        _quests_list.SetCursorState(VIDEO_CURSOR_STATE_HIDDEN);
-    }
-    _active_box = new_state;
 }
 
 void QuestListWindow::_SetupQuestsList() {
@@ -2396,10 +2388,10 @@ void QuestListWindow::_SetupQuestsList() {
     _quest_entries.clear();
     _quest_entries = GlobalManager->GetActiveQuestIds();
 
-    // Recreate the quest option box list as well
+    // Recreate the quest option box list as well.
     _quests_list.ClearOptions();
 
-    // Reorder by sorting via the entry number
+    // Reorder by sorting via the entry number.
     std::sort(_quest_entries.begin(), _quest_entries.end(), sort_by_number_reverse);
 
     // Check whether some should be set as completed.
@@ -2409,7 +2401,7 @@ void QuestListWindow::_SetupQuestsList() {
         const std::string& quest_id = entry->GetQuestId();
         ustring title = GlobalManager->GetQuestInfo(quest_id)._title;
 
-        //completed quest check.
+        // Completed quest check.
         if(GlobalManager->IsQuestCompleted(quest_id)) {
             _quests_list.AddOption(check_file + title);
             _quests_list.EnableOption(i, false);
@@ -2418,7 +2410,8 @@ void QuestListWindow::_SetupQuestsList() {
             _quests_list.AddOption(cross_file + title);
             _quests_list.EnableOption(i, false);
         }
-        //if incomplete, then we check the read status
+
+        // If incomplete, then check the read status.
         else if(entry->IsRead())
             _quests_list.AddOption(spacing + title);
         else
