@@ -34,6 +34,10 @@ namespace vt_audio {
 class SoundDescriptor;
 }
 
+namespace vt_common {
+class DialogueSupervisor;
+}
+
 //! \brief All calls to shop mode are wrapped in this namespace.
 namespace vt_shop
 {
@@ -442,7 +446,7 @@ public:
     /** \brief Changes the active state of shop mode and prepares the interface of the new state
     *** \param new_state The state to change the shop to
     **/
-    void ChangeState(private_shop::SHOP_STATE new_state);
+    void ChangeState(SHOP_STATE new_state);
 
     //! \brief Returns true if the user has indicated they wish to buy or sell any items
     bool HasPreparedTransaction() const {
@@ -544,7 +548,7 @@ public:
         return _initialized;
     }
 
-    private_shop::SHOP_STATE GetState() const {
+    SHOP_STATE GetState() const {
         return _state;
     }
 
@@ -607,6 +611,25 @@ public:
     }
     //@}
 
+    vt_common::DialogueSupervisor* GetDialogueSupervisor() {
+        return _dialogue_supervisor;
+    }
+
+    //! \brief Get/Set whether the shop user input is enabled.
+    bool IsInputEnabled() const {
+        return _input_enabled;
+    }
+    void SetInputEnabled(bool input_enabled) {
+        _input_enabled = input_enabled;
+    }
+
+    //! \brief Tells whether input in dialogues is enabled.
+    //! By Default, input in dialogues is enabled when the input
+    //! is disabled for the shop.
+    bool AcceptUserInputInDialogues() const {
+        return !_input_enabled;
+    }
+
 private:
     //! \brief update (enable, disable) the available shop options (buy, sell, ...)
     void _UpdateAvailableShopOptions();
@@ -615,10 +638,10 @@ private:
     void _UpdateAvailableObjectsToSell();
 
     /** \brief A reference to the current instance of ShopMode
-    *** This is used by other shop clases to be able to refer to the shop that they exist in. This member
+    *** This is used by other shop classes to be able to refer to the shop that they exist in. This member
     *** is NULL when no shop is active
     **/
-    static ShopMode *_current_instance;
+    static ShopMode* _current_instance;
 
     //! \brief Tells whether the sell mode is enabled in this shop, thus whether the player can sell items.
     bool _sell_mode_enabled;
@@ -627,7 +650,7 @@ private:
     bool _initialized;
 
     //! \brief Keeps track of what windows are open to determine how to handle user input.
-    private_shop::SHOP_STATE _state;
+    SHOP_STATE _state;
 
     //! \brief The shop's price level of objects that the player buys from the shop
     SHOP_PRICE_LEVEL _buy_price_level;
@@ -706,6 +729,13 @@ private:
 
     //! \brief Table-formatted text containing the financial information about the current purchases and sales
     vt_gui::OptionBox _finance_table;
+
+    //! \brief Stores and processes any dialogue that is to occur within the shop mode.
+    vt_common::DialogueSupervisor* _dialogue_supervisor;
+
+    //! \brief Tells whether input should be processed.
+    //! \note Useful for certain dialogues and other events such as tutorial
+    bool _input_enabled;
 }; // class ShopMode : public vt_mode_manager::GameMode
 
 } // namespace vt_shop

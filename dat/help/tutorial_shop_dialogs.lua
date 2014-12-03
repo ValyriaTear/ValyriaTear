@@ -197,7 +197,6 @@ function Update()
         trigger_show_hand1 = false;
         last_line = 8;
     elseif (last_line ~= 9 and DialogueManager:GetLineCounter() == 9) then
-        InputManager:ConfirmPress();
         hand1_visible = false;
         hand2_visible = false;
         last_line = 9;

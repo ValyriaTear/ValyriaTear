@@ -40,9 +40,6 @@ enum SHOP_PRICE_LEVEL {
     SHOP_PRICE_TOTAL     =  5
 };
 
-namespace private_shop
-{
-
 //! \brief Used to indicate what window has control of user input
 enum SHOP_STATE {
     SHOP_STATE_INVALID   = -1,
@@ -52,6 +49,9 @@ enum SHOP_STATE {
     SHOP_STATE_TRADE     =  3,
     SHOP_STATE_TOTAL     =  4
 };
+
+namespace private_shop
+{
 
 //! \brief Used to toggle between different view models in some interfaces
 enum SHOP_VIEW_MODE {

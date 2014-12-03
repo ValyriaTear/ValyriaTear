@@ -33,6 +33,7 @@
 #include "engine/system.h"
 
 #include "common/global/global.h"
+#include "common/dialogue.h"
 
 #include "engine/mode_manager.h"
 #include "modes/pause.h"
@@ -991,7 +992,9 @@ ShopMode::ShopMode() :
     _root_interface(NULL),
     _buy_interface(NULL),
     _sell_interface(NULL),
-    _trade_interface(NULL)
+    _trade_interface(NULL),
+    _dialogue_supervisor(NULL),
+    _input_enabled(true)
 {
     _current_instance = this;
 
@@ -1051,6 +1054,7 @@ ShopMode::ShopMode() :
     _buy_interface = new BuyInterface();
     _sell_interface = new SellInterface();
     _trade_interface = new TradeInterface();
+    _dialogue_supervisor = new vt_common::DialogueSupervisor();
 
     try {
         _screen_backdrop = VideoManager->CaptureScreen();
@@ -1069,6 +1073,7 @@ ShopMode::~ShopMode()
     delete _buy_interface;
     delete _sell_interface;
     delete _trade_interface;
+    delete _dialogue_supervisor;
 
     _top_window.Destroy();
     _middle_window.Destroy();
@@ -1090,6 +1095,9 @@ void ShopMode::Reset()
 
     if(IsInitialized() == false)
         Initialize();
+
+    // Reset potential battle scripts
+    GetScriptSupervisor().Reset();
 }
 
 
@@ -1118,7 +1126,10 @@ void ShopMode::Initialize()
     _buy_interface->Reinitialize();
     _sell_interface->Reinitialize();
     _trade_interface->Reinitialize();
-} // void ShopMode::Initialize()
+
+    // Init the script component.
+    GetScriptSupervisor().Initialize(this);
+}
 
 
 void ShopMode::_UpdateAvailableObjectsToSell()
@@ -1158,7 +1169,6 @@ void ShopMode::_UpdateAvailableObjectsToSell()
 
 void ShopMode::_UpdateAvailableShopOptions()
 {
-
     // Test the available categories
     //Switch back to buy
     if(!_available_buy.empty())
@@ -1221,6 +1231,16 @@ void ShopMode::Update()
         ModeManager->Push(new PauseMode(false));
         return;
     }
+
+    GameMode::Update();
+
+    if(_dialogue_supervisor->IsDialogueActive())
+        _dialogue_supervisor->Update();
+
+    // Handles whether input is enabled
+    // TODO: Input will have to separated more cleanly than this.
+    if(!_input_enabled)
+        return;
 
     // When the state is at the root interface ,ShopMode needs to process user input and possibly change state
     if(_state == SHOP_STATE_ROOT) {
@@ -1290,6 +1310,8 @@ void ShopMode::Draw()
     VideoManager->Move(0.0f, 0.0f);
     _screen_backdrop.Draw();
 
+    GetScriptSupervisor().DrawBackground();
+
     // Draw all menu windows
     // Restore the standard shop coordinate system before drawing the shop windows
     VideoManager->SetStandardCoordSys();
@@ -1340,6 +1362,13 @@ void ShopMode::Draw()
         IF_PRINT_WARNING(SHOP_DEBUG) << "invalid shop state: " << _state << std::endl;
         break;
     }
+
+    GetScriptSupervisor().DrawForeground();
+
+    if(_dialogue_supervisor->IsDialogueActive())
+        _dialogue_supervisor->Draw();
+
+    GetScriptSupervisor().DrawPostEffects();
 } // void ShopMode::Draw()
 
 

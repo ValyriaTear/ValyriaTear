@@ -91,6 +91,7 @@ void BindCommonCode()
             .def("IsDialogueActive", &DialogueSupervisor::IsDialogueActive)
             .def("GetCurrentDialogue", &DialogueSupervisor::GetCurrentDialogue)
             .def("GetLineCounter", &DialogueSupervisor::GetLineCounter)
+            .def("SetDialoguePosition", &DialogueSupervisor::SetDialoguePosition)
         ];
 
     } // End using common namespace

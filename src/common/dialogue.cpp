@@ -328,6 +328,11 @@ DialogueSupervisor::~DialogueSupervisor()
     _speakers.clear();
 }
 
+void DialogueSupervisor::SetDialoguePosition(float x, float y)
+{
+    _dialogue_window.SetPosition(x, y);
+}
+
 void DialogueSupervisor::Update()
 {
     if(_current_dialogue == NULL)

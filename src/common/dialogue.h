@@ -542,6 +542,9 @@ public:
         return _line_counter;
     }
 
+    //! \brief Sets the bottom center position of the dialogue window.
+    void SetDialoguePosition(float x, float y);
+
 protected:
     //! \brief Retains the current state of the dialogue execution
     DIALOGUE_STATE _state;
