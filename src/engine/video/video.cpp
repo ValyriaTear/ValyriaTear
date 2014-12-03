@@ -531,9 +531,6 @@ void VideoEngine::SetCoordSys(const CoordSys &coordinate_system)
     glLoadIdentity();
     glOrtho(_current_context.coordinate_system.GetLeft(), _current_context.coordinate_system.GetRight(),
             _current_context.coordinate_system.GetBottom(), _current_context.coordinate_system.GetTop(), -1, 1);
-
-    glMatrixMode(GL_MODELVIEW);
-    glLoadIdentity();
 }
 
 void VideoEngine::GetCurrentViewport(float &x, float &y, float &width, float &height)

@@ -48,8 +48,14 @@ public:
     //! \brief Rotate current transform by angle.
     void Rotate(float angle);
 
-    //! \brief Reset transform to identity.
+    //! \brief Resets the transform to the identity.
     void Reset();
+
+    //! \brief Resets the transform's rotation.
+    void ResetRotation();
+
+    //! \brief Resets the transform's translation.
+    void ResetTranslation();
 
     /** \brief Apply transform matrix to count buffer elements.
     *** \param buffer_in Buffer read from with size = count * stride.
