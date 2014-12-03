@@ -46,6 +46,9 @@
     <Filter Include="utils">
       <UniqueIdentifier>{941fa1c7-82b7-49ca-a92a-04313cbda490}</UniqueIdentifier>
     </Filter>
+    <Filter Include="engine\video\gl">
+      <UniqueIdentifier>{8147bc91-e18c-46f3-b54d-b9fc7c13d90e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\main.cpp" />
@@ -292,6 +295,12 @@
     </ClCompile>
     <ClCompile Include="..\..\src\engine\video\transform2d.cpp">
       <Filter>engine\video</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\engine\video\gl\shader.cpp">
+      <Filter>engine\video\gl</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\engine\video\gl\shader_program.cpp">
+      <Filter>engine\video\gl</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -556,6 +565,18 @@
     </ClInclude>
     <ClInclude Include="..\..\src\engine\video\transform2d.h">
       <Filter>engine\video</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\engine\video\gl\shader.h">
+      <Filter>engine\video\gl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\engine\video\gl\shader_definition.h">
+      <Filter>engine\video\gl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\engine\video\gl\shader_program.h">
+      <Filter>engine\video\gl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\engine\video\gl\vertex_declaration.h">
+      <Filter>engine\video\gl</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

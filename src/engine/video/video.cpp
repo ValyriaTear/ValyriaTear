@@ -21,6 +21,9 @@
 #include "engine/mode_manager.h"
 #include "engine/script/script_read.h"
 #include "engine/system.h"
+#include "engine/video/gl/shader.h"
+#include "engine/video/gl/shader_definition.h"
+#include "engine/video/gl/shader_program.h"
 
 #include "utils/utils_strings.h"
 
@@ -194,10 +197,15 @@ void VideoEngine::_DrawFPS()
     Move(930.0f, 40.0f); // Upper right hand corner of the screen
     _FPS_textimage->Draw();
     PopState();
-} // void GUISystem::_DrawFPS()
+}
 
 VideoEngine::~VideoEngine()
 {
+    // Clean up the shaders and shader programs.
+    glUseProgram(0);
+    _programs.clear();
+    _shaders.clear();
+
     TextManager->SingletonDestroy();
 
     _default_menu_cursor.Clear();
@@ -209,42 +217,113 @@ VideoEngine::~VideoEngine()
 
 bool VideoEngine::SingletonInitialize()
 {
-    // check to see if the singleton is already initialized
-    if(_initialized)
+    // Check to see if the singleton is already initialized.
+    if (_initialized)
         return true;
 
-    if(SDL_InitSubSystem(SDL_INIT_VIDEO) < 0) {
+    if (SDL_InitSubSystem(SDL_INIT_VIDEO) < 0) {
         PRINT_ERROR << "SDL video initialization failed" << std::endl;
         return false;
     }
 
-
-
     return true;
-} // bool VideoEngine::SingletonInitialize()
+}
 
 bool VideoEngine::FinalizeInitialization()
 {
+#   ifdef _WIN32
+        // Load GLEW on Windows.
+        GLenum err = glewInit();
+        if (GLEW_OK != err) {
+            PRINT_ERROR << "Unable to initialize GLEW." << std::endl;
+            return false;
+        }
+#   endif
+
+    //
+    // Create the programmable pipeline.
+    //
+
+    // Create the shaders.
+    auto sprite_vertex              = std::make_shared<gl::Shader>(GL_VERTEX_SHADER, gl::shader_definition::SPRITE_VERTEX);
+    auto text_vertex                = std::make_shared<gl::Shader>(GL_VERTEX_SHADER, gl::shader_definition::TEXT_VERTEX);
+    auto sprite_fragment            = std::make_shared<gl::Shader>(GL_FRAGMENT_SHADER, gl::shader_definition::SPRITE_FRAGMENT);
+    auto sprite_grayscale_fragment  = std::make_shared<gl::Shader>(GL_FRAGMENT_SHADER, gl::shader_definition::SPRITE_GRAYSCALE_FRAGMENT);
+    auto text_fragment              = std::make_shared<gl::Shader>(GL_FRAGMENT_SHADER, gl::shader_definition::TEXT_FRAGMENT);
+
+    // Store the shaders.
+    _shaders.insert(std::unordered_map<std::string, std::shared_ptr<gl::Shader>>::value_type("sprite_vertex", sprite_vertex));
+    _shaders.insert(std::unordered_map<std::string, std::shared_ptr<gl::Shader>>::value_type("text_vertex", text_vertex));
+    _shaders.insert(std::unordered_map<std::string, std::shared_ptr<gl::Shader>>::value_type("sprite_fragment", sprite_fragment));
+    _shaders.insert(std::unordered_map<std::string, std::shared_ptr<gl::Shader>>::value_type("sprite_grayscale_fragment", sprite_grayscale_fragment));
+    _shaders.insert(std::unordered_map<std::string, std::shared_ptr<gl::Shader>>::value_type("text_fragment", text_fragment));
+
+    //
+    // Create the shader programs.
+    //
+
+    std::vector<std::string> attributes;
+    attributes.push_back("in_Vertex");
+    attributes.push_back("in_TexCoords");
+
+    std::vector<std::string> uniforms;
+    uniforms.push_back("u_Model");
+    uniforms.push_back("u_View");
+    uniforms.push_back("u_Projection");
+    uniforms.push_back("u_Texture");
+
+    //
+    // Create the sprite programs.
+    //
+
+    auto sprite_program = std::make_shared<gl::ShaderProgram>(*(_shaders["sprite_vertex"]), *(_shaders["sprite_fragment"]), attributes, uniforms);
+    auto sprite_grayscale_program = std::make_shared<gl::ShaderProgram>(*(_shaders["sprite_vertex"]), *(_shaders["sprite_grayscale_fragment"]),	attributes, uniforms);
+
+    //
+    // Create the text programs.
+    //
+    
+    attributes.clear();
+    attributes.push_back("in_Vertex");
+    attributes.push_back("in_TexCoords");
+    attributes.push_back("in_Color");
+    
+    uniforms.clear();
+    uniforms.push_back("u_Model");
+    uniforms.push_back("u_View");
+    uniforms.push_back("u_Projection");
+    uniforms.push_back("u_Texture");
+
+    auto text_program = std::make_shared<gl::ShaderProgram>(*(_shaders["text_vertex"]), *(_shaders["text_fragment"]), attributes, uniforms);
+
+    //
+    // Store the shader programs.
+    //
+
+    _programs["sprite"] = sprite_program;
+    _programs["sprite_grayscale"] = sprite_grayscale_program;
+    _programs["text"] = text_program;
+
     // Create instances of the various sub-systems
     TextureManager = TextureController::SingletonCreate();
     TextManager = TextSupervisor::SingletonCreate();
 
-    // Initialize all sub-systems
-    if(TextureManager->SingletonInitialize() == false) {
+    // Initialize all sub-systems.
+    if (TextureManager->SingletonInitialize() == false) {
         PRINT_ERROR << "could not initialize texture manager" << std::endl;
         return false;
     }
 
-    if(TextManager->SingletonInitialize() == false) {
+    if (TextManager->SingletonInitialize() == false) {
         PRINT_ERROR << "could not initialize text manager" << std::endl;
         return false;
     }
 
-    // Prepare the screen for rendering
+    // Prepare the screen for rendering.
     Clear();
 
     // Empty image used to draw colored rectangles.
-    if(_rectangle_image.Load("") == false) {
+    if (_rectangle_image.Load("") == false) {
         PRINT_ERROR << "_rectangle_image could not be created" << std::endl;
         return false;
     }

@@ -84,6 +84,9 @@
 #   include "al.h"
 #   include "alc.h"
 #endif
+#   ifdef _WIN32
+#       include <GL/glew.h>
+#   endif
 #   include <GL/gl.h>
 #   include <GL/glu.h>
 #endif
@@ -126,6 +129,7 @@
 #include <string>
 #include <sys/stat.h>
 #include <time.h>
+#include <unordered_map>
 #include <vector>
 
 extern "C" {

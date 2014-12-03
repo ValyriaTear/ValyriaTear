@@ -62,6 +62,16 @@ class ModeEngine;
 //! \brief All calls to the video engine are wrapped in this namespace.
 namespace vt_video
 {
+
+// Forward declarations.
+namespace gl
+{
+
+class Shader;
+class ShaderProgram;
+
+} // namespace gl
+
 class VideoEngine;
 
 //! \brief The singleton pointer for the engine, responsible for all video operations.
@@ -772,6 +782,12 @@ private:
     //! stack containing 2D transforms. Pushed and popped by PushMatrix/PopMatrix.
     std::stack<vt_video::Transform2D> _transform_stack;
 
+    //! The OpenGL shaders.
+    std::unordered_map<std::string, std::shared_ptr<gl::Shader>> _shaders;
+
+    //! The OpenGL shader programs.
+    std::unordered_map<std::string, std::shared_ptr<gl::ShaderProgram>> _programs;
+
     //! cache vertex array data to be able to apply transform before drawing.
     std::vector<float> _transformed_vertex_array;
     float *_transformed_vertex_array_ptr;
@@ -817,8 +833,8 @@ private:
     void _UpdateFPS();
     //! \brief Draws the current average FPS to the screen.
     void _DrawFPS();
-}; // class VideoEngine : public vt_utils::Singleton<VideoEngine>
+};
 
-}  // namespace vt_video
+} // namespace vt_video
 
 #endif // __VIDEO_HEADER__
