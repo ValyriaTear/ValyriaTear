@@ -22,11 +22,29 @@ namespace gl
 {
 namespace shader_definition
 {
+    const char SOLID_VERTEX[] =
+        "#version 120\n"
+        "\n"
+        "//\n"
+        "// Vertex shader for solid sprite rendering.\n"
+        "//\n"
+        "\n"
+        "uniform mat4 u_Model;\n"
+        "uniform mat4 u_View;\n"
+        "uniform mat4 u_Projection;\n"
+        "\n"
+        "attribute vec3 in_Vertex;\n"
+        "\n"
+        "void main()\n"
+        "{\n"
+        "    gl_Position       = u_Projection * (u_View * (u_Model * vec4(in_Vertex, 1.0)));\n"
+        "};";
+
     const char SPRITE_VERTEX[] =
         "#version 120\n"
         "\n"
         "//\n"
-        "// Vertex shader for sprite rendering.\n"
+        "// Vertex shader for textured sprite rendering.\n"
         "//\n"
         "\n"
         "uniform mat4 u_Model;\n"
@@ -64,6 +82,27 @@ namespace shader_definition
         "    gl_Position       = u_Projection * (u_View * (u_Model * vec4(in_Vertex, 1.0)));\n"
         "};";
 
+    const char SOLID_FRAGMENT[] =
+        "#version 120\n"
+        "\n"
+        "//\n"
+        "// Colors the fragment.\n"
+        "//\n"
+        "\n"
+        "uniform vec4 u_Color;\n"
+        "\n"
+        "void main(void)\n"
+        "{\n"
+        "        gl_FragColor = u_Color;\n"
+        "\n"
+        "        // Alpha Test\n"
+        "        if (gl_FragColor.a <= 0.0f)\n"
+        "        {\n"
+        "            discard;\n"
+        "        }\n"
+        "\n"
+        "}\n";
+
     const char SPRITE_FRAGMENT[] =
         "#version 120\n"
         "\n"
@@ -71,11 +110,13 @@ namespace shader_definition
         "// Samples a texture for fragment's output.\n"
         "//\n"
         "\n"
+        "uniform vec4 u_Color;\n"
         "uniform sampler2D u_Texture;\n"
         "\n"
         "void main(void)\n"
         "{\n"
         "        gl_FragColor.rgba = vec4(texture2D(u_Texture, gl_TexCoord[0].xy));\n"
+        "        gl_FragColor *= u_Color;\n"
         "\n"
         "        // Alpha Test\n"
         "        if (gl_FragColor.a <= 0.0f)\n"
@@ -93,11 +134,13 @@ namespace shader_definition
         "// Samples texture for fragment's output and converts to grayscale.\n"
         "//\n"
         "\n"
+        "uniform vec4 u_Color;\n"
         "uniform sampler2D u_Texture;\n"
         "\n"
         "void main(void)\n"
         "{\n"
         "        gl_FragColor.rgba = vec4(texture2D(u_Texture, gl_TexCoord[0].xy));\n"
+        "        gl_FragColor *= u_Color;\n"
         "\n"
         "        // Alpha Test\n"
         "        if (gl_FragColor.a <= 0.0f)\n"
@@ -125,12 +168,15 @@ namespace shader_definition
         "// Colors the fonts.\n"
         "//\n"
         "\n"
+        "uniform vec4 u_Color;\n"
         "uniform sampler2D u_Texture;\n"
         "\n"
         "void main()\n"
         "{\n"
+        "    vec4 color = gl_Color * u_Color;\n"
+        "\n"
         "    float a = texture2D(u_Texture, gl_TexCoord[0].xy).a;\n"
-        "    gl_FragColor = vec4(gl_Color.rgb, gl_Color.a * a);\n"
+        "    gl_FragColor = vec4(color.rgb, color.a * a);\n"
         "}\n";
 
 } // namespace shader_definition

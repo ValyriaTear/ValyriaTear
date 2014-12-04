@@ -78,7 +78,7 @@ Sprite::Sprite(const std::vector<float>& vertex_positions,
 
     // Set up the vertex data.
     if (!errors) {
-        glBufferData(GL_ARRAY_BUFFER, vertex_positions.size() * sizeof(float), &vertex_positions.front(), GL_STATIC_DRAW);
+        glBufferData(GL_ARRAY_BUFFER, vertex_positions.size() * sizeof(float), &vertex_positions.front(), GL_DYNAMIC_DRAW);
 
         GLenum error = glGetError();
         if (error != GL_NO_ERROR) {
@@ -108,7 +108,7 @@ Sprite::Sprite(const std::vector<float>& vertex_positions,
 
     // Set up the texture coordinate data.
     if (!errors) {
-        glBufferData(GL_ARRAY_BUFFER, vertex_texture_coordinates.size() * sizeof(float), &vertex_texture_coordinates.front(), GL_STATIC_DRAW);
+        glBufferData(GL_ARRAY_BUFFER, vertex_texture_coordinates.size() * sizeof(float), &vertex_texture_coordinates.front(), GL_DYNAMIC_DRAW);
 
         GLenum error = glGetError();
         if (error != GL_NO_ERROR) {
@@ -149,6 +149,10 @@ Sprite::Sprite(const std::vector<float>& vertex_positions,
 
     // Unbind the vertex array object from the pipeline.
     glBindVertexArray(0);
+
+    // Unbind the active buffers from the pipeline.
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 }
 
 Sprite::~Sprite()
@@ -180,8 +184,68 @@ Sprite::~Sprite()
 
 void Sprite::Draw()
 {
+    // Bind the vertex array object.
     glBindVertexArray(_vao);
+
+    // Bind the index buffer.
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _index_buffer);
+
+    // Draw the sprite.
     glDrawElements(GL_TRIANGLES, _number_of_indices, GL_UNSIGNED_INT, nullptr);
+
+    // Unbind the vertex array object from the pipeline.
+    glBindVertexArray(0);
+
+    // Unbind the active buffers from the pipeline.
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+}
+
+void Sprite::Draw(const std::vector<float>& vertex_positions,
+                  const std::vector<float>& vertex_texture_coordinates)
+{
+    bool errors = false;
+
+    assert(vertex_positions.size() > 0 && vertex_positions.size() % 3 == 0);
+    assert(vertex_texture_coordinates.size() > 0 && vertex_texture_coordinates.size() % 2 == 0);
+
+    // Bind the vertex buffer.
+    if (!errors) {
+        glBindBuffer(GL_ARRAY_BUFFER, _vertex_position_buffer);
+    }
+
+    // Update the vertex data.
+    if (!errors) {
+        glBufferSubData(GL_ARRAY_BUFFER, 0, vertex_positions.size() * sizeof(float), &vertex_positions.front());
+
+        GLenum error = glGetError();
+        if (error != GL_NO_ERROR) {
+            errors = true;
+        }
+    }
+
+    // Bind the texture coordinate buffer.
+    if (!errors) {
+        glBindBuffer(GL_ARRAY_BUFFER, _vertex_texture_coordinate_buffer);
+    }
+
+    // Update the texture coordinate data.
+    if (!errors) {
+        glBufferSubData(GL_ARRAY_BUFFER, 0, vertex_texture_coordinates.size() * sizeof(float), &vertex_texture_coordinates.front());
+
+        GLenum error = glGetError();
+        if (error != GL_NO_ERROR) {
+            errors = true;
+        }
+    }
+
+    // Unbind the texture coordinate buffer from the pipeline.
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+    // Draw the sprite.
+    if (!errors) {
+        Draw();
+    }
 }
 
 } // namespace gl

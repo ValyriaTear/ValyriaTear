@@ -32,6 +32,7 @@ Shader::Shader(GLenum type, const std::string &data) :
     // Create the shader.
     if (!errors) {
         _shader = glCreateShader(type);
+
         GLenum error = glGetError();
         if (error != GL_NO_ERROR) {
             errors = true;
@@ -44,6 +45,7 @@ Shader::Shader(GLenum type, const std::string &data) :
         const GLchar* strings[] = { data.c_str() };
 
         glShaderSource(_shader, 1, strings, length);
+
         GLenum error = glGetError();
         if (error != GL_NO_ERROR) {
             errors = true;
@@ -53,6 +55,7 @@ Shader::Shader(GLenum type, const std::string &data) :
     // Compile the shader.
     if (!errors) {
         glCompileShader(_shader);
+
         GLenum error = glGetError();
         if (error != GL_NO_ERROR) {
             errors = true;

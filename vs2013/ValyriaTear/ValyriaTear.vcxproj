@@ -139,6 +139,7 @@
     <ClCompile Include="..\..\src\engine\video\gl\shader.cpp" />
     <ClCompile Include="..\..\src\engine\video\gl\shader_program.cpp" />
     <ClCompile Include="..\..\src\engine\video\gl\sprite.cpp" />
+    <ClCompile Include="..\..\src\engine\video\gl\transform.cpp" />
     <ClCompile Include="..\..\src\engine\video\image.cpp" />
     <ClCompile Include="..\..\src\engine\video\image_base.cpp" />
     <ClCompile Include="..\..\src\engine\video\interpolator.cpp" />
@@ -148,7 +149,6 @@
     <ClCompile Include="..\..\src\engine\video\text.cpp" />
     <ClCompile Include="..\..\src\engine\video\texture.cpp" />
     <ClCompile Include="..\..\src\engine\video\texture_controller.cpp" />
-    <ClCompile Include="..\..\src\engine\video\transform2d.cpp" />
     <ClCompile Include="..\..\src\engine\video\video.cpp" />
     <ClCompile Include="..\..\src\main.cpp" />
     <ClCompile Include="..\..\src\main_options.cpp" />
@@ -229,9 +229,12 @@
     <ClInclude Include="..\..\src\engine\video\coord_sys.h" />
     <ClInclude Include="..\..\src\engine\video\fade.h" />
     <ClInclude Include="..\..\src\engine\video\gl\shader.h" />
+    <ClInclude Include="..\..\src\engine\video\gl\shaders.h" />
     <ClInclude Include="..\..\src\engine\video\gl\shader_definition.h" />
     <ClInclude Include="..\..\src\engine\video\gl\shader_program.h" />
+    <ClInclude Include="..\..\src\engine\video\gl\shader_programs.h" />
     <ClInclude Include="..\..\src\engine\video\gl\sprite.h" />
+    <ClInclude Include="..\..\src\engine\video\gl\transform.h" />
     <ClInclude Include="..\..\src\engine\video\gl\vertex_declaration.h" />
     <ClInclude Include="..\..\src\engine\video\image.h" />
     <ClInclude Include="..\..\src\engine\video\image_base.h" />
@@ -247,7 +250,6 @@
     <ClInclude Include="..\..\src\engine\video\text.h" />
     <ClInclude Include="..\..\src\engine\video\texture.h" />
     <ClInclude Include="..\..\src\engine\video\texture_controller.h" />
-    <ClInclude Include="..\..\src\engine\video\transform2d.h" />
     <ClInclude Include="..\..\src\engine\video\video.h" />
     <ClInclude Include="..\..\src\main_options.h" />
     <ClInclude Include="..\..\src\modes\battle\battle.h" />

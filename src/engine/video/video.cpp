@@ -24,6 +24,8 @@
 #include "engine/video/gl/shader.h"
 #include "engine/video/gl/shader_definition.h"
 #include "engine/video/gl/shader_program.h"
+#include "engine/video/gl/shader_programs.h"
+#include "engine/video/gl/shaders.h"
 #include "engine/video/gl/sprite.h"
 
 #include "utils/utils_strings.h"
@@ -119,7 +121,7 @@ VideoEngine::VideoEngine():
                                          VIDEO_STANDARD_RES_HEIGHT);
     _current_context.scissoring_enabled = false;
 
-    _transform_stack.push(Transform2D());
+    _transform_stack.push(gl::Transform());
 
     for(uint32 sample = 0; sample < FPS_SAMPLES; sample++)
         _fps_samples[sample] = 0;
@@ -279,16 +281,16 @@ bool VideoEngine::FinalizeInitialization()
     texture_coordinates.push_back(1.0f);
 
     // Vertex two.
-    texture_coordinates.push_back(0.0f);
-    texture_coordinates.push_back(0.0f);
+    texture_coordinates.push_back(1.0f);
+    texture_coordinates.push_back(1.0f);
 
     // Vertex three.
     texture_coordinates.push_back(1.0f);
     texture_coordinates.push_back(0.0f);
 
     // Vertex four.
-    texture_coordinates.push_back(1.0f);
-    texture_coordinates.push_back(1.0f);
+    texture_coordinates.push_back(0.0f);
+    texture_coordinates.push_back(0.0f);
 
     // The quad's indices.
     std::vector<unsigned> indices;
@@ -311,39 +313,65 @@ bool VideoEngine::FinalizeInitialization()
     //
 
     // Create the shaders.
+    auto solid_vertex               = std::make_shared<gl::Shader>(GL_VERTEX_SHADER, gl::shader_definition::SOLID_VERTEX);
     auto sprite_vertex              = std::make_shared<gl::Shader>(GL_VERTEX_SHADER, gl::shader_definition::SPRITE_VERTEX);
     auto text_vertex                = std::make_shared<gl::Shader>(GL_VERTEX_SHADER, gl::shader_definition::TEXT_VERTEX);
+    auto solid_fragment             = std::make_shared<gl::Shader>(GL_FRAGMENT_SHADER, gl::shader_definition::SOLID_FRAGMENT);
     auto sprite_fragment            = std::make_shared<gl::Shader>(GL_FRAGMENT_SHADER, gl::shader_definition::SPRITE_FRAGMENT);
     auto sprite_grayscale_fragment  = std::make_shared<gl::Shader>(GL_FRAGMENT_SHADER, gl::shader_definition::SPRITE_GRAYSCALE_FRAGMENT);
     auto text_fragment              = std::make_shared<gl::Shader>(GL_FRAGMENT_SHADER, gl::shader_definition::TEXT_FRAGMENT);
 
     // Store the shaders.
-    _shaders.insert(std::unordered_map<std::string, std::shared_ptr<gl::Shader>>::value_type("sprite_vertex", sprite_vertex));
-    _shaders.insert(std::unordered_map<std::string, std::shared_ptr<gl::Shader>>::value_type("text_vertex", text_vertex));
-    _shaders.insert(std::unordered_map<std::string, std::shared_ptr<gl::Shader>>::value_type("sprite_fragment", sprite_fragment));
-    _shaders.insert(std::unordered_map<std::string, std::shared_ptr<gl::Shader>>::value_type("sprite_grayscale_fragment", sprite_grayscale_fragment));
-    _shaders.insert(std::unordered_map<std::string, std::shared_ptr<gl::Shader>>::value_type("text_fragment", text_fragment));
+    _shaders[gl::shaders::VertexSolid] = solid_vertex;
+    _shaders[gl::shaders::VertexSprite] = sprite_vertex;
+    _shaders[gl::shaders::VertexText] = text_vertex;
+    _shaders[gl::shaders::FragmentSolid] = solid_fragment;
+    _shaders[gl::shaders::FragmentSprite] = sprite_fragment;
+    _shaders[gl::shaders::FragmentGrayscaleSprite] = sprite_grayscale_fragment;
+    _shaders[gl::shaders::FragmentText] = text_fragment;
 
     //
     // Create the shader programs.
     //
 
+    //
+    // Create the solid programs.
+    //
+
     std::vector<std::string> attributes;
     attributes.push_back("in_Vertex");
-    attributes.push_back("in_TexCoords");
 
     std::vector<std::string> uniforms;
     uniforms.push_back("u_Model");
     uniforms.push_back("u_View");
     uniforms.push_back("u_Projection");
-    uniforms.push_back("u_Texture");
+    uniforms.push_back("u_Color");
+
+    auto solid_program = std::make_shared<gl::ShaderProgram>(*(_shaders[gl::shaders::VertexSolid]),
+                                                             *(_shaders[gl::shaders::FragmentSolid]),
+                                                             attributes, uniforms);
 
     //
     // Create the sprite programs.
     //
 
-    auto sprite_program = std::make_shared<gl::ShaderProgram>(*(_shaders["sprite_vertex"]), *(_shaders["sprite_fragment"]), attributes, uniforms);
-    auto sprite_grayscale_program = std::make_shared<gl::ShaderProgram>(*(_shaders["sprite_vertex"]), *(_shaders["sprite_grayscale_fragment"]),	attributes, uniforms);
+    attributes.clear();
+    attributes.push_back("in_Vertex");
+    attributes.push_back("in_TexCoords");
+
+    uniforms.clear();
+    uniforms.push_back("u_Model");
+    uniforms.push_back("u_View");
+    uniforms.push_back("u_Projection");
+    uniforms.push_back("u_Color");
+    uniforms.push_back("u_Texture");
+
+    auto sprite_program = std::make_shared<gl::ShaderProgram>(*(_shaders[gl::shaders::VertexSprite]),
+                                                              *(_shaders[gl::shaders::FragmentSprite]),
+                                                              attributes, uniforms);
+    auto sprite_grayscale_program = std::make_shared<gl::ShaderProgram>(*(_shaders[gl::shaders::VertexSprite]),
+                                                                        *(_shaders[gl::shaders::FragmentGrayscaleSprite]),
+                                                                        attributes, uniforms);
 
     //
     // Create the text programs.
@@ -358,17 +386,21 @@ bool VideoEngine::FinalizeInitialization()
     uniforms.push_back("u_Model");
     uniforms.push_back("u_View");
     uniforms.push_back("u_Projection");
+    uniforms.push_back("u_Color");
     uniforms.push_back("u_Texture");
 
-    auto text_program = std::make_shared<gl::ShaderProgram>(*(_shaders["text_vertex"]), *(_shaders["text_fragment"]), attributes, uniforms);
+    auto text_program = std::make_shared<gl::ShaderProgram>(*(_shaders[gl::shaders::VertexText]),
+                                                            *(_shaders[gl::shaders::FragmentText]),
+                                                            attributes, uniforms);
 
     //
     // Store the shader programs.
     //
 
-    _programs["sprite"] = sprite_program;
-    _programs["sprite_grayscale"] = sprite_grayscale_program;
-    _programs["text"] = text_program;
+    _programs[gl::shader_programs::Solid] = solid_program;
+    _programs[gl::shader_programs::Sprite] = sprite_program;
+    _programs[gl::shader_programs::SpriteGrayscale] = sprite_grayscale_program;
+    _programs[gl::shader_programs::Text] = text_program;
 
     // Create instances of the various sub-systems
     TextureManager = TextureController::SingletonCreate();
@@ -672,10 +704,31 @@ void VideoEngine::SetCoordSys(const CoordSys &coordinate_system)
 {
     _current_context.coordinate_system = coordinate_system;
 
+    float left = _current_context.coordinate_system.GetLeft();
+    float right = _current_context.coordinate_system.GetRight();
+    float bottom = _current_context.coordinate_system.GetBottom();
+    float top = _current_context.coordinate_system.GetTop();
+    float near_z = -1.0f;
+    float far_z = 1.0f;
+
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-    glOrtho(_current_context.coordinate_system.GetLeft(), _current_context.coordinate_system.GetRight(),
-            _current_context.coordinate_system.GetBottom(), _current_context.coordinate_system.GetTop(), -1, 1);
+    glOrtho(left, right, bottom, top, near_z, far_z);
+
+    // Calculate the orthographic projection.
+    float m00 = 2.0f / (right - left);
+    float m11 = 2.0f / (top - bottom);
+    float m22 = -2.0f / (far_z - near_z);
+
+    float m03 = -(right + left) / (right - left);
+    float m13 = -(top + bottom) / (top - bottom);
+    float m23 = -(far_z + near_z) / (far_z - near_z);
+
+    // Store the orthographic projection.
+    _projection = gl::Transform(m00, 0.0f, 0.0f, m03,
+                                0.0f, m11, 0.0f, m13,
+                                0.0f, 0.0f, m22, m23,
+                                0.0f, 0.0f, 0.0f, 1.0f);
 }
 
 void VideoEngine::GetCurrentViewport(float &x, float &y, float &width, float &height)
@@ -816,6 +869,24 @@ void VideoEngine::DisableTextureCoordArray()
     }
 }
 
+std::shared_ptr<gl::ShaderProgram> VideoEngine::LoadShaderProgram(const gl::shader_programs::ShaderPrograms& shader_program)
+{
+    std::shared_ptr<gl::ShaderProgram> result = nullptr;
+
+    assert(_programs.find(shader_program) != _programs.end());
+    if (_programs.find(shader_program) != _programs.end()) {
+        result = _programs.at(shader_program);
+        result->Load();
+    }
+
+    return result;
+}
+
+void VideoEngine::UnloadShaderProgram()
+{
+    glUseProgram(0);
+}
+
 void VideoEngine::SetVertexPointer(GLint size, GLsizei stride, const float *ptr)
 {
     assert(size > 0);
@@ -853,6 +924,34 @@ void VideoEngine::DrawArrays(GLenum mode, GLint first, GLsizei count)
                                  _vertex_array_stride);
 
     glDrawArrays(mode, 0, count);
+}
+
+void VideoEngine::DrawSprite(const std::shared_ptr<gl::ShaderProgram>& shader_program,
+                             const std::vector<float>& vertex_positions,
+                             const std::vector<float>& vertex_texture_coordinates,
+                             const Color& color)
+{
+    assert(_quad != nullptr);
+    assert(shader_program != nullptr);
+    assert(!vertex_positions.empty());
+    assert(!vertex_texture_coordinates.empty());
+
+    // Load the shader uniforms common to all programs.
+    float buffer[16] = { 0 };
+    _transform_stack.top().Apply(buffer);
+    shader_program->UpdateUniform("u_Model", buffer, 16);
+
+    gl::Transform identity;
+    identity.Apply(buffer);
+    shader_program->UpdateUniform("u_View", buffer, 16);
+
+    _projection.Apply(buffer);
+    shader_program->UpdateUniform("u_Projection", buffer, 16);
+
+    shader_program->UpdateUniform("u_Color", color.GetColors(), 4);
+
+    // Draw the sprite.
+    _quad->Draw(vertex_positions, vertex_texture_coordinates);
 }
 
 void VideoEngine::EnableScissoring()
@@ -961,7 +1060,7 @@ void VideoEngine::PopMatrix()
 
     // Sanity.
     if (_transform_stack.empty()) {
-        _transform_stack.push(Transform2D());
+        _transform_stack.push(gl::Transform());
     }
 }
 

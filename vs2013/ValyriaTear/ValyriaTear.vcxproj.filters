@@ -293,9 +293,6 @@
     <ClCompile Include="..\..\src\modes\map\map_status_effects.cpp">
       <Filter>modes\map</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\engine\video\transform2d.cpp">
-      <Filter>engine\video</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\engine\video\gl\shader.cpp">
       <Filter>engine\video\gl</Filter>
     </ClCompile>
@@ -303,6 +300,9 @@
       <Filter>engine\video\gl</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\engine\video\gl\sprite.cpp">
+      <Filter>engine\video\gl</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\engine\video\gl\transform.cpp">
       <Filter>engine\video\gl</Filter>
     </ClCompile>
   </ItemGroup>
@@ -566,9 +566,6 @@
     <ClInclude Include="..\..\src\modes\map\map_status_effects.h">
       <Filter>modes\map</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\engine\video\transform2d.h">
-      <Filter>engine\video</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\src\engine\video\gl\shader.h">
       <Filter>engine\video\gl</Filter>
     </ClInclude>
@@ -582,6 +579,15 @@
       <Filter>engine\video\gl</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\engine\video\gl\sprite.h">
+      <Filter>engine\video\gl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\engine\video\gl\shader_programs.h">
+      <Filter>engine\video\gl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\engine\video\gl\shaders.h">
+      <Filter>engine\video\gl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\engine\video\gl\transform.h">
       <Filter>engine\video\gl</Filter>
     </ClInclude>
   </ItemGroup>

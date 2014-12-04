@@ -1167,25 +1167,25 @@ void BattleCharacter::DrawStatus(uint32 order, BattleCharacter* character_comman
     float bar_size;
     VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_NO_BLEND, 0);
 
-    // Draw HP bar in green
+    // Draw HP bar in green.
     bar_size = static_cast<float>(90 * GetHitPoints()) / static_cast<float>(GetMaxHitPoints());
     VideoManager->Move(312.0f, 678.0f + y_offset);
 
-    if(GetHitPoints() > 0) {
+    if (GetHitPoints() > 0) {
         if (bar_size < 90.0f / 4.0f)
             VideoManager->DrawRectangle(bar_size, 6, Color::orange);
         else
             VideoManager->DrawRectangle(bar_size, 6, green_hp);
     }
 
-    // Draw SP bar in blue
+    // Draw SP bar in blue.
     bar_size = static_cast<float>(90 * GetSkillPoints()) / static_cast<float>(GetMaxSkillPoints());
     VideoManager->Move(424.0f, 678.0f + y_offset);
 
-    if(GetSkillPoints() > 0)
+    if (GetSkillPoints() > 0)
         VideoManager->DrawRectangle(bar_size, 6, blue_sp);
 
-    // Draw the cover image over the top of the bar
+    // Draw the cover image over the top of the bar.
     VideoManager->SetDrawFlags(VIDEO_BLEND, 0);
     VideoManager->Move(290.0f, 684.0f + y_offset);
     BattleMode::CurrentInstance()->GetMedia().character_HP_text.Draw();
@@ -1193,11 +1193,11 @@ void BattleCharacter::DrawStatus(uint32 order, BattleCharacter* character_comman
     BattleMode::CurrentInstance()->GetMedia().character_SP_text.Draw();
 
     VideoManager->SetDrawFlags(VIDEO_X_CENTER, 0);
-    // Draw the character's current health on top of the middle of the HP bar
+    // Draw the character's current health on top of the middle of the HP bar.
     VideoManager->Move(355.0f, 680.0f + y_offset);
     _hit_points_text.Draw();
 
-    // Draw the character's current skill points on top of the middle of the SP bar
+    // Draw the character's current skill points on top of the middle of the SP bar.
     VideoManager->MoveRelative(114.0f, 0.0f);
     _skill_points_text.Draw();
 

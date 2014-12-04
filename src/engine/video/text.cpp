@@ -323,11 +323,10 @@ void TextElement::Draw() const
     Draw(Color::white);
 }
 
-
 void TextElement::Draw(const Color &draw_color) const
 {
-    // Don't draw anything if this image is completely transparent (invisible)
-    if(IsFloatEqual(draw_color[3], 0.0f))
+    // Don't draw anything if this image is completely transparent (invisible).
+    if (IsFloatEqual(draw_color[3], 0.0f))
         return;
 
     VideoManager->PushMatrix();
@@ -346,9 +345,7 @@ void TextElement::Draw(const Color &draw_color) const
     }
 
     VideoManager->PopMatrix();
-} // void TextElement::Draw(const Color& draw_color) const
-
-
+}
 
 void TextElement::SetTexture(TextTexture *texture)
 {

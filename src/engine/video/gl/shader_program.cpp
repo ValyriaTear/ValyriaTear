@@ -207,7 +207,7 @@ bool ShaderProgram::UpdateUniform(const std::string &s, int32_t i)
     return result;
 }
 
-bool ShaderProgram::UpdateUniform(const std::string &s, float* data, unsigned length)
+bool ShaderProgram::UpdateUniform(const std::string &s, const float* data, unsigned length)
 {
     bool result = false;
 
@@ -221,7 +221,7 @@ bool ShaderProgram::UpdateUniform(const std::string &s, float* data, unsigned le
         }
         else if (length == 16) {
             // The matrix case.
-            glUniformMatrix4fv(_uniforms[s], 1, false, data);
+            glUniformMatrix4fv(_uniforms[s], 1, true, data);
             result = true;
         }
     }

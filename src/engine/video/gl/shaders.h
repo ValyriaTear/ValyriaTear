@@ -8,43 +8,34 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 /** ****************************************************************************
-*** \file    sprite.h
+*** \file    shaders.h
 *** \author  Authenticate, James Lammlein
-*** \brief   Header file for buffers for a sprite.
+*** \brief   Header file for shader definitions.
 *** ***************************************************************************/
 
-#ifndef __SPRITE_HEADER__
-#define __SPRITE_HEADER__
+#ifndef __SHADERS_HEADER__
+#define __SHADERS_HEADER__
 
 namespace vt_video
 {
 namespace gl
 {
-
-//! \brief A class for a sprite.
-class Sprite
+namespace shaders
 {
-public:
-    Sprite(const std::vector<float>& vertex_positions,
-           const std::vector<float>& vertex_texture_coordinates,
-           const std::vector<unsigned>& indices);
-    ~Sprite();
 
-    void Draw();
-    void Draw(const std::vector<float>& vertex_positions,
-              const std::vector<float>& vertex_texture_coordinates);
-
-    unsigned _number_of_indices;
-
-    GLuint _vao;
-    GLuint _vertex_position_buffer;
-    GLuint _vertex_texture_coordinate_buffer;
-    GLuint _index_buffer;
-
-private:
-    Sprite(const Sprite&) {}
-    Sprite& operator=(const Sprite&) { return *this; }
+enum Shaders
+{
+    VertexSolid = 0,
+    VertexSprite,
+    VertexText,
+    FragmentSolid,
+    FragmentSprite,
+    FragmentGrayscaleSprite,
+    FragmentText,
+    Count
 };
+
+} // namespace shaders
 
 } // namespace gl
 

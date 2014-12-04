@@ -33,11 +33,13 @@
 #include "engine/video/context.h"
 #include "engine/video/coord_sys.h"
 #include "engine/video/fade.h"
+#include "engine/video/gl/shader_programs.h"
+#include "engine/video/gl/shaders.h"
+#include "engine/video/gl/transform.h"
 #include "engine/video/image.h"
 #include "engine/video/screen_rect.h"
 #include "engine/video/text.h"
 #include "engine/video/texture_controller.h"
-#include "engine/video/transform2d.h"
 
 namespace vt_gui {
 class TextBox;
@@ -367,11 +369,23 @@ public:
     void EnableTextureCoordArray();
     void DisableTextureCoordArray();
 
-    //!  \brief glVertexPointer wrapper, vertex type is restricted to float.
+    //! \brief Loads a shader program.
+    std::shared_ptr<gl::ShaderProgram> LoadShaderProgram(const gl::shader_programs::ShaderPrograms& shader_program);
+
+    //! \brief Unloads the currently loaded shader program.
+    void UnloadShaderProgram();
+
+    //! \brief glVertexPointer wrapper, vertex type is restricted to float.
     void SetVertexPointer(GLint size, GLsizei stride, const float *ptr);
 
     //! \brief glDrawArrays wrapper.
     void DrawArrays(GLenum mode, GLint first, GLsizei count);
+
+    //! \brief Draws a sprite.
+    void DrawSprite(const std::shared_ptr<gl::ShaderProgram>& shader_program,
+                    const std::vector<float>& vertex_positions,
+                    const std::vector<float>& vertex_texture_coordinates,
+                    const Color& color);
 
     /** \brief Enables the scissoring effect in the video engine
     *** Scissoring is where you can specify a rectangle of the screen which is affected
@@ -777,20 +791,23 @@ private:
     //! Image used for rendering rectangles
     StillImage _rectangle_image;
 
-    //! stack containing context, i.e. draw flags plus coord sys. Context is pushed and popped by any VideoEngine functions that clobber these settings
+    //! The stack containing contexts, i.e. draw flags plus coord sys. Context is pushed and popped by any VideoEngine functions that clobber these settings
     std::stack<private_video::Context> _context_stack;
 
-    //! stack containing 2D transforms. Pushed and popped by PushMatrix/PopMatrix.
-    std::stack<vt_video::Transform2D> _transform_stack;
+    //! The projection matrix.
+    gl::Transform _projection;
+
+    //! The stack containing transforms. Pushed and popped by PushMatrix/PopMatrix.
+    std::stack<gl::Transform> _transform_stack;
 
     //! The OpenGL buffers and objects to draw a quad.
     std::shared_ptr<gl::Sprite> _quad;
 
     //! The OpenGL shaders.
-    std::unordered_map<std::string, std::shared_ptr<gl::Shader>> _shaders;
+    std::unordered_map<gl::shaders::Shaders, std::shared_ptr<gl::Shader>> _shaders;
 
     //! The OpenGL shader programs.
-    std::unordered_map<std::string, std::shared_ptr<gl::ShaderProgram>> _programs;
+    std::unordered_map<gl::shader_programs::ShaderPrograms, std::shared_ptr<gl::ShaderProgram>> _programs;
 
     //! cache vertex array data to be able to apply transform before drawing.
     std::vector<float> _transformed_vertex_array;

@@ -38,7 +38,7 @@ public:
 
     bool UpdateUniform(const std::string &s, float f);
     bool UpdateUniform(const std::string &s, int i);
-    bool UpdateUniform(const std::string &s, float* data, unsigned length);
+    bool UpdateUniform(const std::string &s, const float* data, unsigned length);
 
     GLint _program;
     std::list<GLint> _shaders;
