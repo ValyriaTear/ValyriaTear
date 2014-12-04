@@ -24,6 +24,7 @@
 #include "engine/video/gl/shader.h"
 #include "engine/video/gl/shader_definition.h"
 #include "engine/video/gl/shader_program.h"
+#include "engine/video/gl/sprite.h"
 
 #include "utils/utils_strings.h"
 
@@ -201,6 +202,9 @@ void VideoEngine::_DrawFPS()
 
 VideoEngine::~VideoEngine()
 {
+    // Clean up the quad.
+    _quad = nullptr;
+
     // Clean up the shaders and shader programs.
     glUseProgram(0);
     _programs.clear();
@@ -239,6 +243,68 @@ bool VideoEngine::FinalizeInitialization()
             return false;
         }
 #   endif
+
+    //
+    // Create the quad.
+    //
+
+    // The quad's vertices.
+    std::vector<float> vertices;
+
+    // Vertex one.
+    vertices.push_back(0.0f);
+    vertices.push_back(0.0f);
+    vertices.push_back(0.0f);
+
+    // Vertex two.
+    vertices.push_back(0.0f);
+    vertices.push_back(1.0f);
+    vertices.push_back(0.0f);
+
+    // Vertex three.
+    vertices.push_back(1.0f);
+    vertices.push_back(1.0f);
+    vertices.push_back(0.0f);
+
+    // Vertex four.
+    vertices.push_back(1.0f);
+    vertices.push_back(0.0f);
+    vertices.push_back(0.0f);
+
+    // The quad's texture coordinates.
+    std::vector<float> texture_coordinates;
+
+    // Vertex one.
+    texture_coordinates.push_back(0.0f);
+    texture_coordinates.push_back(1.0f);
+
+    // Vertex two.
+    texture_coordinates.push_back(0.0f);
+    texture_coordinates.push_back(0.0f);
+
+    // Vertex three.
+    texture_coordinates.push_back(1.0f);
+    texture_coordinates.push_back(0.0f);
+
+    // Vertex four.
+    texture_coordinates.push_back(1.0f);
+    texture_coordinates.push_back(1.0f);
+
+    // The quad's indices.
+    std::vector<unsigned> indices;
+
+    // The first triangle.
+    indices.push_back(0);
+    indices.push_back(1);
+    indices.push_back(2);
+
+    // The second triangle.
+    indices.push_back(0);
+    indices.push_back(2);
+    indices.push_back(3);
+
+    // Create the quad.
+    _quad = std::make_shared<gl::Sprite>(vertices, texture_coordinates, indices);
 
     //
     // Create the programmable pipeline.

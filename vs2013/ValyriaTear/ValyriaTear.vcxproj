@@ -138,6 +138,7 @@
     <ClCompile Include="..\..\src\engine\video\fade.cpp" />
     <ClCompile Include="..\..\src\engine\video\gl\shader.cpp" />
     <ClCompile Include="..\..\src\engine\video\gl\shader_program.cpp" />
+    <ClCompile Include="..\..\src\engine\video\gl\sprite.cpp" />
     <ClCompile Include="..\..\src\engine\video\image.cpp" />
     <ClCompile Include="..\..\src\engine\video\image_base.cpp" />
     <ClCompile Include="..\..\src\engine\video\interpolator.cpp" />
@@ -230,6 +231,7 @@
     <ClInclude Include="..\..\src\engine\video\gl\shader.h" />
     <ClInclude Include="..\..\src\engine\video\gl\shader_definition.h" />
     <ClInclude Include="..\..\src\engine\video\gl\shader_program.h" />
+    <ClInclude Include="..\..\src\engine\video\gl\sprite.h" />
     <ClInclude Include="..\..\src\engine\video\gl\vertex_declaration.h" />
     <ClInclude Include="..\..\src\engine\video\image.h" />
     <ClInclude Include="..\..\src\engine\video\image_base.h" />

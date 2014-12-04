@@ -69,6 +69,7 @@ namespace gl
 
 class Shader;
 class ShaderProgram;
+class Sprite;
 
 } // namespace gl
 
@@ -781,6 +782,9 @@ private:
 
     //! stack containing 2D transforms. Pushed and popped by PushMatrix/PopMatrix.
     std::stack<vt_video::Transform2D> _transform_stack;
+
+    //! The OpenGL buffers and objects to draw a quad.
+    std::shared_ptr<gl::Sprite> _quad;
 
     //! The OpenGL shaders.
     std::unordered_map<std::string, std::shared_ptr<gl::Shader>> _shaders;
