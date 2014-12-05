@@ -142,7 +142,7 @@ ShaderProgram::ShaderProgram(const Shader& vertex_shader,
                 errors = true;
             }
             else {
-                _uniforms.insert(std::unordered_map<std::string, int>::value_type(i->c_str(), location));
+                _uniforms[i->c_str()] = location;
             }
 
             ++i;

@@ -42,7 +42,7 @@ public:
 
     GLint _program;
     std::list<GLint> _shaders;
-    std::unordered_map<std::string, int32_t> _uniforms;
+    std::map<std::string, int> _uniforms;
 
 private:
     ShaderProgram(const ShaderProgram&) {}

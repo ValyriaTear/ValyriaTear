@@ -804,10 +804,10 @@ private:
     std::shared_ptr<gl::Sprite> _quad;
 
     //! The OpenGL shaders.
-    std::unordered_map<gl::shaders::Shaders, std::shared_ptr<gl::Shader>> _shaders;
+    std::map<gl::shaders::Shaders, std::shared_ptr<gl::Shader>> _shaders;
 
     //! The OpenGL shader programs.
-    std::unordered_map<gl::shader_programs::ShaderPrograms, std::shared_ptr<gl::ShaderProgram>> _programs;
+    std::map<gl::shader_programs::ShaderPrograms, std::shared_ptr<gl::ShaderProgram>> _programs;
 
     //! cache vertex array data to be able to apply transform before drawing.
     std::vector<float> _transformed_vertex_array;
