@@ -252,7 +252,7 @@ bool VideoEngine::SingletonInitialize()
 
 bool VideoEngine::FinalizeInitialization()
 {
-    // Load GLEW on Windows.
+    // Load GLEW.
     GLenum err = glewInit();
     if (GLEW_OK != err) {
         PRINT_ERROR << "Unable to initialize GLEW." << std::endl;
