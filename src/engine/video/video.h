@@ -370,7 +370,7 @@ public:
     void DisableTextureCoordArray();
 
     //! \brief Loads a shader program.
-    std::shared_ptr<gl::ShaderProgram> LoadShaderProgram(const gl::shader_programs::ShaderPrograms& shader_program);
+    gl::ShaderProgram* LoadShaderProgram(const gl::shader_programs::ShaderPrograms& shader_program);
 
     //! \brief Unloads the currently loaded shader program.
     void UnloadShaderProgram();
@@ -382,7 +382,7 @@ public:
     void DrawArrays(GLenum mode, GLint first, GLsizei count);
 
     //! \brief Draws a sprite.
-    void DrawSprite(const std::shared_ptr<gl::ShaderProgram>& shader_program,
+    void DrawSprite(gl::ShaderProgram* shader_program,
                     const std::vector<float>& vertex_positions,
                     const std::vector<float>& vertex_texture_coordinates,
                     const Color& color);
@@ -801,13 +801,13 @@ private:
     std::stack<gl::Transform> _transform_stack;
 
     //! The OpenGL buffers and objects to draw a quad.
-    std::shared_ptr<gl::Sprite> _quad;
+    gl::Sprite* _quad;
 
     //! The OpenGL shaders.
-    std::map<gl::shaders::Shaders, std::shared_ptr<gl::Shader>> _shaders;
+    std::map<gl::shaders::Shaders, gl::Shader*> _shaders;
 
     //! The OpenGL shader programs.
-    std::map<gl::shader_programs::ShaderPrograms, std::shared_ptr<gl::ShaderProgram>> _programs;
+    std::map<gl::shader_programs::ShaderPrograms, gl::ShaderProgram*> _programs;
 
     //! cache vertex array data to be able to apply transform before drawing.
     std::vector<float> _transformed_vertex_array;

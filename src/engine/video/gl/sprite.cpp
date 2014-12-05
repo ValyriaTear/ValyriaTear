@@ -88,7 +88,7 @@ Sprite::Sprite(const std::vector<float>& vertex_positions,
 
     // Store the vertex data into slot 0.
     if (!errors) {
-        glVertexAttribPointer(0, 3, GL_FLOAT, false, 0, nullptr);
+        glVertexAttribPointer(0, 3, GL_FLOAT, false, 0, NULL);
 
         GLenum error = glGetError();
         if (error != GL_NO_ERROR) {
@@ -118,7 +118,7 @@ Sprite::Sprite(const std::vector<float>& vertex_positions,
 
     // Store the vertex data into slot 1.
     if (!errors) {
-        glVertexAttribPointer(1, 2, GL_FLOAT, false, 0, nullptr);
+        glVertexAttribPointer(1, 2, GL_FLOAT, false, 0, NULL);
 
         GLenum error = glGetError();
         if (error != GL_NO_ERROR) {
@@ -191,7 +191,7 @@ void Sprite::Draw()
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _index_buffer);
 
     // Draw the sprite.
-    glDrawElements(GL_TRIANGLES, _number_of_indices, GL_UNSIGNED_INT, nullptr);
+    glDrawElements(GL_TRIANGLES, _number_of_indices, GL_UNSIGNED_INT, NULL);
 
     // Unbind the vertex array object from the pipeline.
     glBindVertexArray(0);

@@ -212,8 +212,8 @@ bool ShaderProgram::UpdateUniform(const std::string &s, const float* data, unsig
     bool result = false;
 
     // This function currently only supports matrices and vectors.
-    assert(data != nullptr && (length == 4 || length == 16));
-    if (data != nullptr) {
+    assert(data != NULL && (length == 4 || length == 16));
+    if (data != NULL) {
         if (length == 4) {
             // The vector case.
             glUniform4f(_uniforms[s], data[0], data[1], data[2], data[3]);

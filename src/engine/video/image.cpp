@@ -569,7 +569,7 @@ void ImageDescriptor::_DrawTexture(const Color* draw_color) const
     if (!draw_color) {
         draw_color = _color;
     }
-    assert(draw_color != nullptr);
+    assert(draw_color != NULL);
 
     // Set the blending parameters.
     if (VideoManager->_current_context.blend) {
@@ -586,7 +586,7 @@ void ImageDescriptor::_DrawTexture(const Color* draw_color) const
     }
 
     // The shader program.
-    std::shared_ptr<gl::ShaderProgram> shader_program = nullptr;
+    gl::ShaderProgram* shader_program = NULL;
 
     // If we have a valid image texture poiner, setup texture coordinates and the texture coordinate array.
     if (_texture) {
@@ -636,7 +636,7 @@ void ImageDescriptor::_DrawTexture(const Color* draw_color) const
 
         // Load the sprite shader program.
         shader_program = VideoManager->LoadShaderProgram(gl::shader_programs::Sprite);
-        assert(shader_program != nullptr);
+        assert(shader_program != NULL);
     } else {
         //
         // Otherwise there is no image texture, so we're drawing pure color on the vertices.
@@ -647,7 +647,7 @@ void ImageDescriptor::_DrawTexture(const Color* draw_color) const
 
         // Load the solid shader program.
         shader_program = VideoManager->LoadShaderProgram(gl::shader_programs::Solid);
-        assert(shader_program != nullptr);
+        assert(shader_program != NULL);
     }
 
     if (_unichrome_vertices) {

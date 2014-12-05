@@ -66,7 +66,6 @@ void RotatePoint(float &x, float &y, float angle)
     y = y * cos_angle + original_x * sin_angle;
 }
 
-
 //-----------------------------------------------------------------------------
 // VideoEngine class
 //-----------------------------------------------------------------------------
@@ -103,6 +102,7 @@ VideoEngine::VideoEngine():
     _temp_width(0),
     _temp_height(0),
     _smooth_pixel_art(true),
+    _quad(NULL),
     _transformed_vertex_array_ptr(NULL),
     _vertex_array_ptr(NULL),
     _vertex_array_stride(0),
@@ -205,11 +205,26 @@ void VideoEngine::_DrawFPS()
 VideoEngine::~VideoEngine()
 {
     // Clean up the quad.
-    _quad = nullptr;
+    if (_quad) {
+        delete _quad;
+        _quad = NULL;
+    }
 
     // Clean up the shaders and shader programs.
     glUseProgram(0);
+
+    for (std::map<gl::shader_programs::ShaderPrograms, gl::ShaderProgram*>::iterator i = _programs.begin(); i != _programs.end(); ++i)
+    {
+        delete i->second;
+        i->second = NULL;
+    }
     _programs.clear();
+
+    for (std::map<gl::shaders::Shaders, gl::Shader*>::iterator i = _shaders.begin(); i != _shaders.end(); ++i)
+    {
+        delete i->second;
+        i->second = NULL;
+    }
     _shaders.clear();
 
     TextManager->SingletonDestroy();
@@ -306,20 +321,20 @@ bool VideoEngine::FinalizeInitialization()
     indices.push_back(3);
 
     // Create the quad.
-    _quad = std::make_shared<gl::Sprite>(vertices, texture_coordinates, indices);
+    _quad = new gl::Sprite(vertices, texture_coordinates, indices);
 
     //
     // Create the programmable pipeline.
     //
 
     // Create the shaders.
-    auto solid_vertex               = std::make_shared<gl::Shader>(GL_VERTEX_SHADER, gl::shader_definition::SOLID_VERTEX);
-    auto sprite_vertex              = std::make_shared<gl::Shader>(GL_VERTEX_SHADER, gl::shader_definition::SPRITE_VERTEX);
-    auto text_vertex                = std::make_shared<gl::Shader>(GL_VERTEX_SHADER, gl::shader_definition::TEXT_VERTEX);
-    auto solid_fragment             = std::make_shared<gl::Shader>(GL_FRAGMENT_SHADER, gl::shader_definition::SOLID_FRAGMENT);
-    auto sprite_fragment            = std::make_shared<gl::Shader>(GL_FRAGMENT_SHADER, gl::shader_definition::SPRITE_FRAGMENT);
-    auto sprite_grayscale_fragment  = std::make_shared<gl::Shader>(GL_FRAGMENT_SHADER, gl::shader_definition::SPRITE_GRAYSCALE_FRAGMENT);
-    auto text_fragment              = std::make_shared<gl::Shader>(GL_FRAGMENT_SHADER, gl::shader_definition::TEXT_FRAGMENT);
+    gl::Shader* solid_vertex                = new gl::Shader(GL_VERTEX_SHADER, gl::shader_definition::SOLID_VERTEX);
+    gl::Shader* sprite_vertex               = new gl::Shader(GL_VERTEX_SHADER, gl::shader_definition::SPRITE_VERTEX);
+    gl::Shader* text_vertex                 = new gl::Shader(GL_VERTEX_SHADER, gl::shader_definition::TEXT_VERTEX);
+    gl::Shader* solid_fragment              = new gl::Shader(GL_FRAGMENT_SHADER, gl::shader_definition::SOLID_FRAGMENT);
+    gl::Shader* sprite_fragment             = new gl::Shader(GL_FRAGMENT_SHADER, gl::shader_definition::SPRITE_FRAGMENT);
+    gl::Shader* sprite_grayscale_fragment   = new gl::Shader(GL_FRAGMENT_SHADER, gl::shader_definition::SPRITE_GRAYSCALE_FRAGMENT);
+    gl::Shader* text_fragment               = new gl::Shader(GL_FRAGMENT_SHADER, gl::shader_definition::TEXT_FRAGMENT);
 
     // Store the shaders.
     _shaders[gl::shaders::VertexSolid] = solid_vertex;
@@ -347,7 +362,7 @@ bool VideoEngine::FinalizeInitialization()
     uniforms.push_back("u_Projection");
     uniforms.push_back("u_Color");
 
-    auto solid_program = std::make_shared<gl::ShaderProgram>(*(_shaders[gl::shaders::VertexSolid]),
+    gl::ShaderProgram* solid_program = new gl::ShaderProgram(*(_shaders[gl::shaders::VertexSolid]),
                                                              *(_shaders[gl::shaders::FragmentSolid]),
                                                              attributes, uniforms);
 
@@ -366,11 +381,11 @@ bool VideoEngine::FinalizeInitialization()
     uniforms.push_back("u_Color");
     uniforms.push_back("u_Texture");
 
-    auto sprite_program = std::make_shared<gl::ShaderProgram>(*(_shaders[gl::shaders::VertexSprite]),
+    gl::ShaderProgram* sprite_program = new gl::ShaderProgram(*(_shaders[gl::shaders::VertexSprite]),
                                                               *(_shaders[gl::shaders::FragmentSprite]),
                                                               attributes, uniforms);
 
-    auto sprite_grayscale_program = std::make_shared<gl::ShaderProgram>(*(_shaders[gl::shaders::VertexSprite]),
+    gl::ShaderProgram* sprite_grayscale_program = new gl::ShaderProgram(*(_shaders[gl::shaders::VertexSprite]),
                                                                         *(_shaders[gl::shaders::FragmentGrayscaleSprite]),
                                                                         attributes, uniforms);
 
@@ -390,7 +405,7 @@ bool VideoEngine::FinalizeInitialization()
     uniforms.push_back("u_Color");
     uniforms.push_back("u_Texture");
 
-    auto text_program = std::make_shared<gl::ShaderProgram>(*(_shaders[gl::shaders::VertexText]),
+    gl::ShaderProgram* text_program = new gl::ShaderProgram(*(_shaders[gl::shaders::VertexText]),
                                                             *(_shaders[gl::shaders::FragmentText]),
                                                             attributes, uniforms);
 
@@ -870,9 +885,9 @@ void VideoEngine::DisableTextureCoordArray()
     }
 }
 
-std::shared_ptr<gl::ShaderProgram> VideoEngine::LoadShaderProgram(const gl::shader_programs::ShaderPrograms& shader_program)
+gl::ShaderProgram* VideoEngine::LoadShaderProgram(const gl::shader_programs::ShaderPrograms& shader_program)
 {
-    std::shared_ptr<gl::ShaderProgram> result = nullptr;
+    gl::ShaderProgram* result = NULL;
 
     assert(_programs.find(shader_program) != _programs.end());
     if (_programs.find(shader_program) != _programs.end()) {
@@ -927,13 +942,13 @@ void VideoEngine::DrawArrays(GLenum mode, GLint first, GLsizei count)
     glDrawArrays(mode, 0, count);
 }
 
-void VideoEngine::DrawSprite(const std::shared_ptr<gl::ShaderProgram>& shader_program,
+void VideoEngine::DrawSprite(gl::ShaderProgram* shader_program,
                              const std::vector<float>& vertex_positions,
                              const std::vector<float>& vertex_texture_coordinates,
                              const Color& color)
 {
-    assert(_quad != nullptr);
-    assert(shader_program != nullptr);
+    assert(_quad != NULL);
+    assert(shader_program != NULL);
     assert(!vertex_positions.empty());
     assert(!vertex_texture_coordinates.empty());
 
