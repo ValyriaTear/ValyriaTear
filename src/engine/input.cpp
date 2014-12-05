@@ -44,8 +44,7 @@ bool INPUT_DEBUG = false;
 InputEngine::InputEngine()
 {
     IF_PRINT_WARNING(INPUT_DEBUG) << "INPUT: InputEngine constructor invoked" << std::endl;
-    memset(&_key, 0, sizeof(_key));
-    memset(&_joystick, 0, sizeof(_joystick));
+
     _registered_key_press   = false;
     _registered_key_release = false;
 
@@ -81,12 +80,22 @@ InputEngine::InputEngine()
     _quit_press           = false;
     _help_press           = false;
 
+    // Fill the _key struct with 0 values.
+    memset(&_key, 0, sizeof(_key));
+
     _joysticks_enabled    = true;
+    _joystick.joy_index   = 0; // the first joystick
     _joystick.js          = NULL;
+    _joystick.confirm     = 0;
+    _joystick.cancel      = 0;
+    _joystick.menu        = 0;
+    _joystick.minimap     = 0;
+    _joystick.pause       = 0;
+    _joystick.help        = 0;
+    _joystick.quit        = 0;
     _joystick.x_axis      = 0;
     _joystick.y_axis      = 1;
     _joystick.threshold   = 8192;
-    _joystick.joy_index   = 0; // the first joystick
 
     // Init hat booleans
     _hat_up_state = false;
@@ -94,8 +103,6 @@ InputEngine::InputEngine()
     _hat_left_state = false;
     _hat_right_state = false;
 }
-
-
 
 InputEngine::~InputEngine()
 {
