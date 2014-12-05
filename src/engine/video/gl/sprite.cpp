@@ -32,9 +32,9 @@ Sprite::Sprite(const std::vector<float>& vertex_positions,
 {
     bool errors = false;
 
-    assert(vertex_positions.size() > 0 && vertex_positions.size() % 3 == 0);
-    assert(vertex_texture_coordinates.size() > 0 && vertex_texture_coordinates.size() % 2 == 0);
-    assert(indices.size() > 0 && indices.size() % 3 == 0);
+    assert(!vertex_positions.empty() && vertex_positions.size() % 3 == 0);
+    assert(!vertex_texture_coordinates.empty() && vertex_texture_coordinates.size() % 2 == 0);
+    assert(!indices.empty() && indices.size() % 3 == 0);
 
     // Create the vertex array object.
     if (!errors) {
@@ -206,8 +206,8 @@ void Sprite::Draw(const std::vector<float>& vertex_positions,
 {
     bool errors = false;
 
-    assert(vertex_positions.size() > 0 && vertex_positions.size() % 3 == 0);
-    assert(vertex_texture_coordinates.size() > 0 && vertex_texture_coordinates.size() % 2 == 0);
+    assert(!vertex_positions.empty() && vertex_positions.size() % 3 == 0);
+    assert(!vertex_texture_coordinates.empty() && vertex_texture_coordinates.size() % 2 == 0);
 
     // Bind the vertex buffer.
     if (!errors) {
