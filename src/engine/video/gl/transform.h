@@ -37,13 +37,13 @@ public:
               float m20, float m21, float m22, float m23,
               float m30, float m31, float m32, float m33);
 
-    //! \brief Move current transform by x, y.
+    //! \brief Moves the current transform by x and y.
     void Translate(float x, float y);
 
-    //! \brief Scale current transform by sx, sy.
+    //! \brief Scales the current transform by sx and sy.
     void Scale(float sx, float sy);
 
-    //! \brief Rotate current transform by angle.
+    //! \brief Rotates current transform by the angle in degrees.
     void Rotate(float angle);
 
     //! \brief Resets the transform to the identity.

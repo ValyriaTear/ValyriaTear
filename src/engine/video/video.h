@@ -483,8 +483,8 @@ public:
     //! \brief Restores the most recently pushed video engine state
     void PopState();
 
-    /** \brief Rotates images counterclockwise by the specified number of radians
-    *** \param angle How many radians to perform the rotation by
+    /** \brief Rotates images counterclockwise by the specified number of degrees.
+    *** \param angle How many degrees to perform the rotation by.
     *** \note You should understand how transformation matrices work in OpenGL
     *** prior to using this function.
     **/

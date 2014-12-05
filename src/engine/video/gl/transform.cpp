@@ -20,6 +20,8 @@
 #include "utils/utils_pch.h"
 #include "transform.h"
 
+#include "utils/utils_numeric.h"
+
 namespace vt_video
 {
 namespace gl
@@ -91,8 +93,12 @@ void Transform::Scale(float sx, float sy)
 
 void Transform::Rotate(float angle)
 {
-    float cosa = cosf(angle);
-    float sina = sinf(angle);
+    // "cosf" and "sinf" take radians as input.
+    // So, convert from degrees to radians.
+    float angle_radians = vt_utils::UTILS_PI * angle / 180.0f;
+
+    float cosa = cosf(angle_radians);
+    float sina = sinf(angle_radians);
 
     Transform rotation;
     rotation._row0[0] = cosa;

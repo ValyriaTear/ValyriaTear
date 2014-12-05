@@ -1113,18 +1113,7 @@ void VideoEngine::PopState()
 
 void VideoEngine::Rotate(float angle)
 {
-    // Note: I believe there was a bug in the original implementation.
-    //       glRotatef takes degrees as input; not radians.
-    //       The documentation for VideoEngine:Rotate says it expects radians as input.
-    //       So, I think the "angle" parameter should have been coverted to degrees before
-    //       being passed into glRotatef in the original implementation.
-    //
-    //       For the sake of keeping the new implementation consistent with the old implementation,
-    //       I am adding a conversion here.  However, the actual solution should be to update the data files.
-    //
-
-    float angle_radians = 3.1415926f * angle / 180.0f;
-    _transform_stack.top().Rotate(angle_radians);
+    _transform_stack.top().Rotate(angle);
 }
 
 void VideoEngine::Scale(float x, float y)
