@@ -84,9 +84,7 @@
 #   include "al.h"
 #   include "alc.h"
 #endif
-#   ifdef _WIN32
-#       include <GL/glew.h>
-#   endif
+#   include <GL/glew.h>
 #   include <GL/gl.h>
 #   include <GL/glu.h>
 #endif
