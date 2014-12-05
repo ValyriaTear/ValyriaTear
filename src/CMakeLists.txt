@@ -324,6 +324,17 @@ engine/video/context.h
 engine/video/coord_sys.h
 engine/video/fade.cpp
 engine/video/fade.h
+engine/video/gl/shader.cpp
+engine/video/gl/shader.h
+engine/video/gl/shader_definition.h
+engine/video/gl/shader_program.cpp
+engine/video/gl/shader_program.h
+engine/video/gl/shader_programs.h
+engine/video/gl/shaders.h
+engine/video/gl/sprite.cpp
+engine/video/gl/sprite.h
+engine/video/gl/transform.cpp
+engine/video/gl/transform.h
 engine/video/image.cpp
 engine/video/image.h
 engine/video/image_base.cpp
@@ -347,8 +358,6 @@ engine/video/texture.cpp
 engine/video/texture.h
 engine/video/texture_controller.cpp
 engine/video/texture_controller.h
-engine/video/transform2d.cpp
-engine/video/transform2d.h
 engine/video/video.cpp
 engine/video/video.h
 modes/shop/shop_root.h

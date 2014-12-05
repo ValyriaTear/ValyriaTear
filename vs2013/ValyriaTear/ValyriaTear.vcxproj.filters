@@ -575,9 +575,6 @@
     <ClInclude Include="..\..\src\engine\video\gl\shader_program.h">
       <Filter>engine\video\gl</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\engine\video\gl\vertex_declaration.h">
-      <Filter>engine\video\gl</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\src\engine\video\gl\sprite.h">
       <Filter>engine\video\gl</Filter>
     </ClInclude>

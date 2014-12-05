@@ -235,7 +235,6 @@
     <ClInclude Include="..\..\src\engine\video\gl\shader_programs.h" />
     <ClInclude Include="..\..\src\engine\video\gl\sprite.h" />
     <ClInclude Include="..\..\src\engine\video\gl\transform.h" />
-    <ClInclude Include="..\..\src\engine\video\gl\vertex_declaration.h" />
     <ClInclude Include="..\..\src\engine\video\image.h" />
     <ClInclude Include="..\..\src\engine\video\image_base.h" />
     <ClInclude Include="..\..\src\engine\video\interpolator.h" />
