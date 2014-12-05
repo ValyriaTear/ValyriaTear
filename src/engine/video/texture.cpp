@@ -170,35 +170,62 @@ void TexSheet::Smooth(bool flag)
 
 void TexSheet::DEBUG_Draw() const
 {
-    // The vertex coordinate array to use (assumes glScale() has been appropriately set)
-    static const float vertex_coords[] = {
-        1.0f, 1.0f, // Lower right
-        0.0f, 1.0f, // Lower left
-        0.0f, 0.0f, // Upper left
-        1.0f, 0.0f, // Upper right
-    };
+    // The vertex positions.
+    std::vector<float> vertex_positions;
 
-    // The texture coordinate array to use (specifies the coordinates encompassing the entire texture)
-    static const float texture_coords[] = {
-        0.0f, 1.0f, // Upper right
-        1.0f, 1.0f, // Lower right
-        1.0f, 0.0f, // Lower left
-        0.0f, 0.0f, // Upper left
-    };
+    // Vertex one.
+    vertex_positions.push_back(1.0f);
+    vertex_positions.push_back(1.0f);
+    vertex_positions.push_back(0.0f);
 
-    // Enable texturing and bind the texture
+    // Vertex two.
+    vertex_positions.push_back(0.0f);
+    vertex_positions.push_back(1.0f);
+    vertex_positions.push_back(0.0f);
+
+    // Vertex three.
+    vertex_positions.push_back(0.0f);
+    vertex_positions.push_back(0.0f);
+    vertex_positions.push_back(0.0f);
+
+    // Vertex four.
+    vertex_positions.push_back(1.0f);
+    vertex_positions.push_back(0.0f);
+    vertex_positions.push_back(0.0f);
+
+    // The texture coordinates.
+    std::vector<float> texture_coordinates;
+
+    // Vertex one.
+    texture_coordinates.push_back(0.0f);
+    texture_coordinates.push_back(1.0f);
+
+    // Vertex two.
+    texture_coordinates.push_back(1.0f);
+    texture_coordinates.push_back(1.0f);
+
+    // Vertex three.
+    texture_coordinates.push_back(1.0f);
+    texture_coordinates.push_back(0.0f);
+
+    // Vertex four.
+    texture_coordinates.push_back(0.0f);
+    texture_coordinates.push_back(0.0f);
+
+    // Enable texturing and bind the texture.
     VideoManager->DisableBlending();
     VideoManager->EnableTexture2D();
     TextureManager->_BindTexture(tex_id);
 
-    // Enable and setup the texture coordinate array
-    VideoManager->EnableTextureCoordArray();
-    glTexCoordPointer(2, GL_FLOAT, 0, texture_coords);
+    // Load the sprite shader program.
+    gl::ShaderProgram* shader_program = VideoManager->LoadShaderProgram(gl::shader_programs::Sprite);
+    assert(shader_program != NULL);
 
-    // Use a vertex array to draw all of the vertices
-    VideoManager->EnableVertexArray();
-    VideoManager->SetVertexPointer(2, 0, vertex_coords);
-    VideoManager->DrawArrays(GL_QUADS, 0, 4);
+    // Draw the image.
+    VideoManager->DrawSprite(shader_program, vertex_positions, texture_coordinates, vt_video::Color::clear);
+
+    // Unload the shader program.
+    VideoManager->UnloadShaderProgram();
 }
 
 // -----------------------------------------------------------------------------
