@@ -44,6 +44,8 @@ bool INPUT_DEBUG = false;
 InputEngine::InputEngine()
 {
     IF_PRINT_WARNING(INPUT_DEBUG) << "INPUT: InputEngine constructor invoked" << std::endl;
+    memset(&_key, 0, sizeof(_key));
+    memset(&_joystick, 0, sizeof(_joystick));
     _registered_key_press   = false;
     _registered_key_release = false;
 
