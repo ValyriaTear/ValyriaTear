@@ -252,14 +252,12 @@ bool VideoEngine::SingletonInitialize()
 
 bool VideoEngine::FinalizeInitialization()
 {
-#   ifdef _WIN32
-        // Load GLEW on Windows.
-        GLenum err = glewInit();
-        if (GLEW_OK != err) {
-            PRINT_ERROR << "Unable to initialize GLEW." << std::endl;
-            return false;
-        }
-#   endif
+    // Load GLEW on Windows.
+    GLenum err = glewInit();
+    if (GLEW_OK != err) {
+        PRINT_ERROR << "Unable to initialize GLEW." << std::endl;
+        return false;
+    }
 
     //
     // Create the quad.
