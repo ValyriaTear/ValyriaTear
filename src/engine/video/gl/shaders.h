@@ -26,9 +26,11 @@ namespace shaders
 enum Shaders
 {
     VertexSolid = 0,
+    VertexSolidPer,
     VertexSprite,
     VertexText,
     FragmentSolid,
+    FragmentSolidPer,
     FragmentSprite,
     FragmentGrayscaleSprite,
     FragmentText,

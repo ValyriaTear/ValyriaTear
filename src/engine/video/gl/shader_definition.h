@@ -1,3 +1,4 @@
+
 ////////////////////////////////////////////////////////////////////////////////
 //            Copyright (C) 2012-2014 by Bertram (Valyria Tear)
 //                         All Rights Reserved
@@ -26,7 +27,7 @@ namespace shader_definition
         "#version 120\n"
         "\n"
         "//\n"
-        "// Vertex shader for solid sprite rendering.\n"
+        "// Vertex shader for solid color sprite rendering.\n"
         "//\n"
         "\n"
         "uniform mat4 u_Model;\n"
@@ -38,6 +39,26 @@ namespace shader_definition
         "void main()\n"
         "{\n"
         "    gl_Position       = u_Projection * (u_View * (u_Model * vec4(in_Vertex, 1.0)));\n"
+        "};";
+
+    const char SOLID_PER_VERTEX[] =
+        "#version 120\n"
+        "\n"
+        "//\n"
+        "// Vertex shader for solid color per vertex sprite rendering.\n"
+        "//\n"
+        "\n"
+        "uniform mat4 u_Model;\n"
+        "uniform mat4 u_View;\n"
+        "uniform mat4 u_Projection;\n"
+        "\n"
+        "attribute vec3 in_Vertex;\n"
+        "attribute vec4 in_Color;\n"
+        "\n"
+        "void main()\n"
+        "{\n"
+        "    gl_Position       = u_Projection * (u_View * (u_Model * vec4(in_Vertex, 1.0)));\n"
+        "    gl_FrontColor     = in_Color;\n"
         "};";
 
     const char SPRITE_VERTEX[] =
@@ -56,8 +77,8 @@ namespace shader_definition
         "\n"
         "void main()\n"
         "{\n"
-        "    gl_TexCoord[0].xy = in_TexCoords.xy;\n"
         "    gl_Position       = u_Projection * (u_View * (u_Model * vec4(in_Vertex, 1.0)));\n"
+        "    gl_TexCoord[0].xy = in_TexCoords.xy;\n"
         "};";
 
     const char TEXT_VERTEX[] =
@@ -77,9 +98,9 @@ namespace shader_definition
         "\n"
         "void main()\n"
         "{\n"
+        "    gl_Position       = u_Projection * (u_View * (u_Model * vec4(in_Vertex, 1.0)));\n"
         "    gl_TexCoord[0].xy = in_TexCoords.xy;\n"
         "    gl_FrontColor     = in_Color;\n"
-        "    gl_Position       = u_Projection * (u_View * (u_Model * vec4(in_Vertex, 1.0)));\n"
         "};";
 
     const char SOLID_FRAGMENT[] =
@@ -94,6 +115,25 @@ namespace shader_definition
         "void main(void)\n"
         "{\n"
         "        gl_FragColor = u_Color;\n"
+        "\n"
+        "        // Alpha Test\n"
+        "        if (gl_FragColor.a <= 0.0f)\n"
+        "        {\n"
+        "            discard;\n"
+        "        }\n"
+        "\n"
+        "}\n";
+
+    const char SOLID_PER_FRAGMENT[] =
+        "#version 120\n"
+        "\n"
+        "//\n"
+        "// Colors the fragment.\n"
+        "//\n"
+        "\n"
+        "void main(void)\n"
+        "{\n"
+        "        gl_FragColor = gl_Color;\n"
         "\n"
         "        // Alpha Test\n"
         "        if (gl_FragColor.a <= 0.0f)\n"

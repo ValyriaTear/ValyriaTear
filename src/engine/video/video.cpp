@@ -327,18 +327,22 @@ bool VideoEngine::FinalizeInitialization()
 
     // Create the shaders.
     gl::Shader* solid_vertex                = new gl::Shader(GL_VERTEX_SHADER, gl::shader_definition::SOLID_VERTEX);
+    gl::Shader* solid_per_vertex            = new gl::Shader(GL_VERTEX_SHADER, gl::shader_definition::SOLID_PER_VERTEX);
     gl::Shader* sprite_vertex               = new gl::Shader(GL_VERTEX_SHADER, gl::shader_definition::SPRITE_VERTEX);
     gl::Shader* text_vertex                 = new gl::Shader(GL_VERTEX_SHADER, gl::shader_definition::TEXT_VERTEX);
     gl::Shader* solid_fragment              = new gl::Shader(GL_FRAGMENT_SHADER, gl::shader_definition::SOLID_FRAGMENT);
+    gl::Shader* solid_per_fragment          = new gl::Shader(GL_FRAGMENT_SHADER, gl::shader_definition::SOLID_PER_FRAGMENT);
     gl::Shader* sprite_fragment             = new gl::Shader(GL_FRAGMENT_SHADER, gl::shader_definition::SPRITE_FRAGMENT);
     gl::Shader* sprite_grayscale_fragment   = new gl::Shader(GL_FRAGMENT_SHADER, gl::shader_definition::SPRITE_GRAYSCALE_FRAGMENT);
     gl::Shader* text_fragment               = new gl::Shader(GL_FRAGMENT_SHADER, gl::shader_definition::TEXT_FRAGMENT);
 
     // Store the shaders.
     _shaders[gl::shaders::VertexSolid] = solid_vertex;
+    _shaders[gl::shaders::VertexSolidPer] = solid_per_vertex;
     _shaders[gl::shaders::VertexSprite] = sprite_vertex;
     _shaders[gl::shaders::VertexText] = text_vertex;
     _shaders[gl::shaders::FragmentSolid] = solid_fragment;
+    _shaders[gl::shaders::FragmentSolidPer] = solid_per_fragment;
     _shaders[gl::shaders::FragmentSprite] = sprite_fragment;
     _shaders[gl::shaders::FragmentGrayscaleSprite] = sprite_grayscale_fragment;
     _shaders[gl::shaders::FragmentText] = text_fragment;
@@ -363,6 +367,23 @@ bool VideoEngine::FinalizeInitialization()
     gl::ShaderProgram* solid_program = new gl::ShaderProgram(*(_shaders[gl::shaders::VertexSolid]),
                                                              *(_shaders[gl::shaders::FragmentSolid]),
                                                              attributes, uniforms);
+
+    //
+    // Create the solid per vertex programs.
+    //
+
+    attributes.clear();
+    attributes.push_back("in_Vertex");
+    attributes.push_back("in_Color");
+
+    uniforms.clear();
+    uniforms.push_back("u_Model");
+    uniforms.push_back("u_View");
+    uniforms.push_back("u_Projection");
+
+    gl::ShaderProgram* solid_per_vertex_program = new gl::ShaderProgram(*(_shaders[gl::shaders::VertexSolidPer]),
+                                                                        *(_shaders[gl::shaders::FragmentSolidPer]),
+                                                                        attributes, uniforms);
 
     //
     // Create the sprite programs.
@@ -412,6 +433,7 @@ bool VideoEngine::FinalizeInitialization()
     //
 
     _programs[gl::shader_programs::Solid] = solid_program;
+    _programs[gl::shader_programs::SolidPerVertex] = solid_per_vertex_program;
     _programs[gl::shader_programs::Sprite] = sprite_program;
     _programs[gl::shader_programs::SpriteGrayscale] = sprite_grayscale_program;
     _programs[gl::shader_programs::Text] = text_program;
