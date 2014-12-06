@@ -138,7 +138,8 @@
     <ClCompile Include="..\..\src\engine\video\fade.cpp" />
     <ClCompile Include="..\..\src\engine\video\gl\shader.cpp" />
     <ClCompile Include="..\..\src\engine\video\gl\shader_program.cpp" />
-    <ClCompile Include="..\..\src\engine\video\gl\sprite.cpp" />
+    <ClCompile Include="..\..\src\engine\video\gl\sprite_colored.cpp" />
+    <ClCompile Include="..\..\src\engine\video\gl\sprite_textured.cpp" />
     <ClCompile Include="..\..\src\engine\video\gl\transform.cpp" />
     <ClCompile Include="..\..\src\engine\video\image.cpp" />
     <ClCompile Include="..\..\src\engine\video\image_base.cpp" />
@@ -233,7 +234,8 @@
     <ClInclude Include="..\..\src\engine\video\gl\shader_definition.h" />
     <ClInclude Include="..\..\src\engine\video\gl\shader_program.h" />
     <ClInclude Include="..\..\src\engine\video\gl\shader_programs.h" />
-    <ClInclude Include="..\..\src\engine\video\gl\sprite.h" />
+    <ClInclude Include="..\..\src\engine\video\gl\sprite_colored.h" />
+    <ClInclude Include="..\..\src\engine\video\gl\sprite_textured.h" />
     <ClInclude Include="..\..\src\engine\video\gl\transform.h" />
     <ClInclude Include="..\..\src\engine\video\image.h" />
     <ClInclude Include="..\..\src\engine\video\image_base.h" />

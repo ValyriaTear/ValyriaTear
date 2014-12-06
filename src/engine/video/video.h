@@ -71,7 +71,7 @@ namespace gl
 
 class Shader;
 class ShaderProgram;
-class Sprite;
+class SpriteTextured;
 
 } // namespace gl
 
@@ -801,7 +801,7 @@ private:
     std::stack<gl::Transform> _transform_stack;
 
     //! The OpenGL buffers and objects to draw a quad.
-    gl::Sprite* _quad;
+    gl::SpriteTextured* _quad;
 
     //! The OpenGL shaders.
     std::map<gl::shaders::Shaders, gl::Shader*> _shaders;

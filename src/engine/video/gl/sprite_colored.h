@@ -8,42 +8,40 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 /** ****************************************************************************
-*** \file    sprite.h
+*** \file    sprite_colored.h
 *** \author  Authenticate, James Lammlein
-*** \brief   Header file for buffers for a sprite.
+*** \brief   Header file for buffers for a colored sprite.
 *** ***************************************************************************/
 
-#ifndef __SPRITE_HEADER__
-#define __SPRITE_HEADER__
+#ifndef __SPRITE_COLORED_HEADER__
+#define __SPRITE_COLORED_HEADER__
 
 namespace vt_video
 {
 namespace gl
 {
 
-//! \brief A class for a sprite.
-class Sprite
+//! \brief A class for a colored sprite.
+class SpriteColored
 {
 public:
-    Sprite(const std::vector<float>& vertex_positions,
-           const std::vector<float>& vertex_texture_coordinates,
-           const std::vector<unsigned>& indices);
-    ~Sprite();
+    SpriteColored();
+    ~SpriteColored();
 
     void Draw();
     void Draw(const std::vector<float>& vertex_positions,
-              const std::vector<float>& vertex_texture_coordinates);
+              const std::vector<float>& vertex_colors);
 
     unsigned _number_of_indices;
 
     GLuint _vao;
     GLuint _vertex_position_buffer;
-    GLuint _vertex_texture_coordinate_buffer;
+    GLuint _vertex_color_buffer;
     GLuint _index_buffer;
 
 private:
-    Sprite(const Sprite&) {}
-    Sprite& operator=(const Sprite&) { return *this; }
+    SpriteColored(const SpriteColored&) {}
+    SpriteColored& operator=(const SpriteColored&) { return *this; }
 };
 
 } // namespace gl

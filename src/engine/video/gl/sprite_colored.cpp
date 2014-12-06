@@ -8,33 +8,90 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 /** ****************************************************************************
-*** \file    sprite.cpp
+*** \file    sprite_colored.cpp
 *** \author  Authenticate, James Lammlein
-*** \brief   Source file for buffers for a sprite.
+*** \brief   Source file for buffers for a colored sprite.
 *** ***************************************************************************/
 
 #include "utils/utils_pch.h"
-#include "sprite.h"
+#include "sprite_colored.h"
 
 namespace vt_video
 {
 namespace gl
 {
 
-Sprite::Sprite(const std::vector<float>& vertex_positions,
-               const std::vector<float>& vertex_texture_coordinates,
-               const std::vector<unsigned>& indices) :
+SpriteColored::SpriteColored() :
     _number_of_indices(0),
     _vao(0),
     _vertex_position_buffer(0),
-    _vertex_texture_coordinate_buffer(0),
+    _vertex_color_buffer(0),
     _index_buffer(0)
 {
     bool errors = false;
 
-    assert(!vertex_positions.empty() && vertex_positions.size() % 3 == 0);
-    assert(!vertex_texture_coordinates.empty() && vertex_texture_coordinates.size() % 2 == 0);
-    assert(!indices.empty() && indices.size() % 3 == 0);
+    // The vertex positions.
+    std::vector<float> vertex_positions;
+
+    // Vertex one.
+    vertex_positions.push_back(0.0f);
+    vertex_positions.push_back(0.0f);
+    vertex_positions.push_back(0.0f);
+
+    // Vertex two.
+    vertex_positions.push_back(0.0f);
+    vertex_positions.push_back(1.0f);
+    vertex_positions.push_back(0.0f);
+
+    // Vertex three.
+    vertex_positions.push_back(1.0f);
+    vertex_positions.push_back(1.0f);
+    vertex_positions.push_back(0.0f);
+
+    // Vertex four.
+    vertex_positions.push_back(1.0f);
+    vertex_positions.push_back(0.0f);
+    vertex_positions.push_back(0.0f);
+
+    // The vertex colors.
+    std::vector<float> vertex_colors;
+
+    // Vertex one.
+    vertex_colors.push_back(0.0f);
+    vertex_colors.push_back(0.0f);
+    vertex_colors.push_back(0.0f);
+    vertex_colors.push_back(0.0f);
+
+    // Vertex two.
+    vertex_colors.push_back(0.0f);
+    vertex_colors.push_back(0.0f);
+    vertex_colors.push_back(0.0f);
+    vertex_colors.push_back(0.0f);
+
+    // Vertex three.
+    vertex_colors.push_back(0.0f);
+    vertex_colors.push_back(0.0f);
+    vertex_colors.push_back(0.0f);
+    vertex_colors.push_back(0.0f);
+
+    // Vertex four.
+    vertex_colors.push_back(0.0f);
+    vertex_colors.push_back(0.0f);
+    vertex_colors.push_back(0.0f);
+    vertex_colors.push_back(0.0f);
+
+    // The indices.
+    std::vector<unsigned> indices;
+
+    // The first triangle.
+    indices.push_back(0);
+    indices.push_back(1);
+    indices.push_back(2);
+
+    // The second triangle.
+    indices.push_back(0);
+    indices.push_back(2);
+    indices.push_back(3);
 
     // Create the vertex array object.
     if (!errors) {
@@ -66,17 +123,17 @@ Sprite::Sprite(const std::vector<float>& vertex_positions,
         } else {
             // Store the results.
             _vertex_position_buffer = buffers[0];
-            _vertex_texture_coordinate_buffer = buffers[1];
+            _vertex_color_buffer = buffers[1];
             _index_buffer = buffers[2];
         }
     }
 
-    // Bind the vertex buffer.
+    // Bind the vertex position buffer.
     if (!errors) {
         glBindBuffer(GL_ARRAY_BUFFER, _vertex_position_buffer);
     }
 
-    // Set up the vertex data.
+    // Set up the vertex position data.
     if (!errors) {
         glBufferData(GL_ARRAY_BUFFER, vertex_positions.size() * sizeof(float), &vertex_positions.front(), GL_DYNAMIC_DRAW);
 
@@ -86,7 +143,7 @@ Sprite::Sprite(const std::vector<float>& vertex_positions,
         }
     }
 
-    // Store the vertex data into slot 0.
+    // Store the vertex position data into slot 0.
     if (!errors) {
         glVertexAttribPointer(0, 3, GL_FLOAT, false, 0, NULL);
 
@@ -101,14 +158,14 @@ Sprite::Sprite(const std::vector<float>& vertex_positions,
         glEnableVertexAttribArray(0);
     }
 
-    // Bind the texture coordinate buffer.
+    // Bind the vertex color buffer.
     if (!errors) {
-        glBindBuffer(GL_ARRAY_BUFFER, _vertex_texture_coordinate_buffer);
+        glBindBuffer(GL_ARRAY_BUFFER, _vertex_color_buffer);
     }
 
-    // Set up the texture coordinate data.
+    // Set up the vertex color data.
     if (!errors) {
-        glBufferData(GL_ARRAY_BUFFER, vertex_texture_coordinates.size() * sizeof(float), &vertex_texture_coordinates.front(), GL_DYNAMIC_DRAW);
+        glBufferData(GL_ARRAY_BUFFER, vertex_colors.size() * sizeof(float), &vertex_colors.front(), GL_DYNAMIC_DRAW);
 
         GLenum error = glGetError();
         if (error != GL_NO_ERROR) {
@@ -116,9 +173,9 @@ Sprite::Sprite(const std::vector<float>& vertex_positions,
         }
     }
 
-    // Store the vertex data into slot 1.
+    // Store the vertex color data into slot 1.
     if (!errors) {
-        glVertexAttribPointer(1, 2, GL_FLOAT, false, 0, NULL);
+        glVertexAttribPointer(1, 4, GL_FLOAT, false, 0, NULL);
 
         GLenum error = glGetError();
         if (error != GL_NO_ERROR) {
@@ -155,7 +212,7 @@ Sprite::Sprite(const std::vector<float>& vertex_positions,
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 }
 
-Sprite::~Sprite()
+SpriteColored::~SpriteColored()
 {
     if (_vao != 0) {
         const GLuint arrays[] = { _vao };
@@ -169,10 +226,10 @@ Sprite::~Sprite()
         _vertex_position_buffer = 0;
     }
 
-    if (_vertex_texture_coordinate_buffer != 0) {
-        const GLuint buffers[] = { _vertex_texture_coordinate_buffer };
+    if (_vertex_color_buffer != 0) {
+        const GLuint buffers[] = { _vertex_color_buffer };
         glDeleteBuffers(1, buffers);
-        _vertex_texture_coordinate_buffer = 0;
+        _vertex_color_buffer = 0;
     }
 
     if (_index_buffer != 0) {
@@ -182,7 +239,7 @@ Sprite::~Sprite()
     }
 }
 
-void Sprite::Draw()
+void SpriteColored::Draw()
 {
     // Bind the vertex array object.
     glBindVertexArray(_vao);
@@ -201,13 +258,13 @@ void Sprite::Draw()
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 }
 
-void Sprite::Draw(const std::vector<float>& vertex_positions,
-                  const std::vector<float>& vertex_texture_coordinates)
+void SpriteColored::Draw(const std::vector<float>& vertex_positions,
+                         const std::vector<float>& vertex_colors)
 {
     bool errors = false;
 
     assert(!vertex_positions.empty() && vertex_positions.size() % 3 == 0);
-    assert(!vertex_texture_coordinates.empty() && vertex_texture_coordinates.size() % 2 == 0);
+    assert(!vertex_colors.empty() && vertex_colors.size() % 4 == 0);
 
     // Bind the vertex buffer.
     if (!errors) {
@@ -226,12 +283,12 @@ void Sprite::Draw(const std::vector<float>& vertex_positions,
 
     // Bind the texture coordinate buffer.
     if (!errors) {
-        glBindBuffer(GL_ARRAY_BUFFER, _vertex_texture_coordinate_buffer);
+        glBindBuffer(GL_ARRAY_BUFFER, _vertex_color_buffer);
     }
 
     // Update the texture coordinate data.
     if (!errors) {
-        glBufferSubData(GL_ARRAY_BUFFER, 0, vertex_texture_coordinates.size() * sizeof(float), &vertex_texture_coordinates.front());
+        glBufferSubData(GL_ARRAY_BUFFER, 0, vertex_colors.size() * sizeof(float), &vertex_colors.front());
 
         GLenum error = glGetError();
         if (error != GL_NO_ERROR) {
