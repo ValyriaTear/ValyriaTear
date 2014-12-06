@@ -71,6 +71,7 @@ namespace gl
 
 class Shader;
 class ShaderProgram;
+class SpriteColored;
 class SpriteTextured;
 
 } // namespace gl
@@ -381,11 +382,16 @@ public:
     //! \brief glDrawArrays wrapper.
     void DrawArrays(GLenum mode, GLint first, GLsizei count);
 
-    //! \brief Draws a sprite.
-    void DrawSprite(gl::ShaderProgram* shader_program,
-                    const std::vector<float>& vertex_positions,
-                    const std::vector<float>& vertex_texture_coordinates,
-                    const Color& color);
+    //! \brief Draws a colored sprite.
+    void DrawSpriteColored(gl::ShaderProgram* shader_program,
+                           const std::vector<float>& vertex_positions,
+                           const std::vector<float>& vertex_colors);
+
+    //! \brief Draws a textured sprite.
+    void DrawSpriteTextured(gl::ShaderProgram* shader_program,
+                            const std::vector<float>& vertex_positions,
+                            const std::vector<float>& vertex_texture_coordinates,
+                            const Color& color);
 
     /** \brief Enables the scissoring effect in the video engine
     *** Scissoring is where you can specify a rectangle of the screen which is affected
@@ -800,8 +806,11 @@ private:
     //! The stack containing transforms. Pushed and popped by PushMatrix/PopMatrix.
     std::stack<gl::Transform> _transform_stack;
 
-    //! The OpenGL buffers and objects to draw a quad.
-    gl::SpriteTextured* _quad;
+    //! The OpenGL buffers and objects to draw a colored quad.
+    gl::SpriteColored* _sprite_colored;
+
+    //! The OpenGL buffers and objects to draw a textured quad.
+    gl::SpriteTextured* _sprite_textured;
 
     //! The OpenGL shaders.
     std::map<gl::shaders::Shaders, gl::Shader*> _shaders;

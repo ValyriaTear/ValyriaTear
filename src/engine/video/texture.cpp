@@ -222,7 +222,7 @@ void TexSheet::DEBUG_Draw() const
     assert(shader_program != NULL);
 
     // Draw the image.
-    VideoManager->DrawSprite(shader_program, vertex_positions, texture_coordinates, vt_video::Color::clear);
+    VideoManager->DrawSpriteTextured(shader_program, vertex_positions, texture_coordinates, vt_video::Color::clear);
 
     // Unload the shader program.
     VideoManager->UnloadShaderProgram();

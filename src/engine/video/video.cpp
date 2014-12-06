@@ -26,6 +26,7 @@
 #include "engine/video/gl/shader_program.h"
 #include "engine/video/gl/shader_programs.h"
 #include "engine/video/gl/shaders.h"
+#include "engine/video/gl/sprite_colored.h"
 #include "engine/video/gl/sprite_textured.h"
 
 #include "utils/utils_strings.h"
@@ -102,7 +103,8 @@ VideoEngine::VideoEngine():
     _temp_width(0),
     _temp_height(0),
     _smooth_pixel_art(true),
-    _quad(NULL),
+    _sprite_colored(NULL),
+    _sprite_textured(NULL),
     _transformed_vertex_array_ptr(NULL),
     _vertex_array_ptr(NULL),
     _vertex_array_stride(0),
@@ -204,10 +206,15 @@ void VideoEngine::_DrawFPS()
 
 VideoEngine::~VideoEngine()
 {
-    // Clean up the quad.
-    if (_quad) {
-        delete _quad;
-        _quad = NULL;
+    // Clean up the quads.
+    if (_sprite_colored) {
+        delete _sprite_colored;
+        _sprite_colored = NULL;
+    }
+
+    if (_sprite_textured) {
+        delete _sprite_textured;
+        _sprite_textured = NULL;
     }
 
     // Clean up the shaders and shader programs.
@@ -260,7 +267,8 @@ bool VideoEngine::FinalizeInitialization()
     }
 
     // Create the quads.
-    _quad = new gl::SpriteTextured();
+    _sprite_colored = new gl::SpriteColored();
+    _sprite_textured = new gl::SpriteTextured();
 
     //
     // Create the programmable pipeline.
@@ -903,12 +911,37 @@ void VideoEngine::DrawArrays(GLenum mode, GLint first, GLsizei count)
     glDrawArrays(mode, 0, count);
 }
 
-void VideoEngine::DrawSprite(gl::ShaderProgram* shader_program,
-                             const std::vector<float>& vertex_positions,
-                             const std::vector<float>& vertex_texture_coordinates,
-                             const Color& color)
+void VideoEngine::DrawSpriteColored(gl::ShaderProgram* shader_program,
+                                    const std::vector<float>& vertex_positions,
+                                    const std::vector<float>& vertex_colors)
 {
-    assert(_quad != NULL);
+    assert(_sprite_colored != NULL);
+    assert(shader_program != NULL);
+    assert(!vertex_positions.empty());
+    assert(!vertex_colors.empty());
+
+    // Load the shader uniforms common to all programs.
+    float buffer[16] = { 0 };
+    _transform_stack.top().Apply(buffer);
+    shader_program->UpdateUniform("u_Model", buffer, 16);
+
+    gl::Transform identity;
+    identity.Apply(buffer);
+    shader_program->UpdateUniform("u_View", buffer, 16);
+
+    _projection.Apply(buffer);
+    shader_program->UpdateUniform("u_Projection", buffer, 16);
+
+    // Draw the sprite.
+    _sprite_colored->Draw(vertex_positions, vertex_colors);
+}
+
+void VideoEngine::DrawSpriteTextured(gl::ShaderProgram* shader_program,
+                                     const std::vector<float>& vertex_positions,
+                                     const std::vector<float>& vertex_texture_coordinates,
+                                     const Color& color)
+{
+    assert(_sprite_textured != NULL);
     assert(shader_program != NULL);
     assert(!vertex_positions.empty());
     assert(!vertex_texture_coordinates.empty());
@@ -928,7 +961,7 @@ void VideoEngine::DrawSprite(gl::ShaderProgram* shader_program,
     shader_program->UpdateUniform("u_Color", color.GetColors(), 4);
 
     // Draw the sprite.
-    _quad->Draw(vertex_positions, vertex_texture_coordinates);
+    _sprite_textured->Draw(vertex_positions, vertex_texture_coordinates);
 }
 
 void VideoEngine::EnableScissoring()
