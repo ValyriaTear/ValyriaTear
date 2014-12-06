@@ -385,7 +385,8 @@ public:
     //! \brief Draws a colored sprite.
     void DrawSpriteColored(gl::ShaderProgram* shader_program,
                            const std::vector<float>& vertex_positions,
-                           const std::vector<float>& vertex_colors);
+                           const std::vector<float>& vertex_colors,
+                           const std::vector<float>& vertex_texture_coordinates);
 
     //! \brief Draws a textured sprite.
     void DrawSpriteTextured(gl::ShaderProgram* shader_program,

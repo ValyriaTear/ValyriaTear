@@ -258,12 +258,12 @@ void SpriteTextured::Draw(const std::vector<float>& vertex_positions,
     assert(!vertex_positions.empty() && vertex_positions.size() % 3 == 0);
     assert(!vertex_texture_coordinates.empty() && vertex_texture_coordinates.size() % 2 == 0);
 
-    // Bind the vertex buffer.
+    // Bind the vertex position buffer.
     if (!errors) {
         glBindBuffer(GL_ARRAY_BUFFER, _vertex_position_buffer);
     }
 
-    // Update the vertex data.
+    // Update the vertex position data.
     if (!errors) {
         glBufferSubData(GL_ARRAY_BUFFER, 0, vertex_positions.size() * sizeof(float), &vertex_positions.front());
 
@@ -273,12 +273,12 @@ void SpriteTextured::Draw(const std::vector<float>& vertex_positions,
         }
     }
 
-    // Bind the texture coordinate buffer.
+    // Bind the vertex texture coordinate buffer.
     if (!errors) {
         glBindBuffer(GL_ARRAY_BUFFER, _vertex_texture_coordinate_buffer);
     }
 
-    // Update the texture coordinate data.
+    // Update the vertex texture coordinate data.
     if (!errors) {
         glBufferSubData(GL_ARRAY_BUFFER, 0, vertex_texture_coordinates.size() * sizeof(float), &vertex_texture_coordinates.front());
 
@@ -288,7 +288,7 @@ void SpriteTextured::Draw(const std::vector<float>& vertex_positions,
         }
     }
 
-    // Unbind the texture coordinate buffer from the pipeline.
+    // Unbind the vertex texture coordinate buffer from the pipeline.
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 
     // Draw the sprite.

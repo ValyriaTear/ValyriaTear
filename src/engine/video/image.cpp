@@ -477,8 +477,6 @@ void ImageDescriptor::_RemoveTextureReference()
     _texture = NULL;
 }
 
-
-
 void ImageDescriptor::_DrawOrientation() const
 {
     Context &current_context = VideoManager->_current_context;
@@ -547,23 +545,23 @@ void ImageDescriptor::_DrawTexture(const Color* draw_color) const
     vertex_positions.push_back(0.0f);
 
     // The texture coordinates.
-    std::vector<float> texture_coordinates;
+    std::vector<float> vertex_texture_coordinates;
 
     // Vertex one.
-    texture_coordinates.push_back(0.0f);
-    texture_coordinates.push_back(1.0f);
+    vertex_texture_coordinates.push_back(0.0f);
+    vertex_texture_coordinates.push_back(1.0f);
 
     // Vertex two.
-    texture_coordinates.push_back(0.0f);
-    texture_coordinates.push_back(0.0f);
+    vertex_texture_coordinates.push_back(0.0f);
+    vertex_texture_coordinates.push_back(0.0f);
 
     // Vertex three.
-    texture_coordinates.push_back(1.0f);
-    texture_coordinates.push_back(0.0f);
+    vertex_texture_coordinates.push_back(1.0f);
+    vertex_texture_coordinates.push_back(0.0f);
 
     // Vertex four.
-    texture_coordinates.push_back(1.0f);
-    texture_coordinates.push_back(1.0f);
+    vertex_texture_coordinates.push_back(1.0f);
+    vertex_texture_coordinates.push_back(1.0f);
 
     // If no color array was passed, use the image's own vertex colors.
     if (!draw_color) {
@@ -611,23 +609,23 @@ void ImageDescriptor::_DrawTexture(const Color* draw_color) const
         }
 
         // Setup the texture coordinate array.
-        texture_coordinates.clear();
+        vertex_texture_coordinates.clear();
 
         // Vertex one.
-        texture_coordinates.push_back(s0);
-        texture_coordinates.push_back(t1);
+        vertex_texture_coordinates.push_back(s0);
+        vertex_texture_coordinates.push_back(t1);
 
         // Vertex two.
-        texture_coordinates.push_back(s1);
-        texture_coordinates.push_back(t1);
+        vertex_texture_coordinates.push_back(s1);
+        vertex_texture_coordinates.push_back(t1);
 
         // Vertex three.
-        texture_coordinates.push_back(s1);
-        texture_coordinates.push_back(t0);
+        vertex_texture_coordinates.push_back(s1);
+        vertex_texture_coordinates.push_back(t0);
 
         // Vertex four.
-        texture_coordinates.push_back(s0);
-        texture_coordinates.push_back(t0);
+        vertex_texture_coordinates.push_back(s0);
+        vertex_texture_coordinates.push_back(t0);
 
         // Enable texturing and bind the texture.
         VideoManager->EnableTexture2D();
@@ -654,7 +652,7 @@ void ImageDescriptor::_DrawTexture(const Color* draw_color) const
         VideoManager->DisableColorArray();
 
         // Draw the textured sprite.
-        VideoManager->DrawSpriteTextured(shader_program, vertex_positions, texture_coordinates, *draw_color);
+        VideoManager->DrawSpriteTextured(shader_program, vertex_positions, vertex_texture_coordinates, *draw_color);
     } else {
         VideoManager->EnableColorArray();
 
@@ -673,7 +671,7 @@ void ImageDescriptor::_DrawTexture(const Color* draw_color) const
         }
 
         // Draw the colored sprite.
-        VideoManager->DrawSpriteColored(shader_program, vertex_positions, vertex_colors);
+        VideoManager->DrawSpriteColored(shader_program, vertex_positions, vertex_colors, vertex_texture_coordinates);
     }
 
     // Unload the shader program.

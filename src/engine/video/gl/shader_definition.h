@@ -23,6 +23,28 @@ namespace gl
 {
 namespace shader_definition
 {
+    const char PARTICLE_VERTEX[] =
+        "#version 120\n"
+        "\n"
+        "//\n"
+        "// Vertex shader for particle sprite rendering.\n"
+        "//\n"
+        "\n"
+        "uniform mat4 u_Model;\n"
+        "uniform mat4 u_View;\n"
+        "uniform mat4 u_Projection;\n"
+        "\n"
+        "attribute vec3 in_Vertex;\n"
+        "attribute vec4 in_Color;\n"
+        "attribute vec2 in_TexCoords;\n"
+        "\n"
+        "void main()\n"
+        "{\n"
+        "    gl_Position       = u_Projection * (u_View * (u_Model * vec4(in_Vertex, 1.0)));\n"
+        "    gl_FrontColor     = in_Color;\n"
+        "    gl_TexCoord[0].xy = in_TexCoords.xy;\n"
+        "};";
+
     const char SOLID_VERTEX[] =
         "#version 120\n"
         "\n"
@@ -102,6 +124,28 @@ namespace shader_definition
         "    gl_TexCoord[0].xy = in_TexCoords.xy;\n"
         "    gl_FrontColor     = in_Color;\n"
         "};";
+
+    const char PARTICLE_FRAGMENT[] =
+        "#version 120\n"
+        "\n"
+        "//\n"
+        "// Colors a particle's fragment.\n"
+        "//\n"
+        "\n"
+        "uniform sampler2D u_Texture;\n"
+        "\n"
+        "void main(void)\n"
+        "{\n"
+        "        gl_FragColor.rgba = vec4(texture2D(u_Texture, gl_TexCoord[0].xy));\n"
+        "        gl_FragColor *= gl_Color;\n"
+        "\n"
+        "        // Alpha Test\n"
+        "        if (gl_FragColor.a <= 0.0f)\n"
+        "        {\n"
+        "            discard;\n"
+        "        }\n"
+        "\n"
+        "}\n";
 
     const char SOLID_FRAGMENT[] =
         "#version 120\n"

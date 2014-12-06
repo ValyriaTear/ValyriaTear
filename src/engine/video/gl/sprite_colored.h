@@ -30,13 +30,15 @@ public:
 
     void Draw();
     void Draw(const std::vector<float>& vertex_positions,
-              const std::vector<float>& vertex_colors);
+              const std::vector<float>& vertex_colors,
+              const std::vector<float>& vertex_texture_coordinates);
 
     unsigned _number_of_indices;
 
     GLuint _vao;
     GLuint _vertex_position_buffer;
     GLuint _vertex_color_buffer;
+    GLuint _vertex_texture_coordinate_buffer;
     GLuint _index_buffer;
 
 private:

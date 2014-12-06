@@ -25,7 +25,8 @@ namespace shader_programs
 
 enum ShaderPrograms
 {
-    Solid = 0,
+    Particle = 0,
+    Solid,
     SolidPerVertex,
     Sprite,
     SpriteGrayscale,

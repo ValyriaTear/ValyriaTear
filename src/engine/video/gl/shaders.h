@@ -25,10 +25,12 @@ namespace shaders
 
 enum Shaders
 {
-    VertexSolid = 0,
+    VertexParticle = 0,
+    VertexSolid,
     VertexSolidPer,
     VertexSprite,
     VertexText,
+    FragmentParticle,
     FragmentSolid,
     FragmentSolidPer,
     FragmentSprite,
