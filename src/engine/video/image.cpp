@@ -652,16 +652,29 @@ void ImageDescriptor::_DrawTexture(const Color* draw_color) const
 
     if (_unichrome_vertices) {
         VideoManager->DisableColorArray();
+
+        // Draw the textured sprite.
+        VideoManager->DrawSpriteTextured(shader_program, vertex_positions, texture_coordinates, *draw_color);
     } else {
         VideoManager->EnableColorArray();
-        // TODO: This functionality has not been implemented in the new graphics pipeline yet.
-        //       As far as I know, the image class does not use this feature.  The particle system, however, relies
-        //       on it heavily.  So, once the particle system is migrated to the new system, this feature can be back
-        //       ported here as well.
-    }
 
-    // Draw the image.
-    VideoManager->DrawSpriteTextured(shader_program, vertex_positions, texture_coordinates, *draw_color);
+        // The vertex colors.
+        std::vector<float> vertex_colors;
+
+        // For each of the four vertices.
+        for (unsigned i = 0; i < 4; ++i)
+        {
+            // Get the vertex's color.
+            vt_video::Color color = draw_color[i];
+            vertex_colors.push_back(color[0]);
+            vertex_colors.push_back(color[1]);
+            vertex_colors.push_back(color[2]);
+            vertex_colors.push_back(color[3]);
+        }
+
+        // Draw the colored sprite.
+        VideoManager->DrawSpriteColored(shader_program, vertex_positions, vertex_colors);
+    }
 
     // Unload the shader program.
     VideoManager->UnloadShaderProgram();
