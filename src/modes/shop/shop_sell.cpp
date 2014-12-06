@@ -270,10 +270,8 @@ void SellInterface::Reinitialize()
         _category_display.ChangeCategory(_category_names[_current_category], _category_icons[_current_category]);
         _selected_object = _list_displays[_current_category]->GetSelectedObject();
     }
-    _ChangeViewMode(SHOP_VIEW_MODE_LIST);
-} // void SellInterface::Initialize()
-
-
+    ChangeViewMode(SHOP_VIEW_MODE_LIST);
+}
 
 void SellInterface::MakeActive()
 {
@@ -291,72 +289,70 @@ void SellInterface::MakeActive()
     _category_display.SetSelectedObject(_selected_object);
 }
 
-
-
 void SellInterface::TransactionNotification()
 {
     Reinitialize();
 }
 
-
-
 void SellInterface::Update()
 {
-    if(_view_mode == SHOP_VIEW_MODE_LIST) {
+    ShopMode* shop = ShopMode::CurrentInstance();
+
+    if(_view_mode == SHOP_VIEW_MODE_LIST && shop->IsInputEnabled()) {
         if((InputManager->ConfirmPress()) && (_selected_object != NULL)) {
             GlobalManager->Media().PlaySound("confirm");
-            _ChangeViewMode(SHOP_VIEW_MODE_INFO);
+            ChangeViewMode(SHOP_VIEW_MODE_INFO);
         } else if(InputManager->CancelPress()) {
-            ShopMode::CurrentInstance()->ChangeState(SHOP_STATE_ROOT);
+            shop->ChangeState(SHOP_STATE_ROOT);
             GlobalManager->Media().PlaySound("cancel");
         }
 
         // Swap cycles through the object categories
         else if(InputManager->MenuPress() && (_number_categories > 1)) {
             if(_ChangeCategory(true) == true)
-                ShopMode::CurrentInstance()->ObjectViewer()->SetSelectedObject(_selected_object);
+                shop->ObjectViewer()->SetSelectedObject(_selected_object);
             GlobalManager->Media().PlaySound("confirm");
         }
 
         // Up/down changes the selected object in the current list
         else if(InputManager->UpPress() && (_selected_object != NULL)) {
             if(_ChangeSelection(false) == true) {
-                ShopMode::CurrentInstance()->ObjectViewer()->SetSelectedObject(_selected_object);
+                shop->ObjectViewer()->SetSelectedObject(_selected_object);
                 GlobalManager->Media().PlaySound("bump");
             }
         } else if(InputManager->DownPress() && (_selected_object != NULL)) {
             if(_ChangeSelection(true) == true) {
-                ShopMode::CurrentInstance()->ObjectViewer()->SetSelectedObject(_selected_object);
+                shop->ObjectViewer()->SetSelectedObject(_selected_object);
                 GlobalManager->Media().PlaySound("bump");
             }
         }
     } // if (_view_mode == SHOP_VIEW_MODE_LIST)
 
-    else if(_view_mode == SHOP_VIEW_MODE_INFO) {
+    else if(_view_mode == SHOP_VIEW_MODE_INFO && shop->IsInputEnabled()) {
         if(InputManager->ConfirmPress()) {
-            _ChangeViewMode(SHOP_VIEW_MODE_LIST);
-            ShopMode::CurrentInstance()->ChangeState(SHOP_STATE_ROOT);
-            ShopMode::CurrentInstance()->CompleteTransaction();
+            ChangeViewMode(SHOP_VIEW_MODE_LIST);
+            shop->ChangeState(SHOP_STATE_ROOT);
+            shop->CompleteTransaction();
             GlobalManager->Media().PlaySound("confirm");
-            ShopMode::CurrentInstance()->ClearOrder();
-            ShopMode::CurrentInstance()->ChangeState(SHOP_STATE_SELL);
+            shop->ClearOrder();
+            shop->ChangeState(SHOP_STATE_SELL);
         } else if(InputManager->CancelPress()) {
-            _ChangeViewMode(SHOP_VIEW_MODE_LIST);
+            ChangeViewMode(SHOP_VIEW_MODE_LIST);
             while(_list_displays[_current_category]->ChangeSellQuantity(false) == true) {}
             GlobalManager->Media().PlaySound("cancel");
-            ShopMode::CurrentInstance()->ClearOrder();
+            shop->ClearOrder();
         }
 
         // Left/right change the quantity of the object to sell
         else if(InputManager->LeftPress()) {
             if(_list_displays[_current_category]->ChangeSellQuantity(false) == true) {
-                ShopMode::CurrentInstance()->ObjectViewer()->UpdateCountText();
+                shop->ObjectViewer()->UpdateCountText();
                 GlobalManager->Media().PlaySound("confirm");
             } else
                 GlobalManager->Media().PlaySound("bump");
         } else if(InputManager->RightPress()) {
             if(_list_displays[_current_category]->ChangeSellQuantity(true) == true) {
-                ShopMode::CurrentInstance()->ObjectViewer()->UpdateCountText();
+                shop->ObjectViewer()->UpdateCountText();
                 GlobalManager->Media().PlaySound("confirm");
             } else
                 GlobalManager->Media().PlaySound("bump");
@@ -365,10 +361,8 @@ void SellInterface::Update()
 
     _category_display.Update();
     _list_displays[_current_category]->Update();
-    ShopMode::CurrentInstance()->ObjectViewer()->Update();
-} // void SellInterface::Update()
-
-
+    shop->ObjectViewer()->Update();
+}
 
 void SellInterface::Draw()
 {
@@ -403,8 +397,7 @@ void SellInterface::Draw()
     ShopMode::CurrentInstance()->ObjectViewer()->Draw();
 }
 
-
-void SellInterface::_ChangeViewMode(SHOP_VIEW_MODE new_mode)
+void SellInterface::ChangeViewMode(SHOP_VIEW_MODE new_mode)
 {
     if(_view_mode == new_mode)
         return;

@@ -860,6 +860,7 @@ void BindModeCode()
             .def("SetInputEnabled", &ShopMode::SetInputEnabled)
             .def("GetState", &ShopMode::GetState)
             .def("ChangeState", &ShopMode::ChangeState)
+            .def("ChangeViewMode", &ShopMode::ChangeViewMode)
 
             .enum_("constants") [
                 // Price levels
@@ -873,7 +874,12 @@ void BindModeCode()
                 luabind::value("SHOP_STATE_BUY", SHOP_STATE_BUY),
                 luabind::value("SHOP_STATE_SELL", SHOP_STATE_SELL),
                 luabind::value("SHOP_STATE_TRADE", SHOP_STATE_TRADE),
-                luabind::value("SHOP_STATE_INVALID", SHOP_STATE_INVALID)
+                luabind::value("SHOP_STATE_INVALID", SHOP_STATE_INVALID),
+                // View modes
+                luabind::value("SHOP_VIEW_MODE_INVALID", SHOP_VIEW_MODE_INVALID),
+                luabind::value("SHOP_VIEW_MODE_LIST", SHOP_VIEW_MODE_LIST),
+                luabind::value("SHOP_VIEW_MODE_INFO", SHOP_VIEW_MODE_INFO),
+                luabind::value("SHOP_VIEW_MODE_TOTAL", SHOP_VIEW_MODE_TOTAL)
             ]
         ];
 

@@ -121,6 +121,7 @@ function _CreateEvents()
     event:SetPriceLevels(vt_shop.ShopMode.SHOP_PRICE_VERY_GOOD, -- Flora is a good friend
                          vt_shop.ShopMode.SHOP_PRICE_STANDARD);
 
+    event:AddScript("dat/help/tutorial_shop_dialogs.lua");
     EventManager:RegisterEvent(event);
 
     -- Quest events

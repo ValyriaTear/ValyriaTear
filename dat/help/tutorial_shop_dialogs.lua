@@ -88,7 +88,7 @@ function Initialize(shop_instance)
         main_dialogue:AddLine(text, "Flora");
         text = vt_system.Translate("Let's have a look at the potions...");
         main_dialogue:AddLine(text, "Flora");
-        -- TODO: Set State buy potions
+        -- Set State buy potions
         text = vt_system.Translate("Once you're here, you'll be able to add or remove how many items you want by pressing left or right. Of course, only if you have money, Sweeties...");
         main_dialogue:AddLine(text, "Flora");
         text = vt_system.Translate("Shall I repeat?");
@@ -184,7 +184,7 @@ function Update()
         -- Show limits
         hand1_visible = true;
         hand2_visible = false;
-        hand1_origin_x = 250.0;
+        hand1_origin_x = 580.0;
         hand1_origin_y = 368.0;
         trigger_show_hand1 = false;
         last_line = 7;
@@ -197,9 +197,15 @@ function Update()
         trigger_show_hand1 = false;
         last_line = 8;
     elseif (last_line ~= 9 and DialogueManager:GetLineCounter() == 9) then
-        hand1_visible = false;
+        -- Show the potions info and buy amount
+        Shop:ChangeViewMode(vt_shop.ShopMode.SHOP_VIEW_MODE_INFO);
+        -- Show where the buy amount is.
+        hand1_visible = true;
         hand2_visible = false;
-        last_line = 9;
+        hand1_origin_x = 580.0;
+        hand1_origin_y = 210.0;
+        trigger_show_hand1 = false;
+        last_line = 9
     elseif (DialogueManager:GetLineCounter() >= 12) then
         hand1_visible = false;
         hand2_visible = false;

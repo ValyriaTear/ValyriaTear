@@ -448,6 +448,11 @@ public:
     **/
     void ChangeState(SHOP_STATE new_state);
 
+    /** \brief Changes the view mode of the active shop interface.
+    *** \param new_mode The view mode needed to be shown.
+    **/
+    void ChangeViewMode(SHOP_VIEW_MODE new_mode);
+
     //! \brief Returns true if the user has indicated they wish to buy or sell any items
     bool HasPreparedTransaction() const {
         return ((_total_costs != 0) || (_total_sales != 0));
@@ -636,6 +641,9 @@ private:
 
     //! \brief updates the available items the user can sell
     void _UpdateAvailableObjectsToSell();
+
+    //! \brief Handles any key input made on the shop root interface.
+    void _HandleRootInterfaceInput();
 
     /** \brief A reference to the current instance of ShopMode
     *** This is used by other shop classes to be able to refer to the shop that they exist in. This member

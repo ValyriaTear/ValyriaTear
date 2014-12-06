@@ -50,9 +50,6 @@ enum SHOP_STATE {
     SHOP_STATE_TOTAL     =  4
 };
 
-namespace private_shop
-{
-
 //! \brief Used to toggle between different view models in some interfaces
 enum SHOP_VIEW_MODE {
     SHOP_VIEW_MODE_INVALID   = -1,
@@ -60,6 +57,9 @@ enum SHOP_VIEW_MODE {
     SHOP_VIEW_MODE_INFO      =  1, //!< Display detailed information about a particular object/selection
     SHOP_VIEW_MODE_TOTAL     =  2
 };
+
+namespace private_shop
+{
 
 /** \brief Type identifiers for representing different categories of shop objects
 *** GlobalObject classes already have their own type member, so why create a type for ShopObject classes?
