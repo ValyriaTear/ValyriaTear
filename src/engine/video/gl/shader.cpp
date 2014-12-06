@@ -41,7 +41,7 @@ Shader::Shader(GLenum type, const std::string &data) :
 
     // Send the source code to the shader.
     if (!errors) {
-        const GLint length[] = { data.length() };
+        const GLint length[] = { static_cast<GLint>(data.length()) };
         const GLchar* strings[] = { data.c_str() };
 
         glShaderSource(_shader, 1, strings, length);

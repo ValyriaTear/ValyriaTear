@@ -324,7 +324,6 @@ void SpriteParticleSystem::Draw(float* vertex_positions,
 
     // Define some constants.
     const unsigned VERTICES_PER_PARTICLE = 4;
-    const unsigned INDICES_PER_PARTICLE = 6;
     const unsigned POSITIONS_PER_VERTEX = 3;
     const unsigned COLORS_PER_VERTEX = 4;
     const unsigned TEXTURE_COORDINATES_PER_VERTEX = 2;
