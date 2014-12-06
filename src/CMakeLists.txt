@@ -335,6 +335,8 @@ engine/video/gl/shader_programs.h
 engine/video/gl/shaders.h
 engine/video/gl/sprite_colored.cpp
 engine/video/gl/sprite_colored.h
+engine/video/gl/sprite_particle_system.cpp
+engine/video/gl/sprite_particle_system.h
 engine/video/gl/sprite_textured.cpp
 engine/video/gl/sprite_textured.h
 engine/video/gl/transform.cpp

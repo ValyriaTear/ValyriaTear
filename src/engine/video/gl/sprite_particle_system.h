@@ -8,40 +8,43 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 /** ****************************************************************************
-*** \file    sprite_colored.h
+*** \file    sprite_particle_system.h
 *** \author  Authenticate, James Lammlein
-*** \brief   Header file for buffers for a colored sprite.
+*** \brief   Header file for buffers for a particle system.
 *** ***************************************************************************/
 
-#ifndef __SPRITE_COLORED_HEADER__
-#define __SPRITE_COLORED_HEADER__
+#ifndef __SPRITE_PARTICLE_SYSTEM_HEADER__
+#define __SPRITE_PARTICLE_SYSTEM_HEADER__
 
 namespace vt_video
 {
 namespace gl
 {
 
-//! \brief A class for a colored sprite.
-class SpriteColored
+//! \brief A class for a particle system.
+class SpriteParticleSystem
 {
 public:
-    SpriteColored();
-    ~SpriteColored();
+    SpriteParticleSystem();
+    ~SpriteParticleSystem();
 
     void Draw();
-    void Draw(const std::vector<float>& vertex_positions,
-              const std::vector<float>& vertex_colors);
+    void Draw(float* vertex_positions,
+              float* vertex_colors,
+              float* vertex_texture_coordinates,
+              unsigned number_of_vertices);
 
     unsigned _number_of_indices;
 
     GLuint _vao;
     GLuint _vertex_position_buffer;
     GLuint _vertex_color_buffer;
+    GLuint _vertex_texture_coordinate_buffer;
     GLuint _index_buffer;
 
 private:
-    SpriteColored(const SpriteColored&) {}
-    SpriteColored& operator=(const SpriteColored&) { return *this; }
+    SpriteParticleSystem(const SpriteParticleSystem&) {}
+    SpriteParticleSystem& operator=(const SpriteParticleSystem&) { return *this; }
 };
 
 } // namespace gl

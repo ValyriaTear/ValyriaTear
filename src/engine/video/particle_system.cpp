@@ -272,63 +272,12 @@ void ParticleSystem::Draw()
     gl::ShaderProgram* shader_program = VideoManager->LoadShaderProgram(gl::shader_programs::Particle);
     assert(shader_program != NULL);
 
-    //
-    // Note: This rendering code needs updated.
-    //
-    //       A class similar to SpriteColored and SpriteTextured
-    //       should be created to encapsulate the buffers required to render
-    //       the entire particle system at once similar to the fixed
-    //       function pipeline implementation.
-    //
-    //       There is a lot of needless iteration in this implementation.  However, it is alright for an initial
-    //       proof of concept.
-    //
-
-    // For each particle...
-    for (unsigned i = 0; i < _num_particles; ++i)
-    {
-        // Get the particle's vertex positions.
-        std::vector<float> vertex_positions;
-
-        vt_mode_manager::ParticleVertex* particle_vertices = &_particle_vertices[i * 4];
-
-        // For each vertex...
-        for (unsigned j = 0; j < 4; ++j)
-        {
-            vertex_positions.push_back(particle_vertices[j]._x);
-            vertex_positions.push_back(particle_vertices[j]._y);
-            vertex_positions.push_back(0.0f);
-        }
-
-        // Get the particle's vertex colors.
-        std::vector<float> vertex_colors;
-
-        vt_video::Color* particle_colors = &_particle_colors[i * 4];
-
-        // For each vertex...
-        for (unsigned j = 0; j < 4; ++j)
-        {
-            vertex_colors.push_back(particle_colors[j][0]);
-            vertex_colors.push_back(particle_colors[j][1]);
-            vertex_colors.push_back(particle_colors[j][2]);
-            vertex_colors.push_back(particle_colors[j][3]);
-        }
-
-        // Get the particle's vertex texture coordinates.
-        std::vector<float> vertex_texture_coordinates;
-
-        vt_mode_manager::ParticleTexCoord* particle_texture_coordinates = &_particle_texcoords[i * 4];
-
-        // For each vertex...
-        for (unsigned j = 0; j < 4; ++j)
-        {
-            vertex_texture_coordinates.push_back(particle_texture_coordinates[j]._t0);
-            vertex_texture_coordinates.push_back(particle_texture_coordinates[j]._t1);
-        }
-
-        // Draw the particle.
-        VideoManager->DrawSpriteColored(shader_program, vertex_positions, vertex_colors, vertex_texture_coordinates);
-    }
+    // Draw the particle system.
+    VideoManager->DrawSpriteParticleSystem(shader_program,
+                                           reinterpret_cast<float*>(&_particle_vertices[0]),
+                                           reinterpret_cast<float*>(&_particle_colors[0]),
+                                           reinterpret_cast<float*>(&_particle_texcoords[0]),
+                                           _num_particles * 4);
 
     if (_system_def->smooth_animation) {
         int findex = _animation.GetCurrentFrameIndex();
@@ -381,55 +330,12 @@ void ParticleSystem::Draw()
             ++c;
         }
 
-        //
-        // TODO: See the coment above.
-        //
-
-        // For each particle...
-        for (unsigned i = 0; i < _num_particles; ++i)
-        {
-            // Get the particle's vertex positions.
-            std::vector<float> vertex_positions;
-
-            vt_mode_manager::ParticleVertex* particle_vertices = &_particle_vertices[i * 4];
-
-            // For each vertex...
-            for (unsigned j = 0; j < 4; ++j)
-            {
-                vertex_positions.push_back(particle_vertices[j]._x);
-                vertex_positions.push_back(particle_vertices[j]._y);
-                vertex_positions.push_back(0.0f);
-            }
-
-            // Get the particle's vertex colors.
-            std::vector<float> vertex_colors;
-
-            vt_video::Color* particle_colors = &_particle_colors[i * 4];
-
-            // For each vertex...
-            for (unsigned j = 0; j < 4; ++j)
-            {
-                vertex_colors.push_back(particle_colors[j][0]);
-                vertex_colors.push_back(particle_colors[j][1]);
-                vertex_colors.push_back(particle_colors[j][2]);
-                vertex_colors.push_back(particle_colors[j][3]);
-            }
-
-            // Get the particle's vertex texture coordinates.
-            std::vector<float> vertex_texture_coordinates;
-
-            vt_mode_manager::ParticleTexCoord* particle_texture_coordinates = &_particle_texcoords[i * 4];
-
-            // For each vertex...
-            for (unsigned j = 0; j < 4; ++j)
-            {
-                vertex_texture_coordinates.push_back(particle_texture_coordinates[j]._t0);
-                vertex_texture_coordinates.push_back(particle_texture_coordinates[j]._t1);
-            }
-
-            // Draw the particle.
-            VideoManager->DrawSpriteColored(shader_program, vertex_positions, vertex_colors, vertex_texture_coordinates);
-        }
+        // Draw the particle system.
+        VideoManager->DrawSpriteParticleSystem(shader_program,
+                                               reinterpret_cast<float*>(&_particle_vertices[0]),
+                                               reinterpret_cast<float*>(&_particle_colors[0]),
+                                               reinterpret_cast<float*>(&_particle_texcoords[0]),
+                                               _num_particles * 4);
     }
 
     // Unload the shader program.

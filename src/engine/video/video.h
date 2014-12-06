@@ -72,6 +72,7 @@ namespace gl
 class Shader;
 class ShaderProgram;
 class SpriteColored;
+class SpriteParticleSystem;
 class SpriteTextured;
 
 } // namespace gl
@@ -385,8 +386,14 @@ public:
     //! \brief Draws a colored sprite.
     void DrawSpriteColored(gl::ShaderProgram* shader_program,
                            const std::vector<float>& vertex_positions,
-                           const std::vector<float>& vertex_colors,
-                           const std::vector<float>& vertex_texture_coordinates);
+                           const std::vector<float>& vertex_colors);
+
+    //! \brief Draws a particle system.
+    void DrawSpriteParticleSystem(gl::ShaderProgram* shader_program,
+                                  float* vertex_positions,
+                                  float* vertex_colors,
+                                  float* vertex_texture_coordinates,
+                                  unsigned number_of_vertices);
 
     //! \brief Draws a textured sprite.
     void DrawSpriteTextured(gl::ShaderProgram* shader_program,
@@ -809,6 +816,9 @@ private:
 
     //! The OpenGL buffers and objects to draw a colored quad.
     gl::SpriteColored* _sprite_colored;
+
+    //! The OpenGL buffers and objects to draw a particle system.
+    gl::SpriteParticleSystem* _sprite_particle_system;
 
     //! The OpenGL buffers and objects to draw a textured quad.
     gl::SpriteTextured* _sprite_textured;

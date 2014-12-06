@@ -27,6 +27,7 @@
 #include "engine/video/gl/shader_programs.h"
 #include "engine/video/gl/shaders.h"
 #include "engine/video/gl/sprite_colored.h"
+#include "engine/video/gl/sprite_particle_system.h"
 #include "engine/video/gl/sprite_textured.h"
 
 #include "utils/utils_strings.h"
@@ -104,6 +105,7 @@ VideoEngine::VideoEngine():
     _temp_height(0),
     _smooth_pixel_art(true),
     _sprite_colored(NULL),
+    _sprite_particle_system(NULL),
     _sprite_textured(NULL),
     _transformed_vertex_array_ptr(NULL),
     _vertex_array_ptr(NULL),
@@ -206,10 +208,15 @@ void VideoEngine::_DrawFPS()
 
 VideoEngine::~VideoEngine()
 {
-    // Clean up the quads.
+    // Clean up the sprites.
     if (_sprite_colored) {
         delete _sprite_colored;
         _sprite_colored = NULL;
+    }
+
+    if (_sprite_particle_system) {
+        delete _sprite_particle_system;
+        _sprite_particle_system = NULL;
     }
 
     if (_sprite_textured) {
@@ -266,8 +273,9 @@ bool VideoEngine::FinalizeInitialization()
         return false;
     }
 
-    // Create the quads.
+    // Create the sprite buffer classes.
     _sprite_colored = new gl::SpriteColored();
+    _sprite_particle_system = new gl::SpriteParticleSystem();
     _sprite_textured = new gl::SpriteTextured();
 
     //
@@ -560,12 +568,12 @@ void VideoEngine::Update()
 
 void VideoEngine::DrawDebugInfo()
 {
-    if(TextureManager->debug_current_sheet >= 0)
+    if (TextureManager->debug_current_sheet >= 0)
         TextureManager->DEBUG_ShowTexSheet();
 
     if (_fps_display)
         _DrawFPS();
-} // void VideoEngine::Draw()
+}
 
 bool VideoEngine::CheckGLError() {
     if(!VIDEO_DEBUG)
@@ -937,8 +945,7 @@ void VideoEngine::DrawArrays(GLenum mode, GLint first, GLsizei count)
 
 void VideoEngine::DrawSpriteColored(gl::ShaderProgram* shader_program,
                                     const std::vector<float>& vertex_positions,
-                                    const std::vector<float>& vertex_colors,
-                                    const std::vector<float>& vertex_texture_coordinates)
+                                    const std::vector<float>& vertex_colors)
 {
     assert(_sprite_colored != NULL);
     assert(shader_program != NULL);
@@ -958,7 +965,36 @@ void VideoEngine::DrawSpriteColored(gl::ShaderProgram* shader_program,
     shader_program->UpdateUniform("u_Projection", buffer, 16);
 
     // Draw the sprite.
-    _sprite_colored->Draw(vertex_positions, vertex_colors, vertex_texture_coordinates);
+    _sprite_colored->Draw(vertex_positions, vertex_colors);
+}
+
+void VideoEngine::DrawSpriteParticleSystem(gl::ShaderProgram* shader_program,
+                                           float* vertex_positions,
+                                           float* vertex_colors,
+                                           float* vertex_texture_coordinates,
+                                           unsigned number_of_vertices)
+{
+    assert(_sprite_particle_system != NULL);
+    assert(shader_program != NULL);
+    assert(vertex_positions != NULL);
+    assert(vertex_colors != NULL);
+    assert(vertex_texture_coordinates != NULL);
+    assert(number_of_vertices % 4 == 0);
+
+    // Load the shader uniforms common to all programs.
+    float buffer[16] = { 0 };
+    _transform_stack.top().Apply(buffer);
+    shader_program->UpdateUniform("u_Model", buffer, 16);
+
+    gl::Transform identity;
+    identity.Apply(buffer);
+    shader_program->UpdateUniform("u_View", buffer, 16);
+
+    _projection.Apply(buffer);
+    shader_program->UpdateUniform("u_Projection", buffer, 16);
+
+    // Draw the particle system.
+    _sprite_particle_system->Draw(vertex_positions, vertex_colors, vertex_texture_coordinates, number_of_vertices);
 }
 
 void VideoEngine::DrawSpriteTextured(gl::ShaderProgram* shader_program,

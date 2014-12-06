@@ -308,6 +308,9 @@
     <ClCompile Include="..\..\src\engine\video\gl\sprite_colored.cpp">
       <Filter>engine\video\gl</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\engine\video\gl\sprite_particle_system.cpp">
+      <Filter>engine\video\gl</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\main_options.h" />
@@ -591,6 +594,9 @@
       <Filter>engine\video\gl</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\engine\video\gl\sprite_colored.h">
+      <Filter>engine\video\gl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\engine\video\gl\sprite_particle_system.h">
       <Filter>engine\video\gl</Filter>
     </ClInclude>
   </ItemGroup>

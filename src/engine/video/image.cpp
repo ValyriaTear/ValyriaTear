@@ -671,7 +671,7 @@ void ImageDescriptor::_DrawTexture(const Color* draw_color) const
         }
 
         // Draw the colored sprite.
-        VideoManager->DrawSpriteColored(shader_program, vertex_positions, vertex_colors, vertex_texture_coordinates);
+        VideoManager->DrawSpriteColored(shader_program, vertex_positions, vertex_colors);
     }
 
     // Unload the shader program.
