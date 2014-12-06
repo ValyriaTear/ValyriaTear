@@ -777,8 +777,6 @@ void TextSupervisor::_FreeFont(const std::string &font_name)
     _font_map.erase(it);
 }
 
-
-
 FontProperties *TextSupervisor::_GetFontProperties(const std::string &font_name)
 {
     if(_IsFontValid(font_name) == false) {
@@ -789,17 +787,15 @@ FontProperties *TextSupervisor::_GetFontProperties(const std::string &font_name)
     return _font_map[font_name];
 }
 
-
-
 void TextSupervisor::Draw(const ustring &text, const TextStyle &style)
 {
-    if(text.empty()) {
+    if (text.empty()) {
         IF_PRINT_WARNING(VIDEO_DEBUG) << "empty string was passed to function" << std::endl;
         return;
     }
 
     FontProperties *fp = style.GetFontProperties();
-    if(fp == NULL || fp->ttf_font == NULL) {
+    if (fp == NULL || fp->ttf_font == NULL) {
         IF_PRINT_WARNING(VIDEO_DEBUG) << "failed because font was invalid: " << style.GetFontName() << std::endl;
         return;
     }
@@ -848,9 +844,7 @@ void TextSupervisor::Draw(const ustring &text, const TextStyle &style)
     } while(last_line < text.length());
 
     VideoManager->PopState();
-} // void TextSupervisor::Draw(const ustring& text)
-
-
+}
 
 int32 TextSupervisor::CalculateTextWidth(TTF_Font* ttf_font, const vt_utils::ustring &text)
 {
@@ -1114,12 +1108,15 @@ void TextSupervisor::_CacheGlyphs(const uint16 *text, FontProperties *fp)
 
 void TextSupervisor::_DrawTextHelper(const uint16 *const text, FontProperties *fp, Color text_color)
 {
-    if(*text == 0) {
+    assert(text != NULL);
+    assert(fp != NULL);
+
+    if (*text == 0) {
         IF_PRINT_WARNING(VIDEO_DEBUG) << "invalid argument, empty string" << std::endl;
         return;
     }
 
-    if(fp == NULL) {
+    if (fp == NULL) {
         IF_PRINT_WARNING(VIDEO_DEBUG) << "invalid argument, NULL font properties" << std::endl;
         return;
     }
@@ -1137,7 +1134,7 @@ void TextSupervisor::_DrawTextHelper(const uint16 *const text, FontProperties *f
     VideoManager->PushMatrix();
 
     int font_width, font_height;
-    if(TTF_SizeUNICODE(fp->ttf_font, text, &font_width, &font_height) != 0) {
+    if (TTF_SizeUNICODE(fp->ttf_font, text, &font_width, &font_height) != 0) {
         IF_PRINT_WARNING(VIDEO_DEBUG) << "call to TTF_SizeUNICODE() failed" << std::endl;
         return;
     }
@@ -1147,24 +1144,20 @@ void TextSupervisor::_DrawTextHelper(const uint16 *const text, FontProperties *f
 
     VideoManager->MoveRelative(xoff, yoff);
 
-    VideoManager->EnableVertexArray();
-    VideoManager->EnableTextureCoordArray();
-
-    GLfloat vertices[8] = { 0 };
-    GLfloat tex_coords[8] = { 0 };
-    VideoManager->SetVertexPointer(2, 0, vertices);
-    glTexCoordPointer(2, GL_FLOAT, 0, tex_coords);
+    // Load the shader program.
+    gl::ShaderProgram* shader_program = VideoManager->LoadShaderProgram(gl::shader_programs::Sprite);
+    assert(shader_program != NULL);
 
     // Iterate through each character in the string and render the character glyphs one at a time.
     int xpos = 0;
-    for(const uint16 *glyph = text; *glyph != 0; ++glyph) {
+    for (const uint16 *glyph = text; *glyph != 0; ++glyph) {
         FontGlyph *glyph_info = (*fp->glyph_cache)[*glyph];
 
         int x_hi = glyph_info->width;
         int y_hi = glyph_info->height;
-        if(cs.GetHorizontalDirection() < 0.0f)
+        if (cs.GetHorizontalDirection() < 0.0f)
             x_hi = -x_hi;
-        if(cs.GetVerticalDirection() < 0.0f)
+        if (cs.GetVerticalDirection() < 0.0f)
             y_hi = -y_hi;
 
         int min_x, min_y;
@@ -1176,33 +1169,63 @@ void TextSupervisor::_DrawTextHelper(const uint16 *const text, FontProperties *f
         ty = glyph_info->max_y;
 
         TextureManager->_BindTexture(glyph_info->texture);
-        if(VideoManager->CheckGLError()) {
+        if (VideoManager->CheckGLError()) {
             IF_PRINT_WARNING(VIDEO_DEBUG) << "OpenGL error detected: " << VideoManager->CreateGLErrorString() << std::endl;
             return;
         }
 
-        vertices[0] = min_x;
-        vertices[1] = min_y;
-        vertices[2] = min_x + x_hi;
-        vertices[3] = min_y;
-        vertices[4] = min_x + x_hi;
-        vertices[5] = min_y + y_hi;
-        vertices[6] = min_x;
-        vertices[7] = min_y + y_hi;
-        tex_coords[0] = 0.0f;
-        tex_coords[1] = ty;
-        tex_coords[2] = tx;
-        tex_coords[3] = ty;
-        tex_coords[4] = tx;
-        tex_coords[5] = 0.0f;
-        tex_coords[6] = 0.0f;
-        tex_coords[7] = 0.0f;
+        // Calculate the vertex positions.
+        std::vector<float> vertex_positions;
 
-        glColor4fv((GLfloat *)&text_color);
-        VideoManager->DrawArrays(GL_QUADS, 0, 4);
+        // Vertex one.
+        vertex_positions.push_back(min_x);
+        vertex_positions.push_back(min_y);
+        vertex_positions.push_back(0.0f);
+
+        // Vertex two.
+        vertex_positions.push_back(min_x + x_hi);
+        vertex_positions.push_back(min_y);
+        vertex_positions.push_back(0.0f);
+
+
+        // Vertex three.
+        vertex_positions.push_back(min_x + x_hi);
+        vertex_positions.push_back(min_y + y_hi);
+        vertex_positions.push_back(0.0f);
+
+
+        // Vertex four.
+        vertex_positions.push_back(min_x);
+        vertex_positions.push_back(min_y + y_hi);
+        vertex_positions.push_back(0.0f);
+
+        // Calculate the vertex texture coordinates.
+        std::vector<float> vertex_texture_coordinates;
+
+        // Vertex one.
+        vertex_texture_coordinates.push_back(0.0f);
+        vertex_texture_coordinates.push_back(ty);
+
+        // Vertex two.
+        vertex_texture_coordinates.push_back(tx);
+        vertex_texture_coordinates.push_back(ty);
+
+        // Vertex three.
+        vertex_texture_coordinates.push_back(tx);
+        vertex_texture_coordinates.push_back(0.0f);
+
+        // Vertex four.
+        vertex_texture_coordinates.push_back(0.0f);
+        vertex_texture_coordinates.push_back(0.0f);
+
+        // Draw the glyph.
+        VideoManager->DrawSpriteTextured(shader_program, vertex_positions, vertex_texture_coordinates, text_color);
 
         xpos += glyph_info->advance;
     }
+
+    // Unload the shader program.
+    VideoManager->UnloadShaderProgram();
 
     VideoManager->PopMatrix();
 }
@@ -1324,6 +1347,6 @@ bool TextSupervisor::_RenderText(vt_utils::ustring &string, TextStyle &style, Im
     SDL_FreeSurface(intermediary);
 
     return true;
-} // bool TextSupervisor::_RenderText(vt_utils::ustring& string, TextStyle& style, ImageMemory& buffer)
+}
 
 }  // namespace vt_video
