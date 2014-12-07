@@ -369,9 +369,6 @@ public:
     //! \brief Unloads the currently loaded shader program.
     void UnloadShaderProgram();
 
-    //! \brief glDrawArrays wrapper.
-    void DrawArrays(GLenum mode, GLint first, GLsizei count);
-
     //! \brief Draws a colored sprite.
     void DrawSpriteColored(gl::ShaderProgram* shader_program,
                            const std::vector<float>& vertex_positions,
@@ -713,23 +710,19 @@ private:
     //! \brief Holds the most recently fetched OpenGL error code
     GLenum _gl_error_code;
 
-    //! \brief those members are used to activate/deactivate the GL state only when needed.
+    //! \brief These members are used to activate/deactivate the GL state only when needed.
+
     //! \brief Holds whether the GL_BLEND state is activated. Used to optimize the drawing logic
     bool _gl_blend_is_active;
+
     //! \brief Holds whether the GL_TEXTURE_2D state is activated. Used to optimize the drawing logic
     bool _gl_texture_2d_is_active;
-    //! \brief Holds whether the GL_ALPHA_TEST state is activated. Used to optimize the drawing logic
-    bool _gl_alpha_test_is_active;
+
     //! \brief Holds whether the GL_STENCIL_STATE state is activated. Used to optimize the drawing logic
     bool _gl_stencil_test_is_active;
+
     //! \brief Holds whether the GL_SCISSOR_TEST state is activated. Used to optimize the drawing logic
     bool _gl_scissor_test_is_active;
-    //! \brief Holds whether the GL_VERTEX_ARRAY state is activated. Used to optimize the drawing logic
-    bool _gl_vertex_array_is_activated;
-    //! \brief Holds whether the GL_VERTEX_ARRAY state is activated. Used to optimize the drawing logic
-    bool _gl_color_array_is_activated;
-    //! \brief Holds whether the GL_VERTEX_ARRAY state is activated. Used to optimize the drawing logic
-    bool _gl_texture_coord_array_is_activated;
 
     //! \brief The x/y offsets, width and height of the current viewport (the drawn part), in pixels
     //! \note the viewport is different from the screen size when in non-4:3 modes.
@@ -813,13 +806,6 @@ private:
 
     //! The OpenGL shader programs.
     std::map<gl::shader_programs::ShaderPrograms, gl::ShaderProgram*> _programs;
-
-    //! cache vertex array data to be able to apply transform before drawing.
-    std::vector<float> _transformed_vertex_array;
-    float *_transformed_vertex_array_ptr;
-    const float *_vertex_array_ptr;
-    GLsizei _vertex_array_stride;
-    GLint _vertex_array_size;
 
     //! check to see if the VideoManager has already been setup.
     bool _initialized;

@@ -81,12 +81,8 @@ VideoEngine::VideoEngine():
     _gl_error_code(GL_NO_ERROR),
     _gl_blend_is_active(false),
     _gl_texture_2d_is_active(false),
-    _gl_alpha_test_is_active(false),
     _gl_stencil_test_is_active(false),
     _gl_scissor_test_is_active(false),
-    _gl_vertex_array_is_activated(false),
-    _gl_color_array_is_activated(false),
-    _gl_texture_coord_array_is_activated(false),
     _viewport_x_offset(0),
     _viewport_y_offset(0),
     _viewport_width(0),
@@ -107,10 +103,6 @@ VideoEngine::VideoEngine():
     _sprite_colored(NULL),
     _sprite_particle_system(NULL),
     _sprite_textured(NULL),
-    _transformed_vertex_array_ptr(NULL),
-    _vertex_array_ptr(NULL),
-    _vertex_array_stride(0),
-    _vertex_array_size(0),
     _initialized(false)
 {
     _current_context.blend = 0;
@@ -805,30 +797,6 @@ gl::ShaderProgram* VideoEngine::LoadShaderProgram(const gl::shader_programs::Sha
 void VideoEngine::UnloadShaderProgram()
 {
     glUseProgram(0);
-}
-
-void VideoEngine::DrawArrays(GLenum mode, GLint first, GLsizei count)
-{
-    assert(_vertex_array_ptr);
-    assert(first >= 0);
-    assert(count > 0);
-
-    int stride_float = _vertex_array_stride / sizeof(float);
-
-    // Resize transformed_vertex array if needed.
-    _transformed_vertex_array.resize(stride_float * count);
-    if (_transformed_vertex_array_ptr != &_transformed_vertex_array[0]) {
-        _transformed_vertex_array_ptr = &_transformed_vertex_array[0];
-        glVertexPointer(_vertex_array_size, GL_FLOAT, _vertex_array_stride, _transformed_vertex_array_ptr);
-    }
-
-    // Apply the transform.
-    _transform_stack.top().Apply(_vertex_array_ptr + first * stride_float,
-                                 _transformed_vertex_array_ptr,
-                                 count,
-                                 _vertex_array_stride);
-
-    glDrawArrays(mode, 0, count);
 }
 
 void VideoEngine::DrawSpriteColored(gl::ShaderProgram* shader_program,
