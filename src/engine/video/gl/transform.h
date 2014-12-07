@@ -49,14 +49,6 @@ public:
     //! \brief Resets the transform to the identity.
     void Reset();
 
-    /** \brief Apply transform matrix to count buffer elements.
-    *** \param buffer_in Buffer read from with size = count * stride.
-    *** \param buffer_out Buffer written to with size = count * stride.
-    *** \param count Number of elements to be processed > 0.
-    *** \param stride Size of a single element is n * sizeof(float) with n >= 2.
-    **/
-    void Apply(const void *buffer_in, void *buffer_out, int count, int stride) const;
-
     //! \brief Applies the transform to the buffer.  The buffer must have at least 16 elements!
     void Apply(float* buffer) const;
 

@@ -124,31 +124,6 @@ void Transform::Reset()
     _row3[3] = 1.0f;
 }
 
-void Transform::Apply(const void *buffer_in, void *buffer_out, int count, int stride) const
-{
-    assert(buffer_in != 0);
-    assert(buffer_out != 0);
-    assert(count > 0);
-    assert(stride > 0);
-    assert(stride % sizeof(float) == 0);
-
-    const int stridef = stride / sizeof(float);
-    const float * elemi = static_cast<const float *>(buffer_in);
-    float * elemo = static_cast<float *>(buffer_out);
-
-    for (int i = 0; i < count; ++i) {
-        const float x = elemi[0] * _row0[0] + elemi[1] * _row0[1] + _row0[3];
-        const float y = elemi[0] * _row1[0] + elemi[1] * _row1[1] + _row1[3];
-        elemo[0] = x;
-        elemo[1] = y;
-        elemi += 2;
-        elemo += 2;
-        for (int j = 0; j < stridef - 2; ++j) {
-            *elemo++ = *elemi++;
-        }
-    }
-}
-
 void Transform::Apply(float* buffer) const
 {
     assert(buffer != NULL);
