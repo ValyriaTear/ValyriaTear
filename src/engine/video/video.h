@@ -356,20 +356,12 @@ public:
     void SetViewport(float x, float y, float width, float height);
 
     //! Perform the OpenGL corresponding calls, but only if necessary.
-    void EnableAlphaTest();
-    void DisableAlphaTest();
     void EnableBlending();
     void DisableBlending();
     void EnableStencilTest();
     void DisableStencilTest();
     void EnableTexture2D();
     void DisableTexture2D();
-    void EnableColorArray();
-    void DisableColorArray();
-    void EnableVertexArray();
-    void DisableVertexArray();
-    void EnableTextureCoordArray();
-    void DisableTextureCoordArray();
 
     //! \brief Loads a shader program.
     gl::ShaderProgram* LoadShaderProgram(const gl::shader_programs::ShaderPrograms& shader_program);

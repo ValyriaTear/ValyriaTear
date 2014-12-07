@@ -649,13 +649,9 @@ void ImageDescriptor::_DrawTexture(const Color* draw_color) const
     }
 
     if (_unichrome_vertices) {
-        VideoManager->DisableColorArray();
-
         // Draw the textured sprite.
         VideoManager->DrawSpriteTextured(shader_program, vertex_positions, vertex_texture_coordinates, *draw_color);
     } else {
-        VideoManager->EnableColorArray();
-
         // The vertex colors.
         std::vector<float> vertex_colors;
 

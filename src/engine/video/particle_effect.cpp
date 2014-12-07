@@ -404,19 +404,16 @@ bool ParticleEffect::LoadEffect(const std::string &filename)
 
 void ParticleEffect::Draw()
 {
-    // move to the effect's location
+    // Move to the effect's location.
     VideoManager->Move(_x, _y);
 
     std::vector<ParticleSystem>::iterator iSystem = _systems.begin();
-
-    while(iSystem != _systems.end()) {
+    while (iSystem != _systems.end()) {
         (*iSystem).Draw();
         ++iSystem;
     }
 
-    VideoManager->DisableAlphaTest();
     VideoManager->DisableStencilTest();
-    glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
 }
 
 void ParticleEffect::Update()

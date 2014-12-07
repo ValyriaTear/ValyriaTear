@@ -631,15 +631,11 @@ bool VideoEngine::ApplySettings()
         }
     }
 
-    // Clear GL state, after SDL_SetVideoMode() for OSX compatibility
+    // Clear the OpenGL state, after SDL_SetVideoMode(), for OS X compatibility.
     DisableBlending();
     DisableTexture2D();
-    DisableAlphaTest();
     DisableStencilTest();
     DisableScissoring();
-    DisableVertexArray();
-    DisableColorArray();
-    DisableTextureCoordArray();
 
     // Turn off writing to the depth buffer
     glDepthMask(GL_FALSE);
@@ -654,7 +650,7 @@ bool VideoEngine::ApplySettings()
         TextureManager->ReloadTextures();
 
     return true;
-} // bool VideoEngine::ApplySettings()
+}
 
 void VideoEngine::_UpdateViewportMetrics()
 {
@@ -703,10 +699,6 @@ void VideoEngine::SetCoordSys(const CoordSys &coordinate_system)
     float near_z = -1.0f;
     float far_z = 1.0f;
 
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
-    glOrtho(left, right, bottom, top, near_z, far_z);
-
     // Calculate the orthographic projection.
     float m00 = 2.0f / (right - left);
     float m11 = 2.0f / (top - bottom);
@@ -747,22 +739,6 @@ void VideoEngine::SetViewport(float x, float y, float width, float height)
     _viewport_width = width;
     _viewport_height = height;
     glViewport(_viewport_x_offset, _viewport_y_offset, _viewport_width, _viewport_height);
-}
-
-void VideoEngine::EnableAlphaTest()
-{
-    if(!_gl_alpha_test_is_active) {
-        glEnable(GL_ALPHA_TEST);
-        _gl_alpha_test_is_active = true;
-    }
-}
-
-void VideoEngine::DisableAlphaTest()
-{
-    if(_gl_alpha_test_is_active) {
-        glDisable(GL_ALPHA_TEST);
-        _gl_alpha_test_is_active = false;
-    }
 }
 
 void VideoEngine::EnableBlending()
@@ -810,54 +786,6 @@ void VideoEngine::DisableTexture2D()
     if(_gl_texture_2d_is_active) {
         glDisable(GL_TEXTURE_2D);
         _gl_texture_2d_is_active = false;
-    }
-}
-
-void VideoEngine::EnableColorArray()
-{
-    if(!_gl_color_array_is_activated) {
-        glEnableClientState(GL_COLOR_ARRAY);
-        _gl_color_array_is_activated = true;
-    }
-}
-
-void VideoEngine::DisableColorArray()
-{
-    if(_gl_color_array_is_activated) {
-        glDisableClientState(GL_COLOR_ARRAY);
-        _gl_color_array_is_activated = false;
-    }
-}
-
-void VideoEngine::EnableVertexArray()
-{
-    if(!_gl_vertex_array_is_activated) {
-        glEnableClientState(GL_VERTEX_ARRAY);
-        _gl_vertex_array_is_activated = true;
-    }
-}
-
-void VideoEngine::DisableVertexArray()
-{
-    if(_gl_vertex_array_is_activated) {
-        glDisableClientState(GL_VERTEX_ARRAY);
-        _gl_vertex_array_is_activated = false;
-    }
-}
-
-void VideoEngine::EnableTextureCoordArray()
-{
-    if(!_gl_texture_coord_array_is_activated) {
-        glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-        _gl_texture_coord_array_is_activated = true;
-    }
-}
-
-void VideoEngine::DisableTextureCoordArray()
-{
-    if(_gl_texture_coord_array_is_activated) {
-        glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-        _gl_texture_coord_array_is_activated = false;
     }
 }
 

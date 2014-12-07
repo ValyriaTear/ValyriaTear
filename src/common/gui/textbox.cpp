@@ -335,7 +335,7 @@ void TextBox::_ReformatText()
     } else { // (_text_xalign == VIDEO_X_RIGHT)
         _text_xpos = right;
     }
-} // void TextBox::_ReformatText()
+}
 
 float TextBox::_CalculateTextHeight()
 {
@@ -348,9 +348,6 @@ float TextBox::_CalculateTextHeight()
     FontProperties* fp = _text_style.GetFontProperties();
     return static_cast<float>(fp->height + fp->line_skip * (static_cast<float>(_text.size()) - 1));
 }
-
-
-
 
 void TextBox::_DrawTextLines(float text_x, float text_y, ScreenRect scissor_rect)
 {

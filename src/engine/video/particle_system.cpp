@@ -88,7 +88,6 @@ void ParticleSystem::Draw()
         VideoManager->EnableStencilTest();
         glStencilFunc(GL_EQUAL, 1, 0xFFFFFFFF);
         glStencilOp(GL_KEEP, GL_KEEP, GL_KEEP);
-        glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
     } else if (_system_def->modify_stencil) {
         VideoManager->EnableStencilTest();
 
@@ -102,13 +101,8 @@ void ParticleSystem::Draw()
             glStencilOp(GL_REPLACE, GL_KEEP, GL_KEEP);
 
         glStencilFunc(GL_NEVER, 1, 0xFFFFFFFF);
-        VideoManager->EnableAlphaTest();
-        glAlphaFunc(GL_GREATER, 0.00f);
-        glColorMask(GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
     } else {
         VideoManager->DisableStencilTest();
-        VideoManager->DisableAlphaTest();
-        glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
     }
 
     VideoManager->EnableTexture2D();

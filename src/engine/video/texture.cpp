@@ -44,19 +44,15 @@ TexSheet::TexSheet(uint32 sheet_width, uint32 sheet_height, GLuint sheet_id, Tex
     Smooth();
 }
 
-
-
 TexSheet::~TexSheet()
 {
-    // Unload OpenGL texture from memory
+    // Unload the OpenGL texture from memory.
     TextureManager->_DeleteTexture(tex_id);
 }
 
-
-
 bool TexSheet::Unload()
 {
-    if(loaded == false) {
+    if (loaded == false) {
         IF_PRINT_WARNING(VIDEO_DEBUG) << "attempted to unload an already unloaded texture sheet" << std::endl;
         return false;
     }
@@ -67,20 +63,18 @@ bool TexSheet::Unload()
     return true;
 }
 
-
-
 bool TexSheet::Reload()
 {
-    if(loaded == true) {
+    if (loaded == true) {
         if(VIDEO_DEBUG)
             IF_PRINT_WARNING(VIDEO_DEBUG) << "attempted to load an already loaded texture sheet" << std::endl;
         return false;
     }
 
-    // Create new OpenGL texture
+    // Create new OpenGL texture.
     GLuint id = TextureManager->_CreateBlankGLTexture(width, height);
 
-    if(id == INVALID_TEXTURE_ID) {
+    if (id == INVALID_TEXTURE_ID) {
         PRINT_ERROR << "call to TextureController::_CreateBlankGLTexture() failed" << std::endl;
         return false;
     }
@@ -260,33 +254,30 @@ FixedTexSheet::FixedTexSheet(int32 sheet_width, int32 sheet_height, GLuint sheet
     _open_list_tail->block_index = num_blocks - 1;
 }
 
-
-
 FixedTexSheet::~FixedTexSheet()
 {
-    if(GetNumberTextures() != 0)
+    if (GetNumberTextures() != 0)
         IF_PRINT_WARNING(VIDEO_DEBUG) << "texture sheet being deleted when it has a non-zero allocated texture count: " << GetNumberTextures() << std::endl;
 
-    delete[] _blocks;
+    if (_blocks != NULL) {
+        delete[] _blocks;
+        _blocks = NULL;
+    }
 }
-
-
 
 bool FixedTexSheet::AddTexture(BaseTexture *img, ImageMemory &data)
 {
-    if(InsertTexture(img) == false)
+    if (InsertTexture(img) == false)
         return false;
 
-    // Copy the pixel data for the texture over
-    if(CopyRect(img->x, img->y, data) == false) {
+    // Copy the pixel data for the texture over.
+    if (CopyRect(img->x, img->y, data) == false) {
         IF_PRINT_WARNING(VIDEO_DEBUG) << "VIDEO ERROR: CopyRect() failed in TexSheet::AddImage()!" << std::endl;
         return false;
     }
 
     return true;
-} // bool FixedTexSheet::AddTexture(BaseTexture *img)
-
-
+}
 
 bool FixedTexSheet::InsertTexture(BaseTexture *img)
 {
@@ -472,17 +463,16 @@ VariableTexSheet::VariableTexSheet(int32 sheet_width, int32 sheet_height, GLuint
     _blocks = new VariableTexNode[_block_width * _block_height];
 }
 
-
-
 VariableTexSheet::~VariableTexSheet()
 {
-    if(GetNumberTextures() != 0)
+    if (GetNumberTextures() != 0)
         IF_PRINT_WARNING(VIDEO_DEBUG) << "texture sheet being deleted when it has a non-zero allocated texture count: " << GetNumberTextures() << std::endl;
 
-    delete[] _blocks;
+    if (_blocks != NULL) {
+        delete [] _blocks;
+        _blocks = NULL;
+    }
 }
-
-
 
 bool VariableTexSheet::AddTexture(BaseTexture *img, ImageMemory &data)
 {
@@ -496,7 +486,7 @@ bool VariableTexSheet::AddTexture(BaseTexture *img, ImageMemory &data)
     }
 
     return true;
-} // bool VariableTexSheet::Insert(BaseTexture *img)
+}
 
 
 
