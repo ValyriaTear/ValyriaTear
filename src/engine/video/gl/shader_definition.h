@@ -103,28 +103,6 @@ namespace shader_definition
         "    gl_TexCoord[0].xy = in_TexCoords.xy;\n"
         "};";
 
-    const char TEXT_VERTEX[] =
-        "#version 120\n"
-        "\n"
-        "//\n"
-        "// Vertex shader for text rendering.\n"
-        "//\n"
-        "\n"
-        "uniform mat4 u_Model;\n"
-        "uniform mat4 u_View;\n"
-        "uniform mat4 u_Projection;\n"
-        "\n"
-        "attribute vec3 in_Vertex;\n"
-        "attribute vec2 in_TexCoords;\n"
-        "attribute vec4 in_Color;\n"
-        "\n"
-        "void main()\n"
-        "{\n"
-        "    gl_Position       = u_Projection * (u_View * (u_Model * vec4(in_Vertex, 1.0)));\n"
-        "    gl_TexCoord[0].xy = in_TexCoords.xy;\n"
-        "    gl_FrontColor     = in_Color;\n"
-        "};";
-
     const char PARTICLE_FRAGMENT[] =
         "#version 120\n"
         "\n"
@@ -242,25 +220,6 @@ namespace shader_definition
         "        gl_FragColor.r = sum;\n"
         "        gl_FragColor.g = sum;\n"
         "        gl_FragColor.b = sum;\n"
-        "}\n";
-
-    const char TEXT_FRAGMENT[] =
-        "\n"
-        "#version 120\n"
-        "\n"
-        "//\n"
-        "// Colors the fonts.\n"
-        "//\n"
-        "\n"
-        "uniform vec4 u_Color;\n"
-        "uniform sampler2D u_Texture;\n"
-        "\n"
-        "void main()\n"
-        "{\n"
-        "    vec4 color = gl_Color * u_Color;\n"
-        "\n"
-        "    float a = texture2D(u_Texture, gl_TexCoord[0].xy).a;\n"
-        "    gl_FragColor = vec4(color.rgb, color.a * a);\n"
         "}\n";
 
 } // namespace shader_definition

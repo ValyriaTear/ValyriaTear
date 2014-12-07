@@ -287,26 +287,22 @@ bool VideoEngine::FinalizeInitialization()
     gl::Shader* solid_vertex                = new gl::Shader(GL_VERTEX_SHADER, gl::shader_definition::SOLID_VERTEX);
     gl::Shader* solid_per_vertex            = new gl::Shader(GL_VERTEX_SHADER, gl::shader_definition::SOLID_PER_VERTEX);
     gl::Shader* sprite_vertex               = new gl::Shader(GL_VERTEX_SHADER, gl::shader_definition::SPRITE_VERTEX);
-    gl::Shader* text_vertex                 = new gl::Shader(GL_VERTEX_SHADER, gl::shader_definition::TEXT_VERTEX);
     gl::Shader* particle_fragment           = new gl::Shader(GL_FRAGMENT_SHADER, gl::shader_definition::PARTICLE_FRAGMENT);
     gl::Shader* solid_fragment              = new gl::Shader(GL_FRAGMENT_SHADER, gl::shader_definition::SOLID_FRAGMENT);
     gl::Shader* solid_per_fragment          = new gl::Shader(GL_FRAGMENT_SHADER, gl::shader_definition::SOLID_PER_FRAGMENT);
     gl::Shader* sprite_fragment             = new gl::Shader(GL_FRAGMENT_SHADER, gl::shader_definition::SPRITE_FRAGMENT);
     gl::Shader* sprite_grayscale_fragment   = new gl::Shader(GL_FRAGMENT_SHADER, gl::shader_definition::SPRITE_GRAYSCALE_FRAGMENT);
-    gl::Shader* text_fragment               = new gl::Shader(GL_FRAGMENT_SHADER, gl::shader_definition::TEXT_FRAGMENT);
 
     // Store the shaders.
     _shaders[gl::shaders::VertexParticle] = particle_vertex;
     _shaders[gl::shaders::VertexSolid] = solid_vertex;
     _shaders[gl::shaders::VertexSolidPer] = solid_per_vertex;
     _shaders[gl::shaders::VertexSprite] = sprite_vertex;
-    _shaders[gl::shaders::VertexText] = text_vertex;
     _shaders[gl::shaders::FragmentParticle] = particle_fragment;
     _shaders[gl::shaders::FragmentSolid] = solid_fragment;
     _shaders[gl::shaders::FragmentSolidPer] = solid_per_fragment;
     _shaders[gl::shaders::FragmentSprite] = sprite_fragment;
     _shaders[gl::shaders::FragmentGrayscaleSprite] = sprite_grayscale_fragment;
-    _shaders[gl::shaders::FragmentText] = text_fragment;
 
     //
     // Create the shader programs.
@@ -389,26 +385,6 @@ bool VideoEngine::FinalizeInitialization()
                                                                         attributes, uniforms);
 
     //
-    // Create the text programs.
-    //
-    
-    attributes.clear();
-    attributes.push_back("in_Vertex");
-    attributes.push_back("in_TexCoords");
-    attributes.push_back("in_Color");
-    
-    uniforms.clear();
-    uniforms.push_back("u_Model");
-    uniforms.push_back("u_View");
-    uniforms.push_back("u_Projection");
-    uniforms.push_back("u_Color");
-    uniforms.push_back("u_Texture");
-
-    gl::ShaderProgram* text_program = new gl::ShaderProgram(*(_shaders[gl::shaders::VertexText]),
-                                                            *(_shaders[gl::shaders::FragmentText]),
-                                                            attributes, uniforms);
-
-    //
     // Store the shader programs.
     //
 
@@ -417,7 +393,6 @@ bool VideoEngine::FinalizeInitialization()
     _programs[gl::shader_programs::SolidPerVertex] = solid_per_vertex_program;
     _programs[gl::shader_programs::Sprite] = sprite_program;
     _programs[gl::shader_programs::SpriteGrayscale] = sprite_grayscale_program;
-    _programs[gl::shader_programs::Text] = text_program;
 
     // Create instances of the various sub-systems
     TextureManager = TextureController::SingletonCreate();
@@ -902,21 +877,6 @@ gl::ShaderProgram* VideoEngine::LoadShaderProgram(const gl::shader_programs::Sha
 void VideoEngine::UnloadShaderProgram()
 {
     glUseProgram(0);
-}
-
-void VideoEngine::SetVertexPointer(GLint size, GLsizei stride, const float *ptr)
-{
-    assert(size > 0);
-    assert(stride >= 0);
-    assert(ptr);
-
-    if (stride == 0) {
-        stride = size * sizeof(float);
-    }
-
-    _vertex_array_ptr = ptr;
-    _vertex_array_stride = stride;
-    _vertex_array_size = size;
 }
 
 void VideoEngine::DrawArrays(GLenum mode, GLint first, GLsizei count)
@@ -1449,58 +1409,100 @@ int32 VideoEngine::_ScreenCoordY(float y)
     return static_cast<int32>(percent * static_cast<float>(_viewport_height));
 }
 
-void VideoEngine::DrawLine(float x1, float y1, float x2, float y2, float width, const Color& color)
+void VideoEngine::DrawLine(float x1, float y1, unsigned width1, float x2, float y2, unsigned width2, const Color &color)
 {
+    // Compute the line's vertex positions.
+    std::vector<float> vertex_positions;
+
+    // This is the equation for drawing a line with different starting and ending widths.
+    float angle = atan2(static_cast<float>(y2 - y1), static_cast<float>(x2 - x1));
+    float w2sina1 = static_cast<float>(width1) / 2.0f * sin(angle);
+    float w2cosa1 = static_cast<float>(width1) / 2.0f * cos(angle);
+    float w2sina2 = static_cast<float>(width2) / 2.0f * sin(angle);
+    float w2cosa2 = static_cast<float>(width2) / 2.0f * cos(angle);
+
+    // Vertex one.
+    vertex_positions.push_back(x1 + w2sina1);
+    vertex_positions.push_back(y1 - w2cosa1);
+    vertex_positions.push_back(0.0f);
+
+    // Vertex two.
+    vertex_positions.push_back(x2 + w2sina2);
+    vertex_positions.push_back(y2 - w2cosa2);
+    vertex_positions.push_back(0.0f);
+
+    // Vertex three.
+    vertex_positions.push_back(x2 - w2sina2);
+    vertex_positions.push_back(y2 + w2cosa2);
+    vertex_positions.push_back(0.0f);
+
+    // Vertex four.
+    vertex_positions.push_back(x1 - w2sina1);
+    vertex_positions.push_back(y1 + w2cosa1);
+    vertex_positions.push_back(0.0f);
+
+    // The vertex texture coordinates.
+    // These will be ignored in this case.
+    std::vector<float> vertex_texture_coordinates;
+
+    // Vertex one.
+    vertex_texture_coordinates.push_back(0.0f);
+    vertex_texture_coordinates.push_back(0.0f);
+
+    // Vertex two.
+    vertex_texture_coordinates.push_back(0.0f);
+    vertex_texture_coordinates.push_back(0.0f);
+
+    // Vertex three.
+    vertex_texture_coordinates.push_back(0.0f);
+    vertex_texture_coordinates.push_back(0.0f);
+
+    // Vertex four.
+    vertex_texture_coordinates.push_back(0.0f);
+    vertex_texture_coordinates.push_back(0.0f);
+
     EnableBlending();
     DisableTexture2D();
 
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); // Normal blending
-    glPushAttrib(GL_LINE_WIDTH);
-    glLineWidth(width);
+    // Normal blending.
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-    EnableVertexArray();
-    DisableColorArray();
-    DisableTextureCoordArray();
+    // Load the solid shader program.
+    gl::ShaderProgram* shader_program = VideoManager->LoadShaderProgram(gl::shader_programs::Solid);
+    assert(shader_program != NULL);
 
-    glColor4fv((GLfloat *)color.GetColors());
+    // Draw the line.
+    DrawSpriteTextured(shader_program, vertex_positions, vertex_texture_coordinates, color);
 
-    GLfloat vert_coords[] = { x1, y1, x2, y2 };
-    _transformed_vertex_array_ptr = vert_coords;
-    SetVertexPointer(2, 0, vert_coords);
-    DrawArrays(GL_LINES, 0, 2);
-
-    glPopAttrib(); // GL_LINE_WIDTH
+    // Unload the shader program.
+    UnloadShaderProgram();
 }
 
-void VideoEngine::DrawGrid(float x, float y, float x_step, float y_step, const Color &c)
+void VideoEngine::DrawGrid(float left, float top, float right, float bottom, float width_cell_horizontal, float width_cell_vertical, unsigned width_line, const Color& color)
 {
-    float x_max = _current_context.coordinate_system.GetRight();
-    float y_max = _current_context.coordinate_system.GetBottom();
+    assert(right > left);
+    assert(bottom > top);
+    assert(width_cell_horizontal > 0.0f);
+    assert(width_cell_vertical > 0.0f);
+    assert(width_line > 0);
 
-    int32 num_vertices = 0;
-    std::vector<GLfloat> vertices;
-    for(; x <= x_max; x += x_step) {
-        vertices.push_back(x);
-        vertices.push_back(_current_context.coordinate_system.GetBottom());
-        vertices.push_back(x);
-        vertices.push_back(_current_context.coordinate_system.GetTop());
-        num_vertices += 2;
+    float x_step = (right - left) / width_cell_horizontal;
+    float y_step = (bottom - top) / width_cell_vertical;
+
+    assert(x_step > 0.0f);
+    assert(y_step > 0.0f);
+
+    // Draw the grid's vertical lines.
+    for (float i = left; i <= right; i += x_step)
+    {
+        DrawLine(i, top, width_line, i, bottom, width_line, color);
     }
 
-    for(; y < y_max; y += y_step) {
-        vertices.push_back(_current_context.coordinate_system.GetLeft());
-        vertices.push_back(y);
-        vertices.push_back(_current_context.coordinate_system.GetRight());
-        vertices.push_back(y);
-        num_vertices += 2;
+    // Draw the grid's horizontal lines.
+    for (float j = top; j <= bottom; j += y_step)
+    {
+        DrawLine(left, j, width_line, right, j, width_line, color);
     }
-
-    glColor4fv(&c[0]);
-    DisableTexture2D();
-    EnableVertexArray();
-
-    SetVertexPointer(2, 0, &(vertices[0]));
-    DrawArrays(GL_LINES, 0, num_vertices);
 }
 
 void VideoEngine::DrawRectangle(float width, float height, const Color &color)
@@ -1512,12 +1514,12 @@ void VideoEngine::DrawRectangle(float width, float height, const Color &color)
     _rectangle_image.Draw(color);
 }
 
-void VideoEngine::DrawRectangleOutline(float left, float right, float bottom, float top, float width, const Color &color)
+void VideoEngine::DrawRectangleOutline(float left, float right, float bottom, float top, unsigned width, const Color &color)
 {
-    DrawLine(left, bottom, right, bottom, width, color);
-    DrawLine(left, top, right, top, width, color);
-    DrawLine(left, bottom, left, top, width, color);
-    DrawLine(right, bottom, right, top, width, color);
+    DrawLine(left, bottom, width, right, bottom, width, color);
+    DrawLine(left, top, width, right, top, width, color);
+    DrawLine(left, bottom, width, left, top, width, color);
+    DrawLine(right, bottom, width, right, top, width, color);
 }
 
 void VideoEngine::DrawHalo(const ImageDescriptor &id, const Color &color)

@@ -1783,13 +1783,13 @@ void ObjectSupervisor::DrawCollisionArea(const MapFrame *frame)
 {
     VideoManager->Move(frame->tile_x_offset - 0.5f, frame->tile_y_offset - 1.0f);
 
-    for(uint32 y = static_cast<uint32>(frame->tile_y_start * 2);
-            y < static_cast<uint32>((frame->tile_y_start + frame->num_draw_y_axis) * 2); ++y) {
+    for (uint32 y = static_cast<uint32>(frame->tile_y_start * 2);
+         y < static_cast<uint32>((frame->tile_y_start + frame->num_draw_y_axis) * 2); ++y) {
         for(uint32 x = static_cast<uint32>(frame->tile_x_start * 2);
-                x < static_cast<uint32>((frame->tile_x_start + frame->num_draw_x_axis) * 2); ++x) {
+            x < static_cast<uint32>((frame->tile_x_start + frame->num_draw_x_axis) * 2); ++x) {
 
-            // Draw the collision rectangle
-            if(_collision_grid[y][x] > 0)
+            // Draw the collision rectangle.
+            if (_collision_grid[y][x] > 0)
                 VideoManager->DrawRectangle(1.0f, 1.0f, Color(1.0f, 0.0f, 0.0f, 0.6f));
 
             VideoManager->MoveRelative(1.0f, 0.0f);

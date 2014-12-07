@@ -377,9 +377,6 @@ public:
     //! \brief Unloads the currently loaded shader program.
     void UnloadShaderProgram();
 
-    //! \brief glVertexPointer wrapper, vertex type is restricted to float.
-    void SetVertexPointer(GLint size, GLsizei stride, const float *ptr);
-
     //! \brief glDrawArrays wrapper.
     void DrawArrays(GLenum mode, GLint first, GLsizei count);
 
@@ -599,32 +596,29 @@ public:
         return _brightness_value;
     }
 
-    /** \brief Draws a colored line between two points
-    *** \param x1 The x coordinate of the first point
-    *** \param y1 The y coordinate of the first point
-    *** \param x2 The x coordinate of the second point
-    *** \param y2 The y coordinate of the second point
-    *** \param width The width/thickness of the line to draw, in pixels
-    *** \param color The color to draw the line in
-    *** \todo Width argument should be an unsigned, non-zero integer
+    /** \brief Draws a colored line between two points.
+    *** \param x1 The x coordinate of the first point.
+    *** \param y1 The y coordinate of the first point.
+    *** \param width1 The width/thickness of the first point.
+    *** \param x2 The x coordinate of the second point.
+    *** \param y2 The y coordinate of the second point.
+    *** \param width2 The width/thickness of the second point.
+    *** \param color The color to draw the line in.
     **/
-    void DrawLine(float x1, float y1, float x2, float y2, float width, const Color &color);
+    void DrawLine(float x1, float y1, unsigned width1, float x2, float y2, unsigned width2, const Color &color);
 
-    /** \brief draws a line grid. Used by map editor to draw a grid over all
-     *         the tiles. This function will start at (x,y), and go to
-     *         (xMax, yMax), with horizontal cell spacing of xstep and
-     *         vertical cell spacing of ystep. The final parameter is just the
-     *         color the lines should be drawn
+    /** \brief Draws a grid of lines grid. Used by map editor to draw a grid over all the tiles.
      *
-     *  \note  xMax and yMax are not inputs to the function- they are taken
-     *         from the current coord sys
-     * \param x x coordinate to start grid at
-     * \param y y coordinate to start grid at
-     * \param x_step width of grid squares
-     * \param y_step height of grid squares
-     * \param c color of the grid
+     * \param left The left coordinate of the grid.
+     * \param top The top coordinate of the grid.
+     * \param right The right coordinate of the grid.
+     * \param bottom The bottom coordinate of the grid.
+     * \param width_cell_horizontal The horizontal width of the grid's cells.
+     * \param width_cell_vertical The vertical width of the grid's cells.
+     * \param width_line The width of the grid's lines.
+     * \param color The color of the grid.
      */
-    void DrawGrid(float x, float y, float x_step, float y_step, const Color &c);
+    void DrawGrid(float left, float top, float right, float bottom, float width_cell_horizontal, float width_cell_vertical, unsigned width_line, const Color& color);
 
     /** \brief Draws a solid rectangle of a given color.
     *** Draws a solid rectangle of a given color. For that, the lower-left corner
@@ -636,16 +630,15 @@ public:
     **/
     void DrawRectangle(float width, float height, const Color &color);
 
-    /** \brief Draws an outline of a rectangle that is not filled in
-    *** \param left The x coordinate corresponding to the left side of the rectangle
-    *** \param right The x coordinate corresponding to the right side of the rectangle
-    *** \param bottom The y coordinate corresponding to the bottom side of the rectangle
-    *** \param top The y coordinate corresponding to the top side of the rectangle
-    *** \param width The width/thickness of the outline to draw, in pixels
-    *** \param color The color to draw the outline in
-    *** \todo Width argument should be an unsigned, non-zero integer
+    /** \brief Draws an outline of a rectangle that is not filled in.
+    *** \param left The x coordinate corresponding to the left side of the rectangle.
+    *** \param right The x coordinate corresponding to the right side of the rectangle.
+    *** \param bottom The y coordinate corresponding to the bottom side of the rectangle.
+    *** \param top The y coordinate corresponding to the top side of the rectangle.
+    *** \param width The width/thickness of the outline to draw.
+    *** \param color The color to draw the outline in.
     **/
-    void DrawRectangleOutline(float x1, float y1, float x2, float y2, float width, const Color &color);
+    void DrawRectangleOutline(float x1, float y1, float x2, float y2, unsigned width, const Color &color);
 
     /** \brief Takes a screenshot and saves the image to a file
     *** \param filename The name of the file, if any, to save the screenshot as. Default is "screenshot.png"

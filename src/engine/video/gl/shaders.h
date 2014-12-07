@@ -29,13 +29,11 @@ enum Shaders
     VertexSolid,
     VertexSolidPer,
     VertexSprite,
-    VertexText,
     FragmentParticle,
     FragmentSolid,
     FragmentSolidPer,
     FragmentSprite,
     FragmentGrayscaleSprite,
-    FragmentText,
     Count
 };
 

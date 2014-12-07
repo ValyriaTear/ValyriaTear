@@ -30,7 +30,6 @@ enum ShaderPrograms
     SolidPerVertex,
     Sprite,
     SpriteGrayscale,
-    Text,
     Count
 };
 
