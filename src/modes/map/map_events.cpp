@@ -64,12 +64,6 @@ void SpriteEvent::_Start()
 // ---------- DialogueEvent Class Methods
 // -----------------------------------------------------------------------------
 
-DialogueEvent::DialogueEvent(const std::string &event_id, uint32 dialogue_id) :
-    MapEvent(event_id, DIALOGUE_EVENT),
-    _dialogue_id(dialogue_id),
-    _stop_camera_movement(false)
-{}
-
 DialogueEvent::DialogueEvent(const std::string &event_id, SpriteDialogue *dialogue) :
     MapEvent(event_id, DIALOGUE_EVENT),
     _dialogue_id(dialogue->GetDialogueID()),
@@ -120,6 +114,11 @@ void ShopEvent::_Start()
     // Sets the shop options.
     shop->SetSellModeEnabled(_enable_sell_mode);
     shop->SetPriceLevels(_buy_level, _sell_level);
+
+    // Loads potential scripts
+    if (!_shop_scripts.empty())
+        shop->GetScriptSupervisor().SetScripts(_shop_scripts);
+
     ModeManager->Push(shop);
 }
 

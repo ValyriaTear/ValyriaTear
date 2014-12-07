@@ -297,8 +297,8 @@ SystemEngine::SystemEngine():
 {
     IF_PRINT_DEBUG(SYSTEM_DEBUG) << "constructor invoked" << std::endl;
 
-    SetLanguage("en@quot"); // Default language is English
-    _language = "en@quot"; // In case no files were found.
+    SetLanguage("en_GB"); // Default language is British English
+    _language = "en_GB"; // In case no files were found.
 }
 
 
@@ -326,7 +326,7 @@ std::string _Reinitl10n()
 #elif (defined(__linux__) || defined(__FreeBSD__)) && !defined(RELEASE_BUILD)
     // Look for translation files in LOCALEDIR only if they are not available in the
     // current directory.
-    if(!vt_utils::DoesFileExist("po/en@quot/LC_MESSAGES/"APPSHORTNAME".mo")) {
+    if(!vt_utils::DoesFileExist("po/en_GB/LC_MESSAGES/"APPSHORTNAME".mo")) {
         bind_text_domain_path = LOCALEDIR;
     } else {
         char buffer[PATH_MAX];
@@ -354,7 +354,7 @@ bool SystemEngine::IsLanguageAvailable(const std::string& lang)
     mo_filename.append("/LC_MESSAGES/"APPSHORTNAME".mo");
 
     // Note: English is always available as it's the default language
-    if (lang == "en@quot")
+    if (lang == "en_GB")
         return true;
 
     // Test whether the file is existing.

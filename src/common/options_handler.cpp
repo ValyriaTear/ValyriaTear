@@ -502,7 +502,7 @@ void GameOptionsMenuHandler::_SetupJoySettingsMenu()
 void GameOptionsMenuHandler::_SetupResolutionMenu()
 {
     _resolution_menu.SetPosition(442.0f, 468.0f);
-    _resolution_menu.SetDimensions(300.0f, 200.0f, 1, 7, 1, 7);
+    _resolution_menu.SetDimensions(300.0f, 200.0f, 1, 8, 1, 8);
     _resolution_menu.SetTextStyle(TextStyle("title22"));
     _resolution_menu.SetAlignment(VIDEO_X_LEFT, VIDEO_Y_CENTER);
     _resolution_menu.SetOptionAlignment(VIDEO_X_LEFT, VIDEO_Y_CENTER);
@@ -526,6 +526,8 @@ void GameOptionsMenuHandler::_SetupResolutionMenu()
         res_index = 5;
     else if(VideoManager->GetScreenWidth() == 1600)
         res_index = 6;
+    else if(VideoManager->GetScreenWidth() == 3200)
+        res_index = 7;
 
     // NOTE: Once on SDL2, append and sort the supported resolutions as well.
     std::vector<std::string> res_list;
@@ -536,6 +538,7 @@ void GameOptionsMenuHandler::_SetupResolutionMenu()
     res_list.push_back("1366 x 768");
     res_list.push_back("1440 x 900");
     res_list.push_back("1600 x 900");
+    res_list.push_back("3200 x 1800");
 
     _resolution_menu.ClearOptions();
 
@@ -752,6 +755,9 @@ void GameOptionsMenuHandler::_OnResolutionConfirm()
         break;
     case 6:
         _ChangeResolution(1600, 900);
+        break;
+    case 7:
+        _ChangeResolution(3200, 1800);
         break;
     }
 }

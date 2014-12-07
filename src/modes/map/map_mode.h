@@ -57,7 +57,7 @@ const uint32 STAMINA_FULL = 10000;
 //! An internal namespace to be used only within the map code. Don't use this namespace anywhere else!
 namespace private_map
 {
-class DialogueSupervisor;
+class MapDialogueSupervisor;
 class EventSupervisor;
 class Light;
 class MapObject;
@@ -234,43 +234,43 @@ public:
         return _map_script.OpenTable(_map_script_tablespace, use_global);
     }
 
-    const std::string &GetMapScriptFilename() const {
+    const std::string& GetMapScriptFilename() const {
         return _map_script_filename;
     }
 
-    private_map::TileSupervisor *GetTileSupervisor() const {
+    private_map::TileSupervisor* GetTileSupervisor() const {
         return _tile_supervisor;
     }
 
-    private_map::ObjectSupervisor *GetObjectSupervisor() const {
+    private_map::ObjectSupervisor* GetObjectSupervisor() const {
         return _object_supervisor;
     }
 
-    private_map::EventSupervisor *GetEventSupervisor() const {
+    private_map::EventSupervisor* GetEventSupervisor() const {
         return _event_supervisor;
     }
 
-    private_map::DialogueSupervisor *GetDialogueSupervisor() const {
+    private_map::MapDialogueSupervisor* GetDialogueSupervisor() const {
         return _dialogue_supervisor;
     }
 
-    private_map::TreasureSupervisor *GetTreasureSupervisor() const {
+    private_map::TreasureSupervisor* GetTreasureSupervisor() const {
         return _treasure_supervisor;
     }
 
-    const private_map::MapFrame &GetMapFrame() const {
+    const private_map::MapFrame& GetMapFrame() const {
         return _map_frame;
     }
 
-    private_map::VirtualSprite *GetCamera() const {
+    private_map::VirtualSprite* GetCamera() const {
         return _camera;
     }
 
-    void SetCamera(private_map::VirtualSprite *sprite) {
+    void SetCamera(private_map::VirtualSprite* sprite) {
         _camera = sprite;
     }
 
-    void SetCamera(private_map::VirtualSprite *sprite, uint32 duration);
+    void SetCamera(private_map::VirtualSprite* sprite, uint32 duration);
 
     void MoveVirtualFocus(float loc_x, float loc_y);
 
@@ -473,19 +473,19 @@ private:
     // ----- Members : Supervisor Class Objects and Script Functions -----
 
     //! \brief Instance of helper class to map mode. Responsible for tile related operations.
-    private_map::TileSupervisor *_tile_supervisor;
+    private_map::TileSupervisor* _tile_supervisor;
 
     //! \brief Instance of helper class to map mode. Responsible for object and sprite related operations.
-    private_map::ObjectSupervisor *_object_supervisor;
+    private_map::ObjectSupervisor* _object_supervisor;
 
     //! \brief Instance of helper class to map mode. Responsible for updating and managing active map events.
-    private_map::EventSupervisor *_event_supervisor;
+    private_map::EventSupervisor* _event_supervisor;
 
     //! \brief Instance of helper class to map mode. Responsible for dialogue execution and display operations.
-    private_map::DialogueSupervisor *_dialogue_supervisor;
+    private_map::MapDialogueSupervisor* _dialogue_supervisor;
 
     //! \brief Instance of helper class to map mode. Responsible for processing all information related to treasure discovery.
-    private_map::TreasureSupervisor *_treasure_supervisor;
+    private_map::TreasureSupervisor* _treasure_supervisor;
 
     /** \brief A script function which assists with the MapMode#Update method
     *** This function implements any custom update code that the specific map needs to be performed.

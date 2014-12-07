@@ -42,7 +42,7 @@ function BootShopTest()
     shop:AddObject(40004, 1);
     shop:AddObject(50001, 1);
     shop:AddObject(50002, 1);
-    
+
     -- AddTrade(item_id to trade for, number)
     -- the trade conditions are within the item declaration
     shop:AddTrade(2, 2);
@@ -50,6 +50,7 @@ function BootShopTest()
     shop:AddTrade(10004, 1);
     shop:AddTrade(10999, 1);
 
+    shop:GetScriptSupervisor():AddScript("dat/help/tutorial_shop_dialogs.lua");
 
     ModeManager:Push(shop, false, false);
 

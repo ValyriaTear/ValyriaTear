@@ -21,6 +21,8 @@
 #include "utils/utils_pch.h"
 #include "modes/battle/battle.h"
 
+#include "common/dialogue.h"
+
 #include "engine/audio/audio.h"
 #include "engine/input.h"
 #include "engine/mode_manager.h"
@@ -32,7 +34,6 @@
 #include "modes/battle/battle_actors.h"
 #include "modes/battle/battle_actions.h"
 #include "modes/battle/battle_command.h"
-#include "modes/battle/battle_dialogue.h"
 #include "modes/battle/battle_finish.h"
 #include "modes/battle/battle_sequence.h"
 #include "modes/battle/battle_utils.h"
@@ -223,7 +224,7 @@ BattleMode::BattleMode() :
 
     _sequence_supervisor = new SequenceSupervisor(this);
     _command_supervisor = new CommandSupervisor();
-    _dialogue_supervisor = new DialogueSupervisor();
+    _dialogue_supervisor = new vt_common::DialogueSupervisor();
     _finish_supervisor = new FinishSupervisor();
 } // BattleMode::BattleMode()
 

@@ -33,6 +33,7 @@
 #include "engine/system.h"
 
 #include "common/global/global.h"
+#include "common/dialogue.h"
 
 #include "engine/mode_manager.h"
 #include "modes/pause.h"
@@ -991,7 +992,9 @@ ShopMode::ShopMode() :
     _root_interface(NULL),
     _buy_interface(NULL),
     _sell_interface(NULL),
-    _trade_interface(NULL)
+    _trade_interface(NULL),
+    _dialogue_supervisor(NULL),
+    _input_enabled(true)
 {
     _current_instance = this;
 
@@ -1051,6 +1054,7 @@ ShopMode::ShopMode() :
     _buy_interface = new BuyInterface();
     _sell_interface = new SellInterface();
     _trade_interface = new TradeInterface();
+    _dialogue_supervisor = new vt_common::DialogueSupervisor();
 
     try {
         _screen_backdrop = VideoManager->CaptureScreen();
@@ -1069,6 +1073,7 @@ ShopMode::~ShopMode()
     delete _buy_interface;
     delete _sell_interface;
     delete _trade_interface;
+    delete _dialogue_supervisor;
 
     _top_window.Destroy();
     _middle_window.Destroy();
@@ -1090,6 +1095,9 @@ void ShopMode::Reset()
 
     if(IsInitialized() == false)
         Initialize();
+
+    // Reset potential battle scripts
+    GetScriptSupervisor().Reset();
 }
 
 
@@ -1118,7 +1126,10 @@ void ShopMode::Initialize()
     _buy_interface->Reinitialize();
     _sell_interface->Reinitialize();
     _trade_interface->Reinitialize();
-} // void ShopMode::Initialize()
+
+    // Init the script component.
+    GetScriptSupervisor().Initialize(this);
+}
 
 
 void ShopMode::_UpdateAvailableObjectsToSell()
@@ -1158,7 +1169,6 @@ void ShopMode::_UpdateAvailableObjectsToSell()
 
 void ShopMode::_UpdateAvailableShopOptions()
 {
-
     // Test the available categories
     //Switch back to buy
     if(!_available_buy.empty())
@@ -1210,10 +1220,48 @@ void ShopMode::_UpdateAvailableShopOptions()
     }
 }
 
+void ShopMode::_HandleRootInterfaceInput()
+{
+    if (!_input_enabled)
+        return;
+
+    if(InputManager->ConfirmPress()) {
+        if(_action_options.GetSelection() < 0 || _action_options.GetSelection() > 3) {
+            IF_PRINT_WARNING(SHOP_DEBUG) << "invalid selection in action window: " << _action_options.GetSelection() << std::endl;
+            _action_options.SetSelection(0);
+            return;
+        }
+
+        _action_options.InputConfirm();
+        GlobalManager->Media().PlaySound("confirm");
+
+        if(_action_options.GetSelection() == 0 && _action_options.IsOptionEnabled(0)) {  // Buy
+            ChangeState(SHOP_STATE_BUY);
+        } else if(_action_options.GetSelection() == 1 && _action_options.IsOptionEnabled(1)) { // Sell
+            ChangeState(SHOP_STATE_SELL);
+        } else if(_action_options.GetSelection() == 2 && _action_options.IsOptionEnabled(2)) { // Trade
+            ChangeState(SHOP_STATE_TRADE);
+        } else if(_action_options.GetSelection() == 3) {
+            // Leave
+            ModeManager->Pop();
+        }
+    } else if(InputManager->CancelPress()) {
+        GlobalManager->Media().PlaySound("cancel");
+        // Leave shop
+        ModeManager->Pop();
+    } else if(InputManager->LeftPress()) {
+        GlobalManager->Media().PlaySound("bump");
+        _action_options.InputLeft();
+    } else if(InputManager->RightPress()) {
+        GlobalManager->Media().PlaySound("bump");
+        _action_options.InputRight();
+    }
+}
 
 void ShopMode::Update()
 {
-    // Pause and quit events have highest priority. If either type of event is detected, no other update processing will be done
+    // Pause and quit events have highest priority.
+    // If either type of event is detected, no other update processing will be done.
     if(InputManager->QuitPress() == true) {
         ModeManager->Push(new PauseMode(true));
         return;
@@ -1222,64 +1270,36 @@ void ShopMode::Update()
         return;
     }
 
-    // When the state is at the root interface ,ShopMode needs to process user input and possibly change state
-    if(_state == SHOP_STATE_ROOT) {
-        if(InputManager->ConfirmPress()) {
-            if(_action_options.GetSelection() < 0 || _action_options.GetSelection() > 3) {
-                IF_PRINT_WARNING(SHOP_DEBUG) << "invalid selection in action window: " << _action_options.GetSelection() << std::endl;
-                _action_options.SetSelection(0);
-                return;
-            }
+    GameMode::Update();
 
-            _action_options.InputConfirm();
-            GlobalManager->Media().PlaySound("confirm");
+    if(_dialogue_supervisor->IsDialogueActive())
+        _dialogue_supervisor->Update();
 
-            if(_action_options.GetSelection() == 0 && _action_options.IsOptionEnabled(0)) {  // Buy
-                ChangeState(SHOP_STATE_BUY);
-            } else if(_action_options.GetSelection() == 1 && _action_options.IsOptionEnabled(1)) { // Sell
-                ChangeState(SHOP_STATE_SELL);
-            } else if(_action_options.GetSelection() == 2 && _action_options.IsOptionEnabled(2)) { // Trade
-                ChangeState(SHOP_STATE_TRADE);
-            } else if(_action_options.GetSelection() == 3) {
-                // Leave
-                ModeManager->Pop();
-            }
-        } else if(InputManager->CancelPress()) {
-            GlobalManager->Media().PlaySound("cancel");
-            // Leave shop
-            ModeManager->Pop();
-        } else if(InputManager->LeftPress()) {
-            GlobalManager->Media().PlaySound("bump");
-            _action_options.InputLeft();
-        } else if(InputManager->RightPress()) {
-            GlobalManager->Media().PlaySound("bump");
-            _action_options.InputRight();
-        }
-        _action_options.Update();
-
+    // Update the active interface
+    switch(_state) {
+    case SHOP_STATE_ROOT:
+    {
+        _HandleRootInterfaceInput();
         _root_interface->Update();
-    } // if (_state == SHOP_STATE_ROOT)
-    else {
-        // Update the active interface
-        switch(_state) {
-        case SHOP_STATE_BUY:
-            _buy_interface->Update();
-            break;
-        case SHOP_STATE_SELL:
-            _sell_interface->Update();
-            break;
-        case SHOP_STATE_TRADE:
-            _trade_interface->Update();
-            break;
-        default:
-            IF_PRINT_WARNING(SHOP_DEBUG) << "invalid shop state: " << _state << ", reseting to root state" << std::endl;
-            _state = SHOP_STATE_ROOT;
-            break;
-        } // switch (_state)
+        _action_options.Update();
+        break;
     }
-} // void ShopMode::Update()
-
-
+    case SHOP_STATE_BUY:
+        _buy_interface->Update();
+        break;
+    case SHOP_STATE_SELL:
+        _sell_interface->Update();
+        break;
+    case SHOP_STATE_TRADE:
+        _trade_interface->Update();
+        break;
+    default:
+        IF_PRINT_WARNING(SHOP_DEBUG) << "invalid shop state: " << _state
+            << ", reseting to root state" << std::endl;
+        _state = SHOP_STATE_ROOT;
+        break;
+    }
+}
 
 void ShopMode::Draw()
 {
@@ -1289,6 +1309,8 @@ void ShopMode::Draw()
     VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_TOP, VIDEO_BLEND, 0);
     VideoManager->Move(0.0f, 0.0f);
     _screen_backdrop.Draw();
+
+    GetScriptSupervisor().DrawBackground();
 
     // Draw all menu windows
     // Restore the standard shop coordinate system before drawing the shop windows
@@ -1340,6 +1362,13 @@ void ShopMode::Draw()
         IF_PRINT_WARNING(SHOP_DEBUG) << "invalid shop state: " << _state << std::endl;
         break;
     }
+
+    GetScriptSupervisor().DrawForeground();
+
+    if(_dialogue_supervisor->IsDialogueActive())
+        _dialogue_supervisor->Draw();
+
+    GetScriptSupervisor().DrawPostEffects();
 } // void ShopMode::Draw()
 
 
@@ -1619,8 +1648,6 @@ void ShopMode::UpdateFinances(int32 change_amount)
     }
 }
 
-
-
 void ShopMode::ChangeState(SHOP_STATE new_state)
 {
     if(_state == new_state) {
@@ -1649,7 +1676,26 @@ void ShopMode::ChangeState(SHOP_STATE new_state)
     }
 }
 
-
+void ShopMode::ChangeViewMode(SHOP_VIEW_MODE new_mode)
+{
+    switch(_state) {
+    case SHOP_STATE_ROOT:
+        _root_interface->ChangeViewMode(new_mode);
+        break;
+    case SHOP_STATE_BUY:
+        _buy_interface->ChangeViewMode(new_mode);
+        break;
+    case SHOP_STATE_SELL:
+        _sell_interface->ChangeViewMode(new_mode);
+        break;
+    case SHOP_STATE_TRADE:
+        _trade_interface->ChangeViewMode(new_mode);
+        break;
+    default:
+        IF_PRINT_WARNING(SHOP_DEBUG) << "invalid shop state: " << _state << std::endl;
+        break;
+    }
+}
 
 void ShopMode::SetShopName(const ustring& name)
 {

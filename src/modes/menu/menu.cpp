@@ -589,17 +589,18 @@ void EquipState::_DrawBottomMenu()
 
 void QuestState::Reset()
 {
-    //clear the bottom info
+    // Clear the bottom info.
     _menu_mode->_quest_window.ClearBottom();
-    //automatically go into the quest list window
-    _menu_mode->_quest_list_window.Activate(true);
+
+    // Automatically go into the quest list window.
+    _menu_mode->_quest_list_window._active_box = true;
 }
 
 void QuestState::_ActiveWindowUpdate()
 {
     _menu_mode->_quest_window.Update();
     _menu_mode->_quest_list_window.Update();
-    if(!_IsActive())
+    if (!_IsActive())
         _OnCancel();
 }
 

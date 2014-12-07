@@ -581,11 +581,10 @@ class QuestListWindow : public vt_gui::MenuWindow {
     friend class QuestWindow;
 public:
     QuestListWindow();
-    ~QuestListWindow(){};
+    ~QuestListWindow() {}
 
     /*!
     * \brief Draws window
-    * \return success/failure
     */
     void Draw();
 
@@ -603,15 +602,7 @@ public:
         return _active_box;
     }
 
-    /*!
-    * \brief switch the active state of this window, and do any associated work
-    * \param activate or deactivate
-    */
-    void Activate(bool new_state);
-
-
 private:
-
     //! \brief the selectable list of quests
     vt_gui::OptionBox _quests_list;
 
@@ -638,9 +629,9 @@ class QuestWindow : public vt_gui::MenuWindow {
     friend class QuestState;
 
 public:
-
     QuestWindow();
-    ~QuestWindow(){}
+    ~QuestWindow() {}
+
     /*!
     * \brief Draws window
     */
@@ -694,7 +685,6 @@ private:
     //! \brief the currently viewing location image and location subimage
     const vt_video::StillImage *_location_image;
     const vt_video::StillImage *_location_subimage;
-
 };
 
 /**

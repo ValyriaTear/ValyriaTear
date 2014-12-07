@@ -201,11 +201,9 @@ class DialogueEvent : public MapEvent
 {
 public:
     /** \param event_id The ID of this event
-    *** \param dialogue_id The ID of the dialogue to execute through this event
     *** \param dialogue The SpriteDialogue* to execute through this event
     **/
-    DialogueEvent(const std::string &event_id, uint32 dialogue_id);
-    DialogueEvent(const std::string &event_id, SpriteDialogue *dialogue);
+    DialogueEvent(const std::string &event_id, SpriteDialogue* dialogue);
 
     ~DialogueEvent()
     {}
@@ -217,7 +215,7 @@ public:
 
 protected:
     //! \brief The ID of the dialogue to invoke
-    uint32 _dialogue_id;
+    std::string _dialogue_id;
 
     //! \brief When true, any camera movement will be stopped when the event begins
     bool _stop_camera_movement;
@@ -290,6 +288,11 @@ public:
         _sell_level = sell_level;
     }
 
+    //! \brief Adds potential scripts to trigger at shop event start
+    void AddScript(const std::string& script_file) {
+        _shop_scripts.push_back(script_file);
+    }
+
 protected:
     //! \brief The GlobalObject IDs and stock count of all objects to be sold in the shop
     std::set<std::pair<uint32, uint32> > _objects;
@@ -307,6 +310,9 @@ protected:
 
     //! \brief Tells whether the sell mode can be enabled
     bool _enable_sell_mode;
+
+    //! \brief Stores potential scripts to trigger at shop event start
+    std::vector<std::string> _shop_scripts;
 
     //! \brief Creates an instance of ShopMode and pushes it to the game mode stack
     void _Start();

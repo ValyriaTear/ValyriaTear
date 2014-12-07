@@ -111,7 +111,7 @@ public:
 
 protected:
     //! \brief default bottom menu drawing
-    void _DrawBottomMenu();
+    virtual void _DrawBottomMenu();
 
     //! \brief action that takes place when we exit this state via a "cancel" input
     void _OnCancel();

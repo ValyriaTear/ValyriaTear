@@ -1159,9 +1159,9 @@ void MapSprite::DrawDialog()
     map_mode->GetDialogueIcon().Draw(icon_color);
 }
 
-void MapSprite::AddDialogueReference(uint32 dialogue_id)
+void MapSprite::AddDialogueReference(SpriteDialogue* dialogue)
 {
-    _dialogue_references.push_back(dialogue_id);
+    _dialogue_references.push_back(dialogue->GetDialogueID());
     UpdateDialogueStatus();
 }
 
@@ -1171,8 +1171,9 @@ void MapSprite::ClearDialogueReferences()
     UpdateDialogueStatus();
 }
 
-void MapSprite::RemoveDialogueReference(uint32 dialogue_id)
+void MapSprite::RemoveDialogueReference(SpriteDialogue* dialogue)
 {
+    std::string dialogue_id = dialogue->GetDialogueID();
     // Remove all dialogues with the given reference (for the case, the same dialogue was add several times)
     for(uint32 i = 0; i < _dialogue_references.size(); i++) {
         if(_dialogue_references[i] == dialogue_id)
@@ -1274,6 +1275,14 @@ void MapSprite::RestoreState()
     VirtualSprite::RestoreState();
 
     _current_anim_direction = _saved_current_anim_direction;
+}
+
+const std::string& MapSprite::GetNextDialogueID() const
+{
+    if (_next_dialogue >= 0 && _next_dialogue < static_cast<int16>(_dialogue_references.size()))
+        return _dialogue_references[_next_dialogue];
+    else
+        return vt_utils::_empty_string;
 }
 
 // *****************************************************************************

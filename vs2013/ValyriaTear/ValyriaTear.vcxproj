@@ -53,7 +53,7 @@
       <DisableSpecificWarnings>4121;4146;4244;4290;4305;4611;4702;4800;4996;</DisableSpecificWarnings>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <MinimalRebuild>false</MinimalRebuild>
-      <PreprocessorDefinitions>_DEBUG;_WIN32;LUABIND_NO_ERROR_CHECKING;_MBCS;WIN32_LEAN_AND_MEAN;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_WIN32;LUABIND_NO_ERROR_CHECKING;_MBCS;WIN32_LEAN_AND_MEAN;DEBUG_FEATURES;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>utils/utils_pch.h</PrecompiledHeaderFile>
     </ClCompile>
@@ -152,7 +152,6 @@
     <ClCompile Include="..\..\src\modes\battle\battle_actions.cpp" />
     <ClCompile Include="..\..\src\modes\battle\battle_actors.cpp" />
     <ClCompile Include="..\..\src\modes\battle\battle_command.cpp" />
-    <ClCompile Include="..\..\src\modes\battle\battle_dialogue.cpp" />
     <ClCompile Include="..\..\src\modes\battle\battle_effects.cpp" />
     <ClCompile Include="..\..\src\modes\battle\battle_finish.cpp" />
     <ClCompile Include="..\..\src\modes\battle\battle_sequence.cpp" />
@@ -245,7 +244,6 @@
     <ClInclude Include="..\..\src\modes\battle\battle_actions.h" />
     <ClInclude Include="..\..\src\modes\battle\battle_actors.h" />
     <ClInclude Include="..\..\src\modes\battle\battle_command.h" />
-    <ClInclude Include="..\..\src\modes\battle\battle_dialogue.h" />
     <ClInclude Include="..\..\src\modes\battle\battle_effects.h" />
     <ClInclude Include="..\..\src\modes\battle\battle_finish.h" />
     <ClInclude Include="..\..\src\modes\battle\battle_sequence.h" />
