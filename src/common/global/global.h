@@ -874,24 +874,28 @@ public:
         return &_inventory_weapons;
     }
 
-    std::vector<GlobalArmor *>* GetInventoryHeadArmor() {
+    std::vector<GlobalArmor *>* GetInventoryHeadArmors() {
         return &_inventory_head_armor;
     }
 
-    std::vector<GlobalArmor *>* GetInventoryTorsoArmor() {
+    std::vector<GlobalArmor *>* GetInventoryTorsoArmors() {
         return &_inventory_torso_armor;
     }
 
-    std::vector<GlobalArmor *>* GetInventoryArmArmor() {
+    std::vector<GlobalArmor *>* GetInventoryArmArmors() {
         return &_inventory_arm_armor;
     }
 
-    std::vector<GlobalArmor *>* GetInventoryLegArmor() {
+    std::vector<GlobalArmor *>* GetInventoryLegArmors() {
         return &_inventory_leg_armor;
     }
 
     std::vector<GlobalSpirit *>* GetInventorySpirits() {
         return &_inventory_spirits;
+    }
+
+    std::vector<GlobalObject *>* GetInventoryKeyItems() {
+        return &_inventory_key_items;
     }
 
     vt_script::ReadScriptDescriptor &GetItemsScript() {
@@ -1062,6 +1066,10 @@ private:
     std::vector<GlobalArmor *>    _inventory_arm_armor;
     std::vector<GlobalArmor *>    _inventory_leg_armor;
     std::vector<GlobalSpirit *>   _inventory_spirits;
+
+    //! \brief The key items can be any kind of items. Thus, this vector is used as reference
+    //! and shouldn't be saved or used to delete an item.
+    std::vector<GlobalObject *>   _inventory_key_items;
     //@}
 
     //! \name Global data and function script files

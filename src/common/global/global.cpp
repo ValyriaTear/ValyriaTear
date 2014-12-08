@@ -237,6 +237,7 @@ void GameGlobal::ClearAllData()
     _inventory_arm_armor.clear();
     _inventory_leg_armor.clear();
     _inventory_spirits.clear();
+    _inventory_key_items.clear();
 
     // Delete all characters
     for(std::map<uint32, GlobalCharacter *>::iterator it = _characters.begin(); it != _characters.end(); ++it) {
@@ -497,41 +498,51 @@ void GameGlobal::AddToInventory(uint32 obj_id, uint32 obj_count)
     }
 
     // Otherwise create a new object instance and add it to the inventory
+    GlobalObject* new_object = NULL;
     if((obj_id > 0 && obj_id <= MAX_ITEM_ID)
-        || (obj_id > MAX_SPIRIT_ID && obj_id <= MAX_KEY_ITEM_ID)) {
-        GlobalItem *new_obj = new GlobalItem(obj_id, obj_count);
-        _inventory.insert(std::make_pair(obj_id, new_obj));
-        _inventory_items.push_back(new_obj);
+            || (obj_id > MAX_SPIRIT_ID && obj_id <= MAX_KEY_ITEM_ID)) {
+        GlobalItem* new_item = new GlobalItem(obj_id, obj_count);
+        new_object = new_item;
+        _inventory.insert(std::make_pair(obj_id, new_item));
+        _inventory_items.push_back(new_item);
     } else if((obj_id > MAX_ITEM_ID) && (obj_id <= MAX_WEAPON_ID)) {
-        GlobalWeapon *new_obj = new GlobalWeapon(obj_id, obj_count);
-        _inventory.insert(std::make_pair(obj_id, new_obj));
-        _inventory_weapons.push_back(new_obj);
+        GlobalWeapon* new_wpn = new GlobalWeapon(obj_id, obj_count);
+        new_object = new_wpn;
+        _inventory.insert(std::make_pair(obj_id, new_wpn));
+        _inventory_weapons.push_back(new_wpn);
     } else if((obj_id > MAX_WEAPON_ID) && (obj_id <= MAX_HEAD_ARMOR_ID)) {
-        GlobalArmor *new_obj = new GlobalArmor(obj_id, obj_count);
-        _inventory.insert(std::make_pair(obj_id, new_obj));
-        _inventory_head_armor.push_back(new_obj);
+        GlobalArmor* new_arm = new GlobalArmor(obj_id, obj_count);
+        new_object = new_arm;
+        _inventory.insert(std::make_pair(obj_id, new_arm));
+        _inventory_head_armor.push_back(new_arm);
     } else if((obj_id > MAX_HEAD_ARMOR_ID) && (obj_id <= MAX_TORSO_ARMOR_ID)) {
-        GlobalArmor *new_obj = new GlobalArmor(obj_id, obj_count);
-        _inventory.insert(std::make_pair(obj_id, new_obj));
-        _inventory_torso_armor.push_back(new_obj);
+        GlobalArmor* new_arm = new GlobalArmor(obj_id, obj_count);
+        new_object = new_arm;
+        _inventory.insert(std::make_pair(obj_id, new_arm));
+        _inventory_torso_armor.push_back(new_arm);
     } else if((obj_id > MAX_TORSO_ARMOR_ID) && (obj_id <= MAX_ARM_ARMOR_ID)) {
-        GlobalArmor *new_obj = new GlobalArmor(obj_id, obj_count);
-        _inventory.insert(std::make_pair(obj_id, new_obj));
-        _inventory_arm_armor.push_back(new_obj);
+        GlobalArmor* new_arm = new GlobalArmor(obj_id, obj_count);
+        new_object = new_arm;
+        _inventory.insert(std::make_pair(obj_id, new_arm));
+        _inventory_arm_armor.push_back(new_arm);
     } else if((obj_id > MAX_ARM_ARMOR_ID) && (obj_id <= MAX_LEG_ARMOR_ID)) {
-        GlobalArmor *new_obj = new GlobalArmor(obj_id, obj_count);
-        _inventory.insert(std::make_pair(obj_id, new_obj));
-        _inventory_leg_armor.push_back(new_obj);
+        GlobalArmor* new_arm = new GlobalArmor(obj_id, obj_count);
+        new_object = new_arm;
+        _inventory.insert(std::make_pair(obj_id, new_arm));
+        _inventory_leg_armor.push_back(new_arm);
     } else if((obj_id > MAX_LEG_ARMOR_ID) && (obj_id <= MAX_SPIRIT_ID)) {
-        GlobalSpirit *new_obj = new GlobalSpirit(obj_id, obj_count);
-        _inventory.insert(std::make_pair(obj_id, new_obj));
-        _inventory_spirits.push_back(new_obj);
+        GlobalSpirit* new_spirit = new GlobalSpirit(obj_id, obj_count);
+        new_object = new_spirit;
+        _inventory.insert(std::make_pair(obj_id, new_spirit));
+        _inventory_spirits.push_back(new_spirit);
     } else {
         IF_PRINT_WARNING(GLOBAL_DEBUG) << "attempted to add invalid object to inventory with id: " << obj_id << std::endl;
     }
-} // void GameGlobal::AddToInventory(uint32 obj_id)
 
-
+    // Updates the key items list
+    if (new_object != NULL && new_object->IsKeyItem())
+        _inventory_key_items.push_back(new_object);
+}
 
 void GameGlobal::AddToInventory(GlobalObject *object)
 {
@@ -589,16 +600,33 @@ void GameGlobal::AddToInventory(GlobalObject *object)
     } else {
         IF_PRINT_WARNING(GLOBAL_DEBUG) << "attempted to add invalid object to inventory with id: " << obj_id << std::endl;
         delete object;
+        return;
     }
-} // void GameGlobal::AddToInventory(GlobalObject* object)
 
-
+    // Updates the key items list
+    if (object->IsKeyItem())
+        _inventory_key_items.push_back(object);
+}
 
 void GameGlobal::RemoveFromInventory(uint32 obj_id)
 {
-    if(_inventory.find(obj_id) == _inventory.end()) {
+    std::map<uint32, GlobalObject *>::iterator it = _inventory.find(obj_id);
+    if(it == _inventory.end()) {
         IF_PRINT_WARNING(GLOBAL_DEBUG) << "attempted to remove an object from inventory that didn't exist with id: " << obj_id << std::endl;
         return;
+    }
+
+    // Check whether the item is a key item to remove.
+    GlobalObject* object = it->second;
+    if (object != NULL && object->IsKeyItem()) {
+        for(std::vector<GlobalObject *>::iterator it2 = _inventory_key_items.begin();
+                it2 != _inventory_key_items.end(); ++it2) {
+            if((*it2)->GetID() != obj_id)
+                continue;
+
+            _inventory_key_items.erase(it2);
+            break;
+        }
     }
 
     // Use the id value to figure out what type of object it is, and remove it from the object vector
@@ -627,7 +655,7 @@ void GameGlobal::RemoveFromInventory(uint32 obj_id)
     } else {
         IF_PRINT_WARNING(GLOBAL_DEBUG) << "attempted to remove an object from inventory with an invalid id: " << obj_id << std::endl;
     }
-} // void GameGlobal::RemoveFromInventory(uint32 obj_id)
+}
 
 GlobalObject* GameGlobal::GetGlobalObject(uint32 obj_id)
 {
