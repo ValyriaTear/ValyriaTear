@@ -16,6 +16,8 @@
 #include "utils/utils_pch.h"
 #include "sprite_particle_system.h"
 
+#include "utils/utils_strings.h"
+
 namespace vt_video
 {
 namespace gl
@@ -119,7 +121,9 @@ SpriteParticleSystem::SpriteParticleSystem() :
         glGenVertexArrays(1, arrays);
 
         GLenum error = glGetError();
+        assert(error == GL_NO_ERROR);
         if (error != GL_NO_ERROR) {
+            PRINT_ERROR << "Failed to create the vertex array object." << std::endl;
             errors = true;
         } else {
             // Store the result.
@@ -138,7 +142,11 @@ SpriteParticleSystem::SpriteParticleSystem() :
         glGenBuffers(4, buffers);
 
         GLenum error = glGetError();
+        assert(error == GL_NO_ERROR);
         if (error != GL_NO_ERROR) {
+            PRINT_ERROR << "Failed to create the vertex array object's position, color, texture coordinate, and index buffers. VAO ID: " <<
+                           vt_utils::NumberToString(_vao) <<
+                           std::endl;
             errors = true;
         } else {
             // Store the results.
@@ -159,7 +167,12 @@ SpriteParticleSystem::SpriteParticleSystem() :
         glBufferData(GL_ARRAY_BUFFER, vertex_positions.size() * sizeof(float), &vertex_positions.front(), GL_STATIC_DRAW);
 
         GLenum error = glGetError();
+        assert(error == GL_NO_ERROR);
         if (error != GL_NO_ERROR) {
+            PRINT_ERROR << "Failed to store the vertex position data. VAO ID: " <<
+                           vt_utils::NumberToString(_vao) << " Buffer ID: " <<
+                           vt_utils::NumberToString(_vertex_position_buffer) <<
+                           std::endl;
             errors = true;
         }
     }
@@ -169,7 +182,12 @@ SpriteParticleSystem::SpriteParticleSystem() :
         glVertexAttribPointer(0, 3, GL_FLOAT, false, 0, NULL);
 
         GLenum error = glGetError();
+        assert(error == GL_NO_ERROR);
         if (error != GL_NO_ERROR) {
+            PRINT_ERROR << "Failed to set the vertex position data attribute pointer. VAO ID: " <<
+                           vt_utils::NumberToString(_vao) << " Buffer ID: " <<
+                           vt_utils::NumberToString(_vertex_position_buffer) <<
+                           std::endl;
             errors = true;
         }
     }
@@ -189,7 +207,12 @@ SpriteParticleSystem::SpriteParticleSystem() :
         glBufferData(GL_ARRAY_BUFFER, vertex_colors.size() * sizeof(float), &vertex_colors.front(), GL_STATIC_DRAW);
 
         GLenum error = glGetError();
+        assert(error == GL_NO_ERROR);
         if (error != GL_NO_ERROR) {
+            PRINT_ERROR << "Failed to store the vertex color data. VAO ID: " <<
+                           vt_utils::NumberToString(_vao) << " Buffer ID: " <<
+                           vt_utils::NumberToString(_vertex_color_buffer) <<
+                           std::endl;
             errors = true;
         }
     }
@@ -199,7 +222,12 @@ SpriteParticleSystem::SpriteParticleSystem() :
         glVertexAttribPointer(1, 4, GL_FLOAT, false, 0, NULL);
 
         GLenum error = glGetError();
+        assert(error == GL_NO_ERROR);
         if (error != GL_NO_ERROR) {
+            PRINT_ERROR << "Failed to set the vertex color data attribute pointer. VAO ID: " <<
+                           vt_utils::NumberToString(_vao) << " Buffer ID: " <<
+                           vt_utils::NumberToString(_vertex_color_buffer) <<
+                           std::endl;
             errors = true;
         }
     }
@@ -219,7 +247,12 @@ SpriteParticleSystem::SpriteParticleSystem() :
         glBufferData(GL_ARRAY_BUFFER, vertex_texture_coordinates.size() * sizeof(float), &vertex_texture_coordinates.front(), GL_STATIC_DRAW);
 
         GLenum error = glGetError();
+        assert(error == GL_NO_ERROR);
         if (error != GL_NO_ERROR) {
+            PRINT_ERROR << "Failed to store the vertex texture coordinate data. VAO ID: " <<
+                           vt_utils::NumberToString(_vao) << " Buffer ID: " <<
+                           vt_utils::NumberToString(_vertex_texture_coordinate_buffer) <<
+                           std::endl;
             errors = true;
         }
     }
@@ -229,7 +262,12 @@ SpriteParticleSystem::SpriteParticleSystem() :
         glVertexAttribPointer(2, 2, GL_FLOAT, false, 0, NULL);
 
         GLenum error = glGetError();
+        assert(error == GL_NO_ERROR);
         if (error != GL_NO_ERROR) {
+            PRINT_ERROR << "Failed to set the vertex texture coordinate data attribute pointer. VAO ID: " <<
+                           vt_utils::NumberToString(_vao) << " Buffer ID: " <<
+                           vt_utils::NumberToString(_vertex_texture_coordinate_buffer) <<
+                           std::endl;
             errors = true;
         }
     }
@@ -250,7 +288,12 @@ SpriteParticleSystem::SpriteParticleSystem() :
         _number_of_indices = indices.size();
 
         GLenum error = glGetError();
+        assert(error == GL_NO_ERROR);
         if (error != GL_NO_ERROR) {
+            PRINT_ERROR << "Failed to store the index data. VAO ID: " <<
+                           vt_utils::NumberToString(_vao) << " Buffer ID: " <<
+                           vt_utils::NumberToString(_index_buffer) <<
+                           std::endl;
             errors = true;
         }
     }
@@ -346,7 +389,12 @@ void SpriteParticleSystem::Draw(float* vertex_positions,
                      GL_STATIC_DRAW);
 
         GLenum error = glGetError();
+        assert(error == GL_NO_ERROR);
         if (error != GL_NO_ERROR) {
+            PRINT_ERROR << "Failed to update the vertex position data. VAO ID: " <<
+                           vt_utils::NumberToString(_vao) << " Buffer ID: " <<
+                           vt_utils::NumberToString(_vertex_position_buffer) <<
+                           std::endl;
             errors = true;
         }
     }
@@ -364,7 +412,12 @@ void SpriteParticleSystem::Draw(float* vertex_positions,
                      GL_STATIC_DRAW);
 
         GLenum error = glGetError();
+        assert(error == GL_NO_ERROR);
         if (error != GL_NO_ERROR) {
+            PRINT_ERROR << "Failed to update the vertex color data. VAO ID: " <<
+                           vt_utils::NumberToString(_vao) << " Buffer ID: " <<
+                           vt_utils::NumberToString(_vertex_color_buffer) <<
+                           std::endl;
             errors = true;
         }
     }
@@ -382,7 +435,12 @@ void SpriteParticleSystem::Draw(float* vertex_positions,
                      GL_STATIC_DRAW);
 
         GLenum error = glGetError();
+        assert(error == GL_NO_ERROR);
         if (error != GL_NO_ERROR) {
+            PRINT_ERROR << "Failed to update the vertex texture coordinate data. VAO ID: " <<
+                           vt_utils::NumberToString(_vao) << " Buffer ID: " <<
+                           vt_utils::NumberToString(_vertex_texture_coordinate_buffer) <<
+                           std::endl;
             errors = true;
         }
     }
@@ -424,7 +482,12 @@ void SpriteParticleSystem::Draw(float* vertex_positions,
         _number_of_indices = indices.size();
 
         GLenum error = glGetError();
+        assert(error == GL_NO_ERROR);
         if (error != GL_NO_ERROR) {
+            PRINT_ERROR << "Failed to update the index data. VAO ID: " <<
+                           vt_utils::NumberToString(_vao) << " Buffer ID: " <<
+                           vt_utils::NumberToString(_index_buffer) <<
+                           std::endl;
             errors = true;
         }
     }

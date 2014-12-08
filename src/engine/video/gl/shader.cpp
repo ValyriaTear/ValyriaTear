@@ -16,6 +16,8 @@
 #include "utils/utils_pch.h"
 #include "shader.h"
 
+#include "utils/utils_strings.h"
+
 namespace vt_video
 {
 namespace gl
@@ -34,7 +36,9 @@ Shader::Shader(GLenum type, const std::string &data) :
         _shader = glCreateShader(type);
 
         GLenum error = glGetError();
+        assert(error == GL_NO_ERROR);
         if (error != GL_NO_ERROR) {
+            PRINT_ERROR << "Failed to create the shader." << std::endl;
             errors = true;
         }
     }
@@ -47,7 +51,11 @@ Shader::Shader(GLenum type, const std::string &data) :
         glShaderSource(_shader, 1, strings, length);
 
         GLenum error = glGetError();
+        assert(error == GL_NO_ERROR);
         if (error != GL_NO_ERROR) {
+            PRINT_ERROR << "Failed to set the shader's source. Shader ID: " <<
+                           vt_utils::NumberToString(_shader) <<
+                           std::endl;
             errors = true;
         }
     }
@@ -57,27 +65,35 @@ Shader::Shader(GLenum type, const std::string &data) :
         glCompileShader(_shader);
 
         GLenum error = glGetError();
+        assert(error == GL_NO_ERROR);
         if (error != GL_NO_ERROR) {
+            PRINT_ERROR << "Failed to compile the shader. Shader ID: " <<
+                           vt_utils::NumberToString(_shader) <<
+                           std::endl;
             errors = true;
         }
     }
 
     // Check for shader syntax errors.
     if (!errors) {
-        GLint isCompiled = -1;
-        glGetShaderiv(_shader, GL_COMPILE_STATUS, &isCompiled);
+        GLint is_compiled = -1;
+        glGetShaderiv(_shader, GL_COMPILE_STATUS, &is_compiled);
 
-        if (isCompiled == 0) { // 0 = failed to compile.
-            errors = true;
-
-#           ifdef _DEBUG
-                GLint length = -1;
-                glGetShaderiv(_shader, GL_INFO_LOG_LENGTH, &length);
+        assert(is_compiled != 0);
+        if (is_compiled == 0) { // 0 = failed to compile.
+            // Retrieve the compiler output.
+            GLint length = -1;
+            glGetShaderiv(_shader, GL_INFO_LOG_LENGTH, &length);
                 
-                char* log = new char[length];
-                glGetShaderInfoLog(_shader, MAX_LOG_LENGTH, &length, log);
-                delete [] log;
-#           endif
+            char* log = new char[length];
+            glGetShaderInfoLog(_shader, MAX_LOG_LENGTH, &length, log);
+            delete [] log;
+            log = NULL;
+
+            PRINT_ERROR << "Failed to compile the shader. Shader ID: " <<
+                           vt_utils::NumberToString(_shader) << " Compiler Output: " <<
+                           log << std::endl;
+            errors = true;
         }
     }
 }

@@ -16,6 +16,8 @@
 #include "utils/utils_pch.h"
 #include "sprite_textured.h"
 
+#include "utils/utils_strings.h"
+
 namespace vt_video
 {
 namespace gl
@@ -91,7 +93,9 @@ SpriteTextured::SpriteTextured() :
         glGenVertexArrays(1, arrays);
 
         GLenum error = glGetError();
+        assert(error == GL_NO_ERROR);
         if (error != GL_NO_ERROR) {
+            PRINT_ERROR << "Failed to create the vertex array object." << std::endl;
             errors = true;
         } else {
             // Store the result.
@@ -110,7 +114,11 @@ SpriteTextured::SpriteTextured() :
         glGenBuffers(3, buffers);
 
         GLenum error = glGetError();
+        assert(error == GL_NO_ERROR);
         if (error != GL_NO_ERROR) {
+            PRINT_ERROR << "Failed to create the vertex array object's position, texture coordinate, and index buffers. VAO ID: " <<
+                           vt_utils::NumberToString(_vao) <<
+                           std::endl;
             errors = true;
         } else {
             // Store the results.
@@ -130,7 +138,12 @@ SpriteTextured::SpriteTextured() :
         glBufferData(GL_ARRAY_BUFFER, vertex_positions.size() * sizeof(float), &vertex_positions.front(), GL_DYNAMIC_DRAW);
 
         GLenum error = glGetError();
+        assert(error == GL_NO_ERROR);
         if (error != GL_NO_ERROR) {
+            PRINT_ERROR << "Failed to store the vertex position data. VAO ID: " <<
+                           vt_utils::NumberToString(_vao) << " Buffer ID: " <<
+                           vt_utils::NumberToString(_vertex_position_buffer) <<
+                           std::endl;
             errors = true;
         }
     }
@@ -140,7 +153,12 @@ SpriteTextured::SpriteTextured() :
         glVertexAttribPointer(0, 3, GL_FLOAT, false, 0, NULL);
 
         GLenum error = glGetError();
+        assert(error == GL_NO_ERROR);
         if (error != GL_NO_ERROR) {
+            PRINT_ERROR << "Failed to set the vertex position data attribute pointer. VAO ID: " <<
+                           vt_utils::NumberToString(_vao) << " Buffer ID: " <<
+                           vt_utils::NumberToString(_vertex_position_buffer) <<
+                           std::endl;
             errors = true;
         }
     }
@@ -160,7 +178,12 @@ SpriteTextured::SpriteTextured() :
         glBufferData(GL_ARRAY_BUFFER, vertex_texture_coordinates.size() * sizeof(float), &vertex_texture_coordinates.front(), GL_DYNAMIC_DRAW);
 
         GLenum error = glGetError();
+        assert(error == GL_NO_ERROR);
         if (error != GL_NO_ERROR) {
+            PRINT_ERROR << "Failed to store the vertex texture coordinate data. VAO ID: " <<
+                           vt_utils::NumberToString(_vao) << " Buffer ID: " <<
+                           vt_utils::NumberToString(_vertex_texture_coordinate_buffer) <<
+                           std::endl;
             errors = true;
         }
     }
@@ -170,7 +193,12 @@ SpriteTextured::SpriteTextured() :
         glVertexAttribPointer(1, 2, GL_FLOAT, false, 0, NULL);
 
         GLenum error = glGetError();
+        assert(error == GL_NO_ERROR);
         if (error != GL_NO_ERROR) {
+            PRINT_ERROR << "Failed to set the vertex texture coordinate data attribute pointer. VAO ID: " <<
+                           vt_utils::NumberToString(_vao) << " Buffer ID: " <<
+                           vt_utils::NumberToString(_vertex_texture_coordinate_buffer) <<
+                           std::endl;
             errors = true;
         }
     }
@@ -191,7 +219,12 @@ SpriteTextured::SpriteTextured() :
         _number_of_indices = indices.size();
 
         GLenum error = glGetError();
+        assert(error == GL_NO_ERROR);
         if (error != GL_NO_ERROR) {
+            PRINT_ERROR << "Failed to store the index data. VAO ID: " <<
+                           vt_utils::NumberToString(_vao) << " Buffer ID: " <<
+                           vt_utils::NumberToString(_index_buffer) <<
+                           std::endl;
             errors = true;
         }
     }
@@ -268,7 +301,12 @@ void SpriteTextured::Draw(const std::vector<float>& vertex_positions,
         glBufferSubData(GL_ARRAY_BUFFER, 0, vertex_positions.size() * sizeof(float), &vertex_positions.front());
 
         GLenum error = glGetError();
+        assert(error == GL_NO_ERROR);
         if (error != GL_NO_ERROR) {
+            PRINT_ERROR << "Failed to update the vertex position data. VAO ID: " <<
+                           vt_utils::NumberToString(_vao) << " Buffer ID: " <<
+                           vt_utils::NumberToString(_vertex_position_buffer) <<
+                           std::endl;
             errors = true;
         }
     }
@@ -283,7 +321,12 @@ void SpriteTextured::Draw(const std::vector<float>& vertex_positions,
         glBufferSubData(GL_ARRAY_BUFFER, 0, vertex_texture_coordinates.size() * sizeof(float), &vertex_texture_coordinates.front());
 
         GLenum error = glGetError();
+        assert(error == GL_NO_ERROR);
         if (error != GL_NO_ERROR) {
+            PRINT_ERROR << "Failed to update the vertex texture coordinate data. VAO ID: " <<
+                           vt_utils::NumberToString(_vao) << " Buffer ID: " <<
+                           vt_utils::NumberToString(_vertex_texture_coordinate_buffer) <<
+                           std::endl;
             errors = true;
         }
     }
