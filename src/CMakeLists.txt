@@ -328,7 +328,7 @@ engine/video/fade.cpp
 engine/video/fade.h
 engine/video/gl/shader.cpp
 engine/video/gl/shader.h
-engine/video/gl/shader_definition.h
+engine/video/gl/shader_definitions.h
 engine/video/gl/shader_program.cpp
 engine/video/gl/shader_program.h
 engine/video/gl/shader_programs.h

@@ -232,7 +232,7 @@
     <ClInclude Include="..\..\src\engine\video\fade.h" />
     <ClInclude Include="..\..\src\engine\video\gl\shader.h" />
     <ClInclude Include="..\..\src\engine\video\gl\shaders.h" />
-    <ClInclude Include="..\..\src\engine\video\gl\shader_definition.h" />
+    <ClInclude Include="..\..\src\engine\video\gl\shader_definitions.h" />
     <ClInclude Include="..\..\src\engine\video\gl\shader_program.h" />
     <ClInclude Include="..\..\src\engine\video\gl\shader_programs.h" />
     <ClInclude Include="..\..\src\engine\video\gl\sprite_colored.h" />

@@ -575,9 +575,6 @@
     <ClInclude Include="..\..\src\engine\video\gl\shader.h">
       <Filter>engine\video\gl</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\engine\video\gl\shader_definition.h">
-      <Filter>engine\video\gl</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\src\engine\video\gl\shader_program.h">
       <Filter>engine\video\gl</Filter>
     </ClInclude>
@@ -597,6 +594,9 @@
       <Filter>engine\video\gl</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\engine\video\gl\sprite_particle_system.h">
+      <Filter>engine\video\gl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\engine\video\gl\shader_definitions.h">
       <Filter>engine\video\gl</Filter>
     </ClInclude>
   </ItemGroup>

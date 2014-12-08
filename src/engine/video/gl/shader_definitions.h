@@ -9,19 +9,19 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 /** ****************************************************************************
-*** \file    shader_definition.h
+*** \file    shader_definitions.h
 *** \author  Authenticate, James Lammlein
 *** \brief   Header file for shader definitions.
 *** ***************************************************************************/
 
-#ifndef __SHADER_DEFINITION_HEADER__
-#define __SHADER_DEFINITION_HEADER__
+#ifndef __SHADER_DEFINITIONS_HEADER__
+#define __SHADER_DEFINITIONS_HEADER__
 
 namespace vt_video
 {
 namespace gl
 {
-namespace shader_definition
+namespace shader_definitions
 {
     const char PARTICLE_VERTEX[] =
         "#version 110\n"

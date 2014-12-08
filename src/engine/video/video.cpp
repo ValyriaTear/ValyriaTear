@@ -22,7 +22,7 @@
 #include "engine/script/script_read.h"
 #include "engine/system.h"
 #include "engine/video/gl/shader.h"
-#include "engine/video/gl/shader_definition.h"
+#include "engine/video/gl/shader_definitions.h"
 #include "engine/video/gl/shader_program.h"
 #include "engine/video/gl/shader_programs.h"
 #include "engine/video/gl/shaders.h"
@@ -275,15 +275,15 @@ bool VideoEngine::FinalizeInitialization()
     //
 
     // Create the shaders.
-    gl::Shader* particle_vertex             = new gl::Shader(GL_VERTEX_SHADER, gl::shader_definition::PARTICLE_VERTEX);
-    gl::Shader* solid_vertex                = new gl::Shader(GL_VERTEX_SHADER, gl::shader_definition::SOLID_VERTEX);
-    gl::Shader* solid_per_vertex            = new gl::Shader(GL_VERTEX_SHADER, gl::shader_definition::SOLID_PER_VERTEX);
-    gl::Shader* sprite_vertex               = new gl::Shader(GL_VERTEX_SHADER, gl::shader_definition::SPRITE_VERTEX);
-    gl::Shader* particle_fragment           = new gl::Shader(GL_FRAGMENT_SHADER, gl::shader_definition::PARTICLE_FRAGMENT);
-    gl::Shader* solid_fragment              = new gl::Shader(GL_FRAGMENT_SHADER, gl::shader_definition::SOLID_FRAGMENT);
-    gl::Shader* solid_per_fragment          = new gl::Shader(GL_FRAGMENT_SHADER, gl::shader_definition::SOLID_PER_FRAGMENT);
-    gl::Shader* sprite_fragment             = new gl::Shader(GL_FRAGMENT_SHADER, gl::shader_definition::SPRITE_FRAGMENT);
-    gl::Shader* sprite_grayscale_fragment   = new gl::Shader(GL_FRAGMENT_SHADER, gl::shader_definition::SPRITE_GRAYSCALE_FRAGMENT);
+    gl::Shader* particle_vertex             = new gl::Shader(GL_VERTEX_SHADER, gl::shader_definitions::PARTICLE_VERTEX);
+    gl::Shader* solid_vertex                = new gl::Shader(GL_VERTEX_SHADER, gl::shader_definitions::SOLID_VERTEX);
+    gl::Shader* solid_per_vertex            = new gl::Shader(GL_VERTEX_SHADER, gl::shader_definitions::SOLID_PER_VERTEX);
+    gl::Shader* sprite_vertex               = new gl::Shader(GL_VERTEX_SHADER, gl::shader_definitions::SPRITE_VERTEX);
+    gl::Shader* particle_fragment           = new gl::Shader(GL_FRAGMENT_SHADER, gl::shader_definitions::PARTICLE_FRAGMENT);
+    gl::Shader* solid_fragment              = new gl::Shader(GL_FRAGMENT_SHADER, gl::shader_definitions::SOLID_FRAGMENT);
+    gl::Shader* solid_per_fragment          = new gl::Shader(GL_FRAGMENT_SHADER, gl::shader_definitions::SOLID_PER_FRAGMENT);
+    gl::Shader* sprite_fragment             = new gl::Shader(GL_FRAGMENT_SHADER, gl::shader_definitions::SPRITE_FRAGMENT);
+    gl::Shader* sprite_grayscale_fragment   = new gl::Shader(GL_FRAGMENT_SHADER, gl::shader_definitions::SPRITE_GRAYSCALE_FRAGMENT);
 
     // Store the shaders.
     _shaders[gl::shaders::VertexParticle] = particle_vertex;
