@@ -36,10 +36,10 @@ Shader::Shader(GLenum type, const std::string &data) :
         _shader = glCreateShader(type);
 
         GLenum error = glGetError();
-        assert(error == GL_NO_ERROR);
         if (error != GL_NO_ERROR) {
-            PRINT_ERROR << "Failed to create the shader." << std::endl;
             errors = true;
+            PRINT_ERROR << "Failed to create the shader." << std::endl;
+            assert(error == GL_NO_ERROR);
         }
     }
 
@@ -51,12 +51,12 @@ Shader::Shader(GLenum type, const std::string &data) :
         glShaderSource(_shader, 1, strings, length);
 
         GLenum error = glGetError();
-        assert(error == GL_NO_ERROR);
         if (error != GL_NO_ERROR) {
+            errors = true;
             PRINT_ERROR << "Failed to set the shader's source. Shader ID: " <<
                            vt_utils::NumberToString(_shader) <<
                            std::endl;
-            errors = true;
+            assert(error == GL_NO_ERROR);
         }
     }
 
@@ -65,12 +65,12 @@ Shader::Shader(GLenum type, const std::string &data) :
         glCompileShader(_shader);
 
         GLenum error = glGetError();
-        assert(error == GL_NO_ERROR);
         if (error != GL_NO_ERROR) {
+            errors = true;
             PRINT_ERROR << "Failed to compile the shader. Shader ID: " <<
                            vt_utils::NumberToString(_shader) <<
                            std::endl;
-            errors = true;
+            assert(error == GL_NO_ERROR);
         }
     }
 
@@ -79,8 +79,9 @@ Shader::Shader(GLenum type, const std::string &data) :
         GLint is_compiled = -1;
         glGetShaderiv(_shader, GL_COMPILE_STATUS, &is_compiled);
 
-        assert(is_compiled != 0);
         if (is_compiled == 0) { // 0 = failed to compile.
+            errors = true;
+
             // Retrieve the compiler output.
             GLint length = -1;
             glGetShaderiv(_shader, GL_INFO_LOG_LENGTH, &length);
@@ -97,7 +98,7 @@ Shader::Shader(GLenum type, const std::string &data) :
             delete [] log;
             log = NULL;
 
-            errors = true;
+            assert(is_compiled != 0);
         }
     }
 }
