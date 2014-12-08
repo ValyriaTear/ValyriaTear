@@ -43,7 +43,7 @@ namespace shader_definitions
         "    gl_Position       = u_Projection * (u_View * (u_Model * vec4(in_Vertex, 1.0)));\n"
         "    gl_FrontColor     = in_Color;\n"
         "    gl_TexCoord[0].xy = in_TexCoords.xy;\n"
-        "};";
+        "}\n";
 
     const char SOLID_VERTEX[] =
         "#version 110\n"
@@ -61,7 +61,7 @@ namespace shader_definitions
         "void main()\n"
         "{\n"
         "    gl_Position       = u_Projection * (u_View * (u_Model * vec4(in_Vertex, 1.0)));\n"
-        "};";
+        "}\n";
 
     const char SOLID_PER_VERTEX[] =
         "#version 110\n"
@@ -81,7 +81,7 @@ namespace shader_definitions
         "{\n"
         "    gl_Position       = u_Projection * (u_View * (u_Model * vec4(in_Vertex, 1.0)));\n"
         "    gl_FrontColor     = in_Color;\n"
-        "};";
+        "}\n";
 
     const char SPRITE_VERTEX[] =
         "#version 110\n"
@@ -101,7 +101,7 @@ namespace shader_definitions
         "{\n"
         "    gl_Position       = u_Projection * (u_View * (u_Model * vec4(in_Vertex, 1.0)));\n"
         "    gl_TexCoord[0].xy = in_TexCoords.xy;\n"
-        "};";
+        "}\n";
 
     const char PARTICLE_FRAGMENT[] =
         "#version 110\n"
@@ -122,7 +122,6 @@ namespace shader_definitions
         "        {\n"
         "            discard;\n"
         "        }\n"
-        "\n"
         "}\n";
 
     const char SOLID_FRAGMENT[] =
@@ -143,7 +142,6 @@ namespace shader_definitions
         "        {\n"
         "            discard;\n"
         "        }\n"
-        "\n"
         "}\n";
 
     const char SOLID_PER_FRAGMENT[] =
@@ -162,7 +160,6 @@ namespace shader_definitions
         "        {\n"
         "            discard;\n"
         "        }\n"
-        "\n"
         "}\n";
 
     const char SPRITE_FRAGMENT[] =
@@ -185,7 +182,6 @@ namespace shader_definitions
         "        {\n"
         "            discard;\n"
         "        }\n"
-        "\n"
         "}\n";
 
     const char SPRITE_GRAYSCALE_FRAGMENT[] =
