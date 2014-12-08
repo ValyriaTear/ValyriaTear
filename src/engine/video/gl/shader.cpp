@@ -24,7 +24,7 @@ namespace gl
 {
 
 // Constants.
-const GLsizei MAX_LOG_LENGTH = 200;
+const GLsizei MAX_LOG_LENGTH = 512;
 
 Shader::Shader(GLenum type, const std::string &data) :
     _shader(-1)
@@ -83,11 +83,12 @@ Shader::Shader(GLenum type, const std::string &data) :
             errors = true;
 
             // Retrieve the compiler output.
-            GLint length = -1;
+            GLint length = 0;
             glGetShaderiv(_shader, GL_INFO_LOG_LENGTH, &length);
 
             // Allocate space for the log.
             char* log = new char[length];
+            memset(log, 0, length);
             glGetShaderInfoLog(_shader, MAX_LOG_LENGTH, &length, log);
 
             PRINT_ERROR << "Failed to compile the shader. Shader ID: " <<

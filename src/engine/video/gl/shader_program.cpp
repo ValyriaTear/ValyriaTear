@@ -26,7 +26,7 @@ namespace gl
 {
 
 // Constants.
-const GLsizei MAX_LOG_LENGTH = 200;
+const GLsizei MAX_LOG_LENGTH = 512;
 
 ShaderProgram::ShaderProgram(const Shader& vertex_shader,
                              const Shader& fragment_shader,
@@ -127,12 +127,13 @@ ShaderProgram::ShaderProgram(const Shader& vertex_shader,
             errors = true;
 
             // Retrieve the linker output.
-            GLint length = -1;
+            GLint length = 0;
             glGetProgramiv(_program, GL_INFO_LOG_LENGTH, &length);
 
             // Allocate space for the log.
             char* log = new char[length];
-            glGetShaderInfoLog(_program, MAX_LOG_LENGTH, &length, log);
+            memset(log, 0, length);
+            glGetProgramInfoLog(_program, MAX_LOG_LENGTH, &length, log);
 
             PRINT_ERROR << "Failed to link the shader program. Shader Program ID: " <<
                            vt_utils::NumberToString(_program) << " Linker Output: " <<
