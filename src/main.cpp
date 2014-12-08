@@ -212,8 +212,8 @@ bool LoadSettings()
     }
     else {
         float message_speed = settings.ReadFloat("message_speed");
-        if (message_speed < 1.0f) {
-            PRINT_WARNING << "Invalid message_speed option value. Reverting to default one." << std::endl;
+        // Do not permit too slow rolling dialogues to avoid Confirm button bashing.
+        if (message_speed < 100.0f) {
             message_speed = DEFAULT_MESSAGE_SPEED;
         }
         SystemManager->SetMessageSpeed(message_speed);
