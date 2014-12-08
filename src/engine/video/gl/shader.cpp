@@ -84,15 +84,19 @@ Shader::Shader(GLenum type, const std::string &data) :
             // Retrieve the compiler output.
             GLint length = -1;
             glGetShaderiv(_shader, GL_INFO_LOG_LENGTH, &length);
-                
+
+            // Allocate space for the log.
             char* log = new char[length];
             glGetShaderInfoLog(_shader, MAX_LOG_LENGTH, &length, log);
-            delete [] log;
-            log = NULL;
 
             PRINT_ERROR << "Failed to compile the shader. Shader ID: " <<
                            vt_utils::NumberToString(_shader) << " Compiler Output: " <<
                            log << std::endl;
+
+            // Clean up the log.
+            delete [] log;
+            log = NULL;
+
             errors = true;
         }
     }

@@ -129,14 +129,18 @@ ShaderProgram::ShaderProgram(const Shader& vertex_shader,
             GLint length = -1;
             glGetProgramiv(_program, GL_INFO_LOG_LENGTH, &length);
 
+            // Allocate space for the log.
             char* log = new char[length];
             glGetShaderInfoLog(_program, MAX_LOG_LENGTH, &length, log);
-            delete [] log;
-            log = NULL;
 
             PRINT_ERROR << "Failed to link the shader program. Shader Program ID: " <<
                            vt_utils::NumberToString(_program) << " Linker Output: " <<
                            log << std::endl;
+
+            // Clean up the log.
+            delete [] log;
+            log = NULL;
+
             errors = true;
         }
     }

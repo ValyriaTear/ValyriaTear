@@ -27,7 +27,7 @@ namespace vt_video
 namespace gl
 {
 
-static float ComputeDotProduct(float* a, float* b)
+static float _ComputeDotProduct(float* a, float* b)
 {
     float result = 0.0f;
 
@@ -171,7 +171,7 @@ void Transform::_Multiply(const Transform& transform)
             float* col = cols[j];
 
             // Compute and store the result.
-            result[j] = ComputeDotProduct(row, col);
+            result[j] = _ComputeDotProduct(row, col);
         }
     }
 

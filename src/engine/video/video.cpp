@@ -884,7 +884,7 @@ void VideoEngine::DrawSpriteTextured(gl::ShaderProgram* shader_program,
 void VideoEngine::EnableScissoring()
 {
     _current_context.scissoring_enabled = true;
-    if(!_gl_scissor_test_is_active) {
+    if (!_gl_scissor_test_is_active) {
         glEnable(GL_SCISSOR_TEST);
         _gl_scissor_test_is_active = true;
     }
@@ -893,7 +893,7 @@ void VideoEngine::EnableScissoring()
 void VideoEngine::DisableScissoring()
 {
     _current_context.scissoring_enabled = false;
-    if(_gl_scissor_test_is_active) {
+    if (_gl_scissor_test_is_active) {
         glDisable(GL_SCISSOR_TEST);
         _gl_scissor_test_is_active = false;
     }
@@ -916,8 +916,7 @@ void VideoEngine::SetScissorRect(const ScreenRect &rect)
     glScissor(static_cast<GLint>((_current_context.scissor_rectangle.left / static_cast<float>(VIDEO_STANDARD_RES_WIDTH)) * _current_context.viewport.width),
               static_cast<GLint>((_current_context.scissor_rectangle.top / static_cast<float>(VIDEO_STANDARD_RES_HEIGHT)) * _current_context.viewport.height),
               static_cast<GLsizei>((_current_context.scissor_rectangle.width / static_cast<float>(VIDEO_STANDARD_RES_WIDTH)) * _current_context.viewport.width),
-              static_cast<GLsizei>((_current_context.scissor_rectangle.height / static_cast<float>(VIDEO_STANDARD_RES_HEIGHT)) * _current_context.viewport.height)
-             );
+              static_cast<GLsizei>((_current_context.scissor_rectangle.height / static_cast<float>(VIDEO_STANDARD_RES_HEIGHT)) * _current_context.viewport.height));
 }
 
 ScreenRect VideoEngine::CalculateScreenRect(float left, float right, float bottom, float top)
