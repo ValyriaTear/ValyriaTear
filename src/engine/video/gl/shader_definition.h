@@ -24,7 +24,7 @@ namespace gl
 namespace shader_definition
 {
     const char PARTICLE_VERTEX[] =
-        "#version 120\n"
+        "#version 110\n"
         "\n"
         "//\n"
         "// Vertex shader for particle sprite rendering.\n"
@@ -46,7 +46,7 @@ namespace shader_definition
         "};";
 
     const char SOLID_VERTEX[] =
-        "#version 120\n"
+        "#version 110\n"
         "\n"
         "//\n"
         "// Vertex shader for solid color sprite rendering.\n"
@@ -64,7 +64,7 @@ namespace shader_definition
         "};";
 
     const char SOLID_PER_VERTEX[] =
-        "#version 120\n"
+        "#version 110\n"
         "\n"
         "//\n"
         "// Vertex shader for solid color per vertex sprite rendering.\n"
@@ -84,7 +84,7 @@ namespace shader_definition
         "};";
 
     const char SPRITE_VERTEX[] =
-        "#version 120\n"
+        "#version 110\n"
         "\n"
         "//\n"
         "// Vertex shader for textured sprite rendering.\n"
@@ -104,7 +104,7 @@ namespace shader_definition
         "};";
 
     const char PARTICLE_FRAGMENT[] =
-        "#version 120\n"
+        "#version 110\n"
         "\n"
         "//\n"
         "// Colors a particle's fragment.\n"
@@ -118,7 +118,7 @@ namespace shader_definition
         "        gl_FragColor *= gl_Color;\n"
         "\n"
         "        // Alpha Test\n"
-        "        if (gl_FragColor.a <= 0.0f)\n"
+        "        if (gl_FragColor.a <= 0.0)\n"
         "        {\n"
         "            discard;\n"
         "        }\n"
@@ -126,7 +126,7 @@ namespace shader_definition
         "}\n";
 
     const char SOLID_FRAGMENT[] =
-        "#version 120\n"
+        "#version 110\n"
         "\n"
         "//\n"
         "// Colors the fragment.\n"
@@ -139,7 +139,7 @@ namespace shader_definition
         "        gl_FragColor = u_Color;\n"
         "\n"
         "        // Alpha Test\n"
-        "        if (gl_FragColor.a <= 0.0f)\n"
+        "        if (gl_FragColor.a <= 0.0)\n"
         "        {\n"
         "            discard;\n"
         "        }\n"
@@ -147,7 +147,7 @@ namespace shader_definition
         "}\n";
 
     const char SOLID_PER_FRAGMENT[] =
-        "#version 120\n"
+        "#version 110\n"
         "\n"
         "//\n"
         "// Colors the fragment.\n"
@@ -158,7 +158,7 @@ namespace shader_definition
         "        gl_FragColor = gl_Color;\n"
         "\n"
         "        // Alpha Test\n"
-        "        if (gl_FragColor.a <= 0.0f)\n"
+        "        if (gl_FragColor.a <= 0.0)\n"
         "        {\n"
         "            discard;\n"
         "        }\n"
@@ -166,7 +166,7 @@ namespace shader_definition
         "}\n";
 
     const char SPRITE_FRAGMENT[] =
-        "#version 120\n"
+        "#version 110\n"
         "\n"
         "//\n"
         "// Samples a texture for fragment's output.\n"
@@ -181,7 +181,7 @@ namespace shader_definition
         "        gl_FragColor *= u_Color;\n"
         "\n"
         "        // Alpha Test\n"
-        "        if (gl_FragColor.a <= 0.0f)\n"
+        "        if (gl_FragColor.a <= 0.0)\n"
         "        {\n"
         "            discard;\n"
         "        }\n"
@@ -190,7 +190,7 @@ namespace shader_definition
 
     const char SPRITE_GRAYSCALE_FRAGMENT[] =
         "\n"
-        "#version 120\n"
+        "#version 110\n"
         "\n"
         "//\n"
         "// Samples texture for fragment's output and converts to grayscale.\n"
@@ -205,15 +205,15 @@ namespace shader_definition
         "        gl_FragColor *= u_Color;\n"
         "\n"
         "        // Alpha Test\n"
-        "        if (gl_FragColor.a <= 0.0f)\n"
+        "        if (gl_FragColor.a <= 0.0)\n"
         "        {\n"
         "            discard;\n"
         "        }\n"
         "\n"
-        "        // Greyscale filter\n"
-        "        gl_FragColor.r *= 0.299f;\n"
-        "        gl_FragColor.g *= 0.587f;\n"
-        "        gl_FragColor.b *= 0.114f;\n"
+        "        // Grayscale filter\n"
+        "        gl_FragColor.r *= 0.299;\n"
+        "        gl_FragColor.g *= 0.587;\n"
+        "        gl_FragColor.b *= 0.114;\n"
         "\n"
         "        float sum = gl_FragColor.r + gl_FragColor.g + gl_FragColor.b;\n"
         "\n"
