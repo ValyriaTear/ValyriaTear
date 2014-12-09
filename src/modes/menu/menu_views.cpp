@@ -251,7 +251,6 @@ void InventoryWindow::_InitCharSelect()
     _character = GlobalManager->GetActiveParty()->GetCharacterAtIndex(_char_select.GetSelection());
 }
 
-//Initalizes the available item categories
 void InventoryWindow::_InitCategory()
 {
     _item_categories.SetPosition(458.0f, 120.0f);
@@ -262,6 +261,7 @@ void InventoryWindow::_InitCategory()
     _item_categories.SetHorizontalWrapMode(VIDEO_WRAP_MODE_STRAIGHT);
     _item_categories.SetVerticalWrapMode(VIDEO_WRAP_MODE_STRAIGHT);
     _item_categories.SetOptionAlignment(VIDEO_X_CENTER, VIDEO_Y_CENTER);
+    _item_categories.SetSkipDisabled(true);
 
     // Add an option for every category + 1 (All items)
     for (uint32 i = 0; i < ITEM_CATEGORY_SIZE + 1; ++i)
@@ -280,9 +280,21 @@ void InventoryWindow::_InitCategory()
     _item_categories.AddOptionElementImage(5, media.GetSmallItemCategoryIcon(ITEM_ARMS_ARMOR));
     _item_categories.AddOptionElementImage(6, media.GetSmallItemCategoryIcon(ITEM_LEGS_ARMOR));
     _item_categories.AddOptionElementImage(7, media.GetSmallItemCategoryIcon(ITEM_KEY));
+
+    _UpdateCategory();
 }
 
-// Activates/deactivates inventory window
+void InventoryWindow::_UpdateCategory()
+{
+    _item_categories.EnableOption(1, !(GlobalManager->GetInventoryItems()->empty()));
+    _item_categories.EnableOption(2, !(GlobalManager->GetInventoryWeapons()->empty()));
+    _item_categories.EnableOption(3, !(GlobalManager->GetInventoryHeadArmors()->empty()));
+    _item_categories.EnableOption(4, !(GlobalManager->GetInventoryTorsoArmors()->empty()));
+    _item_categories.EnableOption(5, !(GlobalManager->GetInventoryArmArmors()->empty()));
+    _item_categories.EnableOption(6, !(GlobalManager->GetInventoryLegArmors()->empty()));
+    _item_categories.EnableOption(7, !(GlobalManager->GetInventoryKeyItems()->empty()));
+}
+
 void InventoryWindow::Activate(bool new_status)
 {
     // Set new status
@@ -629,6 +641,7 @@ void InventoryWindow::_UpdateSelection()
     // Make the menu back-off when no more items are in the category list.
     if (_item_objects.empty()) {
         _object = NULL;
+        _UpdateCategory();
         _active_box = ITEM_ACTIVE_CATEGORY;
         _item_categories.SetCursorState(VIDEO_CURSOR_STATE_VISIBLE);
         _inventory_items.SetCursorState(VIDEO_CURSOR_STATE_HIDDEN);
@@ -679,6 +692,8 @@ void InventoryWindow::_UpdateSelection()
             break;
     }
 
+    _UpdateCategory();
+
     if (_is_equipment && !_can_equip)
         MenuMode::CurrentInstance()->_help_information.SetDisplayText(cannot_equip);
     else if (_active_box == ITEM_ACTIVE_CATEGORY)
@@ -704,35 +719,31 @@ void InventoryWindow::_UpdateItemText()
             break;
         }
         case ITEM_ITEM:
-            _item_objects = _GetItemVector(GlobalManager->GetInventoryItems());
+            _item_objects = _GetObjectVector(GlobalManager->GetInventoryItems());
             break;
 
         case ITEM_WEAPON:
-            _item_objects = _GetItemVector(GlobalManager->GetInventoryWeapons());
+            _item_objects = _GetObjectVector(GlobalManager->GetInventoryWeapons());
             break;
 
         case ITEM_HEAD_ARMOR:
-            _item_objects = _GetItemVector(GlobalManager->GetInventoryHeadArmor());
+            _item_objects = _GetObjectVector(GlobalManager->GetInventoryHeadArmors());
             break;
 
         case ITEM_TORSO_ARMOR:
-            _item_objects = _GetItemVector(GlobalManager->GetInventoryTorsoArmor());
+            _item_objects = _GetObjectVector(GlobalManager->GetInventoryTorsoArmors());
             break;
 
         case ITEM_ARMS_ARMOR:
-            _item_objects = _GetItemVector(GlobalManager->GetInventoryArmArmor());
+            _item_objects = _GetObjectVector(GlobalManager->GetInventoryArmArmors());
             break;
 
         case ITEM_LEGS_ARMOR:
-            _item_objects = _GetItemVector(GlobalManager->GetInventoryLegArmor());
+            _item_objects = _GetObjectVector(GlobalManager->GetInventoryLegArmors());
             break;
 
         case ITEM_KEY: {
-            std::map<uint32, GlobalObject *>* inv = GlobalManager->GetInventory();
-            for(std::map<uint32, GlobalObject *>::iterator it = inv->begin(); it != inv->end(); ++it) {
-                if (it->second->IsKeyItem())
-                    _item_objects.push_back(it->second);
-            }
+            _item_objects = _GetObjectVector(GlobalManager->GetInventoryKeyItems());
             break;
         }
         default:
@@ -774,9 +785,7 @@ void InventoryWindow::_UpdateItemText()
         // Reset the top viewing inventory item
         _inventory_items.ResetViewableOption();
     }
-} // void InventoryWindow::UpdateItemText()
-
-
+}
 
 void InventoryWindow::Draw()
 {
@@ -792,7 +801,7 @@ void InventoryWindow::Draw()
 
     // Draw item list
     _inventory_items.Draw();
-} // bool InventoryWindow::Draw()
+}
 
 void InventoryWindow::_DrawSpecialItemDescription(vt_video::StillImage* special_image,
                                                   vt_gui::TextBox& description)
@@ -1938,7 +1947,7 @@ void EquipWindow::Update()
             }
 
             case EQUIP_HEAD: {
-                GlobalArmor *hlm = GlobalManager->GetInventoryHeadArmor()->at(inventory_id);
+                GlobalArmor *hlm = GlobalManager->GetInventoryHeadArmors()->at(inventory_id);
                 if(hlm->GetUsableBy() & _character->GetID()) {
                     id_num = hlm->GetID();
                     GlobalManager->AddToInventory(_character->EquipHeadArmor((GlobalArmor *)GlobalManager->GetGlobalObject(id_num)));
@@ -1950,7 +1959,7 @@ void EquipWindow::Update()
             }
 
             case EQUIP_TORSO: {
-                GlobalArmor *arm = GlobalManager->GetInventoryTorsoArmor()->at(inventory_id);
+                GlobalArmor *arm = GlobalManager->GetInventoryTorsoArmors()->at(inventory_id);
                 if(arm->GetUsableBy() & _character->GetID()) {
                     id_num = arm->GetID();
                     GlobalManager->AddToInventory(_character->EquipTorsoArmor((GlobalArmor *)GlobalManager->GetGlobalObject(id_num)));
@@ -1962,7 +1971,7 @@ void EquipWindow::Update()
             }
 
             case EQUIP_ARMS: {
-                GlobalArmor *shld = GlobalManager->GetInventoryArmArmor()->at(inventory_id);
+                GlobalArmor *shld = GlobalManager->GetInventoryArmArmors()->at(inventory_id);
                 if(shld->GetUsableBy() & _character->GetID()) {
                     id_num = shld->GetID();
                     GlobalManager->AddToInventory(_character->EquipArmArmor((GlobalArmor *)GlobalManager->GetGlobalObject(id_num)));
@@ -1974,7 +1983,7 @@ void EquipWindow::Update()
             }
 
             case EQUIP_LEGS: {
-                GlobalArmor *lgs = GlobalManager->GetInventoryLegArmor()->at(inventory_id);
+                GlobalArmor *lgs = GlobalManager->GetInventoryLegArmors()->at(inventory_id);
                 if(lgs->GetUsableBy() & _character->GetID()) {
                     id_num = lgs->GetID();
                     GlobalManager->AddToInventory(_character->EquipLegArmor((GlobalArmor *)GlobalManager->GetGlobalObject(id_num)));
@@ -2024,16 +2033,16 @@ void EquipWindow::_UpdateEquipList()
             equipment_list = reinterpret_cast<std::vector<GlobalObject *>*>(GlobalManager->GetInventoryWeapons());
             break;
         case EQUIP_HEAD:
-            equipment_list = reinterpret_cast<std::vector<GlobalObject *>*>(GlobalManager->GetInventoryHeadArmor());
+            equipment_list = reinterpret_cast<std::vector<GlobalObject *>*>(GlobalManager->GetInventoryHeadArmors());
             break;
         case EQUIP_TORSO:
-            equipment_list = reinterpret_cast<std::vector<GlobalObject *>*>(GlobalManager->GetInventoryTorsoArmor());
+            equipment_list = reinterpret_cast<std::vector<GlobalObject *>*>(GlobalManager->GetInventoryTorsoArmors());
             break;
         case EQUIP_ARMS:
-            equipment_list = reinterpret_cast<std::vector<GlobalObject *>*>(GlobalManager->GetInventoryArmArmor());
+            equipment_list = reinterpret_cast<std::vector<GlobalObject *>*>(GlobalManager->GetInventoryArmArmors());
             break;
         case EQUIP_LEGS:
-            equipment_list = reinterpret_cast<std::vector<GlobalObject *>*>(GlobalManager->GetInventoryLegArmor());
+            equipment_list = reinterpret_cast<std::vector<GlobalObject *>*>(GlobalManager->GetInventoryLegArmors());
             break;
         } // switch
 
@@ -2167,22 +2176,22 @@ void EquipWindow::_UpdateSelectedObject()
         }
 
         case EQUIP_HEAD: {
-            _object = GlobalManager->GetInventoryHeadArmor()->at(inventory_id);
+            _object = GlobalManager->GetInventoryHeadArmors()->at(inventory_id);
             break;
         }
 
         case EQUIP_TORSO: {
-            _object = GlobalManager->GetInventoryTorsoArmor()->at(inventory_id);
+            _object = GlobalManager->GetInventoryTorsoArmors()->at(inventory_id);
             break;
         }
 
         case EQUIP_ARMS: {
-            _object = GlobalManager->GetInventoryArmArmor()->at(inventory_id);
+            _object = GlobalManager->GetInventoryArmArmors()->at(inventory_id);
             break;
         }
 
         case EQUIP_LEGS: {
-            _object = GlobalManager->GetInventoryLegArmor()->at(inventory_id);
+            _object = GlobalManager->GetInventoryLegArmors()->at(inventory_id);
             break;
         }
     }
@@ -2274,7 +2283,7 @@ QuestListWindow::QuestListWindow() :
     _quests_list.SetHorizontalWrapMode(VIDEO_WRAP_MODE_NONE);
     _quests_list.SetVerticalWrapMode(VIDEO_WRAP_MODE_STRAIGHT);
     _quests_list.SetOptionAlignment(VIDEO_X_LEFT, VIDEO_Y_CENTER);
-    
+
     // Enable the viewing of grey options.
     _quests_list.SetSkipDisabled(false);
 

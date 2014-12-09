@@ -285,6 +285,9 @@ public:
     **/
     void SeekSecond(float second);
 
+    //! \brief Gets the current sample number (track offset)
+    uint32 GetCurrentSampleNumber() const;
+
     //! \brief Returns the volume level for this audio
     float GetVolume() const {
         return _volume;
@@ -323,26 +326,26 @@ public:
     *** when the game mode is deleted.
     *** This function won't add NULL reference and won't permit duplicate owners.
     **/
-    void AddOwner(vt_mode_manager::GameMode *gm);
+    void AddGameModeOwner(vt_mode_manager::GameMode *gm);
 
     /**
     *** Adds multiple owners at once.
     *** @see AddOwner()
     **/
-    void AddOwners(std::vector<vt_mode_manager::GameMode *>& owners);
+    void AddGameModeOwners(std::vector<vt_mode_manager::GameMode *>& owners);
 
     /**
     *** Remove a game mode reference from the audio descriptor owners,
     *** and checks whether the file data can be freed.
     *** \returns whether the descriptor should be removed from the cache.
     **/
-    bool RemoveOwner(vt_mode_manager::GameMode *gm);
+    bool RemoveGameModeOwner(vt_mode_manager::GameMode *gm);
 
     /**
     *** Get the list of game mode claiming ownership over the audio descriptor.
     **/
-    std::vector<vt_mode_manager::GameMode *>* GetOwners() {
-        return &_owners;
+    std::vector<vt_mode_manager::GameMode *>* GetGameModeOwners() {
+        return &_game_mode_owners;
     }
 
     /** \brief Fades a music or sound in as it plays
@@ -424,9 +427,9 @@ protected:
     *** Note that sounds/musics are only freed when their owners are removed
     *** and were the last in this list.
     *** Musics and sounds that are never owned will have to be freed manually.
-    *** @see AddOwner(), RemoveOwner()
+    *** @see AddGameModeOwner(), RemoveGameModeOwner()
     **/
-    std::vector<vt_mode_manager::GameMode *> _owners;
+    std::vector<vt_mode_manager::GameMode *> _game_mode_owners;
 
     //! \brief Holds all active audio effects for this descriptor
     std::vector<private_audio::AudioEffect *> _audio_effects;

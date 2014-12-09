@@ -235,29 +235,24 @@ private:
     //! Tells whether the character can equip the item
     bool _can_equip;
 
-    /*!
-    * \brief Updates the item text in the inventory items
-    */
+    //! \brief Updates the item text in the inventory items.
     void _UpdateItemText();
 
-    //! \brief updates the selected item and character
+    //! \brief updates the selected item and character.
     //! \note this also updates calls _UpdateItemText();
     void _UpdateSelection();
 
-    /*!
-    * \brief Initializes inventory items option box
-    */
+    //! \brief Initializes inventory items option box.
     void _InitInventoryItems();
 
-    /*!
-    * \brief Initializes char select option box
-    */
+    //! \brief Initializes char select option box.
     void _InitCharSelect();
 
-    /*!
-    * \brief Initializes item category select option box
-    */
+    //! \brief Initializes item category select option box.
     void _InitCategory();
+
+    //! \brief Updates item category select option box option availability.
+    void _UpdateCategory();
 
     //! Draws the special item description and image
     //! on the icon bottom right part of the item icon.
@@ -267,7 +262,7 @@ private:
 
     void _DrawBottomInfo();
 
-    template <class T> std::vector<vt_global::GlobalObject *> _GetItemVector(std::vector<T *> *inv);
+    template <class T> std::vector<vt_global::GlobalObject *> _GetObjectVector(std::vector<T *> *inv);
 
 }; // class InventoryWindow : public vt_video::MenuWindow
 
@@ -795,7 +790,7 @@ private:
 * \brief Converts a vector of GlobalItem*, etc. to a vector of GlobalObjects*
 * \return the same vector, with elements of type GlobalObject*
 */
-template <class T> std::vector<vt_global::GlobalObject *> InventoryWindow::_GetItemVector(std::vector<T *>* inv)
+template <class T> std::vector<vt_global::GlobalObject *> InventoryWindow::_GetObjectVector(std::vector<T *>* inv)
 {
     std::vector<vt_global::GlobalObject *> obj_vector;
 

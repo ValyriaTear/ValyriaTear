@@ -11,6 +11,7 @@ before_install:
   - sudo apt-get install -qq libopenal-dev libalut-dev libvorbis-dev libogg-dev
   - sudo apt-get install -qq liblua5.1-0-dev libgettextpo-dev libboost-all-dev
   - sudo apt-get install -qq libqt4-opengl-dev
+  - sudo apt-get install -qq libglew-dev
 script:
   - cmake -DDEBUG_FEATURES=ON -DEDITOR_SUPPORT=ON .
   - make -j2 vt-editor

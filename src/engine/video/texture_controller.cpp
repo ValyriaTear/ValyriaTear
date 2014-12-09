@@ -139,7 +139,7 @@ bool TextureController::UnloadTextures()
     }
 
     return success;
-} // bool TextureController::UnloadTextures()
+}
 
 
 
@@ -241,13 +241,13 @@ void TextureController::DEBUG_ShowTexSheet()
     sprintf(buf, "  Size:    %dx%d", sheet->width, sheet->height);
     TextManager->Draw(buf);
 
-    if(sheet->type == VIDEO_TEXSHEET_32x32)
+    if (sheet->type == VIDEO_TEXSHEET_32x32)
         sprintf(buf, "  Type:    32x32");
-    else if(sheet->type == VIDEO_TEXSHEET_32x64)
+    else if (sheet->type == VIDEO_TEXSHEET_32x64)
         sprintf(buf, "  Type:    32x64");
-    else if(sheet->type == VIDEO_TEXSHEET_64x64)
+    else if (sheet->type == VIDEO_TEXSHEET_64x64)
         sprintf(buf, "  Type:    64x64");
-    else if(sheet->type == VIDEO_TEXSHEET_ANY)
+    else if (sheet->type == VIDEO_TEXSHEET_ANY)
         sprintf(buf, "  Type:    Any size");
     else
         sprintf(buf, "  Type:    Unknown");
@@ -264,9 +264,7 @@ void TextureController::DEBUG_ShowTexSheet()
     TextManager->Draw(buf);
 
     VideoManager->PopState();
-} // void TextureController::DEBUG_ShowTexSheet()
-
-
+}
 
 GLuint TextureController::_CreateBlankGLTexture(int32 width, int32 height)
 {
@@ -303,12 +301,10 @@ GLuint TextureController::_CreateBlankGLTexture(int32 width, int32 height)
     return tex_id;
 }
 
-
-
 void TextureController::_BindTexture(GLuint tex_id)
 {
-    // Return if this texture ID is already bound
-    if(tex_id == _last_tex_id)
+    // Return if this texture ID is already bound.
+    if (tex_id == _last_tex_id)
         return;
 
     _last_tex_id = tex_id;
@@ -316,17 +312,16 @@ void TextureController::_BindTexture(GLuint tex_id)
     ++_debug_num_tex_switches;
 }
 
-
-
 void TextureController::_DeleteTexture(GLuint tex_id)
 {
-    glDeleteTextures(1, &tex_id);
+    if (tex_id != 0) {
+        GLuint textures[] = { tex_id }; 
+        glDeleteTextures(1, textures);
+    }
 
-    if(_last_tex_id == tex_id)
+    if (_last_tex_id == tex_id)
         _last_tex_id = INVALID_TEXTURE_ID;
 }
-
-
 
 bool TextureController::_SaveTempTextures()
 {

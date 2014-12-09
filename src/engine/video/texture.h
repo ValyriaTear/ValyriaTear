@@ -94,7 +94,6 @@ public:
     *** \param sheet_static Whether the sheet should be labeled static or not
     **/
     TexSheet(uint32 sheet_width, uint32 sheet_height, GLuint sheet_id, TexSheetType sheet_type, bool sheet_static);
-
     virtual ~TexSheet();
 
     // ---------- Public methods
@@ -227,15 +226,22 @@ protected:
 class FixedTexNode
 {
 public:
-    //! \brief The image that belongs to the block
+    FixedTexNode() :
+        image(NULL),
+        next(NULL),
+        block_index(-1)
+    {
+    }
+
+    //! \brief The image that belongs to the block.
     BaseTexture *image;
 
-    //! \brief The next node in the list
+    //! \brief The next node in the list.
     FixedTexNode *next;
 
-    //! \brief The block index
+    //! \brief The block index.
     int32 block_index;
-}; // class FixedTexNode
+};
 
 
 /** ****************************************************************************
@@ -279,8 +285,7 @@ public:
     *** sheet_height parameters. Otherwise the constructor will throw an exception
     **/
     FixedTexSheet(int32 sheet_width, int32 sheet_height, GLuint sheet_id, TexSheetType sheet_type, bool sheet_static, int32 img_width, int32 img_height);
-
-    ~FixedTexSheet();
+    virtual ~FixedTexSheet();
 
     //! \name Methods inherited from TexSheet
     //@{
@@ -328,8 +333,7 @@ private:
     *** \return A pointer to the node to use, or NULL if no nodes were available
     **/
     FixedTexNode *_RemoveOpenNode();
-}; // class FixedTexSheet : public TexSheet
-
+};
 
 /** ****************************************************************************
 *** \brief Keeps track of which images are used/freed in the variable texture mem manager
@@ -338,15 +342,17 @@ class VariableTexNode
 {
 public:
     VariableTexNode() :
-        image(NULL), free_image(true) {}
+        image(NULL),
+        free_image(true)
+    {
+    }
 
-    //! \brief A pointer to the image
+    //! \brief A pointer to the image.
     BaseTexture *image;
 
-    //! \brief Set to true if the image is freed
+    //! \brief Set to true if the image is freed.
     bool free_image;
-}; // class VariableTexNode
-
+};
 
 /** ****************************************************************************
 *** \brief Used to manage texture sheets of variable image sizes
@@ -368,8 +374,7 @@ public:
     *** \param sheet_static Whether the sheet should be labeled static or not
     **/
     VariableTexSheet(int32 sheet_width, int32 sheet_height, GLuint sheet_id, TexSheetType sheet_type, bool sheet_static);
-
-    ~VariableTexSheet();
+    virtual ~VariableTexSheet();
 
     //! \name Methods inherited from TexSheet
     //@{
@@ -409,10 +414,10 @@ private:
     *** \param new_image The boolean value to set the free status flag to
     **/
     void _SetBlockProperties(BaseTexture *tex, BaseTexture *new_tex, bool free);
-}; // class VariableTexSheet : public TexSheet
+};
 
-}  // namespace private_video
+} // namespace private_video
 
-}  // namespace vt_video
+} // namespace vt_video
 
 #endif // __TEXTURE_HEADER__

@@ -84,6 +84,7 @@
 #   include "al.h"
 #   include "alc.h"
 #endif
+#   include <GL/glew.h>
 #   include <GL/gl.h>
 #   include <GL/glu.h>
 #endif

@@ -66,10 +66,10 @@ You will need the following in order to compile and run the game:
 - **libpng** (1.2 to 1.6)
 - **Ogg/Vorbis** - (libogg, libvorbis, libvorbisenc, libvorbisfile)
 - **OpenAL**
-- **OpenGL** and **GLU**
-- **SDL** (1.2)
-- **SDL_ttf** (1.2)
-- **SDL_image** (1.2)
+- **OpenGL**, **GLU** and **GLEW**
+- **SDL** (2.0.0+)
+- **SDL_ttf** (2.0.12+)
+- **SDL_image** (2.0.0)
 
 **Map editor only:**
 - **Qt 4.8.x** (only if you wish to compile the map editor)

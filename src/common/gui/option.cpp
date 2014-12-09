@@ -1218,26 +1218,26 @@ void OptionBox::_DEBUG_DrawOutline()
     float bottom = 0.0f;
     float top = _height;
 
-    // Draw the outline of the option box area
+    // Draw the outline of the option box area.
     VideoManager->Move(0.0f, 0.0f);
     CalculateAlignedRect(left, right, bottom, top);
     VideoManager->DrawRectangleOutline(left, right, bottom, top, 3, alpha_black);
     VideoManager->DrawRectangleOutline(left, right, bottom, top, 1, alpha_white);
 
-    // Draw outline for inner cell rows
+    // Draw outline for inner cell rows.
     float cell_row = top;
-    for(int32 i = 1; i < _number_cell_rows; ++i) {
+    for (int32 i = 1; i < _number_cell_rows; ++i) {
         cell_row += _cell_height;
-        VideoManager->DrawLine(left, cell_row, right, cell_row, 3, alpha_black);
-        VideoManager->DrawLine(left, cell_row, right, cell_row, 1, alpha_white);
+        VideoManager->DrawLine(left, cell_row, 3, right, cell_row, 3, alpha_black);
+        VideoManager->DrawLine(left, cell_row, 1, right, cell_row, 1, alpha_white);
     }
 
-    // Draw outline for inner cell columns
+    // Draw outline for inner cell columns.
     float cell_col = left;
-    for(int32 i = 1; i < _number_cell_columns; ++i) {
+    for (int32 i = 1; i < _number_cell_columns; ++i) {
         cell_col += _cell_width;
-        VideoManager->DrawLine(cell_col, bottom, cell_col, top, 3, alpha_black);
-        VideoManager->DrawLine(cell_col, bottom, cell_col, top, 1, alpha_white);
+        VideoManager->DrawLine(cell_col, bottom, 3, cell_col, top, 3, alpha_black);
+        VideoManager->DrawLine(cell_col, bottom, 1, cell_col, top, 1, alpha_white);
     }
 }
 

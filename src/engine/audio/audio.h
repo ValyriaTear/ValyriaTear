@@ -292,7 +292,7 @@ public:
     *** Thus, permitting to check whether the audio descriptors owned by the mode can be freed
     *** from memory.
     **/
-    void RemoveOwner(vt_mode_manager::GameMode *gm);
+    void RemoveGameModeOwner(vt_mode_manager::GameMode *gm);
 
     /** \name Error Detection and Processing methods
     *** Code external to the audio engine should not need to make use of the following methods,

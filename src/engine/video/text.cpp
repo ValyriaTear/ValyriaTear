@@ -323,11 +323,10 @@ void TextElement::Draw() const
     Draw(Color::white);
 }
 
-
 void TextElement::Draw(const Color &draw_color) const
 {
-    // Don't draw anything if this image is completely transparent (invisible)
-    if(IsFloatEqual(draw_color[3], 0.0f))
+    // Don't draw anything if this image is completely transparent (invisible).
+    if (IsFloatEqual(draw_color[3], 0.0f))
         return;
 
     VideoManager->PushMatrix();
@@ -346,9 +345,7 @@ void TextElement::Draw(const Color &draw_color) const
     }
 
     VideoManager->PopMatrix();
-} // void TextElement::Draw(const Color& draw_color) const
-
-
+}
 
 void TextElement::SetTexture(TextTexture *texture)
 {
@@ -780,8 +777,6 @@ void TextSupervisor::_FreeFont(const std::string &font_name)
     _font_map.erase(it);
 }
 
-
-
 FontProperties *TextSupervisor::_GetFontProperties(const std::string &font_name)
 {
     if(_IsFontValid(font_name) == false) {
@@ -792,17 +787,15 @@ FontProperties *TextSupervisor::_GetFontProperties(const std::string &font_name)
     return _font_map[font_name];
 }
 
-
-
 void TextSupervisor::Draw(const ustring &text, const TextStyle &style)
 {
-    if(text.empty()) {
+    if (text.empty()) {
         IF_PRINT_WARNING(VIDEO_DEBUG) << "empty string was passed to function" << std::endl;
         return;
     }
 
     FontProperties *fp = style.GetFontProperties();
-    if(fp == NULL || fp->ttf_font == NULL) {
+    if (fp == NULL || fp->ttf_font == NULL) {
         IF_PRINT_WARNING(VIDEO_DEBUG) << "failed because font was invalid: " << style.GetFontName() << std::endl;
         return;
     }
@@ -851,9 +844,7 @@ void TextSupervisor::Draw(const ustring &text, const TextStyle &style)
     } while(last_line < text.length());
 
     VideoManager->PopState();
-} // void TextSupervisor::Draw(const ustring& text)
-
-
+}
 
 int32 TextSupervisor::CalculateTextWidth(TTF_Font* ttf_font, const vt_utils::ustring &text)
 {
@@ -1004,40 +995,41 @@ std::vector<vt_utils::ustring> TextSupervisor::WrapText(const vt_utils::ustring&
 
 void TextSupervisor::_CacheGlyphs(const uint16 *text, FontProperties *fp)
 {
-    if(fp == NULL || fp->ttf_font == NULL) {
+    if (fp == NULL || fp->ttf_font == NULL) {
         IF_PRINT_WARNING(VIDEO_DEBUG) << "FontProperties argument was invalid" << std::endl;
         return;
     }
 
     // Empty string means there are no glyphs to cache
-    if(*text == 0)
+    if (*text == 0)
         return;
 
     // If we can't cache a particular glyph, we fall back to this one
     static const uint16 fall_back_glyph = '?';
 
-    TTF_Font *font = fp->ttf_font;
-    int32 w, h;
-    GLuint texture;
+    TTF_Font* font = fp->ttf_font;
+    int32 w = 0;
+    int32 h = 0;
+    GLuint texture = 0;
 
     // Go through each character in the string and cache those glyphs that have not already been cached
     for(const uint16 *character_ptr = text; *character_ptr != 0; ++character_ptr) {
         // A reference for legibility
-        const uint16 &character = *character_ptr;
+        const uint16& character = *character_ptr;
 
         // Update the glyph cache when needed
-        if(character >= fp->glyph_cache->size())
+        if (character >= fp->glyph_cache->size())
             fp->glyph_cache->resize(character + 1, 0);
 
         // Check if the glyph is already cached. If so, move on to the next character
-        if(fp->glyph_cache->at(character) != 0)
+        if (fp->glyph_cache->at(character) != 0)
             continue;
 
         // Attempt to create the initial SDL_Surface that contains the rendered glyph
         // We render it white so that color effects are applied correctly on it.
         static const SDL_Color white_color = { 0xFF, 0xFF, 0xFF, 0xFF };
         SDL_Surface* initial = TTF_RenderGlyph_Blended(font, character, white_color);
-        if(initial == NULL) {
+        if (initial == NULL) {
             IF_PRINT_WARNING(VIDEO_DEBUG) << "call to TTF_RenderGlyph_Blended() failed, resorting to fall back glyph: '?'" << std::endl;
             initial = TTF_RenderGlyph_Blended(font, fall_back_glyph, white_color);
             if(initial == NULL) {
@@ -1054,14 +1046,13 @@ void TextSupervisor::_CacheGlyphs(const uint16 *text, FontProperties *fp)
         h = RoundUpPow2(initial->h + 1);
 
         SDL_Surface* intermediary = SDL_CreateRGBSurface(0, w, h, 32, RMASK, GMASK, BMASK, AMASK);
-        if(intermediary == NULL) {
+        if (intermediary == NULL) {
             SDL_FreeSurface(initial);
             IF_PRINT_WARNING(VIDEO_DEBUG) << "call to SDL_CreateRGBSurface() failed" << std::endl;
             return;
         }
 
-
-        if(SDL_BlitSurface(initial, 0, intermediary, 0) < 0) {
+        if (SDL_BlitSurface(initial, 0, intermediary, 0) < 0) {
             SDL_FreeSurface(initial);
             SDL_FreeSurface(intermediary);
             IF_PRINT_WARNING(VIDEO_DEBUG) << "call to SDL_BlitSurface() failed" << std::endl;
@@ -1071,7 +1062,6 @@ void TextSupervisor::_CacheGlyphs(const uint16 *text, FontProperties *fp)
         glGenTextures(1, &texture);
         TextureManager->_BindTexture(texture);
 
-
         SDL_LockSurface(intermediary);
 
         glTexImage2D(GL_TEXTURE_2D, 0, 4, w, h, 0, GL_RGBA, GL_UNSIGNED_BYTE, intermediary->pixels);
@@ -1079,7 +1069,7 @@ void TextSupervisor::_CacheGlyphs(const uint16 *text, FontProperties *fp)
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-        if(VideoManager->CheckGLError()) {
+        if (VideoManager->CheckGLError()) {
             SDL_FreeSurface(initial);
             SDL_FreeSurface(intermediary);
             IF_PRINT_WARNING(VIDEO_DEBUG) << "an OpenGL error was detected: " << VideoManager->CreateGLErrorString() << std::endl;
@@ -1089,14 +1079,14 @@ void TextSupervisor::_CacheGlyphs(const uint16 *text, FontProperties *fp)
         int minx, maxx;
         int miny, maxy;
         int advance;
-        if(TTF_GlyphMetrics(font, character, &minx, &maxx, &miny, &maxy, &advance) != 0) {
+        if (TTF_GlyphMetrics(font, character, &minx, &maxx, &miny, &maxy, &advance) != 0) {
             SDL_FreeSurface(initial);
             SDL_FreeSurface(intermediary);
             IF_PRINT_WARNING(VIDEO_DEBUG) << "call to TTF_GlyphMetrics() failed" << std::endl;
             return;
         }
 
-        FontGlyph *glyph = new FontGlyph;
+        FontGlyph* glyph = new FontGlyph();
         glyph->texture = texture;
         glyph->min_x = minx;
         glyph->min_y = miny;
@@ -1112,18 +1102,19 @@ void TextSupervisor::_CacheGlyphs(const uint16 *text, FontProperties *fp)
         SDL_FreeSurface(initial);
         SDL_FreeSurface(intermediary);
     }
-} // void TextSupervisor::_CacheGlyphs(const uint16* text, FontProperties* fp)
-
-
+}
 
 void TextSupervisor::_DrawTextHelper(const uint16 *const text, FontProperties *fp, Color text_color)
 {
-    if(*text == 0) {
+    assert(text != NULL);
+    assert(fp != NULL);
+
+    if (*text == 0) {
         IF_PRINT_WARNING(VIDEO_DEBUG) << "invalid argument, empty string" << std::endl;
         return;
     }
 
-    if(fp == NULL) {
+    if (fp == NULL) {
         IF_PRINT_WARNING(VIDEO_DEBUG) << "invalid argument, NULL font properties" << std::endl;
         return;
     }
@@ -1141,7 +1132,7 @@ void TextSupervisor::_DrawTextHelper(const uint16 *const text, FontProperties *f
     VideoManager->PushMatrix();
 
     int font_width, font_height;
-    if(TTF_SizeUNICODE(fp->ttf_font, text, &font_width, &font_height) != 0) {
+    if (TTF_SizeUNICODE(fp->ttf_font, text, &font_width, &font_height) != 0) {
         IF_PRINT_WARNING(VIDEO_DEBUG) << "call to TTF_SizeUNICODE() failed" << std::endl;
         return;
     }
@@ -1151,24 +1142,20 @@ void TextSupervisor::_DrawTextHelper(const uint16 *const text, FontProperties *f
 
     VideoManager->MoveRelative(xoff, yoff);
 
-    VideoManager->EnableVertexArray();
-    VideoManager->EnableTextureCoordArray();
+    // Load the shader program.
+    gl::ShaderProgram* shader_program = VideoManager->LoadShaderProgram(gl::shader_programs::Sprite);
+    assert(shader_program != NULL);
 
-    GLint vertices[8];
-    GLfloat tex_coords[8];
-    glVertexPointer(2, GL_INT, 0, vertices);
-    glTexCoordPointer(2, GL_FLOAT, 0, tex_coords);
-
-    // Iterate through each character in the string and render the character glyphs one at a time
+    // Iterate through each character in the string and render the character glyphs one at a time.
     int xpos = 0;
-    for(const uint16 *glyph = text; *glyph != 0; ++glyph) {
+    for (const uint16 *glyph = text; *glyph != 0; ++glyph) {
         FontGlyph *glyph_info = (*fp->glyph_cache)[*glyph];
 
         int x_hi = glyph_info->width;
         int y_hi = glyph_info->height;
-        if(cs.GetHorizontalDirection() < 0.0f)
+        if (cs.GetHorizontalDirection() < 0.0f)
             x_hi = -x_hi;
-        if(cs.GetVerticalDirection() < 0.0f)
+        if (cs.GetVerticalDirection() < 0.0f)
             y_hi = -y_hi;
 
         int min_x, min_y;
@@ -1180,38 +1167,66 @@ void TextSupervisor::_DrawTextHelper(const uint16 *const text, FontProperties *f
         ty = glyph_info->max_y;
 
         TextureManager->_BindTexture(glyph_info->texture);
-        if(VideoManager->CheckGLError()) {
+        if (VideoManager->CheckGLError()) {
             IF_PRINT_WARNING(VIDEO_DEBUG) << "OpenGL error detected: " << VideoManager->CreateGLErrorString() << std::endl;
             return;
         }
 
-        vertices[0] = min_x;
-        vertices[1] = min_y;
-        vertices[2] = min_x + x_hi;
-        vertices[3] = min_y;
-        vertices[4] = min_x + x_hi;
-        vertices[5] = min_y + y_hi;
-        vertices[6] = min_x;
-        vertices[7] = min_y + y_hi;
-        tex_coords[0] = 0.0f;
-        tex_coords[1] = ty;
-        tex_coords[2] = tx;
-        tex_coords[3] = ty;
-        tex_coords[4] = tx;
-        tex_coords[5] = 0.0f;
-        tex_coords[6] = 0.0f;
-        tex_coords[7] = 0.0f;
+        // Calculate the vertex positions.
+        std::vector<float> vertex_positions;
 
-        glColor4fv((GLfloat *)&text_color);
-        glDrawArrays(GL_QUADS, 0, 4);
+        // Vertex one.
+        vertex_positions.push_back(min_x);
+        vertex_positions.push_back(min_y);
+        vertex_positions.push_back(0.0f);
+
+        // Vertex two.
+        vertex_positions.push_back(min_x + x_hi);
+        vertex_positions.push_back(min_y);
+        vertex_positions.push_back(0.0f);
+
+
+        // Vertex three.
+        vertex_positions.push_back(min_x + x_hi);
+        vertex_positions.push_back(min_y + y_hi);
+        vertex_positions.push_back(0.0f);
+
+
+        // Vertex four.
+        vertex_positions.push_back(min_x);
+        vertex_positions.push_back(min_y + y_hi);
+        vertex_positions.push_back(0.0f);
+
+        // Calculate the vertex texture coordinates.
+        std::vector<float> vertex_texture_coordinates;
+
+        // Vertex one.
+        vertex_texture_coordinates.push_back(0.0f);
+        vertex_texture_coordinates.push_back(ty);
+
+        // Vertex two.
+        vertex_texture_coordinates.push_back(tx);
+        vertex_texture_coordinates.push_back(ty);
+
+        // Vertex three.
+        vertex_texture_coordinates.push_back(tx);
+        vertex_texture_coordinates.push_back(0.0f);
+
+        // Vertex four.
+        vertex_texture_coordinates.push_back(0.0f);
+        vertex_texture_coordinates.push_back(0.0f);
+
+        // Draw the glyph.
+        VideoManager->DrawSpriteTextured(shader_program, vertex_positions, vertex_texture_coordinates, text_color);
 
         xpos += glyph_info->advance;
-    } // for (const uint16* glyph = text; *glyph != 0; glyph++)
+    }
+
+    // Unload the shader program.
+    VideoManager->UnloadShaderProgram();
 
     VideoManager->PopMatrix();
-} // void TextSupervisor::_DrawTextHelper(const uint16* const text, FontProperties* fp, Color color)
-
-
+}
 
 bool TextSupervisor::_RenderText(vt_utils::ustring &string, TextStyle &style, ImageMemory &buffer)
 {
@@ -1329,6 +1344,6 @@ bool TextSupervisor::_RenderText(vt_utils::ustring &string, TextStyle &style, Im
     SDL_FreeSurface(intermediary);
 
     return true;
-} // bool TextSupervisor::_RenderText(vt_utils::ustring& string, TextStyle& style, ImageMemory& buffer)
+}
 
 }  // namespace vt_video

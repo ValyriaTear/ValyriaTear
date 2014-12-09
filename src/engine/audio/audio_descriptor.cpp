@@ -481,7 +481,25 @@ void AudioDescriptor::SeekSample(uint32 sample)
     }
 }
 
+uint32 AudioDescriptor::GetCurrentSampleNumber() const
+{
+    if(_stream) {
+        return _stream->GetCurrentSamplePosition();
+    } else if(_source != NULL) {
+        int32 sample = 0;
+        alGetSourcei(_source->source, AL_SAMPLE_OFFSET, &sample);
+        if(AudioManager->CheckALError()) {
+            IF_PRINT_WARNING(AUDIO_DEBUG) << "Getting a source's offset failed: " << AudioManager->CreateALErrorString() << std::endl;
+        }
+        if (sample < 0)
+            return 0;
+        else
+            return static_cast<int32>(sample);
+    }
 
+    // default behavior
+    return 0;
+}
 
 void AudioDescriptor::SeekSecond(float second)
 {
@@ -562,52 +580,52 @@ void AudioDescriptor::SetDirection(const float direction[3])
     }
 }
 
-void AudioDescriptor::AddOwner(vt_mode_manager::GameMode *gm)
+void AudioDescriptor::AddGameModeOwner(vt_mode_manager::GameMode *gm)
 {
     // Don't accept null references.
     if(!gm)
         return;
 
     // Check for duplicate entries
-    std::vector<vt_mode_manager::GameMode *>::const_iterator it = _owners.begin();
-    for(; it != _owners.end(); ++it) {
+    std::vector<vt_mode_manager::GameMode *>::const_iterator it = _game_mode_owners.begin();
+    for(; it != _game_mode_owners.end(); ++it) {
         if(*it == gm)
             return;
     }
     // Add the new owner in the list
-    _owners.push_back(gm);
+    _game_mode_owners.push_back(gm);
 }
 
-void AudioDescriptor::AddOwners(std::vector<vt_mode_manager::GameMode *>& owners)
+void AudioDescriptor::AddGameModeOwners(std::vector<vt_mode_manager::GameMode *>& owners)
 {
     std::vector<vt_mode_manager::GameMode *>::const_iterator it = owners.begin();
 
     for(; it != owners.end(); ++it) {
-        AddOwner(*it);
+        AddGameModeOwner(*it);
     }
 }
 
-bool AudioDescriptor::RemoveOwner(vt_mode_manager::GameMode *gm)
+bool AudioDescriptor::RemoveGameModeOwner(vt_mode_manager::GameMode* gm)
 {
     if(!gm)
         return false;
 
     // Don't deal with never owned audio descriptors.
-    if(_owners.empty())
+    if(_game_mode_owners.empty())
         return false;
 
     // Check for duplicate entries
-    std::vector<vt_mode_manager::GameMode *>::iterator it = _owners.begin();
-    for(; it != _owners.end();) {
+    std::vector<vt_mode_manager::GameMode *>::iterator it = _game_mode_owners.begin();
+    for(; it != _game_mode_owners.end();) {
         if(*it != gm) {
             ++it;
             continue;
         }
 
         // Remove the owner and check whether the sound can be freed
-        it = _owners.erase(it);
+        it = _game_mode_owners.erase(it);
 
-        if(_owners.empty()) {
+        if(_game_mode_owners.empty()) {
             FreeAudio();
             return true;
         }

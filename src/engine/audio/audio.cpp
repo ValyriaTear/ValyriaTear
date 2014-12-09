@@ -482,7 +482,7 @@ MusicDescriptor *AudioEngine::RetrieveMusic(const std::string &filename)
     }
 }
 
-void AudioEngine::RemoveOwner(vt_mode_manager::GameMode *gm)
+void AudioEngine::RemoveGameModeOwner(vt_mode_manager::GameMode* gm)
 {
     if(!gm)
         return;
@@ -491,7 +491,7 @@ void AudioEngine::RemoveOwner(vt_mode_manager::GameMode *gm)
     std::map<std::string, AudioCacheElement>::iterator it = _audio_cache.begin();
     for(; it != _audio_cache.end();) {
         // If the audio buffers are erased, we can remove the descriptor from the cache.
-        if(it->second.audio->RemoveOwner(gm)) {
+        if(it->second.audio->RemoveGameModeOwner(gm)) {
             delete it->second.audio;
             // Make sure the iterator doesn't get flawed after erase.
             _audio_cache.erase(it++);
@@ -611,7 +611,7 @@ bool AudioEngine::_LoadAudio(const std::string &filename, bool is_music, vt_mode
     if(it != _audio_cache.end()) {
 
         if (gm)
-            it->second.audio->AddOwner(gm);
+            it->second.audio->AddGameModeOwner(gm);
 
         // Return a success since basically everything will keep on working as expected.
         return true;
@@ -625,7 +625,7 @@ bool AudioEngine::_LoadAudio(const std::string &filename, bool is_music, vt_mode
         audio = new SoundDescriptor();
 
     if (gm)
-        audio->AddOwner(gm);
+        audio->AddGameModeOwner(gm);
 
     // (1) If the cache is not full, try loading the audio and adding it in
     if(_audio_cache.size() < _max_cache_size) {

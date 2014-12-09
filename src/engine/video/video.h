@@ -29,14 +29,17 @@
 #ifndef __VIDEO_HEADER__
 #define __VIDEO_HEADER__
 
-#include "engine/video/context.h"
 #include "engine/video/color.h"
+#include "engine/video/context.h"
 #include "engine/video/coord_sys.h"
 #include "engine/video/fade.h"
+#include "engine/video/gl/shader_programs.h"
+#include "engine/video/gl/shaders.h"
+#include "engine/video/gl/transform.h"
 #include "engine/video/image.h"
 #include "engine/video/screen_rect.h"
-#include "engine/video/texture_controller.h"
 #include "engine/video/text.h"
+#include "engine/video/texture_controller.h"
 
 namespace vt_gui {
 class TextBox;
@@ -61,6 +64,19 @@ class ModeEngine;
 //! \brief All calls to the video engine are wrapped in this namespace.
 namespace vt_video
 {
+
+// Forward declarations.
+namespace gl
+{
+
+class Shader;
+class ShaderProgram;
+class SpriteColored;
+class SpriteParticleSystem;
+class SpriteTextured;
+
+} // namespace gl
+
 class VideoEngine;
 
 //! \brief The singleton pointer for the engine, responsible for all video operations.
@@ -340,20 +356,36 @@ public:
     void SetViewport(float x, float y, float width, float height);
 
     //! Perform the OpenGL corresponding calls, but only if necessary.
-    void EnableAlphaTest();
-    void DisableAlphaTest();
     void EnableBlending();
     void DisableBlending();
     void EnableStencilTest();
     void DisableStencilTest();
     void EnableTexture2D();
     void DisableTexture2D();
-    void EnableColorArray();
-    void DisableColorArray();
-    void EnableVertexArray();
-    void DisableVertexArray();
-    void EnableTextureCoordArray();
-    void DisableTextureCoordArray();
+
+    //! \brief Loads a shader program.
+    gl::ShaderProgram* LoadShaderProgram(const gl::shader_programs::ShaderPrograms& shader_program);
+
+    //! \brief Unloads the currently loaded shader program.
+    void UnloadShaderProgram();
+
+    //! \brief Draws a colored sprite.
+    void DrawSpriteColored(gl::ShaderProgram* shader_program,
+                           const std::vector<float>& vertex_positions,
+                           const std::vector<float>& vertex_colors);
+
+    //! \brief Draws a particle system.
+    void DrawSpriteParticleSystem(gl::ShaderProgram* shader_program,
+                                  float* vertex_positions,
+                                  float* vertex_colors,
+                                  float* vertex_texture_coordinates,
+                                  unsigned number_of_vertices);
+
+    //! \brief Draws a textured sprite.
+    void DrawSpriteTextured(gl::ShaderProgram* shader_program,
+                            const std::vector<float>& vertex_positions,
+                            const std::vector<float>& vertex_texture_coordinates,
+                            const Color& color);
 
     /** \brief Enables the scissoring effect in the video engine
     *** Scissoring is where you can specify a rectangle of the screen which is affected
@@ -451,8 +483,8 @@ public:
     //! \brief Restores the most recently pushed video engine state
     void PopState();
 
-    /** \brief Rotates images counterclockwise by the specified number of radians
-    *** \param angle How many radians to perform the rotation by
+    /** \brief Rotates images counterclockwise by the specified number of degrees.
+    *** \param angle How many degrees to perform the rotation by.
     *** \note You should understand how transformation matrices work in OpenGL
     *** prior to using this function.
     **/
@@ -465,11 +497,6 @@ public:
     *** prior to using this function.
     **/
     void Scale(float x, float y);
-
-    /** \brief Sets the OpenGL transform to the contents of 4x4 matrix
-    *** \param matrix A pointer to an array of 16 float values that form a 4x4 transformation matrix
-    **/
-    void SetTransform(float matrix[16]);
 
     // ----------  Image operation methods
 
@@ -558,32 +585,29 @@ public:
         return _brightness_value;
     }
 
-    /** \brief Draws a colored line between two points
-    *** \param x1 The x coordinate of the first point
-    *** \param y1 The y coordinate of the first point
-    *** \param x2 The x coordinate of the second point
-    *** \param y2 The y coordinate of the second point
-    *** \param width The width/thickness of the line to draw, in pixels
-    *** \param color The color to draw the line in
-    *** \todo Width argument should be an unsigned, non-zero integer
+    /** \brief Draws a colored line between two points.
+    *** \param x1 The x coordinate of the first point.
+    *** \param y1 The y coordinate of the first point.
+    *** \param width1 The width/thickness of the first point.
+    *** \param x2 The x coordinate of the second point.
+    *** \param y2 The y coordinate of the second point.
+    *** \param width2 The width/thickness of the second point.
+    *** \param color The color to draw the line in.
     **/
-    void DrawLine(float x1, float y1, float x2, float y2, float width, const Color &color);
+    void DrawLine(float x1, float y1, unsigned width1, float x2, float y2, unsigned width2, const Color &color);
 
-    /** \brief draws a line grid. Used by map editor to draw a grid over all
-     *         the tiles. This function will start at (x,y), and go to
-     *         (xMax, yMax), with horizontal cell spacing of xstep and
-     *         vertical cell spacing of ystep. The final parameter is just the
-     *         color the lines should be drawn
+    /** \brief Draws a grid of lines grid. Used by map editor to draw a grid over all the tiles.
      *
-     *  \note  xMax and yMax are not inputs to the function- they are taken
-     *         from the current coord sys
-     * \param x x coordinate to start grid at
-     * \param y y coordinate to start grid at
-     * \param x_step width of grid squares
-     * \param y_step height of grid squares
-     * \param c color of the grid
+     * \param left The left coordinate of the grid.
+     * \param top The top coordinate of the grid.
+     * \param right The right coordinate of the grid.
+     * \param bottom The bottom coordinate of the grid.
+     * \param width_cell_horizontal The horizontal width of the grid's cells.
+     * \param width_cell_vertical The vertical width of the grid's cells.
+     * \param width_line The width of the grid's lines.
+     * \param color The color of the grid.
      */
-    void DrawGrid(float x, float y, float x_step, float y_step, const Color &c);
+    void DrawGrid(float left, float top, float right, float bottom, float width_cell_horizontal, float width_cell_vertical, unsigned width_line, const Color& color);
 
     /** \brief Draws a solid rectangle of a given color.
     *** Draws a solid rectangle of a given color. For that, the lower-left corner
@@ -595,16 +619,15 @@ public:
     **/
     void DrawRectangle(float width, float height, const Color &color);
 
-    /** \brief Draws an outline of a rectangle that is not filled in
-    *** \param left The x coordinate corresponding to the left side of the rectangle
-    *** \param right The x coordinate corresponding to the right side of the rectangle
-    *** \param bottom The y coordinate corresponding to the bottom side of the rectangle
-    *** \param top The y coordinate corresponding to the top side of the rectangle
-    *** \param width The width/thickness of the outline to draw, in pixels
-    *** \param color The color to draw the outline in
-    *** \todo Width argument should be an unsigned, non-zero integer
+    /** \brief Draws an outline of a rectangle that is not filled in.
+    *** \param left The x coordinate corresponding to the left side of the rectangle.
+    *** \param right The x coordinate corresponding to the right side of the rectangle.
+    *** \param bottom The y coordinate corresponding to the bottom side of the rectangle.
+    *** \param top The y coordinate corresponding to the top side of the rectangle.
+    *** \param width The width/thickness of the outline to draw.
+    *** \param color The color to draw the outline in.
     **/
-    void DrawRectangleOutline(float x1, float y1, float x2, float y2, float width, const Color &color);
+    void DrawRectangleOutline(float x1, float y1, float x2, float y2, unsigned width, const Color &color);
 
     /** \brief Takes a screenshot and saves the image to a file
     *** \param filename The name of the file, if any, to save the screenshot as. Default is "screenshot.png"
@@ -696,23 +719,19 @@ private:
     //! \brief Holds the most recently fetched OpenGL error code
     GLenum _gl_error_code;
 
-    //! \brief those members are used to activate/deactivate the GL state only when needed.
+    //! \brief These members are used to activate/deactivate the GL state only when needed.
+
     //! \brief Holds whether the GL_BLEND state is activated. Used to optimize the drawing logic
     bool _gl_blend_is_active;
+
     //! \brief Holds whether the GL_TEXTURE_2D state is activated. Used to optimize the drawing logic
     bool _gl_texture_2d_is_active;
-    //! \brief Holds whether the GL_ALPHA_TEST state is activated. Used to optimize the drawing logic
-    bool _gl_alpha_test_is_active;
+
     //! \brief Holds whether the GL_STENCIL_STATE state is activated. Used to optimize the drawing logic
     bool _gl_stencil_test_is_active;
+
     //! \brief Holds whether the GL_SCISSOR_TEST state is activated. Used to optimize the drawing logic
     bool _gl_scissor_test_is_active;
-    //! \brief Holds whether the GL_VERTEX_ARRAY state is activated. Used to optimize the drawing logic
-    bool _gl_vertex_array_is_activated;
-    //! \brief Holds whether the GL_VERTEX_ARRAY state is activated. Used to optimize the drawing logic
-    bool _gl_color_array_is_activated;
-    //! \brief Holds whether the GL_VERTEX_ARRAY state is activated. Used to optimize the drawing logic
-    bool _gl_texture_coord_array_is_activated;
 
     //! \brief The x/y offsets, width and height of the current viewport (the drawn part), in pixels
     //! \note the viewport is different from the screen size when in non-4:3 modes.
@@ -773,8 +792,29 @@ private:
     //! Image used for rendering rectangles
     StillImage _rectangle_image;
 
-    //! stack containing context, i.e. draw flags plus coord sys. Context is pushed and popped by any VideoEngine functions that clobber these settings
+    //! The stack containing contexts, i.e. draw flags plus coord sys. Context is pushed and popped by any VideoEngine functions that clobber these settings
     std::stack<private_video::Context> _context_stack;
+
+    //! The projection matrix.
+    gl::Transform _projection;
+
+    //! The stack containing transforms. Pushed and popped by PushMatrix/PopMatrix.
+    std::stack<gl::Transform> _transform_stack;
+
+    //! The OpenGL buffers and objects to draw a colored quad.
+    gl::SpriteColored* _sprite_colored;
+
+    //! The OpenGL buffers and objects to draw a particle system.
+    gl::SpriteParticleSystem* _sprite_particle_system;
+
+    //! The OpenGL buffers and objects to draw a textured quad.
+    gl::SpriteTextured* _sprite_textured;
+
+    //! The OpenGL shaders.
+    std::map<gl::shaders::Shaders, gl::Shader*> _shaders;
+
+    //! The OpenGL shader programs.
+    std::map<gl::shader_programs::ShaderPrograms, gl::ShaderProgram*> _programs;
 
     //! check to see if the VideoManager has already been setup.
     bool _initialized;
@@ -814,8 +854,8 @@ private:
     void _UpdateFPS();
     //! \brief Draws the current average FPS to the screen.
     void _DrawFPS();
-}; // class VideoEngine : public vt_utils::Singleton<VideoEngine>
+};
 
-}  // namespace vt_video
+} // namespace vt_video
 
 #endif // __VIDEO_HEADER__

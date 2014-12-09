@@ -210,8 +210,10 @@ public:
     **/
     std::vector<vt_video::StillImage> character_action_buttons;
 
-    //! \brief The music played during the battle
-    vt_audio::MusicDescriptor battle_music;
+    //! \brief The music filename played during the battle.
+    //! We only keep a string because this music is handled by the audio manager
+    //! for better cross game modes support.
+    std::string battle_music_filename;
 
     //! \brief The music played after the player has won the battle
     vt_audio::MusicDescriptor victory_music;
@@ -601,6 +603,9 @@ private:
 
     //! \brief Initializes all data necessary for the battle to begin
     void _Initialize();
+
+    //! \brief Set the battle music state
+    void _ResetMusicState();
 
     /** \brief Sets the origin location of all character and enemy actors
     *** The location of the actors in both parties is dependent upon the number and physical size of the actor

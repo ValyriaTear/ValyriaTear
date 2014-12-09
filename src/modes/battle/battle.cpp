@@ -68,9 +68,9 @@ namespace private_battle
 
 // Filenames of the default music that is played when no specific music is requested
 //@{
-const char *DEFAULT_BATTLE_MUSIC   = "mus/heroism-OGA-Edward-J-Blakeley.ogg";
-const char *DEFAULT_VICTORY_MUSIC  = "mus/Fanfare.ogg";
-const char *DEFAULT_DEFEAT_MUSIC   = "mus/Battle_lost-OGA-Mumu.ogg";
+const std::string DEFAULT_BATTLE_MUSIC   = "mus/heroism-OGA-Edward-J-Blakeley.ogg";
+const std::string DEFAULT_VICTORY_MUSIC  = "mus/Fanfare.ogg";
+const std::string DEFAULT_DEFEAT_MUSIC   = "mus/Battle_lost-OGA-Mumu.ogg";
 //@}
 
 BattleMedia::BattleMedia()
@@ -112,6 +112,11 @@ BattleMedia::BattleMedia()
     character_SP_text.SetStyle(TextStyle("text18", Color::white));
     character_SP_text.SetText(Translate("SP"));
 
+    // Set the default battle music
+    battle_music_filename = DEFAULT_BATTLE_MUSIC;
+    if (!AudioManager->LoadMusic(DEFAULT_BATTLE_MUSIC))
+        IF_PRINT_WARNING(BATTLE_DEBUG) << "failed to load battle music file: " << DEFAULT_BATTLE_MUSIC << std::endl;
+
     if(victory_music.LoadAudio(DEFAULT_VICTORY_MUSIC) == false)
         IF_PRINT_WARNING(BATTLE_DEBUG) << "failed to load victory music file: " << DEFAULT_VICTORY_MUSIC << std::endl;
 
@@ -130,7 +135,7 @@ void BattleMedia::Update()
 }
 
 
-void BattleMedia::SetBackgroundImage(const std::string &filename)
+void BattleMedia::SetBackgroundImage(const std::string& filename)
 {
     if(background_image.Load(filename) == false) {
         IF_PRINT_WARNING(BATTLE_DEBUG) << "failed to load background image: " << filename << std::endl;
@@ -138,11 +143,11 @@ void BattleMedia::SetBackgroundImage(const std::string &filename)
 }
 
 
-void BattleMedia::SetBattleMusic(const std::string &filename)
+void BattleMedia::SetBattleMusic(const std::string& filename)
 {
-    if(battle_music.LoadAudio(filename) == false) {
-        IF_PRINT_WARNING(BATTLE_DEBUG) << "failed to load music file: " << filename << std::endl;
-    }
+    battle_music_filename = filename;
+    if (!AudioManager->LoadMusic(filename))
+        IF_PRINT_WARNING(BATTLE_DEBUG) << "failed to load battle music file: " << filename << std::endl;
 }
 
 
@@ -253,18 +258,44 @@ BattleMode::~BattleMode()
     _ready_queue.clear();
 } // BattleMode::~BattleMode()
 
+void BattleMode::_ResetMusicState()
+{
+    MusicDescriptor* music = AudioManager->RetrieveMusic(GetMedia().battle_music_filename);
+    MusicDescriptor* active_music = AudioManager->GetActiveMusic();
+
+    // Stop the current music if it's not the right one.
+    if (active_music != NULL && music != active_music)
+        active_music->FadeOut(500);
+
+    // If there is no map music or the music is already in the correct state, don't do anything.
+    if (!music)
+        return;
+
+    switch(music->GetState()) {
+    case AUDIO_STATE_FADE_IN:
+    case AUDIO_STATE_PLAYING:
+        break;
+    case AUDIO_STATE_UNLOADED:
+    case AUDIO_STATE_FADE_OUT:
+    case AUDIO_STATE_PAUSED:
+    case AUDIO_STATE_STOPPED:
+    default:
+        // In case the music volume was modified, we fade it back in smoothly
+        if(music->GetVolume() < 1.0f)
+            music->FadeIn(1000);
+        else
+            music->Play();
+        break;
+    }
+}
+
 void BattleMode::Reset()
 {
     _current_instance = this;
 
     VideoManager->SetStandardCoordSys();
 
-    // Load the default battle music track if no other music has been added
-    if(_battle_media.battle_music.GetState() == AUDIO_STATE_UNLOADED) {
-        if(!_battle_media.battle_music.LoadAudio(DEFAULT_BATTLE_MUSIC)) {
-            IF_PRINT_WARNING(BATTLE_DEBUG) << "failed to load default battle music: " << DEFAULT_BATTLE_MUSIC << std::endl;
-        }
-    }
+    _ResetMusicState();
 
     if(_state == BATTLE_STATE_INVALID)
         _Initialize();
@@ -307,8 +338,9 @@ void BattleMode::RestartBattle()
     delete _command_supervisor;
     _command_supervisor = new CommandSupervisor();
 
-    _battle_media.battle_music.Rewind();
-    _battle_media.battle_music.Play();
+    MusicDescriptor* music = AudioManager->RetrieveMusic(GetMedia().battle_music_filename);
+    music->Rewind();
+    music->Play();
 
     ChangeState(BATTLE_STATE_INITIAL);
 }
@@ -593,8 +625,9 @@ void BattleMode::ChangeState(BATTLE_STATE new_state)
         _actor_state_paused = false;
         // Reset the stamina icons alpha
         _stamina_icon_alpha = 1.0f;
-        // Start the music
-        _battle_media.battle_music.FadeIn(1000);
+
+        // Start the music if needed
+        _ResetMusicState();
 
         // Disable potential previous light effects
         VideoManager->DisableFadeEffect();
@@ -1264,8 +1297,10 @@ void TransitionToBattleMode::Reset()
     _transition_timer.Initialize(1500, SYSTEM_TIMER_NO_LOOPS);
     _transition_timer.Run();
 
-    // Stop the map music
-    AudioManager->StopActiveMusic();
+    // Stop the current map music if it is not the same
+    std::string battle_music = _BM->GetMedia().battle_music_filename;
+    if (battle_music != AudioManager->GetActiveMusic()->GetFilename())
+        AudioManager->GetActiveMusic()->FadeOut(2000);
 
     // Play a random encounter sound
     if (_is_boss) {
