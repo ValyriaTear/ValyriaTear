@@ -481,7 +481,25 @@ void AudioDescriptor::SeekSample(uint32 sample)
     }
 }
 
+uint32 AudioDescriptor::GetCurrentSampleNumber() const
+{
+    if(_stream) {
+        return _stream->GetCurrentSamplePosition();
+    } else if(_source != NULL) {
+        int32 sample = 0;
+        alGetSourcei(_source->source, AL_SAMPLE_OFFSET, &sample);
+        if(AudioManager->CheckALError()) {
+            IF_PRINT_WARNING(AUDIO_DEBUG) << "Getting a source's offset failed: " << AudioManager->CreateALErrorString() << std::endl;
+        }
+        if (sample < 0)
+            return 0;
+        else
+            return static_cast<int32>(sample);
+    }
 
+    // default behavior
+    return 0;
+}
 
 void AudioDescriptor::SeekSecond(float second)
 {

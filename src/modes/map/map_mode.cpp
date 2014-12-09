@@ -80,6 +80,8 @@ MapMode::MapMode(const std::string& data_filename, const std::string& script_fil
     _show_gui(true),
     _run_stamina(stamina),
     _gui_alpha(0.0f),
+    _music_audio_state(AUDIO_STATE_UNLOADED),
+    _music_audio_sample(0),
     _minimap(NULL),
     _show_minimap(false),
     _menu_enabled(true),
@@ -174,7 +176,8 @@ void MapMode::Deactivate()
     // Store the music state (but only once)
     MusicDescriptor *active_music = AudioManager->GetActiveMusic();
     _music_filename = active_music ? active_music->GetFilename() : std::string();
-    _audio_state = active_music ? active_music->GetState() : AUDIO_STATE_UNLOADED;
+    _music_audio_state = active_music ? active_music->GetState() : AUDIO_STATE_UNLOADED;
+    _music_audio_sample = active_music ? active_music->GetCurrentSampleNumber() : 0;
 
     // Store the status effects state
     // First stores the currently applied active status effects on characters.
@@ -225,22 +228,23 @@ void MapMode::Reset()
 
 void MapMode::_ResetMusicState()
 {
-    MusicDescriptor *music = AudioManager->RetrieveMusic(_music_filename);
-    MusicDescriptor *active_music = AudioManager->GetActiveMusic();
+    MusicDescriptor* music = AudioManager->RetrieveMusic(_music_filename);
+    MusicDescriptor* active_music = AudioManager->GetActiveMusic();
+
     // Stop the current music if it's not the right one.
-    if (active_music && music != active_music)
+    if (active_music != NULL && music != active_music)
         active_music->FadeOut(500);
 
     // If there is no map music or the music is already in the correct state, don't do anything.
-    if (!music || music->GetState() == _audio_state)
+    if (!music || music->GetState() == _music_audio_state)
         return;
 
-    switch(_audio_state) {
+    switch(_music_audio_state) {
     case AUDIO_STATE_FADE_IN:
     case AUDIO_STATE_PLAYING:
     default:
-        // TODO: Seek the music point to not restart it from the beginning.
-        // music->SeekSecond(_audio_time_offset);
+        // Seek the music point to not restart it from the beginning.
+        music->SeekSample(_music_audio_sample);
         // In case the music volume was modified, we fade it back in smoothly
         if(music->GetVolume() < 1.0f)
             music->FadeIn(1000);
@@ -710,7 +714,7 @@ bool MapMode::_Load()
     if(!_music_filename.empty() && !AudioManager->LoadMusic(_music_filename, this))
         PRINT_WARNING << "Failed to load map music: " << _music_filename << std::endl;
     else if (!_music_filename.empty())
-        _audio_state = AUDIO_STATE_PLAYING; // Set the default music state to "playing".
+        _music_audio_state = AUDIO_STATE_PLAYING; // Set the default music state to "playing".
 
     // Call the map script's custom load function and get a reference to all other script function pointers
     ScriptObject map_table(luabind::from_stack(_map_script.GetLuaState(), vt_script::private_script::STACK_TOP));

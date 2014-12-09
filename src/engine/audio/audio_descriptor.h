@@ -285,6 +285,9 @@ public:
     **/
     void SeekSecond(float second);
 
+    //! \brief Gets the current sample number (track offset)
+    uint32 GetCurrentSampleNumber() const;
+
     //! \brief Returns the volume level for this audio
     float GetVolume() const {
         return _volume;

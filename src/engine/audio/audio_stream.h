@@ -71,6 +71,11 @@ public:
     **/
     void Seek(uint32 sample);
 
+    //! \brief Tells the current sample position.
+    uint32 GetCurrentSamplePosition() const {
+        return _read_position;
+    }
+
     //! \brief Returns true if the audio stream is looping
     bool IsLooping() const {
         return _looping;

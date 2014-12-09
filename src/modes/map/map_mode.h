@@ -597,7 +597,8 @@ private:
     *** NOTE: Other audio handling will have to be used through scripting.
     **/
     std::string _music_filename;
-    vt_audio::AUDIO_STATE _audio_state;
+    vt_audio::AUDIO_STATE _music_audio_state;
+    uint32 _music_audio_sample;
 
     //! \brief the minimap for the current map instance
     private_map::Minimap *_minimap;
