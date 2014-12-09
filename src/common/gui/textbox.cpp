@@ -335,7 +335,7 @@ void TextBox::_ReformatText()
     } else { // (_text_xalign == VIDEO_X_RIGHT)
         _text_xpos = right;
     }
-} // void TextBox::_ReformatText()
+}
 
 float TextBox::_CalculateTextHeight()
 {
@@ -348,9 +348,6 @@ float TextBox::_CalculateTextHeight()
     FontProperties* fp = _text_style.GetFontProperties();
     return static_cast<float>(fp->height + fp->line_skip * (static_cast<float>(_text.size()) - 1));
 }
-
-
-
 
 void TextBox::_DrawTextLines(float text_x, float text_y, ScreenRect scissor_rect)
 {
@@ -538,22 +535,22 @@ void TextBox::_DEBUG_DrawOutline()
     float bottom = 0.0f;
     float top    = _height;
 
-    // Draw the outline of the textbox
+    // Draw the outline of the textbox.
     VideoManager->Move(0.0f, 0.0f);
     CalculateAlignedRect(left, right, bottom, top);
     VideoManager->DrawRectangleOutline(left, right, bottom, top, 3, alpha_black);
     VideoManager->DrawRectangleOutline(left, right, bottom, top, 1, alpha_white);
 
-    // Draw the inner boundaries for each line of text
+    // Draw the inner boundaries for each line of text.
     FontProperties* fp = _text_style.GetFontProperties();
     uint32 possible_lines = _height / fp->line_skip;
     float line_height = fp->line_skip * -VideoManager->_current_context.coordinate_system.GetVerticalDirection();
     float line_offset = top;
 
-    for(uint32 i = 1; i <= possible_lines; ++i) {
+    for (uint32 i = 1; i <= possible_lines; ++i) {
         line_offset += line_height;
-        VideoManager->DrawLine(left, line_offset, right, line_offset, 3, alpha_black);
-        VideoManager->DrawLine(left, line_offset, right, line_offset, 1, alpha_white);
+        VideoManager->DrawLine(left, line_offset, 3, right, line_offset, 3, alpha_black);
+        VideoManager->DrawLine(left, line_offset, 1, right, line_offset, 1, alpha_white);
     }
 }
 

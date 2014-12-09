@@ -18,13 +18,19 @@
 #include "utils/utils_pch.h"
 #include "engine/video/video.h"
 
+#include "engine/mode_manager.h"
 #include "engine/script/script_read.h"
-
 #include "engine/system.h"
+#include "engine/video/gl/shader.h"
+#include "engine/video/gl/shader_definitions.h"
+#include "engine/video/gl/shader_program.h"
+#include "engine/video/gl/shader_programs.h"
+#include "engine/video/gl/shaders.h"
+#include "engine/video/gl/sprite_colored.h"
+#include "engine/video/gl/sprite_particle_system.h"
+#include "engine/video/gl/sprite_textured.h"
 
 #include "utils/utils_strings.h"
-
-#include "engine/mode_manager.h"
 
 using namespace vt_utils;
 using namespace vt_video::private_video;
@@ -62,7 +68,6 @@ void RotatePoint(float &x, float &y, float angle)
     y = y * cos_angle + original_x * sin_angle;
 }
 
-
 //-----------------------------------------------------------------------------
 // VideoEngine class
 //-----------------------------------------------------------------------------
@@ -76,12 +81,8 @@ VideoEngine::VideoEngine():
     _gl_error_code(GL_NO_ERROR),
     _gl_blend_is_active(false),
     _gl_texture_2d_is_active(false),
-    _gl_alpha_test_is_active(false),
     _gl_stencil_test_is_active(false),
     _gl_scissor_test_is_active(false),
-    _gl_vertex_array_is_activated(false),
-    _gl_color_array_is_activated(false),
-    _gl_texture_coord_array_is_activated(false),
     _viewport_x_offset(0),
     _viewport_y_offset(0),
     _viewport_width(0),
@@ -99,6 +100,9 @@ VideoEngine::VideoEngine():
     _temp_width(0),
     _temp_height(0),
     _smooth_pixel_art(true),
+    _sprite_colored(NULL),
+    _sprite_particle_system(NULL),
+    _sprite_textured(NULL),
     _initialized(false)
 {
     _current_context.blend = 0;
@@ -113,11 +117,11 @@ VideoEngine::VideoEngine():
                                          VIDEO_STANDARD_RES_HEIGHT);
     _current_context.scissoring_enabled = false;
 
+    _transform_stack.push(gl::Transform());
+
     for(uint32 sample = 0; sample < FPS_SAMPLES; sample++)
         _fps_samples[sample] = 0;
 }
-
-
 
 void VideoEngine::_UpdateFPS()
 {
@@ -192,10 +196,43 @@ void VideoEngine::_DrawFPS()
     Move(930.0f, 40.0f); // Upper right hand corner of the screen
     _FPS_textimage->Draw();
     PopState();
-} // void GUISystem::_DrawFPS()
+}
 
 VideoEngine::~VideoEngine()
 {
+    // Clean up the sprites.
+    if (_sprite_colored) {
+        delete _sprite_colored;
+        _sprite_colored = NULL;
+    }
+
+    if (_sprite_particle_system) {
+        delete _sprite_particle_system;
+        _sprite_particle_system = NULL;
+    }
+
+    if (_sprite_textured) {
+        delete _sprite_textured;
+        _sprite_textured = NULL;
+    }
+
+    // Clean up the shaders and shader programs.
+    glUseProgram(0);
+
+    for (std::map<gl::shader_programs::ShaderPrograms, gl::ShaderProgram*>::iterator i = _programs.begin(); i != _programs.end(); ++i)
+    {
+        delete i->second;
+        i->second = NULL;
+    }
+    _programs.clear();
+
+    for (std::map<gl::shaders::Shaders, gl::Shader*>::iterator i = _shaders.begin(); i != _shaders.end(); ++i)
+    {
+        delete i->second;
+        i->second = NULL;
+    }
+    _shaders.clear();
+
     TextManager->SingletonDestroy();
 
     _default_menu_cursor.Clear();
@@ -207,44 +244,168 @@ VideoEngine::~VideoEngine()
 
 bool VideoEngine::SingletonInitialize()
 {
-    // check to see if the singleton is already initialized
-    if(_initialized)
+    // Check to see if the singleton is already initialized.
+    if (_initialized)
         return true;
 
-    if(SDL_InitSubSystem(SDL_INIT_VIDEO) < 0) {
+    if (SDL_InitSubSystem(SDL_INIT_VIDEO) < 0) {
         PRINT_ERROR << "SDL video initialization failed" << std::endl;
         return false;
     }
 
-
-
     return true;
-} // bool VideoEngine::SingletonInitialize()
-
-
+}
 
 bool VideoEngine::FinalizeInitialization()
 {
+    // Load GLEW.
+    GLenum err = glewInit();
+    if (GLEW_OK != err) {
+        PRINT_ERROR << "Unable to initialize GLEW." << std::endl;
+        return false;
+    }
+
+    // Create the sprite buffer classes.
+    _sprite_colored = new gl::SpriteColored();
+    _sprite_particle_system = new gl::SpriteParticleSystem();
+    _sprite_textured = new gl::SpriteTextured();
+
+    //
+    // Create the programmable pipeline.
+    //
+
+    // Create the shaders.
+    gl::Shader* particle_vertex             = new gl::Shader(GL_VERTEX_SHADER, gl::shader_definitions::PARTICLE_VERTEX);
+    gl::Shader* solid_vertex                = new gl::Shader(GL_VERTEX_SHADER, gl::shader_definitions::SOLID_VERTEX);
+    gl::Shader* solid_per_vertex            = new gl::Shader(GL_VERTEX_SHADER, gl::shader_definitions::SOLID_PER_VERTEX);
+    gl::Shader* sprite_vertex               = new gl::Shader(GL_VERTEX_SHADER, gl::shader_definitions::SPRITE_VERTEX);
+    gl::Shader* particle_fragment           = new gl::Shader(GL_FRAGMENT_SHADER, gl::shader_definitions::PARTICLE_FRAGMENT);
+    gl::Shader* solid_fragment              = new gl::Shader(GL_FRAGMENT_SHADER, gl::shader_definitions::SOLID_FRAGMENT);
+    gl::Shader* solid_per_fragment          = new gl::Shader(GL_FRAGMENT_SHADER, gl::shader_definitions::SOLID_PER_FRAGMENT);
+    gl::Shader* sprite_fragment             = new gl::Shader(GL_FRAGMENT_SHADER, gl::shader_definitions::SPRITE_FRAGMENT);
+    gl::Shader* sprite_grayscale_fragment   = new gl::Shader(GL_FRAGMENT_SHADER, gl::shader_definitions::SPRITE_GRAYSCALE_FRAGMENT);
+
+    // Store the shaders.
+    _shaders[gl::shaders::VertexParticle] = particle_vertex;
+    _shaders[gl::shaders::VertexSolid] = solid_vertex;
+    _shaders[gl::shaders::VertexSolidPer] = solid_per_vertex;
+    _shaders[gl::shaders::VertexSprite] = sprite_vertex;
+    _shaders[gl::shaders::FragmentParticle] = particle_fragment;
+    _shaders[gl::shaders::FragmentSolid] = solid_fragment;
+    _shaders[gl::shaders::FragmentSolidPer] = solid_per_fragment;
+    _shaders[gl::shaders::FragmentSprite] = sprite_fragment;
+    _shaders[gl::shaders::FragmentGrayscaleSprite] = sprite_grayscale_fragment;
+
+    //
+    // Create the shader programs.
+    //
+
+    //
+    // Create the particle programs.
+    //
+
+    std::vector<std::string> attributes;
+    attributes.push_back("in_Vertex");
+    attributes.push_back("in_Color");
+    attributes.push_back("in_TexCoords");
+
+    std::vector<std::string> uniforms;
+    uniforms.push_back("u_Model");
+    uniforms.push_back("u_View");
+    uniforms.push_back("u_Projection");
+    uniforms.push_back("u_Texture");
+
+    gl::ShaderProgram* particle_program = new gl::ShaderProgram(*(_shaders[gl::shaders::VertexParticle]),
+                                                                *(_shaders[gl::shaders::FragmentParticle]),
+                                                                attributes, uniforms);
+
+    //
+    // Create the solid programs.
+    //
+
+    attributes.clear();
+    attributes.push_back("in_Vertex");
+
+    uniforms.clear();
+    uniforms.push_back("u_Model");
+    uniforms.push_back("u_View");
+    uniforms.push_back("u_Projection");
+    uniforms.push_back("u_Color");
+
+    gl::ShaderProgram* solid_program = new gl::ShaderProgram(*(_shaders[gl::shaders::VertexSolid]),
+                                                             *(_shaders[gl::shaders::FragmentSolid]),
+                                                             attributes, uniforms);
+
+    //
+    // Create the solid per vertex programs.
+    //
+
+    attributes.clear();
+    attributes.push_back("in_Vertex");
+    attributes.push_back("in_Color");
+
+    uniforms.clear();
+    uniforms.push_back("u_Model");
+    uniforms.push_back("u_View");
+    uniforms.push_back("u_Projection");
+
+    gl::ShaderProgram* solid_per_vertex_program = new gl::ShaderProgram(*(_shaders[gl::shaders::VertexSolidPer]),
+                                                                        *(_shaders[gl::shaders::FragmentSolidPer]),
+                                                                        attributes, uniforms);
+
+    //
+    // Create the sprite programs.
+    //
+
+    attributes.clear();
+    attributes.push_back("in_Vertex");
+    attributes.push_back("in_TexCoords");
+
+    uniforms.clear();
+    uniforms.push_back("u_Model");
+    uniforms.push_back("u_View");
+    uniforms.push_back("u_Projection");
+    uniforms.push_back("u_Color");
+    uniforms.push_back("u_Texture");
+
+    gl::ShaderProgram* sprite_program = new gl::ShaderProgram(*(_shaders[gl::shaders::VertexSprite]),
+                                                              *(_shaders[gl::shaders::FragmentSprite]),
+                                                              attributes, uniforms);
+
+    gl::ShaderProgram* sprite_grayscale_program = new gl::ShaderProgram(*(_shaders[gl::shaders::VertexSprite]),
+                                                                        *(_shaders[gl::shaders::FragmentGrayscaleSprite]),
+                                                                        attributes, uniforms);
+
+    //
+    // Store the shader programs.
+    //
+
+    _programs[gl::shader_programs::Particle] = particle_program;
+    _programs[gl::shader_programs::Solid] = solid_program;
+    _programs[gl::shader_programs::SolidPerVertex] = solid_per_vertex_program;
+    _programs[gl::shader_programs::Sprite] = sprite_program;
+    _programs[gl::shader_programs::SpriteGrayscale] = sprite_grayscale_program;
+
     // Create instances of the various sub-systems
     TextureManager = TextureController::SingletonCreate();
     TextManager = TextSupervisor::SingletonCreate();
 
-    // Initialize all sub-systems
-    if(TextureManager->SingletonInitialize() == false) {
+    // Initialize all sub-systems.
+    if (TextureManager->SingletonInitialize() == false) {
         PRINT_ERROR << "could not initialize texture manager" << std::endl;
         return false;
     }
 
-    if(TextManager->SingletonInitialize() == false) {
+    if (TextManager->SingletonInitialize() == false) {
         PRINT_ERROR << "could not initialize text manager" << std::endl;
         return false;
     }
 
-    // Prepare the screen for rendering
+    // Prepare the screen for rendering.
     Clear();
 
     // Empty image used to draw colored rectangles.
-    if(_rectangle_image.Load("") == false) {
+    if (_rectangle_image.Load("") == false) {
         PRINT_ERROR << "_rectangle_image could not be created" << std::endl;
         return false;
     }
@@ -252,8 +413,6 @@ bool VideoEngine::FinalizeInitialization()
     _initialized = true;
     return true;
 }
-
-
 
 void VideoEngine::SetInitialResolution(int32 width, int32 height)
 {
@@ -376,12 +535,12 @@ void VideoEngine::Update()
 
 void VideoEngine::DrawDebugInfo()
 {
-    if(TextureManager->debug_current_sheet >= 0)
+    if (TextureManager->debug_current_sheet >= 0)
         TextureManager->DEBUG_ShowTexSheet();
 
     if (_fps_display)
         _DrawFPS();
-} // void VideoEngine::Draw()
+}
 
 bool VideoEngine::CheckGLError() {
     if(!VIDEO_DEBUG)
@@ -464,15 +623,11 @@ bool VideoEngine::ApplySettings()
         }
     }
 
-    // Clear GL state, after SDL_SetVideoMode() for OSX compatibility
+    // Clear the OpenGL state, after SDL_SetVideoMode(), for OS X compatibility.
     DisableBlending();
     DisableTexture2D();
-    DisableAlphaTest();
     DisableStencilTest();
     DisableScissoring();
-    DisableVertexArray();
-    DisableColorArray();
-    DisableTextureCoordArray();
 
     // Turn off writing to the depth buffer
     glDepthMask(GL_FALSE);
@@ -487,7 +642,7 @@ bool VideoEngine::ApplySettings()
         TextureManager->ReloadTextures();
 
     return true;
-} // bool VideoEngine::ApplySettings()
+}
 
 void VideoEngine::_UpdateViewportMetrics()
 {
@@ -529,13 +684,27 @@ void VideoEngine::SetCoordSys(const CoordSys &coordinate_system)
 {
     _current_context.coordinate_system = coordinate_system;
 
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
-    glOrtho(_current_context.coordinate_system.GetLeft(), _current_context.coordinate_system.GetRight(),
-            _current_context.coordinate_system.GetBottom(), _current_context.coordinate_system.GetTop(), -1, 1);
+    float left = _current_context.coordinate_system.GetLeft();
+    float right = _current_context.coordinate_system.GetRight();
+    float bottom = _current_context.coordinate_system.GetBottom();
+    float top = _current_context.coordinate_system.GetTop();
+    float near_z = -1.0f;
+    float far_z = 1.0f;
 
-    glMatrixMode(GL_MODELVIEW);
-    glLoadIdentity();
+    // Calculate the orthographic projection.
+    float m00 = 2.0f / (right - left);
+    float m11 = 2.0f / (top - bottom);
+    float m22 = -2.0f / (far_z - near_z);
+
+    float m03 = -(right + left) / (right - left);
+    float m13 = -(top + bottom) / (top - bottom);
+    float m23 = -(far_z + near_z) / (far_z - near_z);
+
+    // Store the orthographic projection.
+    _projection = gl::Transform(m00, 0.0f, 0.0f, m03,
+                                0.0f, m11, 0.0f, m13,
+                                0.0f, 0.0f, m22, m23,
+                                0.0f, 0.0f, 0.0f, 1.0f);
 }
 
 void VideoEngine::GetCurrentViewport(float &x, float &y, float &width, float &height)
@@ -562,40 +731,6 @@ void VideoEngine::SetViewport(float x, float y, float width, float height)
     _viewport_width = width;
     _viewport_height = height;
     glViewport(_viewport_x_offset, _viewport_y_offset, _viewport_width, _viewport_height);
-}
-
-void VideoEngine::EnableScissoring()
-{
-    _current_context.scissoring_enabled = true;
-    if(!_gl_scissor_test_is_active) {
-        glEnable(GL_SCISSOR_TEST);
-        _gl_scissor_test_is_active = true;
-    }
-}
-
-void VideoEngine::DisableScissoring()
-{
-    _current_context.scissoring_enabled = false;
-    if(_gl_scissor_test_is_active) {
-        glDisable(GL_SCISSOR_TEST);
-        _gl_scissor_test_is_active = false;
-    }
-}
-
-void VideoEngine::EnableAlphaTest()
-{
-    if(!_gl_alpha_test_is_active) {
-        glEnable(GL_ALPHA_TEST);
-        _gl_alpha_test_is_active = true;
-    }
-}
-
-void VideoEngine::DisableAlphaTest()
-{
-    if(_gl_alpha_test_is_active) {
-        glDisable(GL_ALPHA_TEST);
-        _gl_alpha_test_is_active = false;
-    }
 }
 
 void VideoEngine::EnableBlending()
@@ -646,51 +781,121 @@ void VideoEngine::DisableTexture2D()
     }
 }
 
-void VideoEngine::EnableColorArray()
+gl::ShaderProgram* VideoEngine::LoadShaderProgram(const gl::shader_programs::ShaderPrograms& shader_program)
 {
-    if(!_gl_color_array_is_activated) {
-        glEnableClientState(GL_COLOR_ARRAY);
-        _gl_color_array_is_activated = true;
+    gl::ShaderProgram* result = NULL;
+
+    assert(_programs.find(shader_program) != _programs.end());
+    if (_programs.find(shader_program) != _programs.end()) {
+        result = _programs.at(shader_program);
+        result->Load();
+    }
+
+    return result;
+}
+
+void VideoEngine::UnloadShaderProgram()
+{
+    glUseProgram(0);
+}
+
+void VideoEngine::DrawSpriteColored(gl::ShaderProgram* shader_program,
+                                    const std::vector<float>& vertex_positions,
+                                    const std::vector<float>& vertex_colors)
+{
+    assert(_sprite_colored != NULL);
+    assert(shader_program != NULL);
+    assert(!vertex_positions.empty());
+    assert(!vertex_colors.empty());
+
+    // Load the shader uniforms common to all programs.
+    float buffer[16] = { 0 };
+    _transform_stack.top().Apply(buffer);
+    shader_program->UpdateUniform("u_Model", buffer, 16);
+
+    gl::Transform identity;
+    identity.Apply(buffer);
+    shader_program->UpdateUniform("u_View", buffer, 16);
+
+    _projection.Apply(buffer);
+    shader_program->UpdateUniform("u_Projection", buffer, 16);
+
+    // Draw the sprite.
+    _sprite_colored->Draw(vertex_positions, vertex_colors);
+}
+
+void VideoEngine::DrawSpriteParticleSystem(gl::ShaderProgram* shader_program,
+                                           float* vertex_positions,
+                                           float* vertex_colors,
+                                           float* vertex_texture_coordinates,
+                                           unsigned number_of_vertices)
+{
+    assert(_sprite_particle_system != NULL);
+    assert(shader_program != NULL);
+    assert(vertex_positions != NULL);
+    assert(vertex_colors != NULL);
+    assert(vertex_texture_coordinates != NULL);
+    assert(number_of_vertices % 4 == 0);
+
+    // Load the shader uniforms common to all programs.
+    float buffer[16] = { 0 };
+    _transform_stack.top().Apply(buffer);
+    shader_program->UpdateUniform("u_Model", buffer, 16);
+
+    gl::Transform identity;
+    identity.Apply(buffer);
+    shader_program->UpdateUniform("u_View", buffer, 16);
+
+    _projection.Apply(buffer);
+    shader_program->UpdateUniform("u_Projection", buffer, 16);
+
+    // Draw the particle system.
+    _sprite_particle_system->Draw(vertex_positions, vertex_colors, vertex_texture_coordinates, number_of_vertices);
+}
+
+void VideoEngine::DrawSpriteTextured(gl::ShaderProgram* shader_program,
+                                     const std::vector<float>& vertex_positions,
+                                     const std::vector<float>& vertex_texture_coordinates,
+                                     const Color& color)
+{
+    assert(_sprite_textured != NULL);
+    assert(shader_program != NULL);
+    assert(!vertex_positions.empty());
+    assert(!vertex_texture_coordinates.empty());
+
+    // Load the shader uniforms common to all programs.
+    float buffer[16] = { 0 };
+    _transform_stack.top().Apply(buffer);
+    shader_program->UpdateUniform("u_Model", buffer, 16);
+
+    gl::Transform identity;
+    identity.Apply(buffer);
+    shader_program->UpdateUniform("u_View", buffer, 16);
+
+    _projection.Apply(buffer);
+    shader_program->UpdateUniform("u_Projection", buffer, 16);
+
+    shader_program->UpdateUniform("u_Color", color.GetColors(), 4);
+
+    // Draw the sprite.
+    _sprite_textured->Draw(vertex_positions, vertex_texture_coordinates);
+}
+
+void VideoEngine::EnableScissoring()
+{
+    _current_context.scissoring_enabled = true;
+    if (!_gl_scissor_test_is_active) {
+        glEnable(GL_SCISSOR_TEST);
+        _gl_scissor_test_is_active = true;
     }
 }
 
-void VideoEngine::DisableColorArray()
+void VideoEngine::DisableScissoring()
 {
-    if(_gl_color_array_is_activated) {
-        glDisableClientState(GL_COLOR_ARRAY);
-        _gl_color_array_is_activated = false;
-    }
-}
-
-void VideoEngine::EnableVertexArray()
-{
-    if(!_gl_vertex_array_is_activated) {
-        glEnableClientState(GL_VERTEX_ARRAY);
-        _gl_vertex_array_is_activated = true;
-    }
-}
-
-void VideoEngine::DisableVertexArray()
-{
-    if(_gl_vertex_array_is_activated) {
-        glDisableClientState(GL_VERTEX_ARRAY);
-        _gl_vertex_array_is_activated = false;
-    }
-}
-
-void VideoEngine::EnableTextureCoordArray()
-{
-    if(!_gl_texture_coord_array_is_activated) {
-        glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-        _gl_texture_coord_array_is_activated = true;
-    }
-}
-
-void VideoEngine::DisableTextureCoordArray()
-{
-    if(_gl_texture_coord_array_is_activated) {
-        glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-        _gl_texture_coord_array_is_activated = false;
+    _current_context.scissoring_enabled = false;
+    if (_gl_scissor_test_is_active) {
+        glDisable(GL_SCISSOR_TEST);
+        _gl_scissor_test_is_active = false;
     }
 }
 
@@ -701,11 +906,8 @@ void VideoEngine::SetScissorRect(float left, float right, float bottom, float to
     glScissor(static_cast<GLint>((_current_context.scissor_rectangle.left / static_cast<float>(VIDEO_STANDARD_RES_WIDTH)) * _current_context.viewport.width),
               static_cast<GLint>((_current_context.scissor_rectangle.top / static_cast<float>(VIDEO_STANDARD_RES_HEIGHT)) * _current_context.viewport.height),
               static_cast<GLsizei>((_current_context.scissor_rectangle.width / static_cast<float>(VIDEO_STANDARD_RES_WIDTH)) * _current_context.viewport.width),
-              static_cast<GLsizei>((_current_context.scissor_rectangle.height / static_cast<float>(VIDEO_STANDARD_RES_HEIGHT)) * _current_context.viewport.height)
-             );
+              static_cast<GLsizei>((_current_context.scissor_rectangle.height / static_cast<float>(VIDEO_STANDARD_RES_HEIGHT)) * _current_context.viewport.height));
 }
-
-
 
 void VideoEngine::SetScissorRect(const ScreenRect &rect)
 {
@@ -714,11 +916,8 @@ void VideoEngine::SetScissorRect(const ScreenRect &rect)
     glScissor(static_cast<GLint>((_current_context.scissor_rectangle.left / static_cast<float>(VIDEO_STANDARD_RES_WIDTH)) * _current_context.viewport.width),
               static_cast<GLint>((_current_context.scissor_rectangle.top / static_cast<float>(VIDEO_STANDARD_RES_HEIGHT)) * _current_context.viewport.height),
               static_cast<GLsizei>((_current_context.scissor_rectangle.width / static_cast<float>(VIDEO_STANDARD_RES_WIDTH)) * _current_context.viewport.width),
-              static_cast<GLsizei>((_current_context.scissor_rectangle.height / static_cast<float>(VIDEO_STANDARD_RES_HEIGHT)) * _current_context.viewport.height)
-             );
+              static_cast<GLsizei>((_current_context.scissor_rectangle.height / static_cast<float>(VIDEO_STANDARD_RES_HEIGHT)) * _current_context.viewport.height));
 }
-
-
 
 ScreenRect VideoEngine::CalculateScreenRect(float left, float right, float bottom, float top)
 {
@@ -756,41 +955,45 @@ ScreenRect VideoEngine::CalculateScreenRect(float left, float right, float botto
 
 void VideoEngine::Move(float x, float y)
 {
-    glLoadIdentity();
-    glTranslatef(x, y, 0);
+    _transform_stack.top().Reset();
+    _transform_stack.top().Translate(x, y);
+
     _x_cursor = x;
     _y_cursor = y;
 }
 
-
-
 void VideoEngine::MoveRelative(float x, float y)
 {
-    glTranslatef(x, y, 0);
+    _transform_stack.top().Translate(x, y);
+
     _x_cursor += x;
     _y_cursor += y;
 }
 
 void VideoEngine::PushMatrix()
 {
-    glPushMatrix();
+    _transform_stack.push(_transform_stack.top());
 }
 
 void VideoEngine::PopMatrix()
 {
-    glPopMatrix();
+    // Sanity.
+    if (!_transform_stack.empty()) {
+        _transform_stack.pop();
+    }
+
+    // Sanity.
+    if (_transform_stack.empty()) {
+        _transform_stack.push(gl::Transform());
+    }
 }
 
 void VideoEngine::PushState()
 {
-    // Push current modelview transformation
-    glMatrixMode(GL_MODELVIEW);
     PushMatrix();
 
     _context_stack.push(_current_context);
 }
-
-
 
 void VideoEngine::PopState()
 {
@@ -803,9 +1006,8 @@ void VideoEngine::PopState()
     _current_context = _context_stack.top();
     _context_stack.pop();
 
-    // Restore the modelview transformation
-    glMatrixMode(GL_MODELVIEW);
     PopMatrix();
+
     glViewport(_current_context.viewport.left, _current_context.viewport.top, _current_context.viewport.width, _current_context.viewport.height);
 
     if(_current_context.scissoring_enabled) {
@@ -813,8 +1015,7 @@ void VideoEngine::PopState()
         glScissor(static_cast<GLint>((_current_context.scissor_rectangle.left / static_cast<float>(VIDEO_STANDARD_RES_WIDTH)) * _current_context.viewport.width),
                   static_cast<GLint>((_current_context.scissor_rectangle.top / static_cast<float>(VIDEO_STANDARD_RES_HEIGHT)) * _current_context.viewport.height),
                   static_cast<GLsizei>((_current_context.scissor_rectangle.width / static_cast<float>(VIDEO_STANDARD_RES_WIDTH)) * _current_context.viewport.width),
-                  static_cast<GLsizei>((_current_context.scissor_rectangle.height / static_cast<float>(VIDEO_STANDARD_RES_HEIGHT)) * _current_context.viewport.height)
-                 );
+                  static_cast<GLsizei>((_current_context.scissor_rectangle.height / static_cast<float>(VIDEO_STANDARD_RES_HEIGHT)) * _current_context.viewport.height));
     } else {
         DisableScissoring();
     }
@@ -822,26 +1023,18 @@ void VideoEngine::PopState()
 
 void VideoEngine::Rotate(float angle)
 {
-    glRotatef(angle, 0, 0, 1);
+    _transform_stack.top().Rotate(angle);
 }
 
 void VideoEngine::Scale(float x, float y)
 {
-    glScalef(x, y, 1.0f);
-}
-
-void VideoEngine::SetTransform(float matrix[16])
-{
-    glMatrixMode(GL_MODELVIEW);
-    glLoadIdentity();
-    glLoadMatrixf(matrix);
+    _transform_stack.top().Scale(x, y);
 }
 
 void VideoEngine::DrawFadeEffect()
 {
     _screen_fader.Draw();
 }
-
 
 void VideoEngine::DisableFadeEffect()
 {
@@ -851,7 +1044,6 @@ void VideoEngine::DisableFadeEffect()
     if(IsFading() && !IsLastFadeTransitional())
         FadeIn(0);
 }
-
 
 StillImage VideoEngine::CaptureScreen() throw(Exception)
 {
@@ -1000,8 +1192,6 @@ void VideoEngine::SetBrightness(float value)
     SDL_SetGamma(_brightness_value, _brightness_value, _brightness_value);
 }
 
-
-
 void VideoEngine::MakeScreenshot(const std::string &filename)
 {
     private_video::ImageMemory buffer;
@@ -1075,13 +1265,10 @@ int32 VideoEngine::_ConvertXAlign(int32 x_align)
     }
 }
 
-
 bool VideoEngine::SetDefaultCursor(const std::string &cursor_image_filename)
 {
     return _default_menu_cursor.Load(cursor_image_filename);
 }
-
-
 
 StillImage *VideoEngine::GetDefaultCursor()
 {
@@ -1090,9 +1277,6 @@ StillImage *VideoEngine::GetDefaultCursor()
     else
         return NULL;
 }
-
-
-
 
 int32 VideoEngine::_ScreenCoordX(float x)
 {
@@ -1107,8 +1291,6 @@ int32 VideoEngine::_ScreenCoordX(float x)
     return static_cast<int32>(percent * static_cast<float>(_viewport_width));
 }
 
-
-
 int32 VideoEngine::_ScreenCoordY(float y)
 {
     float percent;
@@ -1122,60 +1304,100 @@ int32 VideoEngine::_ScreenCoordY(float y)
     return static_cast<int32>(percent * static_cast<float>(_viewport_height));
 }
 
-void VideoEngine::DrawLine(float x1, float y1, float x2, float y2, float width, const Color& color)
+void VideoEngine::DrawLine(float x1, float y1, unsigned width1, float x2, float y2, unsigned width2, const Color &color)
 {
-    GLfloat vert_coords[] = {
-        x1, y1,
-        x2, y2
-    };
+    // Compute the line's vertex positions.
+    std::vector<float> vertex_positions;
+
+    // This is the equation for drawing a line with different starting and ending widths.
+    float angle = atan2(static_cast<float>(y2 - y1), static_cast<float>(x2 - x1));
+    float w2sina1 = static_cast<float>(width1) / 2.0f * sin(angle);
+    float w2cosa1 = static_cast<float>(width1) / 2.0f * cos(angle);
+    float w2sina2 = static_cast<float>(width2) / 2.0f * sin(angle);
+    float w2cosa2 = static_cast<float>(width2) / 2.0f * cos(angle);
+
+    // Vertex one.
+    vertex_positions.push_back(x1 + w2sina1);
+    vertex_positions.push_back(y1 - w2cosa1);
+    vertex_positions.push_back(0.0f);
+
+    // Vertex two.
+    vertex_positions.push_back(x2 + w2sina2);
+    vertex_positions.push_back(y2 - w2cosa2);
+    vertex_positions.push_back(0.0f);
+
+    // Vertex three.
+    vertex_positions.push_back(x2 - w2sina2);
+    vertex_positions.push_back(y2 + w2cosa2);
+    vertex_positions.push_back(0.0f);
+
+    // Vertex four.
+    vertex_positions.push_back(x1 - w2sina1);
+    vertex_positions.push_back(y1 + w2cosa1);
+    vertex_positions.push_back(0.0f);
+
+    // The vertex texture coordinates.
+    // These will be ignored in this case.
+    std::vector<float> vertex_texture_coordinates;
+
+    // Vertex one.
+    vertex_texture_coordinates.push_back(0.0f);
+    vertex_texture_coordinates.push_back(0.0f);
+
+    // Vertex two.
+    vertex_texture_coordinates.push_back(0.0f);
+    vertex_texture_coordinates.push_back(0.0f);
+
+    // Vertex three.
+    vertex_texture_coordinates.push_back(0.0f);
+    vertex_texture_coordinates.push_back(0.0f);
+
+    // Vertex four.
+    vertex_texture_coordinates.push_back(0.0f);
+    vertex_texture_coordinates.push_back(0.0f);
+
     EnableBlending();
     DisableTexture2D();
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); // Normal blending
-    glPushAttrib(GL_LINE_WIDTH);
 
-    glLineWidth(width);
-    EnableVertexArray();
-    DisableColorArray();
-    DisableTextureCoordArray();
-    glColor4fv((GLfloat *)color.GetColors());
-    glVertexPointer(2, GL_FLOAT, 0, vert_coords);
-    glDrawArrays(GL_LINES, 0, 2);
+    // Normal blending.
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-    glPopAttrib(); // GL_LINE_WIDTH
+    // Load the solid shader program.
+    gl::ShaderProgram* shader_program = VideoManager->LoadShaderProgram(gl::shader_programs::Solid);
+    assert(shader_program != NULL);
+
+    // Draw the line.
+    DrawSpriteTextured(shader_program, vertex_positions, vertex_texture_coordinates, color);
+
+    // Unload the shader program.
+    UnloadShaderProgram();
 }
 
-void VideoEngine::DrawGrid(float x, float y, float x_step, float y_step, const Color &c)
+void VideoEngine::DrawGrid(float left, float top, float right, float bottom, float width_cell_horizontal, float width_cell_vertical, unsigned width_line, const Color& color)
 {
-    PushState();
+    assert(right > left);
+    assert(bottom > top);
+    assert(width_cell_horizontal > 0.0f);
+    assert(width_cell_vertical > 0.0f);
+    assert(width_line > 0);
 
-    Move(0, 0);
+    float x_step = (right - left) / width_cell_horizontal;
+    float y_step = (bottom - top) / width_cell_vertical;
 
-    float x_max = _current_context.coordinate_system.GetRight();
-    float y_max = _current_context.coordinate_system.GetBottom();
+    assert(x_step > 0.0f);
+    assert(y_step > 0.0f);
 
-    std::vector<GLfloat> vertices;
-    int32 num_vertices = 0;
-    for(; x <= x_max; x += x_step) {
-        vertices.push_back(x);
-        vertices.push_back(_current_context.coordinate_system.GetBottom());
-        vertices.push_back(x);
-        vertices.push_back(_current_context.coordinate_system.GetTop());
-        num_vertices += 2;
+    // Draw the grid's vertical lines.
+    for (float i = left; i <= right; i += x_step)
+    {
+        DrawLine(i, top, width_line, i, bottom, width_line, color);
     }
-    for(; y < y_max; y += y_step) {
-        vertices.push_back(_current_context.coordinate_system.GetLeft());
-        vertices.push_back(y);
-        vertices.push_back(_current_context.coordinate_system.GetRight());
-        vertices.push_back(y);
-        num_vertices += 2;
-    }
-    glColor4fv(&c[0]);
-    DisableTexture2D();
-    EnableVertexArray();
-    glVertexPointer(2, GL_FLOAT, 0, &(vertices[0]));
-    glDrawArrays(GL_LINES, 0, num_vertices);
 
-    PopState();
+    // Draw the grid's horizontal lines.
+    for (float j = top; j <= bottom; j += y_step)
+    {
+        DrawLine(left, j, width_line, right, j, width_line, color);
+    }
 }
 
 void VideoEngine::DrawRectangle(float width, float height, const Color &color)
@@ -1187,12 +1409,12 @@ void VideoEngine::DrawRectangle(float width, float height, const Color &color)
     _rectangle_image.Draw(color);
 }
 
-void VideoEngine::DrawRectangleOutline(float left, float right, float bottom, float top, float width, const Color &color)
+void VideoEngine::DrawRectangleOutline(float left, float right, float bottom, float top, unsigned width, const Color &color)
 {
-    DrawLine(left, bottom, right, bottom, width, color);
-    DrawLine(left, top, right, top, width, color);
-    DrawLine(left, bottom, left, top, width, color);
-    DrawLine(right, bottom, right, top, width, color);
+    DrawLine(left, bottom, width, right, bottom, width, color);
+    DrawLine(left, top, width, right, top, width, color);
+    DrawLine(left, bottom, width, left, top, width, color);
+    DrawLine(right, bottom, width, right, top, width, color);
 }
 
 void VideoEngine::DrawHalo(const ImageDescriptor &id, const Color &color)

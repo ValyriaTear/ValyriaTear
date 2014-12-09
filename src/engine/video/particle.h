@@ -30,26 +30,27 @@ namespace vt_mode_manager
 {
 
 /*!***************************************************************************
- *  \brief this is used in the vertex array for DrawArrays(). Every time
- *         the particle system is rendered, we need to iterate through all the
- *         particles in the system, and use the position, size, and rotation
- *         to generate 4 ParticleVertex's. This is pretty expensive, but
+ *  \brief Every time the particle system is rendered, we need to iterate through
+ *         all the particles in the system, and use the position, size, and
+ *         rotation to generate 4 ParticleVertex's. This is pretty expensive, but
  *         unfortunately it's necessary since the positions change every frame.
  *****************************************************************************/
 
 class ParticleVertex
 {
 public:
-    ParticleVertex():
+    ParticleVertex() :
         _x(0.0f),
-        _y(0.0f)
-    {}
+        _y(0.0f),
+        _z(0.0f)
+    {
+    }
 
-    //! position of 1 vertex of the particle's quad
+    //! The position of a vertex of the particle's quad.
     float _x;
     float _y;
+    float _z;
 };
-
 
 /*!***************************************************************************
  *  \brief this is used in texture coordinate array for DrawArrays()
@@ -62,18 +63,17 @@ public:
     ParticleTexCoord():
         _t0(0.0f),
         _t1(0.0f)
-    {}
+    {
+    }
 
-    //! texture coordinates for 1 vertex of the particle's quad
+    //! The texture coordinates of a vertex of the particle's quad.
     float _t0;
     float _t1;
 };
 
-
 /*!***************************************************************************
  *  \brief this is the structure we use to represent a particle
  *****************************************************************************/
-
 
 class Particle
 {

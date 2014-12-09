@@ -989,7 +989,7 @@ void MapMode::_UpdateMapFrame()
         GetIndicatorSupervisor().AddParallax(x_parallax, y_parallax);
     }
 
-    // Comment this out to print out map draw debugging info about once a second
+    // Comment this out to print out map draw debugging info about once a second.
 //  static int loops = 0;
 //  if (loops == 0) {
 //      printf("--- MAP DRAW INFO ---\n");
@@ -1006,48 +1006,60 @@ void MapMode::_UpdateMapFrame()
 //      loops = 0;
 //  else
 //      ++loops;
-} // void MapMode::_UpdateMapFrame()
-
+}
 
 void MapMode::_DrawDebugGrid()
 {
+    //
+    // This code is more of a proof a concept to make sure the new grid rendering code draws grids correctly.
+    //
+    // However, it's not 100% correct yet in regards to game functionality.
+    //
 
-    float tiles_x = TILES_ON_X_AXIS / (SCREEN_GRID_X_LENGTH / 2);
-    float tiles_y = TILES_ON_Y_AXIS / (SCREEN_GRID_Y_LENGTH / 2);
-    // Collision grid
-    VideoManager->DrawGrid(_map_frame.tile_x_offset, _map_frame.tile_y_offset, tiles_x, tiles_y,
-                           Color(0.0f, 0.0f, 0.5f, 1.0f));
-    // Tile grid
-    VideoManager->DrawGrid(_map_frame.tile_x_offset, _map_frame.tile_y_offset, tiles_x * 2, tiles_y * 2,
-                           Color(0.5f, 0.0f, 0.0f, 1.0f));
+    VideoManager->SetCoordSys(0.0f, static_cast<float>(VideoManager->GetViewportWidth()),
+                              static_cast<float>(VideoManager->GetViewportHeight()), 0.0f);
+    VideoManager->PushMatrix();
+    VideoManager->Move(0.0f, 0.0f);
+
+    // The collision grid.
+    Color color = Color(0.0f, 0.0f, 0.5f, 1.0f);
+    VideoManager->DrawGrid(VideoManager->GetCoordSys().GetLeft(), VideoManager->GetCoordSys().GetTop(),
+                           VideoManager->GetCoordSys().GetRight(), VideoManager->GetCoordSys().GetBottom(),
+                           SCREEN_GRID_X_LENGTH, SCREEN_GRID_Y_LENGTH, 1, color);
+
+    // The tile grid.
+    color = Color(0.5f, 0.0f, 0.0f, 1.0f);
+    VideoManager->DrawGrid(VideoManager->GetCoordSys().GetLeft(), VideoManager->GetCoordSys().GetTop(),
+                           VideoManager->GetCoordSys().GetRight(), VideoManager->GetCoordSys().GetBottom(),
+                           SCREEN_GRID_X_LENGTH * 0.5f, SCREEN_GRID_Y_LENGTH * 0.5f, 1, color);
+
+    VideoManager->PopMatrix();
 }
-
 
 void MapMode::_DrawMapLayers()
 {
     VideoManager->SetCoordSys(0.0f, SCREEN_GRID_X_LENGTH, SCREEN_GRID_Y_LENGTH, 0.0f);
 
     _tile_supervisor->DrawLayers(&_map_frame, GROUND_LAYER);
+
     // Save points are engraved on the ground, and thus shouldn't be drawn after walls.
     _object_supervisor->DrawSavePoints();
 
     _object_supervisor->DrawFlatGroundObjects();
-    _object_supervisor->DrawGroundObjects(false); // First draw pass of ground objects
+    _object_supervisor->DrawGroundObjects(false); // First draw pass of ground objects.
     _object_supervisor->DrawPassObjects();
-    _object_supervisor->DrawGroundObjects(true); // Second draw pass of ground objects
+    _object_supervisor->DrawGroundObjects(true); // Second draw pass of ground objects.
 
     _tile_supervisor->DrawLayers(&_map_frame, SKY_LAYER);
 
     _object_supervisor->DrawSkyObjects();
 
-    if(VideoManager->DebugInfoOn()) {
+    if (VideoManager->DebugInfoOn()) {
         _object_supervisor->DrawCollisionArea(&_map_frame);
         _object_supervisor->_DrawMapZones();
         _DrawDebugGrid();
     }
-} // void MapMode::_DrawMapLayers()
-
-
+}
 
 void MapMode::_DrawStaminaBar(const vt_video::Color &blending)
 {

@@ -1339,8 +1339,8 @@ void ShopMode::Draw()
         break;
     }
 
-    // Note that X and Y are centered at that moment, explaining the relative coordinates used below.
-    VideoManager->DrawLine(-315.0f, 20.0f, 315.0f, 20.0f, 1.0f, Color::white);
+    // Note: X and Y are centered at that moment, explaining the relative coordinates used below.
+    VideoManager->DrawLine(-315.0f, 20.0f, 1, 315.0f, 20.0f, 1, Color::white);
 
     _finance_table.Draw();
 

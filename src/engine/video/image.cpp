@@ -18,13 +18,14 @@
 #include "utils/utils_pch.h"
 #include "image.h"
 
-#include "video.h"
 #include "engine/script/script_read.h"
 #include "engine/system.h"
 
-#include "utils/utils_strings.h"
 #include "utils/utils_files.h"
 #include "utils/utils_random.h"
+#include "utils/utils_strings.h"
+
+#include "video.h"
 
 using namespace vt_utils;
 using namespace vt_video::private_video;
@@ -52,8 +53,6 @@ ImageDescriptor::ImageDescriptor() :
 {
     _color[0] = _color[1] = _color[2] = _color[3] = Color::white;
 }
-
-
 
 ImageDescriptor::~ImageDescriptor()
 {
@@ -478,8 +477,6 @@ void ImageDescriptor::_RemoveTextureReference()
     _texture = NULL;
 }
 
-
-
 void ImageDescriptor::_DrawOrientation() const
 {
     Context &current_context = VideoManager->_current_context;
@@ -522,109 +519,160 @@ void ImageDescriptor::_DrawOrientation() const
     VideoManager->Scale(x_scale, y_scale);
 }
 
-
-
-void ImageDescriptor::_DrawTexture(const Color *draw_color) const
+void ImageDescriptor::_DrawTexture(const Color* draw_color) const
 {
-    // Array of the four vertexes defined on the 2D plane for glDrawArrays()
-    // This is no longer const, because when tiling the background for the menu's
-    // sometimes you need to draw part of a texture
-    float vert_coords[] = {
-        _u1, _v1,
-        _u2, _v1,
-        _u2, _v2,
-        _u1, _v2,
-    };
+    // The vertex positions.
+    std::vector<float> vertex_positions;
 
-    // If no color array was passed, use the image's own vertex colors
-    if(!draw_color)
+    // Vertex one.
+    vertex_positions.push_back(_u1);
+    vertex_positions.push_back(_v1);
+    vertex_positions.push_back(0.0f);
+
+    // Vertex two.
+    vertex_positions.push_back(_u2);
+    vertex_positions.push_back(_v1);
+    vertex_positions.push_back(0.0f);
+
+    // Vertex three.
+    vertex_positions.push_back(_u2);
+    vertex_positions.push_back(_v2);
+    vertex_positions.push_back(0.0f);
+
+    // Vertex four.
+    vertex_positions.push_back(_u1);
+    vertex_positions.push_back(_v2);
+    vertex_positions.push_back(0.0f);
+
+    // The texture coordinates.
+    std::vector<float> vertex_texture_coordinates;
+
+    // Vertex one.
+    vertex_texture_coordinates.push_back(0.0f);
+    vertex_texture_coordinates.push_back(1.0f);
+
+    // Vertex two.
+    vertex_texture_coordinates.push_back(0.0f);
+    vertex_texture_coordinates.push_back(0.0f);
+
+    // Vertex three.
+    vertex_texture_coordinates.push_back(1.0f);
+    vertex_texture_coordinates.push_back(0.0f);
+
+    // Vertex four.
+    vertex_texture_coordinates.push_back(1.0f);
+    vertex_texture_coordinates.push_back(1.0f);
+
+    // If no color array was passed, use the image's own vertex colors.
+    if (!draw_color) {
         draw_color = _color;
+    }
+    assert(draw_color != NULL);
 
-    // Set blending parameters
-    if(VideoManager->_current_context.blend) {
+    // Set the blending parameters.
+    if (VideoManager->_current_context.blend) {
         VideoManager->EnableBlending();
-        if(VideoManager->_current_context.blend == 1)
+        if (VideoManager->_current_context.blend == 1)
             glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); // Normal blending
         else
             glBlendFunc(GL_SRC_ALPHA, GL_ONE); // Additive blending
-    } else if(_blend) {
+    } else if (_blend) {
         VideoManager->EnableBlending();
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); // Normal blending
     } else {
         VideoManager->DisableBlending();
     }
 
-    VideoManager->EnableVertexArray();
-    glVertexPointer(2, GL_FLOAT, 0, vert_coords);
+    // The shader program.
+    gl::ShaderProgram* shader_program = NULL;
 
-    // If we have a valid image texture poiner, setup texture coordinates and the texture coordinate array for glDrawArrays()
-    if(_texture) {
-        // Set the texture coordinates
-        float s0, s1, t0, t1;
+    // If we have a valid image texture poiner, setup texture coordinates and the texture coordinate array.
+    if (_texture) {
+        // Set the texture coordinates.
+        float s0 = _texture->u1 + (_u1 * (_texture->u2 - _texture->u1));
+        float s1 = _texture->u1 + (_u2 * (_texture->u2 - _texture->u1));
+        float t0 = _texture->v1 + (_v1 * (_texture->v2 - _texture->v1));
+        float t1 = _texture->v1 + (_v2 * (_texture->v2 - _texture->v1));
 
-        s0 = _texture->u1 + (_u1 * (_texture->u2 - _texture->u1));
-        s1 = _texture->u1 + (_u2 * (_texture->u2 - _texture->u1));
-        t0 = _texture->v1 + (_v1 * (_texture->v2 - _texture->v1));
-        t1 = _texture->v1 + (_v2 * (_texture->v2 - _texture->v1));
-
-        // Swap x texture coordinates if x flipping is enabled
-        if(VideoManager->_current_context.x_flip) {
+        // Swap x texture coordinates if x flipping is enabled.
+        if (VideoManager->_current_context.x_flip) {
             float temp = s0;
             s0 = s1;
             s1 = temp;
         }
 
-        // Swap y texture coordinates if y flipping is enabled
-        if(VideoManager->_current_context.y_flip) {
+        // Swap y texture coordinates if y flipping is enabled.
+        if (VideoManager->_current_context.y_flip) {
             float temp = t0;
             t0 = t1;
             t1 = temp;
         }
 
-        // Place the texture coordinates in a 4x2 array mirroring the structure of the vertex array for use in glDrawArrays().
-        float tex_coords[] = {
-            s0, t1,
-            s1, t1,
-            s1, t0,
-            s0, t0,
-        };
+        // Setup the texture coordinate array.
+        vertex_texture_coordinates.clear();
 
-        // Enable texturing and bind texture
+        // Vertex one.
+        vertex_texture_coordinates.push_back(s0);
+        vertex_texture_coordinates.push_back(t1);
+
+        // Vertex two.
+        vertex_texture_coordinates.push_back(s1);
+        vertex_texture_coordinates.push_back(t1);
+
+        // Vertex three.
+        vertex_texture_coordinates.push_back(s1);
+        vertex_texture_coordinates.push_back(t0);
+
+        // Vertex four.
+        vertex_texture_coordinates.push_back(s0);
+        vertex_texture_coordinates.push_back(t0);
+
+        // Enable texturing and bind the texture.
         VideoManager->EnableTexture2D();
         TextureManager->_BindTexture(_texture->texture_sheet->tex_id);
         _texture->texture_sheet->Smooth(_smooth);
 
-        // Enable and setup the texture coordinate array
-        VideoManager->EnableTextureCoordArray();
-        glTexCoordPointer(2, GL_FLOAT, 0, tex_coords);
+        // Load the sprite shader program.
+        shader_program = VideoManager->LoadShaderProgram(gl::shader_programs::Sprite);
+        assert(shader_program != NULL);
+    } else {
+        //
+        // Otherwise there is no image texture, so we're drawing pure color on the vertices.
+        //
 
-        if(_unichrome_vertices) {
-            glColor4fv((GLfloat *)draw_color[0].GetColors());
-            VideoManager->DisableColorArray();
-        } else {
-            VideoManager->EnableColorArray();
-            glColorPointer(4, GL_FLOAT, 0, (GLfloat *)draw_color);
-        }
-    } // if (_texture)
-    else {
-        // Otherwise there is no image texture, so we're drawing pure color on the vertices
-
-        // Use a single call to glColor for unichrome images, or a setup a gl color array for multiple colors
-        if(_unichrome_vertices) {
-            glColor4fv((GLfloat *)draw_color[0].GetColors());
-            VideoManager->DisableColorArray();
-        } else {
-            VideoManager->EnableColorArray();
-            glColorPointer(4, GL_FLOAT, 0, (GLfloat *)draw_color);
-        }
-
-        // Disable texturing as we're using pure colour
+        // Disable texturing as we're using pure color.
         VideoManager->DisableTexture2D();
+
+        // Load the solid shader program.
+        shader_program = VideoManager->LoadShaderProgram(gl::shader_programs::Solid);
+        assert(shader_program != NULL);
     }
 
-    // Use a vertex array to draw all of the vertices
-    glDrawArrays(GL_QUADS, 0, 4);
-} // void ImageDescriptor::_DrawTexture(const Color* color_array) const
+    if (_unichrome_vertices) {
+        // Draw the textured sprite.
+        VideoManager->DrawSpriteTextured(shader_program, vertex_positions, vertex_texture_coordinates, *draw_color);
+    } else {
+        // The vertex colors.
+        std::vector<float> vertex_colors;
+
+        // For each of the four vertices.
+        for (unsigned i = 0; i < 4; ++i)
+        {
+            // Get the vertex's color.
+            vt_video::Color color = draw_color[i];
+            vertex_colors.push_back(color[0]);
+            vertex_colors.push_back(color[1]);
+            vertex_colors.push_back(color[2]);
+            vertex_colors.push_back(color[3]);
+        }
+
+        // Draw the colored sprite.
+        VideoManager->DrawSpriteColored(shader_program, vertex_positions, vertex_colors);
+    }
+
+    // Unload the shader program.
+    VideoManager->UnloadShaderProgram();
+}
 
 bool ImageDescriptor::_LoadMultiImage(std::vector<StillImage>& images, const std::string &filename,
                                       const uint32 grid_rows, const uint32 grid_cols)
@@ -891,12 +939,12 @@ bool StillImage::Load(const std::string &filename)
     free(img_data.pixels);
     img_data.pixels = NULL;
     return true;
-} // bool StillImage::Load(const string& filename)
+}
 
 void StillImage::Draw(const Color &draw_color) const
 {
-    // Don't draw anything if this image is completely transparent (invisible)
-    if(IsFloatEqual(draw_color[3], 0.0f))
+    // Don't draw anything if this image is completely transparent (invisible).
+    if (IsFloatEqual(draw_color[3], 0.0f))
         return;
 
     VideoManager->PushMatrix();
@@ -906,7 +954,7 @@ void StillImage::Draw(const Color &draw_color) const
 
     _DrawOrientation();
 
-    // Used to determine if the image color should be modulated by any degree due to screen fading effects
+    // Used to determine if the image color should be modulated by any degree due to screen fading effects.
     if(draw_color == Color::white) {
         _DrawTexture(_color);
     }
@@ -922,9 +970,7 @@ void StillImage::Draw(const Color &draw_color) const
     }
 
     VideoManager->PopMatrix();
-} // void StillImage::Draw(const Color& draw_color) const
-
-
+}
 
 bool StillImage::Save(const std::string &filename) const
 {
@@ -1542,7 +1588,7 @@ void CompositeImage::Draw(const Color &draw_color) const
         if(coord_sys.GetVerticalDirection() < 0.0f)
             y_scale = -y_scale;
 
-        glScalef(x_scale, y_scale, 1.0f);
+        VideoManager->Scale(x_scale, y_scale);
 
         if(draw_color == Color::white)
             _elements[i].image._DrawTexture(_color);

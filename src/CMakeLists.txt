@@ -4,6 +4,7 @@ FIND_PACKAGE(SDL REQUIRED)
 FIND_PACKAGE(SDL_ttf REQUIRED)
 FIND_PACKAGE(SDL_image REQUIRED)
 FIND_PACKAGE(OpenGL REQUIRED)
+FIND_PACKAGE(GLEW REQUIRED)
 FIND_PACKAGE(OpenAL REQUIRED)
 FIND_PACKAGE(VorbisFile REQUIRED)
 FIND_PACKAGE(Lua51 REQUIRED)
@@ -110,6 +111,7 @@ INCLUDE_DIRECTORIES(
     ${SDLTTF_INCLUDE_DIR}
     ${SDLIMAGE_INCLUDE_DIR}
     ${OPENGL_INCLUDE_DIR}
+    ${GLEW_INCLUDE_PATH}
     ${OPENAL_INCLUDE_DIR}
     ${VORBISFILE_INCLUDE_DIR}
     ${PNG_INCLUDE_DIR}
@@ -319,36 +321,51 @@ engine/system.h
 engine/input.h
 engine/input.cpp
 engine/engine_bindings.cpp
-engine/video/screen_rect.h
 engine/video/color.h
-engine/video/particle_emitter.h
-engine/video/particle_keyframe.h
 engine/video/context.h
-engine/video/particle.h
 engine/video/coord_sys.h
-engine/video/video.h
-engine/video/video.cpp
-engine/video/texture_controller.h
-engine/video/texture_controller.cpp
-engine/video/texture.cpp
-engine/video/texture.h
+engine/video/fade.cpp
+engine/video/fade.h
+engine/video/gl/shader.cpp
+engine/video/gl/shader.h
+engine/video/gl/shader_definitions.h
+engine/video/gl/shader_program.cpp
+engine/video/gl/shader_program.h
+engine/video/gl/shader_programs.h
+engine/video/gl/shaders.h
+engine/video/gl/sprite_colored.cpp
+engine/video/gl/sprite_colored.h
+engine/video/gl/sprite_particle_system.cpp
+engine/video/gl/sprite_particle_system.h
+engine/video/gl/sprite_textured.cpp
+engine/video/gl/sprite_textured.h
+engine/video/gl/transform.cpp
+engine/video/gl/transform.h
 engine/video/image.cpp
 engine/video/image.h
 engine/video/image_base.cpp
 engine/video/image_base.h
-engine/video/fade.h
-engine/video/fade.cpp
-engine/video/text.cpp
-engine/video/text.h
-engine/video/shake.h
 engine/video/interpolator.cpp
 engine/video/interpolator.h
-engine/video/particle_manager.h
-engine/video/particle_manager.cpp
-engine/video/particle_effect.h
+engine/video/particle.h
 engine/video/particle_effect.cpp
-engine/video/particle_system.h
+engine/video/particle_effect.h
+engine/video/particle_emitter.h
+engine/video/particle_keyframe.h
+engine/video/particle_manager.cpp
+engine/video/particle_manager.h
 engine/video/particle_system.cpp
+engine/video/particle_system.h
+engine/video/screen_rect.h
+engine/video/shake.h
+engine/video/text.cpp
+engine/video/text.h
+engine/video/texture.cpp
+engine/video/texture.h
+engine/video/texture_controller.cpp
+engine/video/texture_controller.h
+engine/video/video.cpp
+engine/video/video.h
 modes/shop/shop_root.h
 modes/shop/shop_buy.cpp
 modes/shop/shop_sell.cpp
@@ -478,6 +495,7 @@ IF (CMAKE_SYSTEM_NAME STREQUAL "OpenBSD")
         ${SDLTTF_LIBRARY}
         ${SDLIMAGE_LIBRARY}
         ${OPENGL_LIBRARIES}
+        ${GLEW_LIBRARY}
         ${OPENAL_LIBRARY}
         ${VORBISFILE_LIBRARIES}
         ${OGG_LIBRARY}
@@ -494,6 +512,7 @@ ELSE()
         ${SDLTTF_LIBRARY}
         ${SDLIMAGE_LIBRARY}
         ${OPENGL_LIBRARIES}
+        ${GLEW_LIBRARY}
         ${OPENAL_LIBRARY}
         ${VORBISFILE_LIBRARIES}
         ${PNG_LIBRARIES}
@@ -589,6 +608,7 @@ IF (EDITOR_SUPPORT)
         ${SDLIMAGE_LIBRARY}
         ${SDLTTF_LIBRARY}
         ${OPENGL_LIBRARIES}
+        ${GLEW_LIBRARY}
         ${OPENAL_LIBRARY}
         ${VORBISFILE_LIBRARIES}
         ${PNG_LIBRARIES}
