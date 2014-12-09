@@ -623,7 +623,7 @@ SoundObject::SoundObject(const std::string& sound_filename, float x, float y, fl
     if (_sound.LoadAudio(sound_filename)) {
         // Tells the engine the sound can be unloaded if no other mode is using it
         // once the current map mode is destroyed
-        _sound.AddOwner(MapMode::CurrentInstance());
+        _sound.AddGameModeOwner(MapMode::CurrentInstance());
     }
     else {
         PRINT_WARNING << "Couldn't load environmental sound file: "

@@ -66,7 +66,7 @@ GameMode::~GameMode()
             << "MODE MANAGER: GameMode destructor invoked" << std::endl;
 
     // Tells the audio manager that the mode is ending to permit freeing self-managed audio files.
-    AudioManager->RemoveOwner(this);
+    AudioManager->RemoveGameModeOwner(this);
 }
 
 
