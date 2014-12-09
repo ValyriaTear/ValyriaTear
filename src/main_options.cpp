@@ -20,10 +20,12 @@
 
 #include "engine/audio/audio.h"
 #include "engine/video/video.h"
-#include "engine/script/script.h"
+#include "engine/script/script_write.h"
 #include "engine/input.h"
 #include "engine/system.h"
 #include "engine/mode_manager.h"
+
+#include "utils/utils_files.h"
 
 #include "common/global/global.h"
 
@@ -58,14 +60,7 @@ bool ParseProgramOptions(int32 &return_code, int32 argc, char **argv)
     return_code = 0;
 
     for(uint32 i = 1; i < options.size(); i++) {
-        if(options[i] == "-c" || options[i] == "--check") {
-            if(CheckFiles() == true) {
-                return_code = 0;
-            } else {
-                return_code = 1;
-            }
-            return false;
-        } else if(options[i] == "-d" || options[i] == "--debug") {
+        if(options[i] == "-d" || options[i] == "--debug") {
             if((i + 1) >= options.size()) {
                 std::cerr << "Option " << options[i] << " requires an argument." << std::endl;
                 PrintUsage();
@@ -109,8 +104,6 @@ bool ParseProgramOptions(int32 &return_code, int32 argc, char **argv)
     return true;
 } // bool ParseProgramOptions(int32_t &return_code, int32_t argc, char **argv)
 
-
-
 bool ParseSecondaryOptions(const std::string &vars, std::vector<std::string>& options)
 {
     uint32 sbegin = 0;
@@ -148,7 +141,6 @@ void PrintUsage()
 {
     std::cout
             << "usage: "APPSHORTNAME" [options]" << std::endl
-            << "  --check/-c        :: checks all files for integrity" << std::endl
             << "  --debug/-d <args> :: enables debug statements in specified sections of the" << std::endl
             << "                       program, where <args> can be:" << std::endl
             << "                       all, audio, battle, boot, data, global, input," << std::endl
@@ -159,8 +151,6 @@ void PrintUsage()
             << "  --info/-i         :: prints information about the user's system" << std::endl
             << "  --reset/-r        :: resets game configuration to use default settings" << std::endl;
 }
-
-
 
 bool PrintSystemInformation()
 {
@@ -284,23 +274,16 @@ bool PrintSystemInformation()
     return true;
 } // bool PrintSystemInformation()
 
-
-
 bool ResetSettings()
 {
-    std::cout << "This option is not yet implemented." << std::endl;
+    std::string file = GetUserConfigPath() + "settings.lua";
+
+    // Copy the default file to the user location.
+    CopyFile(std::string("dat/config/settings.lua"), file);
+    std::cout << "Copied default settings.lua file to: " << file << std::endl;
+
     return false;
 } // bool ResetSettings()
-
-
-
-bool CheckFiles()
-{
-    std::cout << "This option is not yet implemented." << std::endl;
-    return false;
-} // bool CheckFiles()
-
-
 
 bool EnableDebugging(const std::string &vars)
 {
