@@ -1381,20 +1381,14 @@ void VideoEngine::DrawGrid(float left, float top, float right, float bottom, flo
     assert(width_cell_vertical > 0.0f);
     assert(width_line > 0);
 
-    float x_step = (right - left) / width_cell_horizontal;
-    float y_step = (bottom - top) / width_cell_vertical;
-
-    assert(x_step > 0.0f);
-    assert(y_step > 0.0f);
-
     // Draw the grid's vertical lines.
-    for (float i = left; i <= right; i += x_step)
+    for (float i = left; i <= right; i += width_cell_horizontal)
     {
         DrawLine(i, top, width_line, i, bottom, width_line, color);
     }
 
     // Draw the grid's horizontal lines.
-    for (float j = top; j <= bottom; j += y_step)
+    for (float j = top; j <= bottom; j += width_cell_vertical)
     {
         DrawLine(left, j, width_line, right, j, width_line, color);
     }
