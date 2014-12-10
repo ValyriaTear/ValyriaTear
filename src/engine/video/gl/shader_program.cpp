@@ -193,7 +193,7 @@ ShaderProgram::ShaderProgram(const Shader& vertex_shader,
 
 ShaderProgram::~ShaderProgram()
 {
-    std::list<GLint>::const_iterator i;
+    std::vector<GLint>::const_iterator i;
     for (i = _shaders.begin(); i != _shaders.end(); ++i)
     {
         glDetachShader(_program, *i);

@@ -41,7 +41,7 @@ public:
     bool UpdateUniform(const std::string &s, const float* data, unsigned length);
 
     GLint _program;
-    std::list<GLint> _shaders;
+    std::vector<GLint> _shaders;
     std::map<std::string, int> _uniforms;
 
 private:
