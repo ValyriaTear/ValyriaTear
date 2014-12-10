@@ -206,6 +206,33 @@ void TexSheet::DEBUG_Draw() const
     texture_coordinates.push_back(0.0f);
     texture_coordinates.push_back(0.0f);
 
+    // The vertex colors.
+    std::vector<float> vertex_colors;
+
+    // Vertex one.
+    vertex_colors.push_back(0.0f);
+    vertex_colors.push_back(0.0f);
+    vertex_colors.push_back(0.0f);
+    vertex_colors.push_back(0.0f);
+
+    // Vertex two.
+    vertex_colors.push_back(0.0f);
+    vertex_colors.push_back(0.0f);
+    vertex_colors.push_back(0.0f);
+    vertex_colors.push_back(0.0f);
+
+    // Vertex three.
+    vertex_colors.push_back(0.0f);
+    vertex_colors.push_back(0.0f);
+    vertex_colors.push_back(0.0f);
+    vertex_colors.push_back(0.0f);
+
+    // Vertex four.
+    vertex_colors.push_back(0.0f);
+    vertex_colors.push_back(0.0f);
+    vertex_colors.push_back(0.0f);
+    vertex_colors.push_back(0.0f);
+
     // Enable texturing and bind the texture.
     VideoManager->DisableBlending();
     VideoManager->EnableTexture2D();
@@ -216,7 +243,7 @@ void TexSheet::DEBUG_Draw() const
     assert(shader_program != NULL);
 
     // Draw the image.
-    VideoManager->DrawSpriteTextured(shader_program, vertex_positions, texture_coordinates, vt_video::Color::clear);
+    VideoManager->DrawSprite(shader_program, vertex_positions, texture_coordinates, vertex_colors);
 
     // Unload the shader program.
     VideoManager->UnloadShaderProgram();

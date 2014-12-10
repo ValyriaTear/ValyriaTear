@@ -263,15 +263,15 @@ void ParticleSystem::Draw()
     }
 
     // Load the particle shader program.
-    gl::ShaderProgram* shader_program = VideoManager->LoadShaderProgram(gl::shader_programs::Particle);
+    gl::ShaderProgram* shader_program = VideoManager->LoadShaderProgram(gl::shader_programs::SpriteColorPerVertex);
     assert(shader_program != NULL);
 
     // Draw the particle system.
-    VideoManager->DrawSpriteParticleSystem(shader_program,
-                                           reinterpret_cast<float*>(&_particle_vertices[0]),
-                                           reinterpret_cast<float*>(&_particle_colors[0]),
-                                           reinterpret_cast<float*>(&_particle_texcoords[0]),
-                                           _num_particles * 4);
+    VideoManager->DrawParticleSystem(shader_program,
+                                     reinterpret_cast<float*>(&_particle_vertices[0]),
+                                     reinterpret_cast<float*>(&_particle_texcoords[0]),
+                                     reinterpret_cast<float*>(&_particle_colors[0]),
+                                     _num_particles * 4);
 
     if (_system_def->smooth_animation) {
         int findex = _animation.GetCurrentFrameIndex();
@@ -325,11 +325,11 @@ void ParticleSystem::Draw()
         }
 
         // Draw the particle system.
-        VideoManager->DrawSpriteParticleSystem(shader_program,
-                                               reinterpret_cast<float*>(&_particle_vertices[0]),
-                                               reinterpret_cast<float*>(&_particle_colors[0]),
-                                               reinterpret_cast<float*>(&_particle_texcoords[0]),
-                                               _num_particles * 4);
+        VideoManager->DrawParticleSystem(shader_program,
+                                         reinterpret_cast<float*>(&_particle_vertices[0]),
+                                         reinterpret_cast<float*>(&_particle_texcoords[0]),
+                                         reinterpret_cast<float*>(&_particle_colors[0]),
+                                         _num_particles * 4);
     }
 
     // Unload the shader program.

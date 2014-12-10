@@ -1217,8 +1217,35 @@ void TextSupervisor::_DrawTextHelper(const uint16 *const text, FontProperties *f
         vertex_texture_coordinates.push_back(0.0f);
         vertex_texture_coordinates.push_back(0.0f);
 
+        // The vertex colors.
+        std::vector<float> vertex_colors;
+
+        // Vertex one.
+        vertex_colors.push_back(0.0f);
+        vertex_colors.push_back(0.0f);
+        vertex_colors.push_back(0.0f);
+        vertex_colors.push_back(0.0f);
+
+        // Vertex two.
+        vertex_colors.push_back(0.0f);
+        vertex_colors.push_back(0.0f);
+        vertex_colors.push_back(0.0f);
+        vertex_colors.push_back(0.0f);
+
+        // Vertex three.
+        vertex_colors.push_back(0.0f);
+        vertex_colors.push_back(0.0f);
+        vertex_colors.push_back(0.0f);
+        vertex_colors.push_back(0.0f);
+
+        // Vertex four.
+        vertex_colors.push_back(0.0f);
+        vertex_colors.push_back(0.0f);
+        vertex_colors.push_back(0.0f);
+        vertex_colors.push_back(0.0f);
+
         // Draw the glyph.
-        VideoManager->DrawSpriteTextured(shader_program, vertex_positions, vertex_texture_coordinates, text_color);
+        VideoManager->DrawSprite(shader_program, vertex_positions, vertex_texture_coordinates, vertex_colors, text_color);
 
         xpos += glyph_info->advance;
     }

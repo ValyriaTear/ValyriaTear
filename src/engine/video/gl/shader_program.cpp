@@ -28,16 +28,18 @@ namespace gl
 // Constants.
 const GLsizei MAX_LOG_LENGTH = 512;
 
-ShaderProgram::ShaderProgram(const Shader& vertex_shader,
-                             const Shader& fragment_shader,
+ShaderProgram::ShaderProgram(const Shader* vertex_shader,
+                             const Shader* fragment_shader,
                              const std::vector<std::string>& attributes,
                              const std::vector<std::string>& uniforms) :
-    _program(-1)
+    _program(-1),
+    _vertex_shader(vertex_shader),
+    _fragment_shader(fragment_shader)
 {
     bool errors = false;
 
-    _shaders.push_back(vertex_shader._shader);
-    _shaders.push_back(fragment_shader._shader);
+    assert(_vertex_shader != NULL);
+    assert(_fragment_shader != NULL);
 
     // Create the program.
     if (!errors) {
@@ -53,14 +55,14 @@ ShaderProgram::ShaderProgram(const Shader& vertex_shader,
 
     // Attach the vertex shader.
     if (!errors) {
-        glAttachShader(_program, vertex_shader._shader);
+        glAttachShader(_program, _vertex_shader->_shader);
 
         GLenum error = glGetError();
         if (error != GL_NO_ERROR) {
             errors = true;
             PRINT_ERROR << "Failed to attach the vertex shader to the shader program. Shader Program ID: " <<
                            vt_utils::NumberToString(_program) << " Shader ID: " <<
-                           vt_utils::NumberToString(vertex_shader._shader) <<
+                           vt_utils::NumberToString(_vertex_shader->_shader) <<
                            std::endl;
             assert(error == GL_NO_ERROR);
         }
@@ -68,14 +70,14 @@ ShaderProgram::ShaderProgram(const Shader& vertex_shader,
 
     // Attach the fragment shader.
     if (!errors) {
-        glAttachShader(_program, fragment_shader._shader);
+        glAttachShader(_program, _fragment_shader->_shader);
 
         GLenum error = glGetError();
         if (error != GL_NO_ERROR) {
             errors = true;
             PRINT_ERROR << "Failed to attach the fragment shader to the shader program. Shader Program ID: " <<
                            vt_utils::NumberToString(_program) << " Shader ID: " <<
-                           vt_utils::NumberToString(fragment_shader._shader) <<
+                           vt_utils::NumberToString(_fragment_shader->_shader) <<
                            std::endl;
             assert(error == GL_NO_ERROR);
         }
@@ -146,59 +148,12 @@ ShaderProgram::ShaderProgram(const Shader& vertex_shader,
             assert(is_linked != 0);
         }
     }
-
-    // Verify the attributes.
-    if (!errors) {
-        std::vector<std::string>::const_iterator i;
-        i = attributes.begin();
-        GLint location = 0;
-        while (i != attributes.end() && !errors)
-        {
-            GLint position = glGetAttribLocation(_program, i->c_str());
-            if (position != location) {
-                errors = true;
-                PRINT_ERROR << "Failed to verify the shader program attribute. Shader Program ID: " <<
-                               vt_utils::NumberToString(_program) << " Attribute Name: " << *i <<
-                               std::endl;
-                assert(position == location);
-            }
-
-            ++location;
-            ++i;
-        }
-    }
-
-    // Get the uniform locations.
-    if (!errors) {
-        std::vector<std::string>::const_iterator i;
-        i = uniforms.begin();
-        while (i != uniforms.end() && !errors)
-        {
-            GLint location = glGetUniformLocation(_program, i->c_str());
-            if (location == -1) { // -1 == failed.
-                errors = true;
-                PRINT_ERROR << "Failed to get the shader program uniform location. Shader Program ID: " <<
-                               vt_utils::NumberToString(_program) << " Uniform Name: " << *i <<
-                               std::endl;
-                assert(location != -1);
-            }
-            else {
-                _uniforms[i->c_str()] = location;
-            }
-
-            ++i;
-        }
-    }
 }
 
 ShaderProgram::~ShaderProgram()
 {
-    std::vector<GLint>::const_iterator i;
-    for (i = _shaders.begin(); i != _shaders.end(); ++i)
-    {
-        glDetachShader(_program, *i);
-    }
-    _shaders.clear();
+    glDetachShader(_program, _vertex_shader->_shader);
+    glDetachShader(_program, _fragment_shader->_shader);
 
     if (_program != 0) {
         glDeleteProgram(_program);
@@ -224,17 +179,18 @@ bool ShaderProgram::Load()
     return result;
 }
 
-bool ShaderProgram::UpdateUniform(const std::string &s, float f)
+bool ShaderProgram::UpdateUniform(const std::string& uniform, float value)
 {
     bool result = true;
 
-    glUniform1f(_uniforms[s], f);
+    GLint location = glGetUniformLocation(_program, uniform.c_str());
+    glUniform1f(location, value);
 
     GLenum error = glGetError();
     if (error != GL_NO_ERROR) {
         result = false;
         PRINT_ERROR << "Failed to update the shader program uniform. Shader Program ID: " <<
-                       vt_utils::NumberToString(_program) << " Uniform Name: " << s <<
+                       vt_utils::NumberToString(_program) << " Uniform Name: " << uniform <<
                        std::endl;
         assert(error == GL_NO_ERROR);
     }
@@ -242,17 +198,18 @@ bool ShaderProgram::UpdateUniform(const std::string &s, float f)
     return result;
 }
 
-bool ShaderProgram::UpdateUniform(const std::string &s, int32_t i)
+bool ShaderProgram::UpdateUniform(const std::string& uniform, int value)
 {
     bool result = true;
 
-    glUniform1i(_uniforms[s], i);
+    GLint location = glGetUniformLocation(_program, uniform.c_str());
+    glUniform1i(location, value);
 
     GLenum error = glGetError();
     if (error != GL_NO_ERROR) {
         result = false;
         PRINT_ERROR << "Failed to update the shader program uniform. Shader Program ID: " <<
-                       vt_utils::NumberToString(_program) << " Uniform Name: " << s <<
+                       vt_utils::NumberToString(_program) << " Uniform Name: " << uniform <<
                        std::endl;
         assert(error == GL_NO_ERROR);
     }
@@ -260,9 +217,11 @@ bool ShaderProgram::UpdateUniform(const std::string &s, int32_t i)
     return result;
 }
 
-bool ShaderProgram::UpdateUniform(const std::string &s, const float* data, unsigned length)
+bool ShaderProgram::UpdateUniform(const std::string& uniform, const float* data, unsigned length)
 {
     bool result = false;
+
+    GLint location = glGetUniformLocation(_program, uniform.c_str());
 
     // This function currently only supports matrices and vectors.
     assert(data != NULL && (length == 4 || length == 16));
@@ -271,13 +230,13 @@ bool ShaderProgram::UpdateUniform(const std::string &s, const float* data, unsig
             result = true;
 
             // The vector case.
-            glUniform4f(_uniforms[s], data[0], data[1], data[2], data[3]);
+            glUniform4f(location, data[0], data[1], data[2], data[3]);
         }
         else if (length == 16) {
             result = true;
 
             // The matrix case.
-            glUniformMatrix4fv(_uniforms[s], 1, true, data);
+            glUniformMatrix4fv(location, 1, true, data);
         }
     }
 
@@ -285,7 +244,7 @@ bool ShaderProgram::UpdateUniform(const std::string &s, const float* data, unsig
     if (error != GL_NO_ERROR) {
         result = false;
         PRINT_ERROR << "Failed to update the shader program uniform. Shader Program ID: " <<
-                       vt_utils::NumberToString(_program) << " Uniform Name: " << s <<
+                       vt_utils::NumberToString(_program) << " Uniform Name: " << uniform <<
                        std::endl;
         assert(error == GL_NO_ERROR);
     }

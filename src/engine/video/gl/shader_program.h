@@ -28,23 +28,24 @@ class Shader;
 class ShaderProgram
 {
 public:
-    ShaderProgram(const Shader& vertex_shader,
-                  const Shader& fragment_shader,
+    ShaderProgram(const Shader* vertex_shader,
+                  const Shader* fragment_shader,
                   const std::vector<std::string>& attributes,
                   const std::vector<std::string>& uniforms);
     ~ShaderProgram();
 
     bool Load();
 
-    bool UpdateUniform(const std::string &s, float f);
-    bool UpdateUniform(const std::string &s, int i);
-    bool UpdateUniform(const std::string &s, const float* data, unsigned length);
-
-    GLint _program;
-    std::vector<GLint> _shaders;
-    std::map<std::string, int> _uniforms;
+    bool UpdateUniform(const std::string& uniform, float value);
+    bool UpdateUniform(const std::string& uniform, int value);
+    bool UpdateUniform(const std::string& uniform, const float* data, unsigned length);
 
 private:
+    GLint _program;
+
+    const Shader* _vertex_shader;
+    const Shader* _fragment_shader;
+
     ShaderProgram(const ShaderProgram&) {}
     ShaderProgram& operator=(const ShaderProgram&) { return *this; }
 };
