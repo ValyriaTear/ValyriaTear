@@ -36,8 +36,14 @@ namespace vt_common
 class MessageWindow : public vt_gui::MenuWindow
 {
 public:
-    MessageWindow(const vt_utils::ustring& message, float w, float h);
+    //! \brief Message window constructor
+    //! \note If the x or y param is set to -1.0f, then the window is centered in the corresponding axis.
+    MessageWindow(const vt_utils::ustring& message, float x, float y, float w, float h);
     ~MessageWindow();
+
+    //! \brief Creates the message window using the given coordinates.
+    //! \note If the x or y param is set to -1.0f, then the window is centered in the corresponding axis.
+    void CreateMessageWindow(float x, float y, float w, float h);
 
     //! \brief Set the text to display in the window
     void SetText(const vt_utils::ustring& message) {

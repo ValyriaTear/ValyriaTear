@@ -139,12 +139,13 @@ GameOptionsMenuHandler::GameOptionsMenuHandler(vt_mode_manager::GameMode* parent
     _key_setting_function(NULL),
     _joy_setting_function(NULL),
     _joy_axis_setting_function(NULL),
-    _message_window(ustring(), 310.0f, 233.0f),
+    _message_window(ustring(), -1.0f, -1.0f, 410.0f, 133.0f),
+    _explanation_window(ustring(), -1.0f, 650.0f, 510.0f, 100.0f),
     _parent_mode(parent_mode)
 {
     // Create the option window used as background
     _options_window.Create(300.0f, 550.0f);
-    _options_window.SetPosition(360.0f, 188.0f);
+    _options_window.SetPosition(360.0f, 58.0f);
     _options_window.Hide();
 
     // Setup all menu options and properties
@@ -174,6 +175,7 @@ void GameOptionsMenuHandler::Activate()
 {
     _active_menu = &_options_menu;
     _options_window.Show();
+    _UpdateExplanationText();
 }
 
 void GameOptionsMenuHandler::ShowFirstRunLanguageSelection()
@@ -316,6 +318,10 @@ void GameOptionsMenuHandler::Update()
         // Play cancel sound
         GlobalManager->Media().PlaySound("cancel");
     }
+
+    // Updates the explanation text when it's relevant.
+    if (InputManager->AnyRegisteredKeyPress())
+        _UpdateExplanationText();
 }
 
 void GameOptionsMenuHandler::Draw()
@@ -332,6 +338,7 @@ void GameOptionsMenuHandler::Draw()
     VideoManager->SetDrawFlags(VIDEO_X_RIGHT, VIDEO_Y_BOTTOM, 0);
     VideoManager->Move(0.0f, 0.0f);
     _message_window.Draw();
+    _explanation_window.Draw();
 
     VideoManager->PopState();
 }
@@ -353,7 +360,7 @@ void GameOptionsMenuHandler::ReloadTranslatableMenus()
 void GameOptionsMenuHandler::_SetupOptionsMenu()
 {
     _options_menu.ClearOptions();
-    _options_menu.SetPosition(512.0f, 468.0f);
+    _options_menu.SetPosition(512.0f, 338.0f);
     _options_menu.SetDimensions(300.0f, 600.0f, 1, 5, 1, 5);
     _options_menu.SetTextStyle(TextStyle("title22"));
     _options_menu.SetAlignment(VIDEO_X_CENTER, VIDEO_Y_CENTER);
@@ -380,7 +387,7 @@ void GameOptionsMenuHandler::_SetupOptionsMenu()
 void GameOptionsMenuHandler::_SetupVideoOptionsMenu()
 {
     _video_options_menu.ClearOptions();
-    _video_options_menu.SetPosition(512.0f, 468.0f);
+    _video_options_menu.SetPosition(512.0f, 338.0f);
     _video_options_menu.SetDimensions(300.0f, 400.0f, 1, 4, 1, 4);
     _video_options_menu.SetTextStyle(TextStyle("title22"));
     _video_options_menu.SetAlignment(VIDEO_X_CENTER, VIDEO_Y_CENTER);
@@ -405,7 +412,7 @@ void GameOptionsMenuHandler::_SetupVideoOptionsMenu()
 void GameOptionsMenuHandler::_SetupAudioOptionsMenu()
 {
     _audio_options_menu.ClearOptions();
-    _audio_options_menu.SetPosition(512.0f, 468.0f);
+    _audio_options_menu.SetPosition(512.0f, 338.0f);
     _audio_options_menu.SetDimensions(300.0f, 200.0f, 1, 2, 1, 2);
     _audio_options_menu.SetTextStyle(TextStyle("title22"));
     _audio_options_menu.SetAlignment(VIDEO_X_CENTER, VIDEO_Y_CENTER);
@@ -428,7 +435,7 @@ void GameOptionsMenuHandler::_SetupAudioOptionsMenu()
 
 void GameOptionsMenuHandler::_SetupLanguageOptionsMenu()
 {
-    _language_options_menu.SetPosition(402.0f, 468.0f);
+    _language_options_menu.SetPosition(402.0f, 338.0f);
     _language_options_menu.SetTextStyle(TextStyle("title22"));
     _language_options_menu.SetAlignment(VIDEO_X_LEFT, VIDEO_Y_CENTER);
     _language_options_menu.SetOptionAlignment(VIDEO_X_LEFT, VIDEO_Y_CENTER);
@@ -443,7 +450,7 @@ void GameOptionsMenuHandler::_SetupLanguageOptionsMenu()
 void GameOptionsMenuHandler::_SetupKeySettingsMenu()
 {
     _key_settings_menu.ClearOptions();
-    _key_settings_menu.SetPosition(512.0f, 468.0f);
+    _key_settings_menu.SetPosition(512.0f, 338.0f);
     _key_settings_menu.SetDimensions(250.0f, 500.0f, 1, 10, 1, 10);
     _key_settings_menu.SetTextStyle(TextStyle("title20"));
     _key_settings_menu.SetAlignment(VIDEO_X_CENTER, VIDEO_Y_CENTER);
@@ -468,7 +475,7 @@ void GameOptionsMenuHandler::_SetupKeySettingsMenu()
 void GameOptionsMenuHandler::_SetupJoySettingsMenu()
 {
     _joy_settings_menu.ClearOptions();
-    _joy_settings_menu.SetPosition(512.0f, 468.0f);
+    _joy_settings_menu.SetPosition(512.0f, 338.0f);
     _joy_settings_menu.SetDimensions(250.0f, 500.0f, 1, 12, 1, 12);
     _joy_settings_menu.SetTextStyle(TextStyle("title20"));
     _joy_settings_menu.SetTextStyle(TextStyle("title22"));
@@ -501,8 +508,8 @@ void GameOptionsMenuHandler::_SetupJoySettingsMenu()
 
 void GameOptionsMenuHandler::_SetupResolutionMenu()
 {
-    _resolution_menu.SetPosition(442.0f, 468.0f);
-    _resolution_menu.SetDimensions(300.0f, 200.0f, 1, 8, 1, 8);
+    _resolution_menu.SetPosition(442.0f, 338.0f);
+    _resolution_menu.SetDimensions(250.0f, 500.0f, 1, 8, 1, 8);
     _resolution_menu.SetTextStyle(TextStyle("title22"));
     _resolution_menu.SetAlignment(VIDEO_X_LEFT, VIDEO_Y_CENTER);
     _resolution_menu.SetOptionAlignment(VIDEO_X_LEFT, VIDEO_Y_CENTER);
@@ -910,6 +917,39 @@ void GameOptionsMenuHandler::_ShowMessageWindow(WAIT_FOR wait)
     _message_window.Show();
 }
 
+void GameOptionsMenuHandler::_UpdateExplanationText()
+{
+    // We show the window per default...
+    _explanation_window.Show();
+
+    // The default menu
+    if (_active_menu == &_options_menu) {
+        switch(_options_menu.GetSelection()) {
+        case 0:
+            _explanation_window.SetText(UTranslate("Here you can set up the video options such as the resolution, whether to play in full screen, the GUI theme, ..."));
+            break;
+        case 1:
+            _explanation_window.SetText(UTranslate("Here you can setup the music and SFX volumes."));
+            break;
+        case 2:
+            _explanation_window.SetText(UTranslate("This menu will show the available languages. Only available from the boot menu..."));
+            break;
+        case 3:
+            _explanation_window.SetText(UTranslate("Here you change the keys used when playing with the keyboard..."));
+            break;
+        case 4:
+            _explanation_window.SetText(UTranslate("Here you change the keys used when playing with a joystick..."));
+            break;
+        default:
+            _explanation_window.Hide();
+            break;
+        }
+    }
+    else {
+        _explanation_window.Hide();
+    }
+}
+
 bool GameOptionsMenuHandler::_ChangeResolution(int32 width, int32 height)
 {
     if (VideoManager->GetScreenWidth() == width &&
@@ -931,7 +971,7 @@ void GameOptionsMenuHandler::_ReloadGUIDefaultSkin()
 {
     _options_window.Destroy();
     _options_window.Create(300.0f, 550.0f);
-    _options_window.SetPosition(360.0f, 188.0f);
+    _options_window.SetPosition(360.0f, 58.0f);
     _options_window.Show();
 
     // Setup all menu options and properties
@@ -948,6 +988,15 @@ void GameOptionsMenuHandler::_ReloadGUIDefaultSkin()
     // Currently, the GUI default skin option is 3.
     _video_options_menu.SetSelection(3);
     _RefreshVideoOptions();
+
+    // Reload the explanation and change key windows.
+    _message_window.Destroy();
+    _message_window.CreateMessageWindow(-1.0f, -1.0f, 410.0f, 133.0f);
+    _message_window.Hide();
+
+    _explanation_window.Destroy();
+    _explanation_window.CreateMessageWindow(-1.0f, 650.0f, 510.0f, 100.0f);
+    _UpdateExplanationText();
 }
 
 bool GameOptionsMenuHandler::_SaveSettingsFile(const std::string& filename)
