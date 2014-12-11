@@ -30,8 +30,7 @@ const GLsizei MAX_LOG_LENGTH = 512;
 
 ShaderProgram::ShaderProgram(const Shader* vertex_shader,
                              const Shader* fragment_shader,
-                             const std::vector<std::string>& attributes,
-                             const std::vector<std::string>& uniforms) :
+                             const std::vector<std::string>& attributes) :
     _program(-1),
     _vertex_shader(vertex_shader),
     _fragment_shader(fragment_shader)

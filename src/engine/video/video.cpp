@@ -285,36 +285,29 @@ bool VideoEngine::FinalizeInitialization()
     attributes.push_back("in_TexCoords");
     attributes.push_back("in_Color");
 
-    std::vector<std::string> uniforms;
-    uniforms.push_back("u_Model");
-    uniforms.push_back("u_View");
-    uniforms.push_back("u_Projection");
-    uniforms.push_back("u_Color");
-    uniforms.push_back("u_Texture");
-
     gl::ShaderProgram* solid_program = new gl::ShaderProgram(_shaders[gl::shaders::VertexDefault],
                                                              _shaders[gl::shaders::FragmentSolidColor],
-                                                             attributes, uniforms);
+                                                             attributes);
 
     gl::ShaderProgram* solid_color_per_vertex_program = new gl::ShaderProgram(_shaders[gl::shaders::VertexDefault],
                                                                               _shaders[gl::shaders::FragmentSolidColorPerVertex],
-                                                                              attributes, uniforms);
+                                                                              attributes);
 
     gl::ShaderProgram* sprite_program = new gl::ShaderProgram(_shaders[gl::shaders::VertexDefault],
                                                               _shaders[gl::shaders::FragmentSprite],
-                                                              attributes, uniforms);
+                                                              attributes);
 
     gl::ShaderProgram* sprite_grayscale_program = new gl::ShaderProgram(_shaders[gl::shaders::VertexDefault],
                                                                         _shaders[gl::shaders::FragmentSpriteGrayscale],
-                                                                        attributes, uniforms);
+                                                                        attributes);
 
     gl::ShaderProgram* sprite_color_per_vertex_program = new gl::ShaderProgram(_shaders[gl::shaders::VertexDefault],
                                                                                _shaders[gl::shaders::FragmentSpriteColorPerVertex],
-                                                                               attributes, uniforms);
+                                                                               attributes);
 
     gl::ShaderProgram* sprite_color_per_vertex_grayscale_program = new gl::ShaderProgram(_shaders[gl::shaders::VertexDefault],
                                                                                          _shaders[gl::shaders::FragmentSpriteColorPerVertexGrayscale],
-                                                                                         attributes, uniforms);
+                                                                                         attributes);
 
     //
     // Store the shader programs.

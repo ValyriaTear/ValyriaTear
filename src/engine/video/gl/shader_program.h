@@ -30,8 +30,7 @@ class ShaderProgram
 public:
     ShaderProgram(const Shader* vertex_shader,
                   const Shader* fragment_shader,
-                  const std::vector<std::string>& attributes,
-                  const std::vector<std::string>& uniforms);
+                  const std::vector<std::string>& attributes);
     ~ShaderProgram();
 
     bool Load();
