@@ -188,6 +188,8 @@ void GameOptionsMenuHandler::ShowFirstRunLanguageSelection()
 void GameOptionsMenuHandler::Update()
 {
     _options_window.Update(vt_system::SystemManager->GetUpdateTime());
+    _message_window.Update();
+    _explanation_window.Update();
 
     // On first app run, show the language menu and apply language on any key press.
     if (_first_run && _active_menu == &_language_options_menu) {

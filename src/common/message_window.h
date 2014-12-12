@@ -50,6 +50,11 @@ public:
         _textbox.SetDisplayText(message);
     }
 
+    //! \brief Updates the text scrolling
+    void Update() {
+        _textbox.Update();
+    }
+
     //! \brief Standard Window Functions
     //@{
     void Draw();
