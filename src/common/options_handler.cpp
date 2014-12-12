@@ -144,8 +144,8 @@ GameOptionsMenuHandler::GameOptionsMenuHandler(vt_mode_manager::GameMode* parent
     _parent_mode(parent_mode)
 {
     // Create the option window used as background
-    _options_window.Create(300.0f, 550.0f);
-    _options_window.SetPosition(360.0f, 58.0f);
+    _options_window.Create(400.0f, 550.0f);
+    _options_window.SetPosition(310.0f, 58.0f);
     _options_window.Hide();
 
     // Setup all menu options and properties
@@ -945,6 +945,38 @@ void GameOptionsMenuHandler::_UpdateExplanationText()
             break;
         }
     }
+    else if (_active_menu == &_video_options_menu) {
+        switch(_video_options_menu.GetSelection()) {
+        case 0:
+            _explanation_window.SetText(UTranslate("This permits to select the game's resolution..."));
+            break;
+        case 1:
+            _explanation_window.SetText(UTranslate("Here you can set whether you want to play in windowed mode or fullscreen."));
+            break;
+        case 2:
+            _explanation_window.SetText(UTranslate("Sets the game brightness percentage. Default: 50%"));
+            break;
+        case 3:
+            _explanation_window.SetText(UTranslate("Permits to change the in-game GUI theme."));
+            break;
+        default:
+            _explanation_window.Hide();
+            break;
+        }
+    }
+    else if (_active_menu == &_audio_options_menu) {
+        switch(_audio_options_menu.GetSelection()) {
+        case 0:
+            _explanation_window.SetText(UTranslate("Permits to set the general music volume."));
+            break;
+        case 1:
+            _explanation_window.SetText(UTranslate("Permits to set the general SFX volume."));
+            break;
+        default:
+            _explanation_window.Hide();
+            break;
+        }
+    }
     else {
         _explanation_window.Hide();
     }
@@ -970,8 +1002,8 @@ bool GameOptionsMenuHandler::_ChangeResolution(int32 width, int32 height)
 void GameOptionsMenuHandler::_ReloadGUIDefaultSkin()
 {
     _options_window.Destroy();
-    _options_window.Create(300.0f, 550.0f);
-    _options_window.SetPosition(360.0f, 58.0f);
+    _options_window.Create(400.0f, 550.0f);
+    _options_window.SetPosition(310.0f, 58.0f);
     _options_window.Show();
 
     // Setup all menu options and properties
