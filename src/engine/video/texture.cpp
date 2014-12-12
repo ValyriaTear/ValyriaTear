@@ -235,7 +235,7 @@ void TexSheet::DEBUG_Draw() const
     TextureManager->_BindTexture(tex_id);
 
     // Load the solid shader program.
-    gl::ShaderProgram* shader_program = VideoManager->LoadShaderProgram(gl::shader_programs::SolidColor);
+    gl::ShaderProgram* shader_program = VideoManager->LoadShaderProgram(gl::shader_programs::Solid);
     assert(shader_program != NULL);
 
     // Draw a black background.

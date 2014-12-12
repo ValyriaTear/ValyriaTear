@@ -567,28 +567,28 @@ void ImageDescriptor::_DrawTexture(const Color* draw_color) const
     std::vector<float> vertex_colors;
 
     // Vertex one.
-    vertex_colors.push_back(0.0f);
-    vertex_colors.push_back(0.0f);
-    vertex_colors.push_back(0.0f);
-    vertex_colors.push_back(0.0f);
+    vertex_colors.push_back(1.0f);
+    vertex_colors.push_back(1.0f);
+    vertex_colors.push_back(1.0f);
+    vertex_colors.push_back(1.0f);
 
     // Vertex two.
-    vertex_colors.push_back(0.0f);
-    vertex_colors.push_back(0.0f);
-    vertex_colors.push_back(0.0f);
-    vertex_colors.push_back(0.0f);
+    vertex_colors.push_back(1.0f);
+    vertex_colors.push_back(1.0f);
+    vertex_colors.push_back(1.0f);
+    vertex_colors.push_back(1.0f);
 
     // Vertex three.
-    vertex_colors.push_back(0.0f);
-    vertex_colors.push_back(0.0f);
-    vertex_colors.push_back(0.0f);
-    vertex_colors.push_back(0.0f);
+    vertex_colors.push_back(1.0f);
+    vertex_colors.push_back(1.0f);
+    vertex_colors.push_back(1.0f);
+    vertex_colors.push_back(1.0f);
 
     // Vertex four.
-    vertex_colors.push_back(0.0f);
-    vertex_colors.push_back(0.0f);
-    vertex_colors.push_back(0.0f);
-    vertex_colors.push_back(0.0f);
+    vertex_colors.push_back(1.0f);
+    vertex_colors.push_back(1.0f);
+    vertex_colors.push_back(1.0f);
+    vertex_colors.push_back(1.0f);
 
     // If no color array was passed, use the image's own vertex colors.
     if (!draw_color) {
@@ -671,7 +671,7 @@ void ImageDescriptor::_DrawTexture(const Color* draw_color) const
         VideoManager->DisableTexture2D();
 
         // Load the solid shader program.
-        shader_program = VideoManager->LoadShaderProgram(gl::shader_programs::SolidColor);
+        shader_program = VideoManager->LoadShaderProgram(gl::shader_programs::Solid);
         assert(shader_program != NULL);
     }
 
@@ -693,8 +693,11 @@ void ImageDescriptor::_DrawTexture(const Color* draw_color) const
             vertex_colors.push_back(color[3]);
         }
 
-        // Load the solid color per vertex shader program.
-        shader_program = VideoManager->LoadShaderProgram(gl::shader_programs::SolidColorPerVertex);
+        // Unload the shader program.
+        VideoManager->UnloadShaderProgram();
+
+        // Load the solid shader program.
+        shader_program = VideoManager->LoadShaderProgram(gl::shader_programs::Solid);
         assert(shader_program != NULL);
 
         // Draw the image.

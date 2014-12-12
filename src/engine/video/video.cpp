@@ -260,21 +260,17 @@ bool VideoEngine::FinalizeInitialization()
 
     // Create the shaders.
     gl::Shader* default_vertex                              = new gl::Shader(GL_VERTEX_SHADER, gl::shader_definitions::DEFAULT_VERTEX);
-    gl::Shader* solid_color_fragment                        = new gl::Shader(GL_FRAGMENT_SHADER, gl::shader_definitions::SOLID_COLOR_FRAGMENT);
-    gl::Shader* solid_color_per_vertex_fragment             = new gl::Shader(GL_FRAGMENT_SHADER, gl::shader_definitions::SOLID_COLOR_PER_FRAGMENT);
+    gl::Shader* solid_color_fragment                        = new gl::Shader(GL_FRAGMENT_SHADER, gl::shader_definitions::SOLID_FRAGMENT);
+    gl::Shader* solid_color_grayscale_fragment              = new gl::Shader(GL_FRAGMENT_SHADER, gl::shader_definitions::SOLID_GRAYSCALE_FRAGMENT);
     gl::Shader* sprite_fragment                             = new gl::Shader(GL_FRAGMENT_SHADER, gl::shader_definitions::SPRITE_FRAGMENT);
     gl::Shader* sprite_grayscale_fragment                   = new gl::Shader(GL_FRAGMENT_SHADER, gl::shader_definitions::SPRITE_GRAYSCALE_FRAGMENT);
-    gl::Shader* sprite_color_per_vertex_fragment            = new gl::Shader(GL_FRAGMENT_SHADER, gl::shader_definitions::SPRITE_COLOR_PER_VERTEX_FRAGMENT);
-    gl::Shader* sprite_color_per_vertex_grayscale_fragment  = new gl::Shader(GL_FRAGMENT_SHADER, gl::shader_definitions::SPRITE_COLOR_PER_VERTEX_GRAYSCALE_FRAGMENT);
 
     // Store the shaders.
     _shaders[gl::shaders::VertexDefault] = default_vertex;
-    _shaders[gl::shaders::FragmentSolidColor] = solid_color_fragment;
-    _shaders[gl::shaders::FragmentSolidColorPerVertex] = solid_color_per_vertex_fragment;
+    _shaders[gl::shaders::FragmentSolid] = solid_color_fragment;
+    _shaders[gl::shaders::FragmentSolidGrayscale] = solid_color_grayscale_fragment;
     _shaders[gl::shaders::FragmentSprite] = sprite_fragment;
     _shaders[gl::shaders::FragmentSpriteGrayscale] = sprite_grayscale_fragment;
-    _shaders[gl::shaders::FragmentSpriteColorPerVertex] = sprite_color_per_vertex_fragment;
-    _shaders[gl::shaders::FragmentSpriteColorPerVertexGrayscale] = sprite_color_per_vertex_grayscale_fragment;
 
     //
     // Create the shader programs.
@@ -286,12 +282,12 @@ bool VideoEngine::FinalizeInitialization()
     attributes.push_back("in_Color");
 
     gl::ShaderProgram* solid_program = new gl::ShaderProgram(_shaders[gl::shaders::VertexDefault],
-                                                             _shaders[gl::shaders::FragmentSolidColor],
+                                                             _shaders[gl::shaders::FragmentSolid],
                                                              attributes);
 
-    gl::ShaderProgram* solid_color_per_vertex_program = new gl::ShaderProgram(_shaders[gl::shaders::VertexDefault],
-                                                                              _shaders[gl::shaders::FragmentSolidColorPerVertex],
-                                                                              attributes);
+    gl::ShaderProgram* solid_grayscale_program = new gl::ShaderProgram(_shaders[gl::shaders::VertexDefault],
+                                                                       _shaders[gl::shaders::FragmentSolidGrayscale],
+                                                                       attributes);
 
     gl::ShaderProgram* sprite_program = new gl::ShaderProgram(_shaders[gl::shaders::VertexDefault],
                                                               _shaders[gl::shaders::FragmentSprite],
@@ -301,24 +297,14 @@ bool VideoEngine::FinalizeInitialization()
                                                                         _shaders[gl::shaders::FragmentSpriteGrayscale],
                                                                         attributes);
 
-    gl::ShaderProgram* sprite_color_per_vertex_program = new gl::ShaderProgram(_shaders[gl::shaders::VertexDefault],
-                                                                               _shaders[gl::shaders::FragmentSpriteColorPerVertex],
-                                                                               attributes);
-
-    gl::ShaderProgram* sprite_color_per_vertex_grayscale_program = new gl::ShaderProgram(_shaders[gl::shaders::VertexDefault],
-                                                                                         _shaders[gl::shaders::FragmentSpriteColorPerVertexGrayscale],
-                                                                                         attributes);
-
     //
     // Store the shader programs.
     //
 
-    _programs[gl::shader_programs::SolidColor] = solid_program;
-    _programs[gl::shader_programs::SolidColorPerVertex] = solid_color_per_vertex_program;
+    _programs[gl::shader_programs::Solid] = solid_program;
+    _programs[gl::shader_programs::SolidGrayscale] = solid_grayscale_program;
     _programs[gl::shader_programs::Sprite] = sprite_program;
     _programs[gl::shader_programs::SpriteGrayscale] = sprite_grayscale_program;
-    _programs[gl::shader_programs::SpriteColorPerVertex] = sprite_color_per_vertex_program;
-    _programs[gl::shader_programs::SpriteColorPerVertexGrayscale] = sprite_color_per_vertex_grayscale_program;
 
     // Create instances of the various sub-systems
     TextureManager = TextureController::SingletonCreate();
@@ -436,15 +422,11 @@ void VideoEngine::SetDrawFlags(int32 first_flag, ...)
     va_end(args);
 }
 
-
-
 void VideoEngine::Clear()
 {
     //! \todo glClearColor is a state change operation. It should only be called when the clear color changes
     Clear(Color::black);
 }
-
-
 
 void VideoEngine::Clear(const Color& c)
 {
@@ -455,7 +437,6 @@ void VideoEngine::Clear(const Color& c)
 
     TextureManager->_debug_num_tex_switches = 0;
 }
-
 
 void VideoEngine::Update()
 {
@@ -503,8 +484,6 @@ void VideoEngine::GetPixelSize(float &x, float &y)
     x = fabs(_current_context.coordinate_system.GetRight() - _current_context.coordinate_system.GetLeft()) / _viewport_width;
     y = fabs(_current_context.coordinate_system.GetTop() - _current_context.coordinate_system.GetBottom()) / _viewport_height;
 }
-
-
 
 bool VideoEngine::ApplySettings()
 {
@@ -757,6 +736,8 @@ void VideoEngine::DrawParticleSystem(gl::ShaderProgram* shader_program,
 
     _projection.Apply(buffer);
     shader_program->UpdateUniform("u_Projection", buffer, 16);
+
+    shader_program->UpdateUniform("u_Color", reinterpret_cast<const float*>(&::vt_video::Color::white), 4);
 
     // Draw the particle system.
     _sprite->Draw(vertex_positions, vertex_texture_coordinates, vertex_colors, number_of_vertices);
@@ -1271,28 +1252,28 @@ void VideoEngine::DrawLine(float x1, float y1, unsigned width1, float x2, float 
     std::vector<float> vertex_colors;
 
     // Vertex one.
-    vertex_colors.push_back(0.0f);
-    vertex_colors.push_back(0.0f);
-    vertex_colors.push_back(0.0f);
-    vertex_colors.push_back(0.0f);
+    vertex_colors.push_back(1.0f);
+    vertex_colors.push_back(1.0f);
+    vertex_colors.push_back(1.0f);
+    vertex_colors.push_back(1.0f);
 
     // Vertex two.
-    vertex_colors.push_back(0.0f);
-    vertex_colors.push_back(0.0f);
-    vertex_colors.push_back(0.0f);
-    vertex_colors.push_back(0.0f);
+    vertex_colors.push_back(1.0f);
+    vertex_colors.push_back(1.0f);
+    vertex_colors.push_back(1.0f);
+    vertex_colors.push_back(1.0f);
 
     // Vertex three.
-    vertex_colors.push_back(0.0f);
-    vertex_colors.push_back(0.0f);
-    vertex_colors.push_back(0.0f);
-    vertex_colors.push_back(0.0f);
+    vertex_colors.push_back(1.0f);
+    vertex_colors.push_back(1.0f);
+    vertex_colors.push_back(1.0f);
+    vertex_colors.push_back(1.0f);
 
     // Vertex four.
-    vertex_colors.push_back(0.0f);
-    vertex_colors.push_back(0.0f);
-    vertex_colors.push_back(0.0f);
-    vertex_colors.push_back(0.0f);
+    vertex_colors.push_back(1.0f);
+    vertex_colors.push_back(1.0f);
+    vertex_colors.push_back(1.0f);
+    vertex_colors.push_back(1.0f);
 
     EnableBlending();
     DisableTexture2D();
@@ -1301,7 +1282,7 @@ void VideoEngine::DrawLine(float x1, float y1, unsigned width1, float x2, float 
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
     // Load the solid shader program.
-    gl::ShaderProgram* shader_program = VideoManager->LoadShaderProgram(gl::shader_programs::SolidColor);
+    gl::ShaderProgram* shader_program = VideoManager->LoadShaderProgram(gl::shader_programs::Solid);
     assert(shader_program != NULL);
 
     // Draw the line.

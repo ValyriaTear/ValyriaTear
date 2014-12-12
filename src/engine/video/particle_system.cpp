@@ -262,8 +262,8 @@ void ParticleSystem::Draw()
         ++t;
     }
 
-    // Load the particle shader program.
-    gl::ShaderProgram* shader_program = VideoManager->LoadShaderProgram(gl::shader_programs::SpriteColorPerVertex);
+    // Load the sprite shader program.
+    gl::ShaderProgram* shader_program = VideoManager->LoadShaderProgram(gl::shader_programs::Sprite);
     assert(shader_program != NULL);
 
     // Draw the particle system.

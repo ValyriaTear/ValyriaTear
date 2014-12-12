@@ -25,12 +25,10 @@ namespace shader_programs
 
 enum ShaderPrograms
 {
-    SolidColor = 0,
-    SolidColorPerVertex,
+    Solid = 0,
+    SolidGrayscale,
     Sprite,
     SpriteGrayscale,
-    SpriteColorPerVertex,
-    SpriteColorPerVertexGrayscale,
     Count
 };
 
