@@ -379,7 +379,7 @@ public:
                     const std::vector<float>& vertex_positions,
                     const std::vector<float>& vertex_texture_coordinates,
                     const std::vector<float>& vertex_colors,
-                    const Color& color = ::vt_video::Color::clear);
+                    const Color& color = ::vt_video::Color::white);
 
     /** \brief Enables the scissoring effect in the video engine
     *** Scissoring is where you can specify a rectangle of the screen which is affected
