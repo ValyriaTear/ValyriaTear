@@ -71,9 +71,7 @@ namespace gl
 
 class Shader;
 class ShaderProgram;
-class SpriteColored;
-class SpriteParticleSystem;
-class SpriteTextured;
+class Sprite;
 
 } // namespace gl
 
@@ -369,23 +367,19 @@ public:
     //! \brief Unloads the currently loaded shader program.
     void UnloadShaderProgram();
 
-    //! \brief Draws a colored sprite.
-    void DrawSpriteColored(gl::ShaderProgram* shader_program,
-                           const std::vector<float>& vertex_positions,
-                           const std::vector<float>& vertex_colors);
-
     //! \brief Draws a particle system.
-    void DrawSpriteParticleSystem(gl::ShaderProgram* shader_program,
-                                  float* vertex_positions,
-                                  float* vertex_colors,
-                                  float* vertex_texture_coordinates,
-                                  unsigned number_of_vertices);
+    void DrawParticleSystem(gl::ShaderProgram* shader_program,
+                            float* vertex_positions,
+                            float* vertex_texture_coordinates,
+                            float* vertex_colors,
+                            unsigned number_of_vertices);
 
-    //! \brief Draws a textured sprite.
-    void DrawSpriteTextured(gl::ShaderProgram* shader_program,
-                            const std::vector<float>& vertex_positions,
-                            const std::vector<float>& vertex_texture_coordinates,
-                            const Color& color);
+    //! \brief Draws a sprite.
+    void DrawSprite(gl::ShaderProgram* shader_program,
+                    const std::vector<float>& vertex_positions,
+                    const std::vector<float>& vertex_texture_coordinates,
+                    const std::vector<float>& vertex_colors,
+                    const Color& color = ::vt_video::Color::white);
 
     /** \brief Enables the scissoring effect in the video engine
     *** Scissoring is where you can specify a rectangle of the screen which is affected
@@ -792,14 +786,8 @@ private:
     //! The stack containing transforms. Pushed and popped by PushMatrix/PopMatrix.
     std::stack<gl::Transform> _transform_stack;
 
-    //! The OpenGL buffers and objects to draw a colored quad.
-    gl::SpriteColored* _sprite_colored;
-
-    //! The OpenGL buffers and objects to draw a particle system.
-    gl::SpriteParticleSystem* _sprite_particle_system;
-
-    //! The OpenGL buffers and objects to draw a textured quad.
-    gl::SpriteTextured* _sprite_textured;
+    //! The OpenGL buffers and objects to draw a sprite.
+    gl::Sprite* _sprite;
 
     //! The OpenGL shaders.
     std::map<gl::shaders::Shaders, gl::Shader*> _shaders;
@@ -807,7 +795,7 @@ private:
     //! The OpenGL shader programs.
     std::map<gl::shader_programs::ShaderPrograms, gl::ShaderProgram*> _programs;
 
-    //! check to see if the VideoManager has already been setup.
+    //! Check to see if the VideoManager has already been setup.
     bool _initialized;
 
     //-- Private methods ------------------------------------------------------

@@ -1010,28 +1010,37 @@ void MapMode::_UpdateMapFrame()
 
 void MapMode::_DrawDebugGrid()
 {
-    //
-    // This code is more of a proof a concept to make sure the new grid rendering code draws grids correctly.
-    //
-    // However, it's not 100% correct yet in regards to game functionality.
-    //
-
     VideoManager->SetCoordSys(0.0f, static_cast<float>(VideoManager->GetViewportWidth()),
                               static_cast<float>(VideoManager->GetViewportHeight()), 0.0f);
     VideoManager->PushMatrix();
-    VideoManager->Move(0.0f, 0.0f);
 
-    // The collision grid.
+    float x = _map_frame.tile_x_offset * VideoManager->GetViewportWidth() / SCREEN_GRID_X_LENGTH;
+    float y = _map_frame.tile_y_offset * VideoManager->GetViewportHeight() / SCREEN_GRID_Y_LENGTH;
+    VideoManager->Move(x, y);
+
+    // Calculate the dimensions of the grid.
+    float left = VideoManager->GetCoordSys().GetLeft();
+    float right = VideoManager->GetCoordSys().GetRight();
+    float top = VideoManager->GetCoordSys().GetTop();
+    float bottom = VideoManager->GetCoordSys().GetBottom();
+
+    // Calculate the dimensions of the grid's cells.
+    float width_cell_horizontal = (right - left) / SCREEN_GRID_X_LENGTH;
+    float width_cell_vertical = (bottom - top) / SCREEN_GRID_Y_LENGTH;
+
+    // Increase the dimensions of the grid to prevent clipping around its edges.
+    left -= (width_cell_horizontal * 2.0f);
+    right += (width_cell_horizontal * 2.0f);
+    top -= (width_cell_vertical * 2.0f);
+    bottom += (width_cell_vertical * 2.0f);
+
+    // Draw the collision grid.
     Color color = Color(0.0f, 0.0f, 0.5f, 1.0f);
-    VideoManager->DrawGrid(VideoManager->GetCoordSys().GetLeft(), VideoManager->GetCoordSys().GetTop(),
-                           VideoManager->GetCoordSys().GetRight(), VideoManager->GetCoordSys().GetBottom(),
-                           SCREEN_GRID_X_LENGTH, SCREEN_GRID_Y_LENGTH, 1, color);
+    VideoManager->DrawGrid(left, top, right, bottom, width_cell_horizontal, width_cell_vertical, 1, color);
 
-    // The tile grid.
+    // Draw the tile grid.
     color = Color(0.5f, 0.0f, 0.0f, 1.0f);
-    VideoManager->DrawGrid(VideoManager->GetCoordSys().GetLeft(), VideoManager->GetCoordSys().GetTop(),
-                           VideoManager->GetCoordSys().GetRight(), VideoManager->GetCoordSys().GetBottom(),
-                           SCREEN_GRID_X_LENGTH * 0.5f, SCREEN_GRID_Y_LENGTH * 0.5f, 1, color);
+    VideoManager->DrawGrid(left, top, right, bottom, width_cell_horizontal * 2.0f, width_cell_vertical * 2.0f, 1, color);
 
     VideoManager->PopMatrix();
 }

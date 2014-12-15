@@ -58,7 +58,7 @@ function Initialize(map_instance)
         },
         [6] = {
             header = Script:CreateText(vt_system.Translate("Additional programming\nand scripting"), vt_video.TextStyle("text22")),
-            text = Script:CreateText("Roots\nIkarusDowned   CoderGreen\nAuthenticate   Logzero\nEndoalir", vt_video.TextStyle("text22"))
+            text = Script:CreateText("Roots\nIkarusDowned   CoderGreen\nJames Lammlein   Logzero\nEndoalir", vt_video.TextStyle("text22"))
         },
         [7] = {
             header = Script:CreateText(vt_system.Translate("Ports"), vt_video.TextStyle("text22")),

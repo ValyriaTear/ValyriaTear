@@ -122,8 +122,6 @@ bool TexSheet::CopyRect(int32 x, int32 y, ImageMemory &data)
     return true;
 }
 
-
-
 bool TexSheet::CopyScreenRect(int32 x, int32 y, const ScreenRect &screen_rect)
 {
     TextureManager->_BindTexture(tex_id);
@@ -146,8 +144,6 @@ bool TexSheet::CopyScreenRect(int32 x, int32 y, const ScreenRect &screen_rect)
 
     return true;
 }
-
-
 
 void TexSheet::Smooth(bool flag)
 {
@@ -206,17 +202,54 @@ void TexSheet::DEBUG_Draw() const
     texture_coordinates.push_back(0.0f);
     texture_coordinates.push_back(0.0f);
 
+    // The vertex colors.
+    std::vector<float> vertex_colors;
+
+    // Vertex one.
+    vertex_colors.push_back(1.0f);
+    vertex_colors.push_back(1.0f);
+    vertex_colors.push_back(1.0f);
+    vertex_colors.push_back(1.0f);
+
+    // Vertex two.
+    vertex_colors.push_back(1.0f);
+    vertex_colors.push_back(1.0f);
+    vertex_colors.push_back(1.0f);
+    vertex_colors.push_back(1.0f);
+
+    // Vertex three.
+    vertex_colors.push_back(1.0f);
+    vertex_colors.push_back(1.0f);
+    vertex_colors.push_back(1.0f);
+    vertex_colors.push_back(1.0f);
+
+    // Vertex four.
+    vertex_colors.push_back(1.0f);
+    vertex_colors.push_back(1.0f);
+    vertex_colors.push_back(1.0f);
+    vertex_colors.push_back(1.0f);
+
     // Enable texturing and bind the texture.
     VideoManager->DisableBlending();
     VideoManager->EnableTexture2D();
     TextureManager->_BindTexture(tex_id);
 
+    // Load the solid shader program.
+    gl::ShaderProgram* shader_program = VideoManager->LoadShaderProgram(gl::shader_programs::Solid);
+    assert(shader_program != NULL);
+
+    // Draw a black background.
+    VideoManager->DrawSprite(shader_program, vertex_positions, texture_coordinates, vertex_colors, ::vt_video::Color::black);
+
+    // Unload the shader program.
+    VideoManager->UnloadShaderProgram();
+
     // Load the sprite shader program.
-    gl::ShaderProgram* shader_program = VideoManager->LoadShaderProgram(gl::shader_programs::Sprite);
+    shader_program = VideoManager->LoadShaderProgram(gl::shader_programs::Sprite);
     assert(shader_program != NULL);
 
     // Draw the image.
-    VideoManager->DrawSpriteTextured(shader_program, vertex_positions, texture_coordinates, vt_video::Color::clear);
+    VideoManager->DrawSprite(shader_program, vertex_positions, texture_coordinates, vertex_colors);
 
     // Unload the shader program.
     VideoManager->UnloadShaderProgram();
