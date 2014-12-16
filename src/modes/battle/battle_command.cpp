@@ -932,6 +932,18 @@ bool CommandSupervisor::_SetInitialTarget()
         return _selected_target.SetInitialTarget(user, target_type);
     }
 
+    // If we don't memorize the last target, simply select the first one again.
+    if(!SystemManager->GetBattleTargetMemory()) {
+        // If the target type is invalid that means that there is no previous target so grab the initial target
+        if(!_selected_target.SetInitialTarget(user, target_type)) {
+            // No more target of that type, let's go back to the command state
+            _selected_target.InvalidateTarget();
+            GlobalManager->Media().PlaySound("cancel");
+            return false;
+        }
+        return true;
+    }
+
     // Retrieved the last saved target depending on the type (self/ally/foe)
     if(IsTargetSelf(target_type)) {
         _selected_target = _active_settings->GetLastSelfTarget();

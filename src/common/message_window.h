@@ -50,6 +50,11 @@ public:
         _textbox.SetDisplayText(message);
     }
 
+    //! \brief Set the text appearance speed in character per seconds.
+    void SetDisplaySpeed(float display_speed) {
+        _textbox.SetDisplaySpeed(display_speed);
+    }
+
     //! \brief Updates the text scrolling
     void Update() {
         _textbox.Update();

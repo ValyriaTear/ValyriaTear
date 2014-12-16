@@ -152,6 +152,7 @@ GameOptionsMenuHandler::GameOptionsMenuHandler(vt_mode_manager::GameMode* parent
     _SetupOptionsMenu();
     _SetupVideoOptionsMenu();
     _SetupAudioOptionsMenu();
+    _SetupGameOptions();
     _SetupLanguageOptionsMenu();
     _SetupKeySettingsMenu();
     _SetupJoySettingsMenu();
@@ -307,6 +308,8 @@ void GameOptionsMenuHandler::Update()
             _active_menu = &_options_menu;
         } else if(_active_menu == &_audio_options_menu) {
             _active_menu = &_options_menu;
+        } else if(_active_menu == &_game_options_menu) {
+            _active_menu = &_options_menu;
         } else if(_active_menu == &_language_options_menu) {
             _active_menu = &_options_menu;
         } else if(_active_menu == &_key_settings_menu) {
@@ -350,6 +353,7 @@ void GameOptionsMenuHandler::ReloadTranslatableMenus()
     _SetupOptionsMenu();
     _SetupVideoOptionsMenu();
     _SetupAudioOptionsMenu();
+    _SetupGameOptions();
     _SetupKeySettingsMenu();
     _SetupJoySettingsMenu();
     _SetupResolutionMenu();
@@ -363,7 +367,7 @@ void GameOptionsMenuHandler::_SetupOptionsMenu()
 {
     _options_menu.ClearOptions();
     _options_menu.SetPosition(512.0f, 338.0f);
-    _options_menu.SetDimensions(300.0f, 600.0f, 1, 5, 1, 5);
+    _options_menu.SetDimensions(300.0f, 600.0f, 1, 6, 1, 6);
     _options_menu.SetTextStyle(TextStyle("title22"));
     _options_menu.SetAlignment(VIDEO_X_CENTER, VIDEO_Y_CENTER);
     _options_menu.SetOptionAlignment(VIDEO_X_CENTER, VIDEO_Y_CENTER);
@@ -374,6 +378,7 @@ void GameOptionsMenuHandler::_SetupOptionsMenu()
 
     _options_menu.AddOption(UTranslate("Video"), this, &GameOptionsMenuHandler::_OnVideoOptions);
     _options_menu.AddOption(UTranslate("Audio"), this, &GameOptionsMenuHandler::_OnAudioOptions);
+    _options_menu.AddOption(UTranslate("Game"), this, &GameOptionsMenuHandler::_OnGameOptions);
     _options_menu.AddOption(UTranslate("Language"), this, &GameOptionsMenuHandler::_OnLanguageOptions);
     _options_menu.AddOption(UTranslate("Key Settings"), this, &GameOptionsMenuHandler::_OnKeySettings);
     _options_menu.AddOption(UTranslate("Joystick Settings"), this, &GameOptionsMenuHandler::_OnJoySettings);
@@ -383,7 +388,7 @@ void GameOptionsMenuHandler::_SetupOptionsMenu()
     // Disable the language menu when not in the boot menu.
     // Otherwise, the game language changes aren't handled correctly.
     if (_parent_mode && _parent_mode->GetGameType() != vt_mode_manager::MODE_MANAGER_BOOT_MODE)
-        _options_menu.EnableOption(2, false);
+        _options_menu.EnableOption(3, false);
 }
 
 void GameOptionsMenuHandler::_SetupVideoOptionsMenu()
@@ -434,6 +439,46 @@ void GameOptionsMenuHandler::_SetupAudioOptionsMenu()
     _audio_options_menu.SetSelection(0);
 }
 
+void GameOptionsMenuHandler::_SetupGameOptions()
+{
+    _game_options_menu.ClearOptions();
+    _game_options_menu.SetPosition(512.0f, 338.0f);
+    _game_options_menu.SetDimensions(300.0f, 200.0f, 1, 3, 1, 3);
+    _game_options_menu.SetTextStyle(TextStyle("title22"));
+    _game_options_menu.SetAlignment(VIDEO_X_CENTER, VIDEO_Y_CENTER);
+    _game_options_menu.SetOptionAlignment(VIDEO_X_CENTER, VIDEO_Y_CENTER);
+    _game_options_menu.SetSelectMode(VIDEO_SELECT_SINGLE);
+    _game_options_menu.SetVerticalWrapMode(VIDEO_WRAP_MODE_STRAIGHT);
+    _game_options_menu.SetCursorOffset(-50.0f, -28.0f);
+
+    std::string difficulty_text;
+    switch (SystemManager->GetGameDifficulty()) {
+    case 1:
+        difficulty_text = Translate("Easy");
+        break;
+    default:
+        SystemManager->SetGameDifficulty(2);
+    case 2:
+        difficulty_text = Translate("Normal");
+        break;
+    case 3:
+        difficulty_text = Translate("Hard");
+        break;
+    }
+
+    ustring text = MakeUnicodeString(VTranslate("Game Difficulty: %s", difficulty_text));
+    _game_options_menu.AddOption(text, this, &GameOptionsMenuHandler::_OnGameDifficultyConfirm,
+                                 NULL, NULL,
+                                 &GameOptionsMenuHandler::_OnGameDifficultyConfirm,
+                                 &GameOptionsMenuHandler::_OnGameDifficultyConfirm);
+
+    text = MakeUnicodeString(VTranslate("Dialogue text speed: %i", static_cast<int32>(SystemManager->GetMessageSpeed())));
+    _game_options_menu.AddOption(text, this, NULL, NULL, NULL,
+                                 &GameOptionsMenuHandler::_OnDialogueSpeedLeft,
+                                 &GameOptionsMenuHandler::_OnDialogueSpeedRight);
+    text = MakeUnicodeString(VTranslate("Battle target cursor memory: %s", (SystemManager->GetBattleTargetMemory() ? Translate("Yes") : Translate("No"))));
+    _game_options_menu.AddOption(text, this, &GameOptionsMenuHandler::_OnBattleTargetCursorMemoryConfirm);
+}
 
 void GameOptionsMenuHandler::_SetupLanguageOptionsMenu()
 {
@@ -660,6 +705,33 @@ void GameOptionsMenuHandler::_RefreshAudioOptions()
     _audio_options_menu.SetOptionText(1, UTranslate("Music Volume: ") + MakeUnicodeString(NumberToString(static_cast<int32>(AudioManager->GetMusicVolume() * 100.0f + 0.5f)) + " %"));
 }
 
+void GameOptionsMenuHandler::_RefreshGameOptions()
+{
+    std::string difficulty_text;
+    switch (SystemManager->GetGameDifficulty()) {
+    case 1:
+        difficulty_text = Translate("Easy");
+        break;
+    default:
+        SystemManager->SetGameDifficulty(2);
+    case 2:
+        difficulty_text = Translate("Normal");
+        break;
+    case 3:
+        difficulty_text = Translate("Hard");
+        break;
+    }
+
+    ustring text = MakeUnicodeString(VTranslate("Game Difficulty: %s", difficulty_text));
+    _game_options_menu.SetOptionText(0, text);
+
+    text = MakeUnicodeString(VTranslate("Dialogue text speed: %i", static_cast<int32>(SystemManager->GetMessageSpeed())));
+    _game_options_menu.SetOptionText(1, text);
+
+    text = MakeUnicodeString(VTranslate("Battle target cursor memory: %s", (SystemManager->GetBattleTargetMemory() ? Translate("Yes") : Translate("No"))));
+    _game_options_menu.SetOptionText(2, text);
+}
+
 void GameOptionsMenuHandler::_RefreshKeySettings()
 {
     // Update key names
@@ -705,6 +777,13 @@ void GameOptionsMenuHandler::_OnAudioOptions()
     // Switch the current menu
     _active_menu = &_audio_options_menu;
     _RefreshAudioOptions();
+}
+
+void GameOptionsMenuHandler::_OnGameOptions()
+{
+    // Switch the current menu
+    _active_menu = &_game_options_menu;
+    _RefreshGameOptions();
 }
 
 void GameOptionsMenuHandler::_OnLanguageOptions()
@@ -855,6 +934,52 @@ void GameOptionsMenuHandler::_OnLanguageSelect()
     _RefreshLanguageOptions();
 }
 
+void GameOptionsMenuHandler::_OnGameDifficultyConfirm()
+{
+    uint32 difficulty = SystemManager->GetGameDifficulty();
+    if (difficulty == 0) // Invalid
+        difficulty = 2; // Normal
+    if (difficulty >= 3) // Cycle through values.
+        difficulty = 1;
+    else
+        ++difficulty;
+
+    SystemManager->SetGameDifficulty(difficulty);
+    _RefreshGameOptions();
+    _has_modified_settings = true;
+}
+
+void GameOptionsMenuHandler::_OnDialogueSpeedLeft()
+{
+    SystemManager->SetMessageSpeed(SystemManager->GetMessageSpeed() - 10.0f);
+    _RefreshGameOptions();
+    _has_modified_settings = true;
+
+    // Used to let the user visually see the difference with the text scrolling speed.
+    _explanation_window.SetDisplaySpeed(SystemManager->GetMessageSpeed());
+    _explanation_window.SetText(ustring());
+    _UpdateExplanationText();
+}
+
+void GameOptionsMenuHandler::_OnDialogueSpeedRight()
+{
+    SystemManager->SetMessageSpeed(SystemManager->GetMessageSpeed() + 10.0f);
+    _RefreshGameOptions();
+    _has_modified_settings = true;
+
+    // Used to let the user visually see the difference with the text scrolling speed.
+    _explanation_window.SetDisplaySpeed(SystemManager->GetMessageSpeed());
+    _explanation_window.SetText(ustring());
+    _UpdateExplanationText();
+}
+
+void GameOptionsMenuHandler::_OnBattleTargetCursorMemoryConfirm()
+{
+    SystemManager->SetBattleTargetMemory(!SystemManager->GetBattleTargetMemory());
+    _RefreshGameOptions();
+    _has_modified_settings = true;
+}
+
 void GameOptionsMenuHandler::_OnRestoreDefaultKeys()
 {
     InputManager->RestoreDefaultKeys();
@@ -934,12 +1059,15 @@ void GameOptionsMenuHandler::_UpdateExplanationText()
             _explanation_window.SetText(UTranslate("Here you can setup the music and SFX volumes."));
             break;
         case 2:
-            _explanation_window.SetText(UTranslate("This menu will show the available languages. Only available from the boot menu..."));
+            _explanation_window.SetText(UTranslate("This menu permits to setup game specific options, such as the text scrolling speed, the game difficulty, ..."));
             break;
         case 3:
-            _explanation_window.SetText(UTranslate("Here you change the keys used when playing with the keyboard..."));
+            _explanation_window.SetText(UTranslate("This menu will show the available languages. Only available from the boot menu..."));
             break;
         case 4:
+            _explanation_window.SetText(UTranslate("Here you change the keys used when playing with the keyboard..."));
+            break;
+        case 5:
             _explanation_window.SetText(UTranslate("Here you change the keys used when playing with a joystick..."));
             break;
         default:
@@ -973,6 +1101,22 @@ void GameOptionsMenuHandler::_UpdateExplanationText()
             break;
         case 1:
             _explanation_window.SetText(UTranslate("Permits to set the general SFX volume."));
+            break;
+        default:
+            _explanation_window.Hide();
+            break;
+        }
+    }
+    else if (_active_menu == &_game_options_menu) {
+        switch(_game_options_menu.GetSelection()) {
+        case 0:
+            _explanation_window.SetText(UTranslate("Sets the game difficulty, can change how hard battles and certain events are in game..."));
+            break;
+        case 1:
+            _explanation_window.SetText(UTranslate("Permits to set up the dialogue text scrolling speed (in character per seconds)..."));
+            break;
+        case 2:
+            _explanation_window.SetText(UTranslate("Sets whether the battle target should be kept in memory between two actions for a given character."));
             break;
         default:
             _explanation_window.Hide();
@@ -1134,11 +1278,18 @@ bool GameOptionsMenuHandler::_SaveSettingsFile(const std::string& filename)
     settings_lua.InsertNewLine();
     settings_lua.WriteComment("--Game settings--");
     settings_lua.BeginTable("game_options");
+    settings_lua.WriteComment("The game difficulty: 1: Easy, 2: Normal, 3: Hard. (Default: Normal)");
+    settings_lua.WriteComment("The difficulty will change how much XP you win and will taint the enemies stats.");
+    settings_lua.WriteComment("Certain scripted events may also change according to the current difficulty when entering a new map/battle.");
+    settings_lua.WriteUInt("game_difficulty", SystemManager->GetGameDifficulty());
+
     std::stringstream speed_text("");
     speed_text << "Speed of text displayed in dialogues (in characters per seconds) [1-N] (Default: "
                << vt_gui::DEFAULT_MESSAGE_SPEED << ")";
     settings_lua.WriteComment(speed_text.str());
     settings_lua.WriteInt("message_speed", SystemManager->GetMessageSpeed());
+    settings_lua.WriteComment("Whether the latest battle target should be kept in memory between two actions for each characters. (Default: 1)");
+    settings_lua.WriteBool("battle_target_cursor_memory", SystemManager->GetBattleTargetMemory());
     settings_lua.EndTable(); // game_options
 
     settings_lua.EndTable(); // settings

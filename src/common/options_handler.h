@@ -172,6 +172,7 @@ private:
     OptionMenu _video_options_menu;
     OptionMenu _resolution_menu;
     OptionMenu _audio_options_menu;
+    OptionMenu _game_options_menu;
     OptionMenu _language_options_menu;
     OptionMenu _key_settings_menu;
     OptionMenu _joy_settings_menu;
@@ -209,6 +210,7 @@ private:
     void _SetupOptionsMenu();
     void _SetupVideoOptionsMenu();
     void _SetupAudioOptionsMenu();
+    void _SetupGameOptions();
     void _SetupLanguageOptionsMenu();
     void _SetupKeySettingsMenu();
     void _SetupJoySettingsMenu();
@@ -217,6 +219,7 @@ private:
     //! \brief Refreshes the option text displays on various option menus
     void _RefreshVideoOptions();
     void _RefreshAudioOptions();
+    void _RefreshGameOptions();
     void _RefreshLanguageOptions();
     void _RefreshKeySettings();
     void _RefreshJoySettings();
@@ -224,6 +227,7 @@ private:
     //! \brief Handler methods for the primary options menu
     void _OnVideoOptions();
     void _OnAudioOptions();
+    void _OnGameOptions();
     void _OnLanguageOptions();
     void _OnKeySettings();
     void _OnJoySettings();
@@ -251,6 +255,14 @@ private:
     //! \brief Handler methods for the language options menu
     //@{
     void _OnLanguageSelect();
+    //@}
+
+    //! \brief Handler methods for the game options menu
+    //@{
+    void _OnDialogueSpeedLeft();
+    void _OnDialogueSpeedRight();
+    void _OnBattleTargetCursorMemoryConfirm();
+    void _OnGameDifficultyConfirm();
     //@}
 
     //! \brief Handler methods for the key settings options menu

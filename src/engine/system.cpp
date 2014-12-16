@@ -293,7 +293,9 @@ SystemEngine::SystemEngine():
     _seconds_played(0),
     _milliseconds_played(0),
     _not_done(true),
-    _message_speed(vt_gui::DEFAULT_MESSAGE_SPEED)
+    _message_speed(vt_gui::DEFAULT_MESSAGE_SPEED),
+    _battle_target_cursor_memory(true),
+    _game_difficulty(2) // Normal
 {
     IF_PRINT_DEBUG(SYSTEM_DEBUG) << "constructor invoked" << std::endl;
 
@@ -388,6 +390,25 @@ bool SystemEngine::SetLanguage(const std::string& lang)
     return true;
 }
 
+void SystemEngine::SetMessageSpeed(float message_speed)
+{
+    _message_speed = message_speed;
+
+    if (_message_speed < 40.0f)
+        _message_speed = 40.0f;
+
+    if (_message_speed > 600.0f)
+        _message_speed = 600.0f;
+}
+
+void SystemEngine::SetGameDifficulty(uint32 game_difficulty)
+{
+        _game_difficulty = game_difficulty;
+        if (_game_difficulty > 3)
+            _game_difficulty = 3;
+        else if (_game_difficulty < 1)
+            _game_difficulty = 1;
+}
 
 bool SystemEngine::SingletonInitialize()
 {
