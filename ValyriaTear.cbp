@@ -299,12 +299,8 @@
 		<Unit filename="src/engine/video/gl/shader_program.h" />
 		<Unit filename="src/engine/video/gl/shader_programs.h" />
 		<Unit filename="src/engine/video/gl/shaders.h" />
-		<Unit filename="src/engine/video/gl/sprite_colored.cpp" />
-		<Unit filename="src/engine/video/gl/sprite_colored.h" />
-		<Unit filename="src/engine/video/gl/sprite_particle_system.cpp" />
-		<Unit filename="src/engine/video/gl/sprite_particle_system.h" />
-		<Unit filename="src/engine/video/gl/sprite_textured.cpp" />
-		<Unit filename="src/engine/video/gl/sprite_textured.h" />
+		<Unit filename="src/engine/video/gl/sprite.cpp" />
+		<Unit filename="src/engine/video/gl/sprite.h" />
 		<Unit filename="src/engine/video/gl/transform.cpp" />
 		<Unit filename="src/engine/video/gl/transform.h" />
 		<Unit filename="src/engine/video/image.cpp" />
