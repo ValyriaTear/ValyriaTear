@@ -189,7 +189,7 @@ void ActiveBattleStatusEffect::_ProcessIntensityChange(bool reset_timer_only)
 // EffectsSupervisor class
 ////////////////////////////////////////////////////////////////////////////////
 
-EffectsSupervisor::EffectsSupervisor(BattleActor* actor) :
+BattleStatusEffectsSupervisor::BattleStatusEffectsSupervisor(BattleActor* actor) :
     _actor(actor)
 {
     // Reserve space for potential status effects,
@@ -199,7 +199,7 @@ EffectsSupervisor::EffectsSupervisor(BattleActor* actor) :
         PRINT_WARNING << "Invalid BattleActor* when initializing the Battle status effects supervisor." << std::endl;
 }
 
-void EffectsSupervisor::SetActiveStatusEffects(GlobalCharacter* character)
+void BattleStatusEffectsSupervisor::SetActiveStatusEffects(GlobalCharacter* character)
 {
     if (!character)
         return;
@@ -218,7 +218,7 @@ void EffectsSupervisor::SetActiveStatusEffects(GlobalCharacter* character)
     }
 }
 
-void EffectsSupervisor::_UpdatePassive()
+void BattleStatusEffectsSupervisor::_UpdatePassive()
 {
     for(uint32 i = 0; i < _equipment_status_effects.size(); ++i) {
         PassiveBattleStatusEffect& effect = _equipment_status_effects.at(i);
@@ -257,7 +257,7 @@ void EffectsSupervisor::_UpdatePassive()
     }
 }
 
-void EffectsSupervisor::Update()
+void BattleStatusEffectsSupervisor::Update()
 {
     // Do not update when states are paused
     BattleMode* BM = BattleMode::CurrentInstance();
@@ -340,7 +340,7 @@ void EffectsSupervisor::Update()
     _UpdatePassive();
 }
 
-void EffectsSupervisor::Draw()
+void BattleStatusEffectsSupervisor::Draw()
 {
     // Draw in reverse to not overlap the arrow symbol
     VideoManager->MoveRelative(6.0f * 16.0f, 0.0f);
@@ -356,7 +356,7 @@ void EffectsSupervisor::Draw()
     }
 }
 
-void EffectsSupervisor::DrawVertical()
+void BattleStatusEffectsSupervisor::DrawVertical()
 {
     for(std::vector<ActiveBattleStatusEffect>::reverse_iterator it = _active_status_effects.rbegin();
             it != _active_status_effects.rend(); ++it) {
@@ -369,14 +369,14 @@ void EffectsSupervisor::DrawVertical()
     }
 }
 
-void EffectsSupervisor::RemoveAllActiveStatusEffects()
+void BattleStatusEffectsSupervisor::RemoveAllActiveStatusEffects()
 {
     for(uint32 i = 0; i < _active_status_effects.size(); ++i) {
         RemoveActiveStatusEffect((GLOBAL_STATUS)i);
     }
 }
 
-bool EffectsSupervisor::ChangeActiveStatusEffect(GLOBAL_STATUS status, GLOBAL_INTENSITY intensity,
+bool BattleStatusEffectsSupervisor::ChangeActiveStatusEffect(GLOBAL_STATUS status, GLOBAL_INTENSITY intensity,
                                                  uint32 duration, uint32 elapsed_time)
 {
     if((status <= GLOBAL_STATUS_INVALID) || (status >= GLOBAL_STATUS_TOTAL)) {
@@ -435,13 +435,13 @@ bool EffectsSupervisor::ChangeActiveStatusEffect(GLOBAL_STATUS status, GLOBAL_IN
     return false;
 } // bool EffectsSupervisor::ChangeStatus( ... )
 
-void EffectsSupervisor::AddPassiveStatusEffect(vt_global::GLOBAL_STATUS status_effect, vt_global::GLOBAL_INTENSITY intensity)
+void BattleStatusEffectsSupervisor::AddPassiveStatusEffect(vt_global::GLOBAL_STATUS status_effect, vt_global::GLOBAL_INTENSITY intensity)
 {
     PassiveBattleStatusEffect effect(status_effect, intensity);
     _equipment_status_effects.push_back(effect);
 }
 
-void EffectsSupervisor::_CreateNewStatus(GLOBAL_STATUS status, GLOBAL_INTENSITY intensity,
+void BattleStatusEffectsSupervisor::_CreateNewStatus(GLOBAL_STATUS status, GLOBAL_INTENSITY intensity,
                                          uint32 duration, uint32 elapsed_time)
 {
     if((status <= GLOBAL_STATUS_INVALID) || (status >= GLOBAL_STATUS_TOTAL)) {
@@ -479,7 +479,7 @@ void EffectsSupervisor::_CreateNewStatus(GLOBAL_STATUS status, GLOBAL_INTENSITY 
     }
 }
 
-void EffectsSupervisor::RemoveActiveStatusEffect(GLOBAL_STATUS status_effect_type, bool remove_anyway)
+void BattleStatusEffectsSupervisor::RemoveActiveStatusEffect(GLOBAL_STATUS status_effect_type, bool remove_anyway)
 {
     ActiveBattleStatusEffect& status_effect = _active_status_effects[status_effect_type];
 

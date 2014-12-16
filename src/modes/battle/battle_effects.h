@@ -194,13 +194,13 @@ private:
 *** the appropriate time. The class also contains a draw function which will display
 *** icons for all the active status effects of an actor to the screen.
 *** ***************************************************************************/
-class EffectsSupervisor
+class BattleStatusEffectsSupervisor
 {
 public:
     //! \param actor A valid pointer to the actor object that this class is responsible for
-    EffectsSupervisor(BattleActor* actor);
+    BattleStatusEffectsSupervisor(BattleActor* actor);
 
-    ~EffectsSupervisor()
+    ~BattleStatusEffectsSupervisor()
     {}
 
     //! \brief Updates the timers and state of any effects
@@ -296,7 +296,7 @@ private:
     //! \brief Updates the passive (equipment) status effects
     //! \note This method is called from within Update()
     void _UpdatePassive();
-}; // class EffectsSupervisor
+}; // class BattleStatusEffectsSupervisor
 
 } // namespace private_battle
 
