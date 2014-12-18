@@ -66,45 +66,41 @@ class FontGlyph
 {
 public:
     FontGlyph() :
-        texture(0),
-        width(0),
-        height(0),
-        min_x(0),
-        min_y(0),
-        max_x(0.0f),
-        max_y(0.0f),
-        advance(0),
-        top_y(0)
+        _texture(0),
+        _width(0),
+        _height(0),
+        _min_x(0),
+        _min_y(0),
+        _tx(0.0f),
+        _ty(0.0f),
+        _advance(0)
     {
     }
 
     ~FontGlyph()
     {
         // Clean up the OpenGL texture.
-        if (texture != 0) {
-            GLuint textures[] = { texture };
+        if (_texture != 0) {
+            GLuint textures[] = { _texture };
             glDeleteTextures(1, textures);
-            texture = 0;
+            _texture = 0;
         }
     }
 
     //! \brief The index of the GL texture for this glyph.
-    GLuint texture;
+    GLuint _texture;
 
     //! \brief The width and height of the glyph in pixels.
-    int32 width, height;
+    int32 _width, _height;
 
     //! \brief The mininum x and y pixel coordinates of the glyph in texture space (refer to TTF_GlyphMetrics).
-    int min_x, min_y;
+    int _min_x, _min_y;
 
-    //! \brief The maximum x and y pixel coordinates of the glyph in texture space (refer to TTF_GlyphMetrics).
-    float max_x, max_y;
+    //! \brief The maximum x and y texture coordinates of the glyph. (The minimum texture coordinates are assumed to be zero.)
+    float _tx, _ty;
 
     //! \brief The amount of space between glyphs.
-    int32 advance;
-
-    //! \brief The top y value of the glyph.
-    int top_y;
+    int32 _advance;
 
 private:
     FontGlyph(const FontGlyph&) {}
