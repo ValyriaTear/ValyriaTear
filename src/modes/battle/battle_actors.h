@@ -37,7 +37,7 @@ namespace private_battle
 {
 
 class BattleAction;
-class EffectsSupervisor;
+class BattleStatusEffectsSupervisor;
 
 /** ****************************************************************************
 *** \brief An abstract class for representing an object in the battle
@@ -579,13 +579,13 @@ protected:
     ACTOR_STATE _state;
 
     //! \brief A pointer to the global actor object which the battle actor represents
-    vt_global::GlobalActor *_global_actor;
+    vt_global::GlobalActor* _global_actor;
 
     //! \brief The ammo object. Use when the actor weapon uses ammo.
     BattleAmmo _ammo;
 
     //! \brief A pointer to the action that the actor is preparing to perform or is currently performing
-    BattleAction *_action;
+    BattleAction* _action;
 
     //! \brief Set to true when the actor is in the ACTING state and the execution of the action is complete
     bool _execution_finished;
@@ -609,7 +609,7 @@ protected:
     float _x_stamina_location, _y_stamina_location;
 
     //! \brief An assistant class to the actor that manages all the actor's status and elemental effects
-    EffectsSupervisor *_effects_supervisor;
+    BattleStatusEffectsSupervisor* _effects_supervisor;
 
     //! \brief Updates the Stamina Icon position.
     void _UpdateStaminaIconPosition();
@@ -703,7 +703,7 @@ public:
 
 protected:
     //! \brief A pointer to the global character object which the battle character represents
-    vt_global::GlobalCharacter *_global_character;
+    vt_global::GlobalCharacter* _global_character;
 
     //! \brief Retrains the last HP and SP values that were rendered to text
     uint32 _last_rendered_hp, _last_rendered_sp;
@@ -718,7 +718,7 @@ protected:
     //! \brief The Animated image pointer from the global character
     //! Used to avoid calling the global character std::map find calls on each loops
     //! Don't delete it, it's just a reference to the global manager animated images
-    vt_video::AnimatedImage *_current_sprite_animation;
+    vt_video::AnimatedImage* _current_sprite_animation;
 
     //! The current weapon animation loaded for the given weapon
     vt_video::AnimatedImage _current_weapon_animation;
@@ -808,7 +808,7 @@ public:
 
 protected:
     //! \brief A pointer to the global enemy object which the battle enemy represents
-    vt_global::GlobalEnemy *_global_enemy;
+    vt_global::GlobalEnemy* _global_enemy;
 
     //! \brief A pointer to the enemy battle animations
     //! Do not delete it, the global enemy instance will take care of it.

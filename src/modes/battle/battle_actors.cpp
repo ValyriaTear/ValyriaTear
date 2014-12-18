@@ -111,7 +111,7 @@ BattleActor::BattleActor(GlobalActor *actor) :
     _animation_timer(0),
     _x_stamina_location(0.0f),
     _y_stamina_location(0.0f),
-    _effects_supervisor(new EffectsSupervisor(this))
+    _effects_supervisor(new BattleStatusEffectsSupervisor(this))
 {
     if(actor == NULL) {
         IF_PRINT_WARNING(BATTLE_DEBUG) << "constructor received NULL argument" << std::endl;

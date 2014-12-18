@@ -25,15 +25,11 @@ namespace shaders
 
 enum Shaders
 {
-    VertexParticle = 0,
-    VertexSolid,
-    VertexSolidPer,
-    VertexSprite,
-    FragmentParticle,
+    VertexDefault = 0,
     FragmentSolid,
-    FragmentSolidPer,
+    FragmentSolidGrayscale,
     FragmentSprite,
-    FragmentGrayscaleSprite,
+    FragmentSpriteGrayscale,
     Count
 };
 

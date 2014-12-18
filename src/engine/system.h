@@ -485,9 +485,29 @@ public:
     }
 
     //! \brief Set the dialogue text message growth in characters per second.
-    void SetMessageSpeed(float message_speed) {
-        _message_speed = message_speed;
+    void SetMessageSpeed(float message_speed);
+
+    //! \brief Tells whether the last battle target should be kept in memory between two actions
+    //! for battle characters.
+    bool GetBattleTargetMemory() const {
+        return _battle_target_cursor_memory;
     }
+
+    //! \brief Sets whether the last battle target should be kept in memory between two actions
+    //! for battle characters.
+    void SetBattleTargetMemory(bool cursor_memory) {
+        _battle_target_cursor_memory = cursor_memory;
+    }
+
+    //! \brief Tells whether the last battle target should be kept in memory between two actions
+    //! for battle characters.
+    uint32 GetGameDifficulty() const {
+        return _game_difficulty;
+    }
+
+    //! \brief Sets whether the last battle target should be kept in memory between two actions
+    //! for battle characters.
+    void SetGameDifficulty(uint32 game_difficulty);
 
 private:
     SystemEngine();
@@ -517,6 +537,15 @@ private:
 
     //! \brief Speed at which messages are displayed in dialogues, in characters per second
     float _message_speed;
+
+    //! \brief Tells whether the last battle target should be kept in memory between two actions
+    //! for battle characters.
+    bool _battle_target_cursor_memory;
+
+    //! \brief Tells the game difficulty. 1: Easy, 2: Normal, 3: Hard.
+    //! The difficulty will change how much XP you win and will taint the enemies stats.
+    //! Certain scripted events may also change according to the current difficulty when entering a new map/battle.
+    uint32 _game_difficulty;
 
     /** \brief A set container for all SystemTimer objects that have automatic updating enabled
     *** The timers in this container are updated on each call to UpdateTimers().

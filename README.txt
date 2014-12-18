@@ -54,7 +54,7 @@ You'll then be able to play by typing: `src/valyriatear`
 
 A [Code::Blocks](http://www.codeblocks.org/) project file is also provided when compiling under Windows.
 In that case, you might need the dependencies and headers files that can be downloaded here:
-http://sourceforge.net/projects/valyriatear/files/win32-depends/valyriatear-win32-depends-sdl1.2-2012.08.30.zip/download
+https://sourceforge.net/projects/valyriatear/files/win32-depends/valyriatear-win32-depends-sdl1.2-2014-12-11.zip/download
 
 - **Microsoft Visual C++ 2013 and later:**
 

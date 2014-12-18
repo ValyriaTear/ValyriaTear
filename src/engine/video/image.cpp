@@ -563,6 +563,33 @@ void ImageDescriptor::_DrawTexture(const Color* draw_color) const
     vertex_texture_coordinates.push_back(1.0f);
     vertex_texture_coordinates.push_back(1.0f);
 
+    // The vertex colors.
+    std::vector<float> vertex_colors;
+
+    // Vertex one.
+    vertex_colors.push_back(1.0f);
+    vertex_colors.push_back(1.0f);
+    vertex_colors.push_back(1.0f);
+    vertex_colors.push_back(1.0f);
+
+    // Vertex two.
+    vertex_colors.push_back(1.0f);
+    vertex_colors.push_back(1.0f);
+    vertex_colors.push_back(1.0f);
+    vertex_colors.push_back(1.0f);
+
+    // Vertex three.
+    vertex_colors.push_back(1.0f);
+    vertex_colors.push_back(1.0f);
+    vertex_colors.push_back(1.0f);
+    vertex_colors.push_back(1.0f);
+
+    // Vertex four.
+    vertex_colors.push_back(1.0f);
+    vertex_colors.push_back(1.0f);
+    vertex_colors.push_back(1.0f);
+    vertex_colors.push_back(1.0f);
+
     // If no color array was passed, use the image's own vertex colors.
     if (!draw_color) {
         draw_color = _color;
@@ -649,11 +676,11 @@ void ImageDescriptor::_DrawTexture(const Color* draw_color) const
     }
 
     if (_unichrome_vertices) {
-        // Draw the textured sprite.
-        VideoManager->DrawSpriteTextured(shader_program, vertex_positions, vertex_texture_coordinates, *draw_color);
+        // Draw the image.
+        VideoManager->DrawSprite(shader_program, vertex_positions, vertex_texture_coordinates, vertex_colors, *draw_color);
     } else {
-        // The vertex colors.
-        std::vector<float> vertex_colors;
+        // Clear the vertex colors
+        vertex_colors.clear();
 
         // For each of the four vertices.
         for (unsigned i = 0; i < 4; ++i)
@@ -666,8 +693,15 @@ void ImageDescriptor::_DrawTexture(const Color* draw_color) const
             vertex_colors.push_back(color[3]);
         }
 
-        // Draw the colored sprite.
-        VideoManager->DrawSpriteColored(shader_program, vertex_positions, vertex_colors);
+        // Unload the shader program.
+        VideoManager->UnloadShaderProgram();
+
+        // Load the solid shader program.
+        shader_program = VideoManager->LoadShaderProgram(gl::shader_programs::Solid);
+        assert(shader_program != NULL);
+
+        // Draw the image.
+        VideoManager->DrawSprite(shader_program, vertex_positions, vertex_texture_coordinates, vertex_colors);
     }
 
     // Unload the shader program.

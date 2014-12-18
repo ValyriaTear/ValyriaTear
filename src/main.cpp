@@ -211,13 +211,15 @@ bool LoadSettings()
         SystemManager->SetMessageSpeed(DEFAULT_MESSAGE_SPEED);
     }
     else {
-        float message_speed = settings.ReadFloat("message_speed");
-        // Do not permit too slow rolling dialogues to avoid Confirm button bashing.
-        if (message_speed < 100.0f) {
-            message_speed = DEFAULT_MESSAGE_SPEED;
-        }
-        SystemManager->SetMessageSpeed(message_speed);
-        settings.CloseTable(); // video_settings
+        if (settings.DoesUIntExist("game_difficulty"))
+            SystemManager->SetGameDifficulty(settings.ReadUInt("game_difficulty"));
+
+        SystemManager->SetMessageSpeed(settings.ReadFloat("message_speed"));
+
+        if (settings.DoesBoolExist("battle_target_cursor_memory"))
+            SystemManager->SetBattleTargetMemory(settings.ReadBool("battle_target_cursor_memory"));
+
+        settings.CloseTable(); // game_options
     }
 
     settings.CloseTable(); // settings

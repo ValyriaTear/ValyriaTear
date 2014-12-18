@@ -25,27 +25,32 @@
 namespace vt_common
 {
 
-MessageWindow::MessageWindow(const vt_utils::ustring& message, float w, float h)
+MessageWindow::MessageWindow(const vt_utils::ustring& message, float x, float y, float w, float h)
 {
-    float start_x = (1024 - w) / 2;
-    float start_y = (768 - h) / 2;
-
-    MenuWindow::Create(w, h);
-    MenuWindow::SetPosition(start_x, start_y);
-    MenuWindow::Show();
-
-    _textbox.SetPosition(30, 5);
-    _textbox.SetDimensions(w, h);
-    _textbox.SetTextStyle(vt_video::TextStyle("text22"));
-    _textbox.SetDisplayMode(vt_gui::VIDEO_TEXT_INSTANT);
-    _textbox.SetTextAlignment(vt_video::VIDEO_X_LEFT, vt_video::VIDEO_Y_CENTER);
+    CreateMessageWindow(x, y, w, h);
     _textbox.SetDisplayText(message);
-    _textbox.SetOwner(this);
 }
 
 MessageWindow::~MessageWindow()
 {
     MenuWindow::Destroy();
+}
+
+void MessageWindow::CreateMessageWindow(float x, float y, float w, float h)
+{
+    float start_x = x == -1.0f ? (1024 - w) / 2 : x;
+    float start_y = y == -1.0f ? (768 - h) / 2 : y;
+
+    MenuWindow::Create(w, h);
+    MenuWindow::SetPosition(start_x, start_y);
+    MenuWindow::Show();
+
+    _textbox.SetPosition(20.0f, 5.0f);
+    _textbox.SetDimensions(w - 30.0f, h);
+    _textbox.SetTextStyle(vt_video::TextStyle("text22"));
+    _textbox.SetDisplayMode(vt_gui::VIDEO_TEXT_CHAR);
+    _textbox.SetTextAlignment(vt_video::VIDEO_X_LEFT, vt_video::VIDEO_Y_CENTER);
+    _textbox.SetOwner(this);
 }
 
 void MessageWindow::Draw()

@@ -21,16 +21,21 @@ namespace vt_video
 namespace gl
 {
 
+// Forward declarations.
+class ShaderProgram;
+
 //! \brief A class for an OpenGL shader.
 class Shader
 {
+    friend class ShaderProgram;
+
 public:
     Shader(GLenum type, const std::string &data);
     ~Shader();
 
+private:
     GLint _shader;
 
-private:
     Shader(const Shader&) {}
     Shader& operator=(const Shader&) { return *this; }
 };

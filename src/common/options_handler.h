@@ -162,7 +162,7 @@ private:
     //! \brief Stores languages' corresponding gettext PO file names, where index in vector is equivalent to the language name's position in the language options window
     std::vector<std::string> _po_files;
 
-    //! \brief A simple menu window where the various options menus are displayed
+    //! \brief A simple menu window where the various options menus are displayed.
     vt_gui::MenuWindow _options_window;
 
     //! \brief Pointer to the currently active boot menu object. Do not delete it.
@@ -172,6 +172,7 @@ private:
     OptionMenu _video_options_menu;
     OptionMenu _resolution_menu;
     OptionMenu _audio_options_menu;
+    OptionMenu _game_options_menu;
     OptionMenu _language_options_menu;
     OptionMenu _key_settings_menu;
     OptionMenu _joy_settings_menu;
@@ -185,8 +186,11 @@ private:
     //! \brief A pointer to the function to call when a joystick axis has been moved when we're waiting for one
     void (GameOptionsMenuHandler::*_joy_axis_setting_function)(int8 axis);
 
-    //! \brief Window display message for "select a key"
+    //! \brief Window display message for "select a key".
     vt_common::MessageWindow _message_window;
+
+    //! \brief A menu window explaining the currently selected option.
+    vt_common::MessageWindow _explanation_window;
 
     //! \brief The parent game mode the handler is a component of. Don't delete this.
     vt_mode_manager::GameMode* _parent_mode;
@@ -206,6 +210,7 @@ private:
     void _SetupOptionsMenu();
     void _SetupVideoOptionsMenu();
     void _SetupAudioOptionsMenu();
+    void _SetupGameOptions();
     void _SetupLanguageOptionsMenu();
     void _SetupKeySettingsMenu();
     void _SetupJoySettingsMenu();
@@ -214,6 +219,7 @@ private:
     //! \brief Refreshes the option text displays on various option menus
     void _RefreshVideoOptions();
     void _RefreshAudioOptions();
+    void _RefreshGameOptions();
     void _RefreshLanguageOptions();
     void _RefreshKeySettings();
     void _RefreshJoySettings();
@@ -221,6 +227,7 @@ private:
     //! \brief Handler methods for the primary options menu
     void _OnVideoOptions();
     void _OnAudioOptions();
+    void _OnGameOptions();
     void _OnLanguageOptions();
     void _OnKeySettings();
     void _OnJoySettings();
@@ -250,6 +257,14 @@ private:
     void _OnLanguageSelect();
     //@}
 
+    //! \brief Handler methods for the game options menu
+    //@{
+    void _OnDialogueSpeedLeft();
+    void _OnDialogueSpeedRight();
+    void _OnBattleTargetCursorMemoryConfirm();
+    void _OnGameDifficultyConfirm();
+    //@}
+
     //! \brief Handler methods for the key settings options menu
     //@{
     void _OnRestoreDefaultKeys();
@@ -274,6 +289,9 @@ private:
     *** \param wait The type of event the message box should state its waiting for
     **/
     void _ShowMessageWindow(private_gui::WAIT_FOR wait);
+
+    //! \brief Sets the explanation text according to the current selection.
+    void _UpdateExplanationText();
 
     /** \brief Changes the screen resolution, applies the new settings, and refreshes the video options
     *** \param width The width of the new resolution in pixels

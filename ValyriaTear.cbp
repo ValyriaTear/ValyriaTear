@@ -45,6 +45,7 @@
 					<Add library="ogg" />
 					<Add library="vorbis" />
 					<Add library="Opengl32" />
+					<Add library="glew" />
 					<Add library="glu32" />
 					<Add library="libpng15" />
 					<Add library="Lua51" />
@@ -98,6 +99,7 @@
                                         <Add library="vorbis" />
                                         <Add library="Opengl32" />
                                         <Add library="glu32" />
+					<Add library="glew" />
                                         <Add library="libpng15" />
                                         <Add library="Lua51" />
                                         <Add library="libintl" />
@@ -310,6 +312,17 @@
 		<Unit filename="src/engine/video/coord_sys.h" />
 		<Unit filename="src/engine/video/fade.cpp" />
 		<Unit filename="src/engine/video/fade.h" />
+		<Unit filename="src/engine/video/gl/shader.cpp" />
+		<Unit filename="src/engine/video/gl/shader.h" />
+		<Unit filename="src/engine/video/gl/shader_definitions.h" />
+		<Unit filename="src/engine/video/gl/shader_program.cpp" />
+		<Unit filename="src/engine/video/gl/shader_program.h" />
+		<Unit filename="src/engine/video/gl/shader_programs.h" />
+		<Unit filename="src/engine/video/gl/shaders.h" />
+		<Unit filename="src/engine/video/gl/sprite.cpp" />
+		<Unit filename="src/engine/video/gl/sprite.h" />
+		<Unit filename="src/engine/video/gl/transform.cpp" />
+		<Unit filename="src/engine/video/gl/transform.h" />
 		<Unit filename="src/engine/video/image.cpp" />
 		<Unit filename="src/engine/video/image.h" />
 		<Unit filename="src/engine/video/image_base.cpp" />
