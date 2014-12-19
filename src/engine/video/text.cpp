@@ -59,8 +59,6 @@ TextStyle::TextStyle(const std::string& font)
     _UpdateTextShadowColor();
 }
 
-
-
 TextStyle::TextStyle(const Color& color)
 {
     const TextStyle& default_style = TextManager->GetDefaultStyle();
@@ -72,8 +70,6 @@ TextStyle::TextStyle(const Color& color)
     _font_property = TextManager->_GetFontProperties(_font);
     _UpdateTextShadowColor();
 }
-
-
 
 TextStyle::TextStyle(TEXT_SHADOW_STYLE style)
 {
@@ -87,8 +83,6 @@ TextStyle::TextStyle(TEXT_SHADOW_STYLE style)
     _UpdateTextShadowColor();
 }
 
-
-
 TextStyle::TextStyle(const std::string& font, const Color& color)
 {
     const TextStyle& default_style = TextManager->GetDefaultStyle();
@@ -100,8 +94,6 @@ TextStyle::TextStyle(const std::string& font, const Color& color)
     _font_property = TextManager->_GetFontProperties(_font);
     _UpdateTextShadowColor();
 }
-
-
 
 TextStyle::TextStyle(const std::string& font, TEXT_SHADOW_STYLE style)
 {
@@ -115,8 +107,6 @@ TextStyle::TextStyle(const std::string& font, TEXT_SHADOW_STYLE style)
     _UpdateTextShadowColor();
 }
 
-
-
 TextStyle::TextStyle(const Color& color, TEXT_SHADOW_STYLE style)
 {
     const TextStyle& default_style = TextManager->GetDefaultStyle();
@@ -129,8 +119,6 @@ TextStyle::TextStyle(const Color& color, TEXT_SHADOW_STYLE style)
     _UpdateTextShadowColor();
 }
 
-
-
 TextStyle::TextStyle(const std::string& font, const Color& color, TEXT_SHADOW_STYLE style)
 {
     const TextStyle& default_style = TextManager->GetDefaultStyle();
@@ -142,8 +130,6 @@ TextStyle::TextStyle(const std::string& font, const Color& color, TEXT_SHADOW_ST
     _font_property = TextManager->_GetFontProperties(_font);
     _UpdateTextShadowColor();
 }
-
-
 
 TextStyle::TextStyle(const std::string& font, const Color& color, TEXT_SHADOW_STYLE style, int32 shadow_x, int32 shadow_y)
 {
@@ -733,7 +719,7 @@ bool TextSupervisor::_LoadFont(const std::string& textstyle_name, const std::str
     }
 
     // Get or Create a new FontProperties object for this font and set all of the properties according to SDL_ttf
-    FontProperties *fp = reload ? it->second : new FontProperties;
+    FontProperties* fp = reload ? it->second : new FontProperties();
 
     if (fp == NULL) {
         PRINT_ERROR << "Invalid Font Properties instance for text style: " << textstyle_name << std::endl;
@@ -753,14 +739,14 @@ bool TextSupervisor::_LoadFont(const std::string& textstyle_name, const std::str
     fp->descent = TTF_FontDescent(font);
 
     // Create the glyph cache for the font and add it to the font map
-    fp->glyph_cache = new std::vector<FontGlyph *>;
+    fp->glyph_cache = new std::vector<FontGlyph*>();
 
     // If the text style is new, we add it to the font cache map
     if (!reload)
         _font_map[textstyle_name] = fp;
 
     return true;
-} // bool TextSupervisor::LoadFont(...)
+}
 
 void TextSupervisor::_FreeFont(const std::string &font_name)
 {
