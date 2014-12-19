@@ -1167,12 +1167,10 @@ void TextSupervisor::_DrawTextHelper(const uint16 *const text, FontProperties *f
         vertex_positions.push_back(y);
         vertex_positions.push_back(0.0f);
 
-
         // Vertex three.
         vertex_positions.push_back(x + delta_x);
         vertex_positions.push_back(y + delta_y);
         vertex_positions.push_back(0.0f);
-
 
         // Vertex four.
         vertex_positions.push_back(x);
