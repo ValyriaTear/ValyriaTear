@@ -1282,7 +1282,6 @@ bool TextSupervisor::_RenderText(vt_utils::ustring &string, TextStyle &style, Im
 
     // Go through the string and render each glyph one by one.
     int32 xpos = -line_start_x;
-    int32 ypos = -min_y;
     for (char_ptr = string.c_str(); *char_ptr != '\0'; ++char_ptr) {
         // Get the glyph's information.
         FontGlyph* glyphinfo = (*fp->glyph_cache)[*char_ptr];
@@ -1299,7 +1298,7 @@ bool TextSupervisor::_RenderText(vt_utils::ustring &string, TextStyle &style, Im
 
         SDL_SetSurfaceBlendMode(initial, SDL_BLENDMODE_BLEND);
 
-        SDL_Rect surf_target = { 0 };
+        SDL_Rect surf_target = { 0, 0, 0, 0 };
         surf_target.x = xpos + glyphinfo->_min_x;
 
         // Add the glyph to the end of the rendered string.
