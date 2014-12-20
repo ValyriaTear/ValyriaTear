@@ -1163,27 +1163,28 @@ void BattleCharacter::DrawStatus(uint32 order, BattleCharacter* character_comman
         _effects_supervisor->DrawVertical();
     }
 
-    // draw the status, HP and SP bars (bars are 90 pixels wide and 6 pixels high)
-    float bar_size;
+    // Draw the status, HP and SP bars (bars are 89 pixels wide and 6 pixels high).
+    const float BAR_BASE_SIZE_X = 89.0f;
+    const float BAR_BASE_SIZE_Y = 6.0f;
     VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_NO_BLEND, 0);
 
-    // Draw HP bar in green.
-    bar_size = static_cast<float>(90 * GetHitPoints()) / static_cast<float>(GetMaxHitPoints());
+    // Draw the HP bar in green.
+    float bar_size = static_cast<float>(BAR_BASE_SIZE_X * GetHitPoints()) / static_cast<float>(GetMaxHitPoints());
     VideoManager->Move(312.0f, 678.0f + y_offset);
 
     if (GetHitPoints() > 0) {
-        if (bar_size < 90.0f / 4.0f)
-            VideoManager->DrawRectangle(bar_size, 6, Color::orange);
+        if (bar_size < BAR_BASE_SIZE_X / 4.0f)
+            VideoManager->DrawRectangle(bar_size, BAR_BASE_SIZE_Y, Color::orange);
         else
-            VideoManager->DrawRectangle(bar_size, 6, green_hp);
+            VideoManager->DrawRectangle(bar_size, BAR_BASE_SIZE_Y, green_hp);
     }
 
-    // Draw SP bar in blue.
-    bar_size = static_cast<float>(90 * GetSkillPoints()) / static_cast<float>(GetMaxSkillPoints());
+    // Draw the SP bar in blue.
+    bar_size = static_cast<float>(BAR_BASE_SIZE_X * GetSkillPoints()) / static_cast<float>(GetMaxSkillPoints());
     VideoManager->Move(424.0f, 678.0f + y_offset);
 
     if (GetSkillPoints() > 0)
-        VideoManager->DrawRectangle(bar_size, 6, blue_sp);
+        VideoManager->DrawRectangle(bar_size, BAR_BASE_SIZE_Y, blue_sp);
 
     // Draw the cover image over the top of the bar.
     VideoManager->SetDrawFlags(VIDEO_BLEND, 0);
@@ -1194,18 +1195,19 @@ void BattleCharacter::DrawStatus(uint32 order, BattleCharacter* character_comman
 
     VideoManager->SetDrawFlags(VIDEO_X_CENTER, 0);
     // Draw the character's current health on top of the middle of the HP bar.
-    VideoManager->Move(355.0f, 680.0f + y_offset);
+    VideoManager->Move(355.0f, 687.0f + y_offset);
     _hit_points_text.Draw();
 
     // Draw the character's current skill points on top of the middle of the SP bar.
     VideoManager->MoveRelative(114.0f, 0.0f);
     _skill_points_text.Draw();
 
-    // TODO: The SetText calls below should not be done here. They should be made whenever the character's HP/SP
-    // is modified. This re-renders the text every frame regardless of whether or not the HP/SP changed so its
-    // not efficient
+    //
+    // TODO: The SetText calls below should not be done here. They should be made whenever the character's HP/SP is modified.
+    //       This re-renders the text every frame regardless of whether or not the HP/SP changed so its not efficient.
+    //
 
-    // Update hit and skill points after drawing to reduce gpu stall
+    // Update hit and skill points after drawing to reduce GPU stall.
     if(_last_rendered_hp != GetHitPoints()) {
         _last_rendered_hp = GetHitPoints();
         _hit_points_text.SetText(NumberToString(_last_rendered_hp));
@@ -1242,8 +1244,7 @@ void BattleCharacter::DrawStatus(uint32 order, BattleCharacter* character_comman
     _action_selection_icon.Draw();
     VideoManager->MoveRelative(28.0f, 0.0f);
     _action_selection_text.Draw();
-
-} // void BattleCharacter::DrawStatus()
+}
 
 // /////////////////////////////////////////////////////////////////////////////
 // BattleEnemy class
