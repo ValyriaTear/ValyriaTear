@@ -1163,14 +1163,14 @@ void BattleCharacter::DrawStatus(uint32 order, BattleCharacter* character_comman
         _effects_supervisor->DrawVertical();
     }
 
-    // Draw the status, HP and SP bars (bars are 89 pixels wide and 6 pixels high).
-    const float BAR_BASE_SIZE_X = 89.0f;
+    // Draw the status, HP and SP bars (bars are 88 pixels wide and 6 pixels high).
+    const float BAR_BASE_SIZE_X = 88.0f;
     const float BAR_BASE_SIZE_Y = 6.0f;
     VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_NO_BLEND, 0);
 
     // Draw the HP bar in green.
     float bar_size = static_cast<float>(BAR_BASE_SIZE_X * GetHitPoints()) / static_cast<float>(GetMaxHitPoints());
-    VideoManager->Move(312.0f, 678.0f + y_offset);
+    VideoManager->Move(313.0f, 678.0f + y_offset);
 
     if (GetHitPoints() > 0) {
         if (bar_size < BAR_BASE_SIZE_X / 4.0f)
@@ -1181,25 +1181,25 @@ void BattleCharacter::DrawStatus(uint32 order, BattleCharacter* character_comman
 
     // Draw the SP bar in blue.
     bar_size = static_cast<float>(BAR_BASE_SIZE_X * GetSkillPoints()) / static_cast<float>(GetMaxSkillPoints());
-    VideoManager->Move(424.0f, 678.0f + y_offset);
+    VideoManager->Move(425.0f, 678.0f + y_offset);
 
     if (GetSkillPoints() > 0)
         VideoManager->DrawRectangle(bar_size, BAR_BASE_SIZE_Y, blue_sp);
 
     // Draw the cover image over the top of the bar.
     VideoManager->SetDrawFlags(VIDEO_BLEND, 0);
-    VideoManager->Move(290.0f, 684.0f + y_offset);
+    VideoManager->Move(289.0f, 684.0f + y_offset);
     BattleMode::CurrentInstance()->GetMedia().character_HP_text.Draw();
     VideoManager->MoveRelative(114.0f, 0.0f);
     BattleMode::CurrentInstance()->GetMedia().character_SP_text.Draw();
 
     VideoManager->SetDrawFlags(VIDEO_X_CENTER, 0);
     // Draw the character's current health on top of the middle of the HP bar.
-    VideoManager->Move(355.0f, 687.0f + y_offset);
+    VideoManager->Move(356.0f, 687.0f + y_offset);
     _hit_points_text.Draw();
 
     // Draw the character's current skill points on top of the middle of the SP bar.
-    VideoManager->MoveRelative(114.0f, 0.0f);
+    VideoManager->MoveRelative(113.0f, 0.0f);
     _skill_points_text.Draw();
 
     //
