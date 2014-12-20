@@ -1204,7 +1204,7 @@ void BattleCharacter::DrawStatus(uint32 order, BattleCharacter* character_comman
 
     //
     // TODO: The SetText calls below should not be done here. They should be made whenever the character's HP/SP is modified.
-    //       This re-renders the text every frame regardless of whether or not the HP/SP changed so its not efficient.
+    //       This re-renders the text every frame regardless of whether or not the HP/SP changed.  So, it's not as efficient.
     //
 
     // Update hit and skill points after drawing to reduce GPU stall.
