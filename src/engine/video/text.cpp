@@ -59,8 +59,6 @@ TextStyle::TextStyle(const std::string& font)
     _UpdateTextShadowColor();
 }
 
-
-
 TextStyle::TextStyle(const Color& color)
 {
     const TextStyle& default_style = TextManager->GetDefaultStyle();
@@ -72,8 +70,6 @@ TextStyle::TextStyle(const Color& color)
     _font_property = TextManager->_GetFontProperties(_font);
     _UpdateTextShadowColor();
 }
-
-
 
 TextStyle::TextStyle(TEXT_SHADOW_STYLE style)
 {
@@ -87,8 +83,6 @@ TextStyle::TextStyle(TEXT_SHADOW_STYLE style)
     _UpdateTextShadowColor();
 }
 
-
-
 TextStyle::TextStyle(const std::string& font, const Color& color)
 {
     const TextStyle& default_style = TextManager->GetDefaultStyle();
@@ -100,8 +94,6 @@ TextStyle::TextStyle(const std::string& font, const Color& color)
     _font_property = TextManager->_GetFontProperties(_font);
     _UpdateTextShadowColor();
 }
-
-
 
 TextStyle::TextStyle(const std::string& font, TEXT_SHADOW_STYLE style)
 {
@@ -115,8 +107,6 @@ TextStyle::TextStyle(const std::string& font, TEXT_SHADOW_STYLE style)
     _UpdateTextShadowColor();
 }
 
-
-
 TextStyle::TextStyle(const Color& color, TEXT_SHADOW_STYLE style)
 {
     const TextStyle& default_style = TextManager->GetDefaultStyle();
@@ -129,8 +119,6 @@ TextStyle::TextStyle(const Color& color, TEXT_SHADOW_STYLE style)
     _UpdateTextShadowColor();
 }
 
-
-
 TextStyle::TextStyle(const std::string& font, const Color& color, TEXT_SHADOW_STYLE style)
 {
     const TextStyle& default_style = TextManager->GetDefaultStyle();
@@ -142,8 +130,6 @@ TextStyle::TextStyle(const std::string& font, const Color& color, TEXT_SHADOW_ST
     _font_property = TextManager->_GetFontProperties(_font);
     _UpdateTextShadowColor();
 }
-
-
 
 TextStyle::TextStyle(const std::string& font, const Color& color, TEXT_SHADOW_STYLE style, int32 shadow_x, int32 shadow_y)
 {
@@ -733,7 +719,7 @@ bool TextSupervisor::_LoadFont(const std::string& textstyle_name, const std::str
     }
 
     // Get or Create a new FontProperties object for this font and set all of the properties according to SDL_ttf
-    FontProperties *fp = reload ? it->second : new FontProperties;
+    FontProperties* fp = reload ? it->second : new FontProperties();
 
     if (fp == NULL) {
         PRINT_ERROR << "Invalid Font Properties instance for text style: " << textstyle_name << std::endl;
@@ -753,14 +739,14 @@ bool TextSupervisor::_LoadFont(const std::string& textstyle_name, const std::str
     fp->descent = TTF_FontDescent(font);
 
     // Create the glyph cache for the font and add it to the font map
-    fp->glyph_cache = new std::vector<FontGlyph *>;
+    fp->glyph_cache = new std::vector<FontGlyph*>();
 
     // If the text style is new, we add it to the font cache map
     if (!reload)
         _font_map[textstyle_name] = fp;
 
     return true;
-} // bool TextSupervisor::LoadFont(...)
+}
 
 void TextSupervisor::_FreeFont(const std::string &font_name)
 {
@@ -1000,32 +986,32 @@ void TextSupervisor::_CacheGlyphs(const uint16 *text, FontProperties *fp)
         return;
     }
 
-    // Empty string means there are no glyphs to cache
+    // Empty string means there are no glyphs to cache.
     if (*text == 0)
         return;
 
-    // If we can't cache a particular glyph, we fall back to this one
+    // If we can't cache a particular glyph, we fall back to this one.
     static const uint16 fall_back_glyph = '?';
 
     TTF_Font* font = fp->ttf_font;
-    int32 w = 0;
-    int32 h = 0;
+    int32 width = 0;
+    int32 height = 0;
     GLuint texture = 0;
 
-    // Go through each character in the string and cache those glyphs that have not already been cached
-    for(const uint16 *character_ptr = text; *character_ptr != 0; ++character_ptr) {
-        // A reference for legibility
+    // Go through each character in the string and cache those glyphs that have not already been cached.
+    for (const uint16 *character_ptr = text; *character_ptr != 0; ++character_ptr) {
+        // A reference for legibility.
         const uint16& character = *character_ptr;
 
-        // Update the glyph cache when needed
+        // Update the glyph cache when needed.
         if (character >= fp->glyph_cache->size())
             fp->glyph_cache->resize(character + 1, 0);
 
-        // Check if the glyph is already cached. If so, move on to the next character
+        // Check if the glyph is already cached. If so, move on to the next character.
         if (fp->glyph_cache->at(character) != 0)
             continue;
 
-        // Attempt to create the initial SDL_Surface that contains the rendered glyph
+        // Attempt to create the initial SDL_Surface that contains the rendered glyph.
         // We render it white so that color effects are applied correctly on it.
         static const SDL_Color white_color = { 0xFF, 0xFF, 0xFF, 0xFF };
         SDL_Surface* initial = TTF_RenderGlyph_Blended(font, character, white_color);
@@ -1042,10 +1028,10 @@ void TextSupervisor::_CacheGlyphs(const uint16 *text, FontProperties *fp)
         // or the alpha property of the source image will be ignored on the dest image.
         SDL_SetSurfaceBlendMode(initial, SDL_BLENDMODE_NONE);
 
-        w = RoundUpPow2(initial->w + 1);
-        h = RoundUpPow2(initial->h + 1);
+        width = RoundUpPow2(initial->w);
+        height = RoundUpPow2(initial->h);
 
-        SDL_Surface* intermediary = SDL_CreateRGBSurface(0, w, h, 32, RMASK, GMASK, BMASK, AMASK);
+        SDL_Surface* intermediary = SDL_CreateRGBSurface(0, width, height, 32, RMASK, GMASK, BMASK, AMASK);
         if (intermediary == NULL) {
             SDL_FreeSurface(initial);
             IF_PRINT_WARNING(VIDEO_DEBUG) << "call to SDL_CreateRGBSurface() failed" << std::endl;
@@ -1064,7 +1050,7 @@ void TextSupervisor::_CacheGlyphs(const uint16 *text, FontProperties *fp)
 
         SDL_LockSurface(intermediary);
 
-        glTexImage2D(GL_TEXTURE_2D, 0, 4, w, h, 0, GL_RGBA, GL_UNSIGNED_BYTE, intermediary->pixels);
+        glTexImage2D(GL_TEXTURE_2D, 0, 4, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, intermediary->pixels);
         SDL_UnlockSurface(intermediary);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
@@ -1076,9 +1062,9 @@ void TextSupervisor::_CacheGlyphs(const uint16 *text, FontProperties *fp)
             return;
         }
 
-        int minx, maxx;
-        int miny, maxy;
-        int advance;
+        int minx = 0, maxx = 0;
+        int miny = 0, maxy = 0;
+        int advance = 0;
         if (TTF_GlyphMetrics(font, character, &minx, &maxx, &miny, &maxy, &advance) != 0) {
             SDL_FreeSurface(initial);
             SDL_FreeSurface(intermediary);
@@ -1087,15 +1073,14 @@ void TextSupervisor::_CacheGlyphs(const uint16 *text, FontProperties *fp)
         }
 
         FontGlyph* glyph = new FontGlyph();
-        glyph->texture = texture;
-        glyph->min_x = minx;
-        glyph->min_y = miny;
-        glyph->top_y = fp->ascent - maxy;
-        glyph->width = initial->w + 1;
-        glyph->height = initial->h + 1;
-        glyph->max_x = static_cast<float>(initial->w + 1) / static_cast<float>(w);
-        glyph->max_y = static_cast<float>(initial->h + 1) / static_cast<float>(h);
-        glyph->advance = advance;
+        glyph->_texture = texture;
+        glyph->_min_x = minx;
+        glyph->_min_y = miny;
+        glyph->_width = initial->w;
+        glyph->_height = initial->h;
+        glyph->_tx = static_cast<float>(initial->w) / static_cast<float>(width);
+        glyph->_ty = static_cast<float>(initial->h) / static_cast<float>(height);
+        glyph->_advance = advance;
 
         (*fp->glyph_cache)[character] = glyph;
 
@@ -1147,26 +1132,23 @@ void TextSupervisor::_DrawTextHelper(const uint16 *const text, FontProperties *f
     assert(shader_program != NULL);
 
     // Iterate through each character in the string and render the character glyphs one at a time.
-    int xpos = 0;
+    int advance = 0;
     for (const uint16 *glyph = text; *glyph != 0; ++glyph) {
-        FontGlyph *glyph_info = (*fp->glyph_cache)[*glyph];
+        FontGlyph* glyph_info = (*fp->glyph_cache)[*glyph];
 
-        int x_hi = glyph_info->width;
-        int y_hi = glyph_info->height;
+        int delta_x = glyph_info->_width;
+        int delta_y = glyph_info->_height;
         if (cs.GetHorizontalDirection() < 0.0f)
-            x_hi = -x_hi;
+            delta_x = -delta_x;
         if (cs.GetVerticalDirection() < 0.0f)
-            y_hi = -y_hi;
+            delta_y = -delta_y;
 
-        int min_x, min_y;
-        min_x = glyph_info->min_x * static_cast<int>(cs.GetHorizontalDirection()) + xpos;
-        min_y = glyph_info->min_y * static_cast<int>(cs.GetVerticalDirection());
+        int x = advance, y = 0;
 
-        float tx, ty;
-        tx = glyph_info->max_x;
-        ty = glyph_info->max_y;
+        float tx = glyph_info->_tx;
+        float ty = glyph_info->_ty;
 
-        TextureManager->_BindTexture(glyph_info->texture);
+        TextureManager->_BindTexture(glyph_info->_texture);
         if (VideoManager->CheckGLError()) {
             IF_PRINT_WARNING(VIDEO_DEBUG) << "OpenGL error detected: " << VideoManager->CreateGLErrorString() << std::endl;
             return;
@@ -1176,25 +1158,23 @@ void TextSupervisor::_DrawTextHelper(const uint16 *const text, FontProperties *f
         std::vector<float> vertex_positions;
 
         // Vertex one.
-        vertex_positions.push_back(min_x);
-        vertex_positions.push_back(min_y);
+        vertex_positions.push_back(x);
+        vertex_positions.push_back(y);
         vertex_positions.push_back(0.0f);
 
         // Vertex two.
-        vertex_positions.push_back(min_x + x_hi);
-        vertex_positions.push_back(min_y);
+        vertex_positions.push_back(x + delta_x);
+        vertex_positions.push_back(y);
         vertex_positions.push_back(0.0f);
-
 
         // Vertex three.
-        vertex_positions.push_back(min_x + x_hi);
-        vertex_positions.push_back(min_y + y_hi);
+        vertex_positions.push_back(x + delta_x);
+        vertex_positions.push_back(y + delta_y);
         vertex_positions.push_back(0.0f);
 
-
         // Vertex four.
-        vertex_positions.push_back(min_x);
-        vertex_positions.push_back(min_y + y_hi);
+        vertex_positions.push_back(x);
+        vertex_positions.push_back(y + delta_y);
         vertex_positions.push_back(0.0f);
 
         // Calculate the vertex texture coordinates.
@@ -1246,7 +1226,7 @@ void TextSupervisor::_DrawTextHelper(const uint16 *const text, FontProperties *f
         // Draw the glyph.
         VideoManager->DrawSprite(shader_program, vertex_positions, vertex_texture_coordinates, vertex_colors, text_color);
 
-        xpos += glyph_info->advance;
+        advance += glyph_info->_advance;
     }
 
     // Unload the shader program.
@@ -1257,9 +1237,8 @@ void TextSupervisor::_DrawTextHelper(const uint16 *const text, FontProperties *f
 
 bool TextSupervisor::_RenderText(vt_utils::ustring &string, TextStyle &style, ImageMemory &buffer)
 {
-    FontProperties *fp = style.GetFontProperties();
-
-    if(fp == NULL || fp->ttf_font == NULL) {
+    FontProperties* fp = style.GetFontProperties();
+    if (fp == NULL || fp->ttf_font == NULL) {
         IF_PRINT_WARNING(VIDEO_DEBUG) << "The TextStyle argument using font:'" << style.GetFontName() << "' was invalid" << std::endl;
         return false;
     }
@@ -1267,7 +1246,7 @@ bool TextSupervisor::_RenderText(vt_utils::ustring &string, TextStyle &style, Im
     TTF_Font* font = fp->ttf_font;
 
     // Width and height of each line of text
-    int32 line_w, line_h;
+    int32 line_w = 0, line_h = 0;
     // Minimum Y value of the line
     int32 min_y = 0;
     // Calculated line width
@@ -1275,54 +1254,48 @@ bool TextSupervisor::_RenderText(vt_utils::ustring &string, TextStyle &style, Im
     // Pixels left of '0' the first character extends, if any
     int32 line_start_x = 0;
 
-    if(TTF_SizeUNICODE(font, string.c_str(), &line_w, &line_h) == -1) {
+    if (TTF_SizeUNICODE(font, string.c_str(), &line_w, &line_h) == -1) {
         IF_PRINT_WARNING(VIDEO_DEBUG) << "call to TTF_SizeUNICODE() failed" << std::endl;
         return false;
     }
 
     _CacheGlyphs(string.c_str(), fp);
 
-    // Calculate the width of the width and minimum y value of the text
+    // Calculate the width of the width and minimum y value of the text.
     const uint16 *char_ptr;
-    for(char_ptr = string.c_str(); *char_ptr != '\0'; ++char_ptr) {
-        FontGlyph *glyphinfo = (*fp->glyph_cache)[*char_ptr];
-        if(glyphinfo->top_y < min_y)
-            min_y = glyphinfo->top_y;
-        calc_line_width += glyphinfo->advance;
+    for (char_ptr = string.c_str(); *char_ptr != '\0'; ++char_ptr) {
+        FontGlyph* glyph_info = (*fp->glyph_cache)[*char_ptr];
+        calc_line_width += glyph_info->_advance;
     }
 
-    // Subtract one pixel from the minimum y value (TODO: explain why)
-    min_y -= 1;
-
-    // Check if the first character starts left of pixel 0, and set
-    // char_ptr = string.c_str();
-    if(*char_ptr) {
-        FontGlyph *first_glyphinfo = (*fp->glyph_cache)[*char_ptr];
-        if(first_glyphinfo->min_x < 0)
-            line_start_x = first_glyphinfo->min_x;
+    // Check if the first character starts left of pixel 0, and set char_ptr = string.c_str().
+    if (*char_ptr) {
+        FontGlyph* glyph_info = (*fp->glyph_cache)[*char_ptr];
+        if (glyph_info->_min_x < 0)
+            line_start_x = glyph_info->_min_x;
     }
 
     // TTF_SizeUNICODE can underestimate line width as a result of its micro positioning.
     // Check if this condition is true and if so, set the line width appropriately.
-    if(calc_line_width > line_w)
+    if (calc_line_width > line_w)
         line_w = calc_line_width;
 
-    // Adjust line dimensions by negative starting offsets if present
+    // Adjust line dimensions by negative starting offsets if present.
     line_w -= line_start_x;
     line_h -= min_y;
 
-    // Creates an alpha surface for the given text
+    // Creates an alpha surface for the given text.
     SDL_Surface* intermediary = SDL_CreateRGBSurface(SDL_SWSURFACE, line_w, line_h, 32, RMASK, GMASK, BMASK, AMASK);
-    if(intermediary == NULL) {
+    if (intermediary == NULL) {
         IF_PRINT_WARNING(VIDEO_DEBUG) << "call to SDL_CreateRGBSurface() failed" << std::endl;
         return false;
     }
 
-    // Go through the string and render each glyph one by one
+    // Go through the string and render each glyph one by one.
     int32 xpos = -line_start_x;
-    int32 ypos = -min_y;
-    for(char_ptr = string.c_str(); *char_ptr != '\0'; ++char_ptr) {
-        FontGlyph *glyphinfo = (*fp->glyph_cache)[*char_ptr];
+    for (char_ptr = string.c_str(); *char_ptr != '\0'; ++char_ptr) {
+        // Get the glyph's information.
+        FontGlyph* glyphinfo = (*fp->glyph_cache)[*char_ptr];
 
         // Render the glyph in white, the text style color will be used at draw time only,
         // to permit proper shadows colors.
@@ -1334,38 +1307,36 @@ bool TextSupervisor::_RenderText(vt_utils::ustring &string, TextStyle &style, Im
             return false;
         }
 
-        // Before blitting on a alpha surface, we need to disable blending on the source surface,
-        // or the alpha property of the source image will be ignored on the dest image.
-        SDL_SetSurfaceBlendMode(initial, SDL_BLENDMODE_NONE);
+        SDL_SetSurfaceBlendMode(initial, SDL_BLENDMODE_BLEND);
 
-        SDL_Rect surf_target;
-        surf_target.x = xpos + glyphinfo->min_x;
-        surf_target.y = ypos + glyphinfo->top_y;
+        SDL_Rect surf_target = { 0, 0, 0, 0 };
+        surf_target.x = xpos + glyphinfo->_min_x;
 
-        // Add the glyph to the end of the rendered string
-        if(SDL_BlitSurface(initial, NULL, intermediary, &surf_target) < 0) {
+        // Add the glyph to the end of the rendered string.
+        if (SDL_BlitSurface(initial, NULL, intermediary, &surf_target) < 0) {
             SDL_FreeSurface(initial);
             SDL_FreeSurface(intermediary);
             IF_PRINT_WARNING(VIDEO_DEBUG) << "call to SDL_BlitSurface() failed, SDL error: " << SDL_GetError() << std::endl;
             return false;
         }
         SDL_FreeSurface(initial);
-        xpos += glyphinfo->advance;
+        xpos += glyphinfo->_advance;
     }
 
     SDL_LockSurface(intermediary);
 
+    assert(line_w * line_h == intermediary->w * intermediary->h);
     uint32 num_bytes = intermediary->w * intermediary->h * 4;
-    buffer.pixels = static_cast<uint8 *>(calloc(line_w * line_h, 4));
-    for(uint32 j = 0; j < num_bytes; j += 4) {
+    buffer.pixels = static_cast<uint8 *>(calloc(intermediary->w * intermediary->h, 4));
+    for (uint32 j = 0; j < num_bytes; j += 4) {
         ((uint8 *)buffer.pixels)[j + 0] = ((uint8 *)intermediary->pixels)[j + 0]; // r
         ((uint8 *)buffer.pixels)[j + 1] = ((uint8 *)intermediary->pixels)[j + 1]; // g
         ((uint8 *)buffer.pixels)[j + 2] = ((uint8 *)intermediary->pixels)[j + 2]; // b
         ((uint8 *)buffer.pixels)[j + 3] = ((uint8 *)intermediary->pixels)[j + 3]; // alpha
     }
 
-    buffer.width = line_w;
-    buffer.height = line_h;
+    buffer.width = intermediary->w;
+    buffer.height = intermediary->h;
 
     SDL_UnlockSurface(intermediary);
     SDL_FreeSurface(intermediary);
