@@ -896,6 +896,7 @@ std::vector<vt_utils::ustring> TextSupervisor::WrapText(const vt_utils::ustring&
         text_length = temp_text.length();
         i = -1; // Will be set to 0 after the loop end.
     }
+
     // If there is still some text, we push the rest in the vector
     if (temp_text.length() > 0)
         lines_array.push_back(temp_text);
@@ -905,7 +906,6 @@ std::vector<vt_utils::ustring> TextSupervisor::WrapText(const vt_utils::ustring&
     std::vector<vt_utils::ustring> wrapped_lines_array;
     uint32 num_lines = lines_array.size();
     for (uint32 line_index = 0; line_index < num_lines; ++line_index) {
-
         ustring temp_line = lines_array[line_index];
 
         // If it's an empty string, we add a blank line.
@@ -929,8 +929,7 @@ std::vector<vt_utils::ustring> TextSupervisor::WrapText(const vt_utils::ustring&
             int32 num_wrapped_chars = 0;
             int32 last_breakable_index = -1;
             int32 line_length = static_cast<int32>(temp_line.length());
-
-            while(num_wrapped_chars < line_length) {
+            while (num_wrapped_chars < line_length) {
                 wrapped_line += temp_line[num_wrapped_chars];
                 // If we meet a space character (0x20), we can wrap the text
                 if(temp_line[num_wrapped_chars] == SPACE_CHAR) {
@@ -962,9 +961,9 @@ std::vector<vt_utils::ustring> TextSupervisor::WrapText(const vt_utils::ustring&
             wrapped_lines_array.push_back(wrapped_line);
 
             // If there is no more text remaining, we have finished.
-            if(num_wrapped_chars + 1 >= line_length)
+            if (num_wrapped_chars + 1 >= line_length)
                 break;
-            // Otherwise, we need to grab the rest of the text that remains to be added and loop again
+            // Otherwise, we need to grab the rest of the text that remains to be added and loop again.
             else
                 temp_line = temp_line.substr(num_wrapped_chars + 1, line_length - num_wrapped_chars);
         } // while (temp_line.empty() == false)

@@ -45,8 +45,8 @@ void MessageWindow::CreateMessageWindow(float x, float y, float w, float h)
     MenuWindow::SetPosition(start_x, start_y);
     MenuWindow::Show();
 
-    _textbox.SetPosition(20.0f, 5.0f);
-    _textbox.SetDimensions(w - 30.0f, h);
+    _textbox.SetPosition(15.0f, -10.0f);
+    _textbox.SetDimensions(w - 30.0f, h - 20.0f);
     _textbox.SetTextStyle(vt_video::TextStyle("text22"));
     _textbox.SetDisplayMode(vt_gui::VIDEO_TEXT_CHAR);
     _textbox.SetTextAlignment(vt_video::VIDEO_X_LEFT, vt_video::VIDEO_Y_CENTER);
