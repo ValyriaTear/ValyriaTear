@@ -60,54 +60,6 @@ enum TEXT_SHADOW_STYLE {
 };
 
 /** ****************************************************************************
-*** \brief A structure to hold properties about a particular font glyph
-*** ***************************************************************************/
-class FontGlyph
-{
-public:
-    FontGlyph() :
-        _texture(0),
-        _width(0),
-        _height(0),
-        _min_x(0),
-        _min_y(0),
-        _tx(0.0f),
-        _ty(0.0f),
-        _advance(0)
-    {
-    }
-
-    ~FontGlyph()
-    {
-        // Clean up the OpenGL texture.
-        if (_texture != 0) {
-            GLuint textures[] = { _texture };
-            glDeleteTextures(1, textures);
-            _texture = 0;
-        }
-    }
-
-    //! \brief The index of the GL texture for this glyph.
-    GLuint _texture;
-
-    //! \brief The width and height of the glyph in pixels.
-    int32 _width, _height;
-
-    //! \brief The mininum x and y pixel coordinates of the glyph in texture space (refer to TTF_GlyphMetrics).
-    int _min_x, _min_y;
-
-    //! \brief The maximum x and y texture coordinates of the glyph. (The minimum texture coordinates are assumed to be zero.)
-    float _tx, _ty;
-
-    //! \brief The amount of space between glyphs.
-    int32 _advance;
-
-private:
-    FontGlyph(const FontGlyph&) {}
-    FontGlyph& operator=(const FontGlyph&) { return *this; }
-};
-
-/** ****************************************************************************
 *** \brief A structure which holds properties about fonts
 *** ***************************************************************************/
 class FontProperties
@@ -119,32 +71,21 @@ public:
         ascent(0),
         descent(0),
         ttf_font(NULL),
-        font_size(0),
-        glyph_cache(NULL)
+        font_size(0)
     {
     }
 
-    ~FontProperties()
-    {
+    ~FontProperties() {
         ClearFont();
     }
 
-    //! \brief Clears out a font object plus its glyph cache.
+    //! \brief Clears out the font object.
     //! Useful when changing a TextStyle font without deleting
     //! the font properties object.
     void ClearFont() {
         // Free the font.
         if (ttf_font)
             TTF_CloseFont(ttf_font);
-
-        // Clears the glyph cache and delete it.
-        if (glyph_cache) {
-            std::vector<vt_video::FontGlyph *>::const_iterator it_end = glyph_cache->end();
-            for(std::vector<FontGlyph *>::iterator j = glyph_cache->begin(); j != it_end; ++j) {
-                delete *j;
-            }
-            delete glyph_cache;
-        }
     }
 
     //! \brief The maximum height of all of the glyphs for this font.
@@ -164,9 +105,6 @@ public:
 
     //! \brief Used to know the font size currently used.
     uint32 font_size;
-
-    //! \brief A pointer to a cache which holds all of the glyphs used in this font.
-    std::vector<FontGlyph*>* glyph_cache;
 
 private:
     FontProperties(const FontProperties&) {}
@@ -691,12 +629,6 @@ private:
     *** font (in TextStyle objects, or elswhere)
     **/
     void _FreeFont(const std::string &font_name);
-
-    /** \brief Caches glyph information and textures for rendering
-    *** \param text A pointer to the unicode string holding the characters (glyphs) to cache
-    *** \param fp A pointer to the FontProperties representing the font being used in rendering the font
-    **/
-    void _CacheGlyphs(const uint16 *text, FontProperties *fp);
 
     /** \brief Renders a unicode string to the screen.
     *** \param text A pointer to a unicode string to draw.

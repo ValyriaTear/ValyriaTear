@@ -476,7 +476,8 @@ void TextImage::_Regenerate()
 {
     _width = 0.0f;
     _height = 0.0f;
-    for(uint32 i = 0; i < _text_sections.size(); ++i)
+
+    for (uint32 i = 0; i < _text_sections.size(); ++i)
         delete _text_sections[i];
 
     _text_sections.clear();
@@ -484,17 +485,14 @@ void TextImage::_Regenerate()
     if(_text.empty())
         return;
 
-    FontProperties *fp = _style.GetFontProperties();
-    if(fp == NULL || fp->ttf_font == NULL) {
+    FontProperties* fp = _style.GetFontProperties();
+    if (fp == NULL || fp->ttf_font == NULL) {
         IF_PRINT_WARNING(VIDEO_DEBUG) << "invalid font or font properties" << std::endl;
         return;
     }
 
-    TextManager->_CacheGlyphs(_text.c_str(), fp);
-
+    // Iterate through each line of text and render a text texture for each one.
     std::vector<ustring> lines_array = TextManager->WrapText(_text, fp->ttf_font, _max_width);
-
-    // Iterate through each line of text and render a TextTexture for each one
     std::vector<ustring>::iterator line_iter;
     for(line_iter = lines_array.begin(); line_iter != lines_array.end(); ++line_iter) {
 
@@ -726,7 +724,7 @@ bool TextSupervisor::_LoadFont(const std::string& textstyle_name, const std::str
         return false;
     }
 
-    // We first clear the font before setting a new one in case of a reload
+    // We first clear the font before setting a new one in case of a reload.
     if (reload)
         fp->ClearFont();
 
@@ -737,9 +735,6 @@ bool TextSupervisor::_LoadFont(const std::string& textstyle_name, const std::str
     fp->line_skip = TTF_FontLineSkip(font);
     fp->ascent = TTF_FontAscent(font);
     fp->descent = TTF_FontDescent(font);
-
-    // Create the glyph cache for the font and add it to the font map
-    fp->glyph_cache = new std::vector<FontGlyph*>();
 
     // If the text style is new, we add it to the font cache map
     if (!reload)
@@ -977,116 +972,6 @@ std::vector<vt_utils::ustring> TextSupervisor::WrapText(const vt_utils::ustring&
 
     // Returns the wrapped lines.
     return wrapped_lines_array;
-}
-
-void TextSupervisor::_CacheGlyphs(const uint16 *text, FontProperties *fp)
-{
-    if (fp == NULL || fp->ttf_font == NULL) {
-        IF_PRINT_WARNING(VIDEO_DEBUG) << "FontProperties argument was invalid" << std::endl;
-        return;
-    }
-
-    // Empty string means there are no glyphs to cache.
-    if (*text == 0)
-        return;
-
-    // If we can't cache a particular glyph, we fall back to this one.
-    static const uint16 fall_back_glyph = '?';
-
-    TTF_Font* font = fp->ttf_font;
-    int32 width = 0;
-    int32 height = 0;
-    GLuint texture = 0;
-
-    // Go through each character in the string and cache those glyphs that have not already been cached.
-    for (const uint16 *character_ptr = text; *character_ptr != 0; ++character_ptr) {
-        // A reference for legibility.
-        const uint16& character = *character_ptr;
-
-        // Update the glyph cache when needed.
-        if (character >= fp->glyph_cache->size())
-            fp->glyph_cache->resize(character + 1, 0);
-
-        // Check if the glyph is already cached. If so, move on to the next character.
-        if (fp->glyph_cache->at(character) != 0)
-            continue;
-
-        // Attempt to create the initial SDL_Surface that contains the rendered glyph.
-        // We render it white so that color effects are applied correctly on it.
-        static const SDL_Color white_color = { 0xFF, 0xFF, 0xFF, 0xFF };
-        SDL_Surface* initial = TTF_RenderGlyph_Blended(font, character, white_color);
-        if (initial == NULL) {
-            IF_PRINT_WARNING(VIDEO_DEBUG) << "call to TTF_RenderGlyph_Blended() failed, resorting to fall back glyph: '?'" << std::endl;
-            initial = TTF_RenderGlyph_Blended(font, fall_back_glyph, white_color);
-            if(initial == NULL) {
-                IF_PRINT_WARNING(VIDEO_DEBUG) << "call to TTF_RenderGlyph_Blended() failed for fall back glyph, aborting glyph caching" << std::endl;
-                return;
-            }
-        }
-
-        // Before blitting on a alpha surface, we need to disable blending on the source surface,
-        // or the alpha property of the source image will be ignored on the dest image.
-        SDL_SetSurfaceBlendMode(initial, SDL_BLENDMODE_NONE);
-
-        width = RoundUpPow2(initial->w);
-        height = RoundUpPow2(initial->h);
-
-        SDL_Surface* intermediary = SDL_CreateRGBSurface(0, width, height, 32, RMASK, GMASK, BMASK, AMASK);
-        if (intermediary == NULL) {
-            SDL_FreeSurface(initial);
-            IF_PRINT_WARNING(VIDEO_DEBUG) << "call to SDL_CreateRGBSurface() failed" << std::endl;
-            return;
-        }
-
-        if (SDL_BlitSurface(initial, 0, intermediary, 0) < 0) {
-            SDL_FreeSurface(initial);
-            SDL_FreeSurface(intermediary);
-            IF_PRINT_WARNING(VIDEO_DEBUG) << "call to SDL_BlitSurface() failed" << std::endl;
-            return;
-        }
-
-        glGenTextures(1, &texture);
-        TextureManager->_BindTexture(texture);
-
-        SDL_LockSurface(intermediary);
-
-        glTexImage2D(GL_TEXTURE_2D, 0, 4, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, intermediary->pixels);
-        SDL_UnlockSurface(intermediary);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-        if (VideoManager->CheckGLError()) {
-            SDL_FreeSurface(initial);
-            SDL_FreeSurface(intermediary);
-            IF_PRINT_WARNING(VIDEO_DEBUG) << "an OpenGL error was detected: " << VideoManager->CreateGLErrorString() << std::endl;
-            return;
-        }
-
-        int minx = 0, maxx = 0;
-        int miny = 0, maxy = 0;
-        int advance = 0;
-        if (TTF_GlyphMetrics(font, character, &minx, &maxx, &miny, &maxy, &advance) != 0) {
-            SDL_FreeSurface(initial);
-            SDL_FreeSurface(intermediary);
-            IF_PRINT_WARNING(VIDEO_DEBUG) << "call to TTF_GlyphMetrics() failed" << std::endl;
-            return;
-        }
-
-        FontGlyph* glyph = new FontGlyph();
-        glyph->_texture = texture;
-        glyph->_min_x = minx;
-        glyph->_min_y = miny;
-        glyph->_width = initial->w;
-        glyph->_height = initial->h;
-        glyph->_tx = static_cast<float>(initial->w) / static_cast<float>(width);
-        glyph->_ty = static_cast<float>(initial->h) / static_cast<float>(height);
-        glyph->_advance = advance;
-
-        (*fp->glyph_cache)[character] = glyph;
-
-        SDL_FreeSurface(initial);
-        SDL_FreeSurface(intermediary);
-    }
 }
 
 void TextSupervisor::_RenderText(const uint16* const text, FontProperties* font_properties, const Color& color)
