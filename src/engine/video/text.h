@@ -698,23 +698,22 @@ private:
     **/
     void _CacheGlyphs(const uint16 *text, FontProperties *fp);
 
-    /** \brief Draws text to the screen using OpenGL commands
-    *** \param text A pointer to a unicode string holding the text to draw
-    *** \param fp A pointer to the properties of the font to use in drawing the text
-    *** \param text_color The color to render the text in
+    /** \brief Renders a unicode string to the screen.
+    *** \param text A pointer to a unicode string to draw.
+    *** \param font_properties A pointer to the properties of the font to use in drawing the text.
+    *** \param color The color to render the text in.
     ***
-    *** This class assists the public Draw methods. This method is intended for drawing only
-    *** a single line of text in a single color (it does not account for shadows).
+    *** This method is intended for drawing only a single line of text in a single color. It does not account for shadows.
     **/
-    void _DrawTextHelper(const uint16 *text, FontProperties *fp, Color text_color);
+    void _RenderText(const uint16* const text, FontProperties* font_properties, const Color& color);
 
-    /** \brief Renders a unicode string with a given TextStyle to a pixel array
-    *** \param string The unicdoe string to render
-    *** \param style The text style to render the string in
-    *** \param buffer A reference to the pixel array where to place the rendered string to
-    *** \return True if the string was rendered successfully, or false if it was not
+    /** \brief Renders a unicode string to a pixel array.
+    *** \param text The unicdoe string to render.
+    *** \param style The text style to render the string in.
+    *** \param buffer A reference to the pixel array where to place the rendered string into.
+    *** \return True if the string was rendered successfully, or false if it was not.
     **/
-    bool _RenderText(vt_utils::ustring &string, TextStyle &style, private_video::ImageMemory &buffer);
+    bool _RenderText(const vt_utils::ustring& text, TextStyle& style, private_video::ImageMemory& buffer);
 
     /** \brief Returns true if a font of a certain reference name exists
     *** \param font_name The reference name of the font to check
