@@ -14,4 +14,5 @@ languages[7] = { "Italiano", "it" }
 languages[8] = { "Português", "pt_PT" }
 languages[9] = { "Pусский", "ru" }
 languages[10] = { "Svenska", "sv" }
+languages[11] = { "Українська", "uk_UA" }
 --languages[x] = { "Português do Brasil", "pt_BR" }
