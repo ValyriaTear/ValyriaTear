@@ -1170,12 +1170,14 @@ void PartyWindow::_DrawBottomEquipmentInfo()
          _focused_def_armor_icons[i].Draw();
          VideoManager->MoveRelative(0.0f, 20.0f);
     }
-    VideoManager->MoveRelative(50.0f, -100.0f);
+    VideoManager->MoveRelative(60.0f, -100.0f);
     _focused_def_icon->Draw();
+    VideoManager->MoveRelative(5.0f, 5.0f);
     _focused_def_numbers.Draw();
 
-    VideoManager->MoveRelative(50.0f, 0.0f);
+    VideoManager->MoveRelative(60.0f, -5.0f);
     _focused_mdef_icon->Draw();
+    VideoManager->MoveRelative(5.0f, 5.0f);
     _focused_mdef_numbers.Draw();
 }
 
