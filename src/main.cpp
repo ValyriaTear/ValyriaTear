@@ -131,10 +131,31 @@ bool LoadSettings()
         return false;
     }
 
-    InputManager->SetUpKey(static_cast<SDL_Keycode>(settings.ReadInt("up")));
-    InputManager->SetDownKey(static_cast<SDL_Keycode>(settings.ReadInt("down")));
-    InputManager->SetLeftKey(static_cast<SDL_Keycode>(settings.ReadInt("left")));
-    InputManager->SetRightKey(static_cast<SDL_Keycode>(settings.ReadInt("right")));
+    // Hack to port SDL1.2 arrow values to SDL 2.0
+    // DEPRECATED: Dump this in a release aka while in Episode II
+    // old - SDL1.2
+    // settings.key_settings.up = 273
+    // settings.key_settings.down = 274
+    // settings.key_settings.left = 276
+    // settings.key_settings.right = 275
+    // new - SDL 2.0
+    // settings.key_settings.up = 1073741906
+    // settings.key_settings.down = 1073741905
+    // settings.key_settings.left = 1073741904
+    // settings.key_settings.right = 1073741903
+    int32 key_code = settings.ReadInt("up");
+    if (key_code == 273) key_code = 1073741906;
+    InputManager->SetUpKey(static_cast<SDL_Keycode>(key_code));
+    key_code = settings.ReadInt("down");
+    if (key_code == 274) key_code = 1073741905;
+    InputManager->SetDownKey(static_cast<SDL_Keycode>(key_code));
+    key_code = settings.ReadInt("left");
+    if (key_code == 276) key_code = 1073741904;
+    InputManager->SetLeftKey(static_cast<SDL_Keycode>(key_code));
+    key_code = settings.ReadInt("right");
+    if (key_code == 275) key_code = 1073741903;
+    InputManager->SetRightKey(static_cast<SDL_Keycode>(key_code));
+
     InputManager->SetConfirmKey(static_cast<SDL_Keycode>(settings.ReadInt("confirm")));
     InputManager->SetCancelKey(static_cast<SDL_Keycode>(settings.ReadInt("cancel")));
     InputManager->SetMenuKey(static_cast<SDL_Keycode>(settings.ReadInt("menu")));
