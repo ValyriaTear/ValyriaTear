@@ -112,7 +112,7 @@ BattleMedia::BattleMedia()
     character_SP_text.SetStyle(TextStyle("text18", Color::white));
     character_SP_text.SetText(Translate("SP"));
 
-    // Set the default battle music
+    // Set the default battle music.
     battle_music_filename = DEFAULT_BATTLE_MUSIC;
     if (!AudioManager->LoadMusic(DEFAULT_BATTLE_MUSIC))
         IF_PRINT_WARNING(BATTLE_DEBUG) << "failed to load battle music file: " << DEFAULT_BATTLE_MUSIC << std::endl;
@@ -123,11 +123,10 @@ BattleMedia::BattleMedia()
     if(defeat_music.LoadAudio(DEFAULT_DEFEAT_MUSIC) == false)
         IF_PRINT_WARNING(BATTLE_DEBUG) << "failed to load defeat music file: " << DEFAULT_DEFEAT_MUSIC << std::endl;
 
-    // Load the stunned icon
+    // Load the stunned icon.
     if(!_stunned_icon.Load("img/icons/effects/zzz.png"))
         IF_PRINT_WARNING(BATTLE_DEBUG) << "failed to load stunned icon" << std::endl;
 }
-
 
 void BattleMedia::Update()
 {

@@ -117,28 +117,6 @@ bool TextureController::UnloadTextures()
         ++i;
     }
 
-    // Clear all font caches.
-    std::map<std::string, FontProperties *>::iterator j = TextManager->_font_map.begin();
-    std::map<std::string, FontProperties *>::const_iterator j_end = TextManager->_font_map.end();
-    while (j != j_end) {
-        std::vector<FontGlyph *>* glyph_cache = j->second->glyph_cache;
-
-        if (glyph_cache) {
-            std::vector<vt_video::FontGlyph *>::iterator it_end = glyph_cache->end();
-            for (std::vector<FontGlyph *>::iterator k = glyph_cache->begin(); k != it_end; ++k) {
-                if (*k) {
-                    _DeleteTexture((*k)->_texture);
-                    delete *k;
-                    *k = NULL;
-                }
-            }
-
-            glyph_cache->clear();
-        }
-
-        ++j;
-    }
-
     return success;
 }
 
