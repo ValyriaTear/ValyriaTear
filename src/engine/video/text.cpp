@@ -997,10 +997,10 @@ void TextSupervisor::_RenderText(const uint16* const text, FontProperties* font_
     SDL_Surface* surface = NULL;
     if (!errors) {
         const SDL_Color color_sdl = {
-            static_cast<unsigned short>(color.GetRed() * 255.0f),
-            static_cast<unsigned short>(color.GetGreen() * 255.0f),
-            static_cast<unsigned short>(color.GetBlue() * 255.0f),
-            static_cast<unsigned short>(color.GetAlpha() * 255.0f)
+            static_cast<unsigned char>(color.GetRed() * 255.0f),
+            static_cast<unsigned char>(color.GetGreen() * 255.0f),
+            static_cast<unsigned char>(color.GetBlue() * 255.0f),
+            static_cast<unsigned char>(color.GetAlpha() * 255.0f)
         };
 
         std::string text_non_wide = ::vt_utils::MakeStandardString(::vt_utils::ustring(text));
