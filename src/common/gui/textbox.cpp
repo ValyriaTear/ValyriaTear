@@ -282,8 +282,8 @@ void TextBox::_ReformatText()
         _num_chars = _text_save.length() - new_lines;
     }
 
-    // Update the scissor cache
-    // Stores the positions of the four sides of the rectangle
+    // Update the scissor cache.
+    // Stores the positions of the four sides of the rectangle.
     float left   = 0.0f;
     float right  = _width;
     float bottom = 0.0f;
@@ -293,45 +293,47 @@ void TextBox::_ReformatText()
 
     VideoManager->SetDrawFlags(_xalign, _yalign, VIDEO_BLEND, 0);
     CalculateAlignedRect(left, right, bottom, top);
+
     VideoManager->PopState();
 
-    // Create a screen rectangle for the position and apply any scissoring
-    int32 x, y, w, h;
+    // Create a screen rectangle for the position and apply any scissoring.
+    int32 x = 0, y = 0, w = 0, h = 0;
 
     x = static_cast<int32>(left < right ? left : right);
     y = static_cast<int32>(top < bottom ? top : bottom);
     w = static_cast<int32>(right - left);
     h = static_cast<int32>(top - bottom);
 
-    if(w < 0)
+    if (w < 0)
         w = -w;
-    if(h < 0)
+    if (h < 0)
         h = -h;
 
     _scissor_rect.Set(x, y, w, h);
 
-    // Update the text height
+    // Update the text height.
     _text_height = _CalculateTextHeight();
+
     // Calculate the height of the text and check it against the height of the textbox.
-    if(_text_height > _height) {
+    if (_text_height > _height) {
         IF_PRINT_WARNING(VIDEO_DEBUG) << "tried to display text of height (" << _text_height
                                       << ") in a window of lower height (" << _height << ")" << std::endl;
     }
 
-    // Determine the vertical position of the text based on the alignment
-    if(_text_yalign == VIDEO_Y_TOP) {
+    // Determine the vertical position of the text based on the alignment.
+    if (_text_yalign == VIDEO_Y_TOP) {
         _text_ypos = top;
-    } else if(_text_yalign == VIDEO_Y_CENTER) {
+    } else if (_text_yalign == VIDEO_Y_CENTER) {
         _text_ypos = top - (VideoManager->_current_context.coordinate_system.GetVerticalDirection() * (_height - _text_height) * 0.5f);
     } else { // (_yalign == VIDEO_Y_BOTTOM)
         _text_ypos = top - (VideoManager->_current_context.coordinate_system.GetVerticalDirection() * (_height - _text_height));
     }
 
-    // Determine the horizontal position of the text based on the alignment
-    if(_text_xalign == VIDEO_X_LEFT) {
+    // Determine the horizontal position of the text based on the alignment.
+    if (_text_xalign == VIDEO_X_LEFT) {
         _text_xpos = left;
-    } else if(_text_xalign == VIDEO_X_CENTER) {
-        _text_xpos = (left + right) * 0.5f; // * 0.5 equals /2.
+    } else if (_text_xalign == VIDEO_X_CENTER) {
+        _text_xpos = (left + right) * 0.5f;
     } else { // (_text_xalign == VIDEO_X_RIGHT)
         _text_xpos = right;
     }
@@ -342,11 +344,12 @@ float TextBox::_CalculateTextHeight()
     if (_mode == VIDEO_TEXT_INSTANT)
         return _text_image.GetHeight();
 
-    if(_text.empty())
+    if (_text.empty())
         return 0;
 
-    FontProperties* fp = _text_style.GetFontProperties();
-    return static_cast<float>(fp->height + fp->line_skip * (static_cast<float>(_text.size()) - 1));
+    FontProperties* font_properties = _text_style.GetFontProperties();
+    assert(font_properties != NULL);
+    return static_cast<float>(font_properties->height + font_properties->line_skip * (_text.size() - 1));
 }
 
 void TextBox::_DrawTextLines(float text_x, float text_y, ScreenRect scissor_rect)
