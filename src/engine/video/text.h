@@ -646,7 +646,7 @@ private:
     ***
     *** This method is intended for drawing only a single line of text in a single color. It does not account for shadows.
     **/
-    void _RenderText(const uint16* const text, FontProperties* font_properties, const Color& color);
+    void _RenderText(const uint16* text, FontProperties* font_properties, const Color& color);
 
     /** \brief Renders a unicode string to a pixel array.
     *** \param text The unicdoe string to render.
