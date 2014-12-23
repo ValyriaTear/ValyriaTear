@@ -181,50 +181,7 @@ EnemyZone::EnemyZone(uint16 left_col, uint16 right_col,
     _dead_timer.Finish();
 }
 
-EnemyZone::EnemyZone(const EnemyZone &copy) :
-    MapZone(copy)
-{
-    _enabled = copy._enabled;
-    _roaming_restrained = copy._roaming_restrained;
-    _spawns_left = copy._spawns_left;
-    _active_enemies = copy._active_enemies;
-    _spawn_timer = copy._spawn_timer;
-    _dead_timer = copy._dead_timer;
-    if(copy._spawn_zone == NULL)
-        _spawn_zone = NULL;
-    else
-        _spawn_zone = new MapZone(*(copy._spawn_zone));
-
-    // Done so that when the zone updates for the first time, an inactive enemy will immediately be selected and begin spawning
-    _dead_timer.Finish();
-    _spawn_timer.Reset();
-}
-
-EnemyZone &EnemyZone::operator=(const EnemyZone &copy)
-{
-    if(this == &copy)  // Handle self-assignment case
-        return *this;
-
-    MapZone::operator=(copy);
-    _enabled = copy._enabled;
-    _roaming_restrained = copy._roaming_restrained;
-    _spawns_left = copy._spawns_left;
-    _active_enemies = copy._active_enemies;
-    _spawn_timer = copy._spawn_timer;
-    _dead_timer = copy._dead_timer;
-    if(copy._spawn_zone == NULL)
-        _spawn_zone = NULL;
-    else
-        _spawn_zone = new MapZone(*(copy._spawn_zone));
-
-    // Done so that when the zone updates for the first time, an inactive enemy will immediately be selected and begin spawning
-    _dead_timer.Finish();
-    _spawn_timer.Reset();
-
-    return *this;
-}
-
-void EnemyZone::AddEnemy(EnemySprite *enemy, MapMode *map_instance, uint8 enemy_number)
+void EnemyZone::AddEnemy(EnemySprite* enemy, uint8 enemy_number)
 {
     if(enemy_number == 0) {
         IF_PRINT_WARNING(MAP_DEBUG) << "function called with a zero value count argument" << std::endl;
@@ -233,16 +190,11 @@ void EnemyZone::AddEnemy(EnemySprite *enemy, MapMode *map_instance, uint8 enemy_
 
     // Prepare the first enemy
     enemy->SetZone(this);
-    map_instance->AddGroundObject(enemy);
     _enemies.push_back(enemy);
 
     // Create any additional copies of the enemy and add them as well
     for(uint8 i = 1; i < enemy_number; ++i) {
-        EnemySprite *copy = new EnemySprite(*enemy);
-        copy->SetObjectID(map_instance->GetObjectSupervisor()->GenerateObjectID());
-        copy->Reset();
-
-        map_instance->AddGroundObject(copy);
+        EnemySprite* copy = new EnemySprite(*enemy);
         _enemies.push_back(copy);
     }
 }

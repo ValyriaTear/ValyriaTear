@@ -80,7 +80,6 @@ void BindModeCode()
         [
             luabind::class_<MapMode, vt_mode_manager::GameMode>("MapMode")
             .def(luabind::constructor<const std::string &, const std::string &>())
-            .def_readonly("object_supervisor", &MapMode::_object_supervisor)
             .def_readonly("event_supervisor", &MapMode::_event_supervisor)
             .def_readonly("dialogue_supervisor", &MapMode::_dialogue_supervisor)
 
@@ -89,14 +88,8 @@ void BindModeCode()
             .def_readwrite("running_disabled", &MapMode::_running_disabled)
             .def_readwrite("run_stamina", &MapMode::_run_stamina)
 
-            .def("AddFlatGroundObject", &MapMode::AddFlatGroundObject, luabind::adopt(_2))
-            .def("RemoveFlatGroundObject", &MapMode::RemoveGroundObject)
-            .def("AddGroundObject", &MapMode::AddGroundObject, luabind::adopt(_2))
-            .def("RemoveGroundObject", &MapMode::RemoveGroundObject)
-            .def("AddPassObject", &MapMode::AddPassObject, luabind::adopt(_2))
-            .def("RemovePassObject", &MapMode::RemoveGroundObject)
-            .def("AddSkyObject", &MapMode::AddSkyObject, luabind::adopt(_2))
-            .def("RemoveSkyObject", &MapMode::RemoveGroundObject)
+            .def("DeleteMapObject", &MapMode::DeleteMapObject)
+
             .def("AddAmbientSoundObject", &MapMode::AddAmbientSoundObject, luabind::adopt(_2))
             .def("AddZone", &MapMode::AddZone, luabind::adopt(_2))
             .def("AddSavePoint", &MapMode::AddSavePoint)
@@ -106,6 +99,8 @@ void BindModeCode()
             .def("AddLight", (void(MapMode:: *)(private_map::Light*))&MapMode::AddLight, luabind::adopt(_2))
             .def("SetCamera", (void(MapMode:: *)(private_map::VirtualSprite *))&MapMode::SetCamera)
             .def("SetCamera", (void(MapMode:: *)(private_map::VirtualSprite *, uint32))&MapMode::SetCamera)
+            .def("SetPartyMemberVisibleSprite", &MapMode::SetPartyMemberVisibleSprite)
+            .def("GetVirtualFocus", &MapMode::GetVirtualFocus)
             .def("MoveVirtualFocus", (void(MapMode:: *)(float, float))&MapMode::MoveVirtualFocus)
             .def("MoveVirtualFocus", (void(MapMode:: *)(float, float, uint32))&MapMode::MoveVirtualFocus)
             .def("IsCameraOnVirtualFocus", &MapMode::IsCameraOnVirtualFocus)
@@ -134,6 +129,7 @@ void BindModeCode()
             .def("SetStatusEffectsEnabled", &MapMode::SetStatusEffectsEnabled)
             .def("ChangeActiveStatusEffect", &MapMode::ChangeActiveStatusEffect)
             .def("GetActiveStatusEffectIntensity", &MapMode::GetActiveStatusEffectIntensity)
+            .def("SetAllEnemyStatesToDead", &MapMode::SetAllEnemyStatesToDead)
 
             // Namespace constants
             .enum_("constants") [
@@ -162,6 +158,11 @@ void BindModeCode()
                 luabind::value("TRIGGER_TYPE", TRIGGER_TYPE),
                 luabind::value("SOUND_TYPE", SOUND_TYPE),
                 luabind::value("SCENERY_TYPE", SCENERY_TYPE),
+                // Objects layers
+                luabind::value("FLATGROUND_OBJECT", FLATGROUND_OBJECT),
+                luabind::value("GROUND_OBJECT", GROUND_OBJECT),
+                luabind::value("PASS_OBJECT",PASS_OBJECT),
+                luabind::value("SKY_OBJECT", SKY_OBJECT),
                 // Sprite directions
                 luabind::value("NORTH", NORTH),
                 luabind::value("SOUTH", SOUTH),
@@ -192,19 +193,7 @@ void BindModeCode()
 
         luabind::module(vt_script::ScriptManager->GetGlobalState(), "vt_map")
         [
-            luabind::class_<ObjectSupervisor>("ObjectSupervisor")
-            .def_readonly("virtual_focus", &ObjectSupervisor::_virtual_focus)
-
-            .def("GenerateObjectID", &ObjectSupervisor::GenerateObjectID)
-            .def("GetObject", &ObjectSupervisor::GetObject)
-            .def("SetPartyMemberVisibleSprite", &ObjectSupervisor::SetPartyMemberVisibleSprite)
-            .def("SetAllEnemyStatesToDead", &ObjectSupervisor::SetAllEnemyStatesToDead)
-        ];
-
-        luabind::module(vt_script::ScriptManager->GetGlobalState(), "vt_map")
-        [
             luabind::class_<MapObject>("MapObject")
-            .def("SetObjectID", &MapObject::SetObjectID)
             .def("SetXPosition", &MapObject::SetXPosition)
             .def("SetYPosition", &MapObject::SetYPosition)
             .def("SetPosition", &MapObject::SetPosition)
@@ -235,33 +224,40 @@ void BindModeCode()
         luabind::module(vt_script::ScriptManager->GetGlobalState(), "vt_map")
         [
             luabind::class_<ParticleObject, MapObject>("ParticleObject")
-            .def(luabind::constructor<const std::string &, float, float>())
             .def("Stop", &ParticleObject::Stop)
             .def("Start", &ParticleObject::Start)
             .def("IsAlive", &ParticleObject::IsAlive)
+            .scope
+            [   // Used for static members and nested classes.
+                luabind::def("CreateObject", &ParticleObject::CreateObject)
+            ]
         ];
 
         luabind::module(vt_script::ScriptManager->GetGlobalState(), "vt_map")
         [
             luabind::class_<Light, MapObject>("Light")
-            .def(luabind::constructor<const std::string&, const std::string&, float, float,
-                 const vt_video::Color&, const vt_video::Color&>())
+            .scope
+            [   // Used for static members and nested classes.
+                luabind::def("CreateObject", &Light::CreateObject)
+            ]
         ];
 
         luabind::module(vt_script::ScriptManager->GetGlobalState(), "vt_map")
         [
             luabind::class_<SoundObject, MapObject>("SoundObject")
-            .def(luabind::constructor<const std::string&, float, float, float>())
             .def("Stop", &SoundObject::Stop)
             .def("Start", &SoundObject::Start)
             .def("IsActive", &SoundObject::IsActive)
             .def("SetMaxVolume", &SoundObject::SetMaxVolume)
+            .scope
+            [   // Used for static members and nested classes.
+                luabind::def("CreateObject", &SoundObject::CreateObject)
+            ]
         ];
 
         luabind::module(vt_script::ScriptManager->GetGlobalState(), "vt_map")
         [
             luabind::class_<PhysicalObject, MapObject>("PhysicalObject")
-            .def(luabind::constructor<>())
             .def("AddAnimation", (int32(PhysicalObject:: *)(const std::string &))&PhysicalObject::AddAnimation)
             .def("AddStillFrame", &PhysicalObject::AddStillFrame)
             .def("SetCurrentAnimation", &PhysicalObject::SetCurrentAnimation)
@@ -270,34 +266,43 @@ void BindModeCode()
             .def("RandomizeCurrentAnimationFrame", &PhysicalObject::RandomizeCurrentAnimationFrame)
             .def("SetEventWhenTalking", &PhysicalObject::SetEventWhenTalking)
             .def("ClearEventWhenTalking", &PhysicalObject::ClearEventWhenTalking)
+            .scope
+            [   // Used for static members and nested classes.
+                luabind::def("CreateObject", &PhysicalObject::CreateObject)
+            ]
         ];
 
         luabind::module(vt_script::ScriptManager->GetGlobalState(), "vt_map")
         [
             luabind::class_<TreasureObject, PhysicalObject>("TreasureObject")
-            .def(luabind::constructor<const std::string &, const std::string &, const std::string &, const std::string &>())
             .def("SetDrunes", &TreasureObject::SetDrunes)
             .def("AddObject", &TreasureObject::AddObject)
             .def("AddEvent", &TreasureObject::AddEvent)
             .def("GetTreasureName", &TreasureObject::GetTreasureName)
+            .scope
+            [   // Used for static members and nested classes.
+                luabind::def("CreateObject", &TreasureObject::CreateObject)
+            ]
         ];
 
         luabind::module(vt_script::ScriptManager->GetGlobalState(), "vt_map")
         [
             luabind::class_<TriggerObject, PhysicalObject>("TriggerObject")
-            .def(luabind::constructor<const std::string &, const std::string &, const std::string &, const std::string &, const std::string &>())
             .def("SetState", &TriggerObject::SetState)
             .def("GetState", &TriggerObject::GetState)
             .def("GetTriggerName", &TriggerObject::GetTriggerName)
             .def("SetTriggerableByCharacter", &TriggerObject::SetTriggerableByCharacter)
             .def("SetOnEvent", &TriggerObject::SetOnEvent)
             .def("SetOffEvent", &TriggerObject::SetOffEvent)
+            .scope
+            [   // Used for static members and nested classes.
+                luabind::def("CreateObject", &TriggerObject::CreateObject)
+            ]
         ];
 
         luabind::module(vt_script::ScriptManager->GetGlobalState(), "vt_map")
         [
             luabind::class_<VirtualSprite, MapObject>("VirtualSprite")
-            .def(luabind::constructor<>())
             .def("SetMoving", &VirtualSprite::SetMoving)
             .def("SetDirection", &VirtualSprite::SetDirection)
             .def("SetMovementSpeed", &VirtualSprite::SetMovementSpeed)
@@ -311,7 +316,6 @@ void BindModeCode()
         luabind::module(vt_script::ScriptManager->GetGlobalState(), "vt_map")
         [
             luabind::class_<MapSprite, VirtualSprite>("MapSprite")
-            .def(luabind::constructor<>())
             .def("SetName", (void(MapSprite:: *)(const std::string &))&MapSprite::SetName)
             .def("SetName", (void(MapSprite:: *)(const vt_utils::ustring &))&MapSprite::SetName)
             .def("SetCurrentAnimationDirection", &MapSprite::SetCurrentAnimationDirection)
@@ -333,12 +337,15 @@ void BindModeCode()
             .def("GetSpriteName", &MapSprite::GetSpriteName)
             .def("ReloadSprite", &MapSprite::ReloadSprite)
             .def("SetSpriteAsScenery", &MapSprite::SetSpriteAsScenery)
+            .scope
+            [   // Used for static members and nested classes.
+                luabind::def("CreateObject", &MapSprite::CreateObject)
+            ]
         ];
 
         luabind::module(vt_script::ScriptManager->GetGlobalState(), "vt_map")
         [
             luabind::class_<EnemySprite, MapSprite>("EnemySprite")
-            .def(luabind::constructor<>())
             .def("Reset", &EnemySprite::Reset)
             .def("NewEnemyParty", &EnemySprite::NewEnemyParty)
             .def("AddEnemy", (void(EnemySprite:: *)(uint32, float, float))&EnemySprite::AddEnemy)
@@ -363,6 +370,10 @@ void BindModeCode()
             .def("AddWayPoint", &EnemySprite::AddWayPoint)
             .def("GetEncounterEvent", &EnemySprite::GetEncounterEvent)
             .def("SetEncounterEvent", &EnemySprite::SetEncounterEvent)
+            .scope
+            [   // Used for static members and nested classes.
+                luabind::def("CreateObject", &EnemySprite::CreateObject)
+            ]
         ];
 
         luabind::module(vt_script::ScriptManager->GetGlobalState(), "vt_map")

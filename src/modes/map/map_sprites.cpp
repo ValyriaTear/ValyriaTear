@@ -83,7 +83,8 @@ static uint16 CalculateOppositeDirection(const uint16 direction)
 // ********** VirtualSprite class methods
 // ****************************************************************************
 
-VirtualSprite::VirtualSprite() :
+VirtualSprite::VirtualSprite(MapObjectDrawLayer layer) :
+    MapObject(layer),
     direction(SOUTH),
     movement_speed(NORMAL_SPEED),
     moving(false),
@@ -95,7 +96,7 @@ VirtualSprite::VirtualSprite() :
     _saved_movement_speed(0.0f),
     _saved_moving(false)
 {
-    MapObject::_object_type = VIRTUAL_TYPE;
+    _object_type = VIRTUAL_TYPE;
 }
 
 VirtualSprite::~VirtualSprite()
@@ -480,7 +481,6 @@ void VirtualSprite::SetRandomDirection()
 
 void VirtualSprite::LookAt(const MapPosition &pos)
 {
-
     // If the two positions are the same,
     // don't update the direction since it's only a matter of keeping
     // the previous one.
@@ -684,7 +684,8 @@ void VirtualSprite::_StartEnemyEncounter(EnemySprite *enemy)
 // ********** MapSprite class methods
 // ****************************************************************************
 
-MapSprite::MapSprite() :
+MapSprite::MapSprite(MapObjectDrawLayer layer) :
+    VirtualSprite(layer),
     _face_portrait(0),
     _has_running_animations(false),
     _current_anim_direction(ANIM_SOUTH),
@@ -698,7 +699,7 @@ MapSprite::MapSprite() :
     _infinite_custom_animation(false),
     _saved_current_anim_direction(ANIM_SOUTH)
 {
-    MapObject::_object_type = SPRITE_TYPE;
+    _object_type = SPRITE_TYPE;
 
     // Points the current animation to the standing animation vector by default
     _animation = &_standing_animations;
@@ -708,6 +709,13 @@ MapSprite::~MapSprite()
 {
     if(_face_portrait)
         delete _face_portrait;
+}
+
+MapSprite* MapSprite::CreateObject(MapObjectDrawLayer layer)
+{
+    // The object auto register to the object supervisor
+    // and will later handle deletion.
+    return new MapSprite(layer);
 }
 
 bool _LoadAnimations(std::vector<vt_video::AnimatedImage>& animations, const std::string &filename)
@@ -1290,6 +1298,7 @@ const std::string& MapSprite::GetNextDialogueID() const
 // *****************************************************************************
 
 EnemySprite::EnemySprite() :
+    MapSprite(GROUND_OBJECT),
     _zone(NULL),
     _color(1.0f, 1.0f, 1.0f, 0.0f),
     _aggro_range(8.0f),
@@ -1299,8 +1308,44 @@ EnemySprite::EnemySprite() :
     _is_boss(false),
     _use_path(false)
 {
-    MapObject::_object_type = ENEMY_TYPE;
+    _object_type = ENEMY_TYPE;
     moving = false;
+    Reset();
+}
+
+EnemySprite::EnemySprite(EnemySprite& copy):
+    MapSprite(GROUND_OBJECT),
+    _zone(copy._zone),
+    _color(copy._color),
+    _time_elapsed(0),
+    _state(DEAD),
+    _aggro_range(copy._aggro_range),
+    _time_before_new_destination(copy._time_before_new_destination),
+    _time_to_spawn(copy._time_to_spawn),
+    _time_to_respawn(copy._time_to_respawn),
+    _music_theme(copy._music_theme),
+    _bg_file(copy._bg_file),
+    _is_boss(copy._is_boss),
+    _encounter_event(copy._encounter_event),
+    _use_path(copy._use_path)
+{
+    _object_type = ENEMY_TYPE;
+    moving = false;
+
+    // Copy the vector data
+    for (uint32 i = 0; i < copy._script_files.size(); ++i)
+        _script_files.push_back(copy._script_files[i]);
+
+    for (uint32 i = 0; i < copy._enemy_parties.size(); ++i) {
+        _enemy_parties.push_back(std::vector<BattleEnemyInfo>());
+
+        for (uint32 j = 0; j < copy._enemy_parties[i].size(); ++j)
+            _enemy_parties[i].push_back(copy._enemy_parties[i][j]);
+    }
+
+    for (uint32 i = 0; i < copy._way_points.size(); ++i)
+        _way_points.push_back(copy._way_points[i]);
+
     Reset();
 }
 

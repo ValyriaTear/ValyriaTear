@@ -61,6 +61,7 @@ class MapDialogueSupervisor;
 class EventSupervisor;
 class Light;
 class MapObject;
+class MapSprite;
 class MapZone;
 class Minimap;
 class ObjectSupervisor;
@@ -152,29 +153,8 @@ public:
     **/
     private_map::MAP_STATE CurrentState();
 
-    //! \brief Adds a new object to the layer before ground object layer
-    void AddFlatGroundObject(private_map::MapObject* obj);
-
-    //! \brief Removes an object from the ground object layer
-    void RemoveFlatGroundObject(private_map::MapObject* obj);
-
-    //! \brief Adds a new object to the ground object layer
-    void AddGroundObject(private_map::MapObject* obj);
-
-    //! \brief Removes an object from the ground object layer
-    void RemoveGroundObject(private_map::MapObject* obj);
-
-    //! \brief Adds a new object to the pass object layer
-    void AddPassObject(private_map::MapObject* obj);
-
-    //! \brief Removes an object from the pass object layer
-    void RemovePassObject(private_map::MapObject* obj);
-
-    //! \brief Adds a new object to the sky object layer
-    void AddSkyObject(private_map::MapObject* obj);
-
-    //! \brief Removes an object from the sky object layer
-    void RemoveSkyObject(private_map::MapObject* obj);
+    //! \brief Removes an object from memory
+    void DeleteMapObject(private_map::MapObject* obj);
 
     //! \brief Adds a new ambient sound object
     void AddAmbientSoundObject(private_map::SoundObject *obj);
@@ -288,6 +268,25 @@ public:
 
     bool IsCameraYAxisInMapCorner() const {
         return _camera_y_in_map_corner;
+    }
+
+    /** \brief Tells the object supervisor that the given sprite pointer
+    *** is the party member object.
+    *** This later permits to refresh the sprite shown based on the battle
+    *** formation front party member.
+    **/
+    void SetPartyMemberVisibleSprite(private_map::MapSprite* sprite);
+
+    /** \brief Changes the state of every registered enemy sprite to 'dead'
+    *** Typically used just before a battle begins so that when the player returns to the map, they
+    *** are not swarmed by nearby enemies and quickly forced into another battle. This applies to enemies
+    *** on all object layers and in any context. Exercise caution when invoking this method.
+    **/
+    void SetAllEnemyStatesToDead();
+
+    //! \brief Returns the virtual focus sprite.
+    private_map::VirtualSprite* GetVirtualFocus() {
+        return _virtual_focus;
     }
 
     bool IsShowGUI() const {
@@ -507,7 +506,15 @@ private:
     bool _camera_y_in_map_corner;
 
     //! \brief A pointer to the map sprite that the map camera will focus on
-    private_map::VirtualSprite *_camera;
+    private_map::VirtualSprite* _camera;
+
+    /** \brief A "virtual sprite" that can serve as a focus point for the camera.
+    *** This sprite is not visible to the player nor does it have any collision
+    *** detection properties. Usually, the camera focuses on the player's sprite
+    *** rather than this object, but it is useful for scripted sequences and other
+    *** things.
+    **/
+    private_map::VirtualSprite* _virtual_focus;
 
     //! \brief the camera position debug text
     vt_video::TextImage _debug_camera_position;

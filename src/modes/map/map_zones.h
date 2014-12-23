@@ -232,10 +232,6 @@ public:
         if(_spawn_zone != NULL) delete _spawn_zone;
     }
 
-    EnemyZone(const EnemyZone &copy);
-
-    EnemyZone &operator=(const EnemyZone &copy);
-
     //! \brief Enables/disables the enemy zone.
     void SetEnabled(bool is_enabled) {
         _enabled = is_enabled;
@@ -243,10 +239,9 @@ public:
 
     /** \brief Adds a new enemy sprite to the zone
     *** \param enemy A pointer to the EnemySprite object instance to add
-    *** \param map A pointer to the MapMode instance to add the EnemySprite to
     *** \param count The number of copies of this enemy to add
     **/
-    void AddEnemy(EnemySprite *enemy, MapMode *map, uint8 count = 1);
+    void AddEnemy(EnemySprite *enemy, uint8 count = 1);
 
     /** \brief Adds a new zone section to the zone where enemies may spawn
     *** \param left_col The left edge of the section to add

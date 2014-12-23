@@ -101,14 +101,13 @@ function CreateTreasure(Map, save_name, name, x, y)
         print("Error: Function called with invalid Map object");
         return nil;
     end
-    local treasure = {}
 
-    treasure = vt_map.TreasureObject(save_name,
+    -- Note: Auto-registered to the object supervisoron the GROUND_LAYER.
+    local treasure = vt_map.TreasureObject.CreateObject(save_name,
                treasures[name].closed_animation_filename,
                treasures[name].opening_animation_filename,
                treasures[name].opened_animation_filename);
 
-    treasure:SetObjectID(Map.object_supervisor:GenerateObjectID());
     treasure:SetPosition(x, y);
     treasure:SetCollHalfWidth(treasures[name].coll_half_width);
     treasure:SetCollHeight(treasures[name].coll_height);

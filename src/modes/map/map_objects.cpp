@@ -46,7 +46,7 @@ namespace private_map
 // ---------- MapObject Class Functions
 // ----------------------------------------------------------------------------
 
-MapObject::MapObject() :
+MapObject::MapObject(MapObjectDrawLayer layer) :
     object_id(-1),
     img_half_width(0.0f),
     img_height(0.0f),
@@ -61,8 +61,14 @@ MapObject::MapObject() :
     _emote_animation(0),
     _emote_offset_x(0.0f),
     _emote_offset_y(0.0f),
-    _emote_time(0)
-{}
+    _emote_time(0),
+    _draw_layer(layer)
+{
+    // Generate the object Id at creation time.
+    ObjectSupervisor* obj_sup = MapMode::CurrentInstance()->GetObjectSupervisor();
+    object_id = obj_sup->GenerateObjectID();
+    obj_sup->RegisterObject(this);
+}
 
 bool MapObject::ShouldDraw()
 {
@@ -191,15 +197,23 @@ bool MapObject::IsCollidingWith(MapObject* other_object)
 // ---------- PhysicalObject Class Functions
 // ----------------------------------------------------------------------------
 
-PhysicalObject::PhysicalObject() :
+PhysicalObject::PhysicalObject(MapObjectDrawLayer layer) :
+    MapObject(layer),
     _current_animation_id(0)
 {
-    MapObject::_object_type = PHYSICAL_TYPE;
+    _object_type = PHYSICAL_TYPE;
 }
 
 PhysicalObject::~PhysicalObject()
 {
     animations.clear();
+}
+
+PhysicalObject* PhysicalObject::CreateObject(MapObjectDrawLayer layer)
+{
+    // The object auto registers to the object supervisor
+    // and will later handle deletion.
+    return new PhysicalObject(layer);
 }
 
 void PhysicalObject::Update()
@@ -263,8 +277,8 @@ void PhysicalObject::SetCurrentAnimation(uint32 animation_id)
 }
 
 // Particle object
-ParticleObject::ParticleObject(const std::string &filename, float x, float y):
-    MapObject()
+ParticleObject::ParticleObject(const std::string &filename, float x, float y, MapObjectDrawLayer layer):
+    MapObject(layer)
 {
     position.x = x;
     position.y = y;
@@ -289,6 +303,13 @@ ParticleObject::~ParticleObject()
     // We have to delete the particle effect since we don't register it
     // to the ParticleManager.
     delete _particle_effect;
+}
+
+ParticleObject* ParticleObject::CreateObject(const std::string &filename, float x, float y, MapObjectDrawLayer layer)
+{
+    // The object auto registers to the object supervisor
+    // and will later handle deletion.
+    return new ParticleObject(filename, x, y, layer);
 }
 
 void ParticleObject::Stop()
@@ -347,7 +368,7 @@ void ParticleObject::Draw()
 
 // Save points
 SavePoint::SavePoint(float x, float y):
-    MapObject(),
+    MapObject(NO_LAYER_OBJECT), // This is a special object
     _animations(0),
     _save_active(false)
 {
@@ -357,7 +378,8 @@ SavePoint::SavePoint(float x, float y):
     _object_type = SAVE_TYPE;
     collision_mask = NO_COLLISION;
 
-    _animations = &MapMode::CurrentInstance()->inactive_save_point_animations;
+    MapMode* map_mode = MapMode::CurrentInstance();
+    _animations = &map_mode->inactive_save_point_animations;
 
     // Set the collision rectangle according to the dimensions of the first frame
     // Remove a margin to the save point so that the character has to actually
@@ -369,24 +391,15 @@ SavePoint::SavePoint(float x, float y):
     SetImgHalfWidth(_animations->at(0).GetWidth() / 2.0f);
     SetImgHeight(_animations->at(0).GetHeight());
 
-    MapMode *map_mode = MapMode::CurrentInstance();
-
     // Preload the save active sound
     AudioManager->LoadSound("snd/save_point_activated_dokashiteru_oga.wav", map_mode);
 
     // The save point is going along with two particle objects used to show
     // whether the player is in or out the save point
-    _active_particle_object = new ParticleObject("dat/effects/particles/active_save_point.lua", x, y);
-    _inactive_particle_object = new ParticleObject("dat/effects/particles/inactive_save_point.lua", x, y);
+    _active_particle_object = new ParticleObject("dat/effects/particles/active_save_point.lua", x, y, GROUND_OBJECT);
+    _inactive_particle_object = new ParticleObject("dat/effects/particles/inactive_save_point.lua", x, y, GROUND_OBJECT);
 
     _active_particle_object->Stop();
-
-    _active_particle_object->SetObjectID(map_mode->GetObjectSupervisor()->GenerateObjectID());
-    _inactive_particle_object->SetObjectID(map_mode->GetObjectSupervisor()->GenerateObjectID());
-
-    map_mode->AddGroundObject(_active_particle_object);
-    map_mode->AddGroundObject(_inactive_particle_object);
-
 }
 
 void SavePoint::Update()
@@ -429,7 +442,7 @@ void SavePoint::SetActive(bool active)
 
 // Halos
 Halo::Halo(const std::string &filename, float x, float y, const Color &color):
-    MapObject()
+    MapObject(NO_LAYER_OBJECT) // This is a special object
 {
     _color = color;
     position.x = x;
@@ -465,7 +478,7 @@ void Halo::Draw()
 Light::Light(const std::string &main_flare_filename,
              const std::string &secondary_flare_filename,
              float x, float y, const Color &main_color, const Color &secondary_color):
-    MapObject()
+    MapObject(NO_LAYER_OBJECT)
 {
     _main_color = main_color;
     _secondary_color = secondary_color;
@@ -495,6 +508,18 @@ Light::Light(const std::string &main_flare_filename,
     if(_secondary_animation.LoadFromAnimationScript(secondary_flare_filename)) {
         MapMode::ScaleToMapCoords(_secondary_animation);
     }
+}
+
+Light* Light::CreateObject(const std::string &main_flare_filename,
+                           const std::string &secondary_flare_filename,
+                           float x, float y,
+                           const Color &main_color,
+                           const Color &secondary_color)
+{
+    // The object auto registers to the object supervisor
+    // and will later handle deletion.
+    return new Light(main_flare_filename, secondary_flare_filename,
+                     x, y, main_color, secondary_color);
 }
 
 MapRectangle Light::GetImageRectangle() const
@@ -614,7 +639,7 @@ void Light::Draw()
 }
 
 SoundObject::SoundObject(const std::string& sound_filename, float x, float y, float strength):
-    MapObject(),
+    MapObject(NO_LAYER_OBJECT), // This is a special object
     _max_sound_volume(1.0f),
     _activated(true)
 {
@@ -646,6 +671,14 @@ SoundObject::SoundObject(const std::string& sound_filename, float x, float y, fl
     position.y = y;
 
     collision_mask = NO_COLLISION;
+}
+
+SoundObject* SoundObject::CreateObject(const std::string& sound_filename,
+                                       float x, float y, float strength)
+{
+    // The object auto registers to the object supervisor
+    // and will later handle deletion.
+    return new SoundObject(sound_filename, x, y, strength);
 }
 
 void SoundObject::SetMaxVolume(float max_volume)
@@ -741,7 +774,7 @@ TreasureObject::TreasureObject(const std::string &treasure_name,
                                const std::string &closed_animation_file,
                                const std::string &opening_animation_file,
                                const std::string &open_animation_file) :
-    PhysicalObject()
+    PhysicalObject(GROUND_OBJECT)
 {
     _object_type = TREASURE_TYPE;
     _events_triggered = false;
@@ -776,7 +809,19 @@ TreasureObject::TreasureObject(const std::string &treasure_name,
     SetCollHeight(closed_anim.GetHeight());
 
     _LoadState();
-} // TreasureObject::TreasureObject()
+}
+
+TreasureObject* TreasureObject::CreateObject(const std::string &treasure_name,
+                                             const std::string &closed_animation_file,
+                                             const std::string &opening_animation_file,
+                                             const std::string &open_animation_file)
+{
+    // The object auto registers to the object supervisor
+    // and will later handle deletion.
+    return new TreasureObject(treasure_name, closed_animation_file,
+                              opening_animation_file,
+                              open_animation_file);
+}
 
 void TreasureObject::_LoadState()
 {
@@ -874,7 +919,7 @@ TriggerObject::TriggerObject(const std::string &trigger_name,
                              const std::string &on_animation_file,
                              const std::string& off_event_id,
                              const std::string& on_event_id) :
-    PhysicalObject(),
+    PhysicalObject(FLATGROUND_OBJECT),
     _trigger_state(false)
 {
     _object_type = TRIGGER_TYPE;
@@ -906,7 +951,19 @@ TriggerObject::TriggerObject(const std::string &trigger_name,
     SetImgHeight(off_anim.GetHeight());
 
     _LoadState();
-} // TreasureObject::TreasureObject()
+}
+
+TriggerObject* TriggerObject::CreateObject(const std::string &trigger_name,
+                                           const std::string &off_animation_file,
+                                           const std::string &on_animation_file,
+                                           const std::string& off_event_id,
+                                           const std::string& on_event_id)
+{
+    // The object auto registers to the object supervisor
+    // and will later handle deletion.
+    return new TriggerObject(trigger_name, off_animation_file, on_animation_file,
+                              off_event_id, on_event_id);
+}
 
 void TriggerObject::Update() {
     PhysicalObject::Update();
@@ -975,49 +1032,22 @@ ObjectSupervisor::ObjectSupervisor() :
     _num_grid_x_axis(0),
     _num_grid_y_axis(0),
     _last_id(1), //! Every object Id must be > 0 since 0 is reserved for speakerless dialogues.
-    _visible_party_member(0)
-{
-    _virtual_focus = new VirtualSprite();
-    _virtual_focus->SetPosition(0.0f, 0.0f);
-    _virtual_focus->movement_speed = NORMAL_SPEED;
-    _virtual_focus->SetCollisionMask(NO_COLLISION);
-    _virtual_focus->SetVisible(false);
-}
+    _visible_party_member(NULL)
+{}
 
 ObjectSupervisor::~ObjectSupervisor()
 {
-    // Delete all of the map objects
-    for(uint32 i = 0; i < _flat_ground_objects.size(); ++i) {
-        delete(_flat_ground_objects[i]);
+    // Delete all the map objects
+    for(uint32 i = 0; i < _all_objects.size(); ++i) {
+        delete(_all_objects[i]);
     }
-    for(uint32 i = 0; i < _ground_objects.size(); ++i) {
-        delete(_ground_objects[i]);
-    }
-    for(uint32 i = 0; i < _save_points.size(); ++i) {
-        delete(_save_points[i]);
-    }
-    for(uint32 i = 0; i < _pass_objects.size(); ++i) {
-        delete(_pass_objects[i]);
-    }
-    for(uint32 i = 0; i < _sky_objects.size(); ++i) {
-        delete(_sky_objects[i]);
-    }
-    for(uint32 i = 0; i < _sound_objects.size(); ++i) {
-        delete(_sound_objects[i]);
-    }
-    for(uint32 i = 0; i < _halos.size(); ++i) {
-        delete(_halos[i]);
-    }
-    for(uint32 i = 0; i < _lights.size(); ++i) {
-        delete(_lights[i]);
-    }
+
     for(uint32 i = 0; i < _zones.size(); ++i) {
         delete(_zones[i]);
     }
-    delete(_virtual_focus);
 }
 
-MapObject *ObjectSupervisor::GetObject(uint32 object_id)
+MapObject* ObjectSupervisor::GetObject(uint32 object_id)
 {
     if(object_id >= _all_objects.size())
         return NULL;
@@ -1025,9 +1055,9 @@ MapObject *ObjectSupervisor::GetObject(uint32 object_id)
         return _all_objects[object_id];
 }
 
-VirtualSprite *ObjectSupervisor::GetSprite(uint32 object_id)
+VirtualSprite* ObjectSupervisor::GetSprite(uint32 object_id)
 {
-    MapObject *object = GetObject(object_id);
+    MapObject* object = GetObject(object_id);
 
     if(object == NULL)
         return NULL;
@@ -1041,136 +1071,39 @@ VirtualSprite *ObjectSupervisor::GetSprite(uint32 object_id)
     return sprite;
 }
 
-void ObjectSupervisor::AddFlatGroundObject(MapObject* object)
+void ObjectSupervisor::RegisterObject(MapObject* object)
 {
-    if(!object) {
-        PRINT_WARNING << "Couldn't add NULL object." << std::endl;
+    if (!object || object->GetObjectID() <= 0) {
+        PRINT_WARNING << "The object couldn't be registered. It is either NULL or with an id <= 0." << std::endl;
         return;
     }
-    _flat_ground_objects.push_back(object);
-    _AddObject(object);
-}
-
-void ObjectSupervisor::RemoveFlatGroundObject(MapObject* object)
-{
-    if(!object) {
-        PRINT_WARNING << "Couldn't remove NULL object." << std::endl;
-        return;
-    }
-
-    std::vector<MapObject*>::iterator it = _flat_ground_objects.begin();
-    std::vector<MapObject*>::iterator it_end = _flat_ground_objects.end();
-    for(; it != it_end; ++it) {
-        if (*it == object) {
-            _flat_ground_objects.erase(it);
-            break;
-        }
-    }
-    _RemoveObject(object);
-    delete object;
-}
-
-void ObjectSupervisor::AddGroundObject(MapObject* object)
-{
-    if(!object) {
-        PRINT_WARNING << "Couldn't add NULL object." << std::endl;
-        return;
-    }
-    _ground_objects.push_back(object);
-    _AddObject(object);
-}
-
-void ObjectSupervisor::RemoveGroundObject(MapObject* object)
-{
-    if(!object) {
-        PRINT_WARNING << "Couldn't remove NULL object." << std::endl;
-        return;
-    }
-
-    std::vector<MapObject*>::iterator it = _ground_objects.begin();
-    std::vector<MapObject*>::iterator it_end = _ground_objects.end();
-    for(; it != it_end; ++it) {
-        if (*it == object) {
-            _ground_objects.erase(it);
-            break;
-        }
-    }
-    _RemoveObject(object);
-    delete object;
-}
-
-void ObjectSupervisor::AddPassObject(MapObject* object)
-{
-    if(!object) {
-        PRINT_WARNING << "Couldn't add NULL object." << std::endl;
-        return;
-    }
-    _pass_objects.push_back(object);
-    _AddObject(object);
-}
-
-void ObjectSupervisor::RemovePassObject(MapObject* object)
-{
-    if(!object) {
-        PRINT_WARNING << "Couldn't remove NULL object." << std::endl;
-        return;
-    }
-
-    std::vector<MapObject*>::iterator it = _pass_objects.begin();
-    std::vector<MapObject*>::iterator it_end = _pass_objects.end();
-    for(; it != it_end; ++it) {
-        if (*it == object) {
-            _pass_objects.erase(it);
-            break;
-        }
-    }
-    _RemoveObject(object);
-    delete object;
-}
-
-void ObjectSupervisor::AddSkyObject(MapObject* object)
-{
-    if(!object) {
-        PRINT_WARNING << "Couldn't add NULL object." << std::endl;
-        return;
-    }
-    _sky_objects.push_back(object);
-    _AddObject(object);
-}
-
-void ObjectSupervisor::RemoveSkyObject(MapObject* object)
-{
-    if(!object) {
-        PRINT_WARNING << "Couldn't remove NULL object." << std::endl;
-        return;
-    }
-
-    std::vector<MapObject*>::iterator it = _sky_objects.begin();
-    std::vector<MapObject*>::iterator it_end = _sky_objects.end();
-    for(; it != it_end; ++it) {
-        if (*it == object) {
-            _sky_objects.erase(it);
-            break;
-        }
-    }
-    _RemoveObject(object);
-    delete object;
-}
-
-void ObjectSupervisor::_AddObject(MapObject* object)
-{
-    if (!object || object->GetObjectID() < 0)
-        return;
 
     uint32 obj_id = (uint32)object->GetObjectID();
-
     // Adds the object to the all object collection.
     if (obj_id >= _all_objects.size())
         _all_objects.resize(obj_id + 1, NULL);
     _all_objects[obj_id] = object;
+
+    switch(object->GetObjectDrawLayer()) {
+    case FLATGROUND_OBJECT:
+        _flat_ground_objects.push_back(object);
+        break;
+    case GROUND_OBJECT:
+        _ground_objects.push_back(object);
+        break;
+    case PASS_OBJECT:
+        _pass_objects.push_back(object);
+        break;
+    case SKY_OBJECT:
+        _sky_objects.push_back(object);
+    break;
+    case NO_LAYER_OBJECT:
+    default: // Nothing to do. the object is registered in all objects only.
+        break;
+    }
 }
 
-void ObjectSupervisor::_RemoveObject(MapObject* object)
+void ObjectSupervisor::DeleteObject(MapObject* object)
 {
     if (!object)
         return;
@@ -1184,6 +1117,45 @@ void ObjectSupervisor::_RemoveObject(MapObject* object)
             break;
         }
     }
+
+    std::vector<MapObject*>::iterator it;
+    std::vector<MapObject*>::iterator it_end;
+    std::vector<MapObject*>* to_iterate = NULL;
+
+    switch(object->GetObjectDrawLayer()) {
+    case FLATGROUND_OBJECT:
+        it = _flat_ground_objects.begin();
+        it_end = _flat_ground_objects.end();
+        to_iterate = &_flat_ground_objects;
+        break;
+    case GROUND_OBJECT:
+        it = _ground_objects.begin();
+        it_end = _ground_objects.end();
+        to_iterate = &_ground_objects;
+        break;
+    case PASS_OBJECT:
+        it = _pass_objects.begin();
+        it_end = _pass_objects.end();
+        to_iterate = &_pass_objects;
+        break;
+    case SKY_OBJECT:
+        it = _sky_objects.begin();
+        it_end = _sky_objects.end();
+        to_iterate = &_sky_objects;
+        break;
+    case NO_LAYER_OBJECT:
+    default:
+        delete object;
+        return;
+    }
+
+    for(; it != it_end; ++it) {
+        if (*it == object) {
+            to_iterate->erase(it);
+            break;
+        }
+    }
+    delete object;
 }
 
 void ObjectSupervisor::SortObjects()

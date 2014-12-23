@@ -109,6 +109,10 @@ private:
     //! \brief True when the boot mode is in exiting state.
     bool _exiting_to_new_game;
 
+    //! \brief True when the new game function has been called.
+    //! \note Used to prevent calling it more than once.
+    bool _new_game_called;
+
     //! \brief Rendered text of the release version number
     vt_video::TextImage _version_text;
 
