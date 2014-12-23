@@ -567,13 +567,12 @@ void GameOptionsMenuHandler::_SetupResolutionMenu()
     // Get the different resolution modes
     int display_count = SDL_GetNumVideoDisplays();
     //std::cout << "Display count (Screens available): " << display_count << std::endl;
+    int mode_count = SDL_GetNumDisplayModes(0);
 
     _resolution_list.clear();
 
     SDL_DisplayMode mode = {SDL_PIXELFORMAT_UNKNOWN, 0, 0, 0, 0};
-    if (display_count > 0) {
-        int mode_count = SDL_GetNumDisplayModes(0);
-
+    if (display_count > 0 && mode_count > 0) {
         // Reverse iteration of available resolutions since it's the highest to smallest.
         for (int mode_index = mode_count - 1; mode_index != 0; --mode_index) {
 
