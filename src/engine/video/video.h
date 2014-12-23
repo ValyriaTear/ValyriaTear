@@ -286,6 +286,18 @@ public:
         SetFullscreen(!_temp_fullscreen);
     }
 
+    //! \brief Set VSync mode support.
+    //! \param mode 0 or > 2: None, 1: VSync, 2: Swap Tearing
+    void SetVSyncMode(uint32 mode) {
+        _vsync_mode = mode;
+    }
+
+    //! \brief Set current VSync mode support.
+    //! \return 0 or > 2: None, 1: VSync, 2: Swap Tearing
+    uint32 GetVSyncMode() const {
+        return _vsync_mode;
+    }
+
     //! \brief Will make the pixel art related images smoothed (only used for map tiles at the moment)
     void SetPixelArtSmoothed(bool smooth) {
         _smooth_pixel_art = smooth;
@@ -776,6 +788,9 @@ private:
 
     //! holds the desired screen height. Not actually applied until ApplySettings() is called
     int32 _temp_height;
+
+    //! \brief Stores the current vsync mode.
+    uint32 _vsync_mode;
 
     //! \brief Tells whether pixel art sprites should be smoothed.
     bool _smooth_pixel_art;

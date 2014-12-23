@@ -243,6 +243,8 @@ private:
     void _OnResolutionConfirm();
     void _OnBrightnessLeft();
     void _OnBrightnessRight();
+    void _OnChangeVSyncLeft();
+    void _OnChangeVSyncRight();
     void _OnUIThemeLeft();
     void _OnUIThemeRight();
     //@}

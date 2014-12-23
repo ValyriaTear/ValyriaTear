@@ -98,6 +98,7 @@ VideoEngine::VideoEngine():
     _temp_fullscreen(false),
     _temp_width(0),
     _temp_height(0),
+    _vsync_mode(0),
     _smooth_pixel_art(true),
     _sprite(NULL),
     _initialized(false)
@@ -523,6 +524,24 @@ bool VideoEngine::ApplySettings()
     _fullscreen = _temp_fullscreen;
 
     _UpdateViewportMetrics();
+
+    // Try to apply the VSync mode
+    if (_vsync_mode > 2)
+        _vsync_mode = 0;
+
+    // Try Swap tearing
+    if (_vsync_mode == 2 && SDL_GL_SetSwapInterval(-1) != 0) {
+        // Swap tearing failed, attempt VSync.
+        _vsync_mode = 1;
+    }
+    // Try VSync
+    if (_vsync_mode == 1 && SDL_GL_SetSwapInterval(1) != 0) {
+        // VSync failed, fall-back to none.
+        _vsync_mode = 0;
+    }
+    // No VSync
+    if (_vsync_mode == 0)
+        SDL_GL_SetSwapInterval(0);
 
     if(TextureManager)
         TextureManager->ReloadTextures();

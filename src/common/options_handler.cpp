@@ -395,7 +395,7 @@ void GameOptionsMenuHandler::_SetupVideoOptionsMenu()
 {
     _video_options_menu.ClearOptions();
     _video_options_menu.SetPosition(512.0f, 338.0f);
-    _video_options_menu.SetDimensions(300.0f, 400.0f, 1, 4, 1, 4);
+    _video_options_menu.SetDimensions(300.0f, 400.0f, 1, 5, 1, 5);
     _video_options_menu.SetTextStyle(TextStyle("title22"));
     _video_options_menu.SetAlignment(VIDEO_X_CENTER, VIDEO_Y_CENTER);
     _video_options_menu.SetOptionAlignment(VIDEO_X_CENTER, VIDEO_Y_CENTER);
@@ -410,6 +410,9 @@ void GameOptionsMenuHandler::_SetupVideoOptionsMenu()
                                   &GameOptionsMenuHandler::_OnToggleFullscreen, &GameOptionsMenuHandler::_OnToggleFullscreen);
     _video_options_menu.AddOption(UTranslate("Brightness: "), this, NULL, NULL, NULL, &GameOptionsMenuHandler::_OnBrightnessLeft,
                                   &GameOptionsMenuHandler::_OnBrightnessRight);
+    _video_options_menu.AddOption(UTranslate("VSync: "), this, NULL, NULL, NULL,
+                                  &GameOptionsMenuHandler::_OnChangeVSyncLeft,
+                                  &GameOptionsMenuHandler::_OnChangeVSyncRight);
     _video_options_menu.AddOption(UTranslate("UI Theme: "), this, &GameOptionsMenuHandler::_OnUIThemeRight, NULL, NULL,
                                   &GameOptionsMenuHandler::_OnUIThemeLeft, &GameOptionsMenuHandler::_OnUIThemeRight);
 
@@ -675,8 +678,24 @@ void GameOptionsMenuHandler::_RefreshVideoOptions()
     uint32 brightness = IsFloatEqual(curr_brightness * 50.0f, 0.0f) ? 0 : (uint32)(curr_brightness * 50.0f + 0.5f);
     _video_options_menu.SetOptionText(2, UTranslate("Brightness: ") + MakeUnicodeString(NumberToString(brightness) + " %"));
 
+    // Update the Vsync mode
+    std::string vsync_str;
+    switch(VideoManager->GetVSyncMode()) {
+    default:
+    case 0:
+        vsync_str = CTranslate("VSync_mode|Off");
+        break;
+    case 1:
+        vsync_str = CTranslate("VSync_mode|On");
+        break;
+    case 2:
+        vsync_str = CTranslate("VSync_mode|Swap Tearing");
+        break;
+    }
+    _video_options_menu.SetOptionText(3, UTranslate("VSync: ") + MakeUnicodeString(vsync_str));
+
     // Update the UI theme.
-    _video_options_menu.SetOptionText(3, UTranslate("UI Theme: ") + GUIManager->GetDefaultMenuSkinName());
+    _video_options_menu.SetOptionText(4, UTranslate("UI Theme: ") + GUIManager->GetDefaultMenuSkinName());
 }
 
 void GameOptionsMenuHandler::_RefreshLanguageOptions()
@@ -891,6 +910,32 @@ void GameOptionsMenuHandler::_OnBrightnessRight()
 {
     VideoManager->SetBrightness(VideoManager->GetBrightness() + 0.1f);
     _RefreshVideoOptions();
+}
+
+void GameOptionsMenuHandler::_OnChangeVSyncLeft()
+{
+    uint32 vsync_mode = VideoManager->GetVSyncMode();
+    if (vsync_mode == 0)
+        vsync_mode = 2;
+    else
+        --vsync_mode;
+    VideoManager->SetVSyncMode(vsync_mode);
+    VideoManager->ApplySettings();
+    _RefreshVideoOptions();
+    _has_modified_settings = true;
+}
+
+void GameOptionsMenuHandler::_OnChangeVSyncRight()
+{
+    uint32 vsync_mode = VideoManager->GetVSyncMode();
+    if (vsync_mode == 2)
+        vsync_mode = 0;
+    else
+        ++vsync_mode;
+    VideoManager->SetVSyncMode(vsync_mode);
+    VideoManager->ApplySettings();
+    _RefreshVideoOptions();
+    _has_modified_settings = true;
 }
 
 void GameOptionsMenuHandler::_OnUIThemeLeft()
@@ -1118,6 +1163,9 @@ void GameOptionsMenuHandler::_UpdateExplanationText()
             _explanation_window.SetText(UTranslate("Sets the game brightness percentage. Default: 50%"));
             break;
         case 3:
+            _explanation_window.SetText(UTranslate("Permits to change the Screen Vertical Synchronization mode. (Use the left and right arrow keys.)"));
+            break;
+        case 4:
             _explanation_window.SetText(UTranslate("Permits to change the in-game GUI theme."));
             break;
         default:
@@ -1256,6 +1304,8 @@ bool GameOptionsMenuHandler::_SaveSettingsFile(const std::string& filename)
     settings_lua.WriteInt("screen_resy", VideoManager->GetScreenHeight());
     settings_lua.WriteComment("Run the screen fullscreen/in a window");
     settings_lua.WriteBool("full_screen", VideoManager->IsFullscreen());
+    settings_lua.WriteComment("Get the desired VSync mode. 0: No VSync, 1: VSync, 2: Swap Tearing");
+    settings_lua.WriteUInt("vsync_mode", VideoManager->GetVSyncMode());
     settings_lua.WriteComment("The UI Theme to load.");
     settings_lua.WriteString("ui_theme", GUIManager->GetDefaultMenuSkinId());
     settings_lua.EndTable(); // video_settings

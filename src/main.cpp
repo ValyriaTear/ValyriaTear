@@ -208,6 +208,8 @@ bool LoadSettings()
     int32 resy = settings.ReadInt("screen_resy");
     VideoManager->SetResolution(resx, resy);
     VideoManager->SetFullscreen(settings.ReadBool("full_screen"));
+    if (settings.DoesUIntExist("vsync_mode"))
+        VideoManager->SetVSyncMode(settings.ReadUInt("vsync_mode"));
     GUIManager->SetUserMenuSkin(settings.ReadString("ui_theme"));
     settings.CloseTable(); // video_settings
 
