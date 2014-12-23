@@ -162,6 +162,9 @@ private:
     //! \brief Stores languages' corresponding gettext PO file names, where index in vector is equivalent to the language name's position in the language options window
     std::vector<std::string> _po_files;
 
+    //! \brief The available screen resolutions
+    std::vector<SDL_DisplayMode> _resolution_list;
+
     //! \brief A simple menu window where the various options menus are displayed.
     vt_gui::MenuWindow _options_window;
 

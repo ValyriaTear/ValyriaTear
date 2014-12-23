@@ -556,7 +556,6 @@ void GameOptionsMenuHandler::_SetupJoySettingsMenu()
 void GameOptionsMenuHandler::_SetupResolutionMenu()
 {
     _resolution_menu.SetPosition(442.0f, 338.0f);
-    _resolution_menu.SetDimensions(250.0f, 500.0f, 1, 8, 1, 8);
     _resolution_menu.SetTextStyle(TextStyle("title22"));
     _resolution_menu.SetAlignment(VIDEO_X_LEFT, VIDEO_Y_CENTER);
     _resolution_menu.SetOptionAlignment(VIDEO_X_LEFT, VIDEO_Y_CENTER);
@@ -565,46 +564,93 @@ void GameOptionsMenuHandler::_SetupResolutionMenu()
     _resolution_menu.SetCursorOffset(-50.0f, -28.0f);
     _resolution_menu.SetSkipDisabled(true);
 
-    uint32 res_index = 0;
-    if(VideoManager->GetScreenWidth() == 640)
-        res_index = 0;
-    else if(VideoManager->GetScreenWidth() == 800)
-        res_index = 1;
-    else if(VideoManager->GetScreenWidth() == 1024)
-        res_index = 2;
-    else if(VideoManager->GetScreenWidth() == 1280)
-        res_index = 3;
-    else if(VideoManager->GetScreenWidth() == 1366)
-        res_index = 4;
-    else if(VideoManager->GetScreenWidth() == 1440)
-        res_index = 5;
-    else if(VideoManager->GetScreenWidth() == 1600)
-        res_index = 6;
-    else if(VideoManager->GetScreenWidth() == 3200)
-        res_index = 7;
+    // Get the different resolution modes
+    int display_count = SDL_GetNumVideoDisplays();
+    //std::cout << "Display count (Screens available): " << display_count << std::endl;
 
-    // NOTE: Once on SDL2, append and sort the supported resolutions as well.
-    std::vector<std::string> res_list;
-    res_list.push_back("640 x 480");
-    res_list.push_back("800 x 600");
-    res_list.push_back("1024 x 768");
-    res_list.push_back("1280 x 1024");
-    res_list.push_back("1366 x 768");
-    res_list.push_back("1440 x 900");
-    res_list.push_back("1600 x 900");
-    res_list.push_back("3200 x 1800");
+    _resolution_list.clear();
+
+    SDL_DisplayMode mode = {SDL_PIXELFORMAT_UNKNOWN, 0, 0, 0, 0};
+    if (display_count > 0) {
+        int mode_count = SDL_GetNumDisplayModes(0);
+
+        // Reverse iteration of available resolutions since it's the highest to smallest.
+        for (int mode_index = mode_count - 1; mode_index != 0; --mode_index) {
+
+            // Don't list failing modes
+            if (SDL_GetDisplayMode(0, mode_index, &mode) != 0)
+                continue;
+
+            // debug: List Mode
+            //std::cout << "Display mode: " << SDL_BITSPERPIXEL(mode.format) << " bpp, "
+            //    << mode.w << " x " << mode.h << std::endl;
+
+           // Only accept modes with 24 or higher bpp
+           if (SDL_BITSPERPIXEL(mode.format) < 24)
+               continue;
+
+           // dups check
+           bool duplicate_found = false;
+           for (uint32 i = 0; i < _resolution_list.size(); ++i) {
+               if (_resolution_list[i].w == mode.w && _resolution_list[i].h == mode.h) {
+                   duplicate_found = true;
+                   break;
+               }
+           }
+           if (duplicate_found)
+               continue;
+
+           _resolution_list.push_back(mode);
+        }
+    }
+    else {
+        // There is a problem to get info from the display, let's fall back to hard-coded mode
+        SDL_DisplayMode hardcodedmode = {SDL_PIXELFORMAT_UNKNOWN, 640, 480, 0, 0};
+        _resolution_list.push_back(hardcodedmode);
+        hardcodedmode.w = 800; hardcodedmode.h = 600;
+        _resolution_list.push_back(hardcodedmode);
+        hardcodedmode.w = 1024; hardcodedmode.h = 768;
+        _resolution_list.push_back(hardcodedmode);
+        hardcodedmode.w = 1280; hardcodedmode.h = 1024;
+        _resolution_list.push_back(hardcodedmode);
+        hardcodedmode.w = 1366; hardcodedmode.h = 768;
+        _resolution_list.push_back(hardcodedmode);
+        hardcodedmode.w = 1440; hardcodedmode.h = 900;
+        _resolution_list.push_back(hardcodedmode);
+        hardcodedmode.w = 1600; hardcodedmode.h = 900;
+        _resolution_list.push_back(hardcodedmode);
+        hardcodedmode.w = 3200; hardcodedmode.h = 1800;
+        _resolution_list.push_back(hardcodedmode);
+    }
+
+    // We set up the size display list.
+    _resolution_menu.SetDimensions(250.0f, 500.0f, 1, _resolution_list.size(), 1,
+                                   _resolution_list.size() > 15 ? 15 : _resolution_list.size());
+
+    // Get current resolution
+    if (SDL_GetWindowDisplayMode(VideoManager->GetWindowHandle(), &mode) != 0) {
+        // If we can't, fall back to a reasonably small one.
+        mode.w = 800;
+        mode.h = 600;
+    }
+    //else {
+    //    std::cout << "Current Display mode: " << SDL_BITSPERPIXEL(mode.format) << " bpp, "
+    //        << mode.w << " x " << mode.h << std::endl;
+    //}
 
     _resolution_menu.ClearOptions();
 
-    for (uint32 i = 0; i < res_list.size(); ++i) {
+    for (uint32 i = 0; i < _resolution_list.size(); ++i) {
         _resolution_menu.AddOption(ustring(), this, &GameOptionsMenuHandler::_OnResolutionConfirm);
         // Show the current selection
-        if (res_index == i) {
+        if (mode.w == _resolution_list[i].w && mode.h == _resolution_list[i].h) {
             _resolution_menu.AddOptionElementImage(i, "img/menus/star.png");
             _resolution_menu.SetSelection(i);
         }
         _resolution_menu.AddOptionElementPosition(i, 32);
-        _resolution_menu.AddOptionElementText(i, MakeUnicodeString(res_list[i]));
+        std::stringstream resStr("");
+        resStr << _resolution_list[i].w << " x " << _resolution_list[i].h;
+        _resolution_menu.AddOptionElementText(i, MakeUnicodeString(resStr.str()));
     }
 }
 
@@ -616,10 +662,14 @@ void GameOptionsMenuHandler::_RefreshVideoOptions()
     _video_options_menu.SetOptionText(0, UTranslate("Resolution: ") + MakeUnicodeString(resolution.str()));
 
     // Update text on current video mode
-    if(VideoManager->IsFullscreen())
+    if(VideoManager->IsFullscreen()) {
+        _video_options_menu.EnableOption(0, false);
         _video_options_menu.SetOptionText(1, UTranslate("Window mode: ") + UTranslate("Fullscreen"));
-    else
+    }
+    else {
+        _video_options_menu.EnableOption(0, true);
         _video_options_menu.SetOptionText(1, UTranslate("Window mode: ") + UTranslate("Windowed"));
+    }
 
     // Update brightness
     float curr_brightness = VideoManager->GetBrightness();
@@ -821,33 +871,15 @@ void GameOptionsMenuHandler::_OnResolution()
 
 void GameOptionsMenuHandler::_OnResolutionConfirm()
 {
-    switch (_resolution_menu.GetSelection()) {
-    case 0:
-        _ChangeResolution(640, 480);
-        break;
-    default:
-    case 1:
-        _ChangeResolution(800, 600);
-        break;
-    case 2:
-        _ChangeResolution(1024, 768);
-        break;
-    case 3:
-        _ChangeResolution(1280, 1024);
-        break;
-    case 4:
-        _ChangeResolution(1366, 768);
-        break;
-    case 5:
-        _ChangeResolution(1440, 900);
-        break;
-    case 6:
-        _ChangeResolution(1600, 900);
-        break;
-    case 7:
-        _ChangeResolution(3200, 1800);
-        break;
-    }
+    if (_resolution_list.empty())
+        return;
+
+    uint32 index = static_cast<uint32>(_resolution_menu.GetSelection());
+
+    if (index >= _resolution_list.size())
+        index = 0;
+
+    _ChangeResolution(_resolution_list[index].w, _resolution_list[index].h);
 }
 
 void GameOptionsMenuHandler::_OnBrightnessLeft()
