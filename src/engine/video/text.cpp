@@ -527,22 +527,33 @@ void TextImage::_Regenerate()
 // TextSupervisor class
 // -----------------------------------------------------------------------------
 
-// When TextSupervisor is created, the
-TextSupervisor::TextSupervisor()
-{}
-
-
+TextSupervisor::TextSupervisor() :
+    _text_texture(0),
+    _text_texture_width(0),
+    _text_texture_height(0)
+{
+    glGenTextures(1, &_text_texture);
+    if (_text_texture == 0) {
+        IF_PRINT_WARNING(VIDEO_DEBUG) << "call to glGenTextures() failed" << std::endl;
+        assert(_text_texture != 0);
+    }
+}
 
 TextSupervisor::~TextSupervisor()
 {
-    // Remove all loaded fonts and cached glyphs, then shutdown the SDL_ttf library
-    for(std::map<std::string, FontProperties *>::iterator it = _font_map.begin(); it != _font_map.end(); ++it)
+    // Clean up the text texture.
+    if (_text_texture != 0) {
+        GLuint textures[] = { _text_texture };
+        glDeleteTextures(1, textures);
+        _text_texture = 0;
+    }
+
+    // Remove all loaded fonts.  Then, shutdown the SDL_ttf library.
+    for (std::map<std::string, FontProperties *>::iterator it = _font_map.begin(); it != _font_map.end(); ++it)
         delete it->second;
 
     TTF_Quit();
 }
-
-
 
 bool TextSupervisor::SingletonInitialize()
 {
@@ -1011,24 +1022,31 @@ void TextSupervisor::_RenderText(const uint16* text, FontProperties* font_proper
         return;
     }
 
-    // Create an OpenGL texture.
-    GLuint texture = 0;
-    glGenTextures(1, &texture);
-    if (texture == 0) {
-        IF_PRINT_WARNING(VIDEO_DEBUG) << "call to glGenTextures() failed" << std::endl;
-        SDL_FreeSurface(surface);
-        assert(texture != 0);
-        return;
-    }
+    // Enable texturing.
+    VideoManager->EnableTexture2D();
 
     // Bind the OpenGL texture.
-    TextureManager->_BindTexture(texture);
+    TextureManager->_BindTexture(_text_texture);
 
     // Lock the SDL surface.
     SDL_LockSurface(surface);
 
+    //
     // Send the surface pixel data to OpenGL.
-    glTexImage2D(GL_TEXTURE_2D, 0, 4, surface->w, surface->h, 0, GL_RGBA, GL_UNSIGNED_BYTE, surface->pixels);
+    //
+
+    if (_text_texture_width == surface->w &&
+        _text_texture_height == surface->h) {
+        // The size of the old texture is the same.  Just update the pixel data.
+        glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, _text_texture_width, _text_texture_height, GL_RGBA, GL_UNSIGNED_BYTE, surface->pixels);
+    } else {
+        // The size of the old texture is different.  Update the storage definition as well as the pixel data.
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, surface->w, surface->h, 0, GL_RGBA, GL_UNSIGNED_BYTE, surface->pixels);
+    }
+
+    // Update the texture's width and height.
+    _text_texture_width = surface->w;
+    _text_texture_height = surface->h;
 
     // Unlock the SDL surface.
     SDL_UnlockSurface(surface);
@@ -1051,12 +1069,6 @@ void TextSupervisor::_RenderText(const uint16* text, FontProperties* font_proper
     float x_offset = ((VideoManager->_current_context.x_align + 1) * font_width) * 0.5f * -coordinate_system.GetHorizontalDirection();
     float y_offset = ((VideoManager->_current_context.y_align + 1) * font_height) * 0.5f * -coordinate_system.GetVerticalDirection();
     VideoManager->MoveRelative(x_offset, y_offset);
-
-    // Enable texturing.
-    VideoManager->EnableTexture2D();
-
-    // Bind the text texture.
-    TextureManager->_BindTexture(texture);
 
     // Load the shader program.
     gl::ShaderProgram* shader_program = VideoManager->LoadShaderProgram(gl::shader_programs::Sprite);
@@ -1141,12 +1153,6 @@ void TextSupervisor::_RenderText(const uint16* text, FontProperties* font_proper
     VideoManager->PopMatrix();
 
     // Clean up.
-    if (texture != 0) {
-        GLuint textures[] = { texture };
-        glDeleteTextures(1, textures);
-        texture = 0;
-    }
-
     if (surface != NULL) {
         SDL_FreeSurface(surface);
         surface = NULL;

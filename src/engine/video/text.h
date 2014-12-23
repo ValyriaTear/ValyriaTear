@@ -601,6 +601,15 @@ private:
 
     // ---------- Private members
 
+    //! \brief A texture used to draw text to the screen.
+    GLuint _text_texture;
+
+    //! \brief The text texture's width.
+    GLuint _text_texture_width;
+
+    //! \brief The text texture's height.
+    GLuint _text_texture_height;
+
     //! \brief The default text style
     TextStyle _default_style;
 
