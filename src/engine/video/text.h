@@ -644,9 +644,24 @@ private:
     *** \param font_properties A pointer to the properties of the font to use in drawing the text.
     *** \param color The color to render the text in.
     ***
-    *** This method is intended for drawing only a single line of text in a single color. It does not account for shadows.
+    *** This method is intended for drawing only a single line of text.
     **/
     void _RenderText(const uint16* text, FontProperties* font_properties, const Color& color);
+
+    /** \brief Renders a unicode, shadowed string to the screen.
+    *** \param text A pointer to a unicode string to draw.
+    *** \param font_properties A pointer to the properties of the font to use in drawing the text.
+    *** \param color The color to render the text in.
+    *** \param shadow_offset_x The X offset for the text's shadow.
+    *** \param shadow_offset_y The Y offset for the text's shadow.
+    *** \param color_shadow The color to render the text's shadow in.
+    ***
+    *** This method is intended for drawing only a single line of text.
+    **/
+    void _RenderText(const uint16* text, FontProperties* font_properties,
+                     const Color& color,
+                     float shadow_offset_x, float shadow_offset_y,
+                     const Color& color_shadow);
 
     /** \brief Renders a unicode string to a pixel array.
     *** \param text The unicdoe string to render.

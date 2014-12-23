@@ -451,26 +451,33 @@ void TextImage::Clear()
 
 void TextImage::Draw(const Color& draw_color) const
 {
-    // Don't draw anything if this image is completely transparent (invisible)
-    if(IsFloatEqual(draw_color[3], 0.0f))
+    // Don't draw anything if this image is completely transparent (invisible).
+    if (IsFloatEqual(draw_color[3], 0.0f))
         return;
 
+    // Save the draw cursor position before drawing this text.
     VideoManager->PushMatrix();
-    for(uint32 i = 0; i < _text_sections.size(); ++i) {
+
+    for (uint32 i = 0; i < _text_sections.size(); ++i) {
         if (_style.GetShadowStyle() != VIDEO_TEXT_SHADOW_NONE) {
+            // Draw the text's shadow.
             const float dx = VideoManager->_current_context.coordinate_system.GetHorizontalDirection() * _style.GetShadowOffsetX();
             const float dy = VideoManager->_current_context.coordinate_system.GetVerticalDirection() * _style.GetShadowOffsetY();
             VideoManager->MoveRelative(dx, dy);
             _text_sections[i]->Draw(draw_color * _style.GetShadowColor());
             VideoManager->MoveRelative(-dx, -dy);
         }
+
+        // Draw the text.
         _text_sections[i]->Draw(draw_color * _style.GetColor());
+
+        // Move the draw cursor one line down.
         VideoManager->MoveRelative(0.0f, _style.GetFontProperties()->line_skip * -VideoManager->_current_context.coordinate_system.GetVerticalDirection());
     }
+
+    // Restore the position of the draw cursor.
     VideoManager->PopMatrix();
 }
-
-
 
 void TextImage::_Regenerate()
 {
@@ -818,22 +825,22 @@ void TextSupervisor::Draw(const ustring &text, const TextStyle &style)
         // Save the draw cursor position before drawing this text.
         VideoManager->PushMatrix();
 
-        // If text shadows are enabled, draw the shadow first.
+        // If text shadows are enabled...
         if (style.GetShadowStyle() != VIDEO_TEXT_SHADOW_NONE) {
-            VideoManager->PushMatrix();
-            const float dx = VideoManager->_current_context.coordinate_system.GetHorizontalDirection() * style.GetShadowOffsetX();
-            const float dy = VideoManager->_current_context.coordinate_system.GetVerticalDirection() * style.GetShadowOffsetY();
-            VideoManager->MoveRelative(dx, dy);
-            _RenderText(buffer, fp, style.GetShadowColor());
-            VideoManager->PopMatrix();
+            // Draw the text with its shadow.
+            _RenderText(buffer, fp, style.GetColor(), style.GetShadowOffsetX(), style.GetShadowOffsetY(), style.GetShadowColor());
+        } else {
+            // Draw the text.
+            _RenderText(buffer, fp, style.GetColor());
         }
 
-        // Now draw the text itself, restore the position of the draw cursor, and move the draw cursor one line down.
-        _RenderText(buffer, fp, style.GetColor());
+        // Restore the position of the draw cursor.
         VideoManager->PopMatrix();
+
+        // Move the draw cursor one line down.
         VideoManager->MoveRelative(0, -fp->line_skip * VideoManager->_current_context.coordinate_system.GetVerticalDirection());
 
-    } while(last_line < text.length());
+    } while (last_line < text.length());
 
     VideoManager->PopState();
 }
@@ -999,14 +1006,8 @@ void TextSupervisor::_RenderText(const uint16* text, FontProperties* font_proper
     }
 
     // Render the text.
-    const SDL_Color color_sdl = {
-        static_cast<unsigned char>(color.GetRed() * 255.0f),
-        static_cast<unsigned char>(color.GetGreen() * 255.0f),
-        static_cast<unsigned char>(color.GetBlue() * 255.0f),
-        static_cast<unsigned char>(color.GetAlpha() * 255.0f)
-    };
-
-    SDL_Surface* surface = TTF_RenderUNICODE_Blended(font_properties->ttf_font, text, color_sdl);
+    const SDL_Color white = { 255, 255, 255, 255 };
+    SDL_Surface* surface = TTF_RenderUNICODE_Blended(font_properties->ttf_font, text, white);
     if (surface == NULL) {
         IF_PRINT_WARNING(VIDEO_DEBUG) << "call to TTF_RenderUNICODE_Blended() failed" << std::endl;
         assert(surface != NULL);
@@ -1143,7 +1144,204 @@ void TextSupervisor::_RenderText(const uint16* text, FontProperties* font_proper
     vertex_colors.push_back(1.0f);
     vertex_colors.push_back(1.0f);
 
-    // Draw the glyph.
+    // Draw the text.
+    VideoManager->DrawSprite(shader_program, vertex_positions, vertex_texture_coordinates, vertex_colors, color);
+
+    // Unload the shader program.
+    VideoManager->UnloadShaderProgram();
+
+    // Restore the transformation stack.
+    VideoManager->PopMatrix();
+
+    // Clean up.
+    if (surface != NULL) {
+        SDL_FreeSurface(surface);
+        surface = NULL;
+    }
+}
+
+void TextSupervisor::_RenderText(const uint16* text, FontProperties* font_properties,
+                                 const Color& color,
+                                 float shadow_offset_x, float shadow_offset_y,
+                                 const Color& color_shadow)
+{
+    if (text == NULL || *text == 0) {
+        IF_PRINT_WARNING(VIDEO_DEBUG) << "invalid argument, empty or null string" << std::endl;
+        assert(text != NULL && *text != 0);
+        return;
+    }
+
+    if (font_properties == NULL || font_properties->ttf_font == NULL) {
+        IF_PRINT_WARNING(VIDEO_DEBUG) << "invalid argument, NULL font properties or NULL ttf font" << std::endl;
+        assert(font_properties != NULL && font_properties->ttf_font != NULL);
+        return;
+    }
+
+    // Render the text.
+    const SDL_Color white = { 255, 255, 255, 255 };
+    SDL_Surface* surface = TTF_RenderUNICODE_Blended(font_properties->ttf_font, text, white);
+    if (surface == NULL) {
+        IF_PRINT_WARNING(VIDEO_DEBUG) << "call to TTF_RenderUNICODE_Blended() failed" << std::endl;
+        assert(surface != NULL);
+        return;
+    }
+
+    // Retrieve the size of the text.
+    int font_width = 0, font_height = 0;
+    if (TTF_SizeUNICODE(font_properties->ttf_font, text, &font_width, &font_height) != 0) {
+        IF_PRINT_WARNING(VIDEO_DEBUG) << "call to TTF_SizeUNICODE() failed" << std::endl;
+        SDL_FreeSurface(surface);
+        assert(false);
+        return;
+    }
+
+    // Enable texturing.
+    VideoManager->EnableTexture2D();
+
+    // Bind the OpenGL texture.
+    TextureManager->_BindTexture(_text_texture);
+
+    // Lock the SDL surface.
+    SDL_LockSurface(surface);
+
+    //
+    // Send the surface pixel data to OpenGL.
+    //
+
+    if (_text_texture_width == surface->w &&
+        _text_texture_height == surface->h) {
+        // The size of the old texture is the same.  Just update the pixel data.
+        glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, _text_texture_width, _text_texture_height, GL_RGBA, GL_UNSIGNED_BYTE, surface->pixels);
+    } else {
+        // The size of the old texture is different.  Update the storage definition as well as the pixel data.
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, surface->w, surface->h, 0, GL_RGBA, GL_UNSIGNED_BYTE, surface->pixels);
+    }
+
+    // Update the texture's width and height.
+    _text_texture_width = surface->w;
+    _text_texture_height = surface->h;
+
+    // Unlock the SDL surface.
+    SDL_UnlockSurface(surface);
+
+    // Update some of the OpenGL texture parameters.
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+    // Enable blending.
+    VideoManager->EnableBlending();
+
+    // Update the blending function.
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+    //
+    // Draw the shadow first.
+    //
+
+    // Push the transformation stack.
+    VideoManager->PushMatrix();
+
+    // Apply the shadow offset.
+    const float delta_x = VideoManager->_current_context.coordinate_system.GetHorizontalDirection() * shadow_offset_x;
+    const float delta_y = VideoManager->_current_context.coordinate_system.GetVerticalDirection() * shadow_offset_y;
+    VideoManager->MoveRelative(delta_x, delta_y);
+
+    // Update the transmation matrix.
+    CoordSys& coordinate_system = VideoManager->_current_context.coordinate_system;
+    float x_offset = ((VideoManager->_current_context.x_align + 1) * font_width) * 0.5f * -coordinate_system.GetHorizontalDirection();
+    float y_offset = ((VideoManager->_current_context.y_align + 1) * font_height) * 0.5f * -coordinate_system.GetVerticalDirection();
+    VideoManager->MoveRelative(x_offset, y_offset);
+
+    // Load the shader program.
+    gl::ShaderProgram* shader_program = VideoManager->LoadShaderProgram(gl::shader_programs::Sprite);
+    assert(shader_program != NULL);
+
+    // Calculate the vertex positions.
+    std::vector<float> vertex_positions;
+
+    // Vertex one.
+    vertex_positions.push_back(0.0f);
+    vertex_positions.push_back(0.0f);
+    vertex_positions.push_back(0.0f);
+
+    // Vertex two.
+    vertex_positions.push_back(font_width);
+    vertex_positions.push_back(0.0f);
+    vertex_positions.push_back(0.0f);
+
+    // Vertex three.
+    vertex_positions.push_back(font_width);
+    vertex_positions.push_back(font_height);
+    vertex_positions.push_back(0.0f);
+
+    // Vertex four.
+    vertex_positions.push_back(0.0f);
+    vertex_positions.push_back(font_height);
+    vertex_positions.push_back(0.0f);
+
+    // Calculate the vertex texture coordinates.
+    std::vector<float> vertex_texture_coordinates;
+
+    // Vertex one.
+    vertex_texture_coordinates.push_back(0.0f);
+    vertex_texture_coordinates.push_back(0.0f);
+
+    // Vertex two.
+    vertex_texture_coordinates.push_back(1.0f);
+    vertex_texture_coordinates.push_back(0.0f);
+
+    // Vertex three.
+    vertex_texture_coordinates.push_back(1.0f);
+    vertex_texture_coordinates.push_back(1.0f);
+
+    // Vertex four.
+    vertex_texture_coordinates.push_back(0.0f);
+    vertex_texture_coordinates.push_back(1.0f);
+
+    // The vertex colors.
+    std::vector<float> vertex_colors;
+
+    // Vertex one.
+    vertex_colors.push_back(1.0f);
+    vertex_colors.push_back(1.0f);
+    vertex_colors.push_back(1.0f);
+    vertex_colors.push_back(1.0f);
+
+    // Vertex two.
+    vertex_colors.push_back(1.0f);
+    vertex_colors.push_back(1.0f);
+    vertex_colors.push_back(1.0f);
+    vertex_colors.push_back(1.0f);
+
+    // Vertex three.
+    vertex_colors.push_back(1.0f);
+    vertex_colors.push_back(1.0f);
+    vertex_colors.push_back(1.0f);
+    vertex_colors.push_back(1.0f);
+
+    // Vertex four.
+    vertex_colors.push_back(1.0f);
+    vertex_colors.push_back(1.0f);
+    vertex_colors.push_back(1.0f);
+    vertex_colors.push_back(1.0f);
+
+    // Draw the shadow.
+    VideoManager->DrawSprite(shader_program, vertex_positions, vertex_texture_coordinates, vertex_colors, color_shadow);
+
+    // Restore the transformation stack.
+    VideoManager->PopMatrix();
+
+    //
+    // Draw the text second.
+    //
+
+    // Push the transformation stack.
+    VideoManager->PushMatrix();
+
+    // Update the transmation matrix.
+    VideoManager->MoveRelative(x_offset, y_offset);
+
+    // Draw the text.
     VideoManager->DrawSprite(shader_program, vertex_positions, vertex_texture_coordinates, vertex_colors, color);
 
     // Unload the shader program.
@@ -1170,7 +1368,6 @@ bool TextSupervisor::_RenderText(const vt_utils::ustring& text, TextStyle& style
 
     // Render the text.
     const SDL_Color white = { 255, 255, 255, 255 };
-
     SDL_Surface* surface = TTF_RenderUNICODE_Blended(font_properties->ttf_font, text.c_str(), white);
     if (surface == NULL) {
         IF_PRINT_WARNING(VIDEO_DEBUG) << "call to TTF_RenderUNICODE_Blended() failed" << std::endl;
