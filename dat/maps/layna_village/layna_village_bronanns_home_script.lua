@@ -14,22 +14,20 @@ map_subname = "Bronann's home"
 music_filename = "mus/Caketown_1-OGA-mat-pablo.ogg"
 
 -- c++ objects instances
-local Map = {};
-local ObjectManager = {};
-local DialogueManager = {};
-local EventManager = {};
+local Map = nil
+local DialogueManager = nil
+local EventManager = nil
 
 -- The main character handlers
-local bronann = {};
-local bronanns_dad = {};
-local bronanns_mother = {};
-local quest2_start_scene = {};
+local bronann = nil
+local bronanns_dad = nil
+local bronanns_mother = nil
+local quest2_start_scene = false
 
 -- the main map loading code
 function Load(m)
 
     Map = m;
-    ObjectManager = Map.object_supervisor;
     DialogueManager = Map.dialogue_supervisor;
     EventManager = Map.event_supervisor;
 
@@ -55,7 +53,7 @@ end
 -- Character creation
 function _CreateCharacters()
     -- default position and direction
-    bronann = CreateSprite(Map, "Bronann", 46.5, 11.5);
+    bronann = CreateSprite(Map, "Bronann", 46.5, 11.5, vt_map.MapMode.GROUND_OBJECT);
     bronann:SetDirection(vt_map.MapMode.SOUTH);
     bronann:SetMovementSpeed(vt_map.MapMode.NORMAL_SPEED);
 
@@ -65,17 +63,14 @@ function _CreateCharacters()
         bronann:SetDirection(vt_map.MapMode.NORTH);
         AudioManager:PlaySound("snd/door_close.wav");
     end
-
-    Map:AddGroundObject(bronann);
 end
 
 function _CreateNPCs()
-    local event = {}
-    local dialogue = {}
-    local text = {}
+    local event = nil
+    local dialogue = nil
+    local text = nil
 
-    bronanns_dad = CreateSprite(Map, "Carson", 33.5, 11.5);
-    Map:AddGroundObject(bronanns_dad);
+    bronanns_dad = CreateSprite(Map, "Carson", 33.5, 11.5, vt_map.MapMode.GROUND_OBJECT);
 
     event = vt_map.RandomMoveSpriteEvent("Dad random move", bronanns_dad, 2000, 2000);
     event:AddEventLinkAtEnd("Dad random move", 3000); -- Loop on itself
@@ -100,9 +95,9 @@ function _CreateNPCs()
     DialogueManager:AddDialogue(dialogue);
     bronanns_dad:AddDialogueReference(dialogue);
 
-    bronanns_mother = CreateSprite(Map, "Malta", 33.1, 17.5);
+    bronanns_mother = CreateSprite(Map, "Malta", 33.1, 17.5, vt_map.MapMode.GROUND_OBJECT);
     bronanns_mother:SetDirection(vt_map.MapMode.SOUTH);
-    Map:AddGroundObject(bronanns_mother);
+
     _UpdateMotherDialogue();
 
     -- Make her walk in front of the table to prepare the lunch.
@@ -129,7 +124,6 @@ function _CreateNPCs()
     EventManager:RegisterEvent(event);
     -- The mother routine event
     EventManager:StartEvent("Kitchen: Mother goes middle");
-
 
     -- The Hero's first noble quest briefing...
     event = vt_map.ScriptedSpriteEvent("Start Quest1", bronanns_mother, "StartQuest1", "");
@@ -199,65 +193,43 @@ end
 
 
 function _CreateObjects()
-    object = {}
+    local object = nil
 
-    object = CreateObject(Map, "Chair1", 47, 18);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
+    CreateObject(Map, "Chair1", 47, 18, vt_map.MapMode.GROUND_OBJECT);
 
-    object = CreateObject(Map, "Chair1_inverted", 41, 18);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
-
-    object = CreateObject(Map, "Chair1_north", 44, 15.3);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
-
-    object = CreateObject(Map, "Table1", 44, 19);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
-
-    object = CreateObject(Map, "Barrel1", 31, 14);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
-
-    object = CreateObject(Map, "Vase1", 31, 16);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
-
-    object = CreateObject(Map, "Flower Pot1", 48.5, 11);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
-
-    object = CreateObject(Map, "Flower Pot1", 31, 9);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
+    CreateObject(Map, "Chair1_inverted", 41, 18, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Chair1_north", 44, 15.3, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Table1", 44, 19, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Barrel1", 31, 14, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Vase1", 31, 16, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Flower Pot1", 48.5, 11, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Flower Pot1", 31, 9, vt_map.MapMode.GROUND_OBJECT);
 
     --lights
-    object = CreateObject(Map, "Left Window Light 2", 31, 15);
+    object = CreateObject(Map, "Left Window Light 2", 31, 15, vt_map.MapMode.GROUND_OBJECT);
     object:SetDrawOnSecondPass(true); -- Above any other ground object
     object:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
 
-    object = CreateObject(Map, "Right Window Light 2", 49, 15);
+    object = CreateObject(Map, "Right Window Light 2", 49, 15, vt_map.MapMode.GROUND_OBJECT);
     object:SetDrawOnSecondPass(true); -- Above any other ground object
     object:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
 
     -- Turn the food and dishes are objects to permit the update of their visible status.
-    plate_pile = CreateObject(Map, "Plate Pile1", 31, 22);
-    if (plate_pile ~= nil) then Map:AddGroundObject(plate_pile) end;
+    plate_pile = CreateObject(Map, "Plate Pile1", 31, 22, vt_map.MapMode.GROUND_OBJECT);
+    salad = CreateObject(Map, "Salad1", 31, 18, vt_map.MapMode.GROUND_OBJECT);
+    green_pepper = CreateObject(Map, "Green Pepper1", 31, 20, vt_map.MapMode.GROUND_OBJECT);
+    bread = CreateObject(Map, "Bread1", 31, 22, vt_map.MapMode.GROUND_OBJECT);
+    sauce_pot = CreateObject(Map, "Sauce Pot1", 33, 22, vt_map.MapMode.GROUND_OBJECT);
+    knife = CreateObject(Map, "Knife1", 35, 22, vt_map.MapMode.GROUND_OBJECT);
 
-    salad = CreateObject(Map, "Salad1", 31, 18);
-    if (salad ~= nil) then Map:AddGroundObject(salad) end;
-    green_pepper = CreateObject(Map, "Green Pepper1", 31, 20);
-    if (green_pepper ~= nil) then Map:AddGroundObject(green_pepper) end;
-    bread = CreateObject(Map, "Bread1", 31, 22);
-    if (bread ~= nil) then Map:AddGroundObject(bread) end;
-    sauce_pot = CreateObject(Map, "Sauce Pot1", 33, 22);
-    if (sauce_pot ~= nil) then Map:AddGroundObject(sauce_pot) end;
-    knife = CreateObject(Map, "Knife1", 35, 22);
-    if (knife ~= nil) then Map:AddGroundObject(knife) end;
     _UpdateDishesAndFood();
 end
 
 -- Creates all events and sets up the entire event sequence chain
 function _CreateEvents()
-    local event = {};
-    local text = {};
-    local dialogue = {};
+    local event = nil
+    local text = nil
+    local dialogue = nil
 
     -- Triggered Events
     event = vt_map.MapTransitionEvent("to village", "dat/maps/layna_village/layna_village_center_map.lua",
@@ -398,8 +370,8 @@ function _CreateEvents()
 end
 
 -- zones
-local home_exit_zone = {};
-local to_bronanns_room_zone = {};
+local home_exit_zone = nil
+local to_bronanns_room_zone = nil
 
 function _CreateZones()
     -- N.B.: left, right, top, bottom

@@ -14,18 +14,16 @@ map_subname = ""
 music_filename = "snd/wind.ogg"
 
 -- c++ objects instances
-local Map = {};
-local ObjectManager = {};
-local DialogueManager = {};
-local EventManager = {};
+local Map = nil
+local DialogueManager = nil
+local EventManager = nil
 
-local crystal = {};
+local crystal = nil
 
 -- the main map loading code
 function Load(m)
 
     Map = m;
-    ObjectManager = Map.object_supervisor;
     DialogueManager = Map.dialogue_supervisor;
     EventManager = Map.event_supervisor;
 
@@ -50,23 +48,20 @@ function Load(m)
     EventManager:StartEvent("Make crystal appear", 4000);
 end
 
-local crystal_effect = {};
+local crystal_effect = nil
 
 function _CreateObjects()
-    local object = {}
-    local npc = {}
+    local object = nil
+    local npc = nil
 
-    crystal = CreateSprite(Map, "Crystal", 41, 45);
+    crystal = CreateSprite(Map, "Crystal", 41, 45, vt_map.MapMode.GROUND_OBJECT);
     crystal:SetDirection(vt_map.MapMode.SOUTH);
     crystal:SetMovementSpeed(vt_map.MapMode.NORMAL_SPEED);
     crystal:SetVisible(false);
-    Map:AddGroundObject(crystal);
 
-    crystal_effect = vt_map.ParticleObject("dat/effects/particles/inactive_save_point.lua",
-                                            41, 46);
-    crystal_effect:SetObjectID(Map.object_supervisor:GenerateObjectID());
+    crystal_effect = vt_map.ParticleObject.CreateObject("dat/effects/particles/inactive_save_point.lua",
+                                            41, 46, vt_map.MapMode.GROUND_OBJECT);
     crystal_effect:Stop(); -- Don't run it until the character heals itself
-    Map:AddGroundObject(crystal_effect);
 
     -- trees, etc
     local map_trees = {
@@ -254,8 +249,7 @@ function _CreateObjects()
     -- Loads the trees according to the array
     for my_index, my_array in pairs(map_trees) do
         --print(my_array[1], my_array[2], my_array[3]);
-        object = CreateObject(Map, my_array[1], my_array[2], my_array[3]);
-        Map:AddGroundObject(object);
+        CreateObject(Map, my_array[1], my_array[2], my_array[3], vt_map.MapMode.GROUND_OBJECT);
     end
 
     -- grass array
@@ -280,18 +274,17 @@ function _CreateObjects()
     -- Loads the grass according to the array
     for my_index, my_array in pairs(map_grass) do
         --print(my_array[1], my_array[2], my_array[3]);
-        object = CreateObject(Map, my_array[1], my_array[2], my_array[3]);
+        object = CreateObject(Map, my_array[1], my_array[2], my_array[3], vt_map.MapMode.GROUND_OBJECT);
         object:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
-        Map:AddGroundObject(object);
     end
 
 end
 
 -- Creates all events and sets up the entire event sequence chain
 function _CreateEvents()
-    local event = {};
-    local dialogue = {};
-    local text = {};
+    local event = nil
+    local dialogue = nil
+    local text = nil
 
     event = vt_map.ScriptedEvent("Make crystal appear", "make_crystal_appear", "make_crystal_appear_update");
     event:AddEventLinkAtStart("fade to Bronann's room", 10000);
@@ -326,7 +319,7 @@ map_functions = {
             crystal:SetVisible(true);
             crystal_effect:Start();
             -- Add a light
-          	Map:AddLight("img/misc/lights/sun_flare_light_secondary.lua",
+            Map:AddLight("img/misc/lights/sun_flare_light_secondary.lua",
                     "img/misc/lights/sun_flare_light_secondary.lua",
                     41.2, 43.0,
                     vt_video.Color(0.8, 0.8, 1.0, 0.3),

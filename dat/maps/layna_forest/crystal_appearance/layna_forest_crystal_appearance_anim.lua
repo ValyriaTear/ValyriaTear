@@ -10,12 +10,12 @@ setmetatable(ns, {__index = _G})
 layna_forest_crystal_appearance_anim = ns;
 setfenv(1, ns);
 
-local crystal_shadow = {};
-local lightning1 = {};
-local lightning2 = {};
-local lightning3 = {};
-local vortex = {};
-local vortex_effect = {};
+local crystal_shadow = nil
+local lightning1 = nil
+local lightning2 = nil
+local lightning3 = nil
+local vortex = nil
+local vortex_effect = nil
 
 local display_time = 0;
 
@@ -48,12 +48,12 @@ local lightning9_pos_x = 0.0;
 local lightning9_pos_y = 0.0;
 
 -- random ids for the last lightnings
-local lightning4 = {};
-local lightning5 = {};
-local lightning6 = {};
-local lightning7 = {};
-local lightning8 = {};
-local lightning9 = {};
+local lightning4 = nil
+local lightning5 = nil
+local lightning6 = nil
+local lightning7 = nil
+local lightning8 = nil
+local lightning9 = nil
 
 local vortex_angle = 0.0;
 
@@ -69,9 +69,9 @@ local pos_x = 0.0;
 local pos_y = 0.0;
 
 -- c++ objects instances
-local Map = {};
-local Script = {};
-local Effects = {};
+local Map = nil
+local Script = nil
+local Effects = nil
 
 function Initialize(map_instance)
     Map = map_instance;
@@ -93,11 +93,9 @@ function Initialize(map_instance)
     vortex:SetDimensions(430.0, 210.0);
 
     -- Load the spring heal effect.
-    vortex_effect = vt_map.ParticleObject("dat/effects/particles/crystal_appearance.lua",
-                                            crystal_position_x, crystal_position_y);
-    vortex_effect:SetObjectID(Map.object_supervisor:GenerateObjectID());
+    vortex_effect = vt_map.ParticleObject.CreateObject("dat/effects/particles/crystal_appearance.lua",
+                                            crystal_position_x, crystal_position_y, vt_map.MapMode.SKY_OBJECT);
     vortex_effect:Stop(); -- Don't run it until the whole animation starts
-    Map:AddSkyObject(vortex_effect);
 
     -- Preload the crystal music
     AudioManager:LoadMusic("mus/Soliloquy_1-OGA-mat-pablo.ogg", Map);
@@ -396,5 +394,4 @@ function DrawPostEffects()
         Map:GetEffectSupervisor():DisableLightingOverlay();
         Map:GetParticleManager():StopAll(false);
     end
-
 end
