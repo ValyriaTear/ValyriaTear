@@ -1036,8 +1036,8 @@ void TextSupervisor::_RenderText(const uint16* text, FontProperties* font_proper
     // Send the surface pixel data to OpenGL.
     //
 
-    if (_text_texture_width == surface->w &&
-        _text_texture_height == surface->h) {
+    if (_text_texture_width == static_cast<GLuint>(surface->w) &&
+        _text_texture_height == static_cast<GLuint>(surface->h)) {
         // The size of the old texture is the same.  Just update the pixel data.
         glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, _text_texture_width, _text_texture_height, GL_RGBA, GL_UNSIGNED_BYTE, surface->pixels);
     } else {
@@ -1208,8 +1208,8 @@ void TextSupervisor::_RenderText(const uint16* text, FontProperties* font_proper
     // Send the surface pixel data to OpenGL.
     //
 
-    if (_text_texture_width == surface->w &&
-        _text_texture_height == surface->h) {
+    if (_text_texture_width == static_cast<GLuint>(surface->w) &&
+        _text_texture_height == static_cast<GLuint>(surface->h)) {
         // The size of the old texture is the same.  Just update the pixel data.
         glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, _text_texture_width, _text_texture_height, GL_RGBA, GL_UNSIGNED_BYTE, surface->pixels);
     } else {
