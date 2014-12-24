@@ -3,13 +3,13 @@ setmetatable(ns, {__index = _G})
 battle_with_banesore_script = ns;
 setfenv(1, ns);
 
-local Battle = {};
-local Script = {};
-local DialogueManager = {};
-local start_timer = {};
+local Battle = nil
+local Script = nil
+local DialogueManager = nil
+local start_timer = nil
 
 -- The overall time of active battle.
-local battle_time = {};
+local battle_time = 0
 
 local dialogue1_done = false;
 local dialogue2_done = false;
@@ -17,19 +17,19 @@ local dialogue3_done = false;
 local dialogue4_done = false;
 local battle_exit_done = false;
 
-local fire1 = {};
-local fire1_1 = {};
-local fire1_2 = {};
+local fire1 = nil
+local fire1_1 = nil
+local fire1_2 = nil
 
-local soldier = {};
-local lilly = {};
+local soldier = nil
+local lilly = nil
 local herth_walking = nil; -- starting value
 
 local lilly_charge_time = 0;
 local lilly_reaction_time = 2000;
 
 local herth_x_position = 0.0;
-local bronann = {};
+local bronann = nil
 
 function Initialize(battle_instance)
     Battle = battle_instance;
@@ -47,8 +47,8 @@ function Initialize(battle_instance)
     lilly = Script:CreateAnimation("dat/maps/layna_village/battle_with_banesore/battle_lilly_idle_down.lua");
     lilly:SetDimensions(70.0, 140.0);
 
-    local text = {};
-    local dialogue = {};
+    local text = nil
+    local dialogue = nil
 
     DialogueManager = Battle:GetDialogueSupervisor();
 

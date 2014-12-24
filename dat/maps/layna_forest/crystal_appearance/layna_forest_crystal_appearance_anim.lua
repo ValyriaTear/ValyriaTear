@@ -374,7 +374,6 @@ function DrawPostEffects()
         crystal_alpha = 0.0;
     end
 
-
     -- Then apply a white flash
     local flash_alpha = 0.0;
     if (display_time >= 8000 and display_time <= 8500) then

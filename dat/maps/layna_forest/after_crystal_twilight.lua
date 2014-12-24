@@ -3,8 +3,8 @@ setmetatable(ns, {__index = _G})
 after_crystal_twilight = ns;
 setfenv(1, ns);
 
-local Script = {};
-local light_layer = {};
+local Script = nil
+local light_layer = nil
 
 local twilight_step = 0;
 

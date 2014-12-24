@@ -14,16 +14,15 @@ map_subname = "Forest entrance"
 music_filename = "mus/house_in_a_forest_loop_horrorpen_oga.ogg"
 
 -- c++ objects instances
-local Map = {};
-local ObjectManager = {};
-local DialogueManager = {};
-local EventManager = {};
+local Map = nil
+local DialogueManager = nil
+local EventManager = nil
 
 -- the main character handler
-local hero = {};
+local hero = nil
 
 -- Forest dialogue secondary hero
-local kalya_sprite =  {};
+local kalya_sprite = nil
 
 -- Name of the main sprite. Used to reload the good one at the end of the firt forest entrance event.
 local main_sprite_name = "";
@@ -32,7 +31,6 @@ local main_sprite_name = "";
 function Load(m)
 
     Map = m;
-    ObjectManager = Map.object_supervisor;
     DialogueManager = Map.dialogue_supervisor;
     EventManager = Map.event_supervisor;
 
@@ -98,7 +96,7 @@ end
 -- Character creation
 function _CreateCharacters()
     -- Default hero and position
-    hero = CreateSprite(Map, "Bronann", 3, 30);
+    hero = CreateSprite(Map, "Bronann", 3, 30, vt_map.MapMode.GROUND_OBJECT);
     hero:SetDirection(vt_map.MapMode.EAST);
     hero:SetMovementSpeed(vt_map.MapMode.NORMAL_SPEED);
 
@@ -116,40 +114,34 @@ function _CreateCharacters()
         hero:SetPosition(61.0, 32.0);
     end
 
-    Map:AddGroundObject(hero);
-
     -- Create secondary character - Kalya
     kalya_sprite = CreateSprite(Map, "Kalya",
-                            hero:GetXPosition(), hero:GetYPosition());
+                            hero:GetXPosition(), hero:GetYPosition(), vt_map.MapMode.GROUND_OBJECT);
 
     kalya_sprite:SetDirection(vt_map.MapMode.EAST);
     kalya_sprite:SetMovementSpeed(vt_map.MapMode.NORMAL_SPEED);
     kalya_sprite:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
     kalya_sprite:SetVisible(false);
-    Map:AddGroundObject(kalya_sprite);
 end
 
 -- The heal particle effect map object
-local heal_effect = {};
+local heal_effect = nil
 
 function _CreateObjects()
-    local object = {}
-    local npc = {}
+    local object = nil
+    local npc = nil
 
     Map:AddSavePoint(19, 27);
 
     -- Load the spring heal effect.
-    heal_effect = vt_map.ParticleObject("dat/effects/particles/heal_particle.lua", 0, 0);
-    heal_effect:SetObjectID(Map.object_supervisor:GenerateObjectID());
+    heal_effect = vt_map.ParticleObject.CreateObject("dat/effects/particles/heal_particle.lua", 0, 0, vt_map.MapMode.GROUND_OBJECT);
     heal_effect:Stop(); -- Don't run it until the character heals itself
-    Map:AddGroundObject(heal_effect);
 
     -- Heal point
-    npc = CreateSprite(Map, "Butterfly", 27, 23);
+    npc = CreateSprite(Map, "Butterfly", 27, 23, vt_map.MapMode.GROUND_OBJECT);
     npc:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
     npc:SetVisible(false);
     npc:SetName(""); -- Unset the speaker name
-    Map:AddGroundObject(npc);
     dialogue = vt_map.SpriteDialogue();
     text = vt_system.Translate("Your party feels better...");
     dialogue:AddLineEvent(text, npc, "Forest entrance heal", "");
@@ -158,229 +150,143 @@ function _CreateObjects()
 
     -- Only add the squirrels and butterflies when the night isn't about to happen
     if (GlobalManager:GetEventValue("story", "layna_forest_crystal_event_done") < 1) then
-        npc = CreateSprite(Map, "Butterfly", 42, 18);
+        npc = CreateSprite(Map, "Butterfly", 42, 18, vt_map.MapMode.GROUND_OBJECT);
         npc:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
-        Map:AddGroundObject(npc);
+
         event = vt_map.RandomMoveSpriteEvent("Butterfly1 random move", npc, 1000, 1000);
         event:AddEventLinkAtEnd("Butterfly1 random move", 4500); -- Loop on itself
         EventManager:RegisterEvent(event);
         EventManager:StartEvent("Butterfly1 random move");
 
-        npc = CreateSprite(Map, "Butterfly", 12, 30);
+        npc = CreateSprite(Map, "Butterfly", 12, 30, vt_map.MapMode.GROUND_OBJECT);
         npc:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
-        Map:AddGroundObject(npc);
         event = vt_map.RandomMoveSpriteEvent("Butterfly2 random move", npc, 1000, 1000);
         event:AddEventLinkAtEnd("Butterfly2 random move", 4500); -- Loop on itself
         EventManager:RegisterEvent(event);
         EventManager:StartEvent("Butterfly2 random move", 2400);
 
-        npc = CreateSprite(Map, "Butterfly", 50, 25);
+        npc = CreateSprite(Map, "Butterfly", 50, 25, vt_map.MapMode.GROUND_OBJECT);
         npc:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
-        Map:AddGroundObject(npc);
         event = vt_map.RandomMoveSpriteEvent("Butterfly3 random move", npc, 1000, 1000);
         event:AddEventLinkAtEnd("Butterfly3 random move", 4500); -- Loop on itself
         EventManager:RegisterEvent(event);
         EventManager:StartEvent("Butterfly3 random move", 1050);
 
-        npc = CreateSprite(Map, "Butterfly", 40, 30);
+        npc = CreateSprite(Map, "Butterfly", 40, 30, vt_map.MapMode.GROUND_OBJECT);
         npc:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
-        Map:AddGroundObject(npc);
         event = vt_map.RandomMoveSpriteEvent("Butterfly4 random move", npc, 1000, 1000);
         event:AddEventLinkAtEnd("Butterfly4 random move", 4500); -- Loop on itself
         EventManager:RegisterEvent(event);
         EventManager:StartEvent("Butterfly4 random move", 3050);
 
-        npc = CreateSprite(Map, "Squirrel", 18, 24);
+        npc = CreateSprite(Map, "Squirrel", 18, 24, vt_map.MapMode.GROUND_OBJECT);
         -- Squirrels don't collide with the npcs.
         npc:SetCollisionMask(vt_map.MapMode.WALL_COLLISION);
         npc:SetSpriteAsScenery(true);
-        Map:AddGroundObject(npc);
         event = vt_map.RandomMoveSpriteEvent("Squirrel1 random move", npc, 1000, 1000);
         event:AddEventLinkAtEnd("Squirrel1 random move", 4500); -- Loop on itself
         EventManager:RegisterEvent(event);
         EventManager:StartEvent("Squirrel1 random move");
 
-        npc = CreateSprite(Map, "Squirrel", 40, 16);
+        npc = CreateSprite(Map, "Squirrel", 40, 16, vt_map.MapMode.GROUND_OBJECT);
         -- Squirrels don't collide with the npcs.
         npc:SetCollisionMask(vt_map.MapMode.WALL_COLLISION);
         npc:SetSpriteAsScenery(true);
-        Map:AddGroundObject(npc);
         event = vt_map.RandomMoveSpriteEvent("Squirrel2 random move", npc, 1000, 1000);
         event:AddEventLinkAtEnd("Squirrel2 random move", 4500); -- Loop on itself
         EventManager:RegisterEvent(event);
         EventManager:StartEvent("Squirrel2 random move", 1800);
     else
         -- add fireflies near the statue at night
-        object = vt_map.ParticleObject("dat/effects/particles/fireflies.lua", 27, 22);
-        object:SetObjectID(Map.object_supervisor:GenerateObjectID());
-        Map:AddGroundObject(object);
-        object = vt_map.ParticleObject("dat/effects/particles/fireflies.lua", 25, 23);
-        object:SetObjectID(Map.object_supervisor:GenerateObjectID());
-        Map:AddGroundObject(object);
-        object = vt_map.ParticleObject("dat/effects/particles/fireflies.lua", 29, 22.5);
-        object:SetObjectID(Map.object_supervisor:GenerateObjectID());
-        Map:AddGroundObject(object);
+        vt_map.ParticleObject.CreateObject("dat/effects/particles/fireflies.lua", 27, 22, vt_map.MapMode.GROUND_OBJECT);
+        vt_map.ParticleObject.CreateObject("dat/effects/particles/fireflies.lua", 25, 23, vt_map.MapMode.GROUND_OBJECT);
+        vt_map.ParticleObject.CreateObject("dat/effects/particles/fireflies.lua", 29, 22.5, vt_map.MapMode.GROUND_OBJECT);
     end
 
-    object = CreateObject(Map, "Tree Small3", 23, 18);
-    Map:AddGroundObject(object);
-    object = CreateObject(Map, "Tree Small3", 40, 14);
-    Map:AddGroundObject(object);
+    CreateObject(Map, "Tree Small3", 23, 18, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Tree Small3", 40, 14, vt_map.MapMode.GROUND_OBJECT);
 
     -- Trees above the pathway
-    object = CreateObject(Map, "Tree Big1", 4, 41);
-    Map:AddGroundObject(object);
-    object = CreateObject(Map, "Tree Small1", 5, 21);
-    Map:AddGroundObject(object);
-    object = CreateObject(Map, "Tree Big2", 12, 7);
-    Map:AddGroundObject(object);
-    object = CreateObject(Map, "Tree Small2", 1, 17.2);
-    Map:AddGroundObject(object);
-    object = CreateObject(Map, "Rock2", 1, 27);
-    Map:AddGroundObject(object);
-    object = CreateObject(Map, "Rock2", 5, 27);
-    Map:AddGroundObject(object);
-    object = CreateObject(Map, "Rock2", 1, 33);
-    Map:AddGroundObject(object);
-    object = CreateObject(Map, "Rock2", 5, 33);
-    Map:AddGroundObject(object);
-    object = CreateObject(Map, "Tree Small3", 3, 5);
-    Map:AddGroundObject(object);
-    object = CreateObject(Map, "Tree Small5", 8, 6);
-    Map:AddGroundObject(object);
-    object = CreateObject(Map, "Tree Small6", 11, 2);
-    Map:AddGroundObject(object);
-    object = CreateObject(Map, "Tree Small4", 15, 4.5);
-    Map:AddGroundObject(object);
-    object = CreateObject(Map, "Tree Small6", 19, 6.2);
-    Map:AddGroundObject(object);
-    object = CreateObject(Map, "Tree Small3", 23, 7.2);
-    Map:AddGroundObject(object);
-    object = CreateObject(Map, "Tree Small5", 26, 4);
-    Map:AddGroundObject(object);
-    object = CreateObject(Map, "Tree Small3", 30, 5);
-    Map:AddGroundObject(object);
-    object = CreateObject(Map, "Tree Small4", 34, 7);
-    Map:AddGroundObject(object);
-    object = CreateObject(Map, "Tree Small3", 36, 8);
-    Map:AddGroundObject(object);
-    object = CreateObject(Map, "Tree Small6", 39, 9);
-    Map:AddGroundObject(object);
-    object = CreateObject(Map, "Tree Small6", 42, 7.5);
-    Map:AddGroundObject(object);
-    object = CreateObject(Map, "Tree Small3", 45, 6);
-    Map:AddGroundObject(object);
-    object = CreateObject(Map, "Tree Small5", 48, 10);
-    Map:AddGroundObject(object);
-    object = CreateObject(Map, "Tree Small4", 47.5, 8);
-    Map:AddGroundObject(object);
-    object = CreateObject(Map, "Tree Small3", 50, 12);
-    Map:AddGroundObject(object);
-    object = CreateObject(Map, "Tree Small5", 54, 15);
-    Map:AddGroundObject(object);
-    object = CreateObject(Map, "Tree Small3", 59, 17);
-    Map:AddGroundObject(object);
-    object = CreateObject(Map, "Tree Small4", 62, 20);
-    Map:AddGroundObject(object);
-    object = CreateObject(Map, "Tree Small6", 62, 12);
-    Map:AddGroundObject(object);
-    object = CreateObject(Map, "Tree Small3", 54, 8);
-    Map:AddGroundObject(object);
-    object = CreateObject(Map, "Tree Small5", 60, 4);
-    Map:AddGroundObject(object);
-    object = CreateObject(Map, "Tree Small4", 55, 20);
-    Map:AddGroundObject(object);
-    object = CreateObject(Map, "Tree Small3", 61, 26);
-    Map:AddGroundObject(object);
-    object = CreateObject(Map, "Tree Small6", 45, 23);
-    Map:AddGroundObject(object);
-    object = CreateObject(Map, "Tree Small5", 11, 20);
-    Map:AddGroundObject(object);
-    object = CreateObject(Map, "Tree Small3", 2, 24);
-    Map:AddGroundObject(object);
-    object = CreateObject(Map, "Tree Small3", 3, 14);
-    Map:AddGroundObject(object);
-    object = CreateObject(Map, "Tree Small6", 7, 10);
-    Map:AddGroundObject(object);
-    object = CreateObject(Map, "Tree Small4", 2, 8);
-    Map:AddGroundObject(object);
-    object = CreateObject(Map, "Tree Small5", 4, 17);
-    Map:AddGroundObject(object);
+    CreateObject(Map, "Tree Big1", 4, 41, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Tree Small1", 5, 21, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Tree Big2", 12, 7, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Tree Small2", 1, 17.2, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Rock2", 1, 27, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Rock2", 5, 27, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Rock2", 1, 33, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Rock2", 5, 33, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Tree Small3", 3, 5, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Tree Small5", 8, 6, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Tree Small6", 11, 2, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Tree Small4", 15, 4.5, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Tree Small6", 19, 6.2, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Tree Small3", 23, 7.2, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Tree Small5", 26, 4, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Tree Small3", 30, 5, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Tree Small4", 34, 7, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Tree Small3", 36, 8, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Tree Small6", 39, 9, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Tree Small6", 42, 7.5, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Tree Small3", 45, 6, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Tree Small5", 48, 10, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Tree Small4", 47.5, 8, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Tree Small3", 50, 12, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Tree Small5", 54, 15, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Tree Small3", 59, 17, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Tree Small4", 62, 20, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Tree Small6", 62, 12, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Tree Small3", 54, 8, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Tree Small5", 60, 4, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Tree Small4", 55, 20, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Tree Small3", 61, 26, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Tree Small6", 45, 23, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Tree Small5", 11, 20, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Tree Small3", 2, 24, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Tree Small3", 3, 14, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Tree Small6", 7, 10, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Tree Small4", 2, 8, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Tree Small5", 4, 17, vt_map.MapMode.GROUND_OBJECT);
 
     -- Trees below the pathway
-    object = CreateObject(Map, "Tree Small3", 2, 40);
-    Map:AddGroundObject(object);
-    object = CreateObject(Map, "Tree Small6", 7, 38);
-    Map:AddGroundObject(object);
-    object = CreateObject(Map, "Tree Small5", 9, 42);
-    Map:AddGroundObject(object);
-    object = CreateObject(Map, "Tree Small4", 4, 47);
-    Map:AddGroundObject(object);
-    object = CreateObject(Map, "Tree Small3", 12, 41);
-    Map:AddGroundObject(object);
-    object = CreateObject(Map, "Tree Small3", 11, 45);
-    Map:AddGroundObject(object);
-    object = CreateObject(Map, "Tree Small3", 14, 46);
-    Map:AddGroundObject(object);
-    object = CreateObject(Map, "Tree Small4", 16.5, 48);
-    Map:AddGroundObject(object);
-    object = CreateObject(Map, "Tree Small3", 19, 46.5);
-    Map:AddGroundObject(object);
-    object = CreateObject(Map, "Tree Small5", 23, 48);
-    Map:AddGroundObject(object);
-    object = CreateObject(Map, "Tree Small3", 26, 39);
-    Map:AddGroundObject(object);
-    object = CreateObject(Map, "Tree Small6", 36, 43);
-    Map:AddGroundObject(object);
-    object = CreateObject(Map, "Tree Small3", 27, 49);
-    Map:AddGroundObject(object);
-    object = CreateObject(Map, "Tree Small4", 30.5, 51);
-    Map:AddGroundObject(object);
-    object = CreateObject(Map, "Tree Small5", 33, 50);
-    Map:AddGroundObject(object);
-    object = CreateObject(Map, "Tree Small3", 37, 48.5);
-    Map:AddGroundObject(object);
-    object = CreateObject(Map, "Tree Small4", 40.5, 51);
-    Map:AddGroundObject(object);
-    object = CreateObject(Map, "Tree Small3", 44, 50.5);
-    Map:AddGroundObject(object);
-    object = CreateObject(Map, "Tree Small6", 47, 49.5);
-    Map:AddGroundObject(object);
-    object = CreateObject(Map, "Tree Small3", 49.5, 48.5);
-    Map:AddGroundObject(object);
-    object = CreateObject(Map, "Tree Small4", 52, 50);
-    Map:AddGroundObject(object);
-    object = CreateObject(Map, "Tree Small3", 55, 48);
-    Map:AddGroundObject(object);
-    object = CreateObject(Map, "Tree Small3", 58, 50.5);
-    Map:AddGroundObject(object);
-    object = CreateObject(Map, "Tree Small5", 58, 47);
-    Map:AddGroundObject(object);
-    object = CreateObject(Map, "Tree Small3", 62, 46.5);
-    Map:AddGroundObject(object);
-    object = CreateObject(Map, "Tree Small5", 62, 49);
-    Map:AddGroundObject(object);
-    object = CreateObject(Map, "Tree Little2", 15, 8);
-    Map:AddGroundObject(object);
-    object = CreateObject(Map, "Tree Tiny4", 29, 37);
-    Map:AddGroundObject(object);
-    object = CreateObject(Map, "Tree Little3", 16, 40.2);
-    Map:AddGroundObject(object);
-    object = CreateObject(Map, "Tree Little1", 9, 12);
-    Map:AddGroundObject(object);
-    object = CreateObject(Map, "Tree Tiny3", 58, 22);
-    Map:AddGroundObject(object);
-    object = CreateObject(Map, "Tree Little1", 58, 9);
-    Map:AddGroundObject(object);
-    object = CreateObject(Map, "Tree Tiny3", 28, 8.5);
-    Map:AddGroundObject(object);
-    object = CreateObject(Map, "Tree Little3", 11, 44);
-    Map:AddGroundObject(object);
+    CreateObject(Map, "Tree Small3", 2, 40, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Tree Small6", 7, 38, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Tree Small5", 9, 42, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Tree Small4", 4, 47, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Tree Small3", 12, 41, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Tree Small3", 11, 45, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Tree Small3", 14, 46, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Tree Small4", 16.5, 48, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Tree Small3", 19, 46.5, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Tree Small5", 23, 48, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Tree Small3", 26, 39, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Tree Small6", 36, 43, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Tree Small3", 27, 49, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Tree Small4", 30.5, 51, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Tree Small5", 33, 50, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Tree Small3", 37, 48.5, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Tree Small4", 40.5, 51, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Tree Small3", 44, 50.5, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Tree Small6", 47, 49.5, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Tree Small3", 49.5, 48.5, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Tree Small4", 52, 50, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Tree Small3", 55, 48, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Tree Small3", 58, 50.5, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Tree Small5", 58, 47, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Tree Small3", 62, 46.5, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Tree Small5", 62, 49, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Tree Little2", 15, 8, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Tree Tiny4", 29, 37, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Tree Little3", 16, 40.2, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Tree Little1", 9, 12, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Tree Tiny3", 58, 22, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Tree Little1", 58, 9, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Tree Tiny3", 28, 8.5, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Tree Little3", 11, 44, vt_map.MapMode.GROUND_OBJECT);
 end
 
 function _CreateEnemies()
-    local enemy = {};
-    local roam_zone = {};
+    local enemy = nil
+    local roam_zone = nil
 
     -- Hint: left, right, top, bottom
     roam_zone = vt_map.EnemyZone(49, 62, 26, 39);
@@ -415,14 +321,14 @@ function _CreateEnemies()
 end
 
 -- Special event references which destinations must be updated just before being called.
-local move_next_to_hero_event = {}
-local move_back_to_hero_event = {}
+local move_next_to_hero_event = nil
+local move_back_to_hero_event = nil
 
 -- Creates all events and sets up the entire event sequence chain
 function _CreateEvents()
-    local event = {};
-    local dialogue = {};
-    local text = {};
+    local event = nil
+    local dialogue = nil
+    local text = nil
 
     -- Music event
     event = vt_map.ScriptedEvent("Music start", "music_start", "");
@@ -521,8 +427,8 @@ function _CreateEvents()
 end
 
 -- zones
-local forest_entrance_exit_zone = {};
-local to_forest_nw_zone = {};
+local forest_entrance_exit_zone = nil
+local to_forest_nw_zone = nil
 
 -- Create the different map zones triggering events
 function _CreateZones()

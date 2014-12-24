@@ -14,17 +14,16 @@ map_subname = ""
 music_filename = "mus/shrine-OGA-yd.ogg"
 
 -- c++ objects instances
-local Map = {};
-local ObjectManager = {};
-local DialogueManager = {};
-local EventManager = {};
-local Effects = {};
+local Map = nil
+local DialogueManager = nil
+local EventManager = nil
+local Effects = nil
 
 -- the main character handler
-local hero = {};
+local hero = nil
 
 -- Forest dialogue secondary hero
-local kalya_sprite = {};
+local kalya_sprite = nil
 
 -- Name of the main sprite. Used to reload the good one at the end of the first forest entrance event.
 local main_sprite_name = "";
@@ -33,7 +32,6 @@ local main_sprite_name = "";
 function Load(m)
 
     Map = m;
-    ObjectManager = Map.object_supervisor;
     DialogueManager = Map.dialogue_supervisor;
     EventManager = Map.event_supervisor;
     Effects = Map:GetEffectSupervisor();
@@ -47,7 +45,7 @@ function Load(m)
     -- Set the camera focus on hero
     Map:SetCamera(hero);
     -- This is a dungeon map, we'll use the front battle member sprite as default sprite.
-    Map.object_supervisor:SetPartyMemberVisibleSprite(hero);
+    Map:SetPartyMemberVisibleSprite(hero);
 
     _CreateEvents();
     _CreateZones();
@@ -77,7 +75,7 @@ end
 -- Character creation
 function _CreateCharacters()
     -- Default hero and position
-    hero = CreateSprite(Map, "Bronann", 116, 92);
+    hero = CreateSprite(Map, "Bronann", 116, 92, vt_map.MapMode.GROUND_OBJECT);
     hero:SetDirection(vt_map.MapMode.NORTH);
     hero:SetMovementSpeed(vt_map.MapMode.NORMAL_SPEED);
 
@@ -95,27 +93,33 @@ function _CreateCharacters()
         hero:SetPosition(125.0, 9.0);
     end
 
-    Map:AddGroundObject(hero);
-
     -- Create secondary character for dialogue at map entrance
     kalya_sprite = CreateSprite(Map, "Kalya",
-                                hero:GetXPosition(), hero:GetYPosition());
+                                hero:GetXPosition(), hero:GetYPosition(), vt_map.MapMode.GROUND_OBJECT);
 
     kalya_sprite:SetDirection(vt_map.MapMode.NORTH);
     kalya_sprite:SetMovementSpeed(vt_map.MapMode.NORMAL_SPEED);
     kalya_sprite:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
     kalya_sprite:SetVisible(false);
-    Map:AddGroundObject(kalya_sprite);
 end
 
 -- Keeps in memory whether objects are being loaded.
 -- Useful to prevent the trigger_on functions from shaking the screen or playing the tremor sound.
 local _loading_objects = true;
 
+local entrance_trigger_rock = nil
+local second_trigger_rock = nil
+local third_trigger_rock = nil
+local fourth_trigger_rock = nil
+local fifth_trigger_rock = nil
+local sixth_trigger_rock = nil
+local seventh_trigger_rock = nil
+local eighth_trigger_rock = nil
+
 function _CreateObjects()
-    local object = {};
-    local npc = {};
-    local event = {}
+    local object = nil
+    local npc = nil
+    local event = nil
 
     -- Adapt the light color according to the time of the day.
     local light_color_red = 1.0;
@@ -150,21 +154,18 @@ function _CreateObjects()
     Map:AddHalo("img/misc/lights/torch_light_mask.lua", 132, 14,
             vt_video.Color(light_color_red, light_color_green, light_color_blue, light_color_alpha));
 
-
     Map:AddSavePoint(50, 6);
 
     -- Load the spring heal effect.
-    heal_effect = vt_map.ParticleObject("dat/effects/particles/heal_particle.lua", 0, 0);
-    heal_effect:SetObjectID(Map.object_supervisor:GenerateObjectID());
+    heal_effect = vt_map.ParticleObject.CreateObject("dat/effects/particles/heal_particle.lua", 0, 0, vt_map.MapMode.GROUND_OBJECT);
     heal_effect:Stop(); -- Don't run it until the character heals itself
-    Map:AddGroundObject(heal_effect);
 
     -- Heal point
-    npc = CreateSprite(Map, "Butterfly", 35, 7);
+    npc = CreateSprite(Map, "Butterfly", 35, 7, vt_map.MapMode.GROUND_OBJECT);
     npc:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
     npc:SetVisible(false);
     npc:SetName(""); -- Unset the speaker name
-    Map:AddGroundObject(npc);
+
     dialogue = vt_map.SpriteDialogue();
     text = vt_system.Translate("Your party feels better...");
     dialogue:AddLineEvent(text, npc, "Cave heal", "");
@@ -174,20 +175,17 @@ function _CreateObjects()
     -- The triggers
 
     --near entrance
-    trigger = vt_map.TriggerObject("layna_cave_entrance_trigger",
+    local trigger = vt_map.TriggerObject("layna_cave_entrance_trigger",
                              "img/sprites/map/triggers/stone_trigger1_off.lua",
                              "img/sprites/map/triggers/stone_trigger1_on.lua",
                              "",
                              "Remove entrance rock");
-    trigger:SetObjectID(Map.object_supervisor:GenerateObjectID());
     trigger:SetPosition(113, 90);
-    Map:AddFlatGroundObject(trigger);
 
-    entrance_trigger_rock = CreateObject(Map, "Rock1", 115, 79);
+    entrance_trigger_rock = CreateObject(Map, "Rock1", 115, 79, vt_map.MapMode.GROUND_OBJECT);
     if (trigger:GetState() == true) then
         map_functions.make_entrance_rock_invisible();
     end
-    Map:AddGroundObject(entrance_trigger_rock);
 
     event = vt_map.ScriptedEvent("Remove entrance rock", "make_entrance_rock_invisible_n_speech", "");
     EventManager:RegisterEvent(event);
@@ -198,15 +196,12 @@ function _CreateObjects()
                              "img/sprites/map/triggers/stone_trigger1_on.lua",
                              "",
                              "Remove 2nd rock");
-    trigger:SetObjectID(Map.object_supervisor:GenerateObjectID());
     trigger:SetPosition(11, 88);
-    Map:AddFlatGroundObject(trigger);
 
-    second_trigger_rock = CreateObject(Map, "Rock1", 95, 58);
+    second_trigger_rock = CreateObject(Map, "Rock1", 95, 58, vt_map.MapMode.GROUND_OBJECT);
     if (trigger:GetState() == true) then
         map_functions.make_2nd_rock_invisible();
     end
-    Map:AddGroundObject(second_trigger_rock);
 
     event = vt_map.ScriptedEvent("Remove 2nd rock", "make_2nd_rock_invisible", "");
     EventManager:RegisterEvent(event);
@@ -217,15 +212,12 @@ function _CreateObjects()
                              "img/sprites/map/triggers/stone_trigger1_on.lua",
                              "",
                              "Remove 3rd rock");
-    trigger:SetObjectID(Map.object_supervisor:GenerateObjectID());
     trigger:SetPosition(39, 55);
-    Map:AddFlatGroundObject(trigger);
 
-    third_trigger_rock = CreateObject(Map, "Rock1", 15, 36);
+    third_trigger_rock = CreateObject(Map, "Rock1", 15, 36, vt_map.MapMode.GROUND_OBJECT);
     if (trigger:GetState() == true) then
         map_functions.make_3rd_rock_invisible();
     end
-    Map:AddGroundObject(third_trigger_rock);
 
     event = vt_map.ScriptedEvent("Remove 3rd rock", "make_3rd_rock_invisible", "");
     EventManager:RegisterEvent(event);
@@ -236,15 +228,12 @@ function _CreateObjects()
                              "img/sprites/map/triggers/stone_trigger1_on.lua",
                              "",
                              "Remove 4th rock");
-    trigger:SetObjectID(Map.object_supervisor:GenerateObjectID());
     trigger:SetPosition(62, 26);
-    Map:AddFlatGroundObject(trigger);
 
-    fourth_trigger_rock = CreateObject(Map, "Rock1", 45, 11);
+    fourth_trigger_rock = CreateObject(Map, "Rock1", 45, 11, vt_map.MapMode.GROUND_OBJECT);
     if (trigger:GetState() == true) then
         map_functions.make_4th_rock_invisible();
     end
-    Map:AddGroundObject(fourth_trigger_rock);
 
     event = vt_map.ScriptedEvent("Remove 4th rock", "make_4th_rock_invisible", "");
     EventManager:RegisterEvent(event);
@@ -255,15 +244,12 @@ function _CreateObjects()
                              "img/sprites/map/triggers/stone_trigger1_on.lua",
                              "",
                              "Remove 5th rock");
-    trigger:SetObjectID(Map.object_supervisor:GenerateObjectID());
     trigger:SetPosition(9, 6);
-    Map:AddFlatGroundObject(trigger);
 
-    fifth_trigger_rock = CreateObject(Map, "Rock1", 77, 33);
+    fifth_trigger_rock = CreateObject(Map, "Rock1", 77, 33, vt_map.MapMode.GROUND_OBJECT);
     if (trigger:GetState() == true) then
         map_functions.make_5th_rock_invisible();
     end
-    Map:AddGroundObject(fifth_trigger_rock);
 
     event = vt_map.ScriptedEvent("Remove 5th rock", "make_5th_rock_invisible", "");
     EventManager:RegisterEvent(event);
@@ -274,15 +260,12 @@ function _CreateObjects()
                              "img/sprites/map/triggers/stone_trigger1_on.lua",
                              "",
                              "Remove 6th rock");
-    trigger:SetObjectID(Map.object_supervisor:GenerateObjectID());
     trigger:SetPosition(114, 28);
-    Map:AddFlatGroundObject(trigger);
 
-    sixth_trigger_rock = CreateObject(Map, "Rock1", 115, 43);
+    sixth_trigger_rock = CreateObject(Map, "Rock1", 115, 43, vt_map.MapMode.GROUND_OBJECT);
     if (trigger:GetState() == true) then
         map_functions.make_6th_rock_invisible();
     end
-    Map:AddGroundObject(sixth_trigger_rock);
 
     event = vt_map.ScriptedEvent("Remove 6th rock", "make_6th_rock_invisible", "");
     EventManager:RegisterEvent(event);
@@ -293,15 +276,12 @@ function _CreateObjects()
                              "img/sprites/map/triggers/stone_trigger1_on.lua",
                              "",
                              "Remove 7th rock");
-    trigger:SetObjectID(Map.object_supervisor:GenerateObjectID());
     trigger:SetPosition(4, 26);
-    Map:AddFlatGroundObject(trigger);
 
-    seventh_trigger_rock = CreateObject(Map, "Rock1", 115, 47);
+    seventh_trigger_rock = CreateObject(Map, "Rock1", 115, 47, vt_map.MapMode.GROUND_OBJECT);
     if (trigger:GetState() == true) then
         map_functions.make_7th_rock_invisible();
     end
-    Map:AddGroundObject(seventh_trigger_rock);
 
     event = vt_map.ScriptedEvent("Remove 7th rock", "make_7th_rock_invisible", "");
     EventManager:RegisterEvent(event);
@@ -312,15 +292,12 @@ function _CreateObjects()
                              "img/sprites/map/triggers/stone_trigger1_on.lua",
                              "",
                              "Remove 8th rock");
-    trigger:SetObjectID(Map.object_supervisor:GenerateObjectID());
     trigger:SetPosition(115, 53);
-    Map:AddFlatGroundObject(trigger);
 
-    eighth_trigger_rock = CreateObject(Map, "Rock1", 93, 14);
+    eighth_trigger_rock = CreateObject(Map, "Rock1", 93, 14, vt_map.MapMode.GROUND_OBJECT);
     if (trigger:GetState() == true) then
         map_functions.make_8th_rock_invisible();
     end
-    Map:AddGroundObject(eighth_trigger_rock);
 
     event = vt_map.ScriptedEvent("Remove 8th rock", "make_8th_rock_invisible", "");
     EventManager:RegisterEvent(event);
@@ -339,7 +316,7 @@ function _SetBattleEnvironment(enemy)
 end
 
 -- A special roam zone used to make the slime mother spawn only once.
-local slime_mother_roam_zone = {};
+local slime_mother_roam_zone = nil
 -- A local variable making quicker the test on whether the slime mother boss is defeated
 local slime_mother_defeated = false;
 
@@ -355,8 +332,8 @@ function _CheckSlimeMotherState()
 end
 
 function _CreateEnemies()
-    local enemy = {};
-    local roam_zone = {};
+    local enemy = nil
+    local roam_zone = nil
 
     -- Extra boss near the save point - Can only be beaten once.
     -- Hint: left, right, top, bottom
@@ -414,14 +391,14 @@ function _CreateEnemies()
 end
 
 -- Special event references which destinations must be updated just before being called.
-local move_next_to_hero_event = {}
-local move_back_to_hero_event = {}
+local move_next_to_hero_event = nil
+local move_back_to_hero_event = nil
 
 -- Creates all events and sets up the entire event sequence chain
 function _CreateEvents()
-    local event = {};
-    local dialogue = {};
-    local text = {};
+    local event = nil
+    local dialogue = nil
+    local text = nil
 
     event = vt_map.MapTransitionEvent("to forest NW", "dat/maps/layna_forest/layna_forest_north_west_map.lua",
                                        "dat/maps/layna_forest/layna_forest_north_west_script.lua", "from_layna_cave_entrance");
@@ -500,12 +477,11 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
     event = vt_map.ChangeDirectionSpriteEvent("Hero looks south", hero, vt_map.MapMode.SOUTH);
     EventManager:RegisterEvent(event);
-
 end
 
 -- zones
-local to_forest_NW_zone = {};
-local to_cave_1_2_zone = {};
+local to_forest_NW_zone = nil
+local to_cave_1_2_zone = nil
 
 -- Create the different map zones triggering events
 function _CreateZones()

@@ -3,8 +3,8 @@ setmetatable(ns, {__index = _G})
 show_crystals_script = ns;
 setfenv(1, ns);
 
-local crystal = {};
-local black_layer = {};
+local crystal = nil
+local black_layer = nil
 local display_time = 0;
 
 local camera_x_position = 0.0;
@@ -19,8 +19,8 @@ local crystal2_alpha = 0.0;
 local script_triggered = false;
 
 -- c++ objects instances
-local Map = {};
-local Script = {};
+local Map = nil
+local Script = nil
 
 function Initialize(map_instance)
     Map = map_instance;
