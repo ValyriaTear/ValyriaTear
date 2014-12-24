@@ -3,8 +3,8 @@ setmetatable(ns, {__index = _G})
 at_night = ns;
 setfenv(1, ns);
 
-local Script = {};
-local night_layer = {};
+local Script = nil
+local night_layer = nil
 
 -- TODO: Add support for multiple light layers, and get rid of this script.
 

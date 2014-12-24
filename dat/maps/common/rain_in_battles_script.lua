@@ -3,10 +3,10 @@ setmetatable(ns, {__index = _G})
 rain_in_battles_script = ns;
 setfenv(1, ns);
 
-local Battle = {};
-local Script = {};
+local Battle = nil
+local Script = nil
 
-local ripples = {};
+local ripples = nil
 
 function Initialize(battle_instance)
     Battle = battle_instance;
@@ -21,7 +21,6 @@ end
 --function Restart()
 
 --end
-
 
 function Update()
     ripples:Update();
@@ -40,7 +39,6 @@ function DrawBackground()
         VideoManager:Move(491.0, 596.0);
         ripples:Draw(white_color);
     end
-
 end
 
 --function DrawPostEffects()

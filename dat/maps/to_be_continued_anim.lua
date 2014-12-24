@@ -46,8 +46,6 @@ function Update()
 
     -- Handle the timer
     display_time = display_time + time_expired;
-
-
 end
 
 local text_color = vt_video.Color(1.0, 1.0, 1.0, 1.0);

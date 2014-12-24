@@ -3,10 +3,10 @@ setmetatable(ns, {__index = _G})
 soft_lightnings_script = ns;
 setfenv(1, ns);
 
-local Battle = {};
-local Script = {};
+local Battle = nil
+local Script = nil
 
-local lightning = {};
+local lightning = nil
 local total_time = 0;
 local lightning_sound_triggered = false;
 local lightning_alpha = 0.3;
@@ -24,7 +24,6 @@ function Initialize(battle_instance)
     lightning_sound_triggered = false;
 
     lightning_alpha = 0.3;
-
 end
 
 
