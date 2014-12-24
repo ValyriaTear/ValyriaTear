@@ -14,19 +14,17 @@ map_subname = "Village entrance"
 music_filename = "mus/Caketown_1-OGA-mat-pablo.ogg"
 
 -- c++ objects instances
-local Map = {};
-local ObjectManager = {};
-local DialogueManager = {};
-local EventManager = {};
+local Map = nil
+local DialogueManager = nil
+local EventManager = nil
 
-local bronann = {};
-local orlinn = {};
+local bronann = nil
+local orlinn = nil
 
 -- the main map loading code
 function Load(m)
 
     Map = m;
-    ObjectManager = Map.object_supervisor;
     DialogueManager = Map.dialogue_supervisor;
     EventManager = Map.event_supervisor;
 
@@ -65,10 +63,9 @@ function Update()
     _CheckZones();
 end
 
-
 -- Character creation
 function _CreateCharacters()
-    bronann = CreateSprite(Map, "Bronann", 32, 4);
+    bronann = CreateSprite(Map, "Bronann", 32, 4, vt_map.MapMode.GROUND_OBJECT);
     bronann:SetDirection(vt_map.MapMode.SOUTH);
     bronann:SetMovementSpeed(vt_map.MapMode.NORMAL_SPEED);
 
@@ -76,31 +73,26 @@ function _CreateCharacters()
     if (GlobalManager:GetPreviousLocation() == "from_riverbank") then
         bronann:SetPosition(3, 34);
         bronann:SetDirection(vt_map.MapMode.EAST);
-
     elseif (GlobalManager:GetPreviousLocation() == "from right house") then
         bronann:SetPosition(48, 34);
         bronann:SetDirection(vt_map.MapMode.SOUTH);
         AudioManager:PlaySound("snd/door_close.wav");
-
     elseif (GlobalManager:GetPreviousLocation() == "from left house") then
         bronann:SetPosition(20, 34);
         bronann:SetDirection(vt_map.MapMode.SOUTH);
         AudioManager:PlaySound("snd/door_close.wav");
     end
-
-    Map:AddGroundObject(bronann);
 end
 
-local chicken2 = {}
+local chicken2 = nil
 
 function _CreateNPCs()
-    local npc = {}
-    local text = {}
-    local dialogue = {}
-    local event = {}
+    local npc = nil
+    local text = nil
+    local dialogue = nil
+    local event = nil
 
-    npc = CreateSprite(Map, "Herth", 45, 39);
-    Map:AddGroundObject(npc);
+    npc = CreateSprite(Map, "Herth", 45, 39, vt_map.MapMode.GROUND_OBJECT);
     if (GlobalManager:DoesEventExist("story", "Quest2_forest_event_done") == true) then
         -- At that moment, Herth isn't there anymore.
         npc:SetVisible(false);
@@ -130,16 +122,16 @@ function _CreateNPCs()
         npc:AddDialogueReference(dialogue);
     end
 
-    orlinn = CreateSprite(Map, "Orlinn", 29, 22);
+    orlinn = CreateSprite(Map, "Orlinn", 29, 22, vt_map.MapMode.GROUND_OBJECT);
     orlinn:SetDirection(vt_map.MapMode.EAST);
     orlinn:SetMovementSpeed(vt_map.MapMode.VERY_FAST_SPEED);
-    Map:AddGroundObject(orlinn);
+
     _UpdateOrlinnState();
 
     -- Adds a chicken that can be taken by Bronann and given back to Grandma.
     if (GlobalManager:GetEventValue("game", "layna_village_chicken2_found") == 0) then
-        chicken2 = CreateSprite(Map, "Chicken", 58, 44);
-        Map:AddGroundObject(chicken2);
+        chicken2 = CreateSprite(Map, "Chicken", 58, 44, vt_map.MapMode.GROUND_OBJECT);
+
         event = vt_map.RandomMoveSpriteEvent("Chicken2 random move", chicken2, 1000, 1000);
         event:AddEventLinkAtEnd("Chicken2 random move", 4500); -- Loop on itself
         EventManager:RegisterEvent(event);
@@ -158,10 +150,7 @@ function _CreateNPCs()
 end
 
 function _CreateObjects()
-    local object = {}
-
-    object = CreateObject(Map, "Tree Big1", 42, 10);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
+    CreateObject(Map, "Tree Big1", 42, 10, vt_map.MapMode.GROUND_OBJECT);
 
     -- Small door lights
     Map:AddLight("img/misc/lights/sun_flare_light_small_main.lua",
@@ -178,7 +167,7 @@ end
 
 -- Creates all events and sets up the entire event sequence chain
 function _CreateEvents()
-    local event = {};
+    local event = nil
 
     -- Triggered Events
     event = vt_map.MapTransitionEvent("to Village center", "dat/maps/layna_village/layna_village_center_map.lua",
@@ -211,10 +200,10 @@ function _CreateEvents()
 end
 
 -- zones
-local village_center_zone = {};
-local to_village_riverbank_zone = {};
-local to_left_house_zone = {};
-local to_right_house_zone = {};
+local village_center_zone = nil
+local to_village_riverbank_zone = nil
+local to_left_house_zone = nil
+local to_right_house_zone = nil
 
 function _CreateZones()
     -- N.B.: left, right, top, bottom
@@ -266,9 +255,9 @@ end
 -- Custom inner map functions
 
 function _UpdateOrlinnState()
-    local text = {}
-    local dialogue = {}
-    local event = {}
+    local text = nil
+    local dialogue = nil
+    local event = nil
 
     event = vt_map.PathMoveSpriteEvent("Hide n Seek1: Orlinn goes right", orlinn, 31, 22, false);
     event:AddEventLinkAtEnd("Hide n Seek1: Orlinn looks south");

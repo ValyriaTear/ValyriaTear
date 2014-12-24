@@ -156,9 +156,6 @@ public:
     //! \brief Removes an object from memory
     void DeleteMapObject(private_map::MapObject* obj);
 
-    //! \brief Adds a new ambient sound object
-    void AddAmbientSoundObject(private_map::SoundObject *obj);
-
     //! \brief Adds a new zone to the map
     void AddZone(private_map::MapZone *zone);
 

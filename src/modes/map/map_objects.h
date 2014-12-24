@@ -989,11 +989,15 @@ public:
     **/
     VirtualSprite* GetSprite(uint32 object_id);
 
-    //! \brief Add an object in a given layer on map.
-    void AddObject(MapObject* object, MapObjectDrawLayer layer);
+    //! \brief Wrapper to add an object in the all objects vector.
+    //! This should only be called by the MapObject constructor.
+    void RegisterObject(MapObject* object);
 
     //! \brief Delete an object from memory.
     void DeleteObject(MapObject* object);
+
+    //! \brief Add sound objects (Done within the sound object constructor)
+    void AddAmbientSound(SoundObject* object);
 
     //! \brief Sorts objects on all three layers according to their draw order
     void SortObjects();
@@ -1132,8 +1136,7 @@ public:
     //! external callers cannot modify the contents of the map_object;
 
     //! \brief get the number of rows and columns in the collision grid
-    void GetGridAxis(uint32 &x, uint32 &y) const
-    {
+    void GetGridAxis(uint32 &x, uint32 &y) const {
         x = _num_grid_x_axis;
         y = _num_grid_y_axis;
     }
@@ -1162,10 +1165,6 @@ public:
     //! \brief Restarts sounds objects that were previously stopped.
     //! Used when leaving a battle for instance.
     void RestartSoundObjects();
-
-    //! \brief Wrapper to add an object in the all objects vector.
-    //! This should only be called by the MapObject constructor.
-    void RegisterObject(MapObject* object);
 
 private:
     //! \brief Returns the nearest save point. Used by FindNearestObject.

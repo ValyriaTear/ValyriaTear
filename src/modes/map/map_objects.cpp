@@ -643,7 +643,7 @@ SoundObject::SoundObject(const std::string& sound_filename, float x, float y, fl
     _max_sound_volume(1.0f),
     _activated(true)
 {
-    MapObject::_object_type = SOUND_TYPE;
+    _object_type = SOUND_TYPE;
 
     if (_sound.LoadAudio(sound_filename)) {
         // Tells the engine the sound can be unloaded if no other mode is using it
@@ -671,6 +671,9 @@ SoundObject::SoundObject(const std::string& sound_filename, float x, float y, fl
     position.y = y;
 
     collision_mask = NO_COLLISION;
+
+    // Register the object to the sound vector
+    MapMode::CurrentInstance()->GetObjectSupervisor()->AddAmbientSound(this);
 }
 
 SoundObject* SoundObject::CreateObject(const std::string& sound_filename,
@@ -1096,11 +1099,21 @@ void ObjectSupervisor::RegisterObject(MapObject* object)
         break;
     case SKY_OBJECT:
         _sky_objects.push_back(object);
-    break;
+        break;
     case NO_LAYER_OBJECT:
     default: // Nothing to do. the object is registered in all objects only.
         break;
     }
+}
+
+void ObjectSupervisor::AddAmbientSound(SoundObject *object)
+{
+    if(!object) {
+        PRINT_WARNING << "Couldn't add NULL object." << std::endl;
+        return;
+    }
+
+    _sound_objects.push_back(object);
 }
 
 void ObjectSupervisor::DeleteObject(MapObject* object)

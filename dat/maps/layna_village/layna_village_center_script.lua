@@ -14,29 +14,27 @@ map_subname = "Village center"
 music_filename = "mus/Caketown_1-OGA-mat-pablo.ogg"
 
 -- c++ objects instances
-local Map = {};
-local ObjectManager = {};
-local DialogueManager = {};
-local EventManager = {};
-local Effects = {};
+local Map = nil
+local DialogueManager = nil
+local EventManager = nil
+local Effects = nil
 
-local bronann = {};
-local kalya = {};
+local bronann = nil
+local kalya = nil
 
 -- Main npcs
-local orlinn = {};
-local georges = {};
-local carson = {};
-local herth = {};
-local olivia = {}; -- Olivia npc, guarding the forest entrance
+local orlinn = nil
+local georges = nil
+local carson = nil
+local herth = nil
+local olivia = nil -- Olivia npc, guarding the forest entrance
 
-local wooden_sword = {};
+local wooden_sword = nil
 
 -- the main map loading code
 function Load(m)
 
     Map = m;
-    ObjectManager = Map.object_supervisor;
     DialogueManager = Map.dialogue_supervisor;
     EventManager = Map.event_supervisor;
     Effects = Map:GetEffectSupervisor();
@@ -81,10 +79,9 @@ function Update()
     _CheckZones();
 end
 
-
 -- Character creation
 function _CreateCharacters()
-    bronann = CreateSprite(Map, "Bronann", 12, 63);
+    bronann = CreateSprite(Map, "Bronann", 12, 63, vt_map.MapMode.GROUND_OBJECT);
     bronann:SetDirection(vt_map.MapMode.SOUTH);
     bronann:SetMovementSpeed(vt_map.MapMode.NORMAL_SPEED);
 
@@ -115,18 +112,16 @@ function _CreateCharacters()
     elseif (GlobalManager:GetPreviousLocation() == "from_bronanns_home") then
         AudioManager:PlaySound("snd/door_close.wav");
     end
-
-    Map:AddGroundObject(bronann);
 end
 
 function _CreateNPCs()
-    local npc = {}
-    local text = {}
-    local dialogue = {}
-    local event = {}
+    local npc = nil
+    local text = nil
+    local dialogue = nil
+    local event = nil
 
-    kalya = CreateSprite(Map, "Kalya", 42, 18);
-    Map:AddGroundObject(kalya);
+    kalya = CreateSprite(Map, "Kalya", 42, 18, vt_map.MapMode.GROUND_OBJECT);
+
     event = vt_map.RandomMoveSpriteEvent("Kalya random move", kalya, 1000, 2000);
     event:AddEventLinkAtEnd("Kalya random move", 2000); -- Loop on itself
     EventManager:RegisterEvent(event);
@@ -137,26 +132,23 @@ function _CreateNPCs()
     DialogueManager:AddDialogue(dialogue);
     kalya:AddDialogueReference(dialogue);
 
-    orlinn = CreateSprite(Map, "Orlinn", 40, 18);
+    orlinn = CreateSprite(Map, "Orlinn", 40, 18, vt_map.MapMode.GROUND_OBJECT);
     orlinn:SetCollisionMask(vt_map.MapMode.WALL_COLLISION);
-    Map:AddGroundObject(orlinn);
+
     -- Setup Orlinn's state and dialogue depending on the story current context
     _UpdateOrlinnAndKalyaState();
 
-    carson = CreateSprite(Map, "Carson", 0, 0);
+    carson = CreateSprite(Map, "Carson", 0, 0, vt_map.MapMode.GROUND_OBJECT);
     -- Default behaviour - not present on map.
     carson:SetVisible(false);
     carson:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
-    Map:AddGroundObject(carson);
 
-    herth = CreateSprite(Map, "Herth", 0, 0);
+    herth = CreateSprite(Map, "Herth", 0, 0, vt_map.MapMode.GROUND_OBJECT);
     -- Default behaviour - not present on map.
     herth:SetVisible(false);
     herth:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
-    Map:AddGroundObject(herth);
 
-    npc = CreateNPCSprite(Map, "Old Woman1", vt_system.Translate("Brymir"), 72, 64);
-    Map:AddGroundObject(npc);
+    npc = CreateNPCSprite(Map, "Old Woman1", vt_system.Translate("Brymir"), 72, 64, vt_map.MapMode.GROUND_OBJECT);
     npc:SetDirection(vt_map.MapMode.WEST);
     dialogue = vt_map.SpriteDialogue("ep1_layna_village_brymir_gossip");
     text = vt_system.Translate("Ahh sure! (gossip, gossip)");
@@ -164,8 +156,7 @@ function _CreateNPCs()
     DialogueManager:AddDialogue(dialogue);
     npc:AddDialogueReference(dialogue);
 
-    npc = CreateNPCSprite(Map, "Woman1", vt_system.Translate("Martha"), 70, 64);
-    Map:AddGroundObject(npc);
+    npc = CreateNPCSprite(Map, "Woman1", vt_system.Translate("Martha"), 70, 64, vt_map.MapMode.GROUND_OBJECT);
     npc:SetDirection(vt_map.MapMode.EAST);
     dialogue = vt_map.SpriteDialogue("ep1_layna_village_martha_gossip");
     text = vt_system.Translate("Did you hear that? (gossip, gossip)");
@@ -173,8 +164,7 @@ function _CreateNPCs()
     DialogueManager:AddDialogue(dialogue);
     npc:AddDialogueReference(dialogue);
 
-    npc = CreateNPCSprite(Map, "Woman2", vt_system.Translate("Sophia"), 22, 38);
-    Map:AddGroundObject(npc);
+    npc = CreateNPCSprite(Map, "Woman2", vt_system.Translate("Sophia"), 22, 38, vt_map.MapMode.GROUND_OBJECT);
     npc:SetDirection(vt_map.MapMode.SOUTH);
     if (GlobalManager:DoesEventExist("layna_south_entrance", "quest1_orlinn_hide_n_seek1_done") == true and
             GlobalManager:DoesEventExist("layna_riverbank", "quest1_orlinn_hide_n_seek2_done") == false) then
@@ -188,25 +178,18 @@ function _CreateNPCs()
     DialogueManager:AddDialogue(dialogue);
     npc:AddDialogueReference(dialogue);
     -- Add her cat, Nekko
-    object = CreateObject(Map, "Cat1", 24, 37.6);
-    if (object ~= nil) then
-        Map:AddGroundObject(object)
+    object = CreateObject(Map, "Cat1", 24, 37.6, vt_map.MapMode.GROUND_OBJECT);
+    event = vt_map.SoundEvent("Nekko says Meoww!", "snd/meow.wav");
+    EventManager:RegisterEvent(event);
+    object:SetEventWhenTalking("Nekko says Meoww!");
 
-        event = vt_map.SoundEvent("Nekko says Meoww!", "snd/meow.wav");
-        EventManager:RegisterEvent(event);
-
-        object:SetEventWhenTalking("Nekko says Meoww!");
-    end;
-
-    georges = CreateNPCSprite(Map, "Man1", vt_system.Translate("Georges"), 32, 76);
-    Map:AddGroundObject(georges);
+    georges = CreateNPCSprite(Map, "Man1", vt_system.Translate("Georges"), 32, 76, vt_map.MapMode.GROUND_OBJECT);
     georges:SetDirection(vt_map.MapMode.WEST);
     _UpdateGeorgesDialogue(georges);
 
     -- Olivia, guardian of the forest access
-    olivia = CreateNPCSprite(Map, "Girl1", vt_system.Translate("Olivia"), 115, 34);
+    olivia = CreateNPCSprite(Map, "Girl1", vt_system.Translate("Olivia"), 115, 34, vt_map.MapMode.GROUND_OBJECT);
     olivia:SetDirection(vt_map.MapMode.SOUTH);
-    Map:AddGroundObject(olivia);
 
     -- Needed look at events
     event = vt_map.LookAtSpriteEvent("Bronann looks at Olivia", bronann, olivia);
@@ -216,62 +199,36 @@ function _CreateNPCs()
 end
 
 function _CreateObjects()
-    local object = {}
+    local object = nil
 
-    object = CreateObject(Map, "Tree Big2", 22, 78);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
-    object = CreateObject(Map, "Tree Small1", 22, 16);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
-    object = CreateObject(Map, "Tree Big1", 9, 16);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
-    object = CreateObject(Map, "Tree Big1", 65, 18);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
-    object = CreateObject(Map, "Tree Big2", 74, 20);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
-    object = CreateObject(Map, "Tree Big1", 67, 32);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
-    object = CreateObject(Map, "Tree Big2", 80, 36);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
-    object = CreateObject(Map, "Tree Small1", 92, 22);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
-    object = CreateObject(Map, "Tree Big2", 98, 24);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
-    object = CreateObject(Map, "Tree Small2", 79, 16);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
-
-    object = CreateObject(Map, "Rock1", 3, 64);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
-    object = CreateObject(Map, "Rock2", 2, 62);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
-    object = CreateObject(Map, "Rock1", 33, 12);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
-
-    object = CreateObject(Map, "Rock2", 29, 16);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
-    object = CreateObject(Map, "Rock2", 109, 34);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
-    object = CreateObject(Map, "Rock2", 113, 34);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
-    object = CreateObject(Map, "Rock2", 117, 34);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
-    object = CreateObject(Map, "Rock2", 109, 42);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
-    object = CreateObject(Map, "Rock2", 117, 42);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
-    object = CreateObject(Map, "Rock2", 113, 42);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
+    CreateObject(Map, "Tree Big2", 22, 78, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Tree Small1", 22, 16, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Tree Big1", 9, 16, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Tree Big1", 65, 18, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Tree Big2", 74, 20, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Tree Big1", 67, 32, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Tree Big2", 80, 36, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Tree Small1", 92, 22, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Tree Big2", 98, 24, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Tree Small2", 79, 16, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Rock1", 3, 64, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Rock2", 2, 62, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Rock1", 33, 12, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Rock2", 29, 16, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Rock2", 109, 34, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Rock2", 113, 34, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Rock2", 117, 34, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Rock2", 109, 42, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Rock2", 117, 42, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Rock2", 113, 42, vt_map.MapMode.GROUND_OBJECT);
 
     -- A village with drinkable water
-    object = CreateObject(Map, "Well", 59.0, 32.0);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
+    CreateObject(Map, "Well", 59.0, 32.0, vt_map.MapMode.GROUND_OBJECT);
 
     -- collision bug hidders
-    object = CreateObject(Map, "Barrel1", 14, 38);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
-    object = CreateObject(Map, "Vase1", 15, 39);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
-    object = CreateObject(Map, "Barrel1", 30, 38);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
+    CreateObject(Map, "Barrel1", 14, 38, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Vase1", 15, 39, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Barrel1", 30, 38, vt_map.MapMode.GROUND_OBJECT);
 
     -- Lights
     -- big round windows light flares
@@ -305,28 +262,24 @@ function _CreateObjects()
         vt_video.Color(1.0, 1.0, 0.85, 0.3));
 
     -- Treasure vase
-    local nekko_vase = CreateTreasure(Map, "layna_center_nekko_vase", "Vase1", 27, 37);
-    if (nekko_vase ~= nil) then
-        nekko_vase:AddObject(11, 1);
-        Map:AddGroundObject(nekko_vase);
-    end
+    local nekko_vase = CreateTreasure(Map, "layna_center_nekko_vase", "Vase1", 27, 37, vt_map.MapMode.GROUND_OBJECT);
+    nekko_vase:AddObject(11, 1);
 
     -- Quest 2: Forest event
     -- The wooden sword sprite
-    wooden_sword = CreateObject(Map, "Wooden Sword1", 1, 1);
-    Map:AddGroundObject(wooden_sword);
+    wooden_sword = CreateObject(Map, "Wooden Sword1", 1, 1, vt_map.MapMode.GROUND_OBJECT);
     wooden_sword:SetVisible(false);
     wooden_sword:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
 end
 
-local not_granted_dialogue = nil;
-local not_granted2_dialogue = nil;
+local not_granted_dialogue = nil
+local not_granted2_dialogue = nil
 
 -- Creates all events and sets up the entire event sequence chain
 function _CreateEvents()
-    local event = {};
-    local text = {};
-    local dialogue = {};
+    local event = nil
+    local text = nil
+    local dialogue = nil
 
     -- Triggered Events
     event = vt_map.MapTransitionEvent("to Bronann's home", "dat/maps/layna_village/layna_village_bronanns_home_map.lua",
@@ -852,14 +805,14 @@ function _CreateEvents()
 end
 
 -- zones
-local bronanns_home_entrance_zone = {};
-local to_riverbank_zone = {};
-local to_village_entrance_zone = {};
-local to_kalya_house_path_zone = {};
-local shop_entrance_zone = {};
-local secret_path_zone = {};
-local to_layna_forest_zone = {};
-local sophia_house_entrance_zone = {};
+local bronanns_home_entrance_zone = nil
+local to_riverbank_zone = nil
+local to_village_entrance_zone = nil
+local to_kalya_house_path_zone = nil
+local shop_entrance_zone = nil
+local secret_path_zone = nil
+local to_layna_forest_zone = nil
+local sophia_house_entrance_zone = nil
 
 function _CreateZones()
     -- N.B.: left, right, top, bottom
@@ -982,8 +935,8 @@ end
 
 -- Updates Georges dialogue depending on how far is the story going.
 function _UpdateGeorgesDialogue()
-    local text = {}
-    local dialogue = {}
+    local text = nil
+    local dialogue = nil
 
     georges:ClearDialogueReferences();
 
@@ -1078,9 +1031,9 @@ end
 
 -- Updates Orlinn's dialogue and state depending on how far is the story going.
 function _UpdateOrlinnAndKalyaState()
-    local text = {};
-    local dialogue = {};
-    local event = {};
+    local text = nil
+    local dialogue = nil
+    local event = nil
 
     orlinn:ClearDialogueReferences();
     if (GlobalManager:DoesEventExist("story", "Quest2_forest_event_done") == true) then
@@ -1111,7 +1064,6 @@ function _UpdateOrlinnAndKalyaState()
         dialogue:AddLine(text, kalya);
         DialogueManager:AddDialogue(dialogue);
         kalya:AddDialogueReference(dialogue);
-
 
     elseif (GlobalManager:DoesEventExist("layna_center", "quest1_orlinn_dialogue1_done") == true) then
         -- At that time, Orlinn isn't in the village center anymore.
@@ -1184,7 +1136,7 @@ function _UpdateOrlinnAndKalyaState()
 end
 
 -- Helps with the two step fade in the forest event
-local bright_light_time = {}
+local bright_light_time = 0.0
 local bright_light_color = vt_video.Color(1.0, 1.0, 1.0, 1.0);
 
 -- Map Custom functions

@@ -14,22 +14,20 @@ map_subname = "Riverbank"
 music_filename = "mus/Caketown_1-OGA-mat-pablo.ogg"
 
 -- c++ objects instances
-local Map = {};
-local ObjectManager = {};
-local DialogueManager = {};
-local EventManager = {};
+local Map = nil
+local DialogueManager = nil
+local EventManager = nil
 
-local bronann = {};
-local kalya = {};
-local orlinn = {};
-local orlinn_dialogue_npc = {};
-local lilly = {};
+local bronann = nil
+local kalya = nil
+local orlinn = nil
+local orlinn_dialogue_npc = nil
+local lilly = nil
 
 -- the main map loading code
 function Load(m)
 
     Map = m;
-    ObjectManager = Map.object_supervisor;
     DialogueManager = Map.dialogue_supervisor;
     EventManager = Map.event_supervisor;
 
@@ -72,10 +70,9 @@ function Update()
     _CheckZones();
 end
 
-
 -- Character creation
 function _CreateCharacters()
-    bronann = CreateSprite(Map, "Bronann", 97, 4);
+    bronann = CreateSprite(Map, "Bronann", 97, 4, vt_map.MapMode.GROUND_OBJECT);
     bronann:SetDirection(vt_map.MapMode.SOUTH);
     bronann:SetMovementSpeed(vt_map.MapMode.NORMAL_SPEED);
 
@@ -95,73 +92,53 @@ function _CreateCharacters()
         bronann:SetDirection(vt_map.MapMode.SOUTH);
         AudioManager:PlaySound("snd/door_close.wav");
     end
-
-    Map:AddGroundObject(bronann);
 end
 
 function _CreateNPCs()
-    local text = {}
-    local dialogue = {}
-    local event = {}
+    local text = nil
+    local dialogue = nil
+    local event = nil
 
-    lilly = CreateNPCSprite(Map, "Woman3", vt_system.Translate("Lilly"), 67, 40);
-    Map:AddGroundObject(lilly);
+    lilly = CreateNPCSprite(Map, "Woman3", vt_system.Translate("Lilly"), 67, 40, vt_map.MapMode.GROUND_OBJECT);
 
-    object = CreateObject(Map, "Dog1", 66, 42);
-    Map:AddGroundObject(object);
-
+    local object = CreateObject(Map, "Dog1", 66, 42, vt_map.MapMode.GROUND_OBJECT);
     event = vt_map.SoundEvent("Lilly's dog barks", "snd/dog_barking.wav");
     EventManager:RegisterEvent(event);
     object:SetEventWhenTalking("Lilly's dog barks");
 
-    kalya = CreateSprite(Map, "Kalya", 2, 2);
+    kalya = CreateSprite(Map, "Kalya", 2, 2, vt_map.MapMode.GROUND_OBJECT);
     kalya:SetDirection(vt_map.MapMode.SOUTH);
     kalya:SetMovementSpeed(vt_map.MapMode.NORMAL_SPEED);
     kalya:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
     kalya:SetVisible(false);
-    Map:AddGroundObject(kalya);
 
-    orlinn = CreateSprite(Map, "Orlinn", 82, 5);
+    orlinn = CreateSprite(Map, "Orlinn", 82, 5, vt_map.MapMode.GROUND_OBJECT);
     orlinn:SetDirection(vt_map.MapMode.SOUTH);
     orlinn:SetMovementSpeed(vt_map.MapMode.VERY_FAST_SPEED);
-    Map:AddGroundObject(orlinn);
 
-    -- Create an invisible doppelg\E4nger to permit triggering dialogues when the kid is on the cliff.
-    orlinn_dialogue_npc = CreateSprite(Map, "Orlinn", 82, 8);
+    -- Create an invisible doppelganger to permit triggering dialogues when the kid is on the cliff.
+    orlinn_dialogue_npc = CreateSprite(Map, "Orlinn", 82, 8, vt_map.MapMode.GROUND_OBJECT);
     orlinn_dialogue_npc:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
     orlinn_dialogue_npc:SetVisible(false);
-    Map:AddGroundObject(orlinn_dialogue_npc);
 end
 
 function _CreateObjects()
-    local object = {}
+    local object = nil
 
-    object = CreateObject(Map, "Tree Big2", 70, 6);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
+    CreateObject(Map, "Tree Big2", 70, 6, vt_map.MapMode.GROUND_OBJECT);
 
     -- Add hill treasure chest
-    local hill_chest = CreateTreasure(Map, "riverbank_secret_hill_chest", "Wood_Chest1", 72, 5);
-    if (hill_chest ~= nil) then
-        hill_chest:AddObject(1, 3); -- 3 small potions
-        Map:AddGroundObject(hill_chest);
-    end
+    local hill_chest = CreateTreasure(Map, "riverbank_secret_hill_chest", "Wood_Chest1", 72, 5, vt_map.MapMode.GROUND_OBJECT);
+    hill_chest:AddObject(1, 3); -- 3 small potions
 
     -- trees around the house
-    object = CreateObject(Map, "Tree Big2", 92, 10);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
-    object = CreateObject(Map, "Tree Small1", 82, 17);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
-    object = CreateObject(Map, "Tree Big1", 75, 20);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
-    object = CreateObject(Map, "Tree Big2", 72, 35);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
-    object = CreateObject(Map, "Tree Big1", 74, 48);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
-    object = CreateObject(Map, "Tree Big2", 76, 50);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
-
-    object = CreateObject(Map, "Barrel1", 56.3, 56.5);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
+    CreateObject(Map, "Tree Big2", 92, 10, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Tree Small1", 82, 17, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Tree Big1", 75, 20, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Tree Big2", 72, 35, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Tree Big1", 74, 48, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Tree Big2", 76, 50, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Barrel1", 56.3, 56.5, vt_map.MapMode.GROUND_OBJECT);
 
     -- grass array, used to hide defects
     local map_grass = {
@@ -179,9 +156,8 @@ function _CreateObjects()
     -- Loads the trees according to the array
     for my_index, my_array in pairs(map_grass) do
         --print(my_array[1], my_array[2], my_array[3]);
-        object = CreateObject(Map, my_array[1], my_array[2], my_array[3]);
+        object = CreateObject(Map, my_array[1], my_array[2], my_array[3], vt_map.MapMode.GROUND_OBJECT);
         object:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
-        Map:AddGroundObject(object);
     end
 
     -- Lights
@@ -203,27 +179,18 @@ function _CreateObjects()
         vt_video.Color(1.0, 1.0, 1.0, 0.6),
         vt_video.Color(1.0, 1.0, 0.85, 0.3));
 
-    object = vt_map.SoundObject("snd/gentle_stream.ogg", 61.0, 27.0, 20.0);
-    Map:AddAmbientSoundObject(object);
-
-    object = vt_map.SoundObject("snd/gentle_stream.ogg", 61.0, 47.0, 20.0);
-    Map:AddAmbientSoundObject(object);
-
-    object = vt_map.SoundObject("snd/gentle_stream.ogg", 61.0, 67.0, 20.0);
-    Map:AddAmbientSoundObject(object);
-
-    object = vt_map.SoundObject("snd/gentle_stream.ogg", 81.0, 67.0, 20.0);
-    Map:AddAmbientSoundObject(object);
-
-    object = vt_map.SoundObject("snd/gentle_stream.ogg", 101.0, 67.0, 20.0);
-    Map:AddAmbientSoundObject(object);
+    vt_map.SoundObject.CreateObject("snd/gentle_stream.ogg", 61.0, 27.0, 20.0);
+    vt_map.SoundObject.CreateObject("snd/gentle_stream.ogg", 61.0, 47.0, 20.0);
+    vt_map.SoundObject.CreateObject("snd/gentle_stream.ogg", 61.0, 67.0, 20.0);
+    vt_map.SoundObject.CreateObject("snd/gentle_stream.ogg", 81.0, 67.0, 20.0);
+    vt_map.SoundObject.CreateObject("snd/gentle_stream.ogg", 101.0, 67.0, 20.0);
 end
 
 -- Creates all events and sets up the entire event sequence chain
 function _CreateEvents()
-    local event = {};
-    local dialogue = {};
-    local text = {};
+    local event = nil
+    local dialogue = nil
+    local text = nil
 
     -- Map change Events
     event = vt_map.MapTransitionEvent("to Village center", "dat/maps/layna_village/layna_village_center_map.lua",
@@ -507,11 +474,11 @@ function _CreateEvents()
 end
 
 -- zones
-local village_center_zone = {};
-local to_village_entrance_zone = {};
-local to_riverbank_house_entrance_zone = {};
-local to_secret_path_entrance_zone = {};
-local orlinn_hide_n_seek2_zone = {};
+local village_center_zone = nil
+local to_village_entrance_zone = nil
+local to_riverbank_house_entrance_zone = nil
+local to_secret_path_entrance_zone = nil
+local orlinn_hide_n_seek2_zone = nil
 
 function _CreateZones()
     -- N.B.: left, right, top, bottom
@@ -571,6 +538,9 @@ end
 
 -- Custom inner map functions
 function _SetLillyState()
+    local text = nil
+    local dialogue = nil
+
     lilly:SetDirection(vt_map.MapMode.WEST);
     lilly:ClearDialogueReferences();
     if (GlobalManager:DoesEventExist("story", "kalya_has_joined") == true) then
@@ -614,8 +584,8 @@ function _SetLillyState()
 end
 
 function _SetOrlinnState()
-    local text = {}
-    local dialogue = {}
+    local text = nil
+    local dialogue = nil
 
     orlinn_dialogue_npc:ClearDialogueReferences();
     orlinn:ClearDialogueReferences();

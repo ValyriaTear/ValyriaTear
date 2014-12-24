@@ -14,19 +14,17 @@ map_subname = ""
 music_filename = "mus/Caketown_1-OGA-mat-pablo.ogg"
 
 -- c++ objects instances
-local Map = {};
-local ObjectManager = {};
-local DialogueManager = {};
-local EventManager = {};
+local Map = nil
+local DialogueManager = nil
+local EventManager = nil
 
 -- the main character handler
-local bronann = {};
+local bronann = nil
 
 -- the main map loading code
 function Load(m)
 
     Map = m;
-    ObjectManager = Map.object_supervisor;
     DialogueManager = Map.dialogue_supervisor;
     EventManager = Map.event_supervisor;
 
@@ -53,62 +51,46 @@ end
 
 -- Character creation
 function _CreateCharacters()
-    bronann = CreateSprite(Map, "Bronann", 28, 15);
+    bronann = CreateSprite(Map, "Bronann", 28, 15, vt_map.MapMode.GROUND_OBJECT);
     bronann:SetDirection(vt_map.MapMode.SOUTH);
     bronann:SetMovementSpeed(vt_map.MapMode.NORMAL_SPEED);
-
-    Map:AddGroundObject(bronann);
 end
 
 function _CreateObjects()
-    object = {}
+    CreateObject(Map, "Bed1", 34, 28, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Box1", 21, 22, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Chair1_inverted", 31, 19, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Small Wooden Table", 34, 20, vt_map.MapMode.GROUND_OBJECT);
 
-    -- Bronann's room
-    object = CreateObject(Map, "Bed1", 34, 28);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
-    object = CreateObject(Map, "Box1", 21, 22);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
-    object = CreateObject(Map, "Chair1_inverted", 31, 19);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
-    object = CreateObject(Map, "Small Wooden Table", 34, 20);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
-
-
-    object = CreateObject(Map, "Left Window Light", 21, 21);
+    local object = CreateObject(Map, "Left Window Light", 21, 21, vt_map.MapMode.GROUND_OBJECT);
     object:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
     object:SetDrawOnSecondPass(true); -- Above any other ground object
-    if (object ~= nil) then Map:AddGroundObject(object) end;
 
-    object = CreateObject(Map, "Flower Pot1", 21, 26);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
-    object = CreateObject(Map, "Flower Pot2", 21, 24);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
+    CreateObject(Map, "Flower Pot1", 21, 26, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Flower Pot2", 21, 24, vt_map.MapMode.GROUND_OBJECT);
 
-    object = CreateObject(Map, "Right Window Light", 35, 21);
+    object = CreateObject(Map, "Right Window Light", 35, 21, vt_map.MapMode.GROUND_OBJECT);
     object:SetDrawOnSecondPass(true); -- Above any other ground object
     object:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
 
-    object = CreateObject(Map, "Flower Pot1", 35, 22);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
+    CreateObject(Map, "Flower Pot1", 35, 22, vt_map.MapMode.GROUND_OBJECT);
 end
 
 
 -- Creates all events and sets up the entire event sequence chain
 function _CreateEvents()
-    local event = {};
-    local dialogue = {};
-    local text = {};
+    local event = nil
+    local dialogue = nil
+    local text = nil
 
     -- Triggered events
     event = vt_map.MapTransitionEvent("exit floor", "dat/maps/layna_village/layna_village_kalya_house_path_map.lua",
                                        "dat/maps/layna_village/layna_village_kalya_house_path_script.lua", "from grandma house");
     EventManager:RegisterEvent(event);
-
 end
 
 -- zones
-local room_exit_zone = {};
+local room_exit_zone = nil
 
 -- Create the different map zones triggering events
 function _CreateZones()
@@ -125,7 +107,6 @@ function _CheckZones()
         AudioManager:PlaySound("snd/door_open2.wav");
     end
 end
-
 
 -- Map Custom functions
 -- Used through scripted events

@@ -14,19 +14,17 @@ map_subname = "Lilly's house"
 music_filename = "mus/Caketown_1-OGA-mat-pablo.ogg"
 
 -- c++ objects instances
-local Map = {};
-local ObjectManager = {};
-local DialogueManager = {};
-local EventManager = {};
+local Map = nil
+local DialogueManager = nil
+local EventManager = nil
 
 -- the main character handler
-local bronann = {};
+local bronann = nil
 
 -- the main map loading code
 function Load(m)
 
     Map = m;
-    ObjectManager = Map.object_supervisor;
     DialogueManager = Map.dialogue_supervisor;
     EventManager = Map.event_supervisor;
 
@@ -53,25 +51,23 @@ end
 
 -- Character creation
 function _CreateCharacters()
-    bronann = CreateSprite(Map, "Bronann", 32, 45);
+    bronann = CreateSprite(Map, "Bronann", 32, 45, vt_map.MapMode.GROUND_OBJECT);
     bronann:SetDirection(vt_map.MapMode.NORTH);
     bronann:SetMovementSpeed(vt_map.MapMode.NORMAL_SPEED);
-
-    Map:AddGroundObject(bronann);
 end
 
-local chicken1 = {}
+local chicken1 = nil
 
 function _CreateObjects()
-    local object = {}
-    local event = {}
-    local dialogue = {}
-    local text = {}
+    local object = nil
+    local event = nil
+    local dialogue = nil
+    local text = nil
 
     -- Adds a chicken that can be taken by Bronann and given back to Grandma.
     if (GlobalManager:GetEventValue("game", "layna_village_chicken1_found") == 0) then
-        chicken1 = CreateSprite(Map, "Chicken", 25, 25);
-        Map:AddGroundObject(chicken1);
+        chicken1 = CreateSprite(Map, "Chicken", 25, 25, vt_map.MapMode.GROUND_OBJECT);
+
         event = vt_map.RandomMoveSpriteEvent("Chicken1 random move", chicken1, 1000, 1000);
         event:AddEventLinkAtEnd("Chicken1 random move", 4500); -- Loop on itself
         EventManager:RegisterEvent(event);
@@ -88,73 +84,51 @@ function _CreateObjects()
         EventManager:RegisterEvent(event);
     end
 
-    object = CreateObject(Map, "Bed1", 42, 27);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
-    object = CreateObject(Map, "Box1", 23, 18);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
-    object = CreateObject(Map, "Chair1_inverted", 39, 20);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
-    object = CreateObject(Map, "Small Wooden Table", 42, 21);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
+    CreateObject(Map, "Bed1", 42, 27, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Box1", 23, 18, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Chair1_inverted", 39, 20, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Small Wooden Table", 42, 21, vt_map.MapMode.GROUND_OBJECT);
 
-    object = CreateObject(Map, "Candle1", 43, 19);
+    object = CreateObject(Map, "Candle1", 43, 19, vt_map.MapMode.GROUND_OBJECT);
     object:SetDrawOnSecondPass(true); -- Above the table
-    if (object ~= nil) then Map:AddGroundObject(object) end;
-    object = CreateObject(Map, "Left Window Light", 20, 38);
+
+    object = CreateObject(Map, "Left Window Light", 20, 38, vt_map.MapMode.GROUND_OBJECT);
     object:SetDrawOnSecondPass(true); -- Above any other ground object
     object:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
 
-    object = CreateObject(Map, "Clock1", 33, 13);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
+    CreateObject(Map, "Clock1", 33, 13, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Table1", 39, 42, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Chair1_inverted", 35, 41, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Chair1", 43, 40, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Bench2", 39, 38, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Barrel1", 21, 36, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Barrel1", 22, 37, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Barrel1", 21, 41, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Barrel1", 23, 40, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Barrel1", 25, 39, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Box1", 21, 39, vt_map.MapMode.GROUND_OBJECT);
 
-    object = CreateObject(Map, "Table1", 39, 42);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
-    object = CreateObject(Map, "Chair1_inverted", 35, 41);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
-    object = CreateObject(Map, "Chair1", 43, 40);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
-    object = CreateObject(Map, "Bench2", 39, 38);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
+    CreateObject(Map, "Flower Pot1", 25, 16, vt_map.MapMode.GROUND_OBJECT);
 
-    object = CreateObject(Map, "Barrel1", 21, 36);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
-    object = CreateObject(Map, "Barrel1", 22, 37);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
-    object = CreateObject(Map, "Barrel1", 21, 41);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
-    object = CreateObject(Map, "Barrel1", 23, 40);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
-    object = CreateObject(Map, "Barrel1", 25, 39);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
-    object = CreateObject(Map, "Box1", 21, 39);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
-
-    object = CreateObject(Map, "Flower Pot1", 25, 16);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
-
-    object = CreateObject(Map, "Right Window Light", 44, 38);
+    object = CreateObject(Map, "Right Window Light", 44, 38, vt_map.MapMode.GROUND_OBJECT);
     object:SetDrawOnSecondPass(true); -- Above any other ground object
     object:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
 end
-
 
 -- Creates all events and sets up the entire event sequence chain
 function _CreateEvents()
-    local event = {};
-    local dialogue = {};
-    local text = {};
+    local event = nil
+    local dialogue = nil
+    local text = nil
 
     -- Triggered events
     event = vt_map.MapTransitionEvent("exit floor", "dat/maps/layna_village/layna_village_riverbank_map.lua",
                                        "dat/maps/layna_village/layna_village_riverbank_script.lua", "from_riverbank_house");
     EventManager:RegisterEvent(event);
-
 end
 
 -- zones
-local room_exit_zone = {};
+local room_exit_zone = nil
 
 -- Create the different map zones triggering events
 function _CreateZones()

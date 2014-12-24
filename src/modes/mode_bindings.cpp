@@ -90,7 +90,6 @@ void BindModeCode()
 
             .def("DeleteMapObject", &MapMode::DeleteMapObject)
 
-            .def("AddAmbientSoundObject", &MapMode::AddAmbientSoundObject, luabind::adopt(_2))
             .def("AddZone", &MapMode::AddZone, luabind::adopt(_2))
             .def("AddSavePoint", &MapMode::AddSavePoint)
             .def("AddHalo", &MapMode::AddHalo)

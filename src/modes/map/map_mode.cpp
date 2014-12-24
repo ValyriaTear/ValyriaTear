@@ -450,18 +450,6 @@ void MapMode::DeleteMapObject(private_map::MapObject* object)
     _object_supervisor->DeleteObject(object);
 }
 
-
-void MapMode::AddAmbientSoundObject(SoundObject *obj)
-{
-    if(!obj) {
-        PRINT_WARNING << "Couldn't add NULL object." << std::endl;
-        return;
-    }
-
-    _object_supervisor->_sound_objects.push_back(obj);
-}
-
-
 void MapMode::AddZone(MapZone *zone)
 {
     if(!zone) {

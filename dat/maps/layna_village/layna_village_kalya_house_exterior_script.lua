@@ -14,18 +14,16 @@ map_subname = ""
 music_filename = "mus/Caketown_1-OGA-mat-pablo.ogg"
 
 -- c++ objects instances
-local Map = {};
-local ObjectManager = {};
-local DialogueManager = {};
-local EventManager = {};
+local Map = nil
+local DialogueManager = nil
+local EventManager = nil
 
-local bronann = {};
+local bronann = nil
 
 -- the main map loading code
 function Load(m)
 
     Map = m;
-    ObjectManager = Map.object_supervisor;
     DialogueManager = Map.dialogue_supervisor;
     EventManager = Map.event_supervisor;
 
@@ -64,11 +62,10 @@ function Update()
     _CheckZones();
 end
 
-
 -- Character creation
 function _CreateCharacters()
     -- Default: From village center
-    bronann = CreateSprite(Map, "Bronann", 48, 44);
+    bronann = CreateSprite(Map, "Bronann", 48, 44, vt_map.MapMode.GROUND_OBJECT);
     bronann:SetDirection(vt_map.MapMode.NORTH);
     bronann:SetMovementSpeed(vt_map.MapMode.NORMAL_SPEED);
 
@@ -82,22 +79,20 @@ function _CreateCharacters()
         bronann:SetPosition(2, 20);
         bronann:SetDirection(vt_map.MapMode.EAST);
     end
-
-    Map:AddGroundObject(bronann);
 end
 
-local chicken3 = {}
+local chicken3 = nil
 
 function _CreateNPCs()
-    local npc = {}
-    local text = {}
-    local dialogue = {}
-    local event = {}
+    local npc = nil
+    local text = nil
+    local dialogue = nil
+    local event = nil
 
     -- Adds a chicken that can be taken by Bronann and given back to Grandma.
     if (GlobalManager:GetEventValue("game", "layna_village_chicken3_found") == 0) then
-        chicken3 = CreateSprite(Map, "Chicken", 55, 23);
-        Map:AddGroundObject(chicken3);
+        chicken3 = CreateSprite(Map, "Chicken", 55, 23, vt_map.MapMode.GROUND_OBJECT);
+
         event = vt_map.RandomMoveSpriteEvent("Chicken3 random move", chicken3, 1000, 1000);
         event:AddEventLinkAtEnd("Chicken3 random move", 4500); -- Loop on itself
         EventManager:RegisterEvent(event);
@@ -116,85 +111,52 @@ function _CreateNPCs()
 end
 
 function _CreateObjects()
-    local object = {}
+    local object = nil
 
     -- right part trees
-    object = CreateObject(Map, "Tree Big1", 62, 18);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
-    object = CreateObject(Map, "Tree Big1", 63, 21);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
-    object = CreateObject(Map, "Tree Big1", 61, 25);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
-    object = CreateObject(Map, "Tree Big2", 59, 29);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
-    object = CreateObject(Map, "Tree Small2", 63, 28);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
-    object = CreateObject(Map, "Tree Big1", 62, 35);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
-    object = CreateObject(Map, "Tree Small1", 58, 30);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
-    object = CreateObject(Map, "Tree Big1", 63, 39);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
-    object = CreateObject(Map, "Tree Big1", 64, 43);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
-    object = CreateObject(Map, "Tree Big2", 59, 46);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
+    CreateObject(Map, "Tree Big1", 62, 18, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Tree Big1", 63, 21, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Tree Big1", 61, 25, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Tree Big2", 59, 29, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Tree Small2", 63, 28, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Tree Big1", 62, 35, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Tree Small1", 58, 30, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Tree Big1", 63, 39, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Tree Big1", 64, 43, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Tree Big2", 59, 46, vt_map.MapMode.GROUND_OBJECT);
 
     -- trees in the middle
-    object = CreateObject(Map, "Tree Small2", 45, 31);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
-    object = CreateObject(Map, "Tree Small1", 43, 28);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
-    object = CreateObject(Map, "Tree Small1", 41, 40);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
-
-    object = CreateObject(Map, "Rock1", 17, 13);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
-
+    CreateObject(Map, "Tree Small2", 45, 31, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Tree Small1", 43, 28, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Tree Small1", 41, 40, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Rock1", 17, 13, vt_map.MapMode.GROUND_OBJECT);
 
     -- Left part
-    object = CreateObject(Map, "Tree Small2", 10, 12);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
-    object = CreateObject(Map, "Tree Small1", 4, 17);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
-
-    object = CreateObject(Map, "Tree Big1", 19, 15);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
-    object = CreateObject(Map, "Tree Big2", 17, 19);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
-    object = CreateObject(Map, "Tree Small2", 15, 17);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
-    object = CreateObject(Map, "Tree Small1", 11, 22);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
-    object = CreateObject(Map, "Tree Big1", 16, 23);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
-    object = CreateObject(Map, "Tree Small1", 12, 25);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
-    object = CreateObject(Map, "Tree Big2", 14, 28);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
-    object = CreateObject(Map, "Tree Big1", 12, 32);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
-    object = CreateObject(Map, "Tree Big2", 9, 35);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
-    object = CreateObject(Map, "Tree Big1", 6, 31);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
+    CreateObject(Map, "Tree Small2", 10, 12, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Tree Small1", 4, 17, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Tree Big1", 19, 15, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Tree Big2", 17, 19, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Tree Small2", 15, 17, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Tree Small1", 11, 22, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Tree Big1", 16, 23, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Tree Small1", 12, 25, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Tree Big2", 14, 28, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Tree Big1", 12, 32, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Tree Big2", 9, 35, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Tree Big1", 6, 31, vt_map.MapMode.GROUND_OBJECT);
 
     -- Treasures!
-    local kalya_house_exterior_chest = CreateTreasure(Map, "kalya_house_exterior_chest", "Wood_Chest1", 5, 22);
-    if (kalya_house_exterior_chest ~= nil) then
-        kalya_house_exterior_chest:AddObject(1, 1);
-        Map:AddGroundObject(kalya_house_exterior_chest);
-    end
+    local kalya_house_exterior_chest = CreateTreasure(Map, "kalya_house_exterior_chest", "Wood_Chest1", 5, 22, vt_map.MapMode.GROUND_OBJECT);
+    kalya_house_exterior_chest:AddObject(1, 1);
 
-    object = vt_map.SoundObject("snd/gentle_stream.ogg", 10.0, 46.0, 20.0);
-    Map:AddAmbientSoundObject(object);
+    vt_map.SoundObject.CreateObject("snd/gentle_stream.ogg", 10.0, 46.0, 20.0);
 end
 
 -- Creates all events and sets up the entire event sequence chain
 function _CreateEvents()
-    local event = {};
-    local dialogue = {};
-    local text = {}
+    local event = nil
+    local dialogue = nil
+    local text = nil
 
     -- Triggered Events
     event = vt_map.MapTransitionEvent("to Kalya house path", "dat/maps/layna_village/layna_village_kalya_house_path_map.lua",
@@ -216,9 +178,9 @@ function _CreateEvents()
 end
 
 -- zones
-local kalya_house_path_zone = {};
-local kalya_house_path_small_passage_zone = {};
-local kalya_house_entrance_zone = {};
+local kalya_house_path_zone = nil
+local kalya_house_path_small_passage_zone = nil
+local kalya_house_entrance_zone = nil
 
 function _CreateZones()
     -- N.B.: left, right, top, bottom

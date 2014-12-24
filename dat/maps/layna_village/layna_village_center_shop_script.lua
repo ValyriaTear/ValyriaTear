@@ -14,22 +14,20 @@ map_subname = "Flora's Boutique"
 music_filename = "mus/Caketown_1-OGA-mat-pablo.ogg"
 
 -- c++ objects instances
-local Map = {};
-local ObjectManager = {};
-local DialogueManager = {};
-local EventManager = {};
+local Map = nil
+local DialogueManager = nil
+local EventManager = nil
 
 -- The main character handlers
-local bronann = {};
+local bronann = nil
 
 -- NPCs
-local flora = {};
+local flora = nil
 
 -- the main map loading code
 function Load(m)
 
     Map = m;
-    ObjectManager = Map.object_supervisor;
     DialogueManager = Map.dialogue_supervisor;
     EventManager = Map.event_supervisor;
 
@@ -57,55 +55,43 @@ end
 -- Character creation
 function _CreateCharacters()
     -- default position and direction
-    bronann = CreateSprite(Map, "Bronann", 32.0, 27.0);
+    bronann = CreateSprite(Map, "Bronann", 32.0, 27.0, vt_map.MapMode.GROUND_OBJECT);
     bronann:SetDirection(vt_map.MapMode.NORTH);
     bronann:SetMovementSpeed(vt_map.MapMode.NORMAL_SPEED);
-
-    Map:AddGroundObject(bronann);
 end
 
 function _CreateNPCs()
-    npc = CreateNPCSprite(Map, "Woman1", vt_system.Translate("Flora"), 39, 20);
+    local npc = CreateNPCSprite(Map, "Woman1", vt_system.Translate("Flora"), 39, 20, vt_map.MapMode.GROUND_OBJECT);
     npc:SetDirection(vt_map.MapMode.SOUTH);
-    Map:AddGroundObject(npc);
 
     -- The npc is too far away from the Hero so we make an invisible doppelgänger
-    flora = CreateNPCSprite(Map, "Woman1", vt_system.Translate("Flora"), 39, 22);
-    Map:AddGroundObject(flora);
+    flora = CreateNPCSprite(Map, "Woman1", vt_system.Translate("Flora"), 39, 22, vt_map.MapMode.GROUND_OBJECT);
     flora:SetVisible(false);
     flora:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
     _UpdateFloraDialogue();
 end
 
 function _CreateObjects()
-    local object = {}
+    local object = nil
 
-    object = CreateObject(Map, "Flower Pot1", 41, 20);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
-
-    object = CreateObject(Map, "Flower Pot2", 35, 20);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
-
-
-    object = CreateObject(Map, "Table1", 27, 17);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
-    object = CreateObject(Map, "Table1", 33, 17);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
+    CreateObject(Map, "Flower Pot1", 41, 20, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Flower Pot2", 35, 20, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Table1", 27, 17, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Table1", 33, 17, vt_map.MapMode.GROUND_OBJECT);
 
     -- lights
-    object = CreateObject(Map, "Right Window Light 2", 41, 10);
+    object = CreateObject(Map, "Right Window Light 2", 41, 10, vt_map.MapMode.GROUND_OBJECT);
     object:SetDrawOnSecondPass(true); -- Above any other ground object
     object:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
-    object = CreateObject(Map, "Right Window Light 2", 41, 17);
+
+    object = CreateObject(Map, "Right Window Light 2", 41, 17, vt_map.MapMode.GROUND_OBJECT);
     object:SetDrawOnSecondPass(true); -- Above any other ground object
     object:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
 end
 
 -- Creates all events and sets up the entire event sequence chain
 function _CreateEvents()
-    local event = {};
+    local event = nil
 
     -- Triggered Events
     event = vt_map.MapTransitionEvent("to village", "dat/maps/layna_village/layna_village_center_map.lua",
@@ -133,7 +119,7 @@ function _CreateEvents()
 end
 
 -- zones
-local shop_exit_zone = {};
+local shop_exit_zone = nil
 
 function _CreateZones()
     -- N.B.: left, right, top, bottom
@@ -152,8 +138,8 @@ end
 
 -- Custom inner map functions
 function _UpdateFloraDialogue()
-    local dialogue = {}
-    local text = {}
+    local dialogue = nil
+    local text = nil
 
     flora:ClearDialogueReferences();
 
