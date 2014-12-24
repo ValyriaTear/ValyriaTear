@@ -7,11 +7,19 @@ git:
 cache: apt
 before_install:
   - sudo apt-get update -qq
-  - sudo apt-get install -qq cppcheck libsdl2-dev libsdl2-ttf-dev libsdl2-image-dev freeglut3-dev
+  - sudo apt-get install -qq cppcheck libsdl-ttf2.0-dev freeglut3-dev
   - sudo apt-get install -qq libopenal-dev libalut-dev libvorbis-dev libogg-dev
   - sudo apt-get install -qq liblua5.1-0-dev libgettextpo-dev libboost-all-dev
   - sudo apt-get install -qq libqt4-opengl-dev
   - sudo apt-get install -qq libglew-dev
+  - mkdir dummyprefix
+  - export PREFIX=$PWD/dummyprefix
+  - export PKG_CONFIG_PATH=$PREFIX/lib/pkgconfig
+  - export PATH=$PATH:$PWD/rock/bin:$PWD/dummyprefix/bin
+  - wget http://libsdl.org/release/SDL2-2.0.1.tar.gz -O - | tar xz
+  - (cd SDL2-2.0.1 && ./configure --prefix=$PREFIX && make -j5 && make install)
+  - wget http://www.libsdl.org/projects/SDL_image/release/SDL2_image-2.0.0.tar.gz -O - | tar xz
+  - (cd SDL2_image-2.0.0 && ./configure --prefix=$PREFIX && make -j5 && make install)
 script:
   - cmake -DDEBUG_FEATURES=ON -DEDITOR_SUPPORT=ON .
   - make -j2 vt-editor
