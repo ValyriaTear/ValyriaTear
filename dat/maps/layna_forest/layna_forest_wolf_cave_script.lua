@@ -288,7 +288,7 @@ function _CreateEvents()
     EventManager:RegisterEvent(move_next_to_hero_event);
 
     dialogue = vt_map.SpriteDialogue();
-    text = vt_system.Translate("Yiek, it's stinking in here.");
+    text = vt_system.Translate("Yiek, it stinks in here.");
     dialogue:AddLineEventEmote(text, kalya_sprite, "Bronann looks at Kalya", "Kalya looks at Bronann", "exclamation");
     text = vt_system.Translate("Look at all those bones. We should be careful.");
     dialogue:AddLine(text, hero);
@@ -332,7 +332,7 @@ function _CreateEvents()
     dialogue = vt_map.SpriteDialogue();
     text = vt_system.Translate("What a lovely necklace! I'll take it.");
     dialogue:AddLineEventEmote(text, kalya_sprite, "Bronann looks at Kalya", "Kalya looks north", "exclamation");
-    text = vt_system.Translate("Kalya ... We're in the middle of a cave and you're only thinking about wearing jewels.");
+    text = vt_system.Translate("Kalya ... We're in the middle of a cave and you're only thinking about wearing jewels?");
     dialogue:AddLine(text, hero);
     text = vt_system.Translate("Jewelry is a gift from the heavens to remind us that beauty can be as pure on the outside as it is on the inside. Besides, it suits me better than it would you.");
     dialogue:AddLineEvent(text, kalya_sprite, "make fenrir appear and necklace disappear", "make fenrir come");
@@ -354,7 +354,7 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
 
     dialogue = vt_map.SpriteDialogue();
-    text = vt_system.Translate("Ah well, you were serious, weren't you?");
+    text = vt_system.Translate("Ah, well. You were serious, weren't you?");
     dialogue:AddLineEmote(text, kalya_sprite, "sweat drop");
     DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Kalya realizes for the Fenrir", dialogue);
@@ -384,7 +384,7 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
 
     dialogue = vt_map.SpriteDialogue();
-    text = vt_system.Translate("It ran away again... I'm glad we survived... Let's get out of here before it comes back.");
+    text = vt_system.Translate("It ran away again. I'm glad we survived... Let's get out of here before it comes back.");
     dialogue:AddLineEventEmote(text, kalya_sprite, "Kalya looks at Bronann", "", "sweat drop");
     DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Kalya talks after the battle", dialogue);

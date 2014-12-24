@@ -691,9 +691,9 @@ function _CreateEvents()
     dialogue = vt_map.SpriteDialogue();
     text = vt_system.Translate("Woah, that was quite a nasty fight. Why on earth was a north arctic Fenrir lurking in the forest? I thought it was merely a part of myths.");
     dialogue:AddLineEmote(text, hero, "sweat drop");
-    text = vt_system.Translate("It ran away... I'm almost certain that we'll meet it again... We'd better be more prepared next time.");
+    text = vt_system.Translate("It ran away... I'm almost certain that we'll meet it again. We'd better be more prepared next time.");
     dialogue:AddLineEmote(text, hero, "thinking dots");
-    text = vt_system.Translate("I'll try not to think about what it could have done to Orlinn ... Let's find him... quickly.");
+    text = vt_system.Translate("I'll try not to think about what it could have done to Orlinn. Let's find him... quickly.");
     dialogue:AddLine(text, hero);
     DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("boss fight post-dialogue", dialogue);

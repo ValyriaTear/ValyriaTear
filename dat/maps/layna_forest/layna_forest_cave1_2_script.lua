@@ -330,13 +330,13 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
 
     dialogue = vt_map.SpriteDialogue();
-    text = vt_system.Translate("I can feel a breeze and see light escaping into the cave around this rock. Orlinn must have gone through here.");
+    text = vt_system.Translate("I can feel a breeze and see light entering the cave from around this rock. Orlinn must have gone through here.");
     dialogue:AddLine(text, kalya_sprite);
     text = vt_system.Translate("There are signs engraved on this rock, too. This looks like some kind of mechanism my family used long ago...");
     dialogue:AddLineEvent(text, kalya_sprite, "Kalya looks at Bronann", "");
     text = vt_system.Translate("Your family? Long ago? ...");
     dialogue:AddLineEmote(text, hero, "interrogation");
-    text = vt_system.Translate("Err... Nevermind, we must find a way to make this move. Let's look around.");
+    text = vt_system.Translate("Err... nevermind. We must find a way to make this move. Let's look around.");
     dialogue:AddLineEmote(text, kalya_sprite, "exclamation");
     DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Kalya tells there is an exit behind the rock", dialogue);

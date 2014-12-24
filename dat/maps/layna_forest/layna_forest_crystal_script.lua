@@ -608,7 +608,7 @@ function _CreateEvents()
     dialogue:AddLineEmote(text, kalya_sprite, "thinking dots");
     text = vt_system.Translate("I shall become one with our only hope...");
     dialogue:AddLine(text, orlinn);
-    text = vt_system.Translate("What! Orlinn, No!");
+    text = vt_system.Translate("What! Orlinn, no!");
     dialogue:AddLineEmote(text, hero, "exclamation");
     DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("fourth dialogue part", dialogue);
@@ -766,7 +766,7 @@ function _CreateEvents()
     dialogue:AddLineEvent(text, kalya_sprite, "Kalya comes back next to Bronann", "");
     text = vt_system.Translate("I still feel really dizzy but I'll be ok...");
     dialogue:AddLine(text, hero);
-    text = vt_system.Translate("I'm relieved that Orlinn is fine as well... Speaking of that: Orlinn! Stop running and come here right now!");
+    text = vt_system.Translate("I'm relieved that Orlinn is fine as well... Speaking of that, Orlinn! Stop running and come here right now!");
     dialogue:AddLine(text, kalya_sprite);
     DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Bronann sighs and think", dialogue);
@@ -787,7 +787,7 @@ function _CreateEvents()
     dialogue = vt_map.SpriteDialogue();
     text = vt_system.Translate("Owww... Alright.");
     dialogue:AddLineEventEmote(text, orlinn, "Fade out music", "Orlinn comes back next to Bronann", "sweat drop");
-    text = vt_system.Translate("Now, Orlinn. Tell us: Why on earth did you go into the forest alone, and how did you get there so quickly?");
+    text = vt_system.Translate("Now, Orlinn, tell us. Why on earth did you go into the forest alone, and how did you get there so quickly?");
     dialogue:AddLine(text, kalya_sprite);
     text = vt_system.Translate("I don't know...");
     dialogue:AddLineEmote(text, orlinn, "interrogation");
@@ -805,7 +805,7 @@ function _CreateEvents()
     dialogue:AddLineEmote(text, orlinn, "exclamation");
     text = vt_system.Translate("Making one with the crystal, huh?");
     dialogue:AddLineEmote(text, hero, "sweat drop");
-    text = vt_system.Translate("Let's not panic, Bronann, you look fine... Anyway, we'd better get back to the village and see the Elders as soon as possible.");
+    text = vt_system.Translate("Let's not panic. Bronann, you look fine... Anyway, we'd better get back to the village and see the elders as soon as possible.");
     dialogue:AddLineEventEmote(text, kalya_sprite, "", "Play wind music", "thinking dots");
     DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Last dialogue", dialogue);

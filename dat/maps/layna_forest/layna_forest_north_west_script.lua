@@ -1144,7 +1144,7 @@ function _CreateEvents()
     dialogue:AddLineEvent(text, kalya_sprite, "Kalya looks at Bronann", "");
     text = vt_system.Translate("Hmm... Nevermind.");
     dialogue:AddLine(text, hero);
-    text = vt_system.Translate("Don't worry too much, Bronann, Herth will be able to help you.");
+    text = vt_system.Translate("Don't worry too much, Bronann. Herth will be able to help you.");
     dialogue:AddLine(text, kalya_sprite);
     text = vt_system.Translate("Me? But ...");
     dialogue:AddLine(text, hero);
