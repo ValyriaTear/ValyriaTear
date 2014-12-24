@@ -193,7 +193,7 @@ skills[10004] = {
 
 skills[10005] = {
     name = vt_system.Translate("Ancient Strength"),
-    description = vt_system.Translate("Increases every elemental resistance of all allies."),
+    description = vt_system.Translate("Increases every form of elemental resistance for all allies."),
     --icon = "img/icons/magic/leader_call.png",
     sp_required = 56,
     warmup_time = 4000,
@@ -218,7 +218,7 @@ skills[10005] = {
 
 skills[10006] = {
     name = vt_system.Translate("Divine Wish"),
-    description = vt_system.Translate("Revives an ally, restoring all his/her HP and SP."),
+    description = vt_system.Translate("Revives an ally, restoring all of their HP and SP."),
     --icon = "img/icons/magic/leader_call.png",
     sp_required = 100,
     warmup_time = 6000,
@@ -280,7 +280,7 @@ skills[10008] = {
 
 skills[10009] = {
     name = vt_system.Translate("Terrify"),
-    description = vt_system.Translate("Makes a normal enemy potentially leave."),
+    description = vt_system.Translate("Potentially causes a normal enemy to retreat."),
     --icon = "img/icons/magic/leader_call.png",
     sp_required = 12,
     warmup_time = 3000,
@@ -425,7 +425,7 @@ skills[10103] = {
 
 skills[10104] = {
     name = vt_system.Translate("Fire Breath"),
-    description = vt_system.Translate("Magical attack combining Air and Fire damages."),
+    description = vt_system.Translate("Magical attack combining Air and Fire type damage."),
     icon = "img/icons/magic/fire_breath.png",
     sp_required = 7,
     warmup_time = 4000,
@@ -505,7 +505,7 @@ skills[10108] = {
 
 skills[10109] = {
     name = vt_system.Translate("Rage"),
-    description = vt_system.Translate("Enrages an ally, increasing its Attack and Speed, but reducing its Defence."),
+    description = vt_system.Translate("Enrages an ally, increasing their Attack and Speed but reducing their Defence."),
     icon = "img/icons/magic/rage.png",
     sp_required = 7,
     warmup_time = 4000,
@@ -547,7 +547,7 @@ skills[10110] = {
 
 skills[10111] = {
     name = vt_system.Translate("Earth Circle"),
-    description = vt_system.Translate("Increases the Earth elemental defense on a character."),
+    description = vt_system.Translate("Increases the Earth elemental defense of a character."),
     icon = "img/icons/magic/earth_circle.png",
     sp_required = 7,
     warmup_time = 4000,
@@ -576,7 +576,7 @@ skills[10111] = {
 
 skills[10112] = {
     name = vt_system.Translate("Entangle"),
-    description = vt_system.Translate("Decreases the evade rate of an enemy."),
+    description = vt_system.Translate("Decreases the evasion rate of an enemy."),
     icon = "img/icons/magic/entangle.png",
     sp_required = 7,
     warmup_time = 4000,
@@ -755,7 +755,7 @@ skills[10121] = {
 
 skills[10122] = {
     name = vt_system.Translate("Whirlwind"),
-    description = vt_system.Translate("Magical attack combining Water and Air damages."),
+    description = vt_system.Translate("Magical attack combining Water and Air type damage."),
     icon = "img/icons/magic/whirlwind.png",
     sp_required = 7,
     warmup_time = 4000,
@@ -787,7 +787,7 @@ skills[10123] = {
 
 skills[10124] = {
     name = vt_system.Translate("Blindness"),
-    description = vt_system.Translate("Prevents an enemy from succeeding any physical attacks."),
+    description = vt_system.Translate("Prevents an enemy from succeeding to strike with any physical attacks."),
     icon = "img/icons/magic/blindness.png",
     sp_required = 7,
     warmup_time = 4000,
@@ -803,7 +803,7 @@ skills[10124] = {
 
 skills[10125] = {
     name = vt_system.Translate("Heal"),
-    description = vt_system.Translate("Restores Health of an ally."),
+    description = vt_system.Translate("Restores the Health of an ally."),
     icon = "img/icons/magic/heal.png",
     sp_required = 7,
     warmup_time = 4000,
@@ -820,7 +820,7 @@ skills[10125] = {
 
 skills[10126] = {
     name = vt_system.Translate("Poison"),
-    description = vt_system.Translate("Inflicts poison to an enemy."),
+    description = vt_system.Translate("Inflicts poison on an enemy."),
     icon = "img/icons/magic/poison.png",
     sp_required = 7,
     warmup_time = 4000,
@@ -861,7 +861,7 @@ skills[10127] = {
 
 skills[10128] = {
     name = vt_system.Translate("Tsunami"),
-    description = vt_system.Translate("High Water damages on all foes."),
+    description = vt_system.Translate("High Water damage inflicted on all foes."),
     --icon = "img/icons/magic/fireball.png",
     sp_required = 7,
     warmup_time = 4000,
@@ -877,7 +877,7 @@ skills[10128] = {
 
 skills[10129] = {
     name = vt_system.Translate("Healing Rain"),
-    description = vt_system.Translate("Cures health of all allies."),
+    description = vt_system.Translate("Improves the health of all allies."),
     icon = "img/icons/magic/heal_rain.png",
     sp_required = 7,
     warmup_time = 4000,
@@ -919,7 +919,7 @@ skills[10130] = {
 
 skills[10131] = {
     name = vt_system.Translate("Wind Circle"),
-    description = vt_system.Translate("Increases the Air elemental defense on a character."),
+    description = vt_system.Translate("Increases the Air elemental defense of a character."),
     icon = "img/icons/magic/wind_circle.png",
     sp_required = 7,
     warmup_time = 4000,
@@ -944,7 +944,7 @@ skills[10131] = {
 
 skills[10132] = {
     name = vt_system.Translate("Lightning"),
-    description = vt_system.Translate("Magical attack combining Life and Air damages."),
+    description = vt_system.Translate("Magical attack combining Life and Air type damage."),
     icon = "img/icons/magic/lightning.png",
     sp_required = 7,
     warmup_time = 4000,
@@ -960,7 +960,7 @@ skills[10132] = {
 
 skills[10133] = {
     name = vt_system.Translate("Regen"),
-    description = vt_system.Translate("Makes an ally recover slowly its health."),
+    description = vt_system.Translate("Causes an ally to slowly recover their health."),
     icon = "img/icons/magic/regen.png",
     sp_required = 7,
     warmup_time = 4000,
@@ -1014,7 +1014,7 @@ skills[10135] = {
 
 skills[10136] = {
     name = vt_system.Translate("Storm"),
-    description = vt_system.Translate("High Air damages on all foes."),
+    description = vt_system.Translate("High Air type damage on all foes."),
     icon = "img/icons/magic/storm.png",
     sp_required = 7,
     warmup_time = 4000,
@@ -1030,7 +1030,7 @@ skills[10136] = {
 
 skills[10137] = {
     name = vt_system.Translate("Stop"),
-    description = vt_system.Translate("Stops an enemy for quite a long time."),
+    description = vt_system.Translate("Stops an enemy from taking any actions for quite a long time."),
     --icon = "img/icons/magic/fireball.png",
     sp_required = 1,
     warmup_time = 4000,
@@ -1072,7 +1072,7 @@ skills[10140] = {
 
 skills[10141] = {
     name = vt_system.Translate("Life Circle"),
-    description = vt_system.Translate("Increases the Life elemental defense on a character."),
+    description = vt_system.Translate("Increases the Life elemental defense of a character."),
     icon = "img/icons/magic/life_circle.png",
     sp_required = 7,
     warmup_time = 4000,
@@ -1088,7 +1088,7 @@ skills[10141] = {
 
 skills[10142] = {
     name = vt_system.Translate("Purify"),
-    description = vt_system.Translate("Cures all bad effects on a character, except the poison."),
+    description = vt_system.Translate("Cures all bad effects on a character, except for poison."),
     --icon = "img/icons/magic/fireball.png",
     sp_required = 7,
     warmup_time = 4000,
@@ -1104,7 +1104,7 @@ skills[10142] = {
 
 skills[10143] = {
     name = vt_system.Translate("Sun Haze"),
-    description = vt_system.Translate("High Life damages on all foes."),
+    description = vt_system.Translate("High Life type damage on all foes."),
     icon = "img/icons/magic/sun_haze.png",
     sp_required = 7,
     warmup_time = 4000,
@@ -1120,7 +1120,7 @@ skills[10143] = {
 
 skills[10144] = {
     name = vt_system.Translate("Aura"),
-    description = vt_system.Translate("Boost an ally speed and recovers slowly its health."),
+    description = vt_system.Translate("Boost an ally's speed and slowly recovers their health."),
     --icon = "img/icons/magic/fireball.png",
     sp_required = 7,
     warmup_time = 4000,
@@ -1136,7 +1136,7 @@ skills[10144] = {
 
 skills[10150] = {
     name = vt_system.Translate("Death"),
-    description = vt_system.Translate("Death tries to take an enemy with it."),
+    description = vt_system.Translate("Death tries to take hold of an enemy."),
     icon = "img/icons/magic/death.png",
     sp_required = 7,
     warmup_time = 4000,
@@ -1162,7 +1162,7 @@ skills[10150] = {
 
 skills[10151] = {
     name = vt_system.Translate("Death Circle"),
-    description = vt_system.Translate("Increases the Death elemental defense on an ally."),
+    description = vt_system.Translate("Increases the Death elemental defense of an ally."),
     icon = "img/icons/magic/death_circle.png",
     sp_required = 7,
     warmup_time = 4000,
@@ -1178,7 +1178,7 @@ skills[10151] = {
 
 skills[10152] = {
     name = vt_system.Translate("Doom"),
-    description = vt_system.Translate("Adds a Death counter upon the enemy's head."),
+    description = vt_system.Translate("Places a Death counter upon the enemy's head."),
     icon = "img/icons/magic/doom.png",
     sp_required = 7,
     warmup_time = 4000,
@@ -1194,7 +1194,7 @@ skills[10152] = {
 
 skills[10153] = {
     name = vt_system.Translate("Magical Reflection"),
-    description = vt_system.Translate("Makes the next enemy spell cast back upon the attacker."),
+    description = vt_system.Translate("Makes the next enemy spell cast reflect back upon the attacker."),
     --icon = "img/icons/magic/fireball.png",
     sp_required = 7,
     warmup_time = 4000,
@@ -1236,7 +1236,7 @@ skills[10160] = {
 
 skills[10161] = {
     name = vt_system.Translate("Shell"),
-    description = vt_system.Translate("Increases all elemental effects on one character."),
+    description = vt_system.Translate("Increases all elemental effects of one character."),
     --icon = "img/icons/magic/fireball.png",
     sp_required = 7,
     warmup_time = 4000,
@@ -1252,7 +1252,7 @@ skills[10161] = {
 
 skills[10162] = {
     name = vt_system.Translate("?"),
-    description = vt_system.Translate("A mystic spell happening when offensively combining opposite elementals."),
+    description = vt_system.Translate("An offensive mystic spell formed by combining opposite elementals."),
     icon = "img/icons/magic/antipode.png",
     sp_required = 7,
     warmup_time = 4000,
@@ -1268,7 +1268,7 @@ skills[10162] = {
 
 skills[10163] = {
     name = vt_system.Translate("Counter"),
-    description = vt_system.Translate("Makes an ally counter-attack if hurt."),
+    description = vt_system.Translate("Makes an ally counter-attack if injured."),
     icon = "img/icons/magic/counter.png",
     sp_required = 7,
     warmup_time = 4000,

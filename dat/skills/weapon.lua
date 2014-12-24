@@ -261,7 +261,7 @@ skills[6] = {
 -- Kalya's attacks
 skills[101] = {
     name = vt_system.Translate("Incapacitating Shot"),
-    description = vt_system.Translate("A powerful aimed shot lowering the enemy attack."),
+    description = vt_system.Translate("A powerful shot aimed at lowering the enemy's ability to attack."),
     sp_required = 14,
     warmup_time = 2700,
     cooldown_time = 600,
@@ -389,7 +389,7 @@ skills[202] = {
 
 skills[203] = {
     name = vt_system.Translate("Sonic Wind"),
-    description = vt_system.Translate("Deals high wind damages to all enemies, stunning them along the way."),
+    description = vt_system.Translate("Deals high wind damage to all enemies, stunning them along the way."),
     sp_required = 100,
     warmup_time = 3000,
     cooldown_time = 1200,
@@ -412,7 +412,7 @@ skills[203] = {
 -- Thanis attacks
 skills[300] = {
     name = vt_system.Translate("Sword Breaker"),
-    description = vt_system.Translate("An attack breaking the enemy own attack power."),
+    description = vt_system.Translate("An attack that breaks the enemy's own attack power."),
     sp_required = 6,
     warmup_time = 2000,
     cooldown_time = 500,
@@ -438,7 +438,7 @@ skills[300] = {
 
 skills[301] = {
     name = vt_system.Translate("Execution"),
-    description = vt_system.Translate("Attacks an enemy with a chance of making Death catch its soul."),
+    description = vt_system.Translate("Attacks an enemy with a chance of causing Death to catch its soul."),
     sp_required = 48,
     warmup_time = 4000,
     cooldown_time = 1500,
