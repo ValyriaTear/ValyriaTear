@@ -80,13 +80,14 @@ void BindModeCode()
         [
             luabind::class_<MapMode, vt_mode_manager::GameMode>("MapMode")
             .def(luabind::constructor<const std::string &, const std::string &>())
-            .def_readonly("event_supervisor", &MapMode::_event_supervisor)
-            .def_readonly("dialogue_supervisor", &MapMode::_dialogue_supervisor)
+            .def("GetEventSupervisor", &MapMode::GetEventSupervisor)
+            .def("GetDialogueSupervisor", &MapMode::GetDialogueSupervisor)
 
-            .def_readwrite("camera", &MapMode::_camera)
-            .def_readwrite("unlimited_stamina", &MapMode::_unlimited_stamina)
-            .def_readwrite("running_disabled", &MapMode::_running_disabled)
-            .def_readwrite("run_stamina", &MapMode::_run_stamina)
+            .def("IsStaminaUnlimited", &MapMode::IsStaminaUnlimited)
+            .def("SetUnlimitedStamina", &MapMode::SetUnlimitedStamina)
+
+            .def("IsRunningEnabled", &MapMode::IsRunningEnabled)
+            .def("SetRunningEnabled", &MapMode::SetRunningEnabled)
 
             .def("DeleteMapObject", &MapMode::DeleteMapObject)
 
@@ -98,6 +99,7 @@ void BindModeCode()
             .def("AddLight", (void(MapMode:: *)(private_map::Light*))&MapMode::AddLight, luabind::adopt(_2))
             .def("SetCamera", (void(MapMode:: *)(private_map::VirtualSprite *))&MapMode::SetCamera)
             .def("SetCamera", (void(MapMode:: *)(private_map::VirtualSprite *, uint32))&MapMode::SetCamera)
+            .def("GetCamera", &MapMode::GetCamera)
             .def("SetPartyMemberVisibleSprite", &MapMode::SetPartyMemberVisibleSprite)
             .def("GetVirtualFocus", &MapMode::GetVirtualFocus)
             .def("MoveVirtualFocus", (void(MapMode:: *)(float, float))&MapMode::MoveVirtualFocus)

@@ -76,7 +76,7 @@ MapMode::MapMode(const std::string& data_filename, const std::string& script_fil
     _delta_y(0),
     _pixel_length_x(-1.0f),
     _pixel_length_y(-1.0f),
-    _running_disabled(false),
+    _running_enabled(true),
     _unlimited_stamina(false),
     _show_gui(true),
     _run_stamina(stamina),
@@ -756,7 +756,7 @@ void MapMode::_UpdateExplore()
     // Update the running state of the camera object. Check if the character is running and if so,
     // update the stamina value if the operation is permitted
     _camera->is_running = false;
-    if(_camera->moved_position && !_running_disabled && InputManager->CancelState() &&
+    if(_camera->moved_position && _running_enabled && InputManager->CancelState() &&
             (InputManager->UpState() || InputManager->DownState() || InputManager->LeftState() || InputManager->RightState())) {
         if(_unlimited_stamina) {
             _camera->is_running = true;
@@ -1049,7 +1049,7 @@ void MapMode::_DrawMapLayers()
 void MapMode::_DrawStaminaBar(const vt_video::Color &blending)
 {
     // Don't draw anything when running is disabled.
-    if (_running_disabled || blending.GetAlpha() == 0.0f)
+    if (!_running_enabled || blending.GetAlpha() == 0.0f)
         return;
 
     // It's the width of the stamina bar image to hide in pixels

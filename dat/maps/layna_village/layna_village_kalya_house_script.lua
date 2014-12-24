@@ -14,31 +14,30 @@ map_subname = "Basement"
 music_filename = "mus/Welcome to Com-Mecha-Mattew_Pablo_OGA.ogg"
 
 -- c++ objects instances
-local Map = {};
-local ObjectManager = {};
-local DialogueManager = {};
-local EventManager = {};
-local Effects = {};
+local Map = nil
+local DialogueManager = nil
+local EventManager = nil
+local Effects = nil
 
 -- the main character handler
-local bronann = {};
-local kalya = {};
-local orlinn = {};
+local bronann = nil
+local kalya = nil
+local orlinn = nil
 
 -- A moveable wall hiding the exit
-local fake_wall = {};
-local exit_light = {};
+local fake_wall = nil
+local exit_light = nil
 
 -- the main map loading code
 function Load(m)
 
     Map = m;
-    ObjectManager = Map.object_supervisor;
-    DialogueManager = Map.dialogue_supervisor;
-    EventManager = Map.event_supervisor;
     Effects = Map:GetEffectSupervisor();
 
-    Map.unlimited_stamina = true;
+    DialogueManager = Map:GetDialogueSupervisor();
+    EventManager = Map:GetEventSupervisor();
+
+    Map:SetUnlimitedStamina(true);
 
     _CreateCharacters();
     _CreateObjects();
@@ -70,38 +69,32 @@ end
 
 -- Character creation
 function _CreateCharacters()
-    bronann = CreateSprite(Map, "Bronann", 40, 21.5);
+    bronann = CreateSprite(Map, "Bronann", 40, 21.5, vt_map.MapMode.GROUND_OBJECT);
     bronann:SetVisible(false);
     bronann:SetDirection(vt_map.MapMode.NORTH);
     bronann:SetMovementSpeed(vt_map.MapMode.NORMAL_SPEED);
-    Map:AddGroundObject(bronann);
 
-    kalya = CreateSprite(Map, "Kalya", 40, 21.5);
+    kalya = CreateSprite(Map, "Kalya", 40, 21.5, vt_map.MapMode.GROUND_OBJECT);
     kalya:SetDirection(vt_map.MapMode.NORTH);
     kalya:SetMovementSpeed(vt_map.MapMode.NORMAL_SPEED);
     kalya:SetVisible(false);
-    Map:AddGroundObject(kalya);
 
-    orlinn = CreateSprite(Map, "Orlinn", 40, 21.5);
+    orlinn = CreateSprite(Map, "Orlinn", 40, 21.5, vt_map.MapMode.GROUND_OBJECT);
     orlinn:SetDirection(vt_map.MapMode.NORTH);
     orlinn:SetMovementSpeed(vt_map.MapMode.NORMAL_SPEED);
-    Map:AddGroundObject(orlinn);
 
     -- Create the fake wall  out of the object catalog as it is used once,
-    fake_wall = vt_map.PhysicalObject();
+    fake_wall = vt_map.PhysicalObject(vt_map.MapMode.GROUND_OBJECT);
     fake_wall:SetPosition(32.0, 14.0);
-    fake_wall:SetObjectID(Map.object_supervisor:GenerateObjectID());
     fake_wall:SetCollHalfWidth(4.0);
     fake_wall:SetCollHeight(10.0);
     fake_wall:SetImgHalfWidth(4.0);
     fake_wall:SetImgHeight(10.0);
     fake_wall:AddStillFrame("dat/maps/layna_village/kalya_house_fake_wall.png");
-    Map:AddGroundObject(fake_wall);
 
-    exit_light = CreateObject(Map, "Left Window Light", 34, 2);
+    exit_light = CreateObject(Map, "Left Window Light", 34, 2, vt_map.MapMode.GROUND_OBJECT);
     exit_light:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
     exit_light:SetVisible(false);
-    Map:AddGroundObject(exit_light);
 
     -- Place the characters according to the scene needs
     if (GlobalManager:GetEventValue("story", "kalya_basement_scene") == 1) then
@@ -135,64 +128,39 @@ function _CreateCharacters()
 end
 
 function _CreateObjects()
-    object = {}
-
     Map:AddSavePoint(29.5, 29.0);
-    object = CreateObject(Map, "Barrel1", 25, 19);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
-    object = CreateObject(Map, "Box1", 23, 20);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
-    object = CreateObject(Map, "Box1", 22, 22);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
-    object = CreateObject(Map, "Box1", 23, 24);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
-    object = CreateObject(Map, "Box1", 23.5, 27);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
-    object = CreateObject(Map, "Box1", 21, 19);
-    Map:AddGroundObject(object);
 
-    object = CreateObject(Map, "Small Wooden Table", 22, 17);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
-
-    object = CreateObject(Map, "Barrel1", 21, 36);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
-    object = CreateObject(Map, "Barrel1", 22, 37);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
-    object = CreateObject(Map, "Barrel1", 24, 33);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
-    object = CreateObject(Map, "Barrel1", 27, 34);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
-    object = CreateObject(Map, "Barrel1", 29, 33);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
-    object = CreateObject(Map, "Box1", 28, 21);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
+    CreateObject(Map, "Barrel1", 25, 19, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Box1", 23, 20, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Box1", 22, 22, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Box1", 23, 24, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Box1", 23.5, 27, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Box1", 21, 19, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Small Wooden Table", 22, 17, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Barrel1", 21, 36, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Barrel1", 22, 37, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Barrel1", 24, 33, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Barrel1", 27, 34, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Barrel1", 29, 33, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Box1", 28, 21, vt_map.MapMode.GROUND_OBJECT);
 
     -- Chests
-    local chest = CreateTreasure(Map, "kalya_house_basement_chest1", "Wood_Chest1", 25, 22);
-    if (chest ~= nil) then
-        chest:AddObject(10011, 1); -- 1 Iron Sword
-        Map:AddGroundObject(chest);
-    end
+    local chest = CreateTreasure(Map, "kalya_house_basement_chest1", "Wood_Chest1", 25, 22, vt_map.MapMode.GROUND_OBJECT);
+    chest:AddObject(10011, 1); -- 1 Iron Sword
 
-    chest = CreateTreasure(Map, "kalya_house_basement_chest2", "Wood_Chest1", 21, 28);
-    if (chest ~= nil) then
-        chest:AddObject(1003, 1); -- 1 Elixir
-        Map:AddGroundObject(chest);
-    end
+    chest = CreateTreasure(Map, "kalya_house_basement_chest2", "Wood_Chest1", 21, 28, vt_map.MapMode.GROUND_OBJECT);
+    chest:AddObject(1003, 1); -- 1 Elixir
 
-    chest = CreateTreasure(Map, "kalya_house_basement_chest3", "Wood_Chest1", 24, 35);
-    if (chest ~= nil) then
-        chest:AddObject(3001, 1); -- 1 Copper Ore
-        Map:AddGroundObject(chest);
-    end
+    chest = CreateTreasure(Map, "kalya_house_basement_chest3", "Wood_Chest1", 24, 35, vt_map.MapMode.GROUND_OBJECT);
+    chest:AddObject(3001, 1); -- 1 Copper Ore
 end
 
 
 -- Creates all events and sets up the entire event sequence chain
 function _CreateEvents()
-    local event = {};
-    local dialogue = {};
-    local text = {};
+    local event = nil
+    local dialogue = nil
+    local text = nil
 
     -- Triggered events
     event = vt_map.MapTransitionEvent("to Mt Elbrus", "dat/maps/mt_elbrus/mt_elbrus_path1_map.lua",
@@ -454,9 +422,9 @@ function _CreateEvents()
 end
 
 -- zones
-local downstairs_zone = {};
-local upstairs_zone = {};
-local to_mt_elbrus_zone = {};
+local downstairs_zone = nil
+local upstairs_zone = nil
+local to_mt_elbrus_zone = nil
 
 -- Create the different map zones triggering events
 function _CreateZones()
@@ -488,7 +456,6 @@ function _CheckZones()
         EventManager:StartEvent("to Mt Elbrus");
     end
 end
-
 
 -- Map Custom functions
 -- Used through scripted events

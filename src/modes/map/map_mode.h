@@ -197,6 +197,22 @@ public:
         _run_stamina = new_stamina;
     }
 
+    bool IsStaminaUnlimited() const {
+        return _unlimited_stamina;
+    }
+
+    void SetUnlimitedStamina(bool unlimited) {
+        _unlimited_stamina = unlimited;
+    }
+
+    bool IsRunningEnabled() const {
+        return _running_enabled;
+    }
+
+    void SetRunningEnabled(bool enabled) {
+        _running_enabled = enabled;
+    }
+
     // Note: The map script is only valid while in loading the map file.
     // The file is closed afterward to permit the save menu to open it, for instance.
     vt_script::ReadScriptDescriptor &GetMapScript() {
@@ -536,8 +552,8 @@ private:
     float _pixel_length_x;
     float _pixel_length_y;
 
-    //! \brief If true, the player is not allowed to run.
-    bool _running_disabled;
+    //! \brief If true, the player is allowed to run.
+    bool _running_enabled;
 
     //! \brief If true, the player's stamina will not drain for actions and the stamina bar will not be shown
     bool _unlimited_stamina;

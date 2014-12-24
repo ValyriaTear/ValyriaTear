@@ -24,10 +24,11 @@ local crystal = nil
 function Load(m)
 
     Map = m;
-    DialogueManager = Map.dialogue_supervisor;
-    EventManager = Map.event_supervisor;
+    DialogueManager = Map:GetDialogueSupervisor();
+    EventManager = Map:GetEventSupervisor();
 
-    Map.unlimited_stamina = true; -- no other enemies than the boss here.
+    Map:SetUnlimitedStamina(true)
+    Map:SetRunningEnabled(false) -- Hide the stamina bar
 
     _CreateObjects();
 
