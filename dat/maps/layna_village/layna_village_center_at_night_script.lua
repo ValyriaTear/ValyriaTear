@@ -264,9 +264,9 @@ function _CreateEvents()
     EventManager:RegisterEvent(move_next_to_hero_event);
 
     dialogue = vt_map.SpriteDialogue();
-    text = vt_system.Translate("Back home, finally...");
+    text = vt_system.Translate("Finally, we made it back home.");
     dialogue:AddLine(text, kalya);
-    text = vt_system.Translate("I'll go and get Herth. Your parents must be worried... Go home... We'll meet there.");
+    text = vt_system.Translate("I'll go and get Herth. Your parents must be worried. Go home. We'll meet there.");
     dialogue:AddLineEvent(text, kalya, "Kalya looks at Bronann", "");
     DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Kalya tells Bronann she'll fetch Herth", dialogue);
@@ -283,7 +283,7 @@ function _CreateEvents()
 
     -- Zone blocking events
     dialogue = vt_map.SpriteDialogue();
-    text = vt_system.Translate("I should really get back home...");
+    text = vt_system.Translate("I should really get back home.");
     dialogue:AddLine(text, bronann);
     DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Bronann should go home", dialogue);
@@ -291,7 +291,7 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
 
     dialogue = vt_map.SpriteDialogue();
-    text = vt_system.Translate("Weird, I can see no lights in there... I have a bad feeling about this, let's get back home...");
+    text = vt_system.Translate("Weird, I don't see any lights on in there. I have a bad feeling about this, let's get back home.");
     dialogue:AddLine(text, bronann);
     DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Bronann should go home when checking other houses", dialogue);
@@ -341,7 +341,7 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
 
     dialogue = vt_map.SpriteDialogue();
-    text = vt_system.Translate("Let go of me, you cheap low-grade filthy jerks...");
+    text = vt_system.Translate("Let go of me! You cheap low-grade filthy jerks...");
     dialogue:AddLineEmote(text, kalya, "exclamation");
     text = vt_system.Translate("Keep quiet, little brat!");
     dialogue:AddLine(text, soldier3);
@@ -409,11 +409,11 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
 
     dialogue = vt_map.SpriteDialogue();
-    text = vt_system.Translate("Soldiers wearing black armor: the Lord's personal guards!");
+    text = vt_system.Translate("Soldiers wearing black armor... the Lord's personal guard!");
     dialogue:AddLineEmote(text, bronann, "exclamation");
     text = vt_system.Translate("Fortunately, they didn't see me or I would have been caught as well.");
     dialogue:AddLine(text, bronann);
-    text = vt_system.Translate("I should follow them silently...");
+    text = vt_system.Translate("I should follow them silently.");
     dialogue:AddLineEmote(text, bronann, "thinking dots");
     DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Bronann dialogue after guards caught Kalya", dialogue);

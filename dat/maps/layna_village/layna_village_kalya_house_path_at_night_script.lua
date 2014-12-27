@@ -239,7 +239,7 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
 
     dialogue = vt_map.SpriteDialogue();
-    text = vt_system.Translate("Hurry up! They're coming!!");
+    text = vt_system.Translate("Hurry up! They're coming!");
     dialogue:AddLineEmote(text, orlinn, "exclamation");
     DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Orlinn calls the others", dialogue);
@@ -288,13 +288,13 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
 
     dialogue = vt_map.SpriteDialogue();
-    text = vt_system.Translate("Bronann!!! Hold on! We're almost there...");
+    text = vt_system.Translate("Bronann!!! Hold on! We're almost there.");
     dialogue:AddLine(text, kalya);
-    text = vt_system.Translate("I ... can't. My body ... Argh!");
+    text = vt_system.Translate("I... can't. My body... Argh!");
     dialogue:AddLine(text, bronann);
     text = vt_system.Translate("You can do it. Bronann...");
     dialogue:AddLine(text, kalya);
-    text = vt_system.Translate("Bronann!! Move!!");
+    text = vt_system.Translate("Bronann! Move!");
     dialogue:AddLineEmote(text, kalya, "exclamation");
     DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Kalya urges Bronann", dialogue);
@@ -306,7 +306,7 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
 
     dialogue = vt_map.SpriteDialogue();
-    text = vt_system.Translate("... Al ... right...");
+    text = vt_system.Translate("... Al... right...");
     dialogue:AddLine(text, bronann);
     text = vt_system.Translate("Great! Now come on!");
     dialogue:AddLine(text, kalya);
@@ -324,9 +324,9 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
 
     dialogue = vt_map.SpriteDialogue();
-    text = vt_system.Translate("There must be soldiers everywere, we're never gonna make it...");
+    text = vt_system.Translate("There must be soldiers everywere, we're never gonna make it.");
     dialogue:AddLine(text, bronann);
-    text = vt_system.Translate("This town has many secrets...");
+    text = vt_system.Translate("This town has many secrets.");
     dialogue:AddLineEvent(text, kalya, "", "Kalya looks at Orlinn");
     text = vt_system.Translate("You can go in there, Orlinn.");
     dialogue:AddLine(text, kalya);
@@ -334,9 +334,9 @@ function _CreateEvents()
     dialogue:AddLineEvent(text, orlinn, "", "Orlinn goes into the secret passage");
     text = vt_system.Translate("See?");
     dialogue:AddLineEvent(text, kalya, "Kalya looks east", "");
-    text = vt_system.Translate("... I understand why Grandma actually never saw you using the 'normal' path...");
+    text = vt_system.Translate("I understand why Grandma actually never saw you using the 'normal' path.");
     dialogue:AddLineEmote(text, bronann, "thinking dots");
-    text = vt_system.Translate("Now come...");
+    text = vt_system.Translate("Now come.");
     dialogue:AddLine(text, kalya);
     DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Bronann is worrying", dialogue);

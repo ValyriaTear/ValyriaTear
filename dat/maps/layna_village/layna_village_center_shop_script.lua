@@ -167,7 +167,7 @@ function _UpdateFloraDialogue()
         dialogue:AddLine(text, bronann);
         text = vt_system.Translate("Ah! Sure, as soon as your father will stop lending his sword to you to practice with him. Are you sure everything is alright?");
         dialogue:AddLine(text, flora);
-        text = vt_system.Translate("Err, nevermind...");
+        text = vt_system.Translate("Err, nevermind.");
         dialogue:AddLineEventEmote(text, bronann, "", "Quest2: Talked to Flora", "sweat drop");
         DialogueManager:AddDialogue(dialogue);
         flora:AddDialogueReference(dialogue);
@@ -190,11 +190,11 @@ function _UpdateFloraDialogue()
         dialogue:AddLine(text, bronann);
         text = vt_system.Translate("Oh sorry, our 'great' poet came earlier and took all the rest of it.");
         dialogue:AddLine(text, flora);
-        text = vt_system.Translate("Times are becoming harder now. We've got less food than before...");
+        text = vt_system.Translate("Times are becoming harder now. We've got less food than before.");
         dialogue:AddLine(text, flora);
-        text = vt_system.Translate("? ... This is the first time that I've seen you wear such a worrisome expression.");
+        text = vt_system.Translate("? This is the first time that I've seen you wear such a worrisome expression.");
         dialogue:AddLine(text, bronann);
-        text = vt_system.Translate("Nevermind... Don't worry about me. Just find him and he should give you some, ok?");
+        text = vt_system.Translate("Nevermind. Don't worry about me. Just find him and he should give you some, ok?");
         dialogue:AddLine(text, flora);
         text = vt_system.Translate("He's probably 'musing' around the cliffs in the village center right now.");
         -- Set the quest dialogue as seen by the player.

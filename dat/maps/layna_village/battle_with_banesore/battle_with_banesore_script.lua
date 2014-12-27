@@ -59,7 +59,7 @@ function Initialize(battle_instance)
     DialogueManager:AddCustomSpeaker(1003, vt_system.Translate("Lilly"), "");
 
     dialogue = vt_battle.BattleDialogue(1);
-    text = vt_system.Translate("So... You think you can hurt me?");
+    text = vt_system.Translate("So, you think you can wound me?");
     dialogue:AddLine(text, 1001);
     text = vt_system.Translate("You? A child with an old wooden stick?");
     dialogue:AddLine(text, 1001);
@@ -68,7 +68,7 @@ function Initialize(battle_instance)
     DialogueManager:AddDialogue(dialogue);
 
     dialogue = vt_battle.BattleDialogue(2);
-    text = vt_system.Translate("You're stronger than I thought... but still ... You are too weak to challenge me!");
+    text = vt_system.Translate("You're stronger than I thought. But you are still too weak to challenge me!");
     dialogue:AddLine(text, 1001);
     DialogueManager:AddDialogue(dialogue);
 
@@ -88,13 +88,13 @@ function Initialize(battle_instance)
     dialogue:AddLine(text, 1000);
     text = vt_system.Translate("Hmph. Soldiers, leave that man to me!");
     dialogue:AddLine(text, 1001);
-    text = vt_system.Translate("So... It appears that you remember me, Banesore. Is that correct...?");
+    text = vt_system.Translate("So, it appears that you remember me, Banesore. Is that correct?");
     dialogue:AddLine(text, 1002);
-    text = vt_system.Translate("I do remember you, old man...");
+    text = vt_system.Translate("I do remember you, old man.");
     dialogue:AddLine(text, 1001);
-    text = vt_system.Translate("Then, you already know that your zombified soldiers are of no match to me...");
+    text = vt_system.Translate("Then, you already know that your zombified soldiers are no match for me.");
     dialogue:AddLine(text, 1002);
-    text = vt_system.Translate("Argh! My chest is burning!!");
+    text = vt_system.Translate("Argh! My chest is burning!");
     dialogue:AddLine(text, 1000);
     DialogueManager:AddDialogue(dialogue);
 

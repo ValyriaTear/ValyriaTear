@@ -95,7 +95,7 @@ function _CreateNPCs()
     dialogue:AddLine(text, bronanns_dad);
     text = vt_system.Translate("Hi Dad! Um, I don't know. Sorry.");
     dialogue:AddLineEmote(text, bronann, "thinking dots");
-    text = vt_system.Translate("Nah, no problem, I'll find it somewhere... eventually.");
+    text = vt_system.Translate("Nah, no problem, I'll find it somewhere, eventually.");
     dialogue:AddLine(text, bronanns_dad);
     DialogueManager:AddDialogue(dialogue);
     bronanns_dad:AddDialogueReference(dialogue);
@@ -169,11 +169,11 @@ function _CreateNPCs()
     EventManager:RegisterEvent(event);
 
     dialogue = vt_map.SpriteDialogue();
-    text = vt_system.Translate("Now that you're *finally* up, could you go buy some barley meal for us three?");
+    text = vt_system.Translate("Now that you're *finally* up, could you go buy some barley meal for us?");
     dialogue:AddLine(text, bronanns_mother);
     text = vt_system.Translate("Barley meal? Again?");
     dialogue:AddLineEmote(text, bronann, "sweat drop");
-    text = vt_system.Translate("Hmph, just go, boy. You'll be free after that, ok?");
+    text = vt_system.Translate("Hmph, just go boy. You'll be free after that, ok?");
     dialogue:AddLine(text, bronanns_mother);
     DialogueManager:AddDialogue(dialogue);
 
@@ -300,7 +300,7 @@ function _CreateEvents()
     dialogue = vt_map.SpriteDialogue();
     text = vt_system.Translate("Thanks for helping me out with the dishes.");
     dialogue:AddLine(text, bronanns_mother);
-    text = vt_system.Translate("Hmm, say, mom? Why is the village entrance blocked?");
+    text = vt_system.Translate("Say, mom? Why is the village entrance blocked?");
     dialogue:AddLineEmote(text, bronann, "thinking dots");
     text = vt_system.Translate("...");
     dialogue:AddLineEmote(text, bronanns_mother, "sweat drop");
@@ -331,7 +331,7 @@ function _CreateEvents()
     dialogue:AddLine(text, bronanns_dad);
     text = vt_system.Translate("Hey, wait! All of the village elders' nerves are on edge. There is something going on here! Why won't you tell me?");
     dialogue:AddLineEventEmote(text, bronann, "", "Quest2: Bronann looks at both parents", "interrogation");
-    text = vt_system.Translate("None of you?");
+    text = vt_system.Translate("Neither of you?");
     dialogue:AddLine(text, bronann);
     text = vt_system.Translate("You really won't tell me?");
     dialogue:AddLineEmote(text, bronann, "exclamation");
@@ -384,11 +384,11 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
 
     dialogue = vt_map.SpriteDialogue();
-    text = vt_system.Translate("Maybe we should tell him...");
+    text = vt_system.Translate("Maybe we should tell him.");
     dialogue:AddLine(text, bronanns_mother);
-    text = vt_system.Translate("It's too early, darling... We might be wrong.");
+    text = vt_system.Translate("It's too early, darling. We might be wrong.");
     dialogue:AddLineEmote(text, bronanns_dad, "thinking dots");
-    text = vt_system.Translate("I really hope we are...");
+    text = vt_system.Translate("I really hope we are.");
     dialogue:AddLine(text, bronanns_dad);
     DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Quest2: Bronann is told not to leave town - part 4", dialogue);
@@ -480,7 +480,7 @@ function _UpdateMotherDialogue()
         -- Got some barley meal, Mom!
         -- Begining dialogue
         local dialogue = vt_map.SpriteDialogue();
-        local text = vt_system.Translate("(Sigh)... got it, mom!");
+        local text = vt_system.Translate("(sigh)... Got it, mom!");
         dialogue:AddLine(text, bronann);
         text = vt_system.Translate("Perfect timing, let's have dinner.");
         dialogue:AddLineEvent(text, bronanns_mother, "", "Quest1: end and transition to after-dinner");
@@ -489,7 +489,7 @@ function _UpdateMotherDialogue()
     elseif (GlobalManager:DoesEventExist("bronanns_home", "quest1_mother_start_dialogue_done") == true) then
         -- 1st quest dialogue
         local dialogue = vt_map.SpriteDialogue("ep1_bronann_home_talk_about_barley_meal");
-        local text = vt_system.Translate("Could you go and buy some barley meal for us three?");
+        local text = vt_system.Translate("Could you go and buy some barley meal for the three of us?");
         dialogue:AddLine(text, bronanns_mother);
         DialogueManager:AddDialogue(dialogue);
         bronanns_mother:AddDialogueReference(dialogue);
@@ -498,7 +498,7 @@ function _UpdateMotherDialogue()
         local dialogue = vt_map.SpriteDialogue("ep1_bronann_home_talk_with_mother1");
         local text = vt_system.Translate("Hi son, did you have a nightmare again last night?");
         dialogue:AddLine(text, bronanns_mother);
-        text = vt_system.Translate("Hi mom. Huh, how did you know...?");
+        text = vt_system.Translate("Hi mom. Huh, how did you know?");
         dialogue:AddLineEmote(text, bronann, "interrogation");
         text = vt_system.Translate("Eh eh? Have you already forgotten that I'm your mother?");
         dialogue:AddLine(text, bronanns_mother);

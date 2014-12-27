@@ -173,7 +173,7 @@ function _CreateObjects()
     necklace_npc:SetName(""); -- Unset the speaker name
     Map:AddGroundObject(necklace_npc);
     dialogue = vt_map.SpriteDialogue();
-    text = vt_system.Translate("(Bronann looks on the ground ...)");
+    text = vt_system.Translate("(Bronann looks an the ground)");
     dialogue:AddLineEvent(text, necklace_npc, "", "wolfpain necklace dialogue start");
     DialogueManager:AddDialogue(dialogue);
     necklace_npc:AddDialogueReference(dialogue);
@@ -384,7 +384,7 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
 
     dialogue = vt_map.SpriteDialogue();
-    text = vt_system.Translate("It ran away again. I'm glad we survived... Let's get out of here before it comes back.");
+    text = vt_system.Translate("It ran away again. I'm glad we survived. Let's get out of here before it comes back.");
     dialogue:AddLineEventEmote(text, kalya_sprite, "Kalya looks at Bronann", "", "sweat drop");
     DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Kalya talks after the battle", dialogue);

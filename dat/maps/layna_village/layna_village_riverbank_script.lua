@@ -271,7 +271,7 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
 
     dialogue = vt_map.SpriteDialogue();
-    text = vt_system.Translate("That kid is pretty quick. This is going to take all day...");
+    text = vt_system.Translate("That kid is pretty quick. This is going to take all day.");
     dialogue:AddLineEmote(text, bronann, "sweat drop");
     DialogueManager:AddDialogue(dialogue);
 
@@ -380,11 +380,11 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
 
     dialogue = vt_map.SpriteDialogue();
-    text = vt_system.Translate("I found that pen near the tree behind you. I just wanted to play...");
+    text = vt_system.Translate("I found that pen near the tree behind you. I just wanted to play.");
     dialogue:AddLineEmote(text, orlinn, "sweat drop");
-    text = vt_system.Translate("Don't worry about that...");
+    text = vt_system.Translate("Don't worry about it.");
     dialogue:AddLine(text, bronann);
-    text = vt_system.Translate("Take it... Thanks.");
+    text = vt_system.Translate("Take it. Thanks.");
     dialogue:AddLine(text, orlinn);
     DialogueManager:AddDialogue(dialogue);
 
@@ -418,11 +418,11 @@ function _CreateEvents()
     dialogue:AddLine(text, bronann);
     text = vt_system.Translate("Don't blame Kalya. She was having a hard time along with her brother before living here, you know?");
     dialogue:AddLineEvent(text, lilly, "", "Quest1: Bronann is sad");
-    text = vt_system.Translate("Well anyway, she's been ignoring me since the first day I saw her...");
+    text = vt_system.Translate("Well anyway, she's been ignoring me since the first day I saw her.");
     dialogue:AddLine(text, bronann);
     text = vt_system.Translate("Eh? You really know nothing about women, do you?");
     dialogue:AddLine(text, lilly);
-    text = vt_system.Translate("... Huh?");
+    text = vt_system.Translate("Huh?");
     dialogue:AddLineEmote(text, bronann, "interrogation");
     text = vt_system.Translate("Heh heh, don't worry about it. It will come in time.");
     dialogue:AddLine(text, lilly);
@@ -490,7 +490,7 @@ function _CreateEvents()
     dialogue = vt_map.SpriteDialogue();
     text = vt_system.Translate("Thanks, Lilly.");
     dialogue:AddLine(text, bronann);
-    text = vt_system.Translate("We've been having a shortage of food lately. I've been taking... special measures... to ensure that everyone has enough food.");
+    text = vt_system.Translate("We've been having a shortage of food lately. I've been taking... special measures to ensure that everyone has enough food.");
     dialogue:AddLine(text, lilly);
     text = vt_system.Translate("Try to enjoy this day, Bronann.");
     dialogue:AddLine(text, lilly);
@@ -596,7 +596,7 @@ function _SetLillyState()
         dialogue:AddLine(text, lilly);
         text = vt_system.Translate("Have you still got any barley meal left for my parents and I? My mother asked me to get some and I...");
         dialogue:AddLine(text, bronann);
-        text = vt_system.Translate("Unfortunately, I gave it all to Kalya...");
+        text = vt_system.Translate("Unfortunately, I gave it all to Kalya.");
         dialogue:AddLine(text, lilly);
         text = vt_system.Translate("What?!");
         dialogue:AddLineEmote(text, bronann, "sweat drop");
