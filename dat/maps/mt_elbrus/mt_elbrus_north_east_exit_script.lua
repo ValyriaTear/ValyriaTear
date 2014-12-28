@@ -243,13 +243,13 @@ function _CreateEvents()
     dialogue:AddLineEvent(text, orlinn, "Orlinn laughs", "");
     text = vt_system.Translate("I'm so relieved we made it safely, hee hee.");
     dialogue:AddLineEvent(text, kalya, "Kalya laughs", "");
-    text = vt_system.Translate("Wait...");
+    text = vt_system.Translate("Wait.");
     dialogue:AddLineEventEmote(text, bronann, "Bronann looks east", "Kalya stops laughing", "thinking dots");
     text = vt_system.Translate("Can you smell that stench?");
     dialogue:AddLine(text, bronann);
-    text = vt_system.Translate("... Yes... Is it... smoke?");
+    text = vt_system.Translate("Yes. Is it... smoke?");
     dialogue:AddLineEventEmote(text, kalya, "Kalya looks east", "Orlinn looks east", "interrogation");
-    text = vt_system.Translate("Something's burning...");
+    text = vt_system.Translate("Something's burning.");
     dialogue:AddLineEmote(text, orlinn, "exclamation");
     DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("free at last dialogue", dialogue);
@@ -275,13 +275,13 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
 
     dialogue = vt_map.SpriteDialogue();
-    text = vt_system.Translate("Our village... is burning...");
+    text = vt_system.Translate("Our village. Its burning.");
     dialogue:AddLineEmote(text, kalya, "exclamation");
-    text = vt_system.Translate("My parents...");
+    text = vt_system.Translate("My parents.");
     dialogue:AddLine(text, bronann);
-    text = vt_system.Translate("Herth...");
+    text = vt_system.Translate("Herth.");
     dialogue:AddLine(text, kalya);
-    text = vt_system.Translate("Everyone...");
+    text = vt_system.Translate("Everyone.");
     dialogue:AddLine(text, orlinn);
     DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Village burning dialogue", dialogue);
@@ -297,17 +297,17 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
 
     dialogue = vt_map.SpriteDialogue();
-    text = vt_system.Translate("May they rest in peace...");
+    text = vt_system.Translate("May they rest in peace.");
     dialogue:AddLine(text, kalya);
     text = vt_system.Translate("All this...");
     dialogue:AddLineEvent(text, bronann, "Bronann looks south", "Orlinn looks north");
-    text = vt_system.Translate("All this was for a crystal??");
+    text = vt_system.Translate("All this was for a crystal?");
     dialogue:AddLineEvent(text, bronann, "Bronann looks south", "Orlinn looks north");
     text = vt_system.Translate("...");
     dialogue:AddLineEvent(text, bronann, "", "Bronann looks west");
-    text = vt_system.Translate("I'll fix this...");
+    text = vt_system.Translate("I'll fix this.");
     dialogue:AddLine(text, bronann);
-    text = vt_system.Translate("If this crystal is so powerful, then I'll use it ... and I'll fix this...");
+    text = vt_system.Translate("If this crystal is so powerful, then I'll use it. And I'll fix this.");
     dialogue:AddLineEvent(text, bronann, "Bronann looks east", "");
     DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Village burning dialogue 2", dialogue);
@@ -320,7 +320,7 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
 
     dialogue = vt_map.SpriteDialogue();
-    text = vt_system.Translate("Then, I'll help you...");
+    text = vt_system.Translate("Then, I'll help you.");
     dialogue:AddLine(text, kalya);
     DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Village burning dialogue 3", dialogue);

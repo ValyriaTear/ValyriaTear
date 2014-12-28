@@ -438,11 +438,11 @@ function _CreateEvents()
     dialogue = vt_map.SpriteDialogue();
     text = vt_system.Translate("Yiek! A big monster!");
     dialogue:AddLineEmote(text, orlinn, "exclamation");
-    text = vt_system.Translate("My name is Andromalius, Guardian of the Sacred Seal, and Keeper of the Goddess Shrine...");
+    text = vt_system.Translate("My name is Andromalius, guardian of the sacred seal and keeper of the Goddess Shrine.");
     dialogue:AddLine(text, andromalius);
-    text = vt_system.Translate("You have trespassed the Holy ground of the Ancient and remained unharmed for too long in this temple...");
+    text = vt_system.Translate("You have trespassed the holy ground of the Ancient and remained unharmed for too long in this temple.");
     dialogue:AddLine(text, andromalius);
-    text = vt_system.Translate("Thus, let death embrace you, little boy, for your comrades are already dying under my charm and you have to join them into the other world...");
+    text = vt_system.Translate("Thus, let death embrace you, little boy. For your comrades are already dying under my charm and you need to join them in the other world.");
     dialogue:AddLine(text, andromalius);
     text = vt_system.Translate("Yiek!");
     dialogue:AddLineEmote(text, orlinn, "exclamation");
@@ -480,13 +480,13 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
 
     dialogue = vt_map.SpriteDialogue();
-    text = vt_system.Translate("You've proven yourself, Chosen One... You deserve to live after all...");
+    text = vt_system.Translate("You've proven yourself, chosen one. You deserve to live after all.");
     dialogue:AddLine(text, andromalius);
-    text = vt_system.Translate("Me? But I'm not the Chosen One.");
+    text = vt_system.Translate("Me? But I'm not the chosen one.");
     dialogue:AddLineEmote(text, orlinn, "interrogation");
-    text = vt_system.Translate("The Ones being few or many, still each of them will have to prove themselves as it is ought to be...");
+    text = vt_system.Translate("The ones being few or many, still each of them will have to prove themselves as it is ought to be.");
     dialogue:AddLine(text, andromalius);
-    text = vt_system.Translate("Farewell, Chosen One...");
+    text = vt_system.Translate("Farewell, chosen one.");
     dialogue:AddLine(text, andromalius);
     DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Boss conclusion", dialogue);
@@ -515,7 +515,7 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
 
     dialogue = vt_map.SpriteDialogue();
-    text = vt_system.Translate("I can hear water from everywhere...");
+    text = vt_system.Translate("I can hear water everywhere.");
     dialogue:AddLineEmote(text, orlinn, "interrogation");
     text = vt_system.Translate("Kalya, Bronann!");
     dialogue:AddLineEventEmote(text, orlinn, "Orlinn looks south", "", "exclamation");

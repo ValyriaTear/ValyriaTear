@@ -125,7 +125,7 @@ function _UpdateSophiaDialogue()
 
     -- Shopping event
     event = vt_map.ShopEvent("Trade with Sophia");
-    event:SetShopName(vt_system.UTranslate("Sophia's items"));
+    event:SetShopName(vt_system.UTranslate("Sophia's Items"));
     event:SetGreetingText(vt_system.UTranslate("Don't forget my trade offers!"));
     event:SetSellModeEnabled(false); -- prevents selling items there.
     event:AddObject(1, 0); -- infinite minor potions
@@ -239,7 +239,7 @@ function _CreateObjects()
     Map:AddGroundObject(object);
 
     dialogue = vt_map.SpriteDialogue();
-    text = vt_system.Translate("Your party feels better...");
+    text = vt_system.Translate("Your party feels better.");
     dialogue:AddLineEvent(text, 0, "Heal event", ""); -- 0 means no portrait and no name
     DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Heal dialogue", dialogue);
@@ -387,21 +387,21 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
 
     dialogue = vt_map.SpriteDialogue();
-    text = vt_system.Translate("... You'll see: there's plenty of things I need to show you there. Plus, it's a safe place.");
+    text = vt_system.Translate("You'll see. There's plenty of things I need to show you there. Plus, it's a safe place.");
     dialogue:AddLine(text, kalya);
-    text = vt_system.Translate("Err... Sis?");
+    text = vt_system.Translate("Err, sis?");
     dialogue:AddLineEventEmote(text, orlinn, "Orlinn looks at Kalya", "", "sweat drop");
-    text = vt_system.Translate("Our Elder will also be able to help us. And you'll get more explanation than I could ever...");
+    text = vt_system.Translate("Our elder will also be able to help us. And you'll get a better explanation than I could ever...");
     dialogue:AddLine(text, kalya);
     text = vt_system.Translate("Sis!");
     dialogue:AddLineEvent(text, orlinn, "Orlinn looks at Kalya", "");
-    text = vt_system.Translate("... One second, Orlinn. I try to...");
+    text = vt_system.Translate("One second, Orlinn. I'm trying to...");
     dialogue:AddLineEvent(text, kalya, "Kalya looks north", "Kalya looks at Bronann");
     text = vt_system.Translate("But Kalya, look at the passageway!");
     dialogue:AddLineEmote(text, orlinn, "exclamation");
     text = vt_system.Translate("What about the...");
     dialogue:AddLineEvent(text, kalya, "Kalya looks north", "");
-    text = vt_system.Translate("NO!");
+    text = vt_system.Translate("No!");
     dialogue:AddLineEmote(text, kalya, "exclamation");
     DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Dialogue about the passage to Estoria", dialogue);
@@ -419,7 +419,7 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
 
     dialogue = vt_map.SpriteDialogue();
-    text = vt_system.Translate("... No, it can't be...");
+    text = vt_system.Translate("No, it can't be.");
     dialogue:AddLineEventEmote(text, kalya, "Orlinn looks at Kalya", "", "sweat drop");
     text = vt_system.Translate("After all we've been through, this...");
     dialogue:AddLineEvent(text, kalya, "Kalya looks north", "");
@@ -441,23 +441,23 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
 
     dialogue = vt_map.SpriteDialogue();
-    text = vt_system.Translate("... Calm down Kalya, there must be a way to go through this somehow...");
+    text = vt_system.Translate("Calm down Kalya, there must be a way to go through this somehow.");
     dialogue:AddLineEmote(text, hero, "sweat drop");
-    text = vt_system.Translate("Unfortunately... Yes, there is one...");
+    text = vt_system.Translate("Unfortunately, yes. There is one.");
     dialogue:AddLineEvent(text, kalya, "Kalya looks west", "");
-    text = vt_system.Translate("We'll have to enter the ancient shrine...");
+    text = vt_system.Translate("We'll have to enter the ancient shrine.");
     dialogue:AddLineEvent(text, kalya, "Kalya looks north", "");
-    text = vt_system.Translate("Wouldn't have we flown all by ourselves, I would swear Banesore's army pushed us here on purpose...");
+    text = vt_system.Translate("If we wouldn't have gotten here all by ourselves, I would swear Banesore's army pushed us here on purpose.");
     dialogue:AddLine(text, kalya);
-    text = vt_system.Translate("... What's with this 'ancient shrine'?");
+    text = vt_system.Translate("What's with this 'ancient shrine'?");
     dialogue:AddLineEmote(text, hero, "thinking dots");
-    text = vt_system.Translate("Some say it is haunted... And it was sealed a long time ago, long before I was even born.");
+    text = vt_system.Translate("Some say it is haunted. It was sealed a long time ago, long before I was even born.");
     dialogue:AddLineEvent(text, kalya, "Kalya looks at Bronann", "");
-    text = vt_system.Translate("Indeed, It must be a long time ago...");
+    text = vt_system.Translate("Indeed, it must be a long time ago.");
     dialogue:AddLineEventEmote(text, orlinn, "", "Orlinn laughs", "thinking dots");
     text = vt_system.Translate("Orlinn!");
     dialogue:AddLineEventEmote(text, kalya, "Kalya looks at Orlinn", "", "exclamation");
-    text = vt_system.Translate("Anyway, we might even not be able to enter there at all. But you're right, let's have a look around first. Who knows?");
+    text = vt_system.Translate("Anyway, we might not be able to enter there at all. But you're right, let's have a look around first. Who knows?");
     dialogue:AddLineEvent(text, kalya, "Kalya looks at Bronann", "");
     DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Dialogue about the passage to Estoria 3", dialogue);
@@ -503,9 +503,9 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
 
     dialogue = vt_map.SpriteDialogue();
-    text = vt_system.Translate("Here we are, looking at this huge, wonderful and yet creepy door... I don't like this...");
+    text = vt_system.Translate("Here we are, looking at this huge and wonderful, yet creepy door. I don't like this.");
     dialogue:AddLineEmote(text, kalya, "thinking dots");
-    text = vt_system.Translate("It's not like I actually would want to open it, but how are we going to?");
+    text = vt_system.Translate("It's not like I actually want to open this, but how are we going to do so?");
     dialogue:AddLineEventEmote(text, kalya, "Kalya looks at Bronann", "Orlinn looks at Bronann", "sweat drop");
     DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Dialogue before opening the door", dialogue);
@@ -517,9 +517,9 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
 
     dialogue = vt_map.SpriteDialogue();
-    text = vt_system.Translate("Oh, my chest, it hurts!!");
+    text = vt_system.Translate("Ow, my chest. It hurts!");
     dialogue:AddLineEventEmote(text, hero, "Bronann looks south", "Bronann kneels", "exclamation");
-    text = vt_system.Translate("The Crystal! ... Orlinn! Let's stand back!");
+    text = vt_system.Translate("The crystal! Orlinn! Let's stand back!");
     dialogue:AddLineEmote(text, kalya, "exclamation");
     DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Dialogue before opening the door2", dialogue);
@@ -543,7 +543,7 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
 
     dialogue = vt_map.SpriteDialogue();
-    text = vt_system.Translate("That sign... It is the sign of the Ancients! ... Bronann! Are you alright?");
+    text = vt_system.Translate("That sign, it is the sign of the ancients! Bronann! Are you alright?");
     dialogue:AddLineEmote(text, kalya, "exclamation");
     DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Dialogue after crystals appearance", dialogue);
@@ -556,19 +556,19 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
 
     dialogue = vt_map.SpriteDialogue();
-    text = vt_system.Translate("... I'm fine... I guess... The pain faded away...");
+    text = vt_system.Translate("I'm fine, I guess. The pain faded away.");
     dialogue:AddLineEvent(text, hero, "Bronann looks south", "");
-    text = vt_system.Translate("Thanks Goddess...");
+    text = vt_system.Translate("Thank the goddess.");
     dialogue:AddLineEmote(text, kalya, "sweat drop");
-    text = vt_system.Translate("Well, the door is open now...");
+    text = vt_system.Translate("Well, the door is open now.");
     dialogue:AddLineEmote(text, kalya, "thinking dots");
     text = vt_system.Translate("Yiek! Do you really want to go there??");
     dialogue:AddLineEmote(text, orlinn, "sweat drop");
-    text = vt_system.Translate("I believe we don't really have a choice... Somehow this place... called me.");
+    text = vt_system.Translate("I believe we don't really have a choice. Somehow this place... called me.");
     dialogue:AddLineEventEmote(text, hero, "Bronann looks north", "", "thinking dots");
     text = vt_system.Translate("Anyway, let's stick together and we'll be fine as always, right?");
     dialogue:AddLineEvent(text, kalya, "Kalya looks at Orlinn", "");
-    text = vt_system.Translate("... I have a bad feeling about all this now...");
+    text = vt_system.Translate("I have a bad feeling about all this now.");
     dialogue:AddLineEvent(text, orlinn, "Orlinn looks at Kalya", "");
     DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Dialogue after crystals appearance2", dialogue);
@@ -610,7 +610,7 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
 
     dialogue = vt_map.SpriteDialogue();
-    text = vt_system.Translate("... Bronann!!");
+    text = vt_system.Translate("Bronann!");
     dialogue:AddLine(text, sophia);
     DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Sophia Dialogue 1", dialogue);
@@ -627,67 +627,67 @@ function _CreateEvents()
     EventManager:RegisterEvent(sophia_move_next_to_hero_event);
 
     dialogue = vt_map.SpriteDialogue();
-    text = vt_system.Translate("Thanks Goddess! You're all safe and sound... I was worried sick!");
+    text = vt_system.Translate("Thank the goddess you're all safe and sound. I was worried sick!");
     dialogue:AddLine(text, sophia);
-    text = vt_system.Translate("Sophia, you here?");
+    text = vt_system.Translate("Sophia, you're here?");
     dialogue:AddLine(text, kalya);
-    text = vt_system.Translate("Yes, it's a miracle destiny kept you away from harm.");
+    text = vt_system.Translate("Yes. It's a miracle that you were kept away from harm.");
     dialogue:AddLine(text, sophia);
-    text = vt_system.Translate("How in Layna did you reach the Mt Elbrus all alone?");
+    text = vt_system.Translate("How in Layna did you reach Mt Elbrus all alone?");
     dialogue:AddLine(text, sophia);
     text = vt_system.Translate("And how did you reach up here? Weren't you caught by the soldiers with the others?");
     dialogue:AddLineEmote(text, kalya, "thinking dots");
-    text = vt_system.Translate("Well, it's a long story... But in short, I was out of the village when they caught everyone.");
+    text = vt_system.Translate("Well, it's a long story. But in short, I was out of the village when they caught everyone.");
     dialogue:AddLineEventEmote(text, sophia, "Sophia looks west", "Sophia looks north", "sweat drop");
-    text = vt_system.Translate("Do you know how are the others doing? Are my parents fine?");
+    text = vt_system.Translate("Do you know how the others are doing? Are my parents okay?");
     dialogue:AddLineEmote(text, hero, "exclamation");
-    text = vt_system.Translate("Unfortunately no. I left them behind...");
+    text = vt_system.Translate("Unfortunately no. I left them behind.");
     dialogue:AddLine(text, sophia);
     text = vt_system.Translate("When I saw you leaving the village to the sanctuary, I decided to follow you.");
     dialogue:AddLineEvent(text, sophia, "Sophia looks west", "Sophia looks north");
-    text = vt_system.Translate("But by the time I reached the area, you three were gone... And I had to find out where you were heading.");
+    text = vt_system.Translate("But by the time I reached the area, the three of you were gone. And I had to find out where you were heading.");
     dialogue:AddLine(text, sophia);
     text = vt_system.Translate("But the bridge, how did you cross?");
     dialogue:AddLineEmote(text, kalya, "thinking dots");
-    text = vt_system.Translate("Using my rope and my Ranger skills, of course, eh.");
+    text = vt_system.Translate("Using my rope and ranger skills, of course.");
     dialogue:AddLine(text, sophia);
-    text = vt_system.Translate("Sophia could be of great help, Kalya. The passage has collapsed, and we're stuck finding a way in this dreadful place...");
+    text = vt_system.Translate("Sophia could be of great help, Kalya. The passage has collapsed, and we're stuck finding a way through this dreadful place.");
     dialogue:AddLineEvent(text, hero, "Bronann looks at Kalya", "Bronann looks south");
     text = vt_system.Translate("Maybe, maybe not. Sophia was out the time they attacked? Somehow I don't buy it.");
     dialogue:AddLineEmote(text, kalya, "thinking dots");
-    text = vt_system.Translate("I wasn't out for no reason. Actually, Herth sent me to watch for soldiers in the forest west parts.");
+    text = vt_system.Translate("I wasn't out for no reason. Herth sent me to watch for soldiers in the west parts of the forest.");
     dialogue:AddLineEmote(text, sophia, "exclamation");
     text = vt_system.Translate("He was afraid they'd corner us to prevent an escape, and he was right.");
     dialogue:AddLine(text, sophia);
     text = vt_system.Translate("Herth sent you? But he told me it was nothing, that he would handle it!");
     dialogue:AddLineEmote(text, kalya, "exclamation");
-    text = vt_system.Translate("I fear he just wanted to protect you and make you all meet your destiny at the same time...");
+    text = vt_system.Translate("I fear he just wanted to protect you and make you all meet your destiny at the same time.");
     dialogue:AddLine(text, sophia);
     text = vt_system.Translate("What?! You mean you all knew about the crystal?");
     dialogue:AddLineEmote(text, hero, "exclamation");
-    text = vt_system.Translate("We didn't know exactly what would happen, Bronann. But we knew one day the three of you would have to carry a special burden... That is what Herth told us...");
+    text = vt_system.Translate("We didn't know exactly what would happen, Bronann. But we knew one day the three of you would have to carry a special burden. That is what Herth told us.");
     dialogue:AddLineEventEmote(text, sophia, "Sophia looks west", "Sophia looks north", "sweat drop");
-    text = vt_system.Translate("Listen kids, I feel bad about what happened, and I can't help you as a magical force is preventing me from entering the Shrine...");
+    text = vt_system.Translate("Listen kids, I feel bad about what happened. But I can't help you as a magical force is preventing me from entering the shrine.");
     dialogue:AddLine(text, sophia);
-    text = vt_system.Translate("But then, you're stuck here, too, right?");
+    text = vt_system.Translate("But then you're stuck here, too, right?");
     dialogue:AddLineEmote(text, hero, "exclamation");
     text = vt_system.Translate("Me? Not at all. I don't need bridges to cross a moutain.");
     dialogue:AddLineEmote(text, sophia, "interrogation");
-    text = vt_system.Translate("... But maybe?");
+    text = vt_system.Translate("But maybe?");
     dialogue:AddLineEmote(text, sophia, "thinking dots");
     text = vt_system.Translate("Maybe?");
     dialogue:AddLine(text, kalya);
     text = vt_system.Translate("Maybe I could sell you a few things to help you find a way to open a path in there?");
     dialogue:AddLineEmote(text, sophia, "exclamation");
-    text = vt_system.Translate("So that's how you help, by selling stuff to us...");
+    text = vt_system.Translate("So that's how you help, by selling things to us...");
     dialogue:AddLineEmote(text, kalya, "sweat drop");
-    text = vt_system.Translate("Yes, it's a great privilege as I usually don't do such things for children. I'll stay here as long as you are stuck, isn't this quite honest?");
+    text = vt_system.Translate("Yes, it's a great privilege as I usually don't do such things for children. I'll stay here as long as you are stuck, isn't this quite nice?");
     dialogue:AddLine(text, sophia);
-    text = vt_system.Translate("But, you'll let us deal with this place, alone??");
+    text = vt_system.Translate("But you'll let us deal with this place, alone?");
     dialogue:AddLineEmote(text, hero, "exclamation");
-    text = vt_system.Translate("This place is part of your burden. Herth was right. You managed to come here all by yourselves, after all...");
+    text = vt_system.Translate("This place is part of your burden. Herth was right. You managed to come here all by yourselves, after all.");
     dialogue:AddLine(text, sophia);
-    text = vt_system.Translate("I guess it's better than nothing... But Orlinn, you stay with us.");
+    text = vt_system.Translate("I guess it's better than nothing. But Orlinn, you stay with us.");
     dialogue:AddLineEventEmote(text, kalya, "Orlinn looks at Kalya", "Orlinn looks south", "thinking dots");
     text = vt_system.Translate("Thanks anyway, Sophia.");
     dialogue:AddLine(text, hero);

@@ -281,7 +281,7 @@ function _CreateEvents()
 
     -- cant't go back event
     dialogue = vt_map.SpriteDialogue();
-    text = vt_system.Translate("We can't go back now...");
+    text = vt_system.Translate("We can't go back now.");
     dialogue:AddLine(text, hero);
     DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Can't go back dialogue", dialogue);
@@ -303,13 +303,13 @@ function _CreateEvents()
     EventManager:RegisterEvent(orlinn_move_next_to_hero_event1);
 
     dialogue = vt_map.SpriteDialogue();
-    text = vt_system.Translate("We made it...");
+    text = vt_system.Translate("We made it.");
     dialogue:AddLineEmote(text, kalya, "sweat drop");
-    text = vt_system.Translate("Brr... It's quite cold up here.");
+    text = vt_system.Translate("Brr. It's quite cold up here.");
     dialogue:AddLineEmote(text, hero, "exclamation");
     text = vt_system.Translate("The bridge is a few feet away. Let's reach the mountain pass before the frost kills us.");
     dialogue:AddLineEmote(text, kalya, "exclamation");
-    text = vt_system.Translate("Let's hurry, I can't feel my toes anymore...");
+    text = vt_system.Translate("Let's hurry. I can't feel my toes anymore.");
     dialogue:AddLineEventEmote(text, orlinn, "Orlinn looks at Kalya", "", "sweat drop");
     DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Dialogue about snow and bridge", dialogue);
@@ -334,9 +334,9 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
 
     dialogue = vt_map.SpriteDialogue();
-    text = vt_system.Translate("(Woah, this bridge doesn't look that sturdy...)");
+    text = vt_system.Translate("(Woah, this bridge doesn't look very sturdy.)");
     dialogue:AddLineEmote(text, hero, "sweat drop");
-    text = vt_system.Translate("Well, here we go....");
+    text = vt_system.Translate("Well, here we go.");
     dialogue:AddLine(text, hero);
     DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Dialogue about the bridge", dialogue);
@@ -373,7 +373,7 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
 
     dialogue = vt_map.SpriteDialogue();
-    text = vt_system.Translate("Catch them before they reach the Shrine!");
+    text = vt_system.Translate("Catch them before they reach the shrine!");
     dialogue:AddLineEmote(text, soldier1, "exclamation");
     DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Soldiers catching up Dialogue2", dialogue);
@@ -455,7 +455,7 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
 
     dialogue = vt_map.SpriteDialogue();
-    text = vt_system.Translate("That was close...");
+    text = vt_system.Translate("That was close.");
     dialogue:AddLineEmote(text, kalya, "sweat drop");
     DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("The party relaxes", dialogue);
@@ -470,11 +470,11 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
 
     dialogue = vt_map.SpriteDialogue();
-    text = vt_system.Translate("Damn!!");
+    text = vt_system.Translate("Damn!");
     dialogue:AddLine(text, soldier1);
-    text = vt_system.Translate("The Master won't be happy with this...");
+    text = vt_system.Translate("The master won't be happy with this.");
     dialogue:AddLineEvent(text, soldier2, "Soldier2 looks at Soldier1", "");
-    text = vt_system.Translate("You won't get away so easily... We will catch you sooner or later...");
+    text = vt_system.Translate("You won't get away so easily. We will catch you sooner or later.");
     dialogue:AddLineEmote(text, soldier1, "sweat drop");
     DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("The soldiers threaten the party", dialogue);
@@ -519,9 +519,9 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
 
     dialogue = vt_map.SpriteDialogue();
-    text = vt_system.Translate("Let's go back and tell the others...");
+    text = vt_system.Translate("Let's go back and inform the others.");
     dialogue:AddLine(text, soldier1);
-    text = vt_system.Translate("Yes, Sir...");
+    text = vt_system.Translate("Yes, sir.");
     dialogue:AddLineEvent(text, soldier2, "Soldier2 looks at Soldier1", "");
     DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("The soldiers retreat", dialogue);
@@ -544,7 +544,7 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
 
     dialogue = vt_map.SpriteDialogue();
-    text = vt_system.Translate("They're gone... We should move on before they actually find a way to cross the gap.");
+    text = vt_system.Translate("They're gone. We should move on before they actually find a way to cross the gap.");
     dialogue:AddLineEvent(text, kalya, "Bronann looks at Kalya", "");
     DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("The party wonders what to do", dialogue);

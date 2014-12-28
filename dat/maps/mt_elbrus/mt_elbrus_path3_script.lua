@@ -204,7 +204,7 @@ function _CreateObjects()
     Map:AddGroundObject(object);
 
     dialogue = vt_map.SpriteDialogue();
-    text = vt_system.Translate("Your party feels better...");
+    text = vt_system.Translate("Your party feels better.");
     dialogue:AddLineEvent(text, 0, "Heal event", ""); -- 0 means no portrait and no name
     DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Heal dialogue", dialogue);
@@ -597,17 +597,17 @@ function _CreateEvents()
     EventManager:RegisterEvent(orlinn_move_next_to_hero_event1);
 
     dialogue = vt_map.SpriteDialogue();
-    text = vt_system.Translate("This place is the village's old cemetery, used when the former villagers lived in Layna...");
+    text = vt_system.Translate("This place is the village's old cemetery. It was used by the former villagers who lived in Layna.");
     dialogue:AddLine(text, kalya);
     text = vt_system.Translate("The former villagers? What do you mean?");
     dialogue:AddLineEmote(text, hero, "exclamation");
-    text = vt_system.Translate("Well, Layna Village was abandoned a long time ago, before your parents and all the others settled here... Your mother never told you that?");
+    text = vt_system.Translate("Layna Village was abandoned a long time ago, before your parents and all the others settled here. Your mother never told you that?");
     dialogue:AddLineEventEmote(text, kalya, "Kalya looks at Bronann", "", "thinking dots");
-    text = vt_system.Translate("I've never been further alone before... This place gives me the chill...");
+    text = vt_system.Translate("I've never been more alone before. This place gives me the chills.");
     dialogue:AddLineEvent(text, kalya, "Kalya looks north", "");
     text = vt_system.Translate("Yiek!");
     dialogue:AddLine(text, orlinn);
-    text = vt_system.Translate("Anyway, once the cemetery is behind us, we should be out of trouble!");
+    text = vt_system.Translate("Anyway, once the cemetery is behind us we should be out of trouble!");
     dialogue:AddLine(text, kalya);
     DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Kalya talks about the cemetery", dialogue);
@@ -632,7 +632,7 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
 
     dialogue = vt_map.SpriteDialogue();
-    text = vt_system.Translate("Isn't that soldiers up there?");
+    text = vt_system.Translate("Are those the soldiers up there?");
     dialogue:AddLineEventEmote(text, hero, "Bronann looks north", "", "exclamation");
     DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("The hero notices the soldiers", dialogue);
@@ -665,7 +665,7 @@ function _CreateEvents()
     dialogue = vt_map.SpriteDialogue();
     text = vt_system.Translate("The west gate is condemned, as the Lord commanded.");
     dialogue:AddLine(text, soldier1);
-    text = vt_system.Translate("Fine. Let's go back and wait for them.");
+    text = vt_system.Translate("Good. Let's go back and wait for them.");
     dialogue:AddLine(text, soldier3);
     DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Soldiers dialogue", dialogue);
@@ -701,7 +701,7 @@ function _CreateEvents()
     dialogue:AddLineEmote(text, kalya, "sweat drop");
     text = vt_system.Translate("Have we got any other way to leave this place?");
     dialogue:AddLine(text, hero);
-    text = vt_system.Translate("Only one left... The mountain top...");
+    text = vt_system.Translate("Only one. The mountain top.");
     dialogue:AddLineEmote(text, kalya, "thinking dots");
     DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Dialogue about the west gate", dialogue);
@@ -727,7 +727,7 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
 
     dialogue = vt_map.SpriteDialogue();
-    text = vt_system.Translate("Oh no! the gate!");
+    text = vt_system.Translate("Oh no! The gate!");
     dialogue:AddLineEventEmote(text, hero, "Bronann looks south", "", "exclamation");
     DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("The hero notices about the gate", dialogue);
@@ -767,11 +767,11 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
 
     dialogue = vt_map.SpriteDialogue();
-    text = vt_system.Translate("I shall bring your souls to the Master. You don't stand a chance against the Great Harlequin...");
+    text = vt_system.Translate("I shall bring your souls to the master. You don't stand a chance against the Great Harlequin.");
     dialogue:AddLineEvent(text, harlequin_focus, "", "Set Harlequin actual name");
     text = vt_system.Translate("But let's play together first, shall we?");
     dialogue:AddLine(text, harlequin_focus);
-    text = vt_system.Translate("Now catch me... if you can.");
+    text = vt_system.Translate("Now catch me, if you can.");
     dialogue:AddLine(text, harlequin_focus);
     DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Harlequin talks to the hero 2", dialogue);
@@ -799,7 +799,7 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
 
     dialogue = vt_map.SpriteDialogue();
-    text = vt_system.Translate("Enough of this shallow game. Give me your souls now!...");
+    text = vt_system.Translate("Enough of this shallow game. Give me your souls, now!");
     dialogue:AddLineEvent(text, harlequin_focus, "Bronann looks north", "");
     DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Harlequin talks to the hero 3", dialogue);
@@ -822,7 +822,7 @@ function _CreateEvents()
     dialogue = vt_map.SpriteDialogue();
     text = vt_system.Translate("How could I be hurt by... children...");
     dialogue:AddLineEvent(text, harlequin_focus, "Bronann looks north", "");
-    text = vt_system.Translate("We'll see each other again, Chosen One...");
+    text = vt_system.Translate("We'll see each other again, chosen one...");
     dialogue:AddLine(text, harlequin_focus);
     DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Harlequin talks to the hero 4", dialogue);
