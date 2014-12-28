@@ -143,10 +143,10 @@ void Transform::Apply(float* buffer) const
 void Transform::_Multiply(const Transform& transform)
 {
     // Allocate space for the result.
-    float row0[4] = { 0 };
-    float row1[4] = { 0 };
-    float row2[4] = { 0 };
-    float row3[4] = { 0 };
+    float row0[4] = { 0.0f, 0.0f, 0.0f, 0.0f };
+    float row1[4] = { 0.0f, 0.0f, 0.0f, 0.0f };
+    float row2[4] = { 0.0f, 0.0f, 0.0f, 0.0f };
+    float row3[4] = { 0.0f, 0.0f, 0.0f, 0.0f };
 
     float* results[4] = { row0, row1, row2, row3 };
 
