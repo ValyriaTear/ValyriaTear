@@ -32,11 +32,12 @@ local main_sprite_name = "";
 function Load(m)
 
     Map = m;
-    DialogueManager = Map.dialogue_supervisor;
-    EventManager = Map.event_supervisor;
     Effects = Map:GetEffectSupervisor();
+    DialogueManager = Map:GetDialogueSupervisor();
+    EventManager = Map:GetEventSupervisor();
+    Map:SetUnlimitedStamina(false);
+
     Map:SetMinimapImage("dat/maps/layna_forest/minimaps/layna_forest_cave1_1_minimap.png");
-    Map.unlimited_stamina = false;
 
     _CreateCharacters();
     _CreateObjects();
@@ -348,7 +349,7 @@ function _CreateEnemies()
         enemy:NewEnemyParty();
         enemy:AddEnemy(5, 812.0, 350.0);
         enemy:SetBoss(true);
-        slime_mother_roam_zone:AddEnemy(enemy, Map, 1);
+        slime_mother_roam_zone:AddEnemy(enemy, 1);
         slime_mother_roam_zone:SetSpawnsLeft(1); -- The Slime Mother boss shall spawn only one time.
     end
     Map:AddZone(slime_mother_roam_zone);
@@ -362,7 +363,7 @@ function _CreateEnemies()
     enemy:NewEnemyParty();
     enemy:AddEnemy(6);
     enemy:AddEnemy(6);
-    roam_zone:AddEnemy(enemy, Map, 1);
+    roam_zone:AddEnemy(enemy, 1);
     Map:AddZone(roam_zone);
 
     -- A bat spawn point
@@ -374,7 +375,7 @@ function _CreateEnemies()
     enemy:NewEnemyParty();
     enemy:AddEnemy(6);
     enemy:AddEnemy(6);
-    roam_zone:AddEnemy(enemy, Map, 1);
+    roam_zone:AddEnemy(enemy, 1);
     Map:AddZone(roam_zone);
 
     -- A bat spawn point
@@ -386,7 +387,7 @@ function _CreateEnemies()
     enemy:NewEnemyParty();
     enemy:AddEnemy(6);
     enemy:AddEnemy(6);
-    roam_zone:AddEnemy(enemy, Map, 1);
+    roam_zone:AddEnemy(enemy, 1);
     Map:AddZone(roam_zone);
 end
 

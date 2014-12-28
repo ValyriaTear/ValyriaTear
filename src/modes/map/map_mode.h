@@ -172,9 +172,6 @@ public:
                   const vt_video::Color &main_color,
                   const vt_video::Color &secondary_color);
 
-    //! \brief Add a light object, often created through scripting
-    void AddLight(private_map::Light *light);
-
     //! \brief Vectors containing the save points animations (when the character is in or not).
     std::vector<vt_video::AnimatedImage> active_save_point_animations;
     std::vector<vt_video::AnimatedImage> inactive_save_point_animations;

@@ -483,12 +483,7 @@ void MapMode::AddLight(const std::string &main_flare_filename,
                              x, y, main_color,
                              secondary_color);
 
-    AddLight(light);
-}
-
-void MapMode::AddLight(Light *light)
-{
-    _object_supervisor->_lights.push_back(light);
+    _object_supervisor->AddLight(light);
 }
 
 void MapMode::SetCamera(private_map::VirtualSprite *sprite, uint32 duration)

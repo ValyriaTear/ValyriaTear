@@ -555,6 +555,12 @@ public:
     //! Custom copy constructor used for proper object id handling and registration to the object supervisor.
     EnemySprite(EnemySprite& copy);
 
+    //! \brief A C++ wrapper made to create a new object from scripting,
+    //! without letting Lua handling the object life-cycle.
+    //! \note We don't permit luabind to use constructors here as it can't currently
+    //! give the object ownership at construction time.
+    static EnemySprite* CreateObject();
+
     //! \brief Resets various members of the class so that the enemy is dead, invisible, and does not produce a collision
     void Reset();
 

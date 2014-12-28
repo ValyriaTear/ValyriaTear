@@ -1349,6 +1349,13 @@ EnemySprite::EnemySprite(EnemySprite& copy):
     Reset();
 }
 
+EnemySprite* EnemySprite::CreateObject()
+{
+    // The object auto register to the object supervisor
+    // and will later handle deletion.
+    return new EnemySprite();
+}
+
 void EnemySprite::Reset()
 {
     updatable = false;

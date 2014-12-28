@@ -31,10 +31,10 @@ local main_sprite_name = "";
 function Load(m)
 
     Map = m;
-    DialogueManager = Map.dialogue_supervisor;
-    EventManager = Map.event_supervisor;
+    DialogueManager = Map:GetDialogueSupervisor();
+    EventManager = Map:GetEventSupervisor();
+    Map:SetUnlimitedStamina(false);
 
-    Map.unlimited_stamina = false;
     Map:SetMinimapImage("dat/maps/layna_forest/minimaps/layna_forest_entrance_minimap.png");
 
     _CreateCharacters();
@@ -44,7 +44,7 @@ function Load(m)
     -- Set the camera focus on hero
     Map:SetCamera(hero);
     -- This is a dungeon map, we'll use the front battle member sprite as default sprite.
-    Map.object_supervisor:SetPartyMemberVisibleSprite(hero);
+    Map:SetPartyMemberVisibleSprite(hero);
 
     _CreateEvents();
     _CreateZones();
@@ -130,6 +130,7 @@ local heal_effect = nil
 function _CreateObjects()
     local object = nil
     local npc = nil
+    local event = nil
 
     Map:AddSavePoint(19, 27);
 
@@ -302,7 +303,7 @@ function _CreateEnemies()
         enemy:NewEnemyParty();
         enemy:AddEnemy(4);
         enemy:AddEnemy(6);
-        roam_zone:AddEnemy(enemy, Map, 1);
+        roam_zone:AddEnemy(enemy, 1);
     else
         -- Day and first encounters (slimes and spiders)
         enemy = CreateEnemySprite(Map, "slime");
@@ -314,7 +315,7 @@ function _CreateEnemies()
         enemy:NewEnemyParty();
         enemy:AddEnemy(1);
         enemy:AddEnemy(2);
-        roam_zone:AddEnemy(enemy, Map, 1);
+        roam_zone:AddEnemy(enemy, 1);
     end
 
     Map:AddZone(roam_zone);

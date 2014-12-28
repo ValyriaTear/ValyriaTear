@@ -14,23 +14,20 @@ map_subname = ""
 music_filename = "mus/shrine-OGA-yd.ogg"
 
 -- c++ objects instances
-local Map = {};
-local ObjectManager = {};
-local DialogueManager = {};
-local EventManager = {};
+local Map = nil
+local DialogueManager = nil
+local EventManager = nil
 
 -- the main character handler
-local hero = {};
+local hero = nil
 
 -- the main map loading code
 function Load(m)
 
     Map = m;
-    ObjectManager = Map.object_supervisor;
-    DialogueManager = Map.dialogue_supervisor;
-    EventManager = Map.event_supervisor;
-
-    Map.unlimited_stamina = false;
+    DialogueManager = Map:GetDialogueSupervisor();
+    EventManager = Map:GetEventSupervisor();
+    Map:SetUnlimitedStamina(false);
 
     _CreateCharacters();
     _CreateObjects();
@@ -39,7 +36,7 @@ function Load(m)
     -- Set the camera focus on hero
     Map:SetCamera(hero);
     -- This is a dungeon map, we'll use the front battle member sprite as default sprite.
-    Map.object_supervisor:SetPartyMemberVisibleSprite(hero);
+    Map:SetPartyMemberVisibleSprite(hero);
 
     _CreateEvents();
     _CreateZones();
@@ -57,7 +54,7 @@ end
 -- Character creation
 function _CreateCharacters()
     -- Default hero and position
-    hero = CreateSprite(Map, "Bronann", 58, 94);
+    hero = CreateSprite(Map, "Bronann", 58, 94, vt_map.MapMode.GROUND_OBJECT);
     hero:SetDirection(vt_map.MapMode.NORTH);
     hero:SetMovementSpeed(vt_map.MapMode.NORMAL_SPEED);
 
@@ -65,15 +62,12 @@ function _CreateCharacters()
         hero:SetDirection(vt_map.MapMode.SOUTH);
         hero:SetPosition(69, 4);
     end
-
-    Map:AddGroundObject(hero);
 end
 
-
 function _CreateObjects()
-    local object = {};
-    local npc = {};
-    local event = {}
+    local object = nil
+    local npc = nil
+    local event = nil
 
     -- Adapt the light color according to the time of the day.
     local light_color_red = 1.0;
@@ -106,12 +100,9 @@ function _CreateObjects()
     Map:AddHalo("img/misc/lights/torch_light_mask.lua", 67, 5,
             vt_video.Color(light_color_red, light_color_green, light_color_blue, light_color_alpha));
 
-    local chest1 = CreateTreasure(Map, "layna_forest_cave2_chest1", "Wood_Chest1", 107, 28);
-    if (chest1 ~= nil) then
-        chest1:AddObject(1, 2);
-        chest1:AddObject(11, 2);
-        Map:AddGroundObject(chest1);
-    end
+    local chest1 = CreateTreasure(Map, "layna_forest_cave2_chest1", "Wood_Chest1", 107, 28, vt_map.MapMode.GROUND_OBJECT);
+    chest1:AddObject(1, 2);
+    chest1:AddObject(11, 2);
 end
 
 -- Sets common battle environment settings for enemy sprites
@@ -123,8 +114,8 @@ function _SetBattleEnvironment(enemy)
 end
 
 function _CreateEnemies()
-    local enemy = {};
-    local roam_zone = {};
+    local enemy = nil
+    local roam_zone = nil
 
     -- Hint: left, right, top, bottom
     roam_zone = vt_map.EnemyZone(12, 18, 17, 31);
@@ -140,7 +131,7 @@ function _CreateEnemies()
     enemy:AddEnemy(1);
     enemy:AddEnemy(6); -- bat
     enemy:AddEnemy(1);
-    roam_zone:AddEnemy(enemy, Map, 1);
+    roam_zone:AddEnemy(enemy, 1);
 
     Map:AddZone(roam_zone);
 
@@ -159,7 +150,7 @@ function _CreateEnemies()
     enemy:AddEnemy(1);
     enemy:AddEnemy(6); -- bat
     enemy:AddEnemy(1);
-    roam_zone:AddEnemy(enemy, Map, 1);
+    roam_zone:AddEnemy(enemy, 1);
 
     Map:AddZone(roam_zone);
 
@@ -179,16 +170,16 @@ function _CreateEnemies()
     enemy:AddEnemy(1);
     enemy:AddEnemy(1);
     enemy:AddEnemy(1);
-    roam_zone:AddEnemy(enemy, Map, 1);
+    roam_zone:AddEnemy(enemy, 1);
 
     Map:AddZone(roam_zone);
 end
 
 -- Creates all events and sets up the entire event sequence chain
 function _CreateEvents()
-    local event = {};
-    local dialogue = {};
-    local text = {};
+    local event = nil
+    local dialogue = nil
+    local text = nil
 
     -- Map events
     event = vt_map.MapTransitionEvent("to forest SE", "dat/maps/layna_forest/layna_forest_south_east_map.lua",
@@ -255,29 +246,28 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
 end
 
-
 -- zones
-local to_forest_SE_zone = {};
-local to_forest_crystal_zone = {};
-local to_1_1_zone = {};
-local to_1_2_zone = {};
-local to_2_1_zone = {};
-local to_2_2_zone = {};
-local to_3_1_zone = {};
-local to_3_2_zone = {};
-local to_4_1_zone = {};
-local to_4_2_zone = {};
-local to_5_1_zone = {};
-local to_5_2_zone = {};
-local to_6_1_zone = {};
-local to_6_2_zone = {};
-local to_7_1_zone = {};
-local to_7_1_bis_zone = {};
-local to_7_2_zone = {};
-local to_8_1_zone = {};
-local to_8_2_zone = {};
-local to_9_1_zone = {};
-local to_9_2_zone = {};
+local to_forest_SE_zone = nil
+local to_forest_crystal_zone = nil
+local to_1_1_zone = nil
+local to_1_2_zone = nil
+local to_2_1_zone = nil
+local to_2_2_zone = nil
+local to_3_1_zone = nil
+local to_3_2_zone = nil
+local to_4_1_zone = nil
+local to_4_2_zone = nil
+local to_5_1_zone = nil
+local to_5_2_zone = nil
+local to_6_1_zone = nil
+local to_6_2_zone = nil
+local to_7_1_zone = nil
+local to_7_1_bis_zone = nil
+local to_7_2_zone = nil
+local to_8_1_zone = nil
+local to_8_2_zone = nil
+local to_9_1_zone = nil
+local to_9_2_zone = nil
 
 -- Create the different map zones triggering events
 function _CreateZones()
@@ -421,7 +411,7 @@ local fade_color = vt_video.Color(0.0, 0.0, 0.0, 1.0);
 -- Tells where the hero character will reappear
 local destination_x = 0.0;
 local destination_y = 0.0;
-local destination_orientation = {};
+local destination_orientation = 0
 local destination_set = false;
 
 -- Map Custom functions
@@ -668,5 +658,4 @@ map_functions = {
         Map:PopState();
         return true;
     end
-
 }

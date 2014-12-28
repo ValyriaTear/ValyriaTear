@@ -508,6 +508,9 @@ Light::Light(const std::string &main_flare_filename,
     if(_secondary_animation.LoadFromAnimationScript(secondary_flare_filename)) {
         MapMode::ScaleToMapCoords(_secondary_animation);
     }
+
+    // Register the object to the light vector
+    MapMode::CurrentInstance()->GetObjectSupervisor()->AddLight(this);
 }
 
 Light* Light::CreateObject(const std::string &main_flare_filename,
@@ -968,7 +971,8 @@ TriggerObject* TriggerObject::CreateObject(const std::string &trigger_name,
                               off_event_id, on_event_id);
 }
 
-void TriggerObject::Update() {
+void TriggerObject::Update()
+{
     PhysicalObject::Update();
 
     // The trigger can't be toggle by the character, nothing will happen
@@ -1109,11 +1113,21 @@ void ObjectSupervisor::RegisterObject(MapObject* object)
 void ObjectSupervisor::AddAmbientSound(SoundObject *object)
 {
     if(!object) {
-        PRINT_WARNING << "Couldn't add NULL object." << std::endl;
+        PRINT_WARNING << "Couldn't add NULL SoundObject* object." << std::endl;
         return;
     }
 
     _sound_objects.push_back(object);
+}
+
+void ObjectSupervisor::AddLight(Light *light)
+{
+    if (light == NULL) {
+        PRINT_WARNING << "Couldn't add NULL Light* object." << std::endl;
+        return;
+    }
+
+    _lights.push_back(light);
 }
 
 void ObjectSupervisor::DeleteObject(MapObject* object)

@@ -14,17 +14,16 @@ map_subname = ""
 music_filename = "mus/shrine-OGA-yd.ogg"
 
 -- c++ objects instances
-local Map = {};
-local ObjectManager = {};
-local DialogueManager = {};
-local EventManager = {};
-local Effects = {};
+local Map = nil
+local DialogueManager = nil
+local EventManager = nil
+local Effects = nil
 
 -- the main character handler
-local hero = {};
+local hero = nil
 
 -- Forest dialogue secondary hero
-local kalya_sprite = {};
+local kalya_sprite = nil
 
 -- Name of the main sprite. Used to reload the good one at the end of the first forest entrance event.
 local main_sprite_name = "";
@@ -33,12 +32,11 @@ local main_sprite_name = "";
 function Load(m)
 
     Map = m;
-    ObjectManager = Map.object_supervisor;
-    DialogueManager = Map.dialogue_supervisor;
-    EventManager = Map.event_supervisor;
     Effects = Map:GetEffectSupervisor();
+    DialogueManager = Map:GetDialogueSupervisor();
+    EventManager = Map:GetEventSupervisor();
+    Map:SetUnlimitedStamina(false);
 
-    Map.unlimited_stamina = false;
     Map:SetMinimapImage("dat/maps/layna_forest/minimaps/layna_forest_cave1_2_minimap.png");
 
     _CreateCharacters();
@@ -48,7 +46,7 @@ function Load(m)
     -- Set the camera focus on hero
     Map:SetCamera(hero);
     -- This is a dungeon map, we'll use the front battle member sprite as default sprite.
-    Map.object_supervisor:SetPartyMemberVisibleSprite(hero);
+    Map:SetPartyMemberVisibleSprite(hero);
 
     _CreateEvents();
     _CreateZones();
@@ -74,7 +72,7 @@ end
 -- Character creation
 function _CreateCharacters()
     -- Default hero and position
-    hero = CreateSprite(Map, "Bronann", 3, 15);
+    hero = CreateSprite(Map, "Bronann", 3, 15, vt_map.MapMode.GROUND_OBJECT);
     hero:SetDirection(vt_map.MapMode.EAST);
     hero:SetMovementSpeed(vt_map.MapMode.NORMAL_SPEED);
 
@@ -86,37 +84,31 @@ function _CreateCharacters()
         hero:SetPosition(122, 15);
     end
 
-    Map:AddGroundObject(hero);
-
     -- Create secondary character for dialogue at map entrance
     kalya_sprite = CreateSprite(Map, "Kalya",
-                                hero:GetXPosition(), hero:GetYPosition());
+                                hero:GetXPosition(), hero:GetYPosition(), vt_map.MapMode.GROUND_OBJECT);
 
     kalya_sprite:SetDirection(vt_map.MapMode.NORTH);
     kalya_sprite:SetMovementSpeed(vt_map.MapMode.NORMAL_SPEED);
     kalya_sprite:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
     kalya_sprite:SetVisible(false);
-    Map:AddGroundObject(kalya_sprite);
 end
 
 -- Special object blocking the exit
-local blocking_rock = {};
+local blocking_rock = nil
 
 -- Special NPC used a sign
-local stone_sign = {};
+local stone_sign = nil
 
 function _CreateObjects()
-    local object = {};
-    local npc = {};
-    local event = {}
+    local object = nil
+    local npc = nil
+    local event = nil
 
     -- Treasure chest, accessible later from the next cave.
-    local chest1 = CreateTreasure(Map, "layna_forest_cave1_2_chest", "Wood_Chest1", 116, 38);
-    if (chest1 ~= nil) then
-        chest1:SetDrunes(50);
-        chest1:AddObject(16, 1); -- Candy
-        Map:AddGroundObject(chest1);
-    end
+    local chest1 = CreateTreasure(Map, "layna_forest_cave1_2_chest", "Wood_Chest1", 116, 38, vt_map.MapMode.GROUND_OBJECT);
+    chest1:SetDrunes(50);
+    chest1:AddObject(16, 1); -- Candy
 
     -- Adapt the light color according to the time of the day.
     local light_color_red = 1.0;
@@ -158,26 +150,22 @@ function _CreateObjects()
             vt_video.Color(light_color_red, light_color_green, light_color_blue, light_color_alpha));
 
     -- Create the stone sign telling what to do to pass the test...
-    object = CreateObject(Map, "Stone Sign1", 22, 10);
-    Map:AddGroundObject(object);
+    CreateObject(Map, "Stone Sign1", 22, 10, vt_map.MapMode.GROUND_OBJECT);
+
     -- Create an invisible sprite, used to handle the dialogue
-    stone_sign = CreateSprite(Map, "Butterfly", 22, 11);
+    stone_sign = CreateSprite(Map, "Butterfly", 22, 11, vt_map.MapMode.GROUND_OBJECT);
     stone_sign:SetName(vt_system.Translate("Stone sign"));
     stone_sign:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
     stone_sign:SetVisible(false);
-    Map:AddGroundObject(stone_sign);
 
     _UpdateStoneSignDialogue();
 
     -- Decorations
-    object = CreateObject(Map, "Rock1", 107, 96);
-    Map:AddGroundObject(object);
-    object = CreateObject(Map, "Rock1", 117, 96);
-    Map:AddGroundObject(object);
+    CreateObject(Map, "Rock1", 107, 96, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Rock1", 117, 96, vt_map.MapMode.GROUND_OBJECT);
 
     -- The blocking rock
-    blocking_rock = CreateObject(Map, "Rock3", 112, 96);
-    Map:AddGroundObject(blocking_rock);
+    blocking_rock = CreateObject(Map, "Rock3", 112, 96, vt_map.MapMode.GROUND_OBJECT);
 
     -- Remove the block if all enemies have already been defeated
     if (GlobalManager:DoesEventExist("story", "layna_forest_cave2_monsters_defeated")) then
@@ -187,8 +175,8 @@ function _CreateObjects()
 end
 
 function _UpdateStoneSignDialogue()
-    local dialogue = {};
-    local text = {};
+    local dialogue = nil
+    local text = nil
 
     stone_sign:ClearDialogueReferences();
 
@@ -209,17 +197,17 @@ function _UpdateStoneSignDialogue()
 end
 
 -- Special event references which destinations must be updated just before being called.
-local move_next_to_hero_event = {}
-local move_back_to_hero_event = {}
+local move_next_to_hero_event = nil
+local move_back_to_hero_event = nil
 
-local move_next_to_hero_event2 = {}
-local move_back_to_hero_event2 = {}
+local move_next_to_hero_event2 = nil
+local move_back_to_hero_event2 = nil
 
 -- Creates all events and sets up the entire event sequence chain
 function _CreateEvents()
-    local event = {};
-    local dialogue = {};
-    local text = {};
+    local event = nil
+    local dialogue = nil
+    local text = nil
 
     -- Map transition events
     event = vt_map.MapTransitionEvent("to cave 1-1", "dat/maps/layna_forest/layna_forest_cave1_1_map.lua",
@@ -288,7 +276,6 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("Bronann looks north");
     EventManager:RegisterEvent(event);
 
-
     -- Dialogue when all the enemies are dead.
     dialogue = vt_map.SpriteDialogue();
     text = vt_system.Translate("... Something heavy seems to have fallen nearby.");
@@ -296,7 +283,6 @@ function _CreateEvents()
     DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Hero dialogue during tremor", dialogue);
     EventManager:RegisterEvent(event);
-
 
     -- Kalya sees the mechanisms to go out.
     event = vt_map.ScriptedEvent("Kalya sees the cave exit", "see_the_exit_dialogue_start", "");
@@ -363,14 +349,13 @@ local monster3_defeated = false;
 local monster4_defeated = false;
 local monsters_defeated = false;
 
-local roam_zone1 = {};
-local roam_zone2 = {};
-local roam_zone3 = {};
-local roam_zone4 = {};
+local roam_zone1 = nil
+local roam_zone2 = nil
+local roam_zone3 = nil
+local roam_zone4 = nil
 
 function _CreateEnemies()
-    local enemy = {};
-    local roam_zone = {};
+    local enemy = nil
 
     if (GlobalManager:DoesEventExist("story", "layna_forest_cave2_monsters_defeated")) then
         monsters_defeated = true;
@@ -388,7 +373,7 @@ function _CreateEnemies()
         enemy:AddEnemy(1);
         enemy:AddEnemy(1);
         enemy:AddEnemy(1);
-        roam_zone1:AddEnemy(enemy, Map, 1);
+        roam_zone1:AddEnemy(enemy, 1);
         roam_zone1:SetSpawnsLeft(1); -- This monster shall spawn only one time.
     end
     Map:AddZone(roam_zone1);
@@ -404,7 +389,7 @@ function _CreateEnemies()
         enemy:AddEnemy(1);
         enemy:AddEnemy(2);
         enemy:AddEnemy(1);
-        roam_zone2:AddEnemy(enemy, Map, 1);
+        roam_zone2:AddEnemy(enemy, 1);
         roam_zone2:SetSpawnsLeft(1); -- This monster shall spawn only one time.
     end
     Map:AddZone(roam_zone2);
@@ -419,7 +404,7 @@ function _CreateEnemies()
         enemy:AddEnemy(2);
         enemy:AddEnemy(2);
         enemy:AddEnemy(1);
-        roam_zone3:AddEnemy(enemy, Map, 1);
+        roam_zone3:AddEnemy(enemy, 1);
         roam_zone3:SetSpawnsLeft(1); -- This monster shall spawn only one time.
     end
     Map:AddZone(roam_zone3);
@@ -434,7 +419,7 @@ function _CreateEnemies()
         enemy:AddEnemy(6);
         enemy:AddEnemy(2);
         enemy:AddEnemy(1);
-        roam_zone4:AddEnemy(enemy, Map, 1);
+        roam_zone4:AddEnemy(enemy, 1);
         roam_zone4:SetSpawnsLeft(1); -- This monster shall spawn only one time.
     end
     Map:AddZone(roam_zone4);
@@ -475,14 +460,13 @@ function _CheckMonstersStates()
 
         GlobalManager:SetEventValue("story", "layna_forest_cave2_monsters_defeated", 1);
     end
-
 end
 
 -- zones
-local to_cave_1_1 = {};
-local to_cave_exit = {};
-local to_wolf_cave_zone = {};
-local seeing_the_exit_zone = {};
+local to_cave_1_1 = nil
+local to_cave_exit = nil
+local to_wolf_cave_zone = nil
+local seeing_the_exit_zone = nil
 
 -- Create the different map zones triggering events
 function _CreateZones()

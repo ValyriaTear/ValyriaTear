@@ -999,6 +999,9 @@ public:
     //! \brief Add sound objects (Done within the sound object constructor)
     void AddAmbientSound(SoundObject* object);
 
+    //! \brief Add a light object, often created through scripting
+    void AddLight(Light *light);
+
     //! \brief Sorts objects on all three layers according to their draw order
     void SortObjects();
 

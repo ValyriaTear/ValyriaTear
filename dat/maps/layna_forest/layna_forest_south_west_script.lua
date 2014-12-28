@@ -14,16 +14,15 @@ map_subname = ""
 music_filename = "mus/house_in_a_forest_loop_horrorpen_oga.ogg"
 
 -- c++ objects instances
-local Map = {};
-local ObjectManager = {};
-local DialogueManager = {};
-local EventManager = {};
+local Map = nil
+local DialogueManager = nil
+local EventManager = nil
 
 -- the main character handler
-local hero = {};
+local hero = nil
 
 -- Forest dialogue secondary hero
-local kalya_sprite = {};
+local kalya_sprite = nil
 
 -- Name of the main sprite. Used to reload the good one at the end of the first forest entrance event.
 local main_sprite_name = "";
@@ -32,11 +31,10 @@ local main_sprite_name = "";
 function Load(m)
 
     Map = m;
-    ObjectManager = Map.object_supervisor;
-    DialogueManager = Map.dialogue_supervisor;
-    EventManager = Map.event_supervisor;
+    DialogueManager = Map:GetDialogueSupervisor();
+    EventManager = Map:GetEventSupervisor();
+    Map:SetUnlimitedStamina(false);
 
-    Map.unlimited_stamina = false;
     Map:SetMinimapImage("dat/maps/layna_forest/minimaps/layna_forest_south_west_minimap.png");
 
     _CreateCharacters();
@@ -46,7 +44,7 @@ function Load(m)
     -- Set the camera focus on hero
     Map:SetCamera(hero);
     -- This is a dungeon map, we'll use the front battle member sprite as default sprite.
-    Map.object_supervisor:SetPartyMemberVisibleSprite(hero);
+    Map:SetPartyMemberVisibleSprite(hero);
 
     _CreateEvents();
     _CreateZones();
@@ -84,7 +82,7 @@ end
 -- Character creation
 function _CreateCharacters()
     -- Default hero and position
-    hero = CreateSprite(Map, "Bronann", 124, 85);
+    hero = CreateSprite(Map, "Bronann", 124, 85, vt_map.MapMode.GROUND_OBJECT);
     hero:SetDirection(vt_map.MapMode.WEST);
     hero:SetMovementSpeed(vt_map.MapMode.NORMAL_SPEED);
 
@@ -93,22 +91,20 @@ function _CreateCharacters()
         hero:SetDirection(vt_map.MapMode.SOUTH);
     end
 
-    Map:AddGroundObject(hero);
-
     -- Create secondary character for the scene about snakes - Kalya
     kalya_sprite = CreateSprite(Map, "Kalya",
-                                hero:GetXPosition(), hero:GetYPosition());
+                                hero:GetXPosition(), hero:GetYPosition(), vt_map.MapMode.GROUND_OBJECT);
 
     kalya_sprite:SetDirection(vt_map.MapMode.WEST);
     kalya_sprite:SetMovementSpeed(vt_map.MapMode.NORMAL_SPEED);
     kalya_sprite:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
     kalya_sprite:SetVisible(false);
-    Map:AddGroundObject(kalya_sprite);
 end
 
 function _CreateObjects()
-    local object = {}
-    local npc = {}
+    local object = nil
+    local npc = nil
+    local event = nil
 
     -- Only add the squirrels and butterflies when the night isn't about to happen
     if (GlobalManager:GetEventValue("story", "layna_forest_crystal_event_done") < 1) then
@@ -164,7 +160,6 @@ function _CreateObjects()
         event:AddEventLinkAtEnd("Squirrel2 random move", 4500); -- Loop on itself
         EventManager:RegisterEvent(event);
         EventManager:StartEvent("Squirrel2 random move", 1800);
-
     end
 
     -- Trees array
@@ -437,8 +432,7 @@ function _CreateObjects()
     -- Loads the trees according to the array
     for my_index, my_array in pairs(map_trees) do
         --print(my_array[1], my_array[2], my_array[3]);
-        object = CreateObject(Map, my_array[1], my_array[2], my_array[3]);
-        Map:AddGroundObject(object);
+        CreateObject(Map, my_array[1], my_array[2], my_array[3], vt_map.MapMode.GROUND_OBJECT);
     end
 
     -- grass array
@@ -576,15 +570,14 @@ function _CreateObjects()
     -- Loads the trees according to the array
     for my_index, my_array in pairs(map_grass) do
         --print(my_array[1], my_array[2], my_array[3]);
-        object = CreateObject(Map, my_array[1], my_array[2], my_array[3]);
+        object = CreateObject(Map, my_array[1], my_array[2], my_array[3], vt_map.MapMode.GROUND_OBJECT);
         object:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
-        Map:AddGroundObject(object);
     end
 end
 
 function _CreateEnemies()
-    local enemy = {};
-    local roam_zone = {};
+    local enemy = nil
+    local roam_zone = nil
 
     -- Hint: left, right, top, bottom
     roam_zone = vt_map.EnemyZone(40, 52, 67, 87);
@@ -598,10 +591,9 @@ function _CreateEnemies()
     enemy:NewEnemyParty();
     enemy:AddEnemy(4);
     enemy:AddEnemy(2);
-    roam_zone:AddEnemy(enemy, Map, 1);
+    roam_zone:AddEnemy(enemy, 1);
 
     Map:AddZone(roam_zone);
-
 
     roam_zone = vt_map.EnemyZone(77, 84, 71, 87);
     enemy = CreateEnemySprite(Map, "spider");
@@ -613,7 +605,7 @@ function _CreateEnemies()
     enemy:NewEnemyParty();
     enemy:AddEnemy(2);
     enemy:AddEnemy(1);
-    roam_zone:AddEnemy(enemy, Map, 1);
+    roam_zone:AddEnemy(enemy, 1);
 
     Map:AddZone(roam_zone);
 
@@ -629,7 +621,7 @@ function _CreateEnemies()
     enemy:NewEnemyParty();
     enemy:AddEnemy(4);
     enemy:AddEnemy(2);
-    roam_zone:AddEnemy(enemy, Map, 1);
+    roam_zone:AddEnemy(enemy, 1);
 
     Map:AddZone(roam_zone);
 
@@ -645,20 +637,20 @@ function _CreateEnemies()
     enemy:NewEnemyParty();
     enemy:AddEnemy(4);
     enemy:AddEnemy(2);
-    roam_zone:AddEnemy(enemy, Map, 1);
+    roam_zone:AddEnemy(enemy, 1);
 
     Map:AddZone(roam_zone);
 end
 
 -- Special event references which destinations must be updated just before being called.
-local move_next_to_hero_event = {}
-local move_back_to_hero_event = {}
+local move_next_to_hero_event = nil
+local move_back_to_hero_event = nil
 
 -- Creates all events and sets up the entire event sequence chain
 function _CreateEvents()
-    local event = {};
-    local dialogue = {};
-    local text = {};
+    local event = nil
+    local dialogue = nil
+    local text = nil
 
     event = vt_map.MapTransitionEvent("to forest SE", "dat/maps/layna_forest/layna_forest_south_east_map.lua",
                                        "dat/maps/layna_forest/layna_forest_south_east_script.lua", "from forest SW");
@@ -713,8 +705,8 @@ function _CreateEvents()
 end
 
 -- zones
-local to_forest_SE_zone = {};
-local to_forest_NW_zone = {};
+local to_forest_SE_zone = nil
+local to_forest_NW_zone = nil
 
 -- Create the different map zones triggering events
 function _CreateZones()
@@ -807,5 +799,4 @@ map_functions = {
         -- Set event as done
         GlobalManager:SetEventValue("story", "kalya_speech_about_snakes_done", 1);
     end
-
 }

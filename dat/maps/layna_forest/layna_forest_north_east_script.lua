@@ -14,23 +14,20 @@ map_subname = ""
 music_filename = "mus/house_in_a_forest_loop_horrorpen_oga.ogg"
 
 -- c++ objects instances
-local Map = {};
-local ObjectManager = {};
-local DialogueManager = {};
-local EventManager = {};
+local Map = nil
+local DialogueManager = nil
+local EventManager = nil
 
 -- the main character handler
-local hero = {};
+local hero = nil
 
 -- the main map loading code
 function Load(m)
 
     Map = m;
-    ObjectManager = Map.object_supervisor;
-    DialogueManager = Map.dialogue_supervisor;
-    EventManager = Map.event_supervisor;
-
-    Map.unlimited_stamina = false;
+    DialogueManager = Map:GetDialogueSupervisor();
+    EventManager = Map:GetEventSupervisor();
+    Map:SetUnlimitedStamina(false);
 
     Map:SetMinimapImage("dat/maps/layna_forest/minimaps/layna_forest_north_east_minimap.png");
 
@@ -41,7 +38,7 @@ function Load(m)
     -- Set the camera focus on hero
     Map:SetCamera(hero);
     -- This is a dungeon map, we'll use the front battle member sprite as default sprite.
-    Map.object_supervisor:SetPartyMemberVisibleSprite(hero);
+    Map:SetPartyMemberVisibleSprite(hero);
 
     _CreateEvents();
     _CreateZones();
@@ -72,7 +69,7 @@ end
 -- Character creation
 function _CreateCharacters()
     -- Default hero and position (From forest NW)
-    hero = CreateSprite(Map, "Bronann", 3, 88);
+    hero = CreateSprite(Map, "Bronann", 3, 88, vt_map.MapMode.GROUND_OBJECT);
     hero:SetDirection(vt_map.MapMode.EAST);
     hero:SetMovementSpeed(vt_map.MapMode.NORMAL_SPEED);
 
@@ -80,75 +77,67 @@ function _CreateCharacters()
         hero:SetPosition(71, 94);
         hero:SetDirection(vt_map.MapMode.NORTH);
     end
-
-    Map:AddGroundObject(hero);
 end
 
 -- The boss map sprite
-local wolf = {};
+local wolf = nil
 
 function _CreateObjects()
-    local object = {}
-    local npc = {}
+    local object = nil
+    local npc = nil
+    local event = nil
 
     -- The boss map sprite
-    wolf = CreateSprite(Map, "Fenrir", 104, 3); -- pre place it at the right place.
+    wolf = CreateSprite(Map, "Fenrir", 104, 3, vt_map.MapMode.GROUND_OBJECT); -- pre place it at the right place.
     wolf:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
     wolf:SetMovementSpeed(vt_map.MapMode.VERY_FAST_SPEED);
     wolf:SetVisible(false);
     wolf:SetDirection(vt_map.MapMode.SOUTH);
-    Map:AddGroundObject(wolf);
 
     -- Only add the squirrels and butterflies when the night isn't about to happen
     if (GlobalManager:GetEventValue("story", "layna_forest_crystal_event_done") < 1) then
 
-        npc = CreateSprite(Map, "Butterfly", 42, 18);
+        npc = CreateSprite(Map, "Butterfly", 42, 18, vt_map.MapMode.GROUND_OBJECT);
         npc:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
-        Map:AddGroundObject(npc);
         event = vt_map.RandomMoveSpriteEvent("Butterfly1 random move", npc, 1000, 1000);
         event:AddEventLinkAtEnd("Butterfly1 random move", 4500); -- Loop on itself
         EventManager:RegisterEvent(event);
         EventManager:StartEvent("Butterfly1 random move");
 
-        npc = CreateSprite(Map, "Butterfly", 12, 30);
+        npc = CreateSprite(Map, "Butterfly", 12, 30, vt_map.MapMode.GROUND_OBJECT);
         npc:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
-        Map:AddGroundObject(npc);
         event = vt_map.RandomMoveSpriteEvent("Butterfly2 random move", npc, 1000, 1000);
         event:AddEventLinkAtEnd("Butterfly2 random move", 4500); -- Loop on itself
         EventManager:RegisterEvent(event);
         EventManager:StartEvent("Butterfly2 random move", 2400);
 
-        npc = CreateSprite(Map, "Butterfly", 50, 25);
+        npc = CreateSprite(Map, "Butterfly", 50, 25, vt_map.MapMode.GROUND_OBJECT);
         npc:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
-        Map:AddGroundObject(npc);
         event = vt_map.RandomMoveSpriteEvent("Butterfly3 random move", npc, 1000, 1000);
         event:AddEventLinkAtEnd("Butterfly3 random move", 4500); -- Loop on itself
         EventManager:RegisterEvent(event);
         EventManager:StartEvent("Butterfly3 random move", 1050);
 
-        npc = CreateSprite(Map, "Butterfly", 40, 30);
+        npc = CreateSprite(Map, "Butterfly", 40, 30, vt_map.MapMode.GROUND_OBJECT);
         npc:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
-        Map:AddGroundObject(npc);
         event = vt_map.RandomMoveSpriteEvent("Butterfly4 random move", npc, 1000, 1000);
         event:AddEventLinkAtEnd("Butterfly4 random move", 4500); -- Loop on itself
         EventManager:RegisterEvent(event);
         EventManager:StartEvent("Butterfly4 random move", 3050);
 
-        npc = CreateSprite(Map, "Squirrel", 18, 24);
+        npc = CreateSprite(Map, "Squirrel", 18, 24, vt_map.MapMode.GROUND_OBJECT);
         -- Squirrels don't collide with the npcs.
         npc:SetCollisionMask(vt_map.MapMode.WALL_COLLISION);
         npc:SetSpriteAsScenery(true);
-        Map:AddGroundObject(npc);
         event = vt_map.RandomMoveSpriteEvent("Squirrel1 random move", npc, 1000, 1000);
         event:AddEventLinkAtEnd("Squirrel1 random move", 4500); -- Loop on itself
         EventManager:RegisterEvent(event);
         EventManager:StartEvent("Squirrel1 random move");
 
-        npc = CreateSprite(Map, "Squirrel", 40, 14);
+        npc = CreateSprite(Map, "Squirrel", 40, 14, vt_map.MapMode.GROUND_OBJECT);
         -- Squirrels don't collide with the npcs.
         npc:SetCollisionMask(vt_map.MapMode.WALL_COLLISION);
         npc:SetSpriteAsScenery(true);
-        Map:AddGroundObject(npc);
         event = vt_map.RandomMoveSpriteEvent("Squirrel2 random move", npc, 1000, 1000);
         event:AddEventLinkAtEnd("Squirrel2 random move", 4500); -- Loop on itself
         EventManager:RegisterEvent(event);
@@ -157,11 +146,8 @@ function _CreateObjects()
     end
 
     -- Forest entrance treasure chest
-    local chest1 = CreateTreasure(Map, "layna_forest_NE_chest1", "Wood_Chest1", 4, 55);
-    if (chest1 ~= nil) then
-        chest1:AddObject(1, 1);
-        Map:AddGroundObject(chest1);
-    end
+    local chest1 = CreateTreasure(Map, "layna_forest_NE_chest1", "Wood_Chest1", 4, 55, vt_map.MapMode.GROUND_OBJECT);
+    chest1:AddObject(1, 1); -- small potion
 
     -- Trees array
     local map_trees = {
@@ -385,7 +371,6 @@ function _CreateObjects()
         { "Tree Small4", 104, 79 },
         { "Tree Small3", 102, 80 },
 
-
         -- going left - bottom side
         { "Tree Small3", 118, 82 },
         { "Tree Small4", 119, 85 },
@@ -571,15 +556,14 @@ function _CreateObjects()
     -- Loads the trees according to the array
     for my_index, my_array in pairs(map_trees) do
         --print(my_array[1], my_array[2], my_array[3]);
-        object = CreateObject(Map, my_array[1], my_array[2], my_array[3]);
-        Map:AddGroundObject(object);
+        CreateObject(Map, my_array[1], my_array[2], my_array[3], vt_map.MapMode.GROUND_OBJECT);
     end
 
 end
 
 function _CreateEnemies()
-    local enemy = {};
-    local roam_zone = {};
+    local enemy = nil
+    local roam_zone = nil
 
     -- Treasure zone
 
@@ -597,7 +581,7 @@ function _CreateEnemies()
     enemy:AddEnemy(1);
     enemy:AddEnemy(2);
     enemy:AddEnemy(2);
-    roam_zone:AddEnemy(enemy, Map, 1);
+    roam_zone:AddEnemy(enemy, 1);
 
     Map:AddZone(roam_zone);
 
@@ -615,16 +599,16 @@ function _CreateEnemies()
     enemy:AddEnemy(1);
     enemy:AddEnemy(2);
     enemy:AddEnemy(2);
-    roam_zone:AddEnemy(enemy, Map, 1);
+    roam_zone:AddEnemy(enemy, 1);
 
     Map:AddZone(roam_zone);
 end
 
 -- Creates all events and sets up the entire event sequence chain
 function _CreateEvents()
-    local event = {};
-    local dialogue = {};
-    local text = {};
+    local event = nil
+    local dialogue = nil
+    local text = nil
 
     -- Map events
     event = vt_map.MapTransitionEvent("to forest NW", "dat/maps/layna_forest/layna_forest_north_west_map.lua",
@@ -646,7 +630,7 @@ function _CreateEvents()
     event = vt_map.SoundEvent("Warning dialogue event", "snd/footstep_grass1.wav")
     event:AddEventLinkAtEnd("Warning dialogue");
     EventManager:RegisterEvent(event);
-    
+
     dialogue = vt_map.SpriteDialogue();
     text = vt_system.Translate("What's that?!");
     dialogue:AddLineEventEmote(text, hero, "The Hero looks north", "", "exclamation");

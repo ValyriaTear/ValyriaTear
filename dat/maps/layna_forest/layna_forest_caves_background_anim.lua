@@ -6,8 +6,8 @@ layna_forest_caves_background_anim = ns;
 setfenv(1, ns);
 
 -- Animated image members
-local fog = {};
-local background = {};
+local fog = nil
+local background = nil
 
 -- Other fog related members
 local fog_x_position = 300.0;
@@ -17,9 +17,9 @@ local fog_timer;
 local fog_time_length = 8000;
 
 -- c++ objects instances
-local Map = {};
-local Script = {};
-local Effects = {};
+local Map = nil
+local Script = nil
+local Effects = nil
 
 function Initialize(map_instance)
     Map = map_instance;
@@ -37,7 +37,6 @@ function Initialize(map_instance)
 
     fog_timer:Run();
 end
-
 
 function Update()
     -- fog
