@@ -13,19 +13,19 @@ before_install:
   - sudo apt-get install -qq libqt4-opengl-dev
   - sudo apt-get install -qq libglew-dev
   
-  - wget http://www.libsdl.org/release/SDL2-2.0.3.tar.gz -O - | tar xz
-  - (cd SDL2-2.0.3 && ./configure --prefix=/usr && sudo -i make -j5 && sudo -i make install)
-  - wget http://www.libsdl.org/projects/SDL_image/release/SDL2_image-2.0.0.tar.gz -O - | tar xz
-  - (cd SDL2_image-2.0.0 && ./configure --prefix=/usr && sudo -i make -j5 && sudo -i make install)
-  - wget http://www.libsdl.org/projects/SDL_ttf/release/SDL2_ttf-2.0.12.tar.gz -O - | tar xz
-  - (cd SDL2_ttf-2.0.12 && ./configure --prefix=/usr && sudo -i make -j5 && sudo -i make install)
-  
-script:
   # Clang is not system wide.  This is a work around.
   - $CC --version
   - which $CC
   - export CC=`which $CC`
   
+  - wget http://www.libsdl.org/release/SDL2-2.0.3.tar.gz -O - | tar xz
+  - (cd SDL2-2.0.3 && ./configure --prefix=/usr && sudo make -j5 && sudo make install)
+  - wget http://www.libsdl.org/projects/SDL_image/release/SDL2_image-2.0.0.tar.gz -O - | tar xz
+  - (cd SDL2_image-2.0.0 && ./configure --prefix=/usr && sudo make -j5 && sudo make install)
+  - wget http://www.libsdl.org/projects/SDL_ttf/release/SDL2_ttf-2.0.12.tar.gz -O - | tar xz
+  - (cd SDL2_ttf-2.0.12 && ./configure --prefix=/usr && sudo make -j5 && sudo make install)
+  
+script:
   - cmake -DDEBUG_FEATURES=ON -DEDITOR_SUPPORT=ON .
   - make -j2 vt-editor
   - make translations
