@@ -21,7 +21,7 @@ local OBLIVION = 60007;
 
 spirits[ARDORIS] = {
     name = vt_system.Translate("Ardoris"),
-    description = vt_system.Translate("An enchanting child of Fire."),
+    description = vt_system.Translate("An enchanting child of fire."),
     icon = "img/icons/items/ardoris.png",
     standard_price = 4500,
     effects = {
@@ -85,7 +85,7 @@ spirits[UNDINE] = {
 
 spirits[SYLPHID] = {
     name = vt_system.Translate("Sylphid"),
-    description = vt_system.Translate("A very rare spirit of Wind, usually neither tamable nor catchable."),
+    description = vt_system.Translate("A very rare spirit of wind, usually neither tamable nor catchable."),
     icon = "img/icons/items/sylphid.png",
     standard_price = 4500,
     effects = {
@@ -117,7 +117,7 @@ spirits[SYLPHID] = {
 
 spirits[DRYAD] = {
     name = vt_system.Translate("Dryad"),
-    description = vt_system.Translate("A fragile spirit, child of Mother Nature."),
+    description = vt_system.Translate("A fragile spirit, child of mother nature."),
     icon = "img/icons/items/dryad.png",
     standard_price = 4500,
     effects = {
@@ -149,7 +149,7 @@ spirits[DRYAD] = {
 
 spirits[FAIRY] = {
     name = vt_system.Translate("Fairy"),
-    description = vt_system.Translate("Blinding as the sun, she brings life even where Death belongs."),
+    description = vt_system.Translate("Blinding as the sun, she brings life even where death belongs."),
     icon = "img/icons/items/fairy.png",
     standard_price = 5500,
     effects = {
@@ -181,7 +181,7 @@ spirits[FAIRY] = {
 
 spirits[DEMONA] = {
     name = vt_system.Translate("Demona"),
-    description = vt_system.Translate("Spirit of the Dark. It can't be possessed: it only chose to be possessed, waiting for its hour..."),
+    description = vt_system.Translate("Spirit of the dark. It can't be possessed: it only chose to be possessed, waiting for its hour."),
     icon = "img/icons/items/demona.png",
     standard_price = 5500,
     effects = {
@@ -213,7 +213,7 @@ spirits[DEMONA] = {
 
 spirits[OBLIVION] = {
     name = vt_system.Translate("Oblivion"),
-    description = vt_system.Translate("Touched neither by the time nor space, this spirit is dwelling in pure energy."),
+    description = vt_system.Translate("Touched neither by time nor space, this spirit is dwelling in pure energy."),
     icon = "img/icons/items/oblivion.png",
     standard_price = 7500,
     effects = {

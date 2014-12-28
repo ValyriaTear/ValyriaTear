@@ -320,9 +320,9 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
 
     dialogue = vt_map.SpriteDialogue();
-    text = vt_system.Translate("What's happening here?!? Where is everyone??");
+    text = vt_system.Translate("What's happening here?! Where is everyone?");
     dialogue:AddLineEmote(text, bronann, "exclamation");
-    text = vt_system.Translate("Help!!!");
+    text = vt_system.Translate("Help!");
     dialogue:AddLine(text, kalya);
     text = vt_system.Translate("Kalya?!");
     dialogue:AddLineEventEmote(text, bronann, "Bronann looks east", "", "exclamation");
@@ -341,7 +341,7 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
 
     dialogue = vt_map.SpriteDialogue();
-    text = vt_system.Translate("Let go of me! You cheap low-grade filthy jerks...");
+    text = vt_system.Translate("Let go of me! You cheap low-grade filthy jerks.");
     dialogue:AddLineEmote(text, kalya, "exclamation");
     text = vt_system.Translate("Keep quiet, little brat!");
     dialogue:AddLine(text, soldier3);
@@ -622,7 +622,7 @@ map_functions = {
     set_camera_on_kalya = function()
         Map:SetCamera(kalya, 800);
 
-        -- Play the soldier music!!
+        -- Play the soldier music
         AudioManager:PlayMusic("mus/Welcome to Com-Mecha-Mattew_Pablo_OGA.ogg");
     end,
 

@@ -264,7 +264,7 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
 
     dialogue = vt_map.SpriteDialogue();
-    text = vt_system.Translate("Bronann!!!");
+    text = vt_system.Translate("Bronann!");
     dialogue:AddLineEmote(text, kalya, "exclamation");
     DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Kalya calls Bronann 2", dialogue);
@@ -288,7 +288,7 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
 
     dialogue = vt_map.SpriteDialogue();
-    text = vt_system.Translate("Bronann!!! Hold on! We're almost there.");
+    text = vt_system.Translate("Bronann! Hold on! We're almost there.");
     dialogue:AddLine(text, kalya);
     text = vt_system.Translate("I... can't. My body... Argh!");
     dialogue:AddLine(text, bronann);

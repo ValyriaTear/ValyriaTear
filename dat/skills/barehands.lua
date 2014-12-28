@@ -26,7 +26,7 @@ end
 
 skills[30001] = {
    name = vt_system.Translate("Punch"),
-   description = vt_system.Translate("A simple punch. Better than nothing..."),
+   description = vt_system.Translate("A simple punch. Better than nothing."),
    sp_required = 0,
    warmup_time = 1000,
    cooldown_time = 200,

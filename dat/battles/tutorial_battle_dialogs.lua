@@ -79,15 +79,15 @@ function Initialize(battle_instance)
         -- [Line 2] After selecting option: Ask about battle basics.
         text = vt_system.Translate("Er, I could use a refresher on the fundamentals of combat.");
         main_dialogue:AddLine(text, 1000);
-        text = vt_system.Translate("Here you can find the Hit Points (HP) and Skill Points (SP) of the ally party. Don't let our HP reach 0 or we're doomed!");
+        text = vt_system.Translate("Here you can find the hit points (HP) and skill points (SP) of the ally party. Don't let our HP reach 0 or we're doomed!");
         main_dialogue:AddLine(text, 1002);
-        text = vt_system.Translate("In battles, our icons and those of our enemies will rise up on the Stamina Bar. The more Agility you have, the faster your icon will climb.");
+        text = vt_system.Translate("In battle, our icons and those of our enemies will rise up on the stamina bar. The more agility you have, the faster your icon will climb.");
         main_dialogue:AddLine(text, 1002);
         text = vt_system.Translate("Once an ally has reached the action level, you can select an action for that ally. The battle is then paused and you've got all the time you need to select one, so don't panic.");
         main_dialogue:AddLine(text, 1002);
         text = vt_system.Translate("There are two action types: The basic 'Weapon' to attack, and later you can also use 'Magic' skills. Last but not least, you'll also be able to use our 'Items'. Simply choose an action followed by a target to trigger it.");
         main_dialogue:AddLine(text, 1002);
-        text = vt_system.Translate("The icon will still need to climb to the top of the Stamina Bar before the selected action is executed. This is called the 'preparation time'. Generally the more powerful the skill being executed, the longer it will take to prepare.");
+        text = vt_system.Translate("The icon will still need to climb to the top of the stamina bar before the selected action is executed. This is called the 'preparation time'. Generally the more powerful the skill being executed, the longer it will take to prepare.");
         main_dialogue:AddLine(text, 1002);
         text = vt_system.Translate("By the way, you're not forced to wait for your icon to reach the action level before you can select an action. When these two little arrows here are highlighted, you can use your up and down keys to preselect an action for the corresponding ally.");
         main_dialogue:AddLine(text, 1002);
@@ -99,9 +99,9 @@ function Initialize(battle_instance)
         main_dialogue:AddLine(text, 1002);
         text = vt_system.Translate("...");
         main_dialogue:AddLine(text, 1000);
-        text = vt_system.Translate("Yes, please!");
+        text = vt_system.Translate("Yes, please.");
         main_dialogue:AddOption(text, 3);
-        text = vt_system.Translate("No, it's alright!");
+        text = vt_system.Translate("No, it's alright.");
         main_dialogue:AddOption(text, 14);
 
         -- [Line 13] End

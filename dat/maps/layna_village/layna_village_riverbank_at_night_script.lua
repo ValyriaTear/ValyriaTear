@@ -684,7 +684,7 @@ function _CreateEvents()
     dialogue:AddLine(text, bronann);
     text = vt_system.Translate("Of course you have it. I can sense it within your flesh.");
     dialogue:AddLine(text, lord);
-    text = vt_system.Translate("So, the crystal is inside me??");
+    text = vt_system.Translate("So, the crystal is inside me?");
     dialogue:AddLineEmote(text, bronann, "exclamation");
     text = vt_system.Translate("Now, show it to me.");
     dialogue:AddLine(text, lord);

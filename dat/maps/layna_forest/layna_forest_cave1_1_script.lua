@@ -166,7 +166,7 @@ function _CreateObjects()
     npc:SetName(""); -- Unset the speaker name
     Map:AddGroundObject(npc);
     dialogue = vt_map.SpriteDialogue();
-    text = vt_system.Translate("Your party feels better...");
+    text = vt_system.Translate("Your party feels better.");
     dialogue:AddLineEvent(text, npc, "Cave heal", "");
     DialogueManager:AddDialogue(dialogue);
     npc:AddDialogueReference(dialogue);
@@ -464,9 +464,9 @@ function _CreateEvents()
     EventManager:RegisterEvent(move_next_to_hero_event);
 
     dialogue = vt_map.SpriteDialogue();
-    text = vt_system.Translate("I didn't know that there was a cave here. It's kind of creepy... Let's hurry and find Orlinn.");
+    text = vt_system.Translate("I didn't know that there was a cave here. It's kind of creepy. Let's hurry and find Orlinn.");
     dialogue:AddLineEventEmote(text, kalya_sprite, "Bronann looks at Kalya", "Kalya looks at Bronann", "exclamation");
-    text = vt_system.Translate("It seems Orlinn was able to go through those platforms... somehow.");
+    text = vt_system.Translate("It seems Orlinn was able to go through those platforms. Somehow.");
     dialogue:AddLine(text, kalya_sprite);
     text = vt_system.Translate("Let's make our way through this before something bad happens to him.");
     dialogue:AddLineEvent(text, kalya_sprite, "", "Bronann looks west");

@@ -438,7 +438,7 @@ skills[300] = {
 
 skills[301] = {
     name = vt_system.Translate("Execution"),
-    description = vt_system.Translate("Attacks an enemy with a chance of causing Death to catch its soul."),
+    description = vt_system.Translate("Attacks an enemy with a chance of causing death to catch its soul."),
     sp_required = 48,
     warmup_time = 4000,
     cooldown_time = 1500,

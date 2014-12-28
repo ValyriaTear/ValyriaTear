@@ -162,7 +162,7 @@ function _CreateObjects()
     Map:AddGroundObject(object);
     -- Create an invisible sprite, used to handle the dialogue
     stone_sign = CreateSprite(Map, "Butterfly", 22, 11);
-    stone_sign:SetName(vt_system.Translate("Stone sign"));
+    stone_sign:SetName(vt_system.Translate("Stone Sign"));
     stone_sign:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
     stone_sign:SetVisible(false);
     Map:AddGroundObject(stone_sign);
@@ -194,7 +194,7 @@ function _UpdateStoneSignDialogue()
 
     if (GlobalManager:DoesEventExist("story", "kalya_stone_sign_dialogue_done")) then
         dialogue = vt_map.SpriteDialogue();
-        text = vt_system.Translate("Only the last one standing shall pass ...");
+        text = vt_system.Translate("Only the last one standing shall pass.");
         dialogue:AddLine(text, stone_sign);
         DialogueManager:AddDialogue(dialogue);
         stone_sign:AddDialogueReference(dialogue);
@@ -264,11 +264,11 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
 
     dialogue = vt_map.SpriteDialogue();
-    text = vt_system.Translate("'Only the last one standing shall pass.' ...");
+    text = vt_system.Translate("'Only the last one standing shall pass.'");
     dialogue:AddLineEventEmote(text, kalya_sprite, "", "Bronann looks at Kalya", "thinking dots");
     text = vt_system.Translate("You are able to decipher this writing, Kalya?");
     dialogue:AddLineEmote(text, hero, "thinking dots");
-    text = vt_system.Translate("Somehow... I'm not sure how I am able to, but I can read it.");
+    text = vt_system.Translate("Somehow. I'm not sure how I am able to, but I can read it.");
     dialogue:AddLineEvent(text, kalya_sprite, "Kalya looks at Bronann", "Bronann looks north");
     text = vt_system.Translate("However, I don't know what it means.");
     dialogue:AddLineEmote(text, hero, "thinking dots");
@@ -291,7 +291,7 @@ function _CreateEvents()
 
     -- Dialogue when all the enemies are dead.
     dialogue = vt_map.SpriteDialogue();
-    text = vt_system.Translate("... Something heavy seems to have fallen nearby.");
+    text = vt_system.Translate("Something heavy seems to have fallen nearby.");
     dialogue:AddLineEmote(text, hero, "exclamation");
     DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Hero dialogue during tremor", dialogue);
@@ -312,7 +312,7 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
 
     dialogue = vt_map.SpriteDialogue();
-    text = vt_system.Translate("... Look!");
+    text = vt_system.Translate("Look!");
     dialogue:AddLineEventEmote(text, kalya_sprite, "Kalya looks at the rock", "", "exclamation");
     DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Kalya says 'Look!'", dialogue);
@@ -332,11 +332,11 @@ function _CreateEvents()
     dialogue = vt_map.SpriteDialogue();
     text = vt_system.Translate("I can feel a breeze and see light entering the cave from around this rock. Orlinn must have gone through here.");
     dialogue:AddLine(text, kalya_sprite);
-    text = vt_system.Translate("There are signs engraved on this rock, too. This looks like some kind of mechanism my family used long ago...");
+    text = vt_system.Translate("There are signs engraved on this rock, too. This looks like some kind of mechanism my family used long ago.");
     dialogue:AddLineEvent(text, kalya_sprite, "Kalya looks at Bronann", "");
-    text = vt_system.Translate("Your family? Long ago? ...");
+    text = vt_system.Translate("Your family? Long ago?");
     dialogue:AddLineEmote(text, hero, "interrogation");
-    text = vt_system.Translate("Err... nevermind. We must find a way to make this move. Let's look around.");
+    text = vt_system.Translate("Err, nevermind. We must find a way to make this move. Let's look around.");
     dialogue:AddLineEmote(text, kalya_sprite, "exclamation");
     DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Kalya tells there is an exit behind the rock", dialogue);

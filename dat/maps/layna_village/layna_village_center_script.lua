@@ -439,7 +439,7 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
 
     dialogue = vt_map.SpriteDialogue();
-    text = vt_system.Translate("ORLINN!! Come here NOW!!");
+    text = vt_system.Translate("ORLINN! Come here, NOW!");
     dialogue:AddLine(text, kalya);
     DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Kalya tells Orlinn to come", dialogue);
@@ -503,7 +503,7 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
 
     dialogue = vt_map.SpriteDialogue();
-    text = vt_system.Translate("Why doesn't anyone tell me what's going on!!");
+    text = vt_system.Translate("Why doesn't anyone tell me what's going on!");
     dialogue:AddLineEmote(text, bronann, "exclamation");
     text = vt_system.Translate("Still, I have to go there and figure out what they're trying to hide from me.");
     dialogue:AddLineEmote(text, bronann, "thinking dots");
@@ -627,7 +627,7 @@ function _CreateEvents()
     dialogue:AddLineEvent(text, kalya, "", "Quest2: Carson looks at Bronann");
     text = vt_system.Translate("Bronann, you should go with her.");
     dialogue:AddLineEventEmote(text, carson, "", "Quest2: Kalya looks at Carson", "thinking dots");
-    text = vt_system.Translate("What?!?");
+    text = vt_system.Translate("What?!");
     dialogue:AddLineEmote(text, kalya, "exclamation");
     text = vt_system.Translate("Huh?");
     dialogue:AddLineEvent(text, bronann, "","Bronann is frightnened");

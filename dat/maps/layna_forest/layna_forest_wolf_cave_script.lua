@@ -332,7 +332,7 @@ function _CreateEvents()
     dialogue = vt_map.SpriteDialogue();
     text = vt_system.Translate("What a lovely necklace! I'll take it.");
     dialogue:AddLineEventEmote(text, kalya_sprite, "Bronann looks at Kalya", "Kalya looks north", "exclamation");
-    text = vt_system.Translate("Kalya ... We're in the middle of a cave and you're only thinking about wearing jewels?");
+    text = vt_system.Translate("Kalya. We're in the middle of a cave and you're only thinking about wearing jewels?");
     dialogue:AddLine(text, hero);
     text = vt_system.Translate("Jewelry is a gift from the heavens to remind us that beauty can be as pure on the outside as it is on the inside. Besides, it suits me better than it would you.");
     dialogue:AddLineEvent(text, kalya_sprite, "make fenrir appear and necklace disappear", "make fenrir come");
@@ -340,7 +340,7 @@ function _CreateEvents()
     dialogue:AddLineEventEmote(text, hero, "Bronann looks south", "", "sweat drop");
     text = vt_system.Translate("Don't even start, this one is all mine.");
     dialogue:AddLine(text, kalya_sprite);
-    text = vt_system.Translate("Not the necklace, the Fenrir!");
+    text = vt_system.Translate("Not the necklace, the fenrir!");
     dialogue:AddLineEmote(text, hero, "exclamation");
     text = vt_system.Translate("You can't be serious, we would have heard it come.");
     dialogue:AddLineEvent(text, kalya_sprite, "Kalya looks at Bronann", "Kalya looks south");

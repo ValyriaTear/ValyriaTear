@@ -151,7 +151,7 @@ function _CreateObjects()
     npc:SetName(""); -- Unset the speaker name
     Map:AddGroundObject(npc);
     dialogue = vt_map.SpriteDialogue();
-    text = vt_system.Translate("Your party feels better...");
+    text = vt_system.Translate("Your party feels better.");
     dialogue:AddLineEvent(text, npc, "Forest entrance heal", "");
     DialogueManager:AddDialogue(dialogue);
     npc:AddDialogueReference(dialogue);

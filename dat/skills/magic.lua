@@ -377,7 +377,7 @@ skills[10100] = {
 
 skills[10101] = {
     name = vt_system.Translate("Fire Circle"),
-    description = vt_system.Translate("Increases the Fire elemental defense on a character."),
+    description = vt_system.Translate("Increases the fire elemental defense on a character."),
     icon = "img/icons/magic/fire_circle.png",
     sp_required = 7,
     warmup_time = 4000,
@@ -393,7 +393,7 @@ skills[10101] = {
 
 skills[10102] = {
     name = vt_system.Translate("Lava"),
-    description = vt_system.Translate("Magical attack combining Earth and Fire damages."),
+    description = vt_system.Translate("Magical attack combining earth and fire type damage."),
     icon = "img/icons/magic/lava.png",
     sp_required = 7,
     warmup_time = 4000,
@@ -425,7 +425,7 @@ skills[10103] = {
 
 skills[10104] = {
     name = vt_system.Translate("Fire Breath"),
-    description = vt_system.Translate("Magical attack combining Air and Fire type damage."),
+    description = vt_system.Translate("Magical attack combining air and fire type damage."),
     icon = "img/icons/magic/fire_breath.png",
     sp_required = 7,
     warmup_time = 4000,
@@ -441,7 +441,7 @@ skills[10104] = {
 
 skills[10105] = {
     name = vt_system.Translate("Focus"),
-    description = vt_system.Translate("Increases the Magical Defence of an ally."),
+    description = vt_system.Translate("Increases the magical defence of an ally."),
     icon = "img/icons/magic/focus.png",
     sp_required = 7,
     warmup_time = 4000,
@@ -457,7 +457,7 @@ skills[10105] = {
 
 skills[10106] = {
     name = vt_system.Translate("Holy Fire"),
-    description = vt_system.Translate("Magical attack combining Life and Fire damages."),
+    description = vt_system.Translate("Magical attack combining life and fire damages."),
     icon = "img/icons/magic/holy_fire.png",
     sp_required = 7,
     warmup_time = 4000,
@@ -505,7 +505,7 @@ skills[10108] = {
 
 skills[10109] = {
     name = vt_system.Translate("Rage"),
-    description = vt_system.Translate("Enrages an ally, increasing their Attack and Speed but reducing their Defence."),
+    description = vt_system.Translate("Enrages an ally, increasing their attack and speed but reducing their defence."),
     icon = "img/icons/magic/rage.png",
     sp_required = 7,
     warmup_time = 4000,
@@ -547,7 +547,7 @@ skills[10110] = {
 
 skills[10111] = {
     name = vt_system.Translate("Earth Circle"),
-    description = vt_system.Translate("Increases the Earth elemental defense of a character."),
+    description = vt_system.Translate("Increases the earth elemental defense of a character."),
     icon = "img/icons/magic/earth_circle.png",
     sp_required = 7,
     warmup_time = 4000,
@@ -592,7 +592,7 @@ skills[10112] = {
 
 skills[10113] = {
     name = vt_system.Translate("Magical Armor"),
-    description = vt_system.Translate("Increases the Magical Defence of an ally."),
+    description = vt_system.Translate("Increases the magical defence of an ally."),
     icon = "img/icons/magic/magical_armor.png",
     sp_required = 7,
     warmup_time = 4000,
@@ -608,7 +608,7 @@ skills[10113] = {
 
 skills[10114] = {
     name = vt_system.Translate("Haste"),
-    description = vt_system.Translate("Increases the Battle Speed of an ally."),
+    description = vt_system.Translate("Increases the battle speed of an ally."),
     icon = "img/icons/magic/haste.png",
     sp_required = 7,
     warmup_time = 4000,
@@ -688,7 +688,7 @@ skills[10118] = {
 
 skills[10119] = {
     name = vt_system.Translate("Meteor"),
-    description = vt_system.Translate("High Earth damages on all foes."),
+    description = vt_system.Translate("High earth damage on all foes."),
     icon = "img/icons/magic/meteor.png",
     sp_required = 7,
     warmup_time = 4000,
@@ -730,7 +730,7 @@ skills[10120] = {
 
 skills[10121] = {
     name = vt_system.Translate("Water Circle"),
-    description = vt_system.Translate("Increases the Water elemental defense on a character."),
+    description = vt_system.Translate("Increases the water elemental defense on a character."),
     icon = "img/icons/magic/water_circle.png",
     sp_required = 7,
     warmup_time = 4000,
@@ -755,7 +755,7 @@ skills[10121] = {
 
 skills[10122] = {
     name = vt_system.Translate("Whirlwind"),
-    description = vt_system.Translate("Magical attack combining Water and Air type damage."),
+    description = vt_system.Translate("Magical attack combining water and air type damage."),
     icon = "img/icons/magic/whirlwind.png",
     sp_required = 7,
     warmup_time = 4000,
@@ -803,7 +803,7 @@ skills[10124] = {
 
 skills[10125] = {
     name = vt_system.Translate("Heal"),
-    description = vt_system.Translate("Restores the Health of an ally."),
+    description = vt_system.Translate("Restores the health of an ally."),
     icon = "img/icons/magic/heal.png",
     sp_required = 7,
     warmup_time = 4000,
@@ -861,7 +861,7 @@ skills[10127] = {
 
 skills[10128] = {
     name = vt_system.Translate("Tsunami"),
-    description = vt_system.Translate("High Water damage inflicted on all foes."),
+    description = vt_system.Translate("High water damage inflicted on all foes."),
     --icon = "img/icons/magic/fireball.png",
     sp_required = 7,
     warmup_time = 4000,
@@ -919,7 +919,7 @@ skills[10130] = {
 
 skills[10131] = {
     name = vt_system.Translate("Wind Circle"),
-    description = vt_system.Translate("Increases the Air elemental defense of a character."),
+    description = vt_system.Translate("Increases the air elemental defense of a character."),
     icon = "img/icons/magic/wind_circle.png",
     sp_required = 7,
     warmup_time = 4000,
@@ -944,7 +944,7 @@ skills[10131] = {
 
 skills[10132] = {
     name = vt_system.Translate("Lightning"),
-    description = vt_system.Translate("Magical attack combining Life and Air type damage."),
+    description = vt_system.Translate("Magical attack combining life and air type damage."),
     icon = "img/icons/magic/lightning.png",
     sp_required = 7,
     warmup_time = 4000,
@@ -982,7 +982,7 @@ skills[10133] = {
 
 skills[10134] = {
     name = vt_system.Translate("Magic Drain"),
-    description = vt_system.Translate("Steals Skill Points from an enemy."),
+    description = vt_system.Translate("Steals skill points from an enemy."),
     icon = "img/icons/magic/magic_drain.png",
     sp_required = 1,
     warmup_time = 4000,
@@ -1014,7 +1014,7 @@ skills[10135] = {
 
 skills[10136] = {
     name = vt_system.Translate("Storm"),
-    description = vt_system.Translate("High Air type damage on all foes."),
+    description = vt_system.Translate("High air type damage on all foes."),
     icon = "img/icons/magic/storm.png",
     sp_required = 7,
     warmup_time = 4000,
@@ -1072,7 +1072,7 @@ skills[10140] = {
 
 skills[10141] = {
     name = vt_system.Translate("Life Circle"),
-    description = vt_system.Translate("Increases the Life elemental defense of a character."),
+    description = vt_system.Translate("Increases the life elemental defense of a character."),
     icon = "img/icons/magic/life_circle.png",
     sp_required = 7,
     warmup_time = 4000,
@@ -1104,7 +1104,7 @@ skills[10142] = {
 
 skills[10143] = {
     name = vt_system.Translate("Sun Haze"),
-    description = vt_system.Translate("High Life type damage on all foes."),
+    description = vt_system.Translate("High life type damage on all foes."),
     icon = "img/icons/magic/sun_haze.png",
     sp_required = 7,
     warmup_time = 4000,
@@ -1162,7 +1162,7 @@ skills[10150] = {
 
 skills[10151] = {
     name = vt_system.Translate("Death Circle"),
-    description = vt_system.Translate("Increases the Death elemental defense of an ally."),
+    description = vt_system.Translate("Increases the death elemental defense of an ally."),
     icon = "img/icons/magic/death_circle.png",
     sp_required = 7,
     warmup_time = 4000,
@@ -1178,7 +1178,7 @@ skills[10151] = {
 
 skills[10152] = {
     name = vt_system.Translate("Doom"),
-    description = vt_system.Translate("Places a Death counter upon the enemy's head."),
+    description = vt_system.Translate("Places a death counter upon the enemy's head."),
     icon = "img/icons/magic/doom.png",
     sp_required = 7,
     warmup_time = 4000,

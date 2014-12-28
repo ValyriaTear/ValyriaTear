@@ -262,7 +262,7 @@ items[14] = {
 
 items[15] = {
     name = vt_system.Translate("Lotus Petal"),
-    description = vt_system.Translate("Cures moderate poisons from an ally"),
+    description = vt_system.Translate("Cures moderate poisons from an ally."),
     icon = "img/icons/items/lotus.png",
     target_type = vt_global.GameGlobal.GLOBAL_TARGET_ALLY,
     standard_price = 100,
@@ -555,56 +555,56 @@ items[1006] = {
 --------------------------------------------------------------------------------
 items[3001] = {
     name = vt_system.Translate("Copper Ore"),
-    description = vt_system.Translate("A small amount of Copper ore."),
+    description = vt_system.Translate("A small amount of copper ore."),
     icon = "img/icons/items/copper_ore.png",
     standard_price = 150
 }
 
 items[3002] = {
     name = vt_system.Translate("Iron Ore"),
-    description = vt_system.Translate("A small amount of Iron ore."),
+    description = vt_system.Translate("A small amount of iron ore."),
     icon = "img/icons/items/iron_ore.png",
     standard_price = 450
 }
 
 items[3003] = {
     name = vt_system.Translate("Titanium Ore"),
-    description = vt_system.Translate("A small amount of Titanium ore."),
+    description = vt_system.Translate("A small amount of titanium ore."),
     icon = "img/icons/items/titanium_ore.png",
     standard_price = 650
 }
 
 items[3004] = {
     name = vt_system.Translate("Anthozium Ore"),
-    description = vt_system.Translate("A small amount of Anthozium ore."),
+    description = vt_system.Translate("A small amount of anthozium ore."),
     icon = "img/icons/items/anthozium_ore.png",
     standard_price = 850
 }
 
 items[3005] = {
     name = vt_system.Translate("Auridium Ore"),
-    description = vt_system.Translate("A small amount of Auridium ore."),
+    description = vt_system.Translate("A small amount of auridium ore."),
     icon = "img/icons/items/auridium_ore.png",
     standard_price = 1050
 }
 
 items[3006] = {
     name = vt_system.Translate("Borium Ore"),
-    description = vt_system.Translate("A small amount of Borium ore."),
+    description = vt_system.Translate("A small amount of borium ore."),
     icon = "img/icons/items/borium_ore.png",
     standard_price = 1250
 }
 
 items[3007] = {
     name = vt_system.Translate("Evanium Ore"),
-    description = vt_system.Translate("A small amount of Evanium ore."),
+    description = vt_system.Translate("A small amount of evanium ore."),
     icon = "img/icons/items/evanium_ore.png",
     standard_price = 1500
 }
 
 items[3008] = {
     name = vt_system.Translate("Phoenix Feather"),
-    description = vt_system.Translate("A genuine and perfect feather from the great Fire Bird. It is known to bring life to inanimated items."),
+    description = vt_system.Translate("A genuine and perfect feather from the great fire bird. It is known to bring life to inanimated items."),
     icon = "img/icons/items/phoenix_feather.png",
     standard_price = 4500
 }

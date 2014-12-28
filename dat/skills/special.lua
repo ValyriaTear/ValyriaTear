@@ -72,7 +72,7 @@ skills[20001] = {
 
 skills[20011] = {
     name = vt_system.Translate("Wolf Pain"),
-    description = vt_system.Translate("Calls the defender of the Arctic."),
+    description = vt_system.Translate("Calls the defender of the arctic."),
     icon = "img/icons/specials/moon.png",
     sp_required = 14,
     warmup_time = 4000,
@@ -204,7 +204,7 @@ skills[21001] = {
 
 skills[21002] = {
     --name = vt_system.Translate("Dark Wish"),
-    --description = vt_system.Translate("Revives an ally, restoring all his/her HP and SP."),
+    --description = vt_system.Translate("Revives an ally, restoring all of their HP and SP."),
     sp_required = 10,
     warmup_time = 1400,
     cooldown_time = 1400,
