@@ -7,8 +7,8 @@ setmetatable(ns, {__index = _G})
 tutorial_battle_dialogs = ns;
 setfenv(1, ns);
 
-local hand1_image = {};
-local hand2_image = {};
+local hand1_image = nil
+local hand2_image = nil
 -- hand coordinates
 local hand1_origin_x = 0.0;
 local hand1_origin_y = 0.0;
@@ -28,12 +28,11 @@ local hand2_visible = false;
 -- Keeps track of the latest line.
 local last_line = 0;
 
-local Battle = {};
-local Script = {};
-local DialogueManager = {};
+local Battle = nil
+local Script = nil
+local DialogueManager = nil
 local stop_script = false;
-local start_timer = {};
-local main_dialogue = {};
+local start_timer = nil
 
 local dialogue_started = false;
 
@@ -67,7 +66,7 @@ function Initialize(battle_instance)
     -- The dialogue constructed below offers the player instructions on how to do battle. It is displayed only once in the first few seconds
     -- of battle, before any action can be taken. The player is presented with several options that they can read to get more information on
     -- the battle system. One of the options that the player may select from will finish the dialogue, allow the battle to resume.
-    main_dialogue = vt_common.Dialogue("Battle tutorial dialogue");
+    local main_dialogue = vt_common.Dialogue("Battle tutorial dialogue");
         text = vt_system.Translate("Woah, I wouldn't have expected monsters so close to the village. Bronann, do you need a quick reminder about the basics in battles?");
         main_dialogue:AddLine(text, "Kalya");
         text = vt_system.Translate("...");

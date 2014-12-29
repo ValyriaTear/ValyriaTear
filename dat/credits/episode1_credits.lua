@@ -10,14 +10,17 @@ setmetatable(ns, {__index = _G})
 episode1_credits = ns;
 setfenv(1, ns);
 
-local open_game_art_logo = {};
-local allacrost_logo = {};
+local open_game_art_logo = nil
+local allacrost_logo = nil
 
 local credit_map = {}
 local credit_id = 0;
 local credit_time = 0;
 
 local intro_time_done = false;
+
+local Map = nil
+local Script = nil
 
 function Initialize(map_instance)
     Map = map_instance;

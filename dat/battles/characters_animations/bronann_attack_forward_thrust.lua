@@ -9,10 +9,10 @@ bronann_attack_forward_thrust = ns;
 setfenv(1, ns);
 
 -- local references
-local character = {};
-local target = {};
-local target_actor = {};
-local skill = {};
+local character = nil
+local target = nil
+local target_actor = nil
+local skill = nil
 
 local character_pos_x = 0.0;
 local character_pos_y = 0.0;
@@ -29,8 +29,8 @@ local attack_time = 0.0;
 
 local damage_triggered = false;
 
-local Battle = {}
-local sword_slash = {}
+local Battle = nil
+local sword_slash = nil
 local slash_effect_time = 0
 local slash_effect_started = false
 

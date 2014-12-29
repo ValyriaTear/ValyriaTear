@@ -14,30 +14,27 @@ map_subname = ""
 music_filename = "mus/icy_wind.ogg"
 
 -- c++ objects instances
-local Map = {};
-local ObjectManager = {};
-local DialogueManager = {};
-local EventManager = {};
-local Script = {};
+local Map = nil
+local DialogueManager = nil
+local EventManager = nil
+local Script = nil
 
 -- the main character handler
-local hero = {};
+local hero = nil
 
 -- Forest dialogue secondary hero
-local kalya = {};
-local orlinn = {};
-local bronann = {}; -- A copy of Bronann, used to simplify some scripting.
+local kalya = nil
+local orlinn = nil
+local bronann = nil -- A copy of Bronann, used to simplify some scripting.
 
 -- the main map loading code
 function Load(m)
 
     Map = m;
-    ObjectManager = Map.object_supervisor;
-    DialogueManager = Map.dialogue_supervisor;
-    EventManager = Map.event_supervisor;
     Script = Map:GetScriptSupervisor();
-
-    Map.unlimited_stamina = true;
+    DialogueManager = Map:GetDialogueSupervisor();
+    EventManager = Map:GetEventSupervisor();
+    Map:SetUnlimitedStamina(true);
 
     _CreateCharacters();
     _CreateObjects();
@@ -45,7 +42,7 @@ function Load(m)
     -- Set the camera focus on hero
     Map:SetCamera(hero);
     -- This is a dungeon map, we'll use the front battle member sprite as default sprite.
-    Map.object_supervisor:SetPartyMemberVisibleSprite(hero);
+    Map:SetPartyMemberVisibleSprite(hero);
 
     -- If the event in progress involves being Orlinn, then let's incarnate him.
     if (GlobalManager:GetEventValue("story", "elbrus_shrine_laughing_event_done") == 1
@@ -97,9 +94,9 @@ end
 
 -- set up/updates sophia's events
 function _UpdateKalyaBronannDialogue()
-    local text = {};
-    local dialogue = {};
-    local event = {};
+    local text = nil
+    local dialogue = nil
+    local event = nil
 
     kalya:ClearDialogueReferences();
     bronann:ClearDialogueReferences();
@@ -137,7 +134,7 @@ end
 -- Character creation
 function _CreateCharacters()
     -- Default hero and position (from_shrine_first_floor)
-    hero = CreateSprite(Map, "Bronann", 13.5, 38.0);
+    hero = CreateSprite(Map, "Bronann", 13.5, 38.0, vt_map.MapMode.GROUND_OBJECT);
     hero:SetDirection(vt_map.MapMode.EAST);
     hero:SetMovementSpeed(vt_map.MapMode.NORMAL_SPEED);
 
@@ -161,44 +158,39 @@ function _CreateCharacters()
         hero:SetPosition(37, 8.5);
     end
 
-    Map:AddGroundObject(hero);
-
     -- Create secondary characters
     kalya = CreateSprite(Map, "Kalya",
-                         hero:GetXPosition(), hero:GetYPosition());
+                         hero:GetXPosition(), hero:GetYPosition(), vt_map.MapMode.GROUND_OBJECT);
     kalya:SetDirection(vt_map.MapMode.EAST);
     kalya:SetMovementSpeed(vt_map.MapMode.NORMAL_SPEED);
     kalya:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
     kalya:SetVisible(false);
-    Map:AddGroundObject(kalya);
 
     orlinn = CreateSprite(Map, "Orlinn",
-                          hero:GetXPosition(), hero:GetYPosition());
+                          hero:GetXPosition(), hero:GetYPosition(), vt_map.MapMode.GROUND_OBJECT);
     orlinn:SetDirection(vt_map.MapMode.EAST);
     orlinn:SetMovementSpeed(vt_map.MapMode.FAST_SPEED);
     orlinn:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
     orlinn:SetVisible(false);
-    Map:AddGroundObject(orlinn);
 
     bronann = CreateSprite(Map, "Bronann",
-                           hero:GetXPosition(), hero:GetYPosition());
+                           hero:GetXPosition(), hero:GetYPosition(), vt_map.MapMode.GROUND_OBJECT);
     bronann:SetDirection(vt_map.MapMode.EAST);
     bronann:SetMovementSpeed(vt_map.MapMode.NORMAL_SPEED);
     bronann:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
     bronann:SetVisible(false);
-    Map:AddGroundObject(bronann);
 end
 
 -- The heal particle effect map object
-local heal_effect = {};
+local heal_effect = nil
 local layna_statue = nil;
 
 function _CreateObjects()
-    local object = {}
-    local npc = {}
-    local dialogue = {}
-    local text = {}
-    local event = {}
+    local object = nil
+    local npc = nil
+    local dialogue = nil
+    local text = nil
+    local event = nil
 
     Map:AddSavePoint(51, 22);
     if (GlobalManager:GetEventValue("story", "elbrus_shrine_laughing_event_done") == 1
@@ -209,26 +201,21 @@ function _CreateObjects()
 
     -- We can hear waterfalls in that case
     if (GlobalManager:GetEventValue("triggers", "mt elbrus waterfall trigger") == 1) then
-        object = vt_map.SoundObject("snd/fountain_large.ogg", 0, 0, 50.0);
-        Map:AddAmbientSoundObject(object)
+        vt_map.SoundObject.CreateObject("snd/fountain_large.ogg", 0, 0, 50.0);
     end
 
     -- Load the spring heal effect.
-    heal_effect = vt_map.ParticleObject("dat/effects/particles/heal_particle.lua", 0, 0);
-    heal_effect:SetObjectID(Map.object_supervisor:GenerateObjectID());
+    heal_effect = vt_map.ParticleObject.CreateObject("dat/effects/particles/heal_particle.lua", 0, 0, vt_map.MapMode.GROUND_OBJECT);
     heal_effect:Stop(); -- Don't run it until the character heals itself
-    Map:AddGroundObject(heal_effect);
 
-    layna_statue = CreateObject(Map, "Layna Statue", 57, 22);
+    layna_statue = CreateObject(Map, "Layna Statue", 57, 22, vt_map.MapMode.GROUND_OBJECT);
     if (GlobalManager:GetEventValue("story", "elbrus_shrine_laughing_event_done") == 0
             or GlobalManager:GetEventValue("story", "mt elbrus shrine heroes saved") == 1) then
         layna_statue:SetEventWhenTalking("Heal dialogue");
     end
-    Map:AddGroundObject(layna_statue);
 
-    object = CreateObject(Map, "Layna Statue", 37, 30);
+    object = CreateObject(Map, "Layna Statue", 37, 30, vt_map.MapMode.GROUND_OBJECT);
     object:SetEventWhenTalking("Heal dialogue");
-    Map:AddGroundObject(object);
 
     dialogue = vt_map.SpriteDialogue();
     text = vt_system.Translate("Your party feels better...");
@@ -238,15 +225,13 @@ function _CreateObjects()
     EventManager:RegisterEvent(event);
 
     -- Snow effect
-    object = vt_map.ParticleObject("dat/maps/mt_elbrus/particles_snow_south_entrance.lua", 29, 48);
-    object:SetObjectID(Map.object_supervisor:GenerateObjectID());
-    Map:AddGroundObject(object);
+    vt_map.ParticleObject.CreateObject("dat/maps/mt_elbrus/particles_snow_south_entrance.lua", 29, 48, vt_map.MapMode.GROUND_OBJECT);
+
     Map:AddHalo("img/misc/lights/torch_light_mask.lua", 29, 55,
         vt_video.Color(1.0, 1.0, 1.0, 0.8));
 
     -- Adds a hidden sign, show just before the opening of the door
-    object = CreateObject(Map, "Ancient_Sign1", 37, 36);
-    Map:AddFlatGroundObject(object);
+    object = CreateObject(Map, "Ancient_Sign1", 37, 36, vt_map.MapMode.FLATGROUND_OBJECT);
 
     _add_flame(29.5, 31);
     _add_flame(45.5, 31);
@@ -270,39 +255,33 @@ function _CreateObjects()
 end
 
 function _add_small_waterfall(x, y)
-    local object = CreateObject(Map, "Waterfall2", x - 0.1, y - 0.2);
+    local object = CreateObject(Map, "Waterfall2", x - 0.1, y - 0.2, vt_map.MapMode.GROUND_OBJECT);
     object:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
     object:RandomizeCurrentAnimationFrame();
-    Map:AddGroundObject(object);
+
     -- Ambient sound
-    object = vt_map.SoundObject("snd/fountain_large.ogg", x, y - 5, 50.0);
+    object = vt_map.SoundObject.CreatObject("snd/fountain_large.ogg", x, y - 5, 50.0);
     object:SetMaxVolume(0.6);
-    Map:AddAmbientSoundObject(object)
+
     -- Particle effects
-    object = vt_map.ParticleObject("dat/effects/particles/waterfall_steam.lua", x, y - 8.0);
-    object:SetObjectID(Map.object_supervisor:GenerateObjectID());
+    object = vt_map.ParticleObject.CreateObject("dat/effects/particles/waterfall_steam.lua", x, y - 8.0, vt_map.MapMode.GROUND_OBJECT);
     object:SetDrawOnSecondPass(true);
-    Map:AddGroundObject(object);
-    object = vt_map.ParticleObject("dat/effects/particles/waterfall_steam_big.lua", x, y + 1.0);
-    object:SetObjectID(Map.object_supervisor:GenerateObjectID());
+
+    object = vt_map.ParticleObject.CreateObject("dat/effects/particles/waterfall_steam_big.lua", x, y + 1.0, vt_map.MapMode.GROUND_OBJECT);
     object:SetDrawOnSecondPass(true);
-    Map:AddGroundObject(object);
 end
 
 function _add_waterlight(x, y)
-    local object = CreateObject(Map, "Water Light1", x, y);
+    local object = CreateObject(Map, "Water Light1", x, y, vt_map.MapMode.GROUND_OBJECT);
     object:RandomizeCurrentAnimationFrame();
     object:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
-    Map:AddGroundObject(object);
 end
 
 function _add_flame(x, y)
-    local object = vt_map.SoundObject("snd/campfire.ogg", x, y, 10.0);
-    if (object ~= nil) then Map:AddAmbientSoundObject(object) end;
+    vt_map.SoundObject.CreateObject("snd/campfire.ogg", x, y, 10.0);
 
-    object = CreateObject(Map, "Flame1", x, y);
+    local object = CreateObject(Map, "Flame1", x, y, vt_map.MapMode.GROUND_OBJECT);
     object:RandomizeCurrentAnimationFrame();
-    Map:AddGroundObject(object);
 
     Map:AddHalo("img/misc/lights/torch_light_mask2.lua", x, y + 3.0,
         vt_video.Color(0.85, 0.32, 0.0, 0.6));
@@ -311,26 +290,24 @@ function _add_flame(x, y)
 end
 
 function _add_bubble(x, y)
-    local object = CreateObject(Map, "Bubble", x, y);
+    local object = CreateObject(Map, "Bubble", x, y, vt_map.MapMode.GROUND_OBJECT);
     object:RandomizeCurrentAnimationFrame();
-    Map:AddGroundObject(object);
-    object = vt_map.ParticleObject("dat/effects/particles/bubble_steam.lua", x, y);
-    object:SetObjectID(Map.object_supervisor:GenerateObjectID());
-    Map:AddGroundObject(object);
+
+    vt_map.ParticleObject("dat/effects/particles/bubble_steam.lua", x, y, vt_map.MapMode.GROUND_OBJECT);
 end
 
 -- Special event references which destinations must be updated just before being called.
 -- shrine entrance event
-local kalya_move_next_to_bronann_event1 = {}
-local kalya_move_back_to_bronann_event1 = {}
-local orlinn_move_next_to_bronann_event1 = {}
-local orlinn_move_back_to_bronann_event1 = {}
+local kalya_move_next_to_bronann_event1 = nil
+local kalya_move_back_to_bronann_event1 = nil
+local orlinn_move_next_to_bronann_event1 = nil
+local orlinn_move_back_to_bronann_event1 = nil
 
 -- Creates all events and sets up the entire event sequence chain
 function _CreateEvents()
-    local event = {};
-    local dialogue = {};
-    local text = {};
+    local event = nil
+    local dialogue = nil
+    local text = nil
 
     event = vt_map.MapTransitionEvent("to mountain shrine 1st floor", "dat/maps/mt_elbrus/mt_elbrus_shrine5_map.lua",
                                        "dat/maps/mt_elbrus/mt_elbrus_shrine5_script.lua", "from_shrine_2nd_floor");
@@ -556,11 +533,11 @@ function _CreateEvents()
 end
 
 -- zones
-local to_shrine_1st_floor_zone = {};
-local to_shrine_2nd_floor_zone = {};
-local to_shrine_2nd_floor_grotto_zone = {};
-local to_shrine_3rd_floor_zone = {};
-local before_3rd_floor_zone = {};
+local to_shrine_1st_floor_zone = nil
+local to_shrine_2nd_floor_zone = nil
+local to_shrine_2nd_floor_grotto_zone = nil
+local to_shrine_3rd_floor_zone = nil
+local before_3rd_floor_zone = nil
 
 -- Create the different map zones triggering events
 function _CreateZones()

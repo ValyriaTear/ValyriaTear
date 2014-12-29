@@ -14,29 +14,25 @@ map_subname = ""
 music_filename = "mus/mountain_shrine.ogg"
 
 -- c++ objects instances
-local Map = {};
-local ObjectManager = {};
-local DialogueManager = {};
-local EventManager = {};
-local Script = {};
+local Map = nil
+local DialogueManager = nil
+local EventManager = nil
+local Script = nil
 
 -- the main character handler
-local orlinn = {};
+local orlinn = nil
 
 -- the main map loading code
 function Load(m)
 
     Map = m;
-    ObjectManager = Map.object_supervisor;
-    DialogueManager = Map.dialogue_supervisor;
-    EventManager = Map.event_supervisor;
     Script = Map:GetScriptSupervisor();
-
-    Map.unlimited_stamina = false;
+    DialogueManager = Map:GetDialogueSupervisor();
+    EventManager = Map:GetEventSupervisor();
+    Map:SetUnlimitedStamina(false);
 
     _CreateCharacters();
     _CreateObjects();
-    _CreateEnemies()
 
     -- Set the camera focus on hero
     Map:SetCamera(orlinn);
@@ -76,19 +72,17 @@ local andromalius = nil;
 -- Character creation
 function _CreateCharacters()
     -- Default hero and position
-    orlinn = CreateSprite(Map, "Orlinn", 32.0, 45.0);
+    orlinn = CreateSprite(Map, "Orlinn", 32.0, 45.0, vt_map.MapMode.GROUND_OBJECT);
     orlinn:SetDirection(vt_map.MapMode.NORTH);
     orlinn:SetMovementSpeed(vt_map.MapMode.FAST_SPEED);
-    Map:AddGroundObject(orlinn);
 
     -- The menu and status effects are disabled in this map.
     Map:SetMenuEnabled(false);
     Map:SetStatusEffectsEnabled(false);
 
-    andromalius = CreateSprite(Map, "Andromalius", 32.0, 25.0);
+    andromalius = CreateSprite(Map, "Andromalius", 32.0, 25.0, vt_map.MapMode.GROUND_OBJECT);
     andromalius:SetDirection(vt_map.MapMode.SOUTH);
     andromalius:SetMovementSpeed(vt_map.MapMode.FAST_SPEED);
-    Map:AddGroundObject(andromalius);
 
     if (GlobalManager:GetEventValue("story", "mt_elbrus_shrine_boss_beaten") == 1) then
         andromalius:SetVisible(false);
@@ -116,33 +110,29 @@ local waterfall_sound = nil;
 local rumble_sound = nil;
 
 function _CreateObjects()
-    local object = {}
-    local npc = {}
-    local dialogue = {}
-    local text = {}
-    local event = {}
+    local object = nil
+    local npc = nil
+    local dialogue = nil
+    local text = nil
+    local event = nil
 
     _add_flame(39.5, 7);
     _add_flame(25.5, 7);
 
     -- Add the water fall trigger button
     -- A trigger that will open the gate in the SE map.
-    object = vt_map.TriggerObject("mt elbrus waterfall trigger",
+    object = vt_map.TriggerObject.CreateObject("mt elbrus waterfall trigger",
                              "img/sprites/map/triggers/stone_trigger1_off.lua",
                              "img/sprites/map/triggers/stone_trigger1_on.lua",
                              "", "Water trigger on event");
-    object:SetObjectID(Map.object_supervisor:GenerateObjectID());
     object:SetPosition(32, 11);
-    Map:AddFlatGroundObject(object);
 
     -- Add the corresponding waterfall ambient sound, ready to be started.
-    waterfall_sound = vt_map.SoundObject("snd/fountain_large.ogg", 32, 11, 100.0);
+    waterfall_sound = vt_map.SoundObject.CreateObject("snd/fountain_large.ogg", 32, 11, 100.0);
     waterfall_sound:SetMaxVolume(0.6);
-    Map:AddAmbientSoundObject(waterfall_sound)
 
     -- Add the rumble sound used at boss end
-    rumble_sound = vt_map.SoundObject("snd/rumble_continuous.ogg", 19.0, 48.0, 20.0);
-    Map:AddAmbientSoundObject(rumble_sound);
+    rumble_sound = vt_map.SoundObject.CreateObject("snd/rumble_continuous.ogg", 19.0, 48.0, 20.0);
     rumble_sound:Stop();
 
     -- Deactivate the sound when the trigger is not already pushed
@@ -150,39 +140,27 @@ function _CreateObjects()
         waterfall_sound:Stop();
     end
 
-    object = CreateObject(Map, "Layna Statue", 29, 10);
-    Map:AddGroundObject(object);
-    object = CreateObject(Map, "Layna Statue", 35, 10);
-    Map:AddGroundObject(object);
+    CreateObject(Map, "Layna Statue", 29, 10, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Layna Statue", 35, 10, vt_map.MapMode.GROUND_OBJECT);
 
-    object = CreateObject(Map, "Stone Fence1", 31, 38);
-    Map:AddGroundObject(object);
-    object = CreateObject(Map, "Stone Fence1", 35, 36);
-    Map:AddGroundObject(object);
-    object = CreateObject(Map, "Stone Fence1", 53, 26);
-    Map:AddGroundObject(object);
-    object = CreateObject(Map, "Stone Fence1", 51, 22);
-    Map:AddGroundObject(object);
-    object = CreateObject(Map, "Stone Fence1", 13, 28);
-    Map:AddGroundObject(object);
-    object = CreateObject(Map, "Stone Fence1", 11, 24);
-    Map:AddGroundObject(object);
+    CreateObject(Map, "Stone Fence1", 31, 38, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Stone Fence1", 35, 36, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Stone Fence1", 53, 26, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Stone Fence1", 51, 22, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Stone Fence1", 13, 28, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Stone Fence1", 11, 24, vt_map.MapMode.GROUND_OBJECT);
 
     -- Create the mobile fences
-    upper_fence1 = CreateObject(Map, "Stone Fence1", 31, 16);
-    Map:AddGroundObject(upper_fence1);
-    upper_fence2 = CreateObject(Map, "Stone Fence1", 33, 16);
-    Map:AddGroundObject(upper_fence2);
+    upper_fence1 = CreateObject(Map, "Stone Fence1", 31, 16, vt_map.MapMode.GROUND_OBJECT);
+    upper_fence2 = CreateObject(Map, "Stone Fence1", 33, 16, vt_map.MapMode.GROUND_OBJECT);
 
     if (GlobalManager:GetEventValue("story", "mt_elbrus_shrine_boss_beaten") == 1) then
         upper_fence1:SetXPosition(29);
         upper_fence2:SetXPosition(35);
     end
 
-    lower_fence1 = CreateObject(Map, "Stone Fence1", 29, 46);
-    Map:AddGroundObject(lower_fence1);
-    lower_fence2 = CreateObject(Map, "Stone Fence1", 35, 46);
-    Map:AddGroundObject(lower_fence2);
+    lower_fence1 = CreateObject(Map, "Stone Fence1", 29, 46, vt_map.MapMode.GROUND_OBJECT);
+    lower_fence2 = CreateObject(Map, "Stone Fence1", 35, 46, vt_map.MapMode.GROUND_OBJECT);
 
     -- Create the spikes
     -- Inner circle
@@ -205,8 +183,7 @@ function _CreateObjects()
 
     -- Loads the spikes according to the array
     for my_index, my_array in pairs(spike_objects1) do
-        spikes1[my_index] = CreateObject(Map, "Spikes1", my_array[1], my_array[2]);
-        Map:AddGroundObject(spikes1[my_index]);
+        spikes1[my_index] = CreateObject(Map, "Spikes1", my_array[1], my_array[2], vt_map.MapMode.GROUND_OBJECT);
         spikes1[my_index]:SetVisible(false);
         spikes1[my_index]:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
     end
@@ -241,8 +218,7 @@ function _CreateObjects()
 
     -- Loads the spikes according to the array
     for my_index, my_array in pairs(spike_objects2) do
-        spikes2[my_index] = CreateObject(Map, "Spikes1", my_array[1], my_array[2]);
-        Map:AddGroundObject(spikes2[my_index]);
+        spikes2[my_index] = CreateObject(Map, "Spikes1", my_array[1], my_array[2], vt_map.MapMode.GROUND_OBJECT);
         spikes2[my_index]:SetVisible(false);
         spikes2[my_index]:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
     end
@@ -296,8 +272,7 @@ function _CreateObjects()
 
     -- Loads the spikes according to the array
     for my_index, my_array in pairs(spike_objects3) do
-        spikes3[my_index] = CreateObject(Map, "Spikes1", my_array[1], my_array[2]);
-        Map:AddGroundObject(spikes3[my_index]);
+        spikes3[my_index] = CreateObject(Map, "Spikes1", my_array[1], my_array[2], vt_map.MapMode.GROUND_OBJECT);
         spikes3[my_index]:SetVisible(false);
         spikes3[my_index]:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
     end
@@ -355,22 +330,18 @@ function _CreateObjects()
 
     -- Loads the spikes according to the array
     for my_index, my_array in pairs(spike_objects4) do
-        spikes4[my_index] = CreateObject(Map, "Spikes1", my_array[1], my_array[2]);
-        Map:AddGroundObject(spikes4[my_index]);
+        spikes4[my_index] = CreateObject(Map, "Spikes1", my_array[1], my_array[2], vt_map.MapMode.GROUND_OBJECT);
         spikes4[my_index]:SetVisible(false);
         spikes4[my_index]:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
     end
 
     -- Adds the red rolling stones
-    stone1 = CreateObject(Map, "Rolling Stone", 30.8, 35.8);
+    stone1 = CreateObject(Map, "Rolling Stone", 30.8, 35.8, vt_map.MapMode.GROUND_OBJECT);
     stone1:SetEventWhenTalking("Check hero position for stone 1");
-    Map:AddGroundObject(stone1);
-    stone2 = CreateObject(Map, "Rolling Stone", 13, 24.2);
+    stone2 = CreateObject(Map, "Rolling Stone", 13, 24.2, vt_map.MapMode.GROUND_OBJECT);
     stone2:SetEventWhenTalking("Check hero position for stone 2");
-    Map:AddGroundObject(stone2);
-    stone3 = CreateObject(Map, "Rolling Stone", 51, 26.2);
+    stone3 = CreateObject(Map, "Rolling Stone", 51, 26.2, vt_map.MapMode.GROUND_OBJECT);
     stone3:SetEventWhenTalking("Check hero position for stone 3");
-    Map:AddGroundObject(stone3);
 
     event = vt_map.IfEvent("Check hero position for stone 1", "check_diagonal_stone1", "Push the stone 1", "");
     EventManager:RegisterEvent(event);
@@ -389,11 +360,9 @@ function _CreateObjects()
 end
 
 function _add_flame(x, y)
-    local object = vt_map.SoundObject("snd/campfire.ogg", x, y, 10.0);
-    if (object ~= nil) then Map:AddAmbientSoundObject(object) end;
+    vt_map.SoundObject.CreateObject("snd/campfire.ogg", x, y, 10.0);
 
-    object = CreateObject(Map, "Flame1", x, y);
-    Map:AddGroundObject(object);
+    CreateObject(Map, "Flame1", x, y, vt_map.MapMode.GROUND_OBJECT);
 
     Map:AddHalo("img/misc/lights/torch_light_mask2.lua", x, y + 3.0,
         vt_video.Color(0.85, 0.32, 0.0, 0.6));
@@ -401,17 +370,11 @@ function _add_flame(x, y)
         vt_video.Color(0.99, 1.0, 0.27, 0.1));
 end
 
-function _CreateEnemies()
-    local enemy = {};
-    local roam_zone = {};
-
-end
-
 -- Creates all events and sets up the entire event sequence chain
 function _CreateEvents()
-    local event = {};
-    local dialogue = {};
-    local text = {};
+    local event = nil
+    local dialogue = nil
+    local text = nil
 
     event = vt_map.MapTransitionEvent("to mountain shrine stairs", "dat/maps/mt_elbrus/mt_elbrus_shrine_stairs_map.lua",
                                        "dat/maps/mt_elbrus/mt_elbrus_shrine_stairs_script.lua", "from_shrine_third_floor");
@@ -526,7 +489,6 @@ function _CreateEvents()
 
     event = vt_map.ScriptedEvent("Waterfall event end", "waterfall_end_start", "waterfall_end_update")
     EventManager:RegisterEvent(event);
-
 end
 
 -- Tells the boss battle state
@@ -780,10 +742,8 @@ end
 
 -- Fireballs handling
 function _SpawnFireBall(x, y)
-    local fireball = vt_map.ParticleObject("dat/effects/particles/fire.lua", x, y);
-    fireball:SetObjectID(Map.object_supervisor:GenerateObjectID());
+    local fireball = vt_map.ParticleObject.CreateObject("dat/effects/particles/fire.lua", x, y, vt_map.MapMode.GROUND_OBJECT);
     fireball:SetCollisionMask(vt_map.MapMode.ALL_COLLISION)
-    Map:AddGroundObject(fireball);
     AudioManager:PlaySound("snd/fire1_spell.ogg");
 
     local new_table = {};
@@ -801,7 +761,7 @@ function _KillAllFireBalls()
             local object = my_table["object"];
             if (object ~= nil) then
                 object:Stop();
-                Map:RemoveGroundObject(object);
+                Map:DeleteMapObject(object);
                 object = nil;
             end
         end
@@ -1380,10 +1340,9 @@ map_functions = {
         -- Once we've reached this code, the boss can be hidden
         if (andromalius:IsVisible() == true) then
             -- Add dying particle effect
-            local dying_particles = vt_map.ParticleObject("dat/effects/particles/slow_burst_particles.lua",
-                                                          andromalius:GetXPosition(), andromalius:GetYPosition());
-            dying_particles:SetObjectID(Map.object_supervisor:GenerateObjectID());
-            Map:AddGroundObject(dying_particles);
+            vt_map.ParticleObject("dat/effects/particles/slow_burst_particles.lua",
+                                  andromalius:GetXPosition(), andromalius:GetYPosition(),
+                                  vt_map.MapMode.GROUND_OBJECT);
 
             -- Make sure all the fireballs are removed
             _KillAllFireBalls();
@@ -1443,5 +1402,4 @@ map_functions = {
     waterfall_end_start = function()
         Map:PopState();
     end,
-
 }

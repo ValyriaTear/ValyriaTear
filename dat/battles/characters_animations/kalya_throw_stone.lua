@@ -10,10 +10,10 @@ kalya_throw_stone = ns;
 setfenv(1, ns);
 
 -- local references
-local character = {};
-local target = {};
-local target_actor = {};
-local skill = {};
+local character = nil
+local target = nil
+local target_actor = nil
+local skill = nil
 
 local stone_pos_x = 0.0;
 local stone_pos_y = 0.0;

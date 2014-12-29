@@ -5,12 +5,12 @@ fenrir_flee = ns;
 setfenv(1, ns);
 
 -- local references
-local enemy = {};
+local enemy = nil
 local enemy_pos_x = 0.0;
 
 local distance_moved_x = 0.0;
 
-local Battle = {};
+local Battle = nil
 
 -- battle, the Game mode
 -- _enemy, the BattleEnemy dying
@@ -20,9 +20,7 @@ function Initialize(battle, _enemy)
     enemy = _enemy;
 end
 
-
 function Update()
-
     enemy_pos_x = enemy:GetXLocation();
 
     -- Return once the Fenrir is out of the screen.

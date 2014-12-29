@@ -7,19 +7,19 @@ setmetatable(ns, {__index = _G})
 in_game_move_and_interact_anim = ns;
 setfenv(1, ns);
 
-local move_title_text = {};
-local move_left_text = {};
-local move_right_text = {};
-local move_up_text = {};
-local move_down_text = {};
-local action_title_text = {};
-local confirm_text = {};
-local cancel_text = {};
-local menu_text = {};
-local game_title_text = {};
-local pause_text = {};
-local quit_text = {};
-local help_text = {};
+local move_title_text = nil
+local move_left_text = nil
+local move_right_text = nil
+local move_up_text = nil
+local move_down_text = nil
+local action_title_text = nil
+local confirm_text = nil
+local cancel_text = nil
+local menu_text = nil
+local game_title_text = nil
+local pause_text = nil
+local quit_text = nil
+local help_text = nil
 
 local display_time = 0;
 
@@ -27,6 +27,10 @@ local text_color = vt_video.Color(1.0, 1.0, 1.0, 1.0);
 local move_header_color = vt_video.Color(1.0, 0.4, 0.4, 1.0);
 local action_header_color = vt_video.Color(1.0, 1.0, 0.4, 1.0);
 local game_header_color = vt_video.Color(0.6, 0.4, 0.0, 1.0);
+
+local Map = nil
+local Script = nil
+local Effects = nil
 
 function Initialize(map_instance)
     Map = map_instance;

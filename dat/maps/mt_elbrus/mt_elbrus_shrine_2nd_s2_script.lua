@@ -14,14 +14,13 @@ map_subname = ""
 music_filename = "mus/icy_wind.ogg"
 
 -- c++ objects instances
-local Map = {};
-local ObjectManager = {};
-local DialogueManager = {};
-local EventManager = {};
-local Effects = {};
+local Map = nil
+local DialogueManager = nil
+local EventManager = nil
+local Effects = nil
 
 -- the main character handler
-local hero = {};
+local hero = nil
 
 -- Name of the main sprite. Used to reload the good one at the end of dialogue events.
 local main_sprite_name = "";
@@ -30,12 +29,10 @@ local main_sprite_name = "";
 function Load(m)
 
     Map = m;
-    ObjectManager = Map.object_supervisor;
-    DialogueManager = Map.dialogue_supervisor;
-    EventManager = Map.event_supervisor;
     Effects = Map:GetEffectSupervisor();
-
-    Map.unlimited_stamina = false;
+    DialogueManager = Map:GetDialogueSupervisor();
+    EventManager = Map:GetEventSupervisor();
+    Map:SetUnlimitedStamina(false);
 
     _CreateCharacters();
     _CreateObjects();
@@ -44,7 +41,7 @@ function Load(m)
     -- Set the camera focus on hero
     Map:SetCamera(hero);
     -- This is a dungeon map, we'll use the front battle member sprite as default sprite.
-    Map.object_supervisor:SetPartyMemberVisibleSprite(hero);
+    Map:SetPartyMemberVisibleSprite(hero);
 
     _CreateEvents();
     _CreateZones();
@@ -70,7 +67,7 @@ end
 -- Character creation
 function _CreateCharacters()
     -- Default hero and position
-    hero = CreateSprite(Map, "Bronann", 16, 68);
+    hero = CreateSprite(Map, "Bronann", 16, 68, vt_map.MapMode.GROUND_OBJECT);
     hero:SetDirection(vt_map.MapMode.NORTH);
     hero:SetMovementSpeed(vt_map.MapMode.NORMAL_SPEED);
 
@@ -81,17 +78,13 @@ function _CreateCharacters()
         hero:SetDirection(vt_map.MapMode.SOUTH);
         hero:SetPosition(12.0, 8.0);
     end
-
-    Map:AddGroundObject(hero);
 end
 
 function _add_flame(x, y)
-    local object = vt_map.SoundObject("snd/campfire.ogg", x, y, 10.0);
-    if (object ~= nil) then Map:AddAmbientSoundObject(object) end;
+    vt_map.SoundObject.CreateObject("snd/campfire.ogg", x, y, 10.0);
 
-    object = CreateObject(Map, "Flame1", x, y);
+    local object = CreateObject(Map, "Flame1", x, y, vt_map.MapMode.GROUND_OBJECT);
     object:RandomizeCurrentAnimationFrame();
-    Map:AddGroundObject(object);
 
     Map:AddHalo("img/misc/lights/torch_light_mask2.lua", x, y + 3.0,
         vt_video.Color(0.85, 0.32, 0.0, 0.6));
@@ -99,53 +92,37 @@ function _add_flame(x, y)
         vt_video.Color(0.99, 1.0, 0.27, 0.1));
 end
 
-local rolling_stone1 = {};
+local rolling_stone1 = nil
 
 -- Arrays of spikes objects
-local trap_spikes = {};
-local trap_spikes_left = {};
-local trap_spikes_right = {};
+local trap_spikes = nil
+local trap_spikes_left = nil
+local trap_spikes_right = nil
 
-local mini_boss = {};
+local mini_boss = nil
 
 function _CreateObjects()
-    local object = {}
-    local npc = {}
-    local dialogue = {}
-    local text = {}
-    local event = {}
+    local object = nil
+    local npc = nil
+    local dialogue = nil
+    local text = nil
+    local event = nil
 
-    -- Objects array
-    local map_objects = {
-
-        { "Rock1", 31, 14 },
-    }
-
-    -- Loads the trees according to the array
-    for my_index, my_array in pairs(map_objects) do
-        --print(my_array[1], my_array[2], my_array[3]);
-        object = CreateObject(Map, my_array[1], my_array[2], my_array[3]);
-        Map:AddGroundObject(object);
-    end
+    CreateObject(Map, "Rock1", 31, 14 vt_map.MapMode.GROUND_OBJECT);
 
     -- Snow effects
-    object = vt_map.ParticleObject("dat/maps/mt_elbrus/particles_snow_south_entrance.lua", 16, 72);
-    object:SetObjectID(Map.object_supervisor:GenerateObjectID());
-    Map:AddGroundObject(object);
+    vt_map.ParticleObject.CreateObject("dat/maps/mt_elbrus/particles_snow_south_entrance.lua", 16, 72, vt_map.MapMode.GROUND_OBJECT);
     Map:AddHalo("img/misc/lights/torch_light_mask.lua", 16, 79,
                 vt_video.Color(1.0, 1.0, 1.0, 0.8));
 
-    object = vt_map.ParticleObject("dat/maps/mt_elbrus/particles_snow_south_entrance.lua", 50, 50);
-    object:SetObjectID(Map.object_supervisor:GenerateObjectID());
-    Map:AddGroundObject(object);
+    vt_map.ParticleObject.CreateObject("dat/maps/mt_elbrus/particles_snow_south_entrance.lua", 50, 50, vt_map.MapMode.GROUND_OBJECT);
     Map:AddHalo("img/misc/lights/torch_light_mask.lua", 51, 57,
                 vt_video.Color(1.0, 1.0, 1.0, 0.8));
 
     _add_flame(15.5, 3);
 
     -- The stone used to get through this enigma
-    rolling_stone1 = CreateObject(Map, "Rolling Stone2", 34, 34);
-    Map:AddGroundObject(rolling_stone1);
+    rolling_stone1 = CreateObject(Map, "Rolling Stone2", 34, 34, vt_map.MapMode.GROUND_OBJECT);
 
     -- events on the lower level
     event = vt_map.IfEvent("Check hero position for rolling stone 1", "check_diagonal_stone1", "Push the rolling stone 1", "");
@@ -229,8 +206,7 @@ function _CreateObjects()
 
     -- Loads the spikes according to the array
     for my_index, my_array in pairs(spike_objects) do
-        trap_spikes[my_index] = CreateObject(Map, "Spikes1", my_array[1], my_array[2]);
-        Map:AddGroundObject(trap_spikes[my_index]);
+        trap_spikes[my_index] = CreateObject(Map, "Spikes1", my_array[1], my_array[2], vt_map.MapMode.GROUND_OBJECT);
         trap_spikes[my_index]:SetVisible(false);
         trap_spikes[my_index]:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
     end
@@ -288,8 +264,7 @@ function _CreateObjects()
     -- Loads the other spikes according to the array
     local spike_index = 0;
     for my_index, my_array in pairs(spike_objects2) do
-        trap_spikes_left[spike_index] = CreateObject(Map, "Spikes1", my_array[1], my_array[2]);
-        Map:AddGroundObject(trap_spikes_left[spike_index]);
+        trap_spikes_left[spike_index] = CreateObject(Map, "Spikes1", my_array[1], my_array[2], vt_map.MapMode.GROUND_OBJECT);
         trap_spikes_left[spike_index]:SetVisible(false);
         trap_spikes_left[spike_index]:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
         spike_index = spike_index + 1
@@ -347,16 +322,14 @@ function _CreateObjects()
     -- Loads the other spikes according to the array
     spike_index = 0;
     for my_index, my_array in pairs(spike_objects3) do
-        trap_spikes_right[spike_index] = CreateObject(Map, "Spikes1", my_array[1], my_array[2]);
-        Map:AddGroundObject(trap_spikes_right[spike_index]);
+        trap_spikes_right[spike_index] = CreateObject(Map, "Spikes1", my_array[1], my_array[2], vt_map.MapMode.GROUND_OBJECT);
         trap_spikes_right[spike_index]:SetVisible(false);
         trap_spikes_right[spike_index]:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
         spike_index = spike_index + 1
     end
 
     -- Mini-boss
-    mini_boss = CreateObject(Map, "Dorver1", 33, 10);
-    Map:AddGroundObject(mini_boss);
+    mini_boss = CreateObject(Map, "Dorver1", 33, 10, vt_map.MapMode.GROUND_OBJECT);
     if (GlobalManager:GetEventValue("story", "mt_elbrus_shrine_trap_boss_done") == 1) then
         mini_boss:SetPosition(0, 0);
         mini_boss:SetVisible(false);
@@ -364,21 +337,18 @@ function _CreateObjects()
     end
 
     -- A trigger that will open ground floor enigma map.
-    object = vt_map.TriggerObject("mt elbrus shrine 2nd s2 trigger",
+    object = vt_map.TriggerObject.CreateObject("mt elbrus shrine 2nd s2 trigger",
                              "img/sprites/map/triggers/stone_trigger1_off.lua",
                              "img/sprites/map/triggers/stone_trigger1_on.lua",
                              "", "Enigma map open event");
-    object:SetObjectID(Map.object_supervisor:GenerateObjectID());
     object:SetPosition(26, 10);
-    Map:AddFlatGroundObject(object);
-
 end
 
 -- Creates all events and sets up the entire event sequence chain
 function _CreateEvents()
-    local event = {};
-    local dialogue = {};
-    local text = {};
+    local event = nil
+    local dialogue = nil
+    local text = nil
 
     event = vt_map.MapTransitionEvent("to mountain shrine 2nd floor South left", "dat/maps/mt_elbrus/mt_elbrus_shrine_2nd_s1_map.lua",
                                       "dat/maps/mt_elbrus/mt_elbrus_shrine_2nd_s1_script.lua", "from_shrine_2nd_floor_grotto_left");
@@ -444,8 +414,8 @@ function _SetBattleEnvironment(enemy)
 end
 
 function _CreateEnemies()
-    local enemy = {};
-    local roam_zone = {};
+    local enemy = nil
+    local roam_zone = nil
 
     -- Hint: left, right, top, bottom
     roam_zone = vt_map.EnemyZone(38, 52, 12, 32);
@@ -457,20 +427,19 @@ function _CreateEnemies()
     enemy:AddEnemy(19);
     enemy:AddEnemy(19);
     enemy:AddEnemy(19);
-    roam_zone:AddEnemy(enemy, Map, 2);
+    roam_zone:AddEnemy(enemy, 2);
     Map:AddZone(roam_zone);
 end
 
 -- zones
-local to_shrine_se_zone = {};
-local to_shrine_sw_zone = {};
-local to_stairs_zone = {};
-local trap_zone = {};
-local mini_boss_zone = {};
+local to_shrine_se_zone = nil
+local to_shrine_sw_zone = nil
+local to_stairs_zone = nil
+local trap_zone = nil
+local mini_boss_zone = nil
 
 -- Create the different map zones triggering events
 function _CreateZones()
-
     -- N.B.: left, right, top, bottom
     to_shrine_se_zone = vt_map.CameraZone(48, 52, 49, 51);
     Map:AddZone(to_shrine_se_zone);
@@ -609,9 +578,9 @@ function _UpdateStoneMovement(stone_object, stone_direction)
         if (my_object ~= nil) then
             if (my_object:IsCollidingWith(stone_object) == true) then
                 -- Add broken spikes map object there
-                local broken_spike = CreateObject(Map, "Spikes_broken1", my_object:GetXPosition(), my_object:GetYPosition());
+                local broken_spike = CreateObject(Map, "Spikes_broken1", my_object:GetXPosition(), my_object:GetYPosition(),
+                                                  vt_map.MapMode.FLATGROUND_OBJECT);
                 broken_spike:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
-                Map:AddFlatGroundObject(broken_spike);
                 -- Play the shatter sound
                 AudioManager:PlaySound("snd/magic_blast.ogg");
 
@@ -625,9 +594,9 @@ function _UpdateStoneMovement(stone_object, stone_direction)
         if (my_object ~= nil) then
             if (my_object:IsCollidingWith(stone_object) == true) then
                 -- Add broken spikes map object there
-                local broken_spike = CreateObject(Map, "Spikes_broken1", my_object:GetXPosition(), my_object:GetYPosition());
+                local broken_spike = CreateObject(Map, "Spikes_broken1", my_object:GetXPosition(), my_object:GetYPosition(),
+                                                  vt_map.MapMode.FLATGROUND_OBJECT);
                 broken_spike:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
-                Map:AddFlatGroundObject(broken_spike);
                 -- Play the shatter sound
                 AudioManager:PlaySound("snd/magic_blast.ogg");
 
@@ -641,9 +610,9 @@ function _UpdateStoneMovement(stone_object, stone_direction)
         if (my_object ~= nil) then
             if (my_object:IsCollidingWith(stone_object) == true) then
                 -- Add broken spikes map object there
-                local broken_spike = CreateObject(Map, "Spikes_broken1", my_object:GetXPosition(), my_object:GetYPosition());
+                local broken_spike = CreateObject(Map, "Spikes_broken1", my_object:GetXPosition(), my_object:GetYPosition(),
+                                                  vt_map.MapMode.FLATGROUND_OBJECT);
                 broken_spike:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
-                Map:AddFlatGroundObject(broken_spike);
                 -- Play the shatter sound
                 AudioManager:PlaySound("snd/magic_blast.ogg");
 

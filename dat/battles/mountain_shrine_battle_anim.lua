@@ -3,12 +3,12 @@ setmetatable(ns, {__index = _G})
 mountain_shrine_battle_anim = ns;
 setfenv(1, ns);
 
-local Battle = {};
-local Script = {};
+local Battle = nil
+local Script = nil
 
-local fire = {}
-local torch = {}
-local flare = {}
+local fire = nil
+local torch = nil
+local flare = nil
 
 function Initialize(battle_instance)
     Battle = battle_instance;

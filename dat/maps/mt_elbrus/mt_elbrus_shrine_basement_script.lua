@@ -15,7 +15,6 @@ music_filename = "mus/icy_wind.ogg"
 
 -- c++ objects instances
 local Map = nil
-local ObjectManager = nil
 local DialogueManager = nil
 local EventManager = nil
 local Script = nil
@@ -33,12 +32,10 @@ local andromalius = nil
 function Load(m)
 
     Map = m;
-    ObjectManager = Map.object_supervisor;
-    DialogueManager = Map.dialogue_supervisor;
-    EventManager = Map.event_supervisor;
     Script = Map:GetScriptSupervisor();
-
-    Map.unlimited_stamina = true
+    DialogueManager = Map:GetDialogueSupervisor();
+    EventManager = Map:GetEventSupervisor();
+    Map:SetUnlimitedStamina(true);
 
     _CreateCharacters();
     _CreateObjects();
@@ -46,7 +43,7 @@ function Load(m)
     -- Set the camera focus on hero
     Map:SetCamera(hero);
     -- This is a dungeon map, we'll use the front battle member sprite as default sprite.
-    Map.object_supervisor:SetPartyMemberVisibleSprite(hero);
+    Map:SetPartyMemberVisibleSprite(hero);
 
     _CreateEvents();
     _CreateZones();
@@ -76,7 +73,6 @@ function Load(m)
 
     -- Loads the pre-boss music
     AudioManager:LoadMusic("mus/dont_close_your_eyes.ogg", Map);
-
 end
 
 -- the map update function handles checks done on each game tick.
@@ -88,10 +84,9 @@ end
 -- Character creation
 function _CreateCharacters()
     -- Default hero and position (from falling point)
-    hero = CreateSprite(Map, "Bronann", 57, 0);
+    hero = CreateSprite(Map, "Bronann", 57, 0, vt_map.MapMode.GROUND_OBJECT);
     hero:SetDirection(vt_map.MapMode.SOUTH);
     hero:SetMovementSpeed(vt_map.MapMode.NORMAL_SPEED);
-    Map:AddGroundObject(hero);
 
     if (GlobalManager:GetPreviousLocation() == "from_shrine_north_exit") then
         hero:SetPosition(3.5, 22.0)
@@ -99,42 +94,38 @@ function _CreateCharacters()
     end
 
     -- Create secondary characters
-    bronann = CreateSprite(Map, "Bronann", 0, 0);
+    bronann = CreateSprite(Map, "Bronann", 0, 0, vt_map.MapMode.GROUND_OBJECT);
     bronann:SetDirection(vt_map.MapMode.NORTH);
     bronann:SetMovementSpeed(vt_map.MapMode.NORMAL_SPEED);
     bronann:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
     bronann:SetVisible(false);
-    Map:AddGroundObject(bronann);
 
-    kalya = CreateSprite(Map, "Kalya", 0, 0);
+    kalya = CreateSprite(Map, "Kalya", 0, 0, vt_map.MapMode.GROUND_OBJECT);
     kalya:SetDirection(vt_map.MapMode.EAST);
     kalya:SetMovementSpeed(vt_map.MapMode.NORMAL_SPEED);
     kalya:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
     kalya:SetVisible(false);
-    Map:AddGroundObject(kalya);
 
-    orlinn = CreateSprite(Map, "Orlinn", 0, 0);
+    orlinn = CreateSprite(Map, "Orlinn", 0, 0, vt_map.MapMode.GROUND_OBJECT);
     orlinn:SetDirection(vt_map.MapMode.EAST);
     orlinn:SetMovementSpeed(vt_map.MapMode.FAST_SPEED);
     orlinn:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
     orlinn:SetVisible(false);
-    Map:AddGroundObject(orlinn);
 
-    andromalius = CreateSprite(Map, "Andromalius", 0, 0);
+    andromalius = CreateSprite(Map, "Andromalius", 0, 0, vt_map.MapMode.GROUND_OBJECT);
     andromalius:SetName(vt_system.Translate("Andromalius"));
     andromalius:SetDirection(vt_map.MapMode.EAST);
     andromalius:SetMovementSpeed(vt_map.MapMode.FAST_SPEED);
     andromalius:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
     andromalius:SetVisible(false);
-    Map:AddGroundObject(andromalius);
 end
 
 function _CreateObjects()
-    local object = {}
-    local npc = {}
-    local dialogue = {}
-    local text = {}
-    local event = {}
+    local object = nil
+    local npc = nil
+    local dialogue = nil
+    local text = nil
+    local event = nil
 
     Map:AddHalo("img/misc/lights/torch_light_mask.lua", 0, 28,
         vt_video.Color(1.0, 1.0, 1.0, 0.8));
@@ -142,9 +133,8 @@ function _CreateObjects()
     Map:AddHalo("img/misc/lights/right_ray_light.lua", 0, 28,
             vt_video.Color(1.0, 1.0, 1.0, 0.8));
 
-    object = CreateTreasure(Map, "mt_shrine_basement_chest1", "Wood_Chest1", 20, 36);
+    object = CreateTreasure(Map, "mt_shrine_basement_chest1", "Wood_Chest1", 20, 36, vt_map.MapMode.GROUND_OBJECT);
     object:AddObject(2, 3); -- Medium potion x 3
-    Map:AddGroundObject(object);
 end
 
 -- Special event references which destinations must be updated just before being called.
@@ -152,9 +142,9 @@ local kalya_move_next_to_hero_event1 = nil
 
 -- Creates all events and sets up the entire event sequence chain
 function _CreateEvents()
-    local event = {};
-    local dialogue = {};
-    local text = {};
+    local event = nil
+    local dialogue = nil
+    local text = nil
 
     event = vt_map.MapTransitionEvent("to mountain shrine exit", "dat/maps/mt_elbrus/mt_elbrus_north_east_exit_map.lua",
                                        "dat/maps/mt_elbrus/mt_elbrus_north_east_exit_script.lua", "from_shrine_basement");
