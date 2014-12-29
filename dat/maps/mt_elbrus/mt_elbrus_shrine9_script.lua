@@ -126,12 +126,12 @@ function _CreateObjects()
     object = CreateTreasure(Map, "mt_shrine9_chest3", "Wood_Chest1", 55, 42, vt_map.MapMode.GROUND_OBJECT);
     object:AddObject(3002, 1); -- Iron Ore x 1
 
-    Map:AddHalo("img/misc/lights/right_ray_light.lua", 26, 18,
+    vt_map.Halo.Create("img/misc/lights/right_ray_light.lua", 26, 18,
             vt_video.Color(1.0, 1.0, 1.0, 0.8));
-    Map:AddHalo("img/misc/lights/right_ray_light.lua", 53, 44,
+    vt_map.Halo.Create("img/misc/lights/right_ray_light.lua", 53, 44,
             vt_video.Color(1.0, 1.0, 1.0, 0.8));
 
-    Map:AddSavePoint(8, 42);
+    vt_map.SavePoint.Create(8, 42);
 
     -- Load the spring heal effect.
     heal_effect = vt_map.ParticleObject.Create("dat/effects/particles/heal_particle.lua", 0, 0, vt_map.MapMode.GROUND_OBJECT);

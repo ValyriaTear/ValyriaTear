@@ -95,9 +95,9 @@ function _CreateObjects()
     end
 
     -- Add a halo showing the cave entrance
-    Map:AddHalo("img/misc/lights/torch_light_mask.lua", 58, 104,
+    vt_map.Halo.Create("img/misc/lights/torch_light_mask.lua", 58, 104,
             vt_video.Color(light_color_red, light_color_green, light_color_blue, light_color_alpha));
-    Map:AddHalo("img/misc/lights/torch_light_mask.lua", 67, 5,
+    vt_map.Halo.Create("img/misc/lights/torch_light_mask.lua", 67, 5,
             vt_video.Color(light_color_red, light_color_green, light_color_blue, light_color_alpha));
 
     local chest1 = CreateTreasure(Map, "layna_forest_cave2_chest1", "Wood_Chest1", 107, 28, vt_map.MapMode.GROUND_OBJECT);

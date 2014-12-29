@@ -111,7 +111,7 @@ function _CreateObjects()
     local event = nil
 
     -- Save point
-    Map:AddSavePoint(61, 9);
+    vt_map.SavePoint.Create(61, 9);
 
     -- Load the heal effect.
     heal_effect = vt_map.ParticleObject.Create("dat/effects/particles/heal_particle.lua", 0, 0, vt_map.MapMode.GROUND_OBJECT);

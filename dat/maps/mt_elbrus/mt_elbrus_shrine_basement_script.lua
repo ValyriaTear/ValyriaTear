@@ -127,10 +127,10 @@ function _CreateObjects()
     local text = nil
     local event = nil
 
-    Map:AddHalo("img/misc/lights/torch_light_mask.lua", 0, 28,
+    vt_map.Halo.Create("img/misc/lights/torch_light_mask.lua", 0, 28,
         vt_video.Color(1.0, 1.0, 1.0, 0.8));
 
-    Map:AddHalo("img/misc/lights/right_ray_light.lua", 0, 28,
+    vt_map.Halo.Create("img/misc/lights/right_ray_light.lua", 0, 28,
             vt_video.Color(1.0, 1.0, 1.0, 0.8));
 
     object = CreateTreasure(Map, "mt_shrine_basement_chest1", "Wood_Chest1", 20, 36, vt_map.MapMode.GROUND_OBJECT);

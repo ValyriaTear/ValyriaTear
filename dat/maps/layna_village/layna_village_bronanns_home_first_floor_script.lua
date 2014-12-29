@@ -64,7 +64,7 @@ function Load(m)
     -- Permits the display of basic game commands
     Map:GetScriptSupervisor():AddScript("dat/help/in_game_move_and_interact_anim.lua");
 
-    Map:AddSavePoint(34, 35);
+    vt_map.SavePoint.Create(34, 35);
 end
 
 -- the map update function handles checks done on each game tick.

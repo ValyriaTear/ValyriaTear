@@ -148,14 +148,14 @@ function _CreateObjects()
     end
 
     -- Add a halo showing the cave entrance
-    Map:AddHalo("img/misc/lights/torch_light_mask.lua", 116, 109,
+    vt_map.Halo.Create("img/misc/lights/torch_light_mask.lua", 116, 109,
             vt_video.Color(light_color_red, light_color_green, light_color_blue, light_color_alpha));
 
     -- Add a halo showing the next cave entrance
-    Map:AddHalo("img/misc/lights/torch_light_mask.lua", 132, 14,
+    vt_map.Halo.Create("img/misc/lights/torch_light_mask.lua", 132, 14,
             vt_video.Color(light_color_red, light_color_green, light_color_blue, light_color_alpha));
 
-    Map:AddSavePoint(50, 6);
+    vt_map.SavePoint.Create(50, 6);
 
     -- Load the spring heal effect.
     heal_effect = vt_map.ParticleObject.Create("dat/effects/particles/heal_particle.lua", 0, 0, vt_map.MapMode.GROUND_OBJECT);

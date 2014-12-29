@@ -542,6 +542,12 @@ public:
     ~SavePoint()
     {}
 
+    //! \brief A C++ wrapper made to create a new object from scripting,
+    //! without letting Lua handling the object life-cycle.
+    //! \note We don't permit luabind to use constructors here as it can't currently
+    //! give the object ownership at construction time.
+    static SavePoint* Create(float x, float y);
+
     //! \brief Updates the object's current animation.
     //! \note the actual image resources is handled by the main map object.
     void Update();
@@ -576,10 +582,17 @@ class Halo : public MapObject
 {
 public:
     //! \brief setup a halo on the map, using the given animation file.
-    Halo(const std::string &filename, float x, float y, const vt_video::Color &color);
+    Halo(const std::string& filename, float x, float y, const vt_video::Color& color);
 
     ~Halo()
     {}
+
+    //! \brief A C++ wrapper made to create a new object from scripting,
+    //! without letting Lua handling the object life-cycle.
+    //! \note We don't permit luabind to use constructors here as it can't currently
+    //! give the object ownership at construction time.
+    static Halo* Create(const std::string& filename, float x, float y,
+                        const vt_video::Color& color);
 
     //! \brief Updates the object's current animation.
     //! \note the actual image resources is handled by the main map object.
@@ -999,8 +1012,17 @@ public:
     //! \brief Add sound objects (Done within the sound object constructor)
     void AddAmbientSound(SoundObject* object);
 
-    //! \brief Add a light object, often created through scripting
-    void AddLight(Light *light);
+    //! \brief Add a light object, often created through scripting.
+    //! Called by the Light object constructor
+    void AddLight(Light* light);
+
+    //! \brief Add a halo object, often created through scripting.
+    //! Called by the Halo object constructor
+    void AddHalo(Halo* halo);
+
+    //! \brief Add a save point.
+    //! Called by the SavePoint object constructor
+    void AddSavePoint(SavePoint* save_point);
 
     //! \brief Sorts objects on all three layers according to their draw order
     void SortObjects();

@@ -400,6 +400,16 @@ SavePoint::SavePoint(float x, float y):
     _inactive_particle_object = new ParticleObject("dat/effects/particles/inactive_save_point.lua", x, y, GROUND_OBJECT);
 
     _active_particle_object->Stop();
+
+    // Auto-regiters to the Object supervisor for later deletion handling.
+    map_mode->GetObjectSupervisor()->AddSavePoint(this);
+}
+
+SavePoint* SavePoint::Create(float x, float y)
+{
+    // The object auto registers to the object supervisor
+    // and will later handle deletion.
+    return new SavePoint(x, y);
 }
 
 void SavePoint::Update()
@@ -441,7 +451,7 @@ void SavePoint::SetActive(bool active)
 
 
 // Halos
-Halo::Halo(const std::string &filename, float x, float y, const Color &color):
+Halo::Halo(const std::string& filename, float x, float y, const Color& color):
     MapObject(NO_LAYER_OBJECT) // This is a special object
 {
     _color = color;
@@ -459,6 +469,16 @@ Halo::Halo(const std::string &filename, float x, float y, const Color &color):
     // Setup the image collision for the display update
     SetImgHalfWidth(_animation.GetWidth() / 2.0f);
     SetImgHeight(_animation.GetHeight());
+
+    // Auto-registers to the object supervisor for later deletion handling
+    MapMode::CurrentInstance()->GetObjectSupervisor()->AddHalo(this);
+}
+
+Halo* Halo::Create(const std::string& filename, float x, float y, const Color& color)
+{
+    // The object auto registers to the object supervisor
+    // and will later handle deletion.
+    return new Halo(filename, x, y, color);
 }
 
 void Halo::Update()
@@ -1110,7 +1130,7 @@ void ObjectSupervisor::RegisterObject(MapObject* object)
     }
 }
 
-void ObjectSupervisor::AddAmbientSound(SoundObject *object)
+void ObjectSupervisor::AddAmbientSound(SoundObject* object)
 {
     if(!object) {
         PRINT_WARNING << "Couldn't add NULL SoundObject* object." << std::endl;
@@ -1120,7 +1140,7 @@ void ObjectSupervisor::AddAmbientSound(SoundObject *object)
     _sound_objects.push_back(object);
 }
 
-void ObjectSupervisor::AddLight(Light *light)
+void ObjectSupervisor::AddLight(Light* light)
 {
     if (light == NULL) {
         PRINT_WARNING << "Couldn't add NULL Light* object." << std::endl;
@@ -1128,6 +1148,26 @@ void ObjectSupervisor::AddLight(Light *light)
     }
 
     _lights.push_back(light);
+}
+
+void ObjectSupervisor::AddHalo(Halo* halo)
+{
+    if (halo == NULL) {
+        PRINT_WARNING << "Couldn't add NULL Halo* object." << std::endl;
+        return;
+    }
+
+    _halos.push_back(halo);
+}
+
+void ObjectSupervisor::AddSavePoint(SavePoint* save_point)
+{
+    if (save_point == NULL) {
+        PRINT_WARNING << "Couldn't add NULL SavePoint* object." << std::endl;
+        return;
+    }
+
+    _save_points.push_back(save_point);
 }
 
 void ObjectSupervisor::DeleteObject(MapObject* object)

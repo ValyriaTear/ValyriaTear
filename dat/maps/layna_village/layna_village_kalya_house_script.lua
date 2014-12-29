@@ -128,7 +128,7 @@ function _CreateCharacters()
 end
 
 function _CreateObjects()
-    Map:AddSavePoint(29.5, 29.0);
+    vt_map.SavePoint.Create(29.5, 29.0);
 
     CreateObject(Map, "Barrel1", 25, 19, vt_map.MapMode.GROUND_OBJECT);
     CreateObject(Map, "Box1", 23, 20, vt_map.MapMode.GROUND_OBJECT);

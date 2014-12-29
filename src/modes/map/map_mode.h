@@ -159,12 +159,6 @@ public:
     //! \brief Adds a new zone to the map
     void AddZone(private_map::MapZone *zone);
 
-    //! \brief Adds a save point (Map Object) at the given coordinates.
-    void AddSavePoint(float x, float y);
-
-    //! \brief Adds a halo light (as Map Object) at the given coordinates.
-    void AddHalo(const std::string &filename, float x, float y, const vt_video::Color &color);
-
     //! \brief Vectors containing the save points animations (when the character is in or not).
     std::vector<vt_video::AnimatedImage> active_save_point_animations;
     std::vector<vt_video::AnimatedImage> inactive_save_point_animations;

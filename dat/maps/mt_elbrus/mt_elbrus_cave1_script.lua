@@ -102,10 +102,10 @@ function _CreateObjects()
 
     -- Add a halo showing the cave entrances
     -- exit 1
-    Map:AddHalo("img/misc/lights/torch_light_mask.lua", 89, 88,
+    vt_map.Halo.Create("img/misc/lights/torch_light_mask.lua", 89, 88,
         vt_video.Color(0.3, 0.3, 0.46, 0.8));
     -- exit 2
-    Map:AddHalo("img/misc/lights/torch_light_mask.lua", 9.5, 88,
+    vt_map.Halo.Create("img/misc/lights/torch_light_mask.lua", 9.5, 88,
         vt_video.Color(0.3, 0.3, 0.46, 0.8));
 
     shroom1 = CreateSprite(Map, "Shroom", 45, 42, vt_map.MapMode.GROUND_OBJECT);

@@ -111,10 +111,10 @@ function _CreateObjects()
 
     -- Add a halo showing the cave entrances
     -- exit 1
-    Map:AddHalo("img/misc/lights/torch_light_mask.lua", 46, 55,
+    vt_map.Halo.Create("img/misc/lights/torch_light_mask.lua", 46, 55,
         vt_video.Color(0.3, 0.3, 0.46, 0.8));
     -- exit 2
-    Map:AddHalo("img/misc/lights/torch_light_mask.lua", 45, 21,
+    vt_map.Halo.Create("img/misc/lights/torch_light_mask.lua", 45, 21,
         vt_video.Color(0.3, 0.3, 0.46, 0.8));
 
     -- Stones

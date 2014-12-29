@@ -192,7 +192,7 @@ function _CreateObjects()
     local text = nil
     local event = nil
 
-    Map:AddSavePoint(51, 22);
+    vt_map.SavePoint.Create(51, 22);
     if (GlobalManager:GetEventValue("story", "elbrus_shrine_laughing_event_done") == 1
             and GlobalManager:GetEventValue("story", "mt elbrus shrine heroes saved") == 0) then
         -- Disable the save point
@@ -227,11 +227,11 @@ function _CreateObjects()
     -- Snow effect
     vt_map.ParticleObject.Create("dat/maps/mt_elbrus/particles_snow_south_entrance.lua", 29, 48, vt_map.MapMode.GROUND_OBJECT);
 
-    Map:AddHalo("img/misc/lights/torch_light_mask.lua", 29, 55,
+    vt_map.Halo.Create("img/misc/lights/torch_light_mask.lua", 29, 55,
         vt_video.Color(1.0, 1.0, 1.0, 0.8));
 
     -- Adds a hidden sign, show just before the opening of the door
-    object = CreateObject(Map, "Ancient_Sign1", 37, 36, vt_map.MapMode.FLATGROUND_OBJECT);
+    CreateObject(Map, "Ancient_Sign1", 37, 36, vt_map.MapMode.FLATGROUND_OBJECT);
 
     _add_flame(29.5, 31);
     _add_flame(45.5, 31);
@@ -283,9 +283,9 @@ function _add_flame(x, y)
     local object = CreateObject(Map, "Flame1", x, y, vt_map.MapMode.GROUND_OBJECT);
     object:RandomizeCurrentAnimationFrame();
 
-    Map:AddHalo("img/misc/lights/torch_light_mask2.lua", x, y + 3.0,
+    vt_map.Halo.Create("img/misc/lights/torch_light_mask2.lua", x, y + 3.0,
         vt_video.Color(0.85, 0.32, 0.0, 0.6));
-    Map:AddHalo("img/misc/lights/sun_flare_light_main.lua", x, y + 2.0,
+    vt_map.Halo.Create("img/misc/lights/sun_flare_light_main.lua", x, y + 2.0,
         vt_video.Color(0.99, 1.0, 0.27, 0.1));
 end
 

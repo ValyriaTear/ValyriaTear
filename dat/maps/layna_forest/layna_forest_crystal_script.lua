@@ -125,7 +125,7 @@ function _CreateObjects()
     local npc = nil
 
     -- save point
-    Map:AddSavePoint(58, 87);
+    vt_map.SavePoint.Create(58, 87);
 
     local chest1 = CreateTreasure(Map, "layna_forest_crystal_chest", "Wood_Chest1", 16, 38, vt_map.MapMode.GROUND_OBJECT);
     chest1:AddObject(15, 1); -- Lotus Petal

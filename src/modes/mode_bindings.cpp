@@ -92,8 +92,6 @@ void BindModeCode()
             .def("DeleteMapObject", &MapMode::DeleteMapObject)
 
             .def("AddZone", &MapMode::AddZone, luabind::adopt(_2))
-            .def("AddSavePoint", &MapMode::AddSavePoint)
-            .def("AddHalo", &MapMode::AddHalo)
             .def("SetCamera", (void(MapMode:: *)(private_map::VirtualSprite *))&MapMode::SetCamera)
             .def("SetCamera", (void(MapMode:: *)(private_map::VirtualSprite *, uint32))&MapMode::SetCamera)
             .def("GetCamera", &MapMode::GetCamera)
@@ -237,6 +235,24 @@ void BindModeCode()
             .scope
             [   // Used for static members and nested classes.
                 luabind::def("Create", &Light::Create)
+            ]
+        ];
+
+        luabind::module(vt_script::ScriptManager->GetGlobalState(), "vt_map")
+        [
+            luabind::class_<Halo, MapObject>("Halo")
+            .scope
+            [   // Used for static members and nested classes.
+                luabind::def("Create", &Halo::Create)
+            ]
+        ];
+
+        luabind::module(vt_script::ScriptManager->GetGlobalState(), "vt_map")
+        [
+            luabind::class_<SavePoint, MapObject>("SavePoint")
+            .scope
+            [   // Used for static members and nested classes.
+                luabind::def("Create", &SavePoint::Create)
             ]
         ];
 

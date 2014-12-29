@@ -135,7 +135,7 @@ function _CreateObjects()
     local text = nil
     local event = nil
 
-    Map:AddSavePoint(67, 37);
+    vt_map.SavePoint.Create(67, 37);
 
     -- Load the spring heal effect.
     heal_effect = vt_map.ParticleObject.Create("dat/effects/particles/heal_particle.lua", 0, 0, vt_map.MapMode.GROUND_OBJECT);

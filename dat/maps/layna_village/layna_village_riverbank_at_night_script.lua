@@ -308,9 +308,9 @@ function _CreateFire(fire_x, fire_y)
 
     vt_map.SoundObject.Create("snd/campfire.ogg", fire_x, fire_y, 7.0);
 
-    Map:AddHalo("img/misc/lights/torch_light_mask2.lua", fire_x, fire_y + 3.0,
+    vt_map.Halo.Create("img/misc/lights/torch_light_mask2.lua", fire_x, fire_y + 3.0,
         vt_video.Color(0.85, 0.32, 0.0, 0.6));
-    Map:AddHalo("img/misc/lights/sun_flare_light_main.lua", fire_x, fire_y + 1.0,
+    vt_map.Halo.Create("img/misc/lights/sun_flare_light_main.lua", fire_x, fire_y + 1.0,
         vt_video.Color(0.99, 1.0, 0.27, 0.2));
 end
 

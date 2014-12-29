@@ -129,11 +129,11 @@ function _CreateObjects()
     end
 
     -- Add a halo showing the cave entrances
-    Map:AddHalo("img/misc/lights/torch_light_mask.lua", 28, 59,
+    vt_map.Halo.Create("img/misc/lights/torch_light_mask.lua", 28, 59,
             vt_video.Color(light_color_red, light_color_green, light_color_blue, light_color_alpha));
 
     -- Add different halo light, representing holes of light coming from the ceiling
-    Map:AddHalo("img/misc/lights/right_ray_light.lua", 28, 17,
+    vt_map.Halo.Create("img/misc/lights/right_ray_light.lua", 28, 17,
             vt_video.Color(light_color_red, light_color_green, light_color_blue, light_color_alpha));
 
     -- Add the wolfpain necklace, triggering the second battle with the fenrir

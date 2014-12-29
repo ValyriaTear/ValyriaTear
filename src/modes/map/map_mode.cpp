@@ -459,19 +459,6 @@ void MapMode::AddZone(MapZone *zone)
     _object_supervisor->_zones.push_back(zone);
 }
 
-
-void MapMode::AddSavePoint(float x, float y)
-{
-    SavePoint *save_point = new SavePoint(x, y);
-    _object_supervisor->_save_points.push_back(save_point);
-}
-
-void MapMode::AddHalo(const std::string &filename, float x, float y, const Color &color)
-{
-    Halo *halo = new Halo(filename, x, y, color);
-    _object_supervisor->_halos.push_back(halo);
-}
-
 void MapMode::SetCamera(private_map::VirtualSprite *sprite, uint32 duration)
 {
     if(_camera == sprite) {
