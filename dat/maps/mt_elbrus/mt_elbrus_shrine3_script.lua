@@ -280,7 +280,7 @@ end
 function _CreateEnemiesZones()
     local enemy = nil;
 
-    roam_zones[1] = vt_map.EnemyZone(10, 32, 12, 16);
+    roam_zones[1] = vt_map.EnemyZone.Create(10, 32, 12, 16);
     enemy = CreateEnemySprite(Map, "slime");
     _SetBattleEnvironment(enemy);
     enemy:NewEnemyParty();
@@ -292,11 +292,10 @@ function _CreateEnemiesZones()
     enemy:SetBoss(true);
     roam_zones[1]:AddEnemy(enemy, 1);
     roam_zones[1]:SetSpawnsLeft(1); -- This monster shall spawn only one time.
-    Map:AddZone(roam_zones[1]);
 
     --roam_zones[1]:SetEnabled(false); -- Not disabled since it's the first one.
 
-    roam_zones[2] = vt_map.EnemyZone(10, 32, 12, 16);
+    roam_zones[2] = vt_map.EnemyZone.Create(10, 32, 12, 16);
     enemy = CreateEnemySprite(Map, "spider");
     _SetBattleEnvironment(enemy);
     enemy:NewEnemyParty();
@@ -308,10 +307,9 @@ function _CreateEnemiesZones()
     enemy:SetBoss(true);
     roam_zones[2]:AddEnemy(enemy, 1);
     roam_zones[2]:SetSpawnsLeft(1); -- This monster shall spawn only one time.
-    Map:AddZone(roam_zones[2]);
     roam_zones[2]:SetEnabled(false); -- Disabled per default
 
-    roam_zones[3] = vt_map.EnemyZone(10, 32, 12, 16);
+    roam_zones[3] = vt_map.EnemyZone.Create(10, 32, 12, 16);
     -- Some bats
     enemy = CreateEnemySprite(Map, "bat");
     _SetBattleEnvironment(enemy);
@@ -323,10 +321,9 @@ function _CreateEnemiesZones()
     enemy:SetBoss(true);
     roam_zones[3]:AddEnemy(enemy, 1);
     roam_zones[3]:SetSpawnsLeft(1); -- This monster shall spawn only one time.
-    Map:AddZone(roam_zones[3]);
     roam_zones[3]:SetEnabled(false); -- Disabled per default
 
-    roam_zones[4] = vt_map.EnemyZone(10, 32, 12, 16);
+    roam_zones[4] = vt_map.EnemyZone.Create(10, 32, 12, 16);
     enemy = CreateEnemySprite(Map, "snake");
     _SetBattleEnvironment(enemy);
     enemy:NewEnemyParty();
@@ -340,10 +337,9 @@ function _CreateEnemiesZones()
     enemy:SetBoss(true);
     roam_zones[4]:AddEnemy(enemy, 1);
     roam_zones[4]:SetSpawnsLeft(1); -- This monster shall spawn only one time.
-    Map:AddZone(roam_zones[4]);
     roam_zones[4]:SetEnabled(false); -- Disabled per default
 
-    roam_zones[5] = vt_map.EnemyZone(10, 32, 12, 16);
+    roam_zones[5] = vt_map.EnemyZone.Create(10, 32, 12, 16);
     enemy = CreateEnemySprite(Map, "big slime");
     _SetBattleEnvironment(enemy);
     enemy:NewEnemyParty();
@@ -352,10 +348,9 @@ function _CreateEnemiesZones()
     enemy:SetBoss(true);
     roam_zones[5]:AddEnemy(enemy, 1);
     roam_zones[5]:SetSpawnsLeft(1); -- This monster shall spawn only one time.
-    Map:AddZone(roam_zones[5]);
     roam_zones[5]:SetEnabled(false); -- Disabled per default
 
-    roam_zones[6] = vt_map.EnemyZone(10, 32, 12, 16);
+    roam_zones[6] = vt_map.EnemyZone.Create(10, 32, 12, 16);
     enemy = CreateEnemySprite(Map, "Eyeball");
     _SetBattleEnvironment(enemy);
     enemy:NewEnemyParty();
@@ -367,10 +362,9 @@ function _CreateEnemiesZones()
     enemy:SetBoss(true);
     roam_zones[6]:AddEnemy(enemy, 1);
     roam_zones[6]:SetSpawnsLeft(1); -- This monster shall spawn only one time.
-    Map:AddZone(roam_zones[6]);
     roam_zones[6]:SetEnabled(false); -- Disabled per default
 
-    roam_zones[7] = vt_map.EnemyZone(10, 32, 12, 16);
+    roam_zones[7] = vt_map.EnemyZone.Create(10, 32, 12, 16);
     enemy = CreateEnemySprite(Map, "Beetle");
     _SetBattleEnvironment(enemy);
     enemy:NewEnemyParty();
@@ -384,10 +378,9 @@ function _CreateEnemiesZones()
     enemy:SetBoss(true);
     roam_zones[7]:AddEnemy(enemy, 1);
     roam_zones[7]:SetSpawnsLeft(1); -- This monster shall spawn only one time.
-    Map:AddZone(roam_zones[7]);
     roam_zones[7]:SetEnabled(false); -- Disabled per default
 
-    roam_zones[8] = vt_map.EnemyZone(10, 32, 12, 16);
+    roam_zones[8] = vt_map.EnemyZone.Create(10, 32, 12, 16);
     enemy = CreateEnemySprite(Map, "Skeleton");
     _SetBattleEnvironment(enemy);
     enemy:NewEnemyParty();
@@ -402,10 +395,9 @@ function _CreateEnemiesZones()
     enemy:SetBoss(true);
     roam_zones[8]:AddEnemy(enemy, 1);
     roam_zones[8]:SetSpawnsLeft(1); -- This monster shall spawn only one time.
-    Map:AddZone(roam_zones[8]);
     roam_zones[8]:SetEnabled(false); -- Disabled per default
 
-    roam_zones[9] = vt_map.EnemyZone(10, 32, 12, 16);
+    roam_zones[9] = vt_map.EnemyZone.Create(10, 32, 12, 16);
     enemy = CreateEnemySprite(Map, "Skeleton");
     _SetBattleEnvironment(enemy);
     enemy:NewEnemyParty();
@@ -420,7 +412,6 @@ function _CreateEnemiesZones()
     enemy:SetBoss(true);
     roam_zones[9]:AddEnemy(enemy, 1);
     roam_zones[9]:SetSpawnsLeft(1); -- This monster shall spawn only one time.
-    Map:AddZone(roam_zones[9]);
     roam_zones[9]:SetEnabled(false); -- Disabled per default
 end
 
@@ -465,16 +456,10 @@ local trap_zone = nil
 
 -- Create the different map zones triggering events
 function _CreateZones()
-
     -- N.B.: left, right, top, bottom
-    to_shrine_main_room_zone = vt_map.CameraZone(0, 2, 34, 38);
-    Map:AddZone(to_shrine_main_room_zone);
-
-    to_shrine_treasure_room_zone = vt_map.CameraZone(18, 20, 9, 10);
-    Map:AddZone(to_shrine_treasure_room_zone);
-
-    trap_zone = vt_map.CameraZone(10, 34, 10, 44);
-    Map:AddZone(trap_zone);
+    to_shrine_main_room_zone = vt_map.CameraZone.Create(0, 2, 34, 38);
+    to_shrine_treasure_room_zone = vt_map.CameraZone.Create(18, 20, 9, 10);
+    trap_zone = vt_map.CameraZone.Create(10, 34, 10, 44);
 end
 
 local trap_started = false;

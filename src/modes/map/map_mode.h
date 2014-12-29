@@ -156,9 +156,6 @@ public:
     //! \brief Removes an object from memory
     void DeleteMapObject(private_map::MapObject* obj);
 
-    //! \brief Adds a new zone to the map
-    void AddZone(private_map::MapZone *zone);
-
     //! \brief Vectors containing the save points animations (when the character is in or not).
     std::vector<vt_video::AnimatedImage> active_save_point_animations;
     std::vector<vt_video::AnimatedImage> inactive_save_point_animations;

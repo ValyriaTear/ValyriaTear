@@ -391,11 +391,8 @@ local to_cave_exit_zone = nil
 -- Create the different map zones triggering events
 function _CreateZones()
     -- N.B.: left, right, top, bottom
-    to_cave_1_2_zone = vt_map.CameraZone(0, 1, 24, 28);
-    Map:AddZone(to_cave_1_2_zone);
-
-    to_cave_exit_zone = vt_map.CameraZone(24, 29, 47, 48);
-    Map:AddZone(to_cave_exit_zone);
+    to_cave_1_2_zone = vt_map.CameraZone.Create(0, 1, 24, 28);
+    to_cave_exit_zone = vt_map.CameraZone.Create(24, 29, 47, 48);
 end
 
 -- Check whether the active camera has entered a zone. To be called within Update()

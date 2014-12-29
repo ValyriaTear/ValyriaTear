@@ -294,12 +294,9 @@ local see_the_missing_stone_zone = nil
 -- Create the different map zones triggering events
 function _CreateZones()
     -- N.B.: left, right, top, bottom
-    to_shrine_SW_top_door_room_zone = vt_map.CameraZone(1, 3, 22, 26);
-    Map:AddZone(to_shrine_SW_top_door_room_zone);
-    to_shrine_SW_bottom_door_room_zone = vt_map.CameraZone(1, 3, 32, 36);
-    Map:AddZone(to_shrine_SW_bottom_door_room_zone);
-    to_shrine_NE_room_zone = vt_map.CameraZone(24, 32, 0, 2);
-    Map:AddZone(to_shrine_NE_room_zone);
+    to_shrine_SW_top_door_room_zone = vt_map.CameraZone.Create(1, 3, 22, 26);
+    to_shrine_SW_bottom_door_room_zone = vt_map.CameraZone.Create(1, 3, 32, 36);
+    to_shrine_NE_room_zone = vt_map.CameraZone.Create(24, 32, 0, 2);
 end
 
 -- Check whether the active camera has entered a zone. To be called within Update()

@@ -65,7 +65,7 @@ function _CreateEnemies()
     local roam_zone = nil
 
     -- Hint: left, right, top, bottom
-    roam_zone = vt_map.EnemyZone(21, 43, 11, 33);
+    roam_zone = vt_map.EnemyZone.Create(21, 43, 11, 33);
 
     -- Day and first encounters (slimes and spiders)
     enemy = CreateEnemySprite(Map, "slime");
@@ -78,8 +78,6 @@ function _CreateEnemies()
     enemy:AddEnemy(1);
     enemy:AddEnemy(2);
     roam_zone:AddEnemy(enemy, Map, 2);
-
-    Map:AddZone(roam_zone);
 end
 
 -- Sets common battle environment settings for enemy sprites
@@ -102,11 +100,10 @@ local desert_zone = nil
 -- Create the different map zones triggering events
 function _CreateZones()
     -- N.B.: left, right, top, bottom
-    desert_zone = vt_map.CameraZone(19, 29.1, 20.6, 25.5);
+    desert_zone = vt_map.CameraZone.Create(19, 29.1, 20.6, 25.5);
     desert_zone:AddSection(21, 28, 25.5, 27.5)
     desert_zone:AddSection(23, 25.7, 27.5, 28.5)
     desert_zone:AddSection(24, 25.3, 28.5, 29)
-    Map:AddZone(desert_zone);
 end
 
 function _CheckZones()

@@ -750,35 +750,21 @@ local battle_dialogue_start_zone = nil
 
 function _CreateZones()
     -- N.B.: left, right, top, bottom
-    village_center_zone = vt_map.CameraZone(89, 105, 0, 2);
-    Map:AddZone(village_center_zone);
+    village_center_zone = vt_map.CameraZone.Create(89, 105, 0, 2);
+    to_village_entrance_zone = vt_map.CameraZone.Create(118, 119, 10, 27);
+    to_riverbank_house_entrance_zone = vt_map.CameraZone.Create(96, 100, 46, 47);
 
-    to_village_entrance_zone = vt_map.CameraZone(118, 119, 10, 27);
-    Map:AddZone(to_village_entrance_zone);
-
-    to_riverbank_house_entrance_zone = vt_map.CameraZone(96, 100, 46, 47);
-    Map:AddZone(to_riverbank_house_entrance_zone);
-
-    soldier21_watching_zone = vt_map.CameraZone(84, 88, 12, 22);
+    soldier21_watching_zone = vt_map.CameraZone.Create(84, 88, 12, 22);
     soldier21_watching_zone:AddSection(88, 94, 9, 22);
     soldier21_watching_zone:AddSection(95, 105, 3, 14);
-    Map:AddZone(soldier21_watching_zone);
 
-    soldier21_watching_right_zone = vt_map.CameraZone(94, 105, 14, 22);
+    soldier21_watching_right_zone = vt_map.CameraZone.Create(94, 105, 14, 22);
     soldier21_watching_right_zone:AddSection(105, 120, 9, 24);
-    Map:AddZone(soldier21_watching_right_zone);
 
-    soldier22_watching_zone = vt_map.CameraZone(74, 85, 17, 38);
-    Map:AddZone(soldier22_watching_zone);
-
-    soldier22_watching_north_zone = vt_map.CameraZone(78, 80, 12, 17);
-    Map:AddZone(soldier22_watching_north_zone);
-
-    soldier22_watching_west_zone = vt_map.CameraZone(64, 74, 20, 32);
-    Map:AddZone(soldier22_watching_west_zone);
-
-    battle_dialogue_start_zone = vt_map.CameraZone(64, 86, 39, 40);
-    Map:AddZone(battle_dialogue_start_zone);
+    soldier22_watching_zone = vt_map.CameraZone.Create(74, 85, 17, 38);
+    soldier22_watching_north_zone = vt_map.CameraZone.Create(78, 80, 12, 17);
+    soldier22_watching_west_zone = vt_map.CameraZone.Create(64, 74, 20, 32);
+    battle_dialogue_start_zone = vt_map.CameraZone.Create(64, 86, 39, 40);
 end
 
 function _CheckZones()

@@ -291,7 +291,7 @@ function _CreateEnemies()
     local roam_zone = nil
 
     -- Hint: left, right, top, bottom
-    roam_zone = vt_map.EnemyZone(6, 19, 10, 49);
+    roam_zone = vt_map.EnemyZone.Create(6, 19, 10, 49);
 
     enemy = CreateEnemySprite(Map, "Skeleton");
     _SetBattleEnvironment(enemy);
@@ -300,7 +300,6 @@ function _CreateEnemies()
     enemy:AddEnemy(19);
     enemy:AddEnemy(19);
     roam_zone:AddEnemy(enemy, 2);
-    Map:AddZone(roam_zone);
 end
 
 -- Sets common battle environment settings for enemy sprites
@@ -493,25 +492,13 @@ local shrine_skeleton_trap_zone = nil
 
 -- Create the different map zones triggering events
 function _CreateZones()
-
     -- N.B.: left, right, top, bottom
-    to_shrine_entrance_zone = vt_map.CameraZone(26, 40, 78, 80);
-    Map:AddZone(to_shrine_entrance_zone);
-
-    to_shrine_trap_room_zone = vt_map.CameraZone(62, 64, 56, 62);
-    Map:AddZone(to_shrine_trap_room_zone);
-
-    to_shrine_enigma_room_zone = vt_map.CameraZone(0, 2, 56, 62);
-    Map:AddZone(to_shrine_enigma_room_zone);
-
-    to_shrine_first_floor_zone = vt_map.CameraZone(12, 16, 0, 2);
-    Map:AddZone(to_shrine_first_floor_zone);
-
-    to_shrine_stairs_room_zone = vt_map.CameraZone(46, 54, 0, 2);
-    Map:AddZone(to_shrine_stairs_room_zone);
-
-    shrine_skeleton_trap_zone = vt_map.CameraZone(4, 24, 10, 12);
-    Map:AddZone(shrine_skeleton_trap_zone);
+    to_shrine_entrance_zone = vt_map.CameraZone.Create(26, 40, 78, 80);
+    to_shrine_trap_room_zone = vt_map.CameraZone.Create(62, 64, 56, 62);
+    to_shrine_enigma_room_zone = vt_map.CameraZone.Create(0, 2, 56, 62);
+    to_shrine_first_floor_zone = vt_map.CameraZone.Create(12, 16, 0, 2);
+    to_shrine_stairs_room_zone = vt_map.CameraZone.Create(46, 54, 0, 2);
+    shrine_skeleton_trap_zone = vt_map.CameraZone.Create(4, 24, 10, 12);
 end
 
 -- Check whether the active camera has entered a zone. To be called within Update()

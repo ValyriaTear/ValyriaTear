@@ -182,14 +182,9 @@ local kalya_house_entrance_zone = nil
 
 function _CreateZones()
     -- N.B.: left, right, top, bottom
-    kalya_house_path_zone = vt_map.CameraZone(28, 58, 46, 47);
-    Map:AddZone(kalya_house_path_zone);
-
-    kalya_house_path_small_passage_zone = vt_map.CameraZone(0, 1, 0, 33);
-    Map:AddZone(kalya_house_path_small_passage_zone);
-
-    kalya_house_entrance_zone = vt_map.CameraZone(42, 46, 16, 17);
-    Map:AddZone(kalya_house_entrance_zone);
+    kalya_house_path_zone = vt_map.CameraZone.Create(28, 58, 46, 47);
+    kalya_house_path_small_passage_zone = vt_map.CameraZone.Create(0, 1, 0, 33);
+    kalya_house_entrance_zone = vt_map.CameraZone.Create(42, 46, 16, 17);
 end
 
 function _CheckZones()

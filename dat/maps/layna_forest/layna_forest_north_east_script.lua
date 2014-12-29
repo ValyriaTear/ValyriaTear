@@ -568,7 +568,7 @@ function _CreateEnemies()
     -- Treasure zone
 
     -- Hint: left, right, top, bottom
-    roam_zone = vt_map.EnemyZone(5, 10, 8, 47);
+    roam_zone = vt_map.EnemyZone.Create(5, 10, 8, 47);
 
     enemy = CreateEnemySprite(Map, "slime");
     _SetBattleEnvironment(enemy);
@@ -583,10 +583,8 @@ function _CreateEnemies()
     enemy:AddEnemy(2);
     roam_zone:AddEnemy(enemy, 1);
 
-    Map:AddZone(roam_zone);
-
     -- after fight zone
-    roam_zone = vt_map.EnemyZone(112, 120, 34, 80);
+    roam_zone = vt_map.EnemyZone.Create(112, 120, 34, 80);
 
     enemy = CreateEnemySprite(Map, "spider");
     _SetBattleEnvironment(enemy);
@@ -600,8 +598,6 @@ function _CreateEnemies()
     enemy:AddEnemy(2);
     enemy:AddEnemy(2);
     roam_zone:AddEnemy(enemy, 1);
-
-    Map:AddZone(roam_zone);
 end
 
 -- Creates all events and sets up the entire event sequence chain
@@ -697,21 +693,12 @@ local boss_fight1_zone = nil
 -- Create the different map zones triggering events
 function _CreateZones()
     -- N.B.: left, right, top, bottom
-    to_forest_NW_zone = vt_map.CameraZone(0, 1, 86, 90);
-    Map:AddZone(to_forest_NW_zone);
-
-    to_forest_SE_zone = vt_map.CameraZone(69, 75, 95, 96);
-    Map:AddZone(to_forest_SE_zone);
-
+    to_forest_NW_zone = vt_map.CameraZone.Create(0, 1, 86, 90);
+    to_forest_SE_zone = vt_map.CameraZone.Create(69, 75, 95, 96);
     -- Fade out music zone - used to set a dramatic area
-    music_fade_out_zone = vt_map.CameraZone(48, 50, 8, 17);
-    Map:AddZone(music_fade_out_zone);
-
-    warning_zone = vt_map.CameraZone(91, 93, 4, 18);
-    Map:AddZone(warning_zone);
-
-    boss_fight1_zone = vt_map.CameraZone(103, 105, 4, 18);
-    Map:AddZone(boss_fight1_zone);
+    music_fade_out_zone = vt_map.CameraZone.Create(48, 50, 8, 17);
+    warning_zone = vt_map.CameraZone.Create(91, 93, 4, 18);
+    boss_fight1_zone = vt_map.CameraZone.Create(103, 105, 4, 18);
 end
 
 -- A simple boolean permiting to trigger the dialogue only once...

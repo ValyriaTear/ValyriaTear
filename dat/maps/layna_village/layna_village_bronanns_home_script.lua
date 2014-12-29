@@ -368,11 +368,8 @@ local to_bronanns_room_zone = nil
 
 function _CreateZones()
     -- N.B.: left, right, top, bottom
-    home_exit_zone = vt_map.CameraZone(38, 41, 24, 25);
-    Map:AddZone(home_exit_zone);
-
-    to_bronanns_room_zone = vt_map.CameraZone(44, 47, 8, 9);
-    Map:AddZone(to_bronanns_room_zone);
+    home_exit_zone = vt_map.CameraZone.Create(38, 41, 24, 25);
+    to_bronanns_room_zone = vt_map.CameraZone.Create(44, 47, 8, 9);
 
     quest2_start_scene = false;
 end

@@ -636,7 +636,7 @@ function _CreateEnemies()
     -- Hint: left, right, top, bottom
 
     -- top right
-    roam_zone = vt_map.EnemyZone(77, 123, 2, 5);
+    roam_zone = vt_map.EnemyZone.Create(77, 123, 2, 5);
 
     enemy = CreateEnemySprite(Map, "slime");
     _SetBattleEnvironment(enemy);
@@ -649,9 +649,7 @@ function _CreateEnemies()
     enemy:AddEnemy(2);
     roam_zone:AddEnemy(enemy, 1);
 
-    Map:AddZone(roam_zone);
-
-    roam_zone = vt_map.EnemyZone(106, 121, 18, 25);
+    roam_zone = vt_map.EnemyZone.Create(106, 121, 18, 25);
 
     enemy = CreateEnemySprite(Map, "slime");
     _SetBattleEnvironment(enemy);
@@ -663,11 +661,9 @@ function _CreateEnemies()
     enemy:AddEnemy(1);
     enemy:AddEnemy(2);
     roam_zone:AddEnemy(enemy, 1);
-
-    Map:AddZone(roam_zone);
 
     -- wide passage
-    roam_zone = vt_map.EnemyZone(97, 118, 40, 89);
+    roam_zone = vt_map.EnemyZone.Create(97, 118, 40, 89);
 
     enemy = CreateEnemySprite(Map, "slime");
     _SetBattleEnvironment(enemy);
@@ -680,10 +676,8 @@ function _CreateEnemies()
     enemy:AddEnemy(2);
     roam_zone:AddEnemy(enemy, 2);
 
-    Map:AddZone(roam_zone);
-
     -- near the exit
-    roam_zone = vt_map.EnemyZone(12, 14, 77, 79);
+    roam_zone = vt_map.EnemyZone.Create(12, 14, 77, 79);
 
     enemy = CreateEnemySprite(Map, "spider");
     _SetBattleEnvironment(enemy);
@@ -696,10 +690,8 @@ function _CreateEnemies()
     enemy:AddEnemy(2);
     roam_zone:AddEnemy(enemy, 1);
 
-    Map:AddZone(roam_zone);
-
     -- in the inner part
-    roam_zone = vt_map.EnemyZone(24, 84, 46, 78);
+    roam_zone = vt_map.EnemyZone.Create(24, 84, 46, 78);
 
     enemy = CreateEnemySprite(Map, "slime");
     _SetBattleEnvironment(enemy);
@@ -711,8 +703,6 @@ function _CreateEnemies()
     enemy:AddEnemy(1);
     enemy:AddEnemy(2);
     roam_zone:AddEnemy(enemy, 3);
-
-    Map:AddZone(roam_zone);
 end
 
 -- Creates all events and sets up the entire event sequence chain
@@ -757,20 +747,11 @@ local to_wolf_cave_zone = nil
 -- Create the different map zones triggering events
 function _CreateZones()
     -- N.B.: left, right, top, bottom
-    to_forest_NE_zone = vt_map.CameraZone(36, 41, 0, 2);
-    Map:AddZone(to_forest_NE_zone);
-
-    to_forest_SW_zone = vt_map.CameraZone(0, 2, 52, 56);
-    Map:AddZone(to_forest_SW_zone);
-
-    to_cave1_2_zone = vt_map.CameraZone(12, 16, 39, 40);
-    Map:AddZone(to_cave1_2_zone);
-
-    to_cave2_1_zone = vt_map.CameraZone(64, 68, 69, 70);
-    Map:AddZone(to_cave2_1_zone);
-
-    to_wolf_cave_zone = vt_map.CameraZone(30, 34, 17, 18);
-    Map:AddZone(to_wolf_cave_zone);
+    to_forest_NE_zone = vt_map.CameraZone.Create(36, 41, 0, 2);
+    to_forest_SW_zone = vt_map.CameraZone.Create(0, 2, 52, 56);
+    to_cave1_2_zone = vt_map.CameraZone.Create(12, 16, 39, 40);
+    to_cave2_1_zone = vt_map.CameraZone.Create(64, 68, 69, 70);
+    to_wolf_cave_zone = vt_map.CameraZone.Create(30, 34, 17, 18);
 end
 
 -- Check whether the active camera has entered a zone. To be called within Update()

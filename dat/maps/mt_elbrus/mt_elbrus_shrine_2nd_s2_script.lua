@@ -417,7 +417,7 @@ function _CreateEnemies()
     local roam_zone = nil
 
     -- Hint: left, right, top, bottom
-    roam_zone = vt_map.EnemyZone(38, 52, 12, 32);
+    roam_zone = vt_map.EnemyZone.Create(38, 52, 12, 32);
 
     enemy = CreateEnemySprite(Map, "Skeleton");
     _SetBattleEnvironment(enemy);
@@ -427,7 +427,6 @@ function _CreateEnemies()
     enemy:AddEnemy(19);
     enemy:AddEnemy(19);
     roam_zone:AddEnemy(enemy, 2);
-    Map:AddZone(roam_zone);
 end
 
 -- zones
@@ -440,19 +439,14 @@ local mini_boss_zone = nil
 -- Create the different map zones triggering events
 function _CreateZones()
     -- N.B.: left, right, top, bottom
-    to_shrine_se_zone = vt_map.CameraZone(48, 52, 49, 51);
-    Map:AddZone(to_shrine_se_zone);
-    to_shrine_sw_zone = vt_map.CameraZone(14, 18, 70, 72);
-    Map:AddZone(to_shrine_sw_zone);
-    to_stairs_zone = vt_map.CameraZone(11, 13, 5, 7);
-    Map:AddZone(to_stairs_zone);
+    to_shrine_se_zone = vt_map.CameraZone.Create(48, 52, 49, 51);
+    to_shrine_sw_zone = vt_map.CameraZone.Create(14, 18, 70, 72);
+    to_stairs_zone = vt_map.CameraZone.Create(11, 13, 5, 7);
 
-    trap_zone = vt_map.CameraZone(6, 32, 25, 39);
+    trap_zone = vt_map.CameraZone.Create(6, 32, 25, 39);
     trap_zone:AddSection(27, 32, 20, 25);
-    Map:AddZone(trap_zone);
 
-    mini_boss_zone = vt_map.CameraZone(36, 38, 5, 10);
-    Map:AddZone(mini_boss_zone);
+    mini_boss_zone = vt_map.CameraZone.Create(36, 38, 5, 10);
 end
 
 -- Trigger damages on the characters present on the battle front.

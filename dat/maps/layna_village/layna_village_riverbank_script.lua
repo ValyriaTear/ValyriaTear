@@ -474,20 +474,11 @@ local orlinn_hide_n_seek2_zone = nil
 
 function _CreateZones()
     -- N.B.: left, right, top, bottom
-    village_center_zone = vt_map.CameraZone(89, 105, 0, 2);
-    Map:AddZone(village_center_zone);
-
-    to_village_entrance_zone = vt_map.CameraZone(118, 119, 10, 27);
-    Map:AddZone(to_village_entrance_zone);
-
-    to_riverbank_house_entrance_zone = vt_map.CameraZone(96, 100, 46, 47);
-    Map:AddZone(to_riverbank_house_entrance_zone);
-
-    to_secret_path_entrance_zone = vt_map.CameraZone(60, 72, 0, 2);
-    Map:AddZone(to_secret_path_entrance_zone);
-
-    orlinn_hide_n_seek2_zone = vt_map.CameraZone(75, 80, 0, 7);
-    Map:AddZone(orlinn_hide_n_seek2_zone);
+    village_center_zone = vt_map.CameraZone.Create(89, 105, 0, 2);
+    to_village_entrance_zone = vt_map.CameraZone.Create(118, 119, 10, 27);
+    to_riverbank_house_entrance_zone = vt_map.CameraZone.Create(96, 100, 46, 47);
+    to_secret_path_entrance_zone = vt_map.CameraZone.Create(60, 72, 0, 2);
+    orlinn_hide_n_seek2_zone = vt_map.CameraZone.Create(75, 80, 0, 7);
 end
 
 function _CheckZones()

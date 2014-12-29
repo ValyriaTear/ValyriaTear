@@ -1027,6 +1027,10 @@ public:
     //! Called by the SavePoint object constructor
     void AddSavePoint(SavePoint* save_point);
 
+    //! \brief Adds a new zone.
+    // Called by the Mazone constructor.
+    void AddZone(MapZone* zone);
+
     //! \brief Sorts objects on all three layers according to their draw order
     void SortObjects();
 

@@ -216,7 +216,7 @@ function _CreateEnemies()
     local roam_zone = nil
 
     -- Hint: left, right, top, bottom
-    roam_zone = vt_map.EnemyZone(7, 13, 36, 41);
+    roam_zone = vt_map.EnemyZone.Create(7, 13, 36, 41);
     -- Lonely bats
     enemy = CreateEnemySprite(Map, "bat");
     _SetBattleEnvironment(enemy);
@@ -232,10 +232,9 @@ function _CreateEnemies()
     enemy:AddEnemy(6);
     enemy:AddEnemy(4);
     roam_zone:AddEnemy(enemy, 1);
-    Map:AddZone(roam_zone);
 
     -- Hint: left, right, top, bottom
-    roam_zone = vt_map.EnemyZone(7, 13, 16, 21);
+    roam_zone = vt_map.EnemyZone.Create(7, 13, 16, 21);
     -- bats, again
     enemy = CreateEnemySprite(Map, "bat");
     _SetBattleEnvironment(enemy);
@@ -251,7 +250,6 @@ function _CreateEnemies()
     enemy:AddEnemy(6);
     enemy:AddEnemy(4);
     roam_zone:AddEnemy(enemy, 1);
-    Map:AddZone(roam_zone);
 end
 
 -- Creates all events and sets up the entire event sequence chain
@@ -287,23 +285,12 @@ local right_jump_zone = nil
 -- Create the different map zones triggering events
 function _CreateZones()
     -- N.B.: left, right, top, bottom
-    exit1_zone = vt_map.CameraZone(84, 94, 78, 80);
-    Map:AddZone(exit1_zone);
-
-    exit2_zone = vt_map.CameraZone(4, 15, 78, 80);
-    Map:AddZone(exit2_zone);
-
-    exit3_zone = vt_map.CameraZone(94, 96, 21, 22);
-    Map:AddZone(exit3_zone);
-
-    exit4_zone = vt_map.CameraZone(90, 92, 7, 8);
-    Map:AddZone(exit4_zone);
-
-    left_jump_zone = vt_map.CameraZone(4, 8, 63, 64);
-    Map:AddZone(left_jump_zone);
-
-    right_jump_zone = vt_map.CameraZone(77, 81, 29, 30);
-    Map:AddZone(right_jump_zone);
+    exit1_zone = vt_map.CameraZone.Create(84, 94, 78, 80);
+    exit2_zone = vt_map.CameraZone.Create(4, 15, 78, 80);
+    exit3_zone = vt_map.CameraZone.Create(94, 96, 21, 22);
+    exit4_zone = vt_map.CameraZone.Create(90, 92, 7, 8);
+    left_jump_zone = vt_map.CameraZone.Create(4, 8, 63, 64);
+    right_jump_zone = vt_map.CameraZone.Create(77, 81, 29, 30);
 end
 
 -- Check whether the active camera has entered a zone. To be called within Update()

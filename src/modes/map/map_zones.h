@@ -75,9 +75,6 @@ class MapZone
     friend class EnemyZone;
 
 public:
-    MapZone()
-    {}
-
     /** \brief Constructs a map zone that is initialized with a single zone section
     *** \param left_col The left edge of the section to add
     *** \param right_col The right edge of the section to add
@@ -88,6 +85,12 @@ public:
 
     virtual ~MapZone()
     {}
+
+    //! \brief A C++ wrapper made to create a new object from scripting,
+    //! without letting Lua handling the object life-cycle.
+    //! \note We don't permit luabind to use constructors here as it can't currently
+    //! give the object ownership at construction time.
+    static MapZone* Create(uint16 left_col, uint16 right_col, uint16 top_row, uint16 bottom_row);
 
     /** \brief Adds a new zone section to the map zone
     *** \param left_col The left edge of the section to add
@@ -153,9 +156,6 @@ protected:
 class CameraZone : public MapZone
 {
 public:
-    CameraZone() : MapZone(), _camera_inside(false), _was_camera_inside(false)
-    {}
-
     /** \brief Constructs a camera zone that is initialized with a single zone section
     *** \param left_col The left edge of the section to add
     *** \param right_col The right edge of the section to add
@@ -166,6 +166,12 @@ public:
 
     virtual ~CameraZone()
     {}
+
+    //! \brief A C++ wrapper made to create a new object from scripting,
+    //! without letting Lua handling the object life-cycle.
+    //! \note We don't permit luabind to use constructors here as it can't currently
+    //! give the object ownership at construction time.
+    static CameraZone* Create(uint16 left_col, uint16 right_col, uint16 top_row, uint16 bottom_row);
 
     //! \brief Updates the state of the zone by checking the current camera position
     void Update();
@@ -217,8 +223,6 @@ protected:
 class EnemyZone : public MapZone
 {
 public:
-    EnemyZone();
-
     /** \brief Constructs an enemy zone that is initialized with a single zone section
     *** \param left_col The left edge of the section to add
     *** \param right_col The right edge of the section to add
@@ -231,6 +235,12 @@ public:
     ~EnemyZone() {
         if(_spawn_zone != NULL) delete _spawn_zone;
     }
+
+    //! \brief A C++ wrapper made to create a new object from scripting,
+    //! without letting Lua handling the object life-cycle.
+    //! \note We don't permit luabind to use constructors here as it can't currently
+    //! give the object ownership at construction time.
+    static EnemyZone* Create(uint16 left_col, uint16 right_col, uint16 top_row, uint16 bottom_row);
 
     //! \brief Enables/disables the enemy zone.
     void SetEnabled(bool is_enabled) {

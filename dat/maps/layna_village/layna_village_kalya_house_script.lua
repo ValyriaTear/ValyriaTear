@@ -421,14 +421,9 @@ local to_mt_elbrus_zone = nil
 -- Create the different map zones triggering events
 function _CreateZones()
     -- N.B.: left, right, top, bottom
-    downstairs_zone = vt_map.CameraZone(38, 42, 20, 22);
-    Map:AddZone(downstairs_zone);
-
-    upstairs_zone = vt_map.CameraZone(38, 42, 26, 28);
-    Map:AddZone(upstairs_zone);
-
-    to_mt_elbrus_zone = vt_map.CameraZone(30, 36, 12, 14);
-    Map:AddZone(to_mt_elbrus_zone);
+    downstairs_zone = vt_map.CameraZone.Create(38, 42, 20, 22);
+    upstairs_zone = vt_map.CameraZone.Create(38, 42, 26, 28);
+    to_mt_elbrus_zone = vt_map.CameraZone.Create(30, 36, 12, 14);
 end
 
 -- Check whether the active camera has entered a zone. To be called within Update()

@@ -692,16 +692,10 @@ local shrine_door_opening_zone = nil
 
 -- Create the different map zones triggering events
 function _CreateZones()
-
     -- N.B.: left, right, top, bottom
-    to_shrine_zone = vt_map.CameraZone(40, 44, 2, 4);
-    Map:AddZone(to_shrine_zone);
-
-    to_mountain_bridge_zone = vt_map.CameraZone(26, 32, 46, 48);
-    Map:AddZone(to_mountain_bridge_zone);
-
-    shrine_door_opening_zone = vt_map.CameraZone(40, 44, 8, 10);
-    Map:AddZone(shrine_door_opening_zone);
+    to_shrine_zone = vt_map.CameraZone.Create(40, 44, 2, 4);
+    to_mountain_bridge_zone = vt_map.CameraZone.Create(26, 32, 46, 48);
+    shrine_door_opening_zone = vt_map.CameraZone.Create(40, 44, 8, 10);
 end
 
 -- Check whether the active camera has entered a zone. To be called within Update()

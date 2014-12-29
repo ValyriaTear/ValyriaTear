@@ -580,7 +580,7 @@ function _CreateEnemies()
     local roam_zone = nil
 
     -- Hint: left, right, top, bottom
-    roam_zone = vt_map.EnemyZone(40, 52, 67, 87);
+    roam_zone = vt_map.EnemyZone.Create(40, 52, 67, 87);
 
     enemy = CreateEnemySprite(Map, "snake");
     _SetBattleEnvironment(enemy);
@@ -593,9 +593,7 @@ function _CreateEnemies()
     enemy:AddEnemy(2);
     roam_zone:AddEnemy(enemy, 1);
 
-    Map:AddZone(roam_zone);
-
-    roam_zone = vt_map.EnemyZone(77, 84, 71, 87);
+    roam_zone = vt_map.EnemyZone.Create(77, 84, 71, 87);
     enemy = CreateEnemySprite(Map, "spider");
     _SetBattleEnvironment(enemy);
     enemy:NewEnemyParty();
@@ -607,10 +605,8 @@ function _CreateEnemies()
     enemy:AddEnemy(1);
     roam_zone:AddEnemy(enemy, 1);
 
-    Map:AddZone(roam_zone);
-
     -- Hint: left, right, top, bottom
-    roam_zone = vt_map.EnemyZone(2, 11, 66, 87);
+    roam_zone = vt_map.EnemyZone.Create(2, 11, 66, 87);
 
     enemy = CreateEnemySprite(Map, "snake");
     _SetBattleEnvironment(enemy);
@@ -623,10 +619,8 @@ function _CreateEnemies()
     enemy:AddEnemy(2);
     roam_zone:AddEnemy(enemy, 1);
 
-    Map:AddZone(roam_zone);
-
     -- Hint: left, right, top, bottom
-    roam_zone = vt_map.EnemyZone(5, 25, 5, 37);
+    roam_zone = vt_map.EnemyZone.Create(5, 25, 5, 37);
 
     enemy = CreateEnemySprite(Map, "snake");
     _SetBattleEnvironment(enemy);
@@ -638,8 +632,6 @@ function _CreateEnemies()
     enemy:AddEnemy(4);
     enemy:AddEnemy(2);
     roam_zone:AddEnemy(enemy, 1);
-
-    Map:AddZone(roam_zone);
 end
 
 -- Special event references which destinations must be updated just before being called.
@@ -710,11 +702,8 @@ local to_forest_NW_zone = nil
 -- Create the different map zones triggering events
 function _CreateZones()
     -- N.B.: left, right, top, bottom
-    to_forest_SE_zone = vt_map.CameraZone(126, 128, 82, 87);
-    Map:AddZone(to_forest_SE_zone);
-
-    to_forest_NW_zone = vt_map.CameraZone(52, 59, 0, 2);
-    Map:AddZone(to_forest_NW_zone);
+    to_forest_SE_zone = vt_map.CameraZone.Create(126, 128, 82, 87);
+    to_forest_NW_zone = vt_map.CameraZone.Create(52, 59, 0, 2);
 end
 
 -- Check whether the active camera has entered a zone. To be called within Update()

@@ -224,7 +224,7 @@ function _CreateEnemies()
     while i < 6 do
         -- Monsters that can only be beaten once
         -- Hint: left, right, top, bottom
-        local roam_zone = vt_map.EnemyZone(7, 20, 22, 33);
+        local roam_zone = vt_map.EnemyZone.Create(7, 20, 22, 33);
         enemy = CreateEnemySprite(Map, "Skeleton");
         _SetBattleEnvironment(enemy);
         enemy:NewEnemyParty();
@@ -238,7 +238,6 @@ function _CreateEnemies()
         enemy:AddEnemy(17); -- Thing
         enemy:AddEnemy(16);
         roam_zone:AddEnemy(enemy, 1);
-        Map:AddZone(roam_zone);
 
         i = i + 1;
     end
@@ -277,14 +276,10 @@ local to_shrine_SE_bottom_door_room_zone = nil
 -- Create the different map zones triggering events
 function _CreateZones()
     -- N.B.: left, right, top, bottom
-    to_shrine_NW_left_door_room_zone = vt_map.CameraZone(14, 18, 7, 9);
-    Map:AddZone(to_shrine_NW_left_door_room_zone);
-    to_shrine_NW_right_door_room_zone = vt_map.CameraZone(26, 30, 7, 9);
-    Map:AddZone(to_shrine_NW_right_door_room_zone);
-    to_shrine_SE_top_door_room_zone = vt_map.CameraZone(45, 47, 22, 26);
-    Map:AddZone(to_shrine_SE_top_door_room_zone);
-    to_shrine_SE_bottom_door_room_zone = vt_map.CameraZone(45, 47, 32, 36);
-    Map:AddZone(to_shrine_SE_bottom_door_room_zone);
+    to_shrine_NW_left_door_room_zone = vt_map.CameraZone.Create(14, 18, 7, 9);
+    to_shrine_NW_right_door_room_zone = vt_map.CameraZone.Create(26, 30, 7, 9);
+    to_shrine_SE_top_door_room_zone = vt_map.CameraZone.Create(45, 47, 22, 26);
+    to_shrine_SE_bottom_door_room_zone = vt_map.CameraZone.Create(45, 47, 32, 36);
 end
 
 -- Check whether the active camera has entered a zone. To be called within Update()

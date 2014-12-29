@@ -392,11 +392,8 @@ local mini_boss_zone = nil
 -- Create the different map zones triggering events
 function _CreateZones()
     -- N.B.: left, right, top, bottom
-    to_shrine_main_room_zone = vt_map.CameraZone(62, 64, 32, 36);
-    Map:AddZone(to_shrine_main_room_zone);
-
-    mini_boss_zone = vt_map.CameraZone(40, 42, 6, 11);
-    Map:AddZone(mini_boss_zone);
+    to_shrine_main_room_zone = vt_map.CameraZone.Create(62, 64, 32, 36);
+    mini_boss_zone = vt_map.CameraZone.Create(40, 42, 6, 11);
 end
 
 -- Check whether the active camera has entered a zone. To be called within Update()

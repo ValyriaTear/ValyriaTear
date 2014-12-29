@@ -91,7 +91,6 @@ void BindModeCode()
 
             .def("DeleteMapObject", &MapMode::DeleteMapObject)
 
-            .def("AddZone", &MapMode::AddZone, luabind::adopt(_2))
             .def("SetCamera", (void(MapMode:: *)(private_map::VirtualSprite *))&MapMode::SetCamera)
             .def("SetCamera", (void(MapMode:: *)(private_map::VirtualSprite *, uint32))&MapMode::SetCamera)
             .def("GetCamera", &MapMode::GetCamera)
@@ -393,27 +392,29 @@ void BindModeCode()
         luabind::module(vt_script::ScriptManager->GetGlobalState(), "vt_map")
         [
             luabind::class_<MapZone>("MapZone")
-            .def(luabind::constructor<>())
-            .def(luabind::constructor<uint16, uint16, uint16, uint16>())
             .def("AddSection", &MapZone::AddSection)
             .def("IsInsideZone", &MapZone::IsInsideZone)
+            .scope
+            [   // Used for static members and nested classes.
+                luabind::def("Create", &MapZone::Create)
+            ]
         ];
 
         luabind::module(vt_script::ScriptManager->GetGlobalState(), "vt_map")
         [
             luabind::class_<CameraZone, MapZone>("CameraZone")
-            .def(luabind::constructor<>())
-            .def(luabind::constructor<uint16, uint16, uint16, uint16>())
             .def("IsCameraInside", &CameraZone::IsCameraInside)
             .def("IsCameraEntering", &CameraZone::IsCameraEntering)
             .def("IsCameraExiting", &CameraZone::IsCameraExiting)
+            .scope
+            [   // Used for static members and nested classes.
+                luabind::def("Create", &CameraZone::Create)
+            ]
         ];
 
         luabind::module(vt_script::ScriptManager->GetGlobalState(), "vt_map")
         [
             luabind::class_<EnemyZone, MapZone>("EnemyZone")
-            .def(luabind::constructor<>())
-            .def(luabind::constructor<uint16, uint16, uint16, uint16>())
             .def("SetEnabled", &EnemyZone::SetEnabled)
             .def("AddEnemy", &EnemyZone::AddEnemy)
             .def("AddSpawnSection", &EnemyZone::AddSpawnSection)
@@ -423,6 +424,10 @@ void BindModeCode()
             .def("SetSpawnTime", &EnemyZone::SetSpawnTime)
             .def("SetSpawnsLeft", &EnemyZone::SetSpawnsLeft)
             .def("GetSpawnsLeft", &EnemyZone::GetSpawnsLeft)
+            .scope
+            [   // Used for static members and nested classes.
+                luabind::def("Create", &EnemyZone::Create)
+            ]
         ];
 
         luabind::module(vt_script::ScriptManager->GetGlobalState(), "vt_map")

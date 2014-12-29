@@ -450,15 +450,6 @@ void MapMode::DeleteMapObject(private_map::MapObject* object)
     _object_supervisor->DeleteObject(object);
 }
 
-void MapMode::AddZone(MapZone *zone)
-{
-    if(!zone) {
-        PRINT_WARNING << "Couldn't add NULL zone." << std::endl;
-        return;
-    }
-    _object_supervisor->_zones.push_back(zone);
-}
-
 void MapMode::SetCamera(private_map::VirtualSprite *sprite, uint32 duration)
 {
     if(_camera == sprite) {

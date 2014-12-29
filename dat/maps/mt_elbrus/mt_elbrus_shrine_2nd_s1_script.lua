@@ -251,23 +251,16 @@ local falling_zone = nil
 -- Create the different map zones triggering events
 function _CreateZones()
     -- N.B.: left, right, top, bottom
-    to_shrine_ne_zone = vt_map.CameraZone(84, 88, 3, 5);
-    Map:AddZone(to_shrine_ne_zone);
-    to_shrine_nw_zone = vt_map.CameraZone(6, 10, 3, 5);
-    Map:AddZone(to_shrine_nw_zone);
-    to_grotto_zone = vt_map.CameraZone(33, 35, 22, 24);
-    Map:AddZone(to_grotto_zone);
+    to_shrine_ne_zone = vt_map.CameraZone.Create(84, 88, 3, 5);
+    to_shrine_nw_zone = vt_map.CameraZone.Create(6, 10, 3, 5);
+    to_grotto_zone = vt_map.CameraZone.Create(33, 35, 22, 24);
 
-    windy1_zone = vt_map.CameraZone(32, 36, 65, 71);
-    Map:AddZone(windy1_zone);
-    windy2_zone = vt_map.CameraZone(43, 47, 40, 48);
-    Map:AddZone(windy2_zone);
-    falling_zone = vt_map.CameraZone(32, 36, 71, 74);
+    windy1_zone = vt_map.CameraZone.Create(32, 36, 65, 71);
+    windy2_zone = vt_map.CameraZone.Create(43, 47, 40, 48);
+    falling_zone = vt_map.CameraZone.Create(32, 36, 71, 74);
     falling_zone:AddSection(43, 47, 48, 52);
-    Map:AddZone(falling_zone);
 
-    windy3_zone = vt_map.CameraZone(85, 89, 10, 29);
-    Map:AddZone(windy3_zone);
+    windy3_zone = vt_map.CameraZone.Create(85, 89, 10, 29);
 end
 
 -- Tells whether the winds are on.

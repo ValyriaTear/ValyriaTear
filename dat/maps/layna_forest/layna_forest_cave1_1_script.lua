@@ -338,7 +338,7 @@ function _CreateEnemies()
 
     -- Extra boss near the save point - Can only be beaten once.
     -- Hint: left, right, top, bottom
-    slime_mother_roam_zone = vt_map.EnemyZone(8, 10, 6, 6);
+    slime_mother_roam_zone = vt_map.EnemyZone.Create(8, 10, 6, 6);
 
     if (GlobalManager:DoesEventExist("story", "layna_forest_slime_mother_defeated")) then
         slime_mother_defeated = true;
@@ -352,11 +352,10 @@ function _CreateEnemies()
         slime_mother_roam_zone:AddEnemy(enemy, 1);
         slime_mother_roam_zone:SetSpawnsLeft(1); -- The Slime Mother boss shall spawn only one time.
     end
-    Map:AddZone(slime_mother_roam_zone);
 
     -- A bat spawn point
     -- Hint: left, right, top, bottom
-    roam_zone = vt_map.EnemyZone(7, 38, 25, 27);
+    roam_zone = vt_map.EnemyZone.Create(7, 38, 25, 27);
 
     enemy = CreateEnemySprite(Map, "bat");
     _SetBattleEnvironment(enemy);
@@ -364,11 +363,10 @@ function _CreateEnemies()
     enemy:AddEnemy(6);
     enemy:AddEnemy(6);
     roam_zone:AddEnemy(enemy, 1);
-    Map:AddZone(roam_zone);
 
     -- A bat spawn point
     -- Hint: left, right, top, bottom
-    roam_zone = vt_map.EnemyZone(97, 115, 38, 40);
+    roam_zone = vt_map.EnemyZone.Create(97, 115, 38, 40);
 
     enemy = CreateEnemySprite(Map, "bat");
     _SetBattleEnvironment(enemy);
@@ -376,11 +374,10 @@ function _CreateEnemies()
     enemy:AddEnemy(6);
     enemy:AddEnemy(6);
     roam_zone:AddEnemy(enemy, 1);
-    Map:AddZone(roam_zone);
 
     -- A bat spawn point
     -- Hint: left, right, top, bottom
-    roam_zone = vt_map.EnemyZone(51, 81, 58, 61);
+    roam_zone = vt_map.EnemyZone.Create(51, 81, 58, 61);
 
     enemy = CreateEnemySprite(Map, "bat");
     _SetBattleEnvironment(enemy);
@@ -388,7 +385,6 @@ function _CreateEnemies()
     enemy:AddEnemy(6);
     enemy:AddEnemy(6);
     roam_zone:AddEnemy(enemy, 1);
-    Map:AddZone(roam_zone);
 end
 
 -- Special event references which destinations must be updated just before being called.
@@ -485,11 +481,8 @@ local to_cave_1_2_zone = nil
 -- Create the different map zones triggering events
 function _CreateZones()
     -- N.B.: left, right, top, bottom
-    to_forest_NW_zone = vt_map.CameraZone(114, 118, 95, 97);
-    Map:AddZone(to_forest_NW_zone);
-
-    to_cave_1_2_zone = vt_map.CameraZone(126, 128, 3, 13);
-    Map:AddZone(to_cave_1_2_zone);
+    to_forest_NW_zone = vt_map.CameraZone.Create(114, 118, 95, 97);
+    to_cave_1_2_zone = vt_map.CameraZone.Create(126, 128, 3, 13);
 end
 
 -- Check whether the active camera has entered a zone. To be called within Update()

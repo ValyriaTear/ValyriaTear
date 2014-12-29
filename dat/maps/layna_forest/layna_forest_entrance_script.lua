@@ -289,7 +289,7 @@ function _CreateEnemies()
     local roam_zone = nil
 
     -- Hint: left, right, top, bottom
-    roam_zone = vt_map.EnemyZone(49, 62, 26, 39);
+    roam_zone = vt_map.EnemyZone.Create(49, 62, 26, 39);
 
     if (GlobalManager:GetEventValue("story", "layna_forest_twilight_value") >= 6) then
         -- Encounters at night (snakes, spiders and bats)
@@ -316,8 +316,6 @@ function _CreateEnemies()
         enemy:AddEnemy(2);
         roam_zone:AddEnemy(enemy, 1);
     end
-
-    Map:AddZone(roam_zone);
 end
 
 -- Special event references which destinations must be updated just before being called.
@@ -431,11 +429,8 @@ local to_forest_nw_zone = nil
 -- Create the different map zones triggering events
 function _CreateZones()
     -- N.B.: left, right, top, bottom
-    forest_entrance_exit_zone = vt_map.CameraZone(0, 1, 26, 34);
-    Map:AddZone(forest_entrance_exit_zone);
-
-    to_forest_nw_zone = vt_map.CameraZone(62, 64, 29, 35);
-    Map:AddZone(to_forest_nw_zone);
+    forest_entrance_exit_zone = vt_map.CameraZone.Create(0, 1, 26, 34);
+    to_forest_nw_zone = vt_map.CameraZone.Create(62, 64, 29, 35);
 end
 
 -- Check whether the active camera has entered a zone. To be called within Update()

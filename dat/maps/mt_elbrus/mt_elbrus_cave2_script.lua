@@ -210,10 +210,8 @@ local exit2_2_zone = nil
 -- Create the different map zones triggering events
 function _CreateZones()
     -- N.B.: left, right, top, bottom
-    exit2_1_zone = vt_map.CameraZone(42, 50, 46, 48);
-    Map:AddZone(exit2_1_zone);
-    exit2_2_zone = vt_map.CameraZone(42, 48, 15, 17);
-    Map:AddZone(exit2_2_zone);
+    exit2_1_zone = vt_map.CameraZone.Create(42, 50, 46, 48);
+    exit2_2_zone = vt_map.CameraZone.Create(42, 48, 15, 17);
 end
 
 -- Check whether the active camera has entered a zone. To be called within Update()

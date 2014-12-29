@@ -584,7 +584,7 @@ function _CreateEnemies()
 
     -- Enemy near chest 1
     -- Hint: left, right, top, bottom
-    roam_zone = vt_map.EnemyZone(2, 10, 58, 75);
+    roam_zone = vt_map.EnemyZone.Create(2, 10, 58, 75);
 
     enemy = CreateEnemySprite(Map, "slime");
     _SetBattleEnvironment(enemy);
@@ -596,11 +596,10 @@ function _CreateEnemies()
     enemy:AddEnemy(1);
     enemy:AddEnemy(2);
     roam_zone:AddEnemy(enemy, 1);
-    Map:AddZone(roam_zone);
 
     -- Enemy near chest 2
     -- Hint: left, right, top, bottom
-    roam_zone = vt_map.EnemyZone(2, 20, 5, 23);
+    roam_zone = vt_map.EnemyZone.Create(2, 20, 5, 23);
 
     enemy = CreateEnemySprite(Map, "slime");
     _SetBattleEnvironment(enemy);
@@ -612,11 +611,10 @@ function _CreateEnemies()
     enemy:AddEnemy(1);
     enemy:AddEnemy(2);
     roam_zone:AddEnemy(enemy, 1);
-    Map:AddZone(roam_zone);
 
     -- Enemy near chest 3 - Trap chest and zone
     -- Hint: left, right, top, bottom
-    roam_zone = vt_map.EnemyZone(103, 126, 2, 40);
+    roam_zone = vt_map.EnemyZone.Create(103, 126, 2, 40);
 
     enemy = CreateEnemySprite(Map, "slime");
     _SetBattleEnvironment(enemy);
@@ -628,11 +626,10 @@ function _CreateEnemies()
     enemy:AddEnemy(1);
     enemy:AddEnemy(2);
     roam_zone:AddEnemy(enemy, 2);
-    Map:AddZone(roam_zone);
 
     -- Wandering enemy
     -- Hint: left, right, top, bottom
-    roam_zone = vt_map.EnemyZone(41, 97, 81, 95);
+    roam_zone = vt_map.EnemyZone.Create(41, 97, 81, 95);
 
     enemy = CreateEnemySprite(Map, "slime");
     _SetBattleEnvironment(enemy);
@@ -644,11 +641,10 @@ function _CreateEnemies()
     enemy:AddEnemy(1);
     enemy:AddEnemy(2);
     roam_zone:AddEnemy(enemy, 1);
-    Map:AddZone(roam_zone);
 
     -- Wandering enemy
     -- Hint: left, right, top, bottom
-    roam_zone = vt_map.EnemyZone(23, 88, 58, 76);
+    roam_zone = vt_map.EnemyZone.Create(23, 88, 58, 76);
 
     enemy = CreateEnemySprite(Map, "slime");
     _SetBattleEnvironment(enemy);
@@ -660,11 +656,10 @@ function _CreateEnemies()
     enemy:AddEnemy(1);
     enemy:AddEnemy(2);
     roam_zone:AddEnemy(enemy, 2);
-    Map:AddZone(roam_zone);
 
     -- Wandering enemy
     -- Hint: left, right, top, bottom
-    roam_zone = vt_map.EnemyZone(62, 100, 4, 13);
+    roam_zone = vt_map.EnemyZone.Create(62, 100, 4, 13);
 
     enemy = CreateEnemySprite(Map, "slime");
     _SetBattleEnvironment(enemy);
@@ -676,7 +671,6 @@ function _CreateEnemies()
     enemy:AddEnemy(1);
     enemy:AddEnemy(2);
     roam_zone:AddEnemy(enemy, 1);
-    Map:AddZone(roam_zone);
 end
 
 -- Special event references which destinations must be updated just before being called.
@@ -893,23 +887,12 @@ local dialogue_near_forest_entrance_zone = nil
 -- Create the different map zones triggering events
 function _CreateZones()
     -- N.B.: left, right, top, bottom
-    to_forest_entrance_zone = vt_map.CameraZone(0, 1, 80, 90);
-    Map:AddZone(to_forest_entrance_zone);
-
-    dialogue_near_forest_entrance_zone = vt_map.CameraZone(5, 7, 80, 90);
-    Map:AddZone(dialogue_near_forest_entrance_zone);
-
-    to_forest_NE_zone = vt_map.CameraZone(126, 128, 40, 45);
-    Map:AddZone(to_forest_NE_zone);
-
-    to_forest_SW_zone = vt_map.CameraZone(111, 119, 95, 97);
-    Map:AddZone(to_forest_SW_zone);
-
-    to_cave_entrance_zone = vt_map.CameraZone(74, 78, 36, 38);
-    Map:AddZone(to_cave_entrance_zone);
-
-    orlinn_scene_zone = vt_map.CameraZone(81, 83, 18, 28);
-    Map:AddZone(orlinn_scene_zone);
+    to_forest_entrance_zone = vt_map.CameraZone.Create(0, 1, 80, 90);
+    dialogue_near_forest_entrance_zone = vt_map.CameraZone.Create(5, 7, 80, 90);
+    to_forest_NE_zone = vt_map.CameraZone.Create(126, 128, 40, 45);
+    to_forest_SW_zone = vt_map.CameraZone.Create(111, 119, 95, 97);
+    to_cave_entrance_zone = vt_map.CameraZone.Create(74, 78, 36, 38);
+    orlinn_scene_zone = vt_map.CameraZone.Create(81, 83, 18, 28);
 end
 
 -- Check whether the active camera has entered a zone. To be called within Update()

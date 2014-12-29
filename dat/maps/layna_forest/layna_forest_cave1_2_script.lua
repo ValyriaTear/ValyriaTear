@@ -357,7 +357,7 @@ function _CreateEnemies()
 
     -- Monsters that can only be beaten once
     -- Hint: left, right, top, bottom
-    roam_zone1 = vt_map.EnemyZone(26, 30, 43, 50);
+    roam_zone1 = vt_map.EnemyZone.Create(26, 30, 43, 50);
     if (monsters_defeated == false) then
         enemy = CreateEnemySprite(Map, "slime");
         _SetBattleEnvironment(enemy);
@@ -370,10 +370,9 @@ function _CreateEnemies()
         roam_zone1:AddEnemy(enemy, 1);
         roam_zone1:SetSpawnsLeft(1); -- This monster shall spawn only one time.
     end
-    Map:AddZone(roam_zone1);
 
     -- Hint: left, right, top, bottom
-    roam_zone2 = vt_map.EnemyZone(35, 43, 13, 20);
+    roam_zone2 = vt_map.EnemyZone.Create(35, 43, 13, 20);
     if (monsters_defeated == false) then
         enemy = CreateEnemySprite(Map, "slime");
         _SetBattleEnvironment(enemy);
@@ -386,9 +385,8 @@ function _CreateEnemies()
         roam_zone2:AddEnemy(enemy, 1);
         roam_zone2:SetSpawnsLeft(1); -- This monster shall spawn only one time.
     end
-    Map:AddZone(roam_zone2);
 
-    roam_zone3 = vt_map.EnemyZone(61, 67, 40, 48);
+    roam_zone3 = vt_map.EnemyZone.Create(61, 67, 40, 48);
     if (monsters_defeated == false) then
         enemy = CreateEnemySprite(Map, "slime");
         _SetBattleEnvironment(enemy);
@@ -401,9 +399,8 @@ function _CreateEnemies()
         roam_zone3:AddEnemy(enemy, 1);
         roam_zone3:SetSpawnsLeft(1); -- This monster shall spawn only one time.
     end
-    Map:AddZone(roam_zone3);
 
-    roam_zone4 = vt_map.EnemyZone(89, 100, 12, 15);
+    roam_zone4 = vt_map.EnemyZone.Create(89, 100, 12, 15);
     if (monsters_defeated == false) then
         enemy = CreateEnemySprite(Map, "bat");
         _SetBattleEnvironment(enemy);
@@ -416,7 +413,6 @@ function _CreateEnemies()
         roam_zone4:AddEnemy(enemy, 1);
         roam_zone4:SetSpawnsLeft(1); -- This monster shall spawn only one time.
     end
-    Map:AddZone(roam_zone4);
 end
 
 -- check whether all the monsters dies, to open the door
@@ -465,17 +461,10 @@ local seeing_the_exit_zone = nil
 -- Create the different map zones triggering events
 function _CreateZones()
     -- N.B.: left, right, top, bottom
-    to_cave_1_1_zone = vt_map.CameraZone(0, 1, 11, 16);
-    Map:AddZone(to_cave_1_1_zone);
-
-    to_cave_exit_zone = vt_map.CameraZone(108, 116, 95, 96);
-    Map:AddZone(to_cave_exit_zone);
-
-    to_wolf_cave_zone = vt_map.CameraZone(122, 124, 12, 14);
-    Map:AddZone(to_wolf_cave_zone);
-
-    seeing_the_exit_zone = vt_map.CameraZone(99, 122, 80, 96);
-    Map:AddZone(seeing_the_exit_zone);
+    to_cave_1_1_zone = vt_map.CameraZone.Create(0, 1, 11, 16);
+    to_cave_exit_zone = vt_map.CameraZone.Create(108, 116, 95, 96);
+    to_wolf_cave_zone = vt_map.CameraZone.Create(122, 124, 12, 14);
+    seeing_the_exit_zone = vt_map.CameraZone.Create(99, 122, 80, 96);
 end
 
 -- Check whether the active camera has entered a zone. To be called within Update()

@@ -171,7 +171,7 @@ function _CreateEnemies()
     local roam_zone = nil
 
     -- Hint: left, right, top, bottom
-    roam_zone = vt_map.EnemyZone(12, 20, 14, 22);
+    roam_zone = vt_map.EnemyZone.Create(12, 20, 14, 22);
 
     enemy = CreateEnemySprite(Map, "Beetle");
     enemy:AddWayPoint(13.1, 15.8);
@@ -181,10 +181,8 @@ function _CreateEnemies()
     enemy:SetAggroRange(5);
     enemy:SetEncounterEvent("Restart Orlinn Map");
     roam_zone:AddEnemy(enemy, 1);
-    Map:AddZone(roam_zone);
 
-
-    roam_zone = vt_map.EnemyZone(28, 40, 16, 24);
+    roam_zone = vt_map.EnemyZone.Create(28, 40, 16, 24);
 
     enemy = CreateEnemySprite(Map, "Beetle");
     enemy:AddWayPoint(33.2, 15.8);
@@ -195,9 +193,8 @@ function _CreateEnemies()
     enemy:SetAggroRange(5);
     enemy:SetEncounterEvent("Restart Orlinn Map");
     roam_zone:AddEnemy(enemy, 1);
-    Map:AddZone(roam_zone);
 
-    roam_zone = vt_map.EnemyZone(28, 40, 22, 30);
+    roam_zone = vt_map.EnemyZone.Create(28, 40, 22, 30);
 
     enemy = CreateEnemySprite(Map, "Beetle");
     enemy:AddWayPoint(29.1, 23.8);
@@ -207,7 +204,6 @@ function _CreateEnemies()
     enemy:SetAggroRange(5);
     enemy:SetEncounterEvent("Restart Orlinn Map");
     roam_zone:AddEnemy(enemy, 1);
-    Map:AddZone(roam_zone);
 end
 
 -- Creates all events and sets up the entire event sequence chain
@@ -242,10 +238,8 @@ local to_shrine_SE_room_zone = nil
 -- Create the different map zones triggering events
 function _CreateZones()
     -- N.B.: left, right, top, bottom
-    to_shrine_NW_room_zone = vt_map.CameraZone(0, 2, 8, 12);
-    Map:AddZone(to_shrine_NW_room_zone);
-    to_shrine_SE_room_zone = vt_map.CameraZone(24, 32, 38, 40);
-    Map:AddZone(to_shrine_SE_room_zone);
+    to_shrine_NW_room_zone = vt_map.CameraZone.Create(0, 2, 8, 12);
+    to_shrine_SE_room_zone = vt_map.CameraZone.Create(24, 32, 38, 40);
 end
 
 -- Check whether the active camera has entered a zone. To be called within Update()

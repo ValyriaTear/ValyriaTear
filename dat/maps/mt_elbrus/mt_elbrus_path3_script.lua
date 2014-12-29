@@ -436,7 +436,7 @@ function _CreateEnemies()
     local roam_zone = nil
 
     -- Hint: left, right, top, bottom
-    enemy_zone1 = vt_map.EnemyZone(65, 68, 32, 36);
+    enemy_zone1 = vt_map.EnemyZone.Create(65, 68, 32, 36);
     -- Some bats
     enemy = CreateEnemySprite(Map, "Eyeball");
     _SetBattleEnvironment(enemy);
@@ -450,10 +450,9 @@ function _CreateEnemies()
     enemy:AddEnemy(12);
     enemy_zone1:AddEnemy(enemy, 2);
     enemy_zone1:SetSpawnsLeft(2); -- This monster shall spawn only two times.
-    Map:AddZone(enemy_zone1);
 
     -- Hint: left, right, top, bottom
-    enemy_zone2 = vt_map.EnemyZone(45, 48, 32, 36);
+    enemy_zone2 = vt_map.EnemyZone.Create(45, 48, 32, 36);
     -- Some bats
     enemy = CreateEnemySprite(Map, "Eyeball");
     _SetBattleEnvironment(enemy);
@@ -467,10 +466,9 @@ function _CreateEnemies()
     enemy:AddEnemy(12);
     enemy_zone2:AddEnemy(enemy, 2);
     enemy_zone2:SetSpawnsLeft(2); -- This monster shall spawn only two times.
-    Map:AddZone(enemy_zone2);
 
     -- Hint: left, right, top, bottom
-    enemy_zone3 = vt_map.EnemyZone(87, 90, 32, 36);
+    enemy_zone3 = vt_map.EnemyZone.Create(87, 90, 32, 36);
     -- Some bats
     enemy = CreateEnemySprite(Map, "Eyeball");
     _SetBattleEnvironment(enemy);
@@ -484,7 +482,6 @@ function _CreateEnemies()
     enemy:AddEnemy(12);
     enemy_zone3:AddEnemy(enemy, 2);
     enemy_zone3:SetSpawnsLeft(2); -- This monster shall spawn only two times.
-    Map:AddZone(enemy_zone3);
 end
 
 -- Special event references which destinations must be updated just before being called.
@@ -802,21 +799,15 @@ local cemetery_gates_closed_zone = nil
 -- Create the different map zones triggering events
 function _CreateZones()
     -- N.B.: left, right, top, bottom
-    to_path4_zone = vt_map.CameraZone(40, 55, 0, 2);
-    Map:AddZone(to_path4_zone);
-    to_path2_zone = vt_map.CameraZone(53, 74, 94, 96);
-    Map:AddZone(to_path2_zone);
-    to_path2_bis_zone = vt_map.CameraZone(1, 23, 94, 96);
-    Map:AddZone(to_path2_bis_zone);
+    to_path4_zone = vt_map.CameraZone.Create(40, 55, 0, 2);
+    to_path2_zone = vt_map.CameraZone.Create(53, 74, 94, 96);
+    to_path2_bis_zone = vt_map.CameraZone.Create(1, 23, 94, 96);
 
     -- event zones
-    cemetery_entrance_dialogue_zone = vt_map.CameraZone(61, 74, 71, 73);
-    Map:AddZone(cemetery_entrance_dialogue_zone);
-    cemetery_west_gate_dialogue_zone = vt_map.CameraZone(7, 31, 46, 48);
-    Map:AddZone(cemetery_west_gate_dialogue_zone);
+    cemetery_entrance_dialogue_zone = vt_map.CameraZone.Create(61, 74, 71, 73);
+    cemetery_west_gate_dialogue_zone = vt_map.CameraZone.Create(7, 31, 46, 48);
     -- cemetery gates closed
-    cemetery_gates_closed_zone = vt_map.CameraZone(44, 92, 52, 54);
-    Map:AddZone(cemetery_gates_closed_zone);
+    cemetery_gates_closed_zone = vt_map.CameraZone.Create(44, 92, 52, 54);
 end
 
 -- Check whether the active camera has entered a zone. To be called within Update()

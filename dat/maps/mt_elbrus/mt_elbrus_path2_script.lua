@@ -278,7 +278,7 @@ function _CreateEnemies()
     local roam_zone = nil
 
     -- Hint: left, right, top, bottom
-    roam_zone = vt_map.EnemyZone(54, 62, 52, 60);
+    roam_zone = vt_map.EnemyZone.Create(54, 62, 52, 60);
     -- Some bats
     enemy = CreateEnemySprite(Map, "bat");
     _SetBattleEnvironment(enemy);
@@ -292,8 +292,6 @@ function _CreateEnemies()
     enemy:AddEnemy(6);
     enemy:AddEnemy(4);
     roam_zone:AddEnemy(enemy, 1);
-    Map:AddZone(roam_zone);
-
 end
 
 -- Special event references which destinations must be updated just before being called.
@@ -406,21 +404,14 @@ local to_path3_bis_zone = nil
 function _CreateZones()
 
     -- N.B.: left, right, top, bottom
-    to_cave2_1_zone = vt_map.CameraZone(26, 30, 53, 55);
-    Map:AddZone(to_cave2_1_zone);
-    to_cave2_2_zone = vt_map.CameraZone(18, 22, 37, 39);
-    Map:AddZone(to_cave2_2_zone);
-    to_cave3_1_zone = vt_map.CameraZone(46, 50, 13, 15);
-    Map:AddZone(to_cave3_1_zone);
-    to_cave3_2_zone = vt_map.CameraZone(22, 26, 7, 9);
-    Map:AddZone(to_cave3_2_zone);
+    to_cave2_1_zone = vt_map.CameraZone.Create(26, 30, 53, 55);
+    to_cave2_2_zone = vt_map.CameraZone.Create(18, 22, 37, 39);
+    to_cave3_1_zone = vt_map.CameraZone.Create(46, 50, 13, 15);
+    to_cave3_2_zone = vt_map.CameraZone.Create(22, 26, 7, 9);
 
-    to_path1_zone = vt_map.CameraZone(78, 80, 13, 30);
-    Map:AddZone(to_path1_zone);
-    to_path3_zone = vt_map.CameraZone(29, 48, 0, 2);
-    Map:AddZone(to_path3_zone);
-    to_path3_bis_zone = vt_map.CameraZone(0, 9, 0, 2);
-    Map:AddZone(to_path3_bis_zone);
+    to_path1_zone = vt_map.CameraZone.Create(78, 80, 13, 30);
+    to_path3_zone = vt_map.CameraZone.Create(29, 48, 0, 2);
+    to_path3_bis_zone = vt_map.CameraZone.Create(0, 9, 0, 2);
 end
 
 -- Check whether the active camera has entered a zone. To be called within Update()

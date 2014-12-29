@@ -534,22 +534,12 @@ local before_3rd_floor_zone = nil
 
 -- Create the different map zones triggering events
 function _CreateZones()
-
     -- N.B.: left, right, top, bottom
-    to_shrine_1st_floor_zone = vt_map.CameraZone(9, 12, 36, 39);
-    Map:AddZone(to_shrine_1st_floor_zone);
-
-    to_shrine_2nd_floor_zone = vt_map.CameraZone(59, 61, 36, 39);
-    Map:AddZone(to_shrine_2nd_floor_zone);
-
-    to_shrine_2nd_floor_grotto_zone = vt_map.CameraZone(9, 12, 14, 17);
-    Map:AddZone(to_shrine_2nd_floor_grotto_zone);
-
-    to_shrine_3rd_floor_zone = vt_map.CameraZone(34, 40, 5, 7);
-    Map:AddZone(to_shrine_3rd_floor_zone);
-
-    before_3rd_floor_zone = vt_map.CameraZone(28, 46, 7, 10);
-    Map:AddZone(before_3rd_floor_zone);
+    to_shrine_1st_floor_zone = vt_map.CameraZone.Create(9, 12, 36, 39);
+    to_shrine_2nd_floor_zone = vt_map.CameraZone.Create(59, 61, 36, 39);
+    to_shrine_2nd_floor_grotto_zone = vt_map.CameraZone.Create(9, 12, 14, 17);
+    to_shrine_3rd_floor_zone = vt_map.CameraZone.Create(34, 40, 5, 7);
+    before_3rd_floor_zone = vt_map.CameraZone.Create(28, 46, 7, 10);
 end
 
 -- Check whether the active camera has entered a zone. To be called within Update()

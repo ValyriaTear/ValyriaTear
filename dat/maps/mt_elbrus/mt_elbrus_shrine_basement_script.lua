@@ -357,19 +357,11 @@ local to_mountain_exit_zone = nil
 
 -- Create the different map zones triggering events
 function _CreateZones()
-
     -- N.B.: left, right, top, bottom
-    orlinn_screams_zone = vt_map.CameraZone(36, 40, 36, 48);
-    Map:AddZone(orlinn_screams_zone);
-
-    see_exit_zone = vt_map.CameraZone(56, 61, 40, 45);
-    Map:AddZone(see_exit_zone);
-
-    final_boss_zone = vt_map.CameraZone(21, 36, 3, 22);
-    Map:AddZone(final_boss_zone);
-
-    to_mountain_exit_zone = vt_map.CameraZone(0, 2, 15, 34);
-    Map:AddZone(to_mountain_exit_zone);
+    orlinn_screams_zone = vt_map.CameraZone.Create(36, 40, 36, 48);
+    see_exit_zone = vt_map.CameraZone.Create(56, 61, 40, 45);
+    final_boss_zone = vt_map.CameraZone.Create(21, 36, 3, 22);
+    to_mountain_exit_zone = vt_map.CameraZone.Create(0, 2, 15, 34);
 end
 
 -- Booleans preventing from starting the even more than once.

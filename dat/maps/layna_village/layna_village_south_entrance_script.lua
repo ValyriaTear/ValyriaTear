@@ -204,17 +204,10 @@ local to_right_house_zone = nil
 
 function _CreateZones()
     -- N.B.: left, right, top, bottom
-    village_center_zone = vt_map.CameraZone(8, 62, 0, 2);
-    Map:AddZone(village_center_zone);
-
-    to_village_riverbank_zone = vt_map.CameraZone(0, 1, 26, 43);
-    Map:AddZone(to_village_riverbank_zone);
-
-    to_left_house_zone = vt_map.CameraZone(18, 22, 32, 33);
-    Map:AddZone(to_left_house_zone);
-
-    to_right_house_zone = vt_map.CameraZone(46, 50, 32, 33);
-    Map:AddZone(to_right_house_zone);
+    village_center_zone = vt_map.CameraZone.Create(8, 62, 0, 2);
+    to_village_riverbank_zone = vt_map.CameraZone.Create(0, 1, 26, 43);
+    to_left_house_zone = vt_map.CameraZone.Create(18, 22, 32, 33);
+    to_right_house_zone = vt_map.CameraZone.Create(46, 50, 32, 33);
 end
 
 function _CheckZones()

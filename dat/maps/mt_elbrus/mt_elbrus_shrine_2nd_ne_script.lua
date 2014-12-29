@@ -91,7 +91,7 @@ function _CreateEnemies()
     local roam_zone = nil
 
     -- Hint: left, right, top, bottom
-    roam_zone = vt_map.EnemyZone(6, 35, 13, 39);
+    roam_zone = vt_map.EnemyZone.Create(6, 35, 13, 39);
 
     enemy = CreateEnemySprite(Map, "Skeleton");
     _SetBattleEnvironment(enemy);
@@ -99,7 +99,6 @@ function _CreateEnemies()
     enemy:AddEnemy(19);
     enemy:SetTimeToRespawn(25000);
     roam_zone:AddEnemy(enemy, 1);
-    Map:AddZone(roam_zone);
 end
 
 -- Triggers and stones
@@ -307,14 +306,9 @@ local spike_trap_zone = nil
 -- Create the different map zones triggering events
 function _CreateZones()
     -- N.B.: left, right, top, bottom
-    to_shrine_1st_floor_room_zone = vt_map.CameraZone(22, 26, 9, 11);
-    Map:AddZone(to_shrine_1st_floor_room_zone);
-
-    to_shrine_SE_room_zone = vt_map.CameraZone(24, 32, 38, 42);
-    Map:AddZone(to_shrine_SE_room_zone);
-
-    spike_trap_zone = vt_map.CameraZone(24, 26, 22, 24);
-    Map:AddZone(spike_trap_zone);
+    to_shrine_1st_floor_room_zone = vt_map.CameraZone.Create(22, 26, 9, 11);
+    to_shrine_SE_room_zone = vt_map.CameraZone.Create(24, 32, 38, 42);
+    spike_trap_zone = vt_map.CameraZone.Create(24, 26, 22, 24);
 end
 
 local trap_triggered = false;

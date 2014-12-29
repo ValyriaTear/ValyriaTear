@@ -321,11 +321,8 @@ local to_overworld_zone = nil
 -- Create the different map zones triggering events
 function _CreateZones()
     -- N.B.: left, right, top, bottom
-    to_basement_zone = vt_map.CameraZone(29, 31, 12, 14);
-    Map:AddZone(to_basement_zone);
-    to_overworld_zone = vt_map.CameraZone(0, 2, 34, 44);
-    Map:AddZone(to_overworld_zone);
-
+    to_basement_zone = vt_map.CameraZone.Create(29, 31, 12, 14);
+    to_overworld_zone = vt_map.CameraZone.Create(0, 2, 34, 44);
 end
 
 -- Check whether the active camera has entered a zone. To be called within Update()

@@ -240,14 +240,9 @@ local falling_event_zone = nil
 -- Create the different map zones triggering events
 function _CreateZones()
     -- N.B.: left, right, top, bottom
-    to_shrine_entrance_zone = vt_map.CameraZone(20, 24, 46, 48);
-    Map:AddZone(to_shrine_entrance_zone);
-
-    to_shrine_trap_zone = vt_map.CameraZone(50, 52, 46, 48);
-    Map:AddZone(to_shrine_trap_zone);
-
-    falling_event_zone = vt_map.CameraZone(19, 25, 26, 28);
-    Map:AddZone(falling_event_zone);
+    to_shrine_entrance_zone = vt_map.CameraZone.Create(20, 24, 46, 48);
+    to_shrine_trap_zone = vt_map.CameraZone.Create(50, 52, 46, 48);
+    falling_event_zone = vt_map.CameraZone.Create(19, 25, 26, 28);
 end
 
 -- Check whether the active camera has entered a zone. To be called within Update()

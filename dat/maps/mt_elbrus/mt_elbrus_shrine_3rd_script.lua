@@ -505,12 +505,9 @@ local boss_zone = nil;
 function _CreateZones()
 
     -- N.B.: left, right, top, bottom
-    to_shrine_stairs_zone = vt_map.CameraZone(30, 34, 46, 48);
-    Map:AddZone(to_shrine_stairs_zone);
-    start_boss_zone = vt_map.CameraZone(30, 34, 38, 40);
-    Map:AddZone(start_boss_zone);
-    boss_zone = vt_map.CameraZone(28, 36, 20, 28);
-    Map:AddZone(boss_zone);
+    to_shrine_stairs_zone = vt_map.CameraZone.Create(30, 34, 46, 48);
+    start_boss_zone = vt_map.CameraZone.Create(30, 34, 38, 40);
+    boss_zone = vt_map.CameraZone.Create(28, 36, 20, 28);
 end
 
 function _CheckBossZone(stone)

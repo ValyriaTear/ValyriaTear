@@ -568,7 +568,7 @@ function _CreateEnemies()
 
     -- Monsters that can only be beaten once
     -- Hint: left, right, top, bottom
-    roam_zone = vt_map.EnemyZone(13, 20, 26, 36);
+    roam_zone = vt_map.EnemyZone.Create(13, 20, 26, 36);
     if (monsters_defeated == false) then
         enemy = CreateEnemySprite(Map, "Skeleton");
         _SetBattleEnvironment(enemy);
@@ -585,7 +585,6 @@ function _CreateEnemies()
         roam_zone:AddEnemy(enemy, 10);
         roam_zone:SetSpawnsLeft(1); -- These monsters shall spawn only one time.
     end
-    Map:AddZone(roam_zone);
 end
 
 -- check whether all the monsters dies, to open the door
@@ -621,25 +620,13 @@ local monster_trap_zone = nil
 
 -- Create the different map zones triggering events
 function _CreateZones()
-
     -- N.B.: left, right, top, bottom
-    to_shrine_main_room_zone = vt_map.CameraZone(6, 10, 9, 11);
-    Map:AddZone(to_shrine_main_room_zone);
-
-    to_shrine_2nd_floor_room_zone = vt_map.CameraZone(18, 22, 9, 10);
-    Map:AddZone(to_shrine_2nd_floor_room_zone);
-
-    to_shrine_SW_left_door_room_zone = vt_map.CameraZone(14, 18, 38, 40);
-    Map:AddZone(to_shrine_SW_left_door_room_zone);
-
-    to_shrine_SW_right_door_room_zone = vt_map.CameraZone(26, 30, 38, 40);
-    Map:AddZone(to_shrine_SW_right_door_room_zone);
-
-    to_shrine_NE_room_zone = vt_map.CameraZone(46, 48, 8, 12);
-    Map:AddZone(to_shrine_NE_room_zone);
-
-    monster_trap_zone = vt_map.CameraZone(11, 21, 29, 38);
-    Map:AddZone(monster_trap_zone);
+    to_shrine_main_room_zone = vt_map.CameraZone.Create(6, 10, 9, 11);
+    to_shrine_2nd_floor_room_zone = vt_map.CameraZone.Create(18, 22, 9, 10);
+    to_shrine_SW_left_door_room_zone = vt_map.CameraZone.Create(14, 18, 38, 40);
+    to_shrine_SW_right_door_room_zone = vt_map.CameraZone.Create(26, 30, 38, 40);
+    to_shrine_NE_room_zone = vt_map.CameraZone.Create(46, 48, 8, 12);
+    monster_trap_zone = vt_map.CameraZone.Create(11, 21, 29, 38);
 end
 
 local trap_triggered = false;

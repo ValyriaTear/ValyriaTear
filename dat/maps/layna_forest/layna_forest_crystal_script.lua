@@ -803,11 +803,8 @@ local wolf_battle_zone = nil
 -- Create the different map zones triggering events
 function _CreateZones()
     -- N.B.: left, right, top, bottom
-    to_forest_cave2_zone = vt_map.CameraZone(28, 33, 23, 25);
-    Map:AddZone(to_forest_cave2_zone);
-
-    wolf_battle_zone = vt_map.CameraZone(38, 46, 63, 66);
-    Map:AddZone(wolf_battle_zone);
+    to_forest_cave2_zone = vt_map.CameraZone.Create(28, 33, 23, 25);
+    wolf_battle_zone = vt_map.CameraZone.Create(38, 46, 63, 66);
 end
 
 -- Check whether the active camera has entered a zone. To be called within Update()

@@ -532,16 +532,11 @@ local to_path3_zone = nil
 -- Create the different map zones triggering events
 function _CreateZones()
     -- N.B.: left, right, top, bottom
-    to_shrine_zone = vt_map.CameraZone(39, 41, 3, 5);
-    Map:AddZone(to_shrine_zone);
-    to_path3_zone = vt_map.CameraZone(48, 64, 78, 80);
-    Map:AddZone(to_path3_zone);
+    to_shrine_zone = vt_map.CameraZone.Create(39, 41, 3, 5);
+    to_path3_zone = vt_map.CameraZone.Create(48, 64, 78, 80);
 
-    bridge_south_zone = vt_map.CameraZone(33, 39, 39, 41);
-    Map:AddZone(bridge_south_zone);
-    bridge_middle_zone = vt_map.CameraZone(33, 39, 24, 26);
-    Map:AddZone(bridge_middle_zone);
-
+    bridge_south_zone = vt_map.CameraZone.Create(33, 39, 39, 41);
+    bridge_middle_zone = vt_map.CameraZone.Create(33, 39, 24, 26);
 end
 
 -- Check whether the active camera has entered a zone. To be called within Update()

@@ -1176,6 +1176,15 @@ void ObjectSupervisor::AddSavePoint(SavePoint* save_point)
     _save_points.push_back(save_point);
 }
 
+void ObjectSupervisor::AddZone(MapZone* zone)
+{
+    if(!zone) {
+        PRINT_WARNING << "Couldn't add NULL zone." << std::endl;
+        return;
+    }
+    _zones.push_back(zone);
+}
+
 void ObjectSupervisor::DeleteObject(MapObject* object)
 {
     if (!object)

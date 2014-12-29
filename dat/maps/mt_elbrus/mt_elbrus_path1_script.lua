@@ -421,7 +421,7 @@ function _CreateEnemies()
     local roam_zone = nil
 
     -- Hint: left, right, top, bottom
-    roam_zone = vt_map.EnemyZone(59, 62, 61, 85);
+    roam_zone = vt_map.EnemyZone.Create(59, 62, 61, 85);
     -- Dark soldier 1
     dark_soldier1 = CreateEnemySprite(Map, "Dark Soldier");
     _SetBattleEnvironment(dark_soldier1);
@@ -436,10 +436,9 @@ function _CreateEnemies()
     -- Patrol way points
     dark_soldier1:AddWayPoint(60, 62);
     dark_soldier1:AddWayPoint(60, 84);
-    Map:AddZone(roam_zone);
 
     -- Hint: left, right, top, bottom
-    roam_zone = vt_map.EnemyZone(3, 15, 43, 76);
+    roam_zone = vt_map.EnemyZone.Create(3, 15, 43, 76);
     -- Dark soldier 2
     enemy = CreateEnemySprite(Map, "Dark Soldier");
     _SetBattleEnvironment(enemy);
@@ -455,10 +454,9 @@ function _CreateEnemies()
     enemy:AddWayPoint(14, 44);
     enemy:AddWayPoint(14, 74);
     enemy:AddWayPoint(4, 74);
-    Map:AddZone(roam_zone);
 
     -- Hint: left, right, top, bottom
-    roam_zone = vt_map.EnemyZone(28, 47, 22, 38);
+    roam_zone = vt_map.EnemyZone.Create(28, 47, 22, 38);
     -- Dark soldier 3
     enemy = CreateEnemySprite(Map, "Dark Soldier");
     _SetBattleEnvironment(enemy);
@@ -474,10 +472,9 @@ function _CreateEnemies()
     enemy:AddWayPoint(46, 23);
     enemy:AddWayPoint(46, 37);
     enemy:AddWayPoint(29, 37);
-    Map:AddZone(roam_zone);
 
     -- Hint: left, right, top, bottom
-    roam_zone = vt_map.EnemyZone(62, 65, 21, 36);
+    roam_zone = vt_map.EnemyZone.Create(62, 65, 21, 36);
     -- Dark soldier 4
     enemy = CreateEnemySprite(Map, "Dark Soldier");
     _SetBattleEnvironment(enemy);
@@ -491,10 +488,9 @@ function _CreateEnemies()
     roam_zone:SetSpawnsLeft(1); -- This monster shall spawn only one time.
     enemy:AddWayPoint(63, 22);
     enemy:AddWayPoint(63, 35);
-    Map:AddZone(roam_zone);
 
     -- Hint: left, right, top, bottom
-    roam_zone = vt_map.EnemyZone(6, 19, 10, 24);
+    roam_zone = vt_map.EnemyZone.Create(6, 19, 10, 24);
     -- Dark soldier 5
     enemy = CreateEnemySprite(Map, "Dark Soldier");
     _SetBattleEnvironment(enemy);
@@ -510,10 +506,9 @@ function _CreateEnemies()
     enemy:AddWayPoint(18, 10);
     enemy:AddWayPoint(14, 24);
     enemy:AddWayPoint(6.2, 23);
-    Map:AddZone(roam_zone);
 
     -- Hint: left, right, top, bottom
-    roam_zone = vt_map.EnemyZone(10, 21, 86, 92);
+    roam_zone = vt_map.EnemyZone.Create(10, 21, 86, 92);
     -- Some bats
     enemy = CreateEnemySprite(Map, "bat");
     _SetBattleEnvironment(enemy);
@@ -527,10 +522,9 @@ function _CreateEnemies()
     enemy:AddEnemy(6);
     enemy:AddEnemy(4);
     roam_zone:AddEnemy(enemy, 1);
-    Map:AddZone(roam_zone);
 
     -- Hint: left, right, top, bottom
-    roam_zone = vt_map.EnemyZone(84, 92, 20, 24);
+    roam_zone = vt_map.EnemyZone.Create(84, 92, 20, 24);
     -- Some bats
     enemy = CreateEnemySprite(Map, "bat");
     _SetBattleEnvironment(enemy);
@@ -544,7 +538,6 @@ function _CreateEnemies()
     enemy:AddEnemy(6);
     enemy:AddEnemy(4);
     roam_zone:AddEnemy(enemy, 1);
-    Map:AddZone(roam_zone);
 end
 
 -- Special event references which destinations must be updated just before being called.
@@ -675,20 +668,12 @@ local to_path2_zone = nil
 -- Create the different map zones triggering events
 function _CreateZones()
     -- N.B.: left, right, top, bottom
-    see_first_guard_zone = vt_map.CameraZone(86, 88, 70, 86);
-    Map:AddZone(see_first_guard_zone);
-
-    to_cave1_zone = vt_map.CameraZone(62, 66, 43, 45);
-    Map:AddZone(to_cave1_zone);
-    to_cave2_zone = vt_map.CameraZone(30, 34, 49, 50);
-    Map:AddZone(to_cave2_zone);
-    to_cave3_zone = vt_map.CameraZone(116, 120, 29, 30);
-    Map:AddZone(to_cave3_zone);
-    to_cave4_zone = vt_map.CameraZone(100, 104, 19, 20);
-    Map:AddZone(to_cave4_zone);
-
-    to_path2_zone = vt_map.CameraZone(0, 2, 16, 26);
-    Map:AddZone(to_path2_zone);
+    see_first_guard_zone = vt_map.CameraZone.Create(86, 88, 70, 86);
+    to_cave1_zone = vt_map.CameraZone.Create(62, 66, 43, 45);
+    to_cave2_zone = vt_map.CameraZone.Create(30, 34, 49, 50);
+    to_cave3_zone = vt_map.CameraZone.Create(116, 120, 29, 30);
+    to_cave4_zone = vt_map.CameraZone.Create(100, 104, 19, 20);
+    to_path2_zone = vt_map.CameraZone.Create(0, 2, 16, 26);
 end
 
 -- Check whether the active camera has entered a zone. To be called within Update()

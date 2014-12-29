@@ -123,8 +123,7 @@ local shop_exit_zone = nil
 
 function _CreateZones()
     -- N.B.: left, right, top, bottom
-    shop_exit_zone = vt_map.CameraZone(30, 34, 28, 29);
-    Map:AddZone(shop_exit_zone);
+    shop_exit_zone = vt_map.CameraZone.Create(30, 34, 28, 29);
 end
 
 function _CheckZones()

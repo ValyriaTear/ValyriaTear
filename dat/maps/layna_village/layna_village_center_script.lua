@@ -793,29 +793,14 @@ local sophia_house_entrance_zone = nil
 
 function _CreateZones()
     -- N.B.: left, right, top, bottom
-    bronanns_home_entrance_zone = vt_map.CameraZone(10, 14, 60, 61);
-    Map:AddZone(bronanns_home_entrance_zone);
-
-    to_riverbank_zone = vt_map.CameraZone(19, 35, 78, 79);
-    Map:AddZone(to_riverbank_zone);
-
-    to_village_entrance_zone = vt_map.CameraZone(60, 113, 78, 79);
-    Map:AddZone(to_village_entrance_zone);
-
-    to_kalya_house_path_zone = vt_map.CameraZone(0, 1, 8, 15);
-    Map:AddZone(to_kalya_house_path_zone);
-
-    shop_entrance_zone = vt_map.CameraZone(92, 96, 70, 71);
-    Map:AddZone(shop_entrance_zone);
-
-    secret_path_zone = vt_map.CameraZone(0, 1, 55, 61);
-    Map:AddZone(secret_path_zone);
-
-    to_layna_forest_zone = vt_map.CameraZone(117, 119, 30, 43);
-    Map:AddZone(to_layna_forest_zone);
-
-    sophia_house_entrance_zone = vt_map.CameraZone(21, 23, 21, 22);
-    Map:AddZone(sophia_house_entrance_zone);
+    bronanns_home_entrance_zone = vt_map.CameraZone.Create(10, 14, 60, 61);
+    to_riverbank_zone = vt_map.CameraZone.Create(19, 35, 78, 79);
+    to_village_entrance_zone = vt_map.CameraZone.Create(60, 113, 78, 79);
+    to_kalya_house_path_zone = vt_map.CameraZone.Create(0, 1, 8, 15);
+    shop_entrance_zone = vt_map.CameraZone.Create(92, 96, 70, 71);
+    secret_path_zone = vt_map.CameraZone.Create(0, 1, 55, 61);
+    to_layna_forest_zone = vt_map.CameraZone.Create(117, 119, 30, 43);
+    sophia_house_entrance_zone = vt_map.CameraZone.Create(21, 23, 21, 22);
 end
 
 function _CheckZones()
