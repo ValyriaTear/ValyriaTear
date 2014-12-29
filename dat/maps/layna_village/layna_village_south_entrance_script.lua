@@ -153,16 +153,16 @@ function _CreateObjects()
     CreateObject(Map, "Tree Big1", 42, 10, vt_map.MapMode.GROUND_OBJECT);
 
     -- Small door lights
-    Map:AddLight("img/misc/lights/sun_flare_light_small_main.lua",
-            "img/misc/lights/sun_flare_light_small_secondary.lua",
-        20.0, 29.5,
-        vt_video.Color(1.0, 1.0, 1.0, 0.6),
-        vt_video.Color(1.0, 1.0, 0.85, 0.3));
-    Map:AddLight("img/misc/lights/sun_flare_light_small_main.lua",
-            "img/misc/lights/sun_flare_light_small_secondary.lua",
-        48.0, 29.5,
-        vt_video.Color(1.0, 1.0, 1.0, 0.6),
-        vt_video.Color(1.0, 1.0, 0.85, 0.3));
+    vt_map.Light.Create("img/misc/lights/sun_flare_light_small_main.lua",
+                        "img/misc/lights/sun_flare_light_small_secondary.lua",
+                        20.0, 29.5,
+                        vt_video.Color(1.0, 1.0, 1.0, 0.6),
+                        vt_video.Color(1.0, 1.0, 0.85, 0.3));
+    vt_map.Light.Create("img/misc/lights/sun_flare_light_small_main.lua",
+                        "img/misc/lights/sun_flare_light_small_secondary.lua",
+                        48.0, 29.5,
+                        vt_video.Color(1.0, 1.0, 1.0, 0.6),
+                        vt_video.Color(1.0, 1.0, 0.85, 0.3));
 end
 
 -- Creates all events and sets up the entire event sequence chain

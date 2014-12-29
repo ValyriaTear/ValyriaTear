@@ -320,11 +320,11 @@ map_functions = {
             crystal:SetVisible(true);
             crystal_effect:Start();
             -- Add a light
-            Map:AddLight("img/misc/lights/sun_flare_light_secondary.lua",
-                    "img/misc/lights/sun_flare_light_secondary.lua",
-                    41.2, 43.0,
-                    vt_video.Color(0.8, 0.8, 1.0, 0.3),
-                    vt_video.Color(0.8, 0.8, 0.85, 0.2));
+            vt_map.Light.Create("img/misc/lights/sun_flare_light_secondary.lua",
+                                "img/misc/lights/sun_flare_light_secondary.lua",
+                                41.2, 43.0,
+                                vt_video.Color(0.8, 0.8, 1.0, 0.3),
+                                vt_video.Color(0.8, 0.8, 0.85, 0.2));
 
             crystal_visible = true;
         end

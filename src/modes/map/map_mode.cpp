@@ -472,20 +472,6 @@ void MapMode::AddHalo(const std::string &filename, float x, float y, const Color
     _object_supervisor->_halos.push_back(halo);
 }
 
-void MapMode::AddLight(const std::string &main_flare_filename,
-                       const std::string &secondary_flare_filename,
-                       float x, float y,
-                       const Color &main_color,
-                       const Color &secondary_color)
-{
-    Light *light = new Light(main_flare_filename,
-                             secondary_flare_filename,
-                             x, y, main_color,
-                             secondary_color);
-
-    _object_supervisor->AddLight(light);
-}
-
 void MapMode::SetCamera(private_map::VirtualSprite *sprite, uint32 duration)
 {
     if(_camera == sprite) {

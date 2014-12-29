@@ -162,22 +162,22 @@ function _CreateObjects()
 
     -- Lights
     -- big round windows light flares
-    Map:AddLight("img/misc/lights/sun_flare_light_main.lua",
-            "img/misc/lights/sun_flare_light_secondary.lua",
-        94.0, 40.0,
-        vt_video.Color(1.0, 1.0, 1.0, 0.6),
-        vt_video.Color(1.0, 1.0, 0.85, 0.3));
-    Map:AddLight("img/misc/lights/sun_flare_light_main.lua",
-            "img/misc/lights/sun_flare_light_secondary.lua",
-        102.0, 40.0,
-        vt_video.Color(1.0, 1.0, 1.0, 0.6),
-        vt_video.Color(1.0, 1.0, 0.85, 0.3));
+    vt_map.Light.Create("img/misc/lights/sun_flare_light_main.lua",
+                        "img/misc/lights/sun_flare_light_secondary.lua",
+                        94.0, 40.0,
+                        vt_video.Color(1.0, 1.0, 1.0, 0.6),
+                        vt_video.Color(1.0, 1.0, 0.85, 0.3));
+    vt_map.Light.Create("img/misc/lights/sun_flare_light_main.lua",
+                        "img/misc/lights/sun_flare_light_secondary.lua",
+                        102.0, 40.0,
+                        vt_video.Color(1.0, 1.0, 1.0, 0.6),
+                        vt_video.Color(1.0, 1.0, 0.85, 0.3));
     -- Small door lights
-    Map:AddLight("img/misc/lights/sun_flare_light_small_main.lua",
-            "img/misc/lights/sun_flare_light_small_secondary.lua",
-        98.0, 43.5,
-        vt_video.Color(1.0, 1.0, 1.0, 0.6),
-        vt_video.Color(1.0, 1.0, 0.85, 0.3));
+    vt_map.Light.Create("img/misc/lights/sun_flare_light_small_main.lua",
+                        "img/misc/lights/sun_flare_light_small_secondary.lua",
+                        98.0, 43.5,
+                        vt_video.Color(1.0, 1.0, 1.0, 0.6),
+                        vt_video.Color(1.0, 1.0, 0.85, 0.3));
 
     vt_map.SoundObject.Create("snd/gentle_stream.ogg", 61.0, 27.0, 20.0);
     vt_map.SoundObject.Create("snd/gentle_stream.ogg", 61.0, 47.0, 20.0);

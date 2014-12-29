@@ -165,13 +165,6 @@ public:
     //! \brief Adds a halo light (as Map Object) at the given coordinates.
     void AddHalo(const std::string &filename, float x, float y, const vt_video::Color &color);
 
-    //! \brief Add a light source at the given coordinates.
-    void AddLight(const std::string &main_flare_filename,
-                  const std::string &secondary_flare_filename,
-                  float x, float y,
-                  const vt_video::Color &main_color,
-                  const vt_video::Color &secondary_color);
-
     //! \brief Vectors containing the save points animations (when the character is in or not).
     std::vector<vt_video::AnimatedImage> active_save_point_animations;
     std::vector<vt_video::AnimatedImage> inactive_save_point_animations;

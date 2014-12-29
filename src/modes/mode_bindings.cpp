@@ -94,8 +94,6 @@ void BindModeCode()
             .def("AddZone", &MapMode::AddZone, luabind::adopt(_2))
             .def("AddSavePoint", &MapMode::AddSavePoint)
             .def("AddHalo", &MapMode::AddHalo)
-            .def("AddLight", (void(MapMode:: *)(const std::string &, const std::string &, float, float,
-                                                const vt_video::Color&, const vt_video::Color&))&MapMode::AddLight)
             .def("SetCamera", (void(MapMode:: *)(private_map::VirtualSprite *))&MapMode::SetCamera)
             .def("SetCamera", (void(MapMode:: *)(private_map::VirtualSprite *, uint32))&MapMode::SetCamera)
             .def("GetCamera", &MapMode::GetCamera)

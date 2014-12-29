@@ -232,34 +232,34 @@ function _CreateObjects()
 
     -- Lights
     -- big round windows light flares
-    Map:AddLight("img/misc/lights/sun_flare_light_main.lua",
-            "img/misc/lights/sun_flare_light_secondary.lua",
-        74.0, 55.0,
-        vt_video.Color(1.0, 1.0, 1.0, 0.6),
-        vt_video.Color(1.0, 1.0, 0.85, 0.3));
+    vt_map.Light.Create("img/misc/lights/sun_flare_light_main.lua",
+                        "img/misc/lights/sun_flare_light_secondary.lua",
+                        74.0, 55.0,
+                        vt_video.Color(1.0, 1.0, 1.0, 0.6),
+                        vt_video.Color(1.0, 1.0, 0.85, 0.3));
 
-    Map:AddLight("img/misc/lights/sun_flare_light_main.lua",
-            "img/misc/lights/sun_flare_light_secondary.lua",
-        86.0, 67.0,
-        vt_video.Color(1.0, 1.0, 1.0, 0.6),
-        vt_video.Color(1.0, 1.0, 0.85, 0.3));
-    Map:AddLight("img/misc/lights/sun_flare_light_main.lua",
-            "img/misc/lights/sun_flare_light_secondary.lua",
-        22.0, 32.0,
-        vt_video.Color(1.0, 1.0, 1.0, 0.6),
-        vt_video.Color(1.0, 1.0, 0.85, 0.3));
+    vt_map.Light.Create("img/misc/lights/sun_flare_light_main.lua",
+                        "img/misc/lights/sun_flare_light_secondary.lua",
+                        86.0, 67.0,
+                        vt_video.Color(1.0, 1.0, 1.0, 0.6),
+                        vt_video.Color(1.0, 1.0, 0.85, 0.3));
+    vt_map.Light.Create("img/misc/lights/sun_flare_light_main.lua",
+                        "img/misc/lights/sun_flare_light_secondary.lua",
+                        22.0, 32.0,
+                        vt_video.Color(1.0, 1.0, 1.0, 0.6),
+                        vt_video.Color(1.0, 1.0, 0.85, 0.3));
 
     -- Small door lights
-    Map:AddLight("img/misc/lights/sun_flare_light_small_main.lua",
-            "img/misc/lights/sun_flare_light_small_secondary.lua",
-        12.0, 57.5,
-        vt_video.Color(1.0, 1.0, 1.0, 0.6),
-        vt_video.Color(1.0, 1.0, 0.85, 0.3));
-    Map:AddLight("img/misc/lights/sun_flare_light_small_main.lua",
-            "img/misc/lights/sun_flare_light_small_secondary.lua",
-        94.0, 67.5,
-        vt_video.Color(1.0, 1.0, 1.0, 0.6),
-        vt_video.Color(1.0, 1.0, 0.85, 0.3));
+    vt_map.Light.Create("img/misc/lights/sun_flare_light_small_main.lua",
+                        "img/misc/lights/sun_flare_light_small_secondary.lua",
+                        12.0, 57.5,
+                        vt_video.Color(1.0, 1.0, 1.0, 0.6),
+                        vt_video.Color(1.0, 1.0, 0.85, 0.3));
+    vt_map.Light.Create("img/misc/lights/sun_flare_light_small_main.lua",
+                        "img/misc/lights/sun_flare_light_small_secondary.lua",
+                        94.0, 67.5,
+                        vt_video.Color(1.0, 1.0, 1.0, 0.6),
+                        vt_video.Color(1.0, 1.0, 0.85, 0.3));
 
     -- Treasure vase
     local nekko_vase = CreateTreasure(Map, "layna_center_nekko_vase", "Vase1", 27, 37, vt_map.MapMode.GROUND_OBJECT);
