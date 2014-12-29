@@ -118,7 +118,7 @@ function _CreateEnemies()
     local roam_zone = nil
 
     -- Hint: left, right, top, bottom
-    roam_zone = vt_map.EnemyZone.Create.Create(12, 18, 17, 31);
+    roam_zone = vt_map.EnemyZone.Create(12, 18, 17, 31);
 
     enemy = CreateEnemySprite(Map, "slime");
     _SetBattleEnvironment(enemy);
@@ -134,7 +134,7 @@ function _CreateEnemies()
     roam_zone:AddEnemy(enemy, 1);
 
     -- Hint: left, right, top, bottom
-    roam_zone = vt_map.EnemyZone.Create.Create(94, 102, 62, 70);
+    roam_zone = vt_map.EnemyZone.Create(94, 102, 62, 70);
 
     enemy = CreateEnemySprite(Map, "bat");
     _SetBattleEnvironment(enemy);
@@ -151,7 +151,7 @@ function _CreateEnemies()
     roam_zone:AddEnemy(enemy, 1);
 
     -- Hint: left, right, top, bottom
-    roam_zone = vt_map.EnemyZone.Create.Create(62, 71, 36, 44);
+    roam_zone = vt_map.EnemyZone.Create(62, 71, 36, 44);
 
     enemy = CreateEnemySprite(Map, "big slime");
     _SetBattleEnvironment(enemy);
@@ -266,29 +266,29 @@ local to_9_2_zone = nil
 -- Create the different map zones triggering events
 function _CreateZones()
     -- N.B.: left, right, top, bottom
-    to_forest_SE_zone = vt_map.CameraZone.Create.Create(56, 60, 95, 96);
-    to_forest_crystal_zone = vt_map.CameraZone.Create.Create(60, 74, 0, 1);
+    to_forest_SE_zone = vt_map.CameraZone.Create(56, 60, 95, 96);
+    to_forest_crystal_zone = vt_map.CameraZone.Create(60, 74, 0, 1);
 
     -- cave zones
-    to_1_1_zone = vt_map.CameraZone.Create.Create(8, 10, 39, 40);
-    to_1_2_zone = vt_map.CameraZone.Create.Create(42, 44, 83, 84);
-    to_2_1_zone = vt_map.CameraZone.Create.Create(28, 30, 43, 44);
-    to_2_2_zone = vt_map.CameraZone.Create.Create(36, 38, 3, 4);
-    to_3_1_zone = vt_map.CameraZone.Create.Create(120, 122, 89, 90);
-    to_3_2_zone = vt_map.CameraZone.Create.Create(52, 54, 13, 14);
-    to_4_1_zone = vt_map.CameraZone.Create.Create(46, 48, 65, 66);
-    to_4_2_zone = vt_map.CameraZone.Create.Create(92, 94, 45, 46);
-    to_5_1_zone = vt_map.CameraZone.Create.Create(76, 78, 7, 8);
-    to_5_2_zone = vt_map.CameraZone.Create.Create(76, 78, 25, 26);
-    to_6_1_zone = vt_map.CameraZone.Create.Create(2, 4, 73, 74);
-    to_6_2_zone = vt_map.CameraZone.Create.Create(66, 68, 79, 80);
-    to_7_1_zone = vt_map.CameraZone.Create.Create(36, 38, 71, 72);
-    to_7_1_bis_zone = vt_map.CameraZone.Create.Create(96, 98, 23, 24);
-    to_7_2_zone = vt_map.CameraZone.Create.Create(26, 28, 81, 82);
-    to_8_1_zone = vt_map.CameraZone.Create.Create(2, 4, 3, 4);
-    to_8_2_zone = vt_map.CameraZone.Create.Create(22, 24, 57, 58);
-    to_9_1_zone = vt_map.CameraZone.Create.Create(118, 120, 7, 8);
-    to_9_2_zone = vt_map.CameraZone.Create.Create(78, 80, 69, 70);
+    to_1_1_zone = vt_map.CameraZone.Create(8, 10, 39, 40);
+    to_1_2_zone = vt_map.CameraZone.Create(42, 44, 83, 84);
+    to_2_1_zone = vt_map.CameraZone.Create(28, 30, 43, 44);
+    to_2_2_zone = vt_map.CameraZone.Create(36, 38, 3, 4);
+    to_3_1_zone = vt_map.CameraZone.Create(120, 122, 89, 90);
+    to_3_2_zone = vt_map.CameraZone.Create(52, 54, 13, 14);
+    to_4_1_zone = vt_map.CameraZone.Create(46, 48, 65, 66);
+    to_4_2_zone = vt_map.CameraZone.Create(92, 94, 45, 46);
+    to_5_1_zone = vt_map.CameraZone.Create(76, 78, 7, 8);
+    to_5_2_zone = vt_map.CameraZone.Create(76, 78, 25, 26);
+    to_6_1_zone = vt_map.CameraZone.Create(2, 4, 73, 74);
+    to_6_2_zone = vt_map.CameraZone.Create(66, 68, 79, 80);
+    to_7_1_zone = vt_map.CameraZone.Create(36, 38, 71, 72);
+    to_7_1_bis_zone = vt_map.CameraZone.Create(96, 98, 23, 24);
+    to_7_2_zone = vt_map.CameraZone.Create(26, 28, 81, 82);
+    to_8_1_zone = vt_map.CameraZone.Create(2, 4, 3, 4);
+    to_8_2_zone = vt_map.CameraZone.Create(22, 24, 57, 58);
+    to_9_1_zone = vt_map.CameraZone.Create(118, 120, 7, 8);
+    to_9_2_zone = vt_map.CameraZone.Create(78, 80, 69, 70);
 end
 
 -- Check whether the active camera has entered a zone. To be called within Update()
