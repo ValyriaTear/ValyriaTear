@@ -446,7 +446,7 @@ map_functions = {
 
     set_camera_on_stone = function()
         Map:MoveVirtualFocus(rolling_stone2:GetXPosition(), rolling_stone2:GetYPosition());
-        Map:SetCamera(ObjectManager.virtual_focus, 800);
+        Map:SetCamera(Map:GetVirtualFocus(), 800);
     end,
 
     set_camera_on_hero = function()

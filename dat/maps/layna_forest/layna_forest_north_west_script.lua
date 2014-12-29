@@ -1038,7 +1038,7 @@ map_functions = {
         -- Focus the camera on the shortcut
         Map:PushState(vt_map.MapMode.STATE_SCENE);
         Map:MoveVirtualFocus(64, 16);
-        Map:SetCamera(ObjectManager.virtual_focus, 2500);
+        Map:SetCamera(Map:GetVirtualFocus(), 2500);
     end,
 
     SetCamera2 = function(sprite)

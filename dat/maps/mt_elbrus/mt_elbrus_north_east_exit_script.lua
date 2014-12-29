@@ -394,7 +394,7 @@ map_functions = {
 
     set_camera_on_village_start = function()
         Map:MoveVirtualFocus(67, 19);
-        Map:SetCamera(ObjectManager.virtual_focus, 1700);
+        Map:SetCamera(Map:GetVirtualFocus(), 1700);
     end,
 
     camera_update = function()

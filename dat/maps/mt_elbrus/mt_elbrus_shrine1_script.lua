@@ -836,7 +836,7 @@ map_functions = {
 
     camera_to_passage = function()
         Map:MoveVirtualFocus(15, 30);
-        Map:SetCamera(ObjectManager.virtual_focus, 1000);
+        Map:SetCamera(Map:GetVirtualFocus(), 1000);
     end,
 
     camera_to_hero = function()

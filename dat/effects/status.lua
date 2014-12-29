@@ -551,12 +551,12 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_HP] = {
 
         -- Adds an effect on map
         local map_mode = ModeManager:GetTop();
-        local x_pos = map_mode:GetScreenXCoordinate(map_mode.camera:GetXPosition());
-        local y_pos = map_mode:GetScreenYCoordinate(map_mode.camera:GetYPosition());
+        local x_pos = map_mode:GetScreenXCoordinate(map_mode:GetCamera():GetXPosition());
+        local y_pos = map_mode:GetScreenYCoordinate(map_mode:GetCamera():GetYPosition());
         local map_indicator = map_mode:GetIndicatorSupervisor();
         if (hp_change > 0) then
             -- We move the healing indicator above the head of the sprite.
-            y_pos = y_pos - map_mode.camera:GetImgHeight() * 16;
+            y_pos = y_pos - map_mode:GetCamera():GetImgHeight() * 16;
             map_indicator:AddHealingIndicator(x_pos, y_pos, hp_change, vt_video.TextStyle("text22", vt_video.Color(0.0, 0.0, 1.0, 0.9)), true);
         else
             map_indicator:AddDamageIndicator(x_pos, y_pos, -hp_change, vt_video.TextStyle("text22", vt_video.Color(1.0, 0.0, 0.0, 0.9)), true);
@@ -725,12 +725,12 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_SP] = {
 
         -- Adds an effect on map
         local map_mode = ModeManager:GetTop();
-        local x_pos = map_mode:GetScreenXCoordinate(map_mode.camera:GetXPosition());
-        local y_pos = map_mode:GetScreenYCoordinate(map_mode.camera:GetYPosition());
+        local x_pos = map_mode:GetScreenXCoordinate(map_mode:GetCamera():GetXPosition());
+        local y_pos = map_mode:GetScreenYCoordinate(map_mode:GetCamera():GetYPosition());
         local map_indicator = map_mode:GetIndicatorSupervisor();
         if (sp_change > 0) then
             -- We move the healing indicator above the head of the sprite.
-            y_pos = y_pos - map_mode.camera:GetImgHeight() * 16;
+            y_pos = y_pos - map_mode:GetCamera():GetImgHeight() * 16;
             map_indicator:AddHealingIndicator(x_pos, y_pos, sp_change, vt_video.TextStyle("text22", vt_video.Color(0.0, 0.8, 0.8, 0.9)), true);
         else
             map_indicator:AddDamageIndicator(x_pos, y_pos, -sp_change, vt_video.TextStyle("text22", vt_video.Color(0.0, 1.0, 0.0, 0.9)), true);
