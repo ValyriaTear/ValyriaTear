@@ -906,7 +906,7 @@ function _CheckHarlequinsStatus()
     if (harlequin1:IsVisible() == false and harlequin2:IsVisible() == false and harlequin3:IsVisible() == false) then
         harlequin_beaten_time = 0;
         -- Stop the first part event
-        EventManager:TerminateEvents("Make the Harlequins move", false)
+        EventManager:EndEvent("Make the Harlequins move", false)
 
         -- Remove the other monsters
         Map:SetAllEnemyStatesToDead();

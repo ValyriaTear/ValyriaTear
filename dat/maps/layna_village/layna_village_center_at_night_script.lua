@@ -548,7 +548,7 @@ map_functions = {
         bronann:SetMoving(false);
 
         -- In case she hasn't finished running
-        EventManager:TerminateAllEvents(kalya);
+        EventManager:EndAllEvents(kalya);
 
         kalya:SetVisible(true);
         kalya:SetPosition(41, 41);

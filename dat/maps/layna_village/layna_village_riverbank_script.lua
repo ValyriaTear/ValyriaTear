@@ -655,7 +655,7 @@ map_functions = {
         orlinn:SetDirection(vt_map.MapMode.NORTH);
         orlinn:SetMovementSpeed(vt_map.MapMode.NORMAL_SPEED);
         orlinn:ClearDialogueReferences();
-        EventManager:TerminateAllEvents(orlinn);
+        EventManager:EndAllEvents(orlinn);
     end,
 
     Set_Hide_And_Seek3_Done = function()
@@ -670,7 +670,7 @@ map_functions = {
         -- Stop Lilly dialogue and prepare her for the next events
         lilly:SetMoving(false); -- in case he's moving
         lilly:ClearDialogueReferences();
-        EventManager:TerminateAllEvents(lilly);
+        EventManager:EndAllEvents(lilly);
     end,
 
     GiveBarleyMeal = function()

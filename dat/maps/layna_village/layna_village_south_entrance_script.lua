@@ -307,7 +307,7 @@ map_functions = {
         orlinn:SetMoving(false); -- in case he's moving
         orlinn:SetMovementSpeed(vt_map.MapMode.VERY_FAST_SPEED);
         orlinn:ClearDialogueReferences();
-        EventManager:TerminateAllEvents(orlinn);
+        EventManager:EndAllEvents(orlinn);
 
         -- Updates Orlinn's state
         GlobalManager:SetEventValue("layna_south_entrance", "quest1_orlinn_hide_n_seek1_done", 1);
@@ -324,7 +324,7 @@ map_functions = {
         chicken2_taken = false;
         fade_effect_time = 0;
         chicken2:SetMoving(false);
-        EventManager:TerminateAllEvents(chicken2);
+        EventManager:EndAllEvents(chicken2);
         bronann:SetMoving(false);
         Map:PushState(vt_map.MapMode.STATE_SCENE);
     end,

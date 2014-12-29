@@ -161,7 +161,7 @@ map_functions = {
         chicken1_taken = false;
         fade_effect_time = 0;
         chicken1:SetMoving(false);
-        EventManager:TerminateAllEvents(chicken1);
+        EventManager:EndAllEvents(chicken1);
         Map:PushState(vt_map.MapMode.STATE_SCENE);
         bronann:SetMoving(false);
     end,

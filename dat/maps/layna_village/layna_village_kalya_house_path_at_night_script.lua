@@ -314,7 +314,7 @@ map_functions = {
 
     bronann_gets_up = function()
         -- Actually terminates the animate event
-        EventManager:TerminateAllEvents(bronann);
+        EventManager:EndAllEvents(bronann);
         -- Also, slows down Orlinn to let the player see he's going to the secret passage
         orlinn:SetMovementSpeed(vt_map.MapMode.VERY_SLOW_SPEED);
     end,

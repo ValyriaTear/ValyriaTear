@@ -994,7 +994,7 @@ map_functions = {
     end,
 
     Terminate_all_events = function(sprite)
-        EventManager:TerminateAllEvents(sprite);
+        EventManager:EndAllEvents(sprite);
     end,
 
     orlinn_kalya_exclamation = function()

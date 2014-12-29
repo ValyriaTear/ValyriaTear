@@ -851,8 +851,8 @@ function _HurtBoss()
         -- Stop the music very quickly.
         AudioManager:FadeOutActiveMusic(400);
 
-        EventManager:TerminateEvents("Start battle", false);
-        EventManager:TerminateEvents("Start spikes", false);
+        EventManager:EndEvent("Start battle", false);
+        EventManager:EndEvent("Start spikes", false);
 
         _HideAllSpikes();
         _KillAllFireBalls();

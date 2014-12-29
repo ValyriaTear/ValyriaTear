@@ -223,7 +223,7 @@ map_functions = {
         chicken3_taken = false;
         fade_effect_time = 0;
         chicken3:SetMoving(false);
-        EventManager:TerminateAllEvents(chicken3);
+        EventManager:EndAllEvents(chicken3);
         bronann:SetMoving(false);
         Map:PushState(vt_map.MapMode.STATE_SCENE);
     end,

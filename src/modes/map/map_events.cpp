@@ -54,7 +54,7 @@ void SpriteEvent::_Start()
     EventSupervisor *event_supervisor = MapMode::CurrentInstance()->GetEventSupervisor();
     // Terminate the previous event whenever it is another sprite event.
     if(dynamic_cast<SpriteEvent *>(_sprite->control_event) && event_supervisor) {
-        event_supervisor->TerminateEvents(_sprite->control_event, false);
+        event_supervisor->EndEvent(_sprite->control_event, false);
     }
 
     _sprite->AcquireControl(this);
@@ -914,7 +914,7 @@ bool AnimateSpriteEvent::_Update()
 void AnimateSpriteEvent::Terminate()
 {
     // Disable a possible still running custom animation.
-    // Useful when calling TerminateAllEvents() on a sprite.
+    // Useful when calling EndAllEvents() on a sprite.
     if (_map_sprite)
         _map_sprite->DisableCustomAnimation();
     _map_sprite = 0;
@@ -980,8 +980,6 @@ EventSupervisor::~EventSupervisor()
     _all_events.clear();
 }
 
-
-
 void EventSupervisor::RegisterEvent(MapEvent *new_event)
 {
     if(new_event == NULL) {
@@ -1000,8 +998,6 @@ void EventSupervisor::RegisterEvent(MapEvent *new_event)
     _all_events.insert(std::make_pair(new_event->_event_id, new_event));
 }
 
-
-
 void EventSupervisor::StartEvent(const std::string &event_id)
 {
     MapEvent *event = GetEvent(event_id);
@@ -1014,8 +1010,6 @@ void EventSupervisor::StartEvent(const std::string &event_id)
 
     StartEvent(event);
 }
-
-
 
 void EventSupervisor::StartEvent(const std::string &event_id, uint32 launch_time)
 {
@@ -1033,8 +1027,6 @@ void EventSupervisor::StartEvent(const std::string &event_id, uint32 launch_time
         _active_delayed_events.push_back(std::make_pair(static_cast<int32>(launch_time), event));
 }
 
-
-
 void EventSupervisor::StartEvent(MapEvent *event, uint32 launch_time)
 {
     if(event == NULL) {
@@ -1048,8 +1040,6 @@ void EventSupervisor::StartEvent(MapEvent *event, uint32 launch_time)
     else
         _active_delayed_events.push_back(std::make_pair(static_cast<int32>(launch_time), event));
 }
-
-
 
 void EventSupervisor::StartEvent(MapEvent *event)
 {
@@ -1083,14 +1073,12 @@ void EventSupervisor::StartEvent(MapEvent *event)
     _ExamineEventLinks(event, true);
 }
 
-
-
-void EventSupervisor::PauseEvents(const std::string &event_id)
+void EventSupervisor::PauseEvent(const std::string &event_id)
 {
     // Never ever do that when updating events.
     if(_is_updating) {
         PRINT_WARNING << "Tried to pause the event: '" << event_id
-                      << "' within an update function. The PauseEvents() call will be ignored."
+                      << "' within an update function. The PauseEvent() call will be ignored."
                       << std::endl << " You should fix the map script: "
                       << MapMode::CurrentInstance()->GetMapScriptFilename() << std::endl;
         return;
@@ -1117,8 +1105,6 @@ void EventSupervisor::PauseEvents(const std::string &event_id)
         }
     }
 }
-
-
 
 void EventSupervisor::PauseAllEvents(VirtualSprite *sprite)
 {
@@ -1159,14 +1145,12 @@ void EventSupervisor::PauseAllEvents(VirtualSprite *sprite)
     }
 }
 
-
-
-void EventSupervisor::ResumeEvents(const std::string &event_id)
+void EventSupervisor::ResumeEvent(const std::string &event_id)
 {
     // Never ever do that when updating events.
     if(_is_updating) {
         PRINT_WARNING << "Tried to resume event: '" << event_id
-                      << "' within an update function. The ResumeEvents() call will be ignored."
+                      << "' within an update function. The ResumeEvent() call will be ignored."
                       << std::endl << " You should fix the map script: "
                       << MapMode::CurrentInstance()->GetMapScriptFilename() << std::endl;
         return;
@@ -1194,8 +1178,6 @@ void EventSupervisor::ResumeEvents(const std::string &event_id)
     }
 }
 
-
-
 void EventSupervisor::ResumeAllEvents(VirtualSprite *sprite)
 {
     if(!sprite)
@@ -1205,7 +1187,7 @@ void EventSupervisor::ResumeAllEvents(VirtualSprite *sprite)
     // Never ever do that when updating events.
     if(_is_updating) {
         PRINT_WARNING << "Tried to resume all events for sprite: " << sprite->GetObjectID()
-                      << " within an update function. The TerminateAllEvents() call will be ignored."
+                      << " within an update function. The EndAllEvents() call will be ignored."
                       << std::endl << " You should fix the map script: "
                       << MapMode::CurrentInstance()->GetMapScriptFilename() << std::endl;
         return;
@@ -1235,16 +1217,14 @@ void EventSupervisor::ResumeAllEvents(VirtualSprite *sprite)
     }
 }
 
-
-
-void EventSupervisor::TerminateEvents(const std::string &event_id, bool trigger_event_links)
+void EventSupervisor::EndEvent(const std::string &event_id, bool trigger_event_links)
 {
     // Examine all potential active (now or later) events
 
     // Never ever do that when updating events.
     if(_is_updating) {
         PRINT_WARNING << "Tried to terminate the event: '" << event_id
-                      << "' within an update function. The TerminateEvents() call will be ignored."
+                      << "' within an update function. The EndEvent() call will be ignored."
                       << std::endl << " You should fix the map script: "
                       << MapMode::CurrentInstance()->GetMapScriptFilename() << std::endl;
         return;
@@ -1316,9 +1296,7 @@ void EventSupervisor::TerminateEvents(const std::string &event_id, bool trigger_
     }
 }
 
-
-
-void EventSupervisor::TerminateEvents(MapEvent *event, bool trigger_event_links)
+void EventSupervisor::EndEvent(MapEvent *event, bool trigger_event_links)
 {
     if(!event) {
         PRINT_ERROR << "Couldn't terminate NULL event" << std::endl;
@@ -1328,18 +1306,16 @@ void EventSupervisor::TerminateEvents(MapEvent *event, bool trigger_event_links)
     // Never ever do that when updating events.
     if(_is_updating) {
         PRINT_WARNING << "Tried to terminate the event: '" << event->GetEventID()
-                      << "' within an update function. The TerminateEvents() call will be ignored."
+                      << "' within an update function. The EndEvent() call will be ignored."
                       << std::endl << " You should fix the map script: "
                       << MapMode::CurrentInstance()->GetMapScriptFilename() << std::endl;
         return;
     }
 
-    TerminateEvents(event->GetEventID(), trigger_event_links);
+    EndEvent(event->GetEventID(), trigger_event_links);
 }
 
-
-
-void EventSupervisor::TerminateAllEvents(VirtualSprite *sprite)
+void EventSupervisor::EndAllEvents(VirtualSprite *sprite)
 {
     if(!sprite)
         return;
@@ -1348,7 +1324,7 @@ void EventSupervisor::TerminateAllEvents(VirtualSprite *sprite)
     // Never ever do that when updating events.
     if(_is_updating) {
         PRINT_WARNING << "Tried to terminate all events for sprite: " << sprite->GetObjectID()
-                      << " within an update function. The TerminateAllEvents() call will be ignored."
+                      << " within an update function. The EndAllEvents() call will be ignored."
                       << std::endl << " You should fix the map script: "
                       << MapMode::CurrentInstance()->GetMapScriptFilename() << std::endl;
         return;
@@ -1400,8 +1376,6 @@ void EventSupervisor::TerminateAllEvents(VirtualSprite *sprite)
             ++it;
     }
 }
-
-
 
 void EventSupervisor::Update()
 {
@@ -1457,8 +1431,6 @@ void EventSupervisor::Update()
     }
 }
 
-
-
 bool EventSupervisor::IsEventActive(const std::string &event_id) const
 {
     for(std::vector<MapEvent *>::const_iterator it = _active_events.begin(); it != _active_events.end(); ++it) {
@@ -1469,8 +1441,6 @@ bool EventSupervisor::IsEventActive(const std::string &event_id) const
     return false;
 }
 
-
-
 MapEvent *EventSupervisor::GetEvent(const std::string &event_id) const
 {
     std::map<std::string, MapEvent *>::const_iterator it = _all_events.find(event_id);
@@ -1480,8 +1450,6 @@ MapEvent *EventSupervisor::GetEvent(const std::string &event_id) const
     else
         return it->second;
 }
-
-
 
 void EventSupervisor::_ExamineEventLinks(MapEvent *parent_event, bool event_start)
 {

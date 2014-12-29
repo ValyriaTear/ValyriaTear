@@ -452,7 +452,7 @@ function _CheckEnemiesState()
         monsters_started = false;
 
         -- Stop the death wall
-        EventManager:TerminateEvents("Make spike wall go up", false);
+        EventManager:EndEvent("Make spike wall go up", false);
         EventManager:StartEvent("Make spike wall go down");
         return;
     end

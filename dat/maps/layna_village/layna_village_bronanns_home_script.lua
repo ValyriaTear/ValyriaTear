@@ -514,7 +514,7 @@ map_functions = {
     end,
 
     StartQuest1 =  function(sprite)
-        EventManager:TerminateAllEvents(sprite);
+        EventManager:EndAllEvents(sprite);
         sprite:SetMoving(false); -- in case she's moving
         EventManager:StartEvent("Quest1: Mother looks south");
     end,
@@ -535,10 +535,10 @@ map_functions = {
         -- Stop everyone
         bronanns_dad:SetMoving(false);
         bronanns_dad:ClearDialogueReferences();
-        EventManager:TerminateAllEvents(bronanns_dad);
+        EventManager:EndAllEvents(bronanns_dad);
         bronanns_mother:SetMoving(false);
         bronanns_mother:ClearDialogueReferences();
-        EventManager:TerminateAllEvents(bronanns_mother);
+        EventManager:EndAllEvents(bronanns_mother);
 
         bronann:SetMoving(false);
     end,

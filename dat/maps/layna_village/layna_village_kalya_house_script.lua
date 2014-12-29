@@ -481,7 +481,7 @@ map_functions = {
     end,
 
     terminate_bronann_events = function()
-        EventManager:TerminateAllEvents(bronann);
+        EventManager:EndAllEvents(bronann);
     end,
 
     make_orlinn_visible = function()

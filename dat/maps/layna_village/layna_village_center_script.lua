@@ -1043,7 +1043,7 @@ function _UpdateOrlinnAndKalyaState()
         kalya:ClearDialogueReferences();
         kalya:SetVisible(false);
         kalya:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
-        EventManager:TerminateAllEvents(kalya);
+        EventManager:EndAllEvents(kalya);
         kalya:SetMoving(false);
         return;
     end
@@ -1125,7 +1125,7 @@ function _UpdateOrlinnAndKalyaState()
     end
 
     -- Default behaviour
-    EventManager:TerminateAllEvents(orlinn);
+    EventManager:EndAllEvents(orlinn);
     -- Add the default event if it doesn't exist
     if (EventManager:DoesEventExist("Orlinn random move") == false) then
         event = vt_map.RandomMoveSpriteEvent("Orlinn random move", orlinn, 4000, 2000);
@@ -1155,7 +1155,7 @@ map_functions = {
         orlinn:SetMovementSpeed(vt_map.MapMode.VERY_FAST_SPEED);
         orlinn:SetCollisionMask(vt_map.MapMode.WALL_COLLISION);
         orlinn:ClearDialogueReferences();
-        EventManager:TerminateAllEvents(orlinn);
+        EventManager:EndAllEvents(orlinn);
     end,
 
     orlinn_run_event_end = function()
@@ -1178,7 +1178,7 @@ map_functions = {
         orlinn:SetCollisionMask(vt_map.MapMode.WALL_COLLISION);
         orlinn:SetVisible(true);
         -- Makes her stop wandering
-        EventManager:TerminateAllEvents(kalya);
+        EventManager:EndAllEvents(kalya);
     end,
 
     orlinn_comes_back_event_end = function()
@@ -1220,13 +1220,13 @@ map_functions = {
         herth:SetVisible(true);
         herth:SetCollisionMask(vt_map.MapMode.ALL_COLLISION);
 
-        EventManager:TerminateAllEvents(kalya);
+        EventManager:EndAllEvents(kalya);
         kalya:SetPosition(75.0, 68.0);
         kalya:SetMoving(false);
         kalya:ClearDialogueReferences();
 
         -- hide Orlinn has he's into the forest
-        EventManager:TerminateAllEvents(orlinn);
+        EventManager:EndAllEvents(orlinn);
         orlinn:SetMoving(false);
         orlinn:SetVisible(false);
         orlinn:SetCollisionMask(vt_map.MapMode.NO_COLLISION);

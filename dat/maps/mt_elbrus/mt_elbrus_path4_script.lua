@@ -767,9 +767,9 @@ map_functions = {
 
     stop_party_animation = function(sprite)
         -- Stops the laughing animation in that particular case
-        EventManager:TerminateAllEvents(hero);
-        EventManager:TerminateAllEvents(kalya);
-        EventManager:TerminateAllEvents(orlinn);
+        EventManager:EndAllEvents(hero);
+        EventManager:EndAllEvents(kalya);
+        EventManager:EndAllEvents(orlinn);
     end,
 
     cut_the_bridge_event_end = function()

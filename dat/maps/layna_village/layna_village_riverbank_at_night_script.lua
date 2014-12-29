@@ -858,8 +858,8 @@ map_functions = {
     bronann_is_catched_start = function()
         Map:PushState(vt_map.MapMode.STATE_SCENE);
         bronann:SetMoving(false);
-        EventManager:TerminateAllEvents(soldier21);
-        EventManager:TerminateAllEvents(soldier22);
+        EventManager:EndAllEvents(soldier21);
+        EventManager:EndAllEvents(soldier22);
         soldier21:Emote("exclamation", soldier21:GetDirection());
         soldier22:Emote("exclamation", soldier22:GetDirection());
         -- Undo the last event, as the map is restarting
