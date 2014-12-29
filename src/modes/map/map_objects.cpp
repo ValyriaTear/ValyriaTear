@@ -797,10 +797,11 @@ void SoundObject::Start()
 // ----------------------------------------------------------------------------
 
 TreasureObject::TreasureObject(const std::string &treasure_name,
+                               MapObjectDrawLayer layer,
                                const std::string &closed_animation_file,
                                const std::string &opening_animation_file,
                                const std::string &open_animation_file) :
-    PhysicalObject(GROUND_OBJECT)
+    PhysicalObject(layer)
 {
     _object_type = TREASURE_TYPE;
     _events_triggered = false;
@@ -838,13 +839,15 @@ TreasureObject::TreasureObject(const std::string &treasure_name,
 }
 
 TreasureObject* TreasureObject::Create(const std::string &treasure_name,
+                                       MapObjectDrawLayer layer,
                                        const std::string &closed_animation_file,
                                        const std::string &opening_animation_file,
                                        const std::string &open_animation_file)
 {
     // The object auto registers to the object supervisor
     // and will later handle deletion.
-    return new TreasureObject(treasure_name, closed_animation_file,
+    return new TreasureObject(treasure_name, layer,
+                              closed_animation_file,
                               opening_animation_file,
                               open_animation_file);
 }
@@ -941,11 +944,12 @@ void TreasureObject::AddEvent(const std::string& event_id)
 // ----------------------------------------------------------------------------
 
 TriggerObject::TriggerObject(const std::string &trigger_name,
+                             MapObjectDrawLayer layer,
                              const std::string &off_animation_file,
                              const std::string &on_animation_file,
                              const std::string& off_event_id,
                              const std::string& on_event_id) :
-    PhysicalObject(FLATGROUND_OBJECT),
+    PhysicalObject(layer),
     _trigger_state(false)
 {
     _object_type = TRIGGER_TYPE;
@@ -980,6 +984,7 @@ TriggerObject::TriggerObject(const std::string &trigger_name,
 }
 
 TriggerObject* TriggerObject::Create(const std::string &trigger_name,
+                                     MapObjectDrawLayer layer,
                                      const std::string &off_animation_file,
                                      const std::string &on_animation_file,
                                      const std::string& off_event_id,
@@ -987,8 +992,9 @@ TriggerObject* TriggerObject::Create(const std::string &trigger_name,
 {
     // The object auto registers to the object supervisor
     // and will later handle deletion.
-    return new TriggerObject(trigger_name, off_animation_file, on_animation_file,
-                              off_event_id, on_event_id);
+    return new TriggerObject(trigger_name, layer,
+                             off_animation_file, on_animation_file,
+                             off_event_id, on_event_id);
 }
 
 void TriggerObject::Update()

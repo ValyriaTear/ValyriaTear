@@ -195,10 +195,11 @@ function _CreateObjects()
         end
 
         stone_triggers[i] = vt_map.TriggerObject.Create("mt elbrus shrine 2nd NE trigger "..i,
-                                 "img/sprites/map/triggers/rolling_stone_trigger1_off.lua",
-                                 "img/sprites/map/triggers/rolling_stone_trigger1_on.lua",
-                                 "",
-                                 "Check Gate");
+                                                        vt_map.MapMode.FLATGROUND_OBJECT,
+                                                        "img/sprites/map/triggers/rolling_stone_trigger1_off.lua",
+                                                        "img/sprites/map/triggers/rolling_stone_trigger1_on.lua",
+                                                        "",
+                                                        "Check Gate");
         stone_triggers[i]:SetTriggerableByCharacter(false); -- Only an event can trigger it
         stone_triggers[i]:SetPosition(pos_x, pos_y);
 

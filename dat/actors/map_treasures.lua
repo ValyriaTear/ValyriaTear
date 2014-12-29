@@ -91,7 +91,7 @@ treasures["Locker_Chest1"] = {
 }
 
 -- The helper function permitting to easily create a prepared map object
-function CreateTreasure(Map, save_name, name, x, y)
+function CreateTreasure(Map, save_name, name, x, y, layer)
     if (treasures[name] == nil) then
         print("Error: No treasure named: "..name.." found!!");
         return nil;
@@ -102,8 +102,8 @@ function CreateTreasure(Map, save_name, name, x, y)
         return nil;
     end
 
-    -- Note: Auto-registered to the object supervisor on the GROUND_LAYER.
-    local treasure = vt_map.TreasureObject.Create(save_name,
+    -- Note: Auto-registered to the object supervisor.
+    local treasure = vt_map.TreasureObject.Create(save_name, layer,
                treasures[name].closed_animation_filename,
                treasures[name].opening_animation_filename,
                treasures[name].opened_animation_filename);

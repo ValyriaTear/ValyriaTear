@@ -800,6 +800,7 @@ public:
     *** \param open_animation_file The animation file used to display the treasure when it is open.
     **/
     TreasureObject(const std::string &treasure_name,
+                   MapObjectDrawLayer layer,
                    const std::string &closed_animation_file,
                    const std::string &opening_animation_file,
                    const std::string &open_animation_file);
@@ -813,6 +814,7 @@ public:
     //! \note We don't permit luabind to use constructors here as it can't currently
     //! give the object ownership at construction time.
     static TreasureObject* Create(const std::string &treasure_name,
+                                  MapObjectDrawLayer layer,
                                   const std::string &closed_animation_file,
                                   const std::string &opening_animation_file,
                                   const std::string &open_animation_file);
@@ -888,9 +890,9 @@ public:
     *** \param off_event_id The event id to call when setting the trigger to off.
     *** \param on_event_id The event id to call when setting the trigger to on.
     **/
-    TriggerObject(const std::string &trigger_name, const std::string &off_animation_file,
-                  const std::string &on_animation_file, const std::string& off_event_id,
-                  const std::string& on_event_id);
+    TriggerObject(const std::string &trigger_name, MapObjectDrawLayer layer,
+                  const std::string &off_animation_file, const std::string &on_animation_file,
+                  const std::string& off_event_id, const std::string& on_event_id);
 
     ~TriggerObject()
     {}
@@ -900,6 +902,7 @@ public:
     //! \note We don't permit luabind to use constructors here as it can't currently
     //! give the object ownership at construction time.
     static TriggerObject* Create(const std::string &trigger_name,
+                                 MapObjectDrawLayer layer,
                                  const std::string &off_animation_file,
                                  const std::string &on_animation_file,
                                  const std::string& off_event_id,

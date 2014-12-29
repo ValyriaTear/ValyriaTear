@@ -176,11 +176,12 @@ function _CreateObjects()
     -- The triggers
 
     --near entrance
-    local trigger = vt_map.TriggerObject("layna_cave_entrance_trigger",
-                             "img/sprites/map/triggers/stone_trigger1_off.lua",
-                             "img/sprites/map/triggers/stone_trigger1_on.lua",
-                             "",
-                             "Remove entrance rock");
+    local trigger = vt_map.TriggerObject.Create("layna_cave_entrance_trigger",
+                                                vt_map.MapMode.FLATGROUND_OBJECT,
+                                                "img/sprites/map/triggers/stone_trigger1_off.lua",
+                                                "img/sprites/map/triggers/stone_trigger1_on.lua",
+                                                "",
+                                                "Remove entrance rock");
     trigger:SetPosition(113, 90);
 
     entrance_trigger_rock = CreateObject(Map, "Rock1", 115, 79, vt_map.MapMode.GROUND_OBJECT);
@@ -192,11 +193,11 @@ function _CreateObjects()
     EventManager:RegisterEvent(event);
 
     -- 2nd trigger
-    trigger = vt_map.TriggerObject("layna_cave_2nd_trigger",
-                             "img/sprites/map/triggers/stone_trigger1_off.lua",
-                             "img/sprites/map/triggers/stone_trigger1_on.lua",
-                             "",
-                             "Remove 2nd rock");
+    trigger = vt_map.TriggerObject.Create("layna_cave_2nd_trigger", vt_map.MapMode.FLATGROUND_OBJECT,
+                                          "img/sprites/map/triggers/stone_trigger1_off.lua",
+                                          "img/sprites/map/triggers/stone_trigger1_on.lua",
+                                          "",
+                                          "Remove 2nd rock");
     trigger:SetPosition(11, 88);
 
     second_trigger_rock = CreateObject(Map, "Rock1", 95, 58, vt_map.MapMode.GROUND_OBJECT);
@@ -208,11 +209,11 @@ function _CreateObjects()
     EventManager:RegisterEvent(event);
 
     -- 3rd trigger
-    trigger = vt_map.TriggerObject("layna_cave_3rd_trigger",
-                             "img/sprites/map/triggers/stone_trigger1_off.lua",
-                             "img/sprites/map/triggers/stone_trigger1_on.lua",
-                             "",
-                             "Remove 3rd rock");
+    trigger = vt_map.TriggerObject.Create("layna_cave_3rd_trigger", vt_map.MapMode.FLATGROUND_OBJECT,
+                                          "img/sprites/map/triggers/stone_trigger1_off.lua",
+                                          "img/sprites/map/triggers/stone_trigger1_on.lua",
+                                          "",
+                                          "Remove 3rd rock");
     trigger:SetPosition(39, 55);
 
     third_trigger_rock = CreateObject(Map, "Rock1", 15, 36, vt_map.MapMode.GROUND_OBJECT);
@@ -224,11 +225,11 @@ function _CreateObjects()
     EventManager:RegisterEvent(event);
 
     -- 4th trigger
-    trigger = vt_map.TriggerObject("layna_cave_4th_trigger",
-                             "img/sprites/map/triggers/stone_trigger1_off.lua",
-                             "img/sprites/map/triggers/stone_trigger1_on.lua",
-                             "",
-                             "Remove 4th rock");
+    trigger = vt_map.TriggerObject.Create("layna_cave_4th_trigger", vt_map.MapMode.FLATGROUND_OBJECT,
+                                          "img/sprites/map/triggers/stone_trigger1_off.lua",
+                                          "img/sprites/map/triggers/stone_trigger1_on.lua",
+                                          "",
+                                          "Remove 4th rock");
     trigger:SetPosition(62, 26);
 
     fourth_trigger_rock = CreateObject(Map, "Rock1", 45, 11, vt_map.MapMode.GROUND_OBJECT);
@@ -240,11 +241,11 @@ function _CreateObjects()
     EventManager:RegisterEvent(event);
 
     -- 5th trigger
-    trigger = vt_map.TriggerObject("layna_cave_5th_trigger",
-                             "img/sprites/map/triggers/stone_trigger1_off.lua",
-                             "img/sprites/map/triggers/stone_trigger1_on.lua",
-                             "",
-                             "Remove 5th rock");
+    trigger = vt_map.TriggerObject("layna_cave_5th_trigger", vt_map.MapMode.FLATGROUND_OBJECT,
+                                   "img/sprites/map/triggers/stone_trigger1_off.lua",
+                                   "img/sprites/map/triggers/stone_trigger1_on.lua",
+                                   "",
+                                   "Remove 5th rock");
     trigger:SetPosition(9, 6);
 
     fifth_trigger_rock = CreateObject(Map, "Rock1", 77, 33, vt_map.MapMode.GROUND_OBJECT);
@@ -256,11 +257,11 @@ function _CreateObjects()
     EventManager:RegisterEvent(event);
 
     -- 6th trigger
-    trigger = vt_map.TriggerObject("layna_cave_6th_trigger",
-                             "img/sprites/map/triggers/stone_trigger1_off.lua",
-                             "img/sprites/map/triggers/stone_trigger1_on.lua",
-                             "",
-                             "Remove 6th rock");
+    trigger = vt_map.TriggerObject("layna_cave_6th_trigger", vt_map.MapMode.FLATGROUND_OBJECT,
+                                   "img/sprites/map/triggers/stone_trigger1_off.lua",
+                                   "img/sprites/map/triggers/stone_trigger1_on.lua",
+                                   "",
+                                   "Remove 6th rock");
     trigger:SetPosition(114, 28);
 
     sixth_trigger_rock = CreateObject(Map, "Rock1", 115, 43, vt_map.MapMode.GROUND_OBJECT);
@@ -272,11 +273,11 @@ function _CreateObjects()
     EventManager:RegisterEvent(event);
 
     -- 7th trigger
-    trigger = vt_map.TriggerObject("layna_cave_7th_trigger",
-                             "img/sprites/map/triggers/stone_trigger1_off.lua",
-                             "img/sprites/map/triggers/stone_trigger1_on.lua",
-                             "",
-                             "Remove 7th rock");
+    trigger = vt_map.TriggerObject("layna_cave_7th_trigger", vt_map.MapMode.FLATGROUND_OBJECT,
+                                   "img/sprites/map/triggers/stone_trigger1_off.lua",
+                                   "img/sprites/map/triggers/stone_trigger1_on.lua",
+                                   "",
+                                   "Remove 7th rock");
     trigger:SetPosition(4, 26);
 
     seventh_trigger_rock = CreateObject(Map, "Rock1", 115, 47, vt_map.MapMode.GROUND_OBJECT);
@@ -288,11 +289,11 @@ function _CreateObjects()
     EventManager:RegisterEvent(event);
 
     -- 8th trigger
-    trigger = vt_map.TriggerObject("layna_cave_8th_trigger",
-                             "img/sprites/map/triggers/stone_trigger1_off.lua",
-                             "img/sprites/map/triggers/stone_trigger1_on.lua",
-                             "",
-                             "Remove 8th rock");
+    trigger = vt_map.TriggerObject("layna_cave_8th_trigger", vt_map.MapMode.FLATGROUND_OBJECT,
+                                   "img/sprites/map/triggers/stone_trigger1_off.lua",
+                                   "img/sprites/map/triggers/stone_trigger1_on.lua",
+                                   "",
+                                   "Remove 8th rock");
     trigger:SetPosition(115, 53);
 
     eighth_trigger_rock = CreateObject(Map, "Rock1", 93, 14, vt_map.MapMode.GROUND_OBJECT);

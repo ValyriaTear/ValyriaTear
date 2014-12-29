@@ -338,9 +338,10 @@ function _CreateObjects()
 
     -- A trigger that will open ground floor enigma map.
     object = vt_map.TriggerObject.Create("mt elbrus shrine 2nd s2 trigger",
-                             "img/sprites/map/triggers/stone_trigger1_off.lua",
-                             "img/sprites/map/triggers/stone_trigger1_on.lua",
-                             "", "Enigma map open event");
+                                         vt_map.MapMode.FLATGROUND_OBJECT,
+                                         "img/sprites/map/triggers/stone_trigger1_off.lua",
+                                         "img/sprites/map/triggers/stone_trigger1_on.lua",
+                                         "", "Enigma map open event");
     object:SetPosition(26, 10);
 end
 

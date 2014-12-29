@@ -62,7 +62,7 @@ function _CreateObjects()
 
     CreateObject(Map, "Bed1", 34, 28, vt_map.MapMode.GROUND_OBJECT);
 
-    local chest = CreateTreasure(Map, "sophia_house_chest", "Wood_Chest1", 21, 22);
+    local chest = CreateTreasure(Map, "sophia_house_chest", "Wood_Chest1", 21, 22, vt_map.MapMode.GROUND_OBJECT);
     chest:AddItem(1, 1);
 
     CreateObject(Map, "Chair1_inverted", 31, 19, vt_map.MapMode.GROUND_OBJECT);

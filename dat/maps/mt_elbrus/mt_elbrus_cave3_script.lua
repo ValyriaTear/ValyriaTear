@@ -207,10 +207,11 @@ function _CreateObjects()
     EventManager:RegisterEvent(event);
 
     stone_trigger1 = vt_map.TriggerObject.Create("mt elbrus cave 3 trigger 1",
-                             "img/sprites/map/triggers/rolling_stone_trigger1_off.lua",
-                             "img/sprites/map/triggers/rolling_stone_trigger1_on.lua",
-                             "",
-                             "Check trigger1");
+                                                 vt_map.MapMode.FLATGROUND_OBJECT,
+                                                 "img/sprites/map/triggers/rolling_stone_trigger1_off.lua",
+                                                 "img/sprites/map/triggers/rolling_stone_trigger1_on.lua",
+                                                 "",
+                                                 "Check trigger1");
     stone_trigger1:SetPosition(33, 32);
     stone_trigger1:SetTriggerableByCharacter(false); -- Only an event can trigger it
 
@@ -218,10 +219,11 @@ function _CreateObjects()
     EventManager:RegisterEvent(event);
 
     stone_trigger2 = vt_map.TriggerObject.Create("mt elbrus cave 3 trigger 2",
-                             "img/sprites/map/triggers/rolling_stone_trigger1_off.lua",
-                             "img/sprites/map/triggers/rolling_stone_trigger1_on.lua",
-                             "",
-                             "Check trigger2");
+                                                 vt_map.MapMode.FLATGROUND_OBJECT,
+                                                 "img/sprites/map/triggers/rolling_stone_trigger1_off.lua",
+                                                 "img/sprites/map/triggers/rolling_stone_trigger1_on.lua",
+                                                 "",
+                                                 "Check trigger2");
     stone_trigger2:SetPosition(41, 20);
     stone_trigger2:SetTriggerableByCharacter(false); -- Only an event can trigger it
 

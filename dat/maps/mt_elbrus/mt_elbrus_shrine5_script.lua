@@ -200,10 +200,11 @@ function _CreateObjects()
 
     -- The stone trigger that will open the gate to the second floor
     stone_trigger2 = vt_map.TriggerObject.Create("mt elbrus shrine 5 trigger 2",
-                             "img/sprites/map/triggers/rolling_stone_trigger1_off.lua",
-                             "img/sprites/map/triggers/rolling_stone_trigger1_on.lua",
-                             "",
-                             "Open Gate");
+                                                 vt_map.MapMode.FLATGROUND_OBJECT,
+                                                 "img/sprites/map/triggers/rolling_stone_trigger1_off.lua",
+                                                 "img/sprites/map/triggers/rolling_stone_trigger1_on.lua",
+                                                 "",
+                                                 "Open Gate");
     stone_trigger2:SetPosition(43, 22);
     stone_trigger2:SetTriggerableByCharacter(false); -- Only an event can trigger it
 

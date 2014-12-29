@@ -232,30 +232,35 @@ function _CreateObjects()
 
     -- 5 triggers permitting to play a bit...
     spike_trigger1 = vt_map.TriggerObject.Create("",
+                             vt_map.MapMode.FLATGROUND_OBJECT,
                              "img/sprites/map/triggers/stone_trigger1_off.lua",
                              "img/sprites/map/triggers/stone_trigger1_on.lua",
                              "", "Push trigger 1");
     spike_trigger1:SetPosition(32, 27.5);
 
     spike_trigger2 = vt_map.TriggerObject.Create("",
+                             vt_map.MapMode.FLATGROUND_OBJECT,
                              "img/sprites/map/triggers/stone_trigger1_off.lua",
                              "img/sprites/map/triggers/stone_trigger1_on.lua",
                              "", "Push trigger 2");
     spike_trigger2:SetPosition(36, 27.5);
 
     spike_trigger3 = vt_map.TriggerObject.Create("",
+                             vt_map.MapMode.FLATGROUND_OBJECT,
                              "img/sprites/map/triggers/stone_trigger1_off.lua",
                              "img/sprites/map/triggers/stone_trigger1_on.lua",
                              "", "Push trigger 3");
     spike_trigger3:SetPosition(30, 31);
 
     spike_trigger4 = vt_map.TriggerObject.Create("",
+                             vt_map.MapMode.FLATGROUND_OBJECT,
                              "img/sprites/map/triggers/stone_trigger1_off.lua",
                              "img/sprites/map/triggers/stone_trigger1_on.lua",
                              "", "Push trigger 4");
     spike_trigger4:SetPosition(34, 31);
 
     spike_trigger5 = vt_map.TriggerObject.Create("",
+                             vt_map.MapMode.FLATGROUND_OBJECT,
                              "img/sprites/map/triggers/stone_trigger1_off.lua",
                              "img/sprites/map/triggers/stone_trigger1_on.lua",
                              "", "Push trigger 5");
@@ -271,9 +276,10 @@ function _CreateObjects()
 
     -- The trigger opening the next map.
     object = vt_map.TriggerObject.Create("mt elbrus shrine 4 trigger 1",
-                             "img/sprites/map/triggers/stone_trigger1_off.lua",
-                             "img/sprites/map/triggers/stone_trigger1_on.lua",
-                             "", "Trap map open event");
+                                         vt_map.MapMode.FLATGROUND_OBJECT
+                                         "img/sprites/map/triggers/stone_trigger1_off.lua",
+                                         "img/sprites/map/triggers/stone_trigger1_on.lua",
+                                         "", "Trap map open event");
     object:SetPosition(52, 10);
 
     -- 2nd Mini-boss
