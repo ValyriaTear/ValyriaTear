@@ -14,23 +14,20 @@ map_subname = "Elbrus Grotto"
 music_filename = "mus/awareness_el_corleo.ogg"
 
 -- c++ objects instances
-local Map = {};
-local ObjectManager = {};
-local DialogueManager = {};
-local EventManager = {};
+local Map = nil
+local DialogueManager = nil
+local EventManager = nil
 
 -- the main character handler
-local hero = {};
+local hero = nil
 
 -- the main map loading code
 function Load(m)
 
     Map = m;
-    ObjectManager = Map.object_supervisor;
-    DialogueManager = Map.dialogue_supervisor;
-    EventManager = Map.event_supervisor;
-
-    Map.unlimited_stamina = false;
+    DialogueManager = Map:GetDialogueSupervisor();
+    EventManager = Map:GetEventSupervisor();
+    Map:SetUnlimitedStamina(false);
 
     _CreateCharacters();
     _CreateObjects();
@@ -38,7 +35,7 @@ function Load(m)
     -- Set the camera focus on hero
     Map:SetCamera(hero);
     -- This is a dungeon map, we'll use the front battle member sprite as default sprite.
-    Map.object_supervisor:SetPartyMemberVisibleSprite(hero);
+    Map:SetPartyMemberVisibleSprite(hero);
 
     _CreateEvents();
     _CreateZones();
@@ -47,8 +44,7 @@ function Load(m)
     Map:GetEffectSupervisor():EnableAmbientOverlay("img/ambient/dark.png", 0.0, 0.0, false);
 
     -- Place an omni ambient sound at the center of the map to add a nice indoor rainy effect.
-    local rainy_sound = vt_map.SoundObject("mus/rain_indoors.ogg", 25.0, 20.0, 100.0);
-    Map:AddAmbientSoundObject(rainy_sound);
+    vt_map.SoundObject.CreateObject("mus/rain_indoors.ogg", 25.0, 20.0, 100.0);
 
     -- Preloads the action sounds to avoid glitches
     AudioManager:LoadSound("snd/cave-in.ogg", Map);
@@ -68,7 +64,7 @@ end
 -- Character creation
 function _CreateCharacters()
     -- Default hero and position (entrance 1)
-    hero = CreateSprite(Map, "Bronann", 50, 15); -- exit/entrance 1
+    hero = CreateSprite(Map, "Bronann", 50, 15, vt_map.MapMode.GROUND_OBJECT); -- exit/entrance 1
     hero:SetDirection(vt_map.MapMode.NORTH);
     hero:SetMovementSpeed(vt_map.MapMode.NORMAL_SPEED);
 
@@ -76,8 +72,6 @@ function _CreateCharacters()
         hero:SetDirection(vt_map.MapMode.NORTH);
         hero:SetPosition(4, 20);
     end
-
-    Map:AddGroundObject(hero);
 end
 
 -- Sets common battle environment settings for enemy sprites
@@ -94,31 +88,31 @@ function _SetEventBattleEnvironment(event)
     event:AddScript("dat/battles/desert_cave_battle_anim.lua");
 end
 
-local shroom1 = {};
-local shroom2 = {};
-local shroom3 = {};
-local shroom4 = {};
-local shroom5 = {};
+local shroom1 = nil
+local shroom2 = nil
+local shroom3 = nil
+local shroom4 = nil
+local shroom5 = nil
 
-local rolling_stone1 = {};
-local rolling_stone2 = {};
+local rolling_stone1 = nil
+local rolling_stone2 = nil
 
 -- Triggers
-local stone_trigger1 = {};
-local stone_trigger2 = {};
+local stone_trigger1 = nil
+local stone_trigger2 = nil
 
 -- Blocking rocks
-local blocking_rock1 = {};
-local blocking_rock2 = {};
-local blocking_rock3 = {};
-local blocking_rock4 = {};
+local blocking_rock1 = nil
+local blocking_rock2 = nil
+local blocking_rock3 = nil
+local blocking_rock4 = nil
 
 function _CreateObjects()
-    local object = {}
-    local npc = {}
-    local event = {}
-    local dialogue = {}
-    local text = {}
+    local object = nil
+    local npc = nil
+    local event = nil
+    local dialogue = nil
+    local text = nil
 
     -- Add a halo showing the cave entrances
     -- exit 1
@@ -129,34 +123,23 @@ function _CreateObjects()
         vt_video.Color(0.3, 0.3, 0.46, 0.8));
 
     -- Treasure box
-    local chest = CreateTreasure(Map, "elbrus_cave3_chest1", "Wood_Chest1", 51, 38);
-    if (chest ~= nil) then
-        chest:AddObject(20011, 1); -- Medium healing potion
-        Map:AddGroundObject(chest);
-    end
+    local chest = CreateTreasure(Map, "elbrus_cave3_chest1", "Wood_Chest1", 51, 38, vt_map.MapMode.GROUND_OBJECT);
+    chest:AddObject(20011, 1); -- Medium healing potion
 
     -- Stones
-    object = CreateObject(Map, "Rock1", 33.0, 26.0);
-    Map:AddGroundObject(object);
-    object = CreateObject(Map, "Rock1", 43.0, 28.0);
-    Map:AddGroundObject(object);
-    object = CreateObject(Map, "Rock1", 41.0, 32.0);
-    Map:AddGroundObject(object);
+    CreateObject(Map, "Rock1", 33.0, 26.0, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Rock1", 43.0, 28.0, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Rock1", 41.0, 32.0, vt_map.MapMode.GROUND_OBJECT);
 
-    blocking_rock1 = CreateObject(Map, "Rock2", 37, 36);
-    Map:AddGroundObject(blocking_rock1);
-    blocking_rock2 = CreateObject(Map, "Rock2", 39, 36);
-    Map:AddGroundObject(blocking_rock2);
-    blocking_rock3 = CreateObject(Map, "Rock2", 44, 40);
-    Map:AddGroundObject(blocking_rock3);
-    blocking_rock4 = CreateObject(Map, "Rock2", 44, 42);
-    Map:AddGroundObject(blocking_rock4);
+    blocking_rock1 = CreateObject(Map, "Rock2", 37, 36, vt_map.MapMode.GROUND_OBJECT);
+    blocking_rock2 = CreateObject(Map, "Rock2", 39, 36, vt_map.MapMode.GROUND_OBJECT);
+    blocking_rock3 = CreateObject(Map, "Rock2", 44, 40, vt_map.MapMode.GROUND_OBJECT);
+    blocking_rock4 = CreateObject(Map, "Rock2", 44, 42, vt_map.MapMode.GROUND_OBJECT);
 
     -- shroom 1
-    shroom1 = CreateObject(Map, "Shroom", 35, 24);
+    shroom1 = CreateObject(Map, "Shroom", 35, 24, vt_map.MapMode.GROUND_OBJECT);
     shroom1:AddAnimation("img/sprites/map/enemies/spiky_mushroom_dead.lua");
     shroom1:SetEventWhenTalking("Check hero position for Shroom 1");
-    Map:AddGroundObject(shroom1);
     event = vt_map.IfEvent("Check hero position for Shroom 1", "check_diagonal_shroom1", "Fight with Shroom 1", "");
     EventManager:RegisterEvent(event);
     event = vt_map.BattleEncounterEvent("Fight with Shroom 1");
@@ -168,10 +151,9 @@ function _CreateObjects()
     EventManager:RegisterEvent(event);
 
     -- shroom 2
-    shroom2 = CreateObject(Map, "Shroom", 37, 24);
+    shroom2 = CreateObject(Map, "Shroom", 37, 24, vt_map.MapMode.GROUND_OBJECT);
     shroom2:AddAnimation("img/sprites/map/enemies/spiky_mushroom_dead.lua");
     shroom2:SetEventWhenTalking("Check hero position for Shroom 2");
-    Map:AddGroundObject(shroom2);
     event = vt_map.IfEvent("Check hero position for Shroom 2", "check_diagonal_shroom2", "Fight with Shroom 2", "");
     EventManager:RegisterEvent(event);
     event = vt_map.BattleEncounterEvent("Fight with Shroom 2");
@@ -183,10 +165,9 @@ function _CreateObjects()
     EventManager:RegisterEvent(event);
 
     -- shroom 3
-    shroom3 = CreateObject(Map, "Shroom", 39, 24);
+    shroom3 = CreateObject(Map, "Shroom", 39, 24, vt_map.MapMode.GROUND_OBJECT);
     shroom3:AddAnimation("img/sprites/map/enemies/spiky_mushroom_dead.lua");
     shroom3:SetEventWhenTalking("Check hero position for Shroom 3");
-    Map:AddGroundObject(shroom3);
     event = vt_map.IfEvent("Check hero position for Shroom 3", "check_diagonal_shroom3", "Fight with Shroom 3", "");
     EventManager:RegisterEvent(event);
     event = vt_map.BattleEncounterEvent("Fight with Shroom 3");
@@ -198,10 +179,9 @@ function _CreateObjects()
     EventManager:RegisterEvent(event);
 
     -- shroom 4
-    shroom4 = CreateObject(Map, "Shroom", 35, 32);
+    shroom4 = CreateObject(Map, "Shroom", 35, 32, vt_map.MapMode.GROUND_OBJECT);
     shroom4:AddAnimation("img/sprites/map/enemies/spiky_mushroom_dead.lua");
     shroom4:SetEventWhenTalking("Check hero position for Shroom 4");
-    Map:AddGroundObject(shroom4);
     event = vt_map.IfEvent("Check hero position for Shroom 4", "check_diagonal_shroom4", "Fight with Shroom 4", "");
     EventManager:RegisterEvent(event);
     event = vt_map.BattleEncounterEvent("Fight with Shroom 4");
@@ -213,10 +193,9 @@ function _CreateObjects()
     EventManager:RegisterEvent(event);
 
     -- shroom 5
-    shroom5 = CreateObject(Map, "Shroom", 39, 30);
+    shroom5 = CreateObject(Map, "Shroom", 39, 30, vt_map.MapMode.GROUND_OBJECT);
     shroom5:AddAnimation("img/sprites/map/enemies/spiky_mushroom_dead.lua");
     shroom5:SetEventWhenTalking("Check hero position for Shroom 5");
-    Map:AddGroundObject(shroom5);
     event = vt_map.IfEvent("Check hero position for Shroom 5", "check_diagonal_shroom5", "Fight with Shroom 5", "");
     EventManager:RegisterEvent(event);
     event = vt_map.BattleEncounterEvent("Fight with Shroom 5");
@@ -227,28 +206,24 @@ function _CreateObjects()
     event = vt_map.ScriptedEvent("Place Shroom 5 after fight", "place_shroom5_after_fight", "")
     EventManager:RegisterEvent(event);
 
-    stone_trigger1 = vt_map.TriggerObject("mt elbrus cave 3 trigger 1",
+    stone_trigger1 = vt_map.TriggerObject.CreateObject("mt elbrus cave 3 trigger 1",
                              "img/sprites/map/triggers/rolling_stone_trigger1_off.lua",
                              "img/sprites/map/triggers/rolling_stone_trigger1_on.lua",
                              "",
                              "Check trigger1");
-    stone_trigger1:SetObjectID(Map.object_supervisor:GenerateObjectID());
     stone_trigger1:SetPosition(33, 32);
     stone_trigger1:SetTriggerableByCharacter(false); -- Only an event can trigger it
-    Map:AddFlatGroundObject(stone_trigger1);
 
     event = vt_map.ScriptedEvent("Check trigger1", "check_trigger1", "")
     EventManager:RegisterEvent(event);
 
-    stone_trigger2 = vt_map.TriggerObject("mt elbrus cave 3 trigger 2",
+    stone_trigger2 = vt_map.TriggerObject.CreateObject("mt elbrus cave 3 trigger 2",
                              "img/sprites/map/triggers/rolling_stone_trigger1_off.lua",
                              "img/sprites/map/triggers/rolling_stone_trigger1_on.lua",
                              "",
                              "Check trigger2");
-    stone_trigger2:SetObjectID(Map.object_supervisor:GenerateObjectID());
     stone_trigger2:SetPosition(41, 20);
     stone_trigger2:SetTriggerableByCharacter(false); -- Only an event can trigger it
-    Map:AddFlatGroundObject(stone_trigger2);
 
     event = vt_map.ScriptedEvent("Check trigger2", "check_trigger2", "")
     EventManager:RegisterEvent(event);
@@ -269,8 +244,7 @@ function _CreateObjects()
         blocking_rock4:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
     end
 
-    rolling_stone1 = CreateObject(Map, "Rolling Stone", 37, 26);
-    Map:AddGroundObject(rolling_stone1);
+    rolling_stone1 = CreateObject(Map, "Rolling Stone", 37, 26, vt_map.MapMode.GROUND_OBJECT);
     rolling_stone1:SetEventWhenTalking("Check hero position for rolling stone 1");
     event = vt_map.IfEvent("Check hero position for rolling stone 1", "check_diagonal_stone1", "Push the rolling stone 1", "");
     EventManager:RegisterEvent(event);
@@ -278,8 +252,7 @@ function _CreateObjects()
     event = vt_map.ScriptedEvent("Push the rolling stone 1", "start_to_move_the_stone1", "move_the_stone_update1")
     EventManager:RegisterEvent(event);
 
-    rolling_stone2 = CreateObject(Map, "Rolling Stone", 35, 30);
-    Map:AddGroundObject(rolling_stone2);
+    rolling_stone2 = CreateObject(Map, "Rolling Stone", 35, 30, vt_map.MapMode.GROUND_OBJECT);
     rolling_stone2:SetEventWhenTalking("Check hero position for rolling stone 2");
     event = vt_map.IfEvent("Check hero position for rolling stone 2", "check_diagonal_stone2", "Push the rolling stone 2", "");
     EventManager:RegisterEvent(event);
@@ -289,9 +262,9 @@ end
 
 -- Creates all events and sets up the entire event sequence chain
 function _CreateEvents()
-    local event = {};
-    local dialogue = {};
-    local text = {};
+    local event = nil
+    local dialogue = nil
+    local text = nil
 
     event = vt_map.MapTransitionEvent("to exit 3-1", "dat/maps/mt_elbrus/mt_elbrus_path2_map.lua",
                                        "dat/maps/mt_elbrus/mt_elbrus_path2_script.lua", "from_grotto3_1_exit");
@@ -303,8 +276,8 @@ function _CreateEvents()
 end
 
 -- zones
-local exit3_1_zone = {};
-local exit3_2_zone = {};
+local exit3_1_zone = nil
+local exit3_2_zone = nil
 
 -- Create the different map zones triggering events
 function _CreateZones()
@@ -344,40 +317,39 @@ function _CheckStoneAndTriggersCollision()
 end
 
 function _UpdateStoneMovement(stone_object, stone_direction)
-        local update_time = SystemManager:GetUpdateTime();
-        local movement_diff = 0.015 * update_time;
+    local update_time = SystemManager:GetUpdateTime();
+    local movement_diff = 0.015 * update_time;
 
-        -- We cap the max movement distance to avoid making the ball go through obstacles
-        -- in case of low FPS
-        if (movement_diff > 1.0) then
-            movement_diff = 1.0;
-        end
+    -- We cap the max movement distance to avoid making the ball go through obstacles
+    -- in case of low FPS
+    if (movement_diff > 1.0) then
+        movement_diff = 1.0;
+    end
 
-        local new_pos_x = stone_object:GetXPosition();
-        local new_pos_y = stone_object:GetYPosition();
+    local new_pos_x = stone_object:GetXPosition();
+    local new_pos_y = stone_object:GetYPosition();
 
-        -- Apply the movement
-        if (stone_direction == vt_map.MapMode.NORTH) then
-            new_pos_y = stone_object:GetYPosition() - movement_diff;
-        elseif (stone_direction == vt_map.MapMode.SOUTH) then
-            new_pos_y = stone_object:GetYPosition() + movement_diff;
-        elseif (stone_direction == vt_map.MapMode.WEST) then
-            new_pos_x = stone_object:GetXPosition() - movement_diff;
-        elseif (stone_direction == vt_map.MapMode.EAST) then
-            new_pos_x = stone_object:GetXPosition() + movement_diff;
-        end
+    -- Apply the movement
+    if (stone_direction == vt_map.MapMode.NORTH) then
+        new_pos_y = stone_object:GetYPosition() - movement_diff;
+    elseif (stone_direction == vt_map.MapMode.SOUTH) then
+        new_pos_y = stone_object:GetYPosition() + movement_diff;
+    elseif (stone_direction == vt_map.MapMode.WEST) then
+        new_pos_x = stone_object:GetXPosition() - movement_diff;
+    elseif (stone_direction == vt_map.MapMode.EAST) then
+        new_pos_x = stone_object:GetXPosition() + movement_diff;
+    end
 
-        -- Check the collision
-        if (stone_object:IsColliding(new_pos_x, new_pos_y) == true) then
-            AudioManager:PlaySound("snd/stone_bump.ogg");
-            return true;
-        end
+    -- Check the collision
+    if (stone_object:IsColliding(new_pos_x, new_pos_y) == true) then
+        AudioManager:PlaySound("snd/stone_bump.ogg");
+        return true;
+    end
 
-        --  and apply the movement if none
-        stone_object:SetPosition(new_pos_x, new_pos_y);
+    --  and apply the movement if none
+    stone_object:SetPosition(new_pos_x, new_pos_y);
 
-        return false;
-
+    return false;
 end
 
 function _CheckForDiagonals(target)

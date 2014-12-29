@@ -296,9 +296,9 @@ function _CreateObjects()
 
     -- Fireflies on water
     vt_map.ParticleObject.CreateObject("dat/effects/particles/fireflies.lua", 53, 29, vt_map.MapMode.GROUND_OBJECT);
-    vt_map.ParticleObject("dat/effects/particles/fireflies.lua", 52, 38, vt_map.MapMode.GROUND_OBJECT);
-    vt_map.ParticleObject("dat/effects/particles/fireflies.lua", 54, 40, vt_map.MapMode.GROUND_OBJECT);
-    vt_map.ParticleObject("dat/effects/particles/fireflies.lua", 99, 73, vt_map.MapMode.GROUND_OBJECT);
+    vt_map.ParticleObject.CreateObject("dat/effects/particles/fireflies.lua", 52, 38, vt_map.MapMode.GROUND_OBJECT);
+    vt_map.ParticleObject.CreateObject("dat/effects/particles/fireflies.lua", 54, 40, vt_map.MapMode.GROUND_OBJECT);
+    vt_map.ParticleObject.CreateObject("dat/effects/particles/fireflies.lua", 99, 73, vt_map.MapMode.GROUND_OBJECT);
 end
 
 -- creates the necessary objects to display some fire
@@ -819,7 +819,6 @@ function _CheckZones()
     elseif (battle_dialogue_start_zone:IsCameraEntering() == true) then
         EventManager:StartEvent("Lord battle dialogue start");
     end
-
 end
 
 -- Map Custom functions

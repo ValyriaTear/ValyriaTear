@@ -14,10 +14,9 @@ map_subname = ""
 music_filename = "snd/wind.ogg"
 
 -- c++ objects instances
-local Map = {};
-local ObjectManager = {};
-local DialogueManager = {};
-local EventManager = {};
+local Map = nil
+local DialogueManager = nil
+local EventManager = nil
 
 -- the main character handler
 local hero = nil
@@ -30,11 +29,9 @@ local orlinn = nil
 function Load(m)
 
     Map = m;
-    ObjectManager = Map.object_supervisor;
-    DialogueManager = Map.dialogue_supervisor;
-    EventManager = Map.event_supervisor;
-
-    Map.unlimited_stamina = false;
+    DialogueManager = Map:GetDialogueSupervisor();
+    EventManager = Map:GetEventSupervisor();
+    Map:SetUnlimitedStamina(false);
 
     _CreateCharacters();
     _CreateObjects();
@@ -42,7 +39,7 @@ function Load(m)
     -- Set the camera focus on hero
     Map:SetCamera(hero);
     -- This is a dungeon map, we'll use the front battle member sprite as default sprite.
-    Map.object_supervisor:SetPartyMemberVisibleSprite(hero);
+    Map:SetPartyMemberVisibleSprite(hero);
 
     _CreateEvents();
     _CreateZones();
@@ -71,7 +68,7 @@ end
 -- Character creation
 function _CreateCharacters()
     -- Default hero and position
-    hero = CreateSprite(Map, "Bronann", 30, 16);
+    hero = CreateSprite(Map, "Bronann", 30, 16, vt_map.MapMode.GROUND_OBJECT);
     hero:SetDirection(vt_map.MapMode.SOUTH);
     hero:SetMovementSpeed(vt_map.MapMode.NORMAL_SPEED);
 
@@ -80,41 +77,35 @@ function _CreateCharacters()
         hero:SetPosition(30.0, 16.0);
     end
 
-    Map:AddGroundObject(hero);
-
     -- Create secondary characters
-    bronann = CreateSprite(Map, "Bronann", 0, 0);
+    bronann = CreateSprite(Map, "Bronann", 0, 0, vt_map.MapMode.GROUND_OBJECT);
     bronann:SetDirection(vt_map.MapMode.NORTH);
     bronann:SetMovementSpeed(vt_map.MapMode.NORMAL_SPEED);
     bronann:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
     bronann:SetVisible(false);
-    Map:AddGroundObject(bronann);
 
-    kalya = CreateSprite(Map, "Kalya", 0, 0);
+    kalya = CreateSprite(Map, "Kalya", 0, 0, vt_map.MapMode.GROUND_OBJECT);
     kalya:SetDirection(vt_map.MapMode.EAST);
     kalya:SetMovementSpeed(vt_map.MapMode.NORMAL_SPEED);
     kalya:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
     kalya:SetVisible(false);
-    Map:AddGroundObject(kalya);
 
-    orlinn = CreateSprite(Map, "Orlinn", 0, 0);
+    orlinn = CreateSprite(Map, "Orlinn", 0, 0, vt_map.MapMode.GROUND_OBJECT);
     orlinn:SetDirection(vt_map.MapMode.EAST);
     orlinn:SetMovementSpeed(vt_map.MapMode.FAST_SPEED);
     orlinn:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
     orlinn:SetVisible(false);
-    Map:AddGroundObject(orlinn);
 end
 
 local kalya_tear = nil
 local fire_particle_effect = nil
 
 function _CreateObjects()
-    local object = {}
-    local npc = {}
-    local dialogue = {}
-    local text = {}
-    local event = {}
-
+    local object = nil
+    local npc = nil
+    local dialogue = nil
+    local text = nil
+    local event = nil
 
     -- Objects array
     local map_objects = {
@@ -147,34 +138,29 @@ function _CreateObjects()
     -- Loads the trees according to the array
     for my_index, my_array in pairs(map_objects) do
         --print(my_array[1], my_array[2], my_array[3]);
-        object = CreateObject(Map, my_array[1], my_array[2], my_array[3]);
-        Map:AddGroundObject(object);
+        CreateObject(Map, my_array[1], my_array[2], my_array[3], vt_map.MapMode.GROUND_OBJECT);
     end
 
     -- Kalya's tears
-    kalya_tear = vt_map.PhysicalObject();
+    kalya_tear = vt_map.PhysicalObject.CreateObject(vt_map.MapMode.GROUND_OBJECT);
     kalya_tear:SetPosition(0, 0);
-    kalya_tear:SetObjectID(Map.object_supervisor:GenerateObjectID());
     kalya_tear:SetCollHalfWidth(0.156);
     kalya_tear:SetCollHeight(0.312);
     kalya_tear:SetImgHalfWidth(0.156);
     kalya_tear:SetImgHeight(0.312);
     kalya_tear:AddStillFrame("img/effects/outlined_circle_small.png");
     kalya_tear:SetDrawOnSecondPass(true);
-    Map:AddGroundObject(kalya_tear);
 
     -- Village burning effect
-    fire_particle_effect = vt_map.ParticleObject("dat/maps/mt_elbrus/particles_fire_smoke.lua", 66, 24);
-    fire_particle_effect:SetObjectID(Map.object_supervisor:GenerateObjectID());
-    Map:AddGroundObject(fire_particle_effect);
+    fire_particle_effect = vt_map.ParticleObject.CreateObject("dat/maps/mt_elbrus/particles_fire_smoke.lua", 66, 24, vt_map.MapMode.GROUND_OBJECT);
     fire_particle_effect:Stop();
 end
 
 -- Creates all events and sets up the entire event sequence chain
 function _CreateEvents()
-    local event = {};
-    local dialogue = {};
-    local text = {};
+    local event = nil
+    local dialogue = nil
+    local text = nil
 
     -- TODO: For Episode II
     --event = vt_map.MapTransitionEvent("to mountain shrine basement", "dat/maps/mt_elbrus/mt_elbrus_shrine_basement_map.lua",
@@ -333,12 +319,11 @@ function _CreateEvents()
 end
 
 -- zones
-local to_basement_zone = {};
-local to_overworld_zone = {};
+local to_basement_zone = nil
+local to_overworld_zone = nil
 
 -- Create the different map zones triggering events
 function _CreateZones()
-
     -- N.B.: left, right, top, bottom
     to_basement_zone = vt_map.CameraZone(29, 31, 12, 14);
     Map:AddZone(to_basement_zone);

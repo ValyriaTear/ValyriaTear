@@ -13,9 +13,9 @@ local image_width = 1411;
 local first_update_done = false;
 
 -- c++ objects instances
-local Map = {};
-local Script = {};
-local Effects = {};
+local Map = nil
+local Script = nil
+local Effects = nil
 
 function Initialize(map_instance)
     Map = map_instance;
@@ -49,7 +49,6 @@ function Update()
     end
 
     --print(offset_x,  Map:GetMapXOffset(), Map:GetMapWidth())
-
 end
 
 local white_color = vt_video.Color(1.0, 1.0, 1.0, 1.0);

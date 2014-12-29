@@ -14,41 +14,38 @@ map_subname = "Underpass"
 music_filename = "mus/icy_wind.ogg"
 
 -- c++ objects instances
-local Map = {};
-local ObjectManager = {};
-local DialogueManager = {};
-local EventManager = {};
-local Script = {};
+local Map = nil
+local DialogueManager = nil
+local EventManager = nil
+local Script = nil
 
 -- the main character handler
-local hero = {};
+local hero = nil
 
 -- Forest dialogue secondary hero
-local kalya = {};
-local orlinn = {};
-local sophia = {};
-local nekko = {};
+local kalya = nil
+local orlinn = nil
+local sophia = nil
+local nekko = nil
 
 -- Name of the main sprite. Used to reload the good one at the end of dialogue events.
 local main_sprite_name = "";
 
 -- Objects used during the door opening scene
-local shrine_entrance_door = {};
-local shrine_entrance_sign = {};
+local shrine_entrance_door = nil
+local shrine_entrance_sign = nil
 
-local shrine_flame1 = {};
-local shrine_flame2 = {};
+local shrine_flame1 = nil
+local shrine_flame2 = nil
 
 -- the main map loading code
 function Load(m)
 
     Map = m;
-    ObjectManager = Map.object_supervisor;
-    DialogueManager = Map.dialogue_supervisor;
-    EventManager = Map.event_supervisor;
     Script = Map:GetScriptSupervisor();
-
-    Map.unlimited_stamina = true;
+    DialogueManager = Map:GetDialogueSupervisor();
+    EventManager = Map:GetEventSupervisor();
+    Map:SetUnlimitedStamina(true);
 
     _CreateCharacters();
     _CreateObjects();
@@ -56,7 +53,7 @@ function Load(m)
     -- Set the camera focus on hero
     Map:SetCamera(hero);
     -- This is a dungeon map, we'll use the front battle member sprite as default sprite.
-    Map.object_supervisor:SetPartyMemberVisibleSprite(hero);
+    Map:SetPartyMemberVisibleSprite(hero);
 
     _CreateEvents();
     _CreateZones();
@@ -107,9 +104,9 @@ end
 
 -- set up/updates sophia's events
 function _UpdateSophiaDialogue()
-    local text = {};
-    local dialogue = {};
-    local event = {};
+    local text = nil
+    local dialogue = nil
+    local event = nil
 
     sophia:ClearDialogueReferences();
     if (GlobalManager:GetEventValue("story", "mt_elbrus_shrine_sophia_dialogue_event") == 0) then
@@ -146,7 +143,7 @@ end
 -- Character creation
 function _CreateCharacters()
     -- Default hero and position (from mountain path 4)
-    hero = CreateSprite(Map, "Bronann", 29, 44.5);
+    hero = CreateSprite(Map, "Bronann", 29, 44.5, vt_map.MapMode.GROUND_OBJECT);
     hero:SetDirection(vt_map.MapMode.NORTH);
     hero:SetMovementSpeed(vt_map.MapMode.NORMAL_SPEED);
 
@@ -164,37 +161,31 @@ function _CreateCharacters()
         hero:SetPosition(42.0, 9.0);
     end
 
-    Map:AddGroundObject(hero);
-
     -- Create secondary characters
     kalya = CreateSprite(Map, "Kalya",
-                         hero:GetXPosition(), hero:GetYPosition());
+                         hero:GetXPosition(), hero:GetYPosition(), vt_map.MapMode.GROUND_OBJECT);
     kalya:SetDirection(vt_map.MapMode.EAST);
     kalya:SetMovementSpeed(vt_map.MapMode.NORMAL_SPEED);
     kalya:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
     kalya:SetVisible(false);
-    Map:AddGroundObject(kalya);
 
     orlinn = CreateSprite(Map, "Orlinn",
-                          hero:GetXPosition(), hero:GetYPosition());
+                          hero:GetXPosition(), hero:GetYPosition(), vt_map.MapMode.GROUND_OBJECT);
     orlinn:SetDirection(vt_map.MapMode.EAST);
     orlinn:SetMovementSpeed(vt_map.MapMode.NORMAL_SPEED);
     orlinn:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
     orlinn:SetVisible(false);
-    Map:AddGroundObject(orlinn);
 
-    sophia = CreateNPCSprite(Map, "Woman2", vt_system.Translate("Sophia"), 42, 21);
+    sophia = CreateNPCSprite(Map, "Woman2", vt_system.Translate("Sophia"), 42, 21, vt_map.MapMode.GROUND_OBJECT);
     sophia:SetDirection(vt_map.MapMode.NORTH);
     sophia:SetMovementSpeed(vt_map.MapMode.NORMAL_SPEED);
     sophia:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
     sophia:SetVisible(false);
-    Map:AddGroundObject(sophia);
 
     -- Add her cat, Nekko
-    nekko = CreateObject(Map, "Cat1", 0, 0);
-    sophia:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
-    sophia:SetVisible(false);
-    Map:AddGroundObject(nekko)
+    nekko = CreateObject(Map, "Cat1", 0, 0, vt_map.MapMode.GROUND_OBJECT);
+    nekko:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
+    nekko:SetVisible(false);
 
     local event = vt_map.SoundEvent("Nekko says Meoww!", "snd/meow.wav");
     EventManager:RegisterEvent(event);
@@ -217,26 +208,23 @@ function _CreateCharacters()
 end
 
 -- The heal particle effect map object
-local heal_effect = {};
+local heal_effect = nil
 
 function _CreateObjects()
-    local object = {}
-    local npc = {}
-    local dialogue = {}
-    local text = {}
-    local event = {}
+    local object = nil
+    local npc = nil
+    local dialogue = nil
+    local text = nil
+    local event = nil
 
     Map:AddSavePoint(51, 29);
 
     -- Load the spring heal effect.
-    heal_effect = vt_map.ParticleObject("dat/effects/particles/heal_particle.lua", 0, 0);
-    heal_effect:SetObjectID(Map.object_supervisor:GenerateObjectID());
+    heal_effect = vt_map.ParticleObject.CreateObject("dat/effects/particles/heal_particle.lua", 0, 0, vt_map.MapMode.GROUND_OBJECT);
     heal_effect:Stop(); -- Don't run it until the character heals itself
-    Map:AddGroundObject(heal_effect);
 
-    object = CreateObject(Map, "Layna Statue", 41, 28);
+    object = CreateObject(Map, "Layna Statue", 41, 28, vt_map.MapMode.GROUND_OBJECT);
     object:SetEventWhenTalking("Heal dialogue");
-    Map:AddGroundObject(object);
 
     dialogue = vt_map.SpriteDialogue();
     text = vt_system.Translate("Your party feels better...");
@@ -246,26 +234,20 @@ function _CreateObjects()
     EventManager:RegisterEvent(event);
 
     -- Snow effect at shrine entrance
-    object = vt_map.ParticleObject("dat/maps/mt_elbrus/particles_snow_south_entrance.lua", 29, 48);
-    object:SetObjectID(Map.object_supervisor:GenerateObjectID());
-    Map:AddGroundObject(object);
+    vt_map.ParticleObject.CreateObject("dat/maps/mt_elbrus/particles_snow_south_entrance.lua", 29, 48, vt_map.MapMode.GROUND_OBJECT);
     Map:AddHalo("img/misc/lights/torch_light_mask.lua", 29, 55,
         vt_video.Color(1.0, 1.0, 1.0, 0.8));
 
     -- Adds the north gate
-    shrine_entrance_door = CreateObject(Map, "Door1_big", 42, 4);
-    Map:AddGroundObject(shrine_entrance_door);
+    shrine_entrance_door = CreateObject(Map, "Door1_big", 42, 4, vt_map.MapMode.GROUND_OBJECT);
 
     -- Adds a hidden sign, show just before the opening of the door
-    shrine_entrance_sign = CreateObject(Map, "Ancient_Sign1", 42, 10);
-    Map:AddFlatGroundObject(shrine_entrance_sign);
+    shrine_entrance_sign = CreateObject(Map, "Ancient_Sign1", 42, 10, vt_map.MapMode.FLATGROUND_OBJECT);
     shrine_entrance_sign:SetVisible(false);
 
     -- Flames that are burning after the opening of the shrine.
-    shrine_flame1 = CreateObject(Map, "Flame1", 33, 9.1);
-    Map:AddGroundObject(shrine_flame1);
-    shrine_flame2 = CreateObject(Map, "Flame1", 51, 9.1);
-    Map:AddGroundObject(shrine_flame2);
+    shrine_flame1 = CreateObject(Map, "Flame1", 33, 9.1, vt_map.MapMode.GROUND_OBJECT);
+    shrine_flame2 = CreateObject(Map, "Flame1", 51, 9.1, vt_map.MapMode.GROUND_OBJECT);
     shrine_flame1:SetVisible(false);
     shrine_flame2:SetVisible(false);
     shrine_flame1:RandomizeCurrentAnimationFrame();
@@ -275,41 +257,39 @@ function _CreateObjects()
     if (GlobalManager:GetEventValue("story", "mountain_shrine_entrance_light_done") == 1) then
         Map:AddHalo("img/misc/lights/torch_light_mask.lua", 42, 8, vt_video.Color(1.0, 1.0, 1.0, 0.6));
         -- Adds a door horizon...
-        object = vt_map.PhysicalObject();
-        object:SetObjectID(Map.object_supervisor:GenerateObjectID());
+        object = vt_map.PhysicalObject.CreateObject(vt_map.MapMode.FLATGROUND_OBJECT);
         object:SetPosition(42, 0.8);
         object:SetCollHalfWidth(0.5);
         object:SetCollHeight(1.0);
         object:SetImgHalfWidth(0.5);
         object:SetImgHeight(1.0);
         object:AddStillFrame("dat/maps/mt_elbrus/shrine_entrance_light.png");
-        Map:AddFlatGroundObject(object);
     end
 end
 
 -- Special event references which destinations must be updated just before being called.
 -- shrine entrance event
-local kalya_move_next_to_hero_event1 = {}
-local kalya_move_back_to_hero_event1 = {}
-local orlinn_move_next_to_hero_event1 = {}
-local orlinn_move_back_to_hero_event1 = {}
+local kalya_move_next_to_hero_event1 = nil
+local kalya_move_back_to_hero_event1 = nil
+local orlinn_move_next_to_hero_event1 = nil
+local orlinn_move_back_to_hero_event1 = nil
 -- Shrine door opening event
-local kalya_move_next_to_hero_event2 = {}
-local kalya_move_back_to_hero_event2 = {}
-local orlinn_move_next_to_hero_event2 = {}
-local orlinn_move_back_to_hero_event2 = {}
+local kalya_move_next_to_hero_event2 = nil
+local kalya_move_back_to_hero_event2 = nil
+local orlinn_move_next_to_hero_event2 = nil
+local orlinn_move_back_to_hero_event2 = nil
 -- Sophia event
-local kalya_move_next_to_hero_event3 = {}
-local kalya_move_back_to_hero_event3 = {}
-local orlinn_move_next_to_hero_event3 = {}
-local orlinn_move_back_to_hero_event3 = {}
-local sophia_move_next_to_hero_event = {}
+local kalya_move_next_to_hero_event3 = nil
+local kalya_move_back_to_hero_event3 = nil
+local orlinn_move_next_to_hero_event3 = nil
+local orlinn_move_back_to_hero_event3 = nil
+local sophia_move_next_to_hero_event = nil
 
 -- Creates all events and sets up the entire event sequence chain
 function _CreateEvents()
-    local event = {};
-    local dialogue = {};
-    local text = {};
+    local event = nil
+    local dialogue = nil
+    local text = nil
 
     event = vt_map.MapTransitionEvent("to mountain shrine", "dat/maps/mt_elbrus/mt_elbrus_shrine2_map.lua",
                                        "dat/maps/mt_elbrus/mt_elbrus_shrine2_script.lua", "from_shrine_entrance");
@@ -717,9 +697,9 @@ function _CreateEvents()
 end
 
 -- zones
-local to_shrine_zone = {};
-local to_mountain_bridge_zone = {};
-local shrine_door_opening_zone = {};
+local to_shrine_zone = nil
+local to_mountain_bridge_zone = nil
+local shrine_door_opening_zone = nil
 
 -- Create the different map zones triggering events
 function _CreateZones()
@@ -744,7 +724,6 @@ function _CheckZones()
         else
             EventManager:StartEvent("to mountain shrine-waterfalls");
         end
-
     elseif (to_mountain_bridge_zone:IsCameraEntering() == true) then
         hero:SetMoving(false);
         EventManager:StartEvent("to mountain bridge");
@@ -775,10 +754,8 @@ function _set_shrine_door_open()
 end
 
 function _show_flames()
-    local object = vt_map.SoundObject("snd/campfire.ogg", 33.0, 9.1, 10.0);
-    if (object ~= nil) then Map:AddAmbientSoundObject(object) end;
-    object = vt_map.SoundObject("snd/campfire.ogg", 51.0, 9.1, 10.0);
-    if (object ~= nil) then Map:AddAmbientSoundObject(object) end;
+    vt_map.SoundObject.CreateObject("snd/campfire.ogg", 33.0, 9.1, 10.0);
+    vt_map.SoundObject.CreateObject("snd/campfire.ogg", 51.0, 9.1, 10.0);
 
     Map:AddHalo("img/misc/lights/torch_light_mask2.lua", 33.0, 9.1 + 3.0,
         vt_video.Color(0.85, 0.32, 0.0, 0.6));
