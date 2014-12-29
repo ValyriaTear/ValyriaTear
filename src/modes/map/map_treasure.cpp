@@ -193,12 +193,12 @@ void TreasureSupervisor::Initialize(MapTreasure *treasure)
         GlobalObject *obj = _treasure->_items_list[i];
         if(!obj)
             continue;
-        if(!GlobalManager->IsObjectInInventory(obj->GetID())) {
+        if(!GlobalManager->IsItemInInventory(obj->GetID())) {
             // Pass a copy to the inventory, the treasure object will delete its content on destruction.
             vt_global::GlobalObject *obj_copy = GlobalCreateNewObject(obj->GetID(), obj->GetCount());
             GlobalManager->AddToInventory(obj_copy);
         } else {
-            GlobalManager->IncrementObjectCount(obj->GetID(), obj->GetCount());
+            GlobalManager->IncrementItemCount(obj->GetID(), obj->GetCount());
         }
     }
 } // void TreasureSupervisor::Initialize(MapTreasure* treasure)

@@ -546,7 +546,7 @@ bool TradeListDisplay::ChangeTradeQuantity(bool more, uint32 amount)
 
     // Make sure  and the player has enough funds to purchase it
     for(uint32 i = 0; i < obj->GetObject()->GetTradeConditions().size(); ++i) {
-        if(!GlobalManager->IsObjectInInventory(obj->GetObject()->GetTradeConditions()[i].first))
+        if(!GlobalManager->IsItemInInventory(obj->GetObject()->GetTradeConditions()[i].first))
             return false;
 
         uint32 item_possessed = GlobalManager->HowManyObjectsInInventory(obj->GetObject()->GetTradeConditions()[i].first);

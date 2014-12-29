@@ -509,10 +509,10 @@ void ItemCommand::CommitChangesToInventory()
             int32 diff = _battle_items[i].GetBattleCount() - _battle_items[i].GetInventoryCount();
             if(diff > 0) {
                 // Somehow the character have more than before the battle.
-                GlobalManager->IncrementObjectCount(id, diff);
+                GlobalManager->IncrementItemCount(id, diff);
             } else if(diff < 0) {
                 // Remove the used items.
-                GlobalManager->DecrementObjectCount(id, -diff);
+                GlobalManager->DecrementItemCount(id, -diff);
             }
         }
     }

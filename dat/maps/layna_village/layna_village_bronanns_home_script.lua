@@ -551,7 +551,7 @@ map_functions = {
 
         -- Remove the barley meal key item from inventory
         local barley_meal_item_id = 70002;
-        if (GlobalManager:IsObjectInInventory(barley_meal_item_id) == true) then
+        if (GlobalManager:IsItemInInventory(barley_meal_item_id) == true) then
             GlobalManager:RemoveFromInventory(barley_meal_item_id);
         end
 

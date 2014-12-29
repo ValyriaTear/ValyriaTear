@@ -1148,7 +1148,7 @@ map_functions = {
 
         -- Remove the pen key item from inventory
         local pen_item_id = 70001;
-        if (GlobalManager:IsObjectInInventory(pen_item_id) == true) then
+        if (GlobalManager:IsItemInInventory(pen_item_id) == true) then
             GlobalManager:RemoveFromInventory(pen_item_id);
         end
 

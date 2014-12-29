@@ -702,7 +702,7 @@ GlobalObject* GameGlobal::GetGlobalObject(uint32 obj_id)
     return return_object;
 }
 
-void GameGlobal::IncrementObjectCount(uint32 obj_id, uint32 count)
+void GameGlobal::IncrementItemCount(uint32 obj_id, uint32 count)
 {
     // Do nothing if the item does not exist in the inventory
     if(_inventory.find(obj_id) == _inventory.end()) {
@@ -715,7 +715,7 @@ void GameGlobal::IncrementObjectCount(uint32 obj_id, uint32 count)
 
 
 
-void GameGlobal::DecrementObjectCount(uint32 obj_id, uint32 count)
+void GameGlobal::DecrementItemCount(uint32 obj_id, uint32 count)
 {
     // Do nothing if the item does not exist in the inventory
     if(_inventory.find(obj_id) == _inventory.end()) {
