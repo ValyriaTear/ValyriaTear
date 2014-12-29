@@ -93,7 +93,7 @@ function Initialize(map_instance)
     vortex:SetDimensions(430.0, 210.0);
 
     -- Load the spring heal effect.
-    vortex_effect = vt_map.ParticleObject.CreateObject("dat/effects/particles/crystal_appearance.lua",
+    vortex_effect = vt_map.ParticleObject.Create("dat/effects/particles/crystal_appearance.lua",
                                             crystal_position_x, crystal_position_y, vt_map.MapMode.SKY_OBJECT);
     vortex_effect:Stop(); -- Don't run it until the whole animation starts
 

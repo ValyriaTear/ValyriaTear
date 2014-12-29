@@ -288,17 +288,17 @@ function _CreateObjects()
     _CreateFire(109, 52);
 
     -- Ambient sounds
-    vt_map.SoundObject.CreateObject("snd/gentle_stream.ogg", 61.0, 27.0, 20.0);
-    vt_map.SoundObject.CreateObject("snd/gentle_stream.ogg", 61.0, 47.0, 20.0);
-    vt_map.SoundObject.CreateObject("snd/gentle_stream.ogg", 61.0, 67.0, 20.0);
-    vt_map.SoundObject.CreateObject("snd/gentle_stream.ogg", 81.0, 67.0, 20.0);
-    vt_map.SoundObject.CreateObject("snd/gentle_stream.ogg", 101.0, 67.0, 20.0);
+    vt_map.SoundObject.Create("snd/gentle_stream.ogg", 61.0, 27.0, 20.0);
+    vt_map.SoundObject.Create("snd/gentle_stream.ogg", 61.0, 47.0, 20.0);
+    vt_map.SoundObject.Create("snd/gentle_stream.ogg", 61.0, 67.0, 20.0);
+    vt_map.SoundObject.Create("snd/gentle_stream.ogg", 81.0, 67.0, 20.0);
+    vt_map.SoundObject.Create("snd/gentle_stream.ogg", 101.0, 67.0, 20.0);
 
     -- Fireflies on water
-    vt_map.ParticleObject.CreateObject("dat/effects/particles/fireflies.lua", 53, 29, vt_map.MapMode.GROUND_OBJECT);
-    vt_map.ParticleObject.CreateObject("dat/effects/particles/fireflies.lua", 52, 38, vt_map.MapMode.GROUND_OBJECT);
-    vt_map.ParticleObject.CreateObject("dat/effects/particles/fireflies.lua", 54, 40, vt_map.MapMode.GROUND_OBJECT);
-    vt_map.ParticleObject.CreateObject("dat/effects/particles/fireflies.lua", 99, 73, vt_map.MapMode.GROUND_OBJECT);
+    vt_map.ParticleObject.Create("dat/effects/particles/fireflies.lua", 53, 29, vt_map.MapMode.GROUND_OBJECT);
+    vt_map.ParticleObject.Create("dat/effects/particles/fireflies.lua", 52, 38, vt_map.MapMode.GROUND_OBJECT);
+    vt_map.ParticleObject.Create("dat/effects/particles/fireflies.lua", 54, 40, vt_map.MapMode.GROUND_OBJECT);
+    vt_map.ParticleObject.Create("dat/effects/particles/fireflies.lua", 99, 73, vt_map.MapMode.GROUND_OBJECT);
 end
 
 -- creates the necessary objects to display some fire
@@ -306,7 +306,7 @@ function _CreateFire(fire_x, fire_y)
     -- Add burning flames halos and objects
     CreateObject(Map, "Campfire1", fire_x, fire_y, vt_map.MapMode.GROUND_OBJECT);
 
-    vt_map.SoundObject.CreateObject("snd/campfire.ogg", fire_x, fire_y, 7.0);
+    vt_map.SoundObject.Create("snd/campfire.ogg", fire_x, fire_y, 7.0);
 
     Map:AddHalo("img/misc/lights/torch_light_mask2.lua", fire_x, fire_y + 3.0,
         vt_video.Color(0.85, 0.32, 0.0, 0.6));

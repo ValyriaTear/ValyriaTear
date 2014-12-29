@@ -142,7 +142,7 @@ function _CreateObjects()
     end
 
     -- Kalya's tears
-    kalya_tear = vt_map.PhysicalObject.CreateObject(vt_map.MapMode.GROUND_OBJECT);
+    kalya_tear = vt_map.PhysicalObject.Create(vt_map.MapMode.GROUND_OBJECT);
     kalya_tear:SetPosition(0, 0);
     kalya_tear:SetCollHalfWidth(0.156);
     kalya_tear:SetCollHeight(0.312);
@@ -152,7 +152,7 @@ function _CreateObjects()
     kalya_tear:SetDrawOnSecondPass(true);
 
     -- Village burning effect
-    fire_particle_effect = vt_map.ParticleObject.CreateObject("dat/maps/mt_elbrus/particles_fire_smoke.lua", 66, 24, vt_map.MapMode.GROUND_OBJECT);
+    fire_particle_effect = vt_map.ParticleObject.Create("dat/maps/mt_elbrus/particles_fire_smoke.lua", 66, 24, vt_map.MapMode.GROUND_OBJECT);
     fire_particle_effect:Stop();
 end
 

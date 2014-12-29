@@ -95,7 +95,7 @@ function _CreateCharacters()
     end
 
     -- Add Bronann in bed wake up animation
-    bronann_in_bed = vt_map.PhysicalObject.CreateObject(vt_map.MapMode.GROUND_OBJECT);
+    bronann_in_bed = vt_map.PhysicalObject.Create(vt_map.MapMode.GROUND_OBJECT);
     bronann_in_bed:SetPosition(20, 20);
     bronann_in_bed:SetCollHalfWidth(1.75);
     bronann_in_bed:SetCollHeight(5.50);

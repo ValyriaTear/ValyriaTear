@@ -121,18 +121,18 @@ function _CreateObjects()
 
     -- Add the water fall trigger button
     -- A trigger that will open the gate in the SE map.
-    object = vt_map.TriggerObject.CreateObject("mt elbrus waterfall trigger",
+    object = vt_map.TriggerObject.Create("mt elbrus waterfall trigger",
                              "img/sprites/map/triggers/stone_trigger1_off.lua",
                              "img/sprites/map/triggers/stone_trigger1_on.lua",
                              "", "Water trigger on event");
     object:SetPosition(32, 11);
 
     -- Add the corresponding waterfall ambient sound, ready to be started.
-    waterfall_sound = vt_map.SoundObject.CreateObject("snd/fountain_large.ogg", 32, 11, 100.0);
+    waterfall_sound = vt_map.SoundObject.Create("snd/fountain_large.ogg", 32, 11, 100.0);
     waterfall_sound:SetMaxVolume(0.6);
 
     -- Add the rumble sound used at boss end
-    rumble_sound = vt_map.SoundObject.CreateObject("snd/rumble_continuous.ogg", 19.0, 48.0, 20.0);
+    rumble_sound = vt_map.SoundObject.Create("snd/rumble_continuous.ogg", 19.0, 48.0, 20.0);
     rumble_sound:Stop();
 
     -- Deactivate the sound when the trigger is not already pushed
@@ -360,7 +360,7 @@ function _CreateObjects()
 end
 
 function _add_flame(x, y)
-    vt_map.SoundObject.CreateObject("snd/campfire.ogg", x, y, 10.0);
+    vt_map.SoundObject.Create("snd/campfire.ogg", x, y, 10.0);
 
     CreateObject(Map, "Flame1", x, y, vt_map.MapMode.GROUND_OBJECT);
 
@@ -742,7 +742,7 @@ end
 
 -- Fireballs handling
 function _SpawnFireBall(x, y)
-    local fireball = vt_map.ParticleObject.CreateObject("dat/effects/particles/fire.lua", x, y, vt_map.MapMode.GROUND_OBJECT);
+    local fireball = vt_map.ParticleObject.Create("dat/effects/particles/fire.lua", x, y, vt_map.MapMode.GROUND_OBJECT);
     fireball:SetCollisionMask(vt_map.MapMode.ALL_COLLISION)
     AudioManager:PlaySound("snd/fire1_spell.ogg");
 

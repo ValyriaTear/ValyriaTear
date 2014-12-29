@@ -179,11 +179,11 @@ function _CreateObjects()
         vt_video.Color(1.0, 1.0, 1.0, 0.6),
         vt_video.Color(1.0, 1.0, 0.85, 0.3));
 
-    vt_map.SoundObject.CreateObject("snd/gentle_stream.ogg", 61.0, 27.0, 20.0);
-    vt_map.SoundObject.CreateObject("snd/gentle_stream.ogg", 61.0, 47.0, 20.0);
-    vt_map.SoundObject.CreateObject("snd/gentle_stream.ogg", 61.0, 67.0, 20.0);
-    vt_map.SoundObject.CreateObject("snd/gentle_stream.ogg", 81.0, 67.0, 20.0);
-    vt_map.SoundObject.CreateObject("snd/gentle_stream.ogg", 101.0, 67.0, 20.0);
+    vt_map.SoundObject.Create("snd/gentle_stream.ogg", 61.0, 27.0, 20.0);
+    vt_map.SoundObject.Create("snd/gentle_stream.ogg", 61.0, 47.0, 20.0);
+    vt_map.SoundObject.Create("snd/gentle_stream.ogg", 61.0, 67.0, 20.0);
+    vt_map.SoundObject.Create("snd/gentle_stream.ogg", 81.0, 67.0, 20.0);
+    vt_map.SoundObject.Create("snd/gentle_stream.ogg", 101.0, 67.0, 20.0);
 end
 
 -- Creates all events and sets up the entire event sequence chain

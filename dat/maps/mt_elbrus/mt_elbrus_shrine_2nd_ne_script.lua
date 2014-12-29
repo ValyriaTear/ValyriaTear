@@ -127,7 +127,7 @@ function _CreateObjects()
     local event = nil
 
     -- Snow effect
-    object = vt_map.ParticleObject.CreateObject("dat/maps/mt_elbrus/particles_snow_south_entrance.lua", 28, 40, vt_map.MapMode.GROUND_OBJECT);
+    object = vt_map.ParticleObject.Create("dat/maps/mt_elbrus/particles_snow_south_entrance.lua", 28, 40, vt_map.MapMode.GROUND_OBJECT);
     Map:AddHalo("img/misc/lights/torch_light_mask.lua", 28, 47,
         vt_video.Color(1.0, 1.0, 1.0, 0.8));
 
@@ -194,7 +194,7 @@ function _CreateObjects()
             pos_y = 29;
         end
 
-        stone_triggers[i] = vt_map.TriggerObject.CreateObject("mt elbrus shrine 2nd NE trigger "..i,
+        stone_triggers[i] = vt_map.TriggerObject.Create("mt elbrus shrine 2nd NE trigger "..i,
                                  "img/sprites/map/triggers/rolling_stone_trigger1_off.lua",
                                  "img/sprites/map/triggers/rolling_stone_trigger1_on.lua",
                                  "",
@@ -263,7 +263,7 @@ function _CreateObjects()
 end
 
 function _add_flame(x, y)
-    vt_map.SoundObject.CreateObject("snd/campfire.ogg", x, y, 10.0);
+    vt_map.SoundObject.Create("snd/campfire.ogg", x, y, 10.0);
 
     local object = CreateObject(Map, "Flame1", x, y, vt_map.MapMode.GROUND_OBJECT);
     object:RandomizeCurrentAnimationFrame();

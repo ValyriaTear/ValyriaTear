@@ -135,7 +135,7 @@ function _CreateObjects()
     Map:AddSavePoint(19, 27);
 
     -- Load the spring heal effect.
-    heal_effect = vt_map.ParticleObject.CreateObject("dat/effects/particles/heal_particle.lua", 0, 0, vt_map.MapMode.GROUND_OBJECT);
+    heal_effect = vt_map.ParticleObject.Create("dat/effects/particles/heal_particle.lua", 0, 0, vt_map.MapMode.GROUND_OBJECT);
     heal_effect:Stop(); -- Don't run it until the character heals itself
 
     -- Heal point
@@ -199,9 +199,9 @@ function _CreateObjects()
         EventManager:StartEvent("Squirrel2 random move", 1800);
     else
         -- add fireflies near the statue at night
-        vt_map.ParticleObject.CreateObject("dat/effects/particles/fireflies.lua", 27, 22, vt_map.MapMode.GROUND_OBJECT);
-        vt_map.ParticleObject.CreateObject("dat/effects/particles/fireflies.lua", 25, 23, vt_map.MapMode.GROUND_OBJECT);
-        vt_map.ParticleObject.CreateObject("dat/effects/particles/fireflies.lua", 29, 22.5, vt_map.MapMode.GROUND_OBJECT);
+        vt_map.ParticleObject.Create("dat/effects/particles/fireflies.lua", 27, 22, vt_map.MapMode.GROUND_OBJECT);
+        vt_map.ParticleObject.Create("dat/effects/particles/fireflies.lua", 25, 23, vt_map.MapMode.GROUND_OBJECT);
+        vt_map.ParticleObject.Create("dat/effects/particles/fireflies.lua", 29, 22.5, vt_map.MapMode.GROUND_OBJECT);
     end
 
     CreateObject(Map, "Tree Small3", 23, 18, vt_map.MapMode.GROUND_OBJECT);

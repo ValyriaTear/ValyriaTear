@@ -199,7 +199,7 @@ function _CreateObjects()
     end
 
     -- The stone trigger that will open the gate to the second floor
-    stone_trigger2 = vt_map.TriggerObject.CreateObject("mt elbrus shrine 5 trigger 2",
+    stone_trigger2 = vt_map.TriggerObject.Create("mt elbrus shrine 5 trigger 2",
                              "img/sprites/map/triggers/rolling_stone_trigger1_off.lua",
                              "img/sprites/map/triggers/rolling_stone_trigger1_on.lua",
                              "",
@@ -267,19 +267,19 @@ function _add_waterfall(x, y)
     object:RandomizeCurrentAnimationFrame();
 
     -- Ambient sound
-    object = vt_map.SoundObject.CreateObject("snd/fountain_large.ogg", x, y - 5, 50.0);
+    object = vt_map.SoundObject.Create("snd/fountain_large.ogg", x, y - 5, 50.0);
     object:SetMaxVolume(0.6);
 
     -- Particle effects
-    object = vt_map.ParticleObject.CreateObject("dat/effects/particles/waterfall_steam.lua", x, y - 15.0, vt_map.MapMode.GROUND_OBJECT);
+    object = vt_map.ParticleObject.Create("dat/effects/particles/waterfall_steam.lua", x, y - 15.0, vt_map.MapMode.GROUND_OBJECT);
     object:SetDrawOnSecondPass(true);
 
-    object = vt_map.ParticleObject.CreateObject("dat/effects/particles/waterfall_steam_big.lua", x, y + 0.2, vt_map.MapMode.GROUND_OBJECT);
+    object = vt_map.ParticleObject.Create("dat/effects/particles/waterfall_steam_big.lua", x, y + 0.2, vt_map.MapMode.GROUND_OBJECT);
     object:SetDrawOnSecondPass(true);
 end
 
 function _add_flame(x, y)
-    vt_map.SoundObject.CreateObject("snd/campfire.ogg", x, y, 10.0);
+    vt_map.SoundObject.Create("snd/campfire.ogg", x, y, 10.0);
 
     local object = CreateObject(Map, "Flame1", x, y, vt_map.MapMode.GROUND_OBJECT);
     object:RandomizeCurrentAnimationFrame();

@@ -131,7 +131,7 @@ function _CreateObjects()
     chest1:AddObject(15, 1); -- Lotus Petal
 
     -- Load the spring heal effect.
-    heal_effect = vt_map.ParticleObject.CreateObject("dat/effects/particles/heal_particle.lua", 0, 0, vt_map.MapMode.GROUND_OBJECT);
+    heal_effect = vt_map.ParticleObject.Create("dat/effects/particles/heal_particle.lua", 0, 0, vt_map.MapMode.GROUND_OBJECT);
     heal_effect:Stop(); -- Don't run it until the character heals itself
 
     -- Heal point
@@ -179,7 +179,7 @@ function _CreateObjects()
         crystal:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
     end
 
-    crystal_effect = vt_map.ParticleObject.CreateObject("dat/effects/particles/inactive_save_point.lua", 41, 46, vt_map.MapMode.GROUND_OBJECT);
+    crystal_effect = vt_map.ParticleObject.Create("dat/effects/particles/inactive_save_point.lua", 41, 46, vt_map.MapMode.GROUND_OBJECT);
     crystal_effect:Stop(); -- Don't run it until the character heals itself
 
     -- trees, etc
@@ -948,7 +948,7 @@ map_functions = {
 
         if (crystal_visible == false and crystal_appearance_time >= 10000) then
             -- Add a light upon the crystal
-            crystal_light_effect = vt_map.Light.CreateObject("img/misc/lights/sun_flare_light_secondary.lua",
+            crystal_light_effect = vt_map.Light.Create("img/misc/lights/sun_flare_light_secondary.lua",
                     "img/misc/lights/sun_flare_light_secondary.lua",
                     41.2, 43.0,
                     vt_video.Color(0.8, 0.8, 1.0, 0.3),

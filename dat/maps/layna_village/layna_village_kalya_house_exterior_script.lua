@@ -149,7 +149,7 @@ function _CreateObjects()
     local kalya_house_exterior_chest = CreateTreasure(Map, "kalya_house_exterior_chest", "Wood_Chest1", 5, 22, vt_map.MapMode.GROUND_OBJECT);
     kalya_house_exterior_chest:AddObject(1, 1);
 
-    vt_map.SoundObject.CreateObject("snd/gentle_stream.ogg", 10.0, 46.0, 20.0);
+    vt_map.SoundObject.Create("snd/gentle_stream.ogg", 10.0, 46.0, 20.0);
 end
 
 -- Creates all events and sets up the entire event sequence chain

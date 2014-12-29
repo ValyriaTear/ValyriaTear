@@ -201,11 +201,11 @@ function _CreateObjects()
 
     -- We can hear waterfalls in that case
     if (GlobalManager:GetEventValue("triggers", "mt elbrus waterfall trigger") == 1) then
-        vt_map.SoundObject.CreateObject("snd/fountain_large.ogg", 0, 0, 50.0);
+        vt_map.SoundObject.Create("snd/fountain_large.ogg", 0, 0, 50.0);
     end
 
     -- Load the spring heal effect.
-    heal_effect = vt_map.ParticleObject.CreateObject("dat/effects/particles/heal_particle.lua", 0, 0, vt_map.MapMode.GROUND_OBJECT);
+    heal_effect = vt_map.ParticleObject.Create("dat/effects/particles/heal_particle.lua", 0, 0, vt_map.MapMode.GROUND_OBJECT);
     heal_effect:Stop(); -- Don't run it until the character heals itself
 
     layna_statue = CreateObject(Map, "Layna Statue", 57, 22, vt_map.MapMode.GROUND_OBJECT);
@@ -225,7 +225,7 @@ function _CreateObjects()
     EventManager:RegisterEvent(event);
 
     -- Snow effect
-    vt_map.ParticleObject.CreateObject("dat/maps/mt_elbrus/particles_snow_south_entrance.lua", 29, 48, vt_map.MapMode.GROUND_OBJECT);
+    vt_map.ParticleObject.Create("dat/maps/mt_elbrus/particles_snow_south_entrance.lua", 29, 48, vt_map.MapMode.GROUND_OBJECT);
 
     Map:AddHalo("img/misc/lights/torch_light_mask.lua", 29, 55,
         vt_video.Color(1.0, 1.0, 1.0, 0.8));
@@ -264,10 +264,10 @@ function _add_small_waterfall(x, y)
     object:SetMaxVolume(0.6);
 
     -- Particle effects
-    object = vt_map.ParticleObject.CreateObject("dat/effects/particles/waterfall_steam.lua", x, y - 8.0, vt_map.MapMode.GROUND_OBJECT);
+    object = vt_map.ParticleObject.Create("dat/effects/particles/waterfall_steam.lua", x, y - 8.0, vt_map.MapMode.GROUND_OBJECT);
     object:SetDrawOnSecondPass(true);
 
-    object = vt_map.ParticleObject.CreateObject("dat/effects/particles/waterfall_steam_big.lua", x, y + 1.0, vt_map.MapMode.GROUND_OBJECT);
+    object = vt_map.ParticleObject.Create("dat/effects/particles/waterfall_steam_big.lua", x, y + 1.0, vt_map.MapMode.GROUND_OBJECT);
     object:SetDrawOnSecondPass(true);
 end
 
@@ -278,7 +278,7 @@ function _add_waterlight(x, y)
 end
 
 function _add_flame(x, y)
-    vt_map.SoundObject.CreateObject("snd/campfire.ogg", x, y, 10.0);
+    vt_map.SoundObject.Create("snd/campfire.ogg", x, y, 10.0);
 
     local object = CreateObject(Map, "Flame1", x, y, vt_map.MapMode.GROUND_OBJECT);
     object:RandomizeCurrentAnimationFrame();

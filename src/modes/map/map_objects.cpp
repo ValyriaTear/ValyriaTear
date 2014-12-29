@@ -209,7 +209,7 @@ PhysicalObject::~PhysicalObject()
     animations.clear();
 }
 
-PhysicalObject* PhysicalObject::CreateObject(MapObjectDrawLayer layer)
+PhysicalObject* PhysicalObject::Create(MapObjectDrawLayer layer)
 {
     // The object auto registers to the object supervisor
     // and will later handle deletion.
@@ -305,7 +305,7 @@ ParticleObject::~ParticleObject()
     delete _particle_effect;
 }
 
-ParticleObject* ParticleObject::CreateObject(const std::string &filename, float x, float y, MapObjectDrawLayer layer)
+ParticleObject* ParticleObject::Create(const std::string &filename, float x, float y, MapObjectDrawLayer layer)
 {
     // The object auto registers to the object supervisor
     // and will later handle deletion.
@@ -513,11 +513,11 @@ Light::Light(const std::string &main_flare_filename,
     MapMode::CurrentInstance()->GetObjectSupervisor()->AddLight(this);
 }
 
-Light* Light::CreateObject(const std::string &main_flare_filename,
-                           const std::string &secondary_flare_filename,
-                           float x, float y,
-                           const Color &main_color,
-                           const Color &secondary_color)
+Light* Light::Create(const std::string &main_flare_filename,
+                     const std::string &secondary_flare_filename,
+                     float x, float y,
+                     const Color &main_color,
+                     const Color &secondary_color)
 {
     // The object auto registers to the object supervisor
     // and will later handle deletion.
@@ -679,8 +679,8 @@ SoundObject::SoundObject(const std::string& sound_filename, float x, float y, fl
     MapMode::CurrentInstance()->GetObjectSupervisor()->AddAmbientSound(this);
 }
 
-SoundObject* SoundObject::CreateObject(const std::string& sound_filename,
-                                       float x, float y, float strength)
+SoundObject* SoundObject::Create(const std::string& sound_filename,
+                                 float x, float y, float strength)
 {
     // The object auto registers to the object supervisor
     // and will later handle deletion.
@@ -817,10 +817,10 @@ TreasureObject::TreasureObject(const std::string &treasure_name,
     _LoadState();
 }
 
-TreasureObject* TreasureObject::CreateObject(const std::string &treasure_name,
-                                             const std::string &closed_animation_file,
-                                             const std::string &opening_animation_file,
-                                             const std::string &open_animation_file)
+TreasureObject* TreasureObject::Create(const std::string &treasure_name,
+                                       const std::string &closed_animation_file,
+                                       const std::string &opening_animation_file,
+                                       const std::string &open_animation_file)
 {
     // The object auto registers to the object supervisor
     // and will later handle deletion.
@@ -959,11 +959,11 @@ TriggerObject::TriggerObject(const std::string &trigger_name,
     _LoadState();
 }
 
-TriggerObject* TriggerObject::CreateObject(const std::string &trigger_name,
-                                           const std::string &off_animation_file,
-                                           const std::string &on_animation_file,
-                                           const std::string& off_event_id,
-                                           const std::string& on_event_id)
+TriggerObject* TriggerObject::Create(const std::string &trigger_name,
+                                     const std::string &off_animation_file,
+                                     const std::string &on_animation_file,
+                                     const std::string& off_event_id,
+                                     const std::string& on_event_id)
 {
     // The object auto registers to the object supervisor
     // and will later handle deletion.

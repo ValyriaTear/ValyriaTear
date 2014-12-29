@@ -44,7 +44,7 @@ function Load(m)
     Map:GetEffectSupervisor():EnableAmbientOverlay("img/ambient/dark.png", 0.0, 0.0, false);
 
     -- Place an omni ambient sound at the center of the map to add a nice indoor rainy effect.
-    vt_map.SoundObject.CreateObject("mus/rain_indoors.ogg", 25.0, 20.0, 100.0);
+    vt_map.SoundObject.Create("mus/rain_indoors.ogg", 25.0, 20.0, 100.0);
 
     -- Preloads the action sounds to avoid glitches
     AudioManager:LoadSound("snd/cave-in.ogg", Map);
@@ -139,7 +139,7 @@ function _CreateObjects()
     event = vt_map.ScriptedEvent("Place Shroom 1 after fight", "place_shroom1_after_fight", "")
     EventManager:RegisterEvent(event);
 
-    stone_trigger1 = vt_map.TriggerObject.CreateObject("mt elbrus cave 2 trigger 1",
+    stone_trigger1 = vt_map.TriggerObject.Create("mt elbrus cave 2 trigger 1",
                              "img/sprites/map/triggers/rolling_stone_trigger1_off.lua",
                              "img/sprites/map/triggers/rolling_stone_trigger1_on.lua",
                              "",
@@ -147,7 +147,7 @@ function _CreateObjects()
     stone_trigger1:SetPosition(49, 28);
     stone_trigger1:SetTriggerableByCharacter(false); -- Only an event can trigger it
 
-    stone_trigger2 = vt_map.TriggerObject.CreateObject("mt elbrus cave 2 trigger 2",
+    stone_trigger2 = vt_map.TriggerObject.Create("mt elbrus cave 2 trigger 2",
                              "img/sprites/map/triggers/rolling_stone_trigger1_off.lua",
                              "img/sprites/map/triggers/rolling_stone_trigger1_on.lua",
                              "",

@@ -231,31 +231,31 @@ function _CreateObjects()
     blocking_spike2 = CreateObject(Map, "Spikes1", 39, 12, vt_map.MapMode.GROUND_OBJECT);
 
     -- 5 triggers permitting to play a bit...
-    spike_trigger1 = vt_map.TriggerObject.CreateObject("",
+    spike_trigger1 = vt_map.TriggerObject.Create("",
                              "img/sprites/map/triggers/stone_trigger1_off.lua",
                              "img/sprites/map/triggers/stone_trigger1_on.lua",
                              "", "Push trigger 1");
     spike_trigger1:SetPosition(32, 27.5);
 
-    spike_trigger2 = vt_map.TriggerObject.CreateObject("",
+    spike_trigger2 = vt_map.TriggerObject.Create("",
                              "img/sprites/map/triggers/stone_trigger1_off.lua",
                              "img/sprites/map/triggers/stone_trigger1_on.lua",
                              "", "Push trigger 2");
     spike_trigger2:SetPosition(36, 27.5);
 
-    spike_trigger3 = vt_map.TriggerObject.CreateObject("",
+    spike_trigger3 = vt_map.TriggerObject.Create("",
                              "img/sprites/map/triggers/stone_trigger1_off.lua",
                              "img/sprites/map/triggers/stone_trigger1_on.lua",
                              "", "Push trigger 3");
     spike_trigger3:SetPosition(30, 31);
 
-    spike_trigger4 = vt_map.TriggerObject.CreateObject("",
+    spike_trigger4 = vt_map.TriggerObject.Create("",
                              "img/sprites/map/triggers/stone_trigger1_off.lua",
                              "img/sprites/map/triggers/stone_trigger1_on.lua",
                              "", "Push trigger 4");
     spike_trigger4:SetPosition(34, 31);
 
-    spike_trigger5 = vt_map.TriggerObject.CreateObject("",
+    spike_trigger5 = vt_map.TriggerObject.Create("",
                              "img/sprites/map/triggers/stone_trigger1_off.lua",
                              "img/sprites/map/triggers/stone_trigger1_on.lua",
                              "", "Push trigger 5");
@@ -270,7 +270,7 @@ function _CreateObjects()
     spike6_up = true;
 
     -- The trigger opening the next map.
-    object = vt_map.TriggerObject.CreateObject("mt elbrus shrine 4 trigger 1",
+    object = vt_map.TriggerObject.Create("mt elbrus shrine 4 trigger 1",
                              "img/sprites/map/triggers/stone_trigger1_off.lua",
                              "img/sprites/map/triggers/stone_trigger1_on.lua",
                              "", "Trap map open event");
@@ -292,7 +292,7 @@ function _add_waterlight(x, y)
 end
 
 function _add_flame(x, y)
-    vt_map.SoundObject.CreateObject("snd/campfire.ogg", x, y, 10.0);
+    vt_map.SoundObject.Create("snd/campfire.ogg", x, y, 10.0);
 
     CreateObject(Map, "Flame1", x, y, vt_map.MapMode.GROUND_OBJECT);
 
@@ -306,11 +306,11 @@ function _add_bubble(x, y)
     local object = CreateObject(Map, "Bubble", x, y, vt_map.MapMode.GROUND_OBJECT);
     object:RandomizeCurrentAnimationFrame();
 
-    vt_map.ParticleObject.CreateObject("dat/effects/particles/bubble_steam.lua", x, y, vt_map.MapMode.GROUND_OBJECT);
+    vt_map.ParticleObject.Create("dat/effects/particles/bubble_steam.lua", x, y, vt_map.MapMode.GROUND_OBJECT);
 end
 
 function _add_flame_pot(x, y)
-    vt_map.SoundObject.CreateObject("snd/campfire.ogg", x, y, 10.0);
+    vt_map.SoundObject.Create("snd/campfire.ogg", x, y, 10.0);
 
     local object = CreateObject(Map, "Flame Pot1", x, y, vt_map.MapMode.GROUND_OBJECT);
     object:RandomizeCurrentAnimationFrame();

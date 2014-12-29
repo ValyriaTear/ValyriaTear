@@ -81,7 +81,7 @@ function _CreateCharacters()
 end
 
 function _add_flame(x, y)
-    vt_map.SoundObject.CreateObject("snd/campfire.ogg", x, y, 10.0);
+    vt_map.SoundObject.Create("snd/campfire.ogg", x, y, 10.0);
 
     local object = CreateObject(Map, "Flame1", x, y, vt_map.MapMode.GROUND_OBJECT);
     object:RandomizeCurrentAnimationFrame();
@@ -111,11 +111,11 @@ function _CreateObjects()
     CreateObject(Map, "Rock1", 31, 14 vt_map.MapMode.GROUND_OBJECT);
 
     -- Snow effects
-    vt_map.ParticleObject.CreateObject("dat/maps/mt_elbrus/particles_snow_south_entrance.lua", 16, 72, vt_map.MapMode.GROUND_OBJECT);
+    vt_map.ParticleObject.Create("dat/maps/mt_elbrus/particles_snow_south_entrance.lua", 16, 72, vt_map.MapMode.GROUND_OBJECT);
     Map:AddHalo("img/misc/lights/torch_light_mask.lua", 16, 79,
                 vt_video.Color(1.0, 1.0, 1.0, 0.8));
 
-    vt_map.ParticleObject.CreateObject("dat/maps/mt_elbrus/particles_snow_south_entrance.lua", 50, 50, vt_map.MapMode.GROUND_OBJECT);
+    vt_map.ParticleObject.Create("dat/maps/mt_elbrus/particles_snow_south_entrance.lua", 50, 50, vt_map.MapMode.GROUND_OBJECT);
     Map:AddHalo("img/misc/lights/torch_light_mask.lua", 51, 57,
                 vt_video.Color(1.0, 1.0, 1.0, 0.8));
 
@@ -337,7 +337,7 @@ function _CreateObjects()
     end
 
     -- A trigger that will open ground floor enigma map.
-    object = vt_map.TriggerObject.CreateObject("mt elbrus shrine 2nd s2 trigger",
+    object = vt_map.TriggerObject.Create("mt elbrus shrine 2nd s2 trigger",
                              "img/sprites/map/triggers/stone_trigger1_off.lua",
                              "img/sprites/map/triggers/stone_trigger1_on.lua",
                              "", "Enigma map open event");

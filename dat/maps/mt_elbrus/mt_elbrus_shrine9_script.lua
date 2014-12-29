@@ -134,7 +134,7 @@ function _CreateObjects()
     Map:AddSavePoint(8, 42);
 
     -- Load the spring heal effect.
-    heal_effect = vt_map.ParticleObject.CreateObject("dat/effects/particles/heal_particle.lua", 0, 0, vt_map.MapMode.GROUND_OBJECT);
+    heal_effect = vt_map.ParticleObject.Create("dat/effects/particles/heal_particle.lua", 0, 0, vt_map.MapMode.GROUND_OBJECT);
     heal_effect:Stop(); -- Don't run it until the character heals itself
 
     object = CreateObject(Map, "Layna Statue", 6, 35, vt_map.MapMode.GROUND_OBJECT);
@@ -150,7 +150,7 @@ function _CreateObjects()
     event = vt_map.ScriptedEvent("Heal event", "heal_party", "heal_done");
     EventManager:RegisterEvent(event);
 
-    falling_hole = vt_map.PhysicalObject.CreateObject(vt_map.MapMode.FLATGROUND_OBJECT);
+    falling_hole = vt_map.PhysicalObject.Create(vt_map.MapMode.FLATGROUND_OBJECT);
     falling_hole:SetPosition(22.02, 18.0);
     falling_hole:SetCollHalfWidth(4.0);
     falling_hole:SetCollHeight(8.0);
@@ -160,7 +160,7 @@ function _CreateObjects()
     falling_hole:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
     falling_hole:SetVisible(false);
 
-    falling_hole_wall = vt_map.PhysicalObject.CreateObject(vt_map.MapMode.SKY_OBJECT);
+    falling_hole_wall = vt_map.PhysicalObject.Create(vt_map.MapMode.SKY_OBJECT);
     falling_hole_wall:SetPosition(22.02, 25.35);
     falling_hole_wall:SetCollHalfWidth(4.0);
     falling_hole_wall:SetCollHeight(7.375);

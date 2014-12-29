@@ -604,7 +604,7 @@ function CreateSprite(Map, name, x, y, layer)
     end
 
     -- Note: Auto-registered to the object supervisor.
-    local sprite = vt_map.MapSprite.CreateObject(layer);
+    local sprite = vt_map.MapSprite.Create(layer);
     sprite:SetName(sprites[name].name);
     sprite:SetSpriteName(name); -- The catalog reference
     sprite:SetPosition(x, y);
@@ -647,7 +647,7 @@ function CreateNPCSprite(Map, name, npc_name, x, y, layer)
     end
 
     -- Note: Auto-registered to the object supervisor.
-    local sprite = vt_map.MapSprite.CreateObject(layer);
+    local sprite = vt_map.MapSprite.Create(layer);
     sprite:SetName(npc_name);
     sprite:SetSpriteName(name); -- The catalog reference
     sprite:SetPosition(x, y);
@@ -690,7 +690,7 @@ function CreateEnemySprite(Map, name)
     end
 
     -- Note: Auto-registered to the object supervisor on the GROUND_LAYER.
-    local enemy = vt_map.EnemySprite.CreateObject();
+    local enemy = vt_map.EnemySprite.Create();
     enemy:SetSpriteName(name); -- The catalog reference
     enemy:SetCollHalfWidth(sprites[name].coll_half_width);
     enemy:SetCollHeight(sprites[name].coll_height);

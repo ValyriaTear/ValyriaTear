@@ -151,7 +151,7 @@ function _CreateObjects()
     fence2_trigger2 = CreateObject(Map, "Stone Fence1", 43.0, fence2_trigger2_y_position, vt_map.MapMode.GROUND_OBJECT);
 
     -- The two stone trigger will open the gate to the second floor
-    stone_trigger1 = vt_map.TriggerObject.CreateObject("mt elbrus shrine 6 trigger 1",
+    stone_trigger1 = vt_map.TriggerObject.Create("mt elbrus shrine 6 trigger 1",
                              "img/sprites/map/triggers/rolling_stone_trigger1_off.lua",
                              "img/sprites/map/triggers/rolling_stone_trigger1_on.lua",
                              "",
@@ -197,7 +197,7 @@ function _CreateObjects()
 end
 
 function _add_flame(x, y)
-    vt_map.SoundObject.CreateObject("snd/campfire.ogg", x, y, 10.0);
+    vt_map.SoundObject.Create("snd/campfire.ogg", x, y, 10.0);
 
     local object = CreateObject(Map, "Flame1", x, y, vt_map.MapMode.GROUND_OBJECT);
     object:RandomizeCurrentAnimationFrame();

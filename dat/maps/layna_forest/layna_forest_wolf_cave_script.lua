@@ -138,7 +138,7 @@ function _CreateObjects()
 
     -- Add the wolfpain necklace, triggering the second battle with the fenrir
     -- As this object is special, we're not using the object catalogue to only load that one once.
-    necklace = vt_map.PhysicalObject.CreateObject(vt_map.MapMode.GROUND_OBJECT);
+    necklace = vt_map.PhysicalObject.Create(vt_map.MapMode.GROUND_OBJECT);
     necklace:SetPosition(30, 9);
     necklace:SetCollHalfWidth(0.5);
     necklace:SetCollHeight(1.0);
@@ -147,7 +147,7 @@ function _CreateObjects()
     necklace:AddAnimation("dat/maps/layna_forest/wolfpain_necklace.lua");
 
     -- Adds a light tilting to catch the player attention
-    light_tilt = vt_map.PhysicalObject.CreateObject(vt_map.MapMode.GROUND_OBJECT);
+    light_tilt = vt_map.PhysicalObject.Create(vt_map.MapMode.GROUND_OBJECT);
     light_tilt:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
     light_tilt:SetPosition(30, 9.1);
     light_tilt:SetCollHalfWidth(0.5);
@@ -213,10 +213,10 @@ function _CreateObjects()
     npc:AddDialogueReference(dialogue);
 
     -- Load the spring heal effect.
-    heal_effect = vt_map.ParticleObject.CreateObject("dat/effects/particles/heal_sp_particle.lua", 0, 0, vt_map.MapMode.GROUND_OBJECT);
+    heal_effect = vt_map.ParticleObject.Create("dat/effects/particles/heal_sp_particle.lua", 0, 0, vt_map.MapMode.GROUND_OBJECT);
     heal_effect:Stop(); -- Don't run it until the character heals itself
 
-    vt_map.SoundObject.CreateObject("snd/fountain_small.ogg", 53.0, 8.0, 8.0);
+    vt_map.SoundObject.Create("snd/fountain_small.ogg", 53.0, 8.0, 8.0);
 end
 
 -- Special event references which destinations must be updated just before being called.

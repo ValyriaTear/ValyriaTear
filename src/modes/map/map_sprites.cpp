@@ -711,7 +711,7 @@ MapSprite::~MapSprite()
         delete _face_portrait;
 }
 
-MapSprite* MapSprite::CreateObject(MapObjectDrawLayer layer)
+MapSprite* MapSprite::Create(MapObjectDrawLayer layer)
 {
     // The object auto register to the object supervisor
     // and will later handle deletion.
@@ -1313,43 +1313,7 @@ EnemySprite::EnemySprite() :
     Reset();
 }
 
-EnemySprite::EnemySprite(EnemySprite& copy):
-    MapSprite(GROUND_OBJECT),
-    _zone(copy._zone),
-    _color(copy._color),
-    _time_elapsed(0),
-    _state(DEAD),
-    _aggro_range(copy._aggro_range),
-    _time_before_new_destination(copy._time_before_new_destination),
-    _time_to_spawn(copy._time_to_spawn),
-    _time_to_respawn(copy._time_to_respawn),
-    _music_theme(copy._music_theme),
-    _bg_file(copy._bg_file),
-    _is_boss(copy._is_boss),
-    _encounter_event(copy._encounter_event),
-    _use_path(copy._use_path)
-{
-    _object_type = ENEMY_TYPE;
-    moving = false;
-
-    // Copy the vector data
-    for (uint32 i = 0; i < copy._script_files.size(); ++i)
-        _script_files.push_back(copy._script_files[i]);
-
-    for (uint32 i = 0; i < copy._enemy_parties.size(); ++i) {
-        _enemy_parties.push_back(std::vector<BattleEnemyInfo>());
-
-        for (uint32 j = 0; j < copy._enemy_parties[i].size(); ++j)
-            _enemy_parties[i].push_back(copy._enemy_parties[i][j]);
-    }
-
-    for (uint32 i = 0; i < copy._way_points.size(); ++i)
-        _way_points.push_back(copy._way_points[i]);
-
-    Reset();
-}
-
-EnemySprite* EnemySprite::CreateObject()
+EnemySprite* EnemySprite::Create()
 {
     // The object auto register to the object supervisor
     // and will later handle deletion.

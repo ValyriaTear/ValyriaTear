@@ -208,7 +208,7 @@ function _CreateObjects()
     -- Create the fake walls out of the objects catalog as they are used once,
     -- Left secret passage
     if (GlobalManager:GetEventValue("triggers", "mt elbrus shrine 2nd s2 trigger") == 0) then
-        object = vt_map.PhysicalObject.CreateObject(vt_map.MapMode.GROUND_OBJECT);
+        object = vt_map.PhysicalObject.Create(vt_map.MapMode.GROUND_OBJECT);
         object:SetPosition(2.0, 62.0);
         object:SetCollHalfWidth(2.0);
         object:SetCollHeight(12.0);
@@ -221,7 +221,7 @@ function _CreateObjects()
 
     -- Right one
     if (GlobalManager:GetEventValue("triggers", "mt elbrus shrine 4 trigger 1") == 0) then
-        object = vt_map.PhysicalObject.CreateObject(vt_map.MapMode.GROUND_OBJECT);
+        object = vt_map.PhysicalObject.Create(vt_map.MapMode.GROUND_OBJECT);
         object:SetPosition(62.0, 62.0);
         object:SetCollHalfWidth(2.0);
         object:SetCollHeight(12.0);
@@ -238,11 +238,11 @@ function _add_very_small_waterfall(x, y)
     object:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
     object:RandomizeCurrentAnimationFrame();
     -- Ambient sound
-    object = vt_map.SoundObject.CreateObject("snd/fountain_large.ogg", x, y - 5, 50.0);
+    object = vt_map.SoundObject.Create("snd/fountain_large.ogg", x, y - 5, 50.0);
     object:SetMaxVolume(0.6);
 
     -- Particle effects
-    object = vt_map.ParticleObject.CreateObject("dat/effects/particles/waterfall_steam.lua", x, y - 4.0, vt_map.MapMode.GROUND_OBJECT);
+    object = vt_map.ParticleObject.Create("dat/effects/particles/waterfall_steam.lua", x, y - 4.0, vt_map.MapMode.GROUND_OBJECT);
     object:SetDrawOnSecondPass(true);
 
     object = vt_map.ParticleObject("dat/effects/particles/waterfall_steam_big.lua", x, y + 1.0, vt_map.MapMode.GROUND_OBJECT);
@@ -259,11 +259,11 @@ function _add_bubble(x, y)
     local object = CreateObject(Map, "Bubble", x, y, vt_map.MapMode.GROUND_OBJECT);
     object:RandomizeCurrentAnimationFrame();
 
-    vt_map.ParticleObject.CreateObject("dat/effects/particles/bubble_steam.lua", x, y, vt_map.MapMode.GROUND_OBJECT);
+    vt_map.ParticleObject.Create("dat/effects/particles/bubble_steam.lua", x, y, vt_map.MapMode.GROUND_OBJECT);
 end
 
 function _add_flame(x, y)
-    vt_map.SoundObject.CreateObject("snd/campfire.ogg", x, y, 10.0);
+    vt_map.SoundObject.Create("snd/campfire.ogg", x, y, 10.0);
 
     local object = CreateObject(Map, "Flame1", x, y, vt_map.MapMode.GROUND_OBJECT);
     object:RandomizeCurrentAnimationFrame();
@@ -275,7 +275,7 @@ function _add_flame(x, y)
 end
 
 function _add_flame_pot(x, y)
-    vt_map.SoundObject.CreateObject("snd/campfire.ogg", x, y, 10.0);
+    vt_map.SoundObject.Create("snd/campfire.ogg", x, y, 10.0);
 
     local object = CreateObject(Map, "Flame Pot1", x, y, vt_map.MapMode.GROUND_OBJECT);
     object:RandomizeCurrentAnimationFrame();

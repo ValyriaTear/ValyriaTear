@@ -412,7 +412,7 @@ public:
     //! without letting Lua handling the object life-cycle.
     //! \note We don't permit luabind to use constructors here as it can't currently
     //! give the object ownership at construction time.
-    static PhysicalObject* CreateObject(MapObjectDrawLayer layer);
+    static PhysicalObject* Create(MapObjectDrawLayer layer);
 
     /** \brief A vector containing all the object's animations.
     *** These need not be actual animations. If you just want a still image, add only a single
@@ -504,7 +504,7 @@ public:
     //! without letting Lua handling the object life-cycle.
     //! \note We don't permit luabind to use constructors here as it can't currently
     //! give the object ownership at construction time.
-    static ParticleObject* CreateObject(const std::string& filename, float x, float y, MapObjectDrawLayer layer);
+    static ParticleObject* Create(const std::string& filename, float x, float y, MapObjectDrawLayer layer);
 
     //! \brief Updates the object's current animation.
     //! \note the actual image resources is handled by the main map object.
@@ -620,11 +620,11 @@ public:
     //! without letting Lua handling the object life-cycle.
     //! \note We don't permit luabind to use constructors here as it can't currently
     //! give the object ownership at construction time.
-    static Light* CreateObject(const std::string &main_flare_filename,
-                               const std::string &secondary_flare_filename,
-                               float x, float y,
-                               const vt_video::Color &main_color,
-                               const vt_video::Color &secondary_color);
+    static Light* Create(const std::string &main_flare_filename,
+                         const std::string &secondary_flare_filename,
+                         float x, float y,
+                         const vt_video::Color &main_color,
+                         const vt_video::Color &secondary_color);
 
     //! \brief Updates the object's current animation and orientation
     //! \note the actual image resources is handled by the main map object.
@@ -696,8 +696,8 @@ public:
     //! without letting Lua handling the object life-cycle.
     //! \note We don't permit luabind to use constructors here as it can't currently
     //! give the object ownership at construction time.
-    static SoundObject* CreateObject(const std::string& sound_filename,
-                                     float x, float y, float strength);
+    static SoundObject* Create(const std::string& sound_filename,
+                               float x, float y, float strength);
 
     //! \brief Updates the object's current volume.
     void Update();
@@ -799,10 +799,10 @@ public:
     //! without letting Lua handling the object life-cycle.
     //! \note We don't permit luabind to use constructors here as it can't currently
     //! give the object ownership at construction time.
-    static TreasureObject* CreateObject(const std::string &treasure_name,
-                                        const std::string &closed_animation_file,
-                                        const std::string &opening_animation_file,
-                                        const std::string &open_animation_file);
+    static TreasureObject* Create(const std::string &treasure_name,
+                                  const std::string &closed_animation_file,
+                                  const std::string &opening_animation_file,
+                                  const std::string &open_animation_file);
 
     std::string GetTreasureName() const {
         return _treasure_name;
@@ -886,11 +886,11 @@ public:
     //! without letting Lua handling the object life-cycle.
     //! \note We don't permit luabind to use constructors here as it can't currently
     //! give the object ownership at construction time.
-    static TriggerObject* CreateObject(const std::string &trigger_name,
-                                       const std::string &off_animation_file,
-                                       const std::string &on_animation_file,
-                                       const std::string& off_event_id,
-                                       const std::string& on_event_id);
+    static TriggerObject* Create(const std::string &trigger_name,
+                                 const std::string &off_animation_file,
+                                 const std::string &on_animation_file,
+                                 const std::string& off_event_id,
+                                 const std::string& on_event_id);
 
     //! \brief Changes the current animation if the character collides with the trigger.
     void Update();

@@ -110,7 +110,7 @@ function _CreateObjects()
         end
     end
 
-    spike_wall = vt_map.PhysicalObject.CreateObject(vt_map.MapMode.GROUND_OBJECT);
+    spike_wall = vt_map.PhysicalObject.Create(vt_map.MapMode.GROUND_OBJECT);
     spike_wall:SetPosition(19.0, 48.0);
     spike_wall:SetCollHalfWidth(15.0);
     spike_wall:SetCollHeight(3.7);
@@ -120,7 +120,7 @@ function _CreateObjects()
     spike_wall:SetVisible(false);
     spike_wall:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
 
-    wall_rumble_sound = vt_map.SoundObject.CreateObject("snd/rumble_continuous.ogg", 19.0, 48.0, 20.0);
+    wall_rumble_sound = vt_map.SoundObject.Create("snd/rumble_continuous.ogg", 19.0, 48.0, 20.0);
     wall_rumble_sound:Stop();
 
     -- Adds breaking spikes
@@ -224,7 +224,7 @@ function _CreateObjects()
 end
 
 function _add_flame(x, y)
-    vt_map.SoundObject.CreateObject("snd/campfire.ogg", x, y, 10.0);
+    vt_map.SoundObject.Create("snd/campfire.ogg", x, y, 10.0);
 
     local object = CreateObject(Map, "Flame1", x, y, vt_map.MapMode.GROUND_OBJECT);
 

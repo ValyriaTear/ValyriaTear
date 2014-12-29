@@ -195,6 +195,7 @@ void EnemyZone::AddEnemy(EnemySprite* enemy, uint8 enemy_number)
     // Create any additional copies of the enemy and add them as well
     for(uint8 i = 1; i < enemy_number; ++i) {
         EnemySprite* copy = new EnemySprite(*enemy);
+        copy->Reset();
         _enemies.push_back(copy);
     }
 }

@@ -229,7 +229,7 @@ void BindModeCode()
             .def("IsAlive", &ParticleObject::IsAlive)
             .scope
             [   // Used for static members and nested classes.
-                luabind::def("CreateObject", &ParticleObject::CreateObject)
+                luabind::def("Create", &ParticleObject::Create)
             ]
         ];
 
@@ -238,7 +238,7 @@ void BindModeCode()
             luabind::class_<Light, MapObject>("Light")
             .scope
             [   // Used for static members and nested classes.
-                luabind::def("CreateObject", &Light::CreateObject)
+                luabind::def("Create", &Light::Create)
             ]
         ];
 
@@ -251,7 +251,7 @@ void BindModeCode()
             .def("SetMaxVolume", &SoundObject::SetMaxVolume)
             .scope
             [   // Used for static members and nested classes.
-                luabind::def("CreateObject", &SoundObject::CreateObject)
+                luabind::def("Create", &SoundObject::Create)
             ]
         ];
 
@@ -268,7 +268,7 @@ void BindModeCode()
             .def("ClearEventWhenTalking", &PhysicalObject::ClearEventWhenTalking)
             .scope
             [   // Used for static members and nested classes.
-                luabind::def("CreateObject", &PhysicalObject::CreateObject)
+                luabind::def("Create", &PhysicalObject::Create)
             ]
         ];
 
@@ -281,7 +281,7 @@ void BindModeCode()
             .def("GetTreasureName", &TreasureObject::GetTreasureName)
             .scope
             [   // Used for static members and nested classes.
-                luabind::def("CreateObject", &TreasureObject::CreateObject)
+                luabind::def("Create", &TreasureObject::Create)
             ]
         ];
 
@@ -296,7 +296,7 @@ void BindModeCode()
             .def("SetOffEvent", &TriggerObject::SetOffEvent)
             .scope
             [   // Used for static members and nested classes.
-                luabind::def("CreateObject", &TriggerObject::CreateObject)
+                luabind::def("Create", &TriggerObject::Create)
             ]
         ];
 
@@ -339,7 +339,7 @@ void BindModeCode()
             .def("SetSpriteAsScenery", &MapSprite::SetSpriteAsScenery)
             .scope
             [   // Used for static members and nested classes.
-                luabind::def("CreateObject", &MapSprite::CreateObject)
+                luabind::def("Create", &MapSprite::Create)
             ]
         ];
 
@@ -372,7 +372,7 @@ void BindModeCode()
             .def("SetEncounterEvent", &EnemySprite::SetEncounterEvent)
             .scope
             [   // Used for static members and nested classes.
-                luabind::def("CreateObject", &EnemySprite::CreateObject)
+                luabind::def("Create", &EnemySprite::Create)
             ]
         ];
 

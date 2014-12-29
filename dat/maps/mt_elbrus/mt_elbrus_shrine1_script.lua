@@ -220,7 +220,7 @@ function _CreateObjects()
     Map:AddSavePoint(51, 29);
 
     -- Load the spring heal effect.
-    heal_effect = vt_map.ParticleObject.CreateObject("dat/effects/particles/heal_particle.lua", 0, 0, vt_map.MapMode.GROUND_OBJECT);
+    heal_effect = vt_map.ParticleObject.Create("dat/effects/particles/heal_particle.lua", 0, 0, vt_map.MapMode.GROUND_OBJECT);
     heal_effect:Stop(); -- Don't run it until the character heals itself
 
     object = CreateObject(Map, "Layna Statue", 41, 28, vt_map.MapMode.GROUND_OBJECT);
@@ -234,7 +234,7 @@ function _CreateObjects()
     EventManager:RegisterEvent(event);
 
     -- Snow effect at shrine entrance
-    vt_map.ParticleObject.CreateObject("dat/maps/mt_elbrus/particles_snow_south_entrance.lua", 29, 48, vt_map.MapMode.GROUND_OBJECT);
+    vt_map.ParticleObject.Create("dat/maps/mt_elbrus/particles_snow_south_entrance.lua", 29, 48, vt_map.MapMode.GROUND_OBJECT);
     Map:AddHalo("img/misc/lights/torch_light_mask.lua", 29, 55,
         vt_video.Color(1.0, 1.0, 1.0, 0.8));
 
@@ -257,7 +257,7 @@ function _CreateObjects()
     if (GlobalManager:GetEventValue("story", "mountain_shrine_entrance_light_done") == 1) then
         Map:AddHalo("img/misc/lights/torch_light_mask.lua", 42, 8, vt_video.Color(1.0, 1.0, 1.0, 0.6));
         -- Adds a door horizon...
-        object = vt_map.PhysicalObject.CreateObject(vt_map.MapMode.FLATGROUND_OBJECT);
+        object = vt_map.PhysicalObject.Create(vt_map.MapMode.FLATGROUND_OBJECT);
         object:SetPosition(42, 0.8);
         object:SetCollHalfWidth(0.5);
         object:SetCollHeight(1.0);
@@ -754,8 +754,8 @@ function _set_shrine_door_open()
 end
 
 function _show_flames()
-    vt_map.SoundObject.CreateObject("snd/campfire.ogg", 33.0, 9.1, 10.0);
-    vt_map.SoundObject.CreateObject("snd/campfire.ogg", 51.0, 9.1, 10.0);
+    vt_map.SoundObject.Create("snd/campfire.ogg", 33.0, 9.1, 10.0);
+    vt_map.SoundObject.Create("snd/campfire.ogg", 51.0, 9.1, 10.0);
 
     Map:AddHalo("img/misc/lights/torch_light_mask2.lua", 33.0, 9.1 + 3.0,
         vt_video.Color(0.85, 0.32, 0.0, 0.6));

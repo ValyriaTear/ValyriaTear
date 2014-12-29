@@ -103,7 +103,7 @@ function CreateTreasure(Map, save_name, name, x, y)
     end
 
     -- Note: Auto-registered to the object supervisoron the GROUND_LAYER.
-    local treasure = vt_map.TreasureObject.CreateObject(save_name,
+    local treasure = vt_map.TreasureObject.Create(save_name,
                treasures[name].closed_animation_filename,
                treasures[name].opening_animation_filename,
                treasures[name].opened_animation_filename);
