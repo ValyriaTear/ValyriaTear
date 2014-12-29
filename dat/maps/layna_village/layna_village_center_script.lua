@@ -126,10 +126,9 @@ function _CreateNPCs()
     event:AddEventLinkAtEnd("Kalya random move", 2000); -- Loop on itself
     EventManager:RegisterEvent(event);
     EventManager:StartEvent("Kalya random move");
-    dialogue = vt_map.SpriteDialogue("ep1_layna_village_kalya_wants_to_be_alone");
+    dialogue = vt_map.SpriteDialogue.Create("ep1_layna_village_kalya_wants_to_be_alone");
     text = vt_system.Translate("Do you need something, Bronann?");
     dialogue:AddLineEmote(text, kalya, "interrogation");
-    DialogueManager:AddDialogue(dialogue);
     kalya:AddDialogueReference(dialogue);
 
     orlinn = CreateSprite(Map, "Orlinn", 40, 18, vt_map.MapMode.GROUND_OBJECT);
@@ -150,32 +149,29 @@ function _CreateNPCs()
 
     npc = CreateNPCSprite(Map, "Old Woman1", vt_system.Translate("Brymir"), 72, 64, vt_map.MapMode.GROUND_OBJECT);
     npc:SetDirection(vt_map.MapMode.WEST);
-    dialogue = vt_map.SpriteDialogue("ep1_layna_village_brymir_gossip");
+    dialogue = vt_map.SpriteDialogue.Create("ep1_layna_village_brymir_gossip");
     text = vt_system.Translate("Ahh sure! (gossip, gossip)");
     dialogue:AddLine(text, npc);
-    DialogueManager:AddDialogue(dialogue);
     npc:AddDialogueReference(dialogue);
 
     npc = CreateNPCSprite(Map, "Woman1", vt_system.Translate("Martha"), 70, 64, vt_map.MapMode.GROUND_OBJECT);
     npc:SetDirection(vt_map.MapMode.EAST);
-    dialogue = vt_map.SpriteDialogue("ep1_layna_village_martha_gossip");
+    dialogue = vt_map.SpriteDialogue.Create("ep1_layna_village_martha_gossip");
     text = vt_system.Translate("Did you hear that? (gossip, gossip)");
     dialogue:AddLine(text, npc);
-    DialogueManager:AddDialogue(dialogue);
     npc:AddDialogueReference(dialogue);
 
     npc = CreateNPCSprite(Map, "Woman2", vt_system.Translate("Sophia"), 22, 38, vt_map.MapMode.GROUND_OBJECT);
     npc:SetDirection(vt_map.MapMode.SOUTH);
     if (GlobalManager:DoesEventExist("layna_south_entrance", "quest1_orlinn_hide_n_seek1_done") == true and
             GlobalManager:DoesEventExist("layna_riverbank", "quest1_orlinn_hide_n_seek2_done") == false) then
-        dialogue = vt_map.SpriteDialogue("ep1_layna_village_sophia_hint_about_orlinn");
+        dialogue = vt_map.SpriteDialogue.Create("ep1_layna_village_sophia_hint_about_orlinn");
         text = vt_system.Translate("If you're running after Orlinn, I just saw him disappear near your house.");
     else
-        dialogue = vt_map.SpriteDialogue("ep1_layna_village_sophia_no_trade");
+        dialogue = vt_map.SpriteDialogue.Create("ep1_layna_village_sophia_no_trade");
         text = vt_system.Translate("You're too young to trade stuff with me!");
     end
     dialogue:AddLine(text, npc);
-    DialogueManager:AddDialogue(dialogue);
     npc:AddDialogueReference(dialogue);
     -- Add her cat, Nekko
     object = CreateObject(Map, "Cat1", 24, 37.6, vt_map.MapMode.GROUND_OBJECT);
@@ -337,10 +333,9 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("Quest1: Bronann wants to see Flora for the barley meal", 1000);
     EventManager:RegisterEvent(event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Hmm, I'll go to Flora's shop. I hope she'll help me...");
     dialogue:AddLineEmote(text, bronann, "thinking dots");
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Quest1: Bronann wants to see Flora for the barley meal", dialogue);
     event:SetStopCameraMovement(true);
     event:AddEventLinkAtEnd("Map:PopState()");
@@ -374,10 +369,9 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("Kalya tells Bronann to follow her");
     EventManager:RegisterEvent(event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("As you wish... Follow me.");
     dialogue:AddLine(text, kalya);
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Kalya tells Bronann to follow her", dialogue);
     event:AddEventLinkAtEnd("Kalya goes at the center of village");
     event:AddEventLinkAtEnd("Bronann follows Kalya at the center of the village", 1000);
@@ -391,10 +385,9 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("Bronann looks south");
     EventManager:RegisterEvent(event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("ORLINN!! Come here NOW!!");
     dialogue:AddLine(text, kalya);
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Kalya tells Orlinn to come", dialogue);
     event:AddEventLinkAtEnd("Orlinn comes near Kalya");
     EventManager:RegisterEvent(event);
@@ -404,12 +397,11 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("Kalya tells Orlinn to give the pen");
     EventManager:RegisterEvent(event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Orlinn, give back the pen to Bronann, or I shall sma...");
     dialogue:AddLineEmote(text, kalya, "exclamation");
     text = vt_system.Translate("Yea... Yes, here it is.");
     dialogue:AddLineEmote(text, orlinn, "exclamation");
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Kalya tells Orlinn to give the pen", dialogue);
     event:AddEventLinkAtEnd("Orlinn comes near Bronann");
     EventManager:RegisterEvent(event);
@@ -425,12 +417,11 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("Orlinn apologizes");
     EventManager:RegisterEvent(event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("I found that pen under a tree near the river. I just wanted to play...");
     dialogue:AddLineEmote(text, orlinn, "sweat drop");
     text = vt_system.Translate("Don't worry about that...");
     dialogue:AddLine(text, bronann);
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Orlinn apologizes", dialogue);
     event:AddEventLinkAtEnd("Orlinn comes back event end");
     EventManager:RegisterEvent(event);
@@ -455,22 +446,20 @@ function _CreateEvents()
     event = vt_map.AnimateSpriteEvent("Bronann searches", bronann, "searching", 0);
     EventManager:RegisterEvent(event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Why doesn't anyone want to tell me what's going on!!");
     dialogue:AddLineEmote(text, bronann, "exclamation");
     text = vt_system.Translate("Still, I have to go there and figure out what they're trying to hide from me.");
     dialogue:AddLineEmote(text, bronann, "thinking dots");
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Quest2: Bronann wants to see Flora for equipment", dialogue);
     event:SetStopCameraMovement(true);
     event:AddEventLinkAtEnd("Map:PopState()");
     EventManager:RegisterEvent(event);
 
     -- Quest 2: Bronann doesn't want to see his parents for the moment
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("No, I won't go there. I just can't talk to them at the moment...");
     dialogue:AddLine(text, bronann);
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Quest2: Bronann doesn't want to see his parents", dialogue);
     event:SetStopCameraMovement(true);
     EventManager:RegisterEvent(event);
@@ -485,12 +474,11 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("Bronann searches");
     EventManager:RegisterEvent(event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Huh? What was that light?");
     dialogue:AddLineEmote(text, bronann, "interrogation");
     text = vt_system.Translate("... Bronann! Wait!");
     dialogue:AddLine(text, carson);
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Quest2: Bronann wonders what was that", dialogue);
     event:SetStopCameraMovement(true);
     event:AddEventLinkAtEnd("Quest2: Carson moves to Bronann");
@@ -518,7 +506,7 @@ function _CreateEvents()
     event = vt_map.ChangeDirectionSpriteEvent("Quest2: Kalya looks at Bronann", kalya, vt_map.MapMode.EAST);
     EventManager:RegisterEvent(event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("I suppose you just saw that light, right?");
     dialogue:AddLine(text, carson);
     text = vt_system.Translate("... Hmmm...");
@@ -527,7 +515,6 @@ function _CreateEvents()
     dialogue:AddLine(text, carson);
     text = vt_system.Translate("They're coming!");
     dialogue:AddLineEvent(text, herth, "", "Quest2: Carson looks at Herth");
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Quest2: Carson starts to talk to Bronann", dialogue);
     event:SetStopCameraMovement(true);
     event:AddEventLinkAtEnd("Quest2: Herth moves to Carson");
@@ -538,7 +525,7 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("Quest2: Second part of talk");
     EventManager:RegisterEvent(event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Carson, they've passed the river. They shall be here in no time.");
     dialogue:AddLine(text, herth);
     text = vt_system.Translate("...");
@@ -549,7 +536,6 @@ function _CreateEvents()
     dialogue:AddLine(text, carson);
     text = vt_system.Translate("Father!");
     dialogue:AddLineEvent(text, kalya, "", "Quest2: Herth looks at Kalya");
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Quest2: Second part of talk", dialogue);
     event:SetStopCameraMovement(true);
     event:AddEventLinkAtEnd("Quest2: Kalya runs to her father");
@@ -559,7 +545,7 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("Quest2: Third part of talk");
     EventManager:RegisterEvent(event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Father! Orlinn has disappeared. I saw him taking the forest pathway!");
     dialogue:AddLineEvent(text, kalya, "", "Quest2: Carson looks at Herth");
     text = vt_system.Translate("Kalya! You were supposed to keep an eye on him!");
@@ -596,7 +582,6 @@ function _CreateEvents()
     dialogue:AddLine(text, kalya);
     text = vt_system.Translate("Carson is right, Kalya. Bronann shall go with you. It's... it's an order.");
     dialogue:AddLineEmote(text, herth, "thinking dots");
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Quest2: Third part of talk", dialogue);
     event:AddEventLinkAtEnd("Quest2: Kalya goes back and forth");
     EventManager:RegisterEvent(event);
@@ -619,7 +604,7 @@ function _CreateEvents()
     event = vt_map.ScriptedEvent("Quest2: Show the wooden sword item in front of carson", "Show_wooden_sword", "");
     EventManager:RegisterEvent(event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Gahh... ok.");
     dialogue:AddLineEvent(text, kalya, "", "Quest2: Carson looks at Bronann");
     text = vt_system.Translate("Bronann, take this sword. You'll probably need it to make your way through there.");
@@ -628,7 +613,6 @@ function _CreateEvents()
     dialogue:AddLineEmote(text, bronann, "exclamation");
     text = vt_system.Translate("I know, but everything has changed. I'll explain it to you once it is all finished. Now go, my son.");
     dialogue:AddLine(text, carson);
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Quest2: Fourth part of talk", dialogue);
     event:AddEventLinkAtEnd("Quest2: Bronann goes and take the sword");
     EventManager:RegisterEvent(event);
@@ -644,12 +628,11 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("Quest2: Fifth part of talk");
     EventManager:RegisterEvent(event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Thanks dad, we'll find him in no time.");
     dialogue:AddLine(text, bronann);
     text = vt_system.Translate("We shall go now... Good luck, both of you.");
     dialogue:AddLineEvent(text, herth, "", "Quest2: Herth looks at Kalya");
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Quest2: Fifth part of talk", dialogue);
     event:AddEventLinkAtEnd("Quest2: Herth leaves to south");
     event:AddEventLinkAtEnd("Quest2: Carson starts to leave to south");
@@ -669,10 +652,9 @@ function _CreateEvents()
     event = vt_map.ChangeDirectionSpriteEvent("Quest2: Carson looks at Bronann from south", carson, vt_map.MapMode.NORTH);
     EventManager:RegisterEvent(event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Good luck, son.");
     dialogue:AddLine(text, carson);
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Quest2: Carson talks to Bronann once last time", dialogue);
     event:AddEventLinkAtEnd("Quest2: Carson leaves to south");
     EventManager:RegisterEvent(event);
@@ -684,14 +666,13 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("Quest2: End part of talk", 1000);
     EventManager:RegisterEvent(event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Ok, we'll go together. But slow me down and I'll make you regret it...");
     dialogue:AddLine(text, kalya);
     text = vt_system.Translate("Don't worry, we'll find him. Ok?");
     dialogue:AddLine(text, bronann);
     text = vt_system.Translate("Ok ...");
     dialogue:AddLine(text, kalya);
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Quest2: End part of talk", dialogue);
     event:AddEventLinkAtEnd("Quest2: Kalya joins Bronann's party");
     EventManager:RegisterEvent(event);
@@ -706,10 +687,9 @@ function _CreateEvents()
     event = vt_map.ScriptedEvent("Quest2: Add Kalya to the party", "Add_kalya_to_party", "");
     event:AddEventLinkAtEnd("Quest2: Kalya joins speech");
     EventManager:RegisterEvent(event);
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Kalya joins your party!");
     dialogue:AddLine(text, kalya); --used for now to show her portrait
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Quest2: Kalya joins speech", dialogue);
     event:AddEventLinkAtEnd("Map:PopState()");
     EventManager:RegisterEvent(event);
@@ -737,7 +717,7 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("Bronann looks west");
     EventManager:RegisterEvent(event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("By the way, have you ever prepared yourself for something like this before?");
     dialogue:AddLine(text, kalya);
     text = vt_system.Translate("Huh? Well, Orlinn doesn't disappear every day, you know?");
@@ -760,7 +740,6 @@ function _CreateEvents()
     dialogue:AddLine(text, kalya);
     text = vt_system.Translate("That will be the case only in certain areas. Here in the village, you'll be the one leading, or at least you may believe that ...");
     dialogue:AddLine(text, kalya);
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Quest2: Kalya's speech about equipment and dungeons.", dialogue);
     event:AddEventLinkAtEnd("Quest2: Kalya re-joins Bronann after speech");
     EventManager:RegisterEvent(event);
@@ -775,26 +754,24 @@ function _CreateEvents()
 
     -- Olivia first dialogue
     -- Access not granted dialogue
-    not_granted_dialogue = vt_map.SpriteDialogue("ep1_layna_village_olivia_no_access_to_forest2");
+    not_granted_dialogue = vt_map.SpriteDialogue.Create("ep1_layna_village_olivia_no_access_to_forest2");
     text = vt_system.Translate("Bronann! Sorry, you can't access the forest without permission. You don't even have a sword...");
     not_granted_dialogue:AddLineEmote(text, olivia, "exclamation");
     text = vt_system.Translate("Aww...");
     not_granted_dialogue:AddLineEventEmote(text, bronann, "Bronann looks at Olivia", "", "sweat drop");
     text = vt_system.Translate("(Hmm, maybe I should get a sword then.)");
     not_granted_dialogue:AddLineEventEmote(text, bronann, "Bronann looks south", "", "thinking dots");
-    DialogueManager:AddDialogue(not_granted_dialogue);
     -- Special event triggered when Bronann hasn't go the right to enter the forest yet.
     -- Shouldn't trigger once access is granted.
     event = vt_map.DialogueEvent("Bronann can't enter the forest so easily", not_granted_dialogue);
     event:SetStopCameraMovement(true);
     EventManager:RegisterEvent(event);
 
-    not_granted2_dialogue = vt_map.SpriteDialogue("ep1_layna_village_olivia_no_access_to_forest1");
+    not_granted2_dialogue = vt_map.SpriteDialogue.Create("ep1_layna_village_olivia_no_access_to_forest1");
     text = vt_system.Translate("Bronann! Sorry, you know you can't access the forest without permission.");
     not_granted2_dialogue:AddLineEmote(text, olivia, "exclamation");
     text = vt_system.Translate("Aww...");
     not_granted2_dialogue:AddLineEventEmote(text, bronann, "Bronann looks at Olivia", "", "sweat drop");
-    DialogueManager:AddDialogue(not_granted2_dialogue);
     event = vt_map.DialogueEvent("Bronann can't enter the forest so easily2", not_granted2_dialogue);
     event:SetStopCameraMovement(true);
     EventManager:RegisterEvent(event);
@@ -925,10 +902,9 @@ function _UpdateOliviaDialogue()
             olivia:AddDialogueReference(not_granted2_dialogue);
         end
     else
-        local dialogue = vt_map.SpriteDialogue("ep1_layna_village_olivia_access_to_forest");
+        local dialogue = vt_map.SpriteDialogue.Create("ep1_layna_village_olivia_access_to_forest");
         local text = vt_system.Translate("Good luck Bronann.");
         dialogue:AddLine(text, olivia);
-        DialogueManager:AddDialogue(dialogue);
         olivia:AddDialogueReference(dialogue);
     end
 end
@@ -944,20 +920,19 @@ function _UpdateGeorgesDialogue()
     -- default behaviour once the barley meal is given
     elseif (GlobalManager:DoesEventExist("layna_center", "quest1_pen_given_done") == true
         and GlobalManager:DoesEventExist("story", "quest1_barley_meal_done") == false) then
-        dialogue = vt_map.SpriteDialogue("ep1_layna_village_georges_barley_meal_for_lilly");
+        dialogue = vt_map.SpriteDialogue.Create("ep1_layna_village_georges_barley_meal_for_lilly");
         text = vt_system.Translate("Actually, I bought the barley meal for Lilly.");
         dialogue:AddLine(text, georges);
         text = vt_system.Translate("!! What?");
         dialogue:AddLineEmote(text, bronann, "exclamation");
         text = vt_system.Translate("There's no need to thank me for that. It's my pleasure.");
         dialogue:AddLine(text, georges);
-        DialogueManager:AddDialogue(dialogue);
         georges:AddDialogueReference(dialogue);
         return;
         -- Quest 1 done as for Georges
     elseif (GlobalManager:DoesEventExist("layna_riverbank", "quest1_orlinn_hide_n_seek3_done") == true) then
         -- Give the pen to Georges
-        dialogue = vt_map.SpriteDialogue();
+        dialogue = vt_map.SpriteDialogue.Create();
         text = vt_system.Translate("Here it is, Georges.");
         dialogue:AddLine(text, bronann);
         text = vt_system.Translate("You're the nicest person I know, Bronann. I will tell everyone how brave you...");
@@ -972,12 +947,11 @@ function _UpdateGeorgesDialogue()
         dialogue:AddLineEmote(text, bronann, "exclamation");
         text = vt_system.Translate("There's no need to thank me for that, it's my pleasure.");
         dialogue:AddLineEvent(text, georges, "", "Quest1: Georges tells whom the barley meal was for");
-        DialogueManager:AddDialogue(dialogue);
         georges:AddDialogueReference(dialogue);
         return;
     elseif (GlobalManager:DoesEventExist("layna_center", "quest1_georges_dialogue_done") == true) then
         -- Once talked to him after the shop conversation, just put the end of the dialogue
-        dialogue = vt_map.SpriteDialogue("ep1_layna_village_georges_pen_lost");
+        dialogue = vt_map.SpriteDialogue.Create("ep1_layna_village_georges_pen_lost");
         text = vt_system.Translate("You see, I lost my beloved pen. Was it near a tree or next to the waving child of the mountain snow?");
         dialogue:AddLine(text, georges);
         text = vt_system.Translate("Shall you find it, I would be extremely obliged to you!");
@@ -986,11 +960,10 @@ function _UpdateGeorgesDialogue()
         dialogue:AddLine(text, georges);
         text = vt_system.Translate("(Sigh...) Hmm, fine.");
         dialogue:AddLine(text, bronann);
-        DialogueManager:AddDialogue(dialogue);
         georges:AddDialogueReference(dialogue);
         return;
     elseif (GlobalManager:DoesEventExist("layna_center_shop", "quest1_flora_dialogue_done") == true) then
-        dialogue = vt_map.SpriteDialogue();
+        dialogue = vt_map.SpriteDialogue.Create();
         text = vt_system.Translate("Hi Georges. Erm, I'm coming from the shop and I ...");
         dialogue:AddLine(text, bronann);
         text = vt_system.Translate("Can you hear this?");
@@ -1017,15 +990,13 @@ function _UpdateGeorgesDialogue()
         dialogue:AddLine(text, georges);
         text = vt_system.Translate("(Sigh)... Hmm, fine.");
         dialogue:AddLineEvent(text, bronann, "", "Quest1: GeorgesDialogueDone");
-        DialogueManager:AddDialogue(dialogue);
         georges:AddDialogueReference(dialogue);
         return;
     end
 
-    dialogue = vt_map.SpriteDialogue("ep1_layna_village_georges_default");
+    dialogue = vt_map.SpriteDialogue.Create("ep1_layna_village_georges_default");
     text = vt_system.Translate("Ah, the river is so beautiful at this time of the year. I feel like writing some poetry...");
     dialogue:AddLine(text, georges);
-    DialogueManager:AddDialogue(dialogue);
     georges:AddDialogueReference(dialogue);
 end
 
@@ -1049,20 +1020,18 @@ function _UpdateOrlinnAndKalyaState()
     end
     if (GlobalManager:DoesEventExist("layna_riverbank", "quest1_orlinn_hide_n_seek3_done") == true) then
         -- Bronann got Georges' pen, update orlinn dialogue
-        dialogue = vt_map.SpriteDialogue("ep1_layna_village_orlinn_wont_bother_again");
+        dialogue = vt_map.SpriteDialogue.Create("ep1_layna_village_orlinn_wont_bother_again");
         text = vt_system.Translate("I promise I won't bother you again ...");
         dialogue:AddLine(text, orlinn);
         text = vt_system.Translate("Don't worry about that, Orlinn. Ok?");
         dialogue:AddLine(text, bronann);
-        DialogueManager:AddDialogue(dialogue);
         orlinn:AddDialogueReference(dialogue);
 
         -- Update kalya's dialogue too
         kalya:ClearDialogueReferences();
-        dialogue = vt_map.SpriteDialogue();
+        dialogue = vt_map.SpriteDialogue.Create();
         text = vt_system.Translate("...");
         dialogue:AddLine(text, kalya);
-        DialogueManager:AddDialogue(dialogue);
         kalya:AddDialogueReference(dialogue);
 
     elseif (GlobalManager:DoesEventExist("layna_center", "quest1_orlinn_dialogue1_done") == true) then
@@ -1072,7 +1041,7 @@ function _UpdateOrlinnAndKalyaState()
 
         -- Kalya propose to seek him for you
         kalya:ClearDialogueReferences();
-        dialogue = vt_map.SpriteDialogue();
+        dialogue = vt_map.SpriteDialogue.Create();
         text = vt_system.Translate("Kalya, have you seen Orlinn?");
         dialogue:AddLine(text, bronann);
         text = vt_system.Translate("Why? ... Oh, don't tell it. He's hiding somewhere.");
@@ -1087,12 +1056,11 @@ function _UpdateOrlinnAndKalyaState()
         dialogue:AddOption(text, 4);
         text = vt_system.Translate("As you wish...");
         dialogue:AddLine(text, kalya);
-        DialogueManager:AddDialogue(dialogue);
         kalya:AddDialogueReference(dialogue);
 
         return;
     elseif (GlobalManager:DoesEventExist("layna_center", "quest1_georges_dialogue_done") == true) then
-        dialogue = vt_map.SpriteDialogue();
+        dialogue = vt_map.SpriteDialogue.Create();
         text = vt_system.Translate("Hee hee hee!");
         dialogue:AddLineEvent(text, orlinn, "Orlinn laughs", "");
         text = vt_system.Translate("What are you laughing about, Orlinn?");
@@ -1114,13 +1082,11 @@ function _UpdateOrlinnAndKalyaState()
         text = vt_system.Translate("Hee hee! (He'll never find me hiding behind the buildings!)");
         dialogue:AddLineEvent(text, orlinn, "Orlinn laughs", "Quest1: Make Orlinn run and hide");
 
-        DialogueManager:AddDialogue(dialogue);
         orlinn:AddDialogueReference(dialogue);
     else
-        dialogue = vt_map.SpriteDialogue("ep1_layna_village_orlinn_wanna_play");
+        dialogue = vt_map.SpriteDialogue.Create("ep1_layna_village_orlinn_wanna_play");
         text = vt_system.Translate("Heya bro! Wanna play with me?");
         dialogue:AddLine(text, orlinn);
-        DialogueManager:AddDialogue(dialogue);
         orlinn:AddDialogueReference(dialogue);
     end
 

@@ -104,25 +104,23 @@ function _ReloadGrandmaDialogue()
         if (GlobalManager:GetEventValue("game", "layna_village_chicken_dialogue_done") == 1) then
             -- Tell Bronann to keep on searching
             if (chicken_left < 3) then
-                dialogue = vt_map.SpriteDialogue("ep1_layna_village_granma_chicken_not_found1");
+                dialogue = vt_map.SpriteDialogue.Create("ep1_layna_village_granma_chicken_not_found1");
                 if (chicken_left == 1) then
                     text = vt_system.Translate("My three chickens have flown away again this morning... Could you find the last one for me?");
                 else
                     text = vt_system.Translate("My three chickens have flown away again this morning... Could you find the remaining ones for me?");
                 end
                 dialogue:AddLine(text, grandma);
-                DialogueManager:AddDialogue(dialogue);
                 grandma:AddDialogueReference(dialogue);
             else
-                dialogue = vt_map.SpriteDialogue("ep1_layna_village_granma_chicken_not_found2");
+                dialogue = vt_map.SpriteDialogue.Create("ep1_layna_village_granma_chicken_not_found2");
                 text = vt_system.Translate("My three chicken have flown away again this morning... Could you find them for me?");
                 dialogue:AddLine(text, grandma);
-                DialogueManager:AddDialogue(dialogue);
                 grandma:AddDialogueReference(dialogue);
             end
         else
             -- Tell Bronann she can't find her chicken
-            dialogue = vt_map.SpriteDialogue("ep1_layna_village_granma_chicken_not_found");
+            dialogue = vt_map.SpriteDialogue.Create("ep1_layna_village_granma_chicken_not_found");
             text = vt_system.Translate("Ah! Bronann. Could you help your old Grandma?");
             dialogue:AddLine(text, grandma);
             text = vt_system.Translate("Sure grandma.");
@@ -133,7 +131,6 @@ function _ReloadGrandmaDialogue()
             dialogue:AddLine(text, bronann);
             text = vt_system.Translate("Thank you, young one.");
             dialogue:AddLineEvent(text, grandma, "Chicken dialogue done", "");
-            DialogueManager:AddDialogue(dialogue);
             grandma:AddDialogueReference(dialogue);
 
             event = vt_map.ScriptedEvent("Chicken dialogue done", "set_chicken_dialogue_done", "");
@@ -141,7 +138,7 @@ function _ReloadGrandmaDialogue()
         end
     elseif (GlobalManager:GetEventValue("game", "layna_village_chicken_reward_given") == 0) then
         -- Gives Bronann his reward
-        dialogue = vt_map.SpriteDialogue();
+        dialogue = vt_map.SpriteDialogue.Create();
         text = vt_system.Translate("Oh, they're all back, my Brave Hero...");
         dialogue:AddLine(text, grandma);
         text = vt_system.Translate("Nevermind that...");
@@ -152,7 +149,6 @@ function _ReloadGrandmaDialogue()
         dialogue:AddLine(text, bronann);
         text = vt_system.Translate("You're very welcome, my dear one.");
         dialogue:AddLineEvent(text, grandma, "Chicken reward given", "");
-        DialogueManager:AddDialogue(dialogue);
         grandma:AddDialogueReference(dialogue);
 
         event = vt_map.TreasureEvent("Give Bronann the chicken reward");
@@ -164,14 +160,13 @@ function _ReloadGrandmaDialogue()
         EventManager:RegisterEvent(event);
     else
         -- Default dialogue
-        dialogue = vt_map.SpriteDialogue("ep1_layna_village_granma_default");
+        dialogue = vt_map.SpriteDialogue.Create("ep1_layna_village_granma_default");
         text = vt_system.Translate("Ah! It's nice to see your dear young face around, Bronann. Come and chat with an old Grandma.");
         dialogue:AddLine(text, grandma);
         text = vt_system.Translate("Er... Sorry Grandma, I have to go! Maybe later?");
         dialogue:AddLineEmote(text, bronann, "exclamation");
         text = vt_system.Translate("Ah! You'll surely want to see the young lady living up there. Ah, youngins nowadays...");
         dialogue:AddLine(text, grandma);
-        DialogueManager:AddDialogue(dialogue);
         grandma:AddDialogueReference(dialogue);
     end
 end

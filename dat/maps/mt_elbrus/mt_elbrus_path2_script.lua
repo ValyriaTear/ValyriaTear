@@ -145,10 +145,9 @@ function _CreateObjects()
     object = CreateObject(Map, "Layna Statue", 37, 27, vt_map.MapMode.GROUND_OBJECT);
     object:SetEventWhenTalking("Heal dialogue");
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Your party feels better...");
     dialogue:AddLineEvent(text, nil, "Heal event", ""); -- 'nil' means no portrait and no name
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Heal dialogue", dialogue);
     EventManager:RegisterEvent(event);
 
@@ -369,7 +368,7 @@ function _CreateEvents()
     orlinn_move_next_to_hero_event:AddEventLinkAtEnd("Orlinn looks north");
     EventManager:RegisterEvent(orlinn_move_next_to_hero_event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Dang! And now the rain...");
     dialogue:AddLineEmote(text, kalya, "exclamation");
     text = vt_system.Translate("The path seems to lead straight into the storm up there. It's definitely our lucky day...");
@@ -378,7 +377,6 @@ function _CreateEvents()
     dialogue:AddLineEvent(text, orlinn, "Kalya looks at Orlinn", "Kalya looks south");
     text = vt_system.Translate("If we can reach the great plains, we should indeed be out of troubles...");
     dialogue:AddLineEventEmote(text, kalya, "Kalya looks west", "", "thinking dots");
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Kalya talks about the rain", dialogue);
     event:AddEventLinkAtEnd("Orlinn goes back to party");
     event:AddEventLinkAtEnd("Kalya goes back to party");

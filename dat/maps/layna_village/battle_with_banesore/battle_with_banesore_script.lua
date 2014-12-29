@@ -56,23 +56,21 @@ function Initialize(battle_instance)
     DialogueManager:AddSpeaker("Bronann", vt_system.Translate("Bronann"), "img/portraits/bronann.png");
     DialogueManager:AddSpeaker("Banesore", vt_system.Translate("Banesore"), "img/portraits/npcs/lord_banesore.png");
     DialogueManager:AddSpeaker("Herth", vt_system.Translate("Herth"), "img/portraits/npcs/herth.png");
-    DialogueManager:AddSpeaker("Lilly", vt_system.Translate("Lilly"), ""); -- 1003
+    DialogueManager:AddSpeaker("Lilly", vt_system.Translate("Lilly"), "");
 
-    dialogue = vt_common.Dialogue("Battle intro dialogue");
+    dialogue = vt_common.Dialogue.Create(DialogueManager, "Battle intro dialogue");
     text = vt_system.Translate("So... You think you can hurt me?");
     dialogue:AddLine(text, "Banesore");
     text = vt_system.Translate("You? A child with an old wooden stick?");
     dialogue:AddLine(text, "Banesore");
     text = vt_system.Translate("...");
     dialogue:AddLine(text, "Bronann");
-    DialogueManager:AddDialogue(dialogue);
 
-    dialogue = vt_common.Dialogue("'Stronger than I thought' dialogue");
+    dialogue = vt_common.Dialogue.Create(DialogueManager, "'Stronger than I thought' dialogue");
     text = vt_system.Translate("You're stronger than I thought... but still ... You are too weak to challenge me!");
     dialogue:AddLine(text, "Banesore");
-    DialogueManager:AddDialogue(dialogue);
 
-    dialogue = vt_common.Dialogue("Herth appears");
+    dialogue = vt_common.Dialogue.Create(DialogueManager, "Herth appears");
     text = vt_system.Translate("Argh! It hurts!");
     dialogue:AddLine(text, "Bronann");
     text = vt_system.Translate("Yes! I can feel it coming closer to the surface!");
@@ -81,9 +79,8 @@ function Initialize(battle_instance)
     dialogue:AddLine(text, "Banesore");
     text = vt_system.Translate("Bronann, don't listen to him!");
     dialogue:AddLine(text, "Herth");
-    DialogueManager:AddDialogue(dialogue);
 
-    dialogue = vt_common.Dialogue("Battle ending dialogue");
+    dialogue = vt_common.Dialogue.Create(DialogueManager, "Battle ending dialogue");
     text = vt_system.Translate("I will... try.");
     dialogue:AddLine(text, "Bronann");
     text = vt_system.Translate("Hmph. Soldiers, leave that man to me!");
@@ -96,13 +93,11 @@ function Initialize(battle_instance)
     dialogue:AddLine(text, "Herth");
     text = vt_system.Translate("Argh! My chest is burning!!");
     dialogue:AddLine(text, "Bronann");
-    DialogueManager:AddDialogue(dialogue);
 
     -- Lilly helps Bronann
-    dialogue = vt_common.Dialogue("Lilly helps Bronann dialogue");
+    dialogue = vt_common.Dialogue.Create(DialogueManager, "Lilly helps Bronann dialogue");
     text = vt_system.Translate("Hold on Bronann!");
     dialogue:AddLine(text, "Lilly");
-    DialogueManager:AddDialogue(dialogue);
 
     -- Construct a timer so we can start the dialogue a couple seconds after the battle begins
     start_timer = vt_system.SystemTimer(100, 0);

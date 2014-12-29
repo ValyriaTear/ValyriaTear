@@ -356,10 +356,9 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("Trap map dialogue");
     EventManager:RegisterEvent(event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Again, I can feel something move not far from here...");
     dialogue:AddLine(text, hero);
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Trap map dialogue", dialogue);
     event:AddEventLinkAtEnd("Trap map open event end");
     EventManager:RegisterEvent(event);

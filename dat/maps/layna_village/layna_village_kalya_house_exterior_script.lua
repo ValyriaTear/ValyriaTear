@@ -98,11 +98,10 @@ function _CreateNPCs()
         EventManager:RegisterEvent(event);
         EventManager:StartEvent("Chicken3 random move");
 
-        dialogue = vt_map.SpriteDialogue();
+        dialogue = vt_map.SpriteDialogue.Create();
         text = vt_system.Translate("One of Grandma's chicken... I should bring it back.");
         dialogue:AddLine(text, bronann);
         dialogue:SetEventAtDialogueEnd("Make bronann take the chicken 3");
-        DialogueManager:AddDialogue(dialogue);
         chicken3:AddDialogueReference(dialogue);
 
         event = vt_map.ScriptedEvent("Make bronann take the chicken 3", "bronann_takes_chicken3", "fadeoutin_update");
@@ -168,10 +167,9 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
 
     -- Kalya house locked door event
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Hmm, the door is locked.");
     dialogue:AddLine(text, bronann);
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Bronann can't enter kalya house", dialogue);
     event:SetStopCameraMovement(true);
     EventManager:RegisterEvent(event);

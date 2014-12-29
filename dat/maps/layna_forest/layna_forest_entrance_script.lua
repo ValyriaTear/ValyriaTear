@@ -143,10 +143,9 @@ function _CreateObjects()
     npc:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
     npc:SetVisible(false);
     npc:SetName(""); -- Unset the speaker name
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Your party feels better...");
     dialogue:AddLineEvent(text, npc, "Forest entrance heal", "");
-    DialogueManager:AddDialogue(dialogue);
     npc:AddDialogueReference(dialogue);
 
     -- Only add the squirrels and butterflies when the night isn't about to happen
@@ -383,10 +382,9 @@ function _CreateEvents()
     move_next_to_hero_event:AddEventLinkAtEnd("kalya:SetCollision(ALL)");
     EventManager:RegisterEvent(move_next_to_hero_event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Look!");
     dialogue:AddLineEventEmote(text, kalya_sprite, "Kalya looks at the statue", "", "exclamation");
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Kalya talks about the statue", dialogue);
     event:AddEventLinkAtEnd("Kalya moves near the statue");
     event:AddEventLinkAtEnd("Bronann gets nearer as well", 1000);
@@ -399,7 +397,7 @@ function _CreateEvents()
     event = vt_map.PathMoveSpriteEvent("Bronann gets nearer as well", hero, 14, 25, false);
     EventManager:RegisterEvent(event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Have you seen one of these before? This is a Layna statue! Praying near it heals both your mind and body.");
     dialogue:AddLineEvent(text, kalya_sprite, "Kalya looks at Bronann", "");
     text = vt_system.VTranslate("Just stand in front of the Goddess below the spring and push '%s'.", InputManager:GetConfirmKeyName());
@@ -408,7 +406,6 @@ function _CreateEvents()
     dialogue:AddLine(text, hero);
     text = vt_system.Translate("See? Now, let's find my brother before he gets hurt.");
     dialogue:AddLine(text, kalya_sprite);
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Kalya talks about the statue 2", dialogue);
     event:AddEventLinkAtEnd("second_hero:SetCollision(NONE)");
     event:AddEventLinkAtEnd("Set Camera");

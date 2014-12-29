@@ -167,10 +167,9 @@ function _CreateObjects()
     npc:SetVisible(false);
     npc:SetName(""); -- Unset the speaker name
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Your party feels better...");
     dialogue:AddLineEvent(text, npc, "Cave heal", "");
-    DialogueManager:AddDialogue(dialogue);
     npc:AddDialogueReference(dialogue);
 
     -- The triggers
@@ -442,7 +441,7 @@ function _CreateEvents()
     move_next_to_hero_event:AddEventLinkAtEnd("kalya_sprite:SetCollision(ALL)");
     EventManager:RegisterEvent(move_next_to_hero_event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("I didn't know that there was a cave here. It's kind of creepy... Let's hurry and find Orlinn.");
     dialogue:AddLineEventEmote(text, kalya_sprite, "Bronann looks at Kalya", "Kalya looks at Bronann", "exclamation");
     text = vt_system.Translate("It seems Orlinn was able to go through those platforms... somehow.");
@@ -451,7 +450,6 @@ function _CreateEvents()
     dialogue:AddLineEvent(text, kalya_sprite, "", "Bronann looks west");
     text = vt_system.Translate("Look, there is a stone slab on the ground. Let's check this out.");
     dialogue:AddLineEmote(text, hero, "thinking dots");
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Kalya wonders about Orlinn", dialogue);
     event:AddEventLinkAtEnd("kalya_sprite:SetCollision(NONE)");
     event:AddEventLinkAtEnd("kalya goes back to party");
@@ -466,12 +464,11 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
 
     -- Dialogue when pushing first trigger
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("It seems the way is clear now.");
     dialogue:AddLineEventEmote(text, hero, "", "Play falling tree sound", "exclamation");
     text = vt_system.Translate("(I also heard something falling outside. Let's hope it's nothing bad.)");
     dialogue:AddLineEventEmote(text, hero, "Hero looks south", "", "interrogation");
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("First trigger dialogue", dialogue);
     EventManager:RegisterEvent(event);
 

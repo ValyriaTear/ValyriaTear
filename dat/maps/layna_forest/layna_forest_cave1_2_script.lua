@@ -181,17 +181,15 @@ function _UpdateStoneSignDialogue()
     stone_sign:ClearDialogueReferences();
 
     if (GlobalManager:DoesEventExist("story", "kalya_stone_sign_dialogue_done")) then
-        dialogue = vt_map.SpriteDialogue();
+        dialogue = vt_map.SpriteDialogue.Create();
         text = vt_system.Translate("Only the last one standing shall pass ...");
         dialogue:AddLine(text, stone_sign);
-        DialogueManager:AddDialogue(dialogue);
         stone_sign:AddDialogueReference(dialogue);
     else
         -- Start the stone sign dialogue event
-        dialogue = vt_map.SpriteDialogue();
+        dialogue = vt_map.SpriteDialogue.Create();
         text = vt_system.Translate("...");
         dialogue:AddLineEvent(text, kalya_sprite, "Start dialogue about stone sign", "Display the stone sign image");
-        DialogueManager:AddDialogue(dialogue);
         stone_sign:AddDialogueReference(dialogue);
     end
 end
@@ -251,7 +249,7 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("Kalya reads the scripture");
     EventManager:RegisterEvent(event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("'Only the last one standing shall pass.' ...");
     dialogue:AddLineEventEmote(text, kalya_sprite, "", "Bronann looks at Kalya", "thinking dots");
     text = vt_system.Translate("You are able to decipher this writing, Kalya?");
@@ -262,7 +260,6 @@ function _CreateEvents()
     dialogue:AddLineEmote(text, hero, "thinking dots");
     text = vt_system.Translate("Let's look around. We might find out.");
     dialogue:AddLine(text, kalya_sprite);
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Kalya reads the scripture", dialogue);
     event:AddEventLinkAtEnd("kalya_sprite:SetCollision(NONE)");
     event:AddEventLinkAtEnd("kalya goes back to party");
@@ -277,10 +274,9 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
 
     -- Dialogue when all the enemies are dead.
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("... Something heavy seems to have fallen nearby.");
     dialogue:AddLineEmote(text, hero, "exclamation");
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Hero dialogue during tremor", dialogue);
     EventManager:RegisterEvent(event);
 
@@ -297,10 +293,9 @@ function _CreateEvents()
     event = vt_map.LookAtSpriteEvent("Kalya looks at the rock", kalya_sprite, 112, 92);
     EventManager:RegisterEvent(event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("... Look!");
     dialogue:AddLineEventEmote(text, kalya_sprite, "Kalya looks at the rock", "", "exclamation");
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Kalya says 'Look!'", dialogue);
     event:AddEventLinkAtEnd("Set_Camera(kalya_sprite)");
     EventManager:RegisterEvent(event);
@@ -315,7 +310,7 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("Kalya tells there is an exit behind the rock");
     EventManager:RegisterEvent(event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("I can feel a breeze and see light escaping into the cave around this rock. Orlinn must have gone through here.");
     dialogue:AddLine(text, kalya_sprite);
     text = vt_system.Translate("There are signs engraved on this rock, too. This looks like some kind of mechanism my family used long ago...");
@@ -324,7 +319,6 @@ function _CreateEvents()
     dialogue:AddLineEmote(text, hero, "interrogation");
     text = vt_system.Translate("Err... Nevermind, we must find a way to make this move. Let's look around.");
     dialogue:AddLineEmote(text, kalya_sprite, "exclamation");
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Kalya tells there is an exit behind the rock", dialogue);
     event:AddEventLinkAtEnd("Set_Camera(hero)");
     EventManager:RegisterEvent(event);

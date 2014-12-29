@@ -210,7 +210,7 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("Dialogue part 1");
     EventManager:RegisterEvent(event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Bronann, how do you feel?");
     dialogue:AddLine(text, kalya);
     text = vt_system.Translate("Better... Somehow, the pain faded away the second I entered here...");
@@ -223,7 +223,6 @@ function _CreateEvents()
     dialogue:AddLineEvent(text, kalya, "Kalya looks at Orlinn", "");
     text = vt_system.Translate("... Ok...");
     dialogue:AddLineEmote(text, orlinn, "sweat drop");
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Dialogue part 1", dialogue);
     event:AddEventLinkAtEnd("Orlinn goes upstairs");
     event:AddEventLinkAtEnd("Kalya looks at Orlinn", 500);
@@ -253,7 +252,7 @@ function _CreateEvents()
     event = vt_map.ScriptedEvent("FadeOutActiveMusic", "fade_out_music", "");
     EventManager:RegisterEvent(event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("We're leaving the village now...");
     dialogue:AddLine(text, kalya);
     text = vt_system.Translate("I feel dizzy... So many things have happened in such little time...");
@@ -312,7 +311,6 @@ function _CreateEvents()
     dialogue:AddLine(text, kalya);
     text = vt_system.Translate("Sis!!");
     dialogue:AddLine(text, orlinn);
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Dialogue part 2", dialogue);
     event:AddEventLinkAtEnd("Make Orlinn visible");
     EventManager:RegisterEvent(event);
@@ -329,7 +327,7 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("Dialogue part 3");
     EventManager:RegisterEvent(event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Sis!! They're in front of the house!");
     dialogue:AddLine(text, orlinn);
     text = vt_system.Translate("Quick, we must go now!!");
@@ -352,7 +350,6 @@ function _CreateEvents()
     dialogue:AddLineEvent(text, kalya, "Kalya looks at Bronann", "");
     text = vt_system.Translate("Anyway, let's go now...");
     dialogue:AddLine(text, kalya);
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Dialogue part 3", dialogue);
     event:AddEventLinkAtEnd("Kalya goes triggering the secret path");
     EventManager:RegisterEvent(event);
@@ -379,12 +376,11 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("Dialogue part 4");
     EventManager:RegisterEvent(event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Wow!");
     dialogue:AddLineEmote(text, bronann, "exclamation");
     text = vt_system.Translate("It's time...");
     dialogue:AddLine(text, kalya);
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Dialogue part 4", dialogue);
     event:AddEventLinkAtEnd("End of basement dialogue");
     EventManager:RegisterEvent(event);
@@ -393,31 +389,27 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
 
     -- Can't go downstairs
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("We can't go back now...");
     dialogue:AddLine(text, bronann);
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Can't go downstairs", dialogue);
     EventManager:RegisterEvent(event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("It's my room upstairs. Don't even think about it!");
     dialogue:AddLine(text, kalya);
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Can't go upstairs", dialogue);
     EventManager:RegisterEvent(event);
 
     -- Dialogues for after the scene
-    dialogue = vt_map.SpriteDialogue("ep1_layna_village_kalya_tells_its_time");
+    dialogue = vt_map.SpriteDialogue.Create("ep1_layna_village_kalya_tells_its_time");
     text = vt_system.Translate("It's time...");
     dialogue:AddLine(text, kalya);
-    DialogueManager:AddDialogue(dialogue);
     kalya:AddDialogueReference(dialogue);
 
-    dialogue = vt_map.SpriteDialogue("ep1_layna_village_orlinn_is_sad");
+    dialogue = vt_map.SpriteDialogue.Create("ep1_layna_village_orlinn_is_sad");
     text = vt_system.Translate("...");
     dialogue:AddLine(text, orlinn);
-    DialogueManager:AddDialogue(dialogue);
     orlinn:AddDialogueReference(dialogue);
 end
 

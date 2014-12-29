@@ -681,12 +681,11 @@ function _CreateEvents()
     move_next_to_hero_event:AddEventLinkAtEnd("kalya_sprite:SetCollision(ALL)");
     EventManager:RegisterEvent(move_next_to_hero_event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Woah, wait!");
     dialogue:AddLineEventEmote(text, kalya_sprite, "Bronann looks at Kalya", "Kalya looks at Bronann", "exclamation");
     text = vt_system.Translate("Look at that grass... Snakes like to hide in tall grass... We need to be careful because their venom causes drowsiness.");
     dialogue:AddLine(text, kalya_sprite);
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Kalya Tells about snakes", dialogue);
     event:AddEventLinkAtEnd("kalya_sprite:SetCollision(NONE)");
     event:AddEventLinkAtEnd("Set Camera back to Bronann");

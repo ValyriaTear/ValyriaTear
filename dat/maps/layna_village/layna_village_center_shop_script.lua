@@ -147,7 +147,7 @@ function _UpdateFloraDialogue()
         -- nothing special
     elseif (GlobalManager:DoesEventExist("story", "Quest2_started") == true) then
         -- The dialogue before the forest event
-        dialogue = vt_map.SpriteDialogue();
+        dialogue = vt_map.SpriteDialogue.Create();
         text = vt_system.Translate("Hi Bronann! What can I do for you?");
         dialogue:AddLine(text, flora);
         text = vt_system.Translate("Hi Flora! Err, could you lend me one of your training swords? I'd like to practice a bit.");
@@ -156,21 +156,19 @@ function _UpdateFloraDialogue()
         dialogue:AddLine(text, flora);
         text = vt_system.Translate("Err, nevermind...");
         dialogue:AddLineEventEmote(text, bronann, "", "Quest2: Talked to Flora", "sweat drop");
-        DialogueManager:AddDialogue(dialogue);
         flora:AddDialogueReference(dialogue);
         return;
     elseif (GlobalManager:DoesEventExist("layna_center_shop", "quest1_flora_dialogue_done") == true) then
         -- Just repeat the last dialogue sentence, when the dialogue is already done.
-        dialogue = vt_map.SpriteDialogue("ep1_layna_village_flora_about_georges");
+        dialogue = vt_map.SpriteDialogue.Create("ep1_layna_village_flora_about_georges");
         text = vt_system.Translate("Just find our *poet* and he should give you some barley meal, ok?");
         dialogue:AddLine(text, flora);
         text = vt_system.Translate("He's probably 'musing' around the cliffs in the village center right now.");
         dialogue:AddLine(text, flora);
-        DialogueManager:AddDialogue(dialogue);
         flora:AddDialogueReference(dialogue);
         return;
     elseif (GlobalManager:DoesEventExist("bronanns_home", "quest1_mother_start_dialogue_done") == true) then
-        dialogue = vt_map.SpriteDialogue();
+        dialogue = vt_map.SpriteDialogue.Create();
         text = vt_system.Translate("Hi Bronann! What can I do for you?");
         dialogue:AddLine(text, flora);
         text = vt_system.Translate("Hi Flora! Do you have some barley meal left?");
@@ -186,15 +184,13 @@ function _UpdateFloraDialogue()
         text = vt_system.Translate("He's probably 'musing' around the cliffs in the village center right now.");
         -- Set the quest dialogue as seen by the player.
         dialogue:AddLineEvent(text, flora, "", "SetQuest1DialogueDone");
-        DialogueManager:AddDialogue(dialogue);
         flora:AddDialogueReference(dialogue);
         return;
     end
     --default behaviour
-    dialogue = vt_map.SpriteDialogue("ep1_layna_village_flora_default");
+    dialogue = vt_map.SpriteDialogue.Create("ep1_layna_village_flora_default");
     text = vt_system.Translate("Hi Bronann! What can I do for you?");
     dialogue:AddLineEvent(text, flora, "", "layna: open shop");
-    DialogueManager:AddDialogue(dialogue);
     flora:AddDialogueReference(dialogue);
 end
 

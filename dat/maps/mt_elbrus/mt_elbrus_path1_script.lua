@@ -143,10 +143,9 @@ function _CreateObjects()
     npc:SetVisible(false);
     npc:SetName(""); -- Unset the speaker name
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Your party feels better...");
     dialogue:AddLineEvent(text, npc, "Heal event", "");
-    DialogueManager:AddDialogue(dialogue);
     npc:AddDialogueReference(dialogue);
     CreateObject(Map, "Layna Statue", 104, 56, vt_map.MapMode.GROUND_OBJECT);
 
@@ -621,10 +620,9 @@ function _CreateEvents()
     orlinn_move_next_to_hero_event:AddEventLinkAtEnd("Orlinn looks west");
     EventManager:RegisterEvent(orlinn_move_next_to_hero_event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Look!");
     dialogue:AddLineEmote(text, kalya, "exclamation");
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Kalya sees the soldier", dialogue);
     event:AddEventLinkAtEnd("Set the Camera on the soldier", 200);
     EventManager:RegisterEvent(event);
@@ -637,7 +635,7 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("Kalya tells the plan");
     EventManager:RegisterEvent(event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Banesore's minions are already all over the place ...");
     dialogue:AddLineEvent(text, kalya, "Kalya looks at Bronann", "Bronann looks at Kalya");
     text = vt_system.Translate("The dark soldiers, as we call them, are fanatics. They'll follow Banesore's orders even if it means death.");
@@ -650,7 +648,6 @@ function _CreateEvents()
     dialogue:AddLineEvent(text, kalya, "Kalya looks west", "");
     text = vt_system.Translate("They are too strong. If they catch us, we're doomed.");
     dialogue:AddLine(text, kalya);
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Kalya tells the plan", dialogue);
     event:AddEventLinkAtEnd("Orlinn goes back to party");
     event:AddEventLinkAtEnd("Kalya goes back to party");

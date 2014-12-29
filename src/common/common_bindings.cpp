@@ -68,7 +68,6 @@ void BindCommonCode()
         luabind::module(vt_script::ScriptManager->GetGlobalState(), "vt_common")
         [
             luabind::class_<Dialogue>("Dialogue")
-            .def(luabind::constructor<const std::string&>())
             .def("AddLine", (void(Dialogue:: *)(const std::string&, const std::string&))&Dialogue::AddLine)
             .def("AddLine", (void(Dialogue:: *)(const std::string &, const std::string&, int32))&Dialogue::AddLine)
             .def("AddLineTimed", (void(Dialogue:: *)(const std::string &, const std::string&, uint32))&Dialogue::AddLineTimed)
@@ -76,12 +75,15 @@ void BindCommonCode()
             .def("AddOption", (void(Dialogue:: *)(const std::string &))&Dialogue::AddOption)
             .def("AddOption", (void(Dialogue:: *)(const std::string &, int32))&Dialogue::AddOption)
             .def("Validate", &Dialogue::Validate)
+            .scope
+            [   // Used for static members and nested classes.
+                luabind::def("Create", &Dialogue::Create)
+            ]
         ];
 
         luabind::module(vt_script::ScriptManager->GetGlobalState(), "vt_common")
         [
             luabind::class_<DialogueSupervisor>("DialogueSupervisor")
-            .def("AddDialogue", &DialogueSupervisor::AddDialogue, luabind::adopt(_2))
             .def("AddSpeaker", &DialogueSupervisor::AddSpeaker)
             .def("ChangeSpeakerName", &DialogueSupervisor::ChangeSpeakerName)
             .def("ChangeSpeakerPortrait", &DialogueSupervisor::ChangeSpeakerPortrait)

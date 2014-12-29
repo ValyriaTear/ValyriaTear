@@ -230,12 +230,11 @@ function _CreateEvents()
     move_next_to_hero_event:AddEventLinkAtEnd("kalya:SetCollision(ALL)");
     EventManager:RegisterEvent(move_next_to_hero_event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Back home, finally...");
     dialogue:AddLine(text, kalya);
     text = vt_system.Translate("I'll go and get Herth. Your parents must be worried... Go home... We'll meet there.");
     dialogue:AddLineEvent(text, kalya, "Kalya looks at Bronann", "");
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Kalya tells Bronann she'll fetch Herth", dialogue);
     event:AddEventLinkAtEnd("Kalya runs to her home");
     event:AddEventLinkAtEnd("End of return to village dialogue");
@@ -249,18 +248,16 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
 
     -- Zone blocking events
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("I should really get back home...");
     dialogue:AddLine(text, bronann);
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Bronann should go home", dialogue);
     event:SetStopCameraMovement(true);
     EventManager:RegisterEvent(event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Weird, I can see no lights in there... I have a bad feeling about this, let's get back home...");
     dialogue:AddLine(text, bronann);
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Bronann should go home when checking other houses", dialogue);
     event:SetStopCameraMovement(true);
     EventManager:RegisterEvent(event);
@@ -275,10 +272,9 @@ function _CreateEvents()
     event = vt_map.ScriptedEvent("Play locked door sound", "play_lock_door_sound", "");
     EventManager:RegisterEvent(event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Huh?");
     dialogue:AddLineEmote(text, bronann, "interrogation");
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Bronann can't enter his home 1", dialogue);
     event:SetStopCameraMovement(true);
     event:AddEventLinkAtEnd("Play locked door sound");
@@ -286,14 +282,13 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("Bronann can't enter his home 2", 800);
     EventManager:RegisterEvent(event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("What's happening here?!? Where is everyone??");
     dialogue:AddLineEmote(text, bronann, "exclamation");
     text = vt_system.Translate("Help!!!");
     dialogue:AddLine(text, kalya);
     text = vt_system.Translate("Kalya?!");
     dialogue:AddLineEventEmote(text, bronann, "Bronann looks east", "", "exclamation");
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Bronann can't enter his home 2", dialogue);
     event:AddEventLinkAtEnd("Set camera on Kalya");
     event:AddEventLinkAtEnd("Kalya is struggling");
@@ -307,12 +302,11 @@ function _CreateEvents()
     event = vt_map.ScriptedEvent("Kalya is struggling", "make_kalya_struggle", "");
     EventManager:RegisterEvent(event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Let go of me, you cheap low-grade filthy jerks...");
     dialogue:AddLineEmote(text, kalya, "exclamation");
     text = vt_system.Translate("Keep quiet, little brat!");
     dialogue:AddLine(text, soldier3);
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Kalya screams against the soldiers", dialogue);
     event:AddEventLinkAtEnd("Set camera on Bronann");
     -- Make the soldiers walk while Bronann tries to cover.
@@ -374,14 +368,13 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("Bronann dialogue after guards caught Kalya", 2200);
     EventManager:RegisterEvent(event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Soldiers wearing black armor: the Lord's personal guards!");
     dialogue:AddLineEmote(text, bronann, "exclamation");
     text = vt_system.Translate("Fortunately, they didn't see me or I would have been caught as well.");
     dialogue:AddLine(text, bronann);
     text = vt_system.Translate("I should follow them silently...");
     dialogue:AddLineEmote(text, bronann, "thinking dots");
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Bronann dialogue after guards caught Kalya", dialogue);
     event:AddEventLinkAtEnd("End of Kalya capture dialogue");
     EventManager:RegisterEvent(event);
@@ -390,10 +383,9 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
 
     -- After Kalya has been caught, Bronann wants to follow her
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("What am I doing? I should go and try to free Kalya!");
     dialogue:AddLine(text, bronann);
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Bronann should follow Kalya", dialogue);
     event:SetStopCameraMovement(true);
     EventManager:RegisterEvent(event);

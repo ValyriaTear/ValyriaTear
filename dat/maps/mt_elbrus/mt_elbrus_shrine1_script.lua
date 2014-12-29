@@ -114,10 +114,9 @@ function _UpdateSophiaDialogue()
     end
 
     -- Shopping dialogue.
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("I'll stay here as long as you need me. Do you want to buy something?");
     dialogue:AddLineEvent(text, sophia, "", "Trade with Sophia");
-    DialogueManager:AddDialogue(dialogue);
     sophia:AddDialogueReference(dialogue);
 
     -- Shopping event
@@ -226,10 +225,9 @@ function _CreateObjects()
     object = CreateObject(Map, "Layna Statue", 41, 28, vt_map.MapMode.GROUND_OBJECT);
     object:SetEventWhenTalking("Heal dialogue");
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Your party feels better...");
     dialogue:AddLineEvent(text, nil, "Heal event", ""); -- 'nil' means no portrait and no name
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Heal dialogue", dialogue);
     EventManager:RegisterEvent(event);
 
@@ -366,7 +364,7 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("Orlinn looks west");
     EventManager:RegisterEvent(event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("... You'll see: there's plenty of things I need to show you there. Plus, it's a safe place.");
     dialogue:AddLine(text, kalya);
     text = vt_system.Translate("Err... Sis?");
@@ -383,7 +381,6 @@ function _CreateEvents()
     dialogue:AddLineEvent(text, kalya, "Kalya looks north", "");
     text = vt_system.Translate("NO!");
     dialogue:AddLineEmote(text, kalya, "exclamation");
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Dialogue about the passage to Estoria", dialogue);
     event:AddEventLinkAtEnd("Kalya runs to the blocked passage");
     event:AddEventLinkAtEnd("Bronann looks north");
@@ -398,12 +395,11 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("Dialogue about the passage to Estoria 2");
     EventManager:RegisterEvent(event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("... No, it can't be...");
     dialogue:AddLineEventEmote(text, kalya, "Orlinn looks at Kalya", "", "sweat drop");
     text = vt_system.Translate("After all we've been through, this...");
     dialogue:AddLineEvent(text, kalya, "Kalya looks north", "");
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Dialogue about the passage to Estoria 2", dialogue);
     event:AddEventLinkAtEnd("Bronann goes near both");
     EventManager:RegisterEvent(event);
@@ -420,7 +416,7 @@ function _CreateEvents()
     event = vt_map.AnimateSpriteEvent("Orlinn laughs", orlinn, "laughing", 0); -- infinite time.
     EventManager:RegisterEvent(event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("... Calm down Kalya, there must be a way to go through this somehow...");
     dialogue:AddLineEmote(text, hero, "sweat drop");
     text = vt_system.Translate("Unfortunately... Yes, there is one...");
@@ -439,7 +435,6 @@ function _CreateEvents()
     dialogue:AddLineEventEmote(text, kalya, "Kalya looks at Orlinn", "", "exclamation");
     text = vt_system.Translate("Anyway, we might even not be able to enter there at all. But you're right, let's have a look around first. Who knows?");
     dialogue:AddLineEvent(text, kalya, "Kalya looks at Bronann", "");
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Dialogue about the passage to Estoria 3", dialogue);
     event:AddEventLinkAtEnd("Orlinn goes back to party");
     event:AddEventLinkAtEnd("Kalya goes back to party");
@@ -482,12 +477,11 @@ function _CreateEvents()
     event = vt_map.AnimateSpriteEvent("Bronann kneels", hero, "kneeling", 0); -- 0 means forever
     EventManager:RegisterEvent(event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Here we are, looking at this huge, wonderful and yet creepy door... I don't like this...");
     dialogue:AddLineEmote(text, kalya, "thinking dots");
     text = vt_system.Translate("It's not like I actually would want to open it, but how are we going to?");
     dialogue:AddLineEventEmote(text, kalya, "Kalya looks at Bronann", "Orlinn looks at Bronann", "sweat drop");
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Dialogue before opening the door", dialogue);
     event:AddEventLinkAtEnd("Show hurt effect");
     EventManager:RegisterEvent(event);
@@ -496,12 +490,11 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("Dialogue before opening the door2");
     EventManager:RegisterEvent(event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Oh, my chest, it hurts!!");
     dialogue:AddLineEventEmote(text, hero, "Bronann looks south", "Bronann kneels", "exclamation");
     text = vt_system.Translate("The Crystal! ... Orlinn! Let's stand back!");
     dialogue:AddLineEmote(text, kalya, "exclamation");
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Dialogue before opening the door2", dialogue);
     event:AddEventLinkAtEnd("Orlinn rushes down the stairs");
     event:AddEventLinkAtEnd("Kalya rushes down the stairs");
@@ -522,10 +515,9 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("Dialogue after crystals appearance");
     EventManager:RegisterEvent(event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("That sign... It is the sign of the Ancients! ... Bronann! Are you alright?");
     dialogue:AddLineEmote(text, kalya, "exclamation");
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Dialogue after crystals appearance", dialogue);
     event:AddEventLinkAtEnd("Bronann gets up", 1200);
     EventManager:RegisterEvent(event);
@@ -535,7 +527,7 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("Dialogue after crystals appearance2", 1000);
     EventManager:RegisterEvent(event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("... I'm fine... I guess... The pain faded away...");
     dialogue:AddLineEvent(text, hero, "Bronann looks south", "");
     text = vt_system.Translate("Thanks Goddess...");
@@ -550,7 +542,6 @@ function _CreateEvents()
     dialogue:AddLineEvent(text, kalya, "Kalya looks at Orlinn", "");
     text = vt_system.Translate("... I have a bad feeling about all this now...");
     dialogue:AddLineEvent(text, orlinn, "Orlinn looks at Kalya", "");
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Dialogue after crystals appearance2", dialogue);
     event:AddEventLinkAtEnd("Orlinn goes back to party2");
     event:AddEventLinkAtEnd("Kalya goes back to party2");
@@ -589,10 +580,9 @@ function _CreateEvents()
     event = vt_map.ScriptedEvent("Fade out music", "fade_out_music", "");
     EventManager:RegisterEvent(event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("... Bronann!!");
     dialogue:AddLine(text, sophia);
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Sophia Dialogue 1", dialogue);
     event:AddEventLinkAtEnd("Sophia moves near the heroes");
     event:AddEventLinkAtEnd("Play funny music");
@@ -606,7 +596,7 @@ function _CreateEvents()
     sophia_move_next_to_hero_event:AddEventLinkAtEnd("Sophia Dialogue 2");
     EventManager:RegisterEvent(sophia_move_next_to_hero_event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Thanks Goddess! You're all safe and sound... I was worried sick!");
     dialogue:AddLine(text, sophia);
     text = vt_system.Translate("Sophia, you here?");
@@ -674,7 +664,6 @@ function _CreateEvents()
     text = vt_system.Translate("You're welcome, my dear!");
     dialogue:AddLine(text, sophia);
 
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Sophia Dialogue 2", dialogue);
     event:AddEventLinkAtEnd("Sophia moves to her former place");
     EventManager:RegisterEvent(event);

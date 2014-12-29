@@ -202,7 +202,7 @@ function _CreateEvents()
     kalya_move_next_to_hero_event1:AddEventLinkAtEnd("Bronann looks at Kalya");
     EventManager:RegisterEvent(kalya_move_next_to_hero_event1);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Wow, what a fall... I didn't see that one coming.");
     dialogue:AddLineEmote(text, kalya, "sweat drop");
     text = vt_system.Translate("Are you alright, Kalya?");
@@ -217,7 +217,6 @@ function _CreateEvents()
     dialogue:AddLineEventEmote(text, bronann, "Kalya looks south", "Bronann looks north", "exclamation");
     text = vt_system.Translate("Let's find him ... once more, before something bad happens...");
     dialogue:AddLineEmote(text, kalya, "sweat drop");
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Where is Orlinn? dialogue", dialogue);
     event:AddEventLinkAtEnd("Kalya moves back to party1");
     EventManager:RegisterEvent(event);
@@ -230,22 +229,20 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
 
     -- Hero sees the exit
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("This is the blocked passage to the Shrine entrance...");
     dialogue:AddLineEventEmote(text, hero, "Hero looks east", "", "thinking dots");
     text = vt_system.Translate("This can only mean we're near the exit!");
     dialogue:AddLineEventEmote(text, hero, "Hero looks west", "", "exclamation");
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("See exit dialogue", dialogue);
     EventManager:RegisterEvent(event);
 
     -- Orlinn screams
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Help!!");
     dialogue:AddLine(text, orlinn);
     text = vt_system.Translate("Orlinn!");
     dialogue:AddLineEmote(text, hero, "exclamation");
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Orlinn screams dialogue", dialogue);
     EventManager:RegisterEvent(event);
 
@@ -264,7 +261,7 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("Kalya looks at Orlinn");
     EventManager:RegisterEvent(event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Help!!");
     dialogue:AddLineEmote(text, orlinn, "exclamation");
     text = vt_system.Translate("Orlinn! Back off!");
@@ -273,7 +270,6 @@ function _CreateEvents()
     dialogue:AddLineEmote(text, orlinn, "sweat drop");
     text = vt_system.Translate("Orlinn! NOW!");
     dialogue:AddLineEmote(text, bronann, "exclamation");
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Before boss dialogue", dialogue);
     event:AddEventLinkAtEnd("Orlinn back off");
     EventManager:RegisterEvent(event);
@@ -283,7 +279,7 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("Before boss dialogue2");
     EventManager:RegisterEvent(event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("You shall not leave this place without my consent.");
     dialogue:AddLine(text, andromalius);
     text = vt_system.Translate("And you shall not touch my brother without mine...");
@@ -292,7 +288,6 @@ function _CreateEvents()
     dialogue:AddLine(text, andromalius);
     text = vt_system.Translate("Let's fight for our lives then!");
     dialogue:AddLineEmote(text, bronann, "exclamation");
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Before boss dialogue2", dialogue);
     event:AddEventLinkAtEnd("Battle with the boss");
     EventManager:RegisterEvent(event);
@@ -326,7 +321,7 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("Dialogue with Orlinn");
     EventManager:RegisterEvent(event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Orlinn, are you alright?");
     dialogue:AddLineEmote(text, kalya, "sweat drop");
     text = vt_system.Translate("Yes, I'm sorry I wasn't able to protect myself, sis.");
@@ -339,7 +334,6 @@ function _CreateEvents()
     dialogue:AddLineEmote(text, bronann, "sweat drop");
     text = vt_system.Translate("I couldn't agree more ...");
     dialogue:AddLineEvent(text, kalya, "Kalya looks at Bronann", "");
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Dialogue with Orlinn", dialogue);
     event:AddEventLinkAtEnd("Kalya moves back to party2");
     event:AddEventLinkAtEnd("Orlinn moves back to party2");

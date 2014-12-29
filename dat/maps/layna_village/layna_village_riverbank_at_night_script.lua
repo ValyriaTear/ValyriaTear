@@ -352,10 +352,9 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
 
     -- Bronann can't go back event
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("I can't go back now...");
     dialogue:AddLine(text, bronann);
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Bronann can't go back", dialogue);
     EventManager:RegisterEvent(event);
 
@@ -369,12 +368,11 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("Bronann thinks he needs to get closer");
     EventManager:RegisterEvent(event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Guards are carefully watching their surroundings... I need to get closer to see what's happening.");
     dialogue:AddLine(text, bronann);
     text = vt_system.Translate("I should be able to sneak through when they're not watching...");
     dialogue:AddLine(text, bronann);
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Bronann thinks he needs to get closer", dialogue);
     event:AddEventLinkAtEnd("End of bronann arrival at the riverbank");
     EventManager:RegisterEvent(event);
@@ -395,10 +393,9 @@ function _CreateEvents()
     event = vt_map.LookAtSpriteEvent("The soldier22 looks at Bronann", soldier22, bronann);
     EventManager:RegisterEvent(event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Who's there?");
     dialogue:AddLine(text, soldier21);
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("The soldier yells at Bronann", dialogue);
     event:AddEventLinkAtEnd("Restart map");
     EventManager:RegisterEvent(event);
@@ -424,7 +421,7 @@ function _CreateEvents()
     event = vt_map.PathMoveSpriteEvent("Orlinn hides again", orlinn, 76.0, 43.8, false);
     EventManager:RegisterEvent(event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("(Whispering) Kalya!");
     dialogue:AddLineEmote(text, bronann, "exclamation");
     text = vt_system.Translate("(What's happening here?)");
@@ -439,7 +436,6 @@ function _CreateEvents()
     dialogue:AddLine(text, orlinn);
     text = vt_system.Translate("(Let's have a look..)");
     dialogue:AddLine(text, bronann);
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Bronann and Orlinn are discussing", dialogue);
     event:AddEventLinkAtEnd("Bronann looks east");
     event:AddEventLinkAtEnd("Orlinn hides again");
@@ -450,7 +446,7 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("Dialogue with the Lord");
     EventManager:RegisterEvent(event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("I already told you, again and again, Banesore, I don't know anything about such a crystal.");
     dialogue:AddLine(text, lilly);
     text = vt_system.Translate("It is 'Lord Banesore', you scum!");
@@ -483,7 +479,6 @@ function _CreateEvents()
     dialogue:AddLineEmote(text, malta, "exclamation");
     text = vt_system.Translate("Oh, I see now... So this is her mother... Bring her here, and kill her!");
     dialogue:AddLineEvent(text, lord, "Banesore looks south", "");
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Dialogue with the Lord", dialogue);
     event:AddEventLinkAtEnd("All villagers are surprised");
     EventManager:RegisterEvent(event);
@@ -509,7 +504,7 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("Dialogue with the Lord 2");
     EventManager:RegisterEvent(event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Let her out of this! You can have me instead.");
     dialogue:AddLine(text, carson);
     text = vt_system.Translate("So, here we have a gentleman! I'll start with you, then...");
@@ -524,7 +519,6 @@ function _CreateEvents()
     dialogue:AddLine(text, malta);
     text = vt_system.Translate("No!");
     dialogue:AddLine(text, bronann);
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Dialogue with the Lord 2", dialogue);
     event:AddEventLinkAtEnd("Set Camera on Bronann");
     event:AddEventLinkAtEnd("Banesore looks west");
@@ -576,7 +570,7 @@ function _CreateEvents()
     event = vt_map.ChangeDirectionSpriteEvent("Lilly looks west", lilly, vt_map.MapMode.WEST);
     EventManager:RegisterEvent(event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("At last... The boy.");
     dialogue:AddLineEventEmote(text, lord, "", "A soldier goes closer to stop Bronann", "exclamation");
     text = vt_system.Translate("No! Let him come closer...");
@@ -595,7 +589,6 @@ function _CreateEvents()
     dialogue:AddLineEvent(text, bronann, "Lilly looks west", "");
     text = vt_system.Translate("Bronann...");
     dialogue:AddLineEvent(text, lilly, "", "Lilly let Bronann advance");
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Dialogue with the Lord 3", dialogue);
     event:AddEventLinkAtEnd("Bronann goes closer from Banesore", 1000);
     EventManager:RegisterEvent(event);
@@ -604,7 +597,7 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("Dialogue with the Lord 4");
     EventManager:RegisterEvent(event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("You... After all these years...");
     dialogue:AddLine(text, lord);
     text = vt_system.Translate("... Let everyone out of this. We don't have your 'crystal'...");
@@ -621,7 +614,6 @@ function _CreateEvents()
     dialogue:AddLine(text, lord);
     text = vt_system.Translate("Prepare yourself!");
     dialogue:AddLine(text, lord);
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Dialogue with the Lord 4", dialogue);
     event:AddEventLinkAtEnd("Battle with Banesore");
     EventManager:RegisterEvent(event);
@@ -668,12 +660,11 @@ function _CreateEvents()
     event = vt_map.LookAtSpriteEvent("Herth looks at Banesore", herth, lord);
     EventManager:RegisterEvent(event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Ah, there it is... Finally!");
     dialogue:AddLine(text, lord);
     text = vt_system.Translate("Kalya! Now!!");
     dialogue:AddLineEvent(text, herth, "Herth looks at Kalya", "Herth looks at Banesore");
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Dialogue after crystals appearance", dialogue);
     event:AddEventLinkAtEnd("Kalya uses smoke to flee with Bronann");
     EventManager:RegisterEvent(event);
@@ -714,7 +705,7 @@ function _CreateEvents()
     event = vt_map.ScriptedEvent("Soldiers wonders where Kalya is", "interrogation_soldiers_guarding_kalya", "");
     EventManager:RegisterEvent(event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("You won't get him, Banesore! It seems we were smarter than you, this time...");
     dialogue:AddLine(text, herth);
     text = vt_system.Translate("Ah ah ah... But this is exactly what I wanted.");
@@ -735,7 +726,6 @@ function _CreateEvents()
     dialogue:AddLineEvent(text, lord, "Banesore looks west", "");
     text = vt_system.Translate("It doesn't matter as you're all going to die now...");
     dialogue:AddLine(text, lord);
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Dialogue between Herth and Banesore", dialogue);
     event:AddEventLinkAtEnd("To Kalya house path scene");
     EventManager:RegisterEvent(event);

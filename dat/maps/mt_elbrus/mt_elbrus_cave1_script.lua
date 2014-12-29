@@ -111,10 +111,9 @@ function _CreateObjects()
     shroom1 = CreateSprite(Map, "Shroom", 45, 42, vt_map.MapMode.GROUND_OBJECT);
     shroom1:SetName("");
     shroom1:SetDirection(vt_map.MapMode.SOUTH);
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("...");
     dialogue:AddLineEvent(text, shroom1, "", "Fight with Shroom 1");
-    DialogueManager:AddDialogue(dialogue);
     shroom1:AddDialogueReference(dialogue);
 
     event = vt_map.BattleEncounterEvent("Fight with Shroom 1");
@@ -129,10 +128,9 @@ function _CreateObjects()
     shroom2 = CreateSprite(Map, "Shroom", 47, 24, vt_map.MapMode.GROUND_OBJECT);
     shroom2:SetName("");
     shroom2:SetDirection(vt_map.MapMode.SOUTH);
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("...");
     dialogue:AddLineEvent(text, shroom2, "", "Fight with Shroom 2");
-    DialogueManager:AddDialogue(dialogue);
     shroom2:AddDialogueReference(dialogue);
 
     event = vt_map.BattleEncounterEvent("Fight with Shroom 2");
@@ -149,7 +147,7 @@ function _CreateObjects()
     event:AddEventLinkAtEnd("Jump to exit 2 choice");
     EventManager:RegisterEvent(event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Shall we jump?");
     dialogue:AddLine(text, hero);
     text = vt_system.Translate("...");
@@ -161,7 +159,6 @@ function _CreateObjects()
     -- [Line 2] Yes
     text = vt_system.Translate("Ok!");
     dialogue:AddLineEvent(text, hero, 4, "", "Make hero jump to exit 2"); -- 4 = Past the dialogue lines number. Makes the dialogue ends.
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Jump to exit 2 choice", dialogue);
     EventManager:RegisterEvent(event);
 
@@ -182,7 +179,7 @@ function _CreateObjects()
     event:AddEventLinkAtEnd("Jump to exit 4 choice");
     EventManager:RegisterEvent(event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Shall we jump?");
     dialogue:AddLine(text, hero);
     text = vt_system.Translate("...");
@@ -194,7 +191,6 @@ function _CreateObjects()
     -- [Line 2] Yes
     text = vt_system.Translate("Ok!");
     dialogue:AddLineEvent(text, hero, 4, "", "Make hero jump to exit 4"); -- 4 = Past the dialogue lines number. Makes the dialogue ends.
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Jump to exit 4 choice", dialogue);
     EventManager:RegisterEvent(event);
 

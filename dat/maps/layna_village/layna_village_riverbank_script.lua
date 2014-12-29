@@ -213,7 +213,7 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
 
     -- Quest events - Hide and seek 2
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Wow! You found me!");
     dialogue:AddLineEmote(text, orlinn, "exclamation");
     text = vt_system.Translate("But I'm not done yet!");
@@ -222,7 +222,6 @@ function _CreateEvents()
     dialogue:AddLine(text, orlinn);
     text = vt_system.Translate("Hey, why would I tell you my hiding spots?!");
     dialogue:AddLineEmote(text, orlinn, "exclamation");
-    DialogueManager:AddDialogue(dialogue);
 
     event = vt_map.DialogueEvent("Quest1: Orlinn starts hide and seek3 speech", dialogue);
     event:SetStopCameraMovement(true);
@@ -237,10 +236,9 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("Quest1: Hide and seek2: Bronann end speech");
     EventManager:RegisterEvent(event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("That kid is pretty quick. This is going to take all day...");
     dialogue:AddLineEmote(text, bronann, "sweat drop");
-    DialogueManager:AddDialogue(dialogue);
 
     event = vt_map.DialogueEvent("Quest1: Hide and seek2: Bronann end speech", dialogue);
     event:SetStopCameraMovement(true);
@@ -289,12 +287,11 @@ function _CreateEvents()
     event = vt_map.ChangeDirectionSpriteEvent("Quest1: Hide and Seek3: Lilly turns to them", lilly, vt_map.MapMode.EAST);
     EventManager:RegisterEvent(event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Please no! Wait!");
     dialogue:AddLine(text, bronann);
     text = vt_system.Translate("Orlinn! Stop this!");
     dialogue:AddLineEvent(text, kalya, "", "Quest1: Hide and Seek3: Kalya comes to Orlinn");
-    DialogueManager:AddDialogue(dialogue);
 
     event = vt_map.DialogueEvent("Quest1: Hide and Seek3: Bronann and kalya first speech", dialogue);
     event:SetStopCameraMovement(true);
@@ -309,7 +306,7 @@ function _CreateEvents()
     event = vt_map.ChangeDirectionSpriteEvent("Quest1: Hide and Seek3: Orlinn turns to Kalya", orlinn, vt_map.MapMode.NORTH);
     EventManager:RegisterEvent(event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Orlinn! How many times have I told you not to bother other people?");
     dialogue:AddLine(text, kalya);
     text = vt_system.Translate("But sis! I...");
@@ -322,7 +319,6 @@ function _CreateEvents()
     dialogue:AddLine(text, kalya);
     text = vt_system.Translate("Come Orlinn!");
     dialogue:AddLine(text, kalya);
-    DialogueManager:AddDialogue(dialogue);
 
     event = vt_map.DialogueEvent("Quest1: Hide and Seek3: Kalya's speech", dialogue);
     event:SetStopCameraMovement(true);
@@ -346,14 +342,13 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("Quest1: Hide and Seek3: Orlinn tells Bronann where the pen was");
     EventManager:RegisterEvent(event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("I found that pen near the tree behind you. I just wanted to play...");
     dialogue:AddLineEmote(text, orlinn, "sweat drop");
     text = vt_system.Translate("Don't worry about that...");
     dialogue:AddLine(text, bronann);
     text = vt_system.Translate("Take it... Thanks.");
     dialogue:AddLine(text, orlinn);
-    DialogueManager:AddDialogue(dialogue);
 
     event = vt_map.DialogueEvent("Quest1: Hide and Seek3: Orlinn tells Bronann where the pen was", dialogue);
     event:SetStopCameraMovement(true);
@@ -378,7 +373,7 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
 
     -- Lilly tells Bronann about Kalya
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Bronann?");
     dialogue:AddLineEvent(text, lilly, "", "Quest1: Hide and Seek3: Bronann turns to Lilly");
     text = vt_system.Translate("Er, yes?");
@@ -393,7 +388,6 @@ function _CreateEvents()
     dialogue:AddLineEmote(text, bronann, "interrogation");
     text = vt_system.Translate("Heh heh, don't worry about it. It will come in time.");
     dialogue:AddLine(text, lilly);
-    DialogueManager:AddDialogue(dialogue);
 
     event = vt_map.DialogueEvent("Quest1: Hide and Seek3: Lilly tells Bronann a bit about Kalya", dialogue);
     event:SetStopCameraMovement(true);
@@ -435,10 +429,9 @@ function _CreateEvents()
     event = vt_map.ChangeDirectionSpriteEvent("Quest1: Barley Meal: Bronann turns to Lilly", bronann, vt_map.MapMode.WEST);
     EventManager:RegisterEvent(event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Here it is, Bronann.");
     dialogue:AddLine(text, lilly);
-    DialogueManager:AddDialogue(dialogue);
 
     event = vt_map.DialogueEvent("Quest1: Barley Meal: Lilly tells Bronann about the barley meal", dialogue);
     event:SetStopCameraMovement(true);
@@ -454,14 +447,13 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("Quest1: Barley Meal: Lilly tells Bronann about the restrictions");
     EventManager:RegisterEvent(event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Thanks, Lilly.");
     dialogue:AddLine(text, bronann);
     text = vt_system.Translate("We've been having a shortage of food lately. I've been taking... special measures... to ensure that everyone has enough food.");
     dialogue:AddLine(text, lilly);
     text = vt_system.Translate("Try to enjoy this day, Bronann.");
     dialogue:AddLine(text, lilly);
-    DialogueManager:AddDialogue(dialogue);
 
     event = vt_map.DialogueEvent("Quest1: Barley Meal: Lilly tells Bronann about the restrictions", dialogue);
     event:SetStopCameraMovement(true);
@@ -545,19 +537,17 @@ function _SetLillyState()
     lilly:ClearDialogueReferences();
     if (GlobalManager:DoesEventExist("story", "kalya_has_joined") == true) then
         -- Once they can go into the forest
-        dialogue = vt_map.SpriteDialogue();
+        dialogue = vt_map.SpriteDialogue.Create();
         text = vt_system.Translate("We're counting on you.");
         dialogue:AddLine(text, lilly);
-        DialogueManager:AddDialogue(dialogue);
         lilly :AddDialogueReference(dialogue);
     elseif (GlobalManager:DoesEventExist("story", "quest1_barley_meal_done") == true) then
-        dialogue = vt_map.SpriteDialogue("ep1_layna_village_lilly_go_home");
+        dialogue = vt_map.SpriteDialogue.Create("ep1_layna_village_lilly_go_home");
         text = vt_system.Translate("You should go back home. Your mom must be waiting for you.");
         dialogue:AddLine(text, lilly);
-        DialogueManager:AddDialogue(dialogue);
         lilly :AddDialogueReference(dialogue);
     elseif (GlobalManager:DoesEventExist("layna_center", "quest1_pen_given_done") == true) then
-        dialogue = vt_map.SpriteDialogue();
+        dialogue = vt_map.SpriteDialogue.Create();
         text = vt_system.Translate("What a nice day, isn't it?");
         dialogue:AddLine(text, lilly);
         text = vt_system.Translate("Yes, Lilly. But I have something I have to ask you.");
@@ -572,13 +562,11 @@ function _SetLillyState()
         dialogue:AddLineEmote(text, bronann, "sweat drop");
         text = vt_system.Translate("Ah hah! I just wanted to see your reaction. I still have some. Let me go grab it and bring it back to you.");
         dialogue:AddLineEvent(text, lilly, "", "Quest1: Prepare Lilly for a walk");
-        DialogueManager:AddDialogue(dialogue);
         lilly :AddDialogueReference(dialogue);
     else
-        dialogue = vt_map.SpriteDialogue("ep1_layna_village_lilly_default");
+        dialogue = vt_map.SpriteDialogue.Create("ep1_layna_village_lilly_default");
         text = vt_system.Translate("What a nice day, isn't it?");
         dialogue:AddLine(text, lilly);
-        DialogueManager:AddDialogue(dialogue);
         lilly :AddDialogueReference(dialogue);
     end
 end
@@ -599,24 +587,22 @@ function _SetOrlinnState()
         orlinn:SetDirection(vt_map.MapMode.WEST);
 
         -- Final hide and seek dialogue
-        dialogue = vt_map.SpriteDialogue();
+        dialogue = vt_map.SpriteDialogue.Create();
         text = vt_system.Translate("You'll never get me!");
         dialogue:AddLineEvent(text, orlinn, "", "Quest1: Hide and Seek3: Orlinn starts to go away");
-        DialogueManager:AddDialogue(dialogue);
         orlinn:AddDialogueReference(dialogue);
 
         EventManager:StartEvent("Quest1: Hide and Seek3: Orlinn goes top-right", 8000);
         return;
     elseif (GlobalManager:DoesEventExist("layna_south_entrance", "quest1_orlinn_hide_n_seek1_done") == true) then
         -- Orlinn is on the cliff and is mocking Bronann.
-        dialogue = vt_map.SpriteDialogue();
+        dialogue = vt_map.SpriteDialogue.Create();
         text = vt_system.Translate("Hee hee hee!");
         dialogue:AddLineEvent(text, orlinn_dialogue_npc, "Orlinn laughs", "");
         text = vt_system.Translate("Orlinn, how did you get there?");
         dialogue:AddLine(text, bronann);
         text = vt_system.Translate("(giggle) I won't tell you!");
         dialogue:AddLineEvent(text, orlinn_dialogue_npc, "Orlinn laughs", "");
-        DialogueManager:AddDialogue(dialogue);
         orlinn_dialogue_npc:AddDialogueReference(dialogue);
         return;
     end

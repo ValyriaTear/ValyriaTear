@@ -222,7 +222,7 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("Orlinn stops laughing");
     EventManager:RegisterEvent(event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("We made it, at last!");
     dialogue:AddLineEmote(text, kalya, "exclamation");
     text = vt_system.Translate("Indeed! Yeepee!");
@@ -237,7 +237,6 @@ function _CreateEvents()
     dialogue:AddLineEventEmote(text, kalya, "Kalya looks east", "Orlinn looks east", "interrogation");
     text = vt_system.Translate("Something's burning...");
     dialogue:AddLineEmote(text, orlinn, "exclamation");
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("free at last dialogue", dialogue);
     event:AddEventLinkAtEnd("Bronann runs to the cliff");
     event:AddEventLinkAtEnd("Orlinn runs to the cliff");
@@ -260,7 +259,7 @@ function _CreateEvents()
     event = vt_map.ScriptedEvent("Start village burning effect", "burning_particle_effect_start", "");
     EventManager:RegisterEvent(event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Our village... is burning...");
     dialogue:AddLineEmote(text, kalya, "exclamation");
     text = vt_system.Translate("My parents...");
@@ -269,7 +268,6 @@ function _CreateEvents()
     dialogue:AddLine(text, kalya);
     text = vt_system.Translate("Everyone...");
     dialogue:AddLine(text, orlinn);
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Village burning dialogue", dialogue);
     event:AddEventLinkAtEnd("Kalya kneels", 2000);
     EventManager:RegisterEvent(event);
@@ -282,7 +280,7 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("Village burning dialogue 2", 2000);
     EventManager:RegisterEvent(event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("May they rest in peace...");
     dialogue:AddLine(text, kalya);
     text = vt_system.Translate("All this...");
@@ -295,7 +293,6 @@ function _CreateEvents()
     dialogue:AddLine(text, bronann);
     text = vt_system.Translate("If this crystal is so powerful, then I'll use it ... and I'll fix this...");
     dialogue:AddLineEvent(text, bronann, "Bronann looks east", "");
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Village burning dialogue 2", dialogue);
     event:AddEventLinkAtEnd("Kalya stops kneeling", 2000);
     EventManager:RegisterEvent(event);
@@ -305,10 +302,9 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("Village burning dialogue 3", 2000);
     EventManager:RegisterEvent(event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Then, I'll help you...");
     dialogue:AddLine(text, kalya);
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Village burning dialogue 3", dialogue);
     event:AddEventLinkAtEnd("Episode I End Credits", 1000);
     EventManager:RegisterEvent(event);

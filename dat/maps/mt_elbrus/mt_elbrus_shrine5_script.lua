@@ -366,7 +366,7 @@ function _CreateEvents()
     orlinn_move_next_to_hero_event:AddEventLinkAtEnd("The heroes discuss about getting to the high passage", 500);
     EventManager:RegisterEvent(orlinn_move_next_to_hero_event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("There is a passage here but I'm too heavy for those stones jutting out ...");
     dialogue:AddLineEmote(text, hero, "thinking dots");
     text = vt_system.Translate("The fact is, you and me cannot afford standing on those stones. Maybe with a rope?");
@@ -385,7 +385,6 @@ function _CreateEvents()
     dialogue:AddLineEvent(text, hero, "Bronann looks at Orlinn", "");
     text = vt_system.Translate("Yiek!");
     dialogue:AddLineEventEmote(text, orlinn, "Orlinn looks at Kalya", "", "sweat drop");
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("The heroes discuss about getting to the high passage", dialogue);
     event:AddEventLinkAtEnd("Ready? dialogue");
     EventManager:RegisterEvent(event);
@@ -405,14 +404,13 @@ function _CreateEvents()
     kalya_move_next_to_hero_event2:AddEventLinkAtEnd("Kalya looks at Orlinn");
     EventManager:RegisterEvent(kalya_move_next_to_hero_event2);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Ready to go up? ...");
     dialogue:AddLineEvent(text, hero, "Bronann looks at Orlinn", "");
     text = vt_system.Translate("Yes, let's go ...");
     dialogue:AddOptionEvent(text, 50, "Orlinn goes closer of the hero"); -- 50 means next line number, past the end of the dialogue
     text = vt_system.Translate("Err, not yet!");
     dialogue:AddOptionEvent(text, 50, "Not thrown event");
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Ready? dialogue", dialogue);
     EventManager:RegisterEvent(event);
 
@@ -438,10 +436,9 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("Post-jump dialogue");
     EventManager:RegisterEvent(event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Be careful, ok?");
     dialogue:AddLineEventEmote(text, kalya, "Kalya looks north", "", "sweat drop");
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Post-jump dialogue", dialogue);
     event:AddEventLinkAtEnd("Set Camera on Orlinn");
     EventManager:RegisterEvent(event);
@@ -461,14 +458,13 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("Orlinn comes back dialogue", 100);
     EventManager:RegisterEvent(event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Wants to come back?");
     dialogue:AddLineEmote(text, kalya, "exclamation");
     text = vt_system.Translate("Yes!");
     dialogue:AddOptionEvent(text, 50, "Orlinn goes above Bronann"); -- 50 means next line number, past the end of the dialogue
     text = vt_system.Translate("No, not yet.");
     dialogue:AddOptionEvent(text, 50, "Not coming back event");
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Orlinn comes back dialogue", dialogue);
     EventManager:RegisterEvent(event);
 
@@ -500,7 +496,7 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("Orlinn is sorry dialogue");
     EventManager:RegisterEvent(event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Oops, sorry!");
     dialogue:AddLineEvent(text, orlinn, "Orlinn looks west", "");
 
@@ -515,7 +511,6 @@ function _CreateEvents()
         text = vt_system.Translate("... Not again ...");
         dialogue:AddLine(text, bronann);
     end
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Orlinn is sorry dialogue", dialogue);
     event:AddEventLinkAtEnd("Bronann kneels", 1000);
     EventManager:RegisterEvent(event);

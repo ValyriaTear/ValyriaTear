@@ -28,6 +28,7 @@ namespace vt_common
 {
 
 class DialogueOptions;
+class DialogueSupervisor;
 
 //! \name Constants used among common dialogue classes
 //@{
@@ -122,6 +123,13 @@ public:
     Dialogue(const std::string& dialogue_id);
 
     ~Dialogue();
+
+    //! \brief A C++ wrapper made to create a new object from scripting,
+    //! without letting Lua handling the object life-cycle.
+    //! \note We don't permit luabind to use constructors here as it can't currently
+    //! give the object ownership at construction time.
+    //! This function also registers the dialogue to the dialogue manager.
+    static Dialogue* Create(DialogueSupervisor* dialogue_supervisor, const std::string& dialogue_id);
 
     /** \brief Adds a new line of text to the dialogue
     *** \param text The text to show on the screen

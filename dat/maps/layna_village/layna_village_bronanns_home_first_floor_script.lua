@@ -166,12 +166,11 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
 
     -- Bronann's opening dialogue
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("I had that same nightmare again... This time, however, I still feel dizzy even after getting up...");
     dialogue:AddLine(text, bronann);
     text = vt_system.Translate("I might as well move on and forget about it...");
     dialogue:AddLine(text, bronann);
-    DialogueManager:AddDialogue(dialogue);
 
     -- Bronann's opening dialogue event
     event = vt_map.DialogueEvent("opening_dialogue", dialogue);
@@ -193,12 +192,11 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
 
     -- Adds a small dialogue describing the save point use.
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.VTranslate("This circle is a save point. Here, you can save your game by pushing %s.", InputManager:GetConfirmKeyName());
     dialogue:AddLine(text, nil); -- nameless speaker
     text = vt_system.Translate("You can come back here and save as many times as you want.");
     dialogue:AddLine(text, nil); -- nameless speaker
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Save point dialogue", dialogue);
     event:AddEventLinkAtEnd("Disable save point dialogue");
     EventManager:RegisterEvent(event);

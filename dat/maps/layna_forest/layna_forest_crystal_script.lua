@@ -140,10 +140,9 @@ function _CreateObjects()
     npc:SetVisible(false);
     npc:SetName(""); -- Unset the speaker name
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Your party feels better...");
     dialogue:AddLineEvent(text, npc, "heal point", "");
-    DialogueManager:AddDialogue(dialogue);
     npc:AddDialogueReference(dialogue);
 
     -- The boss map sprite, placed for final battle
@@ -476,14 +475,13 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
 
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Orlinn!!");
     dialogue:AddLineEmote(text, kalya_sprite, "exclamation");
     text = vt_system.Translate("I can feel it, sis'. It's coming!");
     dialogue:AddLineEvent(text, orlinn, "", "Orlinn comes closer of the crystal spawn point");
     text = vt_system.Translate("Orlinn, stop!");
     dialogue:AddLineEmote(text, kalya_sprite, "exclamation");
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("first dialogue part", dialogue);
     event:AddEventLinkAtEnd("Kalya runs to Orlinn");
     event:AddEventLinkAtEnd("Bronann runs to Orlinn");
@@ -501,10 +499,9 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("second dialogue part");
     EventManager:RegisterEvent(event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("What's happening!?!");
     dialogue:AddLineEmote(text, kalya_sprite, "exclamation");
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("second dialogue part", dialogue);
     event:AddEventLinkAtEnd("Kalya looks east 1", 500);
     event:AddEventLinkAtEnd("kalya:SetCollision(NONE)");
@@ -540,14 +537,13 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("third dialogue part", 1000);
     EventManager:RegisterEvent(event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Gosh!! By all heavens, is this...?");
     dialogue:AddLineEmote(text, kalya_sprite, "sweat drop");
     text = vt_system.Translate("A crystal stone?!?");
     dialogue:AddLineEmote(text, hero, "exclamation");
     text = vt_system.Translate("This is her. I heard her voice calling...");
     dialogue:AddLine(text, orlinn);
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("third dialogue part", dialogue);
     event:AddEventLinkAtEnd("crystal dialogue part");
     EventManager:RegisterEvent(event);
@@ -565,7 +561,7 @@ function _CreateEvents()
     event = vt_map.SoundEvent("crystal voice sound 6", "dat/maps/layna_forest/crystal_appearance/crystal-sentence6.ogg")
     EventManager:RegisterEvent(event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     dialogue:SetInputBlocked(true);
     text = vt_system.Translate("Dear chosen one, the time has finally come.");
     dialogue:AddLineTimedEvent(text, crystal, 5000, "crystal voice sound 1", "");
@@ -579,19 +575,17 @@ function _CreateEvents()
     dialogue:AddLineTimedEvent(text, crystal, 5000, "crystal voice sound 5", "");
     text = vt_system.Translate("Now, come. Become one with our holy hope.");
     dialogue:AddLineTimedEvent(text, crystal, 5000, "crystal voice sound 6", "");
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("crystal dialogue part", dialogue);
     event:AddEventLinkAtEnd("fourth dialogue part");
     EventManager:RegisterEvent(event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("What does all of this mean?");
     dialogue:AddLineEmote(text, kalya_sprite, "thinking dots");
     text = vt_system.Translate("I shall become one with our only hope...");
     dialogue:AddLine(text, orlinn);
     text = vt_system.Translate("What! Orlinn, No!");
     dialogue:AddLineEmote(text, hero, "exclamation");
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("fourth dialogue part", dialogue);
     event:AddEventLinkAtEnd("Orlinn comes even closer of the crystal");
     event:AddEventLinkAtEnd("Bronann runs in front of Orlinn", 300);
@@ -604,10 +598,9 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("fifth dialogue part");
     EventManager:RegisterEvent(event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Bronann, the crystal! No!");
     dialogue:AddLineEmote(text, kalya_sprite, "exclamation");
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("fifth dialogue part", dialogue);
     event:AddEventLinkAtEnd("kalya:SetCollision(NONE)");
     event:AddEventLinkAtEnd("Bronann is hurt");
@@ -628,10 +621,9 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("sixth dialogue part");
     EventManager:RegisterEvent(event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Bronann!");
     dialogue:AddLineEmote(text, kalya_sprite, "exclamation");
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("sixth dialogue part", dialogue);
     event:AddEventLinkAtEnd("Kalya runs to Bronann");
     EventManager:RegisterEvent(event);
@@ -667,7 +659,7 @@ function _CreateEvents()
     event = vt_map.ScriptedEvent("Play funny music", "play_funny_music", "");
     EventManager:RegisterEvent(event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Bronann! Are you all right? Answer me!!");
     dialogue:AddLineEventEmote(text, kalya_sprite, "", "Orlinn looks west", "exclamation");
     text = vt_system.Translate("Bronann!");
@@ -696,7 +688,6 @@ function _CreateEvents()
     dialogue:AddLineEmote(text, orlinn, "sweat drop");
     text = vt_system.Translate("... Oh? You didn't??");
     dialogue:AddLineEventEmote(text, kalya_sprite, "Play funny music", "", "exclamation");
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("seventh dialogue part", dialogue);
     event:AddEventLinkAtEnd("Kalya runs after Orlinn");
     event:AddEventLinkAtEnd("Orlinn runs to point 3");
@@ -730,7 +721,7 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("Kalya looks at Bronann");
     EventManager:RegisterEvent(event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("When I catch you, I'll make you wish you weren't born!! Rahh!");
     dialogue:AddLine(text, kalya_sprite);
     text = vt_system.Translate("Yiek!!");
@@ -749,7 +740,6 @@ function _CreateEvents()
     dialogue:AddLine(text, hero);
     text = vt_system.Translate("I'm relieved that Orlinn is fine as well... Speaking of that: Orlinn! Stop running and come here right now!");
     dialogue:AddLine(text, kalya_sprite);
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Bronann sighs and think", dialogue);
     event:AddEventLinkAtEnd("Orlinn stops running");
     event:AddEventLinkAtEnd("Last dialogue");
@@ -765,7 +755,7 @@ function _CreateEvents()
     event = vt_map.ScriptedEvent("Play wind music", "play_wind_music", "");
     EventManager:RegisterEvent(event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Owww... Alright.");
     dialogue:AddLineEventEmote(text, orlinn, "Fade out music", "Orlinn comes back next to Bronann", "sweat drop");
     text = vt_system.Translate("Now, Orlinn. Tell us: Why on earth did you go into the forest alone, and how did you get there so quickly?");
@@ -788,7 +778,6 @@ function _CreateEvents()
     dialogue:AddLineEmote(text, hero, "sweat drop");
     text = vt_system.Translate("Let's not panic, Bronann, you look fine... Anyway, we'd better get back to the village and see the Elders as soon as possible.");
     dialogue:AddLineEventEmote(text, kalya_sprite, "", "Play wind music", "thinking dots");
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Last dialogue", dialogue);
     event:AddEventLinkAtEnd("kalya goes back to party");
     event:AddEventLinkAtEnd("orlinn goes back to party");

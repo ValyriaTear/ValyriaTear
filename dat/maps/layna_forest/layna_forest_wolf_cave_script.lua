@@ -162,10 +162,9 @@ function _CreateObjects()
     necklace_npc:SetVisible(false);
     necklace_npc:SetName(""); -- Unset the speaker name
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("(Bronann looks on the ground ...)");
     dialogue:AddLineEvent(text, necklace_npc, "", "wolfpain necklace dialogue start");
-    DialogueManager:AddDialogue(dialogue);
     necklace_npc:AddDialogueReference(dialogue);
 
     -- Place all the jewel related object out of reach when the event is already done
@@ -194,7 +193,7 @@ function _CreateObjects()
     npc:SetName(""); -- Unset the speaker name
 
     -- Add the dialogue options on the fountain
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("This water looks weird. Shall we drink it anyway?");
     dialogue:AddLine(text, hero);
     text = vt_system.Translate("...");
@@ -209,7 +208,6 @@ function _CreateObjects()
     -- [Line 3] Won't drink it
     text = vt_system.Translate("The party won't drink it.");
     dialogue:AddLine(text, npc);
-    DialogueManager:AddDialogue(dialogue);
     npc:AddDialogueReference(dialogue);
 
     -- Load the spring heal effect.
@@ -273,14 +271,13 @@ function _CreateEvents()
     move_next_to_hero_event:AddEventLinkAtEnd("Kalya Tells about the smell");
     EventManager:RegisterEvent(move_next_to_hero_event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Yiek, it's stinking in here.");
     dialogue:AddLineEventEmote(text, kalya_sprite, "Bronann looks at Kalya", "Kalya looks at Bronann", "exclamation");
     text = vt_system.Translate("Look at all those bones. We should be careful.");
     dialogue:AddLine(text, hero);
     text = vt_system.Translate("I hope Orlinn is alright.");
     dialogue:AddLineEmote(text, kalya_sprite, "sweat drop");
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Kalya Tells about the smell", dialogue);
     event:AddEventLinkAtEnd("kalya_sprite:SetCollision(NONE)");
     event:AddEventLinkAtEnd("Set Camera back to Bronann");
@@ -315,7 +312,7 @@ function _CreateEvents()
     event = vt_map.PathMoveSpriteEvent("make fenrir come", wolf, 30, 17, false);
     EventManager:RegisterEvent(event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("What a lovely necklace! I'll take it.");
     dialogue:AddLineEventEmote(text, kalya_sprite, "Bronann looks at Kalya", "Kalya looks north", "exclamation");
     text = vt_system.Translate("Kalya ... We're in the middle of a cave and you're only thinking about wearing jewels.");
@@ -330,7 +327,6 @@ function _CreateEvents()
     dialogue:AddLineEmote(text, hero, "exclamation");
     text = vt_system.Translate("You can't be serious, we would have heard it come.");
     dialogue:AddLineEvent(text, kalya_sprite, "Kalya looks at Bronann", "Kalya looks south");
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Kalya Tells about the necklace", dialogue);
     event:AddEventLinkAtEnd("The Fenrir growls");
     EventManager:RegisterEvent(event);
@@ -339,10 +335,9 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("Kalya realizes for the Fenrir");
     EventManager:RegisterEvent(event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Ah well, you were serious, weren't you?");
     dialogue:AddLineEmote(text, kalya_sprite, "sweat drop");
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Kalya realizes for the Fenrir", dialogue);
     event:AddEventLinkAtEnd("The Fenrir runs toward the hero");
     EventManager:RegisterEvent(event);
@@ -369,10 +364,9 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("Kalya talks after the battle");
     EventManager:RegisterEvent(event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("It ran away again... I'm glad we survived... Let's get out of here before it comes back.");
     dialogue:AddLineEventEmote(text, kalya_sprite, "Kalya looks at Bronann", "", "sweat drop");
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Kalya talks after the battle", dialogue);
     event:AddEventLinkAtEnd("kalya_sprite:SetCollision(NONE)");
     event:AddEventLinkAtEnd("Set Camera back to Bronann2");

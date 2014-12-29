@@ -85,14 +85,13 @@ function _CreateNPCs()
         EventManager:StartEvent("Dad random move");
     end
 
-    dialogue = vt_map.SpriteDialogue("ep1_bronann_home_talk_with_dad");
+    dialogue = vt_map.SpriteDialogue.Create("ep1_bronann_home_talk_with_dad");
     text = vt_system.Translate("Hey son! Did you sleep well? Hmm, now where did I leave that oil lamp?");
     dialogue:AddLine(text, bronanns_dad);
     text = vt_system.Translate("Hi Dad! Um, I don't know. Sorry.");
     dialogue:AddLineEmote(text, bronann, "thinking dots");
     text = vt_system.Translate("Nah, no problem, I'll find it somewhere... eventually.");
     dialogue:AddLine(text, bronanns_dad);
-    DialogueManager:AddDialogue(dialogue);
     bronanns_dad:AddDialogueReference(dialogue);
 
     bronanns_mother = CreateSprite(Map, "Malta", 33.1, 17.5, vt_map.MapMode.GROUND_OBJECT);
@@ -133,10 +132,9 @@ function _CreateNPCs()
     event:AddEventLinkAtEnd("Mother calls Bronann");
     EventManager:RegisterEvent(event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Bronann!");
     dialogue:AddLine(text, bronanns_mother);
-    DialogueManager:AddDialogue(dialogue);
 
     event = vt_map.DialogueEvent("Mother calls Bronann", dialogue);
     event:SetStopCameraMovement(true);
@@ -162,14 +160,13 @@ function _CreateNPCs()
     event:AddEventLinkAtEnd("Mother quest1 dialogue");
     EventManager:RegisterEvent(event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Now that you're *finally* up, could you go buy some barley meal for us three?");
     dialogue:AddLine(text, bronanns_mother);
     text = vt_system.Translate("Barley meal? Again?");
     dialogue:AddLineEmote(text, bronann, "sweat drop");
     text = vt_system.Translate("Hmph, just go, boy. You'll be free after that, ok?");
     dialogue:AddLine(text, bronanns_mother);
-    DialogueManager:AddDialogue(dialogue);
 
     event = vt_map.DialogueEvent("Mother quest1 dialogue", dialogue);
     event:AddEventLinkAtEnd("Map_PopState");
@@ -269,14 +266,13 @@ function _CreateEvents()
     event = vt_map.ChangeDirectionSpriteEvent("Quest2: Father looks west", bronanns_dad, vt_map.MapMode.WEST);
     EventManager:RegisterEvent(event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Thanks for helping me out with the dishes.");
     dialogue:AddLine(text, bronanns_mother);
     text = vt_system.Translate("Hmm, say, mom? Why is the village entrance blocked?");
     dialogue:AddLineEmote(text, bronann, "thinking dots");
     text = vt_system.Translate("...");
     dialogue:AddLineEmote(text, bronanns_mother, "sweat drop");
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Quest2: Bronann is told not to leave town - part 1", dialogue)
     -- Make a pause here
     event:AddEventLinkAtEnd("Quest2: Father looks south to think");
@@ -294,7 +290,7 @@ function _CreateEvents()
     event = vt_map.AnimateSpriteEvent("Quest2: Bronann looks at both parents", bronann, "searching", 1000);
     EventManager:RegisterEvent(event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Bronann, I'd like for you to not leave the village today.");
     dialogue:AddLine(text, bronanns_dad);
     text = vt_system.Translate("Huh?! What? Why? You told me that I could go into the forest and...");
@@ -309,7 +305,6 @@ function _CreateEvents()
     dialogue:AddLineEmote(text, bronann, "exclamation");
     text = vt_system.Translate("... It's not that simple, Bronann. Believe me.");
     dialogue:AddLineEmote(text, bronanns_dad, "thinking dots");
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Quest2: Bronann is told not to leave town - part 2", dialogue)
     event:AddEventLinkAtEnd("Quest2: Mother looks at Bronann", 2000);
     EventManager:RegisterEvent(event);
@@ -318,7 +313,7 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("Quest2: Bronann is told not to leave town - part 3");
     EventManager:RegisterEvent(event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Bronann, this time I want you to listen to your father very carefully. Please, my dear.");
     dialogue:AddLine(text, bronanns_mother);
     text = vt_system.Translate("But mom!");
@@ -327,7 +322,6 @@ function _CreateEvents()
     dialogue:AddLine(text, bronanns_dad);
     text = vt_system.Translate("(grumble)... Crap!");
     dialogue:AddLineEmote(text, bronann, "exclamation");
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Quest2: Bronann is told not to leave town - part 3", dialogue);
     event:AddEventLinkAtEnd("Quest2: Bronann is frustrated");
     EventManager:RegisterEvent(event);
@@ -355,14 +349,13 @@ function _CreateEvents()
     event = vt_map.ScriptedSpriteEvent("Quest2: SetCamera on mother", bronanns_mother, "Map_SetCamera", "");
     EventManager:RegisterEvent(event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Maybe we should tell him...");
     dialogue:AddLine(text, bronanns_mother);
     text = vt_system.Translate("It's too early, darling... We might be wrong.");
     dialogue:AddLineEmote(text, bronanns_dad, "thinking dots");
     text = vt_system.Translate("I really hope we are...");
     dialogue:AddLine(text, bronanns_dad);
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Quest2: Bronann is told not to leave town - part 4", dialogue);
     event:AddEventLinkAtEnd("Map_PopState");
     event:AddEventLinkAtEnd("to village");
@@ -441,47 +434,42 @@ function _UpdateMotherDialogue()
     bronanns_mother:ClearDialogueReferences();
 
     if (GlobalManager:DoesEventExist("story", "Quest2_forest_event_done") == true) then
-        local dialogue = vt_map.SpriteDialogue();
+        local dialogue = vt_map.SpriteDialogue.Create();
         local text = vt_system.Translate("Bronann, promise me that you'll be careful, ok?");
         dialogue:AddLine(text, bronanns_mother);
-        DialogueManager:AddDialogue(dialogue);
         bronanns_mother:AddDialogueReference(dialogue);
         return;
     end
     if (GlobalManager:DoesEventExist("story", "quest1_barley_meal_done") == true) then
         -- Got some barley meal, Mom!
         -- Begining dialogue
-        local dialogue = vt_map.SpriteDialogue();
+        local dialogue = vt_map.SpriteDialogue.Create();
         local text = vt_system.Translate("(Sigh)... got it, mom!");
         dialogue:AddLine(text, bronann);
         text = vt_system.Translate("Perfect timing, let's have dinner.");
         dialogue:AddLineEvent(text, bronanns_mother, "", "Quest1: end and transition to after-dinner");
-        DialogueManager:AddDialogue(dialogue);
         bronanns_mother:AddDialogueReference(dialogue);
     elseif (GlobalManager:DoesEventExist("bronanns_home", "quest1_mother_start_dialogue_done") == true) then
         -- 1st quest dialogue
-        local dialogue = vt_map.SpriteDialogue("ep1_bronann_home_talk_about_barley_meal");
+        local dialogue = vt_map.SpriteDialogue.Create("ep1_bronann_home_talk_about_barley_meal");
         local text = vt_system.Translate("Could you go and buy some barley meal for us three?");
         dialogue:AddLine(text, bronanns_mother);
-        DialogueManager:AddDialogue(dialogue);
         bronanns_mother:AddDialogueReference(dialogue);
     elseif (GlobalManager:DoesEventExist("bronanns_home", "quest1_mother_start_dialogue_done") == false) then
         -- Begining dialogue
-        local dialogue = vt_map.SpriteDialogue("ep1_bronann_home_talk_with_mother1");
+        local dialogue = vt_map.SpriteDialogue.Create("ep1_bronann_home_talk_with_mother1");
         local text = vt_system.Translate("Hi son, did you have a nightmare again last night?");
         dialogue:AddLine(text, bronanns_mother);
         text = vt_system.Translate("Hi mom. Huh, how did you know...?");
         dialogue:AddLineEmote(text, bronann, "interrogation");
         text = vt_system.Translate("Eh eh? Have you already forgotten that I'm your mother?");
         dialogue:AddLine(text, bronanns_mother);
-        DialogueManager:AddDialogue(dialogue);
         bronanns_mother:AddDialogueReference(dialogue);
     else
         -- Last default dialogue
-        local dialogue = vt_map.SpriteDialogue();
+        local dialogue = vt_map.SpriteDialogue.Create();
         local text = vt_system.Translate("Don't venture too far, I'll need your help soon!");
         dialogue:AddLine(text, bronanns_mother);
-        DialogueManager:AddDialogue(dialogue);
         bronanns_mother:AddDialogueReference(dialogue);
     end
 end

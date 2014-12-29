@@ -399,7 +399,7 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("Boss introduction");
     EventManager:RegisterEvent(event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Yiek! A big monster!");
     dialogue:AddLineEmote(text, orlinn, "exclamation");
     text = vt_system.Translate("My name is Andromalius, Guardian of the Sacred Seal, and Keeper of the Goddess Shrine...");
@@ -410,7 +410,6 @@ function _CreateEvents()
     dialogue:AddLine(text, andromalius);
     text = vt_system.Translate("Yiek!");
     dialogue:AddLineEmote(text, orlinn, "exclamation");
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Boss introduction", dialogue);
     event:AddEventLinkAtEnd("Set camera on Orlinn");
     EventManager:RegisterEvent(event);
@@ -443,7 +442,7 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("Boss conclusion");
     EventManager:RegisterEvent(event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("You've proven yourself, Chosen One... You deserve to live after all...");
     dialogue:AddLine(text, andromalius);
     text = vt_system.Translate("Me? But I'm not the Chosen One.");
@@ -452,7 +451,6 @@ function _CreateEvents()
     dialogue:AddLine(text, andromalius);
     text = vt_system.Translate("Farewell, Chosen One...");
     dialogue:AddLine(text, andromalius);
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Boss conclusion", dialogue);
     event:AddEventLinkAtEnd("The Boss dies");
     EventManager:RegisterEvent(event);
@@ -478,12 +476,11 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("Waterfall dialogue", 1000);
     EventManager:RegisterEvent(event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("I can hear water from everywhere...");
     dialogue:AddLineEmote(text, orlinn, "interrogation");
     text = vt_system.Translate("Kalya, Bronann!");
     dialogue:AddLineEventEmote(text, orlinn, "Orlinn looks south", "", "exclamation");
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Waterfall dialogue", dialogue);
     event:AddEventLinkAtEnd("Waterfall event end");
     EventManager:RegisterEvent(event);

@@ -380,7 +380,7 @@ function _CreateEvents()
     orlinn_move_next_to_hero_event:AddEventLinkAtEnd("Orlinn looks north");
     EventManager:RegisterEvent(orlinn_move_next_to_hero_event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("... It seems somebody left a note here on purpose...");
     dialogue:AddLine(text, hero);
     text = vt_system.Translate("You mean, in the middle of those scary bones?");
@@ -415,7 +415,6 @@ function _CreateEvents()
     dialogue:AddLine(text, bronann);
     text = vt_system.Translate("Yes, and let's do it quickly...");
     dialogue:AddLine(text, hero);
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Kalya reads the parchment 1", dialogue);
     event:AddEventLinkAtEnd("Orlinn goes back to party");
     event:AddEventLinkAtEnd("Bronann goes back to party");
@@ -432,12 +431,11 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
 
     -- A small event, summarizing the whole one
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Somebody left a note on purpose here. According to it, we need to find out a way to trigger the waterfall from the highest floor.");
     dialogue:AddLine(text, hero);
     text = vt_system.Translate("But let's be careful, as it also said this place is dangerous, and the dark waters are a trap somehow...");
     dialogue:AddLine(text, hero);
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Parchment 1 event small", dialogue);
     EventManager:RegisterEvent(event);
 
@@ -446,10 +444,9 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("Skeleton dialogue");
     EventManager:RegisterEvent(event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("What is this? ... Skeletons?!");
     dialogue:AddLineEmote(text, hero, "exclamation");
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Skeleton dialogue", dialogue);
     event:AddEventLinkAtEnd("Skeleton1 goes to hero");
     event:AddEventLinkAtEnd("Skeleton2 goes to hero");
@@ -476,10 +473,9 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("Skeleton dialogue 2");
     EventManager:RegisterEvent(event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Phew...");
     dialogue:AddLineEmote(text, hero, "exclamation");
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Skeleton dialogue 2", dialogue);
     event:AddEventLinkAtEnd("Skeleton event end");
     EventManager:RegisterEvent(event);

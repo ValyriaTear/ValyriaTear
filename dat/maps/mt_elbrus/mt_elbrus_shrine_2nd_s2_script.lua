@@ -135,10 +135,9 @@ function _CreateObjects()
     event:AddEventLinkAtEnd("Hero speaks about the red stone");
     EventManager:RegisterEvent(event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Phew, this one sure is heavier and sturdier...");
     dialogue:AddLineEmote(text, hero, "sweat drop");
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Hero speaks about the red stone", dialogue);
     event:AddEventLinkAtEnd("Make rolling stone1 fall event end");
     EventManager:RegisterEvent(event);
@@ -394,10 +393,9 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("Enigma map dialogue");
     EventManager:RegisterEvent(event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("I can feel something move far below...");
     dialogue:AddLine(text, hero);
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Enigma map dialogue", dialogue);
     event:AddEventLinkAtEnd("Enigma map open event end");
     EventManager:RegisterEvent(event);

@@ -99,7 +99,7 @@ function _CreateNPCs()
         npc:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
     else
         npc:SetDirection(vt_map.MapMode.SOUTH);
-        dialogue = vt_map.SpriteDialogue();
+        dialogue = vt_map.SpriteDialogue.Create();
         text = vt_system.Translate("Hi Bronann.");
         dialogue:AddLine(text, npc);
         text = vt_system.Translate("Hi Herth. I see you've blocked the gate, why so?");
@@ -112,13 +112,11 @@ function _CreateNPCs()
         dialogue:AddLine(text, bronann);
         text = vt_system.Translate("It's a possibility. But don't worry too much, ok?");
         dialogue:AddLine(text, npc);
-        DialogueManager:AddDialogue(dialogue);
         npc:AddDialogueReference(dialogue);
         -- The second time, just repeat the sentence
-        dialogue = vt_map.SpriteDialogue("ep1_layna_village_herth_south_entrance_default");
+        dialogue = vt_map.SpriteDialogue.Create("ep1_layna_village_herth_south_entrance_default");
         text = vt_system.Translate("It's a possibility. But don't worry too much, ok?");
         dialogue:AddLine(text, npc);
-        DialogueManager:AddDialogue(dialogue);
         npc:AddDialogueReference(dialogue);
     end
 
@@ -137,11 +135,10 @@ function _CreateNPCs()
         EventManager:RegisterEvent(event);
         EventManager:StartEvent("Chicken2 random move");
 
-        dialogue = vt_map.SpriteDialogue();
+        dialogue = vt_map.SpriteDialogue.Create();
         text = vt_system.Translate("One of Grandma's chicken... I should bring it back.");
         dialogue:AddLine(text, bronann);
         dialogue:SetEventAtDialogueEnd("Make bronann take the chicken 2");
-        DialogueManager:AddDialogue(dialogue);
         chicken2:AddDialogueReference(dialogue);
 
         event = vt_map.ScriptedEvent("Make bronann take the chicken 2", "bronann_takes_chicken2", "fadeoutin_update");
@@ -279,12 +276,11 @@ function _UpdateOrlinnState()
         EventManager:StartEvent("Hide n Seek1: Orlinn goes right", 8000);
 
         -- Set up the dialogue.
-        dialogue = vt_map.SpriteDialogue();
+        dialogue = vt_map.SpriteDialogue.Create();
         text = vt_system.Translate("Yiek!!! Hey, you scared me.");
         dialogue:AddLineEmote(text, orlinn, "exclamation");
         text = vt_system.Translate("But you'll never find me hiding on top of the cliffs!");
         dialogue:AddLineEvent(text, orlinn, "", "Quest1: Start Orlinn Hide n Seek2");
-        DialogueManager:AddDialogue(dialogue);
         orlinn:AddDialogueReference(dialogue);
         return;
     end

@@ -29,7 +29,6 @@ local Script = nil;
 local DialogueManager = nil;
 local stop_script = false;
 local start_timer = nil;
-local main_dialogue = nil;
 
 local dialogue_started = false;
 
@@ -59,50 +58,48 @@ function Initialize(shop_instance)
     DialogueManager:AddSpeaker("Bronann", vt_system.Translate("Bronann"), "img/portraits/bronann.png");
     DialogueManager:AddSpeaker("Flora", vt_system.Translate("Flora"), "");
 
-    local text;
     -- The dialogue constructed below offers the player instructions on how to do battle. It is displayed only once in the first few seconds
     -- of battle, before any action can be taken. The player is presented with several options that they can read to get more information on
     -- the battle system. One of the options that the player may select from will finish the dialogue, allow the battle to resume.
-    main_dialogue = vt_common.Dialogue("Shop tutorial first dialogue");
-        text = vt_system.Translate("It seems it is your first time around, right? Need help?");
-        main_dialogue:AddLine(text, "Flora");
-        text = vt_system.Translate("...");
-        main_dialogue:AddLine(text, "Bronann");
-        text = vt_system.Translate("I wouldn't mind some help...");
-        main_dialogue:AddOption(text, 2);
-        text = vt_system.Translate("I should be fine, thanks.");
-        main_dialogue:AddOption(text, 12);
-        -- [Line 2] After selecting option: Tell about shop basics.
-        text = vt_system.Translate("I wouldn't mind some help...");
-        main_dialogue:AddLine(text, "Bronann");
-        text = vt_system.Translate("Welcome to my shop, then! \nFirst of all you can choose to either 'Buy' or 'Sell' items from the top menu right here... \n'Trade' is for special offers that don't only cost money.");
-        main_dialogue:AddLine(text, "Flora");
-        text = vt_system.Translate("Don't worry, I'll make good prices for you as you can testify in the buy ranking right there!");
-        main_dialogue:AddLine(text, "Flora");
-        text = vt_system.Translate("For now, let's see what I have in store and select the 'Buy' option...");
-        main_dialogue:AddLine(text, "Flora");
-        -- Set State buy
-        text = vt_system.Translate("Here you can see the list of available wares, how many items I've got and how many you already have for each.");
-        main_dialogue:AddLine(text, "Flora");
-        text = vt_system.VTranslate("Don't forget that certain items are limited or unique! \nWhen revieving items, you can also cycle through the proposed item categories using the menu key (%s).", InputManager:GetMenuKeyName());
-        main_dialogue:AddLine(text, "Flora");
-        text = vt_system.Translate("Let's have a look at the potions...");
-        main_dialogue:AddLine(text, "Flora");
-        -- Set State buy potions
-        text = vt_system.Translate("Once you're here, you'll be able to add or remove how many items you want by pressing left or right. Of course, only if you have money, Sweeties...");
-        main_dialogue:AddLine(text, "Flora");
-        text = vt_system.Translate("Shall I repeat?");
-        main_dialogue:AddLine(text, "Flora");
-        text = vt_system.Translate("...");
-        main_dialogue:AddLine(text, "Bronann");
-        text = vt_system.Translate("Yes, please!");
-        main_dialogue:AddOption(text, 3);
-        text = vt_system.Translate("No, it's alright!");
-        main_dialogue:AddOption(text, 12);
-        -- Line 12: End of dialogue
-        text = vt_system.Translate("Alright then, take a look around...");
-        main_dialogue:AddLine(text, "Flora");
-    DialogueManager:AddDialogue(main_dialogue);
+    local main_dialogue = vt_common.Dialogue.Create(DialogueManager, "Shop tutorial first dialogue");
+    local text = vt_system.Translate("It seems it is your first time around, right? Need help?");
+    main_dialogue:AddLine(text, "Flora");
+    text = vt_system.Translate("...");
+    main_dialogue:AddLine(text, "Bronann");
+    text = vt_system.Translate("I wouldn't mind some help...");
+    main_dialogue:AddOption(text, 2);
+    text = vt_system.Translate("I should be fine, thanks.");
+    main_dialogue:AddOption(text, 12);
+    -- [Line 2] After selecting option: Tell about shop basics.
+    text = vt_system.Translate("I wouldn't mind some help...");
+    main_dialogue:AddLine(text, "Bronann");
+    text = vt_system.Translate("Welcome to my shop, then! \nFirst of all you can choose to either 'Buy' or 'Sell' items from the top menu right here... \n'Trade' is for special offers that don't only cost money.");
+    main_dialogue:AddLine(text, "Flora");
+    text = vt_system.Translate("Don't worry, I'll make good prices for you as you can testify in the buy ranking right there!");
+    main_dialogue:AddLine(text, "Flora");
+    text = vt_system.Translate("For now, let's see what I have in store and select the 'Buy' option...");
+    main_dialogue:AddLine(text, "Flora");
+    -- Set State buy
+    text = vt_system.Translate("Here you can see the list of available wares, how many items I've got and how many you already have for each.");
+    main_dialogue:AddLine(text, "Flora");
+    text = vt_system.VTranslate("Don't forget that certain items are limited or unique! \nWhen revieving items, you can also cycle through the proposed item categories using the menu key (%s).", InputManager:GetMenuKeyName());
+    main_dialogue:AddLine(text, "Flora");
+    text = vt_system.Translate("Let's have a look at the potions...");
+    main_dialogue:AddLine(text, "Flora");
+    -- Set State buy potions
+    text = vt_system.Translate("Once you're here, you'll be able to add or remove how many items you want by pressing left or right. Of course, only if you have money, Sweeties...");
+    main_dialogue:AddLine(text, "Flora");
+    text = vt_system.Translate("Shall I repeat?");
+    main_dialogue:AddLine(text, "Flora");
+    text = vt_system.Translate("...");
+    main_dialogue:AddLine(text, "Bronann");
+    text = vt_system.Translate("Yes, please!");
+    main_dialogue:AddOption(text, 3);
+    text = vt_system.Translate("No, it's alright!");
+    main_dialogue:AddOption(text, 12);
+    -- Line 12: End of dialogue
+    text = vt_system.Translate("Alright then, take a look around...");
+    main_dialogue:AddLine(text, "Flora");
 
     -- Construct a timer so we can start the dialogue a couple seconds after the battle begins
     start_timer = vt_system.SystemTimer(100, 0);

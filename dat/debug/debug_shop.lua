@@ -53,5 +53,4 @@ function BootShopTest()
     shop:GetScriptSupervisor():AddScript("dat/help/tutorial_shop_dialogs.lua");
 
     ModeManager:Push(shop, false, false);
-
 end

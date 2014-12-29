@@ -249,10 +249,9 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
 
     -- cant't go back event
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("We can't go back now...");
     dialogue:AddLine(text, hero);
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Can't go back dialogue", dialogue);
     EventManager:RegisterEvent(event);
 
@@ -271,7 +270,7 @@ function _CreateEvents()
     orlinn_move_next_to_hero_event1:AddEventLinkAtEnd("Orlinn looks north");
     EventManager:RegisterEvent(orlinn_move_next_to_hero_event1);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("We made it...");
     dialogue:AddLineEmote(text, kalya, "sweat drop");
     text = vt_system.Translate("Brr... It's quite cold up here.");
@@ -280,7 +279,6 @@ function _CreateEvents()
     dialogue:AddLineEmote(text, kalya, "exclamation");
     text = vt_system.Translate("Let's hurry, I can't feel my toes anymore...");
     dialogue:AddLineEventEmote(text, orlinn, "Orlinn looks at Kalya", "", "sweat drop");
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Dialogue about snow and bridge", dialogue);
     event:AddEventLinkAtEnd("Orlinn goes back to party");
     event:AddEventLinkAtEnd("Kalya goes back to party");
@@ -302,12 +300,11 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("Dialogue about the bridge");
     EventManager:RegisterEvent(event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("(Woah, this bridge doesn't look that sturdy...)");
     dialogue:AddLineEmote(text, hero, "sweat drop");
     text = vt_system.Translate("Well, here we go....");
     dialogue:AddLine(text, hero);
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Dialogue about the bridge", dialogue);
     event:AddEventLinkAtEnd("End of bridge dialogue");
     EventManager:RegisterEvent(event);
@@ -320,12 +317,11 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("Soldiers catching up Dialogue");
     EventManager:RegisterEvent(event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("There!");
     dialogue:AddLine(text, soldier1);
     text = vt_system.Translate("Huh?");
     dialogue:AddLineEventEmote(text, hero, "Bronann looks south", "", "exclamation");
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Soldiers catching up Dialogue", dialogue);
     event:AddEventLinkAtEnd("Set focus on soldiers");
     EventManager:RegisterEvent(event);
@@ -341,10 +337,9 @@ function _CreateEvents()
     event = vt_map.PathMoveSpriteEvent("Soldier3 starts running", soldier3, 40.0, 61.5, true);
     EventManager:RegisterEvent(event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Catch them before they reach the Shrine!");
     dialogue:AddLineEmote(text, soldier1, "exclamation");
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Soldiers catching up Dialogue2", dialogue);
     event:AddEventLinkAtEnd("Set focus on Bronann");
     event:AddEventLinkAtEnd("Soldier1 starts running");
@@ -356,10 +351,9 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("Soldiers catching up Dialogue3");
     EventManager:RegisterEvent(event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Let's run!");
     dialogue:AddLineEmote(text, hero, "exclamation");
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Soldiers catching up Dialogue3", dialogue);
     event:AddEventLinkAtEnd("The hero runs north of the bridge");
     EventManager:RegisterEvent(event);
@@ -393,12 +387,11 @@ function _CreateEvents()
     kalya_move_next_to_hero_event2:AddEventLinkAtEnd("Dialogue about cutting bridge");
     EventManager:RegisterEvent(orlinn_move_next_to_hero_event2);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Bronann!");
     dialogue:AddLineEmote(text, kalya, "exclamation");
     text = vt_system.Translate("I'll cut those ropes!");
     dialogue:AddLine(text, hero);
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Dialogue about cutting bridge", dialogue);
     event:AddEventLinkAtEnd("The hero comes close the bridge's edge");
     EventManager:RegisterEvent(event);
@@ -423,10 +416,9 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("The party relaxes");
     EventManager:RegisterEvent(event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("That was close...");
     dialogue:AddLineEmote(text, kalya, "sweat drop");
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("The party relaxes", dialogue);
     event:AddEventLinkAtEnd("Set focus on soldiers2");
     EventManager:RegisterEvent(event);
@@ -438,14 +430,13 @@ function _CreateEvents()
     event = vt_map.LookAtSpriteEvent("Soldier2 looks at Soldier1", soldier2, soldier1);
     EventManager:RegisterEvent(event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Damn!!");
     dialogue:AddLine(text, soldier1);
     text = vt_system.Translate("The Master won't be happy with this...");
     dialogue:AddLineEvent(text, soldier2, "Soldier2 looks at Soldier1", "");
     text = vt_system.Translate("You won't get away so easily... We will catch you sooner or later...");
     dialogue:AddLineEmote(text, soldier1, "sweat drop");
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("The soldiers threaten the party", dialogue);
     event:AddEventLinkAtEnd("Set focus on Bronann2");
     EventManager:RegisterEvent(event);
@@ -468,14 +459,13 @@ function _CreateEvents()
     event = vt_map.AnimateSpriteEvent("Orlinn laughs", orlinn, "laughing", 0); -- infinite time.
     EventManager:RegisterEvent(event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Hurray! Those idiots will have a hard time catching us now!");
     dialogue:AddLine(text, orlinn);
     text = vt_system.Translate("Indeed! They've been had!");
     dialogue:AddLine(text, hero);
     text = vt_system.Translate("Who are the little brats now, eh?");
     dialogue:AddLine(text, kalya);
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("The party relaxes 2", dialogue);
     event:AddEventLinkAtEnd("Set focus on soldiers3");
     EventManager:RegisterEvent(event);
@@ -487,12 +477,11 @@ function _CreateEvents()
     event = vt_map.ScriptedEvent("The party stops laughing", "stop_party_animation", "")
     EventManager:RegisterEvent(event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Let's go back and tell the others...");
     dialogue:AddLine(text, soldier1);
     text = vt_system.Translate("Yes, Sir...");
     dialogue:AddLineEvent(text, soldier2, "Soldier2 looks at Soldier1", "");
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("The soldiers retreat", dialogue);
     event:AddEventLinkAtEnd("The party stops laughing");
     event:AddEventLinkAtEnd("Set focus on Bronann3");
@@ -512,10 +501,9 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("The party wonders what to do");
     EventManager:RegisterEvent(event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("They're gone... We should move on before they actually find a way to cross the gap.");
     dialogue:AddLineEvent(text, kalya, "Bronann looks at Kalya", "");
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("The party wonders what to do", dialogue);
     event:AddEventLinkAtEnd("Orlinn goes back to party2");
     event:AddEventLinkAtEnd("Kalya goes back to party2");
@@ -530,7 +518,6 @@ function _CreateEvents()
 
     event = vt_map.ScriptedEvent("End of cutting the bridge Event", "cut_the_bridge_event_end", "");
     EventManager:RegisterEvent(event);
-
 
     event = vt_map.ScriptedEvent("Falls from above event", "fall_event_start", "fall_event_update");
     EventManager:RegisterEvent(event);

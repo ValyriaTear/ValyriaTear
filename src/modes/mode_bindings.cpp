@@ -428,7 +428,6 @@ void BindModeCode()
         luabind::module(vt_script::ScriptManager->GetGlobalState(), "vt_map")
         [
             luabind::class_<MapDialogueSupervisor>("MapDialogueSupervisor")
-            .def("AddDialogue", &MapDialogueSupervisor::AddDialogue, luabind::adopt(_2))
             .def("StartDialogue", &MapDialogueSupervisor::StartDialogue)
             .def("EndDialogue", &MapDialogueSupervisor::EndDialogue)
             .def("GetDialogue", &MapDialogueSupervisor::GetDialogue)
@@ -438,9 +437,6 @@ void BindModeCode()
         luabind::module(vt_script::ScriptManager->GetGlobalState(), "vt_map")
         [
             luabind::class_<SpriteDialogue, vt_common::Dialogue>("SpriteDialogue")
-            .def(luabind::constructor<>())
-            .def(luabind::constructor<const std::string&>())
-
             .def("AddLine", (void(SpriteDialogue:: *)(const std::string &, MapSprite*))&SpriteDialogue::AddLine)
             .def("AddLine", (void(SpriteDialogue:: *)(const std::string &, MapSprite*, int32))&SpriteDialogue::AddLine)
             .def("AddLineEmote", (void(SpriteDialogue:: *)(const std::string &, MapSprite*, const std::string &))&SpriteDialogue::AddLineEmote)
@@ -466,6 +462,11 @@ void BindModeCode()
 
             .def("SetEventAtDialogueEnd", &SpriteDialogue::SetEventAtDialogueEnd)
             .def("GetEventAtDialogueEnd", &SpriteDialogue::GetEventAtDialogueEnd)
+            .scope
+            [   // Used for static members and nested classes.
+                luabind::def("Create", (SpriteDialogue*(/*SpriteDialogue::*/ *)())&SpriteDialogue::Create),
+                luabind::def("Create", (SpriteDialogue*(/*SpriteDialogue::*/ *)(const std::string&))&SpriteDialogue::Create)
+            ]
         ];
 
         luabind::module(vt_script::ScriptManager->GetGlobalState(), "vt_map")
@@ -876,7 +877,7 @@ void BindModeCode()
             .def(luabind::constructor<>())
             .def("SetShopName", &ShopMode::SetShopName)
             .def("SetGreetingText", &ShopMode::SetGreetingText)
-            .def("AddObject", &ShopMode::AddItem)
+            .def("AddItem", &ShopMode::AddItem)
             .def("AddTrade", &ShopMode::AddTrade)
             .def("SetPriceLevels", &ShopMode::SetPriceLevels)
             .def("SetSellModeEnabled", &ShopMode::SetSellModeEnabled)

@@ -73,11 +73,10 @@ function _CreateObjects()
         EventManager:RegisterEvent(event);
         EventManager:StartEvent("Chicken1 random move");
 
-        dialogue = vt_map.SpriteDialogue();
+        dialogue = vt_map.SpriteDialogue.Create();
         text = vt_system.Translate("One of Grandma's chicken... I should bring it back.");
         dialogue:AddLine(text, bronann);
         dialogue:SetEventAtDialogueEnd("Make bronann take the chicken 1");
-        DialogueManager:AddDialogue(dialogue);
         chicken1:AddDialogueReference(dialogue);
 
         event = vt_map.ScriptedEvent("Make bronann take the chicken 1", "bronann_takes_chicken1", "fadeoutin_update");
