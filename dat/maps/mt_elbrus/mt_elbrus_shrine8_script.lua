@@ -14,14 +14,13 @@ map_subname = ""
 music_filename = "mus/mountain_shrine.ogg"
 
 -- c++ objects instances
-local Map = {};
-local ObjectManager = {};
-local DialogueManager = {};
-local EventManager = {};
-local Script = {};
+local Map = nil
+local DialogueManager = nil
+local EventManager = nil
+local Script = nil
 
 -- the main character handler
-local hero = {};
+local hero = nil
 
 -- Name of the main sprite. Used to reload the good one at the end of dialogue events.
 local main_sprite_name = "";
@@ -30,12 +29,10 @@ local main_sprite_name = "";
 function Load(m)
 
     Map = m;
-    ObjectManager = Map.object_supervisor;
-    DialogueManager = Map.dialogue_supervisor;
-    EventManager = Map.event_supervisor;
     Script = Map:GetScriptSupervisor();
-
-    Map.unlimited_stamina = false;
+    DialogueManager = Map:GetDialogueSupervisor();
+    EventManager = Map:GetEventSupervisor();
+    Map:SetUnlimitedStamina(false);
 
     _CreateCharacters();
     _CreateObjects();
@@ -55,7 +52,6 @@ function Load(m)
 
     -- Preload sounds
     AudioManager:LoadSound("snd/trigger_on.wav", Map);
-
 end
 
 -- the map update function handles checks done on each game tick.
@@ -67,10 +63,9 @@ end
 -- Character creation
 function _CreateCharacters()
     -- Default hero and position
-    hero = CreateSprite(Map, "Orlinn", 0.0, 0.0);
+    hero = CreateSprite(Map, "Orlinn", 0.0, 0.0, vt_map.MapMode.GROUND_OBJECT);
     hero:SetDirection(vt_map.MapMode.SOUTH);
     hero:SetMovementSpeed(vt_map.MapMode.FAST_SPEED);
-    Map:AddGroundObject(hero);
 
     if (GlobalManager:GetPreviousLocation() == "from_shrine_first_floor_NW_room") then
         hero:SetPosition(3, 10);
@@ -90,23 +85,21 @@ end
 local trigger_state = 0;
 
 function _CreateObjects()
-    local object = {}
-    local npc = {}
-    local dialogue = {}
-    local text = {}
-    local event = {}
+    local object = nil
+    local npc = nil
+    local dialogue = nil
+    local text = nil
+    local event = nil
 
     _add_flame(5.5, 6);
     _add_flame(27.5, 7);
 
     -- A trigger that will open the gate in the SE map.
-    object = vt_map.TriggerObject("mt elbrus shrine 8 gate 7 trigger",
+    object = vt_map.TriggerObject.CreateObject("mt elbrus shrine 8 gate 7 trigger",
                              "img/sprites/map/triggers/stone_trigger1_off.lua",
                              "img/sprites/map/triggers/stone_trigger1_on.lua",
                              "", "Trigger on event");
-    object:SetObjectID(Map.object_supervisor:GenerateObjectID());
     object:SetPosition(19, 20);
-    Map:AddFlatGroundObject(object);
 
     trigger_state = GlobalManager:GetEventValue("triggers", "mt elbrus shrine 8 gate 7 trigger");
 
@@ -119,62 +112,52 @@ function _CreateObjects()
         _add_waterlight(16, 31)
         _add_waterlight(25, 33)
     end
-
 end
 
 function _add_waterfall(x, y)
-    local object = CreateObject(Map, "Waterfall1", x - 0.1, y - 0.2);
+    local object = CreateObject(Map, "Waterfall1", x - 0.1, y - 0.2, vt_map.MapMode.GROUND_OBJECT);
     object:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
     object:RandomizeCurrentAnimationFrame();
-    Map:AddGroundObject(object);
+
     -- Ambient sound
-    object = vt_map.SoundObject("snd/fountain_large.ogg", x, y - 5, 50.0);
+    object = vt_map.SoundObject.CreateObject("snd/fountain_large.ogg", x, y - 5, 50.0);
     object:SetMaxVolume(0.6);
-    Map:AddAmbientSoundObject(object)
+
     -- Particle effects
-    object = vt_map.ParticleObject("dat/effects/particles/waterfall_steam.lua", x, y - 15.0);
-    object:SetObjectID(Map.object_supervisor:GenerateObjectID());
+    object = vt_map.ParticleObject.CreateObject("dat/effects/particles/waterfall_steam.lua", x, y - 15.0, vt_map.MapMode.GROUND_OBJECT);
     object:SetDrawOnSecondPass(true);
-    Map:AddGroundObject(object);
-    object = vt_map.ParticleObject("dat/effects/particles/waterfall_steam_big.lua", x, y + 0.2);
-    object:SetObjectID(Map.object_supervisor:GenerateObjectID());
+
+    object = vt_map.ParticleObject.CreateObject("dat/effects/particles/waterfall_steam_big.lua", x, y + 0.2, vt_map.MapMode.GROUND_OBJECT);
     object:SetDrawOnSecondPass(true);
-    Map:AddGroundObject(object);
 end
 
 function _add_small_waterfall(x, y)
-    local object = CreateObject(Map, "Waterfall2", x - 0.1, y - 0.2);
+    local object = CreateObject(Map, "Waterfall2", x - 0.1, y - 0.2, vt_map.MapMode.GROUND_OBJECT);
     object:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
     object:RandomizeCurrentAnimationFrame();
-    Map:AddGroundObject(object);
+
     -- Ambient sound
-    object = vt_map.SoundObject("snd/fountain_large.ogg", x, y - 5, 50.0);
+    object = vt_map.SoundObject.CreateObject("snd/fountain_large.ogg", x, y - 5, 50.0);
     object:SetMaxVolume(0.6);
-    Map:AddAmbientSoundObject(object)
+
     -- Particle effects
-    object = vt_map.ParticleObject("dat/effects/particles/waterfall_steam.lua", x, y - 8.0);
-    object:SetObjectID(Map.object_supervisor:GenerateObjectID());
+    object = vt_map.ParticleObject.CreateObject("dat/effects/particles/waterfall_steam.lua", x, y - 8.0, vt_map.MapMode.GROUND_OBJECT);
     object:SetDrawOnSecondPass(true);
-    Map:AddGroundObject(object);
-    object = vt_map.ParticleObject("dat/effects/particles/waterfall_steam_big.lua", x, y + 1.0);
-    object:SetObjectID(Map.object_supervisor:GenerateObjectID());
+
+    object = vt_map.ParticleObject.CreateObject("dat/effects/particles/waterfall_steam_big.lua", x, y + 1.0, vt_map.MapMode.GROUND_OBJECT);
     object:SetDrawOnSecondPass(true);
-    Map:AddGroundObject(object);
 end
 
 function _add_waterlight(x, y)
-    local object = CreateObject(Map, "Water Light1", x, y);
+    local object = CreateObject(Map, "Water Light1", x, y, vt_map.MapMode.GROUND_OBJECT);
     object:RandomizeCurrentAnimationFrame();
     object:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
-    Map:AddGroundObject(object);
 end
 
 function _add_flame(x, y)
-    local object = vt_map.SoundObject("snd/campfire.ogg", x, y, 10.0);
-    if (object ~= nil) then Map:AddAmbientSoundObject(object) end;
+    vt_map.SoundObject.CreateObject("snd/campfire.ogg", x, y, 10.0);
 
-    object = CreateObject(Map, "Flame1", x, y);
-    Map:AddGroundObject(object);
+    CreateObject(Map, "Flame1", x, y, vt_map.MapMode.GROUND_OBJECT);
 
     Map:AddHalo("img/misc/lights/torch_light_mask2.lua", x, y + 3.0,
         vt_video.Color(0.85, 0.32, 0.0, 0.6));
@@ -183,8 +166,8 @@ function _add_flame(x, y)
 end
 
 function _CreateEnemies()
-    local enemy = {};
-    local roam_zone = {};
+    local enemy = nil
+    local roam_zone = nil
 
     -- Hint: left, right, top, bottom
     roam_zone = vt_map.EnemyZone(12, 20, 14, 22);
@@ -196,7 +179,7 @@ function _CreateEnemies()
     enemy:AddWayPoint(13.1, 21.8);
     enemy:SetAggroRange(5);
     enemy:SetEncounterEvent("Restart Orlinn Map");
-    roam_zone:AddEnemy(enemy, Map, 1);
+    roam_zone:AddEnemy(enemy, 1);
     Map:AddZone(roam_zone);
 
 
@@ -210,7 +193,7 @@ function _CreateEnemies()
     enemy:AddWayPoint(29.1, 17.8);
     enemy:SetAggroRange(5);
     enemy:SetEncounterEvent("Restart Orlinn Map");
-    roam_zone:AddEnemy(enemy, Map, 1);
+    roam_zone:AddEnemy(enemy, 1);
     Map:AddZone(roam_zone);
 
     roam_zone = vt_map.EnemyZone(28, 40, 22, 30);
@@ -222,15 +205,15 @@ function _CreateEnemies()
     enemy:AddWayPoint(29.1, 29.8);
     enemy:SetAggroRange(5);
     enemy:SetEncounterEvent("Restart Orlinn Map");
-    roam_zone:AddEnemy(enemy, Map, 1);
+    roam_zone:AddEnemy(enemy, 1);
     Map:AddZone(roam_zone);
 end
 
 -- Creates all events and sets up the entire event sequence chain
 function _CreateEvents()
-    local event = {};
-    local dialogue = {};
-    local text = {};
+    local event = nil
+    local dialogue = nil
+    local text = nil
 
     event = vt_map.MapTransitionEvent("to mountain shrine 1st floor NW room", "dat/maps/mt_elbrus/mt_elbrus_shrine5_map.lua",
                                        "dat/maps/mt_elbrus/mt_elbrus_shrine5_script.lua", "from_shrine_first_floor_NE_room");
@@ -249,22 +232,19 @@ function _CreateEvents()
 
     event = vt_map.ScriptedEvent("Trigger on event", "trigger_on_sound", "");
     EventManager:RegisterEvent(event);
-
 end
 
 -- zones
-local to_shrine_NW_room_zone = {};
-local to_shrine_SE_room_zone = {};
+local to_shrine_NW_room_zone = nil
+local to_shrine_SE_room_zone = nil
 
 -- Create the different map zones triggering events
 function _CreateZones()
-
     -- N.B.: left, right, top, bottom
     to_shrine_NW_room_zone = vt_map.CameraZone(0, 2, 8, 12);
     Map:AddZone(to_shrine_NW_room_zone);
     to_shrine_SE_room_zone = vt_map.CameraZone(24, 32, 38, 40);
     Map:AddZone(to_shrine_SE_room_zone);
-
 end
 
 -- Check whether the active camera has entered a zone. To be called within Update()
@@ -276,7 +256,6 @@ function _CheckZones()
         hero:SetDirection(vt_map.MapMode.SOUTH);
         EventManager:StartEvent("to mountain shrine 1st floor SE room");
     end
-
 end
 
 -- Map Custom functions

@@ -14,14 +14,13 @@ map_subname = "2nd Floor"
 music_filename = "mus/mountain_shrine.ogg"
 
 -- c++ objects instances
-local Map = {};
-local ObjectManager = {};
-local DialogueManager = {};
-local EventManager = {};
-local Script = {};
+local Map = nil
+local DialogueManager = nil
+local EventManager = nil
+local Script = nil
 
 -- the main character handler
-local hero = {};
+local hero = nil
 
 -- Name of the main sprite. Used to reload the good one at the end of dialogue events.
 local main_sprite_name = "";
@@ -30,12 +29,10 @@ local main_sprite_name = "";
 function Load(m)
 
     Map = m;
-    ObjectManager = Map.object_supervisor;
-    DialogueManager = Map.dialogue_supervisor;
-    EventManager = Map.event_supervisor;
     Script = Map:GetScriptSupervisor();
-
-    Map.unlimited_stamina = false;
+    DialogueManager = Map:GetDialogueSupervisor();
+    EventManager = Map:GetEventSupervisor();
+    Map:SetUnlimitedStamina(false);
 
     _CreateCharacters();
     _CreateObjects();
@@ -64,15 +61,14 @@ end
 -- Character creation
 function _CreateCharacters()
     -- Default hero and position (from shrine main room)
-    hero = CreateSprite(Map, "Bronann", 10.0, 12.5);
+    hero = CreateSprite(Map, "Bronann", 10.0, 12.5, vt_map.MapMode.GROUND_OBJECT);
     hero:SetDirection(vt_map.MapMode.SOUTH);
     hero:SetMovementSpeed(vt_map.MapMode.NORMAL_SPEED);
-    Map:AddGroundObject(hero);
 
     -- Set the camera focus on hero
     Map:SetCamera(hero);
     -- This is a dungeon map, we'll use the front battle member sprite as default sprite.
-    Map.object_supervisor:SetPartyMemberVisibleSprite(hero);
+    Map:SetPartyMemberVisibleSprite(hero);
 
     if (GlobalManager:GetPreviousLocation() == "from_shrine_2nd_floor_south") then
         hero:SetPosition(28, 36);
@@ -91,8 +87,8 @@ function _SetBattleEnvironment(enemy)
 end
 
 function _CreateEnemies()
-    local enemy = {};
-    local roam_zone = {};
+    local enemy = nil
+    local roam_zone = nil
 
     -- Hint: left, right, top, bottom
     roam_zone = vt_map.EnemyZone(6, 35, 13, 39);
@@ -102,7 +98,7 @@ function _CreateEnemies()
     enemy:NewEnemyParty();
     enemy:AddEnemy(19);
     enemy:SetTimeToRespawn(25000);
-    roam_zone:AddEnemy(enemy, Map, 1);
+    roam_zone:AddEnemy(enemy, 1);
     Map:AddZone(roam_zone);
 end
 
@@ -116,74 +112,50 @@ local stone_directions = {};
 local stone_rolling = {};
 
 -- Fences preventing from getting through
-local fence1_trigger1 = {};
-local fence2_trigger1 = {};
+local fence1_trigger1 = nil
+local fence2_trigger1 = nil
 local fence1_trigger1_x_position = 27.0;
 local fence2_trigger1_x_position = 29.0;
 
-local trap_spikes = {};
+local trap_spikes = nil
 
 function _CreateObjects()
-    local object = {}
-    local npc = {}
-    local dialogue = {}
-    local text = {}
-    local event = {}
+    local object = nil
+    local npc = nil
+    local dialogue = nil
+    local text = nil
+    local event = nil
 
     -- Snow effect
-    object = vt_map.ParticleObject("dat/maps/mt_elbrus/particles_snow_south_entrance.lua", 28, 40);
-    object:SetObjectID(Map.object_supervisor:GenerateObjectID());
-    Map:AddGroundObject(object);
+    object = vt_map.ParticleObject.CreateObject("dat/maps/mt_elbrus/particles_snow_south_entrance.lua", 28, 40, vt_map.MapMode.GROUND_OBJECT);
     Map:AddHalo("img/misc/lights/torch_light_mask.lua", 28, 47,
         vt_video.Color(1.0, 1.0, 1.0, 0.8));
 
     _add_flame(17.5, 7);
     _add_flame(31.5, 7);
 
-    object = CreateObject(Map, "Vase3", 21, 35);
-    Map:AddGroundObject(object);
+    CreateObject(Map, "Vase3", 21, 35, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Candle Holder1", 21, 11, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Candle Holder1", 27, 11, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Stone Fence1", 5, 26, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Stone Fence1", 7, 28, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Stone Fence1", 9, 30, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Stone Fence1", 11, 32, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Stone Fence1", 11, 34, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Stone Fence1", 11, 36, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Stone Fence1", 11, 38, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Stone Fence1", 25, 39, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Stone Fence1", 31, 39, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Stone Fence1", 15, 24.5, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Stone Fence1", 37.3, 23, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Stone Fence1", 35, 15, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Stone Fence1", 13, 31, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Stone Fence1", 35, 33, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Stone Fence1", 13, 17, vt_map.MapMode.GROUND_OBJECT);
 
-    object = CreateObject(Map, "Candle Holder1", 21, 11);
-    Map:AddGroundObject(object);
-    object = CreateObject(Map, "Candle Holder1", 27, 11);
-    Map:AddGroundObject(object);
-
-    object = CreateObject(Map, "Stone Fence1", 5, 26);
-    Map:AddGroundObject(object);
-    object = CreateObject(Map, "Stone Fence1", 7, 28);
-    Map:AddGroundObject(object);
-    object = CreateObject(Map, "Stone Fence1", 9, 30);
-    Map:AddGroundObject(object);
-    object = CreateObject(Map, "Stone Fence1", 11, 32);
-    Map:AddGroundObject(object);
-    object = CreateObject(Map, "Stone Fence1", 11, 34);
-    Map:AddGroundObject(object);
-    object = CreateObject(Map, "Stone Fence1", 11, 36);
-    Map:AddGroundObject(object);
-    object = CreateObject(Map, "Stone Fence1", 11, 38);
-    Map:AddGroundObject(object);
-    object = CreateObject(Map, "Stone Fence1", 25, 39);
-    Map:AddGroundObject(object);
-    object = CreateObject(Map, "Stone Fence1", 31, 39);
-    Map:AddGroundObject(object);
-
-    object = CreateObject(Map, "Stone Fence1", 15, 24.5);
-    Map:AddGroundObject(object);
-    object = CreateObject(Map, "Stone Fence1", 37.3, 23);
-    Map:AddGroundObject(object);
-    object = CreateObject(Map, "Stone Fence1", 35, 15);
-    Map:AddGroundObject(object);
-    object = CreateObject(Map, "Stone Fence1", 13, 31);
-    Map:AddGroundObject(object);
-    object = CreateObject(Map, "Stone Fence1", 35, 33);
-    Map:AddGroundObject(object);
-    object = CreateObject(Map, "Stone Fence1", 13, 17);
-    Map:AddGroundObject(object);
-
-    trap_spikes = CreateObject(Map, "Spikes1", 25, 24);
+    trap_spikes = CreateObject(Map, "Spikes1", 25, 24, vt_map.MapMode.GROUND_OBJECT);
     trap_spikes:SetVisible(false);
     trap_spikes:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
-    Map:AddGroundObject(trap_spikes);
 
     -- The stone triggers that will open the passage
     local i = 1;
@@ -222,15 +194,13 @@ function _CreateObjects()
             pos_y = 29;
         end
 
-        stone_triggers[i] = vt_map.TriggerObject("mt elbrus shrine 2nd NE trigger "..i,
+        stone_triggers[i] = vt_map.TriggerObject.CreateObject("mt elbrus shrine 2nd NE trigger "..i,
                                  "img/sprites/map/triggers/rolling_stone_trigger1_off.lua",
                                  "img/sprites/map/triggers/rolling_stone_trigger1_on.lua",
                                  "",
                                  "Check Gate");
-        stone_triggers[i]:SetObjectID(Map.object_supervisor:GenerateObjectID());
         stone_triggers[i]:SetTriggerableByCharacter(false); -- Only an event can trigger it
         stone_triggers[i]:SetPosition(pos_x, pos_y);
-        Map:AddFlatGroundObject(stone_triggers[i]);
 
         -- Reset the trigger state when not all of them have been pushed
         if (passage_open == false) then
@@ -244,10 +214,8 @@ function _CreateObjects()
         fence1_trigger1_x_position = 25.0;
         fence2_trigger1_x_position = 31.0;
     end
-    fence1_trigger1 = CreateObject(Map, "Stone Fence1", fence1_trigger1_x_position, 39);
-    Map:AddGroundObject(fence1_trigger1);
-    fence2_trigger1 = CreateObject(Map, "Stone Fence1", fence2_trigger1_x_position, 39);
-    Map:AddGroundObject(fence2_trigger1);
+    fence1_trigger1 = CreateObject(Map, "Stone Fence1", fence1_trigger1_x_position, 39, vt_map.MapMode.GROUND_OBJECT);
+    fence2_trigger1 = CreateObject(Map, "Stone Fence1", fence2_trigger1_x_position, 39, vt_map.MapMode.GROUND_OBJECT);
 
     local i = 1;
     local pos_x = 0.0;
@@ -280,9 +248,9 @@ function _CreateObjects()
             pos_y = 17;
         end
 
-        rolling_stones[i] = CreateObject(Map, "Rolling Stone", pos_x, pos_y);
+        rolling_stones[i] = CreateObject(Map, "Rolling Stone", pos_x, pos_y, vt_map.MapMode.GROUND_OBJECT);
         rolling_stones[i]:SetEventWhenTalking("Check hero position for rolling stone "..i);
-        Map:AddGroundObject(rolling_stones[i]);
+
         event = vt_map.IfEvent("Check hero position for rolling stone "..i, "check_diagonal_stone"..i, "Push the rolling stone "..i, "");
         EventManager:RegisterEvent(event);
         event = vt_map.ScriptedEvent("Push the rolling stone "..i, "start_to_move_the_stone"..i, "move_the_stone_update"..i)
@@ -295,12 +263,10 @@ function _CreateObjects()
 end
 
 function _add_flame(x, y)
-    local object = vt_map.SoundObject("snd/campfire.ogg", x, y, 10.0);
-    if (object ~= nil) then Map:AddAmbientSoundObject(object) end;
+    vt_map.SoundObject.CreateObject("snd/campfire.ogg", x, y, 10.0);
 
-    object = CreateObject(Map, "Flame1", x, y);
+    local object = CreateObject(Map, "Flame1", x, y, vt_map.MapMode.GROUND_OBJECT);
     object:RandomizeCurrentAnimationFrame();
-    Map:AddGroundObject(object);
 
     Map:AddHalo("img/misc/lights/torch_light_mask2.lua", x, y + 3.0,
         vt_video.Color(0.85, 0.32, 0.0, 0.6));
@@ -308,12 +274,11 @@ function _add_flame(x, y)
         vt_video.Color(0.99, 1.0, 0.27, 0.1));
 end
 
-
 -- Creates all events and sets up the entire event sequence chain
 function _CreateEvents()
-    local event = {};
-    local dialogue = {};
-    local text = {};
+    local event = nil
+    local dialogue = nil
+    local text = nil
 
     event = vt_map.MapTransitionEvent("to mountain shrine 1st floor", "dat/maps/mt_elbrus/mt_elbrus_shrine_stairs_map.lua",
                                        "dat/maps/mt_elbrus/mt_elbrus_shrine_stairs_script.lua", "from_shrine_2nd_floor");
@@ -334,13 +299,12 @@ function _CreateEvents()
 end
 
 -- zones
-local to_shrine_1st_floor_room_zone = {};
-local to_shrine_SE_room_zone = {};
-local spike_trap_zone = {};
+local to_shrine_1st_floor_room_zone = nil
+local to_shrine_SE_room_zone = nil
+local spike_trap_zone = nil
 
 -- Create the different map zones triggering events
 function _CreateZones()
-
     -- N.B.: left, right, top, bottom
     to_shrine_1st_floor_room_zone = vt_map.CameraZone(22, 26, 9, 11);
     Map:AddZone(to_shrine_1st_floor_room_zone);
@@ -590,4 +554,3 @@ for index = 1, num_of_triggers do
 end
 
 --for i, v in ipairs(map_functions) do print(i, v) end
-
