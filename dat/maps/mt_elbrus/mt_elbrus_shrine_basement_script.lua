@@ -134,7 +134,7 @@ function _CreateObjects()
             vt_video.Color(1.0, 1.0, 1.0, 0.8));
 
     object = CreateTreasure(Map, "mt_shrine_basement_chest1", "Wood_Chest1", 20, 36, vt_map.MapMode.GROUND_OBJECT);
-    object:AddObject(2, 3); -- Medium potion x 3
+    object:AddItem(2, 3); -- Medium potion x 3
 end
 
 -- Special event references which destinations must be updated just before being called.

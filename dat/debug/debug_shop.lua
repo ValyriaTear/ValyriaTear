@@ -22,26 +22,26 @@ function BootShopTest()
     local shop = vt_shop.ShopMode();
 
     -- AddObject(item_id, number)
-    shop:AddObject(1, 12);
-    shop:AddObject(1001, 5);
-    shop:AddObject(1003, 1);
-    shop:AddObject(10001, 2);
-    shop:AddObject(10002, 4);
-    shop:AddObject(10003, 12);
-    shop:AddObject(10004, 1);
-    shop:AddObject(10999, 1);
-    shop:AddObject(11001, 5);
-    shop:AddObject(20002, 1);
-    shop:AddObject(20003, 2);
-    shop:AddObject(30001, 3);
-    shop:AddObject(30002, 10);
-    shop:AddObject(30003, 11);
-    shop:AddObject(40001, 2);
-    shop:AddObject(40002, 1);
-    shop:AddObject(40003, 1);
-    shop:AddObject(40004, 1);
-    shop:AddObject(50001, 1);
-    shop:AddObject(50002, 1);
+    shop:AddItem(1, 12);
+    shop:AddItem(1001, 5);
+    shop:AddItem(1003, 1);
+    shop:AddItem(10001, 2);
+    shop:AddItem(10002, 4);
+    shop:AddItem(10003, 12);
+    shop:AddItem(10004, 1);
+    shop:AddItem(10999, 1);
+    shop:AddItem(11001, 5);
+    shop:AddItem(20002, 1);
+    shop:AddItem(20003, 2);
+    shop:AddItem(30001, 3);
+    shop:AddItem(30002, 10);
+    shop:AddItem(30003, 11);
+    shop:AddItem(40001, 2);
+    shop:AddItem(40002, 1);
+    shop:AddItem(40003, 1);
+    shop:AddItem(40004, 1);
+    shop:AddItem(50001, 1);
+    shop:AddItem(50002, 1);
 
     -- AddTrade(item_id to trade for, number)
     -- the trade conditions are within the item declaration

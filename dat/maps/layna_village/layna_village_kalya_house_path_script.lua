@@ -156,7 +156,7 @@ function _ReloadGrandmaDialogue()
         grandma:AddDialogueReference(dialogue);
 
         event = vt_map.TreasureEvent("Give Bronann the chicken reward");
-        event:AddObject(2, 2); -- 2 Medium healing potions
+        event:AddItem(2, 2); -- 2 Medium healing potions
         event:SetDrunes(50);
         EventManager:RegisterEvent(event);
 
@@ -291,7 +291,7 @@ function _CreateObjects()
 
     -- Secret treasure chest
     local chest = CreateTreasure(Map, "kalya_house_path_chest", "Wood_Chest1", 8, 8, vt_map.MapMode.GROUND_OBJECT);
-    chest:AddObject(1001, 1);
+    chest:AddItem(1001, 1);
 end
 
 -- Creates all events and sets up the entire event sequence chain

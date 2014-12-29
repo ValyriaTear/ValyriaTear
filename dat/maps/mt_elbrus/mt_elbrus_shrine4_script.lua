@@ -111,7 +111,7 @@ function _CreateObjects()
     local event = nil
 
     object = CreateTreasure(Map, "mt_shrine4_chest1", "Wood_Chest3", 6, 43, vt_map.MapMode.GROUND_OBJECT);
-    object:AddObject(1001, 1); -- Minor Elixir
+    object:AddItem(1001, 1); -- Minor Elixir
 
     _add_flame(61.5, 29);
 

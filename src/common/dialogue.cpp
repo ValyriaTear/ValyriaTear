@@ -433,7 +433,7 @@ void DialogueSupervisor::ChangeSpeakerPortrait(const std::string& speaker_id, co
     }
 }
 
-void DialogueSupervisor::BeginDialogue(const std::string& dialogue_id)
+void DialogueSupervisor::StartDialogue(const std::string& dialogue_id)
 {
     Dialogue *dialogue = GetDialogue(dialogue_id);
 

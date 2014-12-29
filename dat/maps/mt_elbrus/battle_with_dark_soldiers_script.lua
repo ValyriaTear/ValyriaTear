@@ -97,7 +97,7 @@ function Update()
     Battle:SetSceneMode(false);
 
     if (dialogue1_done == false) then
-        DialogueManager:BeginDialogue("The dark soldier tells them to surrender");
+        DialogueManager:StartDialogue("The dark soldier tells them to surrender");
         Battle:SetSceneMode(true);
         dialogue1_done = true;
     end

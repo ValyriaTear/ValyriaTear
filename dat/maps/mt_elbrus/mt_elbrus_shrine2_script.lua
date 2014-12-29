@@ -117,9 +117,9 @@ function _CreateObjects()
     local event = nil
 
     object = CreateTreasure(Map, "Elbrus_Shrine_entrance1", "Jar1", 59, 16, vt_map.MapMode.GROUND_OBJECT);
-    object:AddObject(15, 1); -- Lotus Petal (Regen)
+    object:AddItem(15, 1); -- Lotus Petal (Regen)
     object = CreateTreasure(Map, "Elbrus_Shrine_entrance2", "Jar1", 20, 46.6, vt_map.MapMode.GROUND_OBJECT);
-    object:AddObject(1004, 1); -- Periwinkle potion (Strength)
+    object:AddItem(1004, 1); -- Periwinkle potion (Strength)
 
     vt_map.Halo.Create("img/misc/lights/torch_light_mask.lua", 33.5, 90,
         vt_video.Color(1.0, 1.0, 1.0, 0.8));

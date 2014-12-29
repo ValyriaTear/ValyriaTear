@@ -923,11 +923,11 @@ void TreasureObject::Update()
     }
 }
 
-bool TreasureObject::AddObject(uint32 id, uint32 quantity)
+bool TreasureObject::AddItem(uint32 id, uint32 quantity)
 {
     if(!_treasure)
         return false;
-    return _treasure->AddObject(id, quantity);
+    return _treasure->AddItem(id, quantity);
 }
 
 void TreasureObject::AddEvent(const std::string& event_id)

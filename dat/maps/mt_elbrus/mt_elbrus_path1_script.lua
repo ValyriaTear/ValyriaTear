@@ -152,7 +152,7 @@ function _CreateObjects()
 
     -- Treasure box
     local chest = CreateTreasure(Map, "elbrus_path1_chest1", "Wood_Chest1", 7, 92, vt_map.MapMode.GROUND_OBJECT);
-    chest:AddObject(2, 1); -- Medium healing potion
+    chest:AddItem(2, 1); -- Medium healing potion
 
     -- Objects array
     local map_objects = {

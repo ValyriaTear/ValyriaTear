@@ -146,13 +146,13 @@ function _CreateObjects()
 
     -- Chests
     local chest = CreateTreasure(Map, "kalya_house_basement_chest1", "Wood_Chest1", 25, 22, vt_map.MapMode.GROUND_OBJECT);
-    chest:AddObject(10011, 1); -- 1 Iron Sword
+    chest:AddItem(10011, 1); -- 1 Iron Sword
 
     chest = CreateTreasure(Map, "kalya_house_basement_chest2", "Wood_Chest1", 21, 28, vt_map.MapMode.GROUND_OBJECT);
-    chest:AddObject(1003, 1); -- 1 Elixir
+    chest:AddItem(1003, 1); -- 1 Elixir
 
     chest = CreateTreasure(Map, "kalya_house_basement_chest3", "Wood_Chest1", 24, 35, vt_map.MapMode.GROUND_OBJECT);
-    chest:AddObject(3001, 1); -- 1 Copper Ore
+    chest:AddItem(3001, 1); -- 1 Copper Ore
 end
 
 

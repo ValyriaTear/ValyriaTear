@@ -164,7 +164,7 @@ function _CreateObjects()
 
     -- Treasure vase
     local nekko_vase = CreateTreasure(Map, "layna_center_nekko_vase", "Vase1", 27, 37, vt_map.MapMode.GROUND_OBJECT);
-    nekko_vase:AddObject(11, 1);
+    nekko_vase:AddItem(11, 1);
 end
 
 -- Special event references which destinations must be updated just before being called.

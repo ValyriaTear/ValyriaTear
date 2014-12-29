@@ -200,7 +200,7 @@ function _CreateObjects()
 
     for my_index, my_array in pairs(jars_array) do
         treasure_jars[my_index] = CreateTreasure(Map, my_array[1], "Jar1", my_array[2], my_array[3], vt_map.MapMode.GROUND_OBJECT);
-        treasure_jars[my_index]:AddObject(my_array[4], 1);
+        treasure_jars[my_index]:AddItem(my_array[4], 1);
     end
 
     -- If the trap has been deactivated, the treasures aren't there anymore...

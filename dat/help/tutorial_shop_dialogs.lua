@@ -135,7 +135,7 @@ function Update()
     -- If the dialogue has not been seen yet, check if its time to start it
     if ((dialogue_started == false) and (start_timer:IsFinished() == true) and (DialogueManager:IsDialogueActive() == false)) then
         DialogueManager:SetDialoguePosition(512.0, 760.0)
-        DialogueManager:BeginDialogue("Shop tutorial first dialogue");
+        DialogueManager:StartDialogue("Shop tutorial first dialogue");
         Shop:SetInputEnabled(false);
         dialogue_started = true;
     end

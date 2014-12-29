@@ -101,8 +101,8 @@ function _CreateObjects()
             vt_video.Color(light_color_red, light_color_green, light_color_blue, light_color_alpha));
 
     local chest1 = CreateTreasure(Map, "layna_forest_cave2_chest1", "Wood_Chest1", 107, 28, vt_map.MapMode.GROUND_OBJECT);
-    chest1:AddObject(1, 2);
-    chest1:AddObject(11, 2);
+    chest1:AddItem(1, 2);
+    chest1:AddItem(11, 2);
 end
 
 -- Sets common battle environment settings for enemy sprites

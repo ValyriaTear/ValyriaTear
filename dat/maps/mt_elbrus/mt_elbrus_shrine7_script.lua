@@ -112,7 +112,7 @@ function _CreateObjects()
     local event = nil
 
     object = CreateTreasure(Map, "mt_shrine7_chest1", "Wood_Chest3", 16, 13, vt_map.MapMode.GROUND_OBJECT);
-    object:AddObject(3002, 1); -- Iron Ore
+    object:AddItem(3002, 1); -- Iron Ore
     object:AddEvent("Monster trap in chest");
 
     event = vt_map.BattleEncounterEvent("Monster trap in chest");

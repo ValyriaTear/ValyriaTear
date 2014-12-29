@@ -266,8 +266,8 @@ public:
     *** \note All wares must be added before the _Start() method is called to ensure
     *** that the wares actually appear in shop mode.
     **/
-    void AddObject(uint32 object_id, uint32 stock) {
-        _objects.insert(std::make_pair(object_id, stock));
+    void AddItem(uint32 object_id, uint32 stock) {
+        _items.insert(std::make_pair(object_id, stock));
     }
 
     /** \brief Adds an object to the list of objects for sale.
@@ -294,8 +294,8 @@ public:
     }
 
 protected:
-    //! \brief The GlobalObject IDs and stock count of all objects to be sold in the shop
-    std::set<std::pair<uint32, uint32> > _objects;
+    //! \brief The GlobalObject IDs and stock count of all items to be sold in the shop
+    std::set<std::pair<uint32, uint32> > _items;
 
     //! \brief The GlobalObject IDs and stock count of all objects to be sold in the shop
     std::set<std::pair<uint32, uint32> > _trades;
@@ -321,7 +321,7 @@ protected:
     bool _Update() {
         return true;
     }
-}; // class ShopEvent : public MapEvent
+};
 
 
 /** ****************************************************************************
@@ -1011,12 +1011,12 @@ public:
         _treasure->SetDrunes(amount);
     }
 
-    /** \brief Adds an object to the contents of the TreasureEvent
+    /** \brief Adds an item to the contents of the TreasureEvent
     *** \param id The id of the GlobalObject to add
     *** \param quantity The number of the object to add (default == 1)
     *** \return True if the object was added successfully
     **/
-    bool AddObject(uint32 id, uint32 quantity = 1);
+    bool AddItem(uint32 id, uint32 quantity = 1);
 
     /** \brief Adds an event triggered at start of the treasure event.
     *** \param event_id The id of the event to add

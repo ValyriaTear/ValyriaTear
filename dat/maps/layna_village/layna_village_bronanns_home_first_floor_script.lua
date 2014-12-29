@@ -114,7 +114,7 @@ function _CreateObjects()
     chest:SetDrunes(5);
 
     chest = CreateTreasure(Map, "bronannsparent_room_chest", "Locker_Chest1", 39, 33.2, vt_map.MapMode.GROUND_OBJECT);
-    chest:AddObject(11, 1);
+    chest:AddItem(11, 1);
     chest:SetDrunes(12);
     chest:SetDrawOnSecondPass(true); -- Above the table
     chest:SetCollisionMask(vt_map.MapMode.WALL_COLLISION);

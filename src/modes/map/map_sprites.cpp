@@ -1201,7 +1201,7 @@ void MapSprite::InitiateDialogue()
     moving = false;
     _dialogue_started = true;
     SetDirection(CalculateOppositeDirection(MapMode::CurrentInstance()->GetCamera()->GetDirection()));
-    MapMode::CurrentInstance()->GetDialogueSupervisor()->BeginDialogue(_dialogue_references[_next_dialogue]);
+    MapMode::CurrentInstance()->GetDialogueSupervisor()->StartDialogue(_dialogue_references[_next_dialogue]);
     IncrementNextDialogue();
 }
 

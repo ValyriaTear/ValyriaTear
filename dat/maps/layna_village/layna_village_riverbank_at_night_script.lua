@@ -249,7 +249,7 @@ function _CreateObjects()
 
     -- Add hill treasure chest
     local hill_chest = CreateTreasure(Map, "riverbank_secret_hill_chest", "Wood_Chest1", 72, 5, vt_map.MapMode.GROUND_OBJECT);
-    hill_chest:AddObject(1, 1);
+    hill_chest:AddItem(1, 1);
 
     -- trees around the house
     CreateObject(Map, "Tree Big2", 92, 10, vt_map.MapMode.GROUND_OBJECT);

@@ -212,7 +212,7 @@ function _CreateObjects()
 
     -- Treasure box
     local chest = CreateTreasure(Map, "elbrus_grotto1_chest1", "Wood_Chest1", 9, 17, vt_map.MapMode.GROUND_OBJECT);
-    chest:AddObject(3001, 1); -- Copper ore
+    chest:AddItem(3001, 1); -- Copper ore
 end
 
 function _CreateEnemies()

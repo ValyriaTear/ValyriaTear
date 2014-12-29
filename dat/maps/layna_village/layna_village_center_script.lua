@@ -263,7 +263,7 @@ function _CreateObjects()
 
     -- Treasure vase
     local nekko_vase = CreateTreasure(Map, "layna_center_nekko_vase", "Vase1", 27, 37, vt_map.MapMode.GROUND_OBJECT);
-    nekko_vase:AddObject(11, 1);
+    nekko_vase:AddItem(11, 1);
 
     -- Quest 2: Forest event
     -- The wooden sword sprite
@@ -421,7 +421,7 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
 
     event = vt_map.TreasureEvent("Orlinn gives the pen to Bronann");
-    event:AddObject(70001, 1); -- The ink key item
+    event:AddItem(70001, 1); -- The ink key item
     event:AddEventLinkAtEnd("Orlinn apologizes");
     EventManager:RegisterEvent(event);
 
@@ -640,7 +640,7 @@ function _CreateEvents()
     event = vt_map.ScriptedEvent("Quest2: Hide the wooden sword item", "Hide_wooden_sword", "");
     EventManager:RegisterEvent(event);
     event = vt_map.TreasureEvent("Quest2: Add the wooden sword in inventory");
-    event:AddObject(10001, 1); -- The wooden sword item
+    event:AddItem(10001, 1); -- The wooden sword item
     event:AddEventLinkAtEnd("Quest2: Fifth part of talk");
     EventManager:RegisterEvent(event);
 

@@ -837,12 +837,12 @@ public:
         _treasure->SetDrunes(amount);
     }
 
-    /** \brief Adds an object to the contents of the TreasureObject
+    /** \brief Adds an item to the contents of the TreasureObject
     *** \param id The id of the GlobalObject to add
     *** \param quantity The number of the object to add (default == 1)
     *** \return True if the object was added successfully
     **/
-    bool AddObject(uint32 id, uint32 quantity = 1);
+    bool AddItem(uint32 id, uint32 quantity = 1);
 
     /** \brief Adds an event triggered at start of the treasure event.
     *** \param event_id The id of the event to add

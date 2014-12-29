@@ -162,7 +162,7 @@ function _CreateObjects()
 
     -- Treasure box
     local chest = CreateTreasure(Map, "elbrus_path4_chest1", "Wood_Chest1", 9, 62, vt_map.MapMode.GROUND_OBJECT);
-    chest:AddObject(1001, 1); -- Minor Elixir, in case something went wrong during the Harlequin battle
+    chest:AddItem(1001, 1); -- Minor Elixir, in case something went wrong during the Harlequin battle
 
     -- Bridge blocker
     blocking_bridge = CreateObject(Map, "Rock1", 36.5, 13, vt_map.MapMode.GROUND_OBJECT);

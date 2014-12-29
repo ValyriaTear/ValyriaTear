@@ -118,13 +118,13 @@ function _CreateObjects()
     local event = nil
 
     object = CreateTreasure(Map, "mt_shrine9_chest1", "Wood_Chest1", 47, 42, vt_map.MapMode.GROUND_OBJECT);
-    object:AddObject(3001, 1); -- Copper Ore x 1
+    object:AddItem(3001, 1); -- Copper Ore x 1
 
     object = CreateTreasure(Map, "mt_shrine9_chest2", "Wood_Chest1", 51, 42, vt_map.MapMode.GROUND_OBJECT);
-    object:AddObject(3001, 1); -- Copper Ore x 1
+    object:AddItem(3001, 1); -- Copper Ore x 1
 
     object = CreateTreasure(Map, "mt_shrine9_chest3", "Wood_Chest1", 55, 42, vt_map.MapMode.GROUND_OBJECT);
-    object:AddObject(3002, 1); -- Iron Ore x 1
+    object:AddItem(3002, 1); -- Iron Ore x 1
 
     vt_map.Halo.Create("img/misc/lights/right_ray_light.lua", 26, 18,
             vt_video.Color(1.0, 1.0, 1.0, 0.8));

@@ -99,11 +99,11 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
 
     event = vt_map.ShopEvent("layna: open shop");
-    event:AddObject(1, 0); -- infinite minor potions
-    event:AddObject(1001, 0); -- infinite minor elixirs
-    event:AddObject(30003, 1); -- tunic for Bronann
-    event:AddObject(30004, 1); -- leather cloak for Kalya
-    event:AddObject(40001, 3); -- prismatic rings for both
+    event:AddItem(1, 0); -- infinite minor potions
+    event:AddItem(1001, 0); -- infinite minor elixirs
+    event:AddItem(30003, 1); -- tunic for Bronann
+    event:AddItem(30004, 1); -- leather cloak for Kalya
+    event:AddItem(40001, 3); -- prismatic rings for both
     event:SetPriceLevels(vt_shop.ShopMode.SHOP_PRICE_VERY_GOOD, -- Flora is a good friend
                          vt_shop.ShopMode.SHOP_PRICE_STANDARD);
 

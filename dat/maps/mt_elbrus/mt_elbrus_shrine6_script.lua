@@ -110,8 +110,8 @@ function _CreateObjects()
     _add_flame(33.5, 7);
 
     local chest = CreateTreasure(Map, "mt_shrine6_chest1", "Wood_Chest2", 7, 26, vt_map.MapMode.GROUND_OBJECT);
-    chest:AddObject(15, 1); -- Cure poison
-    chest:AddObject(4001, 1); -- Escape smoke
+    chest:AddItem(15, 1); -- Cure poison
+    chest:AddItem(4001, 1); -- Escape smoke
 
     CreateObject(Map, "Candle Holder1", 43, 20, vt_map.MapMode.GROUND_OBJECT);
     CreateObject(Map, "Candle Holder1", 43, 30, vt_map.MapMode.GROUND_OBJECT);

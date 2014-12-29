@@ -501,7 +501,7 @@ public:
     /** \brief Prepares the dialogue manager to begin processing a new dialogue
     *** \param dialogue_id The id number of the dialogue to begin
     **/
-    virtual void BeginDialogue(const std::string& dialogue_id);
+    virtual void StartDialogue(const std::string& dialogue_id);
 
     //! \brief Immediately ends any dialogue that is taking place
     virtual void EndDialogue();

@@ -173,10 +173,10 @@ function _CreateObjects()
 
     -- Treasure chests
     local chest1 = CreateTreasure(Map, "layna_forest_nw_chest1", "Wood_Chest1", 6, 3, vt_map.MapMode.GROUND_OBJECT);
-    chest1:AddObject(1, 1); -- small potion
+    chest1:AddItem(1, 1); -- small potion
 
     local chest2 = CreateTreasure(Map, "layna_forest_nw_chest2", "Wood_Chest1", 3, 58, vt_map.MapMode.GROUND_OBJECT);
-    chest2:AddObject(1, 1); -- small potion
+    chest2:AddItem(1, 1); -- small potion
 
     event = vt_map.BattleEncounterEvent("Monster trap in chest");
     event:SetMusic("mus/heroism-OGA-Edward-J-Blakeley.ogg");
@@ -203,7 +203,7 @@ function _CreateObjects()
     event:AddEnemy(2, 0, 0);
     EventManager:RegisterEvent(event);
     local chest3 = CreateTreasure(Map, "layna_forest_nw_chest3", "Wood_Chest1", 26, 42, vt_map.MapMode.GROUND_OBJECT);
-    chest3:AddObject(40001, 1); -- prismatic ring
+    chest3:AddItem(40001, 1); -- prismatic ring
     chest3:AddEvent("Monster trap in chest");
 
     local chest4 = CreateTreasure(Map, "layna_forest_nw_chest4", "Wood_Chest1", 122, 5, vt_map.MapMode.GROUND_OBJECT);

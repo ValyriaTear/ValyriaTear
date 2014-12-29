@@ -1734,7 +1734,7 @@ void ShopMode::SetPriceLevels(SHOP_PRICE_LEVEL buy_level, SHOP_PRICE_LEVEL sell_
 
 
 
-void ShopMode::AddObject(uint32 object_id, uint32 stock)
+void ShopMode::AddItem(uint32 object_id, uint32 stock)
 {
     if(IsInitialized() == true) {
         PRINT_WARNING << "function called after shop was already initialized" << std::endl;

@@ -179,10 +179,10 @@ function _CreateObjects()
 
     -- Treasures
     local chest = CreateTreasure(Map, "layna_forest_SE_chest1", "Wood_Chest1", 63.7, 30, vt_map.MapMode.GROUND_OBJECT);
-    chest:AddObject(40001, 1); -- Prismatic ring
+    chest:AddItem(40001, 1); -- Prismatic ring
 
     chest = CreateTreasure(Map, "layna_forest_SE_chest2", "Wood_Chest1", 88, 80, vt_map.MapMode.GROUND_OBJECT);
-    chest:AddObject(11, 2); -- Small Moon juice potion x 2
+    chest:AddItem(11, 2); -- Small Moon juice potion x 2
     chest:SetDrunes(15);
 
     -- Trees array

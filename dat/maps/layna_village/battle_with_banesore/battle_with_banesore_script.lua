@@ -228,7 +228,7 @@ function Update()
     -- - When Bronann's HP are low and at least a few seconds have passed
     -- - And the dialogue with Herth isn't done.
     if (dialogue3_done == false and lilly_reaction_time <= 0) then
-        DialogueManager:BeginDialogue("Lilly helps Bronann dialogue");
+        DialogueManager:StartDialogue("Lilly helps Bronann dialogue");
         Battle:SetSceneMode(true);
         lilly_charge_time = 10000;
         lilly_reaction_time = 2000;
@@ -236,20 +236,20 @@ function Update()
     end
 
     if (dialogue1_done == false) then
-        DialogueManager:BeginDialogue("Battle intro dialogue");
+        DialogueManager:StartDialogue("Battle intro dialogue");
         Battle:SetSceneMode(true);
         dialogue1_done = true;
     end
 
     if (battle_time >= 30000 and dialogue2_done == false) then
-        DialogueManager:BeginDialogue("'Stronger than I thought' dialogue");
+        DialogueManager:StartDialogue("'Stronger than I thought' dialogue");
         Battle:SetSceneMode(true);
         dialogue2_done = true;
     end
 
     -- Make Herth appear and help Bronann to flee
     if (battle_time >= 60000 and dialogue3_done == false) then
-        DialogueManager:BeginDialogue("Herth appears");
+        DialogueManager:StartDialogue("Herth appears");
         Battle:SetSceneMode(true);
         dialogue3_done = true;
         bronann:ChangeSpriteAnimation("poor");
@@ -258,7 +258,7 @@ function Update()
     -- Once Herth is in place, let's trigger the last dialogue
     if (dialogue3_done == true and herth_x_position >= 175.0) then
         if (dialogue4_done == false) then
-            DialogueManager:BeginDialogue("Battle ending dialogue");
+            DialogueManager:StartDialogue("Battle ending dialogue");
             Battle:SetSceneMode(true);
             dialogue4_done = true;
         end

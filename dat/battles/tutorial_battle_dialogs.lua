@@ -141,7 +141,7 @@ function Update()
 
     -- If the dialogue has not been seen yet, check if its time to start it
     if ((dialogue_started == false) and (start_timer:IsFinished() == true) and (DialogueManager:IsDialogueActive() == false)) then
-        DialogueManager:BeginDialogue("Battle tutorial dialogue");
+        DialogueManager:StartDialogue("Battle tutorial dialogue");
         Battle:SetSceneMode(true);
         dialogue_started = true;
     end

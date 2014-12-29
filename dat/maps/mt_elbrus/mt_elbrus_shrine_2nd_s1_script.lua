@@ -100,7 +100,7 @@ function _CreateObjects()
     local event = nil
 
     object = CreateTreasure.Create(Map, "mt_shrine_2nd_s1_chest1", "Wood_Chest1", 73, 49, vt_map.MapMode.GROUND_OBJECT);
-    object:AddObject(12, 1); -- Medium Moon Juice potion x 1
+    object:AddItem(12, 1); -- Medium Moon Juice potion x 1
 
     -- Objects array
     local map_objects = {

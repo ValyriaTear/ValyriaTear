@@ -365,7 +365,7 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
 
     event = vt_map.TreasureEvent("Get the wolfpain necklace");
-    event:AddObject(70003, 1); -- The wolfpain key item
+    event:AddItem(70003, 1); -- The wolfpain key item
     event:AddEventLinkAtEnd("Kalya talks after the battle");
     EventManager:RegisterEvent(event);
 

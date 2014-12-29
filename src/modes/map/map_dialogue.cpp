@@ -335,7 +335,7 @@ void MapDialogueSupervisor::AddDialogue(SpriteDialogue* dialogue)
     }
 }
 
-void MapDialogueSupervisor::BeginDialogue(const std::string& dialogue_id)
+void MapDialogueSupervisor::StartDialogue(const std::string& dialogue_id)
 {
     SpriteDialogue *dialogue = GetDialogue(dialogue_id);
 

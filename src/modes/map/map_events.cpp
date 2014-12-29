@@ -78,7 +78,7 @@ void DialogueEvent::_Start()
         MapMode::CurrentInstance()->GetCamera()->is_running = false;
     }
 
-    MapMode::CurrentInstance()->GetDialogueSupervisor()->BeginDialogue(_dialogue_id);
+    MapMode::CurrentInstance()->GetDialogueSupervisor()->StartDialogue(_dialogue_id);
 }
 
 
@@ -99,8 +99,8 @@ bool DialogueEvent::_Update()
 void ShopEvent::_Start()
 {
     ShopMode *shop = new ShopMode();
-    for(std::set<std::pair<uint32, uint32> >::iterator it = _objects.begin(); it != _objects.end(); ++it)
-        shop->AddObject((*it).first, (*it).second);
+    for(std::set<std::pair<uint32, uint32> >::iterator it = _items.begin(); it != _items.end(); ++it)
+        shop->AddItem((*it).first, (*it).second);
 
     for(std::set<std::pair<uint32, uint32> >::iterator it = _trades.begin(); it != _trades.end(); ++it)
         shop->AddTrade((*it).first, (*it).second);
@@ -933,8 +933,6 @@ TreasureEvent::TreasureEvent(const std::string &event_id) :
     _treasure = new MapTreasure();
 }
 
-
-
 void TreasureEvent::_Start()
 {
     if (_events.size() > 0) {
@@ -946,8 +944,6 @@ void TreasureEvent::_Start()
     MapMode::CurrentInstance()->GetTreasureSupervisor()->Initialize(_treasure);
 }
 
-
-
 bool TreasureEvent::_Update()
 {
     // If the treasure supervisor has finished, we can proceed
@@ -956,14 +952,10 @@ bool TreasureEvent::_Update()
     return false;
 }
 
-
-
-bool TreasureEvent::AddObject(uint32 id, uint32 quantity)
+bool TreasureEvent::AddItem(uint32 id, uint32 quantity)
 {
-    return _treasure->AddObject(id, quantity);
+    return _treasure->AddItem(id, quantity);
 }
-
-
 
 void TreasureEvent::AddEvent(const std::string& event_id)
 {

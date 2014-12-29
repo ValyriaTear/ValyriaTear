@@ -125,11 +125,11 @@ function _UpdateSophiaDialogue()
     event:SetShopName(vt_system.UTranslate("Sophia's items"));
     event:SetGreetingText(vt_system.UTranslate("Don't forget my trade offers!"));
     event:SetSellModeEnabled(false); -- prevents selling items there.
-    event:AddObject(1, 0); -- infinite minor potions
-    event:AddObject(11, 0); -- infinite minor moon juices
-    event:AddObject(1001, 0); -- infinite minor elixirs
-    event:AddObject(15, 0); -- infinite Lotus petals (cure poison)
-    event:AddObject(16, 0); -- infinite Candies (regen)
+    event:AddItem(1, 0); -- infinite minor potions
+    event:AddItem(11, 0); -- infinite minor moon juices
+    event:AddItem(1001, 0); -- infinite minor elixirs
+    event:AddItem(15, 0); -- infinite Lotus petals (cure poison)
+    event:AddItem(16, 0); -- infinite Candies (regen)
     -- The interesting part!
     event:AddTrade(10002, 1); -- Reinforced Wooden Sword (with magical attack)
     event:AddTrade(10012, 1); -- Soldier sword. (a strong sword)
