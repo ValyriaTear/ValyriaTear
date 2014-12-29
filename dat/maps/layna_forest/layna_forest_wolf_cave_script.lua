@@ -14,16 +14,15 @@ map_subname = ""
 music_filename = "mus/shrine-OGA-yd.ogg"
 
 -- c++ objects instances
-local Map = {};
-local ObjectManager = {};
-local DialogueManager = {};
-local EventManager = {};
+local Map = nil
+local DialogueManager = nil
+local EventManager = nil
 
 -- the main character handler
-local hero = {};
+local hero = nil
 
 -- Forest dialogue secondary hero
-local kalya_sprite = {};
+local kalya_sprite = nil
 
 -- Name of the main sprite. Used to reload the good one at the end of the dialogue events.
 local main_sprite_name = "";
@@ -32,11 +31,10 @@ local main_sprite_name = "";
 function Load(m)
 
     Map = m;
-    ObjectManager = Map.object_supervisor;
-    DialogueManager = Map.dialogue_supervisor;
-    EventManager = Map.event_supervisor;
+    DialogueManager = Map:GetDialogueSupervisor();
+    EventManager = Map:GetEventSupervisor();
+    Map:SetUnlimitedStamina(false);
 
-    Map.unlimited_stamina = false;
     Map:SetMinimapImage("dat/maps/layna_forest/minimaps/layna_forest_wolf_cave_minimap.png");
 
     _CreateCharacters();
@@ -68,11 +66,10 @@ function Update()
     _CheckZones();
 end
 
-
 -- Character creation
 function _CreateCharacters()
     -- Default hero and position
-    hero = CreateSprite(Map, "Bronann", 26, 46);
+    hero = CreateSprite(Map, "Bronann", 26, 46, vt_map.MapMode.GROUND_OBJECT);
     hero:SetDirection(vt_map.MapMode.NORTH);
     hero:SetMovementSpeed(vt_map.MapMode.NORMAL_SPEED);
 
@@ -81,33 +78,30 @@ function _CreateCharacters()
         hero:SetPosition(3, 27);
     end
 
-    Map:AddGroundObject(hero);
-
     -- Create secondary character for dialogue at map entrance
     kalya_sprite = CreateSprite(Map, "Kalya",
-                                hero:GetXPosition(), hero:GetYPosition());
+                                hero:GetXPosition(), hero:GetYPosition(), vt_map.MapMode.GROUND_OBJECT);
 
     kalya_sprite:SetDirection(vt_map.MapMode.NORTH);
     kalya_sprite:SetMovementSpeed(vt_map.MapMode.NORMAL_SPEED);
     kalya_sprite:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
     kalya_sprite:SetVisible(false);
-    Map:AddGroundObject(kalya_sprite);
 end
 
 -- a necklace obtained by kalya and triggering the seconde fight against the fenrir.
-local necklace = {};
-local necklace_npc = {};
-local light_tilt = {};
+local necklace = nil
+local necklace_npc = nil
+local light_tilt = nil
 
-local wolf = {};
+local wolf = nil
 
 -- The heal particle effect map object
-local heal_effect = {};
+local heal_effect = nil
 
 function _CreateObjects()
-    local object = {};
-    local npc = {};
-    local event = {};
+    local object = nil
+    local npc = nil
+    local event = nil
 
     -- Adapt the light color according to the time of the day.
     local light_color_red = 1.0;
@@ -135,28 +129,25 @@ function _CreateObjects()
     end
 
     -- Add a halo showing the cave entrances
-    Map:AddHalo("img/misc/lights/torch_light_mask.lua", 28, 59,
+    vt_map.Halo.Create("img/misc/lights/torch_light_mask.lua", 28, 59,
             vt_video.Color(light_color_red, light_color_green, light_color_blue, light_color_alpha));
 
     -- Add different halo light, representing holes of light coming from the ceiling
-    Map:AddHalo("img/misc/lights/right_ray_light.lua", 28, 17,
+    vt_map.Halo.Create("img/misc/lights/right_ray_light.lua", 28, 17,
             vt_video.Color(light_color_red, light_color_green, light_color_blue, light_color_alpha));
 
     -- Add the wolfpain necklace, triggering the second battle with the fenrir
     -- As this object is special, we're not using the object catalogue to only load that one once.
-    necklace = vt_map.PhysicalObject();
-    necklace:SetObjectID(Map.object_supervisor:GenerateObjectID());
+    necklace = vt_map.PhysicalObject.Create(vt_map.MapMode.GROUND_OBJECT);
     necklace:SetPosition(30, 9);
     necklace:SetCollHalfWidth(0.5);
     necklace:SetCollHeight(1.0);
     necklace:SetImgHalfWidth(0.5);
     necklace:SetImgHeight(1.0);
     necklace:AddAnimation("dat/maps/layna_forest/wolfpain_necklace.lua");
-    Map:AddGroundObject(necklace);
 
     -- Adds a light tilting to catch the player attention
-    light_tilt = vt_map.PhysicalObject();
-    light_tilt:SetObjectID(Map.object_supervisor:GenerateObjectID());
+    light_tilt = vt_map.PhysicalObject.Create(vt_map.MapMode.GROUND_OBJECT);
     light_tilt:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
     light_tilt:SetPosition(30, 9.1);
     light_tilt:SetCollHalfWidth(0.5);
@@ -164,18 +155,16 @@ function _CreateObjects()
     light_tilt:SetImgHalfWidth(0.5);
     light_tilt:SetImgHeight(1.0);
     light_tilt:AddAnimation("img/misc/lights/light_reverb.lua");
-    Map:AddGroundObject(light_tilt);
 
     -- Adds an associated npc to permit the dialogue to trigger
-    necklace_npc = CreateSprite(Map, "Butterfly", 30, 9.2);
+    necklace_npc = CreateSprite(Map, "Butterfly", 30, 9.2, vt_map.MapMode.GROUND_OBJECT);
     necklace_npc:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
     necklace_npc:SetVisible(false);
     necklace_npc:SetName(""); -- Unset the speaker name
-    Map:AddGroundObject(necklace_npc);
-    dialogue = vt_map.SpriteDialogue();
+
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("(Bronann looks on the ground ...)");
     dialogue:AddLineEvent(text, necklace_npc, "", "wolfpain necklace dialogue start");
-    DialogueManager:AddDialogue(dialogue);
     necklace_npc:AddDialogueReference(dialogue);
 
     -- Place all the jewel related object out of reach when the event is already done
@@ -190,22 +179,21 @@ function _CreateObjects()
     end
 
     -- The boss map sprite
-    wolf = CreateSprite(Map, "Fenrir", 0, 0); -- pre place it at the right place.
+    wolf = CreateSprite(Map, "Fenrir", 0, 0, vt_map.MapMode.GROUND_OBJECT); -- pre place it at the right place.
     wolf:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
     wolf:SetMovementSpeed(vt_map.MapMode.VERY_FAST_SPEED);
     wolf:SetVisible(false);
     wolf:SetDirection(vt_map.MapMode.NORTH);
-    Map:AddGroundObject(wolf);
 
 
     -- Drink at the fountain
-    npc = CreateSprite(Map, "Butterfly", 53, 12);
+    npc = CreateSprite(Map, "Butterfly", 53, 12, vt_map.MapMode.GROUND_OBJECT);
     npc:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
     npc:SetVisible(false);
     npc:SetName(""); -- Unset the speaker name
-    Map:AddGroundObject(npc);
+
     -- Add the dialogue options on the fountain
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("This water looks weird. Shall we drink it anyway?");
     dialogue:AddLine(text, hero);
     text = vt_system.Translate("...");
@@ -220,30 +208,26 @@ function _CreateObjects()
     -- [Line 3] Won't drink it
     text = vt_system.Translate("The party won't drink it.");
     dialogue:AddLine(text, npc);
-    DialogueManager:AddDialogue(dialogue);
     npc:AddDialogueReference(dialogue);
 
     -- Load the spring heal effect.
-    heal_effect = vt_map.ParticleObject("dat/effects/particles/heal_sp_particle.lua", 0, 0);
-    heal_effect:SetObjectID(Map.object_supervisor:GenerateObjectID());
+    heal_effect = vt_map.ParticleObject.Create("dat/effects/particles/heal_sp_particle.lua", 0, 0, vt_map.MapMode.GROUND_OBJECT);
     heal_effect:Stop(); -- Don't run it until the character heals itself
-    Map:AddGroundObject(heal_effect);
 
-    object = vt_map.SoundObject("snd/fountain_small.ogg", 53.0, 8.0, 8.0);
-    Map:AddAmbientSoundObject(object);
+    vt_map.SoundObject.Create("snd/fountain_small.ogg", 53.0, 8.0, 8.0);
 end
 
 -- Special event references which destinations must be updated just before being called.
-local move_next_to_hero_event = {}
-local move_back_to_hero_event = {}
-local move_next_to_hero_event2 = {}
-local move_back_to_hero_event2 = {}
+local move_next_to_hero_event = nil
+local move_back_to_hero_event = nil
+local move_next_to_hero_event2 = nil
+local move_back_to_hero_event2 = nil
 
 -- Creates all events and sets up the entire event sequence chain
 function _CreateEvents()
-    local event = {};
-    local dialogue = {};
-    local text = {};
+    local event = nil
+    local dialogue = nil
+    local text = nil
 
     -- Map transition events
     event = vt_map.MapTransitionEvent("to cave 1-2", "dat/maps/layna_forest/layna_forest_cave1_2_map.lua",
@@ -287,14 +271,13 @@ function _CreateEvents()
     move_next_to_hero_event:AddEventLinkAtEnd("Kalya Tells about the smell");
     EventManager:RegisterEvent(move_next_to_hero_event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Yiek, it's stinking in here.");
     dialogue:AddLineEventEmote(text, kalya_sprite, "Bronann looks at Kalya", "Kalya looks at Bronann", "exclamation");
     text = vt_system.Translate("Look at all those bones. We should be careful.");
     dialogue:AddLine(text, hero);
     text = vt_system.Translate("I hope Orlinn is alright.");
     dialogue:AddLineEmote(text, kalya_sprite, "sweat drop");
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Kalya Tells about the smell", dialogue);
     event:AddEventLinkAtEnd("kalya_sprite:SetCollision(NONE)");
     event:AddEventLinkAtEnd("Set Camera back to Bronann");
@@ -329,7 +312,7 @@ function _CreateEvents()
     event = vt_map.PathMoveSpriteEvent("make fenrir come", wolf, 30, 17, false);
     EventManager:RegisterEvent(event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("What a lovely necklace! I'll take it.");
     dialogue:AddLineEventEmote(text, kalya_sprite, "Bronann looks at Kalya", "Kalya looks north", "exclamation");
     text = vt_system.Translate("Kalya ... We're in the middle of a cave and you're only thinking about wearing jewels.");
@@ -344,7 +327,6 @@ function _CreateEvents()
     dialogue:AddLineEmote(text, hero, "exclamation");
     text = vt_system.Translate("You can't be serious, we would have heard it come.");
     dialogue:AddLineEvent(text, kalya_sprite, "Kalya looks at Bronann", "Kalya looks south");
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Kalya Tells about the necklace", dialogue);
     event:AddEventLinkAtEnd("The Fenrir growls");
     EventManager:RegisterEvent(event);
@@ -353,10 +335,9 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("Kalya realizes for the Fenrir");
     EventManager:RegisterEvent(event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Ah well, you were serious, weren't you?");
     dialogue:AddLineEmote(text, kalya_sprite, "sweat drop");
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Kalya realizes for the Fenrir", dialogue);
     event:AddEventLinkAtEnd("The Fenrir runs toward the hero");
     EventManager:RegisterEvent(event);
@@ -379,14 +360,13 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
 
     event = vt_map.TreasureEvent("Get the wolfpain necklace");
-    event:AddObject(70003, 1); -- The wolfpain key item
+    event:AddItem(70003, 1); -- The wolfpain key item
     event:AddEventLinkAtEnd("Kalya talks after the battle");
     EventManager:RegisterEvent(event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("It ran away again... I'm glad we survived... Let's get out of here before it comes back.");
     dialogue:AddLineEventEmote(text, kalya_sprite, "Kalya looks at Bronann", "", "sweat drop");
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Kalya talks after the battle", dialogue);
     event:AddEventLinkAtEnd("kalya_sprite:SetCollision(NONE)");
     event:AddEventLinkAtEnd("Set Camera back to Bronann2");
@@ -402,21 +382,17 @@ function _CreateEvents()
 
     event = vt_map.ScriptedEvent("end of necklace dialogue", "end_of_necklace_dialogue", "");
     EventManager:RegisterEvent(event);
-
 end
 
 -- zones
-local to_cave_1_2_zone = {};
-local to_cave_exit_zone = {};
+local to_cave_1_2_zone = nil
+local to_cave_exit_zone = nil
 
 -- Create the different map zones triggering events
 function _CreateZones()
     -- N.B.: left, right, top, bottom
-    to_cave_1_2_zone = vt_map.CameraZone(0, 1, 24, 28);
-    Map:AddZone(to_cave_1_2_zone);
-
-    to_cave_exit_zone = vt_map.CameraZone(24, 29, 47, 48);
-    Map:AddZone(to_cave_exit_zone);
+    to_cave_1_2_zone = vt_map.CameraZone.Create(0, 1, 24, 28);
+    to_cave_exit_zone = vt_map.CameraZone.Create(24, 29, 47, 48);
 end
 
 -- Check whether the active camera has entered a zone. To be called within Update()

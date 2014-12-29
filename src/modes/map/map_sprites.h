@@ -58,7 +58,7 @@ const uint32 STANDARD_ENEMY_DEAD_TIME = 5000;
 class VirtualSprite : public MapObject
 {
 public:
-    VirtualSprite();
+    VirtualSprite(MapObjectDrawLayer layer);
 
     ~VirtualSprite();
 
@@ -237,9 +237,15 @@ protected:
 class MapSprite : public VirtualSprite
 {
 public:
-    MapSprite();
+    MapSprite(MapObjectDrawLayer layer);
 
     ~MapSprite();
+
+    //! \brief A C++ wrapper made to create a new object from scripting,
+    //! without letting Lua handling the object life-cycle.
+    //! \note We don't permit luabind to use constructors here as it can't currently
+    //! give the object ownership at construction time.
+    static MapSprite* Create(MapObjectDrawLayer layer);
 
     // ---------- Public methods
 
@@ -545,6 +551,12 @@ private:
 public:
     //! \brief The default constructor
     EnemySprite();
+
+    //! \brief A C++ wrapper made to create a new object from scripting,
+    //! without letting Lua handling the object life-cycle.
+    //! \note We don't permit luabind to use constructors here as it can't currently
+    //! give the object ownership at construction time.
+    static EnemySprite* Create();
 
     //! \brief Resets various members of the class so that the enemy is dead, invisible, and does not produce a collision
     void Reset();

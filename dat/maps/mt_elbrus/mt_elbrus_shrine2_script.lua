@@ -14,18 +14,17 @@ map_subname = ""
 music_filename = "mus/mountain_shrine.ogg"
 
 -- c++ objects instances
-local Map = {};
-local ObjectManager = {};
-local DialogueManager = {};
-local EventManager = {};
-local Script = {};
+local Map = nil
+local DialogueManager = nil
+local EventManager = nil
+local Script = nil
 
 -- the main character handler
-local hero = {};
+local hero = nil
 
 -- Dialogue secondary heroes
-local bronann = {};
-local orlinn = {};
+local bronann = nil
+local orlinn = nil
 
 -- Name of the main sprite. Used to reload the good one at the end of dialogue events.
 local main_sprite_name = "";
@@ -34,12 +33,10 @@ local main_sprite_name = "";
 function Load(m)
 
     Map = m;
-    ObjectManager = Map.object_supervisor;
-    DialogueManager = Map.dialogue_supervisor;
-    EventManager = Map.event_supervisor;
     Script = Map:GetScriptSupervisor();
-
-    Map.unlimited_stamina = false;
+    DialogueManager = Map:GetDialogueSupervisor();
+    EventManager = Map:GetEventSupervisor();
+    Map:SetUnlimitedStamina(false);
 
     _CreateCharacters();
     _CreateObjects();
@@ -47,7 +44,7 @@ function Load(m)
     -- Set the camera focus on hero
     Map:SetCamera(hero);
     -- This is a dungeon map, we'll use the front battle member sprite as default sprite.
-    Map.object_supervisor:SetPartyMemberVisibleSprite(hero);
+    Map:SetPartyMemberVisibleSprite(hero);
 
     _CreateEvents();
     _CreateZones();
@@ -58,7 +55,6 @@ function Load(m)
         EventManager:StartEvent("Amplify lights", 1500);
         GlobalManager:SetEventValue("story", "mountain_shrine_entrance_light_done", 1);
     end
-
 end
 
 -- the map update function handles checks done on each game tick.
@@ -70,7 +66,7 @@ end
 -- Character creation
 function _CreateCharacters()
     -- Default hero and position (from shrine entrance)
-    hero = CreateSprite(Map, "Bronann", 33.5, 76.5);
+    hero = CreateSprite(Map, "Bronann", 33.5, 76.5, vt_map.MapMode.GROUND_OBJECT);
     hero:SetDirection(vt_map.MapMode.NORTH);
     hero:SetMovementSpeed(vt_map.MapMode.NORMAL_SPEED);
 
@@ -89,49 +85,43 @@ function _CreateCharacters()
         hero:SetPosition(14.0, 6.0);
     end
 
-    Map:AddGroundObject(hero);
-
     -- Create secondary characters
     bronann = CreateSprite(Map, "Bronann",
-                         hero:GetXPosition(), hero:GetYPosition());
+                         hero:GetXPosition(), hero:GetYPosition(), vt_map.MapMode.GROUND_OBJECT);
     bronann:SetDirection(vt_map.MapMode.EAST);
     bronann:SetMovementSpeed(vt_map.MapMode.NORMAL_SPEED);
     bronann:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
     bronann:SetVisible(false);
-    Map:AddGroundObject(bronann);
 
     orlinn = CreateSprite(Map, "Orlinn",
-                          hero:GetXPosition(), hero:GetYPosition());
+                          hero:GetXPosition(), hero:GetYPosition(), vt_map.MapMode.GROUND_OBJECT);
     orlinn:SetDirection(vt_map.MapMode.EAST);
     orlinn:SetMovementSpeed(vt_map.MapMode.NORMAL_SPEED);
     orlinn:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
     orlinn:SetVisible(false);
-    Map:AddGroundObject(orlinn);
 end
 
 -- The parchment object, used as first event.
-local parchment1 = {}
+local parchment1 = nil
 
 -- Skeletons preventing the heroes from going upstairs.
-local skeleton1 = {};
-local skeleton2 = {};
-local skeleton3 = {};
+local skeleton1 = nil
+local skeleton2 = nil
+local skeleton3 = nil
 
 function _CreateObjects()
-    local object = {}
-    local npc = {}
-    local dialogue = {}
-    local text = {}
-    local event = {}
+    local object = nil
+    local npc = nil
+    local dialogue = nil
+    local text = nil
+    local event = nil
 
-    object = CreateTreasure(Map, "Elbrus_Shrine_entrance1", "Jar1", 59, 16);
-    object:AddObject(15, 1); -- Lotus Petal (Regen)
-    Map:AddGroundObject(object);
-    object = CreateTreasure(Map, "Elbrus_Shrine_entrance2", "Jar1", 20, 46.6);
-    object:AddObject(1004, 1); -- Periwinkle potion (Strength)
-    Map:AddGroundObject(object);
+    object = CreateTreasure(Map, "Elbrus_Shrine_entrance1", "Jar1", 59, 16, vt_map.MapMode.GROUND_OBJECT);
+    object:AddItem(15, 1); -- Lotus Petal (Regen)
+    object = CreateTreasure(Map, "Elbrus_Shrine_entrance2", "Jar1", 20, 46.6, vt_map.MapMode.GROUND_OBJECT);
+    object:AddItem(1004, 1); -- Periwinkle potion (Strength)
 
-    Map:AddHalo("img/misc/lights/torch_light_mask.lua", 33.5, 90,
+    vt_map.Halo.Create("img/misc/lights/torch_light_mask.lua", 33.5, 90,
         vt_video.Color(1.0, 1.0, 1.0, 0.8));
 
     _add_flame(19.5, 2);
@@ -147,36 +137,19 @@ function _CreateObjects()
     _add_flame_pot(22, 8.6);
     _add_flame_pot(20, 6.6);
 
-    object = CreateObject(Map, "Vase2", 38, 42);
-    Map:AddGroundObject(object);
-    object = CreateObject(Map, "Vase4", 28, 43);
-    Map:AddGroundObject(object);
-
-    object = CreateObject(Map, "Vase3", 44, 32.6);
-    Map:AddGroundObject(object);
-    object = CreateObject(Map, "Vase3", 43.9, 30.6);
-    Map:AddGroundObject(object);
-    object = CreateObject(Map, "Vase3", 44.1, 28.6);
-    Map:AddGroundObject(object);
-
-    object = CreateObject(Map, "Jar1", 30, 40.6);
-    Map:AddGroundObject(object);
-    object = CreateObject(Map, "Jar1", 36, 40.6);
-    Map:AddGroundObject(object);
-
-    object = CreateObject(Map, "Vase2", 22, 32.6);
-    Map:AddGroundObject(object);
-    object = CreateObject(Map, "Jar1", 21.9, 30.6);
-    Map:AddGroundObject(object);
-    object = CreateObject(Map, "Jar1", 22.1, 28.6);
-    Map:AddGroundObject(object);
-
-    object = CreateObject(Map, "Jar1", 20, 58.6);
-    Map:AddGroundObject(object);
-    object = CreateObject(Map, "Jar1", 46, 45);
-    Map:AddGroundObject(object);
-    object = CreateObject(Map, "Jar1", 46, 51.6);
-    Map:AddGroundObject(object);
+    CreateObject(Map, "Vase2", 38, 42, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Vase4", 28, 43, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Vase3", 44, 32.6, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Vase3", 43.9, 30.6, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Vase3", 44.1, 28.6, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Jar1", 30, 40.6, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Jar1", 36, 40.6, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Vase2", 22, 32.6, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Jar1", 21.9, 30.6, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Jar1", 22.1, 28.6, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Jar1", 20, 58.6, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Jar1", 46, 45, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Jar1", 46, 51.6, vt_map.MapMode.GROUND_OBJECT);
 
     -- Waterfalls
     if (GlobalManager:GetEventValue("triggers", "mt elbrus waterfall trigger") == 1) then
@@ -200,8 +173,7 @@ function _CreateObjects()
     end
 
     -- Add the first parchment
-    parchment1 = CreateObject(Map, "Parchment", 33.0, 40.6);
-    Map:AddGroundObject(parchment1);
+    parchment1 = CreateObject(Map, "Parchment", 33.0, 40.6, vt_map.MapMode.GROUND_OBJECT);
     -- Adds a dialogue about the parchment content.
     if (GlobalManager:GetEventValue("story", "mountain_shrine_parchment1_done") == 0) then
         parchment1:SetEventWhenTalking("Parchment 1 event");
@@ -211,18 +183,16 @@ function _CreateObjects()
     end
 
     -- The skeleton triggering the access to upstairs and the arrival of enemies.
-    skeleton1 = CreateSprite(Map, "Skeleton", 13, 5);
-    skeleton2 = CreateSprite(Map, "Skeleton", 15, 5);
-    skeleton3 = CreateSprite(Map, "Skeleton", 14, 7);
+    skeleton1 = CreateSprite(Map, "Skeleton", 13, 5, vt_map.MapMode.GROUND_OBJECT);
+    skeleton2 = CreateSprite(Map, "Skeleton", 15, 5, vt_map.MapMode.GROUND_OBJECT);
+    skeleton3 = CreateSprite(Map, "Skeleton", 14, 7, vt_map.MapMode.GROUND_OBJECT);
     skeleton1:SetDirection(vt_map.MapMode.SOUTH);
     skeleton2:SetDirection(vt_map.MapMode.SOUTH);
     skeleton3:SetDirection(vt_map.MapMode.SOUTH);
     skeleton1:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
     skeleton2:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
     skeleton3:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
-    Map:AddGroundObject(skeleton1);
-    Map:AddGroundObject(skeleton2);
-    Map:AddGroundObject(skeleton3);
+
     -- Adds a dialogue about the parchment content.
     if (GlobalManager:GetEventValue("story", "mountain_shrine_skeleton_event_done") == 1) then
         skeleton1:SetPosition(0, 0);
@@ -238,105 +208,90 @@ function _CreateObjects()
     -- Create the fake walls out of the objects catalog as they are used once,
     -- Left secret passage
     if (GlobalManager:GetEventValue("triggers", "mt elbrus shrine 2nd s2 trigger") == 0) then
-        object = vt_map.PhysicalObject();
+        object = vt_map.PhysicalObject.Create(vt_map.MapMode.GROUND_OBJECT);
         object:SetPosition(2.0, 62.0);
-        object:SetObjectID(Map.object_supervisor:GenerateObjectID());
         object:SetCollHalfWidth(2.0);
         object:SetCollHeight(12.0);
         object:SetImgHalfWidth(2.0);
         object:SetImgHeight(12.0);
         object:AddStillFrame("dat/maps/mt_elbrus/fake_wall.png");
-        Map:AddGroundObject(object);
     else
         _add_flame(1.5, 53);
     end
 
     -- Right one
     if (GlobalManager:GetEventValue("triggers", "mt elbrus shrine 4 trigger 1") == 0) then
-        object = vt_map.PhysicalObject();
+        object = vt_map.PhysicalObject.Create(vt_map.MapMode.GROUND_OBJECT);
         object:SetPosition(62.0, 62.0);
-        object:SetObjectID(Map.object_supervisor:GenerateObjectID());
         object:SetCollHalfWidth(2.0);
         object:SetCollHeight(12.0);
         object:SetImgHalfWidth(2.0);
         object:SetImgHeight(12.0);
         object:AddStillFrame("dat/maps/mt_elbrus/fake_wall.png");
-        Map:AddGroundObject(object);
     else
         _add_flame(63.5, 53);
     end
 end
 
 function _add_very_small_waterfall(x, y)
-    local object = CreateObject(Map, "Waterfall3", x - 0.1, y - 0.2);
+    local object = CreateObject(Map, "Waterfall3", x - 0.1, y - 0.2, vt_map.MapMode.GROUND_OBJECT);
     object:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
     object:RandomizeCurrentAnimationFrame();
-    Map:AddGroundObject(object);
     -- Ambient sound
-    object = vt_map.SoundObject("snd/fountain_large.ogg", x, y - 5, 50.0);
+    object = vt_map.SoundObject.Create("snd/fountain_large.ogg", x, y - 5, 50.0);
     object:SetMaxVolume(0.6);
-    Map:AddAmbientSoundObject(object)
+
     -- Particle effects
-    object = vt_map.ParticleObject("dat/effects/particles/waterfall_steam.lua", x, y - 4.0);
-    object:SetObjectID(Map.object_supervisor:GenerateObjectID());
+    object = vt_map.ParticleObject.Create("dat/effects/particles/waterfall_steam.lua", x, y - 4.0, vt_map.MapMode.GROUND_OBJECT);
     object:SetDrawOnSecondPass(true);
-    Map:AddGroundObject(object);
-    object = vt_map.ParticleObject("dat/effects/particles/waterfall_steam_big.lua", x, y + 1.0);
-    object:SetObjectID(Map.object_supervisor:GenerateObjectID());
+
+    object = vt_map.ParticleObject("dat/effects/particles/waterfall_steam_big.lua", x, y + 1.0, vt_map.MapMode.GROUND_OBJECT);
     object:SetDrawOnSecondPass(true);
-    Map:AddGroundObject(object);
 end
 
 function _add_waterlight(x, y)
-    local object = CreateObject(Map, "Water Light1", x, y);
+    local object = CreateObject(Map, "Water Light1", x, y, vt_map.MapMode.GROUND_OBJECT);
     object:RandomizeCurrentAnimationFrame();
     object:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
-    Map:AddGroundObject(object);
 end
 
 function _add_bubble(x, y)
-    local object = CreateObject(Map, "Bubble", x, y);
+    local object = CreateObject(Map, "Bubble", x, y, vt_map.MapMode.GROUND_OBJECT);
     object:RandomizeCurrentAnimationFrame();
-    Map:AddGroundObject(object);
-    object = vt_map.ParticleObject("dat/effects/particles/bubble_steam.lua", x, y);
-    object:SetObjectID(Map.object_supervisor:GenerateObjectID());
-    Map:AddGroundObject(object);
+
+    vt_map.ParticleObject.Create("dat/effects/particles/bubble_steam.lua", x, y, vt_map.MapMode.GROUND_OBJECT);
 end
 
 function _add_flame(x, y)
-    local object = vt_map.SoundObject("snd/campfire.ogg", x, y, 10.0);
-    if (object ~= nil) then Map:AddAmbientSoundObject(object) end;
+    vt_map.SoundObject.Create("snd/campfire.ogg", x, y, 10.0);
 
-    object = CreateObject(Map, "Flame1", x, y);
+    local object = CreateObject(Map, "Flame1", x, y, vt_map.MapMode.GROUND_OBJECT);
     object:RandomizeCurrentAnimationFrame();
-    Map:AddGroundObject(object);
 
-    Map:AddHalo("img/misc/lights/torch_light_mask2.lua", x, y + 3.0,
+    vt_map.Halo.Create("img/misc/lights/torch_light_mask2.lua", x, y + 3.0,
         vt_video.Color(0.85, 0.32, 0.0, 0.6));
-    Map:AddHalo("img/misc/lights/sun_flare_light_main.lua", x, y + 2.0,
+    vt_map.Halo.Create("img/misc/lights/sun_flare_light_main.lua", x, y + 2.0,
         vt_video.Color(0.99, 1.0, 0.27, 0.1));
 end
 
 function _add_flame_pot(x, y)
-    local object = vt_map.SoundObject("snd/campfire.ogg", x, y, 10.0);
-    if (object ~= nil) then Map:AddAmbientSoundObject(object) end;
+    vt_map.SoundObject.Create("snd/campfire.ogg", x, y, 10.0);
 
-    object = CreateObject(Map, "Flame Pot1", x, y);
+    local object = CreateObject(Map, "Flame Pot1", x, y, vt_map.MapMode.GROUND_OBJECT);
     object:RandomizeCurrentAnimationFrame();
-    Map:AddGroundObject(object);
 
-    Map:AddHalo("img/misc/lights/torch_light_mask2.lua", x, y + 3.0,
+    vt_map.Halo.Create("img/misc/lights/torch_light_mask2.lua", x, y + 3.0,
         vt_video.Color(0.85, 0.32, 0.0, 0.6));
-    Map:AddHalo("img/misc/lights/sun_flare_light_main.lua", x, y + 2.0,
+    vt_map.Halo.Create("img/misc/lights/sun_flare_light_main.lua", x, y + 2.0,
         vt_video.Color(0.99, 1.0, 0.27, 0.1));
 end
 
 function _CreateEnemies()
-    local enemy = {};
-    local roam_zone = {};
+    local enemy = nil
+    local roam_zone = nil
 
     -- Hint: left, right, top, bottom
-    roam_zone = vt_map.EnemyZone(6, 19, 10, 49);
+    roam_zone = vt_map.EnemyZone.Create(6, 19, 10, 49);
 
     enemy = CreateEnemySprite(Map, "Skeleton");
     _SetBattleEnvironment(enemy);
@@ -344,8 +299,7 @@ function _CreateEnemies()
     enemy:AddEnemy(19);
     enemy:AddEnemy(19);
     enemy:AddEnemy(19);
-    roam_zone:AddEnemy(enemy, Map, 2);
-    Map:AddZone(roam_zone);
+    roam_zone:AddEnemy(enemy, 2);
 end
 
 -- Sets common battle environment settings for enemy sprites
@@ -361,16 +315,16 @@ function _SetEventBattleEnvironment(event)
 end
 
 -- Special events
-local bronann_move_next_to_hero_event = {}
-local orlinn_move_next_to_hero_event = {}
-local bronann_move_back_to_hero_event = {}
-local orlinn_move_back_to_hero_event = {}
+local bronann_move_next_to_hero_event = nil
+local orlinn_move_next_to_hero_event = nil
+local bronann_move_back_to_hero_event = nil
+local orlinn_move_back_to_hero_event = nil
 
 -- Creates all events and sets up the entire event sequence chain
 function _CreateEvents()
-    local event = {};
-    local dialogue = {};
-    local text = {};
+    local event = nil
+    local dialogue = nil
+    local text = nil
 
     event = vt_map.MapTransitionEvent("to mountain shrine entrance", "dat/maps/mt_elbrus/mt_elbrus_shrine1_map.lua",
                                        "dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua", "from_shrine_main_room");
@@ -425,7 +379,7 @@ function _CreateEvents()
     orlinn_move_next_to_hero_event:AddEventLinkAtEnd("Orlinn looks north");
     EventManager:RegisterEvent(orlinn_move_next_to_hero_event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("... It seems somebody left a note here on purpose...");
     dialogue:AddLine(text, hero);
     text = vt_system.Translate("You mean, in the middle of those scary bones?");
@@ -460,7 +414,6 @@ function _CreateEvents()
     dialogue:AddLine(text, bronann);
     text = vt_system.Translate("Yes, and let's do it quickly...");
     dialogue:AddLine(text, hero);
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Kalya reads the parchment 1", dialogue);
     event:AddEventLinkAtEnd("Orlinn goes back to party");
     event:AddEventLinkAtEnd("Bronann goes back to party");
@@ -477,12 +430,11 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
 
     -- A small event, summarizing the whole one
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Somebody left a note on purpose here. According to it, we need to find out a way to trigger the waterfall from the highest floor.");
     dialogue:AddLine(text, hero);
     text = vt_system.Translate("But let's be careful, as it also said this place is dangerous, and the dark waters are a trap somehow...");
     dialogue:AddLine(text, hero);
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Parchment 1 event small", dialogue);
     EventManager:RegisterEvent(event);
 
@@ -491,10 +443,9 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("Skeleton dialogue");
     EventManager:RegisterEvent(event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("What is this? ... Skeletons?!");
     dialogue:AddLineEmote(text, hero, "exclamation");
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Skeleton dialogue", dialogue);
     event:AddEventLinkAtEnd("Skeleton1 goes to hero");
     event:AddEventLinkAtEnd("Skeleton2 goes to hero");
@@ -521,10 +472,9 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("Skeleton dialogue 2");
     EventManager:RegisterEvent(event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Phew...");
     dialogue:AddLineEmote(text, hero, "exclamation");
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Skeleton dialogue 2", dialogue);
     event:AddEventLinkAtEnd("Skeleton event end");
     EventManager:RegisterEvent(event);
@@ -534,33 +484,21 @@ function _CreateEvents()
 end
 
 -- zones
-local to_shrine_entrance_zone = {};
-local to_shrine_trap_room_zone = {};
-local to_shrine_enigma_room_zone = {};
-local to_shrine_stairs_room_zone = {};
-local shrine_skeleton_trap_zone = {};
+local to_shrine_entrance_zone = nil
+local to_shrine_trap_room_zone = nil
+local to_shrine_enigma_room_zone = nil
+local to_shrine_stairs_room_zone = nil
+local shrine_skeleton_trap_zone = nil
 
 -- Create the different map zones triggering events
 function _CreateZones()
-
     -- N.B.: left, right, top, bottom
-    to_shrine_entrance_zone = vt_map.CameraZone(26, 40, 78, 80);
-    Map:AddZone(to_shrine_entrance_zone);
-
-    to_shrine_trap_room_zone = vt_map.CameraZone(62, 64, 56, 62);
-    Map:AddZone(to_shrine_trap_room_zone);
-
-    to_shrine_enigma_room_zone = vt_map.CameraZone(0, 2, 56, 62);
-    Map:AddZone(to_shrine_enigma_room_zone);
-
-    to_shrine_first_floor_zone = vt_map.CameraZone(12, 16, 0, 2);
-    Map:AddZone(to_shrine_first_floor_zone);
-
-    to_shrine_stairs_room_zone = vt_map.CameraZone(46, 54, 0, 2);
-    Map:AddZone(to_shrine_stairs_room_zone);
-
-    shrine_skeleton_trap_zone = vt_map.CameraZone(4, 24, 10, 12);
-    Map:AddZone(shrine_skeleton_trap_zone);
+    to_shrine_entrance_zone = vt_map.CameraZone.Create(26, 40, 78, 80);
+    to_shrine_trap_room_zone = vt_map.CameraZone.Create(62, 64, 56, 62);
+    to_shrine_enigma_room_zone = vt_map.CameraZone.Create(0, 2, 56, 62);
+    to_shrine_first_floor_zone = vt_map.CameraZone.Create(12, 16, 0, 2);
+    to_shrine_stairs_room_zone = vt_map.CameraZone.Create(46, 54, 0, 2);
+    shrine_skeleton_trap_zone = vt_map.CameraZone.Create(4, 24, 10, 12);
 end
 
 -- Check whether the active camera has entered a zone. To be called within Update()

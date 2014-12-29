@@ -3,15 +3,15 @@ setmetatable(ns, {__index = _G})
 battle_with_dark_soldiers_script = ns;
 setfenv(1, ns);
 
-local Battle = {};
-local Script = {};
-local DialogueManager = {};
-local start_timer = {};
+local Battle = nil
+local Script = nil
+local DialogueManager = nil
+local start_timer = nil
 
 local dialogue1_done = false;
 
-local time_left_header_text = {};
-local time_left_text = {};
+local time_left_header_text = nil
+local time_left_text = nil
 
 local header_color = vt_video.Color(1.0, 1.0, 1.0, 1.0);
 local text_color = vt_video.Color(1.0, 1.0, 1.0, 1.0);
@@ -23,21 +23,20 @@ function Initialize(battle_instance)
     Battle = battle_instance;
     Script = Battle:GetScriptSupervisor();
 
-    local text = {};
-    local dialogue = {};
+    local text = nil
+    local dialogue = nil
 
     DialogueManager = Battle:GetDialogueSupervisor();
 
     -- Add all speakers for the dialogues to be added
-    DialogueManager:AddCustomSpeaker(1000, vt_system.Translate("Kalya"), "img/portraits/kalya.png");
-    DialogueManager:AddCustomSpeaker(1001, vt_system.Translate("Soldier"), "img/portraits/npcs/dark_soldier.png");
+    DialogueManager:AddSpeaker("Kalya", vt_system.Translate("Kalya"), "img/portraits/kalya.png");
+    DialogueManager:AddSpeaker("Soldier", vt_system.Translate("Soldier"), "img/portraits/npcs/dark_soldier.png");
 
-    dialogue = vt_battle.BattleDialogue(1);
+    dialogue = vt_common.Dialogue.Create(DialogueManager, "The dark soldier tells them to surrender");
     text = vt_system.Translate("I found you!! My comrades shall be here in no time. Surrender now or you'll be punished!!");
-    dialogue:AddLine(text, 1001);
+    dialogue:AddLine(text, "Soldier");
     text = vt_system.Translate("Don't listen to him! We must get rid of him before reinforcements arrive or we're doomed!!");
-    dialogue:AddLine(text, 1000);
-    DialogueManager:AddDialogue(dialogue);
+    dialogue:AddLine(text, "Kalya");
 
     -- Construct a timer so we can start the dialogue a couple seconds after the battle begins
     start_timer = vt_system.SystemTimer(100, 0);
@@ -49,7 +48,6 @@ function Initialize(battle_instance)
     time_left_header_text = Script:CreateText(vt_system.Translate("Time left:"), vt_video.TextStyle("text22"));
 
     dialogue1_done = false;
-
 end
 
 function Restart()
@@ -98,7 +96,7 @@ function Update()
     Battle:SetSceneMode(false);
 
     if (dialogue1_done == false) then
-        DialogueManager:BeginDialogue(1);
+        DialogueManager:StartDialogue("The dark soldier tells them to surrender");
         Battle:SetSceneMode(true);
         dialogue1_done = true;
     end

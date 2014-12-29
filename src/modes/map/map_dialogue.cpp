@@ -56,7 +56,10 @@ SpriteDialogue::SpriteDialogue() :
     _input_blocked(false),
     _restore_state(true),
     _dialogue_seen(false)
-{}
+{
+    // Auto-registers the dialogue for later deletion handling.
+    MapMode::CurrentInstance()->GetDialogueSupervisor()->AddDialogue(this);
+}
 
 SpriteDialogue::SpriteDialogue(const std::string& dialogue_event_name) :
     Dialogue(MapMode::CurrentInstance()->GetDialogueSupervisor()->GenerateDialogueID()),
@@ -72,6 +75,23 @@ SpriteDialogue::SpriteDialogue(const std::string& dialogue_event_name) :
     int32 seen = vt_global::GlobalManager->GetEventValue("dialogues", _event_name);
     if (seen > 0)
         _dialogue_seen = true;
+
+    // Auto-registers the dialogue for later deletion handling.
+    MapMode::CurrentInstance()->GetDialogueSupervisor()->AddDialogue(this);
+}
+
+SpriteDialogue* SpriteDialogue::Create()
+{
+    // The object auto register to the object supervisor
+    // and will later handle deletion.
+    return new SpriteDialogue();
+}
+
+SpriteDialogue* SpriteDialogue::Create(const std::string& dialogue_event_name)
+{
+    // The object auto register to the object supervisor
+    // and will later handle deletion.
+    return new SpriteDialogue(dialogue_event_name);
 }
 
 void SpriteDialogue::SetAsSeen(bool seen)
@@ -335,7 +355,7 @@ void MapDialogueSupervisor::AddDialogue(SpriteDialogue* dialogue)
     }
 }
 
-void MapDialogueSupervisor::BeginDialogue(const std::string& dialogue_id)
+void MapDialogueSupervisor::StartDialogue(const std::string& dialogue_id)
 {
     SpriteDialogue *dialogue = GetDialogue(dialogue_id);
 

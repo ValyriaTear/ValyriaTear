@@ -14,25 +14,22 @@ map_subname = ""
 music_filename = "mus/mountain_shrine.ogg"
 
 -- c++ objects instances
-local Map = {};
-local ObjectManager = {};
-local DialogueManager = {};
-local EventManager = {};
-local Script = {};
+local Map = nil
+local DialogueManager = nil
+local EventManager = nil
+local Script = nil
 
 -- the main character handler
-local hero = {};
+local hero = nil
 
 -- the main map loading code
 function Load(m)
 
     Map = m;
-    ObjectManager = Map.object_supervisor;
-    DialogueManager = Map.dialogue_supervisor;
-    EventManager = Map.event_supervisor;
     Script = Map:GetScriptSupervisor();
-
-    Map.unlimited_stamina = false;
+    DialogueManager = Map:GetDialogueSupervisor();
+    EventManager = Map:GetEventSupervisor();
+    Map:SetUnlimitedStamina(false);
 
     _CreateCharacters();
     _CreateObjects();
@@ -40,7 +37,7 @@ function Load(m)
     -- Set the camera focus on hero
     Map:SetCamera(hero);
     -- This is a dungeon map, we'll use the front battle member sprite as default sprite.
-    Map.object_supervisor:SetPartyMemberVisibleSprite(hero);
+    Map:SetPartyMemberVisibleSprite(hero);
 
     _CreateEvents();
     _CreateZones();
@@ -63,7 +60,7 @@ end
 -- Character creation
 function _CreateCharacters()
     -- Default hero and position (from shrine main room)
-    hero = CreateSprite(Map, "Bronann", 3.5, 35.5);
+    hero = CreateSprite(Map, "Bronann", 3.5, 35.5, vt_map.MapMode.GROUND_OBJECT);
     hero:SetDirection(vt_map.MapMode.EAST);
     hero:SetMovementSpeed(vt_map.MapMode.NORMAL_SPEED);
 
@@ -72,13 +69,11 @@ function _CreateCharacters()
         hero:SetDirection(vt_map.MapMode.SOUTH);
         hero:SetPosition(19.0, 13.0);
     end
-
-    Map:AddGroundObject(hero);
 end
 
-local fence1 = {};
-local fence2 = {};
-local spikes = {};
+local fence1 = nil
+local fence2 = nil
+local spikes = nil
 
 local spike_wall = nil;
 local wall_rumble_sound = nil;
@@ -92,27 +87,22 @@ local pushed_bones = {};
 local treasure_jars = {};
 
 function _CreateObjects()
-    local object = {}
-    local npc = {}
-    local dialogue = {}
-    local text = {}
-    local event = {}
+    local object = nil
+    local npc = nil
+    local dialogue = nil
+    local text = nil
+    local event = nil
 
     _add_flame(11.5, 6);
     _add_flame(27.5, 6);
     _add_flame(1.5, 31);
 
-    fence1 = CreateObject(Map, "Stone Fence1", 5, 34);
-    Map:AddGroundObject(fence1);
-    fence2 = CreateObject(Map, "Stone Fence1", 5, 40);
-    Map:AddGroundObject(fence2);
+    fence1 = CreateObject(Map, "Stone Fence1", 5, 34, vt_map.MapMode.GROUND_OBJECT);
+    fence2 = CreateObject(Map, "Stone Fence1", 5, 40, vt_map.MapMode.GROUND_OBJECT);
 
-    spikes[1] = CreateObject(Map, "Spikes1", 17, 12);
-    Map:AddGroundObject(spikes[1]);
-    spikes[2] = CreateObject(Map, "Spikes1", 19, 12);
-    Map:AddGroundObject(spikes[2]);
-    spikes[3] = CreateObject(Map, "Spikes1", 21, 12);
-    Map:AddGroundObject(spikes[3]);
+    spikes[1] = CreateObject(Map, "Spikes1", 17, 12, vt_map.MapMode.GROUND_OBJECT);
+    spikes[2] = CreateObject(Map, "Spikes1", 19, 12, vt_map.MapMode.GROUND_OBJECT);
+    spikes[3] = CreateObject(Map, "Spikes1", 21, 12, vt_map.MapMode.GROUND_OBJECT);
     if (GlobalManager:GetEventValue("story", "mt_shrine_treasure_trap_done") == 1) then
         for _, spike in pairs(spikes) do
             spike:SetVisible(false);
@@ -120,9 +110,8 @@ function _CreateObjects()
         end
     end
 
-    spike_wall = vt_map.PhysicalObject();
+    spike_wall = vt_map.PhysicalObject.Create(vt_map.MapMode.GROUND_OBJECT);
     spike_wall:SetPosition(19.0, 48.0);
-    spike_wall:SetObjectID(Map.object_supervisor:GenerateObjectID());
     spike_wall:SetCollHalfWidth(15.0);
     spike_wall:SetCollHeight(3.7);
     spike_wall:SetImgHalfWidth(15.0);
@@ -130,10 +119,8 @@ function _CreateObjects()
     spike_wall:AddStillFrame("dat/maps/mt_elbrus/spike_wall.png");
     spike_wall:SetVisible(false);
     spike_wall:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
-    Map:AddGroundObject(spike_wall);
 
-    wall_rumble_sound = vt_map.SoundObject("snd/rumble_continuous.ogg", 19.0, 48.0, 20.0);
-    Map:AddAmbientSoundObject(wall_rumble_sound);
+    wall_rumble_sound = vt_map.SoundObject.Create("snd/rumble_continuous.ogg", 19.0, 48.0, 20.0);
     wall_rumble_sound:Stop();
 
     -- Adds breaking spikes
@@ -180,8 +167,7 @@ function _CreateObjects()
     };
 
     for my_index, my_array in pairs(spikes_array) do
-        breaking_spikes[my_index] = CreateObject(Map, "Spikes1", my_array[1], my_array[2]);
-        Map:AddGroundObject(breaking_spikes[my_index]);
+        breaking_spikes[my_index] = CreateObject(Map, "Spikes1", my_array[1], my_array[2], vt_map.MapMode.GROUND_OBJECT);
     end
 
     -- Adds pushed bones
@@ -201,8 +187,7 @@ function _CreateObjects()
     };
 
     for my_index, my_array in pairs(bones_array) do
-        pushed_bones[my_index] = CreateObject(Map, "Bones1", my_array[1], my_array[2]);
-        Map:AddGroundObject(pushed_bones[my_index]);
+        pushed_bones[my_index] = CreateObject(Map, "Bones1", my_array[1], my_array[2], vt_map.MapMode.GROUND_OBJECT);
     end
 
     -- Adds a few tempting but treacherous treasures...
@@ -214,9 +199,8 @@ function _CreateObjects()
     };
 
     for my_index, my_array in pairs(jars_array) do
-        treasure_jars[my_index] = CreateTreasure(Map, my_array[1], "Jar1", my_array[2], my_array[3]);
-        treasure_jars[my_index]:AddObject(my_array[4], 1);
-        Map:AddGroundObject(treasure_jars[my_index]);
+        treasure_jars[my_index] = CreateTreasure(Map, my_array[1], "Jar1", my_array[2], my_array[3], vt_map.MapMode.GROUND_OBJECT);
+        treasure_jars[my_index]:AddItem(my_array[4], 1);
     end
 
     -- If the trap has been deactivated, the treasures aren't there anymore...
@@ -240,23 +224,21 @@ function _CreateObjects()
 end
 
 function _add_flame(x, y)
-    local object = vt_map.SoundObject("snd/campfire.ogg", x, y, 10.0);
-    if (object ~= nil) then Map:AddAmbientSoundObject(object) end;
+    vt_map.SoundObject.Create("snd/campfire.ogg", x, y, 10.0);
 
-    object = CreateObject(Map, "Flame1", x, y);
-    Map:AddGroundObject(object);
+    local object = CreateObject(Map, "Flame1", x, y, vt_map.MapMode.GROUND_OBJECT);
 
-    Map:AddHalo("img/misc/lights/torch_light_mask2.lua", x, y + 3.0,
+    vt_map.Halo.Create("img/misc/lights/torch_light_mask2.lua", x, y + 3.0,
         vt_video.Color(0.85, 0.32, 0.0, 0.6));
-    Map:AddHalo("img/misc/lights/sun_flare_light_main.lua", x, y + 2.0,
+    vt_map.Halo.Create("img/misc/lights/sun_flare_light_main.lua", x, y + 2.0,
         vt_video.Color(0.99, 1.0, 0.27, 0.1));
 end
 
 -- Creates all events and sets up the entire event sequence chain
 function _CreateEvents()
-    local event = {};
-    local dialogue = {};
-    local text = {};
+    local event = nil
+    local dialogue = nil
+    local text = nil
 
     event = vt_map.MapTransitionEvent("to mountain shrine main room", "dat/maps/mt_elbrus/mt_elbrus_shrine2_map.lua",
                                        "dat/maps/mt_elbrus/mt_elbrus_shrine2_script.lua", "from_shrine_trap_room");
@@ -298,7 +280,7 @@ end
 function _CreateEnemiesZones()
     local enemy = nil;
 
-    roam_zones[1] = vt_map.EnemyZone(10, 32, 12, 16);
+    roam_zones[1] = vt_map.EnemyZone.Create(10, 32, 12, 16);
     enemy = CreateEnemySprite(Map, "slime");
     _SetBattleEnvironment(enemy);
     enemy:NewEnemyParty();
@@ -308,13 +290,12 @@ function _CreateEnemiesZones()
     enemy:AddEnemy(1);
     enemy:AddEnemy(1);
     enemy:SetBoss(true);
-    roam_zones[1]:AddEnemy(enemy, Map, 1);
+    roam_zones[1]:AddEnemy(enemy, 1);
     roam_zones[1]:SetSpawnsLeft(1); -- This monster shall spawn only one time.
-    Map:AddZone(roam_zones[1]);
 
     --roam_zones[1]:SetEnabled(false); -- Not disabled since it's the first one.
 
-    roam_zones[2] = vt_map.EnemyZone(10, 32, 12, 16);
+    roam_zones[2] = vt_map.EnemyZone.Create(10, 32, 12, 16);
     enemy = CreateEnemySprite(Map, "spider");
     _SetBattleEnvironment(enemy);
     enemy:NewEnemyParty();
@@ -324,12 +305,11 @@ function _CreateEnemiesZones()
     enemy:AddEnemy(2);
     enemy:AddEnemy(1);
     enemy:SetBoss(true);
-    roam_zones[2]:AddEnemy(enemy, Map, 1);
+    roam_zones[2]:AddEnemy(enemy, 1);
     roam_zones[2]:SetSpawnsLeft(1); -- This monster shall spawn only one time.
-    Map:AddZone(roam_zones[2]);
     roam_zones[2]:SetEnabled(false); -- Disabled per default
 
-    roam_zones[3] = vt_map.EnemyZone(10, 32, 12, 16);
+    roam_zones[3] = vt_map.EnemyZone.Create(10, 32, 12, 16);
     -- Some bats
     enemy = CreateEnemySprite(Map, "bat");
     _SetBattleEnvironment(enemy);
@@ -339,12 +319,11 @@ function _CreateEnemiesZones()
     enemy:AddEnemy(6);
     enemy:AddEnemy(4);
     enemy:SetBoss(true);
-    roam_zones[3]:AddEnemy(enemy, Map, 1);
+    roam_zones[3]:AddEnemy(enemy, 1);
     roam_zones[3]:SetSpawnsLeft(1); -- This monster shall spawn only one time.
-    Map:AddZone(roam_zones[3]);
     roam_zones[3]:SetEnabled(false); -- Disabled per default
 
-    roam_zones[4] = vt_map.EnemyZone(10, 32, 12, 16);
+    roam_zones[4] = vt_map.EnemyZone.Create(10, 32, 12, 16);
     enemy = CreateEnemySprite(Map, "snake");
     _SetBattleEnvironment(enemy);
     enemy:NewEnemyParty();
@@ -356,24 +335,22 @@ function _CreateEnemiesZones()
     enemy:AddEnemy(4);
     enemy:AddEnemy(6);
     enemy:SetBoss(true);
-    roam_zones[4]:AddEnemy(enemy, Map, 1);
+    roam_zones[4]:AddEnemy(enemy, 1);
     roam_zones[4]:SetSpawnsLeft(1); -- This monster shall spawn only one time.
-    Map:AddZone(roam_zones[4]);
     roam_zones[4]:SetEnabled(false); -- Disabled per default
 
-    roam_zones[5] = vt_map.EnemyZone(10, 32, 12, 16);
+    roam_zones[5] = vt_map.EnemyZone.Create(10, 32, 12, 16);
     enemy = CreateEnemySprite(Map, "big slime");
     _SetBattleEnvironment(enemy);
     enemy:NewEnemyParty();
     enemy:AddEnemy(5, 812.0, 350.0);
     enemy:AddEnemy(5, 612.0, 450.0);
     enemy:SetBoss(true);
-    roam_zones[5]:AddEnemy(enemy, Map, 1);
+    roam_zones[5]:AddEnemy(enemy, 1);
     roam_zones[5]:SetSpawnsLeft(1); -- This monster shall spawn only one time.
-    Map:AddZone(roam_zones[5]);
     roam_zones[5]:SetEnabled(false); -- Disabled per default
 
-    roam_zones[6] = vt_map.EnemyZone(10, 32, 12, 16);
+    roam_zones[6] = vt_map.EnemyZone.Create(10, 32, 12, 16);
     enemy = CreateEnemySprite(Map, "Eyeball");
     _SetBattleEnvironment(enemy);
     enemy:NewEnemyParty();
@@ -383,12 +360,11 @@ function _CreateEnemiesZones()
     enemy:AddEnemy(12);
     enemy:AddEnemy(12);
     enemy:SetBoss(true);
-    roam_zones[6]:AddEnemy(enemy, Map, 1);
+    roam_zones[6]:AddEnemy(enemy, 1);
     roam_zones[6]:SetSpawnsLeft(1); -- This monster shall spawn only one time.
-    Map:AddZone(roam_zones[6]);
     roam_zones[6]:SetEnabled(false); -- Disabled per default
 
-    roam_zones[7] = vt_map.EnemyZone(10, 32, 12, 16);
+    roam_zones[7] = vt_map.EnemyZone.Create(10, 32, 12, 16);
     enemy = CreateEnemySprite(Map, "Beetle");
     _SetBattleEnvironment(enemy);
     enemy:NewEnemyParty();
@@ -400,12 +376,11 @@ function _CreateEnemiesZones()
     enemy:AddEnemy(15);
     enemy:AddEnemy(17);
     enemy:SetBoss(true);
-    roam_zones[7]:AddEnemy(enemy, Map, 1);
+    roam_zones[7]:AddEnemy(enemy, 1);
     roam_zones[7]:SetSpawnsLeft(1); -- This monster shall spawn only one time.
-    Map:AddZone(roam_zones[7]);
     roam_zones[7]:SetEnabled(false); -- Disabled per default
 
-    roam_zones[8] = vt_map.EnemyZone(10, 32, 12, 16);
+    roam_zones[8] = vt_map.EnemyZone.Create(10, 32, 12, 16);
     enemy = CreateEnemySprite(Map, "Skeleton");
     _SetBattleEnvironment(enemy);
     enemy:NewEnemyParty();
@@ -418,12 +393,11 @@ function _CreateEnemiesZones()
     enemy:AddEnemy(19);
     enemy:AddEnemy(17);
     enemy:SetBoss(true);
-    roam_zones[8]:AddEnemy(enemy, Map, 1);
+    roam_zones[8]:AddEnemy(enemy, 1);
     roam_zones[8]:SetSpawnsLeft(1); -- This monster shall spawn only one time.
-    Map:AddZone(roam_zones[8]);
     roam_zones[8]:SetEnabled(false); -- Disabled per default
 
-    roam_zones[9] = vt_map.EnemyZone(10, 32, 12, 16);
+    roam_zones[9] = vt_map.EnemyZone.Create(10, 32, 12, 16);
     enemy = CreateEnemySprite(Map, "Skeleton");
     _SetBattleEnvironment(enemy);
     enemy:NewEnemyParty();
@@ -436,9 +410,8 @@ function _CreateEnemiesZones()
     enemy:AddEnemy(19);
     enemy:AddEnemy(17);
     enemy:SetBoss(true);
-    roam_zones[9]:AddEnemy(enemy, Map, 1);
+    roam_zones[9]:AddEnemy(enemy, 1);
     roam_zones[9]:SetSpawnsLeft(1); -- This monster shall spawn only one time.
-    Map:AddZone(roam_zones[9]);
     roam_zones[9]:SetEnabled(false); -- Disabled per default
 end
 
@@ -470,29 +443,23 @@ function _CheckEnemiesState()
         monsters_started = false;
 
         -- Stop the death wall
-        EventManager:TerminateEvents("Make spike wall go up", false);
+        EventManager:EndEvent("Make spike wall go up", false);
         EventManager:StartEvent("Make spike wall go down");
         return;
     end
 end
 
 -- zones
-local to_shrine_main_room_zone = {};
-local to_shrine_treasure_room_zone = {};
-local trap_zone = {};
+local to_shrine_main_room_zone = nil
+local to_shrine_treasure_room_zone = nil
+local trap_zone = nil
 
 -- Create the different map zones triggering events
 function _CreateZones()
-
     -- N.B.: left, right, top, bottom
-    to_shrine_main_room_zone = vt_map.CameraZone(0, 2, 34, 38);
-    Map:AddZone(to_shrine_main_room_zone);
-
-    to_shrine_treasure_room_zone = vt_map.CameraZone(18, 20, 9, 10);
-    Map:AddZone(to_shrine_treasure_room_zone);
-
-    trap_zone = vt_map.CameraZone(10, 34, 10, 44);
-    Map:AddZone(trap_zone);
+    to_shrine_main_room_zone = vt_map.CameraZone.Create(0, 2, 34, 38);
+    to_shrine_treasure_room_zone = vt_map.CameraZone.Create(18, 20, 9, 10);
+    trap_zone = vt_map.CameraZone.Create(10, 34, 10, 44);
 end
 
 local trap_started = false;

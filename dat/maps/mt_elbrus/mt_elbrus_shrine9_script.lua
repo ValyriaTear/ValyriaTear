@@ -14,14 +14,14 @@ map_subname = ""
 music_filename = "mus/mountain_shrine.ogg"
 
 -- c++ objects instances
-local Map = {};
-local ObjectManager = {};
-local DialogueManager = {};
-local EventManager = {};
-local Effects = {};
+local Map = nil
+local ObjectManager = nil
+local DialogueManager = nil
+local EventManager = nil
+local Effects = nil
 
 -- the main character handler
-local hero = {};
+local hero = nil
 
 local bronann = nil;
 local kalya = nil;
@@ -31,11 +31,10 @@ local orlinn = nil;
 function Load(m)
 
     Map = m;
-    ObjectManager = Map.object_supervisor;
-    DialogueManager = Map.dialogue_supervisor;
-    EventManager = Map.event_supervisor;
     Effects = Map:GetEffectSupervisor();
-    Map.unlimited_stamina = false;
+    DialogueManager = Map:GetDialogueSupervisor();
+    EventManager = Map:GetEventSupervisor();
+    Map:SetUnlimitedStamina(false);
 
     _CreateCharacters();
     _CreateObjects();
@@ -43,7 +42,7 @@ function Load(m)
     -- Set the camera focus on hero
     Map:SetCamera(hero);
     -- This is a dungeon map, we'll use the front battle member sprite as default sprite.
-    Map.object_supervisor:SetPartyMemberVisibleSprite(hero);
+    Map:SetPartyMemberVisibleSprite(hero);
 
     _CreateEvents();
     _CreateZones();
@@ -68,7 +67,7 @@ end
 -- Character creation
 function _CreateCharacters()
     -- Default hero and position
-    hero = CreateSprite(Map, "Bronann", 22, 45);
+    hero = CreateSprite(Map, "Bronann", 22, 45, vt_map.MapMode.GROUND_OBJECT);
     hero:SetDirection(vt_map.MapMode.NORTH);
     hero:SetMovementSpeed(vt_map.MapMode.NORMAL_SPEED);
 
@@ -89,29 +88,24 @@ function _CreateCharacters()
         hero:SetPosition(51.0, 45.0);
     end
 
-    Map:AddGroundObject(hero);
-
     -- Create other characters
-    bronann = CreateSprite(Map, "Bronann", 0, 0);
+    bronann = CreateSprite(Map, "Bronann", 0, 0, vt_map.MapMode.GROUND_OBJECT);
     bronann:SetDirection(vt_map.MapMode.NORTH);
     bronann:SetMovementSpeed(vt_map.MapMode.NORMAL_SPEED);
     bronann:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
     bronann:SetVisible(false);
-    Map:AddGroundObject(bronann);
 
-    kalya = CreateSprite(Map, "Kalya", 0, 0);
+    kalya = CreateSprite(Map, "Kalya", 0, 0, vt_map.MapMode.GROUND_OBJECT);
     kalya:SetDirection(vt_map.MapMode.NORTH);
     kalya:SetMovementSpeed(vt_map.MapMode.NORMAL_SPEED);
     kalya:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
     kalya:SetVisible(false);
-    Map:AddGroundObject(kalya);
 
-    orlinn = CreateSprite(Map, "Orlinn", 0, 0);
+    orlinn = CreateSprite(Map, "Orlinn", 0, 0, vt_map.MapMode.GROUND_OBJECT);
     orlinn:SetDirection(vt_map.MapMode.NORTH);
     orlinn:SetMovementSpeed(vt_map.MapMode.NORMAL_SPEED);
     orlinn:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
     orlinn:SetVisible(false);
-    Map:AddGroundObject(orlinn);
 end
 
 -- falling hole objects
@@ -119,52 +113,44 @@ local falling_hole = nil
 local falling_hole_wall = nil
 
 function _CreateObjects()
-    local object = {};
-    local npc = {};
-    local event = {}
+    local object = nil
+    local npc = nil
+    local event = nil
 
-    object = CreateTreasure(Map, "mt_shrine9_chest1", "Wood_Chest1", 47, 42);
-    object:AddObject(3001, 1); -- Copper Ore x 1
-    Map:AddGroundObject(object);
+    object = CreateTreasure(Map, "mt_shrine9_chest1", "Wood_Chest1", 47, 42, vt_map.MapMode.GROUND_OBJECT);
+    object:AddItem(3001, 1); -- Copper Ore x 1
 
-    object = CreateTreasure(Map, "mt_shrine9_chest2", "Wood_Chest1", 51, 42);
-    object:AddObject(3001, 1); -- Copper Ore x 1
-    Map:AddGroundObject(object);
+    object = CreateTreasure(Map, "mt_shrine9_chest2", "Wood_Chest1", 51, 42, vt_map.MapMode.GROUND_OBJECT);
+    object:AddItem(3001, 1); -- Copper Ore x 1
 
-    object = CreateTreasure(Map, "mt_shrine9_chest3", "Wood_Chest1", 55, 42);
-    object:AddObject(3002, 1); -- Iron Ore x 1
-    Map:AddGroundObject(object);
+    object = CreateTreasure(Map, "mt_shrine9_chest3", "Wood_Chest1", 55, 42, vt_map.MapMode.GROUND_OBJECT);
+    object:AddItem(3002, 1); -- Iron Ore x 1
 
-    Map:AddHalo("img/misc/lights/right_ray_light.lua", 26, 18,
+    vt_map.Halo.Create("img/misc/lights/right_ray_light.lua", 26, 18,
             vt_video.Color(1.0, 1.0, 1.0, 0.8));
-    Map:AddHalo("img/misc/lights/right_ray_light.lua", 53, 44,
+    vt_map.Halo.Create("img/misc/lights/right_ray_light.lua", 53, 44,
             vt_video.Color(1.0, 1.0, 1.0, 0.8));
 
-    Map:AddSavePoint(8, 42);
+    vt_map.SavePoint.Create(8, 42);
 
     -- Load the spring heal effect.
-    heal_effect = vt_map.ParticleObject("dat/effects/particles/heal_particle.lua", 0, 0);
-    heal_effect:SetObjectID(Map.object_supervisor:GenerateObjectID());
+    heal_effect = vt_map.ParticleObject.Create("dat/effects/particles/heal_particle.lua", 0, 0, vt_map.MapMode.GROUND_OBJECT);
     heal_effect:Stop(); -- Don't run it until the character heals itself
-    Map:AddGroundObject(heal_effect);
 
-    object = CreateObject(Map, "Layna Statue", 6, 35);
+    object = CreateObject(Map, "Layna Statue", 6, 35, vt_map.MapMode.GROUND_OBJECT);
     object:SetEventWhenTalking("Heal dialogue");
-    Map:AddGroundObject(object);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Your party feels better...");
     dialogue:AddLineEvent(text, nil, "Heal event", ""); -- 'nil' means no portrait and no name
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Heal dialogue", dialogue);
     EventManager:RegisterEvent(event);
 
     event = vt_map.ScriptedEvent("Heal event", "heal_party", "heal_done");
     EventManager:RegisterEvent(event);
 
-    falling_hole = vt_map.PhysicalObject();
+    falling_hole = vt_map.PhysicalObject.Create(vt_map.MapMode.FLATGROUND_OBJECT);
     falling_hole:SetPosition(22.02, 18.0);
-    falling_hole:SetObjectID(Map.object_supervisor:GenerateObjectID());
     falling_hole:SetCollHalfWidth(4.0);
     falling_hole:SetCollHeight(8.0);
     falling_hole:SetImgHalfWidth(4.0);
@@ -172,11 +158,9 @@ function _CreateObjects()
     falling_hole:AddStillFrame("dat/maps/mt_elbrus/falling_hole.png");
     falling_hole:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
     falling_hole:SetVisible(false);
-    Map:AddFlatGroundObject(falling_hole);
 
-    falling_hole_wall = vt_map.PhysicalObject();
+    falling_hole_wall = vt_map.PhysicalObject.Create(vt_map.MapMode.SKY_OBJECT);
     falling_hole_wall:SetPosition(22.02, 25.35);
-    falling_hole_wall:SetObjectID(Map.object_supervisor:GenerateObjectID());
     falling_hole_wall:SetCollHalfWidth(4.0);
     falling_hole_wall:SetCollHeight(7.375);
     falling_hole_wall:SetImgHalfWidth(4.0);
@@ -184,8 +168,6 @@ function _CreateObjects()
     falling_hole_wall:AddStillFrame("dat/maps/mt_elbrus/falling_hole_above.png");
     falling_hole_wall:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
     falling_hole_wall:SetVisible(false);
-    Map:AddSkyObject(falling_hole_wall);
-
 end
 
 local kalya_move_next_to_bronann = nil;
@@ -193,9 +175,9 @@ local orlinn_move_next_to_bronann = nil;
 
 -- Creates all events and sets up the entire event sequence chain
 function _CreateEvents()
-    local event = {};
-    local dialogue = {};
-    local text = {};
+    local event = nil
+    local dialogue = nil
+    local text = nil
 
     event = vt_map.MapTransitionEvent("to mountain shrine entrance", "dat/maps/mt_elbrus/mt_elbrus_shrine2_2_map.lua",
                                        "dat/maps/mt_elbrus/mt_elbrus_shrine2_script.lua", "from_shrine_stairs1");
@@ -248,7 +230,6 @@ function _CreateEvents()
     event = vt_map.MapTransitionEvent("to mountain shrine basement", "dat/maps/mt_elbrus/mt_elbrus_shrine_basement_map.lua",
                                        "dat/maps/mt_elbrus/mt_elbrus_shrine_basement_script.lua", "from_shrine_stairs1");
     EventManager:RegisterEvent(event);
-
 end
 
 -- zones
@@ -259,14 +240,9 @@ local falling_event_zone = nil
 -- Create the different map zones triggering events
 function _CreateZones()
     -- N.B.: left, right, top, bottom
-    to_shrine_entrance_zone = vt_map.CameraZone(20, 24, 46, 48);
-    Map:AddZone(to_shrine_entrance_zone);
-
-    to_shrine_trap_zone = vt_map.CameraZone(50, 52, 46, 48);
-    Map:AddZone(to_shrine_trap_zone);
-
-    falling_event_zone = vt_map.CameraZone(19, 25, 26, 28);
-    Map:AddZone(falling_event_zone);
+    to_shrine_entrance_zone = vt_map.CameraZone.Create(20, 24, 46, 48);
+    to_shrine_trap_zone = vt_map.CameraZone.Create(50, 52, 46, 48);
+    falling_event_zone = vt_map.CameraZone.Create(19, 25, 26, 28);
 end
 
 -- Check whether the active camera has entered a zone. To be called within Update()
@@ -379,5 +355,4 @@ map_functions = {
         -- never actually ends
         return false;
     end,
-
 }

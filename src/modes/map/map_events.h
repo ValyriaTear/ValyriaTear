@@ -266,8 +266,8 @@ public:
     *** \note All wares must be added before the _Start() method is called to ensure
     *** that the wares actually appear in shop mode.
     **/
-    void AddObject(uint32 object_id, uint32 stock) {
-        _objects.insert(std::make_pair(object_id, stock));
+    void AddItem(uint32 object_id, uint32 stock) {
+        _items.insert(std::make_pair(object_id, stock));
     }
 
     /** \brief Adds an object to the list of objects for sale.
@@ -294,8 +294,8 @@ public:
     }
 
 protected:
-    //! \brief The GlobalObject IDs and stock count of all objects to be sold in the shop
-    std::set<std::pair<uint32, uint32> > _objects;
+    //! \brief The GlobalObject IDs and stock count of all items to be sold in the shop
+    std::set<std::pair<uint32, uint32> > _items;
 
     //! \brief The GlobalObject IDs and stock count of all objects to be sold in the shop
     std::set<std::pair<uint32, uint32> > _trades;
@@ -321,7 +321,7 @@ protected:
     bool _Update() {
         return true;
     }
-}; // class ShopEvent : public MapEvent
+};
 
 
 /** ****************************************************************************
@@ -1011,12 +1011,12 @@ public:
         _treasure->SetDrunes(amount);
     }
 
-    /** \brief Adds an object to the contents of the TreasureEvent
+    /** \brief Adds an item to the contents of the TreasureEvent
     *** \param id The id of the GlobalObject to add
     *** \param quantity The number of the object to add (default == 1)
     *** \return True if the object was added successfully
     **/
-    bool AddObject(uint32 id, uint32 quantity = 1);
+    bool AddItem(uint32 id, uint32 quantity = 1);
 
     /** \brief Adds an event triggered at start of the treasure event.
     *** \param event_id The id of the event to add
@@ -1104,7 +1104,7 @@ public:
     *** If the event corresponding to the ID is not active, a warning will be issued and no change
     *** will occur.
     **/
-    void PauseEvents(const std::string &event_id);
+    void PauseEvent(const std::string &event_id);
 
     /** \brief Pauses the given sprite events
     *** \param sprite The sprite to pause the sprite events from
@@ -1116,7 +1116,7 @@ public:
     *** If the event corresponding to the ID is not paused, a warning will be issued and no change
     *** will occur.
     **/
-    void ResumeEvents(const std::string &event_id);
+    void ResumeEvent(const std::string &event_id);
 
     /** \brief Resumes the given sprite events
     *** \param sprite The sprite to resume the sprite events from
@@ -1129,8 +1129,8 @@ public:
     *** \param trigger_event_links Tells whether the launching of any of the events' children should occur, true by default.
     *** \note If there is no active event that corresponds to the event ID, the function will do nothing.
     **/
-    void TerminateEvents(const std::string &event_id, bool trigger_event_links = true);
-    void TerminateEvents(MapEvent *event, bool trigger_event_links = true);
+    void EndEvent(const std::string &event_id, bool trigger_event_links = true);
+    void EndEvent(MapEvent *event, bool trigger_event_links = true);
 
     /** \brief Terminates all the SpriteEvents (active, paused, or incoming) for the given sprite.
     ***
@@ -1138,8 +1138,7 @@ public:
     *** and liberate it for something else.
     *** Note that you should start the new sprite event chain *after* this call.
     **/
-    void TerminateAllEvents(VirtualSprite *sprite);
-
+    void EndAllEvents(VirtualSprite *sprite);
 
     //! \brief Updates the state of all active and launch events
     void Update();
@@ -1186,7 +1185,7 @@ private:
 
     /** \brief A list of all events that are waiting on their launch timers to expire before being started
     *** The interger part of this std::pair is the countdown timer for this event to be launched
-    *** Those ones are put on hold by PauseAllEvents() and PauseEvents();
+    *** Those ones are put on hold by PauseAllEvents() and PauseEvent();
     **/
     std::vector<std::pair<int32, MapEvent *> > _paused_delayed_events;
 

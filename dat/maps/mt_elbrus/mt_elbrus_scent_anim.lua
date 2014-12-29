@@ -4,7 +4,7 @@ mt_elbrus_scent_anim = ns;
 setfenv(1, ns);
 
 -- Animated image members
-local scent = {};
+local scent = nil
 
 -- Other fog related members
 local scent_x_position = 300.0;
@@ -16,9 +16,9 @@ local scent_time_length = 8000;
 local poison_appliance_cooldown = 0;
 
 -- c++ objects instances
-local Map = {};
-local Script = {};
-local Effects = {};
+local Map = nil
+local Script = nil
+local Effects = nil
 
 function Initialize(map_instance)
     Map = map_instance;
@@ -37,7 +37,6 @@ function Initialize(map_instance)
 end
 
 function _ApplyPoison()
-
     local index = 0;
     for index = 0, 3 do
         local char = GlobalManager:GetCharacter(index);
@@ -101,7 +100,7 @@ function Update()
     end
 
     -- Apply potential collision effects.
-    local camera = Map.camera;
+    local camera = Map:GetCamera();
     local state = Map:CurrentState();
     if (camera ~= nil and state == vt_map.MapMode.STATE_EXPLORE) then
         local x_pos = Map:GetScreenXCoordinate(camera:GetXPosition())

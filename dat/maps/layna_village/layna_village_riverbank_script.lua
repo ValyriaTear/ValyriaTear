@@ -14,26 +14,24 @@ map_subname = "Riverbank"
 music_filename = "mus/Caketown_1-OGA-mat-pablo.ogg"
 
 -- c++ objects instances
-local Map = {};
-local ObjectManager = {};
-local DialogueManager = {};
-local EventManager = {};
+local Map = nil
+local DialogueManager = nil
+local EventManager = nil
 
-local bronann = {};
-local kalya = {};
-local orlinn = {};
-local orlinn_dialogue_npc = {};
-local lilly = {};
+local bronann = nil
+local kalya = nil
+local orlinn = nil
+local orlinn_dialogue_npc = nil
+local lilly = nil
 
 -- the main map loading code
 function Load(m)
 
     Map = m;
-    ObjectManager = Map.object_supervisor;
-    DialogueManager = Map.dialogue_supervisor;
-    EventManager = Map.event_supervisor;
+    DialogueManager = Map:GetDialogueSupervisor();
+    EventManager = Map:GetEventSupervisor();
 
-    Map.unlimited_stamina = true;
+    Map:SetUnlimitedStamina(true);
 
     _CreateCharacters();
     -- Set the camera focus on Bronann
@@ -72,10 +70,9 @@ function Update()
     _CheckZones();
 end
 
-
 -- Character creation
 function _CreateCharacters()
-    bronann = CreateSprite(Map, "Bronann", 97, 4);
+    bronann = CreateSprite(Map, "Bronann", 97, 4, vt_map.MapMode.GROUND_OBJECT);
     bronann:SetDirection(vt_map.MapMode.SOUTH);
     bronann:SetMovementSpeed(vt_map.MapMode.NORMAL_SPEED);
 
@@ -95,73 +92,53 @@ function _CreateCharacters()
         bronann:SetDirection(vt_map.MapMode.SOUTH);
         AudioManager:PlaySound("snd/door_close.wav");
     end
-
-    Map:AddGroundObject(bronann);
 end
 
 function _CreateNPCs()
-    local text = {}
-    local dialogue = {}
-    local event = {}
+    local text = nil
+    local dialogue = nil
+    local event = nil
 
-    lilly = CreateNPCSprite(Map, "Woman3", vt_system.Translate("Lilly"), 67, 40);
-    Map:AddGroundObject(lilly);
+    lilly = CreateNPCSprite(Map, "Woman3", vt_system.Translate("Lilly"), 67, 40, vt_map.MapMode.GROUND_OBJECT);
 
-    object = CreateObject(Map, "Dog1", 66, 42);
-    Map:AddGroundObject(object);
-
+    local object = CreateObject(Map, "Dog1", 66, 42, vt_map.MapMode.GROUND_OBJECT);
     event = vt_map.SoundEvent("Lilly's dog barks", "snd/dog_barking.wav");
     EventManager:RegisterEvent(event);
     object:SetEventWhenTalking("Lilly's dog barks");
 
-    kalya = CreateSprite(Map, "Kalya", 2, 2);
+    kalya = CreateSprite(Map, "Kalya", 2, 2, vt_map.MapMode.GROUND_OBJECT);
     kalya:SetDirection(vt_map.MapMode.SOUTH);
     kalya:SetMovementSpeed(vt_map.MapMode.NORMAL_SPEED);
     kalya:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
     kalya:SetVisible(false);
-    Map:AddGroundObject(kalya);
 
-    orlinn = CreateSprite(Map, "Orlinn", 82, 5);
+    orlinn = CreateSprite(Map, "Orlinn", 82, 5, vt_map.MapMode.GROUND_OBJECT);
     orlinn:SetDirection(vt_map.MapMode.SOUTH);
     orlinn:SetMovementSpeed(vt_map.MapMode.VERY_FAST_SPEED);
-    Map:AddGroundObject(orlinn);
 
-    -- Create an invisible doppelg\E4nger to permit triggering dialogues when the kid is on the cliff.
-    orlinn_dialogue_npc = CreateSprite(Map, "Orlinn", 82, 8);
+    -- Create an invisible doppelganger to permit triggering dialogues when the kid is on the cliff.
+    orlinn_dialogue_npc = CreateSprite(Map, "Orlinn", 82, 8, vt_map.MapMode.GROUND_OBJECT);
     orlinn_dialogue_npc:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
     orlinn_dialogue_npc:SetVisible(false);
-    Map:AddGroundObject(orlinn_dialogue_npc);
 end
 
 function _CreateObjects()
-    local object = {}
+    local object = nil
 
-    object = CreateObject(Map, "Tree Big2", 70, 6);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
+    CreateObject(Map, "Tree Big2", 70, 6, vt_map.MapMode.GROUND_OBJECT);
 
     -- Add hill treasure chest
-    local hill_chest = CreateTreasure(Map, "riverbank_secret_hill_chest", "Wood_Chest1", 72, 5);
-    if (hill_chest ~= nil) then
-        hill_chest:AddObject(1, 3); -- 3 small potions
-        Map:AddGroundObject(hill_chest);
-    end
+    local hill_chest = CreateTreasure(Map, "riverbank_secret_hill_chest", "Wood_Chest1", 72, 5, vt_map.MapMode.GROUND_OBJECT);
+    hill_chest:AddItem(1, 3); -- 3 small potions
 
     -- trees around the house
-    object = CreateObject(Map, "Tree Big2", 92, 10);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
-    object = CreateObject(Map, "Tree Small1", 82, 17);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
-    object = CreateObject(Map, "Tree Big1", 75, 20);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
-    object = CreateObject(Map, "Tree Big2", 72, 35);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
-    object = CreateObject(Map, "Tree Big1", 74, 48);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
-    object = CreateObject(Map, "Tree Big2", 76, 50);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
-
-    object = CreateObject(Map, "Barrel1", 56.3, 56.5);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
+    CreateObject(Map, "Tree Big2", 92, 10, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Tree Small1", 82, 17, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Tree Big1", 75, 20, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Tree Big2", 72, 35, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Tree Big1", 74, 48, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Tree Big2", 76, 50, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Barrel1", 56.3, 56.5, vt_map.MapMode.GROUND_OBJECT);
 
     -- grass array, used to hide defects
     local map_grass = {
@@ -179,51 +156,41 @@ function _CreateObjects()
     -- Loads the trees according to the array
     for my_index, my_array in pairs(map_grass) do
         --print(my_array[1], my_array[2], my_array[3]);
-        object = CreateObject(Map, my_array[1], my_array[2], my_array[3]);
+        object = CreateObject(Map, my_array[1], my_array[2], my_array[3], vt_map.MapMode.GROUND_OBJECT);
         object:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
-        Map:AddGroundObject(object);
     end
 
     -- Lights
     -- big round windows light flares
-    Map:AddLight("img/misc/lights/sun_flare_light_main.lua",
-            "img/misc/lights/sun_flare_light_secondary.lua",
-        94.0, 40.0,
-        vt_video.Color(1.0, 1.0, 1.0, 0.6),
-        vt_video.Color(1.0, 1.0, 0.85, 0.3));
-    Map:AddLight("img/misc/lights/sun_flare_light_main.lua",
-            "img/misc/lights/sun_flare_light_secondary.lua",
-        102.0, 40.0,
-        vt_video.Color(1.0, 1.0, 1.0, 0.6),
-        vt_video.Color(1.0, 1.0, 0.85, 0.3));
+    vt_map.Light.Create("img/misc/lights/sun_flare_light_main.lua",
+                        "img/misc/lights/sun_flare_light_secondary.lua",
+                        94.0, 40.0,
+                        vt_video.Color(1.0, 1.0, 1.0, 0.6),
+                        vt_video.Color(1.0, 1.0, 0.85, 0.3));
+    vt_map.Light.Create("img/misc/lights/sun_flare_light_main.lua",
+                        "img/misc/lights/sun_flare_light_secondary.lua",
+                        102.0, 40.0,
+                        vt_video.Color(1.0, 1.0, 1.0, 0.6),
+                        vt_video.Color(1.0, 1.0, 0.85, 0.3));
     -- Small door lights
-    Map:AddLight("img/misc/lights/sun_flare_light_small_main.lua",
-            "img/misc/lights/sun_flare_light_small_secondary.lua",
-        98.0, 43.5,
-        vt_video.Color(1.0, 1.0, 1.0, 0.6),
-        vt_video.Color(1.0, 1.0, 0.85, 0.3));
+    vt_map.Light.Create("img/misc/lights/sun_flare_light_small_main.lua",
+                        "img/misc/lights/sun_flare_light_small_secondary.lua",
+                        98.0, 43.5,
+                        vt_video.Color(1.0, 1.0, 1.0, 0.6),
+                        vt_video.Color(1.0, 1.0, 0.85, 0.3));
 
-    object = vt_map.SoundObject("snd/gentle_stream.ogg", 61.0, 27.0, 20.0);
-    Map:AddAmbientSoundObject(object);
-
-    object = vt_map.SoundObject("snd/gentle_stream.ogg", 61.0, 47.0, 20.0);
-    Map:AddAmbientSoundObject(object);
-
-    object = vt_map.SoundObject("snd/gentle_stream.ogg", 61.0, 67.0, 20.0);
-    Map:AddAmbientSoundObject(object);
-
-    object = vt_map.SoundObject("snd/gentle_stream.ogg", 81.0, 67.0, 20.0);
-    Map:AddAmbientSoundObject(object);
-
-    object = vt_map.SoundObject("snd/gentle_stream.ogg", 101.0, 67.0, 20.0);
-    Map:AddAmbientSoundObject(object);
+    vt_map.SoundObject.Create("snd/gentle_stream.ogg", 61.0, 27.0, 20.0);
+    vt_map.SoundObject.Create("snd/gentle_stream.ogg", 61.0, 47.0, 20.0);
+    vt_map.SoundObject.Create("snd/gentle_stream.ogg", 61.0, 67.0, 20.0);
+    vt_map.SoundObject.Create("snd/gentle_stream.ogg", 81.0, 67.0, 20.0);
+    vt_map.SoundObject.Create("snd/gentle_stream.ogg", 101.0, 67.0, 20.0);
 end
 
 -- Creates all events and sets up the entire event sequence chain
 function _CreateEvents()
-    local event = {};
-    local dialogue = {};
-    local text = {};
+    local event = nil
+    local dialogue = nil
+    local text = nil
 
     -- Map change Events
     event = vt_map.MapTransitionEvent("to Village center", "dat/maps/layna_village/layna_village_center_map.lua",
@@ -246,7 +213,7 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
 
     -- Quest events - Hide and seek 2
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Wow! You found me!");
     dialogue:AddLineEmote(text, orlinn, "exclamation");
     text = vt_system.Translate("But I'm not done yet!");
@@ -255,7 +222,6 @@ function _CreateEvents()
     dialogue:AddLine(text, orlinn);
     text = vt_system.Translate("Hey, why would I tell you my hiding spots?!");
     dialogue:AddLineEmote(text, orlinn, "exclamation");
-    DialogueManager:AddDialogue(dialogue);
 
     event = vt_map.DialogueEvent("Quest1: Orlinn starts hide and seek3 speech", dialogue);
     event:SetStopCameraMovement(true);
@@ -270,10 +236,9 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("Quest1: Hide and seek2: Bronann end speech");
     EventManager:RegisterEvent(event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("That kid is pretty quick. This is going to take all day...");
     dialogue:AddLineEmote(text, bronann, "sweat drop");
-    DialogueManager:AddDialogue(dialogue);
 
     event = vt_map.DialogueEvent("Quest1: Hide and seek2: Bronann end speech", dialogue);
     event:SetStopCameraMovement(true);
@@ -322,12 +287,11 @@ function _CreateEvents()
     event = vt_map.ChangeDirectionSpriteEvent("Quest1: Hide and Seek3: Lilly turns to them", lilly, vt_map.MapMode.EAST);
     EventManager:RegisterEvent(event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Please no! Wait!");
     dialogue:AddLine(text, bronann);
     text = vt_system.Translate("Orlinn! Stop this!");
     dialogue:AddLineEvent(text, kalya, "", "Quest1: Hide and Seek3: Kalya comes to Orlinn");
-    DialogueManager:AddDialogue(dialogue);
 
     event = vt_map.DialogueEvent("Quest1: Hide and Seek3: Bronann and kalya first speech", dialogue);
     event:SetStopCameraMovement(true);
@@ -342,7 +306,7 @@ function _CreateEvents()
     event = vt_map.ChangeDirectionSpriteEvent("Quest1: Hide and Seek3: Orlinn turns to Kalya", orlinn, vt_map.MapMode.NORTH);
     EventManager:RegisterEvent(event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Orlinn! How many times have I told you not to bother other people?");
     dialogue:AddLine(text, kalya);
     text = vt_system.Translate("But sis! I...");
@@ -355,7 +319,6 @@ function _CreateEvents()
     dialogue:AddLine(text, kalya);
     text = vt_system.Translate("Come Orlinn!");
     dialogue:AddLine(text, kalya);
-    DialogueManager:AddDialogue(dialogue);
 
     event = vt_map.DialogueEvent("Quest1: Hide and Seek3: Kalya's speech", dialogue);
     event:SetStopCameraMovement(true);
@@ -379,14 +342,13 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("Quest1: Hide and Seek3: Orlinn tells Bronann where the pen was");
     EventManager:RegisterEvent(event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("I found that pen near the tree behind you. I just wanted to play...");
     dialogue:AddLineEmote(text, orlinn, "sweat drop");
     text = vt_system.Translate("Don't worry about that...");
     dialogue:AddLine(text, bronann);
     text = vt_system.Translate("Take it... Thanks.");
     dialogue:AddLine(text, orlinn);
-    DialogueManager:AddDialogue(dialogue);
 
     event = vt_map.DialogueEvent("Quest1: Hide and Seek3: Orlinn tells Bronann where the pen was", dialogue);
     event:SetStopCameraMovement(true);
@@ -394,7 +356,7 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
 
     event = vt_map.TreasureEvent("Quest1: Hide and Seek3: Orlinn gives the pen to Bronann");
-    event:AddObject(70001, 1); -- The ink key item
+    event:AddItem(70001, 1); -- The ink key item
     event:SetDrunes(50); -- The reward for running after Orlinn for so long.
     event:AddEventLinkAtEnd("Quest1: Hide and Seek3: Orlinn is going away for real");
     event:AddEventLinkAtEnd("Quest1: Hide and Seek3: Lilly tells Bronann a bit about Kalya", 2000);
@@ -411,7 +373,7 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
 
     -- Lilly tells Bronann about Kalya
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Bronann?");
     dialogue:AddLineEvent(text, lilly, "", "Quest1: Hide and Seek3: Bronann turns to Lilly");
     text = vt_system.Translate("Er, yes?");
@@ -426,7 +388,6 @@ function _CreateEvents()
     dialogue:AddLineEmote(text, bronann, "interrogation");
     text = vt_system.Translate("Heh heh, don't worry about it. It will come in time.");
     dialogue:AddLine(text, lilly);
-    DialogueManager:AddDialogue(dialogue);
 
     event = vt_map.DialogueEvent("Quest1: Hide and Seek3: Lilly tells Bronann a bit about Kalya", dialogue);
     event:SetStopCameraMovement(true);
@@ -468,10 +429,9 @@ function _CreateEvents()
     event = vt_map.ChangeDirectionSpriteEvent("Quest1: Barley Meal: Bronann turns to Lilly", bronann, vt_map.MapMode.WEST);
     EventManager:RegisterEvent(event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Here it is, Bronann.");
     dialogue:AddLine(text, lilly);
-    DialogueManager:AddDialogue(dialogue);
 
     event = vt_map.DialogueEvent("Quest1: Barley Meal: Lilly tells Bronann about the barley meal", dialogue);
     event:SetStopCameraMovement(true);
@@ -480,21 +440,20 @@ function _CreateEvents()
 
     event = vt_map.TreasureEvent("Quest1: Barley Meal: Lilly give the barley meal to bronann");
     event:AddEventLinkAtEnd("Quest1: Barley meal is given.");
-    event:AddObject(70002, 1); -- The barley meal key item
+    event:AddItem(70002, 1); -- The barley meal key item
     EventManager:RegisterEvent(event);
 
     event = vt_map.ScriptedEvent("Quest1: Barley meal is given.", "GiveBarleyMeal", "");
     event:AddEventLinkAtEnd("Quest1: Barley Meal: Lilly tells Bronann about the restrictions");
     EventManager:RegisterEvent(event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Thanks, Lilly.");
     dialogue:AddLine(text, bronann);
     text = vt_system.Translate("We've been having a shortage of food lately. I've been taking... special measures... to ensure that everyone has enough food.");
     dialogue:AddLine(text, lilly);
     text = vt_system.Translate("Try to enjoy this day, Bronann.");
     dialogue:AddLine(text, lilly);
-    DialogueManager:AddDialogue(dialogue);
 
     event = vt_map.DialogueEvent("Quest1: Barley Meal: Lilly tells Bronann about the restrictions", dialogue);
     event:SetStopCameraMovement(true);
@@ -507,28 +466,19 @@ function _CreateEvents()
 end
 
 -- zones
-local village_center_zone = {};
-local to_village_entrance_zone = {};
-local to_riverbank_house_entrance_zone = {};
-local to_secret_path_entrance_zone = {};
-local orlinn_hide_n_seek2_zone = {};
+local village_center_zone = nil
+local to_village_entrance_zone = nil
+local to_riverbank_house_entrance_zone = nil
+local to_secret_path_entrance_zone = nil
+local orlinn_hide_n_seek2_zone = nil
 
 function _CreateZones()
     -- N.B.: left, right, top, bottom
-    village_center_zone = vt_map.CameraZone(89, 105, 0, 2);
-    Map:AddZone(village_center_zone);
-
-    to_village_entrance_zone = vt_map.CameraZone(118, 119, 10, 27);
-    Map:AddZone(to_village_entrance_zone);
-
-    to_riverbank_house_entrance_zone = vt_map.CameraZone(96, 100, 46, 47);
-    Map:AddZone(to_riverbank_house_entrance_zone);
-
-    to_secret_path_entrance_zone = vt_map.CameraZone(60, 72, 0, 2);
-    Map:AddZone(to_secret_path_entrance_zone);
-
-    orlinn_hide_n_seek2_zone = vt_map.CameraZone(75, 80, 0, 7);
-    Map:AddZone(orlinn_hide_n_seek2_zone);
+    village_center_zone = vt_map.CameraZone.Create(89, 105, 0, 2);
+    to_village_entrance_zone = vt_map.CameraZone.Create(118, 119, 10, 27);
+    to_riverbank_house_entrance_zone = vt_map.CameraZone.Create(96, 100, 46, 47);
+    to_secret_path_entrance_zone = vt_map.CameraZone.Create(60, 72, 0, 2);
+    orlinn_hide_n_seek2_zone = vt_map.CameraZone.Create(75, 80, 0, 7);
 end
 
 function _CheckZones()
@@ -571,23 +521,24 @@ end
 
 -- Custom inner map functions
 function _SetLillyState()
+    local text = nil
+    local dialogue = nil
+
     lilly:SetDirection(vt_map.MapMode.WEST);
     lilly:ClearDialogueReferences();
     if (GlobalManager:DoesEventExist("story", "kalya_has_joined") == true) then
         -- Once they can go into the forest
-        dialogue = vt_map.SpriteDialogue();
+        dialogue = vt_map.SpriteDialogue.Create();
         text = vt_system.Translate("We're counting on you.");
         dialogue:AddLine(text, lilly);
-        DialogueManager:AddDialogue(dialogue);
         lilly :AddDialogueReference(dialogue);
     elseif (GlobalManager:DoesEventExist("story", "quest1_barley_meal_done") == true) then
-        dialogue = vt_map.SpriteDialogue("ep1_layna_village_lilly_go_home");
+        dialogue = vt_map.SpriteDialogue.Create("ep1_layna_village_lilly_go_home");
         text = vt_system.Translate("You should go back home. Your mom must be waiting for you.");
         dialogue:AddLine(text, lilly);
-        DialogueManager:AddDialogue(dialogue);
         lilly :AddDialogueReference(dialogue);
     elseif (GlobalManager:DoesEventExist("layna_center", "quest1_pen_given_done") == true) then
-        dialogue = vt_map.SpriteDialogue();
+        dialogue = vt_map.SpriteDialogue.Create();
         text = vt_system.Translate("What a nice day, isn't it?");
         dialogue:AddLine(text, lilly);
         text = vt_system.Translate("Yes, Lilly. But I have something I have to ask you.");
@@ -602,20 +553,18 @@ function _SetLillyState()
         dialogue:AddLineEmote(text, bronann, "sweat drop");
         text = vt_system.Translate("Ah hah! I just wanted to see your reaction. I still have some. Let me go grab it and bring it back to you.");
         dialogue:AddLineEvent(text, lilly, "", "Quest1: Prepare Lilly for a walk");
-        DialogueManager:AddDialogue(dialogue);
         lilly :AddDialogueReference(dialogue);
     else
-        dialogue = vt_map.SpriteDialogue("ep1_layna_village_lilly_default");
+        dialogue = vt_map.SpriteDialogue.Create("ep1_layna_village_lilly_default");
         text = vt_system.Translate("What a nice day, isn't it?");
         dialogue:AddLine(text, lilly);
-        DialogueManager:AddDialogue(dialogue);
         lilly :AddDialogueReference(dialogue);
     end
 end
 
 function _SetOrlinnState()
-    local text = {}
-    local dialogue = {}
+    local text = nil
+    local dialogue = nil
 
     orlinn_dialogue_npc:ClearDialogueReferences();
     orlinn:ClearDialogueReferences();
@@ -629,24 +578,22 @@ function _SetOrlinnState()
         orlinn:SetDirection(vt_map.MapMode.WEST);
 
         -- Final hide and seek dialogue
-        dialogue = vt_map.SpriteDialogue();
+        dialogue = vt_map.SpriteDialogue.Create();
         text = vt_system.Translate("You'll never get me!");
         dialogue:AddLineEvent(text, orlinn, "", "Quest1: Hide and Seek3: Orlinn starts to go away");
-        DialogueManager:AddDialogue(dialogue);
         orlinn:AddDialogueReference(dialogue);
 
         EventManager:StartEvent("Quest1: Hide and Seek3: Orlinn goes top-right", 8000);
         return;
     elseif (GlobalManager:DoesEventExist("layna_south_entrance", "quest1_orlinn_hide_n_seek1_done") == true) then
         -- Orlinn is on the cliff and is mocking Bronann.
-        dialogue = vt_map.SpriteDialogue();
+        dialogue = vt_map.SpriteDialogue.Create();
         text = vt_system.Translate("Hee hee hee!");
         dialogue:AddLineEvent(text, orlinn_dialogue_npc, "Orlinn laughs", "");
         text = vt_system.Translate("Orlinn, how did you get there?");
         dialogue:AddLine(text, bronann);
         text = vt_system.Translate("(giggle) I won't tell you!");
         dialogue:AddLineEvent(text, orlinn_dialogue_npc, "Orlinn laughs", "");
-        DialogueManager:AddDialogue(dialogue);
         orlinn_dialogue_npc:AddDialogueReference(dialogue);
         return;
     end
@@ -685,7 +632,7 @@ map_functions = {
         orlinn:SetDirection(vt_map.MapMode.NORTH);
         orlinn:SetMovementSpeed(vt_map.MapMode.NORMAL_SPEED);
         orlinn:ClearDialogueReferences();
-        EventManager:TerminateAllEvents(orlinn);
+        EventManager:EndAllEvents(orlinn);
     end,
 
     Set_Hide_And_Seek3_Done = function()
@@ -700,7 +647,7 @@ map_functions = {
         -- Stop Lilly dialogue and prepare her for the next events
         lilly:SetMoving(false); -- in case he's moving
         lilly:ClearDialogueReferences();
-        EventManager:TerminateAllEvents(lilly);
+        EventManager:EndAllEvents(lilly);
     end,
 
     GiveBarleyMeal = function()

@@ -6,8 +6,8 @@ desert_cave_battle_anim = ns;
 setfenv(1, ns);
 
 -- Animation members
-local rock_image = {};
-local fog_image = {};
+local rock_image = nil
+local fog_image = nil
 local anims = {};
 
 -- Fog related members
@@ -18,8 +18,8 @@ local fog_alpha = 0.0;
 local fog_timer;
 local fog_time_length = 8000;
 
-local Battle = {};
-local Script = {};
+local Battle = nil
+local Script = nil
 
 function Initialize(battle_instance)
     Battle = battle_instance;

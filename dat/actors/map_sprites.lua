@@ -592,7 +592,7 @@ sprites["Andromalius"] = {
     }
 }
 
-function CreateSprite(Map, name, x, y)
+function CreateSprite(Map, name, x, y, layer)
     if (sprites[name] == nil) then
         print("Error: No object named: "..name.." found!!");
         return nil;
@@ -603,20 +603,16 @@ function CreateSprite(Map, name, x, y)
         return nil;
     end
 
-    dir = (2 ^ math.random(0, 3));
-
-    local sprite = {}
-    sprite = vt_map.MapSprite();
+    -- Note: Auto-registered to the object supervisor.
+    local sprite = vt_map.MapSprite.Create(layer);
     sprite:SetName(sprites[name].name);
     sprite:SetSpriteName(name); -- The catalog reference
-    sprite:SetObjectID(Map.object_supervisor:GenerateObjectID());
     sprite:SetPosition(x, y);
     sprite:SetCollHalfWidth(sprites[name].coll_half_width);
     sprite:SetCollHeight(sprites[name].coll_height);
     sprite:SetImgHalfWidth(sprites[name].img_half_width);
     sprite:SetImgHeight(sprites[name].img_height);
     sprite:SetMovementSpeed(sprites[name].movement_speed);
-    sprite:SetDirection(dir);
     if (sprites[name].face_portrait) then
         sprite:LoadFacePortrait(sprites[name].face_portrait);
     end
@@ -639,7 +635,7 @@ end
 
 -- Permit to setup a custom name
 -- and reuse the npcs sprites more easily
-function CreateNPCSprite(Map, name, npc_name, x, y)
+function CreateNPCSprite(Map, name, npc_name, x, y, layer)
     if (sprites[name] == nil) then
         print("Error: No object named: "..name.." found!!");
         return nil;
@@ -650,19 +646,17 @@ function CreateNPCSprite(Map, name, npc_name, x, y)
         return nil;
     end
 
-    dir = (2 ^ math.random(0, 3));
-    local sprite = {};
-    sprite = vt_map.MapSprite();
+    -- Note: Auto-registered to the object supervisor.
+    local sprite = vt_map.MapSprite.Create(layer);
     sprite:SetName(npc_name);
     sprite:SetSpriteName(name); -- The catalog reference
-    sprite:SetObjectID(Map.object_supervisor:GenerateObjectID());
     sprite:SetPosition(x, y);
     sprite:SetCollHalfWidth(sprites[name].coll_half_width);
     sprite:SetCollHeight(sprites[name].coll_height);
     sprite:SetImgHalfWidth(sprites[name].img_half_width);
     sprite:SetImgHeight(sprites[name].img_height);
     sprite:SetMovementSpeed(sprites[name].movement_speed);
-    sprite:SetDirection(dir);
+
     if (sprites[name].face_portrait) then
         sprite:LoadFacePortrait(sprites[name].face_portrait);
     end
@@ -695,10 +689,9 @@ function CreateEnemySprite(Map, name)
         return nil;
     end
 
-    local enemy = {}
-    enemy = vt_map.EnemySprite();
+    -- Note: Auto-registered to the object supervisor on the GROUND_LAYER.
+    local enemy = vt_map.EnemySprite.Create();
     enemy:SetSpriteName(name); -- The catalog reference
-    enemy:SetObjectID(Map.object_supervisor:GenerateObjectID());
     enemy:SetCollHalfWidth(sprites[name].coll_half_width);
     enemy:SetCollHeight(sprites[name].coll_height);
     enemy:SetImgHalfWidth(sprites[name].img_half_width);

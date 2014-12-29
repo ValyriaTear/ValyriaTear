@@ -15,9 +15,10 @@ local credit_id = 0;
 local credit_time = 0;
 local credit_alpha = 1.0;
 
-local dark_overlay = {};
+local dark_overlay = nil
 local overlay_time = 0;
 local Map = nil
+local Script = nil
 
 function Initialize(map_instance)
     Map = map_instance;

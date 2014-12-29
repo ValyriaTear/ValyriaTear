@@ -63,6 +63,7 @@ BootMode::BootMode() :
     GameMode(MODE_MANAGER_BOOT_MODE),
     _boot_state(BOOT_STATE_INTRO),
     _exiting_to_new_game(false),
+    _new_game_called(false),
     _menu_handler(this),
     _menu_bar_alpha(0.0f),
     _help_text_alpha(0.0f)
@@ -149,8 +150,10 @@ void BootMode::Update()
 
     if(_exiting_to_new_game) {
         // When the fade out is done, we start a new game.
-        if(!VideoManager->IsFading())
+        if (!VideoManager->IsFading() && _new_game_called == false) {
             GlobalManager->NewGame();
+            _new_game_called = true;
+        }
         return;
     }
 

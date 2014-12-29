@@ -54,12 +54,12 @@ MapTreasure::MapTreasure() :
 
 MapTreasure::~MapTreasure()
 {
-    for(uint32 i = 0; i < _objects_list.size(); i++) {
-        delete _objects_list[i];
+    for(uint32 i = 0; i < _items_list.size(); i++) {
+        delete _items_list[i];
     }
 }
 
-bool MapTreasure::AddObject(uint32 id, uint32 quantity)
+bool MapTreasure::AddItem(uint32 id, uint32 quantity)
 {
     vt_global::GlobalObject *obj = GlobalCreateNewObject(id, quantity);
 
@@ -68,7 +68,7 @@ bool MapTreasure::AddObject(uint32 id, uint32 quantity)
         return false;
     }
 
-    _objects_list.push_back(obj);
+    _items_list.push_back(obj);
     return true;
 }
 
@@ -162,14 +162,14 @@ void TreasureSupervisor::Initialize(MapTreasure *treasure)
         GlobalManager->Media().PlaySound("item_pickup");
     }
 
-    for(uint32 i = 0; i < _treasure->_objects_list.size(); i++) {
-        if(_treasure->_objects_list[i]->GetCount() > 1) {
-            _list_options.AddOption(MakeUnicodeString("<" + _treasure->_objects_list[i]->GetIconImage().GetFilename() + ">       ") +
-                                    _treasure->_objects_list[i]->GetName() +
-                                    MakeUnicodeString("<R>x" + NumberToString(_treasure->_objects_list[i]->GetCount())));
+    for(uint32 i = 0; i < _treasure->_items_list.size(); i++) {
+        if(_treasure->_items_list[i]->GetCount() > 1) {
+            _list_options.AddOption(MakeUnicodeString("<" + _treasure->_items_list[i]->GetIconImage().GetFilename() + ">       ") +
+                                    _treasure->_items_list[i]->GetName() +
+                                    MakeUnicodeString("<R>x" + NumberToString(_treasure->_items_list[i]->GetCount())));
         } else {
-            _list_options.AddOption(MakeUnicodeString("<" + _treasure->_objects_list[i]->GetIconImage().GetFilename() + ">       ") +
-                                    _treasure->_objects_list[i]->GetName());
+            _list_options.AddOption(MakeUnicodeString("<" + _treasure->_items_list[i]->GetIconImage().GetFilename() + ">       ") +
+                                    _treasure->_items_list[i]->GetName());
         }
     }
 
@@ -189,16 +189,16 @@ void TreasureSupervisor::Initialize(MapTreasure *treasure)
     // Immediately add the drunes and objects to the player's inventory
     GlobalManager->AddDrunes(_treasure->_drunes);
 
-    for(uint32 i = 0; i < _treasure->_objects_list.size(); ++i) {
-        GlobalObject *obj = _treasure->_objects_list[i];
+    for(uint32 i = 0; i < _treasure->_items_list.size(); ++i) {
+        GlobalObject *obj = _treasure->_items_list[i];
         if(!obj)
             continue;
-        if(!GlobalManager->IsObjectInInventory(obj->GetID())) {
+        if(!GlobalManager->IsItemInInventory(obj->GetID())) {
             // Pass a copy to the inventory, the treasure object will delete its content on destruction.
             vt_global::GlobalObject *obj_copy = GlobalCreateNewObject(obj->GetID(), obj->GetCount());
             GlobalManager->AddToInventory(obj_copy);
         } else {
-            GlobalManager->IncrementObjectCount(obj->GetID(), obj->GetCount());
+            GlobalManager->IncrementItemCount(obj->GetID(), obj->GetCount());
         }
     }
 } // void TreasureSupervisor::Initialize(MapTreasure* treasure)
@@ -332,11 +332,11 @@ void TreasureSupervisor::_UpdateList()
         } else { // Otherwise, a GlobalObject is selected
             if(_treasure->_drunes != 0)
                 list_selection--;
-            _selection_name.SetText(_treasure->_objects_list[list_selection]->GetName());
-            _is_key_item = _treasure->_objects_list[list_selection]->IsKeyItem();
+            _selection_name.SetText(_treasure->_items_list[list_selection]->GetName());
+            _is_key_item = _treasure->_items_list[list_selection]->IsKeyItem();
             // TODO: this is not good practice. We should probably either remove the const status from the GetIconImage() call
-            _selection_icon = const_cast<StillImage *>(&_treasure->_objects_list[list_selection]->GetIconImage());
-            _detail_textbox.SetDisplayText(_treasure->_objects_list[list_selection]->GetDescription());
+            _selection_icon = const_cast<StillImage *>(&_treasure->_items_list[list_selection]->GetIconImage());
+            _detail_textbox.SetDisplayText(_treasure->_items_list[list_selection]->GetDescription());
         }
     } else if(InputManager->UpPress()) {
         if(_list_options.GetSelection() == 0) {

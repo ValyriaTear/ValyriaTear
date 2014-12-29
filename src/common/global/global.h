@@ -410,7 +410,7 @@ public:
     ***
     *** This function removes the item regardless of what the GlobalObject#_count member is set to.
     *** If you want to remove only a certain number of instances of the object, use the function
-    *** GameGlobal#DecrementObjectCount.
+    *** GameGlobal#DecrementItemCount.
     **/
     void RemoveFromInventory(uint32 obj_id);
 
@@ -429,7 +429,7 @@ public:
     ***
     *** \note The callee can not assume that the function call succeeded, but rather has to check this themselves.
     **/
-    void IncrementObjectCount(uint32 obj_id, uint32 obj_count = 1);
+    void IncrementItemCount(uint32 obj_id, uint32 obj_count = 1);
 
     /** \brief Decrements the number (count) of an object in the inventory
     *** \param item_id The integer identifier of the item that will have its count decremented
@@ -441,13 +441,13 @@ public:
     ***
     *** \note The callee can not assume that the function call succeeded, but rather has to check this themselves.
     **/
-    void DecrementObjectCount(uint32 obj_id, uint32 obj_count = 1);
+    void DecrementItemCount(uint32 obj_id, uint32 obj_count = 1);
 
     /** \brief Checks whether or a given object is currently stored in the inventory
     *** \param id The id of the object (item, weapon, armor, etc.) to check for
     *** \return True if the object was found in the inventor, or false if it was not found
     **/
-    bool IsObjectInInventory(uint32 id) {
+    bool IsItemInInventory(uint32 id) {
         return (_inventory.find(id) != _inventory.end());
     }
 

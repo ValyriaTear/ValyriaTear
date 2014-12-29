@@ -891,7 +891,7 @@ objects["Right Window Light 2"] = {
 }
 
 -- The helper function permitting to easily create a prepared map object
-function CreateObject(Map, name, x, y)
+function CreateObject(Map, name, x, y, layer)
     if (objects[name] == nil) then
         print("Error: No object named: "..name.." found!!");
         return nil;
@@ -902,9 +902,8 @@ function CreateObject(Map, name, x, y)
         return nil;
     end
 
-    local object = {}
-    object = vt_map.PhysicalObject();
-    object:SetObjectID(Map.object_supervisor:GenerateObjectID());
+    -- Note: Auto-registered to the object supervisor.
+    local object = vt_map.PhysicalObject.Create(layer);
     object:SetPosition(x, y);
     object:SetCollHalfWidth(objects[name].coll_half_width);
     object:SetCollHeight(objects[name].coll_height);

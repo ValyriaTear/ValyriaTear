@@ -3,7 +3,7 @@ setmetatable(ns, {__index = _G})
 show_smoke_cloud_script = ns;
 setfenv(1, ns);
 
-local smoke_cloud = {};
+local smoke_cloud = nil
 local display_time = 0;
 local flash_alpha = 0.0;
 local cloud_alpha = 0.0;
@@ -11,8 +11,8 @@ local cloud_alpha = 0.0;
 local smoke_sound_triggered = false;
 
 -- c++ objects instances
-local Map = {};
-local Script = {};
+local Map = nil
+local Script = nil
 
 function Initialize(map_instance)
     Map = map_instance;
@@ -78,7 +78,6 @@ function Update()
     end
 
     Map:GetEffectSupervisor():EnableLightingOverlay(flash_color);
-
 end
 
 local cloud_color = vt_video.Color(1.0, 1.0, 1.0, 1.0);

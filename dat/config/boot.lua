@@ -7,22 +7,22 @@ setfenv(1, ns);
 
 
 -- The Boot instance
-local Boot = {};
-local Script = {};
+local Boot = nil
+local Script = nil
 
-local animation_timer = {};
-local boot_state = {};
+local animation_timer = nil
+local boot_state = nil
 
-local background_image = {};
-local logo_image = {};
-local cloud_image = {};
-local mist_image = {};
-local fog_image = {};
-local crystal_image = {};
-local crystal_shadow_image = {};
-local satellite_image = {};
-local satellite_shadow_image = {};
-local flare_image = {};
+local background_image = nil
+local logo_image = nil
+local cloud_image = nil
+local mist_image = nil
+local fog_image = nil
+local crystal_image = nil
+local crystal_shadow_image = nil
+local satellite_image = nil
+local satellite_shadow_image = nil
+local flare_image = nil
 
 -- Init all the needed variables
 function Initialize(boot_instance)

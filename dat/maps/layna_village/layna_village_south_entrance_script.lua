@@ -14,23 +14,21 @@ map_subname = "Village entrance"
 music_filename = "mus/Caketown_1-OGA-mat-pablo.ogg"
 
 -- c++ objects instances
-local Map = {};
-local ObjectManager = {};
-local DialogueManager = {};
-local EventManager = {};
+local Map = nil
+local DialogueManager = nil
+local EventManager = nil
 
-local bronann = {};
-local orlinn = {};
+local bronann = nil
+local orlinn = nil
 
 -- the main map loading code
 function Load(m)
 
     Map = m;
-    ObjectManager = Map.object_supervisor;
-    DialogueManager = Map.dialogue_supervisor;
-    EventManager = Map.event_supervisor;
+    DialogueManager = Map:GetDialogueSupervisor();
+    EventManager = Map:GetEventSupervisor();
 
-    Map.unlimited_stamina = true;
+    Map:SetUnlimitedStamina(true);
 
     _CreateCharacters();
     -- Set the camera focus on Bronann
@@ -65,10 +63,9 @@ function Update()
     _CheckZones();
 end
 
-
 -- Character creation
 function _CreateCharacters()
-    bronann = CreateSprite(Map, "Bronann", 32, 4);
+    bronann = CreateSprite(Map, "Bronann", 32, 4, vt_map.MapMode.GROUND_OBJECT);
     bronann:SetDirection(vt_map.MapMode.SOUTH);
     bronann:SetMovementSpeed(vt_map.MapMode.NORMAL_SPEED);
 
@@ -76,38 +73,33 @@ function _CreateCharacters()
     if (GlobalManager:GetPreviousLocation() == "from_riverbank") then
         bronann:SetPosition(3, 34);
         bronann:SetDirection(vt_map.MapMode.EAST);
-
     elseif (GlobalManager:GetPreviousLocation() == "from right house") then
         bronann:SetPosition(48, 34);
         bronann:SetDirection(vt_map.MapMode.SOUTH);
         AudioManager:PlaySound("snd/door_close.wav");
-
     elseif (GlobalManager:GetPreviousLocation() == "from left house") then
         bronann:SetPosition(20, 34);
         bronann:SetDirection(vt_map.MapMode.SOUTH);
         AudioManager:PlaySound("snd/door_close.wav");
     end
-
-    Map:AddGroundObject(bronann);
 end
 
-local chicken2 = {}
+local chicken2 = nil
 
 function _CreateNPCs()
-    local npc = {}
-    local text = {}
-    local dialogue = {}
-    local event = {}
+    local npc = nil
+    local text = nil
+    local dialogue = nil
+    local event = nil
 
-    npc = CreateSprite(Map, "Herth", 45, 39);
-    Map:AddGroundObject(npc);
+    npc = CreateSprite(Map, "Herth", 45, 39, vt_map.MapMode.GROUND_OBJECT);
     if (GlobalManager:DoesEventExist("story", "Quest2_forest_event_done") == true) then
         -- At that moment, Herth isn't there anymore.
         npc:SetVisible(false);
         npc:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
     else
         npc:SetDirection(vt_map.MapMode.SOUTH);
-        dialogue = vt_map.SpriteDialogue();
+        dialogue = vt_map.SpriteDialogue.Create();
         text = vt_system.Translate("Hi Bronann.");
         dialogue:AddLine(text, npc);
         text = vt_system.Translate("Hi Herth. I see you've blocked the gate, why so?");
@@ -120,36 +112,33 @@ function _CreateNPCs()
         dialogue:AddLine(text, bronann);
         text = vt_system.Translate("It's a possibility. But don't worry too much, ok?");
         dialogue:AddLine(text, npc);
-        DialogueManager:AddDialogue(dialogue);
         npc:AddDialogueReference(dialogue);
         -- The second time, just repeat the sentence
-        dialogue = vt_map.SpriteDialogue("ep1_layna_village_herth_south_entrance_default");
+        dialogue = vt_map.SpriteDialogue.Create("ep1_layna_village_herth_south_entrance_default");
         text = vt_system.Translate("It's a possibility. But don't worry too much, ok?");
         dialogue:AddLine(text, npc);
-        DialogueManager:AddDialogue(dialogue);
         npc:AddDialogueReference(dialogue);
     end
 
-    orlinn = CreateSprite(Map, "Orlinn", 29, 22);
+    orlinn = CreateSprite(Map, "Orlinn", 29, 22, vt_map.MapMode.GROUND_OBJECT);
     orlinn:SetDirection(vt_map.MapMode.EAST);
     orlinn:SetMovementSpeed(vt_map.MapMode.VERY_FAST_SPEED);
-    Map:AddGroundObject(orlinn);
+
     _UpdateOrlinnState();
 
     -- Adds a chicken that can be taken by Bronann and given back to Grandma.
     if (GlobalManager:GetEventValue("game", "layna_village_chicken2_found") == 0) then
-        chicken2 = CreateSprite(Map, "Chicken", 58, 44);
-        Map:AddGroundObject(chicken2);
+        chicken2 = CreateSprite(Map, "Chicken", 58, 44, vt_map.MapMode.GROUND_OBJECT);
+
         event = vt_map.RandomMoveSpriteEvent("Chicken2 random move", chicken2, 1000, 1000);
         event:AddEventLinkAtEnd("Chicken2 random move", 4500); -- Loop on itself
         EventManager:RegisterEvent(event);
         EventManager:StartEvent("Chicken2 random move");
 
-        dialogue = vt_map.SpriteDialogue();
+        dialogue = vt_map.SpriteDialogue.Create();
         text = vt_system.Translate("One of Grandma's chicken... I should bring it back.");
         dialogue:AddLine(text, bronann);
         dialogue:SetEventAtDialogueEnd("Make bronann take the chicken 2");
-        DialogueManager:AddDialogue(dialogue);
         chicken2:AddDialogueReference(dialogue);
 
         event = vt_map.ScriptedEvent("Make bronann take the chicken 2", "bronann_takes_chicken2", "fadeoutin_update");
@@ -158,27 +147,24 @@ function _CreateNPCs()
 end
 
 function _CreateObjects()
-    local object = {}
-
-    object = CreateObject(Map, "Tree Big1", 42, 10);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
+    CreateObject(Map, "Tree Big1", 42, 10, vt_map.MapMode.GROUND_OBJECT);
 
     -- Small door lights
-    Map:AddLight("img/misc/lights/sun_flare_light_small_main.lua",
-            "img/misc/lights/sun_flare_light_small_secondary.lua",
-        20.0, 29.5,
-        vt_video.Color(1.0, 1.0, 1.0, 0.6),
-        vt_video.Color(1.0, 1.0, 0.85, 0.3));
-    Map:AddLight("img/misc/lights/sun_flare_light_small_main.lua",
-            "img/misc/lights/sun_flare_light_small_secondary.lua",
-        48.0, 29.5,
-        vt_video.Color(1.0, 1.0, 1.0, 0.6),
-        vt_video.Color(1.0, 1.0, 0.85, 0.3));
+    vt_map.Light.Create("img/misc/lights/sun_flare_light_small_main.lua",
+                        "img/misc/lights/sun_flare_light_small_secondary.lua",
+                        20.0, 29.5,
+                        vt_video.Color(1.0, 1.0, 1.0, 0.6),
+                        vt_video.Color(1.0, 1.0, 0.85, 0.3));
+    vt_map.Light.Create("img/misc/lights/sun_flare_light_small_main.lua",
+                        "img/misc/lights/sun_flare_light_small_secondary.lua",
+                        48.0, 29.5,
+                        vt_video.Color(1.0, 1.0, 1.0, 0.6),
+                        vt_video.Color(1.0, 1.0, 0.85, 0.3));
 end
 
 -- Creates all events and sets up the entire event sequence chain
 function _CreateEvents()
-    local event = {};
+    local event = nil
 
     -- Triggered Events
     event = vt_map.MapTransitionEvent("to Village center", "dat/maps/layna_village/layna_village_center_map.lua",
@@ -211,24 +197,17 @@ function _CreateEvents()
 end
 
 -- zones
-local village_center_zone = {};
-local to_village_riverbank_zone = {};
-local to_left_house_zone = {};
-local to_right_house_zone = {};
+local village_center_zone = nil
+local to_village_riverbank_zone = nil
+local to_left_house_zone = nil
+local to_right_house_zone = nil
 
 function _CreateZones()
     -- N.B.: left, right, top, bottom
-    village_center_zone = vt_map.CameraZone(8, 62, 0, 2);
-    Map:AddZone(village_center_zone);
-
-    to_village_riverbank_zone = vt_map.CameraZone(0, 1, 26, 43);
-    Map:AddZone(to_village_riverbank_zone);
-
-    to_left_house_zone = vt_map.CameraZone(18, 22, 32, 33);
-    Map:AddZone(to_left_house_zone);
-
-    to_right_house_zone = vt_map.CameraZone(46, 50, 32, 33);
-    Map:AddZone(to_right_house_zone);
+    village_center_zone = vt_map.CameraZone.Create(8, 62, 0, 2);
+    to_village_riverbank_zone = vt_map.CameraZone.Create(0, 1, 26, 43);
+    to_left_house_zone = vt_map.CameraZone.Create(18, 22, 32, 33);
+    to_right_house_zone = vt_map.CameraZone.Create(46, 50, 32, 33);
 end
 
 function _CheckZones()
@@ -266,9 +245,9 @@ end
 -- Custom inner map functions
 
 function _UpdateOrlinnState()
-    local text = {}
-    local dialogue = {}
-    local event = {}
+    local text = nil
+    local dialogue = nil
+    local event = nil
 
     event = vt_map.PathMoveSpriteEvent("Hide n Seek1: Orlinn goes right", orlinn, 31, 22, false);
     event:AddEventLinkAtEnd("Hide n Seek1: Orlinn looks south");
@@ -290,12 +269,11 @@ function _UpdateOrlinnState()
         EventManager:StartEvent("Hide n Seek1: Orlinn goes right", 8000);
 
         -- Set up the dialogue.
-        dialogue = vt_map.SpriteDialogue();
+        dialogue = vt_map.SpriteDialogue.Create();
         text = vt_system.Translate("Yiek!!! Hey, you scared me.");
         dialogue:AddLineEmote(text, orlinn, "exclamation");
         text = vt_system.Translate("But you'll never find me hiding on top of the cliffs!");
         dialogue:AddLineEvent(text, orlinn, "", "Quest1: Start Orlinn Hide n Seek2");
-        DialogueManager:AddDialogue(dialogue);
         orlinn:AddDialogueReference(dialogue);
         return;
     end
@@ -318,7 +296,7 @@ map_functions = {
         orlinn:SetMoving(false); -- in case he's moving
         orlinn:SetMovementSpeed(vt_map.MapMode.VERY_FAST_SPEED);
         orlinn:ClearDialogueReferences();
-        EventManager:TerminateAllEvents(orlinn);
+        EventManager:EndAllEvents(orlinn);
 
         -- Updates Orlinn's state
         GlobalManager:SetEventValue("layna_south_entrance", "quest1_orlinn_hide_n_seek1_done", 1);
@@ -335,7 +313,7 @@ map_functions = {
         chicken2_taken = false;
         fade_effect_time = 0;
         chicken2:SetMoving(false);
-        EventManager:TerminateAllEvents(chicken2);
+        EventManager:EndAllEvents(chicken2);
         bronann:SetMoving(false);
         Map:PushState(vt_map.MapMode.STATE_SCENE);
     end,

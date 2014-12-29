@@ -14,23 +14,20 @@ map_subname = "Elbrus Grotto"
 music_filename = "mus/awareness_el_corleo.ogg"
 
 -- c++ objects instances
-local Map = {};
-local ObjectManager = {};
-local DialogueManager = {};
-local EventManager = {};
+local Map = nil
+local DialogueManager = nil
+local EventManager = nil
 
 -- the main character handler
-local hero = {};
+local hero = nil
 
 -- the main map loading code
 function Load(m)
 
     Map = m;
-    ObjectManager = Map.object_supervisor;
-    DialogueManager = Map.dialogue_supervisor;
-    EventManager = Map.event_supervisor;
-
-    Map.unlimited_stamina = false;
+    DialogueManager = Map:GetDialogueSupervisor();
+    EventManager = Map:GetEventSupervisor();
+    Map:SetUnlimitedStamina(false);
 
     _CreateCharacters();
     _CreateObjects();
@@ -39,7 +36,7 @@ function Load(m)
     -- Set the camera focus on hero
     Map:SetCamera(hero);
     -- This is a dungeon map, we'll use the front battle member sprite as default sprite.
-    Map.object_supervisor:SetPartyMemberVisibleSprite(hero);
+    Map:SetPartyMemberVisibleSprite(hero);
 
     _CreateEvents();
     _CreateZones();
@@ -63,7 +60,7 @@ end
 -- Character creation
 function _CreateCharacters()
     -- Default hero and position
-    hero = CreateSprite(Map, "Bronann", 88, 77); -- exit/entrance 1
+    hero = CreateSprite(Map, "Bronann", 88, 77, vt_map.MapMode.GROUND_OBJECT); -- exit/entrance 1
     hero:SetDirection(vt_map.MapMode.NORTH);
     hero:SetMovementSpeed(vt_map.MapMode.NORMAL_SPEED);
 
@@ -77,8 +74,6 @@ function _CreateCharacters()
         hero:SetDirection(vt_map.MapMode.WEST);
         hero:SetPosition(88, 9);
     end
-
-    Map:AddGroundObject(hero);
 end
 
 -- Sets common battle environment settings for enemy sprites
@@ -95,33 +90,31 @@ function _SetEventBattleEnvironment(event)
     event:AddScript("dat/battles/desert_cave_battle_anim.lua");
 end
 
-local shroom1 = {};
-local shroom2 = {};
+local shroom1 = nil
+local shroom2 = nil
 
 function _CreateObjects()
-    local object = {}
-    local npc = {}
-    local event = {}
-    local dialogue = {}
-    local text = {}
+    local object = nil
+    local npc = nil
+    local event = nil
+    local dialogue = nil
+    local text = nil
 
     -- Add a halo showing the cave entrances
     -- exit 1
-    Map:AddHalo("img/misc/lights/torch_light_mask.lua", 89, 88,
+    vt_map.Halo.Create("img/misc/lights/torch_light_mask.lua", 89, 88,
         vt_video.Color(0.3, 0.3, 0.46, 0.8));
     -- exit 2
-    Map:AddHalo("img/misc/lights/torch_light_mask.lua", 9.5, 88,
+    vt_map.Halo.Create("img/misc/lights/torch_light_mask.lua", 9.5, 88,
         vt_video.Color(0.3, 0.3, 0.46, 0.8));
 
-    shroom1 = CreateSprite(Map, "Shroom", 45, 42);
+    shroom1 = CreateSprite(Map, "Shroom", 45, 42, vt_map.MapMode.GROUND_OBJECT);
     shroom1:SetName("");
     shroom1:SetDirection(vt_map.MapMode.SOUTH);
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("...");
     dialogue:AddLineEvent(text, shroom1, "", "Fight with Shroom 1");
-    DialogueManager:AddDialogue(dialogue);
     shroom1:AddDialogueReference(dialogue);
-    Map:AddGroundObject(shroom1);
 
     event = vt_map.BattleEncounterEvent("Fight with Shroom 1");
     event:AddEnemy(11, 512, 384); -- one shroom
@@ -132,16 +125,13 @@ function _CreateObjects()
     event = vt_map.ScriptedSpriteEvent("Place Shroom 1 after fight", shroom1, "place_shroom_after_fight", "")
     EventManager:RegisterEvent(event);
 
-
-    shroom2 = CreateSprite(Map, "Shroom", 47, 24);
+    shroom2 = CreateSprite(Map, "Shroom", 47, 24, vt_map.MapMode.GROUND_OBJECT);
     shroom2:SetName("");
     shroom2:SetDirection(vt_map.MapMode.SOUTH);
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("...");
     dialogue:AddLineEvent(text, shroom2, "", "Fight with Shroom 2");
-    DialogueManager:AddDialogue(dialogue);
     shroom2:AddDialogueReference(dialogue);
-    Map:AddGroundObject(shroom2);
 
     event = vt_map.BattleEncounterEvent("Fight with Shroom 2");
     event:AddEnemy(11, 512, 384); -- one shroom
@@ -157,7 +147,7 @@ function _CreateObjects()
     event:AddEventLinkAtEnd("Jump to exit 2 choice");
     EventManager:RegisterEvent(event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Shall we jump?");
     dialogue:AddLine(text, hero);
     text = vt_system.Translate("...");
@@ -169,7 +159,6 @@ function _CreateObjects()
     -- [Line 2] Yes
     text = vt_system.Translate("Ok!");
     dialogue:AddLineEvent(text, hero, 4, "", "Make hero jump to exit 2"); -- 4 = Past the dialogue lines number. Makes the dialogue ends.
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Jump to exit 2 choice", dialogue);
     EventManager:RegisterEvent(event);
 
@@ -190,7 +179,7 @@ function _CreateObjects()
     event:AddEventLinkAtEnd("Jump to exit 4 choice");
     EventManager:RegisterEvent(event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Shall we jump?");
     dialogue:AddLine(text, hero);
     text = vt_system.Translate("...");
@@ -202,7 +191,6 @@ function _CreateObjects()
     -- [Line 2] Yes
     text = vt_system.Translate("Ok!");
     dialogue:AddLineEvent(text, hero, 4, "", "Make hero jump to exit 4"); -- 4 = Past the dialogue lines number. Makes the dialogue ends.
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Jump to exit 4 choice", dialogue);
     EventManager:RegisterEvent(event);
 
@@ -219,20 +207,16 @@ function _CreateObjects()
     EventManager:RegisterEvent(event);
 
     -- Treasure box
-    local chest = CreateTreasure(Map, "elbrus_grotto1_chest1", "Wood_Chest1", 9, 17);
-    if (chest ~= nil) then
-        chest:AddObject(3001, 1); -- Copper ore
-        Map:AddGroundObject(chest);
-    end
-
+    local chest = CreateTreasure(Map, "elbrus_grotto1_chest1", "Wood_Chest1", 9, 17, vt_map.MapMode.GROUND_OBJECT);
+    chest:AddItem(3001, 1); -- Copper ore
 end
 
 function _CreateEnemies()
-    local enemy = {};
-    local roam_zone = {};
+    local enemy = nil
+    local roam_zone = nil
 
     -- Hint: left, right, top, bottom
-    roam_zone = vt_map.EnemyZone(7, 13, 36, 41);
+    roam_zone = vt_map.EnemyZone.Create(7, 13, 36, 41);
     -- Lonely bats
     enemy = CreateEnemySprite(Map, "bat");
     _SetBattleEnvironment(enemy);
@@ -247,11 +231,10 @@ function _CreateEnemies()
     enemy:AddEnemy(4);
     enemy:AddEnemy(6);
     enemy:AddEnemy(4);
-    roam_zone:AddEnemy(enemy, Map, 1);
-    Map:AddZone(roam_zone);
+    roam_zone:AddEnemy(enemy, 1);
 
     -- Hint: left, right, top, bottom
-    roam_zone = vt_map.EnemyZone(7, 13, 16, 21);
+    roam_zone = vt_map.EnemyZone.Create(7, 13, 16, 21);
     -- bats, again
     enemy = CreateEnemySprite(Map, "bat");
     _SetBattleEnvironment(enemy);
@@ -266,16 +249,14 @@ function _CreateEnemies()
     enemy:AddEnemy(4);
     enemy:AddEnemy(6);
     enemy:AddEnemy(4);
-    roam_zone:AddEnemy(enemy, Map, 1);
-    Map:AddZone(roam_zone);
-
+    roam_zone:AddEnemy(enemy, 1);
 end
 
 -- Creates all events and sets up the entire event sequence chain
 function _CreateEvents()
-    local event = {};
-    local dialogue = {};
-    local text = {};
+    local event = nil
+    local dialogue = nil
+    local text = nil
 
     -- To the first cave
     event = vt_map.MapTransitionEvent("to exit 1", "dat/maps/mt_elbrus/mt_elbrus_path1_map.lua",
@@ -290,38 +271,26 @@ function _CreateEvents()
     event = vt_map.MapTransitionEvent("to exit 4", "dat/maps/mt_elbrus/mt_elbrus_path1_map.lua",
                                        "dat/maps/mt_elbrus/mt_elbrus_path1_script.lua", "from_grotto_exit4");
     EventManager:RegisterEvent(event);
-
 end
 
 -- zones
-local exit1_zone = {};
-local exit2_zone = {};
-local exit3_zone = {};
-local exit4_zone = {};
+local exit1_zone = nil
+local exit2_zone = nil
+local exit3_zone = nil
+local exit4_zone = nil
 
-local left_jump_zone = {};
-local right_jump_zone = {};
+local left_jump_zone = nil
+local right_jump_zone = nil
 
 -- Create the different map zones triggering events
 function _CreateZones()
     -- N.B.: left, right, top, bottom
-    exit1_zone = vt_map.CameraZone(84, 94, 78, 80);
-    Map:AddZone(exit1_zone);
-
-    exit2_zone = vt_map.CameraZone(4, 15, 78, 80);
-    Map:AddZone(exit2_zone);
-
-    exit3_zone = vt_map.CameraZone(94, 96, 21, 22);
-    Map:AddZone(exit3_zone);
-
-    exit4_zone = vt_map.CameraZone(90, 92, 7, 8);
-    Map:AddZone(exit4_zone);
-
-    left_jump_zone = vt_map.CameraZone(4, 8, 63, 64);
-    Map:AddZone(left_jump_zone);
-
-    right_jump_zone = vt_map.CameraZone(77, 81, 29, 30);
-    Map:AddZone(right_jump_zone);
+    exit1_zone = vt_map.CameraZone.Create(84, 94, 78, 80);
+    exit2_zone = vt_map.CameraZone.Create(4, 15, 78, 80);
+    exit3_zone = vt_map.CameraZone.Create(94, 96, 21, 22);
+    exit4_zone = vt_map.CameraZone.Create(90, 92, 7, 8);
+    left_jump_zone = vt_map.CameraZone.Create(4, 8, 63, 64);
+    right_jump_zone = vt_map.CameraZone.Create(77, 81, 29, 30);
 end
 
 -- Check whether the active camera has entered a zone. To be called within Update()

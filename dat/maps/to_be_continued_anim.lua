@@ -9,14 +9,14 @@ setmetatable(ns, {__index = _G})
 to_be_continued_anim = ns;
 setfenv(1, ns);
 
-local dark_overlay = {};
+local dark_overlay = nil
 
-local to_be_continued_text = {};
+local to_be_continued_text = nil
 
 -- c++ objects instances
-local Map = {};
-local Script = {};
-local Effects = {};
+local Map = nil
+local Script = nil
+local Effects = nil
 
 function Initialize(map_instance)
     Map = map_instance;
@@ -46,8 +46,6 @@ function Update()
 
     -- Handle the timer
     display_time = display_time + time_expired;
-
-
 end
 
 local text_color = vt_video.Color(1.0, 1.0, 1.0, 1.0);
@@ -73,5 +71,4 @@ function DrawPostEffects()
 
     VideoManager:Move(612.0, 448.0);
     to_be_continued_text:Draw(text_color);
-
 end

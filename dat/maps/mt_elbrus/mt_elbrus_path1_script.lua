@@ -14,17 +14,16 @@ map_subname = "Low Mountain"
 music_filename = "mus/awareness_el_corleo.ogg"
 
 -- c++ objects instances
-local Map = {};
-local ObjectManager = {};
-local DialogueManager = {};
-local EventManager = {};
+local Map = nil
+local DialogueManager = nil
+local EventManager = nil
 
 -- the main character handler
-local hero = {};
+local hero = nil
 
 -- Forest dialogue secondary hero
-local kalya = {};
-local orlinn = {};
+local kalya = nil
+local orlinn = nil
 
 -- Name of the main sprite. Used to reload the good one at the end of dialogue events.
 local main_sprite_name = "";
@@ -33,11 +32,9 @@ local main_sprite_name = "";
 function Load(m)
 
     Map = m;
-    ObjectManager = Map.object_supervisor;
-    DialogueManager = Map.dialogue_supervisor;
-    EventManager = Map.event_supervisor;
-
-    Map.unlimited_stamina = false;
+    DialogueManager = Map:GetDialogueSupervisor();
+    EventManager = Map:GetEventSupervisor();
+    Map:SetUnlimitedStamina(false);
 
     _CreateCharacters();
     _CreateObjects();
@@ -46,7 +43,7 @@ function Load(m)
     -- Set the camera focus on hero
     Map:SetCamera(hero);
     -- This is a dungeon map, we'll use the front battle member sprite as default sprite.
-    Map.object_supervisor:SetPartyMemberVisibleSprite(hero);
+    Map:SetPartyMemberVisibleSprite(hero);
 
     _CreateEvents();
     _CreateZones();
@@ -59,8 +56,7 @@ function Load(m)
     if (GlobalManager:GetEventValue("story", "mt_elbrus_weather_level") > 0) then
         Map:GetParticleManager():AddParticleEffect("dat/effects/particles/rain.lua", 512.0, 768.0);
         -- Place an omni ambient sound at the center of the map to add a nice rainy effect.
-        local rainy_sound = vt_map.SoundObject("mus/Ove Melaa - Rainy.ogg", 32.0, 24.0, 100.0);
-        Map:AddAmbientSoundObject(rainy_sound);
+        vt_map.SoundObject.Create("mus/Ove Melaa - Rainy.ogg", 32.0, 24.0, 100.0);
     end
     if (GlobalManager:GetEventValue("story", "mt_elbrus_weather_level") > 1) then
         Map:GetScriptSupervisor():AddScript("dat/maps/common/soft_lightnings_script.lua");
@@ -69,7 +65,6 @@ function Load(m)
     -- Show the new location on map,
     GlobalManager:ShowWorldLocation("mt elbrus");
     GlobalManager:SetCurrentLocationId("mt elbrus");
-
 end
 
 -- the map update function handles checks done on each game tick.
@@ -81,7 +76,7 @@ end
 -- Character creation
 function _CreateCharacters()
     -- Default hero and position
-    hero = CreateSprite(Map, "Bronann", 117, 94);
+    hero = CreateSprite(Map, "Bronann", 117, 94, vt_map.MapMode.GROUND_OBJECT);
     hero:SetDirection(vt_map.MapMode.NORTH);
     hero:SetMovementSpeed(vt_map.MapMode.NORMAL_SPEED);
 
@@ -111,63 +106,52 @@ function _CreateCharacters()
         hero:SetPosition(4.0, 20.0);
     end
 
-    Map:AddGroundObject(hero);
-
     -- Create secondary characters
     kalya = CreateSprite(Map, "Kalya",
-                         hero:GetXPosition(), hero:GetYPosition());
+                         hero:GetXPosition(), hero:GetYPosition(), vt_map.MapMode.GROUND_OBJECT);
     kalya:SetDirection(vt_map.MapMode.EAST);
     kalya:SetMovementSpeed(vt_map.MapMode.NORMAL_SPEED);
     kalya:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
     kalya:SetVisible(false);
-    Map:AddGroundObject(kalya);
 
     orlinn = CreateSprite(Map, "Orlinn",
-                          hero:GetXPosition(), hero:GetYPosition());
+                          hero:GetXPosition(), hero:GetYPosition(), vt_map.MapMode.GROUND_OBJECT);
     orlinn:SetDirection(vt_map.MapMode.EAST);
     orlinn:SetMovementSpeed(vt_map.MapMode.NORMAL_SPEED);
     orlinn:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
     orlinn:SetVisible(false);
-    Map:AddGroundObject(orlinn);
 end
 
 -- The heal particle effect map object
-local heal_effect = {};
+local heal_effect = nil
 
 function _CreateObjects()
-    local object = {}
-    local npc = {}
-    local dialogue = {}
-    local text = {}
+    local object = nil
+    local npc = nil
+    local dialogue = nil
+    local text = nil
 
-    Map:AddSavePoint(114, 56);
+    vt_map.SavePoint.Create(114, 56);
 
     -- Load the spring heal effect.
-    heal_effect = vt_map.ParticleObject("dat/effects/particles/heal_particle.lua", 0, 0);
-    heal_effect:SetObjectID(Map.object_supervisor:GenerateObjectID());
+    heal_effect = vt_map.ParticleObject.Create("dat/effects/particles/heal_particle.lua", 0, 0, vt_map.MapMode.GROUND_OBJECT);
     heal_effect:Stop(); -- Don't run it until the character heals itself
-    Map:AddGroundObject(heal_effect);
 
     -- Heal point
-    npc = CreateSprite(Map, "Butterfly", 104, 56);
+    npc = CreateSprite(Map, "Butterfly", 104, 56, vt_map.MapMode.GROUND_OBJECT);
     npc:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
     npc:SetVisible(false);
     npc:SetName(""); -- Unset the speaker name
-    Map:AddGroundObject(npc);
-    dialogue = vt_map.SpriteDialogue();
+
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Your party feels better...");
     dialogue:AddLineEvent(text, npc, "Heal event", "");
-    DialogueManager:AddDialogue(dialogue);
     npc:AddDialogueReference(dialogue);
-    npc = CreateObject(Map, "Layna Statue", 104, 56);
-    Map:AddGroundObject(npc);
+    CreateObject(Map, "Layna Statue", 104, 56, vt_map.MapMode.GROUND_OBJECT);
 
     -- Treasure box
-    local chest = CreateTreasure(Map, "elbrus_path1_chest1", "Wood_Chest1", 7, 92);
-    if (chest ~= nil) then
-        chest:AddObject(2, 1); -- Medium healing potion
-        Map:AddGroundObject(chest);
-    end
+    local chest = CreateTreasure(Map, "elbrus_path1_chest1", "Wood_Chest1", 7, 92, vt_map.MapMode.GROUND_OBJECT);
+    chest:AddItem(2, 1); -- Medium healing potion
 
     -- Objects array
     local map_objects = {
@@ -369,8 +353,7 @@ function _CreateObjects()
     -- Loads the trees according to the array
     for my_index, my_array in pairs(map_objects) do
         --print(my_array[1], my_array[2], my_array[3]);
-        object = CreateObject(Map, my_array[1], my_array[2], my_array[3]);
-        Map:AddGroundObject(object);
+        CreateObject(Map, my_array[1], my_array[2], my_array[3], vt_map.MapMode.GROUND_OBJECT);
     end
 
     -- grass array
@@ -425,21 +408,20 @@ function _CreateObjects()
     -- Loads the grass clumps according to the array
     for my_index, my_array in pairs(map_grass) do
         --print(my_array[1], my_array[2], my_array[3]);
-        object = CreateObject(Map, my_array[1], my_array[2], my_array[3]);
+        object = CreateObject(Map, my_array[1], my_array[2], my_array[3], vt_map.MapMode.GROUND_OBJECT);
         object:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
-        Map:AddGroundObject(object);
     end
 
 end
 
-local dark_soldier1 = {}
+local dark_soldier1 = nil
 
 function _CreateEnemies()
-    local enemy = {};
-    local roam_zone = {};
+    local enemy = nil
+    local roam_zone = nil
 
     -- Hint: left, right, top, bottom
-    roam_zone = vt_map.EnemyZone(59, 62, 61, 85);
+    roam_zone = vt_map.EnemyZone.Create(59, 62, 61, 85);
     -- Dark soldier 1
     dark_soldier1 = CreateEnemySprite(Map, "Dark Soldier");
     _SetBattleEnvironment(dark_soldier1);
@@ -449,15 +431,14 @@ function _CreateEnemies()
     dark_soldier1:SetBattleMusicTheme("mus/accion-OGA-djsaryon.ogg");
     dark_soldier1:NewEnemyParty();
     dark_soldier1:AddEnemy(9);
-    roam_zone:AddEnemy(dark_soldier1, Map, 1);
+    roam_zone:AddEnemy(dark_soldier1, 1);
     roam_zone:SetSpawnsLeft(1); -- This monster shall spawn only one time.
     -- Patrol way points
     dark_soldier1:AddWayPoint(60, 62);
     dark_soldier1:AddWayPoint(60, 84);
-    Map:AddZone(roam_zone);
 
     -- Hint: left, right, top, bottom
-    roam_zone = vt_map.EnemyZone(3, 15, 43, 76);
+    roam_zone = vt_map.EnemyZone.Create(3, 15, 43, 76);
     -- Dark soldier 2
     enemy = CreateEnemySprite(Map, "Dark Soldier");
     _SetBattleEnvironment(enemy);
@@ -467,16 +448,15 @@ function _CreateEnemies()
     enemy:SetBattleMusicTheme("mus/accion-OGA-djsaryon.ogg");
     enemy:NewEnemyParty();
     enemy:AddEnemy(9);
-    roam_zone:AddEnemy(enemy, Map, 1);
+    roam_zone:AddEnemy(enemy, 1);
     roam_zone:SetSpawnsLeft(1); -- This monster shall spawn only one time.
     enemy:AddWayPoint(4, 44);
     enemy:AddWayPoint(14, 44);
     enemy:AddWayPoint(14, 74);
     enemy:AddWayPoint(4, 74);
-    Map:AddZone(roam_zone);
 
     -- Hint: left, right, top, bottom
-    roam_zone = vt_map.EnemyZone(28, 47, 22, 38);
+    roam_zone = vt_map.EnemyZone.Create(28, 47, 22, 38);
     -- Dark soldier 3
     enemy = CreateEnemySprite(Map, "Dark Soldier");
     _SetBattleEnvironment(enemy);
@@ -486,16 +466,15 @@ function _CreateEnemies()
     enemy:SetBattleMusicTheme("mus/accion-OGA-djsaryon.ogg");
     enemy:NewEnemyParty();
     enemy:AddEnemy(9);
-    roam_zone:AddEnemy(enemy, Map, 1);
+    roam_zone:AddEnemy(enemy, 1);
     roam_zone:SetSpawnsLeft(1); -- This monster shall spawn only one time.
     enemy:AddWayPoint(29, 23);
     enemy:AddWayPoint(46, 23);
     enemy:AddWayPoint(46, 37);
     enemy:AddWayPoint(29, 37);
-    Map:AddZone(roam_zone);
 
     -- Hint: left, right, top, bottom
-    roam_zone = vt_map.EnemyZone(62, 65, 21, 36);
+    roam_zone = vt_map.EnemyZone.Create(62, 65, 21, 36);
     -- Dark soldier 4
     enemy = CreateEnemySprite(Map, "Dark Soldier");
     _SetBattleEnvironment(enemy);
@@ -505,14 +484,13 @@ function _CreateEnemies()
     enemy:SetBattleMusicTheme("mus/accion-OGA-djsaryon.ogg");
     enemy:NewEnemyParty();
     enemy:AddEnemy(9);
-    roam_zone:AddEnemy(enemy, Map, 1);
+    roam_zone:AddEnemy(enemy, 1);
     roam_zone:SetSpawnsLeft(1); -- This monster shall spawn only one time.
     enemy:AddWayPoint(63, 22);
     enemy:AddWayPoint(63, 35);
-    Map:AddZone(roam_zone);
 
     -- Hint: left, right, top, bottom
-    roam_zone = vt_map.EnemyZone(6, 19, 10, 24);
+    roam_zone = vt_map.EnemyZone.Create(6, 19, 10, 24);
     -- Dark soldier 5
     enemy = CreateEnemySprite(Map, "Dark Soldier");
     _SetBattleEnvironment(enemy);
@@ -522,16 +500,15 @@ function _CreateEnemies()
     enemy:SetBattleMusicTheme("mus/accion-OGA-djsaryon.ogg");
     enemy:NewEnemyParty();
     enemy:AddEnemy(9);
-    roam_zone:AddEnemy(enemy, Map, 1);
+    roam_zone:AddEnemy(enemy, 1);
     roam_zone:SetSpawnsLeft(1); -- This monster shall spawn only one time.
     enemy:AddWayPoint(7, 12);
     enemy:AddWayPoint(18, 10);
     enemy:AddWayPoint(14, 24);
     enemy:AddWayPoint(6.2, 23);
-    Map:AddZone(roam_zone);
 
     -- Hint: left, right, top, bottom
-    roam_zone = vt_map.EnemyZone(10, 21, 86, 92);
+    roam_zone = vt_map.EnemyZone.Create(10, 21, 86, 92);
     -- Some bats
     enemy = CreateEnemySprite(Map, "bat");
     _SetBattleEnvironment(enemy);
@@ -544,11 +521,10 @@ function _CreateEnemies()
     enemy:AddEnemy(4);
     enemy:AddEnemy(6);
     enemy:AddEnemy(4);
-    roam_zone:AddEnemy(enemy, Map, 1);
-    Map:AddZone(roam_zone);
+    roam_zone:AddEnemy(enemy, 1);
 
     -- Hint: left, right, top, bottom
-    roam_zone = vt_map.EnemyZone(84, 92, 20, 24);
+    roam_zone = vt_map.EnemyZone.Create(84, 92, 20, 24);
     -- Some bats
     enemy = CreateEnemySprite(Map, "bat");
     _SetBattleEnvironment(enemy);
@@ -561,22 +537,20 @@ function _CreateEnemies()
     enemy:AddEnemy(4);
     enemy:AddEnemy(6);
     enemy:AddEnemy(4);
-    roam_zone:AddEnemy(enemy, Map, 1);
-    Map:AddZone(roam_zone);
-
+    roam_zone:AddEnemy(enemy, 1);
 end
 
 -- Special event references which destinations must be updated just before being called.
-local kalya_move_next_to_hero_event = {}
-local kalya_move_back_to_hero_event = {}
-local orlinn_move_next_to_hero_event = {}
-local orlinn_move_back_to_hero_event = {}
+local kalya_move_next_to_hero_event = nil
+local kalya_move_back_to_hero_event = nil
+local orlinn_move_next_to_hero_event = nil
+local orlinn_move_back_to_hero_event = nil
 
 -- Creates all events and sets up the entire event sequence chain
 function _CreateEvents()
-    local event = {};
-    local dialogue = {};
-    local text = {};
+    local event = nil
+    local dialogue = nil
+    local text = nil
 
     -- To the first cave
     event = vt_map.MapTransitionEvent("to cave 1", "dat/maps/mt_elbrus/mt_elbrus_cave1_map.lua",
@@ -639,10 +613,9 @@ function _CreateEvents()
     orlinn_move_next_to_hero_event:AddEventLinkAtEnd("Orlinn looks west");
     EventManager:RegisterEvent(orlinn_move_next_to_hero_event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Look!");
     dialogue:AddLineEmote(text, kalya, "exclamation");
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Kalya sees the soldier", dialogue);
     event:AddEventLinkAtEnd("Set the Camera on the soldier", 200);
     EventManager:RegisterEvent(event);
@@ -655,7 +628,7 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("Kalya tells the plan");
     EventManager:RegisterEvent(event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Banesore's minions are already all over the place ...");
     dialogue:AddLineEvent(text, kalya, "Kalya looks at Bronann", "Bronann looks at Kalya");
     text = vt_system.Translate("The dark soldiers, as we call them, are fanatics. They'll follow Banesore's orders even if it means death.");
@@ -668,7 +641,6 @@ function _CreateEvents()
     dialogue:AddLineEvent(text, kalya, "Kalya looks west", "");
     text = vt_system.Translate("They are too strong. If they catch us, we're doomed.");
     dialogue:AddLine(text, kalya);
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Kalya tells the plan", dialogue);
     event:AddEventLinkAtEnd("Orlinn goes back to party");
     event:AddEventLinkAtEnd("Kalya goes back to party");
@@ -686,30 +658,22 @@ function _CreateEvents()
 end
 
 -- zones
-local see_first_guard_zone = {};
-local to_cave1_zone = {};
-local to_cave2_zone = {};
-local to_cave3_zone = {};
-local to_cave4_zone = {};
-local to_path2_zone = {};
+local see_first_guard_zone = nil
+local to_cave1_zone = nil
+local to_cave2_zone = nil
+local to_cave3_zone = nil
+local to_cave4_zone = nil
+local to_path2_zone = nil
 
 -- Create the different map zones triggering events
 function _CreateZones()
     -- N.B.: left, right, top, bottom
-    see_first_guard_zone = vt_map.CameraZone(86, 88, 70, 86);
-    Map:AddZone(see_first_guard_zone);
-
-    to_cave1_zone = vt_map.CameraZone(62, 66, 43, 45);
-    Map:AddZone(to_cave1_zone);
-    to_cave2_zone = vt_map.CameraZone(30, 34, 49, 50);
-    Map:AddZone(to_cave2_zone);
-    to_cave3_zone = vt_map.CameraZone(116, 120, 29, 30);
-    Map:AddZone(to_cave3_zone);
-    to_cave4_zone = vt_map.CameraZone(100, 104, 19, 20);
-    Map:AddZone(to_cave4_zone);
-
-    to_path2_zone = vt_map.CameraZone(0, 2, 16, 26);
-    Map:AddZone(to_path2_zone);
+    see_first_guard_zone = vt_map.CameraZone.Create(86, 88, 70, 86);
+    to_cave1_zone = vt_map.CameraZone.Create(62, 66, 43, 45);
+    to_cave2_zone = vt_map.CameraZone.Create(30, 34, 49, 50);
+    to_cave3_zone = vt_map.CameraZone.Create(116, 120, 29, 30);
+    to_cave4_zone = vt_map.CameraZone.Create(100, 104, 19, 20);
+    to_path2_zone = vt_map.CameraZone.Create(0, 2, 16, 26);
 end
 
 -- Check whether the active camera has entered a zone. To be called within Update()

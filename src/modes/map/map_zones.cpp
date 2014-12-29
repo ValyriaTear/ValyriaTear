@@ -37,6 +37,15 @@ namespace private_map
 MapZone::MapZone(uint16 left_col, uint16 right_col, uint16 top_row, uint16 bottom_row)
 {
     AddSection(left_col, right_col, top_row, bottom_row);
+    // Register to the object supervisor
+    MapMode::CurrentInstance()->GetObjectSupervisor()->AddZone(this);
+}
+
+MapZone* MapZone::Create(uint16 left_col, uint16 right_col, uint16 top_row, uint16 bottom_row)
+{
+    // The zone auto registers to the object supervisor
+    // and will later handle deletion.
+    return new MapZone(left_col, right_col, top_row, bottom_row);
 }
 
 void MapZone::AddSection(uint16 left_col, uint16 right_col, uint16 top_row, uint16 bottom_row)
@@ -126,6 +135,13 @@ CameraZone::CameraZone(uint16 left_col, uint16 right_col, uint16 top_row, uint16
     _was_camera_inside(false)
 {}
 
+CameraZone* CameraZone::Create(uint16 left_col, uint16 right_col, uint16 top_row, uint16 bottom_row)
+{
+    // The zone auto registers to the object supervisor
+    // and will later handle deletion.
+    return new CameraZone(left_col, right_col, top_row, bottom_row);
+}
+
 void CameraZone::Update()
 {
     _was_camera_inside = _camera_inside;
@@ -150,22 +166,6 @@ void CameraZone::Update()
 // ---------- EnemyZone Class Functions
 // -----------------------------------------------------------------------------
 
-EnemyZone::EnemyZone() :
-    MapZone(),
-    _enabled(true),
-    _roaming_restrained(true),
-    _active_enemies(0),
-    _spawns_left(-1), // Infinite spawns permitted.
-    _spawn_timer(STANDARD_ENEMY_FIRST_SPAWN_TIME),
-    _dead_timer(STANDARD_ENEMY_DEAD_TIME),
-    _spawn_zone(NULL)
-{
-    // Done so that when the zone updates for the first time, an inactive enemy will immediately be selected and begin spawning
-    _dead_timer.Finish();
-}
-
-
-
 EnemyZone::EnemyZone(uint16 left_col, uint16 right_col,
                      uint16 top_row, uint16 bottom_row):
     MapZone(left_col, right_col, top_row, bottom_row),
@@ -181,50 +181,14 @@ EnemyZone::EnemyZone(uint16 left_col, uint16 right_col,
     _dead_timer.Finish();
 }
 
-EnemyZone::EnemyZone(const EnemyZone &copy) :
-    MapZone(copy)
+EnemyZone* EnemyZone::Create(uint16 left_col, uint16 right_col, uint16 top_row, uint16 bottom_row)
 {
-    _enabled = copy._enabled;
-    _roaming_restrained = copy._roaming_restrained;
-    _spawns_left = copy._spawns_left;
-    _active_enemies = copy._active_enemies;
-    _spawn_timer = copy._spawn_timer;
-    _dead_timer = copy._dead_timer;
-    if(copy._spawn_zone == NULL)
-        _spawn_zone = NULL;
-    else
-        _spawn_zone = new MapZone(*(copy._spawn_zone));
-
-    // Done so that when the zone updates for the first time, an inactive enemy will immediately be selected and begin spawning
-    _dead_timer.Finish();
-    _spawn_timer.Reset();
+    // The zone auto registers to the object supervisor
+    // and will later handle deletion.
+    return new EnemyZone(left_col, right_col, top_row, bottom_row);
 }
 
-EnemyZone &EnemyZone::operator=(const EnemyZone &copy)
-{
-    if(this == &copy)  // Handle self-assignment case
-        return *this;
-
-    MapZone::operator=(copy);
-    _enabled = copy._enabled;
-    _roaming_restrained = copy._roaming_restrained;
-    _spawns_left = copy._spawns_left;
-    _active_enemies = copy._active_enemies;
-    _spawn_timer = copy._spawn_timer;
-    _dead_timer = copy._dead_timer;
-    if(copy._spawn_zone == NULL)
-        _spawn_zone = NULL;
-    else
-        _spawn_zone = new MapZone(*(copy._spawn_zone));
-
-    // Done so that when the zone updates for the first time, an inactive enemy will immediately be selected and begin spawning
-    _dead_timer.Finish();
-    _spawn_timer.Reset();
-
-    return *this;
-}
-
-void EnemyZone::AddEnemy(EnemySprite *enemy, MapMode *map_instance, uint8 enemy_number)
+void EnemyZone::AddEnemy(EnemySprite* enemy, uint8 enemy_number)
 {
     if(enemy_number == 0) {
         IF_PRINT_WARNING(MAP_DEBUG) << "function called with a zero value count argument" << std::endl;
@@ -233,21 +197,15 @@ void EnemyZone::AddEnemy(EnemySprite *enemy, MapMode *map_instance, uint8 enemy_
 
     // Prepare the first enemy
     enemy->SetZone(this);
-    map_instance->AddGroundObject(enemy);
     _enemies.push_back(enemy);
 
     // Create any additional copies of the enemy and add them as well
     for(uint8 i = 1; i < enemy_number; ++i) {
-        EnemySprite *copy = new EnemySprite(*enemy);
-        copy->SetObjectID(map_instance->GetObjectSupervisor()->GenerateObjectID());
+        EnemySprite* copy = new EnemySprite(*enemy);
         copy->Reset();
-
-        map_instance->AddGroundObject(copy);
         _enemies.push_back(copy);
     }
 }
-
-
 
 void EnemyZone::AddSpawnSection(uint16 left_col, uint16 right_col, uint16 top_row, uint16 bottom_row)
 {

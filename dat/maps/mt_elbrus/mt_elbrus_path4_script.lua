@@ -14,42 +14,39 @@ map_subname = "Mountain bridge"
 music_filename = "snd/wind.ogg"
 
 -- c++ objects instances
-local Map = {};
-local ObjectManager = {};
-local DialogueManager = {};
-local EventManager = {};
-local Effects = {};
+local Map = nil
+local DialogueManager = nil
+local EventManager = nil
+local Effects = nil
 
 -- the main character handler
-local hero = {};
+local hero = nil
 
 -- Forest dialogue secondary hero
-local kalya = {};
-local orlinn = {};
+local kalya = nil
+local orlinn = nil
 
 -- Name of the main sprite. Used to reload the good one at the end of dialogue events.
 local main_sprite_name = "";
 
 -- Soldiers
-local soldier1 = {};
-local soldier2 = {};
-local soldier3 = {};
+local soldier1 = nil
+local soldier2 = nil
+local soldier3 = nil
 
 -- An actual array of objects
 local bridge_middle_parts = {}
 
-local blocking_bridge = {}
+local blocking_bridge = nil
 
 -- the main map loading code
 function Load(m)
 
     Map = m;
-    ObjectManager = Map.object_supervisor;
-    DialogueManager = Map.dialogue_supervisor;
-    EventManager = Map.event_supervisor;
     Effects = Map:GetEffectSupervisor();
-
-    Map.unlimited_stamina = false;
+    DialogueManager = Map:GetDialogueSupervisor();
+    EventManager = Map:GetEventSupervisor();
+    Map:SetUnlimitedStamina(false);
 
     _CreateCharacters();
     _CreateObjects();
@@ -57,7 +54,7 @@ function Load(m)
     -- Set the camera focus on hero
     Map:SetCamera(hero);
     -- This is a dungeon map, we'll use the front battle member sprite as default sprite.
-    Map.object_supervisor:SetPartyMemberVisibleSprite(hero);
+    Map:SetPartyMemberVisibleSprite(hero);
 
     _CreateEvents();
     _CreateZones();
@@ -106,7 +103,7 @@ end
 -- Character creation
 function _CreateCharacters()
     -- Default hero and position (from mountain path 3)
-    hero = CreateSprite(Map, "Bronann", 55, 77);
+    hero = CreateSprite(Map, "Bronann", 55, 77, vt_map.MapMode.GROUND_OBJECT);
     hero:SetDirection(vt_map.MapMode.NORTH);
     hero:SetMovementSpeed(vt_map.MapMode.NORMAL_SPEED);
 
@@ -130,62 +127,50 @@ function _CreateCharacters()
         hero:SetPosition(45.0, 2.0);
     end
 
-    Map:AddGroundObject(hero);
-
     -- Create secondary characters
     kalya = CreateSprite(Map, "Kalya",
-                         hero:GetXPosition(), hero:GetYPosition());
+                         hero:GetXPosition(), hero:GetYPosition(), vt_map.MapMode.GROUND_OBJECT);
     kalya:SetDirection(vt_map.MapMode.EAST);
     kalya:SetMovementSpeed(vt_map.MapMode.NORMAL_SPEED);
     kalya:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
     kalya:SetVisible(false);
-    Map:AddGroundObject(kalya);
 
     orlinn = CreateSprite(Map, "Orlinn",
-                          hero:GetXPosition(), hero:GetYPosition());
+                          hero:GetXPosition(), hero:GetYPosition(), vt_map.MapMode.GROUND_OBJECT);
     orlinn:SetDirection(vt_map.MapMode.EAST);
     orlinn:SetMovementSpeed(vt_map.MapMode.NORMAL_SPEED);
     orlinn:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
     orlinn:SetVisible(false);
-    Map:AddGroundObject(orlinn);
 
-    soldier1 = CreateNPCSprite(Map, "Dark Soldier", vt_system.Translate("Soldier"), 0, 0);
+    soldier1 = CreateNPCSprite(Map, "Dark Soldier", vt_system.Translate("Soldier"), 0, 0, vt_map.MapMode.GROUND_OBJECT);
     soldier1:SetVisible(false);
     soldier1:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
-    Map:AddGroundObject(soldier1);
-    soldier2 = CreateNPCSprite(Map, "Dark Soldier", vt_system.Translate("Soldier"), 0, 0);
+    soldier2 = CreateNPCSprite(Map, "Dark Soldier", vt_system.Translate("Soldier"), 0, 0, vt_map.MapMode.GROUND_OBJECT);
     soldier2:SetVisible(false);
     soldier2:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
-    Map:AddGroundObject(soldier2);
-    soldier3 = CreateNPCSprite(Map, "Dark Soldier", vt_system.Translate("Soldier"), 0, 0);
+    soldier3 = CreateNPCSprite(Map, "Dark Soldier", vt_system.Translate("Soldier"), 0, 0, vt_map.MapMode.GROUND_OBJECT);
     soldier3:SetVisible(false);
     soldier3:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
-    Map:AddGroundObject(soldier3);
 end
 
 function _CreateObjects()
-    local object = {}
-    local npc = {}
-    local dialogue = {}
-    local text = {}
-    local event = {}
+    local object = nil
+    local npc = nil
+    local dialogue = nil
+    local text = nil
+    local event = nil
 
     -- Treasure box
-    local chest = CreateTreasure(Map, "elbrus_path4_chest1", "Wood_Chest1", 9, 62);
-    if (chest ~= nil) then
-        chest:AddObject(1001, 1); -- Minor Elixir, in case something went wrong during the Harlequin battle
-        Map:AddGroundObject(chest);
-    end
+    local chest = CreateTreasure(Map, "elbrus_path4_chest1", "Wood_Chest1", 9, 62, vt_map.MapMode.GROUND_OBJECT);
+    chest:AddItem(1001, 1); -- Minor Elixir, in case something went wrong during the Harlequin battle
 
     -- Bridge blocker
-    blocking_bridge = CreateObject(Map, "Rock1", 36.5, 13);
+    blocking_bridge = CreateObject(Map, "Rock1", 36.5, 13, vt_map.MapMode.GROUND_OBJECT);
     blocking_bridge:SetVisible(false);
     blocking_bridge:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
-    Map:AddGroundObject(blocking_bridge);
 
     -- Objects array
     local map_objects = {
-
         { "Tree Small1 snow", 7, 66 },
         { "Tree Small1 snow", 50, 63 },
         { "Tree Small2 snow", 19, 5 },
@@ -201,61 +186,45 @@ function _CreateObjects()
     -- Loads the trees according to the array
     for my_index, my_array in pairs(map_objects) do
         --print(my_array[1], my_array[2], my_array[3]);
-        object = CreateObject(Map, my_array[1], my_array[2], my_array[3]);
-        Map:AddGroundObject(object);
+        CreateObject(Map, my_array[1], my_array[2], my_array[3], vt_map.MapMode.GROUND_OBJECT);
     end
 
     -- Create the bridge
-    object = CreateObject(Map, "Bridge1_up", 36.5, 11);
-    Map:AddFlatGroundObject(object);
+    CreateObject(Map, "Bridge1_up", 36.5, 11, vt_map.MapMode.FLATGROUND_OBJECT);
 
-    bridge_middle_parts[1] = CreateObject(Map, "Bridge1_middle", 36.5, 13);
-    Map:AddFlatGroundObject(bridge_middle_parts[1]);
-    bridge_middle_parts[2] = CreateObject(Map, "Bridge1_middle", 36.5, 15);
-    Map:AddFlatGroundObject(bridge_middle_parts[2]);
-    bridge_middle_parts[3] = CreateObject(Map, "Bridge1_middle", 36.5, 17);
-    Map:AddFlatGroundObject(bridge_middle_parts[3]);
-    bridge_middle_parts[4] = CreateObject(Map, "Bridge1_middle", 36.5, 19);
-    Map:AddFlatGroundObject(bridge_middle_parts[4]);
-    bridge_middle_parts[5] = CreateObject(Map, "Bridge1_middle", 36.5, 21);
-    Map:AddFlatGroundObject(bridge_middle_parts[5]);
-    bridge_middle_parts[6] = CreateObject(Map, "Bridge1_middle", 36.5, 23);
-    Map:AddFlatGroundObject(bridge_middle_parts[6]);
-    bridge_middle_parts[7] = CreateObject(Map, "Bridge1_middle", 36.5, 25);
-    Map:AddFlatGroundObject(bridge_middle_parts[7]);
-    bridge_middle_parts[8] = CreateObject(Map, "Bridge1_middle", 36.5, 27);
-    Map:AddFlatGroundObject(bridge_middle_parts[8]);
-    bridge_middle_parts[9] = CreateObject(Map, "Bridge1_middle", 36.5, 29);
-    Map:AddFlatGroundObject(bridge_middle_parts[9]);
-    bridge_middle_parts[10] = CreateObject(Map, "Bridge1_middle", 36.5, 31);
-    Map:AddFlatGroundObject(bridge_middle_parts[10]);
-    bridge_middle_parts[11] = CreateObject(Map, "Bridge1_middle", 36.5, 33);
-    Map:AddFlatGroundObject(bridge_middle_parts[11]);
-    bridge_middle_parts[12] = CreateObject(Map, "Bridge1_middle", 36.5, 35);
-    Map:AddFlatGroundObject(bridge_middle_parts[12]);
-    bridge_middle_parts[13] = CreateObject(Map, "Bridge1_middle", 36.5, 37);
-    Map:AddFlatGroundObject(bridge_middle_parts[13]);
+    bridge_middle_parts[1] = CreateObject(Map, "Bridge1_middle", 36.5, 13, vt_map.MapMode.FLATGROUND_OBJECT);
+    bridge_middle_parts[2] = CreateObject(Map, "Bridge1_middle", 36.5, 15, vt_map.MapMode.FLATGROUND_OBJECT);
+    bridge_middle_parts[3] = CreateObject(Map, "Bridge1_middle", 36.5, 17, vt_map.MapMode.FLATGROUND_OBJECT);
+    bridge_middle_parts[4] = CreateObject(Map, "Bridge1_middle", 36.5, 19, vt_map.MapMode.FLATGROUND_OBJECT);
+    bridge_middle_parts[5] = CreateObject(Map, "Bridge1_middle", 36.5, 21, vt_map.MapMode.FLATGROUND_OBJECT);
+    bridge_middle_parts[6] = CreateObject(Map, "Bridge1_middle", 36.5, 23, vt_map.MapMode.FLATGROUND_OBJECT);
+    bridge_middle_parts[7] = CreateObject(Map, "Bridge1_middle", 36.5, 25, vt_map.MapMode.FLATGROUND_OBJECT);
+    bridge_middle_parts[8] = CreateObject(Map, "Bridge1_middle", 36.5, 27, vt_map.MapMode.FLATGROUND_OBJECT);
+    bridge_middle_parts[9] = CreateObject(Map, "Bridge1_middle", 36.5, 29, vt_map.MapMode.FLATGROUND_OBJECT);
+    bridge_middle_parts[10] = CreateObject(Map, "Bridge1_middle", 36.5, 31, vt_map.MapMode.FLATGROUND_OBJECT);
+    bridge_middle_parts[11] = CreateObject(Map, "Bridge1_middle", 36.5, 33, vt_map.MapMode.FLATGROUND_OBJECT);
+    bridge_middle_parts[12] = CreateObject(Map, "Bridge1_middle", 36.5, 35, vt_map.MapMode.FLATGROUND_OBJECT);
+    bridge_middle_parts[13] = CreateObject(Map, "Bridge1_middle", 36.5, 37, vt_map.MapMode.FLATGROUND_OBJECT);
 
-    object = CreateObject(Map, "Bridge1_down", 36.5, 39);
-    Map:AddFlatGroundObject(object);
+    CreateObject(Map, "Bridge1_down", 36.5, 39, vt_map.MapMode.FLATGROUND_OBJECT);
 end
 
 -- Special event references which destinations must be updated just before being called.
-local kalya_move_next_to_hero_event1 = {}
-local kalya_move_back_to_hero_event1 = {}
-local orlinn_move_next_to_hero_event1 = {}
-local orlinn_move_back_to_hero_event1 = {}
+local kalya_move_next_to_hero_event1 = nil
+local kalya_move_back_to_hero_event1 = nil
+local orlinn_move_next_to_hero_event1 = nil
+local orlinn_move_back_to_hero_event1 = nil
 
-local kalya_move_next_to_hero_event2 = {}
-local kalya_move_back_to_hero_event2 = {}
-local orlinn_move_next_to_hero_event2 = {}
-local orlinn_move_back_to_hero_event2 = {}
+local kalya_move_next_to_hero_event2 = nil
+local kalya_move_back_to_hero_event2 = nil
+local orlinn_move_next_to_hero_event2 = nil
+local orlinn_move_back_to_hero_event2 = nil
 
 -- Creates all events and sets up the entire event sequence chain
 function _CreateEvents()
-    local event = {};
-    local dialogue = {};
-    local text = {};
+    local event = nil
+    local dialogue = nil
+    local text = nil
 
     event = vt_map.MapTransitionEvent("to mountain shrine entrance", "dat/maps/mt_elbrus/mt_elbrus_shrine1_map.lua",
                                        "dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua", "from_path4");
@@ -280,10 +249,9 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
 
     -- cant't go back event
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("We can't go back now...");
     dialogue:AddLine(text, hero);
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Can't go back dialogue", dialogue);
     EventManager:RegisterEvent(event);
 
@@ -302,7 +270,7 @@ function _CreateEvents()
     orlinn_move_next_to_hero_event1:AddEventLinkAtEnd("Orlinn looks north");
     EventManager:RegisterEvent(orlinn_move_next_to_hero_event1);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("We made it...");
     dialogue:AddLineEmote(text, kalya, "sweat drop");
     text = vt_system.Translate("Brr... It's quite cold up here.");
@@ -311,7 +279,6 @@ function _CreateEvents()
     dialogue:AddLineEmote(text, kalya, "exclamation");
     text = vt_system.Translate("Let's hurry, I can't feel my toes anymore...");
     dialogue:AddLineEventEmote(text, orlinn, "Orlinn looks at Kalya", "", "sweat drop");
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Dialogue about snow and bridge", dialogue);
     event:AddEventLinkAtEnd("Orlinn goes back to party");
     event:AddEventLinkAtEnd("Kalya goes back to party");
@@ -333,12 +300,11 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("Dialogue about the bridge");
     EventManager:RegisterEvent(event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("(Woah, this bridge doesn't look that sturdy...)");
     dialogue:AddLineEmote(text, hero, "sweat drop");
     text = vt_system.Translate("Well, here we go....");
     dialogue:AddLine(text, hero);
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Dialogue about the bridge", dialogue);
     event:AddEventLinkAtEnd("End of bridge dialogue");
     EventManager:RegisterEvent(event);
@@ -351,12 +317,11 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("Soldiers catching up Dialogue");
     EventManager:RegisterEvent(event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("There!");
     dialogue:AddLine(text, soldier1);
     text = vt_system.Translate("Huh?");
     dialogue:AddLineEventEmote(text, hero, "Bronann looks south", "", "exclamation");
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Soldiers catching up Dialogue", dialogue);
     event:AddEventLinkAtEnd("Set focus on soldiers");
     EventManager:RegisterEvent(event);
@@ -372,10 +337,9 @@ function _CreateEvents()
     event = vt_map.PathMoveSpriteEvent("Soldier3 starts running", soldier3, 40.0, 61.5, true);
     EventManager:RegisterEvent(event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Catch them before they reach the Shrine!");
     dialogue:AddLineEmote(text, soldier1, "exclamation");
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Soldiers catching up Dialogue2", dialogue);
     event:AddEventLinkAtEnd("Set focus on Bronann");
     event:AddEventLinkAtEnd("Soldier1 starts running");
@@ -387,10 +351,9 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("Soldiers catching up Dialogue3");
     EventManager:RegisterEvent(event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Let's run!");
     dialogue:AddLineEmote(text, hero, "exclamation");
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Soldiers catching up Dialogue3", dialogue);
     event:AddEventLinkAtEnd("The hero runs north of the bridge");
     EventManager:RegisterEvent(event);
@@ -424,12 +387,11 @@ function _CreateEvents()
     kalya_move_next_to_hero_event2:AddEventLinkAtEnd("Dialogue about cutting bridge");
     EventManager:RegisterEvent(orlinn_move_next_to_hero_event2);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Bronann!");
     dialogue:AddLineEmote(text, kalya, "exclamation");
     text = vt_system.Translate("I'll cut those ropes!");
     dialogue:AddLine(text, hero);
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Dialogue about cutting bridge", dialogue);
     event:AddEventLinkAtEnd("The hero comes close the bridge's edge");
     EventManager:RegisterEvent(event);
@@ -454,10 +416,9 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("The party relaxes");
     EventManager:RegisterEvent(event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("That was close...");
     dialogue:AddLineEmote(text, kalya, "sweat drop");
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("The party relaxes", dialogue);
     event:AddEventLinkAtEnd("Set focus on soldiers2");
     EventManager:RegisterEvent(event);
@@ -469,14 +430,13 @@ function _CreateEvents()
     event = vt_map.LookAtSpriteEvent("Soldier2 looks at Soldier1", soldier2, soldier1);
     EventManager:RegisterEvent(event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Damn!!");
     dialogue:AddLine(text, soldier1);
     text = vt_system.Translate("The Master won't be happy with this...");
     dialogue:AddLineEvent(text, soldier2, "Soldier2 looks at Soldier1", "");
     text = vt_system.Translate("You won't get away so easily... We will catch you sooner or later...");
     dialogue:AddLineEmote(text, soldier1, "sweat drop");
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("The soldiers threaten the party", dialogue);
     event:AddEventLinkAtEnd("Set focus on Bronann2");
     EventManager:RegisterEvent(event);
@@ -499,14 +459,13 @@ function _CreateEvents()
     event = vt_map.AnimateSpriteEvent("Orlinn laughs", orlinn, "laughing", 0); -- infinite time.
     EventManager:RegisterEvent(event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Hurray! Those idiots will have a hard time catching us now!");
     dialogue:AddLine(text, orlinn);
     text = vt_system.Translate("Indeed! They've been had!");
     dialogue:AddLine(text, hero);
     text = vt_system.Translate("Who are the little brats now, eh?");
     dialogue:AddLine(text, kalya);
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("The party relaxes 2", dialogue);
     event:AddEventLinkAtEnd("Set focus on soldiers3");
     EventManager:RegisterEvent(event);
@@ -518,12 +477,11 @@ function _CreateEvents()
     event = vt_map.ScriptedEvent("The party stops laughing", "stop_party_animation", "")
     EventManager:RegisterEvent(event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Let's go back and tell the others...");
     dialogue:AddLine(text, soldier1);
     text = vt_system.Translate("Yes, Sir...");
     dialogue:AddLineEvent(text, soldier2, "Soldier2 looks at Soldier1", "");
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("The soldiers retreat", dialogue);
     event:AddEventLinkAtEnd("The party stops laughing");
     event:AddEventLinkAtEnd("Set focus on Bronann3");
@@ -543,10 +501,9 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("The party wonders what to do");
     EventManager:RegisterEvent(event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("They're gone... We should move on before they actually find a way to cross the gap.");
     dialogue:AddLineEvent(text, kalya, "Bronann looks at Kalya", "");
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("The party wonders what to do", dialogue);
     event:AddEventLinkAtEnd("Orlinn goes back to party2");
     event:AddEventLinkAtEnd("Kalya goes back to party2");
@@ -562,31 +519,24 @@ function _CreateEvents()
     event = vt_map.ScriptedEvent("End of cutting the bridge Event", "cut_the_bridge_event_end", "");
     EventManager:RegisterEvent(event);
 
-
     event = vt_map.ScriptedEvent("Falls from above event", "fall_event_start", "fall_event_update");
     EventManager:RegisterEvent(event);
 end
 
 -- zones
-local to_shrine_zone = {};
-local bridge_south_zone = {};
-local bridge_middle_zone = {};
-local to_path3_zone = {};
+local to_shrine_zone = nil
+local bridge_south_zone = nil
+local bridge_middle_zone = nil
+local to_path3_zone = nil
 
 -- Create the different map zones triggering events
 function _CreateZones()
-
     -- N.B.: left, right, top, bottom
-    to_shrine_zone = vt_map.CameraZone(39, 41, 3, 5);
-    Map:AddZone(to_shrine_zone);
-    to_path3_zone = vt_map.CameraZone(48, 64, 78, 80);
-    Map:AddZone(to_path3_zone);
+    to_shrine_zone = vt_map.CameraZone.Create(39, 41, 3, 5);
+    to_path3_zone = vt_map.CameraZone.Create(48, 64, 78, 80);
 
-    bridge_south_zone = vt_map.CameraZone(33, 39, 39, 41);
-    Map:AddZone(bridge_south_zone);
-    bridge_middle_zone = vt_map.CameraZone(33, 39, 24, 26);
-    Map:AddZone(bridge_middle_zone);
-
+    bridge_south_zone = vt_map.CameraZone.Create(33, 39, 39, 41);
+    bridge_middle_zone = vt_map.CameraZone.Create(33, 39, 24, 26);
 end
 
 -- Check whether the active camera has entered a zone. To be called within Update()
@@ -799,9 +749,9 @@ map_functions = {
 
     stop_party_animation = function(sprite)
         -- Stops the laughing animation in that particular case
-        EventManager:TerminateAllEvents(hero);
-        EventManager:TerminateAllEvents(kalya);
-        EventManager:TerminateAllEvents(orlinn);
+        EventManager:EndAllEvents(hero);
+        EventManager:EndAllEvents(kalya);
+        EventManager:EndAllEvents(orlinn);
     end,
 
     cut_the_bridge_event_end = function()

@@ -3,13 +3,13 @@ setmetatable(ns, {__index = _G})
 battle_with_banesore_script = ns;
 setfenv(1, ns);
 
-local Battle = {};
-local Script = {};
-local DialogueManager = {};
-local start_timer = {};
+local Battle = nil
+local Script = nil
+local DialogueManager = nil
+local start_timer = nil
 
 -- The overall time of active battle.
-local battle_time = {};
+local battle_time = 0
 
 local dialogue1_done = false;
 local dialogue2_done = false;
@@ -17,19 +17,19 @@ local dialogue3_done = false;
 local dialogue4_done = false;
 local battle_exit_done = false;
 
-local fire1 = {};
-local fire1_1 = {};
-local fire1_2 = {};
+local fire1 = nil
+local fire1_1 = nil
+local fire1_2 = nil
 
-local soldier = {};
-local lilly = {};
+local soldier = nil
+local lilly = nil
 local herth_walking = nil; -- starting value
 
 local lilly_charge_time = 0;
 local lilly_reaction_time = 2000;
 
 local herth_x_position = 0.0;
-local bronann = {};
+local bronann = nil
 
 function Initialize(battle_instance)
     Battle = battle_instance;
@@ -47,8 +47,8 @@ function Initialize(battle_instance)
     lilly = Script:CreateAnimation("dat/maps/layna_village/battle_with_banesore/battle_lilly_idle_down.lua");
     lilly:SetDimensions(70.0, 140.0);
 
-    local text = {};
-    local dialogue = {};
+    local text = nil
+    local dialogue = nil
 
     DialogueManager = Battle:GetDialogueSupervisor();
 
@@ -56,23 +56,21 @@ function Initialize(battle_instance)
     DialogueManager:AddSpeaker("Bronann", vt_system.Translate("Bronann"), "img/portraits/bronann.png");
     DialogueManager:AddSpeaker("Banesore", vt_system.Translate("Banesore"), "img/portraits/npcs/lord_banesore.png");
     DialogueManager:AddSpeaker("Herth", vt_system.Translate("Herth"), "img/portraits/npcs/herth.png");
-    DialogueManager:AddSpeaker("Lilly", vt_system.Translate("Lilly"), ""); -- 1003
+    DialogueManager:AddSpeaker("Lilly", vt_system.Translate("Lilly"), "");
 
-    dialogue = vt_common.Dialogue("Battle intro dialogue");
+    dialogue = vt_common.Dialogue.Create(DialogueManager, "Battle intro dialogue");
     text = vt_system.Translate("So... You think you can hurt me?");
     dialogue:AddLine(text, "Banesore");
     text = vt_system.Translate("You? A child with an old wooden stick?");
     dialogue:AddLine(text, "Banesore");
     text = vt_system.Translate("...");
     dialogue:AddLine(text, "Bronann");
-    DialogueManager:AddDialogue(dialogue);
 
-    dialogue = vt_common.Dialogue("'Stronger than I thought' dialogue");
+    dialogue = vt_common.Dialogue.Create(DialogueManager, "'Stronger than I thought' dialogue");
     text = vt_system.Translate("You're stronger than I thought... but still ... You are too weak to challenge me!");
     dialogue:AddLine(text, "Banesore");
-    DialogueManager:AddDialogue(dialogue);
 
-    dialogue = vt_common.Dialogue("Herth appears");
+    dialogue = vt_common.Dialogue.Create(DialogueManager, "Herth appears");
     text = vt_system.Translate("Argh! It hurts!");
     dialogue:AddLine(text, "Bronann");
     text = vt_system.Translate("Yes! I can feel it coming closer to the surface!");
@@ -81,9 +79,8 @@ function Initialize(battle_instance)
     dialogue:AddLine(text, "Banesore");
     text = vt_system.Translate("Bronann, don't listen to him!");
     dialogue:AddLine(text, "Herth");
-    DialogueManager:AddDialogue(dialogue);
 
-    dialogue = vt_common.Dialogue("Battle ending dialogue");
+    dialogue = vt_common.Dialogue.Create(DialogueManager, "Battle ending dialogue");
     text = vt_system.Translate("I will... try.");
     dialogue:AddLine(text, "Bronann");
     text = vt_system.Translate("Hmph. Soldiers, leave that man to me!");
@@ -96,13 +93,11 @@ function Initialize(battle_instance)
     dialogue:AddLine(text, "Herth");
     text = vt_system.Translate("Argh! My chest is burning!!");
     dialogue:AddLine(text, "Bronann");
-    DialogueManager:AddDialogue(dialogue);
 
     -- Lilly helps Bronann
-    dialogue = vt_common.Dialogue("Lilly helps Bronann dialogue");
+    dialogue = vt_common.Dialogue.Create(DialogueManager, "Lilly helps Bronann dialogue");
     text = vt_system.Translate("Hold on Bronann!");
     dialogue:AddLine(text, "Lilly");
-    DialogueManager:AddDialogue(dialogue);
 
     -- Construct a timer so we can start the dialogue a couple seconds after the battle begins
     start_timer = vt_system.SystemTimer(100, 0);
@@ -228,7 +223,7 @@ function Update()
     -- - When Bronann's HP are low and at least a few seconds have passed
     -- - And the dialogue with Herth isn't done.
     if (dialogue3_done == false and lilly_reaction_time <= 0) then
-        DialogueManager:BeginDialogue("Lilly helps Bronann dialogue");
+        DialogueManager:StartDialogue("Lilly helps Bronann dialogue");
         Battle:SetSceneMode(true);
         lilly_charge_time = 10000;
         lilly_reaction_time = 2000;
@@ -236,20 +231,20 @@ function Update()
     end
 
     if (dialogue1_done == false) then
-        DialogueManager:BeginDialogue("Battle intro dialogue");
+        DialogueManager:StartDialogue("Battle intro dialogue");
         Battle:SetSceneMode(true);
         dialogue1_done = true;
     end
 
     if (battle_time >= 30000 and dialogue2_done == false) then
-        DialogueManager:BeginDialogue("'Stronger than I thought' dialogue");
+        DialogueManager:StartDialogue("'Stronger than I thought' dialogue");
         Battle:SetSceneMode(true);
         dialogue2_done = true;
     end
 
     -- Make Herth appear and help Bronann to flee
     if (battle_time >= 60000 and dialogue3_done == false) then
-        DialogueManager:BeginDialogue("Herth appears");
+        DialogueManager:StartDialogue("Herth appears");
         Battle:SetSceneMode(true);
         dialogue3_done = true;
         bronann:ChangeSpriteAnimation("poor");
@@ -258,7 +253,7 @@ function Update()
     -- Once Herth is in place, let's trigger the last dialogue
     if (dialogue3_done == true and herth_x_position >= 175.0) then
         if (dialogue4_done == false) then
-            DialogueManager:BeginDialogue("Battle ending dialogue");
+            DialogueManager:StartDialogue("Battle ending dialogue");
             Battle:SetSceneMode(true);
             dialogue4_done = true;
         end

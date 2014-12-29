@@ -14,24 +14,22 @@ map_subname = "Riverbank"
 music_filename = "mus/Welcome to Com-Mecha-Mattew_Pablo_OGA.ogg"
 
 -- c++ objects instances
-local Map = {};
-local ObjectManager = {};
-local DialogueManager = {};
-local EventManager = {};
-local Script = {};
+local Map = nil
+local DialogueManager = nil
+local EventManager = nil
+local Script = nil
 
-local bronann = {};
+local bronann = nil
 
 -- the main map loading code
 function Load(m)
 
     Map = m;
-    ObjectManager = Map.object_supervisor;
-    DialogueManager = Map.dialogue_supervisor;
-    EventManager = Map.event_supervisor;
     Script = Map:GetScriptSupervisor();
+    DialogueManager = Map:GetDialogueSupervisor();
+    EventManager = Map:GetEventSupervisor();
 
-    Map.unlimited_stamina = true;
+    Map:SetUnlimitedStamina(true);
 
     _CreateCharacters();
     -- Set the camera focus on Bronann
@@ -64,10 +62,9 @@ function Update()
     _CheckZones();
 end
 
-
 -- Character creation
 function _CreateCharacters()
-    bronann = CreateSprite(Map, "Bronann", 97, 4);
+    bronann = CreateSprite(Map, "Bronann", 97, 4, vt_map.MapMode.GROUND_OBJECT);
     bronann:SetDirection(vt_map.MapMode.SOUTH);
     bronann:SetMovementSpeed(vt_map.MapMode.NORMAL_SPEED);
 
@@ -87,167 +84,133 @@ function _CreateCharacters()
         bronann:SetDirection(vt_map.MapMode.SOUTH);
         AudioManager:PlaySound("snd/door_close.wav");
     end
-
-    Map:AddGroundObject(bronann);
 end
 
-local herth = {};
-local orlinn = {};
-local kalya = {};
-local lilly = {};
-local carson = {};
-local malta = {};
-local brymir = {};
-local martha = {};
-local georges = {};
-local olivia = {};
+local herth = nil
+local orlinn = nil
+local kalya = nil
+local lilly = nil
+local carson = nil
+local malta = nil
+local brymir = nil
+local martha = nil
+local georges = nil
+local olivia = nil
 
-local soldier1 = {};
-local soldier2 = {};
-local soldier3 = {};
-local soldier4 = {};
-local soldier5 = {};
-local soldier6 = {};
-local soldier7 = {};
-local soldier8 = {};
-local soldier9 = {};
-local soldier10 = {};
-local soldier11 = {};
-local soldier12 = {};
-local soldier13 = {};
-local soldier14 = {};
-local soldier15 = {};
-local soldier16 = {};
+local soldier1 = nil
+local soldier2 = nil
+local soldier3 = nil
+local soldier4 = nil
+local soldier5 = nil
+local soldier6 = nil
+local soldier7 = nil
+local soldier8 = nil
+local soldier9 = nil
+local soldier10 = nil
+local soldier11 = nil
+local soldier12 = nil
+local soldier13 = nil
+local soldier14 = nil
+local soldier15 = nil
+local soldier16 = nil
 
-local soldier17 = {};
-local soldier18 = {};
-local soldier19 = {};
-local soldier20 = {};
+local soldier17 = nil
+local soldier18 = nil
+local soldier19 = nil
+local soldier20 = nil
 
 -- Soldiers guarding the surroundings
-local soldier21 = {};
-local soldier22 = {};
+local soldier21 = nil
+local soldier22 = nil
 
-local lord = {};
+local lord = nil
 
 function _CreateNPCs()
-    local text = {}
-    local dialogue = {}
-    local event = {}
+    local text = nil
+    local dialogue = nil
+    local event = nil
 
-    herth = CreateSprite(Map, "Herth", 86, 55);
+    herth = CreateSprite(Map, "Herth", 86, 55, vt_map.MapMode.GROUND_OBJECT);
     herth:SetDirection(vt_map.MapMode.EAST);
-    Map:AddGroundObject(herth);
 
-    orlinn = CreateSprite(Map, "Orlinn", 76, 44);
+    orlinn = CreateSprite(Map, "Orlinn", 76, 44, vt_map.MapMode.GROUND_OBJECT);
     orlinn:SetDirection(vt_map.MapMode.EAST);
     orlinn:SetMovementSpeed(vt_map.MapMode.VERY_FAST_SPEED);
-    Map:AddGroundObject(orlinn);
 
-    kalya = CreateSprite(Map, "Kalya", 77, 55);
+    kalya = CreateSprite(Map, "Kalya", 77, 55, vt_map.MapMode.GROUND_OBJECT);
     kalya:SetDirection(vt_map.MapMode.EAST);
-    Map:AddGroundObject(kalya);
 
-    lilly = CreateNPCSprite(Map, "Woman3", vt_system.Translate("Lilly"), 95, 54);
+    lilly = CreateNPCSprite(Map, "Woman3", vt_system.Translate("Lilly"), 95, 54, vt_map.MapMode.GROUND_OBJECT);
     lilly:SetDirection(vt_map.MapMode.EAST);
-    Map:AddGroundObject(lilly);
 
-    carson = CreateSprite(Map, "Carson", 97, 61);
+    carson = CreateSprite(Map, "Carson", 97, 61, vt_map.MapMode.GROUND_OBJECT);
     carson:SetDirection(vt_map.MapMode.NORTH);
-    Map:AddGroundObject(carson);
 
-    malta = CreateSprite(Map, "Malta", 95, 62);
+    malta = CreateSprite(Map, "Malta", 95, 62, vt_map.MapMode.GROUND_OBJECT);
     malta:SetDirection(vt_map.MapMode.NORTH);
-    Map:AddGroundObject(malta);
 
-    brymir = CreateNPCSprite(Map, "Old Woman1", vt_system.Translate("Brymir"), 87, 61.5);
+    brymir = CreateNPCSprite(Map, "Old Woman1", vt_system.Translate("Brymir"), 87, 61.5, vt_map.MapMode.GROUND_OBJECT);
     brymir:SetDirection(vt_map.MapMode.NORTH);
-    Map:AddGroundObject(brymir);
 
-    martha = CreateNPCSprite(Map, "Woman1", vt_system.Translate("Martha"), 89, 61);
+    martha = CreateNPCSprite(Map, "Woman1", vt_system.Translate("Martha"), 89, 61, vt_map.MapMode.GROUND_OBJECT);
     martha:SetDirection(vt_map.MapMode.NORTH);
-    Map:AddGroundObject(martha);
 
-    georges = CreateNPCSprite(Map, "Man1", vt_system.Translate("Georges"), 105, 61.5);
+    georges = CreateNPCSprite(Map, "Man1", vt_system.Translate("Georges"), 105, 61.5, vt_map.MapMode.GROUND_OBJECT);
     georges:SetDirection(vt_map.MapMode.NORTH);
-    Map:AddGroundObject(georges);
 
-    olivia = CreateNPCSprite(Map, "Girl1", vt_system.Translate("Olivia"), 107, 61);
+    olivia = CreateNPCSprite(Map, "Girl1", vt_system.Translate("Olivia"), 107, 61, vt_map.MapMode.GROUND_OBJECT);
     olivia:SetDirection(vt_map.MapMode.NORTH);
-    Map:AddGroundObject(olivia);
 
     -- Create the soldiers
-    soldier1 = CreateNPCSprite(Map, "Dark Soldier", vt_system.Translate("Soldier"), 88, 59);
+    soldier1 = CreateNPCSprite(Map, "Dark Soldier", vt_system.Translate("Soldier"), 88, 59, vt_map.MapMode.GROUND_OBJECT);
     soldier1:SetDirection(vt_map.MapMode.SOUTH);
-    Map:AddGroundObject(soldier1);
-    soldier2 = CreateNPCSprite(Map, "Dark Soldier", vt_system.Translate("Soldier"), 96, 59);
+    soldier2 = CreateNPCSprite(Map, "Dark Soldier", vt_system.Translate("Soldier"), 96, 59, vt_map.MapMode.GROUND_OBJECT);
     soldier2:SetDirection(vt_map.MapMode.SOUTH);
-    Map:AddGroundObject(soldier2);
-    soldier3 = CreateNPCSprite(Map, "Dark Soldier", vt_system.Translate("Soldier"), 106, 59.5);
+    soldier3 = CreateNPCSprite(Map, "Dark Soldier", vt_system.Translate("Soldier"), 106, 59.5, vt_map.MapMode.GROUND_OBJECT);
     soldier3:SetDirection(vt_map.MapMode.SOUTH);
-    Map:AddGroundObject(soldier3);
-    soldier4 = CreateNPCSprite(Map, "Dark Soldier", vt_system.Translate("Soldier"), 88, 55);
+    soldier4 = CreateNPCSprite(Map, "Dark Soldier", vt_system.Translate("Soldier"), 88, 55, vt_map.MapMode.GROUND_OBJECT);
     soldier4:SetDirection(vt_map.MapMode.WEST);
-    Map:AddGroundObject(soldier4);
-    soldier5 = CreateNPCSprite(Map, "Dark Soldier", vt_system.Translate("Soldier"), 99, 59);
+    soldier5 = CreateNPCSprite(Map, "Dark Soldier", vt_system.Translate("Soldier"), 99, 59, vt_map.MapMode.GROUND_OBJECT);
     soldier5:SetDirection(vt_map.MapMode.SOUTH);
-    Map:AddGroundObject(soldier5);
-    soldier6 = CreateNPCSprite(Map, "Dark Soldier", vt_system.Translate("Soldier"), 102.5, 59.2);
+    soldier6 = CreateNPCSprite(Map, "Dark Soldier", vt_system.Translate("Soldier"), 102.5, 59.2, vt_map.MapMode.GROUND_OBJECT);
     soldier6:SetDirection(vt_map.MapMode.SOUTH);
-    Map:AddGroundObject(soldier6);
-    soldier7 = CreateNPCSprite(Map, "Dark Soldier", vt_system.Translate("Soldier"), 93, 59.3);
+    soldier7 = CreateNPCSprite(Map, "Dark Soldier", vt_system.Translate("Soldier"), 93, 59.3, vt_map.MapMode.GROUND_OBJECT);
     soldier7:SetDirection(vt_map.MapMode.SOUTH);
-    Map:AddGroundObject(soldier7);
-    soldier8 = CreateNPCSprite(Map, "Dark Soldier", vt_system.Translate("Soldier"), 90.6, 59.6);
+    soldier8 = CreateNPCSprite(Map, "Dark Soldier", vt_system.Translate("Soldier"), 90.6, 59.6, vt_map.MapMode.GROUND_OBJECT);
     soldier8:SetDirection(vt_map.MapMode.SOUTH);
-    Map:AddGroundObject(soldier8);
-    soldier9 = CreateNPCSprite(Map, "Dark Soldier", vt_system.Translate("Soldier"), 108, 57);
+    soldier9 = CreateNPCSprite(Map, "Dark Soldier", vt_system.Translate("Soldier"), 108, 57, vt_map.MapMode.GROUND_OBJECT);
     soldier9:SetDirection(vt_map.MapMode.WEST);
-    Map:AddGroundObject(soldier9);
-    soldier10 = CreateNPCSprite(Map, "Dark Soldier", vt_system.Translate("Soldier"), 108, 54);
+    soldier10 = CreateNPCSprite(Map, "Dark Soldier", vt_system.Translate("Soldier"), 108, 54, vt_map.MapMode.GROUND_OBJECT);
     soldier10:SetDirection(vt_map.MapMode.WEST);
-    Map:AddGroundObject(soldier10);
-    soldier11 = CreateNPCSprite(Map, "Dark Soldier", vt_system.Translate("Soldier"), 103, 50);
+    soldier11 = CreateNPCSprite(Map, "Dark Soldier", vt_system.Translate("Soldier"), 103, 50, vt_map.MapMode.GROUND_OBJECT);
     soldier11:SetDirection(vt_map.MapMode.SOUTH);
-    Map:AddGroundObject(soldier11);
-    soldier12 = CreateNPCSprite(Map, "Dark Soldier", vt_system.Translate("Soldier"), 90, 50);
+    soldier12 = CreateNPCSprite(Map, "Dark Soldier", vt_system.Translate("Soldier"), 90, 50, vt_map.MapMode.GROUND_OBJECT);
     soldier12:SetDirection(vt_map.MapMode.SOUTH);
-    Map:AddGroundObject(soldier12);
-    soldier13 = CreateNPCSprite(Map, "Dark Soldier", vt_system.Translate("Soldier"), 100, 48);
+    soldier13 = CreateNPCSprite(Map, "Dark Soldier", vt_system.Translate("Soldier"), 100, 48, vt_map.MapMode.GROUND_OBJECT);
     soldier13:SetDirection(vt_map.MapMode.SOUTH);
-    Map:AddGroundObject(soldier13);
-    soldier14 = CreateNPCSprite(Map, "Dark Soldier", vt_system.Translate("Soldier"), 96, 48);
+    soldier14 = CreateNPCSprite(Map, "Dark Soldier", vt_system.Translate("Soldier"), 96, 48, vt_map.MapMode.GROUND_OBJECT);
     soldier14:SetDirection(vt_map.MapMode.SOUTH);
-    Map:AddGroundObject(soldier14);
-    soldier15 = CreateNPCSprite(Map, "Dark Soldier", vt_system.Translate("Soldier"), 84, 53);
+    soldier15 = CreateNPCSprite(Map, "Dark Soldier", vt_system.Translate("Soldier"), 84, 53, vt_map.MapMode.GROUND_OBJECT);
     soldier15:SetDirection(vt_map.MapMode.EAST);
-    Map:AddGroundObject(soldier15);
-    soldier16 = CreateNPCSprite(Map, "Dark Soldier", vt_system.Translate("Soldier"), 84, 57);
+    soldier16 = CreateNPCSprite(Map, "Dark Soldier", vt_system.Translate("Soldier"), 84, 57, vt_map.MapMode.GROUND_OBJECT);
     soldier16:SetDirection(vt_map.MapMode.EAST);
-    Map:AddGroundObject(soldier16);
 
-    lord = CreateNPCSprite(Map, "Lord", vt_system.Translate("Lord Banesore"), 105, 54);
+    lord = CreateNPCSprite(Map, "Lord", vt_system.Translate("Lord Banesore"), 105, 54, vt_map.MapMode.GROUND_OBJECT);
     lord:SetDirection(vt_map.MapMode.WEST);
-    Map:AddGroundObject(lord);
 
     -- soldiers around kalya 77,55
-    soldier17 = CreateNPCSprite(Map, "Dark Soldier", vt_system.Translate("Soldier"), 79, 55);
+    soldier17 = CreateNPCSprite(Map, "Dark Soldier", vt_system.Translate("Soldier"), 79, 55, vt_map.MapMode.GROUND_OBJECT);
     soldier17:SetDirection(vt_map.MapMode.EAST);
-    Map:AddGroundObject(soldier17);
-    soldier18 = CreateNPCSprite(Map, "Dark Soldier", vt_system.Translate("Soldier"), 77, 53);
+    soldier18 = CreateNPCSprite(Map, "Dark Soldier", vt_system.Translate("Soldier"), 77, 53, vt_map.MapMode.GROUND_OBJECT);
     soldier18:SetDirection(vt_map.MapMode.EAST);
-    Map:AddGroundObject(soldier18);
-    soldier19 = CreateNPCSprite(Map, "Dark Soldier", vt_system.Translate("Soldier"), 77, 57);
+    soldier19 = CreateNPCSprite(Map, "Dark Soldier", vt_system.Translate("Soldier"), 77, 57, vt_map.MapMode.GROUND_OBJECT);
     soldier19:SetDirection(vt_map.MapMode.EAST);
-    Map:AddGroundObject(soldier19);
-    soldier20 = CreateNPCSprite(Map, "Dark Soldier", vt_system.Translate("Soldier"), 75, 55);
+    soldier20 = CreateNPCSprite(Map, "Dark Soldier", vt_system.Translate("Soldier"), 75, 55, vt_map.MapMode.GROUND_OBJECT);
     soldier20:SetDirection(vt_map.MapMode.EAST);
-    Map:AddGroundObject(soldier20);
 
     -- soldiers guarding the surroundings
-    soldier21 = CreateNPCSprite(Map, "Dark Soldier", vt_system.Translate("Soldier"), 95, 21);
+    soldier21 = CreateNPCSprite(Map, "Dark Soldier", vt_system.Translate("Soldier"), 95, 21, vt_map.MapMode.GROUND_OBJECT);
     soldier21:SetDirection(vt_map.MapMode.NORTH);
-    Map:AddGroundObject(soldier21);
     event = vt_map.ChangeDirectionSpriteEvent("Soldier21 looks north", soldier21, vt_map.MapMode.NORTH);
     event:AddEventLinkAtEnd("Soldier21 goes east", 3000);
     EventManager:RegisterEvent(event);
@@ -259,9 +222,8 @@ function _CreateNPCs()
     EventManager:RegisterEvent(event);
     EventManager:StartEvent("Soldier21 goes east");
 
-    soldier22 = CreateNPCSprite(Map, "Dark Soldier", vt_system.Translate("Soldier"), 83, 28);
+    soldier22 = CreateNPCSprite(Map, "Dark Soldier", vt_system.Translate("Soldier"), 83, 28, vt_map.MapMode.GROUND_OBJECT);
     soldier22:SetDirection(vt_map.MapMode.WEST);
-    Map:AddGroundObject(soldier22);
     event = vt_map.ChangeDirectionSpriteEvent("Soldier22 looks north", soldier22, vt_map.MapMode.NORTH);
     event:AddEventLinkAtEnd("Soldier22 goes south", 3000);
     EventManager:RegisterEvent(event);
@@ -278,38 +240,25 @@ function _CreateNPCs()
     event:AddEventLinkAtEnd("Soldier22 looks north", 3000);
     EventManager:RegisterEvent(event);
     EventManager:StartEvent("Soldier22 goes south");
-
 end
 
 function _CreateObjects()
-    local object = {}
+    local object = nil
 
-    object = CreateObject(Map, "Tree Big2", 70, 6);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
+    CreateObject(Map, "Tree Big2", 70, 6, vt_map.MapMode.GROUND_OBJECT);
 
     -- Add hill treasure chest
-    local hill_chest = CreateTreasure(Map, "riverbank_secret_hill_chest", "Wood_Chest1", 72, 5);
-    if (hill_chest ~= nil) then
-        hill_chest:AddObject(1, 1);
-        Map:AddGroundObject(hill_chest);
-    end
+    local hill_chest = CreateTreasure(Map, "riverbank_secret_hill_chest", "Wood_Chest1", 72, 5, vt_map.MapMode.GROUND_OBJECT);
+    hill_chest:AddItem(1, 1);
 
     -- trees around the house
-    object = CreateObject(Map, "Tree Big2", 92, 10);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
-    object = CreateObject(Map, "Tree Small1", 82, 17);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
-    object = CreateObject(Map, "Tree Big1", 75, 20);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
-    object = CreateObject(Map, "Tree Big2", 72, 35);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
-    object = CreateObject(Map, "Tree Big1", 74, 48);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
-    object = CreateObject(Map, "Tree Big2", 76, 50);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
-
-    object = CreateObject(Map, "Barrel1", 56.3, 56.5);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
+    CreateObject(Map, "Tree Big2", 92, 10, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Tree Small1", 82, 17, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Tree Big1", 75, 20, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Tree Big2", 72, 35, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Tree Big1", 74, 48, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Tree Big2", 76, 50, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Barrel1", 56.3, 56.5, vt_map.MapMode.GROUND_OBJECT);
 
     -- grass array, used to hide defects
     local map_grass = {
@@ -327,9 +276,8 @@ function _CreateObjects()
     -- Loads the trees according to the array
     for my_index, my_array in pairs(map_grass) do
         --print(my_array[1], my_array[2], my_array[3]);
-        object = CreateObject(Map, my_array[1], my_array[2], my_array[3]);
+        object = CreateObject(Map, my_array[1], my_array[2], my_array[3], vt_map.MapMode.GROUND_OBJECT);
         object:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
-        Map:AddGroundObject(object);
     end
 
     -- Add burning flames halos and objects
@@ -340,57 +288,37 @@ function _CreateObjects()
     _CreateFire(109, 52);
 
     -- Ambient sounds
-    object = vt_map.SoundObject("snd/gentle_stream.ogg", 61.0, 27.0, 20.0);
-    Map:AddAmbientSoundObject(object);
-
-    object = vt_map.SoundObject("snd/gentle_stream.ogg", 61.0, 47.0, 20.0);
-    Map:AddAmbientSoundObject(object);
-
-    object = vt_map.SoundObject("snd/gentle_stream.ogg", 61.0, 67.0, 20.0);
-    Map:AddAmbientSoundObject(object);
-
-    object = vt_map.SoundObject("snd/gentle_stream.ogg", 81.0, 67.0, 20.0);
-    Map:AddAmbientSoundObject(object);
-
-    object = vt_map.SoundObject("snd/gentle_stream.ogg", 101.0, 67.0, 20.0);
-    Map:AddAmbientSoundObject(object);
+    vt_map.SoundObject.Create("snd/gentle_stream.ogg", 61.0, 27.0, 20.0);
+    vt_map.SoundObject.Create("snd/gentle_stream.ogg", 61.0, 47.0, 20.0);
+    vt_map.SoundObject.Create("snd/gentle_stream.ogg", 61.0, 67.0, 20.0);
+    vt_map.SoundObject.Create("snd/gentle_stream.ogg", 81.0, 67.0, 20.0);
+    vt_map.SoundObject.Create("snd/gentle_stream.ogg", 101.0, 67.0, 20.0);
 
     -- Fireflies on water
-    object = vt_map.ParticleObject("dat/effects/particles/fireflies.lua", 53, 29);
-    object:SetObjectID(Map.object_supervisor:GenerateObjectID());
-    Map:AddGroundObject(object);
-
-    object = vt_map.ParticleObject("dat/effects/particles/fireflies.lua", 52, 38);
-    object:SetObjectID(Map.object_supervisor:GenerateObjectID());
-    Map:AddGroundObject(object);
-    object = vt_map.ParticleObject("dat/effects/particles/fireflies.lua", 54, 40);
-    object:SetObjectID(Map.object_supervisor:GenerateObjectID());
-    Map:AddGroundObject(object);
-    object = vt_map.ParticleObject("dat/effects/particles/fireflies.lua", 99, 73);
-    object:SetObjectID(Map.object_supervisor:GenerateObjectID());
-    Map:AddGroundObject(object);
+    vt_map.ParticleObject.Create("dat/effects/particles/fireflies.lua", 53, 29, vt_map.MapMode.GROUND_OBJECT);
+    vt_map.ParticleObject.Create("dat/effects/particles/fireflies.lua", 52, 38, vt_map.MapMode.GROUND_OBJECT);
+    vt_map.ParticleObject.Create("dat/effects/particles/fireflies.lua", 54, 40, vt_map.MapMode.GROUND_OBJECT);
+    vt_map.ParticleObject.Create("dat/effects/particles/fireflies.lua", 99, 73, vt_map.MapMode.GROUND_OBJECT);
 end
 
 -- creates the necessary objects to display some fire
 function _CreateFire(fire_x, fire_y)
     -- Add burning flames halos and objects
-    local object = CreateObject(Map, "Campfire1", fire_x, fire_y);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
+    CreateObject(Map, "Campfire1", fire_x, fire_y, vt_map.MapMode.GROUND_OBJECT);
 
-    object = vt_map.SoundObject("snd/campfire.ogg", fire_x, fire_y, 7.0);
-    if (object ~= nil) then Map:AddAmbientSoundObject(object) end;
+    vt_map.SoundObject.Create("snd/campfire.ogg", fire_x, fire_y, 7.0);
 
-    Map:AddHalo("img/misc/lights/torch_light_mask2.lua", fire_x, fire_y + 3.0,
+    vt_map.Halo.Create("img/misc/lights/torch_light_mask2.lua", fire_x, fire_y + 3.0,
         vt_video.Color(0.85, 0.32, 0.0, 0.6));
-    Map:AddHalo("img/misc/lights/sun_flare_light_main.lua", fire_x, fire_y + 1.0,
+    vt_map.Halo.Create("img/misc/lights/sun_flare_light_main.lua", fire_x, fire_y + 1.0,
         vt_video.Color(0.99, 1.0, 0.27, 0.2));
 end
 
 -- Creates all events and sets up the entire event sequence chain
 function _CreateEvents()
-    local event = {};
-    local dialogue = {};
-    local text = {};
+    local event = nil
+    local dialogue = nil
+    local text = nil
 
     -- Map change Events
     event = vt_map.MapTransitionEvent("to Village center", "dat/maps/layna_village/layna_village_center_map.lua",
@@ -423,12 +351,10 @@ function _CreateEvents()
     event = vt_map.ChangeDirectionSpriteEvent("Banesore looks west", lord, vt_map.MapMode.WEST);
     EventManager:RegisterEvent(event);
 
-
     -- Bronann can't go back event
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("I can't go back now...");
     dialogue:AddLine(text, bronann);
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Bronann can't go back", dialogue);
     EventManager:RegisterEvent(event);
 
@@ -442,12 +368,11 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("Bronann thinks he needs to get closer");
     EventManager:RegisterEvent(event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Guards are carefully watching their surroundings... I need to get closer to see what's happening.");
     dialogue:AddLine(text, bronann);
     text = vt_system.Translate("I should be able to sneak through when they're not watching...");
     dialogue:AddLine(text, bronann);
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Bronann thinks he needs to get closer", dialogue);
     event:AddEventLinkAtEnd("End of bronann arrival at the riverbank");
     EventManager:RegisterEvent(event);
@@ -468,10 +393,9 @@ function _CreateEvents()
     event = vt_map.LookAtSpriteEvent("The soldier22 looks at Bronann", soldier22, bronann);
     EventManager:RegisterEvent(event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Who's there?");
     dialogue:AddLine(text, soldier21);
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("The soldier yells at Bronann", dialogue);
     event:AddEventLinkAtEnd("Restart map");
     EventManager:RegisterEvent(event);
@@ -497,7 +421,7 @@ function _CreateEvents()
     event = vt_map.PathMoveSpriteEvent("Orlinn hides again", orlinn, 76.0, 43.8, false);
     EventManager:RegisterEvent(event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("(Whispering) Kalya!");
     dialogue:AddLineEmote(text, bronann, "exclamation");
     text = vt_system.Translate("(What's happening here?)");
@@ -512,7 +436,6 @@ function _CreateEvents()
     dialogue:AddLine(text, orlinn);
     text = vt_system.Translate("(Let's have a look..)");
     dialogue:AddLine(text, bronann);
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Bronann and Orlinn are discussing", dialogue);
     event:AddEventLinkAtEnd("Bronann looks east");
     event:AddEventLinkAtEnd("Orlinn hides again");
@@ -523,7 +446,7 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("Dialogue with the Lord");
     EventManager:RegisterEvent(event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("I already told you, again and again, Banesore, I don't know anything about such a crystal.");
     dialogue:AddLine(text, lilly);
     text = vt_system.Translate("It is 'Lord Banesore', you scum!");
@@ -556,7 +479,6 @@ function _CreateEvents()
     dialogue:AddLineEmote(text, malta, "exclamation");
     text = vt_system.Translate("Oh, I see now... So this is her mother... Bring her here, and kill her!");
     dialogue:AddLineEvent(text, lord, "Banesore looks south", "");
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Dialogue with the Lord", dialogue);
     event:AddEventLinkAtEnd("All villagers are surprised");
     EventManager:RegisterEvent(event);
@@ -582,7 +504,7 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("Dialogue with the Lord 2");
     EventManager:RegisterEvent(event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Let her out of this! You can have me instead.");
     dialogue:AddLine(text, carson);
     text = vt_system.Translate("So, here we have a gentleman! I'll start with you, then...");
@@ -597,7 +519,6 @@ function _CreateEvents()
     dialogue:AddLine(text, malta);
     text = vt_system.Translate("No!");
     dialogue:AddLine(text, bronann);
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Dialogue with the Lord 2", dialogue);
     event:AddEventLinkAtEnd("Set Camera on Bronann");
     event:AddEventLinkAtEnd("Banesore looks west");
@@ -649,7 +570,7 @@ function _CreateEvents()
     event = vt_map.ChangeDirectionSpriteEvent("Lilly looks west", lilly, vt_map.MapMode.WEST);
     EventManager:RegisterEvent(event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("At last... The boy.");
     dialogue:AddLineEventEmote(text, lord, "", "A soldier goes closer to stop Bronann", "exclamation");
     text = vt_system.Translate("No! Let him come closer...");
@@ -668,7 +589,6 @@ function _CreateEvents()
     dialogue:AddLineEvent(text, bronann, "Lilly looks west", "");
     text = vt_system.Translate("Bronann...");
     dialogue:AddLineEvent(text, lilly, "", "Lilly let Bronann advance");
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Dialogue with the Lord 3", dialogue);
     event:AddEventLinkAtEnd("Bronann goes closer from Banesore", 1000);
     EventManager:RegisterEvent(event);
@@ -677,7 +597,7 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("Dialogue with the Lord 4");
     EventManager:RegisterEvent(event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("You... After all these years...");
     dialogue:AddLine(text, lord);
     text = vt_system.Translate("... Let everyone out of this. We don't have your 'crystal'...");
@@ -694,7 +614,6 @@ function _CreateEvents()
     dialogue:AddLine(text, lord);
     text = vt_system.Translate("Prepare yourself!");
     dialogue:AddLine(text, lord);
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Dialogue with the Lord 4", dialogue);
     event:AddEventLinkAtEnd("Battle with Banesore");
     EventManager:RegisterEvent(event);
@@ -741,12 +660,11 @@ function _CreateEvents()
     event = vt_map.LookAtSpriteEvent("Herth looks at Banesore", herth, lord);
     EventManager:RegisterEvent(event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Ah, there it is... Finally!");
     dialogue:AddLine(text, lord);
     text = vt_system.Translate("Kalya! Now!!");
     dialogue:AddLineEvent(text, herth, "Herth looks at Kalya", "Herth looks at Banesore");
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Dialogue after crystals appearance", dialogue);
     event:AddEventLinkAtEnd("Kalya uses smoke to flee with Bronann");
     EventManager:RegisterEvent(event);
@@ -787,7 +705,7 @@ function _CreateEvents()
     event = vt_map.ScriptedEvent("Soldiers wonders where Kalya is", "interrogation_soldiers_guarding_kalya", "");
     EventManager:RegisterEvent(event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("You won't get him, Banesore! It seems we were smarter than you, this time...");
     dialogue:AddLine(text, herth);
     text = vt_system.Translate("Ah ah ah... But this is exactly what I wanted.");
@@ -808,7 +726,6 @@ function _CreateEvents()
     dialogue:AddLineEvent(text, lord, "Banesore looks west", "");
     text = vt_system.Translate("It doesn't matter as you're all going to die now...");
     dialogue:AddLine(text, lord);
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Dialogue between Herth and Banesore", dialogue);
     event:AddEventLinkAtEnd("To Kalya house path scene");
     EventManager:RegisterEvent(event);
@@ -819,49 +736,35 @@ function _CreateEvents()
 end
 
 -- zones
-local village_center_zone = {};
-local to_village_entrance_zone = {};
-local to_riverbank_house_entrance_zone = {};
+local village_center_zone = nil
+local to_village_entrance_zone = nil
+local to_riverbank_house_entrance_zone = nil
 
-local soldier21_watching_zone = {};
-local soldier21_watching_right_zone = {};
-local soldier22_watching_zone = {};
-local soldier22_watching_north_zone = {};
-local soldier22_watching_west_zone = {};
+local soldier21_watching_zone = nil
+local soldier21_watching_right_zone = nil
+local soldier22_watching_zone = nil
+local soldier22_watching_north_zone = nil
+local soldier22_watching_west_zone = nil
 
-local battle_dialogue_start_zone = {};
+local battle_dialogue_start_zone = nil
 
 function _CreateZones()
     -- N.B.: left, right, top, bottom
-    village_center_zone = vt_map.CameraZone(89, 105, 0, 2);
-    Map:AddZone(village_center_zone);
+    village_center_zone = vt_map.CameraZone.Create(89, 105, 0, 2);
+    to_village_entrance_zone = vt_map.CameraZone.Create(118, 119, 10, 27);
+    to_riverbank_house_entrance_zone = vt_map.CameraZone.Create(96, 100, 46, 47);
 
-    to_village_entrance_zone = vt_map.CameraZone(118, 119, 10, 27);
-    Map:AddZone(to_village_entrance_zone);
-
-    to_riverbank_house_entrance_zone = vt_map.CameraZone(96, 100, 46, 47);
-    Map:AddZone(to_riverbank_house_entrance_zone);
-
-    soldier21_watching_zone = vt_map.CameraZone(84, 88, 12, 22);
+    soldier21_watching_zone = vt_map.CameraZone.Create(84, 88, 12, 22);
     soldier21_watching_zone:AddSection(88, 94, 9, 22);
     soldier21_watching_zone:AddSection(95, 105, 3, 14);
-    Map:AddZone(soldier21_watching_zone);
 
-    soldier21_watching_right_zone = vt_map.CameraZone(94, 105, 14, 22);
+    soldier21_watching_right_zone = vt_map.CameraZone.Create(94, 105, 14, 22);
     soldier21_watching_right_zone:AddSection(105, 120, 9, 24);
-    Map:AddZone(soldier21_watching_right_zone);
 
-    soldier22_watching_zone = vt_map.CameraZone(74, 85, 17, 38);
-    Map:AddZone(soldier22_watching_zone);
-
-    soldier22_watching_north_zone = vt_map.CameraZone(78, 80, 12, 17);
-    Map:AddZone(soldier22_watching_north_zone);
-
-    soldier22_watching_west_zone = vt_map.CameraZone(64, 74, 20, 32);
-    Map:AddZone(soldier22_watching_west_zone);
-
-    battle_dialogue_start_zone = vt_map.CameraZone(64, 86, 39, 40);
-    Map:AddZone(battle_dialogue_start_zone);
+    soldier22_watching_zone = vt_map.CameraZone.Create(74, 85, 17, 38);
+    soldier22_watching_north_zone = vt_map.CameraZone.Create(78, 80, 12, 17);
+    soldier22_watching_west_zone = vt_map.CameraZone.Create(64, 74, 20, 32);
+    battle_dialogue_start_zone = vt_map.CameraZone.Create(64, 86, 39, 40);
 end
 
 function _CheckZones()
@@ -892,7 +795,6 @@ function _CheckZones()
     elseif (battle_dialogue_start_zone:IsCameraEntering() == true) then
         EventManager:StartEvent("Lord battle dialogue start");
     end
-
 end
 
 -- Map Custom functions
@@ -932,8 +834,8 @@ map_functions = {
     bronann_is_catched_start = function()
         Map:PushState(vt_map.MapMode.STATE_SCENE);
         bronann:SetMoving(false);
-        EventManager:TerminateAllEvents(soldier21);
-        EventManager:TerminateAllEvents(soldier22);
+        EventManager:EndAllEvents(soldier21);
+        EventManager:EndAllEvents(soldier22);
         soldier21:Emote("exclamation", soldier21:GetDirection());
         soldier22:Emote("exclamation", soldier22:GetDirection());
         -- Undo the last event, as the map is restarting

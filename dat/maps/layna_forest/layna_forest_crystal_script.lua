@@ -14,16 +14,15 @@ map_subname = "???"
 music_filename = "snd/wind.ogg"
 
 -- c++ objects instances
-local Map = {};
-local ObjectManager = {};
-local DialogueManager = {};
-local EventManager = {};
+local Map = nil
+local DialogueManager = nil
+local EventManager = nil
 
 -- the main character handler
-local hero = {};
+local hero = nil
 
 -- Dialogue secondary hero
-local kalya_sprite =  {};
+local kalya_sprite =  nil
 
 -- Name of the main sprite. Used to reload the good one at the end of the event.
 local main_sprite_name = "";
@@ -32,11 +31,9 @@ local main_sprite_name = "";
 function Load(m)
 
     Map = m;
-    ObjectManager = Map.object_supervisor;
-    DialogueManager = Map.dialogue_supervisor;
-    EventManager = Map.event_supervisor;
-
-    Map.unlimited_stamina = true; -- no other enemies than the boss here.
+    DialogueManager = Map:GetDialogueSupervisor();
+    EventManager = Map:GetEventSupervisor();
+    Map:SetUnlimitedStamina(true); -- no other enemies than the boss here.
 
     _CreateCharacters();
     _CreateObjects();
@@ -44,7 +41,7 @@ function Load(m)
     -- Set the camera focus on hero
     Map:SetCamera(hero);
     -- This is a dungeon map, we'll use the front battle member sprite as default sprite.
-    Map.object_supervisor:SetPartyMemberVisibleSprite(hero);
+    Map:SetPartyMemberVisibleSprite(hero);
 
     _CreateEvents();
     _CreateZones();
@@ -87,7 +84,7 @@ end
 -- Character creation
 function _CreateCharacters()
     -- Default hero and position
-    hero = CreateSprite(Map, "Bronann", 30, 22);
+    hero = CreateSprite(Map, "Bronann", 30, 22, vt_map.MapMode.GROUND_OBJECT);
     hero:SetDirection(vt_map.MapMode.NORTH);
     hero:SetMovementSpeed(vt_map.MapMode.NORMAL_SPEED);
 
@@ -102,66 +99,57 @@ function _CreateCharacters()
         hero:SetPosition(x_position, y_position);
     end
 
-    Map:AddGroundObject(hero);
-
     -- Create secondary character - Kalya
     kalya_sprite = CreateSprite(Map, "Kalya",
-                            hero:GetXPosition(), hero:GetYPosition());
+                            hero:GetXPosition(), hero:GetYPosition(), vt_map.MapMode.GROUND_OBJECT);
 
     kalya_sprite:SetDirection(vt_map.MapMode.NORTH);
     kalya_sprite:SetMovementSpeed(vt_map.MapMode.NORMAL_SPEED);
     kalya_sprite:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
     kalya_sprite:SetVisible(false);
-    Map:AddGroundObject(kalya_sprite);
 end
 
 -- The boss map sprite
-local wolf = {};
+local wolf = nil
 
-local orlinn = {};
+local orlinn = nil
 
-local crystal = {};
-local crystal_effect = {};
+local crystal = nil
+local crystal_effect = nil
 
 -- The heal particle effect map object
-local heal_effect = {};
+local heal_effect = nil
 
 function _CreateObjects()
-    local object = {}
-    local npc = {}
+    local object = nil
+    local npc = nil
 
     -- save point
-    Map:AddSavePoint(58, 87);
+    vt_map.SavePoint.Create(58, 87);
 
-    local chest1 = CreateTreasure(Map, "layna_forest_crystal_chest", "Wood_Chest1", 16, 38);
-    if (chest1 ~= nil) then
-        chest1:AddObject(15, 1); -- Lotus Petal
-        Map:AddGroundObject(chest1);
-    end
+    local chest1 = CreateTreasure(Map, "layna_forest_crystal_chest", "Wood_Chest1", 16, 38, vt_map.MapMode.GROUND_OBJECT);
+    chest1:AddItem(15, 1); -- Lotus Petal
 
     -- Load the spring heal effect.
-    heal_effect = vt_map.ParticleObject("dat/effects/particles/heal_particle.lua", 0, 0);
-	heal_effect:SetObjectID(Map.object_supervisor:GenerateObjectID());
+    heal_effect = vt_map.ParticleObject.Create("dat/effects/particles/heal_particle.lua", 0, 0, vt_map.MapMode.GROUND_OBJECT);
     heal_effect:Stop(); -- Don't run it until the character heals itself
-    Map:AddGroundObject(heal_effect);
 
     -- Heal point
-    npc = CreateSprite(Map, "Butterfly", 69, 86);
+    npc = CreateSprite(Map, "Butterfly", 69, 86, vt_map.MapMode.GROUND_OBJECT);
     npc:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
     npc:SetVisible(false);
     npc:SetName(""); -- Unset the speaker name
-    Map:AddGroundObject(npc);
-    dialogue = vt_map.SpriteDialogue();
+
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Your party feels better...");
     dialogue:AddLineEvent(text, npc, "heal point", "");
-    DialogueManager:AddDialogue(dialogue);
     npc:AddDialogueReference(dialogue);
 
     -- The boss map sprite, placed for final battle
-    wolf = CreateSprite(Map, "Fenrir", 42, 63);
+    wolf = CreateSprite(Map, "Fenrir", 42, 63, vt_map.MapMode.GROUND_OBJECT);
     wolf:SetMovementSpeed(vt_map.MapMode.VERY_FAST_SPEED);
     wolf:SetDirection(vt_map.MapMode.SOUTH);
-    Map:AddGroundObject(wolf);
+
     if (GlobalManager:GetEventValue("story", "layna_forest_crystal_event_done") == 1) then
         wolf:SetPosition(0, 0);
         wolf:SetVisible(false);
@@ -169,31 +157,29 @@ function _CreateObjects()
     end
 
     -- Orlinn, waiting...
-    orlinn = CreateSprite(Map, "Orlinn", 42, 58);
+    orlinn = CreateSprite(Map, "Orlinn", 42, 58, vt_map.MapMode.GROUND_OBJECT);
     orlinn:SetDirection(vt_map.MapMode.NORTH);
     orlinn:SetMovementSpeed(vt_map.MapMode.NORMAL_SPEED);
-    Map:AddGroundObject(orlinn);
+
     if (GlobalManager:GetEventValue("story", "layna_forest_crystal_event_done") == 1) then
         orlinn:SetPosition(0, 0);
         orlinn:SetVisible(false);
         orlinn:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
     end
 
-    crystal = CreateSprite(Map, "Crystal", 41, 45);
+    crystal = CreateSprite(Map, "Crystal", 41, 45, vt_map.MapMode.GROUND_OBJECT);
     crystal:SetDirection(vt_map.MapMode.SOUTH);
     crystal:SetMovementSpeed(vt_map.MapMode.NORMAL_SPEED);
     crystal:SetVisible(false);
-    Map:AddGroundObject(crystal);
+
     if (GlobalManager:GetEventValue("story", "layna_forest_crystal_event_done") == 1) then
         crystal:SetPosition(0, 0);
         crystal:SetVisible(false);
         crystal:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
     end
 
-    crystal_effect = vt_map.ParticleObject("dat/effects/particles/inactive_save_point.lua", 41, 46);
-	crystal_effect:SetObjectID(Map.object_supervisor:GenerateObjectID());
+    crystal_effect = vt_map.ParticleObject.Create("dat/effects/particles/inactive_save_point.lua", 41, 46, vt_map.MapMode.GROUND_OBJECT);
     crystal_effect:Stop(); -- Don't run it until the character heals itself
-    Map:AddGroundObject(crystal_effect);
 
     -- trees, etc
     local map_trees = {
@@ -238,7 +224,6 @@ function _CreateObjects()
         { "Tree Small4", 92, 16 },
         { "Tree Small3", 95, 19 },
         { "Tree Small6", 82, 10 },
-
 
         -- North part
         { "Tree Big1", 0, 20 },
@@ -301,7 +286,6 @@ function _CreateObjects()
         { "Tree Small3", 68, 100 },
         { "Tree Small6", 75, 101 },
         { "Tree Tiny1", 47, 93 },
-
 
         --east part
         { "Tree Big2", 87, 31 },
@@ -375,14 +359,12 @@ function _CreateObjects()
         { "Tree Small4", 115, 90 },
         { "Tree Small6", 113, 93 },
         { "Tree Small3", 114, 100 },
-
     }
 
     -- Loads the trees according to the array
     for my_index, my_array in pairs(map_trees) do
         --print(my_array[1], my_array[2], my_array[3]);
-        object = CreateObject(Map, my_array[1], my_array[2], my_array[3]);
-        Map:AddGroundObject(object);
+        CreateObject(Map, my_array[1], my_array[2], my_array[3], vt_map.MapMode.GROUND_OBJECT);
     end
 
     -- grass array
@@ -407,23 +389,21 @@ function _CreateObjects()
     -- Loads the grass according to the array
     for my_index, my_array in pairs(map_grass) do
         --print(my_array[1], my_array[2], my_array[3]);
-        object = CreateObject(Map, my_array[1], my_array[2], my_array[3]);
+        object = CreateObject(Map, my_array[1], my_array[2], my_array[3], vt_map.MapMode.GROUND_OBJECT);
         object:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
-        Map:AddGroundObject(object);
     end
-
 end
 
 -- Special event references which destinations must be updated just before being called.
-local move_next_to_hero_event = {}
-local move_back_to_hero_event = {}
-local orlinn_move_to_hero_event = {}
+local move_next_to_hero_event = nil
+local move_back_to_hero_event = nil
+local orlinn_move_to_hero_event = nil
 
 -- Creates all events and sets up the entire event sequence chain
 function _CreateEvents()
-    local event = {};
-    local dialogue = {};
-    local text = {};
+    local event = nil
+    local dialogue = nil
+    local text = nil
 
     -- Triggered events
     event = vt_map.MapTransitionEvent("to forest cave 2", "dat/maps/layna_forest/layna_forest_cave2_map.lua",
@@ -495,14 +475,13 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
 
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Orlinn!!");
     dialogue:AddLineEmote(text, kalya_sprite, "exclamation");
     text = vt_system.Translate("I can feel it, sis'. It's coming!");
     dialogue:AddLineEvent(text, orlinn, "", "Orlinn comes closer of the crystal spawn point");
     text = vt_system.Translate("Orlinn, stop!");
     dialogue:AddLineEmote(text, kalya_sprite, "exclamation");
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("first dialogue part", dialogue);
     event:AddEventLinkAtEnd("Kalya runs to Orlinn");
     event:AddEventLinkAtEnd("Bronann runs to Orlinn");
@@ -520,10 +499,9 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("second dialogue part");
     EventManager:RegisterEvent(event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("What's happening!?!");
     dialogue:AddLineEmote(text, kalya_sprite, "exclamation");
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("second dialogue part", dialogue);
     event:AddEventLinkAtEnd("Kalya looks east 1", 500);
     event:AddEventLinkAtEnd("kalya:SetCollision(NONE)");
@@ -559,14 +537,13 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("third dialogue part", 1000);
     EventManager:RegisterEvent(event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Gosh!! By all heavens, is this...?");
     dialogue:AddLineEmote(text, kalya_sprite, "sweat drop");
     text = vt_system.Translate("A crystal stone?!?");
     dialogue:AddLineEmote(text, hero, "exclamation");
     text = vt_system.Translate("This is her. I heard her voice calling...");
     dialogue:AddLine(text, orlinn);
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("third dialogue part", dialogue);
     event:AddEventLinkAtEnd("crystal dialogue part");
     EventManager:RegisterEvent(event);
@@ -584,7 +561,7 @@ function _CreateEvents()
     event = vt_map.SoundEvent("crystal voice sound 6", "dat/maps/layna_forest/crystal_appearance/crystal-sentence6.ogg")
     EventManager:RegisterEvent(event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     dialogue:SetInputBlocked(true);
     text = vt_system.Translate("Dear chosen one, the time has finally come.");
     dialogue:AddLineTimedEvent(text, crystal, 5000, "crystal voice sound 1", "");
@@ -598,19 +575,17 @@ function _CreateEvents()
     dialogue:AddLineTimedEvent(text, crystal, 5000, "crystal voice sound 5", "");
     text = vt_system.Translate("Now, come. Become one with our holy hope.");
     dialogue:AddLineTimedEvent(text, crystal, 5000, "crystal voice sound 6", "");
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("crystal dialogue part", dialogue);
     event:AddEventLinkAtEnd("fourth dialogue part");
     EventManager:RegisterEvent(event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("What does all of this mean?");
     dialogue:AddLineEmote(text, kalya_sprite, "thinking dots");
     text = vt_system.Translate("I shall become one with our only hope...");
     dialogue:AddLine(text, orlinn);
     text = vt_system.Translate("What! Orlinn, No!");
     dialogue:AddLineEmote(text, hero, "exclamation");
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("fourth dialogue part", dialogue);
     event:AddEventLinkAtEnd("Orlinn comes even closer of the crystal");
     event:AddEventLinkAtEnd("Bronann runs in front of Orlinn", 300);
@@ -623,10 +598,9 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("fifth dialogue part");
     EventManager:RegisterEvent(event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Bronann, the crystal! No!");
     dialogue:AddLineEmote(text, kalya_sprite, "exclamation");
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("fifth dialogue part", dialogue);
     event:AddEventLinkAtEnd("kalya:SetCollision(NONE)");
     event:AddEventLinkAtEnd("Bronann is hurt");
@@ -647,10 +621,9 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("sixth dialogue part");
     EventManager:RegisterEvent(event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Bronann!");
     dialogue:AddLineEmote(text, kalya_sprite, "exclamation");
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("sixth dialogue part", dialogue);
     event:AddEventLinkAtEnd("Kalya runs to Bronann");
     EventManager:RegisterEvent(event);
@@ -686,7 +659,7 @@ function _CreateEvents()
     event = vt_map.ScriptedEvent("Play funny music", "play_funny_music", "");
     EventManager:RegisterEvent(event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Bronann! Are you all right? Answer me!!");
     dialogue:AddLineEventEmote(text, kalya_sprite, "", "Orlinn looks west", "exclamation");
     text = vt_system.Translate("Bronann!");
@@ -715,7 +688,6 @@ function _CreateEvents()
     dialogue:AddLineEmote(text, orlinn, "sweat drop");
     text = vt_system.Translate("... Oh? You didn't??");
     dialogue:AddLineEventEmote(text, kalya_sprite, "Play funny music", "", "exclamation");
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("seventh dialogue part", dialogue);
     event:AddEventLinkAtEnd("Kalya runs after Orlinn");
     event:AddEventLinkAtEnd("Orlinn runs to point 3");
@@ -749,7 +721,7 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("Kalya looks at Bronann");
     EventManager:RegisterEvent(event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("When I catch you, I'll make you wish you weren't born!! Rahh!");
     dialogue:AddLine(text, kalya_sprite);
     text = vt_system.Translate("Yiek!!");
@@ -768,7 +740,6 @@ function _CreateEvents()
     dialogue:AddLine(text, hero);
     text = vt_system.Translate("I'm relieved that Orlinn is fine as well... Speaking of that: Orlinn! Stop running and come here right now!");
     dialogue:AddLine(text, kalya_sprite);
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Bronann sighs and think", dialogue);
     event:AddEventLinkAtEnd("Orlinn stops running");
     event:AddEventLinkAtEnd("Last dialogue");
@@ -784,7 +755,7 @@ function _CreateEvents()
     event = vt_map.ScriptedEvent("Play wind music", "play_wind_music", "");
     EventManager:RegisterEvent(event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Owww... Alright.");
     dialogue:AddLineEventEmote(text, orlinn, "Fade out music", "Orlinn comes back next to Bronann", "sweat drop");
     text = vt_system.Translate("Now, Orlinn. Tell us: Why on earth did you go into the forest alone, and how did you get there so quickly?");
@@ -807,7 +778,6 @@ function _CreateEvents()
     dialogue:AddLineEmote(text, hero, "sweat drop");
     text = vt_system.Translate("Let's not panic, Bronann, you look fine... Anyway, we'd better get back to the village and see the Elders as soon as possible.");
     dialogue:AddLineEventEmote(text, kalya_sprite, "", "Play wind music", "thinking dots");
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Last dialogue", dialogue);
     event:AddEventLinkAtEnd("kalya goes back to party");
     event:AddEventLinkAtEnd("orlinn goes back to party");
@@ -827,17 +797,14 @@ function _CreateEvents()
 end
 
 -- zones
-local to_forest_cave2_zone = {};
-local wolf_battle_zone = {};
+local to_forest_cave2_zone = nil
+local wolf_battle_zone = nil
 
 -- Create the different map zones triggering events
 function _CreateZones()
     -- N.B.: left, right, top, bottom
-    to_forest_cave2_zone = vt_map.CameraZone(28, 33, 23, 25);
-    Map:AddZone(to_forest_cave2_zone);
-
-    wolf_battle_zone = vt_map.CameraZone(38, 46, 63, 66);
-    Map:AddZone(wolf_battle_zone);
+    to_forest_cave2_zone = vt_map.CameraZone.Create(28, 33, 23, 25);
+    wolf_battle_zone = vt_map.CameraZone.Create(38, 46, 63, 66);
 end
 
 -- Check whether the active camera has entered a zone. To be called within Update()
@@ -865,7 +832,7 @@ local flash_color = vt_video.Color(1.0, 1.0, 1.0, 1.0);
 
 local crystal_appearance_time = 0;
 local crystal_visible = false;
-local crystal_light_effect = {};
+local crystal_light_effect = nil
 
 map_functions = {
 
@@ -967,12 +934,12 @@ map_functions = {
 
         if (crystal_visible == false and crystal_appearance_time >= 10000) then
             -- Add a light upon the crystal
-            crystal_light_effect = vt_map.Light("img/misc/lights/sun_flare_light_secondary.lua",
+            crystal_light_effect = vt_map.Light.Create("img/misc/lights/sun_flare_light_secondary.lua",
                     "img/misc/lights/sun_flare_light_secondary.lua",
                     41.2, 43.0,
                     vt_video.Color(0.8, 0.8, 1.0, 0.3),
                     vt_video.Color(0.8, 0.8, 0.85, 0.2));
-            Map:AddLight(crystal_light_effect);
+
             -- Set the  crystal to visible while the white flash
             crystal:SetVisible(true);
             crystal_effect:Start();
@@ -1013,7 +980,7 @@ map_functions = {
     end,
 
     Terminate_all_events = function(sprite)
-        EventManager:TerminateAllEvents(sprite);
+        EventManager:EndAllEvents(sprite);
     end,
 
     orlinn_kalya_exclamation = function()

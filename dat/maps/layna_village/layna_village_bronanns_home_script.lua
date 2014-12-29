@@ -14,26 +14,24 @@ map_subname = "Bronann's home"
 music_filename = "mus/Caketown_1-OGA-mat-pablo.ogg"
 
 -- c++ objects instances
-local Map = {};
-local ObjectManager = {};
-local DialogueManager = {};
-local EventManager = {};
+local Map = nil
+local DialogueManager = nil
+local EventManager = nil
 
 -- The main character handlers
-local bronann = {};
-local bronanns_dad = {};
-local bronanns_mother = {};
-local quest2_start_scene = {};
+local bronann = nil
+local bronanns_dad = nil
+local bronanns_mother = nil
+local quest2_start_scene = false
 
 -- the main map loading code
 function Load(m)
 
     Map = m;
-    ObjectManager = Map.object_supervisor;
-    DialogueManager = Map.dialogue_supervisor;
-    EventManager = Map.event_supervisor;
+    DialogueManager = Map:GetDialogueSupervisor();
+    EventManager = Map:GetEventSupervisor();
 
-    Map.unlimited_stamina = true;
+    Map:SetUnlimitedStamina(true);
 
     _CreateCharacters();
     _CreateNPCs();
@@ -55,7 +53,7 @@ end
 -- Character creation
 function _CreateCharacters()
     -- default position and direction
-    bronann = CreateSprite(Map, "Bronann", 46.5, 11.5);
+    bronann = CreateSprite(Map, "Bronann", 46.5, 11.5, vt_map.MapMode.GROUND_OBJECT);
     bronann:SetDirection(vt_map.MapMode.SOUTH);
     bronann:SetMovementSpeed(vt_map.MapMode.NORMAL_SPEED);
 
@@ -65,17 +63,14 @@ function _CreateCharacters()
         bronann:SetDirection(vt_map.MapMode.NORTH);
         AudioManager:PlaySound("snd/door_close.wav");
     end
-
-    Map:AddGroundObject(bronann);
 end
 
 function _CreateNPCs()
-    local event = {}
-    local dialogue = {}
-    local text = {}
+    local event = nil
+    local dialogue = nil
+    local text = nil
 
-    bronanns_dad = CreateSprite(Map, "Carson", 33.5, 11.5);
-    Map:AddGroundObject(bronanns_dad);
+    bronanns_dad = CreateSprite(Map, "Carson", 33.5, 11.5, vt_map.MapMode.GROUND_OBJECT);
 
     event = vt_map.RandomMoveSpriteEvent("Dad random move", bronanns_dad, 2000, 2000);
     event:AddEventLinkAtEnd("Dad random move", 3000); -- Loop on itself
@@ -90,19 +85,18 @@ function _CreateNPCs()
         EventManager:StartEvent("Dad random move");
     end
 
-    dialogue = vt_map.SpriteDialogue("ep1_bronann_home_talk_with_dad");
+    dialogue = vt_map.SpriteDialogue.Create("ep1_bronann_home_talk_with_dad");
     text = vt_system.Translate("Hey son! Did you sleep well? Hmm, now where did I leave that oil lamp?");
     dialogue:AddLine(text, bronanns_dad);
     text = vt_system.Translate("Hi Dad! Um, I don't know. Sorry.");
     dialogue:AddLineEmote(text, bronann, "thinking dots");
     text = vt_system.Translate("Nah, no problem, I'll find it somewhere... eventually.");
     dialogue:AddLine(text, bronanns_dad);
-    DialogueManager:AddDialogue(dialogue);
     bronanns_dad:AddDialogueReference(dialogue);
 
-    bronanns_mother = CreateSprite(Map, "Malta", 33.1, 17.5);
+    bronanns_mother = CreateSprite(Map, "Malta", 33.1, 17.5, vt_map.MapMode.GROUND_OBJECT);
     bronanns_mother:SetDirection(vt_map.MapMode.SOUTH);
-    Map:AddGroundObject(bronanns_mother);
+
     _UpdateMotherDialogue();
 
     -- Make her walk in front of the table to prepare the lunch.
@@ -130,7 +124,6 @@ function _CreateNPCs()
     -- The mother routine event
     EventManager:StartEvent("Kitchen: Mother goes middle");
 
-
     -- The Hero's first noble quest briefing...
     event = vt_map.ScriptedSpriteEvent("Start Quest1", bronanns_mother, "StartQuest1", "");
     EventManager:RegisterEvent(event);
@@ -139,10 +132,9 @@ function _CreateNPCs()
     event:AddEventLinkAtEnd("Mother calls Bronann");
     EventManager:RegisterEvent(event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Bronann!");
     dialogue:AddLine(text, bronanns_mother);
-    DialogueManager:AddDialogue(dialogue);
 
     event = vt_map.DialogueEvent("Mother calls Bronann", dialogue);
     event:SetStopCameraMovement(true);
@@ -168,14 +160,13 @@ function _CreateNPCs()
     event:AddEventLinkAtEnd("Mother quest1 dialogue");
     EventManager:RegisterEvent(event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Now that you're *finally* up, could you go buy some barley meal for us three?");
     dialogue:AddLine(text, bronanns_mother);
     text = vt_system.Translate("Barley meal? Again?");
     dialogue:AddLineEmote(text, bronann, "sweat drop");
     text = vt_system.Translate("Hmph, just go, boy. You'll be free after that, ok?");
     dialogue:AddLine(text, bronanns_mother);
-    DialogueManager:AddDialogue(dialogue);
 
     event = vt_map.DialogueEvent("Mother quest1 dialogue", dialogue);
     event:AddEventLinkAtEnd("Map_PopState");
@@ -199,65 +190,43 @@ end
 
 
 function _CreateObjects()
-    object = {}
+    local object = nil
 
-    object = CreateObject(Map, "Chair1", 47, 18);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
+    CreateObject(Map, "Chair1", 47, 18, vt_map.MapMode.GROUND_OBJECT);
 
-    object = CreateObject(Map, "Chair1_inverted", 41, 18);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
-
-    object = CreateObject(Map, "Chair1_north", 44, 15.3);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
-
-    object = CreateObject(Map, "Table1", 44, 19);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
-
-    object = CreateObject(Map, "Barrel1", 31, 14);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
-
-    object = CreateObject(Map, "Vase1", 31, 16);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
-
-    object = CreateObject(Map, "Flower Pot1", 48.5, 11);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
-
-    object = CreateObject(Map, "Flower Pot1", 31, 9);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
+    CreateObject(Map, "Chair1_inverted", 41, 18, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Chair1_north", 44, 15.3, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Table1", 44, 19, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Barrel1", 31, 14, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Vase1", 31, 16, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Flower Pot1", 48.5, 11, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Flower Pot1", 31, 9, vt_map.MapMode.GROUND_OBJECT);
 
     --lights
-    object = CreateObject(Map, "Left Window Light 2", 31, 15);
+    object = CreateObject(Map, "Left Window Light 2", 31, 15, vt_map.MapMode.GROUND_OBJECT);
     object:SetDrawOnSecondPass(true); -- Above any other ground object
     object:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
 
-    object = CreateObject(Map, "Right Window Light 2", 49, 15);
+    object = CreateObject(Map, "Right Window Light 2", 49, 15, vt_map.MapMode.GROUND_OBJECT);
     object:SetDrawOnSecondPass(true); -- Above any other ground object
     object:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
 
     -- Turn the food and dishes are objects to permit the update of their visible status.
-    plate_pile = CreateObject(Map, "Plate Pile1", 31, 22);
-    if (plate_pile ~= nil) then Map:AddGroundObject(plate_pile) end;
+    plate_pile = CreateObject(Map, "Plate Pile1", 31, 22, vt_map.MapMode.GROUND_OBJECT);
+    salad = CreateObject(Map, "Salad1", 31, 18, vt_map.MapMode.GROUND_OBJECT);
+    green_pepper = CreateObject(Map, "Green Pepper1", 31, 20, vt_map.MapMode.GROUND_OBJECT);
+    bread = CreateObject(Map, "Bread1", 31, 22, vt_map.MapMode.GROUND_OBJECT);
+    sauce_pot = CreateObject(Map, "Sauce Pot1", 33, 22, vt_map.MapMode.GROUND_OBJECT);
+    knife = CreateObject(Map, "Knife1", 35, 22, vt_map.MapMode.GROUND_OBJECT);
 
-    salad = CreateObject(Map, "Salad1", 31, 18);
-    if (salad ~= nil) then Map:AddGroundObject(salad) end;
-    green_pepper = CreateObject(Map, "Green Pepper1", 31, 20);
-    if (green_pepper ~= nil) then Map:AddGroundObject(green_pepper) end;
-    bread = CreateObject(Map, "Bread1", 31, 22);
-    if (bread ~= nil) then Map:AddGroundObject(bread) end;
-    sauce_pot = CreateObject(Map, "Sauce Pot1", 33, 22);
-    if (sauce_pot ~= nil) then Map:AddGroundObject(sauce_pot) end;
-    knife = CreateObject(Map, "Knife1", 35, 22);
-    if (knife ~= nil) then Map:AddGroundObject(knife) end;
     _UpdateDishesAndFood();
 end
 
 -- Creates all events and sets up the entire event sequence chain
 function _CreateEvents()
-    local event = {};
-    local text = {};
-    local dialogue = {};
+    local event = nil
+    local text = nil
+    local dialogue = nil
 
     -- Triggered Events
     event = vt_map.MapTransitionEvent("to village", "dat/maps/layna_village/layna_village_center_map.lua",
@@ -297,14 +266,13 @@ function _CreateEvents()
     event = vt_map.ChangeDirectionSpriteEvent("Quest2: Father looks west", bronanns_dad, vt_map.MapMode.WEST);
     EventManager:RegisterEvent(event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Thanks for helping me out with the dishes.");
     dialogue:AddLine(text, bronanns_mother);
     text = vt_system.Translate("Hmm, say, mom? Why is the village entrance blocked?");
     dialogue:AddLineEmote(text, bronann, "thinking dots");
     text = vt_system.Translate("...");
     dialogue:AddLineEmote(text, bronanns_mother, "sweat drop");
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Quest2: Bronann is told not to leave town - part 1", dialogue)
     -- Make a pause here
     event:AddEventLinkAtEnd("Quest2: Father looks south to think");
@@ -322,7 +290,7 @@ function _CreateEvents()
     event = vt_map.AnimateSpriteEvent("Quest2: Bronann looks at both parents", bronann, "searching", 1000);
     EventManager:RegisterEvent(event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Bronann, I'd like for you to not leave the village today.");
     dialogue:AddLine(text, bronanns_dad);
     text = vt_system.Translate("Huh?! What? Why? You told me that I could go into the forest and...");
@@ -337,7 +305,6 @@ function _CreateEvents()
     dialogue:AddLineEmote(text, bronann, "exclamation");
     text = vt_system.Translate("... It's not that simple, Bronann. Believe me.");
     dialogue:AddLineEmote(text, bronanns_dad, "thinking dots");
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Quest2: Bronann is told not to leave town - part 2", dialogue)
     event:AddEventLinkAtEnd("Quest2: Mother looks at Bronann", 2000);
     EventManager:RegisterEvent(event);
@@ -346,7 +313,7 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("Quest2: Bronann is told not to leave town - part 3");
     EventManager:RegisterEvent(event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Bronann, this time I want you to listen to your father very carefully. Please, my dear.");
     dialogue:AddLine(text, bronanns_mother);
     text = vt_system.Translate("But mom!");
@@ -355,7 +322,6 @@ function _CreateEvents()
     dialogue:AddLine(text, bronanns_dad);
     text = vt_system.Translate("(grumble)... Crap!");
     dialogue:AddLineEmote(text, bronann, "exclamation");
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Quest2: Bronann is told not to leave town - part 3", dialogue);
     event:AddEventLinkAtEnd("Quest2: Bronann is frustrated");
     EventManager:RegisterEvent(event);
@@ -383,14 +349,13 @@ function _CreateEvents()
     event = vt_map.ScriptedSpriteEvent("Quest2: SetCamera on mother", bronanns_mother, "Map_SetCamera", "");
     EventManager:RegisterEvent(event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Maybe we should tell him...");
     dialogue:AddLine(text, bronanns_mother);
     text = vt_system.Translate("It's too early, darling... We might be wrong.");
     dialogue:AddLineEmote(text, bronanns_dad, "thinking dots");
     text = vt_system.Translate("I really hope we are...");
     dialogue:AddLine(text, bronanns_dad);
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Quest2: Bronann is told not to leave town - part 4", dialogue);
     event:AddEventLinkAtEnd("Map_PopState");
     event:AddEventLinkAtEnd("to village");
@@ -398,16 +363,13 @@ function _CreateEvents()
 end
 
 -- zones
-local home_exit_zone = {};
-local to_bronanns_room_zone = {};
+local home_exit_zone = nil
+local to_bronanns_room_zone = nil
 
 function _CreateZones()
     -- N.B.: left, right, top, bottom
-    home_exit_zone = vt_map.CameraZone(38, 41, 24, 25);
-    Map:AddZone(home_exit_zone);
-
-    to_bronanns_room_zone = vt_map.CameraZone(44, 47, 8, 9);
-    Map:AddZone(to_bronanns_room_zone);
+    home_exit_zone = vt_map.CameraZone.Create(38, 41, 24, 25);
+    to_bronanns_room_zone = vt_map.CameraZone.Create(44, 47, 8, 9);
 
     quest2_start_scene = false;
 end
@@ -469,47 +431,42 @@ function _UpdateMotherDialogue()
     bronanns_mother:ClearDialogueReferences();
 
     if (GlobalManager:DoesEventExist("story", "Quest2_forest_event_done") == true) then
-        local dialogue = vt_map.SpriteDialogue();
+        local dialogue = vt_map.SpriteDialogue.Create();
         local text = vt_system.Translate("Bronann, promise me that you'll be careful, ok?");
         dialogue:AddLine(text, bronanns_mother);
-        DialogueManager:AddDialogue(dialogue);
         bronanns_mother:AddDialogueReference(dialogue);
         return;
     end
     if (GlobalManager:DoesEventExist("story", "quest1_barley_meal_done") == true) then
         -- Got some barley meal, Mom!
         -- Begining dialogue
-        local dialogue = vt_map.SpriteDialogue();
+        local dialogue = vt_map.SpriteDialogue.Create();
         local text = vt_system.Translate("(Sigh)... got it, mom!");
         dialogue:AddLine(text, bronann);
         text = vt_system.Translate("Perfect timing, let's have dinner.");
         dialogue:AddLineEvent(text, bronanns_mother, "", "Quest1: end and transition to after-dinner");
-        DialogueManager:AddDialogue(dialogue);
         bronanns_mother:AddDialogueReference(dialogue);
     elseif (GlobalManager:DoesEventExist("bronanns_home", "quest1_mother_start_dialogue_done") == true) then
         -- 1st quest dialogue
-        local dialogue = vt_map.SpriteDialogue("ep1_bronann_home_talk_about_barley_meal");
+        local dialogue = vt_map.SpriteDialogue.Create("ep1_bronann_home_talk_about_barley_meal");
         local text = vt_system.Translate("Could you go and buy some barley meal for us three?");
         dialogue:AddLine(text, bronanns_mother);
-        DialogueManager:AddDialogue(dialogue);
         bronanns_mother:AddDialogueReference(dialogue);
     elseif (GlobalManager:DoesEventExist("bronanns_home", "quest1_mother_start_dialogue_done") == false) then
         -- Begining dialogue
-        local dialogue = vt_map.SpriteDialogue("ep1_bronann_home_talk_with_mother1");
+        local dialogue = vt_map.SpriteDialogue.Create("ep1_bronann_home_talk_with_mother1");
         local text = vt_system.Translate("Hi son, did you have a nightmare again last night?");
         dialogue:AddLine(text, bronanns_mother);
         text = vt_system.Translate("Hi mom. Huh, how did you know...?");
         dialogue:AddLineEmote(text, bronann, "interrogation");
         text = vt_system.Translate("Eh eh? Have you already forgotten that I'm your mother?");
         dialogue:AddLine(text, bronanns_mother);
-        DialogueManager:AddDialogue(dialogue);
         bronanns_mother:AddDialogueReference(dialogue);
     else
         -- Last default dialogue
-        local dialogue = vt_map.SpriteDialogue();
+        local dialogue = vt_map.SpriteDialogue.Create();
         local text = vt_system.Translate("Don't venture too far, I'll need your help soon!");
         dialogue:AddLine(text, bronanns_mother);
-        DialogueManager:AddDialogue(dialogue);
         bronanns_mother:AddDialogueReference(dialogue);
     end
 end
@@ -542,7 +499,7 @@ map_functions = {
     end,
 
     StartQuest1 =  function(sprite)
-        EventManager:TerminateAllEvents(sprite);
+        EventManager:EndAllEvents(sprite);
         sprite:SetMoving(false); -- in case she's moving
         EventManager:StartEvent("Quest1: Mother looks south");
     end,
@@ -563,10 +520,10 @@ map_functions = {
         -- Stop everyone
         bronanns_dad:SetMoving(false);
         bronanns_dad:ClearDialogueReferences();
-        EventManager:TerminateAllEvents(bronanns_dad);
+        EventManager:EndAllEvents(bronanns_dad);
         bronanns_mother:SetMoving(false);
         bronanns_mother:ClearDialogueReferences();
-        EventManager:TerminateAllEvents(bronanns_mother);
+        EventManager:EndAllEvents(bronanns_mother);
 
         bronann:SetMoving(false);
     end,
@@ -594,7 +551,7 @@ map_functions = {
 
         -- Remove the barley meal key item from inventory
         local barley_meal_item_id = 70002;
-        if (GlobalManager:IsObjectInInventory(barley_meal_item_id) == true) then
+        if (GlobalManager:IsItemInInventory(barley_meal_item_id) == true) then
             GlobalManager:RemoveFromInventory(barley_meal_item_id);
         end
 

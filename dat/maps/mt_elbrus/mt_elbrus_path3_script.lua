@@ -14,17 +14,16 @@ map_subname = "Old Cemetery"
 music_filename = "mus/awareness_el_corleo.ogg"
 
 -- c++ objects instances
-local Map = {};
-local ObjectManager = {};
-local DialogueManager = {};
-local EventManager = {};
+local Map = nil
+local DialogueManager = nil
+local EventManager = nil
 
 -- the main character handler
-local hero = {};
+local hero = nil
 
 -- Forest dialogue secondary hero
-local kalya = {};
-local orlinn = {};
+local kalya = nil
+local orlinn = nil
 
 -- Name of the main sprite. Used to reload the good one at the end of dialogue events.
 local main_sprite_name = "";
@@ -32,19 +31,17 @@ local main_sprite_name = "";
 local harlequin_battle_done = false;
 
 -- Soldiers
-local soldier1 = {};
-local soldier2 = {};
-local soldier3 = {};
+local soldier1 = nil
+local soldier2 = nil
+local soldier3 = nil
 
 -- the main map loading code
 function Load(m)
 
     Map = m;
-    ObjectManager = Map.object_supervisor;
-    DialogueManager = Map.dialogue_supervisor;
-    EventManager = Map.event_supervisor;
-
-    Map.unlimited_stamina = false;
+    DialogueManager = Map:GetDialogueSupervisor();
+    EventManager = Map:GetEventSupervisor();
+    Map:SetUnlimitedStamina(false);
 
     _CreateCharacters();
     _CreateObjects();
@@ -54,7 +51,7 @@ function Load(m)
     -- Set the camera focus on hero
     Map:SetCamera(hero);
     -- This is a dungeon map, we'll use the front battle member sprite as default sprite.
-    Map.object_supervisor:SetPartyMemberVisibleSprite(hero);
+    Map:SetPartyMemberVisibleSprite(hero);
 
     _CreateEvents();
     _CreateZones();
@@ -70,8 +67,7 @@ function Load(m)
     if (GlobalManager:GetEventValue("story", "mt_elbrus_weather_level") > 0) then
         Map:GetParticleManager():AddParticleEffect("dat/effects/particles/rain.lua", 512.0, 768.0);
         -- Place an omni ambient sound at the center of the map to add a nice rainy effect.
-        local rainy_sound = vt_map.SoundObject("mus/Ove Melaa - Rainy.ogg", 20.0, 16.0, 100.0);
-        Map:AddAmbientSoundObject(rainy_sound);
+        vt_map.SoundObject.Create("mus/Ove Melaa - Rainy.ogg", 20.0, 16.0, 100.0);
     end
     if (GlobalManager:GetEventValue("story", "mt_elbrus_weather_level") > 1) then
         Map:GetScriptSupervisor():AddScript("dat/maps/common/soft_lightnings_script.lua");
@@ -106,7 +102,7 @@ end
 -- Character creation
 function _CreateCharacters()
     -- Default hero and position (from mountain path 2)
-    hero = CreateSprite(Map, "Bronann", 63, 92.5);
+    hero = CreateSprite(Map, "Bronann", 63, 92.5, vt_map.MapMode.GROUND_OBJECT);
     hero:SetDirection(vt_map.MapMode.NORTH);
     hero:SetMovementSpeed(vt_map.MapMode.NORMAL_SPEED);
 
@@ -127,137 +123,112 @@ function _CreateCharacters()
         hero:SetPosition(50.0, 10.0);
     end
 
-    Map:AddGroundObject(hero);
-
     -- Create secondary characters
     kalya = CreateSprite(Map, "Kalya",
-                         hero:GetXPosition(), hero:GetYPosition());
+                         hero:GetXPosition(), hero:GetYPosition(), vt_map.MapMode.GROUND_OBJECT);
     kalya:SetDirection(vt_map.MapMode.EAST);
     kalya:SetMovementSpeed(vt_map.MapMode.NORMAL_SPEED);
     kalya:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
     kalya:SetVisible(false);
-    Map:AddGroundObject(kalya);
 
     orlinn = CreateSprite(Map, "Orlinn",
-                          hero:GetXPosition(), hero:GetYPosition());
+                          hero:GetXPosition(), hero:GetYPosition(), vt_map.MapMode.GROUND_OBJECT);
     orlinn:SetDirection(vt_map.MapMode.EAST);
     orlinn:SetMovementSpeed(vt_map.MapMode.NORMAL_SPEED);
     orlinn:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
     orlinn:SetVisible(false);
-    Map:AddGroundObject(orlinn);
 
-    soldier1 = CreateNPCSprite(Map, "Dark Soldier", vt_system.Translate("Soldier"), 0, 0);
+    soldier1 = CreateNPCSprite(Map, "Dark Soldier", vt_system.Translate("Soldier"), 0, 0, vt_map.MapMode.GROUND_OBJECT);
     soldier1:SetVisible(false);
     soldier1:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
-    Map:AddGroundObject(soldier1);
-    soldier2 = CreateNPCSprite(Map, "Dark Soldier", vt_system.Translate("Soldier"), 0, 0);
+    soldier2 = CreateNPCSprite(Map, "Dark Soldier", vt_system.Translate("Soldier"), 0, 0, vt_map.MapMode.GROUND_OBJECT);
     soldier2:SetVisible(false);
     soldier2:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
-    Map:AddGroundObject(soldier2);
-    soldier3 = CreateNPCSprite(Map, "Dark Soldier on horse", vt_system.Translate("Soldier"), 0, 0);
+    soldier3 = CreateNPCSprite(Map, "Dark Soldier on horse", vt_system.Translate("Soldier"), 0, 0, vt_map.MapMode.GROUND_OBJECT);
     soldier3:SetVisible(false);
     soldier3:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
-    Map:AddGroundObject(soldier3);
 end
 
 -- The heal particle effect map object
-local heal_effect = {};
+local heal_effect = nil
 
-local north_gate_closed = {}
-local south_gate1_closed = {}
-local south_gate2_closed = {}
-local south_gate3_closed = {}
-local north_gate_open = {}
-local south_gate1_open = {}
-local south_gate2_open = {}
-local south_gate3_open = {}
-local west_gate_stone1 = {}
-local west_gate_stone2 = {}
-local west_gate_stone3 = {}
-local west_gate_stone4 = {}
+local north_gate_closed = nil
+local south_gate1_closed = nil
+local south_gate2_closed = nil
+local south_gate3_closed = nil
+local north_gate_open = nil
+local south_gate1_open = nil
+local south_gate2_open = nil
+local south_gate3_open = nil
+local west_gate_stone1 = nil
+local west_gate_stone2 = nil
+local west_gate_stone3 = nil
+local west_gate_stone4 = nil
 
-local harlequin1 = {}
-local harlequin2 = {}
-local harlequin3 = {}
-local harlequin_focus = {}
+local harlequin1 = nil
+local harlequin2 = nil
+local harlequin3 = nil
+local harlequin_focus = nil
 
 local harlequin_beaten_time = 0;
 
 function _CreateObjects()
-    local object = {}
-    local npc = {}
-    local dialogue = {}
-    local text = {}
-    local event = {}
+    local object = nil
+    local npc = nil
+    local dialogue = nil
+    local text = nil
+    local event = nil
 
-    Map:AddSavePoint(85, 81);
+    vt_map.SavePoint.Create(85, 81);
 
     -- Load the spring heal effect.
-    heal_effect = vt_map.ParticleObject("dat/effects/particles/heal_particle.lua", 0, 0);
-    heal_effect:SetObjectID(Map.object_supervisor:GenerateObjectID());
+    heal_effect = vt_map.ParticleObject.Create("dat/effects/particles/heal_particle.lua", 0, 0, vt_map.MapMode.GROUND_OBJECT);
     heal_effect:Stop(); -- Don't run it until the character heals itself
-    Map:AddGroundObject(heal_effect);
 
     -- Heal point
-    object = CreateObject(Map, "Layna Statue", 60, 70);
+    object = CreateObject(Map, "Layna Statue", 60, 70, vt_map.MapMode.GROUND_OBJECT);
     object:SetEventWhenTalking("Heal dialogue");
-    Map:AddGroundObject(object);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Your party feels better...");
     dialogue:AddLineEvent(text, nil, "Heal event", ""); -- 'nil' means no portrait and no name
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Heal dialogue", dialogue);
     EventManager:RegisterEvent(event);
 
     -- Cemetery gates
-    north_gate_closed = CreateObject(Map, "Gate1 closed", 51, 16);
-    Map:AddGroundObject(north_gate_closed);
-    north_gate_open = CreateObject(Map, "Gate1 open", 51, 12);
+    north_gate_closed = CreateObject(Map, "Gate1 closed", 51, 16, vt_map.MapMode.GROUND_OBJECT);
+    north_gate_open = CreateObject(Map, "Gate1 open", 51, 12, vt_map.MapMode.GROUND_OBJECT);
     north_gate_open:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
     north_gate_open:SetVisible(false);
     north_gate_open:SetDrawOnSecondPass(true); -- Above the character
-    Map:AddGroundObject(north_gate_open);
 
     -- The south gate is open at the beginning of the map.
-    south_gate1_closed = CreateObject(Map, "Gate1 closed", 0, 0); -- 63, 68
-    Map:AddGroundObject(south_gate1_closed);
-    south_gate2_closed = CreateObject(Map, "Gate1 closed", 0, 0); -- 67, 68
-    Map:AddGroundObject(south_gate2_closed);
-    south_gate3_closed = CreateObject(Map, "Gate1 closed", 0, 0); -- 71, 68
-    Map:AddGroundObject(south_gate3_closed);
+    south_gate1_closed = CreateObject(Map, "Gate1 closed", 0, 0, vt_map.MapMode.GROUND_OBJECT); -- 63, 68
+    south_gate2_closed = CreateObject(Map, "Gate1 closed", 0, 0, vt_map.MapMode.GROUND_OBJECT); -- 67, 68
+    south_gate3_closed = CreateObject(Map, "Gate1 closed", 0, 0, vt_map.MapMode.GROUND_OBJECT); -- 71, 68
 
-    south_gate1_open = CreateObject(Map, "Gate1 open", 63, 64);
+    south_gate1_open = CreateObject(Map, "Gate1 open", 63, 64, vt_map.MapMode.GROUND_OBJECT);
     south_gate1_open:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
     south_gate1_open:SetDrawOnSecondPass(true); -- Above the character
-    Map:AddGroundObject(south_gate1_open);
-    south_gate2_open = CreateObject(Map, "Gate1 open", 67, 64);
+    south_gate2_open = CreateObject(Map, "Gate1 open", 67, 64, vt_map.MapMode.GROUND_OBJECT);
     south_gate2_open:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
     south_gate2_open:SetDrawOnSecondPass(true); -- Above the character
-    Map:AddGroundObject(south_gate2_open);
-    south_gate3_open = CreateObject(Map, "Gate1 open", 71, 64);
+    south_gate3_open = CreateObject(Map, "Gate1 open", 71, 64, vt_map.MapMode.GROUND_OBJECT);
     south_gate3_open:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
     south_gate3_open:SetDrawOnSecondPass(true); -- Above the character
-    Map:AddGroundObject(south_gate3_open);
 
-    west_gate_stone1 = CreateObject(Map, "Rock2", 41, 18);
-    Map:AddGroundObject(west_gate_stone1);
-    west_gate_stone2 = CreateObject(Map, "Rock2", 41, 20);
-    Map:AddGroundObject(west_gate_stone2);
-    west_gate_stone3 = CreateObject(Map, "Rock2", 41, 22);
-    Map:AddGroundObject(west_gate_stone3);
-    west_gate_stone4 = CreateObject(Map, "Rock2", 41, 24);
-    Map:AddGroundObject(west_gate_stone4);
+    west_gate_stone1 = CreateObject(Map, "Rock2", 41, 18, vt_map.MapMode.GROUND_OBJECT);
+    west_gate_stone2 = CreateObject(Map, "Rock2", 41, 20, vt_map.MapMode.GROUND_OBJECT);
+    west_gate_stone3 = CreateObject(Map, "Rock2", 41, 22, vt_map.MapMode.GROUND_OBJECT);
+    west_gate_stone4 = CreateObject(Map, "Rock2", 41, 24, vt_map.MapMode.GROUND_OBJECT);
 
-    harlequin1 = CreateObject(Map, "Harlequin", 0, 0);
+    harlequin1 = CreateObject(Map, "Harlequin", 0, 0, vt_map.MapMode.GROUND_OBJECT);
     harlequin1:SetEventWhenTalking("Make Harlequin1 disappear");
-    Map:AddGroundObject(harlequin1);
-    harlequin2 = CreateObject(Map, "Harlequin", 0, 0);
+    harlequin2 = CreateObject(Map, "Harlequin", 0, 0, vt_map.MapMode.GROUND_OBJECT);
     harlequin2:SetEventWhenTalking("Make Harlequin2 disappear");
-    Map:AddGroundObject(harlequin2);
-    harlequin3 = CreateObject(Map, "Harlequin", 0, 0);
+    harlequin3 = CreateObject(Map, "Harlequin", 0, 0, vt_map.MapMode.GROUND_OBJECT);
     harlequin3:SetEventWhenTalking("Make Harlequin3 disappear");
-    Map:AddGroundObject(harlequin3);
+
     -- Harlequin must be beaten third times before being actually fighteable
     harlequin_beaten_time = 0;
 
@@ -286,15 +257,13 @@ function _CreateObjects()
     EventManager:RegisterEvent(event);
 
     --harlequin virtual focus
-    harlequin_focus = CreateSprite(Map, "Butterfly", 68, 24);
+    harlequin_focus = CreateSprite(Map, "Butterfly", 68, 24, vt_map.MapMode.GROUND_OBJECT);
     harlequin_focus:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
     harlequin_focus:SetVisible(false);
     harlequin_focus:SetName(vt_system.Translate("???")); -- At first, the characters don't know his name.
-    Map:AddGroundObject(harlequin_focus);
 
     -- Objects array
     local map_objects = {
-
         { "Tree Big2", 91, 87 },
         { "Tree Big1", 90, 75 },
         { "Tree Big2", 77, 72 },
@@ -319,7 +288,6 @@ function _CreateObjects()
         { "Tree Tiny2", 57, 87 },
         { "Tree Tiny3", 59, 76 },
         { "Tree Tiny1", 59, 73 },
-
 
         { "Rock2", 73, 75 },
         { "Rock2", 73, 78 },
@@ -402,8 +370,7 @@ function _CreateObjects()
     -- Loads the trees according to the array
     for my_index, my_array in pairs(map_objects) do
         --print(my_array[1], my_array[2], my_array[3]);
-        object = CreateObject(Map, my_array[1], my_array[2], my_array[3]);
-        Map:AddGroundObject(object);
+        CreateObject(Map, my_array[1], my_array[2], my_array[3], vt_map.MapMode.GROUND_OBJECT);
     end
 
     -- grass array
@@ -432,17 +399,14 @@ function _CreateObjects()
         { "Grass Clump1", 13, 78 },
         { "Grass Clump1", 86, 11 },
         { "Grass Clump1", 89, 11.2 },
-
     }
 
     -- Loads the grass clumps according to the array
     for my_index, my_array in pairs(map_grass) do
         --print(my_array[1], my_array[2], my_array[3]);
-        object = CreateObject(Map, my_array[1], my_array[2], my_array[3]);
+        object = CreateObject(Map, my_array[1], my_array[2], my_array[3], vt_map.MapMode.GROUND_OBJECT);
         object:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
-        Map:AddGroundObject(object);
     end
-
 end
 
 -- A function closing the south cemetery gate
@@ -463,16 +427,16 @@ function _OpenNorthGate()
 end
 
 -- Enemy zones later disabled
-local enemy_zone1 = {}
-local enemy_zone2 = {}
-local enemy_zone3 = {}
+local enemy_zone1 = nil
+local enemy_zone2 = nil
+local enemy_zone3 = nil
 
 function _CreateEnemies()
-    local enemy = {};
-    local roam_zone = {};
+    local enemy = nil
+    local roam_zone = nil
 
     -- Hint: left, right, top, bottom
-    enemy_zone1 = vt_map.EnemyZone(65, 68, 32, 36);
+    enemy_zone1 = vt_map.EnemyZone.Create(65, 68, 32, 36);
     -- Some bats
     enemy = CreateEnemySprite(Map, "Eyeball");
     _SetBattleEnvironment(enemy);
@@ -484,12 +448,11 @@ function _CreateEnemies()
     enemy:AddEnemy(12);
     enemy:AddEnemy(12);
     enemy:AddEnemy(12);
-    enemy_zone1:AddEnemy(enemy, Map, 2);
+    enemy_zone1:AddEnemy(enemy, 2);
     enemy_zone1:SetSpawnsLeft(2); -- This monster shall spawn only two times.
-    Map:AddZone(enemy_zone1);
 
     -- Hint: left, right, top, bottom
-    enemy_zone2 = vt_map.EnemyZone(45, 48, 32, 36);
+    enemy_zone2 = vt_map.EnemyZone.Create(45, 48, 32, 36);
     -- Some bats
     enemy = CreateEnemySprite(Map, "Eyeball");
     _SetBattleEnvironment(enemy);
@@ -501,12 +464,11 @@ function _CreateEnemies()
     enemy:AddEnemy(12);
     enemy:AddEnemy(12);
     enemy:AddEnemy(12);
-    enemy_zone2:AddEnemy(enemy, Map, 2);
+    enemy_zone2:AddEnemy(enemy, 2);
     enemy_zone2:SetSpawnsLeft(2); -- This monster shall spawn only two times.
-    Map:AddZone(enemy_zone2);
 
     -- Hint: left, right, top, bottom
-    enemy_zone3 = vt_map.EnemyZone(87, 90, 32, 36);
+    enemy_zone3 = vt_map.EnemyZone.Create(87, 90, 32, 36);
     -- Some bats
     enemy = CreateEnemySprite(Map, "Eyeball");
     _SetBattleEnvironment(enemy);
@@ -518,27 +480,26 @@ function _CreateEnemies()
     enemy:AddEnemy(12);
     enemy:AddEnemy(12);
     enemy:AddEnemy(12);
-    enemy_zone3:AddEnemy(enemy, Map, 2);
+    enemy_zone3:AddEnemy(enemy, 2);
     enemy_zone3:SetSpawnsLeft(2); -- This monster shall spawn only two times.
-    Map:AddZone(enemy_zone3);
 end
 
 -- Special event references which destinations must be updated just before being called.
-local kalya_move_next_to_hero_event1 = {}
-local kalya_move_back_to_hero_event1 = {}
-local orlinn_move_next_to_hero_event1 = {}
-local orlinn_move_back_to_hero_event1 = {}
+local kalya_move_next_to_hero_event1 = nil
+local kalya_move_back_to_hero_event1 = nil
+local orlinn_move_next_to_hero_event1 = nil
+local orlinn_move_back_to_hero_event1 = nil
 
-local kalya_move_next_to_hero_event2 = {}
-local kalya_move_back_to_hero_event2 = {}
-local orlinn_move_next_to_hero_event2 = {}
-local orlinn_move_back_to_hero_event2 = {}
+local kalya_move_next_to_hero_event2 = nil
+local kalya_move_back_to_hero_event2 = nil
+local orlinn_move_next_to_hero_event2 = nil
+local orlinn_move_back_to_hero_event2 = nil
 
 -- Creates all events and sets up the entire event sequence chain
 function _CreateEvents()
-    local event = {};
-    local dialogue = {};
-    local text = {};
+    local event = nil
+    local dialogue = nil
+    local text = nil
 
     event = vt_map.MapTransitionEvent("to mountain path 2", "dat/maps/mt_elbrus/mt_elbrus_path2_map.lua",
                                        "dat/maps/mt_elbrus/mt_elbrus_path2_script.lua", "from_path3");
@@ -596,7 +557,7 @@ function _CreateEvents()
     orlinn_move_next_to_hero_event1:AddEventLinkAtEnd("Orlinn looks north");
     EventManager:RegisterEvent(orlinn_move_next_to_hero_event1);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("This place is the village's old cemetery, used when the former villagers lived in Layna...");
     dialogue:AddLine(text, kalya);
     text = vt_system.Translate("The former villagers? What do you mean?");
@@ -609,7 +570,6 @@ function _CreateEvents()
     dialogue:AddLine(text, orlinn);
     text = vt_system.Translate("Anyway, once the cemetery is behind us, we should be out of trouble!");
     dialogue:AddLine(text, kalya);
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Kalya talks about the cemetery", dialogue);
     event:AddEventLinkAtEnd("Orlinn goes back to party");
     event:AddEventLinkAtEnd("Kalya goes back to party");
@@ -631,10 +591,9 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("The hero notices the soldiers");
     EventManager:RegisterEvent(event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Isn't that soldiers up there?");
     dialogue:AddLineEventEmote(text, hero, "Bronann looks north", "", "exclamation");
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("The hero notices the soldiers", dialogue);
     event:AddEventLinkAtEnd("West gate - The hero moves to a good watch point");
     EventManager:RegisterEvent(event);
@@ -662,12 +621,11 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("Soldiers dialogue");
     EventManager:RegisterEvent(event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("The west gate is condemned, as the Lord commanded.");
     dialogue:AddLine(text, soldier1);
     text = vt_system.Translate("Fine. Let's go back and wait for them.");
     dialogue:AddLine(text, soldier3);
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Soldiers dialogue", dialogue);
     event:AddEventLinkAtEnd("Soldier1 moves out of map", 300);
     event:AddEventLinkAtEnd("Soldier2 moves out of map", 300);
@@ -696,14 +654,13 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("Dialogue about the west gate");
     EventManager:RegisterEvent(event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("The gate to the great plains...");
     dialogue:AddLineEmote(text, kalya, "sweat drop");
     text = vt_system.Translate("Have we got any other way to leave this place?");
     dialogue:AddLine(text, hero);
     text = vt_system.Translate("Only one left... The mountain top...");
     dialogue:AddLineEmote(text, kalya, "thinking dots");
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Dialogue about the west gate", dialogue);
     event:AddEventLinkAtEnd("Orlinn goes back to party 2");
     event:AddEventLinkAtEnd("Kalya goes back to party 2");
@@ -719,17 +676,15 @@ function _CreateEvents()
     event = vt_map.ScriptedEvent("End of dialogue about west gate", "end_of_dialogue_about_west_gate", "");
     EventManager:RegisterEvent(event);
 
-
     -- trapped event!
     -- --------------
     event = vt_map.ScriptedEvent("Prepare trapped event", "set_scene_state", "");
     event:AddEventLinkAtEnd("The hero notices about the gate");
     EventManager:RegisterEvent(event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Oh no! the gate!");
     dialogue:AddLineEventEmote(text, hero, "Bronann looks south", "", "exclamation");
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("The hero notices about the gate", dialogue);
     event:AddEventLinkAtEnd("The hero rushes to the gate");
     EventManager:RegisterEvent(event);
@@ -738,18 +693,16 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("The hero is trapped");
     EventManager:RegisterEvent(event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("We're trapped!");
     dialogue:AddLine(text, hero);
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("The hero is trapped", dialogue);
     event:AddEventLinkAtEnd("Harlequin talks to the hero");
     EventManager:RegisterEvent(event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("You're mine now!");
     dialogue:AddLine(text, harlequin_focus);
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Harlequin talks to the hero", dialogue);
     event:AddEventLinkAtEnd("The hero is surprised");
     EventManager:RegisterEvent(event);
@@ -766,14 +719,13 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("Harlequin talks to the hero 2");
     EventManager:RegisterEvent(event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("I shall bring your souls to the Master. You don't stand a chance against the Great Harlequin...");
     dialogue:AddLineEvent(text, harlequin_focus, "", "Set Harlequin actual name");
     text = vt_system.Translate("But let's play together first, shall we?");
     dialogue:AddLine(text, harlequin_focus);
     text = vt_system.Translate("Now catch me... if you can.");
     dialogue:AddLine(text, harlequin_focus);
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Harlequin talks to the hero 2", dialogue);
     event:AddEventLinkAtEnd("Set the focus back on hero");
     EventManager:RegisterEvent(event);
@@ -798,10 +750,9 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("Harlequin talks to the hero 3");
     EventManager:RegisterEvent(event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Enough of this shallow game. Give me your souls now!...");
     dialogue:AddLineEvent(text, harlequin_focus, "Bronann looks north", "");
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Harlequin talks to the hero 3", dialogue);
     event:AddEventLinkAtEnd("True Harlequin battle");
     EventManager:RegisterEvent(event);
@@ -819,12 +770,11 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("Harlequin talks to the hero 4");
     EventManager:RegisterEvent(event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("How could I be hurt by... children...");
     dialogue:AddLineEvent(text, harlequin_focus, "Bronann looks north", "");
     text = vt_system.Translate("We'll see each other again, Chosen One...");
     dialogue:AddLine(text, harlequin_focus);
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Harlequin talks to the hero 4", dialogue);
     event:AddEventLinkAtEnd("Ends Harlequin battle");
     EventManager:RegisterEvent(event);
@@ -838,34 +788,26 @@ function _CreateEvents()
 end
 
 -- zones
-local to_path4_zone = {};
-local to_path2_zone = {};
-local to_path2_bis_zone = {};
+local to_path4_zone = nil
+local to_path2_zone = nil
+local to_path2_bis_zone = nil
 
-local cemetery_entrance_dialogue_zone = {};
-local cemetery_west_gate_dialogue_zone = {};
-local cemetery_gates_closed_zone = {};
+local cemetery_entrance_dialogue_zone = nil
+local cemetery_west_gate_dialogue_zone = nil
+local cemetery_gates_closed_zone = nil
 
 -- Create the different map zones triggering events
 function _CreateZones()
-
     -- N.B.: left, right, top, bottom
-    to_path4_zone = vt_map.CameraZone(40, 55, 0, 2);
-    Map:AddZone(to_path4_zone);
-    to_path2_zone = vt_map.CameraZone(53, 74, 94, 96);
-    Map:AddZone(to_path2_zone);
-    to_path2_bis_zone = vt_map.CameraZone(1, 23, 94, 96);
-    Map:AddZone(to_path2_bis_zone);
+    to_path4_zone = vt_map.CameraZone.Create(40, 55, 0, 2);
+    to_path2_zone = vt_map.CameraZone.Create(53, 74, 94, 96);
+    to_path2_bis_zone = vt_map.CameraZone.Create(1, 23, 94, 96);
 
     -- event zones
-    cemetery_entrance_dialogue_zone = vt_map.CameraZone(61, 74, 71, 73);
-    Map:AddZone(cemetery_entrance_dialogue_zone);
-    cemetery_west_gate_dialogue_zone = vt_map.CameraZone(7, 31, 46, 48);
-    Map:AddZone(cemetery_west_gate_dialogue_zone);
+    cemetery_entrance_dialogue_zone = vt_map.CameraZone.Create(61, 74, 71, 73);
+    cemetery_west_gate_dialogue_zone = vt_map.CameraZone.Create(7, 31, 46, 48);
     -- cemetery gates closed
-    cemetery_gates_closed_zone = vt_map.CameraZone(44, 92, 52, 54);
-    Map:AddZone(cemetery_gates_closed_zone);
-
+    cemetery_gates_closed_zone = vt_map.CameraZone.Create(44, 92, 52, 54);
 end
 
 -- Check whether the active camera has entered a zone. To be called within Update()
@@ -897,7 +839,6 @@ function _CheckZones()
             EventManager:StartEvent("Prepare trapped event");
         end
     end
-
 end
 
 -- Sets common battle environment settings for enemy sprites
@@ -945,10 +886,10 @@ function _CheckHarlequinsStatus()
     if (harlequin1:IsVisible() == false and harlequin2:IsVisible() == false and harlequin3:IsVisible() == false) then
         harlequin_beaten_time = 0;
         -- Stop the first part event
-        EventManager:TerminateEvents("Make the Harlequins move", false)
+        EventManager:EndEvent("Make the Harlequins move", false)
 
         -- Remove the other monsters
-        Map.object_supervisor:SetAllEnemyStatesToDead();
+        Map:SetAllEnemyStatesToDead();
         enemy_zone1:SetEnabled(false);
         enemy_zone2:SetEnabled(false);
         enemy_zone3:SetEnabled(false);
@@ -1179,7 +1120,6 @@ map_functions = {
     end,
 
     make_harlequins_move = function()
-
         h1_x_direction = _GetRandomDirectionDiff()
         h1_y_direction = _GetRandomDirectionDiff()
         h2_x_direction = _GetRandomDirectionDiff()

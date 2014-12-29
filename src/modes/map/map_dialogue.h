@@ -49,6 +49,13 @@ public:
     ~SpriteDialogue()
     {}
 
+    //! \brief A C++ wrapper made to create a new object from scripting,
+    //! without letting Lua handling the object life-cycle.
+    //! \note We don't permit luabind to use constructors here as it can't currently
+    //! give the object ownership at construction time.
+    static SpriteDialogue* Create();
+    static SpriteDialogue* Create(const std::string& dialogue_event_name);
+
     //! \brief Indicates if this dialogue has already been seen by the player.
     bool HasAlreadySeen() const {
         return _dialogue_seen;
@@ -394,7 +401,7 @@ public:
     /** \brief Prepares the dialogue manager to begin processing a new dialogue
     *** \param dialogue_id The id number of the dialogue to begin
     **/
-    void BeginDialogue(const std::string& dialogue_id);
+    void StartDialogue(const std::string& dialogue_id);
 
     //! \brief Immediately ends any dialogue that is taking place
     void EndDialogue();

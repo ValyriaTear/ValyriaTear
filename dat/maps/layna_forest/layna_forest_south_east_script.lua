@@ -14,23 +14,21 @@ map_subname = ""
 music_filename = "mus/house_in_a_forest_loop_horrorpen_oga.ogg"
 
 -- c++ objects instances
-local Map = {};
-local ObjectManager = {};
-local DialogueManager = {};
-local EventManager = {};
+local Map = nil
+local DialogueManager = nil
+local EventManager = nil
 
 -- the main character handler
-local hero = {};
+local hero = nil
 
 -- the main map loading code
 function Load(m)
 
     Map = m;
-    ObjectManager = Map.object_supervisor;
-    DialogueManager = Map.dialogue_supervisor;
-    EventManager = Map.event_supervisor;
+    DialogueManager = Map:GetDialogueSupervisor();
+    EventManager = Map:GetEventSupervisor();
+    Map:SetUnlimitedStamina(false);
 
-    Map.unlimited_stamina = false;
     Map:SetMinimapImage("dat/maps/layna_forest/minimaps/layna_forest_south_east_minimap.png");
 
     _CreateCharacters();
@@ -40,7 +38,7 @@ function Load(m)
     -- Set the camera focus on hero
     Map:SetCamera(hero);
     -- This is a dungeon map, we'll use the front battle member sprite as default sprite.
-    Map.object_supervisor:SetPartyMemberVisibleSprite(hero);
+    Map:SetPartyMemberVisibleSprite(hero);
 
     _CreateEvents();
     _CreateZones();
@@ -76,7 +74,7 @@ end
 -- Character creation
 function _CreateCharacters()
     -- Default hero and position - from forest North East
-    hero = CreateSprite(Map, "Bronann", 40, 4);
+    hero = CreateSprite(Map, "Bronann", 40, 4, vt_map.MapMode.GROUND_OBJECT);
     hero:SetDirection(vt_map.MapMode.SOUTH);
     hero:SetMovementSpeed(vt_map.MapMode.NORMAL_SPEED);
 
@@ -102,108 +100,89 @@ function _CreateCharacters()
         hero:SetDirection(vt_map.MapMode.SOUTH);
         hero:SetPosition(66, 72);
     end
-
-    Map:AddGroundObject(hero);
 end
 
 -- The heal particle effect map object
-local heal_effect = {};
+local heal_effect = nil
 
 function _CreateObjects()
-    local object = {}
-    local npc = {}
+    local object = nil
+    local npc = nil
+    local event = nil
 
     -- Save point
-    Map:AddSavePoint(61, 9);
+    vt_map.SavePoint.Create(61, 9);
 
     -- Load the heal effect.
-    heal_effect = vt_map.ParticleObject("dat/effects/particles/heal_particle.lua", 0, 0);
-    heal_effect:SetObjectID(Map.object_supervisor:GenerateObjectID());
+    heal_effect = vt_map.ParticleObject.Create("dat/effects/particles/heal_particle.lua", 0, 0, vt_map.MapMode.GROUND_OBJECT);
     heal_effect:Stop(); -- Don't run it until the character heals itself
-    Map:AddGroundObject(heal_effect);
 
     -- Heal point
-    npc = CreateSprite(Map, "Butterfly", 67, 11);
+    npc = CreateSprite(Map, "Butterfly", 67, 11, vt_map.MapMode.GROUND_OBJECT);
     npc:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
     npc:SetVisible(false);
     npc:SetName(""); -- Unset the speaker name
-    Map:AddGroundObject(npc);
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Your party feels better...");
     dialogue:AddLineEvent(text, npc, "Forest entrance heal", "");
-    DialogueManager:AddDialogue(dialogue);
     npc:AddDialogueReference(dialogue);
 
     -- Only add the squirrels and butterflies when the night isn't about to happen
     if (GlobalManager:GetEventValue("story", "layna_forest_crystal_event_done") < 1) then
-
-        npc = CreateSprite(Map, "Butterfly", 42, 18);
+        npc = CreateSprite(Map, "Butterfly", 42, 18, vt_map.MapMode.GROUND_OBJECT);
         npc:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
-        Map:AddGroundObject(npc);
         event = vt_map.RandomMoveSpriteEvent("Butterfly1 random move", npc, 1000, 1000);
         event:AddEventLinkAtEnd("Butterfly1 random move", 4500); -- Loop on itself
         EventManager:RegisterEvent(event);
         EventManager:StartEvent("Butterfly1 random move");
 
-        npc = CreateSprite(Map, "Butterfly", 12, 30);
+        npc = CreateSprite(Map, "Butterfly", 12, 30, vt_map.MapMode.GROUND_OBJECT);
         npc:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
-        Map:AddGroundObject(npc);
         event = vt_map.RandomMoveSpriteEvent("Butterfly2 random move", npc, 1000, 1000);
         event:AddEventLinkAtEnd("Butterfly2 random move", 4500); -- Loop on itself
         EventManager:RegisterEvent(event);
         EventManager:StartEvent("Butterfly2 random move", 2400);
 
-        npc = CreateSprite(Map, "Butterfly", 50, 25);
+        npc = CreateSprite(Map, "Butterfly", 50, 25, vt_map.MapMode.GROUND_OBJECT);
         npc:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
-        Map:AddGroundObject(npc);
         event = vt_map.RandomMoveSpriteEvent("Butterfly3 random move", npc, 1000, 1000);
         event:AddEventLinkAtEnd("Butterfly3 random move", 4500); -- Loop on itself
         EventManager:RegisterEvent(event);
         EventManager:StartEvent("Butterfly3 random move", 1050);
 
-        npc = CreateSprite(Map, "Butterfly", 40, 30);
+        npc = CreateSprite(Map, "Butterfly", 40, 30, vt_map.MapMode.GROUND_OBJECT);
         npc:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
-        Map:AddGroundObject(npc);
         event = vt_map.RandomMoveSpriteEvent("Butterfly4 random move", npc, 1000, 1000);
         event:AddEventLinkAtEnd("Butterfly4 random move", 4500); -- Loop on itself
         EventManager:RegisterEvent(event);
         EventManager:StartEvent("Butterfly4 random move", 3050);
 
-        npc = CreateSprite(Map, "Squirrel", 18, 24);
+        npc = CreateSprite(Map, "Squirrel", 18, 24, vt_map.MapMode.GROUND_OBJECT);
         -- Squirrels don't collide with the npcs.
         npc:SetCollisionMask(vt_map.MapMode.WALL_COLLISION);
         npc:SetSpriteAsScenery(true);
-        Map:AddGroundObject(npc);
         event = vt_map.RandomMoveSpriteEvent("Squirrel1 random move", npc, 1000, 1000);
         event:AddEventLinkAtEnd("Squirrel1 random move", 4500); -- Loop on itself
         EventManager:RegisterEvent(event);
         EventManager:StartEvent("Squirrel1 random move");
 
-        npc = CreateSprite(Map, "Squirrel", 40, 14);
+        npc = CreateSprite(Map, "Squirrel", 40, 14, vt_map.MapMode.GROUND_OBJECT);
         -- Squirrels don't collide with the npcs.
         npc:SetCollisionMask(vt_map.MapMode.WALL_COLLISION);
         npc:SetSpriteAsScenery(true);
-        Map:AddGroundObject(npc);
         event = vt_map.RandomMoveSpriteEvent("Squirrel2 random move", npc, 1000, 1000);
         event:AddEventLinkAtEnd("Squirrel2 random move", 4500); -- Loop on itself
         EventManager:RegisterEvent(event);
         EventManager:StartEvent("Squirrel2 random move", 1800);
-
     end
 
     -- Treasures
-    local chest1 = CreateTreasure(Map, "layna_forest_SE_chest1", "Wood_Chest1", 63.7, 30);
-    if (chest1 ~= nil) then
-        chest1:AddObject(40001, 1); -- Prismatic ring
-        Map:AddGroundObject(chest1);
-    end
+    local chest = CreateTreasure(Map, "layna_forest_SE_chest1", "Wood_Chest1", 63.7, 30, vt_map.MapMode.GROUND_OBJECT);
+    chest:AddItem(40001, 1); -- Prismatic ring
 
-    chest1 = CreateTreasure(Map, "layna_forest_SE_chest2", "Wood_Chest1", 88, 80);
-    if (chest1 ~= nil) then
-        chest1:AddObject(11, 2); -- Small Moon juice potion x 2
-        chest1:SetDrunes(15);
-        Map:AddGroundObject(chest1);
-    end
+    chest = CreateTreasure(Map, "layna_forest_SE_chest2", "Wood_Chest1", 88, 80, vt_map.MapMode.GROUND_OBJECT);
+    chest:AddItem(11, 2); -- Small Moon juice potion x 2
+    chest:SetDrunes(15);
 
     -- Trees array
     local map_trees = {
@@ -628,8 +607,7 @@ function _CreateObjects()
     -- Loads the trees according to the array
     for my_index, my_array in pairs(map_trees) do
         --print(my_array[1], my_array[2], my_array[3]);
-        object = CreateObject(Map, my_array[1], my_array[2], my_array[3]);
-        Map:AddGroundObject(object);
+        CreateObject(Map, my_array[1], my_array[2], my_array[3], vt_map.MapMode.GROUND_OBJECT);
     end
 
     -- Trees array
@@ -646,21 +624,19 @@ function _CreateObjects()
     -- Loads the grass clumps according to the array
     for my_index, my_array in pairs(map_grass) do
         --print(my_array[1], my_array[2], my_array[3]);
-        object = CreateObject(Map, my_array[1], my_array[2], my_array[3]);
+        object = CreateObject(Map, my_array[1], my_array[2], my_array[3], vt_map.MapMode.GROUND_OBJECT);
         object:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
-        Map:AddGroundObject(object);
     end
-
 end
 
 function _CreateEnemies()
-    local enemy = {};
-    local roam_zone = {};
+    local enemy = nil
+    local roam_zone = nil
 
     -- Hint: left, right, top, bottom
 
     -- top right
-    roam_zone = vt_map.EnemyZone(77, 123, 2, 5);
+    roam_zone = vt_map.EnemyZone.Create(77, 123, 2, 5);
 
     enemy = CreateEnemySprite(Map, "slime");
     _SetBattleEnvironment(enemy);
@@ -671,11 +647,9 @@ function _CreateEnemies()
     enemy:NewEnemyParty();
     enemy:AddEnemy(1);
     enemy:AddEnemy(2);
-    roam_zone:AddEnemy(enemy, Map, 1);
+    roam_zone:AddEnemy(enemy, 1);
 
-    Map:AddZone(roam_zone);
-
-    roam_zone = vt_map.EnemyZone(106, 121, 18, 25);
+    roam_zone = vt_map.EnemyZone.Create(106, 121, 18, 25);
 
     enemy = CreateEnemySprite(Map, "slime");
     _SetBattleEnvironment(enemy);
@@ -686,12 +660,10 @@ function _CreateEnemies()
     enemy:NewEnemyParty();
     enemy:AddEnemy(1);
     enemy:AddEnemy(2);
-    roam_zone:AddEnemy(enemy, Map, 1);
-
-    Map:AddZone(roam_zone);
+    roam_zone:AddEnemy(enemy, 1);
 
     -- wide passage
-    roam_zone = vt_map.EnemyZone(97, 118, 40, 89);
+    roam_zone = vt_map.EnemyZone.Create(97, 118, 40, 89);
 
     enemy = CreateEnemySprite(Map, "slime");
     _SetBattleEnvironment(enemy);
@@ -702,12 +674,10 @@ function _CreateEnemies()
     enemy:NewEnemyParty();
     enemy:AddEnemy(1);
     enemy:AddEnemy(2);
-    roam_zone:AddEnemy(enemy, Map, 2);
-
-    Map:AddZone(roam_zone);
+    roam_zone:AddEnemy(enemy, 2);
 
     -- near the exit
-    roam_zone = vt_map.EnemyZone(12, 14, 77, 79);
+    roam_zone = vt_map.EnemyZone.Create(12, 14, 77, 79);
 
     enemy = CreateEnemySprite(Map, "spider");
     _SetBattleEnvironment(enemy);
@@ -718,12 +688,10 @@ function _CreateEnemies()
     enemy:NewEnemyParty();
     enemy:AddEnemy(1);
     enemy:AddEnemy(2);
-    roam_zone:AddEnemy(enemy, Map, 1);
-
-    Map:AddZone(roam_zone);
+    roam_zone:AddEnemy(enemy, 1);
 
     -- in the inner part
-    roam_zone = vt_map.EnemyZone(24, 84, 46, 78);
+    roam_zone = vt_map.EnemyZone.Create(24, 84, 46, 78);
 
     enemy = CreateEnemySprite(Map, "slime");
     _SetBattleEnvironment(enemy);
@@ -734,16 +702,14 @@ function _CreateEnemies()
     enemy:NewEnemyParty();
     enemy:AddEnemy(1);
     enemy:AddEnemy(2);
-    roam_zone:AddEnemy(enemy, Map, 3);
-
-    Map:AddZone(roam_zone);
+    roam_zone:AddEnemy(enemy, 3);
 end
 
 -- Creates all events and sets up the entire event sequence chain
 function _CreateEvents()
-    local event = {};
-    local dialogue = {};
-    local text = {};
+    local event = nil
+    local dialogue = nil
+    local text = nil
 
     -- Map events
     event = vt_map.MapTransitionEvent("to forest NE", "dat/maps/layna_forest/layna_forest_north_east_map.lua",
@@ -772,29 +738,20 @@ function _CreateEvents()
 end
 
 -- zones
-local to_forest_NE_zone = {};
-local to_forest_SW_zone = {};
-local to_cave1_2_zone = {};
-local to_cave2_1_zone = {};
-local to_wolf_cave_zone = {};
+local to_forest_NE_zone = nil
+local to_forest_SW_zone = nil
+local to_cave1_2_zone = nil
+local to_cave2_1_zone = nil
+local to_wolf_cave_zone = nil
 
 -- Create the different map zones triggering events
 function _CreateZones()
     -- N.B.: left, right, top, bottom
-    to_forest_NE_zone = vt_map.CameraZone(36, 41, 0, 2);
-    Map:AddZone(to_forest_NE_zone);
-
-    to_forest_SW_zone = vt_map.CameraZone(0, 2, 52, 56);
-    Map:AddZone(to_forest_SW_zone);
-
-    to_cave1_2_zone = vt_map.CameraZone(12, 16, 39, 40);
-    Map:AddZone(to_cave1_2_zone);
-
-    to_cave2_1_zone = vt_map.CameraZone(64, 68, 69, 70);
-    Map:AddZone(to_cave2_1_zone);
-
-    to_wolf_cave_zone = vt_map.CameraZone(30, 34, 17, 18);
-    Map:AddZone(to_wolf_cave_zone);
+    to_forest_NE_zone = vt_map.CameraZone.Create(36, 41, 0, 2);
+    to_forest_SW_zone = vt_map.CameraZone.Create(0, 2, 52, 56);
+    to_cave1_2_zone = vt_map.CameraZone.Create(12, 16, 39, 40);
+    to_cave2_1_zone = vt_map.CameraZone.Create(64, 68, 69, 70);
+    to_wolf_cave_zone = vt_map.CameraZone.Create(30, 34, 17, 18);
 end
 
 -- Check whether the active camera has entered a zone. To be called within Update()
@@ -871,5 +828,4 @@ map_functions = {
 
         return true;
     end,
-
 }

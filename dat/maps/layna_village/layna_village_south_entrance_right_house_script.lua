@@ -14,23 +14,21 @@ map_subname = ""
 music_filename = "mus/Caketown_1-OGA-mat-pablo.ogg"
 
 -- c++ objects instances
-local Map = {};
-local ObjectManager = {};
-local DialogueManager = {};
-local EventManager = {};
+local Map = nil
+local DialogueManager = nil
+local EventManager = nil
 
 -- the main character handler
-local bronann = {};
+local bronann = nil
 
 -- the main map loading code
 function Load(m)
 
     Map = m;
-    ObjectManager = Map.object_supervisor;
-    DialogueManager = Map.dialogue_supervisor;
-    EventManager = Map.event_supervisor;
+    DialogueManager = Map:GetDialogueSupervisor();
+    EventManager = Map:GetEventSupervisor();
 
-    Map.unlimited_stamina = true;
+    Map:SetUnlimitedStamina(true);
 
     _CreateCharacters();
     _CreateObjects();
@@ -53,68 +51,55 @@ end
 
 -- Character creation
 function _CreateCharacters()
-    bronann = CreateSprite(Map, "Bronann", 28, 27);
+    bronann = CreateSprite(Map, "Bronann", 28, 27, vt_map.MapMode.GROUND_OBJECT);
     bronann:SetDirection(vt_map.MapMode.NORTH);
     bronann:SetMovementSpeed(vt_map.MapMode.NORMAL_SPEED);
-
-    Map:AddGroundObject(bronann);
 end
 
 function _CreateObjects()
-    object = {}
+    local object = nil
 
-    -- Bronann's room
-    object = CreateObject(Map, "Bed1", 22, 28);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
-    object = CreateObject(Map, "Box1", 29, 17);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
-    object = CreateObject(Map, "Chair1", 25, 18);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
-    object = CreateObject(Map, "Small Wooden Table", 22, 19);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
+    CreateObject(Map, "Bed1", 22, 28, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Box1", 29, 17, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Chair1", 25, 18, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Small Wooden Table", 22, 19, vt_map.MapMode.GROUND_OBJECT);
 
-    object = CreateObject(Map, "Candle1", 21, 17);
+    object = CreateObject(Map, "Candle1", 21, 17, vt_map.MapMode.GROUND_OBJECT);
     object:SetDrawOnSecondPass(true); -- Above the table
-    if (object ~= nil) then Map:AddGroundObject(object) end;
-    object = CreateObject(Map, "Box1", 21, 21);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
 
-    object = CreateObject(Map, "Left Window Light", 21, 22);
+    CreateObject(Map, "Box1", 21, 21, vt_map.MapMode.GROUND_OBJECT);
+
+    object = CreateObject(Map, "Left Window Light", 21, 22, vt_map.MapMode.GROUND_OBJECT);
     object:SetDrawOnSecondPass(true); -- Above any other ground object
     object:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
 
-    object = CreateObject(Map, "Flower Pot1", 35, 26);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
+    CreateObject(Map, "Flower Pot1", 35, 26, vt_map.MapMode.GROUND_OBJECT);
 
-    object = CreateObject(Map, "Right Window Light", 35, 22);
+    object = CreateObject(Map, "Right Window Light", 35, 22, vt_map.MapMode.GROUND_OBJECT);
     object:SetDrawOnSecondPass(true); -- Above any other ground object
     object:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
 end
 
 
 -- Creates all events and sets up the entire event sequence chain
 function _CreateEvents()
-    local event = {};
-    local dialogue = {};
-    local text = {};
+    local event = nil
+    local dialogue = nil
+    local text = nil
 
     -- Triggered events
     event = vt_map.MapTransitionEvent("exit floor", "dat/maps/layna_village/layna_village_south_entrance_map.lua",
                                        "dat/maps/layna_village/layna_village_south_entrance_script.lua", "from right house");
     EventManager:RegisterEvent(event);
-
 end
 
 -- zones
-local room_exit_zone = {};
+local room_exit_zone = nil
 
 -- Create the different map zones triggering events
 function _CreateZones()
     -- N.B.: left, right, top, bottom
-    room_exit_zone = vt_map.CameraZone(26, 30, 29, 30);
-    Map:AddZone(room_exit_zone);
+    room_exit_zone = vt_map.CameraZone.Create(26, 30, 29, 30);
 end
 
 -- Check whether the active camera has entered a zone. To be called within Update()
@@ -125,7 +110,6 @@ function _CheckZones()
         AudioManager:PlaySound("snd/door_open2.wav");
     end
 end
-
 
 -- Map Custom functions
 -- Used through scripted events

@@ -15,7 +15,6 @@ music_filename = "mus/icy_wind.ogg"
 
 -- c++ objects instances
 local Map = nil
-local ObjectManager = nil
 local DialogueManager = nil
 local EventManager = nil
 local Script = nil
@@ -33,12 +32,10 @@ local andromalius = nil
 function Load(m)
 
     Map = m;
-    ObjectManager = Map.object_supervisor;
-    DialogueManager = Map.dialogue_supervisor;
-    EventManager = Map.event_supervisor;
     Script = Map:GetScriptSupervisor();
-
-    Map.unlimited_stamina = true
+    DialogueManager = Map:GetDialogueSupervisor();
+    EventManager = Map:GetEventSupervisor();
+    Map:SetUnlimitedStamina(true);
 
     _CreateCharacters();
     _CreateObjects();
@@ -46,7 +43,7 @@ function Load(m)
     -- Set the camera focus on hero
     Map:SetCamera(hero);
     -- This is a dungeon map, we'll use the front battle member sprite as default sprite.
-    Map.object_supervisor:SetPartyMemberVisibleSprite(hero);
+    Map:SetPartyMemberVisibleSprite(hero);
 
     _CreateEvents();
     _CreateZones();
@@ -76,7 +73,6 @@ function Load(m)
 
     -- Loads the pre-boss music
     AudioManager:LoadMusic("mus/dont_close_your_eyes.ogg", Map);
-
 end
 
 -- the map update function handles checks done on each game tick.
@@ -88,10 +84,9 @@ end
 -- Character creation
 function _CreateCharacters()
     -- Default hero and position (from falling point)
-    hero = CreateSprite(Map, "Bronann", 57, 0);
+    hero = CreateSprite(Map, "Bronann", 57, 0, vt_map.MapMode.GROUND_OBJECT);
     hero:SetDirection(vt_map.MapMode.SOUTH);
     hero:SetMovementSpeed(vt_map.MapMode.NORMAL_SPEED);
-    Map:AddGroundObject(hero);
 
     if (GlobalManager:GetPreviousLocation() == "from_shrine_north_exit") then
         hero:SetPosition(3.5, 22.0)
@@ -99,52 +94,47 @@ function _CreateCharacters()
     end
 
     -- Create secondary characters
-    bronann = CreateSprite(Map, "Bronann", 0, 0);
+    bronann = CreateSprite(Map, "Bronann", 0, 0, vt_map.MapMode.GROUND_OBJECT);
     bronann:SetDirection(vt_map.MapMode.NORTH);
     bronann:SetMovementSpeed(vt_map.MapMode.NORMAL_SPEED);
     bronann:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
     bronann:SetVisible(false);
-    Map:AddGroundObject(bronann);
 
-    kalya = CreateSprite(Map, "Kalya", 0, 0);
+    kalya = CreateSprite(Map, "Kalya", 0, 0, vt_map.MapMode.GROUND_OBJECT);
     kalya:SetDirection(vt_map.MapMode.EAST);
     kalya:SetMovementSpeed(vt_map.MapMode.NORMAL_SPEED);
     kalya:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
     kalya:SetVisible(false);
-    Map:AddGroundObject(kalya);
 
-    orlinn = CreateSprite(Map, "Orlinn", 0, 0);
+    orlinn = CreateSprite(Map, "Orlinn", 0, 0, vt_map.MapMode.GROUND_OBJECT);
     orlinn:SetDirection(vt_map.MapMode.EAST);
     orlinn:SetMovementSpeed(vt_map.MapMode.FAST_SPEED);
     orlinn:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
     orlinn:SetVisible(false);
-    Map:AddGroundObject(orlinn);
 
-    andromalius = CreateSprite(Map, "Andromalius", 0, 0);
+    andromalius = CreateSprite(Map, "Andromalius", 0, 0, vt_map.MapMode.GROUND_OBJECT);
     andromalius:SetName(vt_system.Translate("Andromalius"));
     andromalius:SetDirection(vt_map.MapMode.EAST);
     andromalius:SetMovementSpeed(vt_map.MapMode.FAST_SPEED);
     andromalius:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
     andromalius:SetVisible(false);
-    Map:AddGroundObject(andromalius);
 end
 
 function _CreateObjects()
-    local object = {}
-    local npc = {}
-    local dialogue = {}
-    local text = {}
-    local event = {}
+    local object = nil
+    local npc = nil
+    local dialogue = nil
+    local text = nil
+    local event = nil
 
-    Map:AddHalo("img/misc/lights/torch_light_mask.lua", 0, 28,
+    vt_map.Halo.Create("img/misc/lights/torch_light_mask.lua", 0, 28,
         vt_video.Color(1.0, 1.0, 1.0, 0.8));
 
-    Map:AddHalo("img/misc/lights/right_ray_light.lua", 0, 28,
+    vt_map.Halo.Create("img/misc/lights/right_ray_light.lua", 0, 28,
             vt_video.Color(1.0, 1.0, 1.0, 0.8));
 
-    object = CreateTreasure(Map, "mt_shrine_basement_chest1", "Wood_Chest1", 20, 36);
-    object:AddObject(2, 3); -- Medium potion x 3
-    Map:AddGroundObject(object);
+    object = CreateTreasure(Map, "mt_shrine_basement_chest1", "Wood_Chest1", 20, 36, vt_map.MapMode.GROUND_OBJECT);
+    object:AddItem(2, 3); -- Medium potion x 3
 end
 
 -- Special event references which destinations must be updated just before being called.
@@ -152,9 +142,9 @@ local kalya_move_next_to_hero_event1 = nil
 
 -- Creates all events and sets up the entire event sequence chain
 function _CreateEvents()
-    local event = {};
-    local dialogue = {};
-    local text = {};
+    local event = nil
+    local dialogue = nil
+    local text = nil
 
     event = vt_map.MapTransitionEvent("to mountain shrine exit", "dat/maps/mt_elbrus/mt_elbrus_north_east_exit_map.lua",
                                        "dat/maps/mt_elbrus/mt_elbrus_north_east_exit_script.lua", "from_shrine_basement");
@@ -212,7 +202,7 @@ function _CreateEvents()
     kalya_move_next_to_hero_event1:AddEventLinkAtEnd("Bronann looks at Kalya");
     EventManager:RegisterEvent(kalya_move_next_to_hero_event1);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Wow, what a fall... I didn't see that one coming.");
     dialogue:AddLineEmote(text, kalya, "sweat drop");
     text = vt_system.Translate("Are you alright, Kalya?");
@@ -227,7 +217,6 @@ function _CreateEvents()
     dialogue:AddLineEventEmote(text, bronann, "Kalya looks south", "Bronann looks north", "exclamation");
     text = vt_system.Translate("Let's find him ... once more, before something bad happens...");
     dialogue:AddLineEmote(text, kalya, "sweat drop");
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Where is Orlinn? dialogue", dialogue);
     event:AddEventLinkAtEnd("Kalya moves back to party1");
     EventManager:RegisterEvent(event);
@@ -240,22 +229,20 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
 
     -- Hero sees the exit
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("This is the blocked passage to the Shrine entrance...");
     dialogue:AddLineEventEmote(text, hero, "Hero looks east", "", "thinking dots");
     text = vt_system.Translate("This can only mean we're near the exit!");
     dialogue:AddLineEventEmote(text, hero, "Hero looks west", "", "exclamation");
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("See exit dialogue", dialogue);
     EventManager:RegisterEvent(event);
 
     -- Orlinn screams
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Help!!");
     dialogue:AddLine(text, orlinn);
     text = vt_system.Translate("Orlinn!");
     dialogue:AddLineEmote(text, hero, "exclamation");
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Orlinn screams dialogue", dialogue);
     EventManager:RegisterEvent(event);
 
@@ -274,7 +261,7 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("Kalya looks at Orlinn");
     EventManager:RegisterEvent(event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Help!!");
     dialogue:AddLineEmote(text, orlinn, "exclamation");
     text = vt_system.Translate("Orlinn! Back off!");
@@ -283,7 +270,6 @@ function _CreateEvents()
     dialogue:AddLineEmote(text, orlinn, "sweat drop");
     text = vt_system.Translate("Orlinn! NOW!");
     dialogue:AddLineEmote(text, bronann, "exclamation");
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Before boss dialogue", dialogue);
     event:AddEventLinkAtEnd("Orlinn back off");
     EventManager:RegisterEvent(event);
@@ -293,7 +279,7 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("Before boss dialogue2");
     EventManager:RegisterEvent(event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("You shall not leave this place without my consent.");
     dialogue:AddLine(text, andromalius);
     text = vt_system.Translate("And you shall not touch my brother without mine...");
@@ -302,7 +288,6 @@ function _CreateEvents()
     dialogue:AddLine(text, andromalius);
     text = vt_system.Translate("Let's fight for our lives then!");
     dialogue:AddLineEmote(text, bronann, "exclamation");
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Before boss dialogue2", dialogue);
     event:AddEventLinkAtEnd("Battle with the boss");
     EventManager:RegisterEvent(event);
@@ -336,7 +321,7 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("Dialogue with Orlinn");
     EventManager:RegisterEvent(event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Orlinn, are you alright?");
     dialogue:AddLineEmote(text, kalya, "sweat drop");
     text = vt_system.Translate("Yes, I'm sorry I wasn't able to protect myself, sis.");
@@ -349,7 +334,6 @@ function _CreateEvents()
     dialogue:AddLineEmote(text, bronann, "sweat drop");
     text = vt_system.Translate("I couldn't agree more ...");
     dialogue:AddLineEvent(text, kalya, "Kalya looks at Bronann", "");
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Dialogue with Orlinn", dialogue);
     event:AddEventLinkAtEnd("Kalya moves back to party2");
     event:AddEventLinkAtEnd("Orlinn moves back to party2");
@@ -373,19 +357,11 @@ local to_mountain_exit_zone = nil
 
 -- Create the different map zones triggering events
 function _CreateZones()
-
     -- N.B.: left, right, top, bottom
-    orlinn_screams_zone = vt_map.CameraZone(36, 40, 36, 48);
-    Map:AddZone(orlinn_screams_zone);
-
-    see_exit_zone = vt_map.CameraZone(56, 61, 40, 45);
-    Map:AddZone(see_exit_zone);
-
-    final_boss_zone = vt_map.CameraZone(21, 36, 3, 22);
-    Map:AddZone(final_boss_zone);
-
-    to_mountain_exit_zone = vt_map.CameraZone(0, 2, 15, 34);
-    Map:AddZone(to_mountain_exit_zone);
+    orlinn_screams_zone = vt_map.CameraZone.Create(36, 40, 36, 48);
+    see_exit_zone = vt_map.CameraZone.Create(56, 61, 40, 45);
+    final_boss_zone = vt_map.CameraZone.Create(21, 36, 3, 22);
+    to_mountain_exit_zone = vt_map.CameraZone.Create(0, 2, 15, 34);
 end
 
 -- Booleans preventing from starting the even more than once.

@@ -5,7 +5,7 @@ fenrir_death = ns;
 setfenv(1, ns);
 
 -- local references
-local enemy = {};
+local enemy = nil
 local enemy_pos_x = 0.0;
 local enemy_pos_y = 0.0;
 local enemy_origin_x = 0.0;
@@ -13,9 +13,9 @@ local enemy_origin_y = 0.0;
 
 local elapsed_time = 0;
 
-local Battle = {};
-local Script = {};
-local Effects = {};
+local Battle = nil
+local Script = nil
+local Effects = nil
 
 local light1_image = 0;
 local light2_image = 0;

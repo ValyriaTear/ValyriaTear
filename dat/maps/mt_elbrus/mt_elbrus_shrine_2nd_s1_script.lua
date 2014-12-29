@@ -14,13 +14,12 @@ map_subname = ""
 music_filename = "snd/wind.ogg"
 
 -- c++ objects instances
-local Map = {};
-local ObjectManager = {};
-local DialogueManager = {};
-local EventManager = {};
+local Map = nil
+local DialogueManager = nil
+local EventManager = nil
 
 -- the main character handler
-local hero = {};
+local hero = nil
 
 -- Name of the main sprite. Used to reload the good one at the end of dialogue events.
 local main_sprite_name = "";
@@ -32,11 +31,9 @@ local bridge_middle_parts = {}
 function Load(m)
 
     Map = m;
-    ObjectManager = Map.object_supervisor;
-    DialogueManager = Map.dialogue_supervisor;
-    EventManager = Map.event_supervisor;
-
-    Map.unlimited_stamina = false;
+    DialogueManager = Map:GetDialogueSupervisor();
+    EventManager = Map:GetEventSupervisor();
+    Map:SetUnlimitedStamina(false);
 
     _CreateCharacters();
     _CreateObjects();
@@ -44,7 +41,7 @@ function Load(m)
     -- Set the camera focus on hero
     Map:SetCamera(hero);
     -- This is a dungeon map, we'll use the front battle member sprite as default sprite.
-    Map.object_supervisor:SetPartyMemberVisibleSprite(hero);
+    Map:SetPartyMemberVisibleSprite(hero);
 
     _CreateEvents();
     _CreateZones();
@@ -74,7 +71,7 @@ end
 -- Character creation
 function _CreateCharacters()
     -- Default hero and position
-    hero = CreateSprite(Map, "Bronann", 86, 8);
+    hero = CreateSprite(Map, "Bronann", 86, 8, vt_map.MapMode.GROUND_OBJECT);
     hero:SetDirection(vt_map.MapMode.SOUTH);
     hero:SetMovementSpeed(vt_map.MapMode.NORMAL_SPEED);
 
@@ -85,28 +82,25 @@ function _CreateCharacters()
         hero:SetDirection(vt_map.MapMode.SOUTH);
         hero:SetPosition(34.0, 26.0);
     end
-
-    Map:AddGroundObject(hero);
 end
 
-local wind_effect1 = {}
-local wind_effect2 = {}
-local wind_effect3 = {}
+local wind_effect1 = nil
+local wind_effect2 = nil
+local wind_effect3 = nil
 
 local wind_sound1 = nil;
 local wind_sound2 = nil;
 local wind_sound3 = nil;
 
 function _CreateObjects()
-    local object = {}
-    local npc = {}
-    local dialogue = {}
-    local text = {}
-    local event = {}
+    local object = nil
+    local npc = nil
+    local dialogue = nil
+    local text = nil
+    local event = nil
 
-    object = CreateTreasure(Map, "mt_shrine_2nd_s1_chest1", "Wood_Chest1", 73, 49);
-    object:AddObject(12, 1); -- Medium Moon Juice potion x 1
-    Map:AddGroundObject(object);
+    object = CreateTreasure.Create(Map, "mt_shrine_2nd_s1_chest1", "Wood_Chest1", 73, 49, vt_map.MapMode.GROUND_OBJECT);
+    object:AddItem(12, 1); -- Medium Moon Juice potion x 1
 
     -- Objects array
     local map_objects = {
@@ -169,81 +163,55 @@ function _CreateObjects()
     -- Loads the trees according to the array
     for my_index, my_array in pairs(map_objects) do
         --print(my_array[1], my_array[2], my_array[3]);
-        object = CreateObject(Map, my_array[1], my_array[2], my_array[3]);
-        Map:AddGroundObject(object);
+        CreateObject(Map, my_array[1], my_array[2], my_array[3], vt_map.MapMode.GROUND_OBJECT);
     end
 
     -- Create the bridge
-    object = CreateObject(Map, "Bridge1_up", 10, 11);
-    Map:AddFlatGroundObject(object);
+    CreateObject(Map, "Bridge1_up", 10, 11, vt_map.MapMode.FLATGROUND_OBJECT);
 
-    bridge_middle_parts[1] = CreateObject(Map, "Bridge1_middle", 10, 11);
-    Map:AddFlatGroundObject(bridge_middle_parts[1]);
-    bridge_middle_parts[2] = CreateObject(Map, "Bridge1_middle", 10, 13);
-    Map:AddFlatGroundObject(bridge_middle_parts[2]);
-    bridge_middle_parts[3] = CreateObject(Map, "Bridge1_middle", 10, 15);
-    Map:AddFlatGroundObject(bridge_middle_parts[3]);
-    bridge_middle_parts[4] = CreateObject(Map, "Bridge1_middle", 10, 17);
-    Map:AddFlatGroundObject(bridge_middle_parts[4]);
-    bridge_middle_parts[5] = CreateObject(Map, "Bridge1_middle", 10, 19);
-    Map:AddFlatGroundObject(bridge_middle_parts[5]);
-    bridge_middle_parts[6] = CreateObject(Map, "Bridge1_middle", 10, 20);
-    Map:AddFlatGroundObject(bridge_middle_parts[6]);
-    bridge_middle_parts[7] = CreateObject(Map, "Bridge1_middle", 10, 22);
-    Map:AddFlatGroundObject(bridge_middle_parts[7]);
-    bridge_middle_parts[8] = CreateObject(Map, "Bridge1_middle", 10, 24);
-    Map:AddFlatGroundObject(bridge_middle_parts[8]);
-    bridge_middle_parts[9] = CreateObject(Map, "Bridge1_middle", 10, 26);
-    Map:AddFlatGroundObject(bridge_middle_parts[9]);
-    bridge_middle_parts[10] = CreateObject(Map, "Bridge1_middle", 10, 28);
-    Map:AddFlatGroundObject(bridge_middle_parts[10]);
-    bridge_middle_parts[11] = CreateObject(Map, "Bridge1_middle", 10, 30);
-    Map:AddFlatGroundObject(bridge_middle_parts[11]);
-    bridge_middle_parts[12] = CreateObject(Map, "Bridge1_middle", 10, 32);
-    Map:AddFlatGroundObject(bridge_middle_parts[12]);
-    bridge_middle_parts[13] = CreateObject(Map, "Bridge1_middle", 10, 34);
-    Map:AddFlatGroundObject(bridge_middle_parts[13]);
-    bridge_middle_parts[14] = CreateObject(Map, "Bridge1_middle", 10, 36);
-    Map:AddFlatGroundObject(bridge_middle_parts[14]);
+    bridge_middle_parts[1] = CreateObject(Map, "Bridge1_middle", 10, 11, vt_map.MapMode.FLATGROUND_OBJECT);
+    bridge_middle_parts[2] = CreateObject(Map, "Bridge1_middle", 10, 13, vt_map.MapMode.FLATGROUND_OBJECT);
+    bridge_middle_parts[3] = CreateObject(Map, "Bridge1_middle", 10, 15, vt_map.MapMode.FLATGROUND_OBJECT);
+    bridge_middle_parts[4] = CreateObject(Map, "Bridge1_middle", 10, 17, vt_map.MapMode.FLATGROUND_OBJECT);
+    bridge_middle_parts[5] = CreateObject(Map, "Bridge1_middle", 10, 19, vt_map.MapMode.FLATGROUND_OBJECT);
+    bridge_middle_parts[6] = CreateObject(Map, "Bridge1_middle", 10, 20, vt_map.MapMode.FLATGROUND_OBJECT);
+    bridge_middle_parts[7] = CreateObject(Map, "Bridge1_middle", 10, 22, vt_map.MapMode.FLATGROUND_OBJECT);
+    bridge_middle_parts[8] = CreateObject(Map, "Bridge1_middle", 10, 24, vt_map.MapMode.FLATGROUND_OBJECT);
+    bridge_middle_parts[9] = CreateObject(Map, "Bridge1_middle", 10, 26, vt_map.MapMode.FLATGROUND_OBJECT);
+    bridge_middle_parts[10] = CreateObject(Map, "Bridge1_middle", 10, 28, vt_map.MapMode.FLATGROUND_OBJECT);
+    bridge_middle_parts[11] = CreateObject(Map, "Bridge1_middle", 10, 30, vt_map.MapMode.FLATGROUND_OBJECT);
+    bridge_middle_parts[12] = CreateObject(Map, "Bridge1_middle", 10, 32, vt_map.MapMode.FLATGROUND_OBJECT);
+    bridge_middle_parts[13] = CreateObject(Map, "Bridge1_middle", 10, 34, vt_map.MapMode.FLATGROUND_OBJECT);
+    bridge_middle_parts[14] = CreateObject(Map, "Bridge1_middle", 10, 36, vt_map.MapMode.FLATGROUND_OBJECT);
 
-    object = CreateObject(Map, "Bridge1_down", 10, 38);
-    Map:AddFlatGroundObject(object);
+    CreateObject(Map, "Bridge1_down", 10, 38, vt_map.MapMode.FLATGROUND_OBJECT);
 
     -- Adds the wind particle effects
-    wind_effect1 = vt_map.ParticleObject("dat/maps/mt_elbrus/particles_snow_pushing.lua", 34, 80);
-    wind_effect1:SetObjectID(Map.object_supervisor:GenerateObjectID());
+    wind_effect1 = vt_map.ParticleObject.Create("dat/maps/mt_elbrus/particles_snow_pushing.lua", 34, 80, vt_map.MapMode.GROUND_OBJECT);
     wind_effect1:Stop(); -- Don't run it at start
-    Map:AddGroundObject(wind_effect1);
 
-    wind_effect2 = vt_map.ParticleObject("dat/maps/mt_elbrus/particles_snow_pushing.lua", 45, 55);
-    wind_effect2:SetObjectID(Map.object_supervisor:GenerateObjectID());
+    wind_effect2 = vt_map.ParticleObject.Create("dat/maps/mt_elbrus/particles_snow_pushing.lua", 45, 55, vt_map.MapMode.GROUND_OBJECT);
     wind_effect2:Stop(); -- Don't run it at start
-    Map:AddGroundObject(wind_effect2);
 
     -- An harmless wind pusher, for once
-    wind_effect3 = vt_map.ParticleObject("dat/maps/mt_elbrus/particles_snow_pushing.lua", 87, 29);
-    wind_effect3:SetObjectID(Map.object_supervisor:GenerateObjectID());
+    wind_effect3 = vt_map.ParticleObject.Create("dat/maps/mt_elbrus/particles_snow_pushing.lua", 87, 29, vt_map.MapMode.GROUND_OBJECT);
     wind_effect3:Stop(); -- Don't run it at start
-    Map:AddGroundObject(wind_effect3);
 
-    wind_sound1 = vt_map.SoundObject("snd/mountain_wind.ogg", 34.0, 68.0, 15.0);
-    Map:AddAmbientSoundObject(wind_sound1);
+    wind_sound1 = vt_map.SoundObject.Create("snd/mountain_wind.ogg", 34.0, 68.0, 15.0);
     wind_sound1:Stop();
 
-    wind_sound2 = vt_map.SoundObject("snd/mountain_wind.ogg", 46.0, 47.0, 15.0);
-    Map:AddAmbientSoundObject(wind_sound2);
+    wind_sound2 = vt_map.SoundObject.Create("snd/mountain_wind.ogg", 46.0, 47.0, 15.0);
     wind_sound2:Stop();
 
-    wind_sound3 = vt_map.SoundObject("snd/mountain_wind.ogg", 87.0, 19.0, 15.0);
-    Map:AddAmbientSoundObject(wind_sound3);
+    wind_sound3 = vt_map.SoundObject.Create("snd/mountain_wind.ogg", 87.0, 19.0, 15.0);
     wind_sound3:Stop();
 end
 
 -- Creates all events and sets up the entire event sequence chain
 function _CreateEvents()
-    local event = {};
-    local dialogue = {};
-    local text = {};
+    local event = nil
+    local dialogue = nil
+    local text = nil
 
     event = vt_map.MapTransitionEvent("to mountain shrine 2nd floor NE", "dat/maps/mt_elbrus/mt_elbrus_shrine_2nd_ne_map.lua",
                                       "dat/maps/mt_elbrus/mt_elbrus_shrine_2nd_ne_script.lua", "from_shrine_2nd_floor_south");
@@ -271,37 +239,28 @@ function _CreateEvents()
 end
 
 -- zones
-local to_shrine_ne_zone = {};
-local to_grotto_zone = {};
-local to_shrine_nw_zone = {};
+local to_shrine_ne_zone = nil
+local to_grotto_zone = nil
+local to_shrine_nw_zone = nil
 
-local windy1_zone = {};
-local windy2_zone = {};
-local windy3_zone = {};
-local falling_zone = {};
+local windy1_zone = nil
+local windy2_zone = nil
+local windy3_zone = nil
+local falling_zone = nil
 
 -- Create the different map zones triggering events
 function _CreateZones()
-
     -- N.B.: left, right, top, bottom
-    to_shrine_ne_zone = vt_map.CameraZone(84, 88, 3, 5);
-    Map:AddZone(to_shrine_ne_zone);
-    to_shrine_nw_zone = vt_map.CameraZone(6, 10, 3, 5);
-    Map:AddZone(to_shrine_nw_zone);
-    to_grotto_zone = vt_map.CameraZone(33, 35, 22, 24);
-    Map:AddZone(to_grotto_zone);
+    to_shrine_ne_zone = vt_map.CameraZone.Create(84, 88, 3, 5);
+    to_shrine_nw_zone = vt_map.CameraZone.Create(6, 10, 3, 5);
+    to_grotto_zone = vt_map.CameraZone.Create(33, 35, 22, 24);
 
-    windy1_zone = vt_map.CameraZone(32, 36, 65, 71);
-    Map:AddZone(windy1_zone);
-    windy2_zone = vt_map.CameraZone(43, 47, 40, 48);
-    Map:AddZone(windy2_zone);
-    falling_zone = vt_map.CameraZone(32, 36, 71, 74);
+    windy1_zone = vt_map.CameraZone.Create(32, 36, 65, 71);
+    windy2_zone = vt_map.CameraZone.Create(43, 47, 40, 48);
+    falling_zone = vt_map.CameraZone.Create(32, 36, 71, 74);
     falling_zone:AddSection(43, 47, 48, 52);
-    Map:AddZone(falling_zone);
 
-    windy3_zone = vt_map.CameraZone(85, 89, 10, 29);
-    Map:AddZone(windy3_zone);
-
+    windy3_zone = vt_map.CameraZone.Create(85, 89, 10, 29);
 end
 
 -- Tells whether the winds are on.

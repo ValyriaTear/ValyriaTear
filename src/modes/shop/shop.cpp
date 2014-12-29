@@ -1559,7 +1559,7 @@ void ShopMode::CompleteTransaction()
 
         it->second->ResetSellCount();
         it->second->DecrementOwnCount(count);
-        GlobalManager->DecrementObjectCount(id, count);
+        GlobalManager->DecrementItemCount(id, count);
 
         // When all owned instances of this object have been sold off, the object is automatically removed
         // from the player's inventory. If the object is not sold in the shop, this means it must be removed
@@ -1586,7 +1586,7 @@ void ShopMode::CompleteTransaction()
 
         //Remove trade condition items from inventory and possibly call RemoveObjectToSell
         for(uint32 i = 0; i < it->second->GetObject()->GetTradeConditions().size(); ++i) {
-            GlobalManager->DecrementObjectCount(it->second->GetObject()->GetTradeConditions()[i].first,
+            GlobalManager->DecrementItemCount(it->second->GetObject()->GetTradeConditions()[i].first,
                                                 it->second->GetObject()->GetTradeConditions()[i].second * count);
         }
 
@@ -1734,7 +1734,7 @@ void ShopMode::SetPriceLevels(SHOP_PRICE_LEVEL buy_level, SHOP_PRICE_LEVEL sell_
 
 
 
-void ShopMode::AddObject(uint32 object_id, uint32 stock)
+void ShopMode::AddItem(uint32 object_id, uint32 stock)
 {
     if(IsInitialized() == true) {
         PRINT_WARNING << "function called after shop was already initialized" << std::endl;

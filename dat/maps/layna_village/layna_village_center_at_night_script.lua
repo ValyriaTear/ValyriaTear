@@ -14,31 +14,29 @@ map_subname = "Village center"
 music_filename = "mus/forest_at_night.ogg"
 
 -- c++ objects instances
-local Map = {};
-local ObjectManager = {};
-local DialogueManager = {};
-local EventManager = {};
-local Effects = {};
+local Map = nil
+local DialogueManager = nil
+local EventManager = nil
+local Effects = nil
 
-local bronann = {};
-local kalya = {};
+local bronann = nil
+local kalya = nil
 
 -- The soldiers bringing Kalya to the riverbank
-local soldier1 = {};
-local soldier2 = {};
-local soldier3 = {};
-local soldier4 = {};
+local soldier1 = nil
+local soldier2 = nil
+local soldier3 = nil
+local soldier4 = nil
 
 -- the main map loading code
 function Load(m)
 
     Map = m;
-    ObjectManager = Map.object_supervisor;
-    DialogueManager = Map.dialogue_supervisor;
-    EventManager = Map.event_supervisor;
     Effects = Map:GetEffectSupervisor();
+    DialogueManager = Map:GetDialogueSupervisor();
+    EventManager = Map:GetEventSupervisor();
 
-    Map.unlimited_stamina = true;
+    Map:SetUnlimitedStamina(true);
 
     _CreateCharacters();
     -- Set the camera focus on Bronann
@@ -71,10 +69,9 @@ function Update()
     _CheckZones();
 end
 
-
 -- Character creation
 function _CreateCharacters()
-    bronann = CreateSprite(Map, "Bronann", 12, 63);
+    bronann = CreateSprite(Map, "Bronann", 12, 63, vt_map.MapMode.GROUND_OBJECT);
     bronann:SetDirection(vt_map.MapMode.SOUTH);
     bronann:SetMovementSpeed(vt_map.MapMode.NORMAL_SPEED);
 
@@ -105,109 +102,79 @@ function _CreateCharacters()
     elseif (GlobalManager:GetPreviousLocation() == "from_bronanns_home") then
         AudioManager:PlaySound("snd/door_close.wav");
     end
-
-    Map:AddGroundObject(bronann);
 end
 
 function _CreateNPCs()
-    local npc = {}
-    local text = {}
-    local dialogue = {}
-    local event = {}
+    local npc = nil
+    local text = nil
+    local dialogue = nil
+    local event = nil
 
-    kalya = CreateSprite(Map, "Kalya", 0, 0);
+    kalya = CreateSprite(Map, "Kalya", 0, 0, vt_map.MapMode.GROUND_OBJECT);
     kalya:SetVisible(false);
     kalya:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
-    Map:AddGroundObject(kalya);
 
-    soldier1 = CreateNPCSprite(Map, "Dark Soldier", vt_system.Translate("Soldier"), 0, 0);
+    soldier1 = CreateNPCSprite(Map, "Dark Soldier", vt_system.Translate("Soldier"), 0, 0, vt_map.MapMode.GROUND_OBJECT);
     soldier1:SetVisible(false);
     soldier1:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
-    Map:AddGroundObject(soldier1);
-    soldier2 = CreateNPCSprite(Map, "Dark Soldier", vt_system.Translate("Soldier"), 0, 0);
+
+    soldier2 = CreateNPCSprite(Map, "Dark Soldier", vt_system.Translate("Soldier"), 0, 0, vt_map.MapMode.GROUND_OBJECT);
     soldier2:SetVisible(false);
     soldier2:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
-    Map:AddGroundObject(soldier2);
-    soldier3 = CreateNPCSprite(Map, "Dark Soldier", vt_system.Translate("Soldier"), 0, 0);
+
+    soldier3 = CreateNPCSprite(Map, "Dark Soldier", vt_system.Translate("Soldier"), 0, 0, vt_map.MapMode.GROUND_OBJECT);
     soldier3:SetVisible(false);
     soldier3:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
-    Map:AddGroundObject(soldier3);
-    soldier4 = CreateNPCSprite(Map, "Dark Soldier", vt_system.Translate("Soldier"), 0, 0);
+
+    soldier4 = CreateNPCSprite(Map, "Dark Soldier", vt_system.Translate("Soldier"), 0, 0, vt_map.MapMode.GROUND_OBJECT);
     soldier4:SetVisible(false);
     soldier4:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
-    Map:AddGroundObject(soldier4);
 end
 
 function _CreateObjects()
-    local object = {}
+    CreateObject(Map, "Tree Big2", 22, 78, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Tree Small1", 22, 16, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Tree Big1", 9, 16, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Tree Big1", 65, 18, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Tree Big2", 74, 20, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Tree Big1", 67, 32, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Tree Big2", 80, 36, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Tree Small1", 92, 22, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Tree Big2", 98, 24, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Tree Small2", 79, 16, vt_map.MapMode.GROUND_OBJECT);
 
-    object = CreateObject(Map, "Tree Big2", 22, 78);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
-    object = CreateObject(Map, "Tree Small1", 22, 16);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
-    object = CreateObject(Map, "Tree Big1", 9, 16);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
-    object = CreateObject(Map, "Tree Big1", 65, 18);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
-    object = CreateObject(Map, "Tree Big2", 74, 20);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
-    object = CreateObject(Map, "Tree Big1", 67, 32);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
-    object = CreateObject(Map, "Tree Big2", 80, 36);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
-    object = CreateObject(Map, "Tree Small1", 92, 22);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
-    object = CreateObject(Map, "Tree Big2", 98, 24);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
-    object = CreateObject(Map, "Tree Small2", 79, 16);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
-
-    object = CreateObject(Map, "Rock1", 3, 64);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
-    object = CreateObject(Map, "Rock2", 2, 62);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
-    object = CreateObject(Map, "Rock1", 33, 12);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
-
-    object = CreateObject(Map, "Rock2", 29, 16);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
-    object = CreateObject(Map, "Rock2", 109, 34);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
-    object = CreateObject(Map, "Rock2", 113, 34);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
-    object = CreateObject(Map, "Rock2", 117, 34);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
-    object = CreateObject(Map, "Rock2", 109, 42);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
-    object = CreateObject(Map, "Rock2", 117, 42);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
-    object = CreateObject(Map, "Rock2", 113, 42);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
+    CreateObject(Map, "Rock1", 3, 64, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Rock2", 2, 62, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Rock1", 33, 12, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Rock2", 29, 16, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Rock2", 109, 34, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Rock2", 113, 34, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Rock2", 117, 34, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Rock2", 109, 42, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Rock2", 117, 42, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Rock2", 113, 42, vt_map.MapMode.GROUND_OBJECT);
 
     -- collision bug hidders
-    object = CreateObject(Map, "Barrel1", 14, 38);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
-    object = CreateObject(Map, "Vase1", 15, 39);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
-    object = CreateObject(Map, "Barrel1", 30, 38);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
+    CreateObject(Map, "Barrel1", 14, 38, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Vase1", 15, 39, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Barrel1", 30, 38, vt_map.MapMode.GROUND_OBJECT);
+
+    -- A village with drinkable water
+    CreateObject(Map, "Well", 59.0, 32.0, vt_map.MapMode.GROUND_OBJECT);
 
     -- Treasure vase
-    local nekko_vase = CreateTreasure(Map, "layna_center_nekko_vase", "Vase1", 27, 37);
-    if (nekko_vase ~= nil) then
-        nekko_vase:AddObject(11, 1);
-        Map:AddGroundObject(nekko_vase);
-    end
+    local nekko_vase = CreateTreasure(Map, "layna_center_nekko_vase", "Vase1", 27, 37, vt_map.MapMode.GROUND_OBJECT);
+    nekko_vase:AddItem(11, 1);
 end
 
 -- Special event references which destinations must be updated just before being called.
-local move_next_to_hero_event = {};
+local move_next_to_hero_event = nil
 
 -- Creates all events and sets up the entire event sequence chain
 function _CreateEvents()
-    local event = {};
-    local text = {};
-    local dialogue = {};
+    local event = nil
+    local text = nil
+    local dialogue = nil
 
     -- Triggered Events
     event = vt_map.MapTransitionEvent("to Riverbank", "dat/maps/layna_village/layna_village_riverbank_map.lua",
@@ -263,12 +230,11 @@ function _CreateEvents()
     move_next_to_hero_event:AddEventLinkAtEnd("kalya:SetCollision(ALL)");
     EventManager:RegisterEvent(move_next_to_hero_event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Back home, finally...");
     dialogue:AddLine(text, kalya);
     text = vt_system.Translate("I'll go and get Herth. Your parents must be worried... Go home... We'll meet there.");
     dialogue:AddLineEvent(text, kalya, "Kalya looks at Bronann", "");
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Kalya tells Bronann she'll fetch Herth", dialogue);
     event:AddEventLinkAtEnd("Kalya runs to her home");
     event:AddEventLinkAtEnd("End of return to village dialogue");
@@ -282,18 +248,16 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
 
     -- Zone blocking events
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("I should really get back home...");
     dialogue:AddLine(text, bronann);
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Bronann should go home", dialogue);
     event:SetStopCameraMovement(true);
     EventManager:RegisterEvent(event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Weird, I can see no lights in there... I have a bad feeling about this, let's get back home...");
     dialogue:AddLine(text, bronann);
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Bronann should go home when checking other houses", dialogue);
     event:SetStopCameraMovement(true);
     EventManager:RegisterEvent(event);
@@ -308,10 +272,9 @@ function _CreateEvents()
     event = vt_map.ScriptedEvent("Play locked door sound", "play_lock_door_sound", "");
     EventManager:RegisterEvent(event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Huh?");
     dialogue:AddLineEmote(text, bronann, "interrogation");
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Bronann can't enter his home 1", dialogue);
     event:SetStopCameraMovement(true);
     event:AddEventLinkAtEnd("Play locked door sound");
@@ -319,14 +282,13 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("Bronann can't enter his home 2", 800);
     EventManager:RegisterEvent(event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("What's happening here?!? Where is everyone??");
     dialogue:AddLineEmote(text, bronann, "exclamation");
     text = vt_system.Translate("Help!!!");
     dialogue:AddLine(text, kalya);
     text = vt_system.Translate("Kalya?!");
     dialogue:AddLineEventEmote(text, bronann, "Bronann looks east", "", "exclamation");
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Bronann can't enter his home 2", dialogue);
     event:AddEventLinkAtEnd("Set camera on Kalya");
     event:AddEventLinkAtEnd("Kalya is struggling");
@@ -340,12 +302,11 @@ function _CreateEvents()
     event = vt_map.ScriptedEvent("Kalya is struggling", "make_kalya_struggle", "");
     EventManager:RegisterEvent(event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Let go of me, you cheap low-grade filthy jerks...");
     dialogue:AddLineEmote(text, kalya, "exclamation");
     text = vt_system.Translate("Keep quiet, little brat!");
     dialogue:AddLine(text, soldier3);
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Kalya screams against the soldiers", dialogue);
     event:AddEventLinkAtEnd("Set camera on Bronann");
     -- Make the soldiers walk while Bronann tries to cover.
@@ -390,7 +351,6 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("Make Kalya invisible");
     EventManager:RegisterEvent(event);
 
-
     event = vt_map.ScriptedEvent("Set camera on Bronann", "set_camera_on_bronann", "is_camera_moving_finished");
     event:AddEventLinkAtEnd("Bronann runs north of the hill");
     EventManager:RegisterEvent(event);
@@ -408,14 +368,13 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("Bronann dialogue after guards caught Kalya", 2200);
     EventManager:RegisterEvent(event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Soldiers wearing black armor: the Lord's personal guards!");
     dialogue:AddLineEmote(text, bronann, "exclamation");
     text = vt_system.Translate("Fortunately, they didn't see me or I would have been caught as well.");
     dialogue:AddLine(text, bronann);
     text = vt_system.Translate("I should follow them silently...");
     dialogue:AddLineEmote(text, bronann, "thinking dots");
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Bronann dialogue after guards caught Kalya", dialogue);
     event:AddEventLinkAtEnd("End of Kalya capture dialogue");
     EventManager:RegisterEvent(event);
@@ -424,51 +383,34 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
 
     -- After Kalya has been caught, Bronann wants to follow her
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("What am I doing? I should go and try to free Kalya!");
     dialogue:AddLine(text, bronann);
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Bronann should follow Kalya", dialogue);
     event:SetStopCameraMovement(true);
     EventManager:RegisterEvent(event);
-
 end
 
 -- zones
-local bronanns_home_entrance_zone = {};
-local to_riverbank_zone = {};
-local to_village_entrance_zone = {};
-local to_kalya_house_path_zone = {};
-local shop_entrance_zone = {};
-local secret_path_zone = {};
-local to_layna_forest_zone = {};
-local sophia_house_entrance_zone = {};
+local bronanns_home_entrance_zone = nil
+local to_riverbank_zone = nil
+local to_village_entrance_zone = nil
+local to_kalya_house_path_zone = nil
+local shop_entrance_zone = nil
+local secret_path_zone = nil
+local to_layna_forest_zone = nil
+local sophia_house_entrance_zone = nil
 
 function _CreateZones()
     -- N.B.: left, right, top, bottom
-    bronanns_home_entrance_zone = vt_map.CameraZone(10, 14, 60, 61);
-    Map:AddZone(bronanns_home_entrance_zone);
-
-    to_riverbank_zone = vt_map.CameraZone(19, 35, 78, 79);
-    Map:AddZone(to_riverbank_zone);
-
-    to_village_entrance_zone = vt_map.CameraZone(60, 113, 78, 79);
-    Map:AddZone(to_village_entrance_zone);
-
-    to_kalya_house_path_zone = vt_map.CameraZone(0, 1, 8, 15);
-    Map:AddZone(to_kalya_house_path_zone);
-
-    shop_entrance_zone = vt_map.CameraZone(92, 96, 70, 71);
-    Map:AddZone(shop_entrance_zone);
-
-    secret_path_zone = vt_map.CameraZone(0, 1, 55, 61);
-    Map:AddZone(secret_path_zone);
-
-    to_layna_forest_zone = vt_map.CameraZone(117, 119, 30, 43);
-    Map:AddZone(to_layna_forest_zone);
-
-    sophia_house_entrance_zone = vt_map.CameraZone(21, 23, 21, 22);
-    Map:AddZone(sophia_house_entrance_zone);
+    bronanns_home_entrance_zone = vt_map.CameraZone.Create(10, 14, 60, 61);
+    to_riverbank_zone = vt_map.CameraZone.Create(19, 35, 78, 79);
+    to_village_entrance_zone = vt_map.CameraZone.Create(60, 113, 78, 79);
+    to_kalya_house_path_zone = vt_map.CameraZone.Create(0, 1, 8, 15);
+    shop_entrance_zone = vt_map.CameraZone.Create(92, 96, 70, 71);
+    secret_path_zone = vt_map.CameraZone.Create(0, 1, 55, 61);
+    to_layna_forest_zone = vt_map.CameraZone.Create(117, 119, 30, 43);
+    sophia_house_entrance_zone = vt_map.CameraZone.Create(21, 23, 21, 22);
 end
 
 function _CheckZones()
@@ -583,7 +525,7 @@ map_functions = {
         bronann:SetMoving(false);
 
         -- In case she hasn't finished running
-        EventManager:TerminateAllEvents(kalya);
+        EventManager:EndAllEvents(kalya);
 
         kalya:SetVisible(true);
         kalya:SetPosition(41, 41);

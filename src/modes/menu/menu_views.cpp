@@ -503,7 +503,7 @@ void InventoryWindow::Update()
                                     delete item;
                                     item = NULL;
                                     // Now the item is used, we can remove it from the inventory.
-                                    GlobalManager->DecrementObjectCount(_object->GetID(), 1);
+                                    GlobalManager->DecrementItemCount(_object->GetID(), 1);
                                     media.PlaySound("confirm");
                                 }
                             } // if GLOBAL_TARGET_PARTY
@@ -535,7 +535,7 @@ void InventoryWindow::Update()
                                     delete item;
                                     item = NULL;
                                     // Now the item is used, we can remove it from the inventory.
-                                    GlobalManager->DecrementObjectCount(_object->GetID(), 1);
+                                    GlobalManager->DecrementItemCount(_object->GetID(), 1);
                                     media.PlaySound("confirm");
                                 }
                             }
@@ -591,7 +591,7 @@ void InventoryWindow::Update()
                     //set the item select to by lightened
                     _inventory_items.SetCursorState(VIDEO_CURSOR_STATE_VISIBLE);
                     // Remove the selected one from inventory
-                    GlobalManager->DecrementObjectCount(_object->GetID(), 1);
+                    GlobalManager->DecrementItemCount(_object->GetID(), 1);
                     media.PlaySound("confirm");
                 }
                 //if we can equip and it is a weapon
@@ -608,7 +608,7 @@ void InventoryWindow::Update()
                     //set the item select to by lightened
                     _inventory_items.SetCursorState(VIDEO_CURSOR_STATE_VISIBLE);
                     // Remove the selected one from inventory
-                    GlobalManager->DecrementObjectCount(_object->GetID(), 1);
+                    GlobalManager->DecrementItemCount(_object->GetID(), 1);
                     media.PlaySound("confirm");
                 }
                 //if we cannot equip
@@ -1941,7 +1941,7 @@ void EquipWindow::Update()
                 if(wpn->GetUsableBy() & _character->GetID()) {
                     id_num = wpn->GetID();
                     GlobalManager->AddToInventory(_character->EquipWeapon((GlobalWeapon *)GlobalManager->GetGlobalObject(id_num)));
-                    GlobalManager->DecrementObjectCount(id_num, 1);
+                    GlobalManager->DecrementItemCount(id_num, 1);
                 } else {
                     media.PlaySound("cancel");
                 }
@@ -1953,7 +1953,7 @@ void EquipWindow::Update()
                 if(hlm->GetUsableBy() & _character->GetID()) {
                     id_num = hlm->GetID();
                     GlobalManager->AddToInventory(_character->EquipHeadArmor((GlobalArmor *)GlobalManager->GetGlobalObject(id_num)));
-                    GlobalManager->DecrementObjectCount(id_num, 1);
+                    GlobalManager->DecrementItemCount(id_num, 1);
                 } else {
                     media.PlaySound("cancel");
                 }
@@ -1965,7 +1965,7 @@ void EquipWindow::Update()
                 if(arm->GetUsableBy() & _character->GetID()) {
                     id_num = arm->GetID();
                     GlobalManager->AddToInventory(_character->EquipTorsoArmor((GlobalArmor *)GlobalManager->GetGlobalObject(id_num)));
-                    GlobalManager->DecrementObjectCount(id_num, 1);
+                    GlobalManager->DecrementItemCount(id_num, 1);
                 } else {
                     media.PlaySound("cancel");
                 }
@@ -1977,7 +1977,7 @@ void EquipWindow::Update()
                 if(shld->GetUsableBy() & _character->GetID()) {
                     id_num = shld->GetID();
                     GlobalManager->AddToInventory(_character->EquipArmArmor((GlobalArmor *)GlobalManager->GetGlobalObject(id_num)));
-                    GlobalManager->DecrementObjectCount(id_num, 1);
+                    GlobalManager->DecrementItemCount(id_num, 1);
                 } else {
                     media.PlaySound("cancel");
                 }
@@ -1989,7 +1989,7 @@ void EquipWindow::Update()
                 if(lgs->GetUsableBy() & _character->GetID()) {
                     id_num = lgs->GetID();
                     GlobalManager->AddToInventory(_character->EquipLegArmor((GlobalArmor *)GlobalManager->GetGlobalObject(id_num)));
-                    GlobalManager->DecrementObjectCount(id_num, 1);
+                    GlobalManager->DecrementItemCount(id_num, 1);
                 } else {
                     media.PlaySound("cancel");
                 }

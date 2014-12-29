@@ -14,27 +14,25 @@ map_subname = ""
 music_filename = "mus/koertes-ccby-birdsongloop16s.ogg"
 
 -- c++ objects instances
-local Map = {};
-local ObjectManager = {};
-local DialogueManager = {};
-local EventManager = {};
+local Map = nil
+local DialogueManager = nil
+local EventManager = nil
 
 -- the main character handler
-local bronann = {};
+local bronann = nil
 
 -- opening objects
-local bronann_in_bed = {};
-local bed = {};
+local bronann_in_bed = nil
+local bed = nil
 
 -- the main map loading code
 function Load(m)
 
     Map = m;
-    ObjectManager = Map.object_supervisor;
-    DialogueManager = Map.dialogue_supervisor;
-    EventManager = Map.event_supervisor;
+    DialogueManager = Map:GetDialogueSupervisor();
+    EventManager = Map:GetEventSupervisor();
 
-    Map.unlimited_stamina = true;
+    Map:SetUnlimitedStamina(true);
 
     _CreateCharacters();
     _CreateObjects();
@@ -66,7 +64,7 @@ function Load(m)
     -- Permits the display of basic game commands
     Map:GetScriptSupervisor():AddScript("dat/help/in_game_move_and_interact_anim.lua");
 
-    Map:AddSavePoint(34, 35);
+    vt_map.SavePoint.Create(34, 35);
 end
 
 -- the map update function handles checks done on each game tick.
@@ -77,7 +75,7 @@ end
 
 -- Character creation
 function _CreateCharacters()
-    bronann = CreateSprite(Map, "Bronann", 23.5, 17.5);
+    bronann = CreateSprite(Map, "Bronann", 23.5, 17.5, vt_map.MapMode.GROUND_OBJECT);
     bronann:SetDirection(vt_map.MapMode.SOUTH);
     bronann:SetMovementSpeed(vt_map.MapMode.NORMAL_SPEED);
 
@@ -96,98 +94,71 @@ function _CreateCharacters()
         bronann:SetDirection(vt_map.MapMode.WEST);
     end
 
-    Map:AddGroundObject(bronann);
-
     -- Add Bronann in bed wake up animation
-    bronann_in_bed = vt_map.PhysicalObject();
-    bronann_in_bed:SetObjectID(Map.object_supervisor:GenerateObjectID());
+    bronann_in_bed = vt_map.PhysicalObject.Create(vt_map.MapMode.GROUND_OBJECT);
     bronann_in_bed:SetPosition(20, 20);
     bronann_in_bed:SetCollHalfWidth(1.75);
     bronann_in_bed:SetCollHeight(5.50);
     bronann_in_bed:SetImgHalfWidth(1.75);
     bronann_in_bed:SetImgHeight(5.68);
     bronann_in_bed:AddAnimation("img/sprites/map/characters/bronann_bed_animation.lua");
-
-    Map:AddGroundObject(bronann_in_bed);
 end
 
 function _CreateObjects()
-    object = {}
+    local object = nil
 
     -- Bronann's room
-    bed = CreateObject(Map, "Bed1", 20, 20);
-    if (bed ~= nil) then Map:AddGroundObject(bed) end;
+    bed = CreateObject(Map, "Bed1", 20, 20, vt_map.MapMode.GROUND_OBJECT);
 
-    local chest = CreateTreasure(Map, "bronann_room_chest", "Wood_Chest1", 19, 22);
-    if (chest ~= nil) then
-        chest:SetDrunes(5);
-        Map:AddGroundObject(chest);
-    end
+    local chest = CreateTreasure(Map, "bronann_room_chest", "Wood_Chest1", 19, 22, vt_map.MapMode.GROUND_OBJECT);
+    chest:SetDrunes(5);
 
-    chest = CreateTreasure(Map, "bronannsparent_room_chest", "Locker_Chest1", 39, 33.2);
-    if (chest ~= nil) then
-        chest:AddObject(11, 1);
-        chest:SetDrunes(12);
-        chest:SetDrawOnSecondPass(true); -- Above the table
-        chest:SetCollisionMask(vt_map.MapMode.WALL_COLLISION);
-        Map:AddGroundObject(chest);
-    end
+    chest = CreateTreasure(Map, "bronannsparent_room_chest", "Locker_Chest1", 39, 33.2, vt_map.MapMode.GROUND_OBJECT);
+    chest:AddItem(11, 1);
+    chest:SetDrunes(12);
+    chest:SetDrawOnSecondPass(true); -- Above the table
+    chest:SetCollisionMask(vt_map.MapMode.WALL_COLLISION);
 
-    object = CreateObject(Map, "Chair1", 23, 26);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
-    object = CreateObject(Map, "Small Wooden Table", 20, 27);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
+    CreateObject(Map, "Chair1", 23, 26, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Small Wooden Table", 20, 27, vt_map.MapMode.GROUND_OBJECT);
 
-    object = CreateObject(Map, "Candle1", 19, 25);
+    object = CreateObject(Map, "Candle1", 19, 25, vt_map.MapMode.GROUND_OBJECT);
     object:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
     object:SetDrawOnSecondPass(true); -- Above the table
-    if (object ~= nil) then Map:AddGroundObject(object) end;
-    object = CreateObject(Map, "Book1", 21, 25);
+
+    object = CreateObject(Map, "Book1", 21, 25, vt_map.MapMode.GROUND_OBJECT);
     object:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
     object:SetDrawOnSecondPass(true); -- Above any other ground object
-    if (object ~= nil) then Map:AddGroundObject(object) end;
 
-    object = CreateObject(Map, "Left Window Light", 19, 21);
+    object = CreateObject(Map, "Left Window Light", 19, 21, vt_map.MapMode.GROUND_OBJECT);
     object:SetDrawOnSecondPass(true); -- Above any other ground object
-    if (object ~= nil) then Map:AddGroundObject(object) end;
 
     -- Parent's room
-    object = CreateObject(Map, "Bed2", 37.7, 30.0);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
+    CreateObject(Map, "Bed2", 37.7, 30.0, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Chair1_inverted", 38, 35, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Small Wooden Table", 40, 36, vt_map.MapMode.GROUND_OBJECT);
 
-    object = CreateObject(Map, "Chair1_inverted", 38, 35);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
-    object = CreateObject(Map, "Small Wooden Table", 40, 36);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
-    object = CreateObject(Map, "Paper and Feather", 41, 34);
+    object = CreateObject(Map, "Paper and Feather", 41, 34, vt_map.MapMode.GROUND_OBJECT);
     object:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
     object:SetDrawOnSecondPass(true); -- Above any other ground object
-    if (object ~= nil) then Map:AddGroundObject(object) end;
 
-    object = CreateObject(Map, "Box1", 40, 38); -- Prevent from going south of the table.
-    if (object ~= nil) then Map:AddGroundObject(object) end;
-    object = CreateObject(Map, "Box1", 19, 35);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
-    object = CreateObject(Map, "Box1", 19, 37);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
-    object = CreateObject(Map, "Box1", 23, 35);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
+    CreateObject(Map, "Box1", 40, 38, vt_map.MapMode.GROUND_OBJECT); -- Prevent from going south of the table.
+    CreateObject(Map, "Box1", 19, 35, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Box1", 19, 37, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Box1", 23, 35, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Flower Pot1", 27, 34.5, vt_map.MapMode.GROUND_OBJECT);
 
-    object = CreateObject(Map, "Flower Pot1", 27, 34.5);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
-
-    object = CreateObject(Map, "Right Window Light", 41, 33);
+    object = CreateObject(Map, "Right Window Light", 41, 33, vt_map.MapMode.GROUND_OBJECT);
     object:SetDrawOnSecondPass(true); -- Above any other ground object
     object:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
 end
 
 
 -- Creates all events and sets up the entire event sequence chain
 function _CreateEvents()
-    local event = {};
-    local dialogue = {};
-    local text = {};
+    local event = nil
+    local dialogue = nil
+    local text = nil
 
     -- fade out after the bed animation
     event = vt_map.ScriptedEvent("opening", "begin_fade_out", "fade_out_update");
@@ -195,12 +166,11 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
 
     -- Bronann's opening dialogue
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("I had that same nightmare again... This time, however, I still feel dizzy even after getting up...");
     dialogue:AddLine(text, bronann);
     text = vt_system.Translate("I might as well move on and forget about it...");
     dialogue:AddLine(text, bronann);
-    DialogueManager:AddDialogue(dialogue);
 
     -- Bronann's opening dialogue event
     event = vt_map.DialogueEvent("opening_dialogue", dialogue);
@@ -222,12 +192,11 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
 
     -- Adds a small dialogue describing the save point use.
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.VTranslate("This circle is a save point. Here, you can save your game by pushing %s.", InputManager:GetConfirmKeyName());
     dialogue:AddLine(text, nil); -- nameless speaker
     text = vt_system.Translate("You can come back here and save as many times as you want.");
     dialogue:AddLine(text, nil); -- nameless speaker
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Save point dialogue", dialogue);
     event:AddEventLinkAtEnd("Disable save point dialogue");
     EventManager:RegisterEvent(event);
@@ -237,17 +206,14 @@ function _CreateEvents()
 end
 
 -- zones
-local room_exit_zone = {};
-local save_point_zone = {};
+local room_exit_zone = nil
+local save_point_zone = nil
 
 -- Create the different map zones triggering events
 function _CreateZones()
     -- N.B.: left, right, top, bottom
-    room_exit_zone = vt_map.CameraZone(38, 39, 16, 19);
-    Map:AddZone(room_exit_zone);
-
-    save_point_zone = vt_map.CameraZone(32, 36, 31, 35);
-    Map:AddZone(save_point_zone);
+    room_exit_zone = vt_map.CameraZone.Create(38, 39, 16, 19);
+    save_point_zone = vt_map.CameraZone.Create(32, 36, 31, 35);
 end
 
 -- Check whether the active camera has entered a zone. To be called within Update()

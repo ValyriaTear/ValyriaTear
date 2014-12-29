@@ -14,31 +14,30 @@ map_subname = "Basement"
 music_filename = "mus/Welcome to Com-Mecha-Mattew_Pablo_OGA.ogg"
 
 -- c++ objects instances
-local Map = {};
-local ObjectManager = {};
-local DialogueManager = {};
-local EventManager = {};
-local Effects = {};
+local Map = nil
+local DialogueManager = nil
+local EventManager = nil
+local Effects = nil
 
 -- the main character handler
-local bronann = {};
-local kalya = {};
-local orlinn = {};
+local bronann = nil
+local kalya = nil
+local orlinn = nil
 
 -- A moveable wall hiding the exit
-local fake_wall = {};
-local exit_light = {};
+local fake_wall = nil
+local exit_light = nil
 
 -- the main map loading code
 function Load(m)
 
     Map = m;
-    ObjectManager = Map.object_supervisor;
-    DialogueManager = Map.dialogue_supervisor;
-    EventManager = Map.event_supervisor;
     Effects = Map:GetEffectSupervisor();
 
-    Map.unlimited_stamina = true;
+    DialogueManager = Map:GetDialogueSupervisor();
+    EventManager = Map:GetEventSupervisor();
+
+    Map:SetUnlimitedStamina(true);
 
     _CreateCharacters();
     _CreateObjects();
@@ -70,38 +69,32 @@ end
 
 -- Character creation
 function _CreateCharacters()
-    bronann = CreateSprite(Map, "Bronann", 40, 21.5);
+    bronann = CreateSprite(Map, "Bronann", 40, 21.5, vt_map.MapMode.GROUND_OBJECT);
     bronann:SetVisible(false);
     bronann:SetDirection(vt_map.MapMode.NORTH);
     bronann:SetMovementSpeed(vt_map.MapMode.NORMAL_SPEED);
-    Map:AddGroundObject(bronann);
 
-    kalya = CreateSprite(Map, "Kalya", 40, 21.5);
+    kalya = CreateSprite(Map, "Kalya", 40, 21.5, vt_map.MapMode.GROUND_OBJECT);
     kalya:SetDirection(vt_map.MapMode.NORTH);
     kalya:SetMovementSpeed(vt_map.MapMode.NORMAL_SPEED);
     kalya:SetVisible(false);
-    Map:AddGroundObject(kalya);
 
-    orlinn = CreateSprite(Map, "Orlinn", 40, 21.5);
+    orlinn = CreateSprite(Map, "Orlinn", 40, 21.5, vt_map.MapMode.GROUND_OBJECT);
     orlinn:SetDirection(vt_map.MapMode.NORTH);
     orlinn:SetMovementSpeed(vt_map.MapMode.NORMAL_SPEED);
-    Map:AddGroundObject(orlinn);
 
     -- Create the fake wall  out of the object catalog as it is used once,
-    fake_wall = vt_map.PhysicalObject();
+    fake_wall = vt_map.PhysicalObject(vt_map.MapMode.GROUND_OBJECT);
     fake_wall:SetPosition(32.0, 14.0);
-    fake_wall:SetObjectID(Map.object_supervisor:GenerateObjectID());
     fake_wall:SetCollHalfWidth(4.0);
     fake_wall:SetCollHeight(10.0);
     fake_wall:SetImgHalfWidth(4.0);
     fake_wall:SetImgHeight(10.0);
     fake_wall:AddStillFrame("dat/maps/layna_village/kalya_house_fake_wall.png");
-    Map:AddGroundObject(fake_wall);
 
-    exit_light = CreateObject(Map, "Left Window Light", 34, 2);
+    exit_light = CreateObject(Map, "Left Window Light", 34, 2, vt_map.MapMode.GROUND_OBJECT);
     exit_light:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
     exit_light:SetVisible(false);
-    Map:AddGroundObject(exit_light);
 
     -- Place the characters according to the scene needs
     if (GlobalManager:GetEventValue("story", "kalya_basement_scene") == 1) then
@@ -135,64 +128,39 @@ function _CreateCharacters()
 end
 
 function _CreateObjects()
-    object = {}
+    vt_map.SavePoint.Create(29.5, 29.0);
 
-    Map:AddSavePoint(29.5, 29.0);
-    object = CreateObject(Map, "Barrel1", 25, 19);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
-    object = CreateObject(Map, "Box1", 23, 20);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
-    object = CreateObject(Map, "Box1", 22, 22);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
-    object = CreateObject(Map, "Box1", 23, 24);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
-    object = CreateObject(Map, "Box1", 23.5, 27);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
-    object = CreateObject(Map, "Box1", 21, 19);
-    Map:AddGroundObject(object);
-
-    object = CreateObject(Map, "Small Wooden Table", 22, 17);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
-
-    object = CreateObject(Map, "Barrel1", 21, 36);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
-    object = CreateObject(Map, "Barrel1", 22, 37);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
-    object = CreateObject(Map, "Barrel1", 24, 33);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
-    object = CreateObject(Map, "Barrel1", 27, 34);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
-    object = CreateObject(Map, "Barrel1", 29, 33);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
-    object = CreateObject(Map, "Box1", 28, 21);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
+    CreateObject(Map, "Barrel1", 25, 19, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Box1", 23, 20, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Box1", 22, 22, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Box1", 23, 24, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Box1", 23.5, 27, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Box1", 21, 19, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Small Wooden Table", 22, 17, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Barrel1", 21, 36, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Barrel1", 22, 37, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Barrel1", 24, 33, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Barrel1", 27, 34, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Barrel1", 29, 33, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Box1", 28, 21, vt_map.MapMode.GROUND_OBJECT);
 
     -- Chests
-    local chest = CreateTreasure(Map, "kalya_house_basement_chest1", "Wood_Chest1", 25, 22);
-    if (chest ~= nil) then
-        chest:AddObject(10011, 1); -- 1 Iron Sword
-        Map:AddGroundObject(chest);
-    end
+    local chest = CreateTreasure(Map, "kalya_house_basement_chest1", "Wood_Chest1", 25, 22, vt_map.MapMode.GROUND_OBJECT);
+    chest:AddItem(10011, 1); -- 1 Iron Sword
 
-    chest = CreateTreasure(Map, "kalya_house_basement_chest2", "Wood_Chest1", 21, 28);
-    if (chest ~= nil) then
-        chest:AddObject(1003, 1); -- 1 Elixir
-        Map:AddGroundObject(chest);
-    end
+    chest = CreateTreasure(Map, "kalya_house_basement_chest2", "Wood_Chest1", 21, 28, vt_map.MapMode.GROUND_OBJECT);
+    chest:AddItem(1003, 1); -- 1 Elixir
 
-    chest = CreateTreasure(Map, "kalya_house_basement_chest3", "Wood_Chest1", 24, 35);
-    if (chest ~= nil) then
-        chest:AddObject(3001, 1); -- 1 Copper Ore
-        Map:AddGroundObject(chest);
-    end
+    chest = CreateTreasure(Map, "kalya_house_basement_chest3", "Wood_Chest1", 24, 35, vt_map.MapMode.GROUND_OBJECT);
+    chest:AddItem(3001, 1); -- 1 Copper Ore
 end
 
 
 -- Creates all events and sets up the entire event sequence chain
 function _CreateEvents()
-    local event = {};
-    local dialogue = {};
-    local text = {};
+    local event = nil
+    local dialogue = nil
+    local text = nil
 
     -- Triggered events
     event = vt_map.MapTransitionEvent("to Mt Elbrus", "dat/maps/mt_elbrus/mt_elbrus_path1_map.lua",
@@ -242,7 +210,7 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("Dialogue part 1");
     EventManager:RegisterEvent(event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Bronann, how do you feel?");
     dialogue:AddLine(text, kalya);
     text = vt_system.Translate("Better... Somehow, the pain faded away the second I entered here...");
@@ -255,7 +223,6 @@ function _CreateEvents()
     dialogue:AddLineEvent(text, kalya, "Kalya looks at Orlinn", "");
     text = vt_system.Translate("... Ok...");
     dialogue:AddLineEmote(text, orlinn, "sweat drop");
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Dialogue part 1", dialogue);
     event:AddEventLinkAtEnd("Orlinn goes upstairs");
     event:AddEventLinkAtEnd("Kalya looks at Orlinn", 500);
@@ -285,7 +252,7 @@ function _CreateEvents()
     event = vt_map.ScriptedEvent("FadeOutActiveMusic", "fade_out_music", "");
     EventManager:RegisterEvent(event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("We're leaving the village now...");
     dialogue:AddLine(text, kalya);
     text = vt_system.Translate("I feel dizzy... So many things have happened in such little time...");
@@ -344,7 +311,6 @@ function _CreateEvents()
     dialogue:AddLine(text, kalya);
     text = vt_system.Translate("Sis!!");
     dialogue:AddLine(text, orlinn);
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Dialogue part 2", dialogue);
     event:AddEventLinkAtEnd("Make Orlinn visible");
     EventManager:RegisterEvent(event);
@@ -361,7 +327,7 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("Dialogue part 3");
     EventManager:RegisterEvent(event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Sis!! They're in front of the house!");
     dialogue:AddLine(text, orlinn);
     text = vt_system.Translate("Quick, we must go now!!");
@@ -384,7 +350,6 @@ function _CreateEvents()
     dialogue:AddLineEvent(text, kalya, "Kalya looks at Bronann", "");
     text = vt_system.Translate("Anyway, let's go now...");
     dialogue:AddLine(text, kalya);
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Dialogue part 3", dialogue);
     event:AddEventLinkAtEnd("Kalya goes triggering the secret path");
     EventManager:RegisterEvent(event);
@@ -411,12 +376,11 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("Dialogue part 4");
     EventManager:RegisterEvent(event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Wow!");
     dialogue:AddLineEmote(text, bronann, "exclamation");
     text = vt_system.Translate("It's time...");
     dialogue:AddLine(text, kalya);
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Dialogue part 4", dialogue);
     event:AddEventLinkAtEnd("End of basement dialogue");
     EventManager:RegisterEvent(event);
@@ -425,50 +389,41 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
 
     -- Can't go downstairs
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("We can't go back now...");
     dialogue:AddLine(text, bronann);
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Can't go downstairs", dialogue);
     EventManager:RegisterEvent(event);
 
-    dialogue = vt_map.SpriteDialogue();
+    dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("It's my room upstairs. Don't even think about it!");
     dialogue:AddLine(text, kalya);
-    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Can't go upstairs", dialogue);
     EventManager:RegisterEvent(event);
 
     -- Dialogues for after the scene
-    dialogue = vt_map.SpriteDialogue("ep1_layna_village_kalya_tells_its_time");
+    dialogue = vt_map.SpriteDialogue.Create("ep1_layna_village_kalya_tells_its_time");
     text = vt_system.Translate("It's time...");
     dialogue:AddLine(text, kalya);
-    DialogueManager:AddDialogue(dialogue);
     kalya:AddDialogueReference(dialogue);
 
-    dialogue = vt_map.SpriteDialogue("ep1_layna_village_orlinn_is_sad");
+    dialogue = vt_map.SpriteDialogue.Create("ep1_layna_village_orlinn_is_sad");
     text = vt_system.Translate("...");
     dialogue:AddLine(text, orlinn);
-    DialogueManager:AddDialogue(dialogue);
     orlinn:AddDialogueReference(dialogue);
 end
 
 -- zones
-local downstairs_zone = {};
-local upstairs_zone = {};
-local to_mt_elbrus_zone = {};
+local downstairs_zone = nil
+local upstairs_zone = nil
+local to_mt_elbrus_zone = nil
 
 -- Create the different map zones triggering events
 function _CreateZones()
     -- N.B.: left, right, top, bottom
-    downstairs_zone = vt_map.CameraZone(38, 42, 20, 22);
-    Map:AddZone(downstairs_zone);
-
-    upstairs_zone = vt_map.CameraZone(38, 42, 26, 28);
-    Map:AddZone(upstairs_zone);
-
-    to_mt_elbrus_zone = vt_map.CameraZone(30, 36, 12, 14);
-    Map:AddZone(to_mt_elbrus_zone);
+    downstairs_zone = vt_map.CameraZone.Create(38, 42, 20, 22);
+    upstairs_zone = vt_map.CameraZone.Create(38, 42, 26, 28);
+    to_mt_elbrus_zone = vt_map.CameraZone.Create(30, 36, 12, 14);
 end
 
 -- Check whether the active camera has entered a zone. To be called within Update()
@@ -488,7 +443,6 @@ function _CheckZones()
         EventManager:StartEvent("to Mt Elbrus");
     end
 end
-
 
 -- Map Custom functions
 -- Used through scripted events
@@ -514,7 +468,7 @@ map_functions = {
     end,
 
     terminate_bronann_events = function()
-        EventManager:TerminateAllEvents(bronann);
+        EventManager:EndAllEvents(bronann);
     end,
 
     make_orlinn_visible = function()

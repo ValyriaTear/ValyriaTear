@@ -71,11 +71,12 @@ MapMode::MapMode(const std::string& data_filename, const std::string& script_fil
     _camera_x_in_map_corner(false),
     _camera_y_in_map_corner(false),
     _camera(NULL),
+    _virtual_focus(NULL),
     _delta_x(0),
     _delta_y(0),
     _pixel_length_x(-1.0f),
     _pixel_length_y(-1.0f),
-    _running_disabled(false),
+    _running_enabled(true),
     _unlimited_stamina(false),
     _show_gui(true),
     _run_stamina(stamina),
@@ -131,6 +132,14 @@ MapMode::MapMode(const std::string& data_filename, const std::string& script_fil
     _intro_timer.EnableAutoUpdate(this);
 
     _camera_timer.Initialize(0, 1);
+
+    // Create the camera virtual focus, used to display random map locations.
+    // NOTE: Deleted by the Object supervisor.
+    _virtual_focus = new VirtualSprite(NO_LAYER_OBJECT);
+    _virtual_focus->SetPosition(0.0f, 0.0f);
+    _virtual_focus->SetMovementSpeed(NORMAL_SPEED);
+    _virtual_focus->SetCollisionMask(NO_COLLISION);
+    _virtual_focus->SetVisible(false);
 
     if(!_Load()) {
         BootMode *BM = new BootMode();
@@ -436,96 +445,9 @@ MAP_STATE MapMode::CurrentState()
     return _state_stack.back();
 }
 
-void MapMode::AddFlatGroundObject(private_map::MapObject* obj)
+void MapMode::DeleteMapObject(private_map::MapObject* object)
 {
-    _object_supervisor->AddFlatGroundObject(obj);
-}
-
-void MapMode::RemoveFlatGroundObject(private_map::MapObject* obj)
-{
-    _object_supervisor->RemoveFlatGroundObject(obj);
-}
-
-void MapMode::AddGroundObject(private_map::MapObject* obj)
-{
-    _object_supervisor->AddGroundObject(obj);
-}
-
-void MapMode::RemoveGroundObject(private_map::MapObject* obj)
-{
-    _object_supervisor->RemoveGroundObject(obj);
-}
-
-void MapMode::AddPassObject(private_map::MapObject* obj)
-{
-    _object_supervisor->AddPassObject(obj);
-}
-
-void MapMode::RemovePassObject(private_map::MapObject* obj)
-{
-    _object_supervisor->RemovePassObject(obj);
-}
-
-void MapMode::AddSkyObject(private_map::MapObject* obj)
-{
-    _object_supervisor->AddSkyObject(obj);
-}
-
-void MapMode::RemoveSkyObject(private_map::MapObject* obj)
-{
-    _object_supervisor->RemoveSkyObject(obj);
-}
-
-void MapMode::AddAmbientSoundObject(SoundObject *obj)
-{
-    if(!obj) {
-        PRINT_WARNING << "Couldn't add NULL object." << std::endl;
-        return;
-    }
-
-    _object_supervisor->_sound_objects.push_back(obj);
-}
-
-
-void MapMode::AddZone(MapZone *zone)
-{
-    if(!zone) {
-        PRINT_WARNING << "Couldn't add NULL zone." << std::endl;
-        return;
-    }
-    _object_supervisor->_zones.push_back(zone);
-}
-
-
-void MapMode::AddSavePoint(float x, float y)
-{
-    SavePoint *save_point = new SavePoint(x, y);
-    _object_supervisor->_save_points.push_back(save_point);
-}
-
-void MapMode::AddHalo(const std::string &filename, float x, float y, const Color &color)
-{
-    Halo *halo = new Halo(filename, x, y, color);
-    _object_supervisor->_halos.push_back(halo);
-}
-
-void MapMode::AddLight(const std::string &main_flare_filename,
-                       const std::string &secondary_flare_filename,
-                       float x, float y,
-                       const Color &main_color,
-                       const Color &secondary_color)
-{
-    Light *light = new Light(main_flare_filename,
-                             secondary_flare_filename,
-                             x, y, main_color,
-                             secondary_color);
-
-    AddLight(light);
-}
-
-void MapMode::AddLight(Light *light)
-{
-    _object_supervisor->_lights.push_back(light);
+    _object_supervisor->DeleteObject(object);
 }
 
 void MapMode::SetCamera(private_map::VirtualSprite *sprite, uint32 duration)
@@ -547,18 +469,18 @@ void MapMode::SetCamera(private_map::VirtualSprite *sprite, uint32 duration)
 
 void MapMode::MoveVirtualFocus(float loc_x, float loc_y)
 {
-    _object_supervisor->VirtualFocus()->SetPosition(loc_x, loc_y);
+    _virtual_focus->SetPosition(loc_x, loc_y);
 }
 
 void MapMode::MoveVirtualFocus(float loc_x, float loc_y, uint32 duration)
 {
-    if(_camera != _object_supervisor->VirtualFocus()) {
+    if(_camera != _virtual_focus) {
         IF_PRINT_WARNING(MAP_DEBUG)
                 << "Attempt to move camera although on different sprite" << std::endl;
     } else {
         if(duration > 0) {
-            _delta_x = _object_supervisor->VirtualFocus()->GetXPosition() - static_cast<float>(loc_x);
-            _delta_y = _object_supervisor->VirtualFocus()->GetYPosition() - static_cast<float>(loc_y);
+            _delta_x = _virtual_focus->GetXPosition() - static_cast<float>(loc_x);
+            _delta_y = _virtual_focus->GetYPosition() - static_cast<float>(loc_y);
             _camera_timer.Reset();
             _camera_timer.SetDuration(duration);
             _camera_timer.Run();
@@ -570,7 +492,17 @@ void MapMode::MoveVirtualFocus(float loc_x, float loc_y, uint32 duration)
 
 bool MapMode::IsCameraOnVirtualFocus()
 {
-    return _camera == _object_supervisor->VirtualFocus();
+    return (_camera == _virtual_focus);
+}
+
+void MapMode::SetPartyMemberVisibleSprite(private_map::MapSprite* sprite)
+{
+    _object_supervisor->SetPartyMemberVisibleSprite(sprite);
+}
+
+void MapMode::SetAllEnemyStatesToDead()
+{
+    _object_supervisor->SetAllEnemyStatesToDead();
 }
 
 bool MapMode::AttackAllowed()
@@ -772,6 +704,9 @@ void MapMode::_UpdateExplore()
         return;
     }
 
+    if (_camera == NULL)
+        return;
+
     // Only update the status effect supervisor in Exploration mode
     // and if they are allowed.
     if (_status_effects_enabled)
@@ -780,7 +715,7 @@ void MapMode::_UpdateExplore()
     // Update the running state of the camera object. Check if the character is running and if so,
     // update the stamina value if the operation is permitted
     _camera->is_running = false;
-    if(_camera->moved_position && !_running_disabled && InputManager->CancelState() &&
+    if(_camera->moved_position && _running_enabled && InputManager->CancelState() &&
             (InputManager->UpState() || InputManager->DownState() || InputManager->LeftState() || InputManager->RightState())) {
         if(_unlimited_stamina) {
             _camera->is_running = true;
@@ -877,8 +812,8 @@ void MapMode::_UpdateMapFrame()
 {
     // Determine the center position coordinates for the camera
     // Holds the final X, Y coordinates of the camera
-    float camera_x = _camera->GetXPosition();
-    float camera_y = _camera->GetYPosition();
+    float camera_x = _camera ? _camera->GetXPosition() : 0.0f;
+    float camera_y = _camera ? _camera->GetYPosition() : 0.0f;
 
     if(_camera_timer.IsRunning()) {
         camera_x += (1.0f - _camera_timer.PercentComplete()) * _delta_x;
@@ -1073,7 +1008,7 @@ void MapMode::_DrawMapLayers()
 void MapMode::_DrawStaminaBar(const vt_video::Color &blending)
 {
     // Don't draw anything when running is disabled.
-    if (_running_disabled || blending.GetAlpha() == 0.0f)
+    if (!_running_enabled || blending.GetAlpha() == 0.0f)
         return;
 
     // It's the width of the stamina bar image to hide in pixels

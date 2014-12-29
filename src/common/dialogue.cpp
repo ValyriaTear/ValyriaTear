@@ -52,6 +52,19 @@ Dialogue::~Dialogue()
     }
 }
 
+Dialogue* Dialogue::Create(DialogueSupervisor* dialogue_supervisor, const std::string& dialogue_id)
+{
+    Dialogue* dialogue = new Dialogue(dialogue_id);
+
+    // As the object is created through scripting, we register it
+    // to the common dialogue supervisor.
+    // NOTE: We don't do it in the constructor as SpriteDialogue are children
+    // of this class
+    dialogue_supervisor->AddDialogue(dialogue);
+
+    return dialogue;
+}
+
 void Dialogue::AddLine(const std::string& text)
 {
     AddLine(text, DIALOGUE_NEXT_LINE);
@@ -433,7 +446,7 @@ void DialogueSupervisor::ChangeSpeakerPortrait(const std::string& speaker_id, co
     }
 }
 
-void DialogueSupervisor::BeginDialogue(const std::string& dialogue_id)
+void DialogueSupervisor::StartDialogue(const std::string& dialogue_id)
 {
     Dialogue *dialogue = GetDialogue(dialogue_id);
 

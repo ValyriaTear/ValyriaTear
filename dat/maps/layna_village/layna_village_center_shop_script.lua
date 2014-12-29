@@ -14,26 +14,24 @@ map_subname = "Flora's Boutique"
 music_filename = "mus/Caketown_1-OGA-mat-pablo.ogg"
 
 -- c++ objects instances
-local Map = {};
-local ObjectManager = {};
-local DialogueManager = {};
-local EventManager = {};
+local Map = nil
+local DialogueManager = nil
+local EventManager = nil
 
 -- The main character handlers
-local bronann = {};
+local bronann = nil
 
 -- NPCs
-local flora = {};
+local flora = nil
 
 -- the main map loading code
 function Load(m)
 
     Map = m;
-    ObjectManager = Map.object_supervisor;
-    DialogueManager = Map.dialogue_supervisor;
-    EventManager = Map.event_supervisor;
+    DialogueManager = Map:GetDialogueSupervisor();
+    EventManager = Map:GetEventSupervisor();
 
-    Map.unlimited_stamina = true;
+    Map:SetUnlimitedStamina(true);
 
     _CreateCharacters();
     _CreateNPCs();
@@ -57,55 +55,43 @@ end
 -- Character creation
 function _CreateCharacters()
     -- default position and direction
-    bronann = CreateSprite(Map, "Bronann", 32.0, 27.0);
+    bronann = CreateSprite(Map, "Bronann", 32.0, 27.0, vt_map.MapMode.GROUND_OBJECT);
     bronann:SetDirection(vt_map.MapMode.NORTH);
     bronann:SetMovementSpeed(vt_map.MapMode.NORMAL_SPEED);
-
-    Map:AddGroundObject(bronann);
 end
 
 function _CreateNPCs()
-    npc = CreateNPCSprite(Map, "Woman1", vt_system.Translate("Flora"), 39, 20);
+    local npc = CreateNPCSprite(Map, "Woman1", vt_system.Translate("Flora"), 39, 20, vt_map.MapMode.GROUND_OBJECT);
     npc:SetDirection(vt_map.MapMode.SOUTH);
-    Map:AddGroundObject(npc);
 
     -- The npc is too far away from the Hero so we make an invisible doppelgänger
-    flora = CreateNPCSprite(Map, "Woman1", vt_system.Translate("Flora"), 39, 22);
-    Map:AddGroundObject(flora);
+    flora = CreateNPCSprite(Map, "Woman1", vt_system.Translate("Flora"), 39, 22, vt_map.MapMode.GROUND_OBJECT);
     flora:SetVisible(false);
     flora:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
     _UpdateFloraDialogue();
 end
 
 function _CreateObjects()
-    local object = {}
+    local object = nil
 
-    object = CreateObject(Map, "Flower Pot1", 41, 20);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
-
-    object = CreateObject(Map, "Flower Pot2", 35, 20);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
-
-
-    object = CreateObject(Map, "Table1", 27, 17);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
-    object = CreateObject(Map, "Table1", 33, 17);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
+    CreateObject(Map, "Flower Pot1", 41, 20, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Flower Pot2", 35, 20, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Table1", 27, 17, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Table1", 33, 17, vt_map.MapMode.GROUND_OBJECT);
 
     -- lights
-    object = CreateObject(Map, "Right Window Light 2", 41, 10);
+    object = CreateObject(Map, "Right Window Light 2", 41, 10, vt_map.MapMode.GROUND_OBJECT);
     object:SetDrawOnSecondPass(true); -- Above any other ground object
     object:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
-    object = CreateObject(Map, "Right Window Light 2", 41, 17);
+
+    object = CreateObject(Map, "Right Window Light 2", 41, 17, vt_map.MapMode.GROUND_OBJECT);
     object:SetDrawOnSecondPass(true); -- Above any other ground object
     object:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
-    if (object ~= nil) then Map:AddGroundObject(object) end;
 end
 
 -- Creates all events and sets up the entire event sequence chain
 function _CreateEvents()
-    local event = {};
+    local event = nil
 
     -- Triggered Events
     event = vt_map.MapTransitionEvent("to village", "dat/maps/layna_village/layna_village_center_map.lua",
@@ -113,11 +99,11 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
 
     event = vt_map.ShopEvent("layna: open shop");
-    event:AddObject(1, 0); -- infinite minor potions
-    event:AddObject(1001, 0); -- infinite minor elixirs
-    event:AddObject(30003, 1); -- tunic for Bronann
-    event:AddObject(30004, 1); -- leather cloak for Kalya
-    event:AddObject(40001, 3); -- prismatic rings for both
+    event:AddItem(1, 0); -- infinite minor potions
+    event:AddItem(1001, 0); -- infinite minor elixirs
+    event:AddItem(30003, 1); -- tunic for Bronann
+    event:AddItem(30004, 1); -- leather cloak for Kalya
+    event:AddItem(40001, 3); -- prismatic rings for both
     event:SetPriceLevels(vt_shop.ShopMode.SHOP_PRICE_VERY_GOOD, -- Flora is a good friend
                          vt_shop.ShopMode.SHOP_PRICE_STANDARD);
 
@@ -133,12 +119,11 @@ function _CreateEvents()
 end
 
 -- zones
-local shop_exit_zone = {};
+local shop_exit_zone = nil
 
 function _CreateZones()
     -- N.B.: left, right, top, bottom
-    shop_exit_zone = vt_map.CameraZone(30, 34, 28, 29);
-    Map:AddZone(shop_exit_zone);
+    shop_exit_zone = vt_map.CameraZone.Create(30, 34, 28, 29);
 end
 
 function _CheckZones()
@@ -152,8 +137,8 @@ end
 
 -- Custom inner map functions
 function _UpdateFloraDialogue()
-    local dialogue = {}
-    local text = {}
+    local dialogue = nil
+    local text = nil
 
     flora:ClearDialogueReferences();
 
@@ -161,7 +146,7 @@ function _UpdateFloraDialogue()
         -- nothing special
     elseif (GlobalManager:DoesEventExist("story", "Quest2_started") == true) then
         -- The dialogue before the forest event
-        dialogue = vt_map.SpriteDialogue();
+        dialogue = vt_map.SpriteDialogue.Create();
         text = vt_system.Translate("Hi Bronann! What can I do for you?");
         dialogue:AddLine(text, flora);
         text = vt_system.Translate("Hi Flora! Err, could you lend me one of your training swords? I'd like to practice a bit.");
@@ -170,21 +155,19 @@ function _UpdateFloraDialogue()
         dialogue:AddLine(text, flora);
         text = vt_system.Translate("Err, nevermind...");
         dialogue:AddLineEventEmote(text, bronann, "", "Quest2: Talked to Flora", "sweat drop");
-        DialogueManager:AddDialogue(dialogue);
         flora:AddDialogueReference(dialogue);
         return;
     elseif (GlobalManager:DoesEventExist("layna_center_shop", "quest1_flora_dialogue_done") == true) then
         -- Just repeat the last dialogue sentence, when the dialogue is already done.
-        dialogue = vt_map.SpriteDialogue("ep1_layna_village_flora_about_georges");
+        dialogue = vt_map.SpriteDialogue.Create("ep1_layna_village_flora_about_georges");
         text = vt_system.Translate("Just find our *poet* and he should give you some barley meal, ok?");
         dialogue:AddLine(text, flora);
         text = vt_system.Translate("He's probably 'musing' around the cliffs in the village center right now.");
         dialogue:AddLine(text, flora);
-        DialogueManager:AddDialogue(dialogue);
         flora:AddDialogueReference(dialogue);
         return;
     elseif (GlobalManager:DoesEventExist("bronanns_home", "quest1_mother_start_dialogue_done") == true) then
-        dialogue = vt_map.SpriteDialogue();
+        dialogue = vt_map.SpriteDialogue.Create();
         text = vt_system.Translate("Hi Bronann! What can I do for you?");
         dialogue:AddLine(text, flora);
         text = vt_system.Translate("Hi Flora! Do you have some barley meal left?");
@@ -200,15 +183,13 @@ function _UpdateFloraDialogue()
         text = vt_system.Translate("He's probably 'musing' around the cliffs in the village center right now.");
         -- Set the quest dialogue as seen by the player.
         dialogue:AddLineEvent(text, flora, "", "SetQuest1DialogueDone");
-        DialogueManager:AddDialogue(dialogue);
         flora:AddDialogueReference(dialogue);
         return;
     end
     --default behaviour
-    dialogue = vt_map.SpriteDialogue("ep1_layna_village_flora_default");
+    dialogue = vt_map.SpriteDialogue.Create("ep1_layna_village_flora_default");
     text = vt_system.Translate("Hi Bronann! What can I do for you?");
     dialogue:AddLineEvent(text, flora, "", "layna: open shop");
-    DialogueManager:AddDialogue(dialogue);
     flora:AddDialogueReference(dialogue);
 end
 

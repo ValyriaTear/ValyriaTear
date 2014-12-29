@@ -14,27 +14,24 @@ map_subname = ""
 music_filename = "mus/overworld_present.ogg"
 
 -- c++ objects instances
-local Map = {};
-local ObjectManager = {};
-local DialogueManager = {};
-local EventManager = {};
-local Effects = {};
+local Map = nil
+local DialogueManager = nil
+local EventManager = nil
+local Effects = nil
 
 -- the main character handler
-local hero = {};
+local hero = nil
 
 -- the main map loading code
 function Load(m)
 
     Map = m;
-    ObjectManager = Map.object_supervisor;
-    DialogueManager = Map.dialogue_supervisor;
-    EventManager = Map.event_supervisor;
     Effects = Map:GetEffectSupervisor();
+    DialogueManager = Map:GetDialogueSupervisor();
+    EventManager = Map:GetEventSupervisor();
 
-    Map.unlimited_stamina = false;
     -- No running in overworlds
-    Map.running_disabled = true;
+    Map:SetRunningEnabled(false)
 
     _CreateCharacters();
     --_CreateObjects();
@@ -58,19 +55,17 @@ end
 -- Character creation
 function _CreateCharacters()
     -- Default hero and position
-    hero = CreateSprite(Map, "Mini_Bronann", 37, 22);
+    hero = CreateSprite(Map, "Mini_Bronann", 37, 22, vt_map.MapMode.GROUND_OBJECT);
     hero:SetDirection(vt_map.MapMode.NORTH);
     hero:SetMovementSpeed(vt_map.MapMode.VERY_SLOW_SPEED);
-
-    Map:AddGroundObject(hero);
 end
 
 function _CreateEnemies()
-    local enemy = {};
-    local roam_zone = {};
+    local enemy = nil
+    local roam_zone = nil
 
     -- Hint: left, right, top, bottom
-    roam_zone = vt_map.EnemyZone(21, 43, 11, 33);
+    roam_zone = vt_map.EnemyZone.Create(21, 43, 11, 33);
 
     -- Day and first encounters (slimes and spiders)
     enemy = CreateEnemySprite(Map, "slime");
@@ -83,8 +78,6 @@ function _CreateEnemies()
     enemy:AddEnemy(1);
     enemy:AddEnemy(2);
     roam_zone:AddEnemy(enemy, Map, 2);
-
-    Map:AddZone(roam_zone);
 end
 
 -- Sets common battle environment settings for enemy sprites
@@ -102,19 +95,15 @@ function _SetBattleEnvironment(enemy)
     enemy:AddBattleScript("dat/maps/overworld/present/overworld_battle_background_script.lua");
 end
 
-local desert_zone = {};
+local desert_zone = nil
 
 -- Create the different map zones triggering events
 function _CreateZones()
     -- N.B.: left, right, top, bottom
-    desert_zone = vt_map.CameraZone(19, 29.1, 20.6, 25.5);
+    desert_zone = vt_map.CameraZone.Create(19, 29.1, 20.6, 25.5);
     desert_zone:AddSection(21, 28, 25.5, 27.5)
     desert_zone:AddSection(23, 25.7, 27.5, 28.5)
     desert_zone:AddSection(24, 25.3, 28.5, 29)
-    Map:AddZone(desert_zone);
-
-    --to_forest_nw_zone = vt_map.CameraZone(62, 64, 29, 35);
-    --Map:AddZone(to_forest_nw_zone);
 end
 
 function _CheckZones()

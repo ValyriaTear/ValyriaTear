@@ -37,6 +37,22 @@ namespace vt_map
 
 class MapMode;
 
+//! \brief Used to know on which draw layer the object should be registered.
+enum MapObjectDrawLayer {
+    // Before ground layer object. Used to display flat object on ground.
+    FLATGROUND_OBJECT = 0,
+    // Ground objects, such as characters and props.
+    GROUND_OBJECT,
+    // TODO: Objects used as bridges, removing the map collision when they are visible. They are displayed as flat ground objects.
+    PASS_OBJECT,
+    // Object displayed above all map layers.
+    SKY_OBJECT,
+    // An object not registered to be drawn on one specific map layer,
+    // since it's has other means and shouldn't be taken in account for collisions.
+    // E.g.: Ambient sound objects.
+    NO_LAYER_OBJECT
+};
+
 namespace private_map
 {
 
@@ -78,16 +94,13 @@ class VirtualSprite;
 class MapObject
 {
 public:
-    MapObject();
+    MapObject(MapObjectDrawLayer layer);
 
     virtual ~MapObject()
     {}
 
     /** \brief An identification number for the object as it is represented in the map file.
-    *** Player sprites are assigned object IDs from 5000 and above. Technically this means that
-    *** a map can have no more than 5000 objects that are not player sprites, but no map should
-    *** need to contain that many objects in the first place. Objects with an ID less than zero
-    *** are invalid.
+    *** Objects with an ID less than zero are invalid.
     **/
     int16 object_id;
 
@@ -227,10 +240,6 @@ public:
     *** so it is not mandatory to do so.
     **/
     //@{
-    void SetObjectID(int16 id = 0) {
-        object_id = id;
-    }
-
     void SetPosition(float x, float y) {
         position.x = x;
         position.y = y;
@@ -275,6 +284,11 @@ public:
 
     void SetDrawOnSecondPass(bool pass) {
         draw_on_second_pass = pass;
+    }
+
+    //! \brief Tells the draw layer for faster deletion from the object supervisor.
+    MapObjectDrawLayer GetObjectDrawLayer() const {
+        return _draw_layer;
     }
 
     int16 GetObjectID() const {
@@ -354,6 +368,10 @@ protected:
     //! \brief the time the emote animation will last in milliseconds,
     int32 _emote_time;
 
+    //! \brief The object draw layer. Used to know where to register the MapObject,
+    //! and when to delete it in the ObjectSupervisor.
+    MapObjectDrawLayer _draw_layer;
+
     //! \brief Takes care of updating the emote animation and state.
     void _UpdateEmote();
 
@@ -386,9 +404,15 @@ struct MapObject_Ptr_Less {
 class PhysicalObject : public MapObject
 {
 public:
-    PhysicalObject();
+    PhysicalObject(MapObjectDrawLayer layer);
 
     ~PhysicalObject();
+
+    //! \brief A C++ wrapper made to create a new object from scripting,
+    //! without letting Lua handling the object life-cycle.
+    //! \note We don't permit luabind to use constructors here as it can't currently
+    //! give the object ownership at construction time.
+    static PhysicalObject* Create(MapObjectDrawLayer layer);
 
     /** \brief A vector containing all the object's animations.
     *** These need not be actual animations. If you just want a still image, add only a single
@@ -472,9 +496,15 @@ private:
 class ParticleObject : public MapObject
 {
 public:
-    ParticleObject(const std::string &filename, float x, float y);
+    ParticleObject(const std::string& filename, float x, float y, MapObjectDrawLayer layer);
 
     ~ParticleObject();
+
+    //! \brief A C++ wrapper made to create a new object from scripting,
+    //! without letting Lua handling the object life-cycle.
+    //! \note We don't permit luabind to use constructors here as it can't currently
+    //! give the object ownership at construction time.
+    static ParticleObject* Create(const std::string& filename, float x, float y, MapObjectDrawLayer layer);
 
     //! \brief Updates the object's current animation.
     //! \note the actual image resources is handled by the main map object.
@@ -512,6 +542,12 @@ public:
     ~SavePoint()
     {}
 
+    //! \brief A C++ wrapper made to create a new object from scripting,
+    //! without letting Lua handling the object life-cycle.
+    //! \note We don't permit luabind to use constructors here as it can't currently
+    //! give the object ownership at construction time.
+    static SavePoint* Create(float x, float y);
+
     //! \brief Updates the object's current animation.
     //! \note the actual image resources is handled by the main map object.
     void Update();
@@ -546,10 +582,17 @@ class Halo : public MapObject
 {
 public:
     //! \brief setup a halo on the map, using the given animation file.
-    Halo(const std::string &filename, float x, float y, const vt_video::Color &color);
+    Halo(const std::string& filename, float x, float y, const vt_video::Color& color);
 
     ~Halo()
     {}
+
+    //! \brief A C++ wrapper made to create a new object from scripting,
+    //! without letting Lua handling the object life-cycle.
+    //! \note We don't permit luabind to use constructors here as it can't currently
+    //! give the object ownership at construction time.
+    static Halo* Create(const std::string& filename, float x, float y,
+                        const vt_video::Color& color);
 
     //! \brief Updates the object's current animation.
     //! \note the actual image resources is handled by the main map object.
@@ -585,6 +628,16 @@ public:
 
     ~Light()
     {}
+
+    //! \brief A C++ wrapper made to create a new object from scripting,
+    //! without letting Lua handling the object life-cycle.
+    //! \note We don't permit luabind to use constructors here as it can't currently
+    //! give the object ownership at construction time.
+    static Light* Create(const std::string &main_flare_filename,
+                         const std::string &secondary_flare_filename,
+                         float x, float y,
+                         const vt_video::Color &main_color,
+                         const vt_video::Color &secondary_color);
 
     //! \brief Updates the object's current animation and orientation
     //! \note the actual image resources is handled by the main map object.
@@ -651,6 +704,13 @@ public:
 
     ~SoundObject()
     {}
+
+    //! \brief A C++ wrapper made to create a new object from scripting,
+    //! without letting Lua handling the object life-cycle.
+    //! \note We don't permit luabind to use constructors here as it can't currently
+    //! give the object ownership at construction time.
+    static SoundObject* Create(const std::string& sound_filename,
+                               float x, float y, float strength);
 
     //! \brief Updates the object's current volume.
     void Update();
@@ -740,6 +800,7 @@ public:
     *** \param open_animation_file The animation file used to display the treasure when it is open.
     **/
     TreasureObject(const std::string &treasure_name,
+                   MapObjectDrawLayer layer,
                    const std::string &closed_animation_file,
                    const std::string &opening_animation_file,
                    const std::string &open_animation_file);
@@ -747,6 +808,16 @@ public:
     ~TreasureObject() {
         delete _treasure;
     }
+
+    //! \brief A C++ wrapper made to create a new object from scripting,
+    //! without letting Lua handling the object life-cycle.
+    //! \note We don't permit luabind to use constructors here as it can't currently
+    //! give the object ownership at construction time.
+    static TreasureObject* Create(const std::string &treasure_name,
+                                  MapObjectDrawLayer layer,
+                                  const std::string &closed_animation_file,
+                                  const std::string &opening_animation_file,
+                                  const std::string &open_animation_file);
 
     std::string GetTreasureName() const {
         return _treasure_name;
@@ -768,12 +839,12 @@ public:
         _treasure->SetDrunes(amount);
     }
 
-    /** \brief Adds an object to the contents of the TreasureObject
+    /** \brief Adds an item to the contents of the TreasureObject
     *** \param id The id of the GlobalObject to add
     *** \param quantity The number of the object to add (default == 1)
     *** \return True if the object was added successfully
     **/
-    bool AddObject(uint32 id, uint32 quantity = 1);
+    bool AddItem(uint32 id, uint32 quantity = 1);
 
     /** \brief Adds an event triggered at start of the treasure event.
     *** \param event_id The id of the event to add
@@ -819,12 +890,23 @@ public:
     *** \param off_event_id The event id to call when setting the trigger to off.
     *** \param on_event_id The event id to call when setting the trigger to on.
     **/
-    TriggerObject(const std::string &trigger_name, const std::string &off_animation_file,
-                   const std::string &on_animation_file, const std::string& off_event_id,
-                   const std::string& on_event_id);
+    TriggerObject(const std::string &trigger_name, MapObjectDrawLayer layer,
+                  const std::string &off_animation_file, const std::string &on_animation_file,
+                  const std::string& off_event_id, const std::string& on_event_id);
 
     ~TriggerObject()
     {}
+
+    //! \brief A C++ wrapper made to create a new object from scripting,
+    //! without letting Lua handling the object life-cycle.
+    //! \note We don't permit luabind to use constructors here as it can't currently
+    //! give the object ownership at construction time.
+    static TriggerObject* Create(const std::string &trigger_name,
+                                 MapObjectDrawLayer layer,
+                                 const std::string &off_animation_file,
+                                 const std::string &on_animation_file,
+                                 const std::string& off_event_id,
+                                 const std::string& on_event_id);
 
     //! \brief Changes the current animation if the character collides with the trigger.
     void Update();
@@ -912,26 +994,42 @@ public:
     }
 
     /** \brief Retrieves a pointer to an object on this map
-    *** \param object_id The id number of the object to retreive
+    *** \param object_id The id number of the object to retrieve
     *** \return A pointer to the map object, or NULL if no object with that ID was found
     **/
-    MapObject *GetObject(uint32 object_id);
+    MapObject* GetObject(uint32 object_id);
 
     /** \brief Retrieves a pointer to a sprite on this map
-    *** \param object_id The id number of the sprite to retreive
+    *** \param object_id The id number of the sprite to retrieve
     *** \return A pointer to the sprite object, or NULL if the object was not found or was not a sprite type
     **/
-    VirtualSprite *GetSprite(uint32 object_id);
+    VirtualSprite* GetSprite(uint32 object_id);
 
-    //! \brief Add/Remove an object in/from a given layer on map.
-    void AddFlatGroundObject(MapObject* object);
-    void RemoveFlatGroundObject(MapObject* object);
-    void AddGroundObject(MapObject* object);
-    void RemoveGroundObject(MapObject* object);
-    void AddPassObject(MapObject* object);
-    void RemovePassObject(MapObject* object);
-    void AddSkyObject(MapObject* object);
-    void RemoveSkyObject(MapObject* object);
+    //! \brief Wrapper to add an object in the all objects vector.
+    //! This should only be called by the MapObject constructor.
+    void RegisterObject(MapObject* object);
+
+    //! \brief Delete an object from memory.
+    void DeleteObject(MapObject* object);
+
+    //! \brief Add sound objects (Done within the sound object constructor)
+    void AddAmbientSound(SoundObject* object);
+
+    //! \brief Add a light object, often created through scripting.
+    //! Called by the Light object constructor
+    void AddLight(Light* light);
+
+    //! \brief Add a halo object, often created through scripting.
+    //! Called by the Halo object constructor
+    void AddHalo(Halo* halo);
+
+    //! \brief Add a save point.
+    //! Called by the SavePoint object constructor
+    void AddSavePoint(SavePoint* save_point);
+
+    //! \brief Adds a new zone.
+    // Called by the Mazone constructor.
+    void AddZone(MapZone* zone);
 
     //! \brief Sorts objects on all three layers according to their draw order
     void SortObjects();
@@ -1036,13 +1134,7 @@ public:
     **/
     Path FindPath(private_map::VirtualSprite *sprite, const MapPosition &destination, uint32 max_cost = 0);
 
-    /** \brief Returns the pointer to the virtual focus.
-    **/
-    private_map::VirtualSprite *VirtualFocus() {
-        return _virtual_focus;
-    }
-
-    /** Tells the object supervisor that the given sprite pointer
+    /** \brief Tells the object supervisor that the given sprite pointer
     *** is the party member object.
     *** This later permits to refresh the sprite shown based on the battle
     *** formation front party member.
@@ -1076,8 +1168,7 @@ public:
     //! external callers cannot modify the contents of the map_object;
 
     //! \brief get the number of rows and columns in the collision grid
-    void GetGridAxis(uint32 &x, uint32 &y) const
-    {
+    void GetGridAxis(uint32 &x, uint32 &y) const {
         x = _num_grid_x_axis;
         y = _num_grid_y_axis;
     }
@@ -1120,16 +1211,6 @@ private:
     //! \brief Debug: Draws the map zones in orange
     void _DrawMapZones();
 
-    //! \brief Wrapper to add an object in the all objects vector.
-    //! This should only be called by corresponding public Add*Object() functions.
-    void _AddObject(MapObject* object);
-
-    //! \brief Wrapper to remove an object from the all objects vector.
-    //! This should only be called by corresponding public Remove*Object() functions.
-    //! \note: The object isn't actually deleted from memory, only set to NULL in the vector,
-    //! so that the key values don't change.
-    void _RemoveObject(MapObject* object);
-
     /** \brief The number of rows and columns in the collision grid
     *** The number of collision grid rows and columns is always equal to twice
     *** that of the number of rows and columns of tiles (stored in the TileManager).
@@ -1139,20 +1220,12 @@ private:
     //! \brief Holds the most recently generated object ID number
     uint16 _last_id;
 
-    /** \brief A "virtual sprite" that can serve as a focus point for the camera.
-    *** This sprite is not visible to the player nor does it have any collision
-    *** detection properties. Usually, the camera focuses on the player's sprite
-    *** rather than this object, but it is useful for scripted sequences and other
-    *** things.
-    **/
-    private_map::VirtualSprite *_virtual_focus;
-
     /** \brief The party member object is used to keep in memory the active member
     *** seen on map. This is later useful in "dungeon" maps for instance, where
     *** the party member in front of the battle formation is the one shown on map.
     *** Do not create or delete it in the code, this is just a reference.
     **/
-    private_map::MapSprite *_visible_party_member;
+    private_map::MapSprite* _visible_party_member;
 
     /** \brief A 2D vector indicating which grid element on the map sprites may be occupied by objects.
     *** Each bit of each element in this grid corresponds to a context. So all together this entire grid
@@ -1165,6 +1238,7 @@ private:
     /** \brief A map containing pointers to all of the sprites on a map.
     *** This map does not include a pointer to the _virtual_focus object. The
     *** sprite's unique identifier integer is used as the vector key.
+    *** MapObjects should only be deleted here.
     **/
     std::vector<MapObject *> _all_objects;
 
@@ -1177,10 +1251,6 @@ private:
     *** The ground object layer is where most objects and sprites exist in a typical map.
     **/
     std::vector<MapObject *> _ground_objects;
-
-    //! \brief A container for all of the save points, quite similar as the ground objects container.
-    //! \note Save points are not registered in _all_objects.
-    std::vector<SavePoint *> _save_points;
 
     /** \brief A container for all of the map objects located on the pass layer.
     *** The pass object layer is named so because objects on this layer can both be
@@ -1197,16 +1267,17 @@ private:
     **/
     std::vector<MapObject *> _sky_objects;
 
+    //! \brief A container for all of the save points, quite similar as the ground objects container.
+    std::vector<SavePoint *> _save_points;
+
     //! \brief Ambient sound objects, that plays a sound with a volume according
     //! to the distance with the camera.
-    //! \note sound objects are not registered in _all_objects.
     std::vector<SoundObject *> _sound_objects;
 
     //! \brief The sound objects that can be restarted when the map is reset()
     std::vector<SoundObject *> _sound_objects_to_restart;
 
     //! \brief Containers for all of the map source of light, quite similar as the ground objects container.
-    //! \note Halos and lights are not registered in _all_objects.
     std::vector<Halo *> _halos;
     std::vector<Light *> _lights;
 

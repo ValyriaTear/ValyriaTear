@@ -70,22 +70,6 @@ enum MAP_STATE {
 };
 //@}
 
-/** \name Map Zone Types
-*** \brief Identifier types for the various classes of map zones
-***
-*** \todo This enum is currently not in use by zone classes. Evaluate whether or not such a type identifier enum
-*** is necessary and either add them to the zone classes or remove this enum.
-**/
-enum ZONE_TYPE {
-    ZONE_INVALID    = 0,
-    ZONE_MAP        = 1,
-    ZONE_CAMERA     = 2,
-    ZONE_RESIDENT   = 3,
-    ZONE_ENEMY      = 4,
-    ZONE_CONTEXT    = 5,
-    MAP_ZONE_TOTAL  = 6,
-};
-
 //! \brief The number of tiles that are found in a tileset image (512x512 pixel image containing 32x32 pixel tiles)
 const uint32 TILES_PER_TILESET = 256;
 
@@ -366,6 +350,17 @@ struct MapVector {
 
     float length() const {
         return sqrtf(x * x + y * y);
+    }
+
+    MapVector& operator= (const MapVector& map_vec) {
+        // Prevents upon-self copy.
+        if (&map_vec == this)
+            return *this;
+
+        x = map_vec.x;
+        y = map_vec.y;
+
+        return *this;
     }
 
     float x;
