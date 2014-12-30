@@ -542,37 +542,70 @@ int main(int argc, char *argv[])
 
     ModeManager->Push(new BootMode(), false, true);
 
+    // A try... at using a variable game speed, sleeping when on sufficiently fast hardware.
+    // And max FPS.
+    const uint32 UPDATES_PER_SECOND = 60;
+    const uint32 SKIP_UPDATE_TICKS = 1000 / UPDATES_PER_SECOND; // 25
+    uint32 update_tick = SDL_GetTicks();
+    uint32 next_update_tick = update_tick;
+
+    // Debug stuff
+    uint32 last_tick = update_tick;
+    uint32 fps = 0;
+    uint32 one_second = 0;
+
     try {
         // This is the main loop for the game. The loop iterates once for every frame drawn to the screen.
         while(SystemManager->NotDone()) {
-            // Update only every 10 milliseconds.
-            SDL_Delay(10);
+            last_tick = update_tick;
+            update_tick = SDL_GetTicks();
 
-            // 1) Render the scene
-            VideoManager->Clear();
-            ModeManager->Draw();
-            ModeManager->DrawEffects();
-            ModeManager->DrawPostEffects();
-            VideoManager->DrawFadeEffect();
-            VideoManager->DrawDebugInfo();
+            // DEV: Get some FPS
+            one_second += update_tick - last_tick;
+            if (one_second >= 1000) {
+                one_second -= 1000;
+                std::cout << "FPS: " << fps << std::endl;
+                fps = 0;
+            }
 
-            // Swap the buffers once the draw operations are done.
-            SDL_GL_SwapWindow(sdl_window);
+            // If we want to be nice with the CPU % used.
+            if (update_tick <= next_update_tick && next_update_tick - update_tick >= 10)
+                SDL_Delay(next_update_tick - update_tick);
 
-            // Update timers for correct time-based movement operation
-            SystemManager->UpdateTimers();
+            // Render capped at UPDATES_PER_SECOND
+            if (update_tick > next_update_tick) {
+                VideoManager->Clear();
+                ModeManager->Draw();
+                ModeManager->DrawEffects();
+                ModeManager->DrawPostEffects();
+                VideoManager->DrawFadeEffect();
+                VideoManager->DrawDebugInfo();
 
-            // Process all new events
-            InputManager->EventHandler();
+                // Swap the buffers once the draw operations are done.
+                SDL_GL_SwapWindow(sdl_window);
 
-            // Update video
-            VideoManager->Update();
+                ++fps;
 
-            // Update any streaming audio sources
-            AudioManager->Update();
+                // Update the game logic
 
-            // Update the game status
-            ModeManager->Update();
+                // Update timers for correct time-based movement operation
+                SystemManager->UpdateTimers();
+
+                // Process all new events
+                InputManager->EventHandler();
+
+                // Update video
+                VideoManager->Update();
+
+                // Update any streaming audio sources
+                AudioManager->Update();
+
+                // Update the game status
+                ModeManager->Update();
+
+                // Wait for the next update.
+                next_update_tick += SKIP_UPDATE_TICKS;
+            }
 
         } // while (SystemManager->NotDone())
     } catch(const Exception &e) {
