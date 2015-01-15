@@ -335,6 +335,8 @@ engine/video/gl/shader_programs.h
 engine/video/gl/shaders.h
 engine/video/gl/sprite.cpp
 engine/video/gl/sprite.h
+engine/video/gl/sprite_particle_system.cpp
+engine/video/gl/sprite_particle_system.h
 engine/video/gl/transform.cpp
 engine/video/gl/transform.h
 engine/video/image.cpp

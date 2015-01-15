@@ -27,6 +27,7 @@
 #include "engine/video/gl/shader_programs.h"
 #include "engine/video/gl/shaders.h"
 #include "engine/video/gl/sprite.h"
+#include "engine/video/gl/sprite_particle_system.h"
 
 #include "utils/utils_strings.h"
 
@@ -101,6 +102,7 @@ VideoEngine::VideoEngine():
     _vsync_mode(0),
     _smooth_pixel_art(true),
     _sprite(NULL),
+    _particle_system(NULL),
     _initialized(false)
 {
     _current_context.blend = 0;
@@ -204,6 +206,12 @@ VideoEngine::~VideoEngine()
         _sprite = NULL;
     }
 
+    // Clean up the particle system.
+    if (_particle_system) {
+        delete _particle_system;
+        _particle_system = NULL;
+    }
+
     // Clean up the shaders and shader programs.
     glUseProgram(0);
 
@@ -241,6 +249,9 @@ bool VideoEngine::FinalizeInitialization()
 
     // Create the sprite.
     _sprite = new gl::Sprite();
+
+    // Create the particle system.
+    _particle_system = new gl::ParticleSystem();
 
     //
     // Create the programmable pipeline.
@@ -710,7 +721,7 @@ void VideoEngine::DrawParticleSystem(gl::ShaderProgram* shader_program,
                                      float* vertex_colors,
                                      unsigned number_of_vertices)
 {
-    assert(_sprite != NULL);
+    assert(_particle_system != NULL);
     assert(shader_program != NULL);
     assert(vertex_positions != NULL);
     assert(vertex_texture_coordinates != NULL);
@@ -732,19 +743,20 @@ void VideoEngine::DrawParticleSystem(gl::ShaderProgram* shader_program,
     shader_program->UpdateUniform("u_Color", reinterpret_cast<const float*>(&::vt_video::Color::white), 4);
 
     // Draw the particle system.
-    _sprite->Draw(vertex_positions, vertex_texture_coordinates, vertex_colors, number_of_vertices);
+    _particle_system->Draw(vertex_positions, vertex_texture_coordinates, vertex_colors, number_of_vertices);
 }
 
 void VideoEngine::DrawSprite(gl::ShaderProgram* shader_program,
-                             const std::vector<float>& vertex_positions,
-                             const std::vector<float>& vertex_texture_coordinates,
-                             const std::vector<float>& vertex_colors,
+                             float* vertex_positions,
+                             float* vertex_texture_coordinates,
+                             float* vertex_colors,
                              const Color& color)
 {
     assert(_sprite != NULL);
     assert(shader_program != NULL);
-    assert(!vertex_positions.empty());
-    assert(!vertex_texture_coordinates.empty());
+    assert(vertex_positions != NULL);
+    assert(vertex_texture_coordinates != NULL);
+    assert(vertex_colors != NULL);
 
     // Load the shader uniforms common to all programs.
     float buffer[16] = { 0 };
@@ -1188,8 +1200,9 @@ int32 VideoEngine::_ScreenCoordY(float y)
 
 void VideoEngine::DrawLine(float x1, float y1, unsigned width1, float x2, float y2, unsigned width2, const Color &color)
 {
+    //
     // Compute the line's vertex positions.
-    std::vector<float> vertex_positions;
+    //
 
     // This is the equation for drawing a line with different starting and ending widths.
     float angle = atan2(static_cast<float>(y2 - y1), static_cast<float>(x2 - x1));
@@ -1198,73 +1211,33 @@ void VideoEngine::DrawLine(float x1, float y1, unsigned width1, float x2, float 
     float w2sina2 = static_cast<float>(width2) / 2.0f * sin(angle);
     float w2cosa2 = static_cast<float>(width2) / 2.0f * cos(angle);
 
-    // Vertex one.
-    vertex_positions.push_back(x1 + w2sina1);
-    vertex_positions.push_back(y1 - w2cosa1);
-    vertex_positions.push_back(0.0f);
-
-    // Vertex two.
-    vertex_positions.push_back(x2 + w2sina2);
-    vertex_positions.push_back(y2 - w2cosa2);
-    vertex_positions.push_back(0.0f);
-
-    // Vertex three.
-    vertex_positions.push_back(x2 - w2sina2);
-    vertex_positions.push_back(y2 + w2cosa2);
-    vertex_positions.push_back(0.0f);
-
-    // Vertex four.
-    vertex_positions.push_back(x1 - w2sina1);
-    vertex_positions.push_back(y1 + w2cosa1);
-    vertex_positions.push_back(0.0f);
+    float vertex_positions[] =
+    {
+        x1 + w2sina1, y1 - w2cosa1, 0.0f, // Vertex One.
+        x2 + w2sina2, y2 - w2cosa2, 0.0f, // Vertex Two.
+        x2 - w2sina2, y2 + w2cosa2, 0.0f, // Vertex Three.
+        x1 - w2sina1, y1 + w2cosa1, 0.0f  // Vertex Four.
+    };
 
     // The vertex texture coordinates.
     // These will be ignored in this case.
-    std::vector<float> vertex_texture_coordinates;
-
-    // Vertex one.
-    vertex_texture_coordinates.push_back(0.0f);
-    vertex_texture_coordinates.push_back(0.0f);
-
-    // Vertex two.
-    vertex_texture_coordinates.push_back(0.0f);
-    vertex_texture_coordinates.push_back(0.0f);
-
-    // Vertex three.
-    vertex_texture_coordinates.push_back(0.0f);
-    vertex_texture_coordinates.push_back(0.0f);
-
-    // Vertex four.
-    vertex_texture_coordinates.push_back(0.0f);
-    vertex_texture_coordinates.push_back(0.0f);
+    float vertex_texture_coordinates[] =
+    {
+        0.0f, 0.0f, // Vertex One.
+        0.0f, 0.0f, // Vertex Two.
+        0.0f, 0.0f, // Vertex Three.
+        0.0f, 0.0f  // Vertex Four.
+    };
 
     // The vertex colors.
     // These will be ignored in this case.
-    std::vector<float> vertex_colors;
-
-    // Vertex one.
-    vertex_colors.push_back(1.0f);
-    vertex_colors.push_back(1.0f);
-    vertex_colors.push_back(1.0f);
-    vertex_colors.push_back(1.0f);
-
-    // Vertex two.
-    vertex_colors.push_back(1.0f);
-    vertex_colors.push_back(1.0f);
-    vertex_colors.push_back(1.0f);
-    vertex_colors.push_back(1.0f);
-
-    // Vertex three.
-    vertex_colors.push_back(1.0f);
-    vertex_colors.push_back(1.0f);
-    vertex_colors.push_back(1.0f);
-    vertex_colors.push_back(1.0f);
-
-    // Vertex four.
-    vertex_colors.push_back(1.0f);
-    vertex_colors.push_back(1.0f);
-    vertex_colors.push_back(1.0f);
-    vertex_colors.push_back(1.0f);
+    float vertex_colors[] =
+    {
+        1.0f, 1.0f, 1.0f, 1.0f, // Vertex One.
+        1.0f, 1.0f, 1.0f, 1.0f, // Vertex Two.
+        1.0f, 1.0f, 1.0f, 1.0f, // Vertex Three.
+        1.0f, 1.0f, 1.0f, 1.0f  // Vertex Four.
+    };
 
     EnableBlending();
     DisableTexture2D();
