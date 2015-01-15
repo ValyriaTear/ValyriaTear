@@ -21,7 +21,7 @@ namespace vt_video
 namespace gl
 {
 
-//! \brief A class for a particle system.
+//! \brief A class for drawing a particle system.
 class ParticleSystem
 {
 public:

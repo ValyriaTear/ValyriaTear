@@ -21,7 +21,7 @@ namespace vt_video
 namespace gl
 {
 
-//! \brief A class for a sprite.
+//! \brief A class for drawing a sprite.
 class Sprite
 {
 public:
