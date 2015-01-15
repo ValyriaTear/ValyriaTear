@@ -8,37 +8,32 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 /** ****************************************************************************
-*** \file    shader.h
+*** \file    gl_shaders.h
 *** \author  Authenticate, James Lammlein
-*** \brief   Header file for shaders used in OpenGL.
+*** \brief   Header file for shader definitions.
 *** ***************************************************************************/
 
-#ifndef __SHADER_HEADER__
-#define __SHADER_HEADER__
+#ifndef __SHADERS_HEADER__
+#define __SHADERS_HEADER__
 
 namespace vt_video
 {
 namespace gl
 {
-
-// Forward declarations.
-class ShaderProgram;
-
-//! \brief A class for an OpenGL shader.
-class Shader
+namespace shaders
 {
-    friend class ShaderProgram;
 
-public:
-    Shader(GLenum type, const std::string &data);
-    ~Shader();
-
-private:
-    GLint _shader;
-
-    Shader(const Shader&) {}
-    Shader& operator=(const Shader&) { return *this; }
+enum Shaders
+{
+    VertexDefault = 0,
+    FragmentSolid,
+    FragmentSolidGrayscale,
+    FragmentSprite,
+    FragmentSpriteGrayscale,
+    Count
 };
+
+} // namespace shaders
 
 } // namespace gl
 

@@ -8,7 +8,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 /** ****************************************************************************
-*** \file    transform.h
+*** \file    gl_transform.h
 *** \author  logzero
 *** \author  authenticate
 *** \brief   Source file for the Transform class.
@@ -18,7 +18,7 @@
 *** ***************************************************************************/
 
 #include "utils/utils_pch.h"
-#include "transform.h"
+#include "gl_transform.h"
 
 #include "utils/utils_numeric.h"
 

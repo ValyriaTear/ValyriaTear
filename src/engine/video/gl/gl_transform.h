@@ -8,7 +8,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 /** ****************************************************************************
-*** \file    transform2d.h
+*** \file    gl_transform.h
 *** \author  logzero
 *** \author  authenticate
 *** \brief   Header file for the Transform class.

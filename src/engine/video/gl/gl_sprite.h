@@ -8,36 +8,33 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 /** ****************************************************************************
-*** \file    sprite_particle_system.h
+*** \file    gl_sprite.h
 *** \author  Authenticate, James Lammlein
-*** \brief   Header file for buffers for a particle system.
+*** \brief   Header file for buffers for a sprite.
 *** ***************************************************************************/
 
-#ifndef __PARTICLE_SYSTEM_HEADER__
-#define __PARTICLE_SYSTEM_HEADER__
+#ifndef __SPRITE_HEADER__
+#define __SPRITE_HEADER__
 
 namespace vt_video
 {
 namespace gl
 {
 
-//! \brief A class for a particle system.
-class ParticleSystem
+//! \brief A class for a sprite.
+class Sprite
 {
 public:
-    ParticleSystem();
-    ~ParticleSystem();
+    Sprite();
+    ~Sprite();
 
-    //! \brief Draws all sprites in a particle system.
+    //! \brief Draws a sprite.
     void Draw();
 
-    //! \brief Draws all sprites in a particle system.
+    //! \brief Draws a sprite.
     void Draw(float* vertex_positions,
               float* vertex_texture_coordinates,
-              float* vertex_colors,
-              unsigned number_of_vertices);
-
-    unsigned _number_of_indices;
+              float* vertex_colors);
 
     GLuint _vao;
     GLuint _vertex_position_buffer;
@@ -46,8 +43,8 @@ public:
     GLuint _index_buffer;
 
 private:
-    ParticleSystem(const ParticleSystem&) {}
-    ParticleSystem& operator=(const ParticleSystem&) { return *this; }
+    Sprite(const Sprite&) {}
+    Sprite& operator=(const Sprite&) { return *this; }
 };
 
 } // namespace gl

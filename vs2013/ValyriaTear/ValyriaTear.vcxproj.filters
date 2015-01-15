@@ -293,19 +293,19 @@
     <ClCompile Include="..\..\src\modes\map\map_status_effects.cpp">
       <Filter>modes\map</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\engine\video\gl\shader.cpp">
+    <ClCompile Include="..\..\src\engine\video\gl\gl_particle_system.cpp">
       <Filter>engine\video\gl</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\engine\video\gl\shader_program.cpp">
+    <ClCompile Include="..\..\src\engine\video\gl\gl_shader.cpp">
       <Filter>engine\video\gl</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\engine\video\gl\transform.cpp">
+    <ClCompile Include="..\..\src\engine\video\gl\gl_shader_program.cpp">
       <Filter>engine\video\gl</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\engine\video\gl\sprite.cpp">
+    <ClCompile Include="..\..\src\engine\video\gl\gl_sprite.cpp">
       <Filter>engine\video\gl</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\engine\video\gl\sprite_particle_system.cpp">
+    <ClCompile Include="..\..\src\engine\video\gl\gl_transform.cpp">
       <Filter>engine\video\gl</Filter>
     </ClCompile>
   </ItemGroup>
@@ -569,28 +569,28 @@
     <ClInclude Include="..\..\src\modes\map\map_status_effects.h">
       <Filter>modes\map</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\engine\video\gl\shader.h">
+    <ClInclude Include="..\..\src\engine\video\gl\gl_particle_system.h">
       <Filter>engine\video\gl</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\engine\video\gl\shader_program.h">
+    <ClInclude Include="..\..\src\engine\video\gl\gl_shader.h">
       <Filter>engine\video\gl</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\engine\video\gl\shader_programs.h">
+    <ClInclude Include="..\..\src\engine\video\gl\gl_shader_definitions.h">
       <Filter>engine\video\gl</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\engine\video\gl\shaders.h">
+    <ClInclude Include="..\..\src\engine\video\gl\gl_shader_program.h">
       <Filter>engine\video\gl</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\engine\video\gl\transform.h">
+    <ClInclude Include="..\..\src\engine\video\gl\gl_shader_programs.h">
       <Filter>engine\video\gl</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\engine\video\gl\shader_definitions.h">
+    <ClInclude Include="..\..\src\engine\video\gl\gl_shaders.h">
       <Filter>engine\video\gl</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\engine\video\gl\sprite.h">
+    <ClInclude Include="..\..\src\engine\video\gl\gl_sprite.h">
       <Filter>engine\video\gl</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\engine\video\gl\sprite_particle_system.h">
+    <ClInclude Include="..\..\src\engine\video\gl\gl_transform.h">
       <Filter>engine\video\gl</Filter>
     </ClInclude>
   </ItemGroup>

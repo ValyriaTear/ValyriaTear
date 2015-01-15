@@ -8,13 +8,13 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 /** ****************************************************************************
-*** \file    shader.cpp
+*** \file    gl_shader.cpp
 *** \author  Authenticate, James Lammlein
 *** \brief   Source file for shaders used in OpenGL.
 *** ***************************************************************************/
 
 #include "utils/utils_pch.h"
-#include "shader.h"
+#include "gl_shader.h"
 
 #include "utils/utils_strings.h"
 
