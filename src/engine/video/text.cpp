@@ -1078,10 +1078,10 @@ void TextSupervisor::_RenderText(const uint16* text, FontProperties* font_proper
     // The vertex positions.
     float vertex_positions[] =
     {
-        0.0f,       0.0f,           0.0f,   // Vertex One.
-        font_width, 0.0f,           0.0f,   // Vertex Two.
-        font_width, font_height,    0.0f,   // Vertex Three.
-        0.0f,       font_height,    0.0f    // Vertex Four.
+        0.0f,                           0.0f,                            0.0f, // Vertex One.
+        static_cast<float>(font_width), 0.0f,                            0.0f, // Vertex Two.
+        static_cast<float>(font_width), static_cast<float>(font_height), 0.0f, // Vertex Three.
+        0.0f,                           static_cast<float>(font_height), 0.0f  // Vertex Four.
     };
 
     // The vertex texture coordinates.
@@ -1217,10 +1217,10 @@ void TextSupervisor::_RenderText(const uint16* text, FontProperties* font_proper
     // The vertex positions.
     float vertex_positions[] =
     {
-        0.0f,       0.0f,           0.0f,   // Vertex One.
-        font_width, 0.0f,           0.0f,   // Vertex Two.
-        font_width, font_height,    0.0f,   // Vertex Three.
-        0.0f,       font_height,    0.0f    // Vertex Four.
+        0.0f,                           0.0f,                            0.0f, // Vertex One.
+        static_cast<float>(font_width), 0.0f,                            0.0f, // Vertex Two.
+        static_cast<float>(font_width), static_cast<float>(font_height), 0.0f, // Vertex Three.
+        0.0f,                           static_cast<float>(font_height), 0.0f  // Vertex Four.
     };
 
     // The vertex texture coordinates.
