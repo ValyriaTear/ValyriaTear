@@ -817,8 +817,6 @@ StillImage::~StillImage()
     Clear();
 }
 
-
-
 void StillImage::Clear()
 {
     ImageDescriptor::Clear(); // This call will remove the texture reference for us
@@ -827,8 +825,6 @@ void StillImage::Clear()
     _x_offset = 0.0f;
     _y_offset = 0.0f;
 }
-
-
 
 bool StillImage::Load(const std::string &filename)
 {

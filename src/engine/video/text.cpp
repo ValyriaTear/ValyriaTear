@@ -1305,10 +1305,8 @@ bool TextSupervisor::_RenderText(const vt_utils::ustring& text, TextStyle& style
     buffer.height = surface->h;
 
     // Clean up.
-    if (surface != NULL) {
-        SDL_FreeSurface(surface);
-        surface = NULL;
-    }
+    SDL_FreeSurface(surface);
+    surface = NULL;
 
     return true;
 }
