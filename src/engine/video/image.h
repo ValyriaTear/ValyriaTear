@@ -344,7 +344,7 @@ class StillImage : public ImageDescriptor
 
 public:
     //! \brief Supply the constructor with "true" if you want this to represent a grayscale image
-    StillImage(const bool grayscale = false);
+    explicit StillImage(const bool grayscale = false);
 
     ~StillImage();
 
@@ -505,7 +505,6 @@ public:
     StillImage image;
 }; // class AnimationFrame
 
-
 /** ****************************************************************************
 *** \brief Represents a single element in a composite image
 *** ***************************************************************************/
@@ -513,20 +512,27 @@ class ImageElement
 {
 public:
     ImageElement() :
-        x_offset(0.0f), y_offset(0.0f) {}
+        image(),
+        x_offset(0.0f),
+        y_offset(0.0f)
+    {
+    }
 
     ImageElement(const StillImage &img, float x, float y) :
-        image(img), x_offset(x), y_offset(y) {}
+        image(img),
+        x_offset(x),
+        y_offset(y)
+    {
+    }
 
     //! \brief The singular image that represents this element
     StillImage image;
 
     //! \brief X and y draw position offsets of this element
     float x_offset, y_offset;
-}; // class ImageElement
+};
 
 } // namespace private_video
-
 
 /** ****************************************************************************
 *** \brief Represents an animated image with both frames and timing information

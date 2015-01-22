@@ -33,9 +33,9 @@
 #include "engine/video/context.h"
 #include "engine/video/coord_sys.h"
 #include "engine/video/fade.h"
-#include "engine/video/gl/shader_programs.h"
-#include "engine/video/gl/shaders.h"
-#include "engine/video/gl/transform.h"
+#include "engine/video/gl/gl_shader_programs.h"
+#include "engine/video/gl/gl_shaders.h"
+#include "engine/video/gl/gl_transform.h"
 #include "engine/video/image.h"
 #include "engine/video/screen_rect.h"
 #include "engine/video/text.h"
@@ -69,6 +69,7 @@ namespace vt_video
 namespace gl
 {
 
+class ParticleSystem;
 class Shader;
 class ShaderProgram;
 class Sprite;
@@ -388,9 +389,9 @@ public:
 
     //! \brief Draws a sprite.
     void DrawSprite(gl::ShaderProgram* shader_program,
-                    const std::vector<float>& vertex_positions,
-                    const std::vector<float>& vertex_texture_coordinates,
-                    const std::vector<float>& vertex_colors,
+                    float* vertex_positions,
+                    float* vertex_texture_coordinates,
+                    float* vertex_colors,
                     const Color& color = ::vt_video::Color::white);
 
     /** \brief Enables the scissoring effect in the video engine
@@ -812,6 +813,9 @@ private:
 
     //! The OpenGL buffers and objects to draw a sprite.
     gl::Sprite* _sprite;
+
+    //! The OpenGL buffers and objects to draw a particle system.
+    gl::ParticleSystem* _particle_system;
 
     //! The OpenGL shaders.
     std::map<gl::shaders::Shaders, gl::Shader*> _shaders;

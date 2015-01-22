@@ -8,33 +8,28 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 /** ****************************************************************************
-*** \file    sprite.h
+*** \file    gl_particle_system.h
 *** \author  Authenticate, James Lammlein
-*** \brief   Header file for buffers for a sprite.
+*** \brief   Header file for buffers for a particle system.
 *** ***************************************************************************/
 
-#ifndef __SPRITE_HEADER__
-#define __SPRITE_HEADER__
+#ifndef __PARTICLE_SYSTEM_HEADER__
+#define __PARTICLE_SYSTEM_HEADER__
 
 namespace vt_video
 {
 namespace gl
 {
 
-//! \brief A class for a sprite.
-class Sprite
+//! \brief A class for drawing a particle system.
+class ParticleSystem
 {
 public:
-    Sprite();
-    ~Sprite();
+    ParticleSystem();
+    ~ParticleSystem();
 
-    //! \brief Draws a sprite.
+    //! \brief Draws all sprites in a particle system.
     void Draw();
-
-    //! \brief Draws a sprite.
-    void Draw(const std::vector<float>& vertex_positions,
-              const std::vector<float>& vertex_texture_coordinates,
-              const std::vector<float>& vertex_colors);
 
     //! \brief Draws all sprites in a particle system.
     void Draw(float* vertex_positions,
@@ -51,8 +46,8 @@ public:
     GLuint _index_buffer;
 
 private:
-    Sprite(const Sprite&) {}
-    Sprite& operator=(const Sprite&) { return *this; }
+    ParticleSystem(const ParticleSystem&) {}
+    ParticleSystem& operator=(const ParticleSystem&) { return *this; }
 };
 
 } // namespace gl

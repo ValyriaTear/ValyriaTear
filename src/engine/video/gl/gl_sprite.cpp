@@ -8,13 +8,13 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 /** ****************************************************************************
-*** \file    sprite.cpp
+*** \file    gl_sprite.cpp
 *** \author  Authenticate, James Lammlein
 *** \brief   Source file for buffers for a sprite.
 *** ***************************************************************************/
 
 #include "utils/utils_pch.h"
-#include "sprite.h"
+#include "gl_sprite.h"
 
 #include "utils/utils_strings.h"
 
@@ -23,8 +23,23 @@ namespace vt_video
 namespace gl
 {
 
+//
+// Constants.
+//
+
+const unsigned INDICES[] =
+{ 
+    0, 1, 2, // Triangle One.
+    0, 2, 3  // Triangle Two.
+};
+
+const unsigned VERTICES_PER_SPRITE = 4;
+const unsigned INDICES_PER_SPRITE = sizeof(INDICES) / sizeof(*INDICES);
+const unsigned POSITIONS_PER_VERTEX = 3;
+const unsigned TEXTURE_COORDINATES_PER_VERTEX = 2;
+const unsigned COLORS_PER_VERTEX = 4;
+
 Sprite::Sprite() :
-    _number_of_indices(0),
     _vao(0),
     _vertex_position_buffer(0),
     _vertex_texture_coordinate_buffer(0),
@@ -33,87 +48,39 @@ Sprite::Sprite() :
 {
     bool errors = false;
 
+    //
+    // Initialize the sprite buffers with some default data.
+    //
+
     // The vertex positions.
-    std::vector<float> vertex_positions;
-
-    // Vertex one.
-    vertex_positions.push_back(0.0f);
-    vertex_positions.push_back(0.0f);
-    vertex_positions.push_back(0.0f);
-
-    // Vertex two.
-    vertex_positions.push_back(0.0f);
-    vertex_positions.push_back(1.0f);
-    vertex_positions.push_back(0.0f);
-
-    // Vertex three.
-    vertex_positions.push_back(1.0f);
-    vertex_positions.push_back(1.0f);
-    vertex_positions.push_back(0.0f);
-
-    // Vertex four.
-    vertex_positions.push_back(1.0f);
-    vertex_positions.push_back(0.0f);
-    vertex_positions.push_back(0.0f);
+    const float VERTEX_POSITIONS[] =
+    {
+        0.0f, 0.0f, 0.0f, // Vertex One.
+        0.0f, 1.0f, 0.0f, // Vertex Two.
+        1.0f, 1.0f, 0.0f, // Vertex Three.
+        1.0f, 0.0f, 0.0f  // Vertex Four.
+    };
+    assert(sizeof(VERTEX_POSITIONS) / sizeof(*VERTEX_POSITIONS) % POSITIONS_PER_VERTEX == 0);
 
     // The vertex texture coordinates.
-    std::vector<float> vertex_texture_coordinates;
-
-    // Vertex one.
-    vertex_texture_coordinates.push_back(0.0f);
-    vertex_texture_coordinates.push_back(1.0f);
-
-    // Vertex two.
-    vertex_texture_coordinates.push_back(1.0f);
-    vertex_texture_coordinates.push_back(1.0f);
-
-    // Vertex three.
-    vertex_texture_coordinates.push_back(1.0f);
-    vertex_texture_coordinates.push_back(0.0f);
-
-    // Vertex four.
-    vertex_texture_coordinates.push_back(0.0f);
-    vertex_texture_coordinates.push_back(0.0f);
+    const float VERTEX_TEXTURE_COORDINATES[] =
+    {
+        0.0f, 1.0f, // Vertex One.
+        1.0f, 1.0f, // Vertex Two.
+        1.0f, 0.0f, // Vertex Three.
+        0.0f, 0.0f  // Vertex Four.
+    };
+    assert(sizeof(VERTEX_TEXTURE_COORDINATES) / sizeof(*VERTEX_TEXTURE_COORDINATES) % TEXTURE_COORDINATES_PER_VERTEX == 0);
 
     // The vertex colors.
-    std::vector<float> vertex_colors;
-
-    // Vertex one.
-    vertex_colors.push_back(1.0f);
-    vertex_colors.push_back(1.0f);
-    vertex_colors.push_back(1.0f);
-    vertex_colors.push_back(1.0f);
-
-    // Vertex two.
-    vertex_colors.push_back(1.0f);
-    vertex_colors.push_back(1.0f);
-    vertex_colors.push_back(1.0f);
-    vertex_colors.push_back(1.0f);
-
-    // Vertex three.
-    vertex_colors.push_back(1.0f);
-    vertex_colors.push_back(1.0f);
-    vertex_colors.push_back(1.0f);
-    vertex_colors.push_back(1.0f);
-
-    // Vertex four.
-    vertex_colors.push_back(1.0f);
-    vertex_colors.push_back(1.0f);
-    vertex_colors.push_back(1.0f);
-    vertex_colors.push_back(1.0f);
-
-    // The indices.
-    std::vector<unsigned> indices;
-
-    // The first triangle.
-    indices.push_back(0);
-    indices.push_back(1);
-    indices.push_back(2);
-
-    // The second triangle.
-    indices.push_back(0);
-    indices.push_back(2);
-    indices.push_back(3);
+    const float VERTEX_COLORS[] =
+    {
+        1.0f, 1.0f, 1.0f, 1.0f, // Vertex One.
+        1.0f, 1.0f, 1.0f, 1.0f, // Vertex Two.
+        1.0f, 1.0f, 1.0f, 1.0f, // Vertex Three.
+        1.0f, 1.0f, 1.0f, 1.0f  // Vertex Four.
+    };
+    assert(sizeof(VERTEX_COLORS) / sizeof(*VERTEX_COLORS) % COLORS_PER_VERTEX == 0);
 
     // Create the vertex array object.
     if (!errors) {
@@ -164,7 +131,7 @@ Sprite::Sprite() :
 
     // Set up the vertex position data.
     if (!errors) {
-        glBufferData(GL_ARRAY_BUFFER, vertex_positions.size() * sizeof(float), &vertex_positions.front(), GL_DYNAMIC_DRAW);
+        glBufferData(GL_ARRAY_BUFFER, sizeof(VERTEX_POSITIONS), VERTEX_POSITIONS, GL_DYNAMIC_DRAW);
 
         GLenum error = glGetError();
         if (error != GL_NO_ERROR) {
@@ -204,7 +171,7 @@ Sprite::Sprite() :
 
     // Set up the vertex texture coordinate data.
     if (!errors) {
-        glBufferData(GL_ARRAY_BUFFER, vertex_texture_coordinates.size() * sizeof(float), &vertex_texture_coordinates.front(), GL_DYNAMIC_DRAW);
+        glBufferData(GL_ARRAY_BUFFER, sizeof(VERTEX_TEXTURE_COORDINATES), VERTEX_TEXTURE_COORDINATES, GL_DYNAMIC_DRAW);
 
         GLenum error = glGetError();
         if (error != GL_NO_ERROR) {
@@ -244,7 +211,7 @@ Sprite::Sprite() :
 
     // Set up the vertex color data.
     if (!errors) {
-        glBufferData(GL_ARRAY_BUFFER, vertex_colors.size() * sizeof(float), &vertex_colors.front(), GL_DYNAMIC_DRAW);
+        glBufferData(GL_ARRAY_BUFFER, sizeof(VERTEX_COLORS), VERTEX_COLORS, GL_DYNAMIC_DRAW);
 
         GLenum error = glGetError();
         if (error != GL_NO_ERROR) {
@@ -284,8 +251,7 @@ Sprite::Sprite() :
 
     // Set up the index data.
     if (!errors) {
-        glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(unsigned), &indices.front(), GL_STATIC_DRAW);
-        _number_of_indices = indices.size();
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(INDICES), INDICES, GL_STATIC_DRAW);
 
         GLenum error = glGetError();
         if (error != GL_NO_ERROR) {
@@ -348,7 +314,7 @@ void Sprite::Draw()
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _index_buffer);
 
     // Draw the sprite.
-    glDrawElements(GL_TRIANGLES, _number_of_indices, GL_UNSIGNED_INT, NULL);
+    glDrawElements(GL_TRIANGLES, INDICES_PER_SPRITE, GL_UNSIGNED_INT, NULL);
 
     // Unbind the vertex array object from the pipeline.
     glBindVertexArray(0);
@@ -358,137 +324,15 @@ void Sprite::Draw()
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 }
 
-void Sprite::Draw(const std::vector<float>& vertex_positions,
-                  const std::vector<float>& vertex_texture_coordinates,
-                  const std::vector<float>& vertex_colors)
-{
-    bool errors = false;
-
-    assert(!vertex_positions.empty() && vertex_positions.size() % 3 == 0);
-    assert(!vertex_texture_coordinates.empty() && vertex_texture_coordinates.size() % 2 == 0);
-    assert(!vertex_colors.empty() && vertex_colors.size() % 4 == 0);
-
-    // Bind the vertex position buffer.
-    if (!errors) {
-        glBindBuffer(GL_ARRAY_BUFFER, _vertex_position_buffer);
-    }
-
-    // Update the vertex position data.
-    if (!errors) {
-        glBufferSubData(GL_ARRAY_BUFFER, 0, vertex_positions.size() * sizeof(float), &vertex_positions.front());
-
-        GLenum error = glGetError();
-        if (error != GL_NO_ERROR) {
-            errors = true;
-            PRINT_ERROR << "Failed to update the vertex position data. VAO ID: " <<
-                           vt_utils::NumberToString(_vao) << " Buffer ID: " <<
-                           vt_utils::NumberToString(_vertex_position_buffer) <<
-                           std::endl;
-            assert(error == GL_NO_ERROR);
-        }
-    }
-
-    // Bind the vertex texture coordinate buffer.
-    if (!errors) {
-        glBindBuffer(GL_ARRAY_BUFFER, _vertex_texture_coordinate_buffer);
-    }
-
-    // Update the vertex texture coordinate data.
-    if (!errors) {
-        glBufferSubData(GL_ARRAY_BUFFER, 0, vertex_texture_coordinates.size() * sizeof(float), &vertex_texture_coordinates.front());
-
-        GLenum error = glGetError();
-        if (error != GL_NO_ERROR) {
-            errors = true;
-            PRINT_ERROR << "Failed to update the vertex texture coordinate data. VAO ID: " <<
-                           vt_utils::NumberToString(_vao) << " Buffer ID: " <<
-                           vt_utils::NumberToString(_vertex_texture_coordinate_buffer) <<
-                           std::endl;
-            assert(error == GL_NO_ERROR);
-        }
-    }
-
-    // Bind the vertex color buffer.
-    if (!errors) {
-        glBindBuffer(GL_ARRAY_BUFFER, _vertex_color_buffer);
-    }
-
-    // Update the vertex color data.
-    if (!errors) {
-        glBufferSubData(GL_ARRAY_BUFFER, 0, vertex_colors.size() * sizeof(float), &vertex_colors.front());
-
-        GLenum error = glGetError();
-        if (error != GL_NO_ERROR) {
-            errors = true;
-            PRINT_ERROR << "Failed to update the vertex color data. VAO ID: " <<
-                           vt_utils::NumberToString(_vao) << " Buffer ID: " <<
-                           vt_utils::NumberToString(_vertex_color_buffer) <<
-                           std::endl;
-            assert(error == GL_NO_ERROR);
-        }
-    }
-
-    // Create the index buffer's data.
-    std::vector<unsigned> indices;
-
-    // Triangle one.
-    indices.push_back(0);
-    indices.push_back(1);
-    indices.push_back(2);
-
-    // Triangle two.
-    indices.push_back(0);
-    indices.push_back(2);
-    indices.push_back(3);
-
-    // Bind the index buffer.
-    if (!errors) {
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _index_buffer);
-    }
-
-    // Update the index data.
-    if (!errors) {
-        glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(unsigned), &indices.front(), GL_STATIC_DRAW);
-        _number_of_indices = indices.size();
-
-        GLenum error = glGetError();
-        if (error != GL_NO_ERROR) {
-            errors = true;
-            PRINT_ERROR << "Failed to update the index data. VAO ID: " <<
-                           vt_utils::NumberToString(_vao) << " Buffer ID: " <<
-                           vt_utils::NumberToString(_index_buffer) <<
-                           std::endl;
-            assert(error == GL_NO_ERROR);
-        }
-    }
-
-    // Unbind the buffers from the pipeline.
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-
-    // Draw the sprite.
-    if (!errors) {
-        Draw();
-    }
-}
-
 void Sprite::Draw(float* vertex_positions,
                   float* vertex_texture_coordinates,
-                  float* vertex_colors,
-                  unsigned number_of_vertices)
+                  float* vertex_colors)
 {
     bool errors = false;
-
-    // Define some constants.
-    const unsigned VERTICES_PER_PARTICLE = 4;
-    const unsigned POSITIONS_PER_VERTEX = 3;
-    const unsigned COLORS_PER_VERTEX = 4;
-    const unsigned TEXTURE_COORDINATES_PER_VERTEX = 2;
 
     assert(vertex_positions != NULL);
     assert(vertex_texture_coordinates != NULL);
     assert(vertex_colors != NULL);
-    assert(number_of_vertices % VERTICES_PER_PARTICLE == 0);
 
     // Bind the vertex position buffer.
     if (!errors) {
@@ -497,10 +341,7 @@ void Sprite::Draw(float* vertex_positions,
 
     // Update the vertex position data.
     if (!errors) {
-        glBufferData(GL_ARRAY_BUFFER,
-                     number_of_vertices * POSITIONS_PER_VERTEX * sizeof(float),
-                     vertex_positions,
-                     GL_STATIC_DRAW);
+        glBufferSubData(GL_ARRAY_BUFFER, 0, VERTICES_PER_SPRITE * POSITIONS_PER_VERTEX * sizeof(float), vertex_positions);
 
         GLenum error = glGetError();
         if (error != GL_NO_ERROR) {
@@ -520,10 +361,7 @@ void Sprite::Draw(float* vertex_positions,
 
     // Update the vertex texture coordinate data.
     if (!errors) {
-        glBufferData(GL_ARRAY_BUFFER,
-                     number_of_vertices * TEXTURE_COORDINATES_PER_VERTEX * sizeof(float),
-                     vertex_texture_coordinates,
-                     GL_STATIC_DRAW);
+        glBufferSubData(GL_ARRAY_BUFFER, 0, VERTICES_PER_SPRITE * TEXTURE_COORDINATES_PER_VERTEX * sizeof(float), vertex_texture_coordinates);
 
         GLenum error = glGetError();
         if (error != GL_NO_ERROR) {
@@ -543,10 +381,7 @@ void Sprite::Draw(float* vertex_positions,
 
     // Update the vertex color data.
     if (!errors) {
-        glBufferData(GL_ARRAY_BUFFER,
-                     number_of_vertices * COLORS_PER_VERTEX * sizeof(float),
-                     vertex_colors,
-                     GL_STATIC_DRAW);
+        glBufferSubData(GL_ARRAY_BUFFER, 0, VERTICES_PER_SPRITE * COLORS_PER_VERTEX * sizeof(float), vertex_colors);
 
         GLenum error = glGetError();
         if (error != GL_NO_ERROR) {
@@ -554,53 +389,6 @@ void Sprite::Draw(float* vertex_positions,
             PRINT_ERROR << "Failed to update the vertex color data. VAO ID: " <<
                            vt_utils::NumberToString(_vao) << " Buffer ID: " <<
                            vt_utils::NumberToString(_vertex_color_buffer) <<
-                           std::endl;
-            assert(error == GL_NO_ERROR);
-        }
-    }
-
-    // Create the index buffer's data.
-    std::vector<unsigned> indices;
-    if (!errors) {
-        // For each particle...
-        unsigned number_of_particles = number_of_vertices / VERTICES_PER_PARTICLE;
-        for (unsigned i = 0; i < number_of_particles; ++i)
-        {
-            // Compute the starting index of the particle.
-            unsigned index = i * VERTICES_PER_PARTICLE;
-
-            //
-            // Store the particle's indices.
-            //
-
-            // Triangle one.
-            indices.push_back(index + 0);
-            indices.push_back(index + 1);
-            indices.push_back(index + 2);
-
-            // Triangle two.
-            indices.push_back(index + 0);
-            indices.push_back(index + 2);
-            indices.push_back(index + 3);
-        }
-    }
-
-    // Bind the index buffer.
-    if (!errors) {
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _index_buffer);
-    }
-
-    // Update the index data.
-    if (!errors) {
-        glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(unsigned), &indices.front(), GL_STATIC_DRAW);
-        _number_of_indices = indices.size();
-
-        GLenum error = glGetError();
-        if (error != GL_NO_ERROR) {
-            errors = true;
-            PRINT_ERROR << "Failed to update the index data. VAO ID: " <<
-                           vt_utils::NumberToString(_vao) << " Buffer ID: " <<
-                           vt_utils::NumberToString(_index_buffer) <<
                            std::endl;
             assert(error == GL_NO_ERROR);
         }

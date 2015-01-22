@@ -161,73 +161,31 @@ void TexSheet::Smooth(bool flag)
 void TexSheet::DEBUG_Draw() const
 {
     // The vertex positions.
-    std::vector<float> vertex_positions;
+    float vertex_positions[] =
+    {
+        1.0f, 1.0f, 0.0f, // Vertex One.
+        0.0f, 1.0f, 0.0f, // Vertex Two.
+        0.0f, 0.0f, 0.0f, // Vertex Three.
+        1.0f, 0.0f, 0.0f  // Vertex Four.
+    };
 
-    // Vertex one.
-    vertex_positions.push_back(1.0f);
-    vertex_positions.push_back(1.0f);
-    vertex_positions.push_back(0.0f);
-
-    // Vertex two.
-    vertex_positions.push_back(0.0f);
-    vertex_positions.push_back(1.0f);
-    vertex_positions.push_back(0.0f);
-
-    // Vertex three.
-    vertex_positions.push_back(0.0f);
-    vertex_positions.push_back(0.0f);
-    vertex_positions.push_back(0.0f);
-
-    // Vertex four.
-    vertex_positions.push_back(1.0f);
-    vertex_positions.push_back(0.0f);
-    vertex_positions.push_back(0.0f);
-
-    // The texture coordinates.
-    std::vector<float> texture_coordinates;
-
-    // Vertex one.
-    texture_coordinates.push_back(0.0f);
-    texture_coordinates.push_back(1.0f);
-
-    // Vertex two.
-    texture_coordinates.push_back(1.0f);
-    texture_coordinates.push_back(1.0f);
-
-    // Vertex three.
-    texture_coordinates.push_back(1.0f);
-    texture_coordinates.push_back(0.0f);
-
-    // Vertex four.
-    texture_coordinates.push_back(0.0f);
-    texture_coordinates.push_back(0.0f);
+    // The vertex texture coordinates.
+    float vertex_texture_coordinates[] =
+    {
+        0.0f, 1.0f, // Vertex One.
+        1.0f, 1.0f, // Vertex Two.
+        1.0f, 0.0f, // Vertex Three.
+        0.0f, 0.0f  // Vertex Four.
+    };
 
     // The vertex colors.
-    std::vector<float> vertex_colors;
-
-    // Vertex one.
-    vertex_colors.push_back(1.0f);
-    vertex_colors.push_back(1.0f);
-    vertex_colors.push_back(1.0f);
-    vertex_colors.push_back(1.0f);
-
-    // Vertex two.
-    vertex_colors.push_back(1.0f);
-    vertex_colors.push_back(1.0f);
-    vertex_colors.push_back(1.0f);
-    vertex_colors.push_back(1.0f);
-
-    // Vertex three.
-    vertex_colors.push_back(1.0f);
-    vertex_colors.push_back(1.0f);
-    vertex_colors.push_back(1.0f);
-    vertex_colors.push_back(1.0f);
-
-    // Vertex four.
-    vertex_colors.push_back(1.0f);
-    vertex_colors.push_back(1.0f);
-    vertex_colors.push_back(1.0f);
-    vertex_colors.push_back(1.0f);
+    float vertex_colors[] =
+    {
+        1.0f, 1.0f, 1.0f, 1.0f, // Vertex One.
+        1.0f, 1.0f, 1.0f, 1.0f, // Vertex Two.
+        1.0f, 1.0f, 1.0f, 1.0f, // Vertex Three.
+        1.0f, 1.0f, 1.0f, 1.0f  // Vertex Four.
+    };
 
     // Enable texturing and bind the texture.
     VideoManager->DisableBlending();
@@ -239,7 +197,7 @@ void TexSheet::DEBUG_Draw() const
     assert(shader_program != NULL);
 
     // Draw a black background.
-    VideoManager->DrawSprite(shader_program, vertex_positions, texture_coordinates, vertex_colors, ::vt_video::Color::black);
+    VideoManager->DrawSprite(shader_program, vertex_positions, vertex_texture_coordinates, vertex_colors, ::vt_video::Color::black);
 
     // Unload the shader program.
     VideoManager->UnloadShaderProgram();
@@ -249,7 +207,7 @@ void TexSheet::DEBUG_Draw() const
     assert(shader_program != NULL);
 
     // Draw the image.
-    VideoManager->DrawSprite(shader_program, vertex_positions, texture_coordinates, vertex_colors);
+    VideoManager->DrawSprite(shader_program, vertex_positions, vertex_texture_coordinates, vertex_colors);
 
     // Unload the shader program.
     VideoManager->UnloadShaderProgram();

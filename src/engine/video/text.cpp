@@ -1075,74 +1075,32 @@ void TextSupervisor::_RenderText(const uint16* text, FontProperties* font_proper
     gl::ShaderProgram* shader_program = VideoManager->LoadShaderProgram(gl::shader_programs::Sprite);
     assert(shader_program != NULL);
 
-    // Calculate the vertex positions.
-    std::vector<float> vertex_positions;
+    // The vertex positions.
+    float vertex_positions[] =
+    {
+        0.0f,                           0.0f,                            0.0f, // Vertex One.
+        static_cast<float>(font_width), 0.0f,                            0.0f, // Vertex Two.
+        static_cast<float>(font_width), static_cast<float>(font_height), 0.0f, // Vertex Three.
+        0.0f,                           static_cast<float>(font_height), 0.0f  // Vertex Four.
+    };
 
-    // Vertex one.
-    vertex_positions.push_back(0.0f);
-    vertex_positions.push_back(0.0f);
-    vertex_positions.push_back(0.0f);
-
-    // Vertex two.
-    vertex_positions.push_back(font_width);
-    vertex_positions.push_back(0.0f);
-    vertex_positions.push_back(0.0f);
-
-    // Vertex three.
-    vertex_positions.push_back(font_width);
-    vertex_positions.push_back(font_height);
-    vertex_positions.push_back(0.0f);
-
-    // Vertex four.
-    vertex_positions.push_back(0.0f);
-    vertex_positions.push_back(font_height);
-    vertex_positions.push_back(0.0f);
-
-    // Calculate the vertex texture coordinates.
-    std::vector<float> vertex_texture_coordinates;
-
-    // Vertex one.
-    vertex_texture_coordinates.push_back(0.0f);
-    vertex_texture_coordinates.push_back(0.0f);
-
-    // Vertex two.
-    vertex_texture_coordinates.push_back(1.0f);
-    vertex_texture_coordinates.push_back(0.0f);
-
-    // Vertex three.
-    vertex_texture_coordinates.push_back(1.0f);
-    vertex_texture_coordinates.push_back(1.0f);
-
-    // Vertex four.
-    vertex_texture_coordinates.push_back(0.0f);
-    vertex_texture_coordinates.push_back(1.0f);
+    // The vertex texture coordinates.
+    float vertex_texture_coordinates[] =
+    {
+        0.0f, 0.0f, // Vertex One.
+        1.0f, 0.0f, // Vertex Two.
+        1.0f, 1.0f, // Vertex Three.
+        0.0f, 1.0f  // Vertex Four.
+    };
 
     // The vertex colors.
-    std::vector<float> vertex_colors;
-
-    // Vertex one.
-    vertex_colors.push_back(1.0f);
-    vertex_colors.push_back(1.0f);
-    vertex_colors.push_back(1.0f);
-    vertex_colors.push_back(1.0f);
-
-    // Vertex two.
-    vertex_colors.push_back(1.0f);
-    vertex_colors.push_back(1.0f);
-    vertex_colors.push_back(1.0f);
-    vertex_colors.push_back(1.0f);
-
-    // Vertex three.
-    vertex_colors.push_back(1.0f);
-    vertex_colors.push_back(1.0f);
-    vertex_colors.push_back(1.0f);
-    vertex_colors.push_back(1.0f);
-
-    // Vertex four.
-    vertex_colors.push_back(1.0f);
-    vertex_colors.push_back(1.0f);
-    vertex_colors.push_back(1.0f);
-    vertex_colors.push_back(1.0f);
+    float vertex_colors[] =
+    {
+        1.0f, 1.0f, 1.0f, 1.0f, // Vertex One.
+        1.0f, 1.0f, 1.0f, 1.0f, // Vertex Two.
+        1.0f, 1.0f, 1.0f, 1.0f, // Vertex Three.
+        1.0f, 1.0f, 1.0f, 1.0f  // Vertex Four.
+    };
 
     // Draw the text.
     VideoManager->DrawSprite(shader_program, vertex_positions, vertex_texture_coordinates, vertex_colors, color);
@@ -1256,74 +1214,32 @@ void TextSupervisor::_RenderText(const uint16* text, FontProperties* font_proper
     gl::ShaderProgram* shader_program = VideoManager->LoadShaderProgram(gl::shader_programs::Sprite);
     assert(shader_program != NULL);
 
-    // Calculate the vertex positions.
-    std::vector<float> vertex_positions;
+    // The vertex positions.
+    float vertex_positions[] =
+    {
+        0.0f,                           0.0f,                            0.0f, // Vertex One.
+        static_cast<float>(font_width), 0.0f,                            0.0f, // Vertex Two.
+        static_cast<float>(font_width), static_cast<float>(font_height), 0.0f, // Vertex Three.
+        0.0f,                           static_cast<float>(font_height), 0.0f  // Vertex Four.
+    };
 
-    // Vertex one.
-    vertex_positions.push_back(0.0f);
-    vertex_positions.push_back(0.0f);
-    vertex_positions.push_back(0.0f);
-
-    // Vertex two.
-    vertex_positions.push_back(font_width);
-    vertex_positions.push_back(0.0f);
-    vertex_positions.push_back(0.0f);
-
-    // Vertex three.
-    vertex_positions.push_back(font_width);
-    vertex_positions.push_back(font_height);
-    vertex_positions.push_back(0.0f);
-
-    // Vertex four.
-    vertex_positions.push_back(0.0f);
-    vertex_positions.push_back(font_height);
-    vertex_positions.push_back(0.0f);
-
-    // Calculate the vertex texture coordinates.
-    std::vector<float> vertex_texture_coordinates;
-
-    // Vertex one.
-    vertex_texture_coordinates.push_back(0.0f);
-    vertex_texture_coordinates.push_back(0.0f);
-
-    // Vertex two.
-    vertex_texture_coordinates.push_back(1.0f);
-    vertex_texture_coordinates.push_back(0.0f);
-
-    // Vertex three.
-    vertex_texture_coordinates.push_back(1.0f);
-    vertex_texture_coordinates.push_back(1.0f);
-
-    // Vertex four.
-    vertex_texture_coordinates.push_back(0.0f);
-    vertex_texture_coordinates.push_back(1.0f);
+    // The vertex texture coordinates.
+    float vertex_texture_coordinates[] =
+    {
+        0.0f, 0.0f, // Vertex One.
+        1.0f, 0.0f, // Vertex Two.
+        1.0f, 1.0f, // Vertex Three.
+        0.0f, 1.0f  // Vertex Four.
+    };
 
     // The vertex colors.
-    std::vector<float> vertex_colors;
-
-    // Vertex one.
-    vertex_colors.push_back(1.0f);
-    vertex_colors.push_back(1.0f);
-    vertex_colors.push_back(1.0f);
-    vertex_colors.push_back(1.0f);
-
-    // Vertex two.
-    vertex_colors.push_back(1.0f);
-    vertex_colors.push_back(1.0f);
-    vertex_colors.push_back(1.0f);
-    vertex_colors.push_back(1.0f);
-
-    // Vertex three.
-    vertex_colors.push_back(1.0f);
-    vertex_colors.push_back(1.0f);
-    vertex_colors.push_back(1.0f);
-    vertex_colors.push_back(1.0f);
-
-    // Vertex four.
-    vertex_colors.push_back(1.0f);
-    vertex_colors.push_back(1.0f);
-    vertex_colors.push_back(1.0f);
-    vertex_colors.push_back(1.0f);
+    float vertex_colors[] =
+    {
+        1.0f, 1.0f, 1.0f, 1.0f, // Vertex One.
+        1.0f, 1.0f, 1.0f, 1.0f, // Vertex Two.
+        1.0f, 1.0f, 1.0f, 1.0f, // Vertex Three.
+        1.0f, 1.0f, 1.0f, 1.0f  // Vertex Four.
+    };
 
     // Draw the shadow.
     VideoManager->DrawSprite(shader_program, vertex_positions, vertex_texture_coordinates, vertex_colors, color_shadow);
@@ -1389,10 +1305,8 @@ bool TextSupervisor::_RenderText(const vt_utils::ustring& text, TextStyle& style
     buffer.height = surface->h;
 
     // Clean up.
-    if (surface != NULL) {
-        SDL_FreeSurface(surface);
-        surface = NULL;
-    }
+    SDL_FreeSurface(surface);
+    surface = NULL;
 
     return true;
 }
