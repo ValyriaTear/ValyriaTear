@@ -16,6 +16,7 @@
 #include "utils/utils_pch.h"
 #include "gl_shader.h"
 
+#include "utils/exception.h"
 #include "utils/utils_strings.h"
 
 namespace vt_video
@@ -110,6 +111,17 @@ Shader::~Shader()
         glDeleteShader(_shader);
         _shader = 0;
     }
+}
+
+Shader::Shader(const Shader&)
+{
+    throw vt_utils::Exception("Not Implemented!", __FILE__, __LINE__, __FUNCTION__);
+}
+
+Shader& Shader::operator=(const Shader&)
+{
+    throw vt_utils::Exception("Not Implemented!", __FILE__, __LINE__, __FUNCTION__);
+    return *this;
 }
 
 } // namespace gl

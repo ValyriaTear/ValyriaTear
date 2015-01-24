@@ -16,6 +16,7 @@
 #include "utils/utils_pch.h"
 #include "gl_particle_system.h"
 
+#include "utils/exception.h"
 #include "utils/utils_strings.h"
 
 namespace vt_video
@@ -426,6 +427,17 @@ void ParticleSystem::Draw(float* vertex_positions,
     if (!errors) {
         Draw();
     }
+}
+
+ParticleSystem::ParticleSystem(const ParticleSystem&)
+{
+    throw vt_utils::Exception("Not Implemented!", __FILE__, __LINE__, __FUNCTION__);
+}
+
+ParticleSystem& ParticleSystem::operator=(const ParticleSystem&)
+{
+    throw vt_utils::Exception("Not Implemented!", __FILE__, __LINE__, __FUNCTION__);
+    return *this;
 }
 
 } // namespace gl

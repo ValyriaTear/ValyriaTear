@@ -44,6 +44,45 @@ const uint16 NEW_LINE = '\n';
 const uint16 SPACE_CHAR = 0x20;
 
 // -----------------------------------------------------------------------------
+// FontProperties class
+// -----------------------------------------------------------------------------
+
+FontProperties::FontProperties() :
+    height(0),
+    line_skip(0),
+    ascent(0),
+    descent(0),
+    ttf_font(NULL),
+    font_size(0)
+{
+}
+
+FontProperties::~FontProperties()
+{
+    ClearFont();
+}
+
+void FontProperties::ClearFont()
+{
+    // Free the font.
+    if (ttf_font)
+        TTF_CloseFont(ttf_font);
+
+    ttf_font = NULL;
+}
+
+FontProperties::FontProperties(const FontProperties&)
+{
+    throw Exception("Not Implemented!", __FILE__, __LINE__, __FUNCTION__);
+}
+
+FontProperties& FontProperties::operator=(const FontProperties&)
+{
+    throw Exception("Not Implemented!", __FILE__, __LINE__, __FUNCTION__);
+    return *this;
+}
+
+// -----------------------------------------------------------------------------
 // TextStyle class
 // -----------------------------------------------------------------------------
 
