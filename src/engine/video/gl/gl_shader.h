@@ -36,8 +36,13 @@ public:
 private:
     GLint _shader;
 
-    Shader(const Shader&) {}
-    Shader& operator=(const Shader&) { return *this; }
+    //
+    // The copy constructor and assignment operator are hidden by design
+    // to cause compilation errors when attempting to copy or assign this class.
+    //
+
+    Shader(const Shader& shader);
+    Shader& operator=(const Shader& shader);
 };
 
 } // namespace gl

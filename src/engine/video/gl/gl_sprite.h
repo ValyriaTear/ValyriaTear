@@ -43,8 +43,13 @@ public:
     GLuint _index_buffer;
 
 private:
-    Sprite(const Sprite&) {}
-    Sprite& operator=(const Sprite&) { return *this; }
+    //
+    // The copy constructor and assignment operator are hidden by design
+    // to cause compilation errors when attempting to copy or assign this class.
+    //
+
+    Sprite(const Sprite& sprite);
+    Sprite& operator=(const Sprite& sprite);
 };
 
 } // namespace gl

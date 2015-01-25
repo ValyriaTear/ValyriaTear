@@ -65,28 +65,13 @@ enum TEXT_SHADOW_STYLE {
 class FontProperties
 {
 public:
-    FontProperties():
-        height(0),
-        line_skip(0),
-        ascent(0),
-        descent(0),
-        ttf_font(NULL),
-        font_size(0)
-    {
-    }
-
-    ~FontProperties() {
-        ClearFont();
-    }
+    FontProperties();
+    ~FontProperties();
 
     //! \brief Clears out the font object.
     //! Useful when changing a TextStyle font without deleting
     //! the font properties object.
-    void ClearFont() {
-        // Free the font.
-        if (ttf_font)
-            TTF_CloseFont(ttf_font);
-    }
+    void ClearFont();
 
     //! \brief The maximum height of all of the glyphs for this font.
     int32 height;
@@ -107,8 +92,13 @@ public:
     uint32 font_size;
 
 private:
-    FontProperties(const FontProperties&) {}
-    FontProperties& operator=(const FontProperties&) { return *this; }
+    //
+    // The copy constructor and assignment operator are hidden by design
+    // to cause compilation errors when attempting to copy or assign this class.
+    //
+
+    FontProperties(const FontProperties& font_properties);
+    FontProperties& operator=(const FontProperties& font_properties);
 };
 
 /** ****************************************************************************

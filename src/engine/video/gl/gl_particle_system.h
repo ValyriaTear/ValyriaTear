@@ -46,8 +46,13 @@ public:
     GLuint _index_buffer;
 
 private:
-    ParticleSystem(const ParticleSystem&) {}
-    ParticleSystem& operator=(const ParticleSystem&) { return *this; }
+    //
+    // The copy constructor and assignment operator are hidden by design
+    // to cause compilation errors when attempting to copy or assign this class.
+    //
+
+    ParticleSystem(const ParticleSystem& particle_system);
+    ParticleSystem& operator=(const ParticleSystem& particle_system);
 };
 
 } // namespace gl
