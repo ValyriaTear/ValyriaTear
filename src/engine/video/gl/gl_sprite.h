@@ -36,12 +36,6 @@ public:
               float* vertex_texture_coordinates,
               float* vertex_colors);
 
-    GLuint _vao;
-    GLuint _vertex_position_buffer;
-    GLuint _vertex_texture_coordinate_buffer;
-    GLuint _vertex_color_buffer;
-    GLuint _index_buffer;
-
 private:
     //
     // The copy constructor and assignment operator are hidden by design
@@ -50,6 +44,12 @@ private:
 
     Sprite(const Sprite& sprite);
     Sprite& operator=(const Sprite& sprite);
+
+    GLuint _vao;
+    GLuint _vertex_position_buffer;
+    GLuint _vertex_texture_coordinate_buffer;
+    GLuint _vertex_color_buffer;
+    GLuint _index_buffer;
 };
 
 } // namespace gl
