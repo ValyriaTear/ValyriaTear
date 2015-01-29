@@ -37,14 +37,6 @@ public:
               float* vertex_colors,
               unsigned number_of_vertices);
 
-    unsigned _number_of_indices;
-
-    GLuint _vao;
-    GLuint _vertex_position_buffer;
-    GLuint _vertex_texture_coordinate_buffer;
-    GLuint _vertex_color_buffer;
-    GLuint _index_buffer;
-
 private:
     //
     // The copy constructor and assignment operator are hidden by design
@@ -53,6 +45,14 @@ private:
 
     ParticleSystem(const ParticleSystem& particle_system);
     ParticleSystem& operator=(const ParticleSystem& particle_system);
+
+    unsigned _number_of_indices;
+
+    GLuint _vao;
+    GLuint _vertex_position_buffer;
+    GLuint _vertex_texture_coordinate_buffer;
+    GLuint _vertex_color_buffer;
+    GLuint _index_buffer;
 };
 
 } // namespace gl
