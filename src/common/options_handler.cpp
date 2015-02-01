@@ -1242,8 +1242,9 @@ void GameOptionsMenuHandler::_ReloadGUIDefaultSkin()
 
     _active_menu = &_video_options_menu;
 
-    // Currently, the GUI default skin option is 3.
-    _video_options_menu.SetSelection(3);
+    // Currently, the GUI default skin option is 4.
+    _video_options_menu.SetSelection(4);
+
     _RefreshVideoOptions();
 
     // Reload the explanation and change key windows.
