@@ -289,7 +289,7 @@ function _add_bubble(x, y)
     local object = CreateObject(Map, "Bubble", x, y, vt_map.MapMode.GROUND_OBJECT);
     object:RandomizeCurrentAnimationFrame();
 
-    vt_map.ParticleObject("dat/effects/particles/bubble_steam.lua", x, y, vt_map.MapMode.GROUND_OBJECT);
+    vt_map.ParticleObject.Create("dat/effects/particles/bubble_steam.lua", x, y, vt_map.MapMode.GROUND_OBJECT);
 end
 
 -- Special event references which destinations must be updated just before being called.
