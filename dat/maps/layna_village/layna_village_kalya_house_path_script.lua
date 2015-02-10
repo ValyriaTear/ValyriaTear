@@ -182,8 +182,7 @@ function _CreateNPCs()
 
     -- Adds the chicken when found.
     if (GlobalManager:GetEventValue("game", "layna_village_chicken1_found") == 1) then
-        npc = CreateSprite(Map, "Chicken", 21, 36);
-        Map:AddGroundObject(npc);
+        npc = CreateSprite(Map, "Chicken", 21, 36, vt_map.MapMode.GROUND_OBJECT);
         event = vt_map.RandomMoveSpriteEvent("Chicken1 random move", npc, 1000, 1000);
         event:AddEventLinkAtEnd("Chicken1 random move", 4500); -- Loop on itself
         EventManager:RegisterEvent(event);
@@ -191,8 +190,7 @@ function _CreateNPCs()
     end
 
     if (GlobalManager:GetEventValue("game", "layna_village_chicken2_found") == 1) then
-        npc = CreateSprite(Map, "Chicken", 19, 34);
-        Map:AddGroundObject(npc);
+        npc = CreateSprite(Map, "Chicken", 19, 34, vt_map.MapMode.GROUND_OBJECT);
         event = vt_map.RandomMoveSpriteEvent("Chicken2 random move", npc, 1000, 1000);
         event:AddEventLinkAtEnd("Chicken2 random move", 4500); -- Loop on itself
         EventManager:RegisterEvent(event);
@@ -200,8 +198,7 @@ function _CreateNPCs()
     end
 
     if (GlobalManager:GetEventValue("game", "layna_village_chicken3_found") == 1) then
-        npc = CreateSprite(Map, "Chicken", 23, 33);
-        Map:AddGroundObject(npc);
+        npc = CreateSprite(Map, "Chicken", 23, 33, vt_map.MapMode.GROUND_OBJECT);
         event = vt_map.RandomMoveSpriteEvent("Chicken3 random move", npc, 1000, 1000);
         event:AddEventLinkAtEnd("Chicken3 random move", 4500); -- Loop on itself
         EventManager:RegisterEvent(event);
