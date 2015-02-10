@@ -109,53 +109,47 @@ function _CreateObjects()
     -- Only add the squirrels and butterflies when the night isn't about to happen
     if (GlobalManager:GetEventValue("story", "layna_forest_crystal_event_done") < 1) then
 
-        npc = CreateSprite(Map, "Butterfly", 42, 18);
+        npc = CreateSprite(Map, "Butterfly", 42, 18, vt_map.MapMode.GROUND_OBJECT);
         npc:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
-        Map:AddGroundObject(npc);
         event = vt_map.RandomMoveSpriteEvent("Butterfly1 random move", npc, 1000, 1000);
         event:AddEventLinkAtEnd("Butterfly1 random move", 4500); -- Loop on itself
         EventManager:RegisterEvent(event);
         EventManager:StartEvent("Butterfly1 random move");
 
-        npc = CreateSprite(Map, "Butterfly", 12, 30);
+        npc = CreateSprite(Map, "Butterfly", 12, 30, vt_map.MapMode.GROUND_OBJECT);
         npc:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
-        Map:AddGroundObject(npc);
         event = vt_map.RandomMoveSpriteEvent("Butterfly2 random move", npc, 1000, 1000);
         event:AddEventLinkAtEnd("Butterfly2 random move", 4500); -- Loop on itself
         EventManager:RegisterEvent(event);
         EventManager:StartEvent("Butterfly2 random move", 2400);
 
-        npc = CreateSprite(Map, "Butterfly", 50, 25);
+        npc = CreateSprite(Map, "Butterfly", 50, 25, vt_map.MapMode.GROUND_OBJECT);
         npc:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
-        Map:AddGroundObject(npc);
         event = vt_map.RandomMoveSpriteEvent("Butterfly3 random move", npc, 1000, 1000);
         event:AddEventLinkAtEnd("Butterfly3 random move", 4500); -- Loop on itself
         EventManager:RegisterEvent(event);
         EventManager:StartEvent("Butterfly3 random move", 1050);
 
-        npc = CreateSprite(Map, "Butterfly", 40, 30);
+        npc = CreateSprite(Map, "Butterfly", 40, 30, vt_map.MapMode.GROUND_OBJECT);
         npc:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
-        Map:AddGroundObject(npc);
         event = vt_map.RandomMoveSpriteEvent("Butterfly4 random move", npc, 1000, 1000);
         event:AddEventLinkAtEnd("Butterfly4 random move", 4500); -- Loop on itself
         EventManager:RegisterEvent(event);
         EventManager:StartEvent("Butterfly4 random move", 3050);
 
-        npc = CreateSprite(Map, "Squirrel", 18, 24);
+        npc = CreateSprite(Map, "Squirrel", 18, 24, vt_map.MapMode.GROUND_OBJECT);
         -- Squirrels don't collide with the npcs.
         npc:SetCollisionMask(vt_map.MapMode.WALL_COLLISION);
         npc:SetSpriteAsScenery(true);
-        Map:AddGroundObject(npc);
         event = vt_map.RandomMoveSpriteEvent("Squirrel1 random move", npc, 1000, 1000);
         event:AddEventLinkAtEnd("Squirrel1 random move", 4500); -- Loop on itself
         EventManager:RegisterEvent(event);
         EventManager:StartEvent("Squirrel1 random move");
 
-        npc = CreateSprite(Map, "Squirrel", 40, 14);
+        npc = CreateSprite(Map, "Squirrel", 40, 14, vt_map.MapMode.GROUND_OBJECT);
         -- Squirrels don't collide with the npcs.
         npc:SetCollisionMask(vt_map.MapMode.WALL_COLLISION);
         npc:SetSpriteAsScenery(true);
-        Map:AddGroundObject(npc);
         event = vt_map.RandomMoveSpriteEvent("Squirrel2 random move", npc, 1000, 1000);
         event:AddEventLinkAtEnd("Squirrel2 random move", 4500); -- Loop on itself
         EventManager:RegisterEvent(event);
