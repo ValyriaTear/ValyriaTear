@@ -1298,7 +1298,7 @@ void TransitionToBattleMode::Reset()
 
     // Stop the current map music if it is not the same
     std::string battle_music = _BM->GetMedia().battle_music_filename;
-    if (battle_music != AudioManager->GetActiveMusic()->GetFilename())
+    if (AudioManager->GetActiveMusic() != NULL && battle_music != AudioManager->GetActiveMusic()->GetFilename())
         AudioManager->GetActiveMusic()->FadeOut(2000);
 
     // Play a random encounter sound
