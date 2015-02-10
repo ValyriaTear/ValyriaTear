@@ -564,7 +564,7 @@ function _CreateEvents()
     dialogue:AddLineEmote(text, hero, "exclamation");
     text = vt_system.Translate("Layna Village was abandoned a long time ago, before your parents and all the others settled here. Your mother never told you that?");
     dialogue:AddLineEventEmote(text, kalya, "Kalya looks at Bronann", "", "thinking dots");
-    text = vt_system.Translate("I've never been more alone before. This place gives me the chills.");
+    text = vt_system.Translate("I've never been this far from the village without Herth. This place gives me the chills.");
     dialogue:AddLineEvent(text, kalya, "Kalya looks north", "");
     text = vt_system.Translate("Yiek!");
     dialogue:AddLine(text, orlinn);

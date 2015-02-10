@@ -260,7 +260,7 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
 
     dialogue = vt_map.SpriteDialogue.Create();
-    text = vt_system.Translate("Our village. Its burning.");
+    text = vt_system.Translate("Our village. It's burning.");
     dialogue:AddLineEmote(text, kalya, "exclamation");
     text = vt_system.Translate("My parents.");
     dialogue:AddLine(text, bronann);

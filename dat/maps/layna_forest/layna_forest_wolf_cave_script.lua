@@ -164,7 +164,7 @@ function _CreateObjects()
     necklace_npc:SetName(""); -- Unset the speaker name
 
     dialogue = vt_map.SpriteDialogue.Create();
-    text = vt_system.Translate("(Bronann looks an the ground)");
+    text = vt_system.Translate("(Bronann looks at the ground)");
     dialogue:AddLineEvent(text, necklace_npc, "", "wolfpain necklace dialogue start");
     necklace_npc:AddDialogueReference(dialogue);
 
