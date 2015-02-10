@@ -225,7 +225,7 @@ function _CreateObjects()
     dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("There is a note left here.");
     dialogue:AddLineEmote(text, hero, "thinking dots");
-    text = vt_system.Translate("It says: 'I fathomed it! After all, not every ladder is made of wood. Now, I'll have to get back there alive...'");
+    text = vt_system.Translate("It says: 'I fathomed it! After all, not every ladder is made of wood. Now, I'll have to get back there alive.'");
     dialogue:AddLine(text, hero);
     event = vt_map.DialogueEvent("Parchment event", dialogue);
     EventManager:RegisterEvent(event);
@@ -270,7 +270,7 @@ function _CreateEvents()
 
     -- Tells about Orlinn's passage
     dialogue = vt_map.SpriteDialogue.Create();
-    text = vt_system.Translate("There seems to be one of those rolling stones up here ...");
+    text = vt_system.Translate("There seems to be one of those rolling stones up here.");
     dialogue:AddLineEmote(text, hero, "thinking dots");
     event = vt_map.DialogueEvent("The hero talks about finding a way to get there", dialogue);
     event:SetStopCameraMovement(true);

@@ -676,7 +676,7 @@ function _CreateEvents()
     dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Woah, wait!");
     dialogue:AddLineEventEmote(text, kalya_sprite, "Bronann looks at Kalya", "Kalya looks at Bronann", "exclamation");
-    text = vt_system.Translate("Look at that grass... Snakes like to hide in tall grass... We need to be careful because their venom causes drowsiness.");
+    text = vt_system.Translate("Look at the grass. Snakes like to hide in the tall grass. We need to be careful because their venom causes drowsiness.");
     dialogue:AddLine(text, kalya_sprite);
     event = vt_map.DialogueEvent("Kalya Tells about snakes", dialogue);
     event:AddEventLinkAtEnd("kalya_sprite:SetCollision(NONE)");

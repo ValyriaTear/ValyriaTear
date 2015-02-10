@@ -38,8 +38,8 @@ end
 -- -----------------------------------------------------------------------------
 
 armor[20001] = {
-	name = vt_system.Translate("Butterfly hair tong"),
-	description = vt_system.Translate("An old and finely done piece of jewelery."),
+	name = vt_system.Translate("Butterfly Hair Tong"),
+	description = vt_system.Translate("An old and finely crafted piece of jewelery."),
 	icon = "img/icons/armor/butterfly_hair_tong.png",
 	physical_defense = 3,
 	magical_defense = 12,
@@ -50,7 +50,7 @@ armor[20001] = {
 
 armor[20011] = {
 	name = vt_system.Translate("Old Helmet"),
-	description = vt_system.Translate("A battle worn helmet, still reliable for head protection."),
+	description = vt_system.Translate("A battle-worn helmet, still reliable for head protection."),
 	icon = "img/icons/armor/karlate_helmet.png",
 	physical_defense = 6,
 	magical_defense = 2,
@@ -61,7 +61,7 @@ armor[20011] = {
 
 armor[20012] = {
 	name = vt_system.Translate("Cobalt Helm"),
-	description = vt_system.Translate("A small helmet composed of a secret cobalt based alloy."),
+	description = vt_system.Translate("A small helmet composed of a secret cobalt-based alloy."),
 	icon = "img/icons/armor/cobalt_helm.png",
 	physical_defense = 8,
 	magical_defense = 4,

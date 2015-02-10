@@ -154,7 +154,7 @@ function _CreateObjects()
     dialogue:AddLine(text, hero);
     text = vt_system.Translate("Yes, let's go.");
     dialogue:AddOption(text, 2);
-    text = vt_system.Translate("Not now...");
+    text = vt_system.Translate("Not now.");
     dialogue:AddOptionEvent(text, 4, "Make hero step back from left jump");
     -- [Line 2] Yes
     text = vt_system.Translate("Ok!");
@@ -186,7 +186,7 @@ function _CreateObjects()
     dialogue:AddLine(text, hero);
     text = vt_system.Translate("Yes, let's go.");
     dialogue:AddOption(text, 2);
-    text = vt_system.Translate("Not now...");
+    text = vt_system.Translate("Not now.");
     dialogue:AddOptionEvent(text, 4, "Make hero step back from right jump");
     -- [Line 2] Yes
     text = vt_system.Translate("Ok!");

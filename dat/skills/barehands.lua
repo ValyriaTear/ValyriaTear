@@ -26,7 +26,7 @@ end
 
 skills[30001] = {
    name = vt_system.Translate("Punch"),
-   description = vt_system.Translate("A simple punch. Better than nothing..."),
+   description = vt_system.Translate("A simple punch. Better than nothing."),
    sp_required = 0,
    warmup_time = 1000,
    cooldown_time = 200,
@@ -54,7 +54,7 @@ skills[30001] = {
 
 skills[30002] = {
    name = vt_system.Translate("Throw stone"),
-   description = vt_system.Translate("Kalya's attack when she's got no weapon."),
+   description = vt_system.Translate("Kalya's attack when she has no weapon."),
    sp_required = 0,
    warmup_time = 1000,
    cooldown_time = 200,
@@ -81,7 +81,7 @@ skills[30002] = {
 
 skills[30003] = {
    name = vt_system.Translate("Tornado Punch"),
-   description = vt_system.Translate("Spin knuckles attack doing Wind damages."),
+   description = vt_system.Translate("Spinning knuckle attack that deals wind damage."),
    sp_required = 20,
    warmup_time = 1000,
    cooldown_time = 200,

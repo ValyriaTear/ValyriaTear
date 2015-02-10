@@ -99,7 +99,7 @@ function _CreateNPCs()
         EventManager:StartEvent("Chicken3 random move");
 
         dialogue = vt_map.SpriteDialogue.Create();
-        text = vt_system.Translate("One of Grandma's chicken... I should bring it back.");
+        text = vt_system.Translate("One of Grandma's chickens. I should bring it back.");
         dialogue:AddLine(text, bronann);
         dialogue:SetEventAtDialogueEnd("Make bronann take the chicken 3");
         chicken3:AddDialogueReference(dialogue);

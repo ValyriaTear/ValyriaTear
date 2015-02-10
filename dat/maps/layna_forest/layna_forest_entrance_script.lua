@@ -144,7 +144,7 @@ function _CreateObjects()
     npc:SetVisible(false);
     npc:SetName(""); -- Unset the speaker name
     dialogue = vt_map.SpriteDialogue.Create();
-    text = vt_system.Translate("Your party feels better...");
+    text = vt_system.Translate("Your party feels better.");
     dialogue:AddLineEvent(text, npc, "Forest entrance heal", "");
     npc:AddDialogueReference(dialogue);
 
@@ -396,9 +396,9 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
 
     dialogue = vt_map.SpriteDialogue.Create();
-    text = vt_system.Translate("Have you seen one of these before? This is a Layna statue! Praying near it heals both your mind and body.");
+    text = vt_system.Translate("Have you seen one of these before? This is a Layna statue. Praying near it heals both your mind and body.");
     dialogue:AddLineEvent(text, kalya_sprite, "Kalya looks at Bronann", "");
-    text = vt_system.VTranslate("Just stand in front of the Goddess below the spring and push '%s'.", InputManager:GetConfirmKeyName());
+    text = vt_system.VTranslate("Just stand in front of the goddess below the spring and push '%s'.", InputManager:GetConfirmKeyName());
     dialogue:AddLine(text, kalya_sprite);
     text = vt_system.Translate("Ok, thanks.");
     dialogue:AddLine(text, hero);

@@ -367,21 +367,21 @@ function _CreateEvents()
     EventManager:RegisterEvent(orlinn_move_next_to_hero_event);
 
     dialogue = vt_map.SpriteDialogue.Create();
-    text = vt_system.Translate("There is a passage here but I'm too heavy for those stones jutting out ...");
+    text = vt_system.Translate("There is a passage here, but I'm too heavy to climb on those stones jutting out");
     dialogue:AddLineEmote(text, hero, "thinking dots");
-    text = vt_system.Translate("The fact is, you and me cannot afford standing on those stones. Maybe with a rope?");
+    text = vt_system.Translate("The fact is, you and I cannot afford to stand on those stones. Maybe with a rope?");
     dialogue:AddLine(text, kalya);
-    text = vt_system.Translate("... I'll do it.");
+    text = vt_system.Translate("I'll do it.");
     dialogue:AddLineEvent(text, orlinn, "", "Bronann looks at Orlinn");
-    text = vt_system.Translate("What? Are you crazy? There could be monsters up here.");
+    text = vt_system.Translate("What? Are you crazy? There could be monsters up there.");
     dialogue:AddLineEventEmote(text, kalya, "Kalya looks at Orlinn", "", "exclamation");
-    text = vt_system.Translate("Then, I'll deal with them, sis. We can't just stay here, anyway...");
+    text = vt_system.Translate("Then I'll deal with them, sis. We can't just stay here, anyway.");
     dialogue:AddLineEvent(text, orlinn, "Orlinn looks at Kalya", "");
-    text = vt_system.Translate("Orlinn, you sure have grown up because of all this. Are you sure?");
+    text = vt_system.Translate("Orlinn, you sure have grown up through all of this. Are you sure?");
     dialogue:AddLineEventEmote(text, kalya, "Kalya looks north", "", "sweat drop");
-    text = vt_system.Translate("I need to ... I guess.");
+    text = vt_system.Translate("I need to, I guess.");
     dialogue:AddLineEventEmote(text, orlinn, "Orlinn looks north", "", "sweat drop");
-    text = vt_system.Translate("Just tell me when you're ready and I'll throw you up here.");
+    text = vt_system.Translate("Just tell me when you're ready and I'll throw you up there.");
     dialogue:AddLineEvent(text, hero, "Bronann looks at Orlinn", "");
     text = vt_system.Translate("Yiek!");
     dialogue:AddLineEventEmote(text, orlinn, "Orlinn looks at Kalya", "", "sweat drop");
@@ -405,11 +405,11 @@ function _CreateEvents()
     EventManager:RegisterEvent(kalya_move_next_to_hero_event2);
 
     dialogue = vt_map.SpriteDialogue.Create();
-    text = vt_system.Translate("Ready to go up? ...");
+    text = vt_system.Translate("Ready to go up?");
     dialogue:AddLineEvent(text, hero, "Bronann looks at Orlinn", "");
-    text = vt_system.Translate("Yes, let's go ...");
+    text = vt_system.Translate("Yes, let's go.");
     dialogue:AddOptionEvent(text, 50, "Orlinn goes closer of the hero"); -- 50 means next line number, past the end of the dialogue
-    text = vt_system.Translate("Err, not yet!");
+    text = vt_system.Translate("Err, not yet.");
     dialogue:AddOptionEvent(text, 50, "Not thrown event");
     event = vt_map.DialogueEvent("Ready? dialogue", dialogue);
     EventManager:RegisterEvent(event);
@@ -459,7 +459,7 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
 
     dialogue = vt_map.SpriteDialogue.Create();
-    text = vt_system.Translate("Wants to come back?");
+    text = vt_system.Translate("Want to come back?");
     dialogue:AddLineEmote(text, kalya, "exclamation");
     text = vt_system.Translate("Yes!");
     dialogue:AddOptionEvent(text, 50, "Orlinn goes above Bronann"); -- 50 means next line number, past the end of the dialogue
@@ -502,13 +502,13 @@ function _CreateEvents()
 
     if (GlobalManager:GetEventValue("story", "mt_elbrus_fell_on_bronanns_head") == 0) then
         -- First time
-        text = vt_system.Translate("Bronann, are you fine?");
+        text = vt_system.Translate("Bronann, are you okay?");
         dialogue:AddLineEventEmote(text, kalya, "Kalya looks at Orlinn", "", "sweat drop");
-        text = vt_system.Translate("... I don't know, I guess I felt something crack ...");
+        text = vt_system.Translate("I don't know, I felt something crack.");
         dialogue:AddLine(text, bronann);
     else
         -- Other times
-        text = vt_system.Translate("... Not again ...");
+        text = vt_system.Translate("Not again...");
         dialogue:AddLine(text, bronann);
     end
     event = vt_map.DialogueEvent("Orlinn is sorry dialogue", dialogue);

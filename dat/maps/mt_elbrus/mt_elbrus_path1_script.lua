@@ -144,7 +144,7 @@ function _CreateObjects()
     npc:SetName(""); -- Unset the speaker name
 
     dialogue = vt_map.SpriteDialogue.Create();
-    text = vt_system.Translate("Your party feels better...");
+    text = vt_system.Translate("Your party feels better.");
     dialogue:AddLineEvent(text, npc, "Heal event", "");
     npc:AddDialogueReference(dialogue);
     CreateObject(Map, "Layna Statue", 104, 56, vt_map.MapMode.GROUND_OBJECT);
@@ -629,15 +629,15 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
 
     dialogue = vt_map.SpriteDialogue.Create();
-    text = vt_system.Translate("Banesore's minions are already all over the place ...");
+    text = vt_system.Translate("Banesore's minions are already all over the place.");
     dialogue:AddLineEvent(text, kalya, "Kalya looks at Bronann", "Bronann looks at Kalya");
-    text = vt_system.Translate("The dark soldiers, as we call them, are fanatics. They'll follow Banesore's orders even if it means death.");
+    text = vt_system.Translate("The dark soldiers, as we call them, are fanatics. They'll follow Banesore's orders even if it means their death.");
     dialogue:AddLine(text, kalya);
     text = vt_system.Translate("We don't know how he does it, but he can turn anybody into a servile subject.");
     dialogue:AddLine(text, kalya);
     text = vt_system.Translate("Their strength is increased by the transformation. That's why we call them the zombified army.");
     dialogue:AddLine(text, kalya);
-    text = vt_system.Translate("We must absolutely try to avoid them or they'll call reinforcement.");
+    text = vt_system.Translate("We must absolutely avoid them or they'll call reinforcements.");
     dialogue:AddLineEvent(text, kalya, "Kalya looks west", "");
     text = vt_system.Translate("They are too strong. If they catch us, we're doomed.");
     dialogue:AddLine(text, kalya);

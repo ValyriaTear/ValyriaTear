@@ -262,7 +262,7 @@ items[14] = {
 
 items[15] = {
     name = vt_system.Translate("Lotus Petal"),
-    description = vt_system.Translate("Cures moderate poisons from an ally"),
+    description = vt_system.Translate("Cures moderate poisons from an ally."),
     icon = "img/icons/items/lotus.png",
     target_type = vt_global.GameGlobal.GLOBAL_TARGET_ALLY,
     standard_price = 100,
@@ -382,7 +382,7 @@ end
 
 items[1001] = {
     name = vt_system.Translate("Minor Elixir"),
-    description = vt_system.Translate("Revive a character, or improve the character status when he/she is alive by a limited degree."),
+    description = vt_system.Translate("Revives a character, or improves the character's status when he/she is alive by a limited degree."),
     icon = "img/icons/items/potion_red_small.png",
     target_type = vt_global.GameGlobal.GLOBAL_TARGET_ALLY_EVEN_DEAD,
     standard_price = 50,
@@ -418,7 +418,7 @@ items[1001] = {
 
 items[1003] = {
     name = vt_system.Translate("Elixir"),
-    description = vt_system.Translate("Revive a character with half of its Hit Points, or reasonably improve the character status when he/she is alive."),
+    description = vt_system.Translate("Revives a character to half of their hit points, or reasonably improves the character's status while he/she is alive."),
     icon = "img/icons/items/potion_red_large.png",
     target_type = vt_global.GameGlobal.GLOBAL_TARGET_ALLY_EVEN_DEAD,
     standard_price = 1200,
@@ -521,7 +521,7 @@ items[1005] = {
 
 items[1006] = {
     name = vt_system.Translate("Poison Potion"),
-    description = vt_system.Translate("Poisons an enemy a for small amount of time."),
+    description = vt_system.Translate("Poisons an enemy for a small amount of time."),
     icon = "img/icons/items/poison_potion.png",
     target_type = vt_global.GameGlobal.GLOBAL_TARGET_FOE,
     standard_price = 1400,
@@ -569,42 +569,42 @@ items[3002] = {
 
 items[3003] = {
     name = vt_system.Translate("Titanium Ore"),
-    description = vt_system.Translate("A small amount of Titanium ore."),
+    description = vt_system.Translate("A small amount of titanium ore."),
     icon = "img/icons/items/titanium_ore.png",
     standard_price = 650
 }
 
 items[3004] = {
     name = vt_system.Translate("Anthozium Ore"),
-    description = vt_system.Translate("A small amount of Anthozium ore."),
+    description = vt_system.Translate("A small amount of anthozium ore."),
     icon = "img/icons/items/anthozium_ore.png",
     standard_price = 850
 }
 
 items[3005] = {
     name = vt_system.Translate("Auridium Ore"),
-    description = vt_system.Translate("A small amount of Auridium ore."),
+    description = vt_system.Translate("A small amount of auridium ore."),
     icon = "img/icons/items/auridium_ore.png",
     standard_price = 1050
 }
 
 items[3006] = {
     name = vt_system.Translate("Borium Ore"),
-    description = vt_system.Translate("A small amount of Borium ore."),
+    description = vt_system.Translate("A small amount of borium ore."),
     icon = "img/icons/items/borium_ore.png",
     standard_price = 1250
 }
 
 items[3007] = {
     name = vt_system.Translate("Evanium Ore"),
-    description = vt_system.Translate("A small amount of Evanium ore."),
+    description = vt_system.Translate("A small amount of evanium ore."),
     icon = "img/icons/items/evanium_ore.png",
     standard_price = 1500
 }
 
 items[3008] = {
     name = vt_system.Translate("Phoenix Feather"),
-    description = vt_system.Translate("A genuine and perfect feather from the great Fire Bird. It is known to bring life to inanimated items."),
+    description = vt_system.Translate("A genuine and perfect feather from the great fire bird. It is known to bring life to inanimated items."),
     icon = "img/icons/items/phoenix_feather.png",
     standard_price = 4500
 }
@@ -657,7 +657,7 @@ end
 
 items[4001] = {
     name = vt_system.Translate("Escape Smoke"),
-    description = vt_system.Translate("A ninja potion bursting out a damp mist when crashed on the ground. Used to hopefully escape from standard opponents."),
+    description = vt_system.Translate("A ninja potion that bursts out a damp mist when it is crashed on the ground. Used to hopefully escape from standard opponents."),
     icon = "img/icons/items/escape_smoke.png",
     target_type = vt_global.GameGlobal.GLOBAL_TARGET_SELF,
     standard_price = 100,

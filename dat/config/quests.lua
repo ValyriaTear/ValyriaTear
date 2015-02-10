@@ -14,11 +14,11 @@ quests = {
     -- Quest id
     ["get_barley"] = {
         -- Title
-        vt_system.Translate("Get Some Barley Meal"),
+        vt_system.Translate("Get some barley meal"),
         -- Description
         vt_system.Translate("Mom needs some for dinner!\n \nFlora might have some in her shop. I should go and have a look there first."),
         -- Completion Description
-        vt_system.Translate("Finally, I found some... Lilly had what I sought in her house the whole time."),
+        vt_system.Translate("Finally, I found some. Lilly had what I sought in her house the whole time."),
         -- Group and event for the quest to be complete.
         "story", "quest1_barley_meal_done",
         -- Location name and banner image filename
@@ -32,7 +32,7 @@ quests = {
         -- Title
         vt_system.Translate("Find Georges's pen"),
         -- Description
-        vt_system.Translate("In order to know who Georges gave the rest of his barley meal to, I need to get back his lost pen.\n \nHe said he lost it near a tree; he also told me that people in the village might know more..."),
+        vt_system.Translate("In order to know who Georges gave the rest of his barley meal to, I need to get back his lost pen.\n \nHe said he lost it near a tree. He also told me that people in the village might know more."),
         -- Completion Description
         vt_system.Translate("Orlinn had the pen and I ran after him all morning to get it back. I hope he won't have any problems with Kalya..."),
         -- Group and event for the quest to be complete.
@@ -48,9 +48,9 @@ quests = {
         -- Title
         vt_system.Translate("Catch Orlinn!"),
         -- Description
-        vt_system.Translate("Orlinn has got the pen I need to back to Georges! The only problem now is to find where he's hiding. Hmm, it shouldn't take long..."),
+        vt_system.Translate("Orlinn has the pen that I need to return to Georges! The only problem now is I have to find out where he's hiding. Hmm, it shouldn't take long."),
         -- Completion Description
-        vt_system.Translate("After chasing him around the village all morning, I finally have the pen. Time to bring it back to Georges..."),
+        vt_system.Translate("After chasing him around the village all morning, I finally have the pen. Time to bring it back to Georges."),
         -- Group and event for the quest to be complete.
         "layna_riverbank", "quest1_orlinn_hide_n_seek3_done",
         -- Location name and banner image filename
@@ -62,9 +62,9 @@ quests = {
     -- Quest id
     ["catch_chicken"] = {
         -- Title
-        vt_system.Translate("Catch the chickens..."),
+        vt_system.Translate("Catch the chickens"),
         -- Description
-        vt_system.Translate("Grandma asked me to catch the chickens that flew away. There are three of them..."),
+        vt_system.Translate("Grandma asked me to catch the chickens that flew away. There are three of them."),
         -- Completion Description
         vt_system.Translate("I was able to find them!"),
         -- Group and event for the quest to be complete.
@@ -80,9 +80,9 @@ quests = {
     -- Quest id
     ["wants_to_go_into_the_forest"] = {
         -- Title
-        vt_system.Translate("Let's go in the woods..."),
+        vt_system.Translate("Let's go to the woods."),
         -- Description
-        vt_system.Translate("It's been weeks since I could go outside the village.\n \nThe entrance has been shut with stones, and now they won't even let me go and breathe in the only place I could be alone?!?\n \nWhatever... I need a sword just in case... and I'll get there alone!"),
+        vt_system.Translate("It's been weeks since I could go outside the village.\n \nThe entrance has been shut with stones, and now they won't even let me go and breathe in the only place I could be alone?!?\n \nWhatever. I need a sword just in case, and I'll get there alone!"),
         -- Completion Description
         vt_system.Translate("I'm now equipped, and access to the forest has been granted!"),
         -- Group and event for the quest to be complete.
@@ -98,9 +98,9 @@ quests = {
         -- Title
         vt_system.Translate("Orlinn might be in danger!"),
         -- Description
-        vt_system.Translate("After seeing that strange light, Orlinn just ran into the woods. He's just a kid, even if a quick one!\n \nMy father asked me to go there with Kalya and get him back safe and sound.\n \nI can't let them down!"),
+        vt_system.Translate("After seeing that strange light, Orlinn ran into the woods. He's just a kid, even if a quick one!\n \nMy father asked me to go there with Kalya and bring him back safe and sound.\n \nI can't let them down!"),
         -- Completion Description
-        vt_system.Translate("We finally retrieved Orlinn in the center of the forest. A mysterious wolf was protecting him, and we came just in time to prevent him from approaching a strange crystal..."),
+        vt_system.Translate("We finally retrieved Orlinn in the center of the forest. A mysterious wolf was protecting him, and we came just in time to prevent him from approaching a strange crystal."),
         -- Group and event for the quest to be complete.
         "story", "layna_forest_crystal_event_done",
         -- Location name and banner image filename
@@ -112,9 +112,9 @@ quests = {
     -- Quest id
     ["flee_from_the_dark_soldiers"] = {
         -- Title
-        vt_system.Translate("We must escape from the soldiers..."),
+        vt_system.Translate("We must escape from the soldiers."),
         -- Description
-        vt_system.Translate("After we returned to the village, Kalya was caught by strange soldiers. The country Lord himself provoked me in battle, and thanks to her, we escaped for now.\n \nBut this isn't over, the soldiers are after us and we have to make our way through..."),
+        vt_system.Translate("After we returned to the village, Kalya was caught by strange soldiers. The country lord himself provoked me in battle and thanks to her, we escaped for now.\n \nBut this isn't over. The soldiers are after us and we have to make our way through."),
         -- Completion Description
         vt_system.Translate("We managed to find a way up to the mountain top."),
         -- Group and event for the quest to be complete.

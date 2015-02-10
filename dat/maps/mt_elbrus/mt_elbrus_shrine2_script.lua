@@ -380,39 +380,39 @@ function _CreateEvents()
     EventManager:RegisterEvent(orlinn_move_next_to_hero_event);
 
     dialogue = vt_map.SpriteDialogue.Create();
-    text = vt_system.Translate("... It seems somebody left a note here on purpose...");
+    text = vt_system.Translate("It seems somebody left a note here on purpose.");
     dialogue:AddLine(text, hero);
-    text = vt_system.Translate("You mean, in the middle of those scary bones?");
+    text = vt_system.Translate("You mean in the middle of those scary bones?");
     dialogue:AddLineEventEmote(text, orlinn, "Orlinn looks at Kalya", "", "sweat drop");
-    text = vt_system.Translate("Let me see...");
+    text = vt_system.Translate("Let me see.");
     dialogue:AddLine(text, hero);
     text = vt_system.Translate("'To whoever will read this:'");
     dialogue:AddLineEvent(text, hero, "Bronann looks at Kalya", "");
     text = vt_system.Translate("'Battles have been waging all over the place and the Ancient have now forsaken me into oblivion when they sealed the Goddess Shrine.'");
     dialogue:AddLine(text, hero);
-    text = vt_system.Translate("'All my comrades have perished in battles and I am the last unfortunate one left.'");
+    text = vt_system.Translate("'All my comrades have perished in battle and I am the last unfortunate one left.'");
     dialogue:AddLine(text, hero);
-    text = vt_system.Translate("'My name is Shawn, and I do believe my time is running out in this life as there is neither food nor water in here ...'");
+    text = vt_system.Translate("'My name is Shawn, and I do believe my time is running out in this life as there is neither food nor water in here.'");
     dialogue:AddLine(text, hero);
-    text = vt_system.Translate("Poor guy... He must have died from starvation.");
+    text = vt_system.Translate("Poor guy. He must have died from starvation.");
     dialogue:AddLineEmote(text, bronann, "exclamation");
-    text = vt_system.Translate("'... But I will attempt one last time to escape from here and I'm leaving this note in case you'd need to do the same.'");
+    text = vt_system.Translate("'But I will attempt one last time to escape from here and I'm leaving this note in case you'd need to do the same.'");
     dialogue:AddLine(text, hero);
     text = vt_system.Translate("'The only way to escape this hellish place is to reach the highest floor and activate the waterfall. At least that's what they said.'");
     dialogue:AddLine(text, hero);
     text = vt_system.Translate("What are we waiting for, let's go!");
     dialogue:AddLineEmote(text, orlinn, "exclamation");
-    text = vt_system.Translate("Wait Orlinn! That's not over...");
+    text = vt_system.Translate("Wait Orlinn! That's not all he wrote.");
     dialogue:AddLineEvent(text, hero, "Kalya looks at Orlinn", "Kalya looks north");
-    text = vt_system.Translate("'... But be warned, for even the very scent exuding from the dark waters is a trap!'");
+    text = vt_system.Translate("'But be warned, for even the very scent exuding from the dark waters is a trap!'");
     dialogue:AddLine(text, hero);
-    text = vt_system.Translate("'The entire Shrine has been turned into a murderous area and you'll have to fight your way through, just as I will now...'");
+    text = vt_system.Translate("'The entire shrine has been turned into a murderous area and you'll have to fight your way through, just as I will now.'");
     dialogue:AddLine(text, hero);
-    text = vt_system.Translate("That's it...");
+    text = vt_system.Translate("That's it.");
     dialogue:AddLineEventEmote(text, hero, "Kalya looks at Bronann", "", "thinking dots");
     text = vt_system.Translate("Let's find out how to activate that waterfall, then.");
     dialogue:AddLine(text, bronann);
-    text = vt_system.Translate("Yes, and let's do it quickly...");
+    text = vt_system.Translate("Yes, and let's do it quickly.");
     dialogue:AddLine(text, hero);
     event = vt_map.DialogueEvent("Kalya reads the parchment 1", dialogue);
     event:AddEventLinkAtEnd("Orlinn goes back to party");
@@ -433,7 +433,7 @@ function _CreateEvents()
     dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Somebody left a note on purpose here. According to it, we need to find out a way to trigger the waterfall from the highest floor.");
     dialogue:AddLine(text, hero);
-    text = vt_system.Translate("But let's be careful, as it also said this place is dangerous, and the dark waters are a trap somehow...");
+    text = vt_system.Translate("But let's be careful, as it also said this place is dangerous and the dark waters are some kind of trap.");
     dialogue:AddLine(text, hero);
     event = vt_map.DialogueEvent("Parchment 1 event small", dialogue);
     EventManager:RegisterEvent(event);
@@ -444,7 +444,7 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
 
     dialogue = vt_map.SpriteDialogue.Create();
-    text = vt_system.Translate("What is this? ... Skeletons?!");
+    text = vt_system.Translate("What is this? Skeletons?!");
     dialogue:AddLineEmote(text, hero, "exclamation");
     event = vt_map.DialogueEvent("Skeleton dialogue", dialogue);
     event:AddEventLinkAtEnd("Skeleton1 goes to hero");
@@ -473,7 +473,7 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
 
     dialogue = vt_map.SpriteDialogue.Create();
-    text = vt_system.Translate("Phew...");
+    text = vt_system.Translate("Phew.");
     dialogue:AddLineEmote(text, hero, "exclamation");
     event = vt_map.DialogueEvent("Skeleton dialogue 2", dialogue);
     event:AddEventLinkAtEnd("Skeleton event end");

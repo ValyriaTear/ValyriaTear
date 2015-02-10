@@ -753,7 +753,7 @@ function _CreateEvents()
     dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Orlinn, stop it RIGHT NOW!!");
     dialogue:AddLineEmote(text, kalya_sprite, "exclamation");
-    text = vt_system.Translate("I can't sis... I can feel it... calling me...");
+    text = vt_system.Translate("I can't sis. I can feel it... calling me.");
     dialogue:AddLine(text, orlinn);
     event = vt_map.DialogueEvent("Kalya tries to discuss with Orlinn", dialogue);
     event:AddEventLinkAtEnd("Orlinn enters the cave");
@@ -833,7 +833,7 @@ function _CreateEvents()
     dialogue:AddLineEventEmote(text, orlinn, "Orlinn looks at Kalya", "", "sweat drop");
     text = vt_system.Translate("I don't think so, Orlinn. We both know you didn't do it on purpose, right?");
     dialogue:AddLine(text, kalya_sprite);
-    text = vt_system.Translate("Ok...");
+    text = vt_system.Translate("Ok.");
     dialogue:AddLine(text, orlinn);
     event = vt_map.DialogueEvent("Dialogue when returning to the village", dialogue);
     event:AddEventLinkAtEnd("Orlinn goes to the village", 800);
@@ -848,21 +848,21 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
 
     dialogue = vt_map.SpriteDialogue.Create();
-    text = vt_system.Translate("Kalya, ... Err ...");
+    text = vt_system.Translate("Kalya, err...");
     dialogue:AddLine(text, hero);
     text = vt_system.Translate("What is it, Bronann?");
     dialogue:AddLineEvent(text, kalya_sprite, "Kalya looks at Bronann", "");
-    text = vt_system.Translate("Hmm... Nevermind.");
+    text = vt_system.Translate("Hmm. Nevermind.");
     dialogue:AddLine(text, hero);
-    text = vt_system.Translate("Don't worry too much, Bronann, Herth will be able to help you.");
+    text = vt_system.Translate("Don't worry too much, Bronann. Herth will be able to help you.");
     dialogue:AddLine(text, kalya_sprite);
-    text = vt_system.Translate("Me? But ...");
+    text = vt_system.Translate("Me? But...");
     dialogue:AddLine(text, hero);
-    text = vt_system.Translate("Thanks ...");
+    text = vt_system.Translate("Thanks...");
     dialogue:AddLineEvent(text, kalya_sprite, "Kalya looks west", "");
-    text = vt_system.Translate("Thanks for your help there ...");
+    text = vt_system.Translate("Thanks for your help.");
     dialogue:AddLine(text, kalya_sprite);
-    text = vt_system.Translate("... You're welcome.");
+    text = vt_system.Translate("You're welcome.");
     dialogue:AddLine(text, hero);
     event = vt_map.DialogueEvent("Dialogue when returning to the village - part 2", dialogue);
     event:AddEventLinkAtEnd("Bronann goes to the village");

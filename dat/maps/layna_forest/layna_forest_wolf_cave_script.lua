@@ -102,6 +102,7 @@ function _CreateObjects()
     local object = nil
     local npc = nil
     local event = nil
+    local text = nil
 
     -- Adapt the light color according to the time of the day.
     local light_color_red = 1.0;
@@ -163,7 +164,7 @@ function _CreateObjects()
     necklace_npc:SetName(""); -- Unset the speaker name
 
     dialogue = vt_map.SpriteDialogue.Create();
-    text = vt_system.Translate("(Bronann looks on the ground ...)");
+    text = vt_system.Translate("(Bronann looks an the ground)");
     dialogue:AddLineEvent(text, necklace_npc, "", "wolfpain necklace dialogue start");
     necklace_npc:AddDialogueReference(dialogue);
 
@@ -272,7 +273,7 @@ function _CreateEvents()
     EventManager:RegisterEvent(move_next_to_hero_event);
 
     dialogue = vt_map.SpriteDialogue.Create();
-    text = vt_system.Translate("Yiek, it's stinking in here.");
+    text = vt_system.Translate("Yiek, it stinks in here.");
     dialogue:AddLineEventEmote(text, kalya_sprite, "Bronann looks at Kalya", "Kalya looks at Bronann", "exclamation");
     text = vt_system.Translate("Look at all those bones. We should be careful.");
     dialogue:AddLine(text, hero);
@@ -315,7 +316,7 @@ function _CreateEvents()
     dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("What a lovely necklace! I'll take it.");
     dialogue:AddLineEventEmote(text, kalya_sprite, "Bronann looks at Kalya", "Kalya looks north", "exclamation");
-    text = vt_system.Translate("Kalya ... We're in the middle of a cave and you're only thinking about wearing jewels.");
+    text = vt_system.Translate("Kalya. We're in the middle of a cave and you're only thinking about wearing jewels?");
     dialogue:AddLine(text, hero);
     text = vt_system.Translate("Jewelry is a gift from the heavens to remind us that beauty can be as pure on the outside as it is on the inside. Besides, it suits me better than it would you.");
     dialogue:AddLineEvent(text, kalya_sprite, "make fenrir appear and necklace disappear", "make fenrir come");
@@ -323,7 +324,7 @@ function _CreateEvents()
     dialogue:AddLineEventEmote(text, hero, "Bronann looks south", "", "sweat drop");
     text = vt_system.Translate("Don't even start, this one is all mine.");
     dialogue:AddLine(text, kalya_sprite);
-    text = vt_system.Translate("Not the necklace, the Fenrir!");
+    text = vt_system.Translate("Not the necklace, the fenrir!");
     dialogue:AddLineEmote(text, hero, "exclamation");
     text = vt_system.Translate("You can't be serious, we would have heard it come.");
     dialogue:AddLineEvent(text, kalya_sprite, "Kalya looks at Bronann", "Kalya looks south");
@@ -336,7 +337,7 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
 
     dialogue = vt_map.SpriteDialogue.Create();
-    text = vt_system.Translate("Ah well, you were serious, weren't you?");
+    text = vt_system.Translate("Ah, well. You were serious, weren't you?");
     dialogue:AddLineEmote(text, kalya_sprite, "sweat drop");
     event = vt_map.DialogueEvent("Kalya realizes for the Fenrir", dialogue);
     event:AddEventLinkAtEnd("The Fenrir runs toward the hero");
@@ -365,7 +366,7 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
 
     dialogue = vt_map.SpriteDialogue.Create();
-    text = vt_system.Translate("It ran away again... I'm glad we survived... Let's get out of here before it comes back.");
+    text = vt_system.Translate("It ran away again. I'm glad we survived. Let's get out of here before it comes back.");
     dialogue:AddLineEventEmote(text, kalya_sprite, "Kalya looks at Bronann", "", "sweat drop");
     event = vt_map.DialogueEvent("Kalya talks after the battle", dialogue);
     event:AddEventLinkAtEnd("kalya_sprite:SetCollision(NONE)");

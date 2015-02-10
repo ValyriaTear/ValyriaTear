@@ -114,11 +114,11 @@ function _UpdateKalyaBronannDialogue()
 
     -- Short version of the dialogue for later
     dialogue = vt_map.SpriteDialogue.Create();
-    text = vt_system.Translate("We can't move Orlinn ...");
+    text = vt_system.Translate("We can't move, Orlinn.");
     dialogue:AddLine(text, kalya);
-    text = vt_system.Translate("We're gonna ... suffocate...");
+    text = vt_system.Translate("We're gonna...suffocate.");
     dialogue:AddLine(text, bronann);
-    text = vt_system.Translate("Orlinn, help us ... Please, Oh oh oh...");
+    text = vt_system.Translate("Orlinn, help us... Please, oh oh oh...");
     dialogue:AddLine(text, kalya);
     bronann:AddDialogueReference(dialogue);
     kalya:AddDialogueReference(dialogue);
@@ -217,7 +217,7 @@ function _CreateObjects()
     object:SetEventWhenTalking("Heal dialogue");
 
     dialogue = vt_map.SpriteDialogue.Create();
-    text = vt_system.Translate("Your party feels better...");
+    text = vt_system.Translate("Your party feels better.");
     dialogue:AddLineEvent(text, nil, "Heal event", ""); -- 'nil' means no portrait and no name
     event = vt_map.DialogueEvent("Heal dialogue", dialogue);
     EventManager:RegisterEvent(event);
@@ -378,13 +378,13 @@ function _CreateEvents()
 
     -- choice to enter
     dialogue = vt_map.SpriteDialogue.Create();
-    text = vt_system.Translate("What a big gate... What is behind must be fearsome...");
+    text = vt_system.Translate("What a large gate. What is behind it must be fearsome.");
     dialogue:AddLineEmote(text, bronann, "sweat drop");
     text = vt_system.Translate("Shall we go in?");
     dialogue:AddLine(text, kalya);
     text = vt_system.Translate("Yes, let's end this.");
     dialogue:AddOptionEvent(text, 2, "The heroes decide to go event");
-    text = vt_system.Translate("No, let's prepare first...");
+    text = vt_system.Translate("No, let's prepare first.");
     dialogue:AddOptionEvent(text, "Kalya goes back to party2");
     event = vt_map.DialogueEvent("Choice to enter the big door", dialogue);
     EventManager:RegisterEvent(event);
@@ -422,31 +422,31 @@ function _CreateEvents()
     dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Don't worry, we've managed to come this far. There is nothing that could...");
     dialogue:AddLineEvent(text, kalya, "Kalya looks at Bronann", "Orlinn looks at Kalya");
-    text = vt_system.Translate("... What is it, Kalya?");
+    text = vt_system.Translate("What is it, Kalya?");
     dialogue:AddLineEventEmote(text, bronann, "", "Bronann looks at Kalya", "interrogation");
-    text = vt_system.Translate("... Kalya?!");
+    text = vt_system.Translate("...Kalya?!");
     dialogue:AddLineEmote(text, bronann, "exclamation");
-    text = vt_system.Translate("sis'!");
+    text = vt_system.Translate("Sis'!");
     dialogue:AddLineEmote(text, orlinn, "exclamation");
     text = vt_system.Translate("I feel... I...");
     dialogue:AddLineEvent(text, kalya, "", "Kalya laughs");
     text = vt_system.Translate("Hi hi... Hi hi hi... I can't stop!!");
     dialogue:AddLineEvent(text, kalya, "Kalya laughs", "");
-    text = vt_system.Translate("What's so funny, Kalya? eh eh.");
+    text = vt_system.Translate("What's so funny, Kalya? Hi hi.");
     dialogue:AddLineEmote(text, bronann, "interrogation");
-    text = vt_system.Translate("I don't know... Ah, I can barely breathe! ...");
+    text = vt_system.Translate("I don't know... Ah, I can barely breathe!");
     dialogue:AddLine(text, kalya);
     text = vt_system.Translate("Hi hi hi... What's happening to me...");
     dialogue:AddLineEvent(text, bronann, "", "Bronann laughs");
     text = vt_system.Translate("It's the scent, ah ah ah.");
     dialogue:AddLine(text, kalya);
-    text = vt_system.Translate("Erm, are you crazy or what? I usually am the one with bad jokes you know...");
+    text = vt_system.Translate("Erm, are you crazy or what? I usually am the one with bad jokes you know.");
     dialogue:AddLineEmote(text, orlinn, "exclamation");
-    text = vt_system.Translate("We can't move Orlinn ...");
+    text = vt_system.Translate("We can't move Orlinn.");
     dialogue:AddLine(text, kalya);
-    text = vt_system.Translate("We're gonna ... suffocate...");
+    text = vt_system.Translate("We're gonna...suffocate.");
     dialogue:AddLine(text, bronann);
-    text = vt_system.Translate("Orlinn, help us ... Please, Oh oh oh...");
+    text = vt_system.Translate("Orlinn, help us... Please, oh oh oh...");
     dialogue:AddLine(text, kalya);
     event = vt_map.DialogueEvent("The heroes discuss about the big door", dialogue);
     event:AddEventLinkAtEnd("Set camera on Orlinn");
@@ -461,7 +461,7 @@ function _CreateEvents()
 
     -- Orlinn can't go away
     dialogue = vt_map.SpriteDialogue.Create();
-    text = vt_system.Translate("I can't let them, I have to find out something...");
+    text = vt_system.Translate("I can't let them die. I have to find out something.");
     dialogue:AddLineEmote(text, orlinn, "thinking dots");
     event = vt_map.DialogueEvent("Orlinn can't go away dialogue", dialogue);
     EventManager:RegisterEvent(event);
@@ -472,7 +472,7 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
 
     dialogue = vt_map.SpriteDialogue.Create();
-    text = vt_system.Translate("Something is preventing me from entering ...");
+    text = vt_system.Translate("Something is preventing me from entering.");
     dialogue:AddLineEmote(text, hero, "thinking dots");
     event = vt_map.DialogueEvent("The heroes can't go in dialogue", dialogue);
     event:AddEventLinkAtEnd("Heroes can't go there - end");
@@ -488,27 +488,27 @@ function _CreateEvents()
     EventManager:RegisterEvent(event);
 
     dialogue = vt_map.SpriteDialogue.Create();
-    text = vt_system.Translate("I feel much better now...");
+    text = vt_system.Translate("I feel much better now.");
     dialogue:AddLineEmote(text, bronann, "thinking dots");
     text = vt_system.Translate("Indeed. It seems the scent has no effect on us anymore.");
     dialogue:AddLineEmote(text, kalya, "thinking dots");
     text = vt_system.Translate("Orlinn, did you do something?");
     dialogue:AddLineEventEmote(text, kalya, "Kalya looks at Orlinn", "Bronann looks at Orlinn", "exclamation");
-    text = vt_system.Translate("Me? You know: A bit of this, a bit of that...");
+    text = vt_system.Translate("Me? You know, a bit of this, a bit of that.");
     dialogue:AddLineEvent(text, orlinn, "Orlinn laughs", "");
-    text = vt_system.Translate("... I didn't think I would say that, but... Thank you Orlinn.");
+    text = vt_system.Translate("I didn't think I would say this, but thank you Orlinn.");
     dialogue:AddLineEmote(text, kalya, "sweat drop");
     text = vt_system.Translate("Thank you, indeed.");
     dialogue:AddLine(text, bronann);
     text = vt_system.Translate("You're welcome!");
     dialogue:AddLine(text, orlinn);
-    text = vt_system.Translate("Well, please stop laughing now. I'm not at ease with what just happened...");
+    text = vt_system.Translate("Well, please stop laughing now. I'm not at ease with what just happened.");
     dialogue:AddLineEventEmote(text, kalya, "Kalya looks at Orlinn", "", "sweat drop");
     text = vt_system.Translate("...");
     dialogue:AddLineEmote(text, kalya, "sweat drop");
     text = vt_system.Translate("Stop laughing now or I'll smash your little head against that wall!");
     dialogue:AddLineEmote(text, kalya, "popping veins");
-    text = vt_system.Translate("Aww... Ok.");
+    text = vt_system.Translate("Aww, ok.");
     dialogue:AddLineEventEmote(text, orlinn, "Orlinn stops laughing", "", "sweat drop");
     event = vt_map.DialogueEvent("Orlinn saved the heroes", dialogue);
     event:AddEventLinkAtEnd("Kalya goes back to party");

@@ -39,7 +39,7 @@ end
 
 armor[30001] = {
 	name = vt_system.Translate("Rookie Tunic"),
-	description = vt_system.Translate("A light tunic worn by new soldier recruits. This one belonged to Bronann's father..."),
+	description = vt_system.Translate("A light tunic worn by new soldier recruits. This one belonged to Bronann's father."),
 	icon = "img/icons/armor/rookie_tunic.png",
 	physical_defense = 1,
 	magical_defense = 0,
@@ -70,7 +70,7 @@ armor[30003] = {
 }
 
 armor[30004] = {
-	name = vt_system.Translate("Leather cloak"),
+	name = vt_system.Translate("Leather Cloak"),
 	description = vt_system.Translate("A cloak worn by apprentices."),
 	icon = "img/icons/armor/cloak_leather_brown.png",
 	physical_defense = 5,

@@ -59,7 +59,7 @@ function Initialize(battle_instance)
     DialogueManager:AddSpeaker("Lilly", vt_system.Translate("Lilly"), "");
 
     dialogue = vt_common.Dialogue.Create(DialogueManager, "Battle intro dialogue");
-    text = vt_system.Translate("So... You think you can hurt me?");
+    text = vt_system.Translate("So, you think you can wound me?");
     dialogue:AddLine(text, "Banesore");
     text = vt_system.Translate("You? A child with an old wooden stick?");
     dialogue:AddLine(text, "Banesore");
@@ -67,7 +67,7 @@ function Initialize(battle_instance)
     dialogue:AddLine(text, "Bronann");
 
     dialogue = vt_common.Dialogue.Create(DialogueManager, "'Stronger than I thought' dialogue");
-    text = vt_system.Translate("You're stronger than I thought... but still ... You are too weak to challenge me!");
+    text = vt_system.Translate("You're stronger than I thought. But you are still too weak to challenge me!");
     dialogue:AddLine(text, "Banesore");
 
     dialogue = vt_common.Dialogue.Create(DialogueManager, "Herth appears");
@@ -85,13 +85,13 @@ function Initialize(battle_instance)
     dialogue:AddLine(text, "Bronann");
     text = vt_system.Translate("Hmph. Soldiers, leave that man to me!");
     dialogue:AddLine(text, "Banesore");
-    text = vt_system.Translate("So... It appears that you remember me, Banesore. Is that correct...?");
+    text = vt_system.Translate("So, it appears that you remember me, Banesore. Is that correct?");
     dialogue:AddLine(text, "Banesore");
     text = vt_system.Translate("I do remember you, old man...");
     dialogue:AddLine(text, "Banesore");
-    text = vt_system.Translate("Then, you already know that your zombified soldiers are of no match to me...");
+    text = vt_system.Translate("Then, you already know that your zombified soldiers are no match for me.");
     dialogue:AddLine(text, "Herth");
-    text = vt_system.Translate("Argh! My chest is burning!!");
+    text = vt_system.Translate("Argh! My chest is burning!");
     dialogue:AddLine(text, "Bronann");
 
     -- Lilly helps Bronann

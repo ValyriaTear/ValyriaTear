@@ -38,7 +38,7 @@ end
 -- -----------------------------------------------------------------------------
 
 armor[40001] = {
-	name = vt_system.Translate("Prismatic ring"),
+	name = vt_system.Translate("Prismatic Ring"),
 	description = vt_system.Translate("A strange ring that protects the wearer from darkness."),
 	icon = "img/icons/armor/jewelry_ring_prismatic.png",
 	physical_defense = 4,

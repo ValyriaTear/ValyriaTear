@@ -146,8 +146,9 @@ function _CreateObjects()
     object:SetEventWhenTalking("Heal dialogue");
 
     dialogue = vt_map.SpriteDialogue.Create();
-    text = vt_system.Translate("Your party feels better...");
-    dialogue:AddLineEvent(text, nil, "Heal event", ""); -- 'nil' means no portrait and no name
+    text = vt_system.Translate("Your party feels better.");
+    dialogue:AddLineEvent(text, nil, "Heal event", ""); -- 0 means no portrait and no name
+    DialogueManager:AddDialogue(dialogue);
     event = vt_map.DialogueEvent("Heal dialogue", dialogue);
     EventManager:RegisterEvent(event);
 
@@ -367,13 +368,13 @@ function _CreateEvents()
     EventManager:RegisterEvent(orlinn_move_next_to_hero_event);
 
     dialogue = vt_map.SpriteDialogue.Create();
-    text = vt_system.Translate("Dang! And now the rain...");
+    text = vt_system.Translate("Dang! And now the rain too.");
     dialogue:AddLineEmote(text, kalya, "exclamation");
-    text = vt_system.Translate("The path seems to lead straight into the storm up there. It's definitely our lucky day...");
+    text = vt_system.Translate("The path seems to lead straight into the storm up there. It's definitely our lucky day.");
     dialogue:AddLineEventEmote(text, kalya, "Kalya looks west", "Orlinn looks at Kalya", "thinking dots");
-    text = vt_system.Translate("Don't lose faith, Kalya. If we manage to escape them here, we'll be safe past the mountains.");
+    text = vt_system.Translate("Don't lose faith, Kalya. If we manage to escape from them here, we'll be safe past the mountains.");
     dialogue:AddLineEvent(text, orlinn, "Kalya looks at Orlinn", "Kalya looks south");
-    text = vt_system.Translate("If we can reach the great plains, we should indeed be out of troubles...");
+    text = vt_system.Translate("If we can reach the great plains, we should indeed be out of trouble.");
     dialogue:AddLineEventEmote(text, kalya, "Kalya looks west", "", "thinking dots");
     event = vt_map.DialogueEvent("Kalya talks about the rain", dialogue);
     event:AddEventLinkAtEnd("Orlinn goes back to party");
