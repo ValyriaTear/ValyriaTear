@@ -416,31 +416,19 @@ public:
     }
 
     /** \brief Sets the rectangle area to use for scissorring
-    *** \param left Coordinate for left side of scissoring rectangle
-    *** \param right Coordinate for right side of scissoring rectangle
-    *** \param bottom Coordinate for bottom side of scissoring rectangle
-    *** \param top Coordinate for top side of scissoring rectangle
-    *** \note The coordinate arguments are based on the current coordinate system,
-    *** not the screen coordinates
+    *** \param x Coordinate for the X value of scissoring rectangle
+    *** \param y Coordinate for the Y value of scissoring rectangle
+    *** \param width Coordinate for the width of scissoring rectangle
+    *** \param height Coordinate for the height of scissoring rectangle
+    *** \note The arguments are based on screen coordinates
     **/
-    void SetScissorRect(float left, float right, float bottom, float top);
+    void SetScissorRect(unsigned x, unsigned y, unsigned width, unsigned height);
 
     /** \brief Sets the rectangle area to use for scissorring
     *** \param rect The rectangle to set the scissoring rectangle to
-    *** In this function the rect coordinates should have already been transformed to
-    *** integer values (pixel unit) with (0,0) as the upper left and (w-1, h-1) as the
-    *** lower right, where w and h are the current screen dimensions. Do <b>not</b>
-    *** incorrectly assume that rect should contain coordinates based on the current
-    *** coordinate system.
+    *** \note The arguments are based on screen coordinates
     **/
-    void SetScissorRect(const ScreenRect &rect);
-
-    /** \brief Converts coordinates from the current coordinate system into screen coordinates
-    *** \return A ScreenRect object that contains the translated screen coordinates.
-    *** Screen coordinates are in pixel units with (0,0) as the top left and (w-1, h-1)
-    *** as the lower-right, where w and h are the dimensions of the screen.
-    **/
-    ScreenRect CalculateScreenRect(float left, float right, float bottom, float top);
+    void SetScissorRect(const ScreenRect& screen_rectangle);
 
     // ----------  Transformation methods
 
@@ -839,18 +827,6 @@ private:
     * \return the numerical offset
     */
     int32 _ConvertYAlign(int32 yalign);
-
-    /**
-    * \brief takes an x value and converts it into screen coordinates
-    * \return the converted value
-    */
-    int32 _ScreenCoordX(float x);
-
-    /**
-    * \brief takes an x value and converts it into screen coordinates
-    * \return the converted value
-    */
-    int32 _ScreenCoordY(float y);
 
     //! \brief Updates the viewport metrics according to the current screen width/height.
     //! \note it also centers the viewport when the resolution isn't a 4:3 one.
