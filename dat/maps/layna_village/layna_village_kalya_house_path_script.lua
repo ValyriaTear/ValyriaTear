@@ -133,8 +133,8 @@ function _ReloadGrandmaDialogue()
             dialogue:AddLineEvent(text, grandma, "Chicken dialogue done", "");
             grandma:AddDialogueReference(dialogue);
 
-            event = vt_map.ScriptedEvent("Chicken dialogue done", "set_chicken_dialogue_done", "");
-            EventManager:RegisterEvent(event);
+            event = vt_map.ScriptedEvent.Create("Chicken dialogue done", "set_chicken_dialogue_done", "");
+
         end
     elseif (GlobalManager:GetEventValue("game", "layna_village_chicken_reward_given") == 0) then
         -- Gives Bronann his reward
@@ -151,13 +151,13 @@ function _ReloadGrandmaDialogue()
         dialogue:AddLineEvent(text, grandma, "Chicken reward given", "");
         grandma:AddDialogueReference(dialogue);
 
-        event = vt_map.TreasureEvent("Give Bronann the chicken reward");
+        event = vt_map.TreasureEvent.Create("Give Bronann the chicken reward");
         event:AddItem(2, 2); -- 2 Medium healing potions
         event:SetDrunes(50);
-        EventManager:RegisterEvent(event);
 
-        event = vt_map.ScriptedEvent("Chicken reward given", "set_chicken_reward_given", "");
-        EventManager:RegisterEvent(event);
+
+        event = vt_map.ScriptedEvent.Create("Chicken reward given", "set_chicken_reward_given", "");
+
     else
         -- Default dialogue
         dialogue = vt_map.SpriteDialogue.Create("ep1_layna_village_granma_default");
@@ -183,25 +183,25 @@ function _CreateNPCs()
     -- Adds the chicken when found.
     if (GlobalManager:GetEventValue("game", "layna_village_chicken1_found") == 1) then
         npc = CreateSprite(Map, "Chicken", 21, 36, vt_map.MapMode.GROUND_OBJECT);
-        event = vt_map.RandomMoveSpriteEvent("Chicken1 random move", npc, 1000, 1000);
+        event = vt_map.RandomMoveSpriteEvent.Create("Chicken1 random move", npc, 1000, 1000);
         event:AddEventLinkAtEnd("Chicken1 random move", 4500); -- Loop on itself
-        EventManager:RegisterEvent(event);
+
         EventManager:StartEvent("Chicken1 random move");
     end
 
     if (GlobalManager:GetEventValue("game", "layna_village_chicken2_found") == 1) then
         npc = CreateSprite(Map, "Chicken", 19, 34, vt_map.MapMode.GROUND_OBJECT);
-        event = vt_map.RandomMoveSpriteEvent("Chicken2 random move", npc, 1000, 1000);
+        event = vt_map.RandomMoveSpriteEvent.Create("Chicken2 random move", npc, 1000, 1000);
         event:AddEventLinkAtEnd("Chicken2 random move", 4500); -- Loop on itself
-        EventManager:RegisterEvent(event);
+
         EventManager:StartEvent("Chicken2 random move", 1200);
     end
 
     if (GlobalManager:GetEventValue("game", "layna_village_chicken3_found") == 1) then
         npc = CreateSprite(Map, "Chicken", 23, 33, vt_map.MapMode.GROUND_OBJECT);
-        event = vt_map.RandomMoveSpriteEvent("Chicken3 random move", npc, 1000, 1000);
+        event = vt_map.RandomMoveSpriteEvent.Create("Chicken3 random move", npc, 1000, 1000);
         event:AddEventLinkAtEnd("Chicken3 random move", 4500); -- Loop on itself
-        EventManager:RegisterEvent(event);
+
         EventManager:StartEvent("Chicken3 random move", 2100);
     end
 end
@@ -291,21 +291,21 @@ function _CreateEvents()
     local event = nil
 
     -- Triggered Events
-    event = vt_map.MapTransitionEvent("to Village center", "dat/maps/layna_village/layna_village_center_map.lua",
+    event = vt_map.MapTransitionEvent.Create("to Village center", "dat/maps/layna_village/layna_village_center_map.lua",
                                        "dat/maps/layna_village/layna_village_center_script.lua", "from_kalya_house_path");
-    EventManager:RegisterEvent(event);
 
-    event = vt_map.MapTransitionEvent("to Kalya house exterior", "dat/maps/layna_village/layna_village_kalya_house_exterior_map.lua",
+
+    event = vt_map.MapTransitionEvent.Create("to Kalya house exterior", "dat/maps/layna_village/layna_village_kalya_house_exterior_map.lua",
                                        "dat/maps/layna_village/layna_village_kalya_house_exterior_script.lua", "from_kalya_house_path");
-    EventManager:RegisterEvent(event);
 
-    event = vt_map.MapTransitionEvent("to grandma house", "dat/maps/layna_village/layna_village_kalya_house_path_small_house_map.lua",
+
+    event = vt_map.MapTransitionEvent.Create("to grandma house", "dat/maps/layna_village/layna_village_kalya_house_path_small_house_map.lua",
                                        "dat/maps/layna_village/layna_village_kalya_house_path_small_house_script.lua", "from_kalya_house_path");
-    EventManager:RegisterEvent(event);
 
-    event = vt_map.MapTransitionEvent("to Kalya house small passage", "dat/maps/layna_village/layna_village_kalya_house_exterior_map.lua",
+
+    event = vt_map.MapTransitionEvent.Create("to Kalya house small passage", "dat/maps/layna_village/layna_village_kalya_house_exterior_map.lua",
                                        "dat/maps/layna_village/layna_village_kalya_house_exterior_script.lua", "from_kalya_house_path_small_passage");
-    EventManager:RegisterEvent(event);
+
 end
 
 -- zones

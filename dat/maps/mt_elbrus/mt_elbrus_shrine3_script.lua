@@ -240,28 +240,28 @@ function _CreateEvents()
     local dialogue = nil
     local text = nil
 
-    event = vt_map.MapTransitionEvent("to mountain shrine main room", "dat/maps/mt_elbrus/mt_elbrus_shrine2_map.lua",
+    event = vt_map.MapTransitionEvent.Create("to mountain shrine main room", "dat/maps/mt_elbrus/mt_elbrus_shrine2_map.lua",
                                        "dat/maps/mt_elbrus/mt_elbrus_shrine2_script.lua", "from_shrine_trap_room");
-    EventManager:RegisterEvent(event);
-    event = vt_map.MapTransitionEvent("to mountain shrine main room-waterfalls", "dat/maps/mt_elbrus/mt_elbrus_shrine2_2_map.lua",
-                                       "dat/maps/mt_elbrus/mt_elbrus_shrine2_script.lua", "from_shrine_trap_room");
-    EventManager:RegisterEvent(event);
 
-    event = vt_map.MapTransitionEvent("to mountain shrine treasure room", "dat/maps/mt_elbrus/mt_elbrus_shrine9_map.lua",
+    event = vt_map.MapTransitionEvent.Create("to mountain shrine main room-waterfalls", "dat/maps/mt_elbrus/mt_elbrus_shrine2_2_map.lua",
+                                       "dat/maps/mt_elbrus/mt_elbrus_shrine2_script.lua", "from_shrine_trap_room");
+
+
+    event = vt_map.MapTransitionEvent.Create("to mountain shrine treasure room", "dat/maps/mt_elbrus/mt_elbrus_shrine9_map.lua",
                                        "dat/maps/mt_elbrus/mt_elbrus_shrine9_script.lua", "from_shrine_trap_room");
-    EventManager:RegisterEvent(event);
 
-    event = vt_map.ScriptedEvent("Start trap", "trap_start", "trap_update");
-    EventManager:RegisterEvent(event);
 
-    event = vt_map.ScriptedEvent("Start trap end", "end_trap_start", "end_trap_update");
-    EventManager:RegisterEvent(event);
+    event = vt_map.ScriptedEvent.Create("Start trap", "trap_start", "trap_update");
 
-    event = vt_map.ScriptedEvent("Make spike wall go up", "spike_wall_start", "spike_wall_update");
-    EventManager:RegisterEvent(event);
-    event = vt_map.ScriptedEvent("Make spike wall go down", "spike_wall_down_start", "spike_wall_down_update");
+
+    event = vt_map.ScriptedEvent.Create("Start trap end", "end_trap_start", "end_trap_update");
+
+
+    event = vt_map.ScriptedEvent.Create("Make spike wall go up", "spike_wall_start", "spike_wall_update");
+
+    event = vt_map.ScriptedEvent.Create("Make spike wall go down", "spike_wall_down_start", "spike_wall_down_update");
     event:AddEventLinkAtEnd("Start trap end");
-    EventManager:RegisterEvent(event);
+
 end
 
 -- Tells which is the latest monster group the party has defeated.

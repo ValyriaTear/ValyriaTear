@@ -87,9 +87,9 @@ function _CreateEvents()
     local text = nil
 
     -- Triggered events
-    event = vt_map.MapTransitionEvent("exit floor", "dat/maps/layna_village/layna_village_center_map.lua",
+    event = vt_map.MapTransitionEvent.Create("exit floor", "dat/maps/layna_village/layna_village_center_map.lua",
                                        "dat/maps/layna_village/layna_village_center_script.lua", "from sophia's house");
-    EventManager:RegisterEvent(event);
+
 end
 
 -- zones

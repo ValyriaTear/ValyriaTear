@@ -212,23 +212,23 @@ function _CreateEvents()
     local dialogue = nil
     local text = nil
 
-    event = vt_map.MapTransitionEvent("to mountain shrine 1st floor NW room", "dat/maps/mt_elbrus/mt_elbrus_shrine5_map.lua",
+    event = vt_map.MapTransitionEvent.Create("to mountain shrine 1st floor NW room", "dat/maps/mt_elbrus/mt_elbrus_shrine5_map.lua",
                                        "dat/maps/mt_elbrus/mt_elbrus_shrine5_script.lua", "from_shrine_first_floor_NE_room");
-    EventManager:RegisterEvent(event);
-    event = vt_map.MapTransitionEvent("to mountain shrine 1st floor SE room", "dat/maps/mt_elbrus/mt_elbrus_shrine7_map.lua",
+
+    event = vt_map.MapTransitionEvent.Create("to mountain shrine 1st floor SE room", "dat/maps/mt_elbrus/mt_elbrus_shrine7_map.lua",
                                        "dat/maps/mt_elbrus/mt_elbrus_shrine7_script.lua", "from_shrine_first_floor_NE_room");
-    EventManager:RegisterEvent(event);
+
 
     -- Restart the map when Orlinn is caught.
-    event = vt_map.ScriptedEvent("Restart Orlinn Map", "restart_map_event_start", "");
+    event = vt_map.ScriptedEvent.Create("Restart Orlinn Map", "restart_map_event_start", "");
     event:AddEventLinkAtEnd("to previous entrance");
-    EventManager:RegisterEvent(event);
-    event = vt_map.MapTransitionEvent("to previous entrance", "dat/maps/mt_elbrus/mt_elbrus_shrine8_map.lua",
-                                       "dat/maps/mt_elbrus/mt_elbrus_shrine8_script.lua", GlobalManager:GetPreviousLocation());
-    EventManager:RegisterEvent(event);
 
-    event = vt_map.ScriptedEvent("Trigger on event", "trigger_on_sound", "");
-    EventManager:RegisterEvent(event);
+    event = vt_map.MapTransitionEvent.Create("to previous entrance", "dat/maps/mt_elbrus/mt_elbrus_shrine8_map.lua",
+                                       "dat/maps/mt_elbrus/mt_elbrus_shrine8_script.lua", GlobalManager:GetPreviousLocation());
+
+
+    event = vt_map.ScriptedEvent.Create("Trigger on event", "trigger_on_sound", "");
+
 end
 
 -- zones

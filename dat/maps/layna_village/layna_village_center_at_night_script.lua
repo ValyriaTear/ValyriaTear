@@ -15,7 +15,6 @@ music_filename = "mus/forest_at_night.ogg"
 
 -- c++ objects instances
 local Map = nil
-local DialogueManager = nil
 local EventManager = nil
 local Effects = nil
 
@@ -33,7 +32,6 @@ function Load(m)
 
     Map = m;
     Effects = Map:GetEffectSupervisor();
-    DialogueManager = Map:GetDialogueSupervisor();
     EventManager = Map:GetEventSupervisor();
 
     Map:SetUnlimitedStamina(true);
@@ -177,110 +175,86 @@ function _CreateEvents()
     local dialogue = nil
 
     -- Triggered Events
-    event = vt_map.MapTransitionEvent("to Riverbank", "dat/maps/layna_village/layna_village_riverbank_map.lua",
-                                       "dat/maps/layna_village/layna_village_riverbank_at_night_script.lua", "from_village_center");
-    EventManager:RegisterEvent(event);
+    vt_map.MapTransitionEvent.Create("to Riverbank", "dat/maps/layna_village/layna_village_riverbank_map.lua",
+                                     "dat/maps/layna_village/layna_village_riverbank_at_night_script.lua", "from_village_center");
 
-    event = vt_map.MapTransitionEvent("to Village south entrance", "dat/maps/layna_village/layna_village_south_entrance_map.lua",
-                                       "dat/maps/layna_village/layna_village_south_entrance_script.lua", "from_village_center");
-    EventManager:RegisterEvent(event);
+    vt_map.MapTransitionEvent.Create("to Village south entrance", "dat/maps/layna_village/layna_village_south_entrance_map.lua",
+                                     "dat/maps/layna_village/layna_village_south_entrance_script.lua", "from_village_center");
 
-    event = vt_map.MapTransitionEvent("to Kalya house path", "dat/maps/layna_village/layna_village_kalya_house_path_map.lua",
-                                       "dat/maps/layna_village/layna_village_kalya_house_path_script.lua", "from_village_center");
-    EventManager:RegisterEvent(event);
+    vt_map.MapTransitionEvent.Create("to Kalya house path", "dat/maps/layna_village/layna_village_kalya_house_path_map.lua",
+                                     "dat/maps/layna_village/layna_village_kalya_house_path_script.lua", "from_village_center");
 
     -- Generic events
-    event = vt_map.ScriptedEvent("Map:PushState(SCENE)", "Map_SceneState", "");
-    EventManager:RegisterEvent(event);
+    vt_map.ScriptedEvent.Create("Map:PushState(SCENE)", "Map_SceneState", "");
 
-    event = vt_map.ScriptedEvent("Map:PopState()", "Map_PopState", "");
-    EventManager:RegisterEvent(event);
+    vt_map.ScriptedEvent.Create("Map:PopState()", "Map_PopState", "");
 
-    event = vt_map.ScriptedSpriteEvent("kalya:SetCollision(ALL)", kalya, "Sprite_Collision_on", "");
-    EventManager:RegisterEvent(event);
+    vt_map.ScriptedSpriteEvent.Create("kalya:SetCollision(ALL)", kalya, "Sprite_Collision_on", "");
 
-    event = vt_map.LookAtSpriteEvent("Kalya looks at Bronann", kalya, bronann);
-    EventManager:RegisterEvent(event);
-    event = vt_map.ChangeDirectionSpriteEvent("Bronann looks east", bronann, vt_map.MapMode.EAST);
-    EventManager:RegisterEvent(event);
-    event = vt_map.ChangeDirectionSpriteEvent("Bronann looks south", bronann, vt_map.MapMode.SOUTH);
-    EventManager:RegisterEvent(event);
+    vt_map.LookAtSpriteEvent.Create("Kalya looks at Bronann", kalya, bronann);
+    vt_map.ChangeDirectionSpriteEvent.Create("Bronann looks east", bronann, vt_map.MapMode.EAST);
+    vt_map.ChangeDirectionSpriteEvent.Create("Bronann looks south", bronann, vt_map.MapMode.SOUTH);
 
-    event = vt_map.ScriptedSpriteEvent("Make Kalya invisible", kalya, "MakeInvisible", "");
-    EventManager:RegisterEvent(event);
-    event = vt_map.ScriptedSpriteEvent("Make Soldier1 invisible", soldier1, "MakeInvisible", "");
-    EventManager:RegisterEvent(event);
-    event = vt_map.ScriptedSpriteEvent("Make Soldier2 invisible", soldier2, "MakeInvisible", "");
-    EventManager:RegisterEvent(event);
-    event = vt_map.ScriptedSpriteEvent("Make Soldier3 invisible", soldier3, "MakeInvisible", "");
-    EventManager:RegisterEvent(event);
-    event = vt_map.ScriptedSpriteEvent("Make Soldier4 invisible", soldier4, "MakeInvisible", "");
-    EventManager:RegisterEvent(event);
+    vt_map.ScriptedSpriteEvent.Create("Make Kalya invisible", kalya, "MakeInvisible", "");
+    vt_map.ScriptedSpriteEvent.Create("Make Soldier1 invisible", soldier1, "MakeInvisible", "");
+    vt_map.ScriptedSpriteEvent.Create("Make Soldier2 invisible", soldier2, "MakeInvisible", "");
+    vt_map.ScriptedSpriteEvent.Create("Make Soldier3 invisible", soldier3, "MakeInvisible", "");
+    vt_map.ScriptedSpriteEvent.Create("Make Soldier4 invisible", soldier4, "MakeInvisible", "");
 
     -- story events
 
     -- Kalya tells Bronann they'll see each other later after she fetched Herth
-    event = vt_map.ScriptedEvent("Return to village dialogue", "return_to_village_dialogue_start", "");
+    event = vt_map.ScriptedEvent.Create("Return to village dialogue", "return_to_village_dialogue_start", "");
     event:AddEventLinkAtEnd("Kalya moves next to Bronann", 500);
-    EventManager:RegisterEvent(event);
 
     -- NOTE: The actual destination is set just before the actual start call
-    move_next_to_hero_event = vt_map.PathMoveSpriteEvent("Kalya moves next to Bronann", kalya, 0, 0, false);
+    move_next_to_hero_event = vt_map.PathMoveSpriteEvent.Create("Kalya moves next to Bronann", kalya, 0, 0, false);
     move_next_to_hero_event:AddEventLinkAtEnd("Kalya tells Bronann she'll fetch Herth");
     move_next_to_hero_event:AddEventLinkAtEnd("kalya:SetCollision(ALL)");
-    EventManager:RegisterEvent(move_next_to_hero_event);
 
     dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Finally, we made it back home.");
     dialogue:AddLine(text, kalya);
     text = vt_system.Translate("I'll go and get Herth. Your parents must be worried. Go home. We'll meet there.");
     dialogue:AddLineEvent(text, kalya, "Kalya looks at Bronann", "");
-    event = vt_map.DialogueEvent("Kalya tells Bronann she'll fetch Herth", dialogue);
+    event = vt_map.DialogueEvent.Create("Kalya tells Bronann she'll fetch Herth", dialogue);
     event:AddEventLinkAtEnd("Kalya runs to her home");
     event:AddEventLinkAtEnd("End of return to village dialogue");
-    EventManager:RegisterEvent(event);
 
-    event = vt_map.ScriptedEvent("End of return to village dialogue", "return_to_village_dialogue_end", "");
-    EventManager:RegisterEvent(event);
+    vt_map.ScriptedEvent.Create("End of return to village dialogue", "return_to_village_dialogue_end", "");
 
-    event = vt_map.PathMoveSpriteEvent("Kalya runs to her home", kalya, 2, 13, true);
+    event = vt_map.PathMoveSpriteEvent.Create("Kalya runs to her home", kalya, 2, 13, true);
     event:AddEventLinkAtEnd("Make Kalya invisible");
-    EventManager:RegisterEvent(event);
 
     -- Zone blocking events
     dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("I should really get back home.");
     dialogue:AddLine(text, bronann);
-    event = vt_map.DialogueEvent("Bronann should go home", dialogue);
+    event = vt_map.DialogueEvent.Create("Bronann should go home", dialogue);
     event:SetStopCameraMovement(true);
-    EventManager:RegisterEvent(event);
 
     dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Weird, I don't see any lights on in there. I have a bad feeling about this, let's get back home.");
     dialogue:AddLine(text, bronann);
-    event = vt_map.DialogueEvent("Bronann should go home when checking other houses", dialogue);
+    event = vt_map.DialogueEvent.Create("Bronann should go home when checking other houses", dialogue);
     event:SetStopCameraMovement(true);
-    EventManager:RegisterEvent(event);
 
     -- Scene where Kalya is brought to the riverbank by two soldiers
-    event = vt_map.ScriptedEvent("Kalya is brought by four soldiers to riverbank start", "kalya_captured_scene_start", "");
+    event = vt_map.ScriptedEvent.Create("Kalya is brought by four soldiers to riverbank start", "kalya_captured_scene_start", "");
     event:AddEventLinkAtEnd("Play locked door sound");
     event:AddEventLinkAtEnd("Bronann can't enter his home 1", 400);
-    EventManager:RegisterEvent(event);
 
     -- Play locked door sound when bronann tries to enter his home
-    event = vt_map.ScriptedEvent("Play locked door sound", "play_lock_door_sound", "");
-    EventManager:RegisterEvent(event);
+    vt_map.ScriptedEvent.Create("Play locked door sound", "play_lock_door_sound", "");
 
     dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Huh?");
     dialogue:AddLineEmote(text, bronann, "interrogation");
-    event = vt_map.DialogueEvent("Bronann can't enter his home 1", dialogue);
+    event = vt_map.DialogueEvent.Create("Bronann can't enter his home 1", dialogue);
     event:SetStopCameraMovement(true);
     event:AddEventLinkAtEnd("Play locked door sound");
     event:AddEventLinkAtEnd("Play locked door sound", 400);
     event:AddEventLinkAtEnd("Bronann can't enter his home 2", 800);
-    EventManager:RegisterEvent(event);
 
     dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("What's happening here?! Where is everyone?");
@@ -289,25 +263,22 @@ function _CreateEvents()
     dialogue:AddLine(text, kalya);
     text = vt_system.Translate("Kalya?!");
     dialogue:AddLineEventEmote(text, bronann, "Bronann looks east", "", "exclamation");
-    event = vt_map.DialogueEvent("Bronann can't enter his home 2", dialogue);
+    event = vt_map.DialogueEvent.Create("Bronann can't enter his home 2", dialogue);
     event:AddEventLinkAtEnd("Set camera on Kalya");
     event:AddEventLinkAtEnd("Kalya is struggling");
-    EventManager:RegisterEvent(event);
 
-    event = vt_map.ScriptedEvent("Set camera on Kalya", "set_camera_on_kalya", "is_camera_moving_finished");
+    event = vt_map.ScriptedEvent.Create("Set camera on Kalya", "set_camera_on_kalya", "is_camera_moving_finished");
     event:AddEventLinkAtEnd("Kalya screams against the soldiers");
-    EventManager:RegisterEvent(event);
 
     -- Make kalya struggle against the soldiers
-    event = vt_map.ScriptedEvent("Kalya is struggling", "make_kalya_struggle", "");
-    EventManager:RegisterEvent(event);
+    vt_map.ScriptedEvent.Create("Kalya is struggling", "make_kalya_struggle", "");
 
     dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Let go of me! You cheap low-grade filthy jerks.");
     dialogue:AddLineEmote(text, kalya, "exclamation");
     text = vt_system.Translate("Keep quiet, little brat!");
     dialogue:AddLine(text, soldier3);
-    event = vt_map.DialogueEvent("Kalya screams against the soldiers", dialogue);
+    event = vt_map.DialogueEvent.Create("Kalya screams against the soldiers", dialogue);
     event:AddEventLinkAtEnd("Set camera on Bronann");
     -- Make the soldiers walk while Bronann tries to cover.
     event:AddEventLinkAtEnd("Soldier1 escorts Kalya to riverbank");
@@ -315,58 +286,43 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("Soldier3 escorts Kalya to riverbank");
     event:AddEventLinkAtEnd("Soldier4 escorts Kalya to riverbank");
     event:AddEventLinkAtEnd("Kalya is escorted to riverbank");
-    EventManager:RegisterEvent(event);
 
     -- The soldiers are going to the riverbank with Kalya
     -- Point 1: 41, 41 -> 41, 63
-    event = vt_map.PathMoveSpriteEvent("Soldier1 escorts Kalya to riverbank", soldier1, 43, 63, false);
+    event = vt_map.PathMoveSpriteEvent.Create("Soldier1 escorts Kalya to riverbank", soldier1, 43, 63, false);
     event:AddEventLinkAtEnd("Soldier1 escorts Kalya to riverbank 2");
-    EventManager:RegisterEvent(event);
-    event = vt_map.PathMoveSpriteEvent("Soldier2 escorts Kalya to riverbank", soldier2, 39, 63, false);
+    event = vt_map.PathMoveSpriteEvent.Create("Soldier2 escorts Kalya to riverbank", soldier2, 39, 63, false);
     event:AddEventLinkAtEnd("Soldier2 escorts Kalya to riverbank 2");
-    EventManager:RegisterEvent(event);
-    event = vt_map.PathMoveSpriteEvent("Soldier3 escorts Kalya to riverbank", soldier3, 41, 61, false);
+    event = vt_map.PathMoveSpriteEvent.Create("Soldier3 escorts Kalya to riverbank", soldier3, 41, 61, false);
     event:AddEventLinkAtEnd("Soldier3 escorts Kalya to riverbank 2");
-    EventManager:RegisterEvent(event);
-    event = vt_map.PathMoveSpriteEvent("Soldier4 escorts Kalya to riverbank", soldier4, 41, 65, false);
+    event = vt_map.PathMoveSpriteEvent.Create("Soldier4 escorts Kalya to riverbank", soldier4, 41, 65, false);
     event:AddEventLinkAtEnd("Soldier4 escorts Kalya to riverbank 2");
-    EventManager:RegisterEvent(event);
-    event = vt_map.PathMoveSpriteEvent("Kalya is escorted to riverbank", kalya, 41, 63, false);
+    event = vt_map.PathMoveSpriteEvent.Create("Kalya is escorted to riverbank", kalya, 41, 63, false);
     event:AddEventLinkAtEnd("Kalya is escorted to riverbank 2");
-    EventManager:RegisterEvent(event);
     -- Point 2: 41, 63 -> 28, 77
-    event = vt_map.PathMoveSpriteEvent("Soldier1 escorts Kalya to riverbank 2", soldier1, 30, 77, false);
+    event = vt_map.PathMoveSpriteEvent.Create("Soldier1 escorts Kalya to riverbank 2", soldier1, 30, 77, false);
     event:AddEventLinkAtEnd("Make Soldier1 invisible");
-    EventManager:RegisterEvent(event);
-    event = vt_map.PathMoveSpriteEvent("Soldier2 escorts Kalya to riverbank 2", soldier2, 26, 77, false);
+    event = vt_map.PathMoveSpriteEvent.Create("Soldier2 escorts Kalya to riverbank 2", soldier2, 26, 77, false);
     event:AddEventLinkAtEnd("Make Soldier2 invisible");
-    EventManager:RegisterEvent(event);
-    event = vt_map.PathMoveSpriteEvent("Soldier3 escorts Kalya to riverbank 2", soldier3, 28, 77, false);
+    event = vt_map.PathMoveSpriteEvent.Create("Soldier3 escorts Kalya to riverbank 2", soldier3, 28, 77, false);
     event:AddEventLinkAtEnd("Make Soldier3 invisible");
-    EventManager:RegisterEvent(event);
-    event = vt_map.PathMoveSpriteEvent("Soldier4 escorts Kalya to riverbank 2", soldier4, 28, 77, false);
+    event = vt_map.PathMoveSpriteEvent.Create("Soldier4 escorts Kalya to riverbank 2", soldier4, 28, 77, false);
     event:AddEventLinkAtEnd("Make Soldier4 invisible");
-    EventManager:RegisterEvent(event);
-    event = vt_map.PathMoveSpriteEvent("Kalya is escorted to riverbank 2", kalya, 28, 77, false);
+    event = vt_map.PathMoveSpriteEvent.Create("Kalya is escorted to riverbank 2", kalya, 28, 77, false);
     event:AddEventLinkAtEnd("Make Kalya invisible");
-    EventManager:RegisterEvent(event);
 
-    event = vt_map.ScriptedEvent("Set camera on Bronann", "set_camera_on_bronann", "is_camera_moving_finished");
+    event = vt_map.ScriptedEvent.Create("Set camera on Bronann", "set_camera_on_bronann", "is_camera_moving_finished");
     event:AddEventLinkAtEnd("Bronann runs north of the hill");
-    EventManager:RegisterEvent(event);
 
-    event = vt_map.PathMoveSpriteEvent("Bronann runs north of the hill", bronann, 25, 53.5, true);
+    event = vt_map.PathMoveSpriteEvent.Create("Bronann runs north of the hill", bronann, 25, 53.5, true);
     event:AddEventLinkAtEnd("Bronann is surprised");
-    EventManager:RegisterEvent(event);
 
-    event = vt_map.AnimateSpriteEvent("Bronann is surprised", bronann, "frightened", 600);
+    event = vt_map.AnimateSpriteEvent.Create("Bronann is surprised", bronann, "frightened", 600);
     event:AddEventLinkAtEnd("Bronann runs and hide behind the hill");
-    EventManager:RegisterEvent(event);
 
-    event = vt_map.PathMoveSpriteEvent("Bronann runs and hide behind the hill", bronann, 22, 65, true);
+    event = vt_map.PathMoveSpriteEvent.Create("Bronann runs and hide behind the hill", bronann, 22, 65, true);
     event:AddEventLinkAtEnd("Bronann looks south");
     event:AddEventLinkAtEnd("Bronann dialogue after guards caught Kalya", 2200);
-    EventManager:RegisterEvent(event);
 
     dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Soldiers wearing black armor... the Lord's personal guard!");
@@ -375,20 +331,17 @@ function _CreateEvents()
     dialogue:AddLine(text, bronann);
     text = vt_system.Translate("I should follow them silently.");
     dialogue:AddLineEmote(text, bronann, "thinking dots");
-    event = vt_map.DialogueEvent("Bronann dialogue after guards caught Kalya", dialogue);
+    event = vt_map.DialogueEvent.Create("Bronann dialogue after guards caught Kalya", dialogue);
     event:AddEventLinkAtEnd("End of Kalya capture dialogue");
-    EventManager:RegisterEvent(event);
 
-    event = vt_map.ScriptedEvent("End of Kalya capture dialogue", "kalya_captured_scene_end", "");
-    EventManager:RegisterEvent(event);
+    vt_map.ScriptedEvent.Create("End of Kalya capture dialogue", "kalya_captured_scene_end", "");
 
     -- After Kalya has been caught, Bronann wants to follow her
     dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("What am I doing? I should go and try to free Kalya!");
     dialogue:AddLine(text, bronann);
-    event = vt_map.DialogueEvent("Bronann should follow Kalya", dialogue);
+    event = vt_map.DialogueEvent.Create("Bronann should follow Kalya", dialogue);
     event:SetStopCameraMovement(true);
-    EventManager:RegisterEvent(event);
 end
 
 -- zones

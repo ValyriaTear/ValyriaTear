@@ -130,9 +130,9 @@ function _CreateNPCs()
     if (GlobalManager:GetEventValue("game", "layna_village_chicken2_found") == 0) then
         chicken2 = CreateSprite(Map, "Chicken", 58, 44, vt_map.MapMode.GROUND_OBJECT);
 
-        event = vt_map.RandomMoveSpriteEvent("Chicken2 random move", chicken2, 1000, 1000);
+        event = vt_map.RandomMoveSpriteEvent.Create("Chicken2 random move", chicken2, 1000, 1000);
         event:AddEventLinkAtEnd("Chicken2 random move", 4500); -- Loop on itself
-        EventManager:RegisterEvent(event);
+
         EventManager:StartEvent("Chicken2 random move");
 
         dialogue = vt_map.SpriteDialogue.Create();
@@ -141,8 +141,8 @@ function _CreateNPCs()
         dialogue:SetEventAtDialogueEnd("Make bronann take the chicken 2");
         chicken2:AddDialogueReference(dialogue);
 
-        event = vt_map.ScriptedEvent("Make bronann take the chicken 2", "bronann_takes_chicken2", "fadeoutin_update");
-        EventManager:RegisterEvent(event);
+        event = vt_map.ScriptedEvent.Create("Make bronann take the chicken 2", "bronann_takes_chicken2", "fadeoutin_update");
+
     end
 end
 
@@ -167,33 +167,33 @@ function _CreateEvents()
     local event = nil
 
     -- Triggered Events
-    event = vt_map.MapTransitionEvent("to Village center", "dat/maps/layna_village/layna_village_center_map.lua",
+    event = vt_map.MapTransitionEvent.Create("to Village center", "dat/maps/layna_village/layna_village_center_map.lua",
                                        "dat/maps/layna_village/layna_village_center_script.lua", "from_village_south");
-    EventManager:RegisterEvent(event);
 
-    event = vt_map.MapTransitionEvent("to Village riverbank", "dat/maps/layna_village/layna_village_riverbank_map.lua",
+
+    event = vt_map.MapTransitionEvent.Create("to Village riverbank", "dat/maps/layna_village/layna_village_riverbank_map.lua",
                                        "dat/maps/layna_village/layna_village_riverbank_script.lua", "from_village_south");
-    EventManager:RegisterEvent(event);
 
-    event = vt_map.MapTransitionEvent("to left house", "dat/maps/layna_village/layna_village_south_entrance_left_house_map.lua",
+
+    event = vt_map.MapTransitionEvent.Create("to left house", "dat/maps/layna_village/layna_village_south_entrance_left_house_map.lua",
                                        "dat/maps/layna_village/layna_village_south_entrance_left_house_script.lua", "from_village_south");
-    EventManager:RegisterEvent(event);
 
-    event = vt_map.MapTransitionEvent("to right house", "dat/maps/layna_village/layna_village_south_entrance_right_house_map.lua",
+
+    event = vt_map.MapTransitionEvent.Create("to right house", "dat/maps/layna_village/layna_village_south_entrance_right_house_map.lua",
                                        "dat/maps/layna_village/layna_village_south_entrance_right_house_script.lua", "from_village_south");
-    EventManager:RegisterEvent(event);
+
 
     -- Orlinn events
-    event = vt_map.ScriptedEvent("Quest1: Start Orlinn Hide n Seek2", "Quest1_Orlinn_Start_Hide_N_Seek2", "");
+    event = vt_map.ScriptedEvent.Create("Quest1: Start Orlinn Hide n Seek2", "Quest1_Orlinn_Start_Hide_N_Seek2", "");
     event:AddEventLinkAtEnd("Quest1: Make Orlinn run");
-    EventManager:RegisterEvent(event);
 
-    event = vt_map.PathMoveSpriteEvent("Quest1: Make Orlinn run", orlinn, 30, 2, true);
+
+    event = vt_map.PathMoveSpriteEvent.Create("Quest1: Make Orlinn run", orlinn, 30, 2, true);
     event:AddEventLinkAtEnd("Quest1: Make Orlinn disappear");
-    EventManager:RegisterEvent(event);
 
-    event = vt_map.ScriptedSpriteEvent("Quest1: Make Orlinn disappear", orlinn, "MakeInvisible", "");
-    EventManager:RegisterEvent(event);
+
+    event = vt_map.ScriptedSpriteEvent.Create("Quest1: Make Orlinn disappear", orlinn, "MakeInvisible", "");
+
 end
 
 -- zones
@@ -249,15 +249,15 @@ function _UpdateOrlinnState()
     local dialogue = nil
     local event = nil
 
-    event = vt_map.PathMoveSpriteEvent("Hide n Seek1: Orlinn goes right", orlinn, 31, 22, false);
+    event = vt_map.PathMoveSpriteEvent.Create("Hide n Seek1: Orlinn goes right", orlinn, 31, 22, false);
     event:AddEventLinkAtEnd("Hide n Seek1: Orlinn looks south");
-    EventManager:RegisterEvent(event);
-    event = vt_map.ChangeDirectionSpriteEvent("Hide n Seek1: Orlinn looks south", orlinn, vt_map.MapMode.SOUTH);
+
+    event = vt_map.ChangeDirectionSpriteEvent.Create("Hide n Seek1: Orlinn looks south", orlinn, vt_map.MapMode.SOUTH);
     event:AddEventLinkAtEnd("Hide n Seek1: Orlinn goes left", 800);
-    EventManager:RegisterEvent(event);
-    event = vt_map.PathMoveSpriteEvent("Hide n Seek1: Orlinn goes left", orlinn, 29, 22, false);
+
+    event = vt_map.PathMoveSpriteEvent.Create("Hide n Seek1: Orlinn goes left", orlinn, 29, 22, false);
     event:AddEventLinkAtEnd("Hide n Seek1: Orlinn goes right", 8000); -- finish the event loop.
-    EventManager:RegisterEvent(event);
+
 
     if (GlobalManager:DoesEventExist("layna_south_entrance", "quest1_orlinn_hide_n_seek1_done") == true) then
         -- Orlinn shouldn't be here, so we make him invisible

@@ -115,7 +115,7 @@ function _CreateObjects()
     object:AddItem(3002, 1); -- Iron Ore
     object:AddEvent("Monster trap in chest");
 
-    event = vt_map.BattleEncounterEvent("Monster trap in chest");
+    event = vt_map.BattleEncounterEvent.Create("Monster trap in chest");
     event:SetMusic("mus/heroism-OGA-Edward-J-Blakeley.ogg");
     event:SetBackground("img/backdrops/battle/mountain_shrine.png");
     event:AddScript("dat/battles/mountain_shrine_battle_anim.lua");
@@ -131,7 +131,7 @@ function _CreateObjects()
     event:AddEnemy(16);
     event:AddEnemy(16);
     event:AddEnemy(16);
-    EventManager:RegisterEvent(event);
+
 
     _add_flame(15.5, 5);
     _add_flame(39.5, 5);
@@ -177,10 +177,10 @@ function _CreateObjects()
 
     -- The stones used to get through this enigma
     rolling_stone1 = CreateObject(Map, "Rolling Stone", 15, 34, vt_map.MapMode.GROUND_OBJECT);
-    event = vt_map.IfEvent("Check hero position for rolling stone 1", "check_diagonal_stone1", "Push the rolling stone 1", "");
-    EventManager:RegisterEvent(event);
-    event = vt_map.ScriptedEvent("Push the rolling stone 1", "start_to_move_the_stone1", "move_the_stone_update1")
-    EventManager:RegisterEvent(event);
+    event = vt_map.IfEvent.Create("Check hero position for rolling stone 1", "check_diagonal_stone1", "Push the rolling stone 1", "");
+
+    event = vt_map.ScriptedEvent.Create("Push the rolling stone 1", "start_to_move_the_stone1", "move_the_stone_update1")
+
 
     -- Check whether we put the stone 1 through the door
     if (GlobalManager:GetEventValue("story", "mt_shrine_1st_floor_stone1_through_1st_door") == 1) then
@@ -208,14 +208,14 @@ function _CreateObjects()
     end
 
     -- Makes the stone fall
-    event = vt_map.ScriptedEvent("Make rolling stone2 fall event start", "stone_falls_event_start", "stone_falls_event_update");
-    EventManager:RegisterEvent(event);
+    event = vt_map.ScriptedEvent.Create("Make rolling stone2 fall event start", "stone_falls_event_start", "stone_falls_event_update");
+
 
     -- Push the stone
-    event = vt_map.IfEvent("Check hero position for rolling stone 2", "check_diagonal_stone2", "Push the rolling stone 2", "");
-    EventManager:RegisterEvent(event);
-    event = vt_map.ScriptedEvent("Push the rolling stone 2", "start_to_move_the_stone2", "move_the_stone_update2")
-    EventManager:RegisterEvent(event);
+    event = vt_map.IfEvent.Create("Check hero position for rolling stone 2", "check_diagonal_stone2", "Push the rolling stone 2", "");
+
+    event = vt_map.ScriptedEvent.Create("Push the rolling stone 2", "start_to_move_the_stone2", "move_the_stone_update2")
+
 
     -- Add parchment
     object = CreateObject(Map, "Parchment", 9.0, 18.6, vt_map.MapMode.GROUND_OBJECT);
@@ -227,8 +227,8 @@ function _CreateObjects()
     dialogue:AddLineEmote(text, hero, "thinking dots");
     text = vt_system.Translate("It says: 'I fathomed it! After all, not every ladder is made of wood. Now, I'll have to get back there alive.'");
     dialogue:AddLine(text, hero);
-    event = vt_map.DialogueEvent("Parchment event", dialogue);
-    EventManager:RegisterEvent(event);
+    event = vt_map.DialogueEvent.Create("Parchment event", dialogue);
+
 end
 
 function _add_flame(x, y)
@@ -249,40 +249,40 @@ function _CreateEvents()
     local dialogue = nil
     local text = nil
 
-    event = vt_map.MapTransitionEvent("to mountain shrine 1st floor SW room - top door", "dat/maps/mt_elbrus/mt_elbrus_shrine6_map.lua",
+    event = vt_map.MapTransitionEvent.Create("to mountain shrine 1st floor SW room - top door", "dat/maps/mt_elbrus/mt_elbrus_shrine6_map.lua",
                                        "dat/maps/mt_elbrus/mt_elbrus_shrine6_script.lua", "from_shrine_first_floor_SE_top_door");
-    EventManager:RegisterEvent(event);
-    event = vt_map.MapTransitionEvent("to mountain shrine 1st floor SW room - bottom door", "dat/maps/mt_elbrus/mt_elbrus_shrine6_map.lua",
+
+    event = vt_map.MapTransitionEvent.Create("to mountain shrine 1st floor SW room - bottom door", "dat/maps/mt_elbrus/mt_elbrus_shrine6_map.lua",
                                        "dat/maps/mt_elbrus/mt_elbrus_shrine6_script.lua", "from_shrine_first_floor_SE_bottom_door");
-    EventManager:RegisterEvent(event);
-    event = vt_map.MapTransitionEvent("to mountain shrine 1st floor NE room", "dat/maps/mt_elbrus/mt_elbrus_shrine8_map.lua",
+
+    event = vt_map.MapTransitionEvent.Create("to mountain shrine 1st floor NE room", "dat/maps/mt_elbrus/mt_elbrus_shrine8_map.lua",
                                        "dat/maps/mt_elbrus/mt_elbrus_shrine8_script.lua", "from_shrine_first_floor_SE_room");
-    EventManager:RegisterEvent(event);
+
 
     -- The dialogue where the heroes see the missing stones.
-    event = vt_map.ScriptedEvent("Heroes see the missing stone event", "missing_stone_event_start", "");
+    event = vt_map.ScriptedEvent.Create("Heroes see the missing stone event", "missing_stone_event_start", "");
     event:AddEventLinkAtEnd("Set camera on stone", 100);
-    EventManager:RegisterEvent(event);
 
-    event = vt_map.ScriptedEvent("Set camera on stone", "set_camera_on_stone", "set_camera_update");
+
+    event = vt_map.ScriptedEvent.Create("Set camera on stone", "set_camera_on_stone", "set_camera_update");
     event:AddEventLinkAtEnd("The hero talks about finding a way to get there");
-    EventManager:RegisterEvent(event);
+
 
     -- Tells about Orlinn's passage
     dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("There seems to be one of those rolling stones up here.");
     dialogue:AddLineEmote(text, hero, "thinking dots");
-    event = vt_map.DialogueEvent("The hero talks about finding a way to get there", dialogue);
+    event = vt_map.DialogueEvent.Create("The hero talks about finding a way to get there", dialogue);
     event:SetStopCameraMovement(true);
     event:AddEventLinkAtEnd("Set camera on hero");
-    EventManager:RegisterEvent(event);
 
-    event = vt_map.ScriptedEvent("Set camera on hero", "set_camera_on_hero", "set_camera_update");
+
+    event = vt_map.ScriptedEvent.Create("Set camera on hero", "set_camera_on_hero", "set_camera_update");
     event:AddEventLinkAtEnd("Heroes see the missing stone event end");
-    EventManager:RegisterEvent(event);
 
-    event = vt_map.ScriptedEvent("Heroes see the missing stone event end", "missing_stone_event_end", "");
-    EventManager:RegisterEvent(event);
+
+    event = vt_map.ScriptedEvent.Create("Heroes see the missing stone event end", "missing_stone_event_end", "");
+
 end
 
 -- zones

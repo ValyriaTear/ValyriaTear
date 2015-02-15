@@ -251,10 +251,10 @@ function _CreateObjects()
         rolling_stones[i] = CreateObject(Map, "Rolling Stone", pos_x, pos_y, vt_map.MapMode.GROUND_OBJECT);
         rolling_stones[i]:SetEventWhenTalking("Check hero position for rolling stone "..i);
 
-        event = vt_map.IfEvent("Check hero position for rolling stone "..i, "check_diagonal_stone"..i, "Push the rolling stone "..i, "");
-        EventManager:RegisterEvent(event);
-        event = vt_map.ScriptedEvent("Push the rolling stone "..i, "start_to_move_the_stone"..i, "move_the_stone_update"..i)
-        EventManager:RegisterEvent(event);
+        event = vt_map.IfEvent.Create("Check hero position for rolling stone "..i, "check_diagonal_stone"..i, "Push the rolling stone "..i, "");
+
+        event = vt_map.ScriptedEvent.Create("Push the rolling stone "..i, "start_to_move_the_stone"..i, "move_the_stone_update"..i)
+
 
         -- Setup the initial stone direction value
         stone_directions[i] = vt_map.MapMode.EAST;
@@ -280,22 +280,22 @@ function _CreateEvents()
     local dialogue = nil
     local text = nil
 
-    event = vt_map.MapTransitionEvent("to mountain shrine 1st floor", "dat/maps/mt_elbrus/mt_elbrus_shrine_stairs_map.lua",
+    event = vt_map.MapTransitionEvent.Create("to mountain shrine 1st floor", "dat/maps/mt_elbrus/mt_elbrus_shrine_stairs_map.lua",
                                        "dat/maps/mt_elbrus/mt_elbrus_shrine_stairs_script.lua", "from_shrine_2nd_floor");
-    EventManager:RegisterEvent(event);
 
-    event = vt_map.MapTransitionEvent("to mountain shrine 2nd floor South", "dat/maps/mt_elbrus/mt_elbrus_shrine_2nd_s1_map.lua",
+
+    event = vt_map.MapTransitionEvent.Create("to mountain shrine 2nd floor South", "dat/maps/mt_elbrus/mt_elbrus_shrine_2nd_s1_map.lua",
                                        "dat/maps/mt_elbrus/mt_elbrus_shrine_2nd_s1_script.lua", "from_shrine_2nd_floor_NE_room");
-    EventManager:RegisterEvent(event);
 
-    event = vt_map.IfEvent("Check Gate", "check_triggers", "Open Gate", "");
-    EventManager:RegisterEvent(event);
 
-    event = vt_map.ScriptedEvent("Open Gate", "open_passage_start", "open_passage_update");
-    EventManager:RegisterEvent(event);
+    event = vt_map.IfEvent.Create("Check Gate", "check_triggers", "Open Gate", "");
 
-    event = vt_map.ScriptedEvent("Trigger spikes", "trigger_spikes_start", "trigger_spikes_update");
-    EventManager:RegisterEvent(event);
+
+    event = vt_map.ScriptedEvent.Create("Open Gate", "open_passage_start", "open_passage_update");
+
+
+    event = vt_map.ScriptedEvent.Create("Trigger spikes", "trigger_spikes_start", "trigger_spikes_update");
+
 end
 
 -- zones
