@@ -549,31 +549,22 @@ int main(int argc, char *argv[])
     uint32 update_tick = SDL_GetTicks();
     uint32 next_update_tick = update_tick;
 
-    // Debug stuff
-    uint32 last_tick = update_tick;
-    uint32 fps = 0;
-    uint32 one_second = 0;
+    //TODO: Make this configurable and enabled only if vsync isn't.
+    bool cpu_gentle_update_mode = true;
 
     try {
         // This is the main loop for the game. The loop iterates once for every frame drawn to the screen.
         while(SystemManager->NotDone()) {
-            last_tick = update_tick;
-            update_tick = SDL_GetTicks();
+            if (cpu_gentle_update_mode) {
+                update_tick = SDL_GetTicks();
 
-            // DEV: Get some FPS
-            one_second += update_tick - last_tick;
-            if (one_second >= 1000) {
-                one_second -= 1000;
-                std::cout << "FPS: " << fps << std::endl;
-                fps = 0;
+                // If we want to be nice with the CPU % used.
+                if (update_tick <= next_update_tick && next_update_tick - update_tick >= 10)
+                    SDL_Delay(next_update_tick - update_tick);
             }
 
-            // If we want to be nice with the CPU % used.
-            if (update_tick <= next_update_tick && next_update_tick - update_tick >= 10)
-                SDL_Delay(next_update_tick - update_tick);
-
-            // Render capped at UPDATES_PER_SECOND
-            if (update_tick > next_update_tick) {
+            // Render capped at UPDATES_PER_SECOND if the update mode is gentle with the cpu(s).
+            if (!cpu_gentle_update_mode || update_tick > next_update_tick) {
                 VideoManager->Clear();
                 ModeManager->Draw();
                 ModeManager->DrawEffects();
@@ -583,8 +574,6 @@ int main(int argc, char *argv[])
 
                 // Swap the buffers once the draw operations are done.
                 SDL_GL_SwapWindow(sdl_window);
-
-                ++fps;
 
                 // Update the game logic
 
@@ -608,7 +597,7 @@ int main(int argc, char *argv[])
             }
 
         } // while (SystemManager->NotDone())
-    } catch(const Exception &e) {
+    } catch(const Exception& e) {
 #ifdef WIN32
         MessageBox(NULL, e.ToString().c_str(), "Unhandled exception", MB_OK | MB_ICONERROR);
 #else
