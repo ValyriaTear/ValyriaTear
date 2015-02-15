@@ -15,7 +15,6 @@ music_filename = "mus/house_in_a_forest_loop_horrorpen_oga.ogg"
 
 -- c++ objects instances
 local Map = nil
-local DialogueManager = nil
 local EventManager = nil
 
 -- the main character handler
@@ -25,7 +24,6 @@ local hero = nil
 function Load(m)
 
     Map = m;
-    DialogueManager = Map:GetDialogueSupervisor();
     EventManager = Map:GetEventSupervisor();
     Map:SetUnlimitedStamina(false);
 
@@ -51,7 +49,6 @@ end
 
 -- Handle the twilight advancement after the crystal scene
 function _HandleTwilight()
-
     -- If the characters have seen the crystal, then it's time to make the twilight happen
     if (GlobalManager:GetEventValue("story", "layna_forest_crystal_event_done") < 1) then
         return;
@@ -142,7 +139,6 @@ function _CreateObjects()
         event:AddEventLinkAtEnd("Squirrel2 random move", 4500); -- Loop on itself
 
         EventManager:StartEvent("Squirrel2 random move", 1800);
-
     end
 
     -- Forest entrance treasure chest
@@ -607,25 +603,20 @@ function _CreateEvents()
     local text = nil
 
     -- Map events
-    event = vt_map.MapTransitionEvent.Create("to forest NW", "dat/maps/layna_forest/layna_forest_north_west_map.lua",
-                                       "dat/maps/layna_forest/layna_forest_north_west_script.lua", "from_layna_forest_NE");
+    vt_map.MapTransitionEvent.Create("to forest NW", "dat/maps/layna_forest/layna_forest_north_west_map.lua",
+                                     "dat/maps/layna_forest/layna_forest_north_west_script.lua", "from_layna_forest_NE");
 
-
-    event = vt_map.MapTransitionEvent.Create("to forest SE", "dat/maps/layna_forest/layna_forest_south_east_map.lua",
-                                       "dat/maps/layna_forest/layna_forest_south_east_script.lua", "from_layna_forest_NE");
-
+    vt_map.MapTransitionEvent.Create("to forest SE", "dat/maps/layna_forest/layna_forest_south_east_map.lua",
+                                     "dat/maps/layna_forest/layna_forest_south_east_script.lua", "from_layna_forest_NE");
 
     -- generic events
-    event = vt_map.ScriptedEvent.Create("Map:PopState()", "Map_PopState", "");
+    vt_map.ScriptedEvent.Create("Map:PopState()", "Map_PopState", "");
 
-
-    event = vt_map.ChangeDirectionSpriteEvent.Create("The Hero looks north", hero, vt_map.MapMode.NORTH);
-
+    vt_map.ChangeDirectionSpriteEvent.Create("The Hero looks north", hero, vt_map.MapMode.NORTH);
 
     -- Warning dialogue
     event = vt_map.SoundEvent.Create("Warning dialogue event", "snd/footstep_grass1.wav")
     event:AddEventLinkAtEnd("Warning dialogue");
-
 
     dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("What's that?!");
@@ -633,27 +624,21 @@ function _CreateEvents()
     event = vt_map.DialogueEvent.Create("Warning dialogue", dialogue);
     event:SetStopCameraMovement(true);
 
-
     -- Boss fight scene
     event = vt_map.ScriptedEvent.Create("boss fight scene", "start_boss_fight_scene", "");
     event:AddEventLinkAtEnd("hero looks west");
 
-
     event = vt_map.ChangeDirectionSpriteEvent.Create("hero looks west", hero, vt_map.MapMode.WEST);
     event:AddEventLinkAtEnd("hero looks east", 800);
-
 
     event = vt_map.ChangeDirectionSpriteEvent.Create("hero looks east", hero, vt_map.MapMode.EAST);
     event:AddEventLinkAtEnd("The hero looks at wolf", 800);
 
-
     event = vt_map.LookAtSpriteEvent.Create("The hero looks at wolf", hero, wolf);
     event:AddEventLinkAtEnd("Wolf runs toward the hero");
 
-
     event = vt_map.PathMoveSpriteEvent.Create("Wolf runs toward the hero", wolf, hero, true);
     event:AddEventLinkAtEnd("First Wolf battle");
-
 
     event = vt_map.BattleEncounterEvent.Create("First Wolf battle");
     event:SetMusic("mus/accion-OGA-djsaryon.ogg");
@@ -662,10 +647,8 @@ function _CreateEvents()
     event:SetBoss(true);
     event:AddEventLinkAtEnd("Make the wolf disappear");
 
-
     event = vt_map.ScriptedEvent.Create("Make the wolf disappear", "make_wolf_invisible", "");
     event:AddEventLinkAtEnd("boss fight post-dialogue");
-
 
     dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Woah, that was quite a nasty fight. Why on earth was a north arctic fenrir lurking in the forest? I thought it was merely a part of myths.");
@@ -678,9 +661,7 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("Map:PopState()");
     event:AddEventLinkAtEnd("Restart music");
 
-
-    event = vt_map.ScriptedEvent.Create("Restart music", "restart_music", "");
-
+    vt_map.ScriptedEvent.Create("Restart music", "restart_music", "");
 end
 
 -- zones

@@ -15,7 +15,6 @@ music_filename = "mus/shrine-OGA-yd.ogg"
 
 -- c++ objects instances
 local Map = nil
-local DialogueManager = nil
 local EventManager = nil
 
 -- the main character handler
@@ -31,7 +30,6 @@ local main_sprite_name = "";
 function Load(m)
 
     Map = m;
-    DialogueManager = Map:GetDialogueSupervisor();
     EventManager = Map:GetEventSupervisor();
     Map:SetUnlimitedStamina(false);
 
@@ -186,7 +184,6 @@ function _CreateObjects()
     wolf:SetVisible(false);
     wolf:SetDirection(vt_map.MapMode.NORTH);
 
-
     -- Drink at the fountain
     npc = CreateSprite(Map, "Butterfly", 53, 12, vt_map.MapMode.GROUND_OBJECT);
     npc:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
@@ -231,39 +228,28 @@ function _CreateEvents()
     local text = nil
 
     -- Map transition events
-    event = vt_map.MapTransitionEvent.Create("to cave 1-2", "dat/maps/layna_forest/layna_forest_cave1_2_map.lua",
-                                       "dat/maps/layna_forest/layna_forest_cave1_2_script.lua", "from_layna_wolf_cave");
+    vt_map.MapTransitionEvent.Create("to cave 1-2", "dat/maps/layna_forest/layna_forest_cave1_2_map.lua",
+                                     "dat/maps/layna_forest/layna_forest_cave1_2_script.lua", "from_layna_wolf_cave");
 
-
-    event = vt_map.MapTransitionEvent.Create("to south east exit", "dat/maps/layna_forest/layna_forest_south_east_map.lua",
-                                       "dat/maps/layna_forest/layna_forest_south_east_script.lua", "from_layna_wolf_cave");
-
+    vt_map.MapTransitionEvent.Create("to south east exit", "dat/maps/layna_forest/layna_forest_south_east_map.lua",
+                                     "dat/maps/layna_forest/layna_forest_south_east_script.lua", "from_layna_wolf_cave");
 
     -- SP Heal event on fountain
-    event = vt_map.ScriptedEvent.Create("Fountain heal", "heal_party_sp", "heal_done");
-
+    vt_map.ScriptedEvent.Create("Fountain heal", "heal_party_sp", "heal_done");
 
     -- Dialogue events
-    event = vt_map.LookAtSpriteEvent.Create("Kalya looks at Bronann", kalya_sprite, hero);
+    vt_map.LookAtSpriteEvent.Create("Kalya looks at Bronann", kalya_sprite, hero);
+    vt_map.ChangeDirectionSpriteEvent.Create("Kalya looks north", kalya_sprite, vt_map.MapMode.NORTH);
+    vt_map.ChangeDirectionSpriteEvent.Create("Kalya looks west", kalya_sprite, vt_map.MapMode.WEST);
+    vt_map.ChangeDirectionSpriteEvent.Create("Kalya looks south", kalya_sprite, vt_map.MapMode.SOUTH);
+    vt_map.LookAtSpriteEvent.Create("Bronann looks at Kalya", hero, kalya_sprite);
+    vt_map.ChangeDirectionSpriteEvent.Create("Bronann looks south", hero, vt_map.MapMode.SOUTH);
 
-    event = vt_map.ChangeDirectionSpriteEvent.Create("Kalya looks north", kalya_sprite, vt_map.MapMode.NORTH);
-
-    event = vt_map.ChangeDirectionSpriteEvent.Create("Kalya looks west", kalya_sprite, vt_map.MapMode.WEST);
-
-    event = vt_map.ChangeDirectionSpriteEvent.Create("Kalya looks south", kalya_sprite, vt_map.MapMode.SOUTH);
-
-    event = vt_map.LookAtSpriteEvent.Create("Bronann looks at Kalya", hero, kalya_sprite);
-
-    event = vt_map.ChangeDirectionSpriteEvent.Create("Bronann looks south", hero, vt_map.MapMode.SOUTH);
-
-    event = vt_map.ScriptedSpriteEvent.Create("kalya_sprite:SetCollision(NONE)", kalya_sprite, "Sprite_Collision_off", "");
-
-    event = vt_map.ScriptedSpriteEvent.Create("kalya_sprite:SetCollision(ALL)", kalya_sprite, "Sprite_Collision_on", "");
-
+    vt_map.ScriptedSpriteEvent.Create("kalya_sprite:SetCollision(NONE)", kalya_sprite, "Sprite_Collision_off", "");
+    vt_map.ScriptedSpriteEvent.Create("kalya_sprite:SetCollision(ALL)", kalya_sprite, "Sprite_Collision_on", "");
 
     event = vt_map.ScriptedEvent.Create("Wolf cave entrance dialogue", "cave_entrance_dialogue_start", "");
     event:AddEventLinkAtEnd("Kalya moves next to Bronann", 50);
-
 
     -- NOTE: The actual destination is set just before the actual start call
     move_next_to_hero_event = vt_map.PathMoveSpriteEvent.Create("Kalya moves next to Bronann", kalya_sprite, 0, 0, false);
@@ -282,21 +268,17 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("kalya_sprite:SetCollision(NONE)");
     event:AddEventLinkAtEnd("Set Camera back to Bronann");
 
-
     event = vt_map.ScriptedSpriteEvent.Create("Set Camera back to Bronann", hero, "SetCamera", "");
     event:AddEventLinkAtEnd("kalya goes back to party");
-
 
     move_back_to_hero_event = vt_map.PathMoveSpriteEvent.Create("kalya goes back to party", kalya_sprite, hero, false);
     move_back_to_hero_event:AddEventLinkAtEnd("end of cave entrance dialogue");
 
-    event = vt_map.ScriptedEvent.Create("end of cave entrance dialogue", "end_of_cave_entrance_dialogue", "");
-
+    vt_map.ScriptedEvent.Create("end of cave entrance dialogue", "end_of_cave_entrance_dialogue", "");
 
     -- Wolfpain necklace dialogue
     event = vt_map.ScriptedEvent.Create("wolfpain necklace dialogue start", "wolfpain_necklace_dialogue_start", "");
     event:AddEventLinkAtEnd("necklace event: Kalya moves next to Bronann", 50);
-
 
     -- NOTE: The actual destination is set just before the actual start call
     move_next_to_hero_event2 = vt_map.PathMoveSpriteEvent.Create("necklace event: Kalya moves next to Bronann", kalya_sprite, 0, 0, false);
@@ -304,11 +286,9 @@ function _CreateEvents()
     move_next_to_hero_event2:AddEventLinkAtEnd("Kalya looks west");
     move_next_to_hero_event2:AddEventLinkAtEnd("Kalya Tells about the necklace");
 
-    event = vt_map.ScriptedEvent.Create("make fenrir appear and necklace disappear", "wolf_appear_n_necklace_disappear", "");
+    vt_map.ScriptedEvent.Create("make fenrir appear and necklace disappear", "wolf_appear_n_necklace_disappear", "");
 
-
-    event = vt_map.PathMoveSpriteEvent.Create("make fenrir come", wolf, 30, 17, false);
-
+    vt_map.PathMoveSpriteEvent.Create("make fenrir come", wolf, 30, 17, false);
 
     dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("What a lovely necklace! I'll take it.");
@@ -328,10 +308,8 @@ function _CreateEvents()
     event = vt_map.DialogueEvent.Create("Kalya Tells about the necklace", dialogue);
     event:AddEventLinkAtEnd("The Fenrir growls");
 
-
     event = vt_map.SoundEvent.Create("The Fenrir growls", "snd/growl1_IFartInUrGeneralDirection_freesound.wav");
     event:AddEventLinkAtEnd("Kalya realizes for the Fenrir");
-
 
     dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Ah, well. You were serious, weren't you?");
@@ -339,10 +317,8 @@ function _CreateEvents()
     event = vt_map.DialogueEvent.Create("Kalya realizes for the Fenrir", dialogue);
     event:AddEventLinkAtEnd("The Fenrir runs toward the hero");
 
-
     event = vt_map.PathMoveSpriteEvent.Create("The Fenrir runs toward the hero", wolf, hero, true);
     event:AddEventLinkAtEnd("Second Fenrir battle");
-
 
     event = vt_map.BattleEncounterEvent.Create("Second Fenrir battle");
     event:SetMusic("mus/accion-OGA-djsaryon.ogg");
@@ -352,15 +328,12 @@ function _CreateEvents()
     event:SetBoss(true);
     event:AddEventLinkAtEnd("Make the fenrir disappear");
 
-
     event = vt_map.ScriptedEvent.Create("Make the fenrir disappear", "make_wolf_invisible", "");
     event:AddEventLinkAtEnd("Get the wolfpain necklace");
-
 
     event = vt_map.TreasureEvent.Create("Get the wolfpain necklace");
     event:AddItem(70003, 1); -- The wolfpain key item
     event:AddEventLinkAtEnd("Kalya talks after the battle");
-
 
     dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("It ran away again. I'm glad we survived. Let's get out of here before it comes back.");
@@ -369,16 +342,13 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("kalya_sprite:SetCollision(NONE)");
     event:AddEventLinkAtEnd("Set Camera back to Bronann2");
 
-
     event = vt_map.ScriptedSpriteEvent.Create("Set Camera back to Bronann2", hero, "SetCamera", "");
     event:AddEventLinkAtEnd("end of necklace dialogue");
     event:AddEventLinkAtEnd("necklace event: kalya goes back to party");
 
-
     move_back_to_hero_event2 = vt_map.PathMoveSpriteEvent.Create("necklace event: kalya goes back to party", kalya_sprite, hero, false);
 
-    event = vt_map.ScriptedEvent.Create("end of necklace dialogue", "end_of_necklace_dialogue", "");
-
+    vt_map.ScriptedEvent.Create("end of necklace dialogue", "end_of_necklace_dialogue", "");
 end
 
 -- zones

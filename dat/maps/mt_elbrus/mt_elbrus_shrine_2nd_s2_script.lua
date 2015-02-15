@@ -15,7 +15,6 @@ music_filename = "mus/icy_wind.ogg"
 
 -- c++ objects instances
 local Map = nil
-local DialogueManager = nil
 local EventManager = nil
 local Effects = nil
 
@@ -30,7 +29,6 @@ function Load(m)
 
     Map = m;
     Effects = Map:GetEffectSupervisor();
-    DialogueManager = Map:GetDialogueSupervisor();
     EventManager = Map:GetEventSupervisor();
     Map:SetUnlimitedStamina(false);
 
@@ -103,9 +101,6 @@ local mini_boss = nil
 
 function _CreateObjects()
     local object = nil
-    local npc = nil
-    local dialogue = nil
-    local text = nil
     local event = nil
 
     CreateObject(Map, "Rock1", 31, 14 vt_map.MapMode.GROUND_OBJECT);
@@ -125,15 +120,12 @@ function _CreateObjects()
     rolling_stone1 = CreateObject(Map, "Rolling Stone2", 34, 34, vt_map.MapMode.GROUND_OBJECT);
 
     -- events on the lower level
-    event = vt_map.IfEvent.Create("Check hero position for rolling stone 1", "check_diagonal_stone1", "Push the rolling stone 1", "");
-
-    event = vt_map.ScriptedEvent.Create("Push the rolling stone 1", "start_to_move_the_stone1", "move_the_stone_update1")
-
+    vt_map.IfEvent.Create("Check hero position for rolling stone 1", "check_diagonal_stone1", "Push the rolling stone 1", "");
+    vt_map.ScriptedEvent.Create("Push the rolling stone 1", "start_to_move_the_stone1", "move_the_stone_update1")
 
     -- events on the upper level
     event = vt_map.ScriptedEvent.Create("Make rolling stone1 fall event start", "stone_falls_event_start", "stone_falls_event_update");
     event:AddEventLinkAtEnd("Hero speaks about the red stone");
-
 
     dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Phew, this one sure is heavier and more sturdy.");
@@ -141,9 +133,7 @@ function _CreateObjects()
     event = vt_map.DialogueEvent.Create("Hero speaks about the red stone", dialogue);
     event:AddEventLinkAtEnd("Make rolling stone1 fall event end");
 
-
-    event = vt_map.ScriptedEvent.Create("Make rolling stone1 fall event end", "stone_falls_event_end", "");
-
+    vt_map.ScriptedEvent.Create("Make rolling stone1 fall event end", "stone_falls_event_end", "");
 
     -- Set the stone event according to the events
     if (GlobalManager:GetEventValue("story", "mountain_shrine_2ndfloor_pushed_stone") == 0) then
@@ -350,31 +340,25 @@ function _CreateEvents()
     local dialogue = nil
     local text = nil
 
-    event = vt_map.MapTransitionEvent.Create("to mountain shrine 2nd floor South left", "dat/maps/mt_elbrus/mt_elbrus_shrine_2nd_s1_map.lua",
-                                      "dat/maps/mt_elbrus/mt_elbrus_shrine_2nd_s1_script.lua", "from_shrine_2nd_floor_grotto_left");
+    vt_map.MapTransitionEvent.Create("to mountain shrine 2nd floor South left", "dat/maps/mt_elbrus/mt_elbrus_shrine_2nd_s1_map.lua",
+                                     "dat/maps/mt_elbrus/mt_elbrus_shrine_2nd_s1_script.lua", "from_shrine_2nd_floor_grotto_left");
 
+    vt_map.MapTransitionEvent.Create("to mountain shrine 2nd floor South right", "dat/maps/mt_elbrus/mt_elbrus_shrine_2nd_s1_map.lua",
+                                     "dat/maps/mt_elbrus/mt_elbrus_shrine_2nd_s1_script.lua", "from_shrine_2nd_floor_grotto_right");
 
-    event = vt_map.MapTransitionEvent.Create("to mountain shrine 2nd floor South right", "dat/maps/mt_elbrus/mt_elbrus_shrine_2nd_s1_map.lua",
-                                      "dat/maps/mt_elbrus/mt_elbrus_shrine_2nd_s1_script.lua", "from_shrine_2nd_floor_grotto_right");
-
-
-    event = vt_map.MapTransitionEvent.Create("to mountain shrine stairs", "dat/maps/mt_elbrus/mt_elbrus_shrine_stairs_map.lua",
-                                      "dat/maps/mt_elbrus/mt_elbrus_shrine_stairs_script.lua", "from_shrine_2nd_floor_grotto");
-
+    vt_map.MapTransitionEvent.Create("to mountain shrine stairs", "dat/maps/mt_elbrus/mt_elbrus_shrine_stairs_map.lua",
+                                     "dat/maps/mt_elbrus/mt_elbrus_shrine_stairs_script.lua", "from_shrine_2nd_floor_grotto");
 
     -- trap
-    event = vt_map.ScriptedEvent.Create("start trap", "trap_start", "trap_update");
-
+    vt_map.ScriptedEvent.Create("start trap", "trap_start", "trap_update");
 
     -- When dying because of the trap
-    event = vt_map.MapTransitionEvent.Create("Restart map", "dat/maps/mt_elbrus/mt_elbrus_shrine_2nd_s2_map.lua",
-                                      "dat/maps/mt_elbrus/mt_elbrus_shrine_2nd_s2_script.lua", GlobalManager:GetPreviousLocation());
-
+    vt_map.MapTransitionEvent.Create("Restart map", "dat/maps/mt_elbrus/mt_elbrus_shrine_2nd_s2_map.lua",
+                                     "dat/maps/mt_elbrus/mt_elbrus_shrine_2nd_s2_script.lua", GlobalManager:GetPreviousLocation());
 
     -- Mini boss event
     event = vt_map.ScriptedEvent.Create("Mini-Boss fight", "mini_boss_start", "");
     event:AddEventLinkAtEnd("Mini-boss fight battle start");
-
 
     event = vt_map.BattleEncounterEvent.Create("Mini-boss fight battle start");
     event:SetMusic("mus/accion-OGA-djsaryon.ogg");
@@ -384,14 +368,11 @@ function _CreateEvents()
     event:AddEnemy(20);
     event:AddEventLinkAtEnd("Mini-boss fight end");
 
-
-    event = vt_map.ScriptedEvent.Create("Mini-boss fight end", "mini_boss_end", "");
-
+    vt_map.ScriptedEvent.Create("Mini-boss fight end", "mini_boss_end", "");
 
     -- Enigma map open event
     event = vt_map.ScriptedEvent.Create("Enigma map open event", "enigma_map_start", "");
     event:AddEventLinkAtEnd("Enigma map dialogue");
-
 
     dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("I can feel something moving far below.");
@@ -399,9 +380,7 @@ function _CreateEvents()
     event = vt_map.DialogueEvent.Create("Enigma map dialogue", dialogue);
     event:AddEventLinkAtEnd("Enigma map open event end");
 
-
-    event = vt_map.ScriptedEvent.Create("Enigma map open event end", "enigma_map_end", "");
-
+    vt_map.ScriptedEvent.Create("Enigma map open event end", "enigma_map_end", "");
 end
 
 -- Sets common battle environment settings for enemy sprites

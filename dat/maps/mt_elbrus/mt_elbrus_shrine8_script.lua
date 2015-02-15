@@ -15,7 +15,6 @@ music_filename = "mus/mountain_shrine.ogg"
 
 -- c++ objects instances
 local Map = nil
-local DialogueManager = nil
 local EventManager = nil
 local Script = nil
 
@@ -30,7 +29,6 @@ function Load(m)
 
     Map = m;
     Script = Map:GetScriptSupervisor();
-    DialogueManager = Map:GetDialogueSupervisor();
     EventManager = Map:GetEventSupervisor();
     Map:SetUnlimitedStamina(false);
 
@@ -85,17 +83,12 @@ end
 local trigger_state = 0;
 
 function _CreateObjects()
-    local object = nil
-    local npc = nil
-    local dialogue = nil
-    local text = nil
-    local event = nil
 
     _add_flame(5.5, 6);
     _add_flame(27.5, 7);
 
     -- A trigger that will open the gate in the SE map.
-    object = vt_map.TriggerObject.Create("mt elbrus shrine 8 gate 7 trigger",
+    local object = vt_map.TriggerObject.Create("mt elbrus shrine 8 gate 7 trigger",
                                          vt_map.MapMode.FLATGROUND_OBJECT,
                                          "img/sprites/map/triggers/stone_trigger1_off.lua",
                                          "img/sprites/map/triggers/stone_trigger1_on.lua",
@@ -209,26 +202,21 @@ end
 -- Creates all events and sets up the entire event sequence chain
 function _CreateEvents()
     local event = nil
-    local dialogue = nil
-    local text = nil
 
-    event = vt_map.MapTransitionEvent.Create("to mountain shrine 1st floor NW room", "dat/maps/mt_elbrus/mt_elbrus_shrine5_map.lua",
-                                       "dat/maps/mt_elbrus/mt_elbrus_shrine5_script.lua", "from_shrine_first_floor_NE_room");
+    vt_map.MapTransitionEvent.Create("to mountain shrine 1st floor NW room", "dat/maps/mt_elbrus/mt_elbrus_shrine5_map.lua",
+                                     "dat/maps/mt_elbrus/mt_elbrus_shrine5_script.lua", "from_shrine_first_floor_NE_room");
 
-    event = vt_map.MapTransitionEvent.Create("to mountain shrine 1st floor SE room", "dat/maps/mt_elbrus/mt_elbrus_shrine7_map.lua",
-                                       "dat/maps/mt_elbrus/mt_elbrus_shrine7_script.lua", "from_shrine_first_floor_NE_room");
-
+    vt_map.MapTransitionEvent.Create("to mountain shrine 1st floor SE room", "dat/maps/mt_elbrus/mt_elbrus_shrine7_map.lua",
+                                     "dat/maps/mt_elbrus/mt_elbrus_shrine7_script.lua", "from_shrine_first_floor_NE_room");
 
     -- Restart the map when Orlinn is caught.
     event = vt_map.ScriptedEvent.Create("Restart Orlinn Map", "restart_map_event_start", "");
     event:AddEventLinkAtEnd("to previous entrance");
 
-    event = vt_map.MapTransitionEvent.Create("to previous entrance", "dat/maps/mt_elbrus/mt_elbrus_shrine8_map.lua",
-                                       "dat/maps/mt_elbrus/mt_elbrus_shrine8_script.lua", GlobalManager:GetPreviousLocation());
+    vt_map.MapTransitionEvent.Create("to previous entrance", "dat/maps/mt_elbrus/mt_elbrus_shrine8_map.lua",
+                                     "dat/maps/mt_elbrus/mt_elbrus_shrine8_script.lua", GlobalManager:GetPreviousLocation());
 
-
-    event = vt_map.ScriptedEvent.Create("Trigger on event", "trigger_on_sound", "");
-
+    vt_map.ScriptedEvent.Create("Trigger on event", "trigger_on_sound", "");
 end
 
 -- zones

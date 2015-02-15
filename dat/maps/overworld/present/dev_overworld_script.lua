@@ -15,7 +15,6 @@ music_filename = "mus/overworld_present.ogg"
 
 -- c++ objects instances
 local Map = nil
-local DialogueManager = nil
 local EventManager = nil
 local Effects = nil
 
@@ -27,7 +26,6 @@ function Load(m)
 
     Map = m;
     Effects = Map:GetEffectSupervisor();
-    DialogueManager = Map:GetDialogueSupervisor();
     EventManager = Map:GetEventSupervisor();
 
     -- No running in overworlds

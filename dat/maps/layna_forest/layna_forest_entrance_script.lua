@@ -15,7 +15,6 @@ music_filename = "mus/house_in_a_forest_loop_horrorpen_oga.ogg"
 
 -- c++ objects instances
 local Map = nil
-local DialogueManager = nil
 local EventManager = nil
 
 -- the main character handler
@@ -31,7 +30,6 @@ local main_sprite_name = "";
 function Load(m)
 
     Map = m;
-    DialogueManager = Map:GetDialogueSupervisor();
     EventManager = Map:GetEventSupervisor();
     Map:SetUnlimitedStamina(false);
 
@@ -329,49 +327,36 @@ function _CreateEvents()
     local text = nil
 
     -- Music event
-    event = vt_map.ScriptedEvent.Create("Music start", "music_start", "");
-
+    vt_map.ScriptedEvent.Create("Music start", "music_start", "");
 
     -- Triggered events
-    event = vt_map.MapTransitionEvent.Create("exit forest", "dat/maps/layna_village/layna_village_center_map.lua",
-                                       "dat/maps/layna_village/layna_village_center_script.lua", "from_layna_forest_entrance");
+    vt_map.MapTransitionEvent.Create("exit forest", "dat/maps/layna_village/layna_village_center_map.lua",
+                                     "dat/maps/layna_village/layna_village_center_script.lua", "from_layna_forest_entrance");
 
-
-    event = vt_map.MapTransitionEvent.Create("to forest NW", "dat/maps/layna_forest/layna_forest_north_west_map.lua",
-                                       "dat/maps/layna_forest/layna_forest_north_west_script.lua", "from_layna_forest_entrance");
-
+    vt_map.MapTransitionEvent.Create("to forest NW", "dat/maps/layna_forest/layna_forest_north_west_map.lua",
+                                     "dat/maps/layna_forest/layna_forest_north_west_script.lua", "from_layna_forest_entrance");
 
     -- After the forest dungeon
-    event = vt_map.MapTransitionEvent.Create("exit forest at night", "dat/maps/layna_village/layna_village_center_map.lua",
-                                       "dat/maps/layna_village/layna_village_center_at_night_script.lua", "from_layna_forest_entrance");
-
+    vt_map.MapTransitionEvent.Create("exit forest at night", "dat/maps/layna_village/layna_village_center_map.lua",
+                                     "dat/maps/layna_village/layna_village_center_at_night_script.lua", "from_layna_forest_entrance");
 
     -- Heal point
-    event = vt_map.ScriptedEvent.Create("Forest entrance heal", "heal_party", "heal_done");
-
+    vt_map.ScriptedEvent.Create("Forest entrance heal", "heal_party", "heal_done");
 
     -- Generic events
-    event = vt_map.ScriptedEvent.Create("Map:Popstate()", "Map_PopState", "");
+    vt_map.ScriptedEvent.Create("Map:Popstate()", "Map_PopState", "");
 
+    vt_map.ScriptedSpriteEvent.Create("kalya:SetCollision(ALL)", kalya_sprite, "Sprite_Collision_on", "");
+    vt_map.ScriptedSpriteEvent.Create("hero:SetCollision(ALL)", hero, "Sprite_Collision_on", "");
+    vt_map.ScriptedSpriteEvent.Create("second_hero:SetCollision(NONE)", kalya_sprite, "Sprite_Collision_off", "");
 
-    event = vt_map.ScriptedSpriteEvent.Create("kalya:SetCollision(ALL)", kalya_sprite, "Sprite_Collision_on", "");
-
-    event = vt_map.ScriptedSpriteEvent.Create("hero:SetCollision(ALL)", hero, "Sprite_Collision_on", "");
-
-    event = vt_map.ScriptedSpriteEvent.Create("second_hero:SetCollision(NONE)", kalya_sprite, "Sprite_Collision_off", "");
-
-
-    event = vt_map.LookAtSpriteEvent.Create("Kalya looks at Bronann", kalya_sprite, hero);
-
-    event = vt_map.LookAtSpriteEvent.Create("Bronann looks at Kalya", hero, kalya_sprite);
-
-    event = vt_map.LookAtSpriteEvent.Create("Kalya looks at the statue", kalya_sprite, 27, 23);
-
+    vt_map.LookAtSpriteEvent.Create("Kalya looks at Bronann", kalya_sprite, hero);
+    vt_map.LookAtSpriteEvent.Create("Bronann looks at Kalya", hero, kalya_sprite);
+    vt_map.LookAtSpriteEvent.Create("Kalya looks at the statue", kalya_sprite, 27, 23);
 
     -- First time forest entrance dialogue about save points and the heal spring.
     event = vt_map.ScriptedEvent.Create("Forest entrance dialogue", "forest_statue_event_start", "");
     event:AddEventLinkAtEnd("Kalya moves next to Bronann", 50);
-
 
     -- NOTE: The actual destination is set just before the actual start call
     move_next_to_hero_event = vt_map.PathMoveSpriteEvent.Create("Kalya moves next to Bronann", kalya_sprite, 0, 0, false);
@@ -386,13 +371,10 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("Kalya moves near the statue");
     event:AddEventLinkAtEnd("Bronann gets nearer as well", 1000);
 
-
     event = vt_map.PathMoveSpriteEvent.Create("Kalya moves near the statue", kalya_sprite, 21, 20, true);
     event:AddEventLinkAtEnd("Kalya talks about the statue 2", 1000);
 
-
-    event = vt_map.PathMoveSpriteEvent.Create("Bronann gets nearer as well", hero, 14, 25, false);
-
+    vt_map.PathMoveSpriteEvent.Create("Bronann gets nearer as well", hero, 14, 25, false);
 
     dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Have you seen one of these before? This is a Layna statue. Praying near it heals both your mind and body.");
@@ -407,17 +389,14 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("second_hero:SetCollision(NONE)");
     event:AddEventLinkAtEnd("Set Camera");
 
-
     event = vt_map.ScriptedSpriteEvent.Create("Set Camera", hero, "SetCamera", "");
     event:AddEventLinkAtEnd("2nd hero goes back to party");
-
 
     move_back_to_hero_event = vt_map.PathMoveSpriteEvent.Create("2nd hero goes back to party", kalya_sprite, hero, false);
     move_back_to_hero_event:AddEventLinkAtEnd("Map:Popstate()");
     move_back_to_hero_event:AddEventLinkAtEnd("end of statue event");
 
-    event = vt_map.ScriptedEvent.Create("end of statue event", "end_of_statue_event", "");
-
+    vt_map.ScriptedEvent.Create("end of statue event", "end_of_statue_event", "");
 end
 
 -- zones

@@ -15,9 +15,7 @@ music_filename = "mus/icy_wind.ogg"
 
 -- c++ objects instances
 local Map = nil
-local DialogueManager = nil
 local EventManager = nil
-local Script = nil
 
 -- the main character handler
 local hero = nil
@@ -32,8 +30,6 @@ local andromalius = nil
 function Load(m)
 
     Map = m;
-    Script = Map:GetScriptSupervisor();
-    DialogueManager = Map:GetDialogueSupervisor();
     EventManager = Map:GetEventSupervisor();
     Map:SetUnlimitedStamina(true);
 
@@ -146,54 +142,34 @@ function _CreateEvents()
     local dialogue = nil
     local text = nil
 
-    event = vt_map.MapTransitionEvent.Create("to mountain shrine exit", "dat/maps/mt_elbrus/mt_elbrus_north_east_exit_map.lua",
-                                       "dat/maps/mt_elbrus/mt_elbrus_north_east_exit_script.lua", "from_shrine_basement");
-
+    vt_map.MapTransitionEvent.Create("to mountain shrine exit", "dat/maps/mt_elbrus/mt_elbrus_north_east_exit_map.lua",
+                                     "dat/maps/mt_elbrus/mt_elbrus_north_east_exit_script.lua", "from_shrine_basement");
 
     -- Generic events
-    event = vt_map.ChangeDirectionSpriteEvent.Create("Orlinn looks north", orlinn, vt_map.MapMode.NORTH);
-
-    event = vt_map.ChangeDirectionSpriteEvent.Create("Orlinn looks west", orlinn, vt_map.MapMode.WEST);
-
-    event = vt_map.ChangeDirectionSpriteEvent.Create("Orlinn looks south", orlinn, vt_map.MapMode.SOUTH);
-
-    event = vt_map.ChangeDirectionSpriteEvent.Create("Bronann looks north", bronann, vt_map.MapMode.NORTH);
-
-    event = vt_map.ChangeDirectionSpriteEvent.Create("Bronann looks south", bronann, vt_map.MapMode.SOUTH);
-
-    event = vt_map.ChangeDirectionSpriteEvent.Create("Kalya looks north", kalya, vt_map.MapMode.NORTH);
-
-    event = vt_map.ChangeDirectionSpriteEvent.Create("Kalya looks west", kalya, vt_map.MapMode.WEST);
-
-    event = vt_map.ChangeDirectionSpriteEvent.Create("Kalya looks east", kalya, vt_map.MapMode.EAST);
-
-    event = vt_map.ChangeDirectionSpriteEvent.Create("Kalya looks south", kalya, vt_map.MapMode.SOUTH);
-
-    event = vt_map.ChangeDirectionSpriteEvent.Create("Hero looks west", hero, vt_map.MapMode.WEST);
-
-    event = vt_map.ChangeDirectionSpriteEvent.Create("Hero looks east", hero, vt_map.MapMode.EAST);
-
-    event = vt_map.LookAtSpriteEvent.Create("Kalya looks at Bronann", kalya, bronann);
-
-    event = vt_map.LookAtSpriteEvent.Create("Kalya looks at Orlinn", kalya, orlinn);
-
-    event = vt_map.LookAtSpriteEvent.Create("Bronann looks at Kalya", bronann, kalya);
-
-    event = vt_map.LookAtSpriteEvent.Create("Bronann looks at Orlinn", bronann, orlinn);
-
-    event = vt_map.LookAtSpriteEvent.Create("Orlinn looks at Kalya", orlinn, kalya);
-
-    event = vt_map.LookAtSpriteEvent.Create("Orlinn looks at Bronann", orlinn, bronann);
-
+    vt_map.ChangeDirectionSpriteEvent.Create("Orlinn looks north", orlinn, vt_map.MapMode.NORTH);
+    vt_map.ChangeDirectionSpriteEvent.Create("Orlinn looks west", orlinn, vt_map.MapMode.WEST);
+    vt_map.ChangeDirectionSpriteEvent.Create("Orlinn looks south", orlinn, vt_map.MapMode.SOUTH);
+    vt_map.ChangeDirectionSpriteEvent.Create("Bronann looks north", bronann, vt_map.MapMode.NORTH);
+    vt_map.ChangeDirectionSpriteEvent.Create("Bronann looks south", bronann, vt_map.MapMode.SOUTH);
+    vt_map.ChangeDirectionSpriteEvent.Create("Kalya looks north", kalya, vt_map.MapMode.NORTH);
+    vt_map.ChangeDirectionSpriteEvent.Create("Kalya looks west", kalya, vt_map.MapMode.WEST);
+    vt_map.ChangeDirectionSpriteEvent.Create("Kalya looks east", kalya, vt_map.MapMode.EAST);
+    vt_map.ChangeDirectionSpriteEvent.Create("Kalya looks south", kalya, vt_map.MapMode.SOUTH);
+    vt_map.ChangeDirectionSpriteEvent.Create("Hero looks west", hero, vt_map.MapMode.WEST);
+    vt_map.ChangeDirectionSpriteEvent.Create("Hero looks east", hero, vt_map.MapMode.EAST);
+    vt_map.LookAtSpriteEvent.Create("Kalya looks at Bronann", kalya, bronann);
+    vt_map.LookAtSpriteEvent.Create("Kalya looks at Orlinn", kalya, orlinn);
+    vt_map.LookAtSpriteEvent.Create("Bronann looks at Kalya", bronann, kalya);
+    vt_map.LookAtSpriteEvent.Create("Bronann looks at Orlinn", bronann, orlinn);
+    vt_map.LookAtSpriteEvent.Create("Orlinn looks at Kalya", orlinn, kalya);
+    vt_map.LookAtSpriteEvent.Create("Orlinn looks at Bronann", orlinn, bronann);
 
     -- Falling event
     event = vt_map.ScriptedEvent.Create("Falls from above event", "fall_event_start", "fall_event_update");
     event:AddEventLinkAtEnd("After the fall event start", 1500);
 
-
     event = vt_map.ScriptedEvent.Create("After the fall event start", "after_fall_event_start", "");
     event:AddEventLinkAtEnd("Kalya moves next to Bronann1");
-
 
     -- NOTE: The actual destination is set just before the actual start call
     kalya_move_next_to_hero_event1 = vt_map.PathMoveSpriteEvent.Create("Kalya moves next to Bronann1", kalya, 0, 0, false);
@@ -219,13 +195,10 @@ function _CreateEvents()
     event = vt_map.DialogueEvent.Create("Where is Orlinn? dialogue", dialogue);
     event:AddEventLinkAtEnd("Kalya moves back to party1");
 
-
     event = vt_map.PathMoveSpriteEvent.Create("Kalya moves back to party1", kalya, bronann, false);
     event:AddEventLinkAtEnd("After the fall event end");
 
-
-    event = vt_map.ScriptedEvent.Create("After the fall event end", "after_fall_event_end", "");
-
+    vt_map.ScriptedEvent.Create("After the fall event end", "after_fall_event_end", "");
 
     -- Hero sees the exit
     dialogue = vt_map.SpriteDialogue.Create();
@@ -233,8 +206,7 @@ function _CreateEvents()
     dialogue:AddLineEventEmote(text, hero, "Hero looks east", "", "thinking dots");
     text = vt_system.Translate("This can only mean we're near the exit!");
     dialogue:AddLineEventEmote(text, hero, "Hero looks west", "", "exclamation");
-    event = vt_map.DialogueEvent.Create("See exit dialogue", dialogue);
-
+    vt_map.DialogueEvent.Create("See exit dialogue", dialogue);
 
     -- Orlinn screams
     dialogue = vt_map.SpriteDialogue.Create();
@@ -242,23 +214,19 @@ function _CreateEvents()
     dialogue:AddLine(text, orlinn);
     text = vt_system.Translate("Orlinn!");
     dialogue:AddLineEmote(text, hero, "exclamation");
-    event = vt_map.DialogueEvent.Create("Orlinn screams dialogue", dialogue);
-
+    vt_map.DialogueEvent.Create("Orlinn screams dialogue", dialogue);
 
     -- Final boss event
     event = vt_map.ScriptedEvent.Create("Final boss battle event start", "final_boss_event_start", "");
     event:AddEventLinkAtEnd("Bronann move to the scene start point");
     event:AddEventLinkAtEnd("Kalya moves next to Bronann2");
 
-
     event = vt_map.PathMoveSpriteEvent.Create("Bronann move to the scene start point", bronann, 25, 13, true);
     event:AddEventLinkAtEnd("Bronann looks at Orlinn");
-
 
     event = vt_map.PathMoveSpriteEvent.Create("Kalya moves next to Bronann2", kalya, 24, 16, true);
     event:AddEventLinkAtEnd("Before boss dialogue");
     event:AddEventLinkAtEnd("Kalya looks at Orlinn");
-
 
     dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Help!");
@@ -272,11 +240,9 @@ function _CreateEvents()
     event = vt_map.DialogueEvent.Create("Before boss dialogue", dialogue);
     event:AddEventLinkAtEnd("Orlinn back off");
 
-
     event = vt_map.PathMoveSpriteEvent.Create("Orlinn back off", orlinn, 29, 12, true);
     event:AddEventLinkAtEnd("Orlinn looks at Bronann");
     event:AddEventLinkAtEnd("Before boss dialogue2");
-
 
     dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("You shall not leave this place without my consent.");
@@ -290,7 +256,6 @@ function _CreateEvents()
     event = vt_map.DialogueEvent.Create("Before boss dialogue2", dialogue);
     event:AddEventLinkAtEnd("Battle with the boss");
 
-
     event = vt_map.BattleEncounterEvent.Create("Battle with the boss");
     event:SetMusic("mus/accion-OGA-djsaryon.ogg");
     event:SetBackground("img/backdrops/battle/desert_cave/desert_cave.png");
@@ -298,27 +263,21 @@ function _CreateEvents()
     event:SetBoss(true);
     event:AddEnemy(21, 812, 312);
     event:AddEnemy(20, 512, 512);
-
     event:AddEventLinkAtEnd("Make the boss invisible");
     event:AddEventLinkAtEnd("Bronann runs to Orlinn", 1000);
     event:AddEventLinkAtEnd("Kalya runs to Orlinn", 1000);
     event:AddEventLinkAtEnd("Play default music");
 
+    vt_map.ScriptedEvent.Create("Play default music", "play_default_music", "");
 
-    event = vt_map.ScriptedEvent.Create("Play default music", "play_default_music", "");
-
-
-    event = vt_map.ScriptedEvent.Create("Make the boss invisible", "make_boss_invisible", "");
-
+    vt_map.ScriptedEvent.Create("Make the boss invisible", "make_boss_invisible", "");
 
     event = vt_map.PathMoveSpriteEvent.Create("Bronann runs to Orlinn", bronann, 27, 11, true);
     event:AddEventLinkAtEnd("Bronann looks at Orlinn");
 
-
     event = vt_map.PathMoveSpriteEvent.Create("Kalya runs to Orlinn", kalya, 27, 13, true);
     event:AddEventLinkAtEnd("Kalya looks at Orlinn");
     event:AddEventLinkAtEnd("Dialogue with Orlinn");
-
 
     dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Orlinn, are you alright?");
@@ -337,15 +296,12 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("Kalya moves back to party2");
     event:AddEventLinkAtEnd("Orlinn moves back to party2");
 
-
     event = vt_map.PathMoveSpriteEvent.Create("Kalya moves back to party2", kalya, bronann, false);
     event:AddEventLinkAtEnd("Final boss event end");
 
-    event = vt_map.PathMoveSpriteEvent.Create("Orlinn moves back to party2", orlinn, bronann, false);
+    vt_map.PathMoveSpriteEvent.Create("Orlinn moves back to party2", orlinn, bronann, false);
 
-
-    event = vt_map.ScriptedEvent.Create("Final boss event end", "final_boss_event_end", "");
-
+    vt_map.ScriptedEvent.Create("Final boss event end", "final_boss_event_end", "");
 end
 
 -- zones

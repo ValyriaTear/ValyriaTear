@@ -15,7 +15,6 @@ music_filename = "mus/awareness_el_corleo.ogg"
 
 -- c++ objects instances
 local Map = nil
-local DialogueManager = nil
 local EventManager = nil
 
 -- the main character handler
@@ -25,7 +24,6 @@ local hero = nil
 function Load(m)
 
     Map = m;
-    DialogueManager = Map:GetDialogueSupervisor();
     EventManager = Map:GetEventSupervisor();
     Map:SetUnlimitedStamina(false);
 
@@ -140,29 +138,27 @@ function _CreateObjects()
     shroom1 = CreateObject(Map, "Shroom", 35, 24, vt_map.MapMode.GROUND_OBJECT);
     shroom1:AddAnimation("img/sprites/map/enemies/spiky_mushroom_dead.lua");
     shroom1:SetEventWhenTalking("Check hero position for Shroom 1");
-    event = vt_map.IfEvent.Create("Check hero position for Shroom 1", "check_diagonal_shroom1", "Fight with Shroom 1", "");
+    vt_map.IfEvent.Create("Check hero position for Shroom 1", "check_diagonal_shroom1", "Fight with Shroom 1", "");
 
     event = vt_map.BattleEncounterEvent.Create("Fight with Shroom 1");
     event:AddEnemy(11, 512, 384); -- one shroom
     _SetEventBattleEnvironment(event);
     event:AddEventLinkAtEnd("Place Shroom 1 after fight", 100);
 
-    event = vt_map.ScriptedEvent.Create("Place Shroom 1 after fight", "place_shroom1_after_fight", "")
-
+    vt_map.ScriptedEvent.Create("Place Shroom 1 after fight", "place_shroom1_after_fight", "")
 
     -- shroom 2
     shroom2 = CreateObject(Map, "Shroom", 37, 24, vt_map.MapMode.GROUND_OBJECT);
     shroom2:AddAnimation("img/sprites/map/enemies/spiky_mushroom_dead.lua");
     shroom2:SetEventWhenTalking("Check hero position for Shroom 2");
-    event = vt_map.IfEvent.Create("Check hero position for Shroom 2", "check_diagonal_shroom2", "Fight with Shroom 2", "");
+    vt_map.IfEvent.Create("Check hero position for Shroom 2", "check_diagonal_shroom2", "Fight with Shroom 2", "");
 
     event = vt_map.BattleEncounterEvent.Create("Fight with Shroom 2");
     event:AddEnemy(11, 512, 384); -- one shroom
     _SetEventBattleEnvironment(event);
     event:AddEventLinkAtEnd("Place Shroom 2 after fight", 100);
 
-    event = vt_map.ScriptedEvent.Create("Place Shroom 2 after fight", "place_shroom2_after_fight", "")
-
+    vt_map.ScriptedEvent.Create("Place Shroom 2 after fight", "place_shroom2_after_fight", "")
 
     -- shroom 3
     shroom3 = CreateObject(Map, "Shroom", 39, 24, vt_map.MapMode.GROUND_OBJECT);
@@ -175,36 +171,33 @@ function _CreateObjects()
     _SetEventBattleEnvironment(event);
     event:AddEventLinkAtEnd("Place Shroom 3 after fight", 100);
 
-    event = vt_map.ScriptedEvent.Create("Place Shroom 3 after fight", "place_shroom3_after_fight", "")
-
+    vt_map.ScriptedEvent.Create("Place Shroom 3 after fight", "place_shroom3_after_fight", "")
 
     -- shroom 4
     shroom4 = CreateObject(Map, "Shroom", 35, 32, vt_map.MapMode.GROUND_OBJECT);
     shroom4:AddAnimation("img/sprites/map/enemies/spiky_mushroom_dead.lua");
     shroom4:SetEventWhenTalking("Check hero position for Shroom 4");
-    event = vt_map.IfEvent.Create("Check hero position for Shroom 4", "check_diagonal_shroom4", "Fight with Shroom 4", "");
+    vt_map.IfEvent.Create("Check hero position for Shroom 4", "check_diagonal_shroom4", "Fight with Shroom 4", "");
 
     event = vt_map.BattleEncounterEvent.Create("Fight with Shroom 4");
     event:AddEnemy(11, 512, 384); -- one shroom
     _SetEventBattleEnvironment(event);
     event:AddEventLinkAtEnd("Place Shroom 4 after fight", 100);
 
-    event = vt_map.ScriptedEvent.Create("Place Shroom 4 after fight", "place_shroom4_after_fight", "")
-
+    vt_map.ScriptedEvent.Create("Place Shroom 4 after fight", "place_shroom4_after_fight", "")
 
     -- shroom 5
     shroom5 = CreateObject(Map, "Shroom", 39, 30, vt_map.MapMode.GROUND_OBJECT);
     shroom5:AddAnimation("img/sprites/map/enemies/spiky_mushroom_dead.lua");
     shroom5:SetEventWhenTalking("Check hero position for Shroom 5");
-    event = vt_map.IfEvent.Create("Check hero position for Shroom 5", "check_diagonal_shroom5", "Fight with Shroom 5", "");
+    vt_map.IfEvent.Create("Check hero position for Shroom 5", "check_diagonal_shroom5", "Fight with Shroom 5", "");
 
     event = vt_map.BattleEncounterEvent.Create("Fight with Shroom 5");
     event:AddEnemy(11, 512, 384); -- one shroom
     _SetEventBattleEnvironment(event);
     event:AddEventLinkAtEnd("Place Shroom 5 after fight", 100);
 
-    event = vt_map.ScriptedEvent.Create("Place Shroom 5 after fight", "place_shroom5_after_fight", "")
-
+    vt_map.ScriptedEvent.Create("Place Shroom 5 after fight", "place_shroom5_after_fight", "")
 
     stone_trigger1 = vt_map.TriggerObject.Create("mt elbrus cave 3 trigger 1",
                                                  vt_map.MapMode.FLATGROUND_OBJECT,
@@ -215,7 +208,7 @@ function _CreateObjects()
     stone_trigger1:SetPosition(33, 32);
     stone_trigger1:SetTriggerableByCharacter(false); -- Only an event can trigger it
 
-    event = vt_map.ScriptedEvent.Create("Check trigger1", "check_trigger1", "")
+    vt_map.ScriptedEvent.Create("Check trigger1", "check_trigger1", "")
 
 
     stone_trigger2 = vt_map.TriggerObject.Create("mt elbrus cave 3 trigger 2",
@@ -227,8 +220,7 @@ function _CreateObjects()
     stone_trigger2:SetPosition(41, 20);
     stone_trigger2:SetTriggerableByCharacter(false); -- Only an event can trigger it
 
-    event = vt_map.ScriptedEvent.Create("Check trigger2", "check_trigger2", "")
-
+    vt_map.ScriptedEvent.Create("Check trigger2", "check_trigger2", "")
 
     -- Check the trigger states at load time (but without sound)
     if (stone_trigger1:GetState() == true) then
@@ -248,33 +240,22 @@ function _CreateObjects()
 
     rolling_stone1 = CreateObject(Map, "Rolling Stone", 37, 26, vt_map.MapMode.GROUND_OBJECT);
     rolling_stone1:SetEventWhenTalking("Check hero position for rolling stone 1");
-    event = vt_map.IfEvent.Create("Check hero position for rolling stone 1", "check_diagonal_stone1", "Push the rolling stone 1", "");
-
-
-    event = vt_map.ScriptedEvent.Create("Push the rolling stone 1", "start_to_move_the_stone1", "move_the_stone_update1")
-
+    vt_map.IfEvent.Create("Check hero position for rolling stone 1", "check_diagonal_stone1", "Push the rolling stone 1", "");
+    vt_map.ScriptedEvent.Create("Push the rolling stone 1", "start_to_move_the_stone1", "move_the_stone_update1")
 
     rolling_stone2 = CreateObject(Map, "Rolling Stone", 35, 30, vt_map.MapMode.GROUND_OBJECT);
     rolling_stone2:SetEventWhenTalking("Check hero position for rolling stone 2");
-    event = vt_map.IfEvent.Create("Check hero position for rolling stone 2", "check_diagonal_stone2", "Push the rolling stone 2", "");
-
-    event = vt_map.ScriptedEvent.Create("Push the rolling stone 2", "start_to_move_the_stone2", "move_the_stone_update2")
-
+    vt_map.IfEvent.Create("Check hero position for rolling stone 2", "check_diagonal_stone2", "Push the rolling stone 2", "");
+    vt_map.ScriptedEvent.Create("Push the rolling stone 2", "start_to_move_the_stone2", "move_the_stone_update2")
 end
 
 -- Creates all events and sets up the entire event sequence chain
 function _CreateEvents()
-    local event = nil
-    local dialogue = nil
-    local text = nil
+    vt_map.MapTransitionEvent.Create("to exit 3-1", "dat/maps/mt_elbrus/mt_elbrus_path2_map.lua",
+                                     "dat/maps/mt_elbrus/mt_elbrus_path2_script.lua", "from_grotto3_1_exit");
 
-    event = vt_map.MapTransitionEvent.Create("to exit 3-1", "dat/maps/mt_elbrus/mt_elbrus_path2_map.lua",
-                                       "dat/maps/mt_elbrus/mt_elbrus_path2_script.lua", "from_grotto3_1_exit");
-
-
-    event = vt_map.MapTransitionEvent.Create("to exit 3-2", "dat/maps/mt_elbrus/mt_elbrus_path2_map.lua",
-                                       "dat/maps/mt_elbrus/mt_elbrus_path2_script.lua", "from_grotto3_2_exit");
-
+    vt_map.MapTransitionEvent.Create("to exit 3-2", "dat/maps/mt_elbrus/mt_elbrus_path2_map.lua",
+                                     "dat/maps/mt_elbrus/mt_elbrus_path2_script.lua", "from_grotto3_2_exit");
 end
 
 -- zones

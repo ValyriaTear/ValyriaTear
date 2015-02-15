@@ -15,7 +15,6 @@ music_filename = "mus/house_in_a_forest_loop_horrorpen_oga.ogg"
 
 -- c++ objects instances
 local Map = nil
-local DialogueManager = nil
 local EventManager = nil
 
 -- the main character handler
@@ -25,7 +24,6 @@ local hero = nil
 function Load(m)
 
     Map = m;
-    DialogueManager = Map:GetDialogueSupervisor();
     EventManager = Map:GetEventSupervisor();
     Map:SetUnlimitedStamina(false);
 
@@ -712,29 +710,23 @@ function _CreateEvents()
     local text = nil
 
     -- Map events
-    event = vt_map.MapTransitionEvent.Create("to forest NE", "dat/maps/layna_forest/layna_forest_north_east_map.lua",
-                                       "dat/maps/layna_forest/layna_forest_north_east_script.lua", "from forest SE")
+    vt_map.MapTransitionEvent.Create("to forest NE", "dat/maps/layna_forest/layna_forest_north_east_map.lua",
+                                     "dat/maps/layna_forest/layna_forest_north_east_script.lua", "from forest SE")
 
+    vt_map.MapTransitionEvent.Create("to forest SW", "dat/maps/layna_forest/layna_forest_south_west_map.lua",
+                                     "dat/maps/layna_forest/layna_forest_south_west_script.lua", "from forest SE")
 
-    event = vt_map.MapTransitionEvent.Create("to forest SW", "dat/maps/layna_forest/layna_forest_south_west_map.lua",
-                                       "dat/maps/layna_forest/layna_forest_south_west_script.lua", "from forest SE")
+    vt_map.MapTransitionEvent.Create("to cave 1_2", "dat/maps/layna_forest/layna_forest_cave1_2_map.lua",
+                                     "dat/maps/layna_forest/layna_forest_cave1_2_script.lua", "from forest SE")
 
+    vt_map.MapTransitionEvent.Create("to wolf cave", "dat/maps/layna_forest/layna_forest_wolf_cave_map.lua",
+                                     "dat/maps/layna_forest/layna_forest_wolf_cave_script.lua", "from forest SE")
 
-    event = vt_map.MapTransitionEvent.Create("to cave 1_2", "dat/maps/layna_forest/layna_forest_cave1_2_map.lua",
-                                       "dat/maps/layna_forest/layna_forest_cave1_2_script.lua", "from forest SE")
-
-
-    event = vt_map.MapTransitionEvent.Create("to wolf cave", "dat/maps/layna_forest/layna_forest_wolf_cave_map.lua",
-                                       "dat/maps/layna_forest/layna_forest_wolf_cave_script.lua", "from forest SE")
-
-
-    event = vt_map.MapTransitionEvent.Create("to cave 2", "dat/maps/layna_forest/layna_forest_cave2_map.lua",
-                                       "dat/maps/layna_forest/layna_forest_cave2_script.lua", "from forest SE")
-
+    vt_map.MapTransitionEvent.Create("to cave 2", "dat/maps/layna_forest/layna_forest_cave2_map.lua",
+                                     "dat/maps/layna_forest/layna_forest_cave2_script.lua", "from forest SE")
 
     -- Heal point
-    event = vt_map.ScriptedEvent.Create("Forest entrance heal", "heal_party", "heal_done");
-
+    vt_map.ScriptedEvent.Create("Forest entrance heal", "heal_party", "heal_done");
 end
 
 -- zones

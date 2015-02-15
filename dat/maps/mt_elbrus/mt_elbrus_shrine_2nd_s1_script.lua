@@ -15,7 +15,6 @@ music_filename = "snd/wind.ogg"
 
 -- c++ objects instances
 local Map = nil
-local DialogueManager = nil
 local EventManager = nil
 
 -- the main character handler
@@ -31,7 +30,6 @@ local bridge_middle_parts = {}
 function Load(m)
 
     Map = m;
-    DialogueManager = Map:GetDialogueSupervisor();
     EventManager = Map:GetEventSupervisor();
     Map:SetUnlimitedStamina(false);
 
@@ -93,13 +91,7 @@ local wind_sound2 = nil;
 local wind_sound3 = nil;
 
 function _CreateObjects()
-    local object = nil
-    local npc = nil
-    local dialogue = nil
-    local text = nil
-    local event = nil
-
-    object = CreateTreasure.Create(Map, "mt_shrine_2nd_s1_chest1", "Wood_Chest1", 73, 49, vt_map.MapMode.GROUND_OBJECT);
+    local object = CreateTreasure.Create(Map, "mt_shrine_2nd_s1_chest1", "Wood_Chest1", 73, 49, vt_map.MapMode.GROUND_OBJECT);
     object:AddItem(12, 1); -- Medium Moon Juice potion x 1
 
     -- Objects array
@@ -209,33 +201,23 @@ end
 
 -- Creates all events and sets up the entire event sequence chain
 function _CreateEvents()
-    local event = nil
-    local dialogue = nil
-    local text = nil
+    vt_map.MapTransitionEvent.Create("to mountain shrine 2nd floor NE", "dat/maps/mt_elbrus/mt_elbrus_shrine_2nd_ne_map.lua",
+                                     "dat/maps/mt_elbrus/mt_elbrus_shrine_2nd_ne_script.lua", "from_shrine_2nd_floor_south");
 
-    event = vt_map.MapTransitionEvent.Create("to mountain shrine 2nd floor NE", "dat/maps/mt_elbrus/mt_elbrus_shrine_2nd_ne_map.lua",
-                                      "dat/maps/mt_elbrus/mt_elbrus_shrine_2nd_ne_script.lua", "from_shrine_2nd_floor_south");
+    vt_map.MapTransitionEvent.Create("to mountain shrine 2nd floor north west", "dat/maps/mt_elbrus/mt_elbrus_shrine_2nd_s2_map.lua",
+                                     "dat/maps/mt_elbrus/mt_elbrus_shrine_2nd_s2_script.lua", "from_shrine_2nd_floor_south_west");
 
-
-    event = vt_map.MapTransitionEvent.Create("to mountain shrine 2nd floor north west", "dat/maps/mt_elbrus/mt_elbrus_shrine_2nd_s2_map.lua",
-                                      "dat/maps/mt_elbrus/mt_elbrus_shrine_2nd_s2_script.lua", "from_shrine_2nd_floor_south_west");
-
-
-    event = vt_map.MapTransitionEvent.Create("to mountain shrine 2nd floor north east", "dat/maps/mt_elbrus/mt_elbrus_shrine_2nd_s2_map.lua",
-                                      "dat/maps/mt_elbrus/mt_elbrus_shrine_2nd_s2_script.lua", "from_shrine_2nd_floor_south_east");
-
+    vt_map.MapTransitionEvent.Create("to mountain shrine 2nd floor north east", "dat/maps/mt_elbrus/mt_elbrus_shrine_2nd_s2_map.lua",
+                                     "dat/maps/mt_elbrus/mt_elbrus_shrine_2nd_s2_script.lua", "from_shrine_2nd_floor_south_east");
 
     -- A never-ending event that triggers winds every few seconds pushing the character down and back to the start if he's heedless enough.
-    event = vt_map.ScriptedEvent.Create("Start winds", "winds_start", "winds_update");
-
+    vt_map.ScriptedEvent.Create("Start winds", "winds_start", "winds_update");
 
     -- Makes the character slowly fall downward
-    event = vt_map.ScriptedEvent.Create("Falling to shrine entrance", "falling_start", "falling_update");
+    vt_map.ScriptedEvent.Create("Falling to shrine entrance", "falling_start", "falling_update");
 
-
-    event = vt_map.MapTransitionEvent.Create("To mountain shrine entrance", "dat/maps/mt_elbrus/mt_elbrus_path4_map.lua",
-                                      "dat/maps/mt_elbrus/mt_elbrus_path4_script.lua", "from_shrine_2nd_floor_wind_trap");
-
+    vt_map.MapTransitionEvent.Create("To mountain shrine entrance", "dat/maps/mt_elbrus/mt_elbrus_path4_map.lua",
+                                     "dat/maps/mt_elbrus/mt_elbrus_path4_script.lua", "from_shrine_2nd_floor_wind_trap");
 end
 
 -- zones

@@ -15,7 +15,6 @@ music_filename = "mus/awareness_el_corleo.ogg"
 
 -- c++ objects instances
 local Map = nil
-local DialogueManager = nil
 local EventManager = nil
 
 -- the main character handler
@@ -39,7 +38,6 @@ local soldier3 = nil
 function Load(m)
 
     Map = m;
-    DialogueManager = Map:GetDialogueSupervisor();
     EventManager = Map:GetEventSupervisor();
     Map:SetUnlimitedStamina(false);
 
@@ -86,7 +84,6 @@ function Load(m)
         _OpenNorthGate();
         harlequin_battle_done = true;
     end
-
 end
 
 -- the map update function handles checks done on each game tick.
@@ -192,8 +189,7 @@ function _CreateObjects()
     dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Your party feels better.");
     dialogue:AddLineEvent(text, nil, "Heal event", ""); -- 0 means no portrait and no name
-    event = vt_map.DialogueEvent.Create("Heal dialogue", dialogue);
-
+    vt_map.DialogueEvent.Create("Heal dialogue", dialogue);
 
     -- Cemetery gates
     north_gate_closed = CreateObject(Map, "Gate1 closed", 51, 16, vt_map.MapMode.GROUND_OBJECT);
@@ -241,7 +237,6 @@ function _CreateObjects()
     event = vt_map.ScriptedEvent.Create("Make Harlequin3 disappear", "make_harlequin3_disappear", "");
     event:AddEventLinkAtEnd("Fake Harlequin battle");
 
-
     event = vt_map.BattleEncounterEvent.Create("Fake Harlequin battle");
     event:SetBoss(true);
     event:AddEnemy(13, 512, 484); -- Harlequin?
@@ -253,8 +248,7 @@ function _CreateObjects()
     _SetEventBattleEnvironment(event);
     event:AddEventLinkAtEnd("Increase Harlequin beaten time");
 
-    event = vt_map.ScriptedEvent.Create("Increase Harlequin beaten time", "increase_harlequin_beaten_time", "");
-
+    vt_map.ScriptedEvent.Create("Increase Harlequin beaten time", "increase_harlequin_beaten_time", "");
 
     --harlequin virtual focus
     harlequin_focus = CreateSprite(Map, "Butterfly", 68, 24, vt_map.MapMode.GROUND_OBJECT);
@@ -501,51 +495,39 @@ function _CreateEvents()
     local dialogue = nil
     local text = nil
 
-    event = vt_map.MapTransitionEvent.Create("to mountain path 2", "dat/maps/mt_elbrus/mt_elbrus_path2_map.lua",
-                                       "dat/maps/mt_elbrus/mt_elbrus_path2_script.lua", "from_path3");
+    vt_map.MapTransitionEvent.Create("to mountain path 2", "dat/maps/mt_elbrus/mt_elbrus_path2_map.lua",
+                                     "dat/maps/mt_elbrus/mt_elbrus_path2_script.lua", "from_path3");
 
-    event = vt_map.MapTransitionEvent.Create("to mountain path 2bis", "dat/maps/mt_elbrus/mt_elbrus_path2_map.lua",
-                                       "dat/maps/mt_elbrus/mt_elbrus_path2_script.lua", "from_path3_chest");
+    vt_map.MapTransitionEvent.Create("to mountain path 2bis", "dat/maps/mt_elbrus/mt_elbrus_path2_map.lua",
+                                     "dat/maps/mt_elbrus/mt_elbrus_path2_script.lua", "from_path3_chest");
 
-    event = vt_map.MapTransitionEvent.Create("to mountain path 4", "dat/maps/mt_elbrus/mt_elbrus_path4_map.lua",
-                                       "dat/maps/mt_elbrus/mt_elbrus_path4_script.lua", "from_path3");
-
+    vt_map.MapTransitionEvent.Create("to mountain path 4", "dat/maps/mt_elbrus/mt_elbrus_path4_map.lua",
+                                     "dat/maps/mt_elbrus/mt_elbrus_path4_script.lua", "from_path3");
 
     -- Heal point
-    event = vt_map.ScriptedEvent.Create("Heal event", "heal_party", "heal_done");
-
+    vt_map.ScriptedEvent.Create("Heal event", "heal_party", "heal_done");
 
     -- sprite direction events
-    event = vt_map.ChangeDirectionSpriteEvent.Create("Bronann looks north", hero, vt_map.MapMode.NORTH);
+    vt_map.ChangeDirectionSpriteEvent.Create("Bronann looks north", hero, vt_map.MapMode.NORTH);
+    vt_map.ChangeDirectionSpriteEvent.Create("Bronann looks south", hero, vt_map.MapMode.SOUTH);
+    vt_map.ChangeDirectionSpriteEvent.Create("Kalya looks north", kalya, vt_map.MapMode.NORTH);
+    vt_map.ChangeDirectionSpriteEvent.Create("Kalya looks south", kalya, vt_map.MapMode.SOUTH);
+    vt_map.ChangeDirectionSpriteEvent.Create("Kalya looks west", kalya, vt_map.MapMode.WEST);
+    vt_map.ChangeDirectionSpriteEvent.Create("Orlinn looks north", orlinn, vt_map.MapMode.NORTH);
 
-    event = vt_map.ChangeDirectionSpriteEvent.Create("Bronann looks south", hero, vt_map.MapMode.SOUTH);
-
-    event = vt_map.ChangeDirectionSpriteEvent.Create("Kalya looks north", kalya, vt_map.MapMode.NORTH);
-
-    event = vt_map.ChangeDirectionSpriteEvent.Create("Kalya looks south", kalya, vt_map.MapMode.SOUTH);
-
-    event = vt_map.ChangeDirectionSpriteEvent.Create("Kalya looks west", kalya, vt_map.MapMode.WEST);
-
-    event = vt_map.ChangeDirectionSpriteEvent.Create("Orlinn looks north", orlinn, vt_map.MapMode.NORTH);
-
-    event = vt_map.LookAtSpriteEvent.Create("Kalya looks at Bronann", kalya, hero);
-
-    event = vt_map.LookAtSpriteEvent.Create("Orlinn looks at Kalya", orlinn, kalya);
-
+    vt_map.LookAtSpriteEvent.Create("Kalya looks at Bronann", kalya, hero);
+    vt_map.LookAtSpriteEvent.Create("Orlinn looks at Kalya", orlinn, kalya);
 
     -- cemetery entrance scene
     event = vt_map.ScriptedEvent.Create("Set scene state for dialogue about cemetery entrance", "set_scene_state", "");
     event:AddEventLinkAtEnd("The hero moves to a good watch point");
 
-
     event = vt_map.PathMoveSpriteEvent.Create("The hero moves to a good watch point", hero, 67, 73, false);
     event:AddEventLinkAtEnd("Kalya tells about the cemetery");
-
 
     event = vt_map.ScriptedEvent.Create("Kalya tells about the cemetery", "kalya_cemetery_dialogue_start", "");
     event:AddEventLinkAtEnd("Kalya moves next to Bronann1", 100);
     event:AddEventLinkAtEnd("Orlinn moves next to Bronann1", 100);
-
 
     -- NOTE: The actual destination is set just before the actual start call
     kalya_move_next_to_hero_event1 = vt_map.PathMoveSpriteEvent.Create("Kalya moves next to Bronann1", kalya, 0, 0, false);
@@ -573,19 +555,17 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("Orlinn goes back to party");
     event:AddEventLinkAtEnd("Kalya goes back to party");
 
-
     orlinn_move_back_to_hero_event1 = vt_map.PathMoveSpriteEvent.Create("Orlinn goes back to party", orlinn, hero, false);
 
     kalya_move_back_to_hero_event1 = vt_map.PathMoveSpriteEvent.Create("Kalya goes back to party", kalya, hero, false);
     kalya_move_back_to_hero_event1:AddEventLinkAtEnd("End of dialogue about the cemetery");
 
-    event = vt_map.ScriptedEvent.Create("End of dialogue about the cemetery", "end_of_dialogue_about_cemetery", "");
+    vt_map.ScriptedEvent.Create("End of dialogue about the cemetery", "end_of_dialogue_about_cemetery", "");
 
     -- West gate dialogue
     -- ------------------
     event = vt_map.ScriptedEvent.Create("Set scene state for dialogue about west gate", "set_scene_state", "");
     event:AddEventLinkAtEnd("The hero notices the soldiers");
-
 
     dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Are those the soldiers up there?");
@@ -593,15 +573,12 @@ function _CreateEvents()
     event = vt_map.DialogueEvent.Create("The hero notices the soldiers", dialogue);
     event:AddEventLinkAtEnd("West gate - The hero moves to a good watch point");
 
-
     event = vt_map.PathMoveSpriteEvent.Create("West gate - The hero moves to a good watch point", hero, 16, 40, true);
     event:AddEventLinkAtEnd("Kalya tells about the soldiers");
-
 
     event = vt_map.ScriptedEvent.Create("Kalya tells about the soldiers", "kalya_west_gate_dialogue_start", "");
     event:AddEventLinkAtEnd("Kalya moves next to Bronann2", 100);
     event:AddEventLinkAtEnd("Orlinn moves next to Bronann2", 100);
-
 
     -- NOTE: The actual destination is set just before the actual start call
     kalya_move_next_to_hero_event2 = vt_map.PathMoveSpriteEvent.Create("Kalya moves next to Bronann2", kalya, 0, 0, false);
@@ -615,7 +592,6 @@ function _CreateEvents()
     event = vt_map.ScriptedEvent.Create("Set focus on soldiers", "set_focus_on_soldiers", "set_focus_update");
     event:AddEventLinkAtEnd("Soldiers dialogue");
 
-
     dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("The west gate is condemned, as the Lord commanded.");
     dialogue:AddLine(text, soldier1);
@@ -627,7 +603,6 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("Soldier3 moves out of map");
     event:AddEventLinkAtEnd("West gate - Set focus on hero", 400);
 
-
     event = vt_map.PathMoveSpriteEvent.Create("Soldier1 moves out of map", soldier1, 1, 25, false);
     event:AddEventLinkAtEnd("Make soldier1 disappear");
 
@@ -637,17 +612,12 @@ function _CreateEvents()
     event = vt_map.PathMoveSpriteEvent.Create("Soldier3 moves out of map", soldier3, 3, 26, false);
     event:AddEventLinkAtEnd("Make soldier3 disappear");
 
-
-    event = vt_map.ScriptedSpriteEvent.Create("Make soldier1 disappear", soldier1, "make_object_disappear", "");
-
-    event = vt_map.ScriptedSpriteEvent.Create("Make soldier2 disappear", soldier2, "make_object_disappear", "");
-
-    event = vt_map.ScriptedSpriteEvent.Create("Make soldier3 disappear", soldier3, "make_object_disappear", "");
-
+    vt_map.ScriptedSpriteEvent.Create("Make soldier1 disappear", soldier1, "make_object_disappear", "");
+    vt_map.ScriptedSpriteEvent.Create("Make soldier2 disappear", soldier2, "make_object_disappear", "");
+    vt_map.ScriptedSpriteEvent.Create("Make soldier3 disappear", soldier3, "make_object_disappear", "");
 
     event = vt_map.ScriptedEvent.Create("West gate - Set focus on hero", "set_focus_back_on_hero", "set_focus_update");
     event:AddEventLinkAtEnd("Dialogue about the west gate");
-
 
     dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("The gate to the great plains...");
@@ -660,20 +630,17 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("Orlinn goes back to party 2");
     event:AddEventLinkAtEnd("Kalya goes back to party 2");
 
-
     orlinn_move_back_to_hero_event2 = vt_map.PathMoveSpriteEvent.Create("Orlinn goes back to party 2", orlinn, hero, false);
 
     kalya_move_back_to_hero_event2 = vt_map.PathMoveSpriteEvent.Create("Kalya goes back to party 2", kalya, hero, false);
     kalya_move_back_to_hero_event2:AddEventLinkAtEnd("End of dialogue about west gate");
 
-    event = vt_map.ScriptedEvent.Create("End of dialogue about west gate", "end_of_dialogue_about_west_gate", "");
-
+    vt_map.ScriptedEvent.Create("End of dialogue about west gate", "end_of_dialogue_about_west_gate", "");
 
     -- trapped event!
     -- --------------
     event = vt_map.ScriptedEvent.Create("Prepare trapped event", "set_scene_state", "");
     event:AddEventLinkAtEnd("The hero notices about the gate");
-
 
     dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Oh no! The gate!");
@@ -681,10 +648,8 @@ function _CreateEvents()
     event = vt_map.DialogueEvent.Create("The hero notices about the gate", dialogue);
     event:AddEventLinkAtEnd("The hero rushes to the gate");
 
-
     event = vt_map.PathMoveSpriteEvent.Create("The hero rushes to the gate", hero, 67, 66.5, true);
     event:AddEventLinkAtEnd("The hero is trapped");
-
 
     dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("We're trapped!");
@@ -692,25 +657,20 @@ function _CreateEvents()
     event = vt_map.DialogueEvent.Create("The hero is trapped", dialogue);
     event:AddEventLinkAtEnd("Harlequin talks to the hero");
 
-
     dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("You're mine now!");
     dialogue:AddLine(text, harlequin_focus);
     event = vt_map.DialogueEvent.Create("Harlequin talks to the hero", dialogue);
     event:AddEventLinkAtEnd("The hero is surprised");
 
-
     event = vt_map.ScriptedEvent.Create("The hero is surprised", "hero_exclamation", "");
     event:AddEventLinkAtEnd("Bronann looks north");
     event:AddEventLinkAtEnd("Set the focus on Harlequin");
 
-
-    event = vt_map.ScriptedEvent.Create("Set Harlequin actual name", "set_harlequin_name", "");
-
+    vt_map.ScriptedEvent.Create("Set Harlequin actual name", "set_harlequin_name", "");
 
     event = vt_map.ScriptedEvent.Create("Set the focus on Harlequin", "set_focus_on_harlequin", "set_focus_update");
     event:AddEventLinkAtEnd("Harlequin talks to the hero 2");
-
 
     dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("I shall bring your souls to the master. You don't stand a chance against the Great Harlequin.");
@@ -722,33 +682,26 @@ function _CreateEvents()
     event = vt_map.DialogueEvent.Create("Harlequin talks to the hero 2", dialogue);
     event:AddEventLinkAtEnd("Set the focus back on hero");
 
-
     event = vt_map.ScriptedEvent.Create("Set the focus back on hero", "set_focus_on_hero", "set_focus_update");
     event:AddEventLinkAtEnd("End of trapped Dialogue");
-
 
     event = vt_map.ScriptedEvent.Create("End of trapped Dialogue", "end_of_trap_dialogue", "");
     event:AddEventLinkAtEnd("Make the Harlequins move");
 
-
     event = vt_map.ScriptedEvent.Create("Make the Harlequins move", "make_harlequins_move", "make_harlequins_move_update");
     event:AddEventLinkAtEnd("Make the Harlequins teleport");
-
 
     event = vt_map.ScriptedEvent.Create("Make the Harlequins teleport", "make_harlequins_teleport", "");
     event:AddEventLinkAtEnd("Make the Harlequins move");
 
-
     event = vt_map.ScriptedEvent.Create("Harlequin is fed up!", "place_harlequin_for_pre_boss_battle", "");
     event:AddEventLinkAtEnd("Harlequin talks to the hero 3");
-
 
     dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Enough of this shallow game. Give me your souls, now!");
     dialogue:AddLineEvent(text, harlequin_focus, "Bronann looks north", "");
     event = vt_map.DialogueEvent.Create("Harlequin talks to the hero 3", dialogue);
     event:AddEventLinkAtEnd("True Harlequin battle");
-
 
     event = vt_map.BattleEncounterEvent.Create("True Harlequin battle");
     event:SetBoss(true);
@@ -762,7 +715,6 @@ function _CreateEvents()
     event:SetMusic("mus/accion-OGA-djsaryon.ogg"); --boss music
     event:AddEventLinkAtEnd("Harlequin talks to the hero 4");
 
-
     dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("How could I be hurt by... children...");
     dialogue:AddLineEvent(text, harlequin_focus, "Bronann looks north", "");
@@ -771,13 +723,11 @@ function _CreateEvents()
     event = vt_map.DialogueEvent.Create("Harlequin talks to the hero 4", dialogue);
     event:AddEventLinkAtEnd("Ends Harlequin battle");
 
-
     event = vt_map.ScriptedEvent.Create("Ends Harlequin battle", "ends_harlequin_battle1", "");
     event:AddEventLinkAtEnd("Ends Harlequin battle 2", 1200);
 
     -- Adds a bit of time before opening the gate so that action sounds don't get mixed.
-    event = vt_map.ScriptedEvent.Create("Ends Harlequin battle 2", "ends_harlequin_battle2", "");
-
+    vt_map.ScriptedEvent.Create("Ends Harlequin battle 2", "ends_harlequin_battle2", "");
 end
 
 -- zones

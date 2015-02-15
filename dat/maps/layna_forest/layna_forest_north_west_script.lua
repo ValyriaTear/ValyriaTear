@@ -15,7 +15,6 @@ music_filename = "mus/house_in_a_forest_loop_horrorpen_oga.ogg"
 
 -- c++ objects instances
 local Map = nil
-local DialogueManager = nil
 local EventManager = nil
 
 -- the main character handler
@@ -34,7 +33,6 @@ local main_sprite_name = "";
 function Load(m)
 
     Map = m;
-    DialogueManager = Map:GetDialogueSupervisor();
     EventManager = Map:GetEventSupervisor();
     Map:SetUnlimitedStamina(false);
 
@@ -687,48 +685,35 @@ function _CreateEvents()
     local dialogue = nil
     local text = nil
 
-    event = vt_map.MapTransitionEvent.Create("to forest entrance", "dat/maps/layna_forest/layna_forest_entrance_map.lua",
-                                       "dat/maps/layna_forest/layna_forest_entrance_script.lua", "from_layna_forest_NW");
+    vt_map.MapTransitionEvent.Create("to forest entrance", "dat/maps/layna_forest/layna_forest_entrance_map.lua",
+                                     "dat/maps/layna_forest/layna_forest_entrance_script.lua", "from_layna_forest_NW");
 
+    vt_map.MapTransitionEvent.Create("to forest NE", "dat/maps/layna_forest/layna_forest_north_east_map.lua",
+                                     "dat/maps/layna_forest/layna_forest_north_east_script.lua", "from_layna_forest_NW");
 
-    event = vt_map.MapTransitionEvent.Create("to forest NE", "dat/maps/layna_forest/layna_forest_north_east_map.lua",
-                                       "dat/maps/layna_forest/layna_forest_north_east_script.lua", "from_layna_forest_NW");
+    vt_map.MapTransitionEvent.Create("to forest SW", "dat/maps/layna_forest/layna_forest_south_west_map.lua",
+                                     "dat/maps/layna_forest/layna_forest_south_west_script.lua", "from_layna_forest_NW");
 
-
-    event = vt_map.MapTransitionEvent.Create("to forest SW", "dat/maps/layna_forest/layna_forest_south_west_map.lua",
-                                       "dat/maps/layna_forest/layna_forest_south_west_script.lua", "from_layna_forest_NW");
-
-
-    event = vt_map.MapTransitionEvent.Create("to cave entrance", "dat/maps/layna_forest/layna_forest_cave1_1_map.lua",
-                                       "dat/maps/layna_forest/layna_forest_cave1_1_script.lua", "from_layna_forest_NW");
-
+    vt_map.MapTransitionEvent.Create("to cave entrance", "dat/maps/layna_forest/layna_forest_cave1_1_map.lua",
+                                     "dat/maps/layna_forest/layna_forest_cave1_1_script.lua", "from_layna_forest_NW");
 
     -- dialogue events
-    event = vt_map.LookAtSpriteEvent.Create("Kalya looks at Bronann", kalya_sprite, hero);
+    vt_map.LookAtSpriteEvent.Create("Kalya looks at Bronann", kalya_sprite, hero);
+    vt_map.LookAtSpriteEvent.Create("Bronann looks at Kalya", hero, kalya_sprite);
+    vt_map.LookAtSpriteEvent.Create("Kalya looks at Orlinn", kalya_sprite, orlinn);
+    vt_map.LookAtSpriteEvent.Create("Orlinn looks at Kalya", orlinn, kalya_sprite);
+    vt_map.LookAtSpriteEvent.Create("Bronann looks at Orlinn", hero, orlinn);
+    vt_map.ChangeDirectionSpriteEvent.Create("Kalya looks west", kalya_sprite, vt_map.MapMode.WEST);
 
-    event = vt_map.LookAtSpriteEvent.Create("Bronann looks at Kalya", hero, kalya_sprite);
+    vt_map.ScriptedSpriteEvent.Create("kalya_sprite:SetCollision(NONE)", kalya_sprite, "Sprite_Collision_off", "");
+    vt_map.ScriptedSpriteEvent.Create("kalya_sprite:SetCollision(ALL)", kalya_sprite, "Sprite_Collision_on", "");
 
-    event = vt_map.LookAtSpriteEvent.Create("Kalya looks at Orlinn", kalya_sprite, orlinn);
-
-    event = vt_map.LookAtSpriteEvent.Create("Orlinn looks at Kalya", orlinn, kalya_sprite);
-
-    event = vt_map.LookAtSpriteEvent.Create("Bronann looks at Orlinn", hero, orlinn);
-
-    event = vt_map.ChangeDirectionSpriteEvent.Create("Kalya looks west", kalya_sprite, vt_map.MapMode.WEST);
-
-    event = vt_map.ScriptedSpriteEvent.Create("kalya_sprite:SetCollision(NONE)", kalya_sprite, "Sprite_Collision_off", "");
-
-    event = vt_map.ScriptedSpriteEvent.Create("kalya_sprite:SetCollision(ALL)", kalya_sprite, "Sprite_Collision_on", "");
-
-    event = vt_map.ScriptedSpriteEvent.Create("orlinn:SetCollision(NONE)", orlinn, "Sprite_Collision_off", "");
-
-    event = vt_map.ScriptedSpriteEvent.Create("orlinn:SetCollision(ALL)", orlinn, "Sprite_Collision_on", "");
-
+    vt_map.ScriptedSpriteEvent.Create("orlinn:SetCollision(NONE)", orlinn, "Sprite_Collision_off", "");
+    vt_map.ScriptedSpriteEvent.Create("orlinn:SetCollision(ALL)", orlinn, "Sprite_Collision_on", "");
 
     -- First time forest entrance dialogue about save points and the heal spring.
     event = vt_map.ScriptedEvent.Create("Start - Kalya sees Orlinn", "layna_forest_kalya_sees_orlinn_start", "");
     event:AddEventLinkAtEnd("Kalya moves next to Bronann", 50);
-
 
     -- NOTE: The actual destination is set just before the actual start call
     move_next_to_hero_event = vt_map.PathMoveSpriteEvent.Create("Kalya moves next to Bronann", kalya_sprite, 0, 0, false);
@@ -742,12 +727,10 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("Kalya runs above cave entrance");
     event:AddEventLinkAtEnd("Bronann runs above cave entrance next to Kalya");
 
-
-    event = vt_map.PathMoveSpriteEvent.Create("Kalya runs above cave entrance", kalya_sprite, 80, 33, true);
+    vt_map.PathMoveSpriteEvent.Create("Kalya runs above cave entrance", kalya_sprite, 80, 33, true);
 
     event = vt_map.PathMoveSpriteEvent.Create("Bronann runs above cave entrance next to Kalya", hero, 82, 33, true);
     event:AddEventLinkAtEnd("Kalya tries to discuss with Orlinn");
-
 
     dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Orlinn, stop it RIGHT NOW!!");
@@ -757,17 +740,14 @@ function _CreateEvents()
     event = vt_map.DialogueEvent.Create("Kalya tries to discuss with Orlinn", dialogue);
     event:AddEventLinkAtEnd("Orlinn enters the cave");
 
-
     event = vt_map.PathMoveSpriteEvent.Create("Orlinn enters the cave", orlinn, 76, 38, true);
     event:AddEventLinkAtEnd("Orlinn disappears");
-
 
     event = vt_map.ScriptedSpriteEvent.Create("Orlinn disappears", orlinn, "SetVisible_false", "");
     event:AddEventLinkAtEnd("orlinn:SetCollision(NONE)");
     event:AddEventLinkAtEnd("Kalya tells Bronann to follow him");
     event:AddEventLinkAtEnd("Bronann looks at Kalya");
     event:AddEventLinkAtEnd("Kalya looks at Bronann");
-
 
     dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Quick! Let's follow him.");
@@ -778,21 +758,17 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("kalya_sprite:SetCollision(NONE)");
     event:AddEventLinkAtEnd("Set Camera back to Bronann");
 
-
     event = vt_map.ScriptedSpriteEvent.Create("Set Camera back to Bronann", hero, "SetCamera", "");
     event:AddEventLinkAtEnd("kalya goes back to party");
-
 
     move_back_to_hero_event = vt_map.PathMoveSpriteEvent.Create("kalya goes back to party", kalya_sprite, hero, false);
     move_back_to_hero_event:AddEventLinkAtEnd("end of dialogue with Orlinn");
 
-    event = vt_map.ScriptedEvent.Create("end of dialogue with Orlinn", "end_of_dialogue_with_orlinn", "");
-
+    vt_map.ScriptedEvent.Create("end of dialogue with Orlinn", "end_of_dialogue_with_orlinn", "");
 
     -- Dialogue: the hero sees the tree shortcut
     event = vt_map.ScriptedEvent.Create("Show tree shortcut", "show_trees_shortcut", "is_camera_moving_finished");
     event:AddEventLinkAtEnd("The Hero sees the created shortcut");
-
 
     dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Great! The tremor has opened a path back to the village!");
@@ -802,9 +778,7 @@ function _CreateEvents()
     event = vt_map.DialogueEvent.Create("The Hero sees the created shortcut", dialogue);
     event:AddEventLinkAtEnd("Set Camera back to Hero")
 
-
-    event = vt_map.ScriptedSpriteEvent.Create("Set Camera back to Hero", hero, "SetCamera2", "is_camera2_moving_finished");
-
+    vt_map.ScriptedSpriteEvent.Create("Set Camera back to Hero", hero, "SetCamera2", "is_camera2_moving_finished");
 
     -- scene when returning to the village
 
@@ -821,7 +795,6 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("Bronann moves next to Orlinn");
     event:AddEventLinkAtEnd("Dialogue when returning to the village", 800);
 
-
     dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("We're almost there!");
     dialogue:AddLine(text, orlinn);
@@ -834,14 +807,11 @@ function _CreateEvents()
     event = vt_map.DialogueEvent.Create("Dialogue when returning to the village", dialogue);
     event:AddEventLinkAtEnd("Orlinn goes to the village", 800);
 
-
     event = vt_map.PathMoveSpriteEvent.Create("Orlinn goes to the village", orlinn, 1, 84, true);
     event:AddEventLinkAtEnd("Make Orlinn invisible");
 
-
     event = vt_map.ScriptedEvent.Create("Make Orlinn invisible", "make_orlinn_invisible", "");
     event:AddEventLinkAtEnd("Dialogue when returning to the village - part 2", 800);
-
 
     dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Kalya, err...");
@@ -865,11 +835,9 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("Kalya goes to the village");
     event:AddEventLinkAtEnd("to forest entrance");
 
+    vt_map.PathMoveSpriteEvent.Create("Bronann goes to the village", hero, 1, 83, false);
 
-    event = vt_map.PathMoveSpriteEvent.Create("Bronann goes to the village", hero, 1, 83, false);
-
-    event = vt_map.PathMoveSpriteEvent.Create("Kalya goes to the village", kalya_sprite, 1, 85, false);
-
+    vt_map.PathMoveSpriteEvent.Create("Kalya goes to the village", kalya_sprite, 1, 85, false);
 end
 
 -- zones

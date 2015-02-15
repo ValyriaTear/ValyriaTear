@@ -15,7 +15,6 @@ music_filename = "mus/awareness_el_corleo.ogg"
 
 -- c++ objects instances
 local Map = nil
-local DialogueManager = nil
 local EventManager = nil
 
 -- the main character handler
@@ -25,7 +24,6 @@ local hero = nil
 function Load(m)
 
     Map = m;
-    DialogueManager = Map:GetDialogueSupervisor();
     EventManager = Map:GetEventSupervisor();
     Map:SetUnlimitedStamina(false);
 
@@ -121,9 +119,7 @@ function _CreateObjects()
     _SetEventBattleEnvironment(event);
     event:AddEventLinkAtEnd("Place Shroom 1 after fight", 100);
 
-
-    event = vt_map.ScriptedSpriteEvent.Create("Place Shroom 1 after fight", shroom1, "place_shroom_after_fight", "")
-
+    vt_map.ScriptedSpriteEvent.Create("Place Shroom 1 after fight", shroom1, "place_shroom_after_fight", "")
 
     shroom2 = CreateSprite(Map, "Shroom", 47, 24, vt_map.MapMode.GROUND_OBJECT);
     shroom2:SetName("");
@@ -138,14 +134,11 @@ function _CreateObjects()
     _SetEventBattleEnvironment(event);
     event:AddEventLinkAtEnd("Place Shroom 2 after fight", 100);
 
-
-    event = vt_map.ScriptedSpriteEvent.Create("Place Shroom 2 after fight", shroom2, "place_shroom_after_fight", "")
-
+    vt_map.ScriptedSpriteEvent.Create("Place Shroom 2 after fight", shroom2, "place_shroom_after_fight", "")
 
     -- left jump event
     event = vt_map.ScriptedEvent.Create("Prepare left jump dialogue", "add_scene_state", "")
     event:AddEventLinkAtEnd("Jump to exit 2 choice");
-
 
     dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Shall we jump?");
@@ -159,25 +152,20 @@ function _CreateObjects()
     -- [Line 2] Yes
     text = vt_system.Translate("Ok!");
     dialogue:AddLineEvent(text, hero, 4, "", "Make hero jump to exit 2"); -- 4 = Past the dialogue lines number. Makes the dialogue ends.
-    event = vt_map.DialogueEvent.Create("Jump to exit 2 choice", dialogue);
-
+    vt_map.DialogueEvent.Create("Jump to exit 2 choice", dialogue);
 
     -- After dialogue choice
     event = vt_map.ScriptedEvent.Create("Make hero jump to exit 2", "make_hero_jump_to_exit", "jump_update_left")
     event:AddEventLinkAtEnd("Finish left jump dialogue");
 
-
     event = vt_map.PathMoveSpriteEvent.Create("Make hero step back from left jump", hero, 6.2, 61.0, false)
     event:AddEventLinkAtEnd("Finish left jump dialogue");
 
-
-    event = vt_map.ScriptedEvent.Create("Finish left jump dialogue", "remove_scene_state", "")
-
+    vt_map.ScriptedEvent.Create("Finish left jump dialogue", "remove_scene_state", "")
 
     -- right jump event
     event = vt_map.ScriptedEvent.Create("Prepare right jump dialogue", "add_scene_state", "")
     event:AddEventLinkAtEnd("Jump to exit 4 choice");
-
 
     dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Shall we jump?");
@@ -191,20 +179,16 @@ function _CreateObjects()
     -- [Line 2] Yes
     text = vt_system.Translate("Ok!");
     dialogue:AddLineEvent(text, hero, 4, "", "Make hero jump to exit 4"); -- 4 = Past the dialogue lines number. Makes the dialogue ends.
-    event = vt_map.DialogueEvent.Create("Jump to exit 4 choice", dialogue);
-
+    vt_map.DialogueEvent.Create("Jump to exit 4 choice", dialogue);
 
     -- After dialogue choice
     event = vt_map.ScriptedEvent.Create("Make hero jump to exit 4", "make_hero_jump_to_exit", "jump_update_right")
     event:AddEventLinkAtEnd("Finish right jump dialogue");
 
-
     event = vt_map.PathMoveSpriteEvent.Create("Make hero step back from right jump", hero, 84.0, 27.0, false)
     event:AddEventLinkAtEnd("Finish right jump dialogue");
 
-
-    event = vt_map.ScriptedEvent.Create("Finish right jump dialogue", "remove_scene_state", "")
-
+    vt_map.ScriptedEvent.Create("Finish right jump dialogue", "remove_scene_state", "")
 
     -- Treasure box
     local chest = CreateTreasure(Map, "elbrus_grotto1_chest1", "Wood_Chest1", 9, 17, vt_map.MapMode.GROUND_OBJECT);
@@ -254,23 +238,18 @@ end
 
 -- Creates all events and sets up the entire event sequence chain
 function _CreateEvents()
-    local event = nil
-    local dialogue = nil
-    local text = nil
-
     -- To the first cave
-    event = vt_map.MapTransitionEvent.Create("to exit 1", "dat/maps/mt_elbrus/mt_elbrus_path1_map.lua",
-                                       "dat/maps/mt_elbrus/mt_elbrus_path1_script.lua", "from_grotto_exit1");
+    vt_map.MapTransitionEvent.Create("to exit 1", "dat/maps/mt_elbrus/mt_elbrus_path1_map.lua",
+                                     "dat/maps/mt_elbrus/mt_elbrus_path1_script.lua", "from_grotto_exit1");
 
-    event = vt_map.MapTransitionEvent.Create("to exit 2", "dat/maps/mt_elbrus/mt_elbrus_path1_map.lua",
-                                       "dat/maps/mt_elbrus/mt_elbrus_path1_script.lua", "from_grotto_exit2");
+    vt_map.MapTransitionEvent.Create("to exit 2", "dat/maps/mt_elbrus/mt_elbrus_path1_map.lua",
+                                     "dat/maps/mt_elbrus/mt_elbrus_path1_script.lua", "from_grotto_exit2");
 
-    event = vt_map.MapTransitionEvent.Create("to exit 3", "dat/maps/mt_elbrus/mt_elbrus_path1_map.lua",
-                                       "dat/maps/mt_elbrus/mt_elbrus_path1_script.lua", "from_grotto_exit3");
+    vt_map.MapTransitionEvent.Create("to exit 3", "dat/maps/mt_elbrus/mt_elbrus_path1_map.lua",
+                                     "dat/maps/mt_elbrus/mt_elbrus_path1_script.lua", "from_grotto_exit3");
 
-    event = vt_map.MapTransitionEvent.Create("to exit 4", "dat/maps/mt_elbrus/mt_elbrus_path1_map.lua",
-                                       "dat/maps/mt_elbrus/mt_elbrus_path1_script.lua", "from_grotto_exit4");
-
+    vt_map.MapTransitionEvent.Create("to exit 4", "dat/maps/mt_elbrus/mt_elbrus_path1_map.lua",
+                                     "dat/maps/mt_elbrus/mt_elbrus_path1_script.lua", "from_grotto_exit4");
 end
 
 -- zones

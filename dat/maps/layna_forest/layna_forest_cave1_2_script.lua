@@ -15,7 +15,6 @@ music_filename = "mus/shrine-OGA-yd.ogg"
 
 -- c++ objects instances
 local Map = nil
-local DialogueManager = nil
 local EventManager = nil
 local Effects = nil
 
@@ -33,7 +32,6 @@ function Load(m)
 
     Map = m;
     Effects = Map:GetEffectSupervisor();
-    DialogueManager = Map:GetDialogueSupervisor();
     EventManager = Map:GetEventSupervisor();
     Map:SetUnlimitedStamina(false);
 
@@ -208,36 +206,27 @@ function _CreateEvents()
     local text = nil
 
     -- Map transition events
-    event = vt_map.MapTransitionEvent.Create("to cave 1-1", "dat/maps/layna_forest/layna_forest_cave1_1_map.lua",
-                                       "dat/maps/layna_forest/layna_forest_cave1_1_script.lua", "from_layna_cave_1_2");
+    vt_map.MapTransitionEvent.Create("to cave 1-1", "dat/maps/layna_forest/layna_forest_cave1_1_map.lua",
+                                     "dat/maps/layna_forest/layna_forest_cave1_1_script.lua", "from_layna_cave_1_2");
 
+    vt_map.MapTransitionEvent.Create("to south east exit", "dat/maps/layna_forest/layna_forest_south_east_map.lua",
+                                     "dat/maps/layna_forest/layna_forest_south_east_script.lua", "from_layna_cave_1_2");
 
-    event = vt_map.MapTransitionEvent.Create("to south east exit", "dat/maps/layna_forest/layna_forest_south_east_map.lua",
-                                       "dat/maps/layna_forest/layna_forest_south_east_script.lua", "from_layna_cave_1_2");
-
-
-    event = vt_map.MapTransitionEvent.Create("to wolf cave", "dat/maps/layna_forest/layna_forest_wolf_cave_map.lua",
-                                       "dat/maps/layna_forest/layna_forest_wolf_cave_script.lua",  "from_layna_cave_1_2");
-
+    vt_map.MapTransitionEvent.Create("to wolf cave", "dat/maps/layna_forest/layna_forest_wolf_cave_map.lua",
+                                     "dat/maps/layna_forest/layna_forest_wolf_cave_script.lua",  "from_layna_cave_1_2");
 
     -- Generic events
-    event = vt_map.ChangeDirectionSpriteEvent.Create("Kalya looks north", kalya_sprite, vt_map.MapMode.NORTH);
+    vt_map.ChangeDirectionSpriteEvent.Create("Kalya looks north", kalya_sprite, vt_map.MapMode.NORTH);
+    vt_map.ChangeDirectionSpriteEvent.Create("Bronann looks north", hero, vt_map.MapMode.NORTH);
+    vt_map.LookAtSpriteEvent.Create("Kalya looks at Bronann", kalya_sprite, hero);
+    vt_map.LookAtSpriteEvent.Create("Bronann looks at Kalya", hero, kalya_sprite);
 
-    event = vt_map.ChangeDirectionSpriteEvent.Create("Bronann looks north", hero, vt_map.MapMode.NORTH);
-
-    event = vt_map.LookAtSpriteEvent.Create("Kalya looks at Bronann", kalya_sprite, hero);
-
-    event = vt_map.LookAtSpriteEvent.Create("Bronann looks at Kalya", hero, kalya_sprite);
-
-    event = vt_map.ScriptedSpriteEvent.Create("kalya_sprite:SetCollision(NONE)", kalya_sprite, "Sprite_Collision_off", "");
-
-    event = vt_map.ScriptedSpriteEvent.Create("kalya_sprite:SetCollision(ALL)", kalya_sprite, "Sprite_Collision_on", "");
-
+    vt_map.ScriptedSpriteEvent.Create("kalya_sprite:SetCollision(NONE)", kalya_sprite, "Sprite_Collision_off", "");
+    vt_map.ScriptedSpriteEvent.Create("kalya_sprite:SetCollision(ALL)", kalya_sprite, "Sprite_Collision_on", "");
 
     -- Dialogue
     event = vt_map.ScriptedEvent.Create("Start dialogue about stone sign", "stone_sign_dialogue_start", "");
     event:AddEventLinkAtEnd("Kalya moves next to Bronann");
-
 
     -- NOTE: The actual destination is set just before the actual start call
     move_next_to_hero_event = vt_map.PathMoveSpriteEvent.Create("Kalya moves next to Bronann", kalya_sprite, 0, 0, false);
@@ -246,7 +235,6 @@ function _CreateEvents()
 
     event = vt_map.ScriptedEvent.Create("Display the stone sign image", "stone_sign_image_start", "stone_sign_image_update")
     event:AddEventLinkAtEnd("Kalya reads the scripture");
-
 
     dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("'Only the last one standing shall pass.'");
@@ -263,32 +251,27 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("kalya_sprite:SetCollision(NONE)");
     event:AddEventLinkAtEnd("kalya goes back to party");
 
-
     move_back_to_hero_event = vt_map.PathMoveSpriteEvent.Create("kalya goes back to party", kalya_sprite, hero, false);
     move_back_to_hero_event:AddEventLinkAtEnd("end of stone sign dialogue");
 
     event = vt_map.ScriptedEvent.Create("end of stone sign dialogue", "end_of_stone_sign_dialogue", "");
     event:AddEventLinkAtEnd("Bronann looks north");
 
-
     -- Dialogue when all the enemies are dead.
     dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Something heavy seems to have fallen nearby.");
     dialogue:AddLineEmote(text, hero, "exclamation");
-    event = vt_map.DialogueEvent.Create("Hero dialogue during tremor", dialogue);
-
+    vt_map.DialogueEvent.Create("Hero dialogue during tremor", dialogue);
 
     -- Kalya sees the mechanisms to go out.
     event = vt_map.ScriptedEvent.Create("Kalya sees the cave exit", "see_the_exit_dialogue_start", "");
     event:AddEventLinkAtEnd("Exit seen: Kalya moves next to Bronann");
 
-
     -- NOTE the actual coords will be set at event start.
     move_next_to_hero_event2 = vt_map.PathMoveSpriteEvent.Create("Exit seen: Kalya moves next to Bronann", kalya_sprite, 0, 0, false);
     move_next_to_hero_event2:AddEventLinkAtEnd("Kalya says 'Look!'");
 
-    event = vt_map.LookAtSpriteEvent.Create("Kalya looks at the rock", kalya_sprite, 112, 92);
-
+    vt_map.LookAtSpriteEvent.Create("Kalya looks at the rock", kalya_sprite, 112, 92);
 
     dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Look!");
@@ -296,16 +279,13 @@ function _CreateEvents()
     event = vt_map.DialogueEvent.Create("Kalya says 'Look!'", dialogue);
     event:AddEventLinkAtEnd("Set_Camera(kalya_sprite)");
 
-
     event = vt_map.ScriptedSpriteEvent.Create("Set_Camera(kalya_sprite)", kalya_sprite, "Set_Camera", "");
     event:AddEventLinkAtEnd("Kalya comes close to the rock");
-
 
     event = vt_map.PathMoveSpriteEvent.Create("Kalya comes close to the rock", kalya_sprite, 112, 89, false);
     event:AddEventLinkAtEnd("Kalya looks at the rock");
     event:AddEventLinkAtEnd("Bronann looks at Kalya");
     event:AddEventLinkAtEnd("Kalya tells there is an exit behind the rock");
-
 
     dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("I can feel a breeze and see light entering the cave from around this rock. Orlinn must have gone through here.");
@@ -319,17 +299,14 @@ function _CreateEvents()
     event = vt_map.DialogueEvent.Create("Kalya tells there is an exit behind the rock", dialogue);
     event:AddEventLinkAtEnd("Set_Camera(hero)");
 
-
     event = vt_map.ScriptedSpriteEvent.Create("Set_Camera(hero)", hero, "Set_Camera", "");
     event:AddEventLinkAtEnd("Exit seen: kalya goes back to party");
-
 
     move_back_to_hero_event2 = vt_map.PathMoveSpriteEvent.Create("Exit seen: kalya goes back to party", kalya_sprite, hero, false);
     move_back_to_hero_event2:AddEventLinkAtEnd("end of exit seen dialogue");
 
     event = vt_map.ScriptedEvent.Create("end of exit seen dialogue", "end_of_exit_seen_dialogue", "");
     event:AddEventLinkAtEnd("Bronann looks south");
-
 end
 
 -- local members used to know whether the monsters have been defeated.

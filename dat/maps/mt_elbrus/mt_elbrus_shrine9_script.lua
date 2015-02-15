@@ -15,8 +15,6 @@ music_filename = "mus/mountain_shrine.ogg"
 
 -- c++ objects instances
 local Map = nil
-local ObjectManager = nil
-local DialogueManager = nil
 local EventManager = nil
 local Effects = nil
 
@@ -32,7 +30,6 @@ function Load(m)
 
     Map = m;
     Effects = Map:GetEffectSupervisor();
-    DialogueManager = Map:GetDialogueSupervisor();
     EventManager = Map:GetEventSupervisor();
     Map:SetUnlimitedStamina(false);
 
@@ -61,7 +58,6 @@ end
 function Update()
     -- Check whether the character is in one of the zones
     _CheckZones();
-
 end
 
 -- Character creation
@@ -113,11 +109,7 @@ local falling_hole = nil
 local falling_hole_wall = nil
 
 function _CreateObjects()
-    local object = nil
-    local npc = nil
-    local event = nil
-
-    object = CreateTreasure(Map, "mt_shrine9_chest1", "Wood_Chest1", 47, 42, vt_map.MapMode.GROUND_OBJECT);
+    local object = CreateTreasure(Map, "mt_shrine9_chest1", "Wood_Chest1", 47, 42, vt_map.MapMode.GROUND_OBJECT);
     object:AddItem(3001, 1); -- Copper Ore x 1
 
     object = CreateTreasure(Map, "mt_shrine9_chest2", "Wood_Chest1", 51, 42, vt_map.MapMode.GROUND_OBJECT);
@@ -143,11 +135,9 @@ function _CreateObjects()
     dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Your party feels better.");
     dialogue:AddLineEvent(text, nil, "Heal event", ""); -- 'nil' means no portrait and no name
-    event = vt_map.DialogueEvent.Create("Heal dialogue", dialogue);
+    vt_map.DialogueEvent.Create("Heal dialogue", dialogue);
 
-
-    event = vt_map.ScriptedEvent.Create("Heal event", "heal_party", "heal_done");
-
+    vt_map.ScriptedEvent.Create("Heal event", "heal_party", "heal_done");
 
     falling_hole = vt_map.PhysicalObject.Create(vt_map.MapMode.FLATGROUND_OBJECT);
     falling_hole:SetPosition(22.02, 18.0);
@@ -179,19 +169,15 @@ function _CreateEvents()
     local dialogue = nil
     local text = nil
 
-    event = vt_map.MapTransitionEvent.Create("to mountain shrine entrance", "dat/maps/mt_elbrus/mt_elbrus_shrine2_2_map.lua",
-                                       "dat/maps/mt_elbrus/mt_elbrus_shrine2_script.lua", "from_shrine_stairs1");
+    vt_map.MapTransitionEvent.Create("to mountain shrine entrance", "dat/maps/mt_elbrus/mt_elbrus_shrine2_2_map.lua",
+                                     "dat/maps/mt_elbrus/mt_elbrus_shrine2_script.lua", "from_shrine_stairs1");
 
-    event = vt_map.MapTransitionEvent.Create("to mountain shrine trap room", "dat/maps/mt_elbrus/mt_elbrus_shrine3_map.lua",
-                                       "dat/maps/mt_elbrus/mt_elbrus_shrine3_script.lua", "from_shrine_treasure_room");
+    vt_map.MapTransitionEvent.Create("to mountain shrine trap room", "dat/maps/mt_elbrus/mt_elbrus_shrine3_map.lua",
+                                     "dat/maps/mt_elbrus/mt_elbrus_shrine3_script.lua", "from_shrine_treasure_room");
 
-
-    event = vt_map.ChangeDirectionSpriteEvent.Create("Bronann looks south", bronann, vt_map.MapMode.SOUTH);
-
-    event = vt_map.LookAtSpriteEvent.Create("Kalya looks at Orlinn", kalya, orlinn);
-
-    event = vt_map.LookAtSpriteEvent.Create("Orlinn looks at Kalya", orlinn, kalya);
-
+    vt_map.ChangeDirectionSpriteEvent.Create("Bronann looks south", bronann, vt_map.MapMode.SOUTH);
+    vt_map.LookAtSpriteEvent.Create("Kalya looks at Orlinn", kalya, orlinn);
+    vt_map.LookAtSpriteEvent.Create("Orlinn looks at Kalya", orlinn, kalya);
 
     -- The party is trapped ... again ...
     event = vt_map.ScriptedEvent.Create("Start trap event", "trap_event_start", "");
@@ -199,18 +185,14 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("Orlinn moves up", 300);
     event:AddEventLinkAtEnd("Bronann moves up");
 
-
-    event = vt_map.PathMoveSpriteEvent.Create("Kalya moves up", kalya, 21, 15, false);
-
-    event = vt_map.PathMoveSpriteEvent.Create("Orlinn moves up", orlinn, 23, 15, false);
+    vt_map.PathMoveSpriteEvent.Create("Kalya moves up", kalya, 21, 15, false);
+    vt_map.PathMoveSpriteEvent.Create("Orlinn moves up", orlinn, 23, 15, false);
 
     event = vt_map.PathMoveSpriteEvent.Create("Bronann moves up", bronann, 22, 13, false);
     event:AddEventLinkAtEnd("Trigger trap");
 
-
     event = vt_map.ScriptedEvent.Create("Trigger trap", "trap_trigger", "");
     event:AddEventLinkAtEnd("The heroes wonder", 1000);
-
 
     event = vt_map.ScriptedEvent.Create("The heroes wonder", "heroes_wonder", "");
     event:AddEventLinkAtEnd("Bronann looks south", 500);
@@ -218,18 +200,14 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("Orlinn looks at Kalya", 500);
     event:AddEventLinkAtEnd("The heroes exclamate", 1500);
 
-
     event = vt_map.ScriptedEvent.Create("The heroes exclamate", "heroes_exclamate", "");
     event:AddEventLinkAtEnd("The heroes fall", 800);
     event:AddEventLinkAtEnd("to mountain shrine basement", 1400);
 
+    vt_map.ScriptedEvent.Create("The heroes fall", "heroes_fall_start", "heroes_fall_update");
 
-    event = vt_map.ScriptedEvent.Create("The heroes fall", "heroes_fall_start", "heroes_fall_update");
-
-
-    event = vt_map.MapTransitionEvent.Create("to mountain shrine basement", "dat/maps/mt_elbrus/mt_elbrus_shrine_basement_map.lua",
-                                       "dat/maps/mt_elbrus/mt_elbrus_shrine_basement_script.lua", "from_shrine_stairs1");
-
+    vt_map.MapTransitionEvent.Create("to mountain shrine basement", "dat/maps/mt_elbrus/mt_elbrus_shrine_basement_map.lua",
+                                     "dat/maps/mt_elbrus/mt_elbrus_shrine_basement_script.lua", "from_shrine_stairs1");
 end
 
 -- zones

@@ -15,7 +15,6 @@ music_filename = "snd/wind.ogg"
 
 -- c++ objects instances
 local Map = nil
-local DialogueManager = nil
 local EventManager = nil
 local Effects = nil
 
@@ -44,7 +43,6 @@ function Load(m)
 
     Map = m;
     Effects = Map:GetEffectSupervisor();
-    DialogueManager = Map:GetDialogueSupervisor();
     EventManager = Map:GetEventSupervisor();
     Map:SetUnlimitedStamina(false);
 
@@ -226,40 +224,29 @@ function _CreateEvents()
     local dialogue = nil
     local text = nil
 
-    event = vt_map.MapTransitionEvent.Create("to mountain shrine entrance", "dat/maps/mt_elbrus/mt_elbrus_shrine1_map.lua",
-                                       "dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua", "from_path4");
-
+    vt_map.MapTransitionEvent.Create("to mountain shrine entrance", "dat/maps/mt_elbrus/mt_elbrus_shrine1_map.lua",
+                                     "dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua", "from_path4");
 
     -- sprite direction events
-    event = vt_map.ChangeDirectionSpriteEvent.Create("Bronann looks north", hero, vt_map.MapMode.NORTH);
-
-    event = vt_map.ChangeDirectionSpriteEvent.Create("Bronann looks south", hero, vt_map.MapMode.SOUTH);
-
-    event = vt_map.ChangeDirectionSpriteEvent.Create("Orlinn looks north", orlinn, vt_map.MapMode.NORTH);
-
-    event = vt_map.ChangeDirectionSpriteEvent.Create("Orlinn looks south", orlinn, vt_map.MapMode.SOUTH);
-
-    event = vt_map.ChangeDirectionSpriteEvent.Create("Kalya looks north", kalya, vt_map.MapMode.NORTH);
-
-    event = vt_map.ChangeDirectionSpriteEvent.Create("Kalya looks south", kalya, vt_map.MapMode.SOUTH);
-
-    event = vt_map.LookAtSpriteEvent.Create("Orlinn looks at Kalya", orlinn, kalya);
-
-    event = vt_map.LookAtSpriteEvent.Create("Bronann looks at Kalya", hero, kalya);
-
+    vt_map.ChangeDirectionSpriteEvent.Create("Bronann looks north", hero, vt_map.MapMode.NORTH);
+    vt_map.ChangeDirectionSpriteEvent.Create("Bronann looks south", hero, vt_map.MapMode.SOUTH);
+    vt_map.ChangeDirectionSpriteEvent.Create("Orlinn looks north", orlinn, vt_map.MapMode.NORTH);
+    vt_map.ChangeDirectionSpriteEvent.Create("Orlinn looks south", orlinn, vt_map.MapMode.SOUTH);
+    vt_map.ChangeDirectionSpriteEvent.Create("Kalya looks north", kalya, vt_map.MapMode.NORTH);
+    vt_map.ChangeDirectionSpriteEvent.Create("Kalya looks south", kalya, vt_map.MapMode.SOUTH);
+    vt_map.LookAtSpriteEvent.Create("Orlinn looks at Kalya", orlinn, kalya);
+    vt_map.LookAtSpriteEvent.Create("Bronann looks at Kalya", hero, kalya);
 
     -- cant't go back event
     dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("We can't go back now.");
     dialogue:AddLine(text, hero);
-    event = vt_map.DialogueEvent.Create("Can't go back dialogue", dialogue);
-
+    vt_map.DialogueEvent.Create("Can't go back dialogue", dialogue);
 
     -- Snowing! event
     event = vt_map.ScriptedEvent.Create("Snowing Dialogue", "snowing_dialogue_start", "")
     event:AddEventLinkAtEnd("Kalya moves next to Bronann1", 100);
     event:AddEventLinkAtEnd("Orlinn moves next to Bronann1", 100);
-
 
     -- NOTE: The actual destination is set just before the actual start call
     kalya_move_next_to_hero_event1 = vt_map.PathMoveSpriteEvent.Create("Kalya moves next to Bronann1", kalya, 0, 0, false);
@@ -282,20 +269,17 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("Orlinn goes back to party");
     event:AddEventLinkAtEnd("Kalya goes back to party");
 
-
     orlinn_move_back_to_hero_event1 = vt_map.PathMoveSpriteEvent.Create("Orlinn goes back to party", orlinn, hero, false);
 
     kalya_move_back_to_hero_event1 = vt_map.PathMoveSpriteEvent.Create("Kalya goes back to party", kalya, hero, false);
     kalya_move_back_to_hero_event1:AddEventLinkAtEnd("End of dialogue about snow");
 
-    event = vt_map.ScriptedEvent.Create("End of dialogue about snow", "snowing_dialogue_end", "");
-
+    vt_map.ScriptedEvent.Create("End of dialogue about snow", "snowing_dialogue_end", "");
 
     -- afraid of the bridge
     event = vt_map.ScriptedEvent.Create("Afraid of the bridge Dialogue", "bridge_dialogue_start", "")
     event:AddEventLinkAtEnd("Bronann looks north");
     event:AddEventLinkAtEnd("Dialogue about the bridge");
-
 
     dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("(Woah, this bridge doesn't look very sturdy.)");
@@ -305,14 +289,11 @@ function _CreateEvents()
     event = vt_map.DialogueEvent.Create("Dialogue about the bridge", dialogue);
     event:AddEventLinkAtEnd("End of bridge dialogue");
 
-
-    event = vt_map.ScriptedEvent.Create("End of bridge dialogue", "bridge_dialogue_end", "")
-
+    vt_map.ScriptedEvent.Create("End of bridge dialogue", "bridge_dialogue_end", "")
 
     -- Cut the bridge! event
     event = vt_map.ScriptedEvent.Create("Cut the bridge Event", "bridge_cut_event_start", "")
     event:AddEventLinkAtEnd("Soldiers catching up Dialogue");
-
 
     dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("There!");
@@ -322,17 +303,12 @@ function _CreateEvents()
     event = vt_map.DialogueEvent.Create("Soldiers catching up Dialogue", dialogue);
     event:AddEventLinkAtEnd("Set focus on soldiers");
 
-
     event = vt_map.ScriptedEvent.Create("Set focus on soldiers", "set_focus_on_soldiers", "set_focus_update")
     event:AddEventLinkAtEnd("Soldiers catching up Dialogue2");
 
-
-    event = vt_map.PathMoveSpriteEvent.Create("Soldier1 starts running", soldier1, 43.5, 60.0, true);
-
-    event = vt_map.PathMoveSpriteEvent.Create("Soldier2 starts running", soldier2, 41.5, 61.5, true);
-
-    event = vt_map.PathMoveSpriteEvent.Create("Soldier3 starts running", soldier3, 40.0, 61.5, true);
-
+    vt_map.PathMoveSpriteEvent.Create("Soldier1 starts running", soldier1, 43.5, 60.0, true);
+    vt_map.PathMoveSpriteEvent.Create("Soldier2 starts running", soldier2, 41.5, 61.5, true);
+    vt_map.PathMoveSpriteEvent.Create("Soldier3 starts running", soldier3, 40.0, 61.5, true);
 
     dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Catch them before they reach the shrine!");
@@ -343,10 +319,8 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("Soldier2 starts running");
     event:AddEventLinkAtEnd("Soldier3 starts running");
 
-
     event = vt_map.ScriptedEvent.Create("Set focus on Bronann", "set_focus_on_bronann", "set_focus_update")
     event:AddEventLinkAtEnd("Soldiers catching up Dialogue3");
-
 
     dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Let's run!");
@@ -354,17 +328,12 @@ function _CreateEvents()
     event = vt_map.DialogueEvent.Create("Soldiers catching up Dialogue3", dialogue);
     event:AddEventLinkAtEnd("The hero runs north of the bridge");
 
-
     event = vt_map.PathMoveSpriteEvent.Create("The hero runs north of the bridge", hero, 36.5, 8, true);
     event:AddEventLinkAtEnd("Set Kalya and Orlinn position up the bridge");
 
-
-    event = vt_map.PathMoveSpriteEvent.Create("Soldier1 runs to the cliff", soldier1, 36.5, 40.0, true);
-
-    event = vt_map.PathMoveSpriteEvent.Create("Soldier2 runs to the cliff", soldier2, 32.5, 41.5, true);
-
-    event = vt_map.PathMoveSpriteEvent.Create("Soldier3 runs to the cliff", soldier3, 40.0, 41.5, true);
-
+    vt_map.PathMoveSpriteEvent.Create("Soldier1 runs to the cliff", soldier1, 36.5, 40.0, true);
+    vt_map.PathMoveSpriteEvent.Create("Soldier2 runs to the cliff", soldier2, 32.5, 41.5, true);
+    vt_map.PathMoveSpriteEvent.Create("Soldier3 runs to the cliff", soldier3, 40.0, 41.5, true);
 
     event = vt_map.ScriptedEvent.Create("Set Kalya and Orlinn position up the bridge", "set_kalya_orlinn_positions", "")
     event:AddEventLinkAtEnd("Kalya moves next to Bronann2");
@@ -373,7 +342,6 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("Soldier1 runs to the cliff");
     event:AddEventLinkAtEnd("Soldier2 runs to the cliff");
     event:AddEventLinkAtEnd("Soldier3 runs to the cliff");
-
 
     -- NOTE: The actual destination is set just before the actual start call
     kalya_move_next_to_hero_event2 = vt_map.PathMoveSpriteEvent.Create("Kalya moves next to Bronann2", kalya, 0, 0, false);
@@ -391,26 +359,20 @@ function _CreateEvents()
     event = vt_map.DialogueEvent.Create("Dialogue about cutting bridge", dialogue);
     event:AddEventLinkAtEnd("The hero comes close the bridge's edge");
 
-
     event = vt_map.PathMoveSpriteEvent.Create("The hero comes close the bridge's edge", hero, 36.5, 10.5, true);
     event:AddEventLinkAtEnd("The hero cuts the bridge's ropes");
-
 
     event = vt_map.AnimateSpriteEvent.Create("The hero cuts the bridge's ropes", hero, "attack_south", -1); -- -1 = default time: (375ms)
     event:AddEventLinkAtEnd("Sword sound");
     event:AddEventLinkAtEnd("Bridge starting to fall sound", 300);
     event:AddEventLinkAtEnd("The bridge falls apart");
 
+    vt_map.SoundEvent.Create("Sword sound", "snd/sword_swipe.wav");
 
-    event = vt_map.SoundEvent.Create("Sword sound", "snd/sword_swipe.wav");
-
-
-    event = vt_map.SoundEvent.Create("Bridge starting to fall sound", "snd/footstep_grass2.wav");
-
+    vt_map.SoundEvent.Create("Bridge starting to fall sound", "snd/footstep_grass2.wav");
 
     event = vt_map.ScriptedEvent.Create("The bridge falls apart", "init_bridge_break", "bridge_break_update")
     event:AddEventLinkAtEnd("The party relaxes");
-
 
     dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("That was close.");
@@ -418,13 +380,10 @@ function _CreateEvents()
     event = vt_map.DialogueEvent.Create("The party relaxes", dialogue);
     event:AddEventLinkAtEnd("Set focus on soldiers2");
 
-
     event = vt_map.ScriptedEvent.Create("Set focus on soldiers2", "set_focus_on_soldiers", "set_focus_update")
     event:AddEventLinkAtEnd("The soldiers threaten the party");
 
-
-    event = vt_map.LookAtSpriteEvent.Create("Soldier2 looks at Soldier1", soldier2, soldier1);
-
+    vt_map.LookAtSpriteEvent.Create("Soldier2 looks at Soldier1", soldier2, soldier1);
 
     dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Damn!");
@@ -436,7 +395,6 @@ function _CreateEvents()
     event = vt_map.DialogueEvent.Create("The soldiers threaten the party", dialogue);
     event:AddEventLinkAtEnd("Set focus on Bronann2");
 
-
     event = vt_map.ScriptedEvent.Create("Set focus on Bronann2", "set_focus_on_bronann", "set_focus_update")
     event:AddEventLinkAtEnd("Play funny music");
     event:AddEventLinkAtEnd("The party relaxes 2");
@@ -444,16 +402,12 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("Kalya laughs");
     event:AddEventLinkAtEnd("Orlinn laughs");
 
+    vt_map.ScriptedEvent.Create("Play funny music", "play_funny_music", "");
 
-    event = vt_map.ScriptedEvent.Create("Play funny music", "play_funny_music", "");
+    vt_map.AnimateSpriteEvent.Create("The hero laughs", hero, "laughing", 0); -- 0 = infinite time.
 
-
-    event = vt_map.AnimateSpriteEvent.Create("The hero laughs", hero, "laughing", 0); -- 0 = infinite time.
-
-    event = vt_map.AnimateSpriteEvent.Create("Kalya laughs", kalya, "laughing", 0); -- infinite time.
-
-    event = vt_map.AnimateSpriteEvent.Create("Orlinn laughs", orlinn, "laughing", 0); -- infinite time.
-
+    vt_map.AnimateSpriteEvent.Create("Kalya laughs", kalya, "laughing", 0); -- infinite time.
+    vt_map.AnimateSpriteEvent.Create("Orlinn laughs", orlinn, "laughing", 0); -- infinite time.
 
     dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Hurray! Those idiots will have a hard time catching us now!");
@@ -465,13 +419,10 @@ function _CreateEvents()
     event = vt_map.DialogueEvent.Create("The party relaxes 2", dialogue);
     event:AddEventLinkAtEnd("Set focus on soldiers3");
 
-
     event = vt_map.ScriptedEvent.Create("Set focus on soldiers3", "set_focus_on_soldiers", "set_focus_update")
     event:AddEventLinkAtEnd("The soldiers retreat");
 
-
-    event = vt_map.ScriptedEvent.Create("The party stops laughing", "stop_party_animation", "")
-
+    vt_map.ScriptedEvent.Create("The party stops laughing", "stop_party_animation", "")
 
     dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Let's go back and inform the others.");
@@ -485,17 +436,12 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("Soldier2 goes back");
     event:AddEventLinkAtEnd("Soldier3 goes back");
 
-
-    event = vt_map.PathMoveSpriteEvent.Create("Soldier1 goes back", soldier1, 41.5, 68, false);
-
-    event = vt_map.PathMoveSpriteEvent.Create("Soldier2 goes back", soldier2, 45.5, 73, false);
-
-    event = vt_map.PathMoveSpriteEvent.Create("Soldier3 goes back", soldier3, 51.5, 72, false);
-
+    vt_map.PathMoveSpriteEvent.Create("Soldier1 goes back", soldier1, 41.5, 68, false);
+    vt_map.PathMoveSpriteEvent.Create("Soldier2 goes back", soldier2, 45.5, 73, false);
+    vt_map.PathMoveSpriteEvent.Create("Soldier3 goes back", soldier3, 51.5, 72, false);
 
     event = vt_map.ScriptedEvent.Create("Set focus on Bronann3", "set_focus_on_bronann_slow", "set_focus_update")
     event:AddEventLinkAtEnd("The party wonders what to do");
-
 
     dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("They're gone. We should move on before they actually find a way to cross the gap.");
@@ -504,17 +450,14 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("Orlinn goes back to party2");
     event:AddEventLinkAtEnd("Kalya goes back to party2");
 
-
     orlinn_move_back_to_hero_event2 = vt_map.PathMoveSpriteEvent.Create("Orlinn goes back to party2", orlinn, hero, false);
 
     kalya_move_back_to_hero_event2 = vt_map.PathMoveSpriteEvent.Create("Kalya goes back to party2", kalya, hero, false);
     kalya_move_back_to_hero_event2:AddEventLinkAtEnd("End of cutting the bridge Event");
 
-    event = vt_map.ScriptedEvent.Create("End of cutting the bridge Event", "cut_the_bridge_event_end", "");
+    vt_map.ScriptedEvent.Create("End of cutting the bridge Event", "cut_the_bridge_event_end", "");
 
-
-    event = vt_map.ScriptedEvent.Create("Falls from above event", "fall_event_start", "fall_event_update");
-
+    vt_map.ScriptedEvent.Create("Falls from above event", "fall_event_start", "fall_event_update");
 end
 
 -- zones

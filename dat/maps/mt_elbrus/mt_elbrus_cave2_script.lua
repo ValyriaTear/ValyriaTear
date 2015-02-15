@@ -15,7 +15,6 @@ music_filename = "mus/awareness_el_corleo.ogg"
 
 -- c++ objects instances
 local Map = nil
-local DialogueManager = nil
 local EventManager = nil
 
 -- the main character handler
@@ -25,7 +24,6 @@ local hero = nil
 function Load(m)
 
     Map = m;
-    DialogueManager = Map:GetDialogueSupervisor();
     EventManager = Map:GetEventSupervisor();
     Map:SetUnlimitedStamina(false);
 
@@ -128,16 +126,14 @@ function _CreateObjects()
     shroom1:AddAnimation("img/sprites/map/enemies/spiky_mushroom_dead.lua");
     shroom1:SetEventWhenTalking("Check hero position for Shroom 1");
 
-    event = vt_map.IfEvent.Create("Check hero position for Shroom 1", "check_diagonal_shroom1", "Fight with Shroom 1", "");
-
+    vt_map.IfEvent.Create("Check hero position for Shroom 1", "check_diagonal_shroom1", "Fight with Shroom 1", "");
 
     event = vt_map.BattleEncounterEvent.Create("Fight with Shroom 1");
     event:AddEnemy(11, 512, 384); -- one shroom
     _SetEventBattleEnvironment(event);
     event:AddEventLinkAtEnd("Place Shroom 1 after fight", 100);
 
-    event = vt_map.ScriptedEvent.Create("Place Shroom 1 after fight", "place_shroom1_after_fight", "")
-
+    vt_map.ScriptedEvent.Create("Place Shroom 1 after fight", "place_shroom1_after_fight", "")
 
     stone_trigger1 = vt_map.TriggerObject.Create("mt elbrus cave 2 trigger 1",
                                                  vt_map.MapMode.FLATGROUND_OBJECT,
@@ -157,8 +153,7 @@ function _CreateObjects()
     stone_trigger2:SetPosition(21, 16);
     stone_trigger2:SetTriggerableByCharacter(false); -- Only an event can trigger it
 
-    event = vt_map.ScriptedEvent.Create("Check triggers", "check_triggers", "")
-
+    vt_map.ScriptedEvent.Create("Check triggers", "check_triggers", "")
 
     -- Check the trigger states at load time (but without sound)
     if (stone_trigger1:GetState() == true and stone_trigger2:GetState() == true) then
@@ -175,32 +170,22 @@ function _CreateObjects()
 
     rolling_stone1 = CreateObject(Map, "Rolling Stone", 41, 26, vt_map.MapMode.GROUND_OBJECT);
     rolling_stone1:SetEventWhenTalking("Check hero position for rolling stone 1");
-    event = vt_map.IfEvent.Create("Check hero position for rolling stone 1", "check_diagonal_stone1", "Push the rolling stone 1", "");
-
-    event = vt_map.ScriptedEvent.Create("Push the rolling stone 1", "start_to_move_the_stone1", "move_the_stone_update1")
-
+    vt_map.IfEvent.Create("Check hero position for rolling stone 1", "check_diagonal_stone1", "Push the rolling stone 1", "");
+    vt_map.ScriptedEvent.Create("Push the rolling stone 1", "start_to_move_the_stone1", "move_the_stone_update1")
 
     rolling_stone2 = CreateObject(Map, "Rolling Stone", 42, 33, vt_map.MapMode.GROUND_OBJECT);
     rolling_stone2:SetEventWhenTalking("Check hero position for rolling stone 2");
-    event = vt_map.IfEvent.Create("Check hero position for rolling stone 2", "check_diagonal_stone2", "Push the rolling stone 2", "");
-
-    event = vt_map.ScriptedEvent.Create("Push the rolling stone 2", "start_to_move_the_stone2", "move_the_stone_update2")
-
+    vt_map.IfEvent.Create("Check hero position for rolling stone 2", "check_diagonal_stone2", "Push the rolling stone 2", "");
+    vt_map.ScriptedEvent.Create("Push the rolling stone 2", "start_to_move_the_stone2", "move_the_stone_update2")
 end
 
 -- Creates all events and sets up the entire event sequence chain
 function _CreateEvents()
-    local event = nil
-    local dialogue = nil
-    local text = nil
+    vt_map.MapTransitionEvent.Create("to exit 2-1", "dat/maps/mt_elbrus/mt_elbrus_path2_map.lua",
+                                     "dat/maps/mt_elbrus/mt_elbrus_path2_script.lua", "from_grotto2_1_exit");
 
-    event = vt_map.MapTransitionEvent.Create("to exit 2-1", "dat/maps/mt_elbrus/mt_elbrus_path2_map.lua",
-                                       "dat/maps/mt_elbrus/mt_elbrus_path2_script.lua", "from_grotto2_1_exit");
-
-
-    event = vt_map.MapTransitionEvent.Create("to exit 2-2", "dat/maps/mt_elbrus/mt_elbrus_path2_map.lua",
-                                       "dat/maps/mt_elbrus/mt_elbrus_path2_script.lua", "from_grotto2_2_exit");
-
+    vt_map.MapTransitionEvent.Create("to exit 2-2", "dat/maps/mt_elbrus/mt_elbrus_path2_map.lua",
+                                     "dat/maps/mt_elbrus/mt_elbrus_path2_script.lua", "from_grotto2_2_exit");
 end
 
 -- zones

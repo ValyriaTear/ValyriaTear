@@ -439,12 +439,11 @@ function _CreateEvents()
     dialogue:AddLineEventEmote(text, hero, "", "Play falling tree sound", "exclamation");
     text = vt_system.Translate("(I also heard something falling outside. Let's hope it's nothing bad.)");
     dialogue:AddLineEventEmote(text, hero, "Hero looks south", "", "interrogation");
-    event = vt_map.DialogueEvent.Create("First trigger dialogue", dialogue);
+    vt_map.DialogueEvent.Create("First trigger dialogue", dialogue);
 
-    event = vt_map.SoundEvent.Create("Play falling tree sound", "snd/falling_tree.ogg");
+    vt_map.SoundEvent.Create("Play falling tree sound", "snd/falling_tree.ogg");
 
-    event = vt_map.ChangeDirectionSpriteEvent.Create("Hero looks south", hero, vt_map.MapMode.SOUTH);
-
+    vt_map.ChangeDirectionSpriteEvent.Create("Hero looks south", hero, vt_map.MapMode.SOUTH);
 end
 
 -- zones
