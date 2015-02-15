@@ -72,9 +72,8 @@ function _CreateNPCs()
 
     bronanns_dad = CreateSprite(Map, "Carson", 33.5, 11.5, vt_map.MapMode.GROUND_OBJECT);
 
-    event = vt_map.RandomMoveSpriteEvent("Dad random move", bronanns_dad, 2000, 2000);
+    event = vt_map.RandomMoveSpriteEvent.Create("Dad random move", bronanns_dad, 2000, 2000);
     event:AddEventLinkAtEnd("Dad random move", 3000); -- Loop on itself
-    EventManager:RegisterEvent(event);
 
     if (GlobalManager:DoesEventExist("story", "Quest2_forest_event_done") == true) then
         -- Carson isn't here anymore
@@ -100,65 +99,52 @@ function _CreateNPCs()
     _UpdateMotherDialogue();
 
     -- Make her walk in front of the table to prepare the lunch.
-    event = vt_map.PathMoveSpriteEvent("Kitchen: Mother goes middle", bronanns_mother, 33.1, 19.9, false);
+    event = vt_map.PathMoveSpriteEvent.Create("Kitchen: Mother goes middle", bronanns_mother, 33.1, 19.9, false);
     event:AddEventLinkAtEnd("Kitchen: Mother looks left");
-    EventManager:RegisterEvent(event);
-    event = vt_map.ChangeDirectionSpriteEvent("Kitchen: Mother looks left", bronanns_mother, vt_map.MapMode.WEST);
+    event = vt_map.ChangeDirectionSpriteEvent.Create("Kitchen: Mother looks left", bronanns_mother, vt_map.MapMode.WEST);
     event:AddEventLinkAtEnd("Kitchen: Mother goes right", 2000);
-    EventManager:RegisterEvent(event);
-    event = vt_map.PathMoveSpriteEvent("Kitchen: Mother goes right", bronanns_mother, 35, 19.9, false);
+    event = vt_map.PathMoveSpriteEvent.Create("Kitchen: Mother goes right", bronanns_mother, 35, 19.9, false);
     event:AddEventLinkAtEnd("Kitchen: Mother looks down");
-    EventManager:RegisterEvent(event);
-    event = vt_map.ChangeDirectionSpriteEvent("Kitchen: Mother looks down", bronanns_mother, vt_map.MapMode.SOUTH);
+    event = vt_map.ChangeDirectionSpriteEvent.Create("Kitchen: Mother looks down", bronanns_mother, vt_map.MapMode.SOUTH);
     event:AddEventLinkAtEnd("Kitchen: Mother goes middle 2", 2000);
-    EventManager:RegisterEvent(event);
-    event = vt_map.PathMoveSpriteEvent("Kitchen: Mother goes middle 2", bronanns_mother, 33.1, 19.9, false);
+    event = vt_map.PathMoveSpriteEvent.Create("Kitchen: Mother goes middle 2", bronanns_mother, 33.1, 19.9, false);
     event:AddEventLinkAtEnd("Kitchen: Mother goes up");
-    EventManager:RegisterEvent(event);
-    event = vt_map.PathMoveSpriteEvent("Kitchen: Mother goes up", bronanns_mother, 33.1, 17.5, false);
+    event = vt_map.PathMoveSpriteEvent.Create("Kitchen: Mother goes up", bronanns_mother, 33.1, 17.5, false);
     event:AddEventLinkAtEnd("Kitchen: Mother looks left 2");
-    EventManager:RegisterEvent(event);
-    event = vt_map.ChangeDirectionSpriteEvent("Kitchen: Mother looks left 2", bronanns_mother, vt_map.MapMode.WEST);
+    event = vt_map.ChangeDirectionSpriteEvent.Create("Kitchen: Mother looks left 2", bronanns_mother, vt_map.MapMode.WEST);
     event:AddEventLinkAtEnd("Kitchen: Mother goes middle", 2000);
-    EventManager:RegisterEvent(event);
+
     -- The mother routine event
     EventManager:StartEvent("Kitchen: Mother goes middle");
 
     -- The Hero's first noble quest briefing...
-    event = vt_map.ScriptedSpriteEvent("Start Quest1", bronanns_mother, "StartQuest1", "");
-    EventManager:RegisterEvent(event);
+    vt_map.ScriptedSpriteEvent.Create("Start Quest1", bronanns_mother, "StartQuest1", "");
 
-    event = vt_map.ChangeDirectionSpriteEvent("Quest1: Mother looks south", bronanns_mother, vt_map.MapMode.SOUTH);
+    event = vt_map.ChangeDirectionSpriteEvent.Create("Quest1: Mother looks south", bronanns_mother, vt_map.MapMode.SOUTH);
     event:AddEventLinkAtEnd("Mother calls Bronann");
-    EventManager:RegisterEvent(event);
 
     dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Bronann!");
     dialogue:AddLine(text, bronanns_mother);
 
-    event = vt_map.DialogueEvent("Mother calls Bronann", dialogue);
+    event = vt_map.DialogueEvent.Create("Mother calls Bronann", dialogue);
     event:SetStopCameraMovement(true);
     event:AddEventLinkAtEnd("SetCameraOnMother");
     event:AddEventLinkAtEnd("BronannLooksUp");
-    EventManager:RegisterEvent(event);
 
-    event = vt_map.ChangeDirectionSpriteEvent("BronannLooksUp", bronann, vt_map.MapMode.NORTH);
-    EventManager:RegisterEvent(event);
+    vt_map.ChangeDirectionSpriteEvent.Create("BronannLooksUp", bronann, vt_map.MapMode.NORTH);
 
-    event = vt_map.ScriptedSpriteEvent("SetCameraOnMother", bronanns_mother, "Map_SetCamera", "");
+    event = vt_map.ScriptedSpriteEvent.Create("SetCameraOnMother", bronanns_mother, "Map_SetCamera", "");
     event:AddEventLinkAtEnd("ClearDialogueRefOnMother");
-    EventManager:RegisterEvent(event);
-    event = vt_map.ScriptedSpriteEvent("ClearDialogueRefOnMother", bronanns_mother, "ClearDialogueReferences", "");
+
+    event = vt_map.ScriptedSpriteEvent.Create("ClearDialogueRefOnMother", bronanns_mother, "ClearDialogueReferences", "");
     event:AddEventLinkAtEnd("Mother moves near entrance1");
-    EventManager:RegisterEvent(event);
 
-    event = vt_map.PathMoveSpriteEvent("Mother moves near entrance1", bronanns_mother, 38, 20, false);
+    event = vt_map.PathMoveSpriteEvent.Create("Mother moves near entrance1", bronanns_mother, 38, 20, false);
     event:AddEventLinkAtEnd("MotherLooksSouth2");
-    EventManager:RegisterEvent(event);
 
-    event = vt_map.ChangeDirectionSpriteEvent("MotherLooksSouth2", bronanns_mother, vt_map.MapMode.SOUTH);
+    event = vt_map.ChangeDirectionSpriteEvent.Create("MotherLooksSouth2", bronanns_mother, vt_map.MapMode.SOUTH);
     event:AddEventLinkAtEnd("Mother quest1 dialogue");
-    EventManager:RegisterEvent(event);
 
     dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Now that you're *finally* up, could you go buy some barley meal for us?");
@@ -168,24 +154,20 @@ function _CreateNPCs()
     text = vt_system.Translate("Hmph, just go boy. You'll be free after that, ok?");
     dialogue:AddLine(text, bronanns_mother);
 
-    event = vt_map.DialogueEvent("Mother quest1 dialogue", dialogue);
+    event = vt_map.DialogueEvent.Create("Mother quest1 dialogue", dialogue);
     event:AddEventLinkAtEnd("Map_PopState");
     event:AddEventLinkAtEnd("SetQuest1DialogueDone");
     event:AddEventLinkAtEnd("SetCameraOnBronann");
     event:AddEventLinkAtEnd("Kitchen: Mother goes middle", 300);
-    EventManager:RegisterEvent(event);
 
     -- Common events.
     -- Pop Map state
-    event = vt_map.ScriptedEvent("Map_PopState", "Map_PopState", "");
-    EventManager:RegisterEvent(event);
+    vt_map.ScriptedEvent.Create("Map_PopState", "Map_PopState", "");
 
     -- Set the opening dialogue as done
-    event = vt_map.ScriptedEvent("SetQuest1DialogueDone", "Quest1MotherStartDialogueDone", "");
-    EventManager:RegisterEvent(event);
+    vt_map.ScriptedEvent.Create("SetQuest1DialogueDone", "Quest1MotherStartDialogueDone", "");
 
-    event = vt_map.ScriptedSpriteEvent("SetCameraOnBronann", bronann, "Map_SetCamera", "");
-    EventManager:RegisterEvent(event);
+    vt_map.ScriptedSpriteEvent.Create("SetCameraOnBronann", bronann, "Map_SetCamera", "");
 end
 
 
@@ -229,42 +211,34 @@ function _CreateEvents()
     local dialogue = nil
 
     -- Triggered Events
-    event = vt_map.MapTransitionEvent("to village", "dat/maps/layna_village/layna_village_center_map.lua",
-                                       "dat/maps/layna_village/layna_village_center_script.lua", "from_bronanns_home");
-    EventManager:RegisterEvent(event);
+    vt_map.MapTransitionEvent.Create("to village", "dat/maps/layna_village/layna_village_center_map.lua",
+                                     "dat/maps/layna_village/layna_village_center_script.lua", "from_bronanns_home");
 
-    event = vt_map.MapTransitionEvent("to Bronann's 1st floor", "dat/maps/layna_village/layna_village_bronanns_home_first_floor_map.lua",
-                                       "dat/maps/layna_village/layna_village_bronanns_home_first_floor_script.lua", "from_bronanns_home");
-    EventManager:RegisterEvent(event);
+    vt_map.MapTransitionEvent.Create("to Bronann's 1st floor", "dat/maps/layna_village/layna_village_bronanns_home_first_floor_map.lua",
+                                     "dat/maps/layna_village/layna_village_bronanns_home_first_floor_script.lua", "from_bronanns_home");
 
     -- Generic events
-    event = vt_map.ScriptedEvent("Audio:FadeOutMusic()", "Audio_FadeOutMusic", "");
-    EventManager:RegisterEvent(event);
-    event = vt_map.ScriptedEvent("Audio:ResumeMusic()", "Audio_ResumeMusic", "");
-    EventManager:RegisterEvent(event);
+    vt_map.ScriptedEvent.Create("Audio:FadeOutMusic()", "Audio_FadeOutMusic", "");
+    vt_map.ScriptedEvent.Create("Audio:ResumeMusic()", "Audio_ResumeMusic", "");
 
     -- Quest events
 
     -- End quest 1 (Barley meal retrieval) and prepare map for what's next.
-    event = vt_map.ScriptedEvent("Quest1: end and transition to after-dinner", "Quest1Done", "");
+    event = vt_map.ScriptedEvent.Create("Quest1: end and transition to after-dinner", "Quest1Done", "");
     event:AddEventLinkAtEnd("Quest1: Terminate mother and father events");
-    EventManager:RegisterEvent(event);
 
-    event = vt_map.ScriptedEvent("Quest1: Terminate mother and father events", "TerminateMotherAndFatherEvents", "");
+    event = vt_map.ScriptedEvent.Create("Quest1: Terminate mother and father events", "TerminateMotherAndFatherEvents", "");
     event:AddEventLinkAtEnd("Fade out to after dinner");
-    EventManager:RegisterEvent(event);
 
-    event = vt_map.ScriptedEvent("Fade out to after dinner", "FadeOutToAfterDinner", "CheckFadeInOrOut");
+    event = vt_map.ScriptedEvent.Create("Fade out to after dinner", "FadeOutToAfterDinner", "CheckFadeInOrOut");
     event:AddEventLinkAtEnd("Fade in to after dinner");
-    EventManager:RegisterEvent(event);
-    event = vt_map.ScriptedEvent("Fade in to after dinner", "FadeInToAfterDinner", "CheckFadeInOrOut");
+
+    event = vt_map.ScriptedEvent.Create("Fade in to after dinner", "FadeInToAfterDinner", "CheckFadeInOrOut");
     event:AddEventLinkAtEnd("Quest2: Bronann is told not to leave town - part 1");
     event:AddEventLinkAtEnd("Quest2: Father looks west");
-    EventManager:RegisterEvent(event);
 
     -- Quest 2 start: Bronann is told to not leave town
-    event = vt_map.ChangeDirectionSpriteEvent("Quest2: Father looks west", bronanns_dad, vt_map.MapMode.WEST);
-    EventManager:RegisterEvent(event);
+    vt_map.ChangeDirectionSpriteEvent.Create("Quest2: Father looks west", bronanns_dad, vt_map.MapMode.WEST);
 
     dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Thanks for helping me out with the dishes.");
@@ -273,22 +247,18 @@ function _CreateEvents()
     dialogue:AddLineEmote(text, bronann, "thinking dots");
     text = vt_system.Translate("...");
     dialogue:AddLineEmote(text, bronanns_mother, "sweat drop");
-    event = vt_map.DialogueEvent("Quest2: Bronann is told not to leave town - part 1", dialogue)
+    event = vt_map.DialogueEvent.Create("Quest2: Bronann is told not to leave town - part 1", dialogue)
     -- Make a pause here
     event:AddEventLinkAtEnd("Quest2: Father looks south to think");
     event:AddEventLinkAtEnd("Audio:FadeOutMusic()");
-    EventManager:RegisterEvent(event);
 
-    event = vt_map.ChangeDirectionSpriteEvent("Quest2: Father looks south to think", bronanns_dad, vt_map.MapMode.SOUTH);
+    event = vt_map.ChangeDirectionSpriteEvent.Create("Quest2: Father looks south to think", bronanns_dad, vt_map.MapMode.SOUTH);
     event:AddEventLinkAtEnd("Quest2: Father looks at Bronann", 2000);
-    EventManager:RegisterEvent(event);
 
-    event = vt_map.LookAtSpriteEvent("Quest2: Father looks at Bronann", bronanns_dad, bronann);
+    event = vt_map.LookAtSpriteEvent.Create("Quest2: Father looks at Bronann", bronanns_dad, bronann);
     event:AddEventLinkAtEnd("Quest2: Bronann is told not to leave town - part 2");
-    EventManager:RegisterEvent(event);
 
-    event = vt_map.AnimateSpriteEvent("Quest2: Bronann looks at both parents", bronann, "searching", 1000);
-    EventManager:RegisterEvent(event);
+    vt_map.AnimateSpriteEvent.Create("Quest2: Bronann looks at both parents", bronann, "searching", 1000);
 
     dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Bronann, I'd like for you to not leave the village today.");
@@ -305,13 +275,11 @@ function _CreateEvents()
     dialogue:AddLineEmote(text, bronann, "exclamation");
     text = vt_system.Translate("... It's not that simple, Bronann. Believe me.");
     dialogue:AddLineEmote(text, bronanns_dad, "thinking dots");
-    event = vt_map.DialogueEvent("Quest2: Bronann is told not to leave town - part 2", dialogue)
+    event = vt_map.DialogueEvent.Create("Quest2: Bronann is told not to leave town - part 2", dialogue)
     event:AddEventLinkAtEnd("Quest2: Mother looks at Bronann", 2000);
-    EventManager:RegisterEvent(event);
 
-    event = vt_map.ChangeDirectionSpriteEvent("Quest2: Mother looks at Bronann", bronanns_mother, vt_map.MapMode.NORTH);
+    event = vt_map.ChangeDirectionSpriteEvent.Create("Quest2: Mother looks at Bronann", bronanns_mother, vt_map.MapMode.NORTH);
     event:AddEventLinkAtEnd("Quest2: Bronann is told not to leave town - part 3");
-    EventManager:RegisterEvent(event);
 
     dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Bronann, this time I want you to listen to your father very carefully. Please, my dear.");
@@ -322,32 +290,25 @@ function _CreateEvents()
     dialogue:AddLine(text, bronanns_dad);
     text = vt_system.Translate("(grumble)... Crap!");
     dialogue:AddLineEmote(text, bronann, "exclamation");
-    event = vt_map.DialogueEvent("Quest2: Bronann is told not to leave town - part 3", dialogue);
+    event = vt_map.DialogueEvent.Create("Quest2: Bronann is told not to leave town - part 3", dialogue);
     event:AddEventLinkAtEnd("Quest2: Bronann is frustrated");
-    EventManager:RegisterEvent(event);
 
-    event = vt_map.AnimateSpriteEvent("Quest2: Bronann is frustrated", bronann, "hero_stance", 1000);
+    event = vt_map.AnimateSpriteEvent.Create("Quest2: Bronann is frustrated", bronann, "hero_stance", 1000);
     event:AddEventLinkAtEnd("Quest2: Bronann runs out of the house");
-    EventManager:RegisterEvent(event);
 
     -- Make Bronann leave house
-    event = vt_map.PathMoveSpriteEvent("Quest2: Bronann runs out of the house", bronann, 40, 24.5, true);
+    event = vt_map.PathMoveSpriteEvent.Create("Quest2: Bronann runs out of the house", bronann, 40, 24.5, true);
     event:AddEventLinkAtEnd("Quest2: Bronann disappears after running out of the house");
-    EventManager:RegisterEvent(event);
 
-    event = vt_map.ScriptedSpriteEvent("Quest2: Bronann disappears after running out of the house", bronann, "MakeInvisible", "");
+    event = vt_map.ScriptedSpriteEvent.Create("Quest2: Bronann disappears after running out of the house", bronann, "MakeInvisible", "");
     event:AddEventLinkAtEnd("Quest2: Bronann is told not to leave town - part 4", 2000);
     event:AddEventLinkAtEnd("Quest2: Mother looks at father", 1000);
     event:AddEventLinkAtEnd("Quest2: SetCamera on mother", 1000);
     event:AddEventLinkAtEnd("Quest2: Father looks at mother", 2000);
-    EventManager:RegisterEvent(event);
 
-    event = vt_map.ChangeDirectionSpriteEvent("Quest2: Father looks at mother", bronanns_dad, vt_map.MapMode.WEST);
-    EventManager:RegisterEvent(event);
-    event = vt_map.ChangeDirectionSpriteEvent("Quest2: Mother looks at father", bronanns_mother, vt_map.MapMode.EAST);
-    EventManager:RegisterEvent(event);
-    event = vt_map.ScriptedSpriteEvent("Quest2: SetCamera on mother", bronanns_mother, "Map_SetCamera", "");
-    EventManager:RegisterEvent(event);
+    vt_map.ChangeDirectionSpriteEvent.Create("Quest2: Father looks at mother", bronanns_dad, vt_map.MapMode.WEST);
+    vt_map.ChangeDirectionSpriteEvent.Create("Quest2: Mother looks at father", bronanns_mother, vt_map.MapMode.EAST);
+    vt_map.ScriptedSpriteEvent.Create("Quest2: SetCamera on mother", bronanns_mother, "Map_SetCamera", "");
 
     dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Maybe we should tell him.");
@@ -356,10 +317,9 @@ function _CreateEvents()
     dialogue:AddLineEmote(text, bronanns_dad, "thinking dots");
     text = vt_system.Translate("I really hope we are.");
     dialogue:AddLine(text, bronanns_dad);
-    event = vt_map.DialogueEvent("Quest2: Bronann is told not to leave town - part 4", dialogue);
+    event = vt_map.DialogueEvent.Create("Quest2: Bronann is told not to leave town - part 4", dialogue);
     event:AddEventLinkAtEnd("Map_PopState");
     event:AddEventLinkAtEnd("to village");
-    EventManager:RegisterEvent(event);
 end
 
 -- zones
@@ -390,7 +350,6 @@ function _CheckZones()
         EventManager:StartEvent("to Bronann's 1st floor");
     end
 end
-
 
 -- Internal Custom functions
 function _UpdateDishesAndFood()
@@ -470,7 +429,6 @@ function _UpdateMotherDialogue()
         bronanns_mother:AddDialogueReference(dialogue);
     end
 end
-
 
 -- Map Custom functions
 map_functions = {
