@@ -477,7 +477,6 @@ void BindModeCode()
         luabind::module(vt_script::ScriptManager->GetGlobalState(), "vt_map")
         [
             luabind::class_<EventSupervisor>("EventSupervisor")
-            .def("RegisterEvent", &EventSupervisor::RegisterEvent, luabind::adopt(_2))
             .def("StartEvent", (void(EventSupervisor:: *)(const std::string &))&EventSupervisor::StartEvent)
             .def("StartEvent", (void(EventSupervisor:: *)(const std::string &, uint32))&EventSupervisor::StartEvent)
             .def("StartEvent", (void(EventSupervisor:: *)(MapEvent *))&EventSupervisor::StartEvent)

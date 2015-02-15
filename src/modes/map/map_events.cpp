@@ -40,6 +40,26 @@ namespace vt_map
 namespace private_map
 {
 
+MapEvent::MapEvent(const std::string& id, EVENT_TYPE type):
+    _event_id(id),
+    _event_type(type)
+{
+    vt_map::MapMode* map_mode = MapMode::CurrentInstance();
+    if (!map_mode) {
+        PRINT_ERROR << "Event created without existing map mode!!" << std::endl;
+        return;
+    }
+
+    vt_map::private_map::EventSupervisor* event_sup = map_mode->GetEventSupervisor();
+    if (!event_sup) {
+        PRINT_ERROR << "Event created without existing event supervisor!!" << std::endl;
+        return;
+    }
+
+    if (!event_sup->_RegisterEvent(this))
+        PRINT_ERROR << "Couldn't register event: " << id << " in the event supervisor!!" << std::endl;
+}
+
 // -----------------------------------------------------------------------------
 // ---------- SpriteEvent Class Methods
 // -----------------------------------------------------------------------------
@@ -980,24 +1000,6 @@ EventSupervisor::~EventSupervisor()
     _all_events.clear();
 }
 
-void EventSupervisor::RegisterEvent(MapEvent *new_event)
-{
-    if(new_event == NULL) {
-        IF_PRINT_WARNING(MAP_DEBUG) << "function argument was NULL" << std::endl;
-        return;
-    }
-
-    if(GetEvent(new_event->_event_id) != NULL) {
-        PRINT_WARNING << "The event with this ID already existed: '"
-                      << new_event->_event_id
-                      << "' in map script: "
-                      << MapMode::CurrentInstance()->GetMapScriptFilename() << std::endl;
-        return;
-    }
-
-    _all_events.insert(std::make_pair(new_event->_event_id, new_event));
-}
-
 void EventSupervisor::StartEvent(const std::string &event_id)
 {
     MapEvent *event = GetEvent(event_id);
@@ -1449,6 +1451,25 @@ MapEvent *EventSupervisor::GetEvent(const std::string &event_id) const
         return NULL;
     else
         return it->second;
+}
+
+bool EventSupervisor::_RegisterEvent(MapEvent* new_event)
+{
+    if(new_event == NULL) {
+        IF_PRINT_WARNING(MAP_DEBUG) << "function argument was NULL" << std::endl;
+        return false;
+    }
+
+    if(GetEvent(new_event->_event_id) != NULL) {
+        PRINT_WARNING << "The event with this ID already existed: '"
+                      << new_event->_event_id
+                      << "' in map script: "
+                      << MapMode::CurrentInstance()->GetMapScriptFilename() << std::endl;
+        return false;
+    }
+
+    _all_events.insert(std::make_pair(new_event->_event_id, new_event));
+    return true;
 }
 
 void EventSupervisor::_ExamineEventLinks(MapEvent *parent_event, bool event_start)
