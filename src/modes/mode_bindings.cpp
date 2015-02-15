@@ -505,32 +505,47 @@ void BindModeCode()
         luabind::module(vt_script::ScriptManager->GetGlobalState(), "vt_map")
         [
             luabind::class_<DialogueEvent, MapEvent>("DialogueEvent")
-            .def(luabind::constructor<std::string, SpriteDialogue *>())
             .def("SetStopCameraMovement", &DialogueEvent::SetStopCameraMovement)
+            .scope
+            [   // Used for static members and nested classes.
+                luabind::def("Create", &DialogueEvent::Create)
+            ]
         ];
 
         luabind::module(vt_script::ScriptManager->GetGlobalState(), "vt_map")
         [
             luabind::class_<SoundEvent, MapEvent>("SoundEvent")
-            .def(luabind::constructor<std::string, std::string>())
+            .scope
+            [   // Used for static members and nested classes.
+                luabind::def("Create", &SoundEvent::Create)
+            ]
         ];
 
         luabind::module(vt_script::ScriptManager->GetGlobalState(), "vt_map")
         [
             luabind::class_<MapTransitionEvent, MapEvent>("MapTransitionEvent")
-            .def(luabind::constructor<std::string, std::string, std::string, std::string>())
+            .scope
+            [   // Used for static members and nested classes.
+                luabind::def("Create", &MapTransitionEvent::Create)
+            ]
         ];
 
         luabind::module(vt_script::ScriptManager->GetGlobalState(), "vt_map")
         [
             luabind::class_<IfEvent, MapEvent>("IfEvent")
-            .def(luabind::constructor<std::string, std::string, std::string, std::string>())
+            .scope
+            [   // Used for static members and nested classes.
+                luabind::def("Create", &IfEvent::Create)
+            ]
         ];
 
         luabind::module(vt_script::ScriptManager->GetGlobalState(), "vt_map")
         [
             luabind::class_<ScriptedEvent, MapEvent>("ScriptedEvent")
-            .def(luabind::constructor<std::string, std::string, std::string>())
+            .scope
+            [   // Used for static members and nested classes.
+                luabind::def("Create", &ScriptedEvent::Create)
+            ]
         ];
 
         luabind::module(vt_script::ScriptManager->GetGlobalState(), "vt_map")
@@ -541,63 +556,79 @@ void BindModeCode()
         luabind::module(vt_script::ScriptManager->GetGlobalState(), "vt_map")
         [
             luabind::class_<ScriptedSpriteEvent, SpriteEvent>("ScriptedSpriteEvent")
-            .def(luabind::constructor<std::string, uint16, std::string, std::string>())
-            .def(luabind::constructor<std::string, VirtualSprite *, std::string, std::string>())
+            .scope
+            [   // Used for static members and nested classes.
+                luabind::def("Create", (ScriptedSpriteEvent*(*)(const std::string&, VirtualSprite *, const std::string&, const std::string&))&ScriptedSpriteEvent::Create)
+            ]
         ];
 
         luabind::module(vt_script::ScriptManager->GetGlobalState(), "vt_map")
         [
             luabind::class_<ChangeDirectionSpriteEvent, SpriteEvent>("ChangeDirectionSpriteEvent")
-            .def(luabind::constructor<std::string, uint16, uint16>())
-            .def(luabind::constructor<std::string, VirtualSprite *, uint16>())
+            .scope
+            [   // Used for static members and nested classes.
+                luabind::def("Create", (ChangeDirectionSpriteEvent*(*)(const std::string&, VirtualSprite *, uint16))&ChangeDirectionSpriteEvent::Create)
+            ]
         ];
 
         luabind::module(vt_script::ScriptManager->GetGlobalState(), "vt_map")
         [
             luabind::class_<LookAtSpriteEvent, SpriteEvent>("LookAtSpriteEvent")
-            .def(luabind::constructor<std::string, uint16, uint16>())
-            .def(luabind::constructor<std::string, VirtualSprite *, VirtualSprite *>())
-            .def(luabind::constructor<std::string, VirtualSprite *, float, float>())
+            .scope
+            [   // Used for static members and nested classes.
+                luabind::def("Create", (LookAtSpriteEvent*(*)(const std::string&, VirtualSprite *, VirtualSprite *))&LookAtSpriteEvent::Create),
+                luabind::def("Create", (LookAtSpriteEvent*(*)(const std::string&, VirtualSprite *, float, float))&LookAtSpriteEvent::Create)
+            ]
         ];
 
         luabind::module(vt_script::ScriptManager->GetGlobalState(), "vt_map")
         [
             luabind::class_<PathMoveSpriteEvent, SpriteEvent>("PathMoveSpriteEvent")
-            .def(luabind::constructor<std::string, uint32, float, float, bool>())
-            .def(luabind::constructor<std::string, VirtualSprite *, float, float, bool>())
-            .def(luabind::constructor<std::string, VirtualSprite *, VirtualSprite *, bool>())
             .def("SetDestination", (void(PathMoveSpriteEvent:: *)(float, float, bool))&PathMoveSpriteEvent::SetDestination)
             .def("SetDestination", (void(PathMoveSpriteEvent:: *)(VirtualSprite *, bool))&PathMoveSpriteEvent::SetDestination)
+            .scope
+            [   // Used for static members and nested classes.
+                luabind::def("Create", (PathMoveSpriteEvent*(*)(const std::string&, VirtualSprite *, float, float, bool))&PathMoveSpriteEvent::Create),
+                luabind::def("Create", (PathMoveSpriteEvent*(*)(const std::string&, VirtualSprite *, VirtualSprite *, bool))&PathMoveSpriteEvent::Create)
+            ]
         ];
 
         luabind::module(vt_script::ScriptManager->GetGlobalState(), "vt_map")
         [
             luabind::class_<RandomMoveSpriteEvent, SpriteEvent>("RandomMoveSpriteEvent")
-            .def(luabind::constructor<std::string, VirtualSprite *, uint32, uint32>())
+            .scope
+            [   // Used for static members and nested classes.
+                luabind::def("Create", &RandomMoveSpriteEvent::Create)
+            ]
         ];
 
         luabind::module(vt_script::ScriptManager->GetGlobalState(), "vt_map")
         [
             luabind::class_<AnimateSpriteEvent, MapEvent>("AnimateSpriteEvent")
-            .def(luabind::constructor<const std::string &, VirtualSprite *, const std::string &, uint32>())
+            .scope
+            [   // Used for static members and nested classes.
+                luabind::def("Create", &AnimateSpriteEvent::Create)
+            ]
         ];
 
         luabind::module(vt_script::ScriptManager->GetGlobalState(), "vt_map")
         [
             luabind::class_<BattleEncounterEvent, MapEvent>("BattleEncounterEvent")
-            .def(luabind::constructor<std::string>())
             .def("SetMusic", &BattleEncounterEvent::SetMusic)
             .def("SetBackground", &BattleEncounterEvent::SetBackground)
             .def("SetBoss", &BattleEncounterEvent::SetBoss)
             .def("AddScript", &BattleEncounterEvent::AddScript)
             .def("AddEnemy", (void(BattleEncounterEvent:: *)(uint32, float, float))&BattleEncounterEvent::AddEnemy)
             .def("AddEnemy", (void(BattleEncounterEvent:: *)(uint32))&BattleEncounterEvent::AddEnemy)
+            .scope
+            [   // Used for static members and nested classes.
+                luabind::def("Create", &BattleEncounterEvent::Create)
+            ]
         ];
 
         luabind::module(vt_script::ScriptManager->GetGlobalState(), "vt_map")
         [
             luabind::class_<ShopEvent, MapEvent>("ShopEvent")
-            .def(luabind::constructor<std::string>())
             .def("SetShopName", &ShopEvent::SetShopName)
             .def("SetGreetingText", &ShopEvent::SetGreetingText)
             .def("SetSellModeEnabled", &ShopEvent::SetSellModeEnabled)
@@ -605,15 +636,22 @@ void BindModeCode()
             .def("AddTrade", &ShopEvent::AddTrade)
             .def("SetPriceLevels", &ShopEvent::SetPriceLevels)
             .def("AddScript", &ShopEvent::AddScript)
+            .scope
+            [   // Used for static members and nested classes.
+                luabind::def("Create", &ShopEvent::Create)
+            ]
         ];
 
         luabind::module(vt_script::ScriptManager->GetGlobalState(), "vt_map")
         [
             luabind::class_<TreasureEvent, MapEvent>("TreasureEvent")
-            .def(luabind::constructor<std::string>())
             .def("SetDrunes", &TreasureEvent::SetDrunes)
             .def("AddItem", &TreasureEvent::AddItem)
             .def("AddEvent", &TreasureEvent::AddEvent)
+            .scope
+            [   // Used for static members and nested classes.
+                luabind::def("Create", &TreasureEvent::Create)
+            ]
         ];
 
         luabind::module(vt_script::ScriptManager->GetGlobalState(), "vt_map")
@@ -624,8 +662,6 @@ void BindModeCode()
         ];
 
     } // End using map mode namespaces
-
-
 
     // ----- Battle Mode bindings
     {

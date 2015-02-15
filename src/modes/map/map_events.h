@@ -646,18 +646,7 @@ public:
     ~SpriteEvent()
     {}
 
-    //! \brief A C++ wrapper made to create a new object from scripting,
-    //! without letting Lua handling the object life-cycle.
-    //! \note We don't permit luabind to use constructors here as it can't currently
-    //! give the object ownership at construction time.
-    static SpriteEvent* Create(const std::string& event_id,
-                               EVENT_TYPE event_type,
-                               uint16 sprite_id);
-    static SpriteEvent* Create(const std::string& event_id,
-                               EVENT_TYPE event_type,
-                               VirtualSprite* sprite);
-
-    VirtualSprite *GetSprite() const {
+    VirtualSprite* GetSprite() const {
         return _sprite;
     }
 
@@ -666,7 +655,7 @@ public:
 
 protected:
     //! \brief A pointer to the map sprite that the event controls
-    VirtualSprite *_sprite;
+    VirtualSprite* _sprite;
 
     /** \brief Starts a sprite event.
     ***
@@ -725,8 +714,6 @@ public:
     //! without letting Lua handling the object life-cycle.
     //! \note We don't permit luabind to use constructors here as it can't currently
     //! give the object ownership at construction time.
-    static ScriptedSpriteEvent* Create(const std::string& event_id, uint16 sprite_id,
-                                       const std::string& start_function, const std::string& update_function);
     static ScriptedSpriteEvent* Create(const std::string& event_id, VirtualSprite* sprite,
                                        const std::string& start_function, const std::string& update_function);
 
@@ -766,13 +753,13 @@ public:
     *** \param sprite _id The ID of the sprite to change the direction of
     *** \param direction The direction to face the sprite
     **/
-    ChangeDirectionSpriteEvent(const std::string &event_id, uint16 sprite_id, uint16 direction);
+    ChangeDirectionSpriteEvent(const std::string& event_id, uint16 sprite_id, uint16 direction);
 
     /** \param event_id The ID of this event
     *** \param sprite A pointer to the sprite that this event will effect
     *** \param direction The direction to face the sprite
     **/
-    ChangeDirectionSpriteEvent(const std::string &event_id, VirtualSprite *sprite, uint16 direction);
+    ChangeDirectionSpriteEvent(const std::string& event_id, VirtualSprite* sprite, uint16 direction);
 
     ~ChangeDirectionSpriteEvent()
     {}
@@ -815,19 +802,19 @@ public:
     *** \param sprite_id The ID of the sprite to change the direction of
     *** \param second_sprite_id The ID of the sprite to make the first look at
     **/
-    LookAtSpriteEvent(const std::string &event_id, uint16 sprite_id, uint16 second_sprite_id);
+    LookAtSpriteEvent(const std::string& event_id, uint16 sprite_id, uint16 second_sprite_id);
 
     /** \param event_id The ID of this event
     *** \param sprite A pointer to the sprite that this event will effect
     *** \param sprite A pointer to the sprite to look at.
     **/
-    LookAtSpriteEvent(const std::string &event_id, VirtualSprite *sprite, VirtualSprite *other_sprite);
+    LookAtSpriteEvent(const std::string& event_id, VirtualSprite* sprite, VirtualSprite* other_sprite);
 
     /** \param event_id The ID of this event
     *** \param sprite A pointer to the sprite that this event will effect
     *** \param x, y map coodinates to look at.
     **/
-    LookAtSpriteEvent(const std::string &event_id, VirtualSprite *sprite, float x, float y);
+    LookAtSpriteEvent(const std::string& event_id, VirtualSprite* sprite, float x, float y);
 
     ~LookAtSpriteEvent()
     {}
@@ -852,7 +839,7 @@ protected:
     *** the position may have changed between the event declaration (map load time)
     *** and its start.
     **/
-    VirtualSprite *_target_sprite;
+    VirtualSprite* _target_sprite;
 
     //! \brief Immediately changes the sprite's direction
     void _Start();
@@ -882,7 +869,7 @@ public:
     *** \param y_coord The Y coordinate to move the sprite to
     *** \param run whether the character has to go there by walking or running
     **/
-    PathMoveSpriteEvent(const std::string &event_id, uint16 sprite_id, float x_coord, float y_coord, bool run);
+    PathMoveSpriteEvent(const std::string& event_id, uint16 sprite_id, float x_coord, float y_coord, bool run);
 
     /** \param event_id The ID of this event
     *** \param sprite A pointer to the sprite to move
@@ -890,17 +877,30 @@ public:
     *** \param y_coord The Y coordinate to move the sprite to
     *** \param run whether the character has to go there by walking or running
     **/
-    PathMoveSpriteEvent(const std::string &event_id, VirtualSprite *sprite, float x_coord, float y_coord, bool run);
+    PathMoveSpriteEvent(const std::string& event_id, VirtualSprite* sprite, float x_coord, float y_coord, bool run);
 
     /** \param event_id The ID of this event
     *** \param sprite A pointer to the sprite to move
     *** \param target_sprite The target sprite to move the sprite to
     *** \param run whether the character has to go there by walking or running
     **/
-    PathMoveSpriteEvent(const std::string &event_id, VirtualSprite *sprite, VirtualSprite *target_sprite, bool run);
+    PathMoveSpriteEvent(const std::string& event_id, VirtualSprite* sprite, VirtualSprite* target_sprite, bool run);
 
     ~PathMoveSpriteEvent()
     {}
+
+    //! \brief A C++ wrapper made to create a new object from scripting,
+    //! without letting Lua handling the object life-cycle.
+    //! \note We don't permit luabind to use constructors here as it can't currently
+    //! give the object ownership at construction time.
+    static PathMoveSpriteEvent* Create(const std::string& event_id,
+                                       VirtualSprite* sprite,
+                                       float x, float y,
+                                       bool run);
+    static PathMoveSpriteEvent* Create(const std::string& event_id,
+                                       VirtualSprite* sprite,
+                                       VirtualSprite* target_sprite,
+                                       bool run);
 
     /** \brief Used to change the destination coordinates after the class object has been constructed
     *** \param x_coord The X coordinate to move the sprite to
@@ -914,7 +914,7 @@ public:
     *** changed between the event declaration (at map load time) and the event actual start.
     **/
     void SetDestination(float x_coord, float y_coord, bool run);
-    void SetDestination(VirtualSprite *target_sprite, bool run);
+    void SetDestination(VirtualSprite* target_sprite, bool run);
 
     Path GetPath() const {
         return _path;
@@ -928,7 +928,7 @@ protected:
     float _destination_x, _destination_y;
 
     //! \brief The destination target, useful when willing to reach a moving point.
-    VirtualSprite *_target_sprite;
+    VirtualSprite* _target_sprite;
 
     //! \brief Used to store the previous coordinates of the sprite during path movement, so as to set the proper direction of the sprite as it moves
     float _last_x_position, _last_y_position;
@@ -969,10 +969,19 @@ public:
     *** \param move_time The total amount of time that this event should take
     *** \param direction_time The amount of time to wait before changing the sprite's direction randomly
     **/
-    RandomMoveSpriteEvent(const std::string &event_id, VirtualSprite *sprite,
+    RandomMoveSpriteEvent(const std::string &event_id, VirtualSprite* sprite,
                           uint32 move_time = 10000, uint32 direction_time = 2000);
 
     ~RandomMoveSpriteEvent();
+
+    //! \brief A C++ wrapper made to create a new object from scripting,
+    //! without letting Lua handling the object life-cycle.
+    //! \note We don't permit luabind to use constructors here as it can't currently
+    //! give the object ownership at construction time.
+    static RandomMoveSpriteEvent* Create(const std::string& event_id,
+                                         VirtualSprite* sprite,
+                                         uint32 move_time,
+                                         uint32 direction_time);
 
     //! \brief Stops and frees the sprite from the control_event
     void Terminate();
@@ -1025,11 +1034,20 @@ public:
     *** \param animation_name The name of the custom animation to play
     *** \param animation_time The custom animation time, 0 if infinite, and -1 is default time used.
     **/
-    AnimateSpriteEvent(const std::string &event_id, VirtualSprite *sprite,
-                       const std::string &animation_name, int32 animation_time);
+    AnimateSpriteEvent(const std::string& event_id, VirtualSprite* sprite,
+                       const std::string& animation_name, int32 animation_time);
 
     ~AnimateSpriteEvent()
     {}
+
+    //! \brief A C++ wrapper made to create a new object from scripting,
+    //! without letting Lua handling the object life-cycle.
+    //! \note We don't permit luabind to use constructors here as it can't currently
+    //! give the object ownership at construction time.
+    static AnimateSpriteEvent* Create(const std::string& event_id,
+                                      VirtualSprite* sprite,
+                                      const std::string& animation_name,
+                                      int32 animation_time);
 
     //! \brief Stops the custom animation and frees the sprite from the control_event
     void Terminate();
@@ -1042,7 +1060,7 @@ protected:
     int32 _animation_time;
 
     //! A reference to the map sprite object
-    MapSprite *_map_sprite;
+    MapSprite* _map_sprite;
 
     //! \brief Triggers the custom animation for the given time
     void _Start();
@@ -1061,11 +1079,17 @@ class TreasureEvent : public MapEvent
 public:
     /** \param event_id The ID of this event
     **/
-    TreasureEvent(const std::string &event_id);
+    TreasureEvent(const std::string& event_id);
 
     ~TreasureEvent() {
         delete _treasure;
     }
+
+    //! \brief A C++ wrapper made to create a new object from scripting,
+    //! without letting Lua handling the object life-cycle.
+    //! \note We don't permit luabind to use constructors here as it can't currently
+    //! give the object ownership at construction time.
+    static TreasureEvent* Create(const std::string& event_id);
 
     MapTreasure *GetTreasure() const {
         return _treasure;
@@ -1090,7 +1114,7 @@ public:
 
 protected:
     //! \brief A pointer to the treasure content, used by the TreasureSupervisor.
-    MapTreasure *_treasure;
+    MapTreasure* _treasure;
 
     //! \brief Events triggered at the start of the treasure event.
     std::vector<std::string> _events;
