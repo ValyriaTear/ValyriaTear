@@ -15,7 +15,6 @@ music_filename = "mus/shrine-OGA-yd.ogg"
 
 -- c++ objects instances
 local Map = nil
-local DialogueManager = nil
 local EventManager = nil
 local Effects = nil
 
@@ -30,10 +29,8 @@ local main_sprite_name = "";
 
 -- the main map loading code
 function Load(m)
-
     Map = m;
     Effects = Map:GetEffectSupervisor();
-    DialogueManager = Map:GetDialogueSupervisor();
     EventManager = Map:GetEventSupervisor();
     Map:SetUnlimitedStamina(false);
 
@@ -240,11 +237,11 @@ function _CreateObjects()
     EventManager:RegisterEvent(event);
 
     -- 5th trigger
-    trigger = vt_map.TriggerObject("layna_cave_5th_trigger", vt_map.MapMode.FLATGROUND_OBJECT,
-                                   "img/sprites/map/triggers/stone_trigger1_off.lua",
-                                   "img/sprites/map/triggers/stone_trigger1_on.lua",
-                                   "",
-                                   "Remove 5th rock");
+    trigger = vt_map.TriggerObject.Create("layna_cave_5th_trigger", vt_map.MapMode.FLATGROUND_OBJECT,
+                                          "img/sprites/map/triggers/stone_trigger1_off.lua",
+                                          "img/sprites/map/triggers/stone_trigger1_on.lua",
+                                          "",
+                                          "Remove 5th rock");
     trigger:SetPosition(9, 6);
 
     fifth_trigger_rock = CreateObject(Map, "Rock1", 77, 33, vt_map.MapMode.GROUND_OBJECT);
@@ -256,11 +253,11 @@ function _CreateObjects()
     EventManager:RegisterEvent(event);
 
     -- 6th trigger
-    trigger = vt_map.TriggerObject("layna_cave_6th_trigger", vt_map.MapMode.FLATGROUND_OBJECT,
-                                   "img/sprites/map/triggers/stone_trigger1_off.lua",
-                                   "img/sprites/map/triggers/stone_trigger1_on.lua",
-                                   "",
-                                   "Remove 6th rock");
+    trigger = vt_map.TriggerObject.Create("layna_cave_6th_trigger", vt_map.MapMode.FLATGROUND_OBJECT,
+                                          "img/sprites/map/triggers/stone_trigger1_off.lua",
+                                          "img/sprites/map/triggers/stone_trigger1_on.lua",
+                                          "",
+                                          "Remove 6th rock");
     trigger:SetPosition(114, 28);
 
     sixth_trigger_rock = CreateObject(Map, "Rock1", 115, 43, vt_map.MapMode.GROUND_OBJECT);
@@ -272,11 +269,11 @@ function _CreateObjects()
     EventManager:RegisterEvent(event);
 
     -- 7th trigger
-    trigger = vt_map.TriggerObject("layna_cave_7th_trigger", vt_map.MapMode.FLATGROUND_OBJECT,
-                                   "img/sprites/map/triggers/stone_trigger1_off.lua",
-                                   "img/sprites/map/triggers/stone_trigger1_on.lua",
-                                   "",
-                                   "Remove 7th rock");
+    trigger = vt_map.TriggerObject.Create("layna_cave_7th_trigger", vt_map.MapMode.FLATGROUND_OBJECT,
+                                          "img/sprites/map/triggers/stone_trigger1_off.lua",
+                                          "img/sprites/map/triggers/stone_trigger1_on.lua",
+                                          "",
+                                          "Remove 7th rock");
     trigger:SetPosition(4, 26);
 
     seventh_trigger_rock = CreateObject(Map, "Rock1", 115, 47, vt_map.MapMode.GROUND_OBJECT);
@@ -288,11 +285,11 @@ function _CreateObjects()
     EventManager:RegisterEvent(event);
 
     -- 8th trigger
-    trigger = vt_map.TriggerObject("layna_cave_8th_trigger", vt_map.MapMode.FLATGROUND_OBJECT,
-                                   "img/sprites/map/triggers/stone_trigger1_off.lua",
-                                   "img/sprites/map/triggers/stone_trigger1_on.lua",
-                                   "",
-                                   "Remove 8th rock");
+    trigger = vt_map.TriggerObject.Create("layna_cave_8th_trigger", vt_map.MapMode.FLATGROUND_OBJECT,
+                                          "img/sprites/map/triggers/stone_trigger1_off.lua",
+                                          "img/sprites/map/triggers/stone_trigger1_on.lua",
+                                          "",
+                                          "Remove 8th rock");
     trigger:SetPosition(115, 53);
 
     eighth_trigger_rock = CreateObject(Map, "Rock1", 93, 14, vt_map.MapMode.GROUND_OBJECT);
