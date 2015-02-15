@@ -360,11 +360,10 @@ function _CreateEvents()
     -- NOTE: The actual destination is set just before the actual start call
     kalya_move_next_to_hero_event = vt_map.PathMoveSpriteEvent.Create("Kalya moves next to Bronann", kalya, 0, 0, false);
     kalya_move_next_to_hero_event:AddEventLinkAtEnd("Kalya looks north");
-    EventManager:RegisterEvent(kalya_move_next_to_hero_event);
+
     orlinn_move_next_to_hero_event = vt_map.PathMoveSpriteEvent.Create("Orlinn moves next to Bronann", orlinn, 0, 0, false);
     orlinn_move_next_to_hero_event:AddEventLinkAtEnd("Orlinn looks north");
     orlinn_move_next_to_hero_event:AddEventLinkAtEnd("The heroes discuss about getting to the high passage", 500);
-    EventManager:RegisterEvent(orlinn_move_next_to_hero_event);
 
     dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("There is a passage here, but I'm too heavy to climb on those stones jutting out");
@@ -399,10 +398,9 @@ function _CreateEvents()
     orlinn_move_next_to_hero_event2:AddEventLinkAtEnd("Orlinn looks at Bronann");
     orlinn_move_next_to_hero_event2:AddEventLinkAtEnd("Bronann looks at Orlinn");
     orlinn_move_next_to_hero_event2:AddEventLinkAtEnd("Ready? dialogue", 500);
-    EventManager:RegisterEvent(orlinn_move_next_to_hero_event2);
+
     kalya_move_next_to_hero_event2 = vt_map.PathMoveSpriteEvent.Create("Kalya moves next to Bronann2", kalya, 0, 0, false);
     kalya_move_next_to_hero_event2:AddEventLinkAtEnd("Kalya looks at Orlinn");
-    EventManager:RegisterEvent(kalya_move_next_to_hero_event2);
 
     dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Ready to go up?");
@@ -421,16 +419,14 @@ function _CreateEvents()
 
 
     orlinn_move_back_to_hero_event = vt_map.PathMoveSpriteEvent.Create("Orlinn goes back to party", orlinn, hero, false);
-    EventManager:RegisterEvent(orlinn_move_back_to_hero_event);
+
     kalya_move_back_to_hero_event = vt_map.PathMoveSpriteEvent.Create("Kalya goes back to party", kalya, hero, false);
     kalya_move_back_to_hero_event:AddEventLinkAtEnd("Thrown to high passage event end");
-    EventManager:RegisterEvent(kalya_move_back_to_hero_event);
 
     -- Chose "Yes"
     -- NOTE: The actual destination will be set at event start
     orlinn_move_near_hero_event = vt_map.PathMoveSpriteEvent.Create("Orlinn goes closer of the hero", orlinn, 0, 0, false);
     orlinn_move_near_hero_event:AddEventLinkAtEnd("Jump to high passage");
-    EventManager:RegisterEvent(orlinn_move_near_hero_event);
 
     event = vt_map.ScriptedEvent.Create("Jump to high passage", "jump_to_passage_start", "jump_to_passage_update");
     event:AddEventLinkAtEnd("Post-jump dialogue");
@@ -477,7 +473,6 @@ function _CreateEvents()
     orlinn_goes_above_bronann_event = vt_map.PathMoveSpriteEvent.Create("Orlinn goes above Bronann", orlinn, 0, 0, false);
     orlinn_goes_above_bronann_event:AddEventLinkAtEnd("Kalya looks at Orlinn");
     orlinn_goes_above_bronann_event:AddEventLinkAtEnd("Orlinn jumps back animation");
-    EventManager:RegisterEvent(orlinn_goes_above_bronann_event);
 
     -- Orlinns falls on Bronann's head
     event = vt_map.ScriptedEvent.Create("Orlinn jumps back animation", "jumping_back_animation_start", "jumping_back_animation_update");

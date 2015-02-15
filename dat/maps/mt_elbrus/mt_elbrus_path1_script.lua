@@ -608,10 +608,9 @@ function _CreateEvents()
     kalya_move_next_to_hero_event:AddEventLinkAtEnd("Kalya looks west");
     kalya_move_next_to_hero_event:AddEventLinkAtEnd("Bronann looks west");
     kalya_move_next_to_hero_event:AddEventLinkAtEnd("Kalya sees the soldier");
-    EventManager:RegisterEvent(kalya_move_next_to_hero_event);
+
     orlinn_move_next_to_hero_event = vt_map.PathMoveSpriteEvent.Create("Orlinn moves next to Bronann", orlinn, 0, 0, false);
     orlinn_move_next_to_hero_event:AddEventLinkAtEnd("Orlinn looks west");
-    EventManager:RegisterEvent(orlinn_move_next_to_hero_event);
 
     dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Look!");
@@ -647,11 +646,9 @@ function _CreateEvents()
 
 
     orlinn_move_back_to_hero_event = vt_map.PathMoveSpriteEvent.Create("Orlinn goes back to party", orlinn, hero, false);
-    EventManager:RegisterEvent(orlinn_move_back_to_hero_event);
 
     kalya_move_back_to_hero_event = vt_map.PathMoveSpriteEvent.Create("Kalya goes back to party", kalya, hero, false);
     kalya_move_back_to_hero_event:AddEventLinkAtEnd("End of dialogue about the soldiers");
-    EventManager:RegisterEvent(kalya_move_back_to_hero_event);
 
     event = vt_map.ScriptedEvent.Create("End of dialogue about the soldiers", "end_of_dialogue_about_soldiers", "");
 

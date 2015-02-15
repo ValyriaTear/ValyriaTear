@@ -368,11 +368,10 @@ function _CreateEvents()
     -- NOTE: The actual destination is set just before the actual start call
     kalya_move_next_to_bronann_event1 = vt_map.PathMoveSpriteEvent.Create("Kalya moves next to Bronann", kalya, 0, 0, false);
     kalya_move_next_to_bronann_event1:AddEventLinkAtEnd("Kalya looks north");
-    EventManager:RegisterEvent(kalya_move_next_to_bronann_event1);
+
     orlinn_move_next_to_bronann_event1 = vt_map.PathMoveSpriteEvent.Create("Orlinn moves next to Bronann", orlinn, 0, 0, false);
     orlinn_move_next_to_bronann_event1:AddEventLinkAtEnd("Orlinn looks north");
     orlinn_move_next_to_bronann_event1:AddEventLinkAtEnd("Choice to enter the big door", 500);
-    EventManager:RegisterEvent(orlinn_move_next_to_bronann_event1);
 
     -- choice to enter
     dialogue = vt_map.SpriteDialogue.Create();

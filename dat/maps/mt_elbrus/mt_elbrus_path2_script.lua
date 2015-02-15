@@ -362,10 +362,9 @@ function _CreateEvents()
     kalya_move_next_to_hero_event:AddEventLinkAtEnd("Kalya looks north");
     kalya_move_next_to_hero_event:AddEventLinkAtEnd("Bronann looks north");
     kalya_move_next_to_hero_event:AddEventLinkAtEnd("Kalya talks about the rain");
-    EventManager:RegisterEvent(kalya_move_next_to_hero_event);
+
     orlinn_move_next_to_hero_event = vt_map.PathMoveSpriteEvent.Create("Orlinn moves next to Bronann", orlinn, 0, 0, false);
     orlinn_move_next_to_hero_event:AddEventLinkAtEnd("Orlinn looks north");
-    EventManager:RegisterEvent(orlinn_move_next_to_hero_event);
 
     dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Dang! And now the rain too.");
@@ -382,11 +381,9 @@ function _CreateEvents()
 
 
     orlinn_move_back_to_hero_event = vt_map.PathMoveSpriteEvent.Create("Orlinn goes back to party", orlinn, hero, false);
-    EventManager:RegisterEvent(orlinn_move_back_to_hero_event);
 
     kalya_move_back_to_hero_event = vt_map.PathMoveSpriteEvent.Create("Kalya goes back to party", kalya, hero, false);
     kalya_move_back_to_hero_event:AddEventLinkAtEnd("End of rain dialogue");
-    EventManager:RegisterEvent(kalya_move_back_to_hero_event);
 
     event = vt_map.ScriptedEvent.Create("End of rain dialogue", "end_of_rain_dialogue", "");
 

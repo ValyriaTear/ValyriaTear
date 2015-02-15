@@ -200,7 +200,6 @@ function _CreateEvents()
     kalya_move_next_to_hero_event1:AddEventLinkAtEnd("Where is Orlinn? dialogue");
     kalya_move_next_to_hero_event1:AddEventLinkAtEnd("Kalya looks at Bronann");
     kalya_move_next_to_hero_event1:AddEventLinkAtEnd("Bronann looks at Kalya");
-    EventManager:RegisterEvent(kalya_move_next_to_hero_event1);
 
     dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Wow, what a fall. I didn't see that one coming.");

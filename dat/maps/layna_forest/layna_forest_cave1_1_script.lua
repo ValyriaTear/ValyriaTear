@@ -185,8 +185,7 @@ function _CreateObjects()
         map_functions.make_entrance_rock_invisible();
     end
 
-    event = vt_map.ScriptedEvent.Create("Remove entrance rock", "make_entrance_rock_invisible_n_speech", "");
-
+    vt_map.ScriptedEvent.Create("Remove entrance rock", "make_entrance_rock_invisible_n_speech", "");
 
     -- 2nd trigger
     trigger = vt_map.TriggerObject.Create("layna_cave_2nd_trigger", vt_map.MapMode.FLATGROUND_OBJECT,
@@ -201,8 +200,7 @@ function _CreateObjects()
         map_functions.make_2nd_rock_invisible();
     end
 
-    event = vt_map.ScriptedEvent.Create("Remove 2nd rock", "make_2nd_rock_invisible", "");
-
+    vt_map.ScriptedEvent.Create("Remove 2nd rock", "make_2nd_rock_invisible", "");
 
     -- 3rd trigger
     trigger = vt_map.TriggerObject.Create("layna_cave_3rd_trigger", vt_map.MapMode.FLATGROUND_OBJECT,
@@ -217,8 +215,7 @@ function _CreateObjects()
         map_functions.make_3rd_rock_invisible();
     end
 
-    event = vt_map.ScriptedEvent.Create("Remove 3rd rock", "make_3rd_rock_invisible", "");
-
+    vt_map.ScriptedEvent.Create("Remove 3rd rock", "make_3rd_rock_invisible", "");
 
     -- 4th trigger
     trigger = vt_map.TriggerObject.Create("layna_cave_4th_trigger", vt_map.MapMode.FLATGROUND_OBJECT,
@@ -233,8 +230,7 @@ function _CreateObjects()
         map_functions.make_4th_rock_invisible();
     end
 
-    event = vt_map.ScriptedEvent.Create("Remove 4th rock", "make_4th_rock_invisible", "");
-
+    vt_map.ScriptedEvent.Create("Remove 4th rock", "make_4th_rock_invisible", "");
 
     -- 5th trigger
     trigger = vt_map.TriggerObject.Create("layna_cave_5th_trigger", vt_map.MapMode.FLATGROUND_OBJECT,
@@ -249,8 +245,7 @@ function _CreateObjects()
         map_functions.make_5th_rock_invisible();
     end
 
-    event = vt_map.ScriptedEvent.Create("Remove 5th rock", "make_5th_rock_invisible", "");
-
+    vt_map.ScriptedEvent.Create("Remove 5th rock", "make_5th_rock_invisible", "");
 
     -- 6th trigger
     trigger = vt_map.TriggerObject.Create("layna_cave_6th_trigger", vt_map.MapMode.FLATGROUND_OBJECT,
@@ -265,8 +260,7 @@ function _CreateObjects()
         map_functions.make_6th_rock_invisible();
     end
 
-    event = vt_map.ScriptedEvent.Create("Remove 6th rock", "make_6th_rock_invisible", "");
-
+    vt_map.ScriptedEvent.Create("Remove 6th rock", "make_6th_rock_invisible", "");
 
     -- 7th trigger
     trigger = vt_map.TriggerObject.Create("layna_cave_7th_trigger", vt_map.MapMode.FLATGROUND_OBJECT,
@@ -281,8 +275,7 @@ function _CreateObjects()
         map_functions.make_7th_rock_invisible();
     end
 
-    event = vt_map.ScriptedEvent.Create("Remove 7th rock", "make_7th_rock_invisible", "");
-
+    vt_map.ScriptedEvent.Create("Remove 7th rock", "make_7th_rock_invisible", "");
 
     -- 8th trigger
     trigger = vt_map.TriggerObject.Create("layna_cave_8th_trigger", vt_map.MapMode.FLATGROUND_OBJECT,
@@ -297,8 +290,7 @@ function _CreateObjects()
         map_functions.make_8th_rock_invisible();
     end
 
-    event = vt_map.ScriptedEvent.Create("Remove 8th rock", "make_8th_rock_invisible", "");
-
+    vt_map.ScriptedEvent.Create("Remove 8th rock", "make_8th_rock_invisible", "");
 
     -- Tells the other functions the objects are now loaded.
     -- This will permit to trigger the tremor shaking and sound again
@@ -394,45 +386,33 @@ function _CreateEvents()
     local dialogue = nil
     local text = nil
 
-    event = vt_map.MapTransitionEvent.Create("to forest NW", "dat/maps/layna_forest/layna_forest_north_west_map.lua",
-                                       "dat/maps/layna_forest/layna_forest_north_west_script.lua", "from_layna_cave_entrance");
+    vt_map.MapTransitionEvent.Create("to forest NW", "dat/maps/layna_forest/layna_forest_north_west_map.lua",
+                                     "dat/maps/layna_forest/layna_forest_north_west_script.lua", "from_layna_cave_entrance");
 
-
-    event = vt_map.MapTransitionEvent.Create("to cave 1-2", "dat/maps/layna_forest/layna_forest_cave1_2_map.lua",
-                                       "dat/maps/layna_forest/layna_forest_cave1_2_script.lua", "from_layna_cave_entrance");
-
+    vt_map.MapTransitionEvent.Create("to cave 1-2", "dat/maps/layna_forest/layna_forest_cave1_2_map.lua",
+                                     "dat/maps/layna_forest/layna_forest_cave1_2_script.lua", "from_layna_cave_entrance");
 
     -- Heal point
-    event = vt_map.ScriptedEvent.Create("Cave heal", "heal_party", "heal_done");
-
+    vt_map.ScriptedEvent.Create("Cave heal", "heal_party", "heal_done");
 
     -- Dialogue events
-    event = vt_map.LookAtSpriteEvent.Create("Kalya looks at Bronann", kalya_sprite, hero);
-
-    event = vt_map.LookAtSpriteEvent.Create("Bronann looks at Kalya", hero, kalya_sprite);
-
-    event = vt_map.ChangeDirectionSpriteEvent.Create("Kalya looks north", kalya_sprite, vt_map.MapMode.NORTH);
-
-    event = vt_map.ChangeDirectionSpriteEvent.Create("Bronann looks north", hero, vt_map.MapMode.NORTH);
-
-    event = vt_map.ChangeDirectionSpriteEvent.Create("Bronann looks west", hero, vt_map.MapMode.WEST);
-
-    event = vt_map.ScriptedSpriteEvent.Create("kalya_sprite:SetCollision(NONE)", kalya_sprite, "Sprite_Collision_off", "");
-
-    event = vt_map.ScriptedSpriteEvent.Create("kalya_sprite:SetCollision(ALL)", kalya_sprite, "Sprite_Collision_on", "");
-
+    vt_map.LookAtSpriteEvent.Create("Kalya looks at Bronann", kalya_sprite, hero);
+    vt_map.LookAtSpriteEvent.Create("Bronann looks at Kalya", hero, kalya_sprite);
+    vt_map.ChangeDirectionSpriteEvent.Create("Kalya looks north", kalya_sprite, vt_map.MapMode.NORTH);
+    vt_map.ChangeDirectionSpriteEvent.Create("Bronann looks north", hero, vt_map.MapMode.NORTH);
+    vt_map.ChangeDirectionSpriteEvent.Create("Bronann looks west", hero, vt_map.MapMode.WEST);
+    vt_map.ScriptedSpriteEvent.Create("kalya_sprite:SetCollision(NONE)", kalya_sprite, "Sprite_Collision_off", "");
+    vt_map.ScriptedSpriteEvent.Create("kalya_sprite:SetCollision(ALL)", kalya_sprite, "Sprite_Collision_on", "");
 
     -- Dialogue
     event = vt_map.ScriptedEvent.Create("Cave entrance dialogue", "cave_dialogue_start", "");
     event:AddEventLinkAtEnd("Kalya moves next to Bronann", 50);
-
 
     -- NOTE: The actual destination is set just before the actual start call
     move_next_to_hero_event = vt_map.PathMoveSpriteEvent.Create("Kalya moves next to Bronann", kalya_sprite, 0, 0, false);
     move_next_to_hero_event:AddEventLinkAtEnd("Kalya looks north");
     move_next_to_hero_event:AddEventLinkAtEnd("Kalya wonders about Orlinn");
     move_next_to_hero_event:AddEventLinkAtEnd("kalya_sprite:SetCollision(ALL)");
-    EventManager:RegisterEvent(move_next_to_hero_event);
 
     dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("I didn't know that there was a cave here. It's kind of creepy. Let's hurry and find Orlinn.");
@@ -447,14 +427,11 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("kalya_sprite:SetCollision(NONE)");
     event:AddEventLinkAtEnd("kalya goes back to party");
 
-
     move_back_to_hero_event = vt_map.PathMoveSpriteEvent.Create("kalya goes back to party", kalya_sprite, hero, false);
     move_back_to_hero_event:AddEventLinkAtEnd("end of cave entrance dialogue");
-    EventManager:RegisterEvent(move_back_to_hero_event);
 
     event = vt_map.ScriptedEvent.Create("end of cave entrance dialogue", "end_of_cave_dialogue", "");
     event:AddEventLinkAtEnd("Bronann looks north");
-
 
     -- Dialogue when pushing first trigger
     dialogue = vt_map.SpriteDialogue.Create();
@@ -463,7 +440,6 @@ function _CreateEvents()
     text = vt_system.Translate("(I also heard something falling outside. Let's hope it's nothing bad.)");
     dialogue:AddLineEventEmote(text, hero, "Hero looks south", "", "interrogation");
     event = vt_map.DialogueEvent.Create("First trigger dialogue", dialogue);
-
 
     event = vt_map.SoundEvent.Create("Play falling tree sound", "snd/falling_tree.ogg");
 

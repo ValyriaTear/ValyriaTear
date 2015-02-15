@@ -552,10 +552,9 @@ function _CreateEvents()
     kalya_move_next_to_hero_event1:AddEventLinkAtEnd("Kalya looks north");
     kalya_move_next_to_hero_event1:AddEventLinkAtEnd("Bronann looks north");
     kalya_move_next_to_hero_event1:AddEventLinkAtEnd("Kalya talks about the cemetery");
-    EventManager:RegisterEvent(kalya_move_next_to_hero_event1);
+
     orlinn_move_next_to_hero_event1 = vt_map.PathMoveSpriteEvent.Create("Orlinn moves next to Bronann1", orlinn, 0, 0, false);
     orlinn_move_next_to_hero_event1:AddEventLinkAtEnd("Orlinn looks north");
-    EventManager:RegisterEvent(orlinn_move_next_to_hero_event1);
 
     dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("This place is the village's old cemetery. It was used by the former villagers who lived in Layna.");
@@ -576,14 +575,11 @@ function _CreateEvents()
 
 
     orlinn_move_back_to_hero_event1 = vt_map.PathMoveSpriteEvent.Create("Orlinn goes back to party", orlinn, hero, false);
-    EventManager:RegisterEvent(orlinn_move_back_to_hero_event1);
 
     kalya_move_back_to_hero_event1 = vt_map.PathMoveSpriteEvent.Create("Kalya goes back to party", kalya, hero, false);
     kalya_move_back_to_hero_event1:AddEventLinkAtEnd("End of dialogue about the cemetery");
-    EventManager:RegisterEvent(kalya_move_back_to_hero_event1);
 
     event = vt_map.ScriptedEvent.Create("End of dialogue about the cemetery", "end_of_dialogue_about_cemetery", "");
-
 
     -- West gate dialogue
     -- ------------------
@@ -612,10 +608,9 @@ function _CreateEvents()
     kalya_move_next_to_hero_event2:AddEventLinkAtEnd("Kalya looks north");
     kalya_move_next_to_hero_event2:AddEventLinkAtEnd("Bronann looks north");
     kalya_move_next_to_hero_event2:AddEventLinkAtEnd("Set focus on soldiers");
-    EventManager:RegisterEvent(kalya_move_next_to_hero_event2);
+
     orlinn_move_next_to_hero_event2 = vt_map.PathMoveSpriteEvent.Create("Orlinn moves next to Bronann2", orlinn, 0, 0, false);
     orlinn_move_next_to_hero_event2:AddEventLinkAtEnd("Orlinn looks north");
-    EventManager:RegisterEvent(orlinn_move_next_to_hero_event2);
 
     event = vt_map.ScriptedEvent.Create("Set focus on soldiers", "set_focus_on_soldiers", "set_focus_update");
     event:AddEventLinkAtEnd("Soldiers dialogue");
@@ -667,11 +662,9 @@ function _CreateEvents()
 
 
     orlinn_move_back_to_hero_event2 = vt_map.PathMoveSpriteEvent.Create("Orlinn goes back to party 2", orlinn, hero, false);
-    EventManager:RegisterEvent(orlinn_move_back_to_hero_event2);
 
     kalya_move_back_to_hero_event2 = vt_map.PathMoveSpriteEvent.Create("Kalya goes back to party 2", kalya, hero, false);
     kalya_move_back_to_hero_event2:AddEventLinkAtEnd("End of dialogue about west gate");
-    EventManager:RegisterEvent(kalya_move_back_to_hero_event2);
 
     event = vt_map.ScriptedEvent.Create("End of dialogue about west gate", "end_of_dialogue_about_west_gate", "");
 

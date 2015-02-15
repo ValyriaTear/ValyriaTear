@@ -443,7 +443,6 @@ function _CreateEvents()
     move_next_to_hero_event:AddEventLinkAtEnd("first dialogue part");
     move_next_to_hero_event:AddEventLinkAtEnd("Kalya looks at Orlinn");
     move_next_to_hero_event:AddEventLinkAtEnd("kalya:SetCollision(ALL)");
-    EventManager:RegisterEvent(move_next_to_hero_event);
 
     event = vt_map.LookAtSpriteEvent.Create("Kalya looks at Orlinn", kalya_sprite, orlinn);
 
@@ -785,10 +784,8 @@ function _CreateEvents()
     -- for later
     move_back_to_hero_event = vt_map.PathMoveSpriteEvent.Create("kalya goes back to party", kalya_sprite, hero, false);
     move_back_to_hero_event:AddEventLinkAtEnd("end of crystal event");
-    EventManager:RegisterEvent(move_back_to_hero_event);
 
     orlinn_move_to_hero_event = vt_map.PathMoveSpriteEvent.Create("orlinn goes back to party", orlinn, hero, false);
-    EventManager:RegisterEvent(orlinn_move_to_hero_event);
 
     event = vt_map.ScriptedEvent.Create("end of crystal event", "end_of_crystal_event", "");
     event:AddEventLinkAtEnd("Map:Popstate()");

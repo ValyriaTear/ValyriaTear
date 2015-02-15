@@ -265,10 +265,9 @@ function _CreateEvents()
     kalya_move_next_to_hero_event1 = vt_map.PathMoveSpriteEvent.Create("Kalya moves next to Bronann1", kalya, 0, 0, false);
     kalya_move_next_to_hero_event1:AddEventLinkAtEnd("Kalya looks north");
     kalya_move_next_to_hero_event1:AddEventLinkAtEnd("Dialogue about snow and bridge", 500);
-    EventManager:RegisterEvent(kalya_move_next_to_hero_event1);
+
     orlinn_move_next_to_hero_event1 = vt_map.PathMoveSpriteEvent.Create("Orlinn moves next to Bronann1", orlinn, 0, 0, false);
     orlinn_move_next_to_hero_event1:AddEventLinkAtEnd("Orlinn looks north");
-    EventManager:RegisterEvent(orlinn_move_next_to_hero_event1);
 
     dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("We made it.");
@@ -285,11 +284,9 @@ function _CreateEvents()
 
 
     orlinn_move_back_to_hero_event1 = vt_map.PathMoveSpriteEvent.Create("Orlinn goes back to party", orlinn, hero, false);
-    EventManager:RegisterEvent(orlinn_move_back_to_hero_event1);
 
     kalya_move_back_to_hero_event1 = vt_map.PathMoveSpriteEvent.Create("Kalya goes back to party", kalya, hero, false);
     kalya_move_back_to_hero_event1:AddEventLinkAtEnd("End of dialogue about snow");
-    EventManager:RegisterEvent(kalya_move_back_to_hero_event1);
 
     event = vt_map.ScriptedEvent.Create("End of dialogue about snow", "snowing_dialogue_end", "");
 
@@ -381,11 +378,10 @@ function _CreateEvents()
     -- NOTE: The actual destination is set just before the actual start call
     kalya_move_next_to_hero_event2 = vt_map.PathMoveSpriteEvent.Create("Kalya moves next to Bronann2", kalya, 0, 0, false);
     kalya_move_next_to_hero_event2:AddEventLinkAtEnd("Kalya looks south");
-    EventManager:RegisterEvent(kalya_move_next_to_hero_event2);
+
     orlinn_move_next_to_hero_event2 = vt_map.PathMoveSpriteEvent.Create("Orlinn moves next to Bronann2", orlinn, 0, 0, false);
     orlinn_move_next_to_hero_event2:AddEventLinkAtEnd("Orlinn looks south");
     kalya_move_next_to_hero_event2:AddEventLinkAtEnd("Dialogue about cutting bridge");
-    EventManager:RegisterEvent(orlinn_move_next_to_hero_event2);
 
     dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Bronann!");
@@ -510,11 +506,9 @@ function _CreateEvents()
 
 
     orlinn_move_back_to_hero_event2 = vt_map.PathMoveSpriteEvent.Create("Orlinn goes back to party2", orlinn, hero, false);
-    EventManager:RegisterEvent(orlinn_move_back_to_hero_event2);
 
     kalya_move_back_to_hero_event2 = vt_map.PathMoveSpriteEvent.Create("Kalya goes back to party2", kalya, hero, false);
     kalya_move_back_to_hero_event2:AddEventLinkAtEnd("End of cutting the bridge Event");
-    EventManager:RegisterEvent(kalya_move_back_to_hero_event2);
 
     event = vt_map.ScriptedEvent.Create("End of cutting the bridge Event", "cut_the_bridge_event_end", "");
 

@@ -374,10 +374,9 @@ function _CreateEvents()
     bronann_move_next_to_hero_event = vt_map.PathMoveSpriteEvent.Create("Bronann moves next to Kalya", bronann, 0, 0, false);
     bronann_move_next_to_hero_event:AddEventLinkAtEnd("Bronann looks north");
     bronann_move_next_to_hero_event:AddEventLinkAtEnd("Kalya reads the parchment 1");
-    EventManager:RegisterEvent(bronann_move_next_to_hero_event);
+
     orlinn_move_next_to_hero_event = vt_map.PathMoveSpriteEvent.Create("Orlinn moves next to Kalya", orlinn, 0, 0, false);
     orlinn_move_next_to_hero_event:AddEventLinkAtEnd("Orlinn looks north");
-    EventManager:RegisterEvent(orlinn_move_next_to_hero_event);
 
     dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("It seems somebody left a note here on purpose.");
@@ -421,10 +420,8 @@ function _CreateEvents()
 
     orlinn_move_back_to_hero_event = vt_map.PathMoveSpriteEvent.Create("Orlinn goes back to party", orlinn, hero, false);
     orlinn_move_back_to_hero_event:AddEventLinkAtEnd("Parchment 1 event end");
-    EventManager:RegisterEvent(orlinn_move_back_to_hero_event);
 
     bronann_move_back_to_hero_event = vt_map.PathMoveSpriteEvent.Create("Bronann goes back to party", bronann, hero, false);
-    EventManager:RegisterEvent(bronann_move_back_to_hero_event);
 
     event = vt_map.ScriptedEvent.Create("Parchment 1 event end", "parchment1_event_end", "");
 

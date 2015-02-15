@@ -243,7 +243,6 @@ function _CreateEvents()
     move_next_to_hero_event = vt_map.PathMoveSpriteEvent.Create("Kalya moves next to Bronann", kalya_sprite, 0, 0, false);
     move_next_to_hero_event:AddEventLinkAtEnd("kalya_sprite:SetCollision(ALL)");
     move_next_to_hero_event:AddEventLinkAtEnd("Kalya looks north");
-    EventManager:RegisterEvent(move_next_to_hero_event);
 
     event = vt_map.ScriptedEvent.Create("Display the stone sign image", "stone_sign_image_start", "stone_sign_image_update")
     event:AddEventLinkAtEnd("Kalya reads the scripture");
@@ -267,7 +266,6 @@ function _CreateEvents()
 
     move_back_to_hero_event = vt_map.PathMoveSpriteEvent.Create("kalya goes back to party", kalya_sprite, hero, false);
     move_back_to_hero_event:AddEventLinkAtEnd("end of stone sign dialogue");
-    EventManager:RegisterEvent(move_back_to_hero_event);
 
     event = vt_map.ScriptedEvent.Create("end of stone sign dialogue", "end_of_stone_sign_dialogue", "");
     event:AddEventLinkAtEnd("Bronann looks north");
@@ -288,7 +286,6 @@ function _CreateEvents()
     -- NOTE the actual coords will be set at event start.
     move_next_to_hero_event2 = vt_map.PathMoveSpriteEvent.Create("Exit seen: Kalya moves next to Bronann", kalya_sprite, 0, 0, false);
     move_next_to_hero_event2:AddEventLinkAtEnd("Kalya says 'Look!'");
-    EventManager:RegisterEvent(move_next_to_hero_event2);
 
     event = vt_map.LookAtSpriteEvent.Create("Kalya looks at the rock", kalya_sprite, 112, 92);
 
@@ -329,7 +326,6 @@ function _CreateEvents()
 
     move_back_to_hero_event2 = vt_map.PathMoveSpriteEvent.Create("Exit seen: kalya goes back to party", kalya_sprite, hero, false);
     move_back_to_hero_event2:AddEventLinkAtEnd("end of exit seen dialogue");
-    EventManager:RegisterEvent(move_back_to_hero_event2);
 
     event = vt_map.ScriptedEvent.Create("end of exit seen dialogue", "end_of_exit_seen_dialogue", "");
     event:AddEventLinkAtEnd("Bronann looks south");

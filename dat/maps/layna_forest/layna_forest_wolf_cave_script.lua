@@ -270,7 +270,6 @@ function _CreateEvents()
     move_next_to_hero_event:AddEventLinkAtEnd("kalya_sprite:SetCollision(ALL)");
     move_next_to_hero_event:AddEventLinkAtEnd("Kalya looks north");
     move_next_to_hero_event:AddEventLinkAtEnd("Kalya Tells about the smell");
-    EventManager:RegisterEvent(move_next_to_hero_event);
 
     dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Yiek, it stinks in here.");
@@ -290,7 +289,6 @@ function _CreateEvents()
 
     move_back_to_hero_event = vt_map.PathMoveSpriteEvent.Create("kalya goes back to party", kalya_sprite, hero, false);
     move_back_to_hero_event:AddEventLinkAtEnd("end of cave entrance dialogue");
-    EventManager:RegisterEvent(move_back_to_hero_event);
 
     event = vt_map.ScriptedEvent.Create("end of cave entrance dialogue", "end_of_cave_entrance_dialogue", "");
 
@@ -305,7 +303,6 @@ function _CreateEvents()
     move_next_to_hero_event2:AddEventLinkAtEnd("kalya_sprite:SetCollision(ALL)");
     move_next_to_hero_event2:AddEventLinkAtEnd("Kalya looks west");
     move_next_to_hero_event2:AddEventLinkAtEnd("Kalya Tells about the necklace");
-    EventManager:RegisterEvent(move_next_to_hero_event2);
 
     event = vt_map.ScriptedEvent.Create("make fenrir appear and necklace disappear", "wolf_appear_n_necklace_disappear", "");
 
@@ -379,7 +376,6 @@ function _CreateEvents()
 
 
     move_back_to_hero_event2 = vt_map.PathMoveSpriteEvent.Create("necklace event: kalya goes back to party", kalya_sprite, hero, false);
-    EventManager:RegisterEvent(move_back_to_hero_event2);
 
     event = vt_map.ScriptedEvent.Create("end of necklace dialogue", "end_of_necklace_dialogue", "");
 

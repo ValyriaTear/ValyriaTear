@@ -378,7 +378,6 @@ function _CreateEvents()
     move_next_to_hero_event:AddEventLinkAtEnd("Kalya looks at the statue");
     move_next_to_hero_event:AddEventLinkAtEnd("Kalya talks about the statue");
     move_next_to_hero_event:AddEventLinkAtEnd("kalya:SetCollision(ALL)");
-    EventManager:RegisterEvent(move_next_to_hero_event);
 
     dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Look!");
@@ -416,7 +415,6 @@ function _CreateEvents()
     move_back_to_hero_event = vt_map.PathMoveSpriteEvent.Create("2nd hero goes back to party", kalya_sprite, hero, false);
     move_back_to_hero_event:AddEventLinkAtEnd("Map:Popstate()");
     move_back_to_hero_event:AddEventLinkAtEnd("end of statue event");
-    EventManager:RegisterEvent(move_back_to_hero_event);
 
     event = vt_map.ScriptedEvent.Create("end of statue event", "end_of_statue_event", "");
 

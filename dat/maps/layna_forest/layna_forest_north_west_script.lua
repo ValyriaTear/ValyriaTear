@@ -734,7 +734,6 @@ function _CreateEvents()
     move_next_to_hero_event = vt_map.PathMoveSpriteEvent.Create("Kalya moves next to Bronann", kalya_sprite, 0, 0, false);
     move_next_to_hero_event:AddEventLinkAtEnd("Kalya calls Orlinn");
     move_next_to_hero_event:AddEventLinkAtEnd("kalya_sprite:SetCollision(ALL)");
-    EventManager:RegisterEvent(move_next_to_hero_event);
 
     dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Orlinn!");
@@ -786,7 +785,6 @@ function _CreateEvents()
 
     move_back_to_hero_event = vt_map.PathMoveSpriteEvent.Create("kalya goes back to party", kalya_sprite, hero, false);
     move_back_to_hero_event:AddEventLinkAtEnd("end of dialogue with Orlinn");
-    EventManager:RegisterEvent(move_back_to_hero_event);
 
     event = vt_map.ScriptedEvent.Create("end of dialogue with Orlinn", "end_of_dialogue_with_orlinn", "");
 
@@ -813,12 +811,10 @@ function _CreateEvents()
     -- NOTE: The actual destination is set just before the actual start call
     move_next_to_hero_event2 = vt_map.PathMoveSpriteEvent.Create("Kalya moves next to Orlinn", kalya_sprite, 0, 0, false);
     move_next_to_hero_event2:AddEventLinkAtEnd("Kalya looks at Orlinn");
-    EventManager:RegisterEvent(move_next_to_hero_event2);
 
     -- NOTE: The actual destination is set just before the actual start call
     move_next_to_hero_event3 = vt_map.PathMoveSpriteEvent.Create("Bronann moves next to Orlinn", hero, 0, 0, false);
     move_next_to_hero_event3:AddEventLinkAtEnd("Bronann looks at Orlinn");
-    EventManager:RegisterEvent(move_next_to_hero_event3);
 
     event = vt_map.ScriptedEvent.Create("Start of dialogue when returning to the village", "start_of_dialogue_return_to_village", "");
     event:AddEventLinkAtEnd("Kalya moves next to Orlinn");

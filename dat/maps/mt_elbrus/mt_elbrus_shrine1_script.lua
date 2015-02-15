@@ -345,10 +345,9 @@ function _CreateEvents()
     kalya_move_next_to_hero_event1 = vt_map.PathMoveSpriteEvent.Create("Kalya moves next to Bronann1", kalya, 0, 0, false);
     kalya_move_next_to_hero_event1:AddEventLinkAtEnd("Kalya moves a bit");
     kalya_move_next_to_hero_event1:AddEventLinkAtEnd("Bronann moves a bit");
-    EventManager:RegisterEvent(kalya_move_next_to_hero_event1);
+
     orlinn_move_next_to_hero_event1 = vt_map.PathMoveSpriteEvent.Create("Orlinn moves next to Bronann1", orlinn, 0, 0, false);
     orlinn_move_next_to_hero_event1:AddEventLinkAtEnd("Orlinn moves near the passway");
-    EventManager:RegisterEvent(orlinn_move_next_to_hero_event1);
 
     event = vt_map.PathMoveSpriteEvent.Create("Kalya moves a bit", kalya, 31, 39, false);
     event:AddEventLinkAtEnd("Kalya looks at Bronann");
@@ -441,10 +440,8 @@ function _CreateEvents()
 
     orlinn_move_back_to_hero_event1 = vt_map.PathMoveSpriteEvent.Create("Orlinn goes back to party", orlinn, hero, false);
     orlinn_move_back_to_hero_event1:AddEventLinkAtEnd("Shrine entrance event end");
-    EventManager:RegisterEvent(orlinn_move_back_to_hero_event1);
 
     kalya_move_back_to_hero_event1 = vt_map.PathMoveSpriteEvent.Create("Kalya goes back to party", kalya, hero, false);
-    EventManager:RegisterEvent(kalya_move_back_to_hero_event1);
 
     event = vt_map.ScriptedEvent.Create("Shrine entrance event end", "shrine_entrance_event_end", "");
 
@@ -467,11 +464,10 @@ function _CreateEvents()
     -- NOTE: The actual destination is set just before the actual start call
     kalya_move_next_to_hero_event2 = vt_map.PathMoveSpriteEvent.Create("Kalya moves next to Bronann2", kalya, 0, 0, false);
     kalya_move_next_to_hero_event2:AddEventLinkAtEnd("Kalya looks north");
-    EventManager:RegisterEvent(kalya_move_next_to_hero_event2);
+
     orlinn_move_next_to_hero_event2 = vt_map.PathMoveSpriteEvent.Create("Orlinn moves next to Bronann2", orlinn, 0, 0, false);
     orlinn_move_next_to_hero_event2:AddEventLinkAtEnd("Orlinn looks north");
     orlinn_move_next_to_hero_event2:AddEventLinkAtEnd("Dialogue before opening the door", 500);
-    EventManager:RegisterEvent(orlinn_move_next_to_hero_event2);
 
     event = vt_map.AnimateSpriteEvent.Create("Bronann kneels", hero, "kneeling", 0); -- 0 means forever
 
@@ -548,10 +544,8 @@ function _CreateEvents()
 
     orlinn_move_back_to_hero_event2 = vt_map.PathMoveSpriteEvent.Create("Orlinn goes back to party2", orlinn, hero, false);
     orlinn_move_back_to_hero_event2:AddEventLinkAtEnd("Shrine door opening event end");
-    EventManager:RegisterEvent(orlinn_move_back_to_hero_event2);
 
     kalya_move_back_to_hero_event2 = vt_map.PathMoveSpriteEvent.Create("Kalya goes back to party2", kalya, hero, false);
-    EventManager:RegisterEvent(kalya_move_back_to_hero_event2);
 
     event = vt_map.ScriptedEvent.Create("Shrine door opening event end", "shrine_door_opening_event_end", "");
 
@@ -565,11 +559,10 @@ function _CreateEvents()
     -- NOTE: The actual destination is set just before the actual start call
     kalya_move_next_to_hero_event3 = vt_map.PathMoveSpriteEvent.Create("Kalya moves next to Bronann3", kalya, 0, 0, false);
     kalya_move_next_to_hero_event3:AddEventLinkAtEnd("Kalya looks south");
-    EventManager:RegisterEvent(kalya_move_next_to_hero_event3);
+
     orlinn_move_next_to_hero_event3 = vt_map.PathMoveSpriteEvent.Create("Orlinn moves next to Bronann3", orlinn, 0, 0, false);
     orlinn_move_next_to_hero_event3:AddEventLinkAtEnd("Orlinn looks south");
     orlinn_move_next_to_hero_event3:AddEventLinkAtEnd("Everyone is suprised", 500);
-    EventManager:RegisterEvent(orlinn_move_next_to_hero_event3);
 
     event = vt_map.ScriptedEvent.Create("Everyone is suprised", "everyone_exclamation", "");
     event:AddEventLinkAtEnd("Sophia Dialogue 1");
@@ -593,7 +586,6 @@ function _CreateEvents()
     -- NOTE: The actual destination is set just before the actual start call
     sophia_move_next_to_hero_event = vt_map.PathMoveSpriteEvent.Create("Sophia moves near the heroes", sophia, 0.0, 0.0, false);
     sophia_move_next_to_hero_event:AddEventLinkAtEnd("Sophia Dialogue 2");
-    EventManager:RegisterEvent(sophia_move_next_to_hero_event);
 
     dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Thank the goddess you're all safe and sound. I was worried sick!");
@@ -675,10 +667,8 @@ function _CreateEvents()
 
     orlinn_move_back_to_hero_event3 = vt_map.PathMoveSpriteEvent.Create("Orlinn goes back to party3", orlinn, hero, false);
     orlinn_move_back_to_hero_event3:AddEventLinkAtEnd("Sophia introduction event end");
-    EventManager:RegisterEvent(orlinn_move_back_to_hero_event3);
 
     kalya_move_back_to_hero_event3 = vt_map.PathMoveSpriteEvent.Create("Kalya goes back to party3", kalya, hero, false);
-    EventManager:RegisterEvent(kalya_move_back_to_hero_event3);
 
     event = vt_map.ScriptedEvent.Create("Sophia introduction event end", "sophia_event_end", "");
 
