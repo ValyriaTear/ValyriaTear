@@ -15,7 +15,6 @@ music_filename = "mus/house_in_a_forest_loop_horrorpen_oga.ogg"
 
 -- c++ objects instances
 local Map = nil
-local DialogueManager = nil
 local EventManager = nil
 
 -- the main character handler
@@ -25,7 +24,6 @@ local hero = nil
 function Load(m)
 
     Map = m;
-    DialogueManager = Map:GetDialogueSupervisor();
     EventManager = Map:GetEventSupervisor();
     Map:SetUnlimitedStamina(false);
 
@@ -51,7 +49,6 @@ end
 
 -- Handle the twilight advancement after the crystal scene
 function _HandleTwilight()
-
     -- If the characters have seen the crystal, then it's time to make the twilight happen
     if (GlobalManager:GetEventValue("story", "layna_forest_crystal_event_done") < 1) then
         return;
@@ -99,50 +96,49 @@ function _CreateObjects()
 
         npc = CreateSprite(Map, "Butterfly", 42, 18, vt_map.MapMode.GROUND_OBJECT);
         npc:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
-        event = vt_map.RandomMoveSpriteEvent("Butterfly1 random move", npc, 1000, 1000);
+        event = vt_map.RandomMoveSpriteEvent.Create("Butterfly1 random move", npc, 1000, 1000);
         event:AddEventLinkAtEnd("Butterfly1 random move", 4500); -- Loop on itself
-        EventManager:RegisterEvent(event);
+
         EventManager:StartEvent("Butterfly1 random move");
 
         npc = CreateSprite(Map, "Butterfly", 12, 30, vt_map.MapMode.GROUND_OBJECT);
         npc:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
-        event = vt_map.RandomMoveSpriteEvent("Butterfly2 random move", npc, 1000, 1000);
+        event = vt_map.RandomMoveSpriteEvent.Create("Butterfly2 random move", npc, 1000, 1000);
         event:AddEventLinkAtEnd("Butterfly2 random move", 4500); -- Loop on itself
-        EventManager:RegisterEvent(event);
+
         EventManager:StartEvent("Butterfly2 random move", 2400);
 
         npc = CreateSprite(Map, "Butterfly", 50, 25, vt_map.MapMode.GROUND_OBJECT);
         npc:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
-        event = vt_map.RandomMoveSpriteEvent("Butterfly3 random move", npc, 1000, 1000);
+        event = vt_map.RandomMoveSpriteEvent.Create("Butterfly3 random move", npc, 1000, 1000);
         event:AddEventLinkAtEnd("Butterfly3 random move", 4500); -- Loop on itself
-        EventManager:RegisterEvent(event);
+
         EventManager:StartEvent("Butterfly3 random move", 1050);
 
         npc = CreateSprite(Map, "Butterfly", 40, 30, vt_map.MapMode.GROUND_OBJECT);
         npc:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
-        event = vt_map.RandomMoveSpriteEvent("Butterfly4 random move", npc, 1000, 1000);
+        event = vt_map.RandomMoveSpriteEvent.Create("Butterfly4 random move", npc, 1000, 1000);
         event:AddEventLinkAtEnd("Butterfly4 random move", 4500); -- Loop on itself
-        EventManager:RegisterEvent(event);
+
         EventManager:StartEvent("Butterfly4 random move", 3050);
 
         npc = CreateSprite(Map, "Squirrel", 18, 24, vt_map.MapMode.GROUND_OBJECT);
         -- Squirrels don't collide with the npcs.
         npc:SetCollisionMask(vt_map.MapMode.WALL_COLLISION);
         npc:SetSpriteAsScenery(true);
-        event = vt_map.RandomMoveSpriteEvent("Squirrel1 random move", npc, 1000, 1000);
+        event = vt_map.RandomMoveSpriteEvent.Create("Squirrel1 random move", npc, 1000, 1000);
         event:AddEventLinkAtEnd("Squirrel1 random move", 4500); -- Loop on itself
-        EventManager:RegisterEvent(event);
+
         EventManager:StartEvent("Squirrel1 random move");
 
         npc = CreateSprite(Map, "Squirrel", 40, 14, vt_map.MapMode.GROUND_OBJECT);
         -- Squirrels don't collide with the npcs.
         npc:SetCollisionMask(vt_map.MapMode.WALL_COLLISION);
         npc:SetSpriteAsScenery(true);
-        event = vt_map.RandomMoveSpriteEvent("Squirrel2 random move", npc, 1000, 1000);
+        event = vt_map.RandomMoveSpriteEvent.Create("Squirrel2 random move", npc, 1000, 1000);
         event:AddEventLinkAtEnd("Squirrel2 random move", 4500); -- Loop on itself
-        EventManager:RegisterEvent(event);
-        EventManager:StartEvent("Squirrel2 random move", 1800);
 
+        EventManager:StartEvent("Squirrel2 random move", 1800);
     end
 
     -- Forest entrance treasure chest
@@ -607,65 +603,52 @@ function _CreateEvents()
     local text = nil
 
     -- Map events
-    event = vt_map.MapTransitionEvent("to forest NW", "dat/maps/layna_forest/layna_forest_north_west_map.lua",
-                                       "dat/maps/layna_forest/layna_forest_north_west_script.lua", "from_layna_forest_NE");
-    EventManager:RegisterEvent(event);
+    vt_map.MapTransitionEvent.Create("to forest NW", "dat/maps/layna_forest/layna_forest_north_west_map.lua",
+                                     "dat/maps/layna_forest/layna_forest_north_west_script.lua", "from_layna_forest_NE");
 
-    event = vt_map.MapTransitionEvent("to forest SE", "dat/maps/layna_forest/layna_forest_south_east_map.lua",
-                                       "dat/maps/layna_forest/layna_forest_south_east_script.lua", "from_layna_forest_NE");
-    EventManager:RegisterEvent(event);
+    vt_map.MapTransitionEvent.Create("to forest SE", "dat/maps/layna_forest/layna_forest_south_east_map.lua",
+                                     "dat/maps/layna_forest/layna_forest_south_east_script.lua", "from_layna_forest_NE");
 
     -- generic events
-    event = vt_map.ScriptedEvent("Map:PopState()", "Map_PopState", "");
-    EventManager:RegisterEvent(event);
+    vt_map.ScriptedEvent.Create("Map:PopState()", "Map_PopState", "");
 
-    event = vt_map.ChangeDirectionSpriteEvent("The Hero looks north", hero, vt_map.MapMode.NORTH);
-    EventManager:RegisterEvent(event);
+    vt_map.ChangeDirectionSpriteEvent.Create("The Hero looks north", hero, vt_map.MapMode.NORTH);
 
     -- Warning dialogue
-    event = vt_map.SoundEvent("Warning dialogue event", "snd/footstep_grass1.wav")
+    event = vt_map.SoundEvent.Create("Warning dialogue event", "snd/footstep_grass1.wav")
     event:AddEventLinkAtEnd("Warning dialogue");
-    EventManager:RegisterEvent(event);
 
     dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("What's that?!");
     dialogue:AddLineEventEmote(text, hero, "The Hero looks north", "", "exclamation");
-    event = vt_map.DialogueEvent("Warning dialogue", dialogue);
+    event = vt_map.DialogueEvent.Create("Warning dialogue", dialogue);
     event:SetStopCameraMovement(true);
-    EventManager:RegisterEvent(event);
 
     -- Boss fight scene
-    event = vt_map.ScriptedEvent("boss fight scene", "start_boss_fight_scene", "");
+    event = vt_map.ScriptedEvent.Create("boss fight scene", "start_boss_fight_scene", "");
     event:AddEventLinkAtEnd("hero looks west");
-    EventManager:RegisterEvent(event);
 
-    event = vt_map.ChangeDirectionSpriteEvent("hero looks west", hero, vt_map.MapMode.WEST);
+    event = vt_map.ChangeDirectionSpriteEvent.Create("hero looks west", hero, vt_map.MapMode.WEST);
     event:AddEventLinkAtEnd("hero looks east", 800);
-    EventManager:RegisterEvent(event);
 
-    event = vt_map.ChangeDirectionSpriteEvent("hero looks east", hero, vt_map.MapMode.EAST);
+    event = vt_map.ChangeDirectionSpriteEvent.Create("hero looks east", hero, vt_map.MapMode.EAST);
     event:AddEventLinkAtEnd("The hero looks at wolf", 800);
-    EventManager:RegisterEvent(event);
 
-    event = vt_map.LookAtSpriteEvent("The hero looks at wolf", hero, wolf);
+    event = vt_map.LookAtSpriteEvent.Create("The hero looks at wolf", hero, wolf);
     event:AddEventLinkAtEnd("Wolf runs toward the hero");
-    EventManager:RegisterEvent(event);
 
-    event = vt_map.PathMoveSpriteEvent("Wolf runs toward the hero", wolf, hero, true);
+    event = vt_map.PathMoveSpriteEvent.Create("Wolf runs toward the hero", wolf, hero, true);
     event:AddEventLinkAtEnd("First Wolf battle");
-    EventManager:RegisterEvent(event);
 
-    event = vt_map.BattleEncounterEvent("First Wolf battle");
+    event = vt_map.BattleEncounterEvent.Create("First Wolf battle");
     event:SetMusic("mus/accion-OGA-djsaryon.ogg");
     event:SetBackground("img/backdrops/battle/forest_background.png");
     event:AddEnemy(3, 512, 500);
     event:SetBoss(true);
     event:AddEventLinkAtEnd("Make the wolf disappear");
-    EventManager:RegisterEvent(event);
 
-    event = vt_map.ScriptedEvent("Make the wolf disappear", "make_wolf_invisible", "");
+    event = vt_map.ScriptedEvent.Create("Make the wolf disappear", "make_wolf_invisible", "");
     event:AddEventLinkAtEnd("boss fight post-dialogue");
-    EventManager:RegisterEvent(event);
 
     dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Woah, that was quite a nasty fight. Why on earth was a north arctic fenrir lurking in the forest? I thought it was merely a part of myths.");
@@ -674,13 +657,11 @@ function _CreateEvents()
     dialogue:AddLineEmote(text, hero, "thinking dots");
     text = vt_system.Translate("I'll try not to think about what it could have done to Orlinn. Let's find him... quickly.");
     dialogue:AddLine(text, hero);
-    event = vt_map.DialogueEvent("boss fight post-dialogue", dialogue);
+    event = vt_map.DialogueEvent.Create("boss fight post-dialogue", dialogue);
     event:AddEventLinkAtEnd("Map:PopState()");
     event:AddEventLinkAtEnd("Restart music");
-    EventManager:RegisterEvent(event);
 
-    event = vt_map.ScriptedEvent("Restart music", "restart_music", "");
-    EventManager:RegisterEvent(event);
+    vt_map.ScriptedEvent.Create("Restart music", "restart_music", "");
 end
 
 -- zones

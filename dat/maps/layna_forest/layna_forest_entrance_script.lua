@@ -15,7 +15,6 @@ music_filename = "mus/house_in_a_forest_loop_horrorpen_oga.ogg"
 
 -- c++ objects instances
 local Map = nil
-local DialogueManager = nil
 local EventManager = nil
 
 -- the main character handler
@@ -31,7 +30,6 @@ local main_sprite_name = "";
 function Load(m)
 
     Map = m;
-    DialogueManager = Map:GetDialogueSupervisor();
     EventManager = Map:GetEventSupervisor();
     Map:SetUnlimitedStamina(false);
 
@@ -153,48 +151,48 @@ function _CreateObjects()
         npc = CreateSprite(Map, "Butterfly", 42, 18, vt_map.MapMode.GROUND_OBJECT);
         npc:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
 
-        event = vt_map.RandomMoveSpriteEvent("Butterfly1 random move", npc, 1000, 1000);
+        event = vt_map.RandomMoveSpriteEvent.Create("Butterfly1 random move", npc, 1000, 1000);
         event:AddEventLinkAtEnd("Butterfly1 random move", 4500); -- Loop on itself
-        EventManager:RegisterEvent(event);
+
         EventManager:StartEvent("Butterfly1 random move");
 
         npc = CreateSprite(Map, "Butterfly", 12, 30, vt_map.MapMode.GROUND_OBJECT);
         npc:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
-        event = vt_map.RandomMoveSpriteEvent("Butterfly2 random move", npc, 1000, 1000);
+        event = vt_map.RandomMoveSpriteEvent.Create("Butterfly2 random move", npc, 1000, 1000);
         event:AddEventLinkAtEnd("Butterfly2 random move", 4500); -- Loop on itself
-        EventManager:RegisterEvent(event);
+
         EventManager:StartEvent("Butterfly2 random move", 2400);
 
         npc = CreateSprite(Map, "Butterfly", 50, 25, vt_map.MapMode.GROUND_OBJECT);
         npc:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
-        event = vt_map.RandomMoveSpriteEvent("Butterfly3 random move", npc, 1000, 1000);
+        event = vt_map.RandomMoveSpriteEvent.Create("Butterfly3 random move", npc, 1000, 1000);
         event:AddEventLinkAtEnd("Butterfly3 random move", 4500); -- Loop on itself
-        EventManager:RegisterEvent(event);
+
         EventManager:StartEvent("Butterfly3 random move", 1050);
 
         npc = CreateSprite(Map, "Butterfly", 40, 30, vt_map.MapMode.GROUND_OBJECT);
         npc:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
-        event = vt_map.RandomMoveSpriteEvent("Butterfly4 random move", npc, 1000, 1000);
+        event = vt_map.RandomMoveSpriteEvent.Create("Butterfly4 random move", npc, 1000, 1000);
         event:AddEventLinkAtEnd("Butterfly4 random move", 4500); -- Loop on itself
-        EventManager:RegisterEvent(event);
+
         EventManager:StartEvent("Butterfly4 random move", 3050);
 
         npc = CreateSprite(Map, "Squirrel", 18, 24, vt_map.MapMode.GROUND_OBJECT);
         -- Squirrels don't collide with the npcs.
         npc:SetCollisionMask(vt_map.MapMode.WALL_COLLISION);
         npc:SetSpriteAsScenery(true);
-        event = vt_map.RandomMoveSpriteEvent("Squirrel1 random move", npc, 1000, 1000);
+        event = vt_map.RandomMoveSpriteEvent.Create("Squirrel1 random move", npc, 1000, 1000);
         event:AddEventLinkAtEnd("Squirrel1 random move", 4500); -- Loop on itself
-        EventManager:RegisterEvent(event);
+
         EventManager:StartEvent("Squirrel1 random move");
 
         npc = CreateSprite(Map, "Squirrel", 40, 16, vt_map.MapMode.GROUND_OBJECT);
         -- Squirrels don't collide with the npcs.
         npc:SetCollisionMask(vt_map.MapMode.WALL_COLLISION);
         npc:SetSpriteAsScenery(true);
-        event = vt_map.RandomMoveSpriteEvent("Squirrel2 random move", npc, 1000, 1000);
+        event = vt_map.RandomMoveSpriteEvent.Create("Squirrel2 random move", npc, 1000, 1000);
         event:AddEventLinkAtEnd("Squirrel2 random move", 4500); -- Loop on itself
-        EventManager:RegisterEvent(event);
+
         EventManager:StartEvent("Squirrel2 random move", 1800);
     else
         -- add fireflies near the statue at night
@@ -329,71 +327,54 @@ function _CreateEvents()
     local text = nil
 
     -- Music event
-    event = vt_map.ScriptedEvent("Music start", "music_start", "");
-    EventManager:RegisterEvent(event);
+    vt_map.ScriptedEvent.Create("Music start", "music_start", "");
 
     -- Triggered events
-    event = vt_map.MapTransitionEvent("exit forest", "dat/maps/layna_village/layna_village_center_map.lua",
-                                       "dat/maps/layna_village/layna_village_center_script.lua", "from_layna_forest_entrance");
-    EventManager:RegisterEvent(event);
+    vt_map.MapTransitionEvent.Create("exit forest", "dat/maps/layna_village/layna_village_center_map.lua",
+                                     "dat/maps/layna_village/layna_village_center_script.lua", "from_layna_forest_entrance");
 
-    event = vt_map.MapTransitionEvent("to forest NW", "dat/maps/layna_forest/layna_forest_north_west_map.lua",
-                                       "dat/maps/layna_forest/layna_forest_north_west_script.lua", "from_layna_forest_entrance");
-    EventManager:RegisterEvent(event);
+    vt_map.MapTransitionEvent.Create("to forest NW", "dat/maps/layna_forest/layna_forest_north_west_map.lua",
+                                     "dat/maps/layna_forest/layna_forest_north_west_script.lua", "from_layna_forest_entrance");
 
     -- After the forest dungeon
-    event = vt_map.MapTransitionEvent("exit forest at night", "dat/maps/layna_village/layna_village_center_map.lua",
-                                       "dat/maps/layna_village/layna_village_center_at_night_script.lua", "from_layna_forest_entrance");
-    EventManager:RegisterEvent(event);
+    vt_map.MapTransitionEvent.Create("exit forest at night", "dat/maps/layna_village/layna_village_center_map.lua",
+                                     "dat/maps/layna_village/layna_village_center_at_night_script.lua", "from_layna_forest_entrance");
 
     -- Heal point
-    event = vt_map.ScriptedEvent("Forest entrance heal", "heal_party", "heal_done");
-    EventManager:RegisterEvent(event);
+    vt_map.ScriptedEvent.Create("Forest entrance heal", "heal_party", "heal_done");
 
     -- Generic events
-    event = vt_map.ScriptedEvent("Map:Popstate()", "Map_PopState", "");
-    EventManager:RegisterEvent(event);
+    vt_map.ScriptedEvent.Create("Map:Popstate()", "Map_PopState", "");
 
-    event = vt_map.ScriptedSpriteEvent("kalya:SetCollision(ALL)", kalya_sprite, "Sprite_Collision_on", "");
-    EventManager:RegisterEvent(event);
-    event = vt_map.ScriptedSpriteEvent("hero:SetCollision(ALL)", hero, "Sprite_Collision_on", "");
-    EventManager:RegisterEvent(event);
-    event = vt_map.ScriptedSpriteEvent("second_hero:SetCollision(NONE)", kalya_sprite, "Sprite_Collision_off", "");
-    EventManager:RegisterEvent(event);
+    vt_map.ScriptedSpriteEvent.Create("kalya:SetCollision(ALL)", kalya_sprite, "Sprite_Collision_on", "");
+    vt_map.ScriptedSpriteEvent.Create("hero:SetCollision(ALL)", hero, "Sprite_Collision_on", "");
+    vt_map.ScriptedSpriteEvent.Create("second_hero:SetCollision(NONE)", kalya_sprite, "Sprite_Collision_off", "");
 
-    event = vt_map.LookAtSpriteEvent("Kalya looks at Bronann", kalya_sprite, hero);
-    EventManager:RegisterEvent(event);
-    event = vt_map.LookAtSpriteEvent("Bronann looks at Kalya", hero, kalya_sprite);
-    EventManager:RegisterEvent(event);
-    event = vt_map.LookAtSpriteEvent("Kalya looks at the statue", kalya_sprite, 27, 23);
-    EventManager:RegisterEvent(event);
+    vt_map.LookAtSpriteEvent.Create("Kalya looks at Bronann", kalya_sprite, hero);
+    vt_map.LookAtSpriteEvent.Create("Bronann looks at Kalya", hero, kalya_sprite);
+    vt_map.LookAtSpriteEvent.Create("Kalya looks at the statue", kalya_sprite, 27, 23);
 
     -- First time forest entrance dialogue about save points and the heal spring.
-    event = vt_map.ScriptedEvent("Forest entrance dialogue", "forest_statue_event_start", "");
+    event = vt_map.ScriptedEvent.Create("Forest entrance dialogue", "forest_statue_event_start", "");
     event:AddEventLinkAtEnd("Kalya moves next to Bronann", 50);
-    EventManager:RegisterEvent(event);
 
     -- NOTE: The actual destination is set just before the actual start call
-    move_next_to_hero_event = vt_map.PathMoveSpriteEvent("Kalya moves next to Bronann", kalya_sprite, 0, 0, false);
+    move_next_to_hero_event = vt_map.PathMoveSpriteEvent.Create("Kalya moves next to Bronann", kalya_sprite, 0, 0, false);
     move_next_to_hero_event:AddEventLinkAtEnd("Kalya looks at the statue");
     move_next_to_hero_event:AddEventLinkAtEnd("Kalya talks about the statue");
     move_next_to_hero_event:AddEventLinkAtEnd("kalya:SetCollision(ALL)");
-    EventManager:RegisterEvent(move_next_to_hero_event);
 
     dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Look!");
     dialogue:AddLineEventEmote(text, kalya_sprite, "Kalya looks at the statue", "", "exclamation");
-    event = vt_map.DialogueEvent("Kalya talks about the statue", dialogue);
+    event = vt_map.DialogueEvent.Create("Kalya talks about the statue", dialogue);
     event:AddEventLinkAtEnd("Kalya moves near the statue");
     event:AddEventLinkAtEnd("Bronann gets nearer as well", 1000);
-    EventManager:RegisterEvent(event);
 
-    event = vt_map.PathMoveSpriteEvent("Kalya moves near the statue", kalya_sprite, 21, 20, true);
+    event = vt_map.PathMoveSpriteEvent.Create("Kalya moves near the statue", kalya_sprite, 21, 20, true);
     event:AddEventLinkAtEnd("Kalya talks about the statue 2", 1000);
-    EventManager:RegisterEvent(event);
 
-    event = vt_map.PathMoveSpriteEvent("Bronann gets nearer as well", hero, 14, 25, false);
-    EventManager:RegisterEvent(event);
+    vt_map.PathMoveSpriteEvent.Create("Bronann gets nearer as well", hero, 14, 25, false);
 
     dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Have you seen one of these before? This is a Layna statue. Praying near it heals both your mind and body.");
@@ -404,22 +385,18 @@ function _CreateEvents()
     dialogue:AddLine(text, hero);
     text = vt_system.Translate("See? Now, let's find my brother before he gets hurt.");
     dialogue:AddLine(text, kalya_sprite);
-    event = vt_map.DialogueEvent("Kalya talks about the statue 2", dialogue);
+    event = vt_map.DialogueEvent.Create("Kalya talks about the statue 2", dialogue);
     event:AddEventLinkAtEnd("second_hero:SetCollision(NONE)");
     event:AddEventLinkAtEnd("Set Camera");
-    EventManager:RegisterEvent(event);
 
-    event = vt_map.ScriptedSpriteEvent("Set Camera", hero, "SetCamera", "");
+    event = vt_map.ScriptedSpriteEvent.Create("Set Camera", hero, "SetCamera", "");
     event:AddEventLinkAtEnd("2nd hero goes back to party");
-    EventManager:RegisterEvent(event);
 
-    move_back_to_hero_event = vt_map.PathMoveSpriteEvent("2nd hero goes back to party", kalya_sprite, hero, false);
+    move_back_to_hero_event = vt_map.PathMoveSpriteEvent.Create("2nd hero goes back to party", kalya_sprite, hero, false);
     move_back_to_hero_event:AddEventLinkAtEnd("Map:Popstate()");
     move_back_to_hero_event:AddEventLinkAtEnd("end of statue event");
-    EventManager:RegisterEvent(move_back_to_hero_event);
 
-    event = vt_map.ScriptedEvent("end of statue event", "end_of_statue_event", "");
-    EventManager:RegisterEvent(event);
+    vt_map.ScriptedEvent.Create("end of statue event", "end_of_statue_event", "");
 end
 
 -- zones

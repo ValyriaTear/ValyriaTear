@@ -15,7 +15,6 @@ music_filename = "mus/mountain_shrine.ogg"
 
 -- c++ objects instances
 local Map = nil
-local DialogueManager = nil
 local EventManager = nil
 local Script = nil
 
@@ -27,7 +26,6 @@ function Load(m)
 
     Map = m;
     Script = Map:GetScriptSupervisor();
-    DialogueManager = Map:GetDialogueSupervisor();
     EventManager = Map:GetEventSupervisor();
     Map:SetUnlimitedStamina(false);
 
@@ -87,11 +85,6 @@ local pushed_bones = {};
 local treasure_jars = {};
 
 function _CreateObjects()
-    local object = nil
-    local npc = nil
-    local dialogue = nil
-    local text = nil
-    local event = nil
 
     _add_flame(11.5, 6);
     _add_flame(27.5, 6);
@@ -226,7 +219,7 @@ end
 function _add_flame(x, y)
     vt_map.SoundObject.Create("snd/campfire.ogg", x, y, 10.0);
 
-    local object = CreateObject(Map, "Flame1", x, y, vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Flame1", x, y, vt_map.MapMode.GROUND_OBJECT);
 
     vt_map.Halo.Create("img/misc/lights/torch_light_mask2.lua", x, y + 3.0,
         vt_video.Color(0.85, 0.32, 0.0, 0.6));
@@ -240,28 +233,22 @@ function _CreateEvents()
     local dialogue = nil
     local text = nil
 
-    event = vt_map.MapTransitionEvent("to mountain shrine main room", "dat/maps/mt_elbrus/mt_elbrus_shrine2_map.lua",
-                                       "dat/maps/mt_elbrus/mt_elbrus_shrine2_script.lua", "from_shrine_trap_room");
-    EventManager:RegisterEvent(event);
-    event = vt_map.MapTransitionEvent("to mountain shrine main room-waterfalls", "dat/maps/mt_elbrus/mt_elbrus_shrine2_2_map.lua",
-                                       "dat/maps/mt_elbrus/mt_elbrus_shrine2_script.lua", "from_shrine_trap_room");
-    EventManager:RegisterEvent(event);
+    vt_map.MapTransitionEvent.Create("to mountain shrine main room", "dat/maps/mt_elbrus/mt_elbrus_shrine2_map.lua",
+                                     "dat/maps/mt_elbrus/mt_elbrus_shrine2_script.lua", "from_shrine_trap_room");
 
-    event = vt_map.MapTransitionEvent("to mountain shrine treasure room", "dat/maps/mt_elbrus/mt_elbrus_shrine9_map.lua",
-                                       "dat/maps/mt_elbrus/mt_elbrus_shrine9_script.lua", "from_shrine_trap_room");
-    EventManager:RegisterEvent(event);
+    vt_map.MapTransitionEvent.Create("to mountain shrine main room-waterfalls", "dat/maps/mt_elbrus/mt_elbrus_shrine2_2_map.lua",
+                                     "dat/maps/mt_elbrus/mt_elbrus_shrine2_script.lua", "from_shrine_trap_room");
 
-    event = vt_map.ScriptedEvent("Start trap", "trap_start", "trap_update");
-    EventManager:RegisterEvent(event);
+    vt_map.MapTransitionEvent.Create("to mountain shrine treasure room", "dat/maps/mt_elbrus/mt_elbrus_shrine9_map.lua",
+                                     "dat/maps/mt_elbrus/mt_elbrus_shrine9_script.lua", "from_shrine_trap_room");
 
-    event = vt_map.ScriptedEvent("Start trap end", "end_trap_start", "end_trap_update");
-    EventManager:RegisterEvent(event);
+    vt_map.ScriptedEvent.Create("Start trap", "trap_start", "trap_update");
+    vt_map.ScriptedEvent.Create("Start trap end", "end_trap_start", "end_trap_update");
 
-    event = vt_map.ScriptedEvent("Make spike wall go up", "spike_wall_start", "spike_wall_update");
-    EventManager:RegisterEvent(event);
-    event = vt_map.ScriptedEvent("Make spike wall go down", "spike_wall_down_start", "spike_wall_down_update");
+    vt_map.ScriptedEvent.Create("Make spike wall go up", "spike_wall_start", "spike_wall_update");
+
+    event = vt_map.ScriptedEvent.Create("Make spike wall go down", "spike_wall_down_start", "spike_wall_down_update");
     event:AddEventLinkAtEnd("Start trap end");
-    EventManager:RegisterEvent(event);
 end
 
 -- Tells which is the latest monster group the party has defeated.

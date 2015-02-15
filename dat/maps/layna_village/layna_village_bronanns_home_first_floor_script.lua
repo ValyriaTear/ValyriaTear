@@ -15,7 +15,6 @@ music_filename = "mus/koertes-ccby-birdsongloop16s.ogg"
 
 -- c++ objects instances
 local Map = nil
-local DialogueManager = nil
 local EventManager = nil
 
 -- the main character handler
@@ -29,7 +28,6 @@ local bed = nil
 function Load(m)
 
     Map = m;
-    DialogueManager = Map:GetDialogueSupervisor();
     EventManager = Map:GetEventSupervisor();
 
     Map:SetUnlimitedStamina(true);
@@ -161,9 +159,8 @@ function _CreateEvents()
     local text = nil
 
     -- fade out after the bed animation
-    event = vt_map.ScriptedEvent("opening", "begin_fade_out", "fade_out_update");
+    event = vt_map.ScriptedEvent.Create("opening", "begin_fade_out", "fade_out_update");
     event:AddEventLinkAtEnd("opening_dialogue");
-    EventManager:RegisterEvent(event);
 
     -- Bronann's opening dialogue
     dialogue = vt_map.SpriteDialogue.Create();
@@ -173,23 +170,19 @@ function _CreateEvents()
     dialogue:AddLine(text, bronann);
 
     -- Bronann's opening dialogue event
-    event = vt_map.DialogueEvent("opening_dialogue", dialogue);
+    event = vt_map.DialogueEvent.Create("opening_dialogue", dialogue);
     event:AddEventLinkAtEnd("opening2");
-    EventManager:RegisterEvent(event);
 
     -- Unblock Bronann so he can start walking
-    event = vt_map.ScriptedEvent("opening2", "Map_PopState", "");
+    event = vt_map.ScriptedEvent.Create("opening2", "Map_PopState", "");
     event:AddEventLinkAtEnd("opening3");
-    EventManager:RegisterEvent(event);
 
     -- Set the opening dialogue as done
-    event = vt_map.ScriptedEvent("opening3", "OpeningDialogueDone", "");
-    EventManager:RegisterEvent(event);
+    vt_map.ScriptedEvent.Create("opening3", "OpeningDialogueDone", "");
 
     -- Triggered events
-    event = vt_map.MapTransitionEvent("exit floor", "dat/maps/layna_village/layna_village_bronanns_home_map.lua",
-                                       "dat/maps/layna_village/layna_village_bronanns_home_script.lua", "From Bronann's first floor");
-    EventManager:RegisterEvent(event);
+    vt_map.MapTransitionEvent.Create("exit floor", "dat/maps/layna_village/layna_village_bronanns_home_map.lua",
+                                     "dat/maps/layna_village/layna_village_bronanns_home_script.lua", "From Bronann's first floor");
 
     -- Adds a small dialogue describing the save point use.
     dialogue = vt_map.SpriteDialogue.Create();
@@ -197,12 +190,10 @@ function _CreateEvents()
     dialogue:AddLine(text, nil); -- nameless speaker
     text = vt_system.Translate("You can come back here and save as many times as you want.");
     dialogue:AddLine(text, nil); -- nameless speaker
-    event = vt_map.DialogueEvent("Save point dialogue", dialogue);
+    event = vt_map.DialogueEvent.Create("Save point dialogue", dialogue);
     event:AddEventLinkAtEnd("Disable save point dialogue");
-    EventManager:RegisterEvent(event);
 
-    event = vt_map.ScriptedEvent("Disable save point dialogue", "save_point_dialogue_done", "");
-    EventManager:RegisterEvent(event);
+    vt_map.ScriptedEvent.Create("Disable save point dialogue", "save_point_dialogue_done", "");
 end
 
 -- zones
@@ -231,7 +222,6 @@ function _CheckZones()
         end
     end
 end
-
 
 local fade_effect_time = 0;
 local fade_set = false;

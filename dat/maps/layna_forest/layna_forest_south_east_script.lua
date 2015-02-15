@@ -15,7 +15,6 @@ music_filename = "mus/house_in_a_forest_loop_horrorpen_oga.ogg"
 
 -- c++ objects instances
 local Map = nil
-local DialogueManager = nil
 local EventManager = nil
 
 -- the main character handler
@@ -25,7 +24,6 @@ local hero = nil
 function Load(m)
 
     Map = m;
-    DialogueManager = Map:GetDialogueSupervisor();
     EventManager = Map:GetEventSupervisor();
     Map:SetUnlimitedStamina(false);
 
@@ -131,48 +129,48 @@ function _CreateObjects()
     if (GlobalManager:GetEventValue("story", "layna_forest_crystal_event_done") < 1) then
         npc = CreateSprite(Map, "Butterfly", 42, 18, vt_map.MapMode.GROUND_OBJECT);
         npc:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
-        event = vt_map.RandomMoveSpriteEvent("Butterfly1 random move", npc, 1000, 1000);
+        event = vt_map.RandomMoveSpriteEvent.Create("Butterfly1 random move", npc, 1000, 1000);
         event:AddEventLinkAtEnd("Butterfly1 random move", 4500); -- Loop on itself
-        EventManager:RegisterEvent(event);
+
         EventManager:StartEvent("Butterfly1 random move");
 
         npc = CreateSprite(Map, "Butterfly", 12, 30, vt_map.MapMode.GROUND_OBJECT);
         npc:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
-        event = vt_map.RandomMoveSpriteEvent("Butterfly2 random move", npc, 1000, 1000);
+        event = vt_map.RandomMoveSpriteEvent.Create("Butterfly2 random move", npc, 1000, 1000);
         event:AddEventLinkAtEnd("Butterfly2 random move", 4500); -- Loop on itself
-        EventManager:RegisterEvent(event);
+
         EventManager:StartEvent("Butterfly2 random move", 2400);
 
         npc = CreateSprite(Map, "Butterfly", 50, 25, vt_map.MapMode.GROUND_OBJECT);
         npc:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
-        event = vt_map.RandomMoveSpriteEvent("Butterfly3 random move", npc, 1000, 1000);
+        event = vt_map.RandomMoveSpriteEvent.Create("Butterfly3 random move", npc, 1000, 1000);
         event:AddEventLinkAtEnd("Butterfly3 random move", 4500); -- Loop on itself
-        EventManager:RegisterEvent(event);
+
         EventManager:StartEvent("Butterfly3 random move", 1050);
 
         npc = CreateSprite(Map, "Butterfly", 40, 30, vt_map.MapMode.GROUND_OBJECT);
         npc:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
-        event = vt_map.RandomMoveSpriteEvent("Butterfly4 random move", npc, 1000, 1000);
+        event = vt_map.RandomMoveSpriteEvent.Create("Butterfly4 random move", npc, 1000, 1000);
         event:AddEventLinkAtEnd("Butterfly4 random move", 4500); -- Loop on itself
-        EventManager:RegisterEvent(event);
+
         EventManager:StartEvent("Butterfly4 random move", 3050);
 
         npc = CreateSprite(Map, "Squirrel", 18, 24, vt_map.MapMode.GROUND_OBJECT);
         -- Squirrels don't collide with the npcs.
         npc:SetCollisionMask(vt_map.MapMode.WALL_COLLISION);
         npc:SetSpriteAsScenery(true);
-        event = vt_map.RandomMoveSpriteEvent("Squirrel1 random move", npc, 1000, 1000);
+        event = vt_map.RandomMoveSpriteEvent.Create("Squirrel1 random move", npc, 1000, 1000);
         event:AddEventLinkAtEnd("Squirrel1 random move", 4500); -- Loop on itself
-        EventManager:RegisterEvent(event);
+
         EventManager:StartEvent("Squirrel1 random move");
 
         npc = CreateSprite(Map, "Squirrel", 40, 14, vt_map.MapMode.GROUND_OBJECT);
         -- Squirrels don't collide with the npcs.
         npc:SetCollisionMask(vt_map.MapMode.WALL_COLLISION);
         npc:SetSpriteAsScenery(true);
-        event = vt_map.RandomMoveSpriteEvent("Squirrel2 random move", npc, 1000, 1000);
+        event = vt_map.RandomMoveSpriteEvent.Create("Squirrel2 random move", npc, 1000, 1000);
         event:AddEventLinkAtEnd("Squirrel2 random move", 4500); -- Loop on itself
-        EventManager:RegisterEvent(event);
+
         EventManager:StartEvent("Squirrel2 random move", 1800);
     end
 
@@ -712,29 +710,23 @@ function _CreateEvents()
     local text = nil
 
     -- Map events
-    event = vt_map.MapTransitionEvent("to forest NE", "dat/maps/layna_forest/layna_forest_north_east_map.lua",
-                                       "dat/maps/layna_forest/layna_forest_north_east_script.lua", "from forest SE")
-    EventManager:RegisterEvent(event);
+    vt_map.MapTransitionEvent.Create("to forest NE", "dat/maps/layna_forest/layna_forest_north_east_map.lua",
+                                     "dat/maps/layna_forest/layna_forest_north_east_script.lua", "from forest SE")
 
-    event = vt_map.MapTransitionEvent("to forest SW", "dat/maps/layna_forest/layna_forest_south_west_map.lua",
-                                       "dat/maps/layna_forest/layna_forest_south_west_script.lua", "from forest SE")
-    EventManager:RegisterEvent(event);
+    vt_map.MapTransitionEvent.Create("to forest SW", "dat/maps/layna_forest/layna_forest_south_west_map.lua",
+                                     "dat/maps/layna_forest/layna_forest_south_west_script.lua", "from forest SE")
 
-    event = vt_map.MapTransitionEvent("to cave 1_2", "dat/maps/layna_forest/layna_forest_cave1_2_map.lua",
-                                       "dat/maps/layna_forest/layna_forest_cave1_2_script.lua", "from forest SE")
-    EventManager:RegisterEvent(event);
+    vt_map.MapTransitionEvent.Create("to cave 1_2", "dat/maps/layna_forest/layna_forest_cave1_2_map.lua",
+                                     "dat/maps/layna_forest/layna_forest_cave1_2_script.lua", "from forest SE")
 
-    event = vt_map.MapTransitionEvent("to wolf cave", "dat/maps/layna_forest/layna_forest_wolf_cave_map.lua",
-                                       "dat/maps/layna_forest/layna_forest_wolf_cave_script.lua", "from forest SE")
-    EventManager:RegisterEvent(event);
+    vt_map.MapTransitionEvent.Create("to wolf cave", "dat/maps/layna_forest/layna_forest_wolf_cave_map.lua",
+                                     "dat/maps/layna_forest/layna_forest_wolf_cave_script.lua", "from forest SE")
 
-    event = vt_map.MapTransitionEvent("to cave 2", "dat/maps/layna_forest/layna_forest_cave2_map.lua",
-                                       "dat/maps/layna_forest/layna_forest_cave2_script.lua", "from forest SE")
-    EventManager:RegisterEvent(event);
+    vt_map.MapTransitionEvent.Create("to cave 2", "dat/maps/layna_forest/layna_forest_cave2_map.lua",
+                                     "dat/maps/layna_forest/layna_forest_cave2_script.lua", "from forest SE")
 
     -- Heal point
-    event = vt_map.ScriptedEvent("Forest entrance heal", "heal_party", "heal_done");
-    EventManager:RegisterEvent(event);
+    vt_map.ScriptedEvent.Create("Forest entrance heal", "heal_party", "heal_done");
 end
 
 -- zones

@@ -15,7 +15,6 @@ music_filename = "mus/mountain_shrine.ogg"
 
 -- c++ objects instances
 local Map = nil
-local DialogueManager = nil
 local EventManager = nil
 local Script = nil
 
@@ -30,7 +29,6 @@ function Load(m)
 
     Map = m;
     Script = Map:GetScriptSupervisor();
-    DialogueManager = Map:GetDialogueSupervisor();
     EventManager = Map:GetEventSupervisor();
     Map:SetUnlimitedStamina(false);
 
@@ -100,12 +98,6 @@ local rolling_stone2 = nil
 local rolling_stone2_out = false;
 
 function _CreateObjects()
-    local object = nil
-    local npc = nil
-    local dialogue = nil
-    local text = nil
-    local event = nil
-
     _add_flame(9.5, 7);
     _add_flame(33.5, 7);
 
@@ -160,15 +152,13 @@ function _CreateObjects()
     stone_trigger1:SetPosition(26, 17);
     stone_trigger1:SetTriggerableByCharacter(false); -- Only an event can trigger it
 
-    event = vt_map.ScriptedEvent("Check triggers", "check_triggers", "")
-    EventManager:RegisterEvent(event);
+    vt_map.ScriptedEvent.Create("Check triggers", "check_triggers", "")
+
 
     -- The stones used to get through this enigma
     rolling_stone1 = CreateObject(Map, "Rolling Stone", 38, 34, vt_map.MapMode.GROUND_OBJECT);
-    event = vt_map.IfEvent("Check hero position for rolling stone 1", "check_diagonal_stone1", "Push the rolling stone 1", "");
-    EventManager:RegisterEvent(event);
-    event = vt_map.ScriptedEvent("Push the rolling stone 1", "start_to_move_the_stone1", "move_the_stone_update1")
-    EventManager:RegisterEvent(event);
+    vt_map.IfEvent.Create("Check hero position for rolling stone 1", "check_diagonal_stone1", "Push the rolling stone 1", "");
+    vt_map.ScriptedEvent.Create("Push the rolling stone 1", "start_to_move_the_stone1", "move_the_stone_update1")
 
     if (GlobalManager:GetEventValue("story", "mt_shrine_1st_floor_stone1_through_1st_door") == 1) then
         if (GlobalManager:GetEventValue("triggers", "mt elbrus shrine 6 trigger 1") == 1) then
@@ -182,10 +172,9 @@ function _CreateObjects()
     end
 
     rolling_stone2 = CreateObject(Map, "Rolling Stone", 38, 34, vt_map.MapMode.GROUND_OBJECT);
-    event = vt_map.IfEvent("Check hero position for rolling stone 2", "check_diagonal_stone2", "Push the rolling stone 2", "");
-    EventManager:RegisterEvent(event);
-    event = vt_map.ScriptedEvent("Push the rolling stone 2", "start_to_move_the_stone2", "move_the_stone_update2")
-    EventManager:RegisterEvent(event);
+    vt_map.IfEvent.Create("Check hero position for rolling stone 2", "check_diagonal_stone2", "Push the rolling stone 2", "");
+    vt_map.ScriptedEvent.Create("Push the rolling stone 2", "start_to_move_the_stone2", "move_the_stone_update2")
+
 
     if (GlobalManager:GetEventValue("story", "mt_shrine_1st_floor_stone2_through_1st_door") == 1
             and GlobalManager:GetEventValue("story", "mt_shrine_1st_floor_stone2_through_2nd_door") == 0) then
@@ -245,26 +234,20 @@ end
 
 -- Creates all events and sets up the entire event sequence chain
 function _CreateEvents()
-    local event = nil
-    local dialogue = nil
-    local text = nil
+    vt_map.MapTransitionEvent.Create("to mountain shrine 1st floor NW room - left door", "dat/maps/mt_elbrus/mt_elbrus_shrine5_map.lua",
+                                     "dat/maps/mt_elbrus/mt_elbrus_shrine5_script.lua", "from_shrine_first_floor_SW_left_door");
 
-    event = vt_map.MapTransitionEvent("to mountain shrine 1st floor NW room - left door", "dat/maps/mt_elbrus/mt_elbrus_shrine5_map.lua",
-                                       "dat/maps/mt_elbrus/mt_elbrus_shrine5_script.lua", "from_shrine_first_floor_SW_left_door");
-    EventManager:RegisterEvent(event);
-    event = vt_map.MapTransitionEvent("to mountain shrine 1st floor NW room - right door", "dat/maps/mt_elbrus/mt_elbrus_shrine5_map.lua",
-                                       "dat/maps/mt_elbrus/mt_elbrus_shrine5_script.lua", "from_shrine_first_floor_SW_right_door");
-    EventManager:RegisterEvent(event);
-    event = vt_map.MapTransitionEvent("to mountain shrine 1st floor SE room - top door", "dat/maps/mt_elbrus/mt_elbrus_shrine7_map.lua",
-                                       "dat/maps/mt_elbrus/mt_elbrus_shrine7_script.lua", "from_shrine_first_floor_SW_top_door");
-    EventManager:RegisterEvent(event);
-    event = vt_map.MapTransitionEvent("to mountain shrine 1st floor SE room - bottom door", "dat/maps/mt_elbrus/mt_elbrus_shrine7_map.lua",
-                                       "dat/maps/mt_elbrus/mt_elbrus_shrine7_script.lua", "from_shrine_first_floor_SW_bottom_door");
-    EventManager:RegisterEvent(event);
+    vt_map.MapTransitionEvent.Create("to mountain shrine 1st floor NW room - right door", "dat/maps/mt_elbrus/mt_elbrus_shrine5_map.lua",
+                                     "dat/maps/mt_elbrus/mt_elbrus_shrine5_script.lua", "from_shrine_first_floor_SW_right_door");
+
+    vt_map.MapTransitionEvent.Create("to mountain shrine 1st floor SE room - top door", "dat/maps/mt_elbrus/mt_elbrus_shrine7_map.lua",
+                                     "dat/maps/mt_elbrus/mt_elbrus_shrine7_script.lua", "from_shrine_first_floor_SW_top_door");
+
+    vt_map.MapTransitionEvent.Create("to mountain shrine 1st floor SE room - bottom door", "dat/maps/mt_elbrus/mt_elbrus_shrine7_map.lua",
+                                     "dat/maps/mt_elbrus/mt_elbrus_shrine7_script.lua", "from_shrine_first_floor_SW_bottom_door");
 
     -- Opens the north east passage to the next map.
-    event = vt_map.ScriptedEvent("Open north east passage", "open_ne_passage_start", "open_ne_passage_update");
-    EventManager:RegisterEvent(event);
+    vt_map.ScriptedEvent.Create("Open north east passage", "open_ne_passage_start", "open_ne_passage_update");
 end
 
 -- zones

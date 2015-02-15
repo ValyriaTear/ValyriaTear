@@ -15,7 +15,6 @@ music_filename = "mus/awareness_el_corleo.ogg"
 
 -- c++ objects instances
 local Map = nil
-local DialogueManager = nil
 local EventManager = nil
 
 -- the main character handler
@@ -32,7 +31,6 @@ local main_sprite_name = "";
 function Load(m)
 
     Map = m;
-    DialogueManager = Map:GetDialogueSupervisor();
     EventManager = Map:GetEventSupervisor();
     Map:SetUnlimitedStamina(false);
 
@@ -553,80 +551,64 @@ function _CreateEvents()
     local text = nil
 
     -- To the first cave
-    event = vt_map.MapTransitionEvent("to cave 1", "dat/maps/mt_elbrus/mt_elbrus_cave1_map.lua",
-                                       "dat/maps/mt_elbrus/mt_elbrus_cave1_script.lua", "from_entrance1");
-    EventManager:RegisterEvent(event);
-    event = vt_map.MapTransitionEvent("to cave 2", "dat/maps/mt_elbrus/mt_elbrus_cave1_map.lua",
-                                       "dat/maps/mt_elbrus/mt_elbrus_cave1_script.lua", "from_entrance2");
-    EventManager:RegisterEvent(event);
-    event = vt_map.MapTransitionEvent("to cave 3", "dat/maps/mt_elbrus/mt_elbrus_cave1_map.lua",
-                                       "dat/maps/mt_elbrus/mt_elbrus_cave1_script.lua", "from_entrance3");
-    EventManager:RegisterEvent(event);
-    event = vt_map.MapTransitionEvent("to cave 4", "dat/maps/mt_elbrus/mt_elbrus_cave1_map.lua",
-                                       "dat/maps/mt_elbrus/mt_elbrus_cave1_script.lua", "from_entrance4");
-    EventManager:RegisterEvent(event);
+    vt_map.MapTransitionEvent.Create("to cave 1", "dat/maps/mt_elbrus/mt_elbrus_cave1_map.lua",
+                                     "dat/maps/mt_elbrus/mt_elbrus_cave1_script.lua", "from_entrance1");
 
-    event = vt_map.MapTransitionEvent("to mountain path 2", "dat/maps/mt_elbrus/mt_elbrus_path2_map.lua",
-                                       "dat/maps/mt_elbrus/mt_elbrus_path2_script.lua", "from_path1");
-    EventManager:RegisterEvent(event);
+    vt_map.MapTransitionEvent.Create("to cave 2", "dat/maps/mt_elbrus/mt_elbrus_cave1_map.lua",
+                                     "dat/maps/mt_elbrus/mt_elbrus_cave1_script.lua", "from_entrance2");
+
+    vt_map.MapTransitionEvent.Create("to cave 3", "dat/maps/mt_elbrus/mt_elbrus_cave1_map.lua",
+                                     "dat/maps/mt_elbrus/mt_elbrus_cave1_script.lua", "from_entrance3");
+
+    vt_map.MapTransitionEvent.Create("to cave 4", "dat/maps/mt_elbrus/mt_elbrus_cave1_map.lua",
+                                     "dat/maps/mt_elbrus/mt_elbrus_cave1_script.lua", "from_entrance4");
+
+    vt_map.MapTransitionEvent.Create("to mountain path 2", "dat/maps/mt_elbrus/mt_elbrus_path2_map.lua",
+                                     "dat/maps/mt_elbrus/mt_elbrus_path2_script.lua", "from_path1");
 
     -- Heal point
-    event = vt_map.ScriptedEvent("Heal event", "heal_party", "heal_done");
-    EventManager:RegisterEvent(event);
+    vt_map.ScriptedEvent.Create("Heal event", "heal_party", "heal_done");
 
     -- Generic event
-    event = vt_map.LookAtSpriteEvent("Orlinn looks at Kalya", orlinn, kalya);
-    EventManager:RegisterEvent(event);
-    event = vt_map.LookAtSpriteEvent("Kalya looks at Bronann", kalya, hero);
-    EventManager:RegisterEvent(event);
-    event = vt_map.LookAtSpriteEvent("Bronann looks at Kalya", hero, kalya);
-    EventManager:RegisterEvent(event);
+    vt_map.LookAtSpriteEvent.Create("Orlinn looks at Kalya", orlinn, kalya);
+    vt_map.LookAtSpriteEvent.Create("Kalya looks at Bronann", kalya, hero);
+    vt_map.LookAtSpriteEvent.Create("Bronann looks at Kalya", hero, kalya);
 
-    event = vt_map.ChangeDirectionSpriteEvent("Bronann looks west", hero, vt_map.MapMode.WEST);
-    EventManager:RegisterEvent(event);
-    event = vt_map.ChangeDirectionSpriteEvent("Kalya looks west", kalya, vt_map.MapMode.WEST);
-    EventManager:RegisterEvent(event);
-    event = vt_map.ChangeDirectionSpriteEvent("Orlinn looks west", orlinn, vt_map.MapMode.WEST);
-    EventManager:RegisterEvent(event);
+    vt_map.ChangeDirectionSpriteEvent.Create("Bronann looks west", hero, vt_map.MapMode.WEST);
+    vt_map.ChangeDirectionSpriteEvent.Create("Kalya looks west", kalya, vt_map.MapMode.WEST);
+    vt_map.ChangeDirectionSpriteEvent.Create("Orlinn looks west", orlinn, vt_map.MapMode.WEST);
 
     -- Kalya sees the first guard and tells more about the heroes destination.
-    event = vt_map.ScriptedEvent("Set scene state for dialogue about soldiers", "soldiers_dialogue_set_scene_state", "");
+    event = vt_map.ScriptedEvent.Create("Set scene state for dialogue about soldiers", "soldiers_dialogue_set_scene_state", "");
     event:AddEventLinkAtEnd("The hero moves to a good watch point");
-    EventManager:RegisterEvent(event);
 
-    event = vt_map.PathMoveSpriteEvent("The hero moves to a good watch point", hero, 88, 79, false);
+    event = vt_map.PathMoveSpriteEvent.Create("The hero moves to a good watch point", hero, 88, 79, false);
     event:AddEventLinkAtEnd("Kalya tells about the soliders and their destination");
-    EventManager:RegisterEvent(event);
 
-    event = vt_map.ScriptedEvent("Kalya tells about the soliders and their destination", "kalya_sees_the_soldiers_dialogue_start", "");
+    event = vt_map.ScriptedEvent.Create("Kalya tells about the soliders and their destination", "kalya_sees_the_soldiers_dialogue_start", "");
     event:AddEventLinkAtEnd("Kalya moves next to Bronann", 100);
     event:AddEventLinkAtEnd("Orlinn moves next to Bronann", 100);
-    EventManager:RegisterEvent(event);
 
     -- NOTE: The actual destination is set just before the actual start call
-    kalya_move_next_to_hero_event = vt_map.PathMoveSpriteEvent("Kalya moves next to Bronann", kalya, 0, 0, false);
+    kalya_move_next_to_hero_event = vt_map.PathMoveSpriteEvent.Create("Kalya moves next to Bronann", kalya, 0, 0, false);
     kalya_move_next_to_hero_event:AddEventLinkAtEnd("Kalya looks west");
     kalya_move_next_to_hero_event:AddEventLinkAtEnd("Bronann looks west");
     kalya_move_next_to_hero_event:AddEventLinkAtEnd("Kalya sees the soldier");
-    EventManager:RegisterEvent(kalya_move_next_to_hero_event);
-    orlinn_move_next_to_hero_event = vt_map.PathMoveSpriteEvent("Orlinn moves next to Bronann", orlinn, 0, 0, false);
+
+    orlinn_move_next_to_hero_event = vt_map.PathMoveSpriteEvent.Create("Orlinn moves next to Bronann", orlinn, 0, 0, false);
     orlinn_move_next_to_hero_event:AddEventLinkAtEnd("Orlinn looks west");
-    EventManager:RegisterEvent(orlinn_move_next_to_hero_event);
 
     dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Look!");
     dialogue:AddLineEmote(text, kalya, "exclamation");
-    event = vt_map.DialogueEvent("Kalya sees the soldier", dialogue);
+    event = vt_map.DialogueEvent.Create("Kalya sees the soldier", dialogue);
     event:AddEventLinkAtEnd("Set the Camera on the soldier", 200);
-    EventManager:RegisterEvent(event);
 
-    event = vt_map.ScriptedEvent("Set the Camera on the soldier", "set_the_camera_on_the_soldier", "is_camera_moving_finished");
+    event = vt_map.ScriptedEvent.Create("Set the Camera on the soldier", "set_the_camera_on_the_soldier", "is_camera_moving_finished");
     event:AddEventLinkAtEnd("Set the camera back to Bronann", 1000);
-    EventManager:RegisterEvent(event);
 
-    event = vt_map.ScriptedEvent("Set the camera back to Bronann", "set_the_camera_back_on_bronann", "is_camera_moving_finished");
+    event = vt_map.ScriptedEvent.Create("Set the camera back to Bronann", "set_the_camera_back_on_bronann", "is_camera_moving_finished");
     event:AddEventLinkAtEnd("Kalya tells the plan");
-    EventManager:RegisterEvent(event);
 
     dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Banesore's minions are already all over the place.");
@@ -641,20 +623,16 @@ function _CreateEvents()
     dialogue:AddLineEvent(text, kalya, "Kalya looks west", "");
     text = vt_system.Translate("They are too strong. If they catch us, we're doomed.");
     dialogue:AddLine(text, kalya);
-    event = vt_map.DialogueEvent("Kalya tells the plan", dialogue);
+    event = vt_map.DialogueEvent.Create("Kalya tells the plan", dialogue);
     event:AddEventLinkAtEnd("Orlinn goes back to party");
     event:AddEventLinkAtEnd("Kalya goes back to party");
-    EventManager:RegisterEvent(event);
 
-    orlinn_move_back_to_hero_event = vt_map.PathMoveSpriteEvent("Orlinn goes back to party", orlinn, hero, false);
-    EventManager:RegisterEvent(orlinn_move_back_to_hero_event);
+    orlinn_move_back_to_hero_event = vt_map.PathMoveSpriteEvent.Create("Orlinn goes back to party", orlinn, hero, false);
 
-    kalya_move_back_to_hero_event = vt_map.PathMoveSpriteEvent("Kalya goes back to party", kalya, hero, false);
+    kalya_move_back_to_hero_event = vt_map.PathMoveSpriteEvent.Create("Kalya goes back to party", kalya, hero, false);
     kalya_move_back_to_hero_event:AddEventLinkAtEnd("End of dialogue about the soldiers");
-    EventManager:RegisterEvent(kalya_move_back_to_hero_event);
 
-    event = vt_map.ScriptedEvent("End of dialogue about the soldiers", "end_of_dialogue_about_soldiers", "");
-    EventManager:RegisterEvent(event);
+    vt_map.ScriptedEvent.Create("End of dialogue about the soldiers", "end_of_dialogue_about_soldiers", "");
 end
 
 -- zones

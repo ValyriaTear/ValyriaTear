@@ -15,7 +15,6 @@ music_filename = "mus/Caketown_1-OGA-mat-pablo.ogg"
 
 -- c++ objects instances
 local Map = nil
-local DialogueManager = nil
 local EventManager = nil
 
 -- the main character handler
@@ -25,7 +24,6 @@ local bronann = nil
 function Load(m)
 
     Map = m;
-    DialogueManager = Map:GetDialogueSupervisor();
     EventManager = Map:GetEventSupervisor();
 
     Map:SetUnlimitedStamina(true);
@@ -68,9 +66,9 @@ function _CreateObjects()
     if (GlobalManager:GetEventValue("game", "layna_village_chicken1_found") == 0) then
         chicken1 = CreateSprite(Map, "Chicken", 25, 25, vt_map.MapMode.GROUND_OBJECT);
 
-        event = vt_map.RandomMoveSpriteEvent("Chicken1 random move", chicken1, 1000, 1000);
+        event = vt_map.RandomMoveSpriteEvent.Create("Chicken1 random move", chicken1, 1000, 1000);
         event:AddEventLinkAtEnd("Chicken1 random move", 4500); -- Loop on itself
-        EventManager:RegisterEvent(event);
+
         EventManager:StartEvent("Chicken1 random move");
 
         dialogue = vt_map.SpriteDialogue.Create();
@@ -79,8 +77,7 @@ function _CreateObjects()
         dialogue:SetEventAtDialogueEnd("Make bronann take the chicken 1");
         chicken1:AddDialogueReference(dialogue);
 
-        event = vt_map.ScriptedEvent("Make bronann take the chicken 1", "bronann_takes_chicken1", "fadeoutin_update");
-        EventManager:RegisterEvent(event);
+        vt_map.ScriptedEvent.Create("Make bronann take the chicken 1", "bronann_takes_chicken1", "fadeoutin_update");
     end
 
     CreateObject(Map, "Bed1", 42, 27, vt_map.MapMode.GROUND_OBJECT);
@@ -116,14 +113,9 @@ end
 
 -- Creates all events and sets up the entire event sequence chain
 function _CreateEvents()
-    local event = nil
-    local dialogue = nil
-    local text = nil
-
     -- Triggered events
-    event = vt_map.MapTransitionEvent("exit floor", "dat/maps/layna_village/layna_village_riverbank_map.lua",
-                                       "dat/maps/layna_village/layna_village_riverbank_script.lua", "from_riverbank_house");
-    EventManager:RegisterEvent(event);
+    vt_map.MapTransitionEvent.Create("exit floor", "dat/maps/layna_village/layna_village_riverbank_map.lua",
+                                     "dat/maps/layna_village/layna_village_riverbank_script.lua", "from_riverbank_house");
 end
 
 -- zones

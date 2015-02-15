@@ -15,7 +15,6 @@ music_filename = "mus/mountain_shrine.ogg"
 
 -- c++ objects instances
 local Map = nil
-local DialogueManager = nil
 local EventManager = nil
 local Script = nil
 
@@ -34,7 +33,6 @@ function Load(m)
 
     Map = m;
     Script = Map:GetScriptSupervisor();
-    DialogueManager = Map:GetDialogueSupervisor();
     EventManager = Map:GetEventSupervisor();
     Map:SetUnlimitedStamina(false);
 
@@ -326,58 +324,46 @@ function _CreateEvents()
     local dialogue = nil
     local text = nil
 
-    event = vt_map.MapTransitionEvent("to mountain shrine entrance", "dat/maps/mt_elbrus/mt_elbrus_shrine1_map.lua",
-                                       "dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua", "from_shrine_main_room");
-    EventManager:RegisterEvent(event);
-    event = vt_map.MapTransitionEvent("to mountain shrine trap room", "dat/maps/mt_elbrus/mt_elbrus_shrine3_map.lua",
-                                       "dat/maps/mt_elbrus/mt_elbrus_shrine3_script.lua", "from_shrine_main_room");
-    EventManager:RegisterEvent(event);
-    event = vt_map.MapTransitionEvent("to mountain shrine enigma room", "dat/maps/mt_elbrus/mt_elbrus_shrine4_map.lua",
-                                       "dat/maps/mt_elbrus/mt_elbrus_shrine4_script.lua", "from_shrine_main_room");
-    EventManager:RegisterEvent(event);
-    event = vt_map.MapTransitionEvent("to mountain shrine first floor", "dat/maps/mt_elbrus/mt_elbrus_shrine5_map.lua",
-                                       "dat/maps/mt_elbrus/mt_elbrus_shrine5_script.lua", "from_shrine_main_room");
-    EventManager:RegisterEvent(event);
+    vt_map.MapTransitionEvent.Create("to mountain shrine entrance", "dat/maps/mt_elbrus/mt_elbrus_shrine1_map.lua",
+                                     "dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua", "from_shrine_main_room");
 
-    event = vt_map.MapTransitionEvent("to mountain shrine stairs", "dat/maps/mt_elbrus/mt_elbrus_shrine9_map.lua",
-                                       "dat/maps/mt_elbrus/mt_elbrus_shrine9_script.lua", "from_shrine_main_room");
-    EventManager:RegisterEvent(event);
+    vt_map.MapTransitionEvent.Create("to mountain shrine trap room", "dat/maps/mt_elbrus/mt_elbrus_shrine3_map.lua",
+                                     "dat/maps/mt_elbrus/mt_elbrus_shrine3_script.lua", "from_shrine_main_room");
+
+    vt_map.MapTransitionEvent.Create("to mountain shrine enigma room", "dat/maps/mt_elbrus/mt_elbrus_shrine4_map.lua",
+                                     "dat/maps/mt_elbrus/mt_elbrus_shrine4_script.lua", "from_shrine_main_room");
+
+    vt_map.MapTransitionEvent.Create("to mountain shrine first floor", "dat/maps/mt_elbrus/mt_elbrus_shrine5_map.lua",
+                                     "dat/maps/mt_elbrus/mt_elbrus_shrine5_script.lua", "from_shrine_main_room");
+
+    vt_map.MapTransitionEvent.Create("to mountain shrine stairs", "dat/maps/mt_elbrus/mt_elbrus_shrine9_map.lua",
+                                     "dat/maps/mt_elbrus/mt_elbrus_shrine9_script.lua", "from_shrine_main_room");
 
     -- Generic events
-    event = vt_map.ChangeDirectionSpriteEvent("Bronann looks north", bronann, vt_map.MapMode.NORTH);
-    EventManager:RegisterEvent(event);
-    event = vt_map.ChangeDirectionSpriteEvent("Kalya looks north", hero, vt_map.MapMode.NORTH);
-    EventManager:RegisterEvent(event);
-    event = vt_map.ChangeDirectionSpriteEvent("Orlinn looks north", orlinn, vt_map.MapMode.NORTH);
-    EventManager:RegisterEvent(event);
+    vt_map.ChangeDirectionSpriteEvent.Create("Bronann looks north", bronann, vt_map.MapMode.NORTH);
+    vt_map.ChangeDirectionSpriteEvent.Create("Kalya looks north", hero, vt_map.MapMode.NORTH);
+    vt_map.ChangeDirectionSpriteEvent.Create("Orlinn looks north", orlinn, vt_map.MapMode.NORTH);
 
-    event = vt_map.LookAtSpriteEvent("Bronann looks at Kalya", bronann, hero);
-    EventManager:RegisterEvent(event);
-    event = vt_map.LookAtSpriteEvent("Orlinn looks at Kalya", orlinn, hero);
-    EventManager:RegisterEvent(event);
-    event = vt_map.LookAtSpriteEvent("Kalya looks at Orlinn", hero, orlinn);
-    EventManager:RegisterEvent(event);
-    event = vt_map.LookAtSpriteEvent("Kalya looks at Bronann", hero, bronann);
-    EventManager:RegisterEvent(event);
+    vt_map.LookAtSpriteEvent.Create("Bronann looks at Kalya", bronann, hero);
+    vt_map.LookAtSpriteEvent.Create("Orlinn looks at Kalya", orlinn, hero);
+    vt_map.LookAtSpriteEvent.Create("Kalya looks at Orlinn", hero, orlinn);
+    vt_map.LookAtSpriteEvent.Create("Kalya looks at Bronann", hero, bronann);
 
     -- Improve lighting at first entrance
-    event = vt_map.ScriptedEvent("Amplify lights", "amplify_light_start", "amplify_light_update");
-    EventManager:RegisterEvent(event);
+    vt_map.ScriptedEvent.Create("Amplify lights", "amplify_light_start", "amplify_light_update");
 
     -- Event when reading the shrine first parchment.
-    event = vt_map.ScriptedEvent("Parchment 1 event", "parchment1_event_start", "");
+    event = vt_map.ScriptedEvent.Create("Parchment 1 event", "parchment1_event_start", "");
     event:AddEventLinkAtEnd("Bronann moves next to Kalya");
     event:AddEventLinkAtEnd("Orlinn moves next to Kalya");
-    EventManager:RegisterEvent(event);
 
     -- NOTE: The actual destination is set just before the actual start call
-    bronann_move_next_to_hero_event = vt_map.PathMoveSpriteEvent("Bronann moves next to Kalya", bronann, 0, 0, false);
+    bronann_move_next_to_hero_event = vt_map.PathMoveSpriteEvent.Create("Bronann moves next to Kalya", bronann, 0, 0, false);
     bronann_move_next_to_hero_event:AddEventLinkAtEnd("Bronann looks north");
     bronann_move_next_to_hero_event:AddEventLinkAtEnd("Kalya reads the parchment 1");
-    EventManager:RegisterEvent(bronann_move_next_to_hero_event);
-    orlinn_move_next_to_hero_event = vt_map.PathMoveSpriteEvent("Orlinn moves next to Kalya", orlinn, 0, 0, false);
+
+    orlinn_move_next_to_hero_event = vt_map.PathMoveSpriteEvent.Create("Orlinn moves next to Kalya", orlinn, 0, 0, false);
     orlinn_move_next_to_hero_event:AddEventLinkAtEnd("Orlinn looks north");
-    EventManager:RegisterEvent(orlinn_move_next_to_hero_event);
 
     dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("It seems somebody left a note here on purpose.");
@@ -414,20 +400,16 @@ function _CreateEvents()
     dialogue:AddLine(text, bronann);
     text = vt_system.Translate("Yes, and let's do it quickly.");
     dialogue:AddLine(text, hero);
-    event = vt_map.DialogueEvent("Kalya reads the parchment 1", dialogue);
+    event = vt_map.DialogueEvent.Create("Kalya reads the parchment 1", dialogue);
     event:AddEventLinkAtEnd("Orlinn goes back to party");
     event:AddEventLinkAtEnd("Bronann goes back to party");
-    EventManager:RegisterEvent(event);
 
-    orlinn_move_back_to_hero_event = vt_map.PathMoveSpriteEvent("Orlinn goes back to party", orlinn, hero, false);
+    orlinn_move_back_to_hero_event = vt_map.PathMoveSpriteEvent.Create("Orlinn goes back to party", orlinn, hero, false);
     orlinn_move_back_to_hero_event:AddEventLinkAtEnd("Parchment 1 event end");
-    EventManager:RegisterEvent(orlinn_move_back_to_hero_event);
 
-    bronann_move_back_to_hero_event = vt_map.PathMoveSpriteEvent("Bronann goes back to party", bronann, hero, false);
-    EventManager:RegisterEvent(bronann_move_back_to_hero_event);
+    bronann_move_back_to_hero_event = vt_map.PathMoveSpriteEvent.Create("Bronann goes back to party", bronann, hero, false);
 
-    event = vt_map.ScriptedEvent("Parchment 1 event end", "parchment1_event_end", "");
-    EventManager:RegisterEvent(event);
+    vt_map.ScriptedEvent.Create("Parchment 1 event end", "parchment1_event_end", "");
 
     -- A small event, summarizing the whole one
     dialogue = vt_map.SpriteDialogue.Create();
@@ -435,52 +417,43 @@ function _CreateEvents()
     dialogue:AddLine(text, hero);
     text = vt_system.Translate("But let's be careful, as it also said this place is dangerous and the dark waters are some kind of trap.");
     dialogue:AddLine(text, hero);
-    event = vt_map.DialogueEvent("Parchment 1 event small", dialogue);
-    EventManager:RegisterEvent(event);
+    vt_map.DialogueEvent.Create("Parchment 1 event small", dialogue);
 
     -- The event when skeletons wake up
-    event = vt_map.ScriptedEvent("Skeleton event start", "skeleton_event_start", "");
+    event = vt_map.ScriptedEvent.Create("Skeleton event start", "skeleton_event_start", "");
     event:AddEventLinkAtEnd("Skeleton dialogue");
-    EventManager:RegisterEvent(event);
 
     dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("What is this? Skeletons?!");
     dialogue:AddLineEmote(text, hero, "exclamation");
-    event = vt_map.DialogueEvent("Skeleton dialogue", dialogue);
+    event = vt_map.DialogueEvent.Create("Skeleton dialogue", dialogue);
     event:AddEventLinkAtEnd("Skeleton1 goes to hero");
     event:AddEventLinkAtEnd("Skeleton2 goes to hero");
     event:AddEventLinkAtEnd("Skeleton3 goes to hero");
-    EventManager:RegisterEvent(event);
 
-    event = vt_map.PathMoveSpriteEvent("Skeleton1 goes to hero", skeleton1, hero, true);
+    event = vt_map.PathMoveSpriteEvent.Create("Skeleton1 goes to hero", skeleton1, hero, true);
     event:AddEventLinkAtEnd("Skeleton battle");
-    EventManager:RegisterEvent(event);
-    event = vt_map.PathMoveSpriteEvent("Skeleton2 goes to hero", skeleton2, hero, true);
-    EventManager:RegisterEvent(event);
-    event = vt_map.PathMoveSpriteEvent("Skeleton3 goes to hero", skeleton3, hero, true);
-    EventManager:RegisterEvent(event);
 
-    event = vt_map.BattleEncounterEvent("Skeleton battle");
+    vt_map.PathMoveSpriteEvent.Create("Skeleton2 goes to hero", skeleton2, hero, true);
+    vt_map.PathMoveSpriteEvent.Create("Skeleton3 goes to hero", skeleton3, hero, true);
+
+    event = vt_map.BattleEncounterEvent.Create("Skeleton battle");
     event:AddEnemy(19); -- three skeletons
     event:AddEnemy(19);
     event:AddEnemy(19);
     _SetEventBattleEnvironment(event);
     event:AddEventLinkAtEnd("Make skeletons invisible");
-    EventManager:RegisterEvent(event);
 
-    event = vt_map.ScriptedEvent("Make skeletons invisible", "make_skeleton_invisible", "");
+    event = vt_map.ScriptedEvent.Create("Make skeletons invisible", "make_skeleton_invisible", "");
     event:AddEventLinkAtEnd("Skeleton dialogue 2");
-    EventManager:RegisterEvent(event);
 
     dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Phew.");
     dialogue:AddLineEmote(text, hero, "exclamation");
-    event = vt_map.DialogueEvent("Skeleton dialogue 2", dialogue);
+    event = vt_map.DialogueEvent.Create("Skeleton dialogue 2", dialogue);
     event:AddEventLinkAtEnd("Skeleton event end");
-    EventManager:RegisterEvent(event);
 
-    event = vt_map.ScriptedEvent("Skeleton event end", "skeleton_event_end", "");
-    EventManager:RegisterEvent(event);
+    vt_map.ScriptedEvent.Create("Skeleton event end", "skeleton_event_end", "");
 end
 
 -- zones

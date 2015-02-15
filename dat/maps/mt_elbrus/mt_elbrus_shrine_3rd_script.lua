@@ -15,9 +15,7 @@ music_filename = "mus/mountain_shrine.ogg"
 
 -- c++ objects instances
 local Map = nil
-local DialogueManager = nil
 local EventManager = nil
-local Script = nil
 
 -- the main character handler
 local orlinn = nil
@@ -26,8 +24,6 @@ local orlinn = nil
 function Load(m)
 
     Map = m;
-    Script = Map:GetScriptSupervisor();
-    DialogueManager = Map:GetDialogueSupervisor();
     EventManager = Map:GetEventSupervisor();
     Map:SetUnlimitedStamina(false);
 
@@ -110,18 +106,12 @@ local waterfall_sound = nil;
 local rumble_sound = nil;
 
 function _CreateObjects()
-    local object = nil
-    local npc = nil
-    local dialogue = nil
-    local text = nil
-    local event = nil
-
     _add_flame(39.5, 7);
     _add_flame(25.5, 7);
 
     -- Add the water fall trigger button
     -- A trigger that will open the gate in the SE map.
-    object = vt_map.TriggerObject.Create("mt elbrus waterfall trigger",
+    local object = vt_map.TriggerObject.Create("mt elbrus waterfall trigger",
                                          vt_map.MapMode.FLATGROUND_OBJECT,
                                          "img/sprites/map/triggers/stone_trigger1_off.lua",
                                          "img/sprites/map/triggers/stone_trigger1_on.lua",
@@ -344,20 +334,14 @@ function _CreateObjects()
     stone3 = CreateObject(Map, "Rolling Stone", 51, 26.2, vt_map.MapMode.GROUND_OBJECT);
     stone3:SetEventWhenTalking("Check hero position for stone 3");
 
-    event = vt_map.IfEvent("Check hero position for stone 1", "check_diagonal_stone1", "Push the stone 1", "");
-    EventManager:RegisterEvent(event);
-    event = vt_map.ScriptedEvent("Push the stone 1", "start_to_move_the_stone1", "move_the_stone_update1")
-    EventManager:RegisterEvent(event);
+    vt_map.IfEvent.Create("Check hero position for stone 1", "check_diagonal_stone1", "Push the stone 1", "");
+    vt_map.ScriptedEvent.Create("Push the stone 1", "start_to_move_the_stone1", "move_the_stone_update1")
 
-    event = vt_map.IfEvent("Check hero position for stone 2", "check_diagonal_stone2", "Push the stone 2", "");
-    EventManager:RegisterEvent(event);
-    event = vt_map.ScriptedEvent("Push the stone 2", "start_to_move_the_stone2", "move_the_stone_update2")
-    EventManager:RegisterEvent(event);
+    vt_map.IfEvent.Create("Check hero position for stone 2", "check_diagonal_stone2", "Push the stone 2", "");
+    vt_map.ScriptedEvent.Create("Push the stone 2", "start_to_move_the_stone2", "move_the_stone_update2")
 
-    event = vt_map.IfEvent("Check hero position for stone 3", "check_diagonal_stone3", "Push the stone 3", "");
-    EventManager:RegisterEvent(event);
-    event = vt_map.ScriptedEvent("Push the stone 3", "start_to_move_the_stone3", "move_the_stone_update3")
-    EventManager:RegisterEvent(event);
+    vt_map.IfEvent.Create("Check hero position for stone 3", "check_diagonal_stone3", "Push the stone 3", "");
+    vt_map.ScriptedEvent.Create("Push the stone 3", "start_to_move_the_stone3", "move_the_stone_update3")
 end
 
 function _add_flame(x, y)
@@ -377,27 +361,21 @@ function _CreateEvents()
     local dialogue = nil
     local text = nil
 
-    event = vt_map.MapTransitionEvent("to mountain shrine stairs", "dat/maps/mt_elbrus/mt_elbrus_shrine_stairs_map.lua",
-                                       "dat/maps/mt_elbrus/mt_elbrus_shrine_stairs_script.lua", "from_shrine_third_floor");
-    EventManager:RegisterEvent(event);
+    vt_map.MapTransitionEvent.Create("to mountain shrine stairs", "dat/maps/mt_elbrus/mt_elbrus_shrine_stairs_map.lua",
+                                     "dat/maps/mt_elbrus/mt_elbrus_shrine_stairs_script.lua", "from_shrine_third_floor");
 
-    event = vt_map.MapTransitionEvent("Restart map", "dat/maps/mt_elbrus/mt_elbrus_shrine_3rd_map.lua",
-                                       "dat/maps/mt_elbrus/mt_elbrus_shrine_3rd_script.lua", "from_shrine_stairs");
-    EventManager:RegisterEvent(event);
+    vt_map.MapTransitionEvent.Create("Restart map", "dat/maps/mt_elbrus/mt_elbrus_shrine_3rd_map.lua",
+                                     "dat/maps/mt_elbrus/mt_elbrus_shrine_3rd_script.lua", "from_shrine_stairs");
 
-    event = vt_map.ChangeDirectionSpriteEvent("Orlinn looks south", orlinn, vt_map.MapMode.SOUTH);
-    EventManager:RegisterEvent(event);
+    vt_map.ChangeDirectionSpriteEvent.Create("Orlinn looks south", orlinn, vt_map.MapMode.SOUTH);
 
-    event = vt_map.ScriptedEvent("Close bottom fences", "bottom_fence_start", "bottom_fence_update");
-    EventManager:RegisterEvent(event);
+    vt_map.ScriptedEvent.Create("Close bottom fences", "bottom_fence_start", "bottom_fence_update");
 
-    event = vt_map.PathMoveSpriteEvent("Orlinn goes near boss", orlinn, 32, 33.5, false);
+    event = vt_map.PathMoveSpriteEvent.Create("Orlinn goes near boss", orlinn, 32, 33.5, false);
     event:AddEventLinkAtEnd("Set camera on Boss");
-    EventManager:RegisterEvent(event);
 
-    event = vt_map.ScriptedEvent("Set camera on Boss", "camera_on_boss_start", "camera_update");
+    event = vt_map.ScriptedEvent.Create("Set camera on Boss", "camera_on_boss_start", "camera_update");
     event:AddEventLinkAtEnd("Boss introduction");
-    EventManager:RegisterEvent(event);
 
     dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Yiek! A big monster!");
@@ -410,37 +388,30 @@ function _CreateEvents()
     dialogue:AddLine(text, andromalius);
     text = vt_system.Translate("Yiek!");
     dialogue:AddLineEmote(text, orlinn, "exclamation");
-    event = vt_map.DialogueEvent("Boss introduction", dialogue);
+    event = vt_map.DialogueEvent.Create("Boss introduction", dialogue);
     event:AddEventLinkAtEnd("Set camera on Orlinn");
-    EventManager:RegisterEvent(event);
 
-    event = vt_map.ScriptedEvent("Set camera on Orlinn", "camera_on_orlinn_start", "camera_update");
+    event = vt_map.ScriptedEvent.Create("Set camera on Orlinn", "camera_on_orlinn_start", "camera_update");
     event:AddEventLinkAtEnd("Start spikes");
     event:AddEventLinkAtEnd("Start battle");
-    EventManager:RegisterEvent(event);
 
-    event = vt_map.ScriptedEvent("Start spikes", "spikes_start", "spikes_update");
-    EventManager:RegisterEvent(event);
+    vt_map.ScriptedEvent.Create("Start spikes", "spikes_start", "spikes_update");
 
-    event = vt_map.ScriptedEvent("Start battle", "battle_start", "battle_update");
-    EventManager:RegisterEvent(event);
+    vt_map.ScriptedEvent.Create("Start battle", "battle_start", "battle_update");
 
-    event = vt_map.ScriptedEvent("Boss hurt effect", "hurt_effect_start", "hurt_effect_update")
-    EventManager:RegisterEvent(event);
+    vt_map.ScriptedEvent.Create("Boss hurt effect", "hurt_effect_start", "hurt_effect_update")
 
     -- Reset stones action
-    event = vt_map.ScriptedEvent("The boss hit the ground", "hit_ground_start", "hit_ground_update")
+    event = vt_map.ScriptedEvent.Create("The boss hit the ground", "hit_ground_start", "hit_ground_update")
     event:AddEventLinkAtEnd("The stones are put away");
-    EventManager:RegisterEvent(event);
-    event = vt_map.ScriptedEvent("The stones are put away", "visible_stones_fly_start", "visible_stones_fly_update")
-    event:AddEventLinkAtEnd("The new stones fall");
-    EventManager:RegisterEvent(event);
-    event = vt_map.ScriptedEvent("The new stones fall", "new_stones_fall_start", "new_stones_fall_update")
-    EventManager:RegisterEvent(event);
 
-    event = vt_map.ScriptedEvent("Set camera on Boss 2", "camera_on_boss2_start", "camera_update");
+    event = vt_map.ScriptedEvent.Create("The stones are put away", "visible_stones_fly_start", "visible_stones_fly_update")
+    event:AddEventLinkAtEnd("The new stones fall");
+
+    vt_map.ScriptedEvent.Create("The new stones fall", "new_stones_fall_start", "new_stones_fall_update")
+
+    event = vt_map.ScriptedEvent.Create("Set camera on Boss 2", "camera_on_boss2_start", "camera_update");
     event:AddEventLinkAtEnd("Boss conclusion");
-    EventManager:RegisterEvent(event);
 
     dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("You've proven yourself, chosen one. You deserve to live after all.");
@@ -451,42 +422,34 @@ function _CreateEvents()
     dialogue:AddLine(text, andromalius);
     text = vt_system.Translate("Farewell, chosen one.");
     dialogue:AddLine(text, andromalius);
-    event = vt_map.DialogueEvent("Boss conclusion", dialogue);
+    event = vt_map.DialogueEvent.Create("Boss conclusion", dialogue);
     event:AddEventLinkAtEnd("The Boss dies");
-    EventManager:RegisterEvent(event);
 
     -- Won the battle!
-    event = vt_map.ScriptedEvent("The Boss dies", "boss_die_start", "boss_die_update")
+    event = vt_map.ScriptedEvent.Create("The Boss dies", "boss_die_start", "boss_die_update")
     event:AddEventLinkAtEnd("Set camera on Orlinn 2");
-    EventManager:RegisterEvent(event);
 
-    event = vt_map.ScriptedEvent("Set camera on Orlinn 2", "camera_on_orlinn2_start", "camera_update");
+    event = vt_map.ScriptedEvent.Create("Set camera on Orlinn 2", "camera_on_orlinn2_start", "camera_update");
     event:AddEventLinkAtEnd("Open path");
-    EventManager:RegisterEvent(event);
 
-    event = vt_map.ScriptedEvent("Open path", "open_fences_start", "open_fences_update")
-    EventManager:RegisterEvent(event);
+    vt_map.ScriptedEvent.Create("Open path", "open_fences_start", "open_fences_update")
 
     -- Waterfalls on event
-    event = vt_map.ScriptedEvent("Water trigger on event", "waterfall_sound_start", "aterfall_sound_update")
+    event = vt_map.ScriptedEvent.Create("Water trigger on event", "waterfall_sound_start", "aterfall_sound_update")
     event:AddEventLinkAtEnd("Water shake event", 1000);
-    EventManager:RegisterEvent(event);
 
-    event = vt_map.ScriptedEvent("Water shake event", "waterfall_shake_start", "waterfall_shake_update")
+    event = vt_map.ScriptedEvent.Create("Water shake event", "waterfall_shake_start", "waterfall_shake_update")
     event:AddEventLinkAtEnd("Waterfall dialogue", 1000);
-    EventManager:RegisterEvent(event);
 
     dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("I can hear water everywhere.");
     dialogue:AddLineEmote(text, orlinn, "interrogation");
     text = vt_system.Translate("Kalya, Bronann!");
     dialogue:AddLineEventEmote(text, orlinn, "Orlinn looks south", "", "exclamation");
-    event = vt_map.DialogueEvent("Waterfall dialogue", dialogue);
+    event = vt_map.DialogueEvent.Create("Waterfall dialogue", dialogue);
     event:AddEventLinkAtEnd("Waterfall event end");
-    EventManager:RegisterEvent(event);
 
-    event = vt_map.ScriptedEvent("Waterfall event end", "waterfall_end_start", "waterfall_end_update")
-    EventManager:RegisterEvent(event);
+    vt_map.ScriptedEvent.Create("Waterfall event end", "waterfall_end_start", "waterfall_end_update")
 end
 
 -- Tells the boss battle state
@@ -503,7 +466,6 @@ local boss_zone = nil;
 
 -- Create the different map zones triggering events
 function _CreateZones()
-
     -- N.B.: left, right, top, bottom
     to_shrine_stairs_zone = vt_map.CameraZone.Create(30, 34, 46, 48);
     start_boss_zone = vt_map.CameraZone.Create(30, 34, 38, 40);
@@ -733,7 +695,6 @@ function _GetStoneDirection(stone)
 
     return stone_direction;
 end
-
 
 -- Fireballs handling
 function _SpawnFireBall(x, y)

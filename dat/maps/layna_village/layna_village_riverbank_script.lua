@@ -15,7 +15,6 @@ music_filename = "mus/Caketown_1-OGA-mat-pablo.ogg"
 
 -- c++ objects instances
 local Map = nil
-local DialogueManager = nil
 local EventManager = nil
 
 local bronann = nil
@@ -28,7 +27,6 @@ local lilly = nil
 function Load(m)
 
     Map = m;
-    DialogueManager = Map:GetDialogueSupervisor();
     EventManager = Map:GetEventSupervisor();
 
     Map:SetUnlimitedStamina(true);
@@ -102,8 +100,8 @@ function _CreateNPCs()
     lilly = CreateNPCSprite(Map, "Woman3", vt_system.Translate("Lilly"), 67, 40, vt_map.MapMode.GROUND_OBJECT);
 
     local object = CreateObject(Map, "Dog1", 66, 42, vt_map.MapMode.GROUND_OBJECT);
-    event = vt_map.SoundEvent("Lilly's dog barks", "snd/dog_barking.wav");
-    EventManager:RegisterEvent(event);
+    event = vt_map.SoundEvent.Create("Lilly's dog barks", "snd/dog_barking.wav");
+
     object:SetEventWhenTalking("Lilly's dog barks");
 
     kalya = CreateSprite(Map, "Kalya", 2, 2, vt_map.MapMode.GROUND_OBJECT);
@@ -193,24 +191,19 @@ function _CreateEvents()
     local text = nil
 
     -- Map change Events
-    event = vt_map.MapTransitionEvent("to Village center", "dat/maps/layna_village/layna_village_center_map.lua",
-                                       "dat/maps/layna_village/layna_village_center_script.lua", "from_riverbank");
-    EventManager:RegisterEvent(event);
+    vt_map.MapTransitionEvent.Create("to Village center", "dat/maps/layna_village/layna_village_center_map.lua",
+                                     "dat/maps/layna_village/layna_village_center_script.lua", "from_riverbank");
 
-    event = vt_map.MapTransitionEvent("to Village south entrance", "dat/maps/layna_village/layna_village_south_entrance_map.lua",
-                                       "dat/maps/layna_village/layna_village_south_entrance_script.lua", "from_riverbank");
-    EventManager:RegisterEvent(event);
+    vt_map.MapTransitionEvent.Create("to Village south entrance", "dat/maps/layna_village/layna_village_south_entrance_map.lua",
+                                     "dat/maps/layna_village/layna_village_south_entrance_script.lua", "from_riverbank");
 
-    event = vt_map.MapTransitionEvent("to Riverbank house", "dat/maps/layna_village/layna_village_riverbank_house_map.lua",
-                                       "dat/maps/layna_village/layna_village_riverbank_house_script.lua", "from_riverbank");
-    EventManager:RegisterEvent(event);
+    vt_map.MapTransitionEvent.Create("to Riverbank house", "dat/maps/layna_village/layna_village_riverbank_house_map.lua",
+                                     "dat/maps/layna_village/layna_village_riverbank_house_script.lua", "from_riverbank");
 
-    event = vt_map.MapTransitionEvent("to secret path entrance", "dat/maps/layna_village/layna_village_center_map.lua",
-                                       "dat/maps/layna_village/layna_village_center_script.lua", "from_secret_path");
-    EventManager:RegisterEvent(event);
+    vt_map.MapTransitionEvent.Create("to secret path entrance", "dat/maps/layna_village/layna_village_center_map.lua",
+                                     "dat/maps/layna_village/layna_village_center_script.lua", "from_secret_path");
 
-    event = vt_map.ScriptedEvent("Orlinn laughs", "orlinn_laughs", "");
-    EventManager:RegisterEvent(event);
+    vt_map.ScriptedEvent.Create("Orlinn laughs", "orlinn_laughs", "");
 
     -- Quest events - Hide and seek 2
     dialogue = vt_map.SpriteDialogue.Create();
@@ -223,69 +216,57 @@ function _CreateEvents()
     text = vt_system.Translate("Hey, why would I tell you my hiding spots?!");
     dialogue:AddLineEmote(text, orlinn, "exclamation");
 
-    event = vt_map.DialogueEvent("Quest1: Orlinn starts hide and seek3 speech", dialogue);
+    event = vt_map.DialogueEvent.Create("Quest1: Orlinn starts hide and seek3 speech", dialogue);
     event:SetStopCameraMovement(true);
     event:AddEventLinkAtEnd("Quest1: Hide and seek2: Make Orlinn run");
-    EventManager:RegisterEvent(event);
 
-    event = vt_map.PathMoveSpriteEvent("Quest1: Hide and seek2: Make Orlinn run", orlinn, 72, 2, true);
+    event = vt_map.PathMoveSpriteEvent.Create("Quest1: Hide and seek2: Make Orlinn run", orlinn, 72, 2, true);
     event:AddEventLinkAtEnd("Quest1: Hide and seek2: Make Orlinn disappear");
-    EventManager:RegisterEvent(event);
 
-    event = vt_map.ScriptedSpriteEvent("Quest1: Hide and seek2: Make Orlinn disappear", orlinn, "MakeInvisible", "");
+    event = vt_map.ScriptedSpriteEvent.Create("Quest1: Hide and seek2: Make Orlinn disappear", orlinn, "MakeInvisible", "");
     event:AddEventLinkAtEnd("Quest1: Hide and seek2: Bronann end speech");
-    EventManager:RegisterEvent(event);
 
     dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("That kid is pretty quick. This is going to take all day.");
     dialogue:AddLineEmote(text, bronann, "sweat drop");
 
-    event = vt_map.DialogueEvent("Quest1: Hide and seek2: Bronann end speech", dialogue);
+    event = vt_map.DialogueEvent.Create("Quest1: Hide and seek2: Bronann end speech", dialogue);
     event:SetStopCameraMovement(true);
     event:AddEventLinkAtEnd("Map:PopState()");
-    EventManager:RegisterEvent(event);
 
-    event = vt_map.ScriptedEvent("Map:PopState()", "Map_PopState", "");
-    EventManager:RegisterEvent(event);
+    vt_map.ScriptedEvent.Create("Map:PopState()", "Map_PopState", "");
 
     -- Final hide and seek (3)
-    event = vt_map.PathMoveSpriteEvent("Quest1: Hide and Seek3: Orlinn goes top-right", orlinn, 70, 42, false);
+    event = vt_map.PathMoveSpriteEvent.Create("Quest1: Hide and Seek3: Orlinn goes top-right", orlinn, 70, 42, false);
     event:AddEventLinkAtEnd("Hide n Seek3: Orlinn looks south");
-    EventManager:RegisterEvent(event);
-    event = vt_map.ChangeDirectionSpriteEvent("Hide n Seek3: Orlinn looks south", orlinn, vt_map.MapMode.SOUTH);
+
+    event = vt_map.ChangeDirectionSpriteEvent.Create("Hide n Seek3: Orlinn looks south", orlinn, vt_map.MapMode.SOUTH);
     event:AddEventLinkAtEnd("Hide n Seek3: Orlinn looks north", 800);
-    EventManager:RegisterEvent(event);
-    event = vt_map.ChangeDirectionSpriteEvent("Hide n Seek3: Orlinn looks north", orlinn, vt_map.MapMode.NORTH);
+
+    event = vt_map.ChangeDirectionSpriteEvent.Create("Hide n Seek3: Orlinn looks north", orlinn, vt_map.MapMode.NORTH);
     event:AddEventLinkAtEnd("Hide n Seek3: Orlinn goes bottom-left", 800);
-    EventManager:RegisterEvent(event);
-    event = vt_map.PathMoveSpriteEvent("Hide n Seek3: Orlinn goes bottom-left", orlinn, 74, 43.8, false);
+
+    event = vt_map.PathMoveSpriteEvent.Create("Hide n Seek3: Orlinn goes bottom-left", orlinn, 74, 43.8, false);
     event:AddEventLinkAtEnd("Quest1: Hide and Seek3: Orlinn goes top-right", 8000); -- finish the event loop.
-    EventManager:RegisterEvent(event);
 
     -- Before Kalya's arrival
-    event = vt_map.ScriptedEvent("Quest1: Hide and Seek3: Orlinn starts to go away", "Prepare_orlinn_kalya_scene", "");
+    event = vt_map.ScriptedEvent.Create("Quest1: Hide and Seek3: Orlinn starts to go away", "Prepare_orlinn_kalya_scene", "");
     event:AddEventLinkAtEnd("Quest1: Hide and Seek3: Orlinn tries go to away");
-    EventManager:RegisterEvent(event);
 
-    event = vt_map.PathMoveSpriteEvent("Quest1: Hide and Seek3: Orlinn tries go to away", orlinn, 76, 38, false);
+    event = vt_map.PathMoveSpriteEvent.Create("Quest1: Hide and Seek3: Orlinn tries go to away", orlinn, 76, 38, false);
     event:AddEventLinkAtEnd("Quest1: Hide and Seek3: Bronann follows him");
-    EventManager:RegisterEvent(event);
 
-    event = vt_map.PathMoveSpriteEvent("Quest1: Hide and Seek3: Bronann follows him", bronann, 76, 40, true);
+    event = vt_map.PathMoveSpriteEvent.Create("Quest1: Hide and Seek3: Bronann follows him", bronann, 76, 40, true);
     event:AddEventLinkAtEnd("Quest1: Hide and Seek3: Bronann turns to Orlinn");
     event:AddEventLinkAtEnd("Quest1: Hide and Seek3: Orlinn turns to him");
-    EventManager:RegisterEvent(event);
 
-    event = vt_map.ChangeDirectionSpriteEvent("Quest1: Hide and Seek3: Bronann turns to Orlinn", bronann, vt_map.MapMode.NORTH);
-    EventManager:RegisterEvent(event);
+    vt_map.ChangeDirectionSpriteEvent.Create("Quest1: Hide and Seek3: Bronann turns to Orlinn", bronann, vt_map.MapMode.NORTH);
 
-    event = vt_map.ChangeDirectionSpriteEvent("Quest1: Hide and Seek3: Orlinn turns to him", orlinn, vt_map.MapMode.SOUTH);
+    event = vt_map.ChangeDirectionSpriteEvent.Create("Quest1: Hide and Seek3: Orlinn turns to him", orlinn, vt_map.MapMode.SOUTH);
     event:AddEventLinkAtEnd("Quest1: Hide and Seek3: Bronann and kalya first speech");
     event:AddEventLinkAtEnd("Quest1: Hide and Seek3: Lilly turns to them");
-    EventManager:RegisterEvent(event);
 
-    event = vt_map.ChangeDirectionSpriteEvent("Quest1: Hide and Seek3: Lilly turns to them", lilly, vt_map.MapMode.EAST);
-    EventManager:RegisterEvent(event);
+    vt_map.ChangeDirectionSpriteEvent.Create("Quest1: Hide and Seek3: Lilly turns to them", lilly, vt_map.MapMode.EAST);
 
     dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Please no! Wait!");
@@ -293,18 +274,15 @@ function _CreateEvents()
     text = vt_system.Translate("Orlinn! Stop this!");
     dialogue:AddLineEvent(text, kalya, "", "Quest1: Hide and Seek3: Kalya comes to Orlinn");
 
-    event = vt_map.DialogueEvent("Quest1: Hide and Seek3: Bronann and kalya first speech", dialogue);
+    event = vt_map.DialogueEvent.Create("Quest1: Hide and Seek3: Bronann and kalya first speech", dialogue);
     event:SetStopCameraMovement(true);
-    EventManager:RegisterEvent(event);
 
     -- Kalya's arrival
-    event = vt_map.PathMoveSpriteEvent("Quest1: Hide and Seek3: Kalya comes to Orlinn", kalya, 76, 36, false);
+    event = vt_map.PathMoveSpriteEvent.Create("Quest1: Hide and Seek3: Kalya comes to Orlinn", kalya, 76, 36, false);
     event:AddEventLinkAtEnd("Quest1: Hide and Seek3: Kalya's speech");
     event:AddEventLinkAtEnd("Quest1: Hide and Seek3: Orlinn turns to Kalya");
-    EventManager:RegisterEvent(event);
 
-    event = vt_map.ChangeDirectionSpriteEvent("Quest1: Hide and Seek3: Orlinn turns to Kalya", orlinn, vt_map.MapMode.NORTH);
-    EventManager:RegisterEvent(event);
+    vt_map.ChangeDirectionSpriteEvent.Create("Quest1: Hide and Seek3: Orlinn turns to Kalya", orlinn, vt_map.MapMode.NORTH);
 
     dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Orlinn! How many times have I told you not to bother other people?");
@@ -320,27 +298,22 @@ function _CreateEvents()
     text = vt_system.Translate("Come Orlinn!");
     dialogue:AddLine(text, kalya);
 
-    event = vt_map.DialogueEvent("Quest1: Hide and Seek3: Kalya's speech", dialogue);
+    event = vt_map.DialogueEvent.Create("Quest1: Hide and Seek3: Kalya's speech", dialogue);
     event:SetStopCameraMovement(true);
     event:AddEventLinkAtEnd("Quest1: Hide and Seek3: Kalya is going away.");
     event:AddEventLinkAtEnd("Quest1: Hide and Seek3: Orlinn is going away.", 2000);
-    EventManager:RegisterEvent(event);
 
     -- Kalya and Orlinn going away
-    event = vt_map.PathMoveSpriteEvent("Quest1: Hide and Seek3: Kalya is going away.", kalya, 95, 2, false);
+    event = vt_map.PathMoveSpriteEvent.Create("Quest1: Hide and Seek3: Kalya is going away.", kalya, 95, 2, false);
     event:AddEventLinkAtEnd("Quest1: Hide and Seek3: Kalya disappears.");
-    EventManager:RegisterEvent(event);
 
-    event = vt_map.ScriptedSpriteEvent("Quest1: Hide and Seek3: Kalya disappears.", kalya, "MakeInvisible", "");
-    EventManager:RegisterEvent(event);
+    vt_map.ScriptedSpriteEvent.Create("Quest1: Hide and Seek3: Kalya disappears.", kalya, "MakeInvisible", "");
 
-    event = vt_map.PathMoveSpriteEvent("Quest1: Hide and Seek3: Orlinn is going away.", orlinn, 76, 32, false);
+    event = vt_map.PathMoveSpriteEvent.Create("Quest1: Hide and Seek3: Orlinn is going away.", orlinn, 76, 32, false);
     event:AddEventLinkAtEnd("Quest1: Hide and Seek3: Orlinn comes back to Bronann", 1000);
-    EventManager:RegisterEvent(event);
 
-    event = vt_map.PathMoveSpriteEvent("Quest1: Hide and Seek3: Orlinn comes back to Bronann", orlinn, 76, 38, false);
+    event = vt_map.PathMoveSpriteEvent.Create("Quest1: Hide and Seek3: Orlinn comes back to Bronann", orlinn, 76, 38, false);
     event:AddEventLinkAtEnd("Quest1: Hide and Seek3: Orlinn tells Bronann where the pen was");
-    EventManager:RegisterEvent(event);
 
     dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("I found that pen near the tree behind you. I just wanted to play.");
@@ -350,27 +323,22 @@ function _CreateEvents()
     text = vt_system.Translate("Take it. Thanks.");
     dialogue:AddLine(text, orlinn);
 
-    event = vt_map.DialogueEvent("Quest1: Hide and Seek3: Orlinn tells Bronann where the pen was", dialogue);
+    event = vt_map.DialogueEvent.Create("Quest1: Hide and Seek3: Orlinn tells Bronann where the pen was", dialogue);
     event:SetStopCameraMovement(true);
     event:AddEventLinkAtEnd("Quest1: Hide and Seek3: Orlinn gives the pen to Bronann");
-    EventManager:RegisterEvent(event);
 
-    event = vt_map.TreasureEvent("Quest1: Hide and Seek3: Orlinn gives the pen to Bronann");
+    event = vt_map.TreasureEvent.Create("Quest1: Hide and Seek3: Orlinn gives the pen to Bronann");
     event:AddItem(70001, 1); -- The ink key item
     event:SetDrunes(50); -- The reward for running after Orlinn for so long.
     event:AddEventLinkAtEnd("Quest1: Hide and Seek3: Orlinn is going away for real");
     event:AddEventLinkAtEnd("Quest1: Hide and Seek3: Lilly tells Bronann a bit about Kalya", 2000);
-    EventManager:RegisterEvent(event);
 
-    event = vt_map.PathMoveSpriteEvent("Quest1: Hide and Seek3: Orlinn is going away for real", orlinn, 95, 2, false);
+    event = vt_map.PathMoveSpriteEvent.Create("Quest1: Hide and Seek3: Orlinn is going away for real", orlinn, 95, 2, false);
     event:AddEventLinkAtEnd("Quest1: Hide and Seek3: Orlinn disappears.");
-    EventManager:RegisterEvent(event);
 
-    event = vt_map.ScriptedSpriteEvent("Quest1: Hide and Seek3: Orlinn disappears.", orlinn, "MakeInvisible", "");
-    EventManager:RegisterEvent(event);
+    vt_map.ScriptedSpriteEvent.Create("Quest1: Hide and Seek3: Orlinn disappears.", orlinn, "MakeInvisible", "");
 
-    event = vt_map.AnimateSpriteEvent("Quest1: Bronann is sad", bronann, "hero_stance", 2000);
-    EventManager:RegisterEvent(event);
+    vt_map.AnimateSpriteEvent.Create("Quest1: Bronann is sad", bronann, "hero_stance", 2000);
 
     -- Lilly tells Bronann about Kalya
     dialogue = vt_map.SpriteDialogue.Create();
@@ -389,63 +357,51 @@ function _CreateEvents()
     text = vt_system.Translate("Heh heh, don't worry about it. It will come in time.");
     dialogue:AddLine(text, lilly);
 
-    event = vt_map.DialogueEvent("Quest1: Hide and Seek3: Lilly tells Bronann a bit about Kalya", dialogue);
+    event = vt_map.DialogueEvent.Create("Quest1: Hide and Seek3: Lilly tells Bronann a bit about Kalya", dialogue);
     event:SetStopCameraMovement(true);
     event:AddEventLinkAtEnd("Map:PopState()");
     event:AddEventLinkAtEnd("Quest1: Hide and Seek3: done");
-    EventManager:RegisterEvent(event);
 
-    event = vt_map.ChangeDirectionSpriteEvent("Quest1: Hide and Seek3: Bronann turns to Lilly", bronann, vt_map.MapMode.WEST);
-    EventManager:RegisterEvent(event);
+    vt_map.ChangeDirectionSpriteEvent.Create("Quest1: Hide and Seek3: Bronann turns to Lilly", bronann, vt_map.MapMode.WEST);
 
-    event = vt_map.ScriptedEvent("Quest1: Hide and Seek3: done", "Set_Hide_And_Seek3_Done", "");
-    EventManager:RegisterEvent(event);
+    vt_map.ScriptedEvent.Create("Quest1: Hide and Seek3: done", "Set_Hide_And_Seek3_Done", "");
 
     -- Lilly goes and bring back barley meal
-    event = vt_map.ScriptedEvent("Quest1: Prepare Lilly for a walk", "Prepare_lilly_walk", "");
+    event = vt_map.ScriptedEvent.Create("Quest1: Prepare Lilly for a walk", "Prepare_lilly_walk", "");
     event:AddEventLinkAtEnd("Quest1: Lilly goes in her house");
     event:AddEventLinkAtEnd("Quest1: Bronann moves to his wait place");
-    EventManager:RegisterEvent(event);
 
-    event = vt_map.PathMoveSpriteEvent("Quest1: Bronann moves to his wait place", bronann, 70, 40, false);
+    event = vt_map.PathMoveSpriteEvent.Create("Quest1: Bronann moves to his wait place", bronann, 70, 40, false);
     event:AddEventLinkAtEnd("Quest1: Barley Meal: Bronann stares at Lilly");
-    EventManager:RegisterEvent(event);
 
-    event = vt_map.ChangeDirectionSpriteEvent("Quest1: Barley Meal: Bronann stares at Lilly", bronann, vt_map.MapMode.SOUTH);
-    EventManager:RegisterEvent(event);
+    vt_map.ChangeDirectionSpriteEvent.Create("Quest1: Barley Meal: Bronann stares at Lilly", bronann, vt_map.MapMode.SOUTH);
 
-    event = vt_map.PathMoveSpriteEvent("Quest1: Lilly goes in her house", lilly, 90, 60, false);
+    event = vt_map.PathMoveSpriteEvent.Create("Quest1: Lilly goes in her house", lilly, 90, 60, false);
     event:AddEventLinkAtEnd("Quest1: Lilly comes back");
-    EventManager:RegisterEvent(event);
 
-    event = vt_map.PathMoveSpriteEvent("Quest1: Lilly comes back", lilly, 67, 40, false);
+    event = vt_map.PathMoveSpriteEvent.Create("Quest1: Lilly comes back", lilly, 67, 40, false);
     event:AddEventLinkAtEnd("Quest1: Barley Meal: Lilly turns to Bronann");
     event:AddEventLinkAtEnd("Quest1: Barley Meal: Bronann turns to Lilly");
     event:AddEventLinkAtEnd("Quest1: Barley Meal: Lilly tells Bronann about the barley meal");
-    EventManager:RegisterEvent(event);
 
-    event = vt_map.LookAtSpriteEvent("Quest1: Barley Meal: Lilly turns to Bronann", lilly, bronann);
-    EventManager:RegisterEvent(event);
-    event = vt_map.ChangeDirectionSpriteEvent("Quest1: Barley Meal: Bronann turns to Lilly", bronann, vt_map.MapMode.WEST);
-    EventManager:RegisterEvent(event);
+    vt_map.LookAtSpriteEvent.Create("Quest1: Barley Meal: Lilly turns to Bronann", lilly, bronann);
+
+    vt_map.ChangeDirectionSpriteEvent.Create("Quest1: Barley Meal: Bronann turns to Lilly", bronann, vt_map.MapMode.WEST);
 
     dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Here it is, Bronann.");
     dialogue:AddLine(text, lilly);
 
-    event = vt_map.DialogueEvent("Quest1: Barley Meal: Lilly tells Bronann about the barley meal", dialogue);
+    event = vt_map.DialogueEvent.Create("Quest1: Barley Meal: Lilly tells Bronann about the barley meal", dialogue);
     event:SetStopCameraMovement(true);
     event:AddEventLinkAtEnd("Quest1: Barley Meal: Lilly give the barley meal to bronann");
-    EventManager:RegisterEvent(event);
 
-    event = vt_map.TreasureEvent("Quest1: Barley Meal: Lilly give the barley meal to bronann");
+    event = vt_map.TreasureEvent.Create("Quest1: Barley Meal: Lilly give the barley meal to bronann");
     event:AddEventLinkAtEnd("Quest1: Barley meal is given.");
     event:AddItem(70002, 1); -- The barley meal key item
-    EventManager:RegisterEvent(event);
 
-    event = vt_map.ScriptedEvent("Quest1: Barley meal is given.", "GiveBarleyMeal", "");
+    event = vt_map.ScriptedEvent.Create("Quest1: Barley meal is given.", "GiveBarleyMeal", "");
     event:AddEventLinkAtEnd("Quest1: Barley Meal: Lilly tells Bronann about the restrictions");
-    EventManager:RegisterEvent(event);
 
     dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Thanks, Lilly.");
@@ -455,14 +411,12 @@ function _CreateEvents()
     text = vt_system.Translate("Try to enjoy this day, Bronann.");
     dialogue:AddLine(text, lilly);
 
-    event = vt_map.DialogueEvent("Quest1: Barley Meal: Lilly tells Bronann about the restrictions", dialogue);
+    event = vt_map.DialogueEvent.Create("Quest1: Barley Meal: Lilly tells Bronann about the restrictions", dialogue);
     event:SetStopCameraMovement(true);
     event:AddEventLinkAtEnd("Quest1: Reset Lilly dialogue");
-    EventManager:RegisterEvent(event);
 
-    event = vt_map.ScriptedEvent("Quest1: Reset Lilly dialogue", "Reset_lilly_dialogue", "");
+    event = vt_map.ScriptedEvent.Create("Quest1: Reset Lilly dialogue", "Reset_lilly_dialogue", "");
     event:AddEventLinkAtEnd("Map:PopState()");
-    EventManager:RegisterEvent(event);
 end
 
 -- zones

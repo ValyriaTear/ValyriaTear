@@ -542,40 +542,62 @@ int main(int argc, char *argv[])
 
     ModeManager->Push(new BootMode(), false, true);
 
+    // A try... at using a variable game speed, sleeping when on sufficiently fast hardware.
+    // And max FPS.
+    const uint32 UPDATES_PER_SECOND = 60;
+    const uint32 SKIP_UPDATE_TICKS = 1000 / UPDATES_PER_SECOND; // 25
+    uint32 update_tick = SDL_GetTicks();
+    uint32 next_update_tick = update_tick;
+
+    //TODO: Make this configurable and enabled only if vsync isn't.
+    bool cpu_gentle_update_mode = true;
+
     try {
         // This is the main loop for the game. The loop iterates once for every frame drawn to the screen.
         while(SystemManager->NotDone()) {
-            // Update only every 10 milliseconds.
-            SDL_Delay(10);
+            if (cpu_gentle_update_mode) {
+                update_tick = SDL_GetTicks();
 
-            // 1) Render the scene
-            VideoManager->Clear();
-            ModeManager->Draw();
-            ModeManager->DrawEffects();
-            ModeManager->DrawPostEffects();
-            VideoManager->DrawFadeEffect();
-            VideoManager->DrawDebugInfo();
+                // If we want to be nice with the CPU % used.
+                if (update_tick <= next_update_tick && next_update_tick - update_tick >= 10)
+                    SDL_Delay(next_update_tick - update_tick);
+            }
 
-            // Swap the buffers once the draw operations are done.
-            SDL_GL_SwapWindow(sdl_window);
+            // Render capped at UPDATES_PER_SECOND if the update mode is gentle with the cpu(s).
+            if (!cpu_gentle_update_mode || update_tick > next_update_tick) {
+                VideoManager->Clear();
+                ModeManager->Draw();
+                ModeManager->DrawEffects();
+                ModeManager->DrawPostEffects();
+                VideoManager->DrawFadeEffect();
+                VideoManager->DrawDebugInfo();
 
-            // Update timers for correct time-based movement operation
-            SystemManager->UpdateTimers();
+                // Swap the buffers once the draw operations are done.
+                SDL_GL_SwapWindow(sdl_window);
 
-            // Process all new events
-            InputManager->EventHandler();
+                // Update the game logic
 
-            // Update video
-            VideoManager->Update();
+                // Update timers for correct time-based movement operation
+                SystemManager->UpdateTimers();
 
-            // Update any streaming audio sources
-            AudioManager->Update();
+                // Process all new events
+                InputManager->EventHandler();
 
-            // Update the game status
-            ModeManager->Update();
+                // Update video
+                VideoManager->Update();
+
+                // Update any streaming audio sources
+                AudioManager->Update();
+
+                // Update the game status
+                ModeManager->Update();
+
+                // Wait for the next update.
+                next_update_tick += SKIP_UPDATE_TICKS;
+            }
 
         } // while (SystemManager->NotDone())
-    } catch(const Exception &e) {
+    } catch(const Exception& e) {
 #ifdef WIN32
         MessageBox(NULL, e.ToString().c_str(), "Unhandled exception", MB_OK | MB_ICONERROR);
 #else

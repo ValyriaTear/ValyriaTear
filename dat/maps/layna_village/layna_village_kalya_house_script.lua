@@ -15,7 +15,6 @@ music_filename = "mus/Welcome to Com-Mecha-Mattew_Pablo_OGA.ogg"
 
 -- c++ objects instances
 local Map = nil
-local DialogueManager = nil
 local EventManager = nil
 local Effects = nil
 
@@ -33,8 +32,6 @@ function Load(m)
 
     Map = m;
     Effects = Map:GetEffectSupervisor();
-
-    DialogueManager = Map:GetDialogueSupervisor();
     EventManager = Map:GetEventSupervisor();
 
     Map:SetUnlimitedStamina(true);
@@ -163,52 +160,37 @@ function _CreateEvents()
     local text = nil
 
     -- Triggered events
-    event = vt_map.MapTransitionEvent("to Mt Elbrus", "dat/maps/mt_elbrus/mt_elbrus_path1_map.lua",
-                                      "dat/maps/mt_elbrus/mt_elbrus_path1_script.lua", "from_kalya_house_basement");
-    EventManager:RegisterEvent(event);
+    vt_map.MapTransitionEvent.Create("to Mt Elbrus", "dat/maps/mt_elbrus/mt_elbrus_path1_map.lua",
+                                    "dat/maps/mt_elbrus/mt_elbrus_path1_script.lua", "from_kalya_house_basement");
 
     -- Generic events
-    event = vt_map.ChangeDirectionSpriteEvent("Orlinn looks east", orlinn, vt_map.MapMode.EAST);
-    EventManager:RegisterEvent(event);
-    event = vt_map.ChangeDirectionSpriteEvent("Kalya looks east", kalya, vt_map.MapMode.EAST);
-    EventManager:RegisterEvent(event);
-    event = vt_map.ChangeDirectionSpriteEvent("Kalya looks south", kalya, vt_map.MapMode.SOUTH);
-    EventManager:RegisterEvent(event);
-    event = vt_map.ChangeDirectionSpriteEvent("Kalya looks west", kalya, vt_map.MapMode.WEST);
-    EventManager:RegisterEvent(event);
-    event = vt_map.ChangeDirectionSpriteEvent("Bronann looks north", bronann, vt_map.MapMode.NORTH);
-    EventManager:RegisterEvent(event);
-    event = vt_map.LookAtSpriteEvent("Kalya looks at Orlinn", kalya, orlinn);
-    EventManager:RegisterEvent(event);
-    event = vt_map.LookAtSpriteEvent("Bronann looks at Orlinn", bronann, orlinn);
-    EventManager:RegisterEvent(event);
-    event = vt_map.LookAtSpriteEvent("Kalya looks at Bronann", kalya, bronann);
-    EventManager:RegisterEvent(event);
-    event = vt_map.LookAtSpriteEvent("Bronann looks at Kalya", bronann, kalya);
-    EventManager:RegisterEvent(event);
+    vt_map.ChangeDirectionSpriteEvent.Create("Orlinn looks east", orlinn, vt_map.MapMode.EAST);
+    vt_map.ChangeDirectionSpriteEvent.Create("Kalya looks east", kalya, vt_map.MapMode.EAST);
+    vt_map.ChangeDirectionSpriteEvent.Create("Kalya looks south", kalya, vt_map.MapMode.SOUTH);
+    vt_map.ChangeDirectionSpriteEvent.Create("Kalya looks west", kalya, vt_map.MapMode.WEST);
+    vt_map.ChangeDirectionSpriteEvent.Create("Bronann looks north", bronann, vt_map.MapMode.NORTH);
+    vt_map.LookAtSpriteEvent.Create("Kalya looks at Orlinn", kalya, orlinn);
+    vt_map.LookAtSpriteEvent.Create("Bronann looks at Orlinn", bronann, orlinn);
+    vt_map.LookAtSpriteEvent.Create("Kalya looks at Bronann", kalya, bronann);
+    vt_map.LookAtSpriteEvent.Create("Bronann looks at Kalya", bronann, kalya);
 
     -- The scene before going outside
-    event = vt_map.PathMoveSpriteEvent("Orlinn goes out of the stairs", orlinn, 28.0, 18.0, false);
+    event = vt_map.PathMoveSpriteEvent.Create("Orlinn goes out of the stairs", orlinn, 28.0, 18.0, false);
     event:AddEventLinkAtEnd("Orlinn looks east");
     event:AddEventLinkAtEnd("Make Kalya visible", 300);
-    EventManager:RegisterEvent(event);
 
-    event = vt_map.ScriptedEvent("Make Kalya visible", "make_kalya_visible", "");
+    event = vt_map.ScriptedEvent.Create("Make Kalya visible", "make_kalya_visible", "");
     event:AddEventLinkAtEnd("Kalya goes out of the stairs");
-    EventManager:RegisterEvent(event);
 
-    event = vt_map.PathMoveSpriteEvent("Kalya goes out of the stairs", kalya, 30.3, 20.0, false);
+    event = vt_map.PathMoveSpriteEvent.Create("Kalya goes out of the stairs", kalya, 30.3, 20.0, false);
     event:AddEventLinkAtEnd("Kalya looks east");
     event:AddEventLinkAtEnd("Make Bronann visible");
-    EventManager:RegisterEvent(event);
 
-    event = vt_map.ScriptedEvent("Make Bronann visible", "make_bronann_visible", "");
+    event = vt_map.ScriptedEvent.Create("Make Bronann visible", "make_bronann_visible", "");
     event:AddEventLinkAtEnd("Bronann goes in front of Kalya");
-    EventManager:RegisterEvent(event);
 
-    event = vt_map.PathMoveSpriteEvent("Bronann goes in front of Kalya", bronann, 35.0, 20.0, false);
+    event = vt_map.PathMoveSpriteEvent.Create("Bronann goes in front of Kalya", bronann, 35.0, 20.0, false);
     event:AddEventLinkAtEnd("Dialogue part 1");
-    EventManager:RegisterEvent(event);
 
     dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Bronann, how do you feel?");
@@ -223,34 +205,27 @@ function _CreateEvents()
     dialogue:AddLineEvent(text, kalya, "Kalya looks at Orlinn", "");
     text = vt_system.Translate("Ok.");
     dialogue:AddLineEmote(text, orlinn, "sweat drop");
-    event = vt_map.DialogueEvent("Dialogue part 1", dialogue);
+    event = vt_map.DialogueEvent.Create("Dialogue part 1", dialogue);
     event:AddEventLinkAtEnd("Orlinn goes upstairs");
     event:AddEventLinkAtEnd("Kalya looks at Orlinn", 500);
     event:AddEventLinkAtEnd("Kalya looks at Orlinn", 800);
     event:AddEventLinkAtEnd("Bronann looks at Orlinn", 800);
     event:AddEventLinkAtEnd("Kalya looks south", 1500);
     event:AddEventLinkAtEnd("Bronann looks at Orlinn", 1500);
-    EventManager:RegisterEvent(event);
 
-    event = vt_map.PathMoveSpriteEvent("Orlinn goes upstairs", orlinn, 40.0, 27.5, false);
+    event = vt_map.PathMoveSpriteEvent.Create("Orlinn goes upstairs", orlinn, 40.0, 27.5, false);
     event:AddEventLinkAtEnd("Make Orlinn invisible");
-    EventManager:RegisterEvent(event);
 
-    event = vt_map.ScriptedEvent("Make Orlinn invisible", "make_orlinn_invisible", "");
+    event = vt_map.ScriptedEvent.Create("Make Orlinn invisible", "make_orlinn_invisible", "");
     event:AddEventLinkAtEnd("Dialogue part 2");
-    EventManager:RegisterEvent(event);
 
-    event = vt_map.AnimateSpriteEvent("Bronann looks angry", bronann, "hero_stance", 0); -- 0 means forever
-    EventManager:RegisterEvent(event);
+    vt_map.AnimateSpriteEvent.Create("Bronann looks angry", bronann, "hero_stance", 0); -- 0 means forever
 
-    event = vt_map.ScriptedEvent("Stop Bronann looks angry", "terminate_bronann_events", "");
-    EventManager:RegisterEvent(event);
+    vt_map.ScriptedEvent.Create("Stop Bronann looks angry", "terminate_bronann_events", "");
 
-    event = vt_map.ScriptedEvent("Sad music start", "sad_music_start", "");
-    EventManager:RegisterEvent(event);
+    vt_map.ScriptedEvent.Create("Sad music start", "sad_music_start", "");
 
-    event = vt_map.ScriptedEvent("FadeOutActiveMusic", "fade_out_music", "");
-    EventManager:RegisterEvent(event);
+    vt_map.ScriptedEvent.Create("FadeOutActiveMusic", "fade_out_music", "");
 
     dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("We're leaving the village now.");
@@ -311,21 +286,18 @@ function _CreateEvents()
     dialogue:AddLine(text, kalya);
     text = vt_system.Translate("Sis!");
     dialogue:AddLine(text, orlinn);
-    event = vt_map.DialogueEvent("Dialogue part 2", dialogue);
+    event = vt_map.DialogueEvent.Create("Dialogue part 2", dialogue);
     event:AddEventLinkAtEnd("Make Orlinn visible");
-    EventManager:RegisterEvent(event);
 
-    event = vt_map.ScriptedEvent("Make Orlinn visible", "make_orlinn_visible", "");
+    event = vt_map.ScriptedEvent.Create("Make Orlinn visible", "make_orlinn_visible", "");
     event:AddEventLinkAtEnd("Orlinn comes back to them");
     event:AddEventLinkAtEnd("Kalya looks at Orlinn");
     event:AddEventLinkAtEnd("Bronann looks at Orlinn");
-    EventManager:RegisterEvent(event);
 
-    event = vt_map.PathMoveSpriteEvent("Orlinn comes back to them", orlinn, 33.0, 23.0, true);
+    event = vt_map.PathMoveSpriteEvent.Create("Orlinn comes back to them", orlinn, 33.0, 23.0, true);
     event:AddEventLinkAtEnd("Kalya looks at Orlinn");
     event:AddEventLinkAtEnd("Bronann looks at Orlinn");
     event:AddEventLinkAtEnd("Dialogue part 3");
-    EventManager:RegisterEvent(event);
 
     dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Sis! They're in front of the house!");
@@ -350,56 +322,47 @@ function _CreateEvents()
     dialogue:AddLineEvent(text, kalya, "Kalya looks at Bronann", "");
     text = vt_system.Translate("Anyway, let's go now.");
     dialogue:AddLine(text, kalya);
-    event = vt_map.DialogueEvent("Dialogue part 3", dialogue);
+    event = vt_map.DialogueEvent.Create("Dialogue part 3", dialogue);
     event:AddEventLinkAtEnd("Kalya goes triggering the secret path");
-    EventManager:RegisterEvent(event);
 
-    event = vt_map.ScriptedEvent("Click sound", "click_sound", "");
-    EventManager:RegisterEvent(event);
-    event = vt_map.ScriptedEvent("Wall sound", "wall_sound", "");
-    EventManager:RegisterEvent(event);
+    vt_map.ScriptedEvent.Create("Click sound", "click_sound", "");
 
-    event = vt_map.PathMoveSpriteEvent("Kalya goes triggering the secret path", kalya, 28.0, 15.1, false);
+    vt_map.ScriptedEvent.Create("Wall sound", "wall_sound", "");
+
+    event = vt_map.PathMoveSpriteEvent.Create("Kalya goes triggering the secret path", kalya, 28.0, 15.1, false);
     event:AddEventLinkAtEnd("Bronann looks north");
     event:AddEventLinkAtEnd("Click sound");
     event:AddEventLinkAtEnd("Wall sound", 700);
     event:AddEventLinkAtEnd("Kalya triggers the secret path", 1000);
-    EventManager:RegisterEvent(event);
 
-    event = vt_map.ScriptedEvent("Kalya triggers the secret path", "kalya_triggers_the_secret_path", "");
+    event = vt_map.ScriptedEvent.Create("Kalya triggers the secret path", "kalya_triggers_the_secret_path", "");
     event:AddEventLinkAtEnd("Kalya looks south", 300);
     event:AddEventLinkAtEnd("Orlinn goes near his sister", 700);
-    EventManager:RegisterEvent(event);
 
-    event = vt_map.PathMoveSpriteEvent("Orlinn goes near his sister", orlinn, 28.0, 17.0, false);
+    event = vt_map.PathMoveSpriteEvent.Create("Orlinn goes near his sister", orlinn, 28.0, 17.0, false);
     event:AddEventLinkAtEnd("Orlinn looks east");
     event:AddEventLinkAtEnd("Dialogue part 4");
-    EventManager:RegisterEvent(event);
 
     dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Wow!");
     dialogue:AddLineEmote(text, bronann, "exclamation");
     text = vt_system.Translate("It's time.");
     dialogue:AddLine(text, kalya);
-    event = vt_map.DialogueEvent("Dialogue part 4", dialogue);
+    event = vt_map.DialogueEvent.Create("Dialogue part 4", dialogue);
     event:AddEventLinkAtEnd("End of basement dialogue");
-    EventManager:RegisterEvent(event);
 
-    event = vt_map.ScriptedEvent("End of basement dialogue", "end_of_basement_dialogue", "");
-    EventManager:RegisterEvent(event);
+    vt_map.ScriptedEvent.Create("End of basement dialogue", "end_of_basement_dialogue", "");
 
     -- Can't go downstairs
     dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("We can't go back now.");
     dialogue:AddLine(text, bronann);
-    event = vt_map.DialogueEvent("Can't go downstairs", dialogue);
-    EventManager:RegisterEvent(event);
+    vt_map.DialogueEvent.Create("Can't go downstairs", dialogue);
 
     dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("It's my room upstairs. Don't even think about it!");
     dialogue:AddLine(text, kalya);
-    event = vt_map.DialogueEvent("Can't go upstairs", dialogue);
-    EventManager:RegisterEvent(event);
+    vt_map.DialogueEvent.Create("Can't go upstairs", dialogue);
 
     -- Dialogues for after the scene
     dialogue = vt_map.SpriteDialogue.Create("ep1_layna_village_kalya_tells_its_time");

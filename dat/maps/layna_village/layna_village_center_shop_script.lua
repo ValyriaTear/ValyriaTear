@@ -15,7 +15,6 @@ music_filename = "mus/Caketown_1-OGA-mat-pablo.ogg"
 
 -- c++ objects instances
 local Map = nil
-local DialogueManager = nil
 local EventManager = nil
 
 -- The main character handlers
@@ -28,7 +27,6 @@ local flora = nil
 function Load(m)
 
     Map = m;
-    DialogueManager = Map:GetDialogueSupervisor();
     EventManager = Map:GetEventSupervisor();
 
     Map:SetUnlimitedStamina(true);
@@ -94,11 +92,10 @@ function _CreateEvents()
     local event = nil
 
     -- Triggered Events
-    event = vt_map.MapTransitionEvent("to village", "dat/maps/layna_village/layna_village_center_map.lua",
-                                       "dat/maps/layna_village/layna_village_center_script.lua", "from_shop");
-    EventManager:RegisterEvent(event);
+    vt_map.MapTransitionEvent.Create("to village", "dat/maps/layna_village/layna_village_center_map.lua",
+                                     "dat/maps/layna_village/layna_village_center_script.lua", "from_shop");
 
-    event = vt_map.ShopEvent("layna: open shop");
+    event = vt_map.ShopEvent.Create("layna: open shop");
     event:AddItem(1, 0); -- infinite minor potions
     event:AddItem(1001, 0); -- infinite minor elixirs
     event:AddItem(30003, 1); -- tunic for Bronann
@@ -106,16 +103,11 @@ function _CreateEvents()
     event:AddItem(40001, 3); -- prismatic rings for both
     event:SetPriceLevels(vt_shop.ShopMode.SHOP_PRICE_VERY_GOOD, -- Flora is a good friend
                          vt_shop.ShopMode.SHOP_PRICE_STANDARD);
-
     event:AddScript("dat/help/tutorial_shop_dialogs.lua");
-    EventManager:RegisterEvent(event);
 
     -- Quest events
-    event = vt_map.ScriptedEvent("SetQuest1DialogueDone", "Quest1FloraDialogueDone", "");
-    EventManager:RegisterEvent(event);
-
-    event = vt_map.ScriptedEvent("Quest2: Talked to Flora", "Quest2FloraDialogueDone", "");
-    EventManager:RegisterEvent(event);
+    vt_map.ScriptedEvent.Create("SetQuest1DialogueDone", "Quest1FloraDialogueDone", "");
+    vt_map.ScriptedEvent.Create("Quest2: Talked to Flora", "Quest2FloraDialogueDone", "");
 end
 
 -- zones

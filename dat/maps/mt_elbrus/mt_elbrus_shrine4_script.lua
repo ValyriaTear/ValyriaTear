@@ -15,7 +15,6 @@ music_filename = "mus/mountain_shrine.ogg"
 
 -- c++ objects instances
 local Map = nil
-local DialogueManager = nil
 local EventManager = nil
 local Script = nil
 
@@ -33,7 +32,6 @@ function Load(m)
 
     Map = m;
     Script = Map:GetScriptSupervisor();
-    DialogueManager = Map:GetDialogueSupervisor();
     EventManager = Map:GetEventSupervisor();
     Map:SetUnlimitedStamina(false);
 
@@ -104,13 +102,7 @@ local blocking_spike2 = nil;
 local mini_boss = nil;
 
 function _CreateObjects()
-    local object = nil
-    local npc = nil
-    local dialogue = nil
-    local text = nil
-    local event = nil
-
-    object = CreateTreasure(Map, "mt_shrine4_chest1", "Wood_Chest3", 6, 43, vt_map.MapMode.GROUND_OBJECT);
+    local object = CreateTreasure(Map, "mt_shrine4_chest1", "Wood_Chest3", 6, 43, vt_map.MapMode.GROUND_OBJECT);
     object:AddItem(1001, 1); -- Minor Elixir
 
     _add_flame(61.5, 29);
@@ -333,55 +325,43 @@ function _CreateEvents()
     local dialogue = nil
     local text = nil
 
-    event = vt_map.MapTransitionEvent("to mountain shrine main room", "dat/maps/mt_elbrus/mt_elbrus_shrine2_map.lua",
-                                       "dat/maps/mt_elbrus/mt_elbrus_shrine2_script.lua", "from_shrine_enigma_room");
-    EventManager:RegisterEvent(event);
-    event = vt_map.MapTransitionEvent("to mountain shrine main room-waterfalls", "dat/maps/mt_elbrus/mt_elbrus_shrine2_2_map.lua",
-                                       "dat/maps/mt_elbrus/mt_elbrus_shrine2_script.lua", "from_shrine_enigma_room");
-    EventManager:RegisterEvent(event);
+    vt_map.MapTransitionEvent.Create("to mountain shrine main room", "dat/maps/mt_elbrus/mt_elbrus_shrine2_map.lua",
+                                     "dat/maps/mt_elbrus/mt_elbrus_shrine2_script.lua", "from_shrine_enigma_room");
 
-    event = vt_map.ScriptedEvent("Push trigger 1", "push_trigger_1", "");
-    EventManager:RegisterEvent(event);
-    event = vt_map.ScriptedEvent("Push trigger 2", "push_trigger_2", "");
-    EventManager:RegisterEvent(event);
-    event = vt_map.ScriptedEvent("Push trigger 3", "push_trigger_3", "");
-    EventManager:RegisterEvent(event);
-    event = vt_map.ScriptedEvent("Push trigger 4", "push_trigger_4", "");
-    EventManager:RegisterEvent(event);
-    event = vt_map.ScriptedEvent("Push trigger 5", "push_trigger_5", "");
-    EventManager:RegisterEvent(event);
+    vt_map.MapTransitionEvent.Create("to mountain shrine main room-waterfalls", "dat/maps/mt_elbrus/mt_elbrus_shrine2_2_map.lua",
+                                     "dat/maps/mt_elbrus/mt_elbrus_shrine2_script.lua", "from_shrine_enigma_room");
+
+    vt_map.ScriptedEvent.Create("Push trigger 1", "push_trigger_1", "");
+    vt_map.ScriptedEvent.Create("Push trigger 2", "push_trigger_2", "");
+    vt_map.ScriptedEvent.Create("Push trigger 3", "push_trigger_3", "");
+    vt_map.ScriptedEvent.Create("Push trigger 4", "push_trigger_4", "");
+    vt_map.ScriptedEvent.Create("Push trigger 5", "push_trigger_5", "");
 
     -- Trap map open event
-    event = vt_map.ScriptedEvent("Trap map open event", "trap_map_start", "");
+    event = vt_map.ScriptedEvent.Create("Trap map open event", "trap_map_start", "");
     event:AddEventLinkAtEnd("Trap map dialogue");
-    EventManager:RegisterEvent(event);
 
     dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Again, I can feel something moving not far from here.");
     dialogue:AddLine(text, hero);
-    event = vt_map.DialogueEvent("Trap map dialogue", dialogue);
+    event = vt_map.DialogueEvent.Create("Trap map dialogue", dialogue);
     event:AddEventLinkAtEnd("Trap map open event end");
-    EventManager:RegisterEvent(event);
 
-    event = vt_map.ScriptedEvent("Trap map open event end", "trap_map_end", "");
-    EventManager:RegisterEvent(event);
+    vt_map.ScriptedEvent.Create("Trap map open event end", "trap_map_end", "");
 
     -- Mini boss event
-    event = vt_map.ScriptedEvent("Mini-Boss fight", "mini_boss_start", "");
+    event = vt_map.ScriptedEvent.Create("Mini-Boss fight", "mini_boss_start", "");
     event:AddEventLinkAtEnd("Mini-boss fight battle start");
-    EventManager:RegisterEvent(event);
 
-    event = vt_map.BattleEncounterEvent("Mini-boss fight battle start");
+    event = vt_map.BattleEncounterEvent.Create("Mini-boss fight battle start");
     event:SetMusic("mus/accion-OGA-djsaryon.ogg");
     event:SetBackground("img/backdrops/battle/mountain_shrine.png");
     event:AddScript("dat/battles/mountain_shrine_battle_anim.lua");
     event:SetBoss(true);
     event:AddEnemy(20);
     event:AddEventLinkAtEnd("Mini-boss fight end");
-    EventManager:RegisterEvent(event);
 
-    event = vt_map.ScriptedEvent("Mini-boss fight end", "mini_boss_end", "");
-    EventManager:RegisterEvent(event);
+    vt_map.ScriptedEvent.Create("Mini-boss fight end", "mini_boss_end", "");
 end
 
 -- zones

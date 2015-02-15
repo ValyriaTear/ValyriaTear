@@ -15,7 +15,6 @@ music_filename = "mus/awareness_el_corleo.ogg"
 
 -- c++ objects instances
 local Map = nil
-local DialogueManager = nil
 local EventManager = nil
 
 -- the main character handler
@@ -32,7 +31,6 @@ local main_sprite_name = "";
 function Load(m)
 
     Map = m;
-    DialogueManager = Map:GetDialogueSupervisor();
     EventManager = Map:GetEventSupervisor();
     Map:SetUnlimitedStamina(false);
 
@@ -149,8 +147,7 @@ function _CreateObjects()
     text = vt_system.Translate("Your party feels better.");
     dialogue:AddLineEvent(text, nil, "Heal event", ""); -- 0 means no portrait and no name
     DialogueManager:AddDialogue(dialogue);
-    event = vt_map.DialogueEvent("Heal dialogue", dialogue);
-    EventManager:RegisterEvent(event);
+    vt_map.DialogueEvent.Create("Heal dialogue", dialogue);
 
     -- Treasure box
     local chest = CreateTreasure(Map, "elbrus_path2_chest1", "Wood_Chest1", 7, 7, vt_map.MapMode.GROUND_OBJECT);
@@ -308,64 +305,52 @@ function _CreateEvents()
     local text = nil
 
     -- To the first cave
-    event = vt_map.MapTransitionEvent("to cave 2-1", "dat/maps/mt_elbrus/mt_elbrus_cave2_map.lua",
-                                       "dat/maps/mt_elbrus/mt_elbrus_cave2_script.lua", "from_elbrus_entrance2-1");
-    EventManager:RegisterEvent(event);
-    event = vt_map.MapTransitionEvent("to cave 2-2", "dat/maps/mt_elbrus/mt_elbrus_cave2_map.lua",
-                                       "dat/maps/mt_elbrus/mt_elbrus_cave2_script.lua", "from_elbrus_entrance2-2");
-    EventManager:RegisterEvent(event);
-    event = vt_map.MapTransitionEvent("to cave 3-1", "dat/maps/mt_elbrus/mt_elbrus_cave3_map.lua",
-                                       "dat/maps/mt_elbrus/mt_elbrus_cave3_script.lua", "from_elbrus_entrance3-1");
-    EventManager:RegisterEvent(event);
-    event = vt_map.MapTransitionEvent("to cave 3-2", "dat/maps/mt_elbrus/mt_elbrus_cave3_map.lua",
-                                       "dat/maps/mt_elbrus/mt_elbrus_cave3_script.lua", "from_elbrus_entrance3-2");
-    EventManager:RegisterEvent(event);
+    vt_map.MapTransitionEvent.Create("to cave 2-1", "dat/maps/mt_elbrus/mt_elbrus_cave2_map.lua",
+                                     "dat/maps/mt_elbrus/mt_elbrus_cave2_script.lua", "from_elbrus_entrance2-1");
 
-    event = vt_map.MapTransitionEvent("to mountain path 3", "dat/maps/mt_elbrus/mt_elbrus_path3_map.lua",
-                                       "dat/maps/mt_elbrus/mt_elbrus_path3_script.lua", "from_path2");
-    EventManager:RegisterEvent(event);
-    event = vt_map.MapTransitionEvent("to mountain path 3bis", "dat/maps/mt_elbrus/mt_elbrus_path3_map.lua",
-                                       "dat/maps/mt_elbrus/mt_elbrus_path3_script.lua", "from_path2_chest");
-    EventManager:RegisterEvent(event);
-    event = vt_map.MapTransitionEvent("to mountain path 1", "dat/maps/mt_elbrus/mt_elbrus_path1_map.lua",
-                                       "dat/maps/mt_elbrus/mt_elbrus_path1_script.lua", "from_path2");
-    EventManager:RegisterEvent(event);
+    vt_map.MapTransitionEvent.Create("to cave 2-2", "dat/maps/mt_elbrus/mt_elbrus_cave2_map.lua",
+                                     "dat/maps/mt_elbrus/mt_elbrus_cave2_script.lua", "from_elbrus_entrance2-2");
+
+    vt_map.MapTransitionEvent.Create("to cave 3-1", "dat/maps/mt_elbrus/mt_elbrus_cave3_map.lua",
+                                     "dat/maps/mt_elbrus/mt_elbrus_cave3_script.lua", "from_elbrus_entrance3-1");
+
+    vt_map.MapTransitionEvent.Create("to cave 3-2", "dat/maps/mt_elbrus/mt_elbrus_cave3_map.lua",
+                                     "dat/maps/mt_elbrus/mt_elbrus_cave3_script.lua", "from_elbrus_entrance3-2");
+
+    vt_map.MapTransitionEvent.Create("to mountain path 3", "dat/maps/mt_elbrus/mt_elbrus_path3_map.lua",
+                                     "dat/maps/mt_elbrus/mt_elbrus_path3_script.lua", "from_path2");
+
+    vt_map.MapTransitionEvent.Create("to mountain path 3bis", "dat/maps/mt_elbrus/mt_elbrus_path3_map.lua",
+                                     "dat/maps/mt_elbrus/mt_elbrus_path3_script.lua", "from_path2_chest");
+
+    vt_map.MapTransitionEvent.Create("to mountain path 1", "dat/maps/mt_elbrus/mt_elbrus_path1_map.lua",
+                                     "dat/maps/mt_elbrus/mt_elbrus_path1_script.lua", "from_path2");
 
     -- Heal point
-    event = vt_map.ScriptedEvent("Heal event", "heal_party", "heal_done");
-    EventManager:RegisterEvent(event);
+    vt_map.ScriptedEvent.Create("Heal event", "heal_party", "heal_done");
 
     -- sprite direction events
-    event = vt_map.ChangeDirectionSpriteEvent("Bronann looks north", hero, vt_map.MapMode.NORTH);
-    EventManager:RegisterEvent(event);
-    event = vt_map.ChangeDirectionSpriteEvent("Kalya looks north", kalya, vt_map.MapMode.NORTH);
-    EventManager:RegisterEvent(event);
-    event = vt_map.ChangeDirectionSpriteEvent("Kalya looks south", kalya, vt_map.MapMode.SOUTH);
-    EventManager:RegisterEvent(event);
-    event = vt_map.LookAtSpriteEvent("Kalya looks at Orlinn", kalya, orlinn);
-    EventManager:RegisterEvent(event);
-    event = vt_map.LookAtSpriteEvent("Orlinn looks at Kalya", orlinn, kalya);
-    EventManager:RegisterEvent(event);
-    event = vt_map.ChangeDirectionSpriteEvent("Kalya looks west", kalya, vt_map.MapMode.WEST);
-    EventManager:RegisterEvent(event);
-    event = vt_map.ChangeDirectionSpriteEvent("Orlinn looks north", orlinn, vt_map.MapMode.NORTH);
-    EventManager:RegisterEvent(event);
+    vt_map.ChangeDirectionSpriteEvent.Create("Bronann looks north", hero, vt_map.MapMode.NORTH);
+    vt_map.ChangeDirectionSpriteEvent.Create("Kalya looks north", kalya, vt_map.MapMode.NORTH);
+    vt_map.ChangeDirectionSpriteEvent.Create("Kalya looks south", kalya, vt_map.MapMode.SOUTH);
+    vt_map.LookAtSpriteEvent.Create("Kalya looks at Orlinn", kalya, orlinn);
+    vt_map.LookAtSpriteEvent.Create("Orlinn looks at Kalya", orlinn, kalya);
+    vt_map.ChangeDirectionSpriteEvent.Create("Kalya looks west", kalya, vt_map.MapMode.WEST);
+    vt_map.ChangeDirectionSpriteEvent.Create("Orlinn looks north", orlinn, vt_map.MapMode.NORTH);
 
     -- rain dialogue events
-    event = vt_map.ScriptedEvent("Rain dialogue start", "rain_dialogue_start", "");
+    event = vt_map.ScriptedEvent.Create("Rain dialogue start", "rain_dialogue_start", "");
     event:AddEventLinkAtEnd("Kalya moves next to Bronann", 100);
     event:AddEventLinkAtEnd("Orlinn moves next to Bronann", 100);
-    EventManager:RegisterEvent(event);
 
     -- NOTE: The actual destination is set just before the actual start call
-    kalya_move_next_to_hero_event = vt_map.PathMoveSpriteEvent("Kalya moves next to Bronann", kalya, 0, 0, false);
+    kalya_move_next_to_hero_event = vt_map.PathMoveSpriteEvent.Create("Kalya moves next to Bronann", kalya, 0, 0, false);
     kalya_move_next_to_hero_event:AddEventLinkAtEnd("Kalya looks north");
     kalya_move_next_to_hero_event:AddEventLinkAtEnd("Bronann looks north");
     kalya_move_next_to_hero_event:AddEventLinkAtEnd("Kalya talks about the rain");
-    EventManager:RegisterEvent(kalya_move_next_to_hero_event);
-    orlinn_move_next_to_hero_event = vt_map.PathMoveSpriteEvent("Orlinn moves next to Bronann", orlinn, 0, 0, false);
+
+    orlinn_move_next_to_hero_event = vt_map.PathMoveSpriteEvent.Create("Orlinn moves next to Bronann", orlinn, 0, 0, false);
     orlinn_move_next_to_hero_event:AddEventLinkAtEnd("Orlinn looks north");
-    EventManager:RegisterEvent(orlinn_move_next_to_hero_event);
 
     dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Dang! And now the rain too.");
@@ -376,20 +361,16 @@ function _CreateEvents()
     dialogue:AddLineEvent(text, orlinn, "Kalya looks at Orlinn", "Kalya looks south");
     text = vt_system.Translate("If we can reach the great plains, we should indeed be out of trouble.");
     dialogue:AddLineEventEmote(text, kalya, "Kalya looks west", "", "thinking dots");
-    event = vt_map.DialogueEvent("Kalya talks about the rain", dialogue);
+    event = vt_map.DialogueEvent.Create("Kalya talks about the rain", dialogue);
     event:AddEventLinkAtEnd("Orlinn goes back to party");
     event:AddEventLinkAtEnd("Kalya goes back to party");
-    EventManager:RegisterEvent(event);
 
-    orlinn_move_back_to_hero_event = vt_map.PathMoveSpriteEvent("Orlinn goes back to party", orlinn, hero, false);
-    EventManager:RegisterEvent(orlinn_move_back_to_hero_event);
+    orlinn_move_back_to_hero_event = vt_map.PathMoveSpriteEvent.Create("Orlinn goes back to party", orlinn, hero, false);
 
-    kalya_move_back_to_hero_event = vt_map.PathMoveSpriteEvent("Kalya goes back to party", kalya, hero, false);
+    kalya_move_back_to_hero_event = vt_map.PathMoveSpriteEvent.Create("Kalya goes back to party", kalya, hero, false);
     kalya_move_back_to_hero_event:AddEventLinkAtEnd("End of rain dialogue");
-    EventManager:RegisterEvent(kalya_move_back_to_hero_event);
 
-    event = vt_map.ScriptedEvent("End of rain dialogue", "end_of_rain_dialogue", "");
-    EventManager:RegisterEvent(event);
+    vt_map.ScriptedEvent.Create("End of rain dialogue", "end_of_rain_dialogue", "");
 end
 
 -- zones
@@ -403,7 +384,6 @@ local to_path3_bis_zone = nil
 
 -- Create the different map zones triggering events
 function _CreateZones()
-
     -- N.B.: left, right, top, bottom
     to_cave2_1_zone = vt_map.CameraZone.Create(26, 30, 53, 55);
     to_cave2_2_zone = vt_map.CameraZone.Create(18, 22, 37, 39);
