@@ -15,7 +15,6 @@ music_filename = "mus/Caketown_1-OGA-mat-pablo.ogg"
 
 -- c++ objects instances
 local Map = nil
-local DialogueManager = nil
 local EventManager = nil
 
 -- the main character handler
@@ -25,7 +24,6 @@ local bronann = nil
 function Load(m)
 
     Map = m;
-    DialogueManager = Map:GetDialogueSupervisor();
     EventManager = Map:GetEventSupervisor();
 
     Map:SetUnlimitedStamina(true);
@@ -82,9 +80,8 @@ end
 -- Creates all events and sets up the entire event sequence chain
 function _CreateEvents()
     -- Triggered events
-    local event = vt_map.MapTransitionEvent.Create("exit floor", "dat/maps/layna_village/layna_village_south_entrance_map.lua",
-                                       "dat/maps/layna_village/layna_village_south_entrance_script.lua", "from left house");
-
+    vt_map.MapTransitionEvent.Create("exit floor", "dat/maps/layna_village/layna_village_south_entrance_map.lua",
+                                     "dat/maps/layna_village/layna_village_south_entrance_script.lua", "from left house");
 end
 
 -- zones

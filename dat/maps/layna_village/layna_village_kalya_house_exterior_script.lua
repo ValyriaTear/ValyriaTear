@@ -15,7 +15,6 @@ music_filename = "mus/Caketown_1-OGA-mat-pablo.ogg"
 
 -- c++ objects instances
 local Map = nil
-local DialogueManager = nil
 local EventManager = nil
 
 local bronann = nil
@@ -24,7 +23,6 @@ local bronann = nil
 function Load(m)
 
     Map = m;
-    DialogueManager = Map:GetDialogueSupervisor();
     EventManager = Map:GetEventSupervisor();
 
     Map:SetUnlimitedStamina(true);
@@ -104,14 +102,11 @@ function _CreateNPCs()
         dialogue:SetEventAtDialogueEnd("Make bronann take the chicken 3");
         chicken3:AddDialogueReference(dialogue);
 
-        event = vt_map.ScriptedEvent.Create("Make bronann take the chicken 3", "bronann_takes_chicken3", "fadeoutin_update");
-
+        vt_map.ScriptedEvent.Create("Make bronann take the chicken 3", "bronann_takes_chicken3", "fadeoutin_update");
     end
 end
 
 function _CreateObjects()
-    local object = nil
-
     -- right part trees
     CreateObject(Map, "Tree Big1", 62, 18, vt_map.MapMode.GROUND_OBJECT);
     CreateObject(Map, "Tree Big1", 63, 21, vt_map.MapMode.GROUND_OBJECT);
@@ -158,13 +153,11 @@ function _CreateEvents()
     local text = nil
 
     -- Triggered Events
-    event = vt_map.MapTransitionEvent.Create("to Kalya house path", "dat/maps/layna_village/layna_village_kalya_house_path_map.lua",
-                                       "dat/maps/layna_village/layna_village_kalya_house_path_script.lua", "from_kalya_house_exterior");
+    vt_map.MapTransitionEvent.Create("to Kalya house path", "dat/maps/layna_village/layna_village_kalya_house_path_map.lua",
+                                     "dat/maps/layna_village/layna_village_kalya_house_path_script.lua", "from_kalya_house_exterior");
 
-
-    event = vt_map.MapTransitionEvent.Create("to kalya house path small passage", "dat/maps/layna_village/layna_village_kalya_house_path_map.lua",
-                                       "dat/maps/layna_village/layna_village_kalya_house_path_script.lua", "from_kalya_house_small_passage");
-
+    vt_map.MapTransitionEvent.Create("to kalya house path small passage", "dat/maps/layna_village/layna_village_kalya_house_path_map.lua",
+                                     "dat/maps/layna_village/layna_village_kalya_house_path_script.lua", "from_kalya_house_small_passage");
 
     -- Kalya house locked door event
     dialogue = vt_map.SpriteDialogue.Create();
@@ -172,7 +165,6 @@ function _CreateEvents()
     dialogue:AddLine(text, bronann);
     event = vt_map.DialogueEvent.Create("Bronann can't enter kalya house", dialogue);
     event:SetStopCameraMovement(true);
-
 end
 
 -- zones

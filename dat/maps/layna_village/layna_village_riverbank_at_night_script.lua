@@ -15,7 +15,6 @@ music_filename = "mus/Welcome to Com-Mecha-Mattew_Pablo_OGA.ogg"
 
 -- c++ objects instances
 local Map = nil
-local DialogueManager = nil
 local EventManager = nil
 local Script = nil
 
@@ -26,7 +25,6 @@ function Load(m)
 
     Map = m;
     Script = Map:GetScriptSupervisor();
-    DialogueManager = Map:GetDialogueSupervisor();
     EventManager = Map:GetEventSupervisor();
 
     Map:SetUnlimitedStamina(true);
@@ -321,52 +319,37 @@ function _CreateEvents()
     local text = nil
 
     -- Map change Events
-    event = vt_map.MapTransitionEvent.Create("to Village center", "dat/maps/layna_village/layna_village_center_map.lua",
+    vt_map.MapTransitionEvent.Create("to Village center", "dat/maps/layna_village/layna_village_center_map.lua",
                                        "dat/maps/layna_village/layna_village_center_at_night_script.lua", "from_riverbank");
 
-
     -- generic events
-    event = vt_map.ScriptedEvent.Create("Map:PushState(SCENE)", "Map_SceneState", "");
+    vt_map.ScriptedEvent.Create("Map:PushState(SCENE)", "Map_SceneState", "");
+    vt_map.ScriptedEvent.Create("Map:PopState()", "Map_PopState", "");
 
+    vt_map.ChangeDirectionSpriteEvent.Create("Bronann looks south", bronann, vt_map.MapMode.SOUTH);
+    vt_map.ChangeDirectionSpriteEvent.Create("Bronann looks east", bronann, vt_map.MapMode.EAST);
+    vt_map.LookAtSpriteEvent.Create("Bronann looks at Orlinn", bronann, orlinn);
+    vt_map.AnimateSpriteEvent.Create("Bronann is frightened by Orlinn", bronann, "frightened", -1); -- defaut time
 
-    event = vt_map.ScriptedEvent.Create("Map:PopState()", "Map_PopState", "");
+    vt_map.LookAtSpriteEvent.Create("Orlinn looks at Bronann", orlinn, bronann);
+    vt_map.ChangeDirectionSpriteEvent.Create("Orlinn looks east", orlinn, vt_map.MapMode.EAST);
 
-
-    event = vt_map.ChangeDirectionSpriteEvent.Create("Bronann looks south", bronann, vt_map.MapMode.SOUTH);
-
-    event = vt_map.ChangeDirectionSpriteEvent.Create("Bronann looks east", bronann, vt_map.MapMode.EAST);
-
-    event = vt_map.LookAtSpriteEvent.Create("Bronann looks at Orlinn", bronann, orlinn);
-
-    event = vt_map.AnimateSpriteEvent.Create("Bronann is frightened by Orlinn", bronann, "frightened", -1); -- defaut time
-
-
-    event = vt_map.LookAtSpriteEvent.Create("Orlinn looks at Bronann", orlinn, bronann);
-
-    event = vt_map.ChangeDirectionSpriteEvent.Create("Orlinn looks east", orlinn, vt_map.MapMode.EAST);
-
-
-    event = vt_map.ChangeDirectionSpriteEvent.Create("Banesore looks south", lord, vt_map.MapMode.SOUTH);
-
-    event = vt_map.ChangeDirectionSpriteEvent.Create("Banesore looks west", lord, vt_map.MapMode.WEST);
-
+    vt_map.ChangeDirectionSpriteEvent.Create("Banesore looks south", lord, vt_map.MapMode.SOUTH);
+    vt_map.ChangeDirectionSpriteEvent.Create("Banesore looks west", lord, vt_map.MapMode.WEST);
 
     -- Bronann can't go back event
     dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("I can't go back now.");
     dialogue:AddLine(text, bronann);
-    event = vt_map.DialogueEvent.Create("Bronann can't go back", dialogue);
-
+    vt_map.DialogueEvent.Create("Bronann can't go back", dialogue);
 
     -- Bronann hides when entering the map
     event = vt_map.ScriptedEvent.Create("Bronann arrives at the riverbank dialogue", "arrival_at_riverbank_dialogue_start", "");
     event:AddEventLinkAtEnd("Bronann hides behind the trees", 50);
 
-
     event = vt_map.PathMoveSpriteEvent.Create("Bronann hides behind the trees", bronann, 92.5, 6.0, false);
     event:AddEventLinkAtEnd("Bronann looks south");
     event:AddEventLinkAtEnd("Bronann thinks he needs to get closer");
-
 
     dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Guards are carefully watching their surroundings. I need to get closer to see what's happening.");
@@ -376,9 +359,7 @@ function _CreateEvents()
     event = vt_map.DialogueEvent.Create("Bronann thinks he needs to get closer", dialogue);
     event:AddEventLinkAtEnd("End of bronann arrival at the riverbank");
 
-
-    event = vt_map.ScriptedEvent.Create("End of bronann arrival at the riverbank", "arrival_at_riverbank_dialogue_end", "");
-
+    vt_map.ScriptedEvent.Create("End of bronann arrival at the riverbank", "arrival_at_riverbank_dialogue_end", "");
 
     -- Bronann is catched
     event = vt_map.ScriptedEvent.Create("Bronann is catched start", "bronann_is_catched_start", "");
@@ -387,11 +368,8 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("The soldier yells at Bronann");
     event:AddEventLinkAtEnd("Bronann is surprised");
 
-
-    event = vt_map.LookAtSpriteEvent.Create("The soldier21 looks at Bronann", soldier21, bronann);
-
-    event = vt_map.LookAtSpriteEvent.Create("The soldier22 looks at Bronann", soldier22, bronann);
-
+    vt_map.LookAtSpriteEvent.Create("The soldier21 looks at Bronann", soldier21, bronann);
+    vt_map.LookAtSpriteEvent.Create("The soldier22 looks at Bronann", soldier22, bronann);
 
     dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Who's there?");
@@ -399,27 +377,20 @@ function _CreateEvents()
     event = vt_map.DialogueEvent.Create("The soldier yells at Bronann", dialogue);
     event:AddEventLinkAtEnd("Restart map");
 
+    vt_map.AnimateSpriteEvent.Create("Bronann is surprised", bronann, "frightened_fixed", 0); -- 0 means forever
 
-    event = vt_map.AnimateSpriteEvent.Create("Bronann is surprised", bronann, "frightened_fixed", 0); -- 0 means forever
-
-
-    event = vt_map.MapTransitionEvent.Create("Restart map", "dat/maps/layna_village/layna_village_riverbank_map.lua",
-                                      "dat/maps/layna_village/layna_village_riverbank_at_night_script.lua", "from_village_center");
-
+    vt_map.MapTransitionEvent.Create("Restart map", "dat/maps/layna_village/layna_village_riverbank_map.lua",
+                                     "dat/maps/layna_village/layna_village_riverbank_at_night_script.lua", "from_village_center");
 
     -- Lord battle scene
     event = vt_map.ScriptedEvent.Create("Lord battle dialogue start", "lord_battle_scene_start", "");
     event:AddEventLinkAtEnd("Bronann hides behind the trees near Orlinn", 50);
 
-
     event = vt_map.PathMoveSpriteEvent.Create("Bronann hides behind the trees near Orlinn", bronann, 70.0, 47.0, true);
     event:AddEventLinkAtEnd("Bronann and Orlinn are discussing");
 
-
-    event = vt_map.PathMoveSpriteEvent.Create("Orlinn goes near Bronann", orlinn, 71.0, 43.8, false);
-
-    event = vt_map.PathMoveSpriteEvent.Create("Orlinn hides again", orlinn, 76.0, 43.8, false);
-
+    vt_map.PathMoveSpriteEvent.Create("Orlinn goes near Bronann", orlinn, 71.0, 43.8, false);
+    vt_map.PathMoveSpriteEvent.Create("Orlinn hides again", orlinn, 76.0, 43.8, false);
 
     dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("(Whispering) Kalya!");
@@ -441,10 +412,8 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("Orlinn hides again");
     event:AddEventLinkAtEnd("Set Camera on Lilly");
 
-
     event = vt_map.ScriptedSpriteEvent.Create("Set Camera on Lilly", lilly, "set_camera_on", "set_camera_update");
     event:AddEventLinkAtEnd("Dialogue with the Lord");
-
 
     dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("I already told you, again and again, Banesore. I don't know anything about such a crystal.");
@@ -482,27 +451,20 @@ function _CreateEvents()
     event = vt_map.DialogueEvent.Create("Dialogue with the Lord", dialogue);
     event:AddEventLinkAtEnd("All villagers are surprised");
 
-
-    event = vt_map.PathMoveSpriteEvent.Create("Banesore moves closer to Lilly 1", lord, 103.0, 54.0, false);
-
-    event = vt_map.PathMoveSpriteEvent.Create("Banesore moves closer to Lilly 2", lord, 101.0, 54.0, false);
-
+    vt_map.PathMoveSpriteEvent.Create("Banesore moves closer to Lilly 1", lord, 103.0, 54.0, false);
+    vt_map.PathMoveSpriteEvent.Create("Banesore moves closer to Lilly 2", lord, 101.0, 54.0, false);
 
     event = vt_map.ScriptedEvent.Create("All villagers are surprised", "exclamation_all_villagers", "");
     event:AddEventLinkAtEnd("Carson protects Malta", 1000);
     event:AddEventLinkAtEnd("Set Camera on Carson");
 
-
     event = vt_map.PathMoveSpriteEvent.Create("Carson protects Malta", carson, 95.0, 60.5, false);
     event:AddEventLinkAtEnd("Carson looks north");
 
-
-    event = vt_map.ChangeDirectionSpriteEvent.Create("Carson looks north", carson, vt_map.MapMode.NORTH);
-
+    vt_map.ChangeDirectionSpriteEvent.Create("Carson looks north", carson, vt_map.MapMode.NORTH);
 
     event = vt_map.ScriptedSpriteEvent.Create("Set Camera on Carson", carson, "set_camera_on", "set_camera_update");
     event:AddEventLinkAtEnd("Dialogue with the Lord 2");
-
 
     dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Let her out of this! You can have me instead.");
@@ -527,18 +489,13 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("All villagers are surprised 2");
     event:AddEventLinkAtEnd("All people look at Bronann");
 
+    vt_map.ScriptedEvent.Create("Exclamation of all soldiers", "exclamation_all_soldiers", "");
 
-    event = vt_map.ScriptedEvent.Create("Exclamation of all soldiers", "exclamation_all_soldiers", "");
+    vt_map.ScriptedEvent.Create("All villagers are surprised 2", "exclamation_all_villagers", "");
 
+    vt_map.ScriptedEvent.Create("All people look at Bronann", "all_people_look_at_bronann", "");
 
-    event = vt_map.ScriptedEvent.Create("All villagers are surprised 2", "exclamation_all_villagers", "");
-
-
-    event = vt_map.ScriptedEvent.Create("All people look at Bronann", "all_people_look_at_bronann", "");
-
-
-    event = vt_map.ScriptedSpriteEvent.Create("Set Camera on Bronann", bronann, "set_camera_on", "");
-
+    vt_map.ScriptedSpriteEvent.Create("Set Camera on Bronann", bronann, "set_camera_on", "");
 
     event = vt_map.PathMoveSpriteEvent.Create("Bronann runs to the soldiers 1", bronann, 85.0, 49.0, true);
     event:AddEventLinkAtEnd("Bronann runs to the soldiers 2");
@@ -549,26 +506,22 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("All people look at Bronann");
     event:AddEventLinkAtEnd("Dialogue with the Lord 3");
 
-
-    event = vt_map.PathMoveSpriteEvent.Create("A soldier goes closer to stop Bronann", soldier12, 91.0, 52.0, false);
+    vt_map.PathMoveSpriteEvent.Create("A soldier goes closer to stop Bronann", soldier12, 91.0, 52.0, false);
 
     event = vt_map.PathMoveSpriteEvent.Create("The soldier goes back to his place", soldier12, 90.0, 50.0, false);
     event:AddEventLinkAtEnd("The soldier looks south");
 
-    event = vt_map.ChangeDirectionSpriteEvent.Create("The soldier looks south", soldier12, vt_map.MapMode.SOUTH);
+    vt_map.ChangeDirectionSpriteEvent.Create("The soldier looks south", soldier12, vt_map.MapMode.SOUTH);
 
+    vt_map.PathMoveSpriteEvent.Create("Lilly goes near Bronann", lilly, 93.0, 54.0, false);
 
-    event = vt_map.PathMoveSpriteEvent.Create("Lilly goes near Bronann", lilly, 93.0, 54.0, false);
-
-    event = vt_map.ChangeDirectionSpriteEvent.Create("Lilly looks east", lilly, vt_map.MapMode.EAST);
+    vt_map.ChangeDirectionSpriteEvent.Create("Lilly looks east", lilly, vt_map.MapMode.EAST);
 
     event = vt_map.PathMoveSpriteEvent.Create("Lilly let Bronann advance", lilly, 93.0, 50.0, false);
     event:AddEventLinkAtEnd("Lilly looks south");
 
-    event = vt_map.ChangeDirectionSpriteEvent.Create("Lilly looks south", lilly, vt_map.MapMode.SOUTH);
-
-    event = vt_map.ChangeDirectionSpriteEvent.Create("Lilly looks west", lilly, vt_map.MapMode.WEST);
-
+    vt_map.ChangeDirectionSpriteEvent.Create("Lilly looks south", lilly, vt_map.MapMode.SOUTH);
+    vt_map.ChangeDirectionSpriteEvent.Create("Lilly looks west", lilly, vt_map.MapMode.WEST);
 
     dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("At last, the boy.");
@@ -592,10 +545,8 @@ function _CreateEvents()
     event = vt_map.DialogueEvent.Create("Dialogue with the Lord 3", dialogue);
     event:AddEventLinkAtEnd("Bronann goes closer from Banesore", 1000);
 
-
     event = vt_map.PathMoveSpriteEvent.Create("Bronann goes closer from Banesore", bronann, 93.0, 54.0, false);
     event:AddEventLinkAtEnd("Dialogue with the Lord 4");
-
 
     dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("You, after all these years...");
@@ -617,7 +568,6 @@ function _CreateEvents()
     event = vt_map.DialogueEvent.Create("Dialogue with the Lord 4", dialogue);
     event:AddEventLinkAtEnd("Battle with Banesore");
 
-
     event = vt_map.BattleEncounterEvent.Create("Battle with Banesore");
     event:SetMusic("mus/the_recon_mission.ogg");
     event:SetBackground("img/backdrops/battle/mountain_village_single_house.png");
@@ -625,40 +575,30 @@ function _CreateEvents()
     event:SetBoss(true);
     event:AddScript("dat/maps/layna_village/battle_with_banesore/battle_with_banesore_script.lua");
     event:AddScript("dat/maps/common/at_night.lua");
-
     event:AddEventLinkAtEnd("Soldier4 is KO");
     event:AddEventLinkAtEnd("Soldier15 is KO");
     event:AddEventLinkAtEnd("Soldier16 is KO");
     event:AddEventLinkAtEnd("Place Herth next to Bronann");
     event:AddEventLinkAtEnd("Bronann is looking poor");
-
     event:AddEventLinkAtEnd("Show both crystals", 2000);
-
 
     -- The after-fight scene
     -- The soldiers 4, 15 and 16 have been ko'd by Herth
-    event = vt_map.AnimateSpriteEvent.Create("Soldier4 is KO", soldier4, "ko", 0); -- 0 means forever
-
-    event = vt_map.AnimateSpriteEvent.Create("Soldier15 is KO", soldier15, "ko", 0); -- 0 means forever
-
-    event = vt_map.AnimateSpriteEvent.Create("Soldier16 is KO", soldier16, "ko", 0); -- 0 means forever
+    vt_map.AnimateSpriteEvent.Create("Soldier4 is KO", soldier4, "ko", 0); -- 0 means forever
+    vt_map.AnimateSpriteEvent.Create("Soldier15 is KO", soldier15, "ko", 0); -- 0 means forever
+    vt_map.AnimateSpriteEvent.Create("Soldier16 is KO", soldier16, "ko", 0); -- 0 means forever
 
     -- Herth is in front of Bronann, protecting him from Banesore
-    event = vt_map.ScriptedEvent.Create("Place Herth next to Bronann", "place_herth_next_to_bronann", "");
-
+    vt_map.ScriptedEvent.Create("Place Herth next to Bronann", "place_herth_next_to_bronann", "");
 
     -- Bronann is hurt by the summoned Tear
-    event = vt_map.AnimateSpriteEvent.Create("Bronann is looking poor", bronann, "kneeling", 0); -- 0 means forever
-
+    vt_map.AnimateSpriteEvent.Create("Bronann is looking poor", bronann, "kneeling", 0); -- 0 means forever
 
     event = vt_map.ScriptedEvent.Create("Show both crystals", "show_both_crystals", "show_both_crystals_update");
     event:AddEventLinkAtEnd("Dialogue after crystals appearance");
 
-
-    event = vt_map.LookAtSpriteEvent.Create("Herth looks at Kalya", herth, kalya);
-
-    event = vt_map.LookAtSpriteEvent.Create("Herth looks at Banesore", herth, lord);
-
+    vt_map.LookAtSpriteEvent.Create("Herth looks at Kalya", herth, kalya);
+    vt_map.LookAtSpriteEvent.Create("Herth looks at Banesore", herth, lord);
 
     dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Ah, there it is. Finally!");
@@ -668,18 +608,14 @@ function _CreateEvents()
     event = vt_map.DialogueEvent.Create("Dialogue after crystals appearance", dialogue);
     event:AddEventLinkAtEnd("Kalya uses smoke to flee with Bronann");
 
-
     event = vt_map.AnimateSpriteEvent.Create("Kalya uses smoke to flee with Bronann", kalya, "kneeling", 1000);
     event:AddEventLinkAtEnd("Kalya uses smoke to flee with Bronann 2");
     event:AddEventLinkAtEnd("Kalya, Bronann and Orlinn disappear", 600);
 
-
-    event = vt_map.ScriptedEvent.Create("Kalya, Bronann and Orlinn disappear", "make_bronann_orlinn_kalya_disappear", "");
-
+    vt_map.ScriptedEvent.Create("Kalya, Bronann and Orlinn disappear", "make_bronann_orlinn_kalya_disappear", "");
 
     -- All soldiers, except the one on the ground
-    event = vt_map.ScriptedEvent.Create("Exclamation of all soldiers 2", "exclamation_all_soldiers_2", "");
-
+    vt_map.ScriptedEvent.Create("Exclamation of all soldiers 2", "exclamation_all_soldiers_2", "");
 
     event = vt_map.ScriptedEvent.Create("Kalya uses smoke to flee with Bronann 2", "smoke_event_start", "smoke_event_update");
     event:AddEventLinkAtEnd("Exclamation of all soldiers 2");
@@ -688,22 +624,15 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("Soldier18 looks at Kalya", 150);
     event:AddEventLinkAtEnd("Soldier19 looks at Kalya", 300);
     event:AddEventLinkAtEnd("Soldier20 looks at Kalya", 400);
-
     event:AddEventLinkAtEnd("Soldiers wonders where Kalya is", 500);
 
-
     -- The soldiers guarding Kalya wonder whe she is...
-    event = vt_map.LookAtSpriteEvent.Create("Soldier17 looks at Kalya", soldier17, kalya);
+    vt_map.LookAtSpriteEvent.Create("Soldier17 looks at Kalya", soldier17, kalya);
+    vt_map.LookAtSpriteEvent.Create("Soldier18 looks at Kalya", soldier18, kalya);
+    vt_map.LookAtSpriteEvent.Create("Soldier19 looks at Kalya", soldier19, kalya);
+    vt_map.LookAtSpriteEvent.Create("Soldier20 looks at Kalya", soldier20, kalya);
 
-    event = vt_map.LookAtSpriteEvent.Create("Soldier18 looks at Kalya", soldier18, kalya);
-
-    event = vt_map.LookAtSpriteEvent.Create("Soldier19 looks at Kalya", soldier19, kalya);
-
-    event = vt_map.LookAtSpriteEvent.Create("Soldier20 looks at Kalya", soldier20, kalya);
-
-
-    event = vt_map.ScriptedEvent.Create("Soldiers wonders where Kalya is", "interrogation_soldiers_guarding_kalya", "");
-
+    vt_map.ScriptedEvent.Create("Soldiers wonders where Kalya is", "interrogation_soldiers_guarding_kalya", "");
 
     dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("You won't get him, Banesore! It seems we were smarter than you this time.");
@@ -729,10 +658,8 @@ function _CreateEvents()
     event = vt_map.DialogueEvent.Create("Dialogue between Herth and Banesore", dialogue);
     event:AddEventLinkAtEnd("To Kalya house path scene");
 
-
-    event = vt_map.MapTransitionEvent.Create("To Kalya house path scene", "dat/maps/layna_village/layna_village_kalya_house_path_map.lua",
-                                      "dat/maps/layna_village/layna_village_kalya_house_path_at_night_script.lua", "from_riverbank_at_night_scene");
-
+    vt_map.MapTransitionEvent.Create("To Kalya house path scene", "dat/maps/layna_village/layna_village_kalya_house_path_map.lua",
+                                     "dat/maps/layna_village/layna_village_kalya_house_path_at_night_script.lua", "from_riverbank_at_night_scene");
 end
 
 -- zones

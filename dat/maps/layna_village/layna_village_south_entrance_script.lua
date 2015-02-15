@@ -15,7 +15,6 @@ music_filename = "mus/Caketown_1-OGA-mat-pablo.ogg"
 
 -- c++ objects instances
 local Map = nil
-local DialogueManager = nil
 local EventManager = nil
 
 local bronann = nil
@@ -25,7 +24,6 @@ local orlinn = nil
 function Load(m)
 
     Map = m;
-    DialogueManager = Map:GetDialogueSupervisor();
     EventManager = Map:GetEventSupervisor();
 
     Map:SetUnlimitedStamina(true);
@@ -141,8 +139,7 @@ function _CreateNPCs()
         dialogue:SetEventAtDialogueEnd("Make bronann take the chicken 2");
         chicken2:AddDialogueReference(dialogue);
 
-        event = vt_map.ScriptedEvent.Create("Make bronann take the chicken 2", "bronann_takes_chicken2", "fadeoutin_update");
-
+        vt_map.ScriptedEvent.Create("Make bronann take the chicken 2", "bronann_takes_chicken2", "fadeoutin_update");
     end
 end
 
@@ -167,33 +164,26 @@ function _CreateEvents()
     local event = nil
 
     -- Triggered Events
-    event = vt_map.MapTransitionEvent.Create("to Village center", "dat/maps/layna_village/layna_village_center_map.lua",
-                                       "dat/maps/layna_village/layna_village_center_script.lua", "from_village_south");
+    vt_map.MapTransitionEvent.Create("to Village center", "dat/maps/layna_village/layna_village_center_map.lua",
+                                     "dat/maps/layna_village/layna_village_center_script.lua", "from_village_south");
 
+    vt_map.MapTransitionEvent.Create("to Village riverbank", "dat/maps/layna_village/layna_village_riverbank_map.lua",
+                                     "dat/maps/layna_village/layna_village_riverbank_script.lua", "from_village_south");
 
-    event = vt_map.MapTransitionEvent.Create("to Village riverbank", "dat/maps/layna_village/layna_village_riverbank_map.lua",
-                                       "dat/maps/layna_village/layna_village_riverbank_script.lua", "from_village_south");
+    vt_map.MapTransitionEvent.Create("to left house", "dat/maps/layna_village/layna_village_south_entrance_left_house_map.lua",
+                                     "dat/maps/layna_village/layna_village_south_entrance_left_house_script.lua", "from_village_south");
 
-
-    event = vt_map.MapTransitionEvent.Create("to left house", "dat/maps/layna_village/layna_village_south_entrance_left_house_map.lua",
-                                       "dat/maps/layna_village/layna_village_south_entrance_left_house_script.lua", "from_village_south");
-
-
-    event = vt_map.MapTransitionEvent.Create("to right house", "dat/maps/layna_village/layna_village_south_entrance_right_house_map.lua",
-                                       "dat/maps/layna_village/layna_village_south_entrance_right_house_script.lua", "from_village_south");
-
+    vt_map.MapTransitionEvent.Create("to right house", "dat/maps/layna_village/layna_village_south_entrance_right_house_map.lua",
+                                     "dat/maps/layna_village/layna_village_south_entrance_right_house_script.lua", "from_village_south");
 
     -- Orlinn events
     event = vt_map.ScriptedEvent.Create("Quest1: Start Orlinn Hide n Seek2", "Quest1_Orlinn_Start_Hide_N_Seek2", "");
     event:AddEventLinkAtEnd("Quest1: Make Orlinn run");
 
-
     event = vt_map.PathMoveSpriteEvent.Create("Quest1: Make Orlinn run", orlinn, 30, 2, true);
     event:AddEventLinkAtEnd("Quest1: Make Orlinn disappear");
 
-
-    event = vt_map.ScriptedSpriteEvent.Create("Quest1: Make Orlinn disappear", orlinn, "MakeInvisible", "");
-
+    vt_map.ScriptedSpriteEvent.Create("Quest1: Make Orlinn disappear", orlinn, "MakeInvisible", "");
 end
 
 -- zones
@@ -258,7 +248,6 @@ function _UpdateOrlinnState()
     event = vt_map.PathMoveSpriteEvent.Create("Hide n Seek1: Orlinn goes left", orlinn, 29, 22, false);
     event:AddEventLinkAtEnd("Hide n Seek1: Orlinn goes right", 8000); -- finish the event loop.
 
-
     if (GlobalManager:DoesEventExist("layna_south_entrance", "quest1_orlinn_hide_n_seek1_done") == true) then
         -- Orlinn shouldn't be here, so we make him invisible
         orlinn:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
@@ -282,7 +271,6 @@ function _UpdateOrlinnState()
     orlinn:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
     orlinn:SetVisible(false);
 end
-
 
 -- Effect time used when fade out and in
 local fade_effect_time = 0;

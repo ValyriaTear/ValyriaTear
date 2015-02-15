@@ -15,7 +15,6 @@ music_filename = "mus/Welcome to Com-Mecha-Mattew_Pablo_OGA.ogg"
 
 -- c++ objects instances
 local Map = nil
-local DialogueManager = nil
 local EventManager = nil
 
 local bronann = nil
@@ -26,7 +25,6 @@ local kalya = nil
 function Load(m)
 
     Map = m;
-    DialogueManager = Map:GetDialogueSupervisor();
     EventManager = Map:GetEventSupervisor();
 
     Map:SetUnlimitedStamina(true);
@@ -154,17 +152,13 @@ function _CreateEvents()
     local dialogue = nil
     local text = nil
 
-    event = vt_map.ChangeDirectionSpriteEvent.Create("Orlinn looks east", orlinn, vt_map.MapMode.EAST);
-
-    event = vt_map.ChangeDirectionSpriteEvent.Create("Kalya looks east", kalya, vt_map.MapMode.EAST);
-
-    event = vt_map.LookAtSpriteEvent.Create("Kalya looks at Orlinn", kalya, orlinn);
-
+    vt_map.ChangeDirectionSpriteEvent.Create("Orlinn looks east", orlinn, vt_map.MapMode.EAST);
+    vt_map.ChangeDirectionSpriteEvent.Create("Kalya looks east", kalya, vt_map.MapMode.EAST);
+    vt_map.LookAtSpriteEvent.Create("Kalya looks at Orlinn", kalya, orlinn);
 
     event = vt_map.PathMoveSpriteEvent.Create("Orlinn runs to the trees", orlinn, 40.0, 45.0, true);
     event:AddEventLinkAtEnd("Orlinn looks east");
     event:AddEventLinkAtEnd("Orlinn calls the others", 800);
-
 
     dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Hurry up! They're coming!");
@@ -172,15 +166,12 @@ function _CreateEvents()
     event = vt_map.DialogueEvent.Create("Orlinn calls the others", dialogue);
     event:AddEventLinkAtEnd("Kalya arrives");
 
-
     event = vt_map.ScriptedEvent.Create("Kalya arrives", "make_kalya_visible", "");
     event:AddEventLinkAtEnd("Kalya runs midway to Orlinn");
-
 
     event = vt_map.PathMoveSpriteEvent.Create("Kalya runs midway to Orlinn", kalya, 50.0, 45.0, true);
     event:AddEventLinkAtEnd("Kalya looks east");
     event:AddEventLinkAtEnd("Kalya calls Bronann 1", 1200);
-
 
     dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Bronann!");
@@ -188,29 +179,23 @@ function _CreateEvents()
     event = vt_map.DialogueEvent.Create("Kalya calls Bronann 1", dialogue);
     event:AddEventLinkAtEnd("Kalya calls Bronann 2", 800);
 
-
     dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Bronann!");
     dialogue:AddLineEmote(text, kalya, "exclamation");
     event = vt_map.DialogueEvent.Create("Kalya calls Bronann 2", dialogue);
     event:AddEventLinkAtEnd("Bronann arrives", 600);
 
-
     event = vt_map.ScriptedEvent.Create("Bronann arrives", "make_bronann_visible", "");
     event:AddEventLinkAtEnd("Bronann runs midway to Kalya");
-
 
     event = vt_map.PathMoveSpriteEvent.Create("Bronann runs midway to Kalya", bronann, 55.0, 45.0, true);
     event:AddEventLinkAtEnd("Bronann kneels due to suffering", 300);
     event:AddEventLinkAtEnd("Kalya goes near Bronann", 800);
 
-
-    event = vt_map.AnimateSpriteEvent.Create("Bronann kneels due to suffering", bronann, "kneeling_left", 0); -- 0 means forever
-
+    vt_map.AnimateSpriteEvent.Create("Bronann kneels due to suffering", bronann, "kneeling_left", 0); -- 0 means forever
 
     event = vt_map.PathMoveSpriteEvent.Create("Kalya goes near Bronann", kalya, 53.0, 45.0, true);
     event:AddEventLinkAtEnd("Kalya urges Bronann");
-
 
     dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Bronann! Hold on! We're almost there.");
@@ -224,10 +209,8 @@ function _CreateEvents()
     event = vt_map.DialogueEvent.Create("Kalya urges Bronann", dialogue);
     event:AddEventLinkAtEnd("Bronann gets up", 600);
 
-
     event = vt_map.ScriptedEvent.Create("Bronann gets up", "bronann_gets_up", "");
     event:AddEventLinkAtEnd("Kalya tells Bronann to move on");
-
 
     dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("... Al... right...");
@@ -238,13 +221,11 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("Kalya goes near Orlinn");
     event:AddEventLinkAtEnd("Bronann goes near Orlinn", 400);
 
-
     event = vt_map.PathMoveSpriteEvent.Create("Kalya goes near Orlinn", kalya, 42.0, 45.0, true);
     event:AddEventLinkAtEnd("Kalya looks east");
 
     event = vt_map.PathMoveSpriteEvent.Create("Bronann goes near Orlinn", bronann, 44.0, 45.0, false);
     event:AddEventLinkAtEnd("Bronann is worrying");
-
 
     dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("There must be soldiers everywere, we're never gonna make it.");
@@ -265,22 +246,18 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("Kalya goes into the secret passage");
     event:AddEventLinkAtEnd("Bronann hesitates", 1000);
 
-
     event = vt_map.PathMoveSpriteEvent.Create("Orlinn goes into the secret passage", orlinn, 40.0, 40.0, true);
     event:AddEventLinkAtEnd("Orlinn disappears");
 
-    event = vt_map.ScriptedEvent.Create("Orlinn disappears", "orlinn_disappears", "");
-
+    vt_map.ScriptedEvent.Create("Orlinn disappears", "orlinn_disappears", "");
 
     event = vt_map.PathMoveSpriteEvent.Create("Kalya goes into the secret passage", kalya, 40.0, 40.0, true);
     event:AddEventLinkAtEnd("Kalya disappears");
 
-    event = vt_map.ScriptedEvent.Create("Kalya disappears", "kalya_disappears", "");
-
+    vt_map.ScriptedEvent.Create("Kalya disappears", "kalya_disappears", "");
 
     event = vt_map.PathMoveSpriteEvent.Create("Bronann hesitates", bronann, 46.0, 45.0, false);
     event:AddEventLinkAtEnd("Bronann goes into the secret passage", 2000);
-
 
     event = vt_map.PathMoveSpriteEvent.Create("Bronann goes into the secret passage", bronann, 40.0, 40.0, false);
     event:AddEventLinkAtEnd("Bronann disappears");
@@ -288,11 +265,9 @@ function _CreateEvents()
     event = vt_map.ScriptedEvent.Create("Bronann disappears", "bronann_disappears", "");
     event:AddEventLinkAtEnd("to Kalya's house");
 
-
     -- Transition to Kalya's house
-    event = vt_map.MapTransitionEvent.Create("to Kalya's house", "dat/maps/layna_village/layna_village_kalya_house_map.lua",
-                                       "dat/maps/layna_village/layna_village_kalya_house_script.lua", "from_kalya_house_path");
-
+    vt_map.MapTransitionEvent.Create("to Kalya's house", "dat/maps/layna_village/layna_village_kalya_house_map.lua",
+                                     "dat/maps/layna_village/layna_village_kalya_house_script.lua", "from_kalya_house_path");
 end
 
 -- Map Custom functions
