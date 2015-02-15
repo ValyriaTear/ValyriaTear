@@ -558,7 +558,7 @@ void BindModeCode()
             luabind::class_<ScriptedSpriteEvent, SpriteEvent>("ScriptedSpriteEvent")
             .scope
             [   // Used for static members and nested classes.
-                luabind::def("Create", (ScriptedSpriteEvent*(*)(const std::string&, VirtualSprite *, const std::string&, const std::string&))&ScriptedSpriteEvent::Create)
+                luabind::def("Create", &ScriptedSpriteEvent::Create)
             ]
         ];
 
@@ -567,7 +567,7 @@ void BindModeCode()
             luabind::class_<ChangeDirectionSpriteEvent, SpriteEvent>("ChangeDirectionSpriteEvent")
             .scope
             [   // Used for static members and nested classes.
-                luabind::def("Create", (ChangeDirectionSpriteEvent*(*)(const std::string&, VirtualSprite *, uint16))&ChangeDirectionSpriteEvent::Create)
+                luabind::def("Create", &ChangeDirectionSpriteEvent::Create)
             ]
         ];
 

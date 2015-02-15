@@ -106,12 +106,12 @@ class MapEvent
     friend class EventSupervisor;
 public:
     //! \param id The ID for the map event (an empty() value is invalid)
-    MapEvent(const std::string &id, EVENT_TYPE type);
+    MapEvent(const std::string& id, EVENT_TYPE type);
 
     virtual ~MapEvent()
     {}
 
-    const std::string &GetEventID() const {
+    const std::string& GetEventID() const {
         return _event_id;
     }
 
@@ -122,7 +122,7 @@ public:
     /** \brief Declares a child event to be launched immediately at the start of this event
     *** \param child_event_id The event id of the child event
     **/
-    void AddEventLinkAtStart(const std::string &child_event_id) {
+    void AddEventLinkAtStart(const std::string& child_event_id) {
         _AddEventLink(child_event_id, true, 0);
     }
 
@@ -130,14 +130,14 @@ public:
     *** \param child_event_id The event id of the child event
     *** \param launch_time The number of milliseconds to wait before launching the child event
     **/
-    void AddEventLinkAtStart(const std::string &child_event_id, uint32 launch_time) {
+    void AddEventLinkAtStart(const std::string& child_event_id, uint32 launch_time) {
         _AddEventLink(child_event_id, true, launch_time);
     }
 
     /** \brief Declares a child event to be launched immediately at the end of this event
     *** \param child_event_id The event id of the child event
     **/
-    void AddEventLinkAtEnd(const std::string &child_event_id) {
+    void AddEventLinkAtEnd(const std::string& child_event_id) {
         _AddEventLink(child_event_id, false, 0);
     }
 
@@ -145,7 +145,7 @@ public:
     *** \param child_event_id The event id of the child event
     *** \param launch_time The number of milliseconds to wait before launching the child event
     **/
-    void AddEventLinkAtEnd(const std::string &child_event_id, uint32 launch_time) {
+    void AddEventLinkAtEnd(const std::string& child_event_id, uint32 launch_time) {
         _AddEventLink(child_event_id, false, launch_time);
     }
 
@@ -168,7 +168,7 @@ protected:
     *** \param launch_at_start The child starts relative to the start of the event if true, its finish if false
     *** \param launch_time The number of milliseconds to wait before launching the child event
     **/
-    void _AddEventLink(const std::string &child_event_id, bool launch_at_start, uint32 launch_time) {
+    void _AddEventLink(const std::string& child_event_id, bool launch_at_start, uint32 launch_time) {
         _event_links.push_back(EventLink(child_event_id, launch_at_start, launch_time));
     }
 
@@ -202,7 +202,7 @@ public:
     /** \param event_id The ID of this event
     *** \param dialogue The SpriteDialogue* to execute through this event
     **/
-    DialogueEvent(const std::string &event_id, SpriteDialogue* dialogue);
+    DialogueEvent(const std::string& event_id, SpriteDialogue* dialogue);
 
     ~DialogueEvent()
     {}
@@ -240,7 +240,7 @@ class ShopEvent : public MapEvent
 {
 public:
     //! \param event_id The ID of this event
-    ShopEvent(const std::string &event_id):
+    ShopEvent(const std::string& event_id):
         MapEvent(event_id, SHOP_EVENT),
         _buy_level(vt_shop::SHOP_PRICE_STANDARD),
         _sell_level(vt_shop::SHOP_PRICE_STANDARD),
@@ -453,7 +453,7 @@ class BattleEncounterEvent : public MapEvent
 public:
     /** \param event_id The ID of this event
     **/
-    BattleEncounterEvent(const std::string &event_id);
+    BattleEncounterEvent(const std::string& event_id);
 
     ~BattleEncounterEvent()
     {}
@@ -633,12 +633,6 @@ class SpriteEvent : public MapEvent
 public:
     /** \param event_id The ID of this event
     *** \param event_type The type of this event
-    *** \param sprite_id The id of the sprite that this event will control
-    **/
-    SpriteEvent(const std::string& event_id, EVENT_TYPE event_type, uint16 sprite_id);
-
-    /** \param event_id The ID of this event
-    *** \param event_type The type of this event
     *** \param sprite A pointer to the sprite that this event will control
     **/
     SpriteEvent(const std::string& event_id, EVENT_TYPE event_type, VirtualSprite* sprite);
@@ -683,18 +677,6 @@ protected:
 class ScriptedSpriteEvent : public SpriteEvent
 {
 public:
-    /** \param event_id The ID of this event
-    *** \param sprite_id The id of the sprite that will be passed to the Lua script functions
-    *** \param start_function the map file's function start function name to call
-    *** \param update_function the map file's function update function name to call
-    ***
-    *** \note A value of zero for either the start or update index arguments will result in no start or
-    *** update function being defined. If no update function is defined, the call to _Update() will always
-    *** return true, meaning that this event will end immediately after it starts.
-    **/
-    ScriptedSpriteEvent(const std::string& event_id, uint16 sprite_id,
-                        const std::string& start_function, const std::string& update_function);
-
     /** \param event_id The ID of this event
     *** \param sprite A pointer to the sprite that will be passed to the Lua script functions
     *** \param start_function the map file's function start function name to call
@@ -750,12 +732,6 @@ class ChangeDirectionSpriteEvent : public SpriteEvent
 {
 public:
     /** \param event_id The ID of this event
-    *** \param sprite _id The ID of the sprite to change the direction of
-    *** \param direction The direction to face the sprite
-    **/
-    ChangeDirectionSpriteEvent(const std::string& event_id, uint16 sprite_id, uint16 direction);
-
-    /** \param event_id The ID of this event
     *** \param sprite A pointer to the sprite that this event will effect
     *** \param direction The direction to face the sprite
     **/
@@ -798,12 +774,6 @@ protected:
 class LookAtSpriteEvent : public SpriteEvent
 {
 public:
-    /** \param event_id The ID of this event
-    *** \param sprite_id The ID of the sprite to change the direction of
-    *** \param second_sprite_id The ID of the sprite to make the first look at
-    **/
-    LookAtSpriteEvent(const std::string& event_id, uint16 sprite_id, uint16 second_sprite_id);
-
     /** \param event_id The ID of this event
     *** \param sprite A pointer to the sprite that this event will effect
     *** \param sprite A pointer to the sprite to look at.
@@ -863,14 +833,6 @@ class PathMoveSpriteEvent : public SpriteEvent
     friend class VirtualSprite;
 
 public:
-    /** \param event_id The ID of this event
-    *** \param sprite_id The ID of the sprite that is to be moved
-    *** \param x_coord The X coordinate to move the sprite to
-    *** \param y_coord The Y coordinate to move the sprite to
-    *** \param run whether the character has to go there by walking or running
-    **/
-    PathMoveSpriteEvent(const std::string& event_id, uint16 sprite_id, float x_coord, float y_coord, bool run);
-
     /** \param event_id The ID of this event
     *** \param sprite A pointer to the sprite to move
     *** \param x_coord The X coordinate to move the sprite to

@@ -388,18 +388,6 @@ bool ScriptedEvent::_Update()
 // ---------- SpriteEvent Class Methods
 // -----------------------------------------------------------------------------
 
-SpriteEvent::SpriteEvent(const std::string& event_id, EVENT_TYPE event_type, uint16 sprite_id) :
-    MapEvent(event_id, event_type),
-    _sprite(NULL)
-{
-    _sprite = MapMode::CurrentInstance()->GetObjectSupervisor()->GetSprite(sprite_id);
-    if(!_sprite) {
-        IF_PRINT_WARNING(MAP_DEBUG)
-                << "sprite_id argument did not correspond to a known sprite object: "
-                << event_id << std::endl;
-    }
-}
-
 SpriteEvent::SpriteEvent(const std::string& event_id, EVENT_TYPE event_type, VirtualSprite* sprite) :
     MapEvent(event_id, event_type),
     _sprite(sprite)
@@ -436,27 +424,6 @@ void SpriteEvent::Terminate()
 // -----------------------------------------------------------------------------
 // ---------- ScriptedSpriteEvent Class Methods
 // -----------------------------------------------------------------------------
-
-ScriptedSpriteEvent::ScriptedSpriteEvent(const std::string& event_id, uint16 sprite_id,
-                                         const std::string& start_function,
-                                         const std::string& update_function) :
-    SpriteEvent(event_id, SCRIPTED_SPRITE_EVENT, sprite_id)
-{
-    ReadScriptDescriptor& map_script = MapMode::CurrentInstance()->GetMapScript();
-    if (!MapMode::CurrentInstance()->OpenMapTablespace(true))
-        return;
-    if (!map_script.OpenTable("map_functions"))
-        return;
-
-    if(!start_function.empty())
-        _start_function = map_script.ReadFunctionPointer(start_function);
-
-    if(!update_function.empty())
-        _update_function = map_script.ReadFunctionPointer(update_function);
-
-    map_script.CloseTable(); // map_functions
-    map_script.CloseTable(); // tablespace
-}
 
 ScriptedSpriteEvent::ScriptedSpriteEvent(const std::string& event_id, VirtualSprite* sprite,
                                          const std::string& start_function,
@@ -513,16 +480,6 @@ bool ScriptedSpriteEvent::_Update()
 // ---------- ChangeDirectionSpriteEvent Class Methods
 // -----------------------------------------------------------------------------
 
-ChangeDirectionSpriteEvent::ChangeDirectionSpriteEvent(const std::string& event_id, uint16 sprite_id, uint16 direction) :
-    SpriteEvent(event_id, CHANGE_DIRECTION_SPRITE_EVENT, sprite_id),
-    _direction(direction)
-{
-    if((_direction != NORTH) && (_direction != SOUTH) && (_direction != EAST) && (_direction != WEST)) {
-        IF_PRINT_WARNING(MAP_DEBUG) << "non-standard direction specified: "
-                                    << event_id << std::endl;
-    }
-}
-
 ChangeDirectionSpriteEvent::ChangeDirectionSpriteEvent(const std::string& event_id, VirtualSprite* sprite, uint16 direction) :
     SpriteEvent(event_id, CHANGE_DIRECTION_SPRITE_EVENT, sprite),
     _direction(direction)
@@ -553,19 +510,6 @@ bool ChangeDirectionSpriteEvent::_Update()
 }
 
 // ---------- LookAtSpriteEvent Class Methods
-
-LookAtSpriteEvent::LookAtSpriteEvent(const std::string& event_id, uint16 sprite_id, uint16 second_sprite_id) :
-    SpriteEvent(event_id, LOOK_AT_SPRITE_EVENT, sprite_id)
-{
-    // Invalid position.
-    _x = _y = -1.0f;
-
-    _target_sprite = MapMode::CurrentInstance()->GetObjectSupervisor()->GetSprite(second_sprite_id);
-    if(!_target_sprite) {
-        IF_PRINT_WARNING(MAP_DEBUG) << "Invalid second sprite id specified in event: "
-                                    << event_id << std::endl;
-    }
-}
 
 LookAtSpriteEvent::LookAtSpriteEvent(const std::string& event_id, VirtualSprite* sprite, VirtualSprite* other_sprite) :
     SpriteEvent(event_id, LOOK_AT_SPRITE_EVENT, sprite)
@@ -622,20 +566,6 @@ bool LookAtSpriteEvent::_Update()
 // -----------------------------------------------------------------------------
 // ---------- PathMoveSpriteEvent Class Methods
 // -----------------------------------------------------------------------------
-
-PathMoveSpriteEvent::PathMoveSpriteEvent(const std::string& event_id, uint16 sprite_id,
-                                         float x_coord, float y_coord, bool run) :
-    SpriteEvent(event_id, PATH_MOVE_SPRITE_EVENT, sprite_id),
-    _destination_x(x_coord),
-    _destination_y(y_coord),
-    _target_sprite(NULL),
-    _last_x_position(0.0f),
-    _last_y_position(0.0f),
-    _current_node_x(0.0f),
-    _current_node_y(0.0f),
-    _current_node(0),
-    _run(run)
-{}
 
 PathMoveSpriteEvent::PathMoveSpriteEvent(const std::string& event_id, VirtualSprite* sprite,
                                          float x_coord, float y_coord, bool run) :
@@ -893,8 +823,8 @@ void RandomMoveSpriteEvent::Terminate()
 // ---------- AnimateSpriteEvent Class Methods
 // -----------------------------------------------------------------------------
 
-AnimateSpriteEvent::AnimateSpriteEvent(const std::string &event_id, VirtualSprite *sprite,
-                                       const std::string &animation_name, int32 animation_time) :
+AnimateSpriteEvent::AnimateSpriteEvent(const std::string& event_id, VirtualSprite* sprite,
+                                       const std::string& animation_name, int32 animation_time) :
     SpriteEvent(event_id, ANIMATE_SPRITE_EVENT, sprite),
     _animation_name(animation_name),
     _animation_time(animation_time)
