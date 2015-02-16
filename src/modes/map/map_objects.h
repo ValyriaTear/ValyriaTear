@@ -1200,6 +1200,9 @@ private:
     //! \brief Debug: Draws the map zones in orange
     void _DrawMapZones();
 
+    //! \brief Returns the MapObject vector corresponding to the draw layer.
+    std::vector<MapObject*>& _GetObjectsFromDrawLayer(MapObjectDrawLayer layer);
+
     /** \brief The number of rows and columns in the collision grid
     *** The number of collision grid rows and columns is always equal to twice
     *** that of the number of rows and columns of tiles (stored in the TileManager).

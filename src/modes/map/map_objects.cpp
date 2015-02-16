@@ -1397,6 +1397,22 @@ MapObject *ObjectSupervisor::_FindNearestSavePoint(const VirtualSprite *sprite)
     return NULL;
 }
 
+std::vector<MapObject*>& ObjectSupervisor::_GetObjectsFromDrawLayer(MapObjectDrawLayer layer)
+{
+    switch(layer)
+    {
+    case FLATGROUND_OBJECT:
+        return _flat_ground_objects;
+    default:
+    case GROUND_OBJECT:
+        return _ground_objects;
+    case PASS_OBJECT:
+        return _pass_objects;
+    case SKY_OBJECT:
+        return _sky_objects;
+    }
+}
+
 MapObject *ObjectSupervisor::FindNearestInteractionObject(const VirtualSprite *sprite, float search_distance)
 {
     if(!sprite)
@@ -1426,14 +1442,7 @@ MapObject *ObjectSupervisor::FindNearestInteractionObject(const VirtualSprite *s
     // A vector to hold objects which are inside the search area (either partially or fully)
     std::vector<MapObject *> valid_objects;
     // A pointer to the vector of objects to search
-    std::vector<MapObject *>* search_vector = NULL;
-
-    // Only search the object layer that the sprite resides on.
-    // Note that we do not consider searching the pass layer.
-    if(sprite->GetObjectDrawLayer() == vt_map::SKY_OBJECT)
-        search_vector = &_sky_objects;
-    else
-        search_vector = &_ground_objects;
+    std::vector<MapObject *>* search_vector = &_GetObjectsFromDrawLayer(sprite->GetObjectDrawLayer());
 
     for(std::vector<MapObject *>::iterator it = (*search_vector).begin(); it != (*search_vector).end(); ++it) {
         if(*it == sprite)  // Don't allow the sprite itself to be considered in the search
@@ -1584,8 +1593,7 @@ COLLISION_TYPE ObjectSupervisor::DetectCollision(MapObject* object,
         }
     }
 
-    std::vector<MapObject *>* objects = object->GetObjectDrawLayer() == vt_map::SKY_OBJECT ?
-                                        &_sky_objects : &_ground_objects;
+    std::vector<MapObject *>* objects = &_GetObjectsFromDrawLayer(object->GetObjectDrawLayer());
 
     std::vector<vt_map::private_map::MapObject *>::const_iterator it, it_end;
     for(it = objects->begin(), it_end = objects->end(); it != it_end; ++it) {
