@@ -20,11 +20,10 @@ local EventManager = nil
 -- the main character handler
 local hero = nil
 
--- Dialogue secondary hero
-local kalya_sprite =  nil
-
--- Name of the main sprite. Used to reload the good one at the end of the event.
-local main_sprite_name = "";
+-- Dialogue heroes
+local bronann = nil
+local kalya =  nil
+local orlinn = nil
 
 -- the main map loading code
 function Load(m)
@@ -97,20 +96,22 @@ function _CreateCharacters()
         hero:SetPosition(x_position, y_position);
     end
 
-    -- Create secondary character - Kalya
-    kalya_sprite = CreateSprite(Map, "Kalya",
-                            hero:GetXPosition(), hero:GetYPosition(), vt_map.MapMode.GROUND_OBJECT);
+    -- Create secondary characters
+    bronann = CreateSprite(Map, "Bronann", 0, 0, vt_map.MapMode.GROUND_OBJECT);
+    bronann:SetDirection(vt_map.MapMode.NORTH);
+    bronann:SetMovementSpeed(vt_map.MapMode.NORMAL_SPEED);
+    bronann:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
+    bronann:SetVisible(false);
 
-    kalya_sprite:SetDirection(vt_map.MapMode.NORTH);
-    kalya_sprite:SetMovementSpeed(vt_map.MapMode.NORMAL_SPEED);
-    kalya_sprite:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
-    kalya_sprite:SetVisible(false);
+    kalya = CreateSprite(Map, "Kalya", 0, 0, vt_map.MapMode.GROUND_OBJECT);
+    kalya:SetDirection(vt_map.MapMode.NORTH);
+    kalya:SetMovementSpeed(vt_map.MapMode.NORMAL_SPEED);
+    kalya:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
+    kalya:SetVisible(false);
 end
 
 -- The boss map sprite
 local wolf = nil
-
-local orlinn = nil
 
 local crystal = nil
 local crystal_effect = nil
@@ -185,6 +186,7 @@ function _CreateObjects()
         { "Tree Tiny1", 81, 79 },
         { "Tree Tiny3", 81, 28 },
         { "Tree Small3", 83, 73 },
+        { "Tree Small3", 88, 35 },
         { "Tree Small5", 75.5, 45 },
         { "Tree Small6", 3, 65 },
         { "Tree Little2", 3, 55 },
@@ -393,9 +395,7 @@ function _CreateObjects()
 end
 
 -- Special event references which destinations must be updated just before being called.
-local move_next_to_hero_event = nil
-local move_back_to_hero_event = nil
-local orlinn_move_to_hero_event = nil
+local move_next_to_bronann_event = nil
 
 -- Creates all events and sets up the entire event sequence chain
 function _CreateEvents()
@@ -426,44 +426,44 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("Kalya moves next to Bronann", 50);
 
     vt_map.ScriptedEvent.Create("Map:Popstate()", "Map_PopState", "");
-    vt_map.ScriptedSpriteEvent.Create("kalya:SetCollision(ALL)", kalya_sprite, "Sprite_Collision_on", "");
+    vt_map.ScriptedSpriteEvent.Create("kalya:SetCollision(ALL)", kalya, "Sprite_Collision_on", "");
 
     -- NOTE: The actual destination is set just before the actual start call
-    move_next_to_hero_event = vt_map.PathMoveSpriteEvent.Create("Kalya moves next to Bronann", kalya_sprite, 0, 0, false);
-    move_next_to_hero_event:AddEventLinkAtEnd("first dialogue part");
-    move_next_to_hero_event:AddEventLinkAtEnd("Kalya looks at Orlinn");
-    move_next_to_hero_event:AddEventLinkAtEnd("kalya:SetCollision(ALL)");
+    move_next_to_bronann_event = vt_map.PathMoveSpriteEvent.Create("Kalya moves next to Bronann", kalya, 0, 0, false);
+    move_next_to_bronann_event:AddEventLinkAtEnd("first dialogue part");
+    move_next_to_bronann_event:AddEventLinkAtEnd("Kalya looks at Orlinn");
+    move_next_to_bronann_event:AddEventLinkAtEnd("kalya:SetCollision(ALL)");
 
-    vt_map.LookAtSpriteEvent.Create("Kalya looks at Orlinn", kalya_sprite, orlinn);
-    vt_map.LookAtSpriteEvent.Create("Kalya looks at Bronann", kalya_sprite, hero);
-    vt_map.LookAtSpriteEvent.Create("Orlinn looks at Bronann", orlinn, hero);
-    vt_map.ChangeDirectionSpriteEvent.Create("Kalya looks east", kalya_sprite, vt_map.MapMode.EAST);
-    vt_map.ChangeDirectionSpriteEvent.Create("Kalya looks west", kalya_sprite, vt_map.MapMode.WEST);
-    vt_map.ChangeDirectionSpriteEvent.Create("Kalya looks north", kalya_sprite, vt_map.MapMode.NORTH);
-    vt_map.ChangeDirectionSpriteEvent.Create("Kalya looks south", kalya_sprite, vt_map.MapMode.SOUTH);
-    vt_map.ChangeDirectionSpriteEvent.Create("Bronann looks east", hero, vt_map.MapMode.EAST);
-    vt_map.ChangeDirectionSpriteEvent.Create("Bronann looks west", hero, vt_map.MapMode.WEST);
-    vt_map.ChangeDirectionSpriteEvent.Create("Bronann looks north", hero, vt_map.MapMode.NORTH);
-    vt_map.ChangeDirectionSpriteEvent.Create("Bronann looks south", hero, vt_map.MapMode.SOUTH);
+    vt_map.LookAtSpriteEvent.Create("Kalya looks at Orlinn", kalya, orlinn);
+    vt_map.LookAtSpriteEvent.Create("Kalya looks at Bronann", kalya, bronann);
+    vt_map.LookAtSpriteEvent.Create("Orlinn looks at Bronann", orlinn, bronann);
+    vt_map.ChangeDirectionSpriteEvent.Create("Kalya looks east", kalya, vt_map.MapMode.EAST);
+    vt_map.ChangeDirectionSpriteEvent.Create("Kalya looks west", kalya, vt_map.MapMode.WEST);
+    vt_map.ChangeDirectionSpriteEvent.Create("Kalya looks north", kalya, vt_map.MapMode.NORTH);
+    vt_map.ChangeDirectionSpriteEvent.Create("Kalya looks south", kalya, vt_map.MapMode.SOUTH);
+    vt_map.ChangeDirectionSpriteEvent.Create("Bronann looks east", bronann, vt_map.MapMode.EAST);
+    vt_map.ChangeDirectionSpriteEvent.Create("Bronann looks west", bronann, vt_map.MapMode.WEST);
+    vt_map.ChangeDirectionSpriteEvent.Create("Bronann looks north", bronann, vt_map.MapMode.NORTH);
+    vt_map.ChangeDirectionSpriteEvent.Create("Bronann looks south", bronann, vt_map.MapMode.SOUTH);
     vt_map.ChangeDirectionSpriteEvent.Create("Orlinn looks east", orlinn, vt_map.MapMode.EAST);
     vt_map.ChangeDirectionSpriteEvent.Create("Orlinn looks west", orlinn, vt_map.MapMode.WEST);
     vt_map.ChangeDirectionSpriteEvent.Create("Orlinn looks north", orlinn, vt_map.MapMode.NORTH);
 
     dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Orlinn!");
-    dialogue:AddLineEmote(text, kalya_sprite, "exclamation");
+    dialogue:AddLineEmote(text, kalya, "exclamation");
     text = vt_system.Translate("I can feel it, sis'. It's coming!");
     dialogue:AddLineEvent(text, orlinn, "", "Orlinn comes closer of the crystal spawn point");
     text = vt_system.Translate("Orlinn, stop!");
-    dialogue:AddLineEmote(text, kalya_sprite, "exclamation");
+    dialogue:AddLineEmote(text, kalya, "exclamation");
     event = vt_map.DialogueEvent.Create("first dialogue part", dialogue);
     event:AddEventLinkAtEnd("Kalya runs to Orlinn");
     event:AddEventLinkAtEnd("Bronann runs to Orlinn");
 
     vt_map.PathMoveSpriteEvent.Create("Orlinn comes closer of the crystal spawn point", orlinn, 42, 54, false);
-    vt_map.PathMoveSpriteEvent.Create("Bronann runs to Orlinn", hero, 40, 56, true);
+    vt_map.PathMoveSpriteEvent.Create("Bronann runs to Orlinn", bronann, 40, 56, true);
 
-    event = vt_map.PathMoveSpriteEvent.Create("Kalya runs to Orlinn", kalya_sprite, 44, 56, true);
+    event = vt_map.PathMoveSpriteEvent.Create("Kalya runs to Orlinn", kalya, 44, 56, true);
     event:AddEventLinkAtEnd("First tremor");
 
     event = vt_map.ScriptedEvent.Create("First tremor", "first_tremor", "");
@@ -471,21 +471,21 @@ function _CreateEvents()
 
     dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("What's happening!?");
-    dialogue:AddLineEmote(text, kalya_sprite, "exclamation");
+    dialogue:AddLineEmote(text, kalya, "exclamation");
     event = vt_map.DialogueEvent.Create("second dialogue part", dialogue);
     event:AddEventLinkAtEnd("Kalya looks east 1", 500);
     event:AddEventLinkAtEnd("kalya:SetCollision(NONE)");
 
-    event = vt_map.ChangeDirectionSpriteEvent.Create("Kalya looks east 1", kalya_sprite, vt_map.MapMode.EAST);
+    event = vt_map.ChangeDirectionSpriteEvent.Create("Kalya looks east 1", kalya, vt_map.MapMode.EAST);
     event:AddEventLinkAtEnd("Bronann looks west 1", 200);
 
-    event = vt_map.ChangeDirectionSpriteEvent.Create("Bronann looks west 1", hero, vt_map.MapMode.WEST);
+    event = vt_map.ChangeDirectionSpriteEvent.Create("Bronann looks west 1", bronann, vt_map.MapMode.WEST);
     event:AddEventLinkAtEnd("Kalya looks west 1", 800);
 
-    event = vt_map.ChangeDirectionSpriteEvent.Create("Kalya looks west 1", kalya_sprite, vt_map.MapMode.WEST);
+    event = vt_map.ChangeDirectionSpriteEvent.Create("Kalya looks west 1", kalya, vt_map.MapMode.WEST);
     event:AddEventLinkAtEnd("Bronann looks east 1", 800);
 
-    event = vt_map.ChangeDirectionSpriteEvent.Create("Bronann looks east 1", hero, vt_map.MapMode.EAST);
+    event = vt_map.ChangeDirectionSpriteEvent.Create("Bronann looks east 1", bronann, vt_map.MapMode.EAST);
     event:AddEventLinkAtEnd("Bronann looks north", 1000);
     event:AddEventLinkAtEnd("Kalya looks north", 1000);
     event:AddEventLinkAtEnd("Both are surprised", 1000);
@@ -501,9 +501,9 @@ function _CreateEvents()
 
     dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Gosh! By all heavens, is this...?");
-    dialogue:AddLineEmote(text, kalya_sprite, "sweat drop");
+    dialogue:AddLineEmote(text, kalya, "sweat drop");
     text = vt_system.Translate("A crystal stone?!");
-    dialogue:AddLineEmote(text, hero, "exclamation");
+    dialogue:AddLineEmote(text, bronann, "exclamation");
     text = vt_system.Translate("This is her. I heard her voice calling.");
     dialogue:AddLine(text, orlinn);
     event = vt_map.DialogueEvent.Create("third dialogue part", dialogue);
@@ -535,63 +535,63 @@ function _CreateEvents()
 
     dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("What does all of this mean?");
-    dialogue:AddLineEmote(text, kalya_sprite, "thinking dots");
+    dialogue:AddLineEmote(text, kalya, "thinking dots");
     text = vt_system.Translate("I shall become one with our only hope.");
     dialogue:AddLine(text, orlinn);
     text = vt_system.Translate("What! Orlinn, no!");
-    dialogue:AddLineEmote(text, hero, "exclamation");
+    dialogue:AddLineEmote(text, bronann, "exclamation");
     event = vt_map.DialogueEvent.Create("fourth dialogue part", dialogue);
     event:AddEventLinkAtEnd("Orlinn comes even closer of the crystal");
     event:AddEventLinkAtEnd("Bronann runs in front of Orlinn", 300);
 
     vt_map.PathMoveSpriteEvent.Create("Orlinn comes even closer of the crystal", orlinn, 42, 50, false);
 
-    event = vt_map.PathMoveSpriteEvent.Create("Bronann runs in front of Orlinn", hero, 42, 48, true);
+    event = vt_map.PathMoveSpriteEvent.Create("Bronann runs in front of Orlinn", bronann, 42, 48, true);
     event:AddEventLinkAtEnd("Bronann looks south");
     event:AddEventLinkAtEnd("fifth dialogue part");
 
     dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Bronann, the crystal! No!");
-    dialogue:AddLineEmote(text, kalya_sprite, "exclamation");
+    dialogue:AddLineEmote(text, kalya, "exclamation");
     event = vt_map.DialogueEvent.Create("fifth dialogue part", dialogue);
     event:AddEventLinkAtEnd("kalya:SetCollision(NONE)");
     event:AddEventLinkAtEnd("Bronann is hurt");
     event:AddEventLinkAtEnd("white flash");
 
-    vt_map.ScriptedSpriteEvent.Create("kalya:SetCollision(NONE)", kalya_sprite, "Sprite_Collision_off", "");
+    vt_map.ScriptedSpriteEvent.Create("kalya:SetCollision(NONE)", kalya, "Sprite_Collision_off", "");
 
-    event = vt_map.AnimateSpriteEvent.Create("Bronann is hurt", hero, "hurt", 1200);
+    event = vt_map.AnimateSpriteEvent.Create("Bronann is hurt", bronann, "hurt", 1200);
     event:AddEventLinkAtEnd("Bronann is sleeping");
 
-    vt_map.AnimateSpriteEvent.Create("Bronann is sleeping", hero, "sleeping", 0); -- 0 means forever
+    vt_map.AnimateSpriteEvent.Create("Bronann is sleeping", bronann, "sleeping", 0); -- 0 means forever
 
     event = vt_map.ScriptedEvent.Create("white flash", "white_flash", "white_flash_update");
     event:AddEventLinkAtEnd("sixth dialogue part");
 
     dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Bronann!");
-    dialogue:AddLineEmote(text, kalya_sprite, "exclamation");
+    dialogue:AddLineEmote(text, kalya, "exclamation");
     event = vt_map.DialogueEvent.Create("sixth dialogue part", dialogue);
     event:AddEventLinkAtEnd("Kalya runs to Bronann");
 
-    event = vt_map.PathMoveSpriteEvent.Create("Kalya runs to Bronann", kalya_sprite, 39, 47, true);
+    event = vt_map.PathMoveSpriteEvent.Create("Kalya runs to Bronann", kalya, 39, 47, true);
     event:AddEventLinkAtEnd("Kalya looks east");
     event:AddEventLinkAtEnd("Kalya kneels", 300);
     event:AddEventLinkAtEnd("seventh dialogue part", 600);
 
-    vt_map.AnimateSpriteEvent.Create("Kalya kneels", kalya_sprite, "kneeling", 0); -- 0 means forever
+    vt_map.AnimateSpriteEvent.Create("Kalya kneels", kalya, "kneeling", 0); -- 0 means forever
 
     -- Simply stop the custom animation
-    vt_map.ScriptedSpriteEvent.Create("Kalya gets up", kalya_sprite, "Terminate_all_events", "");
+    vt_map.ScriptedSpriteEvent.Create("Kalya gets up", kalya, "Terminate_all_events", "");
 
     event = vt_map.ScriptedEvent.Create("Kalya and orlinn are surprised", "orlinn_kalya_exclamation", "");
     event:AddEventLinkAtEnd("Kalya looks east");
     event:AddEventLinkAtEnd("Bronann kneels");
 
-    vt_map.AnimateSpriteEvent.Create("Bronann kneels", hero, "kneeling", 0); -- 0 means forever
+    vt_map.AnimateSpriteEvent.Create("Bronann kneels", bronann, "kneeling", 0); -- 0 means forever
 
     -- Simply stop the custom animation
-    vt_map.ScriptedSpriteEvent.Create("Bronann gets up", hero, "Terminate_all_events", "");
+    vt_map.ScriptedSpriteEvent.Create("Bronann gets up", bronann, "Terminate_all_events", "");
 
     vt_map.ScriptedEvent.Create("Fade out music", "fade_out_music", "");
 
@@ -599,40 +599,40 @@ function _CreateEvents()
 
     dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Bronann! Are you all right? Answer me!!");
-    dialogue:AddLineEventEmote(text, kalya_sprite, "", "Orlinn looks west", "exclamation");
+    dialogue:AddLineEventEmote(text, kalya, "", "Orlinn looks west", "exclamation");
     text = vt_system.Translate("Bronann!");
-    dialogue:AddLineEventEmote(text, kalya_sprite, "", "Orlinn looks east", "exclamation");
+    dialogue:AddLineEventEmote(text, kalya, "", "Orlinn looks east", "exclamation");
     text = vt_system.Translate("Woah, where am I?");
     dialogue:AddLineEmote(text, orlinn, "interrogation");
     text = vt_system.Translate("Bronann!");
-    dialogue:AddLine(text, kalya_sprite);
+    dialogue:AddLine(text, kalya);
     text = vt_system.Translate("Sis! What's the matter? What happened?");
     dialogue:AddLineEventEmote(text, orlinn, "Orlinn looks north", "Kalya gets up", "interrogation");
     text = vt_system.Translate("What happened? Orlinn, what have you done?");
-    dialogue:AddLineEventEmote(text, kalya_sprite, "Kalya looks south", "", "exclamation");
+    dialogue:AddLineEventEmote(text, kalya, "Kalya looks south", "", "exclamation");
     text = vt_system.Translate("... My head.");
-    dialogue:AddLineEvent(text, hero, "", "Kalya and orlinn are surprised");
+    dialogue:AddLineEvent(text, bronann, "", "Kalya and orlinn are surprised");
     text = vt_system.Translate("Bronann! Are you alright?");
-    dialogue:AddLineEventEmote(text, kalya_sprite, "Kalya looks east", "", "exclamation");
+    dialogue:AddLineEventEmote(text, kalya, "Kalya looks east", "", "exclamation");
     text = vt_system.Translate("I, I guess so.");
-    dialogue:AddLine(text, hero);
+    dialogue:AddLine(text, bronann);
     text = vt_system.Translate("The wolf! The crystal! Orlinn! Are you ok?");
-    dialogue:AddLineEventEmote(text, hero, "Bronann gets up", "", "exclamation");
+    dialogue:AddLineEventEmote(text, bronann, "Bronann gets up", "", "exclamation");
     text = vt_system.Translate("Don't worry, I'm fine. Err, what crystal? What... wolf??");
     dialogue:AddLine(text, orlinn);
     text = vt_system.Translate("You won't be fine for long after I'm done with you!!");
-    dialogue:AddLineEventEmote(text, kalya_sprite, "Kalya looks south", "Fade out music", "thinking dots");
+    dialogue:AddLineEventEmote(text, kalya, "Kalya looks south", "Fade out music", "thinking dots");
     text = vt_system.Translate("Huh? Wait, I didn't do anything this time!");
     dialogue:AddLineEmote(text, orlinn, "sweat drop");
     text = vt_system.Translate("Oh? You didn't?");
-    dialogue:AddLineEventEmote(text, kalya_sprite, "Play funny music", "", "exclamation");
+    dialogue:AddLineEventEmote(text, kalya, "Play funny music", "", "exclamation");
     event = vt_map.DialogueEvent.Create("seventh dialogue part", dialogue);
     event:AddEventLinkAtEnd("Kalya runs after Orlinn");
     event:AddEventLinkAtEnd("Orlinn runs to point 3");
     event:AddEventLinkAtEnd("Bronann sighs and think", 2000);
 
     -- Kalya runs after Orlinn's loop
-    event = vt_map.PathMoveSpriteEvent.Create("Kalya runs after Orlinn", kalya_sprite, orlinn, true);
+    event = vt_map.PathMoveSpriteEvent.Create("Kalya runs after Orlinn", kalya, orlinn, true);
     event:AddEventLinkAtEnd("Kalya runs after Orlinn");
 
     event = vt_map.PathMoveSpriteEvent.Create("Orlinn runs to point 1", orlinn, 32, 38, true);
@@ -647,32 +647,32 @@ function _CreateEvents()
     event = vt_map.PathMoveSpriteEvent.Create("Orlinn runs to point 4", orlinn, 50, 38, true);
     event:AddEventLinkAtEnd("Orlinn runs to point 1");
 
-    vt_map.ScriptedSpriteEvent.Create("Kalya stops running", kalya_sprite, "Terminate_all_events", "");
+    vt_map.ScriptedSpriteEvent.Create("Kalya stops running", kalya, "Terminate_all_events", "");
 
-    vt_map.AnimateSpriteEvent.Create("Bronann sighs", hero, "hero_stance", 6000);
+    vt_map.AnimateSpriteEvent.Create("Bronann sighs", bronann, "hero_stance", 6000);
 
-    event = vt_map.PathMoveSpriteEvent.Create("Kalya comes back next to Bronann", kalya_sprite, 44, 49, true);
+    event = vt_map.PathMoveSpriteEvent.Create("Kalya comes back next to Bronann", kalya, 44, 49, true);
     event:AddEventLinkAtEnd("Kalya looks at Bronann");
 
     dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("When I catch you, I'll make you wish you were never born! Rahh!");
-    dialogue:AddLine(text, kalya_sprite);
+    dialogue:AddLine(text, kalya);
     text = vt_system.Translate("Yiek!");
     dialogue:AddLine(text, orlinn);
     text = vt_system.Translate("Come here, now!");
-    dialogue:AddLine(text, kalya_sprite);
+    dialogue:AddLine(text, kalya);
     text = vt_system.Translate("Yiek!");
     dialogue:AddLine(text, orlinn);
     text = vt_system.Translate("(Sigh)... I should have stayed home today.");
-    dialogue:AddLineEvent(text, hero, "Bronann sighs", "");
+    dialogue:AddLineEvent(text, bronann, "Bronann sighs", "");
     text = vt_system.Translate("Ouch, why is my head hurting so much?");
-    dialogue:AddLineEvent(text, hero, "", "Kalya stops running");
+    dialogue:AddLineEvent(text, bronann, "", "Kalya stops running");
     text = vt_system.Translate("Are you ok? We should head back to the village so Lilly can examine you.");
-    dialogue:AddLineEvent(text, kalya_sprite, "Kalya comes back next to Bronann", "");
+    dialogue:AddLineEvent(text, kalya, "Kalya comes back next to Bronann", "");
     text = vt_system.Translate("I still feel really dizzy, but I'll be ok.");
-    dialogue:AddLine(text, hero);
+    dialogue:AddLine(text, bronann);
     text = vt_system.Translate("I'm relieved that Orlinn is fine as well. Speaking of that, Orlinn! Stop running and come here right now!");
-    dialogue:AddLine(text, kalya_sprite);
+    dialogue:AddLine(text, kalya);
     event = vt_map.DialogueEvent.Create("Bronann sighs and think", dialogue);
     event:AddEventLinkAtEnd("Orlinn stops running");
     event:AddEventLinkAtEnd("Last dialogue");
@@ -688,34 +688,33 @@ function _CreateEvents()
     text = vt_system.Translate("Owww. Alright.");
     dialogue:AddLineEventEmote(text, orlinn, "Fade out music", "Orlinn comes back next to Bronann", "sweat drop");
     text = vt_system.Translate("Now, Orlinn, tell us. Why on earth did you go into the forest alone, and how did you get there so quickly?");
-    dialogue:AddLine(text, kalya_sprite);
+    dialogue:AddLine(text, kalya);
     text = vt_system.Translate("I don't know.");
     dialogue:AddLineEmote(text, orlinn, "interrogation");
     text = vt_system.Translate("Why was that giant wolf protecting you?");
-    dialogue:AddLine(text, hero);
+    dialogue:AddLine(text, bronann);
     text = vt_system.Translate("What was that crystal? Why did you want to 'become one' with it?");
-    dialogue:AddLine(text, kalya_sprite);
+    dialogue:AddLine(text, kalya);
     text = vt_system.Translate("I, I, I sincerely don't know. I swear! It was like I was... dreaming.");
     dialogue:AddLineEmote(text, orlinn, "sweat drop");
     text = vt_system.Translate("I merely remember a voice in my head. Telling me to come.");
     dialogue:AddLineEmote(text, orlinn, "thinking dots");
     text = vt_system.Translate("You know you won't get away with this. When you see Herth...");
-    dialogue:AddLineEmote(text, kalya_sprite, "thinking dots");
+    dialogue:AddLineEmote(text, kalya, "thinking dots");
     text = vt_system.Translate("I swear it's the truth!");
     dialogue:AddLineEmote(text, orlinn, "exclamation");
     text = vt_system.Translate("Making one with the crystal, huh?");
-    dialogue:AddLineEmote(text, hero, "sweat drop");
+    dialogue:AddLineEmote(text, bronann, "sweat drop");
     text = vt_system.Translate("Let's not panic. Bronann, you look fine. Anyway, we'd better get back to the village and see the elders as soon as possible.");
-    dialogue:AddLineEventEmote(text, kalya_sprite, "", "Play wind music", "thinking dots");
+    dialogue:AddLineEventEmote(text, kalya, "", "Play wind music", "thinking dots");
     event = vt_map.DialogueEvent.Create("Last dialogue", dialogue);
     event:AddEventLinkAtEnd("kalya goes back to party");
     event:AddEventLinkAtEnd("orlinn goes back to party");
 
-    -- for later
-    move_back_to_hero_event = vt_map.PathMoveSpriteEvent.Create("kalya goes back to party", kalya_sprite, hero, false);
-    move_back_to_hero_event:AddEventLinkAtEnd("end of crystal event");
+    event = vt_map.PathMoveSpriteEvent.Create("kalya goes back to party", kalya, bronann, false);
+    event:AddEventLinkAtEnd("end of crystal event");
 
-    orlinn_move_to_hero_event = vt_map.PathMoveSpriteEvent.Create("orlinn goes back to party", orlinn, hero, false);
+    event = vt_map.PathMoveSpriteEvent.Create("orlinn goes back to party", orlinn, bronann, false);
 
     event = vt_map.ScriptedEvent.Create("end of crystal event", "end_of_crystal_event", "");
     event:AddEventLinkAtEnd("Map:Popstate()");
@@ -822,17 +821,20 @@ map_functions = {
         Map:PushState(vt_map.MapMode.STATE_SCENE);
         hero:SetMoving(false);
         hero:SetDirection(vt_map.MapMode.NORTH);
-        -- Keep a reference of the correct sprite for the event end.
-        main_sprite_name = hero:GetSpriteName();
 
-        -- Make the hero be Bronann for the event.
-        hero:ReloadSprite("Bronann");
+        bronann:SetDirection(hero:GetDirection())
+        bronann:SetPosition(hero:GetXPosition(), hero:GetYPosition())
+        bronann:SetVisible(true)
+        Map:SetCamera(bronann)
 
-        kalya_sprite:SetPosition(hero:GetXPosition(), hero:GetYPosition());
-        kalya_sprite:SetVisible(true);
-        kalya_sprite:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
+        hero:SetVisible(false)
+        hero:SetPosition(0, 0)
 
-        move_next_to_hero_event:SetDestination(hero:GetXPosition() + 2.0, hero:GetYPosition(), false);
+        kalya:SetPosition(bronann:GetXPosition(), bronann:GetYPosition());
+        kalya:SetVisible(true);
+        kalya:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
+
+        move_next_to_bronann_event:SetDestination(bronann:GetXPosition() + 2.0, bronann:GetYPosition(), false);
     end,
 
     first_tremor = function()
@@ -841,8 +843,8 @@ map_functions = {
     end,
 
     bronann_kalya_exclamation = function()
-        hero:Emote("exclamation", vt_map.MapMode.ANIM_NORTH);
-        kalya_sprite:Emote("exclamation", vt_map.MapMode.ANIM_NORTH);
+        bronann:Emote("exclamation", vt_map.MapMode.ANIM_NORTH);
+        kalya:Emote("exclamation", vt_map.MapMode.ANIM_NORTH);
         AudioManager:PlaySound("snd/rumble.wav");
     end,
 
@@ -910,11 +912,11 @@ map_functions = {
 
     orlinn_kalya_exclamation = function()
         orlinn:Emote("exclamation", vt_map.MapMode.ANIM_NORTH);
-        kalya_sprite:Emote("exclamation", vt_map.MapMode.ANIM_NORTH);
+        kalya:Emote("exclamation", vt_map.MapMode.ANIM_NORTH);
 
         -- Restore also their collision mask
         orlinn:SetCollisionMask(vt_map.MapMode.ALL_COLLISION);
-        kalya_sprite:SetCollisionMask(vt_map.MapMode.ALL_COLLISION);
+        kalya:SetCollisionMask(vt_map.MapMode.ALL_COLLISION);
         -- And prepare for the funny scene
         orlinn:SetMovementSpeed(vt_map.MapMode.NORMAL_SPEED - 7.0);
     end,
@@ -932,15 +934,19 @@ map_functions = {
     end,
 
     end_of_crystal_event = function()
-        kalya_sprite:SetPosition(0, 0);
-        kalya_sprite:SetVisible(false);
-        kalya_sprite:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
+        kalya:SetPosition(0, 0);
+        kalya:SetVisible(false);
+        kalya:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
         orlinn:SetPosition(0, 0);
         orlinn:SetVisible(false);
         orlinn:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
 
-        -- Reload the hero back to default
-        hero:ReloadSprite(main_sprite_name);
+        -- Reset the hero
+        hero:SetPosition(bronann:GetXPosition(), bronann:GetYPosition());
+        hero:SetDirection(bronann:GetDirection())
+        hero:SetVisible(true)
+        bronann:SetVisible(false)
+        bronann:SetPosition(0, 0)
         Map:SetCamera(hero, 800);
 
         -- Set event as done
