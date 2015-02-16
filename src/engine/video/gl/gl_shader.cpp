@@ -24,9 +24,6 @@ namespace vt_video
 namespace gl
 {
 
-// Constants.
-const GLsizei MAX_LOG_LENGTH = 512;
-
 Shader::Shader(GLenum type, const std::string &data) :
     _shader(-1)
 {
@@ -90,7 +87,7 @@ Shader::Shader(GLenum type, const std::string &data) :
             // Allocate space for the log.
             char* log = new char[length];
             memset(log, 0, length);
-            glGetShaderInfoLog(_shader, MAX_LOG_LENGTH, &length, log);
+            glGetShaderInfoLog(_shader, length, &length, log);
 
             PRINT_ERROR << "Failed to compile the shader. Shader ID: " <<
                            vt_utils::NumberToString(_shader) << " Compiler Output: " <<

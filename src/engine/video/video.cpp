@@ -794,54 +794,19 @@ void VideoEngine::DisableScissoring()
     }
 }
 
-void VideoEngine::SetScissorRect(float left, float right, float bottom, float top)
+void VideoEngine::SetScissorRect(unsigned x, unsigned y, unsigned width, unsigned height)
 {
-    _current_context.scissor_rectangle = CalculateScreenRect(left, right, bottom, top);
-
-    glScissor(static_cast<GLint>((_current_context.scissor_rectangle.left / static_cast<float>(VIDEO_STANDARD_RES_WIDTH)) * _current_context.viewport.width),
-              static_cast<GLint>((_current_context.scissor_rectangle.top / static_cast<float>(VIDEO_STANDARD_RES_HEIGHT)) * _current_context.viewport.height),
-              static_cast<GLsizei>((_current_context.scissor_rectangle.width / static_cast<float>(VIDEO_STANDARD_RES_WIDTH)) * _current_context.viewport.width),
-              static_cast<GLsizei>((_current_context.scissor_rectangle.height / static_cast<float>(VIDEO_STANDARD_RES_HEIGHT)) * _current_context.viewport.height));
+    SetScissorRect(ScreenRect(x, y, width, height));
 }
 
-void VideoEngine::SetScissorRect(const ScreenRect &rect)
+void VideoEngine::SetScissorRect(const ScreenRect& screen_rectangle)
 {
-    _current_context.scissor_rectangle = rect;
+    _current_context.scissor_rectangle = screen_rectangle;
 
-    glScissor(static_cast<GLint>((_current_context.scissor_rectangle.left / static_cast<float>(VIDEO_STANDARD_RES_WIDTH)) * _current_context.viewport.width),
-              static_cast<GLint>((_current_context.scissor_rectangle.top / static_cast<float>(VIDEO_STANDARD_RES_HEIGHT)) * _current_context.viewport.height),
-              static_cast<GLsizei>((_current_context.scissor_rectangle.width / static_cast<float>(VIDEO_STANDARD_RES_WIDTH)) * _current_context.viewport.width),
-              static_cast<GLsizei>((_current_context.scissor_rectangle.height / static_cast<float>(VIDEO_STANDARD_RES_HEIGHT)) * _current_context.viewport.height));
-}
-
-ScreenRect VideoEngine::CalculateScreenRect(float left, float right, float bottom, float top)
-{
-    ScreenRect rect;
-
-    int32 scr_left = _ScreenCoordX(left);
-    int32 scr_right = _ScreenCoordX(right);
-    int32 scr_bottom = _ScreenCoordY(bottom);
-    int32 scr_top = _ScreenCoordY(top);
-
-    int32 temp;
-    if(scr_left > scr_right) {
-        temp = scr_left;
-        scr_left = scr_right;
-        scr_right = temp;
-    }
-
-    if(scr_top > scr_bottom) {
-        temp = scr_top;
-        scr_top = scr_bottom;
-        scr_bottom = temp;
-    }
-
-    rect.top = scr_top;
-    rect.left = scr_left;
-    rect.width = scr_right - scr_left;
-    rect.height = scr_bottom - scr_top;
-
-    return rect;
+    glScissor(static_cast<GLint>(_current_context.scissor_rectangle.left),
+              static_cast<GLint>(_current_context.scissor_rectangle.top),
+              static_cast<GLsizei>(_current_context.scissor_rectangle.width),
+              static_cast<GLsizei>(_current_context.scissor_rectangle.height));
 }
 
 //-----------------------------------------------------------------------------
@@ -905,12 +870,9 @@ void VideoEngine::PopState()
 
     glViewport(_current_context.viewport.left, _current_context.viewport.top, _current_context.viewport.width, _current_context.viewport.height);
 
-    if(_current_context.scissoring_enabled) {
+    if (_current_context.scissoring_enabled) {
         EnableScissoring();
-        glScissor(static_cast<GLint>((_current_context.scissor_rectangle.left / static_cast<float>(VIDEO_STANDARD_RES_WIDTH)) * _current_context.viewport.width),
-                  static_cast<GLint>((_current_context.scissor_rectangle.top / static_cast<float>(VIDEO_STANDARD_RES_HEIGHT)) * _current_context.viewport.height),
-                  static_cast<GLsizei>((_current_context.scissor_rectangle.width / static_cast<float>(VIDEO_STANDARD_RES_WIDTH)) * _current_context.viewport.width),
-                  static_cast<GLsizei>((_current_context.scissor_rectangle.height / static_cast<float>(VIDEO_STANDARD_RES_HEIGHT)) * _current_context.viewport.height));
+        SetScissorRect(_current_context.scissor_rectangle);
     } else {
         DisableScissoring();
     }
@@ -1170,32 +1132,6 @@ StillImage *VideoEngine::GetDefaultCursor()
         return &_default_menu_cursor;
     else
         return NULL;
-}
-
-int32 VideoEngine::_ScreenCoordX(float x)
-{
-    float percent;
-    if(_current_context.coordinate_system.GetLeft() < _current_context.coordinate_system.GetRight())
-        percent = (x - _current_context.coordinate_system.GetLeft()) /
-                  (_current_context.coordinate_system.GetRight() - _current_context.coordinate_system.GetLeft());
-    else
-        percent = (x - _current_context.coordinate_system.GetRight()) /
-                  (_current_context.coordinate_system.GetLeft() - _current_context.coordinate_system.GetRight());
-
-    return static_cast<int32>(percent * static_cast<float>(_viewport_width));
-}
-
-int32 VideoEngine::_ScreenCoordY(float y)
-{
-    float percent;
-    if(_current_context.coordinate_system.GetTop() < _current_context.coordinate_system.GetBottom())
-        percent = (y - _current_context.coordinate_system.GetTop()) /
-                  (_current_context.coordinate_system.GetBottom() - _current_context.coordinate_system.GetTop());
-    else
-        percent = (y - _current_context.coordinate_system.GetBottom()) /
-                  (_current_context.coordinate_system.GetTop() - _current_context.coordinate_system.GetBottom());
-
-    return static_cast<int32>(percent * static_cast<float>(_viewport_height));
 }
 
 void VideoEngine::DrawLine(float x1, float y1, unsigned width1, float x2, float y2, unsigned width2, const Color &color)

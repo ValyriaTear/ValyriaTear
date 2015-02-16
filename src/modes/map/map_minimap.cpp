@@ -232,6 +232,11 @@ void Minimap::Draw()
     VideoManager->Move(minimap_pos_x, minimap_pos_y);
     VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_TOP, 0);
     _background.Draw(resultant_opacity);
+
+    // Update the scissor rectangle.
+    VideoManager->EnableScissoring();
+    VideoManager->SetScissorRect(_viewport_x, _viewport_y, _viewport_width, _viewport_height);
+
     // Assign the viewport to be "inside" the above area
     VideoManager->SetViewport(_viewport_x, _viewport_y, _viewport_width, _viewport_height);
     // Scale and translate the orthographic projection such that it "centers" on our calculated positions
@@ -246,6 +251,8 @@ void Minimap::Draw()
 
     VideoManager->Move(x_location, y_location);
     _location_marker.Draw(resultant_opacity);
+
+    VideoManager->DisableScissoring();
 
     VideoManager->PopState();
 

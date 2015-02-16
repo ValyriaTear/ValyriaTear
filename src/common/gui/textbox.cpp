@@ -502,13 +502,23 @@ void TextBox::_DrawTextLines(float text_x, float text_y, ScreenRect scissor_rect
                 VideoManager->MoveRelative(VideoManager->_current_context.coordinate_system.GetHorizontalDirection()
                                            * TextManager->CalculateTextWidth(ttf_font, substring), 0.0f);
 
-                // Construct the scissor rectangle using the character dimensions and draw the revealing character
+                // Construct the scissor rectangle using the character dimensions and draw the revealing character.
                 VideoManager->PushState();
+
                 ScreenRect char_scissor_rect(char_x, char_y, char_w, char_h);
                 scissor_rect.Intersect(char_scissor_rect);
+
                 VideoManager->EnableScissoring();
+
+                // Convert to screen coordinates.
+                scissor_rect.left = static_cast<int32>(scissor_rect.left / VIDEO_STANDARD_RES_WIDTH * VideoManager->_current_context.viewport.width);
+                scissor_rect.top = static_cast<int32>(scissor_rect.top / VIDEO_STANDARD_RES_HEIGHT * VideoManager->_current_context.viewport.height);
+                scissor_rect.width = static_cast<int32>(scissor_rect.width / VIDEO_STANDARD_RES_WIDTH * VideoManager->_current_context.viewport.width);
+                scissor_rect.height = static_cast<int32>(scissor_rect.height / VIDEO_STANDARD_RES_HEIGHT * VideoManager->_current_context.viewport.height);
                 VideoManager->SetScissorRect(scissor_rect);
+
                 TextManager->Draw(cur_char_string, _text_style);
+
                 VideoManager->PopState();
             }
             // In the else case, the current character is before the line, so we don't draw anything for this line at all
@@ -525,10 +535,8 @@ void TextBox::_DrawTextLines(float text_x, float text_y, ScreenRect scissor_rect
         // VideoManager->MoveRelative(-xOffset, fp.line_skip * -cs._vertical_direction);
         text_y += fp->line_skip * -VideoManager->_current_context.coordinate_system.GetVerticalDirection();
         VideoManager->Move(0.0f, text_y);
-    } // for (int32 line = 0; line < static_cast<int32>(_text.size()); ++line)
-} // void TextBox::_DrawLines(float text_x, float text_y, ScreenRect scissor_rect)
-
-
+    }
+}
 
 void TextBox::_DEBUG_DrawOutline()
 {

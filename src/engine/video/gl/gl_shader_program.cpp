@@ -26,9 +26,6 @@ namespace vt_video
 namespace gl
 {
 
-// Constants.
-const GLsizei MAX_LOG_LENGTH = 512;
-
 ShaderProgram::ShaderProgram(const Shader* vertex_shader,
                              const Shader* fragment_shader,
                              const std::vector<std::string>& attributes) :
@@ -135,7 +132,7 @@ ShaderProgram::ShaderProgram(const Shader* vertex_shader,
             // Allocate space for the log.
             char* log = new char[length];
             memset(log, 0, length);
-            glGetProgramInfoLog(_program, MAX_LOG_LENGTH, &length, log);
+            glGetProgramInfoLog(_program, length, &length, log);
 
             PRINT_ERROR << "Failed to link the shader program. Shader Program ID: " <<
                            vt_utils::NumberToString(_program) << " Linker Output: " <<
