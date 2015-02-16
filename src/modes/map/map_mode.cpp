@@ -327,7 +327,7 @@ void MapMode::Update()
         _dialogue_supervisor->Update();
         break;
     case STATE_TREASURE:
-        _camera->moving = false;
+        _camera->SetMoving(false);
         _treasure_supervisor->Update();
         break;
     default:
@@ -714,14 +714,14 @@ void MapMode::_UpdateExplore()
 
     // Update the running state of the camera object. Check if the character is running and if so,
     // update the stamina value if the operation is permitted
-    _camera->is_running = false;
-    if(_camera->moved_position && _running_enabled && InputManager->CancelState() &&
+    _camera->SetRunning(false);
+    if(_camera->HasMoved() && _running_enabled && InputManager->CancelState() &&
             (InputManager->UpState() || InputManager->DownState() || InputManager->LeftState() || InputManager->RightState())) {
         if(_unlimited_stamina) {
-            _camera->is_running = true;
+            _camera->SetRunning(true);
         } else if(_run_stamina > SystemManager->GetUpdateTime() * 2) {
             _run_stamina -= (SystemManager->GetUpdateTime() * 2);
-            _camera->is_running = true;
+            _camera->SetRunning(true);
         } else {
             _run_stamina = 0;
         }
@@ -743,8 +743,8 @@ void MapMode::_UpdateExplore()
                 PhysicalObject *phs = reinterpret_cast<PhysicalObject *>(obj);
 
                 if(!phs->GetEventIdWhenTalking().empty()) {
-                    _camera->moving = false;
-                    _camera->is_running = false;
+                    _camera->SetMoving(false);
+                    _camera->SetRunning(false);
                     if (!_event_supervisor->IsEventActive(phs->GetEventIdWhenTalking()))
                         _event_supervisor->StartEvent(phs->GetEventIdWhenTalking());
                     return;
@@ -754,8 +754,8 @@ void MapMode::_UpdateExplore()
                 MapSprite *sp = reinterpret_cast<MapSprite *>(obj);
 
                 if(sp->HasAvailableDialogue()) {
-                    _camera->moving = false;
-                    _camera->is_running = false;
+                    _camera->SetMoving(false);
+                    _camera->SetRunning(false);
                     sp->InitiateDialogue();
                     return;
                 }
@@ -763,7 +763,7 @@ void MapMode::_UpdateExplore()
                 TreasureObject *treasure_object = reinterpret_cast<TreasureObject *>(obj);
 
                 if(!treasure_object->GetTreasure()->IsTaken()) {
-                    _camera->moving = false;
+                    _camera->SetMoving(false);
                     treasure_object->Open();
                 }
             } else if(obj->GetType() == SAVE_TYPE && _save_points_enabled) {
@@ -776,14 +776,14 @@ void MapMode::_UpdateExplore()
 
     // Detect movement input from the user
     if(InputManager->UpState() || InputManager->DownState() || InputManager->LeftState() || InputManager->RightState()) {
-        _camera->moving = true;
+        _camera->SetMoving(true);
     } else {
-        _camera->moving = false;
+        _camera->SetMoving(false);
     }
 
     // Determine the direction of movement. Priority of movement is given to: up, down, left, right.
     // In the case of diagonal movement, the direction that the sprite should face also needs to be deduced.
-    if(_camera->moving == true) {
+    if(_camera->GetMoving() == true) {
         if(InputManager->UpState()) {
             if(InputManager->LeftState())
                 _camera->SetDirection(MOVING_NORTHWEST);

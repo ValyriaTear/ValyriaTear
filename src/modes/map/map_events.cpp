@@ -77,12 +77,13 @@ DialogueEvent* DialogueEvent::Create(const std::string& event_id, SpriteDialogue
 
 void DialogueEvent::_Start()
 {
-    if(_stop_camera_movement == true) {
-        MapMode::CurrentInstance()->GetCamera()->moving = false;
-        MapMode::CurrentInstance()->GetCamera()->is_running = false;
+    MapMode* map_mode = MapMode::CurrentInstance();
+    if(_stop_camera_movement) {
+        VirtualSprite* camera = map_mode->GetCamera();
+        camera->SetMoving(false);
+        camera->SetRunning(false);
     }
-
-    MapMode::CurrentInstance()->GetDialogueSupervisor()->StartDialogue(_dialogue_id);
+    map_mode->GetDialogueSupervisor()->StartDialogue(_dialogue_id);
 }
 
 bool DialogueEvent::_Update()
@@ -406,8 +407,8 @@ void SpriteEvent::_Start()
 
     EventSupervisor *event_supervisor = MapMode::CurrentInstance()->GetEventSupervisor();
     // Terminate the previous event whenever it is another sprite event.
-    if(dynamic_cast<SpriteEvent *>(_sprite->control_event) && event_supervisor) {
-        event_supervisor->EndEvent(_sprite->control_event, false);
+    if(_sprite->GetControlEvent() && event_supervisor) {
+        event_supervisor->EndEvent(_sprite->GetControlEvent(), false);
     }
 
     _sprite->AcquireControl(this);
@@ -416,7 +417,7 @@ void SpriteEvent::_Start()
 void SpriteEvent::Terminate()
 {
     // Frees the sprite from the event.
-    if(_sprite && _sprite->control_event == this) {
+    if(_sprite && _sprite->GetControlEvent() == this) {
         _sprite->ReleaseControl(this);
     }
 }
@@ -646,7 +647,7 @@ void PathMoveSpriteEvent::_Start()
     _current_node = 0;
     _last_x_position = _sprite->GetXPosition();
     _last_y_position = _sprite->GetYPosition();
-    _sprite->is_running = _run;
+    _sprite->SetRunning(_run);
 
     // Only set the destination at start call since the target coord may have changed
     // between the load time and the event actual start.
@@ -673,7 +674,7 @@ void PathMoveSpriteEvent::_Start()
     _current_node_x = _path[_current_node].x;
     _current_node_y = _path[_current_node].y;
 
-    _sprite->moving = true;
+    _sprite->SetMoving(true);
 }
 
 bool PathMoveSpriteEvent::_Update()
@@ -699,9 +700,9 @@ bool PathMoveSpriteEvent::_Update()
         }
     }
     // If the sprite has moved to a new position other than the next node, adjust its direction so it is trying to move to the next node
-    else if((_sprite->position.x != _last_x_position) || (_sprite->position.y != _last_y_position)) {
-        _last_x_position = _sprite->position.x;
-        _last_y_position = _sprite->position.y;
+    else if((_sprite->GetXPosition() != _last_x_position) || (_sprite->GetYPosition() != _last_y_position)) {
+        _last_x_position = _sprite->GetXPosition();
+        _last_y_position = _sprite->GetYPosition();
     }
 
     _SetSpriteDirection();
@@ -718,7 +719,7 @@ bool PathMoveSpriteEvent::_Update()
 
 void PathMoveSpriteEvent::Terminate()
 {
-    _sprite->moving = false;
+    _sprite->SetMoving(false);
     SpriteEvent::Terminate();
 }
 
@@ -790,7 +791,7 @@ void RandomMoveSpriteEvent::_Start()
 {
     SpriteEvent::_Start();
     _sprite->SetRandomDirection();
-    _sprite->moving = true;
+    _sprite->SetMoving(true);
 }
 
 bool RandomMoveSpriteEvent::_Update()
@@ -815,7 +816,7 @@ bool RandomMoveSpriteEvent::_Update()
 
 void RandomMoveSpriteEvent::Terminate()
 {
-    _sprite->moving = false;
+    _sprite->SetMoving(false);
     SpriteEvent::Terminate();
 }
 

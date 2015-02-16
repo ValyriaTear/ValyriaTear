@@ -99,75 +99,6 @@ public:
     virtual ~MapObject()
     {}
 
-    /** \brief An identification number for the object as it is represented in the map file.
-    *** Objects with an ID less than zero are invalid.
-    **/
-    int16 object_id;
-
-    /** \brief Coordinates for the object's origin/position.
-    *** The origin of every map object is the bottom center point of the object. These
-    *** origin coordinates are used to determine where the object is on the map as well
-    *** as where the objects collision rectangle lies.
-    ***
-    *** The position coordinates point to the map grid tile that the object currently occupies
-    *** and may range from 0 to the number of columns or rows of grid tiles on the map.
-    **/
-    //@{
-    MapPosition position;
-    //@}
-
-    /** \brief The half-width and height of the image, in map grid coordinates.
-    *** The half_width member is indeed just that: half the width of the object's image. We keep
-    *** the half width rather than the full width because the origin of the object is its bottom
-    *** center, and it is more convenient to store only half the sprite's width.
-    ***
-    *** \note These members assume that the object retains the same width and height regardless
-    *** of the current animation frame or image being drawn. If the object's image changes size
-    *** for any reason, the programmer must remember to change these values accordingly.
-    **/
-    float img_half_width, img_height;
-
-    /** \brief Determines the collision rectangle for the object.
-    *** The collision area determines what portion of the map object may not be overlapped
-    *** by other objects or unwalkable regions of the map. The x and y coordinates are
-    *** relative to the origin, so an x value of 0.5f means that the collision rectangle
-    *** extends the length of 1/2 of a grid element from the origin on both sides, and a y value
-    *** of 1.0f means that the collision area exists from the origin to one grid element above.
-    ***
-    *** \note These members should always be positive and non-zero. Setting these members to
-    *** zero does <b>not</b> eliminate collision detection for the object.
-    **/
-    float coll_half_width, coll_height;
-
-    //! \name Object Properties
-    //@{
-    //! \brief When false, the Update() function will do nothing (default == true).
-    bool updatable;
-
-    //! \brief When false, the Draw() function will do nothing (default == true).
-    bool visible;
-
-    //! \brief The collision mask indiacting what the object will collide with. (i.e.: walls + objects, nothing, ...)
-    //! \NOTE: COLLISION TYPE used as bitmask
-    uint32 collision_mask;
-
-    /** \brief When true, indicates that the object exists on the sky object layer (default == false).
-    *** This member is necessary for collision detection purposes. When a sprite needs to detect
-    *** if it has encountered a collision, that collision must be examined with other objects on
-    *** the appropriate layer (the ground/pass layers or the sky layer).
-    **/
-    bool sky_object;
-
-    /** \brief When true, objects in the ground object layer will be drawn after the pass objects
-    *** This member is only checked for objects that exist in the ground layer. It has no meaning
-    *** for objects in the pass or sky layers. Its purpose is so that objects (such as a bridge)
-    *** in the pass layer can be both walked over and walked under by sprites in the ground layer.
-    **/
-    bool draw_on_second_pass;
-    //@}
-
-    // ---------- Methods
-
     /** \brief Updates the state of an object.
     *** Many map objects may not actually have a use for this function. For example, animated objects
     *** like a tree will automatically have their frames updated by the video engine in the draw
@@ -241,49 +172,49 @@ public:
     **/
     //@{
     void SetPosition(float x, float y) {
-        position.x = x;
-        position.y = y;
+        _position.x = x;
+        _position.y = y;
     }
 
     void SetXPosition(float x) {
-        position.x = x;
+        _position.x = x;
     }
 
     void SetYPosition(float y) {
-        position.y = y;
+        _position.y = y;
     }
 
     void SetImgHalfWidth(float width) {
-        img_half_width = width;
+        _img_half_width = width;
     }
 
     void SetImgHeight(float height) {
-        img_height = height;
+        _img_height = height;
     }
 
     void SetCollHalfWidth(float collision) {
-        coll_half_width = collision;
+        _coll_half_width = collision;
     }
 
     void SetCollHeight(float collision) {
-        coll_height = collision;
+        _coll_height = collision;
     }
 
     void SetUpdatable(bool update) {
-        updatable = update;
+        _updatable = update;
     }
 
     void SetVisible(bool vis) {
-        visible = vis;
+        _visible = vis;
     }
 
     // Use a set of COLLISION_TYPE bitmask values
     void SetCollisionMask(uint32 collision_types) {
-        collision_mask = collision_types;
+        _collision_mask = collision_types;
     }
 
     void SetDrawOnSecondPass(bool pass) {
-        draw_on_second_pass = pass;
+        _draw_on_second_pass = pass;
     }
 
     //! \brief Tells the draw layer for faster deletion from the object supervisor.
@@ -292,51 +223,51 @@ public:
     }
 
     int16 GetObjectID() const {
-        return object_id;
+        return _object_id;
     }
 
     MapPosition GetPosition() const {
-        return position;
+        return _position;
     }
 
     float GetXPosition() const {
-        return position.x;
+        return _position.x;
     }
 
     float GetYPosition() const {
-        return position.y;
+        return _position.y;
     }
 
     float GetImgHalfWidth() const {
-        return img_half_width;
+        return _img_half_width;
     }
 
     float GetImgHeight() const {
-        return img_height;
+        return _img_height;
     }
 
     float GetCollHalfWidth() const {
-        return coll_half_width;
+        return _coll_half_width;
     }
 
     float GetCollHeight() const {
-        return coll_height;
+        return _coll_height;
     }
 
     bool IsUpdatable() const {
-        return updatable;
+        return _updatable;
     }
 
     bool IsVisible() const {
-        return visible;
+        return _visible;
     }
 
     uint32 GetCollisionMask() const {
-        return collision_mask;
+        return _collision_mask;
     }
 
     bool IsDrawOnSecondPass() const {
-        return draw_on_second_pass;
+        return _draw_on_second_pass;
     }
 
     MAP_OBJECT_TYPE GetType() const {
@@ -346,7 +277,7 @@ public:
     /** \brief Play the corresponding emote animation set in the emotes.lua file
     *** \see LoadEmotes() in the GameGlobal class.
     **/
-    void Emote(const std::string &emote_name, vt_map::private_map::ANIM_DIRECTIONS dir = vt_map::private_map::ANIM_SOUTH);
+    void Emote(const std::string& emote_name, vt_map::private_map::ANIM_DIRECTIONS dir = vt_map::private_map::ANIM_SOUTH);
 
     //! \brief Indicates whether the given map object is using an emote animation.
     bool HasEmote() const {
@@ -355,6 +286,63 @@ public:
     //@}
 
 protected:
+    /** \brief An identification number for the object as it is represented in the map file.
+    *** Objects with an ID less than zero are invalid.
+    **/
+    int16 _object_id;
+
+    /** \brief Coordinates for the object's origin/position.
+    *** The origin of every map object is the bottom center point of the object. These
+    *** origin coordinates are used to determine where the object is on the map as well
+    *** as where the objects collision rectangle lies.
+    ***
+    *** The position coordinates point to the map grid tile that the object currently occupies
+    *** and may range from 0 to the number of columns or rows of grid tiles on the map.
+    **/
+    MapPosition _position;
+
+    /** \brief The half-width and height of the image, in map grid coordinates.
+    *** The half_width member is indeed just that: half the width of the object's image. We keep
+    *** the half width rather than the full width because the origin of the object is its bottom
+    *** center, and it is more convenient to store only half the sprite's width.
+    ***
+    *** \note These members assume that the object retains the same width and height regardless
+    *** of the current animation frame or image being drawn. If the object's image changes size
+    *** for any reason, the programmer must remember to change these values accordingly.
+    **/
+    float _img_half_width;
+    float _img_height;
+
+    /** \brief Determines the collision rectangle for the object.
+    *** The collision area determines what portion of the map object may not be overlapped
+    *** by other objects or unwalkable regions of the map. The x and y coordinates are
+    *** relative to the origin, so an x value of 0.5f means that the collision rectangle
+    *** extends the length of 1/2 of a grid element from the origin on both sides, and a y value
+    *** of 1.0f means that the collision area exists from the origin to one grid element above.
+    ***
+    *** \note These members should always be positive and non-zero. Setting these members to
+    *** zero does <b>not</b> eliminate collision detection for the object.
+    **/
+    float _coll_half_width;
+    float _coll_height;
+
+    //! \brief When false, the Update() function will do nothing (default == true).
+    bool _updatable;
+
+    //! \brief When false, the Draw() function will do nothing (default == true).
+    bool _visible;
+
+    //! \brief The collision mask indicating what the object will collide with. (i.e.: walls + objects, nothing, ...)
+    //! \NOTE: COLLISION TYPE used as bitmask
+    uint32 _collision_mask;
+
+    /** \brief When true, objects in the ground object layer will be drawn after the pass objects
+    *** This member is only checked for objects that exist in the ground layer. It has no meaning
+    *** for objects in the pass or sky layers. Its purpose is so that objects (such as a bridge)
+    *** in the pass layer can be both walked over and walked under by sprites in the ground layer.
+    **/
+    bool _draw_on_second_pass;
+
     //! \brief This is used to identify the type of map object for inheriting classes.
     MAP_OBJECT_TYPE _object_type;
 
@@ -385,8 +373,8 @@ protected:
 *** \note A simple '<' operator cannot be used with the sorting algorithm because it is sorting pointers.
 **/
 struct MapObject_Ptr_Less {
-    bool operator()(const MapObject *a, const MapObject *b) {
-        return (a->position.y) < (b->position.y);
+    bool operator()(const MapObject* a, const MapObject* b) {
+        return (a->GetYPosition()) < (b->GetYPosition());
     }
 };
 

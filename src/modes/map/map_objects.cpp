@@ -47,16 +47,15 @@ namespace private_map
 // ----------------------------------------------------------------------------
 
 MapObject::MapObject(MapObjectDrawLayer layer) :
-    object_id(-1),
-    img_half_width(0.0f),
-    img_height(0.0f),
-    coll_half_width(0.0f),
-    coll_height(0.0f),
-    updatable(true),
-    visible(true),
-    collision_mask(ALL_COLLISION),
-    sky_object(false),
-    draw_on_second_pass(false),
+    _object_id(-1),
+    _img_half_width(0.0f),
+    _img_height(0.0f),
+    _coll_half_width(0.0f),
+    _coll_height(0.0f),
+    _updatable(true),
+    _visible(true),
+    _collision_mask(ALL_COLLISION),
+    _draw_on_second_pass(false),
     _object_type(OBJECT_TYPE),
     _emote_animation(0),
     _emote_offset_x(0.0f),
@@ -66,13 +65,13 @@ MapObject::MapObject(MapObjectDrawLayer layer) :
 {
     // Generate the object Id at creation time.
     ObjectSupervisor* obj_sup = MapMode::CurrentInstance()->GetObjectSupervisor();
-    object_id = obj_sup->GenerateObjectID();
+    _object_id = obj_sup->GenerateObjectID();
     obj_sup->RegisterObject(this);
 }
 
 bool MapObject::ShouldDraw()
 {
-    if(!visible)
+    if(!_visible)
         return false;
 
     MapMode* MM = MapMode::CurrentInstance();
@@ -93,10 +92,10 @@ bool MapObject::ShouldDraw()
 MapRectangle MapObject::GetCollisionRectangle() const
 {
     MapRectangle rect;
-    rect.left = position.x - coll_half_width;
-    rect.right = position.x + coll_half_width;
-    rect.top = position.y - coll_height;
-    rect.bottom = position.y;
+    rect.left = _position.x - _coll_half_width;
+    rect.right = _position.x + _coll_half_width;
+    rect.top = _position.y - _coll_height;
+    rect.bottom = _position.y;
 
     return rect;
 }
@@ -104,9 +103,9 @@ MapRectangle MapObject::GetCollisionRectangle() const
 MapRectangle MapObject::GetCollisionRectangle(float x, float y) const
 {
     MapRectangle rect;
-    rect.left = x - coll_half_width;
-    rect.right = x + coll_half_width;
-    rect.top = y - coll_height;
+    rect.left = x - _coll_half_width;
+    rect.right = x + _coll_half_width;
+    rect.top = y - _coll_height;
     rect.bottom = y;
     return rect;
 }
@@ -114,10 +113,10 @@ MapRectangle MapObject::GetCollisionRectangle(float x, float y) const
 MapRectangle MapObject::GetImageRectangle() const
 {
     MapRectangle rect;
-    rect.left = position.x - img_half_width;
-    rect.right = position.x + img_half_width;
-    rect.top = position.y - img_height;
-    rect.bottom = position.y;
+    rect.left = _position.x - _img_half_width;
+    rect.right = _position.x + _img_half_width;
+    rect.top = _position.y - _img_height;
+    rect.bottom = _position.y;
     return rect;
 }
 
@@ -164,7 +163,7 @@ void MapObject::_DrawEmote()
         return;
 
     // Move the emote to the sprite head top, where the offset should applied from.
-    VideoManager->MoveRelative(_emote_offset_x, -img_height + _emote_offset_y);
+    VideoManager->MoveRelative(_emote_offset_x, -_img_height + _emote_offset_y);
     _emote_animation->Draw();
 }
 
@@ -179,10 +178,10 @@ bool MapObject::IsCollidingWith(MapObject* other_object)
      if (!other_object)
         return false;
 
-     if (collision_mask == NO_COLLISION)
+     if (_collision_mask == NO_COLLISION)
         return false;
 
-     if (other_object->collision_mask == NO_COLLISION)
+     if (other_object->GetCollisionMask() == NO_COLLISION)
         return false;
 
     MapRectangle other_rect = other_object->GetCollisionRectangle();
@@ -190,7 +189,7 @@ bool MapObject::IsCollidingWith(MapObject* other_object)
     if (!MapRectangle::CheckIntersection(GetCollisionRectangle(), other_rect))
         return false;
 
-    return collision_mask & other_object->collision_mask;
+    return _collision_mask & other_object->GetCollisionMask();
 }
 
 // ----------------------------------------------------------------------------
@@ -218,7 +217,7 @@ PhysicalObject* PhysicalObject::Create(MapObjectDrawLayer layer)
 
 void PhysicalObject::Update()
 {
-    if(!animations.empty() && updatable)
+    if(!animations.empty() && _updatable)
         animations[_current_animation_id].Update();
 }
 
@@ -247,7 +246,7 @@ int32 PhysicalObject::AddAnimation(const std::string &animation_filename)
                       << animation_filename << std::endl;
         return -1;
     }
-    new_animation.SetDimensions(img_half_width * 2, img_height);
+    new_animation.SetDimensions(_img_half_width * 2, _img_height);
 
     animations.push_back(new_animation);
     return (int32)animations.size() - 1;
@@ -262,7 +261,7 @@ int32 PhysicalObject::AddStillFrame(const std::string &image_filename)
                       << image_filename << std::endl;
         return -1;
     }
-    new_animation.SetDimensions(img_half_width * 2, img_height);
+    new_animation.SetDimensions(_img_half_width * 2, _img_height);
 
     animations.push_back(new_animation);
     return (int32)animations.size() - 1;
@@ -280,11 +279,11 @@ void PhysicalObject::SetCurrentAnimation(uint32 animation_id)
 ParticleObject::ParticleObject(const std::string &filename, float x, float y, MapObjectDrawLayer layer):
     MapObject(layer)
 {
-    position.x = x;
-    position.y = y;
+    _position.x = x;
+    _position.y = y;
 
     _object_type = PARTICLE_TYPE;
-    collision_mask = NO_COLLISION;
+    _collision_mask = NO_COLLISION;
 
     _particle_effect = new vt_mode_manager::ParticleEffect(filename);
     if(!_particle_effect)
@@ -335,7 +334,7 @@ bool ParticleObject::IsAlive() const
 
 void ParticleObject::Update()
 {
-    if(!_particle_effect || !updatable)
+    if(!_particle_effect || !_updatable)
         return;
 
     _particle_effect->Update();
@@ -372,11 +371,11 @@ SavePoint::SavePoint(float x, float y):
     _animations(0),
     _save_active(false)
 {
-    position.x = x;
-    position.y = y;
+    _position.x = x;
+    _position.y = y;
 
     _object_type = SAVE_TYPE;
-    collision_mask = NO_COLLISION;
+    _collision_mask = NO_COLLISION;
 
     MapMode* map_mode = MapMode::CurrentInstance();
     _animations = &map_mode->inactive_save_point_animations;
@@ -414,7 +413,7 @@ SavePoint* SavePoint::Create(float x, float y)
 
 void SavePoint::Update()
 {
-    if(!_animations || !updatable)
+    if(!_animations || !_updatable)
         return;
 
     for(uint32 i = 0; i < _animations->size(); ++i)
@@ -455,11 +454,11 @@ Halo::Halo(const std::string& filename, float x, float y, const Color& color):
     MapObject(NO_LAYER_OBJECT) // This is a special object
 {
     _color = color;
-    position.x = x;
-    position.y = y;
+    _position.x = x;
+    _position.y = y;
 
     _object_type = HALO_TYPE;
-    collision_mask = NO_COLLISION;
+    _collision_mask = NO_COLLISION;
 
     if(!_animation.LoadFromAnimationScript(filename))
         return;
@@ -483,7 +482,7 @@ Halo* Halo::Create(const std::string& filename, float x, float y, const Color& c
 
 void Halo::Update()
 {
-    if(updatable)
+    if(_updatable)
         _animation.Update();
 }
 
@@ -503,11 +502,11 @@ Light::Light(const std::string &main_flare_filename,
     _main_color = main_color;
     _secondary_color = secondary_color;
 
-    position.x = x;
-    position.y = y;
+    _position.x = x;
+    _position.y = y;
 
     _object_type = LIGHT_TYPE;
-    collision_mask = NO_COLLISION;
+    _collision_mask = NO_COLLISION;
 
     _a = _b = 0.0f;
     _distance = 0.0f;
@@ -548,11 +547,11 @@ Light* Light::Create(const std::string &main_flare_filename,
 MapRectangle Light::GetImageRectangle() const
 {
     MapRectangle rect;
-    rect.left = position.x - img_half_width;
-    rect.right = position.x + img_half_width;
+    rect.left = _position.x - _img_half_width;
+    rect.right = _position.x + _img_half_width;
     // The y coord is also centered in that case
-    rect.top = position.y - (img_height / 2.0f);
-    rect.bottom = position.y + (img_height / 2.0f);
+    rect.top = _position.y - (_img_height / 2.0f);
+    rect.bottom = _position.y + (_img_height / 2.0f);
     return rect;
 }
 
@@ -574,14 +573,14 @@ void Light::_UpdateLightAngle()
     _last_center_pos.x = center.x;
     _last_center_pos.y = center.y;
 
-    _distance = (position.x - center.x) * (position.x - center.x);
-    _distance += (position.y - center.y) * (position.y - center.y);
+    _distance = (_position.x - center.x) * (_position.x - center.x);
+    _distance += (_position.y - center.y) * (_position.y - center.y);
     _distance = sqrtf(_distance);
 
-    if(IsFloatEqual(position.x, center.x, 0.2f))
+    if(IsFloatEqual(_position.x, center.x, 0.2f))
         _a = 2.5f;
     else
-        _a = (position.y - center.y) / (position.x - center.x);
+        _a = (_position.y - center.y) / (_position.x - center.x);
 
     // Prevent angles rough-edges
     if(_a < 0.0f)
@@ -589,7 +588,7 @@ void Light::_UpdateLightAngle()
     if(_a > 2.5f)
         _a = 2.5f;
 
-    _b = position.y - _a * position.x;
+    _b = _position.y - _a * _position.x;
 
     // Update the flare alpha depending on the distance
     float distance = _distance / 5.0f;
@@ -607,7 +606,7 @@ void Light::_UpdateLightAngle()
 
 void Light::Update()
 {
-    if(!updatable)
+    if(!_updatable)
         return;
 
     _main_animation.Update();
@@ -634,25 +633,25 @@ void Light::Draw()
         return;
     }
 
-    float next_pos_x = position.x - _distance / _distance_factor_1;
+    float next_pos_x = _position.x - _distance / _distance_factor_1;
     float next_pos_y = _a * next_pos_x + _b;
     VideoManager->Move(next_pos_x - frame.screen_edges.left,
                        next_pos_y - frame.screen_edges.top);
     VideoManager->DrawHalo(*_secondary_animation.GetCurrentFrame(), _secondary_color_alpha);
 
-    next_pos_x = position.x - _distance / _distance_factor_2;
+    next_pos_x = _position.x - _distance / _distance_factor_2;
     next_pos_y = _a * next_pos_x + _b;
     VideoManager->Move(next_pos_x - frame.screen_edges.left,
                        next_pos_y - frame.screen_edges.top);
     VideoManager->DrawHalo(*_secondary_animation.GetCurrentFrame(), _secondary_color_alpha);
 
-    next_pos_x = position.x + _distance / _distance_factor_3;
+    next_pos_x = _position.x + _distance / _distance_factor_3;
     next_pos_y = _a * next_pos_x + _b;
     VideoManager->Move(next_pos_x - frame.screen_edges.left,
                        next_pos_y - frame.screen_edges.top);
     VideoManager->DrawHalo(*_secondary_animation.GetCurrentFrame(), _secondary_color_alpha);
 
-    next_pos_x = position.x + _distance / _distance_factor_4;
+    next_pos_x = _position.x + _distance / _distance_factor_4;
     next_pos_y = _a * next_pos_x + _b;
     VideoManager->Move(next_pos_x - frame.screen_edges.left,
                        next_pos_y - frame.screen_edges.top);
@@ -690,10 +689,10 @@ SoundObject::SoundObject(const std::string& sound_filename, float x, float y, fl
     _time_remaining = 0.0f;
     _playing = false;
 
-    position.x = x;
-    position.y = y;
+    _position.x = x;
+    _position.y = y;
 
-    collision_mask = NO_COLLISION;
+    _collision_mask = NO_COLLISION;
 
     // Register the object to the sound vector
     MapMode::CurrentInstance()->GetObjectSupervisor()->AddAmbientSound(this);
@@ -743,8 +742,8 @@ void SoundObject::Update()
     center.x = frame.screen_edges.left + (frame.screen_edges.right - frame.screen_edges.left) / 2.0f;
     center.y = frame.screen_edges.top + (frame.screen_edges.bottom - frame.screen_edges.top) / 2.0f;
 
-    float distance = (position.x - center.x) * (position.x - center.x);
-    distance += (position.y - center.y) * (position.y - center.y);
+    float distance = (_position.x - center.x) * (_position.x - center.x);
+    distance += (_position.y - center.y) * (_position.y - center.y);
     //distance = sqrtf(_distance); <-- We don't actually need it as it is slow.
 
     float strength2 = _strength * _strength;
@@ -872,7 +871,7 @@ void TreasureObject::Open()
     }
 
     if(_treasure->IsTaken()) {
-        IF_PRINT_WARNING(MAP_DEBUG) << "attempted to retrieve an already taken treasure: " << object_id << std::endl;
+        IF_PRINT_WARNING(MAP_DEBUG) << "attempted to retrieve an already taken treasure: " << _object_id << std::endl;
         return;
     }
 
@@ -1306,7 +1305,7 @@ void ObjectSupervisor::DrawFlatGroundObjects()
 void ObjectSupervisor::DrawGroundObjects(const bool second_pass)
 {
     for(uint32 i = 0; i < _ground_objects.size(); i++) {
-        if(_ground_objects[i]->draw_on_second_pass == second_pass) {
+        if(_ground_objects[i]->IsDrawOnSecondPass() == second_pass) {
             _ground_objects[i]->Draw();
         }
     }
@@ -1405,20 +1404,20 @@ MapObject *ObjectSupervisor::FindNearestInteractionObject(const VirtualSprite *s
 
     // Using the sprite's direction, determine the boundaries of the search area to check for objects
     MapRectangle search_area = sprite->GetCollisionRectangle();
-    if(sprite->direction & FACING_NORTH) {
+    if(sprite->GetDirection() & FACING_NORTH) {
         search_area.bottom = search_area.top;
         search_area.top = search_area.top - search_distance;
-    } else if(sprite->direction & FACING_SOUTH) {
+    } else if(sprite->GetDirection() & FACING_SOUTH) {
         search_area.top = search_area.bottom;
         search_area.bottom = search_area.bottom + search_distance;
-    } else if(sprite->direction & FACING_WEST) {
+    } else if(sprite->GetDirection() & FACING_WEST) {
         search_area.right = search_area.left;
         search_area.left = search_area.left - search_distance;
-    } else if(sprite->direction & FACING_EAST) {
+    } else if(sprite->GetDirection() & FACING_EAST) {
         search_area.left = search_area.right;
         search_area.right = search_area.right + search_distance;
     } else {
-        IF_PRINT_WARNING(MAP_DEBUG) << "sprite was set to invalid direction: " << sprite->direction << std::endl;
+        IF_PRINT_WARNING(MAP_DEBUG) << "sprite was set to invalid direction: " << sprite->GetDirection() << std::endl;
         return NULL;
     }
 
@@ -1431,7 +1430,7 @@ MapObject *ObjectSupervisor::FindNearestInteractionObject(const VirtualSprite *s
 
     // Only search the object layer that the sprite resides on.
     // Note that we do not consider searching the pass layer.
-    if(sprite->sky_object)
+    if(sprite->GetObjectDrawLayer() == vt_map::SKY_OBJECT)
         search_vector = &_sky_objects;
     else
         search_vector = &_ground_objects;
@@ -1567,12 +1566,12 @@ COLLISION_TYPE ObjectSupervisor::DetectCollision(MapObject* object,
 
     // Check for the absence of collision checking after the map boundaries check,
     // So that no collision beings won't get out of the map.
-    if(object->collision_mask == NO_COLLISION)
+    if(object->GetCollisionMask() == NO_COLLISION)
         return NO_COLLISION;
 
-    // Check if the object's collision rectangel overlaps with any unwalkable elements on the collision grid
+    // Check if the object's collision rectangle overlaps with any unwalkable elements on the collision grid
     // Grid based collision is not done for objects in the sky layer
-    if(!object->sky_object && object->collision_mask & WALL_COLLISION) {
+    if(object->GetObjectDrawLayer() != vt_map::SKY_OBJECT && object->GetCollisionMask() & WALL_COLLISION) {
         // Determine if the object's collision rectangle overlaps any unwalkable tiles
         // Note that because the sprite's collision rectangle was previously determined to be within the map bounds,
         // the map grid tile indeces referenced in this loop are all valid entries and do not need to be checked for out-of-bounds conditions
@@ -1585,18 +1584,18 @@ COLLISION_TYPE ObjectSupervisor::DetectCollision(MapObject* object,
         }
     }
 
-    std::vector<MapObject *>* objects = object->sky_object ?
+    std::vector<MapObject *>* objects = object->GetObjectDrawLayer() == vt_map::SKY_OBJECT ?
                                         &_sky_objects : &_ground_objects;
 
     std::vector<vt_map::private_map::MapObject *>::const_iterator it, it_end;
     for(it = objects->begin(), it_end = objects->end(); it != it_end; ++it) {
         MapObject *collision_object = *it;
         // Check if the object exists and has the no_collision property enabled
-        if(!collision_object || collision_object->collision_mask == NO_COLLISION)
+        if(!collision_object || collision_object->GetCollisionMask() == NO_COLLISION)
             continue;
 
         // Object and sprite are the same
-        if(collision_object->object_id == object->object_id)
+        if(collision_object->GetObjectID() == object->GetObjectID())
             continue;
 
         // If the two objects aren't colliding, try next.
@@ -1610,7 +1609,7 @@ COLLISION_TYPE ObjectSupervisor::DetectCollision(MapObject* object,
         // When the collision mask is taking in account the collision type
         // we can return it. Otherwise, just ignore the sprite colliding.
         COLLISION_TYPE collision = GetCollisionFromObjectType(collision_object);
-        if(object->collision_mask & collision)
+        if(object->GetCollisionMask() & collision)
             return collision;
         else
             continue;
@@ -1865,7 +1864,7 @@ bool ObjectSupervisor::IsStaticCollision(float x, float y)
     for(it = _ground_objects.begin(), it_end = _ground_objects.end(); it != it_end; ++it) {
         MapObject *collision_object = *it;
         // Check if the object exists and has the no_collision property enabled
-        if(!collision_object || collision_object->collision_mask == NO_COLLISION)
+        if(!collision_object || collision_object->GetCollisionMask() == NO_COLLISION)
             continue;
 
         //only check physical objects. we don't care about sprites and enemies, treasure boxes, etc

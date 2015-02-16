@@ -315,8 +315,8 @@ void EnemyZone::Update()
     uint32 collision = NO_COLLISION;
 
     // Select a random position inside the zone to place the spawning enemy
-    _enemies[index]->collision_mask = WALL_COLLISION | CHARACTER_COLLISION;
-    MapZone *spawning_zone = NULL;
+    _enemies[index]->SetCollisionMask(WALL_COLLISION | CHARACTER_COLLISION);
+    MapZone* spawning_zone = NULL;
     if (!HasSeparateSpawnZone()) {
         spawning_zone = this;
     } else {
