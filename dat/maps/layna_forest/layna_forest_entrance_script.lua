@@ -111,13 +111,13 @@ function _CreateCharacters()
     end
 
     -- Create dialogue characters
-    bronann = CreateSprite(Map, "Bronann", hero:GetXPosition(), hero:GetYPosition(), vt_map.MapMode.GROUND_OBJECT);
+    bronann = CreateSprite(Map, "Bronann", 0, 0, vt_map.MapMode.GROUND_OBJECT);
     bronann:SetDirection(vt_map.MapMode.EAST);
     bronann:SetMovementSpeed(vt_map.MapMode.NORMAL_SPEED);
     bronann:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
     bronann:SetVisible(false);
 
-    kalya = CreateSprite(Map, "Kalya", hero:GetXPosition(), hero:GetYPosition(), vt_map.MapMode.GROUND_OBJECT);
+    kalya = CreateSprite(Map, "Kalya", 0, 0, vt_map.MapMode.GROUND_OBJECT);
     kalya:SetDirection(vt_map.MapMode.EAST);
     kalya:SetMovementSpeed(vt_map.MapMode.NORMAL_SPEED);
     kalya:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
