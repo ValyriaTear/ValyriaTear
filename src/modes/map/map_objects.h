@@ -402,13 +402,6 @@ public:
     //! give the object ownership at construction time.
     static PhysicalObject* Create(MapObjectDrawLayer layer);
 
-    /** \brief A vector containing all the object's animations.
-    *** These need not be actual animations. If you just want a still image, add only a single
-    *** frame to the animation. Usually only need a single still image or animation will be
-    *** needed, but a vector is used here in case others are needed.
-    **/
-    std::vector<vt_video::AnimatedImage> animations;
-
     //! \brief Updates the object's current animation.
     virtual void Update();
 
@@ -423,22 +416,22 @@ public:
     *** \param animation_filename The name of the animation file to use for the animation
     *** \return The animation id that can later be used with SetCurrentAnimation() or -1 if invalid
     **/
-    int32 AddAnimation(const std::string &animation_filename);
+    int32 AddAnimation(const std::string& animation_filename);
 
     /** \brief Sets a new still animation using the image filename provided
     *** \param image_filename The name of the image file to use for the animation
     *** \return The animation id that can later be used with SetCurrentAnimation() or -1 if invalid
     **/
-    int32 AddStillFrame(const std::string &image_filename);
+    int32 AddStillFrame(const std::string& image_filename);
 
     void AddAnimation(const vt_video::AnimatedImage& new_img) {
-        animations.push_back(new_img);
+        _animations.push_back(new_img);
     }
 
     void SetCurrentAnimation(uint32 animation_id);
 
     void SetAnimationProgress(uint32 progress) {
-        animations[_current_animation_id].SetTimeProgress(progress);
+        _animations[_current_animation_id].SetTimeProgress(progress);
     }
 
     uint32 GetCurrentAnimationId() const {
@@ -446,7 +439,7 @@ public:
     }
 
     void RandomizeCurrentAnimationFrame() {
-        animations[_current_animation_id].RandomizeAnimationFrame();
+        _animations[_current_animation_id].RandomizeAnimationFrame();
     }
 
     /** \brief Adds an event triggered when talking to a physical object
@@ -467,6 +460,14 @@ public:
         return _event_when_talking;
     }
     //@}
+
+protected:
+    /** \brief A vector containing all the object's animations.
+    *** These need not be actual animations. If you just want a still image, add only a single
+    *** frame to the animation. Usually only need a single still image or animation will be
+    *** needed, but a vector is used here in case others are needed.
+    **/
+    std::vector<vt_video::AnimatedImage> _animations;
 
 private:
     /** \brief The index to the animations vector that contains the current image to display

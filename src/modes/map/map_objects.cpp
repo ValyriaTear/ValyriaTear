@@ -205,7 +205,7 @@ PhysicalObject::PhysicalObject(MapObjectDrawLayer layer) :
 
 PhysicalObject::~PhysicalObject()
 {
-    animations.clear();
+    _animations.clear();
 }
 
 PhysicalObject* PhysicalObject::Create(MapObjectDrawLayer layer)
@@ -217,16 +217,16 @@ PhysicalObject* PhysicalObject::Create(MapObjectDrawLayer layer)
 
 void PhysicalObject::Update()
 {
-    if(!animations.empty() && _updatable)
-        animations[_current_animation_id].Update();
+    if(!_animations.empty() && _updatable)
+        _animations[_current_animation_id].Update();
 }
 
 void PhysicalObject::Draw()
 {
-    if(animations.empty() || !MapObject::ShouldDraw())
+    if(_animations.empty() || !MapObject::ShouldDraw())
         return;
 
-    animations[_current_animation_id].Draw();
+    _animations[_current_animation_id].Draw();
 
     // Draw collision rectangle if the debug view is on.
     if(!VideoManager->DebugInfoOn())
@@ -238,7 +238,7 @@ void PhysicalObject::Draw()
     VideoManager->DrawRectangle(rect.right - rect.left, rect.bottom - rect.top, Color(0.0f, 1.0f, 0.0f, 0.6f));
 }
 
-int32 PhysicalObject::AddAnimation(const std::string &animation_filename)
+int32 PhysicalObject::AddAnimation(const std::string& animation_filename)
 {
     AnimatedImage new_animation;
     if(!new_animation.LoadFromAnimationScript(animation_filename)) {
@@ -248,11 +248,11 @@ int32 PhysicalObject::AddAnimation(const std::string &animation_filename)
     }
     new_animation.SetDimensions(_img_half_width * 2, _img_height);
 
-    animations.push_back(new_animation);
-    return (int32)animations.size() - 1;
+    _animations.push_back(new_animation);
+    return (int32)_animations.size() - 1;
 }
 
-int32 PhysicalObject::AddStillFrame(const std::string &image_filename)
+int32 PhysicalObject::AddStillFrame(const std::string& image_filename)
 {
     AnimatedImage new_animation;
     // Adds a frame with a zero length: Making it last forever
@@ -263,14 +263,14 @@ int32 PhysicalObject::AddStillFrame(const std::string &image_filename)
     }
     new_animation.SetDimensions(_img_half_width * 2, _img_height);
 
-    animations.push_back(new_animation);
-    return (int32)animations.size() - 1;
+    _animations.push_back(new_animation);
+    return (int32)_animations.size() - 1;
 }
 
 void PhysicalObject::SetCurrentAnimation(uint32 animation_id)
 {
-    if(animation_id < animations.size()) {
-        animations[_current_animation_id].SetTimeProgress(0);
+    if(animation_id < _animations.size()) {
+        _animations[_current_animation_id].SetTimeProgress(0);
         _current_animation_id = animation_id;
     }
 }
@@ -887,7 +887,7 @@ void TreasureObject::Update()
 {
     PhysicalObject::Update();
 
-    if ((GetCurrentAnimationId() == TREASURE_OPENING_ANIM) && (animations[TREASURE_OPENING_ANIM].IsLoopsFinished()))
+    if ((GetCurrentAnimationId() == TREASURE_OPENING_ANIM) && (_animations[TREASURE_OPENING_ANIM].IsLoopsFinished()))
         SetCurrentAnimation(TREASURE_OPEN_ANIM);
 
     if (!_is_opening || GetCurrentAnimationId() != TREASURE_OPEN_ANIM)
