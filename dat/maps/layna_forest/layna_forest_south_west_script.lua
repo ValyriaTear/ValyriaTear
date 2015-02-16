@@ -20,11 +20,9 @@ local EventManager = nil
 -- the main character handler
 local hero = nil
 
--- Forest dialogue secondary hero
-local kalya_sprite = nil
-
--- Name of the main sprite. Used to reload the good one at the end of the first forest entrance event.
-local main_sprite_name = "";
+-- Dialogue sprites
+local bronann = nil
+local kalya = nil
 
 -- the main map loading code
 function Load(m)
@@ -89,14 +87,17 @@ function _CreateCharacters()
         hero:SetDirection(vt_map.MapMode.SOUTH);
     end
 
-    -- Create secondary character for the scene about snakes - Kalya
-    kalya_sprite = CreateSprite(Map, "Kalya",
-                                hero:GetXPosition(), hero:GetYPosition(), vt_map.MapMode.GROUND_OBJECT);
+    bronann = CreateSprite(Map, "Bronann", 0, 0, vt_map.MapMode.GROUND_OBJECT);
+    bronann:SetDirection(vt_map.MapMode.WEST);
+    bronann:SetMovementSpeed(vt_map.MapMode.NORMAL_SPEED);
+    bronann:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
+    bronann:SetVisible(false);
 
-    kalya_sprite:SetDirection(vt_map.MapMode.WEST);
-    kalya_sprite:SetMovementSpeed(vt_map.MapMode.NORMAL_SPEED);
-    kalya_sprite:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
-    kalya_sprite:SetVisible(false);
+    kalya = CreateSprite(Map, "Kalya", 0, 0, vt_map.MapMode.GROUND_OBJECT);
+    kalya:SetDirection(vt_map.MapMode.WEST);
+    kalya:SetMovementSpeed(vt_map.MapMode.NORMAL_SPEED);
+    kalya:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
+    kalya:SetVisible(false);
 end
 
 function _CreateObjects()
@@ -627,8 +628,7 @@ function _CreateEnemies()
 end
 
 -- Special event references which destinations must be updated just before being called.
-local move_next_to_hero_event = nil
-local move_back_to_hero_event = nil
+local move_next_to_bronann_event = nil
 
 -- Creates all events and sets up the entire event sequence chain
 function _CreateEvents()
@@ -643,35 +643,35 @@ function _CreateEvents()
                                      "dat/maps/layna_forest/layna_forest_north_west_script.lua", "from forest SW");
 
     -- Dialogue events
-    vt_map.LookAtSpriteEvent.Create("Kalya looks at Bronann", kalya_sprite, hero);
-    vt_map.LookAtSpriteEvent.Create("Bronann looks at Kalya", hero, kalya_sprite);
+    vt_map.LookAtSpriteEvent.Create("Kalya looks at Bronann", kalya, bronann);
+    vt_map.LookAtSpriteEvent.Create("Bronann looks at Kalya", bronann, kalya);
 
-    vt_map.ScriptedSpriteEvent.Create("kalya_sprite:SetCollision(NONE)", kalya_sprite, "Sprite_Collision_off", "");
-    vt_map.ScriptedSpriteEvent.Create("kalya_sprite:SetCollision(ALL)", kalya_sprite, "Sprite_Collision_on", "");
+    vt_map.ScriptedSpriteEvent.Create("kalya:SetCollision(NONE)", kalya, "Sprite_Collision_off", "");
+    vt_map.ScriptedSpriteEvent.Create("kalya:SetCollision(ALL)", kalya, "Sprite_Collision_on", "");
 
     -- First time forest entrance dialogue about save points and the heal spring.
     event = vt_map.ScriptedEvent.Create("Forest entrance dialogue about snakes", "forest_dialogue_about_snakes_start", "");
     event:AddEventLinkAtEnd("Kalya moves next to Bronann", 50);
 
     -- NOTE: The actual destination is set just before the actual start call
-    move_next_to_hero_event = vt_map.PathMoveSpriteEvent.Create("Kalya moves next to Bronann", kalya_sprite, 0, 0, false);
-    move_next_to_hero_event:AddEventLinkAtEnd("Kalya Tells about snakes");
-    move_next_to_hero_event:AddEventLinkAtEnd("kalya_sprite:SetCollision(ALL)");
+    move_next_to_bronann_event = vt_map.PathMoveSpriteEvent.Create("Kalya moves next to Bronann", kalya, 0, 0, false);
+    move_next_to_bronann_event:AddEventLinkAtEnd("Kalya Tells about snakes");
+    move_next_to_bronann_event:AddEventLinkAtEnd("kalya:SetCollision(ALL)");
 
     dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Woah, wait!");
-    dialogue:AddLineEventEmote(text, kalya_sprite, "Bronann looks at Kalya", "Kalya looks at Bronann", "exclamation");
+    dialogue:AddLineEventEmote(text, kalya, "Bronann looks at Kalya", "Kalya looks at Bronann", "exclamation");
     text = vt_system.Translate("Look at the grass. Snakes like to hide in the tall grass. We need to be careful because their venom causes drowsiness.");
-    dialogue:AddLine(text, kalya_sprite);
+    dialogue:AddLine(text, kalya);
     event = vt_map.DialogueEvent.Create("Kalya Tells about snakes", dialogue);
-    event:AddEventLinkAtEnd("kalya_sprite:SetCollision(NONE)");
+    event:AddEventLinkAtEnd("kalya:SetCollision(NONE)");
     event:AddEventLinkAtEnd("Set Camera back to Bronann");
 
-    event = vt_map.ScriptedSpriteEvent.Create("Set Camera back to Bronann", hero, "SetCamera", "");
+    event = vt_map.ScriptedSpriteEvent.Create("Set Camera back to Bronann", bronann, "SetCamera", "");
     event:AddEventLinkAtEnd("kalya goes back to party");
 
-    move_back_to_hero_event = vt_map.PathMoveSpriteEvent.Create("kalya goes back to party", kalya_sprite, hero, false);
-    move_back_to_hero_event:AddEventLinkAtEnd("end of dialogue about snakes");
+    event = vt_map.PathMoveSpriteEvent.Create("kalya goes back to party", kalya, bronann, false);
+    event:AddEventLinkAtEnd("end of dialogue about snakes");
 
     vt_map.ScriptedEvent.Create("end of dialogue about snakes", "end_of_dialogue_about_snakes", "");
 end
@@ -724,20 +724,22 @@ map_functions = {
     forest_dialogue_about_snakes_start = function()
         Map:PushState(vt_map.MapMode.STATE_SCENE);
         hero:SetMoving(false);
-        -- Keep a reference of the correct sprite for the event end.
-        main_sprite_name = hero:GetSpriteName();
 
-        -- Make the hero be Bronann for the event.
-        hero:ReloadSprite("Bronann");
+        bronann:SetPosition(hero:GetXPosition(), hero:GetYPosition())
+        bronann:SetDirection(hero:GetDirection())
+        bronann:SetVisible(true)
+        hero:SetVisible(false)
+        Map:SetCamera(bronann)
+        hero:SetPosition(0, 0)
 
-        kalya_sprite:SetVisible(true);
-        kalya_sprite:SetPosition(hero:GetXPosition(), hero:GetYPosition());
-        hero:SetCollisionMask(vt_map.MapMode.ALL_COLLISION);
-        kalya_sprite:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
+        kalya:SetVisible(true);
+        kalya:SetPosition(bronann:GetXPosition(), bronann:GetYPosition());
+        bronann:SetCollisionMask(vt_map.MapMode.ALL_COLLISION);
+        kalya:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
 
-        Map:SetCamera(kalya_sprite, 800);
+        Map:SetCamera(kalya, 800);
 
-        move_next_to_hero_event:SetDestination(hero:GetXPosition() - 2.0, hero:GetYPosition(), false);
+        move_next_to_bronann_event:SetDestination(bronann:GetXPosition() - 2.0, bronann:GetYPosition(), false);
     end,
 
     SetCamera = function(sprite)
@@ -758,12 +760,16 @@ map_functions = {
 
     end_of_dialogue_about_snakes = function()
         Map:PopState();
-        kalya_sprite:SetPosition(0, 0);
-        kalya_sprite:SetVisible(false);
-        kalya_sprite:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
+        kalya:SetPosition(0, 0);
+        kalya:SetVisible(false);
+        kalya:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
 
-        -- Reload the hero back to default
-        hero:ReloadSprite(main_sprite_name);
+        hero:SetPosition(bronann:GetXPosition(), bronann:GetYPosition())
+        hero:SetDirection(bronann:GetDirection())
+        hero:SetVisible(true)
+        bronann:SetVisible(false)
+        Map:SetCamera(hero)
+        bronann:SetPosition(0, 0)
 
         -- Set event as done
         GlobalManager:SetEventValue("story", "kalya_speech_about_snakes_done", 1);
