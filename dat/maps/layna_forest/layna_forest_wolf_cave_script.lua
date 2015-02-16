@@ -20,11 +20,9 @@ local EventManager = nil
 -- the main character handler
 local hero = nil
 
--- Forest dialogue secondary hero
-local kalya_sprite = nil
-
--- Name of the main sprite. Used to reload the good one at the end of the dialogue events.
-local main_sprite_name = "";
+-- Dialogue sprites
+local bronann = nil
+local kalya = nil
 
 -- the main map loading code
 function Load(m)
@@ -76,14 +74,17 @@ function _CreateCharacters()
         hero:SetPosition(3, 27);
     end
 
-    -- Create secondary character for dialogue at map entrance
-    kalya_sprite = CreateSprite(Map, "Kalya",
-                                hero:GetXPosition(), hero:GetYPosition(), vt_map.MapMode.GROUND_OBJECT);
+    bronann = CreateSprite(Map, "Bronann", 0, 0, vt_map.MapMode.GROUND_OBJECT);
+    bronann:SetDirection(vt_map.MapMode.WEST);
+    bronann:SetMovementSpeed(vt_map.MapMode.NORMAL_SPEED);
+    bronann:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
+    bronann:SetVisible(false);
 
-    kalya_sprite:SetDirection(vt_map.MapMode.NORTH);
-    kalya_sprite:SetMovementSpeed(vt_map.MapMode.NORMAL_SPEED);
-    kalya_sprite:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
-    kalya_sprite:SetVisible(false);
+    kalya = CreateSprite(Map, "Kalya", 0, 0, vt_map.MapMode.GROUND_OBJECT);
+    kalya:SetDirection(vt_map.MapMode.NORTH);
+    kalya:SetMovementSpeed(vt_map.MapMode.NORMAL_SPEED);
+    kalya:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
+    kalya:SetVisible(false);
 end
 
 -- a necklace obtained by kalya and triggering the seconde fight against the fenrir.
@@ -216,10 +217,8 @@ function _CreateObjects()
 end
 
 -- Special event references which destinations must be updated just before being called.
-local move_next_to_hero_event = nil
-local move_back_to_hero_event = nil
-local move_next_to_hero_event2 = nil
-local move_back_to_hero_event2 = nil
+local move_next_to_bronann_event = nil
+local move_next_to_bronann_event2 = nil
 
 -- Creates all events and sets up the entire event sequence chain
 function _CreateEvents()
@@ -238,41 +237,41 @@ function _CreateEvents()
     vt_map.ScriptedEvent.Create("Fountain heal", "heal_party_sp", "heal_done");
 
     -- Dialogue events
-    vt_map.LookAtSpriteEvent.Create("Kalya looks at Bronann", kalya_sprite, hero);
-    vt_map.ChangeDirectionSpriteEvent.Create("Kalya looks north", kalya_sprite, vt_map.MapMode.NORTH);
-    vt_map.ChangeDirectionSpriteEvent.Create("Kalya looks west", kalya_sprite, vt_map.MapMode.WEST);
-    vt_map.ChangeDirectionSpriteEvent.Create("Kalya looks south", kalya_sprite, vt_map.MapMode.SOUTH);
-    vt_map.LookAtSpriteEvent.Create("Bronann looks at Kalya", hero, kalya_sprite);
-    vt_map.ChangeDirectionSpriteEvent.Create("Bronann looks south", hero, vt_map.MapMode.SOUTH);
+    vt_map.LookAtSpriteEvent.Create("Kalya looks at Bronann", kalya, bronann);
+    vt_map.ChangeDirectionSpriteEvent.Create("Kalya looks north", kalya, vt_map.MapMode.NORTH);
+    vt_map.ChangeDirectionSpriteEvent.Create("Kalya looks west", kalya, vt_map.MapMode.WEST);
+    vt_map.ChangeDirectionSpriteEvent.Create("Kalya looks south", kalya, vt_map.MapMode.SOUTH);
+    vt_map.LookAtSpriteEvent.Create("Bronann looks at Kalya", hero, kalya);
+    vt_map.ChangeDirectionSpriteEvent.Create("Bronann looks south", bronann, vt_map.MapMode.SOUTH);
 
-    vt_map.ScriptedSpriteEvent.Create("kalya_sprite:SetCollision(NONE)", kalya_sprite, "Sprite_Collision_off", "");
-    vt_map.ScriptedSpriteEvent.Create("kalya_sprite:SetCollision(ALL)", kalya_sprite, "Sprite_Collision_on", "");
+    vt_map.ScriptedSpriteEvent.Create("kalya:SetCollision(NONE)", kalya, "Sprite_Collision_off", "");
+    vt_map.ScriptedSpriteEvent.Create("kalya:SetCollision(ALL)", kalya, "Sprite_Collision_on", "");
 
     event = vt_map.ScriptedEvent.Create("Wolf cave entrance dialogue", "cave_entrance_dialogue_start", "");
     event:AddEventLinkAtEnd("Kalya moves next to Bronann", 50);
 
     -- NOTE: The actual destination is set just before the actual start call
-    move_next_to_hero_event = vt_map.PathMoveSpriteEvent.Create("Kalya moves next to Bronann", kalya_sprite, 0, 0, false);
-    move_next_to_hero_event:AddEventLinkAtEnd("kalya_sprite:SetCollision(ALL)");
-    move_next_to_hero_event:AddEventLinkAtEnd("Kalya looks north");
-    move_next_to_hero_event:AddEventLinkAtEnd("Kalya Tells about the smell");
+    move_next_to_bronann_event = vt_map.PathMoveSpriteEvent.Create("Kalya moves next to Bronann", kalya, 0, 0, false);
+    move_next_to_bronann_event:AddEventLinkAtEnd("kalya:SetCollision(ALL)");
+    move_next_to_bronann_event:AddEventLinkAtEnd("Kalya looks north");
+    move_next_to_bronann_event:AddEventLinkAtEnd("Kalya Tells about the smell");
 
     dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Yiek, it stinks in here.");
-    dialogue:AddLineEventEmote(text, kalya_sprite, "Bronann looks at Kalya", "Kalya looks at Bronann", "exclamation");
+    dialogue:AddLineEventEmote(text, kalya, "Bronann looks at Kalya", "Kalya looks at Bronann", "exclamation");
     text = vt_system.Translate("Look at all those bones. We should be careful.");
-    dialogue:AddLine(text, hero);
+    dialogue:AddLine(text, bronann);
     text = vt_system.Translate("I hope Orlinn is alright.");
-    dialogue:AddLineEmote(text, kalya_sprite, "sweat drop");
+    dialogue:AddLineEmote(text, kalya, "sweat drop");
     event = vt_map.DialogueEvent.Create("Kalya Tells about the smell", dialogue);
-    event:AddEventLinkAtEnd("kalya_sprite:SetCollision(NONE)");
+    event:AddEventLinkAtEnd("kalya:SetCollision(NONE)");
     event:AddEventLinkAtEnd("Set Camera back to Bronann");
 
-    event = vt_map.ScriptedSpriteEvent.Create("Set Camera back to Bronann", hero, "SetCamera", "");
+    event = vt_map.ScriptedSpriteEvent.Create("Set Camera back to Bronann", bronann, "SetCamera", "");
     event:AddEventLinkAtEnd("kalya goes back to party");
 
-    move_back_to_hero_event = vt_map.PathMoveSpriteEvent.Create("kalya goes back to party", kalya_sprite, hero, false);
-    move_back_to_hero_event:AddEventLinkAtEnd("end of cave entrance dialogue");
+    event = vt_map.PathMoveSpriteEvent.Create("kalya goes back to party", kalya, bronann, false);
+    event:AddEventLinkAtEnd("end of cave entrance dialogue");
 
     vt_map.ScriptedEvent.Create("end of cave entrance dialogue", "end_of_cave_entrance_dialogue", "");
 
@@ -281,10 +280,10 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("necklace event: Kalya moves next to Bronann", 50);
 
     -- NOTE: The actual destination is set just before the actual start call
-    move_next_to_hero_event2 = vt_map.PathMoveSpriteEvent.Create("necklace event: Kalya moves next to Bronann", kalya_sprite, 0, 0, false);
-    move_next_to_hero_event2:AddEventLinkAtEnd("kalya_sprite:SetCollision(ALL)");
-    move_next_to_hero_event2:AddEventLinkAtEnd("Kalya looks west");
-    move_next_to_hero_event2:AddEventLinkAtEnd("Kalya Tells about the necklace");
+    move_next_to_bronann_event2 = vt_map.PathMoveSpriteEvent.Create("necklace event: Kalya moves next to Bronann", kalya, 0, 0, false);
+    move_next_to_bronann_event2:AddEventLinkAtEnd("kalya:SetCollision(ALL)");
+    move_next_to_bronann_event2:AddEventLinkAtEnd("Kalya looks west");
+    move_next_to_bronann_event2:AddEventLinkAtEnd("Kalya Tells about the necklace");
 
     vt_map.ScriptedEvent.Create("make fenrir appear and necklace disappear", "wolf_appear_n_necklace_disappear", "");
 
@@ -292,19 +291,19 @@ function _CreateEvents()
 
     dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("What a lovely necklace! I'll take it.");
-    dialogue:AddLineEventEmote(text, kalya_sprite, "Bronann looks at Kalya", "Kalya looks north", "exclamation");
+    dialogue:AddLineEventEmote(text, kalya, "Bronann looks at Kalya", "Kalya looks north", "exclamation");
     text = vt_system.Translate("Kalya. We're in the middle of a cave and you're only thinking about wearing jewels?");
-    dialogue:AddLine(text, hero);
+    dialogue:AddLine(text, bronann);
     text = vt_system.Translate("Jewelry is a gift from the heavens to remind us that beauty can be as pure on the outside as it is on the inside. Besides, it suits me better than it would you.");
-    dialogue:AddLineEvent(text, kalya_sprite, "make fenrir appear and necklace disappear", "make fenrir come");
+    dialogue:AddLineEvent(text, kalya, "make fenrir appear and necklace disappear", "make fenrir come");
     text = vt_system.Translate("Kalya! You'd better be careful!");
-    dialogue:AddLineEventEmote(text, hero, "Bronann looks south", "", "sweat drop");
+    dialogue:AddLineEventEmote(text, bronann, "Bronann looks south", "", "sweat drop");
     text = vt_system.Translate("Don't even start, this one is all mine.");
-    dialogue:AddLine(text, kalya_sprite);
+    dialogue:AddLine(text, kalya);
     text = vt_system.Translate("Not the necklace, the fenrir!");
-    dialogue:AddLineEmote(text, hero, "exclamation");
+    dialogue:AddLineEmote(text, bronann, "exclamation");
     text = vt_system.Translate("You can't be serious, we would have heard it come.");
-    dialogue:AddLineEvent(text, kalya_sprite, "Kalya looks at Bronann", "Kalya looks south");
+    dialogue:AddLineEvent(text, kalya, "Kalya looks at Bronann", "Kalya looks south");
     event = vt_map.DialogueEvent.Create("Kalya Tells about the necklace", dialogue);
     event:AddEventLinkAtEnd("The Fenrir growls");
 
@@ -313,11 +312,11 @@ function _CreateEvents()
 
     dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Ah, well. You were serious, weren't you?");
-    dialogue:AddLineEmote(text, kalya_sprite, "sweat drop");
+    dialogue:AddLineEmote(text, kalya, "sweat drop");
     event = vt_map.DialogueEvent.Create("Kalya realizes for the Fenrir", dialogue);
     event:AddEventLinkAtEnd("The Fenrir runs toward the hero");
 
-    event = vt_map.PathMoveSpriteEvent.Create("The Fenrir runs toward the hero", wolf, hero, true);
+    event = vt_map.PathMoveSpriteEvent.Create("The Fenrir runs toward the hero", wolf, bronann, true);
     event:AddEventLinkAtEnd("Second Fenrir battle");
 
     event = vt_map.BattleEncounterEvent.Create("Second Fenrir battle");
@@ -337,16 +336,16 @@ function _CreateEvents()
 
     dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("It ran away again. I'm glad we survived. Let's get out of here before it comes back.");
-    dialogue:AddLineEventEmote(text, kalya_sprite, "Kalya looks at Bronann", "", "sweat drop");
+    dialogue:AddLineEventEmote(text, kalya, "Kalya looks at Bronann", "", "sweat drop");
     event = vt_map.DialogueEvent.Create("Kalya talks after the battle", dialogue);
-    event:AddEventLinkAtEnd("kalya_sprite:SetCollision(NONE)");
+    event:AddEventLinkAtEnd("kalya:SetCollision(NONE)");
     event:AddEventLinkAtEnd("Set Camera back to Bronann2");
 
-    event = vt_map.ScriptedSpriteEvent.Create("Set Camera back to Bronann2", hero, "SetCamera", "");
+    event = vt_map.ScriptedSpriteEvent.Create("Set Camera back to Bronann2", bronann, "SetCamera", "");
     event:AddEventLinkAtEnd("end of necklace dialogue");
     event:AddEventLinkAtEnd("necklace event: kalya goes back to party");
 
-    move_back_to_hero_event2 = vt_map.PathMoveSpriteEvent.Create("necklace event: kalya goes back to party", kalya_sprite, hero, false);
+    vt_map.PathMoveSpriteEvent.Create("necklace event: kalya goes back to party", kalya, bronann, false);
 
     vt_map.ScriptedEvent.Create("end of necklace dialogue", "end_of_necklace_dialogue", "");
 end
@@ -428,30 +427,36 @@ map_functions = {
     cave_entrance_dialogue_start = function()
         Map:PushState(vt_map.MapMode.STATE_SCENE);
         hero:SetMoving(false);
-        -- Keep a reference of the correct sprite for the event end.
-        main_sprite_name = hero:GetSpriteName();
 
-        -- Make the hero be Bronann for the event.
-        hero:ReloadSprite("Bronann");
+        bronann:SetPosition(hero:GetXPosition(), hero:GetYPosition())
+        bronann:SetDirection(hero:GetDirection())
+        bronann:SetVisible(true)
+        hero:SetVisible(false)
+        Map:SetCamera(bronann)
+        hero:SetPosition(0, 0)
 
-        kalya_sprite:SetVisible(true);
-        kalya_sprite:SetPosition(hero:GetXPosition(), hero:GetYPosition());
-        hero:SetCollisionMask(vt_map.MapMode.ALL_COLLISION);
-        kalya_sprite:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
+        kalya:SetVisible(true);
+        kalya:SetPosition(bronann:GetXPosition(), bronann:GetYPosition());
+        bronann:SetCollisionMask(vt_map.MapMode.ALL_COLLISION);
+        kalya:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
 
-        Map:SetCamera(kalya_sprite, 800);
+        Map:SetCamera(kalya, 800);
 
-        move_next_to_hero_event:SetDestination(hero:GetXPosition() - 2.0, hero:GetYPosition(), false);
+        move_next_to_bronann_event:SetDestination(bronann:GetXPosition() - 2.0, bronann:GetYPosition(), false);
     end,
 
     end_of_cave_entrance_dialogue = function()
         Map:PopState();
-        kalya_sprite:SetPosition(0, 0);
-        kalya_sprite:SetVisible(false);
-        kalya_sprite:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
+        kalya:SetPosition(0, 0);
+        kalya:SetVisible(false);
+        kalya:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
 
-        -- Reload the hero back to default
-        hero:ReloadSprite(main_sprite_name);
+        hero:SetPosition(bronann:GetXPosition(), bronann:GetYPosition())
+        hero:SetDirection(bronann:GetDirection())
+        hero:SetVisible(true)
+        bronann:SetVisible(false)
+        Map:SetCamera(hero)
+        bronann:SetPosition(0, 0)
         hero:SetDirection(vt_map.MapMode.NORTH);
 
         -- Set event as done
@@ -462,20 +467,22 @@ map_functions = {
     wolfpain_necklace_dialogue_start = function()
         Map:PushState(vt_map.MapMode.STATE_SCENE);
         hero:SetMoving(false);
-        -- Keep a reference of the correct sprite for the event end.
-        main_sprite_name = hero:GetSpriteName();
 
-        -- Make the hero be Bronann for the event.
-        hero:ReloadSprite("Bronann");
+        bronann:SetPosition(hero:GetXPosition(), hero:GetYPosition())
+        bronann:SetDirection(hero:GetDirection())
+        bronann:SetVisible(true)
+        hero:SetVisible(false)
+        Map:SetCamera(bronann)
+        hero:SetPosition(0, 0)
 
-        kalya_sprite:SetVisible(true);
-        kalya_sprite:SetPosition(hero:GetXPosition(), hero:GetYPosition());
-        hero:SetCollisionMask(vt_map.MapMode.ALL_COLLISION);
-        kalya_sprite:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
+        kalya:SetVisible(true);
+        kalya:SetPosition(bronann:GetXPosition(), bronann:GetYPosition());
+        bronann:SetCollisionMask(vt_map.MapMode.ALL_COLLISION);
+        kalya:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
 
-        Map:SetCamera(kalya_sprite, 800);
+        Map:SetCamera(kalya, 800);
 
-        move_next_to_hero_event2:SetDestination(hero:GetXPosition() + 2.0, hero:GetYPosition(), false);
+        move_next_to_bronann_event2:SetDestination(bronann:GetXPosition() + 2.0, bronann:GetYPosition(), false);
     end,
 
     wolf_appear_n_necklace_disappear = function()
@@ -501,12 +508,16 @@ map_functions = {
     end,
 
     end_of_necklace_dialogue = function()
-        kalya_sprite:SetPosition(0, 0);
-        kalya_sprite:SetVisible(false);
-        kalya_sprite:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
+        kalya:SetPosition(0, 0);
+        kalya:SetVisible(false);
+        kalya:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
 
-        -- Reload the hero back to default
-        hero:ReloadSprite(main_sprite_name);
+        hero:SetPosition(bronann:GetXPosition(), bronann:GetYPosition())
+        hero:SetDirection(bronann:GetDirection())
+        hero:SetVisible(true)
+        bronann:SetVisible(false)
+        Map:SetCamera(hero)
+        bronann:SetPosition(0, 0)
         hero:SetDirection(vt_map.MapMode.NORTH);
 
         Map:PopState();
