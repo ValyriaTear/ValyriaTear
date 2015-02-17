@@ -20,9 +20,6 @@ local EventManager = nil
 -- the main character handler
 local hero = nil
 
--- Name of the main sprite. Used to reload the good one at the end of dialogue events.
-local main_sprite_name = "";
-
 -- An actual array of objects
 local bridge_middle_parts = {}
 

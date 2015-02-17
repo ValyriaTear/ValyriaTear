@@ -23,7 +23,7 @@ local hero = nil
 -- Forest dialogue secondary hero
 local kalya = nil
 local orlinn = nil
-local bronann = nil -- A copy of Bronann, used to simplify some scripting.
+local bronann = nil
 
 -- the main map loading code
 function Load(m)
