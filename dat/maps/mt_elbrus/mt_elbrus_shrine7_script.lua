@@ -22,9 +22,6 @@ local Script = nil
 local hero = nil
 local orlinn = nil
 
--- Name of the main sprite. Used to reload the good one at the end of dialogue events.
-local main_sprite_name = "";
-
 -- the main map loading code
 function Load(m)
 

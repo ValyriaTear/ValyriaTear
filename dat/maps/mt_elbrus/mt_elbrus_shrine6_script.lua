@@ -21,9 +21,6 @@ local Script = nil
 -- the main character handler
 local hero = nil
 
--- Name of the main sprite. Used to reload the good one at the end of dialogue events.
-local main_sprite_name = "";
-
 -- the main map loading code
 function Load(m)
 
