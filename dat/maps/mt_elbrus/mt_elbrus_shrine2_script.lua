@@ -23,10 +23,8 @@ local hero = nil
 
 -- Dialogue secondary heroes
 local bronann = nil
+local kalya = nil
 local orlinn = nil
-
--- Name of the main sprite. Used to reload the good one at the end of dialogue events.
-local main_sprite_name = "";
 
 -- the main map loading code
 function Load(m)
@@ -83,16 +81,19 @@ function _CreateCharacters()
         hero:SetPosition(14.0, 6.0);
     end
 
-    -- Create secondary characters
-    bronann = CreateSprite(Map, "Bronann",
-                         hero:GetXPosition(), hero:GetYPosition(), vt_map.MapMode.GROUND_OBJECT);
+    bronann = CreateSprite(Map, "Bronann", 0, 0, vt_map.MapMode.GROUND_OBJECT);
     bronann:SetDirection(vt_map.MapMode.EAST);
     bronann:SetMovementSpeed(vt_map.MapMode.NORMAL_SPEED);
     bronann:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
     bronann:SetVisible(false);
 
-    orlinn = CreateSprite(Map, "Orlinn",
-                          hero:GetXPosition(), hero:GetYPosition(), vt_map.MapMode.GROUND_OBJECT);
+    kalya = CreateSprite(Map, "Kalya", 0, 0, vt_map.MapMode.GROUND_OBJECT);
+    kalya:SetDirection(vt_map.MapMode.EAST);
+    kalya:SetMovementSpeed(vt_map.MapMode.NORMAL_SPEED);
+    kalya:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
+    kalya:SetVisible(false);
+
+    orlinn = CreateSprite(Map, "Orlinn", 0, 0, vt_map.MapMode.GROUND_OBJECT);
     orlinn:SetDirection(vt_map.MapMode.EAST);
     orlinn:SetMovementSpeed(vt_map.MapMode.NORMAL_SPEED);
     orlinn:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
@@ -109,10 +110,6 @@ local skeleton3 = nil
 
 function _CreateObjects()
     local object = nil
-    local npc = nil
-    local dialogue = nil
-    local text = nil
-    local event = nil
 
     object = CreateTreasure(Map, "Elbrus_Shrine_entrance1", "Jar1", 59, 16, vt_map.MapMode.GROUND_OBJECT);
     object:AddItem(15, 1); -- Lotus Petal (Regen)
@@ -243,7 +240,7 @@ function _add_very_small_waterfall(x, y)
     object = vt_map.ParticleObject.Create("dat/effects/particles/waterfall_steam.lua", x, y - 4.0, vt_map.MapMode.GROUND_OBJECT);
     object:SetDrawOnSecondPass(true);
 
-    object = vt_map.ParticleObject("dat/effects/particles/waterfall_steam_big.lua", x, y + 1.0, vt_map.MapMode.GROUND_OBJECT);
+    object = vt_map.ParticleObject.Create("dat/effects/particles/waterfall_steam_big.lua", x, y + 1.0, vt_map.MapMode.GROUND_OBJECT);
     object:SetDrawOnSecondPass(true);
 end
 
@@ -313,10 +310,8 @@ function _SetEventBattleEnvironment(event)
 end
 
 -- Special events
-local bronann_move_next_to_hero_event = nil
-local orlinn_move_next_to_hero_event = nil
-local bronann_move_back_to_hero_event = nil
-local orlinn_move_back_to_hero_event = nil
+local bronann_move_next_to_kalya_event = nil
+local orlinn_move_next_to_kalya_event = nil
 
 -- Creates all events and sets up the entire event sequence chain
 function _CreateEvents()
@@ -341,13 +336,13 @@ function _CreateEvents()
 
     -- Generic events
     vt_map.ChangeDirectionSpriteEvent.Create("Bronann looks north", bronann, vt_map.MapMode.NORTH);
-    vt_map.ChangeDirectionSpriteEvent.Create("Kalya looks north", hero, vt_map.MapMode.NORTH);
+    vt_map.ChangeDirectionSpriteEvent.Create("Kalya looks north", kalya, vt_map.MapMode.NORTH);
     vt_map.ChangeDirectionSpriteEvent.Create("Orlinn looks north", orlinn, vt_map.MapMode.NORTH);
 
-    vt_map.LookAtSpriteEvent.Create("Bronann looks at Kalya", bronann, hero);
-    vt_map.LookAtSpriteEvent.Create("Orlinn looks at Kalya", orlinn, hero);
-    vt_map.LookAtSpriteEvent.Create("Kalya looks at Orlinn", hero, orlinn);
-    vt_map.LookAtSpriteEvent.Create("Kalya looks at Bronann", hero, bronann);
+    vt_map.LookAtSpriteEvent.Create("Bronann looks at Kalya", bronann, kalya);
+    vt_map.LookAtSpriteEvent.Create("Orlinn looks at Kalya", orlinn, kalya);
+    vt_map.LookAtSpriteEvent.Create("Kalya looks at Orlinn", kalya, orlinn);
+    vt_map.LookAtSpriteEvent.Create("Kalya looks at Bronann", kalya, bronann);
 
     -- Improve lighting at first entrance
     vt_map.ScriptedEvent.Create("Amplify lights", "amplify_light_start", "amplify_light_update");
@@ -358,56 +353,56 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("Orlinn moves next to Kalya");
 
     -- NOTE: The actual destination is set just before the actual start call
-    bronann_move_next_to_hero_event = vt_map.PathMoveSpriteEvent.Create("Bronann moves next to Kalya", bronann, 0, 0, false);
-    bronann_move_next_to_hero_event:AddEventLinkAtEnd("Bronann looks north");
-    bronann_move_next_to_hero_event:AddEventLinkAtEnd("Kalya reads the parchment 1");
+    bronann_move_next_to_kalya_event = vt_map.PathMoveSpriteEvent.Create("Bronann moves next to Kalya", bronann, 0, 0, false);
+    bronann_move_next_to_kalya_event:AddEventLinkAtEnd("Bronann looks north");
+    bronann_move_next_to_kalya_event:AddEventLinkAtEnd("Kalya reads the parchment 1");
 
-    orlinn_move_next_to_hero_event = vt_map.PathMoveSpriteEvent.Create("Orlinn moves next to Kalya", orlinn, 0, 0, false);
-    orlinn_move_next_to_hero_event:AddEventLinkAtEnd("Orlinn looks north");
+    orlinn_move_next_to_kalya_event = vt_map.PathMoveSpriteEvent.Create("Orlinn moves next to Kalya", orlinn, 0, 0, false);
+    orlinn_move_next_to_kalya_event:AddEventLinkAtEnd("Orlinn looks north");
 
     dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("It seems somebody left a note here on purpose.");
-    dialogue:AddLine(text, hero);
+    dialogue:AddLine(text, kalya);
     text = vt_system.Translate("You mean in the middle of those scary bones?");
     dialogue:AddLineEventEmote(text, orlinn, "Orlinn looks at Kalya", "", "sweat drop");
     text = vt_system.Translate("Let me see.");
-    dialogue:AddLine(text, hero);
+    dialogue:AddLine(text, kalya);
     text = vt_system.Translate("'To whoever will read this:'");
-    dialogue:AddLineEvent(text, hero, "Bronann looks at Kalya", "");
+    dialogue:AddLineEvent(text, kalya, "Bronann looks at Kalya", "");
     text = vt_system.Translate("'Battles have been waging all over the place and the Ancient have now forsaken me into oblivion when they sealed the Goddess Shrine.'");
-    dialogue:AddLine(text, hero);
+    dialogue:AddLine(text, kalya);
     text = vt_system.Translate("'All my comrades have perished in battle and I am the last unfortunate one left.'");
-    dialogue:AddLine(text, hero);
+    dialogue:AddLine(text, kalya);
     text = vt_system.Translate("'My name is Shawn, and I do believe my time is running out in this life as there is neither food nor water in here.'");
-    dialogue:AddLine(text, hero);
+    dialogue:AddLine(text, kalya);
     text = vt_system.Translate("Poor guy. He must have died from starvation.");
     dialogue:AddLineEmote(text, bronann, "exclamation");
     text = vt_system.Translate("'But I will attempt one last time to escape from here and I'm leaving this note in case you'd need to do the same.'");
-    dialogue:AddLine(text, hero);
+    dialogue:AddLine(text, kalya);
     text = vt_system.Translate("'The only way to escape this hellish place is to reach the highest floor and activate the waterfall. At least that's what they said.'");
-    dialogue:AddLine(text, hero);
+    dialogue:AddLine(text, kalya);
     text = vt_system.Translate("What are we waiting for, let's go!");
     dialogue:AddLineEmote(text, orlinn, "exclamation");
     text = vt_system.Translate("Wait Orlinn! That's not all he wrote.");
-    dialogue:AddLineEvent(text, hero, "Kalya looks at Orlinn", "Kalya looks north");
+    dialogue:AddLineEvent(text, kalya, "Kalya looks at Orlinn", "Kalya looks north");
     text = vt_system.Translate("'But be warned, for even the very scent exuding from the dark waters is a trap!'");
-    dialogue:AddLine(text, hero);
+    dialogue:AddLine(text, kalya);
     text = vt_system.Translate("'The entire shrine has been turned into a murderous area and you'll have to fight your way through, just as I will now.'");
-    dialogue:AddLine(text, hero);
+    dialogue:AddLine(text, kalya);
     text = vt_system.Translate("That's it.");
-    dialogue:AddLineEventEmote(text, hero, "Kalya looks at Bronann", "", "thinking dots");
+    dialogue:AddLineEventEmote(text, kalya, "Kalya looks at Bronann", "", "thinking dots");
     text = vt_system.Translate("Let's find out how to activate that waterfall, then.");
     dialogue:AddLine(text, bronann);
     text = vt_system.Translate("Yes, and let's do it quickly.");
-    dialogue:AddLine(text, hero);
+    dialogue:AddLine(text, kalya);
     event = vt_map.DialogueEvent.Create("Kalya reads the parchment 1", dialogue);
     event:AddEventLinkAtEnd("Orlinn goes back to party");
     event:AddEventLinkAtEnd("Bronann goes back to party");
 
-    orlinn_move_back_to_hero_event = vt_map.PathMoveSpriteEvent.Create("Orlinn goes back to party", orlinn, hero, false);
-    orlinn_move_back_to_hero_event:AddEventLinkAtEnd("Parchment 1 event end");
+    event = vt_map.PathMoveSpriteEvent.Create("Orlinn goes back to party", orlinn, kalya, false);
+    event:AddEventLinkAtEnd("Parchment 1 event end");
 
-    bronann_move_back_to_hero_event = vt_map.PathMoveSpriteEvent.Create("Bronann goes back to party", bronann, hero, false);
+    vt_map.PathMoveSpriteEvent.Create("Bronann goes back to party", bronann, kalya, false);
 
     vt_map.ScriptedEvent.Create("Parchment 1 event end", "parchment1_event_end", "");
 
@@ -523,23 +518,24 @@ map_functions = {
 
     parchment1_event_start = function()
         Map:PushState(vt_map.MapMode.STATE_SCENE);
-        -- Keep a reference of the correct sprite for the event end.
-        main_sprite_name = hero:GetSpriteName();
+        kalya:SetPosition(hero:GetXPosition(), hero:GetYPosition())
+        kalya:SetDirection(hero:GetDirection())
+        kalya:SetVisible(true)
+        hero:SetVisible(false)
+        Map:SetCamera(kalya)
+        hero:SetPosition(0, 0)
 
-        -- Make the hero be Kalya for the event.
-        hero:ReloadSprite("Kalya");
-
-        bronann:SetPosition(hero:GetXPosition(), hero:GetYPosition());
+        bronann:SetPosition(kalya:GetXPosition(), kalya:GetYPosition());
         bronann:SetVisible(true);
-        orlinn:SetPosition(hero:GetXPosition(), hero:GetYPosition());
+        orlinn:SetPosition(kalya:GetXPosition(), kalya:GetYPosition());
         orlinn:SetVisible(true);
         bronann:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
         bronann:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
 
-        hero:SetDirection(vt_map.MapMode.NORTH);
+        kalya:SetDirection(vt_map.MapMode.NORTH);
 
-        bronann_move_next_to_hero_event:SetDestination(hero:GetXPosition() + 2.0, hero:GetYPosition(), false);
-        orlinn_move_next_to_hero_event:SetDestination(hero:GetXPosition() - 2.0, hero:GetYPosition(), false);
+        bronann_move_next_to_kalya_event:SetDestination(kalya:GetXPosition() + 2.0, kalya:GetYPosition(), false);
+        orlinn_move_next_to_kalya_event:SetDestination(kalya:GetXPosition() - 2.0, kalya:GetYPosition(), false);
     end,
 
     parchment1_event_end = function()
@@ -551,8 +547,12 @@ map_functions = {
         orlinn:SetVisible(false);
         orlinn:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
 
-        -- Reload the hero back to default
-        hero:ReloadSprite(main_sprite_name);
+        hero:SetPosition(kalya:GetXPosition(), kalya:GetYPosition())
+        hero:SetDirection(kalya:GetDirection())
+        hero:SetVisible(true)
+        kalya:SetVisible(false)
+        Map:SetCamera(hero)
+        kalya:SetPosition(0, 0)
 
         -- Set event as done
         GlobalManager:SetEventValue("story", "mountain_shrine_parchment1_done", 1);
