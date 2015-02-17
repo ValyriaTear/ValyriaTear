@@ -24,10 +24,7 @@ local hero = nil
 -- Forest dialogue secondary hero
 local kalya = nil
 local orlinn = nil
-local bronann = nil -- A copy of Bronann, used to simplify some scripting.
-
--- Name of the main sprite. Used to reload the good one at the end of dialogue events.
-local main_sprite_name = "";
+local bronann = nil
 
 -- the main map loading code
 function Load(m)
@@ -283,13 +280,11 @@ function _add_flame(x, y)
 end
 
 -- high passage event
-local kalya_move_next_to_hero_event = nil
-local kalya_move_back_to_hero_event = nil
-local orlinn_move_next_to_hero_event = nil
-local orlinn_move_back_to_hero_event = nil
-local kalya_move_next_to_hero_event2 = nil
-local orlinn_move_next_to_hero_event2 = nil
-local orlinn_move_near_hero_event = nil
+local kalya_move_next_to_bronann_event = nil
+local orlinn_move_next_to_bronann_event = nil
+local kalya_move_next_to_bronann_event2 = nil
+local orlinn_move_next_to_bronann_event2 = nil
+local orlinn_move_near_bronann_event = nil
 local orlinn_goes_above_bronann_event = nil
 
 -- Creates all events and sets up the entire event sequence chain
@@ -324,8 +319,8 @@ function _CreateEvents()
 
     vt_map.LookAtSpriteEvent.Create("Kalya looks at Orlinn", kalya, orlinn);
     vt_map.LookAtSpriteEvent.Create("Orlinn looks at Kalya", orlinn, kalya);
-    vt_map.LookAtSpriteEvent.Create("Orlinn looks at Bronann", orlinn, hero);
-    vt_map.LookAtSpriteEvent.Create("Bronann looks at Orlinn", hero, orlinn);
+    vt_map.LookAtSpriteEvent.Create("Orlinn looks at Bronann", orlinn, bronann);
+    vt_map.LookAtSpriteEvent.Create("Bronann looks at Orlinn", bronann, orlinn);
 
     -- Opens the left passage to the next map.
     vt_map.ScriptedEvent.Create("Open south west passage", "open_sw_passage_start", "open_sw_passage_update");
@@ -336,16 +331,16 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("Orlinn moves next to Bronann", 100);
 
     -- NOTE: The actual destination is set just before the actual start call
-    kalya_move_next_to_hero_event = vt_map.PathMoveSpriteEvent.Create("Kalya moves next to Bronann", kalya, 0, 0, false);
-    kalya_move_next_to_hero_event:AddEventLinkAtEnd("Kalya looks north");
+    kalya_move_next_to_bronann_event = vt_map.PathMoveSpriteEvent.Create("Kalya moves next to Bronann", kalya, 0, 0, false);
+    kalya_move_next_to_bronann_event:AddEventLinkAtEnd("Kalya looks north");
 
-    orlinn_move_next_to_hero_event = vt_map.PathMoveSpriteEvent.Create("Orlinn moves next to Bronann", orlinn, 0, 0, false);
-    orlinn_move_next_to_hero_event:AddEventLinkAtEnd("Orlinn looks north");
-    orlinn_move_next_to_hero_event:AddEventLinkAtEnd("The heroes discuss about getting to the high passage", 500);
+    orlinn_move_next_to_bronann_event = vt_map.PathMoveSpriteEvent.Create("Orlinn moves next to Bronann", orlinn, 0, 0, false);
+    orlinn_move_next_to_bronann_event:AddEventLinkAtEnd("Orlinn looks north");
+    orlinn_move_next_to_bronann_event:AddEventLinkAtEnd("The heroes discuss about getting to the high passage", 500);
 
     dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("There is a passage here, but I'm too heavy to climb on those stones jutting out");
-    dialogue:AddLineEmote(text, hero, "thinking dots");
+    dialogue:AddLineEmote(text, bronann, "thinking dots");
     text = vt_system.Translate("The fact is, you and I cannot afford to stand on those stones. Maybe with a rope?");
     dialogue:AddLine(text, kalya);
     text = vt_system.Translate("I'll do it.");
@@ -359,7 +354,7 @@ function _CreateEvents()
     text = vt_system.Translate("I need to, I guess.");
     dialogue:AddLineEventEmote(text, orlinn, "Orlinn looks north", "", "sweat drop");
     text = vt_system.Translate("Just tell me when you're ready and I'll throw you up there.");
-    dialogue:AddLineEvent(text, hero, "Bronann looks at Orlinn", "");
+    dialogue:AddLineEvent(text, bronann, "Bronann looks at Orlinn", "");
     text = vt_system.Translate("Yiek!");
     dialogue:AddLineEventEmote(text, orlinn, "Orlinn looks at Kalya", "", "sweat drop");
     event = vt_map.DialogueEvent.Create("The heroes discuss about getting to the high passage", dialogue);
@@ -370,17 +365,17 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("Orlinn moves next to Bronann2", 100);
     event:AddEventLinkAtEnd("Kalya moves next to Bronann2", 100);
 
-    orlinn_move_next_to_hero_event2 = vt_map.PathMoveSpriteEvent.Create("Orlinn moves next to Bronann2", orlinn, 0, 0, false);
-    orlinn_move_next_to_hero_event2:AddEventLinkAtEnd("Orlinn looks at Bronann");
-    orlinn_move_next_to_hero_event2:AddEventLinkAtEnd("Bronann looks at Orlinn");
-    orlinn_move_next_to_hero_event2:AddEventLinkAtEnd("Ready? dialogue", 500);
+    orlinn_move_next_to_bronann_event2 = vt_map.PathMoveSpriteEvent.Create("Orlinn moves next to Bronann2", orlinn, 0, 0, false);
+    orlinn_move_next_to_bronann_event2:AddEventLinkAtEnd("Orlinn looks at Bronann");
+    orlinn_move_next_to_bronann_event2:AddEventLinkAtEnd("Bronann looks at Orlinn");
+    orlinn_move_next_to_bronann_event2:AddEventLinkAtEnd("Ready? dialogue", 500);
 
-    kalya_move_next_to_hero_event2 = vt_map.PathMoveSpriteEvent.Create("Kalya moves next to Bronann2", kalya, 0, 0, false);
-    kalya_move_next_to_hero_event2:AddEventLinkAtEnd("Kalya looks at Orlinn");
+    kalya_move_next_to_bronann_event2 = vt_map.PathMoveSpriteEvent.Create("Kalya moves next to Bronann2", kalya, 0, 0, false);
+    kalya_move_next_to_bronann_event2:AddEventLinkAtEnd("Kalya looks at Orlinn");
 
     dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Ready to go up?");
-    dialogue:AddLineEvent(text, hero, "Bronann looks at Orlinn", "");
+    dialogue:AddLineEvent(text, bronann, "Bronann looks at Orlinn", "");
     text = vt_system.Translate("Yes, let's go.");
     dialogue:AddOptionEvent(text, 50, "Orlinn goes closer of the hero"); -- 50 means next line number, past the end of the dialogue
     text = vt_system.Translate("Err, not yet.");
@@ -392,15 +387,15 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("Orlinn goes back to party");
     event:AddEventLinkAtEnd("Kalya goes back to party");
 
-    orlinn_move_back_to_hero_event = vt_map.PathMoveSpriteEvent.Create("Orlinn goes back to party", orlinn, hero, false);
+    vt_map.PathMoveSpriteEvent.Create("Orlinn goes back to party", orlinn, bronann, false);
 
-    kalya_move_back_to_hero_event = vt_map.PathMoveSpriteEvent.Create("Kalya goes back to party", kalya, hero, false);
-    kalya_move_back_to_hero_event:AddEventLinkAtEnd("Thrown to high passage event end");
+    event = vt_map.PathMoveSpriteEvent.Create("Kalya goes back to party", kalya, bronann, false);
+    event:AddEventLinkAtEnd("Thrown to high passage event end");
 
     -- Chose "Yes"
     -- NOTE: The actual destination will be set at event start
-    orlinn_move_near_hero_event = vt_map.PathMoveSpriteEvent.Create("Orlinn goes closer of the hero", orlinn, 0, 0, false);
-    orlinn_move_near_hero_event:AddEventLinkAtEnd("Jump to high passage");
+    orlinn_move_near_bronann_event = vt_map.PathMoveSpriteEvent.Create("Orlinn goes closer of the hero", orlinn, 0, 0, false);
+    orlinn_move_near_bronann_event:AddEventLinkAtEnd("Jump to high passage");
 
     event = vt_map.ScriptedEvent.Create("Jump to high passage", "jump_to_passage_start", "jump_to_passage_update");
     event:AddEventLinkAtEnd("Post-jump dialogue");
@@ -731,7 +726,7 @@ local jump_canceled = false;
 local jump_event_time = 0;
 local kneeling_done = false;
 local stop_kneeling_done = false;
-local hero_looks_north_done = false;
+local bronann_looks_north_done = false;
 local orlinn_in_place_to_climb = false;
 local time_before_climbing = 0;
 
@@ -806,48 +801,50 @@ map_functions = {
         Map:PushState(vt_map.MapMode.STATE_SCENE);
         hero:SetMoving(false);
 
-        -- Keep a reference of the correct sprite for the event end.
-        main_sprite_name = hero:GetSpriteName();
+        bronann:SetPosition(hero:GetXPosition(), hero:GetYPosition())
+        bronann:SetDirection(hero:GetDirection())
+        bronann:SetVisible(true)
+        hero:SetVisible(false)
+        Map:SetCamera(bronann)
+        hero:SetPosition(0, 0)
 
-        -- Make the hero be Bronann for the event.
-        hero:ReloadSprite("Bronann");
-
-        kalya:SetPosition(hero:GetXPosition(), hero:GetYPosition());
+        kalya:SetPosition(bronann:GetXPosition(), bronann:GetYPosition());
         kalya:SetVisible(true);
-        orlinn:SetPosition(hero:GetXPosition(), hero:GetYPosition());
+        orlinn:SetPosition(bronann:GetXPosition(), bronann:GetYPosition());
         orlinn:SetVisible(true);
         kalya:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
         orlinn:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
 
-        kalya_move_next_to_hero_event:SetDestination(hero:GetXPosition() - 2.0, hero:GetYPosition(), false);
-        orlinn_move_next_to_hero_event:SetDestination(hero:GetXPosition() + 2.0, hero:GetYPosition(), false);
+        kalya_move_next_to_bronann_event:SetDestination(bronann:GetXPosition() - 2.0, bronann:GetYPosition(), false);
+        orlinn_move_next_to_bronann_event:SetDestination(bronann:GetXPosition() + 2.0, bronann:GetYPosition(), false);
 
         -- Near, but not upon
-        orlinn_move_near_hero_event:SetDestination(hero:GetXPosition() + 1.0, hero:GetYPosition() + 0.2, false);
+        orlinn_move_near_bronann_event:SetDestination(bronann:GetXPosition() + 1.0, bronann:GetYPosition() + 0.2, false);
     end,
 
     thrown_to_passage_event_start = function()
         Map:PushState(vt_map.MapMode.STATE_SCENE);
         hero:SetMoving(false);
 
-        -- Keep a reference of the correct sprite for the event end.
-        main_sprite_name = hero:GetSpriteName();
+        bronann:SetPosition(hero:GetXPosition(), hero:GetYPosition())
+        bronann:SetDirection(hero:GetDirection())
+        bronann:SetVisible(true)
+        hero:SetVisible(false)
+        Map:SetCamera(bronann)
+        hero:SetPosition(0, 0)
 
-        -- Make the hero be Bronann for the event.
-        hero:ReloadSprite("Bronann");
-
-        kalya:SetPosition(hero:GetXPosition(), hero:GetYPosition());
+        kalya:SetPosition(bronann:GetXPosition(), bronann:GetYPosition());
         kalya:SetVisible(true);
-        orlinn:SetPosition(hero:GetXPosition(), hero:GetYPosition());
+        orlinn:SetPosition(bronann:GetXPosition(), bronann:GetYPosition());
         orlinn:SetVisible(true);
         kalya:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
         orlinn:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
 
-        kalya_move_next_to_hero_event2:SetDestination(hero:GetXPosition() - 2.0, hero:GetYPosition(), false);
-        orlinn_move_next_to_hero_event2:SetDestination(hero:GetXPosition() + 2.0, hero:GetYPosition(), false);
+        kalya_move_next_to_bronann_event2:SetDestination(bronann:GetXPosition() - 2.0, bronann:GetYPosition(), false);
+        orlinn_move_next_to_bronann_event2:SetDestination(bronann:GetXPosition() + 2.0, bronann:GetYPosition(), false);
 
         -- Near, but not upon
-        orlinn_move_near_hero_event:SetDestination(hero:GetXPosition() + 1.0, hero:GetYPosition() + 0.2, false);
+        orlinn_move_near_bronann_event:SetDestination(bronann:GetXPosition() + 1.0, bronann:GetYPosition() + 0.2, false);
     end,
 
     jump_to_passage_start = function()
@@ -861,7 +858,7 @@ map_functions = {
         -- Bronann's movement
         kneeling_done = false;
         stop_kneeling_done = false;
-        hero_looks_north_done = false;
+        bronann_looks_north_done = false;
 
         orlinn:SetDirection(vt_map.MapMode.WEST)
         kalya:SetDirection(vt_map.MapMode.EAST)
@@ -874,23 +871,23 @@ map_functions = {
         -- Bronann's movement
         if (kneeling_done == false and jump_event_time >= 100) then
             -- Bronann kneels so Orlinn can grab Orlinn's feet.
-            hero:SetCustomAnimation("kneeling", 0); -- 0 means forever
+            bronann:SetCustomAnimation("kneeling", 0); -- 0 means forever
             kneeling_done = true;
         elseif (stop_kneeling_done == false and jump_event_time >= 600) then
-            hero:DisableCustomAnimation();
-            hero:SetDirection(vt_map.MapMode.EAST);
+            bronann:DisableCustomAnimation();
+            bronann:SetDirection(vt_map.MapMode.EAST);
             stop_kneeling_done = true;
-        elseif (stop_kneeling_done == true and hero_looks_north_done == false and jump_event_time >= 900) then
-            hero:SetDirection(vt_map.MapMode.NORTH);
+        elseif (stop_kneeling_done == true and bronann_looks_north_done == false and jump_event_time >= 900) then
+            bronann:SetDirection(vt_map.MapMode.NORTH);
             orlinn:SetDirection(vt_map.MapMode.NORTH);
-            hero_looks_north_done = true;
+            bronann_looks_north_done = true;
         end
 
         -- Orlinn's movement.
         if (orlinn_in_place_to_climb == false and jump_event_time >= 600) then
             -- Place Orlinn above Bronann
             local x_position = orlinn:GetXPosition();
-            if (x_position > hero:GetXPosition()) then
+            if (x_position > bronann:GetXPosition()) then
                 x_position = x_position - 0.007 * update_time;
                 orlinn:SetXPosition(x_position);
             end
@@ -900,7 +897,7 @@ map_functions = {
             end
 
             -- Next step conditions
-            if (orlinn:GetXPosition() <= hero:GetXPosition() and orlinn_y_position <= 14.5) then
+            if (orlinn:GetXPosition() <= bronann:GetXPosition() and orlinn_y_position <= 14.5) then
                 time_before_climbing = time_before_climbing + update_time;
                 if (time_before_climbing > 1000) then
                     orlinn:SetDirection(vt_map.MapMode.NORTH);
@@ -961,21 +958,18 @@ map_functions = {
             orlinn:SetVisible(false);
             orlinn:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
 
-            -- Reload the hero back to default
-            hero:ReloadSprite(main_sprite_name);
+            hero:SetPosition(bronann:GetXPosition(), bronann:GetYPosition())
+            hero:SetDirection(bronann:GetDirection())
+            hero:SetVisible(true)
+            bronann:SetVisible(false)
+            Map:SetCamera(hero)
+            bronann:SetPosition(0, 0)
 
         else -- The user chose 'Yes', so the camera is now Orlinn.
             Map:PopState();
             orlinn:SetCollisionMask(vt_map.MapMode.ALL_COLLISION);
             -- Enables the event to permit coming back
             passage_back_event_object:SetEventWhenTalking("Orlinn comes back event start");
-
-            -- Removes the 'hero' sprite, and add the 'bronann' sprite instead for the coming back event.
-            bronann:SetDirection(hero:GetDirection());
-            bronann:SetPosition(hero:GetXPosition(), hero:GetYPosition());
-            bronann:SetVisible(true);
-            hero:SetPosition(0, 0);
-            hero:SetVisible(false);
 
             -- Disable the menu mode & status effects.
             Map:SetMenuEnabled(false);
@@ -1058,6 +1052,7 @@ map_functions = {
         hero:SetVisible(true);
         bronann:SetPosition(0, 0);
         bronann:SetVisible(false);
+        Map:SetCamera(hero)
 
         -- Make orlinn and kalya go away
         kalya:SetPosition(0, 0);
@@ -1068,11 +1063,6 @@ map_functions = {
         -- Re-enable the menu mode.
         Map:SetMenuEnabled(true);
         Map:SetStatusEffectsEnabled(true);
-
-        -- Reload the hero back to default
-        if (main_sprite_name ~= "") then
-            hero:ReloadSprite(main_sprite_name);
-        end
 
         Map:PopState();
 

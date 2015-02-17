@@ -21,12 +21,6 @@ local Script = nil
 -- the main character handler
 local hero = nil
 
--- Forest dialogue secondary hero
-local orlinn = nil
-
--- Name of the main sprite. Used to reload the good one at the end of dialogue events.
-local main_sprite_name = "";
-
 -- the main map loading code
 function Load(m)
 
@@ -65,13 +59,6 @@ function _CreateCharacters()
     hero = CreateSprite(Map, "Bronann", 60.0, 34.0, vt_map.MapMode.GROUND_OBJECT);
     hero:SetDirection(vt_map.MapMode.WEST);
     hero:SetMovementSpeed(vt_map.MapMode.NORMAL_SPEED);
-
-    orlinn = CreateSprite(Map, "Orlinn",
-                          hero:GetXPosition(), hero:GetYPosition(), vt_map.MapMode.GROUND_OBJECT);
-    orlinn:SetDirection(vt_map.MapMode.EAST);
-    orlinn:SetMovementSpeed(vt_map.MapMode.NORMAL_SPEED);
-    orlinn:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
-    orlinn:SetVisible(false);
 end
 
 -- Arrays of spikes used to block the way
