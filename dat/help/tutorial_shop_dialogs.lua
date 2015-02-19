@@ -82,7 +82,7 @@ function Initialize(shop_instance)
     -- Set State buy
     text = vt_system.Translate("Here you can see the list of available wares, how many items I've got and how many you already have for each.");
     main_dialogue:AddLine(text, "Flora");
-    text = vt_system.VTranslate("Don't forget that certain items are limited or unique! \nWhen revieving items, you can also cycle through the proposed item categories using the menu key (%s).", InputManager:GetMenuKeyName());
+    text = vt_system.VTranslate("Don't forget that certain items are limited or unique! \nWhen reviewing items, you can also cycle through the proposed item categories using the menu key (%s).", InputManager:GetMenuKeyName());
     main_dialogue:AddLine(text, "Flora");
     text = vt_system.Translate("Let's have a look at the potions...");
     main_dialogue:AddLine(text, "Flora");
