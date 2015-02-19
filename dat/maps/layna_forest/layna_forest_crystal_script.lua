@@ -697,7 +697,7 @@ function _CreateEvents()
     dialogue:AddLine(text, kalya);
     text = vt_system.Translate("I, I, I sincerely don't know. I swear! It was like I was... dreaming.");
     dialogue:AddLineEmote(text, orlinn, "sweat drop");
-    text = vt_system.Translate("I merely remember a voice in my head. Telling me to come.");
+    text = vt_system.Translate("I merely remember a voice in my head, telling me to come.");
     dialogue:AddLineEmote(text, orlinn, "thinking dots");
     text = vt_system.Translate("You know you won't get away with this. When you see Herth...");
     dialogue:AddLineEmote(text, kalya, "thinking dots");
