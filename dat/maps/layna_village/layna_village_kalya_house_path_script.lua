@@ -112,7 +112,7 @@ function _ReloadGrandmaDialogue()
                 grandma:AddDialogueReference(dialogue);
             else
                 dialogue = vt_map.SpriteDialogue.Create("ep1_layna_village_granma_chicken_not_found2");
-                text = vt_system.Translate("My three chicken have flown away again this morning. Could you find them for me?");
+                text = vt_system.Translate("My three chickens have flown away again this morning. Could you find them for me?");
                 dialogue:AddLine(text, grandma);
                 grandma:AddDialogueReference(dialogue);
             end
