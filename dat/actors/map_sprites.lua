@@ -608,10 +608,10 @@ function CreateSprite(Map, name, x, y, layer)
     sprite:SetName(sprites[name].name);
     sprite:SetSpriteName(name); -- The catalog reference
     sprite:SetPosition(x, y);
-    sprite:SetCollHalfWidth(sprites[name].coll_half_width);
-    sprite:SetCollHeight(sprites[name].coll_height);
-    sprite:SetImgHalfWidth(sprites[name].img_half_width);
-    sprite:SetImgHeight(sprites[name].img_height);
+    sprite:SetCollPixelHalfWidth(sprites[name].coll_half_width);
+    sprite:SetCollPixelHeight(sprites[name].coll_height);
+    sprite:SetImgPixelHalfWidth(sprites[name].img_half_width);
+    sprite:SetImgPixelHeight(sprites[name].img_height);
     sprite:SetMovementSpeed(sprites[name].movement_speed);
     if (sprites[name].face_portrait) then
         sprite:LoadFacePortrait(sprites[name].face_portrait);
@@ -651,10 +651,10 @@ function CreateNPCSprite(Map, name, npc_name, x, y, layer)
     sprite:SetName(npc_name);
     sprite:SetSpriteName(name); -- The catalog reference
     sprite:SetPosition(x, y);
-    sprite:SetCollHalfWidth(sprites[name].coll_half_width);
-    sprite:SetCollHeight(sprites[name].coll_height);
-    sprite:SetImgHalfWidth(sprites[name].img_half_width);
-    sprite:SetImgHeight(sprites[name].img_height);
+    sprite:SetCollPixelHalfWidth(sprites[name].coll_half_width);
+    sprite:SetCollPixelHeight(sprites[name].coll_height);
+    sprite:SetImgPixelHalfWidth(sprites[name].img_half_width);
+    sprite:SetImgPixelHeight(sprites[name].img_height);
     sprite:SetMovementSpeed(sprites[name].movement_speed);
 
     if (sprites[name].face_portrait) then
@@ -692,10 +692,10 @@ function CreateEnemySprite(Map, name)
     -- Note: Auto-registered to the object supervisor on the GROUND_LAYER.
     local enemy = vt_map.EnemySprite.Create();
     enemy:SetSpriteName(name); -- The catalog reference
-    enemy:SetCollHalfWidth(sprites[name].coll_half_width);
-    enemy:SetCollHeight(sprites[name].coll_height);
-    enemy:SetImgHalfWidth(sprites[name].img_half_width);
-    enemy:SetImgHeight(sprites[name].img_height);
+    enemy:SetCollPixelHalfWidth(sprites[name].coll_half_width);
+    enemy:SetCollPixelHeight(sprites[name].coll_height);
+    enemy:SetImgPixelHalfWidth(sprites[name].img_half_width);
+    enemy:SetImgPixelHeight(sprites[name].img_height);
     enemy:SetMovementSpeed(sprites[name].movement_speed);
 
     enemy:LoadStandingAnimations(sprites[name].standard_animations.idle);

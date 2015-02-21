@@ -95,10 +95,10 @@ function _CreateCharacters()
     -- Add Bronann in bed wake up animation
     bronann_in_bed = vt_map.PhysicalObject.Create(vt_map.MapMode.GROUND_OBJECT);
     bronann_in_bed:SetPosition(20, 20);
-    bronann_in_bed:SetCollHalfWidth(1.75);
-    bronann_in_bed:SetCollHeight(5.50);
-    bronann_in_bed:SetImgHalfWidth(1.75);
-    bronann_in_bed:SetImgHeight(5.68);
+    bronann_in_bed:SetCollPixelHalfWidth(1.75 * 16);
+    bronann_in_bed:SetCollPixelHeight(5.50 * 16);
+    bronann_in_bed:SetImgPixelHalfWidth(1.75 * 16);
+    bronann_in_bed:SetImgPixelHeight(5.68 * 16);
     bronann_in_bed:AddAnimation("img/sprites/map/characters/bronann_bed_animation.lua");
 end
 

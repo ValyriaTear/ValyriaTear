@@ -356,7 +356,7 @@ void TileSupervisor::DrawLayers(const MapFrame *frame, const LAYER_TYPE &layer_t
         } // y
     } // layer_id
     // Restore the previous draw flags
-    VideoManager->SetDrawFlags(VIDEO_X_CENTER, VIDEO_Y_BOTTOM, 0);
+    VideoManager->SetDrawFlags(VIDEO_BLEND, VIDEO_X_CENTER, VIDEO_Y_BOTTOM, 0);
 }
 
 } // namespace private_map

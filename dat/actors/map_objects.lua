@@ -905,10 +905,10 @@ function CreateObject(Map, name, x, y, layer)
     -- Note: Auto-registered to the object supervisor.
     local object = vt_map.PhysicalObject.Create(layer);
     object:SetPosition(x, y);
-    object:SetCollHalfWidth(objects[name].coll_half_width);
-    object:SetCollHeight(objects[name].coll_height);
-    object:SetImgHalfWidth(objects[name].img_half_width);
-    object:SetImgHeight(objects[name].img_height);
+    object:SetCollPixelHalfWidth(objects[name].coll_half_width);
+    object:SetCollPixelHeight(objects[name].coll_height);
+    object:SetImgPixelHalfWidth(objects[name].img_half_width);
+    object:SetImgPixelHeight(objects[name].img_height);
     object:AddAnimation(objects[name].animation_filename);
 
     return object;

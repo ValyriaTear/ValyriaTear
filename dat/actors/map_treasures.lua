@@ -109,10 +109,10 @@ function CreateTreasure(Map, save_name, name, x, y, layer)
                treasures[name].opened_animation_filename);
 
     treasure:SetPosition(x, y);
-    treasure:SetCollHalfWidth(treasures[name].coll_half_width);
-    treasure:SetCollHeight(treasures[name].coll_height);
-    treasure:SetImgHalfWidth(treasures[name].img_half_width);
-    treasure:SetImgHeight(treasures[name].img_height);
+    treasure:SetCollPixelHalfWidth(treasures[name].coll_half_width);
+    treasure:SetCollPixelHeight(treasures[name].coll_height);
+    treasure:SetImgPixelHalfWidth(treasures[name].img_half_width);
+    treasure:SetImgPixelHeight(treasures[name].img_height);
 
     return treasure;
 end

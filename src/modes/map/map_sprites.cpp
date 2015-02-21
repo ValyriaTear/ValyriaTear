@@ -140,61 +140,61 @@ bool VirtualSprite::_HandleWallEdges(float& next_pos_x, float& next_pos_y, float
 
     if(_direction & NORTH) {
         // Test both the north-east and north west cases
-        if(!object_supervisor->IsStaticCollision(_position.x + _coll_half_width,
-                                                 _position.y - _coll_height - distance_moved)) {
-            edge_next_pos_x = _position.x + edge_distance_moved;
-            edge_next_pos_y = _position.y;
+        if(!object_supervisor->IsStaticCollision(_tile_position.x + _coll_tile_half_width,
+                                                 _tile_position.y - _coll_tile_height - distance_moved)) {
+            edge_next_pos_x = _tile_position.x + edge_distance_moved;
+            edge_next_pos_y = _tile_position.y;
             on_edge = true;
         }
-        else if (!object_supervisor->IsStaticCollision(_position.x - _coll_half_width,
-                                                       _position.y - _coll_height - distance_moved)) {
-            edge_next_pos_x = _position.x - edge_distance_moved;
-            edge_next_pos_y = _position.y;
+        else if (!object_supervisor->IsStaticCollision(_tile_position.x - _coll_tile_half_width,
+                                                       _tile_position.y - _coll_tile_height - distance_moved)) {
+            edge_next_pos_x = _tile_position.x - edge_distance_moved;
+            edge_next_pos_y = _tile_position.y;
             on_edge = true;
         }
     }
     else if(_direction & SOUTH) {
         // Test both the south-east and south west cases
-        if(!object_supervisor->IsStaticCollision(_position.x + _coll_half_width,
-                                                 _position.y + distance_moved)) {
-            edge_next_pos_x = _position.x + edge_distance_moved;
-            edge_next_pos_y = _position.y;
+        if(!object_supervisor->IsStaticCollision(_tile_position.x + _coll_tile_half_width,
+                                                 _tile_position.y + distance_moved)) {
+            edge_next_pos_x = _tile_position.x + edge_distance_moved;
+            edge_next_pos_y = _tile_position.y;
             on_edge = true;
         }
-        else if (!object_supervisor->IsStaticCollision(_position.x - _coll_half_width,
-                                                       _position.y + distance_moved)) {
-            edge_next_pos_x = _position.x - edge_distance_moved;
-            edge_next_pos_y = _position.y;
+        else if (!object_supervisor->IsStaticCollision(_tile_position.x - _coll_tile_half_width,
+                                                       _tile_position.y + distance_moved)) {
+            edge_next_pos_x = _tile_position.x - edge_distance_moved;
+            edge_next_pos_y = _tile_position.y;
             on_edge = true;
         }
     }
     else if(_direction & EAST) {
         // Test both the north-east and south-east cases
-        if(!object_supervisor->IsStaticCollision(_position.x + _coll_half_width + distance_moved,
-                                                 _position.y - _coll_height)) {
-            edge_next_pos_x = _position.x;
-            edge_next_pos_y = _position.y - edge_distance_moved;
+        if(!object_supervisor->IsStaticCollision(_tile_position.x + _coll_tile_half_width + distance_moved,
+                                                 _tile_position.y - _coll_tile_height)) {
+            edge_next_pos_x = _tile_position.x;
+            edge_next_pos_y = _tile_position.y - edge_distance_moved;
             on_edge = true;
         }
-        else if (!object_supervisor->IsStaticCollision(_position.x + _coll_half_width + distance_moved,
-                                                       _position.y)) {
-            edge_next_pos_x = _position.x;
-            edge_next_pos_y = _position.y + edge_distance_moved;
+        else if (!object_supervisor->IsStaticCollision(_tile_position.x + _coll_tile_half_width + distance_moved,
+                                                       _tile_position.y)) {
+            edge_next_pos_x = _tile_position.x;
+            edge_next_pos_y = _tile_position.y + edge_distance_moved;
             on_edge = true;
         }
     }
     else if(_direction & WEST) {
         // Test both the north-west and south-west cases
-        if(!object_supervisor->IsStaticCollision(_position.x - _coll_half_width - distance_moved,
-                                                 _position.y - _coll_height)) {
-            edge_next_pos_x = _position.x;
-            edge_next_pos_y = _position.y - edge_distance_moved;
+        if(!object_supervisor->IsStaticCollision(_tile_position.x - _coll_tile_half_width - distance_moved,
+                                                 _tile_position.y - _coll_tile_height)) {
+            edge_next_pos_x = _tile_position.x;
+            edge_next_pos_y = _tile_position.y - edge_distance_moved;
             on_edge = true;
         }
-        else if (!object_supervisor->IsStaticCollision(_position.x - _coll_half_width - distance_moved,
-                                                       _position.y)) {
-            edge_next_pos_x = _position.x;
-            edge_next_pos_y = _position.y + edge_distance_moved;
+        else if (!object_supervisor->IsStaticCollision(_tile_position.x - _coll_tile_half_width - distance_moved,
+                                                       _tile_position.y)) {
+            edge_next_pos_x = _tile_position.x;
+            edge_next_pos_y = _tile_position.y + edge_distance_moved;
             on_edge = true;
         }
     }
@@ -254,12 +254,12 @@ void VirtualSprite::_SetNextPosition()
     // Try to fall back to straight direction
     if(moving_diagonally && collision_type != NO_COLLISION) {
         // Try on x axis
-        if(object_supervisor->DetectCollision(this, _position.x, next_pos_y, &collision_object) == NO_COLLISION) {
-            next_pos_x = _position.x;
+        if(object_supervisor->DetectCollision(this, _tile_position.x, next_pos_y, &collision_object) == NO_COLLISION) {
+            next_pos_x = _tile_position.x;
             collision_type = NO_COLLISION;
         } // and then on y axis
-        else if(object_supervisor->DetectCollision(this, next_pos_x, _position.y, &collision_object) == NO_COLLISION) {
-            next_pos_y = _position.y;
+        else if(object_supervisor->DetectCollision(this, next_pos_x, _tile_position.y, &collision_object) == NO_COLLISION) {
+            next_pos_y = _tile_position.y;
             collision_type = NO_COLLISION;
         }
     }
@@ -354,7 +354,7 @@ void VirtualSprite::_SetNextPosition()
         // Check whether the sprite is tangled with another character, even without moving
         // For instance, when colliding with a path follower npc.
         // And let it through in that case.
-        if(object_supervisor->CheckObjectCollision(GetCollisionRectangle(), collision_object)) {
+        if(object_supervisor->CheckObjectCollision(GetTileCollisionRectangle(), collision_object)) {
             collision_type = NO_COLLISION;
             break;
         }
@@ -484,20 +484,20 @@ void VirtualSprite::LookAt(const MapPosition &pos)
     // If the two positions are the same,
     // don't update the direction since it's only a matter of keeping
     // the previous one.
-    if(_position.x == pos.x && _position.y == pos.y)
+    if(_tile_position.x == pos.x && _tile_position.y == pos.y)
         return;
 
     // First handle simple cases
-    if(IsFloatEqual(_position.x, pos.x, 0.5f)) {
-        if(_position.y > pos.y)
+    if(IsFloatEqual(_tile_position.x, pos.x, 0.5f)) {
+        if(_tile_position.y > pos.y)
             SetDirection(NORTH);
         else
             SetDirection(SOUTH);
         return;
     }
 
-    if(IsFloatEqual(_position.y, pos.y, 0.5f)) {
-        if(_position.x > pos.x)
+    if(IsFloatEqual(_tile_position.y, pos.y, 0.5f)) {
+        if(_tile_position.x > pos.x)
             SetDirection(WEST);
         else
             SetDirection(EAST);
@@ -506,11 +506,11 @@ void VirtualSprite::LookAt(const MapPosition &pos)
 
     // Now let's handle diagonal cases
     // First, find the lower angle:
-    if(_position.x < pos.x) {
+    if(_tile_position.x < pos.x) {
         // Up-right direction
-        if(_position.y > pos.y) {
+        if(_tile_position.y > pos.y) {
             // Compute tan of the angle
-            if((_position.y - pos.y) / (pos.x - _position.x) < 1)
+            if((_tile_position.y - pos.y) / (pos.x - _tile_position.x) < 1)
                 // The angle is less than 45°, look to the right
                 SetDirection(EAST);
             else
@@ -518,7 +518,7 @@ void VirtualSprite::LookAt(const MapPosition &pos)
             return;
         } else { // Down-right
             // Compute tan of the angle
-            if((pos.y - _position.y) / (pos.x - _position.x) < 1)
+            if((pos.y - _tile_position.y) / (pos.x - _tile_position.x) < 1)
                 // The angle is less than 45°, look to the right
                 SetDirection(EAST);
             else
@@ -527,9 +527,9 @@ void VirtualSprite::LookAt(const MapPosition &pos)
         }
     } else {
         // Up-left direction
-        if(_position.y > pos.y) {
+        if(_tile_position.y > pos.y) {
             // Compute tan of the angle
-            if((_position.y - pos.y) / (_position.x - pos.x) < 1)
+            if((_tile_position.y - pos.y) / (_tile_position.x - pos.x) < 1)
                 // The angle is less than 45°, look to the left
                 SetDirection(WEST);
             else
@@ -537,7 +537,7 @@ void VirtualSprite::LookAt(const MapPosition &pos)
             return;
         } else { // Down-left
             // Compute tan of the angle
-            if((pos.y - _position.y) / (_position.x - pos.x) < 1)
+            if((pos.y - _tile_position.y) / (_tile_position.x - pos.x) < 1)
                 // The angle is less than 45°, look to the left
                 SetDirection(WEST);
             else
@@ -940,10 +940,10 @@ void MapSprite::ReloadSprite(const std::string& sprite_name)
 
     SetName(script.ReadString("name"));
     SetSpriteName(sprite_name);
-    SetCollHalfWidth(script.ReadFloat("coll_half_width"));
-    SetCollHeight(script.ReadFloat("coll_height"));
-    SetImgHalfWidth(script.ReadFloat("img_half_width"));
-    SetImgHeight(script.ReadFloat("img_height"));
+    SetCollPixelHalfWidth(script.ReadFloat("coll_half_width"));
+    SetCollPixelHeight(script.ReadFloat("coll_height"));
+    SetImgPixelHalfWidth(script.ReadFloat("img_half_width"));
+    SetImgPixelHeight(script.ReadFloat("img_height"));
     if (script.DoesStringExist("face_portrait"))
         LoadFacePortrait(script.ReadString("face_portrait"));
 
@@ -1092,7 +1092,7 @@ void MapSprite::_DrawDebugInfo()
     // Draw collision rectangle if the debug view is on.
     float x, y = 0.0f;
     VideoManager->GetDrawPosition(x, y);
-    MapRectangle rect = GetCollisionRectangle(x, y);
+    MapRectangle rect = GetScreenCollisionRectangle(x, y);
     VideoManager->DrawRectangle(rect.right - rect.left, rect.bottom - rect.top, Color(0.0f, 0.0f, 1.0f, 0.6f));
 
     // Show a potential active path
@@ -1154,7 +1154,7 @@ void MapSprite::DrawDialog()
         icon_alpha = 0.0f;
     icon_color.SetAlpha(icon_alpha);
 
-    VideoManager->MoveRelative(0, -GetImgHeight());
+    VideoManager->MoveRelative(0, -GetImgScreenHeight());
     map_mode->GetDialogueIcon().Draw(icon_color);
 }
 
@@ -1535,7 +1535,7 @@ void EnemySprite::Draw()
 
     float x, y = 0.0f;
     VideoManager->GetDrawPosition(x, y);
-    MapRectangle rect = GetCollisionRectangle(x, y);
+    MapRectangle rect = GetScreenCollisionRectangle(x, y);
     VideoManager->DrawRectangle(rect.right - rect.left, rect.bottom - rect.top, Color(1.0f, 0.0f, 0.0f, 0.6f));
 }
 

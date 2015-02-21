@@ -306,12 +306,10 @@ public:
     //! This is applied as an active status effect on agility.
     void ApplyPotentialStaminaMalus();
 
-    /**
-     * \brief This function permits to quickly adapt the images to the map scale.
-     * TODO: Will have to handle the zoom ratio.
-     */
+    //! \brief This function permits to quickly adapt the images to the map scale.
     static void ScaleToMapZoomRatio(vt_video::ImageDescriptor &img) {
-        img.SetDimensions(img.GetWidth() * 2.0f, img.GetHeight() * 2.0f);
+        img.SetDimensions(img.GetWidth() * vt_map::private_map::MAP_ZOOM_RATIO,
+                          img.GetHeight() * vt_map::private_map::MAP_ZOOM_RATIO);
     }
 
     //! \brief Returns in standard screen coordinates (1024x768),

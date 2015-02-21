@@ -83,10 +83,10 @@ function _CreateCharacters()
     -- Create the fake wall  out of the object catalog as it is used once,
     fake_wall = vt_map.PhysicalObject(vt_map.MapMode.GROUND_OBJECT);
     fake_wall:SetPosition(32.0, 14.0);
-    fake_wall:SetCollHalfWidth(4.0);
-    fake_wall:SetCollHeight(10.0);
-    fake_wall:SetImgHalfWidth(4.0);
-    fake_wall:SetImgHeight(10.0);
+    fake_wall:SetCollPixelHalfWidth(4.0 * 16);
+    fake_wall:SetCollPixelHeight(10.0 * 16);
+    fake_wall:SetImgPixelHalfWidth(4.0 * 16);
+    fake_wall:SetImgPixelHeight(10.0 * 16);
     fake_wall:AddStillFrame("dat/maps/layna_village/kalya_house_fake_wall.png");
 
     exit_light = CreateObject(Map, "Left Window Light", 34, 2, vt_map.MapMode.GROUND_OBJECT);

@@ -29,6 +29,8 @@
 #ifndef __VIDEO_HEADER__
 #define __VIDEO_HEADER__
 
+#include "engine/video/video_utils.h"
+
 #include "engine/video/color.h"
 #include "engine/video/context.h"
 #include "engine/video/coord_sys.h"
@@ -84,60 +86,12 @@ extern VideoEngine *VideoManager;
 //! \brief Determines whether the code in the vt_video namespace should print
 extern bool VIDEO_DEBUG;
 
-//! \brief The number of FPS samples to retain across frames
-const uint32 FPS_SAMPLES = 250;
-
-//! \brief Draw flags to control x and y alignment, flipping, and texture blending.
-enum VIDEO_DRAW_FLAGS {
-    VIDEO_DRAW_FLAGS_INVALID = -1,
-
-    //! X draw alignment flags
-    //@{
-    VIDEO_X_LEFT = 1,
-    VIDEO_X_CENTER = 2,
-    VIDEO_X_RIGHT = 3,
-    //@}
-
-    //! Y draw alignment flags
-    //@{
-    VIDEO_Y_TOP = 4,
-    VIDEO_Y_CENTER = 5,
-    VIDEO_Y_BOTTOM = 6,
-    //@}
-
-    //! X flip flags
-    //@{
-    VIDEO_X_FLIP = 7,
-    VIDEO_X_NOFLIP = 8,
-    //@}
-
-    //! Y flip flags
-    //@{
-    VIDEO_Y_FLIP = 9,
-    VIDEO_Y_NOFLIP = 10,
-    //@}
-
-    //! Texture blending flags
-    //@{
-    VIDEO_NO_BLEND = 11,
-    VIDEO_BLEND = 12,
-    VIDEO_BLEND_ADD = 13,
-    //@}
-
-    VIDEO_DRAW_FLAGS_TOTAL = 14
-};
-
-//! \brief The standard screen resolution
-const float	VIDEO_STANDARD_RES_WIDTH  = 1024.0f;
-const float	VIDEO_STANDARD_RES_HEIGHT = 768.0f;
-
 /** \brief Rotates a point (x,y) around the origin (0,0), by angle radians
 *** \param x x coordinate of point to rotate
 *** \param y y coordinate of point to rotate
 *** \param angle amount to rotate by (in radians)
 **/
 void RotatePoint(float &x, float &y, float angle);
-
 
 /** ****************************************************************************
 *** \brief Manages all the video operations and serves as the API to the video engine.

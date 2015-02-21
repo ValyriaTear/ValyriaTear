@@ -48,18 +48,26 @@ namespace private_map
 
 MapObject::MapObject(MapObjectDrawLayer layer) :
     _object_id(-1),
-    _img_half_width(0.0f),
-    _img_height(0.0f),
-    _coll_half_width(0.0f),
-    _coll_height(0.0f),
+    _img_pixel_half_width(0.0f),
+    _img_pixel_height(0.0f),
+    _img_screen_half_width(0.0f),
+    _img_screen_height(0.0f),
+    _img_tile_half_width(0.0f),
+    _img_tile_height(0.0f),
+    _coll_pixel_half_width(0.0f),
+    _coll_pixel_height(0.0f),
+    _coll_screen_half_width(0.0f),
+    _coll_screen_height(0.0f),
+    _coll_tile_half_width(0.0f),
+    _coll_tile_height(0.0f),
     _updatable(true),
     _visible(true),
     _collision_mask(ALL_COLLISION),
     _draw_on_second_pass(false),
     _object_type(OBJECT_TYPE),
     _emote_animation(0),
-    _emote_offset_x(0.0f),
-    _emote_offset_y(0.0f),
+    _emote_screen_offset_x(0.0f),
+    _emote_screen_offset_y(0.0f),
     _emote_time(0),
     _draw_layer(layer)
 {
@@ -77,7 +85,7 @@ bool MapObject::ShouldDraw()
     MapMode* MM = MapMode::CurrentInstance();
 
     // Determine if the sprite is off-screen and if so, don't draw it.
-    if(!MapRectangle::CheckIntersection(GetImageRectangle(), MM->GetMapFrame().screen_edges))
+    if(!MapRectangle::CheckIntersection(GetTileImageRectangle(), MM->GetMapFrame().screen_edges))
         return false;
 
     // Move the drawing cursor to the appropriate coordinates for this sprite
@@ -89,34 +97,70 @@ bool MapObject::ShouldDraw()
     return true;
 }
 
-MapRectangle MapObject::GetCollisionRectangle() const
+MapRectangle MapObject::GetTileCollisionRectangle() const
 {
     MapRectangle rect;
-    rect.left = _position.x - _coll_half_width;
-    rect.right = _position.x + _coll_half_width;
-    rect.top = _position.y - _coll_height;
-    rect.bottom = _position.y;
+    rect.left = _tile_position.x - _coll_tile_half_width;
+    rect.right = _tile_position.x + _coll_tile_half_width;
+    rect.top = _tile_position.y - _coll_tile_height;
+    rect.bottom = _tile_position.y;
 
     return rect;
 }
 
-MapRectangle MapObject::GetCollisionRectangle(float x, float y) const
+MapRectangle MapObject::GetTileCollisionRectangle(float x, float y) const
 {
     MapRectangle rect;
-    rect.left = x - _coll_half_width;
-    rect.right = x + _coll_half_width;
-    rect.top = y - _coll_height;
+    rect.left = x - _coll_tile_half_width;
+    rect.right = x + _coll_tile_half_width;
+    rect.top = y - _coll_tile_height;
     rect.bottom = y;
     return rect;
 }
 
-MapRectangle MapObject::GetImageRectangle() const
+MapRectangle MapObject::GetScreenCollisionRectangle(float x, float y) const
 {
     MapRectangle rect;
-    rect.left = _position.x - _img_half_width;
-    rect.right = _position.x + _img_half_width;
-    rect.top = _position.y - _img_height;
-    rect.bottom = _position.y;
+    rect.left = x - _coll_screen_half_width;
+    rect.right = x + _coll_screen_half_width;
+    rect.top = y - _coll_screen_height;
+    rect.bottom = y;
+    return rect;
+}
+
+MapRectangle MapObject::GetScreenCollisionRectangle() const
+{
+    MapMode* mm = MapMode::CurrentInstance();
+    MapRectangle rect;
+    float x_screen_pos = mm->GetScreenXCoordinate(_tile_position.x);
+    float y_screen_pos = mm->GetScreenYCoordinate(_tile_position.y);
+    rect.left = x_screen_pos - _coll_screen_half_width;
+    rect.right = x_screen_pos + _coll_screen_half_width;
+    rect.top = y_screen_pos - _coll_screen_height;
+    rect.bottom = y_screen_pos;
+    return rect;
+}
+
+MapRectangle MapObject::GetScreenImageRectangle() const
+{
+    MapMode* mm = MapMode::CurrentInstance();
+    MapRectangle rect;
+    float x_screen_pos = mm->GetScreenXCoordinate(_tile_position.x);
+    float y_screen_pos = mm->GetScreenYCoordinate(_tile_position.y);
+    rect.left = x_screen_pos - _img_screen_half_width;
+    rect.right = x_screen_pos + _img_screen_half_width;
+    rect.top = y_screen_pos - _img_screen_height;
+    rect.bottom = y_screen_pos;
+    return rect;
+}
+
+MapRectangle MapObject::GetTileImageRectangle() const
+{
+    MapRectangle rect;
+    rect.left = _tile_position.x - _img_tile_half_width;
+    rect.right = _tile_position.x + _img_tile_half_width;
+    rect.top = _tile_position.y - _img_tile_height;
+    rect.bottom = _tile_position.y;
     return rect;
 }
 
@@ -131,10 +175,10 @@ void MapObject::Emote(const std::string &emote_name, vt_map::private_map::ANIM_D
     }
 
     // Make the offset depend on the sprite direction and emote animation.
-    GlobalManager->GetEmoteOffset(_emote_offset_x, _emote_offset_y, emote_name, dir);
+    GlobalManager->GetEmoteOffset(_emote_screen_offset_x, _emote_screen_offset_y, emote_name, dir);
     // Scale the offsets for the map mode
-    _emote_offset_x = _emote_offset_x / (private_map::GRID_LENGTH / 2);
-    _emote_offset_y = _emote_offset_y / (private_map::GRID_LENGTH / 2);
+    _emote_screen_offset_x = _emote_screen_offset_x * MAP_ZOOM_RATIO;
+    _emote_screen_offset_y = _emote_screen_offset_y * MAP_ZOOM_RATIO;
 
     _emote_animation->ResetAnimation();
     _emote_time = _emote_animation->GetAnimationLength();
@@ -163,7 +207,7 @@ void MapObject::_DrawEmote()
         return;
 
     // Move the emote to the sprite head top, where the offset should applied from.
-    VideoManager->MoveRelative(_emote_offset_x, -_img_height + _emote_offset_y);
+    VideoManager->MoveRelative(_emote_screen_offset_x, -_img_pixel_height + _emote_screen_offset_y);
     _emote_animation->Draw();
 }
 
@@ -184,9 +228,9 @@ bool MapObject::IsCollidingWith(MapObject* other_object)
      if (other_object->GetCollisionMask() == NO_COLLISION)
         return false;
 
-    MapRectangle other_rect = other_object->GetCollisionRectangle();
+    MapRectangle other_rect = other_object->GetTileCollisionRectangle();
 
-    if (!MapRectangle::CheckIntersection(GetCollisionRectangle(), other_rect))
+    if (!MapRectangle::CheckIntersection(GetTileCollisionRectangle(), other_rect))
         return false;
 
     return _collision_mask & other_object->GetCollisionMask();
@@ -234,7 +278,7 @@ void PhysicalObject::Draw()
 
     float x, y = 0.0f;
     VideoManager->GetDrawPosition(x, y);
-    MapRectangle rect = GetCollisionRectangle(x, y);
+    MapRectangle rect = GetScreenCollisionRectangle(x, y);
     VideoManager->DrawRectangle(rect.right - rect.left, rect.bottom - rect.top, Color(0.0f, 1.0f, 0.0f, 0.6f));
 }
 
@@ -246,7 +290,7 @@ int32 PhysicalObject::AddAnimation(const std::string& animation_filename)
                       << animation_filename << std::endl;
         return -1;
     }
-    new_animation.SetDimensions(_img_half_width * 2, _img_height);
+    new_animation.SetDimensions(_img_screen_half_width * 2, _img_screen_height);
 
     _animations.push_back(new_animation);
     return (int32)_animations.size() - 1;
@@ -261,7 +305,7 @@ int32 PhysicalObject::AddStillFrame(const std::string& image_filename)
                       << image_filename << std::endl;
         return -1;
     }
-    new_animation.SetDimensions(_img_half_width * 2, _img_height);
+    new_animation.SetDimensions(_img_screen_half_width * 2, _img_screen_height);
 
     _animations.push_back(new_animation);
     return (int32)_animations.size() - 1;
@@ -279,8 +323,8 @@ void PhysicalObject::SetCurrentAnimation(uint32 animation_id)
 ParticleObject::ParticleObject(const std::string& filename, float x, float y, MapObjectDrawLayer layer):
     MapObject(layer)
 {
-    _position.x = x;
-    _position.y = y;
+    _tile_position.x = x;
+    _tile_position.y = y;
 
     _object_type = PARTICLE_TYPE;
     _collision_mask = NO_COLLISION;
@@ -289,12 +333,12 @@ ParticleObject::ParticleObject(const std::string& filename, float x, float y, Ma
     if(!_particle_effect)
         return;
 
-    SetCollHalfWidth(_particle_effect->GetEffectCollisionWidth() / 2.0f);
-    SetCollHeight(_particle_effect->GetEffectCollisionHeight());
+    SetCollPixelHalfWidth(_particle_effect->GetEffectCollisionWidth() / 2.0f);
+    SetCollPixelHeight(_particle_effect->GetEffectCollisionHeight());
 
     // Setup the image collision for the display update
-    SetImgHalfWidth(_particle_effect->GetEffectWidth() / 2.0f);
-    SetImgHeight(_particle_effect->GetEffectHeight());
+    SetImgPixelHalfWidth(_particle_effect->GetEffectWidth() / 2.0f);
+    SetImgPixelHeight(_particle_effect->GetEffectHeight());
 }
 
 ParticleObject::~ParticleObject()
@@ -356,9 +400,9 @@ void ParticleObject::Draw()
     if(!VideoManager->DebugInfoOn())
         return;
 
-    MapRectangle rect = GetImageRectangle();
+    MapRectangle rect = GetScreenImageRectangle();
     VideoManager->DrawRectangle(rect.right - rect.left, rect.bottom - rect.top, Color(0.0f, 1.0f, 1.0f, 0.6f));
-    rect = GetCollisionRectangle();
+    rect = GetScreenCollisionRectangle();
     VideoManager->DrawRectangle(rect.right - rect.left, rect.bottom - rect.top, Color(0.0f, 0.0f, 1.0f, 0.5f));
 }
 
@@ -368,8 +412,8 @@ SavePoint::SavePoint(float x, float y):
     _animations(0),
     _save_active(false)
 {
-    _position.x = x;
-    _position.y = y;
+    _tile_position.x = x;
+    _tile_position.y = y;
 
     _object_type = SAVE_TYPE;
     _collision_mask = NO_COLLISION;
@@ -380,12 +424,12 @@ SavePoint::SavePoint(float x, float y):
     // Set the collision rectangle according to the dimensions of the first frame
     // Remove a margin to the save point so that the character has to actually
     // enter the save point before colliding with it.
-    SetCollHalfWidth((_animations->at(0).GetWidth() - 1.0f) / 2.0f);
-    SetCollHeight(_animations->at(0).GetHeight() - 0.3f);
+    SetCollPixelHalfWidth((_animations->at(0).GetWidth() - GRID_LENGTH) / 2.0f);
+    SetCollPixelHeight(_animations->at(0).GetHeight() - 0.3f * GRID_LENGTH);
 
     // Setup the image collision for the display update
-    SetImgHalfWidth(_animations->at(0).GetWidth() / 2.0f);
-    SetImgHeight(_animations->at(0).GetHeight());
+    SetImgPixelHalfWidth(_animations->at(0).GetWidth() / 2.0f);
+    SetImgPixelHeight(_animations->at(0).GetHeight());
 
     // Preload the save active sound
     AudioManager->LoadSound("snd/save_point_activated_dokashiteru_oga.wav", map_mode);
@@ -451,8 +495,8 @@ Halo::Halo(const std::string& filename, float x, float y, const Color& color):
     MapObject(NO_LAYER_OBJECT) // This is a special object
 {
     _color = color;
-    _position.x = x;
-    _position.y = y;
+    _tile_position.x = x;
+    _tile_position.y = y;
 
     _object_type = HALO_TYPE;
     _collision_mask = NO_COLLISION;
@@ -463,8 +507,8 @@ Halo::Halo(const std::string& filename, float x, float y, const Color& color):
     MapMode::ScaleToMapZoomRatio(_animation);
 
     // Setup the image collision for the display update
-    SetImgHalfWidth(_animation.GetWidth() / 2.0f);
-    SetImgHeight(_animation.GetHeight());
+    SetImgPixelHalfWidth(_animation.GetWidth() / 2.0f);
+    SetImgPixelHeight(_animation.GetHeight());
 
     // Auto-registers to the object supervisor for later deletion handling
     MapMode::CurrentInstance()->GetObjectSupervisor()->AddHalo(this);
@@ -483,7 +527,6 @@ void Halo::Update()
         _animation.Update();
 }
 
-
 void Halo::Draw()
 {
     if(MapObject::ShouldDraw() && _animation.GetCurrentFrame())
@@ -499,8 +542,8 @@ Light::Light(const std::string &main_flare_filename,
     _main_color = main_color;
     _secondary_color = secondary_color;
 
-    _position.x = x;
-    _position.y = y;
+    _tile_position.x = x;
+    _tile_position.y = y;
 
     _object_type = LIGHT_TYPE;
     _collision_mask = NO_COLLISION;
@@ -518,8 +561,8 @@ Light::Light(const std::string &main_flare_filename,
         MapMode::ScaleToMapZoomRatio(_main_animation);
 
         // Setup the image collision for the display update
-        SetImgHalfWidth(_main_animation.GetWidth() / 3.0f);
-        SetImgHeight(_main_animation.GetHeight());
+        SetImgPixelHalfWidth(_main_animation.GetWidth() / 3.0f);
+        SetImgPixelHeight(_main_animation.GetHeight());
     }
     if(_secondary_animation.LoadFromAnimationScript(secondary_flare_filename)) {
         MapMode::ScaleToMapZoomRatio(_secondary_animation);
@@ -541,14 +584,14 @@ Light* Light::Create(const std::string &main_flare_filename,
                      x, y, main_color, secondary_color);
 }
 
-MapRectangle Light::GetImageRectangle() const
+MapRectangle Light::GetTileImageRectangle() const
 {
     MapRectangle rect;
-    rect.left = _position.x - _img_half_width;
-    rect.right = _position.x + _img_half_width;
+    rect.left = _tile_position.x - _img_tile_half_width;
+    rect.right = _tile_position.x + _img_tile_half_width;
     // The y coord is also centered in that case
-    rect.top = _position.y - (_img_height / 2.0f);
-    rect.bottom = _position.y + (_img_height / 2.0f);
+    rect.top = _tile_position.y - (_img_tile_height / 2.0f);
+    rect.bottom = _tile_position.y + (_img_tile_height / 2.0f);
     return rect;
 }
 
@@ -570,14 +613,14 @@ void Light::_UpdateLightAngle()
     _last_center_pos.x = center.x;
     _last_center_pos.y = center.y;
 
-    _distance = (_position.x - center.x) * (_position.x - center.x);
-    _distance += (_position.y - center.y) * (_position.y - center.y);
+    _distance = (_tile_position.x - center.x) * (_tile_position.x - center.x);
+    _distance += (_tile_position.y - center.y) * (_tile_position.y - center.y);
     _distance = sqrtf(_distance);
 
-    if(IsFloatEqual(_position.x, center.x, 0.2f))
+    if(IsFloatEqual(_tile_position.x, center.x, 0.2f))
         _a = 2.5f;
     else
-        _a = (_position.y - center.y) / (_position.x - center.x);
+        _a = (_tile_position.y - center.y) / (_tile_position.x - center.x);
 
     // Prevent angles rough-edges
     if(_a < 0.0f)
@@ -585,7 +628,7 @@ void Light::_UpdateLightAngle()
     if(_a > 2.5f)
         _a = 2.5f;
 
-    _b = _position.y - _a * _position.x;
+    _b = _tile_position.y - _a * _tile_position.x;
 
     // Update the flare alpha depending on the distance
     float distance = _distance / 5.0f;
@@ -630,25 +673,26 @@ void Light::Draw()
         return;
     }
 
-    float next_pos_x = _position.x - _distance / _distance_factor_1;
+    float next_pos_x = _tile_position.x - _distance / _distance_factor_1;
     float next_pos_y = _a * next_pos_x + _b;
+    //FIXME: Won't work with another zoom ratio than 2.0f
     VideoManager->Move(next_pos_x - frame.screen_edges.left,
                        next_pos_y - frame.screen_edges.top);
     VideoManager->DrawHalo(*_secondary_animation.GetCurrentFrame(), _secondary_color_alpha);
 
-    next_pos_x = _position.x - _distance / _distance_factor_2;
+    next_pos_x = _tile_position.x - _distance / _distance_factor_2;
     next_pos_y = _a * next_pos_x + _b;
     VideoManager->Move(next_pos_x - frame.screen_edges.left,
                        next_pos_y - frame.screen_edges.top);
     VideoManager->DrawHalo(*_secondary_animation.GetCurrentFrame(), _secondary_color_alpha);
 
-    next_pos_x = _position.x + _distance / _distance_factor_3;
+    next_pos_x = _tile_position.x + _distance / _distance_factor_3;
     next_pos_y = _a * next_pos_x + _b;
     VideoManager->Move(next_pos_x - frame.screen_edges.left,
                        next_pos_y - frame.screen_edges.top);
     VideoManager->DrawHalo(*_secondary_animation.GetCurrentFrame(), _secondary_color_alpha);
 
-    next_pos_x = _position.x + _distance / _distance_factor_4;
+    next_pos_x = _tile_position.x + _distance / _distance_factor_4;
     next_pos_y = _a * next_pos_x + _b;
     VideoManager->Move(next_pos_x - frame.screen_edges.left,
                        next_pos_y - frame.screen_edges.top);
@@ -686,8 +730,8 @@ SoundObject::SoundObject(const std::string& sound_filename, float x, float y, fl
     _time_remaining = 0.0f;
     _playing = false;
 
-    _position.x = x;
-    _position.y = y;
+    _tile_position.x = x;
+    _tile_position.y = y;
 
     _collision_mask = NO_COLLISION;
 
@@ -739,8 +783,8 @@ void SoundObject::Update()
     center.x = frame.screen_edges.left + (frame.screen_edges.right - frame.screen_edges.left) / 2.0f;
     center.y = frame.screen_edges.top + (frame.screen_edges.bottom - frame.screen_edges.top) / 2.0f;
 
-    float distance = (_position.x - center.x) * (_position.x - center.x);
-    distance += (_position.y - center.y) * (_position.y - center.y);
+    float distance = (_tile_position.x - center.x) * (_tile_position.x - center.x);
+    distance += (_tile_position.y - center.y) * (_tile_position.y - center.y);
     //distance = sqrtf(_distance); <-- We don't actually need it as it is slow.
 
     float strength2 = _strength * _strength;
@@ -813,23 +857,26 @@ TreasureObject::TreasureObject(const std::string &treasure_name,
     vt_video::AnimatedImage closed_anim, opening_anim, open_anim;
 
     closed_anim.LoadFromAnimationScript(closed_animation_file);
-    MapMode::ScaleToMapZoomRatio(closed_anim);
     if(!opening_animation_file.empty())
         opening_anim.LoadFromAnimationScript(opening_animation_file);
-    MapMode::ScaleToMapZoomRatio(opening_anim);
     open_anim.LoadFromAnimationScript(open_animation_file);
-    MapMode::ScaleToMapZoomRatio(open_anim);
+
 
     // Loop the opening animation only once
     opening_anim.SetNumberLoops(0);
 
+    // Set the collision rectangle according to the dimensions of the first frame
+    SetCollPixelHalfWidth(closed_anim.GetWidth() / 2.0f);
+    SetCollPixelHeight(closed_anim.GetHeight());
+
+    // Apply the zoom ratio on the animations.
+    MapMode::ScaleToMapZoomRatio(closed_anim);
+    MapMode::ScaleToMapZoomRatio(opening_anim);
+    MapMode::ScaleToMapZoomRatio(open_anim);
+
     AddAnimation(closed_anim);
     AddAnimation(opening_anim);
     AddAnimation(open_anim);
-
-    // Set the collision rectangle according to the dimensions of the first frame
-    SetCollHalfWidth(closed_anim.GetWidth() / 2.0f);
-    SetCollHeight(closed_anim.GetHeight());
 
     _LoadState();
 }
@@ -962,19 +1009,21 @@ TriggerObject::TriggerObject(const std::string &trigger_name,
     vt_video::AnimatedImage off_anim, on_anim;
 
     off_anim.LoadFromAnimationScript(off_animation_file);
-    MapMode::ScaleToMapZoomRatio(off_anim);
     on_anim.LoadFromAnimationScript(on_animation_file);
+
+    // Set a default collision area making the trigger respond when the character
+    // is rather having his/her two feet on it.
+    SetCollPixelHalfWidth(off_anim.GetWidth() / 4.0f);
+    SetCollPixelHeight(off_anim.GetHeight() * 2.0f / 3.0f);
+    SetImgPixelHalfWidth(off_anim.GetWidth() / 2.0f);
+    SetImgPixelHeight(off_anim.GetHeight());
+
+    MapMode::ScaleToMapZoomRatio(off_anim);
     MapMode::ScaleToMapZoomRatio(on_anim);
 
     AddAnimation(off_anim);
     AddAnimation(on_anim);
 
-    // Set a default collision area making the trigger respond when the character
-    // is rather having his/her two feet on it.
-    SetCollHalfWidth(off_anim.GetWidth() / 4.0f);
-    SetCollHeight(off_anim.GetHeight() * 2.0f / 3.0f);
-    SetImgHalfWidth(off_anim.GetWidth() / 2.0f);
-    SetImgHeight(off_anim.GetHeight());
 
     _LoadState();
 }
@@ -1007,7 +1056,7 @@ void TriggerObject::Update()
 
     MapMode *map_mode = MapMode::CurrentInstance();
     if (!map_mode->IsCameraOnVirtualFocus()
-            && MapRectangle::CheckIntersection(map_mode->GetCamera()->GetCollisionRectangle(), GetCollisionRectangle())) {
+            && MapRectangle::CheckIntersection(map_mode->GetCamera()->GetTileCollisionRectangle(), GetTileCollisionRectangle())) {
 
         map_mode->GetCamera()->SetMoving(false);
         SetState(true);
@@ -1348,13 +1397,13 @@ void ObjectSupervisor::_UpdateSavePoints()
 
     MapRectangle spr_rect;
     if(sprite)
-        spr_rect = sprite->GetCollisionRectangle();
+        spr_rect = sprite->GetTileCollisionRectangle();
 
     for(std::vector<SavePoint *>::iterator it = _save_points.begin();
             it != _save_points.end(); ++it) {
         if (map_mode->AreSavePointsEnabled()) {
             (*it)->SetActive(MapRectangle::CheckIntersection(spr_rect,
-                             (*it)->GetCollisionRectangle()));
+                             (*it)->GetTileCollisionRectangle()));
         }
         else {
             (*it)->SetActive(false);
@@ -1386,8 +1435,8 @@ MapObject *ObjectSupervisor::_FindNearestSavePoint(const VirtualSprite *sprite)
     for(std::vector<SavePoint *>::iterator it = _save_points.begin();
             it != _save_points.end(); ++it) {
 
-        if(MapRectangle::CheckIntersection(sprite->GetCollisionRectangle(),
-                                           (*it)->GetCollisionRectangle())) {
+        if(MapRectangle::CheckIntersection(sprite->GetTileCollisionRectangle(),
+                                           (*it)->GetTileCollisionRectangle())) {
             return (*it);
         }
     }
@@ -1416,7 +1465,7 @@ MapObject *ObjectSupervisor::FindNearestInteractionObject(const VirtualSprite *s
         return 0;
 
     // Using the sprite's direction, determine the boundaries of the search area to check for objects
-    MapRectangle search_area = sprite->GetCollisionRectangle();
+    MapRectangle search_area = sprite->GetTileCollisionRectangle();
     if(sprite->GetDirection() & FACING_NORTH) {
         search_area.bottom = search_area.top;
         search_area.top = search_area.top - search_distance;
@@ -1470,7 +1519,7 @@ MapObject *ObjectSupervisor::FindNearestInteractionObject(const VirtualSprite *s
                 continue;
         }
 
-        MapRectangle object_rect = (*it)->GetCollisionRectangle();
+        MapRectangle object_rect = (*it)->GetTileCollisionRectangle();
         if(MapRectangle::CheckIntersection(object_rect, search_area) == true)
             valid_objects.push_back(*it);
     } // for (std::map<MapObject*>::iterator i = _all_objects.begin(); i != _all_objects.end(); i++)
@@ -1509,7 +1558,7 @@ bool ObjectSupervisor::CheckObjectCollision(const MapRectangle &rect, const priv
     if(!obj)
         return false;
 
-    MapRectangle obj_rect = obj->GetCollisionRectangle();
+    MapRectangle obj_rect = obj->GetTileCollisionRectangle();
     return MapRectangle::CheckIntersection(rect, obj_rect);
 }
 
@@ -1520,7 +1569,7 @@ bool ObjectSupervisor::IsPositionOccupiedByObject(float x, float y, MapObject *o
         return false;
     }
 
-    MapRectangle rect = object->GetCollisionRectangle();
+    MapRectangle rect = object->GetTileCollisionRectangle();
 
     if(x >= rect.left && x <= rect.right) {
         if(y <= rect.bottom && y >= rect.top) {
@@ -1562,7 +1611,7 @@ COLLISION_TYPE ObjectSupervisor::DetectCollision(MapObject* object,
         return NO_COLLISION;
 
     // Get the collision rectangle at the given position
-    MapRectangle sprite_rect = object->GetCollisionRectangle(x_pos, y_pos);
+    MapRectangle sprite_rect = object->GetTileCollisionRectangle(x_pos, y_pos);
 
     // Check if any part of the object's collision rectangle is outside of the map boundary
     if(sprite_rect.left < 0.0f || sprite_rect.right >= static_cast<float>(_num_grid_x_axis) ||
@@ -1877,7 +1926,7 @@ bool ObjectSupervisor::IsStaticCollision(float x, float y)
             continue;
 
         //get the rect. if the x and y fields are within the rect, we have a collision here
-        MapRectangle rect = collision_object->GetCollisionRectangle();
+        MapRectangle rect = collision_object->GetTileCollisionRectangle();
         //we know x and y are inside the map. So, just test then as a box vs point test
         if(rect.top < y && y < rect.bottom &&
            rect.left < x && x < rect.right)
