@@ -831,7 +831,7 @@ bool _LoadAnimations(std::vector<vt_video::AnimatedImage>& animations, const std
         }
 
         // Rescale to fit the map mode coordinates system.
-        MapMode::ScaleToMapCoords(animations[i]);
+        MapMode::ScaleToMapZoomRatio(animations[i]);
     }
 
     animations_script.CloseTable(); // sprite_animation table
@@ -881,13 +881,13 @@ bool MapSprite::LoadCustomAnimation(const std::string &animation_name, const std
 
     AnimatedImage animation;
     if(animation.LoadFromAnimationScript(filename)) {
-        MapMode::ScaleToMapCoords(animation);
+        MapMode::ScaleToMapZoomRatio(animation);
         _custom_animations.insert(std::make_pair(animation_name, animation));
         return true;
     }
 
     return false;
-} // bool MapSprite::LoadCustomAnimations()
+}
 
 void MapSprite::SetCustomAnimation(const std::string &animation_name, int32 time)
 {
@@ -1100,13 +1100,13 @@ void MapSprite::_DrawDebugInfo()
         PathMoveSpriteEvent *path_event = (PathMoveSpriteEvent *)_control_event;
         if(path_event) {
             Path path = path_event->GetPath();
-            MapMode *map = MapMode::CurrentInstance();
+            MapMode *map_mode = MapMode::CurrentInstance();
             for(uint32 i = 0; i < path.size(); ++i) {
-                float x_pos = path[i].x - map->GetMapFrame().screen_edges.left;
-                float y_pos = path[i].y - map->GetMapFrame().screen_edges.top;
+                float x_pos = map_mode->GetScreenXCoordinate(path[i].x);
+                float y_pos = map_mode->GetScreenYCoordinate(path[i].y);
                 VideoManager->Move(x_pos, y_pos);
 
-                VideoManager->DrawRectangle(0.2, 0.2f, Color(0.0f, 1.0f, 1.0f, 0.6f));
+                VideoManager->DrawRectangle(GRID_LENGTH / 2, GRID_LENGTH / 2, Color(0.0f, 1.0f, 1.0f, 0.6f));
             }
         }
     }

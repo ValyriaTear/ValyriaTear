@@ -96,7 +96,7 @@ MapMode::MapMode(const std::string& data_filename, const std::string& script_fil
 
     // Load miscellaneous map graphics
     _dialogue_icon.LoadFromAnimationScript("img/misc/dialogue_icon.lua");
-    ScaleToMapCoords(_dialogue_icon);
+    ScaleToMapZoomRatio(_dialogue_icon);
 
     // Load the save point animation files.
     AnimatedImage anim;
@@ -115,12 +115,12 @@ MapMode::MapMode(const std::string& data_filename, const std::string& script_fil
     anim.LoadFromAnimationScript("img/misc/save_point/save_point2.lua");
     inactive_save_point_animations.push_back(anim);
 
-    // Transform the animation size to correspond to the map coordinates system.
+    // Transform the animation size to correspond to the map zoom ratio.
     for(uint32 i = 0; i < active_save_point_animations.size(); ++i)
-        ScaleToMapCoords(active_save_point_animations[i]);
+        ScaleToMapZoomRatio(active_save_point_animations[i]);
 
     for(uint32 i = 0; i < inactive_save_point_animations.size(); ++i)
-        ScaleToMapCoords(inactive_save_point_animations[i]);
+        ScaleToMapZoomRatio(inactive_save_point_animations[i]);
 
     _tile_supervisor = new TileSupervisor();
     _object_supervisor = new ObjectSupervisor();
@@ -210,7 +210,7 @@ void MapMode::Reset()
     _activated = true;
 
     // Reset video engine context properties
-    VideoManager->SetCoordSys(0.0f, SCREEN_GRID_X_LENGTH, SCREEN_GRID_Y_LENGTH, 0.0f);
+    VideoManager->SetStandardCoordSys();
     VideoManager->SetDrawFlags(VIDEO_X_CENTER, VIDEO_Y_BOTTOM, 0);
 
     // Make the map location known globally to other code that may need to know this information
@@ -369,24 +369,22 @@ void MapMode::Update()
 
 void MapMode::Draw()
 {
+    VideoManager->PushState();
     VideoManager->SetStandardCoordSys();
     GetScriptSupervisor().DrawBackground();
 
-    VideoManager->SetCoordSys(0.0f, SCREEN_GRID_X_LENGTH, SCREEN_GRID_Y_LENGTH, 0.0f);
     VideoManager->SetDrawFlags(VIDEO_X_CENTER, VIDEO_Y_BOTTOM, 0);
     _DrawMapLayers();
 
-    VideoManager->SetStandardCoordSys();
     GetScriptSupervisor().DrawForeground();
 
-    VideoManager->SetCoordSys(0.0f, SCREEN_GRID_X_LENGTH, SCREEN_GRID_Y_LENGTH, 0.0f);
     VideoManager->SetDrawFlags(VIDEO_X_CENTER, VIDEO_Y_BOTTOM, 0);
     _object_supervisor->DrawDialogIcons();
+    VideoManager->PopState();
 }
 
 void MapMode::DrawPostEffects()
 {
-    VideoManager->SetCoordSys(0.0f, SCREEN_GRID_X_LENGTH, SCREEN_GRID_Y_LENGTH, 0.0f);
     VideoManager->SetDrawFlags(VIDEO_X_CENTER, VIDEO_Y_BOTTOM, 0);
     // Halos are additive blending made, so they should be applied
     // as post-effects but before the GUI.
@@ -394,9 +392,6 @@ void MapMode::DrawPostEffects()
 
     VideoManager->SetStandardCoordSys();
     GetScriptSupervisor().DrawPostEffects();
-
-    VideoManager->SetCoordSys(0.0f, SCREEN_GRID_X_LENGTH, SCREEN_GRID_Y_LENGTH, 0.0f);
-    VideoManager->SetDrawFlags(VIDEO_X_CENTER, VIDEO_Y_BOTTOM, 0);
 
     // Draw the gui, unaffected by potential fading effects.
     _DrawGUI();
@@ -415,14 +410,10 @@ void MapMode::ResetState()
     _state_stack.push_back(STATE_INVALID);
 }
 
-
-
 void MapMode::PushState(MAP_STATE state)
 {
     _state_stack.push_back(state);
 }
-
-
 
 void MapMode::PopState()
 {
@@ -489,7 +480,6 @@ void MapMode::MoveVirtualFocus(float loc_x, float loc_y, uint32 duration)
     }
 }
 
-
 bool MapMode::IsCameraOnVirtualFocus()
 {
     return (_camera == _virtual_focus);
@@ -536,14 +526,19 @@ void MapMode::ApplyPotentialStaminaMalus()
 
 float MapMode::GetScreenXCoordinate(float tile_position_x) const
 {
-    return (tile_position_x - _map_frame.screen_edges.left)
+    tile_position_x = (tile_position_x - _map_frame.screen_edges.left)
         * VIDEO_STANDARD_RES_WIDTH / SCREEN_GRID_X_LENGTH;
+    tile_position_x = FloorToFloatMultiple(tile_position_x, GetMapPixelXLength());
+    return tile_position_x;
 }
 
 float MapMode::GetScreenYCoordinate(float tile_position_y) const
 {
-    return (tile_position_y - _map_frame.screen_edges.top)
+    tile_position_y = (tile_position_y - _map_frame.screen_edges.top)
         * VIDEO_STANDARD_RES_HEIGHT / SCREEN_GRID_Y_LENGTH;
+    tile_position_y = FloorToFloatMultiple(tile_position_y, GetMapPixelYLength());
+
+    return tile_position_y;
 }
 
 uint16 MapMode::GetMapWidth() const
@@ -826,10 +821,13 @@ void MapMode::_UpdateMapFrame()
 
     // NOTE: Would the map mode coordinate system be able to dynamically change, allow this to be recomputed,
     // and used as the multiple of the current camera tile offset.
-    if (_pixel_length_x <= 0.0f || _pixel_length_y <= 0.0f)
+    if (_pixel_length_x <= 0.0f || _pixel_length_y <= 0.0f) {
         VideoManager->GetPixelSize(_pixel_length_x, _pixel_length_y);
-    // std::cout << "the ratio is: " << _pixel_length_x << ", " << _pixel_length_y << " for resolution: "
-    // << VideoManager->GetScreenWidth() << " x " << VideoManager->GetScreenHeight() << std::endl;
+        _pixel_length_x /= SCREEN_GRID_X_LENGTH;
+        _pixel_length_y /= SCREEN_GRID_Y_LENGTH;
+    }
+    //std::cout << "the ratio is: " << _pixel_length_x << ", " << _pixel_length_y << " for resolution: "
+    //<< VideoManager->GetScreenWidth() << " x " << VideoManager->GetScreenHeight() << std::endl;
 
     // NOTE: The offset is corrected based on the map coord sys pixel size, to avoid glitches on tiles with transparent parts
     // and black edges. The size of the edge would have a variable size and look like vibrating when scrolling
@@ -945,8 +943,7 @@ void MapMode::_UpdateMapFrame()
 
 void MapMode::_DrawDebugGrid()
 {
-    VideoManager->SetCoordSys(0.0f, static_cast<float>(VideoManager->GetViewportWidth()),
-                              static_cast<float>(VideoManager->GetViewportHeight()), 0.0f);
+    VideoManager->SetStandardCoordSys();
     VideoManager->PushMatrix();
 
     float x = _map_frame.tile_x_offset * VideoManager->GetViewportWidth() / SCREEN_GRID_X_LENGTH;
@@ -982,8 +979,8 @@ void MapMode::_DrawDebugGrid()
 
 void MapMode::_DrawMapLayers()
 {
-    VideoManager->SetCoordSys(0.0f, SCREEN_GRID_X_LENGTH, SCREEN_GRID_Y_LENGTH, 0.0f);
-
+    VideoManager->PushState();
+    VideoManager->SetStandardCoordSys();
     _tile_supervisor->DrawLayers(&_map_frame, GROUND_LAYER);
 
     // Save points are engraved on the ground, and thus shouldn't be drawn after walls.
@@ -1003,6 +1000,7 @@ void MapMode::_DrawMapLayers()
         _object_supervisor->_DrawMapZones();
         _DrawDebugGrid();
     }
+    VideoManager->PopState();
 }
 
 void MapMode::_DrawStaminaBar(const vt_video::Color &blending)

@@ -301,24 +301,13 @@ protected:
     **/
     MapPosition _position;
 
-    /** \brief The half-width and height of the image, in map grid coordinates.
-    *** The half_width member is indeed just that: half the width of the object's image. We keep
-    *** the half width rather than the full width because the origin of the object is its bottom
-    *** center, and it is more convenient to store only half the sprite's width.
-    ***
-    *** \note These members assume that the object retains the same width and height regardless
-    *** of the current animation frame or image being drawn. If the object's image changes size
-    *** for any reason, the programmer must remember to change these values accordingly.
-    **/
+    //! \brief The half-width and height of the image, in pixels.
     float _img_half_width;
     float _img_height;
 
-    /** \brief Determines the collision rectangle for the object.
+    /** \brief Determines the collision rectangle for the object in pixels.
     *** The collision area determines what portion of the map object may not be overlapped
-    *** by other objects or unwalkable regions of the map. The x and y coordinates are
-    *** relative to the origin, so an x value of 0.5f means that the collision rectangle
-    *** extends the length of 1/2 of a grid element from the origin on both sides, and a y value
-    *** of 1.0f means that the collision area exists from the origin to one grid element above.
+    *** by other objects or unwalkable regions of the map.
     ***
     *** \note These members should always be positive and non-zero. Setting these members to
     *** zero does <b>not</b> eliminate collision detection for the object.

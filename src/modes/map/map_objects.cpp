@@ -81,13 +81,13 @@ bool MapObject::ShouldDraw()
         return false;
 
     // Move the drawing cursor to the appropriate coordinates for this sprite
-    // NOTE: We round the value to a multiple of the current pixel size.
-    // See MapMode::_UpdateMapFrame() for a better explanation.
-    VideoManager->Move(FloorToFloatMultiple(GetXPosition() - MM->GetMapFrame().screen_edges.left, MM->GetMapPixelXLength()),
-                       FloorToFloatMultiple(GetYPosition() - MM->GetMapFrame().screen_edges.top, MM->GetMapPixelYLength()));
+    float x_pos = MM->GetScreenXCoordinate(GetXPosition());
+    float y_pos = MM->GetScreenYCoordinate(GetYPosition());
+
+    VideoManager->Move(x_pos, y_pos);
 
     return true;
-} // bool MapObject::ShouldDraw()
+}
 
 MapRectangle MapObject::GetCollisionRectangle() const
 {
@@ -276,7 +276,7 @@ void PhysicalObject::SetCurrentAnimation(uint32 animation_id)
 }
 
 // Particle object
-ParticleObject::ParticleObject(const std::string &filename, float x, float y, MapObjectDrawLayer layer):
+ParticleObject::ParticleObject(const std::string& filename, float x, float y, MapObjectDrawLayer layer):
     MapObject(layer)
 {
     _position.x = x;
@@ -289,12 +289,12 @@ ParticleObject::ParticleObject(const std::string &filename, float x, float y, Ma
     if(!_particle_effect)
         return;
 
-    SetCollHalfWidth(_particle_effect->GetEffectCollisionWidth() / 2.0f / (GRID_LENGTH * 0.5f));
-    SetCollHeight(_particle_effect->GetEffectCollisionHeight() / (GRID_LENGTH * 0.5f));
+    SetCollHalfWidth(_particle_effect->GetEffectCollisionWidth() / 2.0f);
+    SetCollHeight(_particle_effect->GetEffectCollisionHeight());
 
     // Setup the image collision for the display update
-    SetImgHalfWidth(_particle_effect->GetEffectWidth() / 2.0f / (GRID_LENGTH * 0.5f));
-    SetImgHeight(_particle_effect->GetEffectHeight() / (GRID_LENGTH * 0.5f));
+    SetImgHalfWidth(_particle_effect->GetEffectWidth() / 2.0f);
+    SetImgHeight(_particle_effect->GetEffectHeight());
 }
 
 ParticleObject::~ParticleObject()
@@ -348,17 +348,14 @@ void ParticleObject::Draw()
     float standard_pos_x, standard_pos_y;
     VideoManager->GetDrawPosition(standard_pos_x, standard_pos_y);
     VideoManager->SetStandardCoordSys();
-    _particle_effect->Move(standard_pos_x / SCREEN_GRID_X_LENGTH * VIDEO_STANDARD_RES_WIDTH,
-                           standard_pos_y / SCREEN_GRID_Y_LENGTH * VIDEO_STANDARD_RES_HEIGHT);
+    _particle_effect->Move(standard_pos_x, standard_pos_y);
     _particle_effect->Draw();
     // Reset the map mode coord sys afterward.
-    VideoManager->SetCoordSys(0.0f, SCREEN_GRID_X_LENGTH, SCREEN_GRID_Y_LENGTH, 0.0f);
 
     // Draw collision rectangle if the debug view is on.
     if(!VideoManager->DebugInfoOn())
         return;
 
-    VideoManager->Move(standard_pos_x, standard_pos_y);
     MapRectangle rect = GetImageRectangle();
     VideoManager->DrawRectangle(rect.right - rect.left, rect.bottom - rect.top, Color(0.0f, 1.0f, 1.0f, 0.6f));
     rect = GetCollisionRectangle();
@@ -463,7 +460,7 @@ Halo::Halo(const std::string& filename, float x, float y, const Color& color):
     if(!_animation.LoadFromAnimationScript(filename))
         return;
 
-    MapMode::ScaleToMapCoords(_animation);
+    MapMode::ScaleToMapZoomRatio(_animation);
 
     // Setup the image collision for the display update
     SetImgHalfWidth(_animation.GetWidth() / 2.0f);
@@ -518,14 +515,14 @@ Light::Light(const std::string &main_flare_filename,
     _distance_factor_4 = RandomFloat(5.0f, 9.0f);
 
     if(_main_animation.LoadFromAnimationScript(main_flare_filename)) {
-        MapMode::ScaleToMapCoords(_main_animation);
+        MapMode::ScaleToMapZoomRatio(_main_animation);
 
         // Setup the image collision for the display update
         SetImgHalfWidth(_main_animation.GetWidth() / 3.0f);
         SetImgHeight(_main_animation.GetHeight());
     }
     if(_secondary_animation.LoadFromAnimationScript(secondary_flare_filename)) {
-        MapMode::ScaleToMapCoords(_secondary_animation);
+        MapMode::ScaleToMapZoomRatio(_secondary_animation);
     }
 
     // Register the object to the light vector
@@ -816,12 +813,12 @@ TreasureObject::TreasureObject(const std::string &treasure_name,
     vt_video::AnimatedImage closed_anim, opening_anim, open_anim;
 
     closed_anim.LoadFromAnimationScript(closed_animation_file);
-    MapMode::ScaleToMapCoords(closed_anim);
+    MapMode::ScaleToMapZoomRatio(closed_anim);
     if(!opening_animation_file.empty())
         opening_anim.LoadFromAnimationScript(opening_animation_file);
-    MapMode::ScaleToMapCoords(opening_anim);
+    MapMode::ScaleToMapZoomRatio(opening_anim);
     open_anim.LoadFromAnimationScript(open_animation_file);
-    MapMode::ScaleToMapCoords(open_anim);
+    MapMode::ScaleToMapZoomRatio(open_anim);
 
     // Loop the opening animation only once
     opening_anim.SetNumberLoops(0);
@@ -965,9 +962,9 @@ TriggerObject::TriggerObject(const std::string &trigger_name,
     vt_video::AnimatedImage off_anim, on_anim;
 
     off_anim.LoadFromAnimationScript(off_animation_file);
-    MapMode::ScaleToMapCoords(off_anim);
+    MapMode::ScaleToMapZoomRatio(off_anim);
     on_anim.LoadFromAnimationScript(on_animation_file);
-    MapMode::ScaleToMapCoords(on_anim);
+    MapMode::ScaleToMapZoomRatio(on_anim);
 
     AddAnimation(off_anim);
     AddAnimation(on_anim);
@@ -1842,7 +1839,7 @@ bool ObjectSupervisor::IsWithinMapBounds(VirtualSprite *sprite) const
 
 void ObjectSupervisor::DrawCollisionArea(const MapFrame *frame)
 {
-    VideoManager->Move(frame->tile_x_offset - 0.5f, frame->tile_y_offset - 1.0f);
+    VideoManager->Move(GRID_LENGTH * (frame->tile_x_offset - 0.5f), GRID_LENGTH * (frame->tile_y_offset - 1.0f));
 
     for (uint32 y = static_cast<uint32>(frame->tile_y_start * 2);
          y < static_cast<uint32>((frame->tile_y_start + frame->num_draw_y_axis) * 2); ++y) {
@@ -1851,11 +1848,11 @@ void ObjectSupervisor::DrawCollisionArea(const MapFrame *frame)
 
             // Draw the collision rectangle.
             if (_collision_grid[y][x] > 0)
-                VideoManager->DrawRectangle(1.0f, 1.0f, Color(1.0f, 0.0f, 0.0f, 0.6f));
+                VideoManager->DrawRectangle(GRID_LENGTH, GRID_LENGTH, Color(1.0f, 0.0f, 0.0f, 0.6f));
 
-            VideoManager->MoveRelative(1.0f, 0.0f);
+            VideoManager->MoveRelative(GRID_LENGTH, 0.0f);
         } // x
-        VideoManager->MoveRelative(-static_cast<float>(frame->num_draw_x_axis * 2), 1.0f);
+        VideoManager->MoveRelative(-static_cast<float>(frame->num_draw_x_axis * 2) * GRID_LENGTH, GRID_LENGTH);
     } // y
 }
 

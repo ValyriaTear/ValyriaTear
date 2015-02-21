@@ -100,10 +100,8 @@ bool TileSupervisor::Load(ReadScriptDescriptor &map_file)
             return false;
         }
 
-        // The map mode coordinate system used corresponds to a tile size of (2.0, 2.0)
         for(uint32 j = 0; j < TILES_PER_TILESET; j++) {
-            tileset_images[i][j].SetDimensions(2.0f, 2.0f);
-            tileset_images[i][j].Smooth(VideoManager->ShouldSmoothPixelArt());
+            tileset_images[i][j].SetDimensions(TILE_LENGTH, TILE_LENGTH);
         }
     }
 
@@ -268,7 +266,7 @@ bool TileSupervisor::Load(ReadScriptDescriptor &map_file)
                 }
 
                 AnimatedImage *new_animation = new AnimatedImage();
-                new_animation->SetDimensions(2.0f, 2.0f);
+                new_animation->SetDimensions(TILE_LENGTH, TILE_LENGTH);
 
                 // Each pair of entries in the animation info indicate the tile frame index (k) and the time (k+1)
                 for(uint32 k = 0; k < animation_info.size(); k += 2) {
@@ -345,17 +343,16 @@ void TileSupervisor::DrawLayers(const MapFrame *frame, const LAYER_TYPE &layer_t
         // because the video engine will display the map tiles using their
         // top left coordinates to avoid a position computation flaw when specifying the tile
         // coordinates from the bottom center point, as the engine does for everything else.
-        VideoManager->Move(frame->tile_x_offset - 1.0f, frame->tile_y_offset - 2.0f);
-
+        VideoManager->Move(GRID_LENGTH * (frame->tile_x_offset - 1.0f), GRID_LENGTH * (frame->tile_y_offset - 2.0f));
         for(uint32 y = static_cast<uint32>(frame->tile_y_start); y < y_end; ++y) {
             for(uint32 x = static_cast<uint32>(frame->tile_x_start); x < x_end; ++x) {
                 // Draw a tile image if it exists at this location
                 if(layer.tiles[y][x] >= 0)
                     _tile_images[ layer.tiles[y][x] ]->Draw();
 
-                VideoManager->MoveRelative(2.0f, 0.0f);
+                VideoManager->MoveRelative(TILE_LENGTH, 0.0f);
             } // x
-            VideoManager->MoveRelative(-static_cast<float>(frame->num_draw_x_axis * 2), 2.0f);
+            VideoManager->MoveRelative(-static_cast<float>(frame->num_draw_x_axis) * TILE_LENGTH, TILE_LENGTH);
         } // y
     } // layer_id
     // Restore the previous draw flags

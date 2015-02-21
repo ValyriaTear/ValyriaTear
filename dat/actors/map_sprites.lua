@@ -11,8 +11,8 @@ sprites["Bronann"] = {
     name = vt_system.Translate("Bronann"),
     coll_half_width = 0.95,
     coll_height = 1.0,
-    img_half_width = 1.0,
-    img_height = 4.0,
+    img_half_width = 1.0 * 32 * 2,
+    img_height = 4.0 * 16 * 2,
     movement_speed = NORMAL_SPEED,
     face_portrait = "img/portraits/bronann.png",
 
