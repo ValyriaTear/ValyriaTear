@@ -140,14 +140,14 @@ bool VirtualSprite::_HandleWallEdges(float& next_pos_x, float& next_pos_y, float
 
     if(_direction & NORTH) {
         // Test both the north-east and north west cases
-        if(!object_supervisor->IsStaticCollision(_tile_position.x + _coll_tile_half_width,
-                                                 _tile_position.y - _coll_tile_height - distance_moved)) {
+        if(!object_supervisor->IsStaticCollision(_tile_position.x + _coll_grid_half_width,
+                                                 _tile_position.y - _coll_grid_height - distance_moved)) {
             edge_next_pos_x = _tile_position.x + edge_distance_moved;
             edge_next_pos_y = _tile_position.y;
             on_edge = true;
         }
-        else if (!object_supervisor->IsStaticCollision(_tile_position.x - _coll_tile_half_width,
-                                                       _tile_position.y - _coll_tile_height - distance_moved)) {
+        else if (!object_supervisor->IsStaticCollision(_tile_position.x - _coll_grid_half_width,
+                                                       _tile_position.y - _coll_grid_height - distance_moved)) {
             edge_next_pos_x = _tile_position.x - edge_distance_moved;
             edge_next_pos_y = _tile_position.y;
             on_edge = true;
@@ -155,13 +155,13 @@ bool VirtualSprite::_HandleWallEdges(float& next_pos_x, float& next_pos_y, float
     }
     else if(_direction & SOUTH) {
         // Test both the south-east and south west cases
-        if(!object_supervisor->IsStaticCollision(_tile_position.x + _coll_tile_half_width,
+        if(!object_supervisor->IsStaticCollision(_tile_position.x + _coll_grid_half_width,
                                                  _tile_position.y + distance_moved)) {
             edge_next_pos_x = _tile_position.x + edge_distance_moved;
             edge_next_pos_y = _tile_position.y;
             on_edge = true;
         }
-        else if (!object_supervisor->IsStaticCollision(_tile_position.x - _coll_tile_half_width,
+        else if (!object_supervisor->IsStaticCollision(_tile_position.x - _coll_grid_half_width,
                                                        _tile_position.y + distance_moved)) {
             edge_next_pos_x = _tile_position.x - edge_distance_moved;
             edge_next_pos_y = _tile_position.y;
@@ -170,13 +170,13 @@ bool VirtualSprite::_HandleWallEdges(float& next_pos_x, float& next_pos_y, float
     }
     else if(_direction & EAST) {
         // Test both the north-east and south-east cases
-        if(!object_supervisor->IsStaticCollision(_tile_position.x + _coll_tile_half_width + distance_moved,
-                                                 _tile_position.y - _coll_tile_height)) {
+        if(!object_supervisor->IsStaticCollision(_tile_position.x + _coll_grid_half_width + distance_moved,
+                                                 _tile_position.y - _coll_grid_height)) {
             edge_next_pos_x = _tile_position.x;
             edge_next_pos_y = _tile_position.y - edge_distance_moved;
             on_edge = true;
         }
-        else if (!object_supervisor->IsStaticCollision(_tile_position.x + _coll_tile_half_width + distance_moved,
+        else if (!object_supervisor->IsStaticCollision(_tile_position.x + _coll_grid_half_width + distance_moved,
                                                        _tile_position.y)) {
             edge_next_pos_x = _tile_position.x;
             edge_next_pos_y = _tile_position.y + edge_distance_moved;
@@ -185,13 +185,13 @@ bool VirtualSprite::_HandleWallEdges(float& next_pos_x, float& next_pos_y, float
     }
     else if(_direction & WEST) {
         // Test both the north-west and south-west cases
-        if(!object_supervisor->IsStaticCollision(_tile_position.x - _coll_tile_half_width - distance_moved,
-                                                 _tile_position.y - _coll_tile_height)) {
+        if(!object_supervisor->IsStaticCollision(_tile_position.x - _coll_grid_half_width - distance_moved,
+                                                 _tile_position.y - _coll_grid_height)) {
             edge_next_pos_x = _tile_position.x;
             edge_next_pos_y = _tile_position.y - edge_distance_moved;
             on_edge = true;
         }
-        else if (!object_supervisor->IsStaticCollision(_tile_position.x - _coll_tile_half_width - distance_moved,
+        else if (!object_supervisor->IsStaticCollision(_tile_position.x - _coll_grid_half_width - distance_moved,
                                                        _tile_position.y)) {
             edge_next_pos_x = _tile_position.x;
             edge_next_pos_y = _tile_position.y + edge_distance_moved;
@@ -354,7 +354,7 @@ void VirtualSprite::_SetNextPosition()
         // Check whether the sprite is tangled with another character, even without moving
         // For instance, when colliding with a path follower npc.
         // And let it through in that case.
-        if(object_supervisor->CheckObjectCollision(GetTileCollisionRectangle(), collision_object)) {
+        if(object_supervisor->CheckObjectCollision(GetGridCollisionRectangle(), collision_object)) {
             collision_type = NO_COLLISION;
             break;
         }

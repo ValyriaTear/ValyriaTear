@@ -84,8 +84,8 @@ void MapZone::Draw()
     // Verify each section of the zone and check if the position is within the section bounds.
     for(std::vector<ZoneSection>::const_iterator it = _sections.begin(); it != _sections.end(); ++it) {
         if(_ShouldDraw(*it)) {
-            vt_video::VideoManager->DrawRectangle(it->right_col - it->left_col,
-                                                   it->bottom_row - it->top_row,
+            vt_video::VideoManager->DrawRectangle((it->right_col - it->left_col) * GRID_LENGTH,
+                                                  (it->bottom_row - it->top_row) * GRID_LENGTH,
                                                    vt_video::Color(1.0f, 0.6f, 0.0f, 0.6f));
         }
     }

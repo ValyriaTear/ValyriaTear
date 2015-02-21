@@ -52,14 +52,14 @@ MapObject::MapObject(MapObjectDrawLayer layer) :
     _img_pixel_height(0.0f),
     _img_screen_half_width(0.0f),
     _img_screen_height(0.0f),
-    _img_tile_half_width(0.0f),
-    _img_tile_height(0.0f),
+    _img_grid_half_width(0.0f),
+    _img_grid_height(0.0f),
     _coll_pixel_half_width(0.0f),
     _coll_pixel_height(0.0f),
     _coll_screen_half_width(0.0f),
     _coll_screen_height(0.0f),
-    _coll_tile_half_width(0.0f),
-    _coll_tile_height(0.0f),
+    _coll_grid_half_width(0.0f),
+    _coll_grid_height(0.0f),
     _updatable(true),
     _visible(true),
     _collision_mask(ALL_COLLISION),
@@ -85,7 +85,7 @@ bool MapObject::ShouldDraw()
     MapMode* MM = MapMode::CurrentInstance();
 
     // Determine if the sprite is off-screen and if so, don't draw it.
-    if(!MapRectangle::CheckIntersection(GetTileImageRectangle(), MM->GetMapFrame().screen_edges))
+    if(!MapRectangle::CheckIntersection(GetGridImageRectangle(), MM->GetMapFrame().screen_edges))
         return false;
 
     // Move the drawing cursor to the appropriate coordinates for this sprite
@@ -97,24 +97,24 @@ bool MapObject::ShouldDraw()
     return true;
 }
 
-MapRectangle MapObject::GetTileCollisionRectangle() const
+MapRectangle MapObject::GetGridCollisionRectangle() const
 {
     MapRectangle rect;
-    rect.left = _tile_position.x - _coll_tile_half_width;
-    rect.right = _tile_position.x + _coll_tile_half_width;
-    rect.top = _tile_position.y - _coll_tile_height;
+    rect.left = _tile_position.x - _coll_grid_half_width;
+    rect.right = _tile_position.x + _coll_grid_half_width;
+    rect.top = _tile_position.y - _coll_grid_height;
     rect.bottom = _tile_position.y;
 
     return rect;
 }
 
-MapRectangle MapObject::GetTileCollisionRectangle(float x, float y) const
+MapRectangle MapObject::GetGridCollisionRectangle(float tile_x, float tile_y) const
 {
     MapRectangle rect;
-    rect.left = x - _coll_tile_half_width;
-    rect.right = x + _coll_tile_half_width;
-    rect.top = y - _coll_tile_height;
-    rect.bottom = y;
+    rect.left = tile_x - _coll_grid_half_width;
+    rect.right = tile_x + _coll_grid_half_width;
+    rect.top = tile_y - _coll_grid_height;
+    rect.bottom = tile_y;
     return rect;
 }
 
@@ -154,12 +154,12 @@ MapRectangle MapObject::GetScreenImageRectangle() const
     return rect;
 }
 
-MapRectangle MapObject::GetTileImageRectangle() const
+MapRectangle MapObject::GetGridImageRectangle() const
 {
     MapRectangle rect;
-    rect.left = _tile_position.x - _img_tile_half_width;
-    rect.right = _tile_position.x + _img_tile_half_width;
-    rect.top = _tile_position.y - _img_tile_height;
+    rect.left = _tile_position.x - _img_grid_half_width;
+    rect.right = _tile_position.x + _img_grid_half_width;
+    rect.top = _tile_position.y - _img_grid_height;
     rect.bottom = _tile_position.y;
     return rect;
 }
@@ -228,9 +228,9 @@ bool MapObject::IsCollidingWith(MapObject* other_object)
      if (other_object->GetCollisionMask() == NO_COLLISION)
         return false;
 
-    MapRectangle other_rect = other_object->GetTileCollisionRectangle();
+    MapRectangle other_rect = other_object->GetGridCollisionRectangle();
 
-    if (!MapRectangle::CheckIntersection(GetTileCollisionRectangle(), other_rect))
+    if (!MapRectangle::CheckIntersection(GetGridCollisionRectangle(), other_rect))
         return false;
 
     return _collision_mask & other_object->GetCollisionMask();
@@ -504,11 +504,11 @@ Halo::Halo(const std::string& filename, float x, float y, const Color& color):
     if(!_animation.LoadFromAnimationScript(filename))
         return;
 
-    MapMode::ScaleToMapZoomRatio(_animation);
-
     // Setup the image collision for the display update
     SetImgPixelHalfWidth(_animation.GetWidth() / 2.0f);
     SetImgPixelHeight(_animation.GetHeight());
+
+    MapMode::ScaleToMapZoomRatio(_animation);
 
     // Auto-registers to the object supervisor for later deletion handling
     MapMode::CurrentInstance()->GetObjectSupervisor()->AddHalo(this);
@@ -558,11 +558,11 @@ Light::Light(const std::string &main_flare_filename,
     _distance_factor_4 = RandomFloat(5.0f, 9.0f);
 
     if(_main_animation.LoadFromAnimationScript(main_flare_filename)) {
-        MapMode::ScaleToMapZoomRatio(_main_animation);
-
         // Setup the image collision for the display update
         SetImgPixelHalfWidth(_main_animation.GetWidth() / 3.0f);
         SetImgPixelHeight(_main_animation.GetHeight());
+
+        MapMode::ScaleToMapZoomRatio(_main_animation);
     }
     if(_secondary_animation.LoadFromAnimationScript(secondary_flare_filename)) {
         MapMode::ScaleToMapZoomRatio(_secondary_animation);
@@ -584,14 +584,14 @@ Light* Light::Create(const std::string &main_flare_filename,
                      x, y, main_color, secondary_color);
 }
 
-MapRectangle Light::GetTileImageRectangle() const
+MapRectangle Light::GetGridImageRectangle() const
 {
     MapRectangle rect;
-    rect.left = _tile_position.x - _img_tile_half_width;
-    rect.right = _tile_position.x + _img_tile_half_width;
+    rect.left = _tile_position.x - _img_grid_half_width;
+    rect.right = _tile_position.x + _img_grid_half_width;
     // The y coord is also centered in that case
-    rect.top = _tile_position.y - (_img_tile_height / 2.0f);
-    rect.bottom = _tile_position.y + (_img_tile_height / 2.0f);
+    rect.top = _tile_position.y - (_img_grid_height / 2.0f);
+    rect.bottom = _tile_position.y + (_img_grid_height / 2.0f);
     return rect;
 }
 
@@ -1056,7 +1056,7 @@ void TriggerObject::Update()
 
     MapMode *map_mode = MapMode::CurrentInstance();
     if (!map_mode->IsCameraOnVirtualFocus()
-            && MapRectangle::CheckIntersection(map_mode->GetCamera()->GetTileCollisionRectangle(), GetTileCollisionRectangle())) {
+            && MapRectangle::CheckIntersection(map_mode->GetCamera()->GetGridCollisionRectangle(), GetGridCollisionRectangle())) {
 
         map_mode->GetCamera()->SetMoving(false);
         SetState(true);
@@ -1397,13 +1397,13 @@ void ObjectSupervisor::_UpdateSavePoints()
 
     MapRectangle spr_rect;
     if(sprite)
-        spr_rect = sprite->GetTileCollisionRectangle();
+        spr_rect = sprite->GetGridCollisionRectangle();
 
     for(std::vector<SavePoint *>::iterator it = _save_points.begin();
             it != _save_points.end(); ++it) {
         if (map_mode->AreSavePointsEnabled()) {
             (*it)->SetActive(MapRectangle::CheckIntersection(spr_rect,
-                             (*it)->GetTileCollisionRectangle()));
+                             (*it)->GetGridCollisionRectangle()));
         }
         else {
             (*it)->SetActive(false);
@@ -1435,8 +1435,8 @@ MapObject *ObjectSupervisor::_FindNearestSavePoint(const VirtualSprite *sprite)
     for(std::vector<SavePoint *>::iterator it = _save_points.begin();
             it != _save_points.end(); ++it) {
 
-        if(MapRectangle::CheckIntersection(sprite->GetTileCollisionRectangle(),
-                                           (*it)->GetTileCollisionRectangle())) {
+        if(MapRectangle::CheckIntersection(sprite->GetGridCollisionRectangle(),
+                                           (*it)->GetGridCollisionRectangle())) {
             return (*it);
         }
     }
@@ -1465,7 +1465,7 @@ MapObject *ObjectSupervisor::FindNearestInteractionObject(const VirtualSprite *s
         return 0;
 
     // Using the sprite's direction, determine the boundaries of the search area to check for objects
-    MapRectangle search_area = sprite->GetTileCollisionRectangle();
+    MapRectangle search_area = sprite->GetGridCollisionRectangle();
     if(sprite->GetDirection() & FACING_NORTH) {
         search_area.bottom = search_area.top;
         search_area.top = search_area.top - search_distance;
@@ -1519,7 +1519,7 @@ MapObject *ObjectSupervisor::FindNearestInteractionObject(const VirtualSprite *s
                 continue;
         }
 
-        MapRectangle object_rect = (*it)->GetTileCollisionRectangle();
+        MapRectangle object_rect = (*it)->GetGridCollisionRectangle();
         if(MapRectangle::CheckIntersection(object_rect, search_area) == true)
             valid_objects.push_back(*it);
     } // for (std::map<MapObject*>::iterator i = _all_objects.begin(); i != _all_objects.end(); i++)
@@ -1558,7 +1558,7 @@ bool ObjectSupervisor::CheckObjectCollision(const MapRectangle &rect, const priv
     if(!obj)
         return false;
 
-    MapRectangle obj_rect = obj->GetTileCollisionRectangle();
+    MapRectangle obj_rect = obj->GetGridCollisionRectangle();
     return MapRectangle::CheckIntersection(rect, obj_rect);
 }
 
@@ -1569,7 +1569,7 @@ bool ObjectSupervisor::IsPositionOccupiedByObject(float x, float y, MapObject *o
         return false;
     }
 
-    MapRectangle rect = object->GetTileCollisionRectangle();
+    MapRectangle rect = object->GetGridCollisionRectangle();
 
     if(x >= rect.left && x <= rect.right) {
         if(y <= rect.bottom && y >= rect.top) {
@@ -1611,7 +1611,7 @@ COLLISION_TYPE ObjectSupervisor::DetectCollision(MapObject* object,
         return NO_COLLISION;
 
     // Get the collision rectangle at the given position
-    MapRectangle sprite_rect = object->GetTileCollisionRectangle(x_pos, y_pos);
+    MapRectangle sprite_rect = object->GetGridCollisionRectangle(x_pos, y_pos);
 
     // Check if any part of the object's collision rectangle is outside of the map boundary
     if(sprite_rect.left < 0.0f || sprite_rect.right >= static_cast<float>(_num_grid_x_axis) ||
@@ -1926,7 +1926,7 @@ bool ObjectSupervisor::IsStaticCollision(float x, float y)
             continue;
 
         //get the rect. if the x and y fields are within the rect, we have a collision here
-        MapRectangle rect = collision_object->GetTileCollisionRectangle();
+        MapRectangle rect = collision_object->GetGridCollisionRectangle();
         //we know x and y are inside the map. So, just test then as a box vs point test
         if(rect.top < y && y < rect.bottom &&
            rect.left < x && x < rect.right)
