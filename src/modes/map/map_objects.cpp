@@ -663,7 +663,6 @@ void Light::Draw()
     MapMode *mm = MapMode::CurrentInstance();
     if(!mm)
         return;
-    const MapFrame &frame = mm->GetMapFrame();
 
     VideoManager->SetDrawFlags(VIDEO_X_CENTER, VIDEO_Y_CENTER, 0);
 
@@ -676,27 +675,23 @@ void Light::Draw()
 
     float next_pos_x = _tile_position.x - _distance / _distance_factor_1;
     float next_pos_y = _a * next_pos_x + _b;
-    //FIXME: Won't work with another zoom ratio than 2.0f
-    VideoManager->Move(next_pos_x - frame.screen_edges.left,
-                       next_pos_y - frame.screen_edges.top);
+
+    VideoManager->Move(mm->GetScreenXCoordinate(next_pos_x), mm->GetScreenYCoordinate(next_pos_y));
     VideoManager->DrawHalo(*_secondary_animation.GetCurrentFrame(), _secondary_color_alpha);
 
     next_pos_x = _tile_position.x - _distance / _distance_factor_2;
     next_pos_y = _a * next_pos_x + _b;
-    VideoManager->Move(next_pos_x - frame.screen_edges.left,
-                       next_pos_y - frame.screen_edges.top);
+    VideoManager->Move(mm->GetScreenXCoordinate(next_pos_x), mm->GetScreenYCoordinate(next_pos_y));
     VideoManager->DrawHalo(*_secondary_animation.GetCurrentFrame(), _secondary_color_alpha);
 
     next_pos_x = _tile_position.x + _distance / _distance_factor_3;
     next_pos_y = _a * next_pos_x + _b;
-    VideoManager->Move(next_pos_x - frame.screen_edges.left,
-                       next_pos_y - frame.screen_edges.top);
+    VideoManager->Move(mm->GetScreenXCoordinate(next_pos_x), mm->GetScreenYCoordinate(next_pos_y));
     VideoManager->DrawHalo(*_secondary_animation.GetCurrentFrame(), _secondary_color_alpha);
 
     next_pos_x = _tile_position.x + _distance / _distance_factor_4;
     next_pos_y = _a * next_pos_x + _b;
-    VideoManager->Move(next_pos_x - frame.screen_edges.left,
-                       next_pos_y - frame.screen_edges.top);
+    VideoManager->Move(mm->GetScreenXCoordinate(next_pos_x), mm->GetScreenYCoordinate(next_pos_y));
     VideoManager->DrawHalo(*_secondary_animation.GetCurrentFrame(), _secondary_color_alpha);
 
     VideoManager->SetDrawFlags(VIDEO_X_CENTER, VIDEO_Y_BOTTOM, 0);
