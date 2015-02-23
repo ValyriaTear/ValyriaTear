@@ -202,7 +202,7 @@ public:
     void SetImgPixelHalfWidth(float width) {
         _img_pixel_half_width = width;
         _img_screen_half_width = width * MAP_ZOOM_RATIO;
-        _img_grid_half_width = width / GRID_LENGTH * 2.0f;
+        _img_grid_half_width = width / GRID_LENGTH * MAP_ZOOM_RATIO;
     }
 
     //! \brief Set the object image half width (in pixels).
@@ -210,19 +210,19 @@ public:
     void SetImgPixelHeight(float height) {
         _img_pixel_height = height;
         _img_screen_height = height * MAP_ZOOM_RATIO;
-        _img_grid_height = height / GRID_LENGTH * 2.0f;
+        _img_grid_height = height / GRID_LENGTH * MAP_ZOOM_RATIO;
     }
 
     void SetCollPixelHalfWidth(float collision) {
         _coll_pixel_half_width = collision;
         _coll_screen_half_width = collision * MAP_ZOOM_RATIO;
-        _coll_grid_half_width = collision / GRID_LENGTH * 2.0f;
+        _coll_grid_half_width = collision / GRID_LENGTH * MAP_ZOOM_RATIO;
     }
 
     void SetCollPixelHeight(float collision) {
         _coll_pixel_height = collision;
         _coll_screen_height = collision * MAP_ZOOM_RATIO;
-        _coll_grid_height = collision / GRID_LENGTH * 2.0f;
+        _coll_grid_height = collision / GRID_LENGTH * MAP_ZOOM_RATIO;
     }
 
     void SetUpdatable(bool update) {
