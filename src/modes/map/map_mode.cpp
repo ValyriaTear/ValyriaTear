@@ -211,7 +211,7 @@ void MapMode::Reset()
 
     // Reset video engine context properties
     VideoManager->SetStandardCoordSys();
-    VideoManager->SetDrawFlags(VIDEO_X_CENTER, VIDEO_Y_BOTTOM, 0);
+    VideoManager->SetDrawFlags(VIDEO_BLEND, VIDEO_X_CENTER, VIDEO_Y_BOTTOM, 0);
 
     // Make the map location known globally to other code that may need to know this information
     GlobalManager->SetMap(_map_data_filename, _map_script_filename,
@@ -373,19 +373,19 @@ void MapMode::Draw()
     VideoManager->SetStandardCoordSys();
     GetScriptSupervisor().DrawBackground();
 
-    VideoManager->SetDrawFlags(VIDEO_X_CENTER, VIDEO_Y_BOTTOM, 0);
+    VideoManager->SetDrawFlags(VIDEO_BLEND, VIDEO_X_CENTER, VIDEO_Y_BOTTOM, 0);
     _DrawMapLayers();
 
     GetScriptSupervisor().DrawForeground();
 
-    VideoManager->SetDrawFlags(VIDEO_X_CENTER, VIDEO_Y_BOTTOM, 0);
+    VideoManager->SetDrawFlags(VIDEO_BLEND, VIDEO_X_CENTER, VIDEO_Y_BOTTOM, 0);
     _object_supervisor->DrawDialogIcons();
     VideoManager->PopState();
 }
 
 void MapMode::DrawPostEffects()
 {
-    VideoManager->SetDrawFlags(VIDEO_X_CENTER, VIDEO_Y_BOTTOM, 0);
+    VideoManager->SetDrawFlags(VIDEO_BLEND, VIDEO_X_CENTER, VIDEO_Y_BOTTOM, 0);
     // Halos are additive blending made, so they should be applied
     // as post-effects but before the GUI.
     _object_supervisor->DrawLights();
