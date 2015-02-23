@@ -424,12 +424,13 @@ SavePoint::SavePoint(float x, float y):
     // Set the collision rectangle according to the dimensions of the first frame
     // Remove a margin to the save point so that the character has to actually
     // enter the save point before colliding with it.
-    SetCollPixelHalfWidth((_animations->at(0).GetWidth() - GRID_LENGTH) / 2.0f);
-    SetCollPixelHeight(_animations->at(0).GetHeight() - 0.3f * GRID_LENGTH);
+    // Note: We divide by the map zoom ratio because the animation are already rescaled following it.
+    SetCollPixelHalfWidth((_animations->at(0).GetWidth() / MAP_ZOOM_RATIO) / 2.0f);
+    SetCollPixelHeight((_animations->at(0).GetHeight() / MAP_ZOOM_RATIO) - 0.3f * GRID_LENGTH);
 
     // Setup the image collision for the display update
-    SetImgPixelHalfWidth(_animations->at(0).GetWidth() / 2.0f);
-    SetImgPixelHeight(_animations->at(0).GetHeight());
+    SetImgPixelHalfWidth(_animations->at(0).GetWidth() / MAP_ZOOM_RATIO / 2.0f);
+    SetImgPixelHeight(_animations->at(0).GetHeight() / MAP_ZOOM_RATIO);
 
     // Preload the save active sound
     AudioManager->LoadSound("snd/save_point_activated_dokashiteru_oga.wav", map_mode);
