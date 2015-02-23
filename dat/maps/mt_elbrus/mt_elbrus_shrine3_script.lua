@@ -71,7 +71,8 @@ end
 
 local fence1 = nil
 local fence2 = nil
-local spikes = nil
+-- An array of spikes
+local spikes = {}
 
 local spike_wall = nil;
 local wall_rumble_sound = nil;

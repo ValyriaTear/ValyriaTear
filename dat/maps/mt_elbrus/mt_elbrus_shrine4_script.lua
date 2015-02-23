@@ -255,7 +255,7 @@ function _CreateObjects()
 
     -- The trigger opening the next map.
     object = vt_map.TriggerObject.Create("mt elbrus shrine 4 trigger 1",
-                                         vt_map.MapMode.FLATGROUND_OBJECT
+                                         vt_map.MapMode.FLATGROUND_OBJECT,
                                          "img/sprites/map/triggers/stone_trigger1_off.lua",
                                          "img/sprites/map/triggers/stone_trigger1_on.lua",
                                          "", "Trap map open event");
