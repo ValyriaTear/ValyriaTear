@@ -81,7 +81,7 @@ function _CreateCharacters()
     orlinn:SetMovementSpeed(vt_map.MapMode.NORMAL_SPEED);
 
     -- Create the fake wall  out of the object catalog as it is used once,
-    fake_wall = vt_map.PhysicalObject(vt_map.MapMode.GROUND_OBJECT);
+    fake_wall = vt_map.PhysicalObject.Create(vt_map.MapMode.GROUND_OBJECT);
     fake_wall:SetPosition(32.0, 14.0);
     fake_wall:SetCollHalfWidth(4.0);
     fake_wall:SetCollHeight(10.0);
