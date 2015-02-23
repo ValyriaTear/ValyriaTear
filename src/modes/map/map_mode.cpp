@@ -946,8 +946,8 @@ void MapMode::_DrawDebugGrid()
     VideoManager->SetStandardCoordSys();
     VideoManager->PushMatrix();
 
-    float x = _map_frame.tile_x_offset * VideoManager->GetViewportWidth() / SCREEN_GRID_X_LENGTH;
-    float y = _map_frame.tile_y_offset * VideoManager->GetViewportHeight() / SCREEN_GRID_Y_LENGTH;
+    float x = _map_frame.tile_x_offset * GRID_LENGTH;
+    float y = _map_frame.tile_y_offset * GRID_LENGTH;
     VideoManager->Move(x, y);
 
     // Calculate the dimensions of the grid.
@@ -967,12 +967,12 @@ void MapMode::_DrawDebugGrid()
     bottom += (width_cell_vertical * 2.0f);
 
     // Draw the collision grid.
-    Color color = Color(0.0f, 0.0f, 0.5f, 1.0f);
-    VideoManager->DrawGrid(left, top, right, bottom, width_cell_horizontal, width_cell_vertical, 1, color);
+    Color color = Color(0.0f, 0.0f, 0.5f, 0.2f);
+    VideoManager->DrawGrid(left, top, right, bottom, width_cell_horizontal, width_cell_vertical, 2, color);
 
     // Draw the tile grid.
-    color = Color(0.5f, 0.0f, 0.0f, 1.0f);
-    VideoManager->DrawGrid(left, top, right, bottom, width_cell_horizontal * 2.0f, width_cell_vertical * 2.0f, 1, color);
+    color = Color(0.5f, 0.0f, 0.0f, 0.3f);
+    VideoManager->DrawGrid(left, top, right, bottom, width_cell_horizontal * 2.0f, width_cell_vertical * 2.0f, 2, color);
 
     VideoManager->PopMatrix();
 }
