@@ -823,8 +823,8 @@ void MapMode::_UpdateMapFrame()
     // and used as the multiple of the current camera tile offset.
     if (_pixel_length_x <= 0.0f || _pixel_length_y <= 0.0f) {
         VideoManager->GetPixelSize(_pixel_length_x, _pixel_length_y);
-        _pixel_length_x /= SCREEN_GRID_X_LENGTH;
-        _pixel_length_y /= SCREEN_GRID_Y_LENGTH;
+        _pixel_length_x /= GRID_LENGTH;
+        _pixel_length_y /= GRID_LENGTH;
     }
     //std::cout << "the ratio is: " << _pixel_length_x << ", " << _pixel_length_y << " for resolution: "
     //<< VideoManager->GetScreenWidth() << " x " << VideoManager->GetScreenHeight() << std::endl;
