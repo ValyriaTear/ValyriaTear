@@ -207,7 +207,7 @@ void MapObject::_DrawEmote()
         return;
 
     // Move the emote to the sprite head top, where the offset should applied from.
-    VideoManager->MoveRelative(_emote_screen_offset_x, -_img_pixel_height + _emote_screen_offset_y);
+    VideoManager->MoveRelative(_emote_screen_offset_x, -_img_screen_height + _emote_screen_offset_y);
     _emote_animation->Draw();
 }
 
