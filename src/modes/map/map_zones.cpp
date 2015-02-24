@@ -84,8 +84,8 @@ void MapZone::Draw()
     // Verify each section of the zone and check if the position is within the section bounds.
     for(std::vector<ZoneSection>::const_iterator it = _sections.begin(); it != _sections.end(); ++it) {
         if(_ShouldDraw(*it)) {
-            vt_video::VideoManager->DrawRectangle(it->right_col - it->left_col,
-                                                   it->bottom_row - it->top_row,
+            vt_video::VideoManager->DrawRectangle((it->right_col - it->left_col) * GRID_LENGTH,
+                                                  (it->bottom_row - it->top_row) * GRID_LENGTH,
                                                    vt_video::Color(1.0f, 0.6f, 0.0f, 0.6f));
         }
     }
@@ -103,7 +103,7 @@ void MapZone::RandomPosition(float &x, float &y)
 
 bool MapZone::_ShouldDraw(const ZoneSection &section)
 {
-    MapMode *map = MapMode::CurrentInstance();
+    MapMode* map_mode = MapMode::CurrentInstance();
 
     MapRectangle rect;
     rect.top = section.top_row;
@@ -112,7 +112,7 @@ bool MapZone::_ShouldDraw(const ZoneSection &section)
     rect.right = section.right_col;
 
     // Determine if the sprite is off-screen and if so, don't draw it.
-    if(!MapRectangle::CheckIntersection(rect, map->GetMapFrame().screen_edges))
+    if(!MapRectangle::CheckIntersection(rect, map_mode->GetMapFrame().screen_edges))
         return false;
 
     // Determine the center position coordinates for the camera
@@ -120,8 +120,8 @@ bool MapZone::_ShouldDraw(const ZoneSection &section)
     float y_pos = rect.top + (rect.bottom - rect.top);
 
     // Move the drawing cursor to the appropriate coordinates for this sprite
-    vt_video::VideoManager->Move(x_pos - map->GetMapFrame().screen_edges.left,
-                                 y_pos - map->GetMapFrame().screen_edges.top);
+    vt_video::VideoManager->Move(map_mode->GetScreenXCoordinate(x_pos),
+                                 map_mode->GetScreenYCoordinate(y_pos));
     return true;
 }
 

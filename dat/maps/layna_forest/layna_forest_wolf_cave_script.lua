@@ -140,20 +140,20 @@ function _CreateObjects()
     -- As this object is special, we're not using the object catalogue to only load that one once.
     necklace = vt_map.PhysicalObject.Create(vt_map.MapMode.GROUND_OBJECT);
     necklace:SetPosition(30, 9);
-    necklace:SetCollHalfWidth(0.5);
-    necklace:SetCollHeight(1.0);
-    necklace:SetImgHalfWidth(0.5);
-    necklace:SetImgHeight(1.0);
+    necklace:SetCollPixelHalfWidth(16);
+    necklace:SetCollPixelHeight(32);
+    necklace:SetImgPixelHalfWidth(16);
+    necklace:SetImgPixelHeight(32);
     necklace:AddAnimation("dat/maps/layna_forest/wolfpain_necklace.lua");
 
     -- Adds a light tilting to catch the player attention
     light_tilt = vt_map.PhysicalObject.Create(vt_map.MapMode.GROUND_OBJECT);
     light_tilt:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
     light_tilt:SetPosition(30, 9.1);
-    light_tilt:SetCollHalfWidth(0.5);
-    light_tilt:SetCollHeight(1.0);
-    light_tilt:SetImgHalfWidth(0.5);
-    light_tilt:SetImgHeight(1.0);
+    light_tilt:SetCollPixelHalfWidth(16);
+    light_tilt:SetCollPixelHeight(32);
+    light_tilt:SetImgPixelHalfWidth(16);
+    light_tilt:SetImgPixelHeight(32);
     light_tilt:AddAnimation("img/misc/lights/light_reverb.lua");
 
     -- Adds an associated npc to permit the dialogue to trigger

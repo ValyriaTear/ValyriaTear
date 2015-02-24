@@ -19,6 +19,7 @@
 #define __MAP_UTILS_HEADER__
 
 #include "utils/utils_pch.h"
+#include "engine/video/video_utils.h"
 
 #include <cmath>
 #include <vector>
@@ -41,8 +42,12 @@ namespace private_map
 *** number of rows and columns of tiles.
 **/
 //@{
-const float SCREEN_GRID_X_LENGTH = 32.0f;
-const float SCREEN_GRID_Y_LENGTH = 24.0f;
+// The zoom ratio will set how magnified (if > 1.0f) the map mode will display the tiles,
+// sprites and objects.
+const float MAP_ZOOM_RATIO = 2.0f;
+
+const float SCREEN_GRID_X_LENGTH = 64.0f / MAP_ZOOM_RATIO; // was 32 for zoom ratio 2.0f;
+const float SCREEN_GRID_Y_LENGTH = 48.0f / MAP_ZOOM_RATIO;
 const float HALF_SCREEN_GRID_X_LENGTH = SCREEN_GRID_X_LENGTH / 2;
 const float HALF_SCREEN_GRID_Y_LENGTH = SCREEN_GRID_Y_LENGTH / 2;
 
@@ -51,8 +56,10 @@ const uint16 TILES_ON_Y_AXIS = (uint16)SCREEN_GRID_Y_LENGTH / 2; // Number of ti
 const uint16 HALF_TILES_ON_X_AXIS = TILES_ON_X_AXIS / 2;
 const uint16 HALF_TILES_ON_Y_AXIS = TILES_ON_Y_AXIS / 2;
 
-const uint16 GRID_LENGTH = 32; // Length of a grid element in pixels
-const uint16 TILE_LENGTH = GRID_LENGTH * 2; // Length of a tile in pixels
+// Length of a grid element in pixels (taken from the grid to screen width ratio)
+const uint16 GRID_LENGTH = vt_video::VIDEO_STANDARD_RES_WIDTH / SCREEN_GRID_X_LENGTH;
+// Length of a tile in pixels
+const uint16 TILE_LENGTH = GRID_LENGTH * 2;
 //@}
 
 

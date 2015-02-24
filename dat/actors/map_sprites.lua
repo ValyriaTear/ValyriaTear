@@ -9,10 +9,10 @@ local ENEMY_SPEED = vt_map.MapMode.ENEMY_SPEED;
 
 sprites["Bronann"] = {
     name = vt_system.Translate("Bronann"),
-    coll_half_width = 0.95,
-    coll_height = 1.0,
-    img_half_width = 1.0,
-    img_height = 4.0,
+    coll_half_width = 0.95 * 16,
+    coll_height = 1.0 * 16,
+    img_half_width = 1.0 * 16,
+    img_height = 4.0 * 16,
     movement_speed = NORMAL_SPEED,
     face_portrait = "img/portraits/bronann.png",
 
@@ -42,10 +42,10 @@ sprites["Bronann"] = {
 -- Overworld sprite
 sprites["Mini_Bronann"] = {
     name = vt_system.Translate("Bronann"),
-    coll_half_width = 0.47,
-    coll_height = 0.5,
-    img_half_width = 0.5,
-    img_height = 2.0,
+    coll_half_width = 0.47 * 16,
+    coll_height = 0.5 * 16,
+    img_half_width = 0.5 * 16,
+    img_height = 2.0 * 16,
     movement_speed = NORMAL_SPEED,
     face_portrait = "img/portraits/bronann.png",
 
@@ -58,10 +58,10 @@ sprites["Mini_Bronann"] = {
 
 sprites["Kalya"] = {
     name = vt_system.Translate("Kalya"),
-    coll_half_width = 0.95,
-    coll_height = 1.0,
-    img_half_width = 1.0,
-    img_height = 4.0,
+    coll_half_width = 0.95 * 16,
+    coll_height = 1.0 * 16,
+    img_half_width = 1.0 * 16,
+    img_height = 4.0 * 16,
     movement_speed = SLOW_SPEED,
     face_portrait = "img/portraits/kalya.png",
 
@@ -85,10 +85,10 @@ sprites["Kalya"] = {
 
 sprites["Thanis"] = {
     name = vt_system.Translate("Thanis"),
-    coll_half_width = 0.95,
-    coll_height = 1.0,
-    img_half_width = 1.0,
-    img_height = 4.0,
+    coll_half_width = 0.95 * 16,
+    coll_height = 1.0 * 16,
+    img_half_width = 1.0 * 16,
+    img_height = 4.0 * 16,
     movement_speed = SLOW_SPEED,
     face_portrait = "img/portraits/thanis.png",
 
@@ -103,10 +103,10 @@ sprites["Thanis"] = {
 
 sprites["Carson"] = {
     name = vt_system.Translate("Carson"),
-    coll_half_width = 0.95,
-    coll_height = 1.0,
-    img_half_width = 1.0,
-    img_height = 4.0,
+    coll_half_width = 0.95 * 16,
+    coll_height = 1.0 * 16,
+    img_half_width = 1.0 * 16,
+    img_height = 4.0 * 16,
     movement_speed = SLOW_SPEED,
     face_portrait = "img/portraits/npcs/carson.png",
 
@@ -119,10 +119,10 @@ sprites["Carson"] = {
 
 sprites["Malta"] = {
     name = vt_system.Translate("Malta"),
-    coll_half_width = 0.95,
-    coll_height = 1.0,
-    img_half_width = 1.0,
-    img_height = 4.0,
+    coll_half_width = 0.95 * 16,
+    coll_height = 1.0 * 16,
+    img_half_width = 1.0 * 16,
+    img_height = 4.0 * 16,
     movement_speed = VERY_SLOW_SPEED,
     face_portrait = "img/portraits/npcs/malta.png",
 
@@ -135,10 +135,10 @@ sprites["Malta"] = {
 
 sprites["Orlinn"] = {
     name = vt_system.Translate("Orlinn"),
-    coll_half_width = 0.95,
-    coll_height = 1.0,
-    img_half_width = 1.0,
-    img_height = 3.0,
+    coll_half_width = 0.95 * 16,
+    coll_height = 1.0 * 16,
+    img_half_width = 1.0 * 16,
+    img_height = 3.0 * 16,
     movement_speed = NORMAL_SPEED,
     face_portrait = "img/portraits/npcs/orlinn.png",
 
@@ -157,10 +157,10 @@ sprites["Orlinn"] = {
 
 sprites["Herth"] = {
     name = vt_system.Translate("Herth"),
-    coll_half_width = 0.95,
-    coll_height = 1.0,
-    img_half_width = 1.0,
-    img_height = 4.0,
+    coll_half_width = 0.95 * 16,
+    coll_height = 1.0 * 16,
+    img_half_width = 1.0 * 16,
+    img_height = 4.0 * 16,
     movement_speed = SLOW_SPEED,
     face_portrait = "img/portraits/npcs/herth.png",
 
@@ -177,10 +177,10 @@ sprites["Herth"] = {
 
 sprites["Girl1"] = {
     name = vt_system.Translate("Olivia"), -- default name
-    coll_half_width = 0.95,
-    coll_height = 1.0,
-    img_half_width = 1.0,
-    img_height = 4.0,
+    coll_half_width = 0.95 * 16,
+    coll_height = 1.0 * 16,
+    img_half_width = 1.0 * 16,
+    img_height = 4.0 * 16,
     movement_speed = SLOW_SPEED,
 
     -- using special animation files.
@@ -192,10 +192,10 @@ sprites["Girl1"] = {
 
 sprites["Old Woman1"] = {
     name = vt_system.Translate("Brymir"), -- default name
-    coll_half_width = 0.95,
-    coll_height = 1.3,
-    img_half_width = 1.0,
-    img_height = 4.0,
+    coll_half_width = 0.95 * 16,
+    coll_height = 1.3 * 16,
+    img_half_width = 1.0 * 16,
+    img_height = 4.0 * 16,
     movement_speed = SLOW_SPEED,
 
     -- using special animation files.
@@ -207,10 +207,10 @@ sprites["Old Woman1"] = {
 
 sprites["Woman1"] = {
     name = vt_system.Translate("Martha"), -- default name
-    coll_half_width = 0.95,
-    coll_height = 1.1,
-    img_half_width = 1.0,
-    img_height = 4.0,
+    coll_half_width = 0.95 * 16,
+    coll_height = 1.1 * 16,
+    img_half_width = 1.0 * 16,
+    img_height = 4.0 * 16,
     movement_speed = SLOW_SPEED,
 
     -- using special animation files.
@@ -222,10 +222,10 @@ sprites["Woman1"] = {
 
 sprites["Woman2"] = {
     name = vt_system.Translate("Sophia"), -- default name
-    coll_half_width = 1.0,
-    coll_height = 1.1,
-    img_half_width = 1.0,
-    img_height = 4.0,
+    coll_half_width = 1.0 * 16,
+    coll_height = 1.1 * 16,
+    img_half_width = 1.0 * 16,
+    img_height = 4.0 * 16,
     movement_speed = NORMAL_SPEED,
     face_portrait = "img/portraits/npcs/woman02.png",
 
@@ -238,10 +238,10 @@ sprites["Woman2"] = {
 
 sprites["Woman3"] = {
     name = vt_system.Translate("Lilly"), -- default name
-    coll_half_width = 1.0,
-    coll_height = 1.3,
-    img_half_width = 1.0,
-    img_height = 4.0,
+    coll_half_width = 1.0 * 16,
+    coll_height = 1.3 * 16,
+    img_half_width = 1.0 * 16,
+    img_height = 4.0 * 16,
     movement_speed = NORMAL_SPEED,
 
     -- using special animation files.
@@ -253,10 +253,10 @@ sprites["Woman3"] = {
 
 sprites["Man1"] = {
     name = vt_system.Translate("Georges"), -- default name
-    coll_half_width = 0.95,
-    coll_height = 1.0,
-    img_half_width = 1.0,
-    img_height = 4.0,
+    coll_half_width = 0.95 * 16,
+    coll_height = 1.0 * 16,
+    img_half_width = 1.0 * 16,
+    img_height = 4.0 * 16,
     movement_speed = SLOW_SPEED,
 
     -- using special animation files.
@@ -269,10 +269,10 @@ sprites["Man1"] = {
 -- Used as a NPC to get portrait support
 sprites["Crystal"] = {
     name = vt_system.Translate("Crystal"), -- default name
-    coll_half_width = 0.95,
-    coll_height = 1.9,
-    img_half_width = 1.0,
-    img_height = 4.0,
+    coll_half_width = 0.95 * 16,
+    coll_height = 1.9 * 16,
+    img_half_width = 1.0 * 16,
+    img_height = 4.0 * 16,
     movement_speed = SLOW_SPEED,
     face_portrait = "img/backdrops/boot/crystal.png",
 
@@ -285,10 +285,10 @@ sprites["Crystal"] = {
 
 sprites["Soldier"] = {
     name = vt_system.Translate("Soldier"),
-    coll_half_width = 0.95,
-    coll_height = 1.2,
-    img_half_width = 1.0,
-    img_height = 4.0,
+    coll_half_width = 0.95 * 16,
+    coll_height = 1.2 * 16,
+    img_half_width = 1.0 * 16,
+    img_height = 4.0 * 16,
     movement_speed = SLOW_SPEED,
 
     -- using special animation files.
@@ -303,10 +303,10 @@ sprites["Soldier"] = {
 -- ---------
 sprites["Chicken"] = {
     name = vt_system.Translate("Chicken"),
-    coll_half_width = 0.95,
-    coll_height = 0.8,
-    img_half_width = 1.0,
-    img_height = 2.0,
+    coll_half_width = 0.95 * 16,
+    coll_height = 0.8 * 16,
+    img_half_width = 1.0 * 16,
+    img_height = 2.0 * 16,
     movement_speed = VERY_SLOW_SPEED,
 
     -- using special animation files.
@@ -318,10 +318,10 @@ sprites["Chicken"] = {
 
 sprites["Butterfly"] = {
     name = vt_system.Translate("Butterfly"),
-    coll_half_width = 0.65,
-    coll_height = 0.7,
-    img_half_width = 1.0,
-    img_height = 2.0,
+    coll_half_width = 0.65 * 16,
+    coll_height = 0.7 * 16,
+    img_half_width = 1.0 * 16,
+    img_height = 2.0 * 16,
     movement_speed = NORMAL_SPEED,
 
     -- using special animation files.
@@ -333,10 +333,10 @@ sprites["Butterfly"] = {
 
 sprites["Squirrel"] = {
     name = vt_system.Translate("Squirrel"),
-    coll_half_width = 0.65,
-    coll_height = 0.8,
-    img_half_width = 1.0,
-    img_height = 2.0,
+    coll_half_width = 0.65 * 16,
+    coll_height = 0.8 * 16,
+    img_half_width = 1.0 * 16,
+    img_height = 2.0 * 16,
     movement_speed = NORMAL_SPEED,
 
     -- using special animation files.
@@ -351,10 +351,10 @@ sprites["Squirrel"] = {
 -- ---------
 sprites["bat"] = {
     name = vt_system.Translate("Bat"),
-    coll_half_width = 0.6,
-    coll_height = 1.6,
-    img_half_width = 1.0,
-    img_height = 2.0,
+    coll_half_width = 0.6 * 16,
+    coll_height = 1.6 * 16,
+    img_half_width = 1.0 * 16,
+    img_height = 2.0 * 16,
     movement_speed = ENEMY_SPEED,
 
     -- using special animation files.
@@ -365,10 +365,10 @@ sprites["bat"] = {
 }
 
 sprites["slime"] = {
-    coll_half_width = 0.6,
-    coll_height = 1.0,
-    img_half_width = 0.6,
-    img_height = 1.0,
+    coll_half_width = 0.6 * 16,
+    coll_height = 1.0 * 16,
+    img_half_width = 0.6 * 16,
+    img_height = 1.0 * 16,
     movement_speed = ENEMY_SPEED,
     -- using special animation files.
     standard_animations = {
@@ -378,10 +378,10 @@ sprites["slime"] = {
 }
 
 sprites["spider"] = {
-    coll_half_width = 0.9,
-    coll_height = 1.8,
-    img_half_width = 1.0,
-    img_height = 2.0,
+    coll_half_width = 0.9 * 16,
+    coll_height = 1.8 * 16,
+    img_half_width = 1.0 * 16,
+    img_height = 2.0 * 16,
     movement_speed = ENEMY_SPEED,
     -- using special animation files.
     standard_animations = {
@@ -392,10 +392,10 @@ sprites["spider"] = {
 
 sprites["big slime"] = {
     name = vt_system.Translate("Slime Mother"),
-    coll_half_width = 1.5,
-    coll_height = 3.0,
-    img_half_width = 1.5,
-    img_height = 3.0,
+    coll_half_width = 1.5 * 16,
+    coll_height = 3.0 * 16,
+    img_half_width = 1.5 * 16,
+    img_height = 3.0 * 16,
     movement_speed = ENEMY_SPEED,
 
     -- using special animation files.
@@ -406,10 +406,10 @@ sprites["big slime"] = {
 }
 
 sprites["snake"] = {
-    coll_half_width = 1.0,
-    coll_height = 2.0,
-    img_half_width = 1.0,
-    img_height = 4.0,
+    coll_half_width = 1.0 * 16,
+    coll_height = 2.0 * 16,
+    img_half_width = 1.0 * 16,
+    img_height = 4.0 * 16,
     movement_speed = ENEMY_SPEED,
     -- using special animation files.
     standard_animations = {
@@ -420,10 +420,10 @@ sprites["snake"] = {
 
 
 sprites["scorpion"] = {
-    coll_half_width = 1.0,
-    coll_height = 2.0,
-    img_half_width = 1.0,
-    img_height = 4.0,
+    coll_half_width = 1.0 * 16,
+    coll_height = 2.0 * 16,
+    img_half_width = 1.0 * 16,
+    img_height = 4.0 * 16,
     movement_speed = ENEMY_SPEED,
     -- using special animation files.
     standard_animations = {
@@ -434,10 +434,10 @@ sprites["scorpion"] = {
 
 sprites["Fenrir"] = {
     name = vt_system.Translate("Fenrir"),
-    coll_half_width = 1.5,
-    coll_height = 3.0,
-    img_half_width = 1.5,
-    img_height = 3.0,
+    coll_half_width = 1.5 * 16,
+    coll_height = 3.0 * 16,
+    img_half_width = 1.5 * 16,
+    img_height = 3.0 * 16,
     movement_speed = ENEMY_SPEED,
 
     -- using special animation files.
@@ -449,10 +449,10 @@ sprites["Fenrir"] = {
 
 sprites["Dark Soldier"] = {
     name = vt_system.Translate("Dark Soldier"),
-    coll_half_width = 0.95,
-    coll_height = 1.2,
-    img_half_width = 1.0,
-    img_height = 4.0,
+    coll_half_width = 0.95 * 16,
+    coll_height = 1.2 * 16,
+    img_half_width = 1.0 * 16,
+    img_height = 4.0 * 16,
     movement_speed = ENEMY_SPEED,
     face_portrait = "img/portraits/npcs/dark_soldier.png",
 
@@ -470,10 +470,10 @@ sprites["Dark Soldier"] = {
 
 sprites["Lord"] = {
     name = vt_system.Translate("Lord"),
-    coll_half_width = 0.95,
-    coll_height = 1.2,
-    img_half_width = 1.0,
-    img_height = 4.0,
+    coll_half_width = 0.95 * 16,
+    coll_height = 1.2 * 16,
+    img_half_width = 1.0 * 16,
+    img_height = 4.0 * 16,
     movement_speed = SLOW_SPEED,
     face_portrait = "img/portraits/npcs/lord_banesore.png",
 
@@ -487,10 +487,10 @@ sprites["Lord"] = {
 -- First actual Mt. Elbrus monster
 sprites["Shroom"] = {
     name = vt_system.Translate("Shroom"),
-    coll_half_width = 0.9,
-    coll_height = 1.9,
-    img_half_width = 1.25,
-    img_height = 2.6,
+    coll_half_width = 0.9 * 16,
+    coll_height = 1.9 * 16,
+    img_half_width = 1.25 * 16,
+    img_height = 2.6 * 16,
     movement_speed = ENEMY_SPEED,
     --face_portrait = "",
 
@@ -508,10 +508,10 @@ sprites["Shroom"] = {
 
 sprites["Eyeball"] = {
     name = vt_system.Translate("Eyeball"),
-    coll_half_width = 0.9,
-    coll_height = 1.9,
-    img_half_width = 1.25,
-    img_height = 2.6,
+    coll_half_width = 0.9 * 16,
+    coll_height = 1.9 * 16,
+    img_half_width = 1.25 * 16,
+    img_height = 2.6 * 16,
     movement_speed = ENEMY_SPEED,
     --face_portrait = "",
 
@@ -524,10 +524,10 @@ sprites["Eyeball"] = {
 
 sprites["Dark Soldier on horse"] = {
     name = vt_system.Translate("Dark Soldier"),
-    coll_half_width = 3.0,
-    coll_height = 3.2,
-    img_half_width = 3.0,
-    img_height = 6.0,
+    coll_half_width = 3.0 * 16,
+    coll_height = 3.2 * 16,
+    img_half_width = 3.0 * 16,
+    img_height = 6.0 * 16,
     movement_speed = ENEMY_SPEED,
     face_portrait = "img/portraits/npcs/dark_soldier.png",
 
@@ -540,10 +540,10 @@ sprites["Dark Soldier on horse"] = {
 
 sprites["Beetle"] = {
     name = vt_system.Translate("Beetle"),
-    coll_half_width = 0.6,
-    coll_height = 1.2,
-    img_half_width = 1.25,
-    img_height = 2.6,
+    coll_half_width = 0.6 * 16,
+    coll_height = 1.2 * 16,
+    img_half_width = 1.25 * 16,
+    img_height = 2.6 * 16,
     movement_speed = ENEMY_SPEED,
     --face_portrait = "",
 
@@ -556,10 +556,10 @@ sprites["Beetle"] = {
 
 sprites["Skeleton"] = {
     name = vt_system.Translate("Skeleton"),
-    coll_half_width = 0.6,
-    coll_height = 1.2,
-    img_half_width = 2.0,
-    img_height = 4.0,
+    coll_half_width = 0.6 * 16,
+    coll_height = 1.2 * 16,
+    img_half_width = 2.0 * 16,
+    img_height = 4.0 * 16,
     movement_speed = ENEMY_SPEED,
     --face_portrait = "",
 
@@ -572,10 +572,10 @@ sprites["Skeleton"] = {
 
 sprites["Andromalius"] = {
     name = vt_system.Translate("Andromalius"),
-    coll_half_width = 1.781,
-    coll_height = 3.0,
-    img_half_width = 1.781,
-    img_height = 5.5,
+    coll_half_width = 1.781 * 16,
+    coll_height = 3.0 * 16,
+    img_half_width = 1.781 * 16,
+    img_height = 5.5 * 16,
     movement_speed = ENEMY_SPEED,
     --face_portrait = "",
 
@@ -608,10 +608,10 @@ function CreateSprite(Map, name, x, y, layer)
     sprite:SetName(sprites[name].name);
     sprite:SetSpriteName(name); -- The catalog reference
     sprite:SetPosition(x, y);
-    sprite:SetCollHalfWidth(sprites[name].coll_half_width);
-    sprite:SetCollHeight(sprites[name].coll_height);
-    sprite:SetImgHalfWidth(sprites[name].img_half_width);
-    sprite:SetImgHeight(sprites[name].img_height);
+    sprite:SetCollPixelHalfWidth(sprites[name].coll_half_width);
+    sprite:SetCollPixelHeight(sprites[name].coll_height);
+    sprite:SetImgPixelHalfWidth(sprites[name].img_half_width);
+    sprite:SetImgPixelHeight(sprites[name].img_height);
     sprite:SetMovementSpeed(sprites[name].movement_speed);
     if (sprites[name].face_portrait) then
         sprite:LoadFacePortrait(sprites[name].face_portrait);
@@ -651,10 +651,10 @@ function CreateNPCSprite(Map, name, npc_name, x, y, layer)
     sprite:SetName(npc_name);
     sprite:SetSpriteName(name); -- The catalog reference
     sprite:SetPosition(x, y);
-    sprite:SetCollHalfWidth(sprites[name].coll_half_width);
-    sprite:SetCollHeight(sprites[name].coll_height);
-    sprite:SetImgHalfWidth(sprites[name].img_half_width);
-    sprite:SetImgHeight(sprites[name].img_height);
+    sprite:SetCollPixelHalfWidth(sprites[name].coll_half_width);
+    sprite:SetCollPixelHeight(sprites[name].coll_height);
+    sprite:SetImgPixelHalfWidth(sprites[name].img_half_width);
+    sprite:SetImgPixelHeight(sprites[name].img_height);
     sprite:SetMovementSpeed(sprites[name].movement_speed);
 
     if (sprites[name].face_portrait) then
@@ -692,10 +692,10 @@ function CreateEnemySprite(Map, name)
     -- Note: Auto-registered to the object supervisor on the GROUND_LAYER.
     local enemy = vt_map.EnemySprite.Create();
     enemy:SetSpriteName(name); -- The catalog reference
-    enemy:SetCollHalfWidth(sprites[name].coll_half_width);
-    enemy:SetCollHeight(sprites[name].coll_height);
-    enemy:SetImgHalfWidth(sprites[name].img_half_width);
-    enemy:SetImgHeight(sprites[name].img_height);
+    enemy:SetCollPixelHalfWidth(sprites[name].coll_half_width);
+    enemy:SetCollPixelHeight(sprites[name].coll_height);
+    enemy:SetImgPixelHalfWidth(sprites[name].img_half_width);
+    enemy:SetImgPixelHeight(sprites[name].img_height);
     enemy:SetMovementSpeed(sprites[name].movement_speed);
 
     enemy:LoadStandingAnimations(sprites[name].standard_animations.idle);

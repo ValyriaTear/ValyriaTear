@@ -136,10 +136,10 @@ function _CreateObjects()
     -- Kalya's tears
     kalya_tear = vt_map.PhysicalObject.Create(vt_map.MapMode.GROUND_OBJECT);
     kalya_tear:SetPosition(0, 0);
-    kalya_tear:SetCollHalfWidth(0.156);
-    kalya_tear:SetCollHeight(0.312);
-    kalya_tear:SetImgHalfWidth(0.156);
-    kalya_tear:SetImgHeight(0.312);
+    kalya_tear:SetCollPixelHalfWidth(0.156 * 16);
+    kalya_tear:SetCollPixelHeight(0.312 * 16);
+    kalya_tear:SetImgPixelHalfWidth(0.156 * 16);
+    kalya_tear:SetImgPixelHeight(0.312 * 16);
     kalya_tear:AddStillFrame("img/effects/outlined_circle_small.png");
     kalya_tear:SetDrawOnSecondPass(true);
 

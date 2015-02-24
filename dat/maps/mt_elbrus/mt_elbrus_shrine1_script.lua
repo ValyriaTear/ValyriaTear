@@ -252,10 +252,10 @@ function _CreateObjects()
         -- Adds a door horizon...
         object = vt_map.PhysicalObject.Create(vt_map.MapMode.FLATGROUND_OBJECT);
         object:SetPosition(42, 0.8);
-        object:SetCollHalfWidth(0.5);
-        object:SetCollHeight(1.0);
-        object:SetImgHalfWidth(0.5);
-        object:SetImgHeight(1.0);
+        object:SetCollPixelHalfWidth(16);
+        object:SetCollPixelHeight(32);
+        object:SetImgPixelHalfWidth(16);
+        object:SetImgPixelHeight(32);
         object:AddStillFrame("dat/maps/mt_elbrus/shrine_entrance_light.png");
     end
 end

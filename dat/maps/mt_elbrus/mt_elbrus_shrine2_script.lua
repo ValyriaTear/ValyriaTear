@@ -205,10 +205,10 @@ function _CreateObjects()
     if (GlobalManager:GetEventValue("triggers", "mt elbrus shrine 2nd s2 trigger") == 0) then
         object = vt_map.PhysicalObject.Create(vt_map.MapMode.GROUND_OBJECT);
         object:SetPosition(2.0, 62.0);
-        object:SetCollHalfWidth(2.0);
-        object:SetCollHeight(12.0);
-        object:SetImgHalfWidth(2.0);
-        object:SetImgHeight(12.0);
+        object:SetCollPixelHalfWidth(32);
+        object:SetCollPixelHeight(12.0 * 16);
+        object:SetImgPixelHalfWidth(2.0 * 16);
+        object:SetImgPixelHeight(12.0 * 16);
         object:AddStillFrame("dat/maps/mt_elbrus/fake_wall.png");
     else
         _add_flame(1.5, 53);
@@ -218,10 +218,10 @@ function _CreateObjects()
     if (GlobalManager:GetEventValue("triggers", "mt elbrus shrine 4 trigger 1") == 0) then
         object = vt_map.PhysicalObject.Create(vt_map.MapMode.GROUND_OBJECT);
         object:SetPosition(62.0, 62.0);
-        object:SetCollHalfWidth(2.0);
-        object:SetCollHeight(12.0);
-        object:SetImgHalfWidth(2.0);
-        object:SetImgHeight(12.0);
+        object:SetCollPixelHalfWidth(2.0 * 16);
+        object:SetCollPixelHeight(12.0 * 16);
+        object:SetImgPixelHalfWidth(2.0 * 16);
+        object:SetImgPixelHeight(12.0 * 16);
         object:AddStillFrame("dat/maps/mt_elbrus/fake_wall.png");
     else
         _add_flame(63.5, 53);

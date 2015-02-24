@@ -106,10 +106,10 @@ function _CreateObjects()
 
     spike_wall = vt_map.PhysicalObject.Create(vt_map.MapMode.GROUND_OBJECT);
     spike_wall:SetPosition(19.0, 48.0);
-    spike_wall:SetCollHalfWidth(15.0);
-    spike_wall:SetCollHeight(3.7);
-    spike_wall:SetImgHalfWidth(15.0);
-    spike_wall:SetImgHeight(5.0);
+    spike_wall:SetCollPixelHalfWidth(15.0 * 16);
+    spike_wall:SetCollPixelHeight(3.7 * 16);
+    spike_wall:SetImgPixelHalfWidth(15.0 * 16);
+    spike_wall:SetImgPixelHeight(5.0 * 16);
     spike_wall:AddStillFrame("dat/maps/mt_elbrus/spike_wall.png");
     spike_wall:SetVisible(false);
     spike_wall:SetCollisionMask(vt_map.MapMode.NO_COLLISION);

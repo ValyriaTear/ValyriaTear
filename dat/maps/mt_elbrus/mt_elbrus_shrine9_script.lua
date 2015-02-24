@@ -141,20 +141,20 @@ function _CreateObjects()
 
     falling_hole = vt_map.PhysicalObject.Create(vt_map.MapMode.FLATGROUND_OBJECT);
     falling_hole:SetPosition(22.02, 18.0);
-    falling_hole:SetCollHalfWidth(4.0);
-    falling_hole:SetCollHeight(8.0);
-    falling_hole:SetImgHalfWidth(4.0);
-    falling_hole:SetImgHeight(8.0);
+    falling_hole:SetCollPixelHalfWidth(4.0 * 16);
+    falling_hole:SetCollPixelHeight(8.0 * 16);
+    falling_hole:SetImgPixelHalfWidth(4.0 * 16);
+    falling_hole:SetImgPixelHeight(8.0 * 16);
     falling_hole:AddStillFrame("dat/maps/mt_elbrus/falling_hole.png");
     falling_hole:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
     falling_hole:SetVisible(false);
 
     falling_hole_wall = vt_map.PhysicalObject.Create(vt_map.MapMode.SKY_OBJECT);
     falling_hole_wall:SetPosition(22.02, 25.35);
-    falling_hole_wall:SetCollHalfWidth(4.0);
-    falling_hole_wall:SetCollHeight(7.375);
-    falling_hole_wall:SetImgHalfWidth(4.0);
-    falling_hole_wall:SetImgHeight(7.375);
+    falling_hole_wall:SetCollPixelHalfWidth(4.0 * 16);
+    falling_hole_wall:SetCollPixelHeight(7.375 * 16);
+    falling_hole_wall:SetImgPixelHalfWidth(4.0 * 16);
+    falling_hole_wall:SetImgPixelHeight(7.375 * 16);
     falling_hole_wall:AddStillFrame("dat/maps/mt_elbrus/falling_hole_above.png");
     falling_hole_wall:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
     falling_hole_wall:SetVisible(false);

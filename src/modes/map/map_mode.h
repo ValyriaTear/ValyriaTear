@@ -306,21 +306,22 @@ public:
     //! This is applied as an active status effect on agility.
     void ApplyPotentialStaminaMalus();
 
-    /**
-     * \brief Since the map coords are non standard, this function
-     * permits to quickly adapt the images to the map scale.
-     */
-    static void ScaleToMapCoords(vt_video::ImageDescriptor &img) {
-        img.SetDimensions(img.GetWidth() / (private_map::GRID_LENGTH / 2),
-                          img.GetHeight() / (private_map::GRID_LENGTH / 2));
+    //! \brief This function permits to quickly adapt the images to the map scale.
+    static void ScaleToMapZoomRatio(vt_video::ImageDescriptor &img) {
+        img.SetDimensions(img.GetWidth() * vt_map::private_map::MAP_ZOOM_RATIO,
+                          img.GetHeight() * vt_map::private_map::MAP_ZOOM_RATIO);
     }
 
     //! \brief Returns in standard screen coordinates (1024x768),
     //! the x position of a tile position on the X axis.
+    // NOTE: We round the value to a multiple of the current pixel size.
+    // See MapMode::_UpdateMapFrame() for a better explanation.
     float GetScreenXCoordinate(float tile_position_x) const;
 
     //! \brief Returns in standard screen coordinates (1024x768),
     //! the x position of a tile position on the Y axis.
+    // NOTE: We round the value to a multiple of the current pixel size.
+    // See MapMode::_UpdateMapFrame() for a better explanation.
     float GetScreenYCoordinate(float tile_position_y) const;
 
     //! \brief Returns the tile offset x value,

@@ -132,8 +132,8 @@ public:
     }
 
     /** \brief Tells whether the object is currently colliding with another object or a wall
-    *** \param pos_x The x position to test against a collision
-    *** \param pos_y The y position to test against a collision
+    *** \param pos_x The tile x position to test against a collision
+    *** \param pos_y The tile y position to test against a collision
     **/
     bool IsColliding(float pos_x, float pos_y);
 
@@ -142,20 +142,33 @@ public:
     **/
     bool IsCollidingWith(MapObject* other_object);
 
-    /** \brief Returns the collision rectangle for the current object
-    **/
-    MapRectangle GetCollisionRectangle() const;
+    //! \brief Returns the collision rectangle for the current object on the map collision grid
+    MapRectangle GetGridCollisionRectangle() const;
 
     /** \brief Returns the collision rectangle for the current object for the given position
     *** \return rect A MapRectangle object storing the collision rectangle data
     *** using the given position.
     **/
-    MapRectangle GetCollisionRectangle(float x, float y) const;
+    MapRectangle GetGridCollisionRectangle(float tile_x, float tile_y) const;
+
+    //! \brief Returns the collision rectangle for the current object.
+    MapRectangle GetScreenCollisionRectangle() const;
+
+    /** \brief Returns the collision rectangle for the current object for the given position
+    *** \return rect A MapRectangle object storing the collision rectangle data
+    *** using the given pixel position.
+    **/
+    MapRectangle GetScreenCollisionRectangle(float screen_x, float screen_y) const;
 
     /** \brief Returns the image rectangle for the current object
     *** \param rect A MapRectangle object storing the image rectangle data
     **/
-    virtual MapRectangle GetImageRectangle() const;
+    virtual MapRectangle GetScreenImageRectangle() const;
+
+    /** \brief Returns the image rectangle for the current object
+    *** \param rect A MapRectangle object storing the image rectangle data
+    **/
+    virtual MapRectangle GetGridImageRectangle() const;
 
     /** \brief Restores the saved state of the object
     *** This state data is retained in the saved game file. When any map object is created and added
@@ -172,32 +185,44 @@ public:
     **/
     //@{
     void SetPosition(float x, float y) {
-        _position.x = x;
-        _position.y = y;
+        _tile_position.x = x;
+        _tile_position.y = y;
     }
 
     void SetXPosition(float x) {
-        _position.x = x;
+        _tile_position.x = x;
     }
 
     void SetYPosition(float y) {
-        _position.y = y;
+        _tile_position.y = y;
     }
 
-    void SetImgHalfWidth(float width) {
-        _img_half_width = width;
+    //! \brief Set the object image half width (in pixels).
+    //! \note The value in map tiles is also stored.
+    void SetImgPixelHalfWidth(float width) {
+        _img_pixel_half_width = width;
+        _img_screen_half_width = width * MAP_ZOOM_RATIO;
+        _img_grid_half_width = width / GRID_LENGTH * MAP_ZOOM_RATIO;
     }
 
-    void SetImgHeight(float height) {
-        _img_height = height;
+    //! \brief Set the object image half width (in pixels).
+    //! \note The value in map tiles is also stored.
+    void SetImgPixelHeight(float height) {
+        _img_pixel_height = height;
+        _img_screen_height = height * MAP_ZOOM_RATIO;
+        _img_grid_height = height / GRID_LENGTH * MAP_ZOOM_RATIO;
     }
 
-    void SetCollHalfWidth(float collision) {
-        _coll_half_width = collision;
+    void SetCollPixelHalfWidth(float collision) {
+        _coll_pixel_half_width = collision;
+        _coll_screen_half_width = collision * MAP_ZOOM_RATIO;
+        _coll_grid_half_width = collision / GRID_LENGTH * MAP_ZOOM_RATIO;
     }
 
-    void SetCollHeight(float collision) {
-        _coll_height = collision;
+    void SetCollPixelHeight(float collision) {
+        _coll_pixel_height = collision;
+        _coll_screen_height = collision * MAP_ZOOM_RATIO;
+        _coll_grid_height = collision / GRID_LENGTH * MAP_ZOOM_RATIO;
     }
 
     void SetUpdatable(bool update) {
@@ -226,32 +251,33 @@ public:
         return _object_id;
     }
 
+    //! \brief Get the object position in tiles.
     MapPosition GetPosition() const {
-        return _position;
+        return _tile_position;
     }
 
     float GetXPosition() const {
-        return _position.x;
+        return _tile_position.x;
     }
 
     float GetYPosition() const {
-        return _position.y;
+        return _tile_position.y;
     }
 
-    float GetImgHalfWidth() const {
-        return _img_half_width;
+    float GetImgScreenHalfWidth() const {
+        return _img_screen_half_width;
     }
 
-    float GetImgHeight() const {
-        return _img_height;
+    float GetImgScreenHeight() const {
+        return _img_screen_height;
     }
 
-    float GetCollHalfWidth() const {
-        return _coll_half_width;
+    float GetCollGridHalfWidth() const {
+        return _coll_grid_half_width;
     }
 
-    float GetCollHeight() const {
-        return _coll_height;
+    float GetCollGridHeight() const {
+        return _coll_grid_height;
     }
 
     bool IsUpdatable() const {
@@ -299,32 +325,43 @@ protected:
     *** The position coordinates point to the map grid tile that the object currently occupies
     *** and may range from 0 to the number of columns or rows of grid tiles on the map.
     **/
-    MapPosition _position;
+    MapPosition _tile_position;
 
-    /** \brief The half-width and height of the image, in map grid coordinates.
-    *** The half_width member is indeed just that: half the width of the object's image. We keep
-    *** the half width rather than the full width because the origin of the object is its bottom
-    *** center, and it is more convenient to store only half the sprite's width.
-    ***
-    *** \note These members assume that the object retains the same width and height regardless
-    *** of the current animation frame or image being drawn. If the object's image changes size
-    *** for any reason, the programmer must remember to change these values accordingly.
-    **/
-    float _img_half_width;
-    float _img_height;
+    //! \brief The originally desired half-width and height of the image, in pixels
+    //! Used as a base value to later get the screen and tile corresponding values.
+    float _img_pixel_half_width;
+    float _img_pixel_height;
 
-    /** \brief Determines the collision rectangle for the object.
+    //! \brief The image half-width and height as seen on screen. (pixel value * zoom ratio).
+    float _img_screen_half_width;
+    float _img_screen_height;
+
+    //! \brief The half-width and height of the image, in map tile coordinates.
+    //! (A grid unit is half a tile).
+    float _img_grid_half_width;
+    float _img_grid_height;
+
+    /** \brief Determines the collision rectangle for the object in pixels.
     *** The collision area determines what portion of the map object may not be overlapped
-    *** by other objects or unwalkable regions of the map. The x and y coordinates are
-    *** relative to the origin, so an x value of 0.5f means that the collision rectangle
-    *** extends the length of 1/2 of a grid element from the origin on both sides, and a y value
-    *** of 1.0f means that the collision area exists from the origin to one grid element above.
+    *** by other objects or unwalkable regions of the map.
     ***
     *** \note These members should always be positive and non-zero. Setting these members to
     *** zero does <b>not</b> eliminate collision detection for the object.
+    ***
+    *** Used as a base value to later get the screen and tile corresponding values.
     **/
-    float _coll_half_width;
-    float _coll_height;
+    float _coll_pixel_half_width;
+    float _coll_pixel_height;
+
+    //! \brief The collision half-width and height as seen on screen in the debug view.
+    //! (pixel value * zoom ratio).
+    float _coll_screen_half_width;
+    float _coll_screen_height;
+
+    //! \brief Determines the collision rectangle for the object in map grid coordinates.
+    //! (A grid unit is half a tile).
+    float _coll_grid_half_width;
+    float _coll_grid_height;
 
     //! \brief When false, the Update() function will do nothing (default == true).
     bool _updatable;
@@ -349,9 +386,10 @@ protected:
     //! \brief the emote animation to play
     vt_video::AnimatedImage* _emote_animation;
 
-    //! \brief The emote animation drawing offset (depending on the map object direction)
-    float _emote_offset_x;
-    float _emote_offset_y;
+    //! \brief The emote animation drawing offset in screen coordinates (pixel value * zoom ratio)
+    //! (depending on the map object direction)
+    float _emote_screen_offset_x;
+    float _emote_screen_offset_y;
 
     //! \brief the time the emote animation will last in milliseconds,
     int32 _emote_time;
@@ -639,7 +677,7 @@ public:
     /** \brief Returns the image rectangle for the current object
     *** \param rect A MapRectangle object storing the image rectangle data
     **/
-    MapRectangle GetImageRectangle() const;
+    MapRectangle GetGridImageRectangle() const;
 private:
     //! Updates the angle and distance from the camera viewpoint
     void _UpdateLightAngle();
