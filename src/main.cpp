@@ -210,6 +210,8 @@ bool LoadSettings()
     VideoManager->SetFullscreen(settings.ReadBool("full_screen"));
     if (settings.DoesUIntExist("vsync_mode"))
         VideoManager->SetVSyncMode(settings.ReadUInt("vsync_mode"));
+    if (settings.DoesBoolExist("game_update_mode"))
+        VideoManager->SetGameUpdateMode(settings.ReadBool("game_update_mode"));
     GUIManager->SetUserMenuSkin(settings.ReadString("ui_theme"));
     settings.CloseTable(); // video_settings
 
@@ -404,9 +406,6 @@ void InitializeEngine() throw(Exception)
     if(!LoadSettings())
         throw Exception("ERROR: Unable to load settings file", __FILE__, __LINE__, __FUNCTION__);
 
-    // Enforce smooth tiles graphics
-    VideoManager->SetPixelArtSmoothed(true);
-
     // Apply engine configuration settings with delayed initialization calls to the managers
     InputManager->InitializeJoysticks();
 
@@ -542,19 +541,23 @@ int main(int argc, char *argv[])
 
     ModeManager->Push(new BootMode(), false, true);
 
-    // A try... at using a variable game speed, sleeping when on sufficiently fast hardware.
-    // And max FPS.
+    // Used for a variable game speed, sleeping when on sufficiently fast hardware, and max FPS.
     const uint32 UPDATES_PER_SECOND = 60;
     const uint32 SKIP_UPDATE_TICKS = 1000 / UPDATES_PER_SECOND; // 25
     uint32 update_tick = SDL_GetTicks();
     uint32 next_update_tick = update_tick;
 
-    //TODO: Make this configurable and enabled only if vsync isn't.
     bool cpu_gentle_update_mode = true;
 
     try {
         // This is the main loop for the game. The loop iterates once for every frame drawn to the screen.
         while(SystemManager->NotDone()) {
+            // Set the game update mode.
+            if (VideoManager->GetVSyncMode() > 0 || VideoManager->GetGameUpdateMode())
+                cpu_gentle_update_mode = false;
+            else
+                cpu_gentle_update_mode = true;
+
             if (cpu_gentle_update_mode) {
                 update_tick = SDL_GetTicks();
 

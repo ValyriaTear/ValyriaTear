@@ -267,11 +267,8 @@ GLuint TextureController::_CreateBlankGLTexture(int32 width, int32 height)
         return INVALID_TEXTURE_ID;
     }
 
-    // Set linear texture interpolation based on the smooth option.
-    GLenum filtering_type = VideoManager->ShouldSmoothPixelArt() ? GL_LINEAR : GL_NEAREST;
-
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, filtering_type);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, filtering_type);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
 
@@ -292,7 +289,7 @@ void TextureController::_BindTexture(GLuint tex_id)
 void TextureController::_DeleteTexture(GLuint tex_id)
 {
     if (tex_id != 0) {
-        GLuint textures[] = { tex_id }; 
+        GLuint textures[] = { tex_id };
         glDeleteTextures(1, textures);
     }
 

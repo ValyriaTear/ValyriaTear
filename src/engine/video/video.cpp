@@ -100,7 +100,7 @@ VideoEngine::VideoEngine():
     _temp_width(0),
     _temp_height(0),
     _vsync_mode(0),
-    _smooth_pixel_art(true),
+    _game_update_mode(false),
     _sprite(NULL),
     _particle_system(NULL),
     _initialized(false)

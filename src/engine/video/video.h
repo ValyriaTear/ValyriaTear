@@ -241,30 +241,34 @@ public:
         SetFullscreen(!_temp_fullscreen);
     }
 
-    //! \brief Set VSync mode support.
+    //! \brief Sets VSync mode support.
     //! \param mode 0 or > 2: None, 1: VSync, 2: Swap Tearing
     void SetVSyncMode(uint32 mode) {
         _vsync_mode = mode;
     }
 
-    //! \brief Set current VSync mode support.
+    //! \brief Gets current VSync mode support.
     //! \return 0 or > 2: None, 1: VSync, 2: Swap Tearing
-    uint32 GetVSyncMode() const {
+    inline uint32 GetVSyncMode() const {
         return _vsync_mode;
     }
 
-    //! \brief Will make the pixel art related images smoothed (only used for map tiles at the moment)
-    void SetPixelArtSmoothed(bool smooth) {
-        _smooth_pixel_art = smooth;
+    //! \brief Sets the game main loop update mode.
+    //! \param update_mode true for performance, false for the CPU-gentle loop.
+    //! \note  It is always on performance when VSync is enabled.
+    void SetGameUpdateMode(bool update_mode) {
+        _game_update_mode = update_mode;
     }
 
-    //! \brief Returns true if pixel art textures should be smoothed (only used for map tiles at the moment)
-    bool ShouldSmoothPixelArt() {
-        return _smooth_pixel_art;
+    //! \brief Gets the game main loop update mode.
+    //! \param update_mode true for performance, false for the CPU-gentle loop.
+    //! \note  It is always on performance when VSync is enabled.
+    inline bool GetGameUpdateMode() const {
+        return _game_update_mode;
     }
 
     //! \brief Returns a reference to the current coordinate system
-    const CoordSys &GetCoordSys() const {
+    const CoordSys& GetCoordSys() const {
         return _current_context.coordinate_system;
     }
 
@@ -735,8 +739,10 @@ private:
     //! \brief Stores the current vsync mode.
     uint32 _vsync_mode;
 
-    //! \brief Tells whether pixel art sprites should be smoothed.
-    bool _smooth_pixel_art;
+    //! \brief The game main loop update mode.
+    //! \note update_mode true for performance, false for the CPU-gentle loop.
+    //! It is always on performance when VSync is enabled.
+    bool _game_update_mode;
 
     //! image which is to be used as the cursor
     StillImage _default_menu_cursor;
