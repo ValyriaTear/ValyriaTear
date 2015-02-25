@@ -879,6 +879,7 @@ void GameOptionsMenuHandler::_OnToggleFullscreen()
     VideoManager->ToggleFullscreen();
     VideoManager->ApplySettings();
     _RefreshVideoOptions();
+    _SetupResolutionMenu();
     _has_modified_settings = true;
 }
 
