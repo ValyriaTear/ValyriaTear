@@ -252,6 +252,7 @@
     <ClInclude Include="..\..\src\engine\video\texture.h" />
     <ClInclude Include="..\..\src\engine\video\texture_controller.h" />
     <ClInclude Include="..\..\src\engine\video\video.h" />
+    <ClInclude Include="..\..\src\engine\video\video_utils.h" />
     <ClInclude Include="..\..\src\main_options.h" />
     <ClInclude Include="..\..\src\modes\battle\battle.h" />
     <ClInclude Include="..\..\src\modes\battle\battle_actions.h" />

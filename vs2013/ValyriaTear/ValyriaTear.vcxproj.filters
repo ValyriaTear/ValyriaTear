@@ -593,5 +593,8 @@
     <ClInclude Include="..\..\src\engine\video\gl\gl_transform.h">
       <Filter>engine\video\gl</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\src\engine\video\video_utils.h">
+      <Filter>engine\video</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
