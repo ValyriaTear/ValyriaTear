@@ -34,6 +34,13 @@ const unsigned POSITIONS_PER_VERTEX = 3;
 const unsigned TEXTURE_COORDINATES_PER_VERTEX = 2;
 const unsigned COLORS_PER_VERTEX = 4;
 
+#ifdef __APPLE__
+#define glBindVertexArray glBindVertexArrayAPPLE
+#define glGenVertexArrays glGenVertexArraysAPPLE
+#define glGenerateMipmap glGenerateMipmapEXT
+#define glDeleteVertexArrays glDeleteVertexArraysAPPLE
+#endif
+
 ParticleSystem::ParticleSystem() :
     _number_of_indices(0),
     _vao(0),

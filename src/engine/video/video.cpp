@@ -240,12 +240,14 @@ VideoEngine::~VideoEngine()
 
 bool VideoEngine::FinalizeInitialization()
 {
-    // Load GLEW.
+    // Load GLEW. Unneeded on OSX.
+#ifndef __APPLE__
     GLenum err = glewInit();
     if (GLEW_OK != err) {
         PRINT_ERROR << "Unable to initialize GLEW." << std::endl;
         return false;
     }
+#endif
 
     // Create the sprite.
     _sprite = new gl::Sprite();

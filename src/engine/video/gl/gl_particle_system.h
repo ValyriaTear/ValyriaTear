@@ -46,7 +46,7 @@ private:
     ParticleSystem(const ParticleSystem& particle_system);
     ParticleSystem& operator=(const ParticleSystem& particle_system);
 
-    unsigned _number_of_indices;
+    size_t _number_of_indices;
 
     GLuint _vao;
     GLuint _vertex_position_buffer;

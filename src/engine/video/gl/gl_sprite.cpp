@@ -29,7 +29,7 @@ namespace gl
 //
 
 const unsigned INDICES[] =
-{ 
+{
     0, 1, 2, // Triangle One.
     0, 2, 3  // Triangle Two.
 };
@@ -39,6 +39,13 @@ const unsigned INDICES_PER_SPRITE = sizeof(INDICES) / sizeof(*INDICES);
 const unsigned POSITIONS_PER_VERTEX = 3;
 const unsigned TEXTURE_COORDINATES_PER_VERTEX = 2;
 const unsigned COLORS_PER_VERTEX = 4;
+
+#ifdef __APPLE__
+#define glBindVertexArray glBindVertexArrayAPPLE
+#define glGenVertexArrays glGenVertexArraysAPPLE
+#define glGenerateMipmap glGenerateMipmapEXT
+#define glDeleteVertexArrays glDeleteVertexArraysAPPLE
+#endif
 
 Sprite::Sprite() :
     _vao(0),

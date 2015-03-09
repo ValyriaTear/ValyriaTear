@@ -74,14 +74,22 @@ namespace luabind { namespace detail
 		{
 			if (size <= 32)
 				return &m_instance_buffer;
-			return std::malloc(size);
+#ifdef __APPLE__
+            return malloc(size);
+#else
+            return std::malloc(size);
+#endif
 		}
 
 		void deallocate(void* storage)
 		{
 			if (storage == &m_instance_buffer)
 				return;
-			std::free(storage);
+#ifdef __APPLE__
+            free(storage);
+#else
+            std::free(storage);
+#endif
 		}
 
 	private:
