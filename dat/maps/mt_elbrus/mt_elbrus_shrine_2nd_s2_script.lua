@@ -90,9 +90,9 @@ end
 local rolling_stone1 = nil
 
 -- Arrays of spikes objects
-local trap_spikes = nil
-local trap_spikes_left = nil
-local trap_spikes_right = nil
+local trap_spikes = {}
+local trap_spikes_left = {}
+local trap_spikes_right = {}
 
 local mini_boss = nil
 
@@ -100,7 +100,7 @@ function _CreateObjects()
     local object = nil
     local event = nil
 
-    CreateObject(Map, "Rock1", 31, 14 vt_map.MapMode.GROUND_OBJECT);
+    CreateObject(Map, "Rock1", 31, 14, vt_map.MapMode.GROUND_OBJECT);
 
     -- Snow effects
     vt_map.ParticleObject.Create("dat/maps/mt_elbrus/particles_snow_south_entrance.lua", 16, 72, vt_map.MapMode.GROUND_OBJECT);

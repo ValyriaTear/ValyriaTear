@@ -88,7 +88,7 @@ local wind_sound2 = nil;
 local wind_sound3 = nil;
 
 function _CreateObjects()
-    local object = CreateTreasure.Create(Map, "mt_shrine_2nd_s1_chest1", "Wood_Chest1", 73, 49, vt_map.MapMode.GROUND_OBJECT);
+    local object = CreateTreasure(Map, "mt_shrine_2nd_s1_chest1", "Wood_Chest1", 73, 49, vt_map.MapMode.GROUND_OBJECT);
     object:AddItem(12, 1); -- Medium Moon Juice potion x 1
 
     -- Objects array
