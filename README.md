@@ -55,7 +55,7 @@ To build on Windows with Visual Studio 2013, do this:
 
 **Mac OS X compilation**
 - Use Macports or Homebrew to install things like boost.
-- Open Xcode project, tu quickly update the files, delete src folder in project and add it again. Remove all unnecessary things.
+- Open Xcode project, to quickly update the files, delete the `src` folder in project and add it again. Remove all unnecessary things.
 - Press "Play"
 
 
