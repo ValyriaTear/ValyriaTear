@@ -84,6 +84,9 @@ void IndicatorElement::_UpdateDrawPosition()
 {
     // the time passed since the last call in ms.
     float elapsed_ms = static_cast<float>(vt_system::SystemManager->GetUpdateTime());
+    // Use only rational values.
+    if (elapsed_ms > 50)
+        elapsed_ms = 50;
 
     switch(_indicator_type) {
     case DAMAGE_INDICATOR: {
