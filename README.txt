@@ -67,6 +67,11 @@ To build on Windows with Visual Studio 2013, do this:
 4. Build (F7)
 5. Run (F5)
 
+**Mac OS X compilation**
+- Use Macports or Homebrew to install things like boost.
+- Open Xcode project, to quickly update the files, delete the 'src' folder in project and add it again. Remove all unnecessary things.
+- Press "Play"
+
 ## Dependencies ##
 
 You will need the following in order to compile and run the game:
