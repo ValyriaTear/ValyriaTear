@@ -74,7 +74,7 @@ MapPropertiesDialog::MapPropertiesDialog
         if (tileset_dir[i] == QString("autotiling.lua"))
             continue;
 
-        QString tileset_definition_file = "dat/tilesets/" + tileset_dir[i];
+        QString tileset_definition_file = "data/tilesets/" + tileset_dir[i];
         tilesets.append(new QTreeWidgetItem((QTreeWidget *)0,
                                             QStringList(tileset_definition_file)));
         tilesets.back()->setCheckState(0, Qt::Unchecked); // enables checkboxes

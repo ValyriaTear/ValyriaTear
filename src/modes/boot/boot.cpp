@@ -119,7 +119,7 @@ BootMode::BootMode() :
     _boot_timer.Run();
 
     // Preload new game sound
-    AudioManager->LoadSound("snd/new_game.wav", this);
+    AudioManager->LoadSound("sounds/new_game.wav", this);
 } // BootMode::BootMode()
 
 
@@ -396,7 +396,7 @@ void BootMode::_OnNewGame()
     AudioManager->StopActiveMusic();
     VideoManager->FadeScreen(Color::black, 2000);
 
-    AudioManager->PlaySound("snd/new_game.wav");
+    AudioManager->PlaySound("sounds/new_game.wav");
     _exiting_to_new_game = true;
 }
 

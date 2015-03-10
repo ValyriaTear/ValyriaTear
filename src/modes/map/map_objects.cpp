@@ -433,7 +433,7 @@ SavePoint::SavePoint(float x, float y):
     SetImgPixelHeight(_animations->at(0).GetHeight() / MAP_ZOOM_RATIO);
 
     // Preload the save active sound
-    AudioManager->LoadSound("snd/save_point_activated_dokashiteru_oga.wav", map_mode);
+    AudioManager->LoadSound("sounds/save_point_activated_dokashiteru_oga.wav", map_mode);
 
     // The save point is going along with two particle objects used to show
     // whether the player is in or out the save point
@@ -481,7 +481,7 @@ void SavePoint::SetActive(bool active)
 
         // Play a sound when the save point become active
         if(!_save_active)
-            AudioManager->PlaySound("snd/save_point_activated_dokashiteru_oga.wav");
+            AudioManager->PlaySound("sounds/save_point_activated_dokashiteru_oga.wav");
     } else {
         _animations = &MapMode::CurrentInstance()->inactive_save_point_animations;
         _active_particle_object->Stop();

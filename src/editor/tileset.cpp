@@ -69,7 +69,7 @@ bool Tileset::New(const QString &img_filename, bool one_image)
 
     // Retrieve the tileset name from the image filename
     _tileset_name = CreateTilesetName(img_filename);
-    _tileset_definition_filename = "dat/tilesets/" + _tileset_name + ".lua";
+    _tileset_definition_filename = "data/tilesets/" + _tileset_name + ".lua";
 
     // Check existence of a previous lua definition file
     if (QFile::exists(_tileset_definition_filename)) {
@@ -80,7 +80,7 @@ bool Tileset::New(const QString &img_filename, bool one_image)
         return false;
     }
 
-    _tileset_image_filename = "img/tilesets/" + _tileset_name + img_filename.mid(img_filename.length() - 4, 4);
+    _tileset_image_filename = "data/tilesets/" + _tileset_name + img_filename.mid(img_filename.length() - 4, 4);
 
     // Prepare the tile vector and load the tileset image
     tiles.clear();

@@ -269,10 +269,10 @@ void SaveMode::Update()
                 // now, attempt to save the game.  If failure, we need to tell the user that!
                 if(GlobalManager->SaveGame(filename, id, _x_position, _y_position)) {
                     _current_state = SAVE_MODE_SAVE_COMPLETE;
-                    AudioManager->PlaySound("snd/save_successful_nick_bowler_oga.wav");
+                    AudioManager->PlaySound("sounds/save_successful_nick_bowler_oga.wav");
                 } else {
                     _current_state = SAVE_MODE_SAVE_FAILED;
-                    AudioManager->PlaySound("snd/cancel.wav");
+                    AudioManager->PlaySound("sounds/cancel.wav");
                 }
             } else {
                 _current_state = SAVE_MODE_SAVING;
