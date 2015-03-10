@@ -446,7 +446,10 @@ private:
     vt_video::TextImage _window_header;
 
     //! \brief Rendered text that contains information about the currently selected target
-    vt_video::TextImage _window_text;
+    vt_video::TextImage _selected_target_name;
+
+    //! \brief The current actor status effects.
+    std::vector<vt_video::StillImage*> _selected_target_status_effects;
 
     //! \brief The window where all information about the currently selected action is drawn
     vt_gui::MenuWindow _info_window;
@@ -537,10 +540,10 @@ private:
     //! \brief Draws visible contents to the screen when the player is viewing information about an action
     void _DrawActionInformation();
 
-    //! \brief Sets the text for _window_header and _window_text to represent information about the selected target
+    //! \brief Sets the text for _window_header and _selected_target_name to represent information about the selected target
     void _CreateActorTargetText();
 
-    //! \brief Sets the text for _window_header and _window_text to represent information about the selected target
+    //! \brief Sets the text for _window_header and _target_options to represent information about the selected target
     void _CreateAttackPointTargetText();
 
     //! \brief Finalizes the player's command of the character by creating the appropriate action

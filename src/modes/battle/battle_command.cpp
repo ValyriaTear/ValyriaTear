@@ -566,8 +566,6 @@ GlobalSkill *SkillCommand::GetSelectedSkill() const
     return _skills->at(selection);
 }
 
-
-
 bool SkillCommand::GetSelectedSkillEnabled()
 {
     if((_skills == NULL) || (_skill_list == NULL))
@@ -576,8 +574,6 @@ bool SkillCommand::GetSelectedSkillEnabled()
     uint32 selection = _skill_list->GetSelection();
     return _skill_list->IsOptionEnabled(selection);
 }
-
-
 
 void SkillCommand::UpdateList()
 {
@@ -656,7 +652,7 @@ CommandSupervisor::CommandSupervisor() :
     option_text.push_back(MakeUnicodeString("<img/icons/battle/item.png>\n\n") + UTranslate("Items"));
 
     _window_header.SetStyle(TextStyle("title22"));
-    _window_text.SetStyle(TextStyle("text20"));
+    _selected_target_name.SetStyle(TextStyle("text20"));
     _info_header.SetStyle(TextStyle("title22"));
     _info_text.SetStyle(TextStyle("text20"));
     _info_text.SetWordWrapWidth(475);
@@ -687,15 +683,11 @@ CommandSupervisor::CommandSupervisor() :
     _target_options.SetCursorOffset(-50.0f, -25.0f);
 }
 
-
-
 CommandSupervisor::~CommandSupervisor()
 {
     _command_window.Destroy();
     _info_window.Destroy();
 }
-
-
 
 void CommandSupervisor::ConstructMenus()
 {
@@ -705,8 +697,6 @@ void CommandSupervisor::ConstructMenus()
     for(uint32 i = 0; i < characters.size(); i++)
         _CreateCharacterSettings(characters[i]);
 }
-
-
 
 void CommandSupervisor::Initialize(BattleCharacter *character)
 {
@@ -802,8 +792,6 @@ void CommandSupervisor::Initialize(BattleCharacter *character)
     PRINT_ERROR << "No category options were enabled. The game might be stuck." << std::endl;
 }
 
-
-
 void CommandSupervisor::Update()
 {
     switch(_state) {
@@ -845,6 +833,10 @@ void CommandSupervisor::Draw()
         _DrawActorTarget();
         break;
     case COMMAND_STATE_POINT:
+        // Show potential info about the currently selected attack point
+        if (_show_information)
+            _DrawActionInformation();
+
         _DrawAttackPointTarget();
         break;
     default:
@@ -883,8 +875,6 @@ void CommandSupervisor::NotifyActorDeath(BattleActor *actor)
     }
 }
 
-
-
 bool CommandSupervisor::_IsSkillCategorySelected() const
 {
     int32 category = _category_options.GetSelection();
@@ -893,8 +883,6 @@ bool CommandSupervisor::_IsSkillCategorySelected() const
     else
         return false;
 }
-
-
 
 bool CommandSupervisor::_IsItemCategorySelected() const
 {
@@ -905,8 +893,6 @@ bool CommandSupervisor::_IsItemCategorySelected() const
         return false;
 }
 
-
-
 GLOBAL_TARGET CommandSupervisor::_ActionTargetType()
 {
     if(_IsSkillCategorySelected() == true)
@@ -916,8 +902,6 @@ GLOBAL_TARGET CommandSupervisor::_ActionTargetType()
     else
         return GLOBAL_TARGET_INVALID;
 }
-
-
 
 bool CommandSupervisor::_SetInitialTarget()
 {
@@ -1187,6 +1171,7 @@ void CommandSupervisor::_UpdateActorTarget()
             GlobalManager->Media().PlaySound("bump");
         }
     }
+    _target_options.Update();
 }
 
 void CommandSupervisor::_UpdateAttackPointTarget()
@@ -1212,6 +1197,15 @@ void CommandSupervisor::_UpdateAttackPointTarget()
         _CreateAttackPointTargetText();
         GlobalManager->Media().PlaySound("bump");
     }
+
+    // Handles showing target points info
+    if(InputManager->MenuState()) {
+        _show_information = true;
+        _UpdateActionInformation();
+    }
+    else {
+        _show_information = false;
+    }
 }
 
 std::string _TurnIntoSeconds(uint32 milliseconds)
@@ -1228,7 +1222,48 @@ void CommandSupervisor::_UpdateActionInformation()
 {
     ustring info_text;
 
-    if(_IsSkillCategorySelected() == true) {
+    if (_state == COMMAND_STATE_POINT) {
+        // Show the target points information.
+        BattleActor* actor = _selected_target.GetActor();
+        uint32 selected_point = _selected_target.GetPoint();
+        GlobalAttackPoint* attack_point = actor->GetAttackPoint(selected_point);
+
+        _info_header.SetText(attack_point->GetName());
+
+        // Set the text
+        // Evade
+        float evade_modifier = attack_point->GetEvadeModifier();
+        if (evade_modifier != 0.0f) {
+            std::string evade_str;
+            if (evade_modifier > 0.0f)
+                evade_str = "+" + NumberToString(evade_modifier);
+            else
+                evade_str = NumberToString(evade_modifier);
+            info_text += MakeUnicodeString(VTranslate("Evade: %s", evade_str) + "%    ");
+        }
+        // Fortitude (Physical defense.)
+        float fortitude_modifier = attack_point->GetFortitudeModifier();
+        if (fortitude_modifier != 0.0f) {
+            std::string fort_str;
+            if (fortitude_modifier > 0.0f)
+                fort_str = "+" + NumberToString(fortitude_modifier);
+            else
+                fort_str = NumberToString(fortitude_modifier);
+            info_text += MakeUnicodeString(VTranslate("Fortitude: %s", fort_str) + "    ");
+        }
+        // Protection (Magical defense.)
+        float protection_modifier = attack_point->GetProtectionModifier();
+        if (protection_modifier != 0.0f) {
+            std::string prot_str;
+            if (protection_modifier > 0.0f)
+                prot_str = "+" + NumberToString(protection_modifier);
+            else
+                prot_str = NumberToString(protection_modifier);
+            info_text += MakeUnicodeString(VTranslate("Protection: %s", prot_str));
+        }
+        info_text += MakeUnicodeString("\n\nEffects: ");
+
+    } else if(_IsSkillCategorySelected() == true) {
         _info_header.SetText(_selected_skill->GetName()
                              + MakeUnicodeString(" - "
                              + VTranslate("%s SP", NumberToString(_selected_skill->GetSPRequired()))));
@@ -1282,10 +1317,17 @@ void CommandSupervisor::_DrawActorTarget()
     VideoManager->Move(560.0f, 658.0f);
     _window_header.Draw();
     VideoManager->Move(560.0f, 683.0f);
-    _window_text.Draw();
+    _selected_target_name.Draw();
+    // We don't draw the target option as it may desync when enemies spawn/die.
+    //_target_options.Draw();
 
-//  _target_options.Draw();
-    // TODO: draw relevant status/elemental icons
+    // Draw relevant active status effect icons
+    float width = _selected_target_name.GetWidth() < 130.0f ? 130.0f : _selected_target_name.GetWidth() + 10.0f;
+    VideoManager->MoveRelative(width, 0.0f);
+    for (uint32 i = 0; i < _selected_target_status_effects.size(); ++i) {
+        _selected_target_status_effects[i]->Draw();
+        VideoManager->MoveRelative(25.0f, 0.0f);
+    }
 }
 
 void CommandSupervisor::_DrawAttackPointTarget()
@@ -1294,10 +1336,7 @@ void CommandSupervisor::_DrawAttackPointTarget()
     VideoManager->Move(560.0f, 658.0f);
     _window_header.Draw();
     VideoManager->Move(560.0f, 683.0f);
-// 	_window_text.Draw();
-
     _target_options.Draw();
-    // TODO: draw relevant status/elemental icons
 }
 
 void CommandSupervisor::_DrawActionInformation()
@@ -1342,17 +1381,31 @@ void CommandSupervisor::_CreateActorTargetText()
         IF_PRINT_WARNING(BATTLE_DEBUG) << "invalid target type: " << _selected_target.GetType() << std::endl;
     }
 
-    // TEMP: remove once _target_options box works properly
+    // Clear the shown effects first.
+    _selected_target_status_effects.clear();
+
     if(IsTargetParty(_selected_target.GetType()) == true) {
         if(_selected_target.GetType() == GLOBAL_TARGET_ALL_ALLIES) {
-            _window_text.SetText(UTranslate("All Allies"));
+            _selected_target_name.SetText(UTranslate("All Allies"));
         } else {
-            _window_text.SetText(UTranslate("All Enemies"));
+            _selected_target_name.SetText(UTranslate("All Enemies"));
         }
     } else {
-        _window_text.SetText(_selected_target.GetActor()->GetName());
-    }
+        _selected_target_name.SetText(_selected_target.GetActor()->GetName());
 
+        // Get every non neutral status effects.
+        for (uint32 i = 0; i < GLOBAL_STATUS_TOTAL; ++i) {
+            GLOBAL_STATUS status = static_cast<GLOBAL_STATUS>(i);
+            GLOBAL_INTENSITY intensity = _selected_target.GetActor()->GetActiveStatusEffectIntensity(status);
+            if (intensity == GLOBAL_INTENSITY_NEUTRAL ||
+                    intensity <= GLOBAL_INTENSITY_INVALID ||
+                    intensity >= GLOBAL_INTENSITY_TOTAL) {
+                continue;
+            }
+
+            _selected_target_status_effects.push_back(vt_global::GlobalManager->Media().GetStatusIcon(status, intensity));
+        }
+    }
 }
 
 void CommandSupervisor::_CreateAttackPointTargetText()
