@@ -29,7 +29,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-02-27 10:31+0100\n"
+"POT-Creation-Date: 2015-03-10 03:11+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -430,7 +430,7 @@ msgid ""
 "for a given character."
 msgstr ""
 
-#: ../src/engine/indicator_supervisor.cpp:403
+#: ../src/engine/indicator_supervisor.cpp:406
 msgid "Miss"
 msgstr ""
 
@@ -568,7 +568,7 @@ msgid "VIG: +"
 msgstr ""
 
 #: ../src/modes/battle/battle_finish.cpp:773
-msgid "FOR: +"
+msgid "FRT: +"
 msgstr ""
 
 #: ../src/modes/battle/battle_finish.cpp:779
@@ -580,7 +580,7 @@ msgid "AGI: +"
 msgstr ""
 
 #: ../src/modes/battle/battle_finish.cpp:791
-msgid "EVA: +"
+msgid "EVD: +"
 msgstr ""
 
 #: ../src/modes/battle/battle_finish.cpp:799
