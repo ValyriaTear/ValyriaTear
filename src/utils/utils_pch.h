@@ -172,7 +172,7 @@ extern "C" {
 #endif
 
 #ifdef __APPLE__
-#   include <SDL_ttf/SDL_ttf.h>
+#   include <SDL_ttf.h>
 #else
 #   include <SDL2/SDL_ttf.h>
 #endif

@@ -1,8 +1,8 @@
 ![Valyria Tear](https://raw.githubusercontent.com/Bertram25/ValyriaTear/master/img/logos/valyria_logo_black.png)
 
-**Development blog:** http://valyriatear.blogspot.com  
-**Bug Tracker:** https://github.com/Bertram25/ValyriaTear/issues  
-**Forums:** http://forum.freegamedev.net/viewforum.php?f=76  
+**Development blog:** http://valyriatear.blogspot.com
+**Bug Tracker:** https://github.com/Bertram25/ValyriaTear/issues
+**Forums:** http://forum.freegamedev.net/viewforum.php?f=76
 
 Valyria Tear is an open-source single-player medieval-fantasy 2D J-RPG based on an extended [Hero of Allacrost](http://www.allacrost.org/) engine and inspired by classic console RPGs.
 
@@ -13,7 +13,7 @@ The game has all the features you can expect from JRPG classics: entertaining st
 
 ## Licensing
 
-**Copyright (C) 2012-2014 by Bertram  
+**Copyright (C) 2012-2014 by Bertram
 Copyright (C) 2004-2011 by The Allacrost Project**
 
 The source code is licensed under the *GNU GPL*. It is free software and you may
@@ -45,13 +45,19 @@ In that case, you might need the dependencies and headers files that can be down
 - **Microsoft Visual C++ 2013 and later:**
 
 _**(Warning: not officially supported!)**_
-Please contact [authenticate](https://github.com/authenticate) for support.  
+Please contact [authenticate](https://github.com/authenticate) for support.
 To build on Windows with Visual Studio 2013, do this:
 - git clone https://github.com/authenticate/ValyriaTear-VS2013-Dependencies.git
 - Copy the ```ValyriaTear-VS2013-Dependencies/``` folder into your Valyria Tear repository.
 - Open the VS 2013 solution file: ```ValyriaTearRepository/vs2013/ValyriaTear.sln```
 - Build ```F7```
 - Run ```F5```
+
+**Mac OS X compilation**
+- Use Macports or Homebrew to install things like boost.
+- Open Xcode project, tu quickly update the files, delete src folder in project and add it again. Remove all unnecessary things.
+- Press "Play"
+
 
 ## Dependencies
 
