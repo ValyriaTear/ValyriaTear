@@ -770,7 +770,7 @@ void FinishVictoryAssistant::_UpdateGrowth()
 
             // Fortitude
             if(_character_growths[i].fortitude > 0) {
-                _growth_list[i].SetOptionText(line, UTranslate("FOR: +") + MakeUnicodeString(NumberToString(_character_growths[i].fortitude)));
+                _growth_list[i].SetOptionText(line, UTranslate("FRT: +") + MakeUnicodeString(NumberToString(_character_growths[i].fortitude)));
                 line = line + 2;
             }
 
@@ -788,7 +788,7 @@ void FinishVictoryAssistant::_UpdateGrowth()
 
             // Evade
             if(_character_growths[i].evade > 0.0f) {
-                _growth_list[i].SetOptionText(line, UTranslate("EVA: +")
+                _growth_list[i].SetOptionText(line, UTranslate("EVD: +")
                     + MakeUnicodeString(NumberToString(_character_growths[i].evade)) + MakeUnicodeString("%"));
                 line = line + 2;
             }
