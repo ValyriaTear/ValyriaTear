@@ -270,21 +270,18 @@ void InputEngine::EventHandler()
         } else {
             _JoystickEventHandler(event);
         }
-    } // while (SDL_PollEvent(&event)
+    }
 
-	if (_joysticks_enabled)
-	{
-		static bool joystick_unplugged = false;
-		if (!joystick_unplugged && SDL_NumJoysticks() == 0)
-		{
-			joystick_unplugged = true;
-		}
-		else if (joystick_unplugged && SDL_NumJoysticks() > 0)
-		{
-			joystick_unplugged = false;
-			InitializeJoysticks();
-		}
-	}
+    if (_joysticks_enabled) {
+        static bool joystick_unplugged = false;
+        if (!joystick_unplugged && SDL_NumJoysticks() == 0) {
+            joystick_unplugged = true;
+        }
+        else if (joystick_unplugged && SDL_NumJoysticks() > 0) {
+            joystick_unplugged = false;
+            InitializeJoysticks();
+        }
+    }
 
     _registered_key_press = _up_press || _down_press || _left_press || _right_press || _quit_press ||
             _confirm_press || _cancel_press || _minimap_press || _menu_press || _pause_press ||
@@ -451,8 +448,8 @@ void InputEngine::_KeyEventHandler(SDL_KeyboardEvent &key_event)
 // Handles all joystick events for the game
 void InputEngine::_JoystickEventHandler(SDL_Event &js_event)
 {
-	if (!_joysticks_enabled)
-		return;
+    if (!_joysticks_enabled)
+        return;
 
     if(js_event.type == SDL_JOYAXISMOTION) {
 
