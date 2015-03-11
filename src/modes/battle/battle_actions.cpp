@@ -190,7 +190,7 @@ std::string SkillAction::GetIconFilename() const
     case vt_global::GLOBAL_SKILL_WEAPON:
         return std::string("weapon"); // alias used to know the weapon icon needs to used.
     case GLOBAL_SKILL_BARE_HANDS:
-        return std::string("img/icons/weapons/fist-human.png");
+        return std::string("data/inventory/weapons/fist-human.png");
     }
     return _skill->GetIconFilename();
 }

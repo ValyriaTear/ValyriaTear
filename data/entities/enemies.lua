@@ -20,7 +20,7 @@ local HURT_HEAVILY = vt_global.GameGlobal.GLOBAL_ENEMY_HURT_HEAVILY;
 
 enemies[1] = {
     name = vt_system.Translate("Green Slime"),
-    stamina_icon = "img/icons/actors/enemies/green_slime.png",
+    stamina_icon = "data/battles/stamina_icons/enemies/green_slime.png",
 
     battle_animations = {
         [HURT_NONE] = "img/sprites/battle/enemies/green_slime_0.lua",
@@ -64,7 +64,7 @@ enemies[1] = {
 
 enemies[2] = {
     name = vt_system.Translate("Spider"),
-    stamina_icon = "img/icons/actors/enemies/spider.png",
+    stamina_icon = "data/battles/stamina_icons/enemies/spider.png",
 
     battle_animations = {
         [HURT_NONE] = "img/sprites/battle/enemies/spider_0.lua",
@@ -118,7 +118,7 @@ enemies[2] = {
 -- Layna forest first boss - 1st encounter
 enemies[3] = {
     name = vt_system.Translate("Fenrir"),
-    stamina_icon = "img/icons/actors/enemies/fenrir.png",
+    stamina_icon = "data/battles/stamina_icons/enemies/fenrir.png",
 
     battle_animations = {
         [HURT_NONE] = "img/sprites/battle/enemies/fenrir_0.lua",
@@ -177,7 +177,7 @@ enemies[3] = {
 
 enemies[4] = {
     name = vt_system.Translate("Snake"),
-    stamina_icon = "img/icons/actors/enemies/green_snake.png",
+    stamina_icon = "data/battles/stamina_icons/enemies/green_snake.png",
 
     battle_animations = {
         [HURT_NONE] = "img/sprites/battle/enemies/green_snake_0.lua",
@@ -242,7 +242,7 @@ enemies[4] = {
 
 enemies[5] = {
     name = vt_system.Translate("Slime Mother"),
-    stamina_icon = "img/icons/actors/enemies/big_slime.png",
+    stamina_icon = "data/battles/stamina_icons/enemies/big_slime.png",
 
     battle_animations = {
         [HURT_NONE] = "img/sprites/battle/enemies/big_slime_0.lua",
@@ -287,7 +287,7 @@ enemies[5] = {
 
 enemies[6] = {
     name = vt_system.Translate("Bat"),
-    stamina_icon = "img/icons/actors/enemies/bat.png",
+    stamina_icon = "data/battles/stamina_icons/enemies/bat.png",
 
     battle_animations = {
         [HURT_NONE] = "img/sprites/battle/enemies/bat_0.lua",
@@ -342,7 +342,7 @@ enemies[6] = {
 -- Layna forest first boss - 2nd encounter
 enemies[7] = {
     name = vt_system.Translate("Fenrir"),
-    stamina_icon = "img/icons/actors/enemies/fenrir.png",
+    stamina_icon = "data/battles/stamina_icons/enemies/fenrir.png",
 
     battle_animations = {
         [HURT_NONE] = "img/sprites/battle/enemies/fenrir_0.lua",
@@ -402,7 +402,7 @@ enemies[7] = {
 -- Layna forest first boss - Last encounter
 enemies[8] = {
     name = vt_system.Translate("Fenrir"),
-    stamina_icon = "img/icons/actors/enemies/fenrir.png",
+    stamina_icon = "data/battles/stamina_icons/enemies/fenrir.png",
 
     battle_animations = {
         [HURT_NONE] = "img/sprites/battle/enemies/fenrir_0.lua",
@@ -460,7 +460,7 @@ enemies[8] = {
 
 enemies[9] = {
     name = vt_system.Translate("Dark Soldier"),
-    stamina_icon = "img/icons/actors/enemies/dark_soldier.png",
+    stamina_icon = "data/battles/stamina_icons/enemies/dark_soldier.png",
 
     battle_animations = {
         [HURT_NONE] = "img/sprites/battle/enemies/dark_soldier_0.lua",
@@ -523,7 +523,7 @@ enemies[9] = {
 
 enemies[10] = {
     name = vt_system.Translate("Lord Banesore"),
-    stamina_icon = "img/icons/actors/enemies/lord_banesore.png",
+    stamina_icon = "data/battles/stamina_icons/enemies/lord_banesore.png",
 
     battle_animations = {
         [HURT_NONE] = "img/sprites/battle/enemies/lord_banesore_0.lua",
@@ -592,7 +592,7 @@ enemies[10] = {
 
 enemies[11] = {
     name = vt_system.Translate("Shroom"),
-    stamina_icon = "img/icons/actors/enemies/shroom.png",
+    stamina_icon = "data/battles/stamina_icons/enemies/shroom.png",
 
     battle_animations = {
         [HURT_NONE] = "img/sprites/battle/enemies/shroom_0.lua",
@@ -637,7 +637,7 @@ enemies[11] = {
 
 enemies[12] = {
     name = vt_system.Translate("Eyeball"),
-    stamina_icon = "img/icons/actors/enemies/eyeball.png",
+    stamina_icon = "data/battles/stamina_icons/enemies/eyeball.png",
 
     battle_animations = {
         [HURT_NONE] = "img/sprites/battle/enemies/eyeball_0.lua",
@@ -680,7 +680,7 @@ enemies[12] = {
 
 enemies[13] = {
     name = vt_system.Translate("Harlequin?"),
-    stamina_icon = "img/icons/actors/enemies/harlequin.png",
+    stamina_icon = "data/battles/stamina_icons/enemies/harlequin.png",
 
     battle_animations = {
         [HURT_NONE] = "img/sprites/battle/enemies/harlequin_0.lua",
@@ -727,7 +727,7 @@ enemies[13] = {
 -- Harlequin first shape - but a little angrier
 enemies[14] = {
     name = vt_system.Translate("Harlequin"),
-    stamina_icon = "img/icons/actors/enemies/harlequin.png",
+    stamina_icon = "data/battles/stamina_icons/enemies/harlequin.png",
 
     battle_animations = {
         [HURT_NONE] = "img/sprites/battle/enemies/harlequin_0.lua",
@@ -780,7 +780,7 @@ enemies[14] = {
 
 enemies[15] = {
     name = vt_system.Translate("Beetle"),
-    stamina_icon = "img/icons/actors/enemies/beetle.png",
+    stamina_icon = "data/battles/stamina_icons/enemies/beetle.png",
 
     battle_animations = {
         [HURT_NONE] = "img/sprites/battle/enemies/beetle_0.lua",
@@ -825,7 +825,7 @@ enemies[15] = {
 
 enemies[16] = {
     name = vt_system.Translate("Rat"),
-    stamina_icon = "img/icons/actors/enemies/rat.png",
+    stamina_icon = "data/battles/stamina_icons/enemies/rat.png",
 
     battle_animations = {
         [HURT_NONE] = "img/sprites/battle/enemies/rat_0.lua",
@@ -878,7 +878,7 @@ enemies[16] = {
 
 enemies[17] = {
     name = vt_system.Translate("Thing"),
-    stamina_icon = "img/icons/actors/enemies/thing.png",
+    stamina_icon = "data/battles/stamina_icons/enemies/thing.png",
 
     battle_animations = {
         [HURT_NONE] = "img/sprites/battle/enemies/thing_0.lua",
@@ -924,7 +924,7 @@ enemies[17] = {
 -- unbalanced
 enemies[18] = {
     name = vt_system.Translate("Yeti"),
-    stamina_icon = "img/icons/actors/enemies/yeti.png",
+    stamina_icon = "data/battles/stamina_icons/enemies/yeti.png",
 
     battle_animations = {
         [HURT_NONE] = "img/sprites/battle/enemies/yeti_0.lua",
@@ -968,7 +968,7 @@ enemies[18] = {
 
 enemies[19] = {
     name = vt_system.Translate("Skeleton"),
-    stamina_icon = "img/icons/actors/enemies/skeleton.png",
+    stamina_icon = "data/battles/stamina_icons/enemies/skeleton.png",
 
     battle_animations = {
         [HURT_NONE] = "img/sprites/battle/enemies/skeleton_0.lua",
@@ -1031,7 +1031,7 @@ enemies[19] = {
 
 enemies[20] = {
     name = vt_system.Translate("Dorver"),
-    stamina_icon = "img/icons/actors/enemies/dorver.png",
+    stamina_icon = "data/battles/stamina_icons/enemies/dorver.png",
 
     battle_animations = {
         [HURT_NONE] = "img/sprites/battle/enemies/dorver_0.lua",
@@ -1099,7 +1099,7 @@ enemies[20] = {
 
 enemies[21] = {
     name = vt_system.Translate("Andromalius"),
-    stamina_icon = "img/icons/actors/enemies/andromalius.png",
+    stamina_icon = "data/battles/stamina_icons/enemies/andromalius.png",
 
     battle_animations = {
         [HURT_NONE] = "img/sprites/battle/enemies/andromalius_0.lua",
@@ -1160,7 +1160,7 @@ enemies[21] = {
 --------------------------------------------------------------------------------
 enemies[59] = {
     name = vt_system.Translate("Scorpion"),
-    stamina_icon = "img/icons/actors/enemies/scorpion.png",
+    stamina_icon = "data/battles/stamina_icons/enemies/scorpion.png",
 
     base_stats = {
         hit_points = 122,
@@ -1215,7 +1215,7 @@ enemies[59] = {
 
 enemies[60] = {
     name = vt_system.Translate("Dune Crawler"),
-    stamina_icon = "img/icons/actors/enemies/dune_crawler.png",
+    stamina_icon = "data/battles/stamina_icons/enemies/dune_crawler.png",
     battle_sprites = "img/sprites/battle/enemies/dune_crawler.png",
     sprite_width = 64,
     sprite_height = 64,
@@ -1270,7 +1270,7 @@ enemies[60] = {
 --------------------------------------------------------------------------------
 enemies[62] = {
     name = vt_system.Translate("Stygian Lizard"),
-    stamina_icon = "img/icons/actors/enemies/stygian_lizard.png",
+    stamina_icon = "data/battles/stamina_icons/enemies/stygian_lizard.png",
     battle_sprites = "img/sprites/battle/enemies/stygian_lizard.png",
     sprite_width = 192,
     sprite_height = 192,
@@ -1334,7 +1334,7 @@ enemies[62] = {
 --------------------------------------------------------------------------------
 enemies[63] = {
     name = vt_system.Translate("Demonic Essence"),
-    stamina_icon = "img/icons/actors/enemies/demonic_essence.png",
+    stamina_icon = "data/battles/stamina_icons/enemies/demonic_essence.png",
     battle_sprites = "img/sprites/battle/enemies/demonic_essence.png",
     sprite_width = 128,
     sprite_height = 192,
@@ -1398,7 +1398,7 @@ enemies[63] = {
 --------------------------------------------------------------------------------
 enemies[65] = {
     name = vt_system.Translate("Red Slime"),
-    stamina_icon = "img/icons/actors/enemies/red_slime.png",
+    stamina_icon = "data/battles/stamina_icons/enemies/red_slime.png",
     battle_sprites = "img/sprites/battle/enemies/red_slime.png",
     sprite_width = 64,
     sprite_height = 64,
@@ -1445,7 +1445,7 @@ enemies[65] = {
 --------------------------------------------------------------------------------
 enemies[67] = {
     name = vt_system.Translate("Mushroom Zombie"),
-    stamina_icon = "img/icons/actors/enemies/mushroom_zombie.png",
+    stamina_icon = "data/battles/stamina_icons/enemies/mushroom_zombie.png",
     battle_sprites = "img/sprites/battle/enemies/mushroom_zombie.png",
     sprite_width = 64,
     sprite_height = 64,
@@ -1493,7 +1493,7 @@ enemies[67] = {
 --------------------------------------------------------------------------------
 enemies[91] = {
     name = vt_system.Translate("Scorpion Goliath"),
-    stamina_icon = "img/icons/actors/enemies/scorpion_goliath.png",
+    stamina_icon = "data/battles/stamina_icons/enemies/scorpion_goliath.png",
     battle_sprites = "img/sprites/battle/enemies/scorpion_goliath.png",
     sprite_width = 512,
     sprite_height = 448,
@@ -1557,7 +1557,7 @@ enemies[91] = {
 --------------------------------------------------------------------------------
 enemies[92] = {
     name = vt_system.Translate("Armored Beast"),
-    stamina_icon = "img/icons/actors/enemies/armored_beast.png",
+    stamina_icon = "data/battles/stamina_icons/enemies/armored_beast.png",
     battle_sprites = "img/sprites/battle/enemies/armored_beast.png",
     sprite_width = 256,
     sprite_height = 256,
@@ -1614,7 +1614,7 @@ enemies[92] = {
 
 enemies[101] = {
     name = vt_system.Translate("Daemarbora"),
-    stamina_icon = "img/icons/actors/enemies/daemarbora.png",
+    stamina_icon = "data/battles/stamina_icons/enemies/daemarbora.png",
     battle_sprites = "img/sprites/battle/enemies/daemarbora.png",
     sprite_width = 128,
     sprite_height = 128,
@@ -1663,7 +1663,7 @@ enemies[101] = {
 
 enemies[102] = {
     name = vt_system.Translate("Aerocephal"),
-    stamina_icon = "img/icons/actors/enemies/aerocephal.png",
+    stamina_icon = "data/battles/stamina_icons/enemies/aerocephal.png",
     battle_sprites = "img/sprites/battle/enemies/aerocephal.png",
     sprite_width = 192,
     sprite_height = 192,
@@ -1712,7 +1712,7 @@ enemies[102] = {
 
 enemies[103] = {
     name = vt_system.Translate("Arcana Drake"),
-    stamina_icon = "img/icons/actors/enemies/arcana_drake.png",
+    stamina_icon = "data/battles/stamina_icons/enemies/arcana_drake.png",
     battle_sprites = "img/sprites/battle/enemies/arcana_drake.png",
     sprite_width = 192,
     sprite_height = 256,
@@ -1769,7 +1769,7 @@ enemies[103] = {
 
 enemies[104] = {
     name = vt_system.Translate("Nagaruda"),
-    stamina_icon = "img/icons/actors/enemies/nagaruda.png",
+    stamina_icon = "data/battles/stamina_icons/enemies/nagaruda.png",
     battle_sprites = "img/sprites/battle/enemies/nagaruda.png",
     sprite_width = 192,
     sprite_height = 256,
@@ -1826,7 +1826,7 @@ enemies[104] = {
 
 enemies[105] = {
     name = vt_system.Translate("Deceleon"),
-    stamina_icon = "img/icons/actors/enemies/deceleon.png",
+    stamina_icon = "data/battles/stamina_icons/enemies/deceleon.png",
     battle_sprites = "img/sprites/battle/enemies/deceleon.png",
     sprite_width = 256,
     sprite_height = 256,
@@ -1891,7 +1891,7 @@ enemies[105] = {
 
 enemies[106] = {
     name = vt_system.Translate("Aurum Drakueli"),
-    stamina_icon = "img/icons/actors/enemies/aurum_drakueli.png",
+    stamina_icon = "data/battles/stamina_icons/enemies/aurum_drakueli.png",
     battle_sprites = "img/sprites/battle/enemies/aurum_drakueli.png",
     sprite_width = 320,
     sprite_height = 256,

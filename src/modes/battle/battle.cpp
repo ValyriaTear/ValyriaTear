@@ -82,14 +82,14 @@ BattleMedia::BattleMedia()
         PRINT_ERROR << "failed to load stamina icon selected image" << std::endl;
 
     attack_point_indicator.SetDimensions(16.0f, 16.0f);
-    if(attack_point_indicator.LoadFromFrameGrid("img/icons/battle/attack_point_target.png",
+    if(attack_point_indicator.LoadFromFrameGrid("data/battles/menu_icons/attack_point_target.png",
             std::vector<uint32>(4, 100), 1, 4) == false)
         PRINT_ERROR << "failed to load attack point indicator." << std::endl;
 
     if(stamina_meter.Load("img/menus/stamina_bar.png") == false)
         PRINT_ERROR << "failed to load time meter." << std::endl;
 
-    if(actor_selection_image.Load("img/icons/battle/character_selector.png") == false)
+    if(actor_selection_image.Load("data/battles/menu_icons/character_selector.png") == false)
         PRINT_ERROR << "unable to load player selector image" << std::endl;
 
     if(character_selected_highlight.Load("img/menus/battle_character_selection.png") == false)
@@ -104,7 +104,7 @@ BattleMedia::BattleMedia()
     if(ImageDescriptor::LoadMultiImageFromElementGrid(character_action_buttons, "img/menus/battle_command_buttons.png", 2, 5) == false)
         PRINT_ERROR << "failed to load character action buttons" << std::endl;
 
-    if(ImageDescriptor::LoadMultiImageFromElementGrid(_target_type_icons, "img/icons/effects/targets.png", 1, 8) == false)
+    if(ImageDescriptor::LoadMultiImageFromElementGrid(_target_type_icons, "data/skills/targets.png", 1, 8) == false)
         PRINT_ERROR << "failed to load character action buttons" << std::endl;
 
     character_HP_text.SetStyle(TextStyle("text18", Color::white));
@@ -124,7 +124,7 @@ BattleMedia::BattleMedia()
         IF_PRINT_WARNING(BATTLE_DEBUG) << "failed to load defeat music file: " << DEFAULT_DEFEAT_MUSIC << std::endl;
 
     // Load the stunned icon.
-    if(!_stunned_icon.Load("img/icons/effects/zzz.png"))
+    if(!_stunned_icon.Load("data/entities/emotes/zzz.png"))
         IF_PRINT_WARNING(BATTLE_DEBUG) << "failed to load stunned icon" << std::endl;
 }
 

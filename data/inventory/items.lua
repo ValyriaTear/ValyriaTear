@@ -74,7 +74,7 @@ end
 items[1] = {
     name = vt_system.Translate("Minor Healing Potion"),
     description = vt_system.Translate("Restores a small amount of hit points to an ally."),
-    icon = "img/icons/items/potion_green_small.png",
+    icon = "data/inventory/items/potion_green_small.png",
     target_type = vt_global.GameGlobal.GLOBAL_TARGET_ALLY,
     standard_price = 30,
     warmup_time = 1000,
@@ -93,7 +93,7 @@ items[1] = {
 items[2] = {
     name = vt_system.Translate("Medium Healing Potion"),
     description = vt_system.Translate("Restores a reasonable amount of hit points to an ally."),
-    icon = "img/icons/items/potion_green_medium.png",
+    icon = "data/inventory/items/potion_green_medium.png",
     target_type = vt_global.GameGlobal.GLOBAL_TARGET_ALLY,
     standard_price = 200,
     warmup_time = 1200,
@@ -118,7 +118,7 @@ items[2] = {
 items[3] = {
     name = vt_system.Translate("Healing Potion"),
     description = vt_system.Translate("Restores a large amount of hit points to an ally."),
-    icon = "img/icons/items/potion_green_large.png",
+    icon = "data/inventory/items/potion_green_large.png",
     target_type = vt_global.GameGlobal.GLOBAL_TARGET_ALLY,
     standard_price = 900,
     warmup_time = 1200,
@@ -143,7 +143,7 @@ items[3] = {
 items[4] = {
     name = vt_system.Translate("Mega Healing Potion"),
     description = vt_system.Translate("Restores a very high amount of hit points to an ally."),
-    icon = "img/icons/items/potion_green_large.png",
+    icon = "data/inventory/items/potion_green_large.png",
     target_type = vt_global.GameGlobal.GLOBAL_TARGET_ALLY,
     standard_price = 5000,
     warmup_time = 1200,
@@ -187,7 +187,7 @@ end
 items[11] = {
     name = vt_system.Translate("Small Moon Juice Potion"),
     description = vt_system.Translate("Restores a small amount of skill points to an ally."),
-    icon = "img/icons/items/potion_blue_small.png",
+    icon = "data/inventory/items/potion_blue_small.png",
     target_type = vt_global.GameGlobal.GLOBAL_TARGET_ALLY,
     standard_price = 90,
     use_warmup_time = 1000,
@@ -206,7 +206,7 @@ items[11] = {
 items[12] = {
     name = vt_system.Translate("Medium Moon Juice Potion"),
     description = vt_system.Translate("Restores a reasonable amount of skill points to an ally."),
-    icon = "img/icons/items/potion_blue_medium.png",
+    icon = "data/inventory/items/potion_blue_medium.png",
     target_type = vt_global.GameGlobal.GLOBAL_TARGET_ALLY,
     standard_price = 380,
     use_warmup_time = 1000,
@@ -225,7 +225,7 @@ items[12] = {
 items[13] = {
     name = vt_system.Translate("Moon Juice Potion"),
     description = vt_system.Translate("Restores a large amount of skill points to an ally."),
-    icon = "img/icons/items/potion_blue_large.png",
+    icon = "data/inventory/items/potion_blue_large.png",
     target_type = vt_global.GameGlobal.GLOBAL_TARGET_ALLY,
     standard_price = 1300,
     use_warmup_time = 1000,
@@ -244,7 +244,7 @@ items[13] = {
 items[14] = {
     name = vt_system.Translate("Mega Moon Juice Potion"),
     description = vt_system.Translate("Restores a very high amount of skill points to an ally."),
-    icon = "img/icons/items/potion_blue_huge.png",
+    icon = "data/inventory/items/potion_blue_huge.png",
     target_type = vt_global.GameGlobal.GLOBAL_TARGET_ALLY,
     standard_price = 6100,
     use_warmup_time = 1200,
@@ -263,7 +263,7 @@ items[14] = {
 items[15] = {
     name = vt_system.Translate("Lotus Petal"),
     description = vt_system.Translate("Cures moderate poisons from an ally."),
-    icon = "img/icons/items/lotus.png",
+    icon = "data/inventory/items/lotus.png",
     target_type = vt_global.GameGlobal.GLOBAL_TARGET_ALLY,
     standard_price = 100,
     use_warmup_time = 1200,
@@ -315,7 +315,7 @@ items[15] = {
 items[16] = {
     name = vt_system.Translate("Candy"),
     description = vt_system.Translate("Makes an ally's health regenerate moderately."),
-    icon = "img/icons/items/candy.png",
+    icon = "data/inventory/items/candy.png",
     target_type = vt_global.GameGlobal.GLOBAL_TARGET_ALLY,
     standard_price = 1300,
     use_warmup_time = 1200,
@@ -383,7 +383,7 @@ end
 items[1001] = {
     name = vt_system.Translate("Minor Elixir"),
     description = vt_system.Translate("Revives a character, or improves the character's status when he/she is alive by a limited degree."),
-    icon = "img/icons/items/potion_red_small.png",
+    icon = "data/inventory/items/potion_red_small.png",
     target_type = vt_global.GameGlobal.GLOBAL_TARGET_ALLY_EVEN_DEAD,
     standard_price = 50,
     use_warmup_time = 1200,
@@ -419,7 +419,7 @@ items[1001] = {
 items[1003] = {
     name = vt_system.Translate("Elixir"),
     description = vt_system.Translate("Revives a character to half of their hit points, or reasonably improves the character's status while he/she is alive."),
-    icon = "img/icons/items/potion_red_large.png",
+    icon = "data/inventory/items/potion_red_large.png",
     target_type = vt_global.GameGlobal.GLOBAL_TARGET_ALLY_EVEN_DEAD,
     standard_price = 1200,
     use_warmup_time = 1600,
@@ -452,7 +452,7 @@ items[1003] = {
 items[1004] = {
     name = vt_system.Translate("Periwinkle Potion"),
     description = vt_system.Translate("Gives a reasonable boost in strength to an ally for a large amount of time."),
-    icon = "img/icons/items/strength_potion.png",
+    icon = "data/inventory/items/strength_potion.png",
     target_type = vt_global.GameGlobal.GLOBAL_TARGET_ALLY,
     standard_price = 1600,
     use_warmup_time = 3600,
@@ -487,7 +487,7 @@ items[1004] = {
 items[1005] = {
     name = vt_system.Translate("Haste Potion"),
     description = vt_system.Translate("Gives a reasonable boost in agility to an ally for a small amount of time."),
-    icon = "img/icons/items/haste_potion.png",
+    icon = "data/inventory/items/haste_potion.png",
     target_type = vt_global.GameGlobal.GLOBAL_TARGET_ALLY,
     standard_price = 1400,
     use_warmup_time = 1600,
@@ -522,7 +522,7 @@ items[1005] = {
 items[1006] = {
     name = vt_system.Translate("Poison Potion"),
     description = vt_system.Translate("Poisons an enemy for a small amount of time."),
-    icon = "img/icons/items/poison_potion.png",
+    icon = "data/inventory/items/poison_potion.png",
     target_type = vt_global.GameGlobal.GLOBAL_TARGET_FOE,
     standard_price = 1400,
     use_warmup_time = 1600,
@@ -556,56 +556,56 @@ items[1006] = {
 items[3001] = {
     name = vt_system.Translate("Copper Ore"),
     description = vt_system.Translate("A small amount of copper ore."),
-    icon = "img/icons/items/copper_ore.png",
+    icon = "data/inventory/items/copper_ore.png",
     standard_price = 150
 }
 
 items[3002] = {
     name = vt_system.Translate("Iron Ore"),
     description = vt_system.Translate("A small amount of iron ore."),
-    icon = "img/icons/items/iron_ore.png",
+    icon = "data/inventory/items/iron_ore.png",
     standard_price = 450
 }
 
 items[3003] = {
     name = vt_system.Translate("Titanium Ore"),
     description = vt_system.Translate("A small amount of titanium ore."),
-    icon = "img/icons/items/titanium_ore.png",
+    icon = "data/inventory/items/titanium_ore.png",
     standard_price = 650
 }
 
 items[3004] = {
     name = vt_system.Translate("Anthozium Ore"),
     description = vt_system.Translate("A small amount of anthozium ore."),
-    icon = "img/icons/items/anthozium_ore.png",
+    icon = "data/inventory/items/anthozium_ore.png",
     standard_price = 850
 }
 
 items[3005] = {
     name = vt_system.Translate("Auridium Ore"),
     description = vt_system.Translate("A small amount of auridium ore."),
-    icon = "img/icons/items/auridium_ore.png",
+    icon = "data/inventory/items/auridium_ore.png",
     standard_price = 1050
 }
 
 items[3006] = {
     name = vt_system.Translate("Borium Ore"),
     description = vt_system.Translate("A small amount of borium ore."),
-    icon = "img/icons/items/borium_ore.png",
+    icon = "data/inventory/items/borium_ore.png",
     standard_price = 1250
 }
 
 items[3007] = {
     name = vt_system.Translate("Evanium Ore"),
     description = vt_system.Translate("A small amount of evanium ore."),
-    icon = "img/icons/items/evanium_ore.png",
+    icon = "data/inventory/items/evanium_ore.png",
     standard_price = 1500
 }
 
 items[3008] = {
     name = vt_system.Translate("Phoenix Feather"),
     description = vt_system.Translate("A genuine and perfect feather from the great fire bird. It is known to bring life to inanimated items."),
-    icon = "img/icons/items/phoenix_feather.png",
+    icon = "data/inventory/items/phoenix_feather.png",
     standard_price = 4500
 }
 
@@ -658,7 +658,7 @@ end
 items[4001] = {
     name = vt_system.Translate("Escape Smoke"),
     description = vt_system.Translate("A ninja potion that bursts out a damp mist when it is crashed on the ground. Used to hopefully escape from standard opponents."),
-    icon = "img/icons/items/escape_smoke.png",
+    icon = "data/inventory/items/escape_smoke.png",
     target_type = vt_global.GameGlobal.GLOBAL_TARGET_SELF,
     standard_price = 100,
 
@@ -702,7 +702,7 @@ items[4001] = {
 items[70001] = {
     name = vt_system.Translate("Pen"),
     description = vt_system.Translate("Georges's pen, presumably used to write poetry."),
-    icon = "img/icons/items/key_items/ink.png",
+    icon = "data/inventory/items/key_items/ink.png",
     standard_price = 0,
     key_item = true
 }
@@ -710,7 +710,7 @@ items[70001] = {
 items[70002] = {
     name = vt_system.Translate("Barley Meal"),
     description = vt_system.Translate("Basic yet good and cheap flour."),
-    icon = "img/icons/items/key_items/barley_meal_bag.png",
+    icon = "data/inventory/items/key_items/barley_meal_bag.png",
     standard_price = 0,
     key_item = true
 }
@@ -718,7 +718,7 @@ items[70002] = {
 items[70003] = {
     name = vt_system.Translate("Wolfpain Necklace"),
     description = vt_system.Translate("A strange necklace with unknown powers."),
-    icon = "img/icons/items/key_items/necklace_wolfpain.png",
+    icon = "data/inventory/items/key_items/necklace_wolfpain.png",
     standard_price = 0,
     key_item = true
 }

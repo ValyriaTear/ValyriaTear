@@ -154,7 +154,7 @@ void TreasureSupervisor::Initialize(MapTreasure *treasure)
 
     // Construct the object list, including any drunes that were contained within the treasure
     if(_treasure->_drunes != 0) {
-        _list_options.AddOption(MakeUnicodeString("<img/icons/drunes.png>       ") +
+        _list_options.AddOption(MakeUnicodeString("<data/inventory/drunes.png>       ") +
                                 UTranslate("Drunes") +
                                 MakeUnicodeString("<R>" + NumberToString(_treasure->_drunes)));
         GlobalManager->Media().PlaySound("coins");

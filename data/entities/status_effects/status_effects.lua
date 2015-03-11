@@ -1,5 +1,5 @@
 ------------------------------------------------------------------------------[[
--- Filename: status.lua
+-- Filename: status_effects.lua
 --
 -- Description: This file contains the implementations of all status effects.
 -- The list of different types of status effects and their
@@ -23,7 +23,8 @@
 -- {RemovePassive} - function is called when unequipping and should be used on the global actor, not on the battle one.
 --
 -- To verify what a status effect's icon_index should be, examine the image file
--- img/icons/effects/status.png and find the appropriate row of icons.
+-- data/entities/status_effects/
+status.png and find the appropriate row of icons.
 --
 -- The Apply, Update, and Remove functions are all called with an argument, {battle_effect},
 -- which is a pointer to the BattleStatusEffect object that was constructed to represent

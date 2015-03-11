@@ -248,7 +248,7 @@ GLOBAL_INTENSITY GetOppositeIntensity(GLOBAL_INTENSITY intensity) {
 void GlobalMedia::Initialize()
 {
     // Load common images
-    if (!_drunes_icon.Load("img/icons/drunes.png"))
+    if (!_drunes_icon.Load("data/inventory/drunes.png"))
         PRINT_WARNING << "Failed to load drunes icon image" << std::endl;
 
     if (!_star_icon.Load("img/menus/star.png"))
@@ -281,13 +281,14 @@ void GlobalMedia::Initialize()
     if(!_stamina_bar_infinite_overlay.Load("img/misc/stamina_bar_infinite_overlay.png", 227, 24))
         PRINT_WARNING << "Failed to load the the stamina bar infinite overlay image" << std::endl;
 
-    if(!vt_video::ImageDescriptor::LoadMultiImageFromElementSize(_status_icons, "img/icons/effects/status.png", 25, 25))
+    if(!vt_video::ImageDescriptor::LoadMultiImageFromElementSize(_status_icons, "data/entities/status_effects/
+status.png", 25, 25))
         PRINT_WARNING << "Failed to load status icon images" << std::endl;
 
-    if(!vt_video::ImageDescriptor::LoadMultiImageFromElementGrid(_all_category_icons, "img/icons/object_category_icons.png", 3, 3))
+    if(!vt_video::ImageDescriptor::LoadMultiImageFromElementGrid(_all_category_icons, "data/inventory/object_category_icons.png", 3, 3))
         PRINT_WARNING << "Failed to load object category icon images" << std::endl;
 
-    if(!vt_video::ImageDescriptor::LoadMultiImageFromElementGrid(_small_category_icons, "img/misc/category_icons.png", 3, 4))
+    if(!vt_video::ImageDescriptor::LoadMultiImageFromElementGrid(_small_category_icons, "data/inventory/category_icons.png", 3, 4))
         PRINT_WARNING << "Failed to load small object category icon images" << std::endl;
 
     // Load common sounds
