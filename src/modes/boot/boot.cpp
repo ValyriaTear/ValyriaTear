@@ -107,7 +107,7 @@ BootMode::BootMode() :
     GetScriptSupervisor().Initialize(this);
 
     // Load the menu bar and the help text
-    _menu_bar.Load("img/menus/battle_bottom_menu.png", 1024, 128);
+    _menu_bar.Load("data/gui/battle/battle_bottom_menu.png", 1024, 128);
 
     _SetupMainMenu();
 

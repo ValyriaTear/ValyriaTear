@@ -109,7 +109,7 @@ function Initialize(map_instance)
         [4] = {
             images = {
                 [0] = {
-                    image = Script:CreateImage("img/portraits/kalya_full.png"),
+                    image = Script:CreateImage("data/entities/portraits/kalya_full.png"),
                     image_dimension_x = 182.0,
                     image_dimension_y = 350.0,
                     image_position_x = 300.0,

@@ -121,14 +121,14 @@ function BootMenuTest()
     GlobalManager:AddQuestLog("flee_from_the_dark_soldiers");
 
     -- Used to debug World Map
-    GlobalManager:SetWorldMap("img/menus/worldmaps/layna_region.png")
+    GlobalManager:SetWorldMap("data/story/common/worldmaps/layna_region.png")
     GlobalManager:ShowWorldLocation("layna village")
     GlobalManager:ShowWorldLocation("layna forest")
     GlobalManager:ShowWorldLocation("mt elbrus")
     GlobalManager:SetCurrentLocationId("layna forest")
 
     GlobalManager:SetMap("dummy_map", "dummy_script",
-                         "img/menus/locations/desert_cave.png",
+                         "data/story/common/locations/desert_cave.png",
                          vt_utils.MakeUnicodeString("The Boot Menu"));
 
     local menu = vt_menu.MenuMode();

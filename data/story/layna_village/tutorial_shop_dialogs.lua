@@ -55,7 +55,7 @@ function Initialize(shop_instance)
     DialogueManager = Shop:GetDialogueSupervisor();
 
     -- Add all speakers for the dialogues to be added
-    DialogueManager:AddSpeaker("Bronann", vt_system.Translate("Bronann"), "img/portraits/bronann.png");
+    DialogueManager:AddSpeaker("Bronann", vt_system.Translate("Bronann"), "data/entities/portraits/bronann.png");
     DialogueManager:AddSpeaker("Flora", vt_system.Translate("Flora"), "");
 
     -- The dialogue constructed below offers the player instructions on how to do battle. It is displayed only once in the first few seconds

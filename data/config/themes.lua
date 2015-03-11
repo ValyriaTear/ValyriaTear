@@ -12,22 +12,22 @@ themes = {
     -- Theme id = { theme name, win background file path, windows border file, cursor file }
     ["Royal Silk"] = {
         name = vt_system.Translate("Royal Silk"),
-        win_background_file = "img/menus/themes/royal_silk/win_background.png",
-        win_border_file = "img/menus/themes/royal_silk/win_border.png",
-        cursor_file = "img/menus/themes/royal_silk/cursor.png"
+        win_background_file = "data/gui/themes/royal_silk/win_background.png",
+        win_border_file = "data/gui/themes/royal_silk/win_border.png",
+        cursor_file = "data/gui/themes/royal_silk/cursor.png"
     },
 
     ["Black Sleet"] = {
         name = vt_system.Translate("Black Sleet"),
-        win_background_file = "img/menus/themes/black_sleet/black_sleet_texture.png",
-        win_border_file = "img/menus/themes/black_sleet/black_sleet_skin.png",
-        cursor_file = "img/menus/themes/black_sleet/cursor.png"
+        win_background_file = "data/gui/themes/black_sleet/black_sleet_texture.png",
+        win_border_file = "data/gui/themes/black_sleet/black_sleet_skin.png",
+        cursor_file = "data/gui/themes/black_sleet/cursor.png"
     },
 
     ["Elvish Feather"] = {
         name = vt_system.Translate("Elvish Feather"),
-        win_background_file = "img/menus/themes/elvish_feather/win_background.png",
-        win_border_file = "img/menus/themes/elvish_feather/win_border.png",
-        cursor_file = "img/menus/themes/elvish_feather/cursor.png"
+        win_background_file = "data/gui/themes/elvish_feather/win_background.png",
+        win_border_file = "data/gui/themes/elvish_feather/win_border.png",
+        cursor_file = "data/gui/themes/elvish_feather/cursor.png"
     }
 }

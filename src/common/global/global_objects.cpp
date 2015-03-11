@@ -48,7 +48,7 @@ void GlobalObject::_LoadObjectData(vt_script::ReadScriptDescriptor &script)
         PRINT_WARNING << "failed to load icon image for item: " << _id << std::endl;
 
         // try a default icon in that case
-        _icon_image.Load("data/battles/menu_icons/default_special.png");
+        _icon_image.Load("data/gui/battle/default_special.png");
     }
 }
 

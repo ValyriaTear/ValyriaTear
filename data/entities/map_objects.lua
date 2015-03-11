@@ -859,7 +859,7 @@ objects["Wooden Sword1"] = {
 -- "Ground" lights
 -- Those are special light effect that have to be applied before the sky layer
 objects["Left Window Light"] = {
-    animation_filename = "img/misc/lights/left_window_light.lua",
+    animation_filename = "data/visuals/lights/left_window_light.lua",
     coll_half_width = 0.0,
     coll_height = 0.0,
     img_half_width = 1.56 * 16,
@@ -867,7 +867,7 @@ objects["Left Window Light"] = {
 }
 
 objects["Right Window Light"] = {
-    animation_filename = "img/misc/lights/right_window_light.lua",
+    animation_filename = "data/visuals/lights/right_window_light.lua",
     coll_half_width = 0.0,
     coll_height = 0.0,
     img_half_width = 1.56 * 16,
@@ -875,7 +875,7 @@ objects["Right Window Light"] = {
 }
 
 objects["Left Window Light 2"] = {
-    animation_filename = "img/misc/lights/left_window_light.lua",
+    animation_filename = "data/visuals/lights/left_window_light.lua",
     coll_half_width = 0.0,
     coll_height = 0.0,
     img_half_width = 2.56 * 16,
@@ -883,7 +883,7 @@ objects["Left Window Light 2"] = {
 }
 
 objects["Right Window Light 2"] = {
-    animation_filename = "img/misc/lights/right_window_light.lua",
+    animation_filename = "data/visuals/lights/right_window_light.lua",
     coll_half_width = 0.0,
     coll_height = 0.0,
     img_half_width = 2.56 * 16,

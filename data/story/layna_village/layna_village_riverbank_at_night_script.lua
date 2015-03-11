@@ -6,7 +6,7 @@ setfenv(1, ns);
 
 -- The map name, subname and location image
 map_name = "Mountain Village of Layna"
-map_image_filename = "img/menus/locations/mountain_village.png"
+map_image_filename = "data/story/common/locations/mountain_village.png"
 map_subname = "Riverbank"
 
 -- The music file used as default background music on this map.
@@ -306,9 +306,9 @@ function _CreateFire(fire_x, fire_y)
 
     vt_map.SoundObject.Create("sounds/campfire.ogg", fire_x, fire_y, 7.0);
 
-    vt_map.Halo.Create("img/misc/lights/torch_light_mask2.lua", fire_x, fire_y + 3.0,
+    vt_map.Halo.Create("data/visuals/lights/torch_light_mask2.lua", fire_x, fire_y + 3.0,
         vt_video.Color(0.85, 0.32, 0.0, 0.6));
-    vt_map.Halo.Create("img/misc/lights/sun_flare_light_main.lua", fire_x, fire_y + 1.0,
+    vt_map.Halo.Create("data/visuals/lights/sun_flare_light_main.lua", fire_x, fire_y + 1.0,
         vt_video.Color(0.99, 1.0, 0.27, 0.2));
 end
 

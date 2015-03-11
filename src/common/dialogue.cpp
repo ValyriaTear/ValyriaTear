@@ -218,16 +218,17 @@ DialogueWindow::DialogueWindow() :
     _blink_state(true),
     _portrait_image(NULL)
 {
-    if(_parchment_image.Load("img/menus/black_sleet_parch.png") == false)
+    //TODO: Makes this part of the themes
+    if(_parchment_image.Load("data/gui/black_sleet_parch.png") == false)
         PRINT_ERROR << "failed to load dialogue image: " << _parchment_image.GetFilename() << std::endl;
 
-    if(_nameplate_image.Load("img/menus/dialogue_nameplate.png") == false)
+    if(_nameplate_image.Load("data/gui/dialogue_nameplate.png") == false)
         PRINT_ERROR << "failed to load dialogue image: " << _nameplate_image.GetFilename() << std::endl;
 
-    if(_next_line_image.Load("img/menus/dialogue_cont_arrow.png") == false)
+    if(_next_line_image.Load("data/gui/dialogue_cont_arrow.png") == false)
         PRINT_ERROR << "failed to load dialogue image: " << _next_line_image.GetFilename() << std::endl;
 
-    if(_last_line_image.Load("img/menus/dialogue_last_ind.png") == false)
+    if(_last_line_image.Load("data/gui/dialogue_last_ind.png") == false)
         PRINT_ERROR << "failed to load dialogue image: " << _last_line_image.GetFilename() << std::endl;
 
     VideoManager->PushState();

@@ -746,7 +746,7 @@ std::vector<QTreeWidgetItem *> Grid::getLayerItems()
 
         // Show the visible icon depending on the layer state
         if(_tile_layers[layer_id].visible)
-            item->setIcon(1, QIcon(QString("img/misc/editor-tools/eye.png")));
+            item->setIcon(1, QIcon(QString("data/editor/eye.png")));
 
         item->setText(2, name);
         item->setText(3, tr(getTypeFromLayer(_tile_layers[layer_id].layer_type).c_str()));

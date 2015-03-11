@@ -78,13 +78,13 @@ Minimap::Minimap(const std::string& minimap_image_filename) :
     }
 
     //setup the map window, if it isn't already created
-    _background.Load("img/menus/minimap_background.png");
+    _background.Load("data/gui/map/minimap_background.png");
     _background.SetStatic(true);
     _background.SetHeight(173.0f);
     _background.SetWidth(235.0f);
 
     //load the location market
-    if(!_location_marker.LoadFromAnimationScript("img/menus/minimap_arrows.lua"))
+    if(!_location_marker.LoadFromAnimationScript("data/gui/map/minimap_arrows.lua"))
         PRINT_ERROR << "Could not load marker image!" << std::endl;
     _location_marker.SetWidth(_box_x_length * 5);
     _location_marker.SetHeight(_box_y_length * 5);
@@ -100,7 +100,7 @@ Minimap::Minimap(const std::string& minimap_image_filename) :
 
 static inline bool _PrepareSurface(SDL_Surface *temp_surface)
 {
-    static const SDLSurfaceController white_noise("img/menus/minimap_collision.png");
+    static const SDLSurfaceController white_noise("data/gui/map/minimap_collision.png");
     SDL_Rect r;
     r.x = r.y = 0;
 

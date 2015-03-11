@@ -22,9 +22,9 @@ quests = {
         -- Group and event for the quest to be complete.
         "story", "quest1_barley_meal_done",
         -- Location name and banner image filename
-        vt_system.Translate("Village of Layna"), "img/menus/locations/mountain_village.png",
+        vt_system.Translate("Village of Layna"), "data/story/common/locations/mountain_village.png",
         -- Location sub-name and image filename
-        vt_system.Translate("Bronann's home"), "img/menus/quests/get_barley.png",
+        vt_system.Translate("Bronann's home"), "data/story/common/quests/get_barley.png",
     },
 
     -- Quest id
@@ -38,9 +38,9 @@ quests = {
         -- Group and event for the quest to be complete.
         "layna_center", "quest1_pen_given_done",
         -- Location name and banner image filename
-        vt_system.Translate("Village of Layna"), "img/menus/locations/mountain_village.png",
+        vt_system.Translate("Village of Layna"), "data/story/common/locations/mountain_village.png",
         -- Location sub-name and image filename
-        vt_system.Translate("Village center"), "img/menus/quests/find_pen.png",
+        vt_system.Translate("Village center"), "data/story/common/quests/find_pen.png",
     },
 
     -- Quest id
@@ -54,9 +54,9 @@ quests = {
         -- Group and event for the quest to be complete.
         "layna_riverbank", "quest1_orlinn_hide_n_seek3_done",
         -- Location name and banner image filename
-        vt_system.Translate("Village of Layna"), "img/menus/locations/mountain_village.png",
+        vt_system.Translate("Village of Layna"), "data/story/common/locations/mountain_village.png",
         -- Location sub-name and image filename
-        vt_system.Translate("Village center"), "img/menus/quests/hide_n_seek_with_orlinn.png",
+        vt_system.Translate("Village center"), "data/story/common/quests/hide_n_seek_with_orlinn.png",
     },
 
     -- Quest id
@@ -70,7 +70,7 @@ quests = {
         -- Group and event for the quest to be complete.
         "game", "layna_village_chicken_reward_given",
         -- Location name and banner image filename
-        vt_system.Translate("Village of Layna"), "img/menus/locations/mountain_village.png",
+        vt_system.Translate("Village of Layna"), "data/story/common/locations/mountain_village.png",
         -- Location sub-name and image filename
         vt_system.Translate("Path to Kalya's house"), "",
         -- Events telling the quest isn't completable anymore
@@ -88,9 +88,9 @@ quests = {
         -- Group and event for the quest to be complete.
         "story", "kalya_has_joined",
         -- Location name and banner image filename
-        vt_system.Translate("Village of Layna"), "img/menus/locations/mountain_village.png",
+        vt_system.Translate("Village of Layna"), "data/story/common/locations/mountain_village.png",
         -- Location sub-name and image filename
-        vt_system.Translate("Bronann's home"), "img/menus/quests/wants_to_go_into_the_forest.png",
+        vt_system.Translate("Bronann's home"), "data/story/common/quests/wants_to_go_into_the_forest.png",
     },
 
     -- Quest id
@@ -104,9 +104,9 @@ quests = {
         -- Group and event for the quest to be complete.
         "story", "layna_forest_crystal_event_done",
         -- Location name and banner image filename
-        vt_system.Translate("Village of Layna"), "img/menus/locations/mountain_village.png",
+        vt_system.Translate("Village of Layna"), "data/story/common/locations/mountain_village.png",
         -- Location sub-name and image filename
-        vt_system.Translate("Village center"), "img/menus/quests/bring_orlinn_back.png",
+        vt_system.Translate("Village center"), "data/story/common/quests/bring_orlinn_back.png",
     },
 
     -- Quest id
@@ -120,8 +120,8 @@ quests = {
         -- Group and event for the quest to be complete.
         "none", "none",
         -- Location name and banner image filename
-        vt_system.Translate("Village of Layna"), "img/menus/locations/mountain_village.png",
+        vt_system.Translate("Village of Layna"), "data/story/common/locations/mountain_village.png",
         -- Location sub-name and image filename
-        vt_system.Translate("Kalya's home basement"), "img/menus/quests/flee_from_dark_soldiers.png",
+        vt_system.Translate("Kalya's home basement"), "data/story/common/quests/flee_from_dark_soldiers.png",
     },
 }

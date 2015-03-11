@@ -6,7 +6,7 @@ setfenv(1, ns);
 
 -- The map name, subname and location image
 map_name = "Mt. Elbrus"
-map_image_filename = "img/menus/locations/mt_elbrus.png"
+map_image_filename = "data/story/common/locations/mt_elbrus.png"
 map_subname = "Underpass"
 
 -- The music file used as default background music on this map.
@@ -228,7 +228,7 @@ function _CreateObjects()
 
     -- Snow effect at shrine entrance
     vt_map.ParticleObject.Create("dat/maps/mt_elbrus/particles_snow_south_entrance.lua", 29, 48, vt_map.MapMode.GROUND_OBJECT);
-    vt_map.Halo.Create("img/misc/lights/torch_light_mask.lua", 29, 55,
+    vt_map.Halo.Create("data/visuals/lights/torch_light_mask.lua", 29, 55,
         vt_video.Color(1.0, 1.0, 1.0, 0.8));
 
     -- Adds the north gate
@@ -248,7 +248,7 @@ function _CreateObjects()
 
     -- When the lighting has improved, show the source of it.
     if (GlobalManager:GetEventValue("story", "mountain_shrine_entrance_light_done") == 1) then
-        vt_map.Halo.Create("img/misc/lights/torch_light_mask.lua", 42, 8, vt_video.Color(1.0, 1.0, 1.0, 0.6));
+        vt_map.Halo.Create("data/visuals/lights/torch_light_mask.lua", 42, 8, vt_video.Color(1.0, 1.0, 1.0, 0.6));
         -- Adds a door horizon...
         object = vt_map.PhysicalObject.Create(vt_map.MapMode.FLATGROUND_OBJECT);
         object:SetPosition(42, 0.8);
@@ -668,13 +668,13 @@ function _show_flames()
     vt_map.SoundObject.Create("sounds/campfire.ogg", 33.0, 9.1, 10.0);
     vt_map.SoundObject.Create("sounds/campfire.ogg", 51.0, 9.1, 10.0);
 
-    vt_map.Halo.Create("img/misc/lights/torch_light_mask2.lua", 33.0, 9.1 + 3.0,
+    vt_map.Halo.Create("data/visuals/lights/torch_light_mask2.lua", 33.0, 9.1 + 3.0,
         vt_video.Color(0.85, 0.32, 0.0, 0.6));
-    vt_map.Halo.Create("img/misc/lights/sun_flare_light_main.lua", 33.0, 9.1 + 2.0,
+    vt_map.Halo.Create("data/visuals/lights/sun_flare_light_main.lua", 33.0, 9.1 + 2.0,
         vt_video.Color(0.99, 1.0, 0.27, 0.1));
-    vt_map.Halo.Create("img/misc/lights/torch_light_mask2.lua", 51.0, 9.1 + 3.0,
+    vt_map.Halo.Create("data/visuals/lights/torch_light_mask2.lua", 51.0, 9.1 + 3.0,
         vt_video.Color(0.85, 0.32, 0.0, 0.6));
-    vt_map.Halo.Create("img/misc/lights/sun_flare_light_main.lua", 51.0, 9.1 + 2.0,
+    vt_map.Halo.Create("data/visuals/lights/sun_flare_light_main.lua", 51.0, 9.1 + 2.0,
         vt_video.Color(0.99, 1.0, 0.27, 0.1));
 
     shrine_flame1:SetVisible(true);

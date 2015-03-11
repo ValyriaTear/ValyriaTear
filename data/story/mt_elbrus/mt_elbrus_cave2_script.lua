@@ -6,7 +6,7 @@ setfenv(1, ns);
 
 -- The map name, subname and location image
 map_name = "Mt. Elbrus"
-map_image_filename = "img/menus/locations/mt_elbrus.png"
+map_image_filename = "data/story/common/locations/mt_elbrus.png"
 map_subname = "Elbrus Grotto"
 
 -- The music file used as default background music on this map.
@@ -109,10 +109,10 @@ function _CreateObjects()
 
     -- Add a halo showing the cave entrances
     -- exit 1
-    vt_map.Halo.Create("img/misc/lights/torch_light_mask.lua", 46, 55,
+    vt_map.Halo.Create("data/visuals/lights/torch_light_mask.lua", 46, 55,
         vt_video.Color(0.3, 0.3, 0.46, 0.8));
     -- exit 2
-    vt_map.Halo.Create("img/misc/lights/torch_light_mask.lua", 45, 21,
+    vt_map.Halo.Create("data/visuals/lights/torch_light_mask.lua", 45, 21,
         vt_video.Color(0.3, 0.3, 0.46, 0.8));
 
     -- Stones

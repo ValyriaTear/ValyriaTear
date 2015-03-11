@@ -6,7 +6,7 @@ setfenv(1, ns);
 
 -- The map name, subname and location image
 map_name = "Layna Forest Cave"
-map_image_filename = "img/menus/locations/desert_cave.png"
+map_image_filename = "data/story/common/locations/desert_cave.png"
 map_subname = ""
 
 -- The music file used as default background music on this map.
@@ -147,11 +147,11 @@ function _CreateObjects()
     end
 
     -- Add a halo showing the cave entrance
-    vt_map.Halo.Create("img/misc/lights/torch_light_mask.lua", 116, 109,
+    vt_map.Halo.Create("data/visuals/lights/torch_light_mask.lua", 116, 109,
             vt_video.Color(light_color_red, light_color_green, light_color_blue, light_color_alpha));
 
     -- Add a halo showing the next cave entrance
-    vt_map.Halo.Create("img/misc/lights/torch_light_mask.lua", 132, 14,
+    vt_map.Halo.Create("data/visuals/lights/torch_light_mask.lua", 132, 14,
             vt_video.Color(light_color_red, light_color_green, light_color_blue, light_color_alpha));
 
     vt_map.SavePoint.Create(50, 6);

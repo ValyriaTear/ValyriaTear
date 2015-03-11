@@ -251,38 +251,37 @@ void GlobalMedia::Initialize()
     if (!_drunes_icon.Load("data/inventory/drunes.png"))
         PRINT_WARNING << "Failed to load drunes icon image" << std::endl;
 
-    if (!_star_icon.Load("img/menus/star.png"))
+    if (!_star_icon.Load("data/gui/menus/star.png"))
         PRINT_WARNING << "Failed to load star icon image" << std::endl;
 
-    if (!_check_icon.Load("img/menus/green_check.png"))
+    if (!_check_icon.Load("data/gui/menus/green_check.png"))
         PRINT_WARNING << "Failed to load check icon image" << std::endl;
 
-    if (!_x_icon.Load("img/menus/red_x.png"))
+    if (!_x_icon.Load("data/gui/menus/red_x.png"))
         PRINT_WARNING << "Failed to load x icon image" << std::endl;
 
-    if (!_spirit_slot_icon.Load("img/menus/spirit.png"))
+    if (!_spirit_slot_icon.Load("data/gui/menus/spirit.png"))
         PRINT_WARNING << "Failed to load spirit icon image" << std::endl;
 
-    if (!_equip_icon.Load("img/menus/equip.png"))
+    if (!_equip_icon.Load("data/gui/menus/equip.png"))
         PRINT_WARNING << "Failed to load equip icon image" << std::endl;
 
-    if (!_key_item_icon.Load("img/menus/key.png"))
+    if (!_key_item_icon.Load("data/gui/menus/key.png"))
         PRINT_WARNING << "Failed to load key item icon image" << std::endl;
 
-    if (!_clock_icon.Load("img/menus/clock.png"))
+    if (!_clock_icon.Load("data/gui/menus/clock.png"))
         PRINT_WARNING << "Failed to load clock icon image" << std::endl;
 
-    if(!_stamina_bar_background.Load("img/misc/stamina_bar_background.png", 227, 24))
+    if(!_stamina_bar_background.Load("data/gui/map/stamina_bar_background.png", 227, 24))
         PRINT_WARNING << "Failed to load the the stamina bar background image" << std::endl;
 
-    if(!_stamina_bar.Load("img/misc/stamina_bar_map.png", 200, 9))
+    if(!_stamina_bar.Load("data/gui/map/stamina_bar_map.png", 200, 9))
         PRINT_WARNING << "Failed to load the the stamina bar image" << std::endl;
 
-    if(!_stamina_bar_infinite_overlay.Load("img/misc/stamina_bar_infinite_overlay.png", 227, 24))
+    if(!_stamina_bar_infinite_overlay.Load("data/gui/map/stamina_bar_infinite_overlay.png", 227, 24))
         PRINT_WARNING << "Failed to load the the stamina bar infinite overlay image" << std::endl;
 
-    if(!vt_video::ImageDescriptor::LoadMultiImageFromElementSize(_status_icons, "data/entities/status_effects/
-status.png", 25, 25))
+    if(!vt_video::ImageDescriptor::LoadMultiImageFromElementSize(_status_icons, "data/entities/status_effects/status.png", 25, 25))
         PRINT_WARNING << "Failed to load status icon images" << std::endl;
 
     if(!vt_video::ImageDescriptor::LoadMultiImageFromElementGrid(_all_category_icons, "data/inventory/object_category_icons.png", 3, 3))

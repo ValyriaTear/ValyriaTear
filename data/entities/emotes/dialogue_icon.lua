@@ -4,7 +4,7 @@
 animation = {
 
 	-- The file to load the frames from
-	image_filename = "img/misc/dialogue_icon.png",
+	image_filename = "data/entities/emotes/dialogue_icon.png",
 	-- The number of rows and columns of images, will be used to compute
 	-- the images width and height, and also the frames number (row x col)
 	rows = 4,

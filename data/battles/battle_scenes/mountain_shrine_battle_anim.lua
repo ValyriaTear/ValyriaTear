@@ -16,9 +16,9 @@ function Initialize(battle_instance)
 
     fire = Script:CreateAnimation("img/sprites/map/objects/flame1.lua");
     fire:SetDimensions(32.0, 48.0);
-    torch = Script:CreateAnimation("img/misc/lights/torch_light_mask2.lua");
+    torch = Script:CreateAnimation("data/visuals/lights/torch_light_mask2.lua");
     torch:SetDimensions(340.0, 340.0);
-    flare = Script:CreateImage("img/misc/lights/sun_flare_light.png");
+    flare = Script:CreateImage("data/visuals/lights/sun_flare_light.png");
     flare:SetDimensions(154.0, 161.0);
 end
 

@@ -37,9 +37,9 @@ function Initialize(battle_instance)
 
     fire1 = Script:CreateAnimation("img/sprites/map/objects/campfire1.lua");
     fire1:SetDimensions(128.0, 128.0);
-    fire1_1 = Script:CreateAnimation("img/misc/lights/torch_light_mask2.lua");
+    fire1_1 = Script:CreateAnimation("data/visuals/lights/torch_light_mask2.lua");
     fire1_1:SetDimensions(340.0, 340.0);
-    fire1_2 = Script:CreateImage("img/misc/lights/sun_flare_light.png");
+    fire1_2 = Script:CreateImage("data/visuals/lights/sun_flare_light.png");
     fire1_2:SetDimensions(154.0, 161.0);
 
     soldier = Script:CreateAnimation("dat/maps/layna_village/battle_with_banesore/battle_dark_soldier_idle_down.lua");
@@ -53,9 +53,9 @@ function Initialize(battle_instance)
     DialogueManager = Battle:GetDialogueSupervisor();
 
     -- Add all speakers for the dialogues to be added
-    DialogueManager:AddSpeaker("Bronann", vt_system.Translate("Bronann"), "img/portraits/bronann.png");
-    DialogueManager:AddSpeaker("Banesore", vt_system.Translate("Banesore"), "img/portraits/npcs/lord_banesore.png");
-    DialogueManager:AddSpeaker("Herth", vt_system.Translate("Herth"), "img/portraits/npcs/herth.png");
+    DialogueManager:AddSpeaker("Bronann", vt_system.Translate("Bronann"), "data/entities/portraits/bronann.png");
+    DialogueManager:AddSpeaker("Banesore", vt_system.Translate("Banesore"), "data/entities/portraits/npcs/lord_banesore.png");
+    DialogueManager:AddSpeaker("Herth", vt_system.Translate("Herth"), "data/entities/portraits/npcs/herth.png");
     DialogueManager:AddSpeaker("Lilly", vt_system.Translate("Lilly"), "");
 
     dialogue = vt_common.Dialogue.Create(DialogueManager, "Battle intro dialogue");

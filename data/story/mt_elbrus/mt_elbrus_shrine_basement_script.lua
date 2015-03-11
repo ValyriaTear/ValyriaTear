@@ -6,7 +6,7 @@ setfenv(1, ns);
 
 -- The map name, subname and location image
 map_name = "Mt. Elbrus"
-map_image_filename = "img/menus/locations/mt_elbrus.png"
+map_image_filename = "data/story/common/locations/mt_elbrus.png"
 map_subname = "?"
 
 -- The music file used as default background music on this map.
@@ -123,10 +123,10 @@ function _CreateObjects()
     local text = nil
     local event = nil
 
-    vt_map.Halo.Create("img/misc/lights/torch_light_mask.lua", 0, 28,
+    vt_map.Halo.Create("data/visuals/lights/torch_light_mask.lua", 0, 28,
         vt_video.Color(1.0, 1.0, 1.0, 0.8));
 
-    vt_map.Halo.Create("img/misc/lights/right_ray_light.lua", 0, 28,
+    vt_map.Halo.Create("data/visuals/lights/right_ray_light.lua", 0, 28,
             vt_video.Color(1.0, 1.0, 1.0, 0.8));
 
     object = CreateTreasure(Map, "mt_shrine_basement_chest1", "Wood_Chest1", 20, 36, vt_map.MapMode.GROUND_OBJECT);

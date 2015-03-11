@@ -6,7 +6,7 @@ setfenv(1, ns);
 
 -- The map name, subname and location image
 map_name = "Layna Forest Cave"
-map_image_filename = "img/menus/locations/desert_cave.png"
+map_image_filename = "data/story/common/locations/desert_cave.png"
 map_subname = ""
 
 -- The music file used as default background music on this map.
@@ -129,11 +129,11 @@ function _CreateObjects()
     end
 
     -- Add a halo showing the cave entrances
-    vt_map.Halo.Create("img/misc/lights/torch_light_mask.lua", 28, 59,
+    vt_map.Halo.Create("data/visuals/lights/torch_light_mask.lua", 28, 59,
             vt_video.Color(light_color_red, light_color_green, light_color_blue, light_color_alpha));
 
     -- Add different halo light, representing holes of light coming from the ceiling
-    vt_map.Halo.Create("img/misc/lights/right_ray_light.lua", 28, 17,
+    vt_map.Halo.Create("data/visuals/lights/right_ray_light.lua", 28, 17,
             vt_video.Color(light_color_red, light_color_green, light_color_blue, light_color_alpha));
 
     -- Add the wolfpain necklace, triggering the second battle with the fenrir
@@ -154,7 +154,7 @@ function _CreateObjects()
     light_tilt:SetCollPixelHeight(32);
     light_tilt:SetImgPixelHalfWidth(16);
     light_tilt:SetImgPixelHeight(32);
-    light_tilt:AddAnimation("img/misc/lights/light_reverb.lua");
+    light_tilt:AddAnimation("data/visuals/lights/light_reverb.lua");
 
     -- Adds an associated npc to permit the dialogue to trigger
     necklace_npc = CreateSprite(Map, "Butterfly", 30, 9.2, vt_map.MapMode.GROUND_OBJECT);

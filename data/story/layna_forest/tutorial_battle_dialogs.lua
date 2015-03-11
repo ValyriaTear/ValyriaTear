@@ -59,8 +59,8 @@ function Initialize(battle_instance)
     DialogueManager = Battle:GetDialogueSupervisor();
 
     -- Add all speakers for the dialogues to be added
-    DialogueManager:AddSpeaker("Bronann", vt_system.Translate("Bronann"), "img/portraits/bronann.png");
-    DialogueManager:AddSpeaker("Kalya", vt_system.Translate("Kalya"), "img/portraits/kalya.png");
+    DialogueManager:AddSpeaker("Bronann", vt_system.Translate("Bronann"), "data/entities/portraits/bronann.png");
+    DialogueManager:AddSpeaker("Kalya", vt_system.Translate("Kalya"), "data/entities/portraits/kalya.png");
 
     -- The dialogue constructed below offers the player instructions on how to do battle. It is displayed only once in the first few seconds
     -- of battle, before any action can be taken. The player is presented with several options that they can read to get more information on

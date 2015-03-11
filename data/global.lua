@@ -28,7 +28,7 @@ function NewGame()
     GlobalManager:SetDrunes(0);
 
     -- Set the starting world map data
-    GlobalManager:SetWorldMap("img/menus/worldmaps/layna_region.png")
+    GlobalManager:SetWorldMap("data/story/common/worldmaps/layna_region.png")
     GlobalManager:ShowWorldLocation("layna village")
     GlobalManager:SetCurrentLocationId("layna village")
 

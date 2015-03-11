@@ -6,7 +6,7 @@ setfenv(1, ns);
 
 -- The map name, subname and location image
 map_name = "Mountain Village of Layna"
-map_image_filename = "img/menus/locations/mountain_village.png"
+map_image_filename = "data/story/common/locations/mountain_village.png"
 map_subname = "Basement"
 
 -- The music file used as default background music on this map.

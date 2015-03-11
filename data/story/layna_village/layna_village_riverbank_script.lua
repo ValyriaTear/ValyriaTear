@@ -6,7 +6,7 @@ setfenv(1, ns);
 
 -- The map name, subname and location image
 map_name = "Mountain Village of Layna"
-map_image_filename = "img/menus/locations/mountain_village.png"
+map_image_filename = "data/story/common/locations/mountain_village.png"
 map_subname = "Riverbank"
 
 -- The music file used as default background music on this map.
@@ -160,19 +160,19 @@ function _CreateObjects()
 
     -- Lights
     -- big round windows light flares
-    vt_map.Light.Create("img/misc/lights/sun_flare_light_main.lua",
-                        "img/misc/lights/sun_flare_light_secondary.lua",
+    vt_map.Light.Create("data/visuals/lights/sun_flare_light_main.lua",
+                        "data/visuals/lights/sun_flare_light_secondary.lua",
                         94.0, 40.0,
                         vt_video.Color(1.0, 1.0, 1.0, 0.6),
                         vt_video.Color(1.0, 1.0, 0.85, 0.3));
-    vt_map.Light.Create("img/misc/lights/sun_flare_light_main.lua",
-                        "img/misc/lights/sun_flare_light_secondary.lua",
+    vt_map.Light.Create("data/visuals/lights/sun_flare_light_main.lua",
+                        "data/visuals/lights/sun_flare_light_secondary.lua",
                         102.0, 40.0,
                         vt_video.Color(1.0, 1.0, 1.0, 0.6),
                         vt_video.Color(1.0, 1.0, 0.85, 0.3));
     -- Small door lights
-    vt_map.Light.Create("img/misc/lights/sun_flare_light_small_main.lua",
-                        "img/misc/lights/sun_flare_light_small_secondary.lua",
+    vt_map.Light.Create("data/visuals/lights/sun_flare_light_small_main.lua",
+                        "data/visuals/lights/sun_flare_light_small_secondary.lua",
                         98.0, 43.5,
                         vt_video.Color(1.0, 1.0, 1.0, 0.6),
                         vt_video.Color(1.0, 1.0, 0.85, 0.3));

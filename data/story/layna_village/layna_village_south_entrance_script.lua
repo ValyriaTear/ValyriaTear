@@ -6,7 +6,7 @@ setfenv(1, ns);
 
 -- The map name, subname and location image
 map_name = "Mountain Village of Layna"
-map_image_filename = "img/menus/locations/mountain_village.png"
+map_image_filename = "data/story/common/locations/mountain_village.png"
 map_subname = "Village entrance"
 
 -- The music file used as default background music on this map.
@@ -147,13 +147,13 @@ function _CreateObjects()
     CreateObject(Map, "Tree Big1", 42, 10, vt_map.MapMode.GROUND_OBJECT);
 
     -- Small door lights
-    vt_map.Light.Create("img/misc/lights/sun_flare_light_small_main.lua",
-                        "img/misc/lights/sun_flare_light_small_secondary.lua",
+    vt_map.Light.Create("data/visuals/lights/sun_flare_light_small_main.lua",
+                        "data/visuals/lights/sun_flare_light_small_secondary.lua",
                         20.0, 29.5,
                         vt_video.Color(1.0, 1.0, 1.0, 0.6),
                         vt_video.Color(1.0, 1.0, 0.85, 0.3));
-    vt_map.Light.Create("img/misc/lights/sun_flare_light_small_main.lua",
-                        "img/misc/lights/sun_flare_light_small_secondary.lua",
+    vt_map.Light.Create("data/visuals/lights/sun_flare_light_small_main.lua",
+                        "data/visuals/lights/sun_flare_light_small_secondary.lua",
                         48.0, 29.5,
                         vt_video.Color(1.0, 1.0, 1.0, 0.6),
                         vt_video.Color(1.0, 1.0, 0.85, 0.3));

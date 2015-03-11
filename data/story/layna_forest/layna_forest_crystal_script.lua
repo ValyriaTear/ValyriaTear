@@ -6,7 +6,7 @@ setfenv(1, ns);
 
 -- The map name, subname and location image
 map_name = "Layna Forest"
-map_image_filename = "img/menus/locations/layna_forest.png"
+map_image_filename = "data/story/common/locations/layna_forest.png"
 map_subname = "???"
 
 -- The music file used as default background music on this map.
@@ -861,8 +861,8 @@ map_functions = {
 
         if (crystal_visible == false and crystal_appearance_time >= 10000) then
             -- Add a light upon the crystal
-            crystal_light_effect = vt_map.Light.Create("img/misc/lights/sun_flare_light_secondary.lua",
-                    "img/misc/lights/sun_flare_light_secondary.lua",
+            crystal_light_effect = vt_map.Light.Create("data/visuals/lights/sun_flare_light_secondary.lua",
+                    "data/visuals/lights/sun_flare_light_secondary.lua",
                     41.2, 43.0,
                     vt_video.Color(0.8, 0.8, 1.0, 0.3),
                     vt_video.Color(0.8, 0.8, 0.85, 0.2));

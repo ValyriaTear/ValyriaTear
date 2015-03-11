@@ -215,7 +215,8 @@ GUISystem::~GUISystem()
 
 bool GUISystem::SingletonInitialize()
 {
-    if(ImageDescriptor::LoadMultiImageFromElementGrid(_scroll_arrows, "img/menus/scroll_arrows.png", 2, 4) == true)
+    //TODO: Make this part of the themes.
+    if(ImageDescriptor::LoadMultiImageFromElementGrid(_scroll_arrows, "data/gui/scroll_arrows.png", 2, 4) == true)
         return true;
     else
         return false;

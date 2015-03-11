@@ -6,7 +6,7 @@ setfenv(1, ns);
 
 -- The map name, subname and location image
 map_name = "Layna Forest Cave"
-map_image_filename = "img/menus/locations/desert_cave.png"
+map_image_filename = "data/story/common/locations/desert_cave.png"
 map_subname = ""
 
 -- The music file used as default background music on this map.
@@ -135,17 +135,17 @@ function _CreateObjects()
     end
 
     -- Add a halo showing the cave entrances
-    vt_map.Halo.Create("img/misc/lights/torch_light_mask.lua", 113, 109,
+    vt_map.Halo.Create("data/visuals/lights/torch_light_mask.lua", 113, 109,
             vt_video.Color(light_color_red, light_color_green, light_color_blue, light_color_alpha));
-    vt_map.Halo.Create("img/misc/lights/torch_light_mask.lua", 0, 18,
+    vt_map.Halo.Create("data/visuals/lights/torch_light_mask.lua", 0, 18,
             vt_video.Color(light_color_red, light_color_green, light_color_blue, light_color_alpha));
 
     -- Add different halo light, representing holes of light coming from the ceiling
-    vt_map.Halo.Create("img/misc/lights/right_ray_light.lua", 23, 17,
+    vt_map.Halo.Create("data/visuals/lights/right_ray_light.lua", 23, 17,
             vt_video.Color(light_color_red, light_color_green, light_color_blue, light_color_alpha));
-    vt_map.Halo.Create("img/misc/lights/right_ray_light.lua", 15, 50,
+    vt_map.Halo.Create("data/visuals/lights/right_ray_light.lua", 15, 50,
             vt_video.Color(light_color_red, light_color_green, light_color_blue, light_color_alpha));
-    vt_map.Halo.Create("img/misc/lights/right_ray_light.lua", 37, 84,
+    vt_map.Halo.Create("data/visuals/lights/right_ray_light.lua", 37, 84,
             vt_video.Color(light_color_red, light_color_green, light_color_blue, light_color_alpha));
 
     -- Create the stone sign telling what to do to pass the test...

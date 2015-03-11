@@ -630,13 +630,13 @@ CommandSupervisor::CommandSupervisor() :
     _info_window.Show();
 
     _category_icons.resize(4, StillImage());
-    if(_category_icons[0].Load("data/battles/menu_icons/default_weapon.png") == false)
+    if(_category_icons[0].Load("data/gui/battle/default_weapon.png") == false)
         PRINT_ERROR << "failed to load category icon" << std::endl;
-    if(_category_icons[1].Load("data/battles/menu_icons/magic.png") == false)
+    if(_category_icons[1].Load("data/gui/battle/magic.png") == false)
         PRINT_ERROR << "failed to load category icon" << std::endl;
-    if(_category_icons[2].Load("data/battles/menu_icons/default_special.png") == false)
+    if(_category_icons[2].Load("data/gui/battle/default_special.png") == false)
         PRINT_ERROR << "failed to load category icon" << std::endl;
-    if(_category_icons[3].Load("data/battles/menu_icons/item.png") == false)
+    if(_category_icons[3].Load("data/gui/battle/item.png") == false)
         PRINT_ERROR << "failed to load category icon" << std::endl;
 
     _category_text.resize(4, TextImage("", TextStyle("title22")));
@@ -646,10 +646,10 @@ CommandSupervisor::CommandSupervisor() :
     _category_text[3].SetText(Translate("Items"));
 
     std::vector<ustring> option_text;
-    option_text.push_back(MakeUnicodeString("<data/battles/menu_icons/default_weapon.png>\n\n") + UTranslate("Weapon"));
-    option_text.push_back(MakeUnicodeString("<data/battles/menu_icons/magic.png>\n\n") + UTranslate("Magic"));
+    option_text.push_back(MakeUnicodeString("<data/gui/battle/default_weapon.png>\n\n") + UTranslate("Weapon"));
+    option_text.push_back(MakeUnicodeString("<data/gui/battle/magic.png>\n\n") + UTranslate("Magic"));
     option_text.push_back(MakeUnicodeString("")); // Special
-    option_text.push_back(MakeUnicodeString("<data/battles/menu_icons/item.png>\n\n") + UTranslate("Items"));
+    option_text.push_back(MakeUnicodeString("<data/gui/battle/item.png>\n\n") + UTranslate("Items"));
 
     _window_header.SetStyle(TextStyle("title22"));
     _selected_target_name.SetStyle(TextStyle("text20"));
@@ -727,7 +727,7 @@ void CommandSupervisor::Initialize(BattleCharacter *character)
     GlobalWeapon* wpn = character->GetGlobalCharacter()->GetWeaponEquipped();
     if (wpn) {
         if (wpn->GetIconImage().GetFilename().empty())
-            icon_name += "data/battles/menu_icons/default_weapon.png";
+            icon_name += "data/gui/battle/default_weapon.png";
         else
             icon_name += wpn->GetIconImage().GetFilename();
     }
@@ -768,7 +768,7 @@ void CommandSupervisor::Initialize(BattleCharacter *character)
         // Set icon from character config.
         std::string special_icon = character->GetGlobalCharacter()->GetSpecialCategoryIconFilename();
         if (special_icon.empty())
-            special_icon = "data/battles/menu_icons/default_special.png";
+            special_icon = "data/gui/battle/default_special.png";
 
         vt_utils::ustring special_name = character->GetGlobalCharacter()->GetSpecialCategoryName();
         _category_options.SetOptionText(CATEGORY_SPECIAL, MakeUnicodeString("<" + special_icon + ">\n\n") + special_name);

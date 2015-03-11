@@ -11,13 +11,13 @@ characters = {}
 
 characters[BRONANN] = {
     name = vt_system.Translate("Bronann"),
-    portrait = "img/portraits/bronann.png",
-    full_portrait = "img/portraits/bronann_full.png",
-    battle_portraits = "img/portraits/battle/bronann_damage.png",
+    portrait = "data/entities/portraits/bronann.png",
+    full_portrait = "data/entities/portraits/bronann_full.png",
+    battle_portraits = "data/entities/portraits/battle/bronann_damage.png",
     stamina_icon = "data/battles/stamina_icons/characters/bronann.png",
     map_sprite_name = "Bronann",
     special_skill_category_name = vt_system.Translate("Holy"),
-    special_skill_category_icon = "data/battles/menu_icons/holy.png",
+    special_skill_category_icon = "data/gui/battle/holy.png",
 
     battle_animations = {
         idle = "img/sprites/battle/characters/bronann/bronann_idle.lua",
@@ -226,13 +226,13 @@ characters[BRONANN] = {
 
 characters[KALYA] = {
     name = vt_system.Translate("Kalya"),
-    portrait = "img/portraits/kalya.png",
-    full_portrait = "img/portraits/kalya_full.png",
-    battle_portraits = "img/portraits/battle/kalya_damage.png",
+    portrait = "data/entities/portraits/kalya.png",
+    full_portrait = "data/entities/portraits/kalya_full.png",
+    battle_portraits = "data/entities/portraits/battle/kalya_damage.png",
     stamina_icon = "data/battles/stamina_icons/characters/kalya.png",
     map_sprite_name = "Kalya",
     special_skill_category_name = vt_system.Translate("Invocation"),
-    special_skill_category_icon = "data/battles/menu_icons/invocation.png",
+    special_skill_category_icon = "data/gui/battle/invocation.png",
 
     battle_animations = {
         idle = "img/sprites/battle/characters/kalya/kalya_idle.lua",
@@ -437,13 +437,13 @@ characters[KALYA] = {
 
 characters[SYLVE] = {
     name = vt_system.Translate("Sylve"),
-    portrait = "img/portraits/sylve.png",
-    full_portrait = "img/portraits/sylve_full.png",
-    battle_portraits = "img/portraits/battle/sylve_damage.png",
+    portrait = "data/entities/portraits/sylve.png",
+    full_portrait = "data/entities/portraits/sylve_full.png",
+    battle_portraits = "data/entities/portraits/battle/sylve_damage.png",
     stamina_icon = "data/battles/stamina_icons/characters/sylve.png",
     map_sprite_name = "Sylve",
     special_skill_category_name = vt_system.Translate("Mist"),
-    special_skill_category_icon = "data/battles/menu_icons/mist.png",
+    special_skill_category_icon = "data/gui/battle/mist.png",
 
     battle_animations = {
         idle = "img/sprites/battle/characters/sylve_idle.lua",
@@ -572,13 +572,13 @@ characters[SYLVE] = {
 
 characters[THANIS] = {
     name = vt_system.Translate("Thanis"),
-    portrait = "img/portraits/thanis.png",
-    full_portrait = "img/portraits/thanis_full.png",
-    battle_portraits = "img/portraits/battle/thanis_damage.png",
+    portrait = "data/entities/portraits/thanis.png",
+    full_portrait = "data/entities/portraits/thanis_full.png",
+    battle_portraits = "data/entities/portraits/battle/thanis_damage.png",
     stamina_icon = "data/battles/stamina_icons/characters/thanis.png",
     map_sprite_name = "Thanis",
     special_skill_category_name = vt_system.Translate("Acheron"),
-    special_skill_category_icon = "data/battles/menu_icons/acheron.png",
+    special_skill_category_icon = "data/gui/battle/acheron.png",
 
     battle_animations = {
         idle = "img/sprites/battle/characters/thanis_idle.lua",

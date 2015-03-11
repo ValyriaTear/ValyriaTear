@@ -6,7 +6,7 @@ setfenv(1, ns);
 
 -- The map name, subname and location image
 map_name = "Mt. Elbrus Shrine"
-map_image_filename = "img/menus/locations/mountain_shrine.png"
+map_image_filename = "data/story/common/locations/mountain_shrine.png"
 map_subname = ""
 
 -- The music file used as default background music on this map.
@@ -118,9 +118,9 @@ function _CreateObjects()
     object = CreateTreasure(Map, "mt_shrine9_chest3", "Wood_Chest1", 55, 42, vt_map.MapMode.GROUND_OBJECT);
     object:AddItem(3002, 1); -- Iron Ore x 1
 
-    vt_map.Halo.Create("img/misc/lights/right_ray_light.lua", 26, 18,
+    vt_map.Halo.Create("data/visuals/lights/right_ray_light.lua", 26, 18,
             vt_video.Color(1.0, 1.0, 1.0, 0.8));
-    vt_map.Halo.Create("img/misc/lights/right_ray_light.lua", 53, 44,
+    vt_map.Halo.Create("data/visuals/lights/right_ray_light.lua", 53, 44,
             vt_video.Color(1.0, 1.0, 1.0, 0.8));
 
     vt_map.SavePoint.Create(8, 42);

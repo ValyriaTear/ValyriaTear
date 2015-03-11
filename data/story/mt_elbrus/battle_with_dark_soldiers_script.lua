@@ -29,8 +29,8 @@ function Initialize(battle_instance)
     DialogueManager = Battle:GetDialogueSupervisor();
 
     -- Add all speakers for the dialogues to be added
-    DialogueManager:AddSpeaker("Kalya", vt_system.Translate("Kalya"), "img/portraits/kalya.png");
-    DialogueManager:AddSpeaker("Soldier", vt_system.Translate("Soldier"), "img/portraits/npcs/dark_soldier.png");
+    DialogueManager:AddSpeaker("Kalya", vt_system.Translate("Kalya"), "data/entities/portraits/kalya.png");
+    DialogueManager:AddSpeaker("Soldier", vt_system.Translate("Soldier"), "data/entities/portraits/npcs/dark_soldier.png");
 
     dialogue = vt_common.Dialogue.Create(DialogueManager, "The dark soldier tells them to surrender");
     text = vt_system.Translate("I found you! My comrades will be here in no time. Surrender now, or you'll be punished!");

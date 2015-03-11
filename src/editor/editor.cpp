@@ -78,8 +78,8 @@ Editor::Editor() : QMainWindow(),
     ScriptManager->SingletonInitialize();
 
     // Open the global script
-    if (!_global_script.OpenFile("dat/config/editor.lua"))
-        PRINT_ERROR << "failed to load the editor global script: " << "dat/config/editor.lua" << std::endl;
+    if (!_global_script.OpenFile("data/editor/editor.lua"))
+        PRINT_ERROR << "failed to load the editor global script: " << "data/editor/editor.lua" << std::endl;
 }
 
 
@@ -234,21 +234,21 @@ void Editor::_SetupMainView()
     _ed_layer_toolbar = new QToolBar("Layers", _ed_tileset_layer_splitter);
 
     // Add the buttons
-    QPushButton *button = new QPushButton(QIcon(QString("img/misc/editor-tools/document-new.png")), QString(), _ed_layer_toolbar);
+    QPushButton *button = new QPushButton(QIcon(QString("data/editor/document-new.png")), QString(), _ed_layer_toolbar);
     button->setContentsMargins(1, 1, 1, 1);
     button->setFixedSize(20, 20);
     button->setToolTip(tr("Add Layer"));
     connect(button, SIGNAL(clicked(bool)), this, SLOT(_MapAddLayer()));
     _ed_layer_toolbar->addWidget(button);
 
-    button = new QPushButton(QIcon(QString("img/misc/editor-tools/edit-rename.png")), QString(), _ed_layer_toolbar);
+    button = new QPushButton(QIcon(QString("data/editor/edit-rename.png")), QString(), _ed_layer_toolbar);
     button->setContentsMargins(1, 1, 1, 1);
     button->setFixedSize(20, 20);
     button->setToolTip(tr("Modify Layer"));
     _ed_layer_toolbar->addWidget(button);
     button->setDisabled(true);
 
-    button = new QPushButton(QIcon(QString("img/misc/editor-tools/edit-delete.png")), QString(), _ed_layer_toolbar);
+    button = new QPushButton(QIcon(QString("data/editor/edit-delete.png")), QString(), _ed_layer_toolbar);
     button->setContentsMargins(1, 1, 1, 1);
     button->setFixedSize(20, 20);
     button->setToolTip(tr("Delete Layer"));
@@ -256,7 +256,7 @@ void Editor::_SetupMainView()
     _ed_layer_toolbar->addWidget(button);
     _delete_layer_button = button;
 
-    button = new QPushButton(QIcon(QString("img/misc/editor-tools/go-up.png")), QString(), _ed_layer_toolbar);
+    button = new QPushButton(QIcon(QString("data/editor/go-up.png")), QString(), _ed_layer_toolbar);
     button->setContentsMargins(1, 1, 1, 1);
     button->setFixedSize(20, 20);
     button->setToolTip(tr("Move Layer Up"));
@@ -265,7 +265,7 @@ void Editor::_SetupMainView()
     // Keep a reference to later set the button state.
     _layer_up_button = button;
 
-    button = new QPushButton(QIcon(QString("img/misc/editor-tools/go-down.png")), QString(), _ed_layer_toolbar);
+    button = new QPushButton(QIcon(QString("data/editor/go-down.png")), QString(), _ed_layer_toolbar);
     button->setContentsMargins(1, 1, 1, 1);
     button->setFixedSize(20, 20);
     button->setToolTip(tr("Move Layer Down"));
@@ -274,7 +274,7 @@ void Editor::_SetupMainView()
     // Keep a reference to later set the button state.
     _layer_down_button = button;
 
-    button = new QPushButton(QIcon(QString("img/misc/editor-tools/eye.png")), QString(), _ed_layer_toolbar);
+    button = new QPushButton(QIcon(QString("data/editor/eye.png")), QString(), _ed_layer_toolbar);
     button->setContentsMargins(1, 1, 1, 1);
     button->setFixedSize(20, 20);
     button->setToolTip(tr("Toggle visibility of the layer"));
@@ -384,7 +384,7 @@ void Editor::_FileNew()
     _TilesEnableActions();
 
     // Add default layers
-    QIcon icon(QString("img/misc/editor-tools/eye.png"));
+    QIcon icon(QString("data/editor/eye.png"));
     QTreeWidgetItem *background = new QTreeWidgetItem(_ed_layer_view);
     background->setText(0, QString::number(0));
     background->setIcon(1, icon);
@@ -1244,7 +1244,7 @@ void Editor::_ToggleLayerVisibility()
 
     // Update the item icon
     if(layer.visible)
-        _ed_layer_view->currentItem()->setIcon(1, QIcon(QString("img/misc/editor-tools/eye.png")));
+        _ed_layer_view->currentItem()->setIcon(1, QIcon(QString("data/editor/eye.png")));
     else
         _ed_layer_view->currentItem()->setIcon(1, QIcon());
 }
@@ -1296,20 +1296,20 @@ void Editor::_CreateActions()
 
     // Create menu actions related to the Tiles menu
 
-    _undo_action = new QAction(QIcon("img/misc/editor-tools/arrow-left.png"), "&Undo", this);
+    _undo_action = new QAction(QIcon("data/editor/arrow-left.png"), "&Undo", this);
     _undo_action->setShortcut(tr("Ctrl+Z"));
     _undo_action->setStatusTip("Undoes the previous command");
     connect(_undo_action, SIGNAL(triggered()), _undo_stack, SLOT(undo()));
 
     _redo_action = new QAction(
-        QIcon("img/misc/editor-tools/arrow-right.png"),
+        QIcon("data/editor/arrow-right.png"),
         "&Redo", this);
     _redo_action->setShortcut(tr("Ctrl+Y"));
     _redo_action->setStatusTip("Redoes the next command");
     connect(_redo_action, SIGNAL(triggered()), _undo_stack, SLOT(redo()));
 
     _layer_fill_action = new QAction(
-        QIcon("img/misc/editor-tools/stock-tool-bucket-fill-22.png"), "&Fill layer", this);
+        QIcon("data/editor/stock-tool-bucket-fill-22.png"), "&Fill layer", this);
     _layer_fill_action->setStatusTip("Fills current layer with selected tile");
     connect(_layer_fill_action, SIGNAL(triggered()), this, SLOT(_TileLayerFill()));
 
@@ -1317,25 +1317,25 @@ void Editor::_CreateActions()
     _layer_clear_action->setStatusTip("Clears current layer from any tiles");
     connect(_layer_clear_action, SIGNAL(triggered()), this, SLOT(_TileLayerClear()));
 
-    _toggle_select_action = new QAction(QIcon("img/misc/editor-tools/stock-tool-rect-select-22.png"), "Marquee &Select", this);
+    _toggle_select_action = new QAction(QIcon("data/editor/stock-tool-rect-select-22.png"), "Marquee &Select", this);
     _toggle_select_action->setShortcut(tr("Shift+S"));
     _toggle_select_action->setStatusTip("Rectangularly select tiles on the map");
     _toggle_select_action->setCheckable(true);
     connect(_toggle_select_action, SIGNAL(triggered()), this, SLOT(_TileToggleSelect()));
 
-    _mode_paint_action = new QAction(QIcon("img/misc/editor-tools/stock-tool-pencil-22.png"), "&Paint mode", this);
+    _mode_paint_action = new QAction(QIcon("data/editor/stock-tool-pencil-22.png"), "&Paint mode", this);
     _mode_paint_action->setShortcut(tr("Shift+P"));
     _mode_paint_action->setStatusTip("Switches to paint mode to draw tiles on the map");
     _mode_paint_action->setCheckable(true);
     connect(_mode_paint_action, SIGNAL(triggered()), this, SLOT(_TileModePaint()));
 
-    _mode_move_action = new QAction(QIcon("img/misc/editor-tools/stock-tool-arrow.png"), "Mo&ve mode", this);
+    _mode_move_action = new QAction(QIcon("data/editor/stock-tool-arrow.png"), "Mo&ve mode", this);
     _mode_move_action->setShortcut(tr("Shift+V"));
     _mode_move_action->setStatusTip("Switches to move mode to move tiles around on the map");
     _mode_move_action->setCheckable(true);
     connect(_mode_move_action, SIGNAL(triggered()), this, SLOT(_TileModeMove()));
 
-    _mode_delete_action = new QAction(QIcon("img/misc/editor-tools/stock-tool-eraser-22.png"), "&Delete mode", this);
+    _mode_delete_action = new QAction(QIcon("data/editor/stock-tool-eraser-22.png"), "&Delete mode", this);
     _mode_delete_action->setShortcut(tr("Shift+D"));
     _mode_delete_action->setStatusTip("Switches to delete mode to erase tiles from the map");
     _mode_delete_action->setCheckable(true);

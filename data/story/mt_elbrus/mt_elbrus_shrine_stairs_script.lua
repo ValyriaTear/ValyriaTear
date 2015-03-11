@@ -6,7 +6,7 @@ setfenv(1, ns);
 
 -- The map name, subname and location image
 map_name = "Mt. Elbrus Shrine"
-map_image_filename = "img/menus/locations/mountain_shrine.png"
+map_image_filename = "data/story/common/locations/mountain_shrine.png"
 map_subname = ""
 
 -- The music file used as default background music on this map.
@@ -218,7 +218,7 @@ function _CreateObjects()
     -- Snow effect
     vt_map.ParticleObject.Create("dat/maps/mt_elbrus/particles_snow_south_entrance.lua", 29, 48, vt_map.MapMode.GROUND_OBJECT);
 
-    vt_map.Halo.Create("img/misc/lights/torch_light_mask.lua", 29, 55,
+    vt_map.Halo.Create("data/visuals/lights/torch_light_mask.lua", 29, 55,
         vt_video.Color(1.0, 1.0, 1.0, 0.8));
 
     -- Adds a hidden sign, show just before the opening of the door
@@ -274,9 +274,9 @@ function _add_flame(x, y)
     local object = CreateObject(Map, "Flame1", x, y, vt_map.MapMode.GROUND_OBJECT);
     object:RandomizeCurrentAnimationFrame();
 
-    vt_map.Halo.Create("img/misc/lights/torch_light_mask2.lua", x, y + 3.0,
+    vt_map.Halo.Create("data/visuals/lights/torch_light_mask2.lua", x, y + 3.0,
         vt_video.Color(0.85, 0.32, 0.0, 0.6));
-    vt_map.Halo.Create("img/misc/lights/sun_flare_light_main.lua", x, y + 2.0,
+    vt_map.Halo.Create("data/visuals/lights/sun_flare_light_main.lua", x, y + 2.0,
         vt_video.Color(0.99, 1.0, 0.27, 0.1));
 end
 

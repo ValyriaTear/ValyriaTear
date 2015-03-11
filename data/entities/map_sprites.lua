@@ -14,7 +14,7 @@ sprites["Bronann"] = {
     img_half_width = 1.0 * 16,
     img_height = 4.0 * 16,
     movement_speed = NORMAL_SPEED,
-    face_portrait = "img/portraits/bronann.png",
+    face_portrait = "data/entities/portraits/bronann.png",
 
     -- using special animation files.
     standard_animations = {
@@ -47,7 +47,7 @@ sprites["Mini_Bronann"] = {
     img_half_width = 0.5 * 16,
     img_height = 2.0 * 16,
     movement_speed = NORMAL_SPEED,
-    face_portrait = "img/portraits/bronann.png",
+    face_portrait = "data/entities/portraits/bronann.png",
 
     -- using special animation files.
     standard_animations = {
@@ -63,7 +63,7 @@ sprites["Kalya"] = {
     img_half_width = 1.0 * 16,
     img_height = 4.0 * 16,
     movement_speed = SLOW_SPEED,
-    face_portrait = "img/portraits/kalya.png",
+    face_portrait = "data/entities/portraits/kalya.png",
 
     -- using special animation files.
     standard_animations = {
@@ -90,7 +90,7 @@ sprites["Thanis"] = {
     img_half_width = 1.0 * 16,
     img_height = 4.0 * 16,
     movement_speed = SLOW_SPEED,
-    face_portrait = "img/portraits/thanis.png",
+    face_portrait = "data/entities/portraits/thanis.png",
 
     -- using special animation files.
     standard_animations = {
@@ -108,7 +108,7 @@ sprites["Carson"] = {
     img_half_width = 1.0 * 16,
     img_height = 4.0 * 16,
     movement_speed = SLOW_SPEED,
-    face_portrait = "img/portraits/npcs/carson.png",
+    face_portrait = "data/entities/portraits/npcs/carson.png",
 
     -- using special animation files.
     standard_animations = {
@@ -124,7 +124,7 @@ sprites["Malta"] = {
     img_half_width = 1.0 * 16,
     img_height = 4.0 * 16,
     movement_speed = VERY_SLOW_SPEED,
-    face_portrait = "img/portraits/npcs/malta.png",
+    face_portrait = "data/entities/portraits/npcs/malta.png",
 
     -- using special animation files.
     standard_animations = {
@@ -140,7 +140,7 @@ sprites["Orlinn"] = {
     img_half_width = 1.0 * 16,
     img_height = 3.0 * 16,
     movement_speed = NORMAL_SPEED,
-    face_portrait = "img/portraits/npcs/orlinn.png",
+    face_portrait = "data/entities/portraits/npcs/orlinn.png",
 
     -- using special animation files.
     standard_animations = {
@@ -162,7 +162,7 @@ sprites["Herth"] = {
     img_half_width = 1.0 * 16,
     img_height = 4.0 * 16,
     movement_speed = SLOW_SPEED,
-    face_portrait = "img/portraits/npcs/herth.png",
+    face_portrait = "data/entities/portraits/npcs/herth.png",
 
     -- using special animation files.
     standard_animations = {
@@ -227,7 +227,7 @@ sprites["Woman2"] = {
     img_half_width = 1.0 * 16,
     img_height = 4.0 * 16,
     movement_speed = NORMAL_SPEED,
-    face_portrait = "img/portraits/npcs/woman02.png",
+    face_portrait = "data/entities/portraits/npcs/woman02.png",
 
     -- using special animation files.
     standard_animations = {
@@ -454,7 +454,7 @@ sprites["Dark Soldier"] = {
     img_half_width = 1.0 * 16,
     img_height = 4.0 * 16,
     movement_speed = ENEMY_SPEED,
-    face_portrait = "img/portraits/npcs/dark_soldier.png",
+    face_portrait = "data/entities/portraits/npcs/dark_soldier.png",
 
     -- using special animation files.
     standard_animations = {
@@ -475,7 +475,7 @@ sprites["Lord"] = {
     img_half_width = 1.0 * 16,
     img_height = 4.0 * 16,
     movement_speed = SLOW_SPEED,
-    face_portrait = "img/portraits/npcs/lord_banesore.png",
+    face_portrait = "data/entities/portraits/npcs/lord_banesore.png",
 
     -- using special animation files.
     standard_animations = {
@@ -529,7 +529,7 @@ sprites["Dark Soldier on horse"] = {
     img_half_width = 3.0 * 16,
     img_height = 6.0 * 16,
     movement_speed = ENEMY_SPEED,
-    face_portrait = "img/portraits/npcs/dark_soldier.png",
+    face_portrait = "data/entities/portraits/npcs/dark_soldier.png",
 
     -- using special animation files.
     standard_animations = {

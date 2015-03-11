@@ -17,7 +17,7 @@ world_locations = {
         -- location name
         vt_system.Translate("Village of Layna"),
         -- banner filename,
-        "img/menus/locations/mountain_village.png"
+        "data/story/common/locations/mountain_village.png"
     },
     -- world location id
     ["layna forest"] = {
@@ -28,7 +28,7 @@ world_locations = {
         -- location name
         vt_system.Translate("Layna Forest"),
         -- banner filename,
-        "img/menus/locations/layna_forest.png"
+        "data/story/common/locations/layna_forest.png"
     },
     -- world location id
     ["mt elbrus"] = {
@@ -39,6 +39,6 @@ world_locations = {
         -- location name
         vt_system.Translate("Mt. Elbrus"),
         -- banner filename,
-        "img/menus/locations/mt_elbrus.png"
+        "data/story/common/locations/mt_elbrus.png"
     },
 }
