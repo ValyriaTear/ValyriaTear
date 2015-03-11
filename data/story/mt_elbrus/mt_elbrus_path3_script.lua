@@ -53,7 +53,7 @@ function Load(m)
     _CreateZones();
 
     -- Add clouds overlay
-    Map:GetEffectSupervisor():EnableAmbientOverlay("img/ambient/clouds.png", 5.0, -5.0, true);
+    Map:GetEffectSupervisor():EnableAmbientOverlay("data/visuals/ambient/clouds.png", 5.0, -5.0, true);
     Map:GetScriptSupervisor():AddScript("dat/maps/common/at_night.lua");
 
     -- Enables thunder
@@ -786,7 +786,7 @@ end
 function _SetBattleEnvironment(enemy)
     -- default values
     enemy:SetBattleMusicTheme("music/Welcome to Com-Mecha-Mattew_Pablo_OGA.ogg");
-    enemy:SetBattleBackground("img/backdrops/battle/mountain_background.png");
+    enemy:SetBattleBackground("data/battles/battle_scenes/mountain_background.png");
     enemy:AddBattleScript("dat/maps/common/at_night.lua");
 
     if (GlobalManager:GetEventValue("story", "mt_elbrus_weather_level") > 0) then
@@ -799,7 +799,7 @@ end
 -- The environment for Harlequin's battles
 function _SetEventBattleEnvironment(event)
     event:SetMusic("music/Welcome to Com-Mecha-Mattew_Pablo_OGA.ogg");
-    event:SetBackground("img/backdrops/battle/mountain_background.png");
+    event:SetBackground("data/battles/battle_scenes/mountain_background.png");
     event:AddScript("dat/maps/common/at_night.lua");
 
     if (GlobalManager:GetEventValue("story", "mt_elbrus_weather_level") > 0) then

@@ -84,7 +84,7 @@ function Initialize(_character, _target, _skill)
 
     Battle = ModeManager:GetTop();
     -- A sword slash animation
-    sword_slash = Battle:CreateBattleAnimation("img/sprites/battle/effects/sword_slash.lua");
+    sword_slash = Battle:CreateBattleAnimation("data/entities/battle/effects/sword_slash.lua");
     slash_effect_time = 0;
     slash_effect_started = false;
 end

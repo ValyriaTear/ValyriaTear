@@ -42,7 +42,7 @@ function Load(m)
     --_CreateEvents();
 
     -- Add clouds overlay
-    Effects:EnableAmbientOverlay("img/ambient/clouds_overworld.png", 10.0, 5.0, true);
+    Effects:EnableAmbientOverlay("data/visuals/ambient/clouds_overworld.png", 10.0, 5.0, true);
 end
 
 -- the map update function handles checks done on each game tick.
@@ -83,7 +83,7 @@ function _SetBattleEnvironment(enemy)
     -- default values
     enemy:SetBattleMusicTheme("music/heroism-OGA-Edward-J-Blakeley.ogg");
     -- Put a default battle background
-    enemy:SetBattleBackground("img/backdrops/battle/plains_background.png");
+    enemy:SetBattleBackground("data/battles/battle_scenes/plains_background.png");
     -- This is an overworld enemy, so we reduce its speed, make it invisible
     -- and reduce also its agressive range.
     enemy:SetMovementSpeed(vt_map.MapMode.VERY_SLOW_SPEED);

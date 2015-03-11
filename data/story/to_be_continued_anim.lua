@@ -24,7 +24,7 @@ function Initialize(map_instance)
     Script = Map:GetScriptSupervisor();
     Effects = Map:GetEffectSupervisor();
 
-    dark_overlay = Script:CreateImage("img/ambient/black.png");
+    dark_overlay = Script:CreateImage("data/visuals/ambient/black.png");
     dark_overlay:SetDimensions(1024.0, 768.0);
 
     display_time = 0;

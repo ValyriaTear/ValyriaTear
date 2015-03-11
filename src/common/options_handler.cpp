@@ -649,7 +649,7 @@ void GameOptionsMenuHandler::_SetupResolutionMenu()
         _resolution_menu.AddOption(ustring(), this, &GameOptionsMenuHandler::_OnResolutionConfirm);
         // Show the current selection
         if (mode.w == _resolution_list[i].w && mode.h == _resolution_list[i].h) {
-            _resolution_menu.AddOptionElementImage(i, "img/menus/star.png");
+            _resolution_menu.AddOptionElementImage(i, "data/gui/menus/star.png");
             _resolution_menu.SetSelection(i);
         }
         _resolution_menu.AddOptionElementPosition(i, 32);
@@ -753,7 +753,7 @@ void GameOptionsMenuHandler::_RefreshLanguageOptions()
         std::string lang = _po_files[i - 1];
         _language_options_menu.AddOption(ustring(), this,  &GameOptionsMenuHandler::_OnLanguageSelect);
         if (lang == current_language) {
-            _language_options_menu.AddOptionElementImage(i - 1, "img/menus/star.png");
+            _language_options_menu.AddOptionElementImage(i - 1, "data/gui/menus/star.png");
             _language_options_menu.SetSelection(i - 1);
         }
         _language_options_menu.AddOptionElementPosition(i - 1, 32);

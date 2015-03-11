@@ -45,7 +45,7 @@ function Load(m)
     _CreateZones();
 
     -- Add a mediumly dark overlay
-    Effects:EnableAmbientOverlay("img/ambient/dark.png", 0.0, 0.0, false);
+    Effects:EnableAmbientOverlay("data/visuals/ambient/dark.png", 0.0, 0.0, false);
     -- Add the background and foreground animations
     Map:GetScriptSupervisor():AddScript("dat/maps/layna_forest/layna_forest_caves_background_anim.lua");
 

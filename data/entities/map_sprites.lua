@@ -18,24 +18,24 @@ sprites["Bronann"] = {
 
     -- using special animation files.
     standard_animations = {
-        idle = "img/sprites/map/characters/bronann_idle_unarmed.lua",
-        walk = "img/sprites/map/characters/bronann_walk_unarmed.lua",
-        run = "img/sprites/map/characters/bronann_run_unarmed.lua"
+        idle = "data/entities/map/characters/bronann_idle_unarmed.lua",
+        walk = "data/entities/map/characters/bronann_walk_unarmed.lua",
+        run = "data/entities/map/characters/bronann_run_unarmed.lua"
     },
 
     -- using standard (one direction only) animation files.
     custom_animations = {
-        hero_stance = "img/sprites/map/characters/bronann_hero_stance_unarmed.lua",
-        searching = "img/sprites/map/characters/bronann_searching_unarmed.lua",
-        frightened = "img/sprites/map/characters/bronann_frightened_unarmed.lua",
-        frightened_fixed = "img/sprites/map/characters/bronann_frightened_unarmed_fixed.lua",
-        hurt = "img/sprites/map/characters/bronann_hurt_unarmed.lua",
-        sleeping = "img/sprites/map/characters/bronann_dead.lua",
-        kneeling = "img/sprites/map/characters/bronann_kneeling.lua",
-        kneeling_left = "img/sprites/map/characters/bronann_kneeling_left.lua",
-        jump_south = "img/sprites/map/characters/bronann_jump_south.lua",
-        attack_south = "img/sprites/map/characters/bronann_attack_south.lua",
-        laughing = "img/sprites/map/characters/bronann_laughing_unarmed.lua"
+        hero_stance = "data/entities/map/characters/bronann_hero_stance_unarmed.lua",
+        searching = "data/entities/map/characters/bronann_searching_unarmed.lua",
+        frightened = "data/entities/map/characters/bronann_frightened_unarmed.lua",
+        frightened_fixed = "data/entities/map/characters/bronann_frightened_unarmed_fixed.lua",
+        hurt = "data/entities/map/characters/bronann_hurt_unarmed.lua",
+        sleeping = "data/entities/map/characters/bronann_dead.lua",
+        kneeling = "data/entities/map/characters/bronann_kneeling.lua",
+        kneeling_left = "data/entities/map/characters/bronann_kneeling_left.lua",
+        jump_south = "data/entities/map/characters/bronann_jump_south.lua",
+        attack_south = "data/entities/map/characters/bronann_attack_south.lua",
+        laughing = "data/entities/map/characters/bronann_laughing_unarmed.lua"
     }
 }
 
@@ -51,8 +51,8 @@ sprites["Mini_Bronann"] = {
 
     -- using special animation files.
     standard_animations = {
-        idle = "img/sprites/map/characters/bronann_idle_overworld_unarmed.lua",
-        walk = "img/sprites/map/characters/bronann_walk_overworld_unarmed.lua"
+        idle = "data/entities/map/characters/bronann_idle_overworld_unarmed.lua",
+        walk = "data/entities/map/characters/bronann_walk_overworld_unarmed.lua"
     },
 }
 
@@ -67,19 +67,19 @@ sprites["Kalya"] = {
 
     -- using special animation files.
     standard_animations = {
-        idle = "img/sprites/map/characters/kalya_idle.lua",
-        walk = "img/sprites/map/characters/kalya_walk.lua",
-        run = "img/sprites/map/characters/kalya_run.lua"
+        idle = "data/entities/map/characters/kalya_idle.lua",
+        walk = "data/entities/map/characters/kalya_walk.lua",
+        run = "data/entities/map/characters/kalya_run.lua"
     },
 
     -- using standard (one direction only) animation files.
     custom_animations = {
-        kneeling = "img/sprites/map/characters/kalya_kneeling.lua",
-        struggling = "img/sprites/map/characters/kalya_struggling.lua",
-        jump_south = "img/sprites/map/characters/kalya_jump_south.lua",
-        laughing = "img/sprites/map/characters/kalya_laughing.lua",
-        hurt = "img/sprites/map/characters/kalya_hurt.lua",
-        frightened_fixed = "img/sprites/map/characters/kalya_frightened_fixed.lua",
+        kneeling = "data/entities/map/characters/kalya_kneeling.lua",
+        struggling = "data/entities/map/characters/kalya_struggling.lua",
+        jump_south = "data/entities/map/characters/kalya_jump_south.lua",
+        laughing = "data/entities/map/characters/kalya_laughing.lua",
+        hurt = "data/entities/map/characters/kalya_hurt.lua",
+        frightened_fixed = "data/entities/map/characters/kalya_frightened_fixed.lua",
     }
 }
 
@@ -94,9 +94,9 @@ sprites["Thanis"] = {
 
     -- using special animation files.
     standard_animations = {
-        idle = "img/sprites/map/characters/thanis_idle.lua",
-        walk = "img/sprites/map/characters/thanis_walk.lua",
-        run = "img/sprites/map/characters/thanis_run.lua"
+        idle = "data/entities/map/characters/thanis_idle.lua",
+        walk = "data/entities/map/characters/thanis_walk.lua",
+        run = "data/entities/map/characters/thanis_run.lua"
     }
 
 }
@@ -112,8 +112,8 @@ sprites["Carson"] = {
 
     -- using special animation files.
     standard_animations = {
-        idle = "img/sprites/map/npcs/story/carson_idle.lua",
-        walk = "img/sprites/map/npcs/story/carson_walk.lua"
+        idle = "data/entities/map/npcs/story/carson_idle.lua",
+        walk = "data/entities/map/npcs/story/carson_walk.lua"
     }
 }
 
@@ -128,8 +128,8 @@ sprites["Malta"] = {
 
     -- using special animation files.
     standard_animations = {
-        idle = "img/sprites/map/npcs/story/malta_idle.lua",
-        walk = "img/sprites/map/npcs/story/malta_walk.lua"
+        idle = "data/entities/map/npcs/story/malta_idle.lua",
+        walk = "data/entities/map/npcs/story/malta_walk.lua"
     }
 }
 
@@ -144,14 +144,14 @@ sprites["Orlinn"] = {
 
     -- using special animation files.
     standard_animations = {
-        idle = "img/sprites/map/npcs/story/orlinn_idle.lua",
-        walk = "img/sprites/map/npcs/story/orlinn_walk.lua"
+        idle = "data/entities/map/npcs/story/orlinn_idle.lua",
+        walk = "data/entities/map/npcs/story/orlinn_walk.lua"
     },
 
     -- using standard (one direction only) animation files.
     custom_animations = {
-        laughing = "img/sprites/map/npcs/story/orlinn_laughing.lua",
-        frightened_fixed = "img/sprites/map/npcs/story/orlinn_frightened_fixed.lua",
+        laughing = "data/entities/map/npcs/story/orlinn_laughing.lua",
+        frightened_fixed = "data/entities/map/npcs/story/orlinn_frightened_fixed.lua",
     }
 }
 
@@ -166,8 +166,8 @@ sprites["Herth"] = {
 
     -- using special animation files.
     standard_animations = {
-        idle = "img/sprites/map/npcs/story/herth_idle.lua",
-        walk = "img/sprites/map/npcs/story/herth_walk.lua"
+        idle = "data/entities/map/npcs/story/herth_idle.lua",
+        walk = "data/entities/map/npcs/story/herth_walk.lua"
     }
 }
 
@@ -185,8 +185,8 @@ sprites["Girl1"] = {
 
     -- using special animation files.
     standard_animations = {
-        idle = "img/sprites/map/npcs/npc_girl01_idle.lua",
-        walk = "img/sprites/map/npcs/npc_girl01_walk.lua"
+        idle = "data/entities/map/npcs/npc_girl01_idle.lua",
+        walk = "data/entities/map/npcs/npc_girl01_walk.lua"
     }
 }
 
@@ -200,8 +200,8 @@ sprites["Old Woman1"] = {
 
     -- using special animation files.
     standard_animations = {
-        idle = "img/sprites/map/npcs/npc_old_woman01_idle.lua",
-        walk = "img/sprites/map/npcs/npc_old_woman01_walk.lua"
+        idle = "data/entities/map/npcs/npc_old_woman01_idle.lua",
+        walk = "data/entities/map/npcs/npc_old_woman01_walk.lua"
     }
 }
 
@@ -215,8 +215,8 @@ sprites["Woman1"] = {
 
     -- using special animation files.
     standard_animations = {
-        idle = "img/sprites/map/npcs/npc_woman01_idle.lua",
-        walk = "img/sprites/map/npcs/npc_woman01_walk.lua"
+        idle = "data/entities/map/npcs/npc_woman01_idle.lua",
+        walk = "data/entities/map/npcs/npc_woman01_walk.lua"
     }
 }
 
@@ -231,8 +231,8 @@ sprites["Woman2"] = {
 
     -- using special animation files.
     standard_animations = {
-        idle = "img/sprites/map/npcs/npc_woman02_idle.lua",
-        walk = "img/sprites/map/npcs/npc_woman02_walk.lua"
+        idle = "data/entities/map/npcs/npc_woman02_idle.lua",
+        walk = "data/entities/map/npcs/npc_woman02_walk.lua"
     }
 }
 
@@ -246,8 +246,8 @@ sprites["Woman3"] = {
 
     -- using special animation files.
     standard_animations = {
-        idle = "img/sprites/map/npcs/npc_woman03_idle.lua",
-        walk = "img/sprites/map/npcs/npc_woman03_walk.lua"
+        idle = "data/entities/map/npcs/npc_woman03_idle.lua",
+        walk = "data/entities/map/npcs/npc_woman03_walk.lua"
     }
 }
 
@@ -261,8 +261,8 @@ sprites["Man1"] = {
 
     -- using special animation files.
     standard_animations = {
-        idle = "img/sprites/map/npcs/npc_man01_idle.lua",
-        walk = "img/sprites/map/npcs/npc_man01_walk.lua"
+        idle = "data/entities/map/npcs/npc_man01_idle.lua",
+        walk = "data/entities/map/npcs/npc_man01_walk.lua"
     }
 }
 
@@ -274,12 +274,12 @@ sprites["Crystal"] = {
     img_half_width = 1.0 * 16,
     img_height = 4.0 * 16,
     movement_speed = SLOW_SPEED,
-    face_portrait = "img/backdrops/boot/crystal.png",
+    face_portrait = "data/boot_menu/ep1/crystal.png",
 
     -- using special animation files.
     standard_animations = {
-        idle = "img/sprites/map/npcs/crystal_idle.lua",
-        walk = "img/sprites/map/npcs/crystal_idle.lua"
+        idle = "data/entities/map/npcs/crystal_idle.lua",
+        walk = "data/entities/map/npcs/crystal_idle.lua"
     }
 }
 
@@ -293,8 +293,8 @@ sprites["Soldier"] = {
 
     -- using special animation files.
     standard_animations = {
-        idle = "img/sprites/map/npcs/npc_soldier01_idle.lua",
-        walk = "img/sprites/map/npcs/npc_soldier01_walk.lua"
+        idle = "data/entities/map/npcs/npc_soldier01_idle.lua",
+        walk = "data/entities/map/npcs/npc_soldier01_walk.lua"
     }
 }
 
@@ -311,8 +311,8 @@ sprites["Chicken"] = {
 
     -- using special animation files.
     standard_animations = {
-        idle = "img/sprites/map/scening/chicken_idle.lua",
-        walk = "img/sprites/map/scening/chicken_walk.lua"
+        idle = "data/entities/map/scening/chicken_idle.lua",
+        walk = "data/entities/map/scening/chicken_walk.lua"
     }
 }
 
@@ -326,8 +326,8 @@ sprites["Butterfly"] = {
 
     -- using special animation files.
     standard_animations = {
-        idle = "img/sprites/map/scening/butterfly_idle.lua",
-        walk = "img/sprites/map/scening/butterfly_walk.lua"
+        idle = "data/entities/map/scening/butterfly_idle.lua",
+        walk = "data/entities/map/scening/butterfly_walk.lua"
     }
 }
 
@@ -341,8 +341,8 @@ sprites["Squirrel"] = {
 
     -- using special animation files.
     standard_animations = {
-        idle = "img/sprites/map/scening/squirrel_idle.lua",
-        walk = "img/sprites/map/scening/squirrel_walk.lua"
+        idle = "data/entities/map/scening/squirrel_idle.lua",
+        walk = "data/entities/map/scening/squirrel_walk.lua"
     }
 }
 
@@ -359,8 +359,8 @@ sprites["bat"] = {
 
     -- using special animation files.
     standard_animations = {
-        idle = "img/sprites/map/enemies/bat_idle.lua",
-        walk = "img/sprites/map/enemies/bat_walk.lua"
+        idle = "data/entities/map/enemies/bat_idle.lua",
+        walk = "data/entities/map/enemies/bat_walk.lua"
     }
 }
 
@@ -372,8 +372,8 @@ sprites["slime"] = {
     movement_speed = ENEMY_SPEED,
     -- using special animation files.
     standard_animations = {
-        idle = "img/sprites/map/enemies/slime_idle.lua",
-        walk = "img/sprites/map/enemies/slime_walk.lua"
+        idle = "data/entities/map/enemies/slime_idle.lua",
+        walk = "data/entities/map/enemies/slime_walk.lua"
     }
 }
 
@@ -385,8 +385,8 @@ sprites["spider"] = {
     movement_speed = ENEMY_SPEED,
     -- using special animation files.
     standard_animations = {
-        idle = "img/sprites/map/enemies/spider_idle.lua",
-        walk = "img/sprites/map/enemies/spider_walk.lua"
+        idle = "data/entities/map/enemies/spider_idle.lua",
+        walk = "data/entities/map/enemies/spider_walk.lua"
     }
 }
 
@@ -400,8 +400,8 @@ sprites["big slime"] = {
 
     -- using special animation files.
     standard_animations = {
-        idle = "img/sprites/map/enemies/big_slime_idle.lua",
-        walk = "img/sprites/map/enemies/big_slime_walk.lua"
+        idle = "data/entities/map/enemies/big_slime_idle.lua",
+        walk = "data/entities/map/enemies/big_slime_walk.lua"
     }
 }
 
@@ -413,8 +413,8 @@ sprites["snake"] = {
     movement_speed = ENEMY_SPEED,
     -- using special animation files.
     standard_animations = {
-        idle = "img/sprites/map/enemies/snake_idle.lua",
-        walk = "img/sprites/map/enemies/snake_walk.lua"
+        idle = "data/entities/map/enemies/snake_idle.lua",
+        walk = "data/entities/map/enemies/snake_walk.lua"
     }
 }
 
@@ -427,8 +427,8 @@ sprites["scorpion"] = {
     movement_speed = ENEMY_SPEED,
     -- using special animation files.
     standard_animations = {
-        idle = "img/sprites/map/enemies/scorpion_idle.lua",
-        walk = "img/sprites/map/enemies/scorpion_walk.lua"
+        idle = "data/entities/map/enemies/scorpion_idle.lua",
+        walk = "data/entities/map/enemies/scorpion_walk.lua"
     }
 }
 
@@ -442,8 +442,8 @@ sprites["Fenrir"] = {
 
     -- using special animation files.
     standard_animations = {
-        idle = "img/sprites/map/enemies/fenrir_idle.lua",
-        walk = "img/sprites/map/enemies/fenrir_walk.lua"
+        idle = "data/entities/map/enemies/fenrir_idle.lua",
+        walk = "data/entities/map/enemies/fenrir_walk.lua"
     }
 }
 
@@ -458,13 +458,13 @@ sprites["Dark Soldier"] = {
 
     -- using special animation files.
     standard_animations = {
-        idle = "img/sprites/map/enemies/dark_soldier01_idle.lua",
-        walk = "img/sprites/map/enemies/dark_soldier01_walk.lua"
+        idle = "data/entities/map/enemies/dark_soldier01_idle.lua",
+        walk = "data/entities/map/enemies/dark_soldier01_walk.lua"
     },
 
     -- using standard (one direction only) animation files.
     custom_animations = {
-        ko = "img/sprites/map/enemies/dark_soldier_ko.lua",
+        ko = "data/entities/map/enemies/dark_soldier_ko.lua",
     }
 }
 
@@ -479,8 +479,8 @@ sprites["Lord"] = {
 
     -- using special animation files.
     standard_animations = {
-        idle = "img/sprites/map/enemies/lord_idle.lua",
-        walk = "img/sprites/map/enemies/lord_walk.lua"
+        idle = "data/entities/map/enemies/lord_idle.lua",
+        walk = "data/entities/map/enemies/lord_walk.lua"
     }
 }
 
@@ -496,13 +496,13 @@ sprites["Shroom"] = {
 
     -- using special animation files.
     standard_animations = {
-        idle = "img/sprites/map/enemies/spiky_mushroom_idle.lua",
-        walk = "img/sprites/map/enemies/spiky_mushroom_walk.lua"
+        idle = "data/entities/map/enemies/spiky_mushroom_idle.lua",
+        walk = "data/entities/map/enemies/spiky_mushroom_walk.lua"
     },
 
     -- using standard (one direction only) animation files.
     custom_animations = {
-        mushroom_ko = "img/sprites/map/enemies/spiky_mushroom_dead.lua",
+        mushroom_ko = "data/entities/map/enemies/spiky_mushroom_dead.lua",
     }
 }
 
@@ -517,8 +517,8 @@ sprites["Eyeball"] = {
 
     -- using special animation files.
     standard_animations = {
-        idle = "img/sprites/map/enemies/eyeball_idle.lua",
-        walk = "img/sprites/map/enemies/eyeball_walk.lua"
+        idle = "data/entities/map/enemies/eyeball_idle.lua",
+        walk = "data/entities/map/enemies/eyeball_walk.lua"
     },
 }
 
@@ -533,8 +533,8 @@ sprites["Dark Soldier on horse"] = {
 
     -- using special animation files.
     standard_animations = {
-        idle = "img/sprites/map/npcs/soldier_on_horse_idle.lua",
-        walk = "img/sprites/map/npcs/soldier_on_horse_walk.lua"
+        idle = "data/entities/map/npcs/soldier_on_horse_idle.lua",
+        walk = "data/entities/map/npcs/soldier_on_horse_walk.lua"
     }
 }
 
@@ -549,8 +549,8 @@ sprites["Beetle"] = {
 
     -- using special animation files.
     standard_animations = {
-        idle = "img/sprites/map/enemies/beetle_idle.lua",
-        walk = "img/sprites/map/enemies/beetle_walk.lua"
+        idle = "data/entities/map/enemies/beetle_idle.lua",
+        walk = "data/entities/map/enemies/beetle_walk.lua"
     },
 }
 
@@ -565,8 +565,8 @@ sprites["Skeleton"] = {
 
     -- using special animation files.
     standard_animations = {
-        idle = "img/sprites/map/enemies/skeleton_idle.lua",
-        walk = "img/sprites/map/enemies/skeleton_walk.lua"
+        idle = "data/entities/map/enemies/skeleton_idle.lua",
+        walk = "data/entities/map/enemies/skeleton_walk.lua"
     },
 }
 
@@ -581,14 +581,14 @@ sprites["Andromalius"] = {
 
     -- using special animation files.
     standard_animations = {
-        idle = "img/sprites/map/enemies/andromalius_idle.lua",
-        walk = "img/sprites/map/enemies/andromalius_idle.lua"
+        idle = "data/entities/map/enemies/andromalius_idle.lua",
+        walk = "data/entities/map/enemies/andromalius_idle.lua"
     },
 
     -- using standard (one direction only) animation files.
     custom_animations = {
-        open_mouth_right = "img/sprites/map/enemies/andromalius_openmouth_right.lua",
-        open_mouth_left = "img/sprites/map/enemies/andromalius_openmouth_left.lua",
+        open_mouth_right = "data/entities/map/enemies/andromalius_openmouth_right.lua",
+        open_mouth_left = "data/entities/map/enemies/andromalius_openmouth_left.lua",
     }
 }
 

@@ -45,7 +45,7 @@ function Load(m)
     _CreateZones();
 
     -- Add a mediumly dark overlay when necessary
-    Map:GetEffectSupervisor():EnableAmbientOverlay("img/ambient/dark.png", 0.0, 0.0, false);
+    Map:GetEffectSupervisor():EnableAmbientOverlay("data/visuals/ambient/dark.png", 0.0, 0.0, false);
 
     -- Preload sounds
     AudioManager:LoadSound("sounds/heavy_bump.wav", Map);
@@ -258,7 +258,7 @@ function _CreateEvents()
 
     event = vt_map.BattleEncounterEvent.Create("Battle with the boss");
     event:SetMusic("music/accion-OGA-djsaryon.ogg");
-    event:SetBackground("img/backdrops/battle/desert_cave/desert_cave.png");
+    event:SetBackground("data/battles/battle_scenes/desert_cave/desert_cave.png");
     event:AddScript("dat/battles/desert_cave_battle_anim.lua");
     event:SetBoss(true);
     event:AddEnemy(21, 812, 312);

@@ -93,9 +93,9 @@ function Initialize(_character, _target, _skill)
         arrow_info.damage_triggered = false;
 
         -- Set Kalya's missile sprites
-        arrow_info.arrow = Battle:CreateBattleAnimation("img/sprites/battle/ammo/wood_arrow.lua");
+        arrow_info.arrow = Battle:CreateBattleAnimation("data/entities/battle/ammo/wood_arrow.lua");
         -- TODO: Create the arrow shadow
-        --arrow_info.arrow_shadow = Battle:CreateBattleAnimation("img/sprites/battle/ammo/wood_arrow.lua");
+        --arrow_info.arrow_shadow = Battle:CreateBattleAnimation("data/entities/battle/ammo/wood_arrow.lua");
 
         index = index + 1
     end

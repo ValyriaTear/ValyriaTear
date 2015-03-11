@@ -91,7 +91,7 @@ function Initialize(_character, _target, _skill)
     --print (distance_moved_x, a_coeff, distance_moved_y);
 
     -- Override the ammo as a stone.
-    character:GetAmmo():LoadAmmoAnimatedImage("img/sprites/battle/ammo/rock_ammo.lua");
+    character:GetAmmo():LoadAmmoAnimatedImage("data/entities/battle/ammo/rock_ammo.lua");
 end
 
 

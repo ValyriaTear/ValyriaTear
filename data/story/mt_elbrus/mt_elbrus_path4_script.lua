@@ -55,7 +55,7 @@ function Load(m)
     _CreateEvents();
     _CreateZones();
 
-    Map:GetEffectSupervisor():EnableAmbientOverlay("img/ambient/snow_fog.png", 30.0, 10.0, true);
+    Map:GetEffectSupervisor():EnableAmbientOverlay("data/visuals/ambient/snow_fog.png", 30.0, 10.0, true);
     Map:GetScriptSupervisor():AddScript("dat/maps/common/at_night.lua");
 
     -- Make the snow start

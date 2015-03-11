@@ -937,7 +937,7 @@ void PartyWindow::_InitCharSelect()
 
     _character_status_text.SetStyle(TextStyle("text20"));
     _character_status_numbers.SetStyle(TextStyle("text20"));
-    _character_status_icons.Load("img/menus/status/menu_stats_icons.png");
+    _character_status_icons.Load("data/gui/menus/status/menu_stats_icons.png");
 
     _average_text.SetStyle(TextStyle("text20"));
     _average_text.SetText(Translate("Attack / Defense:"));
@@ -951,7 +951,7 @@ void PartyWindow::_InitCharSelect()
         + UTranslate("Magical Defense (M.DEF): ");
     _average_atk_def_text.SetText(text);
     _average_atk_def_numbers.SetStyle(TextStyle("text18"));
-    _average_atk_def_icons.Load("img/menus/status/menu_avg_atk_def.png");
+    _average_atk_def_icons.Load("data/gui/menus/status/menu_avg_atk_def.png");
 
     _focused_def_text.SetStyle(TextStyle("text18"));
     text = MakeUnicodeString("\n") // Skip title
@@ -963,7 +963,7 @@ void PartyWindow::_InitCharSelect()
     _focused_def_numbers.SetStyle(TextStyle("text18"));
     _focused_mdef_numbers.SetStyle(TextStyle("text18"));
 
-    _focused_def_category_icons.Load("img/menus/status/menu_point_atk_def.png");
+    _focused_def_category_icons.Load("data/gui/menus/status/menu_point_atk_def.png");
     _focused_def_icon = GlobalManager->Media().GetStatusIcon(GLOBAL_STATUS_FORTITUDE, GLOBAL_INTENSITY_NEUTRAL);
     _focused_mdef_icon = GlobalManager->Media().GetStatusIcon(GLOBAL_STATUS_PROTECTION, GLOBAL_INTENSITY_NEUTRAL);
 
@@ -2268,8 +2268,8 @@ void EquipWindow::Draw()
 
 static const ustring spacing = MakeUnicodeString("<20>");
 static const ustring exclamation_file = MakeUnicodeString("<entities/emotes/exclamation.png>") + spacing;
-static const ustring check_file = MakeUnicodeString("<img/menus/green_check.png>") + spacing;
-static const ustring cross_file = MakeUnicodeString("<img/menus/red_x.png>") + spacing;
+static const ustring check_file = MakeUnicodeString("<data/gui/menus/green_check.png>") + spacing;
+static const ustring cross_file = MakeUnicodeString("<data/gui/menus/red_x.png>") + spacing;
 
 QuestListWindow::QuestListWindow() :
     _active_box(false)
@@ -2550,11 +2550,11 @@ WorldMapWindow::WorldMapWindow() :
     _active(false)
 {
     _location_marker.SetStatic(true);
-    if(!_location_marker.LoadFromAnimationScript("img/menus/rotating_crystal_grey.lua"))
+    if(!_location_marker.LoadFromAnimationScript("data/gui/menus/rotating_crystal_grey.lua"))
         PRINT_ERROR << "Could not load marker image!" << std::endl;
 
     _location_pointer.SetStatic(true);
-    if(!_location_pointer.Load("img/menus/hand_down.png"))
+    if(!_location_pointer.Load("data/gui/menus/hand_down.png"))
         PRINT_ERROR << "Could not load pointer image!" << std::endl;
 }
 

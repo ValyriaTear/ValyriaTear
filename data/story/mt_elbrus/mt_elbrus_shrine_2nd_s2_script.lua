@@ -41,7 +41,7 @@ function Load(m)
     _CreateEvents();
     _CreateZones();
 
-    Map:GetEffectSupervisor():EnableAmbientOverlay("img/ambient/dark.png", 0.0, 0.0, false);
+    Map:GetEffectSupervisor():EnableAmbientOverlay("data/visuals/ambient/dark.png", 0.0, 0.0, false);
 
     -- Preloads the action sounds to avoid glitches
     AudioManager:LoadSound("sounds/stone_roll.wav", Map);
@@ -325,8 +325,8 @@ function _CreateObjects()
     -- A trigger that will open ground floor enigma map.
     object = vt_map.TriggerObject.Create("mt elbrus shrine 2nd s2 trigger",
                                          vt_map.MapMode.FLATGROUND_OBJECT,
-                                         "img/sprites/map/triggers/stone_trigger1_off.lua",
-                                         "img/sprites/map/triggers/stone_trigger1_on.lua",
+                                         "data/entities/map/triggers/stone_trigger1_off.lua",
+                                         "data/entities/map/triggers/stone_trigger1_on.lua",
                                          "", "Enigma map open event");
     object:SetPosition(26, 10);
 end
@@ -359,7 +359,7 @@ function _CreateEvents()
 
     event = vt_map.BattleEncounterEvent.Create("Mini-boss fight battle start");
     event:SetMusic("music/accion-OGA-djsaryon.ogg");
-    event:SetBackground("img/backdrops/battle/desert_cave/desert_cave.png");
+    event:SetBackground("data/battles/battle_scenes/desert_cave/desert_cave.png");
     event:AddScript("dat/battles/desert_cave_battle_anim.lua");
     event:SetBoss(true);
     event:AddEnemy(20);
@@ -383,7 +383,7 @@ end
 -- Sets common battle environment settings for enemy sprites
 function _SetBattleEnvironment(enemy)
     enemy:SetBattleMusicTheme("music/heroism-OGA-Edward-J-Blakeley.ogg");
-    enemy:SetBattleBackground("img/backdrops/battle/desert_cave/desert_cave.png");
+    enemy:SetBattleBackground("data/battles/battle_scenes/desert_cave/desert_cave.png");
     -- Add the background and foreground animations
     enemy:AddBattleScript("dat/battles/desert_cave_battle_anim.lua");
 end

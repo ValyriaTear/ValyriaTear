@@ -217,7 +217,7 @@ bool MapTransitionEvent::_Update()
 BattleEncounterEvent::BattleEncounterEvent(const std::string& event_id) :
     MapEvent(event_id, BATTLE_ENCOUNTER_EVENT),
     _battle_music("music/heroism-OGA-Edward-J-Blakeley.ogg"),
-    _battle_background("img/backdrops/battle/desert_cave/desert_cave.png"),
+    _battle_background("data/battles/battle_scenes/desert_cave/desert_cave.png"),
     _is_boss(false)
 {}
 

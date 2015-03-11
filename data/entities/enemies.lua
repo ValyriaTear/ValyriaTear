@@ -23,10 +23,10 @@ enemies[1] = {
     stamina_icon = "data/battles/stamina_icons/enemies/green_slime.png",
 
     battle_animations = {
-        [HURT_NONE] = "img/sprites/battle/enemies/green_slime_0.lua",
-        [HURT_SLIGHTLY] = "img/sprites/battle/enemies/green_slime_1.lua",
-        [HURT_MEDIUM] = "img/sprites/battle/enemies/green_slime_2.lua",
-        [HURT_HEAVILY] = "img/sprites/battle/enemies/green_slime_3.lua"
+        [HURT_NONE] = "data/entities/battle/enemies/green_slime_0.lua",
+        [HURT_SLIGHTLY] = "data/entities/battle/enemies/green_slime_1.lua",
+        [HURT_MEDIUM] = "data/entities/battle/enemies/green_slime_2.lua",
+        [HURT_HEAVILY] = "data/entities/battle/enemies/green_slime_3.lua"
     },
 
     base_stats = {
@@ -67,10 +67,10 @@ enemies[2] = {
     stamina_icon = "data/battles/stamina_icons/enemies/spider.png",
 
     battle_animations = {
-        [HURT_NONE] = "img/sprites/battle/enemies/spider_0.lua",
-        [HURT_SLIGHTLY] = "img/sprites/battle/enemies/spider_1.lua",
-        [HURT_MEDIUM] = "img/sprites/battle/enemies/spider_2.lua",
-        [HURT_HEAVILY] = "img/sprites/battle/enemies/spider_3.lua"
+        [HURT_NONE] = "data/entities/battle/enemies/spider_0.lua",
+        [HURT_SLIGHTLY] = "data/entities/battle/enemies/spider_1.lua",
+        [HURT_MEDIUM] = "data/entities/battle/enemies/spider_2.lua",
+        [HURT_HEAVILY] = "data/entities/battle/enemies/spider_3.lua"
     },
 
     base_stats = {
@@ -121,10 +121,10 @@ enemies[3] = {
     stamina_icon = "data/battles/stamina_icons/enemies/fenrir.png",
 
     battle_animations = {
-        [HURT_NONE] = "img/sprites/battle/enemies/fenrir_0.lua",
-        [HURT_SLIGHTLY] = "img/sprites/battle/enemies/fenrir_0.lua",
-        [HURT_MEDIUM] = "img/sprites/battle/enemies/fenrir_1.lua",
-        [HURT_HEAVILY] = "img/sprites/battle/enemies/fenrir_1.lua"
+        [HURT_NONE] = "data/entities/battle/enemies/fenrir_0.lua",
+        [HURT_SLIGHTLY] = "data/entities/battle/enemies/fenrir_0.lua",
+        [HURT_MEDIUM] = "data/entities/battle/enemies/fenrir_1.lua",
+        [HURT_HEAVILY] = "data/entities/battle/enemies/fenrir_1.lua"
     },
 
     scripts = {
@@ -180,10 +180,10 @@ enemies[4] = {
     stamina_icon = "data/battles/stamina_icons/enemies/green_snake.png",
 
     battle_animations = {
-        [HURT_NONE] = "img/sprites/battle/enemies/green_snake_0.lua",
-        [HURT_SLIGHTLY] = "img/sprites/battle/enemies/green_snake_1.lua",
-        [HURT_MEDIUM] = "img/sprites/battle/enemies/green_snake_2.lua",
-        [HURT_HEAVILY] = "img/sprites/battle/enemies/green_snake_3.lua"
+        [HURT_NONE] = "data/entities/battle/enemies/green_snake_0.lua",
+        [HURT_SLIGHTLY] = "data/entities/battle/enemies/green_snake_1.lua",
+        [HURT_MEDIUM] = "data/entities/battle/enemies/green_snake_2.lua",
+        [HURT_HEAVILY] = "data/entities/battle/enemies/green_snake_3.lua"
     },
 
     base_stats = {
@@ -245,10 +245,10 @@ enemies[5] = {
     stamina_icon = "data/battles/stamina_icons/enemies/big_slime.png",
 
     battle_animations = {
-        [HURT_NONE] = "img/sprites/battle/enemies/big_slime_0.lua",
-        [HURT_SLIGHTLY] = "img/sprites/battle/enemies/big_slime_1.lua",
-        [HURT_MEDIUM] = "img/sprites/battle/enemies/big_slime_2.lua",
-        [HURT_HEAVILY] = "img/sprites/battle/enemies/big_slime_3.lua"
+        [HURT_NONE] = "data/entities/battle/enemies/big_slime_0.lua",
+        [HURT_SLIGHTLY] = "data/entities/battle/enemies/big_slime_1.lua",
+        [HURT_MEDIUM] = "data/entities/battle/enemies/big_slime_2.lua",
+        [HURT_HEAVILY] = "data/entities/battle/enemies/big_slime_3.lua"
     },
 
     base_stats = {
@@ -290,10 +290,10 @@ enemies[6] = {
     stamina_icon = "data/battles/stamina_icons/enemies/bat.png",
 
     battle_animations = {
-        [HURT_NONE] = "img/sprites/battle/enemies/bat_0.lua",
-        [HURT_SLIGHTLY] = "img/sprites/battle/enemies/bat_1.lua",
-        [HURT_MEDIUM] = "img/sprites/battle/enemies/bat_2.lua",
-        [HURT_HEAVILY] = "img/sprites/battle/enemies/bat_3.lua"
+        [HURT_NONE] = "data/entities/battle/enemies/bat_0.lua",
+        [HURT_SLIGHTLY] = "data/entities/battle/enemies/bat_1.lua",
+        [HURT_MEDIUM] = "data/entities/battle/enemies/bat_2.lua",
+        [HURT_HEAVILY] = "data/entities/battle/enemies/bat_3.lua"
     },
 
     base_stats = {
@@ -345,10 +345,10 @@ enemies[7] = {
     stamina_icon = "data/battles/stamina_icons/enemies/fenrir.png",
 
     battle_animations = {
-        [HURT_NONE] = "img/sprites/battle/enemies/fenrir_0.lua",
-        [HURT_SLIGHTLY] = "img/sprites/battle/enemies/fenrir_0.lua",
-        [HURT_MEDIUM] = "img/sprites/battle/enemies/fenrir_1.lua",
-        [HURT_HEAVILY] = "img/sprites/battle/enemies/fenrir_1.lua"
+        [HURT_NONE] = "data/entities/battle/enemies/fenrir_0.lua",
+        [HURT_SLIGHTLY] = "data/entities/battle/enemies/fenrir_0.lua",
+        [HURT_MEDIUM] = "data/entities/battle/enemies/fenrir_1.lua",
+        [HURT_HEAVILY] = "data/entities/battle/enemies/fenrir_1.lua"
     },
 
     scripts = {
@@ -405,10 +405,10 @@ enemies[8] = {
     stamina_icon = "data/battles/stamina_icons/enemies/fenrir.png",
 
     battle_animations = {
-        [HURT_NONE] = "img/sprites/battle/enemies/fenrir_0.lua",
-        [HURT_SLIGHTLY] = "img/sprites/battle/enemies/fenrir_1.lua",
-        [HURT_MEDIUM] = "img/sprites/battle/enemies/fenrir_2.lua",
-        [HURT_HEAVILY] = "img/sprites/battle/enemies/fenrir_3.lua"
+        [HURT_NONE] = "data/entities/battle/enemies/fenrir_0.lua",
+        [HURT_SLIGHTLY] = "data/entities/battle/enemies/fenrir_1.lua",
+        [HURT_MEDIUM] = "data/entities/battle/enemies/fenrir_2.lua",
+        [HURT_HEAVILY] = "data/entities/battle/enemies/fenrir_3.lua"
     },
 
     scripts = {
@@ -463,10 +463,10 @@ enemies[9] = {
     stamina_icon = "data/battles/stamina_icons/enemies/dark_soldier.png",
 
     battle_animations = {
-        [HURT_NONE] = "img/sprites/battle/enemies/dark_soldier_0.lua",
-        [HURT_SLIGHTLY] = "img/sprites/battle/enemies/dark_soldier_0.lua",
-        [HURT_MEDIUM] = "img/sprites/battle/enemies/dark_soldier_0.lua",
-        [HURT_HEAVILY] = "img/sprites/battle/enemies/dark_soldier_0.lua"
+        [HURT_NONE] = "data/entities/battle/enemies/dark_soldier_0.lua",
+        [HURT_SLIGHTLY] = "data/entities/battle/enemies/dark_soldier_0.lua",
+        [HURT_MEDIUM] = "data/entities/battle/enemies/dark_soldier_0.lua",
+        [HURT_HEAVILY] = "data/entities/battle/enemies/dark_soldier_0.lua"
     },
 
     base_stats = {
@@ -526,10 +526,10 @@ enemies[10] = {
     stamina_icon = "data/battles/stamina_icons/enemies/lord_banesore.png",
 
     battle_animations = {
-        [HURT_NONE] = "img/sprites/battle/enemies/lord_banesore_0.lua",
-        [HURT_SLIGHTLY] = "img/sprites/battle/enemies/lord_banesore_0.lua",
-        [HURT_MEDIUM] = "img/sprites/battle/enemies/lord_banesore_0.lua",
-        [HURT_HEAVILY] = "img/sprites/battle/enemies/lord_banesore_0.lua"
+        [HURT_NONE] = "data/entities/battle/enemies/lord_banesore_0.lua",
+        [HURT_SLIGHTLY] = "data/entities/battle/enemies/lord_banesore_0.lua",
+        [HURT_MEDIUM] = "data/entities/battle/enemies/lord_banesore_0.lua",
+        [HURT_HEAVILY] = "data/entities/battle/enemies/lord_banesore_0.lua"
     },
 
     scripts = {
@@ -595,10 +595,10 @@ enemies[11] = {
     stamina_icon = "data/battles/stamina_icons/enemies/shroom.png",
 
     battle_animations = {
-        [HURT_NONE] = "img/sprites/battle/enemies/shroom_0.lua",
-        [HURT_SLIGHTLY] = "img/sprites/battle/enemies/shroom_0.lua",
-        [HURT_MEDIUM] = "img/sprites/battle/enemies/shroom_0.lua",
-        [HURT_HEAVILY] = "img/sprites/battle/enemies/shroom_0.lua"
+        [HURT_NONE] = "data/entities/battle/enemies/shroom_0.lua",
+        [HURT_SLIGHTLY] = "data/entities/battle/enemies/shroom_0.lua",
+        [HURT_MEDIUM] = "data/entities/battle/enemies/shroom_0.lua",
+        [HURT_HEAVILY] = "data/entities/battle/enemies/shroom_0.lua"
     },
 
     base_stats = {
@@ -640,10 +640,10 @@ enemies[12] = {
     stamina_icon = "data/battles/stamina_icons/enemies/eyeball.png",
 
     battle_animations = {
-        [HURT_NONE] = "img/sprites/battle/enemies/eyeball_0.lua",
-        [HURT_SLIGHTLY] = "img/sprites/battle/enemies/eyeball_0.lua",
-        [HURT_MEDIUM] = "img/sprites/battle/enemies/eyeball_0.lua",
-        [HURT_HEAVILY] = "img/sprites/battle/enemies/eyeball_0.lua"
+        [HURT_NONE] = "data/entities/battle/enemies/eyeball_0.lua",
+        [HURT_SLIGHTLY] = "data/entities/battle/enemies/eyeball_0.lua",
+        [HURT_MEDIUM] = "data/entities/battle/enemies/eyeball_0.lua",
+        [HURT_HEAVILY] = "data/entities/battle/enemies/eyeball_0.lua"
     },
 
     base_stats = {
@@ -683,10 +683,10 @@ enemies[13] = {
     stamina_icon = "data/battles/stamina_icons/enemies/harlequin.png",
 
     battle_animations = {
-        [HURT_NONE] = "img/sprites/battle/enemies/harlequin_0.lua",
-        [HURT_SLIGHTLY] = "img/sprites/battle/enemies/harlequin_0.lua",
-        [HURT_MEDIUM] = "img/sprites/battle/enemies/harlequin_0.lua",
-        [HURT_HEAVILY] = "img/sprites/battle/enemies/harlequin_0.lua"
+        [HURT_NONE] = "data/entities/battle/enemies/harlequin_0.lua",
+        [HURT_SLIGHTLY] = "data/entities/battle/enemies/harlequin_0.lua",
+        [HURT_MEDIUM] = "data/entities/battle/enemies/harlequin_0.lua",
+        [HURT_HEAVILY] = "data/entities/battle/enemies/harlequin_0.lua"
     },
 
     base_stats = {
@@ -730,10 +730,10 @@ enemies[14] = {
     stamina_icon = "data/battles/stamina_icons/enemies/harlequin.png",
 
     battle_animations = {
-        [HURT_NONE] = "img/sprites/battle/enemies/harlequin_0.lua",
-        [HURT_SLIGHTLY] = "img/sprites/battle/enemies/harlequin_0.lua",
-        [HURT_MEDIUM] = "img/sprites/battle/enemies/harlequin_0.lua",
-        [HURT_HEAVILY] = "img/sprites/battle/enemies/harlequin_0.lua"
+        [HURT_NONE] = "data/entities/battle/enemies/harlequin_0.lua",
+        [HURT_SLIGHTLY] = "data/entities/battle/enemies/harlequin_0.lua",
+        [HURT_MEDIUM] = "data/entities/battle/enemies/harlequin_0.lua",
+        [HURT_HEAVILY] = "data/entities/battle/enemies/harlequin_0.lua"
     },
 
     base_stats = {
@@ -783,10 +783,10 @@ enemies[15] = {
     stamina_icon = "data/battles/stamina_icons/enemies/beetle.png",
 
     battle_animations = {
-        [HURT_NONE] = "img/sprites/battle/enemies/beetle_0.lua",
-        [HURT_SLIGHTLY] = "img/sprites/battle/enemies/beetle_0.lua",
-        [HURT_MEDIUM] = "img/sprites/battle/enemies/beetle_0.lua",
-        [HURT_HEAVILY] = "img/sprites/battle/enemies/beetle_0.lua"
+        [HURT_NONE] = "data/entities/battle/enemies/beetle_0.lua",
+        [HURT_SLIGHTLY] = "data/entities/battle/enemies/beetle_0.lua",
+        [HURT_MEDIUM] = "data/entities/battle/enemies/beetle_0.lua",
+        [HURT_HEAVILY] = "data/entities/battle/enemies/beetle_0.lua"
     },
 
     base_stats = {
@@ -828,10 +828,10 @@ enemies[16] = {
     stamina_icon = "data/battles/stamina_icons/enemies/rat.png",
 
     battle_animations = {
-        [HURT_NONE] = "img/sprites/battle/enemies/rat_0.lua",
-        [HURT_SLIGHTLY] = "img/sprites/battle/enemies/rat_1.lua",
-        [HURT_MEDIUM] = "img/sprites/battle/enemies/rat_2.lua",
-        [HURT_HEAVILY] = "img/sprites/battle/enemies/rat_3.lua"
+        [HURT_NONE] = "data/entities/battle/enemies/rat_0.lua",
+        [HURT_SLIGHTLY] = "data/entities/battle/enemies/rat_1.lua",
+        [HURT_MEDIUM] = "data/entities/battle/enemies/rat_2.lua",
+        [HURT_HEAVILY] = "data/entities/battle/enemies/rat_3.lua"
     },
 
     base_stats = {
@@ -881,10 +881,10 @@ enemies[17] = {
     stamina_icon = "data/battles/stamina_icons/enemies/thing.png",
 
     battle_animations = {
-        [HURT_NONE] = "img/sprites/battle/enemies/thing_0.lua",
-        [HURT_SLIGHTLY] = "img/sprites/battle/enemies/thing_0.lua",
-        [HURT_MEDIUM] = "img/sprites/battle/enemies/thing_0.lua",
-        [HURT_HEAVILY] = "img/sprites/battle/enemies/thing_0.lua"
+        [HURT_NONE] = "data/entities/battle/enemies/thing_0.lua",
+        [HURT_SLIGHTLY] = "data/entities/battle/enemies/thing_0.lua",
+        [HURT_MEDIUM] = "data/entities/battle/enemies/thing_0.lua",
+        [HURT_HEAVILY] = "data/entities/battle/enemies/thing_0.lua"
     },
 
     base_stats = {
@@ -927,10 +927,10 @@ enemies[18] = {
     stamina_icon = "data/battles/stamina_icons/enemies/yeti.png",
 
     battle_animations = {
-        [HURT_NONE] = "img/sprites/battle/enemies/yeti_0.lua",
-        [HURT_SLIGHTLY] = "img/sprites/battle/enemies/yeti_0.lua",
-        [HURT_MEDIUM] = "img/sprites/battle/enemies/yeti_0.lua",
-        [HURT_HEAVILY] = "img/sprites/battle/enemies/yeti_0.lua"
+        [HURT_NONE] = "data/entities/battle/enemies/yeti_0.lua",
+        [HURT_SLIGHTLY] = "data/entities/battle/enemies/yeti_0.lua",
+        [HURT_MEDIUM] = "data/entities/battle/enemies/yeti_0.lua",
+        [HURT_HEAVILY] = "data/entities/battle/enemies/yeti_0.lua"
     },
 
     base_stats = {
@@ -971,10 +971,10 @@ enemies[19] = {
     stamina_icon = "data/battles/stamina_icons/enemies/skeleton.png",
 
     battle_animations = {
-        [HURT_NONE] = "img/sprites/battle/enemies/skeleton_0.lua",
-        [HURT_SLIGHTLY] = "img/sprites/battle/enemies/skeleton_1.lua",
-        [HURT_MEDIUM] = "img/sprites/battle/enemies/skeleton_2.lua",
-        [HURT_HEAVILY] = "img/sprites/battle/enemies/skeleton_3.lua"
+        [HURT_NONE] = "data/entities/battle/enemies/skeleton_0.lua",
+        [HURT_SLIGHTLY] = "data/entities/battle/enemies/skeleton_1.lua",
+        [HURT_MEDIUM] = "data/entities/battle/enemies/skeleton_2.lua",
+        [HURT_HEAVILY] = "data/entities/battle/enemies/skeleton_3.lua"
     },
 
     base_stats = {
@@ -1034,10 +1034,10 @@ enemies[20] = {
     stamina_icon = "data/battles/stamina_icons/enemies/dorver.png",
 
     battle_animations = {
-        [HURT_NONE] = "img/sprites/battle/enemies/dorver_0.lua",
-        [HURT_SLIGHTLY] = "img/sprites/battle/enemies/dorver_0.lua",
-        [HURT_MEDIUM] = "img/sprites/battle/enemies/dorver_0.lua",
-        [HURT_HEAVILY] = "img/sprites/battle/enemies/dorver_0.lua"
+        [HURT_NONE] = "data/entities/battle/enemies/dorver_0.lua",
+        [HURT_SLIGHTLY] = "data/entities/battle/enemies/dorver_0.lua",
+        [HURT_MEDIUM] = "data/entities/battle/enemies/dorver_0.lua",
+        [HURT_HEAVILY] = "data/entities/battle/enemies/dorver_0.lua"
     },
 
     base_stats = {
@@ -1102,10 +1102,10 @@ enemies[21] = {
     stamina_icon = "data/battles/stamina_icons/enemies/andromalius.png",
 
     battle_animations = {
-        [HURT_NONE] = "img/sprites/battle/enemies/andromalius_0.lua",
-        [HURT_SLIGHTLY] = "img/sprites/battle/enemies/andromalius_0.lua",
-        [HURT_MEDIUM] = "img/sprites/battle/enemies/andromalius_1.lua",
-        [HURT_HEAVILY] = "img/sprites/battle/enemies/andromalius_1.lua"
+        [HURT_NONE] = "data/entities/battle/enemies/andromalius_0.lua",
+        [HURT_SLIGHTLY] = "data/entities/battle/enemies/andromalius_0.lua",
+        [HURT_MEDIUM] = "data/entities/battle/enemies/andromalius_1.lua",
+        [HURT_HEAVILY] = "data/entities/battle/enemies/andromalius_1.lua"
     },
 
     base_stats = {
@@ -1216,7 +1216,7 @@ enemies[59] = {
 enemies[60] = {
     name = vt_system.Translate("Dune Crawler"),
     stamina_icon = "data/battles/stamina_icons/enemies/dune_crawler.png",
-    battle_sprites = "img/sprites/battle/enemies/dune_crawler.png",
+    battle_sprites = "data/entities/battle/enemies/dune_crawler.png",
     sprite_width = 64,
     sprite_height = 64,
 
@@ -1271,7 +1271,7 @@ enemies[60] = {
 enemies[62] = {
     name = vt_system.Translate("Stygian Lizard"),
     stamina_icon = "data/battles/stamina_icons/enemies/stygian_lizard.png",
-    battle_sprites = "img/sprites/battle/enemies/stygian_lizard.png",
+    battle_sprites = "data/entities/battle/enemies/stygian_lizard.png",
     sprite_width = 192,
     sprite_height = 192,
 
@@ -1335,7 +1335,7 @@ enemies[62] = {
 enemies[63] = {
     name = vt_system.Translate("Demonic Essence"),
     stamina_icon = "data/battles/stamina_icons/enemies/demonic_essence.png",
-    battle_sprites = "img/sprites/battle/enemies/demonic_essence.png",
+    battle_sprites = "data/entities/battle/enemies/demonic_essence.png",
     sprite_width = 128,
     sprite_height = 192,
 
@@ -1399,7 +1399,7 @@ enemies[63] = {
 enemies[65] = {
     name = vt_system.Translate("Red Slime"),
     stamina_icon = "data/battles/stamina_icons/enemies/red_slime.png",
-    battle_sprites = "img/sprites/battle/enemies/red_slime.png",
+    battle_sprites = "data/entities/battle/enemies/red_slime.png",
     sprite_width = 64,
     sprite_height = 64,
 
@@ -1446,7 +1446,7 @@ enemies[65] = {
 enemies[67] = {
     name = vt_system.Translate("Mushroom Zombie"),
     stamina_icon = "data/battles/stamina_icons/enemies/mushroom_zombie.png",
-    battle_sprites = "img/sprites/battle/enemies/mushroom_zombie.png",
+    battle_sprites = "data/entities/battle/enemies/mushroom_zombie.png",
     sprite_width = 64,
     sprite_height = 64,
 
@@ -1494,7 +1494,7 @@ enemies[67] = {
 enemies[91] = {
     name = vt_system.Translate("Scorpion Goliath"),
     stamina_icon = "data/battles/stamina_icons/enemies/scorpion_goliath.png",
-    battle_sprites = "img/sprites/battle/enemies/scorpion_goliath.png",
+    battle_sprites = "data/entities/battle/enemies/scorpion_goliath.png",
     sprite_width = 512,
     sprite_height = 448,
 
@@ -1558,7 +1558,7 @@ enemies[91] = {
 enemies[92] = {
     name = vt_system.Translate("Armored Beast"),
     stamina_icon = "data/battles/stamina_icons/enemies/armored_beast.png",
-    battle_sprites = "img/sprites/battle/enemies/armored_beast.png",
+    battle_sprites = "data/entities/battle/enemies/armored_beast.png",
     sprite_width = 256,
     sprite_height = 256,
 
@@ -1615,7 +1615,7 @@ enemies[92] = {
 enemies[101] = {
     name = vt_system.Translate("Daemarbora"),
     stamina_icon = "data/battles/stamina_icons/enemies/daemarbora.png",
-    battle_sprites = "img/sprites/battle/enemies/daemarbora.png",
+    battle_sprites = "data/entities/battle/enemies/daemarbora.png",
     sprite_width = 128,
     sprite_height = 128,
 
@@ -1664,7 +1664,7 @@ enemies[101] = {
 enemies[102] = {
     name = vt_system.Translate("Aerocephal"),
     stamina_icon = "data/battles/stamina_icons/enemies/aerocephal.png",
-    battle_sprites = "img/sprites/battle/enemies/aerocephal.png",
+    battle_sprites = "data/entities/battle/enemies/aerocephal.png",
     sprite_width = 192,
     sprite_height = 192,
 
@@ -1713,7 +1713,7 @@ enemies[102] = {
 enemies[103] = {
     name = vt_system.Translate("Arcana Drake"),
     stamina_icon = "data/battles/stamina_icons/enemies/arcana_drake.png",
-    battle_sprites = "img/sprites/battle/enemies/arcana_drake.png",
+    battle_sprites = "data/entities/battle/enemies/arcana_drake.png",
     sprite_width = 192,
     sprite_height = 256,
 
@@ -1770,7 +1770,7 @@ enemies[103] = {
 enemies[104] = {
     name = vt_system.Translate("Nagaruda"),
     stamina_icon = "data/battles/stamina_icons/enemies/nagaruda.png",
-    battle_sprites = "img/sprites/battle/enemies/nagaruda.png",
+    battle_sprites = "data/entities/battle/enemies/nagaruda.png",
     sprite_width = 192,
     sprite_height = 256,
 
@@ -1827,7 +1827,7 @@ enemies[104] = {
 enemies[105] = {
     name = vt_system.Translate("Deceleon"),
     stamina_icon = "data/battles/stamina_icons/enemies/deceleon.png",
-    battle_sprites = "img/sprites/battle/enemies/deceleon.png",
+    battle_sprites = "data/entities/battle/enemies/deceleon.png",
     sprite_width = 256,
     sprite_height = 256,
 
@@ -1892,7 +1892,7 @@ enemies[105] = {
 enemies[106] = {
     name = vt_system.Translate("Aurum Drakueli"),
     stamina_icon = "data/battles/stamina_icons/enemies/aurum_drakueli.png",
-    battle_sprites = "img/sprites/battle/enemies/aurum_drakueli.png",
+    battle_sprites = "data/entities/battle/enemies/aurum_drakueli.png",
     sprite_width = 320,
     sprite_height = 256,
 

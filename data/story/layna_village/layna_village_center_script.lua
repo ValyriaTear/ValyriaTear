@@ -52,7 +52,7 @@ function Load(m)
     _TriggerPotentialDialogueAfterFadeIn();
 
     -- Add clouds overlay
-    Effects:EnableAmbientOverlay("img/ambient/clouds.png", 5.0, -5.0, true);
+    Effects:EnableAmbientOverlay("data/visuals/ambient/clouds.png", 5.0, -5.0, true);
 
     -- Set the world map current position
     GlobalManager:SetCurrentLocationId("layna village")

@@ -71,7 +71,7 @@ Editor::Editor() : QMainWindow(),
     _ed_tileset_layer_splitter->setOrientation(Qt::Vertical);
 
     // set the window icon
-    setWindowIcon(QIcon("img/logos/program_icon.ico"));
+    setWindowIcon(QIcon("data/icons/program_icon.ico"));
 
     // Initialize the script manager
     ScriptManager = ScriptEngine::SingletonCreate();

@@ -45,7 +45,7 @@ function Load(m)
     _CreateZones();
 
     -- Add clouds overlay
-    Map:GetEffectSupervisor():EnableAmbientOverlay("img/ambient/clouds.png", 5.0, -5.0, true);
+    Map:GetEffectSupervisor():EnableAmbientOverlay("data/visuals/ambient/clouds.png", 5.0, -5.0, true);
     Map:GetScriptSupervisor():AddScript("dat/maps/common/at_night.lua");
 
     -- Make the rain starts or the corresponding dialogue according the need
@@ -423,7 +423,7 @@ end
 function _SetBattleEnvironment(enemy)
     -- default values
     enemy:SetBattleMusicTheme("music/heroism-OGA-Edward-J-Blakeley.ogg");
-    enemy:SetBattleBackground("img/backdrops/battle/mountain_background.png");
+    enemy:SetBattleBackground("data/battles/battle_scenes/mountain_background.png");
     enemy:AddBattleScript("dat/maps/common/at_night.lua");
     -- Adds the rain right away as its starting on the first entrance in this map.
     enemy:AddBattleScript("dat/maps/common/rain_in_battles_script.lua");

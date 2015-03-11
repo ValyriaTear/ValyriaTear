@@ -45,7 +45,7 @@ function Load(m)
     _CreateZones();
 
     -- Add a mediumly dark overlay
-    Map:GetEffectSupervisor():EnableAmbientOverlay("img/ambient/dark.png", 0.0, 0.0, false);
+    Map:GetEffectSupervisor():EnableAmbientOverlay("data/visuals/ambient/dark.png", 0.0, 0.0, false);
 
     -- Trigger the dialogue at entrance if not done yet.
     if (GlobalManager:GetEventValue("story", "layna_forest_crystal_event_done") == 0 and
@@ -321,7 +321,7 @@ function _CreateEvents()
 
     event = vt_map.BattleEncounterEvent.Create("Second Fenrir battle");
     event:SetMusic("music/accion-OGA-djsaryon.ogg");
-    event:SetBackground("img/backdrops/battle/desert_cave/desert_cave.png");
+    event:SetBackground("data/battles/battle_scenes/desert_cave/desert_cave.png");
     event:AddScript("dat/battles/desert_cave_battle_anim.lua");
     event:AddEnemy(7, 512, 500);
     event:SetBoss(true);

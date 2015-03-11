@@ -300,12 +300,12 @@ end
 -- Sets common battle environment settings for enemy sprites
 function _SetBattleEnvironment(enemy)
     enemy:SetBattleMusicTheme("music/heroism-OGA-Edward-J-Blakeley.ogg");
-    enemy:SetBattleBackground("img/backdrops/battle/mountain_shrine.png");
+    enemy:SetBattleBackground("data/battles/battle_scenes/mountain_shrine.png");
     enemy:AddBattleScript("dat/battles/mountain_shrine_battle_anim.lua");
 end
 function _SetEventBattleEnvironment(event)
     event:SetMusic("music/heroism-OGA-Edward-J-Blakeley.ogg");
-    event:SetBackground("img/backdrops/battle/mountain_shrine.png");
+    event:SetBackground("data/battles/battle_scenes/mountain_shrine.png");
     event:AddScript("dat/battles/mountain_shrine_battle_anim.lua");
 end
 

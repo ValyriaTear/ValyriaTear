@@ -28,7 +28,7 @@ function Initialize(map_instance)
     -- Construct a timer used to display the scent with a custom alpha value and position
     scent_timer = vt_system.SystemTimer(scent_time_length, 0);
     -- Load a scent image used to be displayed dynamically on the map.
-    scent = Script:CreateImage("img/ambient/fog.png");
+    scent = Script:CreateImage("data/visuals/ambient/fog.png");
     scent:SetDimensions(320.0, 256.0);
 
     scent_timer:Run();

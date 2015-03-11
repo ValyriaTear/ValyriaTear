@@ -42,7 +42,7 @@ function Load(m)
     _CreateZones();
 
     -- Add clouds overlay
-    Map:GetEffectSupervisor():EnableAmbientOverlay("img/ambient/clouds.png", 5.0, -5.0, true);
+    Map:GetEffectSupervisor():EnableAmbientOverlay("data/visuals/ambient/clouds.png", 5.0, -5.0, true);
 
     _HandleTwilight();
 end
@@ -642,7 +642,7 @@ function _CreateEvents()
 
     event = vt_map.BattleEncounterEvent.Create("First Wolf battle");
     event:SetMusic("music/accion-OGA-djsaryon.ogg");
-    event:SetBackground("img/backdrops/battle/forest_background.png");
+    event:SetBackground("data/battles/battle_scenes/forest_background.png");
     event:AddEnemy(3, 512, 500);
     event:SetBoss(true);
     event:AddEventLinkAtEnd("Make the wolf disappear");
@@ -715,7 +715,7 @@ end
 -- Sets common battle environment settings for enemy sprites
 function _SetBattleEnvironment(enemy)
     enemy:SetBattleMusicTheme("music/heroism-OGA-Edward-J-Blakeley.ogg");
-    enemy:SetBattleBackground("img/backdrops/battle/forest_background.png");
+    enemy:SetBattleBackground("data/battles/battle_scenes/forest_background.png");
 
     if (GlobalManager:GetEventValue("story", "layna_forest_crystal_event_done") < 1) then
         -- Add tutorial battle dialog with Kalya and Bronann
@@ -724,7 +724,7 @@ function _SetBattleEnvironment(enemy)
         -- Setup time of the day lighting on battles
         enemy:AddBattleScript("dat/maps/layna_forest/after_crystal_twilight_battles.lua");
         if (GlobalManager:GetEventValue("story", "layna_forest_twilight_value") > 2) then
-            enemy:SetBattleBackground("img/backdrops/battle/forest_background_evening.png");
+            enemy:SetBattleBackground("data/battles/battle_scenes/forest_background_evening.png");
         end
     end
 end

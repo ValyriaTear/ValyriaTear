@@ -41,7 +41,7 @@ function Load(m)
     _CreateZones();
 
     -- Add a mediumly dark overlay
-    Map:GetEffectSupervisor():EnableAmbientOverlay("img/ambient/dark.png", 0.0, 0.0, false);
+    Map:GetEffectSupervisor():EnableAmbientOverlay("data/visuals/ambient/dark.png", 0.0, 0.0, false);
 
     -- Preload sounds
     AudioManager:LoadSound("sounds/stone_roll.wav", Map);
@@ -260,7 +260,7 @@ local roam_zones = {}
 -- Sets common battle environment settings for enemy sprites
 function _SetBattleEnvironment(enemy)
     enemy:SetBattleMusicTheme("music/heroism-OGA-Edward-J-Blakeley.ogg");
-    enemy:SetBattleBackground("img/backdrops/battle/mountain_shrine.png");
+    enemy:SetBattleBackground("data/battles/battle_scenes/mountain_shrine.png");
     enemy:AddBattleScript("dat/battles/mountain_shrine_battle_anim.lua");
     enemy:AddBattleScript("dat/maps/mt_elbrus/battles_in_trap_map_script.lua");
 end

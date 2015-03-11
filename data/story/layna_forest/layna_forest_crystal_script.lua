@@ -44,7 +44,7 @@ function Load(m)
     _CreateZones();
 
     -- Add clouds overlay
-    Map:GetEffectSupervisor():EnableAmbientOverlay("img/ambient/clouds.png", 5.0, -5.0, true);
+    Map:GetEffectSupervisor():EnableAmbientOverlay("data/visuals/ambient/clouds.png", 5.0, -5.0, true);
 
     -- Permits the display of the crystal ect...
     Map:GetScriptSupervisor():AddScript("dat/maps/layna_forest/crystal_appearance/layna_forest_crystal_appearance_anim.lua");
@@ -413,7 +413,7 @@ function _CreateEvents()
     -- Wolf final fight
     event = vt_map.BattleEncounterEvent.Create("Fenrir Battle");
     event:SetMusic("music/accion-OGA-djsaryon.ogg");
-    event:SetBackground("img/backdrops/battle/forest_background.png");
+    event:SetBackground("data/battles/battle_scenes/forest_background.png");
     event:AddEnemy(8, 512, 500);
     event:SetBoss(true);
     event:AddEventLinkAtEnd("Make the wolf disappear");

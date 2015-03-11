@@ -40,7 +40,7 @@ function Load(m)
     _CreateZones();
 
     -- Add a mediumly dark overlay
-    Map:GetEffectSupervisor():EnableAmbientOverlay("img/ambient/dark.png", 0.0, 0.0, false);
+    Map:GetEffectSupervisor():EnableAmbientOverlay("data/visuals/ambient/dark.png", 0.0, 0.0, false);
 end
 
 -- the map update function handles checks done on each game tick.
@@ -106,7 +106,7 @@ end
 -- Sets common battle environment settings for enemy sprites
 function _SetBattleEnvironment(enemy)
     enemy:SetBattleMusicTheme("music/heroism-OGA-Edward-J-Blakeley.ogg");
-    enemy:SetBattleBackground("img/backdrops/battle/desert_cave/desert_cave.png");
+    enemy:SetBattleBackground("data/battles/battle_scenes/desert_cave/desert_cave.png");
     -- Add the background and foreground animations
     enemy:AddBattleScript("dat/battles/desert_cave_battle_anim.lua");
 end

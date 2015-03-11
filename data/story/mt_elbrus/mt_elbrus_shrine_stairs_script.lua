@@ -85,7 +85,7 @@ function Load(m)
     _CreateZones();
 
     -- Add a mediumly dark overlay when necessary
-    Map:GetEffectSupervisor():EnableAmbientOverlay("img/ambient/dark.png", 0.0, 0.0, false);
+    Map:GetEffectSupervisor():EnableAmbientOverlay("data/visuals/ambient/dark.png", 0.0, 0.0, false);
 end
 
 -- set up/updates sophia's events

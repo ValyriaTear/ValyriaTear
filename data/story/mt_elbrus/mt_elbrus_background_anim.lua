@@ -22,7 +22,7 @@ function Initialize(map_instance)
     Script = Map:GetScriptSupervisor();
     Effects = Map:GetEffectSupervisor();
     -- Load the creatures animated background
-    background = Script:CreateImage("img/backdrops/cliff_background.png");
+    background = Script:CreateImage("data/visuals/backgrounds/cliff_background.png");
     background:SetDimensions(1024.0, image_height);
 
     first_update_done = false;

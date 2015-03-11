@@ -47,9 +47,9 @@ function Initialize(shop_instance)
     end
 
     -- Load the hand cursors
-    hand1_image = Script:CreateImage("img/menus/hand.png");
+    hand1_image = Script:CreateImage("data/gui/menus/hand.png");
     hand1_image:SetDimensions(47.0, 26.0);
-    hand2_image = Script:CreateImage("img/menus/hand_down.png");
+    hand2_image = Script:CreateImage("data/gui/menus/hand_down.png");
     hand2_image:SetDimensions(26.0, 47.0);
 
     DialogueManager = Shop:GetDialogueSupervisor();

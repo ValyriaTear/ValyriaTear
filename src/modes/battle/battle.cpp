@@ -75,7 +75,7 @@ const std::string DEFAULT_DEFEAT_MUSIC   = "music/Battle_lost-OGA-Mumu.ogg";
 
 BattleMedia::BattleMedia()
 {
-    if(!background_image.Load("img/backdrops/battle/desert_cave/desert_cave.png"))
+    if(!background_image.Load("data/battles/battle_scenes/desert_cave/desert_cave.png"))
         PRINT_ERROR << "failed to load default background image" << std::endl;
 
     if(stamina_icon_selected.Load("data/gui/battle/stamina_icon_selected.png") == false)

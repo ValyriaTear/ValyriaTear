@@ -280,7 +280,7 @@ public:
     *** \note Calling this function will clear any current options
     ***
     *** If any single option contains formatting errors, then the entire set of options will not be added.
-    *** Example of an option with formatting: "<img/weapons/mythril.png>Mythril knife<r>500 drunes"
+    *** Example of an option with formatting: "<data/inventoryweapons/mythril.png>Mythril knife<r>500 drunes"
     **/
     void SetOptions(const std::vector<vt_utils::ustring>& option_text);
 

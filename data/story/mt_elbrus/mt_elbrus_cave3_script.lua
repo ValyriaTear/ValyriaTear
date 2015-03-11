@@ -39,7 +39,7 @@ function Load(m)
     _CreateZones();
 
     -- Add a mediumly dark overlay
-    Map:GetEffectSupervisor():EnableAmbientOverlay("img/ambient/dark.png", 0.0, 0.0, false);
+    Map:GetEffectSupervisor():EnableAmbientOverlay("data/visuals/ambient/dark.png", 0.0, 0.0, false);
 
     -- Place an omni ambient sound at the center of the map to add a nice indoor rainy effect.
     vt_map.SoundObject.Create("music/rain_indoors.ogg", 25.0, 20.0, 100.0);
@@ -75,13 +75,13 @@ end
 -- Sets common battle environment settings for enemy sprites
 function _SetBattleEnvironment(enemy)
     enemy:SetBattleMusicTheme("music/heroism-OGA-Edward-J-Blakeley.ogg");
-    enemy:SetBattleBackground("img/backdrops/battle/desert_cave/desert_cave.png");
+    enemy:SetBattleBackground("data/battles/battle_scenes/desert_cave/desert_cave.png");
     -- Add the background and foreground animations
     enemy:AddBattleScript("dat/battles/desert_cave_battle_anim.lua");
 end
 function _SetEventBattleEnvironment(event)
     event:SetMusic("music/heroism-OGA-Edward-J-Blakeley.ogg");
-    event:SetBackground("img/backdrops/battle/desert_cave/desert_cave.png");
+    event:SetBackground("data/battles/battle_scenes/desert_cave/desert_cave.png");
     -- Add the background and foreground animations
     event:AddScript("dat/battles/desert_cave_battle_anim.lua");
 end
@@ -136,7 +136,7 @@ function _CreateObjects()
 
     -- shroom 1
     shroom1 = CreateObject(Map, "Shroom", 35, 24, vt_map.MapMode.GROUND_OBJECT);
-    shroom1:AddAnimation("img/sprites/map/enemies/spiky_mushroom_dead.lua");
+    shroom1:AddAnimation("data/entities/map/enemies/spiky_mushroom_dead.lua");
     shroom1:SetEventWhenTalking("Check hero position for Shroom 1");
     vt_map.IfEvent.Create("Check hero position for Shroom 1", "check_diagonal_shroom1", "Fight with Shroom 1", "");
 
@@ -149,7 +149,7 @@ function _CreateObjects()
 
     -- shroom 2
     shroom2 = CreateObject(Map, "Shroom", 37, 24, vt_map.MapMode.GROUND_OBJECT);
-    shroom2:AddAnimation("img/sprites/map/enemies/spiky_mushroom_dead.lua");
+    shroom2:AddAnimation("data/entities/map/enemies/spiky_mushroom_dead.lua");
     shroom2:SetEventWhenTalking("Check hero position for Shroom 2");
     vt_map.IfEvent.Create("Check hero position for Shroom 2", "check_diagonal_shroom2", "Fight with Shroom 2", "");
 
@@ -162,7 +162,7 @@ function _CreateObjects()
 
     -- shroom 3
     shroom3 = CreateObject(Map, "Shroom", 39, 24, vt_map.MapMode.GROUND_OBJECT);
-    shroom3:AddAnimation("img/sprites/map/enemies/spiky_mushroom_dead.lua");
+    shroom3:AddAnimation("data/entities/map/enemies/spiky_mushroom_dead.lua");
     shroom3:SetEventWhenTalking("Check hero position for Shroom 3");
     event = vt_map.IfEvent.Create("Check hero position for Shroom 3", "check_diagonal_shroom3", "Fight with Shroom 3", "");
 
@@ -175,7 +175,7 @@ function _CreateObjects()
 
     -- shroom 4
     shroom4 = CreateObject(Map, "Shroom", 35, 32, vt_map.MapMode.GROUND_OBJECT);
-    shroom4:AddAnimation("img/sprites/map/enemies/spiky_mushroom_dead.lua");
+    shroom4:AddAnimation("data/entities/map/enemies/spiky_mushroom_dead.lua");
     shroom4:SetEventWhenTalking("Check hero position for Shroom 4");
     vt_map.IfEvent.Create("Check hero position for Shroom 4", "check_diagonal_shroom4", "Fight with Shroom 4", "");
 
@@ -188,7 +188,7 @@ function _CreateObjects()
 
     -- shroom 5
     shroom5 = CreateObject(Map, "Shroom", 39, 30, vt_map.MapMode.GROUND_OBJECT);
-    shroom5:AddAnimation("img/sprites/map/enemies/spiky_mushroom_dead.lua");
+    shroom5:AddAnimation("data/entities/map/enemies/spiky_mushroom_dead.lua");
     shroom5:SetEventWhenTalking("Check hero position for Shroom 5");
     vt_map.IfEvent.Create("Check hero position for Shroom 5", "check_diagonal_shroom5", "Fight with Shroom 5", "");
 
@@ -201,8 +201,8 @@ function _CreateObjects()
 
     stone_trigger1 = vt_map.TriggerObject.Create("mt elbrus cave 3 trigger 1",
                                                  vt_map.MapMode.FLATGROUND_OBJECT,
-                                                 "img/sprites/map/triggers/rolling_stone_trigger1_off.lua",
-                                                 "img/sprites/map/triggers/rolling_stone_trigger1_on.lua",
+                                                 "data/entities/map/triggers/rolling_stone_trigger1_off.lua",
+                                                 "data/entities/map/triggers/rolling_stone_trigger1_on.lua",
                                                  "",
                                                  "Check trigger1");
     stone_trigger1:SetPosition(33, 32);
@@ -213,8 +213,8 @@ function _CreateObjects()
 
     stone_trigger2 = vt_map.TriggerObject.Create("mt elbrus cave 3 trigger 2",
                                                  vt_map.MapMode.FLATGROUND_OBJECT,
-                                                 "img/sprites/map/triggers/rolling_stone_trigger1_off.lua",
-                                                 "img/sprites/map/triggers/rolling_stone_trigger1_on.lua",
+                                                 "data/entities/map/triggers/rolling_stone_trigger1_off.lua",
+                                                 "data/entities/map/triggers/rolling_stone_trigger1_on.lua",
                                                  "",
                                                  "Check trigger2");
     stone_trigger2:SetPosition(41, 20);

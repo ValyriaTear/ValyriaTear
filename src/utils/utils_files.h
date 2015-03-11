@@ -47,25 +47,25 @@ bool MoveFile(const std::string &source_name, const std::string &destination_nam
 void CopyFile(const std::string &source, const std::string &destination);
 
 /** \brief Removes all files present in a directory
-*** \param dir_name The name of the directory to clean (e.g. "img/screnshots")
+*** \param dir_name The name of the directory to clean (e.g. "/temp/screenshots")
 *** \return True upon success, false upon failure
 **/
 bool CleanDirectory(const std::string &dir_name);
 
 /** \brief Creates a directory relative to the path of the running application
-*** \param dir_name The name of the directory to create (e.g. "img/screnshots")
+*** \param dir_name The name of the directory to create (e.g. "/temp/screenshots")
 *** \return True upon success, false upon failure
 **/
 bool MakeDirectory(const std::string &dir_name);
 
 /** \brief Deletes a directory, as well as any files the directory may contain
-*** \param dir_name The name of the directory to remove (e.g. "img/screnshots")
+*** \param dir_name The name of the directory to remove (e.g. "/temp/screenshots")
 *** \return True upon success, false upon failure
 **/
 bool RemoveDirectory(const std::string &dir_name);
 
 /** \brief Lists the contents of a directory
-*** \param dir_name The name of the directory to list (e.g. "img/screenshots")
+*** \param dir_name The name of the directory to list (e.g. "/temp/screenshots")
 *** \param filter A string to filter the results (e.g if the string was ".lua" only files containing ".lua" in the filename will be
 *** displayed), an empty string value of "" can be passed if you wish to display everything with no filter.
 *** \return A vector with the directory listing , a blank vector if the directory doesnt exist

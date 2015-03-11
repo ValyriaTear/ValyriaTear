@@ -12,16 +12,16 @@ function Initialize(battle_instance)
     local background_file = "";
 
     if (background_type == 2) then
-        background_file = "img/backdrops/battle/forest_background.png";
+        background_file = "data/battles/battle_scenes/forest_background.png";
         --battle_instance:GetScriptSupervisor():AddScript("dat/battles/forest_battle_anim.lua");
     elseif (background_type == 3) then
-        background_file = "img/backdrops/battle/desert_background.png";
+        background_file = "data/battles/battle_scenes/desert_background.png";
         --battle_instance:GetScriptSupervisor():AddScript("dat/battles/desert_battle_anim.lua");
     elseif (background_type == 4) then
-        background_file = "img/backdrops/battle/snow_background.png";
+        background_file = "data/battles/battle_scenes/snow_background.png";
         --battle_instance:GetScriptSupervisor():AddScript("dat/battles/snow_battle_anim.lua");
     else -- == 1 or else
-        background_file = "img/backdrops/battle/plains_background.png";
+        background_file = "data/battles/battle_scenes/plains_background.png";
     end
 
     battle_instance:GetMedia():SetBackgroundImage(background_file);

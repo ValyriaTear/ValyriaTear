@@ -37,7 +37,7 @@ function Load(m)
     _CreateZones();
 
     -- Add a mediumly dark overlay
-    Map:GetEffectSupervisor():EnableAmbientOverlay("img/ambient/dark.png", 0.0, 0.0, false);
+    Map:GetEffectSupervisor():EnableAmbientOverlay("data/visuals/ambient/dark.png", 0.0, 0.0, false);
 
     -- Preloads the action sounds to avoid glitches
     AudioManager:LoadSound("sounds/stone_roll.wav", Map);
@@ -77,7 +77,7 @@ end
 -- Sets common battle environment settings for enemy sprites
 function _SetBattleEnvironment(enemy)
     enemy:SetBattleMusicTheme("music/heroism-OGA-Edward-J-Blakeley.ogg");
-    enemy:SetBattleBackground("img/backdrops/battle/mountain_shrine.png");
+    enemy:SetBattleBackground("data/battles/battle_scenes/mountain_shrine.png");
     enemy:AddBattleScript("dat/battles/mountain_shrine_battle_anim.lua");
 end
 
@@ -184,8 +184,8 @@ function _CreateObjects()
 
         stone_triggers[i] = vt_map.TriggerObject.Create("mt elbrus shrine 2nd NE trigger "..i,
                                                         vt_map.MapMode.FLATGROUND_OBJECT,
-                                                        "img/sprites/map/triggers/rolling_stone_trigger1_off.lua",
-                                                        "img/sprites/map/triggers/rolling_stone_trigger1_on.lua",
+                                                        "data/entities/map/triggers/rolling_stone_trigger1_off.lua",
+                                                        "data/entities/map/triggers/rolling_stone_trigger1_on.lua",
                                                         "",
                                                         "Check Gate");
         stone_triggers[i]:SetTriggerableByCharacter(false); -- Only an event can trigger it

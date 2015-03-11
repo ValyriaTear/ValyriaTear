@@ -40,7 +40,7 @@ function Initialize(map_instance)
         [1] = {
             images = {
                 [0] = {
-                    image = Script:CreateImage("img/logos/valyria_logo_black.png"),
+                    image = Script:CreateImage("data/boot_menu/ep1/valyria_logo_black.png"),
                     image_dimension_x = 630.0,
                     image_dimension_y = 318.0,
                     image_position_x = 500.0,
@@ -59,7 +59,7 @@ function Initialize(map_instance)
         [2] = {
             images = {
                 [0] = {
-                    image = Script:CreateAnimation("img/sprites/map/objects/paper_feather.lua"),
+                    image = Script:CreateAnimation("data/entities/map/objects/paper_feather.lua"),
                     image_dimension_x = 60.0,
                     image_dimension_y = 56.0,
                     image_position_x = 400.0,
@@ -84,7 +84,7 @@ function Initialize(map_instance)
         [3] = {
             images = {
                 [0] = {
-                    image = Script:CreateAnimation("img/sprites/map/objects/dog1.lua"),
+                    image = Script:CreateAnimation("data/entities/map/objects/dog1.lua"),
                     image_dimension_x = 76.0,
                     image_dimension_y = 84.0,
                     image_position_x = 620.0,
@@ -140,21 +140,21 @@ function Initialize(map_instance)
         [5] = {
             images = {
                 [0] = {
-                    image = Script:CreateAnimation("img/sprites/battle/enemies/fenrir_0.lua"),
+                    image = Script:CreateAnimation("data/entities/battle/enemies/fenrir_0.lua"),
                     image_dimension_x = 560.0,
                     image_dimension_y = 406.0,
                     image_position_x = 300.0,
                     image_position_y = 350.0,
                 },
                 [1] = {
-                    image = Script:CreateImage("img/logos/oga.png"),
+                    image = Script:CreateImage("data/credits/oga.png"),
                     image_dimension_x = 160.0,
                     image_dimension_y = 80.0,
                     image_position_x = 300.0,
                     image_position_y = 700.0,
                 },
                 [2] = {
-                    image = Script:CreateAnimation("img/sprites/map/characters/bronann_frightened_unarmed_fixed.lua"),
+                    image = Script:CreateAnimation("data/entities/map/characters/bronann_frightened_unarmed_fixed.lua"),
                     image_dimension_x = 64.0,
                     image_dimension_y = 128.0,
                     image_position_x = 880.0,
@@ -186,14 +186,14 @@ function Initialize(map_instance)
         [6] = {
             images = {
                 [0] = {
-                    image = Script:CreateAnimation("img/sprites/map/objects/layna_statue.lua"),
+                    image = Script:CreateAnimation("data/entities/map/objects/layna_statue.lua"),
                     image_dimension_x = 60.0,
                     image_dimension_y = 170.0,
                     image_position_x = 300.0,
                     image_position_y = 250.0,
                 },
                 [1] = {
-                    image = Script:CreateAnimation("img/sprites/battle/enemies/harlequin_0.lua"),
+                    image = Script:CreateAnimation("data/entities/battle/enemies/harlequin_0.lua"),
                     image_dimension_x = 79.0 * 2,
                     image_dimension_y = 94.0 * 2,
                     image_position_x = 170.0,
@@ -233,14 +233,14 @@ function Initialize(map_instance)
         [7] = {
             images = {
                 [0] = {
-                    image = Script:CreateAnimation("img/sprites/map/objects/layna_statue.lua"),
+                    image = Script:CreateAnimation("data/entities/map/objects/layna_statue.lua"),
                     image_dimension_x = 60.0,
                     image_dimension_y = 170.0,
                     image_position_x = 300.0,
                     image_position_y = 250.0,
                 },
                 [1] = {
-                    image = Script:CreateAnimation("img/sprites/battle/enemies/harlequin_0.lua"),
+                    image = Script:CreateAnimation("data/entities/battle/enemies/harlequin_0.lua"),
                     image_dimension_x = 79.0 * 2,
                     image_dimension_y = 94.0 * 2,
                     image_position_x = 170.0,
@@ -280,14 +280,14 @@ function Initialize(map_instance)
         [8] = {
             images = {
                 [0] = {
-                    image = Script:CreateAnimation("img/sprites/map/objects/cat1.lua"),
+                    image = Script:CreateAnimation("data/entities/map/objects/cat1.lua"),
                     image_dimension_x = 22.0 * 2,
                     image_dimension_y = 25.0 * 2,
                     image_position_x = 400.0,
                     image_position_y = 220.0,
                 },
                 [1] = {
-                    image = Script:CreateAnimation("img/sprites/map/objects/campfire1.lua"),
+                    image = Script:CreateAnimation("data/entities/map/objects/campfire1.lua"),
                     image_dimension_x = 320.0 / 5 * 2,
                     image_dimension_y = 64.0 * 2,
                     image_position_x = 800.0,
@@ -320,7 +320,7 @@ function Initialize(map_instance)
         [9] = {
             images = {
                 [0] = {
-                    image = Script:CreateAnimation("img/sprites/map/characters/kalya_laughing.lua"),
+                    image = Script:CreateAnimation("data/entities/map/characters/kalya_laughing.lua"),
                     image_dimension_x = 64.0,
                     image_dimension_y = 128.0,
                     image_position_x = 800.0,
@@ -352,7 +352,7 @@ function Initialize(map_instance)
         [10] = {
             images = {
                 [0] = {
-                    image = Script:CreateAnimation("img/sprites/map/characters/bronann_hero_stance_unarmed.lua"),
+                    image = Script:CreateAnimation("data/entities/map/characters/bronann_hero_stance_unarmed.lua"),
                     image_dimension_x = 96.0 / 3 * 2,
                     image_dimension_y = 64.0 * 2,
                     image_position_x = 200.0,
@@ -393,7 +393,7 @@ function Initialize(map_instance)
         [11] = {
             images = {
                 [0] = {
-                    image = Script:CreateAnimation("img/sprites/map/characters/bronann_bed_animation.lua"),
+                    image = Script:CreateAnimation("data/entities/map/characters/bronann_bed_animation.lua"),
                     image_dimension_x = 168.0 / 3 * 2,
                     image_dimension_y = 273.0 /3 * 2,
                     image_position_x = 820.0,
@@ -436,7 +436,7 @@ function Initialize(map_instance)
         [12] = {
             images = {
                 [0] = {
-                    image = Script:CreateImage("img/sprites/map/characters/bronann_hurt_west.png"),
+                    image = Script:CreateImage("data/entities/map/characters/bronann_hurt_west.png"),
                     image_dimension_x = 128.0,
                     image_dimension_y = 128.0,
                     image_position_x = 200.0,
@@ -479,7 +479,7 @@ function Initialize(map_instance)
         [13] = {
             images = {
                 [0] = {
-                    image = Script:CreateAnimation("img/sprites/battle/characters/kalya/kalya_victory.lua"),
+                    image = Script:CreateAnimation("data/entities/battle/characters/kalya/kalya_victory.lua"),
                     image_dimension_x = 256.0 / 4 * 2,
                     image_dimension_y = 64.0 * 2,
                     image_position_x = 650.0,
@@ -515,7 +515,7 @@ function Initialize(map_instance)
         [15] = {
             images = {
                 [0] = {
-                    image = Script:CreateImage("img/logos/hoa_garland_logo.png"),
+                    image = Script:CreateImage("data/credits/hoa_garland_logo.png"),
                     image_dimension_x = 412.0,
                     image_dimension_y = 200.0,
                     image_position_x = 512.0,
@@ -534,7 +534,7 @@ function Initialize(map_instance)
         [16] = {
             images = {
                 [0] = {
-                    image = Script:CreateImage("img/logos/main_logo_sword.png"),
+                    image = Script:CreateImage("data/credits/main_logo_sword.png"),
                     image_dimension_x = 130.0,
                     image_dimension_y = 282.0,
                     image_position_x = 212.0,
@@ -559,7 +559,7 @@ function Initialize(map_instance)
         [17] = {
             images = {
                 [0] = {
-                    image = Script:CreateImage("img/logos/main_logo_sword.png"),
+                    image = Script:CreateImage("data/credits/main_logo_sword.png"),
                     image_dimension_x = 130.0,
                     image_dimension_y = 282.0,
                     image_position_x = 212.0,
@@ -584,7 +584,7 @@ function Initialize(map_instance)
         [18] = {
             images = {
                 [0] = {
-                    image = Script:CreateImage("img/logos/main_logo_sword.png"),
+                    image = Script:CreateImage("data/credits/main_logo_sword.png"),
                     image_dimension_x = 130.0,
                     image_dimension_y = 282.0,
                     image_position_x = 212.0,
@@ -624,7 +624,7 @@ function Initialize(map_instance)
         [19] = {
             images = {
                 [0] = {
-                    image = Script:CreateImage("img/logos/main_logo_sword.png"),
+                    image = Script:CreateImage("data/credits/main_logo_sword.png"),
                     image_dimension_x = 130.0,
                     image_dimension_y = 282.0,
                     image_position_x = 212.0,
@@ -664,7 +664,7 @@ function Initialize(map_instance)
         [20] = {
             images = {
                 [0] = {
-                    image = Script:CreateImage("img/logos/main_logo_sword.png"),
+                    image = Script:CreateImage("data/credits/main_logo_sword.png"),
                     image_dimension_x = 130.0,
                     image_dimension_y = 282.0,
                     image_position_x = 212.0,
@@ -701,7 +701,7 @@ function Initialize(map_instance)
         [21] = {
             images = {
                 [0] = {
-                    image = Script:CreateImage("img/logos/main_logo_sword.png"),
+                    image = Script:CreateImage("data/credits/main_logo_sword.png"),
                     image_dimension_x = 130.0,
                     image_dimension_y = 282.0,
                     image_position_x = 212.0,
@@ -737,7 +737,7 @@ function Initialize(map_instance)
         [22] = {
             images = {
                 [0] = {
-                    image = Script:CreateImage("img/logos/main_logo_sword.png"),
+                    image = Script:CreateImage("data/credits/main_logo_sword.png"),
                     image_dimension_x = 130.0,
                     image_dimension_y = 282.0,
                     image_position_x = 212.0,
@@ -777,7 +777,7 @@ function Initialize(map_instance)
         [23] = {
             images = {
                 [0] = {
-                    image = Script:CreateImage("img/logos/main_logo_sword.png"),
+                    image = Script:CreateImage("data/credits/main_logo_sword.png"),
                     image_dimension_x = 130.0,
                     image_dimension_y = 282.0,
                     image_position_x = 212.0,
@@ -814,7 +814,7 @@ function Initialize(map_instance)
         [24] = {
             images = {
                 [0] = {
-                    image = Script:CreateImage("img/logos/main_logo_sword.png"),
+                    image = Script:CreateImage("data/credits/main_logo_sword.png"),
                     image_dimension_x = 130.0,
                     image_dimension_y = 282.0,
                     image_position_x = 212.0,
@@ -851,7 +851,7 @@ function Initialize(map_instance)
         [25] = {
             images = {
                 [0] = {
-                    image = Script:CreateImage("img/logos/main_logo_sword.png"),
+                    image = Script:CreateImage("data/credits/main_logo_sword.png"),
                     image_dimension_x = 130.0,
                     image_dimension_y = 282.0,
                     image_position_x = 212.0,
@@ -889,7 +889,7 @@ function Initialize(map_instance)
         [26] = {
             images = {
                 [0] = {
-                    image = Script:CreateImage("img/logos/main_logo_sword.png"),
+                    image = Script:CreateImage("data/credits/main_logo_sword.png"),
                     image_dimension_x = 130.0,
                     image_dimension_y = 282.0,
                     image_position_x = 212.0,
@@ -925,14 +925,14 @@ function Initialize(map_instance)
         [27] = {
             images = {
                 [0] = {
-                    image = Script:CreateImage("img/backdrops/boot/crystal.png"),
+                    image = Script:CreateImage("data/boot_menu/ep1/crystal.png"),
                     image_dimension_x = 140.0,
                     image_dimension_y = 220.0,
                     image_position_x = 512.0,
                     image_position_y = 400.0,
                 },
                 [1] = {
-                    image = Script:CreateImage("img/backdrops/boot/flare.png"),
+                    image = Script:CreateImage("data/boot_menu/ep1/flare.png"),
                     image_dimension_x = 256.0,
                     image_dimension_y = 256.0,
                     image_position_x = 512.0,
@@ -954,7 +954,7 @@ function Initialize(map_instance)
     credit_time = 0;
     set_image_dimensions = false;
 
-    dark_overlay = Script:CreateImage("img/ambient/black.png");
+    dark_overlay = Script:CreateImage("data/visuals/ambient/black.png");
     dark_overlay:SetDimensions(1024.0, 768.0);
     overlay_time = 0;
 

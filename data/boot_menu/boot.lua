@@ -32,22 +32,22 @@ function Initialize(boot_instance)
     boot_state = Boot:GetState();
 
     -- Load the necessary files
-    background_image = Script:CreateImage("img/backdrops/boot/background.png");
+    background_image = Script:CreateImage("data/boot_menu/ep1/background.png");
     background_image:SetDimensions(1024.0, 768.0);
-    logo_image = Script:CreateImage("img/logos/valyria_logo_black.png");
-    cloud_image = Script:CreateImage("img/backdrops/boot/cloudfield.png");
-    mist_image = Script:CreateImage("img/backdrops/boot/cloudy_mist.png");
+    logo_image = Script:CreateImage("data/boot_menu/ep1/valyria_logo_black.png");
+    cloud_image = Script:CreateImage("data/boot_menu/ep1/cloudfield.png");
+    mist_image = Script:CreateImage("data/boot_menu/ep1/cloudy_mist.png");
     mist_image:SetDimensions(1024.0, 768.0);
-    fog_image = Script:CreateImage("img/backdrops/boot/fog.png");
+    fog_image = Script:CreateImage("data/boot_menu/ep1/fog.png");
     fog_image:SetDimensions(1024.0, 768.0);
-    crystal_image = Script:CreateImage("img/backdrops/boot/crystal.png");
-    crystal_shadow_image = Script:CreateImage("img/backdrops/boot/crystal_shadow.png");
+    crystal_image = Script:CreateImage("data/boot_menu/ep1/crystal.png");
+    crystal_shadow_image = Script:CreateImage("data/boot_menu/ep1/crystal_shadow.png");
     crystal_shadow_image:SetDimensions(192.0, 168.0);
-    satellite_image = Script:CreateImage("img/backdrops/boot/satellite.png");
+    satellite_image = Script:CreateImage("data/boot_menu/ep1/satellite.png");
     satellite_image:SetDimensions(34.0, 34.0);
-    satellite_shadow_image = Script:CreateImage("img/backdrops/boot/satellite_shadow.png");
+    satellite_shadow_image = Script:CreateImage("data/boot_menu/ep1/satellite_shadow.png");
     satellite_shadow_image:SetDimensions(48.0, 32.0);
-    flare_image = Script:CreateImage("img/backdrops/boot/flare.png");
+    flare_image = Script:CreateImage("data/boot_menu/ep1/flare.png");
 
     -- Init the timer
     animation_timer = vt_system.SystemTimer(7000, 0);

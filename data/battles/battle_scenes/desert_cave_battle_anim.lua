@@ -25,23 +25,23 @@ function Initialize(battle_instance)
     Battle = battle_instance;
     Script = Battle:GetScriptSupervisor();
     -- Load the creatures animated background
-    anims[0] = Script:CreateAnimation("img/backdrops/battle/desert_cave/desert_cave_creatures.lua");
+    anims[0] = Script:CreateAnimation("data/battles/battle_scenes/desert_cave/desert_cave_creatures.lua");
     -- Load small eyes animations
-    anims[1] = Script:CreateAnimation("img/backdrops/battle/desert_cave/desert_cave_eyes1.lua");
-    anims[2] = Script:CreateAnimation("img/backdrops/battle/desert_cave/desert_cave_eyes2.lua");
+    anims[1] = Script:CreateAnimation("data/battles/battle_scenes/desert_cave/desert_cave_eyes1.lua");
+    anims[2] = Script:CreateAnimation("data/battles/battle_scenes/desert_cave/desert_cave_eyes2.lua");
     -- Load the water drop animation
-    anims[3] = Script:CreateAnimation("img/backdrops/battle/desert_cave/desert_cave_waterdrop.lua");
+    anims[3] = Script:CreateAnimation("data/battles/battle_scenes/desert_cave/desert_cave_waterdrop.lua");
     -- Load the water underground river animation
-    anims[4] = Script:CreateAnimation("img/backdrops/battle/desert_cave/desert_cave_water.lua");
+    anims[4] = Script:CreateAnimation("data/battles/battle_scenes/desert_cave/desert_cave_water.lua");
 
     -- Construct a timer used to display the fog with a custom alpha value and position
     fog_timer = vt_system.SystemTimer(fog_time_length, 0);
     -- Load a fog image used later to be displayed dynamically on the battle ground
-    fog_image = Script:CreateImage("img/ambient/fog.png");
+    fog_image = Script:CreateImage("data/visuals/ambient/fog.png");
     fog_image:SetDimensions(320.0, 256.0);
 
     -- Load a rock displayed in the foreground
-    rock_image = Script:CreateImage("img/backdrops/battle/rock.png");
+    rock_image = Script:CreateImage("data/battles/battle_scenes/rock.png");
     rock_image:SetDimensions(54.0, 54.0);
 end
 

@@ -35,7 +35,7 @@ function Initialize(battle_instance)
     Battle = battle_instance;
     Script = Battle:GetScriptSupervisor();
 
-    fire1 = Script:CreateAnimation("img/sprites/map/objects/campfire1.lua");
+    fire1 = Script:CreateAnimation("data/entities/map/objects/campfire1.lua");
     fire1:SetDimensions(128.0, 128.0);
     fire1_1 = Script:CreateAnimation("data/visuals/lights/torch_light_mask2.lua");
     fire1_1:SetDimensions(340.0, 340.0);

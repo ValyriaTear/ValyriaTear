@@ -40,7 +40,7 @@ function Load(m)
     _CreateZones();
 
     -- Add clouds overlay
-    Map:GetEffectSupervisor():EnableAmbientOverlay("img/ambient/clouds.png", 5.0, -5.0, true);
+    Map:GetEffectSupervisor():EnableAmbientOverlay("data/visuals/ambient/clouds.png", 5.0, -5.0, true);
 
     -- Event Scripts
     Script:AddScript("dat/maps/layna_village/battle_with_banesore/show_crystals_script.lua");
@@ -570,7 +570,7 @@ function _CreateEvents()
 
     event = vt_map.BattleEncounterEvent.Create("Battle with Banesore");
     event:SetMusic("music/the_recon_mission.ogg");
-    event:SetBackground("img/backdrops/battle/mountain_village_single_house.png");
+    event:SetBackground("data/battles/battle_scenes/mountain_village_single_house.png");
     event:AddEnemy(10, 640, 575);
     event:SetBoss(true);
     event:AddScript("dat/maps/layna_village/battle_with_banesore/battle_with_banesore_script.lua");

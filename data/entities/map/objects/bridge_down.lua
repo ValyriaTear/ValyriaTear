@@ -4,7 +4,7 @@
 animation = {
 
     -- The file to load the frames from
-    image_filename = "img/sprites/map/objects/bridge_down.png",
+    image_filename = "data/entities/map/objects/bridge_down.png",
     -- The number of rows and columns of images, will be used to compute
     -- the images width and height, and also the frames number (row x col)
     rows = 1,

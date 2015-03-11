@@ -37,7 +37,7 @@ function Load(m)
     _CreateZones();
 
     -- Add a mediumly dark overlay
-    Map:GetEffectSupervisor():EnableAmbientOverlay("img/ambient/dark.png", 0.0, 0.0, false);
+    Map:GetEffectSupervisor():EnableAmbientOverlay("data/visuals/ambient/dark.png", 0.0, 0.0, false);
 end
 
 -- the map update function handles checks done on each game tick.
@@ -109,7 +109,7 @@ function _CreateObjects()
 
     event = vt_map.BattleEncounterEvent.Create("Monster trap in chest");
     event:SetMusic("music/heroism-OGA-Edward-J-Blakeley.ogg");
-    event:SetBackground("img/backdrops/battle/mountain_shrine.png");
+    event:SetBackground("data/battles/battle_scenes/mountain_shrine.png");
     event:AddScript("dat/battles/mountain_shrine_battle_anim.lua");
     event:AddEnemy(16); -- Rat
     event:AddEnemy(16);

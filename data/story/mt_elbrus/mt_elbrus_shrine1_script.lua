@@ -56,7 +56,7 @@ function Load(m)
 
     -- Add a mediumly dark overlay when necessary
     if (GlobalManager:GetEventValue("story", "mountain_shrine_entrance_light_done") == 0) then
-        Map:GetEffectSupervisor():EnableAmbientOverlay("img/ambient/dark.png", 0.0, 0.0, false);
+        Map:GetEffectSupervisor():EnableAmbientOverlay("data/visuals/ambient/dark.png", 0.0, 0.0, false);
     end
 
     -- Event Scripts
@@ -651,7 +651,7 @@ function _open_shrine_door()
     -- Permit the entrance into the shrine...
     shrine_entrance_door:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
     -- Makes the door open
-    local opening_anim_id = shrine_entrance_door:AddAnimation("img/sprites/map/objects/door_big1_opening.lua");
+    local opening_anim_id = shrine_entrance_door:AddAnimation("data/entities/map/objects/door_big1_opening.lua");
     shrine_entrance_door:SetCurrentAnimation(opening_anim_id);
 end
 
@@ -660,7 +660,7 @@ function _set_shrine_door_open()
     -- Permit the entrance into the shrine...
     shrine_entrance_door:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
     -- Makes the door open
-    local open_anim_id = shrine_entrance_door:AddAnimation("img/sprites/map/objects/door_big1_open.lua");
+    local open_anim_id = shrine_entrance_door:AddAnimation("data/entities/map/objects/door_big1_open.lua");
     shrine_entrance_door:SetCurrentAnimation(open_anim_id);
 end
 

@@ -41,7 +41,7 @@ function Load(m)
     _CreateZones();
 
     -- Add a mediumly dark overlay
-    Map:GetEffectSupervisor():EnableAmbientOverlay("img/ambient/dark.png", 0.0, 0.0, false);
+    Map:GetEffectSupervisor():EnableAmbientOverlay("data/visuals/ambient/dark.png", 0.0, 0.0, false);
 
     -- Preload sounds
     AudioManager:LoadSound("sounds/opening_sword_unsheathe.wav", Map);
@@ -212,36 +212,36 @@ function _CreateObjects()
     -- 5 triggers permitting to play a bit...
     spike_trigger1 = vt_map.TriggerObject.Create("",
                              vt_map.MapMode.FLATGROUND_OBJECT,
-                             "img/sprites/map/triggers/stone_trigger1_off.lua",
-                             "img/sprites/map/triggers/stone_trigger1_on.lua",
+                             "data/entities/map/triggers/stone_trigger1_off.lua",
+                             "data/entities/map/triggers/stone_trigger1_on.lua",
                              "", "Push trigger 1");
     spike_trigger1:SetPosition(32, 27.5);
 
     spike_trigger2 = vt_map.TriggerObject.Create("",
                              vt_map.MapMode.FLATGROUND_OBJECT,
-                             "img/sprites/map/triggers/stone_trigger1_off.lua",
-                             "img/sprites/map/triggers/stone_trigger1_on.lua",
+                             "data/entities/map/triggers/stone_trigger1_off.lua",
+                             "data/entities/map/triggers/stone_trigger1_on.lua",
                              "", "Push trigger 2");
     spike_trigger2:SetPosition(36, 27.5);
 
     spike_trigger3 = vt_map.TriggerObject.Create("",
                              vt_map.MapMode.FLATGROUND_OBJECT,
-                             "img/sprites/map/triggers/stone_trigger1_off.lua",
-                             "img/sprites/map/triggers/stone_trigger1_on.lua",
+                             "data/entities/map/triggers/stone_trigger1_off.lua",
+                             "data/entities/map/triggers/stone_trigger1_on.lua",
                              "", "Push trigger 3");
     spike_trigger3:SetPosition(30, 31);
 
     spike_trigger4 = vt_map.TriggerObject.Create("",
                              vt_map.MapMode.FLATGROUND_OBJECT,
-                             "img/sprites/map/triggers/stone_trigger1_off.lua",
-                             "img/sprites/map/triggers/stone_trigger1_on.lua",
+                             "data/entities/map/triggers/stone_trigger1_off.lua",
+                             "data/entities/map/triggers/stone_trigger1_on.lua",
                              "", "Push trigger 4");
     spike_trigger4:SetPosition(34, 31);
 
     spike_trigger5 = vt_map.TriggerObject.Create("",
                              vt_map.MapMode.FLATGROUND_OBJECT,
-                             "img/sprites/map/triggers/stone_trigger1_off.lua",
-                             "img/sprites/map/triggers/stone_trigger1_on.lua",
+                             "data/entities/map/triggers/stone_trigger1_off.lua",
+                             "data/entities/map/triggers/stone_trigger1_on.lua",
                              "", "Push trigger 5");
     spike_trigger5:SetPosition(38, 31);
 
@@ -256,8 +256,8 @@ function _CreateObjects()
     -- The trigger opening the next map.
     object = vt_map.TriggerObject.Create("mt elbrus shrine 4 trigger 1",
                                          vt_map.MapMode.FLATGROUND_OBJECT,
-                                         "img/sprites/map/triggers/stone_trigger1_off.lua",
-                                         "img/sprites/map/triggers/stone_trigger1_on.lua",
+                                         "data/entities/map/triggers/stone_trigger1_off.lua",
+                                         "data/entities/map/triggers/stone_trigger1_on.lua",
                                          "", "Trap map open event");
     object:SetPosition(52, 10);
 
@@ -342,7 +342,7 @@ function _CreateEvents()
 
     event = vt_map.BattleEncounterEvent.Create("Mini-boss fight battle start");
     event:SetMusic("music/accion-OGA-djsaryon.ogg");
-    event:SetBackground("img/backdrops/battle/mountain_shrine.png");
+    event:SetBackground("data/battles/battle_scenes/mountain_shrine.png");
     event:AddScript("dat/battles/mountain_shrine_battle_anim.lua");
     event:SetBoss(true);
     event:AddEnemy(20);

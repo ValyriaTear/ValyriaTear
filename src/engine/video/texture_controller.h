@@ -143,6 +143,7 @@ private:
     /** \brief Deletes any temporary textures that were saved in the "img/temp" directory
     *** \return True if the "img/temp" directory was successfully emptied
     **/
+    //FIXME: Use official temp folders.
     bool _DeleteTempTextures();
     //@}
 

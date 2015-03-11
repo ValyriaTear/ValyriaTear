@@ -263,7 +263,7 @@ void TilesetEditor::_NewFile()
 {
     // Get the filename to open through the OpenFileName dialog
     QString filename = QFileDialog::getOpenFileName(this, "Map Editor -- File Open",
-                       "img/tilesets", "Tileset Images (*.png)");
+                       "data/tilesets", "Tileset Images (*.png)");
 
     if (filename.isEmpty())
         return;

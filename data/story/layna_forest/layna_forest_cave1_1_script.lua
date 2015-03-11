@@ -47,7 +47,7 @@ function Load(m)
     _CreateZones();
 
     -- Add a mediumly dark overlay
-    Effects:EnableAmbientOverlay("img/ambient/dark.png", 0.0, 0.0, false);
+    Effects:EnableAmbientOverlay("data/visuals/ambient/dark.png", 0.0, 0.0, false);
     -- Add the background and foreground animations
     Map:GetScriptSupervisor():AddScript("dat/maps/layna_forest/layna_forest_caves_background_anim.lua");
 
@@ -176,8 +176,8 @@ function _CreateObjects()
     --near entrance
     local trigger = vt_map.TriggerObject.Create("layna_cave_entrance_trigger",
                                                 vt_map.MapMode.FLATGROUND_OBJECT,
-                                                "img/sprites/map/triggers/stone_trigger1_off.lua",
-                                                "img/sprites/map/triggers/stone_trigger1_on.lua",
+                                                "data/entities/map/triggers/stone_trigger1_off.lua",
+                                                "data/entities/map/triggers/stone_trigger1_on.lua",
                                                 "",
                                                 "Remove entrance rock");
     trigger:SetPosition(113, 90);
@@ -191,8 +191,8 @@ function _CreateObjects()
 
     -- 2nd trigger
     trigger = vt_map.TriggerObject.Create("layna_cave_2nd_trigger", vt_map.MapMode.FLATGROUND_OBJECT,
-                                          "img/sprites/map/triggers/stone_trigger1_off.lua",
-                                          "img/sprites/map/triggers/stone_trigger1_on.lua",
+                                          "data/entities/map/triggers/stone_trigger1_off.lua",
+                                          "data/entities/map/triggers/stone_trigger1_on.lua",
                                           "",
                                           "Remove 2nd rock");
     trigger:SetPosition(11, 88);
@@ -206,8 +206,8 @@ function _CreateObjects()
 
     -- 3rd trigger
     trigger = vt_map.TriggerObject.Create("layna_cave_3rd_trigger", vt_map.MapMode.FLATGROUND_OBJECT,
-                                          "img/sprites/map/triggers/stone_trigger1_off.lua",
-                                          "img/sprites/map/triggers/stone_trigger1_on.lua",
+                                          "data/entities/map/triggers/stone_trigger1_off.lua",
+                                          "data/entities/map/triggers/stone_trigger1_on.lua",
                                           "",
                                           "Remove 3rd rock");
     trigger:SetPosition(39, 55);
@@ -221,8 +221,8 @@ function _CreateObjects()
 
     -- 4th trigger
     trigger = vt_map.TriggerObject.Create("layna_cave_4th_trigger", vt_map.MapMode.FLATGROUND_OBJECT,
-                                          "img/sprites/map/triggers/stone_trigger1_off.lua",
-                                          "img/sprites/map/triggers/stone_trigger1_on.lua",
+                                          "data/entities/map/triggers/stone_trigger1_off.lua",
+                                          "data/entities/map/triggers/stone_trigger1_on.lua",
                                           "",
                                           "Remove 4th rock");
     trigger:SetPosition(62, 26);
@@ -236,8 +236,8 @@ function _CreateObjects()
 
     -- 5th trigger
     trigger = vt_map.TriggerObject.Create("layna_cave_5th_trigger", vt_map.MapMode.FLATGROUND_OBJECT,
-                                          "img/sprites/map/triggers/stone_trigger1_off.lua",
-                                          "img/sprites/map/triggers/stone_trigger1_on.lua",
+                                          "data/entities/map/triggers/stone_trigger1_off.lua",
+                                          "data/entities/map/triggers/stone_trigger1_on.lua",
                                           "",
                                           "Remove 5th rock");
     trigger:SetPosition(9, 6);
@@ -251,8 +251,8 @@ function _CreateObjects()
 
     -- 6th trigger
     trigger = vt_map.TriggerObject.Create("layna_cave_6th_trigger", vt_map.MapMode.FLATGROUND_OBJECT,
-                                          "img/sprites/map/triggers/stone_trigger1_off.lua",
-                                          "img/sprites/map/triggers/stone_trigger1_on.lua",
+                                          "data/entities/map/triggers/stone_trigger1_off.lua",
+                                          "data/entities/map/triggers/stone_trigger1_on.lua",
                                           "",
                                           "Remove 6th rock");
     trigger:SetPosition(114, 28);
@@ -266,8 +266,8 @@ function _CreateObjects()
 
     -- 7th trigger
     trigger = vt_map.TriggerObject.Create("layna_cave_7th_trigger", vt_map.MapMode.FLATGROUND_OBJECT,
-                                          "img/sprites/map/triggers/stone_trigger1_off.lua",
-                                          "img/sprites/map/triggers/stone_trigger1_on.lua",
+                                          "data/entities/map/triggers/stone_trigger1_off.lua",
+                                          "data/entities/map/triggers/stone_trigger1_on.lua",
                                           "",
                                           "Remove 7th rock");
     trigger:SetPosition(4, 26);
@@ -281,8 +281,8 @@ function _CreateObjects()
 
     -- 8th trigger
     trigger = vt_map.TriggerObject.Create("layna_cave_8th_trigger", vt_map.MapMode.FLATGROUND_OBJECT,
-                                          "img/sprites/map/triggers/stone_trigger1_off.lua",
-                                          "img/sprites/map/triggers/stone_trigger1_on.lua",
+                                          "data/entities/map/triggers/stone_trigger1_off.lua",
+                                          "data/entities/map/triggers/stone_trigger1_on.lua",
                                           "",
                                           "Remove 8th rock");
     trigger:SetPosition(115, 53);
@@ -302,7 +302,7 @@ end
 -- Sets common battle environment settings for enemy sprites
 function _SetBattleEnvironment(enemy)
     enemy:SetBattleMusicTheme("music/heroism-OGA-Edward-J-Blakeley.ogg");
-    enemy:SetBattleBackground("img/backdrops/battle/desert_cave/desert_cave.png");
+    enemy:SetBattleBackground("data/battles/battle_scenes/desert_cave/desert_cave.png");
     -- Add the background and foreground animations
     enemy:AddBattleScript("dat/battles/desert_cave_battle_anim.lua");
 end

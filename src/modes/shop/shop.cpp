@@ -436,9 +436,9 @@ void ShopObjectViewer::_UpdateTradeConditions()
         // Show whether each conditions is met.
         std::string conditions;
         if (owned_number >= item_number)
-            conditions = "<img/menus/green_check.png><20>";
+            conditions = "<data/gui/menus/green_check.png><20>";
         else
-            conditions = "<img/menus/red_x.png><20>";
+            conditions = "<data/gui/menus/red_x.png><20>";
         conditions += NumberToString(owned_number) + " / " + NumberToString(item_number);
 
         _conditions_number.AddOption(MakeUnicodeString(conditions));

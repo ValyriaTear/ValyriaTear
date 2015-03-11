@@ -4,7 +4,7 @@
 animation = {
 
 	-- The file to load the frames from
-	image_filename = "img/sprites/map/objects/tree_tiny3.png",
+	image_filename = "data/entities/map/objects/tree_tiny3.png",
 	-- The number of rows and columns of images, will be used to compute
 	-- the images width and height, and also the frames number (row x col)
 	rows = 1,

@@ -20,7 +20,7 @@ function Initialize(map_instance)
     Script = Map:GetScriptSupervisor();
     Effects = Map:GetEffectSupervisor();
 
-    smoke_cloud = Script:CreateImage("img/backdrops/boot/cloudfield.png");
+    smoke_cloud = Script:CreateImage("data/boot_menu/ep1/cloudfield.png");
     smoke_cloud:SetDimensions(496.0, 240.0);
 
     flash_alpha = 0.0;

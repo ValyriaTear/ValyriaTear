@@ -4,7 +4,7 @@
 animation = {
 
 	-- The file to load the frames from
-	image_filename = "img/sprites/battle/characters/kalya/kalya_victory.png",
+	image_filename = "data/entities/battle/characters/kalya/kalya_victory.png",
 	-- The number of rows and columns of images, will be used to compute
 	-- the images width and height, and also the frames number (row x col)
 	rows = 1,

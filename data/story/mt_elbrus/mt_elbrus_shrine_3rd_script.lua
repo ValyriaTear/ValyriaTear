@@ -39,7 +39,7 @@ function Load(m)
     _CreateZones();
 
     -- Add a mediumly dark overlay
-    Map:GetEffectSupervisor():EnableAmbientOverlay("img/ambient/dark.png", 0.0, 0.0, false);
+    Map:GetEffectSupervisor():EnableAmbientOverlay("data/visuals/ambient/dark.png", 0.0, 0.0, false);
 
     -- Preloads the action sounds to avoid glitches
     AudioManager:LoadSound("sounds/stone_roll.wav", Map);
@@ -113,8 +113,8 @@ function _CreateObjects()
     -- A trigger that will open the gate in the SE map.
     local object = vt_map.TriggerObject.Create("mt elbrus waterfall trigger",
                                          vt_map.MapMode.FLATGROUND_OBJECT,
-                                         "img/sprites/map/triggers/stone_trigger1_off.lua",
-                                         "img/sprites/map/triggers/stone_trigger1_on.lua",
+                                         "data/entities/map/triggers/stone_trigger1_off.lua",
+                                         "data/entities/map/triggers/stone_trigger1_on.lua",
                                          "", "Water trigger on event");
     object:SetPosition(32, 11);
 

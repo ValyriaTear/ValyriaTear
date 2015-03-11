@@ -99,7 +99,7 @@ function _CreateCharacters()
     bronann_in_bed:SetCollPixelHeight(5.50 * 16);
     bronann_in_bed:SetImgPixelHalfWidth(1.75 * 16);
     bronann_in_bed:SetImgPixelHeight(5.68 * 16);
-    bronann_in_bed:AddAnimation("img/sprites/map/characters/bronann_bed_animation.lua");
+    bronann_in_bed:AddAnimation("data/entities/map/characters/bronann_bed_animation.lua");
 end
 
 function _CreateObjects()

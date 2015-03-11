@@ -26,13 +26,13 @@ function Initialize(map_instance)
     Script = Map:GetScriptSupervisor();
     Effects = Map:GetEffectSupervisor();
     -- Load the creatures animated background
-    background = Script:CreateImage("img/backdrops/cave_background.png");
+    background = Script:CreateImage("data/visuals/backgrounds/cave_background.png");
     background:SetDimensions(1024.0, 768.0);
 
     -- Construct a timer used to display the fog with a custom alpha value and position
     fog_timer = vt_system.SystemTimer(fog_time_length, 0);
     -- Load a fog image used later to be displayed dynamically on the battle ground
-    fog = Script:CreateImage("img/ambient/fog.png");
+    fog = Script:CreateImage("data/visuals/ambient/fog.png");
     fog:SetDimensions(320.0, 256.0);
 
     fog_timer:Run();

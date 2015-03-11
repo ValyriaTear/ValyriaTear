@@ -47,7 +47,7 @@ function Load(m)
     _CreateZones();
 
     -- Add clouds overlay
-    Effects:EnableAmbientOverlay("img/ambient/clouds.png", 5.0, -5.0, true);
+    Effects:EnableAmbientOverlay("data/visuals/ambient/clouds.png", 5.0, -5.0, true);
     Map:GetScriptSupervisor():AddScript("dat/maps/common/at_night.lua");
 
     -- Set the world map current position

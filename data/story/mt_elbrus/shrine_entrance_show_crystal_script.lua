@@ -29,7 +29,7 @@ function Initialize(map_instance)
 
     Script = Map:GetScriptSupervisor();
 
-    crystal = Script:CreateImage("img/sprites/map/npcs/crystal_spritesheet.png");
+    crystal = Script:CreateImage("data/entities/map/npcs/crystal_spritesheet.png");
     crystal:SetDimensions(19.0, 37.0);
     black_layer = Script:CreateImage("");
     black_layer:SetDimensions(1024.0, 768.0);

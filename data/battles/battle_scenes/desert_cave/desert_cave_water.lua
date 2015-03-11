@@ -4,7 +4,7 @@
 animation = {
 
 	-- The file to load the frames from
-	image_filename = "img/backdrops/battle/desert_cave/desert_cave_water.png",
+	image_filename = "data/battles/battle_scenes/desert_cave/desert_cave_water.png",
 	-- The number of rows and columns of images, will be used to compute
 	-- the images width and height, and also the frames number (row x col)
 	rows = 2,
