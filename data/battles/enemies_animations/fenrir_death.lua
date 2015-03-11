@@ -126,13 +126,13 @@ function Update()
         -- Make the wolf howls at the end
         AudioManager:PlaySound("sounds/wolf_howl.ogg");
 
-        Battle:TriggerBattleParticleEffect("dat/effects/particles/boss_death_particle.lua",
+        Battle:TriggerBattleParticleEffect("data/visuals/particle_effects/boss_death_particle.lua",
                                            enemy_pos_x + 200, enemy_pos_y - 255);
-        Battle:TriggerBattleParticleEffect("dat/effects/particles/boss_death_particle.lua",
+        Battle:TriggerBattleParticleEffect("data/visuals/particle_effects/boss_death_particle.lua",
                                            enemy_pos_x - 185, enemy_pos_y - 321);
-        Battle:TriggerBattleParticleEffect("dat/effects/particles/boss_death_particle.lua",
+        Battle:TriggerBattleParticleEffect("data/visuals/particle_effects/boss_death_particle.lua",
                                            enemy_pos_x - 146, enemy_pos_y - 149);
-        Battle:TriggerBattleParticleEffect("dat/effects/particles/boss_death_particle.lua",
+        Battle:TriggerBattleParticleEffect("data/visuals/particle_effects/boss_death_particle.lua",
                                            enemy_pos_x + 55, enemy_pos_y - 140);
         death_particles_triggered = true;
     end

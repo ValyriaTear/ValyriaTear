@@ -1034,7 +1034,7 @@ void GameOptionsMenuHandler::_OnLanguageSelect()
     _has_modified_settings = true;
 
     // Reloads the theme names before the menus
-    GUIManager->ReloadSkinNames("dat/config/themes.lua");
+    GUIManager->ReloadSkinNames("data/config/themes.lua");
 
     // Reload all the translatable text in the menus.
     ReloadTranslatableMenus();

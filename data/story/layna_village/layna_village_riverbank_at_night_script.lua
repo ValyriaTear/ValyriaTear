@@ -293,10 +293,10 @@ function _CreateObjects()
     vt_map.SoundObject.Create("sounds/gentle_stream.ogg", 101.0, 67.0, 20.0);
 
     -- Fireflies on water
-    vt_map.ParticleObject.Create("dat/effects/particles/fireflies.lua", 53, 29, vt_map.MapMode.GROUND_OBJECT);
-    vt_map.ParticleObject.Create("dat/effects/particles/fireflies.lua", 52, 38, vt_map.MapMode.GROUND_OBJECT);
-    vt_map.ParticleObject.Create("dat/effects/particles/fireflies.lua", 54, 40, vt_map.MapMode.GROUND_OBJECT);
-    vt_map.ParticleObject.Create("dat/effects/particles/fireflies.lua", 99, 73, vt_map.MapMode.GROUND_OBJECT);
+    vt_map.ParticleObject.Create("data/visuals/particle_effects/fireflies.lua", 53, 29, vt_map.MapMode.GROUND_OBJECT);
+    vt_map.ParticleObject.Create("data/visuals/particle_effects/fireflies.lua", 52, 38, vt_map.MapMode.GROUND_OBJECT);
+    vt_map.ParticleObject.Create("data/visuals/particle_effects/fireflies.lua", 54, 40, vt_map.MapMode.GROUND_OBJECT);
+    vt_map.ParticleObject.Create("data/visuals/particle_effects/fireflies.lua", 99, 73, vt_map.MapMode.GROUND_OBJECT);
 end
 
 -- creates the necessary objects to display some fire

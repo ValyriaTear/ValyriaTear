@@ -13,24 +13,24 @@ fonts = {
     ["default"] = {
         -- Text style internal name = { "font file path", font size }
         -- TODO: Rename the text style to some non size dependant name.
-        ["title20"] = {font = "img/fonts/LinLibertine_aBS.ttf", size = 18},
-        ["title22"] = {font = "img/fonts/LinLibertine_aBS.ttf", size = 20},
-        ["title24"] = {font = "img/fonts/LinLibertine_aBS.ttf", size = 22},
-        ["title28"] = {font = "img/fonts/LinLibertine_aBS.ttf", size = 24},
+        ["title20"] = {font = "data/fonts/LinLibertine_aBS.ttf", size = 18},
+        ["title22"] = {font = "data/fonts/LinLibertine_aBS.ttf", size = 20},
+        ["title24"] = {font = "data/fonts/LinLibertine_aBS.ttf", size = 22},
+        ["title28"] = {font = "data/fonts/LinLibertine_aBS.ttf", size = 24},
 
-        ["text14"] = {font = "img/fonts/LinBiolinum_RBah.ttf", size = 14},
-        ["text18"] = {font = "img/fonts/LinBiolinum_RBah.ttf", size = 16},
-        ["text20"] = {font = "img/fonts/LinBiolinum_RBah.ttf", size = 18},
-        ["text22"] = {font = "img/fonts/LinBiolinum_RBah.ttf", size = 20},
-        ["text24"] = {font = "img/fonts/LinBiolinum_RBah.ttf", size = 22},
-        ["text24.2"] = {font = "img/fonts/LinBiolinum_RBah.ttf", size = 24},
-        ["text26"] = {font = "img/fonts/LinBiolinum_RBah.ttf", size = 26},
-        ["text28"] = {font = "img/fonts/LinBiolinum_RBah.ttf", size = 28},
-        ["text36"] = {font = "img/fonts/LinBiolinum_RBah.ttf", size = 36},
-        ["text48"] = {font = "img/fonts/LinBiolinum_RBah.ttf", size = 48},
+        ["text14"] = {font = "data/fonts/LinBiolinum_RBah.ttf", size = 14},
+        ["text18"] = {font = "data/fonts/LinBiolinum_RBah.ttf", size = 16},
+        ["text20"] = {font = "data/fonts/LinBiolinum_RBah.ttf", size = 18},
+        ["text22"] = {font = "data/fonts/LinBiolinum_RBah.ttf", size = 20},
+        ["text24"] = {font = "data/fonts/LinBiolinum_RBah.ttf", size = 22},
+        ["text24.2"] = {font = "data/fonts/LinBiolinum_RBah.ttf", size = 24},
+        ["text26"] = {font = "data/fonts/LinBiolinum_RBah.ttf", size = 26},
+        ["text28"] = {font = "data/fonts/LinBiolinum_RBah.ttf", size = 28},
+        ["text36"] = {font = "data/fonts/LinBiolinum_RBah.ttf", size = 36},
+        ["text48"] = {font = "data/fonts/LinBiolinum_RBah.ttf", size = 48},
 
         -- Map title font
-        ["map_title"] = {font = "img/fonts/Berenika-Oblique.ttf", size = 30}
+        ["map_title"] = {font = "data/fonts/Berenika-Oblique.ttf", size = 30}
     },
 
     -- Fonts loaded for the 'ru' locale (Russian)
@@ -41,6 +41,6 @@ fonts = {
 
         -- Map title font
         -- We're using this font to prevent a bug in map title display here.
-        ["map_title"] = {font = "img/fonts/LinBiolinum_RBah.ttf", size = 30}
+        ["map_title"] = {font = "data/fonts/LinBiolinum_RBah.ttf", size = 30}
     },
 }

@@ -116,7 +116,7 @@ function Update()
     -- Start to run towards the enemy
     if (attack_step == 0) then
         character:ChangeSpriteAnimation("jump_forward")
-        Battle:TriggerBattleParticleEffect("dat/effects/particles/dust.lua", character_pos_x, character_pos_y);
+        Battle:TriggerBattleParticleEffect("data/visuals/particle_effects/dust.lua", character_pos_x, character_pos_y);
 
         attack_step = 1
     end
@@ -150,7 +150,7 @@ function Update()
 
     -- triggers the attack animation
     if (attack_step == 2) then
-        Battle:TriggerBattleParticleEffect("dat/effects/particles/dust.lua", character_pos_x, character_pos_y);
+        Battle:TriggerBattleParticleEffect("data/visuals/particle_effects/dust.lua", character_pos_x, character_pos_y);
         character:ChangeSpriteAnimation("attack_forward_thrust")
 
         -- Init the slash effect life time
@@ -203,14 +203,14 @@ function Update()
             -- Adds some dust every 15ms
             move_time = move_time + SystemManager:GetUpdateTime();
             if (move_time > 15) then
-                Battle:TriggerBattleParticleEffect("dat/effects/particles/dust.lua", character_pos_x, character_pos_y);
+                Battle:TriggerBattleParticleEffect("data/visuals/particle_effects/dust.lua", character_pos_x, character_pos_y);
                 move_time = 0
             end
         end
 
         if (attack_time > 730.0) then
             character:ChangeSpriteAnimation("jump_backward")
-            Battle:TriggerBattleParticleEffect("dat/effects/particles/dust.lua", character_pos_x, character_pos_y);
+            Battle:TriggerBattleParticleEffect("data/visuals/particle_effects/dust.lua", character_pos_x, character_pos_y);
 
             -- Recompute the a coefficient using the character origin position as the angle has changed.
             distance_moved_x = SystemManager:GetUpdateTime() / vt_map.MapMode.NORMAL_SPEED * 170.0;
@@ -264,7 +264,7 @@ function Update()
 
     if (attack_step == 5) then
         character:ChangeSpriteAnimation("idle")
-        Battle:TriggerBattleParticleEffect("dat/effects/particles/dust.lua", character_pos_x, character_pos_y);
+        Battle:TriggerBattleParticleEffect("data/visuals/particle_effects/dust.lua", character_pos_x, character_pos_y);
         return true;
     end
     return false;

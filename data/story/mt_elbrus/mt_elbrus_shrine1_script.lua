@@ -215,7 +215,7 @@ function _CreateObjects()
     vt_map.SavePoint.Create(51, 29);
 
     -- Load the spring heal effect.
-    heal_effect = vt_map.ParticleObject.Create("dat/effects/particles/heal_particle.lua", 0, 0, vt_map.MapMode.GROUND_OBJECT);
+    heal_effect = vt_map.ParticleObject.Create("data/visuals/particle_effects/heal_particle.lua", 0, 0, vt_map.MapMode.GROUND_OBJECT);
     heal_effect:Stop(); -- Don't run it until the character heals itself
 
     object = CreateObject(Map, "Layna Statue", 41, 28, vt_map.MapMode.GROUND_OBJECT);
@@ -848,7 +848,7 @@ map_functions = {
             AudioManager:PlaySound("sounds/cave-in.ogg");
             _open_shrine_door();
             -- Show a slight fire spiral effect.
-            Map:GetParticleManager():AddParticleEffect("dat/effects/particles/fire_spiral.lua", 512.0, 284.0);
+            Map:GetParticleManager():AddParticleEffect("data/visuals/particle_effects/fire_spiral.lua", 512.0, 284.0);
             _show_flames();
             return true;
         end

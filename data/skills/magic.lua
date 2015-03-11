@@ -63,10 +63,10 @@ skills[10001] = {
         local Battle = ModeManager:GetTop();
         if (target_actor:GetSpriteHeight() > 250.0) then
             -- Big sprite version
-            Battle:TriggerBattleParticleEffect("dat/effects/particles/shield_big_sprites.lua",
+            Battle:TriggerBattleParticleEffect("data/visuals/particle_effects/shield_big_sprites.lua",
                 target_actor:GetXLocation(), target_actor:GetYLocation() + 5);
         else
-            Battle:TriggerBattleParticleEffect("dat/effects/particles/shield.lua",
+            Battle:TriggerBattleParticleEffect("data/visuals/particle_effects/shield.lua",
                     target_actor:GetXLocation(), target_actor:GetYLocation() + 5);
         end
         AudioManager:PlaySound("sounds/defence1_spell.ogg");
@@ -87,7 +87,7 @@ skills[10001] = {
         -- Trigger a particle effect on the menu character
         local y_pos = 218.0 + GlobalManager:GetPartyPosition(target) * 118.0;
         local menu_mode = ModeManager:GetTop();
-        menu_mode:GetParticleManager():AddParticleEffect("dat/effects/particles/shield.lua", 145.0, y_pos);
+        menu_mode:GetParticleManager():AddParticleEffect("data/visuals/particle_effects/shield.lua", 145.0, y_pos);
         return true;
     end
 }
@@ -113,7 +113,7 @@ skills[10002] = {
         target_actor:RegisterHealing(hit_points, true);
         AudioManager:PlaySound("sounds/heal_spell.wav");
         local Battle = ModeManager:GetTop();
-        Battle:TriggerBattleParticleEffect("dat/effects/particles/heal_particle.lua",
+        Battle:TriggerBattleParticleEffect("data/visuals/particle_effects/heal_particle.lua",
                 target_actor:GetXLocation(), target_actor:GetYLocation() + 5);
     end,
 
@@ -366,7 +366,7 @@ skills[10100] = {
             target_actor:RegisterDamage(vt_battle.CalculateMagicalDamageAdder(user, target, vt_global.GameGlobal.GLOBAL_ELEMENTAL_FIRE, 30), target);
             -- trigger the fire effect slightly under the sprite to make it appear before it from the player's point of view.
             local Battle = ModeManager:GetTop();
-            Battle:TriggerBattleParticleEffect("dat/effects/particles/fire_spell.lua",
+            Battle:TriggerBattleParticleEffect("data/visuals/particle_effects/fire_spell.lua",
                     target_actor:GetXLocation(), target_actor:GetYLocation() + 5);
             AudioManager:PlaySound("sounds/fire1_spell.ogg");
         else
@@ -536,7 +536,7 @@ skills[10110] = {
             target_actor:RegisterDamage(vt_battle.CalculateMagicalDamageAdder(user, target, vt_global.GameGlobal.GLOBAL_ELEMENTAL_EARTH, 45), target);
             -- trigger the fire effect slightly under the sprite to make it appear before it from the player's point of view.
             local Battle = ModeManager:GetTop();
-            --Battle:TriggerBattleParticleEffect("dat/effects/particles/wave_spell.lua",
+            --Battle:TriggerBattleParticleEffect("data/visuals/particle_effects/wave_spell.lua",
             --        target_actor:GetXLocation(), target_actor:GetYLocation() + 5);
             --AudioManager:PlaySound("sounds/wave1_spell.ogg");
         else
@@ -565,10 +565,10 @@ skills[10111] = {
                                              effect_duration);
         -- trigger the effect slightly *above* the sprite to make it appear *below* it from the player's point of view.
         local Battle = ModeManager:GetTop();
-        Battle:TriggerBattleParticleEffect("dat/effects/particles/earth_circle.lua",
+        Battle:TriggerBattleParticleEffect("data/visuals/particle_effects/earth_circle.lua",
                 target_actor:GetXLocation(), target_actor:GetYLocation() - 5);
         -- trigger the 2nd effect slightly below the sprite to make it appear above it from the player's point of view.
-        Battle:TriggerBattleParticleEffect("dat/effects/particles/earth_circle_outer_particles.lua",
+        Battle:TriggerBattleParticleEffect("data/visuals/particle_effects/earth_circle_outer_particles.lua",
                 target_actor:GetXLocation(), target_actor:GetYLocation() + 5);
         --AudioManager:PlaySound("sounds/circle_spell.ogg");
     end,
@@ -719,7 +719,7 @@ skills[10120] = {
             target_actor:RegisterDamage(vt_battle.CalculateMagicalDamageAdder(user, target, vt_global.GameGlobal.GLOBAL_ELEMENTAL_WATER, 45), target);
             -- trigger the fire effect slightly under the sprite to make it appear before it from the player's point of view.
             local Battle = ModeManager:GetTop();
-            Battle:TriggerBattleParticleEffect("dat/effects/particles/wave_spell.lua",
+            Battle:TriggerBattleParticleEffect("data/visuals/particle_effects/wave_spell.lua",
                     target_actor:GetXLocation(), target_actor:GetYLocation() + 5);
             AudioManager:PlaySound("sounds/wave1_spell.ogg");
         else
@@ -744,10 +744,10 @@ skills[10121] = {
         -- TODO: Set elemental defense type based on character stats
         -- trigger the effect slightly *above* the sprite to make it appear *below* it from the player's point of view.
         local Battle = ModeManager:GetTop();
-        Battle:TriggerBattleParticleEffect("dat/effects/particles/water_circle.lua",
+        Battle:TriggerBattleParticleEffect("data/visuals/particle_effects/water_circle.lua",
                 target_actor:GetXLocation(), target_actor:GetYLocation() - 5);
         -- trigger the 2nd effect slightly below the sprite to make it appear above it from the player's point of view.
-        Battle:TriggerBattleParticleEffect("dat/effects/particles/water_circle_outer_particles.lua",
+        Battle:TriggerBattleParticleEffect("data/visuals/particle_effects/water_circle_outer_particles.lua",
                 target_actor:GetXLocation(), target_actor:GetYLocation() + 5);
         --AudioManager:PlaySound("sounds/circle_spell.ogg");
     end,
@@ -854,7 +854,7 @@ skills[10127] = {
     BattleExecute = function(user, target)
         local target_actor = target:GetActor();
         local Battle = ModeManager:GetTop();
-        Battle:TriggerBattleParticleEffect("dat/effects/particles/stun_star.lua", target_actor:GetXLocation(), target_actor:GetYLocation());
+        Battle:TriggerBattleParticleEffect("data/visuals/particle_effects/stun_star.lua", target_actor:GetXLocation(), target_actor:GetYLocation());
         -- TODO: The rest ...
     end,
 }
@@ -908,7 +908,7 @@ skills[10130] = {
             target_actor:RegisterDamage(vt_battle.CalculateMagicalDamageAdder(user, target, vt_global.GameGlobal.GLOBAL_ELEMENTAL_VOLT, 45), target);
             -- trigger the fire effect slightly under the sprite to make it appear before it from the player's point of view.
             local Battle = ModeManager:GetTop();
-            --Battle:TriggerBattleParticleEffect("dat/effects/particles/wave_spell.lua",
+            --Battle:TriggerBattleParticleEffect("data/visuals/particle_effects/wave_spell.lua",
             --        target_actor:GetXLocation(), target_actor:GetYLocation() + 5);
             --AudioManager:PlaySound("sounds/wave1_spell.ogg");
         else
@@ -933,10 +933,10 @@ skills[10131] = {
         -- TODO: Set elemental defense type based on character stats
         -- trigger the effect slightly *above* the sprite to make it appear *below* it from the player's point of view.
         local Battle = ModeManager:GetTop();
-        Battle:TriggerBattleParticleEffect("dat/effects/particles/wind_circle.lua",
+        Battle:TriggerBattleParticleEffect("data/visuals/particle_effects/wind_circle.lua",
                 target_actor:GetXLocation(), target_actor:GetYLocation() - 5);
         -- trigger the 2nd effect slightly below the sprite to make it appear above it from the player's point of view.
-        Battle:TriggerBattleParticleEffect("dat/effects/particles/wind_circle_outer_particles.lua",
+        Battle:TriggerBattleParticleEffect("data/visuals/particle_effects/wind_circle_outer_particles.lua",
                 target_actor:GetXLocation(), target_actor:GetYLocation() + 5);
         --AudioManager:PlaySound("sounds/circle_spell.ogg");
     end,
@@ -1061,7 +1061,7 @@ skills[10140] = {
             target_actor:RegisterDamage(vt_battle.CalculateMagicalDamageAdder(user, target, vt_global.GameGlobal.GLOBAL_ELEMENTAL_LIFE, 45), target);
             -- trigger the fire effect slightly under the sprite to make it appear before it from the player's point of view.
             local Battle = ModeManager:GetTop();
-            --Battle:TriggerBattleParticleEffect("dat/effects/particles/wave_spell.lua",
+            --Battle:TriggerBattleParticleEffect("data/visuals/particle_effects/wave_spell.lua",
             --        target_actor:GetXLocation(), target_actor:GetYLocation() + 5);
             --AudioManager:PlaySound("sounds/wave1_spell.ogg");
         else
@@ -1151,7 +1151,7 @@ skills[10150] = {
             target_actor:RegisterDamage(vt_battle.CalculateMagicalDamageAdder(user, target, vt_global.GameGlobal.GLOBAL_ELEMENTAL_DEATH, 45), target);
             -- trigger the fire effect slightly under the sprite to make it appear before it from the player's point of view.
             local Battle = ModeManager:GetTop();
-            --Battle:TriggerBattleParticleEffect("dat/effects/particles/wave_spell.lua",
+            --Battle:TriggerBattleParticleEffect("data/visuals/particle_effects/wave_spell.lua",
             --        target_actor:GetXLocation(), target_actor:GetYLocation() + 5);
             --AudioManager:PlaySound("sounds/wave1_spell.ogg");
         else
@@ -1225,7 +1225,7 @@ skills[10160] = {
             -- TODO
             -- trigger the Neutral effect slightly under the sprite to make it appear before it from the player's point of view.
             local Battle = ModeManager:GetTop();
-            --Battle:TriggerBattleParticleEffect("dat/effects/particles/wave_spell.lua",
+            --Battle:TriggerBattleParticleEffect("data/visuals/particle_effects/wave_spell.lua",
             --        target_actor:GetXLocation(), target_actor:GetYLocation() + 5);
             --AudioManager:PlaySound("sounds/wave1_spell.ogg");
         else

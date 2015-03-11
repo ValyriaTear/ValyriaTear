@@ -21,7 +21,7 @@ end
 
 emotes = {
     ["sweat drop"] = {
-         animation = "entities/emotes/sweat_drop.lua",
+         animation = "data/entities/emotes/sweat_drop.lua",
          -- emote sprite head offsets in pixels
          [ANIM_SOUTH] = { x = -7, y = 25 },
          [ANIM_NORTH] = { x = -7, y = 25 },
@@ -30,7 +30,7 @@ emotes = {
     },
 
     ["thinking dots"] = {
-         animation = "entities/emotes/thinking_dots.lua",
+         animation = "data/entities/emotes/thinking_dots.lua",
          -- emote sprite head offsets in pixels
          [ANIM_SOUTH] = { x = 0, y = 0 },
          [ANIM_NORTH] = { x = 0, y = 0 },
@@ -39,7 +39,7 @@ emotes = {
     },
 
     ["interrogation"] = {
-         animation = "entities/emotes/interrogation.lua",
+         animation = "data/entities/emotes/interrogation.lua",
          -- emote sprite head offsets in pixels
          [ANIM_SOUTH] = { x = 0, y = 0 },
          [ANIM_NORTH] = { x = 0, y = 0 },
@@ -48,7 +48,7 @@ emotes = {
     },
 
     ["exclamation"] = {
-         animation = "entities/emotes/exclamation.lua",
+         animation = "data/entities/emotes/exclamation.lua",
          -- emote sprite head offsets in pixels
          [ANIM_SOUTH] = { x = 0, y = 0 },
          [ANIM_NORTH] = { x = 0, y = 0 },
@@ -57,7 +57,7 @@ emotes = {
     },
 
     ["popping veins"] =  {
-        animation = "entities/emotes/popping_veins.lua",
+        animation = "data/entities/emotes/popping_veins.lua",
          -- emote sprite head offsets in pixels
          [ANIM_SOUTH] = { x = 7, y = 25 },
          [ANIM_NORTH] = { x = 7, y = 25 },
@@ -66,7 +66,7 @@ emotes = {
 
     },
 
-    --["dizzy spirals"] = "entities/emotes/dizzy_spirals.lua",
-    --["sigh breath"] = "img/emotes/sigh_breath.lua",
-    --["black steam of anger"] = "img/emotes/black_steam.lua"
+    --["dizzy spirals"] = "data/entities/emotes/dizzy_spirals.lua",
+    --["sigh breath"] = "data/entities/emotes/sigh_breath.lua",
+    --["black steam of anger"] = "data/entities/emotes/black_steam.lua"
 }

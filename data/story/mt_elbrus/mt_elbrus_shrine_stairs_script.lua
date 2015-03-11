@@ -198,7 +198,7 @@ function _CreateObjects()
     end
 
     -- Load the spring heal effect.
-    heal_effect = vt_map.ParticleObject.Create("dat/effects/particles/heal_particle.lua", 0, 0, vt_map.MapMode.GROUND_OBJECT);
+    heal_effect = vt_map.ParticleObject.Create("data/visuals/particle_effects/heal_particle.lua", 0, 0, vt_map.MapMode.GROUND_OBJECT);
     heal_effect:Stop(); -- Don't run it until the character heals itself
 
     layna_statue = CreateObject(Map, "Layna Statue", 57, 22, vt_map.MapMode.GROUND_OBJECT);
@@ -255,10 +255,10 @@ function _add_small_waterfall(x, y)
     object:SetMaxVolume(0.6);
 
     -- Particle effects
-    object = vt_map.ParticleObject.Create("dat/effects/particles/waterfall_steam.lua", x, y - 8.0, vt_map.MapMode.GROUND_OBJECT);
+    object = vt_map.ParticleObject.Create("data/visuals/particle_effects/waterfall_steam.lua", x, y - 8.0, vt_map.MapMode.GROUND_OBJECT);
     object:SetDrawOnSecondPass(true);
 
-    object = vt_map.ParticleObject.Create("dat/effects/particles/waterfall_steam_big.lua", x, y + 1.0, vt_map.MapMode.GROUND_OBJECT);
+    object = vt_map.ParticleObject.Create("data/visuals/particle_effects/waterfall_steam_big.lua", x, y + 1.0, vt_map.MapMode.GROUND_OBJECT);
     object:SetDrawOnSecondPass(true);
 end
 
@@ -284,7 +284,7 @@ function _add_bubble(x, y)
     local object = CreateObject(Map, "Bubble", x, y, vt_map.MapMode.GROUND_OBJECT);
     object:RandomizeCurrentAnimationFrame();
 
-    vt_map.ParticleObject.Create("dat/effects/particles/bubble_steam.lua", x, y, vt_map.MapMode.GROUND_OBJECT);
+    vt_map.ParticleObject.Create("data/visuals/particle_effects/bubble_steam.lua", x, y, vt_map.MapMode.GROUND_OBJECT);
 end
 
 -- Special event references which destinations must be updated just before being called.

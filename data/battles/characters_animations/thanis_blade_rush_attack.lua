@@ -116,7 +116,7 @@ function Update()
         -- Adds some dust every 15ms
         move_time = move_time + SystemManager:GetUpdateTime();
         if (move_time > 15) then
-            Battle:TriggerBattleParticleEffect("dat/effects/particles/dust.lua", character_pos_x, character_pos_y);
+            Battle:TriggerBattleParticleEffect("data/visuals/particle_effects/dust.lua", character_pos_x, character_pos_y);
             move_time = 0
         end
 
@@ -193,7 +193,7 @@ function Update()
         -- Adds some dust every 15ms
         move_time = move_time + SystemManager:GetUpdateTime();
         if (move_time > 15) then
-            Battle:TriggerBattleParticleEffect("dat/effects/particles/dust.lua", character_pos_x, character_pos_y);
+            Battle:TriggerBattleParticleEffect("data/visuals/particle_effects/dust.lua", character_pos_x, character_pos_y);
             move_time = 0
         end
 

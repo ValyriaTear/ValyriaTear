@@ -159,28 +159,28 @@ void GameGlobal::_CloseGlobalScripts() {
 bool GameGlobal::_LoadGlobalScripts()
 {
     // Open up the persistent script files
-    if(!_global_script.OpenFile("dat/global.lua"))
+    if(!_global_script.OpenFile("data/global.lua"))
         return false;
 
-    if(!_items_script.OpenFile("dat/objects/items.lua") || !_items_script.OpenTable("items"))
+    if(!_items_script.OpenFile("data/inventory/items.lua") || !_items_script.OpenTable("items"))
         return false;
 
-    if(!_weapons_script.OpenFile("dat/objects/weapons.lua") || !_weapons_script.OpenTable("weapons"))
+    if(!_weapons_script.OpenFile("data/inventory/weapons.lua") || !_weapons_script.OpenTable("weapons"))
         return false;
 
-    if(!_head_armor_script.OpenFile("dat/objects/head_armor.lua") || !_head_armor_script.OpenTable("armor"))
+    if(!_head_armor_script.OpenFile("data/inventory/head_armor.lua") || !_head_armor_script.OpenTable("armor"))
         return false;
 
-    if(!_torso_armor_script.OpenFile("dat/objects/torso_armor.lua") || !_torso_armor_script.OpenTable("armor"))
+    if(!_torso_armor_script.OpenFile("data/inventory/torso_armor.lua") || !_torso_armor_script.OpenTable("armor"))
         return false;
 
-    if(!_arm_armor_script.OpenFile("dat/objects/arm_armor.lua") || !_arm_armor_script.OpenTable("armor"))
+    if(!_arm_armor_script.OpenFile("data/inventory/arm_armor.lua") || !_arm_armor_script.OpenTable("armor"))
         return false;
 
-    if(!_leg_armor_script.OpenFile("dat/objects/leg_armor.lua") || !_leg_armor_script.OpenTable("armor"))
+    if(!_leg_armor_script.OpenFile("data/inventory/leg_armor.lua") || !_leg_armor_script.OpenTable("armor"))
         return false;
 
-    if(!_spirits_script.OpenFile("dat/objects/spirits.lua") || !_spirits_script.OpenTable("spirits"))
+    if(!_spirits_script.OpenFile("data/inventory/spirits.lua") || !_spirits_script.OpenTable("spirits"))
         return false;
 
     if(!_weapon_skills_script.OpenFile("dat/skills/weapon.lua") || !_weapon_skills_script.OpenTable("skills"))

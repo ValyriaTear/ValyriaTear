@@ -302,6 +302,6 @@ function lilly_heals_bronann()
     local hit_points = (20 * 3) +  vt_utils.RandomBoundedInteger(0, 15);
     bronann:RegisterHealing(hit_points, true);
     AudioManager:PlaySound("sounds/heal_spell.wav");
-    Battle:TriggerBattleParticleEffect("dat/effects/particles/heal_particle.lua",
+    Battle:TriggerBattleParticleEffect("data/visuals/particle_effects/heal_particle.lua",
             bronann:GetXLocation(), bronann:GetYLocation() + 5);
 end

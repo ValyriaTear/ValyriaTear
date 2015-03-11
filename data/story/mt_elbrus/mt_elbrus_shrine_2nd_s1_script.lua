@@ -45,7 +45,7 @@ function Load(m)
     Map:GetScriptSupervisor():AddScript("dat/maps/common/at_night.lua");
 
     -- Make the snow start
-    Map:GetParticleManager():AddParticleEffect("dat/effects/particles/snow.lua", 512.0, 384.0);
+    Map:GetParticleManager():AddParticleEffect("data/visuals/particle_effects/snow.lua", 512.0, 384.0);
 
     -- The mountain cliff background
     Map:GetScriptSupervisor():AddScript("dat/maps/mt_elbrus/mt_elbrus_background_anim.lua");

@@ -50,7 +50,7 @@ function Load(m)
 
     -- Make the rain starts if needed
     if (GlobalManager:GetEventValue("story", "mt_elbrus_weather_level") > 0) then
-        Map:GetParticleManager():AddParticleEffect("dat/effects/particles/rain.lua", 512.0, 768.0);
+        Map:GetParticleManager():AddParticleEffect("data/visuals/particle_effects/rain.lua", 512.0, 768.0);
         -- Place an omni ambient sound at the center of the map to add a nice rainy effect.
         vt_map.SoundObject.Create("music/Ove Melaa - Rainy.ogg", 32.0, 24.0, 100.0);
     end
@@ -133,7 +133,7 @@ function _CreateObjects()
     vt_map.SavePoint.Create(114, 56);
 
     -- Load the spring heal effect.
-    heal_effect = vt_map.ParticleObject.Create("dat/effects/particles/heal_particle.lua", 0, 0, vt_map.MapMode.GROUND_OBJECT);
+    heal_effect = vt_map.ParticleObject.Create("data/visuals/particle_effects/heal_particle.lua", 0, 0, vt_map.MapMode.GROUND_OBJECT);
     heal_effect:Stop(); -- Don't run it until the character heals itself
 
     -- Heal point

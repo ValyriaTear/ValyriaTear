@@ -437,8 +437,8 @@ SavePoint::SavePoint(float x, float y):
 
     // The save point is going along with two particle objects used to show
     // whether the player is in or out the save point
-    _active_particle_object = new ParticleObject("dat/effects/particles/active_save_point.lua", x, y, GROUND_OBJECT);
-    _inactive_particle_object = new ParticleObject("dat/effects/particles/inactive_save_point.lua", x, y, GROUND_OBJECT);
+    _active_particle_object = new ParticleObject("data/visuals/particle_effects/active_save_point.lua", x, y, GROUND_OBJECT);
+    _inactive_particle_object = new ParticleObject("data/visuals/particle_effects/inactive_save_point.lua", x, y, GROUND_OBJECT);
 
     _active_particle_object->Stop();
 

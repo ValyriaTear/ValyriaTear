@@ -2,7 +2,7 @@
 -- Author: roos, modifications by Bertram
 
 -- Example of use:
--- <mode>:GetParticleManager():AddParticleEffect("dat/effects/particles/rain.lua", 512.0, 768.0);
+-- <mode>:GetParticleManager():AddParticleEffect("data/visuals/particle_effects/rain.lua", 512.0, 768.0);
 
 systems = {}
 

@@ -210,7 +210,7 @@ function _CreateObjects()
     npc:AddDialogueReference(dialogue);
 
     -- Load the spring heal effect.
-    heal_effect = vt_map.ParticleObject.Create("dat/effects/particles/heal_sp_particle.lua", 0, 0, vt_map.MapMode.GROUND_OBJECT);
+    heal_effect = vt_map.ParticleObject.Create("data/visuals/particle_effects/heal_sp_particle.lua", 0, 0, vt_map.MapMode.GROUND_OBJECT);
     heal_effect:Stop(); -- Don't run it until the character heals itself
 
     vt_map.SoundObject.Create("sounds/fountain_small.ogg", 53.0, 8.0, 8.0);

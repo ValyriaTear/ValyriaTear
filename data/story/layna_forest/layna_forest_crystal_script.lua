@@ -130,7 +130,7 @@ function _CreateObjects()
     chest1:AddItem(15, 1); -- Lotus Petal
 
     -- Load the spring heal effect.
-    heal_effect = vt_map.ParticleObject.Create("dat/effects/particles/heal_particle.lua", 0, 0, vt_map.MapMode.GROUND_OBJECT);
+    heal_effect = vt_map.ParticleObject.Create("data/visuals/particle_effects/heal_particle.lua", 0, 0, vt_map.MapMode.GROUND_OBJECT);
     heal_effect:Stop(); -- Don't run it until the character heals itself
 
     -- Heal point
@@ -177,7 +177,7 @@ function _CreateObjects()
         crystal:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
     end
 
-    crystal_effect = vt_map.ParticleObject.Create("dat/effects/particles/inactive_save_point.lua", 41, 46, vt_map.MapMode.GROUND_OBJECT);
+    crystal_effect = vt_map.ParticleObject.Create("data/visuals/particle_effects/inactive_save_point.lua", 41, 46, vt_map.MapMode.GROUND_OBJECT);
     crystal_effect:Stop(); -- Don't run it until the character heals itself
 
     -- trees, etc

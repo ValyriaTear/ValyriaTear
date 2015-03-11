@@ -45,7 +45,7 @@ function trigger_potential_stun(user, target)
                                          vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_LESSER,
                                          effect_duration);
     local Battle = ModeManager:GetTop();
-    Battle:TriggerBattleParticleEffect("dat/effects/particles/stun_star.lua", target_actor:GetXLocation(), target_actor:GetYLocation());
+    Battle:TriggerBattleParticleEffect("data/visuals/particle_effects/stun_star.lua", target_actor:GetXLocation(), target_actor:GetYLocation());
 end
 
 function trigger_potential_attack_lowering(user, target)

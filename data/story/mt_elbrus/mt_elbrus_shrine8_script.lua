@@ -115,10 +115,10 @@ function _add_waterfall(x, y)
     object:SetMaxVolume(0.6);
 
     -- Particle effects
-    object = vt_map.ParticleObject.Create("dat/effects/particles/waterfall_steam.lua", x, y - 15.0, vt_map.MapMode.GROUND_OBJECT);
+    object = vt_map.ParticleObject.Create("data/visuals/particle_effects/waterfall_steam.lua", x, y - 15.0, vt_map.MapMode.GROUND_OBJECT);
     object:SetDrawOnSecondPass(true);
 
-    object = vt_map.ParticleObject.Create("dat/effects/particles/waterfall_steam_big.lua", x, y + 0.2, vt_map.MapMode.GROUND_OBJECT);
+    object = vt_map.ParticleObject.Create("data/visuals/particle_effects/waterfall_steam_big.lua", x, y + 0.2, vt_map.MapMode.GROUND_OBJECT);
     object:SetDrawOnSecondPass(true);
 end
 
@@ -132,10 +132,10 @@ function _add_small_waterfall(x, y)
     object:SetMaxVolume(0.6);
 
     -- Particle effects
-    object = vt_map.ParticleObject.Create("dat/effects/particles/waterfall_steam.lua", x, y - 8.0, vt_map.MapMode.GROUND_OBJECT);
+    object = vt_map.ParticleObject.Create("data/visuals/particle_effects/waterfall_steam.lua", x, y - 8.0, vt_map.MapMode.GROUND_OBJECT);
     object:SetDrawOnSecondPass(true);
 
-    object = vt_map.ParticleObject.Create("dat/effects/particles/waterfall_steam_big.lua", x, y + 1.0, vt_map.MapMode.GROUND_OBJECT);
+    object = vt_map.ParticleObject.Create("data/visuals/particle_effects/waterfall_steam_big.lua", x, y + 1.0, vt_map.MapMode.GROUND_OBJECT);
     object:SetDrawOnSecondPass(true);
 end
 

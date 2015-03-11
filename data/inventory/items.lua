@@ -63,7 +63,7 @@ function field_healing_potion(target, hit_points)
         -- Trigger a particle effect on the menu character
         local y_pos = 218.0 + GlobalManager:GetPartyPosition(target) * 118.0;
         local menu_mode = ModeManager:GetTop();
-        menu_mode:GetParticleManager():AddParticleEffect("dat/effects/particles/heal_particle.lua", 145.0, y_pos);
+        menu_mode:GetParticleManager():AddParticleEffect("data/visuals/particle_effects/heal_particle.lua", 145.0, y_pos);
         return true;
     else
         AudioManager:PlaySound("sounds/cancel.wav");

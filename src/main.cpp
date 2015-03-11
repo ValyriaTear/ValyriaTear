@@ -413,7 +413,7 @@ void InitializeEngine() throw(Exception)
         throw Exception("ERROR: Unable to apply video settings", __FILE__, __LINE__, __FUNCTION__);
 
     // Loads the GUI skins.
-    LoadGUIThemes("dat/config/themes.lua");
+    LoadGUIThemes("data/config/themes.lua");
 
     // NOTE: This function call should have its argument set to false for release builds
     GUIManager->DEBUG_EnableGUIOutlines(false);
@@ -423,7 +423,7 @@ void InitializeEngine() throw(Exception)
         exit(EXIT_FAILURE);
 
     // Loads potential emotes
-    GlobalManager->LoadEmotes("dat/effects/emotes.lua");
+    GlobalManager->LoadEmotes("data/entities/emotes.lua");
 
     // Hide the mouse cursor since we don't use or acknowledge mouse input from the user
     SDL_ShowCursor(SDL_DISABLE);
@@ -471,7 +471,7 @@ int main(int argc, char *argv[])
         return false;
 
     // Set the window icon
-    SDL_Surface* icon = IMG_Load("img/logos/program_icon.png");
+    SDL_Surface* icon = IMG_Load("data/icons/program_icon.png");
     if (icon) {
         SDL_SetWindowIcon(sdl_window, icon);
         // ...and the surface containing the icon pixel data is no longer required.
@@ -505,7 +505,7 @@ int main(int argc, char *argv[])
         chdir(path.c_str());
 #elif (defined(__linux__) || defined(__FreeBSD__) || defined(__OpenBSD__) || defined(SOLARIS)) && !defined(RELEASE_BUILD)
         // Look for data files in DATADIR only if they are not available in the current directory.
-        if(std::ifstream("dat/config/settings.lua") == NULL) {
+        if(std::ifstream("data/config/settings.lua") == NULL) {
             if(chdir(PKG_DATADIR) != 0) {
                 throw Exception("ERROR: failed to change directory to data location", __FILE__, __LINE__, __FUNCTION__);
             }

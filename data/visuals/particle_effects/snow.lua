@@ -2,7 +2,7 @@
 -- Author: roos, modifications by Bertram
 
 -- Example of use:
--- <mode>:GetParticleManager():AddParticleEffect("dat/effects/particles/snow.lua", 512.0, 384.0, false);
+-- <mode>:GetParticleManager():AddParticleEffect("data/visuals/particle_effects/snow.lua", 512.0, 384.0, false);
 
 systems = {}
 

@@ -103,7 +103,7 @@ function Update()
     -- Start to run towards the enemy
     if (attack_step == 0) then
         character:ChangeSpriteAnimation("jump_forward")
-        Battle:TriggerBattleParticleEffect("dat/effects/particles/dust.lua", character_pos_x, character_pos_y);
+        Battle:TriggerBattleParticleEffect("data/visuals/particle_effects/dust.lua", character_pos_x, character_pos_y);
         attack_step = 1
     end
     -- Make the player move till it reaches the enemy
@@ -137,7 +137,7 @@ function Update()
     -- triggers the attack animation
     if (attack_step == 2) then
         character:ChangeSpriteAnimation("attack")
-        Battle:TriggerBattleParticleEffect("dat/effects/particles/dust.lua", character_pos_x, character_pos_y);
+        Battle:TriggerBattleParticleEffect("data/visuals/particle_effects/dust.lua", character_pos_x, character_pos_y);
         attack_step = 3;
     end
 
@@ -154,7 +154,7 @@ function Update()
 
         if (attack_time > 730.0) then
             character:ChangeSpriteAnimation("jump_backward")
-            Battle:TriggerBattleParticleEffect("dat/effects/particles/dust.lua", character_pos_x, character_pos_y);
+            Battle:TriggerBattleParticleEffect("data/visuals/particle_effects/dust.lua", character_pos_x, character_pos_y);
             attack_step = 4;
         end
     end
@@ -190,7 +190,7 @@ function Update()
 
     if (attack_step == 5) then
         character:ChangeSpriteAnimation("idle")
-        Battle:TriggerBattleParticleEffect("dat/effects/particles/dust.lua", character_pos_x, character_pos_y);
+        Battle:TriggerBattleParticleEffect("data/visuals/particle_effects/dust.lua", character_pos_x, character_pos_y);
         return true;
     end
     return false;

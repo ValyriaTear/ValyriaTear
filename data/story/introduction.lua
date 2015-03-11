@@ -60,7 +60,7 @@ function _CreateObjects()
     crystal:SetMovementSpeed(vt_map.MapMode.NORMAL_SPEED);
     crystal:SetVisible(false);
 
-    crystal_effect = vt_map.ParticleObject.Create("dat/effects/particles/inactive_save_point.lua",
+    crystal_effect = vt_map.ParticleObject.Create("data/visuals/particle_effects/inactive_save_point.lua",
                                             41, 46, vt_map.MapMode.GROUND_OBJECT);
     crystal_effect:Stop(); -- Don't run it until the character heals itself
 

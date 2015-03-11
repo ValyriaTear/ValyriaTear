@@ -247,7 +247,7 @@ function Update()
 
     if (Boot:GetState() == vt_boot.BootMode.BOOT_STATE_MENU) then
         if (snow_started == false) then
-            Boot:GetParticleManager():AddParticleEffect("dat/effects/particles/snow.lua", 512.0, 384.0);
+            Boot:GetParticleManager():AddParticleEffect("data/visuals/particle_effects/snow.lua", 512.0, 384.0);
             snow_started = true;
         end
     end

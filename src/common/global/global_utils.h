@@ -140,7 +140,7 @@ enum GLOBAL_USE {
 *** These series of constants are used as bit-masks for determining things such as if the character
 *** may use a certain item. Only one bit should be set for each character ID.
 ***
-*** \note The IDs for each character are defined in the dat/global.lua file.
+*** \note The IDs for each character are defined in the data/global.lua file.
 **/
 //@{
 const uint32 GLOBAL_CHARACTER_INVALID     = 0x00000000;

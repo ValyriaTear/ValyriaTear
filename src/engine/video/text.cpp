@@ -29,7 +29,7 @@
 #include "engine/script/script_read.h"
 
 // The script filename used to configure the text styles used in game.
-const std::string _font_script_filename = "dat/config/fonts.lua";
+const std::string _font_script_filename = "data/config/fonts.lua";
 
 using namespace vt_utils;
 using namespace vt_video::private_video;

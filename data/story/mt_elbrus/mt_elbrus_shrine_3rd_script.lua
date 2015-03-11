@@ -698,7 +698,7 @@ end
 
 -- Fireballs handling
 function _SpawnFireBall(x, y)
-    local fireball = vt_map.ParticleObject.Create("dat/effects/particles/fire.lua", x, y, vt_map.MapMode.GROUND_OBJECT);
+    local fireball = vt_map.ParticleObject.Create("data/visuals/particle_effects/fire.lua", x, y, vt_map.MapMode.GROUND_OBJECT);
     fireball:SetCollisionMask(vt_map.MapMode.ALL_COLLISION)
     AudioManager:PlaySound("sounds/fire1_spell.ogg");
 
@@ -1296,7 +1296,7 @@ map_functions = {
         -- Once we've reached this code, the boss can be hidden
         if (andromalius:IsVisible() == true) then
             -- Add dying particle effect
-            vt_map.ParticleObject("dat/effects/particles/slow_burst_particles.lua",
+            vt_map.ParticleObject("data/visuals/particle_effects/slow_burst_particles.lua",
                                   andromalius:GetXPosition(), andromalius:GetYPosition(),
                                   vt_map.MapMode.GROUND_OBJECT);
 

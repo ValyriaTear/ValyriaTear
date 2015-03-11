@@ -291,7 +291,7 @@ function _add_bubble(x, y)
     local object = CreateObject(Map, "Bubble", x, y, vt_map.MapMode.GROUND_OBJECT);
     object:RandomizeCurrentAnimationFrame();
 
-    vt_map.ParticleObject.Create("dat/effects/particles/bubble_steam.lua", x, y, vt_map.MapMode.GROUND_OBJECT);
+    vt_map.ParticleObject.Create("data/visuals/particle_effects/bubble_steam.lua", x, y, vt_map.MapMode.GROUND_OBJECT);
 end
 
 function _add_flame_pot(x, y)
