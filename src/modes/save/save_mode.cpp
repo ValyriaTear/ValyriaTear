@@ -527,6 +527,13 @@ bool SaveMode::_PreviewGame(uint32 id)
         map_script_filename = map_common_name + "_script.lua";
     }
 
+    // DEPRECATED: Remove in one release
+    // test whether the beginning of the filepath is 'dat/maps/' and replace with 'data/story/'
+    if (map_data_filename.substr(0, 9) == "dat/maps/")
+        map_data_filename = std::string("data/story/") + map_data_filename.substr(9, map_data_filename.length() - 9);
+    if (map_script_filename.substr(0, 9) == "dat/maps/")
+        map_script_filename = std::string("data/story/") + map_script_filename.substr(9, map_script_filename.length() - 9);
+
     // Check whether the map data file is available
     if (map_data_filename.empty() || !vt_utils::DoesFileExist(map_data_filename)) {
         file.CloseTable(); // save_game1

@@ -990,6 +990,13 @@ bool GameGlobal::LoadGame(const std::string &filename, uint32 slot_id)
         _map_script_filename = map_common_name + "_script.lua";
     }
 
+    // DEPRECATED: Remove in one release
+    // test whether the beginning of the filepath is 'dat/maps/' and replace with 'data/story/'
+    if (_map_data_filename.substr(0, 9) == "dat/maps/")
+        _map_data_filename = std::string("data/story/") + _map_data_filename.substr(9, _map_data_filename.length() - 9);
+    if (_map_script_filename.substr(0, 9) == "dat/maps/")
+        _map_script_filename = std::string("data/story/") + _map_script_filename.substr(9, _map_script_filename.length() - 9);
+
     // Load a potential saved position
     _x_save_map_position = file.ReadUInt("location_x");
     _y_save_map_position = file.ReadUInt("location_y");
@@ -1653,6 +1660,11 @@ void GameGlobal::_LoadWorldMap(vt_script::ReadScriptDescriptor &file)
     }
 
     std::string world_map = file.ReadString("world_map_file");
+
+    // DEPRECATED: Remove this hack in one release
+    if (world_map.substr(0, 20) == "img/menus/worldmaps/")
+        world_map = std::string("data/story/common/worldmaps/") + world_map.substr(20, world_map.length() - 20);
+
     SetWorldMap(world_map);
 
     std::vector<std::string> location_ids;
