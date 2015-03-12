@@ -11,7 +11,7 @@ map_subname = "Low Mountain"
 
 -- The music file used as default background music on this map.
 -- Other musics will have to handled through scripting.
-music_filename = "music/awareness_el_corleo.ogg"
+music_filename = "data/music/awareness_el_corleo.ogg"
 
 -- c++ objects instances
 local Map = nil
@@ -46,20 +46,20 @@ function Load(m)
 
     -- Add clouds overlay
     Map:GetEffectSupervisor():EnableAmbientOverlay("data/visuals/ambient/clouds.png", 5.0, -5.0, true);
-    Map:GetScriptSupervisor():AddScript("dat/maps/common/at_night.lua");
+    Map:GetScriptSupervisor():AddScript("data/story/common/at_night.lua");
 
     -- Make the rain starts or the corresponding dialogue according the need
     if (GlobalManager:GetEventValue("story", "mt_elbrus_weather_level") > 0) then
         Map:GetParticleManager():AddParticleEffect("data/visuals/particle_effects/rain.lua", 512.0, 768.0);
         -- Place an omni ambient sound at the center of the map to add a nice rainy effect.
-        vt_map.SoundObject.Create("music/Ove Melaa - Rainy.ogg", 20.0, 16.0, 100.0);
+        vt_map.SoundObject.Create("data/music/Ove Melaa - Rainy.ogg", 20.0, 16.0, 100.0);
     else
         EventManager:StartEvent("Rain dialogue start", 200);
     end
 
     -- Enables thunder if it started.
     if (GlobalManager:GetEventValue("story", "mt_elbrus_weather_level") > 1) then
-        Map:GetScriptSupervisor():AddScript("dat/maps/common/soft_lightnings_script.lua");
+        Map:GetScriptSupervisor():AddScript("data/story/common/soft_lightnings_script.lua");
     end
 end
 
@@ -303,26 +303,26 @@ function _CreateEvents()
     local text = nil
 
     -- To the first cave
-    vt_map.MapTransitionEvent.Create("to cave 2-1", "dat/maps/mt_elbrus/mt_elbrus_cave2_map.lua",
-                                     "dat/maps/mt_elbrus/mt_elbrus_cave2_script.lua", "from_elbrus_entrance2-1");
+    vt_map.MapTransitionEvent.Create("to cave 2-1", "data/story/mt_elbrus/mt_elbrus_cave2_map.lua",
+                                     "data/story/mt_elbrus/mt_elbrus_cave2_script.lua", "from_elbrus_entrance2-1");
 
-    vt_map.MapTransitionEvent.Create("to cave 2-2", "dat/maps/mt_elbrus/mt_elbrus_cave2_map.lua",
-                                     "dat/maps/mt_elbrus/mt_elbrus_cave2_script.lua", "from_elbrus_entrance2-2");
+    vt_map.MapTransitionEvent.Create("to cave 2-2", "data/story/mt_elbrus/mt_elbrus_cave2_map.lua",
+                                     "data/story/mt_elbrus/mt_elbrus_cave2_script.lua", "from_elbrus_entrance2-2");
 
-    vt_map.MapTransitionEvent.Create("to cave 3-1", "dat/maps/mt_elbrus/mt_elbrus_cave3_map.lua",
-                                     "dat/maps/mt_elbrus/mt_elbrus_cave3_script.lua", "from_elbrus_entrance3-1");
+    vt_map.MapTransitionEvent.Create("to cave 3-1", "data/story/mt_elbrus/mt_elbrus_cave3_map.lua",
+                                     "data/story/mt_elbrus/mt_elbrus_cave3_script.lua", "from_elbrus_entrance3-1");
 
-    vt_map.MapTransitionEvent.Create("to cave 3-2", "dat/maps/mt_elbrus/mt_elbrus_cave3_map.lua",
-                                     "dat/maps/mt_elbrus/mt_elbrus_cave3_script.lua", "from_elbrus_entrance3-2");
+    vt_map.MapTransitionEvent.Create("to cave 3-2", "data/story/mt_elbrus/mt_elbrus_cave3_map.lua",
+                                     "data/story/mt_elbrus/mt_elbrus_cave3_script.lua", "from_elbrus_entrance3-2");
 
-    vt_map.MapTransitionEvent.Create("to mountain path 3", "dat/maps/mt_elbrus/mt_elbrus_path3_map.lua",
-                                     "dat/maps/mt_elbrus/mt_elbrus_path3_script.lua", "from_path2");
+    vt_map.MapTransitionEvent.Create("to mountain path 3", "data/story/mt_elbrus/mt_elbrus_path3_map.lua",
+                                     "data/story/mt_elbrus/mt_elbrus_path3_script.lua", "from_path2");
 
-    vt_map.MapTransitionEvent.Create("to mountain path 3bis", "dat/maps/mt_elbrus/mt_elbrus_path3_map.lua",
-                                     "dat/maps/mt_elbrus/mt_elbrus_path3_script.lua", "from_path2_chest");
+    vt_map.MapTransitionEvent.Create("to mountain path 3bis", "data/story/mt_elbrus/mt_elbrus_path3_map.lua",
+                                     "data/story/mt_elbrus/mt_elbrus_path3_script.lua", "from_path2_chest");
 
-    vt_map.MapTransitionEvent.Create("to mountain path 1", "dat/maps/mt_elbrus/mt_elbrus_path1_map.lua",
-                                     "dat/maps/mt_elbrus/mt_elbrus_path1_script.lua", "from_path2");
+    vt_map.MapTransitionEvent.Create("to mountain path 1", "data/story/mt_elbrus/mt_elbrus_path1_map.lua",
+                                     "data/story/mt_elbrus/mt_elbrus_path1_script.lua", "from_path2");
 
     -- Heal point
     vt_map.ScriptedEvent.Create("Heal event", "heal_party", "heal_done");
@@ -422,13 +422,13 @@ end
 -- Sets common battle environment settings for enemy sprites
 function _SetBattleEnvironment(enemy)
     -- default values
-    enemy:SetBattleMusicTheme("music/heroism-OGA-Edward-J-Blakeley.ogg");
+    enemy:SetBattleMusicTheme("data/music/heroism-OGA-Edward-J-Blakeley.ogg");
     enemy:SetBattleBackground("data/battles/battle_scenes/mountain_background.png");
-    enemy:AddBattleScript("dat/maps/common/at_night.lua");
+    enemy:AddBattleScript("data/story/common/at_night.lua");
     -- Adds the rain right away as its starting on the first entrance in this map.
-    enemy:AddBattleScript("dat/maps/common/rain_in_battles_script.lua");
+    enemy:AddBattleScript("data/story/common/rain_in_battles_script.lua");
     if (GlobalManager:GetEventValue("story", "mt_elbrus_weather_level") > 1) then
-        enemy:AddBattleScript("dat/maps/common/soft_lightnings_script.lua");
+        enemy:AddBattleScript("data/story/common/soft_lightnings_script.lua");
     end
 end
 
@@ -447,7 +447,7 @@ map_functions = {
         GlobalManager:GetActiveParty():AddHitPoints(10000);
         GlobalManager:GetActiveParty():AddSkillPoints(10000);
         Map:SetStamina(10000);
-        AudioManager:PlaySound("sounds/heal_spell.wav");
+        AudioManager:PlaySound("data/sounds/heal_spell.wav");
         heal_effect:SetPosition(hero:GetXPosition(), hero:GetYPosition());
         heal_effect:Start();
         heal_effect_time = 0;
@@ -514,6 +514,6 @@ map_functions = {
         GlobalManager:SetEventValue("story", "mt_elbrus_weather_level", 1);
 
         -- Place an omni ambient sound at the center of the map to add a nice rainy effect.
-        vt_map.SoundObject.Create("music/Ove Melaa - Rainy.ogg", 20.0, 16.0, 100.0);
+        vt_map.SoundObject.Create("data/music/Ove Melaa - Rainy.ogg", 20.0, 16.0, 100.0);
     end,
 }

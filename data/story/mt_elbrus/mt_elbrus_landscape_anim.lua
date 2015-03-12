@@ -22,7 +22,7 @@ function Initialize(map_instance)
     Script = Map:GetScriptSupervisor();
     Effects = Map:GetEffectSupervisor();
     -- Load the creatures animated background
-    background = Script:CreateImage("dat/maps/mt_elbrus/elbrus_landscape.png");
+    background = Script:CreateImage("data/story/mt_elbrus/elbrus_landscape.png");
     background:SetDimensions(image_width, 768);
 
     first_update_done = false;

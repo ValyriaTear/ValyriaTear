@@ -11,7 +11,7 @@ map_subname = ""
 
 -- The music file used as default background music on this map.
 -- Other musics will have to handled through scripting.
-music_filename = "music/icy_wind.ogg"
+music_filename = "data/music/icy_wind.ogg"
 
 -- c++ objects instances
 local Map = nil
@@ -77,7 +77,7 @@ function Load(m)
 
         -- Loads the funny music if needed.
         if (GlobalManager:GetEventValue("triggers", "mt elbrus waterfall trigger") == 1) then
-            AudioManager:LoadMusic("music/Zander Noriega - School of Quirks.ogg", Map);
+            AudioManager:LoadMusic("data/music/Zander Noriega - School of Quirks.ogg", Map);
         end
     end
 
@@ -194,7 +194,7 @@ function _CreateObjects()
 
     -- We can hear waterfalls in that case
     if (GlobalManager:GetEventValue("triggers", "mt elbrus waterfall trigger") == 1) then
-        vt_map.SoundObject.Create("sounds/fountain_large.ogg", 0, 0, 50.0);
+        vt_map.SoundObject.Create("data/sounds/fountain_large.ogg", 0, 0, 50.0);
     end
 
     -- Load the spring heal effect.
@@ -216,7 +216,7 @@ function _CreateObjects()
     vt_map.DialogueEvent.Create("Heal dialogue", dialogue);
 
     -- Snow effect
-    vt_map.ParticleObject.Create("dat/maps/mt_elbrus/particles_snow_south_entrance.lua", 29, 48, vt_map.MapMode.GROUND_OBJECT);
+    vt_map.ParticleObject.Create("data/story/mt_elbrus/particles_snow_south_entrance.lua", 29, 48, vt_map.MapMode.GROUND_OBJECT);
 
     vt_map.Halo.Create("data/visuals/lights/torch_light_mask.lua", 29, 55,
         vt_video.Color(1.0, 1.0, 1.0, 0.8));
@@ -241,7 +241,7 @@ function _CreateObjects()
         _add_bubble(4, 39);
 
         -- The poisonous scent
-        Map:GetScriptSupervisor():AddScript("dat/maps/mt_elbrus/mt_elbrus_scent_anim.lua");
+        Map:GetScriptSupervisor():AddScript("data/story/mt_elbrus/mt_elbrus_scent_anim.lua");
     end
 end
 
@@ -251,7 +251,7 @@ function _add_small_waterfall(x, y)
     object:RandomizeCurrentAnimationFrame();
 
     -- Ambient sound
-    object = vt_map.SoundObject.CreatObject("sounds/fountain_large.ogg", x, y - 5, 50.0);
+    object = vt_map.SoundObject.CreatObject("data/sounds/fountain_large.ogg", x, y - 5, 50.0);
     object:SetMaxVolume(0.6);
 
     -- Particle effects
@@ -269,7 +269,7 @@ function _add_waterlight(x, y)
 end
 
 function _add_flame(x, y)
-    vt_map.SoundObject.Create("sounds/campfire.ogg", x, y, 10.0);
+    vt_map.SoundObject.Create("data/sounds/campfire.ogg", x, y, 10.0);
 
     local object = CreateObject(Map, "Flame1", x, y, vt_map.MapMode.GROUND_OBJECT);
     object:RandomizeCurrentAnimationFrame();
@@ -300,17 +300,17 @@ function _CreateEvents()
     local dialogue = nil
     local text = nil
 
-    vt_map.MapTransitionEvent.Create("to mountain shrine 1st floor", "dat/maps/mt_elbrus/mt_elbrus_shrine5_map.lua",
-                                     "dat/maps/mt_elbrus/mt_elbrus_shrine5_script.lua", "from_shrine_2nd_floor");
+    vt_map.MapTransitionEvent.Create("to mountain shrine 1st floor", "data/story/mt_elbrus/mt_elbrus_shrine5_map.lua",
+                                     "data/story/mt_elbrus/mt_elbrus_shrine5_script.lua", "from_shrine_2nd_floor");
 
-    vt_map.MapTransitionEvent.Create("to mountain shrine 2nd floor", "dat/maps/mt_elbrus/mt_elbrus_shrine_2nd_ne_map.lua",
-                                     "dat/maps/mt_elbrus/mt_elbrus_shrine_2nd_ne_script.lua", "from_shrine_1st_floor");
+    vt_map.MapTransitionEvent.Create("to mountain shrine 2nd floor", "data/story/mt_elbrus/mt_elbrus_shrine_2nd_ne_map.lua",
+                                     "data/story/mt_elbrus/mt_elbrus_shrine_2nd_ne_script.lua", "from_shrine_1st_floor");
 
-    vt_map.MapTransitionEvent.Create("to mountain shrine 2nd floor grotto", "dat/maps/mt_elbrus/mt_elbrus_shrine_2nd_s2_map.lua",
-                                     "dat/maps/mt_elbrus/mt_elbrus_shrine_2nd_s2_script.lua", "from_shrine_stairs");
+    vt_map.MapTransitionEvent.Create("to mountain shrine 2nd floor grotto", "data/story/mt_elbrus/mt_elbrus_shrine_2nd_s2_map.lua",
+                                     "data/story/mt_elbrus/mt_elbrus_shrine_2nd_s2_script.lua", "from_shrine_stairs");
 
-    vt_map.MapTransitionEvent.Create("to mountain shrine 3rd floor", "dat/maps/mt_elbrus/mt_elbrus_shrine_3rd_map.lua",
-                                     "dat/maps/mt_elbrus/mt_elbrus_shrine_3rd_script.lua", "from_shrine_stairs");
+    vt_map.MapTransitionEvent.Create("to mountain shrine 3rd floor", "data/story/mt_elbrus/mt_elbrus_shrine_3rd_map.lua",
+                                     "data/story/mt_elbrus/mt_elbrus_shrine_3rd_script.lua", "from_shrine_stairs");
 
     -- Heal point
     vt_map.ScriptedEvent.Create("Heal event", "heal_party", "heal_done");
@@ -556,7 +556,7 @@ map_functions = {
         GlobalManager:GetActiveParty():AddHitPoints(10000);
         GlobalManager:GetActiveParty():AddSkillPoints(10000);
         Map:SetStamina(10000);
-        AudioManager:PlaySound("sounds/heal_spell.wav");
+        AudioManager:PlaySound("data/sounds/heal_spell.wav");
         heal_effect:SetPosition(hero:GetXPosition(), hero:GetYPosition());
         heal_effect:Start();
         heal_effect_time = 0;
@@ -635,7 +635,7 @@ map_functions = {
     orlinn_laughs = function()
         orlinn:SetCustomAnimation("laughing", 0); -- 0 means forever
         -- Adds funny music
-        AudioManager:PlayMusic("music/Zander Noriega - School of Quirks.ogg");
+        AudioManager:PlayMusic("data/music/Zander Noriega - School of Quirks.ogg");
     end,
 
     orlinn_stops_laughing = function()
@@ -732,7 +732,7 @@ map_functions = {
         GlobalManager:SetEventValue("story", "mt elbrus shrine heroes saved", 1)
 
         -- Fade in the default music
-        AudioManager:PlayMusic("music/icy_wind.ogg");
+        AudioManager:PlayMusic("data/music/icy_wind.ogg");
     end,
 
     empty_event = function()

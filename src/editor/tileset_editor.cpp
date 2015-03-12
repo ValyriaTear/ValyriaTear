@@ -286,7 +286,7 @@ void TilesetEditor::_OpenFile()
 {
     // Get the filename to open through the OpenFileName dialog
     QString file_name = QFileDialog::getOpenFileName(this, "Map Editor -- File Open",
-                        "dat/tilesets", "Tilesets (*.lua)");
+                        "data/tilesets", "Tilesets (*.lua)");
 
     if (file_name.isEmpty())
         return;

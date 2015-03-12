@@ -11,7 +11,7 @@ map_subname = ""
 
 -- The music file used as default background music on this map.
 -- Other musics will have to handled through scripting.
-music_filename = "music/overworld_present.ogg"
+music_filename = "data/music/overworld_present.ogg"
 
 -- c++ objects instances
 local Map = nil
@@ -81,7 +81,7 @@ end
 -- Sets common battle environment settings for enemy sprites
 function _SetBattleEnvironment(enemy)
     -- default values
-    enemy:SetBattleMusicTheme("music/heroism-OGA-Edward-J-Blakeley.ogg");
+    enemy:SetBattleMusicTheme("data/music/heroism-OGA-Edward-J-Blakeley.ogg");
     -- Put a default battle background
     enemy:SetBattleBackground("data/battles/battle_scenes/plains_background.png");
     -- This is an overworld enemy, so we reduce its speed, make it invisible
@@ -90,7 +90,7 @@ function _SetBattleEnvironment(enemy)
     enemy:SetVisible(false)
     enemy:SetAggroRange(3.0);
     -- Add a workaround script permitting to dinamically change the battle background
-    enemy:AddBattleScript("dat/maps/overworld/present/overworld_battle_background_script.lua");
+    enemy:AddBattleScript("data/story/overworld/present/overworld_battle_background_script.lua");
 end
 
 local desert_zone = nil

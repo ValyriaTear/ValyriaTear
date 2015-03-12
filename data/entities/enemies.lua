@@ -128,7 +128,7 @@ enemies[3] = {
     },
 
     scripts = {
-        death = "dat/battles/enemies_animations/fenrir_flee.lua"
+        death = "data/battles/enemies_animations/fenrir_flee.lua"
     },
 
     base_stats = {
@@ -352,7 +352,7 @@ enemies[7] = {
     },
 
     scripts = {
-        death = "dat/battles/enemies_animations/fenrir_flee.lua"
+        death = "data/battles/enemies_animations/fenrir_flee.lua"
     },
 
     base_stats = {
@@ -412,7 +412,7 @@ enemies[8] = {
     },
 
     scripts = {
-        death = "dat/battles/enemies_animations/fenrir_death.lua"
+        death = "data/battles/enemies_animations/fenrir_death.lua"
     },
 
     base_stats = {
@@ -533,7 +533,7 @@ enemies[10] = {
     },
 
     scripts = {
-        battle_ai = "dat/battles/enemies_ai/banesore_layna_village_ai.lua",
+        battle_ai = "data/battles/enemies_ai/banesore_layna_village_ai.lua",
     },
 
     -- Special, unwinnable battle with no reward
@@ -761,7 +761,7 @@ enemies[14] = {
     },
 
     scripts = {
-        battle_ai = "dat/battles/enemies_ai/harlequin_ai.lua",
+        battle_ai = "data/battles/enemies_ai/harlequin_ai.lua",
     },
 
     skills = {
@@ -1082,7 +1082,7 @@ enemies[20] = {
     },
 
     scripts = {
-        battle_ai = "dat/battles/enemies_ai/dorver_ai.lua",
+        battle_ai = "data/battles/enemies_ai/dorver_ai.lua",
     },
 
     skills = {
@@ -1133,7 +1133,7 @@ enemies[21] = {
     },
 
     scripts = {
-        battle_ai = "dat/battles/enemies_ai/andromalius_ai.lua",
+        battle_ai = "data/battles/enemies_ai/andromalius_ai.lua",
     },
 
     skills = {

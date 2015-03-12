@@ -11,7 +11,7 @@ map_subname = ""
 
 -- The music file used as default background music on this map.
 -- Other musics will have to handled through scripting.
-music_filename = "music/mountain_shrine.ogg"
+music_filename = "data/music/mountain_shrine.ogg"
 
 -- c++ objects instances
 local Map = nil
@@ -44,7 +44,7 @@ function Load(m)
     Map:GetEffectSupervisor():EnableAmbientOverlay("data/visuals/ambient/dark.png", 0.0, 0.0, false);
 
     -- Preload sounds
-    AudioManager:LoadSound("sounds/opening_sword_unsheathe.wav", Map);
+    AudioManager:LoadSound("data/sounds/opening_sword_unsheathe.wav", Map);
 end
 
 -- the map update function handles checks done on each game tick.
@@ -113,7 +113,7 @@ function _CreateObjects()
         _add_bubble(54, 22);
 
         -- The poisonous scent
-        Map:GetScriptSupervisor():AddScript("dat/maps/mt_elbrus/mt_elbrus_scent_anim.lua");
+        Map:GetScriptSupervisor():AddScript("data/story/mt_elbrus/mt_elbrus_scent_anim.lua");
     end
 
     _add_flame_pot(26, 24);
@@ -277,7 +277,7 @@ function _add_waterlight(x, y)
 end
 
 function _add_flame(x, y)
-    vt_map.SoundObject.Create("sounds/campfire.ogg", x, y, 10.0);
+    vt_map.SoundObject.Create("data/sounds/campfire.ogg", x, y, 10.0);
 
     CreateObject(Map, "Flame1", x, y, vt_map.MapMode.GROUND_OBJECT);
 
@@ -295,7 +295,7 @@ function _add_bubble(x, y)
 end
 
 function _add_flame_pot(x, y)
-    vt_map.SoundObject.Create("sounds/campfire.ogg", x, y, 10.0);
+    vt_map.SoundObject.Create("data/sounds/campfire.ogg", x, y, 10.0);
 
     local object = CreateObject(Map, "Flame Pot1", x, y, vt_map.MapMode.GROUND_OBJECT);
     object:RandomizeCurrentAnimationFrame();
@@ -312,11 +312,11 @@ function _CreateEvents()
     local dialogue = nil
     local text = nil
 
-    vt_map.MapTransitionEvent.Create("to mountain shrine main room", "dat/maps/mt_elbrus/mt_elbrus_shrine2_map.lua",
-                                     "dat/maps/mt_elbrus/mt_elbrus_shrine2_script.lua", "from_shrine_enigma_room");
+    vt_map.MapTransitionEvent.Create("to mountain shrine main room", "data/story/mt_elbrus/mt_elbrus_shrine2_map.lua",
+                                     "data/story/mt_elbrus/mt_elbrus_shrine2_script.lua", "from_shrine_enigma_room");
 
-    vt_map.MapTransitionEvent.Create("to mountain shrine main room-waterfalls", "dat/maps/mt_elbrus/mt_elbrus_shrine2_2_map.lua",
-                                     "dat/maps/mt_elbrus/mt_elbrus_shrine2_script.lua", "from_shrine_enigma_room");
+    vt_map.MapTransitionEvent.Create("to mountain shrine main room-waterfalls", "data/story/mt_elbrus/mt_elbrus_shrine2_2_map.lua",
+                                     "data/story/mt_elbrus/mt_elbrus_shrine2_script.lua", "from_shrine_enigma_room");
 
     vt_map.ScriptedEvent.Create("Push trigger 1", "push_trigger_1", "");
     vt_map.ScriptedEvent.Create("Push trigger 2", "push_trigger_2", "");
@@ -341,9 +341,9 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("Mini-boss fight battle start");
 
     event = vt_map.BattleEncounterEvent.Create("Mini-boss fight battle start");
-    event:SetMusic("music/accion-OGA-djsaryon.ogg");
+    event:SetMusic("data/music/accion-OGA-djsaryon.ogg");
     event:SetBackground("data/battles/battle_scenes/mountain_shrine.png");
-    event:AddScript("dat/battles/mountain_shrine_battle_anim.lua");
+    event:AddScript("data/battles/battle_scenes/mountain_shrine_battle_anim.lua");
     event:SetBoss(true);
     event:AddEnemy(20);
     event:AddEventLinkAtEnd("Mini-boss fight end");
@@ -440,7 +440,7 @@ function _UpdateSpikeState()
             my_object:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
         end
     end
-    AudioManager:PlaySound("sounds/opening_sword_unsheathe.wav");
+    AudioManager:PlaySound("data/sounds/opening_sword_unsheathe.wav");
 
     -- Then check whether the enigma is solved.
     if (spike1_up == false and spike2_up == false and spike3_up == false and
@@ -531,7 +531,7 @@ map_functions = {
     trap_map_start = function()
         Map:PushState(vt_map.MapMode.STATE_SCENE);
         Map:GetEffectSupervisor():ShakeScreen(0.6, 2000, vt_mode_manager.EffectSupervisor.SHAKE_FALLOFF_LINEAR);
-        AudioManager:PlaySound("sounds/cave-in.ogg");
+        AudioManager:PlaySound("data/sounds/cave-in.ogg");
     end,
 
     trap_map_end = function()

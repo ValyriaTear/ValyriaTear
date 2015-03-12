@@ -59,7 +59,7 @@ function Update()
         lord_y_position = Map:GetScreenYCoordinate(54.0) - 50.0;
 
         -- Play crystal sound
-        AudioManager:PlaySound("sounds/crystal_appearance.ogg");
+        AudioManager:PlaySound("data/sounds/crystal_appearance.ogg");
 
         script_triggered = true;
     end

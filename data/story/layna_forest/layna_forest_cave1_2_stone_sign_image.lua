@@ -21,7 +21,7 @@ function Initialize(map_instance)
     Map = map_instance;
 
     Script = Map:GetScriptSupervisor();
-    stone_sign = Script:CreateImage("dat/maps/layna_forest/stone_sign.png");
+    stone_sign = Script:CreateImage("data/story/layna_forest/stone_sign.png");
     stone_sign:SetDimensions(512.0, 256.0);
 end
 

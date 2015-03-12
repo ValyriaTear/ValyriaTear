@@ -18,7 +18,7 @@ function Initialize(battle_instance)
     lightning = Script:CreateImage("");
     lightning:SetDimensions(1024.0, 768.0);
 
-    AudioManager:LoadSound("sounds/thunder.wav", Map);
+    AudioManager:LoadSound("data/sounds/thunder.wav", Map);
 
     total_time = 0;
     lightning_sound_triggered = false;
@@ -46,7 +46,7 @@ function Update()
 
     -- Then its sound comes
     if (lightning_sound_triggered == false and total_time > 9000) then
-        AudioManager:PlaySound("sounds/thunder.wav");
+        AudioManager:PlaySound("data/sounds/thunder.wav");
         lightning_sound_triggered = true
     end
 

@@ -11,7 +11,7 @@ map_subname = "Village center"
 
 -- The music file used as default background music on this map.
 -- Other musics will have to handled through scripting.
-music_filename = "music/Caketown_1-OGA-mat-pablo.ogg"
+music_filename = "data/music/Caketown_1-OGA-mat-pablo.ogg"
 
 -- c++ objects instances
 local Map = nil
@@ -68,7 +68,7 @@ function _HandleCredits()
         GlobalManager:SetEventValue("game", "Start_Credits", 1);
     end
     if (GlobalManager:DoesEventExist("game", "Credits_shown") == false) then
-        Map:GetScriptSupervisor():AddScript("dat/credits/episode1_credits.lua");
+        Map:GetScriptSupervisor():AddScript("data/credits/episode1_credits.lua");
     end
 end
 
@@ -96,19 +96,19 @@ function _CreateCharacters()
     elseif (GlobalManager:GetPreviousLocation() == "from_shop") then
         bronann:SetPosition(94, 72);
         bronann:SetDirection(vt_map.MapMode.SOUTH);
-        AudioManager:PlaySound("sounds/door_close.wav");
+        AudioManager:PlaySound("data/sounds/door_close.wav");
     elseif (GlobalManager:GetPreviousLocation() == "from_secret_path") then
         bronann:SetPosition(3, 60);
         bronann:SetDirection(vt_map.MapMode.EAST);
     elseif (GlobalManager:GetPreviousLocation() == "from sophia's house") then
-        AudioManager:PlaySound("sounds/door_close.wav");
+        AudioManager:PlaySound("data/sounds/door_close.wav");
         bronann:SetPosition(22, 20);
         bronann:SetDirection(vt_map.MapMode.NORTH);
     elseif (GlobalManager:GetPreviousLocation() == "from_layna_forest_entrance") then
         bronann:SetPosition(115, 37);
         bronann:SetDirection(vt_map.MapMode.WEST);
     elseif (GlobalManager:GetPreviousLocation() == "from_bronanns_home") then
-        AudioManager:PlaySound("sounds/door_close.wav");
+        AudioManager:PlaySound("data/sounds/door_close.wav");
     end
 end
 
@@ -173,7 +173,7 @@ function _CreateNPCs()
     npc:AddDialogueReference(dialogue);
     -- Add her cat, Nekko
     object = CreateObject(Map, "Cat1", 24, 37.6, vt_map.MapMode.GROUND_OBJECT);
-    vt_map.SoundEvent.Create("Nekko says Meoww!", "sounds/meow.wav");
+    vt_map.SoundEvent.Create("Nekko says Meoww!", "data/sounds/meow.wav");
     object:SetEventWhenTalking("Nekko says Meoww!");
 
     georges = CreateNPCSprite(Map, "Man1", vt_system.Translate("Georges"), 32, 76, vt_map.MapMode.GROUND_OBJECT);
@@ -274,29 +274,29 @@ function _CreateEvents()
     local dialogue = nil
 
     -- Triggered Events
-    vt_map.MapTransitionEvent.Create("to Bronann's home", "dat/maps/layna_village/layna_village_bronanns_home_map.lua",
-                                     "dat/maps/layna_village/layna_village_bronanns_home_script.lua", "from_village_center");
+    vt_map.MapTransitionEvent.Create("to Bronann's home", "data/story/layna_village/layna_village_bronanns_home_map.lua",
+                                     "data/story/layna_village/layna_village_bronanns_home_script.lua", "from_village_center");
 
-    vt_map.MapTransitionEvent.Create("to Riverbank", "dat/maps/layna_village/layna_village_riverbank_map.lua",
-                                     "dat/maps/layna_village/layna_village_riverbank_script.lua", "from_village_center");
+    vt_map.MapTransitionEvent.Create("to Riverbank", "data/story/layna_village/layna_village_riverbank_map.lua",
+                                     "data/story/layna_village/layna_village_riverbank_script.lua", "from_village_center");
 
-    vt_map.MapTransitionEvent.Create("to Village south entrance", "dat/maps/layna_village/layna_village_south_entrance_map.lua",
-                                     "dat/maps/layna_village/layna_village_south_entrance_script.lua", "from_village_center");
+    vt_map.MapTransitionEvent.Create("to Village south entrance", "data/story/layna_village/layna_village_south_entrance_map.lua",
+                                     "data/story/layna_village/layna_village_south_entrance_script.lua", "from_village_center");
 
-    vt_map.MapTransitionEvent.Create("to Kalya house path", "dat/maps/layna_village/layna_village_kalya_house_path_map.lua",
-                                     "dat/maps/layna_village/layna_village_kalya_house_path_script.lua", "from_village_center");
+    vt_map.MapTransitionEvent.Create("to Kalya house path", "data/story/layna_village/layna_village_kalya_house_path_map.lua",
+                                     "data/story/layna_village/layna_village_kalya_house_path_script.lua", "from_village_center");
 
-    vt_map.MapTransitionEvent.Create("to Flora's Shop", "dat/maps/layna_village/layna_village_center_shop_map.lua",
-                                     "dat/maps/layna_village/layna_village_center_shop_script.lua", "from_village_center");
+    vt_map.MapTransitionEvent.Create("to Flora's Shop", "data/story/layna_village/layna_village_center_shop_map.lua",
+                                     "data/story/layna_village/layna_village_center_shop_script.lua", "from_village_center");
 
-    vt_map.MapTransitionEvent.Create("to sophia house", "dat/maps/layna_village/layna_village_center_sophia_house_map.lua",
-                                     "dat/maps/layna_village/layna_village_center_sophia_house_script.lua", "from_village_center");
+    vt_map.MapTransitionEvent.Create("to sophia house", "data/story/layna_village/layna_village_center_sophia_house_map.lua",
+                                     "data/story/layna_village/layna_village_center_sophia_house_script.lua", "from_village_center");
 
-    vt_map.MapTransitionEvent.Create("to secret cliff", "dat/maps/layna_village/layna_village_riverbank_map.lua",
-                                     "dat/maps/layna_village/layna_village_riverbank_script.lua", "from_secret_path");
+    vt_map.MapTransitionEvent.Create("to secret cliff", "data/story/layna_village/layna_village_riverbank_map.lua",
+                                     "data/story/layna_village/layna_village_riverbank_script.lua", "from_secret_path");
 
-    vt_map.MapTransitionEvent.Create("to layna forest entrance", "dat/maps/layna_forest/layna_forest_entrance_map.lua",
-                                     "dat/maps/layna_forest/layna_forest_entrance_script.lua", "from_village_center")
+    vt_map.MapTransitionEvent.Create("to layna forest entrance", "data/story/layna_forest/layna_forest_entrance_map.lua",
+                                     "data/story/layna_forest/layna_forest_entrance_script.lua", "from_village_center")
 
     -- Generic events
     vt_map.ScriptedEvent.Create("Map:PushState(SCENE)", "Map_SceneState", "");
@@ -726,7 +726,7 @@ function _CheckZones()
             return;
         end
         bronann:SetMoving(false);
-        AudioManager:PlaySound("sounds/door_open2.wav");
+        AudioManager:PlaySound("data/sounds/door_open2.wav");
         EventManager:StartEvent("to Bronann's home");
     elseif (to_riverbank_zone:IsCameraEntering() == true) then
         bronann:SetMoving(false);
@@ -756,12 +756,12 @@ function _CheckZones()
         end
     elseif (shop_entrance_zone:IsCameraEntering() == true) then
         bronann:SetMoving(false);
-        AudioManager:PlaySound("sounds/door_open2.wav");
+        AudioManager:PlaySound("data/sounds/door_open2.wav");
         EventManager:StartEvent("to Flora's Shop");
     elseif (sophia_house_entrance_zone:IsCameraEntering() == true) then
         bronann:SetMoving(false);
         EventManager:StartEvent("to sophia house");
-        AudioManager:PlaySound("sounds/door_open2.wav");
+        AudioManager:PlaySound("data/sounds/door_open2.wav");
     end
 end
 
@@ -1100,7 +1100,7 @@ map_functions = {
     BrightLightStart = function()
         bright_light_time = 0.0;
         Effects:ShakeScreen(0.6, 6000, vt_mode_manager.EffectSupervisor.SHAKE_FALLOFF_GRADUAL);
-        AudioManager:PlaySound("sounds/rumble.wav");
+        AudioManager:PlaySound("data/sounds/rumble.wav");
         AudioManager:FadeOutActiveMusic(2000);
     end,
 

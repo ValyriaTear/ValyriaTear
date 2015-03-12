@@ -4,7 +4,7 @@
 animation = {
 
     -- The file to load the frames from
-    image_filename = "data/particle_effects/ripples.png",
+    image_filename = "data/visuals/particle_effects/ripples.png",
     -- The number of rows and columns of images, will be used to compute
     -- the images width and height, and also the frames number (row x col)
     rows = 6,

@@ -42,9 +42,9 @@ function Initialize(battle_instance)
     fire1_2 = Script:CreateImage("data/visuals/lights/sun_flare_light.png");
     fire1_2:SetDimensions(154.0, 161.0);
 
-    soldier = Script:CreateAnimation("dat/maps/layna_village/battle_with_banesore/battle_dark_soldier_idle_down.lua");
+    soldier = Script:CreateAnimation("data/story/layna_village/battle_with_banesore/battle_dark_soldier_idle_down.lua");
     soldier:SetDimensions(150.0, 150.0);
-    lilly = Script:CreateAnimation("dat/maps/layna_village/battle_with_banesore/battle_lilly_idle_down.lua");
+    lilly = Script:CreateAnimation("data/story/layna_village/battle_with_banesore/battle_lilly_idle_down.lua");
     lilly:SetDimensions(70.0, 140.0);
 
     local text = nil
@@ -173,7 +173,7 @@ function Update()
     if (dialogue3_done == true and DialogueManager:IsDialogueActive() == false) then
         if (herth_walking == nil) then
             -- Load and start Herth animation only after the dialogue 3.
-            herth_walking = Script:CreateAnimation("dat/maps/layna_village/battle_with_banesore/herth_walking.lua");
+            herth_walking = Script:CreateAnimation("data/story/layna_village/battle_with_banesore/herth_walking.lua");
             herth_walking:SetDimensions(70.0, 140.0);
         end
         if (herth_x_position <= 175.0) then
@@ -301,7 +301,7 @@ end
 function lilly_heals_bronann()
     local hit_points = (20 * 3) +  vt_utils.RandomBoundedInteger(0, 15);
     bronann:RegisterHealing(hit_points, true);
-    AudioManager:PlaySound("sounds/heal_spell.wav");
+    AudioManager:PlaySound("data/sounds/heal_spell.wav");
     Battle:TriggerBattleParticleEffect("data/visuals/particle_effects/heal_particle.lua",
             bronann:GetXLocation(), bronann:GetYLocation() + 5);
 end

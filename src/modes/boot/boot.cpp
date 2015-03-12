@@ -87,7 +87,7 @@ BootMode::BootMode() :
 
     // Test the existence and validity of the boot script.
     ReadScriptDescriptor boot_script;
-    if(!boot_script.OpenFile("dat/config/boot.lua")) {
+    if(!boot_script.OpenFile("data/boot_menu/boot.lua")) {
         PRINT_ERROR << "Failed to load boot data file" << std::endl;
         SystemManager->ExitGame();
         return;
@@ -103,7 +103,7 @@ BootMode::BootMode() :
     boot_script.CloseFile();
 
     // Trigger the Initialize functions in the scene script component
-    GetScriptSupervisor().AddScript("dat/config/boot.lua");
+    GetScriptSupervisor().AddScript("data/boot_menu/boot.lua");
     GetScriptSupervisor().Initialize(this);
 
     // Load the menu bar and the help text
@@ -119,7 +119,7 @@ BootMode::BootMode() :
     _boot_timer.Run();
 
     // Preload new game sound
-    AudioManager->LoadSound("sounds/new_game.wav", this);
+    AudioManager->LoadSound("data/sounds/new_game.wav", this);
 } // BootMode::BootMode()
 
 
@@ -396,7 +396,7 @@ void BootMode::_OnNewGame()
     AudioManager->StopActiveMusic();
     VideoManager->FadeScreen(Color::black, 2000);
 
-    AudioManager->PlaySound("sounds/new_game.wav");
+    AudioManager->PlaySound("data/sounds/new_game.wav");
     _exiting_to_new_game = true;
 }
 
@@ -420,21 +420,21 @@ void BootMode::_OnQuit()
 void BootMode::_DEBUG_OnBattle()
 {
     ReadScriptDescriptor read_data;
-    read_data.RunScriptFunction("dat/debug/debug_battle.lua",
+    read_data.RunScriptFunction("data/debug/debug_battle.lua",
                                 "BootBattleTest", true);
 }
 
 void BootMode::_DEBUG_OnMenu()
 {
     ReadScriptDescriptor read_data;
-    read_data.RunScriptFunction("dat/debug/debug_menu.lua",
+    read_data.RunScriptFunction("data/debug/debug_menu.lua",
                                 "BootMenuTest", true);
 }
 
 void BootMode::_DEBUG_OnShop()
 {
     ReadScriptDescriptor read_data;
-    read_data.RunScriptFunction("dat/debug/debug_shop.lua",
+    read_data.RunScriptFunction("data/debug/debug_shop.lua",
                                 "BootShopTest", true);
 }
 #endif // #ifdef DEBUG_FEATURES

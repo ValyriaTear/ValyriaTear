@@ -11,7 +11,7 @@ map_subname = "Mountain bridge"
 
 -- The music file used as default background music on this map.
 -- Other musics will have to handled through scripting.
-music_filename = "sounds/wind.ogg"
+music_filename = "data/sounds/wind.ogg"
 
 -- c++ objects instances
 local Map = nil
@@ -56,13 +56,13 @@ function Load(m)
     _CreateZones();
 
     Map:GetEffectSupervisor():EnableAmbientOverlay("data/visuals/ambient/snow_fog.png", 30.0, 10.0, true);
-    Map:GetScriptSupervisor():AddScript("dat/maps/common/at_night.lua");
+    Map:GetScriptSupervisor():AddScript("data/story/common/at_night.lua");
 
     -- Make the snow start
     Map:GetParticleManager():AddParticleEffect("data/visuals/particle_effects/snow.lua", 512.0, 384.0);
 
     -- The mountain cliff background
-    Map:GetScriptSupervisor():AddScript("dat/maps/mt_elbrus/mt_elbrus_background_anim.lua");
+    Map:GetScriptSupervisor():AddScript("data/story/mt_elbrus/mt_elbrus_background_anim.lua");
 
     if (GlobalManager:GetPreviousLocation() == "from_shrine_2nd_floor_wind_trap") then
         hero:SetMoving(false);
@@ -84,10 +84,10 @@ function Load(m)
     end
 
     -- Preloads certain sounds
-    AudioManager:LoadSound("sounds/sword_swipe.wav", Map);
-    AudioManager:LoadSound("sounds/footstep_grass2.wav", Map);
-    AudioManager:LoadSound("sounds/heavy_bump.wav", Map);
-    AudioManager:LoadMusic("music/Zander Noriega - School of Quirks.ogg", Map);
+    AudioManager:LoadSound("data/sounds/sword_swipe.wav", Map);
+    AudioManager:LoadSound("data/sounds/footstep_grass2.wav", Map);
+    AudioManager:LoadSound("data/sounds/heavy_bump.wav", Map);
+    AudioManager:LoadMusic("data/music/Zander Noriega - School of Quirks.ogg", Map);
 end
 
 -- the map update function handles checks done on each game tick.
@@ -215,8 +215,8 @@ function _CreateEvents()
     local dialogue = nil
     local text = nil
 
-    vt_map.MapTransitionEvent.Create("to mountain shrine entrance", "dat/maps/mt_elbrus/mt_elbrus_shrine1_map.lua",
-                                     "dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua", "from_path4");
+    vt_map.MapTransitionEvent.Create("to mountain shrine entrance", "data/story/mt_elbrus/mt_elbrus_shrine1_map.lua",
+                                     "data/story/mt_elbrus/mt_elbrus_shrine1_script.lua", "from_path4");
 
     -- sprite direction events
     vt_map.ChangeDirectionSpriteEvent.Create("Bronann looks north", bronann, vt_map.MapMode.NORTH);
@@ -360,9 +360,9 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("Bridge starting to fall sound", 300);
     event:AddEventLinkAtEnd("The bridge falls apart");
 
-    vt_map.SoundEvent.Create("Sword sound", "sounds/sword_swipe.wav");
+    vt_map.SoundEvent.Create("Sword sound", "data/sounds/sword_swipe.wav");
 
-    vt_map.SoundEvent.Create("Bridge starting to fall sound", "sounds/footstep_grass2.wav");
+    vt_map.SoundEvent.Create("Bridge starting to fall sound", "data/sounds/footstep_grass2.wav");
 
     event = vt_map.ScriptedEvent.Create("The bridge falls apart", "init_bridge_break", "bridge_break_update")
     event:AddEventLinkAtEnd("The party relaxes");
@@ -683,7 +683,7 @@ map_functions = {
     end,
 
     play_funny_music = function()
-        AudioManager:PlayMusic("music/Zander Noriega - School of Quirks.ogg");
+        AudioManager:PlayMusic("data/music/Zander Noriega - School of Quirks.ogg");
     end,
 
     stop_party_animation = function(sprite)
@@ -713,7 +713,7 @@ map_functions = {
         blocking_bridge:SetCollisionMask(vt_map.MapMode.WALL_COLLISION);
 
         -- Fade in the default music
-        AudioManager:PlayMusic("sounds/wind.ogg");
+        AudioManager:PlayMusic("data/sounds/wind.ogg");
 
         -- Set event as done
         GlobalManager:SetEventValue("story", "mt_elbrus_bridge_cut_event", 1);
@@ -730,7 +730,7 @@ map_functions = {
 
     fall_event_update = function()
         if (hero:GetYPosition() >= 6.0) then
-            AudioManager:PlaySound("sounds/heavy_bump.wav");
+            AudioManager:PlaySound("data/sounds/heavy_bump.wav");
             Effects:ShakeScreen(0.6, 600, vt_mode_manager.EffectSupervisor.SHAKE_FALLOFF_GRADUAL);
             hero:SetCustomAnimation("hurt", 800);
             _TriggerPartyDamage(math.random(25, 40));

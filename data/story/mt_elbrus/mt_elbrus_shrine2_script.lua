@@ -11,7 +11,7 @@ map_subname = ""
 
 -- The music file used as default background music on this map.
 -- Other musics will have to handled through scripting.
-music_filename = "music/mountain_shrine.ogg"
+music_filename = "data/music/mountain_shrine.ogg"
 
 -- c++ objects instances
 local Map = nil
@@ -164,7 +164,7 @@ function _CreateObjects()
         _add_bubble(55, 17);
 
         -- The poisonous scent
-        Map:GetScriptSupervisor():AddScript("dat/maps/mt_elbrus/mt_elbrus_scent_anim.lua");
+        Map:GetScriptSupervisor():AddScript("data/story/mt_elbrus/mt_elbrus_scent_anim.lua");
     end
 
     -- Add the first parchment
@@ -209,7 +209,7 @@ function _CreateObjects()
         object:SetCollPixelHeight(12.0 * 16);
         object:SetImgPixelHalfWidth(2.0 * 16);
         object:SetImgPixelHeight(12.0 * 16);
-        object:AddStillFrame("dat/maps/mt_elbrus/fake_wall.png");
+        object:AddStillFrame("data/story/mt_elbrus/fake_wall.png");
     else
         _add_flame(1.5, 53);
     end
@@ -222,7 +222,7 @@ function _CreateObjects()
         object:SetCollPixelHeight(12.0 * 16);
         object:SetImgPixelHalfWidth(2.0 * 16);
         object:SetImgPixelHeight(12.0 * 16);
-        object:AddStillFrame("dat/maps/mt_elbrus/fake_wall.png");
+        object:AddStillFrame("data/story/mt_elbrus/fake_wall.png");
     else
         _add_flame(63.5, 53);
     end
@@ -233,7 +233,7 @@ function _add_very_small_waterfall(x, y)
     object:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
     object:RandomizeCurrentAnimationFrame();
     -- Ambient sound
-    object = vt_map.SoundObject.Create("sounds/fountain_large.ogg", x, y - 5, 50.0);
+    object = vt_map.SoundObject.Create("data/sounds/fountain_large.ogg", x, y - 5, 50.0);
     object:SetMaxVolume(0.6);
 
     -- Particle effects
@@ -258,7 +258,7 @@ function _add_bubble(x, y)
 end
 
 function _add_flame(x, y)
-    vt_map.SoundObject.Create("sounds/campfire.ogg", x, y, 10.0);
+    vt_map.SoundObject.Create("data/sounds/campfire.ogg", x, y, 10.0);
 
     local object = CreateObject(Map, "Flame1", x, y, vt_map.MapMode.GROUND_OBJECT);
     object:RandomizeCurrentAnimationFrame();
@@ -270,7 +270,7 @@ function _add_flame(x, y)
 end
 
 function _add_flame_pot(x, y)
-    vt_map.SoundObject.Create("sounds/campfire.ogg", x, y, 10.0);
+    vt_map.SoundObject.Create("data/sounds/campfire.ogg", x, y, 10.0);
 
     local object = CreateObject(Map, "Flame Pot1", x, y, vt_map.MapMode.GROUND_OBJECT);
     object:RandomizeCurrentAnimationFrame();
@@ -299,14 +299,14 @@ end
 
 -- Sets common battle environment settings for enemy sprites
 function _SetBattleEnvironment(enemy)
-    enemy:SetBattleMusicTheme("music/heroism-OGA-Edward-J-Blakeley.ogg");
+    enemy:SetBattleMusicTheme("data/music/heroism-OGA-Edward-J-Blakeley.ogg");
     enemy:SetBattleBackground("data/battles/battle_scenes/mountain_shrine.png");
-    enemy:AddBattleScript("dat/battles/mountain_shrine_battle_anim.lua");
+    enemy:AddBattleScript("data/battles/battle_scenes/mountain_shrine_battle_anim.lua");
 end
 function _SetEventBattleEnvironment(event)
-    event:SetMusic("music/heroism-OGA-Edward-J-Blakeley.ogg");
+    event:SetMusic("data/music/heroism-OGA-Edward-J-Blakeley.ogg");
     event:SetBackground("data/battles/battle_scenes/mountain_shrine.png");
-    event:AddScript("dat/battles/mountain_shrine_battle_anim.lua");
+    event:AddScript("data/battles/battle_scenes/mountain_shrine_battle_anim.lua");
 end
 
 -- Special events
@@ -319,20 +319,20 @@ function _CreateEvents()
     local dialogue = nil
     local text = nil
 
-    vt_map.MapTransitionEvent.Create("to mountain shrine entrance", "dat/maps/mt_elbrus/mt_elbrus_shrine1_map.lua",
-                                     "dat/maps/mt_elbrus/mt_elbrus_shrine1_script.lua", "from_shrine_main_room");
+    vt_map.MapTransitionEvent.Create("to mountain shrine entrance", "data/story/mt_elbrus/mt_elbrus_shrine1_map.lua",
+                                     "data/story/mt_elbrus/mt_elbrus_shrine1_script.lua", "from_shrine_main_room");
 
-    vt_map.MapTransitionEvent.Create("to mountain shrine trap room", "dat/maps/mt_elbrus/mt_elbrus_shrine3_map.lua",
-                                     "dat/maps/mt_elbrus/mt_elbrus_shrine3_script.lua", "from_shrine_main_room");
+    vt_map.MapTransitionEvent.Create("to mountain shrine trap room", "data/story/mt_elbrus/mt_elbrus_shrine3_map.lua",
+                                     "data/story/mt_elbrus/mt_elbrus_shrine3_script.lua", "from_shrine_main_room");
 
-    vt_map.MapTransitionEvent.Create("to mountain shrine enigma room", "dat/maps/mt_elbrus/mt_elbrus_shrine4_map.lua",
-                                     "dat/maps/mt_elbrus/mt_elbrus_shrine4_script.lua", "from_shrine_main_room");
+    vt_map.MapTransitionEvent.Create("to mountain shrine enigma room", "data/story/mt_elbrus/mt_elbrus_shrine4_map.lua",
+                                     "data/story/mt_elbrus/mt_elbrus_shrine4_script.lua", "from_shrine_main_room");
 
-    vt_map.MapTransitionEvent.Create("to mountain shrine first floor", "dat/maps/mt_elbrus/mt_elbrus_shrine5_map.lua",
-                                     "dat/maps/mt_elbrus/mt_elbrus_shrine5_script.lua", "from_shrine_main_room");
+    vt_map.MapTransitionEvent.Create("to mountain shrine first floor", "data/story/mt_elbrus/mt_elbrus_shrine5_map.lua",
+                                     "data/story/mt_elbrus/mt_elbrus_shrine5_script.lua", "from_shrine_main_room");
 
-    vt_map.MapTransitionEvent.Create("to mountain shrine stairs", "dat/maps/mt_elbrus/mt_elbrus_shrine9_map.lua",
-                                     "dat/maps/mt_elbrus/mt_elbrus_shrine9_script.lua", "from_shrine_main_room");
+    vt_map.MapTransitionEvent.Create("to mountain shrine stairs", "data/story/mt_elbrus/mt_elbrus_shrine9_map.lua",
+                                     "data/story/mt_elbrus/mt_elbrus_shrine9_script.lua", "from_shrine_main_room");
 
     -- Generic events
     vt_map.ChangeDirectionSpriteEvent.Create("Bronann looks north", bronann, vt_map.MapMode.NORTH);

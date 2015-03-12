@@ -11,7 +11,7 @@ map_subname = ""
 
 -- The music file used as default background music on this map.
 -- Other musics will have to handled through scripting.
-music_filename = "music/mountain_shrine.ogg"
+music_filename = "data/music/mountain_shrine.ogg"
 
 -- c++ objects instances
 local Map = nil
@@ -46,7 +46,7 @@ function Load(m)
     Map:GetEffectSupervisor():EnableAmbientOverlay("data/visuals/ambient/dark.png", 0.0, 0.0, false);
 
     -- Preload sounds
-    AudioManager:LoadSound("sounds/trigger_on.wav", Map);
+    AudioManager:LoadSound("data/sounds/trigger_on.wav", Map);
 end
 
 -- the map update function handles checks done on each game tick.
@@ -111,7 +111,7 @@ function _add_waterfall(x, y)
     object:RandomizeCurrentAnimationFrame();
 
     -- Ambient sound
-    object = vt_map.SoundObject.Create("sounds/fountain_large.ogg", x, y - 5, 50.0);
+    object = vt_map.SoundObject.Create("data/sounds/fountain_large.ogg", x, y - 5, 50.0);
     object:SetMaxVolume(0.6);
 
     -- Particle effects
@@ -128,7 +128,7 @@ function _add_small_waterfall(x, y)
     object:RandomizeCurrentAnimationFrame();
 
     -- Ambient sound
-    object = vt_map.SoundObject.Create("sounds/fountain_large.ogg", x, y - 5, 50.0);
+    object = vt_map.SoundObject.Create("data/sounds/fountain_large.ogg", x, y - 5, 50.0);
     object:SetMaxVolume(0.6);
 
     -- Particle effects
@@ -146,7 +146,7 @@ function _add_waterlight(x, y)
 end
 
 function _add_flame(x, y)
-    vt_map.SoundObject.Create("sounds/campfire.ogg", x, y, 10.0);
+    vt_map.SoundObject.Create("data/sounds/campfire.ogg", x, y, 10.0);
 
     CreateObject(Map, "Flame1", x, y, vt_map.MapMode.GROUND_OBJECT);
 
@@ -200,18 +200,18 @@ end
 function _CreateEvents()
     local event = nil
 
-    vt_map.MapTransitionEvent.Create("to mountain shrine 1st floor NW room", "dat/maps/mt_elbrus/mt_elbrus_shrine5_map.lua",
-                                     "dat/maps/mt_elbrus/mt_elbrus_shrine5_script.lua", "from_shrine_first_floor_NE_room");
+    vt_map.MapTransitionEvent.Create("to mountain shrine 1st floor NW room", "data/story/mt_elbrus/mt_elbrus_shrine5_map.lua",
+                                     "data/story/mt_elbrus/mt_elbrus_shrine5_script.lua", "from_shrine_first_floor_NE_room");
 
-    vt_map.MapTransitionEvent.Create("to mountain shrine 1st floor SE room", "dat/maps/mt_elbrus/mt_elbrus_shrine7_map.lua",
-                                     "dat/maps/mt_elbrus/mt_elbrus_shrine7_script.lua", "from_shrine_first_floor_NE_room");
+    vt_map.MapTransitionEvent.Create("to mountain shrine 1st floor SE room", "data/story/mt_elbrus/mt_elbrus_shrine7_map.lua",
+                                     "data/story/mt_elbrus/mt_elbrus_shrine7_script.lua", "from_shrine_first_floor_NE_room");
 
     -- Restart the map when Orlinn is caught.
     event = vt_map.ScriptedEvent.Create("Restart Orlinn Map", "restart_map_event_start", "");
     event:AddEventLinkAtEnd("to previous entrance");
 
-    vt_map.MapTransitionEvent.Create("to previous entrance", "dat/maps/mt_elbrus/mt_elbrus_shrine8_map.lua",
-                                     "dat/maps/mt_elbrus/mt_elbrus_shrine8_script.lua", GlobalManager:GetPreviousLocation());
+    vt_map.MapTransitionEvent.Create("to previous entrance", "data/story/mt_elbrus/mt_elbrus_shrine8_map.lua",
+                                     "data/story/mt_elbrus/mt_elbrus_shrine8_script.lua", GlobalManager:GetPreviousLocation());
 
     vt_map.ScriptedEvent.Create("Trigger on event", "trigger_on_sound", "");
 end
@@ -252,6 +252,6 @@ map_functions = {
     end,
 
     trigger_on_sound = function()
-        AudioManager:PlaySound("sounds/trigger_on.wav");
+        AudioManager:PlaySound("data/sounds/trigger_on.wav");
     end,
 }

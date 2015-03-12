@@ -11,7 +11,7 @@ map_subname = "Riverbank"
 
 -- The music file used as default background music on this map.
 -- Other musics will have to handled through scripting.
-music_filename = "music/Caketown_1-OGA-mat-pablo.ogg"
+music_filename = "data/music/Caketown_1-OGA-mat-pablo.ogg"
 
 -- c++ objects instances
 local Map = nil
@@ -59,7 +59,7 @@ function _HandleCredits()
         GlobalManager:SetEventValue("game", "Start_Credits", 1);
     end
     if (GlobalManager:DoesEventExist("game", "Credits_shown") == false) then
-        Map:GetScriptSupervisor():AddScript("dat/credits/episode1_credits.lua");
+        Map:GetScriptSupervisor():AddScript("data/credits/episode1_credits.lua");
     end
 end
 
@@ -88,7 +88,7 @@ function _CreateCharacters()
     if (GlobalManager:GetPreviousLocation() == "from_riverbank_house") then
         bronann:SetPosition(98, 48);
         bronann:SetDirection(vt_map.MapMode.SOUTH);
-        AudioManager:PlaySound("sounds/door_close.wav");
+        AudioManager:PlaySound("data/sounds/door_close.wav");
     end
 end
 
@@ -100,7 +100,7 @@ function _CreateNPCs()
     lilly = CreateNPCSprite(Map, "Woman3", vt_system.Translate("Lilly"), 67, 40, vt_map.MapMode.GROUND_OBJECT);
 
     local object = CreateObject(Map, "Dog1", 66, 42, vt_map.MapMode.GROUND_OBJECT);
-    event = vt_map.SoundEvent.Create("Lilly's dog barks", "sounds/dog_barking.wav");
+    event = vt_map.SoundEvent.Create("Lilly's dog barks", "data/sounds/dog_barking.wav");
 
     object:SetEventWhenTalking("Lilly's dog barks");
 
@@ -177,11 +177,11 @@ function _CreateObjects()
                         vt_video.Color(1.0, 1.0, 1.0, 0.6),
                         vt_video.Color(1.0, 1.0, 0.85, 0.3));
 
-    vt_map.SoundObject.Create("sounds/gentle_stream.ogg", 61.0, 27.0, 20.0);
-    vt_map.SoundObject.Create("sounds/gentle_stream.ogg", 61.0, 47.0, 20.0);
-    vt_map.SoundObject.Create("sounds/gentle_stream.ogg", 61.0, 67.0, 20.0);
-    vt_map.SoundObject.Create("sounds/gentle_stream.ogg", 81.0, 67.0, 20.0);
-    vt_map.SoundObject.Create("sounds/gentle_stream.ogg", 101.0, 67.0, 20.0);
+    vt_map.SoundObject.Create("data/sounds/gentle_stream.ogg", 61.0, 27.0, 20.0);
+    vt_map.SoundObject.Create("data/sounds/gentle_stream.ogg", 61.0, 47.0, 20.0);
+    vt_map.SoundObject.Create("data/sounds/gentle_stream.ogg", 61.0, 67.0, 20.0);
+    vt_map.SoundObject.Create("data/sounds/gentle_stream.ogg", 81.0, 67.0, 20.0);
+    vt_map.SoundObject.Create("data/sounds/gentle_stream.ogg", 101.0, 67.0, 20.0);
 end
 
 -- Creates all events and sets up the entire event sequence chain
@@ -191,17 +191,17 @@ function _CreateEvents()
     local text = nil
 
     -- Map change Events
-    vt_map.MapTransitionEvent.Create("to Village center", "dat/maps/layna_village/layna_village_center_map.lua",
-                                     "dat/maps/layna_village/layna_village_center_script.lua", "from_riverbank");
+    vt_map.MapTransitionEvent.Create("to Village center", "data/story/layna_village/layna_village_center_map.lua",
+                                     "data/story/layna_village/layna_village_center_script.lua", "from_riverbank");
 
-    vt_map.MapTransitionEvent.Create("to Village south entrance", "dat/maps/layna_village/layna_village_south_entrance_map.lua",
-                                     "dat/maps/layna_village/layna_village_south_entrance_script.lua", "from_riverbank");
+    vt_map.MapTransitionEvent.Create("to Village south entrance", "data/story/layna_village/layna_village_south_entrance_map.lua",
+                                     "data/story/layna_village/layna_village_south_entrance_script.lua", "from_riverbank");
 
-    vt_map.MapTransitionEvent.Create("to Riverbank house", "dat/maps/layna_village/layna_village_riverbank_house_map.lua",
-                                     "dat/maps/layna_village/layna_village_riverbank_house_script.lua", "from_riverbank");
+    vt_map.MapTransitionEvent.Create("to Riverbank house", "data/story/layna_village/layna_village_riverbank_house_map.lua",
+                                     "data/story/layna_village/layna_village_riverbank_house_script.lua", "from_riverbank");
 
-    vt_map.MapTransitionEvent.Create("to secret path entrance", "dat/maps/layna_village/layna_village_center_map.lua",
-                                     "dat/maps/layna_village/layna_village_center_script.lua", "from_secret_path");
+    vt_map.MapTransitionEvent.Create("to secret path entrance", "data/story/layna_village/layna_village_center_map.lua",
+                                     "data/story/layna_village/layna_village_center_script.lua", "from_secret_path");
 
     vt_map.ScriptedEvent.Create("Orlinn laughs", "orlinn_laughs", "");
 
@@ -448,7 +448,7 @@ function _CheckZones()
 
     if (to_riverbank_house_entrance_zone:IsCameraEntering() == true) then
         bronann:SetMoving(false);
-        AudioManager:PlaySound("sounds/door_open2.wav");
+        AudioManager:PlaySound("data/sounds/door_open2.wav");
         EventManager:StartEvent("to Riverbank house");
     end
 

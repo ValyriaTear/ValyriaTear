@@ -68,9 +68,9 @@ namespace private_battle
 
 // Filenames of the default music that is played when no specific music is requested
 //@{
-const std::string DEFAULT_BATTLE_MUSIC   = "music/heroism-OGA-Edward-J-Blakeley.ogg";
-const std::string DEFAULT_VICTORY_MUSIC  = "music/Fanfare.ogg";
-const std::string DEFAULT_DEFEAT_MUSIC   = "music/Battle_lost-OGA-Mumu.ogg";
+const std::string DEFAULT_BATTLE_MUSIC   = "data/music/heroism-OGA-Edward-J-Blakeley.ogg";
+const std::string DEFAULT_VICTORY_MUSIC  = "data/music/Fanfare.ogg";
+const std::string DEFAULT_DEFEAT_MUSIC   = "data/music/Battle_lost-OGA-Mumu.ogg";
 //@}
 
 BattleMedia::BattleMedia()
@@ -1227,15 +1227,15 @@ void BattleMode::_DrawStaminaBar()
 
 // Available encounter sounds
 static const std::string encounter_sound_filenames[] = {
-    "sounds/battle_encounter_01.ogg",
-    "sounds/battle_encounter_02.ogg",
-    "sounds/battle_encounter_03.ogg"
+    "data/sounds/battle_encounter_01.ogg",
+    "data/sounds/battle_encounter_02.ogg",
+    "data/sounds/battle_encounter_03.ogg"
 };
 
 // Available encounter sounds
 static const std::string boss_encounter_sound_filenames[] = {
-    "sounds/gong.wav",
-    "sounds/gong2.wav"
+    "data/sounds/gong.wav",
+    "data/sounds/gong2.wav"
 };
 
 TransitionToBattleMode::TransitionToBattleMode(BattleMode *BM, bool is_boss):

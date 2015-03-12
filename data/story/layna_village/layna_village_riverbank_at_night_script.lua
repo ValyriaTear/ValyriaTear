@@ -11,7 +11,7 @@ map_subname = "Riverbank"
 
 -- The music file used as default background music on this map.
 -- Other musics will have to handled through scripting.
-music_filename = "music/Welcome to Com-Mecha-Mattew_Pablo_OGA.ogg"
+music_filename = "data/music/Welcome to Com-Mecha-Mattew_Pablo_OGA.ogg"
 
 -- c++ objects instances
 local Map = nil
@@ -43,11 +43,11 @@ function Load(m)
     Map:GetEffectSupervisor():EnableAmbientOverlay("data/visuals/ambient/clouds.png", 5.0, -5.0, true);
 
     -- Event Scripts
-    Script:AddScript("dat/maps/layna_village/battle_with_banesore/show_crystals_script.lua");
-    Script:AddScript("dat/maps/layna_village/battle_with_banesore/show_smoke_cloud_script.lua");
+    Script:AddScript("data/story/layna_village/battle_with_banesore/show_crystals_script.lua");
+    Script:AddScript("data/story/layna_village/battle_with_banesore/show_smoke_cloud_script.lua");
 
     -- Put last to get a proper night effect
-    Script:AddScript("dat/maps/common/at_night.lua");
+    Script:AddScript("data/story/common/at_night.lua");
 
     -- Start the return to village dialogue if it hasn't been done already.
     if (GlobalManager:GetEventValue("story", "layna_village_arrival_at_riverbank_done") ~= 1) then
@@ -80,7 +80,7 @@ function _CreateCharacters()
     if (GlobalManager:GetPreviousLocation() == "from_riverbank_house") then
         bronann:SetPosition(98, 48);
         bronann:SetDirection(vt_map.MapMode.SOUTH);
-        AudioManager:PlaySound("sounds/door_close.wav");
+        AudioManager:PlaySound("data/sounds/door_close.wav");
     end
 end
 
@@ -286,11 +286,11 @@ function _CreateObjects()
     _CreateFire(109, 52);
 
     -- Ambient sounds
-    vt_map.SoundObject.Create("sounds/gentle_stream.ogg", 61.0, 27.0, 20.0);
-    vt_map.SoundObject.Create("sounds/gentle_stream.ogg", 61.0, 47.0, 20.0);
-    vt_map.SoundObject.Create("sounds/gentle_stream.ogg", 61.0, 67.0, 20.0);
-    vt_map.SoundObject.Create("sounds/gentle_stream.ogg", 81.0, 67.0, 20.0);
-    vt_map.SoundObject.Create("sounds/gentle_stream.ogg", 101.0, 67.0, 20.0);
+    vt_map.SoundObject.Create("data/sounds/gentle_stream.ogg", 61.0, 27.0, 20.0);
+    vt_map.SoundObject.Create("data/sounds/gentle_stream.ogg", 61.0, 47.0, 20.0);
+    vt_map.SoundObject.Create("data/sounds/gentle_stream.ogg", 61.0, 67.0, 20.0);
+    vt_map.SoundObject.Create("data/sounds/gentle_stream.ogg", 81.0, 67.0, 20.0);
+    vt_map.SoundObject.Create("data/sounds/gentle_stream.ogg", 101.0, 67.0, 20.0);
 
     -- Fireflies on water
     vt_map.ParticleObject.Create("data/visuals/particle_effects/fireflies.lua", 53, 29, vt_map.MapMode.GROUND_OBJECT);
@@ -304,7 +304,7 @@ function _CreateFire(fire_x, fire_y)
     -- Add burning flames halos and objects
     CreateObject(Map, "Campfire1", fire_x, fire_y, vt_map.MapMode.GROUND_OBJECT);
 
-    vt_map.SoundObject.Create("sounds/campfire.ogg", fire_x, fire_y, 7.0);
+    vt_map.SoundObject.Create("data/sounds/campfire.ogg", fire_x, fire_y, 7.0);
 
     vt_map.Halo.Create("data/visuals/lights/torch_light_mask2.lua", fire_x, fire_y + 3.0,
         vt_video.Color(0.85, 0.32, 0.0, 0.6));
@@ -319,8 +319,8 @@ function _CreateEvents()
     local text = nil
 
     -- Map change Events
-    vt_map.MapTransitionEvent.Create("to Village center", "dat/maps/layna_village/layna_village_center_map.lua",
-                                       "dat/maps/layna_village/layna_village_center_at_night_script.lua", "from_riverbank");
+    vt_map.MapTransitionEvent.Create("to Village center", "data/story/layna_village/layna_village_center_map.lua",
+                                       "data/story/layna_village/layna_village_center_at_night_script.lua", "from_riverbank");
 
     -- generic events
     vt_map.ScriptedEvent.Create("Map:PushState(SCENE)", "Map_SceneState", "");
@@ -379,8 +379,8 @@ function _CreateEvents()
 
     vt_map.AnimateSpriteEvent.Create("Bronann is surprised", bronann, "frightened_fixed", 0); -- 0 means forever
 
-    vt_map.MapTransitionEvent.Create("Restart map", "dat/maps/layna_village/layna_village_riverbank_map.lua",
-                                     "dat/maps/layna_village/layna_village_riverbank_at_night_script.lua", "from_village_center");
+    vt_map.MapTransitionEvent.Create("Restart map", "data/story/layna_village/layna_village_riverbank_map.lua",
+                                     "data/story/layna_village/layna_village_riverbank_at_night_script.lua", "from_village_center");
 
     -- Lord battle scene
     event = vt_map.ScriptedEvent.Create("Lord battle dialogue start", "lord_battle_scene_start", "");
@@ -569,12 +569,12 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("Battle with Banesore");
 
     event = vt_map.BattleEncounterEvent.Create("Battle with Banesore");
-    event:SetMusic("music/the_recon_mission.ogg");
+    event:SetMusic("data/music/the_recon_mission.ogg");
     event:SetBackground("data/battles/battle_scenes/mountain_village_single_house.png");
     event:AddEnemy(10, 640, 575);
     event:SetBoss(true);
-    event:AddScript("dat/maps/layna_village/battle_with_banesore/battle_with_banesore_script.lua");
-    event:AddScript("dat/maps/common/at_night.lua");
+    event:AddScript("data/story/layna_village/battle_with_banesore/battle_with_banesore_script.lua");
+    event:AddScript("data/story/common/at_night.lua");
     event:AddEventLinkAtEnd("Soldier4 is KO");
     event:AddEventLinkAtEnd("Soldier15 is KO");
     event:AddEventLinkAtEnd("Soldier16 is KO");
@@ -658,8 +658,8 @@ function _CreateEvents()
     event = vt_map.DialogueEvent.Create("Dialogue between Herth and Banesore", dialogue);
     event:AddEventLinkAtEnd("To Kalya house path scene");
 
-    vt_map.MapTransitionEvent.Create("To Kalya house path scene", "dat/maps/layna_village/layna_village_kalya_house_path_map.lua",
-                                     "dat/maps/layna_village/layna_village_kalya_house_path_at_night_script.lua", "from_riverbank_at_night_scene");
+    vt_map.MapTransitionEvent.Create("To Kalya house path scene", "data/story/layna_village/layna_village_kalya_house_path_map.lua",
+                                     "data/story/layna_village/layna_village_kalya_house_path_at_night_script.lua", "from_riverbank_at_night_scene");
 end
 
 -- zones

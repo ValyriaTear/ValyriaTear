@@ -91,16 +91,16 @@ skills[1] = {
         if (vt_battle.CalculateStandardEvasion(target) == false) then
             -- Normal +0 attack
             target_actor:RegisterDamage(vt_battle.CalculatePhysicalDamage(user, target), target);
-            AudioManager:PlaySound("sounds/swordslice1.wav");
+            AudioManager:PlaySound("data/sounds/swordslice1.wav");
         else
             target_actor:RegisterMiss(true);
-            AudioManager:PlaySound("sounds/sword_swipe.wav");
+            AudioManager:PlaySound("data/sounds/sword_swipe.wav");
         end
     end,
 
     animation_scripts = {
-        [BRONANN] = "dat/battles/characters_animations/bronann_attack.lua",
-        [THANIS] = "dat/battles/characters_animations/thanis_attack.lua"
+        [BRONANN] = "data/battles/characters_animations/bronann_attack.lua",
+        [THANIS] = "data/battles/characters_animations/thanis_attack.lua"
     }
 }
 
@@ -118,17 +118,17 @@ skills[2] = {
 
         if (vt_battle.CalculateStandardEvasion(target) == false) then
             target_actor:RegisterDamage(vt_battle.CalculatePhysicalDamageMultiplier(user, target, 1.30), target);
-            AudioManager:PlaySound("sounds/swordslice1.wav");
+            AudioManager:PlaySound("data/sounds/swordslice1.wav");
         else
             target_actor:RegisterMiss(true);
-            AudioManager:PlaySound("sounds/sword_swipe.wav");
+            AudioManager:PlaySound("data/sounds/sword_swipe.wav");
         end
 
     end,
 
     animation_scripts = {
-        [BRONANN] = "dat/battles/characters_animations/bronann_attack_forward_thrust.lua",
-        [THANIS] = "dat/battles/characters_animations/thanis_attack.lua"
+        [BRONANN] = "data/battles/characters_animations/bronann_attack_forward_thrust.lua",
+        [THANIS] = "data/battles/characters_animations/thanis_attack.lua"
     }
 }
 
@@ -150,16 +150,16 @@ skills[3] = {
 
             -- The damages are applied after the potential effects, so that a potential target death handles the effect removal properly
             target_actor:RegisterDamage(vt_battle.CalculatePhysicalDamage(user, target));
-            AudioManager:PlaySound("sounds/swordslice1.wav");
+            AudioManager:PlaySound("data/sounds/swordslice1.wav");
         else
             target_actor:RegisterMiss(true);
-            AudioManager:PlaySound("sounds/sword_swipe.wav");
+            AudioManager:PlaySound("data/sounds/sword_swipe.wav");
         end
     end,
 
     animation_scripts = {
-        [BRONANN] = "dat/battles/characters_animations/bronann_attack.lua",
-        [THANIS] = "dat/battles/characters_animations/thanis_attack.lua"
+        [BRONANN] = "data/battles/characters_animations/bronann_attack.lua",
+        [THANIS] = "data/battles/characters_animations/thanis_attack.lua"
     }
 }
 
@@ -185,16 +185,16 @@ skills[4] = {
                                                  effect_duration);
 
             target_actor:RegisterDamage(vt_battle.CalculatePhysicalDamageAdder(user, target, 20), target);
-            AudioManager:PlaySound("sounds/swordslice2.wav");
+            AudioManager:PlaySound("data/sounds/swordslice2.wav");
         else
             target_actor:RegisterMiss(true);
-            AudioManager:PlaySound("sounds/sword_swipe.wav");
+            AudioManager:PlaySound("data/sounds/sword_swipe.wav");
         end
     end,
 
     animation_scripts = {
-        [BRONANN] = "dat/battles/characters_animations/bronann_attack.lua",
-        [THANIS] = "dat/battles/characters_animations/thanis_blade_rush_attack.lua"
+        [BRONANN] = "data/battles/characters_animations/bronann_attack.lua",
+        [THANIS] = "data/battles/characters_animations/thanis_blade_rush_attack.lua"
     }
 }
 
@@ -213,15 +213,15 @@ skills[5] = {
 
         if (vt_battle.CalculateStandardEvasion(target) == false) then
             target_actor:RegisterDamage(vt_battle.CalculatePhysicalDamageAdder(user, target, 5), target);
-            AudioManager:PlaySound("sounds/crossbow.ogg");
+            AudioManager:PlaySound("data/sounds/crossbow.ogg");
         else
             target_actor:RegisterMiss(true);
-            AudioManager:PlaySound("sounds/crossbow_miss.ogg");
+            AudioManager:PlaySound("data/sounds/crossbow_miss.ogg");
         end
     end,
 
     animation_scripts = {
-        [KALYA] = "dat/battles/characters_animations/kalya_attack.lua"
+        [KALYA] = "data/battles/characters_animations/kalya_attack.lua"
     }
 }
 
@@ -245,16 +245,16 @@ skills[6] = {
                                                  effect_duration);
 
             target_actor:RegisterDamage(vt_battle.CalculatePhysicalDamageAdder(user, target, 20), target);
-            AudioManager:PlaySound("sounds/swordslice2.wav");
+            AudioManager:PlaySound("data/sounds/swordslice2.wav");
         else
             target_actor:RegisterMiss(true);
-            AudioManager:PlaySound("sounds/sword_swipe.wav");
+            AudioManager:PlaySound("data/sounds/sword_swipe.wav");
         end
     end,
 
     animation_scripts = {
-        [BRONANN] = "dat/battles/characters_animations/bronann_attack.lua",
-        [THANIS] = "dat/battles/characters_animations/thanis_blade_rush_attack.lua"
+        [BRONANN] = "data/battles/characters_animations/bronann_attack.lua",
+        [THANIS] = "data/battles/characters_animations/thanis_blade_rush_attack.lua"
     }
 }
 
@@ -275,15 +275,15 @@ skills[101] = {
             -- Calculate chance for attack lowering effect and activate it
             trigger_potential_attack_lowering(user, target);
             target_actor:RegisterDamage(vt_battle.CalculatePhysicalDamageAdder(user, target, 15), target);
-            AudioManager:PlaySound("sounds/crossbow.ogg");
+            AudioManager:PlaySound("data/sounds/crossbow.ogg");
         else
             target_actor:RegisterMiss(true);
-            AudioManager:PlaySound("sounds/crossbow_miss.ogg");
+            AudioManager:PlaySound("data/sounds/crossbow_miss.ogg");
         end
     end,
 
     animation_scripts = {
-        [KALYA] = "dat/battles/characters_animations/kalya_attack.lua"
+        [KALYA] = "data/battles/characters_animations/kalya_attack.lua"
     }
 }
 
@@ -303,10 +303,10 @@ skills[102] = {
 
             if (vt_battle.CalculateStandardEvasion(target_actor) == false) then
                 target_actor:RegisterDamage(vt_battle.CalculatePhysicalDamageAdder(user, target_actor, 5), target);
-                AudioManager:PlaySound("sounds/crossbow.ogg");
+                AudioManager:PlaySound("data/sounds/crossbow.ogg");
             else
                 target_actor:RegisterMiss(true);
-                AudioManager:PlaySound("sounds/crossbow_miss.ogg");
+                AudioManager:PlaySound("data/sounds/crossbow_miss.ogg");
             end
 
             index = index + 1
@@ -314,7 +314,7 @@ skills[102] = {
     end,
 
     animation_scripts = {
-        [KALYA] = "dat/battles/characters_animations/kalya_attack_party_target.lua"
+        [KALYA] = "data/battles/characters_animations/kalya_attack_party_target.lua"
     }
 }
 
@@ -333,10 +333,10 @@ skills[200] = {
 
         if (vt_battle.CalculateStandardEvasion(target) == false) then
             target_actor:RegisterDamage(vt_battle.CalculatePhysicalDamageAdder(user, target, 5), target);
-            AudioManager:PlaySound("sounds/swordslice2.wav");
+            AudioManager:PlaySound("data/sounds/swordslice2.wav");
         else
             target_actor:RegisterMiss(true);
-            AudioManager:PlaySound("sounds/missed_target.wav");
+            AudioManager:PlaySound("data/sounds/missed_target.wav");
         end
     end
 }
@@ -356,10 +356,10 @@ skills[201] = {
         if (vt_battle.CalculateStandardEvasion(target) == false) then
             target_actor:RegisterDamage(vt_battle.CalculatePhysicalDamageAdder(user, target, 5), target);
             -- TODO: Add poison damage
-            AudioManager:PlaySound("sounds/swordslice2.wav");
+            AudioManager:PlaySound("data/sounds/swordslice2.wav");
         else
             target_actor:RegisterMiss(true);
-            AudioManager:PlaySound("sounds/missed_target.wav");
+            AudioManager:PlaySound("data/sounds/missed_target.wav");
         end
     end
 }
@@ -379,10 +379,10 @@ skills[202] = {
         if (vt_battle.CalculateStandardEvasion(target) == false) then
             target_actor:RegisterDamage(vt_battle.CalculatePhysicalDamageAdder(user, target, 5), target);
             -- TODO: Add poison damage
-            AudioManager:PlaySound("sounds/swordslice2.wav");
+            AudioManager:PlaySound("data/sounds/swordslice2.wav");
         else
             target_actor:RegisterMiss(true);
-            AudioManager:PlaySound("sounds/missed_target.wav");
+            AudioManager:PlaySound("data/sounds/missed_target.wav");
         end
     end
 }
@@ -401,10 +401,10 @@ skills[203] = {
 --TODO
         if (vt_battle.CalculateStandardEvasion(target) == false) then
             target_actor:RegisterDamage(vt_battle.CalculatePhysicalDamageAdder(user, target, 5), target);
-            AudioManager:PlaySound("sounds/swordslice2.wav");
+            AudioManager:PlaySound("data/sounds/swordslice2.wav");
         else
             target_actor:RegisterMiss(true);
-            AudioManager:PlaySound("sounds/missed_target.wav");
+            AudioManager:PlaySound("data/sounds/missed_target.wav");
         end
     end
 }
@@ -424,15 +424,15 @@ skills[300] = {
 --TODO
         if (vt_battle.CalculateStandardEvasion(target) == false) then
             target_actor:RegisterDamage(vt_battle.CalculatePhysicalDamageAdder(user, target, 5), target);
-            AudioManager:PlaySound("sounds/swordslice2.wav");
+            AudioManager:PlaySound("data/sounds/swordslice2.wav");
         else
             target_actor:RegisterMiss(true);
-            AudioManager:PlaySound("sounds/missed_target.wav");
+            AudioManager:PlaySound("data/sounds/missed_target.wav");
         end
     end,
 
     animation_scripts = {
-        [THANIS] = "dat/battles/characters_animations/thanis_attack.lua"
+        [THANIS] = "data/battles/characters_animations/thanis_attack.lua"
     }
 }
 
@@ -450,10 +450,10 @@ skills[301] = {
 --TODO
         if (vt_battle.CalculateStandardEvasion(target) == false) then
             target_actor:RegisterDamage(vt_battle.CalculatePhysicalDamageAdder(user, target, 5), target);
-            AudioManager:PlaySound("sounds/swordslice2.wav");
+            AudioManager:PlaySound("data/sounds/swordslice2.wav");
         else
             target_actor:RegisterMiss(true);
-            AudioManager:PlaySound("sounds/missed_target.wav");
+            AudioManager:PlaySound("data/sounds/missed_target.wav");
         end
     end
 }
@@ -474,7 +474,7 @@ skills[1001] = {
 
         if (vt_battle.CalculateStandardEvasion(target) == false) then
             target_actor:RegisterDamage(vt_battle.CalculatePhysicalDamageAdder(user, target, 10), target);
-            AudioManager:PlaySound("sounds/slime_attack.wav");
+            AudioManager:PlaySound("data/sounds/slime_attack.wav");
         else
             target_actor:RegisterMiss(true);
         end
@@ -493,7 +493,7 @@ skills[1002] = {
 
         if (vt_battle.CalculateStandardEvasion(target) == false) then
             target_actor:RegisterDamage(vt_battle.CalculatePhysicalDamageAdder(user, target, 13), target);
-            AudioManager:PlaySound("sounds/spider_attack.wav");
+            AudioManager:PlaySound("data/sounds/spider_attack.wav");
         else
             target_actor:RegisterMiss(true);
         end
@@ -512,7 +512,7 @@ skills[1003] = {
 
         if (vt_battle.CalculateStandardEvasion(target) == false) then
             target_actor:RegisterDamage(vt_battle.CalculatePhysicalDamageAdder(user, target, 14), target);
-            AudioManager:PlaySound("sounds/snake_attack.wav");
+            AudioManager:PlaySound("data/sounds/snake_attack.wav");
         else
             target_actor:RegisterMiss(true);
         end
@@ -535,7 +535,7 @@ skills[1004] = {
 
             -- The damages are applied after the potential effects, so that a potential target death handles the effect removal properly
             target_actor:RegisterDamage(vt_battle.CalculatePhysicalDamageAdder(user, target, 14), target);
-            AudioManager:PlaySound("sounds/snake_attack.wav");
+            AudioManager:PlaySound("data/sounds/snake_attack.wav");
         else
             target_actor:RegisterMiss(true);
         end
@@ -561,7 +561,7 @@ skills[1005] = {
 
             -- The damages are applied after the potential effects, so that a potential target death handles the effect removal properly
             target_actor:RegisterDamage(vt_battle.CalculatePhysicalDamageAdder(user, target, 6), target);
-            AudioManager:PlaySound("sounds/snake_attack.wav");
+            AudioManager:PlaySound("data/sounds/snake_attack.wav");
         else
             target_actor:RegisterMiss(true);
         end
@@ -580,7 +580,7 @@ skills[1006] = {
 
         if (vt_battle.CalculateStandardEvasion(target) == false) then
             target_actor:RegisterDamage(vt_battle.CalculatePhysicalDamageAdder(user, target, 20), target);
-            AudioManager:PlaySound("sounds/skeleton_attack.wav");
+            AudioManager:PlaySound("data/sounds/skeleton_attack.wav");
         else
             target_actor:RegisterMiss(true);
         end
@@ -604,7 +604,7 @@ skills[1007] = {
            if (hp_drain > 1) then
                user:RegisterHealing(hp_drain / 2, true);
            end
-           AudioManager:PlaySound("sounds/spider_attack.wav");
+           AudioManager:PlaySound("data/sounds/spider_attack.wav");
        else
            target_actor:RegisterMiss(true);
        end
@@ -623,7 +623,7 @@ skills[1008] = {
 
         if (vt_battle.CalculateStandardEvasion(target) == false) then
             target_actor:RegisterDamage(vt_battle.CalculatePhysicalDamageAdder(user, target, 20), target);
-            AudioManager:PlaySound("sounds/growl1_IFartInUrGeneralDirection_freesound.wav");
+            AudioManager:PlaySound("data/sounds/growl1_IFartInUrGeneralDirection_freesound.wav");
         else
             target_actor:RegisterMiss(true);
         end
@@ -647,7 +647,7 @@ skills[1009] = {
 
             if (vt_battle.CalculateStandardEvasion(target_actor) == false) then
                 target_actor:RegisterDamage(vt_battle.CalculatePhysicalDamageAdder(user, target_actor, 25));
-                AudioManager:PlaySound("sounds/growl1_IFartInUrGeneralDirection_freesound.wav");
+                AudioManager:PlaySound("data/sounds/growl1_IFartInUrGeneralDirection_freesound.wav");
             else
                 target_actor:RegisterMiss(true);
             end
@@ -681,7 +681,7 @@ skills[1010] = {
 
             -- The damages are applied after the potential effects, so that a potential target death handles the effect removal properly
             target_actor:RegisterDamage(vt_battle.CalculatePhysicalDamageAdder(user, target, 6), target);
-            AudioManager:PlaySound("sounds/skeleton_attack.wav");
+            AudioManager:PlaySound("data/sounds/skeleton_attack.wav");
         else
             target_actor:RegisterMiss(true);
         end
@@ -705,7 +705,7 @@ skills[1011] = {
 
             if (target_actor:IsAlive() == true and vt_battle.CalculateStandardEvasion(target_actor) == false) then
                 target_actor:RegisterDamage(vt_battle.CalculatePhysicalDamageAdder(user, target_actor, 25));
-                AudioManager:PlaySound("sounds/skeleton_attack.wav");
+                AudioManager:PlaySound("data/sounds/skeleton_attack.wav");
             else
                 target_actor:RegisterMiss(true);
             end
@@ -737,7 +737,7 @@ skills[1012] = {
 
             -- The damages are applied after the potential effects, so that a potential target death handles the effect removal properly
             target_actor:RegisterDamage(vt_battle.CalculatePhysicalDamageAdder(user, target, 6), target);
-            AudioManager:PlaySound("sounds/spider_attack.wav");
+            AudioManager:PlaySound("data/sounds/spider_attack.wav");
         else
             target_actor:RegisterMiss(true);
         end
@@ -764,7 +764,7 @@ skills[1013] = {
                                      vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_MODERATE,
                                      effect_duration);
 
-        AudioManager:PlaySound("sounds/defence1_spell.ogg");
+        AudioManager:PlaySound("data/sounds/defence1_spell.ogg");
     end
 }
 
@@ -787,7 +787,7 @@ skills[1014] = {
 
             -- The damages are applied after the potential effects, so that a potential target death handles the effect removal properly
             target_actor:RegisterDamage(vt_battle.CalculatePhysicalDamageAdder(user, target, 6), target);
-            AudioManager:PlaySound("sounds/cave-in.ogg");
+            AudioManager:PlaySound("data/sounds/cave-in.ogg");
         else
             target_actor:RegisterMiss(true);
         end

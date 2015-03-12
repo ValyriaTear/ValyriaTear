@@ -11,7 +11,7 @@ map_subname = "Low Mountain"
 
 -- The music file used as default background music on this map.
 -- Other musics will have to handled through scripting.
-music_filename = "music/awareness_el_corleo.ogg"
+music_filename = "data/music/awareness_el_corleo.ogg"
 
 -- c++ objects instances
 local Map = nil
@@ -46,16 +46,16 @@ function Load(m)
 
     -- Add clouds overlay
     Map:GetEffectSupervisor():EnableAmbientOverlay("data/visuals/ambient/clouds.png", 5.0, -5.0, true);
-    Map:GetScriptSupervisor():AddScript("dat/maps/common/at_night.lua");
+    Map:GetScriptSupervisor():AddScript("data/story/common/at_night.lua");
 
     -- Make the rain starts if needed
     if (GlobalManager:GetEventValue("story", "mt_elbrus_weather_level") > 0) then
         Map:GetParticleManager():AddParticleEffect("data/visuals/particle_effects/rain.lua", 512.0, 768.0);
         -- Place an omni ambient sound at the center of the map to add a nice rainy effect.
-        vt_map.SoundObject.Create("music/Ove Melaa - Rainy.ogg", 32.0, 24.0, 100.0);
+        vt_map.SoundObject.Create("data/music/Ove Melaa - Rainy.ogg", 32.0, 24.0, 100.0);
     end
     if (GlobalManager:GetEventValue("story", "mt_elbrus_weather_level") > 1) then
-        Map:GetScriptSupervisor():AddScript("dat/maps/common/soft_lightnings_script.lua");
+        Map:GetScriptSupervisor():AddScript("data/story/common/soft_lightnings_script.lua");
     end
 
     -- Show the new location on map,
@@ -425,9 +425,9 @@ function _CreateEnemies()
     dark_soldier1 = CreateEnemySprite(Map, "Dark Soldier");
     _SetBattleEnvironment(dark_soldier1);
     -- Add special timer script
-    dark_soldier1:AddBattleScript("dat/maps/mt_elbrus/battle_with_dark_soldiers_script.lua");
+    dark_soldier1:AddBattleScript("data/story/mt_elbrus/battle_with_dark_soldiers_script.lua");
     dark_soldier1:SetBoss(true);
-    dark_soldier1:SetBattleMusicTheme("music/accion-OGA-djsaryon.ogg");
+    dark_soldier1:SetBattleMusicTheme("data/music/accion-OGA-djsaryon.ogg");
     dark_soldier1:NewEnemyParty();
     dark_soldier1:AddEnemy(9);
     roam_zone:AddEnemy(dark_soldier1, 1);
@@ -442,9 +442,9 @@ function _CreateEnemies()
     enemy = CreateEnemySprite(Map, "Dark Soldier");
     _SetBattleEnvironment(enemy);
     -- Add special timer script
-    enemy:AddBattleScript("dat/maps/mt_elbrus/battle_with_dark_soldiers_script.lua");
+    enemy:AddBattleScript("data/story/mt_elbrus/battle_with_dark_soldiers_script.lua");
     enemy:SetBoss(true);
-    enemy:SetBattleMusicTheme("music/accion-OGA-djsaryon.ogg");
+    enemy:SetBattleMusicTheme("data/music/accion-OGA-djsaryon.ogg");
     enemy:NewEnemyParty();
     enemy:AddEnemy(9);
     roam_zone:AddEnemy(enemy, 1);
@@ -460,9 +460,9 @@ function _CreateEnemies()
     enemy = CreateEnemySprite(Map, "Dark Soldier");
     _SetBattleEnvironment(enemy);
     -- Add special timer script
-    enemy:AddBattleScript("dat/maps/mt_elbrus/battle_with_dark_soldiers_script.lua");
+    enemy:AddBattleScript("data/story/mt_elbrus/battle_with_dark_soldiers_script.lua");
     enemy:SetBoss(true);
-    enemy:SetBattleMusicTheme("music/accion-OGA-djsaryon.ogg");
+    enemy:SetBattleMusicTheme("data/music/accion-OGA-djsaryon.ogg");
     enemy:NewEnemyParty();
     enemy:AddEnemy(9);
     roam_zone:AddEnemy(enemy, 1);
@@ -478,9 +478,9 @@ function _CreateEnemies()
     enemy = CreateEnemySprite(Map, "Dark Soldier");
     _SetBattleEnvironment(enemy);
     -- Add special timer script
-    enemy:AddBattleScript("dat/maps/mt_elbrus/battle_with_dark_soldiers_script.lua");
+    enemy:AddBattleScript("data/story/mt_elbrus/battle_with_dark_soldiers_script.lua");
     enemy:SetBoss(true);
-    enemy:SetBattleMusicTheme("music/accion-OGA-djsaryon.ogg");
+    enemy:SetBattleMusicTheme("data/music/accion-OGA-djsaryon.ogg");
     enemy:NewEnemyParty();
     enemy:AddEnemy(9);
     roam_zone:AddEnemy(enemy, 1);
@@ -494,9 +494,9 @@ function _CreateEnemies()
     enemy = CreateEnemySprite(Map, "Dark Soldier");
     _SetBattleEnvironment(enemy);
     -- Add special timer script
-    enemy:AddBattleScript("dat/maps/mt_elbrus/battle_with_dark_soldiers_script.lua");
+    enemy:AddBattleScript("data/story/mt_elbrus/battle_with_dark_soldiers_script.lua");
     enemy:SetBoss(true);
-    enemy:SetBattleMusicTheme("music/accion-OGA-djsaryon.ogg");
+    enemy:SetBattleMusicTheme("data/music/accion-OGA-djsaryon.ogg");
     enemy:NewEnemyParty();
     enemy:AddEnemy(9);
     roam_zone:AddEnemy(enemy, 1);
@@ -550,20 +550,20 @@ function _CreateEvents()
     local text = nil
 
     -- To the first cave
-    vt_map.MapTransitionEvent.Create("to cave 1", "dat/maps/mt_elbrus/mt_elbrus_cave1_map.lua",
-                                     "dat/maps/mt_elbrus/mt_elbrus_cave1_script.lua", "from_entrance1");
+    vt_map.MapTransitionEvent.Create("to cave 1", "data/story/mt_elbrus/mt_elbrus_cave1_map.lua",
+                                     "data/story/mt_elbrus/mt_elbrus_cave1_script.lua", "from_entrance1");
 
-    vt_map.MapTransitionEvent.Create("to cave 2", "dat/maps/mt_elbrus/mt_elbrus_cave1_map.lua",
-                                     "dat/maps/mt_elbrus/mt_elbrus_cave1_script.lua", "from_entrance2");
+    vt_map.MapTransitionEvent.Create("to cave 2", "data/story/mt_elbrus/mt_elbrus_cave1_map.lua",
+                                     "data/story/mt_elbrus/mt_elbrus_cave1_script.lua", "from_entrance2");
 
-    vt_map.MapTransitionEvent.Create("to cave 3", "dat/maps/mt_elbrus/mt_elbrus_cave1_map.lua",
-                                     "dat/maps/mt_elbrus/mt_elbrus_cave1_script.lua", "from_entrance3");
+    vt_map.MapTransitionEvent.Create("to cave 3", "data/story/mt_elbrus/mt_elbrus_cave1_map.lua",
+                                     "data/story/mt_elbrus/mt_elbrus_cave1_script.lua", "from_entrance3");
 
-    vt_map.MapTransitionEvent.Create("to cave 4", "dat/maps/mt_elbrus/mt_elbrus_cave1_map.lua",
-                                     "dat/maps/mt_elbrus/mt_elbrus_cave1_script.lua", "from_entrance4");
+    vt_map.MapTransitionEvent.Create("to cave 4", "data/story/mt_elbrus/mt_elbrus_cave1_map.lua",
+                                     "data/story/mt_elbrus/mt_elbrus_cave1_script.lua", "from_entrance4");
 
-    vt_map.MapTransitionEvent.Create("to mountain path 2", "dat/maps/mt_elbrus/mt_elbrus_path2_map.lua",
-                                     "dat/maps/mt_elbrus/mt_elbrus_path2_script.lua", "from_path1");
+    vt_map.MapTransitionEvent.Create("to mountain path 2", "data/story/mt_elbrus/mt_elbrus_path2_map.lua",
+                                     "data/story/mt_elbrus/mt_elbrus_path2_script.lua", "from_path1");
 
     -- Heal point
     vt_map.ScriptedEvent.Create("Heal event", "heal_party", "heal_done");
@@ -681,15 +681,15 @@ end
 -- Sets common battle environment settings for enemy sprites
 function _SetBattleEnvironment(enemy)
     -- default values
-    enemy:SetBattleMusicTheme("music/heroism-OGA-Edward-J-Blakeley.ogg");
+    enemy:SetBattleMusicTheme("data/music/heroism-OGA-Edward-J-Blakeley.ogg");
     enemy:SetBattleBackground("data/battles/battle_scenes/mountain_background.png");
-    enemy:AddBattleScript("dat/maps/common/at_night.lua");
+    enemy:AddBattleScript("data/story/common/at_night.lua");
 
     if (GlobalManager:GetEventValue("story", "mt_elbrus_weather_level") > 0) then
-        enemy:AddBattleScript("dat/maps/common/rain_in_battles_script.lua");
+        enemy:AddBattleScript("data/story/common/rain_in_battles_script.lua");
     end
     if (GlobalManager:GetEventValue("story", "mt_elbrus_weather_level") > 1) then
-        enemy:AddBattleScript("dat/maps/common/soft_lightnings_script.lua");
+        enemy:AddBattleScript("data/story/common/soft_lightnings_script.lua");
     end
 end
 
@@ -708,7 +708,7 @@ map_functions = {
         GlobalManager:GetActiveParty():AddHitPoints(10000);
         GlobalManager:GetActiveParty():AddSkillPoints(10000);
         Map:SetStamina(10000);
-        AudioManager:PlaySound("sounds/heal_spell.wav");
+        AudioManager:PlaySound("data/sounds/heal_spell.wav");
         heal_effect:SetPosition(hero:GetXPosition(), hero:GetYPosition());
         heal_effect:Start();
         heal_effect_time = 0;

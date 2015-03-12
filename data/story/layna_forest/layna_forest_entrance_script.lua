@@ -11,7 +11,7 @@ map_subname = "Forest entrance"
 
 -- The music file used as default background music on this map.
 -- Other musics will have to handled through scripting.
-music_filename = "music/house_in_a_forest_loop_horrorpen_oga.ogg"
+music_filename = "data/music/house_in_a_forest_loop_horrorpen_oga.ogg"
 
 -- c++ objects instances
 local Map = nil
@@ -31,7 +31,7 @@ function Load(m)
     EventManager = Map:GetEventSupervisor();
     Map:SetUnlimitedStamina(false);
 
-    Map:SetMinimapImage("dat/maps/layna_forest/minimaps/layna_forest_entrance_minimap.png");
+    Map:SetMinimapImage("data/story/layna_forest/minimaps/layna_forest_entrance_minimap.png");
 
     _CreateCharacters();
     _CreateObjects();
@@ -80,7 +80,7 @@ function _HandleTwilight()
         GlobalManager:SetEventValue("story", "layna_forest_twilight_value", 3);
     end
 
-    Map:GetScriptSupervisor():AddScript("dat/maps/layna_forest/after_crystal_twilight.lua");
+    Map:GetScriptSupervisor():AddScript("data/story/layna_forest/after_crystal_twilight.lua");
 end
 
 -- the map update function handles checks done on each game tick.
@@ -331,15 +331,15 @@ function _CreateEvents()
     vt_map.ScriptedEvent.Create("Music start", "music_start", "");
 
     -- Triggered events
-    vt_map.MapTransitionEvent.Create("exit forest", "dat/maps/layna_village/layna_village_center_map.lua",
-                                     "dat/maps/layna_village/layna_village_center_script.lua", "from_layna_forest_entrance");
+    vt_map.MapTransitionEvent.Create("exit forest", "data/story/layna_village/layna_village_center_map.lua",
+                                     "data/story/layna_village/layna_village_center_script.lua", "from_layna_forest_entrance");
 
-    vt_map.MapTransitionEvent.Create("to forest NW", "dat/maps/layna_forest/layna_forest_north_west_map.lua",
-                                     "dat/maps/layna_forest/layna_forest_north_west_script.lua", "from_layna_forest_entrance");
+    vt_map.MapTransitionEvent.Create("to forest NW", "data/story/layna_forest/layna_forest_north_west_map.lua",
+                                     "data/story/layna_forest/layna_forest_north_west_script.lua", "from_layna_forest_entrance");
 
     -- After the forest dungeon
-    vt_map.MapTransitionEvent.Create("exit forest at night", "dat/maps/layna_village/layna_village_center_map.lua",
-                                     "dat/maps/layna_village/layna_village_center_at_night_script.lua", "from_layna_forest_entrance");
+    vt_map.MapTransitionEvent.Create("exit forest at night", "data/story/layna_village/layna_village_center_map.lua",
+                                     "data/story/layna_village/layna_village_center_at_night_script.lua", "from_layna_forest_entrance");
 
     -- Heal point
     vt_map.ScriptedEvent.Create("Forest entrance heal", "heal_party", "heal_done");
@@ -430,15 +430,15 @@ end
 -- Sets common battle environment settings for enemy sprites
 function _SetBattleEnvironment(enemy)
     -- default values
-    enemy:SetBattleMusicTheme("music/heroism-OGA-Edward-J-Blakeley.ogg");
+    enemy:SetBattleMusicTheme("data/music/heroism-OGA-Edward-J-Blakeley.ogg");
     enemy:SetBattleBackground("data/battles/battle_scenes/forest_background.png");
 
     if (GlobalManager:GetEventValue("story", "layna_forest_crystal_event_done") < 1) then
         -- Add tutorial battle dialog with Kalya and Bronann
-        enemy:AddBattleScript("dat/battles/tutorial_battle_dialogs.lua");
+        enemy:AddBattleScript("data/battles/battle_scenes/tutorial_battle_dialogs.lua");
     else
         -- Setup time of the day lighting on battles
-        enemy:AddBattleScript("dat/maps/layna_forest/after_crystal_twilight_battles.lua");
+        enemy:AddBattleScript("data/story/layna_forest/after_crystal_twilight_battles.lua");
         if (GlobalManager:GetEventValue("story", "layna_forest_twilight_value") > 2) then
             enemy:SetBattleBackground("data/battles/battle_scenes/forest_background_evening.png");
         end
@@ -460,7 +460,7 @@ map_functions = {
         GlobalManager:GetActiveParty():AddHitPoints(10000);
         GlobalManager:GetActiveParty():AddSkillPoints(10000);
         Map:SetStamina(10000);
-        AudioManager:PlaySound("sounds/heal_spell.wav");
+        AudioManager:PlaySound("data/sounds/heal_spell.wav");
         heal_effect:SetPosition(hero:GetXPosition(), hero:GetYPosition());
         heal_effect:Start();
         heal_effect_time = 0;
@@ -547,7 +547,7 @@ map_functions = {
     music_start = function()
         -- If the night has fallen, let the music change
         if (GlobalManager:GetEventValue("story", "layna_forest_twilight_value") >= 6) then
-            AudioManager:PlayMusic("music/forest_at_night.ogg");
+            AudioManager:PlayMusic("data/music/forest_at_night.ogg");
         end
     end
 }

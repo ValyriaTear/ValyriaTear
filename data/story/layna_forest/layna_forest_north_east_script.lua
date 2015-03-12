@@ -11,7 +11,7 @@ map_subname = ""
 
 -- The music file used as default background music on this map.
 -- Other musics will have to handled through scripting.
-music_filename = "music/house_in_a_forest_loop_horrorpen_oga.ogg"
+music_filename = "data/music/house_in_a_forest_loop_horrorpen_oga.ogg"
 
 -- c++ objects instances
 local Map = nil
@@ -27,7 +27,7 @@ function Load(m)
     EventManager = Map:GetEventSupervisor();
     Map:SetUnlimitedStamina(false);
 
-    Map:SetMinimapImage("dat/maps/layna_forest/minimaps/layna_forest_north_east_minimap.png");
+    Map:SetMinimapImage("data/story/layna_forest/minimaps/layna_forest_north_east_minimap.png");
 
     _CreateCharacters();
     _CreateObjects();
@@ -54,7 +54,7 @@ function _HandleTwilight()
         return;
     end
 
-    Map:GetScriptSupervisor():AddScript("dat/maps/layna_forest/after_crystal_twilight.lua");
+    Map:GetScriptSupervisor():AddScript("data/story/layna_forest/after_crystal_twilight.lua");
 end
 
 -- the map update function handles checks done on each game tick.
@@ -603,11 +603,11 @@ function _CreateEvents()
     local text = nil
 
     -- Map events
-    vt_map.MapTransitionEvent.Create("to forest NW", "dat/maps/layna_forest/layna_forest_north_west_map.lua",
-                                     "dat/maps/layna_forest/layna_forest_north_west_script.lua", "from_layna_forest_NE");
+    vt_map.MapTransitionEvent.Create("to forest NW", "data/story/layna_forest/layna_forest_north_west_map.lua",
+                                     "data/story/layna_forest/layna_forest_north_west_script.lua", "from_layna_forest_NE");
 
-    vt_map.MapTransitionEvent.Create("to forest SE", "dat/maps/layna_forest/layna_forest_south_east_map.lua",
-                                     "dat/maps/layna_forest/layna_forest_south_east_script.lua", "from_layna_forest_NE");
+    vt_map.MapTransitionEvent.Create("to forest SE", "data/story/layna_forest/layna_forest_south_east_map.lua",
+                                     "data/story/layna_forest/layna_forest_south_east_script.lua", "from_layna_forest_NE");
 
     -- generic events
     vt_map.ScriptedEvent.Create("Map:PopState()", "Map_PopState", "");
@@ -615,7 +615,7 @@ function _CreateEvents()
     vt_map.ChangeDirectionSpriteEvent.Create("The Hero looks north", hero, vt_map.MapMode.NORTH);
 
     -- Warning dialogue
-    event = vt_map.SoundEvent.Create("Warning dialogue event", "sounds/footstep_grass1.wav")
+    event = vt_map.SoundEvent.Create("Warning dialogue event", "data/sounds/footstep_grass1.wav")
     event:AddEventLinkAtEnd("Warning dialogue");
 
     dialogue = vt_map.SpriteDialogue.Create();
@@ -641,7 +641,7 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("First Wolf battle");
 
     event = vt_map.BattleEncounterEvent.Create("First Wolf battle");
-    event:SetMusic("music/accion-OGA-djsaryon.ogg");
+    event:SetMusic("data/music/accion-OGA-djsaryon.ogg");
     event:SetBackground("data/battles/battle_scenes/forest_background.png");
     event:AddEnemy(3, 512, 500);
     event:SetBoss(true);
@@ -714,15 +714,15 @@ end
 
 -- Sets common battle environment settings for enemy sprites
 function _SetBattleEnvironment(enemy)
-    enemy:SetBattleMusicTheme("music/heroism-OGA-Edward-J-Blakeley.ogg");
+    enemy:SetBattleMusicTheme("data/music/heroism-OGA-Edward-J-Blakeley.ogg");
     enemy:SetBattleBackground("data/battles/battle_scenes/forest_background.png");
 
     if (GlobalManager:GetEventValue("story", "layna_forest_crystal_event_done") < 1) then
         -- Add tutorial battle dialog with Kalya and Bronann
-        enemy:AddBattleScript("dat/battles/tutorial_battle_dialogs.lua");
+        enemy:AddBattleScript("data/battles/battle_scenes/tutorial_battle_dialogs.lua");
     else
         -- Setup time of the day lighting on battles
-        enemy:AddBattleScript("dat/maps/layna_forest/after_crystal_twilight_battles.lua");
+        enemy:AddBattleScript("data/story/layna_forest/after_crystal_twilight_battles.lua");
         if (GlobalManager:GetEventValue("story", "layna_forest_twilight_value") > 2) then
             enemy:SetBattleBackground("data/battles/battle_scenes/forest_background_evening.png");
         end
@@ -742,7 +742,7 @@ map_functions = {
         Map:PushState(vt_map.MapMode.STATE_SCENE);
         hero:SetMoving(false);
         -- Play the wolf growling sound
-        AudioManager:PlaySound("sounds/growl1_IFartInUrGeneralDirection_freesound.wav");
+        AudioManager:PlaySound("data/sounds/growl1_IFartInUrGeneralDirection_freesound.wav");
         wolf:SetVisible(true);
     end,
 

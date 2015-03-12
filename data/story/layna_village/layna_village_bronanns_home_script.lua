@@ -11,7 +11,7 @@ map_subname = "Bronann's home"
 
 -- The music file used as default background music on this map.
 -- Other musics will have to handled through scripting.
-music_filename = "music/Caketown_1-OGA-mat-pablo.ogg"
+music_filename = "data/music/Caketown_1-OGA-mat-pablo.ogg"
 
 -- c++ objects instances
 local Map = nil
@@ -61,7 +61,7 @@ function _CreateCharacters()
     if (GlobalManager:GetPreviousLocation() == "from_village_center") then
         bronann:SetPosition(39.5, 22.5);
         bronann:SetDirection(vt_map.MapMode.NORTH);
-        AudioManager:PlaySound("sounds/door_close.wav");
+        AudioManager:PlaySound("data/sounds/door_close.wav");
     end
 end
 
@@ -211,11 +211,11 @@ function _CreateEvents()
     local dialogue = nil
 
     -- Triggered Events
-    vt_map.MapTransitionEvent.Create("to village", "dat/maps/layna_village/layna_village_center_map.lua",
-                                     "dat/maps/layna_village/layna_village_center_script.lua", "from_bronanns_home");
+    vt_map.MapTransitionEvent.Create("to village", "data/story/layna_village/layna_village_center_map.lua",
+                                     "data/story/layna_village/layna_village_center_script.lua", "from_bronanns_home");
 
-    vt_map.MapTransitionEvent.Create("to Bronann's 1st floor", "dat/maps/layna_village/layna_village_bronanns_home_first_floor_map.lua",
-                                     "dat/maps/layna_village/layna_village_bronanns_home_first_floor_script.lua", "from_bronanns_home");
+    vt_map.MapTransitionEvent.Create("to Bronann's 1st floor", "data/story/layna_village/layna_village_bronanns_home_first_floor_map.lua",
+                                     "data/story/layna_village/layna_village_bronanns_home_first_floor_script.lua", "from_bronanns_home");
 
     -- Generic events
     vt_map.ScriptedEvent.Create("Audio:FadeOutMusic()", "Audio_FadeOutMusic", "");
@@ -343,7 +343,7 @@ function _CheckZones()
             EventManager:StartEvent("Start Quest1");
         else
             EventManager:StartEvent("to village");
-            AudioManager:PlaySound("sounds/door_open2.wav");
+            AudioManager:PlaySound("data/sounds/door_open2.wav");
         end
     end
     if (to_bronanns_room_zone:IsCameraEntering() == true) then

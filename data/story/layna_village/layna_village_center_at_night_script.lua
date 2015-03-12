@@ -11,7 +11,7 @@ map_subname = "Village center"
 
 -- The music file used as default background music on this map.
 -- Other musics will have to handled through scripting.
-music_filename = "music/forest_at_night.ogg"
+music_filename = "data/music/forest_at_night.ogg"
 
 -- c++ objects instances
 local Map = nil
@@ -48,7 +48,7 @@ function Load(m)
 
     -- Add clouds overlay
     Effects:EnableAmbientOverlay("data/visuals/ambient/clouds.png", 5.0, -5.0, true);
-    Map:GetScriptSupervisor():AddScript("dat/maps/common/at_night.lua");
+    Map:GetScriptSupervisor():AddScript("data/story/common/at_night.lua");
 
     -- Set the world map current position
     GlobalManager:SetCurrentLocationId("layna village");
@@ -59,7 +59,7 @@ function Load(m)
     end
 
     -- Preload the soldier music
-    AudioManager:LoadMusic("music/Welcome to Com-Mecha-Mattew_Pablo_OGA.ogg", Map);
+    AudioManager:LoadMusic("data/music/Welcome to Com-Mecha-Mattew_Pablo_OGA.ogg", Map);
 end
 
 function Update()
@@ -86,19 +86,19 @@ function _CreateCharacters()
     elseif (GlobalManager:GetPreviousLocation() == "from_shop") then
         bronann:SetPosition(94, 72);
         bronann:SetDirection(vt_map.MapMode.SOUTH);
-        AudioManager:PlaySound("sounds/door_close.wav");
+        AudioManager:PlaySound("data/sounds/door_close.wav");
     elseif (GlobalManager:GetPreviousLocation() == "from_secret_path") then
         bronann:SetPosition(3, 60);
         bronann:SetDirection(vt_map.MapMode.EAST);
     elseif (GlobalManager:GetPreviousLocation() == "from sophia's house") then
-        AudioManager:PlaySound("sounds/door_close.wav");
+        AudioManager:PlaySound("data/sounds/door_close.wav");
         bronann:SetPosition(22, 20);
         bronann:SetDirection(vt_map.MapMode.NORTH);
     elseif (GlobalManager:GetPreviousLocation() == "from_layna_forest_entrance") then
         bronann:SetPosition(115, 37);
         bronann:SetDirection(vt_map.MapMode.WEST);
     elseif (GlobalManager:GetPreviousLocation() == "from_bronanns_home") then
-        AudioManager:PlaySound("sounds/door_close.wav");
+        AudioManager:PlaySound("data/sounds/door_close.wav");
     end
 end
 
@@ -175,14 +175,14 @@ function _CreateEvents()
     local dialogue = nil
 
     -- Triggered Events
-    vt_map.MapTransitionEvent.Create("to Riverbank", "dat/maps/layna_village/layna_village_riverbank_map.lua",
-                                     "dat/maps/layna_village/layna_village_riverbank_at_night_script.lua", "from_village_center");
+    vt_map.MapTransitionEvent.Create("to Riverbank", "data/story/layna_village/layna_village_riverbank_map.lua",
+                                     "data/story/layna_village/layna_village_riverbank_at_night_script.lua", "from_village_center");
 
-    vt_map.MapTransitionEvent.Create("to Village south entrance", "dat/maps/layna_village/layna_village_south_entrance_map.lua",
-                                     "dat/maps/layna_village/layna_village_south_entrance_script.lua", "from_village_center");
+    vt_map.MapTransitionEvent.Create("to Village south entrance", "data/story/layna_village/layna_village_south_entrance_map.lua",
+                                     "data/story/layna_village/layna_village_south_entrance_script.lua", "from_village_center");
 
-    vt_map.MapTransitionEvent.Create("to Kalya house path", "dat/maps/layna_village/layna_village_kalya_house_path_map.lua",
-                                     "dat/maps/layna_village/layna_village_kalya_house_path_script.lua", "from_village_center");
+    vt_map.MapTransitionEvent.Create("to Kalya house path", "data/story/layna_village/layna_village_kalya_house_path_map.lua",
+                                     "data/story/layna_village/layna_village_kalya_house_path_script.lua", "from_village_center");
 
     -- Generic events
     vt_map.ScriptedEvent.Create("Map:PushState(SCENE)", "Map_SceneState", "");
@@ -470,7 +470,7 @@ map_functions = {
 
     play_lock_door_sound = function()
         -- Play locked door sound when bronann tries to enter his home
-        AudioManager:PlaySound("sounds/door_close.wav");
+        AudioManager:PlaySound("data/sounds/door_close.wav");
     end,
 
     kalya_captured_scene_start = function()
@@ -518,7 +518,7 @@ map_functions = {
         Map:SetCamera(kalya, 800);
 
         -- Play the soldier music
-        AudioManager:PlayMusic("music/Welcome to Com-Mecha-Mattew_Pablo_OGA.ogg");
+        AudioManager:PlayMusic("data/music/Welcome to Com-Mecha-Mattew_Pablo_OGA.ogg");
     end,
 
     set_camera_on_bronann = function()

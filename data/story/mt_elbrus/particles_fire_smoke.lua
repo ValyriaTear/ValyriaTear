@@ -71,14 +71,14 @@ systems[0] =
 
     animation_frames =
     {
-        'data/particle_effects/flame1.png',
-        'data/particle_effects/flame2.png',
-        'data/particle_effects/flame3.png',
-        'data/particle_effects/flame4.png',
-        'data/particle_effects/flame5.png',
-        'data/particle_effects/flame6.png',
-        'data/particle_effects/flame7.png',
-        'data/particle_effects/flame8.png'
+        'data/visuals/particle_effects/flame1.png',
+        'data/visuals/particle_effects/flame2.png',
+        'data/visuals/particle_effects/flame3.png',
+        'data/visuals/particle_effects/flame4.png',
+        'data/visuals/particle_effects/flame5.png',
+        'data/visuals/particle_effects/flame6.png',
+        'data/visuals/particle_effects/flame7.png',
+        'data/visuals/particle_effects/flame8.png'
     },
     animation_frame_times =
     {
@@ -181,7 +181,7 @@ systems[1] =
 
     animation_frames =
     {
-        'data/particle_effects/dust.png'
+        'data/visuals/particle_effects/dust.png'
     },
     animation_frame_times =
     {

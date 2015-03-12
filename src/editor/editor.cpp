@@ -450,7 +450,7 @@ void Editor::_FileOpen()
 
     // file to open
     QString file_name = QFileDialog::getOpenFileName(this, tr("Map Editor -- File Open"),
-                        "dat/maps", "Maps (*.lua)");
+                        "data/story", "Maps (*.lua)");
 
     if(file_name.isEmpty()) {
         statusBar()->showMessage(tr("No map created! Empty filename given."), 5000);
@@ -551,7 +551,7 @@ void Editor::_FileSaveAs()
 {
     // get the file name from the user
     QString file_name = QFileDialog::getSaveFileName(this,
-                        tr("Map Editor -- File Save"), "dat/maps", "Maps (*.lua)");
+                        tr("Map Editor -- File Save"), "data/story", "Maps (*.lua)");
 
     if(file_name.isEmpty()) {
         statusBar()->showMessage("Save abandoned.", 5000);

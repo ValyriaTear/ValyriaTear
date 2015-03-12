@@ -60,7 +60,7 @@ systems[0] =
 
     animation_frames =
     {
-        'data/particle_effects/fire.png'
+        'data/visuals/particle_effects/fire.png'
     },
     animation_frame_times =
     {

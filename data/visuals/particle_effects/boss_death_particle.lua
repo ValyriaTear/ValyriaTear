@@ -59,7 +59,7 @@ systems[0] =
 
     animation_frames =
     {
-        'data/particle_effects/outlined_circle_small.png'
+        'data/visuals/particle_effects/outlined_circle_small.png'
     },
     animation_frame_times =
     {

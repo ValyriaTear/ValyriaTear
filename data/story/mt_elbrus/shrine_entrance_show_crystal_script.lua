@@ -34,7 +34,7 @@ function Initialize(map_instance)
     black_layer = Script:CreateImage("");
     black_layer:SetDimensions(1024.0, 768.0);
 
-    ancient_sign = Script:CreateImage("dat/maps/mt_elbrus/ancient_sign_big_bright.png");
+    ancient_sign = Script:CreateImage("data/story/mt_elbrus/ancient_sign_big_bright.png");
 
     crystal_alpha = 0.0;
     black_layer_alpha = 0.0;
@@ -62,7 +62,7 @@ function Update()
         ancient_sign_y_position = Map:GetScreenYCoordinate(10.0);
 
         -- Play crystal sound
-        AudioManager:PlaySound("sounds/crystal_appearance.ogg");
+        AudioManager:PlaySound("data/sounds/crystal_appearance.ogg");
 
         script_triggered = true;
     end

@@ -162,7 +162,7 @@ void InputEngine::DeinitializeJoysticks()
 bool InputEngine::RestoreDefaultKeys()
 {
     // Load the settings file
-    std::string in_filename = "dat/config/restore_settings.lua";
+    std::string in_filename = "data/config/restore_settings.lua";
     ReadScriptDescriptor restore_settings_file;
     if(!restore_settings_file.OpenFile(in_filename)) {
         PRINT_ERROR << "INPUT ERROR: failed to open data file for reading: "
@@ -195,7 +195,7 @@ bool InputEngine::RestoreDefaultKeys()
 bool InputEngine::RestoreDefaultJoyButtons()
 {
     // Load the settings file
-    std::string in_filename = "dat/config/restore_settings.lua";
+    std::string in_filename = "data/config/restore_settings.lua";
     ReadScriptDescriptor restore_settings_file;
     if(!restore_settings_file.OpenFile(in_filename)) {
         PRINT_ERROR << "INPUT ERROR: failed to open data file for reading: "

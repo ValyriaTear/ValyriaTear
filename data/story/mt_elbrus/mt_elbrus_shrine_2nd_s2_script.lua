@@ -11,7 +11,7 @@ map_subname = ""
 
 -- The music file used as default background music on this map.
 -- Other musics will have to handled through scripting.
-music_filename = "music/icy_wind.ogg"
+music_filename = "data/music/icy_wind.ogg"
 
 -- c++ objects instances
 local Map = nil
@@ -44,13 +44,13 @@ function Load(m)
     Map:GetEffectSupervisor():EnableAmbientOverlay("data/visuals/ambient/dark.png", 0.0, 0.0, false);
 
     -- Preloads the action sounds to avoid glitches
-    AudioManager:LoadSound("sounds/stone_roll.wav", Map);
-    AudioManager:LoadSound("sounds/stone_bump.ogg", Map);
-    AudioManager:LoadSound("sounds/opening_sword_unsheathe.wav", Map);
-    AudioManager:LoadSound("sounds/magic_blast.ogg", Map);
-    AudioManager:LoadSound("sounds/battle_encounter_03.ogg", Map);
-    AudioManager:LoadSound("sounds/cave-in.ogg", Map);
-    AudioManager:LoadSound("sounds/heavy_bump.wav", Map);
+    AudioManager:LoadSound("data/sounds/stone_roll.wav", Map);
+    AudioManager:LoadSound("data/sounds/stone_bump.ogg", Map);
+    AudioManager:LoadSound("data/sounds/opening_sword_unsheathe.wav", Map);
+    AudioManager:LoadSound("data/sounds/magic_blast.ogg", Map);
+    AudioManager:LoadSound("data/sounds/battle_encounter_03.ogg", Map);
+    AudioManager:LoadSound("data/sounds/cave-in.ogg", Map);
+    AudioManager:LoadSound("data/sounds/heavy_bump.wav", Map);
 end
 
 -- the map update function handles checks done on each game tick.
@@ -76,7 +76,7 @@ function _CreateCharacters()
 end
 
 function _add_flame(x, y)
-    vt_map.SoundObject.Create("sounds/campfire.ogg", x, y, 10.0);
+    vt_map.SoundObject.Create("data/sounds/campfire.ogg", x, y, 10.0);
 
     local object = CreateObject(Map, "Flame1", x, y, vt_map.MapMode.GROUND_OBJECT);
     object:RandomizeCurrentAnimationFrame();
@@ -103,11 +103,11 @@ function _CreateObjects()
     CreateObject(Map, "Rock1", 31, 14, vt_map.MapMode.GROUND_OBJECT);
 
     -- Snow effects
-    vt_map.ParticleObject.Create("dat/maps/mt_elbrus/particles_snow_south_entrance.lua", 16, 72, vt_map.MapMode.GROUND_OBJECT);
+    vt_map.ParticleObject.Create("data/story/mt_elbrus/particles_snow_south_entrance.lua", 16, 72, vt_map.MapMode.GROUND_OBJECT);
     vt_map.Halo.Create("data/visuals/lights/torch_light_mask.lua", 16, 79,
                 vt_video.Color(1.0, 1.0, 1.0, 0.8));
 
-    vt_map.ParticleObject.Create("dat/maps/mt_elbrus/particles_snow_south_entrance.lua", 50, 50, vt_map.MapMode.GROUND_OBJECT);
+    vt_map.ParticleObject.Create("data/story/mt_elbrus/particles_snow_south_entrance.lua", 50, 50, vt_map.MapMode.GROUND_OBJECT);
     vt_map.Halo.Create("data/visuals/lights/torch_light_mask.lua", 51, 57,
                 vt_video.Color(1.0, 1.0, 1.0, 0.8));
 
@@ -337,30 +337,30 @@ function _CreateEvents()
     local dialogue = nil
     local text = nil
 
-    vt_map.MapTransitionEvent.Create("to mountain shrine 2nd floor South left", "dat/maps/mt_elbrus/mt_elbrus_shrine_2nd_s1_map.lua",
-                                     "dat/maps/mt_elbrus/mt_elbrus_shrine_2nd_s1_script.lua", "from_shrine_2nd_floor_grotto_left");
+    vt_map.MapTransitionEvent.Create("to mountain shrine 2nd floor South left", "data/story/mt_elbrus/mt_elbrus_shrine_2nd_s1_map.lua",
+                                     "data/story/mt_elbrus/mt_elbrus_shrine_2nd_s1_script.lua", "from_shrine_2nd_floor_grotto_left");
 
-    vt_map.MapTransitionEvent.Create("to mountain shrine 2nd floor South right", "dat/maps/mt_elbrus/mt_elbrus_shrine_2nd_s1_map.lua",
-                                     "dat/maps/mt_elbrus/mt_elbrus_shrine_2nd_s1_script.lua", "from_shrine_2nd_floor_grotto_right");
+    vt_map.MapTransitionEvent.Create("to mountain shrine 2nd floor South right", "data/story/mt_elbrus/mt_elbrus_shrine_2nd_s1_map.lua",
+                                     "data/story/mt_elbrus/mt_elbrus_shrine_2nd_s1_script.lua", "from_shrine_2nd_floor_grotto_right");
 
-    vt_map.MapTransitionEvent.Create("to mountain shrine stairs", "dat/maps/mt_elbrus/mt_elbrus_shrine_stairs_map.lua",
-                                     "dat/maps/mt_elbrus/mt_elbrus_shrine_stairs_script.lua", "from_shrine_2nd_floor_grotto");
+    vt_map.MapTransitionEvent.Create("to mountain shrine stairs", "data/story/mt_elbrus/mt_elbrus_shrine_stairs_map.lua",
+                                     "data/story/mt_elbrus/mt_elbrus_shrine_stairs_script.lua", "from_shrine_2nd_floor_grotto");
 
     -- trap
     vt_map.ScriptedEvent.Create("start trap", "trap_start", "trap_update");
 
     -- When dying because of the trap
-    vt_map.MapTransitionEvent.Create("Restart map", "dat/maps/mt_elbrus/mt_elbrus_shrine_2nd_s2_map.lua",
-                                     "dat/maps/mt_elbrus/mt_elbrus_shrine_2nd_s2_script.lua", GlobalManager:GetPreviousLocation());
+    vt_map.MapTransitionEvent.Create("Restart map", "data/story/mt_elbrus/mt_elbrus_shrine_2nd_s2_map.lua",
+                                     "data/story/mt_elbrus/mt_elbrus_shrine_2nd_s2_script.lua", GlobalManager:GetPreviousLocation());
 
     -- Mini boss event
     event = vt_map.ScriptedEvent.Create("Mini-Boss fight", "mini_boss_start", "");
     event:AddEventLinkAtEnd("Mini-boss fight battle start");
 
     event = vt_map.BattleEncounterEvent.Create("Mini-boss fight battle start");
-    event:SetMusic("music/accion-OGA-djsaryon.ogg");
+    event:SetMusic("data/music/accion-OGA-djsaryon.ogg");
     event:SetBackground("data/battles/battle_scenes/desert_cave/desert_cave.png");
-    event:AddScript("dat/battles/desert_cave_battle_anim.lua");
+    event:AddScript("data/battles/battle_scenes/desert_cave_battle_anim.lua");
     event:SetBoss(true);
     event:AddEnemy(20);
     event:AddEventLinkAtEnd("Mini-boss fight end");
@@ -382,10 +382,10 @@ end
 
 -- Sets common battle environment settings for enemy sprites
 function _SetBattleEnvironment(enemy)
-    enemy:SetBattleMusicTheme("music/heroism-OGA-Edward-J-Blakeley.ogg");
+    enemy:SetBattleMusicTheme("data/music/heroism-OGA-Edward-J-Blakeley.ogg");
     enemy:SetBattleBackground("data/battles/battle_scenes/desert_cave/desert_cave.png");
     -- Add the background and foreground animations
-    enemy:AddBattleScript("dat/battles/desert_cave_battle_anim.lua");
+    enemy:AddBattleScript("data/battles/battle_scenes/desert_cave_battle_anim.lua");
 end
 
 function _CreateEnemies()
@@ -485,7 +485,7 @@ function _CheckZones()
         _TriggerPartyDamage(hp_change);
 
         EventManager:StartEvent("Restart map");
-        AudioManager:PlaySound("sounds/battle_encounter_03.ogg");
+        AudioManager:PlaySound("data/sounds/battle_encounter_03.ogg");
     end
 end
 
@@ -551,7 +551,7 @@ function _UpdateStoneMovement(stone_object, stone_direction)
                                                   vt_map.MapMode.FLATGROUND_OBJECT);
                 broken_spike:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
                 -- Play the shatter sound
-                AudioManager:PlaySound("sounds/magic_blast.ogg");
+                AudioManager:PlaySound("data/sounds/magic_blast.ogg");
 
                 my_object:SetVisible(false);
                 my_object:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
@@ -567,7 +567,7 @@ function _UpdateStoneMovement(stone_object, stone_direction)
                                                   vt_map.MapMode.FLATGROUND_OBJECT);
                 broken_spike:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
                 -- Play the shatter sound
-                AudioManager:PlaySound("sounds/magic_blast.ogg");
+                AudioManager:PlaySound("data/sounds/magic_blast.ogg");
 
                 my_object:SetVisible(false);
                 my_object:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
@@ -583,7 +583,7 @@ function _UpdateStoneMovement(stone_object, stone_direction)
                                                   vt_map.MapMode.FLATGROUND_OBJECT);
                 broken_spike:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
                 -- Play the shatter sound
-                AudioManager:PlaySound("sounds/magic_blast.ogg");
+                AudioManager:PlaySound("data/sounds/magic_blast.ogg");
 
                 my_object:SetVisible(false);
                 my_object:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
@@ -594,7 +594,7 @@ function _UpdateStoneMovement(stone_object, stone_direction)
     -- Check the collision
     if (stone_object:IsColliding(new_pos_x, new_pos_y) == true) then
         stone_object:SetPosition(old_pos_x, old_pos_y);
-        AudioManager:PlaySound("sounds/heavy_bump.wav");
+        AudioManager:PlaySound("data/sounds/heavy_bump.wav");
         Effects:ShakeScreen(0.6, 600, vt_mode_manager.EffectSupervisor.SHAKE_FALLOFF_GRADUAL);
         return true;
     end
@@ -656,7 +656,7 @@ map_functions = {
         stone_fall_x_pos = 34;
         stone_fall_y_pos = 34;
         stone_fall_hit_ground = false;
-        AudioManager:PlaySound("sounds/stone_roll.wav");
+        AudioManager:PlaySound("data/sounds/stone_roll.wav");
 
         stone_x_force = 0.0150;
         stone_friction = 0.0002;
@@ -672,7 +672,7 @@ map_functions = {
         -- Play a sound when it is hitting the ground
         if (stone_fall_hit_ground == false and stone_fall_x_pos < 30.0) then
             stone_fall_hit_ground = true;
-            AudioManager:PlaySound("sounds/heavy_bump.wav");
+            AudioManager:PlaySound("data/sounds/heavy_bump.wav");
             Effects:ShakeScreen(0.6, 600, vt_mode_manager.EffectSupervisor.SHAKE_FALLOFF_GRADUAL);
         end
         local movement_diff = stone_x_force * update_time;
@@ -697,7 +697,7 @@ map_functions = {
 
     start_to_move_the_stone1 = function()
         stone_direction1 = _GetStoneDirection(rolling_stone1);
-        AudioManager:PlaySound("sounds/stone_roll.wav");
+        AudioManager:PlaySound("data/sounds/stone_roll.wav");
     end,
 
     move_the_stone_update1 = function()
@@ -713,7 +713,7 @@ map_functions = {
                 caught_by_trap = true;
             end
         end
-        AudioManager:PlaySound("sounds/opening_sword_unsheathe.wav");
+        AudioManager:PlaySound("data/sounds/opening_sword_unsheathe.wav");
         trap_update_time = 0;
         trap_index = 0;
         hero_is_dead = false;
@@ -737,7 +737,7 @@ map_functions = {
         if (spike_object ~= nil) then
             spike_object:SetVisible(true);
             spike_object:SetCollisionMask(vt_map.MapMode.ALL_COLLISION);
-            AudioManager:PlaySound("sounds/opening_sword_unsheathe.wav");
+            AudioManager:PlaySound("data/sounds/opening_sword_unsheathe.wav");
         end
 
         trap_index = trap_index + 1
@@ -785,7 +785,7 @@ map_functions = {
     enigma_map_start = function()
         Map:PushState(vt_map.MapMode.STATE_SCENE);
         Effects:ShakeScreen(0.6, 2000, vt_mode_manager.EffectSupervisor.SHAKE_FALLOFF_LINEAR);
-        AudioManager:PlaySound("sounds/cave-in.ogg");
+        AudioManager:PlaySound("data/sounds/cave-in.ogg");
     end,
 
     enigma_map_end = function()

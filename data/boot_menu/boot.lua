@@ -55,7 +55,7 @@ end
 
 function Reset()
     if (Boot:GetState() == vt_boot.BootMode.BOOT_STATE_MENU) then
-        AudioManager:PlayMusic("music/Soliloquy_1-OGA-mat-pablo.ogg");
+        AudioManager:PlayMusic("data/music/Soliloquy_1-OGA-mat-pablo.ogg");
     end
 end
 
@@ -239,7 +239,7 @@ function Update()
     end
 
     if (music_started == false) then
-        AudioManager:PlayMusic("music/Soliloquy_1-OGA-mat-pablo.ogg");
+        AudioManager:PlayMusic("data/music/Soliloquy_1-OGA-mat-pablo.ogg");
         music_started = true;
     end
 

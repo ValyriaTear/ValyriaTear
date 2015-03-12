@@ -11,7 +11,7 @@ map_subname = ""
 
 -- The music file used as default background music on this map.
 -- Other musics will have to handled through scripting.
-music_filename = "music/Caketown_1-OGA-mat-pablo.ogg"
+music_filename = "data/music/Caketown_1-OGA-mat-pablo.ogg"
 
 -- c++ objects instances
 local Map = nil
@@ -51,7 +51,7 @@ function _HandleCredits()
         GlobalManager:SetEventValue("game", "Start_Credits", 1);
     end
     if (GlobalManager:DoesEventExist("game", "Credits_shown") == false) then
-        Map:GetScriptSupervisor():AddScript("dat/credits/episode1_credits.lua");
+        Map:GetScriptSupervisor():AddScript("data/credits/episode1_credits.lua");
     end
 end
 
@@ -143,7 +143,7 @@ function _CreateObjects()
     local kalya_house_exterior_chest = CreateTreasure(Map, "kalya_house_exterior_chest", "Wood_Chest1", 5, 22, vt_map.MapMode.GROUND_OBJECT);
     kalya_house_exterior_chest:AddItem(1, 1);
 
-    vt_map.SoundObject.Create("sounds/gentle_stream.ogg", 10.0, 46.0, 20.0);
+    vt_map.SoundObject.Create("data/sounds/gentle_stream.ogg", 10.0, 46.0, 20.0);
 end
 
 -- Creates all events and sets up the entire event sequence chain
@@ -153,11 +153,11 @@ function _CreateEvents()
     local text = nil
 
     -- Triggered Events
-    vt_map.MapTransitionEvent.Create("to Kalya house path", "dat/maps/layna_village/layna_village_kalya_house_path_map.lua",
-                                     "dat/maps/layna_village/layna_village_kalya_house_path_script.lua", "from_kalya_house_exterior");
+    vt_map.MapTransitionEvent.Create("to Kalya house path", "data/story/layna_village/layna_village_kalya_house_path_map.lua",
+                                     "data/story/layna_village/layna_village_kalya_house_path_script.lua", "from_kalya_house_exterior");
 
-    vt_map.MapTransitionEvent.Create("to kalya house path small passage", "dat/maps/layna_village/layna_village_kalya_house_path_map.lua",
-                                     "dat/maps/layna_village/layna_village_kalya_house_path_script.lua", "from_kalya_house_small_passage");
+    vt_map.MapTransitionEvent.Create("to kalya house path small passage", "data/story/layna_village/layna_village_kalya_house_path_map.lua",
+                                     "data/story/layna_village/layna_village_kalya_house_path_script.lua", "from_kalya_house_small_passage");
 
     -- Kalya house locked door event
     dialogue = vt_map.SpriteDialogue.Create();
@@ -188,7 +188,7 @@ function _CheckZones()
     if (kalya_house_entrance_zone:IsCameraEntering() == true) then
         bronann:SetMoving(false);
         EventManager:StartEvent("Bronann can't enter kalya house");
-        AudioManager:PlaySound("sounds/door_close.wav");
+        AudioManager:PlaySound("data/sounds/door_close.wav");
     end
 
     if (kalya_house_path_small_passage_zone:IsCameraEntering() == true) then

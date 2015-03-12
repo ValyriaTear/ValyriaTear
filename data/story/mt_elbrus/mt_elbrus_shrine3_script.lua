@@ -11,7 +11,7 @@ map_subname = ""
 
 -- The music file used as default background music on this map.
 -- Other musics will have to handled through scripting.
-music_filename = "music/mountain_shrine.ogg"
+music_filename = "data/music/mountain_shrine.ogg"
 
 -- c++ objects instances
 local Map = nil
@@ -44,9 +44,9 @@ function Load(m)
     Map:GetEffectSupervisor():EnableAmbientOverlay("data/visuals/ambient/dark.png", 0.0, 0.0, false);
 
     -- Preload sounds
-    AudioManager:LoadSound("sounds/stone_roll.wav", Map);
-    AudioManager:LoadSound("sounds/opening_sword_unsheathe.wav", Map);
-    AudioManager:LoadSound("sounds/battle_encounter_03.ogg", Map);
+    AudioManager:LoadSound("data/sounds/stone_roll.wav", Map);
+    AudioManager:LoadSound("data/sounds/opening_sword_unsheathe.wav", Map);
+    AudioManager:LoadSound("data/sounds/battle_encounter_03.ogg", Map);
 end
 
 -- the map update function handles checks done on each game tick.
@@ -110,11 +110,11 @@ function _CreateObjects()
     spike_wall:SetCollPixelHeight(3.7 * 16);
     spike_wall:SetImgPixelHalfWidth(15.0 * 16);
     spike_wall:SetImgPixelHeight(5.0 * 16);
-    spike_wall:AddStillFrame("dat/maps/mt_elbrus/spike_wall.png");
+    spike_wall:AddStillFrame("data/story/mt_elbrus/spike_wall.png");
     spike_wall:SetVisible(false);
     spike_wall:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
 
-    wall_rumble_sound = vt_map.SoundObject.Create("sounds/rumble_continuous.ogg", 19.0, 48.0, 20.0);
+    wall_rumble_sound = vt_map.SoundObject.Create("data/sounds/rumble_continuous.ogg", 19.0, 48.0, 20.0);
     wall_rumble_sound:Stop();
 
     -- Adds breaking spikes
@@ -218,7 +218,7 @@ function _CreateObjects()
 end
 
 function _add_flame(x, y)
-    vt_map.SoundObject.Create("sounds/campfire.ogg", x, y, 10.0);
+    vt_map.SoundObject.Create("data/sounds/campfire.ogg", x, y, 10.0);
 
     CreateObject(Map, "Flame1", x, y, vt_map.MapMode.GROUND_OBJECT);
 
@@ -234,14 +234,14 @@ function _CreateEvents()
     local dialogue = nil
     local text = nil
 
-    vt_map.MapTransitionEvent.Create("to mountain shrine main room", "dat/maps/mt_elbrus/mt_elbrus_shrine2_map.lua",
-                                     "dat/maps/mt_elbrus/mt_elbrus_shrine2_script.lua", "from_shrine_trap_room");
+    vt_map.MapTransitionEvent.Create("to mountain shrine main room", "data/story/mt_elbrus/mt_elbrus_shrine2_map.lua",
+                                     "data/story/mt_elbrus/mt_elbrus_shrine2_script.lua", "from_shrine_trap_room");
 
-    vt_map.MapTransitionEvent.Create("to mountain shrine main room-waterfalls", "dat/maps/mt_elbrus/mt_elbrus_shrine2_2_map.lua",
-                                     "dat/maps/mt_elbrus/mt_elbrus_shrine2_script.lua", "from_shrine_trap_room");
+    vt_map.MapTransitionEvent.Create("to mountain shrine main room-waterfalls", "data/story/mt_elbrus/mt_elbrus_shrine2_2_map.lua",
+                                     "data/story/mt_elbrus/mt_elbrus_shrine2_script.lua", "from_shrine_trap_room");
 
-    vt_map.MapTransitionEvent.Create("to mountain shrine treasure room", "dat/maps/mt_elbrus/mt_elbrus_shrine9_map.lua",
-                                     "dat/maps/mt_elbrus/mt_elbrus_shrine9_script.lua", "from_shrine_trap_room");
+    vt_map.MapTransitionEvent.Create("to mountain shrine treasure room", "data/story/mt_elbrus/mt_elbrus_shrine9_map.lua",
+                                     "data/story/mt_elbrus/mt_elbrus_shrine9_script.lua", "from_shrine_trap_room");
 
     vt_map.ScriptedEvent.Create("Start trap", "trap_start", "trap_update");
     vt_map.ScriptedEvent.Create("Start trap end", "end_trap_start", "end_trap_update");
@@ -259,10 +259,10 @@ local roam_zones = {}
 
 -- Sets common battle environment settings for enemy sprites
 function _SetBattleEnvironment(enemy)
-    enemy:SetBattleMusicTheme("music/heroism-OGA-Edward-J-Blakeley.ogg");
+    enemy:SetBattleMusicTheme("data/music/heroism-OGA-Edward-J-Blakeley.ogg");
     enemy:SetBattleBackground("data/battles/battle_scenes/mountain_shrine.png");
-    enemy:AddBattleScript("dat/battles/mountain_shrine_battle_anim.lua");
-    enemy:AddBattleScript("dat/maps/mt_elbrus/battles_in_trap_map_script.lua");
+    enemy:AddBattleScript("data/battles/battle_scenes/mountain_shrine_battle_anim.lua");
+    enemy:AddBattleScript("data/story/mt_elbrus/battles_in_trap_map_script.lua");
 end
 
 function _CreateEnemiesZones()
@@ -495,7 +495,7 @@ function _CheckZones()
         else
             EventManager:StartEvent("to mountain shrine main room-waterfalls")
         end
-        AudioManager:PlaySound("sounds/battle_encounter_03.ogg");
+        AudioManager:PlaySound("data/sounds/battle_encounter_03.ogg");
     end
 end
 
@@ -541,7 +541,7 @@ map_functions = {
         moving_step = 1;
         current_monster_id = -1;
         monsters_started = false;
-        AudioManager:PlaySound("sounds/stone_roll.wav");
+        AudioManager:PlaySound("data/sounds/stone_roll.wav");
     end,
 
     trap_update = function()
@@ -556,7 +556,7 @@ map_functions = {
                 fence2_y = fence2_y - 0.010 * update_time;
             end
             if (fence1_y >= 36 and fence2_y <= 38) then
-                AudioManager:PlaySound("sounds/stone_roll.wav");
+                AudioManager:PlaySound("data/sounds/stone_roll.wav");
                 moving_step = 2;
             end
         -- Moving horizontally
@@ -592,7 +592,7 @@ map_functions = {
         fence2_x = 3;
         fence2_y = 38;
         moving_step = 1;
-        AudioManager:PlaySound("sounds/stone_roll.wav");
+        AudioManager:PlaySound("data/sounds/stone_roll.wav");
     end,
 
     end_trap_update = function()
@@ -608,7 +608,7 @@ map_functions = {
             end
             if (fence1_x >= 5 and fence2_x >= 5) then
                 moving_step = 2;
-                AudioManager:PlaySound("sounds/stone_roll.wav");
+                AudioManager:PlaySound("data/sounds/stone_roll.wav");
             end
         -- Moving vertically
         elseif (moving_step == 2) then
@@ -630,7 +630,7 @@ map_functions = {
         end
 
         -- Remove spikes
-        AudioManager:PlaySound("sounds/opening_sword_unsheathe.wav");
+        AudioManager:PlaySound("data/sounds/opening_sword_unsheathe.wav");
         for my_index, spike in pairs(spikes) do
             spike:SetVisible(false);
             spike:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
@@ -693,7 +693,7 @@ map_functions = {
 
         -- Play the shatter sound if at least one thing broke
         if (one_thing_broke == true) then
-            AudioManager:PlaySound("sounds/magic_blast.ogg");
+            AudioManager:PlaySound("data/sounds/magic_blast.ogg");
         end
 
         -- Check collision with camera

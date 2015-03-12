@@ -57,9 +57,9 @@ function Initialize(battle, _enemy)
     death_particles_triggered = false;
     rumble_triggered = false;
 
-    light1_image = Script:CreateImage("dat/battles/enemies_animations/death_light_1.png");
-    light2_image = Script:CreateImage("dat/battles/enemies_animations/death_light_2.png");
-    light3_image = Script:CreateImage("dat/battles/enemies_animations/death_light_3.png");
+    light1_image = Script:CreateImage("data/battles/enemies_animations/death_light_1.png");
+    light2_image = Script:CreateImage("data/battles/enemies_animations/death_light_2.png");
+    light3_image = Script:CreateImage("data/battles/enemies_animations/death_light_3.png");
 
     -- Fade out the battle music to make the event more dramatic
     AudioManager:FadeOutActiveMusic(2000);
@@ -82,7 +82,7 @@ function Update()
 
     if (lightning_1_triggered == false and elapsed_time > 800) then
         Effects:EnableLightingOverlay(white_color);
-        AudioManager:PlaySound("sounds/magic_blast.ogg");
+        AudioManager:PlaySound("data/sounds/magic_blast.ogg");
         lightning_1_triggered = true;
     elseif (lightning_1_stopped == false and elapsed_time > 1000 ) then
         Effects:DisableLightingOverlay();
@@ -91,7 +91,7 @@ function Update()
 
     if (lightning_2_triggered == false and elapsed_time > 1700) then
         Effects:EnableLightingOverlay(white_color);
-        AudioManager:PlaySound("sounds/magic_blast.ogg");
+        AudioManager:PlaySound("data/sounds/magic_blast.ogg");
         lightning_2_triggered = true;
     elseif (lightning_2_stopped == false and elapsed_time > 1900 ) then
         Effects:DisableLightingOverlay();
@@ -100,7 +100,7 @@ function Update()
 
     if (lightning_3_triggered == false and elapsed_time > 3000) then
         Effects:EnableLightingOverlay(white_color);
-        AudioManager:PlaySound("sounds/magic_blast.ogg");
+        AudioManager:PlaySound("data/sounds/magic_blast.ogg");
         lightning_3_triggered = true;
     elseif (lightning_3_stopped == false and elapsed_time > 3400) then
         Effects:DisableLightingOverlay();
@@ -113,7 +113,7 @@ function Update()
 
         -- Trigger the rumble and sprite shaking
         if (rumble_triggered == false) then
-            AudioManager:PlaySound("sounds/rumble.wav");
+            AudioManager:PlaySound("data/sounds/rumble.wav");
             rumble_triggered = true;
         end
     elseif (elapsed_time >= 8000 and elapsed_time < 10000) then
@@ -124,7 +124,7 @@ function Update()
     -- Triggers snow representing the boss body ashes...
     if (death_particles_triggered == false and elapsed_time > 8000) then
         -- Make the wolf howls at the end
-        AudioManager:PlaySound("sounds/wolf_howl.ogg");
+        AudioManager:PlaySound("data/sounds/wolf_howl.ogg");
 
         Battle:TriggerBattleParticleEffect("data/visuals/particle_effects/boss_death_particle.lua",
                                            enemy_pos_x + 200, enemy_pos_y - 255);

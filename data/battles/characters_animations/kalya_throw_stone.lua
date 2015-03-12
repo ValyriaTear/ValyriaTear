@@ -134,7 +134,7 @@ function Update()
         attack_time = attack_time + SystemManager:GetUpdateTime();
         if (attack_time > 700.0) then
             attack_step = 2;
-            AudioManager:PlaySound("sounds/throw.wav");
+            AudioManager:PlaySound("data/sounds/throw.wav");
             character:SetShowAmmo(true);
         end
     end

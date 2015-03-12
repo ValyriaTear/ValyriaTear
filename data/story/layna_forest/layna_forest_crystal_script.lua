@@ -11,7 +11,7 @@ map_subname = "???"
 
 -- The music file used as default background music on this map.
 -- Other musics will have to handled through scripting.
-music_filename = "sounds/wind.ogg"
+music_filename = "data/sounds/wind.ogg"
 
 -- c++ objects instances
 local Map = nil
@@ -47,10 +47,10 @@ function Load(m)
     Map:GetEffectSupervisor():EnableAmbientOverlay("data/visuals/ambient/clouds.png", 5.0, -5.0, true);
 
     -- Permits the display of the crystal ect...
-    Map:GetScriptSupervisor():AddScript("dat/maps/layna_forest/crystal_appearance/layna_forest_crystal_appearance_anim.lua");
+    Map:GetScriptSupervisor():AddScript("data/story/layna_forest/crystal_appearance/layna_forest_crystal_appearance_anim.lua");
 
     -- Preload the useful musics
-    AudioManager:LoadMusic("music/Zander Noriega - School of Quirks.ogg", Map);
+    AudioManager:LoadMusic("data/music/Zander Noriega - School of Quirks.ogg", Map);
 
     -- Handle time of the day lighting, won't be used when arriving here the first time as expected.
     _HandleTwilight();
@@ -69,7 +69,7 @@ function _HandleTwilight()
         GlobalManager:SetEventValue("story", "layna_forest_twilight_value", 0);
     end
 
-    Map:GetScriptSupervisor():AddScript("dat/maps/layna_forest/after_crystal_twilight.lua");
+    Map:GetScriptSupervisor():AddScript("data/story/layna_forest/after_crystal_twilight.lua");
 end
 
 -- the map update function handles checks done on each game tick.
@@ -404,15 +404,15 @@ function _CreateEvents()
     local text = nil
 
     -- Triggered events
-    vt_map.MapTransitionEvent.Create("to forest cave 2", "dat/maps/layna_forest/layna_forest_cave2_map.lua",
-                                     "dat/maps/layna_forest/layna_forest_cave2_script.lua", "from layna forest crystal");
+    vt_map.MapTransitionEvent.Create("to forest cave 2", "data/story/layna_forest/layna_forest_cave2_map.lua",
+                                     "data/story/layna_forest/layna_forest_cave2_script.lua", "from layna forest crystal");
 
     -- Heal point
     vt_map.ScriptedEvent.Create("heal point", "heal_party", "heal_done");
 
     -- Wolf final fight
     event = vt_map.BattleEncounterEvent.Create("Fenrir Battle");
-    event:SetMusic("music/accion-OGA-djsaryon.ogg");
+    event:SetMusic("data/music/accion-OGA-djsaryon.ogg");
     event:SetBackground("data/battles/battle_scenes/forest_background.png");
     event:AddEnemy(8, 512, 500);
     event:SetBoss(true);
@@ -509,12 +509,12 @@ function _CreateEvents()
     event = vt_map.DialogueEvent.Create("third dialogue part", dialogue);
     event:AddEventLinkAtEnd("crystal dialogue part");
 
-    vt_map.SoundEvent.Create("crystal voice sound 1", "dat/maps/layna_forest/crystal_appearance/crystal-sentence1.ogg")
-    vt_map.SoundEvent.Create("crystal voice sound 2", "dat/maps/layna_forest/crystal_appearance/crystal-sentence2.ogg")
-    vt_map.SoundEvent.Create("crystal voice sound 3", "dat/maps/layna_forest/crystal_appearance/crystal-sentence3.ogg")
-    vt_map.SoundEvent.Create("crystal voice sound 4", "dat/maps/layna_forest/crystal_appearance/crystal-sentence4.ogg")
-    vt_map.SoundEvent.Create("crystal voice sound 5", "dat/maps/layna_forest/crystal_appearance/crystal-sentence5.ogg")
-    vt_map.SoundEvent.Create("crystal voice sound 6", "dat/maps/layna_forest/crystal_appearance/crystal-sentence6.ogg")
+    vt_map.SoundEvent.Create("crystal voice sound 1", "data/story/layna_forest/crystal_appearance/crystal-sentence1.ogg")
+    vt_map.SoundEvent.Create("crystal voice sound 2", "data/story/layna_forest/crystal_appearance/crystal-sentence2.ogg")
+    vt_map.SoundEvent.Create("crystal voice sound 3", "data/story/layna_forest/crystal_appearance/crystal-sentence3.ogg")
+    vt_map.SoundEvent.Create("crystal voice sound 4", "data/story/layna_forest/crystal_appearance/crystal-sentence4.ogg")
+    vt_map.SoundEvent.Create("crystal voice sound 5", "data/story/layna_forest/crystal_appearance/crystal-sentence5.ogg")
+    vt_map.SoundEvent.Create("crystal voice sound 6", "data/story/layna_forest/crystal_appearance/crystal-sentence6.ogg")
 
     dialogue = vt_map.SpriteDialogue.Create();
     dialogue:SetInputBlocked(true);
@@ -786,7 +786,7 @@ map_functions = {
         GlobalManager:GetActiveParty():AddHitPoints(10000);
         GlobalManager:GetActiveParty():AddSkillPoints(10000);
         Map:SetStamina(10000);
-        AudioManager:PlaySound("sounds/heal_spell.wav");
+        AudioManager:PlaySound("data/sounds/heal_spell.wav");
         heal_effect:SetPosition(hero:GetXPosition(), hero:GetYPosition());
         heal_effect:Start();
         heal_effect_time = 0;
@@ -839,13 +839,13 @@ map_functions = {
 
     first_tremor = function()
         Map:GetEffectSupervisor():ShakeScreen(1.0, 2000, vt_mode_manager.EffectSupervisor.SHAKE_FALLOFF_SUDDEN);
-        AudioManager:PlaySound("sounds/rumble.wav");
+        AudioManager:PlaySound("data/sounds/rumble.wav");
     end,
 
     bronann_kalya_exclamation = function()
         bronann:Emote("exclamation", vt_map.MapMode.ANIM_NORTH);
         kalya:Emote("exclamation", vt_map.MapMode.ANIM_NORTH);
-        AudioManager:PlaySound("sounds/rumble.wav");
+        AudioManager:PlaySound("data/sounds/rumble.wav");
     end,
 
     make_crystal_appear = function()
@@ -893,7 +893,7 @@ map_functions = {
                 crystal:SetVisible(false);
                 crystal:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
                 crystal_light_effect:SetVisible(false);
-                AudioManager:PlaySound("sounds/crystal_chime.wav");
+                AudioManager:PlaySound("data/sounds/crystal_chime.wav");
                 crystal_visible = false;
             end
             return false; -- do nothing
@@ -926,11 +926,11 @@ map_functions = {
     end,
 
     play_funny_music = function()
-        AudioManager:PlayMusic("music/Zander Noriega - School of Quirks.ogg");
+        AudioManager:PlayMusic("data/music/Zander Noriega - School of Quirks.ogg");
     end,
 
     play_wind_music = function()
-        AudioManager:PlayMusic("sounds/wind.ogg");
+        AudioManager:PlayMusic("data/sounds/wind.ogg");
     end,
 
     end_of_crystal_event = function()

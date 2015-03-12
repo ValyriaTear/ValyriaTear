@@ -11,7 +11,7 @@ map_subname = ""
 
 -- The music file used as default background music on this map.
 -- Other musics will have to handled through scripting.
-music_filename = "sounds/wind.ogg"
+music_filename = "data/sounds/wind.ogg"
 
 -- c++ objects instances
 local Map = nil
@@ -43,18 +43,18 @@ function Load(m)
     _CreateZones();
 
     -- The far hills background
-    Map:GetScriptSupervisor():AddScript("dat/maps/mt_elbrus/mt_elbrus_landscape_anim.lua");
+    Map:GetScriptSupervisor():AddScript("data/story/mt_elbrus/mt_elbrus_landscape_anim.lua");
 
     -- Start the far away village event
     EventManager:StartEvent("Heroes see the village event", 200);
 
     -- Funny music
-    AudioManager:LoadMusic("music/Zander Noriega - School of Quirks.ogg", Map);
+    AudioManager:LoadMusic("data/music/Zander Noriega - School of Quirks.ogg", Map);
     -- Sad one
-    AudioManager:LoadMusic("music/sad_moment.ogg", Map);
+    AudioManager:LoadMusic("data/music/sad_moment.ogg", Map);
 
     -- TEMP: Credits place here in the wait of adding the last episode map.
-    Map:GetScriptSupervisor():AddScript("dat/credits/end_credits.lua");
+    Map:GetScriptSupervisor():AddScript("data/credits/end_credits.lua");
 end
 
 -- the map update function handles checks done on each game tick.
@@ -140,11 +140,11 @@ function _CreateObjects()
     kalya_tear:SetCollPixelHeight(0.312 * 16);
     kalya_tear:SetImgPixelHalfWidth(0.156 * 16);
     kalya_tear:SetImgPixelHeight(0.312 * 16);
-    kalya_tear:AddStillFrame("data/particle_effects/outlined_circle_small.png");
+    kalya_tear:AddStillFrame("data/visuals/particle_effects/outlined_circle_small.png");
     kalya_tear:SetDrawOnSecondPass(true);
 
     -- Village burning effect
-    fire_particle_effect = vt_map.ParticleObject.Create("dat/maps/mt_elbrus/particles_fire_smoke.lua", 66, 24, vt_map.MapMode.GROUND_OBJECT);
+    fire_particle_effect = vt_map.ParticleObject.Create("data/story/mt_elbrus/particles_fire_smoke.lua", 66, 24, vt_map.MapMode.GROUND_OBJECT);
     fire_particle_effect:Stop();
 end
 
@@ -155,11 +155,11 @@ function _CreateEvents()
     local text = nil
 
     -- TODO: For Episode II
-    --vt_map.MapTransitionEvent.Create("to mountain shrine basement", "dat/maps/mt_elbrus/mt_elbrus_shrine_basement_map.lua",
-    --                                 "dat/maps/mt_elbrus/mt_elbrus_shrine_basement_script.lua", "from_shrine_north_exit");
+    --vt_map.MapTransitionEvent.Create("to mountain shrine basement", "data/story/mt_elbrus/mt_elbrus_shrine_basement_map.lua",
+    --                                 "data/story/mt_elbrus/mt_elbrus_shrine_basement_script.lua", "from_shrine_north_exit");
 
-    --vt_map.MapTransitionEvent.Create("to overworld", "dat/maps/xx/xx_map.lua",
-    --                                 "dat/maps/xx/xx_script.lua", "from_shrine_north_exit");
+    --vt_map.MapTransitionEvent.Create("to overworld", "data/story/xx/xx_map.lua",
+    --                                 "data/story/xx/xx_script.lua", "from_shrine_north_exit");
 
     vt_map.LookAtSpriteEvent.Create("Kalya looks at Bronann", kalya, bronann);
     vt_map.LookAtSpriteEvent.Create("Kalya looks at Orlinn", kalya, orlinn);
@@ -328,7 +328,7 @@ map_functions = {
         orlinn:SetCustomAnimation("laughing", 0); -- 0 means forever
 
         -- Play funny music
-        AudioManager:PlayMusic("music/Zander Noriega - School of Quirks.ogg");
+        AudioManager:PlayMusic("data/music/Zander Noriega - School of Quirks.ogg");
     end,
 
     orlinn_stops_laughing = function()
@@ -364,7 +364,7 @@ map_functions = {
 
     kalya_kneels = function()
         kalya:SetCustomAnimation("kneeling", 0); -- 0 means forever
-        AudioManager:PlayMusic("music/sad_moment.ogg");
+        AudioManager:PlayMusic("data/music/sad_moment.ogg");
     end,
 
     kalya_cries_start = function()

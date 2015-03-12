@@ -11,7 +11,7 @@ map_subname = ""
 
 -- The music file used as default background music on this map.
 -- Other musics will have to handled through scripting.
-music_filename = "music/shrine-OGA-yd.ogg"
+music_filename = "data/music/shrine-OGA-yd.ogg"
 
 -- c++ objects instances
 local Map = nil
@@ -32,7 +32,7 @@ function Load(m)
     EventManager = Map:GetEventSupervisor();
     Map:SetUnlimitedStamina(false);
 
-    Map:SetMinimapImage("dat/maps/layna_forest/minimaps/layna_forest_cave1_1_minimap.png");
+    Map:SetMinimapImage("data/story/layna_forest/minimaps/layna_forest_cave1_1_minimap.png");
 
     _CreateCharacters();
     _CreateObjects();
@@ -49,7 +49,7 @@ function Load(m)
     -- Add a mediumly dark overlay
     Effects:EnableAmbientOverlay("data/visuals/ambient/dark.png", 0.0, 0.0, false);
     -- Add the background and foreground animations
-    Map:GetScriptSupervisor():AddScript("dat/maps/layna_forest/layna_forest_caves_background_anim.lua");
+    Map:GetScriptSupervisor():AddScript("data/story/layna_forest/layna_forest_caves_background_anim.lua");
 
     if (GlobalManager:DoesEventExist("story", "kalya_speech_at_cave_entrance_done") == false) then
         hero:SetMoving(false);
@@ -301,10 +301,10 @@ end
 
 -- Sets common battle environment settings for enemy sprites
 function _SetBattleEnvironment(enemy)
-    enemy:SetBattleMusicTheme("music/heroism-OGA-Edward-J-Blakeley.ogg");
+    enemy:SetBattleMusicTheme("data/music/heroism-OGA-Edward-J-Blakeley.ogg");
     enemy:SetBattleBackground("data/battles/battle_scenes/desert_cave/desert_cave.png");
     -- Add the background and foreground animations
-    enemy:AddBattleScript("dat/battles/desert_cave_battle_anim.lua");
+    enemy:AddBattleScript("data/battles/battle_scenes/desert_cave_battle_anim.lua");
 end
 
 -- A special roam zone used to make the slime mother spawn only once.
@@ -336,7 +336,7 @@ function _CreateEnemies()
     else
         enemy = CreateEnemySprite(Map, "big slime");
         _SetBattleEnvironment(enemy);
-        enemy:SetBattleMusicTheme("music/accion-OGA-djsaryon.ogg"); -- set the boss music for that one
+        enemy:SetBattleMusicTheme("data/music/accion-OGA-djsaryon.ogg"); -- set the boss music for that one
         enemy:NewEnemyParty();
         enemy:AddEnemy(5, 812.0, 350.0);
         enemy:SetBoss(true);
@@ -387,11 +387,11 @@ function _CreateEvents()
     local dialogue = nil
     local text = nil
 
-    vt_map.MapTransitionEvent.Create("to forest NW", "dat/maps/layna_forest/layna_forest_north_west_map.lua",
-                                     "dat/maps/layna_forest/layna_forest_north_west_script.lua", "from_layna_cave_entrance");
+    vt_map.MapTransitionEvent.Create("to forest NW", "data/story/layna_forest/layna_forest_north_west_map.lua",
+                                     "data/story/layna_forest/layna_forest_north_west_script.lua", "from_layna_cave_entrance");
 
-    vt_map.MapTransitionEvent.Create("to cave 1-2", "dat/maps/layna_forest/layna_forest_cave1_2_map.lua",
-                                     "dat/maps/layna_forest/layna_forest_cave1_2_script.lua", "from_layna_cave_entrance");
+    vt_map.MapTransitionEvent.Create("to cave 1-2", "data/story/layna_forest/layna_forest_cave1_2_map.lua",
+                                     "data/story/layna_forest/layna_forest_cave1_2_script.lua", "from_layna_cave_entrance");
 
     -- Heal point
     vt_map.ScriptedEvent.Create("Cave heal", "heal_party", "heal_done");
@@ -442,7 +442,7 @@ function _CreateEvents()
     dialogue:AddLineEventEmote(text, hero, "Hero looks south", "", "interrogation");
     vt_map.DialogueEvent.Create("First trigger dialogue", dialogue);
 
-    vt_map.SoundEvent.Create("Play falling tree sound", "sounds/falling_tree.ogg");
+    vt_map.SoundEvent.Create("Play falling tree sound", "data/sounds/falling_tree.ogg");
 
     vt_map.ChangeDirectionSpriteEvent.Create("Hero looks south", hero, vt_map.MapMode.SOUTH);
 end
@@ -474,7 +474,7 @@ function _MakeRockInvisible(object)
     object:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
     -- Only triggers the sound and shaking if the triggers states are not being loaded.
     if (_loading_objects == false) then
-        AudioManager:PlaySound("sounds/cave-in.ogg");
+        AudioManager:PlaySound("data/sounds/cave-in.ogg");
         Effects:ShakeScreen(0.6, 1000, vt_mode_manager.EffectSupervisor.SHAKE_FALLOFF_GRADUAL);
     end
 end
@@ -494,7 +494,7 @@ map_functions = {
         GlobalManager:GetActiveParty():AddHitPoints(20000);
         GlobalManager:GetActiveParty():AddSkillPoints(20000);
         Map:SetStamina(10000);
-        AudioManager:PlaySound("sounds/heal_spell.wav");
+        AudioManager:PlaySound("data/sounds/heal_spell.wav");
         heal_effect:SetPosition(hero:GetXPosition(), hero:GetYPosition());
         heal_effect:Start();
         heal_effect_time = 0;

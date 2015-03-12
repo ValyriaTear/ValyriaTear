@@ -183,41 +183,41 @@ bool GameGlobal::_LoadGlobalScripts()
     if(!_spirits_script.OpenFile("data/inventory/spirits.lua") || !_spirits_script.OpenTable("spirits"))
         return false;
 
-    if(!_weapon_skills_script.OpenFile("dat/skills/weapon.lua") || !_weapon_skills_script.OpenTable("skills"))
+    if(!_weapon_skills_script.OpenFile("data/skills/weapon.lua") || !_weapon_skills_script.OpenTable("skills"))
         return false;
 
-    if(!_magic_skills_script.OpenFile("dat/skills/magic.lua") || !_magic_skills_script.OpenTable("skills"))
+    if(!_magic_skills_script.OpenFile("data/skills/magic.lua") || !_magic_skills_script.OpenTable("skills"))
        return false;
 
-    if(!_special_skills_script.OpenFile("dat/skills/special.lua") || !_special_skills_script.OpenTable("skills"))
+    if(!_special_skills_script.OpenFile("data/skills/special.lua") || !_special_skills_script.OpenTable("skills"))
         return false;
 
-    if(!_bare_hands_skills_script.OpenFile("dat/skills/barehands.lua") || !_bare_hands_skills_script.OpenTable("skills"))
+    if(!_bare_hands_skills_script.OpenFile("data/skills/barehands.lua") || !_bare_hands_skills_script.OpenTable("skills"))
         return false;
 
-    if(!_status_effects_script.OpenFile("dat/effects/status.lua") || !_status_effects_script.OpenTable("status_effects"))
+    if(!_status_effects_script.OpenFile("data/entities/status_effects/status_effects.lua") || !_status_effects_script.OpenTable("status_effects"))
         return false;
 
-    if(!_characters_script.OpenFile("dat/actors/characters.lua") || !_characters_script.OpenTable("characters"))
+    if(!_characters_script.OpenFile("data/entities/characters.lua") || !_characters_script.OpenTable("characters"))
         return false;
 
-    if(!_enemies_script.OpenFile("dat/actors/enemies.lua") || !_enemies_script.OpenTable("enemies"))
+    if(!_enemies_script.OpenFile("data/entities/enemies.lua") || !_enemies_script.OpenTable("enemies"))
         return false;
 
-    if(!_map_sprites_script.OpenFile("dat/actors/map_sprites.lua") || !_map_sprites_script.OpenTable("sprites"))
+    if(!_map_sprites_script.OpenFile("data/entities/map_sprites.lua") || !_map_sprites_script.OpenTable("sprites"))
         return false;
 
-    if(!_map_objects_script.OpenFile("dat/actors/map_objects.lua"))
+    if(!_map_objects_script.OpenFile("data/entities/map_objects.lua"))
         return false;
 
-    if(!_map_treasures_script.OpenFile("dat/actors/map_treasures.lua"))
+    if(!_map_treasures_script.OpenFile("data/entities/map_treasures.lua"))
         return false;
 
     // Reload the Quests script
-    if(!_LoadQuestsScript("dat/config/quests.lua"))
+    if(!_LoadQuestsScript("data/config/quests.lua"))
         return false;
 
-    if(!_LoadWorldLocationsScript("dat/config/world_locations.lua"))
+    if(!_LoadWorldLocationsScript("data/config/world_locations.lua"))
         return false;
 
     return true;

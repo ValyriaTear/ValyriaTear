@@ -11,7 +11,7 @@ map_subname = "Elbrus Grotto"
 
 -- The music file used as default background music on this map.
 -- Other musics will have to handled through scripting.
-music_filename = "music/awareness_el_corleo.ogg"
+music_filename = "data/music/awareness_el_corleo.ogg"
 
 -- c++ objects instances
 local Map = nil
@@ -42,12 +42,12 @@ function Load(m)
     Map:GetEffectSupervisor():EnableAmbientOverlay("data/visuals/ambient/dark.png", 0.0, 0.0, false);
 
     -- Place an omni ambient sound at the center of the map to add a nice indoor rainy effect.
-    vt_map.SoundObject.Create("music/rain_indoors.ogg", 25.0, 20.0, 100.0);
+    vt_map.SoundObject.Create("data/music/rain_indoors.ogg", 25.0, 20.0, 100.0);
 
     -- Preloads the action sounds to avoid glitches
-    AudioManager:LoadSound("sounds/cave-in.ogg", Map);
-    AudioManager:LoadSound("sounds/stone_roll.wav", Map);
-    AudioManager:LoadSound("sounds/stone_bump.ogg", Map);
+    AudioManager:LoadSound("data/sounds/cave-in.ogg", Map);
+    AudioManager:LoadSound("data/sounds/stone_roll.wav", Map);
+    AudioManager:LoadSound("data/sounds/stone_bump.ogg", Map);
 end
 
 -- the map update function handles checks done on each game tick.
@@ -74,16 +74,16 @@ end
 
 -- Sets common battle environment settings for enemy sprites
 function _SetBattleEnvironment(enemy)
-    enemy:SetBattleMusicTheme("music/heroism-OGA-Edward-J-Blakeley.ogg");
+    enemy:SetBattleMusicTheme("data/music/heroism-OGA-Edward-J-Blakeley.ogg");
     enemy:SetBattleBackground("data/battles/battle_scenes/desert_cave/desert_cave.png");
     -- Add the background and foreground animations
-    enemy:AddBattleScript("dat/battles/desert_cave_battle_anim.lua");
+    enemy:AddBattleScript("data/battles/battle_scenes/desert_cave_battle_anim.lua");
 end
 function _SetEventBattleEnvironment(event)
-    event:SetMusic("music/heroism-OGA-Edward-J-Blakeley.ogg");
+    event:SetMusic("data/music/heroism-OGA-Edward-J-Blakeley.ogg");
     event:SetBackground("data/battles/battle_scenes/desert_cave/desert_cave.png");
     -- Add the background and foreground animations
-    event:AddScript("dat/battles/desert_cave_battle_anim.lua");
+    event:AddScript("data/battles/battle_scenes/desert_cave_battle_anim.lua");
 end
 
 local shroom1 = nil
@@ -251,11 +251,11 @@ end
 
 -- Creates all events and sets up the entire event sequence chain
 function _CreateEvents()
-    vt_map.MapTransitionEvent.Create("to exit 3-1", "dat/maps/mt_elbrus/mt_elbrus_path2_map.lua",
-                                     "dat/maps/mt_elbrus/mt_elbrus_path2_script.lua", "from_grotto3_1_exit");
+    vt_map.MapTransitionEvent.Create("to exit 3-1", "data/story/mt_elbrus/mt_elbrus_path2_map.lua",
+                                     "data/story/mt_elbrus/mt_elbrus_path2_script.lua", "from_grotto3_1_exit");
 
-    vt_map.MapTransitionEvent.Create("to exit 3-2", "dat/maps/mt_elbrus/mt_elbrus_path2_map.lua",
-                                     "dat/maps/mt_elbrus/mt_elbrus_path2_script.lua", "from_grotto3_2_exit");
+    vt_map.MapTransitionEvent.Create("to exit 3-2", "data/story/mt_elbrus/mt_elbrus_path2_map.lua",
+                                     "data/story/mt_elbrus/mt_elbrus_path2_script.lua", "from_grotto3_2_exit");
 end
 
 -- zones
@@ -323,7 +323,7 @@ function _UpdateStoneMovement(stone_object, stone_direction)
 
     -- Check the collision
     if (stone_object:IsColliding(new_pos_x, new_pos_y) == true) then
-        AudioManager:PlaySound("sounds/stone_bump.ogg");
+        AudioManager:PlaySound("data/sounds/stone_bump.ogg");
         return true;
     end
 
@@ -479,7 +479,7 @@ map_functions = {
             stone_direction1 = vt_map.MapMode.WEST;
         end
 
-        AudioManager:PlaySound("sounds/stone_roll.wav");
+        AudioManager:PlaySound("data/sounds/stone_roll.wav");
     end,
 
     start_to_move_the_stone2 = function()
@@ -507,7 +507,7 @@ map_functions = {
             stone_direction2 = vt_map.MapMode.WEST;
         end
 
-        AudioManager:PlaySound("sounds/stone_roll.wav");
+        AudioManager:PlaySound("data/sounds/stone_roll.wav");
     end,
 
     move_the_stone_update1 = function()
@@ -526,7 +526,7 @@ map_functions = {
             blocking_rock1:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
             blocking_rock2:SetVisible(false);
             blocking_rock2:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
-            AudioManager:PlaySound("sounds/cave-in.ogg");
+            AudioManager:PlaySound("data/sounds/cave-in.ogg");
         end
     end,
 
@@ -537,7 +537,7 @@ map_functions = {
             blocking_rock3:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
             blocking_rock4:SetVisible(false);
             blocking_rock4:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
-            AudioManager:PlaySound("sounds/cave-in.ogg");
+            AudioManager:PlaySound("data/sounds/cave-in.ogg");
         end
     end,
 }

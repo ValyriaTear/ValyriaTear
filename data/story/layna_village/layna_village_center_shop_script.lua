@@ -11,7 +11,7 @@ map_subname = "Flora's Boutique"
 
 -- The music file used as default background music on this map.
 -- Other musics will have to handled through scripting.
-music_filename = "music/Caketown_1-OGA-mat-pablo.ogg"
+music_filename = "data/music/Caketown_1-OGA-mat-pablo.ogg"
 
 -- c++ objects instances
 local Map = nil
@@ -42,7 +42,7 @@ function Load(m)
     _CreateZones();
 
     -- The only entrance close door sound
-    AudioManager:PlaySound("sounds/door_close.wav");
+    AudioManager:PlaySound("data/sounds/door_close.wav");
 end
 
 function Update()
@@ -92,8 +92,8 @@ function _CreateEvents()
     local event = nil
 
     -- Triggered Events
-    vt_map.MapTransitionEvent.Create("to village", "dat/maps/layna_village/layna_village_center_map.lua",
-                                     "dat/maps/layna_village/layna_village_center_script.lua", "from_shop");
+    vt_map.MapTransitionEvent.Create("to village", "data/story/layna_village/layna_village_center_map.lua",
+                                     "data/story/layna_village/layna_village_center_script.lua", "from_shop");
 
     event = vt_map.ShopEvent.Create("layna: open shop");
     event:AddItem(1, 0); -- infinite minor potions
@@ -103,7 +103,7 @@ function _CreateEvents()
     event:AddItem(40001, 3); -- prismatic rings for both
     event:SetPriceLevels(vt_shop.ShopMode.SHOP_PRICE_VERY_GOOD, -- Flora is a good friend
                          vt_shop.ShopMode.SHOP_PRICE_STANDARD);
-    event:AddScript("dat/help/tutorial_shop_dialogs.lua");
+    event:AddScript("data/story/layna_village/tutorial_shop_dialogs.lua");
 
     -- Quest events
     vt_map.ScriptedEvent.Create("SetQuest1DialogueDone", "Quest1FloraDialogueDone", "");
@@ -123,7 +123,7 @@ function _CheckZones()
         bronann:SetMoving(false);
         EventManager:StartEvent("to village");
         -- The only entrance close door sound
-        AudioManager:PlaySound("sounds/door_open2.wav");
+        AudioManager:PlaySound("data/sounds/door_open2.wav");
     end
 end
 

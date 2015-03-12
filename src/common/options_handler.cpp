@@ -130,7 +130,7 @@ void OptionMenu::InputRight()
     }
 }
 
-const std::string _LANGUAGE_FILE = "dat/config/languages.lua";
+const std::string _LANGUAGE_FILE = "data/config/languages.lua";
 const uint16 SKIN_MENU_INDEX = 5;
 
 GameOptionsMenuHandler::GameOptionsMenuHandler(vt_mode_manager::GameMode* parent_mode):
@@ -1314,7 +1314,7 @@ bool GameOptionsMenuHandler::_SaveSettingsFile(const std::string& filename)
 
     //copy the default file so we have an already set up lua file and then we can modify its settings
     if(!DoesFileExist(file))
-        CopyFile(std::string("dat/config/settings.lua"), file);
+        CopyFile(std::string("data/config/settings.lua"), file);
 
     WriteScriptDescriptor settings_lua;
     if(!settings_lua.OpenFile(file)) {

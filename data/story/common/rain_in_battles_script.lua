@@ -14,7 +14,7 @@ function Initialize(battle_instance)
 
     -- Make the rain starts if needed
     Battle:TriggerBattleParticleEffect("data/visuals/particle_effects/rain.lua", 512.0, 768.0);
-    ripples = Script:CreateAnimation("data/particle_effects/ripples.lua");
+    ripples = Script:CreateAnimation("data/visuals/particle_effects/ripples.lua");
     ripples:SetDimensions(256.0, 153.6); -- 256.0 * 0.6
 end
 

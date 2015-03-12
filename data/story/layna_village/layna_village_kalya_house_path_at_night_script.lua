@@ -11,7 +11,7 @@ map_subname = ""
 
 -- The music file used as default background music on this map.
 -- Other musics will have to handled through scripting.
-music_filename = "music/Welcome to Com-Mecha-Mattew_Pablo_OGA.ogg"
+music_filename = "data/music/Welcome to Com-Mecha-Mattew_Pablo_OGA.ogg"
 
 -- c++ objects instances
 local Map = nil
@@ -41,7 +41,7 @@ function Load(m)
     Map:GetEffectSupervisor():EnableAmbientOverlay("data/visuals/ambient/clouds.png", 5.0, -5.0, true);
 
     -- Put last to get a proper night effect
-    Map:GetScriptSupervisor():AddScript("dat/maps/common/at_night.lua");
+    Map:GetScriptSupervisor():AddScript("data/story/common/at_night.lua");
 
     -- Kalya was previously removed from party, let's add her back now
     GlobalManager:AddCharacter(KALYA);
@@ -266,8 +266,8 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("to Kalya's house");
 
     -- Transition to Kalya's house
-    vt_map.MapTransitionEvent.Create("to Kalya's house", "dat/maps/layna_village/layna_village_kalya_house_map.lua",
-                                     "dat/maps/layna_village/layna_village_kalya_house_script.lua", "from_kalya_house_path");
+    vt_map.MapTransitionEvent.Create("to Kalya's house", "data/story/layna_village/layna_village_kalya_house_map.lua",
+                                     "data/story/layna_village/layna_village_kalya_house_script.lua", "from_kalya_house_path");
 end
 
 -- Map Custom functions

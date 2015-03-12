@@ -11,7 +11,7 @@ map_subname = ""
 
 -- The music file used as default background music on this map.
 -- Other musics will have to handled through scripting.
-music_filename = "sounds/wind.ogg"
+music_filename = "data/sounds/wind.ogg"
 
 -- c++ objects instances
 local Map = nil
@@ -41,7 +41,7 @@ function Load(m)
     Map:GetEffectSupervisor():EnableAmbientOverlay("data/visuals/ambient/clouds.png", 5.0, -5.0, true);
 
     -- Permits the display of the crystal ect...
-    Map:GetScriptSupervisor():AddScript("dat/maps/layna_forest/crystal_appearance/layna_forest_crystal_appearance_anim.lua");
+    Map:GetScriptSupervisor():AddScript("data/story/layna_forest/crystal_appearance/layna_forest_crystal_appearance_anim.lua");
 
     -- A scene map only
     Map:PushState(vt_map.MapMode.STATE_SCENE);
@@ -290,8 +290,8 @@ function _CreateEvents()
     event = vt_map.ScriptedEvent.Create("Make crystal appear", "make_crystal_appear", "make_crystal_appear_update");
     event:AddEventLinkAtStart("fade to Bronann's room", 10000);
 
-    vt_map.MapTransitionEvent.Create("fade to Bronann's room", "dat/maps/layna_village/layna_village_bronanns_home_first_floor_map.lua",
-                                     "dat/maps/layna_village/layna_village_bronanns_home_first_floor_script.lua", "from_introduction1");
+    vt_map.MapTransitionEvent.Create("fade to Bronann's room", "data/story/layna_village/layna_village_bronanns_home_first_floor_map.lua",
+                                     "data/story/layna_village/layna_village_bronanns_home_first_floor_script.lua", "from_introduction1");
 end
 
 -- Map Custom functions

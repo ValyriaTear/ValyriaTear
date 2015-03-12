@@ -11,7 +11,7 @@ map_subname = ""
 
 -- The music file used as default background music on this map.
 -- Other musics will have to handled through scripting.
-music_filename = "music/house_in_a_forest_loop_horrorpen_oga.ogg"
+music_filename = "data/music/house_in_a_forest_loop_horrorpen_oga.ogg"
 
 -- c++ objects instances
 local Map = nil
@@ -32,7 +32,7 @@ function Load(m)
     EventManager = Map:GetEventSupervisor();
     Map:SetUnlimitedStamina(false);
 
-    Map:SetMinimapImage("dat/maps/layna_forest/minimaps/layna_forest_north_west_minimap.png");
+    Map:SetMinimapImage("data/story/layna_forest/minimaps/layna_forest_north_west_minimap.png");
 
     _CreateCharacters();
     _CreateObjects();
@@ -65,7 +65,7 @@ function _HandleTwilight()
         GlobalManager:SetEventValue("story", "layna_forest_twilight_value", 2);
     end
 
-    Map:GetScriptSupervisor():AddScript("dat/maps/layna_forest/after_crystal_twilight.lua");
+    Map:GetScriptSupervisor():AddScript("data/story/layna_forest/after_crystal_twilight.lua");
 end
 
 -- the map update function handles checks done on each game tick.
@@ -175,19 +175,19 @@ function _CreateObjects()
     chest2:AddItem(1, 1); -- small potion
 
     event = vt_map.BattleEncounterEvent.Create("Monster trap in chest");
-    event:SetMusic("music/heroism-OGA-Edward-J-Blakeley.ogg");
+    event:SetMusic("data/music/heroism-OGA-Edward-J-Blakeley.ogg");
     event:SetBackground("data/battles/battle_scenes/forest_background.png");
 
     -- default values
-    event:SetMusic("music/heroism-OGA-Edward-J-Blakeley.ogg");
+    event:SetMusic("data/music/heroism-OGA-Edward-J-Blakeley.ogg");
     event:SetBackground("data/battles/battle_scenes/forest_background.png");
 
     if (GlobalManager:GetEventValue("story", "layna_forest_crystal_event_done") < 1) then
         -- Add tutorial battle dialog with Kalya and Bronann
-        event:AddScript("dat/battles/tutorial_battle_dialogs.lua");
+        event:AddScript("data/battles/battle_scenes/tutorial_battle_dialogs.lua");
     else
         -- Setup time of the day lighting on battles
-        event:AddScript("dat/maps/layna_forest/after_crystal_twilight_battles.lua");
+        event:AddScript("data/story/layna_forest/after_crystal_twilight_battles.lua");
         if (GlobalManager:GetEventValue("story", "layna_forest_twilight_value") > 2) then
             event:SetBackground("data/battles/battle_scenes/forest_background_evening.png");
         end
@@ -682,17 +682,17 @@ function _CreateEvents()
     local dialogue = nil
     local text = nil
 
-    vt_map.MapTransitionEvent.Create("to forest entrance", "dat/maps/layna_forest/layna_forest_entrance_map.lua",
-                                     "dat/maps/layna_forest/layna_forest_entrance_script.lua", "from_layna_forest_NW");
+    vt_map.MapTransitionEvent.Create("to forest entrance", "data/story/layna_forest/layna_forest_entrance_map.lua",
+                                     "data/story/layna_forest/layna_forest_entrance_script.lua", "from_layna_forest_NW");
 
-    vt_map.MapTransitionEvent.Create("to forest NE", "dat/maps/layna_forest/layna_forest_north_east_map.lua",
-                                     "dat/maps/layna_forest/layna_forest_north_east_script.lua", "from_layna_forest_NW");
+    vt_map.MapTransitionEvent.Create("to forest NE", "data/story/layna_forest/layna_forest_north_east_map.lua",
+                                     "data/story/layna_forest/layna_forest_north_east_script.lua", "from_layna_forest_NW");
 
-    vt_map.MapTransitionEvent.Create("to forest SW", "dat/maps/layna_forest/layna_forest_south_west_map.lua",
-                                     "dat/maps/layna_forest/layna_forest_south_west_script.lua", "from_layna_forest_NW");
+    vt_map.MapTransitionEvent.Create("to forest SW", "data/story/layna_forest/layna_forest_south_west_map.lua",
+                                     "data/story/layna_forest/layna_forest_south_west_script.lua", "from_layna_forest_NW");
 
-    vt_map.MapTransitionEvent.Create("to cave entrance", "dat/maps/layna_forest/layna_forest_cave1_1_map.lua",
-                                     "dat/maps/layna_forest/layna_forest_cave1_1_script.lua", "from_layna_forest_NW");
+    vt_map.MapTransitionEvent.Create("to cave entrance", "data/story/layna_forest/layna_forest_cave1_1_map.lua",
+                                     "data/story/layna_forest/layna_forest_cave1_1_script.lua", "from_layna_forest_NW");
 
     -- dialogue events
     vt_map.LookAtSpriteEvent.Create("Kalya looks at Bronann", kalya, bronann);
@@ -895,15 +895,15 @@ end
 -- Sets common battle environment settings for enemy sprites
 function _SetBattleEnvironment(enemy)
     -- default values
-    enemy:SetBattleMusicTheme("music/heroism-OGA-Edward-J-Blakeley.ogg");
+    enemy:SetBattleMusicTheme("data/music/heroism-OGA-Edward-J-Blakeley.ogg");
     enemy:SetBattleBackground("data/battles/battle_scenes/forest_background.png");
 
     if (GlobalManager:GetEventValue("story", "layna_forest_crystal_event_done") < 1) then
         -- Add tutorial battle dialog with Kalya and Bronann
-        enemy:AddBattleScript("dat/battles/tutorial_battle_dialogs.lua");
+        enemy:AddBattleScript("data/battles/battle_scenes/tutorial_battle_dialogs.lua");
     else
         -- Setup time of the day lighting on battles
-        enemy:AddBattleScript("dat/maps/layna_forest/after_crystal_twilight_battles.lua");
+        enemy:AddBattleScript("data/story/layna_forest/after_crystal_twilight_battles.lua");
         if (GlobalManager:GetEventValue("story", "layna_forest_twilight_value") > 2) then
             enemy:SetBattleBackground("data/battles/battle_scenes/forest_background_evening.png");
         end

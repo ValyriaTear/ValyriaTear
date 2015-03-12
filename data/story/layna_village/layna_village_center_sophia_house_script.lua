@@ -11,7 +11,7 @@ map_subname = ""
 
 -- The music file used as default background music on this map.
 -- Other musics will have to handled through scripting.
-music_filename = "music/Caketown_1-OGA-mat-pablo.ogg"
+music_filename = "data/music/Caketown_1-OGA-mat-pablo.ogg"
 
 -- c++ objects instances
 local Map = nil
@@ -38,7 +38,7 @@ function Load(m)
     _CreateZones();
 
     -- The only entrance close door sound
-    AudioManager:PlaySound("sounds/door_close.wav");
+    AudioManager:PlaySound("data/sounds/door_close.wav");
 end
 
 -- the map update function handles checks done on each game tick.
@@ -85,8 +85,8 @@ function _CreateEvents()
     local text = nil
 
     -- Triggered events
-    vt_map.MapTransitionEvent.Create("exit floor", "dat/maps/layna_village/layna_village_center_map.lua",
-                                     "dat/maps/layna_village/layna_village_center_script.lua", "from sophia's house");
+    vt_map.MapTransitionEvent.Create("exit floor", "data/story/layna_village/layna_village_center_map.lua",
+                                     "data/story/layna_village/layna_village_center_script.lua", "from sophia's house");
 end
 
 -- zones
@@ -103,7 +103,7 @@ function _CheckZones()
     if (room_exit_zone:IsCameraEntering() == true) then
         bronann:SetMoving(false);
         EventManager:StartEvent("exit floor");
-        AudioManager:PlaySound("sounds/door_open2.wav");
+        AudioManager:PlaySound("data/sounds/door_open2.wav");
     end
 end
 

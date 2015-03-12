@@ -27,8 +27,8 @@ function BootBattleTest()
     --battle:AddEnemy(7, 0, 0); -- Fenrir
     --battle:AddEnemy(8, 0, 0); -- Fenrir
     --battle:AddEnemy(9, 0, 0);
-    battle:GetScriptSupervisor():AddScript("dat/battles/desert_cave_battle_anim.lua");
-    --battle:GetScriptSupervisor():AddScript("dat/maps/layna_village/battle_with_banesore/battle_with_banesore_script.lua");
+    battle:GetScriptSupervisor():AddScript("data/battles/battle_scenes/desert_cave_battle_anim.lua");
+    --battle:GetScriptSupervisor():AddScript("data/story/layna_village/battle_with_banesore/battle_with_banesore_script.lua");
 
     -- Set the battle to wait, semi active or active
     --battle:SetBattleType(vt_battle.BattleMode.BATTLE_TYPE_WAIT);

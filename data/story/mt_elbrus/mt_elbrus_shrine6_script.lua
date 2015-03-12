@@ -11,7 +11,7 @@ map_subname = "1st Floor"
 
 -- The music file used as default background music on this map.
 -- Other musics will have to handled through scripting.
-music_filename = "music/mountain_shrine.ogg"
+music_filename = "data/music/mountain_shrine.ogg"
 
 -- c++ objects instances
 local Map = nil
@@ -45,9 +45,9 @@ function Load(m)
     Map:GetEffectSupervisor():EnableAmbientOverlay("data/visuals/ambient/dark.png", 0.0, 0.0, false);
 
     -- Preloads the action sounds to avoid glitches
-    AudioManager:LoadSound("sounds/stone_roll.wav", Map);
-    AudioManager:LoadSound("sounds/stone_bump.ogg", Map);
-    AudioManager:LoadSound("sounds/trigger_on.wav", Map);
+    AudioManager:LoadSound("data/sounds/stone_roll.wav", Map);
+    AudioManager:LoadSound("data/sounds/stone_bump.ogg", Map);
+    AudioManager:LoadSound("data/sounds/trigger_on.wav", Map);
 end
 
 -- the map update function handles checks done on each game tick.
@@ -184,7 +184,7 @@ function _CreateObjects()
 end
 
 function _add_flame(x, y)
-    vt_map.SoundObject.Create("sounds/campfire.ogg", x, y, 10.0);
+    vt_map.SoundObject.Create("data/sounds/campfire.ogg", x, y, 10.0);
 
     local object = CreateObject(Map, "Flame1", x, y, vt_map.MapMode.GROUND_OBJECT);
     object:RandomizeCurrentAnimationFrame();
@@ -197,9 +197,9 @@ end
 
 -- Sets common battle environment settings for enemy sprites
 function _SetBattleEnvironment(enemy)
-    enemy:SetBattleMusicTheme("music/heroism-OGA-Edward-J-Blakeley.ogg");
+    enemy:SetBattleMusicTheme("data/music/heroism-OGA-Edward-J-Blakeley.ogg");
     enemy:SetBattleBackground("data/battles/battle_scenes/mountain_shrine.png");
-    enemy:AddBattleScript("dat/battles/mountain_shrine_battle_anim.lua");
+    enemy:AddBattleScript("data/battles/battle_scenes/mountain_shrine_battle_anim.lua");
 end
 
 function _CreateEnemies()
@@ -231,17 +231,17 @@ end
 
 -- Creates all events and sets up the entire event sequence chain
 function _CreateEvents()
-    vt_map.MapTransitionEvent.Create("to mountain shrine 1st floor NW room - left door", "dat/maps/mt_elbrus/mt_elbrus_shrine5_map.lua",
-                                     "dat/maps/mt_elbrus/mt_elbrus_shrine5_script.lua", "from_shrine_first_floor_SW_left_door");
+    vt_map.MapTransitionEvent.Create("to mountain shrine 1st floor NW room - left door", "data/story/mt_elbrus/mt_elbrus_shrine5_map.lua",
+                                     "data/story/mt_elbrus/mt_elbrus_shrine5_script.lua", "from_shrine_first_floor_SW_left_door");
 
-    vt_map.MapTransitionEvent.Create("to mountain shrine 1st floor NW room - right door", "dat/maps/mt_elbrus/mt_elbrus_shrine5_map.lua",
-                                     "dat/maps/mt_elbrus/mt_elbrus_shrine5_script.lua", "from_shrine_first_floor_SW_right_door");
+    vt_map.MapTransitionEvent.Create("to mountain shrine 1st floor NW room - right door", "data/story/mt_elbrus/mt_elbrus_shrine5_map.lua",
+                                     "data/story/mt_elbrus/mt_elbrus_shrine5_script.lua", "from_shrine_first_floor_SW_right_door");
 
-    vt_map.MapTransitionEvent.Create("to mountain shrine 1st floor SE room - top door", "dat/maps/mt_elbrus/mt_elbrus_shrine7_map.lua",
-                                     "dat/maps/mt_elbrus/mt_elbrus_shrine7_script.lua", "from_shrine_first_floor_SW_top_door");
+    vt_map.MapTransitionEvent.Create("to mountain shrine 1st floor SE room - top door", "data/story/mt_elbrus/mt_elbrus_shrine7_map.lua",
+                                     "data/story/mt_elbrus/mt_elbrus_shrine7_script.lua", "from_shrine_first_floor_SW_top_door");
 
-    vt_map.MapTransitionEvent.Create("to mountain shrine 1st floor SE room - bottom door", "dat/maps/mt_elbrus/mt_elbrus_shrine7_map.lua",
-                                     "dat/maps/mt_elbrus/mt_elbrus_shrine7_script.lua", "from_shrine_first_floor_SW_bottom_door");
+    vt_map.MapTransitionEvent.Create("to mountain shrine 1st floor SE room - bottom door", "data/story/mt_elbrus/mt_elbrus_shrine7_map.lua",
+                                     "data/story/mt_elbrus/mt_elbrus_shrine7_script.lua", "from_shrine_first_floor_SW_bottom_door");
 
     -- Opens the north east passage to the next map.
     vt_map.ScriptedEvent.Create("Open north east passage", "open_ne_passage_start", "open_ne_passage_update");
@@ -348,7 +348,7 @@ function _UpdateStoneMovement(stone_object, stone_direction)
 
     -- Check the collision
     if (stone_object:IsColliding(new_pos_x, new_pos_y) == true) then
-        AudioManager:PlaySound("sounds/stone_bump.ogg");
+        AudioManager:PlaySound("data/sounds/stone_bump.ogg");
         return true;
     end
 
@@ -402,7 +402,7 @@ map_functions = {
     check_triggers = function()
         if (stone_trigger1:GetState() == true) then
             -- Play a click sound when a trigger is pushed
-            AudioManager:PlaySound("sounds/trigger_on.wav");
+            AudioManager:PlaySound("data/sounds/trigger_on.wav");
             -- Free the way
             EventManager:StartEvent("Open north east passage", 1000);
         end
@@ -412,7 +412,7 @@ map_functions = {
     open_ne_passage_start = function()
         ne_passage_fence1_x = 27.0;
         ne_passage_fence2_x = 29.0;
-        AudioManager:PlaySound("sounds/stone_roll.wav");
+        AudioManager:PlaySound("data/sounds/stone_roll.wav");
     end,
 
     open_ne_passage_update = function()
@@ -445,12 +445,12 @@ map_functions = {
 
     start_to_move_the_stone1 = function()
         stone_direction1 = _GetStoneDirection(rolling_stone1);
-        AudioManager:PlaySound("sounds/stone_roll.wav");
+        AudioManager:PlaySound("data/sounds/stone_roll.wav");
     end,
 
     start_to_move_the_stone2 = function()
         stone_direction2 = _GetStoneDirection(rolling_stone2);
-        AudioManager:PlaySound("sounds/stone_roll.wav");
+        AudioManager:PlaySound("data/sounds/stone_roll.wav");
     end,
 
     move_the_stone_update1 = function()

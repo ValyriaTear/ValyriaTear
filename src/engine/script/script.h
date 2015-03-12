@@ -165,7 +165,7 @@ public:
     }
 
     //! \brief Create an auto namespace tablename out of the filename
-    //! For example, 'dat/maps/demo.lua' will a tablespace name of 'demo'.
+    //! For example, 'data/story/demo.lua' will a tablespace name of 'demo'.
     std::string GetTableSpace() {
         int32 period = _filename.find(".");
         int32 last_slash = _filename.find_last_of("/");
@@ -256,7 +256,7 @@ public:
     }
 
     //! \brief Create an auto namespace tablename out of the filename
-    //! For example, 'dat/maps/demo.lua' will a tablespace name of 'demo'.
+    //! For example, 'data/story/demo.lua' will a tablespace name of 'demo'.
     static std::string GetTableSpace(const std::string& filename) {
         if (filename.empty())
             return std::string();

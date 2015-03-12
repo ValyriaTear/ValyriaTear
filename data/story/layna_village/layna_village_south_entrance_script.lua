@@ -11,7 +11,7 @@ map_subname = "Village entrance"
 
 -- The music file used as default background music on this map.
 -- Other musics will have to handled through scripting.
-music_filename = "music/Caketown_1-OGA-mat-pablo.ogg"
+music_filename = "data/music/Caketown_1-OGA-mat-pablo.ogg"
 
 -- c++ objects instances
 local Map = nil
@@ -52,7 +52,7 @@ function _HandleCredits()
         GlobalManager:SetEventValue("game", "Start_Credits", 1);
     end
     if (GlobalManager:DoesEventExist("game", "Credits_shown") == false) then
-        Map:GetScriptSupervisor():AddScript("dat/credits/episode1_credits.lua");
+        Map:GetScriptSupervisor():AddScript("data/credits/episode1_credits.lua");
     end
 end
 
@@ -74,11 +74,11 @@ function _CreateCharacters()
     elseif (GlobalManager:GetPreviousLocation() == "from right house") then
         bronann:SetPosition(48, 34);
         bronann:SetDirection(vt_map.MapMode.SOUTH);
-        AudioManager:PlaySound("sounds/door_close.wav");
+        AudioManager:PlaySound("data/sounds/door_close.wav");
     elseif (GlobalManager:GetPreviousLocation() == "from left house") then
         bronann:SetPosition(20, 34);
         bronann:SetDirection(vt_map.MapMode.SOUTH);
-        AudioManager:PlaySound("sounds/door_close.wav");
+        AudioManager:PlaySound("data/sounds/door_close.wav");
     end
 end
 
@@ -164,17 +164,17 @@ function _CreateEvents()
     local event = nil
 
     -- Triggered Events
-    vt_map.MapTransitionEvent.Create("to Village center", "dat/maps/layna_village/layna_village_center_map.lua",
-                                     "dat/maps/layna_village/layna_village_center_script.lua", "from_village_south");
+    vt_map.MapTransitionEvent.Create("to Village center", "data/story/layna_village/layna_village_center_map.lua",
+                                     "data/story/layna_village/layna_village_center_script.lua", "from_village_south");
 
-    vt_map.MapTransitionEvent.Create("to Village riverbank", "dat/maps/layna_village/layna_village_riverbank_map.lua",
-                                     "dat/maps/layna_village/layna_village_riverbank_script.lua", "from_village_south");
+    vt_map.MapTransitionEvent.Create("to Village riverbank", "data/story/layna_village/layna_village_riverbank_map.lua",
+                                     "data/story/layna_village/layna_village_riverbank_script.lua", "from_village_south");
 
-    vt_map.MapTransitionEvent.Create("to left house", "dat/maps/layna_village/layna_village_south_entrance_left_house_map.lua",
-                                     "dat/maps/layna_village/layna_village_south_entrance_left_house_script.lua", "from_village_south");
+    vt_map.MapTransitionEvent.Create("to left house", "data/story/layna_village/layna_village_south_entrance_left_house_map.lua",
+                                     "data/story/layna_village/layna_village_south_entrance_left_house_script.lua", "from_village_south");
 
-    vt_map.MapTransitionEvent.Create("to right house", "dat/maps/layna_village/layna_village_south_entrance_right_house_map.lua",
-                                     "dat/maps/layna_village/layna_village_south_entrance_right_house_script.lua", "from_village_south");
+    vt_map.MapTransitionEvent.Create("to right house", "data/story/layna_village/layna_village_south_entrance_right_house_map.lua",
+                                     "data/story/layna_village/layna_village_south_entrance_right_house_script.lua", "from_village_south");
 
     -- Orlinn events
     event = vt_map.ScriptedEvent.Create("Quest1: Start Orlinn Hide n Seek2", "Quest1_Orlinn_Start_Hide_N_Seek2", "");
@@ -219,7 +219,7 @@ function _CheckZones()
         -- Stop the character as it may walk in diagonal, which is looking strange
         -- when entering
         bronann:SetMoving(false);
-        AudioManager:PlaySound("sounds/door_open2.wav");
+        AudioManager:PlaySound("data/sounds/door_open2.wav");
         EventManager:StartEvent("to left house");
     end
 
@@ -227,7 +227,7 @@ function _CheckZones()
         -- Stop the character as it may walk in diagonal, which is looking strange
         -- when entering
         bronann:SetMoving(false);
-        AudioManager:PlaySound("sounds/door_open2.wav");
+        AudioManager:PlaySound("data/sounds/door_open2.wav");
         EventManager:StartEvent("to right house");
     end
 end

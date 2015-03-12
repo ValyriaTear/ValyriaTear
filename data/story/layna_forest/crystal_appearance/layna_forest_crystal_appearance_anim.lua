@@ -79,17 +79,17 @@ function Initialize(map_instance)
     Script = Map:GetScriptSupervisor();
     Effects = Map:GetEffectSupervisor();
 
-    crystal_shadow = Script:CreateImage("dat/maps/layna_forest/crystal_appearance/crystal_shadow.png");
+    crystal_shadow = Script:CreateImage("data/story/layna_forest/crystal_appearance/crystal_shadow.png");
     crystal_shadow:SetDimensions(20.0, 31.0);
 
-    lightning1 = Script:CreateImage("dat/maps/layna_forest/crystal_appearance/blue_lightning1.png");
+    lightning1 = Script:CreateImage("data/story/layna_forest/crystal_appearance/blue_lightning1.png");
     lightning1:SetDimensions(248.0, 400.0);
-    lightning2 = Script:CreateImage("dat/maps/layna_forest/crystal_appearance/blue_lightning2.png");
+    lightning2 = Script:CreateImage("data/story/layna_forest/crystal_appearance/blue_lightning2.png");
     lightning2:SetDimensions(118.0, 400.0);
-    lightning3 = Script:CreateImage("dat/maps/layna_forest/crystal_appearance/blue_lightning3.png");
+    lightning3 = Script:CreateImage("data/story/layna_forest/crystal_appearance/blue_lightning3.png");
     lightning3:SetDimensions(171.0, 400.0);
 
-    vortex = Script:CreateImage("dat/maps/layna_forest/crystal_appearance/vortex.png");
+    vortex = Script:CreateImage("data/story/layna_forest/crystal_appearance/vortex.png");
     vortex:SetDimensions(430.0, 210.0);
 
     -- Load the spring heal effect.
@@ -98,7 +98,7 @@ function Initialize(map_instance)
     vortex_effect:Stop(); -- Don't run it until the whole animation starts
 
     -- Preload the crystal music
-    AudioManager:LoadMusic("music/Soliloquy_1-OGA-mat-pablo.ogg", Map);
+    AudioManager:LoadMusic("data/music/Soliloquy_1-OGA-mat-pablo.ogg", Map);
 
     display_time = 0;
 
@@ -133,7 +133,7 @@ function Update()
     if (tremor_triggered == false and display_time >= 2000) then
         -- Trigger a tremor
         Effects:ShakeScreen(10.0, 13000, vt_mode_manager.EffectSupervisor.SHAKE_FALLOFF_GRADUAL);
-        AudioManager:PlaySound("sounds/rumble.wav");
+        AudioManager:PlaySound("data/sounds/rumble.wav");
 
         -- trigger also the particle effect
         vortex_effect:Start();
@@ -141,7 +141,7 @@ function Update()
         tremor_triggered = true;
     end
     if (crystal_music_triggered == false and display_time >= 5000) then
-        AudioManager:PlayMusic("music/Soliloquy_1-OGA-mat-pablo.ogg");
+        AudioManager:PlayMusic("data/music/Soliloquy_1-OGA-mat-pablo.ogg");
 
         crystal_music_triggered = true;
     end
@@ -181,7 +181,7 @@ function _DrawLightnings()
     if (lightning_time >= 2000 and lightning_time <= 2300) then
         if (lightning1_triggered == false) then
             lightning1_triggered = true;
-            AudioManager:PlaySound("sounds/lightning.wav");
+            AudioManager:PlaySound("data/sounds/lightning.wav");
         end
         VideoManager:Move(pos_x + 42.0, pos_y - 2.0);
         lightning1:Draw(white_color);
@@ -190,7 +190,7 @@ function _DrawLightnings()
     if (lightning_time >= 3000 and lightning_time <= 3300) then
         if (lightning2_triggered == false) then
             lightning2_triggered = true;
-            AudioManager:PlaySound("sounds/thunder.wav");
+            AudioManager:PlaySound("data/sounds/thunder.wav");
             lightning2_pos_x = _GetRandomLightningXPlacement();
             lightning2_pos_y = _GetRandomLightningYPlacement();
         end
@@ -201,7 +201,7 @@ function _DrawLightnings()
     if (lightning_time >= 3500 and lightning_time <= 3800) then
         if (lightning3_triggered == false) then
             lightning3_triggered = true;
-            AudioManager:PlaySound("sounds/lightning.wav");
+            AudioManager:PlaySound("data/sounds/lightning.wav");
             lightning3_pos_x = _GetRandomLightningXPlacement();
             lightning3_pos_y = _GetRandomLightningYPlacement();
         end
@@ -212,7 +212,7 @@ function _DrawLightnings()
     if (lightning_time >= 4000 and lightning_time <= 4300) then
         if (lightning4_triggered == false) then
             lightning4_triggered = true;
-            AudioManager:PlaySound("sounds/thunder.wav");
+            AudioManager:PlaySound("data/sounds/thunder.wav");
             lightning4_pos_x = _GetRandomLightningXPlacement();
             lightning4_pos_y = _GetRandomLightningYPlacement();
             lightning4 = _GetRandomLightning();
@@ -224,7 +224,7 @@ function _DrawLightnings()
     if (lightning_time >= 4200 and lightning_time <= 4500) then
         if (lightning5_triggered == false) then
             lightning5_triggered = true;
-            AudioManager:PlaySound("sounds/lightning.wav");
+            AudioManager:PlaySound("data/sounds/lightning.wav");
             lightning5_pos_x = _GetRandomLightningXPlacement();
             lightning5_pos_y = _GetRandomLightningYPlacement();
             lightning5 = _GetRandomLightning();
@@ -236,7 +236,7 @@ function _DrawLightnings()
     if (lightning_time >= 4400 and lightning_time <= 4700) then
         if (lightning6_triggered == false) then
             lightning6_triggered = true;
-            AudioManager:PlaySound("sounds/lightning.wav");
+            AudioManager:PlaySound("data/sounds/lightning.wav");
             lightning6_pos_x = _GetRandomLightningXPlacement();
             lightning6_pos_y = _GetRandomLightningYPlacement();
             lightning6 = _GetRandomLightning();
@@ -248,7 +248,7 @@ function _DrawLightnings()
     if (lightning_time >= 4800 and lightning_time <= 5200) then
         if (lightning7_triggered == false) then
             lightning7_triggered = true;
-            AudioManager:PlaySound("sounds/thunder.wav");
+            AudioManager:PlaySound("data/sounds/thunder.wav");
             lightning7_pos_x = _GetRandomLightningXPlacement();
             lightning7_pos_y = _GetRandomLightningYPlacement();
             lightning7 = _GetRandomLightning();
@@ -260,7 +260,7 @@ function _DrawLightnings()
     if (lightning_time >= 5000 and lightning_time <= 5300) then
         if (lightning8_triggered == false) then
             lightning8_triggered = true;
-            AudioManager:PlaySound("sounds/lightning.wav");
+            AudioManager:PlaySound("data/sounds/lightning.wav");
             lightning8_pos_x = _GetRandomLightningXPlacement();
             lightning8_pos_y = _GetRandomLightningYPlacement();
             lightning8 = _GetRandomLightning();
@@ -272,7 +272,7 @@ function _DrawLightnings()
     if (lightning_time >= 5200 and lightning_time <= 5400) then
         if (lightning9_triggered == false) then
             lightning9_triggered = true;
-            AudioManager:PlaySound("sounds/thunder.wav");
+            AudioManager:PlaySound("data/sounds/thunder.wav");
             lightning9_pos_x = _GetRandomLightningXPlacement();
             lightning9_pos_y = _GetRandomLightningYPlacement();
             lightning9 = _GetRandomLightning();

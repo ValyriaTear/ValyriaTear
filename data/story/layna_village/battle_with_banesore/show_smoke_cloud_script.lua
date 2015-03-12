@@ -42,7 +42,7 @@ function Update()
     end
 
     if (smoke_sound_triggered == false) then
-        AudioManager:PlaySound("sounds/steam_hisses.ogg");
+        AudioManager:PlaySound("data/sounds/steam_hisses.ogg");
         smoke_sound_triggered = true;
     end
 

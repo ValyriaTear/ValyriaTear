@@ -11,7 +11,7 @@ map_subname = ""
 
 -- The music file used as default background music on this map.
 -- Other musics will have to handled through scripting.
-music_filename = "music/shrine-OGA-yd.ogg"
+music_filename = "data/music/shrine-OGA-yd.ogg"
 
 -- c++ objects instances
 local Map = nil
@@ -31,7 +31,7 @@ function Load(m)
     EventManager = Map:GetEventSupervisor();
     Map:SetUnlimitedStamina(false);
 
-    Map:SetMinimapImage("dat/maps/layna_forest/minimaps/layna_forest_wolf_cave_minimap.png");
+    Map:SetMinimapImage("data/story/layna_forest/minimaps/layna_forest_wolf_cave_minimap.png");
 
     _CreateCharacters();
     _CreateObjects();
@@ -144,7 +144,7 @@ function _CreateObjects()
     necklace:SetCollPixelHeight(32);
     necklace:SetImgPixelHalfWidth(16);
     necklace:SetImgPixelHeight(32);
-    necklace:AddAnimation("dat/maps/layna_forest/wolfpain_necklace.lua");
+    necklace:AddAnimation("data/story/layna_forest/wolfpain_necklace.lua");
 
     -- Adds a light tilting to catch the player attention
     light_tilt = vt_map.PhysicalObject.Create(vt_map.MapMode.GROUND_OBJECT);
@@ -213,7 +213,7 @@ function _CreateObjects()
     heal_effect = vt_map.ParticleObject.Create("data/visuals/particle_effects/heal_sp_particle.lua", 0, 0, vt_map.MapMode.GROUND_OBJECT);
     heal_effect:Stop(); -- Don't run it until the character heals itself
 
-    vt_map.SoundObject.Create("sounds/fountain_small.ogg", 53.0, 8.0, 8.0);
+    vt_map.SoundObject.Create("data/sounds/fountain_small.ogg", 53.0, 8.0, 8.0);
 end
 
 -- Special event references which destinations must be updated just before being called.
@@ -227,11 +227,11 @@ function _CreateEvents()
     local text = nil
 
     -- Map transition events
-    vt_map.MapTransitionEvent.Create("to cave 1-2", "dat/maps/layna_forest/layna_forest_cave1_2_map.lua",
-                                     "dat/maps/layna_forest/layna_forest_cave1_2_script.lua", "from_layna_wolf_cave");
+    vt_map.MapTransitionEvent.Create("to cave 1-2", "data/story/layna_forest/layna_forest_cave1_2_map.lua",
+                                     "data/story/layna_forest/layna_forest_cave1_2_script.lua", "from_layna_wolf_cave");
 
-    vt_map.MapTransitionEvent.Create("to south east exit", "dat/maps/layna_forest/layna_forest_south_east_map.lua",
-                                     "dat/maps/layna_forest/layna_forest_south_east_script.lua", "from_layna_wolf_cave");
+    vt_map.MapTransitionEvent.Create("to south east exit", "data/story/layna_forest/layna_forest_south_east_map.lua",
+                                     "data/story/layna_forest/layna_forest_south_east_script.lua", "from_layna_wolf_cave");
 
     -- SP Heal event on fountain
     vt_map.ScriptedEvent.Create("Fountain heal", "heal_party_sp", "heal_done");
@@ -307,7 +307,7 @@ function _CreateEvents()
     event = vt_map.DialogueEvent.Create("Kalya Tells about the necklace", dialogue);
     event:AddEventLinkAtEnd("The Fenrir growls");
 
-    event = vt_map.SoundEvent.Create("The Fenrir growls", "sounds/growl1_IFartInUrGeneralDirection_freesound.wav");
+    event = vt_map.SoundEvent.Create("The Fenrir growls", "data/sounds/growl1_IFartInUrGeneralDirection_freesound.wav");
     event:AddEventLinkAtEnd("Kalya realizes for the Fenrir");
 
     dialogue = vt_map.SpriteDialogue.Create();
@@ -320,9 +320,9 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("Second Fenrir battle");
 
     event = vt_map.BattleEncounterEvent.Create("Second Fenrir battle");
-    event:SetMusic("music/accion-OGA-djsaryon.ogg");
+    event:SetMusic("data/music/accion-OGA-djsaryon.ogg");
     event:SetBackground("data/battles/battle_scenes/desert_cave/desert_cave.png");
-    event:AddScript("dat/battles/desert_cave_battle_anim.lua");
+    event:AddScript("data/battles/battle_scenes/desert_cave_battle_anim.lua");
     event:AddEnemy(7, 512, 500);
     event:SetBoss(true);
     event:AddEventLinkAtEnd("Make the fenrir disappear");
@@ -400,7 +400,7 @@ map_functions = {
         -- Should be sufficient to heal anybody's SP
         GlobalManager:GetActiveParty():AddSkillPoints(10000);
         Map:SetStamina(10000);
-        AudioManager:PlaySound("sounds/heal_spell.wav");
+        AudioManager:PlaySound("data/sounds/heal_spell.wav");
         heal_effect:SetPosition(hero:GetXPosition(), hero:GetYPosition());
         heal_effect:Start();
         heal_effect_time = 0;

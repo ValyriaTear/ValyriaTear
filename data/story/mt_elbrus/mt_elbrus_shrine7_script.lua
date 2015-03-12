@@ -11,7 +11,7 @@ map_subname = "1st Floor"
 
 -- The music file used as default background music on this map.
 -- Other musics will have to handled through scripting.
-music_filename = "music/mountain_shrine.ogg"
+music_filename = "data/music/mountain_shrine.ogg"
 
 -- c++ objects instances
 local Map = nil
@@ -108,9 +108,9 @@ function _CreateObjects()
     object:AddEvent("Monster trap in chest");
 
     event = vt_map.BattleEncounterEvent.Create("Monster trap in chest");
-    event:SetMusic("music/heroism-OGA-Edward-J-Blakeley.ogg");
+    event:SetMusic("data/music/heroism-OGA-Edward-J-Blakeley.ogg");
     event:SetBackground("data/battles/battle_scenes/mountain_shrine.png");
-    event:AddScript("dat/battles/mountain_shrine_battle_anim.lua");
+    event:AddScript("data/battles/battle_scenes/mountain_shrine_battle_anim.lua");
     event:AddEnemy(16); -- Rat
     event:AddEnemy(16);
     event:AddEnemy(16);
@@ -217,7 +217,7 @@ function _CreateObjects()
 end
 
 function _add_flame(x, y)
-    vt_map.SoundObject.Create("sounds/campfire.ogg", x, y, 10.0);
+    vt_map.SoundObject.Create("data/sounds/campfire.ogg", x, y, 10.0);
 
     local object = CreateObject(Map, "Flame1", x, y, vt_map.MapMode.GROUND_OBJECT);
     object:RandomizeCurrentAnimationFrame();
@@ -234,14 +234,14 @@ function _CreateEvents()
     local dialogue = nil
     local text = nil
 
-    vt_map.MapTransitionEvent.Create("to mountain shrine 1st floor SW room - top door", "dat/maps/mt_elbrus/mt_elbrus_shrine6_map.lua",
-                                     "dat/maps/mt_elbrus/mt_elbrus_shrine6_script.lua", "from_shrine_first_floor_SE_top_door");
+    vt_map.MapTransitionEvent.Create("to mountain shrine 1st floor SW room - top door", "data/story/mt_elbrus/mt_elbrus_shrine6_map.lua",
+                                     "data/story/mt_elbrus/mt_elbrus_shrine6_script.lua", "from_shrine_first_floor_SE_top_door");
 
-    vt_map.MapTransitionEvent.Create("to mountain shrine 1st floor SW room - bottom door", "dat/maps/mt_elbrus/mt_elbrus_shrine6_map.lua",
-                                     "dat/maps/mt_elbrus/mt_elbrus_shrine6_script.lua", "from_shrine_first_floor_SE_bottom_door");
+    vt_map.MapTransitionEvent.Create("to mountain shrine 1st floor SW room - bottom door", "data/story/mt_elbrus/mt_elbrus_shrine6_map.lua",
+                                     "data/story/mt_elbrus/mt_elbrus_shrine6_script.lua", "from_shrine_first_floor_SE_bottom_door");
 
-    vt_map.MapTransitionEvent.Create("to mountain shrine 1st floor NE room", "dat/maps/mt_elbrus/mt_elbrus_shrine8_map.lua",
-                                     "dat/maps/mt_elbrus/mt_elbrus_shrine8_script.lua", "from_shrine_first_floor_SE_room");
+    vt_map.MapTransitionEvent.Create("to mountain shrine 1st floor NE room", "data/story/mt_elbrus/mt_elbrus_shrine8_map.lua",
+                                     "data/story/mt_elbrus/mt_elbrus_shrine8_script.lua", "from_shrine_first_floor_SE_room");
 
     -- The dialogue where the heroes see the missing stones.
     event = vt_map.ScriptedEvent.Create("Heroes see the missing stone event", "missing_stone_event_start", "");
@@ -360,7 +360,7 @@ function _UpdateStoneMovement(stone_object, stone_direction)
 
     -- Check the collision
     if (stone_object:IsColliding(new_pos_x, new_pos_y) == true) then
-        AudioManager:PlaySound("sounds/stone_bump.ogg");
+        AudioManager:PlaySound("data/sounds/stone_bump.ogg");
         return true;
     end
 
@@ -443,7 +443,7 @@ map_functions = {
         Map:PushState(vt_map.MapMode.STATE_SCENE);
         stone_fall_y_pos = 9;
         stone_fall_hit_ground = false;
-        AudioManager:PlaySound("sounds/stone_roll.wav");
+        AudioManager:PlaySound("data/sounds/stone_roll.wav");
     end,
 
     stone_falls_event_update = function()
@@ -457,7 +457,7 @@ map_functions = {
         -- Play a sound when it is hitting the ground
         if (stone_fall_hit_ground == false and stone_fall_y_pos >= 15.0) then
             stone_fall_hit_ground = true;
-            AudioManager:PlaySound("sounds/stone_bump.ogg");
+            AudioManager:PlaySound("data/sounds/stone_bump.ogg");
         end
         local movement_diff = diff_speed * update_time;
         stone_fall_y_pos = stone_fall_y_pos + movement_diff;
@@ -480,12 +480,12 @@ map_functions = {
 
     start_to_move_the_stone1 = function()
         stone_direction1 = _GetStoneDirection(rolling_stone1);
-        AudioManager:PlaySound("sounds/stone_roll.wav");
+        AudioManager:PlaySound("data/sounds/stone_roll.wav");
     end,
 
     start_to_move_the_stone2 = function()
         stone_direction2 = _GetStoneDirection(rolling_stone2);
-        AudioManager:PlaySound("sounds/stone_roll.wav");
+        AudioManager:PlaySound("data/sounds/stone_roll.wav");
     end,
 
     move_the_stone_update1 = function()

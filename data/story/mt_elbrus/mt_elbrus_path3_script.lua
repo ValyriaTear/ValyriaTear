@@ -11,7 +11,7 @@ map_subname = "Old Cemetery"
 
 -- The music file used as default background music on this map.
 -- Other musics will have to handled through scripting.
-music_filename = "music/awareness_el_corleo.ogg"
+music_filename = "data/music/awareness_el_corleo.ogg"
 
 -- c++ objects instances
 local Map = nil
@@ -54,7 +54,7 @@ function Load(m)
 
     -- Add clouds overlay
     Map:GetEffectSupervisor():EnableAmbientOverlay("data/visuals/ambient/clouds.png", 5.0, -5.0, true);
-    Map:GetScriptSupervisor():AddScript("dat/maps/common/at_night.lua");
+    Map:GetScriptSupervisor():AddScript("data/story/common/at_night.lua");
 
     -- Enables thunder
     GlobalManager:SetEventValue("story", "mt_elbrus_weather_level", 2)
@@ -63,16 +63,16 @@ function Load(m)
     if (GlobalManager:GetEventValue("story", "mt_elbrus_weather_level") > 0) then
         Map:GetParticleManager():AddParticleEffect("data/visuals/particle_effects/rain.lua", 512.0, 768.0);
         -- Place an omni ambient sound at the center of the map to add a nice rainy effect.
-        vt_map.SoundObject.Create("music/Ove Melaa - Rainy.ogg", 20.0, 16.0, 100.0);
+        vt_map.SoundObject.Create("data/music/Ove Melaa - Rainy.ogg", 20.0, 16.0, 100.0);
     end
     if (GlobalManager:GetEventValue("story", "mt_elbrus_weather_level") > 1) then
-        Map:GetScriptSupervisor():AddScript("dat/maps/common/soft_lightnings_script.lua");
+        Map:GetScriptSupervisor():AddScript("data/story/common/soft_lightnings_script.lua");
     end
 
     -- Preload special sounds
-    AudioManager:LoadSound("sounds/crystal_chime.wav", Map);
-    AudioManager:LoadSound("sounds/opening_sword_unsheathe.wav", Map);
-    AudioManager:LoadMusic("music/Welcome to Com-Mecha-Mattew_Pablo_OGA.ogg", Map);
+    AudioManager:LoadSound("data/sounds/crystal_chime.wav", Map);
+    AudioManager:LoadSound("data/sounds/opening_sword_unsheathe.wav", Map);
+    AudioManager:LoadMusic("data/music/Welcome to Com-Mecha-Mattew_Pablo_OGA.ogg", Map);
 
     -- Check the map state according to the story state
     harlequin_battle_done = false;
@@ -492,14 +492,14 @@ function _CreateEvents()
     local dialogue = nil
     local text = nil
 
-    vt_map.MapTransitionEvent.Create("to mountain path 2", "dat/maps/mt_elbrus/mt_elbrus_path2_map.lua",
-                                     "dat/maps/mt_elbrus/mt_elbrus_path2_script.lua", "from_path3");
+    vt_map.MapTransitionEvent.Create("to mountain path 2", "data/story/mt_elbrus/mt_elbrus_path2_map.lua",
+                                     "data/story/mt_elbrus/mt_elbrus_path2_script.lua", "from_path3");
 
-    vt_map.MapTransitionEvent.Create("to mountain path 2bis", "dat/maps/mt_elbrus/mt_elbrus_path2_map.lua",
-                                     "dat/maps/mt_elbrus/mt_elbrus_path2_script.lua", "from_path3_chest");
+    vt_map.MapTransitionEvent.Create("to mountain path 2bis", "data/story/mt_elbrus/mt_elbrus_path2_map.lua",
+                                     "data/story/mt_elbrus/mt_elbrus_path2_script.lua", "from_path3_chest");
 
-    vt_map.MapTransitionEvent.Create("to mountain path 4", "dat/maps/mt_elbrus/mt_elbrus_path4_map.lua",
-                                     "dat/maps/mt_elbrus/mt_elbrus_path4_script.lua", "from_path3");
+    vt_map.MapTransitionEvent.Create("to mountain path 4", "data/story/mt_elbrus/mt_elbrus_path4_map.lua",
+                                     "data/story/mt_elbrus/mt_elbrus_path4_script.lua", "from_path3");
 
     -- Heal point
     vt_map.ScriptedEvent.Create("Heal event", "heal_party", "heal_done");
@@ -710,7 +710,7 @@ function _CreateEvents()
     event:AddEnemy(12, 570, 584); -- Eyeballs
     event:AddEnemy(12, 450, 624); -- Eyeballs
     _SetEventBattleEnvironment(event);
-    event:SetMusic("music/accion-OGA-djsaryon.ogg"); --boss music
+    event:SetMusic("data/music/accion-OGA-djsaryon.ogg"); --boss music
     event:AddEventLinkAtEnd("Harlequin talks to the hero 4");
 
     dialogue = vt_map.SpriteDialogue.Create();
@@ -776,7 +776,7 @@ function _CheckZones()
         if (harlequin_battle_done == false and GlobalManager:GetEventValue("story", "mt_elbrus_cemetery_south_gate_closed") == 0) then
             hero:SetMoving(false);
             _CloseSouthGate();
-            AudioManager:PlaySound("sounds/opening_sword_unsheathe.wav");
+            AudioManager:PlaySound("data/sounds/opening_sword_unsheathe.wav");
             EventManager:StartEvent("Prepare trapped event");
         end
     end
@@ -785,28 +785,28 @@ end
 -- Sets common battle environment settings for enemy sprites
 function _SetBattleEnvironment(enemy)
     -- default values
-    enemy:SetBattleMusicTheme("music/Welcome to Com-Mecha-Mattew_Pablo_OGA.ogg");
+    enemy:SetBattleMusicTheme("data/music/Welcome to Com-Mecha-Mattew_Pablo_OGA.ogg");
     enemy:SetBattleBackground("data/battles/battle_scenes/mountain_background.png");
-    enemy:AddBattleScript("dat/maps/common/at_night.lua");
+    enemy:AddBattleScript("data/story/common/at_night.lua");
 
     if (GlobalManager:GetEventValue("story", "mt_elbrus_weather_level") > 0) then
-        enemy:AddBattleScript("dat/maps/common/rain_in_battles_script.lua");
+        enemy:AddBattleScript("data/story/common/rain_in_battles_script.lua");
     end
     if (GlobalManager:GetEventValue("story", "mt_elbrus_weather_level") > 1) then
-        enemy:AddBattleScript("dat/maps/common/soft_lightnings_script.lua");
+        enemy:AddBattleScript("data/story/common/soft_lightnings_script.lua");
     end
 end
 -- The environment for Harlequin's battles
 function _SetEventBattleEnvironment(event)
-    event:SetMusic("music/Welcome to Com-Mecha-Mattew_Pablo_OGA.ogg");
+    event:SetMusic("data/music/Welcome to Com-Mecha-Mattew_Pablo_OGA.ogg");
     event:SetBackground("data/battles/battle_scenes/mountain_background.png");
-    event:AddScript("dat/maps/common/at_night.lua");
+    event:AddScript("data/story/common/at_night.lua");
 
     if (GlobalManager:GetEventValue("story", "mt_elbrus_weather_level") > 0) then
-        event:AddScript("dat/maps/common/rain_in_battles_script.lua");
+        event:AddScript("data/story/common/rain_in_battles_script.lua");
     end
     if (GlobalManager:GetEventValue("story", "mt_elbrus_weather_level") > 1) then
-        event:AddScript("dat/maps/common/soft_lightnings_script.lua");
+        event:AddScript("data/story/common/soft_lightnings_script.lua");
     end
 end
 
@@ -876,7 +876,7 @@ map_functions = {
         GlobalManager:GetActiveParty():AddHitPoints(10000);
         GlobalManager:GetActiveParty():AddSkillPoints(10000);
         Map:SetStamina(10000);
-        AudioManager:PlaySound("sounds/heal_spell.wav");
+        AudioManager:PlaySound("data/sounds/heal_spell.wav");
         heal_effect:SetPosition(hero:GetXPosition(), hero:GetYPosition());
         heal_effect:Start();
         heal_effect_time = 0;
@@ -1025,7 +1025,7 @@ map_functions = {
 
     set_focus_on_hero = function()
         Map:SetCamera(hero, 1500);
-        AudioManager:PlayMusic("music/Welcome to Com-Mecha-Mattew_Pablo_OGA.ogg");
+        AudioManager:PlayMusic("data/music/Welcome to Com-Mecha-Mattew_Pablo_OGA.ogg");
     end,
 
     set_harlequin_name = function()
@@ -1147,7 +1147,7 @@ map_functions = {
         _MakeHarlequinTeleport(harlequin1)
         _MakeHarlequinTeleport(harlequin2)
         _MakeHarlequinTeleport(harlequin3)
-        AudioManager:PlaySound("sounds/crystal_chime.wav");
+        AudioManager:PlaySound("data/sounds/crystal_chime.wav");
     end,
 
     place_harlequin_for_pre_boss_battle = function()
@@ -1157,14 +1157,14 @@ map_functions = {
 
     ends_harlequin_battle1 = function()
         -- Harlequin disappears
-        AudioManager:PlaySound("sounds/crystal_chime.wav");
+        AudioManager:PlaySound("data/sounds/crystal_chime.wav");
         harlequin1:SetVisible(false);
         harlequin1:SetPosition(0, 0);
     end,
 
     ends_harlequin_battle2 = function()
         _OpenNorthGate();
-        AudioManager:PlaySound("sounds/opening_sword_unsheathe.wav");
+        AudioManager:PlaySound("data/sounds/opening_sword_unsheathe.wav");
         Map:PopState();
         GlobalManager:SetEventValue("story", "mt_elbrus_cemetery_fight_done", 1);
         harlequin_battle_done = true;

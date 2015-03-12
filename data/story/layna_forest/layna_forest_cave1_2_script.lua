@@ -11,7 +11,7 @@ map_subname = ""
 
 -- The music file used as default background music on this map.
 -- Other musics will have to handled through scripting.
-music_filename = "music/shrine-OGA-yd.ogg"
+music_filename = "data/music/shrine-OGA-yd.ogg"
 
 -- c++ objects instances
 local Map = nil
@@ -33,7 +33,7 @@ function Load(m)
     EventManager = Map:GetEventSupervisor();
     Map:SetUnlimitedStamina(false);
 
-    Map:SetMinimapImage("dat/maps/layna_forest/minimaps/layna_forest_cave1_2_minimap.png");
+    Map:SetMinimapImage("data/story/layna_forest/minimaps/layna_forest_cave1_2_minimap.png");
 
     _CreateCharacters();
     _CreateObjects();
@@ -50,10 +50,10 @@ function Load(m)
     -- Add a mediumly dark overlay
     Map:GetEffectSupervisor():EnableAmbientOverlay("data/visuals/ambient/dark.png", 0.0, 0.0, false);
     -- Add the background and foreground animations
-    Map:GetScriptSupervisor():AddScript("dat/maps/layna_forest/layna_forest_caves_background_anim.lua");
+    Map:GetScriptSupervisor():AddScript("data/story/layna_forest/layna_forest_caves_background_anim.lua");
 
     -- The script file which will handle the display of the stone sign image.
-    Map:GetScriptSupervisor():AddScript("dat/maps/layna_forest/layna_forest_cave1_2_stone_sign_image.lua");
+    Map:GetScriptSupervisor():AddScript("data/story/layna_forest/layna_forest_cave1_2_stone_sign_image.lua");
 end
 
 -- the map update function handles checks done on each game tick.
@@ -204,14 +204,14 @@ function _CreateEvents()
     local text = nil
 
     -- Map transition events
-    vt_map.MapTransitionEvent.Create("to cave 1-1", "dat/maps/layna_forest/layna_forest_cave1_1_map.lua",
-                                     "dat/maps/layna_forest/layna_forest_cave1_1_script.lua", "from_layna_cave_1_2");
+    vt_map.MapTransitionEvent.Create("to cave 1-1", "data/story/layna_forest/layna_forest_cave1_1_map.lua",
+                                     "data/story/layna_forest/layna_forest_cave1_1_script.lua", "from_layna_cave_1_2");
 
-    vt_map.MapTransitionEvent.Create("to south east exit", "dat/maps/layna_forest/layna_forest_south_east_map.lua",
-                                     "dat/maps/layna_forest/layna_forest_south_east_script.lua", "from_layna_cave_1_2");
+    vt_map.MapTransitionEvent.Create("to south east exit", "data/story/layna_forest/layna_forest_south_east_map.lua",
+                                     "data/story/layna_forest/layna_forest_south_east_script.lua", "from_layna_cave_1_2");
 
-    vt_map.MapTransitionEvent.Create("to wolf cave", "dat/maps/layna_forest/layna_forest_wolf_cave_map.lua",
-                                     "dat/maps/layna_forest/layna_forest_wolf_cave_script.lua",  "from_layna_cave_1_2");
+    vt_map.MapTransitionEvent.Create("to wolf cave", "data/story/layna_forest/layna_forest_wolf_cave_map.lua",
+                                     "data/story/layna_forest/layna_forest_wolf_cave_script.lua",  "from_layna_cave_1_2");
 
     -- Generic events
     vt_map.ChangeDirectionSpriteEvent.Create("Kalya looks north", kalya, vt_map.MapMode.NORTH);
@@ -412,7 +412,7 @@ function _CheckMonstersStates()
 
         blocking_rock:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
         blocking_rock:SetVisible(false);
-        AudioManager:PlaySound("sounds/cave-in.ogg");
+        AudioManager:PlaySound("data/sounds/cave-in.ogg");
         Effects:ShakeScreen(0.6, 1000, vt_mode_manager.EffectSupervisor.SHAKE_FALLOFF_GRADUAL);
 
         hero:SetMoving(false);
@@ -459,10 +459,10 @@ end
 
 -- Sets common battle environment settings for enemy sprites
 function _SetBattleEnvironment(enemy)
-    enemy:SetBattleMusicTheme("music/heroism-OGA-Edward-J-Blakeley.ogg");
+    enemy:SetBattleMusicTheme("data/music/heroism-OGA-Edward-J-Blakeley.ogg");
     enemy:SetBattleBackground("data/battles/battle_scenes/desert_cave/desert_cave.png");
     -- Add the background and foreground animations
-    enemy:AddBattleScript("dat/battles/desert_cave_battle_anim.lua");
+    enemy:AddBattleScript("data/battles/battle_scenes/desert_cave_battle_anim.lua");
 end
 
 -- Map Custom functions

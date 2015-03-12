@@ -11,7 +11,7 @@ map_subname = "?"
 
 -- The music file used as default background music on this map.
 -- Other musics will have to handled through scripting.
-music_filename = "music/icy_wind.ogg"
+music_filename = "data/music/icy_wind.ogg"
 
 -- c++ objects instances
 local Map = nil
@@ -48,7 +48,7 @@ function Load(m)
     Map:GetEffectSupervisor():EnableAmbientOverlay("data/visuals/ambient/dark.png", 0.0, 0.0, false);
 
     -- Preload sounds
-    AudioManager:LoadSound("sounds/heavy_bump.wav", Map);
+    AudioManager:LoadSound("data/sounds/heavy_bump.wav", Map);
 
     -- Place Orlinn for the final boss scene
     if (GlobalManager:GetEventValue("story", "mt_elbrus_ep1_final_boss_beaten") == 0) then
@@ -68,7 +68,7 @@ function Load(m)
     end
 
     -- Loads the pre-boss music
-    AudioManager:LoadMusic("music/dont_close_your_eyes.ogg", Map);
+    AudioManager:LoadMusic("data/music/dont_close_your_eyes.ogg", Map);
 end
 
 -- the map update function handles checks done on each game tick.
@@ -142,8 +142,8 @@ function _CreateEvents()
     local dialogue = nil
     local text = nil
 
-    vt_map.MapTransitionEvent.Create("to mountain shrine exit", "dat/maps/mt_elbrus/mt_elbrus_north_east_exit_map.lua",
-                                     "dat/maps/mt_elbrus/mt_elbrus_north_east_exit_script.lua", "from_shrine_basement");
+    vt_map.MapTransitionEvent.Create("to mountain shrine exit", "data/story/mt_elbrus/mt_elbrus_north_east_exit_map.lua",
+                                     "data/story/mt_elbrus/mt_elbrus_north_east_exit_script.lua", "from_shrine_basement");
 
     -- Generic events
     vt_map.ChangeDirectionSpriteEvent.Create("Orlinn looks north", orlinn, vt_map.MapMode.NORTH);
@@ -257,9 +257,9 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("Battle with the boss");
 
     event = vt_map.BattleEncounterEvent.Create("Battle with the boss");
-    event:SetMusic("music/accion-OGA-djsaryon.ogg");
+    event:SetMusic("data/music/accion-OGA-djsaryon.ogg");
     event:SetBackground("data/battles/battle_scenes/desert_cave/desert_cave.png");
-    event:AddScript("dat/battles/desert_cave_battle_anim.lua");
+    event:AddScript("data/battles/battle_scenes/desert_cave_battle_anim.lua");
     event:SetBoss(true);
     event:AddEnemy(21, 812, 312);
     event:AddEnemy(20, 512, 512);
@@ -388,7 +388,7 @@ map_functions = {
 
     fall_event_update = function()
         if (hero:GetYPosition() >= 8.0) then
-            AudioManager:PlaySound("sounds/heavy_bump.wav");
+            AudioManager:PlaySound("data/sounds/heavy_bump.wav");
             Map:GetEffectSupervisor():ShakeScreen(0.6, 600, vt_mode_manager.EffectSupervisor.SHAKE_FALLOFF_GRADUAL);
             hero:SetCustomAnimation("hurt", 600);
             _TriggerPartyDamage(math.random(15, 30));
@@ -449,11 +449,11 @@ map_functions = {
         kalya:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
 
         -- Start the pre-boss music
-        AudioManager:PlayMusic("music/dont_close_your_eyes.ogg")
+        AudioManager:PlayMusic("data/music/dont_close_your_eyes.ogg")
     end,
 
     play_default_music = function()
-        AudioManager:PlayMusic("music/icy_wind.ogg")
+        AudioManager:PlayMusic("data/music/icy_wind.ogg")
     end,
 
     make_boss_invisible = function()

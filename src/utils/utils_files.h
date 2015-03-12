@@ -25,7 +25,7 @@ namespace vt_utils
 //! \name Directory and File Manipulation Functions
 //@{
 /** \brief Checks if a file exists on the system or not
-*** \param file_name The name of the file to check (e.g. "dat/saved_game.lua")
+*** \param file_name The name of the file to check (e.g. "saves/saved_game.lua")
 *** \return True if the file was found, or false if it was not found.
 **/
 bool DoesFileExist(const std::string &file_name);

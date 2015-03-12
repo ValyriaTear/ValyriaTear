@@ -245,7 +245,7 @@ skills[21003] = {
                 target_actor:RegisterSPDamage(sp_damage);
                 user:RegisterHealing(sp_damage, false);
             end
-            AudioManager:PlaySound("sounds/crystal_chime.wav");
+            AudioManager:PlaySound("data/sounds/crystal_chime.wav");
         else
             target_actor:RegisterMiss(true);
         end

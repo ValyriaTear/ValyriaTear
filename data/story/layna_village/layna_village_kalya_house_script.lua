@@ -11,7 +11,7 @@ map_subname = "Basement"
 
 -- The music file used as default background music on this map.
 -- Other musics will have to handled through scripting.
-music_filename = "music/Welcome to Com-Mecha-Mattew_Pablo_OGA.ogg"
+music_filename = "data/music/Welcome to Com-Mecha-Mattew_Pablo_OGA.ogg"
 
 -- c++ objects instances
 local Map = nil
@@ -46,7 +46,7 @@ function Load(m)
     _CreateZones();
 
     -- Preloads the sad music
-    AudioManager:LoadMusic("music/sad_moment.ogg", Map);
+    AudioManager:LoadMusic("data/music/sad_moment.ogg", Map);
 
     -- If the scene hasn't happened, start it
     if (GlobalManager:GetEventValue("story", "kalya_basement_scene") == 0) then
@@ -87,7 +87,7 @@ function _CreateCharacters()
     fake_wall:SetCollPixelHeight(10.0 * 16);
     fake_wall:SetImgPixelHalfWidth(4.0 * 16);
     fake_wall:SetImgPixelHeight(10.0 * 16);
-    fake_wall:AddStillFrame("dat/maps/layna_village/kalya_house_fake_wall.png");
+    fake_wall:AddStillFrame("data/story/layna_village/kalya_house_fake_wall.png");
 
     exit_light = CreateObject(Map, "Left Window Light", 34, 2, vt_map.MapMode.GROUND_OBJECT);
     exit_light:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
@@ -160,8 +160,8 @@ function _CreateEvents()
     local text = nil
 
     -- Triggered events
-    vt_map.MapTransitionEvent.Create("to Mt Elbrus", "dat/maps/mt_elbrus/mt_elbrus_path1_map.lua",
-                                    "dat/maps/mt_elbrus/mt_elbrus_path1_script.lua", "from_kalya_house_basement");
+    vt_map.MapTransitionEvent.Create("to Mt Elbrus", "data/story/mt_elbrus/mt_elbrus_path1_map.lua",
+                                    "data/story/mt_elbrus/mt_elbrus_path1_script.lua", "from_kalya_house_basement");
 
     -- Generic events
     vt_map.ChangeDirectionSpriteEvent.Create("Orlinn looks east", orlinn, vt_map.MapMode.EAST);
@@ -427,7 +427,7 @@ map_functions = {
     end,
 
     sad_music_start = function()
-        AudioManager:PlayMusic("music/sad_moment.ogg");
+        AudioManager:PlayMusic("data/music/sad_moment.ogg");
     end,
 
     terminate_bronann_events = function()
@@ -439,11 +439,11 @@ map_functions = {
     end,
 
     click_sound = function()
-        AudioManager:PlaySound("sounds/menu_click_01.wav");
+        AudioManager:PlaySound("data/sounds/menu_click_01.wav");
     end,
 
     wall_sound = function()
-        AudioManager:PlaySound("sounds/cave-in.ogg");
+        AudioManager:PlaySound("data/sounds/cave-in.ogg");
     end,
 
     kalya_triggers_the_secret_path =  function()

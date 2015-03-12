@@ -39,16 +39,16 @@ skills[30001] = {
        if (vt_battle.CalculateStandardEvasion(target) == false) then
            -- Attack: Strength / 3
            target_actor:RegisterDamage(user:GetStrength() / 3.0, target);
-           AudioManager:PlaySound("sounds/punch.wav");
+           AudioManager:PlaySound("data/sounds/punch.wav");
        else
            target_actor:RegisterMiss(true);
-           AudioManager:PlaySound("sounds/missed_target.wav");
+           AudioManager:PlaySound("data/sounds/missed_target.wav");
        end
    end,
 
    animation_scripts = {
-       [BRONANN] = "dat/battles/characters_animations/bronann_punch.lua",
-       [THANIS] = "dat/battles/characters_animations/thanis_attack.lua"
+       [BRONANN] = "data/battles/characters_animations/bronann_punch.lua",
+       [THANIS] = "data/battles/characters_animations/thanis_attack.lua"
    }
 }
 
@@ -67,15 +67,15 @@ skills[30002] = {
        if (vt_battle.CalculateStandardEvasion(target) == false) then
            -- Attack: Strength / 3
            target_actor:RegisterDamage(user:GetStrength() / 3.0, target);
-           AudioManager:PlaySound("sounds/punch.wav");
+           AudioManager:PlaySound("data/sounds/punch.wav");
        else
            target_actor:RegisterMiss(true);
-           AudioManager:PlaySound("sounds/missed_target.wav");
+           AudioManager:PlaySound("data/sounds/missed_target.wav");
        end
    end,
 
    animation_scripts = {
-       [KALYA] = "dat/battles/characters_animations/kalya_throw_stone.lua"
+       [KALYA] = "data/battles/characters_animations/kalya_throw_stone.lua"
    }
 }
 
@@ -94,14 +94,14 @@ skills[30003] = {
        if (vt_battle.CalculateStandardEvasion(target) == false) then
            -- Attack: Strength / 3
            target_actor:RegisterDamage(user:GetStrength() / 3.0, target);
-           AudioManager:PlaySound("sounds/punch.wav");
+           AudioManager:PlaySound("data/sounds/punch.wav");
        else
            target_actor:RegisterMiss(true);
-           AudioManager:PlaySound("sounds/missed_target.wav");
+           AudioManager:PlaySound("data/sounds/missed_target.wav");
        end
    end,
 
    animation_scripts = {
-       [KALYA] = "dat/battles/characters_animations/kalya_throw_stone.lua"
+       [KALYA] = "data/battles/characters_animations/kalya_throw_stone.lua"
    }
 }

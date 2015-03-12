@@ -47,7 +47,7 @@ end
 function battle_healing_potion(target, hit_points)
     if (target:IsAlive() and target:GetHitPoints() < target:GetMaxHitPoints()) then
         target:RegisterHealing(hit_points, true);
-        AudioManager:PlaySound("sounds/potion_drink.wav");
+        AudioManager:PlaySound("data/sounds/potion_drink.wav");
         return true;
     else
         return false;
@@ -59,14 +59,14 @@ end
 function field_healing_potion(target, hit_points)
     if (target:IsAlive() and target:GetHitPoints() < target:GetMaxHitPoints()) then
         target:AddHitPoints(hit_points);
-        AudioManager:PlaySound("sounds/potion_drink.wav");
+        AudioManager:PlaySound("data/sounds/potion_drink.wav");
         -- Trigger a particle effect on the menu character
         local y_pos = 218.0 + GlobalManager:GetPartyPosition(target) * 118.0;
         local menu_mode = ModeManager:GetTop();
         menu_mode:GetParticleManager():AddParticleEffect("data/visuals/particle_effects/heal_particle.lua", 145.0, y_pos);
         return true;
     else
-        AudioManager:PlaySound("sounds/cancel.wav");
+        AudioManager:PlaySound("data/sounds/cancel.wav");
         return false;
     end
 end
@@ -163,7 +163,7 @@ items[4] = {
 function battle_skill_potion(target, skill_points)
     if (target:IsAlive() and target:GetSkillPoints() < target:GetMaxSkillPoints()) then
         target:RegisterHealing(skill_points, false);
-        AudioManager:PlaySound("sounds/potion_drink.wav");
+        AudioManager:PlaySound("data/sounds/potion_drink.wav");
         return true;
     else
         return false;
@@ -175,10 +175,10 @@ end
 function field_skill_potion(target, skill_points)
     if (target:IsAlive() and target:GetSkillPoints() < target:GetMaxSkillPoints()) then
         target:AddSkillPoints(skill_points);
-        AudioManager:PlaySound("sounds/potion_drink.wav");
+        AudioManager:PlaySound("data/sounds/potion_drink.wav");
         return true;
     else
-        AudioManager:PlaySound("sounds/cancel.wav");
+        AudioManager:PlaySound("data/sounds/cancel.wav");
         return false;
     end
 end
@@ -357,7 +357,7 @@ _battle_apply_elixir_status_effects = function(target_actor, intensity)
         target_actor:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_PROTECTION, intensity, 30000);
         target_actor:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_AGILITY, intensity, 30000);
         target_actor:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_EVADE, intensity, 30000);
-        AudioManager:PlaySound("sounds/potion_drink.wav");
+        AudioManager:PlaySound("data/sounds/potion_drink.wav");
         return true;
     else
         return false;
@@ -373,7 +373,7 @@ _field_apply_elixir_status_effects = function(global_character, intensity)
         global_character:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_PROTECTION, intensity, 30000);
         global_character:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_AGILITY, intensity, 30000);
         global_character:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_EVADE, intensity, 30000);
-        AudioManager:PlaySound("sounds/potion_drink.wav");
+        AudioManager:PlaySound("data/sounds/potion_drink.wav");
         return true;
     else
         return false;
@@ -398,7 +398,7 @@ items[1001] = {
         else
             -- When dead, revive the character
             target_actor:RegisterRevive(1);
-            AudioManager:PlaySound("sounds/potion_drink.wav");
+            AudioManager:PlaySound("data/sounds/potion_drink.wav");
         end
         return true;
     end,
@@ -410,7 +410,7 @@ items[1001] = {
         else
             -- When dead, revive the character
             target:SetHitPoints(1);
-            AudioManager:PlaySound("sounds/potion_drink.wav");
+            AudioManager:PlaySound("data/sounds/potion_drink.wav");
         end
         return true;
     end
@@ -465,7 +465,7 @@ items[1004] = {
             target_actor:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_STRENGTH,
                                                  vt_global.GameGlobal.GLOBAL_INTENSITY_POS_MODERATE,
                                                  90000);
-            AudioManager:PlaySound("sounds/potion_drink.wav");
+            AudioManager:PlaySound("data/sounds/potion_drink.wav");
             return true;
         end
         return false;
@@ -477,7 +477,7 @@ items[1004] = {
             target:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_STRENGTH,
                                            vt_global.GameGlobal.GLOBAL_INTENSITY_POS_MODERATE,
                                            90000);
-            AudioManager:PlaySound("sounds/potion_drink.wav");
+            AudioManager:PlaySound("data/sounds/potion_drink.wav");
             return true;
         end
         return false;
@@ -500,7 +500,7 @@ items[1005] = {
             target_actor:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_AGILITY,
                                                  vt_global.GameGlobal.GLOBAL_INTENSITY_POS_MODERATE,
                                                  30000);
-            AudioManager:PlaySound("sounds/potion_drink.wav");
+            AudioManager:PlaySound("data/sounds/potion_drink.wav");
             return true;
         end
         return false;
@@ -512,7 +512,7 @@ items[1005] = {
             target:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_AGILITY,
                                            vt_global.GameGlobal.GLOBAL_INTENSITY_POS_MODERATE,
                                            30000);
-            AudioManager:PlaySound("sounds/potion_drink.wav");
+            AudioManager:PlaySound("data/sounds/potion_drink.wav");
             return true;
         end
         return false;

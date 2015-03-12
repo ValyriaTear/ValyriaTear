@@ -13,13 +13,13 @@ function Initialize(battle_instance)
 
     if (background_type == 2) then
         background_file = "data/battles/battle_scenes/forest_background.png";
-        --battle_instance:GetScriptSupervisor():AddScript("dat/battles/forest_battle_anim.lua");
+        --battle_instance:GetScriptSupervisor():AddScript("data/battles/battle_scenes/forest_battle_anim.lua");
     elseif (background_type == 3) then
         background_file = "data/battles/battle_scenes/desert_background.png";
-        --battle_instance:GetScriptSupervisor():AddScript("dat/battles/desert_battle_anim.lua");
+        --battle_instance:GetScriptSupervisor():AddScript("data/battles/battle_scenes/desert_battle_anim.lua");
     elseif (background_type == 4) then
         background_file = "data/battles/battle_scenes/snow_background.png";
-        --battle_instance:GetScriptSupervisor():AddScript("dat/battles/snow_battle_anim.lua");
+        --battle_instance:GetScriptSupervisor():AddScript("data/battles/battle_scenes/snow_battle_anim.lua");
     else -- == 1 or else
         background_file = "data/battles/battle_scenes/plains_background.png";
     end

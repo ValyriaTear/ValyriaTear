@@ -69,7 +69,7 @@ skills[10001] = {
             Battle:TriggerBattleParticleEffect("data/visuals/particle_effects/shield.lua",
                     target_actor:GetXLocation(), target_actor:GetYLocation() + 5);
         end
-        AudioManager:PlaySound("sounds/defence1_spell.ogg");
+        AudioManager:PlaySound("data/sounds/defence1_spell.ogg");
     end,
 
     FieldExecute = function(user, target) -- GlobalCharacter*
@@ -83,7 +83,7 @@ skills[10001] = {
                                        vt_global.GameGlobal.GLOBAL_INTENSITY_POS_MODERATE,
                                        effect_duration);
 
-        AudioManager:PlaySound("sounds/defence1_spell.ogg");
+        AudioManager:PlaySound("data/sounds/defence1_spell.ogg");
         -- Trigger a particle effect on the menu character
         local y_pos = 218.0 + GlobalManager:GetPartyPosition(target) * 118.0;
         local menu_mode = ModeManager:GetTop();
@@ -111,7 +111,7 @@ skills[10002] = {
 
         local hit_points = (user:GetVigor() * 3) +  vt_utils.RandomBoundedInteger(0, 15);
         target_actor:RegisterHealing(hit_points, true);
-        AudioManager:PlaySound("sounds/heal_spell.wav");
+        AudioManager:PlaySound("data/sounds/heal_spell.wav");
         local Battle = ModeManager:GetTop();
         Battle:TriggerBattleParticleEffect("data/visuals/particle_effects/heal_particle.lua",
                 target_actor:GetXLocation(), target_actor:GetYLocation() + 5);
@@ -127,7 +127,7 @@ skills[10002] = {
         end
 
         target:AddHitPoints((user:GetVigor() * 5) + vt_utils.RandomBoundedInteger(0, 30));
-        AudioManager:PlaySound("sounds/heal_spell.wav");
+        AudioManager:PlaySound("data/sounds/heal_spell.wav");
         return true;
     end
 }
@@ -256,7 +256,7 @@ skills[10007] = {
                                                  vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_MODERATE,
                                                  effect_duration);
             --local Battle = ModeManager:GetTop();
-            --AudioManager:PlaySound("sounds/defence1_spell.ogg");
+            --AudioManager:PlaySound("data/sounds/defence1_spell.ogg");
         end
     end,
 }
@@ -368,7 +368,7 @@ skills[10100] = {
             local Battle = ModeManager:GetTop();
             Battle:TriggerBattleParticleEffect("data/visuals/particle_effects/fire_spell.lua",
                     target_actor:GetXLocation(), target_actor:GetYLocation() + 5);
-            AudioManager:PlaySound("sounds/fire1_spell.ogg");
+            AudioManager:PlaySound("data/sounds/fire1_spell.ogg");
         else
             target_actor:RegisterMiss(true);
         end
@@ -538,7 +538,7 @@ skills[10110] = {
             local Battle = ModeManager:GetTop();
             --Battle:TriggerBattleParticleEffect("data/visuals/particle_effects/wave_spell.lua",
             --        target_actor:GetXLocation(), target_actor:GetYLocation() + 5);
-            --AudioManager:PlaySound("sounds/wave1_spell.ogg");
+            --AudioManager:PlaySound("data/sounds/wave1_spell.ogg");
         else
             target_actor:RegisterMiss(true);
         end
@@ -570,7 +570,7 @@ skills[10111] = {
         -- trigger the 2nd effect slightly below the sprite to make it appear above it from the player's point of view.
         Battle:TriggerBattleParticleEffect("data/visuals/particle_effects/earth_circle_outer_particles.lua",
                 target_actor:GetXLocation(), target_actor:GetYLocation() + 5);
-        --AudioManager:PlaySound("sounds/circle_spell.ogg");
+        --AudioManager:PlaySound("data/sounds/circle_spell.ogg");
     end,
 }
 
@@ -721,7 +721,7 @@ skills[10120] = {
             local Battle = ModeManager:GetTop();
             Battle:TriggerBattleParticleEffect("data/visuals/particle_effects/wave_spell.lua",
                     target_actor:GetXLocation(), target_actor:GetYLocation() + 5);
-            AudioManager:PlaySound("sounds/wave1_spell.ogg");
+            AudioManager:PlaySound("data/sounds/wave1_spell.ogg");
         else
             target_actor:RegisterMiss(true);
         end
@@ -749,7 +749,7 @@ skills[10121] = {
         -- trigger the 2nd effect slightly below the sprite to make it appear above it from the player's point of view.
         Battle:TriggerBattleParticleEffect("data/visuals/particle_effects/water_circle_outer_particles.lua",
                 target_actor:GetXLocation(), target_actor:GetYLocation() + 5);
-        --AudioManager:PlaySound("sounds/circle_spell.ogg");
+        --AudioManager:PlaySound("data/sounds/circle_spell.ogg");
     end,
 }
 
@@ -910,7 +910,7 @@ skills[10130] = {
             local Battle = ModeManager:GetTop();
             --Battle:TriggerBattleParticleEffect("data/visuals/particle_effects/wave_spell.lua",
             --        target_actor:GetXLocation(), target_actor:GetYLocation() + 5);
-            --AudioManager:PlaySound("sounds/wave1_spell.ogg");
+            --AudioManager:PlaySound("data/sounds/wave1_spell.ogg");
         else
             target_actor:RegisterMiss(true);
         end
@@ -938,7 +938,7 @@ skills[10131] = {
         -- trigger the 2nd effect slightly below the sprite to make it appear above it from the player's point of view.
         Battle:TriggerBattleParticleEffect("data/visuals/particle_effects/wind_circle_outer_particles.lua",
                 target_actor:GetXLocation(), target_actor:GetYLocation() + 5);
-        --AudioManager:PlaySound("sounds/circle_spell.ogg");
+        --AudioManager:PlaySound("data/sounds/circle_spell.ogg");
     end,
 }
 
@@ -1063,7 +1063,7 @@ skills[10140] = {
             local Battle = ModeManager:GetTop();
             --Battle:TriggerBattleParticleEffect("data/visuals/particle_effects/wave_spell.lua",
             --        target_actor:GetXLocation(), target_actor:GetYLocation() + 5);
-            --AudioManager:PlaySound("sounds/wave1_spell.ogg");
+            --AudioManager:PlaySound("data/sounds/wave1_spell.ogg");
         else
             target_actor:RegisterMiss(true);
         end
@@ -1153,7 +1153,7 @@ skills[10150] = {
             local Battle = ModeManager:GetTop();
             --Battle:TriggerBattleParticleEffect("data/visuals/particle_effects/wave_spell.lua",
             --        target_actor:GetXLocation(), target_actor:GetYLocation() + 5);
-            --AudioManager:PlaySound("sounds/wave1_spell.ogg");
+            --AudioManager:PlaySound("data/sounds/wave1_spell.ogg");
         else
             target_actor:RegisterMiss(true);
         end
@@ -1227,7 +1227,7 @@ skills[10160] = {
             local Battle = ModeManager:GetTop();
             --Battle:TriggerBattleParticleEffect("data/visuals/particle_effects/wave_spell.lua",
             --        target_actor:GetXLocation(), target_actor:GetYLocation() + 5);
-            --AudioManager:PlaySound("sounds/wave1_spell.ogg");
+            --AudioManager:PlaySound("data/sounds/wave1_spell.ogg");
         else
             target_actor:RegisterMiss(true);
         end

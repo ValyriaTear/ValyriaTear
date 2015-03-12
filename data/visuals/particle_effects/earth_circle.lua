@@ -72,7 +72,7 @@ systems[0] =
 
     animation_frames =
     {
-        'data/particle_effects/earth_circle.png'
+        'data/visuals/particle_effects/earth_circle.png'
     },
     animation_frame_times =
     {

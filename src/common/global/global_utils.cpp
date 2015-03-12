@@ -291,12 +291,12 @@ void GlobalMedia::Initialize()
         PRINT_WARNING << "Failed to load small object category icon images" << std::endl;
 
     // Load common sounds
-    _LoadSoundFile("confirm", "sounds/confirm.wav");
-    _LoadSoundFile("cancel", "sounds/cancel.wav");
-    _LoadSoundFile("coins", "sounds/coins.wav");
-    _LoadSoundFile("bump", "sounds/bump.wav");
-    _LoadSoundFile("volume_test", "sounds/volume_test.wav");
-    _LoadSoundFile("item_pickup", "sounds/itempick2_michel_baradari_oga.wav");
+    _LoadSoundFile("confirm", "data/sounds/confirm.wav");
+    _LoadSoundFile("cancel", "data/sounds/cancel.wav");
+    _LoadSoundFile("coins", "data/sounds/coins.wav");
+    _LoadSoundFile("bump", "data/sounds/bump.wav");
+    _LoadSoundFile("volume_test", "data/sounds/volume_test.wav");
+    _LoadSoundFile("item_pickup", "data/sounds/itempick2_michel_baradari_oga.wav");
 }
 
 GlobalMedia::~GlobalMedia()

@@ -11,7 +11,7 @@ map_subname = ""
 
 -- The music file used as default background music on this map.
 -- Other musics will have to handled through scripting.
-music_filename = "sounds/wind.ogg"
+music_filename = "data/sounds/wind.ogg"
 
 -- c++ objects instances
 local Map = nil
@@ -42,19 +42,19 @@ function Load(m)
     _CreateZones();
 
     Map:GetEffectSupervisor():EnableAmbientOverlay("data/visuals/ambient/snow_fog.png", 30.0, 10.0, true);
-    Map:GetScriptSupervisor():AddScript("dat/maps/common/at_night.lua");
+    Map:GetScriptSupervisor():AddScript("data/story/common/at_night.lua");
 
     -- Make the snow start
     Map:GetParticleManager():AddParticleEffect("data/visuals/particle_effects/snow.lua", 512.0, 384.0);
 
     -- The mountain cliff background
-    Map:GetScriptSupervisor():AddScript("dat/maps/mt_elbrus/mt_elbrus_background_anim.lua");
+    Map:GetScriptSupervisor():AddScript("data/story/mt_elbrus/mt_elbrus_background_anim.lua");
 
     -- Start the pusher winds
     EventManager:StartEvent("Start winds");
 
     -- Preload falling sounds
-    AudioManager:LoadSound("sounds/falling.ogg", Map);
+    AudioManager:LoadSound("data/sounds/falling.ogg", Map);
 end
 
 -- the map update function handles checks done on each game tick.
@@ -176,36 +176,36 @@ function _CreateObjects()
     CreateObject(Map, "Bridge1_down", 10, 38, vt_map.MapMode.FLATGROUND_OBJECT);
 
     -- Adds the wind particle effects
-    wind_effect1 = vt_map.ParticleObject.Create("dat/maps/mt_elbrus/particles_snow_pushing.lua", 34, 80, vt_map.MapMode.GROUND_OBJECT);
+    wind_effect1 = vt_map.ParticleObject.Create("data/story/mt_elbrus/particles_snow_pushing.lua", 34, 80, vt_map.MapMode.GROUND_OBJECT);
     wind_effect1:Stop(); -- Don't run it at start
 
-    wind_effect2 = vt_map.ParticleObject.Create("dat/maps/mt_elbrus/particles_snow_pushing.lua", 45, 55, vt_map.MapMode.GROUND_OBJECT);
+    wind_effect2 = vt_map.ParticleObject.Create("data/story/mt_elbrus/particles_snow_pushing.lua", 45, 55, vt_map.MapMode.GROUND_OBJECT);
     wind_effect2:Stop(); -- Don't run it at start
 
     -- An harmless wind pusher, for once
-    wind_effect3 = vt_map.ParticleObject.Create("dat/maps/mt_elbrus/particles_snow_pushing.lua", 87, 29, vt_map.MapMode.GROUND_OBJECT);
+    wind_effect3 = vt_map.ParticleObject.Create("data/story/mt_elbrus/particles_snow_pushing.lua", 87, 29, vt_map.MapMode.GROUND_OBJECT);
     wind_effect3:Stop(); -- Don't run it at start
 
-    wind_sound1 = vt_map.SoundObject.Create("sounds/mountain_wind.ogg", 34.0, 68.0, 15.0);
+    wind_sound1 = vt_map.SoundObject.Create("data/sounds/mountain_wind.ogg", 34.0, 68.0, 15.0);
     wind_sound1:Stop();
 
-    wind_sound2 = vt_map.SoundObject.Create("sounds/mountain_wind.ogg", 46.0, 47.0, 15.0);
+    wind_sound2 = vt_map.SoundObject.Create("data/sounds/mountain_wind.ogg", 46.0, 47.0, 15.0);
     wind_sound2:Stop();
 
-    wind_sound3 = vt_map.SoundObject.Create("sounds/mountain_wind.ogg", 87.0, 19.0, 15.0);
+    wind_sound3 = vt_map.SoundObject.Create("data/sounds/mountain_wind.ogg", 87.0, 19.0, 15.0);
     wind_sound3:Stop();
 end
 
 -- Creates all events and sets up the entire event sequence chain
 function _CreateEvents()
-    vt_map.MapTransitionEvent.Create("to mountain shrine 2nd floor NE", "dat/maps/mt_elbrus/mt_elbrus_shrine_2nd_ne_map.lua",
-                                     "dat/maps/mt_elbrus/mt_elbrus_shrine_2nd_ne_script.lua", "from_shrine_2nd_floor_south");
+    vt_map.MapTransitionEvent.Create("to mountain shrine 2nd floor NE", "data/story/mt_elbrus/mt_elbrus_shrine_2nd_ne_map.lua",
+                                     "data/story/mt_elbrus/mt_elbrus_shrine_2nd_ne_script.lua", "from_shrine_2nd_floor_south");
 
-    vt_map.MapTransitionEvent.Create("to mountain shrine 2nd floor north west", "dat/maps/mt_elbrus/mt_elbrus_shrine_2nd_s2_map.lua",
-                                     "dat/maps/mt_elbrus/mt_elbrus_shrine_2nd_s2_script.lua", "from_shrine_2nd_floor_south_west");
+    vt_map.MapTransitionEvent.Create("to mountain shrine 2nd floor north west", "data/story/mt_elbrus/mt_elbrus_shrine_2nd_s2_map.lua",
+                                     "data/story/mt_elbrus/mt_elbrus_shrine_2nd_s2_script.lua", "from_shrine_2nd_floor_south_west");
 
-    vt_map.MapTransitionEvent.Create("to mountain shrine 2nd floor north east", "dat/maps/mt_elbrus/mt_elbrus_shrine_2nd_s2_map.lua",
-                                     "dat/maps/mt_elbrus/mt_elbrus_shrine_2nd_s2_script.lua", "from_shrine_2nd_floor_south_east");
+    vt_map.MapTransitionEvent.Create("to mountain shrine 2nd floor north east", "data/story/mt_elbrus/mt_elbrus_shrine_2nd_s2_map.lua",
+                                     "data/story/mt_elbrus/mt_elbrus_shrine_2nd_s2_script.lua", "from_shrine_2nd_floor_south_east");
 
     -- A never-ending event that triggers winds every few seconds pushing the character down and back to the start if he's heedless enough.
     vt_map.ScriptedEvent.Create("Start winds", "winds_start", "winds_update");
@@ -213,8 +213,8 @@ function _CreateEvents()
     -- Makes the character slowly fall downward
     vt_map.ScriptedEvent.Create("Falling to shrine entrance", "falling_start", "falling_update");
 
-    vt_map.MapTransitionEvent.Create("To mountain shrine entrance", "dat/maps/mt_elbrus/mt_elbrus_path4_map.lua",
-                                     "dat/maps/mt_elbrus/mt_elbrus_path4_script.lua", "from_shrine_2nd_floor_wind_trap");
+    vt_map.MapTransitionEvent.Create("To mountain shrine entrance", "data/story/mt_elbrus/mt_elbrus_path4_map.lua",
+                                     "data/story/mt_elbrus/mt_elbrus_path4_script.lua", "from_shrine_2nd_floor_wind_trap");
 end
 
 -- zones
@@ -356,7 +356,7 @@ map_functions = {
 
     falling_start = function()
         hero:SetCustomAnimation("frightened_fixed", 0); -- 0 means forever
-        AudioManager:PlaySound("sounds/falling.ogg");
+        AudioManager:PlaySound("data/sounds/falling.ogg");
     end,
 
     falling_update = function()

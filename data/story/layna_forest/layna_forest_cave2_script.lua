@@ -11,7 +11,7 @@ map_subname = ""
 
 -- The music file used as default background music on this map.
 -- Other musics will have to handled through scripting.
-music_filename = "music/shrine-OGA-yd.ogg"
+music_filename = "data/music/shrine-OGA-yd.ogg"
 
 -- c++ objects instances
 local Map = nil
@@ -105,10 +105,10 @@ end
 
 -- Sets common battle environment settings for enemy sprites
 function _SetBattleEnvironment(enemy)
-    enemy:SetBattleMusicTheme("music/heroism-OGA-Edward-J-Blakeley.ogg");
+    enemy:SetBattleMusicTheme("data/music/heroism-OGA-Edward-J-Blakeley.ogg");
     enemy:SetBattleBackground("data/battles/battle_scenes/desert_cave/desert_cave.png");
     -- Add the background and foreground animations
-    enemy:AddBattleScript("dat/battles/desert_cave_battle_anim.lua");
+    enemy:AddBattleScript("data/battles/battle_scenes/desert_cave_battle_anim.lua");
 end
 
 function _CreateEnemies()
@@ -170,11 +170,11 @@ end
 -- Creates all events and sets up the entire event sequence chain
 function _CreateEvents()
     -- Map events
-    vt_map.MapTransitionEvent.Create("to forest SE", "dat/maps/layna_forest/layna_forest_south_east_map.lua",
-                                     "dat/maps/layna_forest/layna_forest_south_east_script.lua", "from layna forest cave 2")
+    vt_map.MapTransitionEvent.Create("to forest SE", "data/story/layna_forest/layna_forest_south_east_map.lua",
+                                     "data/story/layna_forest/layna_forest_south_east_script.lua", "from layna forest cave 2")
 
-    vt_map.MapTransitionEvent.Create("to forest crystal", "dat/maps/layna_forest/layna_forest_crystal_map.lua",
-                                     "dat/maps/layna_forest/layna_forest_crystal_script.lua", "from layna forest cave 2")
+    vt_map.MapTransitionEvent.Create("to forest crystal", "data/story/layna_forest/layna_forest_crystal_map.lua",
+                                     "data/story/layna_forest/layna_forest_crystal_script.lua", "from layna forest cave 2")
 
     -- Fade in/out events - to making the character wander from a cave place to another
     vt_map.ScriptedEvent.Create("to 1-1", "to_1_1", "a_to_b_update");

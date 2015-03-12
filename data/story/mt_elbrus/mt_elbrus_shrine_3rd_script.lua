@@ -11,7 +11,7 @@ map_subname = ""
 
 -- The music file used as default background music on this map.
 -- Other musics will have to handled through scripting.
-music_filename = "music/mountain_shrine.ogg"
+music_filename = "data/music/mountain_shrine.ogg"
 
 -- c++ objects instances
 local Map = nil
@@ -42,18 +42,18 @@ function Load(m)
     Map:GetEffectSupervisor():EnableAmbientOverlay("data/visuals/ambient/dark.png", 0.0, 0.0, false);
 
     -- Preloads the action sounds to avoid glitches
-    AudioManager:LoadSound("sounds/stone_roll.wav", Map);
-    AudioManager:LoadSound("sounds/stone_bump.ogg", Map);
-    AudioManager:LoadSound("sounds/opening_sword_unsheathe.wav", Map);
-    AudioManager:LoadSound("sounds/falling.ogg", Map);
-    AudioManager:LoadSound("sounds/cave-in.ogg", Map);
-    AudioManager:LoadSound("sounds/heavy_bump.wav", Map);
-    AudioManager:LoadSound("sounds/battle_encounter_03.ogg", Map);
-    AudioManager:LoadSound("sounds/fire1_spell.ogg", Map);
-    AudioManager:LoadSound("sounds/low_scream.ogg", Map);
-    AudioManager:LoadSound("sounds/low_scream_long.ogg", Map);
+    AudioManager:LoadSound("data/sounds/stone_roll.wav", Map);
+    AudioManager:LoadSound("data/sounds/stone_bump.ogg", Map);
+    AudioManager:LoadSound("data/sounds/opening_sword_unsheathe.wav", Map);
+    AudioManager:LoadSound("data/sounds/falling.ogg", Map);
+    AudioManager:LoadSound("data/sounds/cave-in.ogg", Map);
+    AudioManager:LoadSound("data/sounds/heavy_bump.wav", Map);
+    AudioManager:LoadSound("data/sounds/battle_encounter_03.ogg", Map);
+    AudioManager:LoadSound("data/sounds/fire1_spell.ogg", Map);
+    AudioManager:LoadSound("data/sounds/low_scream.ogg", Map);
+    AudioManager:LoadSound("data/sounds/low_scream_long.ogg", Map);
 
-    AudioManager:LoadMusic("music/dont_close_your_eyes.ogg", Map);
+    AudioManager:LoadMusic("data/music/dont_close_your_eyes.ogg", Map);
 end
 
 -- the map update function handles checks done on each game tick.
@@ -119,11 +119,11 @@ function _CreateObjects()
     object:SetPosition(32, 11);
 
     -- Add the corresponding waterfall ambient sound, ready to be started.
-    waterfall_sound = vt_map.SoundObject.Create("sounds/fountain_large.ogg", 32, 11, 100.0);
+    waterfall_sound = vt_map.SoundObject.Create("data/sounds/fountain_large.ogg", 32, 11, 100.0);
     waterfall_sound:SetMaxVolume(0.6);
 
     -- Add the rumble sound used at boss end
-    rumble_sound = vt_map.SoundObject.Create("sounds/rumble_continuous.ogg", 19.0, 48.0, 20.0);
+    rumble_sound = vt_map.SoundObject.Create("data/sounds/rumble_continuous.ogg", 19.0, 48.0, 20.0);
     rumble_sound:Stop();
 
     -- Deactivate the sound when the trigger is not already pushed
@@ -345,7 +345,7 @@ function _CreateObjects()
 end
 
 function _add_flame(x, y)
-    vt_map.SoundObject.Create("sounds/campfire.ogg", x, y, 10.0);
+    vt_map.SoundObject.Create("data/sounds/campfire.ogg", x, y, 10.0);
 
     CreateObject(Map, "Flame1", x, y, vt_map.MapMode.GROUND_OBJECT);
 
@@ -361,11 +361,11 @@ function _CreateEvents()
     local dialogue = nil
     local text = nil
 
-    vt_map.MapTransitionEvent.Create("to mountain shrine stairs", "dat/maps/mt_elbrus/mt_elbrus_shrine_stairs_map.lua",
-                                     "dat/maps/mt_elbrus/mt_elbrus_shrine_stairs_script.lua", "from_shrine_third_floor");
+    vt_map.MapTransitionEvent.Create("to mountain shrine stairs", "data/story/mt_elbrus/mt_elbrus_shrine_stairs_map.lua",
+                                     "data/story/mt_elbrus/mt_elbrus_shrine_stairs_script.lua", "from_shrine_third_floor");
 
-    vt_map.MapTransitionEvent.Create("Restart map", "dat/maps/mt_elbrus/mt_elbrus_shrine_3rd_map.lua",
-                                     "dat/maps/mt_elbrus/mt_elbrus_shrine_3rd_script.lua", "from_shrine_stairs");
+    vt_map.MapTransitionEvent.Create("Restart map", "data/story/mt_elbrus/mt_elbrus_shrine_3rd_map.lua",
+                                     "data/story/mt_elbrus/mt_elbrus_shrine_3rd_script.lua", "from_shrine_stairs");
 
     vt_map.ChangeDirectionSpriteEvent.Create("Orlinn looks south", orlinn, vt_map.MapMode.SOUTH);
 
@@ -499,7 +499,7 @@ local orlinn_is_hurt = false
 local fireballs_array = {};
 
 function _RestartMap()
-    AudioManager:PlaySound("sounds/battle_encounter_03.ogg");
+    AudioManager:PlaySound("data/sounds/battle_encounter_03.ogg");
     Map:PushState(vt_map.MapMode.STATE_SCENE);
     orlinn:SetMoving(false);
     orlinn:SetCustomAnimation("frightened_fixed", 0);
@@ -656,7 +656,7 @@ function _UpdateStoneMovement(stone_object, stone_direction)
 
     -- Check the collision
     if (stone_object:IsColliding(new_pos_x, new_pos_y) == true) then
-        AudioManager:PlaySound("sounds/stone_bump.ogg");
+        AudioManager:PlaySound("data/sounds/stone_bump.ogg");
         return true;
     end
 
@@ -700,7 +700,7 @@ end
 function _SpawnFireBall(x, y)
     local fireball = vt_map.ParticleObject.Create("data/visuals/particle_effects/fire.lua", x, y, vt_map.MapMode.GROUND_OBJECT);
     fireball:SetCollisionMask(vt_map.MapMode.ALL_COLLISION)
-    AudioManager:PlaySound("sounds/fire1_spell.ogg");
+    AudioManager:PlaySound("data/sounds/fire1_spell.ogg");
 
     local new_table = {};
     new_table["object"] = fireball;
@@ -795,7 +795,7 @@ local stones_reset_timer = 0;
 
 function _HurtBoss()
     andromalius:SetCustomAnimation("open_mouth_left", -1);
-    AudioManager:PlaySound("sounds/low_scream.ogg");
+    AudioManager:PlaySound("data/sounds/low_scream.ogg");
     boss_damage = boss_damage + 1;
     fireball_speed = fireball_speed + 0.0005;
     EventManager:StartEvent("Boss hurt effect");
@@ -867,14 +867,14 @@ map_functions = {
         spike4_index2 = _UpdateSpike(spikes4, spike4_index2, 41);
         spike4_index3 = _UpdateSpike(spikes4, spike4_index3, 41);
 
-        AudioManager:PlaySound("sounds/opening_sword_unsheathe.wav");
+        AudioManager:PlaySound("data/sounds/opening_sword_unsheathe.wav");
         return false;
     end,
 
     bottom_fence_start = function()
         lower_fence1:SetXPosition(29);
         lower_fence2:SetXPosition(35);
-        AudioManager:PlaySound("sounds/stone_roll.wav");
+        AudioManager:PlaySound("data/sounds/stone_roll.wav");
     end,
 
     bottom_fence_update = function()
@@ -910,7 +910,7 @@ map_functions = {
 
     battle_start = function()
         -- Play the special boss music
-        AudioManager:PlayMusic("music/dont_close_your_eyes.ogg");
+        AudioManager:PlayMusic("data/music/dont_close_your_eyes.ogg");
 
         fireball_timer = 0;
         fireball_speed = 0.003;
@@ -1037,7 +1037,7 @@ map_functions = {
 
     start_to_move_the_stone1 = function()
         stone_direction1 = _GetStoneDirection(stone1);
-        AudioManager:PlaySound("sounds/stone_roll.wav");
+        AudioManager:PlaySound("data/sounds/stone_roll.wav");
     end,
 
     move_the_stone_update1 = function()
@@ -1050,7 +1050,7 @@ map_functions = {
 
     start_to_move_the_stone2 = function()
         stone_direction2 = _GetStoneDirection(stone2);
-        AudioManager:PlaySound("sounds/stone_roll.wav");
+        AudioManager:PlaySound("data/sounds/stone_roll.wav");
     end,
 
     move_the_stone_update2 = function()
@@ -1063,7 +1063,7 @@ map_functions = {
 
     start_to_move_the_stone3 = function()
         stone_direction3 = _GetStoneDirection(stone3);
-        AudioManager:PlaySound("sounds/stone_roll.wav");
+        AudioManager:PlaySound("data/sounds/stone_roll.wav");
     end,
 
     move_the_stone_update3 = function()
@@ -1110,7 +1110,7 @@ map_functions = {
         andromalius:SetYPosition(andromalius:GetYPosition() + 0.017 * update_time);
 
         if (andromalius:GetYPosition() > 29.0) then
-            AudioManager:PlaySound("sounds/heavy_bump.wav");
+            AudioManager:PlaySound("data/sounds/heavy_bump.wav");
             Map:GetEffectSupervisor():ShakeScreen(6.0, 4000, vt_mode_manager.EffectSupervisor.SHAKE_FALLOFF_SUDDEN);
 
             -- Make Orlinn walk slowly because of the hit for a few sec.
@@ -1122,7 +1122,7 @@ map_functions = {
     end,
 
     visible_stones_fly_start = function()
-        AudioManager:PlaySound("sounds/cave-in.ogg");
+        AudioManager:PlaySound("data/sounds/cave-in.ogg");
         stone1:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
         stone2:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
         stone3:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
@@ -1197,7 +1197,7 @@ map_functions = {
         stone3:SetVisible(true);
         stone3:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
         -- Play the falling sound
-        AudioManager:PlaySound("sounds/falling.ogg");
+        AudioManager:PlaySound("data/sounds/falling.ogg");
     end,
 
     new_stones_fall_update = function()
@@ -1209,7 +1209,7 @@ map_functions = {
         end
         if (stone1:GetYPosition() >= 35.8) then
             stone1:SetCollisionMask(vt_map.MapMode.ALL_COLLISION);
-            AudioManager:PlaySound("sounds/stone_bump.ogg");
+            AudioManager:PlaySound("data/sounds/stone_bump.ogg");
             stone1_hit_ground = true;
         end
 
@@ -1218,7 +1218,7 @@ map_functions = {
         end
         if (stone2:GetYPosition() >= 24.2) then
             stone2:SetCollisionMask(vt_map.MapMode.ALL_COLLISION);
-            AudioManager:PlaySound("sounds/stone_bump.ogg");
+            AudioManager:PlaySound("data/sounds/stone_bump.ogg");
             stone2_hit_ground = true;
         end
 
@@ -1227,7 +1227,7 @@ map_functions = {
         end
         if (stone3:GetYPosition() >= 26.2) then
             stone3:SetCollisionMask(vt_map.MapMode.ALL_COLLISION);
-            AudioManager:PlaySound("sounds/stone_bump.ogg");
+            AudioManager:PlaySound("data/sounds/stone_bump.ogg");
             stone3_hit_ground = true;
         end
 
@@ -1262,7 +1262,7 @@ map_functions = {
         Map:GetEffectSupervisor():StopShaking()
         rumble_sound:Stop();
         Map:GetEffectSupervisor():ShakeScreen(6.0, 10000, vt_mode_manager.EffectSupervisor.SHAKE_FALLOFF_LINEAR);
-        AudioManager:PlaySound("sounds/cave-in.ogg");
+        AudioManager:PlaySound("data/sounds/cave-in.ogg");
         andromalius:SetCustomAnimation("open_mouth_right", 0);
         boss_head_to_right = true;
         boss_dying_sound = false;
@@ -1282,7 +1282,7 @@ map_functions = {
                 boss_head_to_right = false;
             end
             if (boss_dying_sound == false) then
-                AudioManager:PlaySound("sounds/low_scream_long.ogg");
+                AudioManager:PlaySound("data/sounds/low_scream_long.ogg");
                 boss_dying_sound = true;
             end
         end
@@ -1326,7 +1326,7 @@ map_functions = {
         lower_fence2:SetXPosition(33);
         upper_fence1:SetXPosition(31);
         upper_fence2:SetXPosition(33);
-        AudioManager:PlaySound("sounds/stone_roll.wav");
+        AudioManager:PlaySound("data/sounds/stone_roll.wav");
     end,
 
     open_fences_update = function()
@@ -1346,11 +1346,11 @@ map_functions = {
     waterfall_sound_start = function()
         Map:PushState(vt_map.MapMode.STATE_SCENE);
         orlinn:SetMoving(false);
-        AudioManager:PlaySound("sounds/heavy_bump.wav");
+        AudioManager:PlaySound("data/sounds/heavy_bump.wav");
     end,
 
     waterfall_shake_start = function()
-        AudioManager:PlaySound("sounds/cave-in.ogg");
+        AudioManager:PlaySound("data/sounds/cave-in.ogg");
         waterfall_sound:Start();
         Map:GetEffectSupervisor():ShakeScreen(6.0, 4000, vt_mode_manager.EffectSupervisor.SHAKE_FALLOFF_LINEAR);
     end,

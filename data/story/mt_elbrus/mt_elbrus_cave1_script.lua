@@ -11,7 +11,7 @@ map_subname = "Elbrus Grotto"
 
 -- The music file used as default background music on this map.
 -- Other musics will have to handled through scripting.
-music_filename = "music/awareness_el_corleo.ogg"
+music_filename = "data/music/awareness_el_corleo.ogg"
 
 -- c++ objects instances
 local Map = nil
@@ -44,7 +44,7 @@ function Load(m)
 
     if (GlobalManager:GetEventValue("story", "mt_elbrus_weather_level") > 0) then
         -- Place an omni ambient sound at the center of the map to add a nice indoor rainy effect.
-        local rainy_sound = vt_map.SoundObject("music/rain_indoors.ogg", 25.0, 20.0, 100.0);
+        local rainy_sound = vt_map.SoundObject("data/music/rain_indoors.ogg", 25.0, 20.0, 100.0);
         Map:AddAmbientSoundObject(rainy_sound);
     end
 end
@@ -76,16 +76,16 @@ end
 
 -- Sets common battle environment settings for enemy sprites
 function _SetBattleEnvironment(enemy)
-    enemy:SetBattleMusicTheme("music/heroism-OGA-Edward-J-Blakeley.ogg");
+    enemy:SetBattleMusicTheme("data/music/heroism-OGA-Edward-J-Blakeley.ogg");
     enemy:SetBattleBackground("data/battles/battle_scenes/desert_cave/desert_cave.png");
     -- Add the background and foreground animations
-    enemy:AddBattleScript("dat/battles/desert_cave_battle_anim.lua");
+    enemy:AddBattleScript("data/battles/battle_scenes/desert_cave_battle_anim.lua");
 end
 function _SetEventBattleEnvironment(event)
-    event:SetMusic("music/heroism-OGA-Edward-J-Blakeley.ogg");
+    event:SetMusic("data/music/heroism-OGA-Edward-J-Blakeley.ogg");
     event:SetBackground("data/battles/battle_scenes/desert_cave/desert_cave.png");
     -- Add the background and foreground animations
-    event:AddScript("dat/battles/desert_cave_battle_anim.lua");
+    event:AddScript("data/battles/battle_scenes/desert_cave_battle_anim.lua");
 end
 
 local shroom1 = nil
@@ -239,17 +239,17 @@ end
 -- Creates all events and sets up the entire event sequence chain
 function _CreateEvents()
     -- To the first cave
-    vt_map.MapTransitionEvent.Create("to exit 1", "dat/maps/mt_elbrus/mt_elbrus_path1_map.lua",
-                                     "dat/maps/mt_elbrus/mt_elbrus_path1_script.lua", "from_grotto_exit1");
+    vt_map.MapTransitionEvent.Create("to exit 1", "data/story/mt_elbrus/mt_elbrus_path1_map.lua",
+                                     "data/story/mt_elbrus/mt_elbrus_path1_script.lua", "from_grotto_exit1");
 
-    vt_map.MapTransitionEvent.Create("to exit 2", "dat/maps/mt_elbrus/mt_elbrus_path1_map.lua",
-                                     "dat/maps/mt_elbrus/mt_elbrus_path1_script.lua", "from_grotto_exit2");
+    vt_map.MapTransitionEvent.Create("to exit 2", "data/story/mt_elbrus/mt_elbrus_path1_map.lua",
+                                     "data/story/mt_elbrus/mt_elbrus_path1_script.lua", "from_grotto_exit2");
 
-    vt_map.MapTransitionEvent.Create("to exit 3", "dat/maps/mt_elbrus/mt_elbrus_path1_map.lua",
-                                     "dat/maps/mt_elbrus/mt_elbrus_path1_script.lua", "from_grotto_exit3");
+    vt_map.MapTransitionEvent.Create("to exit 3", "data/story/mt_elbrus/mt_elbrus_path1_map.lua",
+                                     "data/story/mt_elbrus/mt_elbrus_path1_script.lua", "from_grotto_exit3");
 
-    vt_map.MapTransitionEvent.Create("to exit 4", "dat/maps/mt_elbrus/mt_elbrus_path1_map.lua",
-                                     "dat/maps/mt_elbrus/mt_elbrus_path1_script.lua", "from_grotto_exit4");
+    vt_map.MapTransitionEvent.Create("to exit 4", "data/story/mt_elbrus/mt_elbrus_path1_map.lua",
+                                     "data/story/mt_elbrus/mt_elbrus_path1_script.lua", "from_grotto_exit4");
 end
 
 -- zones
@@ -354,7 +354,7 @@ map_functions = {
             hero:DisableCustomAnimation();
             -- Make him/her look south after the jump.
             hero:SetDirection(vt_map.MapMode.SOUTH);
-            AudioManager:PlaySound("sounds/footstep_grass2.wav");
+            AudioManager:PlaySound("data/sounds/footstep_grass2.wav");
             return true;
         end
         local update_time = SystemManager:GetUpdateTime();
@@ -370,7 +370,7 @@ map_functions = {
             hero:DisableCustomAnimation();
             -- Make him/her look south after the jump.
             hero:SetDirection(vt_map.MapMode.SOUTH);
-            AudioManager:PlaySound("sounds/footstep_grass2.wav");
+            AudioManager:PlaySound("data/sounds/footstep_grass2.wav");
             return true;
         end
         local update_time = SystemManager:GetUpdateTime();

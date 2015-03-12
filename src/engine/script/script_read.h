@@ -330,7 +330,7 @@ public:
     /** Opens the lua file own tablespace. It's useful to permit having several lua files
     *** with their own function without worrying too much about the global naming collisions.
     *** \note the tablespace must be named like the lua filename, but without the extension:
-    *** e.g.: dat/script/my_script.lua should have a 'my_script' tablespace defined
+    *** e.g.: data/scripts/my_script.lua should have a 'my_script' tablespace defined
     *** at the beginning of the file using the following way:
     ***
     *** local ns = {}

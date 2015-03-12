@@ -11,7 +11,7 @@ map_subname = ""
 
 -- The music file used as default background music on this map.
 -- Other musics will have to handled through scripting.
-music_filename = "music/koertes-ccby-birdsongloop16s.ogg"
+music_filename = "data/music/koertes-ccby-birdsongloop16s.ogg"
 
 -- c++ objects instances
 local Map = nil
@@ -60,7 +60,7 @@ function Load(m)
     end
 
     -- Permits the display of basic game commands
-    Map:GetScriptSupervisor():AddScript("dat/help/in_game_move_and_interact_anim.lua");
+    Map:GetScriptSupervisor():AddScript("data/story/layna_village/in_game_move_and_interact_anim.lua");
 
     vt_map.SavePoint.Create(34, 35);
 end
@@ -181,8 +181,8 @@ function _CreateEvents()
     vt_map.ScriptedEvent.Create("opening3", "OpeningDialogueDone", "");
 
     -- Triggered events
-    vt_map.MapTransitionEvent.Create("exit floor", "dat/maps/layna_village/layna_village_bronanns_home_map.lua",
-                                     "dat/maps/layna_village/layna_village_bronanns_home_script.lua", "From Bronann's first floor");
+    vt_map.MapTransitionEvent.Create("exit floor", "data/story/layna_village/layna_village_bronanns_home_map.lua",
+                                     "data/story/layna_village/layna_village_bronanns_home_script.lua", "From Bronann's first floor");
 
     -- Adds a small dialogue describing the save point use.
     dialogue = vt_map.SpriteDialogue.Create();
@@ -257,7 +257,7 @@ map_functions = {
                 bed:SetVisible(true);
                 bronann_in_bed:SetVisible(false);
                 -- play a sound of clothes, meaning Bronann get dressed
-                AudioManager:PlaySound("sounds/cloth_sound.wav");
+                AudioManager:PlaySound("data/sounds/cloth_sound.wav");
                 fade_set = true;
             end
             return false;

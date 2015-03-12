@@ -11,7 +11,7 @@ map_subname = "Underpass"
 
 -- The music file used as default background music on this map.
 -- Other musics will have to handled through scripting.
-music_filename = "music/icy_wind.ogg"
+music_filename = "data/music/icy_wind.ogg"
 
 -- c++ objects instances
 local Map = nil
@@ -60,7 +60,7 @@ function Load(m)
     end
 
     -- Event Scripts
-    Script:AddScript("dat/maps/mt_elbrus/shrine_entrance_show_crystal_script.lua");
+    Script:AddScript("data/story/mt_elbrus/shrine_entrance_show_crystal_script.lua");
 
     -- Start the dialogue about the shrine entrance if not done
     if (GlobalManager:GetEventValue("story", "mt_elbrus_shrine_entrance_event") ~= 1) then
@@ -82,13 +82,13 @@ function Load(m)
     end
 
     -- Preload sounds
-    AudioManager:LoadSound("sounds/heartbeat_slow.wav", Map);
-    AudioManager:LoadSound("sounds/ancient_invocation.wav", Map);
-    AudioManager:LoadSound("sounds/cave-in.ogg", Map);
+    AudioManager:LoadSound("data/sounds/heartbeat_slow.wav", Map);
+    AudioManager:LoadSound("data/sounds/ancient_invocation.wav", Map);
+    AudioManager:LoadSound("data/sounds/cave-in.ogg", Map);
 
     -- Loads the funny music if needed.
     if (GlobalManager:GetEventValue("story", "mt_elbrus_shrine_sophia_dialogue_event") == 0) then
-        AudioManager:LoadMusic("music/Zander Noriega - School of Quirks.ogg", Map);
+        AudioManager:LoadMusic("data/music/Zander Noriega - School of Quirks.ogg", Map);
     end
 end
 
@@ -184,7 +184,7 @@ function _CreateCharacters()
     nekko:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
     nekko:SetVisible(false);
 
-    vt_map.SoundEvent.Create("Nekko says Meoww!", "sounds/meow.wav");
+    vt_map.SoundEvent.Create("Nekko says Meoww!", "data/sounds/meow.wav");
     nekko:SetEventWhenTalking("Nekko says Meoww!");
 
     -- When returning from a first trip in the dungeon, the characters fall on Sophia.
@@ -227,7 +227,7 @@ function _CreateObjects()
     vt_map.DialogueEvent.Create("Heal dialogue", dialogue);
 
     -- Snow effect at shrine entrance
-    vt_map.ParticleObject.Create("dat/maps/mt_elbrus/particles_snow_south_entrance.lua", 29, 48, vt_map.MapMode.GROUND_OBJECT);
+    vt_map.ParticleObject.Create("data/story/mt_elbrus/particles_snow_south_entrance.lua", 29, 48, vt_map.MapMode.GROUND_OBJECT);
     vt_map.Halo.Create("data/visuals/lights/torch_light_mask.lua", 29, 55,
         vt_video.Color(1.0, 1.0, 1.0, 0.8));
 
@@ -256,7 +256,7 @@ function _CreateObjects()
         object:SetCollPixelHeight(32);
         object:SetImgPixelHalfWidth(16);
         object:SetImgPixelHeight(32);
-        object:AddStillFrame("dat/maps/mt_elbrus/shrine_entrance_light.png");
+        object:AddStillFrame("data/story/mt_elbrus/shrine_entrance_light.png");
     end
 end
 
@@ -278,14 +278,14 @@ function _CreateEvents()
     local dialogue = nil
     local text = nil
 
-    vt_map.MapTransitionEvent.Create("to mountain shrine", "dat/maps/mt_elbrus/mt_elbrus_shrine2_map.lua",
-                                     "dat/maps/mt_elbrus/mt_elbrus_shrine2_script.lua", "from_shrine_entrance");
+    vt_map.MapTransitionEvent.Create("to mountain shrine", "data/story/mt_elbrus/mt_elbrus_shrine2_map.lua",
+                                     "data/story/mt_elbrus/mt_elbrus_shrine2_script.lua", "from_shrine_entrance");
 
-    vt_map.MapTransitionEvent.Create("to mountain shrine-waterfalls", "dat/maps/mt_elbrus/mt_elbrus_shrine2_2_map.lua",
-                                     "dat/maps/mt_elbrus/mt_elbrus_shrine2_script.lua", "from_shrine_entrance");
+    vt_map.MapTransitionEvent.Create("to mountain shrine-waterfalls", "data/story/mt_elbrus/mt_elbrus_shrine2_2_map.lua",
+                                     "data/story/mt_elbrus/mt_elbrus_shrine2_script.lua", "from_shrine_entrance");
 
-    vt_map.MapTransitionEvent.Create("to mountain bridge", "dat/maps/mt_elbrus/mt_elbrus_path4_map.lua",
-                                     "dat/maps/mt_elbrus/mt_elbrus_path4_script.lua", "from_shrine_entrance");
+    vt_map.MapTransitionEvent.Create("to mountain bridge", "data/story/mt_elbrus/mt_elbrus_path4_map.lua",
+                                     "data/story/mt_elbrus/mt_elbrus_path4_script.lua", "from_shrine_entrance");
 
     -- Heal point
     vt_map.ScriptedEvent.Create("Heal event", "heal_party", "heal_done");
@@ -665,8 +665,8 @@ function _set_shrine_door_open()
 end
 
 function _show_flames()
-    vt_map.SoundObject.Create("sounds/campfire.ogg", 33.0, 9.1, 10.0);
-    vt_map.SoundObject.Create("sounds/campfire.ogg", 51.0, 9.1, 10.0);
+    vt_map.SoundObject.Create("data/sounds/campfire.ogg", 33.0, 9.1, 10.0);
+    vt_map.SoundObject.Create("data/sounds/campfire.ogg", 51.0, 9.1, 10.0);
 
     vt_map.Halo.Create("data/visuals/lights/torch_light_mask2.lua", 33.0, 9.1 + 3.0,
         vt_video.Color(0.85, 0.32, 0.0, 0.6));
@@ -702,7 +702,7 @@ map_functions = {
         GlobalManager:GetActiveParty():AddHitPoints(10000);
         GlobalManager:GetActiveParty():AddSkillPoints(10000);
         Map:SetStamina(10000);
-        AudioManager:PlaySound("sounds/heal_spell.wav");
+        AudioManager:PlaySound("data/sounds/heal_spell.wav");
         heal_effect:SetPosition(hero:GetXPosition(), hero:GetYPosition());
         heal_effect:Start();
         heal_effect_time = 0;
@@ -806,7 +806,7 @@ map_functions = {
 
     hurt_effect_start = function()
         hurt_effect_time = 0;
-        AudioManager:PlaySound("sounds/heartbeat_slow.wav");
+        AudioManager:PlaySound("data/sounds/heartbeat_slow.wav");
     end,
 
     hurt_effect_update = function()
@@ -840,12 +840,12 @@ map_functions = {
             if (crystal_appearance_time >= 8000) then
                 shrine_entrance_sign:SetVisible(true);
                 ancient_sign_visible = true;
-                AudioManager:PlaySound("sounds/ancient_invocation.wav");
+                AudioManager:PlaySound("data/sounds/ancient_invocation.wav");
             end
         end
         if (GlobalManager:GetEventValue("scripts_events", "shrine_entrance_show_crystal") == 0) then
             Map:GetEffectSupervisor():ShakeScreen(0.4, 2200, vt_mode_manager.EffectSupervisor.SHAKE_FALLOFF_GRADUAL);
-            AudioManager:PlaySound("sounds/cave-in.ogg");
+            AudioManager:PlaySound("data/sounds/cave-in.ogg");
             _open_shrine_door();
             -- Show a slight fire spiral effect.
             Map:GetParticleManager():AddParticleEffect("data/visuals/particle_effects/fire_spiral.lua", 512.0, 284.0);
@@ -911,7 +911,7 @@ map_functions = {
     end,
 
     play_funny_music = function()
-        AudioManager:PlayMusic("music/Zander Noriega - School of Quirks.ogg");
+        AudioManager:PlayMusic("data/music/Zander Noriega - School of Quirks.ogg");
     end,
 
     sophia_event_end = function()
@@ -937,6 +937,6 @@ map_functions = {
         _UpdateSophiaDialogue();
 
         -- Fade in the default music
-        AudioManager:PlayMusic("music/icy_wind.ogg");
+        AudioManager:PlayMusic("data/music/icy_wind.ogg");
     end,
 }

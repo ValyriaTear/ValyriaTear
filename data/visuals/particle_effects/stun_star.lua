@@ -76,7 +76,7 @@ systems[0] =
 
     animation_frames =
     {
-        'data/particle_effects/star.png'
+        'data/visuals/particle_effects/star.png'
     },
     animation_frame_times =
     {

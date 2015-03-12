@@ -11,7 +11,7 @@ map_subname = ""
 
 -- The music file used as default background music on this map.
 -- Other musics will have to handled through scripting.
-music_filename = "music/mountain_shrine.ogg"
+music_filename = "data/music/mountain_shrine.ogg"
 
 -- c++ objects instances
 local Map = nil
@@ -47,11 +47,11 @@ function Load(m)
     -- Add a mediumly dark overlay
     Effects:EnableAmbientOverlay("data/visuals/ambient/dark.png", 0.0, 0.0, false);
     -- Add the background and foreground animations
-    Map:GetScriptSupervisor():AddScript("dat/maps/layna_forest/layna_forest_caves_background_anim.lua");
+    Map:GetScriptSupervisor():AddScript("data/story/layna_forest/layna_forest_caves_background_anim.lua");
 
     -- Preload sounds to avoid glitches
-    AudioManager:LoadSound("sounds/heavy_bump.wav", Map);
-    AudioManager:LoadSound("sounds/falling.ogg", Map);
+    AudioManager:LoadSound("data/sounds/heavy_bump.wav", Map);
+    AudioManager:LoadSound("data/sounds/falling.ogg", Map);
 end
 
 -- the map update function handles checks done on each game tick.
@@ -145,7 +145,7 @@ function _CreateObjects()
     falling_hole:SetCollPixelHeight(8.0 * 16);
     falling_hole:SetImgPixelHalfWidth(4.0 * 16);
     falling_hole:SetImgPixelHeight(8.0 * 16);
-    falling_hole:AddStillFrame("dat/maps/mt_elbrus/falling_hole.png");
+    falling_hole:AddStillFrame("data/story/mt_elbrus/falling_hole.png");
     falling_hole:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
     falling_hole:SetVisible(false);
 
@@ -155,7 +155,7 @@ function _CreateObjects()
     falling_hole_wall:SetCollPixelHeight(7.375 * 16);
     falling_hole_wall:SetImgPixelHalfWidth(4.0 * 16);
     falling_hole_wall:SetImgPixelHeight(7.375 * 16);
-    falling_hole_wall:AddStillFrame("dat/maps/mt_elbrus/falling_hole_above.png");
+    falling_hole_wall:AddStillFrame("data/story/mt_elbrus/falling_hole_above.png");
     falling_hole_wall:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
     falling_hole_wall:SetVisible(false);
 end
@@ -169,11 +169,11 @@ function _CreateEvents()
     local dialogue = nil
     local text = nil
 
-    vt_map.MapTransitionEvent.Create("to mountain shrine entrance", "dat/maps/mt_elbrus/mt_elbrus_shrine2_2_map.lua",
-                                     "dat/maps/mt_elbrus/mt_elbrus_shrine2_script.lua", "from_shrine_stairs1");
+    vt_map.MapTransitionEvent.Create("to mountain shrine entrance", "data/story/mt_elbrus/mt_elbrus_shrine2_2_map.lua",
+                                     "data/story/mt_elbrus/mt_elbrus_shrine2_script.lua", "from_shrine_stairs1");
 
-    vt_map.MapTransitionEvent.Create("to mountain shrine trap room", "dat/maps/mt_elbrus/mt_elbrus_shrine3_map.lua",
-                                     "dat/maps/mt_elbrus/mt_elbrus_shrine3_script.lua", "from_shrine_treasure_room");
+    vt_map.MapTransitionEvent.Create("to mountain shrine trap room", "data/story/mt_elbrus/mt_elbrus_shrine3_map.lua",
+                                     "data/story/mt_elbrus/mt_elbrus_shrine3_script.lua", "from_shrine_treasure_room");
 
     vt_map.ChangeDirectionSpriteEvent.Create("Bronann looks south", bronann, vt_map.MapMode.SOUTH);
     vt_map.LookAtSpriteEvent.Create("Kalya looks at Orlinn", kalya, orlinn);
@@ -206,8 +206,8 @@ function _CreateEvents()
 
     vt_map.ScriptedEvent.Create("The heroes fall", "heroes_fall_start", "heroes_fall_update");
 
-    vt_map.MapTransitionEvent.Create("to mountain shrine basement", "dat/maps/mt_elbrus/mt_elbrus_shrine_basement_map.lua",
-                                     "dat/maps/mt_elbrus/mt_elbrus_shrine_basement_script.lua", "from_shrine_stairs1");
+    vt_map.MapTransitionEvent.Create("to mountain shrine basement", "data/story/mt_elbrus/mt_elbrus_shrine_basement_map.lua",
+                                     "data/story/mt_elbrus/mt_elbrus_shrine_basement_script.lua", "from_shrine_stairs1");
 end
 
 -- zones
@@ -252,7 +252,7 @@ map_functions = {
         GlobalManager:GetActiveParty():AddHitPoints(20000);
         GlobalManager:GetActiveParty():AddSkillPoints(20000);
         Map:SetStamina(10000);
-        AudioManager:PlaySound("sounds/heal_spell.wav");
+        AudioManager:PlaySound("data/sounds/heal_spell.wav");
         heal_effect:SetPosition(hero:GetXPosition(), hero:GetYPosition());
         heal_effect:Start();
         heal_effect_time = 0;
@@ -294,7 +294,7 @@ map_functions = {
         -- hole opening, and fall hiding graphics
         falling_hole:SetVisible(true)
         falling_hole_wall:SetVisible(true)
-        AudioManager:PlaySound("sounds/heavy_bump.wav");
+        AudioManager:PlaySound("data/sounds/heavy_bump.wav");
         Map:GetEffectSupervisor():ShakeScreen(3.0, 1000, vt_mode_manager.EffectSupervisor.SHAKE_FALLOFF_SUDDEN);
         AudioManager:FadeOutActiveMusic(400);
     end,
@@ -312,7 +312,7 @@ map_functions = {
     end,
 
     heroes_fall_start = function()
-        AudioManager:PlaySound("sounds/falling.ogg");
+        AudioManager:PlaySound("data/sounds/falling.ogg");
         bronann:SetCustomAnimation("frightened_fixed", 0) -- 0 means forever
         kalya:SetCustomAnimation("frightened_fixed", 0) -- 0 means forever
         orlinn:SetCustomAnimation("frightened_fixed", 0) -- 0 means forever
