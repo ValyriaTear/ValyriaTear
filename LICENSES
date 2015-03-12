@@ -1,7 +1,7 @@
 Licenses
 ========
 
-Last update: 2014.07.07
+Last update: 2015.03.12
 
 This file is listing all the files licenses from the point of the fork
 from the Allacrost project.
@@ -23,224 +23,173 @@ later version" text should be present.
 
 Files                                                            Licenses                 Authors and details
 --------------------------------------------------------------- ------------------------ --------------------------------------------------------------------
-dat/global.lua                                                  GPLv2+                   Bertram (Completely redone it.)
+data/*.lua (including subfolders)                           GPLv2+                   Bertram (unless indicated otherwise)
 
-dat/actors/characters.lua                                       GPLv2+                   Allacrost + Bertram
-dat/actors/enemies.lua                                          GPLv2+                   Allacrost + Bertram (Merged from former files: enemies_set_01.lua + enemies_set_02.lua)
-dat/actors/map_objects.lua                                      GPLv2+                   Bertram
-dat/actors/map_sprites.lua                                      GPLv2+                   Allacrost + Bertram (Was map_sprites_stock.lua)
+data/entitiescharacters.lua                                       GPLv2+                   Allacrost + Bertram
+data/entitiesenemies.lua                                          GPLv2+                   Allacrost + Bertram (Merged from former files: enemies_set_01.lua + enemies_set_02.lua)
+data/entitiesmap_objects.lua                                      GPLv2+                   Bertram
+data/entitiesmap_sprites.lua                                      GPLv2+                   Allacrost + Bertram (Was map_sprites_stock.lua)
 
-dat/battles/desert_cave_battle_anim.lua                         GPLv2+                   Bertram
-dat/battles/mountain_shrine_battle_anim.lua                     GPLv2+                   Bertram
-dat/battles/tutorial_battle_dialogs.lua                         GPLv2+                   Allacrost + Bertram
+data/battles/enemies_animations/fenrir_death/death_light_1.png                CC by SA 3.0             Bertram
+data/battles/enemies_animations/fenrir_death/death_light_2.png                CC by SA 3.0             Bertram
+data/battles/enemies_animations/fenrir_death/death_light_3.png                CC by SA 3.0             Bertram
 
-dat/battles/characters_animations/bronann_attack.lua            GPLv2+                   Bertram
-dat/battles/characters_animations/bronann_attack_forward_thrust.lua  GPLv2+              Bertram
-dat/battles/characters_animations/bronann_punch.lua             GPLv2+                   Bertram
-dat/battles/characters_animations/kalya_attack.lua              GPLv2+                   Bertram
-dat/battles/characters_animations/kalya_throw_stone.lua         GPLv2+                   Bertram
-dat/battles/characters_animations/thanis_attack.lua             GPLv2+                   Bertram
+data/visuals/particle_effects/rain.lua                                  GPLv2+                   roos + Bertram modifications
+data/visuals/particle_effects/snow.lua                                  GPLv2+                   roos + Bertram modifications
+data/visuals/particle_effects/blue_firework.lua                         GPLv2+                   roos + Bertram modifications
+data/visuals/particle_effects/bubble_steam.lua                          GPLv2+                   roos + Bertram modifications
+data/visuals/particle_effects/crystal_appearance.lua                    GPLv2+                   roos + Bertram modifications
+data/visuals/particle_effects/dust.lua                                  GPLv2+                   roos + Bertram modifications
+data/visuals/particle_effects/explosion.lua                             GPLv2+                   roos + Bertram modifications
+data/visuals/particle_effects/boss_death_particle.lua                   GPLv2+                   roos + Bertram modifications
+data/visuals/particle_effects/fire.lua                                  GPLv2+                   roos + Bertram modifications
+data/visuals/particle_effects/fire_spell.lua                            GPLv2+                   roos + Bertram modifications
+data/visuals/particle_effects/fire_spiral.lua                           GPLv2+                   roos + Bertram modifications
+data/visuals/particle_effects/dust.png                                            GPLv3 / CC by SA 3.0     Bertram
+data/visuals/particle_effects/explosion.png                                       GPLv2+                   Roos
+data/visuals/particle_effects/fire.png                                            GPLv2+                   Roos
+data/visuals/particle_effects/flame1.png                                          GPLv2+                   Roos
+data/visuals/particle_effects/flame2.png                                          GPLv2+                   Roos
+data/visuals/particle_effects/flame3.png                                          GPLv2+                   Roos
+data/visuals/particle_effects/flame4.png                                          GPLv2+                   Roos
+data/visuals/particle_effects/flame5.png                                          GPLv2+                   Roos
+data/visuals/particle_effects/flame6.png                                          GPLv2+                   Roos
+data/visuals/particle_effects/flame7.png                                          GPLv2+                   Roos
+data/visuals/particle_effects/flame8.png                                          GPLv2+                   Roos
+data/visuals/particle_effects/outlined_circle_small.png                           GPLv2+                   Roos
+data/visuals/particle_effects/right_arrow.png                                     CC by 3.0                hc (OGA) - http://opengameart.org/content/lens-flares-and-particles
+data/visuals/particle_effects/ripples.lua                                         GPLv3                    Bertram
+data/visuals/particle_effects/ripples.png                                         CC0                      zookeeper (OGA) - http://opengameart.org/content/seamless-animated-raindrop-ripples-texture
+data/visuals/particle_effects/shield.png                                          GPLv2+                   Allacrost
+data/visuals/particle_effects/star.png                                            CC0                      (Ecrivain) (OGA) - http://opengameart.org/content/star
+data/visuals/particle_effects/wave.png                                            CC by SA 3.0             Bertram
+data/visuals/particle_effects/earth_circle.png                                    CC0                      (MrBeast) (OGA) - http://opengameart.org/content/73-patterns
+data/visuals/particle_effects/water_circle.png                                    CC0                      (MrBeast) (OGA) - http://opengameart.org/content/73-patterns
+data/visuals/particle_effects/wind_circle.png                                     CC0                      (MrBeast) (OGA) - http://opengameart.org/content/73-patterns
 
-dat/battles/enemies_animations/death_light_1.png                CC by SA 3.0             Bertram
-dat/battles/enemies_animations/death_light_2.png                CC by SA 3.0             Bertram
-dat/battles/enemies_animations/death_light_3.png                CC by SA 3.0             Bertram
-dat/battles/enemies_animations/fenrir_death.lua                 GPLv2+                   Bertram
-dat/battles/enemies_animations/fenrir_flee.lua                  GPLv2+                   Bertram
+data/story/layna_forest/minimaps/layna_forest_cave1_1_minimap.png    CC by SA 3.0          Bertram
+data/story/layna_forest/minimaps/layna_forest_cave1_2_minimap.png    CC by SA 3.0          Bertram
+data/story/layna_forest/minimaps/layna_forest_entrance_minimap.png   CC by SA 3.0          Bertram
+data/story/layna_forest/minimaps/layna_forest_north_east_minimap.png CC by SA 3.0          Bertram
+data/story/layna_forest/minimaps/layna_forest_north_west_minimap.png CC by SA 3.0          Bertram
+data/story/layna_forest/minimaps/layna_forest_south_east_minimap.png CC by SA 3.0          Bertram
+data/story/layna_forest/minimaps/layna_forest_south_west_minimap.png CC by SA 3.0          Bertram
+data/story/layna_forest/minimaps/layna_forest_wolf_cave_minimap.png  CC by SA 3.0          Bertram
 
-dat/battles/enemies_ai/harlequin_ai.lua                         GPLv2+                   Bertram
-dat/battles/enemies_ai/banesore_layna_village_ai.lua            GPLv2+                   Bertram
+data/story/layna_forest/wolfpain_necklace.png                     CC by SA 3.0             Bertram - adapted from Scrittl's work (OGA) - http://opengameart.org/content/armor-icons-32x32-px-painterly
+data/story/layna_forest/stone_sign.png                            CC by SA 3.0             Lilou (Valyria Tear)
 
-dat/config/boot.lua                                             GPLv2+                   Bertram (Completely redone it.)
-dat/config/debug_menu.lua                                       GPLv2+                   Bertram (Completely redone it.)
-dat/config/debug_shop.lua                                       GPLv2+                   Bertram (Completely redone it.)
-dat/config/debug_battle.lua                                     GPLv2+                   Bertram (Completely redone it.)
-dat/config/fonts.lua                                            GPLv2+                   Bertram
-dat/config/themes.lua                                           GPLv2+                   Bertram
-dat/config/restore_settings.lua                                 GPLv2+                   Bertram
-dat/config/settings.lua                                         GPLv2+                   Bertram
-dat/config/languages.lua                                        GPLv2+                   Bertram
+data/story/layna_forest/crystal_appearance/blue_lightning1.png    CC by SA 3.0             Bertram
+data/story/layna_forest/crystal_appearance/blue_lightning2.png    CC by SA 3.0             Bertram
+data/story/layna_forest/crystal_appearance/blue_lightning3.png    CC by SA 3.0             Bertram
+data/story/layna_forest/crystal_appearance/crystal_shadow.png     CC by SA 3.0             Len + Bertram modifications
+data/story/layna_forest/crystal_appearance/vortex.png             CC by SA 3.0             Bertram
+data/story/layna_forest/crystal_appearance/crystal-sentence1.ogg  CC by SA 3.0             Record and effects by Bertram, Lilou's voice
+data/story/layna_forest/crystal_appearance/crystal-sentence2.ogg  CC by SA 3.0             Record and effects by Bertram, Lilou's voice
+data/story/layna_forest/crystal_appearance/crystal-sentence3.ogg  CC by SA 3.0             Record and effects by Bertram, Lilou's voice
+data/story/layna_forest/crystal_appearance/crystal-sentence4.ogg  CC by SA 3.0             Record and effects by Bertram, Lilou's voice
+data/story/layna_forest/crystal_appearance/crystal-sentence5.ogg  CC by SA 3.0             Record and effects by Bertram, Lilou's voice
+data/story/layna_forest/crystal_appearance/crystal-sentence6.ogg  CC by SA 3.0             Record and effects by Bertram, Lilou's voice
 
-dat/credits/end_credits.lua                                     GPLv2+                   Bertram
-dat/credits/episode1_credits.lua                                GPLv2+                   Bertram
+data/story/layna_forest/minimaps/layna_forest_cave1_1_minimap.png CC by SA 3.0             Bertram
 
-dat/effects/lightning.lua                                       GPLv2+                   Bertram
-dat/effects/emotes.lua                                          GPLv2+                   Bertram
-dat/effects/status.lua                                          GPLv2+                   Bertram
+data/story/layna_village/kalya_house_fake_wall.png                GPLv2+                   Bertram, based on Jetrel harrvah tileset.
 
-dat/effects/particles/rain.lua                                  GPLv2+                   roos + Bertram modifications
-dat/effects/particles/snow.lua                                  GPLv2+                   roos + Bertram modifications
-dat/effects/particles/blue_firework.lua                         GPLv2+                   roos + Bertram modifications
-dat/effects/particles/bubble_steam.lua                          GPLv2+                   roos + Bertram modifications
-dat/effects/particles/crystal_appearance.lua                    GPLv2+                   roos + Bertram modifications
-dat/effects/particles/dust.lua                                  GPLv2+                   roos + Bertram modifications
-dat/effects/particles/shield.lua                                GPLv2+                   Bertram
-dat/effects/particles/shield_big_sprites.lua                    GPLv2+                   Bertram
-dat/effects/particles/explosion.lua                             GPLv2+                   roos + Bertram modifications
-dat/effects/particles/boss_death_particle.lua                   GPLv2+                   roos + Bertram modifications
-dat/effects/particles/fire.lua                                  GPLv2+                   roos + Bertram modifications
-dat/effects/particles/fire_spell.lua                            GPLv2+                   roos + Bertram modifications
-dat/effects/particles/fire_spiral.lua                           GPLv2+                   roos + Bertram modifications
-dat/effects/particles/heal_particle.lua                         GPLv2+                   Bertram
-dat/effects/particles/wave_spell.lua                            GPLv2+                   Bertram
-dat/effects/particles/earth_circle.lua                          GPLv3                    Bertram
-dat/effects/particles/earth_circle_outer_particles.lua          GPLv3                    Bertram
-dat/effects/particles/water_circle.lua                          GPLv3                    Bertram
-dat/effects/particles/water_circle_outer_particles.lua          GPLv3                    Bertram
-dat/effects/particles/wind_circle.lua                           GPLv3                    Bertram
-dat/effects/particles/wind_circle_outer_particles.lua           GPLv3                    Bertram
-dat/effects/particles/stun_star.lua                             GPLv3                    Bertram
+data/story/mt_elbrus/ancient_sign_big_bright.png                  CC by SA 3.0             Bertram
+data/story/mt_elbrus/shrine_entrance_light.png                    CC by SA 3.0             Bertram
+data/story/mt_elbrus/fake_wall.png                                CC by SA 3.0, GPLv3      Guido Bos + adaptation from Bertram - http://opengameart.org/content/3rd-entry-some-old-castle-stuff
+data/story/mt_elbrus/spike_wall.png                               CC by SA 3.0, GPLv3      Guido Bos + adaptation from Bertram - http://opengameart.org/content/3rd-entry-some-old-castle-stuff
+data/story/mt_elbrus/falling_hole.png                             CC by SA 3.0, GPLv3      Guido Bos + adaptation from Bertram - http://opengameart.org/content/3rd-entry-some-old-castle-stuff
+data/story/mt_elbrus/falling_hole_above.png                       CC by SA 3.0, GPLv3      Guido Bos + adaptation from Bertram - http://opengameart.org/content/3rd-entry-some-old-castle-stuff
+data/story/mt_elbrus/elbrus_landscape.png                         CC by SA 3.0             Julien (OGA) - http://opengameart.org/content/large-nature-background
 
-dat/maps/*.lua (including subfolders)                           GPLv2+                   Bertram
+data/inventory/arm_armor.lua                                       GPLv2+                   Allacrost + Bertram
+data/inventory/head_armor.lua                                      GPLv2+                   Allacrost + Bertram
+data/inventory/items.lua                                           GPLv2+                   Allacrost + Bertram
+data/inventory/torso_armor.lua                                     GPLv2+                   Allacrost + Bertram
+data/inventory/leg_armor.lua                                       GPLv2+                   Allacrost + Bertram
+data/inventory/weapons.lua                                         GPLv2+                   Allacrost + Bertram
 
-dat/maps/layna_forest/minimaps/layna_forest_cave1_1_minimap.png    CC by SA 3.0          Bertram
-dat/maps/layna_forest/minimaps/layna_forest_cave1_2_minimap.png    CC by SA 3.0          Bertram
-dat/maps/layna_forest/minimaps/layna_forest_entrance_minimap.png   CC by SA 3.0          Bertram
-dat/maps/layna_forest/minimaps/layna_forest_north_east_minimap.png CC by SA 3.0          Bertram
-dat/maps/layna_forest/minimaps/layna_forest_north_west_minimap.png CC by SA 3.0          Bertram
-dat/maps/layna_forest/minimaps/layna_forest_south_east_minimap.png CC by SA 3.0          Bertram
-dat/maps/layna_forest/minimaps/layna_forest_south_west_minimap.png CC by SA 3.0          Bertram
-dat/maps/layna_forest/minimaps/layna_forest_wolf_cave_minimap.png  CC by SA 3.0          Bertram
+data/tilesets/autotiling.lua                                     GPLv2+                   Allacrost
 
-dat/maps/layna_forest/wolfpain_necklace.png                     CC by SA 3.0             Bertram - adapted from Scrittl's work (OGA) - http://opengameart.org/content/armor-icons-32x32-px-painterly
-dat/maps/layna_forest/stone_sign.png                            CC by SA 3.0             Lilou (Valyria Tear)
+data/tilesets/ancient_ruins_interior.png                         CC by SA 3.0             Adapted Circle 2D graphics from Daniel Cook (lostgarden.com)
+data/tilesets/ancient_ruins_exterior.png                         CC by SA 3.0             Adapted Circle 2D graphics from Daniel Cook (lostgarden.com)
+data/tilesets/building_interior_objects_01.png                   CC by SA 3.0             Allacrost + From Jetrel's mockups + Bertram + adapted other Circle 2D graphics from Daniel Cook (lostgarden.com)
+data/tilesets/desert_house_tileset.png                           GPLv2                    From Jetrel's mockups + Bertram
+data/tilesets/harrvah_house_interior.png                         GPLv2                    Allacrost + From Jetrel's mockups + Bertram
+data/tilesets/mountain_house_interior.png                        GPLv2                    Allacrost + From Jetrel's mockups + Bertram
+data/tilesets/mountain_house_exterior2.png                       CC by SA 3.0             Allacrost + adapted other Circle 2D graphics from Daniel Cook (lostgarden.com)
+data/tilesets/mountain_landscape.png                             CC by 3.0                Daniel Cook + Jetrel's mockups + Bertram + Zabin (OGA) modification and additions + Saphy (themanaworld.com) high grass
+data/tilesets/village_exterior.png                               CC by SA 3.0             C. Nilsson for the top-left three flowers (OGA), Guido Bos (OGA) for the other flowers, Daniel Eddeland (OGA) for everything else, except for the horizontal bridge that I (Bertram) made based upon his style, Xenodora did the wood bridges - http://opengameart.org/content/lpc-style-wood-bridges-and-steel-flooring
+data/tilesets/water_tileset.png                                  GPLv2+/3                 From C. Nilsson for the water lilies with transparent background (OGA/CC by SA 3.0 or GPLv3) + LPC Team for the water lights (OGA/CC by SA 3.0 or GPLv3), Leonard Pabin (Len) (The Mana World) GPLv2 for the stones, the water original tiles, and the water lili with a dark blue background + Bertram's small variations - see here: http://opengameart.org/lpc-art-entries
+data/tilesets/wood_tileset.png                                   CC by SA 3.0             Daniel Cook + Jetrel's mockups + Bertram additions + Zabin (OGA) additions.
+data/tilesets/snow_tileset.png                                   CC by SA 3.0             Daniel Cook + Jetrel's mockups + Zabin (OGA) + snow tree and ground from Yd (OGA)
+data/tilesets/mountain_house_exterior.png                        GPLv2+                   Allacrost
+data/tilesets/desert_cave_walls.png                              GPLv2+                   Allacrost
+data/tilesets/desert_cave_water.png                              GPLv2+                   Allacrost
+data/tilesets/desert_cave_ground.png                             GPLv2+                   Allacrost
+data/tilesets/desert_cave_walls2.png                             GPLv2+                   Allacrost
+data/tilesets/harrvah_house.png                                  GPLv2+                   Allacrost
+data/tilesets/desert_ground.png                                  GPLv2+                   Allacrost
+data/tilesets/harrvah_house_exterior.png                         GPLv2+                   Allacrost
+data/tilesets/desert_cave.png                                    GPLv2+                   Allacrost
+data/tilesets/castle_exterior_01.png                             GPLv2+                   Allacrost
+data/tilesets/castle_exterior_02.png                             CC by 3.0                Zabin, Hyptosis, and Daniel Cook (OGA)  - http://opengameart.org/content/castle-tiles-for-rpgs
+data/tilesets/overworld2_tileset.png                             CC by SA 3.0, GPLv3      Various (See attributions there: http://opengameart.org/content/lpc-terrain-repack)
+data/tilesets/overworld_tileset.png                              CC by 3.0                MrBeast (OGA) - http://opengameart.org/content/worldmapoverworld-tileset
+data/tilesets/shrine_tileset.png                                 CC by SA 3.0, GPLv3      Guido Bos + adaptation from Bertram into a 32x32 VT valid tileset + some minor additions. - http://opengameart.org/content/3rd-entry-some-old-castle-stuff
 
-dat/maps/layna_forest/crystal_appearance/blue_lightning1.png    CC by SA 3.0             Bertram
-dat/maps/layna_forest/crystal_appearance/blue_lightning2.png    CC by SA 3.0             Bertram
-dat/maps/layna_forest/crystal_appearance/blue_lightning3.png    CC by SA 3.0             Bertram
-dat/maps/layna_forest/crystal_appearance/crystal_shadow.png     CC by SA 3.0             Len + Bertram modifications
-dat/maps/layna_forest/crystal_appearance/layna_forest_crystal_appearance_anim.lua GPLv2+ Bertram
-dat/maps/layna_forest/crystal_appearance/vortex.png             CC by SA 3.0             Bertram
-dat/maps/layna_forest/crystal_appearance/crystal-sentence1.ogg  CC by SA 3.0             Record and effects by Bertram, Lilou's voice
-dat/maps/layna_forest/crystal_appearance/crystal-sentence2.ogg  CC by SA 3.0             Record and effects by Bertram, Lilou's voice
-dat/maps/layna_forest/crystal_appearance/crystal-sentence3.ogg  CC by SA 3.0             Record and effects by Bertram, Lilou's voice
-dat/maps/layna_forest/crystal_appearance/crystal-sentence4.ogg  CC by SA 3.0             Record and effects by Bertram, Lilou's voice
-dat/maps/layna_forest/crystal_appearance/crystal-sentence5.ogg  CC by SA 3.0             Record and effects by Bertram, Lilou's voice
-dat/maps/layna_forest/crystal_appearance/crystal-sentence6.ogg  CC by SA 3.0             Record and effects by Bertram, Lilou's voice
+data/visuals/ambient/dark.png                                            CC0                      Bertram
+data/visuals/ambient/fog.png                                             CC by SA 3.0             Bertram
+data/visuals/ambient/snow_fog.png                                        CC by SA 3.0             Bertram
+data/visuals/ambient/sandstorm.png                                       GPLv2+                   The Mana World Team + Bertram
+data/visuals/ambient/clouds.png                                          GPLv2+                   The Mana World Team + Bertram
+data/visuals/ambient/clouds_overworld.png                                GPLv2+                   The Mana World Team + Bertram
 
-dat/maps/layna_forest/minimaps/layna_forest_cave1_1_minimap.png CC by SA 3.0             Bertram
+data/visuals/backgrounds/cave_background.png                               CC0                      Ecrivain (OGA)
+data/visuals/backgrounds/cliff_background.png                              CC by SA 3.0             Sindwiller (OGA) - http://opengameart.org/content/generic-rock-texture
 
-dat/maps/layna_village/kalya_house_fake_wall.png                GPLv2+                   Bertram, based on Jetrel harrvah tileset.
+data/battles/battle_scenes/forest_background.png                      CC by SA 3.0             Tamara Ramsay vectorgurl.com - Ramtam (OGA) - http://opengameart.org/content/forest-background-art
+data/battles/battle_scenes/forest_background_evening.png              CC by SA 3.0             Tamara Ramsay vectorgurl.com - Ramtam (OGA) - http://opengameart.org/content/forest-background-art
+data/battles/battle_scenes/mountain_background.png                    CC by SA 3.0             Tamara Ramsay vectorgurl.com - Ramtam (OGA) - http://opengameart.org/content/forest-background-art-2
+data/battles/battle_scenes/desert_background.png                      CC0                      JAP (OGA) - http://opengameart.org/content/oil-painting-landscapes
+data/battles/battle_scenes/plains_background.png                      CC0                      JAP (OGA) - http://opengameart.org/content/oil-painting-landscapes
+data/battles/battle_scenes/snow_background.png                        GPLv2+, CC by SA 3.0     Delfos (OGA) - http://opengameart.org/content/artic-landscape-background
+data/battles/battle_scenes/mountain_shrine.png                        CC by SA 3.0, GPLv3      Guido Bos (OGA), from the shrine tileset. Adapted by Bertram as a battle background.
+data/battles/battle_scenes/mountain_village.png                       GPLv2+                   Allacrost
+data/battles/battle_scenes/mountain_village_single_house.png          GPLv2+                   Allacrost (Part of mountain_village.png) + based on Bart's CC0 work (OGA) - http://opengameart.org/content/moon-overlay-texture
+data/battles/battle_scenes/rock.png                                   GPLv2+                   Allacrost
 
-dat/maps/mt_elbrus/ancient_sign_big_bright.png                  CC by SA 3.0             Bertram
-dat/maps/mt_elbrus/shrine_entrance_light.png                    CC by SA 3.0             Bertram
-dat/maps/mt_elbrus/fake_wall.png                                CC by SA 3.0, GPLv3      Guido Bos + adaptation from Bertram - http://opengameart.org/content/3rd-entry-some-old-castle-stuff
-dat/maps/mt_elbrus/spike_wall.png                               CC by SA 3.0, GPLv3      Guido Bos + adaptation from Bertram - http://opengameart.org/content/3rd-entry-some-old-castle-stuff
-dat/maps/mt_elbrus/falling_hole.png                             CC by SA 3.0, GPLv3      Guido Bos + adaptation from Bertram - http://opengameart.org/content/3rd-entry-some-old-castle-stuff
-dat/maps/mt_elbrus/falling_hole_above.png                       CC by SA 3.0, GPLv3      Guido Bos + adaptation from Bertram - http://opengameart.org/content/3rd-entry-some-old-castle-stuff
-dat/maps/mt_elbrus/elbrus_landscape.png                         CC by SA 3.0             Julien (OGA) - http://opengameart.org/content/large-nature-background
+data/battles/battle_scenes/desert_cave/desert_cave.png                GPLv2+                   Allacrost + Bertram
+data/battles/battle_scenes/desert_cave/tpl_desert_cave_anim.png       GPLv2+                   Allacrost + Bertram
+data/battles/battle_scenes/desert_cave/desert_cave_eyes1.png          GPLv2+                   Allacrost + Bertram
+data/battles/battle_scenes/desert_cave/desert_cave_water.png          GPLv2+                   Allacrost + Bertram
+data/battles/battle_scenes/desert_cave/desert_cave_eyes2.png          GPLv2+                   Allacrost + Bertram
+data/battles/battle_scenes/desert_cave/desert_cave_waterdrop.png      GPLv2+                   Allacrost + Bertram
+data/battles/battle_scenes/desert_cave/desert_cave_creatures.png      GPLv2+                   Allacrost + Bertram
 
-dat/objects/arm_armor.lua                                       GPLv2+                   Allacrost + Bertram
-dat/objects/head_armor.lua                                      GPLv2+                   Allacrost + Bertram
-dat/objects/items.lua                                           GPLv2+                   Allacrost + Bertram
-dat/objects/torso_armor.lua                                     GPLv2+                   Allacrost + Bertram
-dat/objects/leg_armor.lua                                       GPLv2+                   Allacrost + Bertram
-dat/objects/weapons.lua                                         GPLv2+                   Allacrost + Bertram
-dat/objects/key_items.lua                                       GPLv2+                   Bertram
-dat/objects/elementals.lua                                      GPLv2+                   Bertram
+data/boot_menu/ep1background.png                               GPLv2                    JAP (OGA)
+data/boot_menu/ep1cloudfield.png                               GPLv2+                   Bertram
+data/boot_menu/ep1cloudymist.png                               GPLv2+                   Bertram
+data/boot_menu/ep1crystal.png                                  GPLv2                    Len (OGA) + Bertram
+data/boot_menu/ep1crystal_shadow.png                           GPLv2+                   Bertram
+data/boot_menu/ep1flare.png                                    GPLv2+                   Bertram
+data/boot_menu/ep1fog.png                                      GPLv2+                   Bertram
+data/boot_menu/ep1satellite.png                                GPLv2                    Len (OGA) + Bertram
+data/boot_menu/ep1satellite_shadow.png                         GPLv2+                   Bertram
 
-dat/skills/weapon.lua                                           GPLv2+                   Bertram
-dat/skills/magic.lua                                            GPLv2+                   Bertram
-dat/skills/special.lua                                          GPLv2+                   Bertram
+data/entities/emotes/sweat_drop.png                               CC by SA 3.0             Bertram
+data/entities/emotes/thinking_dots.png                            CC by SA 3.0             Bertram
+data/entities/emotes/exclamation.png                              CC by SA 3.0             Bertram
+data/entities/emotes/interrogation.png                            CC by SA 3.0             Bertram
+data/entities/emotes/popping_veins.png                            CC by SA 3.0             Bertram
 
-dat/tilesets/building_interior_objects_01.lua                   GPLv2+                   Allacrost + Bertram
-dat/tilesets/desert_house_tileset.lua                           GPLv2+                   Allacrost + Bertram
-dat/tilesets/harrvah_house_interior.lua                         GPLv2+                   Allacrost + Bertram
-dat/tilesets/mountain_landscape.lua                             GPLv2+                   Allacrost + Bertram
-dat/tilesets/mountain_house_interior.lua                        GPLv2+                   Allacrost + Bertram
-dat/tilesets/snow-tileset.lua                                   GPLv2+                   Bertram
-dat/tilesets/wood-tileset.lua                                   GPLv2+                   Bertram
-dat/tilesets/autotiling.lua                                     GPLv2+                   Allacrost
-dat/tilesets/desert_cave.lua                                    GPLv2+                   Allacrost
-dat/tilesets/desert_ground.lua                                  GPLv2+                   Allacrost
-dat/tilesets/castle_exterior_01.lua                             GPLv2+                   Allacrost
-dat/tilesets/castle_exterior_02.lua                             GPLv2+                   Bertram
-dat/tilesets/desert_cave_walls.lua                              GPLv2+                   Allacrost
-dat/tilesets/mountain_house_exterior2.lua                       GPLv2+                   Allacrost
-dat/tilesets/harrvah_house_exterior.lua                         GPLv2+                   Allacrost
-dat/tilesets/harrvah_house.lua                                  GPLv2+                   Allacrost
-dat/tilesets/desert_cave_walls2.lua                             GPLv2+                   Allacrost
-dat/tilesets/mountain_house_exterior.lua                        GPLv2+                   Allacrost
-dat/tilesets/desert_cave_ground.lua                             GPLv2+                   Allacrost
-dat/tilesets/desert_cave_water.lua                              GPLv2+                   Allacrost
-dat/tilesets/overworld2_tileset.lua                             GPLv2+                   Bertram
-dat/tilesets/overworld_tileset.lua                              GPLv2+                   Bertram
-dat/tilesets/shrine_tileset.lua                                 GPLv2+                   Bertram
+data/fonts/LinBiolinum_RBah.ttf                                  OFL 1.1 or GPLv2+        Philipp H. Poll - http://www.linuxlibertine.org
+data/fonts/LinLibertine_aBS.ttf                                  OFL 1.1 or GPLv2+        Philipp H. Poll - http://www.linuxlibertine.org
+data/fonts/Berenika-Oblique.ttf                                  OFL 1.1                  wmk69 - http://openfontlibrary.org/en/font/klaudia-and-berenika
 
-img/*.lua (including subfolders)                                GPLv2+                   Bertram
-
-img/ambient/dark.png                                            CC0                      Bertram
-img/ambient/fog.png                                             CC by SA 3.0             Bertram
-img/ambient/snow_fog.png                                        CC by SA 3.0             Bertram
-img/ambient/sandstorm.png                                       GPLv2+                   The Mana World Team + Bertram
-img/ambient/clouds.png                                          GPLv2+                   The Mana World Team + Bertram
-img/ambient/clouds_overworld.png                                GPLv2+                   The Mana World Team + Bertram
-
-img/backdrops/cave_background.png                               CC0                      Ecrivain (OGA)
-img/backdrops/cliff_background.png                              CC by SA 3.0             Sindwiller (OGA) - http://opengameart.org/content/generic-rock-texture
-
-img/backdrops/battle/forest_background.png                      CC by SA 3.0             Tamara Ramsay vectorgurl.com - Ramtam (OGA) - http://opengameart.org/content/forest-background-art
-img/backdrops/battle/forest_background_evening.png              CC by SA 3.0             Tamara Ramsay vectorgurl.com - Ramtam (OGA) - http://opengameart.org/content/forest-background-art
-img/backdrops/battle/mountain_background.png                    CC by SA 3.0             Tamara Ramsay vectorgurl.com - Ramtam (OGA) - http://opengameart.org/content/forest-background-art-2
-img/backdrops/battle/desert_background.png                      CC0                      JAP (OGA) - http://opengameart.org/content/oil-painting-landscapes
-img/backdrops/battle/plains_background.png                      CC0                      JAP (OGA) - http://opengameart.org/content/oil-painting-landscapes
-img/backdrops/battle/snow_background.png                        GPLv2+, CC by SA 3.0     Delfos (OGA) - http://opengameart.org/content/artic-landscape-background
-img/backdrops/battle/mountain_shrine.png                        CC by SA 3.0, GPLv3      Guido Bos (OGA), from the shrine tileset. Adapted by Bertram as a battle background.
-img/backdrops/battle/mountain_village.png                       GPLv2+                   Allacrost
-img/backdrops/battle/mountain_village_single_house.png          GPLv2+                   Allacrost (Part of mountain_village.png) + based on Bart's CC0 work (OGA) - http://opengameart.org/content/moon-overlay-texture
-img/backdrops/battle/rock.png                                   GPLv2+                   Allacrost
-
-img/backdrops/battle/desert_cave/desert_cave.png                GPLv2+                   Allacrost + Bertram
-img/backdrops/battle/desert_cave/tpl_desert_cave_anim.png       GPLv2+                   Allacrost + Bertram
-img/backdrops/battle/desert_cave/desert_cave_eyes1.png          GPLv2+                   Allacrost + Bertram
-img/backdrops/battle/desert_cave/desert_cave_water.png          GPLv2+                   Allacrost + Bertram
-img/backdrops/battle/desert_cave/desert_cave_eyes2.png          GPLv2+                   Allacrost + Bertram
-img/backdrops/battle/desert_cave/desert_cave_waterdrop.png      GPLv2+                   Allacrost + Bertram
-img/backdrops/battle/desert_cave/desert_cave_creatures.png      GPLv2+                   Allacrost + Bertram
-
-img/backgrops/boot/background.png                               GPLv2                    JAP (OGA)
-img/backgrops/boot/cloudfield.png                               GPLv2+                   Bertram
-img/backgrops/boot/cloudymist.png                               GPLv2+                   Bertram
-img/backgrops/boot/crystal.png                                  GPLv2                    Len (OGA) + Bertram
-img/backgrops/boot/crystal_shadow.png                           GPLv2+                   Bertram
-img/backgrops/boot/flare.png                                    GPLv2+                   Bertram
-img/backgrops/boot/fog.png                                      GPLv2+                   Bertram
-img/backgrops/boot/satellite.png                                GPLv2                    Len (OGA) + Bertram
-img/backgrops/boot/satellite_shadow.png                         GPLv2+                   Bertram
-
-img/effects/dust.png                                            GPLv3 / CC by SA 3.0     Bertram
-img/effects/explosion.png                                       GPLv2+                   Roos
-img/effects/fire.png                                            GPLv2+                   Roos
-img/effects/flame1.png                                          GPLv2+                   Roos
-img/effects/flame2.png                                          GPLv2+                   Roos
-img/effects/flame3.png                                          GPLv2+                   Roos
-img/effects/flame4.png                                          GPLv2+                   Roos
-img/effects/flame5.png                                          GPLv2+                   Roos
-img/effects/flame6.png                                          GPLv2+                   Roos
-img/effects/flame7.png                                          GPLv2+                   Roos
-img/effects/flame8.png                                          GPLv2+                   Roos
-img/effects/outlined_circle_small.png                           GPLv2+                   Roos
-img/effects/right_arrow.png                                     CC by 3.0                hc (OGA) - http://opengameart.org/content/lens-flares-and-particles
-img/effects/ripples.lua                                         GPLv3                    Bertram
-img/effects/ripples.png                                         CC0                      zookeeper (OGA) - http://opengameart.org/content/seamless-animated-raindrop-ripples-texture
-img/effects/shield.png                                          GPLv2+                   Allacrost
-img/effects/star.png                                            CC0                      (Ecrivain) (OGA) - http://opengameart.org/content/star
-img/effects/wave.png                                            CC by SA 3.0             Bertram
-img/effects/earth_circle.png                                    CC0                      (MrBeast) (OGA) - http://opengameart.org/content/73-patterns
-img/effects/water_circle.png                                    CC0                      (MrBeast) (OGA) - http://opengameart.org/content/73-patterns
-img/effects/wind_circle.png                                     CC0                      (MrBeast) (OGA) - http://opengameart.org/content/73-patterns
-
-img/effects/emotes/sweat_drop.png                               CC by SA 3.0             Bertram
-img/effects/emotes/thinking_dots.png                            CC by SA 3.0             Bertram
-img/effects/emotes/exclamation.png                              CC by SA 3.0             Bertram
-img/effects/emotes/interrogation.png                            CC by SA 3.0             Bertram
-img/effects/emotes/popping_veins.png                            CC by SA 3.0             Bertram
-
-img/fonts/LinBiolinum_RBah.ttf                                  OFL 1.1 or GPLv2+        Philipp H. Poll - http://www.linuxlibertine.org
-img/fonts/LinLibertine_aBS.ttf                                  OFL 1.1 or GPLv2+        Philipp H. Poll - http://www.linuxlibertine.org
-img/fonts/Berenika-Oblique.ttf                                  OFL 1.1                  wmk69 - http://openfontlibrary.org/en/font/klaudia-and-berenika
-
-img/icons/drunes.png                                            CC by 3.0                sunburn (OGA) - http://opengameart.org/content/loot
-img/icons/object_category_icons.png                             GPLv2+                   Allacrost
+data/inventory/drunes.png                                            CC by 3.0                sunburn (OGA) - http://opengameart.org/content/loot
+data/inventory/object_category_icons.png                             GPLv2+                   Allacrost
 
 img/icons/actors/characters/kalya.png                           GPLv2+                   Allacrost (was Laila icon)
 img/icons/actors/characters/sylve.png                           GPLv2+                   Allacrost (was Raphaela icon)
@@ -274,35 +223,36 @@ img/icons/battle/acheron.png                                    GPLv2+          
 img/icons/battle/holy.png                                       GPLv2+                   Allacrost
 img/icons/battle/mist.png                                       GPLv2+                   Allacrost
 
-img/icons/specials/moon.png                                     CC by SA 3.0             Bertram, the moon part is based on Bart's work (OGA) - http://opengameart.org/content/moon-overlay-texture
+data/inventory/specials/moon.png                                     CC by SA 3.0             Bertram, the moon part is based on Bart's work (OGA) - http://opengameart.org/content/moon-overlay-texture
 
-img/icons/effects/attack_types.png                              GPLv2+                   Taken from the elemental.png file. (Allacrost)
-img/icons/effects/status.png                                    GPLv2+                   Allacrost, HP, SP icons and other minor changes from Bertram
-img/icons/effects/targets.png                                   GPLv2+                   Allacrost
+data/skills/attack_types.png                              GPLv2+                   Taken from the elemental.png file. (Allacrost)
+data/skills/targets.png                                   GPLv2+                   Allacrost
 
-img/icons/items/key_items/barley_meal_bag.png                   CC by SA 3.0             From Daniel Eddeland (OGA) from http://opengameart.org/content/lpc-farming-tilesets-magic-animations-and-ui-elements
-img/icons/items/key_items/necklace_wolfpain.png                 CC by SA 3.0             Adapted from Scrittl (OGA) - http://opengameart.org/content/armor-icons-32x32-px-painterly
-img/icons/items/candy.png                                       CC0                      (lumimae) - http://opengameart.org/content/candy-pack-1
-img/icons/items/copper_ore.png                                  CC by 3.0                Bertram, adapted from Hyptosis's work (OGA) - http://opengameart.org/content/lots-of-free-2d-tiles-and-sprites-by-hyptosis
-img/icons/items/iron_ore.png                                    CC by 3.0                Bertram, adapted from Hyptosis's work (OGA) - http://opengameart.org/content/lots-of-free-2d-tiles-and-sprites-by-hyptosis
-img/icons/items/anthozium_ore.png                               CC by 3.0                Bertram, adapted from Hyptosis's work (OGA) - http://opengameart.org/content/lots-of-free-2d-tiles-and-sprites-by-hyptosis
-img/icons/items/auridium_ore.png                                CC by 3.0                Bertram, adapted from Hyptosis's work (OGA) - http://opengameart.org/content/lots-of-free-2d-tiles-and-sprites-by-hyptosis
-img/icons/items/borium_ore.png                                  CC by 3.0                Bertram, adapted from Hyptosis's work (OGA) - http://opengameart.org/content/lots-of-free-2d-tiles-and-sprites-by-hyptosis
-img/icons/items/titanium_ore.png                                CC by 3.0                Bertram, adapted from Hyptosis's work (OGA) - http://opengameart.org/content/lots-of-free-2d-tiles-and-sprites-by-hyptosis
-img/icons/items/evanium_ore.png                                 CC by 3.0                Bertram, adapted from Hyptosis's work (OGA) - http://opengameart.org/content/lots-of-free-2d-tiles-and-sprites-by-hyptosis
-img/icons/items/lotus.png                                       CC by SA 3.0             Tommy Brunn - http://opengameart.org/content/rose-and-lotus-on-paper
-img/icons/items/phoenix_feather.png                             CC by 3.0                Bertram, adapted from Scrittl's work (OGA) - http://opengameart.org/content/phoenix-feather
-img/icons/items/ardoris.png                                     CC by SA 3.0             J. W. Bjerk (eleazzaar) (OGA) -- www.jwbjerk.com/art  - http://opengameart.org/content/painterly-spell-icons
-img/icons/items/demona.png                                      CC by SA 3.0             J. W. Bjerk (eleazzaar) (OGA) -- www.jwbjerk.com/art  - http://opengameart.org/content/painterly-spell-icons
-img/icons/items/dryad.png                                       CC by SA 3.0             J. W. Bjerk (eleazzaar) (OGA) -- www.jwbjerk.com/art  - http://opengameart.org/content/painterly-spell-icons
-img/icons/items/fairy.png                                       CC by SA 3.0             J. W. Bjerk (eleazzaar) (OGA) -- www.jwbjerk.com/art  - http://opengameart.org/content/painterly-spell-icons
-img/icons/items/oblivion.png                                    CC by SA 3.0             J. W. Bjerk (eleazzaar) (OGA) -- www.jwbjerk.com/art  - http://opengameart.org/content/painterly-spell-icons
-img/icons/items/sylphid.png                                     CC by SA 3.0             J. W. Bjerk (eleazzaar) (OGA) -- www.jwbjerk.com/art  - http://opengameart.org/content/painterly-spell-icons
-img/icons/items/undine.png                                      CC by SA 3.0             J. W. Bjerk (eleazzaar) (OGA) -- www.jwbjerk.com/art  - http://opengameart.org/content/painterly-spell-icons
-img/icons/items/escape_smoke.png                                CC by SA 3.0             J. W. Bjerk (eleazzaar) (OGA) -- www.jwbjerk.com/art  - http://opengameart.org/content/painterly-spell-icons
-img/icons/items/haste_potion.png                                GPLv2+                   Bertram, based on the potion_red_medium.png file.
-img/icons/items/poison_potion.png                               GPLv2+                   Bertram, based on the potion_red_medium.png file.
-img/icons/items/strength_potion.png                             GPLv2+                   Bertram, based on the potion_red_medium.png file.
+data/entities/status_effects/status.png                                    GPLv2+                   Allacrost, HP, SP icons and other minor changes from Bertram
+
+data/inventory/items/key_items/barley_meal_bag.png                   CC by SA 3.0             From Daniel Eddeland (OGA) from http://opengameart.org/content/lpc-farming-tilesets-magic-animations-and-ui-elements
+data/inventory/items/key_items/necklace_wolfpain.png                 CC by SA 3.0             Adapted from Scrittl (OGA) - http://opengameart.org/content/armor-icons-32x32-px-painterly
+data/inventory/items/candy.png                                       CC0                      (lumimae) - http://opengameart.org/content/candy-pack-1
+data/inventory/items/copper_ore.png                                  CC by 3.0                Bertram, adapted from Hyptosis's work (OGA) - http://opengameart.org/content/lots-of-free-2d-tiles-and-sprites-by-hyptosis
+data/inventory/items/iron_ore.png                                    CC by 3.0                Bertram, adapted from Hyptosis's work (OGA) - http://opengameart.org/content/lots-of-free-2d-tiles-and-sprites-by-hyptosis
+data/inventory/items/anthozium_ore.png                               CC by 3.0                Bertram, adapted from Hyptosis's work (OGA) - http://opengameart.org/content/lots-of-free-2d-tiles-and-sprites-by-hyptosis
+data/inventory/items/auridium_ore.png                                CC by 3.0                Bertram, adapted from Hyptosis's work (OGA) - http://opengameart.org/content/lots-of-free-2d-tiles-and-sprites-by-hyptosis
+data/inventory/items/borium_ore.png                                  CC by 3.0                Bertram, adapted from Hyptosis's work (OGA) - http://opengameart.org/content/lots-of-free-2d-tiles-and-sprites-by-hyptosis
+data/inventory/items/titanium_ore.png                                CC by 3.0                Bertram, adapted from Hyptosis's work (OGA) - http://opengameart.org/content/lots-of-free-2d-tiles-and-sprites-by-hyptosis
+data/inventory/items/evanium_ore.png                                 CC by 3.0                Bertram, adapted from Hyptosis's work (OGA) - http://opengameart.org/content/lots-of-free-2d-tiles-and-sprites-by-hyptosis
+data/inventory/items/lotus.png                                       CC by SA 3.0             Tommy Brunn - http://opengameart.org/content/rose-and-lotus-on-paper
+data/inventory/items/phoenix_feather.png                             CC by 3.0                Bertram, adapted from Scrittl's work (OGA) - http://opengameart.org/content/phoenix-feather
+data/inventory/items/ardoris.png                                     CC by SA 3.0             J. W. Bjerk (eleazzaar) (OGA) -- www.jwbjerk.com/art  - http://opengameart.org/content/painterly-spell-icons
+data/inventory/items/demona.png                                      CC by SA 3.0             J. W. Bjerk (eleazzaar) (OGA) -- www.jwbjerk.com/art  - http://opengameart.org/content/painterly-spell-icons
+data/inventory/items/dryad.png                                       CC by SA 3.0             J. W. Bjerk (eleazzaar) (OGA) -- www.jwbjerk.com/art  - http://opengameart.org/content/painterly-spell-icons
+data/inventory/items/fairy.png                                       CC by SA 3.0             J. W. Bjerk (eleazzaar) (OGA) -- www.jwbjerk.com/art  - http://opengameart.org/content/painterly-spell-icons
+data/inventory/items/oblivion.png                                    CC by SA 3.0             J. W. Bjerk (eleazzaar) (OGA) -- www.jwbjerk.com/art  - http://opengameart.org/content/painterly-spell-icons
+data/inventory/items/sylphid.png                                     CC by SA 3.0             J. W. Bjerk (eleazzaar) (OGA) -- www.jwbjerk.com/art  - http://opengameart.org/content/painterly-spell-icons
+data/inventory/items/undine.png                                      CC by SA 3.0             J. W. Bjerk (eleazzaar) (OGA) -- www.jwbjerk.com/art  - http://opengameart.org/content/painterly-spell-icons
+data/inventory/items/escape_smoke.png                                CC by SA 3.0             J. W. Bjerk (eleazzaar) (OGA) -- www.jwbjerk.com/art  - http://opengameart.org/content/painterly-spell-icons
+data/inventory/items/haste_potion.png                                GPLv2+                   Bertram, based on the potion_red_medium.png file.
+data/inventory/items/poison_potion.png                               GPLv2+                   Bertram, based on the potion_red_medium.png file.
+data/inventory/items/strength_potion.png                             GPLv2+                   Bertram, based on the potion_red_medium.png file.
 
 img/icons/magic/first_aid.png                                   CC by SA 3.0             J. W. Bjerk (eleazzaar) (OGA) -- www.jwbjerk.com/art  - http://opengameart.org/content/painterly-spell-icons
 img/icons/magic/leader_call.png                                 CC by SA 3.0             J. W. Bjerk (eleazzaar) (OGA) -- www.jwbjerk.com/art  - http://opengameart.org/content/painterly-spell-icons
@@ -731,227 +681,197 @@ img/sprites/map/triggers/stone_trigger1_on.png                  CC by SA 3.0    
 img/sprites/map/triggers/rolling_stone_trigger1_off.png         CC by SA 3.0             Adapted Circle 2D graphics from Daniel Cook (lostgarden.com)
 img/sprites/map/triggers/rolling_stone_trigger1_on.png          CC by SA 3.0             Adapted Circle 2D graphics from Daniel Cook (lostgarden.com)
 
-img/tilesets/ancient_ruins_interior.png                         CC by SA 3.0             Adapted Circle 2D graphics from Daniel Cook (lostgarden.com)
-img/tilesets/ancient_ruins_exterior.png                         CC by SA 3.0             Adapted Circle 2D graphics from Daniel Cook (lostgarden.com)
-img/tilesets/building_interior_objects_01.png                   CC by SA 3.0             Allacrost + From Jetrel's mockups + Bertram + adapted other Circle 2D graphics from Daniel Cook (lostgarden.com)
-img/tilesets/desert_house_tileset.png                           GPLv2                    From Jetrel's mockups + Bertram
-img/tilesets/harrvah_house_interior.png                         GPLv2                    Allacrost + From Jetrel's mockups + Bertram
-img/tilesets/mountain_house_interior.png                        GPLv2                    Allacrost + From Jetrel's mockups + Bertram
-img/tilesets/mountain_house_exterior2.png                       CC by SA 3.0             Allacrost + adapted other Circle 2D graphics from Daniel Cook (lostgarden.com)
-img/tilesets/mountain_landscape.png                             CC by 3.0                Daniel Cook + Jetrel's mockups + Bertram + Zabin (OGA) modification and additions + Saphy (themanaworld.com) high grass
-img/tilesets/village_exterior.png                               CC by SA 3.0             C. Nilsson for the top-left three flowers (OGA), Guido Bos (OGA) for the other flowers, Daniel Eddeland (OGA) for everything else, except for the horizontal bridge that I (Bertram) made based upon his style, Xenodora did the wood bridges - http://opengameart.org/content/lpc-style-wood-bridges-and-steel-flooring
-img/tilesets/water_tileset.png                                  GPLv2+/3                 From C. Nilsson for the water lilies with transparent background (OGA/CC by SA 3.0 or GPLv3) + LPC Team for the water lights (OGA/CC by SA 3.0 or GPLv3), Leonard Pabin (Len) (The Mana World) GPLv2 for the stones, the water original tiles, and the water lili with a dark blue background + Bertram's small variations - see here: http://opengameart.org/lpc-art-entries
-img/tilesets/wood_tileset.png                                   CC by SA 3.0             Daniel Cook + Jetrel's mockups + Bertram additions + Zabin (OGA) additions.
-img/tilesets/snow_tileset.png                                   CC by SA 3.0             Daniel Cook + Jetrel's mockups + Zabin (OGA) + snow tree and ground from Yd (OGA)
-img/tilesets/mountain_house_exterior.png                        GPLv2+                   Allacrost
-img/tilesets/desert_cave_walls.png                              GPLv2+                   Allacrost
-img/tilesets/desert_cave_water.png                              GPLv2+                   Allacrost
-img/tilesets/desert_cave_ground.png                             GPLv2+                   Allacrost
-img/tilesets/desert_cave_walls2.png                             GPLv2+                   Allacrost
-img/tilesets/harrvah_house.png                                  GPLv2+                   Allacrost
-img/tilesets/desert_ground.png                                  GPLv2+                   Allacrost
-img/tilesets/harrvah_house_exterior.png                         GPLv2+                   Allacrost
-img/tilesets/desert_cave.png                                    GPLv2+                   Allacrost
-img/tilesets/castle_exterior_01.png                             GPLv2+                   Allacrost
-img/tilesets/castle_exterior_02.png                             CC by 3.0                Zabin, Hyptosis, and Daniel Cook (OGA)  - http://opengameart.org/content/castle-tiles-for-rpgs
-img/tilesets/overworld2_tileset.png                             CC by SA 3.0, GPLv3      Various (See attributions there: http://opengameart.org/content/lpc-terrain-repack)
-img/tilesets/overworld_tileset.png                              CC by 3.0                MrBeast (OGA) - http://opengameart.org/content/worldmapoverworld-tileset
-img/tilesets/shrine_tileset.png                                 CC by SA 3.0, GPLv3      Guido Bos + adaptation from Bertram into a 32x32 VT valid tileset + some minor additions. - http://opengameart.org/content/3rd-entry-some-old-castle-stuff
 
-mus/accion-OGA-djsaryon.ogg                                     CC by SA 3.0 or GPLv2/3  djsaryon (OGA) - http://opengameart.org/content/battle-midi
-mus/awareness_el_corleo.ogg                                     CC by SA 3.0             Eliot Corley - el-corleo (OGA) - http://opengameart.org/content/awareness
-mus/Battle_lost-OGA-Mumu.ogg                                    CC0                      Mumu (OGA) - http://opengameart.org/content/game-over-muisc
-mus/Caketown_1-OGA-mat-pablo.ogg                                CC by SA 3.0 or GPLv3    Mathew Pablo (OGA)
-mus/dont_close_your_eyes.ogg                                    CC by 3.0                Alexandr Zhelanov (OGA) - http://opengameart.org/content/north-wind-more-music-inside
-mus/Fanfare.ogg                                                 GPLv2+                   Allacrost
-mus/forest_at_night.ogg                                         CC by 3.0                Benboncan, dobroide (freesound.org) - Mix from Bertram between http://www.freesound.org/people/Benboncan/sounds/64544/ and http://www.freesound.org/people/dobroide/sounds/20574/
-mus/heroism-OGA-Edward-J-Blakeley.ogg                           GPLv2/3                  Edward J. Blakeley (OGA) - http://opengameart.org/content/heroism
-mus/house_in_a_forest_loop_horrorpen_oga.ogg                    CC by 3.0                HorrorPen (OGA)
-mus/icy_wind.ogg                                                CC0                      Ecrivain (OGA) - http://opengameart.org/content/icy-heights
-mus/koertes-ccby-birdsongloop16s.ogg                            CC by SA 3.0             Koertes (OGA)
-mus/Ove Melaa - Rainy.ogg                                       CC0                      OveMelaa (OGA) - http://opengameart.org/content/rain-ambient-not-loopable-2-versions-available
-mus/rain_indoors.ogg                                            GPLv2+                   Jute (OGA) - http://opengameart.org/content/thunder-rain-and-wind
-mus/sad_moment.ogg                                              CC by 3.0                lasercheese (OGA) - http://opengameart.org/content/space-orchestral
-mus/Soliloquy_1-OGA-mat-pablo.ogg                               CC by SA 3.0 or GPLv3    Mathew Pablo (OGA)
-mus/shrine-OGA-yd.ogg                                           (CC0)                    yd (OGA) - http://opengameart.org/content/shrine
-mus/mountain_shrine.ogg                                         CC by SA 3.0             Tom Peter (OGA) - http://opengameart.org/content/winter-feeling
-mus/Welcome to Com-Mecha-Mattew_Pablo_OGA.ogg                   CC by 3.0                Mathew Pablo (OGA) - http://opengameart.org/content/theme-of-com-mecha
-mus/Zander Noriega - School of Quirks.ogg                       CC by SA 3.0             Zander Noriega (OGA) - http://opengameart.org/content/school-of-quirks
-mus/the_recon_mission.ogg                                       CC by 3.0                Zander Noriega (OGA) - http://opengameart.org/content/the-recon-mission
-mus/overworld_present.ogg                                       CC by 3.0                HorrorPen (OGA) - http://opengameart.org/content/gray-trip
+data/music/accion-OGA-djsaryon.ogg                                     CC by SA 3.0 or GPLv2/3  djsaryon (OGA) - http://opengameart.org/content/battle-midi
+data/music/awareness_el_corleo.ogg                                     CC by SA 3.0             Eliot Corley - el-corleo (OGA) - http://opengameart.org/content/awareness
+data/music/Battle_lost-OGA-Mumu.ogg                                    CC0                      Mumu (OGA) - http://opengameart.org/content/game-over-muisc
+data/music/Caketown_1-OGA-mat-pablo.ogg                                CC by SA 3.0 or GPLv3    Mathew Pablo (OGA)
+data/music/dont_close_your_eyes.ogg                                    CC by 3.0                Alexandr Zhelanov (OGA) - http://opengameart.org/content/north-wind-more-music-inside
+data/music/Fanfare.ogg                                                 GPLv2+                   Allacrost
+data/music/forest_at_night.ogg                                         CC by 3.0                Benboncan, dobroide (freesound.org) - Mix from Bertram between http://www.freesound.org/people/Benboncan/sounds/64544/ and http://www.freesound.org/people/dobroide/sounds/20574/
+data/music/heroism-OGA-Edward-J-Blakeley.ogg                           GPLv2/3                  Edward J. Blakeley (OGA) - http://opengameart.org/content/heroism
+data/music/house_in_a_forest_loop_horrorpen_oga.ogg                    CC by 3.0                HorrorPen (OGA)
+data/music/icy_wind.ogg                                                CC0                      Ecrivain (OGA) - http://opengameart.org/content/icy-heights
+data/music/koertes-ccby-birdsongloop16s.ogg                            CC by SA 3.0             Koertes (OGA)
+data/music/Ove Melaa - Rainy.ogg                                       CC0                      OveMelaa (OGA) - http://opengameart.org/content/rain-ambient-not-loopable-2-versions-available
+data/music/rain_indoors.ogg                                            GPLv2+                   Jute (OGA) - http://opengameart.org/content/thunder-rain-and-wind
+data/music/sad_moment.ogg                                              CC by 3.0                lasercheese (OGA) - http://opengameart.org/content/space-orchestral
+data/music/Soliloquy_1-OGA-mat-pablo.ogg                               CC by SA 3.0 or GPLv3    Mathew Pablo (OGA)
+data/music/shrine-OGA-yd.ogg                                           (CC0)                    yd (OGA) - http://opengameart.org/content/shrine
+data/music/mountain_shrine.ogg                                         CC by SA 3.0             Tom Peter (OGA) - http://opengameart.org/content/winter-feeling
+data/music/Welcome to Com-Mecha-Mattew_Pablo_OGA.ogg                   CC by 3.0                Mathew Pablo (OGA) - http://opengameart.org/content/theme-of-com-mecha
+data/music/Zander Noriega - School of Quirks.ogg                       CC by SA 3.0             Zander Noriega (OGA) - http://opengameart.org/content/school-of-quirks
+data/music/the_recon_mission.ogg                                       CC by 3.0                Zander Noriega (OGA) - http://opengameart.org/content/the-recon-mission
+data/music/overworld_present.ogg                                       CC by 3.0                HorrorPen (OGA) - http://opengameart.org/content/gray-trip
 
-snd/ancient_invocation.wav                                      CC by 3.0 or GPLv2/3     qubodup (OGA) - http://opengameart.org/content/energy-drain, slightly modified.
-snd/campfire.ogg                                                CC0                      Loop made by Bertram out of: http://www.freesound.org/people/Spandau/sounds/40699/
-snd/cloth_sound.wav                                             CC by 3.0 or GPLv2/3     artisticdude (OGA)
-snd/crystal_chime.wav                                           CC by SA 3.0             Bertram
-snd/crystal_appearance.ogg                                      CC by SA 3.0 or GPLv3    Mathew Pablo (OGA) - Based on the few first seconds of Solliloquy.
-snd/defence1_spell.ogg                                          CC by SA 3.0             qubodup (OGA) - http://opengameart.org/content/time-magic
-snd/dog_barking.wav                                             CC by 3.0                Brandon Morris (OGA) - http://opengameart.org/content/dog-barking-mono
-snd/falling.ogg                                                 CC by SA 3,0             Bertram
-snd/fire1_spell.ogg                                             CC by 3.0                artisticdude (OGA) - http://opengameart.org/content/fire-evil-spell
-snd/growl1_IFartInUrGeneralDirection_freesound.wav              CC by SA 3.0 or GPLv2+   Sampled by lendrick (http://www.freesound.org/people/lendrick/sounds/77632/) with permission from IFartInUrGeneralDirection
-snd/heartbeat_slow.wav                                          CC0                      (bart) (OGA) - http://opengameart.org/content/heartbeat-sounds
-snd/heavy_bump.wav                                              CC by SA 3.0             remaxim (OGA) - http://opengameart.org/content/falling-body
-snd/itempick2_michel_baradari_oga.wav                           CC by 3.0                Michel Baradari (OGA) from here: http://www.cubeengine.com/forum.php4?action=display_thread&thread_id=2164
-snd/levelup.wav                                                 CC0                      (qubodup) OGA
-snd/lightning.wav                                               CC0                      (Bertram)
-snd/low_scream.ogg                                              CC by 3.0                Bertram, based on Macro's sound (OGA) - http://opengameart.org/content/screaming
-snd/low_scream_long.ogg                                         CC by 3.0                Bertram, based on Macro's sound (OGA) - http://opengameart.org/content/screaming
-snd/meow.wav                                                    CC by 3.0                TheGertz (FreeSound) - http://www.freesound.org/people/TheGertz/sounds/131201/
-snd/mountain_wind.ogg                                           CC by 3.0                Blender Foundation (OGA) - http://opengameart.org/content/ambient-mountain-river-wind-and-forest-and-waterfall
-snd/new_game.wav                                                GPLv2+                   (Same sound than the opening_sword_fall.wav) file from Allacrost.
-snd/punch.wav                                                   CC0                      Independent.nu (OGA) - http://opengameart.org/content/37-hitspunches
-snd/rumble_continuous.ogg                                       GPLv2+                   Allacrost, adapted by Bertram
-snd/save_point_activated_dokashiteru_oga.wav                    CC by 3.0 or GPLv2/3     DoKashiteru (OGA)
-snd/save_successful_nick_bowler_oga.wav                         CC by 3.0                Nick Bowler, added by draconx (OGA)
-snd/steam_hisses.ogg                                            CC0                      (Bart) (OGA) - http://opengameart.org/content/steam-release-sounds
-snd/stone_bump.ogg                                              CC0                      (kddekadenz) OGA - http://opengameart.org/content/break-pumpkin
-snd/stone_roll.wav                                              CC by SA 3.0             remaxim (OGA) - http://opengameart.org/content/plastic-bongos
-snd/thunder.wav                                                 CC0                      (Bertram)
-snd/throw.wav                                                   CC by 3.0                (c) copyright Blender Foundation | apricot.blender.org (OGA) - http://opengameart.org/content/sfxthrow
-snd/trigger_on.wav                                              CC0                      (j1987) OGA - http://opengameart.org/content/click-car-blinker
-snd/falling_tree.ogg                                            CC by 3.0                Blender Foundation (OGA) - http://opengameart.org/content/tree-falling-yo-frankie
-snd/wave1_spell.ogg                                             CC by 3.0                Michel Baradari (OGA) - http://opengameart.org/content/water-splashes
-snd/wolf_howl.ogg                                               GPLv2+                   Allacrost
+data/sounds/ancient_invocation.wav                                      CC by 3.0 or GPLv2/3     qubodup (OGA) - http://opengameart.org/content/energy-drain, slightly modified.
+data/sounds/campfire.ogg                                                CC0                      Loop made by Bertram out of: http://www.freesound.org/people/Spandau/sounds/40699/
+data/sounds/cloth_sound.wav                                             CC by 3.0 or GPLv2/3     artisticdude (OGA)
+data/sounds/crystal_chime.wav                                           CC by SA 3.0             Bertram
+data/sounds/crystal_appearance.ogg                                      CC by SA 3.0 or GPLv3    Mathew Pablo (OGA) - Based on the few first seconds of Solliloquy.
+data/sounds/defence1_spell.ogg                                          CC by SA 3.0             qubodup (OGA) - http://opengameart.org/content/time-magic
+data/sounds/dog_barking.wav                                             CC by 3.0                Brandon Morris (OGA) - http://opengameart.org/content/dog-barking-mono
+data/sounds/falling.ogg                                                 CC by SA 3,0             Bertram
+data/sounds/fire1_spell.ogg                                             CC by 3.0                artisticdude (OGA) - http://opengameart.org/content/fire-evil-spell
+data/sounds/growl1_IFartInUrGeneralDirection_freesound.wav              CC by SA 3.0 or GPLv2+   Sampled by lendrick (http://www.freesound.org/people/lendrick/sounds/77632/) with permission from IFartInUrGeneralDirection
+data/sounds/heartbeat_slow.wav                                          CC0                      (bart) (OGA) - http://opengameart.org/content/heartbeat-sounds
+data/sounds/heavy_bump.wav                                              CC by SA 3.0             remaxim (OGA) - http://opengameart.org/content/falling-body
+data/sounds/itempick2_michel_baradari_oga.wav                           CC by 3.0                Michel Baradari (OGA) from here: http://www.cubeengine.com/forum.php4?action=display_thread&thread_id=2164
+data/sounds/levelup.wav                                                 CC0                      (qubodup) OGA
+data/sounds/lightning.wav                                               CC0                      (Bertram)
+data/sounds/low_scream.ogg                                              CC by 3.0                Bertram, based on Macro's sound (OGA) - http://opengameart.org/content/screaming
+data/sounds/low_scream_long.ogg                                         CC by 3.0                Bertram, based on Macro's sound (OGA) - http://opengameart.org/content/screaming
+data/sounds/meow.wav                                                    CC by 3.0                TheGertz (FreeSound) - http://www.freesound.org/people/TheGertz/sounds/131201/
+data/sounds/mountain_wind.ogg                                           CC by 3.0                Blender Foundation (OGA) - http://opengameart.org/content/ambient-mountain-river-wind-and-forest-and-waterfall
+data/sounds/new_game.wav                                                GPLv2+                   (Same sound than the opening_sword_fall.wav) file from Allacrost.
+data/sounds/punch.wav                                                   CC0                      Independent.nu (OGA) - http://opengameart.org/content/37-hitspunches
+data/sounds/rumble_continuous.ogg                                       GPLv2+                   Allacrost, adapted by Bertram
+data/sounds/save_point_activated_dokashiteru_oga.wav                    CC by 3.0 or GPLv2/3     DoKashiteru (OGA)
+data/sounds/save_successful_nick_bowler_oga.wav                         CC by 3.0                Nick Bowler, added by draconx (OGA)
+data/sounds/steam_hisses.ogg                                            CC0                      (Bart) (OGA) - http://opengameart.org/content/steam-release-sounds
+data/sounds/stone_bump.ogg                                              CC0                      (kddekadenz) OGA - http://opengameart.org/content/break-pumpkin
+data/sounds/stone_roll.wav                                              CC by SA 3.0             remaxim (OGA) - http://opengameart.org/content/plastic-bongos
+data/sounds/thunder.wav                                                 CC0                      (Bertram)
+data/sounds/throw.wav                                                   CC by 3.0                (c) copyright Blender Foundation | apricot.blender.org (OGA) - http://opengameart.org/content/sfxthrow
+data/sounds/trigger_on.wav                                              CC0                      (j1987) OGA - http://opengameart.org/content/click-car-blinker
+data/sounds/falling_tree.ogg                                            CC by 3.0                Blender Foundation (OGA) - http://opengameart.org/content/tree-falling-yo-frankie
+data/sounds/wave1_spell.ogg                                             CC by 3.0                Michel Baradari (OGA) - http://opengameart.org/content/water-splashes
+data/sounds/wolf_howl.ogg                                               GPLv2+                   Allacrost
+data/sounds/battle_encounter_02.ogg                                               GPLv2+                   Allacrost
+data/sounds/magic_blast.ogg                                               GPLv2+                   Allacrost
+data/sounds/chestopen2.wav                                               GPLv2+                   Allacrost
+data/sounds/chestclose1.wav                                               GPLv2+                   Allacrost
+data/sounds/door_open2.wav                                               GPLv2+                   Allacrost
+data/sounds/bite_02.ogg                                               GPLv2+                   Allacrost
+data/sounds/footstep_grass2.wav                                               GPLv2+                   Allacrost
+data/sounds/bite_01.ogg                                               GPLv2+                   Allacrost
+data/sounds/footstep_grass1.wav                                               GPLv2+                   Allacrost
+data/sounds/fountain_small.ogg                                               GPLv2+                   Allacrost
+data/sounds/crossbow.ogg                                               GPLv2+                   Allacrost
+data/sounds/wind.ogg                                               GPLv2+                   Allacrost
+data/sounds/opening_sword_unsheathe.wav                                               GPLv2+                   Allacrost
+data/sounds/lively_crowd.ogg                                               GPLv2+                   Allacrost
+data/sounds/heal.wav                                               GPLv2+                   Allacrost
+data/sounds/male_scream.ogg                                               GPLv2+                   Allacrost
+data/sounds/chestopen3.wav                                               GPLv2+                   Allacrost
+data/sounds/slime_attack.wav                                               GPLv2+                   Allacrost
+data/sounds/opening_sword_swipe.wav                                               GPLv2+                   Allacrost
+data/sounds/rumble.wav                                               GPLv2+                   Allacrost
+data/sounds/coins.wav                                               GPLv2+                   Allacrost
+data/sounds/chestclose3.wav                                               GPLv2+                   Allacrost
+data/sounds/menu_click_02.wav                                               GPLv2+                   Allacrost
+data/sounds/thunder.wav                                               GPLv2+                   Allacrost
+data/sounds/obtain.wav                                               GPLv2+                   Allacrost
+data/sounds/menu_click_01.wav                                               GPLv2+                   Allacrost
+data/sounds/confirm.wav                                               GPLv2+                   Allacrost
+data/sounds/gong2.wav                                               GPLv2+                   Allacrost
+data/sounds/swordslice2.wav                                               GPLv2+                   Allacrost
+data/sounds/crossbow_miss.ogg                                               GPLv2+                   Allacrost
+data/sounds/sword_swipe.wav                                               GPLv2+                   Allacrost
+data/sounds/door_open1.wav                                               GPLv2+                   Allacrost
+data/sounds/battle_encounter_03.ogg                                               GPLv2+                   Allacrost
+data/sounds/snake_attack.wav                                               GPLv2+                   Allacrost
+data/sounds/heal_spell.wav                                               GPLv2+                   Allacrost
+data/sounds/missed_target.wav                                               GPLv2+                   Allacrost
+data/sounds/spider_attack.wav                                               GPLv2+                   Allacrost
+data/sounds/battle_encounter_01.ogg                                               GPLv2+                   Allacrost
+data/sounds/swordslice1.wav                                               GPLv2+                   Allacrost
+data/sounds/potion_drink.wav                                               GPLv2+                   Allacrost
+data/sounds/cave-in.ogg                                               GPLv2+                   Allacrost
+data/sounds/footstep_concrete1.wav                                               GPLv2+                   Allacrost
+data/sounds/evil_hiss.ogg                                               GPLv2+                   Allacrost
+data/sounds/chestopen1.wav                                               GPLv2+                   Allacrost
+data/sounds/chestclose2.wav                                               GPLv2+                   Allacrost
+data/sounds/lightning.wav                                               GPLv2+                   Allacrost
+data/sounds/opening_sword_fall.wav                                               GPLv2+                   Allacrost
+data/sounds/fountain_large.ogg                                               GPLv2+                   Allacrost
+data/sounds/bump.wav                                               GPLv2+                   Allacrost
+data/sounds/skeleton_attack.wav                                               GPLv2+                   Allacrost
+data/sounds/volume_test.wav                                               GPLv2+                   Allacrost
+data/sounds/gentle_stream.ogg                                               GPLv2+                   Allacrost
+data/sounds/footstep_concrete2.wav                                               GPLv2+                   Allacrost
+data/sounds/gong.wav                                               GPLv2+                   Allacrost
+data/sounds/door_close.wav                                               GPLv2+                   Allacrost
+data/sounds/cancel.wav                                               GPLv2+                   Allacrost
+data/sounds/female_scream.ogg                                               GPLv2+                   Allacrost
+data/sounds/swordslice3.wav                                               GPLv2+                   Allacrost
 
+./img/logos/main_logo_sword.png                                               GPLv2+                   Allacrost
 
-Allacrost files: (Each and every are assumed to be licensed under the GPLv2+ conditions according to the original authors.)
-Files:
-./snd/battle_encounter_02.ogg
-./snd/magic_blast.ogg
-./snd/chestopen2.wav
-./snd/chestclose1.wav
-./snd/door_open2.wav
-./snd/bite_02.ogg
-./snd/footstep_grass2.wav
-./snd/bite_01.ogg
-./snd/footstep_grass1.wav
-./snd/fountain_small.ogg
-./snd/crossbow.ogg
-./snd/wind.ogg
-./snd/opening_sword_unsheathe.wav
-./snd/lively_crowd.ogg
-./snd/heal.wav
-./snd/male_scream.ogg
-./snd/chestopen3.wav
-./snd/slime_attack.wav
-./snd/opening_sword_swipe.wav
-./snd/rumble.wav
-./snd/coins.wav
-./snd/chestclose3.wav
-./snd/menu_click_02.wav
-./snd/thunder.wav
-./snd/obtain.wav
-./snd/menu_click_01.wav
-./snd/confirm.wav
-./snd/gong2.wav
-./snd/swordslice2.wav
-./snd/crossbow_miss.ogg
-./snd/sword_swipe.wav
-./snd/door_open1.wav
-./snd/battle_encounter_03.ogg
-./snd/snake_attack.wav
-./snd/heal_spell.wav
-./snd/missed_target.wav
-./snd/spider_attack.wav
-./snd/battle_encounter_01.ogg
-./snd/swordslice1.wav
-./snd/potion_drink.wav
-./snd/cave-in.ogg
-./snd/footstep_concrete1.wav
-./snd/evil_hiss.ogg
-./snd/chestopen1.wav
-./snd/chestclose2.wav
-./snd/lightning.wav
-./snd/opening_sword_fall.wav
-./snd/fountain_large.ogg
-./snd/bump.wav
-./snd/skeleton_attack.wav
-./snd/volume_test.wav
-./snd/gentle_stream.ogg
-./snd/footstep_concrete2.wav
-./snd/gong.wav
-./snd/door_close.wav
-./snd/cancel.wav
-./snd/female_scream.ogg
-./snd/swordslice3.wav
+./img/menus/green_check.png                                               GPLv2+                   Allacrost
+./img/menus/dialogue_cont_arrow.png                                               GPLv2+                   Allacrost
+./img/menus/battle_bottom_menu.png                                               GPLv2+                   Allacrost
+./img/menus/stamina_icon_selected.png                                               GPLv2+                   Allacrost
+./img/menus/scroll_arrows.png                                               GPLv2+                   Allacrost
+./img/menus/equip.png                                               GPLv2+                   Allacrost
+./img/menus/battle_character_command.png                                               GPLv2+                   Allacrost
+./img/menus/battle_character_selection.png                                               GPLv2+                   Allacrost
+./img/menus/dialogue_last_ind.png                                               GPLv2+                   Allacrost
+./img/menus/black_sleet_parch.png                                               GPLv2+                   Allacrost
+./img/menus/battle_command_buttons.png                                               GPLv2+                   Allacrost
 
-./img/logos/main_logo_sword.png
+./img/icons/weapons/iron_sword.png                                               GPLv2+                   Allacrost
+./img/icons/weapons/arbalest.png                                               GPLv2+                   Allacrost
+./img/icons/weapons/karlate_sword.png                                               GPLv2+                   Allacrost
+./img/icons/weapons/quick_crossbow.png                                               GPLv2+                   Allacrost
+./img/icons/weapons/standard_crossbow.png                                               GPLv2+                   Allacrost
+./img/icons/weapons/knights_blade.png                                               GPLv2+                   Allacrost
 
-./img/menus/green_check.png
-./img/menus/dialogue_cont_arrow.png
-./img/menus/battle_bottom_menu.png
-./img/menus/stamina_icon_selected.png
-./img/menus/scroll_arrows.png
-./img/menus/equip.png
-./img/menus/battle_character_command.png
-./img/menus/battle_character_selection.png
-./img/menus/dialogue_last_ind.png
-./img/menus/black_sleet_parch.png
-./img/menus/battle_command_buttons.png
+data/inventory/items/key_items/instrument_kantele.png                                               GPLv2+                   Allacrost
+./data/inventory/items/potion_blue_huge.png                                               GPLv2+                   Allacrost
+./data/inventory/items/scroll_red.png                                               GPLv2+                   Allacrost
+./data/inventory/items/potion_green_large.png                                               GPLv2+                   Allacrost
+./data/inventory/items/potion_red_huge.png                                               GPLv2+                   Allacrost
+./data/inventory/items/potion_red_small.png                                               GPLv2+                   Allacrost
+./data/inventory/items/potion_blue_small.png                                               GPLv2+                   Allacrost
+./data/inventory/items/potion_red_large.png                                               GPLv2+                   Allacrost
+./data/inventory/items/potion_green_medium.png                                               GPLv2+                   Allacrost
+./data/inventory/items/potion_blue_medium.png                                               GPLv2+                   Allacrost
+./data/inventory/items/potion_red_medium.png                                               GPLv2+                   Allacrost
+./data/inventory/items/potion_blue_large.png                                               GPLv2+                   Allacrost
+./data/inventory/items/potion_green_huge.png                                               GPLv2+                   Allacrost
+./data/inventory/items/potion_green_small.png                                               GPLv2+                   Allacrost
 
-./img/icons/weapons/iron_sword.png
-./img/icons/weapons/arbalest.png
-./img/icons/weapons/karlate_sword.png
-./img/icons/weapons/quick_crossbow.png
-./img/icons/weapons/standard_crossbow.png
-./img/icons/weapons/knights_blade.png
+./img/icons/actors/templates.png                                               GPLv2+                   Allacrost
+./img/icons/actors/default_stamina_icon.png                                               GPLv2+                   Allacrost
+./img/icons/actors/enemies/spider.png                                               GPLv2+                   Allacrost
+./img/icons/actors/enemies/skeleton.png                                               GPLv2+                   Allacrost
+./img/icons/actors/enemies/scorpion.png                                               GPLv2+                   Allacrost
+./img/icons/actors/enemies/scorpion_goliath.png                                               GPLv2+                   Allacrost
+./img/icons/actors/enemies/snake.png                                               GPLv2+                   Allacrost
+./img/icons/actors/enemies/deceleon.png                                               GPLv2+                   Allacrost
+./img/icons/actors/enemies/bat.png                                               GPLv2+                   Allacrost
+./img/icons/actors/enemies/aerocephal.png                                               GPLv2+                   Allacrost
+./img/icons/actors/enemies/daemarbora.png                                               GPLv2+                   Allacrost
+./img/icons/actors/enemies/green_slime.png                                               GPLv2+                   Allacrost
+./img/icons/actors/enemies/demonic_essence.png                                               GPLv2+                   Allacrost
+./img/icons/actors/enemies/dune_crawler.png                                               GPLv2+                   Allacrost
+./img/icons/actors/enemies/nagaruda.png                                               GPLv2+                   Allacrost
+./img/icons/actors/enemies/arcana_drake.png                                               GPLv2+                   Allacrost
+./img/icons/actors/enemies/aurum-drakueli.png                                               GPLv2+                   Allacrost
+./img/icons/actors/enemies/stygian_lizard.png                                               GPLv2+                   Allacrost
+./img/icons/actors/enemies/rat.png                                               GPLv2+                   Allacrost
 
-./img/icons/items/instrument_kantele.png
-./img/icons/items/potion_blue_huge.png
-./img/icons/items/scroll_red.png
-./img/icons/items/potion_green_large.png
-./img/icons/items/potion_red_huge.png
-./img/icons/items/potion_red_small.png
-./img/icons/items/potion_blue_small.png
-./img/icons/items/potion_red_large.png
-./img/icons/items/potion_green_medium.png
-./img/icons/items/potion_blue_medium.png
-./img/icons/items/potion_red_medium.png
-./img/icons/items/potion_blue_large.png
-./img/icons/items/potion_green_huge.png
-./img/icons/items/potion_green_small.png
-
-./img/icons/actors/templates.png
-./img/icons/actors/default_stamina_icon.png
-./img/icons/actors/enemies/spider.png
-./img/icons/actors/enemies/skeleton.png
-./img/icons/actors/enemies/scorpion.png
-./img/icons/actors/enemies/scorpion_goliath.png
-./img/icons/actors/enemies/snake.png
-./img/icons/actors/enemies/deceleon.png
-./img/icons/actors/enemies/bat.png
-./img/icons/actors/enemies/aerocephal.png
-./img/icons/actors/enemies/daemarbora.png
-./img/icons/actors/enemies/green_slime.png
-./img/icons/actors/enemies/demonic_essence.png
-./img/icons/actors/enemies/dune_crawler.png
-./img/icons/actors/enemies/nagaruda.png
-./img/icons/actors/enemies/arcana_drake.png
-./img/icons/actors/enemies/aurum-drakueli.png
-./img/icons/actors/enemies/stygian_lizard.png
-./img/icons/actors/enemies/rat.png
-
-./img/icons/armor/winged_circlet.png
-./img/icons/armor/shouldered_breastplate.png
-./img/icons/armor/cloak_leather_brown.png
-./img/icons/armor/standard_greaves.png
-./img/icons/armor/leather_sandals.png
-./img/icons/armor/karlate_helmet.png
-./img/icons/armor/stone_bracelet.png
-./img/icons/armor/karlate_breastplate.png
-./img/icons/armor/phoenix_shield.png
-./img/icons/armor/jewelry_necklace_amber.png
-./img/icons/armor/helmet_bascinet.png
-./img/icons/armor/leather_chain_mail.png
-./img/icons/armor/jewelry_ring_prismatic.png
-./img/icons/armor/leather_boots.png
-./img/icons/armor/cobalt_helm.png
-./img/icons/armor/cuirass_muscled.png
-./img/icons/armor/wooden_shield.png
-./img/icons/armor/trident_shield.png
-./img/icons/armor/crested_helmet.png
-./img/icons/armor/willow_dress.png
-./img/icons/armor/tempered_greaves.png
-./img/icons/armor/metal_shield.png
-./img/icons/armor/butterfly_pins.png
+./img/icons/armor/winged_circlet.png                                               GPLv2+                   Allacrost
+./img/icons/armor/shouldered_breastplate.png                                               GPLv2+                   Allacrost
+./img/icons/armor/cloak_leather_brown.png                                               GPLv2+                   Allacrost
+./img/icons/armor/standard_greaves.png                                               GPLv2+                   Allacrost
+./img/icons/armor/leather_sandals.png                                               GPLv2+                   Allacrost
+./img/icons/armor/karlate_helmet.png                                               GPLv2+                   Allacrost
+./img/icons/armor/stone_bracelet.png                                               GPLv2+                   Allacrost
+./img/icons/armor/karlate_breastplate.png                                               GPLv2+                   Allacrost
+./img/icons/armor/phoenix_shield.png                                               GPLv2+                   Allacrost
+./img/icons/armor/jewelry_necklace_amber.png                                               GPLv2+                   Allacrost
+./img/icons/armor/helmet_bascinet.png                                               GPLv2+                   Allacrost
+./img/icons/armor/leather_chain_mail.png                                               GPLv2+                   Allacrost
+./img/icons/armor/jewelry_ring_prismatic.png                                               GPLv2+                   Allacrost
+./img/icons/armor/leather_boots.png                                               GPLv2+                   Allacrost
+./img/icons/armor/cobalt_helm.png                                               GPLv2+                   Allacrost
+./img/icons/armor/cuirass_muscled.png                                               GPLv2+                   Allacrost
+./img/icons/armor/wooden_shield.png                                               GPLv2+                   Allacrost
+./img/icons/armor/trident_shield.png                                               GPLv2+                   Allacrost
+./img/icons/armor/crested_helmet.png                                               GPLv2+                   Allacrost
+./img/icons/armor/willow_dress.png                                               GPLv2+                   Allacrost
+./img/icons/armor/tempered_greaves.png                                               GPLv2+                   Allacrost
+./img/icons/armor/metal_shield.png                                               GPLv2+                   Allacrost
+./img/icons/armor/butterfly_pins.png                                               GPLv2+                   Allacrost

@@ -184,7 +184,7 @@ function _CreateObjects()
 
     if (GlobalManager:GetEventValue("story", "layna_forest_crystal_event_done") < 1) then
         -- Add tutorial battle dialog with Kalya and Bronann
-        event:AddScript("data/battles/battle_scenes/tutorial_battle_dialogs.lua");
+        event:AddScript("data/story/layna_forest/tutorial_battle_dialogs.lua");
     else
         -- Setup time of the day lighting on battles
         event:AddScript("data/story/layna_forest/after_crystal_twilight_battles.lua");
@@ -900,7 +900,7 @@ function _SetBattleEnvironment(enemy)
 
     if (GlobalManager:GetEventValue("story", "layna_forest_crystal_event_done") < 1) then
         -- Add tutorial battle dialog with Kalya and Bronann
-        enemy:AddBattleScript("data/battles/battle_scenes/tutorial_battle_dialogs.lua");
+        enemy:AddBattleScript("data/story/layna_forest/tutorial_battle_dialogs.lua");
     else
         -- Setup time of the day lighting on battles
         enemy:AddBattleScript("data/story/layna_forest/after_crystal_twilight_battles.lua");
