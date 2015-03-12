@@ -746,7 +746,7 @@ std::vector<QTreeWidgetItem *> Grid::getLayerItems()
 
         // Show the visible icon depending on the layer state
         if(_tile_layers[layer_id].visible)
-            item->setIcon(1, QIcon(QString("img/misc/editor-tools/eye.png")));
+            item->setIcon(1, QIcon(QString("data/editor/eye.png")));
 
         item->setText(2, name);
         item->setText(3, tr(getTypeFromLayer(_tile_layers[layer_id].layer_type).c_str()));
@@ -1269,9 +1269,9 @@ void Grid::_AutotileRandomize(int32 &tileset_num, int32 &tile_index)
     if(it != tilesets[tileset_num]->autotileability.end()) {
         // Set up for opening autotiling.lua.
         ReadScriptDescriptor read_data;
-        if(read_data.OpenFile("dat/tilesets/autotiling.lua") == false)
+        if(read_data.OpenFile("data/tilesets/autotiling.lua") == false)
             QMessageBox::warning(_graphics_view, "Loading File...",
-                                 QString("ERROR: could not open dat/tilesets/autotiling.lua for reading!"));
+                                 QString("ERROR: could not open data/tilesets/autotiling.lua for reading!"));
 
         read_data.OpenTable(it->second);
         int32 random_index = vt_utils::RandomBoundedInteger(1, static_cast<int32>(read_data.GetTableSize()));
@@ -1403,9 +1403,9 @@ void Grid::_AutotileTransitions(int32 &/*tileset_num*/, int32 &/*tile_index*/, c
 
         // Set up for opening autotiling.lua.
         ReadScriptDescriptor read_data;
-        if (read_data.OpenFile("dat/tilesets/autotiling.lua", true) == false)
+        if (read_data.OpenFile("data/tilesets/autotiling.lua", true) == false)
             QMessageBox::warning(this, "Loading File...",
-                QString("ERROR: could not open dat/tilesets/autotiling.lua for reading!"));
+                QString("ERROR: could not open data/tilesets/autotiling.lua for reading!"));
 
         // Extract the correct transition tile from autotiling.lua as determined by
         // _CheckForTransitionPattern(...).

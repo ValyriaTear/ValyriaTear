@@ -673,7 +673,7 @@ GlobalCharacter::GlobalCharacter(uint32 id, bool initial) :
 
     // Load default in case of failure
     if(!stamina_icon_loaded)
-        _stamina_icon.Load("img/icons/actors/default_stamina_icon.png", 45.0f, 45.0f);
+        _stamina_icon.Load("data/battles/stamina_icons/default_stamina_icon.png", 45.0f, 45.0f);
 
     // Load the character's battle portraits from a multi image
     _battle_portraits.assign(5, StillImage());
@@ -1448,10 +1448,10 @@ GlobalEnemy::GlobalEnemy(uint32 id) :
             PRINT_WARNING << "Invalid stamina icon image: " << stamina_icon_filename
                           << " for enemy: " << MakeStandardString(_name) << ". Loading default one." << std::endl;
 
-            _stamina_icon.Load("img/icons/actors/default_stamina_icon.png");
+            _stamina_icon.Load("data/battles/stamina_icons/default_stamina_icon.png");
         }
     } else {
-        _stamina_icon.Load("img/icons/actors/default_stamina_icon.png");
+        _stamina_icon.Load("data/battles/stamina_icons/default_stamina_icon.png");
     }
 
     // Load the enemy's base stats

@@ -664,7 +664,7 @@ public:
     }
 
     /** \brief adds a viewable location string id to the currently viewable
-    *** set. This string IDs are maintained in the dat/ folder
+    *** set. This string IDs are maintained in the data/config/world_location.lua file.
     *** \param the string id to the currently viewable location
     **/
     void ShowWorldLocation(const std::string &location_id)

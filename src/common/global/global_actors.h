@@ -1221,7 +1221,7 @@ private:
     ***
     *** \note These members are given read/write access in Lua so that Lua may use them to hold new
     *** growth amounts when a character reaches a new level. Refer to the function DetermineLevelGrowth(character)
-    *** defined in dat/actors/characters.lua
+    *** defined in data/entities/characters.lua
     **/
     //@{
     uint32 _hit_points_growth;

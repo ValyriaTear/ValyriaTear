@@ -424,7 +424,7 @@ protected:
 
     /** \brief The game modes loading the audio file.
     *** On can usually free it whenever no owner is present for a given sound.
-    *** Note that sounds/musics are only freed when their owners are removed
+    *** Note that data/sounds/musics are only freed when their owners are removed
     *** and were the last in this list.
     *** Musics and sounds that are never owned will have to be freed manually.
     *** @see AddGameModeOwner(), RemoveGameModeOwner()

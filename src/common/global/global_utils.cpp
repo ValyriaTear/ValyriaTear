@@ -248,55 +248,55 @@ GLOBAL_INTENSITY GetOppositeIntensity(GLOBAL_INTENSITY intensity) {
 void GlobalMedia::Initialize()
 {
     // Load common images
-    if (!_drunes_icon.Load("img/icons/drunes.png"))
+    if (!_drunes_icon.Load("data/inventory/drunes.png"))
         PRINT_WARNING << "Failed to load drunes icon image" << std::endl;
 
-    if (!_star_icon.Load("img/menus/star.png"))
+    if (!_star_icon.Load("data/gui/menus/star.png"))
         PRINT_WARNING << "Failed to load star icon image" << std::endl;
 
-    if (!_check_icon.Load("img/menus/green_check.png"))
+    if (!_check_icon.Load("data/gui/menus/green_check.png"))
         PRINT_WARNING << "Failed to load check icon image" << std::endl;
 
-    if (!_x_icon.Load("img/menus/red_x.png"))
+    if (!_x_icon.Load("data/gui/menus/red_x.png"))
         PRINT_WARNING << "Failed to load x icon image" << std::endl;
 
-    if (!_spirit_slot_icon.Load("img/menus/spirit.png"))
+    if (!_spirit_slot_icon.Load("data/gui/menus/spirit.png"))
         PRINT_WARNING << "Failed to load spirit icon image" << std::endl;
 
-    if (!_equip_icon.Load("img/menus/equip.png"))
+    if (!_equip_icon.Load("data/gui/menus/equip.png"))
         PRINT_WARNING << "Failed to load equip icon image" << std::endl;
 
-    if (!_key_item_icon.Load("img/menus/key.png"))
+    if (!_key_item_icon.Load("data/gui/menus/key.png"))
         PRINT_WARNING << "Failed to load key item icon image" << std::endl;
 
-    if (!_clock_icon.Load("img/menus/clock.png"))
+    if (!_clock_icon.Load("data/gui/menus/clock.png"))
         PRINT_WARNING << "Failed to load clock icon image" << std::endl;
 
-    if(!_stamina_bar_background.Load("img/misc/stamina_bar_background.png", 227, 24))
+    if(!_stamina_bar_background.Load("data/gui/map/stamina_bar_background.png", 227, 24))
         PRINT_WARNING << "Failed to load the the stamina bar background image" << std::endl;
 
-    if(!_stamina_bar.Load("img/misc/stamina_bar_map.png", 200, 9))
+    if(!_stamina_bar.Load("data/gui/map/stamina_bar_map.png", 200, 9))
         PRINT_WARNING << "Failed to load the the stamina bar image" << std::endl;
 
-    if(!_stamina_bar_infinite_overlay.Load("img/misc/stamina_bar_infinite_overlay.png", 227, 24))
+    if(!_stamina_bar_infinite_overlay.Load("data/gui/map/stamina_bar_infinite_overlay.png", 227, 24))
         PRINT_WARNING << "Failed to load the the stamina bar infinite overlay image" << std::endl;
 
-    if(!vt_video::ImageDescriptor::LoadMultiImageFromElementSize(_status_icons, "img/icons/effects/status.png", 25, 25))
+    if(!vt_video::ImageDescriptor::LoadMultiImageFromElementSize(_status_icons, "data/entities/status_effects/status.png", 25, 25))
         PRINT_WARNING << "Failed to load status icon images" << std::endl;
 
-    if(!vt_video::ImageDescriptor::LoadMultiImageFromElementGrid(_all_category_icons, "img/icons/object_category_icons.png", 3, 3))
+    if(!vt_video::ImageDescriptor::LoadMultiImageFromElementGrid(_all_category_icons, "data/inventory/object_category_icons.png", 3, 3))
         PRINT_WARNING << "Failed to load object category icon images" << std::endl;
 
-    if(!vt_video::ImageDescriptor::LoadMultiImageFromElementGrid(_small_category_icons, "img/misc/category_icons.png", 3, 4))
+    if(!vt_video::ImageDescriptor::LoadMultiImageFromElementGrid(_small_category_icons, "data/inventory/category_icons.png", 3, 4))
         PRINT_WARNING << "Failed to load small object category icon images" << std::endl;
 
     // Load common sounds
-    _LoadSoundFile("confirm", "snd/confirm.wav");
-    _LoadSoundFile("cancel", "snd/cancel.wav");
-    _LoadSoundFile("coins", "snd/coins.wav");
-    _LoadSoundFile("bump", "snd/bump.wav");
-    _LoadSoundFile("volume_test", "snd/volume_test.wav");
-    _LoadSoundFile("item_pickup", "snd/itempick2_michel_baradari_oga.wav");
+    _LoadSoundFile("confirm", "data/sounds/confirm.wav");
+    _LoadSoundFile("cancel", "data/sounds/cancel.wav");
+    _LoadSoundFile("coins", "data/sounds/coins.wav");
+    _LoadSoundFile("bump", "data/sounds/bump.wav");
+    _LoadSoundFile("volume_test", "data/sounds/volume_test.wav");
+    _LoadSoundFile("item_pickup", "data/sounds/itempick2_michel_baradari_oga.wav");
 }
 
 GlobalMedia::~GlobalMedia()

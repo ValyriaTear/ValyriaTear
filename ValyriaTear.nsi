@@ -17,7 +17,7 @@
 
 ; MUI Settings
 !define MUI_ABORTWARNING
-!define MUI_ICON "img/logos/program_icon.ico"
+!define MUI_ICON "data/icons/program_icon.ico"
 !define MUI_UNICON "${NSISDIR}\Contrib\Graphics\Icons\modern-uninstall.ico"
 
 ; Welcome page
@@ -51,14 +51,8 @@ Section "MainSection" SEC01
   StrCpy $0 "ValyriaTear"
   SetOverwrite ifnewer
 
-  SetOutPath "$INSTDIR\dat"
-  File /r dat\*
-  SetOutPath "$INSTDIR\img"
-  File /r img\*
-  SetOutPath "$INSTDIR\mus"
-  File /r mus\*
-  SetOutPath "$INSTDIR\snd"
-  File /r snd\*
+  SetOutPath "$INSTDIR\data"
+  File /r data\*
 
 ;  TODO: Add proper support for translatable languages
 ;  SetOutPath "$INSTDIR\po"

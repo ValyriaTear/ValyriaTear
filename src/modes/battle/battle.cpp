@@ -68,43 +68,43 @@ namespace private_battle
 
 // Filenames of the default music that is played when no specific music is requested
 //@{
-const std::string DEFAULT_BATTLE_MUSIC   = "mus/heroism-OGA-Edward-J-Blakeley.ogg";
-const std::string DEFAULT_VICTORY_MUSIC  = "mus/Fanfare.ogg";
-const std::string DEFAULT_DEFEAT_MUSIC   = "mus/Battle_lost-OGA-Mumu.ogg";
+const std::string DEFAULT_BATTLE_MUSIC   = "data/music/heroism-OGA-Edward-J-Blakeley.ogg";
+const std::string DEFAULT_VICTORY_MUSIC  = "data/music/Fanfare.ogg";
+const std::string DEFAULT_DEFEAT_MUSIC   = "data/music/Battle_lost-OGA-Mumu.ogg";
 //@}
 
 BattleMedia::BattleMedia()
 {
-    if(!background_image.Load("img/backdrops/battle/desert_cave/desert_cave.png"))
+    if(!background_image.Load("data/battles/battle_scenes/desert_cave/desert_cave.png"))
         PRINT_ERROR << "failed to load default background image" << std::endl;
 
-    if(stamina_icon_selected.Load("img/menus/stamina_icon_selected.png") == false)
+    if(stamina_icon_selected.Load("data/gui/battle/stamina_icon_selected.png") == false)
         PRINT_ERROR << "failed to load stamina icon selected image" << std::endl;
 
     attack_point_indicator.SetDimensions(16.0f, 16.0f);
-    if(attack_point_indicator.LoadFromFrameGrid("img/icons/battle/attack_point_target.png",
+    if(attack_point_indicator.LoadFromFrameGrid("data/gui/battle/attack_point_target.png",
             std::vector<uint32>(4, 100), 1, 4) == false)
         PRINT_ERROR << "failed to load attack point indicator." << std::endl;
 
-    if(stamina_meter.Load("img/menus/stamina_bar.png") == false)
+    if(stamina_meter.Load("data/gui/battle/stamina_bar.png") == false)
         PRINT_ERROR << "failed to load time meter." << std::endl;
 
-    if(actor_selection_image.Load("img/icons/battle/character_selector.png") == false)
+    if(actor_selection_image.Load("data/gui/battle/character_selector.png") == false)
         PRINT_ERROR << "unable to load player selector image" << std::endl;
 
-    if(character_selected_highlight.Load("img/menus/battle_character_selection.png") == false)
+    if(character_selected_highlight.Load("data/gui/battle/battle_character_selection.png") == false)
         PRINT_ERROR << "failed to load character selection highlight image" << std::endl;
 
-    if(character_command_highlight.Load("img/menus/battle_character_command.png") == false)
+    if(character_command_highlight.Load("data/gui/battle/battle_character_command.png") == false)
         PRINT_ERROR << "failed to load character command highlight image" << std::endl;
 
-    if(bottom_menu_image.Load("img/menus/battle_bottom_menu.png") == false)
+    if(bottom_menu_image.Load("data/gui/battle/battle_bottom_menu.png") == false)
         PRINT_ERROR << "failed to load bottom menu image" << std::endl;
 
-    if(ImageDescriptor::LoadMultiImageFromElementGrid(character_action_buttons, "img/menus/battle_command_buttons.png", 2, 5) == false)
+    if(ImageDescriptor::LoadMultiImageFromElementGrid(character_action_buttons, "data/gui/battle/battle_command_buttons.png", 2, 5) == false)
         PRINT_ERROR << "failed to load character action buttons" << std::endl;
 
-    if(ImageDescriptor::LoadMultiImageFromElementGrid(_target_type_icons, "img/icons/effects/targets.png", 1, 8) == false)
+    if(ImageDescriptor::LoadMultiImageFromElementGrid(_target_type_icons, "data/skills/targets.png", 1, 8) == false)
         PRINT_ERROR << "failed to load character action buttons" << std::endl;
 
     character_HP_text.SetStyle(TextStyle("text18", Color::white));
@@ -124,7 +124,7 @@ BattleMedia::BattleMedia()
         IF_PRINT_WARNING(BATTLE_DEBUG) << "failed to load defeat music file: " << DEFAULT_DEFEAT_MUSIC << std::endl;
 
     // Load the stunned icon.
-    if(!_stunned_icon.Load("img/icons/effects/zzz.png"))
+    if(!_stunned_icon.Load("data/entities/emotes/zzz.png"))
         IF_PRINT_WARNING(BATTLE_DEBUG) << "failed to load stunned icon" << std::endl;
 }
 
@@ -1227,15 +1227,15 @@ void BattleMode::_DrawStaminaBar()
 
 // Available encounter sounds
 static const std::string encounter_sound_filenames[] = {
-    "snd/battle_encounter_01.ogg",
-    "snd/battle_encounter_02.ogg",
-    "snd/battle_encounter_03.ogg"
+    "data/sounds/battle_encounter_01.ogg",
+    "data/sounds/battle_encounter_02.ogg",
+    "data/sounds/battle_encounter_03.ogg"
 };
 
 // Available encounter sounds
 static const std::string boss_encounter_sound_filenames[] = {
-    "snd/gong.wav",
-    "snd/gong2.wav"
+    "data/sounds/gong.wav",
+    "data/sounds/gong2.wav"
 };
 
 TransitionToBattleMode::TransitionToBattleMode(BattleMode *BM, bool is_boss):

@@ -31,7 +31,7 @@ typedef struct _TTF_Font TTF_Font;
 namespace vt_video
 {
 
-const std::string _LANGUAGE_FILE = "dat/config/languages.lua";
+const std::string _LANGUAGE_FILE = "data/config/languages.lua";
 
 class TextSupervisor;
 
@@ -518,7 +518,7 @@ public:
     bool SingletonInitialize();
 
     /** \brief Loads or reloads font needed by the given locale (ex: fr, it, ru, ...)
-    *** using the font script filename: "dat/config/fonts.lua"
+    *** using the font script filename: "data/config/fonts.lua"
     *** \return false in case of an error.
     **/
     bool LoadFonts(const std::string& locale_name);

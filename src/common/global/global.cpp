@@ -159,65 +159,65 @@ void GameGlobal::_CloseGlobalScripts() {
 bool GameGlobal::_LoadGlobalScripts()
 {
     // Open up the persistent script files
-    if(!_global_script.OpenFile("dat/global.lua"))
+    if(!_global_script.OpenFile("data/global.lua"))
         return false;
 
-    if(!_items_script.OpenFile("dat/objects/items.lua") || !_items_script.OpenTable("items"))
+    if(!_items_script.OpenFile("data/inventory/items.lua") || !_items_script.OpenTable("items"))
         return false;
 
-    if(!_weapons_script.OpenFile("dat/objects/weapons.lua") || !_weapons_script.OpenTable("weapons"))
+    if(!_weapons_script.OpenFile("data/inventory/weapons.lua") || !_weapons_script.OpenTable("weapons"))
         return false;
 
-    if(!_head_armor_script.OpenFile("dat/objects/head_armor.lua") || !_head_armor_script.OpenTable("armor"))
+    if(!_head_armor_script.OpenFile("data/inventory/head_armor.lua") || !_head_armor_script.OpenTable("armor"))
         return false;
 
-    if(!_torso_armor_script.OpenFile("dat/objects/torso_armor.lua") || !_torso_armor_script.OpenTable("armor"))
+    if(!_torso_armor_script.OpenFile("data/inventory/torso_armor.lua") || !_torso_armor_script.OpenTable("armor"))
         return false;
 
-    if(!_arm_armor_script.OpenFile("dat/objects/arm_armor.lua") || !_arm_armor_script.OpenTable("armor"))
+    if(!_arm_armor_script.OpenFile("data/inventory/arm_armor.lua") || !_arm_armor_script.OpenTable("armor"))
         return false;
 
-    if(!_leg_armor_script.OpenFile("dat/objects/leg_armor.lua") || !_leg_armor_script.OpenTable("armor"))
+    if(!_leg_armor_script.OpenFile("data/inventory/leg_armor.lua") || !_leg_armor_script.OpenTable("armor"))
         return false;
 
-    if(!_spirits_script.OpenFile("dat/objects/spirits.lua") || !_spirits_script.OpenTable("spirits"))
+    if(!_spirits_script.OpenFile("data/inventory/spirits.lua") || !_spirits_script.OpenTable("spirits"))
         return false;
 
-    if(!_weapon_skills_script.OpenFile("dat/skills/weapon.lua") || !_weapon_skills_script.OpenTable("skills"))
+    if(!_weapon_skills_script.OpenFile("data/skills/weapon.lua") || !_weapon_skills_script.OpenTable("skills"))
         return false;
 
-    if(!_magic_skills_script.OpenFile("dat/skills/magic.lua") || !_magic_skills_script.OpenTable("skills"))
+    if(!_magic_skills_script.OpenFile("data/skills/magic.lua") || !_magic_skills_script.OpenTable("skills"))
        return false;
 
-    if(!_special_skills_script.OpenFile("dat/skills/special.lua") || !_special_skills_script.OpenTable("skills"))
+    if(!_special_skills_script.OpenFile("data/skills/special.lua") || !_special_skills_script.OpenTable("skills"))
         return false;
 
-    if(!_bare_hands_skills_script.OpenFile("dat/skills/barehands.lua") || !_bare_hands_skills_script.OpenTable("skills"))
+    if(!_bare_hands_skills_script.OpenFile("data/skills/barehands.lua") || !_bare_hands_skills_script.OpenTable("skills"))
         return false;
 
-    if(!_status_effects_script.OpenFile("dat/effects/status.lua") || !_status_effects_script.OpenTable("status_effects"))
+    if(!_status_effects_script.OpenFile("data/entities/status_effects/status_effects.lua") || !_status_effects_script.OpenTable("status_effects"))
         return false;
 
-    if(!_characters_script.OpenFile("dat/actors/characters.lua") || !_characters_script.OpenTable("characters"))
+    if(!_characters_script.OpenFile("data/entities/characters.lua") || !_characters_script.OpenTable("characters"))
         return false;
 
-    if(!_enemies_script.OpenFile("dat/actors/enemies.lua") || !_enemies_script.OpenTable("enemies"))
+    if(!_enemies_script.OpenFile("data/entities/enemies.lua") || !_enemies_script.OpenTable("enemies"))
         return false;
 
-    if(!_map_sprites_script.OpenFile("dat/actors/map_sprites.lua") || !_map_sprites_script.OpenTable("sprites"))
+    if(!_map_sprites_script.OpenFile("data/entities/map_sprites.lua") || !_map_sprites_script.OpenTable("sprites"))
         return false;
 
-    if(!_map_objects_script.OpenFile("dat/actors/map_objects.lua"))
+    if(!_map_objects_script.OpenFile("data/entities/map_objects.lua"))
         return false;
 
-    if(!_map_treasures_script.OpenFile("dat/actors/map_treasures.lua"))
+    if(!_map_treasures_script.OpenFile("data/entities/map_treasures.lua"))
         return false;
 
     // Reload the Quests script
-    if(!_LoadQuestsScript("dat/config/quests.lua"))
+    if(!_LoadQuestsScript("data/config/quests.lua"))
         return false;
 
-    if(!_LoadWorldLocationsScript("dat/config/world_locations.lua"))
+    if(!_LoadWorldLocationsScript("data/config/world_locations.lua"))
         return false;
 
     return true;
@@ -990,6 +990,13 @@ bool GameGlobal::LoadGame(const std::string &filename, uint32 slot_id)
         _map_script_filename = map_common_name + "_script.lua";
     }
 
+    // DEPRECATED: Remove in one release
+    // test whether the beginning of the filepath is 'dat/maps/' and replace with 'data/story/'
+    if (_map_data_filename.substr(0, 9) == "dat/maps/")
+        _map_data_filename = std::string("data/story/") + _map_data_filename.substr(9, _map_data_filename.length() - 9);
+    if (_map_script_filename.substr(0, 9) == "dat/maps/")
+        _map_script_filename = std::string("data/story/") + _map_script_filename.substr(9, _map_script_filename.length() - 9);
+
     // Load a potential saved position
     _x_save_map_position = file.ReadUInt("location_x");
     _y_save_map_position = file.ReadUInt("location_y");
@@ -1653,6 +1660,11 @@ void GameGlobal::_LoadWorldMap(vt_script::ReadScriptDescriptor &file)
     }
 
     std::string world_map = file.ReadString("world_map_file");
+
+    // DEPRECATED: Remove this hack in one release
+    if (world_map.substr(0, 20) == "img/menus/worldmaps/")
+        world_map = std::string("data/story/common/worldmaps/") + world_map.substr(20, world_map.length() - 20);
+
     SetWorldMap(world_map);
 
     std::vector<std::string> location_ids;

@@ -107,7 +107,7 @@ void CharacterGrowth::UpdateGrowthData() {
         evade += _character->GetEvadeGrowth();
 
         ++_experience_levels_gained;
-        AudioManager->PlaySound("snd/levelup.wav");
+        AudioManager->PlaySound("data/sounds/levelup.wav");
 
         // New skills are only found in growth data when the character has reached a new level
         // Note that the character's new skills learned container will be cleared upon the next
@@ -199,7 +199,7 @@ void FinishDefeatAssistant::Update()
         _options.Update();
         if(InputManager->ConfirmPress()) {
             if(!_options.IsOptionEnabled(_options.GetSelection())) {
-                AudioManager->PlaySound("snd/cancel.wav");
+                AudioManager->PlaySound("data/sounds/cancel.wav");
             } else {
                 _state = FINISH_DEFEAT_CONFIRM;
                 // Set default confirm option to "No"

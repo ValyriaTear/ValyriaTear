@@ -415,7 +415,7 @@ static const std::string _SetupUserDataPath()
     // Default path if a specific solution could not be found. Note that this path may
     // not be writable by the user since it could be installed in administrator/root space
     PRINT_WARNING << "could not idenfity user path, defaulting to system path" << std::endl;
-    return "dat/";
+    return "data/";
 }
 
 //! \brief Finds the OS specific directory path to save and retrieve user config data
@@ -474,7 +474,7 @@ static const std::string _SetupUserConfigPath()
     // Default path if a specific solution could not be found. Note that this path may
     // not be writable by the user since it could be installed in administrator/root space
     PRINT_WARNING << "could not idenfity user config path, defaulting to system path" << std::endl;
-    return "dat/";
+    return "data/";
 }
 
 /** \brief Retrieves the path and filename of the settings file to use
@@ -485,9 +485,9 @@ static const std::string _SetupSettingsFilename()
     std::string settings_file = GetUserConfigPath() + "settings.lua";
     if(!DoesFileExist(settings_file)) {
         #ifdef __APPLE__
-            settings_file = "../Resources/dat/config/settings.lua";
+            settings_file = "../Resources/data/config/settings.lua";
         #else
-            settings_file = "dat/config/settings.lua";
+            settings_file = "data/config/settings.lua";
         #endif
 
         if(!DoesFileExist(settings_file))

@@ -130,7 +130,7 @@ void OptionMenu::InputRight()
     }
 }
 
-const std::string _LANGUAGE_FILE = "dat/config/languages.lua";
+const std::string _LANGUAGE_FILE = "data/config/languages.lua";
 const uint16 SKIN_MENU_INDEX = 5;
 
 GameOptionsMenuHandler::GameOptionsMenuHandler(vt_mode_manager::GameMode* parent_mode):
@@ -649,7 +649,7 @@ void GameOptionsMenuHandler::_SetupResolutionMenu()
         _resolution_menu.AddOption(ustring(), this, &GameOptionsMenuHandler::_OnResolutionConfirm);
         // Show the current selection
         if (mode.w == _resolution_list[i].w && mode.h == _resolution_list[i].h) {
-            _resolution_menu.AddOptionElementImage(i, "img/menus/star.png");
+            _resolution_menu.AddOptionElementImage(i, "data/gui/menus/star.png");
             _resolution_menu.SetSelection(i);
         }
         _resolution_menu.AddOptionElementPosition(i, 32);
@@ -753,7 +753,7 @@ void GameOptionsMenuHandler::_RefreshLanguageOptions()
         std::string lang = _po_files[i - 1];
         _language_options_menu.AddOption(ustring(), this,  &GameOptionsMenuHandler::_OnLanguageSelect);
         if (lang == current_language) {
-            _language_options_menu.AddOptionElementImage(i - 1, "img/menus/star.png");
+            _language_options_menu.AddOptionElementImage(i - 1, "data/gui/menus/star.png");
             _language_options_menu.SetSelection(i - 1);
         }
         _language_options_menu.AddOptionElementPosition(i - 1, 32);
@@ -1034,7 +1034,7 @@ void GameOptionsMenuHandler::_OnLanguageSelect()
     _has_modified_settings = true;
 
     // Reloads the theme names before the menus
-    GUIManager->ReloadSkinNames("dat/config/themes.lua");
+    GUIManager->ReloadSkinNames("data/config/themes.lua");
 
     // Reload all the translatable text in the menus.
     ReloadTranslatableMenus();
@@ -1314,7 +1314,7 @@ bool GameOptionsMenuHandler::_SaveSettingsFile(const std::string& filename)
 
     //copy the default file so we have an already set up lua file and then we can modify its settings
     if(!DoesFileExist(file))
-        CopyFile(std::string("dat/config/settings.lua"), file);
+        CopyFile(std::string("data/config/settings.lua"), file);
 
     WriteScriptDescriptor settings_lua;
     if(!settings_lua.OpenFile(file)) {

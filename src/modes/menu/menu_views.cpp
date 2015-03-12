@@ -937,7 +937,7 @@ void PartyWindow::_InitCharSelect()
 
     _character_status_text.SetStyle(TextStyle("text20"));
     _character_status_numbers.SetStyle(TextStyle("text20"));
-    _character_status_icons.Load("img/menus/status/menu_stats_icons.png");
+    _character_status_icons.Load("data/gui/menus/menu_stats_icons.png");
 
     _average_text.SetStyle(TextStyle("text20"));
     _average_text.SetText(Translate("Attack / Defense:"));
@@ -951,7 +951,7 @@ void PartyWindow::_InitCharSelect()
         + UTranslate("Magical Defense (M.DEF): ");
     _average_atk_def_text.SetText(text);
     _average_atk_def_numbers.SetStyle(TextStyle("text18"));
-    _average_atk_def_icons.Load("img/menus/status/menu_avg_atk_def.png");
+    _average_atk_def_icons.Load("data/gui/menus/menu_avg_atk_def.png");
 
     _focused_def_text.SetStyle(TextStyle("text18"));
     text = MakeUnicodeString("\n") // Skip title
@@ -963,7 +963,7 @@ void PartyWindow::_InitCharSelect()
     _focused_def_numbers.SetStyle(TextStyle("text18"));
     _focused_mdef_numbers.SetStyle(TextStyle("text18"));
 
-    _focused_def_category_icons.Load("img/menus/status/menu_point_atk_def.png");
+    _focused_def_category_icons.Load("data/gui/menus/menu_point_atk_def.png");
     _focused_def_icon = GlobalManager->Media().GetStatusIcon(GLOBAL_STATUS_FORTITUDE, GLOBAL_INTENSITY_NEUTRAL);
     _focused_mdef_icon = GlobalManager->Media().GetStatusIcon(GLOBAL_STATUS_PROTECTION, GLOBAL_INTENSITY_NEUTRAL);
 
@@ -1097,7 +1097,7 @@ void PartyWindow::UpdateStatus()
     if (weapon)
         _weapon_icon.Load(weapon->GetIconImage().GetFilename());
     else
-        _weapon_icon.Load("img/icons/weapons/fist-human.png");
+        _weapon_icon.Load("data/inventory/weapons/fist-human.png");
     _weapon_icon.SetHeightKeepRatio(40);
 
     GlobalArmor *head_armor = ch->GetHeadArmorEquipped();
@@ -1649,7 +1649,7 @@ void SkillsWindow::_UpdateSkillList()
                  ch->GetWeaponEquipped() && !ch->GetWeaponEquipped()->GetIconImage().GetFilename().empty())
                 name = MakeUnicodeString("<" + ch->GetWeaponEquipped()->GetIconImage().GetFilename() + ">");
             else if ((*it)->GetType() == GLOBAL_SKILL_BARE_HANDS)
-                name = MakeUnicodeString("<img/icons/weapons/fist-human.png>");
+                name = MakeUnicodeString("<data/inventory/weapons/fist-human.png>");
 
             name += MakeUnicodeString("<45>") + (*it)->GetName();
         }
@@ -2086,7 +2086,7 @@ void EquipWindow::_UpdateEquipList()
         StillImage i;
 
         GlobalWeapon *wpn = _character->GetWeaponEquipped();
-        i.Load(wpn ? wpn->GetIconImage().GetFilename() : "img/icons/weapons/fist-human.png");
+        i.Load(wpn ? wpn->GetIconImage().GetFilename() : "data/inventory/weapons/fist-human.png");
         _equip_images.push_back(i);
 
         GlobalArmor *head_armor = _character->GetHeadArmorEquipped();
@@ -2267,9 +2267,9 @@ void EquipWindow::Draw()
 ////////////////////////////////////////////////////////////////////////////////
 
 static const ustring spacing = MakeUnicodeString("<20>");
-static const ustring exclamation_file = MakeUnicodeString("<img/effects/emotes/exclamation.png>") + spacing;
-static const ustring check_file = MakeUnicodeString("<img/menus/green_check.png>") + spacing;
-static const ustring cross_file = MakeUnicodeString("<img/menus/red_x.png>") + spacing;
+static const ustring exclamation_file = MakeUnicodeString("<data/entities/emotes/exclamation.png>") + spacing;
+static const ustring check_file = MakeUnicodeString("<data/gui/menus/green_check.png>") + spacing;
+static const ustring cross_file = MakeUnicodeString("<data/gui/menus/red_x.png>") + spacing;
 
 QuestListWindow::QuestListWindow() :
     _active_box(false)
@@ -2550,11 +2550,11 @@ WorldMapWindow::WorldMapWindow() :
     _active(false)
 {
     _location_marker.SetStatic(true);
-    if(!_location_marker.LoadFromAnimationScript("img/menus/rotating_crystal_grey.lua"))
+    if(!_location_marker.LoadFromAnimationScript("data/gui/menus/rotating_crystal_grey.lua"))
         PRINT_ERROR << "Could not load marker image!" << std::endl;
 
     _location_pointer.SetStatic(true);
-    if(!_location_pointer.Load("img/menus/hand_down.png"))
+    if(!_location_pointer.Load("data/gui/menus/hand_down.png"))
         PRINT_ERROR << "Could not load pointer image!" << std::endl;
 }
 

@@ -57,7 +57,7 @@ MapPropertiesDialog::MapPropertiesDialog
     connect(_cancel_pbut, SIGNAL(released()), this, SLOT(reject()));
 
     // Set up the list of selectable tilesets
-    QDir tileset_dir("dat/tilesets");
+    QDir tileset_dir("data/tilesets");
     _tileset_tree = new QTreeWidget(this);
     _tileset_tree->setColumnCount(1);
     _tileset_tree->setHeaderLabels(QStringList("Tilesets"));
@@ -67,14 +67,14 @@ MapPropertiesDialog::MapPropertiesDialog
 
     // Loop through all files in the tileset directory. Start the loop at 2 to
     // skip over the present and parent working directories ("." and "..")
-    // Also add the dat/tilesets path.
+    // Also add the data/tilesets path.
     for(uint32 i = 2; i < tileset_dir.count(); i++) {
         // Exclude the autotiling.lua file as it's no tileset.
         // TODO: Move files and handle this better...
         if (tileset_dir[i] == QString("autotiling.lua"))
             continue;
 
-        QString tileset_definition_file = "dat/tilesets/" + tileset_dir[i];
+        QString tileset_definition_file = "data/tilesets/" + tileset_dir[i];
         tilesets.append(new QTreeWidgetItem((QTreeWidget *)0,
                                             QStringList(tileset_definition_file)));
         tilesets.back()->setCheckState(0, Qt::Unchecked); // enables checkboxes

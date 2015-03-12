@@ -404,7 +404,7 @@ private:
 
     /** \brief Acquires an available audio source that may be used
     *** \return A pointer to the available source, or NULL if no available source could be found
-    *** \todo Add an algoihtm to give priority to some sounds/music over others.
+    *** \todo Add an algoihtm to give priority to some data/sounds/music over others.
     **/
     private_audio::AudioSource *_AcquireAudioSource();
 

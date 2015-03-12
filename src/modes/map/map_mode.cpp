@@ -95,24 +95,24 @@ MapMode::MapMode(const std::string& data_filename, const std::string& script_fil
     PushState(STATE_EXPLORE);
 
     // Load miscellaneous map graphics
-    _dialogue_icon.LoadFromAnimationScript("img/misc/dialogue_icon.lua");
+    _dialogue_icon.LoadFromAnimationScript("data/entities/emotes/dialogue_icon.lua");
     ScaleToMapZoomRatio(_dialogue_icon);
 
     // Load the save point animation files.
     AnimatedImage anim;
-    anim.LoadFromAnimationScript("img/misc/save_point/save_point3.lua");
+    anim.LoadFromAnimationScript("data/entities/map/save_point/save_point3.lua");
     active_save_point_animations.push_back(anim);
 
     anim.Clear();
-    anim.LoadFromAnimationScript("img/misc/save_point/save_point2.lua");
+    anim.LoadFromAnimationScript("data/entities/map/save_point/save_point2.lua");
     active_save_point_animations.push_back(anim);
 
     anim.Clear();
-    anim.LoadFromAnimationScript("img/misc/save_point/save_point1.lua");
+    anim.LoadFromAnimationScript("data/entities/map/save_point/save_point1.lua");
     inactive_save_point_animations.push_back(anim);
 
     anim.Clear();
-    anim.LoadFromAnimationScript("img/misc/save_point/save_point2.lua");
+    anim.LoadFromAnimationScript("data/entities/map/save_point/save_point2.lua");
     inactive_save_point_animations.push_back(anim);
 
     // Transform the animation size to correspond to the map zoom ratio.

@@ -1069,7 +1069,7 @@ void BattleCharacter::ChangeActionText()
                 GlobalWeapon* char_wpn = GetGlobalCharacter()->GetWeaponEquipped();
                 icon_file = char_wpn ?
                             char_wpn->GetIconImage().GetFilename() :
-                            "img/icons/weapons/fist-human.png";
+                            "data/inventory/weapons/fist-human.png";
             }
             _action_selection_icon.Clear();
             _action_selection_icon.Load(icon_file, 24, 24);

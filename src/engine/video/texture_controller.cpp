@@ -323,6 +323,7 @@ bool TextureController::_SaveTempTextures()
 
 bool TextureController::_DeleteTempTextures()
 {
+    //FIXME: This is broken. Official temp folders should be used.
     return vt_utils::CleanDirectory("img/temp");
 }
 
@@ -541,6 +542,7 @@ bool TextureController::_ReloadImagesToSheet(TexSheet *sheet)
             std::string fname = img->filename;
             IF_PRINT_DEBUG(VIDEO_DEBUG) << " Reloading image " << fname << std::endl;
 
+            // FIXME: Use official temp directory per platform.
             // Check if it is a temporary image, and if so retrieve it from the img/temp directory
             if(img->tags.find("<T>", 0) != img->tags.npos) {
                 fname = "img/temp/" + fname + ".png";
