@@ -21,142 +21,142 @@ text as "GPLv2-only".  "GPLv2/3" refers to content (from OGA) that
 explicitly lists GPLv2 or v3 but doesn't clarify whether the "or any
 later version" text should be present.
 
-Files                                                            Licenses                 Authors and details
---------------------------------------------------------------- ------------------------ --------------------------------------------------------------------
-data/*.lua (including subfolders)                           GPLv2+                   Bertram (unless indicated otherwise)
+Files                                                                         Licenses                 Authors and details
+----------------------------------------------------------------------------- ------------------------ --------------------------------------------------------------------
+data/*.lua (including subfolders)                                             GPLv2+                   Bertram (unless indicated otherwise)
 
 data/battles/enemies_animations/fenrir_death/death_light_1.png                CC by SA 3.0             Bertram
 data/battles/enemies_animations/fenrir_death/death_light_2.png                CC by SA 3.0             Bertram
 data/battles/enemies_animations/fenrir_death/death_light_3.png                CC by SA 3.0             Bertram
 
-data/battles/battle_scenes/forest_background.png                      CC by SA 3.0             Tamara Ramsay vectorgurl.com - Ramtam (OGA) - http://opengameart.org/content/forest-background-art
-data/battles/battle_scenes/forest_background_evening.png              CC by SA 3.0             Tamara Ramsay vectorgurl.com - Ramtam (OGA) - http://opengameart.org/content/forest-background-art
-data/battles/battle_scenes/mountain_background.png                    CC by SA 3.0             Tamara Ramsay vectorgurl.com - Ramtam (OGA) - http://opengameart.org/content/forest-background-art-2
-data/battles/battle_scenes/desert_background.png                      CC0                      JAP (OGA) - http://opengameart.org/content/oil-painting-landscapes
-data/battles/battle_scenes/plains_background.png                      CC0                      JAP (OGA) - http://opengameart.org/content/oil-painting-landscapes
-data/battles/battle_scenes/snow_background.png                        GPLv2+, CC by SA 3.0     Delfos (OGA) - http://opengameart.org/content/artic-landscape-background
-data/battles/battle_scenes/mountain_shrine.png                        CC by SA 3.0, GPLv3      Guido Bos (OGA), from the shrine tileset. Adapted by Bertram as a battle background.
-data/battles/battle_scenes/mountain_village.png                       GPLv2+                   Allacrost
-data/battles/battle_scenes/mountain_village_single_house.png          GPLv2+                   Allacrost (Part of mountain_village.png) + based on Bart's CC0 work (OGA) - http://opengameart.org/content/moon-overlay-texture
-data/battles/battle_scenes/rock.png                                   GPLv2+                   Allacrost
+data/battles/battle_scenes/forest_background.png                              CC by SA 3.0             Tamara Ramsay vectorgurl.com - Ramtam (OGA) - http://opengameart.org/content/forest-background-art
+data/battles/battle_scenes/forest_background_evening.png                      CC by SA 3.0             Tamara Ramsay vectorgurl.com - Ramtam (OGA) - http://opengameart.org/content/forest-background-art
+data/battles/battle_scenes/mountain_background.png                            CC by SA 3.0             Tamara Ramsay vectorgurl.com - Ramtam (OGA) - http://opengameart.org/content/forest-background-art-2
+data/battles/battle_scenes/desert_background.png                              CC0                      JAP (OGA) - http://opengameart.org/content/oil-painting-landscapes
+data/battles/battle_scenes/plains_background.png                              CC0                      JAP (OGA) - http://opengameart.org/content/oil-painting-landscapes
+data/battles/battle_scenes/snow_background.png                                GPLv2+, CC by SA 3.0     Delfos (OGA) - http://opengameart.org/content/artic-landscape-background
+data/battles/battle_scenes/mountain_shrine.png                                CC by SA 3.0, GPLv3      Guido Bos (OGA), from the shrine tileset. Adapted by Bertram as a battle background.
+data/battles/battle_scenes/mountain_village.png                               GPLv2+                   Allacrost
+data/battles/battle_scenes/mountain_village_single_house.png                  GPLv2+                   Allacrost (Part of mountain_village.png) + based on Bart's CC0 work (OGA) - http://opengameart.org/content/moon-overlay-texture
+data/battles/battle_scenes/rock.png                                           GPLv2+                   Allacrost
 
-data/battles/battle_scenes/desert_cave/desert_cave.png                GPLv2+                   Allacrost + Bertram
-data/battles/battle_scenes/desert_cave/tpl_desert_cave_anim.png       GPLv2+                   Allacrost + Bertram
-data/battles/battle_scenes/desert_cave/desert_cave_eyes1.png          GPLv2+                   Allacrost + Bertram
-data/battles/battle_scenes/desert_cave/desert_cave_water.png          GPLv2+                   Allacrost + Bertram
-data/battles/battle_scenes/desert_cave/desert_cave_eyes2.png          GPLv2+                   Allacrost + Bertram
-data/battles/battle_scenes/desert_cave/desert_cave_waterdrop.png      GPLv2+                   Allacrost + Bertram
-data/battles/battle_scenes/desert_cave/desert_cave_creatures.png      GPLv2+                   Allacrost + Bertram
+data/battles/battle_scenes/desert_cave/desert_cave.png                        GPLv2+                   Allacrost + Bertram
+data/battles/battle_scenes/desert_cave/tpl_desert_cave_anim.png               GPLv2+                   Allacrost + Bertram
+data/battles/battle_scenes/desert_cave/desert_cave_eyes1.png                  GPLv2+                   Allacrost + Bertram
+data/battles/battle_scenes/desert_cave/desert_cave_water.png                  GPLv2+                   Allacrost + Bertram
+data/battles/battle_scenes/desert_cave/desert_cave_eyes2.png                  GPLv2+                   Allacrost + Bertram
+data/battles/battle_scenes/desert_cave/desert_cave_waterdrop.png              GPLv2+                   Allacrost + Bertram
+data/battles/battle_scenes/desert_cave/desert_cave_creatures.png              GPLv2+                   Allacrost + Bertram
 
-data/battles/stamina_icons/default_stamina_icon.png                                               GPLv2+                   Allacrost
+data/battles/stamina_icons/default_stamina_icon.png                           GPLv2+                   Allacrost
 
-data/battles/stamina_icons/characters/kalya.png                           GPLv2+                   Allacrost (was Laila icon)
-data/battles/stamina_icons/characters/sylve.png                           GPLv2+                   Allacrost (was Raphaela icon)
-data/battles/stamina_icons/characters/thanis.png                          GPLv2+                   Allacrost (was Claudius icon)
-data/battles/stamina_icons/characters/bronann.png                         CC by SA 3.0             Safir-Kreuz (Deviant Art)
+data/battles/stamina_icons/characters/kalya.png                               GPLv2+                   Allacrost (was Laila icon)
+data/battles/stamina_icons/characters/sylve.png                               GPLv2+                   Allacrost (was Raphaela icon)
+data/battles/stamina_icons/characters/thanis.png                              GPLv2+                   Allacrost (was Claudius icon)
+data/battles/stamina_icons/characters/bronann.png                             CC by SA 3.0             Safir-Kreuz (Deviant Art)
 
-data/battles/stamina_icons/enemies/andromalius.png                        CC by 3.0                Redshrike / Balmer (OGA) - http://opengameart.org/content/bosses-and-monsters-spritesheets-ars-notoria
-data/battles/stamina_icons/enemies/beetle.png                             CC by SA 3.0 / GPLv3     Redshrike (OGA), adapted by Bertram as stamina icon - http://opengameart.org/content/lpc-in-battle-rpg-sprites
-data/battles/stamina_icons/enemies/big_slime.png                          GPLv2+                   Bertram + Allacrost (From green slime enemy)
-data/battles/stamina_icons/enemies/dark_soldier.png                       GPLv3                    Allacrost + Kirill777 (OGA) - http://opengameart.org/content/soldier-0
-data/battles/stamina_icons/enemies/eyeball.png                            CC by SA 3.0 or GPLv3    Redshrike (OGA) - http://opengameart.org/content/lpc-in-battle-rpg-sprites
-data/battles/stamina_icons/enemies/harlequin.png                          CC by 3.0                Redshrike (OGA) + Balmer (OGA) - http://opengameart.org/content/3-form-rpg-boss-harlequin-epicycle - http://opengameart.org/content/bosses-and-monsters-spritesheets-ars-notoria
-data/battles/stamina_icons/enemies/lord_banesore.png                      CC by SA 3.0             Based on killyoverdrive (OGA) - http://opengameart.org/content/blue-knight-templar-transparent-background + image by Bertram
-data/battles/stamina_icons/enemies/mushroom_zombie.png                    CC by SA 3.0             Redshrike (OGA)
-data/battles/stamina_icons/enemies/red_slime.png                          GPLv2+                   Allacrost (From green slime enemy)
-data/battles/stamina_icons/enemies/green_snake.png                        GPLv2+                   Allacrost (From snake enemy)
-data/battles/stamina_icons/enemies/thing.png                              CC by SA 3.0             From Jetrel (OGA) (From thing enemy)
-data/battles/stamina_icons/enemies/yeti.png                               CC by SA 3.0             From Jetrel (OGA) (From yeti enemy)
-data/battles/stamina_icons/enemies/fenrir.png                             CC by SA 3.0             Icon from Bertram, image from Patrick Thompson (PK Illustration) - http://opengameart.org/content/fenrir-wolf-sprite-injuries
-data/battles/stamina_icons/enemies/shroom.png                             CC by SA 3.0             Blarumyrran (OGA), redone on higher res by Bertram - http://opengameart.org/content/blarumyrrans-publicdomain-wesnoth-sprites*
-data/battles/stamina_icons/enemies/dorver.png                             CC by SA 3,0             Manrevu (OGA) - Based on the dorver sprite - http://opengameart.org/content/dorver-monster
-data/battles/stamina_icons/enemies/spider.png                                               GPLv2+                   Allacrost
-data/battles/stamina_icons/enemies/skeleton.png                                               GPLv2+                   Allacrost
-data/battles/stamina_icons/enemies/scorpion.png                                               GPLv2+                   Allacrost
-data/battles/stamina_icons/enemies/scorpion_goliath.png                                               GPLv2+                   Allacrost
-data/battles/stamina_icons/enemies/snake.png                                               GPLv2+                   Allacrost
-data/battles/stamina_icons/enemies/deceleon.png                                               GPLv2+                   Allacrost
-data/battles/stamina_icons/enemies/bat.png                                               GPLv2+                   Allacrost
-data/battles/stamina_icons/enemies/aerocephal.png                                               GPLv2+                   Allacrost
-data/battles/stamina_icons/enemies/daemarbora.png                                               GPLv2+                   Allacrost
-data/battles/stamina_icons/enemies/green_slime.png                                               GPLv2+                   Allacrost
-data/battles/stamina_icons/enemies/demonic_essence.png                                               GPLv2+                   Allacrost
-data/battles/stamina_icons/enemies/dune_crawler.png                                               GPLv2+                   Allacrost
-data/battles/stamina_icons/enemies/nagaruda.png                                               GPLv2+                   Allacrost
-data/battles/stamina_icons/enemies/arcana_drake.png                                               GPLv2+                   Allacrost
-data/battles/stamina_icons/enemies/aurum-drakueli.png                                               GPLv2+                   Allacrost
-data/battles/stamina_icons/enemies/stygian_lizard.png                                               GPLv2+                   Allacrost
-data/battles/stamina_icons/enemies/rat.png                                               GPLv2+                   Allacrost
+data/battles/stamina_icons/enemies/andromalius.png                            CC by 3.0                Redshrike / Balmer (OGA) - http://opengameart.org/content/bosses-and-monsters-spritesheets-ars-notoria
+data/battles/stamina_icons/enemies/beetle.png                                 CC by SA 3.0 / GPLv3     Redshrike (OGA), adapted by Bertram as stamina icon - http://opengameart.org/content/lpc-in-battle-rpg-sprites
+data/battles/stamina_icons/enemies/big_slime.png                              GPLv2+                   Bertram + Allacrost (From green slime enemy)
+data/battles/stamina_icons/enemies/dark_soldier.png                           GPLv3                    Allacrost + Kirill777 (OGA) - http://opengameart.org/content/soldier-0
+data/battles/stamina_icons/enemies/eyeball.png                                CC by SA 3.0 or GPLv3    Redshrike (OGA) - http://opengameart.org/content/lpc-in-battle-rpg-sprites
+data/battles/stamina_icons/enemies/harlequin.png                              CC by 3.0                Redshrike (OGA) + Balmer (OGA) - http://opengameart.org/content/3-form-rpg-boss-harlequin-epicycle - http://opengameart.org/content/bosses-and-monsters-spritesheets-ars-notoria
+data/battles/stamina_icons/enemies/lord_banesore.png                          CC by SA 3.0             Based on killyoverdrive (OGA) - http://opengameart.org/content/blue-knight-templar-transparent-background + image by Bertram
+data/battles/stamina_icons/enemies/mushroom_zombie.png                        CC by SA 3.0             Redshrike (OGA)
+data/battles/stamina_icons/enemies/red_slime.png                              GPLv2+                   Allacrost (From green slime enemy)
+data/battles/stamina_icons/enemies/green_snake.png                            GPLv2+                   Allacrost (From snake enemy)
+data/battles/stamina_icons/enemies/thing.png                                  CC by SA 3.0             From Jetrel (OGA) (From thing enemy)
+data/battles/stamina_icons/enemies/yeti.png                                   CC by SA 3.0             From Jetrel (OGA) (From yeti enemy)
+data/battles/stamina_icons/enemies/fenrir.png                                 CC by SA 3.0             Icon from Bertram, image from Patrick Thompson (PK Illustration) - http://opengameart.org/content/fenrir-wolf-sprite-injuries
+data/battles/stamina_icons/enemies/shroom.png                                 CC by SA 3.0             Blarumyrran (OGA), redone on higher res by Bertram - http://opengameart.org/content/blarumyrrans-publicdomain-wesnoth-sprites*
+data/battles/stamina_icons/enemies/dorver.png                                 CC by SA 3,0             Manrevu (OGA) - Based on the dorver sprite - http://opengameart.org/content/dorver-monster
+data/battles/stamina_icons/enemies/spider.png                                 GPLv2+                   Allacrost
+data/battles/stamina_icons/enemies/skeleton.png                               GPLv2+                   Allacrost
+data/battles/stamina_icons/enemies/scorpion.png                               GPLv2+                   Allacrost
+data/battles/stamina_icons/enemies/scorpion_goliath.png                       GPLv2+                   Allacrost
+data/battles/stamina_icons/enemies/snake.png                                  GPLv2+                   Allacrost
+data/battles/stamina_icons/enemies/deceleon.png                               GPLv2+                   Allacrost
+data/battles/stamina_icons/enemies/bat.png                                    GPLv2+                   Allacrost
+data/battles/stamina_icons/enemies/aerocephal.png                             GPLv2+                   Allacrost
+data/battles/stamina_icons/enemies/daemarbora.png                             GPLv2+                   Allacrost
+data/battles/stamina_icons/enemies/green_slime.png                            GPLv2+                   Allacrost
+data/battles/stamina_icons/enemies/demonic_essence.png                        GPLv2+                   Allacrost
+data/battles/stamina_icons/enemies/dune_crawler.png                           GPLv2+                   Allacrost
+data/battles/stamina_icons/enemies/nagaruda.png                               GPLv2+                   Allacrost
+data/battles/stamina_icons/enemies/arcana_drake.png                           GPLv2+                   Allacrost
+data/battles/stamina_icons/enemies/aurum-drakueli.png                         GPLv2+                   Allacrost
+data/battles/stamina_icons/enemies/stygian_lizard.png                         GPLv2+                   Allacrost
+data/battles/stamina_icons/enemies/rat.png                                    GPLv2+                   Allacrost
 
-data/boot_menu/valyria_logo.png                                GPLv2+                   Bertram (using the scriptina font which is CC0, see DaFont.com)
+data/boot_menu/valyria_logo.png                                               GPLv2+                   Bertram (using the scriptina font which is CC0, see DaFont.com)
 
-data/boot_menu/ep1/background.png                               GPLv2                    JAP (OGA)
-data/boot_menu/ep1/cloudfield.png                               GPLv2+                   Bertram
-data/boot_menu/ep1/cloudymist.png                               GPLv2+                   Bertram
-data/boot_menu/ep1/crystal.png                                  GPLv2                    Len (OGA) + Bertram
-data/boot_menu/ep1/crystal_shadow.png                           GPLv2+                   Bertram
-data/boot_menu/ep1/flare.png                                    GPLv2+                   Bertram
-data/boot_menu/ep1/fog.png                                      GPLv2+                   Bertram
-data/boot_menu/ep1/satellite.png                                GPLv2                    Len (OGA) + Bertram
-data/boot_menu/ep1/satellite_shadow.png                         GPLv2+                   Bertram
+data/boot_menu/ep1/background.png                                             GPLv2                    JAP (OGA)
+data/boot_menu/ep1/cloudfield.png                                             GPLv2+                   Bertram
+data/boot_menu/ep1/cloudymist.png                                             GPLv2+                   Bertram
+data/boot_menu/ep1/crystal.png                                                GPLv2                    Len (OGA) + Bertram
+data/boot_menu/ep1/crystal_shadow.png                                         GPLv2+                   Bertram
+data/boot_menu/ep1/flare.png                                                  GPLv2+                   Bertram
+data/boot_menu/ep1/fog.png                                                    GPLv2+                   Bertram
+data/boot_menu/ep1/satellite.png                                              GPLv2                    Len (OGA) + Bertram
+data/boot_menu/ep1/satellite_shadow.png                                       GPLv2+                   Bertram
 
-data/credits/main_logo_sword.png                                               GPLv2+                   Allacrost
-data/credits/hoa_garland_logo.png                                               GPLv2+                   Allacrost
-data/credits/oga.png                                               CC by SA 3.0                   Bart (OGA)
+data/credits/main_logo_sword.png                                              GPLv2+                   Allacrost
+data/credits/hoa_garland_logo.png                                             GPLv2+                   Allacrost
+data/credits/oga.png                                                          CC by SA 3.0                   Bart (OGA)
 
-data/gui/dialogue_cont_arrow.png                                               GPLv2+                   Allacrost
-data/gui/dialogue_nameplate.png                                GPLv2+                   Allacrost + Modifications by Bertram
-data/gui/dialogue_last_ind.png                                               GPLv2+                   Allacrost
-data/gui/black_sleet_parch.png                                               GPLv2+                   Allacrost
-data/gui/scroll_arrows.png                                               GPLv2+                   Allacrost
+data/gui/dialogue_cont_arrow.png                                              GPLv2+                   Allacrost
+data/gui/dialogue_nameplate.png                                               GPLv2+                   Allacrost + Modifications by Bertram
+data/gui/dialogue_last_ind.png                                                GPLv2+                   Allacrost
+data/gui/black_sleet_parch.png                                                GPLv2+                   Allacrost
+data/gui/scroll_arrows.png                                                    GPLv2+                   Allacrost
 
-data/gui/battle/default_weapon.png                             GPLv2+                   Allacrost
-data/gui/battle/default_special.png                            CC by SA 3.0             Bertram
-data/gui/battle/invocation.png                                 GPLv2+                   Allacrost
-data/gui/battle/character_selector.png                         GPLv2+                   Allacrost
-data/gui/battle/magic.png                                      GPLv2+                   Allacrost
-data/gui/battle/item.png                                       GPLv2+                   Allacrost
-data/gui/battle/attack_point_target.png                        GPLv2+                   Allacrost
-data/gui/battle/acheron.png                                    GPLv2+                   Allacrost
-data/gui/battle/holy.png                                       GPLv2+                   Allacrost
-data/gui/battle/mist.png                                       GPLv2+                   Allacrost
-data/gui/battle/stamina_bar.png                                       CC by SA 3.0             Bertram, Lamoot (OGA) for the borders - http://opengameart.org/content/rpg-gui-construction-kit-v10, Ashiroxzer (OGA) for a few decorations - http://opengameart.org/content/dungeon-tbs
-data/gui/battle/battle_bottom_menu.png                                               GPLv2+                   Allacrost
-data/gui/battle/stamina_icon_selected.png                                               GPLv2+                   Allacrost
-data/gui/battle/battle_character_command.png                                               GPLv2+                   Allacrost
-data/gui/battle/battle_character_selection.png                                               GPLv2+                   Allacrost
-data/gui/battle/battle_command_buttons.png                                               GPLv2+                   Allacrost
+data/gui/battle/default_weapon.png                                            GPLv2+                   Allacrost
+data/gui/battle/default_special.png                                           CC by SA 3.0             Bertram
+data/gui/battle/invocation.png                                                GPLv2+                   Allacrost
+data/gui/battle/character_selector.png                                        GPLv2+                   Allacrost
+data/gui/battle/magic.png                                                     GPLv2+                   Allacrost
+data/gui/battle/item.png                                                      GPLv2+                   Allacrost
+data/gui/battle/attack_point_target.png                                       GPLv2+                   Allacrost
+data/gui/battle/acheron.png                                                   GPLv2+                   Allacrost
+data/gui/battle/holy.png                                                      GPLv2+                   Allacrost
+data/gui/battle/mist.png                                                      GPLv2+                   Allacrost
+data/gui/battle/stamina_bar.png                                               CC by SA 3.0             Bertram, Lamoot (OGA) for the borders - http://opengameart.org/content/rpg-gui-construction-kit-v10, Ashiroxzer (OGA) for a few decorations - http://opengameart.org/content/dungeon-tbs
+data/gui/battle/battle_bottom_menu.png                                        GPLv2+                   Allacrost
+data/gui/battle/stamina_icon_selected.png                                     GPLv2+                   Allacrost
+data/gui/battle/battle_character_command.png                                  GPLv2+                   Allacrost
+data/gui/battle/battle_character_selection.png                                GPLv2+                   Allacrost
+data/gui/battle/battle_command_buttons.png                                    GPLv2+                   Allacrost
 
-data/gui/map/minimap_arrows.png                                    CC by SA 3.0             Unknown Horizons (OGA) - http://opengameart.org/content/250-hud-and-interface-icons-unknown-horizons
-data/gui/map/minimap_background.png                                GPLv2+                   Allacrost + Modifications by Bertram
-data/gui/map/minimap_collision.png                                 GPLv2+                   Allacrost + Modifications by Bertram
-data/gui/map/stamina_bar_background.png                             GPLv2                    Allacrost
-data/gui/map/stamina_bar_map.png                                    CC by SA 3.0             Bertram
-data/gui/map/stamina_bar_infinite_overlay.png                       GPLv2                    Allacrost
+data/gui/map/minimap_arrows.png                                               CC by SA 3.0             Unknown Horizons (OGA) - http://opengameart.org/content/250-hud-and-interface-icons-unknown-horizons
+data/gui/map/minimap_background.png                                           GPLv2+                   Allacrost + Modifications by Bertram
+data/gui/map/minimap_collision.png                                            GPLv2+                   Allacrost + Modifications by Bertram
+data/gui/map/stamina_bar_background.png                                       GPLv2                    Allacrost
+data/gui/map/stamina_bar_map.png                                              CC by SA 3.0             Bertram
+data/gui/map/stamina_bar_infinite_overlay.png                                 GPLv2                    Allacrost
 
-data/gui/menus/clock.png                                             CC by 3.0                richtaur (OGA) - http://opengameart.org/content/bombada
-data/gui/menus/green_check.png                                               GPLv2+                   Allacrost
-data/gui/menus/hand.png                                              CC by 3.0                Copyright 2008 Jordan Trudgett | http://jordan.trudgett.com/ (OGA) - http://opengameart.org/content/cursors-arrows-map-markers-for-ardentryst-by-jordan-trudgett
-data/gui/menus/hand_down.png                                         CC by 3.0                Copyright 2008 Jordan Trudgett | http://jordan.trudgett.com/ (OGA) - http://opengameart.org/content/cursors-arrows-map-markers-for-ardentryst-by-jordan-trudgett
-data/gui/menus/key.png                                               CC by SA 3.0             Tempest in the Aether, Ryzom Core + Bertram small modifications
-data/gui/menus/rotating_crystal_grey.png                             CC by 3.0                qubodup (OGA) - http://opengameart.org/content/rotating-crystal-animation-8-step
-data/gui/menus/red_x.png                                             CC by 3.0                Ravenmore (OGA) - http://opengameart.org/content/fantasy-icon-pack-by-ravenmore-20
-data/gui/menus/spirit.png                                            CC by 3.0                Osmic (OGA) - http://opengameart.org/content/gem-jewel-diamond-glass
-data/gui/menus/star.png                                              CC by 3.0                Osmic (OGA) - http://opengameart.org/content/gem-jewel-diamond-glass
-data/gui/menus/menu_avg_atk_def.png                           GPLv2+                   Allacrost + Modifications by Bertram
-data/gui/menus/menu_point_atk_def.png                         GPLv2+                   Allacrost + Modifications by Bertram
-data/gui/menus/menu_stats_icons.png                           GPLv2+                   Allacrost + Modifications by Bertram
-data/gui/menus/equip.png                                               GPLv2+                   Allacrost
+data/gui/menus/clock.png                                                      CC by 3.0                richtaur (OGA) - http://opengameart.org/content/bombada
+data/gui/menus/green_check.png                                                GPLv2+                   Allacrost
+data/gui/menus/hand.png                                                       CC by 3.0                Copyright 2008 Jordan Trudgett | http://jordan.trudgett.com/ (OGA) - http://opengameart.org/content/cursors-arrows-map-markers-for-ardentryst-by-jordan-trudgett
+data/gui/menus/hand_down.png                                                  CC by 3.0                Copyright 2008 Jordan Trudgett | http://jordan.trudgett.com/ (OGA) - http://opengameart.org/content/cursors-arrows-map-markers-for-ardentryst-by-jordan-trudgett
+data/gui/menus/key.png                                                        CC by SA 3.0             Tempest in the Aether, Ryzom Core + Bertram small modifications
+data/gui/menus/rotating_crystal_grey.png                                      CC by 3.0                qubodup (OGA) - http://opengameart.org/content/rotating-crystal-animation-8-step
+data/gui/menus/red_x.png                                                      CC by 3.0                Ravenmore (OGA) - http://opengameart.org/content/fantasy-icon-pack-by-ravenmore-20
+data/gui/menus/spirit.png                                                     CC by 3.0                Osmic (OGA) - http://opengameart.org/content/gem-jewel-diamond-glass
+data/gui/menus/star.png                                                       CC by 3.0                Osmic (OGA) - http://opengameart.org/content/gem-jewel-diamond-glass
+data/gui/menus/menu_avg_atk_def.png                                           GPLv2+                   Allacrost + Modifications by Bertram
+data/gui/menus/menu_point_atk_def.png                                         GPLv2+                   Allacrost + Modifications by Bertram
+data/gui/menus/menu_stats_icons.png                                           GPLv2+                   Allacrost + Modifications by Bertram
+data/gui/menus/equip.png                                                      GPLv2+                   Allacrost
 
-data/gui/themes/royal_silk/win_border.png                      CC by 3.0                Bertram - Based on Charles Gabriel's work - http://opengameart.org/content/10-basic-message-boxes
-data/gui/themes/royal_silk/win_background.png                  CC by SA 3.0 / GPLv2+    Allacrost + Bertram modifications
-data/gui/themes/royal_silk/cursor.png                          CC by 3.0                Ravenmore (OGA) - http://opengameart.org/content/fantasy-icon-pack-by-ravenmore-20
-data/gui/themes/black_sleet/black_sleet_skin.png               GPLv2+                   Allacrost
-data/gui/themes/black_sleet/black_sleet_texture.png            GPLv2+                   Allacrost
-data/gui/themes/black_sleet/cursor.png                         GPLv2+                   Allacrost
-data/gui/themes/elvish_feather/cursor.png                      CC by 3.0                Bertram, adapted from Scrittl's work (OGA) - http://opengameart.org/content/phoenix-feather
-data/gui/themes/elvish_feather/win_background.png              CC by SA 3.0 / GPLv2+    Allacrost + Bertram modifications
-data/gui/themes/elvish_feather/win_border.png                  CC by SA 3.0             Bertram - with help from Mumu (OGA) - http://opengameart.org/content/40x56-card-frames-revised-again
+data/gui/themes/royal_silk/win_border.png                                     CC by 3.0                Bertram - Based on Charles Gabriel's work - http://opengameart.org/content/10-basic-message-boxes
+data/gui/themes/royal_silk/win_background.png                                 CC by SA 3.0 / GPLv2+    Allacrost + Bertram modifications
+data/gui/themes/royal_silk/cursor.png                                         CC by 3.0                Ravenmore (OGA) - http://opengameart.org/content/fantasy-icon-pack-by-ravenmore-20
+data/gui/themes/black_sleet/black_sleet_skin.png                              GPLv2+                   Allacrost
+data/gui/themes/black_sleet/black_sleet_texture.png                           GPLv2+                   Allacrost
+data/gui/themes/black_sleet/cursor.png                                        GPLv2+                   Allacrost
+data/gui/themes/elvish_feather/cursor.png                                     CC by 3.0                Bertram, adapted from Scrittl's work (OGA) - http://opengameart.org/content/phoenix-feather
+data/gui/themes/elvish_feather/win_background.png                             CC by SA 3.0 / GPLv2+    Allacrost + Bertram modifications
+data/gui/themes/elvish_feather/win_border.png                                 CC by SA 3.0             Bertram - with help from Mumu (OGA) - http://opengameart.org/content/40x56-card-frames-revised-again
 
 data/editor/stock-tool-rect-select-22.png             GPLv2                    Allacrost
 data/editor/arrow-left.png                            GPLv2                    Allacrost
