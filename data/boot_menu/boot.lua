@@ -34,7 +34,7 @@ function Initialize(boot_instance)
     -- Load the necessary files
     background_image = Script:CreateImage("data/boot_menu/ep1/background.png");
     background_image:SetDimensions(1024.0, 768.0);
-    logo_image = Script:CreateImage("data/boot_menu/ep1/valyria_logo_black.png");
+    logo_image = Script:CreateImage("data/boot_menu/valyria_logo.png");
     cloud_image = Script:CreateImage("data/boot_menu/ep1/cloudfield.png");
     mist_image = Script:CreateImage("data/boot_menu/ep1/cloudy_mist.png");
     mist_image:SetDimensions(1024.0, 768.0);

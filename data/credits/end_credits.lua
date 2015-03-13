@@ -40,7 +40,7 @@ function Initialize(map_instance)
         [1] = {
             images = {
                 [0] = {
-                    image = Script:CreateImage("data/boot_menu/ep1/valyria_logo_black.png"),
+                    image = Script:CreateImage("data/boot_menu/valyria_logo.png"),
                     image_dimension_x = 630.0,
                     image_dimension_y = 318.0,
                     image_position_x = 500.0,
