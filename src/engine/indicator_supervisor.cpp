@@ -65,11 +65,10 @@ void IndicatorElement::Start()
     _timer.Run();
 
     // Reinit the indicator push
-    _x_force = vt_utils::RandomFloat(0.0f, 100.0f);
-    if (_x_force >= 50.0f)
-        vt_utils::RandomFloat(10.0f, 20.0f);
+    if (vt_utils::RandomFloat(0.0f, 100.0f) >= 50.0f)
+        _x_force = vt_utils::RandomFloat(30.0f, 60.0f);
     else
-        vt_utils::RandomFloat(-20.0f, -10.0f);
+        _x_force = vt_utils::RandomFloat(-60.0f, -30.0f);
     _y_force = INITIAL_FORCE;
 }
 
@@ -85,8 +84,8 @@ void IndicatorElement::_UpdateDrawPosition()
     // the time passed since the last call in ms.
     float elapsed_ms = static_cast<float>(vt_system::SystemManager->GetUpdateTime());
     // Use only rational values.
-    if (elapsed_ms > 50)
-        elapsed_ms = 50;
+    if (elapsed_ms <= 0.0f || elapsed_ms > 15.0f)
+        elapsed_ms = 15.0f;
 
     switch(_indicator_type) {
     case DAMAGE_INDICATOR: {
