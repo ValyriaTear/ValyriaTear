@@ -490,8 +490,6 @@ void SavePoint::SetActive(bool active)
     _save_active = active;
 }
 
-
-// Halos
 Halo::Halo(const std::string& filename, float x, float y, const Color& color):
     MapObject(NO_LAYER_OBJECT) // This is a special object
 {
@@ -503,7 +501,7 @@ Halo::Halo(const std::string& filename, float x, float y, const Color& color):
     _collision_mask = NO_COLLISION;
 
     if(!_animation.LoadFromAnimationScript(filename))
-        return;
+        PRINT_WARNING << "Couldn't load the Halo animation " << filename << " properly." << std::endl;
 
     // Setup the image collision for the display update
     SetImgPixelHalfWidth(_animation.GetWidth() / 2.0f);
