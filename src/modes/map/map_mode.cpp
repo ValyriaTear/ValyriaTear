@@ -385,12 +385,13 @@ void MapMode::Draw()
 
 void MapMode::DrawPostEffects()
 {
+    VideoManager->PushState();
+    VideoManager->SetStandardCoordSys();
     VideoManager->SetDrawFlags(VIDEO_BLEND, VIDEO_X_CENTER, VIDEO_Y_BOTTOM, 0);
     // Halos are additive blending made, so they should be applied
     // as post-effects but before the GUI.
     _object_supervisor->DrawLights();
 
-    VideoManager->SetStandardCoordSys();
     GetScriptSupervisor().DrawPostEffects();
 
     // Draw the gui, unaffected by potential fading effects.
@@ -402,6 +403,7 @@ void MapMode::DrawPostEffects()
     // Draw the treasure menu if necessary
     if(CurrentState() == STATE_TREASURE)
         _treasure_supervisor->Draw();
+    VideoManager->PopState();
 }
 
 void MapMode::ResetState()
