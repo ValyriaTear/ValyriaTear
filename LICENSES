@@ -123,7 +123,7 @@ data/gui/battle/mist.png                                                      GP
 data/gui/battle/stamina_bar.png                                               CC by SA 3.0             Bertram, Lamoot (OGA) for the borders - http://opengameart.org/content/rpg-gui-construction-kit-v10, Ashiroxzer (OGA) for a few decorations - http://opengameart.org/content/dungeon-tbs
 data/gui/battle/battle_bottom_menu.png                                        GPLv2+                   Allacrost
 data/gui/battle/stamina_icon_selected.png                                     GPLv2+                   Allacrost
-data/gui/battle/battle_character_command.png                                  GPLv2+                   Allacrost
+data/gui/battle/battle_character_command.png                                  CC by SA 3.0             Unknown Horizons (OGA) - http://opengameart.org/content/250-hud-and-interface-icons-unknown-horizons
 data/gui/battle/battle_character_selection.png                                GPLv2+                   Allacrost
 data/gui/battle/battle_command_buttons.png                                    GPLv2+                   Allacrost
 
