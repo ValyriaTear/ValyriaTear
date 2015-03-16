@@ -570,6 +570,22 @@ sprites["Skeleton"] = {
     },
 }
 
+sprites["Dorver"] = {
+    name = vt_system.Translate("Dorver"),
+    coll_half_width = 3.20 * 16,
+    coll_height = 2.0 * 16,
+    img_half_width = 3.39 * 16,
+    img_height = 5.145 * 16,
+    movement_speed = 600000, -- Non-moving
+    --face_portrait = "",
+
+    -- using special animation files.
+    standard_animations = {
+        idle = "data/entities/map/enemies/dorver_idle.lua",
+        walk = "data/entities/map/enemies/dorver_idle.lua"
+    },
+}
+
 sprites["Andromalius"] = {
     name = vt_system.Translate("Andromalius"),
     coll_half_width = 1.781 * 16,
