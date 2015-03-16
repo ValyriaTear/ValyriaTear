@@ -82,18 +82,18 @@ function _SetBattleEnvironment(enemy)
 end
 
 function _CreateEnemies()
-    local enemy = nil
-    local roam_zone = nil
+    -- Only create the enemy zone on hardmode difficulty setting
+    if (SystemManager:GetGameDifficulty() >= 3) then
+        -- Hint: left, right, top, bottom
+        local roam_zone = vt_map.EnemyZone.Create(6, 35, 13, 39);
 
-    -- Hint: left, right, top, bottom
-    roam_zone = vt_map.EnemyZone.Create(6, 35, 13, 39);
-
-    enemy = CreateEnemySprite(Map, "Skeleton");
-    _SetBattleEnvironment(enemy);
-    enemy:NewEnemyParty();
-    enemy:AddEnemy(19);
-    enemy:SetTimeToRespawn(25000);
-    roam_zone:AddEnemy(enemy, 1);
+        local enemy = CreateEnemySprite(Map, "Skeleton");
+        _SetBattleEnvironment(enemy);
+        enemy:NewEnemyParty();
+        enemy:AddEnemy(19);
+        enemy:SetTimeToRespawn(25000);
+        roam_zone:AddEnemy(enemy, 1);
+    end
 end
 
 -- Triggers and stones
