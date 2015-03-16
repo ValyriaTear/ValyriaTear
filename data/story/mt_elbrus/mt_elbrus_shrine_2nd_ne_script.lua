@@ -85,7 +85,7 @@ function _CreateEnemies()
     -- Only create the enemy zone on hardmode difficulty setting
     if (SystemManager:GetGameDifficulty() >= 3) then
         -- Hint: left, right, top, bottom
-        local roam_zone = vt_map.EnemyZone.Create(6, 35, 13, 39);
+        local roam_zone = vt_map.EnemyZone.Create(20, 29, 16, 28);
 
         local enemy = CreateEnemySprite(Map, "Skeleton");
         _SetBattleEnvironment(enemy);
