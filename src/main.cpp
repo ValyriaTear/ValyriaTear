@@ -313,11 +313,14 @@ static void LoadGUIThemes(const std::string& theme_script_filename)
         std::string win_border_file = theme_script.ReadString("win_border_file");
         std::string win_background_file = theme_script.ReadString("win_background_file");
         std::string cursor_file = theme_script.ReadString("cursor_file");
+        std::string scroll_arrows_file = theme_script.ReadString("scroll_arrows_file");
 
         if (default_theme_id == theme_ids[i])
             default_theme_found = true;
 
-        if (!GUIManager->LoadMenuSkin(theme_ids[i], theme_name, cursor_file, win_border_file, win_background_file)) {
+        if (!GUIManager->LoadMenuSkin(theme_ids[i], theme_name, cursor_file,
+                                      scroll_arrows_file, win_border_file,
+                                      win_background_file)) {
             theme_script.CloseAllTables();
             theme_script.CloseFile();
             PRINT_ERROR << "The theme '" << theme_ids[i]

@@ -601,16 +601,6 @@ public:
         return _debug_info;
     }
 
-    /** \brief sets the default cursor to the image in the given filename
-    * \param cursor_image_filename file containing the cursor image
-    */
-    bool SetDefaultCursor(const std::string &cursor_image_filename);
-
-    /** \brief returns the cursor image
-    * \return the cursor image
-    */
-    StillImage *GetDefaultCursor();
-
     /** Retrieves current set text style for rendering
      */
     TextStyle GetTextStyle();
@@ -743,9 +733,6 @@ private:
     //! \note update_mode true for performance, false for the CPU-gentle loop.
     //! It is always on performance when VSync is enabled.
     bool _game_update_mode;
-
-    //! image which is to be used as the cursor
-    StillImage _default_menu_cursor;
 
     //! Image used for rendering rectangles
     StillImage _rectangle_image;

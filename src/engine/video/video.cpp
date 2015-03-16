@@ -231,7 +231,6 @@ VideoEngine::~VideoEngine()
 
     TextManager->SingletonDestroy();
 
-    _default_menu_cursor.Clear();
     _rectangle_image.Clear();
     delete _FPS_textimage;
 
@@ -1121,19 +1120,6 @@ int32 VideoEngine::_ConvertXAlign(int32 x_align)
         IF_PRINT_WARNING(VIDEO_DEBUG) << "unknown value for argument flag: " << x_align << std::endl;
         return 0;
     }
-}
-
-bool VideoEngine::SetDefaultCursor(const std::string &cursor_image_filename)
-{
-    return _default_menu_cursor.Load(cursor_image_filename);
-}
-
-StillImage *VideoEngine::GetDefaultCursor()
-{
-    if(_default_menu_cursor.GetWidth() != 0.0f)   // cheap test if image is valid
-        return &_default_menu_cursor;
-    else
-        return NULL;
 }
 
 void VideoEngine::DrawLine(float x1, float y1, unsigned width1, float x2, float y2, unsigned width2, const Color &color)

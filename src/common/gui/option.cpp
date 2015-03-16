@@ -1198,7 +1198,7 @@ void OptionBox::_DrawCursor(const OptionCellBounds &bounds, float scroll_offset,
     VideoManager->SetDrawFlags(VIDEO_BLEND, 0);
     VideoManager->MoveRelative(left_edge + _cursor_xoffset, _cursor_yoffset + cursor_offset);
 
-    StillImage *default_cursor = VideoManager->GetDefaultCursor();
+    StillImage* default_cursor = GUIManager->GetCursor();
 
     if(default_cursor == NULL)
         IF_PRINT_WARNING(VIDEO_DEBUG) << "invalid (NULL) cursor image" << std::endl;

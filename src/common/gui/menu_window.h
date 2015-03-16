@@ -83,8 +83,8 @@ public:
     //! \brief The translated skin name
     vt_utils::ustring skin_name;
 
-    //! \brief The file name for the cursor image for this skin.
-    std::string cursor_file;
+    //! image which is to be used as the cursor
+    vt_video::StillImage menu_cursor;
 
     /** \brief A 2d array that holds the border images for the menu skin
     *** The entries in this array represent the following parts:
@@ -111,8 +111,16 @@ public:
     **/
     vt_video::StillImage connectors[5];
 
-    //! \brief The (optional) background image of the menu skin that fills the inside of the MenuWindow
+    //! \brief The background image of the menu skin that fills the inside of the MenuWindow
     vt_video::StillImage background;
+
+    /** \brief Stores the arrow icons used for scrolling through various GUI controls
+    *** The size of this vector is eight. The first four images are the standard arrows and the last
+    *** four are greyed out arrows (used to indicate the end of scrolling). The first four arrow
+    *** images represent up, down, left, right in that order, and the last four arrows follow this
+    *** format as well.
+    **/
+    std::vector<vt_video::StillImage> scroll_arrows;
 }; // class MenuSkin
 
 } // namespace private_gui

@@ -241,7 +241,8 @@ public:
 
     ~GUISystem();
 
-    bool SingletonInitialize();
+    bool SingletonInitialize()
+    { return true; }
 
     /** \name Methods for loading of menu skins
     ***
@@ -253,49 +254,17 @@ public:
     *** \param skin_name The name that will be used to refer to the skin after it is successfully loaded
     *** \param cursor_file The filename for the image that contains the menu's cursor image.
     *** \param border_image The filename for the multi-image that contains the menu's border images
-    *** \param background_image The filename for the skin's background image (optional)
-    *** \param top_left Sets the background color for the top left portion of the skin
-    *** \param top_right Sets the background color for the top right portion of the skin
-    *** \param bottom_left Sets the background color for the bottom left portion of the skin
-    *** \param bottom_right Sets the background color for the bottom right portion of the skin
+    *** \param background_image The filename for the skin's background image
     *** \param make_default If this skin should be the default menu skin to be used, set this argument to true
     *** \return True if the skin was loaded successfully, or false in case of an error
     ***
     *** A few notes about this function:
-    *** - If you set a background image, any background colors will not be visible unless the background image has some transparency
     *** - If no other menu skins are loaded when this function is called, the default skin will automatically be set to this skin,
     ***   regardless of the value of the make_default parameter.
     **/
-    //@{
-    //! \brief Loads a background image with no background colors
-    bool LoadMenuSkin(const std::string &skin_id,
-                      const std::string &skin_name, const std::string &cursor_file, const std::string &border_image,
-                      const std::string &background_image, bool make_default = false);
-
-    //! \brief Loads a single background color with no background image
-    bool LoadMenuSkin(const std::string &skin_id,
-                      const std::string &skin_name, const std::string &cursor_file, const std::string &border_image,
-                      const vt_video::Color &background_color, bool make_default = false);
-
-    //! \brief Loads multiple multiple background colors with no background image
-    bool LoadMenuSkin(const std::string &skin_id,
-                      const std::string &skin_name, const std::string &cursor_file, const std::string &border_image,
-                      const vt_video::Color &top_left, const vt_video::Color &top_right,
-                      const vt_video::Color &bottom_left, const vt_video::Color &bottom_right, bool make_default = false);
-
-    //! \brief Loads a background image with a single background color
-    bool LoadMenuSkin(const std::string &skin_id,
-                      const std::string &skin_name, const std::string &cursor_file, const std::string &border_image,
-                      const std::string &background_image,
-                      const vt_video::Color &background_color, bool make_default = false);
-
-    //! \brief Loads a background image with multiple background colors
-    bool LoadMenuSkin(const std::string &skin_id,
-                      const std::string &skin_name, const std::string &cursor_file, const std::string &border_image,
-                      const std::string &background_image,
-                      const vt_video::Color &top_left, const vt_video::Color &top_right,
-                      const vt_video::Color &bottom_left, const vt_video::Color &bottom_right, bool make_default = false);
-    //@}
+    bool LoadMenuSkin(const std::string& skin_id,
+                      const std::string& skin_name, const std::string& cursor_file, const std::string& scroll_arrows_file,
+                      const std::string& border_image, const std::string& background_image, bool make_default = false);
 
     /** \brief Stores the id of the user menu skin.
     *** \param skin_id The id of the user menu skin.
@@ -348,7 +317,7 @@ public:
     std::string GetDefaultMenuSkinId();
 
     //! \brief Returns the translated name of the user menu skin.
-    vt_utils::ustring GetDefaultMenuSkinName();
+    const vt_utils::ustring& GetDefaultMenuSkinName() const;
 
     //! \brief Reloads the translated theme names when changing the language.
     void ReloadSkinNames(const std::string& theme_filename);
@@ -360,9 +329,10 @@ public:
     *** images represent up, down, left, right in that order, and the last four arrows follow this
     *** format as well.
     **/
-    std::vector<vt_video::StillImage>* GetScrollArrows() {
-        return &_scroll_arrows;
-    }
+    std::vector<vt_video::StillImage>* GetScrollArrows() const;
+
+    //! \brief Returns a pointer to current skin cursor image.
+    vt_video::StillImage* GetCursor() const;
 
     //! \brief Returns true if GUI elements should have outlines drawn over their boundaries
     bool DEBUG_DrawOutlines() const {
@@ -377,14 +347,6 @@ public:
     }
 
 private:
-    /** \brief Stores the arrow icons used for scrolling through various GUI controls
-    *** The size of this vector is eight. The first four images are the standard arrows and the last
-    *** four are greyed out arrows (used to indicate the end of scrolling). The first four arrow
-    *** images represent up, down, left, right in that order, and the last four arrows follow this
-    *** format as well.
-    **/
-    std::vector<vt_video::StillImage> _scroll_arrows;
-
     /** \brief A map containing all of the menu skins which have been loaded
     *** The string argument is the reference id of the menu, which is defined
     *** by the user when they load a new skin.
@@ -406,7 +368,7 @@ private:
     *** If no menu skins exist, this member will be NULL. It will never be NULL as long as one menu skin is loaded.
     *** If the default menu skin is deleted by the user, an alternative default skin will automatically be set.
     **/
-    vt_gui::private_gui::MenuSkin *_default_skin;
+    vt_gui::private_gui::MenuSkin* _default_skin;
 
     /** \brief Draws an outline of the boundary for all GUI elements drawn to the screen when true
     *** The VideoEngine class contains the method that modifies this variable.

@@ -108,7 +108,6 @@ data/gui/dialogue_cont_arrow.png                                              CC
 data/gui/dialogue_nameplate.png                                               GPLv2+                   Allacrost + Modifications by Bertram
 data/gui/dialogue_last_ind.png                                                CC by 3.0                http://opengameart.org/content/rpg-gui-construction-kit-v10
 data/gui/black_sleet_parch.png                                                GPLv2+                   Allacrost
-data/gui/scroll_arrows.png                                                    GPLv2+                   Allacrost
 
 data/gui/battle/default_weapon.png                                            GPLv2+                   Allacrost
 data/gui/battle/default_special.png                                           CC by SA 3.0             Bertram
@@ -151,12 +150,15 @@ data/gui/menus/equip.png                                                      GP
 data/gui/themes/royal_silk/win_border.png                                     CC by 3.0                Bertram - Based on Charles Gabriel's work - http://opengameart.org/content/10-basic-message-boxes
 data/gui/themes/royal_silk/win_background.png                                 CC by SA 3.0 / GPLv2+    Allacrost + Bertram modifications
 data/gui/themes/royal_silk/cursor.png                                         CC by 3.0                Ravenmore (OGA) - http://opengameart.org/content/fantasy-icon-pack-by-ravenmore-20
+data/gui/themes/royal_silk/scroll_arrows.png                                  GPLv2+                   Allacrost + Modifications by Bertram
 data/gui/themes/black_sleet/black_sleet_skin.png                              GPLv2+                   Allacrost
 data/gui/themes/black_sleet/black_sleet_texture.png                           GPLv2+                   Allacrost
 data/gui/themes/black_sleet/cursor.png                                        GPLv2+                   Allacrost
+data/gui/themes/black_sleet/scroll_arrows.png                                 GPLv2+                   Allacrost + Modifications by Bertram
 data/gui/themes/elvish_feather/cursor.png                                     CC by 3.0                Bertram, adapted from Scrittl's work (OGA) - http://opengameart.org/content/phoenix-feather
 data/gui/themes/elvish_feather/win_background.png                             CC by SA 3.0 / GPLv2+    Allacrost + Bertram modifications
 data/gui/themes/elvish_feather/win_border.png                                 CC by SA 3.0             Bertram - with help from Mumu (OGA) - http://opengameart.org/content/40x56-card-frames-revised-again
+data/gui/themes/elvish_feather/scroll_arrows.png                              GPLv2+                   Allacrost + Modifications by Bertram
 
 data/editor/stock-tool-rect-select-22.png                                     GPLv2                    Allacrost
 data/editor/arrow-left.png                                                    GPLv2                    Allacrost
