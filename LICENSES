@@ -102,11 +102,11 @@ data/boot_menu/ep1/satellite_shadow.png                                       GP
 
 data/credits/main_logo_sword.png                                              GPLv2+                   Allacrost
 data/credits/hoa_garland_logo.png                                             GPLv2+                   Allacrost
-data/credits/oga.png                                                          CC by SA 3.0                   Bart (OGA)
+data/credits/oga.png                                                          CC by SA 3.0             Bart (OGA)
 
-data/gui/dialogue_cont_arrow.png                                              GPLv2+                   Allacrost
+data/gui/dialogue_cont_arrow.png                                              CC by 3.0                http://opengameart.org/content/rpg-gui-construction-kit-v10
 data/gui/dialogue_nameplate.png                                               GPLv2+                   Allacrost + Modifications by Bertram
-data/gui/dialogue_last_ind.png                                                GPLv2+                   Allacrost
+data/gui/dialogue_last_ind.png                                                CC by 3.0                http://opengameart.org/content/rpg-gui-construction-kit-v10
 data/gui/black_sleet_parch.png                                                GPLv2+                   Allacrost
 data/gui/scroll_arrows.png                                                    GPLv2+                   Allacrost
 
