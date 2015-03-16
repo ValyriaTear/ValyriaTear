@@ -225,7 +225,12 @@ function Update()
     if (dialogue3_done == false and lilly_reaction_time <= 0) then
         DialogueManager:StartDialogue("Lilly helps Bronann dialogue");
         Battle:SetSceneMode(true);
-        lilly_charge_time = 10000;
+        -- Set the time depending on the game difficulty
+        if (SystemManager:GetGameDifficulty() == 1) then
+            lilly_charge_time = 5000; -- Easy
+        else
+            lilly_charge_time = 10000;
+        end
         lilly_reaction_time = 2000;
         lilly_heals_bronann();
     end
@@ -299,7 +304,14 @@ function DrawForeground()
 end
 
 function lilly_heals_bronann()
-    local hit_points = (20 * 3) +  vt_utils.RandomBoundedInteger(0, 15);
+    local hit_points = 60
+
+    if (SystemManager:GetGameDifficulty() == 1) then
+        hit_points = hit_points + vt_utils.RandomBoundedInteger(50, 80); -- Easy
+    else
+        hit_points = hit_points + vt_utils.RandomBoundedInteger(0, 15);
+    end
+
     bronann:RegisterHealing(hit_points, true);
     AudioManager:PlaySound("data/sounds/heal_spell.wav");
     Battle:TriggerBattleParticleEffect("data/visuals/particle_effects/heal_particle.lua",
