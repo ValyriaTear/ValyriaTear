@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////////////////////////////////
-//            Copyright (C) 2012-2013 by Valyria Tear Project
+//            Copyright (C) 2012-2015 by Valyria Tear Project
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
