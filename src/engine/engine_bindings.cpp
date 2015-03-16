@@ -247,9 +247,7 @@ void BindEngineCode()
             .def("GetPlayMinutes", &SystemEngine::GetPlayMinutes)
             .def("GetPlaySeconds", &SystemEngine::GetPlaySeconds)
             .def("GetLanguage", &SystemEngine::GetLanguage)
-            .def("SetLanguage", &SystemEngine::SetLanguage)
-            .def("NotDone", &SystemEngine::NotDone)
-            .def("ExitGame", &SystemEngine::ExitGame)
+            .def("GetGameDifficulty", &SystemEngine::GetGameDifficulty)
         ];
 
     } // End using system namespaces
