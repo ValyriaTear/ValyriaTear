@@ -385,8 +385,8 @@ function _CreateEnemiesZones()
     roam_zones[8]:SetSpawnsLeft(1); -- This monster shall spawn only one time.
     roam_zones[8]:SetEnabled(false); -- Disabled per default
 
-    roam_zones[9] = vt_map.EnemyZone.Create(10, 32, 12, 16);
-    enemy = CreateEnemySprite(Map, "Skeleton");
+    roam_zones[9] = vt_map.EnemyZone.Create(18, 20, 13, 16);
+    enemy = CreateEnemySprite(Map, "Dorver");
     _SetBattleEnvironment(enemy);
     enemy:NewEnemyParty();
     enemy:AddEnemy(16);
@@ -664,9 +664,8 @@ map_functions = {
         for _, my_object in pairs(breaking_spikes) do
             if (spike_wall:IsCollidingWith(my_object) == true) then
                 -- Add broken spikes map object there
-                local broken_spike = CreateObject(Map, "Spikes_broken1", my_object:GetXPosition(), my_object:GetYPosition());
+                local broken_spike = CreateObject(Map, "Spikes_broken1", my_object:GetXPosition(), my_object:GetYPosition(), vt_map.MapMode.FLATGROUND_OBJECT);
                 broken_spike:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
-                Map:AddFlatGroundObject(broken_spike);
 
                 my_object:SetVisible(false);
                 my_object:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
