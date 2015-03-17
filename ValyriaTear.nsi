@@ -54,6 +54,10 @@ Section "MainSection" SEC01
   SetOutPath "$INSTDIR\data"
   File /r data\*
 
+; The offline manual
+  SetOutPath "$INSTDIR\doc"
+  File /r doc\*
+
 ;  TODO: Add proper support for translatable languages
 ;  SetOutPath "$INSTDIR\po"
 ;  File /r po\*
@@ -87,6 +91,7 @@ Section "MainSection" SEC01
 
   CreateDirectory "$SMPROGRAMS\ValyriaTear"
   CreateShortCut "$SMPROGRAMS\ValyriaTear\$0.lnk" "$INSTDIR\$0.exe"
+  CreateShortCut "$SMPROGRAMS\ValyriaTear\Manual.lnk" "$INSTDIR\doc\index.htm"
 SectionEnd
 
 Section -AdditionalIcons
@@ -120,6 +125,7 @@ Section Uninstall
 
   Delete "$SMPROGRAMS\ValyriaTear\Uninstall.lnk"
   Delete "$SMPROGRAMS\ValyriaTear\$0.lnk"
+  Delete "$SMPROGRAMS\ValyriaTear\Manual.lnk"
 
   RMDir "$SMPROGRAMS\ValyriaTear"
   RMDir /r "$INSTDIR"
