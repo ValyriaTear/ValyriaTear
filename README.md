@@ -13,7 +13,7 @@ The game has all the features you can expect from JRPG classics: entertaining st
 
 ## Licensing
 
-**Copyright (C) 2012-2014 by Bertram  
+**Copyright (C) 2012-2015 by Bertram  
 Copyright (C) 2004-2011 by The Allacrost Project**
 
 The source code is licensed under the *GNU GPL*. It is free software and you may
