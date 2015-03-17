@@ -1,4 +1,4 @@
-![Valyria Tear](https://raw.githubusercontent.com/Bertram25/ValyriaTear/master/img/logos/valyria_logo_black.png)
+![Valyria Tear](https://raw.githubusercontent.com/Bertram25/ValyriaTear/master/data/boot_menu/valyria_logo.png)
 
 **Development blog:** http://valyriatear.blogspot.com  
 **Bug Tracker:** https://github.com/Bertram25/ValyriaTear/issues  
@@ -26,7 +26,7 @@ While the scripts are under the GNU GPL, the story concept is copyrighted and ca
 This means you can package, and distribute Valyria Tear under the term of this license but you cannot take the story or parts of it in another project without agreement.
 
 The game directories included and used are:
-`dat/ img/ mus/ snd/ src/ po/`
+`data/ po/`
 
 ## Compilation procedure
 
