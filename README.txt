@@ -39,7 +39,7 @@ This means you can package, and distribute Valyria Tear under the term of this l
 but you cannot take the story or parts of it in another project without agreement.
 
 The game directories included and used are:
-dat/ img/ mus/ snd/ src/ po/
+data/ po/
 
 ## Compilation procedure ##
 
