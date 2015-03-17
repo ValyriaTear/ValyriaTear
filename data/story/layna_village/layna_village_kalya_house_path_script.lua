@@ -171,7 +171,7 @@ function _CreateNPCs()
     local npc = nil
     local event = nil
 
-    grandma = CreateNPCSprite(Map, "Old Woman1", vt_system.Translate("Brymir"), 7, 25, vt_map.MapMode.GROUND_OBJECT);
+    grandma = CreateNPCSprite(Map, "Old Woman1", vt_system.Translate("Grandma"), 7, 25, vt_map.MapMode.GROUND_OBJECT);
     grandma:SetDirection(vt_map.MapMode.SOUTH);
 
     _ReloadGrandmaDialogue();
