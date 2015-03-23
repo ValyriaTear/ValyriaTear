@@ -25,6 +25,10 @@ function Initialize(map_instance)
 
     Script = Map:GetScriptSupervisor();
 
+    -- /// Translators: The logo file path here can be overidden to an image of the logo made for your country language.
+    -- /// Leave the same value if you don't plan to change this image.
+    local logo_filepath = vt_system.Translate("data/boot_menu/valyria_logo.png");
+
     credit_map = {
         [0] = {
             images = nil,
@@ -40,7 +44,7 @@ function Initialize(map_instance)
         [1] = {
             images = {
                 [0] = {
-                    image = Script:CreateImage("data/boot_menu/valyria_logo.png"),
+                    image = Script:CreateImage(logo_filepath),
                     image_dimension_x = 630.0,
                     image_dimension_y = 318.0,
                     image_position_x = 500.0,

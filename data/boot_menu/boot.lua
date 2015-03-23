@@ -34,7 +34,6 @@ function Initialize(boot_instance)
     -- Load the necessary files
     background_image = Script:CreateImage("data/boot_menu/ep1/background.png");
     background_image:SetDimensions(1024.0, 768.0);
-    logo_image = Script:CreateImage("data/boot_menu/valyria_logo.png");
     cloud_image = Script:CreateImage("data/boot_menu/ep1/cloudfield.png");
     mist_image = Script:CreateImage("data/boot_menu/ep1/cloudy_mist.png");
     mist_image:SetDimensions(1024.0, 768.0);
@@ -48,6 +47,11 @@ function Initialize(boot_instance)
     satellite_shadow_image = Script:CreateImage("data/boot_menu/ep1/satellite_shadow.png");
     satellite_shadow_image:SetDimensions(48.0, 32.0);
     flare_image = Script:CreateImage("data/boot_menu/ep1/flare.png");
+
+    -- /// Translators: The logo file path here can be overidden to an image of the logo made for your country language.
+    -- /// Leave the same value if you don't plan to change this image.
+    local logo_filepath = vt_system.Translate("data/boot_menu/valyria_logo.png");
+    logo_image = Script:CreateImage(logo_filepath);
 
     -- Init the timer
     animation_timer = vt_system.SystemTimer(7000, 0);

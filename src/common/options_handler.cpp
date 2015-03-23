@@ -362,6 +362,14 @@ void GameOptionsMenuHandler::ReloadTranslatableMenus()
     // Make the parent game mode reload its translated text
     if (_parent_mode)
         _parent_mode->ReloadTranslatedTexts();
+
+    // Reset the window title
+    SDL_Window* sdl_window = VideoManager->GetWindowHandle();
+    if (sdl_window) {
+        /// Translators: The window title only supports UTF-8 characters in SDL2.
+        std::string AppFullName = vt_system::Translate("Valyria Tear");
+        SDL_SetWindowTitle(sdl_window, AppFullName.c_str());
+    }
 }
 
 void GameOptionsMenuHandler::_SetupOptionsMenu()

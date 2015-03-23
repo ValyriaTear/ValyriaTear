@@ -464,8 +464,8 @@ int main(int argc, char *argv[])
         return false;
     }
 
-    // TODO: Translate the windows name
-    SDL_Window *sdl_window = SDL_CreateWindow(APPFULLNAME,
+    // Create a default window
+    SDL_Window* sdl_window = SDL_CreateWindow(APPFULLNAME,
                          SDL_WINDOWPOS_CENTERED,
                          SDL_WINDOWPOS_CENTERED,
                          800, 600, // default size
@@ -541,6 +541,11 @@ int main(int argc, char *argv[])
     // Set the window handle, apply actual screen resolution
     VideoManager->SetWindowHandle(sdl_window);
     VideoManager->ApplySettings();
+
+    // Now the settings are loaded, let's set the windows translated title.
+    /// Translators: The window title only supports UTF-8 characters in SDL2.
+    std::string app_fullname = vt_system::Translate("Valyria Tear");
+    SDL_SetWindowTitle(sdl_window, app_fullname.c_str());
 
     ModeManager->Push(new BootMode(), false, true);
 

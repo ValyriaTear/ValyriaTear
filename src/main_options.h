@@ -47,11 +47,6 @@ void PrintUsage();
 **/
 bool PrintSystemInformation();
 
-/** \brief Checks the integrity of the game's file structure to make sure no files are missing or corrupt.
-*** \return False if something is wrong with the file integrity.
-**/
-bool CheckFiles();
-
 /** \brief Resets the game settings (audio volume, key mappings, etc.) to their default values.
 *** \return False if the settings could not be restored, or if another problem occured.
 **/
