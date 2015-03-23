@@ -245,9 +245,9 @@ void VirtualSprite::_SetNextPosition()
                                            | MOVING_SOUTHEAST | MOVING_SOUTHWEST));
 
     // Handle collision with the first object encountered
-    MapObject *collision_object = NULL;
-    MapMode *map = MapMode::CurrentInstance();
-    ObjectSupervisor *object_supervisor = map->GetObjectSupervisor();
+    MapObject* collision_object = NULL;
+    MapMode* map_mode = MapMode::CurrentInstance();
+    ObjectSupervisor* object_supervisor = map_mode->GetObjectSupervisor();
     COLLISION_TYPE collision_type = object_supervisor->DetectCollision(this, next_pos_x,
                      next_pos_y,
                      &collision_object);
@@ -296,7 +296,7 @@ void VirtualSprite::_SetNextPosition()
 
         // Don't consider physical objects with an event to avoid sliding on their edges,
         // making them harder to "talk with".
-        if (collision_object && this == map->GetCamera()) {
+        if (collision_object && this == map_mode->GetCamera()) {
             PhysicalObject *phs = reinterpret_cast<PhysicalObject *>(collision_object);
             if(phs && !phs->GetEventIdWhenTalking().empty())
                 return;
@@ -306,7 +306,7 @@ void VirtualSprite::_SetNextPosition()
         if (_HandleWallEdges(next_pos_x, next_pos_y, distance_moved, collision_object))
             break;
         // We don't do any other checks for the player sprite.
-        else if (this == map->GetCamera())
+        else if (this == map_mode->GetCamera())
             return;
 
         // NPC sprites:
@@ -336,17 +336,14 @@ void VirtualSprite::_SetNextPosition()
         break;
     case ENEMY_COLLISION:
         // Check only whether the player has collided with a monster
-        if(this == map->GetCamera() &&
+        if(this == map_mode->GetCamera() &&
                 collision_object && collision_object->GetObjectType() == ENEMY_TYPE) {
-            EnemySprite *enemy = reinterpret_cast<EnemySprite *>(collision_object);
+            EnemySprite* enemy = reinterpret_cast<EnemySprite *>(collision_object);
 
-            if(enemy && enemy->IsHostile() && map->AttackAllowed()) {
-                 // Check whether the player is actually playing. If not, we don't want to start a battle.
-                 if (MapMode::CurrentInstance()->CurrentState() == STATE_EXPLORE)
-                     _StartEnemyEncounter(enemy);
-
-                 return;
-            }
+            // Check whether the player is actually playing. If not, we don't want to start a battle.
+            if (map_mode->CurrentState() == STATE_EXPLORE)
+                map_mode->StartEnemyEncounter(enemy);
+            return;
         }
 
         break;
@@ -360,20 +357,17 @@ void VirtualSprite::_SetNextPosition()
         }
 
         // When the sprite is controlled by the camera, let the player handle the position correction.
-        if(this == map->GetCamera())
+        if(this == map_mode->GetCamera())
             return;
 
         // Check whether an enemy has collided with the player
-        if(this->GetType() == ENEMY_TYPE && collision_object == map->GetCamera()) {
-            EnemySprite *enemy = reinterpret_cast<EnemySprite *>(this);
+        if(this->GetType() == ENEMY_TYPE && collision_object == map_mode->GetCamera()) {
+            EnemySprite* enemy = reinterpret_cast<EnemySprite *>(this);
 
-            if(enemy && enemy->IsHostile() && map->AttackAllowed()) {
-                 // Check whether the player is actually playing. If not, we don't want to start a battle.
-                 if (MapMode::CurrentInstance()->CurrentState() == STATE_EXPLORE)
-                     _StartEnemyEncounter(enemy);
-
-                 return;
-            }
+            // Check whether the player is actually playing. If not, we don't want to start a battle.
+            if (map_mode->CurrentState() == STATE_EXPLORE)
+                map_mode->StartEnemyEncounter(enemy, false, true); // The enemy gets a boost in agility.
+            return;
         }
 
         // When being blocked and moving diagonally, the npc is stuck.
@@ -395,16 +389,16 @@ void VirtualSprite::_SetNextPosition()
     }
 
     // Inform the overlay system of the parallax movement done if needed
-    if(this == map->GetCamera()) {
-        float x_parallax = !map->IsCameraXAxisInMapCorner() ?
+    if(this == map_mode->GetCamera()) {
+        float x_parallax = !map_mode->IsCameraXAxisInMapCorner() ?
                            (GetXPosition() - next_pos_x) / SCREEN_GRID_X_LENGTH * VIDEO_STANDARD_RES_WIDTH :
                            0.0f;
-        float y_parallax = !map->IsCameraYAxisInMapCorner() ?
+        float y_parallax = !map_mode->IsCameraYAxisInMapCorner() ?
                            (GetYPosition() - next_pos_y) / SCREEN_GRID_Y_LENGTH * VIDEO_STANDARD_RES_HEIGHT :
                            0.0f;
 
-        map->GetEffectSupervisor().AddParallax(x_parallax, y_parallax);
-        map->GetIndicatorSupervisor().AddParallax(x_parallax, y_parallax);
+        map_mode->GetEffectSupervisor().AddParallax(x_parallax, y_parallax);
+        map_mode->GetIndicatorSupervisor().AddParallax(x_parallax, y_parallax);
     }
 
     // Make the sprite advance at the end
@@ -615,60 +609,6 @@ void VirtualSprite::RestoreState()
     _movement_speed = _saved_movement_speed;
     _moving = _saved_moving;
     MapMode::CurrentInstance()->GetEventSupervisor()->ResumeAllEvents(this);
-}
-
-void VirtualSprite::_StartEnemyEncounter(EnemySprite* enemy)
-{
-    if (!enemy)
-        return;
-
-    // If the enemy has got an encounter event, we trigger it.
-    if (!enemy->GetEncounterEvent().empty()) {
-        MapMode::CurrentInstance()->GetEventSupervisor()->StartEvent(enemy->GetEncounterEvent());
-        return;
-    }
-
-    // Otherwise, we start a battle
-    // Check the current map stamina and apply a malus on agility when it is low
-    MapMode* MM = MapMode::CurrentInstance();
-    MM->ApplyPotentialStaminaMalus();
-
-    // Start a map-to-battle transition animation sequence
-    BattleMode *BM = new BattleMode();
-
-    std::string battle_background = enemy->GetBattleBackground();
-    if(!battle_background.empty())
-        BM->GetMedia().SetBackgroundImage(battle_background);
-
-    std::string enemy_battle_music = enemy->GetBattleMusicTheme();
-    if(!enemy_battle_music.empty())
-        BM->GetMedia().SetBattleMusic(enemy_battle_music);
-
-    const std::vector<BattleEnemyInfo>& enemy_party = enemy->RetrieveRandomParty();
-    for(uint32 i = 0; i < enemy_party.size(); ++i) {
-        BM->AddEnemy(enemy_party[i].enemy_id,
-                     enemy_party[i].position_x,
-                     enemy_party[i].position_y);
-    }
-
-    std::vector<std::string> enemy_battle_scripts = enemy->GetBattleScripts();
-    if(!enemy_battle_scripts.empty())
-        BM->GetScriptSupervisor().SetScripts(enemy_battle_scripts);
-
-    BM->SetBossBattle(enemy->IsBoss());
-
-    TransitionToBattleMode *TM = new TransitionToBattleMode(BM, enemy->IsBoss());
-
-    // Indicates to the potential enemy zone that this spawn is dead.
-    EnemyZone *zone = enemy->GetEnemyZone();
-    if (zone)
-        zone->DecreaseSpawnsLeft();
-
-    // Make all enemy sprites disappear after creating the transition mode so that the player
-    // can't be cornerned and forced into multiple battles in succession.
-    MM->GetObjectSupervisor()->SetAllEnemyStatesToDead();
-
-    ModeManager->Push(TM);
 }
 
 // ****************************************************************************
@@ -1418,7 +1358,8 @@ void EnemySprite::_HandleHostileUpdate()
         player_in_aggro_range = true;
 
     // Handle chasing the character
-    if (player_in_aggro_range && MapMode::CurrentInstance()->AttackAllowed()) {
+    MapMode* map_mode = MapMode::CurrentInstance();
+    if (player_in_aggro_range && map_mode->AttackAllowed()) {
         // We first cancel the potential previous path.
         if (!_path.empty()) {
             // We cancel any previous path
@@ -1431,7 +1372,7 @@ void EnemySprite::_HandleHostileUpdate()
         // Check whether we're already colliding, so that even when not moving
         // we can start a battle.
         if (this->IsCollidingWith(camera))
-            _StartEnemyEncounter(this);
+            map_mode->StartEnemyEncounter(this);
 
         // Make the monster go toward the character
         if(xdelta > -0.5 && xdelta < 0.5 && ydelta < 0)

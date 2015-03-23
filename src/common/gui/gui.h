@@ -114,9 +114,19 @@ public:
     *** \param w Reference to a variable to hold the width
     *** \param h Reference to a variable to hold the height
     **/
-    void GetDimensions(float &w, float &h) const {
+    void GetDimensions(float& w, float& h) const {
         w = _width;
         h = _height;
+    }
+
+    //! \brief Returns the width of the GUI element
+    inline float GetWidth() const {
+        return _width;
+    }
+
+    //! \brief Returns the height of the GUI element
+    inline float GetHeight() const {
+        return _height;
     }
 
     /** \brief Gets the position of the object.
@@ -124,9 +134,19 @@ public:
     *** \param y A reference to store the y coordinate of the object.
     *** \note X and y are in terms of a 1024x768 coordinate system
     **/
-    void GetPosition(float &x, float &y) const {
+    void GetPosition(float& x, float& y) const {
         x = _x_position;
         y = _y_position;
+    }
+
+    //! \brief Returns the position of the GUI element on the x axis.
+    inline float GetXPosition() const {
+        return _x_position;
+    }
+
+    //! \brief Returns the position of the GUI element on the y axis.
+    inline float GetYPosition() const {
+        return _y_position;
     }
 
     /** \brief Gets the x and y alignment of the element.

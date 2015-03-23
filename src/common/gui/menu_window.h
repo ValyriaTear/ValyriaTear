@@ -213,6 +213,11 @@ public:
         return _window_state;
     }
 
+    //! \brief Convenience function to know whether the window is shown
+    inline bool IsVisible() const {
+        return _window_state == VIDEO_MENU_STATE_SHOWN;
+    }
+
     //! \note This call is somewhat expensive since it has to recreate the menu window image.
     void SetDimensions(float w, float h);
 

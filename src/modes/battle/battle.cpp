@@ -222,7 +222,9 @@ BattleMode::BattleMode() :
     _battle_type(BATTLE_TYPE_WAIT),
     _highest_agility(0),
     _battle_type_time_factor(BATTLE_WAIT_FACTOR),
-    _is_boss_battle(false)
+    _is_boss_battle(false),
+    _hero_init_boost(false),
+    _enemy_init_boost(false)
 {
     _current_instance = this;
 
@@ -230,9 +232,7 @@ BattleMode::BattleMode() :
     _command_supervisor = new CommandSupervisor();
     _dialogue_supervisor = new vt_common::DialogueSupervisor();
     _finish_supervisor = new FinishSupervisor();
-} // BattleMode::BattleMode()
-
-
+}
 
 BattleMode::~BattleMode()
 {
@@ -255,7 +255,7 @@ BattleMode::~BattleMode()
     _enemy_party.clear();
 
     _ready_queue.clear();
-} // BattleMode::~BattleMode()
+}
 
 void BattleMode::_ResetMusicState()
 {
@@ -631,6 +631,14 @@ void BattleMode::ChangeState(BATTLE_STATE new_state)
         // Disable potential previous light effects
         VideoManager->DisableFadeEffect();
         GetEffectSupervisor().DisableEffects();
+
+        // Display a message about the agility bonus related event
+        if (_hero_init_boost && _enemy_init_boost)
+            GetIndicatorSupervisor().AddShortNotice(UTranslate("Double Rush!"), "data/gui/menus/star.png");
+        else if (_hero_init_boost)
+            GetIndicatorSupervisor().AddShortNotice(UTranslate("First Strike!"), "data/gui/menus/star.png");
+        else if (_enemy_init_boost)
+            GetIndicatorSupervisor().AddShortNotice(UTranslate("Ambush!"), "data/entities/emotes/exclamation.png");
         break;
     case BATTLE_STATE_NORMAL:
         if(_battle_type == BATTLE_TYPE_WAIT || _battle_type == BATTLE_TYPE_SEMI_ACTIVE) {
@@ -856,7 +864,7 @@ void BattleMode::_Initialize()
     else if(_battle_type == BATTLE_TYPE_SEMI_ACTIVE)
         _battle_type_time_factor = BATTLE_SEMI_ACTIVE_FACTOR;
 
-    for(uint32 i = 0; i < _character_actors.size(); i++) {
+    for(uint32 i = 0; i < _character_actors.size(); ++i) {
         if(_character_actors[i]->IsAlive()) {
             SetActorIdleStateTime(_character_actors[i]);
 
@@ -864,32 +872,40 @@ void BattleMode::_Initialize()
             _character_actors[i]->ChangeState(ACTOR_STATE_IDLE);
         }
     }
-    for(uint32 i = 0; i < _enemy_actors.size(); i++) {
+    for(uint32 i = 0; i < _enemy_actors.size(); ++i) {
         SetActorIdleStateTime(_enemy_actors[i]);
         _enemy_actors[i]->ChangeState(ACTOR_STATE_IDLE);
     }
 
     // Randomize each actor's initial idle state progress to be somewhere in the lower half of their total
     // idle state time. This is performed so that every battle doesn't start will all stamina icons piled on top
-    // of one another at the bottom of the stamina bar
-    for(uint32 i = 0; i < _character_actors.size(); i++) {
-        if(_character_actors[i]->IsAlive()) {
-            uint32 max_init_timer = _character_actors[i]->GetIdleStateTime() / 2;
+    // of one another at the bottom of the stamina bar.
+    // Also, depending on who attacked first, the hero or enemy party will receive an agility boost at battle start.
+    for(uint32 i = 0; i < _character_actors.size(); ++i) {
+        if(!_character_actors[i]->IsAlive())
+            continue;
+
+        uint32 max_init_timer = _character_actors[i]->GetIdleStateTime() / 2;
+        if (_hero_init_boost)
+            _character_actors[i]->GetStateTimer().Update(RandomBoundedInteger(max_init_timer, max_init_timer * 2));
+        else
             _character_actors[i]->GetStateTimer().Update(RandomBoundedInteger(0, max_init_timer));
-        }
     }
-    for(uint32 i = 0; i < _enemy_actors.size(); i++) {
+    for(uint32 i = 0; i < _enemy_actors.size(); ++i) {
         uint32 max_init_timer = _enemy_actors[i]->GetIdleStateTime() / 2;
-        _enemy_actors[i]->GetStateTimer().Update(RandomBoundedInteger(0, max_init_timer));
+        if (_enemy_init_boost)
+            _enemy_actors[i]->GetStateTimer().Update(RandomBoundedInteger(max_init_timer, max_init_timer * 2));
+        else
+            _enemy_actors[i]->GetStateTimer().Update(RandomBoundedInteger(0, max_init_timer));
     }
 
     // Init the script component.
     GetScriptSupervisor().Initialize(this);
 
     ChangeState(BATTLE_STATE_INITIAL);
-} // void BattleMode::_Initialize()
+}
 
-void BattleMode::SetActorIdleStateTime(BattleActor *actor)
+void BattleMode::SetActorIdleStateTime(BattleActor* actor)
 {
     if(!actor || actor->GetAgility() == 0)
         return;

@@ -20,7 +20,9 @@
 
 #include "engine/system.h"
 #include "engine/video/video.h"
+
 #include "common/global/global.h"
+#include "common/message_window.h"
 
 #include "utils/utils_random.h"
 #include "utils/utils_strings.h"
@@ -288,6 +290,10 @@ IndicatorSupervisor::~IndicatorSupervisor()
     for(uint32 i = 0; i < _active_queue.size(); ++i)
         delete _active_queue[i];
     _active_queue.clear();
+
+    for(uint32 i = 0; i < _short_notices.size(); ++i)
+        delete _short_notices[i];
+    _short_notices.clear();
 }
 
 static bool IndicatorCompare(IndicatorElement *one, IndicatorElement *another)
@@ -328,6 +334,23 @@ void IndicatorSupervisor::Update()
     // Sort the indicator display in that case
     if(must_sort)
         std::sort(_active_queue.begin(), _active_queue.end(), IndicatorCompare);
+
+    if (_short_notices.empty())
+        return;
+
+    // Update only the first ShortNoticeWindow
+    vt_common::ShortNoticeWindow* msg_win = _short_notices.front();
+    msg_win->Update(vt_system::SystemManager->GetUpdateTime());
+
+    // and delete it if it was hidden.
+    if (!msg_win->IsVisible()) {
+        delete msg_win;
+        _short_notices.pop_front();
+
+        // Show the next timed message window
+        if (!_short_notices.empty())
+            _short_notices.front()->Show();
+    }
 }
 
 bool IndicatorSupervisor::_FixPotentialIndicatorOverlapping(IndicatorElement *element)
@@ -368,6 +391,10 @@ void IndicatorSupervisor::Draw()
 {
     for(uint32 i = 0; i < _active_queue.size(); i++)
         _active_queue[i]->Draw();
+
+    if (_short_notices.empty())
+        return;
+    _short_notices.front()->Draw();
 }
 
 void IndicatorSupervisor::AddDamageIndicator(float x_position, float y_position,
@@ -442,6 +469,18 @@ void IndicatorSupervisor::AddParallax(float x_parallax, float y_parallax)
         element->SetXOrigin(element->GetXOrigin() + x_parallax);
         element->SetYOrigin(element->GetYOrigin() + y_parallax);
     }
+}
+
+void IndicatorSupervisor::AddShortNotice(const vt_utils::ustring& message,
+                                         const std::string& icon_image_filename)
+{
+    vt_common::ShortNoticeWindow* msg_win = NULL;
+    if (icon_image_filename.empty())
+        msg_win = new vt_common::ShortNoticeWindow(message);
+    else
+        msg_win = new vt_common::ShortNoticeWindow(message, icon_image_filename);
+
+    _short_notices.push_back(msg_win);
 }
 
 } // namespace vt_mode_manager

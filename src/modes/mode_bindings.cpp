@@ -733,6 +733,8 @@ void BindModeCode()
             .def("SetBattleType", &BattleMode::SetBattleType)
             .def("TriggerBattleParticleEffect", &BattleMode::TriggerBattleParticleEffect)
             .def("CreateBattleAnimation", &BattleMode::CreateBattleAnimation)
+            .def("BoostHeroPartyInitiative", &BattleMode::BoostHeroPartyInitiative)
+            .def("BoostEnemyPartyInitiative", &BattleMode::BoostEnemyPartyInitiative)
 
             // Namespace constants
             .enum_("constants") [

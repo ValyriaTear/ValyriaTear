@@ -27,6 +27,11 @@
 
 #include "modes/battle/battle_utils.h"
 
+namespace vt_common
+{
+class ShortNoticeWindow;
+}
+
 namespace vt_mode_manager
 {
 
@@ -407,6 +412,10 @@ public:
 
     //! \brief Adds a parallax effect to damage and healing indicators, permitting to simulate the camera offset movement.
     void AddParallax(float x_parallax, float y_parallax);
+
+    //! \brief Adds a small text info + optional icon on screen for a few seconds.
+    void AddShortNotice(const vt_utils::ustring& message, const std::string& icon_image_filename = std::string());
+
 private:
     //! \brief A FIFO queue container of elements that are waiting to be started and added to the active elements container
     std::deque<IndicatorElement *> _wait_queue;
@@ -414,10 +423,13 @@ private:
     //! \brief A FIFO queue container of all elements that have begun and are going through their display sequence
     std::deque<IndicatorElement *> _active_queue;
 
+    //! \brief A FIFO container used to display a short message with optional icons.
+    std::deque<vt_common::ShortNoticeWindow *> _short_notices;
+
     //! Check the waiting queue and fix potential overlaps depending on the element position and type.
     //! \param element the Indicator Element which is about to be added.
     //! \return whether there were overlapping elements whose positions were fixed.
-    bool _FixPotentialIndicatorOverlapping(IndicatorElement *element);
+    bool _FixPotentialIndicatorOverlapping(IndicatorElement* element);
 }; // class IndicatorSupervisor
 
 } // namespace vt_mode_manager

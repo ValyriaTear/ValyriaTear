@@ -224,11 +224,6 @@ protected:
     **/
     void _SetNextPosition();
 
-    /** \brief Start a enemy encounter battle or event with a given enemy
-    *** \param enemy The enemy sprite the character has collided with.
-    **/
-    void _StartEnemyEncounter(EnemySprite* enemy);
-
     /** \brief Handles position corrections when the sprite is on the edge of
     *** physical obstacles. (NPC sprites, treasure, ... aren't considered here for playability purpose)
     **/

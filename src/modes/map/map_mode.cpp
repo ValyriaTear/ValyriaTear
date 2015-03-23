@@ -28,6 +28,7 @@
 #include "modes/pause.h"
 #include "modes/boot/boot.h"
 #include "modes/save/save_mode.h"
+#include "modes/battle/battle.h"
 
 #include "engine/audio/audio.h"
 #include "engine/input.h"
@@ -724,10 +725,10 @@ void MapMode::_UpdateExplore()
         }
     }
     // Regenerate the stamina at 1/2 the consumption rate
-    else if(_run_stamina < 10000) {
+    else if(_run_stamina < STAMINA_FULL) {
         _run_stamina += SystemManager->GetUpdateTime();
-        if(_run_stamina > 10000)
-            _run_stamina = 10000;
+        if(_run_stamina > STAMINA_FULL)
+            _run_stamina = STAMINA_FULL;
     }
 
     // If the user requested a confirm event, check if there is a nearby object that the player may interact with
@@ -736,38 +737,60 @@ void MapMode::_UpdateExplore()
         MapObject *obj = _object_supervisor->FindNearestInteractionObject(_camera);
 
         if(obj != NULL) {
-            if(obj->GetType() == PHYSICAL_TYPE) {
-                PhysicalObject *phs = reinterpret_cast<PhysicalObject *>(obj);
+            switch(obj->GetType()) {
+                default:
+                    break;
 
-                if(!phs->GetEventIdWhenTalking().empty()) {
-                    _camera->SetMoving(false);
-                    _camera->SetRunning(false);
-                    if (!_event_supervisor->IsEventActive(phs->GetEventIdWhenTalking()))
-                        _event_supervisor->StartEvent(phs->GetEventIdWhenTalking());
+                case PHYSICAL_TYPE: {
+                    PhysicalObject* phs = reinterpret_cast<PhysicalObject *>(obj);
+
+                    if(!phs->GetEventIdWhenTalking().empty()) {
+                        _camera->SetMoving(false);
+                        _camera->SetRunning(false);
+                        if (!_event_supervisor->IsEventActive(phs->GetEventIdWhenTalking()))
+                            _event_supervisor->StartEvent(phs->GetEventIdWhenTalking());
+                        return;
+                    }
+                    break;
+                }
+                case SPRITE_TYPE: {
+                    MapSprite* sp = reinterpret_cast<MapSprite *>(obj);
+
+                    if(sp->HasAvailableDialogue()) {
+                        _camera->SetMoving(false);
+                        _camera->SetRunning(false);
+                        sp->InitiateDialogue();
+                        return;
+                    }
+                    break;
+                }
+                case TREASURE_TYPE: {
+                    TreasureObject* treasure_object = reinterpret_cast<TreasureObject *>(obj);
+
+                    if(!treasure_object->GetTreasure()->IsTaken()) {
+                        _camera->SetMoving(false);
+                        treasure_object->Open();
+                        return;
+                    }
+                    break;
+                }
+                case SAVE_TYPE: {
+                    if (_save_points_enabled) {
+                        // Make sure the character will be centered in the save point
+                        SaveMode* save_mode = new SaveMode(true, obj->GetXPosition(), obj->GetYPosition() - 1.0f);
+                        ModeManager->Push(save_mode, false, false);
+                        return;
+                    }
+                    break;
+                }
+                case ENEMY_TYPE: {
+                    EnemySprite* enemy = reinterpret_cast<EnemySprite *>(obj);
+                    // The team has requested to start a battle and get an agility boost at battle start for it.
+                    StartEnemyEncounter(enemy, true, false);
                     return;
-                }
-            }
-            else if(obj->GetType() == SPRITE_TYPE) {
-                MapSprite *sp = reinterpret_cast<MapSprite *>(obj);
-
-                if(sp->HasAvailableDialogue()) {
-                    _camera->SetMoving(false);
-                    _camera->SetRunning(false);
-                    sp->InitiateDialogue();
-                    return;
-                }
-            } else if(obj->GetType() == TREASURE_TYPE) {
-                TreasureObject *treasure_object = reinterpret_cast<TreasureObject *>(obj);
-
-                if(!treasure_object->GetTreasure()->IsTaken()) {
-                    _camera->SetMoving(false);
-                    treasure_object->Open();
-                }
-            } else if(obj->GetType() == SAVE_TYPE && _save_points_enabled) {
-                // Make sure the character will be centered in the save point
-                SaveMode *save_mode = new SaveMode(true, obj->GetXPosition(), obj->GetYPosition() - 1.0f);
-                ModeManager->Push(save_mode, false, false);
-            }
+                    break;
+                 }
+             }
         }
     }
 
@@ -800,10 +823,72 @@ void MapMode::_UpdateExplore()
         } else if(InputManager->RightState()) {
             _camera->SetDirection(EAST);
         }
-    } // if (_camera->moving == true)
-} // void MapMode::_UpdateExplore()
+    }
+}
 
+void MapMode::StartEnemyEncounter(EnemySprite* enemy, bool hero_init_boost, bool enemy_init_boost)
+{
+    if (!enemy)
+        return;
 
+    if (!enemy->IsHostile())
+        return;
+
+    if (!AttackAllowed())
+        return;
+
+    // If the enemy has got an encounter event, we trigger it.
+    if (!enemy->GetEncounterEvent().empty()) {
+        GetEventSupervisor()->StartEvent(enemy->GetEncounterEvent());
+        return;
+    }
+
+    // Otherwise, we start a battle
+    // Check the current map stamina and apply a malus on agility when it is low
+    ApplyPotentialStaminaMalus();
+
+    // Start a map-to-battle transition animation sequence
+    vt_battle::BattleMode* BM = new vt_battle::BattleMode();
+
+    std::string battle_background = enemy->GetBattleBackground();
+    if(!battle_background.empty())
+        BM->GetMedia().SetBackgroundImage(battle_background);
+
+    std::string enemy_battle_music = enemy->GetBattleMusicTheme();
+    if(!enemy_battle_music.empty())
+        BM->GetMedia().SetBattleMusic(enemy_battle_music);
+
+    const std::vector<BattleEnemyInfo>& enemy_party = enemy->RetrieveRandomParty();
+    for(uint32 i = 0; i < enemy_party.size(); ++i) {
+        BM->AddEnemy(enemy_party[i].enemy_id,
+                     enemy_party[i].position_x,
+                     enemy_party[i].position_y);
+    }
+
+    std::vector<std::string> enemy_battle_scripts = enemy->GetBattleScripts();
+    if(!enemy_battle_scripts.empty())
+        BM->GetScriptSupervisor().SetScripts(enemy_battle_scripts);
+
+    BM->SetBossBattle(enemy->IsBoss());
+
+    if (hero_init_boost)
+        BM->BoostHeroPartyInitiative();
+    if (enemy_init_boost)
+        BM->BoostEnemyPartyInitiative();
+
+    vt_battle::TransitionToBattleMode* TM = new vt_battle::TransitionToBattleMode(BM, enemy->IsBoss());
+
+    // Indicates to the potential enemy zone that this spawn is dead.
+    EnemyZone* zone = enemy->GetEnemyZone();
+    if (zone)
+        zone->DecreaseSpawnsLeft();
+
+    // Make all enemy sprites disappear after creating the transition mode so that the player
+    // can't be cornerned and forced into multiple battles in succession.
+    GetObjectSupervisor()->SetAllEnemyStatesToDead();
+
+    ModeManager->Push(TM);
+}
 
 void MapMode::_UpdateMapFrame()
 {
@@ -1012,7 +1097,7 @@ void MapMode::_DrawStaminaBar(const vt_video::Color &blending)
         return;
 
     // It's the width of the stamina bar image to hide in pixels
-    float fill_size = static_cast<float>(_run_stamina) / 10000.0f;
+    float fill_size = static_cast<float>(_run_stamina) / static_cast<float>(STAMINA_FULL);
     fill_size = (1.0f - fill_size) * 200;
 
     VideoManager->PushState();

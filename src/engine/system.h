@@ -404,7 +404,7 @@ public:
     *** function returns at least one, but I'm not sure there exists a computer fast enough
     *** that we have to worry about it.
     **/
-    uint32 GetUpdateTime() const {
+    inline uint32 GetUpdateTime() const {
         return _update_time;
     }
 

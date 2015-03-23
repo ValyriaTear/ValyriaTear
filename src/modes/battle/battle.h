@@ -482,6 +482,16 @@ public:
     bool IsBossBattle() const {
         return _is_boss_battle;
     }
+
+    //! \brief Tells the battle mode Heroes will receive an aguility boost at battle start.
+    void BoostHeroPartyInitiative() {
+        _hero_init_boost = true;
+    }
+
+    //! \brief Tells the battle mode Enemies will receive an aguility boost at battle start.
+    void BoostEnemyPartyInitiative() {
+        _enemy_init_boost = true;
+    }
     //@}
 
 private:
@@ -598,6 +608,12 @@ private:
 
     //! \brief Tells whether the battle is a boss fight.
     bool _is_boss_battle;
+
+    //! \brief Whether the hero party should get an initiative boost at battle start.
+    bool _hero_init_boost;
+
+    //! \brief Whether the enemy party should get an initiative boost at battle start.
+    bool _enemy_init_boost;
 
     ////////////////////////////// PRIVATE METHODS ///////////////////////////////
 

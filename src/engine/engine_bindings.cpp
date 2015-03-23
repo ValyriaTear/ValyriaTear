@@ -151,6 +151,7 @@ void BindEngineCode()
             luabind::class_<IndicatorSupervisor>("IndicatorSupervisor")
             .def("AddDamageIndicator", &IndicatorSupervisor::AddDamageIndicator)
             .def("AddHealingIndicator", &IndicatorSupervisor::AddHealingIndicator)
+            .def("AddShortNotice", &IndicatorSupervisor::AddShortNotice)
         ];
 
         luabind::module(vt_script::ScriptManager->GetGlobalState(), "vt_mode_manager")
