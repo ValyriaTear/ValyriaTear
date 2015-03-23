@@ -451,6 +451,9 @@ private:
     //! \brief The current actor status effects.
     std::vector<vt_video::StillImage*> _selected_target_status_effects;
 
+    //! \brief The status effects applied with a chance when aiming a body part.
+    std::vector<vt_video::StillImage*> _selected_attack_point_status_effects;
+
     //! \brief The window where all information about the currently selected action is drawn
     vt_gui::MenuWindow _info_window;
 

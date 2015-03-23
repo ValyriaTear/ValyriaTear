@@ -1230,38 +1230,61 @@ void CommandSupervisor::_UpdateActionInformation()
 
         _info_header.SetText(attack_point->GetName());
 
-        // Set the text
+         // Set the text
+        info_text = UTranslate("Enemy Defense Modifiers:\n");
         // Evade
+        // Hack to get the text located right.
+        // FIXME: Once image within text is supported, we can get rid of all that.
         float evade_modifier = attack_point->GetEvadeModifier();
-        if (evade_modifier != 0.0f) {
-            std::string evade_str;
+        {
+            std::string evade_str = "     ";
             if (evade_modifier > 0.0f)
-                evade_str = "+" + NumberToString(evade_modifier);
+                evade_str += "+" + NumberToString(evade_modifier) + "%";
             else
-                evade_str = NumberToString(evade_modifier);
-            info_text += MakeUnicodeString(VTranslate("Evade: %s", evade_str) + "%    ");
+                evade_str += NumberToString(evade_modifier) + "%";
+
+            // Make the text be of fixed width (kinda)...
+            while (evade_str.length() < 20)
+                evade_str += " ";
+
+            info_text += MakeUnicodeString(evade_str);
+
         }
-        // Fortitude (Physical defense.)
+        // Fortitude (Physical defense)
         float fortitude_modifier = attack_point->GetFortitudeModifier();
-        if (fortitude_modifier != 0.0f) {
+        {
             std::string fort_str;
             if (fortitude_modifier > 0.0f)
                 fort_str = "+" + NumberToString(fortitude_modifier);
             else
                 fort_str = NumberToString(fortitude_modifier);
-            info_text += MakeUnicodeString(VTranslate("Fortitude: %s", fort_str) + "    ");
+
+            while (fort_str.length() < 15)
+                fort_str += " ";
+            info_text += MakeUnicodeString(fort_str);
         }
-        // Protection (Magical defense.)
+        // Protection (Magical defense)
         float protection_modifier = attack_point->GetProtectionModifier();
-        if (protection_modifier != 0.0f) {
+        {
             std::string prot_str;
             if (protection_modifier > 0.0f)
                 prot_str = "+" + NumberToString(protection_modifier);
             else
                 prot_str = NumberToString(protection_modifier);
-            info_text += MakeUnicodeString(VTranslate("Protection: %s", prot_str));
+
+            info_text += MakeUnicodeString(prot_str);
         }
-        info_text += MakeUnicodeString("\n\nEffects: ");
+
+        // Display the percentage of status effect modification
+        info_text += UTranslate("\n\nEffects:\n");
+
+        _selected_attack_point_status_effects.clear();
+        const std::vector<std::pair<GLOBAL_STATUS, float> >& effects = attack_point->GetStatusEffects();
+        // Only show the first effects, in case of bad config.
+        for (uint32 i = 0; i < effects.size() && i < 2; ++i) {
+            _selected_attack_point_status_effects.push_back(GlobalManager->Media().GetStatusIcon(effects[i].first, GLOBAL_INTENSITY_NEG_LESSER));
+            info_text += MakeUnicodeString("      -> " + NumberToString(effects[i].second) + "%\n");
+        }
 
     } else if(_IsSkillCategorySelected() == true) {
         _info_header.SetText(_selected_skill->GetName()
@@ -1347,6 +1370,24 @@ void CommandSupervisor::_DrawActionInformation()
     _info_header.Draw();
     VideoManager->Move(530.0f, 510.0f);
     _info_text.Draw();
+
+    if (_state != COMMAND_STATE_POINT)
+            return;
+
+    // Draw the modifiers icons.
+    VideoManager->MoveRelative(0.0f, 25.0f);
+    GlobalManager->Media().GetStatusIcon(GLOBAL_STATUS_EVADE, GLOBAL_INTENSITY_NEUTRAL)->Draw();
+    VideoManager->MoveRelative(80.0f, 0.0f);
+    GlobalManager->Media().GetStatusIcon(GLOBAL_STATUS_FORTITUDE, GLOBAL_INTENSITY_NEUTRAL)->Draw();
+    VideoManager->MoveRelative(80.0f, 0.0f);
+    GlobalManager->Media().GetStatusIcon(GLOBAL_STATUS_PROTECTION, GLOBAL_INTENSITY_NEUTRAL)->Draw();
+    VideoManager->MoveRelative(-160.0f, 60.0f);
+
+    // Draw the status effect applied next to their percentage.
+    for (uint32 i = 0; i < _selected_attack_point_status_effects.size(); ++i) {
+        _selected_attack_point_status_effects[i]->Draw();
+        VideoManager->MoveRelative(0.0f, 20.0f);
+    }
 }
 
 void CommandSupervisor::_CreateActorTargetText()
