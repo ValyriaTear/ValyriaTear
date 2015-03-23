@@ -1345,7 +1345,7 @@ bool GameOptionsMenuHandler::_SaveSettingsFile(const std::string& filename)
     settings_lua.WriteBool("full_screen", VideoManager->IsFullscreen());
     settings_lua.WriteComment("Get the desired VSync mode. 0: No VSync, 1: VSync, 2: Swap Tearing");
     settings_lua.WriteUInt("vsync_mode", VideoManager->GetVSyncMode());
-    settings_lua.WriteComment("The game update loop mode. 0: for a more gentle update loop, 1 for performance.");
+    settings_lua.WriteComment("The game update loop mode. 'false' for a more gentle update loop, 'true' for performance.");
     settings_lua.WriteBool("game_update_mode", VideoManager->GetGameUpdateMode());
     settings_lua.WriteComment("The UI Theme to load.");
     settings_lua.WriteString("ui_theme", GUIManager->GetDefaultMenuSkinId());
@@ -1410,7 +1410,7 @@ bool GameOptionsMenuHandler::_SaveSettingsFile(const std::string& filename)
                << vt_gui::DEFAULT_MESSAGE_SPEED << ")";
     settings_lua.WriteComment(speed_text.str());
     settings_lua.WriteInt("message_speed", SystemManager->GetMessageSpeed());
-    settings_lua.WriteComment("Whether the latest battle target should be kept in memory between two actions for each characters. (Default: 1)");
+    settings_lua.WriteComment("Whether the latest battle target should be kept in memory between two actions for each characters. (Default: 'true')");
     settings_lua.WriteBool("battle_target_cursor_memory", SystemManager->GetBattleTargetMemory());
     settings_lua.EndTable(); // game_options
 
