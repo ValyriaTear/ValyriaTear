@@ -163,6 +163,7 @@ GlobalItem::GlobalItem(uint32 id, uint32 count) :
 
     _battle_use_function = script_file.ReadFunctionPointer("BattleUse");
     _field_use_function = script_file.ReadFunctionPointer("FieldUse");
+    _animation_script_file = script_file.ReadString("AnimationScript");
 
     script_file.CloseTable();
     if(script_file.IsErrorDetected()) {
@@ -170,7 +171,7 @@ GlobalItem::GlobalItem(uint32 id, uint32 count) :
                         << std::endl << script_file.GetErrorMessages() << std::endl;
         _InvalidateObject();
     }
-} // void GlobalItem::GlobalItem(uint32 id, uint32 count = 1)
+}
 
 GlobalItem::GlobalItem(const GlobalItem &copy) :
     GlobalObject(copy)
@@ -182,6 +183,7 @@ GlobalItem::GlobalItem(const GlobalItem &copy) :
     // Make copies of valid ScriptObject function pointers
     _battle_use_function = copy._battle_use_function;
     _field_use_function = copy._field_use_function;
+    _animation_script_file = copy._animation_script_file;
 }
 
 
@@ -199,6 +201,7 @@ GlobalItem &GlobalItem::operator=(const GlobalItem &copy)
     // Make copies of valid ScriptObject function pointers
     _battle_use_function = copy._battle_use_function;
     _field_use_function = copy._field_use_function;
+    _animation_script_file = copy._animation_script_file;
 
     return *this;
 }

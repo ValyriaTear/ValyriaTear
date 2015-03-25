@@ -280,16 +280,19 @@ public:
         return _field_use_function;
     }
 
-    /** \brief Returns Warmup time needed before using this item in battles.
-    **/
-    uint32 GetWarmUpTime() const {
+    //! \brief Returns Warmup time needed before using this item in battles.
+    inline uint32 GetWarmUpTime() const {
         return _warmup_time;
     }
 
-    /** \brief Returns Warmup time needed before using this item in battles.
-    **/
-    uint32 GetCoolDownTime() const {
+    //! \brief Returns Warmup time needed before using this item in battles.
+    inline uint32 GetCoolDownTime() const {
         return _cooldown_time;
+    }
+
+    //! \brief Returns the animation script filename, used to animate this item use in battles.
+    const std::string& GetAnimationScript() const {
+        return _animation_script_file;
     }
     //@}
 
@@ -308,6 +311,9 @@ private:
 
     //! \brief The cooldown time in milliseconds needed after using this item in battles.
     uint32 _cooldown_time;
+
+    //! \brief The animation script file used to animate the item use in battles.
+    std::string _animation_script_file;
 }; // class GlobalItem : public GlobalObject
 
 

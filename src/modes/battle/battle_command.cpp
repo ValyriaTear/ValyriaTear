@@ -389,12 +389,12 @@ void ItemCommand::ConstructList()
 
         // Adds the item menu option
         _item_list.AddOption();
-        if (!item->GetItem().GetIconImage().GetFilename().empty()) {
-            _item_list.AddOptionElementImage(option_index, item->GetItem().GetIconImage().GetFilename());
+        if (!item->GetGlobalItem().GetIconImage().GetFilename().empty()) {
+            _item_list.AddOptionElementImage(option_index, item->GetGlobalItem().GetIconImage().GetFilename());
             _item_list.GetEmbeddedImage(option_index)->SetHeightKeepRatio(25);
             _item_list.AddOptionElementPosition(option_index, 30);
         }
-        _item_list.AddOptionElementText(option_index, item->GetItem().GetName());
+        _item_list.AddOptionElementText(option_index, item->GetGlobalItem().GetName());
 
         _item_target_list.AddOption(ustring());
         _item_target_list.AddOptionElementImage(option_index,
@@ -500,7 +500,7 @@ void ItemCommand::CommitChangesToInventory()
 {
     for(uint32 i = 0; i < _battle_items.size(); ++i) {
         // Get the global item id
-        uint32 id = _battle_items[i].GetItem().GetID();
+        uint32 id = _battle_items[i].GetGlobalItem().GetID();
 
         // Remove slots totally used
         if(_battle_items[i].GetBattleCount() == 0) {
@@ -1296,10 +1296,10 @@ void CommandSupervisor::_UpdateActionInformation()
         info_text += MakeUnicodeString(VTranslate("Cool Time: %s", _TurnIntoSeconds(_selected_skill->GetCooldownTime())) + "\n\n");
         info_text += _selected_skill->GetDescription();
     } else if(_IsItemCategorySelected() == true) {
-        _info_header.SetText(_selected_item->GetItem().GetName()
+        _info_header.SetText(_selected_item->GetGlobalItem().GetName()
                              + MakeUnicodeString(" x " + NumberToString(_selected_item->GetBattleCount())));
         info_text = MakeUnicodeString(VTranslate("Target Type: %s", GetTargetText(_selected_item->GetTargetType())) + "\n\n");
-        info_text += _selected_item->GetItem().GetDescription();
+        info_text += _selected_item->GetGlobalItem().GetDescription();
     } else {
         IF_PRINT_WARNING(BATTLE_DEBUG) << "unknown category selected: " << _category_options.GetSelection() << std::endl;
     }

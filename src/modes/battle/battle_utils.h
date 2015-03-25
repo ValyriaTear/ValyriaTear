@@ -549,11 +549,11 @@ public:
 
     //! \brief Class member accessor methods
     //@{
-    vt_global::GlobalItem &GetItem() {
+    vt_global::GlobalItem& GetGlobalItem() {
         return _item;
     }
 
-    uint32 GetBattleCount() const {
+    inline uint32 GetBattleCount() const {
         return _battle_count;
     }
     //@}

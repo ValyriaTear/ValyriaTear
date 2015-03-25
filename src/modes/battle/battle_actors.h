@@ -260,10 +260,10 @@ protected:
 *** agility. We need the ability to restore each stat to its base value, and the GlobalActor
 *** class retains that unaltered value. Second, if the player loses the battle and chooses to
 *** retry, we need to restore all actors back to their original state before the battle began.
-*** Retreiving the values of the GlobalActor class allows us to do so.
+*** Retrieving the values of the GlobalActor class allows us to do so.
 ***
 *** Throughout the battle, actors progress through a series of states. The
-*** standard set of states that an actor cylces through while they are "alive"
+*** standard set of states that an actor cycles through while they are "alive"
 *** and participating in the battle are as follows.
 ***
 *** -# ACTOR_STATE_IDLE
@@ -330,6 +330,17 @@ public:
     virtual void ChangeSpriteAnimation(const std::string & /*alias*/)
     {}
 
+    inline float GetSpriteAlpha() const {
+        return _sprite_alpha;
+    }
+
+    //! Set the sprite alpha, useful for custom death sequences and other effects on sprites.
+    void SetSpriteAlpha(float alpha) {
+        if (alpha > 1.0f) alpha = 1.0f;
+        if (alpha < 0.0f) alpha = 0.0f;
+        _sprite_alpha = alpha;
+    }
+
     /** \brief Deals damage to the actor by reducing its hit points by a certain amount
     *** \param amount The number of hit points to decrease on the actor
     ***
@@ -337,7 +348,7 @@ public:
     *** If the amount of damage dealt is greater than the actor's current hit points, the actor will be placed
     *** in the ACTOR_STATE_DEAD state.
     **/
-    void RegisterDamage(uint32 amount);
+    virtual void RegisterDamage(uint32 amount);
 
     //! \brief Steals the actor skill points
     void RegisterSPDamage(uint32 amount);
@@ -587,9 +598,6 @@ protected:
     //! \brief A pointer to the action that the actor is preparing to perform or is currently performing
     BattleAction* _action;
 
-    //! \brief Set to true when the actor is in the ACTING state and the execution of the action is complete
-    bool _execution_finished;
-
     //! \brief The amount of time (in milliseconds) that the actor needs to wait to pass through the idle state
     uint32 _idle_state_time;
 
@@ -602,6 +610,9 @@ protected:
     //! \brief Tells whether the actor is stunned, preventing its idle state time to update.
     bool _is_stunned;
 
+    //! \brief Contains the alpha value to draw the sprite at: useful for fading effects
+    float _sprite_alpha;
+
     //! \brief Used to assist in the animation of actors as they move on the battlefield
     vt_system::SystemTimer _animation_timer;
 
@@ -610,6 +621,29 @@ protected:
 
     //! \brief An assistant class to the actor that manages all the actor's status and elemental effects
     BattleStatusEffectsSupervisor* _effects_supervisor;
+
+    //! \brief Script object used when playing the death sequence.
+    //! A default sequence is played one of those is invalid.
+    ScriptObject _death_update;
+    ScriptObject _death_init;
+    //! This function permits to draw something along with the Battle enemy sprite
+    ScriptObject _death_draw_on_sprite;
+
+    //! \brief The battle AI script
+    ScriptObject _ai_script;
+
+    //! \brief Loads the potential death animation scripted functions.
+    void _LoadDeathAnimationScript();
+
+    //! \brief Loads the potential battle AI scripted function.
+    void _LoadAIScript();
+
+    /** \brief Decides what action that the enemy should execute and the target
+    *** This function is used as a fallback when no AI script is set for the given enemy.
+    *** \todo More complete AI decision making algorithms should be supported
+    *** through lua scripts.
+    **/
+    void _DecideAction();
 
     //! \brief Updates the Stamina Icon position.
     void _UpdateStaminaIconPosition();
@@ -646,8 +680,6 @@ public:
     bool IsEnemy() const {
         return false;
     }
-
-    void ResetActor();
 
     void ChangeState(ACTOR_STATE new_state);
 
@@ -756,8 +788,6 @@ public:
         return true;
     }
 
-    void ResetActor();
-
     void ChangeState(ACTOR_STATE new_state);
 
     float GetSpriteWidth() const {
@@ -791,18 +821,6 @@ public:
         return _global_enemy;
     }
 
-    float GetSpriteAlpha() const {
-        return _sprite_alpha;
-    }
-
-    //! Set the sprite alpha, useful for custom death sequences.
-    //! Ignored otherwise. LATER: (Should be more widely used)
-    void SetSpriteAlpha(float alpha) {
-        if (alpha > 1.0f) alpha = 1.0f;
-        if (alpha < 0.0f) alpha = 0.0f;
-        _sprite_alpha = alpha;
-    }
-
     //! \brief See BattleActor::DrawStaminaIcon()
     void DrawStaminaIcon(const vt_video::Color &color = vt_video::Color::white) const;
 
@@ -817,31 +835,8 @@ protected:
     //! \brief Contains the identifier text of the current sprite animation
     std::string _sprite_animation_alias;
 
-    //! \brief Contains the alpha value to draw the sprite at: useful for fading effects
-    float _sprite_alpha;
-
-    //! \brief Script object used when playing the death sequence.
-    //! A default sequence is played one of those is invalid.
-    ScriptObject _death_update;
-    ScriptObject _death_init;
-    //! This function permits to draw something along with the Battle enemy sprite
-    ScriptObject _death_draw_on_sprite;
-
-    //! \brief The battle AI script
-    ScriptObject _ai_script;
-
-    //! \brief Loads the potential battle AI scripted function.
-    void _LoadAIScript();
-
-    //! \brief Loads the potential death animation scripted functions.
-    void _LoadDeathAnimationScript();
-
-    /** \brief Decides what action that the enemy should execute and the target
-    *** This function is used as a fallback when no AI script is set for the given enemy.
-    *** \todo More complete AI decision making algorithms should be supported
-    *** through lua scripts.
-    **/
-    void _DecideAction();
+    //! \brief Set to true when the actor is in the ACTING state and the execution of the action is complete
+    bool _action_finished;
 }; // class BattleEnemy
 
 } // namespace private_battle

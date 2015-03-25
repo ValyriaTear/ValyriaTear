@@ -95,9 +95,7 @@ bool GlobalAttackPoint::LoadData(ReadScriptDescriptor &script)
     return true;
 }
 
-
-
-void GlobalAttackPoint::CalculateTotalDefense(const GlobalArmor *equipped_armor)
+void GlobalAttackPoint::CalculateTotalDefense(const GlobalArmor* equipped_armor)
 {
     if(_actor_owner == NULL) {
         IF_PRINT_WARNING(GLOBAL_DEBUG) << "attack point has no owning actor" << std::endl;
@@ -166,7 +164,6 @@ GlobalActor::GlobalActor() :
         _total_magical_attack[i] = 0;
 }
 
-
 GlobalActor::~GlobalActor()
 {
     // Delete all attack points
@@ -231,6 +228,10 @@ GlobalActor::GlobalActor(const GlobalActor &copy):
         _skills.push_back(new GlobalSkill(*copy._skills[i]));
         _skills_id.push_back(copy._skills_id[i]);
     }
+
+    // Script files
+    _death_script_filename = copy._death_script_filename;
+    _ai_script_filename = copy._ai_script_filename;
 }
 
 GlobalActor &GlobalActor::operator=(const GlobalActor &copy)
@@ -282,6 +283,11 @@ GlobalActor &GlobalActor::operator=(const GlobalActor &copy)
         _skills.push_back(new GlobalSkill(*copy._skills[i]));
         _skills_id.push_back(copy._skills_id[i]);
     }
+
+    // Script files
+    _death_script_filename = copy._death_script_filename;
+    _ai_script_filename = copy._ai_script_filename;
+
     return *this;
 }
 
@@ -716,6 +722,13 @@ GlobalCharacter::GlobalCharacter(uint32 id, bool initial) :
             _battle_animation[keys_vect[i]] = animation;
         }
         char_script.CloseTable(); // battle_animations
+    }
+
+    // Loads enemy battle animation scripts
+    if (char_script.OpenTable("scripts")) {
+        _death_script_filename = char_script.ReadString("death");
+        _ai_script_filename = char_script.ReadString("battle_ai");
+        char_script.CloseTable();
     }
 
     // Construct the character from the initial stats if necessary

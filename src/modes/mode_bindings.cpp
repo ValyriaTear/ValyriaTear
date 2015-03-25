@@ -845,6 +845,8 @@ void BindModeCode()
             .def("GetState", &BattleActor::GetState)
             .def("SetAction", (void(BattleActor:: *)(uint32))&BattleActor::SetAction)
             .def("SetAction", (void(BattleActor:: *)(uint32, BattleActor *))&BattleActor::SetAction)
+            .def("GetSpriteAlpha", &BattleActor::GetSpriteAlpha)
+            .def("SetSpriteAlpha", &BattleActor::SetSpriteAlpha)
         ];
 
         luabind::module(vt_script::ScriptManager->GetGlobalState(), "vt_battle")
@@ -861,8 +863,6 @@ void BindModeCode()
             .def("ChangeSpriteAnimation", &BattleEnemy::ChangeSpriteAnimation)
             .def("GetSpriteWidth", &BattleEnemy::GetSpriteWidth)
             .def("GetSpriteHeight", &BattleEnemy::GetSpriteHeight)
-            .def("GetSpriteAlpha", &BattleEnemy::GetSpriteAlpha)
-            .def("SetSpriteAlpha", &BattleEnemy::SetSpriteAlpha)
         ];
 
         luabind::module(vt_script::ScriptManager->GetGlobalState(), "vt_battle")

@@ -43,9 +43,10 @@ namespace private_battle
 // BattleAction class
 ////////////////////////////////////////////////////////////////////////////////
 
-BattleAction::BattleAction(BattleActor *actor, BattleTarget target) :
+BattleAction::BattleAction(BattleActor* actor, BattleTarget target) :
     _actor(actor),
-    _target(target)
+    _target(target),
+    _is_scripted(false)
 {
     if(actor == NULL)
         IF_PRINT_WARNING(BATTLE_DEBUG) << "constructor received NULL actor" << std::endl;
@@ -126,7 +127,7 @@ void SkillAction::_InitAnimationScript()
 
 bool SkillAction::Initialize()
 {
-    // First check that the actor has sufficient XP to use the skill
+    // First check that the actor has sufficient SP to use the skill
     if(_actor->GetSkillPoints() < _skill->GetSPRequired())
         return false;
 
@@ -241,22 +242,80 @@ ItemAction::ItemAction(BattleActor *source, BattleTarget target, BattleItem *ite
         return;
     }
 
-    if(item->GetItem().GetTargetType() == GLOBAL_TARGET_INVALID)
+    if(item->GetGlobalItem().GetTargetType() == GLOBAL_TARGET_INVALID)
         IF_PRINT_WARNING(BATTLE_DEBUG) << "constructor received invalid item" << std::endl;
-    if(item->GetItem().GetTargetType() != target.GetType())
+    if(item->GetGlobalItem().GetTargetType() != target.GetType())
         IF_PRINT_WARNING(BATTLE_DEBUG) << "item and target reference different target types" << std::endl;
-    if(item->GetItem().IsUsableInBattle() == false)
+    if(item->GetGlobalItem().IsUsableInBattle() == false)
         IF_PRINT_WARNING(BATTLE_DEBUG) << "item is not usable in battle" << std::endl;
+
+    // Check for a custom skill animation script for the given character
+    _is_scripted = false;
+    std::string animation_script_file = item->GetGlobalItem().GetAnimationScript();
+
+    if(animation_script_file.empty())
+        return;
+
+    // Clears out old script data
+    std::string tablespace = ScriptEngine::GetTableSpace(animation_script_file);
+    ScriptManager->DropGlobalTable(tablespace);
+
+    ReadScriptDescriptor anim_script;
+    if(!anim_script.OpenFile(animation_script_file)) {
+        anim_script.CloseFile();
+        return;
+    }
+
+    if(anim_script.OpenTablespace().empty()) {
+        PRINT_ERROR << "No namespace found in file: " << animation_script_file << std::endl;
+        anim_script.CloseFile();
+        return;
+    }
+
+    _init_function = anim_script.ReadFunctionPointer("Initialize");
+
+    if(!_init_function.is_valid()) {
+        anim_script.CloseFile();
+        return;
+    }
+
+    // Attempt to load a possible update function.
+    _update_function = anim_script.ReadFunctionPointer("Update");
+    _is_scripted = true;
+    anim_script.CloseFile();
 }
 
+bool ItemAction::Initialize()
+{
+    if(IsScripted())
+        _InitAnimationScript();
+    return true;
+}
 
+bool ItemAction::Update()
+{
+    // When there is no update function, the animation is done.
+    if(!_update_function.is_valid())
+        return true;
+
+    try {
+        return ScriptCallFunction<bool>(_update_function);
+    } catch(const luabind::error& err) {
+        ScriptManager->HandleLuaError(err);
+        return true;
+    } catch(const luabind::cast_failed& e) {
+        ScriptManager->HandleCastError(e);
+        return true;
+    }
+
+    // Should never happen
+    return true;
+}
 
 bool ItemAction::Execute()
 {
-    // Note that the battle item is already removed from the item list at that
-    // step.
-
-    const ScriptObject &script_function = _item->GetItem().GetBattleUseFunction();
+    // Note that the battle item is already removed from the item list at that step.
+    const ScriptObject &script_function = _item->GetGlobalItem().GetBattleUseFunction();
     if(!script_function.is_valid()) {
         IF_PRINT_WARNING(BATTLE_DEBUG) << "item did not have a battle use function" << std::endl;
 
@@ -298,14 +357,14 @@ void ItemAction::Cancel()
 ustring ItemAction::GetName() const
 {
     if(_item)
-        return _item->GetItem().GetName();
+        return _item->GetGlobalItem().GetName();
     return UTranslate("[error]");
 }
 
 std::string ItemAction::GetIconFilename() const
 {
     if(_item)
-        return _item->GetItem().GetIconImage().GetFilename();
+        return _item->GetGlobalItem().GetIconImage().GetFilename();
     return std::string();
 }
 
@@ -323,6 +382,21 @@ uint32 ItemAction::GetCoolDownTime() const
         return 0;
     else
         return _item->GetCoolDownTime();
+}
+
+void ItemAction::_InitAnimationScript()
+{
+    try {
+        ScriptCallFunction<void>(_init_function, _actor, _target, _item);
+    } catch(const luabind::error& err) {
+        ScriptManager->HandleLuaError(err);
+        // Fall back to hard-coded mode
+        _is_scripted = false;
+    } catch(const luabind::cast_failed& e) {
+        ScriptManager->HandleCastError(e);
+        // Fall back to hard-coded mode
+        _is_scripted = false;
+    }
 }
 
 } // namespace private_battle

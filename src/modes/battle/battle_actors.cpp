@@ -104,10 +104,10 @@ BattleActor::BattleActor(GlobalActor *actor) :
     _state(ACTOR_STATE_INVALID),
     _global_actor(actor),
     _action(NULL),
-    _execution_finished(false),
     _idle_state_time(0),
     _hurt_timer(0),
     _is_stunned(false),
+    _sprite_alpha(1.0f),
     _animation_timer(0),
     _x_stamina_location(0.0f),
     _y_stamina_location(0.0f),
@@ -119,6 +119,8 @@ BattleActor::BattleActor(GlobalActor *actor) :
     }
 
     _InitStats();
+    _LoadDeathAnimationScript();
+    _LoadAIScript();
 }
 
 void BattleActor::_InitStats()
@@ -197,6 +199,26 @@ void BattleActor::ChangeState(ACTOR_STATE new_state)
     _state = new_state;
     _state_timer.Reset();
     switch(_state) {
+    case ACTOR_STATE_COMMAND:
+        // If an AI is used, it will change itself the actor state.
+        if (_ai_script.is_valid()) {
+            try {
+                ScriptCallFunction<void>(_ai_script, BattleMode::CurrentInstance(), this);
+            } catch(const luabind::error &e) {
+                PRINT_ERROR << "Error while triggering DecideAction() function of actor id: " << _global_actor->GetID() << std::endl;
+                ScriptManager->HandleLuaError(e);
+            } catch(const luabind::cast_failed &e) {
+                PRINT_ERROR << "Error while triggering DecideAction() function of actor id: " << _global_actor->GetID() << std::endl;
+                ScriptManager->HandleCastError(e);
+            }
+            // Make the actor keep on anyway.
+            _DecideAction();
+        }
+        else if (!_global_actor->GetBattleAIScriptFilename().empty()) {
+            // Hardcoded fallback behaviour for AI-based actors.
+            _DecideAction();
+        }
+        break;
     case ACTOR_STATE_IDLE:
         if(_action != NULL) {
             delete _action;
@@ -222,7 +244,6 @@ void BattleActor::ChangeState(ACTOR_STATE new_state)
         break;
     case ACTOR_STATE_COOL_DOWN:
     {
-        _execution_finished = false;
         uint32 cool_down_time = 1000; // Default value, overridden by valid actions
         if(_action)
             cool_down_time = _action->GetCoolDownTime() * GetAgilityModifier();
@@ -239,6 +260,19 @@ void BattleActor::ChangeState(ACTOR_STATE new_state)
         // Make the battle engine aware of the actor death
         _effects_supervisor->RemoveAllActiveStatusEffects();
         BattleMode::CurrentInstance()->NotifyActorDeath(this);
+
+        // Init the death animation script when valid.
+        if (_death_init.is_valid()) {
+            try {
+                ScriptCallFunction<void>(_death_init, BattleMode::CurrentInstance(), this);
+            } catch(const luabind::error &e) {
+                PRINT_ERROR << "Error while triggering Initialize() function of actor id: " << _global_actor->GetID() << std::endl;
+                ScriptManager->HandleLuaError(e);
+            } catch(const luabind::cast_failed &e) {
+                PRINT_ERROR << "Error while triggering Initialize() function of actor id: " << _global_actor->GetID() << std::endl;
+                ScriptManager->HandleCastError(e);
+            }
+        }
         break;
     default:
         break;
@@ -527,9 +561,28 @@ void BattleActor::Update()
         // Permits the actor to die even in pause mode,
         // so that the sprite fade out is properly done.
         _state_timer.Update();
+
+        // Updates the scripted death animation if any.
+        if (_death_init.is_valid() && _death_update.is_valid()) {
+            // Change the state when the animation has finished.
+            try {
+                if (ScriptCallFunction<bool>(_death_update))
+                    ChangeState(ACTOR_STATE_DEAD);
+            } catch(const luabind::error &e) {
+                PRINT_ERROR << "Error while triggering Update() function of actor id: " << _global_actor->GetID() << std::endl;
+                ScriptManager->HandleLuaError(e);
+                // Do not block the player
+                ChangeState(ACTOR_STATE_DEAD);
+            } catch(const luabind::cast_failed &e) {
+                PRINT_ERROR << "Error while triggering Update() function of actor id: " << _global_actor->GetID() << std::endl;
+                ScriptManager->HandleCastError(e);
+                // Do not block the player
+                ChangeState(ACTOR_STATE_DEAD);
+            }
+        }
     }
 
-    // Ths shaking updates even in pause mode, so that the shaking
+    // The shaking updates even in pause mode, so that the shaking
     // doesn't last indefinitely in that state.
     _hurt_timer.Update();
 
@@ -618,7 +671,7 @@ void BattleActor::DrawStaminaIcon(const vt_video::Color &color) const
         _stamina_icon.Draw(color);
 }
 
-void BattleActor::SetAction(BattleAction *action)
+void BattleActor::SetAction(BattleAction* action)
 {
     if(!action) {
         IF_PRINT_WARNING(BATTLE_DEBUG) << "function received NULL argument" << std::endl;
@@ -642,19 +695,19 @@ void BattleActor::SetAction(BattleAction *action)
 
 void BattleActor::SetAction(uint32 skill_id, BattleActor* target_actor)
 {
-    const std::vector<GlobalSkill *>& enemy_skills = _global_actor->GetSkills();
+    const std::vector<GlobalSkill *>& actor_skills = _global_actor->GetSkills();
 
     GlobalSkill* skill = NULL;
 
-    for (uint32 i = 0; i < enemy_skills.size(); ++i) {
-        if (enemy_skills[i]->GetID() == skill_id && enemy_skills[i]->IsExecutableInBattle()) {
-            skill = enemy_skills[i];
+    for (uint32 i = 0; i < actor_skills.size(); ++i) {
+        if (actor_skills[i]->GetID() == skill_id && actor_skills[i]->IsExecutableInBattle()) {
+            skill = actor_skills[i];
             break;
         }
     }
 
     if (!skill) {
-        PRINT_WARNING << "The enemy has got no usable skill with ID: " << skill_id
+        PRINT_WARNING << "The actor has got no usable skill with ID: " << skill_id
             << ". Its battle action failed." << std::endl;
         ChangeState(ACTOR_STATE_IDLE);
         return;
@@ -703,7 +756,7 @@ void BattleActor::SetAction(uint32 skill_id, BattleActor* target_actor)
 
     // now dealing with single target based skills.
     if (!target_actor) {
-        PRINT_WARNING << "The enemy has got no target set with a single target skill: " << skill_id
+        PRINT_WARNING << "The actor has got no target set with a single target skill: " << skill_id
             << ". Its battle action failed." << std::endl;
             ChangeState(ACTOR_STATE_IDLE);
             return;
@@ -751,6 +804,220 @@ void BattleActor::SetAgilityModifier(float modifier)
     GlobalActor::SetAgilityModifier(modifier);
     BattleMode::CurrentInstance()->SetActorIdleStateTime(this);
 }
+
+void BattleActor::_LoadDeathAnimationScript()
+{
+    // Loads potential death animation script functions
+    if (_global_actor->GetDeathScriptFilename().empty())
+        return;
+
+    std::string filename = _global_actor->GetDeathScriptFilename();
+
+    std::string tablespace = ScriptEngine::GetTableSpace(filename);
+    ScriptManager->DropGlobalTable(tablespace);
+
+    ReadScriptDescriptor death_script;
+    if(!death_script.OpenFile(filename))
+        return;
+
+    if(death_script.OpenTablespace().empty()) {
+        PRINT_ERROR << "The actor death script file: " << filename
+                    << "has got no valid namespace" << std::endl;
+        death_script.CloseFile();
+        return;
+    }
+
+    _death_init = death_script.ReadFunctionPointer("Initialize");
+    _death_update = death_script.ReadFunctionPointer("Update");
+    _death_draw_on_sprite = death_script.ReadFunctionPointer("DrawOnSprite");
+    death_script.CloseFile();
+}
+
+void BattleActor::_LoadAIScript()
+{
+    std::string filename = _global_actor->GetBattleAIScriptFilename();
+
+    if (filename.empty())
+        return;
+
+    std::string tablespace = ScriptEngine::GetTableSpace(filename);
+    ScriptManager->DropGlobalTable(tablespace);
+
+    ReadScriptDescriptor ai_script;
+    if(!ai_script.OpenFile(filename))
+        return;
+
+    if(ai_script.OpenTablespace().empty()) {
+        PRINT_ERROR << "The actor battle AI script file: " << filename
+                    << "has got no valid namespace" << std::endl;
+        ai_script.CloseFile();
+        return;
+    }
+
+    _ai_script = ai_script.ReadFunctionPointer("DecideAction");
+    ai_script.CloseFile();
+}
+
+void BattleActor::_DecideAction()
+{
+    const std::vector<GlobalSkill *>& actor_skills = _global_actor->GetSkills();
+    std::vector<GlobalSkill *> usable_skills;
+    std::vector<GlobalSkill*>::const_iterator skill_it = actor_skills.begin();
+    while(skill_it != actor_skills.end()) {
+        if((*skill_it)->IsExecutableInBattle() && (*skill_it)->GetSPRequired() <= GetSkillPoints())
+            usable_skills.push_back(*skill_it);
+        ++skill_it;
+    }
+
+    if(usable_skills.empty()) {
+        IF_PRINT_WARNING(BATTLE_DEBUG) << "The actor had no usable skills" << std::endl;
+        ChangeState(ACTOR_STATE_IDLE);
+        return;
+    }
+
+    BattleMode* BM = BattleMode::CurrentInstance();
+    std::deque<BattleActor *>& characters = BM->GetCharacterParty();
+    std::deque<BattleActor *>& enemies = BM->GetEnemyParty();
+    // If this function is used by a Hero Character, then enemies and characters must be swapped,
+    // as the character will target enemies or revive dead characters.
+    if (!IsEnemy())
+        characters.swap(enemies);
+
+    std::deque<BattleActor *> alive_characters;
+    std::deque<BattleActor *>::const_iterator it = characters.begin();
+    while(it != characters.end()) {
+        if((*it)->IsAlive())
+            alive_characters.push_back(*it);
+        ++it;
+    }
+    if(alive_characters.empty()) {
+        ChangeState(ACTOR_STATE_IDLE);
+        return;
+    }
+
+    // and the enemies depending on their state
+    std::deque<BattleActor *> alive_enemies;
+    std::deque<BattleActor *> dead_enemies;
+    it = enemies.begin();
+    while(it != enemies.end()) {
+        if((*it)->IsAlive())
+            alive_enemies.push_back(*it);
+        else
+            dead_enemies.push_back(*it);
+        ++it;
+    }
+
+    if(alive_enemies.empty()) {
+        // it means that the enemy actually thinking now is already dead.
+        ChangeState(ACTOR_STATE_IDLE);
+        return;
+    }
+
+    // Targeting members
+    BattleTarget target;
+    BattleActor *actor_target = NULL;
+
+    // Select a random skill to use
+    uint32 skill_index = 0;
+    if(usable_skills.size() > 1)
+        skill_index = RandomBoundedInteger(0, usable_skills.size() - 1);
+    GlobalSkill *skill = usable_skills.at(skill_index);
+
+    // Select the target
+    GLOBAL_TARGET target_type = skill->GetTargetType();
+    switch(target_type) {
+    case GLOBAL_TARGET_FOE_POINT:
+    case GLOBAL_TARGET_FOE:
+        // Select a random living character
+        if(alive_characters.size() == 1)
+            actor_target = alive_characters[0];
+        else
+            actor_target = alive_characters[RandomBoundedInteger(0, alive_characters.size() - 1)];
+        break;
+    case GLOBAL_TARGET_SELF_POINT:
+    case GLOBAL_TARGET_SELF:
+        actor_target = this;
+        break;
+    case GLOBAL_TARGET_ALLY_POINT:
+    case GLOBAL_TARGET_ALLY:
+        // Select a random living enemy
+        if(alive_enemies.size() == 1)
+            actor_target = alive_enemies[0];
+        else
+            actor_target = alive_enemies[RandomBoundedInteger(0, alive_enemies.size() - 1)];
+        break;
+    case GLOBAL_TARGET_ALLY_EVEN_DEAD:
+        // Select a random ally, living or not
+        if(enemies.size() == 1)
+            actor_target = enemies[0];
+        else
+            actor_target = enemies[RandomBoundedInteger(0, enemies.size() - 1)];
+        break;
+    case GLOBAL_TARGET_DEAD_ALLY:
+        if (dead_enemies.empty()) {
+            // Abort the skill since there is no valid targets.
+            ChangeState(ACTOR_STATE_IDLE);
+            return;
+        }
+
+        // Select a random ally, living or not
+        if(dead_enemies.size() == 1)
+            actor_target = dead_enemies[0];
+        else
+            actor_target = dead_enemies[RandomBoundedInteger(0, dead_enemies.size() - 1)];
+        break;
+    case GLOBAL_TARGET_ALL_FOES:
+    case GLOBAL_TARGET_ALL_ALLIES:
+        // Nothing to do here, the party deques are ready
+        break;
+    default:
+        PRINT_WARNING << "Unsupported enemy skill type found." << std::endl;
+        ChangeState(ACTOR_STATE_IDLE);
+        return;
+        break;
+    }
+
+    // Potentially select the target point and finish targeting
+    switch(target_type) {
+    case GLOBAL_TARGET_SELF_POINT:
+    case GLOBAL_TARGET_FOE_POINT:
+    case GLOBAL_TARGET_ALLY_POINT: {
+        // Select a random attack point on the target
+        uint32 num_points = actor_target->GetAttackPoints().size();
+        uint32 point_target = 0;
+        if(num_points == 1)
+            point_target = 0;
+        else
+            point_target = RandomBoundedInteger(0, num_points - 1);
+
+        target.SetPointTarget(target_type, point_target, actor_target);
+        break;
+    }
+
+    case GLOBAL_TARGET_FOE:
+    case GLOBAL_TARGET_SELF:
+    case GLOBAL_TARGET_ALLY:
+    case GLOBAL_TARGET_ALLY_EVEN_DEAD:
+    case GLOBAL_TARGET_DEAD_ALLY:
+        target.SetActorTarget(target_type, actor_target);
+        break;
+    case GLOBAL_TARGET_ALL_FOES: // Supported at script level
+        target.SetPartyTarget(target_type, &characters);
+        break;
+    case GLOBAL_TARGET_ALL_ALLIES: // Supported at script level
+        target.SetPartyTarget(target_type, &enemies);
+        break;
+    default:
+        PRINT_WARNING << "Unsupported enemy skill type found." << std::endl;
+        ChangeState(ACTOR_STATE_IDLE);
+        return;
+        break;
+    }
+
+    SetAction(new SkillAction(this, target, skill));
+    ChangeState(ACTOR_STATE_WARM_UP);
+}
+
 
 ////////////////////////////////////////////////////////////////////////////////
 // BattleCharacter class
@@ -826,19 +1093,14 @@ BattleCharacter::~BattleCharacter()
         _global_character->ResetActiveStatusEffects();
 }
 
-void BattleCharacter::ResetActor()
-{
-    BattleActor::ResetActor();
-}
-
 void BattleCharacter::ChangeState(ACTOR_STATE new_state)
 {
     BattleActor::ChangeState(new_state);
 
     switch(_state) {
     case ACTOR_STATE_COMMAND:
-        // The battle action should pause whenever a character enters the command state in the WAIT battle type
         if(BattleMode::CurrentInstance()->GetBattleType() == BATTLE_TYPE_WAIT) {
+            // The battle action should pause whenever a character enters the command state in the WAIT battle type
             BattleMode::CurrentInstance()->SetActorStatePaused(true);
         }
         break;
@@ -878,9 +1140,13 @@ void BattleCharacter::ChangeState(ACTOR_STATE new_state)
         // Cancel possible previous actions in progress.
         if(_action)
             _action->Cancel();
-        ChangeSpriteAnimation("dying");
-        _state_timer.Initialize(_current_sprite_animation->GetAnimationLength());
-        _state_timer.Run();
+
+        // use the default death sequence when there is no scripts.
+        if (!_death_init.is_valid()) {
+            ChangeSpriteAnimation("dying");
+            _state_timer.Initialize(_current_sprite_animation->GetAnimationLength());
+            _state_timer.Run();
+        }
         break;
     case ACTOR_STATE_DEAD:
         ChangeSpriteAnimation("dead");
@@ -908,6 +1174,16 @@ void BattleCharacter::Update()
     // Update the active sprite animation
     _current_sprite_animation->Update();
     _current_weapon_animation.Update();
+
+    // Update hit and skill points after drawing to reduce GPU stall.
+    if(_last_rendered_hp != GetHitPoints()) {
+        _last_rendered_hp = GetHitPoints();
+        _hit_points_text.SetText(NumberToString(_last_rendered_hp));
+    }
+    if(_last_rendered_sp != GetSkillPoints()) {
+        _last_rendered_sp = GetSkillPoints();
+        _skill_points_text.SetText(NumberToString(_last_rendered_sp));
+    }
 
     BattleMode* BM = BattleMode::CurrentInstance();
 
@@ -1001,7 +1277,7 @@ void BattleCharacter::Update()
             // Creates an item indicator
             float y_pos = GetYLocation() - GetSpriteHeight();
             vt_mode_manager::IndicatorSupervisor& indicator = BM->GetIndicatorSupervisor();
-            indicator.AddItemIndicator(GetXLocation(), y_pos, item_action->GetItem()->GetItem());
+            indicator.AddItemIndicator(GetXLocation(), y_pos, item_action->GetItem()->GetGlobalItem());
         }
 
         ChangeState(ACTOR_STATE_COOL_DOWN);
@@ -1011,8 +1287,8 @@ void BattleCharacter::Update()
 void BattleCharacter::DrawSprite()
 {
     VideoManager->Move(_x_location, _y_location);
-    _current_sprite_animation->Draw();
-    _current_weapon_animation.Draw();
+    _current_sprite_animation->Draw(Color(1.0f, 1.0f, 1.0f, _sprite_alpha));
+    _current_weapon_animation.Draw(Color(1.0f, 1.0f, 1.0f, _sprite_alpha));
 
     BattleMode *BM = BattleMode::CurrentInstance();
 
@@ -1020,12 +1296,25 @@ void BattleCharacter::DrawSprite()
     if (BM->GetState() != BATTLE_STATE_NORMAL && BM->GetState() != BATTLE_STATE_COMMAND)
         return;
 
-    if(_is_stunned && (_state == ACTOR_STATE_COMMAND || _state == ACTOR_STATE_IDLE ||
+    if(_state == ACTOR_STATE_DYING) {
+        try {
+            if (_death_draw_on_sprite.is_valid())
+                ScriptCallFunction<void>(_death_draw_on_sprite);
+        } catch(const luabind::error &e) {
+            PRINT_ERROR << "Error while triggering DrawOnSprite() function of actor id: " << _global_actor->GetID() << std::endl;
+            ScriptManager->HandleLuaError(e);
+        } catch(const luabind::cast_failed &e) {
+            PRINT_ERROR << "Error while triggering DrawOnSprite() function of actor id: " << _global_actor->GetID() << std::endl;
+            ScriptManager->HandleCastError(e);
+        }
+
+    }
+    else if(_is_stunned && (_state == ACTOR_STATE_COMMAND || _state == ACTOR_STATE_IDLE ||
                        _state == ACTOR_STATE_WARM_UP || _state == ACTOR_STATE_COOL_DOWN)) {
         VideoManager->MoveRelative(0, -GetSpriteHeight());
         BM->GetMedia().GetStunnedIcon().Draw();
     }
-} // void BattleCharacter::DrawSprite()
+}
 
 void BattleCharacter::ChangeSpriteAnimation(const std::string &alias)
 {
@@ -1202,22 +1491,6 @@ void BattleCharacter::DrawStatus(uint32 order, BattleCharacter* character_comman
     VideoManager->MoveRelative(113.0f, 0.0f);
     _skill_points_text.Draw();
 
-    //
-    // TODO: The SetText calls below should not be done here. They should be made whenever the character's HP/SP is modified.
-    //       This re-renders the text every frame regardless of whether or not the HP/SP changed.  So, it's not as efficient.
-    //
-
-    // Update hit and skill points after drawing to reduce GPU stall.
-    if(_last_rendered_hp != GetHitPoints()) {
-        _last_rendered_hp = GetHitPoints();
-        _hit_points_text.SetText(NumberToString(_last_rendered_hp));
-    }
-
-    if(_last_rendered_sp != GetSkillPoints()) {
-        _last_rendered_sp = GetSkillPoints();
-        _skill_points_text.SetText(NumberToString(_last_rendered_sp));
-    }
-
     // Note: if the command menu is visible, it will be drawn over all of the components that follow below. We still perform these draw calls
     // regardless because sometimes even if the battle is in the command state, the command menu may not be drawn if a dialogue is active or if
     // a scripted scene is taking place. Its easier (and not costly) to just always draw this information rather than check for all possible
@@ -1253,12 +1526,9 @@ void BattleCharacter::DrawStatus(uint32 order, BattleCharacter* character_comman
 BattleEnemy::BattleEnemy(uint32 enemy_id) :
     BattleActor(new vt_global::GlobalEnemy(enemy_id)),
     _sprite_animation_alias("idle"),
-    _sprite_alpha(1.0f)
+    _action_finished(false)
 {
     _global_enemy = static_cast<GlobalEnemy*>(_global_actor);
-
-    _LoadAIScript();
-    _LoadDeathAnimationScript();
 
     _sprite_animations = _global_enemy->GetBattleAnimations();
 }
@@ -1272,88 +1542,20 @@ BattleEnemy::~BattleEnemy()
     delete _global_enemy;
 }
 
-void BattleEnemy::_LoadAIScript()
-{
-    std::string filename = _global_enemy->GetBattleAIScriptFilename();
-
-    if (filename.empty())
-        return;
-
-    std::string tablespace = ScriptEngine::GetTableSpace(filename);
-    ScriptManager->DropGlobalTable(tablespace);
-
-    ReadScriptDescriptor ai_script;
-    if(!ai_script.OpenFile(filename))
-        return;
-
-    if(ai_script.OpenTablespace().empty()) {
-        PRINT_ERROR << "The enemy battle AI script file: " << filename
-                    << "has got no valid namespace" << std::endl;
-        ai_script.CloseFile();
-        return;
-    }
-
-    _ai_script = ai_script.ReadFunctionPointer("DecideAction");
-    ai_script.CloseFile();
-}
-
-void BattleEnemy::_LoadDeathAnimationScript()
-{
-    // Loads potential death animation script functions
-    if (_global_enemy->GetDeathScriptFilename().empty())
-        return;
-
-    std::string filename = _global_enemy->GetDeathScriptFilename();
-
-    std::string tablespace = ScriptEngine::GetTableSpace(filename);
-    ScriptManager->DropGlobalTable(tablespace);
-
-    ReadScriptDescriptor death_script;
-    if(!death_script.OpenFile(filename))
-        return;
-
-    if(death_script.OpenTablespace().empty()) {
-        PRINT_ERROR << "The enemy death script file: " << filename
-                    << "has got no valid namespace" << std::endl;
-        death_script.CloseFile();
-        return;
-    }
-
-    _death_init = death_script.ReadFunctionPointer("Initialize");
-    _death_update = death_script.ReadFunctionPointer("Update");
-    _death_draw_on_sprite = death_script.ReadFunctionPointer("DrawOnSprite");
-    death_script.CloseFile();
-}
-
-void BattleEnemy::ResetActor()
-{
-    BattleActor::ResetActor();
-}
-
 void BattleEnemy::ChangeState(ACTOR_STATE new_state)
 {
     BattleActor::ChangeState(new_state);
 
     switch(_state) {
-    case ACTOR_STATE_COMMAND: {
-        if (_ai_script.is_valid()) {
-            try {
-                ScriptCallFunction<void>(_ai_script, BattleMode::CurrentInstance(), this);
-            } catch(const luabind::error &e) {
-                PRINT_ERROR << "Error while triggering DecideAction() function of enemy id: " << _global_actor->GetID() << std::endl;
-                ScriptManager->HandleLuaError(e);
-            } catch(const luabind::cast_failed &e) {
-                PRINT_ERROR << "Error while triggering DecideAction() function of enemy id: " << _global_actor->GetID() << std::endl;
-                ScriptManager->HandleCastError(e);
-            }
-        }
-        else {
-            // Hardcoded fallback behaviour
-            _DecideAction();
-        }
+    case ACTOR_STATE_COMMAND:
+        // Hardcoded fallback behaviour for enemies if no AI script is provided.
+        _DecideAction();
         break;
-    }
     case ACTOR_STATE_ACTING:
+        _action->Initialize();
+        if(_action->IsScripted())
+            return;
+
         _state_timer.Initialize(400); // Default monster action time
         _state_timer.Run();
         break;
@@ -1416,32 +1618,49 @@ void BattleEnemy::Update()
 
     // Note: that update part only handles attack actions
     if(_state == ACTOR_STATE_ACTING) {
-        if(_state_timer.PercentComplete() <= 0.50f)
+        // Update potential scripted Battle action without hardcoded logic in that case
+        if(_action && _action->IsScripted()) {
+            if(!_action->Update())
+                return;
+            else
+                ChangeState(ACTOR_STATE_COOL_DOWN);
+        }
+
+        // Hardcoded action handling
+        if(_state_timer.PercentComplete() <= 0.50f) {
             _x_location = _x_origin - TILE_SIZE * (2.0f * _state_timer.PercentComplete());
-        else
-            _x_location = _x_origin - TILE_SIZE * (2.0f - 2.0f * _state_timer.PercentComplete());
-    } else if(_state == ACTOR_STATE_DYING) {
-        if (_death_init.is_valid()) {
-            if (_death_update.is_valid()) {
-                // Change the state when the animation has finished.
-                try {
-                    if (ScriptCallFunction<bool>(_death_update))
-                        ChangeState(ACTOR_STATE_DEAD);
-                } catch(const luabind::error &e) {
-                    PRINT_ERROR << "Error while triggering Update() function of enemy id: " << _global_actor->GetID() << std::endl;
-                    ScriptManager->HandleLuaError(e);
-                    // Do not block the player
-                    ChangeState(ACTOR_STATE_DEAD);
-                } catch(const luabind::cast_failed &e) {
-                    PRINT_ERROR << "Error while triggering Update() function of enemy id: " << _global_actor->GetID() << std::endl;
-                    ScriptManager->HandleCastError(e);
-                    // Do not block the player
-                    ChangeState(ACTOR_STATE_DEAD);
-                }
-            }
         }
         else {
-            // Add a default fade out effect
+            // Execute before moving back
+            if(!_action_finished) {
+                if(!_action->Execute())
+                    RegisterMiss();
+
+                // If it was an item action, show the item used.
+                if(_action->IsItemAction()) {
+                    ItemAction *item_action = static_cast<ItemAction *>(_action);
+
+                    // Creates an item indicator
+                    float y_pos = GetYLocation() - GetSpriteHeight();
+                    vt_mode_manager::IndicatorSupervisor& indicator = BattleMode::CurrentInstance()->GetIndicatorSupervisor();
+                    indicator.AddItemIndicator(GetXLocation(), y_pos, item_action->GetItem()->GetGlobalItem());
+                }
+
+                _action_finished = true;
+            }
+
+            _x_location = _x_origin - TILE_SIZE * (2.0f - 2.0f * _state_timer.PercentComplete());
+        }
+
+        if(_action_finished && _state_timer.IsFinished()) {
+            // For the next action
+            _action_finished = false;
+            ChangeState(ACTOR_STATE_COOL_DOWN);
+        }
+
+    } else if(_state == ACTOR_STATE_DYING) {
+        if (!_death_init.is_valid() || _death_update.is_valid()) {
+            // Use a default fade out effect when not scripted.
             _sprite_alpha = 1.0f - _state_timer.PercentComplete();
         }
     }
@@ -1460,17 +1679,6 @@ void BattleEnemy::Update()
     // Add a shake effect when the battle actor has received damages
     if(_hurt_timer.IsRunning())
         _x_location = _x_origin + RandomFloat(-2.0f, 2.0f);
-
-    if(_state == ACTOR_STATE_ACTING) {
-        if(!_execution_finished) {
-            if(!_action->Execute())
-                RegisterMiss();
-            _execution_finished = true;
-        }
-
-        if(_execution_finished && _state_timer.IsFinished() == true)
-            ChangeState(ACTOR_STATE_COOL_DOWN);
-    }
 }
 
 void BattleEnemy::DrawSprite()
@@ -1490,23 +1698,23 @@ void BattleEnemy::DrawSprite()
             if (_death_draw_on_sprite.is_valid())
                 ScriptCallFunction<void>(_death_draw_on_sprite);
         } catch(const luabind::error &e) {
-            PRINT_ERROR << "Error while triggering DrawOnSprite() function of enemy id: " << _global_actor->GetID() << std::endl;
+            PRINT_ERROR << "Error while triggering DrawOnSprite() function of actor id: " << _global_actor->GetID() << std::endl;
             ScriptManager->HandleLuaError(e);
         } catch(const luabind::cast_failed &e) {
-            PRINT_ERROR << "Error while triggering DrawOnSprite() function of enemy id: " << _global_actor->GetID() << std::endl;
+            PRINT_ERROR << "Error while triggering DrawOnSprite() function of actor id: " << _global_actor->GetID() << std::endl;
             ScriptManager->HandleCastError(e);
         }
 
     } else if(GetHitPoints() == GetMaxHitPoints()) {
-        _sprite_animations->at(GLOBAL_ENEMY_HURT_NONE).Draw();
+        _sprite_animations->at(GLOBAL_ENEMY_HURT_NONE).Draw(Color(1.0f, 1.0f, 1.0f, _sprite_alpha));
     } else if(hp_percent > 0.75f) {
-        _sprite_animations->at(GLOBAL_ENEMY_HURT_NONE).Draw();
+        _sprite_animations->at(GLOBAL_ENEMY_HURT_NONE).Draw(Color(1.0f, 1.0f, 1.0f, _sprite_alpha));
     } else if(hp_percent >  0.5f) {
-        _sprite_animations->at(GLOBAL_ENEMY_HURT_SLIGHTLY).Draw();
+        _sprite_animations->at(GLOBAL_ENEMY_HURT_SLIGHTLY).Draw(Color(1.0f, 1.0f, 1.0f, _sprite_alpha));
     } else if(hp_percent >  0.25f) {
-        _sprite_animations->at(GLOBAL_ENEMY_HURT_MEDIUM).Draw();
+        _sprite_animations->at(GLOBAL_ENEMY_HURT_MEDIUM).Draw(Color(1.0f, 1.0f, 1.0f, _sprite_alpha));
     } else { // (hp_precent > 0.0f)
-        _sprite_animations->at(GLOBAL_ENEMY_HURT_HEAVILY).Draw();
+        _sprite_animations->at(GLOBAL_ENEMY_HURT_HEAVILY).Draw(Color(1.0f, 1.0f, 1.0f, _sprite_alpha));
     }
 
     if(_is_stunned && (_state == ACTOR_STATE_IDLE || _state == ACTOR_STATE_WARM_UP || _state == ACTOR_STATE_COOL_DOWN)) {
@@ -1529,163 +1737,6 @@ void BattleEnemy::DrawStaminaIcon(const vt_video::Color &color) const
     else {
         _stamina_icon.Draw(color);
     }
-}
-
-void BattleEnemy::_DecideAction()
-{
-    const std::vector<GlobalSkill *>& enemy_skills = _global_actor->GetSkills();
-    std::vector<GlobalSkill *> usable_skills;
-    std::vector<GlobalSkill*>::const_iterator skill_it = enemy_skills.begin();
-    while(skill_it != enemy_skills.end()) {
-        if((*skill_it)->IsExecutableInBattle() && (*skill_it)->GetSPRequired() <= GetSkillPoints())
-            usable_skills.push_back(*skill_it);
-        ++skill_it;
-    }
-
-    if(usable_skills.empty()) {
-        IF_PRINT_WARNING(BATTLE_DEBUG) << "enemy had no usable skills" << std::endl;
-        ChangeState(ACTOR_STATE_IDLE);
-        return;
-    }
-
-    BattleMode* BM = BattleMode::CurrentInstance();
-    const std::deque<BattleActor *> characters = BM->GetCharacterParty();
-    const std::deque<BattleActor *> enemies = BM->GetEnemyParty();
-
-    std::deque<BattleActor *> alive_characters;
-    std::deque<BattleActor *>::const_iterator it = characters.begin();
-    while(it != characters.end()) {
-        if((*it)->IsAlive())
-            alive_characters.push_back(*it);
-        ++it;
-    }
-    if(alive_characters.empty()) {
-        ChangeState(ACTOR_STATE_IDLE);
-        return;
-    }
-
-    // and the enemies depending on their state
-    std::deque<BattleActor *> alive_enemies;
-    std::deque<BattleActor *> dead_enemies;
-    it = enemies.begin();
-    while(it != enemies.end()) {
-        if((*it)->IsAlive())
-            alive_enemies.push_back(*it);
-        else
-            dead_enemies.push_back(*it);
-        ++it;
-    }
-
-    if(alive_enemies.empty()) {
-        // it means that the enemy actually thinking now is already dead.
-        PRINT_WARNING << "An enemy was deciding an action while being dead." << std::endl;
-        ChangeState(ACTOR_STATE_IDLE);
-        return;
-    }
-
-    // Targeting members
-    BattleTarget target;
-    BattleActor *actor_target = NULL;
-
-    // Select a random skill to use
-    uint32 skill_index = 0;
-    if(usable_skills.size() > 1)
-        skill_index = RandomBoundedInteger(0, usable_skills.size() - 1);
-    GlobalSkill *skill = usable_skills.at(skill_index);
-
-    // Select the target
-    GLOBAL_TARGET target_type = skill->GetTargetType();
-    switch(target_type) {
-    case GLOBAL_TARGET_FOE_POINT:
-    case GLOBAL_TARGET_FOE:
-        // Select a random living character
-        if(alive_characters.size() == 1)
-            actor_target = alive_characters[0];
-        else
-            actor_target = alive_characters[RandomBoundedInteger(0, alive_characters.size() - 1)];
-        break;
-    case GLOBAL_TARGET_SELF_POINT:
-    case GLOBAL_TARGET_SELF:
-        actor_target = this;
-        break;
-    case GLOBAL_TARGET_ALLY_POINT:
-    case GLOBAL_TARGET_ALLY:
-        // Select a random living enemy
-        if(alive_enemies.size() == 1)
-            actor_target = alive_enemies[0];
-        else
-            actor_target = alive_enemies[RandomBoundedInteger(0, alive_enemies.size() - 1)];
-        break;
-    case GLOBAL_TARGET_ALLY_EVEN_DEAD:
-        // Select a random ally, living or not
-        if(enemies.size() == 1)
-            actor_target = enemies[0];
-        else
-            actor_target = enemies[RandomBoundedInteger(0, enemies.size() - 1)];
-        break;
-    case GLOBAL_TARGET_DEAD_ALLY:
-        if (dead_enemies.empty()) {
-            // Abort the skill since there is no valid targets.
-            ChangeState(ACTOR_STATE_IDLE);
-            return;
-        }
-
-        // Select a random ally, living or not
-        if(dead_enemies.size() == 1)
-            actor_target = dead_enemies[0];
-        else
-            actor_target = dead_enemies[RandomBoundedInteger(0, dead_enemies.size() - 1)];
-        break;
-    case GLOBAL_TARGET_ALL_FOES:
-    case GLOBAL_TARGET_ALL_ALLIES:
-        // Nothing to do here, the party deques are ready
-        break;
-    default:
-        PRINT_WARNING << "Unsupported enemy skill type found." << std::endl;
-        ChangeState(ACTOR_STATE_IDLE);
-        return;
-        break;
-    }
-
-    // Potentially select the target point and finish targeting
-    switch(target_type) {
-    case GLOBAL_TARGET_SELF_POINT:
-    case GLOBAL_TARGET_FOE_POINT:
-    case GLOBAL_TARGET_ALLY_POINT: {
-        // Select a random attack point on the target
-        uint32 num_points = actor_target->GetAttackPoints().size();
-        uint32 point_target = 0;
-        if(num_points == 1)
-            point_target = 0;
-        else
-            point_target = RandomBoundedInteger(0, num_points - 1);
-
-        target.SetPointTarget(target_type, point_target, actor_target);
-        break;
-    }
-
-    case GLOBAL_TARGET_FOE:
-    case GLOBAL_TARGET_SELF:
-    case GLOBAL_TARGET_ALLY:
-    case GLOBAL_TARGET_ALLY_EVEN_DEAD:
-    case GLOBAL_TARGET_DEAD_ALLY:
-        target.SetActorTarget(target_type, actor_target);
-        break;
-    case GLOBAL_TARGET_ALL_FOES: // Supported at script level
-        target.SetPartyTarget(target_type, &BM->GetCharacterParty());
-        break;
-    case GLOBAL_TARGET_ALL_ALLIES: // Supported at script level
-        target.SetPartyTarget(target_type, &BM->GetEnemyParty());
-        break;
-    default:
-        PRINT_WARNING << "Unsupported enemy skill type found." << std::endl;
-        ChangeState(ACTOR_STATE_IDLE);
-        return;
-        break;
-    }
-
-    SetAction(new SkillAction(this, target, skill));
-    ChangeState(ACTOR_STATE_WARM_UP);
 }
 
 } // namespace private_battle

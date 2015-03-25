@@ -433,6 +433,14 @@ public:
     const std::vector<GlobalSkill *>& GetSkills() {
         return _skills;
     }
+
+    const std::string& GetDeathScriptFilename() const {
+        return _death_script_filename;
+    }
+
+    const std::string& GetBattleAIScriptFilename() const {
+        return _ai_script_filename;
+    }
     //@}
 
     /** \name Class member set functions
@@ -666,13 +674,19 @@ protected:
     std::vector<GlobalAttackPoint *> _attack_points;
 
     /** \brief A map containing all skills that the actor can use
-    *** Unlike with characters, there is no need to hold the various types of skills in seperate containers
+    *** Unlike with characters, there is no need to hold the various types of skills in separate containers
     *** for enemies. An enemy must have <b>at least</b> one skill in order to do anything useful in battle.
     **/
     std::vector<GlobalSkill *> _skills;
 
     //! A vector keeping all the skills ids learned. Used for fast id requests.
     std::vector<uint32> _skills_id;
+
+    //! \brief Stores the animation script filename used when the actor dies.
+    std::string _death_script_filename;
+
+    //! \brief Stores the battle AI script filename used when the actor is fighting.
+    std::string _ai_script_filename;
 
     /** \brief Calculates an actor's physical and magical attack ratings
     *** This function sums the actor's strength/vigor with their weapon's attack ratings
@@ -1329,14 +1343,6 @@ public:
     std::vector<vt_video::AnimatedImage>* GetBattleAnimations() {
         return &_battle_animations;
     }
-
-    const std::string& GetDeathScriptFilename() const {
-        return _death_script_filename;
-    }
-
-    const std::string& GetBattleAIScriptFilename() const {
-        return _ai_script_filename;
-    }
     //@}
 
 protected:
@@ -1371,12 +1377,6 @@ protected:
     *** damage frame, the second element contains the 33% damage frame, and so on.
     **/
     std::vector<vt_video::AnimatedImage> _battle_animations;
-
-    //! \brief Stores the animation script filename used when the enemy dies.
-    std::string _death_script_filename;
-
-    //! \brief Stores the battle AI script filename used when the enemy is fighting.
-    std::string _ai_script_filename;
 
     /** \brief Initializes the enemy stats and skills
     ***
