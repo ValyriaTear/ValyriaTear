@@ -1659,7 +1659,7 @@ void BattleEnemy::Update()
         }
 
     } else if(_state == ACTOR_STATE_DYING) {
-        if (!_death_init.is_valid() || _death_update.is_valid()) {
+        if (!_death_init.is_valid() || !_death_update.is_valid()) {
             // Use a default fade out effect when not scripted.
             _sprite_alpha = 1.0f - _state_timer.PercentComplete();
         }
