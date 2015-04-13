@@ -514,8 +514,12 @@ void BattleMode::Update()
         BattleActor *acting_actor = _ready_queue.front();
         switch(acting_actor->GetState()) {
         case ACTOR_STATE_READY:
+            acting_actor->ChangeState(ACTOR_STATE_SHOWNOTICE);
+            break;
+        case ACTOR_STATE_NOTICEDONE:
             acting_actor->ChangeState(ACTOR_STATE_ACTING);
             break;
+        case ACTOR_STATE_SHOWNOTICE:
         case ACTOR_STATE_ACTING:
             break;
         default:

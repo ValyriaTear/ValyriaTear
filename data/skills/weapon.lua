@@ -106,6 +106,7 @@ skills[1] = {
 
 skills[2] = {
     name = vt_system.Translate("Forward Thrust"),
+    show_notice = true,
     description = vt_system.Translate("A quicker and more powerful blow than the standard sword slash."),
     sp_required = 2,
     warmup_time = 800,
@@ -520,7 +521,9 @@ skills[1003] = {
 }
 
 skills[1004] = {
-    name = "Snake Stun Bite",
+    name = vt_system.Translate("Stun Bite"),
+    icon = "data/skills/monster_attacks/animal-fangs.png",
+    show_notice = true,
     sp_required = 1,
     warmup_time = 900,
     cooldown_time = 0,

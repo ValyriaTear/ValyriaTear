@@ -84,16 +84,20 @@ public:
     *** \note No set functions are defined because the class members should only be intialized within Lua
     **/
     //@{
-    const vt_utils::ustring &GetName() const {
+    const vt_utils::ustring& GetName() const {
         return _name;
     }
 
-    const vt_utils::ustring &GetDescription() const {
+    const vt_utils::ustring& GetDescription() const {
         return _description;
     }
 
-    const std::string &GetIconFilename() const {
+    const std::string& GetIconFilename() const {
         return _icon_filename;
+    }
+
+    bool ShouldShowSkillNotice() const {
+        return _show_skill_notice;
     }
 
     uint32 GetID() const {
@@ -164,8 +168,11 @@ private:
     **/
     vt_utils::ustring _description;
 
-    //! The potential skill icon filename
+    //! \brief The potential skill icon filename
     std::string _icon_filename;
+
+    //! \brief Whether to show a skill short notice before executing the action.
+    bool _show_skill_notice;
 
     //! \brief The type identifier for the skill
     GLOBAL_SKILL _type;

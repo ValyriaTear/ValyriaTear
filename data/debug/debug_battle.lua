@@ -10,12 +10,16 @@ function BootBattleTest()
 
 
     local bronann = GlobalManager:GetCharacter(BRONANN);
+    bronann:AddSkill(2); -- Forward Thrust
     bronann:AddSkill(10120); -- Wave
     bronann:AddSkill(10111); -- Earth Circle
     bronann:AddSkill(10121); -- Water Circle
     bronann:AddSkill(10131); -- Wind Circle
     bronann:SetMaxHitPoints(9999);
     bronann:SetHitPoints(9999);
+
+    local thanis = GlobalManager:GetCharacter(THANIS);
+    thanis:AddSkill(2); -- Forward Thrust
 
     local battle = vt_battle.BattleMode();
     battle:AddEnemy(1, 0, 0);

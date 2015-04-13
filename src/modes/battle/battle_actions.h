@@ -92,6 +92,9 @@ public:
     //! \brief Returns the icon filename of the action that the player would need
     virtual std::string GetIconFilename() const = 0;
 
+    //! \brief Returns whether a short notice should be shown just before triggering the action.
+    virtual bool ShouldShowSkillNotice() const = 0;
+
     //! \brief Returns the number of milliseconds that the owner actor must wait in the warm up state
     virtual uint32 GetWarmUpTime() const = 0;
 
@@ -168,6 +171,8 @@ public:
 
     std::string GetIconFilename() const;
 
+    bool ShouldShowSkillNotice() const;
+
     uint32 GetWarmUpTime() const;
 
     uint32 GetCoolDownTime() const;
@@ -220,6 +225,10 @@ public:
     vt_utils::ustring GetName() const;
 
     std::string GetIconFilename() const;
+
+    bool ShouldShowSkillNotice() const {
+        return true;
+    }
 
     uint32 GetWarmUpTime() const;
 

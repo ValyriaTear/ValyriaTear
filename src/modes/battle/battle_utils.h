@@ -98,13 +98,15 @@ enum ACTOR_STATE {
     ACTOR_STATE_COMMAND       =  1, //!< Actor is finished with the idle state and needs to select an action to execute
     ACTOR_STATE_WARM_UP       =  2, //!< Actor has selected an action and is preparing to execute it
     ACTOR_STATE_READY         =  3, //!< Actor is prepared to execute action and is waiting their turn to act
-    ACTOR_STATE_ACTING        =  4, //!< Actor is in the process of executing their selected action
-    ACTOR_STATE_COOL_DOWN     =  5, //!< Actor is finished with previous action execution and recovering
-    ACTOR_STATE_DYING         =  6, //!< Actor is in the transitive dying state.
-    ACTOR_STATE_DEAD          =  7, //!< Actor has perished and is inactive in battle
-    ACTOR_STATE_REVIVE        =  8, //!< Actor coming back from coma, and in the process to stand up again.
-    ACTOR_STATE_PARALYZED     =  9, //!< Actor is in some state of paralysis and can not act nor recover stamina
-    ACTOR_STATE_TOTAL         =  10
+    ACTOR_STATE_SHOWNOTICE    =  4, //!< Actor is waiting for the special skill short notice to disappear
+    ACTOR_STATE_NOTICEDONE    =  5, //!< Actor is has shown the special skill short notice and is ready to act.
+    ACTOR_STATE_ACTING        =  6, //!< Actor is in the process of executing their selected action
+    ACTOR_STATE_COOL_DOWN     =  7, //!< Actor is finished with previous action execution and recovering
+    ACTOR_STATE_DYING         =  8, //!< Actor is in the transitive dying state.
+    ACTOR_STATE_DEAD          =  9, //!< Actor has perished and is inactive in battle
+    ACTOR_STATE_REVIVE        =  10, //!< Actor coming back from coma, and in the process to stand up again.
+    ACTOR_STATE_PARALYZED     =  11, //!< Actor is in some state of paralysis and can not act nor recover stamina
+    ACTOR_STATE_TOTAL         =  12
 };
 
 

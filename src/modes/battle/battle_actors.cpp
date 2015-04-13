@@ -589,20 +589,32 @@ void BattleActor::Update()
     _UpdateStaminaIconPosition();
 
     if (_state_timer.IsFinished()) {
-        if (_state == ACTOR_STATE_IDLE) {
-            // If an action is already set for the actor, skip the command state and immediately begin the warm up state
+        switch(_state) {
+        case ACTOR_STATE_IDLE:
+            // If an action is already set for the actor,
+            // skip the command state and immediately begin the warm up state.
             if (_action == NULL)
                 ChangeState(ACTOR_STATE_COMMAND);
             else
                 ChangeState(ACTOR_STATE_WARM_UP);
-        } else if (_state == ACTOR_STATE_WARM_UP) {
+            break;
+        case ACTOR_STATE_WARM_UP:
             ChangeState(ACTOR_STATE_READY);
-        } else if (_state == ACTOR_STATE_COOL_DOWN) {
+            break;
+        case ACTOR_STATE_SHOWNOTICE:
+            ChangeState(ACTOR_STATE_NOTICEDONE);
+            break;
+        case ACTOR_STATE_COOL_DOWN:
             ChangeState(ACTOR_STATE_IDLE);
-        } else if (_state == ACTOR_STATE_DYING) {
+            break;
+        case ACTOR_STATE_DYING:
             ChangeState(ACTOR_STATE_DEAD);
-        } else if (_state == ACTOR_STATE_REVIVE) {
+            break;
+        case ACTOR_STATE_REVIVE:
             ChangeState(ACTOR_STATE_IDLE);
+            break;
+        default:
+            break;
         }
     }
 }
@@ -1123,6 +1135,33 @@ void BattleCharacter::ChangeState(ACTOR_STATE new_state)
         ChangeSpriteAnimation(animation_name);
         break;
     }
+    case ACTOR_STATE_SHOWNOTICE:
+        if (_action && _action->ShouldShowSkillNotice()) {
+            _state_timer.Initialize(1000);
+            _state_timer.Run();
+
+            // Determine the current weapon icon if existing...
+            std::string icon_filename;
+            if (_action->GetIconFilename() == "weapon") {
+                GlobalWeapon* wpn = _global_character->GetWeaponEquipped();
+                if (wpn) {
+                    icon_filename = _global_character->GetWeaponEquipped()->GetIconImage().GetFilename();
+                    if (icon_filename.empty())
+                        icon_filename = "data/gui/battle/default_weapon.png";
+                }
+                else {
+                    icon_filename = "data/inventory/weapons/fist-human.png";
+                }
+            }
+            else {
+                icon_filename = _action->GetIconFilename();
+            }
+            BattleMode::CurrentInstance()->GetIndicatorSupervisor().AddShortNotice(_action->GetName(), icon_filename);
+        }
+        else {
+            _state = ACTOR_STATE_NOTICEDONE;
+        }
+        break;
     case ACTOR_STATE_ACTING: {
         _action->Initialize();
         if(_action->IsScripted())
@@ -1550,6 +1589,21 @@ void BattleEnemy::ChangeState(ACTOR_STATE new_state)
     case ACTOR_STATE_COMMAND:
         // Hardcoded fallback behaviour for enemies if no AI script is provided.
         _DecideAction();
+        break;
+    case ACTOR_STATE_SHOWNOTICE:
+        if (_action && _action->ShouldShowSkillNotice()) {
+            _state_timer.Initialize(1000);
+            _state_timer.Run();
+
+            // Determine the current weapon icon if existing...
+            std::string icon_filename;
+            if (_action->GetIconFilename() != "weapon")
+                icon_filename = _action->GetIconFilename();
+            BattleMode::CurrentInstance()->GetIndicatorSupervisor().AddShortNotice(_action->GetName(), icon_filename);
+        }
+        else {
+            _state = ACTOR_STATE_NOTICEDONE;
+        }
         break;
     case ACTOR_STATE_ACTING:
         _action->Initialize();

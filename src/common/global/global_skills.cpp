@@ -43,6 +43,7 @@ using namespace private_global;
 
 GlobalSkill::GlobalSkill(uint32 id) :
     _id(id),
+    _show_skill_notice(false),
     _type(GLOBAL_SKILL_INVALID),
     _sp_required(0),
     _warmup_time(0),
@@ -83,6 +84,8 @@ GlobalSkill::GlobalSkill(uint32 id) :
         _description = MakeUnicodeString(skill_script->ReadString("description"));
     if(skill_script->DoesStringExist("icon"))
         _icon_filename = skill_script->ReadString("icon");
+    if(skill_script->DoesBoolExist("show_notice"))
+        _show_skill_notice = skill_script->ReadBool("show_notice");
     _sp_required = skill_script->ReadUInt("sp_required");
     _warmup_time = skill_script->ReadUInt("warmup_time");
     _cooldown_time = skill_script->ReadUInt("cooldown_time");

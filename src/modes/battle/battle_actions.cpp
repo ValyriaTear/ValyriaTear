@@ -110,6 +110,14 @@ SkillAction::SkillAction(BattleActor *actor, BattleTarget target, GlobalSkill *s
     anim_script.CloseFile();
 }
 
+bool SkillAction::ShouldShowSkillNotice() const
+{
+    if (!_skill)
+        return false;
+
+    return _skill->ShouldShowSkillNotice();
+}
+
 void SkillAction::_InitAnimationScript()
 {
     try {
@@ -184,6 +192,9 @@ std::string SkillAction::GetIconFilename() const
 {
     if (!_skill)
         return std::string();
+
+    if (!_skill->GetIconFilename().empty())
+        return _skill->GetIconFilename();
 
     switch (_skill->GetType()) {
     default:
