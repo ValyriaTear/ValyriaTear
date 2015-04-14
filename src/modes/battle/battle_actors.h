@@ -189,62 +189,6 @@ protected:
     bool _can_be_removed;
 };
 
-//! \brief The battle ammo class is made to represent an ammo image on the battle ground.
-class BattleAmmo : public BattleObject
-{
-public:
-    BattleAmmo():
-        BattleObject(),
-        _flying_height(0.0f),
-        _shown(false)
-    {}
-
-    BattleAmmo(const std::string &animation_filename, uint32 flying_height):
-        BattleObject(),
-        _flying_height(flying_height),
-        _shown(false) {
-        LoadAmmoAnimatedImage(animation_filename);
-    }
-
-    //! Draw the ammo on screen if it was set to be shown.
-    void DrawSprite();
-
-    void LoadAmmoAnimatedImage(const std::string &filename) {
-        _ammo_image.Clear();
-        _ammo_image.LoadFromAnimationScript(filename);
-    }
-
-    const vt_video::AnimatedImage &GetAmmoImage() const {
-        return _ammo_image;
-    }
-
-    void SetFlyingHeight(float height) {
-        _flying_height = height;
-    }
-
-    float GetFlyingHeight() const {
-        return _flying_height;
-    }
-
-    void SetShowAmmo(bool show) {
-        _shown = show;
-    }
-
-    bool IsAmmoShown() const {
-        return _shown;
-    }
-
-protected:
-    //! The actual ammo graphics used when firing
-    vt_video::AnimatedImage _ammo_image;
-
-    //! The pixel height of the ammo compared to the ground (at which height the ammo flies).
-    float _flying_height;
-
-    //! Tells whether the ammo should be drawn on screen.
-    bool _shown;
-};
-
 /** ****************************************************************************
 *** \brief An abstract class for representing an actor in the battle
 ***
@@ -542,21 +486,12 @@ public:
         return _state;
     }
 
-    vt_global::GlobalActor *GetGlobalActor() {
+    vt_global::GlobalActor* GetGlobalActor() {
         return _global_actor;
     }
 
-    void SetShowAmmo(bool show) {
-        _ammo.SetShowAmmo(show);
-    }
-
-    void SetAmmoPosition(float x, float y) {
-        _ammo.SetXLocation(x);
-        _ammo.SetYLocation(y);
-    }
-
-    BattleAmmo &GetAmmo() {
-        return _ammo;
+    const std::string& GetAmmoAnimationFile() const {
+        return _ammo_animation_file;
     }
 
     BattleAction *GetAction() {
@@ -592,8 +527,8 @@ protected:
     //! \brief A pointer to the global actor object which the battle actor represents
     vt_global::GlobalActor* _global_actor;
 
-    //! \brief The ammo object. Use when the actor weapon uses ammo.
-    BattleAmmo _ammo;
+    //! \brief The ammo animation filename, when the actor weapon uses ammo. Empty otherwise.
+    std::string _ammo_animation_file;
 
     //! \brief A pointer to the action that the actor is preparing to perform or is currently performing
     BattleAction* _action;

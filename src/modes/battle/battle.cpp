@@ -375,9 +375,6 @@ void BattleMode::Update()
     for(uint32 i = 0; i < _character_actors.size(); ++i) {
         _character_actors[i]->Update();
         _battle_objects.push_back(_character_actors[i]);
-        // Add also potential ammo objects
-        if(_character_actors[i]->GetAmmo().IsAmmoShown())
-            _battle_objects.push_back(&(_character_actors[i]->GetAmmo()));
     }
     for(uint32 i = 0; i < _enemy_actors.size(); ++i) {
         _enemy_actors[i]->Update();

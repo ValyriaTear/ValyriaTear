@@ -29,6 +29,8 @@ function Initialize(_character, _target, _skill)
     skill = _skill;
     Battle = ModeManager:GetTop();
 
+    local ammo_filename = character:GetAmmoAnimationFile();
+
     -- Don't attack if the character isn't alive
     if (character:IsAlive() == false) then
         return;
@@ -93,8 +95,8 @@ function Initialize(_character, _target, _skill)
         arrow_info.damage_triggered = false;
 
         -- Set Kalya's missile sprites
-        arrow_info.arrow = Battle:CreateBattleAnimation("data/entities/battle/ammo/wood_arrow.lua");
-        arrow_info.arrow_shadow = Battle:CreateBattleAnimation("data/entities/battle/ammo/wood_arrow.lua");
+        arrow_info.arrow = Battle:CreateBattleAnimation(ammo_filename);
+        arrow_info.arrow_shadow = Battle:CreateBattleAnimation(ammo_filename);
         arrow_info.arrow_shadow:GetAnimatedImage():EnableGrayScale();
 
         index = index + 1
@@ -220,7 +222,7 @@ function Update()
             end
             arrow_info.attack_step = 3
         end
-    
+
     end
 
     -- Check whether every target has received an arrow

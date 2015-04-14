@@ -81,19 +81,6 @@ void BattleAnimation::DrawSprite()
     _animation.Draw();
 }
 
-// BattleAmmo class
-void BattleAmmo::DrawSprite()
-{
-    // Draw potential sprite ammo
-    if(!_shown)
-        return;
-
-    VideoManager->Move(GetXLocation(), GetYLocation());
-    _ammo_image.Draw(Color(0.0f, 0.0f, 0.0f, 0.6f));
-    VideoManager->MoveRelative(0.0f, -_flying_height);
-    _ammo_image.Draw();
-}
-
 ////////////////////////////////////////////////////////////////////////////////
 // BattleActor class
 ////////////////////////////////////////////////////////////////////////////////
@@ -1065,13 +1052,8 @@ BattleCharacter::BattleCharacter(GlobalCharacter *character) :
         _current_weapon_animation.Clear();
 
     // Load the potential the ammo image filename
-    std::string ammo_animation_file = _global_character->GetWeaponEquipped() ?
-                                      _global_character->GetWeaponEquipped()->GetAmmoImageFile() : std::string();
-    if(!ammo_animation_file.empty())
-        _ammo.LoadAmmoAnimatedImage(ammo_animation_file);
-
-    // Prepare the flying height of potential ammo weapons
-    _ammo.SetFlyingHeight(GetSpriteHeight() / 2.0f);
+    _ammo_animation_file = _global_character->GetWeaponEquipped() ?
+                               _global_character->GetWeaponEquipped()->GetAmmoAnimationFile() : std::string();
 
     // Apply passive status effect from equipment
     const std::vector<GLOBAL_INTENSITY>& passive_effects = _global_character->GetEquipementStatusEffects();

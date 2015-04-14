@@ -363,8 +363,8 @@ public:
         return _spirit_slots;
     }
 
-    const std::string &GetAmmoImageFile() const {
-        return _ammo_image_file;
+    const std::string& GetAmmoAnimationFile() const {
+        return _ammo_animation_file;
     }
 
     //! \brief Get the animation filename corresponding to the character weapon animation
@@ -379,7 +379,7 @@ public:
 
 private:
     //! \brief The battle image animation file used to display the weapon ammo.
-    std::string _ammo_image_file;
+    std::string _ammo_animation_file;
 
     //! \brief The amount of physical damage that the weapon causes
     uint32 _physical_attack;

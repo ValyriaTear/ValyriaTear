@@ -247,7 +247,7 @@ GlobalWeapon::GlobalWeapon(uint32 id, uint32 count) :
     _spirit_slots.resize(spirits_number, NULL);
 
     // Load the possible battle ammo animated image filename.
-    _ammo_image_file = script_file.ReadString("battle_ammo_animation_file");
+    _ammo_animation_file = script_file.ReadString("battle_ammo_animation_file");
 
     // Load the weapon battle animation info
     if (script_file.DoesTableExist("battle_animations"))

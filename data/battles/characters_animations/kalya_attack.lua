@@ -96,8 +96,9 @@ function Initialize(_character, _target, _skill)
 
     Battle = ModeManager:GetTop();
     -- The arrow and shadow battle animations.
-    arrow = Battle:CreateBattleAnimation("data/entities/battle/ammo/wood_arrow.lua");
-    arrow_shadow = Battle:CreateBattleAnimation("data/entities/battle/ammo/wood_arrow.lua");
+    local ammo_filename = character:GetAmmoAnimationFile();
+    arrow = Battle:CreateBattleAnimation(ammo_filename);
+    arrow_shadow = Battle:CreateBattleAnimation(ammo_filename);
     arrow_shadow:GetAnimatedImage():EnableGrayScale();
     arrow:SetVisible(false);
     arrow_shadow:SetVisible(false);
