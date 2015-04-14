@@ -341,6 +341,7 @@ void BindCommonCode()
             .def("ApplyActiveStatusEffect", &GlobalCharacter::ApplyActiveStatusEffect)
             .def("RemoveActiveStatusEffect", &GlobalCharacter::RemoveActiveStatusEffect)
             .def("GetActiveStatusEffectIntensity", &GlobalCharacter::GetActiveStatusEffectIntensity)
+            .def("GetWeaponEquipped", &GlobalCharacter::GetWeaponEquipped)
         ];
 
         luabind::module(vt_script::ScriptManager->GetGlobalState(), "vt_global")
@@ -375,6 +376,7 @@ void BindCommonCode()
         [
             luabind::class_<GlobalWeapon, GlobalObject>("GlobalWeapon")
             .def("GetUsableBy", &GlobalWeapon::GetUsableBy)
+            .def("GetAmmoImageFile", &GlobalWeapon::GetAmmoImageFile)
         ];
 
         luabind::module(vt_script::ScriptManager->GetGlobalState(), "vt_global")
