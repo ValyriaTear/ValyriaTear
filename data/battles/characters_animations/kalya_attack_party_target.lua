@@ -1,4 +1,4 @@
--- This file is scripting Kalya's attack animation, called by attack skills, case she is attacking every foes at once.
+-- This file is scripting Kalya's attack animation, called by attack skills, in case she is attacking every foes at once.
 -- The initialize() function is called once, followed by calls to the update function.
 -- When the update function returns true, the attack is finished.
 
@@ -94,8 +94,8 @@ function Initialize(_character, _target, _skill)
 
         -- Set Kalya's missile sprites
         arrow_info.arrow = Battle:CreateBattleAnimation("data/entities/battle/ammo/wood_arrow.lua");
-        -- TODO: Create the arrow shadow
-        --arrow_info.arrow_shadow = Battle:CreateBattleAnimation("data/entities/battle/ammo/wood_arrow.lua");
+        arrow_info.arrow_shadow = Battle:CreateBattleAnimation("data/entities/battle/ammo/wood_arrow.lua");
+        arrow_info.arrow_shadow:GetAnimatedImage():EnableGrayScale();
 
         index = index + 1
     end
@@ -129,10 +129,12 @@ function Update()
                 arrow_info.arrow:SetVisible(true);
                 arrow_info.arrow:SetXLocation(arrow_info.arrow_pos_x);
                 arrow_info.arrow:SetYLocation(arrow_info.arrow_pos_y + arrow_info.arrow_height);
+            end
 
-                --arrow_info.arrow_shadow:SetVisible(true);
-                --arrow_info.arrow_shadow:SetXLocation(arrow_info.arrow_pos_x);
-                --arrow_info.arrow_shadow:SetYLocation(arrow_info.arrow_pos_y);
+            if (arrow_info.arrow_shadow ~= nil) then
+                arrow_info.arrow_shadow:SetVisible(true);
+                arrow_info.arrow_shadow:SetXLocation(arrow_info.arrow_pos_x);
+                arrow_info.arrow_shadow:SetYLocation(arrow_info.arrow_pos_y);
             end
 
             arrow_info.attack_step = 1
@@ -189,8 +191,11 @@ function Update()
             if (arrow_info.arrow ~= nil) then
                 arrow_info.arrow:SetXLocation(arrow_info.arrow_pos_x);
                 arrow_info.arrow:SetYLocation(arrow_info.arrow_pos_y + arrow_info.arrow_height);
-                --arrow_info.arrow_shadow:SetXLocation(arrow_info.arrow_pos_x);
-                --arrow_info.arrow_shadow:SetYLocation(arrow_info.arrow_pos_y);
+            end
+
+            if (arrow_info.arrow_shadow ~= nil) then
+                arrow_info.arrow_shadow:SetXLocation(arrow_info.arrow_pos_x);
+                arrow_info.arrow_shadow:SetYLocation(arrow_info.arrow_pos_y);
             end
 
             if (arrow_info.arrow_pos_x >= arrow_info.enemy_pos_x and arrow_info.arrow_pos_y == arrow_info.enemy_pos_y) then
@@ -206,10 +211,11 @@ function Update()
                     arrow_info.arrow:SetVisible(false);
                     arrow_info.arrow:Remove();
                     arrow_info.arrow = nil;
-
-                    --arrow_info.arrow_shadow:SetVisible(false);
-                    --arrow_info.arrow_shadow:Remove();
-                    --arrow_info.arrow_shadow = nil;
+                end
+                if (arrow_info.arrow_shadow ~= nil) then
+                    arrow_info.arrow_shadow:SetVisible(false);
+                    arrow_info.arrow_shadow:Remove();
+                    arrow_info.arrow_shadow = nil;
                 end
             end
             arrow_info.attack_step = 3
