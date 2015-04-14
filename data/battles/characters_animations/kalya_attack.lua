@@ -1,5 +1,3 @@
--- Filename: thanis_attack.lua
--- This file is scripting Bronann's attack animation, called by attack skills.
 -- The initialize() function is called once, followed by calls to the update function.
 -- When the update function returns true, the attack is finished.
 
@@ -9,11 +7,18 @@ setmetatable(ns, {__index = _G});
 kalya_attack = ns;
 setfenv(1, ns);
 
+-- The current battle mode
+local Battle = nil
+
 -- local references
 local character = nil
 local target = nil
 local target_actor = nil
 local skill = nil
+
+-- The current arrow image and shadow
+local arrow = nil
+local arrow_shadow = nil
 
 local arrow_pos_x = 0.0;
 local arrow_pos_y = 0.0;
@@ -88,6 +93,14 @@ function Initialize(_character, _target, _skill)
     --print("distance x: ", enemy_pos_x - character_pos_x)
     --print("distance y: ", character_pos_y - enemy_pos_y)
     --print (distance_moved_x, a_coeff, distance_moved_y);
+
+    Battle = ModeManager:GetTop();
+    -- The arrow and shadow battle animations.
+    arrow = Battle:CreateBattleAnimation("data/entities/battle/ammo/wood_arrow.lua");
+    arrow_shadow = Battle:CreateBattleAnimation("data/entities/battle/ammo/wood_arrow.lua");
+    arrow_shadow:GetAnimatedImage():EnableGrayScale();
+    arrow:SetVisible(false);
+    arrow_shadow:SetVisible(false);
 end
 
 
@@ -131,7 +144,14 @@ function Update()
         if (attack_time > 750.0) then
             character:ChangeSpriteAnimation("idle")
             attack_step = 2;
-            character:SetShowAmmo(true);
+            arrow:SetXLocation(arrow_pos_x);
+            arrow:SetYLocation(arrow_pos_y + arrow_height);
+            arrow:SetVisible(true);
+            arrow:Reset();
+            arrow_shadow:SetXLocation(arrow_pos_x);
+            arrow_shadow:SetYLocation(arrow_pos_y);
+            arrow_shadow:SetVisible(true);
+            arrow_shadow:Reset()
         end
     end
 
@@ -154,8 +174,14 @@ function Update()
             if arrow_pos_y > enemy_pos_y then arrow_pos_y = enemy_pos_y end
         end
 
-        character:SetAmmoPosition(arrow_pos_x, arrow_pos_y + arrow_height);
-        character:GetAmmo():SetFlyingHeight(arrow_height);
+        if (arrow ~= nil) then
+            arrow:SetXLocation(arrow_pos_x);
+            arrow:SetYLocation(arrow_pos_y + arrow_height);
+        end
+        if (arrow_shadow ~= nil) then
+            arrow_shadow:SetXLocation(arrow_pos_x);
+            arrow_shadow:SetYLocation(arrow_pos_y);
+        end
 
         if (arrow_pos_x >= enemy_pos_x and arrow_pos_y == enemy_pos_y) then
             attack_step = 3;
@@ -169,7 +195,17 @@ function Update()
             -- Remove the skill points at the end of the third attack
             character:SubtractSkillPoints(skill:GetSPRequired());
             damage_triggered = true;
-            character:SetShowAmmo(false);
+            -- The Remove() call will make the engine delete the objects, so we set them to nil to avoid using them again.
+            if (arrow ~= nil) then
+                arrow:SetVisible(false)
+                arrow:Remove();
+                arrow = nil;
+            end
+            if (arrow_shadow ~= nil) then
+                arrow_shadow:SetVisible(false);
+                arrow_shadow:Remove();
+                arrow_shadow = nil;
+            end
         end
         attack_step = 4
     end
