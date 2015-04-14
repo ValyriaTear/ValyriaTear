@@ -1,5 +1,3 @@
--- Filename: thanis_attack.lua
--- This file is scripting Bronann's attack animation, called by attack skills.
 -- The initialize() function is called once, followed by calls to the update function.
 -- When the update function returns true, the attack is finished.
 
@@ -9,11 +7,17 @@ setmetatable(ns, {__index = _G});
 kalya_throw_stone = ns;
 setfenv(1, ns);
 
+-- The current battle mode
+local Battle = nil
+
 -- local references
 local character = nil
 local target = nil
 local target_actor = nil
 local skill = nil
+
+local stone = nil
+local stone_shadow = nil
 
 local stone_pos_x = 0.0;
 local stone_pos_y = 0.0;
@@ -90,8 +94,13 @@ function Initialize(_character, _target, _skill)
     --print("distance y: ", character_pos_y - enemy_pos_y)
     --print (distance_moved_x, a_coeff, distance_moved_y);
 
-    -- Override the ammo as a stone.
-    character:GetAmmo():LoadAmmoAnimatedImage("data/entities/battle/ammo/rock_ammo.lua");
+    Battle = ModeManager:GetTop();
+    -- The stone and shadow battle animations.
+    stone = Battle:CreateBattleAnimation("data/entities/battle/ammo/rock_ammo.lua");
+    stone_shadow = Battle:CreateBattleAnimation("data/entities/battle/ammo/rock_ammo.lua");
+    stone_shadow:GetAnimatedImage():EnableGrayScale();
+    stone:SetVisible(false);
+    stone_shadow:SetVisible(false);
 end
 
 
@@ -135,7 +144,14 @@ function Update()
         if (attack_time > 700.0) then
             attack_step = 2;
             AudioManager:PlaySound("data/sounds/throw.wav");
-            character:SetShowAmmo(true);
+            stone:SetXLocation(stone_pos_x);
+            stone:SetYLocation(stone_pos_y + stone_height);
+            stone:SetVisible(true);
+            stone:Reset();
+            stone_shadow:SetXLocation(stone_pos_x);
+            stone_shadow:SetYLocation(stone_pos_y);
+            stone_shadow:SetVisible(true);
+            stone_shadow:Reset()
         end
     end
 
@@ -158,8 +174,14 @@ function Update()
             if stone_pos_y > enemy_pos_y then stone_pos_y = enemy_pos_y end
         end
 
-        character:SetAmmoPosition(stone_pos_x, stone_pos_y + stone_height);
-        character:GetAmmo():SetFlyingHeight(stone_height);
+        if (stone ~= nil) then
+            stone:SetXLocation(stone_pos_x);
+            stone:SetYLocation(stone_pos_y + stone_height);
+        end
+        if (stone_shadow ~= nil) then
+            stone_shadow:SetXLocation(stone_pos_x);
+            stone_shadow:SetYLocation(stone_pos_y);
+        end
 
         if (stone_pos_x >= enemy_pos_x and stone_pos_y == enemy_pos_y) then
             character:ChangeSpriteAnimation("idle");
@@ -174,7 +196,17 @@ function Update()
             -- Remove the skill points at the end of the third attack
             character:SubtractSkillPoints(skill:GetSPRequired());
             damage_triggered = true;
-            character:SetShowAmmo(false);
+            -- The Remove() call will make the engine delete the objects, so we set them to nil to avoid using them again.
+            if (stone ~= nil) then
+                stone:SetVisible(false)
+                stone:Remove();
+                stone = nil;
+            end
+            if (stone_shadow ~= nil) then
+                stone_shadow:SetVisible(false);
+                stone_shadow:Remove();
+                stone_shadow = nil;
+            end
         end
         attack_step = 4
     end
