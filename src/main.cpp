@@ -470,8 +470,11 @@ int main(int argc, char *argv[])
                          SDL_WINDOWPOS_CENTERED,
                          800, 600, // default size
                          SDL_WINDOW_OPENGL);
-    if (!sdl_window)
+    if (!sdl_window) {
+        //be careful: I had an error saying that OpenGL context was already created. This was obviously not the truth, so do not blindly trust SDL_GetError.
+        PRINT_ERROR << "SDL window creation failed: " << SDL_GetError() << std::endl;
         return false;
+    }
 
     // Set the window icon
     SDL_Surface* icon = IMG_Load("data/icons/program_icon.png");
