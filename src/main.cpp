@@ -471,7 +471,6 @@ int main(int argc, char *argv[])
                          800, 600, // default size
                          SDL_WINDOW_OPENGL);
     if (!sdl_window) {
-        //be careful: I had an error saying that OpenGL context was already created. This was obviously not the truth, so do not blindly trust SDL_GetError.
         PRINT_ERROR << "SDL window creation failed: " << SDL_GetError() << std::endl;
         return false;
     }
