@@ -43,6 +43,14 @@ namespace vt_battle
 namespace private_battle
 {
 
+/** \name Action Type Constants
+*** \brief Identifications for the types of actions a player's characters may perform
+**/
+const int32 CATEGORY_WEAPON    = 0;
+const int32 CATEGORY_MAGIC     = 1;
+const int32 CATEGORY_SPECIAL   = 2;
+const int32 CATEGORY_ITEM      = 3;
+
 const float HEADER_POSITION_X = 140.0f;
 const float HEADER_POSITION_Y = -12.0f;
 const float HEADER_SIZE_X = 350.0f;
@@ -295,7 +303,7 @@ void CharacterCommandSettings::SaveLastTarget(BattleTarget &target)
     case GLOBAL_TARGET_ALLY_POINT:
     case GLOBAL_TARGET_ALLY:
     case GLOBAL_TARGET_ALLY_EVEN_DEAD:
-    case GLOBAL_TARGET_DEAD_ALLY:
+    case GLOBAL_TARGET_DEAD_ALLY_ONLY:
         _last_character_target = target;
         break;
     case GLOBAL_TARGET_FOE_POINT:
@@ -423,7 +431,7 @@ void ItemCommand::Initialize(uint32 battle_item_index)
 {
     // If there is no more usable items in the inventory,
     // we can set the selection as invalid.
-    if(_item_list.GetNumberOptions() == 0 || _menu_items.size() == 0) {
+    if(_item_list.GetNumberOptions() == 0 || _menu_items.empty()) {
         _item_list.SetSelection(-1);
         _item_target_list.SetSelection(-1);
         return;
@@ -867,7 +875,7 @@ void CommandSupervisor::NotifyActorDeath(BattleActor *actor)
 
         // Try selecting the next actor and fall back to the previous command menu
         // if not possible.
-        if(!_selected_target.SelectNextActor(actor)) {
+        if(!_selected_target.SelectNextActor()) {
             if(character && (_state == COMMAND_STATE_ACTOR || _state == COMMAND_STATE_POINT))
                 _ChangeState(COMMAND_STATE_ACTION);
             return;
@@ -905,24 +913,23 @@ GLOBAL_TARGET CommandSupervisor::_ActionTargetType()
 
 bool CommandSupervisor::_SetInitialTarget()
 {
-    BattleActor *user = GetCommandCharacter();
+    BattleActor* actor = GetCommandCharacter();
     GLOBAL_TARGET target_type = _ActionTargetType();
 
     // Party targets are simple because we don't have to restore the last save target, since there is either the
     // ally party or foe party, and both parties are always valid targets (because otherwise the battle would have
     // already ended).
-    if(IsTargetParty(target_type) == true) {
+    if(IsTargetParty(target_type)) {
         // Party-type targets are always the same, so we don't need to recall the last target in this case
-        return _selected_target.SetInitialTarget(user, target_type);
+        return _selected_target.SetTarget(actor, target_type);
     }
 
     // If we don't memorize the last target, simply select the first one again.
     if(!SystemManager->GetBattleTargetMemory()) {
         // If the target type is invalid that means that there is no previous target so grab the initial target
-        if(!_selected_target.SetInitialTarget(user, target_type)) {
+        if(!_selected_target.SetTarget(actor, target_type)) {
             // No more target of that type, let's go back to the command state
             _selected_target.InvalidateTarget();
-            GlobalManager->Media().PlaySound("cancel");
             return false;
         }
         return true;
@@ -936,41 +943,36 @@ bool CommandSupervisor::_SetInitialTarget()
     } else if(IsTargetFoe(target_type)) {
         _selected_target = _active_settings->GetLastEnemyTarget();
     } else {
-        IF_PRINT_WARNING(BATTLE_DEBUG) << "no conditions met for invalid target type: " << target_type << std::endl;
+        PRINT_WARNING << "No conditions met for invalid target type: " << target_type << std::endl;
+    }
+    // Restore the target type after getting the target from memory.
+    if (!_selected_target.SetTarget(actor, target_type, _selected_target.GetActor(), _selected_target.GetAttackPoint())) {
+        // No more target of that type, let's go back to the command state
+        _selected_target.InvalidateTarget();
+        return false;
     }
 
-    bool permit_dead_targets = ((_selected_target.GetType() == GLOBAL_TARGET_ALLY_EVEN_DEAD)
-                                || (_selected_target.GetType() == GLOBAL_TARGET_DEAD_ALLY));
+    if (_selected_target.IsValid())
+        return true;
 
-    // Otherwise if the last target is no longer valid, select the next valid target
-    if(!_selected_target.IsValid(permit_dead_targets)) {
+    // Otherwise if the last target is set but no longer valid, select the next valid target in the serie.
+    if(_selected_target.GetActor() != NULL) {
         // Party targets should always be valid and attack points on actors do not disappear, so only the actor
         // must be invalid
-        if(!_selected_target.SelectNextActor(user, true, true, permit_dead_targets)) {
+        if(!_selected_target.SelectNextActor()) {
             // No more target of that type, let's go back to the command state
             // Invalidate the target so that one can get a completely new one
-            _selected_target.InvalidateTarget();
-        }
-    }
-
-    // If the target type is invalid that means that there is no previous target so grab the initial target
-    if(_selected_target.GetType() == GLOBAL_TARGET_INVALID) {
-        if(!_selected_target.SetInitialTarget(user, target_type)) {
-            // No more target of that type, let's go back to the command state
             _selected_target.InvalidateTarget();
             GlobalManager->Media().PlaySound("cancel");
             return false;
         }
+        return true;
     }
-
-    // This case occurs when our last target was an actor type and we're now using an action with a point target,
-    // or vice versa. We need to modify the target type while still retaining the original target actor.
-    if(_selected_target.GetType() != target_type) {
-        if(IsTargetPoint(target_type) == true) {
-            _selected_target.SetPointTarget(target_type, 0);
-        } else { // then IsTargetActor(target_type) == true
-            _selected_target.SetActorTarget(target_type, _selected_target.GetActor());
-        }
+    else if (!_selected_target.SetTarget(actor, target_type)) {
+        // No more target of that type, let's go back to the command state
+        _selected_target.InvalidateTarget();
+        GlobalManager->Media().PlaySound("cancel");
+        return false;
     }
     return true;
 }
@@ -1027,8 +1029,8 @@ void CommandSupervisor::_ChangeState(COMMAND_STATE new_state)
                 return;
             }
         }
-
-        _CreateActorTargetText();
+        _target_options.ResetViewableOption();
+        _UpdateActorTargetText();
     } else if(new_state == COMMAND_STATE_POINT) {
         _CreateAttackPointTargetText();
     }
@@ -1158,16 +1160,12 @@ void CommandSupervisor::_UpdateActorTarget()
         else
             _target_options.InputUp();
 
-        bool direction = InputManager->DownPress();
-        bool permit_dead_targets = ((_selected_target.GetType() == GLOBAL_TARGET_ALLY_EVEN_DEAD)
-                                || (_selected_target.GetType() == GLOBAL_TARGET_DEAD_ALLY));
-
         if((IsTargetActor(_selected_target.GetType()) == true) || (IsTargetPoint(_selected_target.GetType()) == true)) {
             // Since we're changing the target, we reinit the attack point to the first one,
             // as the new target may have less attack points than the latest one.
             _selected_target.ReinitAttackPoint();
-            _selected_target.SelectNextActor(GetCommandCharacter(), direction, true, permit_dead_targets);
-            _CreateActorTargetText();
+            _selected_target.SelectNextActor(InputManager->DownPress());
+            _UpdateActorTargetText();
             GlobalManager->Media().PlaySound("bump");
         }
     }
@@ -1193,8 +1191,7 @@ void CommandSupervisor::_UpdateAttackPointTarget()
         else
             _target_options.InputUp();
 
-        _selected_target.SelectNextPoint(GetCommandCharacter(), InputManager->DownPress());
-        _CreateAttackPointTargetText();
+        _selected_target.SelectNextPoint(InputManager->DownPress());
         GlobalManager->Media().PlaySound("bump");
     }
 
@@ -1206,6 +1203,8 @@ void CommandSupervisor::_UpdateAttackPointTarget()
     else {
         _show_information = false;
     }
+
+    _target_options.Update();
 }
 
 std::string _TurnIntoSeconds(uint32 milliseconds)
@@ -1225,7 +1224,7 @@ void CommandSupervisor::_UpdateActionInformation()
     if (_state == COMMAND_STATE_POINT) {
         // Show the target points information.
         BattleActor* actor = _selected_target.GetActor();
-        uint32 selected_point = _selected_target.GetPoint();
+        uint32 selected_point = _selected_target.GetAttackPoint();
         GlobalAttackPoint* attack_point = actor->GetAttackPoint(selected_point);
 
         _info_header.SetText(attack_point->GetName());
@@ -1390,7 +1389,7 @@ void CommandSupervisor::_DrawActionInformation()
     }
 }
 
-void CommandSupervisor::_CreateActorTargetText()
+void CommandSupervisor::_UpdateActorTargetText()
 {
     _window_header.SetText(UTranslate("Select Target"));
 
@@ -1453,14 +1452,20 @@ void CommandSupervisor::_CreateAttackPointTargetText()
 {
     _window_header.SetText(UTranslate("Select Attack Point"));
 
-    BattleActor *actor = _selected_target.GetActor();
-    uint32 selected_point = _selected_target.GetPoint();
+    BattleActor* actor = _selected_target.GetActor();
+    uint32 selected_point = _selected_target.GetAttackPoint();
+
+    if (actor == NULL) {
+        PRINT_ERROR << "NULL actor when selection target attack points!" << std::endl;
+        return;
+    }
 
     _target_options.ClearOptions();
     for(uint32 i = 0; i < actor->GetAttackPoints().size(); i++) {
         _target_options.AddOption(actor->GetAttackPoints().at(i)->GetName());
     }
 
+    _target_options.ResetViewableOption();
     _target_options.SetSelection(selected_point);
 }
 

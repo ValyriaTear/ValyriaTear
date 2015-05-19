@@ -573,9 +573,9 @@ protected:
     //! \brief Loads the potential battle AI scripted function.
     void _LoadAIScript();
 
-    /** \brief Decides what action that the enemy should execute and the target
+    /** \brief Decides what action that the hero or enemy should execute and the target
     *** This function is used as a fallback when no AI script is set for the given enemy.
-    *** \todo More complete AI decision making algorithms should be supported
+    *** \note More complete AI decision making algorithms should be supported
     *** through lua scripts.
     **/
     void _DecideAction();

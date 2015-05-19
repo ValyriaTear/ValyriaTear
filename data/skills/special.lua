@@ -230,8 +230,8 @@ skills[21003] = {
 
     BattleExecute = function(user, target)
         local target_actor = target:GetActor();
-        if (vt_battle.CalculateStandardEvasion(target) == false) then
-            local hp_drain = vt_battle.CalculatePhysicalDamageAdder(user, target, 8);
+        if (vt_battle.StdRndEvade(target_actor) == false) then
+            local hp_drain = vt_battle.RndPhysicalDamage(user, target, 8, 1.0, -1);
             target_actor:RegisterDamage(hp_drain, target);
             -- If the damage dealt was 1, don't recover any HP from the attack
             if (hp_drain > 1) then

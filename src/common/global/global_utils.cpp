@@ -59,9 +59,11 @@ std::string GetTargetText(GLOBAL_TARGET target)
     case GLOBAL_TARGET_SELF:
         return Translate("Self");
     case GLOBAL_TARGET_ALLY:
-    case GLOBAL_TARGET_ALLY_EVEN_DEAD:
-    case GLOBAL_TARGET_DEAD_ALLY:
         return Translate("Ally");
+    case GLOBAL_TARGET_ALLY_EVEN_DEAD:
+        return Translate("Ally (Even KO)");
+    case GLOBAL_TARGET_DEAD_ALLY_ONLY:
+        return Translate("Ally (Only KO)");
     case GLOBAL_TARGET_FOE:
         return Translate("Foe");
     case GLOBAL_TARGET_ALL_ALLIES:
@@ -87,7 +89,7 @@ bool IsTargetActor(GLOBAL_TARGET target)
     case GLOBAL_TARGET_SELF:
     case GLOBAL_TARGET_ALLY:
     case GLOBAL_TARGET_ALLY_EVEN_DEAD:
-    case GLOBAL_TARGET_DEAD_ALLY:
+    case GLOBAL_TARGET_DEAD_ALLY_ONLY:
     case GLOBAL_TARGET_FOE:
         return true;
     default:
@@ -121,7 +123,7 @@ bool IsTargetAlly(GLOBAL_TARGET target)
     case GLOBAL_TARGET_SELF:
     case GLOBAL_TARGET_ALLY:
     case GLOBAL_TARGET_ALLY_EVEN_DEAD:
-    case GLOBAL_TARGET_DEAD_ALLY:
+    case GLOBAL_TARGET_DEAD_ALLY_ONLY:
     case GLOBAL_TARGET_ALLY_POINT:
     case GLOBAL_TARGET_ALL_ALLIES:
         return true;

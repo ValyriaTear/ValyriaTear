@@ -117,7 +117,7 @@ enum GLOBAL_TARGET {
     GLOBAL_TARGET_SELF           =  3,
     GLOBAL_TARGET_ALLY           =  4, //!< \note This includes allowing the user to target itself
     GLOBAL_TARGET_ALLY_EVEN_DEAD =  5,
-    GLOBAL_TARGET_DEAD_ALLY      =  6,
+    GLOBAL_TARGET_DEAD_ALLY_ONLY =  6,
     GLOBAL_TARGET_FOE            =  7,
     GLOBAL_TARGET_ALL_ALLIES     =  8,
     GLOBAL_TARGET_ALL_FOES       =  9,

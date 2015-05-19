@@ -43,6 +43,19 @@ namespace vt_battle
 namespace private_battle
 {
 
+// Used to make the hardcoded action movement more or less wide.
+const uint32 MOVEMENT_SIZE = 64;
+
+//! \brief The bottom most position of the stamina bar
+const float STAMINA_LOCATION_BOTTOM = 640.0f;
+
+//! \brief The location where each actor is allowed to select a command
+const float STAMINA_LOCATION_COMMAND = STAMINA_LOCATION_BOTTOM - 354.0f;
+
+//! \brief The top most position of the stamina bar where actors are ready to execute their actions
+const float STAMINA_LOCATION_TOP = STAMINA_LOCATION_BOTTOM - 508.0f;
+
+
 // Battle Particle effect class
 BattleParticleEffect::BattleParticleEffect(const std::string &effect_filename):
     BattleObject()
@@ -320,9 +333,9 @@ void BattleActor::RegisterDamage(uint32 amount, BattleTarget *target)
 
     // If the damage dealt was to a point target type, check for and apply any status effects triggered by this point hit
     if((target != NULL) && (IsTargetPoint(target->GetType()) == true)) {
-        GlobalAttackPoint *damaged_point = _global_actor->GetAttackPoint(target->GetPoint());
+        GlobalAttackPoint* damaged_point = _global_actor->GetAttackPoint(target->GetAttackPoint());
         if(damaged_point == NULL) {
-            IF_PRINT_WARNING(BATTLE_DEBUG) << "target argument contained an invalid point index: " << target->GetPoint() << std::endl;
+            IF_PRINT_WARNING(BATTLE_DEBUG) << "target argument contained an invalid point index: " << target->GetAttackPoint() << std::endl;
         } else {
             std::vector<std::pair<GLOBAL_STATUS, float> > status_effects = damaged_point->GetStatusEffects();
             for(std::vector<std::pair<GLOBAL_STATUS, float> >::const_iterator i = status_effects.begin(); i != status_effects.end(); ++i) {
@@ -721,47 +734,25 @@ void BattleActor::SetAction(uint32 skill_id, BattleActor* target_actor)
 
     BattleTarget target;
     GLOBAL_TARGET target_type = skill->GetTargetType();
-    bool party_target = false;
-    BattleMode* BM = BattleMode::CurrentInstance();
 
-    switch(target_type) {
-    case GLOBAL_TARGET_ALL_FOES: // Supported at script level
-        if (IsEnemy())
-            target.SetPartyTarget(target_type, &BM->GetCharacterParty());
-        else
-            target.SetPartyTarget(target_type, &BM->GetEnemyParty());
-        party_target = true;
-        break;
-    case GLOBAL_TARGET_ALL_ALLIES: // Supported at script level
-        if (IsEnemy())
-            target.SetPartyTarget(target_type, &BM->GetEnemyParty());
-        else
-            target.SetPartyTarget(target_type, &BM->GetCharacterParty());
-
-        party_target = true;
-        break;
-    default:
-        break;
-    }
-
-    if (party_target) {
-        SetAction(new SkillAction(this, target, skill));
-        ChangeState(ACTOR_STATE_WARM_UP);
-        return;
-    }
-
+    // Auto-adjust target for self directed skills.
     if (target_type == GLOBAL_TARGET_SELF || target_type == GLOBAL_TARGET_SELF_POINT)
         target_actor = this;
 
-    // now dealing with single target based skills.
-    if (!target_actor) {
-        PRINT_WARNING << "The actor has got no target set with a single target skill: " << skill_id
-            << ". Its battle action failed." << std::endl;
-            ChangeState(ACTOR_STATE_IDLE);
-            return;
-    }
-
     switch(target_type) {
+    case GLOBAL_TARGET_ALL_FOES:
+    case GLOBAL_TARGET_ALL_ALLIES:
+        target.SetTarget(this, target_type);
+        break;
+
+    case GLOBAL_TARGET_FOE:
+    case GLOBAL_TARGET_SELF:
+    case GLOBAL_TARGET_ALLY:
+    case GLOBAL_TARGET_ALLY_EVEN_DEAD:
+    case GLOBAL_TARGET_DEAD_ALLY_ONLY:
+        target.SetTarget(this, target_type, target_actor);
+        break;
+
     case GLOBAL_TARGET_SELF_POINT:
     case GLOBAL_TARGET_FOE_POINT:
     case GLOBAL_TARGET_ALLY_POINT: {
@@ -773,18 +764,14 @@ void BattleActor::SetAction(uint32 skill_id, BattleActor* target_actor)
         else
             point_target = RandomBoundedInteger(0, num_points - 1);
 
-        target.SetPointTarget(target_type, point_target, target_actor);
+        target.SetTarget(this, target_type, target_actor, point_target);
         break;
     }
 
-    case GLOBAL_TARGET_FOE:
-    case GLOBAL_TARGET_SELF:
-    case GLOBAL_TARGET_ALLY:
-    case GLOBAL_TARGET_ALLY_EVEN_DEAD:
-    case GLOBAL_TARGET_DEAD_ALLY:
-        target.SetActorTarget(target_type, target_actor);
-        break;
     default:
+        PRINT_ERROR << "Invalid target type in SetAction()" << std::endl;
+        ChangeState(ACTOR_STATE_IDLE);
+        return;
         break;
     }
 
@@ -875,18 +862,19 @@ void BattleActor::_DecideAction()
     }
 
     BattleMode* BM = BattleMode::CurrentInstance();
-    std::deque<BattleActor *>& characters = BM->GetCharacterParty();
-    std::deque<BattleActor *>& enemies = BM->GetEnemyParty();
-    // If this function is used by a Hero Character, then enemies and characters must be swapped,
-    // as the character will target enemies or revive dead characters.
-    if (!IsEnemy())
-        characters.swap(enemies);
+    // If this function is used by an enemy, then enemies and characters must be swapped,
+    // as the roles are inversed.
+    std::deque<BattleActor *>& characters = IsEnemy() ? BM->GetEnemyParty() : BM->GetCharacterParty();
+    std::deque<BattleActor *>& enemies = IsEnemy() ? BM->GetCharacterParty() : BM->GetEnemyParty();
 
     std::deque<BattleActor *> alive_characters;
+    std::deque<BattleActor *> dead_characters;
     std::deque<BattleActor *>::const_iterator it = characters.begin();
     while(it != characters.end()) {
         if((*it)->IsAlive())
             alive_characters.push_back(*it);
+        else
+            dead_characters.push_back(*it);
         ++it;
     }
     if(alive_characters.empty()) {
@@ -896,42 +884,38 @@ void BattleActor::_DecideAction()
 
     // and the enemies depending on their state
     std::deque<BattleActor *> alive_enemies;
-    std::deque<BattleActor *> dead_enemies;
     it = enemies.begin();
     while(it != enemies.end()) {
         if((*it)->IsAlive())
             alive_enemies.push_back(*it);
-        else
-            dead_enemies.push_back(*it);
         ++it;
     }
 
     if(alive_enemies.empty()) {
-        // it means that the enemy actually thinking now is already dead.
         ChangeState(ACTOR_STATE_IDLE);
         return;
     }
 
     // Targeting members
     BattleTarget target;
-    BattleActor *actor_target = NULL;
+    BattleActor* actor_target = NULL;
 
     // Select a random skill to use
     uint32 skill_index = 0;
     if(usable_skills.size() > 1)
         skill_index = RandomBoundedInteger(0, usable_skills.size() - 1);
-    GlobalSkill *skill = usable_skills.at(skill_index);
+    GlobalSkill* skill = usable_skills.at(skill_index);
 
     // Select the target
     GLOBAL_TARGET target_type = skill->GetTargetType();
     switch(target_type) {
     case GLOBAL_TARGET_FOE_POINT:
     case GLOBAL_TARGET_FOE:
-        // Select a random living character
-        if(alive_characters.size() == 1)
-            actor_target = alive_characters[0];
+        // Select a random living enemy
+        if(alive_enemies.size() == 1)
+            actor_target = alive_enemies[0];
         else
-            actor_target = alive_characters[RandomBoundedInteger(0, alive_characters.size() - 1)];
+            actor_target = alive_enemies[RandomBoundedInteger(0, alive_enemies.size() - 1)];
         break;
     case GLOBAL_TARGET_SELF_POINT:
     case GLOBAL_TARGET_SELF:
@@ -939,31 +923,31 @@ void BattleActor::_DecideAction()
         break;
     case GLOBAL_TARGET_ALLY_POINT:
     case GLOBAL_TARGET_ALLY:
-        // Select a random living enemy
-        if(alive_enemies.size() == 1)
-            actor_target = alive_enemies[0];
+        // Select a random living character
+        if(alive_characters.size() == 1)
+            actor_target = alive_characters[0];
         else
-            actor_target = alive_enemies[RandomBoundedInteger(0, alive_enemies.size() - 1)];
+            actor_target = alive_characters[RandomBoundedInteger(0, alive_characters.size() - 1)];
         break;
     case GLOBAL_TARGET_ALLY_EVEN_DEAD:
         // Select a random ally, living or not
-        if(enemies.size() == 1)
-            actor_target = enemies[0];
+        if(characters.size() == 1)
+            actor_target = characters[0];
         else
-            actor_target = enemies[RandomBoundedInteger(0, enemies.size() - 1)];
+            actor_target = characters[RandomBoundedInteger(0, characters.size() - 1)];
         break;
-    case GLOBAL_TARGET_DEAD_ALLY:
-        if (dead_enemies.empty()) {
+    case GLOBAL_TARGET_DEAD_ALLY_ONLY:
+        if (dead_characters.empty()) {
             // Abort the skill since there is no valid targets.
             ChangeState(ACTOR_STATE_IDLE);
             return;
         }
 
         // Select a random ally, living or not
-        if(dead_enemies.size() == 1)
-            actor_target = dead_enemies[0];
+        if(dead_characters.size() == 1)
+            actor_target = dead_characters[0];
         else
-            actor_target = dead_enemies[RandomBoundedInteger(0, dead_enemies.size() - 1)];
+            actor_target = dead_characters[RandomBoundedInteger(0, dead_characters.size() - 1)];
         break;
     case GLOBAL_TARGET_ALL_FOES:
     case GLOBAL_TARGET_ALL_ALLIES:
@@ -989,7 +973,7 @@ void BattleActor::_DecideAction()
         else
             point_target = RandomBoundedInteger(0, num_points - 1);
 
-        target.SetPointTarget(target_type, point_target, actor_target);
+        target.SetTarget(this, target_type, actor_target, point_target);
         break;
     }
 
@@ -997,14 +981,14 @@ void BattleActor::_DecideAction()
     case GLOBAL_TARGET_SELF:
     case GLOBAL_TARGET_ALLY:
     case GLOBAL_TARGET_ALLY_EVEN_DEAD:
-    case GLOBAL_TARGET_DEAD_ALLY:
-        target.SetActorTarget(target_type, actor_target);
+    case GLOBAL_TARGET_DEAD_ALLY_ONLY:
+        target.SetTarget(this, target_type, actor_target);
         break;
     case GLOBAL_TARGET_ALL_FOES: // Supported at script level
-        target.SetPartyTarget(target_type, &characters);
+        target.SetTarget(this, target_type, enemies.at(0));
         break;
     case GLOBAL_TARGET_ALL_ALLIES: // Supported at script level
-        target.SetPartyTarget(target_type, &enemies);
+        target.SetTarget(this, target_type, characters.at(0));
         break;
     default:
         PRINT_WARNING << "Unsupported enemy skill type found." << std::endl;
@@ -1664,7 +1648,7 @@ void BattleEnemy::Update()
 
         // Hardcoded action handling
         if(_state_timer.PercentComplete() <= 0.50f) {
-            _x_location = _x_origin - TILE_SIZE * (2.0f * _state_timer.PercentComplete());
+            _x_location = _x_origin - MOVEMENT_SIZE * (2.0f * _state_timer.PercentComplete());
         }
         else {
             // Execute before moving back
@@ -1685,7 +1669,7 @@ void BattleEnemy::Update()
                 _action_finished = true;
             }
 
-            _x_location = _x_origin - TILE_SIZE * (2.0f - 2.0f * _state_timer.PercentComplete());
+            _x_location = _x_origin - MOVEMENT_SIZE * (2.0f - 2.0f * _state_timer.PercentComplete());
         }
 
         if(_action_finished && _state_timer.IsFinished()) {

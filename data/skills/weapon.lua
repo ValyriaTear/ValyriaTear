@@ -29,7 +29,7 @@
 -- common functions
 function trigger_potential_stun(user, target)
     local target_actor = target:GetActor();
-    local attack_point = target_actor:GetAttackPoint(target:GetPoint());
+    local attack_point = target_actor:GetAttackPoint(target:GetAttackPoint());
     local chance_modifier = (user:GetTotalMagicalAttack(vt_global.GameGlobal.GLOBAL_ELEMENTAL_NEUTRAL)
                             - attack_point:GetTotalMagicalDefense(vt_global.GameGlobal.GLOBAL_ELEMENTAL_NEUTRAL)) * 3.0;
     local chance = (vt_utils.RandomFloat() * 100.0);
@@ -50,7 +50,7 @@ end
 
 function trigger_potential_attack_lowering(user, target)
     local target_actor = target:GetActor();
-    local attack_point = target_actor:GetAttackPoint(target:GetPoint());
+    local attack_point = target_actor:GetAttackPoint(target:GetAttackPoint());
     local chance_modifier = (user:GetTotalMagicalAttack(vt_global.GameGlobal.GLOBAL_ELEMENTAL_NEUTRAL)
                             - attack_point:GetTotalMagicalDefense(vt_global.GameGlobal.GLOBAL_ELEMENTAL_NEUTRAL)) * 3.0;
     local chance = (vt_utils.RandomFloat() * 100.0);
@@ -88,9 +88,9 @@ skills[1] = {
     BattleExecute = function(user, target)
         local target_actor = target:GetActor();
 
-        if (vt_battle.CalculateStandardEvasion(target) == false) then
+        if (vt_battle.StdRndEvade(target_actor) == false) then
             -- Normal +0 attack
-            target_actor:RegisterDamage(vt_battle.CalculatePhysicalDamage(user, target), target);
+            target_actor:RegisterDamage(vt_battle.StdRndPhysicalDamage(user, target_actor), target);
             AudioManager:PlaySound("data/sounds/swordslice1.wav");
         else
             target_actor:RegisterMiss(true);
@@ -116,9 +116,10 @@ skills[2] = {
 
     BattleExecute = function(user, target)
         local target_actor = target:GetActor();
+        local attack_point = target:GetAttackPoint();
 
-        if (vt_battle.CalculateStandardEvasion(target) == false) then
-            target_actor:RegisterDamage(vt_battle.CalculatePhysicalDamageMultiplier(user, target, 1.30), target);
+        if (vt_battle.RndEvade(target_actor, 0, 1.0, attack_point) == false) then
+            target_actor:RegisterDamage(vt_battle.RndPhysicalDamage(user, target_actor, 0, 1.30, attack_point), target);
             AudioManager:PlaySound("data/sounds/swordslice1.wav");
         else
             target_actor:RegisterMiss(true);
@@ -144,13 +145,14 @@ skills[3] = {
 
     BattleExecute = function(user, target)
         local target_actor = target:GetActor();
+        local atk_point = target:GetAttackPoint();
 
-        if (vt_battle.CalculateStandardEvasionAdder(target, 5.5) == false) then
+        if (vt_battle.RndEvade(target_actor, 5.5, 1.0, atk_point) == false) then
             -- Calculate chance for paralysis effect and activate it
             trigger_potential_stun(user, target);
 
             -- The damages are applied after the potential effects, so that a potential target death handles the effect removal properly
-            target_actor:RegisterDamage(vt_battle.CalculatePhysicalDamage(user, target));
+            target_actor:RegisterDamage(vt_battle.RndPhysicalDamage(user, target_actor, 0, 1.0, atk_point), target);
             AudioManager:PlaySound("data/sounds/swordslice1.wav");
         else
             target_actor:RegisterMiss(true);
@@ -178,14 +180,14 @@ skills[4] = {
     BattleExecute = function(user, target)
         local target_actor = target:GetActor();
 
-        if (vt_battle.CalculateStandardEvasionAdder(target, 8.5) == false) then
+        if (vt_battle.RndEvade(target_actor, 8.5, 1.0, -1) == false) then
             local effect_duration = user:GetVigor() * 2000;
             if (effect_duration < 15000) then effect_duration = 15000 end
             target_actor:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_AGILITY,
                                                  vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_GREATER,
                                                  effect_duration);
 
-            target_actor:RegisterDamage(vt_battle.CalculatePhysicalDamageAdder(user, target, 20), target);
+            target_actor:RegisterDamage(vt_battle.RndPhysicalDamage(user, target_actor, 20, 1.0, -1), target);
             AudioManager:PlaySound("data/sounds/swordslice2.wav");
         else
             target_actor:RegisterMiss(true);
@@ -212,8 +214,8 @@ skills[5] = {
     BattleExecute = function(user, target)
         local target_actor = target:GetActor();
 
-        if (vt_battle.CalculateStandardEvasion(target) == false) then
-            target_actor:RegisterDamage(vt_battle.CalculatePhysicalDamageAdder(user, target, 5), target);
+        if (vt_battle.StdRndEvade(target_actor) == false) then
+            target_actor:RegisterDamage(vt_battle.RndPhysicalDamage(user, target_actor, 5, 1.0, -1), target);
             AudioManager:PlaySound("data/sounds/crossbow.ogg");
         else
             target_actor:RegisterMiss(true);
@@ -238,14 +240,14 @@ skills[6] = {
     BattleExecute = function(user, target)
         local target_actor = target:GetActor();
 
-        if (vt_battle.CalculateStandardEvasionAdder(target, 8.5) == false) then
+        if (vt_battle.RndEvade(target_actor, 8.5, 1.0, -1) == false) then
             local effect_duration = user:GetVigor() * 2000;
             if (effect_duration < 15000) then effect_duration = 15000 end
             target_actor:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_AGILITY,
                                                  vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_GREATER,
                                                  effect_duration);
 
-            target_actor:RegisterDamage(vt_battle.CalculatePhysicalDamageAdder(user, target, 20), target);
+            target_actor:RegisterDamage(vt_battle.RndPhysicalDamage(user, target_actor, 20, 1.0, -1), target);
             AudioManager:PlaySound("data/sounds/swordslice2.wav");
         else
             target_actor:RegisterMiss(true);
@@ -271,11 +273,12 @@ skills[101] = {
 
     BattleExecute = function(user, target)
         local target_actor = target:GetActor();
+        local atk_point = target:GetAttackPoint();
 
-        if (vt_battle.CalculateStandardEvasion(target) == false) then
+        if (vt_battle.RndEvade(target_actor, 0.0, 1.0, atk_point) == false) then
             -- Calculate chance for attack lowering effect and activate it
             trigger_potential_attack_lowering(user, target);
-            target_actor:RegisterDamage(vt_battle.CalculatePhysicalDamageAdder(user, target, 15), target);
+            target_actor:RegisterDamage(vt_battle.RndPhysicalDamage(user, target_actor, 15, 1.0, atk_point), target);
             AudioManager:PlaySound("data/sounds/crossbow.ogg");
         else
             target_actor:RegisterMiss(true);
@@ -302,8 +305,8 @@ skills[102] = {
         while (target:GetPartyActor(index) ~= nil) do
             local target_actor = target:GetPartyActor(index)
 
-            if (vt_battle.CalculateStandardEvasion(target_actor) == false) then
-                target_actor:RegisterDamage(vt_battle.CalculatePhysicalDamageAdder(user, target_actor, 5), target);
+            if (vt_battle.StdRndEvade(target_actor) == false) then
+                target_actor:RegisterDamage(vt_battle.RndPhysicalDamage(user, target_actor, 5, 1.0, -1), target);
                 AudioManager:PlaySound("data/sounds/crossbow.ogg");
             else
                 target_actor:RegisterMiss(true);
@@ -331,9 +334,10 @@ skills[200] = {
 
     BattleExecute = function(user, target)
         local target_actor = target:GetActor();
+        local atk_point = target:GetAttackPoint();
 
-        if (vt_battle.CalculateStandardEvasion(target) == false) then
-            target_actor:RegisterDamage(vt_battle.CalculatePhysicalDamageAdder(user, target, 5), target);
+        if (vt_battle.RndEvade(target_actor, 0.0, 1.0, atk_point) == false) then
+            target_actor:RegisterDamage(vt_battle.RndPhysicalDamage(user, target_actor, 5, 1.0, atk_point), target);
             AudioManager:PlaySound("data/sounds/swordslice2.wav");
         else
             target_actor:RegisterMiss(true);
@@ -353,9 +357,10 @@ skills[201] = {
 
     BattleExecute = function(user, target)
         local target_actor = target:GetActor();
+        local atk_point = target:GetAttackPoint();
 
-        if (vt_battle.CalculateStandardEvasion(target) == false) then
-            target_actor:RegisterDamage(vt_battle.CalculatePhysicalDamageAdder(user, target, 5), target);
+        if (vt_battle.RndEvade(target_actor, 0.0, 1.0, atk_point) == false) then
+            target_actor:RegisterDamage(vt_battle.RndPhysicalDamage(user, target_actor, 5, 1.0, atk_point), target);
             -- TODO: Add poison damage
             AudioManager:PlaySound("data/sounds/swordslice2.wav");
         else
@@ -376,9 +381,10 @@ skills[202] = {
 
     BattleExecute = function(user, target)
         local target_actor = target:GetActor();
+        local atk_point = target:GetAttackPoint();
 --TODO
-        if (vt_battle.CalculateStandardEvasion(target) == false) then
-            target_actor:RegisterDamage(vt_battle.CalculatePhysicalDamageAdder(user, target, 5), target);
+        if (vt_battle.RndEvade(target_actor, 0.0, 1.0, atk_point) == false) then
+            target_actor:RegisterDamage(vt_battle.RndPhysicalDamage(user, target_actor, 5, 1.0, atk_point), target);
             -- TODO: Add poison damage
             AudioManager:PlaySound("data/sounds/swordslice2.wav");
         else
@@ -399,9 +405,10 @@ skills[203] = {
 
     BattleExecute = function(user, target)
         local target_actor = target:GetActor();
+        local atk_point = target:GetAttackPoint();
 --TODO
-        if (vt_battle.CalculateStandardEvasion(target) == false) then
-            target_actor:RegisterDamage(vt_battle.CalculatePhysicalDamageAdder(user, target, 5), target);
+        if (vt_battle.RndEvade(target_actor, 0.0, 1.0, atk_point) == false) then
+            target_actor:RegisterDamage(vt_battle.RndPhysicalDamage(user, target_actor, 5, 1.0, atk_point), target);
             AudioManager:PlaySound("data/sounds/swordslice2.wav");
         else
             target_actor:RegisterMiss(true);
@@ -422,9 +429,10 @@ skills[300] = {
 
     BattleExecute = function(user, target)
         local target_actor = target:GetActor();
+        local atk_point = target:GetAttackPoint();
 --TODO
-        if (vt_battle.CalculateStandardEvasion(target) == false) then
-            target_actor:RegisterDamage(vt_battle.CalculatePhysicalDamageAdder(user, target, 5), target);
+        if (vt_battle.RndEvade(target_actor, 0.0, 1.0, atk_point) == false) then
+            target_actor:RegisterDamage(vt_battle.RndPhysicalDamage(user, target_actor, 5, 1.0, atk_point), target);
             AudioManager:PlaySound("data/sounds/swordslice2.wav");
         else
             target_actor:RegisterMiss(true);
@@ -448,15 +456,16 @@ skills[301] = {
 
     BattleExecute = function(user, target)
         local target_actor = target:GetActor();
+        local atk_point = target:GetAttackPoint();
 --TODO
-        if (vt_battle.CalculateStandardEvasion(target) == false) then
-            target_actor:RegisterDamage(vt_battle.CalculatePhysicalDamageAdder(user, target, 5), target);
+        if (vt_battle.RndEvade(target_actor, 0.0, 1.0, atk_point) == false) then
+            target_actor:RegisterDamage(vt_battle.RndPhysicalDamage(user, target_actor, 5, 1.0, atk_point), target);
             AudioManager:PlaySound("data/sounds/swordslice2.wav");
         else
             target_actor:RegisterMiss(true);
             AudioManager:PlaySound("data/sounds/missed_target.wav");
         end
-    end
+    end,
 }
 
 --------------------------------------------------------------------------------
@@ -472,9 +481,10 @@ skills[1001] = {
 
     BattleExecute = function(user, target)
         local target_actor = target:GetActor();
+        local atk_point = target:GetAttackPoint();
 
-        if (vt_battle.CalculateStandardEvasion(target) == false) then
-            target_actor:RegisterDamage(vt_battle.CalculatePhysicalDamageAdder(user, target, 10), target);
+        if (vt_battle.RndEvade(target_actor, 0.0, 1.0, atk_point) == false) then
+            target_actor:RegisterDamage(vt_battle.RndPhysicalDamage(user, target_actor, 10, 1.0, atk_point), target);
             AudioManager:PlaySound("data/sounds/slime_attack.wav");
         else
             target_actor:RegisterMiss(true);
@@ -491,9 +501,10 @@ skills[1002] = {
 
     BattleExecute = function(user, target)
         local target_actor = target:GetActor();
+        local atk_point = target:GetAttackPoint();
 
-        if (vt_battle.CalculateStandardEvasion(target) == false) then
-            target_actor:RegisterDamage(vt_battle.CalculatePhysicalDamageAdder(user, target, 13), target);
+        if (vt_battle.RndEvade(target_actor, 0.0, 1.0, atk_point) == false) then
+            target_actor:RegisterDamage(vt_battle.RndPhysicalDamage(user, target_actor, 13, 1.0, atk_point), target);
             AudioManager:PlaySound("data/sounds/spider_attack.wav");
         else
             target_actor:RegisterMiss(true);
@@ -510,9 +521,10 @@ skills[1003] = {
 
     BattleExecute = function(user, target)
         local target_actor = target:GetActor();
+        local atk_point = target:GetAttackPoint();
 
-        if (vt_battle.CalculateStandardEvasion(target) == false) then
-            target_actor:RegisterDamage(vt_battle.CalculatePhysicalDamageAdder(user, target, 14), target);
+        if (vt_battle.RndEvade(target_actor, 0.0, 1.0, atk_point) == false) then
+            target_actor:RegisterDamage(vt_battle.RndPhysicalDamage(user, target_actor, 14, 1.0, atk_point), target);
             AudioManager:PlaySound("data/sounds/snake_attack.wav");
         else
             target_actor:RegisterMiss(true);
@@ -531,13 +543,14 @@ skills[1004] = {
 
     BattleExecute = function(user, target)
         local target_actor = target:GetActor();
+        local atk_point = target:GetAttackPoint();
 
-        if (vt_battle.CalculateStandardEvasion(target) == false) then
+        if (vt_battle.RndEvade(target_actor, 0.0, 1.0, atk_point) == false) then
             -- Calculate chance for paralysis effect and activate it
             trigger_potential_stun(user, target);
 
             -- The damages are applied after the potential effects, so that a potential target death handles the effect removal properly
-            target_actor:RegisterDamage(vt_battle.CalculatePhysicalDamageAdder(user, target, 14), target);
+            target_actor:RegisterDamage(vt_battle.RndPhysicalDamage(user, target_actor, 14, 1.0, atk_point), target);
             AudioManager:PlaySound("data/sounds/snake_attack.wav");
         else
             target_actor:RegisterMiss(true);
@@ -554,8 +567,9 @@ skills[1005] = {
 
     BattleExecute = function(user, target)
         local target_actor = target:GetActor();
+        local atk_point = target:GetAttackPoint();
 
-        if (vt_battle.CalculateStandardEvasion(target) == false) then
+        if (vt_battle.RndEvade(target_actor, 0.0, 1.0, atk_point) == false) then
             local effect_duration = user:GetVigor() * 2000;
             if (effect_duration < 15000) then effect_duration = 15000 end
             target_actor:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_AGILITY,
@@ -563,7 +577,7 @@ skills[1005] = {
                                                  effect_duration);
 
             -- The damages are applied after the potential effects, so that a potential target death handles the effect removal properly
-            target_actor:RegisterDamage(vt_battle.CalculatePhysicalDamageAdder(user, target, 6), target);
+            target_actor:RegisterDamage(vt_battle.RndPhysicalDamage(user, target_actor, 6, 1.0, atk_point), target);
             AudioManager:PlaySound("data/sounds/snake_attack.wav");
         else
             target_actor:RegisterMiss(true);
@@ -580,9 +594,10 @@ skills[1006] = {
 
     BattleExecute = function(user, target)
         local target_actor = target:GetActor();
+        local atk_point = target:GetAttackPoint();
 
-        if (vt_battle.CalculateStandardEvasion(target) == false) then
-            target_actor:RegisterDamage(vt_battle.CalculatePhysicalDamageAdder(user, target, 20), target);
+        if (vt_battle.RndEvade(target_actor, 0.0, 1.0, atk_point) == false) then
+            target_actor:RegisterDamage(vt_battle.RndPhysicalDamage(user, target_actor, 20, 1.0, atk_point), target);
             AudioManager:PlaySound("data/sounds/skeleton_attack.wav");
         else
             target_actor:RegisterMiss(true);
@@ -597,21 +612,22 @@ skills[1007] = {
    cooldown_time = 0,
    target_type = vt_global.GameGlobal.GLOBAL_TARGET_FOE_POINT,
 
-   BattleExecute = function(user, target)
-       local target_actor = target:GetActor();
+    BattleExecute = function(user, target)
+        local target_actor = target:GetActor();
+        local atk_point = target:GetAttackPoint();
 
-       if (vt_battle.CalculateStandardEvasion(target) == false) then
-           local hp_drain = vt_battle.CalculatePhysicalDamageAdder(user, target, 8);
-           target_actor:RegisterDamage(hp_drain, target);
-           -- If the damage dealt was 1, don't recover any HP from the attack
-           if (hp_drain > 1) then
-               user:RegisterHealing(hp_drain / 2, true);
-           end
-           AudioManager:PlaySound("data/sounds/spider_attack.wav");
-       else
-           target_actor:RegisterMiss(true);
-       end
-   end
+        if (vt_battle.RndEvade(target_actor, 0.0, 1.0, atk_point) == false) then
+            local hp_drain = vt_battle.RndPhysicalDamage(user, target_actor, 8, 1.0, atk_point);
+            target_actor:RegisterDamage(hp_drain, target);
+            -- If the damage dealt was 1, don't recover any HP from the attack
+            if (hp_drain > 1) then
+                user:RegisterHealing(hp_drain / 2, true);
+            end
+            AudioManager:PlaySound("data/sounds/spider_attack.wav");
+        else
+            target_actor:RegisterMiss(true);
+        end
+    end
 }
 
 skills[1008] = {
@@ -623,9 +639,10 @@ skills[1008] = {
 
     BattleExecute = function(user, target)
         local target_actor = target:GetActor();
+        local atk_point = target:GetAttackPoint();
 
-        if (vt_battle.CalculateStandardEvasion(target) == false) then
-            target_actor:RegisterDamage(vt_battle.CalculatePhysicalDamageAdder(user, target, 20), target);
+        if (vt_battle.RndEvade(target_actor, 0.0, 1.0, atk_point) == false) then
+            target_actor:RegisterDamage(vt_battle.RndPhysicalDamage(user, target_actor, 20, 1.0, atk_point), target);
             AudioManager:PlaySound("data/sounds/growl1_IFartInUrGeneralDirection_freesound.wav");
         else
             target_actor:RegisterMiss(true);
@@ -648,8 +665,8 @@ skills[1009] = {
                 break;
             end
 
-            if (vt_battle.CalculateStandardEvasion(target_actor) == false) then
-                target_actor:RegisterDamage(vt_battle.CalculatePhysicalDamageAdder(user, target_actor, 25));
+            if (target_actor:IsAlive() == true and vt_battle.StdRndEvade(target_actor) == false) then
+                target_actor:RegisterDamage(vt_battle.RndPhysicalDamage(user, target_actor, 25, 1.0, -1));
                 AudioManager:PlaySound("data/sounds/growl1_IFartInUrGeneralDirection_freesound.wav");
             else
                 target_actor:RegisterMiss(true);
@@ -669,8 +686,9 @@ skills[1010] = {
 
     BattleExecute = function(user, target)
         local target_actor = target:GetActor();
+        local atk_point = target:GetAttackPoint();
 
-        if (vt_battle.CalculateStandardEvasion(target) == false) then
+        if (vt_battle.RndEvade(target_actor, 0.0, 1.0, atk_point) == false) then
             local intensity = target_actor:GetActiveStatusEffectIntensity(vt_global.GameGlobal.GLOBAL_STATUS_HP);
 
             -- Only apply up to a moderate poison
@@ -683,7 +701,7 @@ skills[1010] = {
             end
 
             -- The damages are applied after the potential effects, so that a potential target death handles the effect removal properly
-            target_actor:RegisterDamage(vt_battle.CalculatePhysicalDamageAdder(user, target, 6), target);
+            target_actor:RegisterDamage(vt_battle.RndPhysicalDamage(user, target_actor, 6, 1.0, atk_point), target);
             AudioManager:PlaySound("data/sounds/skeleton_attack.wav");
         else
             target_actor:RegisterMiss(true);
@@ -706,8 +724,8 @@ skills[1011] = {
                 break;
             end
 
-            if (target_actor:IsAlive() == true and vt_battle.CalculateStandardEvasion(target_actor) == false) then
-                target_actor:RegisterDamage(vt_battle.CalculatePhysicalDamageAdder(user, target_actor, 25));
+            if (target_actor:IsAlive() == true and vt_battle.StdRndEvade(target_actor) == false) then
+                target_actor:RegisterDamage(vt_battle.RndPhysicalDamage(user, target_actor, 25, 1.0, -1), target);
                 AudioManager:PlaySound("data/sounds/skeleton_attack.wav");
             else
                 target_actor:RegisterMiss(true);
@@ -728,7 +746,7 @@ skills[1012] = {
     BattleExecute = function(user, target)
         local target_actor = target:GetActor();
 
-        if (vt_battle.CalculateStandardEvasion(target) == false) then
+        if (vt_battle.StdRndEvade(target_actor) == false) then
             local effect_duration = user:GetVigor() * 2000;
             if (effect_duration < 15000) then effect_duration = 15000 end
             target_actor:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_AGILITY,
@@ -739,7 +757,7 @@ skills[1012] = {
                                          effect_duration);
 
             -- The damages are applied after the potential effects, so that a potential target death handles the effect removal properly
-            target_actor:RegisterDamage(vt_battle.CalculatePhysicalDamageAdder(user, target, 6), target);
+            target_actor:RegisterDamage(vt_battle.RndPhysicalDamage(user, target_actor, 6, 1.0, -1), target);
             AudioManager:PlaySound("data/sounds/spider_attack.wav");
         else
             target_actor:RegisterMiss(true);
@@ -781,7 +799,7 @@ skills[1014] = {
     BattleExecute = function(user, target)
         local target_actor = target:GetActor();
 
-        if (vt_battle.CalculateStandardEvasion(target) == false) then
+        if (vt_battle.StdRndEvade(target_actor) == false) then
             local effect_duration = user:GetVigor() * 2000;
             if (effect_duration < 15000) then effect_duration = 15000 end
             target_actor:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_AGILITY,
@@ -789,7 +807,7 @@ skills[1014] = {
                                                  effect_duration);
 
             -- The damages are applied after the potential effects, so that a potential target death handles the effect removal properly
-            target_actor:RegisterDamage(vt_battle.CalculatePhysicalDamageAdder(user, target, 6), target);
+            target_actor:RegisterDamage(vt_battle.RndPhysicalDamage(user, target_actor, 6, 1.0, -1), target);
             AudioManager:PlaySound("data/sounds/cave-in.ogg");
         else
             target_actor:RegisterMiss(true);

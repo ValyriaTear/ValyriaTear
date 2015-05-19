@@ -141,7 +141,7 @@ bool SkillAction::Initialize()
 
     // Ensure that the skill will affect a valid target
     if(!_target.IsValid())
-        _target.SelectNextActor(_actor);
+        _target.SelectNextActor();
 
     if(IsScripted())
         _InitAnimationScript();

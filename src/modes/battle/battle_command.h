@@ -543,10 +543,11 @@ private:
     //! \brief Draws visible contents to the screen when the player is viewing information about an action
     void _DrawActionInformation();
 
-    //! \brief Sets the text for _window_header and _selected_target_name to represent information about the selected target
-    void _CreateActorTargetText();
+    //! \brief Updates the text for _window_header and _selected_target_name to represent information about the selected target
+    void _UpdateActorTargetText();
 
-    //! \brief Sets the text for _window_header and _target_options to represent information about the selected target
+    //! \brief Sets the text for _window_header and _target_options to represent information about the selected target.
+    //! Should be called only when switching to displaying attack points.
     void _CreateAttackPointTargetText();
 
     //! \brief Finalizes the player's command of the character by creating the appropriate action

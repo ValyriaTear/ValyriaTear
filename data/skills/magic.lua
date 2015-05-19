@@ -362,8 +362,8 @@ skills[10100] = {
 
     BattleExecute = function(user, target)
         local target_actor = target:GetActor();
-        if (vt_battle.CalculateStandardEvasion(target) == false) then
-            target_actor:RegisterDamage(vt_battle.CalculateMagicalDamageAdder(user, target, vt_global.GameGlobal.GLOBAL_ELEMENTAL_FIRE, 30), target);
+        if (vt_battle.StdRndEvade(target_actor) == false) then
+            target_actor:RegisterDamage(vt_battle.RndMagicalDamage(user, target_actor, vt_global.GameGlobal.GLOBAL_ELEMENTAL_FIRE, 30, 1.0, -1), target);
             -- trigger the fire effect slightly under the sprite to make it appear before it from the player's point of view.
             local Battle = ModeManager:GetTop();
             Battle:TriggerBattleParticleEffect("data/visuals/particle_effects/fire_spell.lua",
@@ -532,8 +532,8 @@ skills[10110] = {
 
     BattleExecute = function(user, target)
         local target_actor = target:GetActor();
-        if (vt_battle.CalculateStandardEvasion(target) == false) then
-            target_actor:RegisterDamage(vt_battle.CalculateMagicalDamageAdder(user, target, vt_global.GameGlobal.GLOBAL_ELEMENTAL_EARTH, 45), target);
+        if (vt_battle.StdRndEvade(target_actor) == false) then
+            target_actor:RegisterDamage(vt_battle.RndMagicalDamage(user, target_actor, vt_global.GameGlobal.GLOBAL_ELEMENTAL_EARTH, 45, 1.0, -1), target);
             -- trigger the fire effect slightly under the sprite to make it appear before it from the player's point of view.
             local Battle = ModeManager:GetTop();
             --Battle:TriggerBattleParticleEffect("data/visuals/particle_effects/wave_spell.lua",
@@ -715,8 +715,8 @@ skills[10120] = {
 
     BattleExecute = function(user, target)
         local target_actor = target:GetActor();
-        if (vt_battle.CalculateStandardEvasion(target) == false) then
-            target_actor:RegisterDamage(vt_battle.CalculateMagicalDamageAdder(user, target, vt_global.GameGlobal.GLOBAL_ELEMENTAL_WATER, 45), target);
+        if (vt_battle.StdRndEvade(target_actor) == false) then
+            target_actor:RegisterDamage(vt_battle.RndMagicalDamage(user, target_actor, vt_global.GameGlobal.GLOBAL_ELEMENTAL_WATER, 45, 1.0, -1), target);
             -- trigger the fire effect slightly under the sprite to make it appear before it from the player's point of view.
             local Battle = ModeManager:GetTop();
             Battle:TriggerBattleParticleEffect("data/visuals/particle_effects/wave_spell.lua",
@@ -904,8 +904,8 @@ skills[10130] = {
 
     BattleExecute = function(user, target)
         local target_actor = target:GetActor();
-        if (vt_battle.CalculateStandardEvasion(target) == false) then
-            target_actor:RegisterDamage(vt_battle.CalculateMagicalDamageAdder(user, target, vt_global.GameGlobal.GLOBAL_ELEMENTAL_VOLT, 45), target);
+        if (vt_battle.StdRndEvade(target_actor) == false) then
+            target_actor:RegisterDamage(vt_battle.RndMagicalDamage(user, target_actor, vt_global.GameGlobal.GLOBAL_ELEMENTAL_VOLT, 45, 1.0, -1), target);
             -- trigger the fire effect slightly under the sprite to make it appear before it from the player's point of view.
             local Battle = ModeManager:GetTop();
             --Battle:TriggerBattleParticleEffect("data/visuals/particle_effects/wave_spell.lua",
@@ -1057,8 +1057,8 @@ skills[10140] = {
 
     BattleExecute = function(user, target)
         local target_actor = target:GetActor();
-        if (vt_battle.CalculateStandardEvasion(target) == false) then
-            target_actor:RegisterDamage(vt_battle.CalculateMagicalDamageAdder(user, target, vt_global.GameGlobal.GLOBAL_ELEMENTAL_LIFE, 45), target);
+        if (vt_battle.StdRndEvade(target_actor) == false) then
+            target_actor:RegisterDamage(vt_battle.RndMagicalDamage(user, target_actor, vt_global.GameGlobal.GLOBAL_ELEMENTAL_LIFE, 45, 1.0, -1), target);
             -- trigger the fire effect slightly under the sprite to make it appear before it from the player's point of view.
             local Battle = ModeManager:GetTop();
             --Battle:TriggerBattleParticleEffect("data/visuals/particle_effects/wave_spell.lua",
@@ -1147,8 +1147,8 @@ skills[10150] = {
 
     BattleExecute = function(user, target)
         local target_actor = target:GetActor();
-        if (vt_battle.CalculateStandardEvasion(target) == false) then
-            target_actor:RegisterDamage(vt_battle.CalculateMagicalDamageAdder(user, target, vt_global.GameGlobal.GLOBAL_ELEMENTAL_DEATH, 45), target);
+        if (vt_battle.StdRndEvade(target_actor) == false) then
+            target_actor:RegisterDamage(vt_battle.RndMagicalDamageAdder(user, target_actor, vt_global.GameGlobal.GLOBAL_ELEMENTAL_DEATH, 45, 1.0, -1), target);
             -- trigger the fire effect slightly under the sprite to make it appear before it from the player's point of view.
             local Battle = ModeManager:GetTop();
             --Battle:TriggerBattleParticleEffect("data/visuals/particle_effects/wave_spell.lua",
@@ -1221,7 +1221,7 @@ skills[10160] = {
 
     BattleExecute = function(user, target)
         local target_actor = target:GetActor();
-        if (vt_battle.CalculateStandardEvasion(target) == false) then
+        if (vt_battle.StdRndEvade(target_actor) == false) then
             -- TODO
             -- trigger the Neutral effect slightly under the sprite to make it appear before it from the player's point of view.
             local Battle = ModeManager:GetTop();

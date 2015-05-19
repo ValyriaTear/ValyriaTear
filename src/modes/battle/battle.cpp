@@ -62,6 +62,9 @@ BattleMode *BattleMode::_current_instance = NULL;
 namespace private_battle
 {
 
+//! \brief This is the idle state wait time for the fastest actor, used to set idle state timers for all other actors
+const uint32 MIN_IDLE_WAIT_TIME = 10000;
+
 ////////////////////////////////////////////////////////////////////////////////
 // BattleMedia class
 ////////////////////////////////////////////////////////////////////////////////
@@ -174,7 +177,7 @@ StillImage *BattleMedia::GetTargetTypeIcon(vt_global::GLOBAL_TARGET target_type)
         return &_target_type_icons[3];
     case GLOBAL_TARGET_ALLY:
     case GLOBAL_TARGET_ALLY_EVEN_DEAD:
-    case GLOBAL_TARGET_DEAD_ALLY:
+    case GLOBAL_TARGET_DEAD_ALLY_ONLY:
         return &_target_type_icons[4];
     case GLOBAL_TARGET_FOE:
         return &_target_type_icons[5];
@@ -1066,7 +1069,7 @@ void BattleMode::_DrawSprites()
     bool draw_point_selection = false;
 
     BattleTarget target = _command_supervisor->GetSelectedTarget(); // The target that the player has selected
-    BattleActor *actor_target = target.GetActor(); // A pointer to an actor being targetted (value may be NULL if target is party)
+    BattleActor *actor_target = target.GetActor(); // A pointer to an actor being targeted.
 
     // Determine if selector graphics should be drawn
     if((_state == BATTLE_STATE_COMMAND)
@@ -1079,19 +1082,18 @@ void BattleMode::_DrawSprites()
     // Draw the actor selector graphic
     if(draw_actor_selection == true) {
         VideoManager->SetDrawFlags(VIDEO_X_CENTER, VIDEO_Y_BOTTOM, VIDEO_BLEND, 0);
-        if(actor_target != NULL) {
-            VideoManager->Move(actor_target->GetXLocation(), actor_target->GetYLocation());
-            VideoManager->MoveRelative(0.0f, 20.0f);
-            _battle_media.actor_selection_image.Draw();
-        } else if(IsTargetParty(target.GetType()) == true) {
-            std::deque<BattleActor *>& party_target = *(target.GetParty());
+        if(IsTargetParty(target.GetType()) == true) {
+            const std::deque<BattleActor *>& party_target = target.GetPartyTarget();
             for(uint32 i = 0; i < party_target.size(); i++) {
                 VideoManager->Move(party_target[i]->GetXLocation(),  party_target[i]->GetYLocation());
                 VideoManager->MoveRelative(0.0f, 20.0f);
                 _battle_media.actor_selection_image.Draw();
             }
-            actor_target = NULL;
-            // TODO: add support for drawing graphic under multiple actors if the target is a party
+        }
+        else if(actor_target != NULL) {
+            VideoManager->Move(actor_target->GetXLocation(), actor_target->GetYLocation());
+            VideoManager->MoveRelative(0.0f, 20.0f);
+            _battle_media.actor_selection_image.Draw();
         }
         // Else this target is invalid so don't draw anything
     }
@@ -1103,7 +1105,7 @@ void BattleMode::_DrawSprites()
 
     // Draw the attack point selector graphic
     if(draw_point_selection) {
-        uint32 point = target.GetPoint();
+        uint32 point = target.GetAttackPoint();
 
         VideoManager->SetDrawFlags(VIDEO_X_CENTER, VIDEO_Y_CENTER, VIDEO_BLEND, 0);
         VideoManager->Move(actor_target->GetXLocation(), actor_target->GetYLocation());
