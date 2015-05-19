@@ -153,9 +153,21 @@ uint32 RndPhysicalDamage(BattleActor* attacker, BattleActor* target_actor,
     return static_cast<uint32>(total_dmg);
 }
 
-uint32 StdRndMagicalDamage(BattleActor* attacker, BattleActor* target_actor, vt_global::GLOBAL_ELEMENTAL element)
+uint32 RndMagicalDamage(BattleActor* attacker, BattleActor* target_actor, vt_global::GLOBAL_ELEMENTAL element)
 {
-    return RndMagicalDamage(attacker, target_actor, element);
+    return RndMagicalDamage(attacker, target_actor, element, 0, 1.0f, -1);
+}
+
+uint32 RndMagicalDamage(BattleActor* attacker, BattleActor* target_actor, GLOBAL_ELEMENTAL element,
+                        uint32 add_atk)
+{
+    return RndMagicalDamage(attacker, target_actor, element, add_atk, 1.0f, -1);
+}
+
+uint32 RndMagicalDamage(BattleActor* attacker, BattleActor* target_actor, GLOBAL_ELEMENTAL element,
+                        uint32 add_atk, float mul_atk)
+{
+    return RndMagicalDamage(attacker, target_actor, element, add_atk, mul_atk, -1);
 }
 
 uint32 RndMagicalDamage(BattleActor* attacker, BattleActor* target_actor, GLOBAL_ELEMENTAL element,

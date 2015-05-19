@@ -126,11 +126,15 @@ uint32 RndPhysicalDamage(BattleActor* attacker, BattleActor* target_actor);
 *** \return The amount of damage dealt, which will always be a non-zero value unless there was an error
 **/
 uint32 RndMagicalDamage(BattleActor* attacker, BattleActor* target_actor, vt_global::GLOBAL_ELEMENTAL element,
-                        uint32 add_atk = 0, float mul_atk = 1.0f, int32 attack_point = -1);
+                        uint32 add_atk, float mul_atk, int32 attack_point);
 
-//! \brief A smaller standard function with no default parameters.
+// Aliases
 //! Useful to make it work with luabind, as it doesn't function with default parameters.
-uint32 StdRndMagicalDamage(BattleActor* attacker, BattleActor* target_actor, vt_global::GLOBAL_ELEMENTAL element);
+uint32 RndMagicalDamage(BattleActor* attacker, BattleActor* target_actor, vt_global::GLOBAL_ELEMENTAL element,
+                        uint32 add_atk, float mul_atk);
+uint32 RndMagicalDamage(BattleActor* attacker, BattleActor* target_actor, vt_global::GLOBAL_ELEMENTAL element,
+                        uint32 add_atk);
+uint32 RndMagicalDamage(BattleActor* attacker, BattleActor* target_actor, vt_global::GLOBAL_ELEMENTAL element);
 
 
 /** ****************************************************************************

@@ -678,8 +678,10 @@ void BindModeCode()
             luabind::def("RndPhysicalDamage", (uint32(*)(BattleActor*, BattleActor*, uint32))&RndPhysicalDamage),
             luabind::def("RndPhysicalDamage", (uint32(*)(BattleActor*, BattleActor*))&RndPhysicalDamage),
 
-            luabind::def("RndMagicalDamage", &RndMagicalDamage),
-            luabind::def("StdRndMagicalDamage", &StdRndMagicalDamage)
+            luabind::def("RndMagicalDamage", (uint32(*)(BattleActor*, BattleActor*, vt_global::GLOBAL_ELEMENTAL, uint32, float, int32))&RndMagicalDamage),
+            luabind::def("RndMagicalDamage", (uint32(*)(BattleActor*, BattleActor*, vt_global::GLOBAL_ELEMENTAL, uint32, float))&RndMagicalDamage),
+            luabind::def("RndMagicalDamage", (uint32(*)(BattleActor*, BattleActor*, vt_global::GLOBAL_ELEMENTAL, uint32))&RndMagicalDamage),
+            luabind::def("RndMagicalDamage", (uint32(*)(BattleActor*, BattleActor*, vt_global::GLOBAL_ELEMENTAL))&RndMagicalDamage)
         ];
 
         luabind::module(vt_script::ScriptManager->GetGlobalState(), "vt_battle")
