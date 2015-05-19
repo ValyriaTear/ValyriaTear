@@ -375,10 +375,6 @@ bool BattleTarget::SelectNextActor(bool direction)
         IF_PRINT_WARNING(BATTLE_DEBUG) << "Invalid target type: " << _type << std::endl;
         return false;
     }
-    if(!_actor_target) {
-        IF_PRINT_WARNING(BATTLE_DEBUG) << "No valid actor target" << std::endl;
-        return false;
-    }
 
     // Check the target party for early exit conditions
     if(_party_target.empty()) {
@@ -387,6 +383,11 @@ bool BattleTarget::SelectNextActor(bool direction)
     }
     if(_party_target.size() == 1) {
         return false; // No more actors to select from in the party
+    }
+
+    // The target died in between events. Let's reset it.
+    if(!_actor_target) {
+        _actor_target = _party_target.at(0);
     }
 
     // Determine the index of the current actor in the target party
