@@ -974,7 +974,7 @@ map_functions = {
                     -- Once the particle effect is dead, we can remove the object.
                     if (object:IsAlive() == false) then
                         table.remove(fireballs_array, key);
-                        Map:RemoveGroundObject(object);
+                        Map:DeleteMapObject(object);
                         object = nil;
                     end
                 end
