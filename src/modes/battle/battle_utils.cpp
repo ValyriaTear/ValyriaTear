@@ -44,9 +44,19 @@ namespace private_battle
 // Standard battle calculation functions
 ////////////////////////////////////////////////////////////////////////////////
 
-bool StdRndEvade(BattleActor* target_actor)
+bool RndEvade(BattleActor* target_actor)
 {
-    return RndEvade(target_actor);
+    return RndEvade(target_actor, 0.0f, 1.0f, -1);
+}
+
+bool RndEvade(BattleActor* target_actor, float add_eva = 0.0f)
+{
+    return RndEvade(target_actor, add_eva, 1.0f, -1);
+}
+
+bool RndEvade(BattleActor* target_actor, float add_eva = 0.0f, float mul_eva = 1.0f)
+{
+    return RndEvade(target_actor, add_eva, mul_eva, -1);
 }
 
 bool RndEvade(BattleActor* target_actor, float add_eva, float mul_eva, int32 attack_point)
@@ -256,7 +266,7 @@ bool BattleTarget::SetTarget(BattleActor* attacker, vt_global::GLOBAL_TARGET typ
         _actor_target = party_target->at(0);
 
     _type = type;
-    //_party_target = *party_target;
+
     _party_target.clear();
     for (size_t i = 0; i < party_target->size(); ++i) {
         _party_target.push_back(party_target->at(i));

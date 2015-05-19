@@ -92,11 +92,13 @@ enum COMMAND_STATE {
 *** \param attack_point The attack point target on the given actor. -1 if a standard attack is used.
 *** \return True if the target evasion was successful
 **/
-bool RndEvade(BattleActor* target_actor, float add_eva = 0.0f, float mul_eva = 1.0f, int32 attack_point = -1);
+bool RndEvade(BattleActor* target_actor, float add_eva, float mul_eva, int32 attack_point);
 
-//! \brief A smaller standard function with no default parameters.
+// Aliases
 //! Useful to make it work with luabind, as it doesn't function with default parameters.
-bool StdRndEvade(BattleActor* target_actor);
+bool RndEvade(BattleActor* target_actor, float add_eva, float mul_eva);
+bool RndEvade(BattleActor* target_actor, float add_eva);
+bool RndEvade(BattleActor* target_actor);
 
 /** \brief Determines at random the amount of damage caused with a physical attack
 *** \param attacker A pointer to the attacker who is causing the damage

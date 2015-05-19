@@ -36,7 +36,7 @@ skills[30001] = {
    BattleExecute = function(user, target)
        local target_actor = target:GetActor();
 
-       if (vt_battle.StdRndEvade(target_actor) == false) then
+       if (vt_battle.RndEvade(target_actor) == false) then
            -- Attack: Strength / 3
            target_actor:RegisterDamage(user:GetStrength() / 3.0, target);
            AudioManager:PlaySound("data/sounds/punch.wav");
@@ -64,7 +64,7 @@ skills[30002] = {
    BattleExecute = function(user, target)
        local target_actor = target:GetActor();
 
-       if (vt_battle.StdRndEvade(target_actor) == false) then
+       if (vt_battle.RndEvade(target_actor) == false) then
            -- Attack: Strength / 3
            target_actor:RegisterDamage(user:GetStrength() / 3.0, target);
            AudioManager:PlaySound("data/sounds/punch.wav");
@@ -91,7 +91,7 @@ skills[30003] = {
    BattleExecute = function(user, target)
        local target_actor = target:GetActor();
 --TODO
-       if (vt_battle.StdRndEvade(target_actor) == false) then
+       if (vt_battle.RndEvade(target_actor) == false) then
            -- Attack: Strength / 3
            target_actor:RegisterDamage(user:GetStrength() / 3.0, target);
            AudioManager:PlaySound("data/sounds/punch.wav");

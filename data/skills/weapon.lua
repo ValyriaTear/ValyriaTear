@@ -88,7 +88,7 @@ skills[1] = {
     BattleExecute = function(user, target)
         local target_actor = target:GetActor();
 
-        if (vt_battle.StdRndEvade(target_actor) == false) then
+        if (vt_battle.RndEvade(target_actor) == false) then
             -- Normal +0 attack
             target_actor:RegisterDamage(vt_battle.StdRndPhysicalDamage(user, target_actor), target);
             AudioManager:PlaySound("data/sounds/swordslice1.wav");
@@ -180,7 +180,7 @@ skills[4] = {
     BattleExecute = function(user, target)
         local target_actor = target:GetActor();
 
-        if (vt_battle.RndEvade(target_actor, 8.5, 1.0, -1) == false) then
+        if (vt_battle.RndEvade(target_actor, 8.5) == false) then
             local effect_duration = user:GetVigor() * 2000;
             if (effect_duration < 15000) then effect_duration = 15000 end
             target_actor:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_AGILITY,
@@ -214,7 +214,7 @@ skills[5] = {
     BattleExecute = function(user, target)
         local target_actor = target:GetActor();
 
-        if (vt_battle.StdRndEvade(target_actor) == false) then
+        if (vt_battle.RndEvade(target_actor) == false) then
             target_actor:RegisterDamage(vt_battle.RndPhysicalDamage(user, target_actor, 5, 1.0, -1), target);
             AudioManager:PlaySound("data/sounds/crossbow.ogg");
         else
@@ -240,7 +240,7 @@ skills[6] = {
     BattleExecute = function(user, target)
         local target_actor = target:GetActor();
 
-        if (vt_battle.RndEvade(target_actor, 8.5, 1.0, -1) == false) then
+        if (vt_battle.RndEvade(target_actor, 8.5) == false) then
             local effect_duration = user:GetVigor() * 2000;
             if (effect_duration < 15000) then effect_duration = 15000 end
             target_actor:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_AGILITY,
@@ -305,7 +305,7 @@ skills[102] = {
         while (target:GetPartyActor(index) ~= nil) do
             local target_actor = target:GetPartyActor(index)
 
-            if (vt_battle.StdRndEvade(target_actor) == false) then
+            if (vt_battle.RndEvade(target_actor) == false) then
                 target_actor:RegisterDamage(vt_battle.RndPhysicalDamage(user, target_actor, 5, 1.0, -1), target);
                 AudioManager:PlaySound("data/sounds/crossbow.ogg");
             else
@@ -665,7 +665,7 @@ skills[1009] = {
                 break;
             end
 
-            if (target_actor:IsAlive() == true and vt_battle.StdRndEvade(target_actor) == false) then
+            if (target_actor:IsAlive() == true and vt_battle.RndEvade(target_actor) == false) then
                 target_actor:RegisterDamage(vt_battle.RndPhysicalDamage(user, target_actor, 25, 1.0, -1));
                 AudioManager:PlaySound("data/sounds/growl1_IFartInUrGeneralDirection_freesound.wav");
             else
@@ -724,7 +724,7 @@ skills[1011] = {
                 break;
             end
 
-            if (target_actor:IsAlive() == true and vt_battle.StdRndEvade(target_actor) == false) then
+            if (target_actor:IsAlive() == true and vt_battle.RndEvade(target_actor) == false) then
                 target_actor:RegisterDamage(vt_battle.RndPhysicalDamage(user, target_actor, 25, 1.0, -1), target);
                 AudioManager:PlaySound("data/sounds/skeleton_attack.wav");
             else
@@ -746,7 +746,7 @@ skills[1012] = {
     BattleExecute = function(user, target)
         local target_actor = target:GetActor();
 
-        if (vt_battle.StdRndEvade(target_actor) == false) then
+        if (vt_battle.RndEvade(target_actor) == false) then
             local effect_duration = user:GetVigor() * 2000;
             if (effect_duration < 15000) then effect_duration = 15000 end
             target_actor:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_AGILITY,
@@ -799,7 +799,7 @@ skills[1014] = {
     BattleExecute = function(user, target)
         local target_actor = target:GetActor();
 
-        if (vt_battle.StdRndEvade(target_actor) == false) then
+        if (vt_battle.RndEvade(target_actor) == false) then
             local effect_duration = user:GetVigor() * 2000;
             if (effect_duration < 15000) then effect_duration = 15000 end
             target_actor:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_AGILITY,
