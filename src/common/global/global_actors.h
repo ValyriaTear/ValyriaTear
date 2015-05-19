@@ -1346,9 +1346,6 @@ public:
     //@}
 
 protected:
-    //! \brief If set to true, when initialized the enemy will not randomize its statistic values
-    bool _no_stat_randomization;
-
     //! \brief The dimensions of the enemy's battle sprite in pixels
     uint32 _sprite_width, _sprite_height;
 

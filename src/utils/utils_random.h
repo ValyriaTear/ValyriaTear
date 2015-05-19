@@ -45,22 +45,12 @@ float RandomFloat(float a, float b);
 **/
 int32 RandomBoundedInteger(int32 lower_bound, int32 upper_bound);
 
-/** \brief Returns a Gaussian random value with specified mean and standard deviation
-*** \param mean
-*** \param std_dev The standard deviation of the Gaussian function (optional, default is 10.0f)
-*** \param positive_value If true the function will not return a negative result (optional, default is true)
-*** \return An Gaussian random integer with a mean and standard deviation as specified by the user
-***
-*** This function computes a random number based on a Gaussian Distribution Curve. This number will be between
-*** mean - range and mean + range if range is greater than zero, otherwise it will return a true, unbounded
-*** Gaussian random value. If positive_value is set to true, this function will only return a number that is
-*** zero or positive.
-***
-*** Mean is (obviously) the mean, and the range represents the value for 3 standard deviations from the mean.
-*** That means that 99.7% of the random values chosen will lay between mean - range and mean + range, if
-*** range is a greater than or equal to zero.
+/** \brief Returns a random value with a given deviation.
+*** \param base_value The base value.
+*** \param max_diff The maximum difference with the base value.
+*** \return A value between (base - diff) and (base + diff)
 **/
-int32 GaussianRandomValue(int32 mean, float std_dev = 10.0f, bool positive_value = true);
+int32 RandomDiffValue(int32 base_value, uint32 max_diff);
 //@}
 
 } // namespace vt_utils

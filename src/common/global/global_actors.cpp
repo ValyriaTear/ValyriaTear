@@ -1402,7 +1402,6 @@ void GlobalCharacter::_CalculateDefenseRatings()
 
 GlobalEnemy::GlobalEnemy(uint32 id) :
     GlobalActor(),
-    _no_stat_randomization(false),
     _sprite_width(0),
     _sprite_height(0),
     _drunes_dropped(0)
@@ -1465,11 +1464,6 @@ GlobalEnemy::GlobalEnemy(uint32 id) :
         }
     } else {
         _stamina_icon.Load("data/battles/stamina_icons/default_stamina_icon.png");
-    }
-
-    // Load the enemy's base stats
-    if(enemy_data.DoesBoolExist("no_stat_randomization") == true) {
-        _no_stat_randomization = enemy_data.ReadBool("no_stat_randomization");
     }
 
     // Loads enemy battle animation scripts
@@ -1584,24 +1578,21 @@ void GlobalEnemy::_Initialize()
     if(_skills.empty())
         PRINT_WARNING << "No skills were added for the enemy: " << _id << std::endl;
 
-    // Randomize the stats by using a Gaussian random variable
-    if(_no_stat_randomization == false) {
-        // Use the base stats as the means and a standard deviation of 10% of the mean
-        _max_hit_points = GaussianRandomValue(_max_hit_points, _max_hit_points / 10.0f);
-        _max_skill_points = GaussianRandomValue(_max_skill_points, _max_skill_points / 10.0f);
-        _experience_points = GaussianRandomValue(_experience_points, _experience_points / 10.0f);
-        _strength.SetBase(GaussianRandomValue(_strength.GetBase(), _strength.GetBase() / 10.0f));
-        _vigor.SetBase(GaussianRandomValue(_vigor.GetBase(), _vigor.GetBase() / 10.0f));
-        _fortitude.SetBase(GaussianRandomValue(_fortitude.GetBase(), _fortitude.GetBase() / 10.0f));
-        _protection.SetBase(GaussianRandomValue(_protection.GetBase(), _protection.GetBase() / 10.0f));
-        _agility.SetBase(GaussianRandomValue(_agility.GetBase(), _agility.GetBase() / 10.0f));
+    // Randomize the stats by using a random diff of 10%
+    _max_hit_points = RandomDiffValue(_max_hit_points, _max_hit_points / 10.0f);
+    _max_skill_points = RandomDiffValue(_max_skill_points, _max_skill_points / 10.0f);
+    _experience_points = RandomDiffValue(_experience_points, _experience_points / 10.0f);
+    _strength.SetBase(RandomDiffValue(_strength.GetBase(), _strength.GetBase() / 10.0f));
+    _vigor.SetBase(RandomDiffValue(_vigor.GetBase(), _vigor.GetBase() / 10.0f));
+    _fortitude.SetBase(RandomDiffValue(_fortitude.GetBase(), _fortitude.GetBase() / 10.0f));
+    _protection.SetBase(RandomDiffValue(_protection.GetBase(), _protection.GetBase() / 10.0f));
+    _agility.SetBase(RandomDiffValue(_agility.GetBase(), _agility.GetBase() / 10.0f));
 
-        // Multiply the evade value by 10 to permit the decimal to be kept
-        float evade = _evade.GetBase() * 10.0f;
-        _evade.SetBase(static_cast<float>(GaussianRandomValue(evade, evade / 10.0f)) / 10.0f);
+    // Multiply the evade value by 10 to permit the decimal to be kept
+    float evade = _evade.GetBase() * 10.0f;
+    _evade.SetBase(static_cast<float>(RandomDiffValue(evade, evade / 10.0f)) / 10.0f);
 
-        _drunes_dropped = GaussianRandomValue(_drunes_dropped, _drunes_dropped / 10.0f);
-    }
+    _drunes_dropped = RandomDiffValue(_drunes_dropped, _drunes_dropped / 10.0f);
 
     // Set the current hit points and skill points to their new maximum values
     _hit_points = _max_hit_points;
