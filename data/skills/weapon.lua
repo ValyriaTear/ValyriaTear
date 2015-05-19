@@ -90,7 +90,7 @@ skills[1] = {
 
         if (vt_battle.RndEvade(target_actor) == false) then
             -- Normal +0 attack
-            target_actor:RegisterDamage(vt_battle.StdRndPhysicalDamage(user, target_actor), target);
+            target_actor:RegisterDamage(vt_battle.RndPhysicalDamage(user, target_actor), target);
             AudioManager:PlaySound("data/sounds/swordslice1.wav");
         else
             target_actor:RegisterMiss(true);
@@ -187,7 +187,7 @@ skills[4] = {
                                                  vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_GREATER,
                                                  effect_duration);
 
-            target_actor:RegisterDamage(vt_battle.RndPhysicalDamage(user, target_actor, 20, 1.0, -1), target);
+            target_actor:RegisterDamage(vt_battle.RndPhysicalDamage(user, target_actor, 20), target);
             AudioManager:PlaySound("data/sounds/swordslice2.wav");
         else
             target_actor:RegisterMiss(true);
@@ -215,7 +215,7 @@ skills[5] = {
         local target_actor = target:GetActor();
 
         if (vt_battle.RndEvade(target_actor) == false) then
-            target_actor:RegisterDamage(vt_battle.RndPhysicalDamage(user, target_actor, 5, 1.0, -1), target);
+            target_actor:RegisterDamage(vt_battle.RndPhysicalDamage(user, target_actor, 5), target);
             AudioManager:PlaySound("data/sounds/crossbow.ogg");
         else
             target_actor:RegisterMiss(true);
@@ -247,7 +247,7 @@ skills[6] = {
                                                  vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_GREATER,
                                                  effect_duration);
 
-            target_actor:RegisterDamage(vt_battle.RndPhysicalDamage(user, target_actor, 20, 1.0, -1), target);
+            target_actor:RegisterDamage(vt_battle.RndPhysicalDamage(user, target_actor, 20), target);
             AudioManager:PlaySound("data/sounds/swordslice2.wav");
         else
             target_actor:RegisterMiss(true);
@@ -306,7 +306,7 @@ skills[102] = {
             local target_actor = target:GetPartyActor(index)
 
             if (vt_battle.RndEvade(target_actor) == false) then
-                target_actor:RegisterDamage(vt_battle.RndPhysicalDamage(user, target_actor, 5, 1.0, -1), target);
+                target_actor:RegisterDamage(vt_battle.RndPhysicalDamage(user, target_actor, 5), target);
                 AudioManager:PlaySound("data/sounds/crossbow.ogg");
             else
                 target_actor:RegisterMiss(true);
@@ -666,7 +666,7 @@ skills[1009] = {
             end
 
             if (target_actor:IsAlive() == true and vt_battle.RndEvade(target_actor) == false) then
-                target_actor:RegisterDamage(vt_battle.RndPhysicalDamage(user, target_actor, 25, 1.0, -1));
+                target_actor:RegisterDamage(vt_battle.RndPhysicalDamage(user, target_actor, 25));
                 AudioManager:PlaySound("data/sounds/growl1_IFartInUrGeneralDirection_freesound.wav");
             else
                 target_actor:RegisterMiss(true);
@@ -725,7 +725,7 @@ skills[1011] = {
             end
 
             if (target_actor:IsAlive() == true and vt_battle.RndEvade(target_actor) == false) then
-                target_actor:RegisterDamage(vt_battle.RndPhysicalDamage(user, target_actor, 25, 1.0, -1), target);
+                target_actor:RegisterDamage(vt_battle.RndPhysicalDamage(user, target_actor, 25), target);
                 AudioManager:PlaySound("data/sounds/skeleton_attack.wav");
             else
                 target_actor:RegisterMiss(true);
@@ -757,7 +757,7 @@ skills[1012] = {
                                          effect_duration);
 
             -- The damages are applied after the potential effects, so that a potential target death handles the effect removal properly
-            target_actor:RegisterDamage(vt_battle.RndPhysicalDamage(user, target_actor, 6, 1.0, -1), target);
+            target_actor:RegisterDamage(vt_battle.RndPhysicalDamage(user, target_actor, 6), target);
             AudioManager:PlaySound("data/sounds/spider_attack.wav");
         else
             target_actor:RegisterMiss(true);
@@ -807,7 +807,7 @@ skills[1014] = {
                                                  effect_duration);
 
             -- The damages are applied after the potential effects, so that a potential target death handles the effect removal properly
-            target_actor:RegisterDamage(vt_battle.RndPhysicalDamage(user, target_actor, 6, 1.0, -1), target);
+            target_actor:RegisterDamage(vt_battle.RndPhysicalDamage(user, target_actor, 6), target);
             AudioManager:PlaySound("data/sounds/cave-in.ogg");
         else
             target_actor:RegisterMiss(true);

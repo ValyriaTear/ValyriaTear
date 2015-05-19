@@ -93,9 +93,21 @@ bool RndEvade(BattleActor* target_actor, float add_eva, float mul_eva, int32 att
         return false;
 }
 
-uint32 StdRndPhysicalDamage(BattleActor* attacker, BattleActor* target_actor)
+uint32 RndPhysicalDamage(BattleActor* attacker, BattleActor* target_actor)
 {
-    return RndPhysicalDamage(attacker, target_actor);
+    return RndPhysicalDamage(attacker, target_actor, 0, 1.0f, -1);
+}
+
+uint32 RndPhysicalDamage(BattleActor* attacker, BattleActor* target_actor,
+                         uint32 add_atk)
+{
+    return RndPhysicalDamage(attacker, target_actor, add_atk, 1.0f, -1);
+}
+
+uint32 RndPhysicalDamage(BattleActor* attacker, BattleActor* target_actor,
+                         uint32 add_atk, float mul_atk)
+{
+    return RndPhysicalDamage(attacker, target_actor, add_atk, mul_atk, -1);
 }
 
 uint32 RndPhysicalDamage(BattleActor* attacker, BattleActor* target_actor,

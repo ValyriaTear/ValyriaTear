@@ -110,9 +110,11 @@ bool RndEvade(BattleActor* target_actor);
 **/
 uint32 RndPhysicalDamage(BattleActor* attacker, BattleActor* target_actor, uint32 add_atk = 0, float mul_atk = 1.0f, int32 attack_point = -1);
 
-//! \brief A smaller standard function with no default parameters.
+// Aliases
 //! Useful to make it work with luabind, as it doesn't function with default parameters.
-uint32 StdRndPhysicalDamage(BattleActor* attacker, BattleActor* target_actor);
+uint32 RndPhysicalDamage(BattleActor* attacker, BattleActor* target_actor, uint32 add_atk, float mul_atk);
+uint32 RndPhysicalDamage(BattleActor* attacker, BattleActor* target_actor, uint32 add_atk);
+uint32 RndPhysicalDamage(BattleActor* attacker, BattleActor* target_actor);
 
 /** \brief Determines the amount of damage caused with a magical attack
 *** \param attacker A pointer to the attacker who is causing the damage
