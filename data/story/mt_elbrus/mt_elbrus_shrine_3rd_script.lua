@@ -1296,7 +1296,7 @@ map_functions = {
         -- Once we've reached this code, the boss can be hidden
         if (andromalius:IsVisible() == true) then
             -- Add dying particle effect
-            vt_map.ParticleObject("data/visuals/particle_effects/slow_burst_particles.lua",
+            vt_map.ParticleObject.Create("data/visuals/particle_effects/slow_burst_particles.lua",
                                   andromalius:GetXPosition(), andromalius:GetYPosition(),
                                   vt_map.MapMode.GROUND_OBJECT);
 
