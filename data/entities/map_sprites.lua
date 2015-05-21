@@ -135,7 +135,7 @@ sprites["Malta"] = {
 
 sprites["Orlinn"] = {
     name = vt_system.Translate("Orlinn"),
-    coll_half_width = 0.95 * 16,
+    coll_half_width = 0.80 * 16.0,
     coll_height = 1.0 * 16,
     img_half_width = 1.0 * 16,
     img_height = 3.0 * 16,
