@@ -328,7 +328,7 @@ std::string _Reinitl10n()
 #elif (defined(__linux__) || defined(__FreeBSD__)) && !defined(RELEASE_BUILD)
     // Look for translation files in LOCALEDIR only if they are not available in the
     // current directory.
-    if(!vt_utils::DoesFileExist("po/en_GB/LC_MESSAGES/"APPSHORTNAME".mo")) {
+    if(!vt_utils::DoesFileExist("po/en_GB/LC_MESSAGES/" APPSHORTNAME ".mo")) {
         bind_text_domain_path = LOCALEDIR;
     } else {
         char buffer[PATH_MAX];
@@ -353,7 +353,7 @@ bool SystemEngine::IsLanguageAvailable(const std::string& lang)
     std::string mo_filename = _Reinitl10n();
     mo_filename.append("/");
     mo_filename.append(lang);
-    mo_filename.append("/LC_MESSAGES/"APPSHORTNAME".mo");
+    mo_filename.append("/LC_MESSAGES/" APPSHORTNAME ".mo");
 
     // Note: English is always available as it's the default language
     if (lang == "en_GB")

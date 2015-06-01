@@ -777,7 +777,7 @@ void GameOptionsMenuHandler::_RefreshLanguageOptions()
                 _language_options_menu.SetSelection(0);
 
             if (warnAboutMissingFiles) {
-                std::string mo_filename = lang + "/LC_MESSAGES/"APPSHORTNAME".mo";
+                std::string mo_filename = lang + "/LC_MESSAGES/" APPSHORTNAME ".mo";
                 PRINT_WARNING << "Couldn't locate gettext .mo file: '" << mo_filename << "'." << std::endl
                     << "The " << lang << " translation will be disabled." << std::endl;
             }

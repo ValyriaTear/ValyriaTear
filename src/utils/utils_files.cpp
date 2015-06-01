@@ -279,7 +279,7 @@ static void _CopyOldSaveFiles(const std::string &destination_path)
     if(!pw)
         return;
 
-    std::string old_path = std::string(pw->pw_dir) + "/."APPSHORTNAME"/";
+    std::string old_path = std::string(pw->pw_dir) + "/." APPSHORTNAME "/";
     if(!DoesFileExist(old_path))
         return; // Nothing to do.
 #elif defined _WIN32
@@ -288,7 +288,7 @@ static void _CopyOldSaveFiles(const std::string &destination_path)
     if(!(SUCCEEDED(SHGetFolderPathA(NULL, CSIDL_PERSONAL, NULL, 0, path))))
         return; // No folder, nothing to do.
 
-    std::string old_path = std::string(path) + "/"APPUPCASEDIRNAME"/";
+    std::string old_path = std::string(path) + "/" APPUPCASEDIRNAME "/";
     if(!DoesFileExist(old_path))
         return; // nothing to do
 #endif
@@ -330,7 +330,7 @@ static void _CopyOldSettingsFile(const std::string &destination_path)
     if(!pw)
         return; // Nothing to do
 
-    std::string old_file = std::string(pw->pw_dir) + "/."APPSHORTNAME"/settings.lua";
+    std::string old_file = std::string(pw->pw_dir) + "/." APPSHORTNAME "/settings.lua";
     if(!DoesFileExist(old_file))
         return; // Nothing to do.
 
@@ -340,7 +340,7 @@ static void _CopyOldSettingsFile(const std::string &destination_path)
     if(!(SUCCEEDED(SHGetFolderPathA(NULL, CSIDL_PERSONAL, NULL, 0, path))))
         return; // No folder, nothing to do.
 
-    std::string old_file = std::string(path) + "/"APPUPCASEDIRNAME"/settings.lua";
+    std::string old_file = std::string(path) + "/" APPUPCASEDIRNAME "/settings.lua";
     if(!DoesFileExist(old_file))
         return; // nothing to do
 #endif
@@ -362,7 +362,7 @@ static const std::string _SetupUserDataPath()
     char path[MAX_PATH];
     // %APPDATA% (%USERPROFILE%\Application Data)
     if(SUCCEEDED(SHGetFolderPathA(NULL, CSIDL_APPDATA, NULL, 0, path))) {
-        std::string user_path = std::string(path) + "/"APPUPCASEDIRNAME"/";
+        std::string user_path = std::string(path) + "/" APPUPCASEDIRNAME "/";
         if(!DoesFileExist(user_path))
             MakeDirectory(user_path);
 
@@ -374,7 +374,7 @@ static const std::string _SetupUserDataPath()
 #elif defined __APPLE__
     passwd *pw = getpwuid(getuid());
     if(pw) {
-        std::string path = std::string(pw->pw_dir) + "/Library/Application Support/"APPUPCASEDIRNAME"/";
+        std::string path = std::string(pw->pw_dir) + "/Library/Application Support/" APPUPCASEDIRNAME "/";
         if(!DoesFileExist(path))
             MakeDirectory(path);
         return path;
@@ -387,7 +387,7 @@ static const std::string _SetupUserDataPath()
     // $XDG_DATA_HOME/valyriatear/
     // equals to: ~/.local/share/valyriatear/ most of the time
     if (getenv("XDG_DATA_HOME")) {
-        std::string path = std::string(getenv("XDG_DATA_HOME")) + "/"APPSHORTNAME"/";
+        std::string path = std::string(getenv("XDG_DATA_HOME")) + "/" APPSHORTNAME "/";
         if(!DoesFileExist(path))
             MakeDirectory(path);
         _CopyOldSaveFiles(path);
@@ -403,7 +403,7 @@ static const std::string _SetupUserDataPath()
         path += "/share/";
         if(!DoesFileExist(path))
             MakeDirectory(path);
-        path += "/"APPSHORTNAME"/";
+        path += "/" APPSHORTNAME "/";
         if(!DoesFileExist(path))
             MakeDirectory(path);
         _CopyOldSaveFiles(path);
@@ -425,7 +425,7 @@ static const std::string _SetupUserConfigPath()
     char path[MAX_PATH];
     // %APPDATA% (%USERPROFILE%\Application Data)
     if(SUCCEEDED(SHGetFolderPathA(NULL, CSIDL_APPDATA, NULL, 0, path))) {
-        std::string user_path = std::string(path) + "/"APPUPCASEDIRNAME"/";
+        std::string user_path = std::string(path) + "/" APPUPCASEDIRNAME "/";
         if(!DoesFileExist(user_path))
             MakeDirectory(user_path);
         _CopyOldSettingsFile(user_path);
@@ -435,7 +435,7 @@ static const std::string _SetupUserConfigPath()
 #elif defined __APPLE__
     passwd *pw = getpwuid(getuid());
     if(pw) {
-        std::string path = std::string(pw->pw_dir) + "/Library/Preferences/"APPUPCASEDIRNAME"/";
+        std::string path = std::string(pw->pw_dir) + "/Library/Preferences/" APPUPCASEDIRNAME "/";
         if(!DoesFileExist(path))
             MakeDirectory(path);
         return path;
@@ -448,7 +448,7 @@ static const std::string _SetupUserConfigPath()
     // $XDG_CONFIG_HOME/valyriatear/
     // equals to: ~/.config/valyriatear/ most of the time
     if (getenv("XDG_CONFIG_HOME")) {
-        std::string path = std::string(getenv("XDG_CONFIG_HOME")) + "/"APPSHORTNAME"/";
+        std::string path = std::string(getenv("XDG_CONFIG_HOME")) + "/" APPSHORTNAME "/";
         if(!DoesFileExist(path))
             MakeDirectory(path);
         _CopyOldSettingsFile(path);
@@ -462,7 +462,7 @@ static const std::string _SetupUserConfigPath()
         std::string path = std::string(pw->pw_dir) + "/.config/";
         if(!DoesFileExist(path))
             MakeDirectory(path);
-        path += "/"APPSHORTNAME"/";
+        path += "/" APPSHORTNAME "/";
         if(!DoesFileExist(path))
             MakeDirectory(path);
         _CopyOldSettingsFile(path);

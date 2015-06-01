@@ -140,7 +140,7 @@ bool ParseSecondaryOptions(const std::string &vars, std::vector<std::string>& op
 void PrintUsage()
 {
     std::cout
-            << "usage: "APPSHORTNAME" [options]" << std::endl
+            << "usage: " APPSHORTNAME " [options]" << std::endl
             << "  --debug/-d <args> :: enables debug statements in specified sections of the" << std::endl
             << "                       program, where <args> can be:" << std::endl
             << "                       all, audio, battle, boot, data, global, input," << std::endl
