@@ -264,7 +264,7 @@ void ParticleSystem::Draw()
 
     // Load the sprite shader program.
     gl::ShaderProgram* shader_program = VideoManager->LoadShaderProgram(gl::shader_programs::Sprite);
-    assert(shader_program != NULL);
+    assert(shader_program != nullptr);
 
     // Draw the particle system.
     VideoManager->DrawParticleSystem(shader_program,
@@ -447,7 +447,7 @@ void ParticleSystem::_UpdateParticles(float t, const EffectParameters &params)
                 // particle's time, then we are on the last one
                 if(k == num_keyframes) {
                     _particles[j].current_keyframe = &_system_def->keyframes[k - 1];
-                    _particles[j].next_keyframe = NULL;
+                    _particles[j].next_keyframe = nullptr;
 
                     // set all of the keyframed properties to the value stored in the last
                     // keyframe
@@ -738,7 +738,7 @@ void ParticleSystem::_RespawnParticle(int32 i, const EffectParameters &params)
     if(_system_def->keyframes.size() > 1)
         _particles[i].next_keyframe = &_system_def->keyframes[1];
     else
-        _particles[i].next_keyframe = NULL;
+        _particles[i].next_keyframe = nullptr;
 
     float speed = _system_def->emitter._initial_speed;
     speed += RandomFloat(-emitter._initial_speed_variation, emitter._initial_speed_variation);

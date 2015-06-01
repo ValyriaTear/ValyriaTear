@@ -510,7 +510,7 @@ int main(int argc, char *argv[])
         chdir(path.c_str());
 #elif (defined(__linux__) || defined(__FreeBSD__) || defined(__OpenBSD__) || defined(SOLARIS)) && !defined(RELEASE_BUILD)
         // Look for data files in DATADIR only if they are not available in the current directory.
-        if(std::ifstream("data/config/settings.lua") == NULL) {
+        if(std::ifstream("data/config/settings.lua") == nullptr) {
             if(chdir(PKG_DATADIR) != 0) {
                 throw Exception("ERROR: failed to change directory to data location", __FILE__, __LINE__, __FUNCTION__);
             }
@@ -518,7 +518,7 @@ int main(int argc, char *argv[])
 #endif
 
         // Initialize the random number generator (note: 'unsigned int' is a required usage in this case)
-        srand(static_cast<unsigned int>(time(NULL)));
+        srand(static_cast<unsigned int>(time(nullptr)));
 
         // This variable will be set by the ParseProgramOptions function
         int32 return_code = EXIT_FAILURE;
@@ -533,7 +533,7 @@ int main(int argc, char *argv[])
 
     } catch(const Exception &e) {
 #ifdef WIN32
-        MessageBox(NULL, e.ToString().c_str(), "Unhandled exception", MB_OK | MB_ICONERROR);
+        MessageBox(nullptr, e.ToString().c_str(), "Unhandled exception", MB_OK | MB_ICONERROR);
 #else
         PRINT_ERROR << e.ToString() << std::endl;
 #endif
@@ -612,7 +612,7 @@ int main(int argc, char *argv[])
         } // while (SystemManager->NotDone())
     } catch(const Exception& e) {
 #ifdef WIN32
-        MessageBox(NULL, e.ToString().c_str(), "Unhandled exception", MB_OK | MB_ICONERROR);
+        MessageBox(nullptr, e.ToString().c_str(), "Unhandled exception", MB_OK | MB_ICONERROR);
 #else
         std::cerr << e.ToString() << std::endl;
 #endif

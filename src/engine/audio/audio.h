@@ -238,13 +238,13 @@ public:
     *** \param gm The game mode owning the audio descriptor to load.
     *** \return True if the sound was loaded into the cache successfully
     **/
-    bool LoadSound(const std::string &filename, vt_mode_manager::GameMode *gm = NULL);
+    bool LoadSound(const std::string &filename, vt_mode_manager::GameMode *gm = nullptr);
 
     /** \brief Creates a new MusicDescriptor using the given filename and loads it into the audio cache
     *** \param gm The game mode owning the audio descriptor to load.
     *** \return True if the music was loaded into the cache successfully
     **/
-    bool LoadMusic(const std::string &filename, vt_mode_manager::GameMode *gm = NULL);
+    bool LoadMusic(const std::string &filename, vt_mode_manager::GameMode *gm = nullptr);
 
     //! \brief Plays a sound that is contained within the audio cache
     void PlaySound(const std::string &filename);
@@ -276,10 +276,10 @@ public:
         ResumeSound(filename);
     }
 
-    //! \return A pointer to the SoundDescriptor contained within the cache, or NULL if it could not be found
+    //! \return A pointer to the SoundDescriptor contained within the cache, or nullptr if it could not be found
     SoundDescriptor *RetrieveSound(const std::string &filename);
 
-    //! \return A pointer to the MusicDescriptor contained within the cache, or NULL if it could not be found
+    //! \return A pointer to the MusicDescriptor contained within the cache, or nullptr if it could not be found
     MusicDescriptor *RetrieveMusic(const std::string &filename);
 
     //! \returns A pointer of the active music descriptor (the one playing or ready to be played.)
@@ -403,7 +403,7 @@ private:
     uint16 _max_cache_size;
 
     /** \brief Acquires an available audio source that may be used
-    *** \return A pointer to the available source, or NULL if no available source could be found
+    *** \return A pointer to the available source, or nullptr if no available source could be found
     *** \todo Add an algoihtm to give priority to some data/sounds/music over others.
     **/
     private_audio::AudioSource *_AcquireAudioSource();
@@ -415,7 +415,7 @@ private:
     *** if no more game modes own it.
     *** \return True if the audio was successfully loaded and added to the audio cache, false if it was not.
     **/
-    bool _LoadAudio(const std::string &filename, bool is_music, vt_mode_manager::GameMode *gm = NULL);
+    bool _LoadAudio(const std::string &filename, bool is_music, vt_mode_manager::GameMode *gm = nullptr);
 
 }; // class AudioEngine : public vt_utils::Singleton<AudioEngine>
 

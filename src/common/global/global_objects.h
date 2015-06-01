@@ -267,14 +267,14 @@ public:
     }
 
     /** \brief Returns a pointer to the ScriptObject of the battle use function
-    *** \note This function will return NULL if the skill is not usable in battle
+    *** \note This function will return nullptr if the skill is not usable in battle
     **/
     const ScriptObject &GetBattleUseFunction() const {
         return _battle_use_function;
     }
 
     /** \brief Returns a pointer to the ScriptObject of the field use function
-    *** \note This function will return NULL if the skill is not usable in the field
+    *** \note This function will return nullptr if the skill is not usable in the field
     **/
     const ScriptObject &GetFieldUseFunction() const {
         return _field_use_function;
@@ -399,7 +399,7 @@ private:
     /** \brief Spirit slots which may be used to place spirits on the weapon
     *** Weapons may have no slots, so it is not uncommon for the size of this vector to be zero.
     *** When spirit slots are available but empty (has no attached spirit), the pointer at that index
-    *** will be NULL.
+    *** will be nullptr.
     **/
     std::vector<GlobalSpirit *> _spirit_slots;
 
@@ -471,7 +471,7 @@ private:
     /** \brief Sockets which may be used to place spirits on the armor
     *** Armor may have no sockets, so it is not uncommon for the size of this vector to be zero.
     *** When a socket is available but empty (has no attached spirit), the pointer at that index
-    *** will be NULL.
+    *** will be nullptr.
     **/
     std::vector<GlobalSpirit *> _spirit_slots;
 }; // class GlobalArmor : public GlobalObject

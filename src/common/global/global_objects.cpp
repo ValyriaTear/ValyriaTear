@@ -244,7 +244,7 @@ GlobalWeapon::GlobalWeapon(uint32 id, uint32 count) :
         spirits_number = 5;
         PRINT_WARNING << "More than 5 spirit slots declared in item " << _id << std::endl;
     }
-    _spirit_slots.resize(spirits_number, NULL);
+    _spirit_slots.resize(spirits_number, nullptr);
 
     // Load the possible battle ammo animated image filename.
     _ammo_animation_file = script_file.ReadString("battle_ammo_animation_file");
@@ -373,7 +373,7 @@ GlobalArmor::GlobalArmor(uint32 id, uint32 count) :
         spirits_number = 5;
         PRINT_WARNING << "More than 5 spirit slots declared in item " << _id << std::endl;
     }
-    _spirit_slots.resize(spirits_number, NULL);
+    _spirit_slots.resize(spirits_number, nullptr);
 
     script_file->CloseTable();
     if(script_file->IsErrorDetected()) {

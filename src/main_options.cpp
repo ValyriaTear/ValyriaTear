@@ -177,7 +177,7 @@ bool PrintSystemInformation()
         printf("  Joystick #%d\n", i);
         //printf("    Joystick Name: %s\n", SDL_GameControllerNameForIndex(i));
         SDL_Joystick* js_test = SDL_JoystickOpen(i);
-        if(js_test == NULL)
+        if(js_test == nullptr)
             printf("    ERROR: SDL was unable to open joystick #%d!\n", i);
         else {
             printf("    Number Axes: %d\n", SDL_JoystickNumAxes(js_test));

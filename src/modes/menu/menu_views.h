@@ -646,8 +646,8 @@ public:
     {
         _location_name.ClearText();
         _location_subname.ClearText();
-        _location_image = NULL;
-        _location_subimage = NULL;
+        _location_image = nullptr;
+        _location_subimage = nullptr;
     }
 
     /*!
@@ -741,7 +741,7 @@ public:
 
     /*!
     * \brief gets the WorldMapLocation pointer to the currently pointing
-    * location, or NULL if it deson't exist
+    * location, or nullptr if it deson't exist
     * \return Pointer to the currently indexes WorldMapLocation
     */
     vt_global::WorldMapLocation *GetCurrentViewingLocation()
@@ -749,7 +749,7 @@ public:
         const std::vector<std::string> &current_location_ids = vt_global::GlobalManager->GetViewableLocationIds();
         const uint32 N = current_location_ids.size();
         if( N == 0 || _location_pointer_index > N)
-            return NULL;
+            return nullptr;
         return vt_global::GlobalManager->GetWorldLocation(current_location_ids[_location_pointer_index]);
     }
 

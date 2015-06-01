@@ -154,7 +154,7 @@ Sprite::Sprite() :
 
     // Store the vertex position data into slot 0.
     if (!errors) {
-        glVertexAttribPointer(0, 3, GL_FLOAT, false, 0, NULL);
+        glVertexAttribPointer(0, 3, GL_FLOAT, false, 0, nullptr);
 
         GLenum error = glGetError();
         if (error != GL_NO_ERROR) {
@@ -194,7 +194,7 @@ Sprite::Sprite() :
 
     // Store the vertex texture coordinate data into slot 1.
     if (!errors) {
-        glVertexAttribPointer(1, 2, GL_FLOAT, false, 0, NULL);
+        glVertexAttribPointer(1, 2, GL_FLOAT, false, 0, nullptr);
 
         GLenum error = glGetError();
         if (error != GL_NO_ERROR) {
@@ -234,7 +234,7 @@ Sprite::Sprite() :
 
     // Store the vertex color data into slot 2.
     if (!errors) {
-        glVertexAttribPointer(2, 4, GL_FLOAT, false, 0, NULL);
+        glVertexAttribPointer(2, 4, GL_FLOAT, false, 0, nullptr);
 
         GLenum error = glGetError();
         if (error != GL_NO_ERROR) {
@@ -322,7 +322,7 @@ void Sprite::Draw()
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _index_buffer);
 
     // Draw the sprite.
-    glDrawElements(GL_TRIANGLES, INDICES_PER_SPRITE, GL_UNSIGNED_INT, NULL);
+    glDrawElements(GL_TRIANGLES, INDICES_PER_SPRITE, GL_UNSIGNED_INT, nullptr);
 
     // Unbind the vertex array object from the pipeline.
     glBindVertexArray(0);
@@ -338,9 +338,9 @@ void Sprite::Draw(float* vertex_positions,
 {
     bool errors = false;
 
-    assert(vertex_positions != NULL);
-    assert(vertex_texture_coordinates != NULL);
-    assert(vertex_colors != NULL);
+    assert(vertex_positions != nullptr);
+    assert(vertex_texture_coordinates != nullptr);
+    assert(vertex_colors != nullptr);
 
     // Bind the vertex position buffer.
     if (!errors) {

@@ -194,7 +194,7 @@ void TexSheet::DEBUG_Draw() const
 
     // Load the solid shader program.
     gl::ShaderProgram* shader_program = VideoManager->LoadShaderProgram(gl::shader_programs::Solid);
-    assert(shader_program != NULL);
+    assert(shader_program != nullptr);
 
     // Draw a black background.
     VideoManager->DrawSprite(shader_program, vertex_positions, vertex_texture_coordinates, vertex_colors, ::vt_video::Color::black);
@@ -204,7 +204,7 @@ void TexSheet::DEBUG_Draw() const
 
     // Load the sprite shader program.
     shader_program = VideoManager->LoadShaderProgram(gl::shader_programs::Sprite);
-    assert(shader_program != NULL);
+    assert(shader_program != nullptr);
 
     // Draw the image.
     VideoManager->DrawSprite(shader_program, vertex_positions, vertex_texture_coordinates, vertex_colors);
@@ -235,13 +235,13 @@ FixedTexSheet::FixedTexSheet(int32 sheet_width, int32 sheet_height, GLuint sheet
     _open_list_tail = &_blocks[num_blocks - 1];
 
     for(int32 i = 0; i < num_blocks - 1; i++) {
-        _blocks[i].image = NULL;
+        _blocks[i].image = nullptr;
         _blocks[i].next = &_blocks[i + 1];
         _blocks[i].block_index = i;
     }
 
-    _open_list_tail->image = NULL;
-    _open_list_tail->next = NULL;
+    _open_list_tail->image = nullptr;
+    _open_list_tail->next = nullptr;
     _open_list_tail->block_index = num_blocks - 1;
 }
 
@@ -250,9 +250,9 @@ FixedTexSheet::~FixedTexSheet()
     if (GetNumberTextures() != 0)
         IF_PRINT_WARNING(VIDEO_DEBUG) << "texture sheet being deleted when it has a non-zero allocated texture count: " << GetNumberTextures() << std::endl;
 
-    if (_blocks != NULL) {
+    if (_blocks != nullptr) {
         delete[] _blocks;
-        _blocks = NULL;
+        _blocks = nullptr;
     }
 }
 
@@ -272,21 +272,21 @@ bool FixedTexSheet::AddTexture(BaseTexture *img, ImageMemory &data)
 
 bool FixedTexSheet::InsertTexture(BaseTexture *img)
 {
-    if(img == NULL) {
-        IF_PRINT_WARNING(VIDEO_DEBUG) << "NULL pointer was given as function argument" << std::endl;
+    if(img == nullptr) {
+        IF_PRINT_WARNING(VIDEO_DEBUG) << "nullptr pointer was given as function argument" << std::endl;
         return false;
     }
 
     // Retrieve the node from the head of the list to use for this texture
     FixedTexNode *node = _RemoveOpenNode();
-    if(node == NULL)  // This condition indicates that there are no remaining free nodes on the open list
+    if(node == nullptr)  // This condition indicates that there are no remaining free nodes on the open list
         return false;
 
     // Check if there's already an image allocated at this block (an image was freed earlier, but not removed)
     // If so, we must now remove it from memory
-    if(node->image != NULL) {
+    if(node->image != nullptr) {
         // TODO: TextureManager needs to have the image element removed from its map containers
-        node->image = NULL;
+        node->image = nullptr;
     }
 
     // Calculate the texture's pixel coordinates in the sheet given this node's block index
@@ -311,8 +311,8 @@ bool FixedTexSheet::InsertTexture(BaseTexture *img)
 
 void FixedTexSheet::RemoveTexture(BaseTexture *img)
 {
-    if(img == NULL) {
-        IF_PRINT_WARNING(VIDEO_DEBUG) << "NULL pointer was given as function argument" << std::endl;
+    if(img == nullptr) {
+        IF_PRINT_WARNING(VIDEO_DEBUG) << "nullptr pointer was given as function argument" << std::endl;
         return;
     }
 
@@ -324,7 +324,7 @@ void FixedTexSheet::RemoveTexture(BaseTexture *img)
         return;
     }
 
-    _blocks[block_index].image = NULL;
+    _blocks[block_index].image = nullptr;
     _AddOpenNode(&_blocks[block_index]);
 }
 
@@ -332,8 +332,8 @@ void FixedTexSheet::RemoveTexture(BaseTexture *img)
 
 void FixedTexSheet::FreeTexture(BaseTexture *img)
 {
-    if(img == NULL) {
-        IF_PRINT_WARNING(VIDEO_DEBUG) << "NULL pointer was given as function argument" << std::endl;
+    if(img == nullptr) {
+        IF_PRINT_WARNING(VIDEO_DEBUG) << "nullptr pointer was given as function argument" << std::endl;
         return;
     }
 
@@ -345,7 +345,7 @@ void FixedTexSheet::FreeTexture(BaseTexture *img)
         return;
     }
 
-    // Unliked the RemoveTexture call, we do not set the block's image to NULL here
+    // Unliked the RemoveTexture call, we do not set the block's image to nullptr here
     _AddOpenNode(&_blocks[block_index]);
 }
 
@@ -353,20 +353,20 @@ void FixedTexSheet::FreeTexture(BaseTexture *img)
 
 void FixedTexSheet::RestoreTexture(BaseTexture *img)
 {
-    if(img == NULL) {
-        IF_PRINT_WARNING(VIDEO_DEBUG) << "NULL pointer was given as function argument" << std::endl;
+    if(img == nullptr) {
+        IF_PRINT_WARNING(VIDEO_DEBUG) << "nullptr pointer was given as function argument" << std::endl;
         return;
     }
 
     // Go through the list of open nodes and find the node with this image
-    FixedTexNode *last = NULL;
+    FixedTexNode *last = nullptr;
     FixedTexNode *now = _open_list_head;
 
-    while(now != NULL) {
+    while(now != nullptr) {
         // If we found the texture, update the list so that the containing node temporarily becomes
         // the head of the open list, then remove that node from the list head
         if(now->image == img) {
-            if(last != NULL) {
+            if(last != nullptr) {
                 last = now->next;
                 now->next = _open_list_head;
                 _open_list_head = now;
@@ -390,7 +390,7 @@ uint32 FixedTexSheet::GetNumberTextures()
     uint32 num_blocks = 0;
 
     for(int32 i = 0; i < _block_width * _block_height; i++) {
-        if(_blocks[i].image != NULL) {
+        if(_blocks[i].image != nullptr) {
             num_blocks++;
         }
     }
@@ -412,14 +412,14 @@ int32 FixedTexSheet::_CalculateBlockIndex(BaseTexture *img)
 
 void FixedTexSheet::_AddOpenNode(FixedTexNode *node)
 {
-    if(_open_list_tail != NULL) {
+    if(_open_list_tail != nullptr) {
         _open_list_tail->next = node;
         _open_list_tail = node;
-        _open_list_tail->next = NULL;
+        _open_list_tail->next = nullptr;
     } else {
         _open_list_head = node;
         _open_list_tail = node;
-        _open_list_tail->next = NULL;
+        _open_list_tail->next = nullptr;
     }
 }
 
@@ -427,16 +427,16 @@ void FixedTexSheet::_AddOpenNode(FixedTexNode *node)
 
 FixedTexNode *FixedTexSheet::_RemoveOpenNode()
 {
-    if(_open_list_head == NULL)
-        return NULL;
+    if(_open_list_head == nullptr)
+        return nullptr;
 
     FixedTexNode *node = _open_list_head;
     _open_list_head = _open_list_head->next;
-    node->next = NULL;
+    node->next = nullptr;
 
-    // This condition means we just removed the last open block, so set the tail pointer to NULL as well
-    if(_open_list_head == NULL) {
-        _open_list_tail = NULL;
+    // This condition means we just removed the last open block, so set the tail pointer to nullptr as well
+    if(_open_list_head == nullptr) {
+        _open_list_tail = nullptr;
     }
 
     return node;
@@ -459,9 +459,9 @@ VariableTexSheet::~VariableTexSheet()
     if (GetNumberTextures() != 0)
         IF_PRINT_WARNING(VIDEO_DEBUG) << "texture sheet being deleted when it has a non-zero allocated texture count: " << GetNumberTextures() << std::endl;
 
-    if (_blocks != NULL) {
+    if (_blocks != nullptr) {
         delete [] _blocks;
-        _blocks = NULL;
+        _blocks = nullptr;
     }
 }
 
@@ -483,8 +483,8 @@ bool VariableTexSheet::AddTexture(BaseTexture *img, ImageMemory &data)
 
 bool VariableTexSheet::InsertTexture(BaseTexture *img)
 {
-    if(img == NULL) {
-        IF_PRINT_WARNING(VIDEO_DEBUG) << "NULL pointer was given as function argument" << std::endl;
+    if(img == nullptr) {
+        IF_PRINT_WARNING(VIDEO_DEBUG) << "nullptr pointer was given as function argument" << std::endl;
         return false;
     }
 
@@ -536,7 +536,7 @@ bool VariableTexSheet::InsertTexture(BaseTexture *img)
         for(int32 x = block_x; x < block_x + w; x++) {
             int32 index = x + (y * _block_width);
 
-            // If the texture pointer for the block is not NULL, this means it contains a freed texture.
+            // If the texture pointer for the block is not nullptr, this means it contains a freed texture.
             // Now we must remove that texture entirely since we are overwriting at least one of its blocks.
             if(_blocks[index].image) {
                 RemoveTexture(_blocks[index].image);
@@ -569,7 +569,7 @@ bool VariableTexSheet::InsertTexture(BaseTexture *img)
 
 void VariableTexSheet::RemoveTexture(BaseTexture *img)
 {
-    _SetBlockProperties(img, NULL, true);
+    _SetBlockProperties(img, nullptr, true);
     _textures.erase(img);
 }
 
@@ -577,8 +577,8 @@ void VariableTexSheet::RemoveTexture(BaseTexture *img)
 
 void VariableTexSheet::_SetBlockProperties(BaseTexture *tex, BaseTexture *new_tex, bool free)
 {
-    if(tex == NULL) {
-        IF_PRINT_WARNING(VIDEO_DEBUG) << "NULL pointer was given as function argument" << std::endl;
+    if(tex == nullptr) {
+        IF_PRINT_WARNING(VIDEO_DEBUG) << "nullptr pointer was given as function argument" << std::endl;
         return;
     }
 

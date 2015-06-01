@@ -158,7 +158,7 @@ void TextBox::SetTextAlignment(int32 xalign, int32 yalign)
 
 void TextBox::SetTextStyle(const TextStyle &style)
 {
-    if(style.GetFontProperties() == NULL) {
+    if(style.GetFontProperties() == nullptr) {
         IF_PRINT_WARNING(VIDEO_DEBUG) << "Function failed because it was passed an invalid font name: " << style.GetFontName() << std::endl;
         return;
     }
@@ -255,7 +255,7 @@ void TextBox::_ReformatText()
     FontProperties* fp = _text_style.GetFontProperties();
 
     // If font not set, return (leave _text vector empty)
-    if(fp == NULL || fp->ttf_font == NULL) {
+    if(fp == nullptr || fp->ttf_font == nullptr) {
         IF_PRINT_WARNING(VIDEO_DEBUG) << "Textbox font properties are invalid" << std::endl;
         return;
     }
@@ -348,7 +348,7 @@ float TextBox::_CalculateTextHeight()
         return 0;
 
     FontProperties* font_properties = _text_style.GetFontProperties();
-    assert(font_properties != NULL);
+    assert(font_properties != nullptr);
     return static_cast<float>(font_properties->height + font_properties->line_skip * (_text.size() - 1));
 }
 

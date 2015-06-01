@@ -343,7 +343,7 @@ public:
     void ChangeViewMode(SHOP_VIEW_MODE new_mode);
 
     /** \brief Sets the selected object and may also render a new text image
-    *** \param shop_object A pointer to the new object. A NULL pointer is acceptable
+    *** \param shop_object A pointer to the new object. A nullptr pointer is acceptable
     **/
     void SetSelectedObject(ShopObject *shop_object);
 
@@ -352,7 +352,7 @@ public:
     *** \param icon A pointer to the new image to represent the category's icon
     *** \note This function does not check whether or not the new name/icon are not
     *** the same as the previous name/icon
-    *** \note It is safe to pass a NULL pointer for the icon argument
+    *** \note It is safe to pass a nullptr pointer for the icon argument
     **/
     void ChangeCategory(vt_utils::ustring &name, const vt_video::StillImage *icon);
 
@@ -430,7 +430,7 @@ public:
     virtual void ReconstructList() = 0;
 
     /** \brief Returns a pointer to the currently selected shop object
-    *** This method may return NULL if the current selection is invalid or the _objects container is empty
+    *** This method may return nullptr if the current selection is invalid or the _objects container is empty
     **/
     ShopObject *GetSelectedObject();
 

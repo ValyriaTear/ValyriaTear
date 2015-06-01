@@ -37,7 +37,7 @@ using namespace vt_audio::private_audio;
 namespace vt_audio
 {
 
-AudioEngine *AudioManager = NULL;
+AudioEngine *AudioManager = nullptr;
 bool AUDIO_DEBUG = false;
 bool AUDIO_ENABLE = true;
 
@@ -47,7 +47,7 @@ AudioEngine::AudioEngine() :
     _device(0),
     _context(0),
     _max_sources(MAX_DEFAULT_AUDIO_SOURCES),
-    _active_music(NULL),
+    _active_music(nullptr),
     _max_cache_size(MAX_DEFAULT_AUDIO_SOURCES / 4)
 {}
 
@@ -62,7 +62,7 @@ bool AudioEngine::SingletonInitialize()
     CheckALCError(); // Clears errors
 
     // Find the highest-version device available, if the extension for device enumeration is present
-    if(alcIsExtensionPresent(NULL, "ALC_ENUMERATION_EXT") == AL_TRUE) {
+    if(alcIsExtensionPresent(nullptr, "ALC_ENUMERATION_EXT") == AL_TRUE) {
         const ALCchar *device_list = 0;
         device_list = alcGetString(0, ALC_DEVICE_SPECIFIER); // Get list of all devices (terminated with two '0')
         if(CheckALCError() == true) {
@@ -75,7 +75,7 @@ bool AudioEngine::SingletonInitialize()
 
             // Open a temporary device for reading in its version number
             ALCdevice *temp_device = alcOpenDevice(device_list);
-            if(CheckALCError() || temp_device == NULL) {  // If we couldn't open the device, just move on to the next
+            if(CheckALCError() || temp_device == nullptr) {  // If we couldn't open the device, just move on to the next
                 IF_PRINT_WARNING(AUDIO_DEBUG) << "couldn't open device for version checking: " << device_list << std::endl;
                 device_list += strlen(device_list) + 1;
                 continue;
@@ -83,7 +83,7 @@ bool AudioEngine::SingletonInitialize()
 
             // Create a temporary context for the device
             ALCcontext *temp_context = alcCreateContext(temp_device, 0);
-            if(CheckALCError() || temp_context == NULL) {  // If we couldn't create the context, move on to the next device
+            if(CheckALCError() || temp_context == nullptr) {  // If we couldn't create the context, move on to the next device
                 IF_PRINT_WARNING(AUDIO_DEBUG) << "couldn't create a temporary context for device: " << device_list << std::endl;
                 alcCloseDevice(temp_device);
                 device_list += strlen(device_list) + 1;
@@ -106,19 +106,19 @@ bool AudioEngine::SingletonInitialize()
             }
             device_list += strlen(device_list) + 1; // Go to the next device name in the list
         } // while (*device_name != 0)
-    } // if (alcIsExtensionPresent(NULL, "ALC_ENUMERATION_EXT") == AL_TRUE)
+    } // if (alcIsExtensionPresent(nullptr, "ALC_ENUMERATION_EXT") == AL_TRUE)
 
     // Open the 'best' device we found above. If no devices were previously found,
     // it will try opening the default device (= 0)
     _device = alcOpenDevice(best_device);
-    if(CheckALCError() || _device == NULL) {
+    if(CheckALCError() || _device == nullptr) {
         PRINT_ERROR << "failed to open an OpenAL audio device: " << CreateALCErrorString() << std::endl;
         return false;
     }
 
     // Create an OpenAL context
-    _context = alcCreateContext(_device, NULL);
-    if(CheckALCError() || _context == NULL) {
+    _context = alcCreateContext(_device, nullptr);
+    if(CheckALCError() || _context == nullptr) {
         PRINT_ERROR << "failed to create an OpenAL context: " << CreateALCErrorString() << std::endl;
         alcCloseDevice(_device);
         return false;
@@ -232,7 +232,7 @@ void AudioEngine::SetSoundVolume(float volume)
     }
 
     for(std::vector<SoundDescriptor *>::iterator i = _registered_sounds.begin(); i != _registered_sounds.end(); ++i) {
-        if((*i)->_source != NULL) {
+        if((*i)->_source != nullptr) {
             alSourcef((*i)->_source->source, AL_GAIN, _sound_volume * (*i)->GetVolume());
         }
     }
@@ -251,7 +251,7 @@ void AudioEngine::SetMusicVolume(float volume)
     }
 
     for(std::vector<MusicDescriptor *>::iterator i = _registered_music.begin(); i != _registered_music.end(); ++i) {
-        if((*i)->_source != NULL) {
+        if((*i)->_source != nullptr) {
             alSourcef((*i)->_source->source, AL_GAIN, _music_volume * (*i)->GetVolume());
         }
     }
@@ -459,10 +459,10 @@ SoundDescriptor *AudioEngine::RetrieveSound(const std::string &filename)
     std::map<std::string, AudioCacheElement>::iterator element = _audio_cache.find(filename);
 
     if(element == _audio_cache.end()) {
-        return NULL;
+        return nullptr;
     } else if(element->second.audio->IsSound() == false) {
         IF_PRINT_WARNING(AUDIO_DEBUG) << "incorrectly requested to retrieve a sound for a music filename: " << filename << std::endl;
-        return NULL;
+        return nullptr;
     } else {
         return dynamic_cast<SoundDescriptor *>(element->second.audio);
     }
@@ -473,10 +473,10 @@ MusicDescriptor *AudioEngine::RetrieveMusic(const std::string &filename)
     std::map<std::string, AudioCacheElement>::iterator element = _audio_cache.find(filename);
 
     if(element == _audio_cache.end()) {
-        return NULL;
+        return nullptr;
     } else if(element->second.audio->IsSound() == true) {
         IF_PRINT_WARNING(AUDIO_DEBUG) << "incorrectly requested to retrieve music for a sound filename: " << filename << std::endl;
-        return NULL;
+        return nullptr;
     } else {
         return dynamic_cast<MusicDescriptor *>(element->second.audio);
     }
@@ -580,7 +580,7 @@ private_audio::AudioSource *AudioEngine::_AcquireAudioSource()
 {
     // (1) Find and return the first source that does not have an owner
     for(std::vector<AudioSource *>::iterator i = _audio_sources.begin(); i != _audio_sources.end(); ++i) {
-        if((*i)->owner == NULL) {
+        if((*i)->owner == nullptr) {
             return *i;
         }
     }
@@ -590,14 +590,14 @@ private_audio::AudioSource *AudioEngine::_AcquireAudioSource()
         ALint state;
         alGetSourcei((*i)->source, AL_SOURCE_STATE, &state);
         if(state == AL_INITIAL || state == AL_STOPPED) {
-            (*i)->owner->_source = NULL;
-            (*i)->Reset(); // this call sets the source owner pointer to NULL
+            (*i)->owner->_source = nullptr;
+            (*i)->Reset(); // this call sets the source owner pointer to nullptr
             return *i;
         }
     }
 
-    // (3) Return NULL in the (extremely rare) case that all sources are owned and actively playing or paused
-    return NULL;
+    // (3) Return nullptr in the (extremely rare) case that all sources are owned and actively playing or paused
+    return nullptr;
 }
 
 
@@ -618,7 +618,7 @@ bool AudioEngine::_LoadAudio(const std::string &filename, bool is_music, vt_mode
     }
 
     // Creates the new audio object and adds its potential game mode owner.
-    AudioDescriptor *audio = NULL;
+    AudioDescriptor *audio = nullptr;
     if (is_music)
         audio = new MusicDescriptor();
     else

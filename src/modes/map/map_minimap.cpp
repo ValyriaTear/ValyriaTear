@@ -110,7 +110,7 @@ static inline bool _PrepareSurface(SDL_Surface *temp_surface)
         r.x = x;
         for(int y = 0; y < temp_surface->h; y += white_noise._surface->h) {
             r.y = y;
-            if(SDL_BlitSurface(white_noise._surface, NULL, temp_surface, &r)) {
+            if(SDL_BlitSurface(white_noise._surface, nullptr, temp_surface, &r)) {
                 PRINT_ERROR << "Couldn't fill a rect on temp_surface: " << SDL_GetError() << std::endl;
                 return false;
             }

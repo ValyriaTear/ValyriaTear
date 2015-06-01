@@ -34,7 +34,7 @@ int main(int argc, char **argv)
 #ifndef __MACH__
     // Look for data files in DATADIR only if they are not available in the
     // current directory.
-    if(std::ifstream("./data/editor/editor.lua") == NULL) {
+    if(std::ifstream("./data/editor/editor.lua") == nullptr) {
         if(chdir(PKG_DATADIR) != 0) {
             PRINT_ERROR << "failed to change directory to data location" << std::endl;
         }

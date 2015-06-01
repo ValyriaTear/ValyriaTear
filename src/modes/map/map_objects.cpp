@@ -1104,7 +1104,7 @@ ObjectSupervisor::ObjectSupervisor() :
     _num_grid_x_axis(0),
     _num_grid_y_axis(0),
     _last_id(1), //! Every object Id must be > 0 since 0 is reserved for speakerless dialogues.
-    _visible_party_member(NULL)
+    _visible_party_member(nullptr)
 {}
 
 ObjectSupervisor::~ObjectSupervisor()
@@ -1122,7 +1122,7 @@ ObjectSupervisor::~ObjectSupervisor()
 MapObject* ObjectSupervisor::GetObject(uint32 object_id)
 {
     if(object_id >= _all_objects.size())
-        return NULL;
+        return nullptr;
     else
         return _all_objects[object_id];
 }
@@ -1131,13 +1131,13 @@ VirtualSprite* ObjectSupervisor::GetSprite(uint32 object_id)
 {
     MapObject* object = GetObject(object_id);
 
-    if(object == NULL)
-        return NULL;
+    if(object == nullptr)
+        return nullptr;
 
     VirtualSprite *sprite = dynamic_cast<VirtualSprite *>(object);
-    if(sprite == NULL) {
+    if(sprite == nullptr) {
         IF_PRINT_WARNING(MAP_DEBUG) << "could not cast map object to sprite type, object id: " << object_id << std::endl;
-        return NULL;
+        return nullptr;
     }
 
     return sprite;
@@ -1146,14 +1146,14 @@ VirtualSprite* ObjectSupervisor::GetSprite(uint32 object_id)
 void ObjectSupervisor::RegisterObject(MapObject* object)
 {
     if (!object || object->GetObjectID() <= 0) {
-        PRINT_WARNING << "The object couldn't be registered. It is either NULL or with an id <= 0." << std::endl;
+        PRINT_WARNING << "The object couldn't be registered. It is either nullptr or with an id <= 0." << std::endl;
         return;
     }
 
     uint32 obj_id = (uint32)object->GetObjectID();
     // Adds the object to the all object collection.
     if (obj_id >= _all_objects.size())
-        _all_objects.resize(obj_id + 1, NULL);
+        _all_objects.resize(obj_id + 1, nullptr);
     _all_objects[obj_id] = object;
 
     switch(object->GetObjectDrawLayer()) {
@@ -1178,7 +1178,7 @@ void ObjectSupervisor::RegisterObject(MapObject* object)
 void ObjectSupervisor::AddAmbientSound(SoundObject* object)
 {
     if(!object) {
-        PRINT_WARNING << "Couldn't add NULL SoundObject* object." << std::endl;
+        PRINT_WARNING << "Couldn't add nullptr SoundObject* object." << std::endl;
         return;
     }
 
@@ -1187,8 +1187,8 @@ void ObjectSupervisor::AddAmbientSound(SoundObject* object)
 
 void ObjectSupervisor::AddLight(Light* light)
 {
-    if (light == NULL) {
-        PRINT_WARNING << "Couldn't add NULL Light* object." << std::endl;
+    if (light == nullptr) {
+        PRINT_WARNING << "Couldn't add nullptr Light* object." << std::endl;
         return;
     }
 
@@ -1197,8 +1197,8 @@ void ObjectSupervisor::AddLight(Light* light)
 
 void ObjectSupervisor::AddHalo(Halo* halo)
 {
-    if (halo == NULL) {
-        PRINT_WARNING << "Couldn't add NULL Halo* object." << std::endl;
+    if (halo == nullptr) {
+        PRINT_WARNING << "Couldn't add nullptr Halo* object." << std::endl;
         return;
     }
 
@@ -1207,8 +1207,8 @@ void ObjectSupervisor::AddHalo(Halo* halo)
 
 void ObjectSupervisor::AddSavePoint(SavePoint* save_point)
 {
-    if (save_point == NULL) {
-        PRINT_WARNING << "Couldn't add NULL SavePoint* object." << std::endl;
+    if (save_point == nullptr) {
+        PRINT_WARNING << "Couldn't add nullptr SavePoint* object." << std::endl;
         return;
     }
 
@@ -1218,7 +1218,7 @@ void ObjectSupervisor::AddSavePoint(SavePoint* save_point)
 void ObjectSupervisor::AddZone(MapZone* zone)
 {
     if(!zone) {
-        PRINT_WARNING << "Couldn't add NULL zone." << std::endl;
+        PRINT_WARNING << "Couldn't add nullptr zone." << std::endl;
         return;
     }
     _zones.push_back(zone);
@@ -1230,18 +1230,18 @@ void ObjectSupervisor::DeleteObject(MapObject* object)
         return;
 
     for (uint32 i = 0; i < _all_objects.size(); ++i) {
-        // We only set it to NULL without removing its place in memory
+        // We only set it to nullptr without removing its place in memory
         // to avoid breaking the vector key used as object id,
         // so that in: _all_objects[key]: key = object_id.
         if (_all_objects[i] == object) {
-            _all_objects[i] = NULL;
+            _all_objects[i] = nullptr;
             break;
         }
     }
 
     std::vector<MapObject*>::iterator it;
     std::vector<MapObject*>::iterator it_end;
-    std::vector<MapObject*>* to_iterate = NULL;
+    std::vector<MapObject*>* to_iterate = nullptr;
 
     switch(object->GetObjectDrawLayer()) {
     case FLATGROUND_OBJECT:
@@ -1423,8 +1423,8 @@ void ObjectSupervisor::_DrawMapZones()
 
 MapObject *ObjectSupervisor::_FindNearestSavePoint(const VirtualSprite *sprite)
 {
-    if(sprite == NULL)
-        return NULL;
+    if(sprite == nullptr)
+        return nullptr;
 
     for(std::vector<SavePoint *>::iterator it = _save_points.begin();
             it != _save_points.end(); ++it) {
@@ -1434,7 +1434,7 @@ MapObject *ObjectSupervisor::_FindNearestSavePoint(const VirtualSprite *sprite)
             return (*it);
         }
     }
-    return NULL;
+    return nullptr;
 }
 
 std::vector<MapObject*>& ObjectSupervisor::_GetObjectsFromDrawLayer(MapObjectDrawLayer layer)
@@ -1474,7 +1474,7 @@ MapObject *ObjectSupervisor::FindNearestInteractionObject(const VirtualSprite *s
         search_area.right = search_area.right + search_distance;
     } else {
         IF_PRINT_WARNING(MAP_DEBUG) << "sprite was set to invalid direction: " << sprite->GetDirection() << std::endl;
-        return NULL;
+        return nullptr;
     }
 
     // Go through all objects and determine which (if any) lie within the search area
@@ -1558,8 +1558,8 @@ bool ObjectSupervisor::CheckObjectCollision(const MapRectangle &rect, const priv
 
 bool ObjectSupervisor::IsPositionOccupiedByObject(float x, float y, MapObject *object)
 {
-    if(object == NULL) {
-        IF_PRINT_WARNING(MAP_DEBUG) << "NULL pointer passed into function argument" << std::endl;
+    if(object == nullptr) {
+        IF_PRINT_WARNING(MAP_DEBUG) << "nullptr pointer passed into function argument" << std::endl;
         return false;
     }
 
@@ -1651,7 +1651,7 @@ COLLISION_TYPE ObjectSupervisor::DetectCollision(MapObject* object,
             continue;
 
         // The two objects are colliding, return the potentially asked pointer to it.
-        if(collision_object_ptr != NULL)
+        if(collision_object_ptr != nullptr)
             *collision_object_ptr = collision_object;
 
         // When the collision mask is taking in account the collision type

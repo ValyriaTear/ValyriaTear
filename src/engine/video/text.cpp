@@ -37,7 +37,7 @@ using namespace vt_video::private_video;
 namespace vt_video
 {
 
-TextSupervisor *TextManager = NULL;
+TextSupervisor *TextManager = nullptr;
 
 // Useful character types for text formatting
 const uint16 NEW_LINE = '\n';
@@ -52,7 +52,7 @@ FontProperties::FontProperties() :
     line_skip(0),
     ascent(0),
     descent(0),
-    ttf_font(NULL),
+    ttf_font(nullptr),
     font_size(0)
 {
 }
@@ -68,7 +68,7 @@ void FontProperties::ClearFont()
     if (ttf_font)
         TTF_CloseFont(ttf_font);
 
-    ttf_font = NULL;
+    ttf_font = nullptr;
 }
 
 FontProperties::FontProperties(const FontProperties&)
@@ -260,7 +260,7 @@ bool TextTexture::Regenerate()
     if(texture_sheet) {
         texture_sheet->RemoveTexture(this);
         TextureManager->_RemoveSheet(texture_sheet);
-        texture_sheet = NULL;
+        texture_sheet = nullptr;
     }
 
     ImageMemory buffer;
@@ -271,16 +271,16 @@ bool TextTexture::Regenerate()
     height = buffer.height;
 
     TexSheet *sheet = TextureManager->_InsertImageInTexSheet(this, buffer, true);
-    if(sheet == NULL) {
-        IF_PRINT_WARNING(VIDEO_DEBUG) << "call to TextureManager::_InsertImageInTexSheet() returned NULL" << std::endl;
+    if(sheet == nullptr) {
+        IF_PRINT_WARNING(VIDEO_DEBUG) << "call to TextureManager::_InsertImageInTexSheet() returned nullptr" << std::endl;
         free(buffer.pixels);
-        buffer.pixels = NULL;
+        buffer.pixels = nullptr;
         return false;
     }
 
     texture_sheet = sheet;
     free(buffer.pixels);
-    buffer.pixels = NULL;
+    buffer.pixels = nullptr;
 
     return true;
 }
@@ -290,7 +290,7 @@ bool TextTexture::Regenerate()
 bool TextTexture::Reload()
 {
     // Regenerate text image if it is not already loaded in a texture sheet
-    if(texture_sheet == NULL)
+    if(texture_sheet == nullptr)
         return Regenerate();
 
     ImageMemory buffer;
@@ -300,12 +300,12 @@ bool TextTexture::Reload()
     if(texture_sheet->CopyRect(x, y, buffer) == false) {
         IF_PRINT_WARNING(VIDEO_DEBUG) << "call to TextureSheet::CopyRect() failed" << std::endl;
         free(buffer.pixels);
-        buffer.pixels = NULL;
+        buffer.pixels = nullptr;
         return false;
     }
 
     free(buffer.pixels);
-    buffer.pixels = NULL;
+    buffer.pixels = nullptr;
     return true;
 }
 
@@ -315,7 +315,7 @@ bool TextTexture::Reload()
 
 TextElement::TextElement() :
     ImageDescriptor(),
-    text_texture(NULL)
+    text_texture(nullptr)
 {}
 
 
@@ -339,7 +339,7 @@ TextElement::~TextElement()
 void TextElement::Clear()
 {
     ImageDescriptor::Clear(); // This call will remove the texture reference for us
-    text_texture = NULL;
+    text_texture = nullptr;
 }
 
 
@@ -380,17 +380,17 @@ void TextElement::SetTexture(TextTexture *texture)
     }
 
     // Remove references and possibly delete the existing texture
-    if(text_texture != NULL) {
+    if(text_texture != nullptr) {
         _RemoveTextureReference();
 
-        text_texture = NULL;
-        _texture = NULL;
+        text_texture = nullptr;
+        _texture = nullptr;
     }
 
     // Set the new texture
-    if(texture == NULL) {
-        text_texture = NULL;
-        _texture = NULL;
+    if(texture == nullptr) {
+        text_texture = nullptr;
+        _texture = nullptr;
         _width = 0.0f;
         _height = 0.0f;
     } else {
@@ -532,7 +532,7 @@ void TextImage::_Regenerate()
         return;
 
     FontProperties* fp = _style.GetFontProperties();
-    if (fp == NULL || fp->ttf_font == NULL) {
+    if (fp == nullptr || fp->ttf_font == nullptr) {
         IF_PRINT_WARNING(VIDEO_DEBUG) << "invalid font or font properties" << std::endl;
         return;
     }
@@ -767,7 +767,7 @@ bool TextSupervisor::_LoadFont(const std::string& textstyle_name, const std::str
 
     // Attempt to load the font
     TTF_Font *font = TTF_OpenFont(font_filename.c_str(), font_size);
-    if(font == NULL) {
+    if(font == nullptr) {
         PRINT_ERROR << "Call to TTF_OpenFont() failed to load the font file: " << font_filename << std::endl
         << TTF_GetError() << std::endl;
         return false;
@@ -776,7 +776,7 @@ bool TextSupervisor::_LoadFont(const std::string& textstyle_name, const std::str
     // Get or Create a new FontProperties object for this font and set all of the properties according to SDL_ttf
     FontProperties* fp = reload ? it->second : new FontProperties();
 
-    if (fp == NULL) {
+    if (fp == nullptr) {
         PRINT_ERROR << "Invalid Font Properties instance for text style: " << textstyle_name << std::endl;
         return false;
     }
@@ -819,7 +819,7 @@ FontProperties *TextSupervisor::_GetFontProperties(const std::string &font_name)
 {
     if(_IsFontValid(font_name) == false) {
         IF_PRINT_WARNING(VIDEO_DEBUG) << "argument font name was invalid: " << font_name << std::endl;
-        return NULL;
+        return nullptr;
     }
 
     return _font_map[font_name];
@@ -833,7 +833,7 @@ void TextSupervisor::Draw(const ustring &text, const TextStyle &style)
     }
 
     FontProperties *fp = style.GetFontProperties();
-    if (fp == NULL || fp->ttf_font == NULL) {
+    if (fp == nullptr || fp->ttf_font == nullptr) {
         IF_PRINT_WARNING(VIDEO_DEBUG) << "failed because font was invalid: " << style.GetFontName() << std::endl;
         return;
     }
@@ -886,13 +886,13 @@ void TextSupervisor::Draw(const ustring &text, const TextStyle &style)
 
 int32 TextSupervisor::CalculateTextWidth(TTF_Font* ttf_font, const vt_utils::ustring &text)
 {
-    if(ttf_font == NULL) {
+    if(ttf_font == nullptr) {
         IF_PRINT_WARNING(VIDEO_DEBUG) << "Invalid font" << std::endl;
         return -1;
     }
 
     int32 width;
-    if(TTF_SizeUNICODE(ttf_font, text.c_str(), &width, NULL) == -1) {
+    if(TTF_SizeUNICODE(ttf_font, text.c_str(), &width, nullptr) == -1) {
         IF_PRINT_WARNING(VIDEO_DEBUG) << "Call to TTF_SizeUNICODE failed with TTF error: " << TTF_GetError() << std::endl;
         return -1;
     }
@@ -904,13 +904,13 @@ int32 TextSupervisor::CalculateTextWidth(TTF_Font* ttf_font, const vt_utils::ust
 
 int32 TextSupervisor::CalculateTextWidth(TTF_Font* ttf_font, const std::string &text)
 {
-    if(ttf_font == NULL) {
+    if(ttf_font == nullptr) {
         IF_PRINT_WARNING(VIDEO_DEBUG) << "Invalid font" << std::endl;
         return -1;
     }
 
     int32 width;
-    if(TTF_SizeText(ttf_font, text.c_str(), &width, NULL) == -1) {
+    if(TTF_SizeText(ttf_font, text.c_str(), &width, nullptr) == -1) {
         IF_PRINT_WARNING(VIDEO_DEBUG) << "Call to TTF_SizeText failed with TTF error: " << TTF_GetError() << std::endl;
         return -1;
     }
@@ -1032,24 +1032,24 @@ std::vector<vt_utils::ustring> TextSupervisor::WrapText(const vt_utils::ustring&
 
 void TextSupervisor::_RenderText(const uint16* text, FontProperties* font_properties, const Color& color)
 {
-    if (text == NULL || *text == 0) {
+    if (text == nullptr || *text == 0) {
         IF_PRINT_WARNING(VIDEO_DEBUG) << "invalid argument, empty or null string" << std::endl;
-        assert(text != NULL && *text != 0);
+        assert(text != nullptr && *text != 0);
         return;
     }
 
-    if (font_properties == NULL || font_properties->ttf_font == NULL) {
-        IF_PRINT_WARNING(VIDEO_DEBUG) << "invalid argument, NULL font properties or NULL ttf font" << std::endl;
-        assert(font_properties != NULL && font_properties->ttf_font != NULL);
+    if (font_properties == nullptr || font_properties->ttf_font == nullptr) {
+        IF_PRINT_WARNING(VIDEO_DEBUG) << "invalid argument, nullptr font properties or nullptr ttf font" << std::endl;
+        assert(font_properties != nullptr && font_properties->ttf_font != nullptr);
         return;
     }
 
     // Render the text.
     const SDL_Color white = { 255, 255, 255, 255 };
     SDL_Surface* surface = TTF_RenderUNICODE_Blended(font_properties->ttf_font, text, white);
-    if (surface == NULL) {
+    if (surface == nullptr) {
         IF_PRINT_WARNING(VIDEO_DEBUG) << "call to TTF_RenderUNICODE_Blended() failed" << std::endl;
-        assert(surface != NULL);
+        assert(surface != nullptr);
         return;
     }
 
@@ -1112,7 +1112,7 @@ void TextSupervisor::_RenderText(const uint16* text, FontProperties* font_proper
 
     // Load the shader program.
     gl::ShaderProgram* shader_program = VideoManager->LoadShaderProgram(gl::shader_programs::Sprite);
-    assert(shader_program != NULL);
+    assert(shader_program != nullptr);
 
     // The vertex positions.
     float vertex_positions[] =
@@ -1151,9 +1151,9 @@ void TextSupervisor::_RenderText(const uint16* text, FontProperties* font_proper
     VideoManager->PopMatrix();
 
     // Clean up.
-    if (surface != NULL) {
+    if (surface != nullptr) {
         SDL_FreeSurface(surface);
-        surface = NULL;
+        surface = nullptr;
     }
 }
 
@@ -1162,24 +1162,24 @@ void TextSupervisor::_RenderText(const uint16* text, FontProperties* font_proper
                                  float shadow_offset_x, float shadow_offset_y,
                                  const Color& color_shadow)
 {
-    if (text == NULL || *text == 0) {
+    if (text == nullptr || *text == 0) {
         IF_PRINT_WARNING(VIDEO_DEBUG) << "invalid argument, empty or null string" << std::endl;
-        assert(text != NULL && *text != 0);
+        assert(text != nullptr && *text != 0);
         return;
     }
 
-    if (font_properties == NULL || font_properties->ttf_font == NULL) {
-        IF_PRINT_WARNING(VIDEO_DEBUG) << "invalid argument, NULL font properties or NULL ttf font" << std::endl;
-        assert(font_properties != NULL && font_properties->ttf_font != NULL);
+    if (font_properties == nullptr || font_properties->ttf_font == nullptr) {
+        IF_PRINT_WARNING(VIDEO_DEBUG) << "invalid argument, nullptr font properties or nullptr ttf font" << std::endl;
+        assert(font_properties != nullptr && font_properties->ttf_font != nullptr);
         return;
     }
 
     // Render the text.
     const SDL_Color white = { 255, 255, 255, 255 };
     SDL_Surface* surface = TTF_RenderUNICODE_Blended(font_properties->ttf_font, text, white);
-    if (surface == NULL) {
+    if (surface == nullptr) {
         IF_PRINT_WARNING(VIDEO_DEBUG) << "call to TTF_RenderUNICODE_Blended() failed" << std::endl;
-        assert(surface != NULL);
+        assert(surface != nullptr);
         return;
     }
 
@@ -1251,7 +1251,7 @@ void TextSupervisor::_RenderText(const uint16* text, FontProperties* font_proper
 
     // Load the shader program.
     gl::ShaderProgram* shader_program = VideoManager->LoadShaderProgram(gl::shader_programs::Sprite);
-    assert(shader_program != NULL);
+    assert(shader_program != nullptr);
 
     // The vertex positions.
     float vertex_positions[] =
@@ -1306,27 +1306,27 @@ void TextSupervisor::_RenderText(const uint16* text, FontProperties* font_proper
     VideoManager->PopMatrix();
 
     // Clean up.
-    if (surface != NULL) {
+    if (surface != nullptr) {
         SDL_FreeSurface(surface);
-        surface = NULL;
+        surface = nullptr;
     }
 }
 
 bool TextSupervisor::_RenderText(const vt_utils::ustring& text, TextStyle& style, ImageMemory& buffer)
 {
     FontProperties* font_properties = style.GetFontProperties();
-    if (font_properties == NULL || font_properties->ttf_font == NULL) {
+    if (font_properties == nullptr || font_properties->ttf_font == nullptr) {
         IF_PRINT_WARNING(VIDEO_DEBUG) << "The TextStyle argument using font:'" << style.GetFontName() << "' was invalid" << std::endl;
-        assert(font_properties != NULL && font_properties->ttf_font == NULL);
+        assert(font_properties != nullptr && font_properties->ttf_font == nullptr);
         return false;
     }
 
     // Render the text.
     const SDL_Color white = { 255, 255, 255, 255 };
     SDL_Surface* surface = TTF_RenderUNICODE_Blended(font_properties->ttf_font, text.c_str(), white);
-    if (surface == NULL) {
+    if (surface == nullptr) {
         IF_PRINT_WARNING(VIDEO_DEBUG) << "call to TTF_RenderUNICODE_Blended() failed" << std::endl;
-        assert(surface != NULL);
+        assert(surface != nullptr);
         return false;
     }
 
@@ -1345,7 +1345,7 @@ bool TextSupervisor::_RenderText(const vt_utils::ustring& text, TextStyle& style
 
     // Clean up.
     SDL_FreeSurface(surface);
-    surface = NULL;
+    surface = nullptr;
 
     return true;
 }

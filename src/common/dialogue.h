@@ -248,7 +248,7 @@ public:
 
     //! \brief Returns the options container of the line specified
     DialogueOptions* GetLineOptions(uint32 line) const {
-        if(line >= _line_count) return NULL;
+        if(line >= _line_count) return nullptr;
         else return _options[line];
     }
     //@}
@@ -450,7 +450,7 @@ private:
     //! \brief Holds the name of the speaker
     vt_video::TextImage _name_text;
 
-    //! \brief A pointer to a portrait image to display alongside the text. A NULL value will display no portrait
+    //! \brief A pointer to a portrait image to display alongside the text. A nullptr value will display no portrait
     vt_video::StillImage *_portrait_image;
 }; // class DialogueWindow
 
@@ -519,13 +519,13 @@ public:
 
     /** \brief Returns a pointer to the Dialogue with the requested ID value
     *** \param dialogue_id The identification number of the dialogue to retrieve
-    *** \return A pointer to the dialogue requested, or NULL if no such dialogue was found
+    *** \return A pointer to the dialogue requested, or nullptr if no such dialogue was found
     **/
     Dialogue* GetDialogue(const std::string& dialogue_id);
 
     /** \brief Returns a pointer to the BattleSpeaker with the requested ID value
     *** \param speaker The unique ID number of the speaker to retrieve
-    *** \return A pointer to the stored speaker, or NULL if no speaker was found with the specified ID
+    *** \return A pointer to the stored speaker, or nullptr if no speaker was found with the specified ID
     **/
     Speaker* GetSpeaker(const std::string& speaker_id);
 
@@ -535,7 +535,7 @@ public:
 
     //! \brief Returns true if any dialogue is currently active at this time
     bool IsDialogueActive() const {
-        return (_current_dialogue != NULL);
+        return (_current_dialogue != nullptr);
     }
 
     DialogueOptions* GetCurrentOptions() const {

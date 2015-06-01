@@ -35,7 +35,7 @@ namespace vt_utils
 *** -# Make vt_utils::Singleton<ClassName> a friend of ClassName in the header file
 *** -# Put the ClassName() constructor in the private section of the class, and the destructor in the public section
 *** -# Define the following function in the public section of the class and implement it: bool SingletonInitialize()
-*** -# In the source file, set the static template member like so: template<> ClassName* Singleton<ClassName>::_singleton_reference = NULL
+*** -# In the source file, set the static template member like so: template<> ClassName* Singleton<ClassName>::_singleton_reference = nullptr
 ***
 *** With this done, your new class should be ready to go. To create and use a singleton class, do the following:
 ***
@@ -75,19 +75,19 @@ protected:
 public:
     //! \brief Creates and returns an instance of the singleton class
     static T *SingletonCreate() {
-        if(_singleton_reference == NULL)
+        if(_singleton_reference == nullptr)
             _singleton_reference = new T();
         return _singleton_reference;
     }
 
     //! \brief Destroys the singleton class instance
     static void SingletonDestroy() {
-        if(_singleton_reference != NULL)
+        if(_singleton_reference != nullptr)
             delete _singleton_reference;
-        _singleton_reference = NULL;
+        _singleton_reference = nullptr;
     }
 
-    //! \brief Returns a pointer to the singleton class instance (or NULL if the class is not instantiated)
+    //! \brief Returns a pointer to the singleton class instance (or nullptr if the class is not instantiated)
     static const T *SingletonGetReference() {
         return _singleton_reference;
     }
@@ -103,7 +103,7 @@ private:
 }; // template<typename T> class Singleton
 
 template<typename T>
-T* Singleton<T>::_singleton_reference = NULL;
+T* Singleton<T>::_singleton_reference = nullptr;
 
 } // namespace vt_utils
 

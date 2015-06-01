@@ -53,7 +53,7 @@ namespace vt_boot
 
 bool BOOT_DEBUG = false;
 
-BootMode* BootMode::_current_instance = NULL;
+BootMode* BootMode::_current_instance = nullptr;
 
 // ****************************************************************************
 // ***** BootMode public methods
@@ -138,7 +138,7 @@ void BootMode::Reset()
     VideoManager->SetStandardCoordSys();
     VideoManager->SetDrawFlags(VIDEO_X_CENTER, VIDEO_Y_CENTER, 0);
 
-    GlobalManager->ClearAllData(); // Resets the game universe to a NULL state
+    GlobalManager->ClearAllData(); // Resets the game universe to a nullptr state
 
     GetScriptSupervisor().Reset();
 }

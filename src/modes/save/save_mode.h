@@ -48,7 +48,7 @@ class SmallCharacterWindow : public vt_gui::MenuWindow
 {
 public:
     SmallCharacterWindow():
-        _character(NULL)
+        _character(nullptr)
     {}
 
     ~SmallCharacterWindow();

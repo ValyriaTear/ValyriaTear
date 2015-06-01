@@ -151,7 +151,7 @@ void CameraZone::Update()
         return;
 
     VirtualSprite *camera = MapMode::CurrentInstance()->GetCamera();
-    if(camera == NULL) {
+    if(camera == nullptr) {
         _camera_inside = false;
     }
     // Camera must share a context with the zone and be within its borders
@@ -175,7 +175,7 @@ EnemyZone::EnemyZone(uint16 left_col, uint16 right_col,
     _spawns_left(-1), // Infinite spawns permitted.
     _spawn_timer(STANDARD_ENEMY_FIRST_SPAWN_TIME),
     _dead_timer(STANDARD_ENEMY_DEAD_TIME),
-    _spawn_zone(NULL)
+    _spawn_zone(nullptr)
 {
     // Done so that when the zone updates for the first time, an inactive enemy will immediately be selected and begin spawning
     _dead_timer.Finish();
@@ -237,7 +237,7 @@ void EnemyZone::AddSpawnSection(uint16 left_col, uint16 right_col, uint16 top_ro
     }
 
     // Create the spawn zone if it does not exist and add the new section
-    if(_spawn_zone == NULL) {
+    if(_spawn_zone == nullptr) {
         _spawn_zone = new MapZone(left_col, right_col, top_row, bottom_row);
     } else {
         _spawn_zone->AddSection(left_col, right_col, top_row, bottom_row);
@@ -316,7 +316,7 @@ void EnemyZone::Update()
 
     // Select a random position inside the zone to place the spawning enemy
     _enemies[index]->SetCollisionMask(WALL_COLLISION | CHARACTER_COLLISION);
-    MapZone* spawning_zone = NULL;
+    MapZone* spawning_zone = nullptr;
     if (!HasSeparateSpawnZone()) {
         spawning_zone = this;
     } else {
@@ -329,7 +329,7 @@ void EnemyZone::Update()
         collision = MapMode::CurrentInstance()->GetObjectSupervisor()->DetectCollision(_enemies[index],
                     _enemies[index]->GetXPosition(),
                     _enemies[index]->GetYPosition(),
-                    NULL);
+                    nullptr);
     } while (collision != NO_COLLISION && --retries > 0);
 
     // Otherwise, spawn the enemy and reset the spawn timer

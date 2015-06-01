@@ -470,7 +470,7 @@ void SaveMode::_ClearSaveData(bool selected_file_exists)
     _drunes_textbox.ClearText();
     _location_image.Clear();
     for (uint32 i = 0; i < 4; ++i)
-        _character_window[i].SetCharacter(NULL);
+        _character_window[i].SetCharacter(nullptr);
 }
 
 

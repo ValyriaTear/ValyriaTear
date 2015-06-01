@@ -49,7 +49,7 @@ PassiveMapStatusEffect::PassiveMapStatusEffect(vt_global::GlobalCharacter* chara
                                                vt_global::GLOBAL_INTENSITY intensity):
     GlobalStatusEffect(type, intensity),
     _affected_character(character),
-    _icon_image(NULL)
+    _icon_image(nullptr)
 {
     // Check that the constructor arguments are valid
     if((type <= GLOBAL_STATUS_INVALID) || (type >= GLOBAL_STATUS_TOTAL)) {
@@ -60,8 +60,8 @@ PassiveMapStatusEffect::PassiveMapStatusEffect(vt_global::GlobalCharacter* chara
         PRINT_WARNING << "The constructor received an invalid intensity argument: " << intensity << std::endl;
         return;
     }
-    if(character == NULL) {
-        PRINT_WARNING << "The constructor received NULL character argument" << std::endl;
+    if(character == nullptr) {
+        PRINT_WARNING << "The constructor received nullptr character argument" << std::endl;
         return;
     }
 
@@ -103,7 +103,7 @@ ActiveMapStatusEffect::ActiveMapStatusEffect(vt_global::GlobalCharacter* charact
     GlobalStatusEffect(type, intensity),
     _affected_character(character),
     _timer(0),
-    _icon_image(NULL),
+    _icon_image(nullptr),
     _intensity_changed(false)
 {
     // Check that the constructor arguments are valid
@@ -115,8 +115,8 @@ ActiveMapStatusEffect::ActiveMapStatusEffect(vt_global::GlobalCharacter* charact
         PRINT_WARNING << "The constructor received an invalid intensity argument: " << intensity << std::endl;
         return;
     }
-    if(character == NULL) {
-        PRINT_WARNING << "The constructor received NULL character argument" << std::endl;
+    if(character == nullptr) {
+        PRINT_WARNING << "The constructor received nullptr character argument" << std::endl;
         return;
     }
 
@@ -617,7 +617,7 @@ bool MapStatusEffectsSupervisor::ChangeActiveStatusEffect(ActiveMapStatusEffect&
 GLOBAL_INTENSITY MapStatusEffectsSupervisor::GetActiveStatusEffectIntensity(GlobalCharacter* character,
                                                                             GLOBAL_STATUS status_type) const
 {
-    if (character == NULL)
+    if (character == nullptr)
         return GLOBAL_INTENSITY_INVALID;
 
     if (status_type == GLOBAL_STATUS_INVALID || status_type == GLOBAL_STATUS_TOTAL)

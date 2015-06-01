@@ -85,14 +85,14 @@ PassiveBattleStatusEffect::PassiveBattleStatusEffect(GLOBAL_STATUS type,
 ActiveBattleStatusEffect::ActiveBattleStatusEffect():
     GlobalStatusEffect(GLOBAL_STATUS_INVALID, GLOBAL_INTENSITY_NEUTRAL),
     _timer(0),
-    _icon_image(NULL),
+    _icon_image(nullptr),
     _intensity_changed(false)
 {}
 
 ActiveBattleStatusEffect::ActiveBattleStatusEffect(GLOBAL_STATUS type, GLOBAL_INTENSITY intensity, uint32 duration) :
     GlobalStatusEffect(type, intensity),
     _timer(0),
-    _icon_image(NULL),
+    _icon_image(nullptr),
     _intensity_changed(false)
 {
     // Check that status effect base value are making it actually active

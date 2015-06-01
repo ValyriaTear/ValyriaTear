@@ -95,8 +95,8 @@ public:
     /**
     *** \brief based on the selection (pased in via the OptionBox selection returns the next state to transition to
     *** \param selection selection state indicator
-    *** \return either a valid AbstractMenuState pointer to the next valid transition state, or NULL
-    *** \note NULL actions do not lead to a crash, but the assumption is that the state has some state-specific
+    *** \return either a valid AbstractMenuState pointer to the next valid transition state, or nullptr
+    *** \note nullptr actions do not lead to a crash, but the assumption is that the state has some state-specific
     *** actions, such as activitaing a MenuView that take place
     **/
     virtual AbstractMenuState *GetTransitionState(uint32 selection) = 0;
@@ -294,7 +294,7 @@ public:
     void Reset();
 
     AbstractMenuState* GetTransitionState(uint32 /*selection*/)
-    { return NULL; }
+    { return nullptr; }
 
 protected:
     void _DrawBottomMenu();
@@ -326,7 +326,7 @@ public:
     void Reset();
 
     AbstractMenuState *GetTransitionState(uint32 /*selection*/)
-    { return NULL; }
+    { return nullptr; }
 protected:
     void _OnDrawMainWindow();
     void _OnDrawSideWindow();
@@ -352,7 +352,7 @@ public:
     void Reset();
 
     AbstractMenuState *GetTransitionState(uint32 /*selection*/)
-    { return NULL; }
+    { return nullptr; }
 protected:
     void _OnDrawMainWindow();
 

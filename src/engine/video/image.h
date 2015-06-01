@@ -286,9 +286,9 @@ protected:
 
     /** \brief Removes a reference to _texture, and frees or deletes it if it has no remaining references
     ***
-    *** This method will set _texture to NULL before returning. If your derived class has a duplicate texture
+    *** This method will set _texture to nullptr before returning. If your derived class has a duplicate texture
     *** pointer (ie, ImageTexture pointer for StillImage class), you should make sure to set that member to
-    *** NULL as well.
+    *** nullptr as well.
     **/
     void _RemoveTextureReference();
 
@@ -303,7 +303,7 @@ protected:
     void _DrawOrientation() const;
 
     /** \brief Draws the OpenGL texture referred to by the object on the screen
-    *** \param draw_color A non-NULL pointer to an array of four valid Color objects
+    *** \param draw_color A non-nullptr pointer to an array of four valid Color objects
     ***
     *** This method is typically a helper method to other draw calls in some way. It assumes that
     *** all of the appropriate transformation, scaling, and other image property opertaions have been
@@ -693,14 +693,14 @@ public:
 
     /** \brief Returns a pointer to the StillImage at a specified frame.
     *** \param index index of the frame you want
-    *** \return A pointer to the image at that index, or NULL if the index parameter was invalid
+    *** \return A pointer to the image at that index, or nullptr if the index parameter was invalid
     ***
     *** Using this function is dangerous since it provides direct access to an image frame.
     *** If you find yourself in constant need of using this function, think twice about
     *** what you are doing.
     **/
     StillImage *GetFrame(uint32 index) const {
-        if(index >= _frames.size()) return NULL;
+        if(index >= _frames.size()) return nullptr;
         else return const_cast<StillImage *>(&(_frames[index].image));
     }
 
@@ -856,7 +856,7 @@ private:
 *** created by attaching multiple border images together to create the window.
 ***
 *** \note Because this class references other StillImage objects, it's _texture
-*** member is always NULL, since the class itself does not make use of any
+*** member is always nullptr, since the class itself does not make use of any
 *** textures.
 *** ***************************************************************************/
 class CompositeImage : public ImageDescriptor

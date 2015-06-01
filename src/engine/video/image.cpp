@@ -38,7 +38,7 @@ namespace vt_video
 // -----------------------------------------------------------------------------
 
 ImageDescriptor::ImageDescriptor() :
-    _texture(NULL),
+    _texture(nullptr),
     _width(0.0f),
     _height(0.0f),
     _u1(0.0f),
@@ -63,10 +63,10 @@ ImageDescriptor::~ImageDescriptor()
         IF_PRINT_WARNING(VIDEO_DEBUG) << "grayscale mode was still enabled when destructor was invoked -- possible memory leak" << std::endl;
 
     // Remove the reference to the original, colored texture
-    if(_texture != NULL)
+    if(_texture != nullptr)
         _RemoveTextureReference();
 
-    _texture = NULL;
+    _texture = nullptr;
 }
 
 
@@ -90,7 +90,7 @@ ImageDescriptor::ImageDescriptor(const ImageDescriptor &copy) :
     _color[2] = copy._color[2];
     _color[3] = copy._color[3];
 
-    if(_texture != NULL)
+    if(_texture != nullptr)
         _texture->AddReference();
 }
 
@@ -121,11 +121,11 @@ ImageDescriptor &ImageDescriptor::operator=(const ImageDescriptor &copy)
 
 
     // Update the reference to the previous image texturee
-    if(_texture != NULL && copy._texture != _texture) {
+    if(_texture != nullptr && copy._texture != _texture) {
         _RemoveTextureReference();
     }
 
-    if(copy._texture != NULL) {
+    if(copy._texture != nullptr) {
         copy._texture->AddReference();
     }
 
@@ -142,10 +142,10 @@ void ImageDescriptor::Clear()
 // 	if (_grayscale)
 // 		DisableGrayScale();
 
-    if(_texture != NULL)
+    if(_texture != nullptr)
         _RemoveTextureReference();
 
-    _texture = NULL;
+    _texture = nullptr;
     _width = 0.0f;
     _height = 0.0f;
     _u1 = 0.0f;
@@ -319,12 +319,12 @@ bool ImageDescriptor::SaveMultiImage(const std::vector<StillImage *>& images, co
         // NOTE: no return false for this case because we have enough images to continue
     }
 
-    // Check that all the images are non-NULL and are of the same size
+    // Check that all the images are non-nullptr and are of the same size
     float img_width = images[0]->_width;
     float img_height = images[0]->_height;
     for(uint32 i = 0; i < images.size(); i++) {
-        if(images[i] == NULL || images[i]->_image_texture == NULL) {
-            IF_PRINT_WARNING(VIDEO_DEBUG) << "NULL StillImage or ImageElement was present in images vector argument when saving file: " << filename << std::endl;
+        if(images[i] == nullptr || images[i]->_image_texture == nullptr) {
+            IF_PRINT_WARNING(VIDEO_DEBUG) << "nullptr StillImage or ImageElement was present in images vector argument when saving file: " << filename << std::endl;
             return false;
         }
         if(IsFloatEqual(images[i]->_width, img_width) == false || IsFloatEqual(images[i]->_height, img_height)) {
@@ -354,7 +354,7 @@ bool ImageDescriptor::SaveMultiImage(const std::vector<StillImage *>& images, co
     save.width = static_cast<int32>(grid_columns * img_width);
     save.pixels = malloc(save.width * save.height * 4);
 
-    if(save.pixels == NULL) {
+    if(save.pixels == nullptr) {
         PRINT_ERROR << "failed to malloc enough memory to save new image file: " << filename << std::endl;
         return false;
     }
@@ -370,7 +370,7 @@ bool ImageDescriptor::SaveMultiImage(const std::vector<StillImage *>& images, co
     texture.height = img->texture_sheet->height;
     texture.pixels = malloc(texture.width * texture.height * 4);
 
-    if(texture.pixels == NULL) {
+    if(texture.pixels == nullptr) {
         PRINT_ERROR << "failed to malloc enough memory to save new image file: " << filename << std::endl;
         free(save.pixels);
         return false;
@@ -398,7 +398,7 @@ bool ImageDescriptor::SaveMultiImage(const std::vector<StillImage *>& images, co
                     texture.width = img->texture_sheet->width;
                     texture.height = img->texture_sheet->height;
                     texture.pixels = realloc(texture.pixels, texture.width * texture.height * 4);
-                    if(texture.pixels == NULL) {
+                    if(texture.pixels == nullptr) {
                         PRINT_ERROR << "failed to malloc enough memory to save new image file: " << filename << std::endl;
                         free(save.pixels);
                         return false;
@@ -453,8 +453,8 @@ void ImageDescriptor::DEBUG_PrintInfo()
 
 void ImageDescriptor::_RemoveTextureReference()
 {
-    if(_texture == NULL) {
-        IF_PRINT_WARNING(VIDEO_DEBUG) << "_texture member was NULL upon method invocation" << std::endl;
+    if(_texture == nullptr) {
+        IF_PRINT_WARNING(VIDEO_DEBUG) << "_texture member was nullptr upon method invocation" << std::endl;
         return;
     }
 
@@ -474,7 +474,7 @@ void ImageDescriptor::_RemoveTextureReference()
         delete _texture;
     }
 
-    _texture = NULL;
+    _texture = nullptr;
 }
 
 void ImageDescriptor::_DrawOrientation() const
@@ -552,7 +552,7 @@ void ImageDescriptor::_DrawTexture(const Color* draw_color) const
     if (!draw_color) {
         draw_color = _color;
     }
-    assert(draw_color != NULL);
+    assert(draw_color != nullptr);
 
     // Set the blending parameters.
     if (VideoManager->_current_context.blend) {
@@ -569,7 +569,7 @@ void ImageDescriptor::_DrawTexture(const Color* draw_color) const
     }
 
     // The shader program.
-    gl::ShaderProgram* shader_program = NULL;
+    gl::ShaderProgram* shader_program = nullptr;
 
     // If we have a valid image texture poiner, setup texture coordinates and the texture coordinate array.
     if (_texture) {
@@ -618,7 +618,7 @@ void ImageDescriptor::_DrawTexture(const Color* draw_color) const
 
         // Load the sprite shader program.
         shader_program = VideoManager->LoadShaderProgram(gl::shader_programs::Sprite);
-        assert(shader_program != NULL);
+        assert(shader_program != nullptr);
     } else {
         //
         // Otherwise there is no image texture, so we're drawing pure color on the vertices.
@@ -629,7 +629,7 @@ void ImageDescriptor::_DrawTexture(const Color* draw_color) const
 
         // Load the solid shader program.
         shader_program = VideoManager->LoadShaderProgram(gl::shader_programs::Solid);
-        assert(shader_program != NULL);
+        assert(shader_program != nullptr);
     }
 
     if (_unichrome_vertices) {
@@ -654,7 +654,7 @@ void ImageDescriptor::_DrawTexture(const Color* draw_color) const
 
         // Load the solid shader program.
         shader_program = VideoManager->LoadShaderProgram(gl::shader_programs::Solid);
-        assert(shader_program != NULL);
+        assert(shader_program != nullptr);
 
         // Draw the image.
         VideoManager->DrawSprite(shader_program, vertex_positions, vertex_texture_coordinates, vertex_colors);
@@ -705,10 +705,10 @@ bool ImageDescriptor::_LoadMultiImage(std::vector<StillImage>& images, const std
         sub_image.width = multi_image.width / grid_cols;
         sub_image.height = multi_image.height / grid_rows;
         sub_image.pixels = malloc(sub_image.width * sub_image.height * 4);
-        if(sub_image.pixels == NULL) {
+        if(sub_image.pixels == nullptr) {
             PRINT_ERROR << "failed to malloc memory for multi image file: " << filename << std::endl;
             free(multi_image.pixels);
-            multi_image.pixels = NULL;
+            multi_image.pixels = nullptr;
             return false;
         }
     }
@@ -724,14 +724,14 @@ bool ImageDescriptor::_LoadMultiImage(std::vector<StillImage>& images, const std
             if(loaded[current_image] == true) {
                 img = TextureManager->_GetImageTexture(filename + tags[current_image]);
 
-                if(img == NULL) {
-                    IF_PRINT_WARNING(VIDEO_DEBUG) << "a NULL image was found in the TextureManager's _images container "
+                if(img == nullptr) {
+                    IF_PRINT_WARNING(VIDEO_DEBUG) << "a nullptr image was found in the TextureManager's _images container "
                                                   << "-- aborting multi image load operation" << std::endl;
 
                     free(multi_image.pixels);
                     free(sub_image.pixels);
-                    multi_image.pixels = NULL;
-                    sub_image.pixels = NULL;
+                    multi_image.pixels = nullptr;
+                    sub_image.pixels = nullptr;
                     return false;
                 }
 
@@ -755,14 +755,14 @@ bool ImageDescriptor::_LoadMultiImage(std::vector<StillImage>& images, const std
                 // Try to insert the image in a texture sheet
                 TexSheet *sheet = TextureManager->_InsertImageInTexSheet(img, sub_image, images.at(current_image)._is_static);
 
-                if(sheet == NULL) {
+                if(sheet == nullptr) {
                     IF_PRINT_WARNING(VIDEO_DEBUG) << "call to TextureController::_InsertImageInTexSheet failed -- " <<
                                                   "aborting multi image load operation" << std::endl;
 
                     free(multi_image.pixels);
                     free(sub_image.pixels);
-                    multi_image.pixels = NULL;
-                    sub_image.pixels = NULL;
+                    multi_image.pixels = nullptr;
+                    sub_image.pixels = nullptr;
                     delete img;
                     return false;
                 }
@@ -788,11 +788,11 @@ bool ImageDescriptor::_LoadMultiImage(std::vector<StillImage>& images, const std
     // Make sure to free all dynamically allocated memory
     if(multi_image.pixels) {
         free(multi_image.pixels);
-        multi_image.pixels = NULL;
+        multi_image.pixels = nullptr;
     }
     if(sub_image.pixels) {
         free(sub_image.pixels);
-        sub_image.pixels = NULL;
+        sub_image.pixels = nullptr;
     }
 
     return true;
@@ -804,7 +804,7 @@ bool ImageDescriptor::_LoadMultiImage(std::vector<StillImage>& images, const std
 
 StillImage::StillImage(const bool grayscale) :
     ImageDescriptor(),
-    _image_texture(NULL),
+    _image_texture(nullptr),
     _x_offset(0.0f),
     _y_offset(0.0f)
 {
@@ -821,7 +821,7 @@ void StillImage::Clear()
 {
     ImageDescriptor::Clear(); // This call will remove the texture reference for us
     _filename.clear();
-    _image_texture = NULL;
+    _image_texture = nullptr;
     _x_offset = 0.0f;
     _y_offset = 0.0f;
 }
@@ -829,9 +829,9 @@ void StillImage::Clear()
 bool StillImage::Load(const std::string &filename)
 {
     // Delete everything previously stored in here
-    if(_image_texture != NULL) {
+    if(_image_texture != nullptr) {
         _RemoveTextureReference();
-        _image_texture = NULL;
+        _image_texture = nullptr;
         _width = 0.0f;
         _height = 0.0f;
         _x_offset = 0.0f;
@@ -846,11 +846,11 @@ bool StillImage::Load(const std::string &filename)
     }
 
     // 1. Check if an image with the same filename has already been loaded. If so, point to that and increment its reference
-    if((_image_texture = TextureManager->_GetImageTexture(_filename)) != NULL) {
+    if((_image_texture = TextureManager->_GetImageTexture(_filename)) != nullptr) {
         _texture = _image_texture;
 
-        if(_image_texture == NULL) {
-            IF_PRINT_WARNING(VIDEO_DEBUG) << "recovered a NULL image inside the TextureManager's image map: " << _filename << std::endl;
+        if(_image_texture == nullptr) {
+            IF_PRINT_WARNING(VIDEO_DEBUG) << "recovered a nullptr image inside the TextureManager's image map: " << _filename << std::endl;
             return false;
         }
 
@@ -877,13 +877,13 @@ bool StillImage::Load(const std::string &filename)
     _image_texture = new ImageTexture(_filename, "", img_data.width, img_data.height);
     _texture = _image_texture;
 
-    if(TextureManager->_InsertImageInTexSheet(_image_texture, img_data, _is_static) == NULL) {
+    if(TextureManager->_InsertImageInTexSheet(_image_texture, img_data, _is_static) == nullptr) {
         IF_PRINT_WARNING(VIDEO_DEBUG) << "call to TextureController::_InsertImageInTexSheet() failed for file: " << _filename << std::endl;
         delete _image_texture;
-        _image_texture = NULL;
-        _texture = NULL;
+        _image_texture = nullptr;
+        _texture = nullptr;
         free(img_data.pixels);
-        img_data.pixels = NULL;
+        img_data.pixels = nullptr;
         return false;
     }
 
@@ -899,22 +899,22 @@ bool StillImage::Load(const std::string &filename)
     // If we don't need to create a grayscale version, we finished successfully
     if(_grayscale == false) {
         free(img_data.pixels);
-        img_data.pixels = NULL;
+        img_data.pixels = nullptr;
         return true;
     }
 
     // 3. If we reached this point, we must now create a grayscale version of this image
     img_data.ConvertToGrayscale();
     ImageTexture *gray_image = new ImageTexture(_filename, "<G>", img_data.width, img_data.height);
-    if(TextureManager->_InsertImageInTexSheet(gray_image, img_data, _is_static) == NULL) {
+    if(TextureManager->_InsertImageInTexSheet(gray_image, img_data, _is_static) == nullptr) {
         IF_PRINT_WARNING(VIDEO_DEBUG) << "call to TextureController::_InsertImageInTexSheet() failed for file: " << _filename << std::endl;
 
         TextureManager->_UnregisterImageTexture(gray_image);
         delete gray_image;
-        _RemoveTextureReference(); // sets _texture to NULL
-        _image_texture = NULL;
+        _RemoveTextureReference(); // sets _texture to nullptr
+        _image_texture = nullptr;
         free(img_data.pixels);
-        img_data.pixels = NULL;
+        img_data.pixels = nullptr;
         return false;
     }
 
@@ -923,7 +923,7 @@ bool StillImage::Load(const std::string &filename)
     _image_texture->AddReference();
 
     free(img_data.pixels);
-    img_data.pixels = NULL;
+    img_data.pixels = nullptr;
     return true;
 }
 
@@ -960,7 +960,7 @@ void StillImage::Draw(const Color &draw_color) const
 
 bool StillImage::Save(const std::string &filename) const
 {
-    if(_image_texture == NULL) {
+    if(_image_texture == nullptr) {
         IF_PRINT_WARNING(VIDEO_DEBUG) << "attempted to save an image that had no texture reference" << std::endl;
         return false;
     }
@@ -997,7 +997,7 @@ void StillImage::EnableGrayScale()
     _grayscale = true;
 
     // 1. If no image texture is available we are done here (when Load() is next called, grayscale will automatically be enabled)
-    if(_image_texture == NULL) {
+    if(_image_texture == nullptr) {
         return;
     }
 
@@ -1005,7 +1005,7 @@ void StillImage::EnableGrayScale()
     std::string search_key = _filename + _image_texture->tags + "<G>";
     std::string tags = _image_texture->tags;
     ImageTexture *temp_texture = _image_texture;
-    if((_image_texture = TextureManager->_GetImageTexture(search_key)) != NULL) {
+    if((_image_texture = TextureManager->_GetImageTexture(search_key)) != nullptr) {
         // NOTE: We do not decrement the reference to the colored image, because we want to guarantee that
         // it remains referenced in texture memory while its grayscale counterpart is being used
         _texture = _image_texture;
@@ -1020,13 +1020,13 @@ void StillImage::EnableGrayScale()
 
     ImageTexture *new_img = new ImageTexture(_filename, tags + "<G>", gray_img.width, gray_img.height);
 
-    if(TextureManager->_InsertImageInTexSheet(new_img, gray_img, _is_static) == NULL) {
+    if(TextureManager->_InsertImageInTexSheet(new_img, gray_img, _is_static) == nullptr) {
         IF_PRINT_WARNING(VIDEO_DEBUG) << "failed to insert new grayscale image into texture sheet" << std::endl;
         delete new_img;
 
         if(gray_img.pixels) {
             free(gray_img.pixels);
-            gray_img.pixels = NULL;
+            gray_img.pixels = nullptr;
         }
 
         return;
@@ -1038,7 +1038,7 @@ void StillImage::EnableGrayScale()
 
     if(gray_img.pixels) {
         free(gray_img.pixels);
-        gray_img.pixels = NULL;
+        gray_img.pixels = nullptr;
     }
 } // void StillImage::EnableGrayScale()
 
@@ -1053,12 +1053,12 @@ void StillImage::DisableGrayScale()
     _grayscale = false;
 
     // If no image data is loaded, we're finished
-    if(_image_texture == NULL) {
+    if(_image_texture == nullptr) {
         return;
     }
 
     std::string search_key = _image_texture->filename + _image_texture->tags.substr(0, _image_texture->tags.length() - 3);
-    if((_image_texture = TextureManager->_GetImageTexture(search_key)) == NULL) {
+    if((_image_texture = TextureManager->_GetImageTexture(search_key)) == nullptr) {
         PRINT_WARNING << "non-grayscale version of image was not found in texture memory" << std::endl;
         return;
     }

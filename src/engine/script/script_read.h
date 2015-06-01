@@ -73,7 +73,7 @@ class ReadScriptDescriptor : public ScriptDescriptor
     friend class ScriptEngine;
 public:
     ReadScriptDescriptor() :
-        _lstack(NULL) {}
+        _lstack(nullptr) {}
 
     virtual ~ReadScriptDescriptor();
 

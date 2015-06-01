@@ -118,7 +118,7 @@ public:
         _shadow_style(VIDEO_TEXT_SHADOW_NONE),
         _shadow_offset_x(0),
         _shadow_offset_y(0),
-        _font_property(NULL)
+        _font_property(nullptr)
     {
     }
 
@@ -304,10 +304,10 @@ public:
     *** Because it is rare that the user needs to define a custom width/height for the text (since
     *** scaled text looks so poor), this function also automatically sets the _width and _height members
     *** to the translated value of the width and height of the TextTexture in the current coordinate system
-    *** (current context) in which this function call is made. Passing a NULL argument will deallocate any
+    *** (current context) in which this function call is made. Passing a nullptr argument will deallocate any
     *** texture resources and set the width/height to zero.
     ***
-    *** \note This function will invoke the AddReference() method for the argument object if it is not NULL.
+    *** \note This function will invoke the AddReference() method for the argument object if it is not nullptr.
     **/
     void SetTexture(TextTexture *texture);
 
@@ -671,7 +671,7 @@ private:
 
     /** \brief Get the font properties for a loaded font
     *** \param font_name The name reference of the loaded font
-    *** \return A pointer to the FontProperties object with the requested data, or NULL if the properties could not be fetched
+    *** \return A pointer to the FontProperties object with the requested data, or nullptr if the properties could not be fetched
     **/
     FontProperties* _GetFontProperties(const std::string& font_name);
 }; // class TextSupervisor : public vt_utils::Singleton

@@ -48,8 +48,8 @@ BattleAction::BattleAction(BattleActor* actor, BattleTarget target) :
     _target(target),
     _is_scripted(false)
 {
-    if(actor == NULL)
-        IF_PRINT_WARNING(BATTLE_DEBUG) << "constructor received NULL actor" << std::endl;
+    if(actor == nullptr)
+        IF_PRINT_WARNING(BATTLE_DEBUG) << "constructor received nullptr actor" << std::endl;
     if(target.GetType() == GLOBAL_TARGET_INVALID)
         IF_PRINT_WARNING(BATTLE_DEBUG) << "constructor received invalid target" << std::endl;
 }
@@ -62,8 +62,8 @@ SkillAction::SkillAction(BattleActor *actor, BattleTarget target, GlobalSkill *s
     BattleAction(actor, target),
     _skill(skill)
 {
-    if(skill == NULL) {
-        IF_PRINT_WARNING(BATTLE_DEBUG) << "constructor received NULL skill argument" << std::endl;
+    if(skill == nullptr) {
+        IF_PRINT_WARNING(BATTLE_DEBUG) << "constructor received nullptr skill argument" << std::endl;
         return;
     }
 
@@ -182,7 +182,7 @@ bool SkillAction::Update()
 
 ustring SkillAction::GetName() const
 {
-    if(_skill == NULL)
+    if(_skill == nullptr)
         return ustring();
     else
         return _skill->GetName();
@@ -209,7 +209,7 @@ std::string SkillAction::GetIconFilename() const
 
 std::string SkillAction::GetWarmupActionName() const
 {
-    if(_skill == NULL)
+    if(_skill == nullptr)
         return std::string();
     else
         return _skill->GetWarmupActionName();
@@ -217,7 +217,7 @@ std::string SkillAction::GetWarmupActionName() const
 
 std::string SkillAction::GetActionName() const
 {
-    if(_skill == NULL)
+    if(_skill == nullptr)
         return std::string();
     else
         return _skill->GetActionName();
@@ -225,7 +225,7 @@ std::string SkillAction::GetActionName() const
 
 uint32 SkillAction::GetWarmUpTime() const
 {
-    if(_skill == NULL)
+    if(_skill == nullptr)
         return 0;
     else
         return _skill->GetWarmupTime();
@@ -233,7 +233,7 @@ uint32 SkillAction::GetWarmUpTime() const
 
 uint32 SkillAction::GetCoolDownTime() const
 {
-    if(_skill == NULL)
+    if(_skill == nullptr)
         return 0;
     else
         return _skill->GetCooldownTime();
@@ -248,7 +248,7 @@ ItemAction::ItemAction(BattleActor *source, BattleTarget target, BattleItem *ite
     _item(item),
     _action_canceled(false)
 {
-    if(item == NULL) {
+    if(item == nullptr) {
         PRINT_WARNING << "Item action without valid item!!" << std::endl;
         return;
     }
@@ -381,7 +381,7 @@ std::string ItemAction::GetIconFilename() const
 
 uint32 ItemAction::GetWarmUpTime() const
 {
-    if(_item == NULL)
+    if(_item == nullptr)
         return 0;
     else
         return _item->GetWarmUpTime();
@@ -389,7 +389,7 @@ uint32 ItemAction::GetWarmUpTime() const
 
 uint32 ItemAction::GetCoolDownTime() const
 {
-    if(_item == NULL)
+    if(_item == nullptr)
         return 0;
     else
         return _item->GetCoolDownTime();

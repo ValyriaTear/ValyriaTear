@@ -31,8 +31,8 @@ static float _ComputeDotProduct(float* a, float* b)
 {
     float result = 0.0f;
 
-    assert(a != NULL);
-    assert(b != NULL);
+    assert(a != nullptr);
+    assert(b != nullptr);
 
     for (unsigned i = 0; i < 4; ++i)
     {
@@ -126,7 +126,7 @@ void Transform::Reset()
 
 void Transform::Apply(float* buffer) const
 {
-    assert(buffer != NULL);
+    assert(buffer != nullptr);
 
     memcpy(buffer, _row0, sizeof(_row0));
     buffer += 4;

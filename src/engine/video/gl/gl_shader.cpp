@@ -95,7 +95,7 @@ Shader::Shader(GLenum type, const std::string &data) :
 
             // Clean up the log.
             delete [] log;
-            log = NULL;
+            log = nullptr;
 
             assert(is_compiled != 0);
         }

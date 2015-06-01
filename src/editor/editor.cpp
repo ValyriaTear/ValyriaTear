@@ -41,8 +41,8 @@ Editor::Editor() : QMainWindow(),
     // create the undo stack
     _undo_stack = new QUndoStack();
 
-    // set scollview to NULL because it's being checked inside _TilesEnableActions
-    _grid = NULL;
+    // set scollview to nullptr because it's being checked inside _TilesEnableActions
+    _grid = nullptr;
 
     // create actions, menus, and toolbars
     _CreateActions();
@@ -61,9 +61,9 @@ Editor::Editor() : QMainWindow(),
     _ed_splitter = new QSplitter(this);
     _ed_splitter->setOrientation(Qt::Horizontal);
 
-    _ed_tabs = NULL;
-    _ed_layer_view = NULL;
-    _ed_layer_toolbar = NULL;
+    _ed_tabs = nullptr;
+    _ed_layer_view = nullptr;
+    _ed_layer_toolbar = nullptr;
     setCentralWidget(_ed_splitter);
     resize(800, 600);
 
@@ -86,16 +86,16 @@ Editor::Editor() : QMainWindow(),
 
 Editor::~Editor()
 {
-    if(_grid != NULL)
+    if(_grid != nullptr)
         delete _grid;
 
-    if(_ed_tabs != NULL)
+    if(_ed_tabs != nullptr)
         delete _ed_tabs;
 
-    if(_ed_layer_view != NULL)
+    if(_ed_layer_view != nullptr)
         delete _ed_layer_view;
 
-    if(_ed_layer_toolbar != NULL)
+    if(_ed_layer_toolbar != nullptr)
         delete _ed_layer_toolbar;
 
     delete _ed_tileset_layer_splitter;
@@ -127,7 +127,7 @@ void Editor::closeEvent(QCloseEvent *)
 
 void Editor::_FileMenuSetup()
 {
-    if(_grid != NULL) {
+    if(_grid != nullptr) {
         _save_as_action->setEnabled(true);
         _save_action->setEnabled(_grid->GetChanged());
         _close_action->setEnabled(true);
@@ -143,7 +143,7 @@ void Editor::_FileMenuSetup()
 
 void Editor::_ViewMenuSetup()
 {
-    if(_grid != NULL) {
+    if(_grid != nullptr) {
         _toggle_grid_action->setEnabled(true);
     } // map must exist in order to set view options
     else {
@@ -155,7 +155,7 @@ void Editor::_ViewMenuSetup()
 
 void Editor::_TilesEnableActions()
 {
-    if(_grid != NULL) {
+    if(_grid != nullptr) {
         _undo_action->setText("Undo " + _undo_stack->undoText());
         _redo_action->setText("Redo " + _undo_stack->redoText());
         _layer_fill_action->setEnabled(true);
@@ -182,7 +182,7 @@ void Editor::_TilesEnableActions()
 void Editor::_TilesetMenuSetup()
 {
     // Don't edit tilesets if a map is open
-    if(_grid != NULL)
+    if(_grid != nullptr)
         _edit_tileset_action->setEnabled(false);
     else
         _edit_tileset_action->setEnabled(true);
@@ -192,7 +192,7 @@ void Editor::_TilesetMenuSetup()
 
 void Editor::_MapMenuSetup()
 {
-    if(_grid != NULL) {
+    if(_grid != nullptr) {
         _map_properties_action->setEnabled(true);
     } // map must exist in order to set properties
     else {
@@ -207,12 +207,12 @@ void Editor::_SetupMainView()
     if (!_grid)
         return;
 
-    if(_ed_tabs != NULL)
+    if(_ed_tabs != nullptr)
         delete _ed_tabs;
     _ed_tabs = new QTabWidget();
     _ed_tabs->setTabPosition(QTabWidget::South);
 
-    if(_ed_layer_view != NULL)
+    if(_ed_layer_view != nullptr)
         delete _ed_layer_view;
     _ed_layer_view = new QTreeWidget();
 
@@ -229,7 +229,7 @@ void Editor::_SetupMainView()
     _ed_layer_view->setColumnHidden(0, true);
 
     // The button toolbar
-    if(_ed_layer_toolbar != NULL)
+    if(_ed_layer_toolbar != nullptr)
         delete _ed_layer_toolbar;
     _ed_layer_toolbar = new QToolBar("Layers", _ed_tileset_layer_splitter);
 
@@ -328,7 +328,7 @@ void Editor::_FileNew()
 
     // Used to show the progress of tilesets that have been loaded.
     QProgressDialog *new_map_progress =
-        new QProgressDialog(tr("Loading tilesets..."), NULL, 0, checked_items, this,
+        new QProgressDialog(tr("Loading tilesets..."), nullptr, 0, checked_items, this,
                             Qt::Widget | Qt::FramelessWindowHint | Qt::WindowTitleHint);
     new_map_progress->setWindowTitle(tr("Creating Map..."));
 
@@ -477,7 +477,7 @@ void Editor::_FileOpen()
 
     // Used to show the progress of tilesets has been loaded.
     QProgressDialog *new_map_progress =
-        new QProgressDialog(tr("Loading tilesets..."), NULL, 0, num_items, this,
+        new QProgressDialog(tr("Loading tilesets..."), nullptr, 0, num_items, this,
                             Qt::Widget | Qt::FramelessWindowHint | Qt::WindowTitleHint);
     new_map_progress->setWindowTitle(tr("Creating Map..."));
 
@@ -588,28 +588,28 @@ void Editor::_FileClose()
     if(!_EraseOK())
         return;
 
-    if(_grid != NULL) {
+    if(_grid != nullptr) {
         delete _grid;
-        _grid = NULL;
+        _grid = nullptr;
         _undo_stack->clear();
 
         // Enable appropriate actions
         _TilesEnableActions();
     } // scrollview must exist first
 
-    if(_ed_tabs != NULL) {
+    if(_ed_tabs != nullptr) {
         delete _ed_tabs;
-        _ed_tabs = NULL;
+        _ed_tabs = nullptr;
     } // tabs must exist first
 
-    if(_ed_layer_toolbar != NULL) {
+    if(_ed_layer_toolbar != nullptr) {
         delete _ed_layer_toolbar;
-        _ed_layer_toolbar = NULL;
+        _ed_layer_toolbar = nullptr;
     }
 
-    if(_ed_layer_view != NULL) {
+    if(_ed_layer_view != nullptr) {
         delete _ed_layer_view;
-        _ed_layer_view = NULL;
+        _ed_layer_view = nullptr;
     }
 
     setWindowTitle(tr("Map Editor"));

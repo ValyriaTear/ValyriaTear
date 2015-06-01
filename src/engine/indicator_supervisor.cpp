@@ -474,7 +474,7 @@ void IndicatorSupervisor::AddParallax(float x_parallax, float y_parallax)
 void IndicatorSupervisor::AddShortNotice(const vt_utils::ustring& message,
                                          const std::string& icon_image_filename)
 {
-    vt_common::ShortNoticeWindow* msg_win = NULL;
+    vt_common::ShortNoticeWindow* msg_win = nullptr;
     if (icon_image_filename.empty())
         msg_win = new vt_common::ShortNoticeWindow(message);
     else

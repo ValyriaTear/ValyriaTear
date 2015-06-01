@@ -293,7 +293,7 @@ private:
     *** Note that a thread should only be used once per file opening and its reference removed
     *** at file closure. This way, the lua garbage collector can remove it safely.
     ***
-    *** \return A pointer to the thread's lua_State for the file, or NULL if the file has never been opened.
+    *** \return A pointer to the thread's lua_State for the file, or nullptr if the file has never been opened.
     **/
     lua_State *_CheckForPreviousLuaState(const std::string &filename);
 

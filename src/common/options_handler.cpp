@@ -53,13 +53,13 @@ void OptionMenu::AddOption(const ustring &text, GameOptionsMenuHandler* handler,
 
     _handler = handler;
 
-    if (_handler == NULL) {
+    if (_handler == nullptr) {
         PRINT_WARNING << "Invalid option menu handler given: No option menu functions will be working..." << std::endl;
-        _confirm_handlers.push_back(NULL);
-        _up_handlers.push_back(NULL);
-        _down_handlers.push_back(NULL);
-        _left_handlers.push_back(NULL);
-        _right_handlers.push_back(NULL);
+        _confirm_handlers.push_back(nullptr);
+        _up_handlers.push_back(nullptr);
+        _down_handlers.push_back(nullptr);
+        _left_handlers.push_back(nullptr);
+        _right_handlers.push_back(nullptr);
         return;
     }
 
@@ -77,7 +77,7 @@ void OptionMenu::InputConfirm()
     int32 selection = OptionBox::GetSelection();
     if((selection != -1) && (_confirm_handlers.empty() == false)) {
         void (GameOptionsMenuHandler::*confirm_function)() = _confirm_handlers.at(selection);
-        if(confirm_function != NULL)
+        if(confirm_function != nullptr)
             (_handler->*confirm_function)();
     }
 }
@@ -89,7 +89,7 @@ void OptionMenu::InputUp()
     int32 selection = OptionBox::GetSelection();
     if((selection != -1) && (_up_handlers.empty() == false)) {
         void (GameOptionsMenuHandler::*up_function)() = _up_handlers.at(selection);
-        if(up_function != NULL)
+        if(up_function != nullptr)
             (_handler->*up_function)();
     }
 }
@@ -101,7 +101,7 @@ void OptionMenu::InputDown()
     int32 selection = OptionBox::GetSelection();
     if((selection != -1) && (_down_handlers.empty() == false)) {
         void (GameOptionsMenuHandler::*down_function)() = _down_handlers.at(selection);
-        if(down_function != NULL)
+        if(down_function != nullptr)
             (_handler->*down_function)();
     }
 }
@@ -113,7 +113,7 @@ void OptionMenu::InputLeft()
     int32 selection = OptionBox::GetSelection();
     if((selection != -1) && (_left_handlers.empty() == false)) {
         void (GameOptionsMenuHandler::*left_function)() = _left_handlers.at(selection);
-        if(left_function != NULL)
+        if(left_function != nullptr)
             (_handler->*left_function)();
     }
 }
@@ -125,7 +125,7 @@ void OptionMenu::InputRight()
     int32 selection = OptionBox::GetSelection();
     if((selection != -1) && (_right_handlers.empty() == false)) {
         void (GameOptionsMenuHandler::*right_function)() = _right_handlers.at(selection);
-        if(right_function != NULL)
+        if(right_function != nullptr)
             (_handler->*right_function)();
     }
 }
@@ -136,10 +136,10 @@ const uint16 SKIN_MENU_INDEX = 5;
 GameOptionsMenuHandler::GameOptionsMenuHandler(vt_mode_manager::GameMode* parent_mode):
     _first_run(false),
     _has_modified_settings(false),
-    _active_menu(NULL),
-    _key_setting_function(NULL),
-    _joy_setting_function(NULL),
-    _joy_axis_setting_function(NULL),
+    _active_menu(nullptr),
+    _key_setting_function(nullptr),
+    _joy_setting_function(nullptr),
+    _joy_axis_setting_function(nullptr),
     _message_window(ustring(), -1.0f, -1.0f, 410.0f, 133.0f),
     _explanation_window(ustring(), -1.0f, 650.0f, 510.0f, 100.0f),
     _parent_mode(parent_mode)
@@ -168,9 +168,9 @@ GameOptionsMenuHandler::~GameOptionsMenuHandler()
     _options_window.Destroy();
     _SaveSettingsFile();
 
-    _key_setting_function = NULL;
-    _joy_setting_function = NULL;
-    _joy_axis_setting_function = NULL;
+    _key_setting_function = nullptr;
+    _joy_setting_function = nullptr;
+    _joy_axis_setting_function = nullptr;
 }
 
 void GameOptionsMenuHandler::Activate()
@@ -212,7 +212,7 @@ void GameOptionsMenuHandler::Update()
             _active_menu->InputConfirm();
             // Go directly back to the main menu when first selecting the language.
             _options_window.Hide();
-            _active_menu = NULL;
+            _active_menu = nullptr;
             // And show the help window
             vt_mode_manager::ModeManager->GetHelpWindow()->Show();
             // save the settings (automatically changes the first_start variable to 0)
@@ -230,47 +230,47 @@ void GameOptionsMenuHandler::Update()
         return;
 
     // Check for waiting keypresses or joystick button presses
-    if(_joy_setting_function != NULL) {
+    if(_joy_setting_function != nullptr) {
         if(InputManager->AnyJoystickKeyPress()) {
             (this->*_joy_setting_function)(InputManager->GetMostRecentEvent().jbutton.button);
-            _joy_setting_function = NULL;
+            _joy_setting_function = nullptr;
             _has_modified_settings = true;
             _RefreshJoySettings();
             _message_window.Hide();
         }
         if(InputManager->CancelPress()) {
-            _joy_setting_function = NULL;
+            _joy_setting_function = nullptr;
             _message_window.Hide();
         }
         return;
     }
 
-    if(_joy_axis_setting_function != NULL) {
+    if(_joy_axis_setting_function != nullptr) {
         int8 x = InputManager->GetLastAxisMoved();
         if(x != -1) {
             (this->*_joy_axis_setting_function)(x);
-            _joy_axis_setting_function = NULL;
+            _joy_axis_setting_function = nullptr;
             _has_modified_settings = true;
             _RefreshJoySettings();
             _message_window.Hide();
         }
         if(InputManager->CancelPress()) {
-            _joy_axis_setting_function = NULL;
+            _joy_axis_setting_function = nullptr;
             _message_window.Hide();
         }
         return;
     }
 
-    if(_key_setting_function != NULL) {
+    if(_key_setting_function != nullptr) {
         if(InputManager->AnyKeyboardKeyPress()) {
             (this->*_key_setting_function)(InputManager->GetMostRecentEvent().key.keysym.sym);
-            _key_setting_function = NULL;
+            _key_setting_function = nullptr;
             _has_modified_settings = true;
             _RefreshKeySettings();
             _message_window.Hide();
         }
         if(InputManager->CancelPress()) {
-            _key_setting_function = NULL;
+            _key_setting_function = nullptr;
             _message_window.Hide();
         }
         return;
@@ -304,7 +304,7 @@ void GameOptionsMenuHandler::Update()
     } else if(InputManager->CancelPress() || InputManager->QuitPress()) {
         if(_active_menu == &_options_menu) {
             _options_window.Hide();
-            _active_menu = NULL;
+            _active_menu = nullptr;
         } else if(_active_menu == &_video_options_menu) {
             _active_menu = &_options_menu;
         } else if(_active_menu == &_audio_options_menu) {
@@ -415,16 +415,16 @@ void GameOptionsMenuHandler::_SetupVideoOptionsMenu()
 
     _video_options_menu.AddOption(UTranslate("Resolution: "), this, &GameOptionsMenuHandler::_OnResolution);
     // Left & right will change window mode as well as confirm
-    _video_options_menu.AddOption(UTranslate("Window mode: "), this, &GameOptionsMenuHandler::_OnToggleFullscreen, NULL, NULL,
+    _video_options_menu.AddOption(UTranslate("Window mode: "), this, &GameOptionsMenuHandler::_OnToggleFullscreen, nullptr, nullptr,
                                   &GameOptionsMenuHandler::_OnToggleFullscreen, &GameOptionsMenuHandler::_OnToggleFullscreen);
-    _video_options_menu.AddOption(UTranslate("Brightness: "), this, NULL, NULL, NULL, &GameOptionsMenuHandler::_OnBrightnessLeft,
+    _video_options_menu.AddOption(UTranslate("Brightness: "), this, nullptr, nullptr, nullptr, &GameOptionsMenuHandler::_OnBrightnessLeft,
                                   &GameOptionsMenuHandler::_OnBrightnessRight);
-    _video_options_menu.AddOption(UTranslate("VSync: "), this, NULL, NULL, NULL,
+    _video_options_menu.AddOption(UTranslate("VSync: "), this, nullptr, nullptr, nullptr,
                                   &GameOptionsMenuHandler::_OnChangeVSyncLeft,
                                   &GameOptionsMenuHandler::_OnChangeVSyncRight);
     _video_options_menu.AddOption(UTranslate("Update method: "), this, &GameOptionsMenuHandler::_OnChangeGameUpdateMode,
-                                  NULL, NULL, NULL, NULL);
-    _video_options_menu.AddOption(UTranslate("UI Theme: "), this, &GameOptionsMenuHandler::_OnUIThemeRight, NULL, NULL,
+                                  nullptr, nullptr, nullptr, nullptr);
+    _video_options_menu.AddOption(UTranslate("UI Theme: "), this, &GameOptionsMenuHandler::_OnUIThemeRight, nullptr, nullptr,
                                   &GameOptionsMenuHandler::_OnUIThemeLeft, &GameOptionsMenuHandler::_OnUIThemeRight);
 
     _video_options_menu.SetSelection(0);
@@ -443,10 +443,10 @@ void GameOptionsMenuHandler::_SetupAudioOptionsMenu()
     _audio_options_menu.SetCursorOffset(-50.0f, -28.0f);
     _audio_options_menu.SetSkipDisabled(true);
 
-    _audio_options_menu.AddOption(UTranslate("Sound Volume: "), this, NULL, NULL, NULL,
+    _audio_options_menu.AddOption(UTranslate("Sound Volume: "), this, nullptr, nullptr, nullptr,
                                   &GameOptionsMenuHandler::_OnSoundLeft,
                                   &GameOptionsMenuHandler::_OnSoundRight);
-    _audio_options_menu.AddOption(UTranslate("Music Volume: "), this, NULL, NULL, NULL,
+    _audio_options_menu.AddOption(UTranslate("Music Volume: "), this, nullptr, nullptr, nullptr,
                                   &GameOptionsMenuHandler::_OnMusicLeft,
                                   &GameOptionsMenuHandler::_OnMusicRight);
 
@@ -482,12 +482,12 @@ void GameOptionsMenuHandler::_SetupGameOptions()
 
     ustring text = MakeUnicodeString(VTranslate("Game Difficulty: %s", difficulty_text));
     _game_options_menu.AddOption(text, this, &GameOptionsMenuHandler::_OnGameDifficultyConfirm,
-                                 NULL, NULL,
+                                 nullptr, nullptr,
                                  &GameOptionsMenuHandler::_OnGameDifficultyConfirm,
                                  &GameOptionsMenuHandler::_OnGameDifficultyConfirm);
 
     text = MakeUnicodeString(VTranslate("Dialogue text speed: %i", static_cast<int32>(SystemManager->GetMessageSpeed())));
-    _game_options_menu.AddOption(text, this, NULL, NULL, NULL,
+    _game_options_menu.AddOption(text, this, nullptr, nullptr, nullptr,
                                  &GameOptionsMenuHandler::_OnDialogueSpeedLeft,
                                  &GameOptionsMenuHandler::_OnDialogueSpeedRight);
     text = MakeUnicodeString(VTranslate("Battle target cursor memory: %s", (SystemManager->GetBattleTargetMemory() ? Translate("Yes") : Translate("No"))));
@@ -548,12 +548,12 @@ void GameOptionsMenuHandler::_SetupJoySettingsMenu()
     _joy_settings_menu.SetSkipDisabled(true);
 
     ustring dummy;
-    _joy_settings_menu.AddOption(dummy, this, &GameOptionsMenuHandler::_OnToggleJoystickEnabled, NULL, NULL,
+    _joy_settings_menu.AddOption(dummy, this, &GameOptionsMenuHandler::_OnToggleJoystickEnabled, nullptr, nullptr,
                                  &GameOptionsMenuHandler::_OnToggleJoystickEnabled,
                                  &GameOptionsMenuHandler::_OnToggleJoystickEnabled);
     _joy_settings_menu.AddOption(dummy, this, &GameOptionsMenuHandler::_RedefineXAxisJoy);
     _joy_settings_menu.AddOption(dummy, this, &GameOptionsMenuHandler::_RedefineYAxisJoy);
-    _joy_settings_menu.AddOption(dummy, this, NULL, NULL, NULL, &GameOptionsMenuHandler::_OnThresholdJoyLeft,
+    _joy_settings_menu.AddOption(dummy, this, nullptr, nullptr, nullptr, &GameOptionsMenuHandler::_OnThresholdJoyLeft,
                                  &GameOptionsMenuHandler::_OnThresholdJoyRight);
 
     _joy_settings_menu.AddOption(dummy, this, &GameOptionsMenuHandler::_RedefineConfirmJoy);

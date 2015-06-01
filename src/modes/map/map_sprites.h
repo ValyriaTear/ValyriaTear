@@ -103,7 +103,7 @@ public:
     *** \param event The sprite event that is assuming control
     *** This function is not safe to call when there is an event already controlling the sprite.
     *** The previously controlling event should first release control (which will set the control_event
-    *** member to NULL) before a new event acquires it. The acquisition will be successful regardless
+    *** member to nullptr) before a new event acquires it. The acquisition will be successful regardless
     *** of whether there is currently a controlling event or not, but a warning will be printed in the
     *** improper case.
     **/
@@ -119,7 +119,7 @@ public:
     void ReleaseControl(SpriteEvent* event);
 
     /** \brief Gets the SpriteEvent* currently controlling the sprite
-    *** or NULL is none.
+    *** or nullptr is none.
     **/
     SpriteEvent* GetControlEvent() const {
         return _control_event;
@@ -443,7 +443,7 @@ protected:
     vt_utils::ustring _name;
 
     /** \brief A pointer to the face portrait of the sprite, as seen in dialogues and menus.
-    *** \note Not all sprites have portraits, in which case this member will be NULL
+    *** \note Not all sprites have portraits, in which case this member will be nullptr
     **/
     vt_video::StillImage *_face_portrait;
 

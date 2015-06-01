@@ -264,11 +264,11 @@ static void CustomApplicationMain (int argc, char **argv)
     temparg = [filename UTF8String];
     arglen = SDL_strlen(temparg) + 1;
     arg = (char *) SDL_malloc(arglen);
-    if (arg == NULL)
+    if (arg == nullptr)
         return FALSE;
 
     newargv = (char **) realloc(gArgv, sizeof (char *) * (gArgc + 2));
-    if (newargv == NULL)
+    if (newargv == nullptr)
     {
         SDL_free(arg);
         return FALSE;
@@ -277,7 +277,7 @@ static void CustomApplicationMain (int argc, char **argv)
 
     SDL_strlcpy(arg, temparg, arglen);
     gArgv[gArgc++] = arg;
-    gArgv[gArgc] = NULL;
+    gArgv[gArgc] = nullptr;
     return TRUE;
 }
 
@@ -359,7 +359,7 @@ int main (int argc, char **argv)
     if ( argc >= 2 && strncmp (argv[1], "-psn", 4) == 0 ) {
         gArgv = (char **) SDL_malloc(sizeof (char *) * 2);
         gArgv[0] = argv[0];
-        gArgv[1] = NULL;
+        gArgv[1] = nullptr;
         gArgc = 1;
         gFinderLaunch = YES;
     } else {

@@ -81,7 +81,7 @@ AudioSource::~AudioSource()
 
 void AudioSource::Reset()
 {
-    owner = NULL;
+    owner = nullptr;
 
     if(IsValid() == false) {
         return;
@@ -107,11 +107,11 @@ void AudioSource::Reset()
 
 AudioDescriptor::AudioDescriptor() :
     _state(AUDIO_STATE_UNLOADED),
-    _buffer(NULL),
-    _source(NULL),
-    _input(NULL),
-    _stream(NULL),
-    _data(NULL),
+    _buffer(nullptr),
+    _source(nullptr),
+    _input(nullptr),
+    _stream(nullptr),
+    _data(nullptr),
     _looping(false),
     _offset(0),
     _volume(1.0f),
@@ -132,11 +132,11 @@ AudioDescriptor::AudioDescriptor() :
 
 AudioDescriptor::AudioDescriptor(const AudioDescriptor &copy) :
     _state(AUDIO_STATE_UNLOADED),
-    _buffer(NULL),
-    _source(NULL),
-    _input(NULL),
-    _stream(NULL),
-    _data(NULL),
+    _buffer(nullptr),
+    _source(nullptr),
+    _input(nullptr),
+    _stream(nullptr),
+    _data(nullptr),
     _looping(copy._looping),
     _offset(0),
     _volume(copy._volume),
@@ -224,11 +224,11 @@ bool AudioDescriptor::LoadAudio(const std::string &filename, AUDIO_LOAD load_typ
         // Pass the buffer data to the OpenAL buffer
         _buffer->FillBuffer(_data, _format, _input->GetDataSize(), _input->GetSamplesPerSecond());
         delete[] _data;
-        _data = NULL;
+        _data = nullptr;
 
         // Attempt to acquire a source for the new audio to use
         _AcquireSource();
-        if(_source == NULL) {
+        if(_source == nullptr) {
             IF_PRINT_WARNING(AUDIO_DEBUG) << "could not acquire audio source for new audio file: " << filename << std::endl;
         }
     } // if (load_type == AUDIO_LOAD_STATIC)
@@ -243,7 +243,7 @@ bool AudioDescriptor::LoadAudio(const std::string &filename, AUDIO_LOAD load_typ
 
         // Attempt to acquire a source for the new audio to use
         _AcquireSource();
-        if(_source == NULL) {
+        if(_source == nullptr) {
             IF_PRINT_WARNING(AUDIO_DEBUG) << "could not acquire audio source for new audio file: " << filename << std::endl;
         }
     } // else if (load_type == AUDIO_LOAD_STREAM_FILE)
@@ -263,7 +263,7 @@ bool AudioDescriptor::LoadAudio(const std::string &filename, AUDIO_LOAD load_typ
 
         // Attempt to acquire a source for the new audio to use
         _AcquireSource();
-        if(_source == NULL) {
+        if(_source == nullptr) {
             IF_PRINT_WARNING(AUDIO_DEBUG) << "could not acquire audio source for new audio file: " << filename << std::endl;
         }
     } // else if (load_type == AUDIO_LOAD_STREAM_MEMORY) {
@@ -285,36 +285,36 @@ void AudioDescriptor::FreeAudio()
     // First, remove any effects.
     RemoveEffects();
 
-    if(_source != NULL)
+    if(_source != nullptr)
         Stop();
 
     _state = AUDIO_STATE_UNLOADED;
     _offset = 0;
 
     // If the source is still attached to a sound, reset to the default parameters the source
-    if(_source != NULL) {
+    if(_source != nullptr) {
         _source->Reset();
-        _source = NULL;
+        _source = nullptr;
     }
 
-    if(_buffer != NULL) {
+    if(_buffer != nullptr) {
         delete[] _buffer;
-        _buffer = NULL;
+        _buffer = nullptr;
     }
 
-    if(_input != NULL) {
+    if(_input != nullptr) {
         delete _input;
-        _input = NULL;
+        _input = nullptr;
     }
 
-    if(_stream != NULL) {
+    if(_stream != nullptr) {
         delete _stream;
-        _stream = NULL;
+        _stream = nullptr;
     }
 
-    if(_data != NULL) {
+    if(_data != nullptr) {
         delete[] _data;
-        _data = NULL;
+        _data = nullptr;
     }
 }
 
@@ -382,7 +382,7 @@ void AudioDescriptor::Pause()
     if(_state == AUDIO_STATE_PAUSED || _state == AUDIO_STATE_UNLOADED)
         return;
 
-    if(_source == NULL) {
+    if(_source == nullptr) {
         IF_PRINT_WARNING(AUDIO_DEBUG) << "did not have access to valid AudioSource" << std::endl;
         return;
     }
@@ -408,7 +408,7 @@ void AudioDescriptor::Resume()
 
 void AudioDescriptor::Rewind()
 {
-    if(_source == NULL) {
+    if(_source == nullptr) {
         IF_PRINT_WARNING(AUDIO_DEBUG) << "did not have access to valid AudioSource" << std::endl;
         return;
     }
@@ -427,9 +427,9 @@ void AudioDescriptor::SetLooping(bool loop)
         return;
 
     _looping = loop;
-    if(_stream != NULL) {
+    if(_stream != nullptr) {
         _stream->SetLooping(_looping);
-    } else if(_source != NULL) {
+    } else if(_source != nullptr) {
         if(_looping)
             alSourcei(_source->source, AL_LOOPING, AL_TRUE);
         else
@@ -441,7 +441,7 @@ void AudioDescriptor::SetLooping(bool loop)
 
 void AudioDescriptor::SetLoopStart(uint32 loop_start)
 {
-    if(_stream == NULL) {
+    if(_stream == nullptr) {
         IF_PRINT_WARNING(AUDIO_DEBUG) << "the audio data was not loaded with streaming properties, this operation is not permitted" << std::endl;
         return;
     }
@@ -452,7 +452,7 @@ void AudioDescriptor::SetLoopStart(uint32 loop_start)
 
 void AudioDescriptor::SetLoopEnd(uint32 loop_end)
 {
-    if(_stream == NULL) {
+    if(_stream == nullptr) {
         IF_PRINT_WARNING(AUDIO_DEBUG) << "the audio data was not loaded with streaming properties, this operation is not permitted" << std::endl;
         return;
     }
@@ -473,7 +473,7 @@ void AudioDescriptor::SeekSample(uint32 sample)
     if(_stream) {
         _stream->Seek(_offset);
         _PrepareStreamingBuffers();
-    } else if(_source != NULL) {
+    } else if(_source != nullptr) {
         alSourcei(_source->source, AL_SAMPLE_OFFSET, _offset);
         if(AudioManager->CheckALError()) {
             IF_PRINT_WARNING(AUDIO_DEBUG) << "setting a source's offset failed: " << AudioManager->CreateALErrorString() << std::endl;
@@ -485,7 +485,7 @@ uint32 AudioDescriptor::GetCurrentSampleNumber() const
 {
     if(_stream) {
         return _stream->GetCurrentSamplePosition();
-    } else if(_source != NULL) {
+    } else if(_source != nullptr) {
         int32 sample = 0;
         alGetSourcei(_source->source, AL_SAMPLE_OFFSET, &sample);
         if(AudioManager->CheckALError()) {
@@ -518,7 +518,7 @@ void AudioDescriptor::SeekSecond(float second)
     if(_stream) {
         _stream->Seek(_offset);
         _PrepareStreamingBuffers();
-    } else if(_source != NULL) {
+    } else if(_source != nullptr) {
         alSourcei(_source->source, AL_SEC_OFFSET, _offset);
         if(AudioManager->CheckALError()) {
             IF_PRINT_WARNING(AUDIO_DEBUG) << "setting a source's offset failed: " << AudioManager->CreateALErrorString() << std::endl;
@@ -536,7 +536,7 @@ void AudioDescriptor::SetPosition(const float position[3])
     }
 
     memcpy(_position, position, sizeof(float) * 3);
-    if(_source != NULL) {
+    if(_source != nullptr) {
         alSourcefv(_source->source, AL_POSITION, _position);
         if(AudioManager->CheckALError()) {
             IF_PRINT_WARNING(AUDIO_DEBUG) << "setting a source's position failed: " << AudioManager->CreateALErrorString() << std::endl;
@@ -554,7 +554,7 @@ void AudioDescriptor::SetVelocity(const float velocity[3])
     }
 
     memcpy(_velocity, velocity, sizeof(float) * 3);
-    if(_source != NULL) {
+    if(_source != nullptr) {
         alSourcefv(_source->source, AL_VELOCITY, _position);
         if(AudioManager->CheckALError()) {
             IF_PRINT_WARNING(AUDIO_DEBUG) << "setting a source's velocity failed: " << AudioManager->CreateALErrorString() << std::endl;
@@ -572,7 +572,7 @@ void AudioDescriptor::SetDirection(const float direction[3])
     }
 
     memcpy(_direction, direction, sizeof(float) * 3);
-    if(_source != NULL) {
+    if(_source != nullptr) {
         alSourcefv(_source->source, AL_DIRECTION, _direction);
         if(AudioManager->CheckALError()) {
             IF_PRINT_WARNING(AUDIO_DEBUG) << "setting a source's direction failed: " << AudioManager->CreateALErrorString() << std::endl;
@@ -675,7 +675,7 @@ void AudioDescriptor::DEBUG_PrintInfo()
 {
     PRINT_WARNING << "*** Audio Descriptor Information ***" << std::endl;
 
-    if(_input == NULL) {
+    if(_input == nullptr) {
         PRINT_WARNING << "no audio data loaded" << std::endl;
         return;
     }
@@ -711,7 +711,7 @@ void AudioDescriptor::DEBUG_PrintInfo()
     PRINT_WARNING << "Samples:           " << _input->GetTotalNumberSamples() << std::endl;
     PRINT_WARNING << "Time:              " << _input->GetPlayTime() << std::endl;
 
-    if(_stream != NULL) {
+    if(_stream != nullptr) {
         PRINT_WARNING << "Audio load type:    streamed" << std::endl;
         PRINT_WARNING << "Stream buffer size (samples): " << _stream_buffer_size << std::endl;
     } else {
@@ -882,25 +882,25 @@ void AudioDescriptor::_HandleFadeStates()
 
 void AudioDescriptor::_AcquireSource()
 {
-    if(_source != NULL) {
+    if(_source != nullptr) {
         IF_PRINT_WARNING(AUDIO_DEBUG) << "function was invoked when object already had a source acquired" << std::endl;
         return;
     }
 
-    if(_buffer == NULL) {
+    if(_buffer == nullptr) {
         IF_PRINT_WARNING(AUDIO_DEBUG) << "function was invoked when object did not have an audio buffer attached" << std::endl;
         return;
     }
 
     _source = AudioManager->_AcquireAudioSource();
-    if(_source == NULL) {
+    if(_source == nullptr) {
         IF_PRINT_WARNING(AUDIO_DEBUG) << "could not acquire audio source for new audio file: " << _input->GetFilename() << std::endl;
         return;
     }
 
     _source->owner = this;
     _SetSourceProperties();
-    if(_stream == NULL)
+    if(_stream == nullptr)
         alSourcei(_source->source, AL_BUFFER, _buffer->buffer);
     else
         _PrepareStreamingBuffers();
@@ -910,7 +910,7 @@ void AudioDescriptor::_AcquireSource()
 
 void AudioDescriptor::_SetSourceProperties()
 {
-    if(_source == NULL) {
+    if(_source == nullptr) {
         IF_PRINT_WARNING(AUDIO_DEBUG) << "function was invoked when class did not have access to an audio source" << std::endl;
         return;
     }
@@ -928,9 +928,9 @@ void AudioDescriptor::_SetSourceProperties()
     }
 
     // Set looping (source has looping disabled by default, so only need to check the true case)
-    if(_stream != NULL) {
+    if(_stream != nullptr) {
         _stream->SetLooping(_looping);
-    } else if(_source != NULL) {
+    } else if(_source != nullptr) {
         if(_looping) {
             alSourcei(_source->source, AL_LOOPING, AL_TRUE);
             if(AudioManager->CheckALError()) {
@@ -946,12 +946,12 @@ void AudioDescriptor::_SetSourceProperties()
 
 void AudioDescriptor::_PrepareStreamingBuffers()
 {
-    if(_stream == NULL) {
-        IF_PRINT_WARNING(AUDIO_DEBUG) << "_stream pointer was NULL, meaning this function should never have been called" << std::endl;
+    if(_stream == nullptr) {
+        IF_PRINT_WARNING(AUDIO_DEBUG) << "_stream pointer was nullptr, meaning this function should never have been called" << std::endl;
         return;
     }
 
-    if(_source == NULL) {
+    if(_source == nullptr) {
         IF_PRINT_WARNING(AUDIO_DEBUG) << "failed because no source was available for this object to utilize" << std::endl;
         return;
     }
@@ -973,7 +973,7 @@ void AudioDescriptor::_PrepareStreamingBuffers()
         uint32 read = _stream->FillBuffer(_data, _stream_buffer_size);
         if(read > 0) {
             _buffer[i].FillBuffer(_data, _format, read * _input->GetSampleSize(), _input->GetSamplesPerSecond());
-            if(_source != NULL)
+            if(_source != nullptr)
                 alSourceQueueBuffers(_source->source, 1, &_buffer[i].buffer);
         }
     }
@@ -1054,7 +1054,7 @@ MusicDescriptor::MusicDescriptor() :
 MusicDescriptor::~MusicDescriptor()
 {
     if(AudioManager->_active_music == this) {
-        AudioManager->_active_music = NULL;
+        AudioManager->_active_music = nullptr;
     }
 
     for(std::vector<MusicDescriptor *>::iterator i = AudioManager->_registered_music.begin();

@@ -243,7 +243,7 @@ bool OggFile::Initialize()
     if (!file)
         return false;
 
-    if(ov_open_callbacks(file, &_vorbis_file, NULL, 0, callbacks) < 0) {
+    if(ov_open_callbacks(file, &_vorbis_file, nullptr, 0, callbacks) < 0) {
         fclose(file);
         IF_PRINT_WARNING(AUDIO_DEBUG) << "input file does not appear to be an Ogg bitstream: " << _filename << std::endl;
         return false;
@@ -255,7 +255,7 @@ bool OggFile::Initialize()
     if (!file)
         return false;
 
-    if(ov_open(file, &_vorbis_file, NULL, 0) < 0) {
+    if(ov_open(file, &_vorbis_file, nullptr, 0) < 0) {
         fclose(file);
         IF_PRINT_WARNING(AUDIO_DEBUG) << "input file does not appear to be an Ogg bitstream: " << _filename << std::endl;
         return false;
@@ -350,8 +350,8 @@ uint32 OggFile::Read(uint8 *buffer, uint32 size, bool &end)
 #ifdef _WIN32
 int OggFile::_FileSeekWrapper(FILE *file, ogg_int64_t off, int whence)
 {
-    if(file == NULL) {
-        IF_PRINT_WARNING(AUDIO_DEBUG) << "file pointer was NULL in argument list" << std::endl;
+    if(file == nullptr) {
+        IF_PRINT_WARNING(AUDIO_DEBUG) << "file pointer was nullptr in argument list" << std::endl;
         return -1;
     } else {
         return fseek(file, static_cast<long>(off), whence);
@@ -366,7 +366,7 @@ int OggFile::_FileSeekWrapper(FILE *file, ogg_int64_t off, int whence)
 
 AudioMemory::AudioMemory(AudioInput *input) :
     AudioInput(),
-    _audio_data(NULL),
+    _audio_data(nullptr),
     _data_position(0)
 {
     _filename = input->GetFilename();
@@ -388,7 +388,7 @@ AudioMemory::AudioMemory(AudioInput *input) :
 
 AudioMemory::AudioMemory(const AudioMemory &audio_memory) :
     AudioInput(),
-    _audio_data(NULL),
+    _audio_data(nullptr),
     _data_position(0)
 {
     _filename = audio_memory._filename;
@@ -409,9 +409,9 @@ AudioMemory &AudioMemory::operator=(const AudioMemory &audio_memory)
     if(this == &audio_memory)  // Handle self-assignment case
         return *this;
 
-    if(_audio_data != NULL) {
+    if(_audio_data != nullptr) {
         delete[] _audio_data;
-        _audio_data = NULL;
+        _audio_data = nullptr;
     }
     _filename = audio_memory._filename;
     _samples_per_second = audio_memory.GetSamplesPerSecond();
@@ -432,9 +432,9 @@ AudioMemory &AudioMemory::operator=(const AudioMemory &audio_memory)
 
 AudioMemory::~AudioMemory()
 {
-    if(_audio_data != NULL) {
+    if(_audio_data != nullptr) {
         delete[] _audio_data;
-        _audio_data = NULL;
+        _audio_data = nullptr;
     }
 }
 

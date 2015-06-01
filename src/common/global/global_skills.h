@@ -133,7 +133,7 @@ public:
     }
 
     /** \brief Returns a pointer to the ScriptObject of the battle execution function
-    *** \note This function will return NULL if the skill is not executable in battle
+    *** \note This function will return nullptr if the skill is not executable in battle
     **/
     const ScriptObject &GetBattleExecuteFunction() const {
         return _battle_execute_function;
@@ -143,7 +143,7 @@ public:
     bool ExecuteBattleFunction(vt_battle::private_battle::BattleActor *user, vt_battle::private_battle::BattleTarget target);
 
     /** \brief Returns a pointer to the ScriptObject of the menu execution function
-    *** \note This function will return NULL if the skill is not executable in menus
+    *** \note This function will return nullptr if the skill is not executable in menus
     **/
     const ScriptObject &GetFieldExecuteFunction() const {
         return _field_execute_function;

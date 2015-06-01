@@ -60,7 +60,7 @@ bool ReadScriptDescriptor::OpenFile(const std::string &filename)
     }
 
     // Check that the thread stack is in sync with open files.
-    assert(ScriptManager->_CheckForPreviousLuaState(filename) == NULL);
+    assert(ScriptManager->_CheckForPreviousLuaState(filename) == nullptr);
 
     // Increases the global stack size by 1 element. That is needed because the new thread will be pushed in the
     // stack and we have to be sure there is enough space there.
@@ -112,7 +112,7 @@ void ReadScriptDescriptor::CloseFile()
                 << std::endl << _error_messages.str() << std::endl;
     }
 
-    _lstack = NULL;
+    _lstack = nullptr;
     _error_messages.clear();
     _open_tables.clear();
     _access_mode = SCRIPT_CLOSED;

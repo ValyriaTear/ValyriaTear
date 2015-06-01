@@ -63,7 +63,7 @@ static void SetupOptionBoxCommonSettings(OptionBox *ob)
 AbstractMenuState::AbstractMenuState(const char *state_name, MenuMode *menu_mode):
     _state_name(state_name),
     _menu_mode(menu_mode),
-    _from_state(NULL)
+    _from_state(nullptr)
 {
 }
 
@@ -125,7 +125,7 @@ void AbstractMenuState::Update()
             return;
         }
         // otherwise, if the state is valid and not this state itself, handle the transition
-        else if(next_state != NULL && next_state != this)
+        else if(next_state != nullptr && next_state != this)
         {
             // change the static current menu state
             _menu_mode->_current_menu_state = next_state;
@@ -282,7 +282,7 @@ AbstractMenuState* MainMenuState::GetTransitionState(uint32 selection)
             break;
 
     }
-    return NULL;
+    return nullptr;
 }
 
 void MainMenuState::_OnUpdateState()
@@ -383,7 +383,7 @@ AbstractMenuState* InventoryState::GetTransitionState(uint32 selection)
         default:
             break;
     };
-    return NULL;
+    return nullptr;
 }
 
 void InventoryState::_ActiveWindowUpdate()
@@ -465,7 +465,7 @@ AbstractMenuState* PartyState::GetTransitionState(uint32 selection)
         default:
             break;
     };
-    return NULL;
+    return nullptr;
 }
 
 void PartyState::_DrawBottomMenu()
@@ -526,7 +526,7 @@ AbstractMenuState* SkillsState::GetTransitionState(uint32 selection)
             break;
 
     }
-    return NULL;
+    return nullptr;
 }
 
 void EquipState::Reset()
@@ -635,7 +635,7 @@ void QuestState::_DrawBottomMenu()
 
 WorldMapState::WorldMapState(MenuMode *menu_mode):
     AbstractMenuState("WorldMapState", menu_mode),
-    _location_image(NULL)
+    _location_image(nullptr)
 {
     _location_text.SetPosition(102, 556);
     _location_text.SetDimensions(500.0f, 50.0f);
@@ -669,7 +669,7 @@ void WorldMapState::_DrawBottomMenu()
         VideoManager->Move(150, 580);
         // Display Location
         _location_text.Draw();
-        if(_location_image != NULL && !_location_image->GetFilename().empty())
+        if(_location_image != nullptr && !_location_image->GetFilename().empty())
         {
             VideoManager->SetDrawFlags(VIDEO_X_RIGHT, VIDEO_Y_BOTTOM, 0);
             VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_BOTTOM, 0);
@@ -695,9 +695,9 @@ void WorldMapState::_ActiveWindowUpdate()
 
     //draw the current viewing location information
     WorldMapLocation *current_location = _menu_mode->_world_map_window.GetCurrentViewingLocation();
-    if(current_location == NULL)
+    if(current_location == nullptr)
     {
-        _location_image = NULL;
+        _location_image = nullptr;
         _location_text.ClearText();
         return;
     }
@@ -709,7 +709,7 @@ void WorldMapState::_ActiveWindowUpdate()
 
 bool MENU_DEBUG = false;
 
-MenuMode *MenuMode::_current_instance = NULL;
+MenuMode *MenuMode::_current_instance = nullptr;
 
 // Window size helpers
 const uint32 win_start_x = (1024 - 800) / 2 - 40;
@@ -729,9 +729,9 @@ MenuMode::MenuMode() :
     _equip_state(this),
     _quests_state(this),
     _world_map_state(this),
-    _message_window(NULL),
-    _object(NULL),
-    _character(NULL),
+    _message_window(nullptr),
+    _object(nullptr),
+    _character(nullptr),
     _equip_view_type(EQUIP_VIEW_NONE),
     _is_weapon(false),
     _spirit_number(0)
@@ -922,9 +922,9 @@ MenuMode::~MenuMode()
     _quest_window.Destroy();
     _world_map_window.Destroy();
 
-    _current_instance = NULL;
+    _current_instance = nullptr;
 
-    if(_message_window != NULL)
+    if(_message_window != nullptr)
         delete _message_window;
 } // MenuMode::~MenuMode()
 
@@ -968,11 +968,11 @@ void MenuMode::Update()
     }
 
     // check the message window
-    if(_message_window != NULL) {
+    if(_message_window != nullptr) {
         _message_window->Update();
         if(InputManager->ConfirmPress() || InputManager->CancelPress()) {
             delete _message_window;
-            _message_window = NULL;
+            _message_window = nullptr;
         }
         return;
     }
@@ -1041,10 +1041,10 @@ void MenuMode::UpdateEquipmentInfo(GlobalCharacter *character, GlobalObject *obj
             return;
         case GLOBAL_OBJECT_WEAPON: {
             _is_weapon = true;
-            GlobalWeapon* wpn = NULL;
+            GlobalWeapon* wpn = nullptr;
             // If character view or unequipping, we take the character current weapon as a base
             if (view_type == EQUIP_VIEW_CHAR || view_type == EQUIP_VIEW_UNEQUIPPING)
-                wpn = _character ? _character->GetWeaponEquipped() : NULL;
+                wpn = _character ? _character->GetWeaponEquipped() : nullptr;
             else // We can take the given object as a base
                 wpn = dynamic_cast<GlobalWeapon *>(_object);
 
@@ -1076,12 +1076,12 @@ void MenuMode::UpdateEquipmentInfo(GlobalCharacter *character, GlobalObject *obj
         case GLOBAL_OBJECT_LEG_ARMOR:
         {
             _is_weapon = false;
-            GlobalArmor* armor = NULL;
+            GlobalArmor* armor = nullptr;
 
             // If character view or unequipping, we take the character current armor as a base
             if (view_type == EQUIP_VIEW_CHAR || view_type == EQUIP_VIEW_UNEQUIPPING) {
                 uint32 equip_index = GetEquipmentPositionFromObjectType(_object->GetObjectType());
-                armor = _character ? _character->GetArmorEquipped(equip_index) : NULL;
+                armor = _character ? _character->GetArmorEquipped(equip_index) : nullptr;
             }
             else { // We can take the given object as a base
                 armor = dynamic_cast<GlobalArmor *>(_object);

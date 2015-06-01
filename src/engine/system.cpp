@@ -35,7 +35,7 @@ using namespace vt_mode_manager;
 namespace vt_system
 {
 
-SystemEngine *SystemManager = NULL;
+SystemEngine *SystemManager = nullptr;
 bool SYSTEM_DEBUG = false;
 
 // If gettext translations are disabled, let's define a dummy gettext.
@@ -117,7 +117,7 @@ SystemTimer::SystemTimer() :
     _auto_update(false),
     _duration(0),
     _number_loops(0),
-    _mode_owner(NULL),
+    _mode_owner(nullptr),
     _time_expired(0),
     _times_completed(0)
 {}
@@ -127,7 +127,7 @@ SystemTimer::SystemTimer(uint32 duration, int32 loops) :
     _auto_update(false),
     _duration(duration),
     _number_loops(loops),
-    _mode_owner(NULL),
+    _mode_owner(nullptr),
     _time_expired(0),
     _times_completed(0)
 {}
@@ -169,7 +169,7 @@ void SystemTimer::EnableManualUpdate()
 
     SystemManager->RemoveAutoTimer(this);
     _auto_update = false;
-    _mode_owner = NULL;
+    _mode_owner = nullptr;
 }
 
 void SystemTimer::Update()
@@ -431,8 +431,8 @@ void SystemEngine::InitializeTimers()
 
 void SystemEngine::AddAutoTimer(SystemTimer *timer)
 {
-    if(timer == NULL) {
-        IF_PRINT_WARNING(SYSTEM_DEBUG) << "function received NULL argument" << std::endl;
+    if(timer == nullptr) {
+        IF_PRINT_WARNING(SYSTEM_DEBUG) << "function received nullptr argument" << std::endl;
         return;
     }
     if(timer->IsAutoUpdate() == false) {
@@ -450,8 +450,8 @@ void SystemEngine::AddAutoTimer(SystemTimer *timer)
 
 void SystemEngine::RemoveAutoTimer(SystemTimer *timer)
 {
-    if(timer == NULL) {
-        IF_PRINT_WARNING(SYSTEM_DEBUG) << "function received NULL argument" << std::endl;
+    if(timer == nullptr) {
+        IF_PRINT_WARNING(SYSTEM_DEBUG) << "function received nullptr argument" << std::endl;
         return;
     }
     if(timer->IsAutoUpdate() == false) {
@@ -499,7 +499,7 @@ void SystemEngine::ExamineSystemTimers()
 
     for(std::set<SystemTimer *>::iterator i = _auto_system_timers.begin(); i != _auto_system_timers.end(); ++i) {
         GameMode* timer_mode = (*i)->GetModeOwner();
-        if(timer_mode == NULL)
+        if(timer_mode == nullptr)
             continue;
 
         if(timer_mode == active_mode)
@@ -512,7 +512,7 @@ void SystemEngine::ExamineSystemTimers()
 void SystemEngine::WaitForThread(Thread *thread)
 {
 #if (THREAD_TYPE == SDL_THREADS)
-    SDL_WaitThread(thread, NULL);
+    SDL_WaitThread(thread, nullptr);
 #endif
 }
 
@@ -575,10 +575,10 @@ template <class T> Thread *SystemEngine::SpawnThread(void (T::*func)(), T *mycla
     // gen may be overwritten prematurely if this function, SpawnThread, gets
     // called a second time before SpawnThread_Intermediate calls myclass->*func
     // This will result in a segfault.
-    thread = SDL_CreateThread(gen.SpawnThread_Intermediate, &gen, NULL);
-    if(thread == NULL) {
+    thread = SDL_CreateThread(gen.SpawnThread_Intermediate, &gen, nullptr);
+    if(thread == nullptr) {
         PRINT_ERROR << "Unable to create thread: " << SDL_GetError() << std::endl;
-        return NULL;
+        return nullptr;
     }
     return thread;
 #elif (THREAD_TYPE == NO_THREADS)

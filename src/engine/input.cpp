@@ -37,7 +37,7 @@ using namespace vt_input::private_input;
 namespace vt_input
 {
 
-InputEngine *InputManager = NULL;
+InputEngine *InputManager = nullptr;
 bool INPUT_DEBUG = false;
 
 // Initializes class members
@@ -85,7 +85,7 @@ InputEngine::InputEngine()
 
     _joysticks_enabled    = true;
     _joystick.joy_index   = 0; // the first joystick
-    _joystick.js          = NULL;
+    _joystick.js          = nullptr;
     _joystick.confirm     = 0;
     _joystick.cancel      = 0;
     _joystick.menu        = 0;

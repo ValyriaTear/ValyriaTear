@@ -107,8 +107,8 @@ public:
         next_size_variation_y(0.0f),
         current_rotation_speed_variation(0.0f),
         next_rotation_speed_variation(0.0f),
-        current_keyframe(NULL),
-        next_keyframe(NULL)
+        current_keyframe(nullptr),
+        next_keyframe(nullptr)
     {}
 
     //! position

@@ -89,7 +89,7 @@ void DialogueEvent::_Start()
 bool DialogueEvent::_Update()
 {
     SpriteDialogue *active_dialogue = MapMode::CurrentInstance()->GetDialogueSupervisor()->GetCurrentDialogue();
-    if((active_dialogue != NULL) && (active_dialogue->GetDialogueID() == _dialogue_id))
+    if((active_dialogue != nullptr) && (active_dialogue->GetDialogueID() == _dialogue_id))
         return false;
     else
         return true;
@@ -393,8 +393,8 @@ SpriteEvent::SpriteEvent(const std::string& event_id, EVENT_TYPE event_type, Vir
     MapEvent(event_id, event_type),
     _sprite(sprite)
 {
-    if(sprite == NULL)
-        IF_PRINT_WARNING(MAP_DEBUG) << "NULL sprite object passed into constructor: "
+    if(sprite == nullptr)
+        IF_PRINT_WARNING(MAP_DEBUG) << "nullptr sprite object passed into constructor: "
                                     << event_id << std::endl;
 }
 
@@ -573,7 +573,7 @@ PathMoveSpriteEvent::PathMoveSpriteEvent(const std::string& event_id, VirtualSpr
     SpriteEvent(event_id, PATH_MOVE_SPRITE_EVENT, sprite),
     _destination_x(x_coord),
     _destination_y(y_coord),
-    _target_sprite(NULL),
+    _target_sprite(nullptr),
     _last_x_position(0.0f),
     _last_y_position(0.0f),
     _current_node_x(0.0f),
@@ -620,7 +620,7 @@ void PathMoveSpriteEvent::SetDestination(float x_coord, float y_coord, bool run)
 
     _destination_x = x_coord;
     _destination_y = y_coord;
-    _target_sprite = NULL;
+    _target_sprite = nullptr;
     _path.clear();
     _run = run;
 }
@@ -935,7 +935,7 @@ EventSupervisor::~EventSupervisor()
 void EventSupervisor::StartEvent(const std::string &event_id)
 {
     MapEvent *event = GetEvent(event_id);
-    if(event == NULL) {
+    if(event == nullptr) {
         PRINT_WARNING << "No event with this ID existed: '" << event_id
             << "' in map script: "
             << MapMode::CurrentInstance()->GetMapScriptFilename() << std::endl;
@@ -948,7 +948,7 @@ void EventSupervisor::StartEvent(const std::string &event_id)
 void EventSupervisor::StartEvent(const std::string &event_id, uint32 launch_time)
 {
     MapEvent *event = GetEvent(event_id);
-    if(event == NULL) {
+    if(event == nullptr) {
         PRINT_WARNING << "No event with this ID existed: '" << event_id
             << "' in map script: "
             << MapMode::CurrentInstance()->GetMapScriptFilename() << std::endl;
@@ -963,8 +963,8 @@ void EventSupervisor::StartEvent(const std::string &event_id, uint32 launch_time
 
 void EventSupervisor::StartEvent(MapEvent *event, uint32 launch_time)
 {
-    if(event == NULL) {
-        IF_PRINT_WARNING(MAP_DEBUG) << "NULL argument passed to function"
+    if(event == nullptr) {
+        IF_PRINT_WARNING(MAP_DEBUG) << "nullptr argument passed to function"
                                     << std::endl;
         return;
     }
@@ -978,7 +978,7 @@ void EventSupervisor::StartEvent(MapEvent *event, uint32 launch_time)
 void EventSupervisor::StartEvent(MapEvent *event)
 {
     if(!event) {
-        PRINT_WARNING << "NULL argument passed to function" << std::endl;
+        PRINT_WARNING << "nullptr argument passed to function" << std::endl;
         return;
     }
 
@@ -1233,7 +1233,7 @@ void EventSupervisor::EndEvent(const std::string &event_id, bool trigger_event_l
 void EventSupervisor::EndEvent(MapEvent *event, bool trigger_event_links)
 {
     if(!event) {
-        PRINT_ERROR << "Couldn't terminate NULL event" << std::endl;
+        PRINT_ERROR << "Couldn't terminate nullptr event" << std::endl;
         return;
     }
 
@@ -1380,19 +1380,19 @@ MapEvent *EventSupervisor::GetEvent(const std::string &event_id) const
     std::map<std::string, MapEvent *>::const_iterator it = _all_events.find(event_id);
 
     if(it == _all_events.end())
-        return NULL;
+        return nullptr;
     else
         return it->second;
 }
 
 bool EventSupervisor::_RegisterEvent(MapEvent* new_event)
 {
-    if(new_event == NULL) {
-        IF_PRINT_WARNING(MAP_DEBUG) << "function argument was NULL" << std::endl;
+    if(new_event == nullptr) {
+        IF_PRINT_WARNING(MAP_DEBUG) << "function argument was nullptr" << std::endl;
         return false;
     }
 
-    if(GetEvent(new_event->_event_id) != NULL) {
+    if(GetEvent(new_event->_event_id) != nullptr) {
         PRINT_WARNING << "The event with this ID already existed: '"
                       << new_event->_event_id
                       << "' in map script: "
@@ -1420,7 +1420,7 @@ void EventSupervisor::_ExamineEventLinks(MapEvent *parent_event, bool event_star
         // Case 3: The child event has a timer associated with it and needs to be placed in the event launch container
         else {
             MapEvent *child = GetEvent(link.child_event_id);
-            if(child == NULL) {
+            if(child == nullptr) {
                 PRINT_WARNING << "Couldn't launch child event, no event with this ID existed: '"
                               << link.child_event_id << "' from parent event ID: '"
                               << parent_event->GetEventID()

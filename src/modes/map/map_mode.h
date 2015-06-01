@@ -364,7 +364,7 @@ public:
         // Force reloading the minimap at the end of map load time
         if (_minimap) {
             delete _minimap;
-            _minimap = NULL;
+            _minimap = nullptr;
         }
 
         // This also implies the minimap will be shown

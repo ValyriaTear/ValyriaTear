@@ -36,7 +36,7 @@ namespace vt_gui
 
 Option::Option() :
     disabled(false),
-    image(NULL)
+    image(nullptr)
 {}
 
 
@@ -53,8 +53,8 @@ Option::Option(const Option &copy) :
     elements(copy.elements),
     text(copy.text)
 {
-    if(copy.image == NULL) {
-        image = NULL;
+    if(copy.image == nullptr) {
+        image = nullptr;
     } else {
         image = new StillImage(*(copy.image));
     }
@@ -72,8 +72,8 @@ Option &Option::operator=(const Option &copy)
     disabled = copy.disabled;
     elements = copy.elements;
     text = copy.text;
-    if(copy.image == NULL) {
-        image = NULL;
+    if(copy.image == nullptr) {
+        image = nullptr;
     } else {
         image = new StillImage(*(copy.image));
     }
@@ -88,9 +88,9 @@ void Option::Clear()
     disabled = false;
     elements.clear();
     text.clear();
-    if(image != NULL) {
+    if(image != nullptr) {
         delete image;
-        image = NULL;
+        image = nullptr;
     }
 }
 
@@ -416,7 +416,7 @@ void OptionBox::AddOptionElementImage(uint32 option_index, const std::string &im
     if(this_option.image->Load(image_filename) == false) {
         IF_PRINT_WARNING(VIDEO_DEBUG) << "failed to add image element because image file load failed" << image_filename << std::endl;
         delete this_option.image;
-        this_option.image = NULL;
+        this_option.image = nullptr;
         return;
     }
 
@@ -431,8 +431,8 @@ void OptionBox::AddOptionElementImage(uint32 option_index, const StillImage *ima
         IF_PRINT_WARNING(VIDEO_DEBUG) << "out-of-range option_index argument: " << option_index << std::endl;
         return;
     }
-    if(image == NULL) {
-        IF_PRINT_WARNING(VIDEO_DEBUG) << "image argument was NULL" << std::endl;
+    if(image == nullptr) {
+        IF_PRINT_WARNING(VIDEO_DEBUG) << "image argument was nullptr" << std::endl;
         return;
     }
 
@@ -551,7 +551,7 @@ StillImage *OptionBox::GetEmbeddedImage(uint32 index) const
 {
     if(index >= GetNumberOptions()) {
         IF_PRINT_WARNING(VIDEO_DEBUG) << "argument index was invalid: " << index << std::endl;
-        return NULL;
+        return nullptr;
     }
 
     return _options[index].image;
@@ -720,7 +720,7 @@ void OptionBox::InputRight()
 
 void OptionBox::SetTextStyle(const TextStyle &style)
 {
-    if(style.GetFontProperties() == NULL) {
+    if(style.GetFontProperties() == nullptr) {
         IF_PRINT_WARNING(VIDEO_DEBUG) << "text style references an invalid font name: " << style.GetFontName() << std::endl;
         return;
     }
@@ -816,7 +816,7 @@ bool OptionBox::_ConstructOption(const ustring &format_string, Option &op)
                     new_element.type  = VIDEO_OPTION_ELEMENT_POSITION;
                     new_element.value = atoi(tag_text.c_str());
                 } else { // Then this must be an image tag
-                    if(op.image != NULL) {
+                    if(op.image != nullptr) {
                         IF_PRINT_WARNING(VIDEO_DEBUG) << "failed because two image tags were embedded within a single option"
                                                       << MakeStandardString(format_string) << std::endl;
                         return false;
@@ -1200,8 +1200,8 @@ void OptionBox::_DrawCursor(const OptionCellBounds &bounds, float scroll_offset,
 
     StillImage* default_cursor = GUIManager->GetCursor();
 
-    if(default_cursor == NULL)
-        IF_PRINT_WARNING(VIDEO_DEBUG) << "invalid (NULL) cursor image" << std::endl;
+    if(default_cursor == nullptr)
+        IF_PRINT_WARNING(VIDEO_DEBUG) << "invalid (nullptr) cursor image" << std::endl;
 
     if(darken == false)
         default_cursor->Draw();

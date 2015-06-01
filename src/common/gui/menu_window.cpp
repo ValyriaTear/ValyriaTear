@@ -39,7 +39,7 @@ MenuWindow::MenuWindow() :
 bool MenuWindow::Create(const std::string &skin_name, float w, float h, int32 visible_flags, int32 shared_flags)
 {
     _skin = GUIManager->_GetMenuSkin(skin_name);
-    if(_skin == NULL) {
+    if(_skin == nullptr) {
         IF_PRINT_WARNING(VIDEO_DEBUG) << "the requested menu skin was not found: " << skin_name << std::endl;
         return false;
     }
@@ -62,10 +62,10 @@ bool MenuWindow::Create(float w, float h, int32 visible_flags, int32 shared_flag
     _edge_visible_flags = visible_flags;
     _edge_shared_flags = shared_flags;
 
-    if(_skin == NULL)
+    if(_skin == nullptr)
         _skin = GUIManager->_GetDefaultMenuSkin();
 
-    if(_skin == NULL) {
+    if(_skin == nullptr) {
         IF_PRINT_WARNING(VIDEO_DEBUG) << "a default menu skin was unavailable (no skins were loaded)" << std::endl;
         return false;
     }
@@ -82,7 +82,7 @@ bool MenuWindow::Create(float w, float h, int32 visible_flags, int32 shared_flag
 
 void MenuWindow::Destroy()
 {
-    _skin = NULL;
+    _skin = nullptr;
     GUIManager->_RemoveMenuWindow(this);
 }
 
@@ -127,7 +127,7 @@ void MenuWindow::SetDimensions(float w, float h)
 void MenuWindow::SetMenuSkin(const std::string &skin_name)
 {
     MenuSkin *new_skin = GUIManager->_GetMenuSkin(skin_name);
-    if(new_skin == NULL) {
+    if(new_skin == nullptr) {
         IF_PRINT_WARNING(VIDEO_DEBUG) << "the skin_name \"" << skin_name << "\" was invalid" << std::endl;
         return;
     }
@@ -138,7 +138,7 @@ void MenuWindow::SetMenuSkin(const std::string &skin_name)
 
 bool MenuWindow::_RecreateImage()
 {
-    if(_skin == NULL) {
+    if(_skin == nullptr) {
         IF_PRINT_WARNING(VIDEO_DEBUG) << "no menu skin set when function was invoked" << std::endl;
         return false;
     }

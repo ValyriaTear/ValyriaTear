@@ -51,7 +51,7 @@ namespace private_shop
 
 SellInterface::SellInterface() :
     _view_mode(SHOP_VIEW_MODE_INVALID),
-    _selected_object(NULL),
+    _selected_object(nullptr),
     _sell_deal_types(0),
     _current_category(0)
 {
@@ -299,7 +299,7 @@ void SellInterface::Update()
     ShopMode* shop = ShopMode::CurrentInstance();
 
     if(_view_mode == SHOP_VIEW_MODE_LIST && shop->IsInputEnabled()) {
-        if((InputManager->ConfirmPress()) && (_selected_object != NULL)) {
+        if((InputManager->ConfirmPress()) && (_selected_object != nullptr)) {
             GlobalManager->Media().PlaySound("confirm");
             ChangeViewMode(SHOP_VIEW_MODE_INFO);
         } else if(InputManager->CancelPress()) {
@@ -315,12 +315,12 @@ void SellInterface::Update()
         }
 
         // Up/down changes the selected object in the current list
-        else if(InputManager->UpPress() && (_selected_object != NULL)) {
+        else if(InputManager->UpPress() && (_selected_object != nullptr)) {
             if(_ChangeSelection(false) == true) {
                 shop->ObjectViewer()->SetSelectedObject(_selected_object);
                 GlobalManager->Media().PlaySound("bump");
             }
-        } else if(InputManager->DownPress() && (_selected_object != NULL)) {
+        } else if(InputManager->DownPress() && (_selected_object != nullptr)) {
             if(_ChangeSelection(true) == true) {
                 shop->ObjectViewer()->SetSelectedObject(_selected_object);
                 GlobalManager->Media().PlaySound("bump");

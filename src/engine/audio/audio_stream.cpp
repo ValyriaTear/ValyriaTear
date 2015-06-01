@@ -40,8 +40,8 @@ AudioStream::AudioStream(AudioInput *input, bool loop) :
     _read_position(0),
     _end_of_stream(false)
 {
-    if(_audio_input == NULL) {
-        PRINT_ERROR << "input argument was NULL -- terminating program" << std::endl;
+    if(_audio_input == nullptr) {
+        PRINT_ERROR << "input argument was nullptr -- terminating program" << std::endl;
         exit(1);
     }
 

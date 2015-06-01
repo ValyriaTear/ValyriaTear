@@ -57,7 +57,7 @@ namespace vt_battle
 bool BATTLE_DEBUG = false;
 
 // Initialize static class variable
-BattleMode *BattleMode::_current_instance = NULL;
+BattleMode *BattleMode::_current_instance = nullptr;
 
 namespace private_battle
 {
@@ -157,7 +157,7 @@ StillImage *BattleMedia::GetCharacterActionButton(uint32 index)
 {
     if(index >= character_action_buttons.size()) {
         IF_PRINT_WARNING(BATTLE_DEBUG) << "function received invalid index argument: " << index << std::endl;
-        return NULL;
+        return nullptr;
     }
 
     return &(character_action_buttons[index]);
@@ -187,7 +187,7 @@ StillImage *BattleMedia::GetTargetTypeIcon(vt_global::GLOBAL_TARGET target_type)
         return &_target_type_icons[7];
     default:
         IF_PRINT_WARNING(BATTLE_DEBUG) << "function received invalid target type argument: " << target_type << std::endl;
-        return NULL;
+        return nullptr;
     }
 }
 
@@ -213,10 +213,10 @@ const uint32 NUM_DEFAULT_LOCATIONS = 8;
 BattleMode::BattleMode() :
     GameMode(MODE_MANAGER_BATTLE_MODE),
     _state(BATTLE_STATE_INVALID),
-    _sequence_supervisor(NULL),
-    _command_supervisor(NULL),
-    _dialogue_supervisor(NULL),
-    _finish_supervisor(NULL),
+    _sequence_supervisor(nullptr),
+    _command_supervisor(nullptr),
+    _dialogue_supervisor(nullptr),
+    _finish_supervisor(nullptr),
     _current_number_swaps(0),
     _last_enemy_dying(false),
     _stamina_icon_alpha(1.0f),
@@ -266,7 +266,7 @@ void BattleMode::_ResetMusicState()
     MusicDescriptor* active_music = AudioManager->GetActiveMusic();
 
     // Stop the current music if it's not the right one.
-    if (active_music != NULL && music != active_music)
+    if (active_music != nullptr && music != active_music)
         active_music->FadeOut(500);
 
     // If there is no map music or the music is already in the correct state, don't do anything.
@@ -424,7 +424,7 @@ void BattleMode::Update()
         }
 
         // Holds a pointer to the character to select an action for
-        BattleCharacter *character_selection = NULL;
+        BattleCharacter *character_selection = nullptr;
 
         // The four keys below (up/down/left/right) correspond to each character, from top to bottom. Since the character party
         // does not always have four characters, for all but the first key we have to check that a character exists for the
@@ -656,7 +656,7 @@ void BattleMode::ChangeState(BATTLE_STATE new_state)
         _actor_state_paused = false;
         break;
     case BATTLE_STATE_COMMAND:
-        if(_command_supervisor->GetCommandCharacter() == NULL) {
+        if(_command_supervisor->GetCommandCharacter() == nullptr) {
             IF_PRINT_WARNING(BATTLE_DEBUG) << "no character was selected when changing battle to the command state" << std::endl;
             ChangeState(BATTLE_STATE_NORMAL);
         }
@@ -692,8 +692,8 @@ void BattleMode::ChangeState(BATTLE_STATE new_state)
 
 bool BattleMode::OpenCommandMenu(BattleCharacter *character)
 {
-    if(character == NULL) {
-        IF_PRINT_WARNING(BATTLE_DEBUG) << "function received NULL argument" << std::endl;
+    if(character == nullptr) {
+        IF_PRINT_WARNING(BATTLE_DEBUG) << "function received nullptr argument" << std::endl;
         return false;
     }
     if(_state == BATTLE_STATE_COMMAND) {
@@ -715,7 +715,7 @@ void BattleMode::NotifyCommandCancel()
     if(_state != BATTLE_STATE_COMMAND) {
         IF_PRINT_WARNING(BATTLE_DEBUG) << "battle was not in command state when function was called" << std::endl;
         return;
-    } else if(_command_supervisor->GetCommandCharacter() != NULL) {
+    } else if(_command_supervisor->GetCommandCharacter() != nullptr) {
         IF_PRINT_WARNING(BATTLE_DEBUG) << "command supervisor still had a character selected when function was called" << std::endl;
         return;
     }
@@ -727,8 +727,8 @@ void BattleMode::NotifyCommandCancel()
 
 void BattleMode::NotifyCharacterCommandComplete(BattleCharacter *character)
 {
-    if(character == NULL) {
-        IF_PRINT_WARNING(BATTLE_DEBUG) << "function received NULL argument" << std::endl;
+    if(character == nullptr) {
+        IF_PRINT_WARNING(BATTLE_DEBUG) << "function received nullptr argument" << std::endl;
         return;
     }
 
@@ -762,8 +762,8 @@ void BattleMode::NotifyActorReady(BattleActor *actor)
 
 void BattleMode::NotifyActorDeath(BattleActor *actor)
 {
-    if(actor == NULL) {
-        IF_PRINT_WARNING(BATTLE_DEBUG) << "function received NULL argument" << std::endl;
+    if(actor == nullptr) {
+        IF_PRINT_WARNING(BATTLE_DEBUG) << "function received nullptr argument" << std::endl;
         return;
     }
 
@@ -1090,7 +1090,7 @@ void BattleMode::_DrawSprites()
                 _battle_media.actor_selection_image.Draw();
             }
         }
-        else if(actor_target != NULL) {
+        else if(actor_target != nullptr) {
             VideoManager->Move(actor_target->GetXLocation(), actor_target->GetYLocation());
             VideoManager->MoveRelative(0.0f, 20.0f);
             _battle_media.actor_selection_image.Draw();
@@ -1185,7 +1185,7 @@ void BattleMode::_DrawStaminaBar()
     // If true, the selected party is the enemy party
     bool is_party_enemy = false;
 
-    BattleActor *selected_actor = NULL; // A pointer to the selected actor
+    BattleActor *selected_actor = nullptr; // A pointer to the selected actor
 
     // Determine whether the selector graphics should be drawn
     if((_state == BATTLE_STATE_COMMAND)
@@ -1193,7 +1193,7 @@ void BattleMode::_DrawStaminaBar()
         BattleTarget target = _command_supervisor->GetSelectedTarget();
 
         draw_icon_selection = true;
-        selected_actor = target.GetActor(); // Will remain NULL if the target type is a party
+        selected_actor = target.GetActor(); // Will remain nullptr if the target type is a party
 
         if(target.GetType() == GLOBAL_TARGET_ALL_ALLIES) {
             is_party_selected = true;
@@ -1284,7 +1284,7 @@ void TransitionToBattleMode::Update()
     if(_BM && _transition_timer.IsFinished()) {
         ModeManager->Pop();
         ModeManager->Push(_BM, true, true);
-        _BM = NULL;
+        _BM = nullptr;
     }
 }
 
@@ -1317,7 +1317,7 @@ void TransitionToBattleMode::Reset()
 
     // Stop the current map music if it is not the same
     std::string battle_music = _BM->GetMedia().battle_music_filename;
-    if (AudioManager->GetActiveMusic() != NULL && battle_music != AudioManager->GetActiveMusic()->GetFilename())
+    if (AudioManager->GetActiveMusic() != nullptr && battle_music != AudioManager->GetActiveMusic()->GetFilename())
         AudioManager->GetActiveMusic()->FadeOut(2000);
 
     // Play a random encounter sound

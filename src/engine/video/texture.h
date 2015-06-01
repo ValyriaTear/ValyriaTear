@@ -227,8 +227,8 @@ class FixedTexNode
 {
 public:
     FixedTexNode() :
-        image(NULL),
-        next(NULL),
+        image(nullptr),
+        next(nullptr),
         block_index(-1)
     {
     }
@@ -330,7 +330,7 @@ private:
     void _AddOpenNode(FixedTexNode *node);
 
     /** \brief Removes a node from the head of the open list to be used
-    *** \return A pointer to the node to use, or NULL if no nodes were available
+    *** \return A pointer to the node to use, or nullptr if no nodes were available
     **/
     FixedTexNode *_RemoveOpenNode();
 };
@@ -342,7 +342,7 @@ class VariableTexNode
 {
 public:
     VariableTexNode() :
-        image(NULL),
+        image(nullptr),
         free_image(true)
     {
     }

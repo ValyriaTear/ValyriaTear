@@ -1022,13 +1022,13 @@ public:
 
     /** \brief Retrieves a pointer to an object on this map
     *** \param object_id The id number of the object to retrieve
-    *** \return A pointer to the map object, or NULL if no object with that ID was found
+    *** \return A pointer to the map object, or nullptr if no object with that ID was found
     **/
     MapObject* GetObject(uint32 object_id);
 
     /** \brief Retrieves a pointer to a sprite on this map
     *** \param object_id The id number of the sprite to retrieve
-    *** \return A pointer to the sprite object, or NULL if the object was not found or was not a sprite type
+    *** \return A pointer to the sprite object, or nullptr if the object was not found or was not a sprite type
     **/
     VirtualSprite* GetSprite(uint32 object_id);
 
@@ -1094,7 +1094,7 @@ public:
     /** \brief Finds the nearest interactable map object within a certain distance of a sprite
     *** \param sprite The sprite who is trying to find its nearest object
     *** \param search_distance The maximum distance to search for an object from the sprite (default == 3.0f)
-    *** \return A pointer to the nearest map object, or NULL if no such object was found.
+    *** \return A pointer to the nearest map object, or nullptr if no such object was found.
     ***
     *** An interactable object must be in the same context as the function argument is. For an object
     *** to be valid, it's collision rectangle must be no greater than the search distance (in units of
@@ -1143,7 +1143,7 @@ public:
     *** \See COLLISION_TYPE for more information.
     **/
     COLLISION_TYPE DetectCollision(MapObject* object, float x, float y,
-                                   MapObject **collision_object_ptr = NULL);
+                                   MapObject **collision_object_ptr = nullptr);
 
     /** \brief Finds a path from a sprite's current position to a destination
     *** \param sprite A pointer of the sprite to find the path for

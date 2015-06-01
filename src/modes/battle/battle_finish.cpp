@@ -85,8 +85,8 @@ CharacterGrowth::CharacterGrowth(GlobalCharacter* ch) :
     _character(ch),
     _experience_levels_gained(0)
 {
-    if (ch == NULL) {
-        IF_PRINT_WARNING(BATTLE_DEBUG) << "NULL pointer passed to constructor" << std::endl;
+    if (ch == nullptr) {
+        IF_PRINT_WARNING(BATTLE_DEBUG) << "nullptr pointer passed to constructor" << std::endl;
     }
 }
 

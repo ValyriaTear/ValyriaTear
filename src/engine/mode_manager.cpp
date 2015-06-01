@@ -33,7 +33,7 @@ using namespace vt_audio;
 namespace vt_mode_manager
 {
 
-ModeEngine *ModeManager = NULL;
+ModeEngine *ModeManager = nullptr;
 bool MODE_MANAGER_DEBUG = false;
 
 const uint32 FADE_IN_OUT_TIME = 800;
@@ -253,7 +253,7 @@ uint8 ModeEngine::GetGameType(uint32 index)
 GameMode *ModeEngine::GetTop()
 {
     if(_game_stack.empty())
-        return NULL;
+        return nullptr;
     else
         return _game_stack.back();
 }
@@ -263,7 +263,7 @@ GameMode *ModeEngine::GetTop()
 GameMode *ModeEngine::Get(uint32 index)
 {
     if(_game_stack.size() < index)
-        return NULL;
+        return nullptr;
     else
         return _game_stack.at(_game_stack.size() - index);
 }

@@ -211,7 +211,7 @@ public:
     //@{
     //! \brief Returns the object ID of the speaker for the line specified (or zero if the line index was invalid)
     MapSprite* GetLineSpeaker(uint32 line) const {
-        if(line >= _line_count) return NULL;
+        if(line >= _line_count) return nullptr;
         else return _speakers[line];
     }
 
@@ -408,7 +408,7 @@ public:
 
     /** \brief Returns a pointer to the CommonDialogue with the requested ID value
     *** \param dialogue_id The identification number of the dialogue to retrieve
-    *** \return A pointer to the dialogue requested, or NULL if no such dialogue was found
+    *** \return A pointer to the dialogue requested, or nullptr if no such dialogue was found
     **/
     SpriteDialogue *GetDialogue(const std::string& dialogue_id);
 

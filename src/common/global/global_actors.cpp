@@ -97,7 +97,7 @@ bool GlobalAttackPoint::LoadData(ReadScriptDescriptor &script)
 
 void GlobalAttackPoint::CalculateTotalDefense(const GlobalArmor* equipped_armor)
 {
-    if(_actor_owner == NULL) {
+    if(_actor_owner == nullptr) {
         IF_PRINT_WARNING(GLOBAL_DEBUG) << "attack point has no owning actor" << std::endl;
         return;
     }
@@ -132,7 +132,7 @@ void GlobalAttackPoint::CalculateTotalDefense(const GlobalArmor* equipped_armor)
 
 void GlobalAttackPoint::CalculateTotalEvade()
 {
-    if(_actor_owner == NULL) {
+    if(_actor_owner == nullptr) {
         IF_PRINT_WARNING(GLOBAL_DEBUG) << "attack point has no owning actor" << std::endl;
         return;
     }
@@ -378,7 +378,7 @@ GlobalAttackPoint *GlobalActor::GetAttackPoint(uint32 index) const
 {
     if(index >= _attack_points.size()) {
         IF_PRINT_WARNING(GLOBAL_DEBUG) << "index argument exceeded number of attack points: " << index << std::endl;
-        return NULL;
+        return nullptr;
     }
 
     return _attack_points[index];
@@ -601,7 +601,7 @@ void GlobalActor::_CalculateDefenseRatings()
 {
     // Re-calculate the defense ratings for all attack points
     for(uint32 i = 0; i < _attack_points.size(); ++i)
-        _attack_points[i]->CalculateTotalDefense(NULL);
+        _attack_points[i]->CalculateTotalDefense(nullptr);
 }
 
 
@@ -621,7 +621,7 @@ void GlobalActor::_CalculateEvadeRatings()
 GlobalCharacter::GlobalCharacter(uint32 id, bool initial) :
     _experience_level(0),
     _enabled(true),
-    _weapon_equipped(NULL),
+    _weapon_equipped(nullptr),
     _experience_for_next_level(0),
     _hit_points_growth(0),
     _skill_points_growth(0),
@@ -753,31 +753,31 @@ GlobalCharacter::GlobalCharacter(uint32 id, bool initial) :
         if(equipment_id != 0)
             _weapon_equipped = new GlobalWeapon(equipment_id);
         else
-            _weapon_equipped = NULL;
+            _weapon_equipped = nullptr;
 
         equipment_id = char_script.ReadUInt("head_armor");
         if(equipment_id != 0)
             _armor_equipped.push_back(new GlobalArmor(equipment_id));
         else
-            _armor_equipped.push_back(NULL);
+            _armor_equipped.push_back(nullptr);
 
         equipment_id = char_script.ReadUInt("torso_armor");
         if(equipment_id != 0)
             _armor_equipped.push_back(new GlobalArmor(equipment_id));
         else
-            _armor_equipped.push_back(NULL);
+            _armor_equipped.push_back(nullptr);
 
         equipment_id = char_script.ReadUInt("arm_armor");
         if(equipment_id != 0)
             _armor_equipped.push_back(new GlobalArmor(equipment_id));
         else
-            _armor_equipped.push_back(NULL);
+            _armor_equipped.push_back(nullptr);
 
         equipment_id = char_script.ReadUInt("leg_armor");
         if(equipment_id != 0)
             _armor_equipped.push_back(new GlobalArmor(equipment_id));
         else
-            _armor_equipped.push_back(NULL);
+            _armor_equipped.push_back(nullptr);
 
         char_script.CloseTable(); // initial_stats
         if(char_script.IsErrorDetected()) {
@@ -791,7 +791,7 @@ GlobalCharacter::GlobalCharacter(uint32 id, bool initial) :
     else {
         // Make sure the _armor_equipped vector is sized appropriately. Armor should be equipped on the character
         // externally to this constructor.
-        _armor_equipped.resize(4, NULL);
+        _armor_equipped.resize(4, nullptr);
     }
 
     // Setup the character's attack points
@@ -891,10 +891,10 @@ GlobalCharacter::GlobalCharacter(uint32 id, bool initial) :
 GlobalCharacter::~GlobalCharacter()
 {
     // Delete all equipment
-    if(_weapon_equipped != NULL)
+    if(_weapon_equipped != nullptr)
         delete _weapon_equipped;
     for(uint32 i = 0; i < _armor_equipped.size(); ++i) {
-        if(_armor_equipped[i] != NULL)
+        if(_armor_equipped[i] != nullptr)
             delete _armor_equipped[i];
     }
     _armor_equipped.clear();
@@ -984,7 +984,7 @@ GlobalArmor *GlobalCharacter::_EquipArmor(GlobalArmor *armor, uint32 index)
     GlobalArmor *old_armor = _armor_equipped[index];
     _armor_equipped[index] = armor;
 
-    if(old_armor != NULL && armor != NULL) {
+    if(old_armor != nullptr && armor != nullptr) {
         if(old_armor->GetObjectType() != armor->GetObjectType()) {
             IF_PRINT_WARNING(GLOBAL_DEBUG) << "old armor was replaced with a different type of armor" << std::endl;
         }
@@ -1005,7 +1005,7 @@ GlobalArmor *GlobalCharacter::GetArmorEquipped(uint32 index) const
 {
     if(index >= _armor_equipped.size()) {
         IF_PRINT_WARNING(GLOBAL_DEBUG) << "index argument exceeded number of pieces of armor equipped: " << index << std::endl;
-        return NULL;
+        return nullptr;
     }
 
     return _armor_equipped[index];
@@ -1017,7 +1017,7 @@ bool GlobalCharacter::HasEquipment() const
         return true;
 
     for (uint32 i = 0; i < _armor_equipped.size(); ++i) {
-        if (_armor_equipped.at(i) != NULL)
+        if (_armor_equipped.at(i) != nullptr)
             return true;
     }
     return false;
@@ -1389,10 +1389,10 @@ void GlobalCharacter::_CalculateDefenseRatings()
 {
     // Re-calculate the defense ratings for all attack points
     for(uint32 i = 0; i < _attack_points.size(); ++i) {
-        if((i < _armor_equipped.size()) && (_armor_equipped[i] != NULL))
+        if((i < _armor_equipped.size()) && (_armor_equipped[i] != nullptr))
             _attack_points[i]->CalculateTotalDefense(_armor_equipped[i]);
         else
-            _attack_points[i]->CalculateTotalDefense(NULL);
+            _attack_points[i]->CalculateTotalDefense(nullptr);
     }
 }
 
@@ -1618,8 +1618,8 @@ void GlobalEnemy::DetermineDroppedObjects(std::vector<GlobalObject *>& objects)
 
 void GlobalParty::AddCharacter(GlobalCharacter *character, int32 index)
 {
-    if(character == NULL) {
-        IF_PRINT_WARNING(GLOBAL_DEBUG) << "function received a NULL character argument" << std::endl;
+    if(character == nullptr) {
+        IF_PRINT_WARNING(GLOBAL_DEBUG) << "function received a nullptr character argument" << std::endl;
         return;
     }
 
@@ -1659,7 +1659,7 @@ GlobalCharacter *GlobalParty::RemoveCharacterAtIndex(uint32 index)
     if(index >= _characters.size()) {
         IF_PRINT_WARNING(GLOBAL_DEBUG) << "index argument exceeded current party size: "
                                        << index << std::endl;
-        return NULL;
+        return nullptr;
     }
 
     GlobalCharacter *removed_character = _characters[index];
@@ -1676,10 +1676,10 @@ GlobalCharacter *GlobalParty::RemoveCharacterByID(uint32 id)
 {
     if(_allow_duplicates) {
         IF_PRINT_WARNING(GLOBAL_DEBUG) << "tried to remove character when duplicates were allowed in the party: " << id << std::endl;
-        return NULL;
+        return nullptr;
     }
 
-    GlobalCharacter *removed_character = NULL;
+    GlobalCharacter *removed_character = nullptr;
     for(std::vector<GlobalCharacter *>::iterator position = _characters.begin(); position != _characters.end(); ++position) {
         if(id == (*position)->GetID()) {
             removed_character = *position;
@@ -1688,7 +1688,7 @@ GlobalCharacter *GlobalParty::RemoveCharacterByID(uint32 id)
         }
     }
 
-    if(removed_character == NULL) {
+    if(removed_character == nullptr) {
         IF_PRINT_WARNING(GLOBAL_DEBUG) << "failed to find an character in the party with the requested id: " << id << std::endl;
     }
 
@@ -1701,7 +1701,7 @@ GlobalCharacter *GlobalParty::GetCharacterAtIndex(uint32 index) const
 {
     if(index >= _characters.size()) {
         IF_PRINT_WARNING(GLOBAL_DEBUG) << "index argument exceeded current party size: " << index << std::endl;
-        return NULL;
+        return nullptr;
     }
 
     return _characters[index];
@@ -1713,7 +1713,7 @@ GlobalCharacter *GlobalParty::GetCharacterByID(uint32 id) const
 {
     if(_allow_duplicates) {
         IF_PRINT_WARNING(GLOBAL_DEBUG) << "tried to retrieve character when duplicates were allowed in the party: " << id << std::endl;
-        return NULL;
+        return nullptr;
     }
 
     for(uint32 i = 0; i < _characters.size(); ++i) {
@@ -1723,7 +1723,7 @@ GlobalCharacter *GlobalParty::GetCharacterByID(uint32 id) const
     }
 
     IF_PRINT_WARNING(GLOBAL_DEBUG) << "failed to find an character in the party with the requested id: " << id << std::endl;
-    return NULL;
+    return nullptr;
 }
 
 
@@ -1790,13 +1790,13 @@ void GlobalParty::SwapCharactersByID(uint32 first_id, uint32 second_id)
 
 GlobalCharacter *GlobalParty::ReplaceCharacterByIndex(uint32 index, GlobalCharacter *new_character)
 {
-    if(new_character == NULL) {
-        IF_PRINT_WARNING(GLOBAL_DEBUG) << "function received a NULL new_character argument" << std::endl;
-        return NULL;
+    if(new_character == nullptr) {
+        IF_PRINT_WARNING(GLOBAL_DEBUG) << "function received a nullptr new_character argument" << std::endl;
+        return nullptr;
     }
     if(index >= _characters.size()) {
         IF_PRINT_WARNING(GLOBAL_DEBUG) << "index argument exceeded current party size: " << index << std::endl;
-        return NULL;
+        return nullptr;
     }
 
     GlobalCharacter *tmp = _characters[index];
@@ -1810,14 +1810,14 @@ GlobalCharacter *GlobalParty::ReplaceCharacterByID(uint32 id, GlobalCharacter *n
 {
     if(_allow_duplicates) {
         IF_PRINT_WARNING(GLOBAL_DEBUG) << "tried to replace character when duplicates were allowed in the party: " << id << std::endl;
-        return NULL;
+        return nullptr;
     }
-    if(new_character == NULL) {
-        IF_PRINT_WARNING(GLOBAL_DEBUG) << "function received a NULL new_character argument" << std::endl;
-        return NULL;
+    if(new_character == nullptr) {
+        IF_PRINT_WARNING(GLOBAL_DEBUG) << "function received a nullptr new_character argument" << std::endl;
+        return nullptr;
     }
 
-    GlobalCharacter *removed_character = NULL;
+    GlobalCharacter *removed_character = nullptr;
     for(std::vector<GlobalCharacter *>::iterator position = _characters.begin(); position != _characters.end(); ++position) {
         if((*position)->GetID() == id) {
             removed_character = *position;
@@ -1826,7 +1826,7 @@ GlobalCharacter *GlobalParty::ReplaceCharacterByID(uint32 id, GlobalCharacter *n
         }
     }
 
-    if(removed_character == NULL) {
+    if(removed_character == nullptr) {
         IF_PRINT_WARNING(GLOBAL_DEBUG) << "failed to find an character in the party with the requested id: " << id << std::endl;
     }
 

@@ -419,7 +419,7 @@ public:
     //! \brief Convenience wrapper for all targets type skills
     //! This one useful for self target-type skills, and all allies/enemies target-type skills.
     void SetAction(uint32 skill_id) {
-        SetAction(skill_id, NULL);
+        SetAction(skill_id, nullptr);
     }
 
     //! \brief Convenience wrapper for single target type skills
@@ -499,7 +499,7 @@ public:
     }
 
     bool IsActionSet() const {
-        return (_action != NULL);
+        return (_action != nullptr);
     }
 
     uint32 GetIdleStateTime() const {
@@ -656,7 +656,7 @@ public:
 
     /** \brief Draws the character's status in the bottom area of the screen
     *** \param order The order position of the character [0-3] used to determine draw positions
-    *** \param character_command Tells which character the command menu is open for, if any. (can be NULL)
+    *** \param character_command Tells which character the command menu is open for, if any. (can be nullptr)
     **/
     void DrawStatus(uint32 order, BattleCharacter* character_command);
 

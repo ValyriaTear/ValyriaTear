@@ -166,9 +166,9 @@ public:
     void Initialize(uint32 duration, int32 loops = 0);
 
     /** \brief Enables the auto update feature for the timer
-    *** \param owner A pointer to the GameMode which owns this class. Default value is set to NULL (no owner).
+    *** \param owner A pointer to the GameMode which owns this class. Default value is set to nullptr (no owner).
     **/
-    void EnableAutoUpdate(vt_mode_manager::GameMode *owner = NULL);
+    void EnableAutoUpdate(vt_mode_manager::GameMode *owner = nullptr);
 
     //! \brief Disables the timer auto update feature
     void EnableManualUpdate();
@@ -306,7 +306,7 @@ protected:
     //! \brief The number of loops the timer should run for. -1 indicates infinite looping.
     int32 _number_loops;
 
-    //! \brief A pointer to the game mode object which owns this timer, or NULL if it is unowned
+    //! \brief A pointer to the game mode object which owns this timer, or nullptr if it is unowned
     vt_mode_manager::GameMode *_mode_owner;
 
     //! \brief The amount of time that has expired on the current timer loop (counts up from 0 to _duration)

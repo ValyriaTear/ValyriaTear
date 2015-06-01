@@ -32,7 +32,7 @@ namespace vt_global
 
 using namespace private_global;
 
-GameGlobal *GlobalManager = NULL;
+GameGlobal *GlobalManager = nullptr;
 bool GLOBAL_DEBUG = false;
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -80,7 +80,7 @@ GameGlobal::GameGlobal() :
     _max_experience_level(100),
     _x_save_map_position(0),
     _y_save_map_position(0),
-    _world_map_image(NULL),
+    _world_map_image(nullptr),
     _same_map_hud_name_as_previous(false),
     _quest_log_count(0),
     _show_minimap(true)
@@ -375,8 +375,8 @@ void GameGlobal::AddCharacter(uint32 id)
 
 void GameGlobal::AddCharacter(GlobalCharacter *ch)
 {
-    if(ch == NULL) {
-        IF_PRINT_WARNING(GLOBAL_DEBUG) << "function received NULL pointer argument" << std::endl;
+    if(ch == nullptr) {
+        IF_PRINT_WARNING(GLOBAL_DEBUG) << "function received nullptr pointer argument" << std::endl;
         return;
     }
 
@@ -436,7 +436,7 @@ GlobalCharacter *GameGlobal::GetCharacter(uint32 id)
 {
     std::map<uint32, GlobalCharacter *>::iterator ch = _characters.find(id);
     if(ch == _characters.end())
-        return NULL;
+        return nullptr;
     else
         return (ch->second);
 }
@@ -498,7 +498,7 @@ void GameGlobal::AddToInventory(uint32 obj_id, uint32 obj_count)
     }
 
     // Otherwise create a new object instance and add it to the inventory
-    GlobalObject* new_object = NULL;
+    GlobalObject* new_object = nullptr;
     if((obj_id > 0 && obj_id <= MAX_ITEM_ID)
             || (obj_id > MAX_SPIRIT_ID && obj_id <= MAX_KEY_ITEM_ID)) {
         GlobalItem* new_item = new GlobalItem(obj_id, obj_count);
@@ -540,14 +540,14 @@ void GameGlobal::AddToInventory(uint32 obj_id, uint32 obj_count)
     }
 
     // Updates the key items list
-    if (new_object != NULL && new_object->IsKeyItem())
+    if (new_object != nullptr && new_object->IsKeyItem())
         _inventory_key_items.push_back(new_object);
 }
 
 void GameGlobal::AddToInventory(GlobalObject *object)
 {
-    if(object == NULL) {
-        IF_PRINT_WARNING(GLOBAL_DEBUG) << "function received NULL pointer argument" << std::endl;
+    if(object == nullptr) {
+        IF_PRINT_WARNING(GLOBAL_DEBUG) << "function received nullptr pointer argument" << std::endl;
         return;
     }
 
@@ -618,7 +618,7 @@ void GameGlobal::RemoveFromInventory(uint32 obj_id)
 
     // Check whether the item is a key item to remove.
     GlobalObject* object = it->second;
-    if (object != NULL && object->IsKeyItem()) {
+    if (object != nullptr && object->IsKeyItem()) {
         for(std::vector<GlobalObject *>::iterator it2 = _inventory_key_items.begin();
                 it2 != _inventory_key_items.end(); ++it2) {
             if((*it2)->GetID() != obj_id)
@@ -661,39 +661,39 @@ GlobalObject* GameGlobal::GetGlobalObject(uint32 obj_id)
 {
     if(_inventory.find(obj_id) == _inventory.end()) {
         IF_PRINT_WARNING(GLOBAL_DEBUG) << "attempted to retrieve an object from inventory that didn't exist with id: " << obj_id << std::endl;
-        return NULL;
+        return nullptr;
     }
 
-    GlobalObject *return_object = NULL;
+    GlobalObject *return_object = nullptr;
     // Use the id value to figure out what type of object it is, and remove it from the object vector
     if((obj_id > 0 && obj_id <= MAX_ITEM_ID)
         || (obj_id > MAX_SPIRIT_ID && obj_id <= MAX_KEY_ITEM_ID)) {
         return_object = _GetFromInventory(obj_id, _inventory_items);
-        if(return_object == NULL)
+        if(return_object == nullptr)
             IF_PRINT_WARNING(GLOBAL_DEBUG) << "object to retrieve was not found in inventory items: " << obj_id << std::endl;
     } else if((obj_id > MAX_ITEM_ID) && (obj_id <= MAX_WEAPON_ID)) {
         return_object = _GetFromInventory(obj_id, _inventory_weapons);
-        if(return_object == NULL)
+        if(return_object == nullptr)
             IF_PRINT_WARNING(GLOBAL_DEBUG) << "object to retrieve was not found in inventory weapons: " << obj_id << std::endl;
     } else if((obj_id > MAX_WEAPON_ID) && (obj_id <= MAX_HEAD_ARMOR_ID)) {
         return_object = _GetFromInventory(obj_id, _inventory_head_armor);
-        if(return_object == NULL)
+        if(return_object == nullptr)
             IF_PRINT_WARNING(GLOBAL_DEBUG) << "object to retrieve was not found in inventory head armor: " << obj_id << std::endl;
     } else if((obj_id > MAX_HEAD_ARMOR_ID) && (obj_id <= MAX_TORSO_ARMOR_ID)) {
         return_object = _GetFromInventory(obj_id, _inventory_torso_armor);
-        if(return_object == NULL)
+        if(return_object == nullptr)
             IF_PRINT_WARNING(GLOBAL_DEBUG) << "object to retrieve was not found in inventory torso armor: " << obj_id << std::endl;
     } else if((obj_id > MAX_TORSO_ARMOR_ID) && (obj_id <= MAX_ARM_ARMOR_ID)) {
         return_object = _GetFromInventory(obj_id, _inventory_arm_armor);
-        if(return_object == NULL)
+        if(return_object == nullptr)
             IF_PRINT_WARNING(GLOBAL_DEBUG) << "object to retrieve was not found in inventory arm armor: " << obj_id << std::endl;
     } else if((obj_id > MAX_ARM_ARMOR_ID) && (obj_id <= MAX_LEG_ARMOR_ID)) {
         return_object = _GetFromInventory(obj_id, _inventory_leg_armor);
-        if(return_object == NULL)
+        if(return_object == nullptr)
             IF_PRINT_WARNING(GLOBAL_DEBUG) << "object to retrieve was not found in inventory leg armor: " << obj_id << std::endl;
     } else if((obj_id > MAX_LEG_ARMOR_ID) && (obj_id <= MAX_SPIRIT_ID)) {
         return_object = _GetFromInventory(obj_id, _inventory_spirits);
-        if(return_object == NULL)
+        if(return_object == nullptr)
             IF_PRINT_WARNING(GLOBAL_DEBUG) << "object to retrieve was not found in inventory spirits: " << obj_id << std::endl;
     } else {
         IF_PRINT_WARNING(GLOBAL_DEBUG) << "attempted to retrieve an object from inventory with an invalid id: " << obj_id << std::endl;
@@ -774,7 +774,7 @@ GlobalEventGroup *GameGlobal::GetEventGroup(const std::string &group_name) const
     std::map<std::string, GlobalEventGroup *>::const_iterator group_iter = _event_groups.find(group_name);
     if(group_iter == _event_groups.end()) {
         IF_PRINT_WARNING(GLOBAL_DEBUG) << "could not find any event group by the requested name: " << group_name << std::endl;
-        return NULL;
+        return nullptr;
     }
     return (group_iter->second);
 }
@@ -1182,8 +1182,8 @@ void GameGlobal::_SaveCharacter(WriteScriptDescriptor &file, GlobalCharacter *ch
         IF_PRINT_WARNING(GLOBAL_DEBUG) << "the file provided in the function argument was not open" << std::endl;
         return;
     }
-    if(character == NULL) {
-        IF_PRINT_WARNING(GLOBAL_DEBUG) << "function received a NULL character pointer argument" << std::endl;
+    if(character == nullptr) {
+        IF_PRINT_WARNING(GLOBAL_DEBUG) << "function received a nullptr character pointer argument" << std::endl;
         return;
     }
 
@@ -1216,26 +1216,26 @@ void GameGlobal::_SaveCharacter(WriteScriptDescriptor &file, GlobalCharacter *ch
     uint32 torso_id = 0;
     uint32 arm_id = 0;
     uint32 leg_id = 0;
-    GlobalObject *obj_tmp = NULL;
+    GlobalObject *obj_tmp = nullptr;
 
     obj_tmp = character->GetWeaponEquipped();
-    if(obj_tmp != NULL)
+    if(obj_tmp != nullptr)
         weapon_id = obj_tmp->GetID();
 
     obj_tmp = character->GetHeadArmorEquipped();
-    if(obj_tmp != NULL)
+    if(obj_tmp != nullptr)
         head_id = obj_tmp->GetID();
 
     obj_tmp = character->GetTorsoArmorEquipped();
-    if(obj_tmp != NULL)
+    if(obj_tmp != nullptr)
         torso_id = obj_tmp->GetID();
 
     obj_tmp = character->GetArmArmorEquipped();
-    if(obj_tmp != NULL)
+    if(obj_tmp != nullptr)
         arm_id = obj_tmp->GetID();
 
     obj_tmp = character->GetLegArmorEquipped();
-    if(obj_tmp != NULL)
+    if(obj_tmp != nullptr)
         leg_id = obj_tmp->GetID();
 
     file.InsertNewLine();
@@ -1295,8 +1295,8 @@ void GameGlobal::_SaveEvents(WriteScriptDescriptor &file, GlobalEventGroup *even
         IF_PRINT_WARNING(GLOBAL_DEBUG) << "the file provided in the function argument was not open" << std::endl;
         return;
     }
-    if(event_group == NULL) {
-        IF_PRINT_WARNING(GLOBAL_DEBUG) << "function received a NULL event group pointer argument" << std::endl;
+    if(event_group == nullptr) {
+        IF_PRINT_WARNING(GLOBAL_DEBUG) << "function received a nullptr event group pointer argument" << std::endl;
         return;
     }
 
@@ -1331,9 +1331,9 @@ void GameGlobal::_SaveQuests(WriteScriptDescriptor &file, const QuestLogEntry *q
         return;
     }
 
-    if(quest_log_entry == NULL)
+    if(quest_log_entry == nullptr)
     {
-        IF_PRINT_WARNING(GLOBAL_DEBUG) << "_SaveQuests function received a NULL quest log entry pointer argument" << std::endl;
+        IF_PRINT_WARNING(GLOBAL_DEBUG) << "_SaveQuests function received a nullptr quest log entry pointer argument" << std::endl;
         return;
     }
 
@@ -1591,7 +1591,7 @@ void GameGlobal::_LoadEvents(ReadScriptDescriptor &file, const std::string &grou
     }
 
     AddNewEventGroup(group_name);
-    GlobalEventGroup *new_group = GetEventGroup(group_name); // new_group is guaranteed not to be NULL
+    GlobalEventGroup *new_group = GetEventGroup(group_name); // new_group is guaranteed not to be nullptr
 
     std::vector<std::string> event_names;
 

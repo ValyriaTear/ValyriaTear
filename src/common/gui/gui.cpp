@@ -30,7 +30,7 @@ using namespace vt_video;
 namespace vt_gui
 {
 
-GUISystem *GUIManager = NULL;
+GUISystem *GUIManager = nullptr;
 
 namespace private_gui
 {
@@ -193,7 +193,7 @@ using namespace private_gui;
 // *****************************************************************************
 
 GUISystem::GUISystem():
-    _default_skin(NULL)
+    _default_skin(nullptr)
 {
     _DEBUG_draw_outlines = false;
 }
@@ -474,7 +474,7 @@ void GUISystem::ReloadSkinNames(const std::string& theme_script_filename)
 private_gui::MenuSkin *GUISystem::_GetMenuSkin(const std::string &skin_name)
 {
     if(_menu_skins.find(skin_name) == _menu_skins.end())
-        return NULL;
+        return nullptr;
     else
         return &(_menu_skins[skin_name]);
 }

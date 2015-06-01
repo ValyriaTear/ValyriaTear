@@ -37,7 +37,7 @@ using namespace vt_video::private_video;
 namespace vt_video
 {
 
-VideoEngine *VideoManager = NULL;
+VideoEngine *VideoManager = nullptr;
 bool VIDEO_DEBUG = false;
 
 //-----------------------------------------------------------------------------
@@ -72,12 +72,12 @@ void RotatePoint(float &x, float &y, float angle)
 //-----------------------------------------------------------------------------
 
 VideoEngine::VideoEngine():
-    _sdl_window(NULL),
+    _sdl_window(nullptr),
     _fps_display(false),
     _fps_sum(0),
     _current_sample(0),
     _number_samples(0),
-    _FPS_textimage(NULL),
+    _FPS_textimage(nullptr),
     _gl_error_code(GL_NO_ERROR),
     _gl_blend_is_active(false),
     _gl_texture_2d_is_active(false),
@@ -101,8 +101,8 @@ VideoEngine::VideoEngine():
     _temp_height(0),
     _vsync_mode(0),
     _game_update_mode(false),
-    _sprite(NULL),
-    _particle_system(NULL),
+    _sprite(nullptr),
+    _particle_system(nullptr),
     _initialized(false)
 {
     _current_context.blend = 0;
@@ -203,13 +203,13 @@ VideoEngine::~VideoEngine()
     // Clean up the sprite.
     if (_sprite) {
         delete _sprite;
-        _sprite = NULL;
+        _sprite = nullptr;
     }
 
     // Clean up the particle system.
     if (_particle_system) {
         delete _particle_system;
-        _particle_system = NULL;
+        _particle_system = nullptr;
     }
 
     // Clean up the shaders and shader programs.
@@ -218,14 +218,14 @@ VideoEngine::~VideoEngine()
     for (std::map<gl::shader_programs::ShaderPrograms, gl::ShaderProgram*>::iterator i = _programs.begin(); i != _programs.end(); ++i)
     {
         delete i->second;
-        i->second = NULL;
+        i->second = nullptr;
     }
     _programs.clear();
 
     for (std::map<gl::shaders::Shaders, gl::Shader*>::iterator i = _shaders.begin(); i != _shaders.end(); ++i)
     {
         delete i->second;
-        i->second = NULL;
+        i->second = nullptr;
     }
     _shaders.clear();
 
@@ -446,7 +446,7 @@ const std::string VideoEngine::CreateGLErrorString()
 {
     const GLubyte *error_string = gluErrorString(_gl_error_code);
 
-    if(error_string == NULL)
+    if(error_string == nullptr)
         return ("Unknown GL error code: " + NumberToString(_gl_error_code));
     else
         return (char *)error_string;
@@ -700,7 +700,7 @@ void VideoEngine::DisableTexture2D()
 
 gl::ShaderProgram* VideoEngine::LoadShaderProgram(const gl::shader_programs::ShaderPrograms& shader_program)
 {
-    gl::ShaderProgram* result = NULL;
+    gl::ShaderProgram* result = nullptr;
 
     assert(_programs.find(shader_program) != _programs.end());
     if (_programs.find(shader_program) != _programs.end()) {
@@ -722,11 +722,11 @@ void VideoEngine::DrawParticleSystem(gl::ShaderProgram* shader_program,
                                      float* vertex_colors,
                                      unsigned number_of_vertices)
 {
-    assert(_particle_system != NULL);
-    assert(shader_program != NULL);
-    assert(vertex_positions != NULL);
-    assert(vertex_texture_coordinates != NULL);
-    assert(vertex_colors != NULL);
+    assert(_particle_system != nullptr);
+    assert(shader_program != nullptr);
+    assert(vertex_positions != nullptr);
+    assert(vertex_texture_coordinates != nullptr);
+    assert(vertex_colors != nullptr);
     assert(number_of_vertices % 4 == 0);
 
     // Load the shader uniforms common to all programs.
@@ -753,11 +753,11 @@ void VideoEngine::DrawSprite(gl::ShaderProgram* shader_program,
                              float* vertex_colors,
                              const Color& color)
 {
-    assert(_sprite != NULL);
-    assert(shader_program != NULL);
-    assert(vertex_positions != NULL);
-    assert(vertex_texture_coordinates != NULL);
-    assert(vertex_colors != NULL);
+    assert(_sprite != nullptr);
+    assert(shader_program != nullptr);
+    assert(vertex_positions != nullptr);
+    assert(vertex_texture_coordinates != nullptr);
+    assert(vertex_colors != nullptr);
 
     // Load the shader uniforms common to all programs.
     float buffer[16] = { 0 };
@@ -927,7 +927,7 @@ StillImage VideoEngine::CaptureScreen() throw(Exception)
     VariableTexSheet *sheet = dynamic_cast<VariableTexSheet *>(temp_sheet);
 
     // Ensure that texture sheet creation succeeded, insert the texture image into the sheet, and copy the screen into the sheet
-    if(sheet == NULL) {
+    if(sheet == nullptr) {
         delete new_image;
         throw Exception("could not create texture sheet to store captured screen", __FILE__, __LINE__, __FUNCTION__);
     }
@@ -963,7 +963,7 @@ StillImage VideoEngine::CreateImage(ImageMemory *raw_image, const std::string &i
     //check if the raw_image pointer is valid
     if(!raw_image)
     {
-        throw Exception("raw_image is NULL, cannot create a StillImage", __FILE__, __LINE__, __FUNCTION__);
+        throw Exception("raw_image is nullptr, cannot create a StillImage", __FILE__, __LINE__, __FUNCTION__);
     }
 
     still_image.SetDimensions(raw_image->width, raw_image->height);
@@ -994,7 +994,7 @@ StillImage VideoEngine::CreateImage(ImageMemory *raw_image, const std::string &i
     VariableTexSheet *sheet = dynamic_cast<VariableTexSheet *>(temp_sheet);
 
     // Ensure that texture sheet creation succeeded, insert the texture image into the sheet, and copy the screen into the sheet
-    if(sheet == NULL) {
+    if(sheet == nullptr) {
         delete new_image;
         throw Exception("could not create texture sheet to store still image", __FILE__, __LINE__, __FUNCTION__);
     }
@@ -1071,7 +1071,7 @@ void VideoEngine::MakeScreenshot(const std::string &filename)
         IF_PRINT_WARNING(VIDEO_DEBUG) << "an OpenGL error occured: " << CreateGLErrorString() << std::endl;
 
         free(buffer.pixels);
-        buffer.pixels = NULL;
+        buffer.pixels = nullptr;
         return;
     }
 
@@ -1089,7 +1089,7 @@ void VideoEngine::MakeScreenshot(const std::string &filename)
 
     free(buffer_temp);
     free(buffer.pixels);
-    buffer.pixels = NULL;
+    buffer.pixels = nullptr;
 }
 
 int32 VideoEngine::_ConvertYAlign(int32 y_align)
@@ -1171,7 +1171,7 @@ void VideoEngine::DrawLine(float x1, float y1, unsigned width1, float x2, float 
 
     // Load the solid shader program.
     gl::ShaderProgram* shader_program = VideoManager->LoadShaderProgram(gl::shader_programs::Solid);
-    assert(shader_program != NULL);
+    assert(shader_program != nullptr);
 
     // Draw the line.
     DrawSprite(shader_program, vertex_positions, vertex_texture_coordinates, vertex_colors, color);

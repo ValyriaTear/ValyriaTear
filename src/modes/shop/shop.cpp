@@ -54,7 +54,7 @@ namespace vt_shop
 
 bool SHOP_DEBUG = false;
 // Initialize static class variable
-ShopMode *ShopMode::_current_instance = NULL;
+ShopMode *ShopMode::_current_instance = nullptr;
 
 namespace private_shop
 {
@@ -130,7 +130,7 @@ ustring *ShopMedia::GetCategoryName(GLOBAL_OBJECT object_type)
         index = 7;
         break;
     default:
-        return NULL;
+        return nullptr;
     }
 
     return &(_all_category_names[index]);
@@ -142,7 +142,7 @@ ustring *ShopMedia::GetCategoryName(GLOBAL_OBJECT object_type)
 
 ShopObjectViewer::ShopObjectViewer() :
     _view_mode(SHOP_VIEW_MODE_LIST),
-    _selected_object(NULL),
+    _selected_object(nullptr),
     _object_type(SHOP_OBJECT_INVALID),
     _is_weapon(false),
     _map_usable(false),
@@ -284,7 +284,7 @@ void ShopObjectViewer::Update()
 
 void ShopObjectViewer::Draw()
 {
-    if(_selected_object == NULL) {
+    if(_selected_object == nullptr) {
         return;
     }
 
@@ -342,8 +342,8 @@ void ShopObjectViewer::Draw()
 
 void ShopObjectViewer::SetSelectedObject(ShopObject *object)
 {
-    if(object == NULL) {
-        _selected_object = NULL;
+    if(object == nullptr) {
+        _selected_object = nullptr;
         return;
     }
 
@@ -498,8 +498,8 @@ void ShopObjectViewer::_SetEquipmentData()
     }
 
     // Determine whether the selected object is a weapon or piece of armor
-    GlobalWeapon *selected_weapon = NULL;
-    GlobalArmor *selected_armor = NULL;
+    GlobalWeapon *selected_weapon = nullptr;
+    GlobalArmor *selected_armor = nullptr;
     uint32 usable_status = 0; // This is a bit mask that will hold the selected object's usablility information
     uint32 armor_index = 0; // Will hold the correct index into a GlobalCharacter object's equipped armor container
 
@@ -570,14 +570,14 @@ void ShopObjectViewer::_SetEquipmentData()
 
     // For each character, determine if they already have the selection equipped or determine the change in pricing
     std::vector<GlobalCharacter *>* party = GlobalManager->GetOrderedCharacters();
-    GlobalCharacter *character = NULL;
+    GlobalCharacter *character = nullptr;
     int32 phys_diff = 0, mag_diff = 0; // Holds the difference in attack power from equipped weapon/armor to selected weapon/armor
 
     // NOTE: In this block of code, entries to the _phys_change_text and _mag_change_text members are only modified if that information is to be
     // displayed for the character (meaning that the character can use the weapon/armor and does not already have it equipped). This means
     // that these two container members may contain stale data from previous objects. This is acceptable, however, as the stale data should
     // never be drawn. The stale data is allowed to remain so that we do not waste time re-rendering text for which we will not display.
-    if(selected_weapon != NULL) {
+    if(selected_weapon != nullptr) {
         for(uint32 i = 0; i < party->size(); ++i) {
             character = party->at(i);
             GlobalWeapon* equipped_weapon = character->GetWeaponEquipped();
@@ -596,7 +596,7 @@ void ShopObjectViewer::_SetEquipmentData()
                 continue;
             }
             // Case 2: if the player does not have any weapon equipped, the stat diff is equal to the selected weapon's ratings
-            if(equipped_weapon == NULL) {
+            if(equipped_weapon == nullptr) {
                 phys_diff = static_cast<int32>(selected_weapon->GetPhysicalAttack());
                 mag_diff = static_cast<int32>(selected_weapon->GetMagicalAttack());
             }
@@ -616,7 +616,7 @@ void ShopObjectViewer::_SetEquipmentData()
             // If this line has been reached, either case (2) or case (4) were evaluated as true. Render the phys/meta stat variation text
             _SetChangeText(i, phys_diff, mag_diff);
         }
-    } else { // (selected_armor != NULL)
+    } else { // (selected_armor != nullptr)
         for(uint32 i = 0; i < party->size(); ++i) {
             character = party->at(i);
             GlobalArmor* equipped_armor = character->GetArmorEquipped(armor_index);
@@ -635,7 +635,7 @@ void ShopObjectViewer::_SetEquipmentData()
                 continue;
             }
             // Case 2: if the player does not have any armor equipped, the stat diff is equal to the selected armor's ratings
-            if(equipped_armor == NULL) {
+            if(equipped_armor == nullptr) {
                 phys_diff = static_cast<int32>(selected_armor->GetPhysicalDefense());
                 mag_diff = static_cast<int32>(selected_armor->GetMagicalDefense());
             }
@@ -987,13 +987,13 @@ ShopMode::ShopMode() :
     _total_costs(0),
     _total_sales(0),
     _total_change_amount(0),
-    _shop_media(NULL),
-    _object_viewer(NULL),
-    _root_interface(NULL),
-    _buy_interface(NULL),
-    _sell_interface(NULL),
-    _trade_interface(NULL),
-    _dialogue_supervisor(NULL),
+    _shop_media(nullptr),
+    _object_viewer(nullptr),
+    _root_interface(nullptr),
+    _buy_interface(nullptr),
+    _sell_interface(nullptr),
+    _trade_interface(nullptr),
+    _dialogue_supervisor(nullptr),
     _input_enabled(true)
 {
     _current_instance = this;
@@ -1080,7 +1080,7 @@ ShopMode::~ShopMode()
     _bottom_window.Destroy();
 
     if(_current_instance == this) {
-        _current_instance = NULL;
+        _current_instance = nullptr;
     }
 }
 
@@ -1375,8 +1375,8 @@ void ShopMode::Draw()
 
 void ShopMode::AddObjectToBuyList(ShopObject *object)
 {
-    if(object == NULL) {
-        IF_PRINT_WARNING(SHOP_DEBUG) << "function was passed a NULL argument" << std::endl;
+    if(object == nullptr) {
+        IF_PRINT_WARNING(SHOP_DEBUG) << "function was passed a nullptr argument" << std::endl;
         return;
     }
 
@@ -1396,8 +1396,8 @@ void ShopMode::AddObjectToBuyList(ShopObject *object)
 
 void ShopMode::RemoveObjectFromBuyList(ShopObject *object)
 {
-    if(object == NULL) {
-        IF_PRINT_WARNING(SHOP_DEBUG) << "function was passed a NULL argument" << std::endl;
+    if(object == nullptr) {
+        IF_PRINT_WARNING(SHOP_DEBUG) << "function was passed a nullptr argument" << std::endl;
         return;
     }
 
@@ -1418,8 +1418,8 @@ void ShopMode::RemoveObjectFromBuyList(ShopObject *object)
 
 void ShopMode::AddObjectToSellList(ShopObject *object)
 {
-    if(object == NULL) {
-        IF_PRINT_WARNING(SHOP_DEBUG) << "function was passed a NULL argument" << std::endl;
+    if(object == nullptr) {
+        IF_PRINT_WARNING(SHOP_DEBUG) << "function was passed a nullptr argument" << std::endl;
         return;
     }
 
@@ -1439,8 +1439,8 @@ void ShopMode::AddObjectToSellList(ShopObject *object)
 
 void ShopMode::RemoveObjectFromSellList(ShopObject *object)
 {
-    if(object == NULL) {
-        IF_PRINT_WARNING(SHOP_DEBUG) << "function was passed a NULL argument" << std::endl;
+    if(object == nullptr) {
+        IF_PRINT_WARNING(SHOP_DEBUG) << "function was passed a nullptr argument" << std::endl;
         return;
     }
 
@@ -1460,8 +1460,8 @@ void ShopMode::RemoveObjectFromSellList(ShopObject *object)
 
 void ShopMode::AddObjectToTradeList(ShopObject *object)
 {
-    if(object == NULL) {
-        IF_PRINT_WARNING(SHOP_DEBUG) << "function was passed a NULL argument" << std::endl;
+    if(object == nullptr) {
+        IF_PRINT_WARNING(SHOP_DEBUG) << "function was passed a nullptr argument" << std::endl;
         return;
     }
 
@@ -1481,8 +1481,8 @@ void ShopMode::AddObjectToTradeList(ShopObject *object)
 
 void ShopMode::RemoveObjectFromTradeList(ShopObject *object)
 {
-    if(object == NULL) {
-        IF_PRINT_WARNING(SHOP_DEBUG) << "function was passed a NULL argument" << std::endl;
+    if(object == nullptr) {
+        IF_PRINT_WARNING(SHOP_DEBUG) << "function was passed a nullptr argument" << std::endl;
         return;
     }
 
@@ -1752,7 +1752,7 @@ void ShopMode::AddItem(uint32 object_id, uint32 stock)
     }
 
     GlobalObject *new_object = GlobalCreateNewObject(object_id, 1);
-    if(new_object != NULL) {
+    if(new_object != nullptr) {
         ShopObject *new_shop_object = new ShopObject(new_object);
         if (stock > 0)
             new_shop_object->IncrementStockCount(stock);
@@ -1782,7 +1782,7 @@ void ShopMode::AddTrade(uint32 object_id, uint32 stock)
     }
 
     GlobalObject *new_object = GlobalCreateNewObject(object_id, 1);
-    if(new_object != NULL) {
+    if(new_object != nullptr) {
         ShopObject *new_shop_object = new ShopObject(new_object);
         if (stock > 0)
             new_shop_object->IncrementStockCount(stock);

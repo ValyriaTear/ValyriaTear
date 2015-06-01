@@ -55,7 +55,7 @@ void CharacterWindow::SetCharacter(GlobalCharacter* character)
         _character_name.Clear();
         _character_data.Clear();
         _portrait = StillImage();
-        _UpdateActiveStatusEffects(NULL);
+        _UpdateActiveStatusEffects(nullptr);
         return;
     }
 
@@ -172,9 +172,9 @@ static ustring item_use;
 InventoryWindow::InventoryWindow() :
     _active_box(ITEM_ACTIVE_NONE),
     _previous_category(ITEM_ALL),
-    _object(NULL),
+    _object(nullptr),
     _object_type(vt_global::GLOBAL_OBJECT_INVALID),
-    _character(NULL),
+    _character(nullptr),
     _is_equipment(false),
     _can_equip(false)
 {
@@ -323,7 +323,7 @@ void InventoryWindow::Update()
     }
 
     // Points to the active option box
-    OptionBox *active_option = NULL;
+    OptionBox *active_option = nullptr;
 
     _inventory_items.Update();   //For scrolling
 
@@ -457,8 +457,8 @@ void InventoryWindow::Update()
             // Use the item on the chosen character
             if(event == VIDEO_OPTION_CONFIRM) {
                 //values used for equipment selection
-                GlobalArmor *selected_armor = NULL;
-                GlobalWeapon *selected_weapon = NULL;
+                GlobalArmor *selected_armor = nullptr;
+                GlobalWeapon *selected_weapon = nullptr;
                 switch(_object_type)
                 {
                     case GLOBAL_OBJECT_ITEM:
@@ -501,7 +501,7 @@ void InventoryWindow::Update()
                                     // We also update the Characters stats as the item might have some effects there.
                                     MenuMode::CurrentInstance()->ReloadCharacterWindows();
                                     delete item;
-                                    item = NULL;
+                                    item = nullptr;
                                     // Now the item is used, we can remove it from the inventory.
                                     GlobalManager->DecrementItemCount(_object->GetID(), 1);
                                     media.PlaySound("confirm");
@@ -533,7 +533,7 @@ void InventoryWindow::Update()
                                     // We also update the Characters stats as the item might have some effects there.
                                     MenuMode::CurrentInstance()->ReloadCharacterWindows();
                                     delete item;
-                                    item = NULL;
+                                    item = nullptr;
                                     // Now the item is used, we can remove it from the inventory.
                                     GlobalManager->DecrementItemCount(_object->GetID(), 1);
                                     media.PlaySound("confirm");
@@ -640,7 +640,7 @@ void InventoryWindow::_UpdateSelection()
     // Lower bound checks
     // Make the menu back-off when no more items are in the category list.
     if (_item_objects.empty()) {
-        _object = NULL;
+        _object = nullptr;
         _UpdateCategory();
         _active_box = ITEM_ACTIVE_CATEGORY;
         _item_categories.SetCursorState(VIDEO_CURSOR_STATE_VISIBLE);
@@ -864,8 +864,8 @@ static ustring change_formation_message;
 
 PartyWindow::PartyWindow() :
     _char_select_active(FORM_ACTIVE_NONE),
-    _focused_def_icon(NULL),
-    _focused_mdef_icon(NULL)
+    _focused_def_icon(nullptr),
+    _focused_mdef_icon(nullptr)
 {
     // Get party size for iteration
     uint32 partysize = GlobalManager->GetActiveParty()->GetPartySize();
@@ -976,7 +976,7 @@ void PartyWindow::Update()
     GlobalMedia& media = GlobalManager->Media();
 
     // Points to the active option box
-    OptionBox *active_option = NULL;
+    OptionBox *active_option = nullptr;
     //choose correct menu
     switch(_char_select_active) {
     case FORM_ACTIVE_CHAR:
@@ -1338,7 +1338,7 @@ void SkillsWindow::_InitSkillsCategories()
 
 void SkillsWindow::Update()
 {
-    OptionBox *active_option = NULL;
+    OptionBox *active_option = nullptr;
 
     GlobalMedia& media = GlobalManager->Media();
 
@@ -1591,7 +1591,7 @@ GlobalSkill *SkillsWindow::_GetCurrentSkill()
         skill = menu_skills.at(_skills_list.GetSelection());
         break;
     default:
-        skill = NULL;
+        skill = nullptr;
         PRINT_ERROR << "MENU ERROR: Invalid skill type in SkillsWindow::_GetCurrentSkill()" << std::endl;
         break;
     }
@@ -1708,7 +1708,7 @@ void SkillsWindow::Draw()
 
 EquipWindow::EquipWindow() :
     _active_box(EQUIP_ACTIVE_NONE),
-    _character(NULL)
+    _character(nullptr)
 {
     // Init the labels
     _weapon_label.SetStyle(TextStyle("text20"));
@@ -1821,7 +1821,7 @@ void EquipWindow::_InitEquipmentSelect()
 void EquipWindow::Update()
 {
     // Points to the active option box
-    OptionBox *active_option = NULL;
+    OptionBox *active_option = nullptr;
 
     GlobalMedia& media = GlobalManager->Media();
 
@@ -1898,19 +1898,19 @@ void EquipWindow::Update()
                 switch(_equip_select.GetSelection()) {
                     // Unequip and return the old weapon to inventory
                 case EQUIP_WEAPON:
-                    GlobalManager->AddToInventory(_character->EquipWeapon(NULL));
+                    GlobalManager->AddToInventory(_character->EquipWeapon(nullptr));
                     break;
                 case EQUIP_HEAD:
-                    GlobalManager->AddToInventory(_character->EquipHeadArmor(NULL));
+                    GlobalManager->AddToInventory(_character->EquipHeadArmor(nullptr));
                     break;
                 case EQUIP_TORSO:
-                    GlobalManager->AddToInventory(_character->EquipTorsoArmor(NULL));
+                    GlobalManager->AddToInventory(_character->EquipTorsoArmor(nullptr));
                     break;
                 case EQUIP_ARMS:
-                    GlobalManager->AddToInventory(_character->EquipArmArmor(NULL));
+                    GlobalManager->AddToInventory(_character->EquipArmArmor(nullptr));
                     break;
                 case EQUIP_LEGS:
-                    GlobalManager->AddToInventory(_character->EquipLegArmor(NULL));
+                    GlobalManager->AddToInventory(_character->EquipLegArmor(nullptr));
                     break;
                 default:
                     PRINT_WARNING << "Unequip slot is invalid: " << _equip_select.GetSelection() << std::endl;
@@ -2028,7 +2028,7 @@ void EquipWindow::_UpdateEquipList()
 
     if(_active_box == EQUIP_ACTIVE_LIST) {
         uint32 gearsize = 0;
-        std::vector<GlobalObject *>* equipment_list = NULL;
+        std::vector<GlobalObject *>* equipment_list = nullptr;
 
         switch(_equip_select.GetSelection()) {
         case EQUIP_WEAPON:
@@ -2048,7 +2048,7 @@ void EquipWindow::_UpdateEquipList()
             break;
         } // switch
 
-        if(equipment_list != NULL)
+        if(equipment_list != nullptr)
             gearsize = equipment_list->size();
 
         // Clear the replacer ids
@@ -2125,7 +2125,7 @@ void EquipWindow::_UpdateSelectedObject()
 
     // Don't show anything when there is no item selected
     if (_active_box == EQUIP_ACTIVE_CHAR || _active_box == EQUIP_ACTIVE_NONE) {
-        _object = NULL;
+        _object = nullptr;
         MenuMode::CurrentInstance()->UpdateEquipmentInfo(_character, _object, EQUIP_VIEW_NONE);
         return;
     }
@@ -2137,7 +2137,7 @@ void EquipWindow::_UpdateSelectedObject()
         switch (_equip_select.GetSelection()) {
             default:
                 // Should never happen
-                _object = NULL;
+                _object = nullptr;
                 break;
             case EQUIP_WEAPON:
                 _object = _character->GetWeaponEquipped();
@@ -2168,7 +2168,7 @@ void EquipWindow::_UpdateSelectedObject()
     switch(_equip_select.GetSelection()) {
         default:
             // Should never happen
-            _object = NULL;
+            _object = nullptr;
             return;
             break;
 
@@ -2357,7 +2357,7 @@ void QuestListWindow::_UpdateQuestList()
 {
     if(GlobalManager->GetNumberQuestLogEntries() == 0)
     {
-        // Set the QuestWindow key to "NULL", which is actually "".
+        // Set the QuestWindow key to "nullptr", which is actually "".
         MenuMode::CurrentInstance()->_quest_window.SetViewingQuestId(std::string());
         return;
     }
@@ -2435,8 +2435,8 @@ void QuestListWindow::_SetupQuestsList() {
 ////////////////////////////////////////////////////////////////////////////////
 
 QuestWindow::QuestWindow():
-    _location_image(NULL),
-    _location_subimage(NULL)
+    _location_image(nullptr),
+    _location_subimage(nullptr)
 {
     _quest_description.SetPosition(445, 130);
     _quest_description.SetDimensions(455, 200);
@@ -2488,7 +2488,7 @@ void QuestWindow::DrawBottom()
 
 
     //check location image and draw
-    if(_location_image != NULL && _location_image->GetFilename().empty() == false) {
+    if(_location_image != nullptr && _location_image->GetFilename().empty() == false) {
         VideoManager->SetDrawFlags(VIDEO_X_RIGHT, VIDEO_Y_BOTTOM, 0);
         VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_BOTTOM, 0);
         VideoManager->Move(102, 685);
@@ -2496,7 +2496,7 @@ void QuestWindow::DrawBottom()
     }
 
     //check location subimage and draw
-    if(_location_subimage != NULL && _location_subimage->GetFilename().empty() == false) {
+    if(_location_subimage != nullptr && _location_subimage->GetFilename().empty() == false) {
         VideoManager->SetDrawFlags(VIDEO_X_RIGHT, VIDEO_Y_BOTTOM, 0);
         VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_BOTTOM, 0);
         VideoManager->Move(500, 685);
@@ -2513,8 +2513,8 @@ void QuestWindow::Update()
         _quest_description.ClearText();
         _location_name.ClearText();
         _location_subname.ClearText();
-        _location_image = NULL;
-        _location_subimage = NULL;
+        _location_image = nullptr;
+        _location_subimage = nullptr;
         return;
     }
 
@@ -2543,7 +2543,7 @@ void QuestWindow::Update()
 ///////////////////////////
 
 WorldMapWindow::WorldMapWindow() :
-    _current_world_map(NULL),
+    _current_world_map(nullptr),
     _current_image_x_offset(0),
     _current_image_y_offset(0),
     _location_pointer_index(0),
@@ -2561,7 +2561,7 @@ WorldMapWindow::WorldMapWindow() :
 void WorldMapWindow::Draw()
 {
     MenuWindow::Draw();
-    if(_current_world_map == NULL)
+    if(_current_world_map == nullptr)
         return;
     float window_position_x, window_position_y;
     GetPosition(window_position_x, window_position_y);
@@ -2584,7 +2584,7 @@ void WorldMapWindow::_DrawViewableLocations(float window_position_x, float windo
     for(uint32 i = 0; i < N; ++i)
     {
         const WorldMapLocation *location = GlobalManager->GetWorldLocation(current_location_ids[i]);
-        if(location == NULL)
+        if(location == nullptr)
         {
             PRINT_WARNING << "location for id: "
                 << current_location_ids[i]

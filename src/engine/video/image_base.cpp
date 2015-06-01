@@ -35,7 +35,7 @@ namespace private_video
 ImageMemory::ImageMemory() :
     width(0),
     height(0),
-    pixels(NULL),
+    pixels(nullptr),
     rgb_format(false)
 {}
 
@@ -45,10 +45,10 @@ ImageMemory::~ImageMemory()
 {
 // Winter Knight - I commented this out because it was causing double free
 // segfaults when ImageMemory objects were copied via copy constructor.
-    if(pixels != NULL) {
-        IF_PRINT_WARNING(VIDEO_DEBUG) << "pixels member was not NULL upon object destruction" << std::endl;
+    if(pixels != nullptr) {
+        IF_PRINT_WARNING(VIDEO_DEBUG) << "pixels member was not nullptr upon object destruction" << std::endl;
 //		free(pixels);
-//		pixels = NULL;
+//		pixels = nullptr;
     }
 }
 
@@ -56,14 +56,14 @@ ImageMemory::~ImageMemory()
 
 bool ImageMemory::LoadImage(const std::string &filename)
 {
-    if(pixels != NULL) {
-        IF_PRINT_WARNING(VIDEO_DEBUG) << "pixels member was not NULL upon function invocation" << std::endl;
+    if(pixels != nullptr) {
+        IF_PRINT_WARNING(VIDEO_DEBUG) << "pixels member was not nullptr upon function invocation" << std::endl;
         free(pixels);
-        pixels = NULL;
+        pixels = nullptr;
     }
 
     SDL_Surface* temp_surf = IMG_Load(filename.c_str());
-    if(temp_surf == NULL) {
+    if(temp_surf == nullptr) {
         PRINT_ERROR << "Couldn't load image file: " << filename << std::endl;
         return false;
     }
@@ -72,13 +72,13 @@ bool ImageMemory::LoadImage(const std::string &filename)
 
     // Tells whether the alpha image will be used
     bool alpha_format = true;
-    if(alpha_surf == NULL) {
+    if(alpha_surf == nullptr) {
         // use the default image in that case
         alpha_surf = temp_surf;
         alpha_format = false;
     } else {
         SDL_FreeSurface(temp_surf);
-        temp_surf = NULL;
+        temp_surf = nullptr;
     }
 
     // Now allocate the pixel values
@@ -88,8 +88,8 @@ bool ImageMemory::LoadImage(const std::string &filename)
     rgb_format = false;
 
     // convert the data so that it works in our format
-    uint8 *img_pixel = NULL;
-    uint8 *dst_pixel = NULL;
+    uint8 *img_pixel = nullptr;
+    uint8 *dst_pixel = nullptr;
 
     for(uint32 y = 0; y < height; ++y) {
         for(uint32 x = 0; x < width; ++x) {
@@ -145,21 +145,21 @@ bool ImageMemory::LoadImage(const std::string &filename)
 
 bool ImageMemory::SaveImage(const std::string &filename)
 {
-    if(pixels == NULL) {
-        IF_PRINT_WARNING(VIDEO_DEBUG) << "pixels member was NULL upon function invocation for file: " << filename << std::endl;
+    if(pixels == nullptr) {
+        IF_PRINT_WARNING(VIDEO_DEBUG) << "pixels member was nullptr upon function invocation for file: " << filename << std::endl;
         return false;
     }
 
     // open up the file for writing
     FILE *fp = fopen(filename.c_str(), "wb");
 
-    if(fp == NULL) {
+    if(fp == nullptr) {
         IF_PRINT_WARNING(VIDEO_DEBUG) << "could not open file: " << filename << std::endl;
         return false;
     }
 
     // grab a write structure
-    png_structp png_ptr = png_create_write_struct(PNG_LIBPNG_VER_STRING, (png_voidp)NULL, NULL, NULL);
+    png_structp png_ptr = png_create_write_struct(PNG_LIBPNG_VER_STRING, (png_voidp)nullptr, nullptr, nullptr);
 
     if(!png_ptr) {
         IF_PRINT_WARNING(VIDEO_DEBUG) << "png_create_write_struct() failed for file: " << filename << std::endl;
@@ -172,7 +172,7 @@ bool ImageMemory::SaveImage(const std::string &filename)
 
     if(!info_ptr) {
         IF_PRINT_WARNING(VIDEO_DEBUG) << "png_create_info_struct() failed for file: " << filename << std::endl;
-        png_destroy_write_struct(&png_ptr, (png_infopp)NULL);
+        png_destroy_write_struct(&png_ptr, (png_infopp)nullptr);
         fclose(fp);
         return false;
     }
@@ -180,7 +180,7 @@ bool ImageMemory::SaveImage(const std::string &filename)
     // prepare for error handling!
     if(setjmp(png_jmpbuf(png_ptr))) {
         IF_PRINT_WARNING(VIDEO_DEBUG) << "setjmp returned non-zero for file: " << filename << std::endl;
-        png_destroy_write_struct(&png_ptr, (png_infopp)NULL);
+        png_destroy_write_struct(&png_ptr, (png_infopp)nullptr);
         fclose(fp);
         return false;
     }
@@ -202,7 +202,7 @@ bool ImageMemory::SaveImage(const std::string &filename)
     png_bytep *row_pointers = new png_bytep[height];
     if(!row_pointers) {
         IF_PRINT_WARNING(VIDEO_DEBUG) << "Couldn't allocate png row_pointers for: " << filename << std::endl;
-        png_destroy_write_struct(&png_ptr, (png_infopp)NULL);
+        png_destroy_write_struct(&png_ptr, (png_infopp)nullptr);
         fclose(fp);
         return false;
     }
@@ -215,7 +215,7 @@ bool ImageMemory::SaveImage(const std::string &filename)
     // tell it what the rows are
     png_set_rows(png_ptr, info_ptr, row_pointers);
     // and write the PNG
-    png_write_png(png_ptr, info_ptr, PNG_TRANSFORM_IDENTITY, NULL);
+    png_write_png(png_ptr, info_ptr, PNG_TRANSFORM_IDENTITY, nullptr);
     png_write_image(png_ptr, row_pointers);
     // clean up
     png_write_end(png_ptr, info_ptr);
@@ -224,7 +224,7 @@ bool ImageMemory::SaveImage(const std::string &filename)
 
     // free the memory
     delete[] row_pointers;
-    png_destroy_write_struct(&png_ptr, (png_infopp)NULL);
+    png_destroy_write_struct(&png_ptr, (png_infopp)nullptr);
 
     return true;
 } // bool ImageMemory::SaveImage(const std::string& filename)
@@ -236,8 +236,8 @@ void ImageMemory::ConvertToGrayscale()
         return;
     }
 
-    if(pixels == NULL) {
-        IF_PRINT_WARNING(VIDEO_DEBUG) << "no image data (pixels == NULL)" << std::endl;
+    if(pixels == nullptr) {
+        IF_PRINT_WARNING(VIDEO_DEBUG) << "no image data (pixels == nullptr)" << std::endl;
         return;
     }
 
@@ -262,8 +262,8 @@ void ImageMemory::RGBAToRGB()
         return;
     }
 
-    if(pixels == NULL) {
-        IF_PRINT_WARNING(VIDEO_DEBUG) << "no image data (pixels == NULL)" << std::endl;
+    if(pixels == nullptr) {
+        IF_PRINT_WARNING(VIDEO_DEBUG) << "no image data (pixels == nullptr)" << std::endl;
         return;
     }
 
@@ -284,7 +284,7 @@ void ImageMemory::RGBAToRGB()
 
     // Reduce the memory consumed by 1/4 since we no longer need to contain alpha data
     void *new_pixels = realloc(pixels, width * height * 3);
-    if(new_pixels != NULL)
+    if(new_pixels != nullptr)
         pixels = new_pixels;
     rgb_format = true;
 }
@@ -293,15 +293,15 @@ void ImageMemory::RGBAToRGB()
 
 void ImageMemory::CopyFromTexture(TexSheet *texture)
 {
-    if(pixels != NULL)
+    if(pixels != nullptr)
         free(pixels);
-    pixels = NULL;
+    pixels = nullptr;
 
     // Get the texture as a buffer
     height = texture->height;
     width = texture->width;
     pixels = malloc(height * width * (rgb_format ? 3 : 4));
-    if(pixels == NULL) {
+    if(pixels == nullptr) {
         PRINT_ERROR << "failed to malloc enough memory to copy the texture" << std::endl;
     }
 
@@ -324,7 +324,7 @@ void ImageMemory::CopyFromImage(BaseTexture *img)
         uint32 dst_bytes = img->width * format_bytes;
         uint32 src_offset = img->y * width * format_bytes + img->x * format_bytes;
         void *img_pixels = malloc(img->width * img->height * format_bytes);
-        if(img_pixels == NULL) {
+        if(img_pixels == nullptr) {
             PRINT_ERROR << "failed to malloc enough memory to copy the image" << std::endl;
             return;
         }
@@ -348,7 +348,7 @@ void ImageMemory::CopyFromImage(BaseTexture *img)
 // -----------------------------------------------------------------------------
 
 BaseTexture::BaseTexture() :
-    texture_sheet(NULL),
+    texture_sheet(nullptr),
     width(0),
     height(0),
     x(0),
@@ -364,7 +364,7 @@ BaseTexture::BaseTexture() :
 
 
 BaseTexture::BaseTexture(uint32 width_, uint32 height_) :
-    texture_sheet(NULL),
+    texture_sheet(nullptr),
     width(width_),
     height(height_),
     x(0),

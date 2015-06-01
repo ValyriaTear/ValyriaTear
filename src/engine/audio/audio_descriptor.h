@@ -151,7 +151,7 @@ class AudioSource
 public:
     //! \param al_source A valid OpenAL source that has been generated
     AudioSource(ALuint al_source) :
-        source(al_source), owner(NULL) {}
+        source(al_source), owner(nullptr) {}
 
     ~AudioSource();
 
@@ -222,7 +222,7 @@ public:
     void FreeAudio();
 
     const std::string GetFilename() const {
-        if(_input == NULL) return std::string();
+        if(_input == nullptr) return std::string();
         else return _input->GetFilename();
     }
 
@@ -324,7 +324,7 @@ public:
     *** Adds a new game mode owning the audio descriptor.
     *** It is done to permit the engine to automatically free audio files
     *** when the game mode is deleted.
-    *** This function won't add NULL reference and won't permit duplicate owners.
+    *** This function won't add nullptr reference and won't permit duplicate owners.
     **/
     void AddGameModeOwner(vt_mode_manager::GameMode *gm);
 
@@ -382,7 +382,7 @@ protected:
     //! \brief A pointer to the input object that manages the data
     private_audio::AudioInput *_input;
 
-    //! \brief A pointer to the stream object (set to NULL if the audio was loaded statically)
+    //! \brief A pointer to the stream object (set to nullptr if the audio was loaded statically)
     private_audio::AudioStream *_stream;
 
     //! \brief A pointer to where the data is streamed to

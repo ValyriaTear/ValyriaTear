@@ -121,7 +121,7 @@ public:
     GlobalAttackPoint(GlobalActor *owner);
 
     ~GlobalAttackPoint() {
-        _actor_owner = NULL;
+        _actor_owner = nullptr;
     }
 
     /** \brief Reads in the attack point's data from a script file
@@ -137,7 +137,7 @@ public:
     bool LoadData(vt_script::ReadScriptDescriptor &script);
 
     /** \brief Determines the total physical and magical defense of the attack point
-    *** \param equipped_armor A pointer to the armor equipped on the attack point, or NULL if no armor is equipped
+    *** \param equipped_armor A pointer to the armor equipped on the attack point, or nullptr if no armor is equipped
     ***
     *** This method uses the owning GlobalActor's base defense stats, the attack point's defense modifiers stats,
     *** and the properties of the equipped armor to calculate the attack point's total physical and magical defense.
@@ -305,7 +305,7 @@ public:
     /** \name Class member get functions
     *** Some of these functions take an index argument to retrieve a particular
     *** attack point stat or piece of armor. If an invalid index is given, a zero
-    *** or NULL value will be returned.
+    *** or nullptr value will be returned.
     **/
     //@{
     uint32 GetID() const {
@@ -758,7 +758,7 @@ public:
     *** \param initial If true, the character's stats, equipment, and skills are set
     *** to the character's initial status
     *** \note If initial is set to false, the character's stats, equipment, and skills
-    *** must be set by external code, otherwise they will remain 0/NULL/empty.
+    *** must be set by external code, otherwise they will remain 0/nullptr/empty.
     **/
     GlobalCharacter(uint32 id, bool initial = true);
 
@@ -887,7 +887,7 @@ public:
 
     /** \brief Equips a new weapon on the actor
     *** \param weapon The new weapon to equip on the actor
-    *** \return A pointer to the weapon that was previouslly equipped, or NULL if no weapon was equipped.
+    *** \return A pointer to the weapon that was previouslly equipped, or nullptr if no weapon was equipped.
     ***
     *** This function will also automatically re-calculate all attack ratings, elemental, and status bonuses.
     **/
@@ -1159,7 +1159,7 @@ protected:
     bool _enabled;
 
     /** \brief The weapon that the character has equipped
-    *** \note If no weapon is equipped, this member will be equal to NULL.
+    *** \note If no weapon is equipped, this member will be equal to nullptr.
     ***
     *** Actors are not required to have weapons equipped, and indeed most enemies will probably not have any
     *** weapons explicitly equipped. The various bonuses to attack ratings, elemental attacks, and status
@@ -1201,7 +1201,7 @@ protected:
     /** \brief Equips a new armor on the character
     *** \param armor The piece of armor to equip
     *** \param index The index into the _armor_equipped vector where to equip the armor
-    *** \return A pointer to the armor that was previously equipped, or NULL if no armor was equipped
+    *** \return A pointer to the armor that was previously equipped, or nullptr if no armor was equipped
     ***
     *** This function will also automatically re-calculate all defense ratings, elemental, and status bonuses
     *** for the attack point that the armor was equipped on. If the index argument is invalid (out-of-bounds),
@@ -1428,13 +1428,13 @@ public:
 
     /** \brief Removes an character from the party
     *** \param index The index of the character in the party to remove
-    *** \return A pointer to the character that was removed, or NULL if the index provided was invalid
+    *** \return A pointer to the character that was removed, or nullptr if the index provided was invalid
     **/
     GlobalCharacter *RemoveCharacterAtIndex(uint32 index);
 
     /** \brief Removes an character from the party
     *** \param id The id value of the character to remove
-    *** \return A pointer to the character that was removed, or NULL if the character was not found in the party
+    *** \return A pointer to the character that was removed, or nullptr if the character was not found in the party
     **/
     GlobalCharacter *RemoveCharacterByID(uint32 id);
 
@@ -1448,13 +1448,13 @@ public:
 
     /** \brief Retrieves a poitner to the character in the party at a specified index
     *** \param index The index where the character may be found in the party
-    *** \return A pointer to the character at the specified index, or NULL if the index argument was invalid
+    *** \return A pointer to the character at the specified index, or nullptr if the index argument was invalid
     **/
     GlobalCharacter *GetCharacterAtIndex(uint32 index) const;
 
     /** \brief Retrieves a poitner to the character in the party with the spefified id
     *** \param id The id of the character to return
-    *** \return A pointer to the character with the requested ID, or NULL if the character was not found
+    *** \return A pointer to the character with the requested ID, or nullptr if the character was not found
     **/
     GlobalCharacter *GetCharacterByID(uint32 id) const;
 
@@ -1475,14 +1475,14 @@ public:
     /** \brief Replaces an character in the party at a specified index with a new character
     *** \param index The index of the character to be replaced
     *** \param new_character A pointer to the character that will replace the existing character
-    *** \return A pointer to the replaced character, or NULL if the operation did not take place
+    *** \return A pointer to the replaced character, or nullptr if the operation did not take place
     **/
     GlobalCharacter *ReplaceCharacterByIndex(uint32 index, GlobalCharacter *new_character);
 
     /** \brief Replaces an character in the party with the specified id with a new character
     *** \param id The id of the character to be replaced
     *** \param new_character A pointer to the character that will replace the existing character
-    *** \return A pointer to the replaced character, or NULL if the operation did not take place
+    *** \return A pointer to the replaced character, or nullptr if the operation did not take place
     **/
     GlobalCharacter *ReplaceCharacterByID(uint32 id, GlobalCharacter *new_character);
 

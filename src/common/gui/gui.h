@@ -196,7 +196,7 @@ class GUIControl : public GUIElement
 {
 public:
     GUIControl() {
-        _owner = NULL;
+        _owner = nullptr;
     }
 
     virtual ~GUIControl()
@@ -214,7 +214,7 @@ public:
 
     /** \brief Sets the menu window which "owns" this control.
     *** \param owner_window A pointer to the menu that owns the control.
-    *** \note If the control is not owned by any menu window, then set the owner to NULL.
+    *** \note If the control is not owned by any menu window, then set the owner to nullptr.
     *** When a control is owned by a menu, it means that it obeys the menu's scissoring
     *** rectangle so that the control won't be drawn outside of the bounds of the menu.
     *** It also means that the position of the control is relative to the position of the
@@ -226,7 +226,7 @@ public:
 
 protected:
     /** \brief A pointer to the menu which owns this control.
-    *** When the owner is set to NULL, the control can draw to any part of the screen
+    *** When the owner is set to nullptr, the control can draw to any part of the screen
     *** (so scissoring is ignored) and drawing coordinates are not modified.
     **/
     MenuWindow *_owner;
@@ -385,7 +385,7 @@ private:
     std::string _user_menu_skin;
 
     /** \brief A pointer to the default menu skin that GUI objects will use if a skin is not explicitly declared
-    *** If no menu skins exist, this member will be NULL. It will never be NULL as long as one menu skin is loaded.
+    *** If no menu skins exist, this member will be nullptr. It will never be nullptr as long as one menu skin is loaded.
     *** If the default menu skin is deleted by the user, an alternative default skin will automatically be set.
     **/
     vt_gui::private_gui::MenuSkin* _default_skin;
@@ -399,7 +399,7 @@ private:
 
     /** \brief Returns a pointer to the MenuSkin of a corresponding skin name
     *** \param skin_id The id of the menu skin to grab
-    *** \return A pointer to the MenuSkin, or NULL if the skin name was not found
+    *** \return A pointer to the MenuSkin, or nullptr if the skin name was not found
     **/
     private_gui::MenuSkin *_GetMenuSkin(const std::string &skin_id);
 

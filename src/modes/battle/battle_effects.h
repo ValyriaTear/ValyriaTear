@@ -170,7 +170,7 @@ private:
     //! \brief A timer used to determine how long the status effect lasts
     vt_system::SystemTimer _timer;
 
-    //! \brief A pointer to the icon image that represents the status. Will be NULL if the status is invalid
+    //! \brief A pointer to the icon image that represents the status. Will be nullptr if the status is invalid
     vt_video::StillImage* _icon_image;
 
     //! \brief A flag set to true when the intensity value was changed and cleared when the Update method is called

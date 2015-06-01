@@ -359,7 +359,7 @@ public:
 
     /** \brief Returns a pointer to a character currently in the party.
     *** \param id The ID number of the character to retrieve.
-    *** \return A pointer to the character, or NULL if the character was not found.
+    *** \return A pointer to the character, or nullptr if the character was not found.
     ***/
     GlobalCharacter *GetCharacter(uint32 id);
 
@@ -416,7 +416,7 @@ public:
 
     /** \brief Gets a copy of an object from the inventory
     *** \param obj_id The identifier value of the item to obtain
-    *** \return A newly instantiated copy of the object, or NULL if the object was not found in the inventory
+    *** \return A newly instantiated copy of the object, or nullptr if the object was not found in the inventory
     **/
     GlobalObject* GetGlobalObject(uint32 obj_id);
 
@@ -487,13 +487,13 @@ public:
 
     /** \brief Returns a pointer to an event group of the specified name
     *** \param group_name The name of the event group to retreive
-    *** \return A pointer to the GlobalEventGroup that represents the event group, or NULL if no event group
+    *** \return A pointer to the GlobalEventGroup that represents the event group, or nullptr if no event group
     *** of the specified name was found
     ***
     *** You can use this method to invoke the public methods of the GlobalEventGroup class. For example, if
     *** we wanted to add a new event "cave_collapse" with a value of 1 to the group event "cave_map", we
     *** would do the following: GlobalManager->GetEventGroup("cave_map")->AddNewEvent("cave_collapse", 1);
-    *** Be careful, however, because since this function returns NULL if the event group was not found, the
+    *** Be careful, however, because since this function returns nullptr if the event group was not found, the
     *** example code above would produce a segmentation fault if no event group by the name "cave_map" existed.
     **/
     GlobalEventGroup *GetEventGroup(const std::string &group_name) const;
@@ -706,13 +706,13 @@ public:
 
     /** \brief get a pointer to the associated world location for the id
     *** \param string Reference if for the world map location
-    *** \return NULL if the location does not exist. otherwise, return a const pointer
+    *** \return nullptr if the location does not exist. otherwise, return a const pointer
     *** to the location
     **/
     WorldMapLocation *GetWorldLocation(const std::string &id)
     {
         std::map<std::string, WorldMapLocation>::iterator itr = _world_map_locations.find(id);
-        return itr == _world_map_locations.end() ? NULL : &(itr->second);
+        return itr == _world_map_locations.end() ? nullptr : &(itr->second);
     }
 
     /** \brief Gets a reference to the current world location id
@@ -830,7 +830,7 @@ public:
 
     //! \brief gets the current world map image
     //! \return a pointer to the currently viewable World Map Image.
-    //! \note returns NULL if the filename has been set to ""
+    //! \note returns nullptr if the filename has been set to ""
     vt_video::StillImage *GetWorldMapImage() const
     {
         return _world_map_image;
@@ -1181,7 +1181,7 @@ private:
     /** \brief A helper template function that finds and returns a copy of an object from the inventory
     *** \param obj_id The ID of the object to obtain from the inventory
     *** \param inv The vector container of the appropriate inventory type
-    *** \return A pointer to the newly created copy of the object, or NULL if the object could not be found
+    *** \return A pointer to the newly created copy of the object, or nullptr if the object could not be found
     **/
     template <class T> T *_GetFromInventory(uint32 obj_id, std::vector<T *>& inv);
 
@@ -1314,7 +1314,7 @@ template <class T> T *GameGlobal::_GetFromInventory(uint32 obj_id, std::vector<T
         return return_object;
     }
 
-    return NULL;
+    return nullptr;
 }
 
 template <class T> void GameGlobal::_SaveInventory(vt_script::WriteScriptDescriptor &file, const std::string &name, std::vector<T *>& inv)

@@ -53,7 +53,7 @@ namespace vt_map
 {
 
 // Initialize static class variables
-MapMode *MapMode::_current_instance = NULL;
+MapMode *MapMode::_current_instance = nullptr;
 
 // ****************************************************************************
 // ********** MapMode Public Class Methods
@@ -64,15 +64,15 @@ MapMode::MapMode(const std::string& data_filename, const std::string& script_fil
     _activated(false),
     _map_data_filename(data_filename),
     _map_script_filename(script_filename),
-    _tile_supervisor(NULL),
-    _object_supervisor(NULL),
-    _event_supervisor(NULL),
-    _dialogue_supervisor(NULL),
-    _treasure_supervisor(NULL),
+    _tile_supervisor(nullptr),
+    _object_supervisor(nullptr),
+    _event_supervisor(nullptr),
+    _dialogue_supervisor(nullptr),
+    _treasure_supervisor(nullptr),
     _camera_x_in_map_corner(false),
     _camera_y_in_map_corner(false),
-    _camera(NULL),
-    _virtual_focus(NULL),
+    _camera(nullptr),
+    _virtual_focus(nullptr),
     _delta_x(0),
     _delta_y(0),
     _pixel_length_x(-1.0f),
@@ -84,7 +84,7 @@ MapMode::MapMode(const std::string& data_filename, const std::string& script_fil
     _gui_alpha(0.0f),
     _music_audio_state(AUDIO_STATE_UNLOADED),
     _music_audio_sample(0),
-    _minimap(NULL),
+    _minimap(nullptr),
     _show_minimap(false),
     _menu_enabled(true),
     _save_points_enabled(true),
@@ -242,7 +242,7 @@ void MapMode::_ResetMusicState()
     MusicDescriptor* active_music = AudioManager->GetActiveMusic();
 
     // Stop the current music if it's not the right one.
-    if (active_music != NULL && music != active_music)
+    if (active_music != nullptr && music != active_music)
         active_music->FadeOut(500);
 
     // If there is no map music or the music is already in the correct state, don't do anything.
@@ -687,7 +687,7 @@ void MapMode::_CreateMinimap()
 {
     if(_minimap) {
         delete _minimap;
-        _minimap = NULL;
+        _minimap = nullptr;
     }
 
     _minimap = new Minimap(_minimap_custom_image_file);
@@ -702,7 +702,7 @@ void MapMode::_UpdateExplore()
         return;
     }
 
-    if (_camera == NULL)
+    if (_camera == nullptr)
         return;
 
     // Only update the status effect supervisor in Exploration mode
@@ -736,7 +736,7 @@ void MapMode::_UpdateExplore()
     if(InputManager->ConfirmPress()) {
         MapObject *obj = _object_supervisor->FindNearestInteractionObject(_camera);
 
-        if(obj != NULL) {
+        if(obj != nullptr) {
             switch(obj->GetType()) {
                 default:
                     break;

@@ -147,7 +147,7 @@ bool IsTargetFoe(GLOBAL_TARGET target)
 
 GlobalObject *GlobalCreateNewObject(uint32 id, uint32 count)
 {
-    GlobalObject *new_object = NULL;
+    GlobalObject *new_object = nullptr;
 
     if((id > 0 && id <= MAX_ITEM_ID)
         || (id > MAX_SPIRIT_ID && id <= MAX_KEY_ITEM_ID))
@@ -161,10 +161,10 @@ GlobalObject *GlobalCreateNewObject(uint32 id, uint32 count)
     else
         IF_PRINT_WARNING(GLOBAL_DEBUG) << "function received an invalid id argument: " << id << std::endl;
 
-    // If an object was created but its ID was set to NULL, this indicates that the object is invalid
-    if((new_object != NULL) && (new_object->GetID() == 0)) {
+    // If an object was created but its ID was set to nullptr, this indicates that the object is invalid
+    if((new_object != nullptr) && (new_object->GetID() == 0)) {
         delete new_object;
-        new_object = NULL;
+        new_object = nullptr;
     }
 
     return new_object;
@@ -314,7 +314,7 @@ vt_video::StillImage* GlobalMedia::GetElementalIcon(GLOBAL_ELEMENTAL element_typ
     GLOBAL_STATUS status_type = GLOBAL_STATUS_INVALID;
     switch (element_type) {
     default:
-        return NULL;
+        return nullptr;
     case GLOBAL_ELEMENTAL_FIRE:
         status_type = GLOBAL_STATUS_FIRE;
         break;
@@ -344,7 +344,7 @@ vt_video::StillImage* GlobalMedia::GetElementalIcon(GLOBAL_ELEMENTAL element_typ
 vt_video::StillImage* GlobalMedia::GetStatusIcon(GLOBAL_STATUS status_type, GLOBAL_INTENSITY intensity)
 {
     if (status_type <= GLOBAL_STATUS_INVALID || status_type >= GLOBAL_STATUS_TOTAL)
-        return NULL;
+        return nullptr;
 
     const uint32 NUMBER_INTENSITY_LEVELS = 9;
 
@@ -382,7 +382,7 @@ vt_video::StillImage* GlobalMedia::GetStatusIcon(GLOBAL_STATUS status_type, GLOB
         break;
     default:
         PRINT_WARNING << "Invalid intensity level: " << intensity << std::endl;
-        return NULL;
+        return nullptr;
     }
 
     return &(_status_icons[(((uint32) status_type) * NUMBER_INTENSITY_LEVELS) + col]);
@@ -418,7 +418,7 @@ vt_video::StillImage* GlobalMedia::GetItemCategoryIcon(GLOBAL_OBJECT object_type
         index = 7;
         break;
     default:
-        return NULL;
+        return nullptr;
     }
 
     return &(_all_category_icons[index]);
@@ -454,7 +454,7 @@ vt_video::StillImage* GlobalMedia::GetSmallItemCategoryIcon(ITEM_CATEGORY object
         index = 10;
         break;
     default:
-        return NULL;
+        return nullptr;
     }
 
     return &(_small_category_icons[index]);

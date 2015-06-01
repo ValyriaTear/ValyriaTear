@@ -314,7 +314,7 @@ public:
 
     /** \brief Appends an image element to an existing option
     *** \param option_index The index of the option to append the image element to
-    *** \param image A pointer to the image to create a copy of for the option (must be non-NULL)
+    *** \param image A pointer to the image to create a copy of for the option (must be non-nullptr)
     **/
     void AddOptionElementImage(uint32 option_index, const vt_video::StillImage *image);
 
@@ -361,7 +361,7 @@ public:
 
     /** \brief Retrieves a pointer to the image embedded within the option
     *** \param index The index of the option to retrieve the image
-    *** \return NULL if the index is invalid or the option does not embed an image, otherwise a valid pointer to a StillImage
+    *** \return nullptr if the index is invalid or the option does not embed an image, otherwise a valid pointer to a StillImage
     **/
     vt_video::StillImage *GetEmbeddedImage(uint32 index) const;
 

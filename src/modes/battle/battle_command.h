@@ -201,7 +201,7 @@ public:
     void Initialize(uint32 item_index);
 
     /** \brief Returns a pointer to the currently selected item
-    *** This function will return NULL if the class has not been initialized and there is no list of
+    *** This function will return nullptr if the class has not been initialized and there is no list of
     *** items to select from.
     **/
     BattleItem *GetSelectedItem();
@@ -280,7 +280,7 @@ public:
                     vt_gui::OptionBox *target_n_cost_list);
 
     /** \brief Returns the currently selected skill
-    *** This function will return NULL if the class has not been initialized and there is no list of
+    *** This function will return nullptr if the class has not been initialized and there is no list of
     *** skills to select from.
     **/
     vt_global::GlobalSkill *GetSelectedSkill() const;
@@ -364,7 +364,7 @@ public:
 
     //! \brief Returns a pointer to the character that the player is selecting a command for
     BattleCharacter *GetCommandCharacter() const {
-        if(_active_settings == NULL) return NULL;
+        if(_active_settings == nullptr) return nullptr;
         else return _active_settings->GetCharacter();
     }
 
@@ -491,7 +491,7 @@ private:
 
     //! \brief Returns true if the character parameter has already had a settings instance created for it
     bool _HasCharacterSettings(BattleCharacter *character) const {
-        if(character == NULL) return false;
+        if(character == nullptr) return false;
         else return (_character_settings.find(character) != _character_settings.end());
     }
 

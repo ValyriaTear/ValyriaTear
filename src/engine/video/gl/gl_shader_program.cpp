@@ -35,8 +35,8 @@ ShaderProgram::ShaderProgram(const Shader* vertex_shader,
 {
     bool errors = false;
 
-    assert(_vertex_shader != NULL);
-    assert(_fragment_shader != NULL);
+    assert(_vertex_shader != nullptr);
+    assert(_fragment_shader != nullptr);
 
     // Create the program.
     if (!errors) {
@@ -140,7 +140,7 @@ ShaderProgram::ShaderProgram(const Shader* vertex_shader,
 
             // Clean up the log.
             delete [] log;
-            log = NULL;
+            log = nullptr;
 
             assert(is_linked != 0);
         }
@@ -221,8 +221,8 @@ bool ShaderProgram::UpdateUniform(const std::string& uniform, const float* data,
     GLint location = glGetUniformLocation(_program, uniform.c_str());
 
     // This function currently only supports matrices and vectors.
-    assert(data != NULL && (length == 4 || length == 16));
-    if (data != NULL) {
+    assert(data != nullptr && (length == 4 || length == 16));
+    if (data != nullptr) {
         if (length == 4) {
             result = true;
 

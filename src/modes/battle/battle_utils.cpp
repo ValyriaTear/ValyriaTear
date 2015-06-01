@@ -113,12 +113,12 @@ uint32 RndPhysicalDamage(BattleActor* attacker, BattleActor* target_actor,
 uint32 RndPhysicalDamage(BattleActor* attacker, BattleActor* target_actor,
                          uint32 add_atk, float mul_atk, int32 attack_point)
 {
-    if(attacker == NULL) {
-        IF_PRINT_WARNING(BATTLE_DEBUG) << "function received NULL attacker argument" << std::endl;
+    if(attacker == nullptr) {
+        IF_PRINT_WARNING(BATTLE_DEBUG) << "function received nullptr attacker argument" << std::endl;
         return 0;
     }
-    if(target_actor == NULL) {
-        IF_PRINT_WARNING(BATTLE_DEBUG) << "function received NULL target_actor argument" << std::endl;
+    if(target_actor == nullptr) {
+        IF_PRINT_WARNING(BATTLE_DEBUG) << "function received nullptr target_actor argument" << std::endl;
         return 0;
     }
 
@@ -173,12 +173,12 @@ uint32 RndMagicalDamage(BattleActor* attacker, BattleActor* target_actor, GLOBAL
 uint32 RndMagicalDamage(BattleActor* attacker, BattleActor* target_actor, GLOBAL_ELEMENTAL element,
                         uint32 add_atk, float mul_atk, int32 attack_point)
 {
-    if(attacker == NULL) {
-        IF_PRINT_WARNING(BATTLE_DEBUG) << "function received NULL attacker argument" << std::endl;
+    if(attacker == nullptr) {
+        IF_PRINT_WARNING(BATTLE_DEBUG) << "function received nullptr attacker argument" << std::endl;
         return 0;
     }
-    if(target_actor == NULL) {
-        IF_PRINT_WARNING(BATTLE_DEBUG) << "function received NULL target_actor argument" << std::endl;
+    if(target_actor == nullptr) {
+        IF_PRINT_WARNING(BATTLE_DEBUG) << "function received nullptr target_actor argument" << std::endl;
         return 0;
     }
 
@@ -223,14 +223,14 @@ uint32 RndMagicalDamage(BattleActor* attacker, BattleActor* target_actor, GLOBAL
 BattleTarget::BattleTarget() :
     _type(GLOBAL_TARGET_INVALID),
     _attack_point(0),
-    _actor_target(NULL)
+    _actor_target(nullptr)
 {}
 
 void BattleTarget::InvalidateTarget()
 {
     _type = GLOBAL_TARGET_INVALID;
     _attack_point = 0;
-    _actor_target = NULL;
+    _actor_target = nullptr;
     _party_target.clear();
 }
 
@@ -241,15 +241,15 @@ bool BattleTarget::SetTarget(BattleActor* attacker, vt_global::GLOBAL_TARGET typ
         return false;
     }
 
-    if (attacker == NULL) {
-        PRINT_ERROR << "BattleTarget::SetTarget() called wirh NULL attacker." << std::endl;
+    if (attacker == nullptr) {
+        PRINT_ERROR << "BattleTarget::SetTarget() called wirh nullptr attacker." << std::endl;
         return false;
     }
 
     InvalidateTarget();
 
     // Set the target party according to the target type
-    std::deque<BattleActor *>* party_target = NULL;
+    std::deque<BattleActor *>* party_target = nullptr;
     switch(type) {
     case GLOBAL_TARGET_SELF_POINT:
     case GLOBAL_TARGET_ALLY_POINT:
@@ -284,7 +284,7 @@ bool BattleTarget::SetTarget(BattleActor* attacker, vt_global::GLOBAL_TARGET typ
     if (target && std::find(party_target->begin(), party_target->end(), target) == party_target->end())
         target = party_target->at(0);
 
-    if (target != NULL)
+    if (target != nullptr)
         _actor_target = target;
     else
         _actor_target = party_target->at(0);
@@ -340,7 +340,7 @@ bool BattleTarget::SelectNextPoint(bool direction)
         IF_PRINT_WARNING(BATTLE_DEBUG) << "invalid target type: " << _type << std::endl;
         return false;
     }
-    if(_actor_target == NULL || _party_target.empty()) {
+    if(_actor_target == nullptr || _party_target.empty()) {
         IF_PRINT_WARNING(BATTLE_DEBUG) << "No valid target set" << std::endl;
         return false;
     }
@@ -431,7 +431,7 @@ bool BattleTarget::SelectNextActor(bool direction)
 BattleActor* BattleTarget::GetPartyActor(uint32 index)
 {
     if (index >= _party_target.size())
-        return NULL;
+        return nullptr;
 
     return _party_target.at(index);
 }

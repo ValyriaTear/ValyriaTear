@@ -90,7 +90,7 @@ VirtualSprite::VirtualSprite(MapObjectDrawLayer layer) :
     _moving(false),
     _moved_position(false),
     _is_running(false),
-    _control_event(NULL),
+    _control_event(nullptr),
     _state_saved(false),
     _saved_direction(0),
     _saved_movement_speed(0.0f),
@@ -245,7 +245,7 @@ void VirtualSprite::_SetNextPosition()
                                            | MOVING_SOUTHEAST | MOVING_SOUTHWEST));
 
     // Handle collision with the first object encountered
-    MapObject* collision_object = NULL;
+    MapObject* collision_object = nullptr;
     MapMode* map_mode = MapMode::CurrentInstance();
     ObjectSupervisor* object_supervisor = map_mode->GetObjectSupervisor();
     COLLISION_TYPE collision_type = object_supervisor->DetectCollision(this, next_pos_x,
@@ -562,12 +562,12 @@ float VirtualSprite::CalculateDistanceMoved()
 
 void VirtualSprite::AcquireControl(SpriteEvent* event)
 {
-    if(event == NULL) {
-        IF_PRINT_WARNING(MAP_DEBUG) << "function argument was NULL" << std::endl;
+    if(event == nullptr) {
+        IF_PRINT_WARNING(MAP_DEBUG) << "function argument was nullptr" << std::endl;
         return;
     }
 
-    if(_control_event != NULL) {
+    if(_control_event != nullptr) {
         IF_PRINT_WARNING(MAP_DEBUG) << "a new event is acquiring control when the previous event has not "
                                     "released control over this sprite, object id: " << GetObjectID() << std::endl;
     }
@@ -576,17 +576,17 @@ void VirtualSprite::AcquireControl(SpriteEvent* event)
 
 void VirtualSprite::ReleaseControl(SpriteEvent *event)
 {
-    if(event == NULL) {
-        IF_PRINT_WARNING(MAP_DEBUG) << "function argument was NULL" << std::endl;
+    if(event == nullptr) {
+        IF_PRINT_WARNING(MAP_DEBUG) << "function argument was nullptr" << std::endl;
         return;
     }
 
-    if(_control_event == NULL) {
+    if(_control_event == nullptr) {
         IF_PRINT_WARNING(MAP_DEBUG) << "no event had control over this sprite, object id: " << GetObjectID() << std::endl;
     } else if(_control_event != event) {
         IF_PRINT_WARNING(MAP_DEBUG) << "a different event has control of this sprite, object id: " << GetObjectID() << std::endl;
     } else {
-        _control_event = NULL;
+        _control_event = nullptr;
     }
 }
 
@@ -1230,7 +1230,7 @@ const std::string& MapSprite::GetNextDialogueID() const
 
 EnemySprite::EnemySprite() :
     MapSprite(GROUND_OBJECT),
-    _zone(NULL),
+    _zone(nullptr),
     _color(1.0f, 1.0f, 1.0f, 0.0f),
     _aggro_range(8.0f),
     _time_before_new_destination(1200),

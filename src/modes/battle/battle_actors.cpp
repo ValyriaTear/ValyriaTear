@@ -103,7 +103,7 @@ BattleActor::BattleActor(GlobalActor *actor) :
     BattleObject(),
     _state(ACTOR_STATE_INVALID),
     _global_actor(actor),
-    _action(NULL),
+    _action(nullptr),
     _idle_state_time(0),
     _hurt_timer(0),
     _is_stunned(false),
@@ -113,8 +113,8 @@ BattleActor::BattleActor(GlobalActor *actor) :
     _y_stamina_location(0.0f),
     _effects_supervisor(new BattleStatusEffectsSupervisor(this))
 {
-    if(actor == NULL) {
-        IF_PRINT_WARNING(BATTLE_DEBUG) << "constructor received NULL argument" << std::endl;
+    if(actor == nullptr) {
+        IF_PRINT_WARNING(BATTLE_DEBUG) << "constructor received nullptr argument" << std::endl;
         return;
     }
 
@@ -153,9 +153,9 @@ void BattleActor::_InitStats()
 BattleActor::~BattleActor()
 {
     // If the actor did not get a chance to execute their action, delete it
-    if(_action != NULL) {
+    if(_action != nullptr) {
         delete _action;
-        _action = NULL;
+        _action = nullptr;
     }
 
     delete _effects_supervisor;
@@ -175,9 +175,9 @@ void BattleActor::ResetActor()
     ResetEvade();
 
     // If the actor did not get a chance to execute their action, delete it
-    if(_action != NULL) {
+    if(_action != nullptr) {
         delete _action;
-        _action = NULL;
+        _action = nullptr;
     }
 
     // Invalidate the actor state to force the reinit of the idle or dead state
@@ -220,15 +220,15 @@ void BattleActor::ChangeState(ACTOR_STATE new_state)
         }
         break;
     case ACTOR_STATE_IDLE:
-        if(_action != NULL) {
+        if(_action != nullptr) {
             delete _action;
-            _action = NULL;
+            _action = nullptr;
         }
         _state_timer.Initialize(_idle_state_time);
         _state_timer.Run();
         break;
     case ACTOR_STATE_WARM_UP:
-        if(_action == NULL) {
+        if(_action == nullptr) {
             IF_PRINT_WARNING(BATTLE_DEBUG) << "no action available during state change: " << _state << std::endl;
         } else {
             _state_timer.Initialize(_action->GetWarmUpTime() * GetAgilityModifier());
@@ -236,7 +236,7 @@ void BattleActor::ChangeState(ACTOR_STATE new_state)
         }
         break;
     case ACTOR_STATE_READY:
-        if(_action == NULL) {
+        if(_action == nullptr) {
             IF_PRINT_WARNING(BATTLE_DEBUG) << "no action available during state change: " << _state << std::endl;
         } else {
             BattleMode::CurrentInstance()->NotifyActorReady(this);
@@ -281,7 +281,7 @@ void BattleActor::ChangeState(ACTOR_STATE new_state)
 
 void BattleActor::RegisterDamage(uint32 amount)
 {
-    RegisterDamage(amount, NULL);
+    RegisterDamage(amount, nullptr);
 }
 
 void BattleActor::RegisterDamage(uint32 amount, BattleTarget *target)
@@ -332,9 +332,9 @@ void BattleActor::RegisterDamage(uint32 amount, BattleTarget *target)
     _hurt_timer.Run();
 
     // If the damage dealt was to a point target type, check for and apply any status effects triggered by this point hit
-    if((target != NULL) && (IsTargetPoint(target->GetType()) == true)) {
+    if((target != nullptr) && (IsTargetPoint(target->GetType()) == true)) {
         GlobalAttackPoint* damaged_point = _global_actor->GetAttackPoint(target->GetAttackPoint());
-        if(damaged_point == NULL) {
+        if(damaged_point == nullptr) {
             IF_PRINT_WARNING(BATTLE_DEBUG) << "target argument contained an invalid point index: " << target->GetAttackPoint() << std::endl;
         } else {
             std::vector<std::pair<GLOBAL_STATUS, float> > status_effects = damaged_point->GetStatusEffects();
@@ -593,7 +593,7 @@ void BattleActor::Update()
         case ACTOR_STATE_IDLE:
             // If an action is already set for the actor,
             // skip the command state and immediately begin the warm up state.
-            if (_action == NULL)
+            if (_action == nullptr)
                 ChangeState(ACTOR_STATE_COMMAND);
             else
                 ChangeState(ACTOR_STATE_WARM_UP);
@@ -686,7 +686,7 @@ void BattleActor::DrawStaminaIcon(const vt_video::Color &color) const
 void BattleActor::SetAction(BattleAction* action)
 {
     if(!action) {
-        IF_PRINT_WARNING(BATTLE_DEBUG) << "function received NULL argument" << std::endl;
+        IF_PRINT_WARNING(BATTLE_DEBUG) << "function received nullptr argument" << std::endl;
         return;
     }
 
@@ -709,7 +709,7 @@ void BattleActor::SetAction(uint32 skill_id, BattleActor* target_actor)
 {
     const std::vector<GlobalSkill *>& actor_skills = _global_actor->GetSkills();
 
-    GlobalSkill* skill = NULL;
+    GlobalSkill* skill = nullptr;
 
     for (uint32 i = 0; i < actor_skills.size(); ++i) {
         if (actor_skills[i]->GetID() == skill_id && actor_skills[i]->IsExecutableInBattle()) {
@@ -898,7 +898,7 @@ void BattleActor::_DecideAction()
 
     // Targeting members
     BattleTarget target;
-    BattleActor* actor_target = NULL;
+    BattleActor* actor_target = nullptr;
 
     // Select a random skill to use
     uint32 skill_index = 0;

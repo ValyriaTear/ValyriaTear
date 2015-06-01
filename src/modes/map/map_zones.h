@@ -233,7 +233,7 @@ public:
               uint16 top_row, uint16 bottom_row);
 
     ~EnemyZone() {
-        if(_spawn_zone != NULL) delete _spawn_zone;
+        if(_spawn_zone != nullptr) delete _spawn_zone;
     }
 
     //! \brief A C++ wrapper made to create a new object from scripting,
@@ -284,7 +284,7 @@ public:
 
     //! \brief Returns true if this zone has seperate zones for roaming and spawning
     bool HasSeparateSpawnZone() const {
-        return (_spawn_zone != NULL);
+        return (_spawn_zone != nullptr);
     }
 
     //! \name Class Member Access Functions

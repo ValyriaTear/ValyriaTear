@@ -147,13 +147,13 @@ public:
 
     /** \brief Retrieves a specific button icon for character action
     *** \param index The index of the button to retrieve
-    *** \return A pointer to the appropriate button image, or NULL if the index argument was out of bounds
+    *** \return A pointer to the appropriate button image, or nullptr if the index argument was out of bounds
     **/
     vt_video::StillImage *GetCharacterActionButton(uint32 index);
 
     /** \brief Retrieves the appropriate icon image given a valid target type
     *** \param target_type The enumerated value that represents the type of target
-    *** \return A pointer to the appropriate icon image, or NULL if the target type was invalid
+    *** \return A pointer to the appropriate icon image, or nullptr if the target type was invalid
     **/
     vt_video::StillImage *GetTargetTypeIcon(vt_global::GLOBAL_TARGET target_type);
 
@@ -416,7 +416,7 @@ public:
 
     private_battle::BattleCharacter* GetCharacterActor(uint32 index) {
         if (index >= _character_actors.size())
-            return NULL;
+            return nullptr;
         return _character_actors[index];
     }
 
@@ -426,7 +426,7 @@ public:
 
     private_battle::BattleEnemy* GetEnemyActor(uint32 index) {
         if (index >= _enemy_actors.size())
-            return NULL;
+            return nullptr;
         return _enemy_actors[index];
     }
 
@@ -715,7 +715,7 @@ private:
     //! \brief Tells whether the boss trigger sound is to be played or not.
     bool _is_boss;
 
-    //! \brief The Battle mode to trigger afterward. Must not be NULL.
+    //! \brief The Battle mode to trigger afterward. Must not be nullptr.
     BattleMode *_BM;
 };
 

@@ -1207,12 +1207,12 @@ public:
 
     /** \brief Returns a pointer to a specified event stored by this class
     *** \param event_id The ID of the event to retrieve
-    *** \return A MapEvent pointer (which may need to be casted to the proper event type), or NULL if no event was found
+    *** \return A MapEvent pointer (which may need to be casted to the proper event type), or nullptr if no event was found
     **/
     MapEvent* GetEvent(const std::string& event_id) const;
 
     bool DoesEventExist(const std::string& event_id) const
-    { return !(GetEvent(event_id) == NULL); }
+    { return !(GetEvent(event_id) == nullptr); }
 
 private:
     //! \brief A container for all map events, where the event's ID serves as the key to the std::map

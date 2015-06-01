@@ -144,13 +144,13 @@ CharacterCommandSettings::CharacterCommandSettings(BattleCharacter *character, M
     _special_target_list.SetCursorState(VIDEO_CURSOR_STATE_HIDDEN);
     _special_target_list.AnimateScrolling(false);
 
-    if(_character == NULL) {
-        IF_PRINT_WARNING(BATTLE_DEBUG) << "constructor received NULL character pointer" << std::endl;
+    if(_character == nullptr) {
+        IF_PRINT_WARNING(BATTLE_DEBUG) << "constructor received nullptr character pointer" << std::endl;
         return;
     }
 
     // Construct the weapon, magic, and special skill lists for the character
-    std::vector<GlobalSkill *>* skill_list = NULL;
+    std::vector<GlobalSkill *>* skill_list = nullptr;
     GlobalWeapon* char_wpn = _character->GetGlobalCharacter()->GetWeaponEquipped();
 
     if (char_wpn)
@@ -249,7 +249,7 @@ void CharacterCommandSettings::RefreshLists()
 {
     uint32 require_sp = 0xFFFFFFFF;
     uint32 current_sp = _character->GetSkillPoints();
-    std::vector<GlobalSkill *>* skill_list = NULL;
+    std::vector<GlobalSkill *>* skill_list = nullptr;
 
     skill_list = _character->GetGlobalCharacter()->GetWeaponSkills();
     for(uint32 i = 0; i < skill_list->size(); ++i) {
@@ -467,7 +467,7 @@ BattleItem *ItemCommand::GetSelectedItem()
 {
     int32 selection = _item_list.GetSelection();
     if (selection == -1 || selection >= (int32)_menu_items.size())
-        return NULL;
+        return nullptr;
 
     return _menu_items[selection];
 }
@@ -531,9 +531,9 @@ void ItemCommand::CommitChangesToInventory()
 ////////////////////////////////////////////////////////////////////////////////
 
 SkillCommand::SkillCommand(MenuWindow &window) :
-    _skills(NULL),
-    _skill_list(NULL),
-    _target_n_cost_list(NULL)
+    _skills(nullptr),
+    _skill_list(nullptr),
+    _target_n_cost_list(nullptr)
 {
     _skill_header.SetOwner(&window);
     _skill_header.SetPosition(HEADER_POSITION_X, HEADER_POSITION_Y);
@@ -549,12 +549,12 @@ void SkillCommand::Initialize(std::vector<GlobalSkill *>* skills,
                               OptionBox *skill_list,
                               OptionBox *target_n_cost_list)
 {
-    if(skills == NULL) {
-        IF_PRINT_WARNING(BATTLE_DEBUG) << "function received NULL skills argument" << std::endl;
+    if(skills == nullptr) {
+        IF_PRINT_WARNING(BATTLE_DEBUG) << "function received nullptr skills argument" << std::endl;
         return;
     }
-    if(skill_list == NULL) {
-        IF_PRINT_WARNING(BATTLE_DEBUG) << "function received NULL skill_list argument" << std::endl;
+    if(skill_list == nullptr) {
+        IF_PRINT_WARNING(BATTLE_DEBUG) << "function received nullptr skill_list argument" << std::endl;
         return;
     }
 
@@ -565,8 +565,8 @@ void SkillCommand::Initialize(std::vector<GlobalSkill *>* skills,
 
 GlobalSkill *SkillCommand::GetSelectedSkill() const
 {
-    if((_skills == NULL) || (_skill_list == NULL))
-        return NULL;
+    if((_skills == nullptr) || (_skill_list == nullptr))
+        return nullptr;
 
     uint32 selection = _skill_list->GetSelection();
     // The skills object needs to be returned even if not enabled due to low SP
@@ -576,7 +576,7 @@ GlobalSkill *SkillCommand::GetSelectedSkill() const
 
 bool SkillCommand::GetSelectedSkillEnabled()
 {
-    if((_skills == NULL) || (_skill_list == NULL))
+    if((_skills == nullptr) || (_skill_list == nullptr))
         return false;
 
     uint32 selection = _skill_list->GetSelection();
@@ -585,7 +585,7 @@ bool SkillCommand::GetSelectedSkillEnabled()
 
 void SkillCommand::UpdateList()
 {
-    if(_skill_list == NULL)
+    if(_skill_list == nullptr)
         return;
 
     _skill_list->Update();
@@ -604,7 +604,7 @@ void SkillCommand::UpdateList()
 
 void SkillCommand::DrawList()
 {
-    if(_skill_list == NULL)
+    if(_skill_list == nullptr)
         return;
 
     _skill_header.Draw();
@@ -618,9 +618,9 @@ void SkillCommand::DrawList()
 
 CommandSupervisor::CommandSupervisor() :
     _state(COMMAND_STATE_INVALID),
-    _active_settings(NULL),
-    _selected_skill(NULL),
-    _selected_item(NULL),
+    _active_settings(nullptr),
+    _selected_skill(nullptr),
+    _selected_item(nullptr),
     _item_command(_command_window),
     _skill_command(_command_window),
     _show_information(false)
@@ -708,8 +708,8 @@ void CommandSupervisor::ConstructMenus()
 
 void CommandSupervisor::Initialize(BattleCharacter *character)
 {
-    if(character == NULL) {
-        IF_PRINT_WARNING(BATTLE_DEBUG) << "function received NULL pointer argument" << std::endl;
+    if(character == nullptr) {
+        IF_PRINT_WARNING(BATTLE_DEBUG) << "function received nullptr pointer argument" << std::endl;
         _state = COMMAND_STATE_INVALID;
         return;
     }
@@ -956,7 +956,7 @@ bool CommandSupervisor::_SetInitialTarget()
         return true;
 
     // Otherwise if the last target is set but no longer valid, select the next valid target in the serie.
-    if(_selected_target.GetActor() != NULL) {
+    if(_selected_target.GetActor() != nullptr) {
         // Party targets should always be valid and attack points on actors do not disappear, so only the actor
         // must be invalid
         if(!_selected_target.SelectNextActor()) {
@@ -985,9 +985,9 @@ void CommandSupervisor::_ChangeState(COMMAND_STATE new_state)
     }
 
     if(new_state == COMMAND_STATE_INVALID) {
-        _active_settings = NULL;
-        _selected_skill = NULL;
-        _selected_item = NULL;
+        _active_settings = nullptr;
+        _selected_skill = nullptr;
+        _selected_item = nullptr;
     } else if(new_state == COMMAND_STATE_CATEGORY) {
         // Nothing to do here. The Initialize() function performs all necessary actions when entering this state.
     } else if(new_state == COMMAND_STATE_ACTION) {
@@ -1121,7 +1121,7 @@ void CommandSupervisor::_UpdateAction()
 
         if(InputManager->ConfirmPress()) {
             // Permit the selection only where are items left.
-            if(_selected_item != NULL && _item_command.IsSelectedItemAvailable()) {
+            if(_selected_item != nullptr && _item_command.IsSelectedItemAvailable()) {
                 _ChangeState(COMMAND_STATE_ACTOR);
                 GlobalManager->Media().PlaySound("confirm");
             } else {
@@ -1455,8 +1455,8 @@ void CommandSupervisor::_CreateAttackPointTargetText()
     BattleActor* actor = _selected_target.GetActor();
     uint32 selected_point = _selected_target.GetAttackPoint();
 
-    if (actor == NULL) {
-        PRINT_ERROR << "NULL actor when selection target attack points!" << std::endl;
+    if (actor == nullptr) {
+        PRINT_ERROR << "nullptr actor when selection target attack points!" << std::endl;
         return;
     }
 
@@ -1471,7 +1471,7 @@ void CommandSupervisor::_CreateAttackPointTargetText()
 
 void CommandSupervisor::_FinalizeCommand()
 {
-    BattleAction *new_action = NULL;
+    BattleAction *new_action = nullptr;
     BattleCharacter *character = GetCommandCharacter();
 
     _active_settings->SaveLastTarget(_selected_target);

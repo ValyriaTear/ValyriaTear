@@ -54,7 +54,7 @@ class OptionMenu : public vt_gui::OptionBox
 {
 public:
     OptionMenu():
-        _handler(NULL)
+        _handler(nullptr)
     {}
 
     ~OptionMenu()
@@ -71,11 +71,11 @@ public:
     **/
     void AddOption(const vt_utils::ustring &text,
                    GameOptionsMenuHandler* handler,
-                   void (GameOptionsMenuHandler::*confirm_function)() = NULL,
-                   void (GameOptionsMenuHandler::*up_function)() = NULL,
-                   void (GameOptionsMenuHandler::*down_function)() = NULL,
-                   void (GameOptionsMenuHandler::*left_function)() = NULL,
-                   void (GameOptionsMenuHandler::*right_function)() = NULL);
+                   void (GameOptionsMenuHandler::*confirm_function)() = nullptr,
+                   void (GameOptionsMenuHandler::*up_function)() = nullptr,
+                   void (GameOptionsMenuHandler::*down_function)() = nullptr,
+                   void (GameOptionsMenuHandler::*left_function)() = nullptr,
+                   void (GameOptionsMenuHandler::*right_function)() = nullptr);
 
     //! \brief
     //@{
@@ -134,7 +134,7 @@ public:
     //! \brief Tells whether the handler is displaying some menu
     //! and/or handling some input.
     bool IsActive() const {
-        return (_active_menu != NULL);
+        return (_active_menu != nullptr);
     }
 
     //! \brief Show first app run language option menu

@@ -51,7 +51,7 @@ namespace private_shop
 
 BuyInterface::BuyInterface() :
     _view_mode(SHOP_VIEW_MODE_INVALID),
-    _selected_object(NULL),
+    _selected_object(nullptr),
     _buy_deal_types(0),
     _current_category(0)
 {
@@ -516,7 +516,7 @@ void BuyListDisplay::ReconstructList()
 bool BuyListDisplay::ChangeBuyQuantity(bool more, uint32 amount)
 {
     ShopObject* obj = GetSelectedObject();
-    if(obj == NULL) {
+    if(obj == nullptr) {
         IF_PRINT_WARNING(SHOP_DEBUG) << "function could not perform operation because list was empty" << std::endl;
         return false;
     }

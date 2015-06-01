@@ -63,7 +63,7 @@ bool MapTreasure::AddItem(uint32 id, uint32 quantity)
 {
     vt_global::GlobalObject *obj = GlobalCreateNewObject(id, quantity);
 
-    if(obj == NULL) {
+    if(obj == nullptr) {
         IF_PRINT_WARNING(MAP_DEBUG) << "invalid object id argument passed to function: " << id << std::endl;
         return false;
     }
@@ -77,11 +77,11 @@ bool MapTreasure::AddItem(uint32 id, uint32 quantity)
 // -----------------------------------------------------------------------------
 
 TreasureSupervisor::TreasureSupervisor() :
-    _treasure(NULL),
+    _treasure(nullptr),
     _selection(ACTION_SELECTED),
     _window_title(UTranslate("You obtain"), TextStyle("title24", Color::white, VIDEO_TEXT_SHADOW_DARK, 1, -2)),
     _selection_name(),
-    _selection_icon(NULL),
+    _selection_icon(nullptr),
     _is_key_item(false)
 {
     // Create the menu windows and option boxes used for the treasure menu and
@@ -135,8 +135,8 @@ TreasureSupervisor::~TreasureSupervisor()
 
 void TreasureSupervisor::Initialize(TreasureObject *map_object)
 {
-    if(map_object == NULL) {
-        IF_PRINT_WARNING(MAP_DEBUG) << "function argument was NULL" << std::endl;
+    if(map_object == nullptr) {
+        IF_PRINT_WARNING(MAP_DEBUG) << "function argument was nullptr" << std::endl;
         return;
     }
 
@@ -146,7 +146,7 @@ void TreasureSupervisor::Initialize(TreasureObject *map_object)
 void TreasureSupervisor::Initialize(MapTreasure *treasure)
 {
     if(!treasure) {
-        IF_PRINT_WARNING(MAP_DEBUG) << "function argument was NULL" << std::endl;
+        IF_PRINT_WARNING(MAP_DEBUG) << "function argument was nullptr" << std::endl;
         return;
     }
     _treasure = treasure;

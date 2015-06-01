@@ -399,7 +399,7 @@ bool IsTargetFoe(GLOBAL_TARGET target);
 /** \brief Creates a new GlobalObject and returns a pointer to it
 *** \param id The id value of the object to create
 *** \param count The count of the new object to create (default value == 1)
-*** \return A pointer to the newly created GlobalObject, or NULL if the object could not be created
+*** \return A pointer to the newly created GlobalObject, or nullptr if the object could not be created
 ***
 *** This function does not actually create a GlobalObject (it can't since its an abstract class).
 *** It creates one of the derived object class types depending on the value of the id argument.
@@ -496,14 +496,14 @@ public:
 
     /** \brief Retrieves the category icon image that represents the specified object type
     *** \param object_type The type of the global object to retrieve the icon for
-    *** \return A pointer to the image holding the category's icon. NULL if the argument was invalid.
+    *** \return A pointer to the image holding the category's icon. nullptr if the argument was invalid.
     *** \note GLOBAL_OBJECT_TOTAL will return the icon for "all wares"
     **/
     vt_video::StillImage* GetItemCategoryIcon(GLOBAL_OBJECT object_type);
 
     /** \brief Retrieves the category icon image that represents the specified object type
     *** \param object_type The type of the global object to retrieve the icon for
-    *** \return A pointer to the image holding the category's icon. NULL if the argument was invalid.
+    *** \return A pointer to the image holding the category's icon. nullptr if the argument was invalid.
     *** \note GLOBAL_OBJECT_TOTAL will return the icon for "all wares"
     **/
     vt_video::StillImage* GetSmallItemCategoryIcon(ITEM_CATEGORY object_category);

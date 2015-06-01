@@ -85,7 +85,7 @@ public:
 
     /** \brief Retrieves the category name that represents the specified object type
     *** \param object_type The type of the global object to retrieve the name for
-    *** \return A pointer to the ustring holding the category's name. NULL if the argument was invalid.
+    *** \return A pointer to the ustring holding the category's name. nullptr if the argument was invalid.
     *** \note GLOBAL_OBJECT_TOTAL will return the name for "all wares"
     **/
     vt_utils::ustring *GetCategoryName(vt_global::GLOBAL_OBJECT object_type);
@@ -145,7 +145,7 @@ public:
     void Draw();
 
     /** \brief Changes the selected object to the function argument
-    *** \param object A pointer to the shop object to change (NULL-safe)
+    *** \param object A pointer to the shop object to change (nullptr-safe)
     *** \note The code using this class should always use this function to change the selected object rather than
     *** changing the public _selected_object member directly. This method updates all of the relevent graphics and
     *** data displays in addition to changing the pointer member.
@@ -647,7 +647,7 @@ private:
 
     /** \brief A reference to the current instance of ShopMode
     *** This is used by other shop classes to be able to refer to the shop that they exist in. This member
-    *** is NULL when no shop is active
+    *** is nullptr when no shop is active
     **/
     static ShopMode* _current_instance;
 

@@ -154,7 +154,7 @@ private:
     *** \param height The height of the sheet, in pixels
     *** \param type Specifies what type of images this texture sheet manages (e.g. 32x32 images, 64x64 images, variable size, etc)
     *** \param is_static If true, this texture sheet is meant to manage images which are not expected to be loaded and unloaded very often
-    *** \return A pointer to the newly created TexSheet, or NULL if a new should could not be created
+    *** \return A pointer to the newly created TexSheet, or nullptr if a new should could not be created
     **/
     private_video::TexSheet *_CreateTexSheet(int32 width, int32 height, private_video::TexSheetType type, bool is_static);
 
@@ -167,7 +167,7 @@ private:
     *** \param image A pointer to the image to insert
     *** \param load_info The attributes of the image to be inserted
     *** \param is_static Indicates whether the image is static or not
-    *** \return A new texsheet with the image contained within it, or NULL if an error occured and the image could not be added to any sheet
+    *** \return A new texsheet with the image contained within it, or nullptr if an error occured and the image could not be added to any sheet
     ***
     *** A new texture sheet will be created by this function in one of two cases. First, if there was no room for the image in any existing
     *** compatible texture sheets. Second, if the image is very large (either height or width of the image exceeds 512 pixels), it will
@@ -203,11 +203,11 @@ private:
     }
 
     /** \brief Return the ImageTexture stored under the given nametag (filename + tag)
-    *** \return A pointer to the registered ImageTexture object, or NULL if the nametag could not be found
+    *** \return A pointer to the registered ImageTexture object, or nullptr if the nametag could not be found
      **/
     vt_video::private_video::ImageTexture *_GetImageTexture(std::string nametag) {
         if(_IsImageTextureRegistered(nametag) == true) return _images[nametag];
-        else return NULL;
+        else return nullptr;
     }
     //@}
 

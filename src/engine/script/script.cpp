@@ -30,7 +30,7 @@ using namespace vt_script::private_script;
 namespace vt_script
 {
 
-ScriptEngine *ScriptManager = NULL;
+ScriptEngine *ScriptManager = nullptr;
 bool SCRIPT_DEBUG = false;
 
 //-----------------------------------------------------------------------------
@@ -55,7 +55,7 @@ ScriptEngine::~ScriptEngine()
 
     _open_files.clear();
     lua_close(_global_state);
-    _global_state = NULL;
+    _global_state = nullptr;
 }
 
 
@@ -126,7 +126,7 @@ lua_State *ScriptEngine::_CheckForPreviousLuaState(const std::string &filename)
     if(_open_threads.find(filename) != _open_threads.end())
         return _open_threads[filename];
     else
-        return NULL;
+        return nullptr;
 }
 
 

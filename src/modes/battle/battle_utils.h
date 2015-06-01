@@ -173,14 +173,14 @@ public:
     /** \brief Used to set the initial target
     *** \param type The type of target to set
     *** \param attacker A pointer to the actor which will use the target.
-    *** \param target A pointer to the actor which will use the target or NULL. When NULL, the first valid target depending on type is used.
+    *** \param target A pointer to the actor which will use the target or nullptr. When nullptr, the first valid target depending on type is used.
     *** \param attack_point An integer index into the actor's attack points
     ***
     *** If the function fails to find an initial target, the target type will be set to
     *** GLOBAL_TARGET_INVALID. The initial attack point is always the first available point on the
     *** target (index 0). The initial target will always be the first valid actor in its party (index 0).
     **/
-    bool SetTarget(BattleActor* attacker, vt_global::GLOBAL_TARGET type, BattleActor* target = NULL, uint32 attack_point = 0);
+    bool SetTarget(BattleActor* attacker, vt_global::GLOBAL_TARGET type, BattleActor* target = nullptr, uint32 attack_point = 0);
 
     /** \brief Returns true if the target is valid
     *** This method assumes that a valid target is one that is alive (non-zero HP). If the target type
@@ -220,12 +220,12 @@ public:
 
     /** \brief Retrieves a pointer to the actor of a party at the specified index
     *** \param index The location in the party container of the actor to retrieves
-    *** \return NULL if the target is not a party or the index is invalid. Otherwise a pointer to the actor specified
+    *** \return nullptr if the target is not a party or the index is invalid. Otherwise a pointer to the actor specified
     ***
     *** The primary purpose for the existence of this function is for Lua to be able to access all the actors within a
     *** party target. The GetParty() method can not be used by Lua as Lua does not understand that container format
     *** (std::deque<BattleActor*>). To retrieve each actor, Lua code starts at index 0 and makes repeated calls to this
-    *** function while incrementing the index by 1 until it returns a NULL value.
+    *** function while incrementing the index by 1 until it returns a nullptr value.
     **/
     BattleActor* GetPartyActor(uint32 index);
 
@@ -284,7 +284,7 @@ private:
 class BattleItem
 {
 public:
-    //! \param item A pointer to the item to represent. Should be a non-NULL value.
+    //! \param item A pointer to the item to represent. Should be a non-nullptr value.
     BattleItem(vt_global::GlobalItem item);
 
     ~BattleItem();

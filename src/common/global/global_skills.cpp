@@ -51,7 +51,7 @@ GlobalSkill::GlobalSkill(uint32 id) :
     _target_type(GLOBAL_TARGET_INVALID)
 {
     // A pointer to the skill script which will be used to load this skill
-    ReadScriptDescriptor *skill_script = NULL;
+    ReadScriptDescriptor *skill_script = nullptr;
 
     if((_id > 0) && (_id <= MAX_WEAPON_SKILL_ID)) {
         _type = GLOBAL_SKILL_WEAPON;

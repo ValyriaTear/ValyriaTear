@@ -77,7 +77,7 @@ LAYER_TYPE &operator++(LAYER_TYPE &value, int /*dummy*/)
 
 Grid::Grid(QWidget *parent, const QString &name, uint32 width, uint32 height) :
     QGraphicsScene(),
-    _ed_scrollarea(NULL),
+    _ed_scrollarea(nullptr),
     _file_name(name),
     _height(height),
     _width(width),

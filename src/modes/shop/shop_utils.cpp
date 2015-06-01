@@ -55,7 +55,7 @@ ShopObject::ShopObject(GlobalObject *object) :
     _sell_count(0),
     _trade_count(0)
 {
-    assert(_object != NULL);
+    assert(_object != nullptr);
 
     // Init the trading price
     _trade_price = _object->GetTradingPrice();
@@ -334,10 +334,10 @@ const float TRANSITION_TIME_TEXT = 25.0f;
 
 ObjectCategoryDisplay::ObjectCategoryDisplay() :
     _view_mode(SHOP_VIEW_MODE_LIST),
-    _selected_object(NULL),
-    _current_icon(NULL),
-    _last_icon(NULL),
-    _object_icon(NULL)
+    _selected_object(nullptr),
+    _current_icon(nullptr),
+    _last_icon(nullptr),
+    _object_icon(nullptr)
 {
     _name_text.SetStyle(TextStyle("text22"));
 
@@ -359,10 +359,10 @@ ObjectCategoryDisplay::ObjectCategoryDisplay() :
 
 ObjectCategoryDisplay::~ObjectCategoryDisplay()
 {
-    _selected_object = NULL;
-    _current_icon = NULL;
-    _last_icon = NULL;
-    _object_icon = NULL;
+    _selected_object = nullptr;
+    _current_icon = nullptr;
+    _last_icon = nullptr;
+    _object_icon = nullptr;
 }
 
 
@@ -385,15 +385,15 @@ void ObjectCategoryDisplay::Draw()
             // Alpha ranges from 0.0f at timer start to 1.0f at end
             float alpha = static_cast<float>(_transition_timer.GetTimeExpired()) / static_cast<float>(TRANSITION_TIME_ICON);
 
-            if(_last_icon != NULL)
+            if(_last_icon != nullptr)
                 _last_icon->Draw(Color(1.0f, 1.0f, 1.0f, 1.0f - alpha));
-            if(_current_icon != NULL)
+            if(_current_icon != nullptr)
                 _current_icon->Draw(Color(1.0f, 1.0f, 1.0f, alpha));
-        } else if(_current_icon != NULL) {
+        } else if(_current_icon != nullptr) {
             _current_icon->Draw();
         }
         _name_textbox.Draw();
-    } else if((_view_mode == SHOP_VIEW_MODE_INFO) && (_selected_object != NULL)) {
+    } else if((_view_mode == SHOP_VIEW_MODE_INFO) && (_selected_object != nullptr)) {
         VideoManager->Move(200.0f, 603.0f);
         _object_icon->Draw();
         VideoManager->MoveRelative(0.0f, 45.0f);
@@ -430,8 +430,8 @@ void ObjectCategoryDisplay::SetSelectedObject(ShopObject *shop_object)
 
     _selected_object = shop_object;
 
-    if(_selected_object == NULL) {
-        _object_icon = NULL;
+    if(_selected_object == nullptr) {
+        _object_icon = nullptr;
         _name_text.SetText("");
         return;
     } else {
@@ -445,8 +445,8 @@ void ObjectCategoryDisplay::SetSelectedObject(ShopObject *shop_object)
 
 void ObjectCategoryDisplay::ChangeCategory(ustring &name, const StillImage *icon)
 {
-    if(icon == NULL) {
-        IF_PRINT_WARNING(SHOP_DEBUG) << "function was passed a NULL pointer argument" << std::endl;
+    if(icon == nullptr) {
+        IF_PRINT_WARNING(SHOP_DEBUG) << "function was passed a nullptr pointer argument" << std::endl;
     }
 
     _name_textbox.SetDisplayText(name);
@@ -513,11 +513,11 @@ void ObjectListDisplay::PopulateList(std::vector<ShopObject *>& objects)
 ShopObject *ObjectListDisplay::GetSelectedObject()
 {
     if(IsListEmpty() == true)
-        return NULL;
+        return nullptr;
 
     if(static_cast<uint32>(_identify_list.GetSelection()) >= _objects.size()) {
         IF_PRINT_WARNING(SHOP_DEBUG) << "current selection index exceeds available objects: " << _identify_list.GetSelection() << std::endl;
-        return NULL;
+        return nullptr;
     }
 
     return _objects[_identify_list.GetSelection()];

@@ -45,9 +45,9 @@ Dialogue::Dialogue(const std::string& dialogue_id) :
 Dialogue::~Dialogue()
 {
     for(uint32 i = 0; i < _options.size(); i++) {
-        if(_options[i] != NULL) {
+        if(_options[i] != nullptr) {
             delete _options[i];
-            _options[i] = NULL;
+            _options[i] = nullptr;
         }
     }
 }
@@ -76,7 +76,7 @@ void Dialogue::AddLine(const std::string& text, int32 next_line)
     _text.push_back(MakeUnicodeString(text));
     _next_lines.push_back(next_line);
     _display_times.push_back(DIALOGUE_NO_TIMER);
-    _options.push_back(NULL);
+    _options.push_back(nullptr);
 }
 
 void Dialogue::AddLine(const std::string& text, const std::string& speaker_id)
@@ -100,7 +100,7 @@ void Dialogue::AddLineTimed(const std::string& text, int32 next_line, uint32 dis
     _text.push_back(MakeUnicodeString(text));
     _next_lines.push_back(next_line);
     _display_times.push_back(display_time);
-    _options.push_back(NULL);
+    _options.push_back(nullptr);
 }
 
 void Dialogue::AddLineTimed(const std::string& text, const std::string& speaker_id, uint32 display_time)
@@ -129,7 +129,7 @@ void Dialogue::AddOption(const std::string& text, int32 next_line)
     uint32 current_line = _line_count - 1;
 
     // If the line the options will be added to currently has no options, create a new instance of the CommonDialogueOptions class to store the options in.
-    if(_options[current_line] == NULL) {
+    if(_options[current_line] == nullptr) {
         _options[current_line] = new DialogueOptions();
     }
     _options[current_line]->AddOption(text, next_line);
@@ -180,7 +180,7 @@ bool Dialogue::Validate()
     // FIXME: Move the check into the dialogue supervisor
     /*
     for(std::set<uint32>::iterator i = speaker_ids.begin(); i != speaker_ids.end(); ++i) {
-        if(BattleMode::CurrentInstance()->GetDialogueSupervisor()->GetSpeaker(*i) == NULL) {
+        if(BattleMode::CurrentInstance()->GetDialogueSupervisor()->GetSpeaker(*i) == nullptr) {
             PRINT_WARNING << "Validation failed for dialogue #" << _dialogue_id
                           << ": dialogue referenced invalid speaker with id: " << *i << std::endl;
             return false;
@@ -216,7 +216,7 @@ DialogueWindow::DialogueWindow() :
     _indicator_symbol(DIALOGUE_NO_INDICATOR),
     _blink_time(0),
     _blink_state(true),
-    _portrait_image(NULL)
+    _portrait_image(nullptr)
 {
     //TODO: Makes this part of the themes
     if(_parchment_image.Load("data/gui/black_sleet_parch.png") == false)
@@ -269,7 +269,7 @@ void DialogueWindow::Clear()
     _display_textbox.ClearText();
     _display_optionbox.ClearOptions();
     _name_text.Clear();
-    _portrait_image = NULL;
+    _portrait_image = nullptr;
 }
 
 void DialogueWindow::Draw()
@@ -323,8 +323,8 @@ void DialogueWindow::Draw()
 
 DialogueSupervisor::DialogueSupervisor() :
     _state(DIALOGUE_STATE_INACTIVE),
-    _current_dialogue(NULL),
-    _current_options(NULL),
+    _current_dialogue(nullptr),
+    _current_options(nullptr),
     _line_timer(),
     _line_counter(0),
     _dialogue_window()
@@ -349,7 +349,7 @@ void DialogueSupervisor::SetDialoguePosition(float x, float y)
 
 void DialogueSupervisor::Update()
 {
-    if(_current_dialogue == NULL)
+    if(_current_dialogue == nullptr)
         return;
 
     _line_timer.Update();
@@ -375,12 +375,12 @@ void DialogueSupervisor::Draw()
 
 void DialogueSupervisor::AddDialogue(Dialogue* dialogue)
 {
-    if(dialogue == NULL) {
-        IF_PRINT_WARNING(COMMON_DEBUG) << "function received NULL argument" << std::endl;
+    if(dialogue == nullptr) {
+        IF_PRINT_WARNING(COMMON_DEBUG) << "function received nullptr argument" << std::endl;
         return;
     }
 
-    if(GetDialogue(dialogue->GetDialogueID()) != NULL) {
+    if(GetDialogue(dialogue->GetDialogueID()) != nullptr) {
         IF_PRINT_WARNING(COMMON_DEBUG) << "a dialogue was already registered with this ID: " << dialogue->GetDialogueID() << std::endl;
         delete dialogue;
         return;
@@ -420,7 +420,7 @@ void DialogueSupervisor::ChangeSpeakerName(const std::string& speaker_id, const 
 
     it->second.name = MakeUnicodeString(name);
 
-    if(_current_dialogue != NULL) {
+    if(_current_dialogue != nullptr) {
         if(_current_dialogue->GetLineSpeaker(_line_counter) == speaker_id) {
             _dialogue_window.GetNameText().SetText(it->second.name);
         }
@@ -451,12 +451,12 @@ void DialogueSupervisor::StartDialogue(const std::string& dialogue_id)
 {
     Dialogue *dialogue = GetDialogue(dialogue_id);
 
-    if(dialogue == NULL) {
+    if(dialogue == nullptr) {
         PRINT_WARNING << "Could not begin dialogue because none existed for id: " << dialogue_id << std::endl;
         return;
     }
 
-    if(_current_dialogue != NULL) {
+    if(_current_dialogue != nullptr) {
         PRINT_WARNING << "beginning a new dialogue while another dialogue is still active" << std::endl;
     }
 
@@ -469,19 +469,19 @@ void DialogueSupervisor::StartDialogue(const std::string& dialogue_id)
 
 void DialogueSupervisor::EndDialogue()
 {
-    if(_current_dialogue == NULL) {
+    if(_current_dialogue == nullptr) {
         IF_PRINT_WARNING(COMMON_DEBUG) << "Tried to end a dialogue when none was active" << std::endl;
         return;
     }
 
-    _current_dialogue = NULL;
-    _current_options = NULL;
+    _current_dialogue = nullptr;
+    _current_options = nullptr;
     _line_timer.Finish();
 }
 
 void DialogueSupervisor::ForceNextLine()
 {
-    if(_current_dialogue == NULL) {
+    if(_current_dialogue == nullptr) {
         IF_PRINT_WARNING(COMMON_DEBUG) << "function called when no dialogue was active" << std::endl;
         return;
     }
@@ -493,7 +493,7 @@ Dialogue* DialogueSupervisor::GetDialogue(const std::string& dialogue_id)
 {
     std::map<std::string, Dialogue *>::iterator it = _dialogues.find(dialogue_id);
     if(it == _dialogues.end())
-        return NULL;
+        return nullptr;
 
     return it->second;
 }
@@ -504,14 +504,14 @@ Speaker* DialogueSupervisor::GetSpeaker(const std::string& speaker_id)
     if(it != _speakers.end())
         return &(it->second);
 
-    return NULL;
+    return nullptr;
 }
 
 void DialogueSupervisor::_UpdateLine()
 {
     _dialogue_window.GetDisplayTextBox().Update();
 
-    if(_current_options != NULL) {
+    if(_current_options != nullptr) {
         if(_dialogue_window.GetDisplayTextBox().IsFinished() == true) {
             _state = DIALOGUE_STATE_OPTION;
             return;
@@ -543,7 +543,7 @@ void DialogueSupervisor::_UpdateLine()
             _dialogue_window.GetDisplayTextBox().ForceFinish();
         }
         // Proceed to option selection if the line has options
-        else if(_current_options != NULL) {
+        else if(_current_options != nullptr) {
             _state = DIALOGUE_STATE_OPTION;
         } else {
             _EndLine();
@@ -588,7 +588,7 @@ void DialogueSupervisor::_BeginLine()
     // Setup the text and graphics for the dialogue window
     _dialogue_window.Clear();
     _dialogue_window.GetDisplayTextBox().SetDisplayText(_current_dialogue->GetLineText(_line_counter));
-    if(_current_options != NULL) {
+    if(_current_options != nullptr) {
         for(uint32 i = 0; i < _current_options->GetNumberOptions(); ++i) {
             _dialogue_window.GetDisplayOptionBox().AddOption(_current_options->GetOptionText(i));
         }
@@ -597,11 +597,11 @@ void DialogueSupervisor::_BeginLine()
     }
 
     Speaker* line_speaker = GetSpeaker(_current_dialogue->GetLineSpeaker(_line_counter));
-    if(line_speaker == NULL) {
+    if(line_speaker == nullptr) {
         IF_PRINT_WARNING(COMMON_DEBUG) << "dialogue #" << _current_dialogue->GetDialogueID()
                                        << " referenced a speaker that did not exist with id: " << _current_dialogue->GetLineSpeaker(_line_counter) << std::endl;
         _dialogue_window.GetNameText().SetText("");
-        _dialogue_window.SetPortraitImage(NULL);
+        _dialogue_window.SetPortraitImage(nullptr);
     } else {
         _dialogue_window.GetNameText().SetText(line_speaker->name);
         _dialogue_window.SetPortraitImage(&(line_speaker->portrait));
@@ -613,7 +613,7 @@ void DialogueSupervisor::_EndLine()
     // Determine the next line to read
     int32 next_line = _current_dialogue->GetLineNextLine(_line_counter);
     // If this line had options, the selected option next line overrides the line's next line that we set above
-    if(_current_options != NULL) {
+    if(_current_options != nullptr) {
         uint32 selected_option = _dialogue_window.GetDisplayOptionBox().GetSelection();
         next_line = _current_options->GetOptionNextLine(selected_option);
     }
