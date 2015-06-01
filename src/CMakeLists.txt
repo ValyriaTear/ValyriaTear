@@ -25,10 +25,16 @@ ENDIF()
 
 MESSAGE(STATUS "Build type: ${CMAKE_BUILD_TYPE}")
 
-IF (CMAKE_COMPILER_IS_GNUCXX)
-    # Help getting compilation warnings
-    SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra")
-    IF (WIN32)
+# Handles Clang flags
+IF(CMAKE_CXX_COMPILER MATCHES ".*clang")
+    SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -std=c++11")
+ENDIF()
+
+# Handles gcc flags
+IF(CMAKE_COMPILER_IS_GNUCXX)
+    # Help getting compilation warnings and c++11 support
+    SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -std=c++11")
+    IF(WIN32)
         # This includes enough debug information to get something useful
         # from Dr. Mingw while keeping binary size down. Almost useless
         # with gdb, though.
