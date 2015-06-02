@@ -646,6 +646,8 @@ void BattleActor::_UpdateStaminaIconPosition()
     case ACTOR_STATE_READY:
         y_pos = STAMINA_LOCATION_TOP;
         break;
+    case ACTOR_STATE_SHOWNOTICE:
+    case ACTOR_STATE_NOTICEDONE:
     case ACTOR_STATE_ACTING:
         y_pos = STAMINA_LOCATION_TOP - 25.0f;
         break;
