@@ -1637,11 +1637,11 @@ void ShopMode::UpdateFinances(int32 change_amount)
 
     _finance_table.SetOptionText(0, UTranslate("Funds: ") + MakeUnicodeString(NumberToString(GlobalManager->GetDrunes())));
     if(_total_change_amount < 0) {
-        _finance_table.SetOptionText(1, UTranslate("Purchases: ") + MakeUnicodeString(NumberToString(_total_change_amount)));
-        _finance_table.SetOptionText(2, UTranslate("Total: ") + MakeUnicodeString(NumberToString(GetTotalRemaining())));
+        _finance_table.SetOptionText(1, UTranslate("Purchases: ") + MakeUnicodeString(NumberToString(-_total_change_amount)));
+        _finance_table.SetOptionText(2, UTranslate("Remaining: ") + MakeUnicodeString(NumberToString(GetTotalRemaining())));
     } else if(_total_change_amount > 0) {
         _finance_table.SetOptionText(1, UTranslate("Sales: +") + MakeUnicodeString(NumberToString(_total_change_amount)));
-        _finance_table.SetOptionText(2, UTranslate("Total: ") + MakeUnicodeString(NumberToString(GetTotalRemaining())));
+        _finance_table.SetOptionText(2, UTranslate("Remaining: ") + MakeUnicodeString(NumberToString(GetTotalRemaining())));
     } else {
         _finance_table.SetOptionText(1, vt_utils::ustring());
         _finance_table.SetOptionText(2, vt_utils::ustring());
