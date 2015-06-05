@@ -95,7 +95,7 @@ MapMode::MapMode(const std::string& data_filename, const std::string& script_fil
     ResetState();
     PushState(STATE_EXPLORE);
 
-    // Load miscellaneous map graphics
+    // Load the miscellaneous map graphics.
     _dialogue_icon.LoadFromAnimationScript("data/entities/emotes/dialogue_icon.lua");
     ScaleToMapZoomRatio(_dialogue_icon);
 
@@ -165,8 +165,6 @@ MapMode::MapMode(const std::string& data_filename, const std::string& script_fil
     //! Init the camera position text style
     _debug_camera_position.SetStyle(TextStyle("title22", Color::white, VIDEO_TEXT_SHADOW_DARK));
 }
-
-
 
 MapMode::~MapMode()
 {
@@ -366,7 +364,7 @@ void MapMode::Update()
     std::ostringstream coord_txt;
     coord_txt << "Camera position: " << x_pos << ", " << y_pos;
     _debug_camera_position.SetText(coord_txt.str());
-} // void MapMode::Update()
+}
 
 void MapMode::Draw()
 {
@@ -906,13 +904,11 @@ void MapMode::_UpdateMapFrame()
     uint16 current_x = GetFloatInteger(camera_x);
     uint16 current_y = GetFloatInteger(camera_y);
 
-    // NOTE: Would the map mode coordinate system be able to dynamically change, allow this to be recomputed,
-    // and used as the multiple of the current camera tile offset.
-    if (_pixel_length_x <= 0.0f || _pixel_length_y <= 0.0f) {
-        VideoManager->GetPixelSize(_pixel_length_x, _pixel_length_y);
-        _pixel_length_x /= GRID_LENGTH;
-        _pixel_length_y /= GRID_LENGTH;
-    }
+    // Update the pixel length.
+    VideoManager->GetPixelSize(_pixel_length_x, _pixel_length_y);
+    _pixel_length_x /= GRID_LENGTH;
+    _pixel_length_y /= GRID_LENGTH;
+
     //std::cout << "the ratio is: " << _pixel_length_x << ", " << _pixel_length_y << " for resolution: "
     //<< VideoManager->GetScreenWidth() << " x " << VideoManager->GetScreenHeight() << std::endl;
 
