@@ -22,11 +22,11 @@
 
 #include "engine/video/image.h"
 
-//forward declerations
+// Forward declerations.
 namespace vt_gui
 {
     class MenuWindow;
-}
+} // vt_gui
 
 namespace vt_map
 {
@@ -65,13 +65,13 @@ private:
     //! \brief the generated collision map image for this collision map
     vt_video::StillImage _minimap_image;
 
-    //! \brief creates the procedural collision minimap image
-    vt_video::StillImage _CreateProcedurally();
-
     //! \brief objects for the "window" which will hold the map
     //! \note we plan to move this to a Controller object, or something similar
     //! that is a single instance held by the map itself
     vt_video::StillImage _background;
+
+    //! \brief the location sprite
+    vt_video::AnimatedImage _location_marker;
 
     //! \brief the current map locations
     float _current_position_x;
@@ -80,21 +80,6 @@ private:
     //! \brief the current box length for this collision map
     uint32 _box_x_length;
     uint32 _box_y_length;
-
-    //! \brief the location sprite
-    vt_video::AnimatedImage _location_marker;
-
-    //! \brief the original viewport information
-    float _viewport_original_x;
-    float _viewport_original_y;
-    float _viewport_original_width;
-    float _viewport_original_height;
-
-    //! \brief modified viewport information
-    float _viewport_x;
-    float _viewport_y;
-    float _viewport_width;
-    float _viewport_height;
 
     //! \brief map offset information
     float _x_offset, _y_offset;
@@ -106,19 +91,23 @@ private:
     uint32 _grid_height;
 
     //! \brief opacities for when the character is under the map location
-    const vt_video::Color *_current_opacity;
+    const vt_video::Color* _current_opacity;
 
     //! \brief specifies the additive alpha we get from the map class
     float _map_alpha_scale;
+
+    //! \brief creates the procedural collision minimap image
+    vt_video::StillImage _CreateProcedurally();
 
 #ifdef DEBUG_FEATURES
     //! \brief Writes a XPM file with the minimap equivalient in it.
     //! It is used to easily have a base to create nicer minimaps.
     void _DEV_CreateXPMFromCollisionMap(const std::string& output_file);
 #endif
-
 };
 
-}
-}
+} // private_map
+
+} // vt_map
+
 #endif // __MAP_MINIMAP_HEADER__

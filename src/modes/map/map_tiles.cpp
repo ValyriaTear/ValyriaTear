@@ -32,10 +32,21 @@ namespace vt_map
 namespace private_map
 {
 
+//! \brief A helper function to convert a string to a layer type.
+static LAYER_TYPE StringToLayerType(const std::string& type)
+{
+    if(type == "ground")
+        return GROUND_LAYER;
+    else if(type == "sky")
+        return SKY_LAYER;
+    return INVALID_LAYER;
+}
+
 TileSupervisor::TileSupervisor() :
     _num_tile_on_x_axis(0),
     _num_tile_on_y_axis(0)
-{}
+{
+}
 
 TileSupervisor::~TileSupervisor()
 {
@@ -48,16 +59,6 @@ TileSupervisor::~TileSupervisor()
     _tile_images.clear();
     _animated_tile_images.clear();
 }
-
-static LAYER_TYPE getLayerType(const std::string &type)
-{
-    if(type == "ground")
-        return GROUND_LAYER;
-    else if(type == "sky")
-        return SKY_LAYER;
-    return INVALID_LAYER;
-}
-
 
 bool TileSupervisor::Load(ReadScriptDescriptor &map_file)
 {
@@ -135,7 +136,7 @@ bool TileSupervisor::Load(ReadScriptDescriptor &map_file)
         // Add a layer for the base context
         _tile_grid.resize(layer_id + 1);
 
-        LAYER_TYPE layer_type = getLayerType(map_file.ReadString("type"));
+        LAYER_TYPE layer_type = StringToLayerType(map_file.ReadString("type"));
 
         if(layer_type == INVALID_LAYER) {
             PRINT_WARNING << "Ignoring unexisting layer type: " << layer_type
@@ -311,9 +312,7 @@ bool TileSupervisor::Load(ReadScriptDescriptor &map_file)
     tileset_images.clear();
 
     return true;
-} // bool TileSupervisor::Load(ReadScriptDescriptor& map_file)
-
-
+}
 
 void TileSupervisor::Update()
 {
@@ -321,7 +320,6 @@ void TileSupervisor::Update()
         _animated_tile_images[i]->Update();
     }
 }
-
 
 void TileSupervisor::DrawLayers(const MapFrame *frame, const LAYER_TYPE &layer_type)
 {
@@ -355,7 +353,8 @@ void TileSupervisor::DrawLayers(const MapFrame *frame, const LAYER_TYPE &layer_t
             VideoManager->MoveRelative(-static_cast<float>(frame->num_draw_x_axis) * TILE_LENGTH, TILE_LENGTH);
         } // y
     } // layer_id
-    // Restore the previous draw flags
+
+    // Restore the previous draw flags.
     VideoManager->SetDrawFlags(VIDEO_BLEND, VIDEO_X_CENTER, VIDEO_Y_BOTTOM, 0);
 }
 
