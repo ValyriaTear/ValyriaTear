@@ -86,7 +86,7 @@ const SDLSurfaceController white_noise("data/gui/map/minimap_collision.png");
 //! \brief A helper function to prepare a SDL_Surface.
 static bool _PrepareSurface(SDL_Surface* temp_surface)
 {
-    SDL_Rect r = { 0 };
+    SDL_Rect r = { 0, 0, 0, 0 };
 
     // Prepare the surface with the image.  Tile the white noise image onto the surface with full alpha.
     for(int x = 0; x < temp_surface->w; x += white_noise._surface->w) {
