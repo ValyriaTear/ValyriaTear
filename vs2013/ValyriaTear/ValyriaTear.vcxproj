@@ -159,6 +159,7 @@
     <ClCompile Include="..\..\src\modes\battle\battle_command.cpp" />
     <ClCompile Include="..\..\src\modes\battle\battle_effects.cpp" />
     <ClCompile Include="..\..\src\modes\battle\battle_finish.cpp" />
+    <ClCompile Include="..\..\src\modes\battle\battle_menu.cpp" />
     <ClCompile Include="..\..\src\modes\battle\battle_sequence.cpp" />
     <ClCompile Include="..\..\src\modes\battle\battle_utils.cpp" />
     <ClCompile Include="..\..\src\modes\boot\boot.cpp" />
@@ -260,6 +261,7 @@
     <ClInclude Include="..\..\src\modes\battle\battle_command.h" />
     <ClInclude Include="..\..\src\modes\battle\battle_effects.h" />
     <ClInclude Include="..\..\src\modes\battle\battle_finish.h" />
+    <ClInclude Include="..\..\src\modes\battle\battle_menu.h" />
     <ClInclude Include="..\..\src\modes\battle\battle_sequence.h" />
     <ClInclude Include="..\..\src\modes\battle\battle_utils.h" />
     <ClInclude Include="..\..\src\modes\boot\boot.h" />

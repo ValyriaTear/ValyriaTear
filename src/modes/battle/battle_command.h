@@ -29,6 +29,8 @@
 #include "battle_utils.h"
 #include "battle_actors.h"
 
+#include "battle_menu.h"
+
 namespace vt_battle
 {
 
@@ -382,6 +384,14 @@ public:
     *** target, the next available valid target will be selected instead.
     **/
     void NotifyActorDeath(private_battle::BattleActor *actor);
+
+    /** \brief Cancels the current command
+    ***
+    *** This function cancels the command without checking whether the battle 
+    *** is in WAIT, SEMI-ACTIVE or ACTIVE mode. If this check is desired, it 
+    *** must be done by the caller.
+    **/
+    void CancelCurrentCommand();
 
     //! \name Class member accessor methods
     //@{
