@@ -191,6 +191,9 @@
     <ClCompile Include="..\..\src\modes\battle\battle_utils.cpp">
       <Filter>modes\battle</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\modes\battle\battle_menu.cpp">
+      <Filter>modes\battle</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\src\modes\boot\boot.cpp">
       <Filter>modes\boot</Filter>
     </ClCompile>
@@ -568,6 +571,9 @@
     </ClInclude>
     <ClInclude Include="..\..\src\modes\map\map_status_effects.h">
       <Filter>modes\map</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\modes\battle\battle_menu.h">
+      <Filter>modes\battle</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\engine\video\gl\gl_particle_system.h">
       <Filter>engine\video\gl</Filter>

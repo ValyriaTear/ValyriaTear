@@ -226,6 +226,7 @@ BattleMode::BattleMode() :
     _highest_agility(0),
     _battle_type_time_factor(BATTLE_WAIT_FACTOR),
     _is_boss_battle(false),
+    _rush_was_active(false),
     _hero_init_boost(false),
     _enemy_init_boost(false)
 {
@@ -370,6 +371,13 @@ void BattleMode::Update()
         return;
     }
 
+    if (InputManager->MenuPress() && !_scene_mode && (_state != BATTLE_STATE_COMMAND || 
+            _command_supervisor->GetState() == COMMAND_STATE_CATEGORY)) {
+        _battle_menu.Open();
+    }
+
+    _battle_menu.Update();
+
     if(_dialogue_supervisor->IsDialogueActive())
         _dialogue_supervisor->Update();
 
@@ -432,31 +440,33 @@ void BattleMode::Update()
         // for it (characters can only have commands selected during certain states). If command selection is permitted, then we begin
         // the command supervisor.
 
-        if(InputManager->UpPress()) {
-            GlobalManager->Media().PlaySound("bump");
-            if(_character_actors.size() >= 1) {   // Should always evaluate to true
-                character_selection = _character_actors[0];
+        if (!_battle_menu.IsOpen()) {
+            if (InputManager->UpPress()) {
+                GlobalManager->Media().PlaySound("bump");
+                if (_character_actors.size() >= 1) {   // Should always evaluate to true
+                    character_selection = _character_actors[0];
+                }
             }
-        }
 
-        else if(InputManager->DownPress()) {
-            GlobalManager->Media().PlaySound("bump");
-            if(_character_actors.size() >= 2) {
-                character_selection = _character_actors[1];
+            else if (InputManager->DownPress()) {
+                GlobalManager->Media().PlaySound("bump");
+                if (_character_actors.size() >= 2) {
+                    character_selection = _character_actors[1];
+                }
             }
-        }
 
-        else if(InputManager->LeftPress()) {
-            GlobalManager->Media().PlaySound("bump");
-            if(_character_actors.size() >= 3) {
-                character_selection = _character_actors[2];
+            else if (InputManager->LeftPress()) {
+                GlobalManager->Media().PlaySound("bump");
+                if (_character_actors.size() >= 3) {
+                    character_selection = _character_actors[2];
+                }
             }
-        }
 
-        else if(InputManager->RightPress()) {
-            GlobalManager->Media().PlaySound("bump");
-            if(_character_actors.size() >= 4) {
-                character_selection = _character_actors[3];
+            else if (InputManager->RightPress()) {
+                GlobalManager->Media().PlaySound("bump");
+                if (_character_actors.size() >= 4) {
+                    character_selection = _character_actors[3];
+                }
             }
         }
 
@@ -467,13 +477,21 @@ void BattleMode::Update()
     // If the player is selecting a command for a character, the command supervisor has control
     else if(_state == BATTLE_STATE_COMMAND) {
         // If the last enemy is dying, there is no need to process command further
-        if(!_last_enemy_dying)
-            _command_supervisor->Update();
+        if (!_last_enemy_dying) {
+            // If rush is newly toggled, or menu is open, cancel command
+            if (!_rush_was_active && _battle_menu.IsRushActive())
+                _command_supervisor->CancelCurrentCommand();
+            else if (!_battle_menu.IsOpen())
+                _command_supervisor->Update();
+        }
         else
             ChangeState(BATTLE_STATE_NORMAL);
     }
     // If the battle is in either finish state, the finish supervisor has control
     else if((_state == BATTLE_STATE_VICTORY) || (_state == BATTLE_STATE_DEFEAT)) {
+        if (_battle_menu.IsOpen())
+            _battle_menu.Close();
+    
         _finish_supervisor->Update();
 
         // Make the heroes and/or enemies stamina icons fade out
@@ -492,14 +510,15 @@ void BattleMode::Update()
     // we want to open the command menu for that character.
     // The battle will be paused until the player enters a command for all characters
     // that are in command state.
-    if(!_last_enemy_dying
-        && (_battle_type == BATTLE_TYPE_WAIT || _battle_type == BATTLE_TYPE_SEMI_ACTIVE)) {
+    if(!_last_enemy_dying && (_battle_type == BATTLE_TYPE_WAIT || _battle_type == BATTLE_TYPE_SEMI_ACTIVE)) {
         for(uint32 i = 0; i < _character_actors.size(); i++) {
             if(_character_actors[i]->GetState() == ACTOR_STATE_COMMAND) {
-                if(_state != BATTLE_STATE_COMMAND) {
+                if (_battle_menu.IsRushActive()) {
+                    _RushCharacterCommand(_character_actors[i]);
+                }
+                else if(_state != BATTLE_STATE_COMMAND) {
                     OpenCommandMenu(_character_actors[i]);
                 }
-                return;
             }
         }
     }
@@ -527,6 +546,8 @@ void BattleMode::Update()
             break;
         }
     }
+
+    _rush_was_active = _battle_menu.IsRushActive();
 } // void BattleMode::Update()
 
 
@@ -741,7 +762,8 @@ void BattleMode::NotifyCharacterCommandComplete(BattleCharacter *character)
         character->ChangeState(ACTOR_STATE_WARM_UP);
     }
 
-    ChangeState(BATTLE_STATE_NORMAL);
+    if (_command_supervisor->GetCommandCharacter() == nullptr)
+        ChangeState(BATTLE_STATE_NORMAL);
 }
 
 
@@ -1006,6 +1028,36 @@ void BattleMode::_DetermineActorLocations()
 
 
 
+void BattleMode::_RushCharacterCommand(BattleCharacter* character)
+{
+    assert(character != nullptr);
+
+    if (character->IsActionSet() || _command_supervisor->GetCommandCharacter() == character)
+        return;
+
+    auto rushTarget = BattleTarget();
+    rushTarget.SetTarget(character, GLOBAL_TARGET_FOE);
+
+    GlobalSkill* attackSkill = character->GetSkills()[0];
+    {
+        auto wpnSkills = character->GetGlobalCharacter()->GetWeaponSkills();
+        for (auto skill : *wpnSkills) {
+            if (skill->GetSPRequired() == 0) {
+                attackSkill = skill;
+                break;
+            }
+        }
+    }
+
+    BattleAction *new_action = new SkillAction(character, rushTarget, attackSkill);
+    character->SetAction(new_action);
+    BattleMode::CurrentInstance()->NotifyCharacterCommandComplete(character);
+
+    _actor_state_paused = false;
+}
+
+
+
 uint32 BattleMode::_NumberEnemiesAlive() const
 {
     uint32 enemy_count = 0;
@@ -1131,6 +1183,9 @@ void BattleMode::_DrawGUI()
             _command_supervisor->Draw();
     }
 
+    if (_battle_menu.IsOpen())
+        _battle_menu.Draw();
+    
     if(_dialogue_supervisor->IsDialogueActive())
         _dialogue_supervisor->Draw();
 
