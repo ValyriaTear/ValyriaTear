@@ -251,7 +251,7 @@ function _add_small_waterfall(x, y)
     object:RandomizeCurrentAnimationFrame();
 
     -- Ambient sound
-    object = vt_map.SoundObject.CreatObject("data/sounds/fountain_large.ogg", x, y - 5, 50.0);
+    object = vt_map.SoundObject.Create("data/sounds/fountain_large.ogg", x, y - 5, 50.0);
     object:SetMaxVolume(0.6);
 
     -- Particle effects
