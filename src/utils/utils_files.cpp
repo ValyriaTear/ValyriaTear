@@ -21,7 +21,7 @@
 namespace vt_utils
 {
 
-bool DoesFileExist(const std::string &file_name)
+bool DoesFileExist(const std::string& file_name)
 {
     // Modified to use platform specific code because on windows stat does not work on directories,
     // but on POSIX compliant systems it does, and GetFileAttributes works for both folders and
@@ -55,11 +55,10 @@ void CopyFile(const std::string &source, const std::string &destination)
 
 bool MakeDirectory(const std::string &dir_name)
 {
-    // Don't do anything if the directory already exists
-    struct stat buf;
-    int32 i = stat(dir_name.c_str(), &buf);
-    if(i == 0)
+    // Don't do anything if the directory already exists.
+    if (DoesFileExist(dir_name)) {
         return true;
+    }
 
     // Create the directory with mkdir(). Note that Windows does not require file permissions to be set, but
     // all other operating systems do.
@@ -80,49 +79,31 @@ bool MakeDirectory(const std::string &dir_name)
 
 bool CleanDirectory(const std::string &dir_name)
 {
-    // Don't do anything if the directory doesn't exist
-    struct stat buf;
-    int32 i = stat(dir_name.c_str(), &buf);
-    if(i != 0)
+    // Don't do anything if the directory doesn't exist.
+    if (!DoesFileExist(dir_name)) {
         return true;
+    }
 
 #ifdef _WIN32
     //--- WINDOWS --------------------------------------------------------------
 
-    // Get the current directory that the application resides in
-    char app_path[1024];
-    GetCurrentDirectoryA(1024, app_path);
-
-    int32 app_path_len = static_cast<int32>(strlen(app_path));
-    if(app_path_len <= 0)
-        return false;
-    if(app_path[app_path_len - 1] == '\\')  // Remove the ending slash if one is there
-        app_path[app_path_len - 1] = '\0';
-
-    std::string full_path = app_path;
-
-    if(dir_name[0] == '/' || dir_name[0] == '\\') {
-        full_path += dir_name;
-    } else {
-        full_path += "\\";
-        full_path += dir_name;
-    }
+    WIN32_FIND_DATAA info = { 0 };
+    HANDLE handle = nullptr;
 
     char file_found[1024];
-    WIN32_FIND_DATAA info;
-    HANDLE hp;
-    sprintf(file_found, "%s\\*.*", full_path.c_str());
-    hp = FindFirstFileA(file_found, &info);
+    memset(file_found, 0, sizeof(file_found));
+    sprintf(file_found, "%s*.*", dir_name.c_str());
 
-    if(hp != INVALID_HANDLE_VALUE) {
-        // Remove each file from the full_path directory
+    handle = FindFirstFileA(file_found, &info);
+    if (handle != INVALID_HANDLE_VALUE) {
+        // Remove each file from the directory.
         do {
-            sprintf(file_found, "%s\\%s", full_path.c_str(), info.cFileName);
+            sprintf(file_found, "%s%s", dir_name.c_str(), info.cFileName);
             DeleteFileA(file_found);
-        } while(FindNextFileA(hp, &info));
+        } while (FindNextFileA(handle, &info));
     }
-    FindClose(hp);
 
+    FindClose(handle);
 #else
     //--- NOT WINDOWS ----------------------------------------------------------
 
@@ -155,10 +136,9 @@ bool CleanDirectory(const std::string &dir_name)
 bool RemoveDirectory(const std::string &dir_name)
 {
     // Don't do anything if the directory doesn't exist
-    struct stat buf;
-    int32 i = stat(dir_name.c_str(), &buf);
-    if(i != 0)
+    if (!DoesFileExist(dir_name)) {
         return true;
+    }
 
     // Remove any files that still reside in the directory
     CleanDirectory(dir_name);
@@ -179,52 +159,36 @@ std::vector<std::string> ListDirectory(const std::string &dir_name, const std::s
     //create our vector
     std::vector<std::string> directoryList;
 
-    //Don't try to list if the directory does not exist
-    struct stat buf;
-    int32 i = stat(dir_name.c_str(), &buf);
-    if(i != 0)
+    // Don't try to list files if the directory does not exist.
+    if (!DoesFileExist(dir_name)) {
         return directoryList;
+    }
 
     //directory exists so lets list
 #if defined _WIN32
-    //Windows platform
+    //--- WINDOWS --------------------------------------------------------------
 
-    // Get the current directory that the application resides in
-    char app_path[1024];
-    GetCurrentDirectoryA(1024, app_path);
-
-    int32 app_path_len = static_cast<int32>(strlen(app_path));
-    if(app_path_len <= 0)
-        return directoryList;
-    if(app_path[app_path_len - 1] == '\\')  // Remove the ending slash if one is there
-        app_path[app_path_len - 1] = '\0';
-
-    std::string full_path = app_path;
-
-    if(dir_name[0] == '/' || dir_name[0] == '\\') {
-        full_path += dir_name;
-    } else {
-        full_path += "\\";
-        full_path += dir_name;
-    }
+    WIN32_FIND_DATAA info = { 0 };
+    HANDLE handle = nullptr;
 
     char file_found[1024];
-    WIN32_FIND_DATAA info;
-    HANDLE hp;
-    sprintf(file_found, "%s\\*.*", full_path.c_str());
-    hp = FindFirstFileA(file_found, &info);
+    memset(file_found, 0, sizeof(file_found));
+    sprintf(file_found, "%s\\*.*", dir_name.c_str());
 
-    if(hp != INVALID_HANDLE_VALUE) {
-        // List each file from the full_path directory
+    if (handle != INVALID_HANDLE_VALUE) {
+        // List each file from the directory.
         do {
-            std::string fileName(file_found);
-            if(filter == "")
+            std::string file_name(file_found);
+            if (filter == "") {
                 directoryList.push_back(file_found);
-            else if(fileName.find(filter) != std::string::npos)
+            }
+            else if (file_name.find(filter) != std::string::npos) {
                 directoryList.push_back(file_found);
-        } while(FindNextFileA(hp, &info));
+            }
+        } while (FindNextFileA(handle, &info));
     }
-    FindClose(hp);
+
+    FindClose(handle);
 #else
     //Not Windows
     DIR *dir;

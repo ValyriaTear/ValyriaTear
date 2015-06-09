@@ -22,23 +22,27 @@
 #include "engine/mode_manager.h"
 #include "engine/video/video.h"
 
-using namespace vt_utils;
 using namespace vt_video::private_video;
 
 namespace vt_video
 {
 
-TextureController *TextureManager = nullptr;
+//! \brief The temporary directory.
+const std::string DIRECTORY_TEMPORARY = "temporary/";
+
+//! \brief The temporary texture directory.
+const std::string DIRECTORY_TEMPORARY_TEXTURE = DIRECTORY_TEMPORARY + "texture/";
 
 
+//! \brief A pointer to the texture controller.
+TextureController* TextureManager = nullptr;
 
 TextureController::TextureController() :
-    debug_current_sheet(-1),
     _last_tex_id(INVALID_TEXTURE_ID),
+    _debug_current_sheet(-1),
     _debug_num_tex_switches(0)
-{}
-
-
+{
+}
 
 TextureController::~TextureController()
 {
@@ -148,20 +152,20 @@ bool TextureController::ReloadTextures()
 
 void TextureController::DEBUG_NextTexSheet()
 {
-    debug_current_sheet++;
+    _debug_current_sheet++;
 
-    if(debug_current_sheet >= static_cast<int32>(_tex_sheets.size()))
-        debug_current_sheet = -1;  // Disables texture sheet display
+    if(_debug_current_sheet >= static_cast<int32>(_tex_sheets.size()))
+        _debug_current_sheet = -1;  // Disables texture sheet display
 }
 
 
 
 void TextureController::DEBUG_PrevTexSheet()
 {
-    debug_current_sheet--;
+    _debug_current_sheet--;
 
-    if(debug_current_sheet < -1)
-        debug_current_sheet = static_cast<int32>(_tex_sheets.size()) - 1;
+    if(_debug_current_sheet < -1)
+        _debug_current_sheet = static_cast<int32>(_tex_sheets.size()) - 1;
 }
 
 
@@ -169,7 +173,7 @@ void TextureController::DEBUG_PrevTexSheet()
 void TextureController::DEBUG_ShowTexSheet()
 {
     // Value less than zero means we shouldn't show any texture sheets
-    if(debug_current_sheet < 0) {
+    if(_debug_current_sheet < 0) {
         IF_PRINT_WARNING(VIDEO_DEBUG) << "function was called when debug_current_sheet was not a positive value" << std::endl;
         return;
     }
@@ -183,11 +187,11 @@ void TextureController::DEBUG_ShowTexSheet()
     // to look at a different sheet
     int32 num_sheets = static_cast<uint32>(_tex_sheets.size());
 
-    if(debug_current_sheet >= num_sheets) {
-        debug_current_sheet = num_sheets - 1;
+    if(_debug_current_sheet >= num_sheets) {
+        _debug_current_sheet = num_sheets - 1;
     }
 
-    TexSheet *sheet = _tex_sheets[debug_current_sheet];
+    TexSheet *sheet = _tex_sheets[_debug_current_sheet];
     if(sheet == nullptr) {
         IF_PRINT_WARNING(VIDEO_DEBUG) << "discovered a nullptr texture sheet in _tex_sheets container" << std::endl;
         return;
@@ -210,7 +214,7 @@ void TextureController::DEBUG_ShowTexSheet()
     VideoManager->Move(20, 60);
     TextManager->Draw("Current Texture sheet:");
 
-    sprintf(buf, "  Sheet:   %d", debug_current_sheet);
+    sprintf(buf, "  Sheet:   %d", _debug_current_sheet);
     VideoManager->MoveRelative(0, 20);
     TextManager->Draw(buf);
 
@@ -301,38 +305,69 @@ bool TextureController::_SaveTempTextures()
 {
     bool success = true;
 
-    for(std::map<std::string, ImageTexture *>::iterator i = _images.begin(); i != _images.end(); ++i) {
+    // Create the temporary directory.
+    std::string path = vt_utils::GetUserDataPath() + DIRECTORY_TEMPORARY;
+    if (!vt_utils::DoesFileExist(path)) {
+        if (!vt_utils::MakeDirectory(path)) {
+            success = false;
+            IF_PRINT_WARNING(VIDEO_DEBUG) << "Unable to create the temporary directory: " << path << std::endl;
+        }
+    }
+
+    // Create the temporary texture directory.
+    path = vt_utils::GetUserDataPath() + DIRECTORY_TEMPORARY_TEXTURE;
+    if (!vt_utils::DoesFileExist(path)) {
+        if (!vt_utils::MakeDirectory(path)) {
+            success = false;
+            IF_PRINT_WARNING(VIDEO_DEBUG) << "Unable to create the temporary texture directory: " << path << std::endl;
+        }
+    }
+
+    for (std::map<std::string, ImageTexture *>::iterator i = _images.begin(); i != _images.end(); ++i) {
         ImageTexture *image = i->second;
 
-        // Check that this is a temporary texture and if so, save it to disk as a .png file
-        if(image->tags.find("<T>") != std::string::npos) {
-            IF_PRINT_DEBUG(VIDEO_DEBUG) << " saving temporary texture " << image->filename << std::endl;
+        // Check if the texture is temporary.
+        // If it is, save the texture to disk.
+        if (image->tags.find("<T>") != std::string::npos) {
+            IF_PRINT_DEBUG(VIDEO_DEBUG) << "saving temporary texture " << image->filename << std::endl;
+
             ImageMemory buffer;
             buffer.CopyFromImage(image);
-            std::string path = GetUserDataPath();
-            if(buffer.SaveImage(path + image->filename + ".png") == false) {
+
+            std::string path = vt_utils::GetUserDataPath() + DIRECTORY_TEMPORARY_TEXTURE;
+            if (buffer.SaveImage(path + image->filename + ".png") == false) {
                 success = false;
                 IF_PRINT_WARNING(VIDEO_DEBUG) << "call to ImageMemory::SaveImage() failed" << std::endl;
             }
         }
     }
+
     return success;
 }
 
-
-
 bool TextureController::_DeleteTempTextures()
 {
-    //FIXME: This is broken. Official temp folders should be used.
-    return vt_utils::CleanDirectory("img/temp");
+    bool result = true;
+
+    // Remove the temporary texture directory.
+    std::string path = vt_utils::GetUserDataPath() + DIRECTORY_TEMPORARY_TEXTURE;
+    if (vt_utils::DoesFileExist(path)) {
+        if (!vt_utils::RemoveDirectory(path)) {
+            result = false;
+            IF_PRINT_WARNING(VIDEO_DEBUG) << "Unable to remove the temporary texture directory: " << path << std::endl;
+        }
+    }
+
+    // Do not remove the temporary directory.  It is possible other
+    // sections of the code could use it in the future.
+
+    return result;
 }
-
-
 
 TexSheet *TextureController::_CreateTexSheet(int32 width, int32 height, TexSheetType type, bool is_static)
 {
     // Validate that the function arguments are appropriate values
-    if(!IsPowerOfTwo(width) || !IsPowerOfTwo(height)) {
+    if(!vt_utils::IsPowerOfTwo(width) || !vt_utils::IsPowerOfTwo(height)) {
         IF_PRINT_WARNING(VIDEO_DEBUG) << "non power-of-two width and/or height argument" << std::endl;
         return nullptr;
     }
@@ -397,8 +432,8 @@ TexSheet *TextureController::_InsertImageInTexSheet(BaseTexture *image, ImageMem
 {
     // Image sizes larger than 512 in either dimension require their own texture sheet
     if(load_info.width > 512 || load_info.height > 512) {
-        int32 round_width = RoundUpPow2(load_info.width);
-        int32 round_height = RoundUpPow2(load_info.height);
+        int32 round_width = vt_utils::RoundUpPow2(load_info.width);
+        int32 round_height = vt_utils::RoundUpPow2(load_info.height);
         TexSheet *sheet = _CreateTexSheet(round_width, round_height, VIDEO_TEXSHEET_ANY, false);
 
         // Ran out of memory!
@@ -457,9 +492,7 @@ TexSheet *TextureController::_InsertImageInTexSheet(BaseTexture *image, ImageMem
         IF_PRINT_WARNING(VIDEO_DEBUG) << "all attempts to add image to a texture sheet have failed" << std::endl;
         return nullptr;
     }
-} // TexSheet* TextureController::_InsertImageInTexSheet(BaseImage *image, ImageMemory& load_info, bool is_static)
-
-
+}
 
 bool TextureController::_ReloadImagesToSheet(TexSheet *sheet)
 {
@@ -542,10 +575,10 @@ bool TextureController::_ReloadImagesToSheet(TexSheet *sheet)
             std::string fname = img->filename;
             IF_PRINT_DEBUG(VIDEO_DEBUG) << " Reloading image " << fname << std::endl;
 
-            // FIXME: Use official temp directory per platform.
-            // Check if it is a temporary image, and if so retrieve it from the img/temp directory
-            if(img->tags.find("<T>", 0) != img->tags.npos) {
-                fname = "img/temp/" + fname + ".png";
+            // Check if the image is temporary.
+            // If so, retrieve the image from the temporary image directory.
+            if (img->tags.find("<T>", 0) != img->tags.npos) {
+                fname = vt_utils::GetUserDataPath() + DIRECTORY_TEMPORARY_TEXTURE + fname + ".png";
             }
 
             if(load_info.LoadImage(fname) == false) {

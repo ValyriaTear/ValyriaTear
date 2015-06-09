@@ -88,9 +88,6 @@ public:
     **/
     void DEBUG_ShowTexSheet();
 
-    //! \brief An index to _tex_sheets of the current texture sheet being shown in debug mode. -1 indicates no sheet
-    int32 debug_current_sheet;
-
 private:
     ~TextureController();
 
@@ -105,6 +102,9 @@ private:
 
     //! \brief A STL set containing all of the text images currently being managed by this class
     std::set<private_video::TextTexture *> _text_images;
+
+    //! \brief An index to _tex_sheets of the current texture sheet being shown in debug mode. -1 indicates no sheet
+    int32 _debug_current_sheet;
 
     //! \brief Keeps track of the number of texture switches per frame
     uint32 _debug_num_tex_switches;
@@ -131,19 +131,18 @@ private:
      */
     void _DeleteTexture(GLuint tex_id);
 
-    /** \brief Saves all temporary textures (textures not loaded from a file) to disk
-    *** \return True only if all temporary textures were successfully saved to a file
+    /** \brief Saves all temporary textures.
+    *** \return True only if all temporary textures were successfully saved.
     ***
-    *** This is used when the GL context is being destroyed, perhaps because we are
-    *** switching from windowed to fullscreen. We must save all textures to disk so
+    *** This is used when the GL context is being destroyed.  Perhaps because we are
+    *** switching from windowed to fullscreen.  We must save all textures to disk so
     *** that we can reload them after the new GL context is created.
     **/
     bool _SaveTempTextures();
 
-    /** \brief Deletes any temporary textures that were saved in the "img/temp" directory
-    *** \return True if the "img/temp" directory was successfully emptied
+    /** \brief Deletes any temporary textures.
+    *** \return True if successful.
     **/
-    //FIXME: Use official temp folders.
     bool _DeleteTempTextures();
     //@}
 

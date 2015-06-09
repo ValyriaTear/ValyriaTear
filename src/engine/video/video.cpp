@@ -427,7 +427,7 @@ void VideoEngine::Update()
 
 void VideoEngine::DrawDebugInfo()
 {
-    if (TextureManager->debug_current_sheet >= 0)
+    if (TextureManager->_debug_current_sheet >= 0)
         TextureManager->DEBUG_ShowTexSheet();
 
     if (_fps_display)
