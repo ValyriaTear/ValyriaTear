@@ -626,7 +626,7 @@ void VideoEngine::SetCoordSys(const CoordSys &coordinate_system)
 
 void VideoEngine::GetCurrentViewport(float &x, float &y, float &width, float &height)
 {
-    static GLint viewport_dimensions[4] = { 0, 0, 0, 0 };
+    GLint viewport_dimensions[4] = { 0, 0, 0, 0 };
     glGetIntegerv(GL_VIEWPORT, viewport_dimensions);
 
     x = (float) viewport_dimensions[0];
