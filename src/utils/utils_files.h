@@ -24,11 +24,11 @@ namespace vt_utils
 
 //! \name Directory and File Manipulation Functions
 //@{
-/** \brief Checks if a file exists on the system or not
+/** \brief Checks if a file exists.
 *** \param file_name The name of the file to check (e.g. "saves/saved_game.lua")
 *** \return True if the file was found, or false if it was not found.
 **/
-bool DoesFileExist(const std::string &file_name);
+bool DoesFileExist(const std::string& file_name);
 
 /** \brief Moves a file from one location to another
 *** \param source_name The name of the file that is to be moved
@@ -46,19 +46,19 @@ bool MoveFile(const std::string &source_name, const std::string &destination_nam
  **/
 void CopyFile(const std::string &source, const std::string &destination);
 
-/** \brief Removes all files present in a directory
+/** \brief Removes all files in a directory.
 *** \param dir_name The name of the directory to clean (e.g. "/temp/screenshots")
 *** \return True upon success, false upon failure
 **/
 bool CleanDirectory(const std::string &dir_name);
 
-/** \brief Creates a directory relative to the path of the running application
+/** \brief Creates a directory.
 *** \param dir_name The name of the directory to create (e.g. "/temp/screenshots")
 *** \return True upon success, false upon failure
 **/
 bool MakeDirectory(const std::string &dir_name);
 
-/** \brief Deletes a directory, as well as any files the directory may contain
+/** \brief Deletes a directory and any files in the directory.
 *** \param dir_name The name of the directory to remove (e.g. "/temp/screenshots")
 *** \return True upon success, false upon failure
 **/

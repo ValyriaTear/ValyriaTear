@@ -34,16 +34,16 @@ namespace private_map
 {
 
 //! \brief The default opcaity.
-const vt_video::Color default_opacity(1.0f, 1.0f, 1.0f, 0.75f);
+const vt_video::Color DEFAULT_OPACITY(1.0f, 1.0f, 1.0f, 0.75f);
 
 //! \brief The overlap opcaity.
-const vt_video::Color overlap_opacity(1.0f, 1.0f, 1.0f, 0.45f);
+const vt_video::Color OVERLAP_OPACITY(1.0f, 1.0f, 1.0f, 0.45f);
 
 //! \brief The X value for the minimap's position.
-const float minimap_pos_x = 775.0f;
+const float MINIMAP_POS_X = 775.0f;
 
 //! \brief The Y value for the minimap's position.
-const float minimap_pos_y = 545.0f;
+const float MINIMAP_POS_Y = 545.0f;
 
 //! \brief Allows for scoped-based control of SDL Surfaces.
 struct SDLSurfaceController {
@@ -53,7 +53,7 @@ struct SDLSurfaceController {
         _surface(IMG_Load(str))
     {
         if (!_surface)
-            PRINT_ERROR << "Couldn't create white_noise image for collision map: " << SDL_GetError() << std::endl;
+            PRINT_ERROR << "Couldn't create the white noise image for the collision map: " << SDL_GetError() << std::endl;
     }
 
     ~SDLSurfaceController()
@@ -81,7 +81,7 @@ private:
 };
 
 //! \brief A white noise texture.
-const SDLSurfaceController white_noise("data/gui/map/minimap_collision.png");
+const SDLSurfaceController WHITE_NOISE("data/gui/map/minimap_collision.png");
 
 //! \brief A helper function to prepare a SDL_Surface.
 static bool _PrepareSurface(SDL_Surface* temp_surface)
@@ -89,11 +89,11 @@ static bool _PrepareSurface(SDL_Surface* temp_surface)
     SDL_Rect r = { 0, 0, 0, 0 };
 
     // Prepare the surface with the image.  Tile the white noise image onto the surface with full alpha.
-    for(int x = 0; x < temp_surface->w; x += white_noise._surface->w) {
+    for(int x = 0; x < temp_surface->w; x += WHITE_NOISE._surface->w) {
         r.x = x;
-        for(int y = 0; y < temp_surface->h; y += white_noise._surface->h) {
+        for(int y = 0; y < temp_surface->h; y += WHITE_NOISE._surface->h) {
             r.y = y;
-            if(SDL_BlitSurface(white_noise._surface, nullptr, temp_surface, &r)) {
+            if(SDL_BlitSurface(WHITE_NOISE._surface, nullptr, temp_surface, &r)) {
                 PRINT_ERROR << "Couldn't fill a rect on temp_surface: " << SDL_GetError() << std::endl;
                 return false;
             }
@@ -250,7 +250,7 @@ void Minimap::Draw()
     vt_video::VideoManager->SetStandardCoordSys();
 
     // Draw the background in the current viewport and coordinate space
-    vt_video::VideoManager->Move(minimap_pos_x, minimap_pos_y);
+    vt_video::VideoManager->Move(MINIMAP_POS_X, MINIMAP_POS_Y);
     vt_video::VideoManager->SetDrawFlags(vt_video::VIDEO_X_LEFT, vt_video::VIDEO_Y_TOP, 0);
     _background.Draw(resultant_opacity);
 
@@ -318,11 +318,11 @@ void Minimap::Update(VirtualSprite *camera, float map_alpha_scale)
 
     // Update the opacity based on the camera location.
     // We decrease the opacity if it is in the region covered by the collision map
-    if(map_mode->GetScreenXCoordinate(_current_position_x) >= minimap_pos_x &&
-            map_mode->GetScreenYCoordinate(_current_position_y) >= minimap_pos_y)
-        _current_opacity = &overlap_opacity;
+    if(map_mode->GetScreenXCoordinate(_current_position_x) >= MINIMAP_POS_X &&
+            map_mode->GetScreenYCoordinate(_current_position_y) >= MINIMAP_POS_Y)
+        _current_opacity = &OVERLAP_OPACITY;
     else
-        _current_opacity = &default_opacity;
+        _current_opacity = &DEFAULT_OPACITY;
 
     // Update the orthographic projection information based on the camera location
     // We "lock" the minimap so that if it is against an edge of the map the orthographic
