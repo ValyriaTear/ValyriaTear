@@ -128,7 +128,7 @@ enemies[3] = {
     },
 
     scripts = {
-        death = "data/battles/enemies_animations/fenrir_flee.lua"
+        death = "data/battles/enemies_animations/fenrir/fenrir_flee.lua"
     },
 
     base_stats = {
@@ -352,7 +352,7 @@ enemies[7] = {
     },
 
     scripts = {
-        death = "data/battles/enemies_animations/fenrir_flee.lua"
+        death = "data/battles/enemies_animations/fenrir/fenrir_flee.lua"
     },
 
     base_stats = {
@@ -412,7 +412,7 @@ enemies[8] = {
     },
 
     scripts = {
-        death = "data/battles/enemies_animations/fenrir_death.lua"
+        death = "data/battles/enemies_animations/fenrir/fenrir_death.lua"
     },
 
     base_stats = {
