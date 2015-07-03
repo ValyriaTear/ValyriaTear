@@ -26,6 +26,7 @@
 #include "modes/battle/battle.h"
 #include "modes/battle/battle_actions.h"
 #include "modes/battle/battle_actors.h"
+#include "modes/battle/battle_menu.h"
 #include "modes/battle/battle_utils.h"
 
 using namespace vt_utils;
@@ -883,6 +884,18 @@ void CommandSupervisor::NotifyActorDeath(BattleActor *actor)
     }
 }
 
+void CommandSupervisor::CancelCurrentCommand()
+{
+    if (_state == COMMAND_STATE_INVALID || GetCommandCharacter() == nullptr) {
+        IF_PRINT_WARNING(BATTLE_DEBUG)
+            << "function called when class was in invalid state" << std::endl;
+        return;
+    }
+
+    _ChangeState(COMMAND_STATE_INVALID);
+    BattleMode::CurrentInstance()->NotifyCommandCancel();
+}
+
 bool CommandSupervisor::_IsSkillCategorySelected() const
 {
     int32 category = _category_options.GetSelection();
@@ -1050,14 +1063,12 @@ void CommandSupervisor::_UpdateCategory()
         // The only time we do not allow the player to abort the command menu is if they are running the battle with the "wait" setting active and the
         // current character is in the command state. Under these circumstances, the player has to enter a command for this character before the battle
         // is allowed to continue.
-        if((BM->GetBattleType() == BATTLE_TYPE_WAIT || BM->GetBattleType() == BATTLE_TYPE_SEMI_ACTIVE)
-            && (GetCommandCharacter()->GetState() == ACTOR_STATE_COMMAND)) {
-            GlobalManager->Media().PlaySound("cancel");
-        } else {
-            _ChangeState(COMMAND_STATE_INVALID);
-            BM->NotifyCommandCancel();
-            GlobalManager->Media().PlaySound("cancel");
+        if((BM->GetBattleType() != BATTLE_TYPE_WAIT && BM->GetBattleType() != BATTLE_TYPE_SEMI_ACTIVE)
+                || (GetCommandCharacter()->GetState() != ACTOR_STATE_COMMAND)) {
+            CancelCurrentCommand();
         }
+
+        GlobalManager->Media().PlaySound("cancel");
     }
 
     else if(InputManager->ConfirmPress()) {

@@ -25,6 +25,7 @@
 #define __BATTLE_HEADER__
 
 #include "battle_utils.h"
+#include "battle_menu.h"
 
 #include "engine/audio/audio_descriptor.h"
 #include "engine/mode_manager.h"
@@ -609,11 +610,18 @@ private:
     //! \brief Tells whether the battle is a boss fight.
     bool _is_boss_battle;
 
+    //! \brief Whether rush was active last simtick. Cached so we can know right when it's toggled on
+    bool _rush_was_active;
+
+    //! \brief The battle menu
+    vt_battle::private_battle::BattleMenu _battle_menu;
+
     //! \brief Whether the hero party should get an initiative boost at battle start.
     bool _hero_init_boost;
 
     //! \brief Whether the enemy party should get an initiative boost at battle start.
     bool _enemy_init_boost;
+    
 
     ////////////////////////////// PRIVATE METHODS ///////////////////////////////
 
@@ -622,6 +630,11 @@ private:
 
     //! \brief Set the battle music state
     void _ResetMusicState();
+
+    /** \brief Applies a rush command to a given character
+    *** \param character The character to be rushed
+    **/
+    void _RushCharacterCommand(private_battle::BattleCharacter* character);
 
     /** \brief Sets the origin location of all character and enemy actors
     *** The location of the actors in both parties is dependent upon the number and physical size of the actor
@@ -642,6 +655,7 @@ private:
     *** \note This function only counts the characters on the screen, not characters in the party reserves
     **/
     uint32 _NumberCharactersAlive() const;
+
 
     //! \name Draw assistant functions
     //@{

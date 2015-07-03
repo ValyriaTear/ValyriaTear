@@ -393,6 +393,8 @@ modes/battle/battle_utils.cpp
 modes/battle/battle_utils.h
 modes/battle/battle_command.cpp
 modes/battle/battle_command.h
+modes/battle/battle_menu.cpp
+modes/battle/battle_menu.h
 modes/battle/battle.cpp
 modes/battle/battle.h
 modes/battle/battle_finish.cpp
