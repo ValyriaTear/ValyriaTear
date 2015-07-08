@@ -610,8 +610,9 @@ private:
     //! \brief Tells whether the battle is a boss fight.
     bool _is_boss_battle;
 
-    //! \brief Whether rush was active last simtick. Cached so we can know right when it's toggled on
-    bool _rush_was_active;
+    //! \brief Whether auto-battle mode was active last simtick.
+    //! Cached so we can know right when it's toggled on
+    bool _auto_battle_was_active;
 
     //! \brief The battle menu
     vt_battle::private_battle::BattleMenu _battle_menu;
@@ -621,7 +622,7 @@ private:
 
     //! \brief Whether the enemy party should get an initiative boost at battle start.
     bool _enemy_init_boost;
-    
+
 
     ////////////////////////////// PRIVATE METHODS ///////////////////////////////
 
@@ -631,10 +632,10 @@ private:
     //! \brief Set the battle music state
     void _ResetMusicState();
 
-    /** \brief Applies a rush command to a given character
-    *** \param character The character to be rushed
+    /** \brief Applies a battle command to a given character automatically.
+    *** \param character The character which will receive the command.
     **/
-    void _RushCharacterCommand(private_battle::BattleCharacter* character);
+    void _AutoCharacterCommand(private_battle::BattleCharacter* character);
 
     /** \brief Sets the origin location of all character and enemy actors
     *** The location of the actors in both parties is dependent upon the number and physical size of the actor

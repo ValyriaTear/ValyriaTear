@@ -45,20 +45,20 @@ public:
     void Update();
 
     //! \brief Opens the menu
-    void Open();
+    inline void Open()
+    { _open = true; }
 
     //! \brief Closes the menu
-    void Close();
+    inline void Close()
+    { _open = false; }
 
-    /** \brief Returns whether rush is active
-    *** \return Whether rush is active
-    **/
-    bool IsRushActive() const;
+    //! \brief Returns whether auto-battle mode is active
+    inline bool IsAutoBattleActive() const
+    { return _auto_battle_active; }
 
-    /** \brief Returns whether the menu is open
-    *** \return Whether the menu is open
-    **/
-    bool IsOpen() const;
+    //! \brief Returns whether the menu is open
+    inline bool IsOpen() const
+    { return _open; }
 
 private:
     //! \brief The window where all information about the currently selected action is drawn
@@ -67,8 +67,8 @@ private:
     //! \brief The list of menu options
     vt_gui::OptionBox _options_list;
 
-    //! \brief Whether rush is active
-    bool _rushActive;
+    //! \brief Whether auto-battle mode is active.
+    bool _auto_battle_active;
 
     //! \brief Whether the menu is open
     bool _open;

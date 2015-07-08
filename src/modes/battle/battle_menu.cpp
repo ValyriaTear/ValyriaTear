@@ -41,9 +41,11 @@ const float OPTION_LIST_SIZE_Y = WINDOW_SIZE_Y;
 const float OPTION_LIST_POS_X = WINDOW_POS_X + 25.0f;
 const float OPTION_LIST_POS_Y = WINDOW_POS_Y + 60.0f;
 
-const int RUSH_INDEX = 0;
+const int AUTOBATTLE_MENU_INDEX = 0;
 
-BattleMenu::BattleMenu()
+BattleMenu::BattleMenu():
+    _auto_battle_active(false),
+    _open(false)
 {
     _window.Create(WINDOW_SIZE_X, WINDOW_SIZE_Y);
     _window.SetPosition(WINDOW_POS_X, WINDOW_POS_Y);
@@ -87,36 +89,12 @@ void BattleMenu::Update()
     }
 
     if (InputManager->ConfirmPress()) {
-        if (_options_list.GetSelection() == RUSH_INDEX) {
-            _rushActive = !_rushActive;
-
-            // Automatically close menu if rush is turned on
-            if (_rushActive)
-                _open = false;
+        if (_options_list.GetSelection() == AUTOBATTLE_MENU_INDEX) {
+            _auto_battle_active = !_auto_battle_active;
 
             _RefreshOptions();
         }
     }
-}
-
-void BattleMenu::Open()
-{
-    _open = true;
-}
-
-void BattleMenu::Close()
-{
-    _open = false;
-}
-
-bool BattleMenu::IsRushActive() const
-{
-    return _rushActive;
-}
-
-bool BattleMenu::IsOpen() const
-{
-    return _open;
 }
 
 void BattleMenu::_RefreshOptions()
@@ -124,15 +102,16 @@ void BattleMenu::_RefreshOptions()
     _options_list.ClearOptions();
 
     _options_list.AddOption();
-    if (_rushActive) {
+    if (_auto_battle_active) {
         _options_list.SetCursorOffset(-50.0f, -28.0f);
-        _options_list.AddOptionElementImage(RUSH_INDEX, "data/gui/menus/star.png");
+        _options_list.AddOptionElementImage(AUTOBATTLE_MENU_INDEX, "data/gui/menus/green_check.png");
+        _options_list.GetEmbeddedImage(AUTOBATTLE_MENU_INDEX)->SetWidthKeepRatio(32);
     }
     else {
         _options_list.SetCursorOffset(-82.0f, -28.0f);
     }
-    _options_list.AddOptionElementPosition(RUSH_INDEX, 32);
-    _options_list.AddOptionElementText(RUSH_INDEX, UTranslate("Rush"));
+    _options_list.AddOptionElementPosition(AUTOBATTLE_MENU_INDEX, 32);
+    _options_list.AddOptionElementText(AUTOBATTLE_MENU_INDEX, UTranslate("Auto-Battle"));
 }
 
 } // namespace private_battle

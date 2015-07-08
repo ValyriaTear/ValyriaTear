@@ -226,7 +226,7 @@ BattleMode::BattleMode() :
     _highest_agility(0),
     _battle_type_time_factor(BATTLE_WAIT_FACTOR),
     _is_boss_battle(false),
-    _rush_was_active(false),
+    _auto_battle_was_active(false),
     _hero_init_boost(false),
     _enemy_init_boost(false)
 {
@@ -371,7 +371,7 @@ void BattleMode::Update()
         return;
     }
 
-    if (InputManager->MenuPress() && !_scene_mode && (_state != BATTLE_STATE_COMMAND || 
+    if (InputManager->MenuPress() && !_scene_mode && (_state != BATTLE_STATE_COMMAND ||
             _command_supervisor->GetState() == COMMAND_STATE_CATEGORY)) {
         _battle_menu.Open();
     }
@@ -478,8 +478,8 @@ void BattleMode::Update()
     else if(_state == BATTLE_STATE_COMMAND) {
         // If the last enemy is dying, there is no need to process command further
         if (!_last_enemy_dying) {
-            // If rush is newly toggled, or menu is open, cancel command
-            if (!_rush_was_active && _battle_menu.IsRushActive())
+            // If auto-battle is newly toggled, or menu is open, cancel command
+            if (!_auto_battle_was_active && _battle_menu.IsAutoBattleActive())
                 _command_supervisor->CancelCurrentCommand();
             else if (!_battle_menu.IsOpen())
                 _command_supervisor->Update();
@@ -491,7 +491,7 @@ void BattleMode::Update()
     else if((_state == BATTLE_STATE_VICTORY) || (_state == BATTLE_STATE_DEFEAT)) {
         if (_battle_menu.IsOpen())
             _battle_menu.Close();
-    
+
         _finish_supervisor->Update();
 
         // Make the heroes and/or enemies stamina icons fade out
@@ -513,8 +513,8 @@ void BattleMode::Update()
     if(!_last_enemy_dying && (_battle_type == BATTLE_TYPE_WAIT || _battle_type == BATTLE_TYPE_SEMI_ACTIVE)) {
         for(uint32 i = 0; i < _character_actors.size(); i++) {
             if(_character_actors[i]->GetState() == ACTOR_STATE_COMMAND) {
-                if (_battle_menu.IsRushActive()) {
-                    _RushCharacterCommand(_character_actors[i]);
+                if (_battle_menu.IsAutoBattleActive()) {
+                    _AutoCharacterCommand(_character_actors[i]);
                 }
                 else if(_state != BATTLE_STATE_COMMAND) {
                     OpenCommandMenu(_character_actors[i]);
@@ -547,10 +547,8 @@ void BattleMode::Update()
         }
     }
 
-    _rush_was_active = _battle_menu.IsRushActive();
+    _auto_battle_was_active = _battle_menu.IsAutoBattleActive();
 } // void BattleMode::Update()
-
-
 
 void BattleMode::Draw()
 {
@@ -1026,30 +1024,34 @@ void BattleMode::_DetermineActorLocations()
     }
 } // void BattleMode::_DetermineActorLocations()
 
-
-
-void BattleMode::_RushCharacterCommand(BattleCharacter* character)
+void BattleMode::_AutoCharacterCommand(BattleCharacter* character)
 {
-    assert(character != nullptr);
+    if (character == nullptr) {
+        PRINT_ERROR << "AutoCharacterCommand was called with a null Character" << std::endl;
+        return;
+    }
 
     if (character->IsActionSet() || _command_supervisor->GetCommandCharacter() == character)
         return;
 
-    auto rushTarget = BattleTarget();
-    rushTarget.SetTarget(character, GLOBAL_TARGET_FOE);
+    auto autoTarget = BattleTarget();
+    autoTarget.SetTarget(character, GLOBAL_TARGET_FOE);
 
     GlobalSkill* attackSkill = character->GetSkills()[0];
-    {
-        auto wpnSkills = character->GetGlobalCharacter()->GetWeaponSkills();
-        for (auto skill : *wpnSkills) {
-            if (skill->GetSPRequired() == 0) {
-                attackSkill = skill;
-                break;
-            }
+    auto wpnSkills = character->GetGlobalCharacter()->GetWeaponSkills();
+    for (auto skill : *wpnSkills) {
+        if (skill->GetSPRequired() == 0) {
+            attackSkill = skill;
+            break;
         }
     }
+    if (attackSkill == nullptr) {
+        PRINT_WARNING << "No valid attack skill was found for character: "
+            << vt_utils::MakeStandardString(character->GetGlobalCharacter()->GetName()) << std::endl;
+        return;
+    }
 
-    BattleAction *new_action = new SkillAction(character, rushTarget, attackSkill);
+    BattleAction* new_action = new SkillAction(character, autoTarget, attackSkill);
     character->SetAction(new_action);
     BattleMode::CurrentInstance()->NotifyCharacterCommandComplete(character);
 
@@ -1185,7 +1187,7 @@ void BattleMode::_DrawGUI()
 
     if (_battle_menu.IsOpen())
         _battle_menu.Draw();
-    
+
     if(_dialogue_supervisor->IsDialogueActive())
         _dialogue_supervisor->Draw();
 
