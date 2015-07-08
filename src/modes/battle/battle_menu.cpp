@@ -97,6 +97,12 @@ void BattleMenu::Update()
     }
 }
 
+void BattleMenu::SetAutoBattleActive(bool active)
+{
+    _auto_battle_active = active;
+    _RefreshOptions();
+}
+
 void BattleMenu::_RefreshOptions()
 {
     _options_list.ClearOptions();

@@ -226,7 +226,6 @@ BattleMode::BattleMode() :
     _highest_agility(0),
     _battle_type_time_factor(BATTLE_WAIT_FACTOR),
     _is_boss_battle(false),
-    _auto_battle_was_active(false),
     _hero_init_boost(false),
     _enemy_init_boost(false)
 {
@@ -478,8 +477,8 @@ void BattleMode::Update()
     else if(_state == BATTLE_STATE_COMMAND) {
         // If the last enemy is dying, there is no need to process command further
         if (!_last_enemy_dying) {
-            // If auto-battle is newly toggled, or menu is open, cancel command
-            if (!_auto_battle_was_active && _battle_menu.IsAutoBattleActive())
+            // If auto-battle is active, cancel the current character command.
+            if (_battle_menu.IsAutoBattleActive())
                 _command_supervisor->CancelCurrentCommand();
             else if (!_battle_menu.IsOpen())
                 _command_supervisor->Update();
@@ -546,8 +545,6 @@ void BattleMode::Update()
             break;
         }
     }
-
-    _auto_battle_was_active = _battle_menu.IsAutoBattleActive();
 } // void BattleMode::Update()
 
 void BattleMode::Draw()
@@ -715,17 +712,19 @@ bool BattleMode::OpenCommandMenu(BattleCharacter *character)
         IF_PRINT_WARNING(BATTLE_DEBUG) << "function received nullptr argument" << std::endl;
         return false;
     }
+
     if(_state == BATTLE_STATE_COMMAND) {
         return false;
     }
 
-    if(character->CanSelectCommand() == true) {
-        _command_supervisor->Initialize(character);
-        ChangeState(BATTLE_STATE_COMMAND);
-        return true;
-    }
+    if(!character->CanSelectCommand())
+        return false;
 
-    return false;
+    _command_supervisor->Initialize(character);
+    // In case the auto-battle mode was active, we deactivate it.
+    _battle_menu.SetAutoBattleActive(false);
+    ChangeState(BATTLE_STATE_COMMAND);
+    return true;
 }
 
 

@@ -610,10 +610,6 @@ private:
     //! \brief Tells whether the battle is a boss fight.
     bool _is_boss_battle;
 
-    //! \brief Whether auto-battle mode was active last simtick.
-    //! Cached so we can know right when it's toggled on
-    bool _auto_battle_was_active;
-
     //! \brief The battle menu
     vt_battle::private_battle::BattleMenu _battle_menu;
 

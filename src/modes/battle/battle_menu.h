@@ -52,6 +52,9 @@ public:
     inline void Close()
     { _open = false; }
 
+    //! \brief Sets whether auto-battle mode is active
+    void SetAutoBattleActive(bool active);
+
     //! \brief Returns whether auto-battle mode is active
     inline bool IsAutoBattleActive() const
     { return _auto_battle_active; }
