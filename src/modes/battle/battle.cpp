@@ -126,9 +126,16 @@ BattleMedia::BattleMedia()
     if(defeat_music.LoadAudio(DEFAULT_DEFEAT_MUSIC) == false)
         IF_PRINT_WARNING(BATTLE_DEBUG) << "failed to load defeat music file: " << DEFAULT_DEFEAT_MUSIC << std::endl;
 
-    // Load the stunned icon.
     if(!_stunned_icon.Load("data/entities/emotes/zzz.png"))
         IF_PRINT_WARNING(BATTLE_DEBUG) << "failed to load stunned icon" << std::endl;
+
+    if(!_escape_icon.Load("data/gui/battle/escape.png"))
+        PRINT_WARNING << "Failed to load escape icon image" << std::endl;
+
+    if(!_auto_battle_icon.Load("data/gui/battle/auto_battle.png"))
+        PRINT_WARNING << "Failed to load auto-battle icon image" << std::endl;
+
+    _auto_battle_activated.SetText(UTranslate("Auto-Battle"), TextStyle("text20", Color::white, vt_video::VIDEO_TEXT_SHADOW_NONE));
 }
 
 void BattleMedia::Update()
@@ -1173,6 +1180,13 @@ void BattleMode::_DrawGUI()
 {
     _DrawBottomMenu();
     _DrawStaminaBar();
+
+    if (_battle_menu.IsAutoBattleActive()) {
+        VideoManager->Move(800.0f, 50.0f);
+        _battle_media.GetAutoBattleIcon().Draw();
+        VideoManager->MoveRelative(80.0f, 0.0f);
+        _battle_media.GetAutoBattleActiveText().Draw();
+    }
 
     // Don't draw battle actor indicators at battle ends
     if(_state != BATTLE_STATE_VICTORY && _state != BATTLE_STATE_DEFEAT)

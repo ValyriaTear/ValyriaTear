@@ -69,6 +69,8 @@ private:
 
     //! \brief The list of menu options
     vt_gui::OptionBox _options_list;
+    //! \brief The list indicating whether an option is enabled.
+    vt_gui::OptionBox _options_selected_list;
 
     //! \brief Whether auto-battle mode is active.
     bool _auto_battle_active;

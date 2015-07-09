@@ -158,8 +158,20 @@ public:
     **/
     vt_video::StillImage *GetTargetTypeIcon(vt_global::GLOBAL_TARGET target_type);
 
-    const vt_video::StillImage &GetStunnedIcon() {
+    inline const vt_video::StillImage& GetStunnedIcon() const {
         return _stunned_icon;
+    }
+
+    inline const vt_video::StillImage& GetAutoBattleIcon() const {
+        return _auto_battle_icon;
+    }
+
+    inline const vt_video::TextImage& GetAutoBattleActiveText() const {
+        return _auto_battle_activated;
+    }
+
+    inline const vt_video::StillImage& GetEscapeIcon() const {
+        return _escape_icon;
     }
 
     // ---------- Public members
@@ -231,6 +243,15 @@ private:
 
     //! \brief An icon displayed above the character's head when it is stunned.
     vt_video::StillImage _stunned_icon;
+
+    //! \brief The auto battle icon.
+    vt_video::StillImage _auto_battle_icon;
+
+    //! \brief The auto-battle activated text.
+    vt_video::TextImage _auto_battle_activated;
+
+    //! \brief The escape icon.
+    vt_video::StillImage _escape_icon;
 }; // class BattleMedia
 
 } // namespace private_battle

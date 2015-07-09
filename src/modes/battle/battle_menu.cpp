@@ -38,7 +38,7 @@ const float WINDOW_SIZE_Y = 120.0f;
 
 const float OPTION_LIST_SIZE_X = WINDOW_SIZE_X;
 const float OPTION_LIST_SIZE_Y = WINDOW_SIZE_Y;
-const float OPTION_LIST_POS_X = WINDOW_POS_X + 25.0f;
+const float OPTION_LIST_POS_X = WINDOW_POS_X + 65.0f;
 const float OPTION_LIST_POS_Y = WINDOW_POS_Y + 60.0f;
 
 const int AUTOBATTLE_MENU_INDEX = 0;
@@ -54,13 +54,24 @@ BattleMenu::BattleMenu():
 
     _options_list.SetPosition(OPTION_LIST_POS_X, OPTION_LIST_POS_Y);
     _options_list.SetDimensions(WINDOW_SIZE_X - 25.0f, WINDOW_SIZE_Y - 25.0f, 3, 2, 3, 2);
-    _options_list.SetTextStyle(TextStyle("title22"));
+    _options_list.SetTextStyle(TextStyle("text22"));
     _options_list.SetAlignment(VIDEO_X_LEFT, VIDEO_Y_CENTER);
     _options_list.SetOptionAlignment(VIDEO_X_LEFT, VIDEO_Y_CENTER);
     _options_list.SetSelectMode(VIDEO_SELECT_SINGLE);
     _options_list.SetVerticalWrapMode(VIDEO_WRAP_MODE_STRAIGHT);
-    _options_list.SetCursorOffset(-82.0f, -28.0f);
     _options_list.SetSkipDisabled(true);
+    _options_list.SetCursorState(vt_gui::VIDEO_CURSOR_STATE_HIDDEN);
+
+    _options_selected_list.SetPosition(OPTION_LIST_POS_X - 35.0f, OPTION_LIST_POS_Y);
+    _options_selected_list.SetDimensions(WINDOW_SIZE_X - 25.0f, WINDOW_SIZE_Y - 25.0f, 3, 2, 3, 2);
+    _options_selected_list.SetTextStyle(TextStyle("text22"));
+    _options_selected_list.SetAlignment(VIDEO_X_LEFT, VIDEO_Y_CENTER);
+    _options_selected_list.SetOptionAlignment(VIDEO_X_LEFT, VIDEO_Y_CENTER);
+    _options_selected_list.SetSelectMode(VIDEO_SELECT_SINGLE);
+    _options_selected_list.SetVerticalWrapMode(VIDEO_WRAP_MODE_STRAIGHT);
+    _options_selected_list.SetCursorOffset(-52.0f, -28.0f);
+    _options_selected_list.SetSkipDisabled(true);
+    _options_selected_list.SetCursorState(vt_gui::VIDEO_CURSOR_STATE_VISIBLE);
 
     _RefreshOptions();
 }
@@ -72,10 +83,9 @@ BattleMenu::~BattleMenu()
 
 void BattleMenu::Draw()
 {
-    assert(_open);
-
     _window.Draw();
     _options_list.Draw();
+    _options_selected_list.Draw();
 }
 
 void BattleMenu::Update()
@@ -95,6 +105,9 @@ void BattleMenu::Update()
             _RefreshOptions();
         }
     }
+
+    _options_list.Update();
+    _options_selected_list.Update();
 }
 
 void BattleMenu::SetAutoBattleActive(bool active)
@@ -106,17 +119,20 @@ void BattleMenu::SetAutoBattleActive(bool active)
 void BattleMenu::_RefreshOptions()
 {
     _options_list.ClearOptions();
+    _options_selected_list.ClearOptions();
 
+    // Auto-Battle
     _options_list.AddOption();
+    _options_selected_list.AddOption();
+
+    _options_selected_list.AddOptionElementText(AUTOBATTLE_MENU_INDEX, vt_utils::ustring());
     if (_auto_battle_active) {
-        _options_list.SetCursorOffset(-50.0f, -28.0f);
-        _options_list.AddOptionElementImage(AUTOBATTLE_MENU_INDEX, "data/gui/menus/green_check.png");
-        _options_list.GetEmbeddedImage(AUTOBATTLE_MENU_INDEX)->SetWidthKeepRatio(32);
+        _options_selected_list.AddOptionElementImage(AUTOBATTLE_MENU_INDEX, "data/gui/menus/green_check.png");
+        _options_selected_list.GetEmbeddedImage(AUTOBATTLE_MENU_INDEX)->SetWidthKeepRatio(24);
     }
-    else {
-        _options_list.SetCursorOffset(-82.0f, -28.0f);
-    }
-    _options_list.AddOptionElementPosition(AUTOBATTLE_MENU_INDEX, 32);
+    _options_list.AddOptionElementImage(AUTOBATTLE_MENU_INDEX, "data/gui/battle/auto_battle.png");
+    _options_list.GetEmbeddedImage(AUTOBATTLE_MENU_INDEX)->SetWidthKeepRatio(32);
+    _options_list.AddOptionElementPosition(AUTOBATTLE_MENU_INDEX, 40);
     _options_list.AddOptionElementText(AUTOBATTLE_MENU_INDEX, UTranslate("Auto-Battle"));
 }
 
