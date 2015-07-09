@@ -44,6 +44,7 @@ const float OPTION_LIST_POS_Y = WINDOW_POS_Y + 60.0f;
 const int AUTOBATTLE_MENU_INDEX = 0;
 
 BattleMenu::BattleMenu():
+    _explanation_window(vt_utils::ustring(), -1.0f, 650.0f, 750.0f, 100.0f),
     _auto_battle_active(false),
     _open(false)
 {
@@ -73,6 +74,8 @@ BattleMenu::BattleMenu():
     _options_selected_list.SetSkipDisabled(true);
     _options_selected_list.SetCursorState(vt_gui::VIDEO_CURSOR_STATE_VISIBLE);
 
+    _explanation_window.SetDisplaySpeed(vt_system::SystemManager->GetMessageSpeed());
+
     _RefreshOptions();
 }
 
@@ -86,12 +89,16 @@ void BattleMenu::Draw()
     _window.Draw();
     _options_list.Draw();
     _options_selected_list.Draw();
+
+    _explanation_window.Draw();
 }
 
 void BattleMenu::Update()
 {
     if (_open == false)
         return;
+
+    _explanation_window.Update();
 
     if(InputManager->CancelPress()) {
         _open = false;
@@ -134,6 +141,19 @@ void BattleMenu::_RefreshOptions()
     _options_list.GetEmbeddedImage(AUTOBATTLE_MENU_INDEX)->SetWidthKeepRatio(32);
     _options_list.AddOptionElementPosition(AUTOBATTLE_MENU_INDEX, 40);
     _options_list.AddOptionElementText(AUTOBATTLE_MENU_INDEX, UTranslate("Auto-Battle"));
+
+    _RefreshExplanationWindow();
+}
+
+void BattleMenu::_RefreshExplanationWindow()
+{
+    if (_options_selected_list.GetSelection() == AUTOBATTLE_MENU_INDEX) {
+        _explanation_window.Show();
+        _explanation_window.SetText(UTranslate("When the Auto-Battle mode is activated, your party will auto attack the opponents using default attacks. If you open a command menu, the Auto-Battle mode will be deactivated again."));
+    }
+    else {
+        _explanation_window.Hide();
+    }
 }
 
 } // namespace private_battle
