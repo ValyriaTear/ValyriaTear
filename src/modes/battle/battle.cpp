@@ -516,14 +516,15 @@ void BattleMode::Update()
     // we want to open the command menu for that character.
     // The battle will be paused until the player enters a command for all characters
     // that are in command state.
-    if(!_last_enemy_dying && (_battle_type == BATTLE_TYPE_WAIT || _battle_type == BATTLE_TYPE_SEMI_ACTIVE)) {
-        for(uint32 i = 0; i < _character_actors.size(); i++) {
+    if(!_last_enemy_dying) {
+        for(uint32 i = 0; i < _character_actors.size(); ++i) {
             if(_character_actors[i]->GetState() == ACTOR_STATE_COMMAND) {
                 if (_battle_menu.IsAutoBattleActive()) {
                     _AutoCharacterCommand(_character_actors[i]);
                 }
                 else if(_state != BATTLE_STATE_COMMAND) {
-                    OpenCommandMenu(_character_actors[i]);
+                    if (_battle_type == BATTLE_TYPE_WAIT || _battle_type == BATTLE_TYPE_SEMI_ACTIVE)
+                        OpenCommandMenu(_character_actors[i]);
                 }
             }
         }
