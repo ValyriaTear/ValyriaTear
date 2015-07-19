@@ -237,6 +237,7 @@ namespace luabind
 					, m_args(args)
 					, m_called(false)
 				{
+					callit();
 				}
 
 				proxy_function_void_caller(const proxy_function_void_caller& rhs)
@@ -251,6 +252,10 @@ namespace luabind
 
 				~proxy_function_void_caller()
 				{
+					
+				}
+				
+				void callit(){
 					if (m_called) return;
 
 					m_called = true;
